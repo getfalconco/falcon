@@ -19,6 +19,7 @@
  * HTTP API below and render what it produced.
  */
 
+import fs from "node:fs";
 import http from "node:http";
 import { portfolioTrackerHealth, startPortfolioTracker } from "./portfolio-tracker.js";
 import { newsCycleHealth, startNewsCycle } from "./news-cycle.js";
@@ -221,16 +222,26 @@ async function handle(req: IncomingMessage, res: ServerResponse): Promise<void> 
 
   if (req.method === "OPTIONS") return send(res, 204, {});
 
-  // Railway's healthcheck runs before any user exists, so it stays open.
+  // Railway's healthcheck runs before any user exists, so it stays open. It
+  // answers from the moment the socket is bound — while the chain is still
+  // booting and after a stage has failed — because a process that is alive
+  // and says what is wrong beats one that is silently restarting. The host
+  // fields are null until the seams are wired: reading a lazy singleton
+  // before that would build it without them.
   if (route === "GET /health") {
-    const propagation = getPropagationHost().status();
+    const propagation = chainConfigured ? getPropagationHost().status() : null;
     return send(res, 200, {
       ok: true,
       version: VERSION,
       uptime_s: Math.round(process.uptime()),
-      tracker: getTrackerEngine().getStatus().tickers.length,
-      propagation_runs: propagation.run_count,
-      loop: propagation.enabled,
+      // Which boot stages are up, which failed and why, and the process's own
+      // footprint — the questions a 502 used to leave unanswerable.
+      boot: bootReport(),
+      process: processHealth(),
+      guard: { ...guard },
+      tracker: chainConfigured ? getTrackerEngine().getStatus().tickers.length : null,
+      propagation_runs: propagation?.run_count ?? null,
+      loop: propagation?.enabled ?? null,
       portfolio: portfolioTrackerHealth(),
       news: newsCycleHealth(),
       anthropic: anthropicRoute(),
@@ -253,18 +264,23 @@ async function handle(req: IncomingMessage, res: ServerResponse): Promise<void> 
       // reveal nothing a healthcheck should not: `write` is tokens paid for at
       // 1.25x, `read` is tokens served back at 0.1x, and a ratio near zero means
       // every write is pure loss. Watch it with curl, no credential involved.
-      cache: cacheHealth(),
+      cache: chainConfigured ? cacheHealth() : null,
       // Call volume, on the open route for the same reason as the cache
       // counters: "why are we making so many requests with no users?" should
       // not need a login to answer. `budget` is the cap that is supposed to
       // hold the daily total down; `verdicts` is how many articles we have
       // already answered for and must never pay to answer again.
-      classifier: classifierHealth(),
+      classifier: chainConfigured ? classifierHealth() : null,
     });
   }
 
   const user = await requireApprovedUser(req, res);
   if (!user) return;
+
+  // The hosts are lazy singletons: touching one before boot has wired its
+  // seams builds it wrong (a propagation host with no run mirror). Until then
+  // the answer is an honest "not yet", never a half-built host.
+  if (!chainConfigured) return send(res, 503, { ok: false, error: "engine booting" });
 
   const host = getPropagationHost();
   switch (route) {
@@ -378,8 +394,158 @@ async function handle(req: IncomingMessage, res: ServerResponse): Promise<void> 
 }
 
 // ---------------------------------------------------------------------------
+// Process guards
+// ---------------------------------------------------------------------------
+
+/**
+ * Why the process no longer dies on a stray error.
+ *
+ * Node exits on an unhandled rejection, and Railway restarts a crashed
+ * container ten times before leaving it down for good. So one loop that let a
+ * single error escape — a gateway that changed its answers, a recompute that
+ * tripped on a row in the volume — took the whole chain offline and kept it
+ * there until somebody met the 502. Every cycle already catches its own
+ * errors; this is the net under the ones that were missed. Counted and shown
+ * on /health, because "kept running" must never mean "hidden".
+ */
+const guard = {
+  unhandled_rejections: 0,
+  uncaught_exceptions: 0,
+  last_error: null as string | null,
+  last_error_at: null as string | null,
+};
+const recentUncaught: number[] = [];
+
+function describe(err: unknown): string {
+  return err instanceof Error ? (err.stack ?? err.message) : String(err);
+}
+
+function noteGuard(kind: "unhandled_rejections" | "uncaught_exceptions", err: unknown): void {
+  guard[kind] += 1;
+  guard.last_error = describe(err).slice(0, 2_000);
+  guard.last_error_at = new Date().toISOString();
+}
+
+process.on("unhandledRejection", (reason) => {
+  noteGuard("unhandled_rejections", reason);
+  console.error("[engine] unhandled rejection — kept running:", guard.last_error);
+});
+
+process.on("uncaughtException", (err) => {
+  noteGuard("uncaught_exceptions", err);
+  console.error("[engine] uncaught exception — kept running:", guard.last_error);
+  // A storm is different from a stray: twenty in a minute means the process
+  // is broken in a way a restart fixes better than perseverance does.
+  const now = Date.now();
+  recentUncaught.push(now);
+  while (recentUncaught.length > 0 && now - recentUncaught[0] > 60_000) recentUncaught.shift();
+  if (recentUncaught.length >= 20) {
+    console.error("[engine] 20 uncaught exceptions in a minute — exiting for a clean restart");
+    process.exit(1);
+  }
+});
+
+// ---------------------------------------------------------------------------
 // Boot
 // ---------------------------------------------------------------------------
+
+const STAGES = [
+  "tracker",
+  "classifier",
+  "propagation",
+  "risk",
+  "screen",
+  "analyst",
+  "portfolio",
+  "news",
+  "paper_competition",
+] as const;
+type StageName = (typeof STAGES)[number];
+type StageReport = { state: "pending" | "running" | "ok" | "failed"; ms?: number; error?: string };
+
+const stages = Object.fromEntries(STAGES.map((s) => [s, { state: "pending" }])) as Record<StageName, StageReport>;
+const bootStartedAt = new Date().toISOString();
+let bootFinishedAt: string | null = null;
+/** True once the hosts' seams are wired; before that, touching one builds it wrong. */
+let chainConfigured = false;
+
+function bootReport(): {
+  state: "booting" | "ready" | "degraded";
+  started_at: string;
+  finished_at: string | null;
+  failed: StageName[];
+  stages: Record<StageName, StageReport>;
+} {
+  const failed = STAGES.filter((s) => stages[s].state === "failed");
+  const state = !bootFinishedAt ? "booting" : failed.length > 0 ? "degraded" : "ready";
+  return { state, started_at: bootStartedAt, finished_at: bootFinishedAt, failed, stages };
+}
+
+/**
+ * One boot step, fenced. A step that fails is logged and shown on /health, and
+ * the next step still runs: the Tracker answering a quant question does not
+ * depend on the paper competition having started, and a chain that refuses to
+ * come up because one late stage tripped is a chain nobody can read.
+ */
+async function stage(name: StageName, fn: () => Promise<void> | void): Promise<void> {
+  const started = Date.now();
+  stages[name] = { state: "running" };
+  try {
+    await fn();
+    stages[name] = { state: "ok", ms: Date.now() - started };
+  } catch (err) {
+    const error = describe(err);
+    stages[name] = { state: "failed", ms: Date.now() - started, error: error.slice(0, 1_000) };
+    console.error(`[engine] stage ${name} failed — service stays up:`, error);
+  }
+}
+
+/** Memory and, on Railway, the volume — the two limits that kill a container without a stack trace. */
+function processHealth(): {
+  node: string;
+  rss_mb: number;
+  heap_mb: number;
+  disk: { dir: string; free_mb: number; total_mb: number } | null;
+} {
+  const mem = process.memoryUsage();
+  let disk: { dir: string; free_mb: number; total_mb: number } | null = null;
+  const dir = process.env.FALCON_TRACKER_DATA_DIR?.trim();
+  if (dir) {
+    try {
+      const st = fs.statfsSync(dir);
+      const mb = (blocks: number) => Math.round((blocks * st.bsize) / 1_048_576);
+      disk = { dir, free_mb: mb(st.bavail), total_mb: mb(st.blocks) };
+    } catch {
+      // No volume under that path — a dev checkout.
+    }
+  }
+  return {
+    node: process.version,
+    rss_mb: Math.round(mem.rss / 1_048_576),
+    heap_mb: Math.round(mem.heapUsed / 1_048_576),
+    disk,
+  };
+}
+
+function listen(): http.Server {
+  const server = http.createServer((req, res) => {
+    handle(req, res).catch((err) => {
+      console.error("[engine] request failed:", err);
+      if (!res.headersSent) send(res, 500, { ok: false, error: "internal error" });
+    });
+  });
+  // Longer than the proxy in front of us keeps an idle connection open, so it
+  // never reuses a socket this process has just closed — the usual source of
+  // sporadic 502s behind a load balancer.
+  server.keepAliveTimeout = 65_000;
+  server.headersTimeout = 70_000;
+  server.on("error", (err) => {
+    console.error("[engine] server error:", err);
+    process.exit(1);
+  });
+  server.listen(PORT, () => console.info(`[engine] listening on :${PORT} (${VERSION})`));
+  return server;
+}
 
 async function boot(): Promise<void> {
   reportEnv();
@@ -395,91 +561,116 @@ async function boot(): Promise<void> {
     remote: remoteRuns,
     classifier: getClassifierHost(),
   });
+  chainConfigured = true;
+
+  // The socket is bound BEFORE the chain starts, not after it. The old order
+  // put every network-bound startup step — the server universe, the tracker's
+  // first load, the run mirror's pull — between "container up" and "port
+  // open", so a slow or failing step showed up as a healthcheck that never
+  // passed and a deploy that never went live. Now the healthcheck passes the
+  // moment the process is alive, and reports what the chain is doing.
+  const server = listen();
 
   const tracker = getTrackerEngine();
+  const shutdown = (signal: string) => {
+    console.info(`[engine] ${signal} — stopping`);
+    try {
+      getPropagationHost().stop();
+      getClassifierHost().stop();
+      tracker.stop();
+    } catch (err) {
+      console.error("[engine] stop failed:", err);
+    }
+    server.close(() => process.exit(0));
+    setTimeout(() => process.exit(0), 5_000).unref();
+  };
+  process.on("SIGTERM", () => shutdown("SIGTERM"));
+  process.on("SIGINT", () => shutdown("SIGINT"));
 
-  // Which names to follow is an account-level decision, so the server list is
-  // the starting point exactly as it is on a desktop install.
-  tracker.onUniverseChange((event) => {
-    if (event.type === "add") void publishUniverse([event.ticker], "engine");
-    else void deactivateTicker(event.ticker);
+  await stage("tracker", async () => {
+    // Which names to follow is an account-level decision, so the server list
+    // is the starting point exactly as it is on a desktop install.
+    tracker.onUniverseChange((event) => {
+      if (event.type === "add") void publishUniverse([event.ticker], "engine");
+      else void deactivateTicker(event.ticker);
+    });
+    const remote = await loadRemoteUniverse();
+    tracker.setRemoteUniverse(remote);
+    await tracker.start();
+    console.info(`[engine] tracker started · ${tracker.getStatus().tickers.length} ticker(s)`);
   });
-  const remote = await loadRemoteUniverse();
-  tracker.setRemoteUniverse(remote);
-  await tracker.start();
-  console.info(`[engine] tracker started · ${tracker.getStatus().tickers.length} ticker(s)`);
 
-  const classifier = getClassifierHost();
-  classifier.start();
-  console.info(`[engine] classifier ${classifier.status().enabled ? "on" : "off"}`);
+  await stage("classifier", () => {
+    const classifier = getClassifierHost();
+    classifier.start();
+    console.info(`[engine] classifier ${classifier.status().enabled ? "on" : "off"}`);
+  });
 
-  const propagation = getPropagationHost();
-  // Pull what other installs produced before this process starts adding to it,
-  // so supersession is decided against the full history rather than a fresh
-  // volume's empty one.
-  await propagation.syncRemoteRuns("boot");
-  propagation.start();
-  // Independent of the timer: the fast lane is how a second-order move is
-  // caught while it is still open, so it arms even when the loop is off.
-  propagation.watchTracker();
-  console.info(`[engine] propagation ${propagation.status().enabled ? "on" : "off"} · fast path armed`);
+  await stage("propagation", async () => {
+    const propagation = getPropagationHost();
+    // Pull what other installs produced before this process starts adding to
+    // it, so supersession is decided against the full history rather than a
+    // fresh volume's empty one.
+    await propagation.syncRemoteRuns("boot");
+    propagation.start();
+    // Independent of the timer: the fast lane is how a second-order move is
+    // caught while it is still open, so it arms even when the loop is off.
+    propagation.watchTracker();
+    console.info(`[engine] propagation ${propagation.status().enabled ? "on" : "off"} · fast path armed`);
+  });
 
   // Risk follows the Tracker it reads. Without this the host exists only as
   // whatever a `risk:account-update` happens to build: no startup snapshot and
   // none of the §5 triggers (close-run, incident band, earnings horizon), so
   // the panel sits on "No snapshot yet" until the reader trades.
-  const risk = getRiskHost();
-  risk.start();
-  console.info(`[engine] risk started · ${risk.status().snapshotCount} snapshot(s)`);
+  await stage("risk", () => {
+    const risk = getRiskHost();
+    risk.start();
+    console.info(`[engine] risk started · ${risk.status().snapshotCount} snapshot(s)`);
+  });
 
   // Screen and Analyst read the Tracker too, and answer engine channels — so
   // they have to run in the process that owns it. They were being answered
   // here from hosts nobody had started while the desktop quietly ran the real
   // loops against its own copy: the panel read one machine and the work
   // happened on another.
-  const screen = getScreenHost();
-  screen.start();
-  console.info(`[engine] screen started · ${screen.status().scanCount} scan(s)`);
+  await stage("screen", () => {
+    const screen = getScreenHost();
+    screen.start();
+    console.info(`[engine] screen started · ${screen.status().scanCount} scan(s)`);
+  });
 
-  const analyst = getAnalystHost();
-  analyst.start();
-  console.info(`[engine] analyst ${analyst.status().enabled ? "on" : "off"}`);
+  await stage("analyst", () => {
+    const analyst = getAnalystHost();
+    analyst.start();
+    console.info(`[engine] analyst ${analyst.status().enabled ? "on" : "off"}`);
+  });
 
   // Net-worth snapshots for every synced portfolio. This used to live in the
   // news-worker; it belongs here, with the rest of the always-on chain and
   // the service the desktop actually talks to. It is what keeps a chart
   // moving overnight, so a stalled tracker is a silent, invisible failure —
   // hence the counters in /health.
-  startPortfolioTracker();
+  await stage("portfolio", () => startPortfolioTracker());
 
   // The last two duties of the retired news-worker service, adopted whole:
   // the classified-events feed mobile renders (plus the graph sync riding on
   // it), and the 60-day paper-competition book the admin panel reads. One
   // always-on process now owns everything that runs around the clock.
-  startNewsCycle();
-  startPaperCompetition();
+  await stage("news", () => startNewsCycle());
+  await stage("paper_competition", () => startPaperCompetition());
 
-  const server = http.createServer((req, res) => {
-    handle(req, res).catch((err) => {
-      console.error("[engine] request failed:", err);
-      if (!res.headersSent) send(res, 500, { ok: false, error: "internal error" });
-    });
-  });
-  server.listen(PORT, () => console.info(`[engine] listening on :${PORT} (${VERSION})`));
-
-  const shutdown = (signal: string) => {
-    console.info(`[engine] ${signal} — stopping`);
-    propagation.stop();
-    classifier.stop();
-    tracker.stop();
-    server.close(() => process.exit(0));
-    setTimeout(() => process.exit(0), 5_000).unref();
-  };
-  process.on("SIGTERM", () => shutdown("SIGTERM"));
-  process.on("SIGINT", () => shutdown("SIGINT"));
+  bootFinishedAt = new Date().toISOString();
+  const report = bootReport();
+  console.info(
+    `[engine] boot ${report.state}` + (report.failed.length > 0 ? ` — failed: ${report.failed.join(", ")}` : ""),
+  );
 }
 
 void boot().catch((err) => {
+  // Only the steps before the socket is bound can land here — env, seed, the
+  // host wiring — and they touch local files only. With nothing listening
+  // there is nothing to keep alive.
   console.error("[engine] boot failed:", err);
   process.exit(1);
 });
