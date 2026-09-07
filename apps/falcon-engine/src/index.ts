@@ -506,9 +506,12 @@ function processHealth(): {
   rss_mb: number;
   heap_mb: number;
   disk: { dir: string; free_mb: number; total_mb: number } | null;
+  /** The Tracker's append-only log — the file that grows for as long as the service runs. */
+  messages_log_mb: number | null;
 } {
   const mem = process.memoryUsage();
   let disk: { dir: string; free_mb: number; total_mb: number } | null = null;
+  let messagesLogMb: number | null = null;
   const dir = process.env.FALCON_TRACKER_DATA_DIR?.trim();
   if (dir) {
     try {
@@ -518,12 +521,18 @@ function processHealth(): {
     } catch {
       // No volume under that path — a dev checkout.
     }
+    try {
+      messagesLogMb = Math.round((fs.statSync(`${dir}/messages.jsonl`).size / 1_048_576) * 10) / 10;
+    } catch {
+      // No log yet.
+    }
   }
   return {
     node: process.version,
     rss_mb: Math.round(mem.rss / 1_048_576),
     heap_mb: Math.round(mem.heapUsed / 1_048_576),
     disk,
+    messages_log_mb: messagesLogMb,
   };
 }
 
