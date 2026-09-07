@@ -154,6 +154,27 @@ export class FileBackend implements ClassifierBackend {
  * the in-flight set. Expiry is evaluated on read against the caller's `now`
  * so replay and tests are deterministic.
  */
+/**
+ * How much of a failure's text is kept, per row.
+ *
+ * A provider error is a whole response body — an HTML page from a gateway
+ * runs to a hundred kilobytes — and both ledgers stored it verbatim, one row
+ * per article, and rewrote the entire file on every attempt. On the engine
+ * service that grew the classifier's dir to 194 MB in a week of failed
+ * calls: parsing it at boot cost 250 MB of heap, and each rewrite briefly
+ * doubled that, which is what was killing the container ninety seconds
+ * after every start. The grouping on /health reads the first 200
+ * characters; 600 keeps the message and drops the boilerplate.
+ */
+export const MAX_REASON_CHARS = 600;
+/** Attempt rows older than this are dead weight — the article is gone from every window. */
+export const ATTEMPT_TTL_DAYS = 14;
+
+export function clipReason(reason: string | null | undefined): string | null {
+  if (reason == null) return null;
+  return reason.length > MAX_REASON_CHARS ? `${reason.slice(0, MAX_REASON_CHARS)}…` : reason;
+}
+
 export class VerdictStore {
   private verdicts: Record<string, Verdict>;
   private attempts: Record<string, AttemptRecord>;
@@ -163,6 +184,43 @@ export class VerdictStore {
     this.verdicts = backend.readVerdicts();
     this.attempts = backend.readAttempts();
     this.metrics = { ...emptyMetrics(), ...(backend.readMetrics() ?? {}) };
+    this.heal();
+  }
+
+  /**
+   * Bring what was loaded within the caps above and write it back once, so a
+   * volume filled before the caps existed shrinks on the next boot instead of
+   * needing to be edited by hand.
+   */
+  private heal(): void {
+    let verdictsChanged = 0;
+    for (const v of Object.values(this.verdicts)) {
+      const clipped = clipReason(v.failure_reason);
+      if (clipped !== v.failure_reason) {
+        v.failure_reason = clipped;
+        verdictsChanged += 1;
+      }
+    }
+    let attemptsChanged = 0;
+    const cutoff = Date.now() - ATTEMPT_TTL_DAYS * 24 * 60 * 60 * 1000;
+    for (const [key, rec] of Object.entries(this.attempts)) {
+      const at = Date.parse(rec.last_attempt_at);
+      if (Number.isFinite(at) && at < cutoff) {
+        delete this.attempts[key];
+        attemptsChanged += 1;
+        continue;
+      }
+      const clipped = clipReason(rec.last_error);
+      if (clipped !== rec.last_error) {
+        rec.last_error = clipped;
+        attemptsChanged += 1;
+      }
+    }
+    if (verdictsChanged) this.backend.writeVerdicts(this.verdicts);
+    if (attemptsChanged) this.backend.writeAttempts(this.attempts);
+    if (verdictsChanged || attemptsChanged) {
+      console.info(`[classifier] store healed: ${verdictsChanged} verdict(s), ${attemptsChanged} attempt row(s)`);
+    }
   }
 
   // --- verdicts ------------------------------------------------------------
@@ -185,6 +243,7 @@ export class VerdictStore {
   }
 
   put(verdict: Verdict): void {
+    if (verdict.failure_reason != null) verdict = { ...verdict, failure_reason: clipReason(verdict.failure_reason) };
     this.verdicts[verdictKey(verdict.article_key, verdict.prompt_version, verdict.model)] = verdict;
     this.backend.writeVerdicts(this.verdicts);
   }
@@ -258,7 +317,7 @@ export class VerdictStore {
     const record: AttemptRecord = {
       article_key: articleKey,
       attempts,
-      last_error: error,
+      last_error: clipReason(error),
       last_attempt_at: at,
       permanent_failed: error !== null && attempts >= maxAttempts,
     };
