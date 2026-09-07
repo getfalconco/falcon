@@ -21,6 +21,8 @@
 
 import fs from "node:fs";
 import http from "node:http";
+import os from "node:os";
+import v8 from "node:v8";
 import { portfolioTrackerHealth, startPortfolioTracker } from "./portfolio-tracker.js";
 import { newsCycleHealth, startNewsCycle } from "./news-cycle.js";
 import { startPaperCompetition } from "./paper-competition.js";
@@ -500,14 +502,77 @@ async function stage(name: StageName, fn: () => Promise<void> | void): Promise<v
   }
 }
 
-/** Memory and, on Railway, the volume — the two limits that kill a container without a stack trace. */
+const MB = 1_048_576;
+const mb = (bytes: number): number => Math.round(bytes / MB);
+
+/** The container's memory cap, or null outside one. Same files start.mjs reads. */
+function cgroupLimitMb(): number | null {
+  for (const file of ["/sys/fs/cgroup/memory.max", "/sys/fs/cgroup/memory/memory.limit_in_bytes"]) {
+    try {
+      const raw = fs.readFileSync(file, "utf8").trim();
+      if (raw === "max") return null;
+      const n = Number.parseInt(raw, 10);
+      if (Number.isFinite(n) && n > 0 && n < 2 ** 50) return mb(n);
+    } catch {
+      // Not this cgroup flavour, or not a container.
+    }
+  }
+  return null;
+}
+
+/** Bytes under a directory, walked once and remembered for a while — a healthcheck must stay cheap. */
+const dirSizeCache = new Map<string, { at: number; mb: number }>();
+function dirSizeMb(dir: string): number {
+  const hit = dirSizeCache.get(dir);
+  if (hit && Date.now() - hit.at < 5 * 60_000) return hit.mb;
+  let bytes = 0;
+  let entries = 0;
+  const walk = (d: string): void => {
+    let list: fs.Dirent[];
+    try {
+      list = fs.readdirSync(d, { withFileTypes: true });
+    } catch {
+      return;
+    }
+    for (const e of list) {
+      if (entries++ > 50_000) return;
+      const p = `${d}/${e.name}`;
+      if (e.isDirectory()) walk(p);
+      else if (e.isFile()) {
+        try {
+          bytes += fs.statSync(p).size;
+        } catch {
+          // Removed between listing and stat.
+        }
+      }
+    }
+  };
+  walk(dir);
+  const size = Math.round((bytes / MB) * 10) / 10;
+  dirSizeCache.set(dir, { at: Date.now(), mb: size });
+  return size;
+}
+
+/**
+ * Memory and, on Railway, the volume — the two limits that kill a container
+ * without a stack trace. `heap_limit_mb` against `heap_mb` is the one that
+ * matters: V8 aborts the process when the heap reaches its ceiling, and the
+ * ceiling Node picks by default is sized from the host, not the cgroup.
+ */
 function processHealth(): {
   node: string;
   rss_mb: number;
   heap_mb: number;
+  heap_limit_mb: number;
+  external_mb: number;
+  array_buffers_mb: number;
+  cgroup_limit_mb: number | null;
+  host_total_mb: number;
   disk: { dir: string; free_mb: number; total_mb: number } | null;
   /** The Tracker's append-only log — the file that grows for as long as the service runs. */
   messages_log_mb: number | null;
+  /** What each engine keeps on the volume, in MB — where the bytes (and so the heap) come from. */
+  data_dirs: Record<string, number>;
 } {
   const mem = process.memoryUsage();
   let disk: { dir: string; free_mb: number; total_mb: number } | null = null;
@@ -516,23 +581,34 @@ function processHealth(): {
   if (dir) {
     try {
       const st = fs.statfsSync(dir);
-      const mb = (blocks: number) => Math.round((blocks * st.bsize) / 1_048_576);
-      disk = { dir, free_mb: mb(st.bavail), total_mb: mb(st.blocks) };
+      const blocksMb = (blocks: number) => mb(blocks * st.bsize);
+      disk = { dir, free_mb: blocksMb(st.bavail), total_mb: blocksMb(st.blocks) };
     } catch {
       // No volume under that path — a dev checkout.
     }
     try {
-      messagesLogMb = Math.round((fs.statSync(`${dir}/messages.jsonl`).size / 1_048_576) * 10) / 10;
+      messagesLogMb = Math.round((fs.statSync(`${dir}/messages.jsonl`).size / MB) * 10) / 10;
     } catch {
       // No log yet.
     }
   }
+  const data_dirs: Record<string, number> = {};
+  for (const [name, value] of Object.entries(process.env)) {
+    const m = /^FALCON_([A-Z]+)_DATA_DIR$/.exec(name);
+    if (m && value?.trim()) data_dirs[m[1].toLowerCase()] = dirSizeMb(value.trim());
+  }
   return {
     node: process.version,
-    rss_mb: Math.round(mem.rss / 1_048_576),
-    heap_mb: Math.round(mem.heapUsed / 1_048_576),
+    rss_mb: mb(mem.rss),
+    heap_mb: mb(mem.heapUsed),
+    heap_limit_mb: mb(v8.getHeapStatistics().heap_size_limit),
+    external_mb: mb(mem.external),
+    array_buffers_mb: mb(mem.arrayBuffers),
+    cgroup_limit_mb: cgroupLimitMb(),
+    host_total_mb: mb(os.totalmem()),
     disk,
     messages_log_mb: messagesLogMb,
+    data_dirs,
   };
 }
 
