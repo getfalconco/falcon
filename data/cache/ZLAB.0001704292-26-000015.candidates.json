@@ -1,0 +1,1133 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 335454,
+  "chunks": 15,
+  "candidates": [
+    {
+      "counterparty_name": "GSK",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "licensor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We have an exclusive license from Tesaro (now a subsidiary of GSK) to develop and commercialize ZEJULA in mainland China, Hong Kong, and Macau.",
+      "evidence_quotes": [
+        "We have an exclusive license from Tesaro (now a subsidiary of GSK) to develop and commercialize ZEJULA in mainland China, Hong Kong, and Macau."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "argenx",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "licensor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We have an exclusive license from argenx to develop and commercialize efgartigimod in Greater China.",
+      "evidence_quotes": [
+        "We have an exclusive license from argenx to develop and commercialize efgartigimod in Greater China."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Gurnet Point Capital",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "licensor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We have an exclusive license from Paratek (subsequently acquired by Gurnet Point Capital and Novo Holdings) to develop, manufacture, and commercialize NUZYRA in Greater China.",
+      "evidence_quotes": [
+        "We have an exclusive license from Paratek (subsequently acquired by Gurnet Point Capital and Novo Holdings) to develop, manufacture, and commercialize NUZYRA in Greater China."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Novo Holdings",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "licensor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We have an exclusive license from Paratek (subsequently acquired by Gurnet Point Capital and Novo Holdings) to develop, manufacture, and commercialize NUZYRA in Greater China.",
+      "evidence_quotes": [
+        "We have an exclusive license from Paratek (subsequently acquired by Gurnet Point Capital and Novo Holdings) to develop, manufacture, and commercialize NUZYRA in Greater China."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Hanhui",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "promotion partner",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We have an exclusive promotion agreement with Huizheng, a subsidiary of Hanhui, one of the leading pharmaceutical companies for antibiotics in mainland China, which allows us to use Hanhui's existing infrastructure for sales of NUZYRA in mainland China.",
+      "evidence_quotes": [
+        "We have an exclusive promotion agreement with Huizheng, a subsidiary of Hanhui, one of the leading pharmaceutical companies for antibiotics in mainland China, which allows us to use Hanhui's existing infrastructure for sales of NUZYRA in mainland China."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "NovoCure",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "licensor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We have an exclusive license from NovoCure to develop and commercialize any TTFields products in Greater China in the field of oncology.",
+      "evidence_quotes": [
+        "We have an exclusive license from NovoCure to develop and commercialize any TTFields products in Greater China in the field of oncology."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Deciphera",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "licensor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We have an exclusive license from Deciphera to develop and commercialize QINLOCK in Greater China.",
+      "evidence_quotes": [
+        "We have an exclusive license from Deciphera to develop and commercialize QINLOCK in Greater China."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Innoviva",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "licensor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We have an exclusive license from Entasis (now a wholly owned subsidiary of Innoviva) to develop and commercialize SUL-DUR in Asia Pacific.",
+      "evidence_quotes": [
+        "We have an exclusive license from Entasis (now a wholly owned subsidiary of Innoviva) to develop and commercialize SUL-DUR in Asia Pacific."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Pfizer",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "commercialization partner",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In November 2024, we entered into a strategic collaboration with Pfizer that allows us to leverage the industry-leading commercialization infrastructure of Pfizer's affiliated companies in the anti-infective therapeutic area to support sales of XACDURO in mainland China.",
+      "evidence_quotes": [
+        "In November 2024, we entered into a strategic collaboration with Pfizer that allows us to leverage the industry-leading commercialization infrastructure of Pfizer's affiliated companies in the anti-infective therapeutic area to support sales of XACDURO in mainland China."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "BMS",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "licensor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We have an exclusive license from Turning Point (now a wholly owned subsidiary of BMS) to develop and commercialize repotrectinib in Greater China.",
+      "evidence_quotes": [
+        "We have an exclusive license from Turning Point (now a wholly owned subsidiary of BMS) to develop and commercialize repotrectinib in Greater China."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "SciClone Pharmaceuticals",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "commercialization partner",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In December 2025, we entered into a strategic collaboration with SciClone Pharmaceuticals that allows us to leverage SciClone's commercialization infrastructure to support sales of AUGTYRO in mainland China.",
+      "evidence_quotes": [
+        "In December 2025, we entered into a strategic collaboration with SciClone Pharmaceuticals that allows us to leverage SciClone's commercialization infrastructure to support sales of AUGTYRO in mainland China."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "MediLink",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "licensor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We have an exclusive global license from MediLink to research, develop, manufacture, and commercialize zoci.",
+      "evidence_quotes": [
+        "We have an exclusive global license from MediLink to research, develop, manufacture, and commercialize zoci."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Seagen",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "licensor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Tisotumab vedotin (TIVDAK) ... Greater China Seagen (now owned by Pfizer)",
+      "evidence_quotes": [
+        "Tisotumab vedotin (TIVDAK) ... Greater China Seagen (now owned by Pfizer)"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Karuna",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "licensor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Xanomeline and Trospium Chloride (KarXT) ... Greater China Karuna (now owned by BMS)",
+      "evidence_quotes": [
+        "Xanomeline and Trospium Chloride (KarXT) ... Greater China Karuna (now owned by BMS)"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Vertex",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "licensor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Povetacicept ... Greater China and Singapore Vertex",
+      "evidence_quotes": [
+        "Povetacicept ... Greater China and Singapore Vertex"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Zenas",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "licensor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Elegrobart ... Greater China Zenas",
+      "evidence_quotes": [
+        "Elegrobart ... Greater China Zenas"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "AstraZeneca",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "talent competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our commercial team has a proven track record and experience from leading global pharmaceutical companies including AstraZeneca, Roche, Novartis, and BMS",
+      "evidence_quotes": [
+        "Our commercial team has a proven track record and experience from leading global pharmaceutical companies including AstraZeneca, Roche, Novartis, and BMS"
+      ],
+      "confidence": 0.75,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Roche",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "talent competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our commercial team has a proven track record and experience from leading global pharmaceutical companies including AstraZeneca, Roche, Novartis, and BMS",
+      "evidence_quotes": [
+        "Our commercial team has a proven track record and experience from leading global pharmaceutical companies including AstraZeneca, Roche, Novartis, and BMS"
+      ],
+      "confidence": 0.75,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Novartis",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "talent competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our commercial team has a proven track record and experience from leading global pharmaceutical companies including AstraZeneca, Roche, Novartis, and BMS",
+      "evidence_quotes": [
+        "Our commercial team has a proven track record and experience from leading global pharmaceutical companies including AstraZeneca, Roche, Novartis, and BMS"
+      ],
+      "confidence": 0.75,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "MediLink",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "global license for ADC development and commercialization",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We have an exclusive global license from MediLink to research, develop, manufacture, and commercialize zoci",
+      "evidence_quotes": [
+        "We have an exclusive global license from MediLink to research, develop, manufacture, and commercialize zoci"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Genmab",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "antibody technology licensor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "TIVDAK is an ADC composed of Genmab's human monoclonal antibody directed against cell surface tissue factor and Seagen's ADC technology",
+      "evidence_quotes": [
+        "TIVDAK is an ADC composed of Genmab's human monoclonal antibody directed against cell surface tissue factor and Seagen's ADC technology"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Seagen",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "exclusive license for development and commercialization",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We have an exclusive license from Seagen (a company later acquired by Pfizer) to develop and commercialize tisotumab vedotin in Greater China",
+      "evidence_quotes": [
+        "We have an exclusive license from Seagen (a company later acquired by Pfizer) to develop and commercialize tisotumab vedotin in Greater China"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Pfizer",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "exclusive product supplier and licensor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We will purchase the licensed products exclusively from Pfizer",
+      "evidence_quotes": [
+        "We will purchase the licensed products exclusively from Pfizer"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "NovoCure",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "exclusive license and product supplier",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we have an exclusive license from NovoCure to develop and commercialize any TTFields products in Greater China in the field of oncology",
+      "evidence_quotes": [
+        "we have an exclusive license from NovoCure to develop and commercialize any TTFields products in Greater China in the field of oncology"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "argenx",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "exclusive license and product supplier",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we have an exclusive license from argenx to develop and commercialize efgartigimod in Greater China",
+      "evidence_quotes": [
+        "we have an exclusive license from argenx to develop and commercialize efgartigimod in Greater China"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Karuna",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "exclusive license for development and commercialization",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We have an exclusive license from Karuna (a company later acquired by BMS) to develop, manufacture, and commercialize xanomeline and trospium chloride in Greater China",
+      "evidence_quotes": [
+        "We have an exclusive license from Karuna (a company later acquired by BMS) to develop, manufacture, and commercialize xanomeline and trospium chloride in Greater China"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "BMS",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "exclusive license and product supplier",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we entered into a license agreement with Karuna (a company later acquired by BMS), pursuant to which we obtained an exclusive license to develop, manufacture, and commercialize xanomeline and trospium chloride",
+      "evidence_quotes": [
+        "we entered into a license agreement with Karuna (a company later acquired by BMS), pursuant to which we obtained an exclusive license to develop, manufacture, and commercialize xanomeline and trospium chloride"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Vertex",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "exclusive license for development and commercialization",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We have an exclusive license from Vertex to develop and commercialize pove in Greater China and Singapore",
+      "evidence_quotes": [
+        "We have an exclusive license from Vertex to develop and commercialize pove in Greater China and Singapore"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Zenas",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "exclusive license for development and commercialization",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We have an exclusive license from Zenas to develop and commercialize elegrobart in Greater China",
+      "evidence_quotes": [
+        "We have an exclusive license from Zenas to develop and commercialize elegrobart in Greater China"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "GSK",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "exclusive license and product supplier",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we entered into a collaboration, development, and license agreement with Tesaro, a company later acquired by GSK, pursuant to which we obtained an exclusive sublicense",
+      "evidence_quotes": [
+        "we entered into a collaboration, development, and license agreement with Tesaro, a company later acquired by GSK, pursuant to which we obtained an exclusive sublicense"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Novo Holdings",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "exclusive license for development and commercialization",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we entered into a license and collaboration agreement with Paratek (which was subsequently acquired by Gurnet Point Capital and Novo Holdings A/S)",
+      "evidence_quotes": [
+        "we entered into a license and collaboration agreement with Paratek (which was subsequently acquired by Gurnet Point Capital and Novo Holdings A/S)"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Deciphera",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "exclusive license and product supplier",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we entered into a license agreement with Deciphera, pursuant to which we obtained an exclusive license under certain patents and know-how of Deciphera to develop and commercialize products containing ripretinib",
+      "evidence_quotes": [
+        "we entered into a license agreement with Deciphera, pursuant to which we obtained an exclusive license under certain patents and know-how of Deciphera to develop and commercialize products containing ripretinib"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Innoviva",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "exclusive license and product supplier",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we entered into a license and collaboration agreement with Entasis (now a wholly owned subsidiary of Innoviva), pursuant to which we obtained an exclusive license",
+      "evidence_quotes": [
+        "we entered into a license and collaboration agreement with Entasis (now a wholly owned subsidiary of Innoviva), pursuant to which we obtained an exclusive license"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Merck & Co.",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "patent and know-how licensor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we obtained an exclusive sublicense under certain patents and know-how of GSK (including such patents and know-how licensed from Merck, Sharp & Dohme Corp., a subsidiary of Merck & Co., Inc.",
+      "evidence_quotes": [
+        "we obtained an exclusive sublicense under certain patents and know-how of GSK (including such patents and know-how licensed from Merck, Sharp & Dohme Corp., a subsidiary of Merck & Co., Inc."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "AstraZeneca UK Limited",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "patent and know-how licensor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we obtained an exclusive sublicense under certain patents and know-how of GSK (including such patents and know-how licensed from Merck, Sharp & Dohme Corp., a subsidiary of Merck & Co., Inc., and AstraZeneca UK Limited)",
+      "evidence_quotes": [
+        "we obtained an exclusive sublicense under certain patents and know-how of GSK (including such patents and know-how licensed from Merck, Sharp & Dohme Corp., a subsidiary of Merck & Co., Inc., and AstraZeneca UK Limited)"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Tufts University",
+      "counterparty_type": "other",
+      "category": "supplier",
+      "subtype": "intellectual property sub-licensor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we obtained both an exclusive license under certain patents and know-how of Paratek and an exclusive sub-license under certain intellectual property that Paratek licensed from Tufts University",
+      "evidence_quotes": [
+        "we obtained both an exclusive license under certain patents and know-how of Paratek and an exclusive sub-license under certain intellectual property that Paratek licensed from Tufts University"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "NMPA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The NMPA, which monitors and supervises the administration of pharmaceutical products, medical appliances and equipment, and cosmetics, then determines whether to approve the application following a technical review process.",
+      "evidence_quotes": [
+        "The NMPA, which monitors and supervises the administration of pharmaceutical products, medical appliances and equipment, and cosmetics, then determines whether to approve the application following a technical review process."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "NHSA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "insurance_reimbursement_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "According to the NHSA, as of the end of 2024, approximately 1.33 billion residents in mainland China were enrolled in the Basic Medical Insurance scheme",
+      "evidence_quotes": [
+        "According to the NHSA, as of the end of 2024, approximately 1.33 billion residents in mainland China were enrolled in the Basic Medical Insurance scheme"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "FDA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In the United States, the FDA regulates drugs and biological products under the Federal Food, Drug, and Cosmetic Act, the Public Health Service Act, and their implementing regulations.",
+      "evidence_quotes": [
+        "In the United States, the FDA regulates drugs and biological products under the Federal Food, Drug, and Cosmetic Act, the Public Health Service Act, and their implementing regulations."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "CSRC",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "securities_regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "These regulations include the requirement to submit filing documents including the offering prospectus to the CSRC.",
+      "evidence_quotes": [
+        "These regulations include the requirement to submit filing documents including the offering prospectus to the CSRC."
+      ],
+      "confidence": 0.93,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "argenx",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "licensor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we source VYVGART and VYVGART Hytrulo from argenx",
+      "evidence_quotes": [
+        "we source VYVGART and VYVGART Hytrulo from argenx"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "NovoCure",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "licensor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we source VYVGART and VYVGART Hytrulo from argenx, OPTUNE from NovoCure",
+      "evidence_quotes": [
+        "we source VYVGART and VYVGART Hytrulo from argenx, OPTUNE from NovoCure"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Deciphera",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "licensor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we source VYVGART and VYVGART Hytrulo from argenx, OPTUNE from NovoCure, QINLOCK from Deciphera",
+      "evidence_quotes": [
+        "we source VYVGART and VYVGART Hytrulo from argenx, OPTUNE from NovoCure, QINLOCK from Deciphera"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Innoviva",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "licensor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we source VYVGART and VYVGART Hytrulo from argenx, OPTUNE from NovoCure, QINLOCK from Deciphera, XACDURO from Innoviva",
+      "evidence_quotes": [
+        "we source VYVGART and VYVGART Hytrulo from argenx, OPTUNE from NovoCure, QINLOCK from Deciphera, XACDURO from Innoviva"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "BMS",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "licensor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "QINLOCK from Deciphera, XACDURO from Innoviva, AUGTYRO from BMS, and TIVDAK from Pfizer",
+      "evidence_quotes": [
+        "QINLOCK from Deciphera, XACDURO from Innoviva, AUGTYRO from BMS, and TIVDAK from Pfizer"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Pfizer",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "licensor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "XACDURO from Innoviva, AUGTYRO from BMS, and TIVDAK from Pfizer",
+      "evidence_quotes": [
+        "XACDURO from Innoviva, AUGTYRO from BMS, and TIVDAK from Pfizer"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "SAFE",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_infrastructure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Currently, our Chinese subsidiaries may purchase foreign currency for settlement of current account transactions, including payment of dividends to us, without the approval of the SAFE by complying with certain procedural requirements.",
+      "evidence_quotes": [
+        "Currently, our Chinese subsidiaries may purchase foreign currency for settlement of current account transactions, including payment of dividends to us, without the approval of the SAFE by complying with certain procedural requirements."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "CSRC",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_infrastructure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The pre-approval of, filing, or other procedures with the CSRC or other Chinese regulatory authorities may be required in connection with issuing securities to foreign investors under Chinese law",
+      "evidence_quotes": [
+        "The pre-approval of, filing, or other procedures with the CSRC or other Chinese regulatory authorities may be required in connection with issuing securities to foreign investors under Chinese law"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "PCAOB",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_infrastructure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "inspections by the PCAOB of auditors located in mainland China and Hong Kong have at times identified deficiencies in those auditors' audit procedures and quality control procedures",
+      "evidence_quotes": [
+        "inspections by the PCAOB of auditors located in mainland China and Hong Kong have at times identified deficiencies in those auditors' audit procedures and quality control procedures"
+      ],
+      "confidence": 0.8,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "SEC",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_infrastructure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We file reports and other information with the SEC and the Hong Kong Stock Exchange.",
+      "evidence_quotes": [
+        "We file reports and other information with the SEC and the Hong Kong Stock Exchange."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Hong Kong Stock Exchange",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "listing_venue",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We file reports and other information with the SEC and the Hong Kong Stock Exchange.",
+      "evidence_quotes": [
+        "We file reports and other information with the SEC and the Hong Kong Stock Exchange."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "KPMG LLP",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "audit_services",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In May 2022, the Company engaged KPMG LLP, an auditor located in the United States that is inspected by the PCAOB, as our independent registered public accounting firm",
+      "evidence_quotes": [
+        "In May 2022, the Company engaged KPMG LLP, an auditor located in the United States that is inspected by the PCAOB, as our independent registered public accounting firm"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "FDA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_infrastructure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "which may result in a longer and costlier current GMP inspection and approval process by the FDA, NMPA, or EMA for our Chinese manufacturing processes",
+      "evidence_quotes": [
+        "which may result in a longer and costlier current GMP inspection and approval process by the FDA, NMPA, or EMA for our Chinese manufacturing processes"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "NMPA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_infrastructure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "which may result in a longer and costlier current GMP inspection and approval process by the FDA, NMPA, or EMA for our Chinese manufacturing processes",
+      "evidence_quotes": [
+        "which may result in a longer and costlier current GMP inspection and approval process by the FDA, NMPA, or EMA for our Chinese manufacturing processes"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "EMA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_infrastructure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "which may result in a longer and costlier current GMP inspection and approval process by the FDA, NMPA, or EMA for our Chinese manufacturing processes",
+      "evidence_quotes": [
+        "which may result in a longer and costlier current GMP inspection and approval process by the FDA, NMPA, or EMA for our Chinese manufacturing processes"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "KPMG LLP",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "auditor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "in May 2022, the Company engaged KPMG LLP, an auditor located in the United States that is inspected by the PCAOB, as our independent registered public accounting firm",
+      "evidence_quotes": [
+        "in May 2022, the Company engaged KPMG LLP, an auditor located in the United States that is inspected by the PCAOB, as our independent registered public accounting firm"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "SAFE",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory infrastructure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Foreign exchange transactions under the capital account remain subject to limitations and require approvals from, or registration with, the SAFE and other relevant Chinese governmental authorities.",
+      "evidence_quotes": [
+        "Foreign exchange transactions under the capital account remain subject to limitations and require approvals from, or registration with, the SAFE and other relevant Chinese governmental authorities."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "MOFCOM",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory infrastructure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "companies must notify the MOFCOM in advance of any change-of-control transaction in which a foreign investor takes control of a Chinese domestic enterprise",
+      "evidence_quotes": [
+        "companies must notify the MOFCOM in advance of any change-of-control transaction in which a foreign investor takes control of a Chinese domestic enterprise"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "FDA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory infrastructure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Completing the necessary inspection and approval processes for our Chinese manufacturing facilities, such as by the FDA, NMPA, and EMA, may be time consuming and costly.",
+      "evidence_quotes": [
+        "Completing the necessary inspection and approval processes for our Chinese manufacturing facilities, such as by the FDA, NMPA, and EMA, may be time consuming and costly."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "NMPA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory infrastructure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Completing the necessary inspection and approval processes for our Chinese manufacturing facilities, such as by the FDA, NMPA, and EMA, may be time consuming and costly.",
+      "evidence_quotes": [
+        "Completing the necessary inspection and approval processes for our Chinese manufacturing facilities, such as by the FDA, NMPA, and EMA, may be time consuming and costly."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "EMA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory infrastructure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Completing the necessary inspection and approval processes for our Chinese manufacturing facilities, such as by the FDA, NMPA, and EMA, may be time consuming and costly.",
+      "evidence_quotes": [
+        "Completing the necessary inspection and approval processes for our Chinese manufacturing facilities, such as by the FDA, NMPA, and EMA, may be time consuming and costly."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "CFIUS",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory infrastructure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The CFIUS has jurisdiction over investments in which a foreign person acquires control over a U.S. company, as well as certain non-controlling investments in U.S. businesses",
+      "evidence_quotes": [
+        "The CFIUS has jurisdiction over investments in which a foreign person acquires control over a U.S. company, as well as certain non-controlling investments in U.S. businesses"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "argenx",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "product_licensor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we rely on argenx for VYVGART and VYVGART Hytrulo",
+      "evidence_quotes": [
+        "we rely on argenx for VYVGART and VYVGART Hytrulo"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 7
+    },
+    {
+      "counterparty_name": "NovoCure",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "product_licensor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we rely on argenx for VYVGART and VYVGART Hytrulo, NovoCure for OPTUNE",
+      "evidence_quotes": [
+        "we rely on argenx for VYVGART and VYVGART Hytrulo, NovoCure for OPTUNE"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 7
+    },
+    {
+      "counterparty_name": "Deciphera",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "product_licensor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "NovoCure for OPTUNE, Deciphera for QINLOCK",
+      "evidence_quotes": [
+        "NovoCure for OPTUNE, Deciphera for QINLOCK"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 7
+    },
+    {
+      "counterparty_name": "Innoviva",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "product_licensor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Deciphera for QINLOCK, Innoviva for XACDURO",
+      "evidence_quotes": [
+        "Deciphera for QINLOCK, Innoviva for XACDURO"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 7
+    },
+    {
+      "counterparty_name": "BMS",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "product_licensor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Innoviva for XACDURO, and BMS for AUGTYRO",
+      "evidence_quotes": [
+        "Innoviva for XACDURO, and BMS for AUGTYRO"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 7
+    },
+    {
+      "counterparty_name": "NMPA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Before commencing clinical trials, we must finalize the trial design based on ongoing discussions with the NMPA for trials in mainland China",
+      "evidence_quotes": [
+        "Before commencing clinical trials, we must finalize the trial design based on ongoing discussions with the NMPA for trials in mainland China"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 8
+    },
+    {
+      "counterparty_name": "FDA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Before commencing clinical trials, we must finalize the trial design based on ongoing discussions with the NMPA for trials in mainland China, the FDA for trials in the United States",
+      "evidence_quotes": [
+        "Before commencing clinical trials, we must finalize the trial design based on ongoing discussions with the NMPA for trials in mainland China, the FDA for trials in the United States"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 8
+    },
+    {
+      "counterparty_name": "Hong Kong Department of Health",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "in September 2025, the Hong Kong Department of Health approved TIVDAK for the treatment of adult patients with recurrent or metastatic cervical cancer",
+      "evidence_quotes": [
+        "in September 2025, the Hong Kong Department of Health approved TIVDAK for the treatment of adult patients with recurrent or metastatic cervical cancer"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 8
+    },
+    {
+      "counterparty_name": "NMPA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "our regulatory authorities may withdraw or limit their approval of such products or product candidates",
+      "evidence_quotes": [
+        "our regulatory authorities may withdraw or limit their approval of such products or product candidates"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 9
+    },
+    {
+      "counterparty_name": "NHSA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "pricing_regulator",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In mainland China, the NHSA is responsible for administering mainland China's social security system, including price negotiations with drug companies seeking to include their products in the NRDL.",
+      "evidence_quotes": [
+        "In mainland China, the NHSA is responsible for administering mainland China's social security system, including price negotiations with drug companies seeking to include their products in the NRDL."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 9
+    },
+    {
+      "counterparty_name": "argenx",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "strategic_collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "in January 2021, we entered into a strategic collaboration with argenx pursuant to which we obtained an exclusive license for the development and commercialization of efgartigimod in Greater China",
+      "evidence_quotes": [
+        "in January 2021, we entered into a strategic collaboration with argenx pursuant to which we obtained an exclusive license for the development and commercialization of efgartigimod in Greater China"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 9
+    },
+    {
+      "counterparty_name": "argenx",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "product_manufacturer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "with respect to our commercial products, we rely on argenx for VYVGART and VYVGART Hytrulo",
+      "evidence_quotes": [
+        "with respect to our commercial products, we rely on argenx for VYVGART and VYVGART Hytrulo"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 10
+    },
+    {
+      "counterparty_name": "NovoCure",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "product_manufacturer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "with respect to our commercial products, we rely on argenx for VYVGART and VYVGART Hytrulo, NovoCure for OPTUNE",
+      "evidence_quotes": [
+        "with respect to our commercial products, we rely on argenx for VYVGART and VYVGART Hytrulo, NovoCure for OPTUNE"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 10
+    },
+    {
+      "counterparty_name": "Deciphera",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "product_manufacturer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we rely on argenx for VYVGART and VYVGART Hytrulo, NovoCure for OPTUNE, Deciphera for QINLOCK",
+      "evidence_quotes": [
+        "we rely on argenx for VYVGART and VYVGART Hytrulo, NovoCure for OPTUNE, Deciphera for QINLOCK"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 10
+    },
+    {
+      "counterparty_name": "Innoviva",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "product_manufacturer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "NovoCure for OPTUNE, Deciphera for QINLOCK, Innoviva for XACDURO",
+      "evidence_quotes": [
+        "NovoCure for OPTUNE, Deciphera for QINLOCK, Innoviva for XACDURO"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 10
+    },
+    {
+      "counterparty_name": "BMS",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "product_manufacturer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Deciphera for QINLOCK, Innoviva for XACDURO, and BMS for AUGTYRO",
+      "evidence_quotes": [
+        "Deciphera for QINLOCK, Innoviva for XACDURO, and BMS for AUGTYRO"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 10
+    },
+    {
+      "counterparty_name": "NMPA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the clinical data generated in our clinical trials may be deemed unreliable, and the NMPA and other applicable regulatory authorities may require us to perform additional clinical trials",
+      "evidence_quotes": [
+        "the clinical data generated in our clinical trials may be deemed unreliable, and the NMPA and other applicable regulatory authorities may require us to perform additional clinical trials"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 11
+    },
+    {
+      "counterparty_name": "U.S. Patent and Trademark Office",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our owned or in-licensed patents could be found invalid or unenforceable if challenged in court or before the U.S. Patent and Trademark Office or other foreign authority.",
+      "evidence_quotes": [
+        "Our owned or in-licensed patents could be found invalid or unenforceable if challenged in court or before the U.S. Patent and Trademark Office or other foreign authority."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 11
+    },
+    {
+      "counterparty_name": "Nasdaq",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "listing_venue",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "if we are unable to meet the requirements of Section 404 of the Sarbanes-Oxley Act, our ADSs may not be able to remain listed on Nasdaq.",
+      "evidence_quotes": [
+        "if we are unable to meet the requirements of Section 404 of the Sarbanes-Oxley Act, our ADSs may not be able to remain listed on Nasdaq."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 12
+    },
+    {
+      "counterparty_name": "Zai Lab (US) LLC",
+      "counterparty_type": "other",
+      "category": "supplier",
+      "subtype": "subsidiary",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Because the Company includes at least one U.S. subsidiary (Zai Lab (US) LLC), certain of our non-U.S. subsidiaries will be treated as CFCs",
+      "evidence_quotes": [
+        "Because the Company includes at least one U.S. subsidiary (Zai Lab (US) LLC), certain of our non-U.S. subsidiaries will be treated as CFCs"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 13
+    },
+    {
+      "counterparty_name": "The Depository Trust Company",
+      "counterparty_type": "private_company",
+      "category": "dependency",
+      "subtype": "securities_infrastructure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "issued by the depositary into The Depository Trust Company, or DTC, the fees will be charged by the DTC participant",
+      "evidence_quotes": [
+        "issued by the depositary into The Depository Trust Company, or DTC, the fees will be charged by the DTC participant"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 14
+    },
+    {
+      "counterparty_name": "Nasdaq",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "stock_exchange_listing",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "our ordinary shares on the Hong Kong Stock Exchange and our ADSs on Nasdaq may be adversely affected",
+      "evidence_quotes": [
+        "our ordinary shares on the Hong Kong Stock Exchange and our ADSs on Nasdaq may be adversely affected"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 14
+    },
+    {
+      "counterparty_name": "Hong Kong Stock Exchange",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "stock_exchange_listing",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "our ordinary shares on the Hong Kong Stock Exchange and our ADSs on Nasdaq may be adversely affected",
+      "evidence_quotes": [
+        "our ordinary shares on the Hong Kong Stock Exchange and our ADSs on Nasdaq may be adversely affected"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 14
+    }
+  ],
+  "candidatesPerChunk": [
+    19,
+    17,
+    4,
+    6,
+    9,
+    1,
+    6,
+    5,
+    3,
+    3,
+    5,
+    2,
+    1,
+    1,
+    3
+  ],
+  "parseErrors": 0,
+  "apiErrors": 0,
+  "inputTokens": 85015,
+  "outputTokens": 8678
+}

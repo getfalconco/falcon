@@ -1,0 +1,137 @@
+[
+  {
+    "counterparty_name": "Tengizchevroil",
+    "category": "partner",
+    "subtype": "equity_affiliate",
+    "evidence_quote": "Volumes represent Chevron's share of production by affiliates, including Tengizchevroil in Kazakhstan and Angola LNG in Angola.",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Angola LNG",
+    "category": "partner",
+    "subtype": "equity_affiliate",
+    "evidence_quote": "Volumes represent Chevron's share of production by affiliates, including Tengizchevroil in Kazakhstan and Angola LNG in Angola.",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Hess Midstream LP",
+    "category": "supplier",
+    "subtype": "midstream services",
+    "evidence_quote": "HESM provides fee-based services for Chevron and third-party customers in the Bakken.",
+    "confidence": 0.95,
+    "reason": "counterparty name not in quote",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Oldelval",
+    "category": "supplier",
+    "subtype": "pipeline infrastructure",
+    "evidence_quote": "Chevron has a 14 percent interest in the Oldelval pipeline system that provides an important export route for Argentina's crude oil.",
+    "confidence": 0.9,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Woodside",
+    "category": "partner",
+    "subtype": "asset_swap",
+    "evidence_quote": "the company agreed to an asset swap of its 16.7 percent interest in the NWS Project, NWS Oil Project and its 20 percent interest in Angel Carbon Capture and Storage Project with Woodside's 13 percent nonoperated interest",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "GS Caltex",
+    "category": "partner",
+    "subtype": "joint_venture",
+    "evidence_quote": "The 50 percent-owned GS Caltex (GSC) Yeosu Refinery in South Korea remains one of the world's largest refineries with a total crude capacity of 800,000 barrels per day.",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Star Petroleum Refining Public Company Limited",
+    "category": "partner",
+    "subtype": "joint_venture",
+    "evidence_quote": "The company's 60.6 percent-owned refinery in Thailand, Star Petroleum Refining Public Company Limited (SPRC), continues to supply high-quality petroleum products into regional markets.",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Caspian Pipeline Consortium",
+    "category": "partner",
+    "subtype": "joint_venture",
+    "evidence_quote": "Chevron has a 15 percent interest in CPC.",
+    "confidence": 0.95,
+    "reason": "counterparty name not in quote",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Phillips 66",
+    "category": "partner",
+    "subtype": "joint_venture",
+    "evidence_quote": "CPChem, the company's 50 percent-owned affiliate",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "GS Caltex",
+    "category": "partner",
+    "subtype": "joint_venture",
+    "evidence_quote": "GSC, the company's 50 percent-owned affiliate in South Korea",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Oil Spill Response, Ltd.",
+    "category": "supplier",
+    "subtype": "emergency_response",
+    "evidence_quote": "Chevron maintains active membership in international oil spill response cooperatives, including...Oil Spill Response, Ltd., which operates globally",
+    "confidence": 0.85,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "California Air Resources Board",
+    "category": "dependency",
+    "subtype": "regulatory_body",
+    "evidence_quote": "the company operates in jurisdictions with developing or existing programs, such as the Renewable Fuel Standard program in the U.S., California's Cap-and-Trade Program and Low Carbon Fuel Standard, and mandates such as the California Air Resources Board Advanced Clean Cars",
+    "confidence": 0.85,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Hess Corporation",
+    "category": "supplier",
+    "subtype": "asset_acquisition",
+    "evidence_quote": "The largest additions were from the acquisition of Hess Corporation (Hess) and extensions and discoveries in shale and tight assets in the Permian Basin",
+    "confidence": 0.95,
+    "reason": "Hess Corporation is not a supplier to Chevron. The evidence describes Chevron's acquisition of Hess Corporation in July 2025, making Hess a subsidiary of Chevron. The excerpt states 'Chevron acquired Guyana assets as part of the acquisition of Hess in July 2025' and 'The largest additions were from the acquisition of Hess Corporation (Hess)' referring to reserve additions. An acquired company becomes part of the ROOT company (a subsidiary), not an external counterparty. Per the instructions, subsidiaries must be rejected as counterparties. The relationship is an M&A transaction resulting in Hess becoming internal to Chevron, not a supplier providing goods/services.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Hess Midstream LP",
+    "category": "partner",
+    "subtype": "controlled_entity",
+    "evidence_quote": "One of our subsidiaries acts as the general partner of Hess Midstream, a publicly traded limited partnership",
+    "confidence": 0.9,
+    "reason": "Hess Midstream LP is not an external counterparty; it is a controlled entity where Chevron's subsidiary acts as the general partner. The evidence states 'One of our subsidiaries acts as the general partner of Hess Midstream, a publicly traded limited partnership,' which establishes a control relationship, not a partner relationship. Hess Midstream is effectively part of Chevron's consolidated structure (acquired through the Hess acquisition in 2025), making it an internal entity rather than an external counterparty. The 'partner' category is for joint development/distribution/licensing alliances with external parties, not for controlled subsidiaries or affiliated entities where Chevron exercises control through general partner status.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Organization of Petroleum Exporting Countries",
+    "category": "competitor",
+    "subtype": "producer_cartel",
+    "evidence_quote": "production quotas or other actions that might be imposed by the Organization of Petroleum Exporting Countries or other producers",
+    "confidence": 0.75,
+    "reason": "OPEC is not a counterparty to Chevron in any transactional or commercial sense. The evidence_quote describes OPEC as an external market force that could impose 'production quotas or other actions' affecting commodity prices—a systemic risk factor, not a competitive relationship. OPEC does not compete with Chevron for customers or market share; it is a regulatory/price-influencing cartel of sovereign states. The filing context is a risk-factor disclosure about price volatility drivers, not a description of competitive rivals. OPEC fails the counterparty test: no bilateral commercial, partnership, or competitive relationship exists.",
+    "stage": "audit"
+  }
+]

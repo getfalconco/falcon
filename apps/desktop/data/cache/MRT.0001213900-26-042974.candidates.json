@@ -1,0 +1,481 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 296616,
+  "chunks": 13,
+  "candidates": [
+    {
+      "counterparty_name": "Apple App Store",
+      "counterparty_type": "product",
+      "category": "dependency",
+      "subtype": "mobile_application_marketplace",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Substantially all of our revenue is generated through our mobile application, which is distributed primarily through the Apple App Store, Google Play Store, and Huawei AppGallery.",
+      "evidence_quotes": [
+        "Substantially all of our revenue is generated through our mobile application, which is distributed primarily through the Apple App Store, Google Play Store, and Huawei AppGallery."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Google Play Store",
+      "counterparty_type": "product",
+      "category": "dependency",
+      "subtype": "mobile_application_marketplace",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Substantially all of our revenue is generated through our mobile application, which is distributed primarily through the Apple App Store, Google Play Store, and Huawei AppGallery.",
+      "evidence_quotes": [
+        "Substantially all of our revenue is generated through our mobile application, which is distributed primarily through the Apple App Store, Google Play Store, and Huawei AppGallery."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Huawei AppGallery",
+      "counterparty_type": "product",
+      "category": "dependency",
+      "subtype": "mobile_application_marketplace",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Substantially all of our revenue is generated through our mobile application, which is distributed primarily through the Apple App Store, Google Play Store, and Huawei AppGallery.",
+      "evidence_quotes": [
+        "Substantially all of our revenue is generated through our mobile application, which is distributed primarily through the Apple App Store, Google Play Store, and Huawei AppGallery."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "local business partners",
+      "counterparty_type": "other",
+      "category": "partner",
+      "subtype": "manufacturing collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "achieve the design tolerances, high quality and output rates we have planned for expanding the production capacity in Türkiye through collaborations with local business partners.",
+      "evidence_quotes": [
+        "achieve the design tolerances, high quality and output rates we have planned for expanding the production capacity in Türkiye through collaborations with local business partners."
+      ],
+      "confidence": 0.75,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Iran",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "geopolitical_risk_factor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the military conflict involving Iran that commenced in February 2026 has disrupted global shipping routes, including through the Strait of Hormuz",
+      "evidence_quotes": [
+        "the military conflict involving Iran that commenced in February 2026 has disrupted global shipping routes, including through the Strait of Hormuz"
+      ],
+      "confidence": 0.75,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Android",
+      "counterparty_type": "product",
+      "category": "dependency",
+      "subtype": "mobile operating system infrastructure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We are dependent on the interoperability of the Marti App with popular mobile operating systems, networks, and standards that we do not control, such as the Android and iOS operating systems.",
+      "evidence_quotes": [
+        "We are dependent on the interoperability of the Marti App with popular mobile operating systems, networks, and standards that we do not control, such as the Android and iOS operating systems."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "iOS",
+      "counterparty_type": "product",
+      "category": "dependency",
+      "subtype": "mobile operating system infrastructure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We are dependent on the interoperability of the Marti App with popular mobile operating systems, networks, and standards that we do not control, such as the Android and iOS operating systems.",
+      "evidence_quotes": [
+        "We are dependent on the interoperability of the Marti App with popular mobile operating systems, networks, and standards that we do not control, such as the Android and iOS operating systems."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "U.S. Department of Defense",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "satellite_navigation_infrastructure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "These satellite systems and their ground infrastructure are complex electronic systems operated by the U.S. government and maintained by the U.S. Department of Defense.",
+      "evidence_quotes": [
+        "These satellite systems and their ground infrastructure are complex electronic systems operated by the U.S. government and maintained by the U.S. Department of Defense."
+      ],
+      "confidence": 0.92,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Ministry of Transportation and Infrastructure",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "licensing_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we are subject to a multi-tiered license process that requires us to procure a national license from the Ministry of Transportation and Infrastructure",
+      "evidence_quotes": [
+        "we are subject to a multi-tiered license process that requires us to procure a national license from the Ministry of Transportation and Infrastructure"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Ministry of Environment, Urbanization and Climate Change",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the Ministry of Transportation and Infrastructure, together with the Ministry of Environment, Urbanization and Climate Change and the Ministry of Interior, has adopted regulations requiring shared e-scooter operators to implement software-based geofencing",
+      "evidence_quotes": [
+        "the Ministry of Transportation and Infrastructure, together with the Ministry of Environment, Urbanization and Climate Change and the Ministry of Interior, has adopted regulations requiring shared e-scooter operators to implement software-based geofencing"
+      ],
+      "confidence": 0.93,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Ministry of Interior",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the Ministry of Transportation and Infrastructure, together with the Ministry of Environment, Urbanization and Climate Change and the Ministry of Interior, has adopted regulations requiring shared e-scooter operators to implement software-based geofencing",
+      "evidence_quotes": [
+        "the Ministry of Transportation and Infrastructure, together with the Ministry of Environment, Urbanization and Climate Change and the Ministry of Interior, has adopted regulations requiring shared e-scooter operators to implement software-based geofencing"
+      ],
+      "confidence": 0.93,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Istanbul Metropolitan Municipality",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The Istanbul Metropolitan Municipality has adopted regulations that include designated parking zones, speed limitations in certain areas, and recurring consumer education requirements.",
+      "evidence_quotes": [
+        "The Istanbul Metropolitan Municipality has adopted regulations that include designated parking zones, speed limitations in certain areas, and recurring consumer education requirements."
+      ],
+      "confidence": 0.94,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Istanbul Otomobilciler Esnaf Odası",
+      "counterparty_type": "other",
+      "category": "competitor",
+      "subtype": "trade association litigation",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Istanbul Otomobilciler Esnaf Odası, an association of taxi owners, filed a lawsuit against us before the Istanbul 14 th Commercial Court regarding our ride-hailing and e-moped services, claiming that these services create unfair competition.",
+      "evidence_quotes": [
+        "Istanbul Otomobilciler Esnaf Odası, an association of taxi owners, filed a lawsuit against us before the Istanbul 14 th Commercial Court regarding our ride-hailing and e-moped services, claiming that these services create unfair competition."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "Antalya Chamber of Drivers",
+      "counterparty_type": "other",
+      "category": "competitor",
+      "subtype": "trade association litigation",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Additionally, a lawsuit filed by the Antalya Chamber of Drivers was combined with the existing case, as both were related.",
+      "evidence_quotes": [
+        "Additionally, a lawsuit filed by the Antalya Chamber of Drivers was combined with the existing case, as both were related."
+      ],
+      "confidence": 0.8,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "Turkish Competition Authority",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory body",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we have previously been investigated, and may be investigated in the future, by the Turkish Competition Authority (the \"TCA\") to determine whether we hold a dominant position in the markets we serve",
+      "evidence_quotes": [
+        "we have previously been investigated, and may be investigated in the future, by the Turkish Competition Authority (the \"TCA\") to determine whether we hold a dominant position in the markets we serve"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "Central Bank of the Republic of Türkiye",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "monetary_policy_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the Central Bank of the Republic of Türkiye has implemented monetary tightening measures, including maintaining relatively high interest rates.",
+      "evidence_quotes": [
+        "the Central Bank of the Republic of Türkiye has implemented monetary tightening measures, including maintaining relatively high interest rates."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "U.S. Treasury Department's Office of Foreign Assets Control",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "sanctions_regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "economic and trade sanctions regulations (such as those administered by the U.S. Treasury Department's Office of Foreign Assets Control (\"OFAC\"))",
+      "evidence_quotes": [
+        "economic and trade sanctions regulations (such as those administered by the U.S. Treasury Department's Office of Foreign Assets Control (\"OFAC\"))"
+      ],
+      "confidence": 0.88,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "Turkish Revenue Administration",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "tax_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "If the Turkish Revenue Administration disagrees with our tax positions and we do not prevail, we could incur additional tax liabilities",
+      "evidence_quotes": [
+        "If the Turkish Revenue Administration disagrees with our tax positions and we do not prevail, we could incur additional tax liabilities"
+      ],
+      "confidence": 0.87,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "SEC",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The Exchange Act requires, among other things, that we file annual and current reports with respect to our business and operating results.",
+      "evidence_quotes": [
+        "The Exchange Act requires, among other things, that we file annual and current reports with respect to our business and operating results."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 7
+    },
+    {
+      "counterparty_name": "NYSE American",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "stock exchange listing venue",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We are subject to the reporting requirements of the Exchange Act, the Sarbanes-Oxley Act, the Dodd-Frank Wall Street Reform and Consumer Protection Act, the NYSE American listing requirements",
+      "evidence_quotes": [
+        "We are subject to the reporting requirements of the Exchange Act, the Sarbanes-Oxley Act, the Dodd-Frank Wall Street Reform and Consumer Protection Act, the NYSE American listing requirements"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 7
+    },
+    {
+      "counterparty_name": "Stuarts Corporate Services Ltd.",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "registered office services",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our registered office is Stuarts Corporate Services Ltd., P.O. Box 2510, Kensington House, 69 Dr Roy's Drive, George Town, Grand Cayman",
+      "evidence_quotes": [
+        "Our registered office is Stuarts Corporate Services Ltd., P.O. Box 2510, Kensington House, 69 Dr Roy's Drive, George Town, Grand Cayman"
+      ],
+      "confidence": 0.91,
+      "chunk_index": 7
+    },
+    {
+      "counterparty_name": "Cogency Global Inc.",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "service of process agent",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our agent for service of process in the United States is Cogency Global Inc., 122 East 42 nd Street, 18 th Floor New York, NY 10168.",
+      "evidence_quotes": [
+        "Our agent for service of process in the United States is Cogency Global Inc., 122 East 42 nd Street, 18 th Floor New York, NY 10168."
+      ],
+      "confidence": 0.92,
+      "chunk_index": 7
+    },
+    {
+      "counterparty_name": "McKinsey & Company",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "market research and consulting",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "According to McKinsey & Company's Turkish Consumer Mobility Market Assessment (2021), the size of the shared mobility market in Türkiye was estimated at $10-$15 billion",
+      "evidence_quotes": [
+        "According to McKinsey & Company's Turkish Consumer Mobility Market Assessment (2021), the size of the shared mobility market in Türkiye was estimated at $10-$15 billion"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 8
+    },
+    {
+      "counterparty_name": "Sensor Tower",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "market intelligence and analytics",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "As of December 31, 2025, we had 26% of the app downloads among the five largest ride-hailing and sharing, taxi-hailing and sharing, and two-wheeled electric vehicle operators in Türkiye according to Sensor Tower.",
+      "evidence_quotes": [
+        "As of December 31, 2025, we had 26% of the app downloads among the five largest ride-hailing and sharing, taxi-hailing and sharing, and two-wheeled electric vehicle operators in Türkiye according to Sensor Tower."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 8
+    },
+    {
+      "counterparty_name": "Ministry of Transportation and Infrastructure",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory licensing authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Operators first secure a national license from the Ministry of Transportation and Infrastructure, followed by city level licenses in each city where they would like to operate",
+      "evidence_quotes": [
+        "Operators first secure a national license from the Ministry of Transportation and Infrastructure, followed by city level licenses in each city where they would like to operate"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 8
+    },
+    {
+      "counterparty_name": "TSE-certified domestic manufacturers",
+      "counterparty_type": "other",
+      "category": "supplier",
+      "subtype": "fleet_supplier",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "operators are required to source at least 30% of their fleet from TSE-certified domestic manufacturers in Türkiye by July 2026",
+      "evidence_quotes": [
+        "operators are required to source at least 30% of their fleet from TSE-certified domestic manufacturers in Türkiye by July 2026"
+      ],
+      "confidence": 0.65,
+      "chunk_index": 9
+    },
+    {
+      "counterparty_name": "Istanbul Otomobilciler Esnaf Odası",
+      "counterparty_type": "other",
+      "category": "competitor",
+      "subtype": "legal_adversary",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the Istanbul Otomobilciler Esnaf Odası, an association of taxi owners, filed a lawsuit against us...regarding our ride-hailing and e-moped services, claiming that these services create unfair competition",
+      "evidence_quotes": [
+        "the Istanbul Otomobilciler Esnaf Odası, an association of taxi owners, filed a lawsuit against us...regarding our ride-hailing and e-moped services, claiming that these services create unfair competition"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 9
+    },
+    {
+      "counterparty_name": "Antalya Chamber of Drivers",
+      "counterparty_type": "other",
+      "category": "competitor",
+      "subtype": "plaintiff in unfair competition lawsuit",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Additionally, a lawsuit filed by the Antalya Chamber of Drivers was combined with the existing case, as both were related.",
+      "evidence_quotes": [
+        "Additionally, a lawsuit filed by the Antalya Chamber of Drivers was combined with the existing case, as both were related."
+      ],
+      "confidence": 0.75,
+      "chunk_index": 10
+    },
+    {
+      "counterparty_name": "municipalities",
+      "counterparty_type": "government",
+      "category": "supplier",
+      "subtype": "occupancy_fees",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our variable costs include the field operations team, the operations service vans and motorcycles, the fuel consumed by field operations service vans and motorcycles, the repair and maintenance team, spare parts, charging station rent, electricity costs, consumer service call center",
+      "evidence_quotes": [
+        "Our variable costs include the field operations team, the operations service vans and motorcycles, the fuel consumed by field operations service vans and motorcycles, the repair and maintenance team, spare parts, charging station rent, electricity costs, consumer service call center"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 11
+    },
+    {
+      "counterparty_name": "PFG",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "debt_financing",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In January 2021, Marti Delaware entered into that certain Loan and Security Agreement with PFG",
+      "evidence_quotes": [
+        "In January 2021, Marti Delaware entered into that certain Loan and Security Agreement with PFG"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 12
+    },
+    {
+      "counterparty_name": "U.S. Bank Trust Company, National Association",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "trustee_services",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "pursuant to an Indenture, dated July 10, 2023, between the Company and U.S. Bank Trust Company, National Association, as trustee",
+      "evidence_quotes": [
+        "pursuant to an Indenture, dated July 10, 2023, between the Company and U.S. Bank Trust Company, National Association, as trustee"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 12
+    },
+    {
+      "counterparty_name": "Callaway Capital Management LLC",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "debt_financing",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The Company and Callaway Capital Management LLC (\"Callaway\"), entered into a Commitment Letter, dated as of March 22, 2024",
+      "evidence_quotes": [
+        "The Company and Callaway Capital Management LLC (\"Callaway\"), entered into a Commitment Letter, dated as of March 22, 2024"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 12
+    },
+    {
+      "counterparty_name": "405 MSTV I, L.P.",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "debt_financing",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the Company and 405 MSTV I, L.P. (\"MSTV\"), as the subscribers party thereto further entered into a Convertible Notes Subscription Agreement",
+      "evidence_quotes": [
+        "the Company and 405 MSTV I, L.P. (\"MSTV\"), as the subscribers party thereto further entered into a Convertible Notes Subscription Agreement"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 12
+    },
+    {
+      "counterparty_name": "New Holland Tactical Alpha Fund LP",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "debt_financing",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the subscribers party thereto, MSTV and New Holland Tactical Alpha Fund LP (\"NHTAF\"), further entered into various Subscription Agreements",
+      "evidence_quotes": [
+        "the subscribers party thereto, MSTV and New Holland Tactical Alpha Fund LP (\"NHTAF\"), further entered into various Subscription Agreements"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 12
+    },
+    {
+      "counterparty_name": "Farragut Square Global Master Fund, LP",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "debt_financing",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Callaway and Farragut Square Global Master Fund, LP (\"Farragut\"), as the other subscribers party thereto, entered into a Note Subscription Agreement",
+      "evidence_quotes": [
+        "Callaway and Farragut Square Global Master Fund, LP (\"Farragut\"), as the other subscribers party thereto, entered into a Note Subscription Agreement"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 12
+    }
+  ],
+  "candidatesPerChunk": [
+    3,
+    1,
+    1,
+    2,
+    5,
+    3,
+    3,
+    4,
+    3,
+    2,
+    1,
+    1,
+    6
+  ],
+  "parseErrors": 0,
+  "apiErrors": 0,
+  "inputTokens": 76392,
+  "outputTokens": 4039
+}

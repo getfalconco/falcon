@@ -1,0 +1,13 @@
+{
+  "ticker": "FANG",
+  "companyName": "Diamondback Energy, Inc.",
+  "form": "10-K",
+  "filingDate": "2026-02-25",
+  "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1539838/000153983826000010/fang-20251231.htm",
+  "generatedAt": "2026-08-25T10:44:59.252Z",
+  "cacheKey": "FANG|0001539838-26-000010|5",
+  "accessionNumber": "0001539838-26-000010",
+  "validatedCount": 0,
+  "rejectedCount": 10,
+  "mergedCount": 0
+}

@@ -1,0 +1,249 @@
+[
+  {
+    "root_ticker": "MRT",
+    "counterparty_name": "Apple Inc.",
+    "counterparty_ticker": null,
+    "counterparty_type": "company",
+    "category": "supplier",
+    "subtype": "mobile_application_marketplace",
+    "strength": 1,
+    "strength_tier": "critical",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "Substantially all of our revenue is generated through our mobile application, which is distributed primarily through the Apple App Store, Google Play Store, and Huawei AppGallery.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1852767/000121390026042974/ea0284871-20f_marti.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-04-13",
+    "shared_evidence_group": "ev_97cea5d3c24d"
+  },
+  {
+    "root_ticker": "MRT",
+    "counterparty_name": "Google Play Store",
+    "counterparty_ticker": null,
+    "counterparty_type": "platform",
+    "category": "supplier",
+    "subtype": "mobile_application_marketplace",
+    "strength": 1,
+    "strength_tier": "critical",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "Substantially all of our revenue is generated through our mobile application, which is distributed primarily through the Apple App Store, Google Play Store, and Huawei AppGallery.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1852767/000121390026042974/ea0284871-20f_marti.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-04-13",
+    "shared_evidence_group": "ev_97cea5d3c24d"
+  },
+  {
+    "root_ticker": "MRT",
+    "counterparty_name": "Huawei AppGallery",
+    "counterparty_ticker": null,
+    "counterparty_type": "company",
+    "category": "supplier",
+    "subtype": "mobile_application_marketplace",
+    "strength": 1,
+    "strength_tier": "critical",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.88,
+    "evidence": [
+      {
+        "quote": "Substantially all of our revenue is generated through our mobile application, which is distributed primarily through the Apple App Store, Google Play Store, and Huawei AppGallery.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1852767/000121390026042974/ea0284871-20f_marti.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-04-13",
+    "shared_evidence_group": "ev_97cea5d3c24d"
+  },
+  {
+    "root_ticker": "MRT",
+    "counterparty_name": "Apple Inc.",
+    "counterparty_ticker": null,
+    "counterparty_type": "company",
+    "category": "dependency",
+    "subtype": "mobile operating system infrastructure",
+    "strength": 1,
+    "strength_tier": "critical",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.88,
+    "evidence": [
+      {
+        "quote": "We are dependent on the interoperability of the Marti App with popular mobile operating systems, networks, and standards that we do not control, such as the Android and iOS operating systems.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1852767/000121390026042974/ea0284871-20f_marti.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-04-13",
+    "shared_evidence_group": "ev_d550dd5c602e"
+  },
+  {
+    "root_ticker": "MRT",
+    "counterparty_name": "U.S. Department of Defense",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "dependency",
+    "subtype": "satellite_navigation_infrastructure",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "These satellite systems and their ground infrastructure are complex electronic systems operated by the U.S. government and maintained by the U.S. Department of Defense.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1852767/000121390026042974/ea0284871-20f_marti.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-04-13",
+    "shared_evidence_group": "ev_16578fdfab76"
+  },
+  {
+    "root_ticker": "MRT",
+    "counterparty_name": "Ministry of Transportation and Infrastructure",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "dependency",
+    "subtype": "licensing_authority",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "we are subject to a multi-tiered license process that requires us to procure a national license from the Ministry of Transportation and Infrastructure",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1852767/000121390026042974/ea0284871-20f_marti.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "Operators first secure a national license from the Ministry of Transportation and Infrastructure, followed by city level licenses in each city where they would like to operate",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1852767/000121390026042974/ea0284871-20f_marti.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-04-13",
+    "shared_evidence_group": "ev_6a06f4eae30a"
+  },
+  {
+    "root_ticker": "MRT",
+    "counterparty_name": "Central Bank of the Republic of Türkiye",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "dependency",
+    "subtype": "monetary_policy_authority",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.88,
+    "evidence": [
+      {
+        "quote": "the Central Bank of the Republic of Türkiye has implemented monetary tightening measures, including maintaining relatively high interest rates.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1852767/000121390026042974/ea0284871-20f_marti.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-04-13",
+    "shared_evidence_group": "ev_c675284729c1"
+  },
+  {
+    "root_ticker": "MRT",
+    "counterparty_name": "Cogency Global Inc.",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "supplier",
+    "subtype": "service of process agent",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Our agent for service of process in the United States is Cogency Global Inc., 122 East 42 nd Street, 18 th Floor New York, NY 10168.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1852767/000121390026042974/ea0284871-20f_marti.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-04-13",
+    "shared_evidence_group": "ev_599dae3c9f74"
+  },
+  {
+    "root_ticker": "MRT",
+    "counterparty_name": "Sensor Tower",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "supplier",
+    "subtype": "market intelligence and analytics",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "As of December 31, 2025, we had 26% of the app downloads among the five largest ride-hailing and sharing, taxi-hailing and sharing, and two-wheeled electric vehicle operators in Türkiye according to Sensor Tower.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1852767/000121390026042974/ea0284871-20f_marti.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-04-13",
+    "shared_evidence_group": "ev_baa946c2c9c3"
+  },
+  {
+    "root_ticker": "MRT",
+    "counterparty_name": "PFG",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "supplier",
+    "subtype": "debt_financing",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "In January 2021, Marti Delaware entered into that certain Loan and Security Agreement with PFG",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1852767/000121390026042974/ea0284871-20f_marti.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-04-13",
+    "shared_evidence_group": "ev_5a11c21fb514"
+  },
+  {
+    "root_ticker": "MRT",
+    "counterparty_name": "U.S. Bank Trust Company, National Association",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "supplier",
+    "subtype": "trustee_services",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "pursuant to an Indenture, dated July 10, 2023, between the Company and U.S. Bank Trust Company, National Association, as trustee",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1852767/000121390026042974/ea0284871-20f_marti.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-04-13",
+    "shared_evidence_group": "ev_6214cb476560"
+  }
+]

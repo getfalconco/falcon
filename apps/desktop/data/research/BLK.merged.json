@@ -1,0 +1,122 @@
+[
+  {
+    "counterparty_name": "Viridium",
+    "category": "partner",
+    "subtype": "minority_investment",
+    "evidence_quote": "BlackRock has made minority investments in financial technology and digital distribution providers, data and whole portfolio capabilities including Viridium, Generation Life, Securitize, Upvest, Avaloq, Human Interest, Circle, Clarity AI, Envestnet, Acorns, Scalable Capital and iCapital.",
+    "confidence": 0.8,
+    "merged_into": "Viridium"
+  },
+  {
+    "counterparty_name": "Generation Life",
+    "category": "partner",
+    "subtype": "minority_investment",
+    "evidence_quote": "BlackRock has made minority investments in financial technology and digital distribution providers, data and whole portfolio capabilities including Viridium, Generation Life, Securitize, Upvest, Avaloq, Human Interest, Circle, Clarity AI, Envestnet, Acorns, Scalable Capital and iCapital.",
+    "confidence": 0.8,
+    "merged_into": "Generation Life"
+  },
+  {
+    "counterparty_name": "Securitize",
+    "category": "partner",
+    "subtype": "minority_investment",
+    "evidence_quote": "BlackRock has made minority investments in financial technology and digital distribution providers, data and whole portfolio capabilities including Viridium, Generation Life, Securitize, Upvest, Avaloq, Human Interest, Circle, Clarity AI, Envestnet, Acorns, Scalable Capital and iCapital.",
+    "confidence": 0.8,
+    "merged_into": "Securitize"
+  },
+  {
+    "counterparty_name": "Upvest",
+    "category": "partner",
+    "subtype": "minority_investment",
+    "evidence_quote": "BlackRock has made minority investments in financial technology and digital distribution providers, data and whole portfolio capabilities including Viridium, Generation Life, Securitize, Upvest, Avaloq, Human Interest, Circle, Clarity AI, Envestnet, Acorns, Scalable Capital and iCapital.",
+    "confidence": 0.8,
+    "merged_into": "Upvest"
+  },
+  {
+    "counterparty_name": "Avaloq",
+    "category": "partner",
+    "subtype": "minority_investment",
+    "evidence_quote": "BlackRock has made minority investments in financial technology and digital distribution providers, data and whole portfolio capabilities including Viridium, Generation Life, Securitize, Upvest, Avaloq, Human Interest, Circle, Clarity AI, Envestnet, Acorns, Scalable Capital and iCapital.",
+    "confidence": 0.8,
+    "merged_into": "Avaloq"
+  },
+  {
+    "counterparty_name": "Human Interest",
+    "category": "partner",
+    "subtype": "minority_investment",
+    "evidence_quote": "BlackRock has made minority investments in financial technology and digital distribution providers, data and whole portfolio capabilities including Viridium, Generation Life, Securitize, Upvest, Avaloq, Human Interest, Circle, Clarity AI, Envestnet, Acorns, Scalable Capital and iCapital.",
+    "confidence": 0.8,
+    "merged_into": "Human Interest"
+  },
+  {
+    "counterparty_name": "Circle",
+    "category": "partner",
+    "subtype": "minority_investment",
+    "evidence_quote": "BlackRock has made minority investments in financial technology and digital distribution providers, data and whole portfolio capabilities including Viridium, Generation Life, Securitize, Upvest, Avaloq, Human Interest, Circle, Clarity AI, Envestnet, Acorns, Scalable Capital and iCapital.",
+    "confidence": 0.8,
+    "merged_into": "Circle"
+  },
+  {
+    "counterparty_name": "Clarity AI",
+    "category": "partner",
+    "subtype": "minority_investment",
+    "evidence_quote": "BlackRock has made minority investments in financial technology and digital distribution providers, data and whole portfolio capabilities including Viridium, Generation Life, Securitize, Upvest, Avaloq, Human Interest, Circle, Clarity AI, Envestnet, Acorns, Scalable Capital and iCapital.",
+    "confidence": 0.8,
+    "merged_into": "Clarity AI"
+  },
+  {
+    "counterparty_name": "Envestnet",
+    "category": "partner",
+    "subtype": "minority_investment",
+    "evidence_quote": "BlackRock has made minority investments in financial technology and digital distribution providers, data and whole portfolio capabilities including Viridium, Generation Life, Securitize, Upvest, Avaloq, Human Interest, Circle, Clarity AI, Envestnet, Acorns, Scalable Capital and iCapital.",
+    "confidence": 0.8,
+    "merged_into": "Envestnet"
+  },
+  {
+    "counterparty_name": "Acorns",
+    "category": "partner",
+    "subtype": "minority_investment",
+    "evidence_quote": "BlackRock has made minority investments in financial technology and digital distribution providers, data and whole portfolio capabilities including Viridium, Generation Life, Securitize, Upvest, Avaloq, Human Interest, Circle, Clarity AI, Envestnet, Acorns, Scalable Capital and iCapital.",
+    "confidence": 0.8,
+    "merged_into": "Acorns"
+  },
+  {
+    "counterparty_name": "Scalable Capital",
+    "category": "partner",
+    "subtype": "minority_investment",
+    "evidence_quote": "BlackRock has made minority investments in financial technology and digital distribution providers, data and whole portfolio capabilities including Viridium, Generation Life, Securitize, Upvest, Avaloq, Human Interest, Circle, Clarity AI, Envestnet, Acorns, Scalable Capital and iCapital.",
+    "confidence": 0.8,
+    "merged_into": "Scalable Capital"
+  },
+  {
+    "counterparty_name": "iCapital",
+    "category": "partner",
+    "subtype": "minority_investment",
+    "evidence_quote": "BlackRock has made minority investments in financial technology and digital distribution providers, data and whole portfolio capabilities including Viridium, Generation Life, Securitize, Upvest, Avaloq, Human Interest, Circle, Clarity AI, Envestnet, Acorns, Scalable Capital and iCapital.",
+    "confidence": 0.8,
+    "merged_into": "iCapital"
+  },
+  {
+    "counterparty_name": "GIP",
+    "category": "supplier",
+    "subtype": "acquisition_target",
+    "evidence_quote": "BlackRock is subject to risks associated with its recent acquisitions, including the GIP and HPS Acquisitions.",
+    "confidence": 0.85,
+    "merged_into": "GIP"
+  },
+  {
+    "counterparty_name": "HPS",
+    "category": "supplier",
+    "subtype": "acquisition_target",
+    "evidence_quote": "BlackRock is subject to risks associated with its recent acquisitions, including the GIP and HPS Acquisitions.",
+    "confidence": 0.85,
+    "merged_into": "HPS"
+  },
+  {
+    "counterparty_name": "Federal Reserve",
+    "category": "dependency",
+    "subtype": "regulatory_body",
+    "evidence_quote": "If BlackRock is designated as a SIFI, it could become subject to enhanced regulatory and capital requirements and direct supervision by the Federal Reserve.",
+    "confidence": 0.9,
+    "merged_into": "Federal Reserve"
+  }
+]

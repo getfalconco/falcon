@@ -1,0 +1,26 @@
+[
+  {
+    "counterparty_name": "Bombardier",
+    "category": "customer",
+    "subtype": "commercial aviation customer",
+    "evidence_quote": "Aerospace Technologies' sales and segment profit for 2024 decreased by approximately $370 million due to the Bombardier Agreement.",
+    "confidence": 0.85,
+    "merged_into": "Bombardier"
+  },
+  {
+    "counterparty_name": "Johnson Matthey",
+    "category": "supplier",
+    "subtype": "acquisition_target",
+    "evidence_quote": "In the second quarter of 2025, we acquired Sundyne for total consideration of $2.2 billion, net of cash acquired, as well as announced our agreement to acquire Johnson Matthey's Catalyst Technologies business segment for £1.8 billion.",
+    "confidence": 0.92,
+    "merged_into": "Johnson Matthey"
+  },
+  {
+    "counterparty_name": "Sundyne",
+    "category": "supplier",
+    "subtype": "acquisition",
+    "evidence_quote": "Sales increased $490 million due to inorganic sales growth from the acquisitions of LNG and Sundyne.",
+    "confidence": 0.9,
+    "merged_into": "Sundyne"
+  }
+]

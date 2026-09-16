@@ -1,0 +1,653 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 355542,
+  "chunks": 16,
+  "candidates": [
+    {
+      "counterparty_name": "Merck",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "oncology clinical collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We are advancing intismeran in collaboration with Merck, with eight Phase 2 and Phase 3 clinical trials underway across multiple tumor types.",
+      "evidence_quotes": [
+        "We are advancing intismeran in collaboration with Merck, with eight Phase 2 and Phase 3 clinical trials underway across multiple tumor types."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Recordati",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "clinical development and commercialization collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we entered into a strategic collaboration with Recordati, an international pharmaceutical group, to advance mRNA-3927 through the final stages of clinical development",
+      "evidence_quotes": [
+        "we entered into a strategic collaboration with Recordati, an international pharmaceutical group, to advance mRNA-3927 through the final stages of clinical development"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Blackstone Life Sciences",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "project financing collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "funded by project financing through Blackstone Life Sciences, a collaboration we announced in 2024",
+      "evidence_quotes": [
+        "funded by project financing through Blackstone Life Sciences, a collaboration we announced in 2024"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "CEPI",
+      "counterparty_type": "other",
+      "category": "partner",
+      "subtype": "clinical trial funding collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the Coalition for Epidemic Preparedness Innovations (CEPI) will invest up to $54.3 million to support a pivotal Phase 3 clinical trial",
+      "evidence_quotes": [
+        "the Coalition for Epidemic Preparedness Innovations (CEPI) will invest up to $54.3 million to support a pivotal Phase 3 clinical trial"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Gates Foundation",
+      "counterparty_type": "other",
+      "category": "partner",
+      "subtype": "vaccine R&D collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In collaboration with the Gates Foundation, International AIDS Vaccine Initiative (IAVI), The Scripps Research Institute and the National Institutes of Health (NIH), Phase 1 studies of previous versions of our HIV vaccine have been completed",
+      "evidence_quotes": [
+        "In collaboration with the Gates Foundation, International AIDS Vaccine Initiative (IAVI), The Scripps Research Institute and the National Institutes of Health (NIH), Phase 1 studies of previous versions of our HIV vaccine have been completed"
+      ],
+      "confidence": 0.8,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "IAVI",
+      "counterparty_type": "other",
+      "category": "partner",
+      "subtype": "vaccine R&D collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In collaboration with the Gates Foundation, International AIDS Vaccine Initiative (IAVI), The Scripps Research Institute and the National Institutes of Health (NIH), Phase 1 studies of previous versions of our HIV vaccine have been completed",
+      "evidence_quotes": [
+        "In collaboration with the Gates Foundation, International AIDS Vaccine Initiative (IAVI), The Scripps Research Institute and the National Institutes of Health (NIH), Phase 1 studies of previous versions of our HIV vaccine have been completed"
+      ],
+      "confidence": 0.8,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "The Scripps Research Institute",
+      "counterparty_type": "other",
+      "category": "partner",
+      "subtype": "vaccine R&D collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In collaboration with the Gates Foundation, International AIDS Vaccine Initiative (IAVI), The Scripps Research Institute and the National Institutes of Health (NIH), Phase 1 studies of previous versions of our HIV vaccine have been completed",
+      "evidence_quotes": [
+        "In collaboration with the Gates Foundation, International AIDS Vaccine Initiative (IAVI), The Scripps Research Institute and the National Institutes of Health (NIH), Phase 1 studies of previous versions of our HIV vaccine have been completed"
+      ],
+      "confidence": 0.8,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "National Institutes of Health (NIH)",
+      "counterparty_type": "government",
+      "category": "partner",
+      "subtype": "vaccine R&D collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In collaboration with the Gates Foundation, International AIDS Vaccine Initiative (IAVI), The Scripps Research Institute and the National Institutes of Health (NIH), Phase 1 studies of previous versions of our HIV vaccine have been completed",
+      "evidence_quotes": [
+        "In collaboration with the Gates Foundation, International AIDS Vaccine Initiative (IAVI), The Scripps Research Institute and the National Institutes of Health (NIH), Phase 1 studies of previous versions of our HIV vaccine have been completed"
+      ],
+      "confidence": 0.8,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Merck",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "oncology collaboration - joint development and commercialization",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We are developing mRNA-4157 in collaboration with Merck.",
+      "evidence_quotes": [
+        "We are developing mRNA-4157 in collaboration with Merck."
+      ],
+      "confidence": 0.97,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Merck",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "cost and profit sharing agreement",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we and Merck will collaborate on further development and commercialization of mRNA-4157, and we will share costs and any profits and losses worldwide related to mRNA-4157 equally",
+      "evidence_quotes": [
+        "we and Merck will collaborate on further development and commercialization of mRNA-4157, and we will share costs and any profits and losses worldwide related to mRNA-4157 equally"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Immatics",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "cell therapy enhancer collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "mRNA-4203 is being developed in collaboration with Immatics",
+      "evidence_quotes": [
+        "mRNA-4203 is being developed in collaboration with Immatics"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "NIH-Vaccine Research Center",
+      "counterparty_type": "government",
+      "category": "partner",
+      "subtype": "clinical trial collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In collaboration with the NIH-Vaccine Research Center (VRC), we conducted a Phase 1 clinical trial of mRNA-1215, our vaccine candidate against NiV",
+      "evidence_quotes": [
+        "In collaboration with the NIH-Vaccine Research Center (VRC), we conducted a Phase 1 clinical trial of mRNA-1215, our vaccine candidate against NiV"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "NIAID",
+      "counterparty_type": "government",
+      "category": "partner",
+      "subtype": "trial sponsorship and funding",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The trial was sponsored and funded by the National Institute of Allergy and Infectious Diseases (NIAID).",
+      "evidence_quotes": [
+        "The trial was sponsored and funded by the National Institute of Allergy and Infectious Diseases (NIAID)."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Vertex",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "cystic fibrosis therapy collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We are collaborating with Vertex on our CF candidate, mRNA-3692/VX-522, which is designed to treat the underlying cause of CF",
+      "evidence_quotes": [
+        "We are collaborating with Vertex on our CF candidate, mRNA-3692/VX-522, which is designed to treat the underlying cause of CF"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "OpenAI",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "AI co-innovation collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In early 2023, we began a collaboration with OpenAI to co-innovate with a shared vision of AI's transformative potential in the future of business and healthcare.",
+      "evidence_quotes": [
+        "In early 2023, we began a collaboration with OpenAI to co-innovate with a shared vision of AI's transformative potential in the future of business and healthcare."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Merck",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "collaboration and license agreement for personalized mRNA cancer vaccine",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Representative relationships and associated programs include those with Merck, for our intismeran programs (mRNA-4157), and Vertex, for our CF program (mRNA-3692).",
+      "evidence_quotes": [
+        "Representative relationships and associated programs include those with Merck, for our intismeran programs (mRNA-4157), and Vertex, for our CF program (mRNA-3692)."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Vertex",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "strategic collaboration and license agreement for cystic fibrosis program",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Representative relationships and associated programs include those with Merck, for our intismeran programs (mRNA-4157), and Vertex, for our CF program (mRNA-3692).",
+      "evidence_quotes": [
+        "Representative relationships and associated programs include those with Merck, for our intismeran programs (mRNA-4157), and Vertex, for our CF program (mRNA-3692)."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Immatics",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "cancer therapeutics collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "our collaboration with Immatics N.V. to pioneer novel and transformative therapies for cancer patients with high unmet medical need",
+      "evidence_quotes": [
+        "our collaboration with Immatics N.V. to pioneer novel and transformative therapies for cancer patients with high unmet medical need"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Recordati",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "clinical development and commercialization collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "in January 2026, we entered into a collaboration with Recordati, an international pharmaceutical group, to advance our investigational PA therapeutic (mRNA-3927) through the final stages of clinical development",
+      "evidence_quotes": [
+        "in January 2026, we entered into a collaboration with Recordati, an international pharmaceutical group, to advance our investigational PA therapeutic (mRNA-3927) through the final stages of clinical development"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "BARDA",
+      "counterparty_type": "government",
+      "category": "partner",
+      "subtype": "government development funding award",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In April 2020, we entered into an agreement with BARDA for an award of up to $483 million to accelerate development of mRNA-1273, our original COVID vaccine.",
+      "evidence_quotes": [
+        "In April 2020, we entered into an agreement with BARDA for an award of up to $483 million to accelerate development of mRNA-1273, our original COVID vaccine."
+      ],
+      "confidence": 0.92,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "CEPI",
+      "counterparty_type": "other",
+      "category": "partner",
+      "subtype": "clinical trial funding collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In December 2025, CEPI agreed to invest up to $54.3 million to support a pivotal Phase 3 clinical trial that aims to help advance our investigational mRNA-based H5 pandemic influenza vaccine candidate, mRNA-1018, to licensure.",
+      "evidence_quotes": [
+        "In December 2025, CEPI agreed to invest up to $54.3 million to support a pivotal Phase 3 clinical trial that aims to help advance our investigational mRNA-based H5 pandemic influenza vaccine candidate, mRNA-1018, to licensure."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "ILCM",
+      "counterparty_type": "other",
+      "category": "partner",
+      "subtype": "therapeutic development and license collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In September 2021, we entered into a collaboration agreement with the ILCM to develop a new mRNA therapeutic (mRNA-3351) for type 1 Crigler-Najjar syndrome (CN-1).",
+      "evidence_quotes": [
+        "In September 2021, we entered into a collaboration agreement with the ILCM to develop a new mRNA therapeutic (mRNA-3351) for type 1 Crigler-Najjar syndrome (CN-1)."
+      ],
+      "confidence": 0.92,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Gates Foundation",
+      "counterparty_type": "other",
+      "category": "partner",
+      "subtype": "global health project funding framework agreement",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In January 2016, we entered a global health project framework agreement with the Bill & Melinda Gates Foundation (n/k/a the Gates Foundation) to advance mRNA development projects for various infectious diseases.",
+      "evidence_quotes": [
+        "In January 2016, we entered a global health project framework agreement with the Bill & Melinda Gates Foundation (n/k/a the Gates Foundation) to advance mRNA development projects for various infectious diseases."
+      ],
+      "confidence": 0.92,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "United Kingdom",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "government purchase commitment for mRNA products",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "in the United Kingdom, Canada and Australia. The se facilities were fully licensed in 2025, and the government in each of these countries has entered into a multi-year commitment to purchase mRNA products from us.",
+      "evidence_quotes": [
+        "in the United Kingdom, Canada and Australia. The se facilities were fully licensed in 2025, and the government in each of these countries has entered into a multi-year commitment to purchase mRNA products from us."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Canada",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "government purchase commitment for mRNA products",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "in the United Kingdom, Canada and Australia. The se facilities were fully licensed in 2025, and the government in each of these countries has entered into a multi-year commitment to purchase mRNA products from us.",
+      "evidence_quotes": [
+        "in the United Kingdom, Canada and Australia. The se facilities were fully licensed in 2025, and the government in each of these countries has entered into a multi-year commitment to purchase mRNA products from us."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Australia",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "government purchase commitment for mRNA products",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "in the United Kingdom, Canada and Australia. The se facilities were fully licensed in 2025, and the government in each of these countries has entered into a multi-year commitment to purchase mRNA products from us.",
+      "evidence_quotes": [
+        "in the United Kingdom, Canada and Australia. The se facilities were fully licensed in 2025, and the government in each of these countries has entered into a multi-year commitment to purchase mRNA products from us."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "ILCM",
+      "counterparty_type": "other",
+      "category": "partner",
+      "subtype": "collaboration/licensing agreement",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In September 2021, we entered into a collaboration agreement with the ILCM to develop a new mRNA therapeutic (mRNA-3351) for type 1 Crigler-Najjar syndrome (CN-1).",
+      "evidence_quotes": [
+        "In September 2021, we entered into a collaboration agreement with the ILCM to develop a new mRNA therapeutic (mRNA-3351) for type 1 Crigler-Najjar syndrome (CN-1)."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Gates Foundation",
+      "counterparty_type": "other",
+      "category": "partner",
+      "subtype": "global health collaboration/funding agreement",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we entered a global health project framework agreement with the Bill & Melinda Gates Foundation (n/k/a the Gates Foundation) to advance mRNA development projects for various infectious diseases",
+      "evidence_quotes": [
+        "we entered a global health project framework agreement with the Bill & Melinda Gates Foundation (n/k/a the Gates Foundation) to advance mRNA development projects for various infectious diseases"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Cellscript",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "patent sublicense agreement (royalty-bearing)",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "granted its affiliate, Cellscript, LLC (Cellscript), a sublicense to the Penn Modified mRNA Patents in certain fields of use",
+      "evidence_quotes": [
+        "granted its affiliate, Cellscript, LLC (Cellscript), a sublicense to the Penn Modified mRNA Patents in certain fields of use"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "MRT",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "patent sublicense agreement (royalty-bearing)",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "mRNA RiboTherapeutics, Inc. (MRT) obtained an exclusive license to the Penn Modified mRNA Patents and granted its affiliate, Cellscript, LLC (Cellscript), a sublicense",
+      "evidence_quotes": [
+        "mRNA RiboTherapeutics, Inc. (MRT) obtained an exclusive license to the Penn Modified mRNA Patents and granted its affiliate, Cellscript, LLC (Cellscript), a sublicense"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "NIAID",
+      "counterparty_type": "government",
+      "category": "supplier",
+      "subtype": "patent license agreement (royalty-bearing)",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we entered into a non-exclusive patent license agreement with the National Institute of Allergy and Infectious Diseases (NIAID), an Institute or Center of the National Institutes of Health (NIH)",
+      "evidence_quotes": [
+        "we entered into a non-exclusive patent license agreement with the National Institute of Allergy and Infectious Diseases (NIAID), an Institute or Center of the National Institutes of Health (NIH)"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Pfizer",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "COVID vaccine competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We largely compete against Pfizer and BioNTech for sales of our COVID vaccines, whose vaccine is also based on mRNA technology.",
+      "evidence_quotes": [
+        "We largely compete against Pfizer and BioNTech for sales of our COVID vaccines, whose vaccine is also based on mRNA technology."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "BioNTech",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "COVID vaccine competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We largely compete against Pfizer and BioNTech for sales of our COVID vaccines, whose vaccine is also based on mRNA technology.",
+      "evidence_quotes": [
+        "We largely compete against Pfizer and BioNTech for sales of our COVID vaccines, whose vaccine is also based on mRNA technology."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "Sanofi",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "vaccine competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We also compete against other vaccines, including Sanofi and Novavax's.",
+      "evidence_quotes": [
+        "We also compete against other vaccines, including Sanofi and Novavax's."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "Novavax",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "vaccine competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We also compete against other vaccines, including Sanofi and Novavax's.",
+      "evidence_quotes": [
+        "We also compete against other vaccines, including Sanofi and Novavax's."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "GlaxoSmithKline",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "RSV vaccine competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we compete against Pfizer and GlaxoSmithKline, who entered the U.S. market prior to us",
+      "evidence_quotes": [
+        "we compete against Pfizer and GlaxoSmithKline, who entered the U.S. market prior to us"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "Pfizer",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "COVID vaccine competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we compete with larger, well-established and experienced pharmaceutical companies for sales of our products, including against Pfizer and Sanofi for sales of our COVID vaccines",
+      "evidence_quotes": [
+        "we compete with larger, well-established and experienced pharmaceutical companies for sales of our products, including against Pfizer and Sanofi for sales of our COVID vaccines"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 7
+    },
+    {
+      "counterparty_name": "Sanofi",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "COVID vaccine competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we compete with larger, well-established and experienced pharmaceutical companies for sales of our products, including against Pfizer and Sanofi for sales of our COVID vaccines",
+      "evidence_quotes": [
+        "we compete with larger, well-established and experienced pharmaceutical companies for sales of our products, including against Pfizer and Sanofi for sales of our COVID vaccines"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 7
+    },
+    {
+      "counterparty_name": "Pfizer",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "RSV vaccine competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "and Pfizer and GSK for our RSV vaccine",
+      "evidence_quotes": [
+        "and Pfizer and GSK for our RSV vaccine"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 7
+    },
+    {
+      "counterparty_name": "GSK",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "RSV vaccine competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "and Pfizer and GSK for our RSV vaccine",
+      "evidence_quotes": [
+        "and Pfizer and GSK for our RSV vaccine"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 7
+    },
+    {
+      "counterparty_name": "BARDA",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "government-funded research and development contract",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "our agreements funded by BARDA and DARPA and our collaboration with NIAID, and with foreign governments and agencies, including in the United Kingdom, Canada and Australia",
+      "evidence_quotes": [
+        "our agreements funded by BARDA and DARPA and our collaboration with NIAID, and with foreign governments and agencies, including in the United Kingdom, Canada and Australia"
+      ],
+      "confidence": 0.75,
+      "chunk_index": 11
+    },
+    {
+      "counterparty_name": "DARPA",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "government-funded research and development contract",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "our agreements funded by BARDA and DARPA and our collaboration with NIAID, and with foreign governments and agencies, including in the United Kingdom, Canada and Australia",
+      "evidence_quotes": [
+        "our agreements funded by BARDA and DARPA and our collaboration with NIAID, and with foreign governments and agencies, including in the United Kingdom, Canada and Australia"
+      ],
+      "confidence": 0.75,
+      "chunk_index": 11
+    },
+    {
+      "counterparty_name": "NIAID",
+      "counterparty_type": "government",
+      "category": "partner",
+      "subtype": "research collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "our agreements funded by BARDA and DARPA and our collaboration with NIAID, and with foreign governments and agencies, including in the United Kingdom, Canada and Australia",
+      "evidence_quotes": [
+        "our agreements funded by BARDA and DARPA and our collaboration with NIAID, and with foreign governments and agencies, including in the United Kingdom, Canada and Australia"
+      ],
+      "confidence": 0.8,
+      "chunk_index": 11
+    },
+    {
+      "counterparty_name": "United Kingdom",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "foreign government funding agreement",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "our agreements funded by BARDA and DARPA and our collaboration with NIAID, and with foreign governments and agencies, including in the United Kingdom, Canada and Australia",
+      "evidence_quotes": [
+        "our agreements funded by BARDA and DARPA and our collaboration with NIAID, and with foreign governments and agencies, including in the United Kingdom, Canada and Australia"
+      ],
+      "confidence": 0.65,
+      "chunk_index": 11
+    },
+    {
+      "counterparty_name": "Canada",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "foreign government funding agreement",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "our agreements funded by BARDA and DARPA and our collaboration with NIAID, and with foreign governments and agencies, including in the United Kingdom, Canada and Australia",
+      "evidence_quotes": [
+        "our agreements funded by BARDA and DARPA and our collaboration with NIAID, and with foreign governments and agencies, including in the United Kingdom, Canada and Australia"
+      ],
+      "confidence": 0.65,
+      "chunk_index": 11
+    },
+    {
+      "counterparty_name": "Australia",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "foreign government funding agreement",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "our agreements funded by BARDA and DARPA and our collaboration with NIAID, and with foreign governments and agencies, including in the United Kingdom, Canada and Australia",
+      "evidence_quotes": [
+        "our agreements funded by BARDA and DARPA and our collaboration with NIAID, and with foreign governments and agencies, including in the United Kingdom, Canada and Australia"
+      ],
+      "confidence": 0.65,
+      "chunk_index": 11
+    },
+    {
+      "counterparty_name": "Gavi",
+      "counterparty_type": "other",
+      "category": "partner",
+      "subtype": "patent non-enforcement commitment for global vaccine access",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we will not enforce our patents for COVID vaccines against companies manufacturing in or for the Gavi COVAX Advance Market Commitment (AMC) countries",
+      "evidence_quotes": [
+        "we will not enforce our patents for COVID vaccines against companies manufacturing in or for the Gavi COVAX Advance Market Commitment (AMC) countries"
+      ],
+      "confidence": 0.7,
+      "chunk_index": 11
+    },
+    {
+      "counterparty_name": "Ares Capital Corporation",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "lender / credit facility",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "our credit agreement with lenders led by Ares Capital Corporation, as administrative agent, could result in an event of default",
+      "evidence_quotes": [
+        "our credit agreement with lenders led by Ares Capital Corporation, as administrative agent, could result in an event of default"
+      ],
+      "confidence": 0.65,
+      "chunk_index": 12
+    }
+  ],
+  "candidatesPerChunk": [
+    2,
+    6,
+    6,
+    12,
+    5,
+    5,
+    0,
+    4,
+    0,
+    0,
+    0,
+    7,
+    1,
+    0,
+    0,
+    0
+  ],
+  "parseErrors": 3,
+  "apiErrors": 0,
+  "inputTokens": 381997,
+  "outputTokens": 6338
+}

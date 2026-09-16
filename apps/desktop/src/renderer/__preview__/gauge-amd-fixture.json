@@ -1,0 +1,139 @@
+{
+  "readout": {
+    "schema_version": 1,
+    "ticker": "AMD",
+    "tracked": true,
+    "mode": "standalone",
+    "context": null,
+    "computed_at": "2026-08-24T21:29:01.789Z",
+    "quant_as_of": "2026-08-24",
+    "setup": {
+      "key": "coiled",
+      "name": "COILED",
+      "read": "Compressed for 2 sessions — vol 0.71× its 90d norm, quiet volume, no event wall for 49 sessions",
+      "direction": null,
+      "values": {
+        "vol_regime": 0.706967915468951,
+        "volume_ratio": 0.5167381469680415,
+        "stretch_z": -0.44546828901364793,
+        "event_sessions": 49,
+        "range_ratio": 1.1859,
+        "range": 0.1448,
+        "compression_days": 2
+      },
+      "screen": [
+        {
+          "pattern": "compression",
+          "day_count": 2,
+          "read": "vol regime 0.71× its 90d norm; 10-session range 14.5% inside the 18.3% band vol implies — coiled, no direction claimed"
+        }
+      ]
+    },
+    "state": "actionable",
+    "missing": null,
+    "state_line": null,
+    "readable": true,
+    "readability_note": null,
+    "checks": [
+      {
+        "key": "trend",
+        "number": 1,
+        "label": "Trend coherence",
+        "status": "pass",
+        "reason": "5d and 20d momentum agree (−9.7% / −7.7%) — price action coherent",
+        "note": null,
+        "short_label": null,
+        "values": {
+          "momentum_5d": -0.09709487130990613,
+          "momentum_20d": -0.07693709698084694,
+          "daily_vol": 0.038619264958587626
+        }
+      },
+      {
+        "key": "regime",
+        "number": 2,
+        "label": "Volatility regime",
+        "status": "pass",
+        "reason": "vol regime 0.71× its 90d norm — contracting, quieter than usual",
+        "note": null,
+        "short_label": null,
+        "values": {
+          "vol_regime": 0.706967915468951,
+          "daily_vol": 0.038619264958587626
+        }
+      },
+      {
+        "key": "residual",
+        "number": 3,
+        "label": "Residual readability",
+        "status": "pass",
+        "reason": "r² 0.44, β 4.33 — residual reads usable",
+        "note": null,
+        "short_label": null,
+        "values": {
+          "r2": 0.44305507063426586,
+          "beta": 4.329241030873017,
+          "r2_floor": 0.15
+        }
+      },
+      {
+        "key": "volume",
+        "number": 4,
+        "label": "Volume state",
+        "status": "pass",
+        "reason": "volume 0.52× its average — quiet",
+        "note": null,
+        "short_label": null,
+        "values": {
+          "volume_ratio": 0.5167381469680415,
+          "partial": false
+        }
+      },
+      {
+        "key": "stretch",
+        "number": 5,
+        "label": "Stretch",
+        "status": "pass",
+        "reason": "20d move −7.7% is 0.45σ — not stretched",
+        "note": null,
+        "short_label": null,
+        "values": {
+          "momentum_20d": -0.07693709698084694,
+          "daily_vol": 0.038619264958587626,
+          "pct_from_52w_high": -0.21352702443013905,
+          "pct_from_52w_low": 2.022826498360291,
+          "stretch_z": -0.44546828901364793
+        }
+      },
+      {
+        "key": "event_wall",
+        "number": 6,
+        "label": "Event wall",
+        "status": "pass",
+        "reason": "earnings in 49 sessions — outside the 3-session wall",
+        "note": null,
+        "short_label": null,
+        "values": {
+          "due_at": "2026-11-02T20:00:00.000Z",
+          "sessions_until": 49,
+          "fiscal_period": "Q3 2026",
+          "earnings_rhythm": 0.11371178105901392
+        }
+      }
+    ],
+    "summary": {
+      "evaluable": 6,
+      "aligned": 6,
+      "cautions": 0,
+      "fails": 0,
+      "unavailable": 0,
+      "overall": "clear",
+      "binding_check": null,
+      "binding_line": "clear — 6 of 6 aligned",
+      "sentence": "clear — 6 of 6 aligned",
+      "calibrating": false,
+      "tooltip": "conditions are consistent and readable"
+    }
+  },
+  "errors": []
+}

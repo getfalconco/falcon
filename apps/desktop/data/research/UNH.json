@@ -1,0 +1,90 @@
+[
+  {
+    "root_ticker": "UNH",
+    "counterparty_name": "U.S. Departments of Health and Human Services",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "customer",
+    "subtype": "federal agency client",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "public entities, including the U.S. Departments of Health and Human Services (HHS), Veterans Affairs, Defense, and other federal, state and local health care agencies",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/731766/000073176626000062/unh-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-03-02",
+    "shared_evidence_group": "ev_2e01fbbc3b2c"
+  },
+  {
+    "root_ticker": "UNH",
+    "counterparty_name": "Federal Deposit Insurance Corporation",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "supplier",
+    "subtype": "regulatory_services",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.78,
+    "evidence": [
+      {
+        "quote": "Optum Bank is also subject to regulation by federal banking regulators, including the Federal Deposit Insurance Corporation (FDIC)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/731766/000073176626000062/unh-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-03-02",
+    "shared_evidence_group": "ev_20ce68c766cc"
+  },
+  {
+    "root_ticker": "UNH",
+    "counterparty_name": "National Committee for Quality Assurance",
+    "counterparty_ticker": null,
+    "counterparty_type": "other",
+    "category": "dependency",
+    "subtype": "credentialing_organization",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.82,
+    "evidence": [
+      {
+        "quote": "credentialing organizations, like the National Committee for Quality Assurance (NCQA) and the Utilization Review Accreditation Commission (URAC), may establish standards impacting PBM pharmacy activities.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/731766/000073176626000062/unh-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-03-02",
+    "shared_evidence_group": "ev_759a4a573e19"
+  },
+  {
+    "root_ticker": "UNH",
+    "counterparty_name": "Utilization Review Accreditation Commission",
+    "counterparty_ticker": null,
+    "counterparty_type": "other",
+    "category": "dependency",
+    "subtype": "credentialing_organization",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.88,
+    "evidence": [
+      {
+        "quote": "credentialing organizations, like the National Committee for Quality Assurance (NCQA) and the Utilization Review Accreditation Commission (URAC), may establish standards impacting PBM pharmacy activities.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/731766/000073176626000062/unh-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-03-02",
+    "shared_evidence_group": "ev_759a4a573e19"
+  }
+]

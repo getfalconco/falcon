@@ -1,0 +1,112 @@
+[
+  {
+    "root_ticker": "AMKR",
+    "counterparty_name": "Apple",
+    "counterparty_ticker": "AAPL",
+    "counterparty_type": "public_company",
+    "category": "customer",
+    "subtype": "semiconductor_packaging_customer",
+    "strength": 0.298,
+    "strength_tier": "critical",
+    "strength_basis": "disclosed",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.98,
+    "evidence": [
+      {
+        "quote": "Direct sales to Apple and Qualcomm accounted for 29.8% and 11.1% of our net sales, respectively, for the year ended December 31, 2025.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1047127/000104712726000014/amkr-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-20",
+    "shared_evidence_group": "ev_d84dd0770582"
+  },
+  {
+    "root_ticker": "AMKR",
+    "counterparty_name": "Qualcomm",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "customer",
+    "subtype": "semiconductor_packaging_customer",
+    "strength": 0.111,
+    "strength_tier": "critical",
+    "strength_basis": "disclosed",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.98,
+    "evidence": [
+      {
+        "quote": "Direct sales to Apple and Qualcomm accounted for 29.8% and 11.1% of our net sales, respectively, for the year ended December 31, 2025.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1047127/000104712726000014/amkr-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-20",
+    "shared_evidence_group": "ev_d84dd0770582"
+  },
+  {
+    "root_ticker": "AMKR",
+    "counterparty_name": "ASE Technology",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "packaging_and_test_service_provider",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "We face competition from established packaging and test service providers primarily located in Asia, including ASE Technology, JCET Group and Powertech Technology.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1047127/000104712726000014/amkr-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-20",
+    "shared_evidence_group": "ev_25fccc4f4afa"
+  },
+  {
+    "root_ticker": "AMKR",
+    "counterparty_name": "JCET Group",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "packaging_and_test_service_provider",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "We face competition from established packaging and test service providers primarily located in Asia, including ASE Technology, JCET Group and Powertech Technology.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1047127/000104712726000014/amkr-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-20",
+    "shared_evidence_group": "ev_25fccc4f4afa"
+  },
+  {
+    "root_ticker": "AMKR",
+    "counterparty_name": "Powertech Technology",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "packaging_and_test_service_provider",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "We face competition from established packaging and test service providers primarily located in Asia, including ASE Technology, JCET Group and Powertech Technology.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1047127/000104712726000014/amkr-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-20",
+    "shared_evidence_group": "ev_25fccc4f4afa"
+  }
+]

@@ -1,0 +1,95 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 82267,
+  "chunks": 4,
+  "candidates": [
+    {
+      "counterparty_name": "OPEC",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "supply_coordination",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "World oil, gas, and petrochemical supply levels can also be affected by factors that reduce available supplies, such as the level of, and adherence by, participating countries to production quotas established by OPEC or OPEC+",
+      "evidence_quotes": [
+        "World oil, gas, and petrochemical supply levels can also be affected by factors that reduce available supplies, such as the level of, and adherence by, participating countries to production quotas established by OPEC or OPEC+"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "OPEC+",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "supply_coordination",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "World oil, gas, and petrochemical supply levels can also be affected by factors that reduce available supplies, such as the level of, and adherence by, participating countries to production quotas established by OPEC or OPEC+",
+      "evidence_quotes": [
+        "World oil, gas, and petrochemical supply levels can also be affected by factors that reduce available supplies, such as the level of, and adherence by, participating countries to production quotas established by OPEC or OPEC+"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "National Institute of Standards and Technology",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "framework_provider",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The Corporation's cybersecurity program includes multi-layered technological capabilities designed to prevent and detect cybersecurity disruptions and leverages industry standard frameworks, including the National Institute of Standards and Technology Cybersecurity Framework.",
+      "evidence_quotes": [
+        "The Corporation's cybersecurity program includes multi-layered technological capabilities designed to prevent and detect cybersecurity disruptions and leverages industry standard frameworks, including the National Institute of Standards and Technology Cybersecurity Framework."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Imperial Oil Limited",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint_venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Imperial Oil Limited is the owner of a 25 percent interest in the joint venture.",
+      "evidence_quotes": [
+        "Imperial Oil Limited is the owner of a 25 percent interest in the joint venture."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "ExxonMobil Canada Properties",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "joint_venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Imperial Oil Limited holds a 70.96 percent interest in the joint venture and ExxonMobil Canada Properties holds the other 29.04 percent.",
+      "evidence_quotes": [
+        "Imperial Oil Limited holds a 70.96 percent interest in the joint venture and ExxonMobil Canada Properties holds the other 29.04 percent."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Government of Guyana",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_licensor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The Petroleum Activities Act 2023 authorizes the Government of Guyana to license and enter petroleum agreements for petroleum exploration, development, production, and storage operations.",
+      "evidence_quotes": [
+        "The Petroleum Activities Act 2023 authorizes the Government of Guyana to license and enter petroleum agreements for petroleum exploration, development, production, and storage operations."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 3
+    }
+  ],
+  "candidatesPerChunk": [
+    2,
+    1,
+    2,
+    1
+  ],
+  "parseErrors": 0,
+  "apiErrors": 0,
+  "inputTokens": 22572,
+  "outputTokens": 651
+}

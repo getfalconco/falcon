@@ -1,0 +1,66 @@
+[
+  {
+    "counterparty_name": "CVS Health",
+    "category": "partner",
+    "subtype": "joint sourcing alliance",
+    "evidence_quote": "Purchase obligations and other payments also includes quarterly payments to CVS Health in connection with Red Oak Sourcing.",
+    "confidence": 0.92,
+    "merged_into": "CVS Health Corporation"
+  },
+  {
+    "counterparty_name": "CVS Health Corporation",
+    "category": "partner",
+    "subtype": "joint_venture",
+    "evidence_quote": "the Red Oak Sourcing, LLC venture (\"Red Oak Sourcing\") with CVS Health Corporation (\"CVS Health\")",
+    "confidence": 0.92,
+    "merged_into": "CVS Health"
+  },
+  {
+    "counterparty_name": "CVS Health",
+    "category": "partner",
+    "subtype": "sourcing_joint_venture",
+    "evidence_quote": "Red Oak Sourcing, LLC (\"Red Oak Sourcing\"), a U.S.-based generic pharmaceutical sourcing venture with CVS Health, negotiates generic pharmaceutical supply contracts on behalf of both companies.",
+    "confidence": 0.95,
+    "merged_into": "CVS Health"
+  },
+  {
+    "counterparty_name": "CVS Health",
+    "category": "partner",
+    "subtype": "joint_sourcing_venture",
+    "evidence_quote": "These factors have contributed to declines in some prior years and have more than offset the benefits from sourcing generic pharmaceuticals through our Red Oak Sourcing venture with CVS Health.",
+    "confidence": 0.95,
+    "merged_into": "CVS Health"
+  },
+  {
+    "counterparty_name": "FDA",
+    "category": "dependency",
+    "subtype": "regulatory_body",
+    "evidence_quote": "From time to time, regulatory authorities, including the DOJ, FDA, DEA, and FTC, investigate our policies or practices",
+    "confidence": 0.9,
+    "merged_into": "FDA"
+  },
+  {
+    "counterparty_name": "CVS Health",
+    "category": "customer",
+    "subtype": "largest customer",
+    "evidence_quote": "In fiscal 2026, CVS Health was our largest customer. CVS Health accounted for 28 percent of our fiscal 2026 revenue",
+    "confidence": 0.95,
+    "merged_into": "CVS Health"
+  },
+  {
+    "counterparty_name": "CVS Health",
+    "category": "customer",
+    "subtype": "pharmaceutical_distribution",
+    "evidence_quote": "CVS Health 28 % 30 % 24 % 22 % 26 %",
+    "confidence": 0.95,
+    "merged_into": "CVS Health"
+  },
+  {
+    "counterparty_name": "OptumRx",
+    "category": "customer",
+    "subtype": "pharmaceutical_distribution",
+    "evidence_quote": "includes the impact of unwinding the negative net working capital associated with the OptumRx contracts",
+    "confidence": 0.88,
+    "merged_into": "OptumRx"
+  }
+]

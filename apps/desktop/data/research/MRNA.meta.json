@@ -1,0 +1,13 @@
+{
+  "ticker": "MRNA",
+  "companyName": "Moderna, Inc.",
+  "form": "10-K",
+  "filingDate": "2026-02-20",
+  "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1682852/000168285226000033/mrna-20251231.htm",
+  "generatedAt": "2026-08-26T11:08:53.721Z",
+  "cacheKey": "MRNA|0001682852-26-000033|5",
+  "accessionNumber": "0001682852-26-000033",
+  "validatedCount": 29,
+  "rejectedCount": 3,
+  "mergedCount": 16
+}

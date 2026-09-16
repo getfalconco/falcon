@@ -1,0 +1,94 @@
+# dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# next.js
+**/.next/
+**/out/
+
+# production
+**/build/
+**/dist/
+
+# turbo
+.turbo
+
+# netlify
+.netlify/
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+dev.log
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+
+# Environment / secrets — never commit real values. Only *.example files are
+# allowed (they carry placeholders). This covers .env, .env.local, .env.discord,
+# apps/*/.env, apps/mobile/.env, etc.
+.env
+.env.*
+**/.env
+**/.env.*
+!**/*.example
+!*.example
+
+# may hold a literal Supabase access token instead of an env-var reference
+.mcp.json
+
+apps/web/app/fonts/tiempos/
+
+# runtime-generated data (news events + propagation signals). graph.json + the
+# SEC cache under apps/desktop/data stay tracked; only these regenerate per run.
+apps/desktop/data/events/
+apps/desktop/data/signals/
+
+# The deterministic chain runs on apps/falcon-engine, not here, and its
+# cold-start baseline lives in apps/falcon-engine/seed-data. A dev checkout
+# that opts out (FALCON_ENGINE_URL=) still writes these; they are that run's
+# scratch state, never the seed, so they must not come back as repo churn.
+apps/desktop/data/tracker/
+apps/desktop/data/classifier/
+apps/desktop/data/base/
+apps/desktop/data/propagation/
+apps/desktop/data/analyst/
+apps/desktop/data/risk/
+apps/desktop/data/screen/
+apps/desktop/data/gauge/
+# stale artifact of the old double-path bug — never commit this
+apps/desktop/apps/
+packages/research/apps/
+
+
+# electron-builder output (apps/desktop `pnpm dist`)
+# Packaged build output. `--config.directories.output=release-new` and the
+# release-t* verification builds land beside the default dir, so match the
+# prefix: these are 100MB-1GB each and must never reach the remote.
+apps/desktop/release*/
+apps/installer/release*/
+
+# Quant Lab backfilled price series — regenerable via
+# `pnpm --filter @meridian/research exec tsx scripts/quantlab-backfill.ts series`
+# (~9 MB, one file per ticker). Config, strategies and the live ledger DO stay in git.
+apps/desktop/data/quantlab/series/
+# Full backtest reports carry every signal (megabytes, and one more per run).
+# The committed index.json keeps the variant history the guards read.
+apps/desktop/data/quantlab/results/*.json
+!apps/desktop/data/quantlab/results/index.json
+
+# stray scratch output
+y.err.txt
+packages/research/.tmp-prop.json
+
+# Extraction eval dataset — rebuilt from the step1 cache with 'pnpm dataset:build'.
+# ~11MB of filing text that already lives in the cache; derived, not source.
+data/dataset/

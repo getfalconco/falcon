@@ -1,0 +1,47 @@
+[
+  {
+    "counterparty_name": "Airbus",
+    "category": "customer",
+    "subtype": "services_customer",
+    "evidence_quote": "in connection with the Spirit Acquisition, we are required to provide services to buyers of divested Spirit businesses, including Airbus",
+    "confidence": 0.85,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "United States Department of War",
+    "category": "customer",
+    "subtype": "defense_contracts",
+    "evidence_quote": "We derive a substantial portion of our revenue from the U.S. government, primarily from defense related programs with the United States Department of War (DoW)",
+    "confidence": 0.95,
+    "reason": "The counterparty 'United States Department of War' is not a valid entity. The U.S. Department of War was abolished in 1947 and reorganized as the Department of Defense (DoD). The evidence_quote appears to use 'DoW' as an abbreviation, but in context throughout the filing, 'DoW' consistently refers to the Department of Defense (modern DoD), not the historical Department of War. This is evident from phrases like 'defense related programs with the United States Department of War (DoW)' appearing alongside references to NASA and modern defense programs. The counterparty name is factually incorrect - it should be 'U.S. Department of Defense' or similar. Additionally, while the relationship type (customer) and category (defense_contracts) would be correct for the DoD, the named entity is invalid.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Export-Import Bank of the United States",
+    "category": "dependency",
+    "subtype": "export_financing",
+    "evidence_quote": "the uncertainty of the ability of non-U.S. customers to finance purchases, including the availability of financing from the Export-Import Bank of the United States",
+    "confidence": 0.85,
+    "reason": "The Export-Import Bank of the United States is not a counterparty dependency but a source of third-party financing for Boeing's customers. The evidence quote states 'the uncertainty of the ability of non-U.S. customers to finance purchases, including the availability of financing from the Export-Import Bank of the United States' — this describes Ex-Im Bank as providing financing TO Boeing's customers, not as an entity Boeing depends on for its own operations or infrastructure. Boeing does not rely on Ex-Im Bank's infrastructure or service in a dependency relationship; rather, Ex-Im Bank is a customer financing mechanism. This is analogous to how a retailer might benefit from customer access to credit cards, but the credit card issuer is not the retailer's dependency. Ex-Im Bank should be rejected as a counterparty in this context.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Defense Contract Audit Agency",
+    "category": "dependency",
+    "subtype": "audit_agency",
+    "evidence_quote": "U.S. government agencies, including the Defense Contract Audit Agency and the Defense Contract Management Agency, routinely audit government contractors.",
+    "confidence": 0.92,
+    "reason": "The Defense Contract Audit Agency (DCAA) is a government auditor that routinely audits government contractors' costs and compliance under U.S. government contracts. This is a regulatory/oversight function, not a dependency relationship. Boeing does not 'critically rely' on DCAA infrastructure or services for its operations—rather, DCAA is imposed upon Boeing as part of the regulatory framework governing federal contractors. The guidance explicitly states that 'regulators acting as regulators' and 'external auditors' should be rejected as counterparties. DCAA falls squarely into both categories: it is a government agency performing regulatory oversight and audit functions. The relationship is adversarial/compliance-based, not a dependency where Boeing relies on DCAA to operate. This is analogous to how tax authorities or external auditors are excluded from the knowledge graph.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Defense Contract Management Agency",
+    "category": "dependency",
+    "subtype": "contract_management_agency",
+    "evidence_quote": "U.S. government agencies, including the Defense Contract Audit Agency and the Defense Contract Management Agency, routinely audit government contractors.",
+    "confidence": 0.92,
+    "reason": "The Defense Contract Management Agency (DCMA) is a government auditor/oversight body, not a dependency. The evidence quote states they 'routinely audit government contractors' to review performance and compliance. This is a regulatory/oversight function, not a critical infrastructure or service dependency Boeing relies on to operate. DCMA audits Boeing; Boeing does not depend on DCMA infrastructure to function. The relationship exists but the category is wrong. Since auditors are explicitly excluded from valid counterparties (per instruction 4: 'external auditors, regulators acting as regulators' should be rejected), and DCMA is acting in a regulatory oversight capacity here, this should be rejected entirely rather than recategorized.",
+    "stage": "audit"
+  }
+]

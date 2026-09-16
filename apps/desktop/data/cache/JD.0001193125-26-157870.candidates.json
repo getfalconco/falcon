@@ -1,0 +1,316 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 674209,
+  "chunks": 30,
+  "candidates": [
+    {
+      "counterparty_name": "Shihui Partners",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "legal services",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "as advised by Shihui Partners, our PRC legal counsel",
+      "evidence_quotes": [
+        "as advised by Shihui Partners, our PRC legal counsel"
+      ],
+      "confidence": 0.7,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Kuayue-Express Group Co., LTD.",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "strategic investment",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "our subsequent investments in Kuayue-Express Group Co., LTD., or Kuayue-Express, a renowned modern integrated express transportation enterprise specializing in \"limited-time express service\" in China, following our acquisition in 2020",
+      "evidence_quotes": [
+        "our subsequent investments in Kuayue-Express Group Co., LTD., or Kuayue-Express, a renowned modern integrated express transportation enterprise specializing in \"limited-time express service\" in China, following our acquisition in 2020"
+      ],
+      "confidence": 0.7,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Weixin Pay",
+      "counterparty_type": "product",
+      "category": "supplier",
+      "subtype": "payment platform",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "online payments through various third-party online payment platforms such as Weixin Pay, UnionPay and JD Pay",
+      "evidence_quotes": [
+        "online payments through various third-party online payment platforms such as Weixin Pay, UnionPay and JD Pay"
+      ],
+      "confidence": 0.8,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "UnionPay",
+      "counterparty_type": "product",
+      "category": "supplier",
+      "subtype": "payment platform",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "online payments through various third-party online payment platforms such as Weixin Pay, UnionPay and JD Pay",
+      "evidence_quotes": [
+        "online payments through various third-party online payment platforms such as Weixin Pay, UnionPay and JD Pay"
+      ],
+      "confidence": 0.8,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "JD Technology",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "payment services provider",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "JD Technology currently provides us with certain payment services on a non-exclusive basis and other services to us.",
+      "evidence_quotes": [
+        "JD Technology currently provides us with certain payment services on a non-exclusive basis and other services to us."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "JD Technology",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "IP licensing",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we continue to license certain of our intellectual properties, including our “JD” brand and related trademarks and domain names, to JD Technology",
+      "evidence_quotes": [
+        "we continue to license certain of our intellectual properties, including our “JD” brand and related trademarks and domain names, to JD Technology"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "Shihui Partners",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "legal counsel services",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In the opinion of Shihui Partners, our PRC legal counsel",
+      "evidence_quotes": [
+        "In the opinion of Shihui Partners, our PRC legal counsel"
+      ],
+      "confidence": 0.7,
+      "chunk_index": 9
+    },
+    {
+      "counterparty_name": "Tencent",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "strategic cooperation / traffic and marketing alliance",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we acquired certain e-commerce businesses and assets from, and entered into a strategic cooperation agreement and formed a strategic partnership with Tencent, a leading internet company serving the largest online community in China",
+      "evidence_quotes": [
+        "we acquired certain e-commerce businesses and assets from, and entered into a strategic cooperation agreement and formed a strategic partnership with Tencent, a leading internet company serving the largest online community in China"
+      ],
+      "confidence": 0.97,
+      "chunk_index": 15
+    },
+    {
+      "counterparty_name": "Wanda Commercial Properties",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "strategic partnership/investment agreement",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In January 2018, we, along with Tencent, entered into a strategic partnership agreement with Wanda Commercial Properties, a leading developer, owner and operator of commercial properties in China, and its major shareholder, Dalian Wanda Group Co., Ltd.",
+      "evidence_quotes": [
+        "In January 2018, we, along with Tencent, entered into a strategic partnership agreement with Wanda Commercial Properties, a leading developer, owner and operator of commercial properties in China, and its major shareholder, Dalian Wanda Group Co., Ltd."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 16
+    },
+    {
+      "counterparty_name": "Dalian Wanda Group Co., Ltd.",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "strategic partnership/investment agreement",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In January 2018, we, along with Tencent, entered into a strategic partnership agreement with Wanda Commercial Properties, a leading developer, owner and operator of commercial properties in China, and its major shareholder, Dalian Wanda Group Co., Ltd.",
+      "evidence_quotes": [
+        "In January 2018, we, along with Tencent, entered into a strategic partnership agreement with Wanda Commercial Properties, a leading developer, owner and operator of commercial properties in China, and its major shareholder, Dalian Wanda Group Co., Ltd."
+      ],
+      "confidence": 0.8,
+      "chunk_index": 16
+    },
+    {
+      "counterparty_name": "Tencent",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "strategic partnership/investment agreement",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In January 2018, we, along with Tencent, entered into a strategic partnership agreement with Wanda Commercial Properties, a leading developer, owner and operator of commercial properties in China, and its major shareholder, Dalian Wanda Group Co., Ltd.",
+      "evidence_quotes": [
+        "In January 2018, we, along with Tencent, entered into a strategic partnership agreement with Wanda Commercial Properties, a leading developer, owner and operator of commercial properties in China, and its major shareholder, Dalian Wanda Group Co., Ltd."
+      ],
+      "confidence": 0.75,
+      "chunk_index": 16
+    },
+    {
+      "counterparty_name": "CECONOMY",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "takeover-related cooperation agreement",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We have also signed an investment agreement with CECONOMY regarding the Takeover Offer and the intended cooperation after completion of the Takeover Offer.",
+      "evidence_quotes": [
+        "We have also signed an investment agreement with CECONOMY regarding the Takeover Offer and the intended cooperation after completion of the Takeover Offer."
+      ],
+      "confidence": 0.7,
+      "chunk_index": 16
+    },
+    {
+      "counterparty_name": "Convergenta",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "shareholder cooperation partner",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "This results in a total shareholding of 85.2% in CECONOMY in combination with the retained stake of JD.com’s future partner Convergenta.",
+      "evidence_quotes": [
+        "This results in a total shareholding of 85.2% in CECONOMY in combination with the retained stake of JD.com’s future partner Convergenta."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 16
+    },
+    {
+      "counterparty_name": "Tencent",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "mobile platform access partnership",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "As part of our strategic partnership with Tencent, we launched access on Tencent's Weixin and direct access on Tencent's Mobile QQ, whereby Tencent users can easily access our product offerings and have an enjoyable mobile shopping experience.",
+      "evidence_quotes": [
+        "As part of our strategic partnership with Tencent, we launched access on Tencent's Weixin and direct access on Tencent's Mobile QQ, whereby Tencent users can easily access our product offerings and have an enjoyable mobile shopping experience."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 17
+    },
+    {
+      "counterparty_name": "iQiyi",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "content and lifestyle service provider for JD Plus membership benefits",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "JD Plus also partnered with content and lifestyle service providers such as Tencent Video, iQiyi, among others, providing JD Plus members with greater benefits.",
+      "evidence_quotes": [
+        "JD Plus also partnered with content and lifestyle service providers such as Tencent Video, iQiyi, among others, providing JD Plus members with greater benefits."
+      ],
+      "confidence": 0.8,
+      "chunk_index": 17
+    },
+    {
+      "counterparty_name": "Alibaba Group",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "e-commerce competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "major e-commerce companies in China that offer a wide range of general merchandise product categories, such as Alibaba Group, which operates taobao.com and tmall.com",
+      "evidence_quotes": [
+        "major e-commerce companies in China that offer a wide range of general merchandise product categories, such as Alibaba Group, which operates taobao.com and tmall.com"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 18
+    },
+    {
+      "counterparty_name": "Suning.com Group Co., Ltd.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "traditional retailer moving into online retailing",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "major traditional retailers in China that are moving into online retailing, such as Suning.com Group Co., Ltd., which operates suning.com",
+      "evidence_quotes": [
+        "major traditional retailers in China that are moving into online retailing, such as Suning.com Group Co., Ltd., which operates suning.com"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 18
+    },
+    {
+      "counterparty_name": "China Telecom",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "mobile telecommunications resale service provider",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "has cooperated with China Telecom in 60 cities and with China Unicom in 105 cities",
+      "evidence_quotes": [
+        "has cooperated with China Telecom in 60 cities and with China Unicom in 105 cities"
+      ],
+      "confidence": 0.7,
+      "chunk_index": 22
+    },
+    {
+      "counterparty_name": "China Unicom",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "mobile telecommunications resale service provider",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "has cooperated with China Telecom in 60 cities and with China Unicom in 105 cities",
+      "evidence_quotes": [
+        "has cooperated with China Telecom in 60 cities and with China Unicom in 105 cities"
+      ],
+      "confidence": 0.7,
+      "chunk_index": 22
+    },
+    {
+      "counterparty_name": "GIC Private Limited",
+      "counterparty_type": "government",
+      "category": "partner",
+      "subtype": "property fund joint venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Since 2019, JD Property established several Property Funds together with third parties, including GIC Private Limited (\"GIC\") and Mubadala Investment Company (\"MIC\")",
+      "evidence_quotes": [
+        "Since 2019, JD Property established several Property Funds together with third parties, including GIC Private Limited (\"GIC\") and Mubadala Investment Company (\"MIC\")"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 26
+    },
+    {
+      "counterparty_name": "Mubadala Investment Company",
+      "counterparty_type": "government",
+      "category": "partner",
+      "subtype": "property fund joint venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Since 2019, JD Property established several Property Funds together with third parties, including GIC Private Limited (\"GIC\") and Mubadala Investment Company (\"MIC\")",
+      "evidence_quotes": [
+        "Since 2019, JD Property established several Property Funds together with third parties, including GIC Private Limited (\"GIC\") and Mubadala Investment Company (\"MIC\")"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 26
+    }
+  ],
+  "candidatesPerChunk": [
+    1,
+    0,
+    0,
+    1,
+    0,
+    0,
+    4,
+    0,
+    0,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    5,
+    2,
+    2,
+    0,
+    0,
+    0,
+    2,
+    0,
+    0,
+    0,
+    2,
+    0,
+    0,
+    0
+  ],
+  "parseErrors": 10,
+  "apiErrors": 0,
+  "inputTokens": 828228,
+  "outputTokens": 2786
+}

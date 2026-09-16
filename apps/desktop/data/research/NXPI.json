@@ -1,0 +1,596 @@
+[
+  {
+    "root_ticker": "NXPI",
+    "counterparty_name": "Aviva Links",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "acquired_company",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.88,
+    "evidence": [
+      {
+        "quote": "On October 24, 2025, NXP closed the previously announced acquisition of 100% of Aviva Links for $222 million in cash",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1413447/000141344726000008/nxpi-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-19",
+    "shared_evidence_group": "ev_36aeaaa4b1fd"
+  },
+  {
+    "root_ticker": "NXPI",
+    "counterparty_name": "Kinara, Inc.",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "acquired_company",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "On October 27, 2025, NXP closed the previously announced acquisition of 100% of Kinara, Inc. for $284 million in cash",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1413447/000141344726000008/nxpi-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-19",
+    "shared_evidence_group": "ev_255a9b360ac2"
+  },
+  {
+    "root_ticker": "NXPI",
+    "counterparty_name": "Vanguard International Semiconductor Corporation",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "joint_venture_manufacturing",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "VSMC is 60% owned by Vanguard International Semiconductor Corporation and 40% owned by NXP.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1413447/000141344726000008/nxpi-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-19",
+    "shared_evidence_group": "ev_c921481355b3"
+  },
+  {
+    "root_ticker": "NXPI",
+    "counterparty_name": "Apple",
+    "counterparty_ticker": "AAPL",
+    "counterparty_type": "public_company",
+    "category": "customer",
+    "subtype": "end_customer",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Our 10 largest end customers, some of whom are supplied by distributors, in alphabetical order, are Apple, Aptiv, Aumovio, Bosch, Denso, Harman Auto, Hyundai, LGE Automotive, Samsung and Visteon.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1413447/000141344726000008/nxpi-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-19",
+    "shared_evidence_group": "ev_a7c446cf2f10"
+  },
+  {
+    "root_ticker": "NXPI",
+    "counterparty_name": "Aptiv",
+    "counterparty_ticker": "APTV",
+    "counterparty_type": "public_company",
+    "category": "customer",
+    "subtype": "end_customer",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Our 10 largest end customers, some of whom are supplied by distributors, in alphabetical order, are Apple, Aptiv, Aumovio, Bosch, Denso, Harman Auto, Hyundai, LGE Automotive, Samsung and Visteon.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1413447/000141344726000008/nxpi-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-19",
+    "shared_evidence_group": "ev_a7c446cf2f10"
+  },
+  {
+    "root_ticker": "NXPI",
+    "counterparty_name": "Aumovio",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "customer",
+    "subtype": "end_customer",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "Our 10 largest end customers, some of whom are supplied by distributors, in alphabetical order, are Apple, Aptiv, Aumovio, Bosch, Denso, Harman Auto, Hyundai, LGE Automotive, Samsung and Visteon.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1413447/000141344726000008/nxpi-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-19",
+    "shared_evidence_group": "ev_a7c446cf2f10"
+  },
+  {
+    "root_ticker": "NXPI",
+    "counterparty_name": "Denso",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "customer",
+    "subtype": "end_customer",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Our 10 largest end customers, some of whom are supplied by distributors, in alphabetical order, are Apple, Aptiv, Aumovio, Bosch, Denso, Harman Auto, Hyundai, LGE Automotive, Samsung and Visteon.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1413447/000141344726000008/nxpi-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-19",
+    "shared_evidence_group": "ev_a7c446cf2f10"
+  },
+  {
+    "root_ticker": "NXPI",
+    "counterparty_name": "Harman Auto",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "customer",
+    "subtype": "end_customer",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Our 10 largest end customers, some of whom are supplied by distributors, in alphabetical order, are Apple, Aptiv, Aumovio, Bosch, Denso, Harman Auto, Hyundai, LGE Automotive, Samsung and Visteon.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1413447/000141344726000008/nxpi-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-19",
+    "shared_evidence_group": "ev_a7c446cf2f10"
+  },
+  {
+    "root_ticker": "NXPI",
+    "counterparty_name": "Hyundai",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "customer",
+    "subtype": "end_customer",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Our 10 largest end customers, some of whom are supplied by distributors, in alphabetical order, are Apple, Aptiv, Aumovio, Bosch, Denso, Harman Auto, Hyundai, LGE Automotive, Samsung and Visteon.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1413447/000141344726000008/nxpi-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-19",
+    "shared_evidence_group": "ev_a7c446cf2f10"
+  },
+  {
+    "root_ticker": "NXPI",
+    "counterparty_name": "LGE Automotive",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "customer",
+    "subtype": "end_customer",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Our 10 largest end customers, some of whom are supplied by distributors, in alphabetical order, are Apple, Aptiv, Aumovio, Bosch, Denso, Harman Auto, Hyundai, LGE Automotive, Samsung and Visteon.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1413447/000141344726000008/nxpi-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-19",
+    "shared_evidence_group": "ev_a7c446cf2f10"
+  },
+  {
+    "root_ticker": "NXPI",
+    "counterparty_name": "Samsung",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "customer",
+    "subtype": "end_customer",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Our 10 largest end customers, some of whom are supplied by distributors, in alphabetical order, are Apple, Aptiv, Aumovio, Bosch, Denso, Harman Auto, Hyundai, LGE Automotive, Samsung and Visteon.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1413447/000141344726000008/nxpi-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-19",
+    "shared_evidence_group": "ev_a7c446cf2f10"
+  },
+  {
+    "root_ticker": "NXPI",
+    "counterparty_name": "Visteon",
+    "counterparty_ticker": "VC",
+    "counterparty_type": "public_company",
+    "category": "customer",
+    "subtype": "end_customer",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Our 10 largest end customers, some of whom are supplied by distributors, in alphabetical order, are Apple, Aptiv, Aumovio, Bosch, Denso, Harman Auto, Hyundai, LGE Automotive, Samsung and Visteon.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1413447/000141344726000008/nxpi-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-19",
+    "shared_evidence_group": "ev_a7c446cf2f10"
+  },
+  {
+    "root_ticker": "NXPI",
+    "counterparty_name": "Arrow",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "customer",
+    "subtype": "distributor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "We also have a strong position with our distribution partners, including our five largest in alphabetical order, Arrow, Avnet, Nexty, WT Micro and World Peace.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1413447/000141344726000008/nxpi-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-19",
+    "shared_evidence_group": "ev_3a3d0b83e185"
+  },
+  {
+    "root_ticker": "NXPI",
+    "counterparty_name": "Avnet",
+    "counterparty_ticker": "AVT",
+    "counterparty_type": "public_company",
+    "category": "customer",
+    "subtype": "distributor",
+    "strength": 0.23,
+    "strength_tier": "critical",
+    "strength_basis": "disclosed",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.98,
+    "evidence": [
+      {
+        "quote": "Avnet accounted for 23% of our revenue in 2025 and 22% in 2024.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1413447/000141344726000008/nxpi-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-19",
+    "shared_evidence_group": "ev_7c4a7261fa4f"
+  },
+  {
+    "root_ticker": "NXPI",
+    "counterparty_name": "Nexty",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "customer",
+    "subtype": "distributor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "We also have a strong position with our distribution partners, including our five largest in alphabetical order, Arrow, Avnet, Nexty, WT Micro and World Peace.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1413447/000141344726000008/nxpi-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-19",
+    "shared_evidence_group": "ev_3a3d0b83e185"
+  },
+  {
+    "root_ticker": "NXPI",
+    "counterparty_name": "WT Micro",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "customer",
+    "subtype": "distributor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "We also have a strong position with our distribution partners, including our five largest in alphabetical order, Arrow, Avnet, Nexty, WT Micro and World Peace.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1413447/000141344726000008/nxpi-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-19",
+    "shared_evidence_group": "ev_3a3d0b83e185"
+  },
+  {
+    "root_ticker": "NXPI",
+    "counterparty_name": "World Peace",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "customer",
+    "subtype": "distributor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "We also have a strong position with our distribution partners, including our five largest in alphabetical order, Arrow, Avnet, Nexty, WT Micro and World Peace.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1413447/000141344726000008/nxpi-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-19",
+    "shared_evidence_group": "ev_3a3d0b83e185"
+  },
+  {
+    "root_ticker": "NXPI",
+    "counterparty_name": "Analog Devices Inc.",
+    "counterparty_ticker": "ADI",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "semiconductor_competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Our primary key public competitors in alphabetical order include, but are not limited to, Analog Devices Inc., Broadcom Inc., Infineon Technologies AG, Microchip Technology Inc., Qualcomm Inc., Renesas Electronics Corp., STMicroelectronics NV and Texas Instruments Inc.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1413447/000141344726000008/nxpi-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-19",
+    "shared_evidence_group": "ev_d4b638a9992c"
+  },
+  {
+    "root_ticker": "NXPI",
+    "counterparty_name": "Broadcom Inc.",
+    "counterparty_ticker": "AVGO",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "semiconductor_competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Our primary key public competitors in alphabetical order include, but are not limited to, Analog Devices Inc., Broadcom Inc., Infineon Technologies AG, Microchip Technology Inc., Qualcomm Inc., Renesas Electronics Corp., STMicroelectronics NV and Texas Instruments Inc.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1413447/000141344726000008/nxpi-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-19",
+    "shared_evidence_group": "ev_d4b638a9992c"
+  },
+  {
+    "root_ticker": "NXPI",
+    "counterparty_name": "Infineon Technologies AG",
+    "counterparty_ticker": "IFNNY",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "semiconductor_competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Our primary key public competitors in alphabetical order include, but are not limited to, Analog Devices Inc., Broadcom Inc., Infineon Technologies AG, Microchip Technology Inc., Qualcomm Inc., Renesas Electronics Corp., STMicroelectronics NV and Texas Instruments Inc.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1413447/000141344726000008/nxpi-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-19",
+    "shared_evidence_group": "ev_d4b638a9992c"
+  },
+  {
+    "root_ticker": "NXPI",
+    "counterparty_name": "Microchip Technology Inc.",
+    "counterparty_ticker": "MCHP",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "semiconductor_competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Our primary key public competitors in alphabetical order include, but are not limited to, Analog Devices Inc., Broadcom Inc., Infineon Technologies AG, Microchip Technology Inc., Qualcomm Inc., Renesas Electronics Corp., STMicroelectronics NV and Texas Instruments Inc.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1413447/000141344726000008/nxpi-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-19",
+    "shared_evidence_group": "ev_d4b638a9992c"
+  },
+  {
+    "root_ticker": "NXPI",
+    "counterparty_name": "Qualcomm Inc.",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "semiconductor_competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Our primary key public competitors in alphabetical order include, but are not limited to, Analog Devices Inc., Broadcom Inc., Infineon Technologies AG, Microchip Technology Inc., Qualcomm Inc., Renesas Electronics Corp., STMicroelectronics NV and Texas Instruments Inc.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1413447/000141344726000008/nxpi-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-19",
+    "shared_evidence_group": "ev_d4b638a9992c"
+  },
+  {
+    "root_ticker": "NXPI",
+    "counterparty_name": "Renesas Electronics Corp.",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "semiconductor_competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Our primary key public competitors in alphabetical order include, but are not limited to, Analog Devices Inc., Broadcom Inc., Infineon Technologies AG, Microchip Technology Inc., Qualcomm Inc., Renesas Electronics Corp., STMicroelectronics NV and Texas Instruments Inc.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1413447/000141344726000008/nxpi-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-19",
+    "shared_evidence_group": "ev_d4b638a9992c"
+  },
+  {
+    "root_ticker": "NXPI",
+    "counterparty_name": "STMicroelectronics NV",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "semiconductor_competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Our primary key public competitors in alphabetical order include, but are not limited to, Analog Devices Inc., Broadcom Inc., Infineon Technologies AG, Microchip Technology Inc., Qualcomm Inc., Renesas Electronics Corp., STMicroelectronics NV and Texas Instruments Inc.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1413447/000141344726000008/nxpi-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-19",
+    "shared_evidence_group": "ev_d4b638a9992c"
+  },
+  {
+    "root_ticker": "NXPI",
+    "counterparty_name": "Texas Instruments Inc.",
+    "counterparty_ticker": "TXN",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "semiconductor_competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Our primary key public competitors in alphabetical order include, but are not limited to, Analog Devices Inc., Broadcom Inc., Infineon Technologies AG, Microchip Technology Inc., Qualcomm Inc., Renesas Electronics Corp., STMicroelectronics NV and Texas Instruments Inc.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1413447/000141344726000008/nxpi-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-19",
+    "shared_evidence_group": "ev_d4b638a9992c"
+  },
+  {
+    "root_ticker": "NXPI",
+    "counterparty_name": "Huawei",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "customer",
+    "subtype": "former_customer",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "in 2020, due to regulations imposed by the U.S. government, we ceased shipments of our products to Huawei pending approval of export licenses.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1413447/000141344726000008/nxpi-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-19",
+    "shared_evidence_group": "ev_5294ac37cad4"
+  },
+  {
+    "root_ticker": "NXPI",
+    "counterparty_name": "European Investment Bank",
+    "counterparty_ticker": null,
+    "counterparty_type": "financial institution",
+    "category": "partner",
+    "subtype": "lender",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "The RCF Agreement, European Investment Bank (EIB) loan facilities and the indentures governing our unsecured notes",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1413447/000141344726000008/nxpi-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-19",
+    "shared_evidence_group": "ev_0c202a8ff85c"
+  }
+]

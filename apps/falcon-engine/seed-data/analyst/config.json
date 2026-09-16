@@ -1,0 +1,60 @@
+{
+ "enabled": false,
+ "model": "claude-fable-5",
+ "temperature": 0,
+ "maxTokens": 16000,
+ "effort": "high",
+ "timeoutMs": 120000,
+ "transportRetries": 2,
+ "validationRetries": 2,
+ "retryBackoffMs": 2000,
+ "concurrency": 1,
+ "promptVersion": "an-1.0",
+ "breaker": {
+  "consecutiveFailures": 3,
+  "cooldownMs": 600000
+ },
+ "newsLineCap": 20,
+ "insiderLineCap": 12,
+ "tierExpectationZ": {
+  "high": 2,
+  "standard": 1,
+  "low": 0.5
+ },
+ "edgeDefault": {
+  "watchMinAbsZ": 2,
+  "consistentBandZ": 0.5,
+  "lowR2Fallback": 0.15
+ },
+ "genericTriggerPhrases": [
+  "watch for news",
+  "watch for any news",
+  "monitor the situation",
+  "monitor developments",
+  "monitor for developments",
+  "keep an eye on",
+  "wait and see",
+  "stay tuned",
+  "further developments",
+  "any further news",
+  "watch closely",
+  "continue monitoring",
+  "continue to monitor",
+  "see how it develops",
+  "general market conditions"
+ ],
+ "fieldCaps": {
+  "cause_summary": 240,
+  "mechanism": 240,
+  "edge_rationale": 240,
+  "watch_trigger": 240,
+  "evidence": 12
+ },
+ "maxAttemptsPerRequest": 3,
+ "retentionDays": 90,
+ "latencyWindow": 500,
+ "analystSurfacingEnabled": false,
+ "promptVersionOverrides": {
+  "structure_review": "an-1.1"
+ }
+}

@@ -1,0 +1,24 @@
+[
+  {
+    "root_ticker": "GFS",
+    "counterparty_name": "Singapore Economic Development Board",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "partner",
+    "subtype": "debt_financing",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.88,
+    "evidence": [
+      {
+        "quote": "other debt facilities, which consists of the loan agreement with Singapore Economic Development Board",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1709048/000170904826000022/gfs-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-02-27",
+    "shared_evidence_group": "ev_fdf306d30128"
+  }
+]

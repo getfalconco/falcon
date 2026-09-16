@@ -1,0 +1,552 @@
+[
+  {
+    "root_ticker": "DE",
+    "counterparty_name": "AGCO Corporation",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "agricultural_equipment_competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.97,
+    "evidence": [
+      {
+        "quote": "The competitive environment for the agriculture and turf operations includes some global competitors, such as AGCO Corporation, CLAAS KGaA mbH, CNH Industrial N.V., Kubota Tractor Corporation, and The Toro Company.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/315189/000110465925122321/de-20251102x10k.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-12-18",
+    "shared_evidence_group": "ev_a5d4c2190fda"
+  },
+  {
+    "root_ticker": "DE",
+    "counterparty_name": "CLAAS KGaA mbH",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "competitor",
+    "subtype": "agricultural_equipment_competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "The competitive environment for the agriculture and turf operations includes some global competitors, such as AGCO Corporation, CLAAS KGaA mbH, CNH Industrial N.V., Kubota Tractor Corporation, and The Toro Company.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/315189/000110465925122321/de-20251102x10k.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-12-18",
+    "shared_evidence_group": "ev_a5d4c2190fda"
+  },
+  {
+    "root_ticker": "DE",
+    "counterparty_name": "CNH Industrial N.V.",
+    "counterparty_ticker": "CNH",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "agricultural_equipment_competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.97,
+    "evidence": [
+      {
+        "quote": "The competitive environment for the agriculture and turf operations includes some global competitors, such as AGCO Corporation, CLAAS KGaA mbH, CNH Industrial N.V., Kubota Tractor Corporation, and The Toro Company.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/315189/000110465925122321/de-20251102x10k.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-12-18",
+    "shared_evidence_group": "ev_a5d4c2190fda"
+  },
+  {
+    "root_ticker": "DE",
+    "counterparty_name": "Kubota Tractor Corporation",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "agricultural_equipment_competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.97,
+    "evidence": [
+      {
+        "quote": "The competitive environment for the agriculture and turf operations includes some global competitors, such as AGCO Corporation, CLAAS KGaA mbH, CNH Industrial N.V., Kubota Tractor Corporation, and The Toro Company.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/315189/000110465925122321/de-20251102x10k.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-12-18",
+    "shared_evidence_group": "ev_a5d4c2190fda"
+  },
+  {
+    "root_ticker": "DE",
+    "counterparty_name": "The Toro Company",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "agricultural_equipment_competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "The competitive environment for the agriculture and turf operations includes some global competitors, such as AGCO Corporation, CLAAS KGaA mbH, CNH Industrial N.V., Kubota Tractor Corporation, and The Toro Company.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/315189/000110465925122321/de-20251102x10k.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-12-18",
+    "shared_evidence_group": "ev_a5d4c2190fda"
+  },
+  {
+    "root_ticker": "DE",
+    "counterparty_name": "Caterpillar Inc.",
+    "counterparty_ticker": "CAT",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "construction_forestry_competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.97,
+    "evidence": [
+      {
+        "quote": "Global competitors of the CF segment include Caterpillar Inc., CNH Industrial N.V., Doosan Infracore Co., Ltd. and its subsidiary Doosan Bobcat Inc., Fayat Group, GOMACO Corporation, Hitachi Construction Machinery, Komatsu Ltd.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/315189/000110465925122321/de-20251102x10k.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-12-18",
+    "shared_evidence_group": "ev_e2d8a455c19a"
+  },
+  {
+    "root_ticker": "DE",
+    "counterparty_name": "Doosan Infracore Co., Ltd.",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "construction_forestry_competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Global competitors of the CF segment include Caterpillar Inc., CNH Industrial N.V., Doosan Infracore Co., Ltd. and its subsidiary Doosan Bobcat Inc., Fayat Group, GOMACO Corporation, Hitachi Construction Machinery, Komatsu Ltd.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/315189/000110465925122321/de-20251102x10k.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-12-18",
+    "shared_evidence_group": "ev_e2d8a455c19a"
+  },
+  {
+    "root_ticker": "DE",
+    "counterparty_name": "Doosan Bobcat Inc.",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "construction_forestry_competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "Global competitors of the CF segment include Caterpillar Inc., CNH Industrial N.V., Doosan Infracore Co., Ltd. and its subsidiary Doosan Bobcat Inc., Fayat Group, GOMACO Corporation, Hitachi Construction Machinery, Komatsu Ltd.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/315189/000110465925122321/de-20251102x10k.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-12-18",
+    "shared_evidence_group": "ev_e2d8a455c19a"
+  },
+  {
+    "root_ticker": "DE",
+    "counterparty_name": "Fayat Group",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "competitor",
+    "subtype": "construction_forestry_competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Global competitors of the CF segment include Caterpillar Inc., CNH Industrial N.V., Doosan Infracore Co., Ltd. and its subsidiary Doosan Bobcat Inc., Fayat Group, GOMACO Corporation, Hitachi Construction Machinery, Komatsu Ltd.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/315189/000110465925122321/de-20251102x10k.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-12-18",
+    "shared_evidence_group": "ev_e2d8a455c19a"
+  },
+  {
+    "root_ticker": "DE",
+    "counterparty_name": "GOMACO Corporation",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "competitor",
+    "subtype": "construction_forestry_competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Global competitors of the CF segment include Caterpillar Inc., CNH Industrial N.V., Doosan Infracore Co., Ltd. and its subsidiary Doosan Bobcat Inc., Fayat Group, GOMACO Corporation, Hitachi Construction Machinery, Komatsu Ltd.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/315189/000110465925122321/de-20251102x10k.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-12-18",
+    "shared_evidence_group": "ev_e2d8a455c19a"
+  },
+  {
+    "root_ticker": "DE",
+    "counterparty_name": "Hitachi Construction Machinery",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "construction_forestry_competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.97,
+    "evidence": [
+      {
+        "quote": "Global competitors of the CF segment include Caterpillar Inc., CNH Industrial N.V., Doosan Infracore Co., Ltd. and its subsidiary Doosan Bobcat Inc., Fayat Group, GOMACO Corporation, Hitachi Construction Machinery, Komatsu Ltd.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/315189/000110465925122321/de-20251102x10k.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-12-18",
+    "shared_evidence_group": "ev_e2d8a455c19a"
+  },
+  {
+    "root_ticker": "DE",
+    "counterparty_name": "Komatsu Ltd.",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "construction_forestry_competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.97,
+    "evidence": [
+      {
+        "quote": "Global competitors of the CF segment include Caterpillar Inc., CNH Industrial N.V., Doosan Infracore Co., Ltd. and its subsidiary Doosan Bobcat Inc., Fayat Group, GOMACO Corporation, Hitachi Construction Machinery, Komatsu Ltd.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/315189/000110465925122321/de-20251102x10k.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-12-18",
+    "shared_evidence_group": "ev_e2d8a455c19a"
+  },
+  {
+    "root_ticker": "DE",
+    "counterparty_name": "Liugong",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "construction_forestry_competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.85,
+    "evidence": [
+      {
+        "quote": "Komatsu Ltd., Kubota Tractor Corporation, LGMG, Liugong, Ponsse Plc, SANY Group Co., Ltd., SDLG, Terex, Tigercat Industries Inc., Volvo Construction Equipment (part of Volvo Group AB), and XCMG.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/315189/000110465925122321/de-20251102x10k.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-12-18",
+    "shared_evidence_group": "ev_af9ee50863a1"
+  },
+  {
+    "root_ticker": "DE",
+    "counterparty_name": "Ponsse Plc",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "construction_forestry_competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Komatsu Ltd., Kubota Tractor Corporation, LGMG, Liugong, Ponsse Plc, SANY Group Co., Ltd., SDLG, Terex, Tigercat Industries Inc., Volvo Construction Equipment (part of Volvo Group AB), and XCMG.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/315189/000110465925122321/de-20251102x10k.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-12-18",
+    "shared_evidence_group": "ev_af9ee50863a1"
+  },
+  {
+    "root_ticker": "DE",
+    "counterparty_name": "SANY Group Co., Ltd.",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "construction_forestry_competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.88,
+    "evidence": [
+      {
+        "quote": "Komatsu Ltd., Kubota Tractor Corporation, LGMG, Liugong, Ponsse Plc, SANY Group Co., Ltd., SDLG, Terex, Tigercat Industries Inc., Volvo Construction Equipment (part of Volvo Group AB), and XCMG.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/315189/000110465925122321/de-20251102x10k.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-12-18",
+    "shared_evidence_group": "ev_af9ee50863a1"
+  },
+  {
+    "root_ticker": "DE",
+    "counterparty_name": "SDLG",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "competitor",
+    "subtype": "construction_forestry_competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "Komatsu Ltd., Kubota Tractor Corporation, LGMG, Liugong, Ponsse Plc, SANY Group Co., Ltd., SDLG, Terex, Tigercat Industries Inc., Volvo Construction Equipment (part of Volvo Group AB), and XCMG.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/315189/000110465925122321/de-20251102x10k.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-12-18",
+    "shared_evidence_group": "ev_af9ee50863a1"
+  },
+  {
+    "root_ticker": "DE",
+    "counterparty_name": "Terex",
+    "counterparty_ticker": "TEX",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "construction_forestry_competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.93,
+    "evidence": [
+      {
+        "quote": "Komatsu Ltd., Kubota Tractor Corporation, LGMG, Liugong, Ponsse Plc, SANY Group Co., Ltd., SDLG, Terex, Tigercat Industries Inc., Volvo Construction Equipment (part of Volvo Group AB), and XCMG.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/315189/000110465925122321/de-20251102x10k.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-12-18",
+    "shared_evidence_group": "ev_af9ee50863a1"
+  },
+  {
+    "root_ticker": "DE",
+    "counterparty_name": "Tigercat Industries Inc.",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "competitor",
+    "subtype": "construction_forestry_competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Komatsu Ltd., Kubota Tractor Corporation, LGMG, Liugong, Ponsse Plc, SANY Group Co., Ltd., SDLG, Terex, Tigercat Industries Inc., Volvo Construction Equipment (part of Volvo Group AB), and XCMG.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/315189/000110465925122321/de-20251102x10k.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-12-18",
+    "shared_evidence_group": "ev_af9ee50863a1"
+  },
+  {
+    "root_ticker": "DE",
+    "counterparty_name": "Volvo Construction Equipment",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "construction_forestry_competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Komatsu Ltd., Kubota Tractor Corporation, LGMG, Liugong, Ponsse Plc, SANY Group Co., Ltd., SDLG, Terex, Tigercat Industries Inc., Volvo Construction Equipment (part of Volvo Group AB), and XCMG.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/315189/000110465925122321/de-20251102x10k.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-12-18",
+    "shared_evidence_group": "ev_af9ee50863a1"
+  },
+  {
+    "root_ticker": "DE",
+    "counterparty_name": "XCMG",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "construction_forestry_competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.93,
+    "evidence": [
+      {
+        "quote": "Komatsu Ltd., Kubota Tractor Corporation, LGMG, Liugong, Ponsse Plc, SANY Group Co., Ltd., SDLG, Terex, Tigercat Industries Inc., Volvo Construction Equipment (part of Volvo Group AB), and XCMG.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/315189/000110465925122321/de-20251102x10k.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-12-18",
+    "shared_evidence_group": "ev_af9ee50863a1"
+  },
+  {
+    "root_ticker": "DE",
+    "counterparty_name": "The Home Depot",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "customer",
+    "subtype": "retail_distribution_channel",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "In addition, certain lawn and garden and compact construction products are sold through The Home Depot and Lowe’s.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/315189/000110465925122321/de-20251102x10k.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-12-18",
+    "shared_evidence_group": "ev_974a3a8e9ddb"
+  },
+  {
+    "root_ticker": "DE",
+    "counterparty_name": "Lowe's",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "retail_distribution_channel",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.7,
+    "evidence": [
+      {
+        "quote": "In addition, certain lawn and garden and compact construction products are sold through The Home Depot and Lowe’s.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/315189/000110465925122321/de-20251102x10k.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-12-18",
+    "shared_evidence_group": "ev_974a3a8e9ddb"
+  },
+  {
+    "root_ticker": "DE",
+    "counterparty_name": "Bradesco",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "joint_venture_financial_services",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "we completed a transaction with a Brazilian bank, Banco Bradesco S.A. (Bradesco), for Bradesco to invest and become 50% owner of our subsidiary in Brazil, Banco John Deere S.A.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/315189/000110465925122321/de-20251102x10k.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-12-18",
+    "shared_evidence_group": "ev_19287e29b19b"
+  },
+  {
+    "root_ticker": "DE",
+    "counterparty_name": "China",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "dependency",
+    "subtype": "rare earth minerals sourcing and export permit dependency",
+    "strength": 1,
+    "strength_tier": "critical",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.72,
+    "evidence": [
+      {
+        "quote": "certain of our products, including motors, batteries, and other components, rely on rare earth minerals for their manufacturing, of which a significant majority are sourced from China",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/315189/000110465925122321/de-20251102x10k.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-12-18",
+    "shared_evidence_group": "ev_3dca9d82e6c9"
+  },
+  {
+    "root_ticker": "DE",
+    "counterparty_name": "American Farm Bureau Federation",
+    "counterparty_ticker": null,
+    "counterparty_type": "other",
+    "category": "partner",
+    "subtype": "memorandum of understanding on equipment repair rights",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.75,
+    "evidence": [
+      {
+        "quote": "our Memorandum of Understanding with the American Farm Bureau Federation",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/315189/000110465925122321/de-20251102x10k.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-12-18",
+    "shared_evidence_group": "ev_1eb5a4d5beb6"
+  }
+]

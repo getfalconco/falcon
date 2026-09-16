@@ -1,0 +1,18 @@
+[
+  {
+    "counterparty_name": "Sinopec",
+    "category": "partner",
+    "subtype": "joint venture participant in Egypt oil and gas operations",
+    "evidence_quote": "Sinopec holds a one-third minority participation interest in the Company’s oil and gas operations in Egypt.",
+    "confidence": 0.85,
+    "merged_into": "Sinopec"
+  },
+  {
+    "counterparty_name": "EGPC",
+    "category": "partner",
+    "subtype": "oil and gas concession agreement",
+    "evidence_quote": "$28 million is related to the merged concession agreement with the EGPC",
+    "confidence": 0.65,
+    "merged_into": "EGPC"
+  }
+]

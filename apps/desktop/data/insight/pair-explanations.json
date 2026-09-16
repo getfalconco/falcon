@@ -1,0 +1,123 @@
+{
+  "run-36f56070-dcf0-5afb-a18c-e8141735ab38-2a1901639b:INTC:jj826d": {
+    "run_id": "run-36f56070-dcf0-5afb-a18c-e8141735ab38-2a1901639b",
+    "target": "INTC",
+    "headline": "NVDA NVIDIA partners with Cloverleaf Infrastructure on data center development",
+    "why": "Intel co-develops custom data center products with Nvidia, so Nvidia's own deployment footprint is the demand channel for that joint work. New data center development capacity through Cloverleaf expands the pipeline of sites those products can land in, which shows up in Intel's data center segment volumes rather than in any headline announcement of its own. The link is second-order: Intel gets paid only as the co-developed parts ship into racks Nvidia has already sold.",
+    "precedent": "Thin record: two resolved calls on this pair, one right, one wrong \" 1.1% and the stock moved -2.1% \\u2014 the direction was wrong. Realised moves have run about 2.3x the expected size, so when this link does move Intel, it moves more than the model asks for.",
+    "this_time": "Same event, same counterparty as the August miss, which argues for a small and possibly negative reaction again \\u2014 partnership headlines at Nvidia have not reliably pulled Intel up. Expect something in the 1-2% expected range with realistic outcomes several times that in either direction given the 2.3x realised-to-expected pattern. What differs is only that this is a repeat: a second capacity announcement carries less information than the first.",
+    "watch": [
+      "Whether Intel names Nvidia data center volume in segment commentary rather than press release language",
+      "Any dollar figure or site count attached to the Cloverleaf capacity",
+      "Intel closing down on the day despite the positive root \\u2014 repeats the August pattern",
+      "Nvidia export or China policy news, which historically moved this pair harder than partnerships"
+    ],
+    "model": "claude-opus-5",
+    "generated_at": "2026-08-24T22:26:06.621Z"
+  },
+  "run-3ba66b97-77bb-5f4c-a9d4-32acc2fcb884-88d72ae69a:ANET:3awrl7": {
+    "run_id": "run-3ba66b97-77bb-5f4c-a9d4-32acc2fcb884-88d72ae69a",
+    "target": "ANET",
+    "headline": "NVDA Nvidia discusses investment in Perplexity at $30B+ valuation",
+    "why": "Nvidia putting money into Perplexity is a capital allocation into an AI application company, not a networking decision, so it reaches Arista only indirectly: through the downstream build-out of the clusters that serve models like Perplexity's. Arista sells the Ethernet switching that ties GPU clusters together, and Nvidia sells competing InfiniBand and Spectrum-X fabric into the same racks, so the pair overlap on the interconnect line and nowhere else. The link is marginal and the sign is unclear — more AI compute demand helps Arista's switch volumes, while a stronger Nvidia platform position pulls fabric share toward Nvidia's own gear.",
+    "precedent": "There is no track record here. The engine has zero resolved calls on this pair, zero open, and zero expired, so there is no hit rate, no typical expected move and no typical realised move to cite. Any claim about how Arista has traded on Nvidia investment headlines would be invented, not measured.",
+    "this_time": "Expect little to nothing in Arista's numbers from this specific item: it is an equity stake discussion at a model company, with no disclosed hardware order, capex commitment or fabric decision attached. What differs from a normal Nvidia-to-Arista read-through is that the usual channel — Nvidia guidance or hyperscaler capex — is absent here, so the move should be smaller than a datacenter demand headline. Treat any Arista reaction as sentiment on AI infrastructure broadly rather than a change to its order book.",
+    "watch": [
+      "Whether the stake comes with disclosed compute or cluster commitments, not just a valuation",
+      "Arista's next quarter AI networking revenue and 2026 AI target commentary",
+      "Ethernet versus InfiniBand or Spectrum-X share language from large cluster operators",
+      "Kills the read: no hardware or capex detail emerges, leaving a pure equity stake story"
+    ],
+    "model": "claude-opus-5",
+    "generated_at": "2026-08-25T20:33:49.043Z"
+  },
+  "run-3ba66b97-77bb-5f4c-a9d4-32acc2fcb884-88d72ae69a:HPE:3awrl7": {
+    "run_id": "run-3ba66b97-77bb-5f4c-a9d4-32acc2fcb884-88d72ae69a",
+    "target": "HPE",
+    "headline": "NVDA Nvidia discusses investment in Perplexity at $30B+ valuation",
+    "why": "HPE buys Nvidia GPUs and networking to build the AI servers it sells; its revenue depends on demand for that hardware and on getting allocation of it. Nvidia putting money into an AI application company like Perplexity is a demand signal for inference capacity, which is the workload HPE's server and private-cloud business sells into. The channel is order flow: more funded AI applications means more compute buildout, and HPE captures a slice as the integrator, though it captures none of the equity value Nvidia is buying.",
+    "precedent": "There is no track record on this pair. The engine has zero resolved calls, zero open, and zero expired on NVDA investment news transmitting to HPE, so there is no hit rate and no typical move size to cite. Any read here rests on the mechanism alone, not on how this link has behaved before.",
+    "this_time": "Expect a small positive drift in HPE at most, well inside normal daily noise, because the link is a second-order demand signal rather than a contract or order. What makes this instance weak is that the money goes to a software company, not to compute procurement HPE would fulfil, and no dollar figure of hardware spend is attached. HPE's own margin problem on AI servers means even real order growth does not translate cleanly into earnings.",
+    "watch": [],
+    "model": "claude-opus-5",
+    "generated_at": "2026-08-25T20:35:18.368Z"
+  },
+  "run-664d3e65-d850-5cfa-a999-b7668020f33e-114a45a418:JD:1v523cd": {
+    "run_id": "run-664d3e65-d850-5cfa-a999-b7668020f33e-114a45a418",
+    "target": "JD",
+    "headline": "WMT Walmart stock rebounds after sales miss-driven selloff",
+    "why": "The link runs through a strategic equity and commercial tie-in: Walmart holds an investment position in JD.com and the two have cooperated on China retail supply and fulfillment, so Walmart's results are read as a signal about that partnership's volume and about Walmart's willingness to keep capital in it. A share-price rebound at Walmart does not change JD's order book directly; it mainly shifts sentiment on the partner stake and on China consumer read-through. There is no revenue line at JD that moves mechanically off a one-day Walmart move.",
+    "precedent": "The engine has no resolved calls on this pair: zero resolved, zero right, zero wrong, none open, none expired. There is no typical expected or realised move on file, so no historical size or hit rate can be cited. The record is empty, not weak.",
+    "this_time": "Expect a small, short-lived sympathy effect at most, since the transmission is a sentiment channel on a marginal stake rather than a demand channel. What distinguishes this instance is that the root move is a rebound off a sales miss, so the underlying operating signal for China retail demand is soft even as the price recovers. That split makes a durable JD move less likely than the headline direction suggests.",
+    "watch": [
+      "JD trades in line with China internet peers rather than with WMT: kills the read",
+      "Walmart commentary naming China or the JD stake in guidance or Q&A",
+      "Any change in Walmart's disclosed JD position size in a subsequent filing",
+      "JD move fading within one or two sessions, marking it as sentiment only"
+    ],
+    "model": "claude-opus-5",
+    "generated_at": "2026-08-25T20:45:53.198Z"
+  },
+  "run-3e13381d-24cb-54e6-a197-d8be63a83b56-ee28d8b7ee:RTX:6synnr": {
+    "run_id": "run-3e13381d-24cb-54e6-a197-d8be63a83b56-ee28d8b7ee",
+    "target": "RTX",
+    "headline": "BA 8-K Item 5.02 — officer / director change",
+    "why": "An officer or director change at Boeing does not touch RTX's revenue, backlog or cost base through any direct channel. RTX and Boeing overlap as competitors in defense programs and as counterparties in commercial aerospace supply, but a personnel filing changes neither award schedules nor delivery rates on its own. The only plausible path is second-order: if the change signals a shift in Boeing's program strategy or bid posture, that could eventually affect competitive positioning on shared defense contests, which shows up in orders quarters later, not in this filing.",
+    "precedent": "The engine has no resolved calls on this pair: 0 resolved, 0 open, 0 expired. There is no hit rate, no typical expected move and no typical realised move to cite. The record is empty, so nothing here is grounded in how this link has behaved before.",
+    "this_time": "Expect no measurable move in RTX on this. Direction is unclear at the root, the edge is marked marginal, and management changes are the weakest of the transmission types — RTX should trade on its own engine deliveries and defense bookings instead. What differs from precedent is only that there is no precedent to differ from; treat this as an information item, not a trade.",
+    "watch": [
+      "Who the incoming officer is and whether they own defense programs where RTX competes",
+      "Any BA statement tying the change to program strategy, bid posture or restructuring",
+      "RTX price action versus defense peers on the session after the filing",
+      "New or reopened contest where BA and RTX bid the same program"
+    ],
+    "model": "claude-opus-5",
+    "generated_at": "2026-08-26T11:35:28.517Z"
+  },
+  "run-3ba66b97-77bb-5f4c-a9d4-32acc2fcb884-88d72ae69a:TSM:3awrl7": {
+    "run_id": "run-3ba66b97-77bb-5f4c-a9d4-32acc2fcb884-88d72ae69a",
+    "target": "TSM",
+    "headline": "NVDA Nvidia discusses investment in Perplexity at $30B+ valuation",
+    "outlook": {
+      "direction": "unclear",
+      "magnitude": "under 0.5% if anything",
+      "horizon": "the next 2-3 sessions",
+      "conviction": "low",
+      "call": "No clear move; an equity stake in a customer's customer barely reaches TSM's order book."
+    },
+    "why": "TSM's link to NVDA is wafer fabrication and advanced packaging: revenue moves when NVDA raises or cuts wafer starts. A minority investment in Perplexity does not change NVDA's silicon orders in any near-term way; at most it signals NVDA sees continued AI demand it wants to seed. The channel from this headline to TSM's numbers is a signal about future demand, not a booking.",
+    "precedent": "The engine has no resolved calls on this NVDA-to-TSM link — zero resolved, zero open, zero expired. There is no hit rate, no typical expected move and no typical realised move to lean on. Treat the record as empty rather than supportive.",
+    "this_time": "Most likely TSM trades on its own drivers — monthly revenue, CoWoS capacity commentary, broad semi tape — with this headline contributing little to nothing. What differs from a normal NVDA catalyst is that no capacity, pricing or volume term is involved; it is a capital allocation item at a customer. Any move above roughly half a percent on this alone would be sentiment, not mechanism.",
+    "watch": [
+      "NVDA commentary tying the Perplexity stake to incremental GPU or compute commitments",
+      "TSM monthly revenue print and any change in advanced-node or CoWoS capacity guidance",
+      "NVDA order or wafer-start revisions from supply chain checks, up or down",
+      "TSM moving with broad semis rather than NVDA-specific news kills the read"
+    ],
+    "model": "claude-opus-5",
+    "generated_at": "2026-08-26T12:45:23.233Z"
+  },
+  "run-3ba66b97-77bb-5f4c-a9d4-32acc2fcb884-88d72ae69a:AMD:3awrl7": {
+    "run_id": "run-3ba66b97-77bb-5f4c-a9d4-32acc2fcb884-88d72ae69a",
+    "target": "AMD",
+    "headline": "NVDA Nvidia discusses investment in Perplexity at $30B+ valuation",
+    "outlook": {
+      "direction": "unclear",
+      "magnitude": "under 1%",
+      "horizon": "the next 2-3 sessions",
+      "conviction": "low",
+      "call": "Unclear, likely under 1% over 2-3 sessions, on an empty record."
+    },
+    "why": "Nvidia taking a stake in Perplexity at a $30B+ valuation is a capital allocation move, not a change in chip supply, pricing or order flow. The only channel to AMD's numbers is indirect: if Nvidia's investments help lock AI application developers onto CUDA, AMD's addressable share of inference accelerator spend narrows over time. Nothing here touches AMD revenue in the current or next quarter.",
+    "precedent": "The engine has no resolved calls on this NVDA-to-AMD link — zero resolved, zero open, zero expired. There is no typical expected or realised move on file to anchor a size. The record is empty, so precedent carries no weight here.",
+    "this_time": "Expect AMD to trade on its own flow rather than this headline; any move should be under a percent and easily swamped by broader AI sentiment. What separates this instance from a normal competitive event is that no product, price or capacity is changing hands — it is an equity investment in a customer-side application company. Sign is genuinely ambiguous: the same news can read as AI demand confirmation, which lifts AMD, or as ecosystem lock-in, which pressures it.",
+    "watch": [
+      "AMD moving more than 1% intraday without a matching move in the broader semi tape",
+      "Terms of the Nvidia-Perplexity deal disclosing exclusivity or compute commitments",
+      "Perplexity or peer AI app firms naming AMD Instinct for inference workloads",
+      "Sell-side notes reframing this as CUDA ecosystem lock-in rather than demand read-through"
+    ],
+    "model": "claude-opus-5",
+    "generated_at": "2026-08-26T12:46:00.632Z"
+  }
+}

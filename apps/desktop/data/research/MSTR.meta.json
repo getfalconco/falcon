@@ -1,0 +1,13 @@
+{
+  "ticker": "MSTR",
+  "companyName": "Strategy Inc",
+  "form": "10-K",
+  "filingDate": "2026-02-19",
+  "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1050446/000105044626000020/mstr-20251231.htm",
+  "generatedAt": "2026-07-25T19:59:35.306Z",
+  "cacheKey": "MSTR|0001050446-26-000020|5",
+  "accessionNumber": "0001050446-26-000020",
+  "validatedCount": 11,
+  "rejectedCount": 10,
+  "mergedCount": 1
+}

@@ -1,0 +1,346 @@
+{
+ "recorded_at": "2026-08-22T19:59:56.471Z",
+ "request": {
+  "request_id": "pr-c3f1a862-a679-5416-ad68-0a896ea1ce75-5ec2de564d",
+  "incident_id": "c3f1a862-a679-5416-ad68-0a896ea1ce75",
+  "root_ticker": "BNTX",
+  "incident": {
+   "incident_id": "c3f1a862-a679-5416-ad68-0a896ea1ce75",
+   "ticker": "BNTX",
+   "trigger_type": "organic",
+   "window_start": "2026-08-21T00:39:53.797Z",
+   "window_end": "2026-08-21T06:39:53.797Z",
+   "window_status": "closed",
+   "composite_tags": [],
+   "priority": 16,
+   "priority_band": "P2",
+   "degraded_context": false,
+   "discovery_floor_applied": false,
+   "earnings_absorption": false,
+   "messages": [
+    {
+     "id": "0fb99096-b19f-4724-86e0-619bd23d0e70",
+     "schema_version": 1,
+     "type": "volume_anomaly",
+     "ticker": "BNTX",
+     "timestamp": "2026-08-21T00:39:53.797Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 0.23555219857963386,
+      "r_squared": 0.004044017079733453,
+      "daily_vol_30d": 0.01469685591186054,
+      "vol_regime": 0.8021429720460558,
+      "move_today": -0.019713607697918634,
+      "move_zscore": -1.3413486405626058,
+      "residual_move": -0.017734994347383536,
+      "residual_zscore": -1.0095838910886232,
+      "volume_ratio": 3.9091336578889133,
+      "volume_ratio_partial": false,
+      "momentum_5d": 0.20375592795738195,
+      "momentum_20d": 0.2075574123766175,
+      "momentum_60d": 0.2034946833536282,
+      "pct_from_52w_high": -0.07080607681868434,
+      "pct_from_52w_low": 0.3218500440629595,
+      "earnings_rhythm": null,
+      "prev_close": 113.12000274658203,
+      "last_price": 110.88999938964844,
+      "price_asof": "2026-08-20T20:00:00.000Z",
+      "session": "closed"
+     },
+     "payload": {
+      "volume_ratio": 3.9091336578889133,
+      "threshold_crossed": 3
+     }
+    },
+    {
+     "id": "58f9ebb3-cbc9-4fec-9d83-cf1db4b16585",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "BNTX",
+     "timestamp": "2026-08-21T00:39:53.797Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 0.2176770532455756,
+      "r_squared": 0.008608601599795818,
+      "daily_vol_30d": 0.012742528849778115,
+      "vol_regime": 0.7006735663161588,
+      "move_today": 0.20112030378846324,
+      "move_zscore": 15.783390107212929,
+      "residual_move": 0.20286950887244895,
+      "residual_zscore": 12.29166813748637,
+      "volume_ratio": 4.5773083197389886,
+      "volume_ratio_partial": false,
+      "momentum_5d": 0.0003232626973097563,
+      "momentum_20d": 0.013870732921854811,
+      "momentum_60d": 0.04479463618778601,
+      "pct_from_52w_high": -0.2221383888078684,
+      "pct_from_52w_low": 0.10656815480331727,
+      "earnings_rhythm": null,
+      "prev_close": 92.83000183105469,
+      "last_price": 111.5,
+      "price_asof": "2026-08-20T23:51:38.000Z",
+      "session": "post"
+     },
+     "payload": {
+      "headline": "Moderna Stock Cools Off After-Hours, Following Massive 177% Cancer Vaccine Rally — Merck, Pfizer and BioNTech Among mRNA Names Trending Tonight",
+      "source": "Benzinga",
+      "url": "https://finnhub.io/api/news?id=593eab7b6696fb79c76c1ab87310ffe191bf52224478eb4fdd74003a3801cac6",
+      "published_at": "2026-08-19T23:29:25.000Z",
+      "article_id": "141261727",
+      "summary": "Healthcare stocks saw mixed after-hours moves, with Moderna and Merck cooling after explosive gains on positive cancer trial results."
+     }
+    },
+    {
+     "id": "7562b578-9764-4835-bbe3-1873efbf7786",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "BNTX",
+     "timestamp": "2026-08-21T00:39:53.797Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 0.2176770532455756,
+      "r_squared": 0.008608601599795818,
+      "daily_vol_30d": 0.012742528849778115,
+      "vol_regime": 0.7006735663161588,
+      "move_today": 0.20112030378846324,
+      "move_zscore": 15.783390107212929,
+      "residual_move": 0.20286950887244895,
+      "residual_zscore": 12.29166813748637,
+      "volume_ratio": 4.5773083197389886,
+      "volume_ratio_partial": false,
+      "momentum_5d": 0.0003232626973097563,
+      "momentum_20d": 0.013870732921854811,
+      "momentum_60d": 0.04479463618778601,
+      "pct_from_52w_high": -0.2221383888078684,
+      "pct_from_52w_low": 0.10656815480331727,
+      "earnings_rhythm": null,
+      "prev_close": 92.83000183105469,
+      "last_price": 111.5,
+      "price_asof": "2026-08-20T23:51:38.000Z",
+      "session": "post"
+     },
+     "payload": {
+      "headline": "BioNTech Will Present New Data From Its Development Program in Lung Cancer Treatment at the IASLC 2026 World Conference on Lung Cancer In September; Data Highlights Progress Across Pumitamig (BNT327/BMS986545) and Gotistobart (BNT316/ONC-392), As Well As BioNTech’s mRNA-Based Immunotherapy Approaches",
+      "source": "Benzinga",
+      "url": "https://finnhub.io/api/news?id=99c0b433339ba9f0da16be3a6b0b7f7db6c0f5b1dd8a336e33711aecbda7ecd3",
+      "published_at": "2026-08-20T05:37:47.000Z",
+      "article_id": "141265928",
+      "summary": "Pumitamig plus B7H3-targeting elfetabart drozuntecan delivers the first data in lung cancer for any PD-(L)1xVEGF bispecific immunomodulator combined with an antibody-drug conjugate, underscoring BioNTech’s leadership in"
+     }
+    },
+    {
+     "id": "d694d25b-c719-423b-8246-65df6c986bcb",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "BNTX",
+     "timestamp": "2026-08-21T00:39:53.797Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 0.2176770532455756,
+      "r_squared": 0.008608601599795818,
+      "daily_vol_30d": 0.012742528849778115,
+      "vol_regime": 0.7006735663161588,
+      "move_today": 0.20112030378846324,
+      "move_zscore": 15.783390107212929,
+      "residual_move": 0.20286950887244895,
+      "residual_zscore": 12.29166813748637,
+      "volume_ratio": 4.5773083197389886,
+      "volume_ratio_partial": false,
+      "momentum_5d": 0.0003232626973097563,
+      "momentum_20d": 0.013870732921854811,
+      "momentum_60d": 0.04479463618778601,
+      "pct_from_52w_high": -0.2221383888078684,
+      "pct_from_52w_low": 0.10656815480331727,
+      "earnings_rhythm": null,
+      "prev_close": 92.83000183105469,
+      "last_price": 111.5,
+      "price_asof": "2026-08-20T23:51:38.000Z",
+      "session": "post"
+     },
+     "payload": {
+      "headline": "Tempus AI Just Had Their Entire Strategy Validated By Moderna's Vaccine Advance",
+      "source": "SeekingAlpha",
+      "url": "https://finnhub.io/api/news?id=5b54ec56dfde684c05d3723c87da63c116166a04b8bff3d3ea948663950358c1",
+      "published_at": "2026-08-20T08:00:00.000Z",
+      "article_id": "141261028",
+      "summary": "Tempus AI remains a strong buy, driven by its unique flywheel business model and recent validation of its technology via the Personalis acquisition. Learn more about TEM stock here."
+     }
+    }
+   ],
+   "quant_context": {
+    "beta_90d": 0.2176770532455756,
+    "r_squared": 0.008608601599795818,
+    "daily_vol_30d": 0.012742528849778115,
+    "vol_regime": 0.7006735663161588,
+    "move_today": 0.20112030378846324,
+    "move_zscore": 15.783390107212929,
+    "residual_move": 0.20286950887244895,
+    "residual_zscore": 12.29166813748637,
+    "volume_ratio": 4.5773083197389886,
+    "volume_ratio_partial": false,
+    "momentum_5d": 0.0003232626973097563,
+    "momentum_20d": 0.013870732921854811,
+    "momentum_60d": 0.04479463618778601,
+    "pct_from_52w_high": -0.2221383888078684,
+    "pct_from_52w_low": 0.10656815480331727,
+    "earnings_rhythm": null,
+    "prev_close": 92.83000183105469,
+    "last_price": 111.5,
+    "price_asof": "2026-08-20T23:51:38.000Z",
+    "session": "post"
+   },
+   "user_proximity": "tracked",
+   "related_incident_id": null,
+   "propagation_candidates": [
+    {
+     "ticker": "BNTX",
+     "article_key": "id:141265928",
+     "event_type": "product_clinical",
+     "event_label": "BioNTech to present lung cancer treatment data at IASLC conference"
+    }
+   ]
+  },
+  "event": {
+   "type": "product_clinical",
+   "direction": "positive",
+   "materiality": "standard",
+   "label": "BioNTech to present lung cancer treatment data at IASLC conference",
+   "source_msg_ids": [
+    "7562b578-9764-4835-bbe3-1873efbf7786"
+   ],
+   "event_ts": "2026-08-20T05:37:47.000Z",
+   "source": "verdict",
+   "evidence_lines": [
+    "BioNTech Will Present New Data From Its Development Program in Lung Cancer Treatment at the IASLC 2026 World Conference on Lung Cancer In September; Data Highlights Progress Across Pumitamig (BNT327/BMS986545) and Gotistobart (BNT316/ONC-392), As Well As BioNTech’s mRNA-Based Immunotherapy Approaches (product_clinical · standard · positive)"
+   ]
+  },
+  "trigger_rules": [
+   "propagation_candidates"
+  ],
+  "update": false,
+  "prior_run_id": null,
+  "requested_at": "2026-08-22T19:59:56.471Z",
+  "verdicts": {
+   "58f9ebb3-cbc9-4fec-9d83-cf1db4b16585": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141261727",
+     "kind": "news",
+     "event_type": "product_clinical",
+     "event_label": "Moderna cancer vaccine trial results drive mRNA sector movement",
+     "syndication_scope": 3,
+     "tickers": [
+      {
+       "ticker": "MRK",
+       "relevance": "indirect",
+       "materiality": "low",
+       "direction": "unclear"
+      },
+      {
+       "ticker": "PFE",
+       "relevance": "indirect",
+       "materiality": "low",
+       "direction": "unclear"
+      },
+      {
+       "ticker": "BNTX",
+       "relevance": "indirect",
+       "materiality": "low",
+       "direction": "unclear"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:23.068Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "BNTX",
+     "relevance": "indirect",
+     "materiality": "low",
+     "direction": "unclear"
+    }
+   },
+   "7562b578-9764-4835-bbe3-1873efbf7786": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141265928",
+     "kind": "news",
+     "event_type": "product_clinical",
+     "event_label": "BioNTech to present lung cancer treatment data at IASLC conference",
+     "syndication_scope": 1,
+     "tickers": [
+      {
+       "ticker": "BNTX",
+       "relevance": "direct",
+       "materiality": "standard",
+       "direction": "positive"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:21.590Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "BNTX",
+     "relevance": "direct",
+     "materiality": "standard",
+     "direction": "positive"
+    }
+   },
+   "d694d25b-c719-423b-8246-65df6c986bcb": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141261028",
+     "kind": "news",
+     "event_type": "other",
+     "event_label": "Tempus AI strategy validation via Moderna vaccine advance",
+     "syndication_scope": 3,
+     "tickers": [
+      {
+       "ticker": "MRK",
+       "relevance": "none"
+      },
+      {
+       "ticker": "AZN",
+       "relevance": "none"
+      },
+      {
+       "ticker": "BNTX",
+       "relevance": "none"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:20.335Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "BNTX",
+     "relevance": "none"
+    }
+   }
+  }
+ },
+ "graph_version": {
+  "generatedAt": "2026-08-13T22:38:11.325Z",
+  "pipelineVersion": 5
+ }
+}

@@ -1,0 +1,133 @@
+{
+  "readout": {
+    "schema_version": 1,
+    "ticker": "NVDA",
+    "tracked": true,
+    "mode": "standalone",
+    "context": null,
+    "computed_at": "2026-08-24T21:29:03.420Z",
+    "quant_as_of": "2026-08-24",
+    "setup": {
+      "key": "event_wall",
+      "name": "EVENT WALL",
+      "read": "Earnings in 2 sessions, typical move 2.8% — everything else is noise until then",
+      "direction": null,
+      "values": {
+        "event_sessions": 2,
+        "earnings_rhythm": 0.027920277574505353,
+        "due_at": "2026-08-26T20:00:00.000Z",
+        "fiscal_period": "Q2 2027"
+      },
+      "screen": []
+    },
+    "state": "wait",
+    "missing": {
+      "label": "earnings in 2 sessions",
+      "detail": "earnings in 2 sessions on 2026-08-26 — the tape reads through until it prints"
+    },
+    "state_line": null,
+    "readable": true,
+    "readability_note": null,
+    "checks": [
+      {
+        "key": "trend",
+        "number": 1,
+        "label": "Trend coherence",
+        "status": "caution",
+        "reason": "5d and 20d momentum disagree (−7.4% / +6.1%) — mixed tape",
+        "note": null,
+        "short_label": "momentum split",
+        "values": {
+          "momentum_5d": -0.0737300419665875,
+          "momentum_20d": 0.060607622996473376,
+          "daily_vol": 0.03313687082197876
+        }
+      },
+      {
+        "key": "regime",
+        "number": 2,
+        "label": "Volatility regime",
+        "status": "caution",
+        "reason": "vol regime 1.30× its 90d norm — expanding",
+        "note": null,
+        "short_label": "vol expanding",
+        "values": {
+          "vol_regime": 1.2996666614367935,
+          "daily_vol": 0.03313687082197876
+        }
+      },
+      {
+        "key": "residual",
+        "number": 3,
+        "label": "Residual readability",
+        "status": "pass",
+        "reason": "r² 0.40, β 1.96 — residual reads usable",
+        "note": null,
+        "short_label": null,
+        "values": {
+          "r2": 0.4021534222979537,
+          "beta": 1.9596615883756185,
+          "r2_floor": 0.15
+        }
+      },
+      {
+        "key": "volume",
+        "number": 4,
+        "label": "Volume state",
+        "status": "pass",
+        "reason": "volume 0.95× its average — normal",
+        "note": null,
+        "short_label": null,
+        "values": {
+          "volume_ratio": 0.9522723393937134,
+          "partial": false
+        }
+      },
+      {
+        "key": "stretch",
+        "number": 5,
+        "label": "Stretch",
+        "status": "pass",
+        "reason": "20d move +6.1% is 0.41σ — not stretched",
+        "note": null,
+        "short_label": null,
+        "values": {
+          "momentum_20d": 0.060607622996473376,
+          "daily_vol": 0.03313687082197876,
+          "pct_from_52w_high": -0.11486000817031583,
+          "pct_from_52w_low": 0.2633220742176734,
+          "stretch_z": 0.4089787647809686
+        }
+      },
+      {
+        "key": "event_wall",
+        "number": 6,
+        "label": "Event wall",
+        "status": "caution",
+        "reason": "earnings in 2 sessions — typical move 2.8%",
+        "note": null,
+        "short_label": "earnings near",
+        "values": {
+          "due_at": "2026-08-26T20:00:00.000Z",
+          "sessions_until": 2,
+          "fiscal_period": "Q2 2027",
+          "earnings_rhythm": 0.027920277574505353
+        }
+      }
+    ],
+    "summary": {
+      "evaluable": 6,
+      "aligned": 3,
+      "cautions": 3,
+      "fails": 0,
+      "unavailable": 0,
+      "overall": "mixed",
+      "binding_check": "trend",
+      "binding_line": "mixed — 3 cautions: momentum split, vol expanding, earnings near",
+      "sentence": "mixed — 3 cautions: momentum split, vol expanding, earnings near",
+      "calibrating": false,
+      "tooltip": "conditions disagree — no clean read"
+    }
+  },
+  "errors": []
+}

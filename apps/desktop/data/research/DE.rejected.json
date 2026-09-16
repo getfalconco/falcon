@@ -1,0 +1,56 @@
+[
+  {
+    "counterparty_name": "The Home Depot",
+    "category": "customer",
+    "subtype": "mass_retail_channel",
+    "evidence_quote": "SAT equipment is sold primarily through independent retail dealer networks, although the segment also builds turf products for sale by mass retailers, including The Home Depot and Lowe's.",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Lowe's",
+    "category": "customer",
+    "subtype": "mass_retail_channel",
+    "evidence_quote": "SAT equipment is sold primarily through independent retail dealer networks, although the segment also builds turf products for sale by mass retailers, including The Home Depot and Lowe's.",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "LGMG",
+    "category": "competitor",
+    "subtype": "construction_forestry_competitor",
+    "evidence_quote": "Komatsu Ltd., Kubota Tractor Corporation, LGMG, Liugong, Ponsse Plc, SANY Group Co., Ltd., SDLG, Terex, Tigercat Industries Inc., Volvo Construction Equipment (part of Volvo Group AB), and XCMG.",
+    "confidence": 0.9,
+    "reason": "evidence_quote is a comma-separated list of competitor names extracted from a sentence enumerating many companies, not a natural-language statement specifically about LGMG. The listed competitors are named as a group, and LGMG (a real Chinese construction equipment maker) is plausible as a CF segment competitor, but the quote as given is just a fragment of a longer list rather than a standalone supporting sentence.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "BorgWarner Inc.",
+    "category": "supplier",
+    "subtype": "executive_recruitment_source",
+    "evidence_quote": "Executive Vice President & Chief Human Resources Officer, BorgWarner Inc. (2022)",
+    "confidence": 0.65,
+    "reason": "The quote is from an executive officer's bio (Felecia J. Pryor's prior employment history at BorgWarner), not evidence of a Deere-BorgWarner business relationship. BorgWarner is not established as a supplier, customer, partner, or dependency here; it's merely a past employer of a Deere executive.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Boston Consulting Group",
+    "category": "supplier",
+    "subtype": "executive_recruitment_source",
+    "evidence_quote": "Senior Partner and Managing Director, Boston Consulting Group (BCG) (2020)",
+    "confidence": 0.65,
+    "reason": "The quote is from an executive's bio listing prior work experience at BCG before joining Deere, not a description of a vendor relationship between Deere and BCG. There is no evidence Deere engages BCG as a consulting/recruitment supplier; this is biographical background text, not a commercial relationship.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Eastman Chemical Company",
+    "category": "supplier",
+    "subtype": "executive_recruitment_source",
+    "evidence_quote": "Executive Vice President, Chief Legal Officer, and Corporate Secretary, Eastman Chemical Company (2020)",
+    "confidence": 0.65,
+    "reason": "The evidence is a fragment from an executive officer's biography table (prior employer listed in a career history), not a description of a commercial supplier relationship. Eastman Chemical Company has no business dealings with Deere here; it's merely where an executive previously worked. This does not establish any commercial relationship category.",
+    "stage": "audit"
+  }
+]

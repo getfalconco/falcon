@@ -1,0 +1,90 @@
+[
+  {
+    "counterparty_name": "Intel Corporation",
+    "category": "competitor",
+    "subtype": "microprocessor_competitor",
+    "evidence_quote": "Intel Corporation (Intel) uses its microprocessor market position to price its products aggressively and target our customers and channel partners with special incentives.",
+    "confidence": 0.95,
+    "merged_into": "Intel Corporation"
+  },
+  {
+    "counterparty_name": "Nvidia Corporation",
+    "category": "competitor",
+    "subtype": "data_center_gpu_competitor",
+    "evidence_quote": "Nvidia Corporation (Nvidia) leverages its market position in data center GPU, financial resources, and proprietary software ecosystem to promote its systems and influences customers who do business with us.",
+    "confidence": 0.95,
+    "merged_into": "Nvidia Corporation"
+  },
+  {
+    "counterparty_name": "Nvidia",
+    "category": "competitor",
+    "subtype": "direct_competitor",
+    "evidence_quote": "in September 2025, Nvidia announced a partnership and investment in Intel to partner on new data center and client platform products. This partnership may result in increased competition",
+    "confidence": 0.85,
+    "merged_into": "Nvidia Corporation"
+  },
+  {
+    "counterparty_name": "Intel",
+    "category": "competitor",
+    "subtype": "direct_competitor",
+    "evidence_quote": "in September 2025, Nvidia announced a partnership and investment in Intel to partner on new data center and client platform products. This partnership may result in increased competition",
+    "confidence": 0.85,
+    "merged_into": "Intel Corporation"
+  },
+  {
+    "counterparty_name": "Sony",
+    "category": "customer",
+    "subtype": "semi_custom_soc_customer",
+    "evidence_quote": "The success of our semi-custom SoC products in our Client and Gaming segment is dependent on securing customers for our semi-custom design pipeline and consumer market conditions, including the success of game console systems and next generation consoles for Sony",
+    "confidence": 0.9,
+    "merged_into": "Sony"
+  },
+  {
+    "counterparty_name": "Taiwan Semiconductor Manufacturing Company Limited",
+    "category": "supplier",
+    "subtype": "wafer_foundry",
+    "evidence_quote": "We rely on Taiwan Semiconductor Manufacturing Company Limited (TSMC) for the production of all wafers for microprocessor and GPU products at 7 nanometer (nm) or smaller nodes",
+    "confidence": 0.95,
+    "merged_into": "Taiwan Semiconductor Manufacturing Company Limited"
+  },
+  {
+    "counterparty_name": "GLOBALFOUNDRIES Inc.",
+    "category": "supplier",
+    "subtype": "wafer_foundry",
+    "evidence_quote": "we rely primarily on GLOBALFOUNDRIES Inc. (GF) for wafers for microprocessor and GPU products manufactured at process nodes larger than 7 nm.",
+    "confidence": 0.95,
+    "merged_into": "GLOBALFOUNDRIES Inc."
+  },
+  {
+    "counterparty_name": "United Microelectronics Corporation",
+    "category": "supplier",
+    "subtype": "ic_foundry",
+    "evidence_quote": "We also utilize TSMC, United Microelectronics Corporation (UMC) and Samsung Electronics Co., Ltd. for our integrated circuits (IC) in the form of programmable logic devices.",
+    "confidence": 0.9,
+    "merged_into": "United Microelectronics Corporation"
+  },
+  {
+    "counterparty_name": "Samsung Electronics Co., Ltd.",
+    "category": "supplier",
+    "subtype": "ic_foundry",
+    "evidence_quote": "We also utilize TSMC, United Microelectronics Corporation (UMC) and Samsung Electronics Co., Ltd. for our integrated circuits (IC) in the form of programmable logic devices.",
+    "confidence": 0.9,
+    "merged_into": "Samsung Electronics Co., Ltd."
+  },
+  {
+    "counterparty_name": "Intel",
+    "category": "competitor",
+    "subtype": "microprocessor competitor",
+    "evidence_quote": "our microprocessors are not designed to function with motherboards and chipsets designed to work with Intel microprocessors",
+    "confidence": 0.9,
+    "merged_into": "Intel Corporation"
+  },
+  {
+    "counterparty_name": "Intel",
+    "category": "competitor",
+    "subtype": "instruction_set_controller",
+    "evidence_quote": "Our ability to innovate beyond the x86 instruction set controlled by Intel depends partially on Microsoft designing and developing its operating systems",
+    "confidence": 0.85,
+    "merged_into": "Intel Corporation"
+  }
+]

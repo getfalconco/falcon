@@ -1,0 +1,502 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 174743,
+  "chunks": 8,
+  "candidates": [
+    {
+      "counterparty_name": "Chartered Semiconductor Manufacturing Ltd.",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "former_employer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Before joining us in 1998, he was Senior Vice President of Technology at Chartered Semiconductor Manufacturing Ltd. in Singapore",
+      "evidence_quotes": [
+        "Before joining us in 1998, he was Senior Vice President of Technology at Chartered Semiconductor Manufacturing Ltd. in Singapore"
+      ],
+      "confidence": 0.75,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "STMicroelectronics N.V.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "former_employer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Senior Manager for Logic and SRAM technology development at STMicroelectronics N.V. in Texas",
+      "evidence_quotes": [
+        "Senior Manager for Logic and SRAM technology development at STMicroelectronics N.V. in Texas"
+      ],
+      "confidence": 0.75,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Global Unichip Corp.",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "related_company",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Dr. Tseng is currently the Chairman of TSMC China Co., Ltd. (a non-public company) and Global Unichip Corp.",
+      "evidence_quotes": [
+        "Dr. Tseng is currently the Chairman of TSMC China Co., Ltd. (a non-public company) and Global Unichip Corp."
+      ],
+      "confidence": 0.65,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "eMemory Technology, Inc.",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "board_representation",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "and the Director of eMemory Technology, Inc.",
+      "evidence_quotes": [
+        "and the Director of eMemory Technology, Inc."
+      ],
+      "confidence": 0.6,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Applied Materials",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "board_member_prior_employer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Mr. Michael R. Splinter served as Chief Executive Officer of Applied Materials from 2003 to 2012",
+      "evidence_quotes": [
+        "Mr. Michael R. Splinter served as Chief Executive Officer of Applied Materials from 2003 to 2012"
+      ],
+      "confidence": 0.7,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Intel Corp.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "board_member_prior_employer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Prior to that, he served at Intel Corp. as Executive Vice President of Sales and Marketing from 2001 to 2003",
+      "evidence_quotes": [
+        "Prior to that, he served at Intel Corp. as Executive Vice President of Sales and Marketing from 2001 to 2003"
+      ],
+      "confidence": 0.75,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Xilinx, Inc.",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "board_member_prior_employer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Mr. Moshe N. Gavrielov served as President and CEO of Xilinx, Inc. in the United States from January 2008 to January 2018",
+      "evidence_quotes": [
+        "Mr. Moshe N. Gavrielov served as President and CEO of Xilinx, Inc. in the United States from January 2008 to January 2018"
+      ],
+      "confidence": 0.7,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Cadence Design Systems, Inc.",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "board_member_prior_employer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "he served at Cadence Design Systems, Inc. in the United States as Executive Vice President and General Manager of the Verification Division from April 2005 to November 2007",
+      "evidence_quotes": [
+        "he served at Cadence Design Systems, Inc. in the United States as Executive Vice President and General Manager of the Verification Division from April 2005 to November 2007"
+      ],
+      "confidence": 0.7,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "LSI Logic Corp.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "board_member_prior_employer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "He also served at a variety of executive management positions in LSI Logic Corp. in the United States for nearly 10 years",
+      "evidence_quotes": [
+        "He also served at a variety of executive management positions in LSI Logic Corp. in the United States for nearly 10 years"
+      ],
+      "confidence": 0.7,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Intel",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "talent_source",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Prior to joining us in November 2016, he was a Vice President of Technology and Manufacturing Group of Circuit Technology at Intel.",
+      "evidence_quotes": [
+        "Prior to joining us in November 2016, he was a Vice President of Technology and Manufacturing Group of Circuit Technology at Intel."
+      ],
+      "confidence": 0.75,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Intel",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "talent_source",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Prior to joining us in May 2017, he was a Senior Director of Technology and Manufacturing Group of Quality and Reliability at Intel.",
+      "evidence_quotes": [
+        "Prior to joining us in May 2017, he was a Senior Director of Technology and Manufacturing Group of Quality and Reliability at Intel."
+      ],
+      "confidence": 0.75,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Mozilla",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "talent_source",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Prior to joining us in January 2021, he was Vice President of Information Technology in Mozilla.",
+      "evidence_quotes": [
+        "Prior to joining us in January 2021, he was Vice President of Information Technology in Mozilla."
+      ],
+      "confidence": 0.75,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Micron Technology, Inc.",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "talent_source",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Prior to joining us in November 2021, he was Chairman, Taiwan in Micron Technology, Inc.",
+      "evidence_quotes": [
+        "Prior to joining us in November 2021, he was Chairman, Taiwan in Micron Technology, Inc."
+      ],
+      "confidence": 0.75,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Synopsys Inc.",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "talent_source",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Prior to joining us in 2011, he was Group R&D Director in Synopsys Inc.",
+      "evidence_quotes": [
+        "Prior to joining us in 2011, he was Group R&D Director in Synopsys Inc."
+      ],
+      "confidence": 0.75,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Qualcomm",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "talent_source",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Prior to joining us in March 2016, he was Vice President of Engineering, Silicon Technology in Qualcomm.",
+      "evidence_quotes": [
+        "Prior to joining us in March 2016, he was Vice President of Engineering, Silicon Technology in Qualcomm."
+      ],
+      "confidence": 0.75,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Texas Instruments",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "talent_source",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Prior to joining us in 1989, he was an engineer at Texas Instruments.",
+      "evidence_quotes": [
+        "Prior to joining us in 1989, he was an engineer at Texas Instruments."
+      ],
+      "confidence": 0.75,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "National Development Fund, Executive Yuan",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "major_shareholder",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "National Development Fund, Executive Yuan 1,653,709,980 6.38%",
+      "evidence_quotes": [
+        "National Development Fund, Executive Yuan 1,653,709,980 6.38%"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Vanguard International Semiconductor Corporation",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "wafer_manufacturing",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In 2025 , we had total purchases of NT$ 878 million (US$ 28 million) from VIS, representing 0.1% of our total cost of revenue",
+      "evidence_quotes": [
+        "In 2025 , we had total purchases of NT$ 878 million (US$ 28 million) from VIS, representing 0.1% of our total cost of revenue"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Philips",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint_venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "SSMC is a joint venture in Singapore that we established with Philips and EDB to produce integrated circuits",
+      "evidence_quotes": [
+        "SSMC is a joint venture in Singapore that we established with Philips and EDB to produce integrated circuits"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "NXP",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint_venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "our current ownership in SSMC is 38.8%, with NXP holding the remaining 61.2%",
+      "evidence_quotes": [
+        "our current ownership in SSMC is 38.8%, with NXP holding the remaining 61.2%"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Systems on Silicon Manufacturing Company Pte. Ltd.",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "wafer_manufacturing",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In 2025 , we had total purchases of NT$ 4,113 million (US$ 131 million) from SSMC, representing 0.3% of our total cost of revenue",
+      "evidence_quotes": [
+        "In 2025 , we had total purchases of NT$ 4,113 million (US$ 131 million) from SSMC, representing 0.3% of our total cost of revenue"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Global Unichip Corporation",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "soc_design_services",
+      "disclosed_revenue_dependency_pct": 0.8,
+      "evidence_quote": "In 2025 , we had total sales of NT $31,094 million (US $991 million) to GUC, representing 0.8% of our total revenue",
+      "evidence_quotes": [
+        "In 2025 , we had total sales of NT $31,094 million (US $991 million) to GUC, representing 0.8% of our total revenue"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Xintec, Inc.",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "wafer_level_packaging",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In 2025 , we incurred total manufacturing expenses of NT$ 5,448 million (US$ 174 million) from Xintec, representing 0.4% of our total cost of revenue",
+      "evidence_quotes": [
+        "In 2025 , we incurred total manufacturing expenses of NT$ 5,448 million (US$ 174 million) from Xintec, representing 0.4% of our total cost of revenue"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Citibank, N.A.",
+      "counterparty_type": "public_company",
+      "category": "dependency",
+      "subtype": "adr_depositary",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "5,313,450,863 common shares, represented by 1,062,690,167 ADSs, were registered in the name of a nominee of Citibank, N.A., the depositary under our ADS deposit agreement",
+      "evidence_quotes": [
+        "5,313,450,863 common shares, represented by 1,062,690,167 ADSs, were registered in the name of a nominee of Citibank, N.A., the depositary under our ADS deposit agreement"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Longitude Licensing Ltd.",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "patent_litigation_plaintiff",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In February 2025, Longitude Licensing Ltd. and Marlin Semiconductor Limited (collectively, \"Marlin\") filed complaints with the U.S. International Trade Commission (\"ITC\") and the U.S. District Court for the Eastern District of Texas alleging that TSMC and its customers infringe five",
+      "evidence_quotes": [
+        "In February 2025, Longitude Licensing Ltd. and Marlin Semiconductor Limited (collectively, \"Marlin\") filed complaints with the U.S. International Trade Commission (\"ITC\") and the U.S. District Court for the Eastern District of Texas alleging that TSMC and its customers infringe five"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Marlin Semiconductor Limited",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "patent_litigation_plaintiff",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In February 2025, Longitude Licensing Ltd. and Marlin Semiconductor Limited (collectively, \"Marlin\") filed complaints with the U.S. International Trade Commission (\"ITC\") and the U.S. District Court for the Eastern District of Texas alleging that TSMC and its customers infringe five",
+      "evidence_quotes": [
+        "In February 2025, Longitude Licensing Ltd. and Marlin Semiconductor Limited (collectively, \"Marlin\") filed complaints with the U.S. International Trade Commission (\"ITC\") and the U.S. District Court for the Eastern District of Texas alleging that TSMC and its customers infringe five"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "CTBC Bank Co., Ltd.",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "share_registrar",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our share registrar, CTBC Bank Co., Ltd., maintains the register of our shareholders at its office in Taipei, Taiwan.",
+      "evidence_quotes": [
+        "Our share registrar, CTBC Bank Co., Ltd., maintains the register of our shareholders at its office in Taipei, Taiwan."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Taiwan Depository & Clearing Corporation",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "settlement_infrastructure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The settlement of trading in the common shares is carried out on the book-entry system maintained by the Taiwan Depository & Clearing Corporation",
+      "evidence_quotes": [
+        "The settlement of trading in the common shares is carried out on the book-entry system maintained by the Taiwan Depository & Clearing Corporation"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Taiwan Stock Exchange",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "stock_exchange_infrastructure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "foreign investors who have registered with the Taiwan Stock Exchange for making investments in the R.O.C. securities market",
+      "evidence_quotes": [
+        "foreign investors who have registered with the Taiwan Stock Exchange for making investments in the R.O.C. securities market"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Taipei Exchange",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "stock_exchange_infrastructure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "companies whose shares are listed on the Taiwan Stock Exchange or traded on the Taipei Exchange",
+      "evidence_quotes": [
+        "companies whose shares are listed on the Taiwan Stock Exchange or traded on the Taipei Exchange"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Central Bank of the Republic of China (Taiwan)",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_infrastructure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "depositary may be required to obtain foreign exchange approval from the Central Bank of the Republic of China (Taiwan)",
+      "evidence_quotes": [
+        "depositary may be required to obtain foreign exchange approval from the Central Bank of the Republic of China (Taiwan)"
+      ],
+      "confidence": 0.91,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "NYSE",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "stock_exchange_infrastructure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "make our ADSs eligible for the direct registration system, as required by the NYSE",
+      "evidence_quotes": [
+        "make our ADSs eligible for the direct registration system, as required by the NYSE"
+      ],
+      "confidence": 0.93,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "NYSE",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "exchange_listing",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our ADSs are listed on the NYSE, and we therefore expect that dividends we pay with respect to the ADSs will be qualified dividend income.",
+      "evidence_quotes": [
+        "Our ADSs are listed on the NYSE, and we therefore expect that dividends we pay with respect to the ADSs will be qualified dividend income."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "Citibank, N.A.",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "depositary_bank",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we received reimbursement of proxy related expenses of US $12,284 from Citibank, N.A., the Depositary Bank for our ADR program.",
+      "evidence_quotes": [
+        "we received reimbursement of proxy related expenses of US $12,284 from Citibank, N.A., the Depositary Bank for our ADR program."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "Deloitte & Touche",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "external_auditor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our independent registered public accounting firm, Deloitte & Touche, independently assessed the effectiveness of our company's internal control over financial reporting.",
+      "evidence_quotes": [
+        "Our independent registered public accounting firm, Deloitte & Touche, independently assessed the effectiveness of our company's internal control over financial reporting."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "NYSE",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "stock_exchange_listing_venue",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "NYSE Section 303A.02 establishes general standards to evaluate directors' independence",
+      "evidence_quotes": [
+        "NYSE Section 303A.02 establishes general standards to evaluate directors' independence"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 7
+    },
+    {
+      "counterparty_name": "TWSE",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "stock_exchange_listing_venue",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "as required by the TWSE, the compensation committee of the companies listed on the TWSE must consist of a majority of independent directors",
+      "evidence_quotes": [
+        "as required by the TWSE, the compensation committee of the companies listed on the TWSE must consist of a majority of independent directors"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 7
+    }
+  ],
+  "candidatesPerChunk": [
+    9,
+    7,
+    8,
+    4,
+    4,
+    1,
+    2,
+    2
+  ],
+  "parseErrors": 1,
+  "apiErrors": 0,
+  "inputTokens": 47483,
+  "outputTokens": 3868
+}

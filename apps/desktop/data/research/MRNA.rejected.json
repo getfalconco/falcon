@@ -1,0 +1,29 @@
+[
+  {
+    "counterparty_name": "OpenAI",
+    "category": "partner",
+    "subtype": "AI co-innovation collaboration",
+    "evidence_quote": "In early 2023, we began a collaboration with OpenAI to co-innovate with a shared vision of AI's transformative potential in the future of business and healthcare.",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Sanofi",
+    "category": "competitor",
+    "subtype": "vaccine competitor",
+    "evidence_quote": "We also compete against other vaccines, including Sanofi and Novavax's.",
+    "confidence": 0.9,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Novavax",
+    "category": "competitor",
+    "subtype": "vaccine competitor",
+    "evidence_quote": "We also compete against other vaccines, including Sanofi and Novavax's.",
+    "confidence": 0.9,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  }
+]

@@ -1,0 +1,253 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 124220,
+  "chunks": 6,
+  "candidates": [
+    {
+      "counterparty_name": "National Gas Company of Trinidad and Tobago Limited",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "natural_gas_purchaser",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "natural gas volumes from Trinidad were sold to the National Gas Company of Trinidad and Tobago Limited and its subsidiary under two natural gas sales arrangements.",
+      "evidence_quotes": [
+        "natural gas volumes from Trinidad were sold to the National Gas Company of Trinidad and Tobago Limited and its subsidiary under two natural gas sales arrangements."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Heritage Petroleum Company Limited",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "crude_oil_purchaser",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Crude oil and condensate are sold to both Heritage Petroleum Company Limited and BP Trinidad and Tobago LLC.",
+      "evidence_quotes": [
+        "Crude oil and condensate are sold to both Heritage Petroleum Company Limited and BP Trinidad and Tobago LLC."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "BP Trinidad and Tobago LLC",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "crude_oil_purchaser",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Crude oil and condensate are sold to both Heritage Petroleum Company Limited and BP Trinidad and Tobago LLC.",
+      "evidence_quotes": [
+        "Crude oil and condensate are sold to both Heritage Petroleum Company Limited and BP Trinidad and Tobago LLC."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "BP Trinidad and Tobago LLC",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "farmout_partner",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "EOG also continues to move forward on the design and construction of the Coconut Platform in accordance with the farmout agreement signed in 2024 with BP Trinidad and Tobago LLC.",
+      "evidence_quotes": [
+        "EOG also continues to move forward on the design and construction of the Coconut Platform in accordance with the farmout agreement signed in 2024 with BP Trinidad and Tobago LLC."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Bapco Energies B.S.C. (Closed)",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "exploration_participation_partner",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "a subsidiary of EOG signed an exploration participation agreement with Bapco Energies B.S.C. (Closed) (Bapco) to evaluate a gas exploration prospect in the Kingdom of Bahrain.",
+      "evidence_quotes": [
+        "a subsidiary of EOG signed an exploration participation agreement with Bapco Energies B.S.C. (Closed) (Bapco) to evaluate a gas exploration prospect in the Kingdom of Bahrain."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Abu Dhabi National Oil Company",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "exploration_concession_partner",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "in coordination with Abu Dhabi National Oil Company (ADNOC), has commenced drilling operations to explore and appraise unconventional oil potential in the concession area.",
+      "evidence_quotes": [
+        "in coordination with Abu Dhabi National Oil Company (ADNOC), has commenced drilling operations to explore and appraise unconventional oil potential in the concession area."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Bureau of Land Management",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "federal_land_lease_administrator",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "A portion of EOG's oil and gas leases in New Mexico, North Dakota and Wyoming, as well as in other areas, are granted by the federal government and administered by the Bureau of Land Management (BLM)",
+      "evidence_quotes": [
+        "A portion of EOG's oil and gas leases in New Mexico, North Dakota and Wyoming, as well as in other areas, are granted by the federal government and administered by the Bureau of Land Management (BLM)"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Bureau of Indian Affairs",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "federal_land_lease_administrator",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "A portion of EOG's oil and gas leases in New Mexico, North Dakota and Wyoming, as well as in other areas, are granted by the federal government and administered by the Bureau of Land Management (BLM) and/or the Bureau of",
+      "evidence_quotes": [
+        "A portion of EOG's oil and gas leases in New Mexico, North Dakota and Wyoming, as well as in other areas, are granted by the federal government and administered by the Bureau of Land Management (BLM) and/or the Bureau of"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Federal Energy Regulatory Commission",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The transportation and sale for resale of natural gas in interstate commerce are regulated pursuant to the Natural Gas Act of 1938, as amended (NGA), and the Natural Gas Policy Act of 1978. These statutes are administered by the Federal",
+      "evidence_quotes": [
+        "The transportation and sale for resale of natural gas in interstate commerce are regulated pursuant to the Natural Gas Act of 1938, as amended (NGA), and the Natural Gas Policy Act of 1978. These statutes are administered by the Federal"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Organization of Petroleum Exporting Countries",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "commodity_price_influence",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Due to the many uncertainties associated with the world political and economic environment (for example, the actions of other crude oil exporting nations, including the Organization of Petroleum Exporting Countries",
+      "evidence_quotes": [
+        "Due to the many uncertainties associated with the world political and economic environment (for example, the actions of other crude oil exporting nations, including the Organization of Petroleum Exporting Countries"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "U.S. Securities and Exchange Commission",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_body",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "in March 2024, the U.S. Securities and Exchange Commission (SEC) finalized extensive climate-related disclosure rules that would require U.S. public companies to significantly expand the climate-related disclosures",
+      "evidence_quotes": [
+        "in March 2024, the U.S. Securities and Exchange Commission (SEC) finalized extensive climate-related disclosure rules that would require U.S. public companies to significantly expand the climate-related disclosures"
+      ],
+      "confidence": 0.75,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "U.S. Court of Appeals for the Eighth Circuit",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "judicial_body",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "these rules have been stayed in abeyance by the U.S. Court of Appeals for the Eighth Circuit until such time as the SEC reconsiders the challenged rules",
+      "evidence_quotes": [
+        "these rules have been stayed in abeyance by the U.S. Court of Appeals for the Eighth Circuit until such time as the SEC reconsiders the challenged rules"
+      ],
+      "confidence": 0.7,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "European Union",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_body",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "in November 2023, the European Union approved methane emissions limits on crude oil and natural gas imports beginning in 2030.",
+      "evidence_quotes": [
+        "in November 2023, the European Union approved methane emissions limits on crude oil and natural gas imports beginning in 2030."
+      ],
+      "confidence": 0.75,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "U.S. EPA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_body",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The U.S. Environmental Protection Agency (U.S. EPA) has, however, issued certain regulations relating to hydraulic fracturing",
+      "evidence_quotes": [
+        "The U.S. Environmental Protection Agency (U.S. EPA) has, however, issued certain regulations relating to hydraulic fracturing"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "SEC",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_body",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the SEC, in March 2024, finalized extensive climate-related disclosure rules that would require U.S. public companies to significantly expand the climate-related disclosures in their SEC filings",
+      "evidence_quotes": [
+        "the SEC, in March 2024, finalized extensive climate-related disclosure rules that would require U.S. public companies to significantly expand the climate-related disclosures in their SEC filings"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Bureau of Land Management",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_body",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the rules and regulations adopted by the U.S. EPA and the Bureau of Land Management with respect to GHG emissions and related matters",
+      "evidence_quotes": [
+        "the rules and regulations adopted by the U.S. EPA and the Bureau of Land Management with respect to GHG emissions and related matters"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "IRS",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "tax_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "U.S. federal income tax laws applicable to oil and gas exploration and production companies",
+      "evidence_quotes": [
+        "U.S. federal income tax laws applicable to oil and gas exploration and production companies"
+      ],
+      "confidence": 0.75,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "SEC",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_body",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "evolving legal and compliance matters, including increased regulatory focus on prevention and new disclosure requirements recently enacted by the SEC with respect to material cyber incidents",
+      "evidence_quotes": [
+        "evolving legal and compliance matters, including increased regulatory focus on prevention and new disclosure requirements recently enacted by the SEC with respect to material cyber incidents"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 5
+    }
+  ],
+  "candidatesPerChunk": [
+    6,
+    3,
+    1,
+    3,
+    4,
+    1
+  ],
+  "parseErrors": 0,
+  "apiErrors": 0,
+  "inputTokens": 30820,
+  "outputTokens": 1937
+}

@@ -1,0 +1,397 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 149787,
+  "chunks": 7,
+  "candidates": [
+    {
+      "counterparty_name": "Iveco Group",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "financial services operational support",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The European Financial Services operations are supported by the Iveco Group's Financial Services segment.",
+      "evidence_quotes": [
+        "The European Financial Services operations are supported by the Iveco Group's Financial Services segment."
+      ],
+      "confidence": 0.7,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Iveco Group",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "financial services provided to Iveco Group dealers and customers",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Financial Services also provides financial products and services to dealers and end customers of Iveco Group companies in the North America, South America and Asia Pacific regions.",
+      "evidence_quotes": [
+        "Financial Services also provides financial products and services to dealers and end customers of Iveco Group companies in the North America, South America and Asia Pacific regions."
+      ],
+      "confidence": 0.7,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Deere & Company",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "agricultural_equipment_competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our principal competitors in the agricultural equipment market are Deere & Company, AGCO Corporation, Claas Group, Kubota Tractor Corporation, Argo Tractors S.p.A., Same Deutz Fahr Group and Mahindra.",
+      "evidence_quotes": [
+        "Our principal competitors in the agricultural equipment market are Deere & Company, AGCO Corporation, Claas Group, Kubota Tractor Corporation, Argo Tractors S.p.A., Same Deutz Fahr Group and Mahindra."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "AGCO Corporation",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "agricultural_equipment_competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our principal competitors in the agricultural equipment market are Deere & Company, AGCO Corporation, Claas Group, Kubota Tractor Corporation, Argo Tractors S.p.A., Same Deutz Fahr Group and Mahindra.",
+      "evidence_quotes": [
+        "Our principal competitors in the agricultural equipment market are Deere & Company, AGCO Corporation, Claas Group, Kubota Tractor Corporation, Argo Tractors S.p.A., Same Deutz Fahr Group and Mahindra."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Claas Group",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "agricultural_equipment_competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our principal competitors in the agricultural equipment market are Deere & Company, AGCO Corporation, Claas Group, Kubota Tractor Corporation, Argo Tractors S.p.A., Same Deutz Fahr Group and Mahindra.",
+      "evidence_quotes": [
+        "Our principal competitors in the agricultural equipment market are Deere & Company, AGCO Corporation, Claas Group, Kubota Tractor Corporation, Argo Tractors S.p.A., Same Deutz Fahr Group and Mahindra."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Kubota Tractor Corporation",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "agricultural_equipment_competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our principal competitors in the agricultural equipment market are Deere & Company, AGCO Corporation, Claas Group, Kubota Tractor Corporation, Argo Tractors S.p.A., Same Deutz Fahr Group and Mahindra.",
+      "evidence_quotes": [
+        "Our principal competitors in the agricultural equipment market are Deere & Company, AGCO Corporation, Claas Group, Kubota Tractor Corporation, Argo Tractors S.p.A., Same Deutz Fahr Group and Mahindra."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Argo Tractors S.p.A.",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "agricultural_equipment_competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our principal competitors in the agricultural equipment market are Deere & Company, AGCO Corporation, Claas Group, Kubota Tractor Corporation, Argo Tractors S.p.A., Same Deutz Fahr Group and Mahindra.",
+      "evidence_quotes": [
+        "Our principal competitors in the agricultural equipment market are Deere & Company, AGCO Corporation, Claas Group, Kubota Tractor Corporation, Argo Tractors S.p.A., Same Deutz Fahr Group and Mahindra."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Same Deutz Fahr Group",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "agricultural_equipment_competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our principal competitors in the agricultural equipment market are Deere & Company, AGCO Corporation, Claas Group, Kubota Tractor Corporation, Argo Tractors S.p.A., Same Deutz Fahr Group and Mahindra.",
+      "evidence_quotes": [
+        "Our principal competitors in the agricultural equipment market are Deere & Company, AGCO Corporation, Claas Group, Kubota Tractor Corporation, Argo Tractors S.p.A., Same Deutz Fahr Group and Mahindra."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Mahindra",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "agricultural_equipment_competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our principal competitors in the agricultural equipment market are Deere & Company, AGCO Corporation, Claas Group, Kubota Tractor Corporation, Argo Tractors S.p.A., Same Deutz Fahr Group and Mahindra.",
+      "evidence_quotes": [
+        "Our principal competitors in the agricultural equipment market are Deere & Company, AGCO Corporation, Claas Group, Kubota Tractor Corporation, Argo Tractors S.p.A., Same Deutz Fahr Group and Mahindra."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Caterpillar Inc.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "construction_equipment_competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "competitors in the construction equipment market are Caterpillar Inc., Komatsu Ltd., J C Bamford Excavators Ltd., Hitachi Construction Machinery Co, Ltd., Volvo Group, Liebherr Group, Develon, Bobcat, Kubota Tractor Corporation, SANY Heavy Industry Co., Ltd and Deere & Company.",
+      "evidence_quotes": [
+        "competitors in the construction equipment market are Caterpillar Inc., Komatsu Ltd., J C Bamford Excavators Ltd., Hitachi Construction Machinery Co, Ltd., Volvo Group, Liebherr Group, Develon, Bobcat, Kubota Tractor Corporation, SANY Heavy Industry Co., Ltd and Deere & Company."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Komatsu Ltd.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "construction_equipment_competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "competitors in the construction equipment market are Caterpillar Inc., Komatsu Ltd., J C Bamford Excavators Ltd., Hitachi Construction Machinery Co, Ltd., Volvo Group, Liebherr Group, Develon, Bobcat, Kubota Tractor Corporation, SANY Heavy Industry Co., Ltd and Deere & Company.",
+      "evidence_quotes": [
+        "competitors in the construction equipment market are Caterpillar Inc., Komatsu Ltd., J C Bamford Excavators Ltd., Hitachi Construction Machinery Co, Ltd., Volvo Group, Liebherr Group, Develon, Bobcat, Kubota Tractor Corporation, SANY Heavy Industry Co., Ltd and Deere & Company."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "J C Bamford Excavators Ltd.",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "construction_equipment_competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "competitors in the construction equipment market are Caterpillar Inc., Komatsu Ltd., J C Bamford Excavators Ltd., Hitachi Construction Machinery Co, Ltd., Volvo Group, Liebherr Group, Develon, Bobcat, Kubota Tractor Corporation, SANY Heavy Industry Co., Ltd and Deere & Company.",
+      "evidence_quotes": [
+        "competitors in the construction equipment market are Caterpillar Inc., Komatsu Ltd., J C Bamford Excavators Ltd., Hitachi Construction Machinery Co, Ltd., Volvo Group, Liebherr Group, Develon, Bobcat, Kubota Tractor Corporation, SANY Heavy Industry Co., Ltd and Deere & Company."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Hitachi Construction Machinery Co, Ltd.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "construction_equipment_competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "competitors in the construction equipment market are Caterpillar Inc., Komatsu Ltd., J C Bamford Excavators Ltd., Hitachi Construction Machinery Co, Ltd., Volvo Group, Liebherr Group, Develon, Bobcat, Kubota Tractor Corporation, SANY Heavy Industry Co., Ltd and Deere & Company.",
+      "evidence_quotes": [
+        "competitors in the construction equipment market are Caterpillar Inc., Komatsu Ltd., J C Bamford Excavators Ltd., Hitachi Construction Machinery Co, Ltd., Volvo Group, Liebherr Group, Develon, Bobcat, Kubota Tractor Corporation, SANY Heavy Industry Co., Ltd and Deere & Company."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Volvo Group",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "construction_equipment_competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "competitors in the construction equipment market are Caterpillar Inc., Komatsu Ltd., J C Bamford Excavators Ltd., Hitachi Construction Machinery Co, Ltd., Volvo Group, Liebherr Group, Develon, Bobcat, Kubota Tractor Corporation, SANY Heavy Industry Co., Ltd and Deere & Company.",
+      "evidence_quotes": [
+        "competitors in the construction equipment market are Caterpillar Inc., Komatsu Ltd., J C Bamford Excavators Ltd., Hitachi Construction Machinery Co, Ltd., Volvo Group, Liebherr Group, Develon, Bobcat, Kubota Tractor Corporation, SANY Heavy Industry Co., Ltd and Deere & Company."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Liebherr Group",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "construction_equipment_competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "competitors in the construction equipment market are Caterpillar Inc., Komatsu Ltd., J C Bamford Excavators Ltd., Hitachi Construction Machinery Co, Ltd., Volvo Group, Liebherr Group, Develon, Bobcat, Kubota Tractor Corporation, SANY Heavy Industry Co., Ltd and Deere & Company.",
+      "evidence_quotes": [
+        "competitors in the construction equipment market are Caterpillar Inc., Komatsu Ltd., J C Bamford Excavators Ltd., Hitachi Construction Machinery Co, Ltd., Volvo Group, Liebherr Group, Develon, Bobcat, Kubota Tractor Corporation, SANY Heavy Industry Co., Ltd and Deere & Company."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Develon",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "construction_equipment_competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "competitors in the construction equipment market are Caterpillar Inc., Komatsu Ltd., J C Bamford Excavators Ltd., Hitachi Construction Machinery Co, Ltd., Volvo Group, Liebherr Group, Develon, Bobcat, Kubota Tractor Corporation, SANY Heavy Industry Co., Ltd and Deere & Company.",
+      "evidence_quotes": [
+        "competitors in the construction equipment market are Caterpillar Inc., Komatsu Ltd., J C Bamford Excavators Ltd., Hitachi Construction Machinery Co, Ltd., Volvo Group, Liebherr Group, Develon, Bobcat, Kubota Tractor Corporation, SANY Heavy Industry Co., Ltd and Deere & Company."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Bobcat",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "construction_equipment_competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "competitors in the construction equipment market are Caterpillar Inc., Komatsu Ltd., J C Bamford Excavators Ltd., Hitachi Construction Machinery Co, Ltd., Volvo Group, Liebherr Group, Develon, Bobcat, Kubota Tractor Corporation, SANY Heavy Industry Co., Ltd and Deere & Company.",
+      "evidence_quotes": [
+        "competitors in the construction equipment market are Caterpillar Inc., Komatsu Ltd., J C Bamford Excavators Ltd., Hitachi Construction Machinery Co, Ltd., Volvo Group, Liebherr Group, Develon, Bobcat, Kubota Tractor Corporation, SANY Heavy Industry Co., Ltd and Deere & Company."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Kubota Tractor Corporation",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "construction_equipment_competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "competitors in the construction equipment market are Caterpillar Inc., Komatsu Ltd., J C Bamford Excavators Ltd., Hitachi Construction Machinery Co, Ltd., Volvo Group, Liebherr Group, Develon, Bobcat, Kubota Tractor Corporation, SANY Heavy Industry Co., Ltd and Deere & Company.",
+      "evidence_quotes": [
+        "competitors in the construction equipment market are Caterpillar Inc., Komatsu Ltd., J C Bamford Excavators Ltd., Hitachi Construction Machinery Co, Ltd., Volvo Group, Liebherr Group, Develon, Bobcat, Kubota Tractor Corporation, SANY Heavy Industry Co., Ltd and Deere & Company."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "SANY Heavy Industry Co., Ltd",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "construction_equipment_competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "competitors in the construction equipment market are Caterpillar Inc., Komatsu Ltd., J C Bamford Excavators Ltd., Hitachi Construction Machinery Co, Ltd., Volvo Group, Liebherr Group, Develon, Bobcat, Kubota Tractor Corporation, SANY Heavy Industry Co., Ltd and Deere & Company.",
+      "evidence_quotes": [
+        "competitors in the construction equipment market are Caterpillar Inc., Komatsu Ltd., J C Bamford Excavators Ltd., Hitachi Construction Machinery Co, Ltd., Volvo Group, Liebherr Group, Develon, Bobcat, Kubota Tractor Corporation, SANY Heavy Industry Co., Ltd and Deere & Company."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Deere & Company",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "construction_equipment_competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "competitors in the construction equipment market are Caterpillar Inc., Komatsu Ltd., J C Bamford Excavators Ltd., Hitachi Construction Machinery Co, Ltd., Volvo Group, Liebherr Group, Develon, Bobcat, Kubota Tractor Corporation, SANY Heavy Industry Co., Ltd and Deere & Company.",
+      "evidence_quotes": [
+        "competitors in the construction equipment market are Caterpillar Inc., Komatsu Ltd., J C Bamford Excavators Ltd., Hitachi Construction Machinery Co, Ltd., Volvo Group, Liebherr Group, Develon, Bobcat, Kubota Tractor Corporation, SANY Heavy Industry Co., Ltd and Deere & Company."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "TürkTraktör ve Ziraat Makineleri A.S.",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "joint_venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "in Türkiye, we own 37.5% of TürkTraktör ve Ziraat Makineleri A.S., which manufactures and distributes various models of both New Holland and Case IH tractors",
+      "evidence_quotes": [
+        "in Türkiye, we own 37.5% of TürkTraktör ve Ziraat Makineleri A.S., which manufactures and distributes various models of both New Holland and Case IH tractors"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "New Holland HFT Japan Inc.",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "joint_venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "in Japan, we own 50% of New Holland HFT Japan Inc. (\"HFT\"), which distributes our products in Japan.",
+      "evidence_quotes": [
+        "in Japan, we own 50% of New Holland HFT Japan Inc. (\"HFT\"), which distributes our products in Japan."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "CNH de Mexico S.A. de C.V.",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "joint_venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "in Mexico, we own 50% of CNH de Mexico S.A. de C.V.,which manufactures New Holland agricultural equipment and distributes our agricultural equipment through one or more of its wholly-owned subsidiaries",
+      "evidence_quotes": [
+        "in Mexico, we own 50% of CNH de Mexico S.A. de C.V.,which manufactures New Holland agricultural equipment and distributes our agricultural equipment through one or more of its wholly-owned subsidiaries"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Al Ghazi Tractors Ltd.",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "joint_venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "in Pakistan, we own 43.2% of Al Ghazi Tractors Ltd., which manufactures and distributes New Holland tractors.",
+      "evidence_quotes": [
+        "in Pakistan, we own 43.2% of Al Ghazi Tractors Ltd., which manufactures and distributes New Holland tractors."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "BNP Paribas",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "financial_services_joint_venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "This entity is majority owned by BNP Paribas, and 24.95% owned by CNH Industrial N.V. through its joint venture CIFINS S.p.A..",
+      "evidence_quotes": [
+        "This entity is majority owned by BNP Paribas, and 24.95% owned by CNH Industrial N.V. through its joint venture CIFINS S.p.A.."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "BNDES",
+      "counterparty_type": "government",
+      "category": "supplier",
+      "subtype": "financing_provider",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Banco CNH Industrial Capital S.A. also serves as a lender for funding provided by BNDES, a federally-owned financial institution linked to the Brazilian Ministry of Development, Industry and Foreign Trade.",
+      "evidence_quotes": [
+        "Banco CNH Industrial Capital S.A. also serves as a lender for funding provided by BNDES, a federally-owned financial institution linked to the Brazilian Ministry of Development, Industry and Foreign Trade."
+      ],
+      "confidence": 0.8,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Iveco Group",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "financing_receivables_servicing",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In Europe, companies within Iveco Group's Financial Services segment manage and service CNH dealer financing receivables that are funded through a dedicated securitization.",
+      "evidence_quotes": [
+        "In Europe, companies within Iveco Group's Financial Services segment manage and service CNH dealer financing receivables that are funded through a dedicated securitization."
+      ],
+      "confidence": 0.75,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Iveco Group",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "dealer_financing_recipient",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "CNH Financial Services serves as a lender for Iveco Group dealers and end customers in the region and assumes the credit risk associated with those financing arrangements.",
+      "evidence_quotes": [
+        "CNH Financial Services serves as a lender for Iveco Group dealers and end customers in the region and assumes the credit risk associated with those financing arrangements."
+      ],
+      "confidence": 0.75,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "FPT Industrial S.p.A.",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "engine supplier",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our internal combustion engines are primarily supplied by FPT Industrial S.p.A., a company controlled by Iveco N.V.",
+      "evidence_quotes": [
+        "Our internal combustion engines are primarily supplied by FPT Industrial S.p.A., a company controlled by Iveco N.V."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 5
+    }
+  ],
+  "candidatesPerChunk": [
+    2,
+    26,
+    0,
+    0,
+    0,
+    1,
+    0
+  ],
+  "parseErrors": 1,
+  "apiErrors": 0,
+  "inputTokens": 180828,
+  "outputTokens": 5428
+}

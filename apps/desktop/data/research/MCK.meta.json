@@ -1,0 +1,13 @@
+{
+  "ticker": "MCK",
+  "companyName": "MCKESSON CORP",
+  "form": "10-K",
+  "filingDate": "2026-05-08",
+  "sourceUrl": "https://www.sec.gov/Archives/edgar/data/927653/000092765326000069/mck-20260331.htm",
+  "generatedAt": "2026-08-22T20:49:49.297Z",
+  "cacheKey": "MCK|0000927653-26-000069|5",
+  "accessionNumber": "0000927653-26-000069",
+  "validatedCount": 5,
+  "rejectedCount": 8,
+  "mergedCount": 3
+}

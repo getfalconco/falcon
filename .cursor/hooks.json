@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "hooks": {
+    "afterShellExecution": [
+      {
+        "command": "node scripts/discord-git-notify.mjs --from-hook",
+        "matcher": "git\\s+(push|pull)\\b",
+        "timeout": 15
+      }
+    ]
+  }
+}

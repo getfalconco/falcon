@@ -1,0 +1,6 @@
+#!/bin/sh
+# Pull/merge sonrası Discord: "<sha> · <kişi> pull etti (<branch>) · <özet>"
+ROOT=$(git rev-parse --show-toplevel 2>/dev/null) || exit 0
+cd "$ROOT" || exit 0
+node scripts/discord-git-notify.mjs --action pull >/dev/null 2>&1 || true
+exit 0

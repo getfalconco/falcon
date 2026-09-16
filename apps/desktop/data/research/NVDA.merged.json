@@ -1,0 +1,26 @@
+[
+  {
+    "counterparty_name": "Amazon",
+    "category": "competitor",
+    "subtype": "Arm_CPUs_internal_solutions",
+    "evidence_quote": "suppliers of Arm-based CPUs and companies that incorporate hardware and software for CPUs as part of their internal solutions or platforms, such as Amazon, Huawei, and Microsoft",
+    "confidence": 0.9,
+    "merged_into": "Amazon, Inc."
+  },
+  {
+    "counterparty_name": "Intel",
+    "category": "competitor",
+    "subtype": "SoC_products",
+    "evidence_quote": "suppliers of hardware and software for SoC products that are used in servers or embedded into automobiles, autonomous machines, and gaming devices, such as Ambarella, Inc., AMD, Broadcom, Intel, Qualcomm Incorporated, Renesas Electronics Corporation, and Samsung",
+    "confidence": 0.95,
+    "merged_into": "Intel Corporation"
+  },
+  {
+    "counterparty_name": "Mellanox",
+    "category": "supplier",
+    "subtype": "acquisition_target",
+    "evidence_quote": "Regulators in China have inquired about our sales and efforts to supply the China market and our fulfillment of the commitments we entered at the close of our Mellanox acquisition",
+    "confidence": 0.95,
+    "merged_into": "Mellanox"
+  }
+]

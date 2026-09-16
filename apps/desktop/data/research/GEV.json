@@ -1,0 +1,435 @@
+[
+  {
+    "root_ticker": "GEV",
+    "counterparty_name": "Siemens Energy",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "power and electrification equipment competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.97,
+    "evidence": [
+      {
+        "quote": "Key Power segment competitors include Siemens Energy, Mitsubishi Power, Westinghouse , Framatome, and Rolls-Royce.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1996810/000199681026000015/gev-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-29",
+    "shared_evidence_group": "ev_9c6584fc22a3"
+  },
+  {
+    "root_ticker": "GEV",
+    "counterparty_name": "Mitsubishi Power",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "power segment competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Key Power segment competitors include Siemens Energy, Mitsubishi Power, Westinghouse , Framatome, and Rolls-Royce.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1996810/000199681026000015/gev-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-29",
+    "shared_evidence_group": "ev_9c6584fc22a3"
+  },
+  {
+    "root_ticker": "GEV",
+    "counterparty_name": "Westinghouse",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "power segment competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Key Power segment competitors include Siemens Energy, Mitsubishi Power, Westinghouse , Framatome, and Rolls-Royce.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1996810/000199681026000015/gev-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-29",
+    "shared_evidence_group": "ev_9c6584fc22a3"
+  },
+  {
+    "root_ticker": "GEV",
+    "counterparty_name": "Framatome",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "power segment competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.97,
+    "evidence": [
+      {
+        "quote": "Key Power segment competitors include Siemens Energy, Mitsubishi Power, Westinghouse , Framatome, and Rolls-Royce.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1996810/000199681026000015/gev-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-29",
+    "shared_evidence_group": "ev_9c6584fc22a3"
+  },
+  {
+    "root_ticker": "GEV",
+    "counterparty_name": "Rolls-Royce",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "power segment competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.97,
+    "evidence": [
+      {
+        "quote": "Key Power segment competitors include Siemens Energy, Mitsubishi Power, Westinghouse , Framatome, and Rolls-Royce.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1996810/000199681026000015/gev-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-29",
+    "shared_evidence_group": "ev_9c6584fc22a3"
+  },
+  {
+    "root_ticker": "GEV",
+    "counterparty_name": "Vestas",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "wind segment competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.97,
+    "evidence": [
+      {
+        "quote": "Key Wind segment competitors include Vestas, Siemens-Gamesa, Nordex, Envision, and Goldwind.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1996810/000199681026000015/gev-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-29",
+    "shared_evidence_group": "ev_a367d82885b0"
+  },
+  {
+    "root_ticker": "GEV",
+    "counterparty_name": "Siemens-Gamesa",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "wind segment competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.97,
+    "evidence": [
+      {
+        "quote": "Key Wind segment competitors include Vestas, Siemens-Gamesa, Nordex, Envision, and Goldwind.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1996810/000199681026000015/gev-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-29",
+    "shared_evidence_group": "ev_a367d82885b0"
+  },
+  {
+    "root_ticker": "GEV",
+    "counterparty_name": "Nordex",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "wind segment competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.98,
+    "evidence": [
+      {
+        "quote": "Key Wind segment competitors include Vestas, Siemens-Gamesa, Nordex, Envision, and Goldwind.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1996810/000199681026000015/gev-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-29",
+    "shared_evidence_group": "ev_a367d82885b0"
+  },
+  {
+    "root_ticker": "GEV",
+    "counterparty_name": "Envision",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "wind segment competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.94,
+    "evidence": [
+      {
+        "quote": "Key Wind segment competitors include Vestas, Siemens-Gamesa, Nordex, Envision, and Goldwind.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1996810/000199681026000015/gev-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-29",
+    "shared_evidence_group": "ev_a367d82885b0"
+  },
+  {
+    "root_ticker": "GEV",
+    "counterparty_name": "Goldwind",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "wind segment competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.97,
+    "evidence": [
+      {
+        "quote": "Key Wind segment competitors include Vestas, Siemens-Gamesa, Nordex, Envision, and Goldwind.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1996810/000199681026000015/gev-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-29",
+    "shared_evidence_group": "ev_a367d82885b0"
+  },
+  {
+    "root_ticker": "GEV",
+    "counterparty_name": "Hitachi Energy",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "electrification segment competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.97,
+    "evidence": [
+      {
+        "quote": "Key Electrification segment competitors include Hitachi Energy, Siemens Energy, Siemens, Schneider Electric, Mitsubishi Electric, and ABB.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1996810/000199681026000015/gev-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-29",
+    "shared_evidence_group": "ev_5074b750e2cd"
+  },
+  {
+    "root_ticker": "GEV",
+    "counterparty_name": "Siemens",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "electrification segment competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.97,
+    "evidence": [
+      {
+        "quote": "Key Electrification segment competitors include Hitachi Energy, Siemens Energy, Siemens, Schneider Electric, Mitsubishi Electric, and ABB.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1996810/000199681026000015/gev-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-29",
+    "shared_evidence_group": "ev_5074b750e2cd"
+  },
+  {
+    "root_ticker": "GEV",
+    "counterparty_name": "Schneider Electric",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "electrification segment competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.97,
+    "evidence": [
+      {
+        "quote": "Key Electrification segment competitors include Hitachi Energy, Siemens Energy, Siemens, Schneider Electric, Mitsubishi Electric, and ABB.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1996810/000199681026000015/gev-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-29",
+    "shared_evidence_group": "ev_5074b750e2cd"
+  },
+  {
+    "root_ticker": "GEV",
+    "counterparty_name": "Mitsubishi Electric",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "electrification segment competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.97,
+    "evidence": [
+      {
+        "quote": "Key Electrification segment competitors include Hitachi Energy, Siemens Energy, Siemens, Schneider Electric, Mitsubishi Electric, and ABB.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1996810/000199681026000015/gev-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-29",
+    "shared_evidence_group": "ev_5074b750e2cd"
+  },
+  {
+    "root_ticker": "GEV",
+    "counterparty_name": "ABB",
+    "counterparty_ticker": "ABBNY",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "electrification segment competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.97,
+    "evidence": [
+      {
+        "quote": "Key Electrification segment competitors include Hitachi Energy, Siemens Energy, Siemens, Schneider Electric, Mitsubishi Electric, and ABB.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1996810/000199681026000015/gev-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-29",
+    "shared_evidence_group": "ev_5074b750e2cd"
+  },
+  {
+    "root_ticker": "GEV",
+    "counterparty_name": "Hitachi, Ltd.",
+    "counterparty_ticker": "HTHIY",
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "joint venture - small modular reactor design and development",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "the design and development of small modular reactors through joint ventures with Hitachi, Ltd.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1996810/000199681026000015/gev-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-29",
+    "shared_evidence_group": "ev_16d0b3e7fe2f"
+  },
+  {
+    "root_ticker": "GEV",
+    "counterparty_name": "GE",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "trademark license agreement",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.93,
+    "evidence": [
+      {
+        "quote": "We use them under a Trademark License Agreement with GE, in combination with our Vernova trademark.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1996810/000199681026000015/gev-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "we have a license to use certain IP from GE , including the GE name and the GE Monogram",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1996810/000199681026000015/gev-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-29",
+    "shared_evidence_group": "ev_94a576a3c656"
+  },
+  {
+    "root_ticker": "GEV",
+    "counterparty_name": "Dogger Bank",
+    "counterparty_ticker": null,
+    "counterparty_type": "other",
+    "category": "customer",
+    "subtype": "offshore wind farm customer",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.75,
+    "evidence": [
+      {
+        "quote": "For Dogger Bank, we are the manufacturer and supplier of our Haliade-X.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1996810/000199681026000015/gev-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-29",
+    "shared_evidence_group": "ev_f2ed240f8f69"
+  },
+  {
+    "root_ticker": "GEV",
+    "counterparty_name": "GE",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "dependency",
+    "subtype": "separation and transition services agreements",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.85,
+    "evidence": [
+      {
+        "quote": "We and GE are subject to multiple separation and transition agreements; if either party fails to perform (including with respect to indemnities, transition services, or other obligations), we could experience operational disruption and increased costs.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1996810/000199681026000015/gev-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "certain GE credit support and guarantees of our obligations may not be replaced or released when expected, which could impose contractual restrictions, require alternative credit support, and obligate us to indemnify GE for amounts paid.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1996810/000199681026000015/gev-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "certain GE credit support and guarantees of our obligations may not be replaced or released when expected, which could impose contractual restrictions, require alternative credit support, and obligate us to indemnify GE for amounts paid",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1996810/000199681026000015/gev-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-29",
+    "shared_evidence_group": "ev_a0e309236752"
+  }
+]

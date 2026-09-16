@@ -1,0 +1,74 @@
+[
+  {
+    "counterparty_name": "Microsoft Corporation",
+    "category": "competitor",
+    "subtype": "cloud_services_internal_AI_hardware",
+    "evidence_quote": "large cloud services companies with internal teams designing hardware and software that incorporate accelerated or AI computing functionality as part of their internal solutions or platforms, such as Alibaba Group, Alphabet Inc., Amazon, Inc., or Amazon, Baidu, Inc., Huawei, and",
+    "confidence": 0.9,
+    "reason": "counterparty name not in quote",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "U.S. Department of Commerce",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "do business without an export license with entities on the U.S. Department of Commerce's U.S. Entity List",
+    "confidence": 0.9,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Mellanox",
+    "category": "supplier",
+    "subtype": "acquisition",
+    "evidence_quote": "Our acquisition of Mellanox in 2020 expanded our offerings to include networking, enabled our platforms to be data center scale",
+    "confidence": 0.95,
+    "reason": "Mellanox is not a supplier to NVIDIA. The evidence quote states 'Our acquisition of Mellanox in 2020 expanded our offerings...' — this clearly indicates that Mellanox was acquired by NVIDIA and became a subsidiary/internal part of NVIDIA in 2020. An acquired subsidiary is not a counterparty (external entity). Additionally, the category 'supplier' is incorrect; an acquisition target that became part of the root company cannot be classified as a supplier. This violates the rule that the root company's own subsidiaries are not valid counterparties.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Baidu, Inc.",
+    "category": "competitor",
+    "subtype": "cloud_services_internal_AI_hardware",
+    "evidence_quote": "large cloud services companies with internal teams designing hardware and software that incorporate accelerated or AI computing functionality as part of their internal solutions or platforms, such as Alibaba Group, Alphabet Inc., Amazon, Inc., or Amazon, Baidu, Inc., Huawei, and",
+    "confidence": 0.9,
+    "reason": "The evidence_quote lists Baidu as a 'large cloud services company with internal teams designing hardware and software that incorporate accelerated or AI computing functionality as part of their internal solutions or platforms.' This describes Baidu as a potential competitor developing internal solutions, NOT as a customer or buyer of NVIDIA products. However, the claimed category is 'competitor' which appears correct. The fatal flaw is that the subtype 'cloud_services_internal_AI_hardware' is malformed and unclear. More critically, while Baidu is mentioned in a list of companies with internal design teams, the context groups them as competitive threats ('A significant source of competition comes from...') but Baidu is also a known customer of NVIDIA data center products in reality. The filing excerpt does NOT provide clear evidence that Baidu is purely a competitor; it's listed among companies that *could* compete via internal solutions, but this does not exclude them also being customers. The evidence is ambiguous and the subtype is non-standard. Given the strict auditing standard and that the evidence does not unambiguously support a pure competitor relationship (Baidu could be both customer and potential competitor), and the subtype is unclear/malformed, I must reject this edge.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Ethereum",
+    "category": "dependency",
+    "subtype": "cryptocurrency_mining",
+    "evidence_quote": "our Gaming GPUs began to be used for mining digital currencies, such as Ethereum.",
+    "confidence": 0.75,
+    "reason": "Ethereum is a cryptocurrency/blockchain platform, not an external organization that NVIDIA has a business relationship with. The evidence describes a market phenomenon where NVIDIA's Gaming GPUs 'began to be used for mining digital currencies, such as Ethereum' by third-party miners, not a dependency relationship between NVIDIA and Ethereum as entities. Ethereum is a decentralized protocol, not a counterparty. Furthermore, the text explicitly states 'Changes to cryptocurrency standards and processes including, but not limited to, the Ethereum 2.0 merge in 2022, have reduced and may in the future decrease the usage of GPUs for Ethereum mining,' indicating this is about market dynamics and customer use cases, not a direct dependency relationship. This is similar to saying NVIDIA depends on 'the Internet' because customers use their products online—it's not a valid counterparty relationship.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "French Competition Authority",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "the French Competition Authority collected information from us regarding our business and competition in the graphics card and CSP market",
+    "confidence": 0.85,
+    "reason": "The French Competition Authority is a government regulator acting in its regulatory capacity by collecting information as part of an antitrust inquiry. Per instruction #4, regulators acting as regulators should be rejected as counterparties. The filing states 'the French Competition Authority collected information from us regarding our business and competition in the graphics card and CSP market as part of an ongoing inquiry into competition in those markets.' This is regulatory oversight, not a dependency relationship. The category 'dependency' with subtype 'regulatory_authority' is contradictory—regulatory authorities exercising their enforcement powers are excluded from the knowledge graph. There is no evidence NVIDIA depends on the French Competition Authority for critical infrastructure or services; rather, the authority is investigating NVIDIA's competitive practices.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Microsoft",
+    "category": "partner",
+    "subtype": "agreement",
+    "evidence_quote": "our certificate of incorporation, bylaws and agreement with Microsoft could delay or prevent a change in control.",
+    "confidence": 0.75,
+    "reason": "The evidence_quote 'our certificate of incorporation, bylaws and agreement with Microsoft could delay or prevent a change in control' refers to an anti-takeover provision in NVIDIA's corporate governance documents, not a business partnership or operational agreement. This is a defensive corporate structure that limits acquisition attempts, not evidence of a partner relationship for joint development, distribution, or licensing. The context describes legal mechanisms under Delaware law that hinder change-in-control scenarios. This does not constitute a counterparty relationship in the knowledge graph sense; it is a corporate governance anti-takeover clause.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Microsoft",
+    "category": "customer",
+    "subtype": "hardware supply agreement",
+    "evidence_quote": "Under our agreement with Microsoft for the Xbox, if someone makes an offer to purchase at least 30% of our outstanding common stock, Microsoft may have first and last rights of refusal",
+    "confidence": 0.85,
+    "reason": "The evidence_quote describes anti-takeover provisions and Microsoft's rights of refusal regarding NVIDIA stock purchases, not a commercial hardware supply relationship. This is a corporate governance/shareholder rights mechanism, not evidence of Microsoft being a customer purchasing hardware from NVIDIA. The Xbox agreement mentioned relates to change-of-control provisions, not revenue-generating product sales. No evidence supports 'hardware supply agreement' or customer relationship.",
+    "stage": "audit"
+  }
+]

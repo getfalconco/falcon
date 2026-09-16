@@ -1,0 +1,90 @@
+[
+  {
+    "counterparty_name": "Novartis",
+    "category": "partner",
+    "subtype": "licensing_partner",
+    "evidence_quote": "JAKAVI (ruxolitinib) and TABRECTA (capmatinib), which are licensed to Novartis",
+    "confidence": 0.95,
+    "merged_into": "Novartis"
+  },
+  {
+    "counterparty_name": "Syndax",
+    "category": "partner",
+    "subtype": "collaboration_and_licensing",
+    "evidence_quote": "In September 2021, we entered into a Collaboration and License Agreement with Syndax covering the worldwide development and commercialization of NIKTIMVO (axatilimab-csfr)",
+    "confidence": 0.95,
+    "merged_into": "Syndax"
+  },
+  {
+    "counterparty_name": "ARIAD",
+    "category": "supplier",
+    "subtype": "licensor",
+    "evidence_quote": "Under these licenses, such as our licenses from ARIAD/Takeda, Enable Injections, MacroGenics, Merus, Xencor and Syndax",
+    "confidence": 0.85,
+    "merged_into": "ARIAD"
+  },
+  {
+    "counterparty_name": "Takeda",
+    "category": "supplier",
+    "subtype": "licensor",
+    "evidence_quote": "Under these licenses, such as our licenses from ARIAD/Takeda, Enable Injections, MacroGenics, Merus, Xencor and Syndax",
+    "confidence": 0.85,
+    "merged_into": "Takeda"
+  },
+  {
+    "counterparty_name": "Enable Injections",
+    "category": "supplier",
+    "subtype": "licensor",
+    "evidence_quote": "Under these licenses, such as our licenses from ARIAD/Takeda, Enable Injections, MacroGenics, Merus, Xencor and Syndax",
+    "confidence": 0.85,
+    "merged_into": "Enable Injections"
+  },
+  {
+    "counterparty_name": "MacroGenics",
+    "category": "supplier",
+    "subtype": "licensor",
+    "evidence_quote": "Under these licenses, such as our licenses from ARIAD/Takeda, Enable Injections, MacroGenics, Merus, Xencor and Syndax, we may be required to pay up-front fees, license fees, milestone payments and royalties",
+    "confidence": 0.95,
+    "merged_into": "MacroGenics, Inc."
+  },
+  {
+    "counterparty_name": "Merus",
+    "category": "supplier",
+    "subtype": "licensor",
+    "evidence_quote": "Under these licenses, such as our licenses from ARIAD/Takeda, Enable Injections, MacroGenics, Merus, Xencor and Syndax",
+    "confidence": 0.85,
+    "merged_into": "Merus"
+  },
+  {
+    "counterparty_name": "Xencor",
+    "category": "supplier",
+    "subtype": "licensor",
+    "evidence_quote": "Under these licenses, such as our licenses from ARIAD/Takeda, Enable Injections, MacroGenics, Merus, Xencor and Syndax, we may be required to pay up-front fees, license fees, milestone payments and royalties",
+    "confidence": 0.95,
+    "merged_into": "Xencor, Inc."
+  },
+  {
+    "counterparty_name": "Novartis",
+    "category": "partner",
+    "subtype": "commercialization_collaborator",
+    "evidence_quote": "Factors similar to those listed above also apply to our collaborator Novartis for JAKAVI and TABRECTA in the jurisdictions in which it has commercialization rights",
+    "confidence": 0.95,
+    "merged_into": "Novartis"
+  },
+  {
+    "counterparty_name": "MacroGenics",
+    "category": "partner",
+    "subtype": "manufacturing collaboration",
+    "evidence_quote": "We are responsible for the sourcing and manufacturing of ZYNYZ together with our collaborator MacroGenics.",
+    "confidence": 0.95,
+    "merged_into": "MacroGenics"
+  },
+  {
+    "counterparty_name": "MorphoSys AG",
+    "category": "partner",
+    "subtype": "product rights acquisition",
+    "evidence_quote": "in February 2024 we entered into a purchase agreement with MorphoSys AG and MorphoSys US Inc. under which we acquired rights to tafasitamab",
+    "confidence": 0.95,
+    "merged_into": "MorphoSys"
+  }
+]

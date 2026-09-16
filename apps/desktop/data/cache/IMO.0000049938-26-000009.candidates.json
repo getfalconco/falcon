@@ -1,0 +1,96 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 105155,
+  "chunks": 5,
+  "candidates": [
+    {
+      "counterparty_name": "ExxonMobil Canada Properties",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "joint venture participant",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the company holds a 70.96 percent participating interest in the joint venture and ExxonMobil Canada Properties holds the other 29.04 percent",
+      "evidence_quotes": [
+        "the company holds a 70.96 percent participating interest in the joint venture and ExxonMobil Canada Properties holds the other 29.04 percent"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Exxon Mobil Corporation",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "bitumen/crude product sales to refineries",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "typically shipped to the company's refineries, Exxon Mobil Corporation refineries and to other third parties",
+      "evidence_quotes": [
+        "typically shipped to the company's refineries, Exxon Mobil Corporation refineries and to other third parties"
+      ],
+      "confidence": 0.65,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "ExxonMobil",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "crude oil and petroleum product purchases",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Purchases and sales are made under both spot and term contracts from domestic and foreign sources, including ExxonMobil.",
+      "evidence_quotes": [
+        "Purchases and sales are made under both spot and term contracts from domestic and foreign sources, including ExxonMobil."
+      ],
+      "confidence": 0.65,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Syncrude",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "joint venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The company's share of Syncrude joint venture leases covering about 55,000 net acres accounts for the entire synthetic crude oil acreage.",
+      "evidence_quotes": [
+        "The company's share of Syncrude joint venture leases covering about 55,000 net acres accounts for the entire synthetic crude oil acreage."
+      ],
+      "confidence": 0.75,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "ExxonMobil",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "shared corporate/operational support services",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the company has agreements with affiliates of ExxonMobil to provide services to the company and to share common business and operational support services to allow the companies to consolidate duplicate work and systems",
+      "evidence_quotes": [
+        "the company has agreements with affiliates of ExxonMobil to provide services to the company and to share common business and operational support services to allow the companies to consolidate duplicate work and systems"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "ExxonMobil",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "shared research and development",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Imperial relies upon the research and development organizations of the company and ExxonMobil, with whom the company conducts shared research.",
+      "evidence_quotes": [
+        "Imperial relies upon the research and development organizations of the company and ExxonMobil, with whom the company conducts shared research."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 4
+    }
+  ],
+  "candidatesPerChunk": [
+    2,
+    2,
+    0,
+    1,
+    1
+  ],
+  "parseErrors": 0,
+  "apiErrors": 0,
+  "inputTokens": 97748,
+  "outputTokens": 755
+}

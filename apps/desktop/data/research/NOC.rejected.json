@@ -1,0 +1,38 @@
+[
+  {
+    "counterparty_name": "U.S. Department of War",
+    "category": "customer",
+    "subtype": "defense_contracting",
+    "evidence_quote": "We deliver a broad range of products, services and solutions to U.S. and international customers, and principally to the U.S. Department of War (\"DoW\") and intelligence community.",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Environmental Protection Agency",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "If we are found to be in violation of the Federal Clean Air Act or the Clean Water Act, the facility or facilities involved in the violation could be placed by the Environmental Protection Agency on a list",
+    "confidence": 0.85,
+    "reason": "The EPA is a regulatory authority, not a dependency. The evidence describes a punitive regulatory consequence (facility listing/suspension from government contracts) if the company violates environmental laws. This is a regulatory enforcement mechanism, not a critical operational dependency on EPA-provided infrastructure or services. The company does not rely on the EPA to conduct its business; rather, it is subject to EPA regulations. Regulators acting in their regulatory capacity are explicitly excluded as counterparties per the instructions. The relationship is regulatory compliance/enforcement, not dependency.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "United States Foreign Military Sales",
+    "category": "customer",
+    "subtype": "international_defense_sales_program",
+    "evidence_quote": "one of the ways in which our business sells our products and services internationally is through the United States Foreign Military Sales (FMS) program",
+    "confidence": 0.92,
+    "reason": "The United States Foreign Military Sales (FMS) program is not a counterparty organization; it is a U.S. government program/mechanism through which Northrop Grumman sells products internationally. The evidence states 'one of the ways in which our business sells our products and services internationally is through the United States Foreign Military Sales (FMS) program'—this describes a sales channel or process, not an external customer entity. The actual customers would be foreign governments purchasing through FMS, not the FMS program itself. This is analogous to calling 'e-commerce' a customer rather than the buyers who use e-commerce. FMS is an internal U.S. government administrative framework, not a separate counterparty that buys from Northrop Grumman.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Pension Benefit Guaranty Corporation",
+    "category": "dependency",
+    "subtype": "regulatory_infrastructure",
+    "evidence_quote": "Funding requirements for our pension plans, including Pension Benefit Guaranty Corporation premiums, are subject to legislative and other government regulatory actions.",
+    "confidence": 0.85,
+    "reason": "The Pension Benefit Guaranty Corporation (PBGC) is a premium recipient, not a dependency. The evidence_quote states that 'Funding requirements for our pension plans, including Pension Benefit Guaranty Corporation premiums, are subject to legislative and other government regulatory actions.' This describes NOC paying premiums to PBGC as part of regulatory compliance for pension plan obligations—a mandatory fee relationship. The PBGC does not provide infrastructure or services that NOC critically relies upon to operate; rather, NOC pays regulatory premiums to the PBGC. This is more analogous to paying taxes or regulatory fees than relying on infrastructure. The PBGC is a government entity acting in a regulatory/insurance capacity for pension plans, not providing essential infrastructure like GPS satellites or public networks. Dependencies should be reserved for infrastructure/services the root critically relies upon (e.g., GPS, internet backbone) with NO commercial payment relationship. Here, there IS a payment relationship (premiums), making this a regulatory fee obligation, not a dependency. Additionally, PBGC could be classified as a regulator acting in a regulatory capacity, which per the instructions should be rejected as a counterparty.",
+    "stage": "audit"
+  }
+]

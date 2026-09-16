@@ -1,0 +1,13 @@
+{
+  "ticker": "SHEL",
+  "companyName": "Shell plc",
+  "form": "20-F",
+  "filingDate": "2026-03-12",
+  "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+  "generatedAt": "2026-08-26T10:51:20.766Z",
+  "cacheKey": "SHEL|0001628280-26-017024|5",
+  "accessionNumber": "0001628280-26-017024",
+  "validatedCount": 79,
+  "rejectedCount": 9,
+  "mergedCount": 28
+}

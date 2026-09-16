@@ -1,0 +1,716 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 310080,
+  "chunks": 14,
+  "candidates": [
+    {
+      "counterparty_name": "NVIDIA",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint_product_development",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we announced a strategic partnership with NVIDIA to co-develop custom client and data center products combining our x86 CPU technologies with NVIDIA's AI and accelerated computing capabilities.",
+      "evidence_quotes": [
+        "we announced a strategic partnership with NVIDIA to co-develop custom client and data center products combining our x86 CPU technologies with NVIDIA's AI and accelerated computing capabilities."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "NVIDIA",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "product development",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We also announced a strategic partnership with NVIDIA to co-develop custom client and data center products combining our x86 CPU technologies with NVIDIA's AI and accelerated computing capabilities.",
+      "evidence_quotes": [
+        "We also announced a strategic partnership with NVIDIA to co-develop custom client and data center products combining our x86 CPU technologies with NVIDIA's AI and accelerated computing capabilities."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "TSMC",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "foundry manufacturing",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we would expect, over time, to shift manufacturing to third-party foundries, particularly TSMC, as we develop products for nodes beyond Intel 18A",
+      "evidence_quotes": [
+        "we would expect, over time, to shift manufacturing to third-party foundries, particularly TSMC, as we develop products for nodes beyond Intel 18A"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "AMD",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "x86 processors",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "CCG's primary competitor is AMD, which like us designs processors based on the x86 architecture.",
+      "evidence_quotes": [
+        "CCG's primary competitor is AMD, which like us designs processors based on the x86 architecture."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Apple",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "ARM processors",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We also face significant competition from companies that design processors based on the ARM architecture, such as Apple with its M series products",
+      "evidence_quotes": [
+        "We also face significant competition from companies that design processors based on the ARM architecture, such as Apple with its M series products"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Qualcomm",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "ARM processors",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We also face significant competition from companies that design processors based on the ARM architecture, such as Apple with its M series products, Qualcomm with its Snapdragon products",
+      "evidence_quotes": [
+        "We also face significant competition from companies that design processors based on the ARM architecture, such as Apple with its M series products, Qualcomm with its Snapdragon products"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "MediaTek",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "ARM processors",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We also face significant competition from companies that design processors based on the ARM architecture, such as Apple with its M series products, Qualcomm with its Snapdragon products and MediaTek with its Kompanio products.",
+      "evidence_quotes": [
+        "We also face significant competition from companies that design processors based on the ARM architecture, such as Apple with its M series products, Qualcomm with its Snapdragon products and MediaTek with its Kompanio products."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "AMD",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "data center x86 CPUs and accelerators",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "DCAI competitors include AMD, which utilizes the x86 architecture and competes with us across the full spectrum of CPUs, GPUs, accelerators and other products",
+      "evidence_quotes": [
+        "DCAI competitors include AMD, which utilizes the x86 architecture and competes with us across the full spectrum of CPUs, GPUs, accelerators and other products"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "NVIDIA",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "GPU systems",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "providers of GPU systems such as NVIDIA, whose GPU systems have experienced the highest demand in the market as AI workloads have become the dominant source of compute demand",
+      "evidence_quotes": [
+        "providers of GPU systems such as NVIDIA, whose GPU systems have experienced the highest demand in the market as AI workloads have become the dominant source of compute demand"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Amazon",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "custom silicon",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "companies developing their own custom silicon, including many hyperscalers such as Amazon, Google, Meta and Microsoft",
+      "evidence_quotes": [
+        "companies developing their own custom silicon, including many hyperscalers such as Amazon, Google, Meta and Microsoft"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Google",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "custom silicon",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "companies developing their own custom silicon, including many hyperscalers such as Amazon, Google, Meta and Microsoft",
+      "evidence_quotes": [
+        "companies developing their own custom silicon, including many hyperscalers such as Amazon, Google, Meta and Microsoft"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Meta",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "custom silicon",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "companies developing their own custom silicon, including many hyperscalers such as Amazon, Google, Meta and Microsoft",
+      "evidence_quotes": [
+        "companies developing their own custom silicon, including many hyperscalers such as Amazon, Google, Meta and Microsoft"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Microsoft",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "custom silicon",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "companies developing their own custom silicon, including many hyperscalers such as Amazon, Google, Meta and Microsoft",
+      "evidence_quotes": [
+        "companies developing their own custom silicon, including many hyperscalers such as Amazon, Google, Meta and Microsoft"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Broadcom",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "custom ASICs",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We also compete with Broadcom in the custom ASICs development market.",
+      "evidence_quotes": [
+        "We also compete with Broadcom in the custom ASICs development market."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "TSMC",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "leading-edge foundry",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our primary competitor in leading-edge semiconductor process technology is TSMC, which holds a leading position in manufacturing at scale for the most advanced nodes.",
+      "evidence_quotes": [
+        "Our primary competitor in leading-edge semiconductor process technology is TSMC, which holds a leading position in manufacturing at scale for the most advanced nodes."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Samsung",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "leading-edge foundry",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We also compete directly with Samsung in this market.",
+      "evidence_quotes": [
+        "We also compete directly with Samsung in this market."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "GlobalFoundries",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "mature foundry technologies",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Other Intel Foundry competitors include GlobalFoundries, UMC and SMIC, which primarily focus on mature process technologies.",
+      "evidence_quotes": [
+        "Other Intel Foundry competitors include GlobalFoundries, UMC and SMIC, which primarily focus on mature process technologies."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "UMC",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "mature foundry technologies",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Other Intel Foundry competitors include GlobalFoundries, UMC and SMIC, which primarily focus on mature process technologies.",
+      "evidence_quotes": [
+        "Other Intel Foundry competitors include GlobalFoundries, UMC and SMIC, which primarily focus on mature process technologies."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "SMIC",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "mature foundry technologies",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Other Intel Foundry competitors include GlobalFoundries, UMC and SMIC, which primarily focus on mature process technologies.",
+      "evidence_quotes": [
+        "Other Intel Foundry competitors include GlobalFoundries, UMC and SMIC, which primarily focus on mature process technologies."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Mobileye",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "autonomous driving subsidiary",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Mobileye, a publicly-traded company and a global leader in driving assistance and self-driving solutions with a product portfolio designed to encompass the entire stack required for assisted and autonomous driving",
+      "evidence_quotes": [
+        "Mobileye, a publicly-traded company and a global leader in driving assistance and self-driving solutions with a product portfolio designed to encompass the entire stack required for assisted and autonomous driving"
+      ],
+      "confidence": 0.7,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "TSMC",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "foundry manufacturing",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we have also strategically utilized third-party foundry manufacturing capacity, including at one of our key foundry competitors, TSMC, for various tiles or an entire product",
+      "evidence_quotes": [
+        "we have also strategically utilized third-party foundry manufacturing capacity, including at one of our key foundry competitors, TSMC, for various tiles or an entire product"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "UMC",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "process development collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In 2024, we announced a strategic collaboration with UMC to develop a 12 nm process platform that expands our mature‑node process portfolio",
+      "evidence_quotes": [
+        "In 2024, we announced a strategic collaboration with UMC to develop a 12 nm process platform that expands our mature‑node process portfolio"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "ASML",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "semiconductor_manufacturing_equipment",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we are reliant upon sole-source providers, such as with the EUV lithography tools manufactured by ASML that are required for leading-edge process technologies",
+      "evidence_quotes": [
+        "we are reliant upon sole-source providers, such as with the EUV lithography tools manufactured by ASML that are required for leading-edge process technologies"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "SoftBank Group",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "private_placement_investor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "on August 18, 2025, we entered into an agreement with SoftBank Group to issue and sell to SoftBank Group 87 million shares of our common stock at $23.00 per share",
+      "evidence_quotes": [
+        "on August 18, 2025, we entered into an agreement with SoftBank Group to issue and sell to SoftBank Group 87 million shares of our common stock at $23.00 per share"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "NVIDIA",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "private_placement_investor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "on September 15, 2025, we entered into an agreement with NVIDIA to issue and sell to NVIDIA 215 million shares of our common stock at $23.28 per share",
+      "evidence_quotes": [
+        "on September 15, 2025, we entered into an agreement with NVIDIA to issue and sell to NVIDIA 215 million shares of our common stock at $23.28 per share"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "SLP VII Gryphon Aggregator, L.P.",
+      "counterparty_type": "private_company",
+      "category": "customer",
+      "subtype": "divestiture_buyer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "On April 14, 2025, we signed a transaction agreement with SLP VII Gryphon Aggregator, L.P., an affiliate of SLP, to sell 51% of all issued and outstanding common stock of Altera",
+      "evidence_quotes": [
+        "On April 14, 2025, we signed a transaction agreement with SLP VII Gryphon Aggregator, L.P., an affiliate of SLP, to sell 51% of all issued and outstanding common stock of Altera"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Mobileye",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "majority_owned_subsidiary",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Net income (loss) attributable to non-controlling interests is comprised of net income or loss attributable to the non-controlling interests in Mobileye, IMS Nanofabrication, Ireland SCIP and Arizona SCIP, all of which are our majority owned subsidiaries",
+      "evidence_quotes": [
+        "Net income (loss) attributable to non-controlling interests is comprised of net income or loss attributable to the non-controlling interests in Mobileye, IMS Nanofabrication, Ireland SCIP and Arizona SCIP, all of which are our majority owned subsidiaries"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Altera",
+      "counterparty_type": "private_company",
+      "category": "dependency",
+      "subtype": "divested_subsidiary",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Effective September 12, 2025, Altera, previously a wholly-owned subsidiary, was deconsolidated from our Consolidated Financial Statements following the closing of the sale of 51% of Altera's issued and outstanding common stock.",
+      "evidence_quotes": [
+        "Effective September 12, 2025, Altera, previously a wholly-owned subsidiary, was deconsolidated from our Consolidated Financial Statements following the closing of the sale of 51% of Altera's issued and outstanding common stock."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "Mobileye",
+      "counterparty_type": "public_company",
+      "category": "dependency",
+      "subtype": "subsidiary_business",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "higher 2025 Mobileye revenue, which totaled $1.9 billion, up $240 million from 2024 due to improved customer inventory levels and higher demand for Eye Q® products.",
+      "evidence_quotes": [
+        "higher 2025 Mobileye revenue, which totaled $1.9 billion, up $240 million from 2024 due to improved customer inventory levels and higher demand for Eye Q® products."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "AMD",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "platform_products",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our competitors include companies offering platform products, such as AMD and Qualcomm; accelerator products such as GPUs, including those offered by NVIDIA and AMD",
+      "evidence_quotes": [
+        "Our competitors include companies offering platform products, such as AMD and Qualcomm; accelerator products such as GPUs, including those offered by NVIDIA and AMD"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 7
+    },
+    {
+      "counterparty_name": "Qualcomm",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "platform_products",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our competitors include companies offering platform products, such as AMD and Qualcomm; accelerator products such as GPUs, including those offered by NVIDIA and AMD",
+      "evidence_quotes": [
+        "Our competitors include companies offering platform products, such as AMD and Qualcomm; accelerator products such as GPUs, including those offered by NVIDIA and AMD"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 7
+    },
+    {
+      "counterparty_name": "NVIDIA",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "accelerator_products",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our competitors include companies offering platform products, such as AMD and Qualcomm; accelerator products such as GPUs, including those offered by NVIDIA and AMD",
+      "evidence_quotes": [
+        "Our competitors include companies offering platform products, such as AMD and Qualcomm; accelerator products such as GPUs, including those offered by NVIDIA and AMD"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 7
+    },
+    {
+      "counterparty_name": "Apple",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "internally_developed_semiconductors",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "in 2020, Apple introduced PC products utilizing its own internally developed ARM-based semiconductor designs in place of our client CPUs, and we face increasing competition from Apple's products and ecosystem.",
+      "evidence_quotes": [
+        "in 2020, Apple introduced PC products utilizing its own internally developed ARM-based semiconductor designs in place of our client CPUs, and we face increasing competition from Apple's products and ecosystem."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 7
+    },
+    {
+      "counterparty_name": "TSMC",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "foundry",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Most of our competitors rely on third-party foundries, such as TSMC or Samsung, for the manufacture and assembly and test of their semiconductor components and products.",
+      "evidence_quotes": [
+        "Most of our competitors rely on third-party foundries, such as TSMC or Samsung, for the manufacture and assembly and test of their semiconductor components and products."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 7
+    },
+    {
+      "counterparty_name": "Samsung",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "foundry",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we face intense competition from well-established competitors such as TSMC, Samsung, Global Foundries, UMC and SMIC.",
+      "evidence_quotes": [
+        "we face intense competition from well-established competitors such as TSMC, Samsung, Global Foundries, UMC and SMIC."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 7
+    },
+    {
+      "counterparty_name": "Global Foundries",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "foundry",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we face intense competition from well-established competitors such as TSMC, Samsung, Global Foundries, UMC and SMIC.",
+      "evidence_quotes": [
+        "we face intense competition from well-established competitors such as TSMC, Samsung, Global Foundries, UMC and SMIC."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 7
+    },
+    {
+      "counterparty_name": "UMC",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "foundry",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we face intense competition from well-established competitors such as TSMC, Samsung, Global Foundries, UMC and SMIC.",
+      "evidence_quotes": [
+        "we face intense competition from well-established competitors such as TSMC, Samsung, Global Foundries, UMC and SMIC."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 7
+    },
+    {
+      "counterparty_name": "SMIC",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "foundry",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we face intense competition from well-established competitors such as TSMC, Samsung, Global Foundries, UMC and SMIC.",
+      "evidence_quotes": [
+        "we face intense competition from well-established competitors such as TSMC, Samsung, Global Foundries, UMC and SMIC."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 7
+    },
+    {
+      "counterparty_name": "TSMC",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "foundry_competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we face intense competition from well-established competitors such as TSMC, Samsung, Global Foundries, UMC and SMIC.",
+      "evidence_quotes": [
+        "we face intense competition from well-established competitors such as TSMC, Samsung, Global Foundries, UMC and SMIC."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 8
+    },
+    {
+      "counterparty_name": "Samsung",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "foundry_competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we face intense competition from well-established competitors such as TSMC, Samsung, Global Foundries, UMC and SMIC.",
+      "evidence_quotes": [
+        "we face intense competition from well-established competitors such as TSMC, Samsung, Global Foundries, UMC and SMIC."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 8
+    },
+    {
+      "counterparty_name": "Global Foundries",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "foundry_competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we face intense competition from well-established competitors such as TSMC, Samsung, Global Foundries, UMC and SMIC.",
+      "evidence_quotes": [
+        "we face intense competition from well-established competitors such as TSMC, Samsung, Global Foundries, UMC and SMIC."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 8
+    },
+    {
+      "counterparty_name": "UMC",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "foundry_competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we face intense competition from well-established competitors such as TSMC, Samsung, Global Foundries, UMC and SMIC.",
+      "evidence_quotes": [
+        "we face intense competition from well-established competitors such as TSMC, Samsung, Global Foundries, UMC and SMIC."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 8
+    },
+    {
+      "counterparty_name": "SMIC",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "foundry_competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we face intense competition from well-established competitors such as TSMC, Samsung, Global Foundries, UMC and SMIC.",
+      "evidence_quotes": [
+        "we face intense competition from well-established competitors such as TSMC, Samsung, Global Foundries, UMC and SMIC."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 8
+    },
+    {
+      "counterparty_name": "TSMC",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "third_party_foundry",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "some of our newer and more high-end products and a number of our future products involve the use of tiles manufactured by TSMC",
+      "evidence_quotes": [
+        "some of our newer and more high-end products and a number of our future products involve the use of tiles manufactured by TSMC"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 8
+    },
+    {
+      "counterparty_name": "Brookfield",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint_investment",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "our 2022 joint investment with Brookfield in the manufacturing expansion of our Arizona campus",
+      "evidence_quotes": [
+        "our 2022 joint investment with Brookfield in the manufacturing expansion of our Arizona campus"
+      ],
+      "confidence": 0.93,
+      "chunk_index": 8
+    },
+    {
+      "counterparty_name": "Apollo",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint_investment",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "our 2024 joint investment with Apollo related to Fab 34 in Ireland",
+      "evidence_quotes": [
+        "our 2024 joint investment with Apollo related to Fab 34 in Ireland"
+      ],
+      "confidence": 0.93,
+      "chunk_index": 8
+    },
+    {
+      "counterparty_name": "SMIC",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "semiconductor_manufacturer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "a number of semiconductor companies in China, including SMIC, are making significant investments, in many instances with the support of the Chinese government, in advanced semiconductor technologies to enable such companies to develop products and technologies that compete with ours.",
+      "evidence_quotes": [
+        "a number of semiconductor companies in China, including SMIC, are making significant investments, in many instances with the support of the Chinese government, in advanced semiconductor technologies to enable such companies to develop products and technologies that compete with ours."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 9
+    },
+    {
+      "counterparty_name": "ASML Holding N.V.",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "manufacturing_equipment",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "ASML Holding N.V. (ASML) is currently the sole supplier of EUV lithography tools that we are deploying in our Intel 4, Intel 3, Intel 18A and planned future leading-edge manufacturing process nodes.",
+      "evidence_quotes": [
+        "ASML Holding N.V. (ASML) is currently the sole supplier of EUV lithography tools that we are deploying in our Intel 4, Intel 3, Intel 18A and planned future leading-edge manufacturing process nodes."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 10
+    },
+    {
+      "counterparty_name": "TSMC",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "foundry",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Some of our most advanced current and future products are or will be either exclusively manufactured by TSMC or reliant upon critical components, including various compute die, manufactured by TSMC.",
+      "evidence_quotes": [
+        "Some of our most advanced current and future products are or will be either exclusively manufactured by TSMC or reliant upon critical components, including various compute die, manufactured by TSMC."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 10
+    },
+    {
+      "counterparty_name": "R2 Semiconductor, Inc.",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "ip_litigation",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In February 2024, R2 Semiconductor, Inc., a non-practicing entity, was able to obtain an injunction and recall order against us and our customers in the Dusseldorf Regional Court in Germany",
+      "evidence_quotes": [
+        "In February 2024, R2 Semiconductor, Inc., a non-practicing entity, was able to obtain an injunction and recall order against us and our customers in the Dusseldorf Regional Court in Germany"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 10
+    },
+    {
+      "counterparty_name": "Federal Security Service of the Russian Federation",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "there may be a need to file documents or engage with FSB as Intel winds up our local Russian offices.",
+      "evidence_quotes": [
+        "there may be a need to file documents or engage with FSB as Intel winds up our local Russian offices."
+      ],
+      "confidence": 0.65,
+      "chunk_index": 12
+    },
+    {
+      "counterparty_name": "Pozitiv Teknolodzhiz, AO",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "security_research",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we communicated with Positive Technologies regarding its IT security research and coordinated disclosure of security vulnerabilities identified by the firm",
+      "evidence_quotes": [
+        "we communicated with Positive Technologies regarding its IT security research and coordinated disclosure of security vulnerabilities identified by the firm"
+      ],
+      "confidence": 0.7,
+      "chunk_index": 12
+    },
+    {
+      "counterparty_name": "Ernst & Young LLP",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "external_auditor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We have served as the Company's auditor since 1968.",
+      "evidence_quotes": [
+        "We have served as the Company's auditor since 1968."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 13
+    }
+  ],
+  "candidatesPerChunk": [
+    1,
+    19,
+    2,
+    1,
+    4,
+    2,
+    0,
+    9,
+    8,
+    1,
+    3,
+    0,
+    2,
+    1
+  ],
+  "parseErrors": 0,
+  "apiErrors": 0,
+  "inputTokens": 89530,
+  "outputTokens": 8301
+}

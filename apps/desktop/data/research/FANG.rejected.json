@@ -1,0 +1,92 @@
+[
+  {
+    "counterparty_name": "GRP Energy Capital LLC",
+    "category": "customer",
+    "subtype": "asset_buyer",
+    "evidence_quote": "Viper divested all of its non-Permian assets, including those acquired from Sitio, to an affiliate of GRP Energy Capital LLC and Warwick Capital Partners LLP for net cash proceeds of approximately $617 million",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Warwick Capital Partners LLP",
+    "category": "customer",
+    "subtype": "asset_buyer",
+    "evidence_quote": "Viper divested all of its non-Permian assets, including those acquired from Sitio, to an affiliate of GRP Energy Capital LLC and Warwick Capital Partners LLP for net cash proceeds of approximately $617 million",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Sitio Royalties Corp.",
+    "category": "customer",
+    "subtype": "acquisition_target",
+    "evidence_quote": "On August 19, 2025, Viper and Viper LLC completed a series of transactions in which Viper Energy, Inc. acquired Sitio, Sitio Royalties Operating Partnership, LP and their respective subsidiaries",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Citibank, N.A.",
+    "category": "supplier",
+    "subtype": "administrative_agent",
+    "evidence_quote": "The term loan credit agreement with Diamondback Energy, Inc., as guarantor, with Diamondback E&P, as borrower, and Citibank, N.A., as administrative agent.",
+    "confidence": 0.92,
+    "reason": "auditor call failed: 400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CePL8qtjXeJQG56D1LBMK\"}",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Wells Fargo Bank, National Association",
+    "category": "supplier",
+    "subtype": "banking_services",
+    "evidence_quote": "Wells Fargo Wells Fargo Bank, National Association.",
+    "confidence": 0.75,
+    "reason": "auditor call failed: 400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CePL8qqky5sBmzUeHs7c4\"}",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Ryder Scott Company, L.P.",
+    "category": "supplier",
+    "subtype": "reservoir_engineering",
+    "evidence_quote": "Ryder Scott Ryder Scott Company, L.P.",
+    "confidence": 0.85,
+    "reason": "auditor call failed: 400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CePL8qtUxVrdYcBenN9LP\"}",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "EPIC Crude Holdings, LP",
+    "category": "customer",
+    "subtype": "midstream_equity_investment",
+    "evidence_quote": "we divested approximately $1.7 billion in non-core assets, including our 27.5% equity interest in EPIC Crude Holdings, LP",
+    "confidence": 0.75,
+    "reason": "auditor call failed: 400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CePL8quE8dKkuKVHkH5XC\"}",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Double Eagle IV Midco, LLC",
+    "category": "customer",
+    "subtype": "acquisition_target",
+    "evidence_quote": "On April 1, 2025, we completed our acquisition of all of the issued and outstanding interests of DE Permian, LLC, DE IV Combo, LLC and DE IV Operating, LLC, each of which were wholly owned subsidiaries of Double Eagle IV",
+    "confidence": 0.95,
+    "reason": "auditor call failed: 400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CePL8rsX7pHLt7RZNJ2hM\"}",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Ryder Scott",
+    "category": "supplier",
+    "subtype": "independent reserve auditor",
+    "evidence_quote": "The estimated reserves as of December 31, 2025, 2024 and 2023 are based on reserve estimates prepared by our internal reservoir engineers and audited by Ryder Scott, an independent petroleum engineering firm.",
+    "confidence": 0.95,
+    "reason": "auditor call failed: 400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CePL8sUz1MvyYZXPCPY4o\"}",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "EPA",
+    "category": "dependency",
+    "subtype": "regulatory_infrastructure",
+    "evidence_quote": "Numerous federal, state and local governmental agencies, such as the EPA, issue regulations that often require difficult and costly compliance measures",
+    "confidence": 0.85,
+    "reason": "auditor call failed: 400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CePL8s1hXbVMJjL9QFs7o\"}",
+    "stage": "audit"
+  }
+]

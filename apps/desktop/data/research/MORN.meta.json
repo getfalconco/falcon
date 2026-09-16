@@ -1,0 +1,13 @@
+{
+  "ticker": "MORN",
+  "companyName": "Morningstar, Inc.",
+  "form": "10-K",
+  "filingDate": "2026-02-13",
+  "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1289419/000128941926000013/morn-20251231.htm",
+  "generatedAt": "2026-08-26T11:16:49.310Z",
+  "cacheKey": "MORN|0001289419-26-000013|5",
+  "accessionNumber": "0001289419-26-000013",
+  "validatedCount": 0,
+  "rejectedCount": 0,
+  "mergedCount": 0
+}

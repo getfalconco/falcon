@@ -1,0 +1,210 @@
+[
+  {
+    "root_ticker": "APA",
+    "counterparty_name": "Sinopec",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "joint venture partner in Egypt operations",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.94,
+    "evidence": [
+      {
+        "quote": "owned two-thirds by the Company and one-third by Sinopec International Petroleum Exploration and Production Corporation (Sinopec)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1841666/000184166626000015/apa-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "Sinopec holds a one-third minority participation interest in the Company’s oil and gas operations in Egypt.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1841666/000184166626000015/apa-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_5019392cbda6"
+  },
+  {
+    "root_ticker": "APA",
+    "counterparty_name": "EGPC (Egyptian General Petroleum Corporation)",
+    "counterparty_ticker": null,
+    "counterparty_type": "state-owned enterprise",
+    "category": "customer",
+    "subtype": "natural gas sales agreement",
+    "strength": 1,
+    "strength_tier": "critical",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.85,
+    "evidence": [
+      {
+        "quote": "substantially all of the Company’s 2025 natural gas production is sold to EGPC pursuant to a gas sales agreement that establishes pricing based on a minimum realized price of $2.65 per MMBtu",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1841666/000184166626000015/apa-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_47e061741322"
+  },
+  {
+    "root_ticker": "APA",
+    "counterparty_name": "EGPC",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "partner",
+    "subtype": "production-sharing contract counterparty",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.88,
+    "evidence": [
+      {
+        "quote": "the Company is the contractor partner (Contractor) with EGPC and bears the risk and cost of exploration, development, and production activities",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1841666/000184166626000015/apa-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "$28 million is related to the merged concession agreement with the EGPC",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1841666/000184166626000015/apa-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_aa2a2ad26718"
+  },
+  {
+    "root_ticker": "APA",
+    "counterparty_name": "TotalEnergies",
+    "counterparty_ticker": "TTE",
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "joint venture for exploration and development",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.97,
+    "evidence": [
+      {
+        "quote": "The Company has a joint venture agreement with TotalEnergies (formerly Total S.A.) to explore and develop Block 58 offshore Suriname.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1841666/000184166626000015/apa-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_61eff6774c02"
+  },
+  {
+    "root_ticker": "APA",
+    "counterparty_name": "Staatsolie",
+    "counterparty_ticker": null,
+    "counterparty_type": "state-owned enterprise",
+    "category": "partner",
+    "subtype": "production-sharing contract participation",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.8,
+    "evidence": [
+      {
+        "quote": "Staatsolie exercised its right to participate in the GranMorgu development and production for a 20 percent share",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1841666/000184166626000015/apa-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_dbbe6f6a1ff2"
+  },
+  {
+    "root_ticker": "APA",
+    "counterparty_name": "Ancala Midstream Acquisitions Limited",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "supplier",
+    "subtype": "gas processing plant operator",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.85,
+    "evidence": [
+      {
+        "quote": "Natural gas from the Beryl field is processed through the Scottish Area Gas Evacuation (SAGE) gas plant, operated by Ancala Midstream Acquisitions Limited.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1841666/000184166626000015/apa-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_700db6df45bc"
+  },
+  {
+    "root_ticker": "APA",
+    "counterparty_name": "Clean Gulf Associates",
+    "counterparty_ticker": null,
+    "counterparty_type": "industry_association",
+    "category": "dependency",
+    "subtype": "oil spill response cooperative",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.75,
+    "evidence": [
+      {
+        "quote": "In the event of a spill in the Gulf of America, Clean Gulf Associates (CGA) is the primary oil spill response organization available to the Company.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1841666/000184166626000015/apa-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_b3f027fc0125"
+  },
+  {
+    "root_ticker": "APA",
+    "counterparty_name": "Wild Well Control",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "supplier",
+    "subtype": "well control and containment contractor",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.88,
+    "evidence": [
+      {
+        "quote": "the Company has contracted with Wild Well Control Company for contingency planning for and response to uncontrolled subsea well events and other drilling activities.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1841666/000184166626000015/apa-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_82930bde713f"
+  },
+  {
+    "root_ticker": "APA",
+    "counterparty_name": "Egyptian General Petroleum Corporation",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "customer",
+    "subtype": "production-sharing contract payment risk",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.72,
+    "evidence": [
+      {
+        "quote": "forced renegotiation or modification of the Company’s existing contracts with Egyptian General Petroleum Corporation (EGPC), or threats or acts of terrorism could materially and adversely affect the Company’s business and operations",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1841666/000184166626000015/apa-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_6bf31b36f3ae"
+  }
+]

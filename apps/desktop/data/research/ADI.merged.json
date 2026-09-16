@@ -1,0 +1,10 @@
+[
+  {
+    "counterparty_name": "Taiwan Semiconductor Manufacturing Company",
+    "category": "supplier",
+    "subtype": "semiconductor wafer foundry",
+    "evidence_quote": "We currently source more than half of our wafer requirements annually from third-party wafer foundries, including Taiwan Semiconductor Manufacturing Company (TSMC) and others.",
+    "confidence": 0.95,
+    "merged_into": "Taiwan Semiconductor Manufacturing Company"
+  }
+]

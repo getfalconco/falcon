@@ -1,0 +1,211 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 67146,
+  "chunks": 3,
+  "candidates": [
+    {
+      "counterparty_name": "NVIDIA",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint hardware development",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The M2000 is a specialized, AI-accelerated platform co-developed with NVIDIA to dramatically speed up complex simulations in fields like semiconductor design, aerospace and defense, and drug discovery.",
+      "evidence_quotes": [
+        "The M2000 is a specialized, AI-accelerated platform co-developed with NVIDIA to dramatically speed up complex simulations in fields like semiconductor design, aerospace and defense, and drug discovery."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Synopsys",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "EDA tools competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Key competitors include Synopsys, Inc., Ansys, Inc. (acquired by Synopsys), Siemens EDA, and a variety of other tool providers, electronics device manufacturers with in-house EDA capabilities, technical and computational software companies, electronics design and consulting firms, and IP companies.",
+      "evidence_quotes": [
+        "Key competitors include Synopsys, Inc., Ansys, Inc. (acquired by Synopsys), Siemens EDA, and a variety of other tool providers, electronics device manufacturers with in-house EDA capabilities, technical and computational software companies, electronics design and consulting firms, and IP companies."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Ansys",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "EDA tools competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Key competitors include Synopsys, Inc., Ansys, Inc. (acquired by Synopsys), Siemens EDA, and a variety of other tool providers, electronics device manufacturers with in-house EDA capabilities, technical and computational software companies, electronics design and consulting firms, and IP companies.",
+      "evidence_quotes": [
+        "Key competitors include Synopsys, Inc., Ansys, Inc. (acquired by Synopsys), Siemens EDA, and a variety of other tool providers, electronics device manufacturers with in-house EDA capabilities, technical and computational software companies, electronics design and consulting firms, and IP companies."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Siemens EDA",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "EDA tools competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Key competitors include Synopsys, Inc., Ansys, Inc. (acquired by Synopsys), Siemens EDA, and a variety of other tool providers, electronics device manufacturers with in-house EDA capabilities, technical and computational software companies, electronics design and consulting firms, and IP companies.",
+      "evidence_quotes": [
+        "Key competitors include Synopsys, Inc., Ansys, Inc. (acquired by Synopsys), Siemens EDA, and a variety of other tool providers, electronics device manufacturers with in-house EDA capabilities, technical and computational software companies, electronics design and consulting firms, and IP companies."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Keysight Technologies",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "U.S.-based competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "U.S.-based competitors include Keysight Technologies, Inc., Schrödinger, Inc., and CEVA, Inc., while international competitors include Altium Limited (acquired by Renesas Electronics Corporation) and Zuken, Inc. (Japan)",
+      "evidence_quotes": [
+        "U.S.-based competitors include Keysight Technologies, Inc., Schrödinger, Inc., and CEVA, Inc., while international competitors include Altium Limited (acquired by Renesas Electronics Corporation) and Zuken, Inc. (Japan)"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Schrödinger",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "U.S.-based competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "U.S.-based competitors include Keysight Technologies, Inc., Schrödinger, Inc., and CEVA, Inc., while international competitors include Altium Limited (acquired by Renesas Electronics Corporation) and Zuken, Inc. (Japan)",
+      "evidence_quotes": [
+        "U.S.-based competitors include Keysight Technologies, Inc., Schrödinger, Inc., and CEVA, Inc., while international competitors include Altium Limited (acquired by Renesas Electronics Corporation) and Zuken, Inc. (Japan)"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "CEVA",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "U.S.-based competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "U.S.-based competitors include Keysight Technologies, Inc., Schrödinger, Inc., and CEVA, Inc., while international competitors include Altium Limited (acquired by Renesas Electronics Corporation) and Zuken, Inc. (Japan)",
+      "evidence_quotes": [
+        "U.S.-based competitors include Keysight Technologies, Inc., Schrödinger, Inc., and CEVA, Inc., while international competitors include Altium Limited (acquired by Renesas Electronics Corporation) and Zuken, Inc. (Japan)"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Altium Limited",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "international competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "U.S.-based competitors include Keysight Technologies, Inc., Schrödinger, Inc., and CEVA, Inc., while international competitors include Altium Limited (acquired by Renesas Electronics Corporation) and Zuken, Inc. (Japan)",
+      "evidence_quotes": [
+        "U.S.-based competitors include Keysight Technologies, Inc., Schrödinger, Inc., and CEVA, Inc., while international competitors include Altium Limited (acquired by Renesas Electronics Corporation) and Zuken, Inc. (Japan)"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Zuken",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "international competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "U.S.-based competitors include Keysight Technologies, Inc., Schrödinger, Inc., and CEVA, Inc., while international competitors include Altium Limited (acquired by Renesas Electronics Corporation) and Zuken, Inc. (Japan)",
+      "evidence_quotes": [
+        "U.S.-based competitors include Keysight Technologies, Inc., Schrödinger, Inc., and CEVA, Inc., while international competitors include Altium Limited (acquired by Renesas Electronics Corporation) and Zuken, Inc. (Japan)"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Huada Empyrean",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "emerging China competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "and emerging players in China such as Huada Empyrean, Xpeedic Technology, X-EPIC, Primarius Technologies, Univista, and Giga Design Automation.",
+      "evidence_quotes": [
+        "and emerging players in China such as Huada Empyrean, Xpeedic Technology, X-EPIC, Primarius Technologies, Univista, and Giga Design Automation."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Xpeedic Technology",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "emerging China competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "and emerging players in China such as Huada Empyrean, Xpeedic Technology, X-EPIC, Primarius Technologies, Univista, and Giga Design Automation.",
+      "evidence_quotes": [
+        "and emerging players in China such as Huada Empyrean, Xpeedic Technology, X-EPIC, Primarius Technologies, Univista, and Giga Design Automation."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "X-EPIC",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "emerging China competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "and emerging players in China such as Huada Empyrean, Xpeedic Technology, X-EPIC, Primarius Technologies, Univista, and Giga Design Automation.",
+      "evidence_quotes": [
+        "and emerging players in China such as Huada Empyrean, Xpeedic Technology, X-EPIC, Primarius Technologies, Univista, and Giga Design Automation."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Primarius Technologies",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "emerging China competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "and emerging players in China such as Huada Empyrean, Xpeedic Technology, X-EPIC, Primarius Technologies, Univista, and Giga Design Automation.",
+      "evidence_quotes": [
+        "and emerging players in China such as Huada Empyrean, Xpeedic Technology, X-EPIC, Primarius Technologies, Univista, and Giga Design Automation."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Univista",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "emerging China competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "and emerging players in China such as Huada Empyrean, Xpeedic Technology, X-EPIC, Primarius Technologies, Univista, and Giga Design Automation.",
+      "evidence_quotes": [
+        "and emerging players in China such as Huada Empyrean, Xpeedic Technology, X-EPIC, Primarius Technologies, Univista, and Giga Design Automation."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Giga Design Automation",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "emerging China competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "and emerging players in China such as Huada Empyrean, Xpeedic Technology, X-EPIC, Primarius Technologies, Univista, and Giga Design Automation.",
+      "evidence_quotes": [
+        "and emerging players in China such as Huada Empyrean, Xpeedic Technology, X-EPIC, Primarius Technologies, Univista, and Giga Design Automation."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    }
+  ],
+  "candidatesPerChunk": [
+    1,
+    14,
+    0
+  ],
+  "parseErrors": 1,
+  "apiErrors": 0,
+  "inputTokens": 69941,
+  "outputTokens": 2711
+}

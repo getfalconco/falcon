@@ -1,0 +1,15 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 67351,
+  "chunks": 3,
+  "candidates": [],
+  "candidatesPerChunk": [
+    0,
+    0,
+    0
+  ],
+  "parseErrors": 0,
+  "apiErrors": 0,
+  "inputTokens": 97427,
+  "outputTokens": 0
+}

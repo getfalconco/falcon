@@ -1,0 +1,154 @@
+[
+  {
+    "counterparty_name": "Cisco",
+    "category": "competitor",
+    "subtype": "network equipment vendor",
+    "evidence_quote": "The data center and campus networking markets have historically been dominated by Cisco, with competition also coming from other large network equipment and system vendors",
+    "confidence": 0.95,
+    "merged_into": "Cisco"
+  },
+  {
+    "counterparty_name": "Extreme Networks",
+    "category": "competitor",
+    "subtype": "network_equipment_vendor",
+    "evidence_quote": "competition also coming from other large network equipment and system vendors, including Dell/EMC, Extreme Networks, Hewlett Packard Enterprise, Huawei, Juniper Networks, Nvidia",
+    "confidence": 0.9,
+    "merged_into": "Extreme Networks"
+  },
+  {
+    "counterparty_name": "Hewlett Packard Enterprise",
+    "category": "competitor",
+    "subtype": "network_equipment_vendor",
+    "evidence_quote": "competition also coming from other large network equipment and system vendors, including Dell/EMC, Extreme Networks, Hewlett Packard Enterprise, Huawei, Juniper Networks, Nvidia",
+    "confidence": 0.9,
+    "merged_into": "Hewlett Packard Enterprise"
+  },
+  {
+    "counterparty_name": "Huawei",
+    "category": "competitor",
+    "subtype": "network_equipment_vendor",
+    "evidence_quote": "competition also coming from other large network equipment and system vendors, including Dell/EMC, Extreme Networks, Hewlett Packard Enterprise, Huawei, Juniper Networks, Nvidia",
+    "confidence": 0.9,
+    "merged_into": "Huawei"
+  },
+  {
+    "counterparty_name": "Juniper Networks",
+    "category": "competitor",
+    "subtype": "network_equipment_vendor",
+    "evidence_quote": "competition also coming from other large network equipment and system vendors, including Dell/EMC, Extreme Networks, Hewlett Packard Enterprise, Huawei, Juniper Networks, Nvidia",
+    "confidence": 0.9,
+    "merged_into": "Juniper Networks"
+  },
+  {
+    "counterparty_name": "Nvidia",
+    "category": "competitor",
+    "subtype": "network_equipment_vendor",
+    "evidence_quote": "competition also coming from other large network equipment and system vendors, including Dell/EMC, Extreme Networks, Hewlett Packard Enterprise, Huawei, Juniper Networks, Nvidia",
+    "confidence": 0.9,
+    "merged_into": "Nvidia"
+  },
+  {
+    "counterparty_name": "Broadcom",
+    "category": "supplier",
+    "subtype": "merchant silicon vendor",
+    "evidence_quote": "we are primarily reliant upon our predominant merchant silicon vendor, Broadcom, for our switching chips.",
+    "confidence": 0.95,
+    "merged_into": "Broadcom"
+  },
+  {
+    "counterparty_name": "Cisco",
+    "category": "competitor",
+    "subtype": "primary_competitor",
+    "evidence_quote": "The data center and campus networking markets have been historically dominated by Cisco",
+    "confidence": 0.95,
+    "merged_into": "Cisco"
+  },
+  {
+    "counterparty_name": "Dell",
+    "category": "competitor",
+    "subtype": "network_equipment_vendor",
+    "evidence_quote": "competition also coming from other large network equipment and system vendors, including Dell/EMC, Extreme Networks, Hewlett Packard Enterprise, Huawei, Juniper Networks, Nvidia",
+    "confidence": 0.9,
+    "merged_into": "Dell"
+  },
+  {
+    "counterparty_name": "Extreme Networks",
+    "category": "competitor",
+    "subtype": "network_equipment_vendor",
+    "evidence_quote": "The data center and campus networking markets have been historically dominated by Cisco, with competition also coming from other large network equipment and system vendors, including Dell/EMC, Extreme Networks",
+    "confidence": 0.92,
+    "merged_into": "Extreme Networks"
+  },
+  {
+    "counterparty_name": "Hewlett Packard Enterprise",
+    "category": "competitor",
+    "subtype": "network_equipment_vendor",
+    "evidence_quote": "The data center and campus networking markets have been historically dominated by Cisco, with competition also coming from other large network equipment and system vendors, including Dell/EMC, Extreme Networks, Hewlett Packard Enterprise",
+    "confidence": 0.92,
+    "merged_into": "Hewlett Packard Enterprise"
+  },
+  {
+    "counterparty_name": "Huawei",
+    "category": "competitor",
+    "subtype": "network_equipment_vendor",
+    "evidence_quote": "The data center and campus networking markets have been historically dominated by Cisco, with competition also coming from other large network equipment and system vendors, including Dell/EMC, Extreme Networks, Hewlett Packard Enterprise, Huawei",
+    "confidence": 0.92,
+    "merged_into": "Huawei"
+  },
+  {
+    "counterparty_name": "Nvidia",
+    "category": "competitor",
+    "subtype": "network_equipment_vendor",
+    "evidence_quote": "The data center and campus networking markets have been historically dominated by Cisco, with competition also coming from other large network equipment and system vendors, including Dell/EMC, Extreme Networks, Hewlett Packard Enterprise, Huawei, Nvidia",
+    "confidence": 0.92,
+    "merged_into": "Nvidia"
+  },
+  {
+    "counterparty_name": "Juniper Networks",
+    "category": "competitor",
+    "subtype": "acquired_competitor",
+    "evidence_quote": "Hewlett Packard Enterprise acquired Juniper Networks",
+    "confidence": 0.88,
+    "merged_into": "Juniper Networks"
+  },
+  {
+    "counterparty_name": "China",
+    "category": "dependency",
+    "subtype": "trade policy infrastructure",
+    "evidence_quote": "geopolitical conditions such as international trade tensions between the U.S. and China, Canada, Mexico and other countries where we manufacture our products including Malaysia and Vietnam",
+    "confidence": 0.75,
+    "merged_into": "China"
+  },
+  {
+    "counterparty_name": "Canada",
+    "category": "dependency",
+    "subtype": "trade policy infrastructure",
+    "evidence_quote": "geopolitical conditions such as international trade tensions between the U.S. and China, Canada, Mexico and other countries where we manufacture our products including Malaysia and Vietnam",
+    "confidence": 0.75,
+    "merged_into": "Canada"
+  },
+  {
+    "counterparty_name": "Mexico",
+    "category": "dependency",
+    "subtype": "trade policy infrastructure",
+    "evidence_quote": "geopolitical conditions such as international trade tensions between the U.S. and China, Canada, Mexico and other countries where we manufacture our products including Malaysia and Vietnam",
+    "confidence": 0.75,
+    "merged_into": "Mexico"
+  },
+  {
+    "counterparty_name": "Malaysia",
+    "category": "dependency",
+    "subtype": "manufacturing location infrastructure",
+    "evidence_quote": "geopolitical conditions such as international trade tensions between the U.S. and China, Canada, Mexico and other countries where we manufacture our products including Malaysia and Vietnam",
+    "confidence": 0.75,
+    "merged_into": "Malaysia"
+  },
+  {
+    "counterparty_name": "Vietnam",
+    "category": "dependency",
+    "subtype": "manufacturing location infrastructure",
+    "evidence_quote": "geopolitical conditions such as international trade tensions between the U.S. and China, Canada, Mexico and other countries where we manufacture our products including Malaysia and Vietnam",
+    "confidence": 0.75,
+    "merged_into": "Vietnam"
+  }
+]

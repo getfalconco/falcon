@@ -1,0 +1,258 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "Exposure";
+  src: url("/fonts/Exposure.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* "Get started" pixel arrow: marches left→right one pixel-column (4px) at a
+   time like an airport signboard, then holds off-screen (the 78%→100% pause)
+   before re-entering from the left. Starts fully off the left edge (-28px) and
+   ends fully off the right edge (+32px): 60px of travel = 15 steps of 4px. */
+@keyframes pixel-arrow-march {
+  0% {
+    transform: translateX(-28px);
+  }
+  78% {
+    transform: translateX(32px);
+  }
+  100% {
+    transform: translateX(32px);
+  }
+}
+
+.pixel-arrow-march {
+  animation: pixel-arrow-march 3.4s steps(15, end) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pixel-arrow-march {
+    animation: none;
+    transform: translateX(0);
+  }
+}
+
+/* Ticker chips pop in as the typewriter reaches them. */
+@keyframes chip-pop {
+  from {
+    opacity: 0;
+    transform: translateY(5px) scale(0.86);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.chip-pop {
+  animation: chip-pop 0.34s cubic-bezier(0.22, 1, 0.36, 1) both;
+  transform-origin: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chip-pop {
+    animation: none;
+  }
+}
+
+:root {
+  /* Polka-dot texture, shared by the navbar, the feature grid and the About
+     portraits. */
+  --polka-alpha: 0.085; /* dot opacity */
+  --polka-dot: 0.9px; /* dot radius */
+  --polka-gap: 5px; /* lattice spacing */
+
+  --background: #090909;
+  --foreground: #f5f5f5;
+  --market-gain: #059669;
+  --market-gain-soft: #ecfdf5;
+  --market-gain-muted: #6ee7b7;
+  --market-loss: #dc2626;
+  --market-loss-soft: #fef2f2;
+  --market-loss-muted: #fca5a5;
+
+  /* shadcn/ui tokens (scoped via .shadcn-light on form surfaces) */
+  --radius: 0.5rem;
+}
+
+/* Light shadcn palette for marketing forms (jobs apply, etc.) */
+.shadcn-light {
+  --background: 60 25% 98%;
+  --foreground: 0 4% 11%;
+  --primary: 0 4% 11%;
+  --primary-foreground: 0 0% 98%;
+  --secondary: 0 0% 94%;
+  --secondary-foreground: 0 4% 11%;
+  --border: 0 0% 82%;
+  --input: 0 0% 88%;
+  --ring: 0 0% 40%;
+  --muted: 0 0% 92%;
+  --muted-foreground: 0 0% 42%;
+  --card: 0 0% 100%;
+  --card-foreground: 0 4% 11%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 0 4% 11%;
+  --accent: 60 10% 96%;
+  --accent-foreground: 0 4% 11%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 98%;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background-color: rgba(255, 255, 255, 0.16);
+  color: #f5f5f5;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, rgba(10, 10, 11, 0.035) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(10, 10, 11, 0.035) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+}
+
+@keyframes gradient-drift-1 {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1) rotate(0deg);
+  }
+  33% {
+    transform: translate(12%, -8%) scale(1.08) rotate(8deg);
+  }
+  66% {
+    transform: translate(-6%, 10%) scale(0.94) rotate(-4deg);
+  }
+}
+
+@keyframes gradient-drift-2 {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1) rotate(0deg);
+  }
+  40% {
+    transform: translate(-10%, 6%) scale(1.12) rotate(-6deg);
+  }
+  70% {
+    transform: translate(8%, -12%) scale(0.92) rotate(5deg);
+  }
+}
+
+@keyframes gradient-drift-3 {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-14%, -10%) scale(1.15);
+  }
+}
+
+@keyframes gradient-drift-4 {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  45% {
+    transform: translate(10%, 14%) scale(1.1);
+  }
+}
+
+.gradient-blob {
+  filter: blur(72px);
+  opacity: 0.85;
+  will-change: transform;
+}
+
+.gradient-blob-1 {
+  animation: gradient-drift-1 14s ease-in-out infinite;
+}
+
+.gradient-blob-2 {
+  animation: gradient-drift-2 18s ease-in-out infinite;
+}
+
+.gradient-blob-3 {
+  animation: gradient-drift-3 11s ease-in-out infinite;
+  opacity: 0.7;
+}
+
+.gradient-blob-4 {
+  animation: gradient-drift-4 16s ease-in-out infinite;
+  opacity: 0.55;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gradient-blob {
+    animation: none !important;
+  }
+}
+
+/* Custom scrollbar: a thin rounded thumb on the page's own paper colour,
+   instead of the browser's default slab. Firefox gets the two-property
+   version; WebKit/Blink the pseudo-elements. */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: #d4d4d0 transparent;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #d4d4d0;
+  border-radius: 999px;
+  /* Transparent border shrinks the visible thumb without shrinking its hit
+     area, so it stays easy to grab. */
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #b9b9b4;
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Broker wordmarks drifting left -> right under the hero. The track holds two
+   copies of the row; moving it by exactly one copy's width loops seamlessly. */
+@keyframes broker-marquee-ltr {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
+}
+.broker-marquee-track {
+  animation: broker-marquee-ltr 38s linear infinite;
+}
+.broker-marquee:hover .broker-marquee-track {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .broker-marquee-track { animation: none; }
+}

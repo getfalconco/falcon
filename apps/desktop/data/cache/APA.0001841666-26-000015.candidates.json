@@ -1,0 +1,233 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 266304,
+  "chunks": 12,
+  "candidates": [
+    {
+      "counterparty_name": "Sinopec",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint venture partner in Egypt operations",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "owned two-thirds by the Company and one-third by Sinopec International Petroleum Exploration and Production Corporation (Sinopec)",
+      "evidence_quotes": [
+        "owned two-thirds by the Company and one-third by Sinopec International Petroleum Exploration and Production Corporation (Sinopec)"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "EGPC",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "natural gas sales agreement",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "substantially all of the Company’s 2025 natural gas production is sold to EGPC pursuant to a gas sales agreement that establishes pricing based on a minimum realized price of $2.65 per MMBtu",
+      "evidence_quotes": [
+        "substantially all of the Company’s 2025 natural gas production is sold to EGPC pursuant to a gas sales agreement that establishes pricing based on a minimum realized price of $2.65 per MMBtu"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "EGPC",
+      "counterparty_type": "government",
+      "category": "partner",
+      "subtype": "production-sharing contract counterparty",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the Company is the contractor partner (Contractor) with EGPC and bears the risk and cost of exploration, development, and production activities",
+      "evidence_quotes": [
+        "the Company is the contractor partner (Contractor) with EGPC and bears the risk and cost of exploration, development, and production activities"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "TotalEnergies",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint venture for exploration and development",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The Company has a joint venture agreement with TotalEnergies (formerly Total S.A.) to explore and develop Block 58 offshore Suriname.",
+      "evidence_quotes": [
+        "The Company has a joint venture agreement with TotalEnergies (formerly Total S.A.) to explore and develop Block 58 offshore Suriname."
+      ],
+      "confidence": 0.97,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Staatsolie",
+      "counterparty_type": "government",
+      "category": "partner",
+      "subtype": "production-sharing contract participation",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Staatsolie exercised its right to participate in the GranMorgu development and production for a 20 percent share",
+      "evidence_quotes": [
+        "Staatsolie exercised its right to participate in the GranMorgu development and production for a 20 percent share"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Ancala Midstream Acquisitions Limited",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "gas processing plant operator",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Natural gas from the Beryl field is processed through the Scottish Area Gas Evacuation (SAGE) gas plant, operated by Ancala Midstream Acquisitions Limited.",
+      "evidence_quotes": [
+        "Natural gas from the Beryl field is processed through the Scottish Area Gas Evacuation (SAGE) gas plant, operated by Ancala Midstream Acquisitions Limited."
+      ],
+      "confidence": 0.75,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "EGPC",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "crude oil, natural gas, and NGLs sales",
+      "disclosed_revenue_dependency_pct": 15,
+      "evidence_quote": "During 2025, sales to EGPC in Egypt accounted for approximately 15 percent of the Company's worldwide crude oil, natural gas, and NGLs revenues.",
+      "evidence_quotes": [
+        "During 2025, sales to EGPC in Egypt accounted for approximately 15 percent of the Company's worldwide crude oil, natural gas, and NGLs revenues."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Oil Spill Response Limited",
+      "counterparty_type": "other",
+      "category": "supplier",
+      "subtype": "oil spill response cooperative services",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The Company's subsidiary, Apache, is a member of Oil Spill Response Limited (OSRL), a large international oil spill response cooperative, which entitles any affiliated entity worldwide to access OSRL's services.",
+      "evidence_quotes": [
+        "The Company's subsidiary, Apache, is a member of Oil Spill Response Limited (OSRL), a large international oil spill response cooperative, which entitles any affiliated entity worldwide to access OSRL's services."
+      ],
+      "confidence": 0.7,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Clean Gulf Associates",
+      "counterparty_type": "other",
+      "category": "supplier",
+      "subtype": "oil spill response services",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In the event of a spill in the Gulf of America, Clean Gulf Associates (CGA) is the primary oil spill response organization available to the Company.",
+      "evidence_quotes": [
+        "In the event of a spill in the Gulf of America, Clean Gulf Associates (CGA) is the primary oil spill response organization available to the Company."
+      ],
+      "confidence": 0.7,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Wild Well Control Company",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "well control and containment contractor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the Company has contracted with Wild Well Control Company for contingency planning for and response to uncontrolled subsea well events and other drilling activities.",
+      "evidence_quotes": [
+        "the Company has contracted with Wild Well Control Company for contingency planning for and response to uncontrolled subsea well events and other drilling activities."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Egyptian General Petroleum Corporation",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "government partner payment risk",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "forced renegotiation or modification of the Company’s existing contracts with Egyptian General Petroleum Corporation (EGPC), or threats or acts of terrorism could materially and adversely affect the Company’s business and operations",
+      "evidence_quotes": [
+        "forced renegotiation or modification of the Company’s existing contracts with Egyptian General Petroleum Corporation (EGPC), or threats or acts of terrorism could materially and adversely affect the Company’s business and operations"
+      ],
+      "confidence": 0.75,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "EGPC",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "gas_sales_agreement",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Effective January 2025, substantially all of the Company's natural gas production was sold to EGPC under the terms of this agreement.",
+      "evidence_quotes": [
+        "Effective January 2025, substantially all of the Company's natural gas production was sold to EGPC under the terms of this agreement."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 7
+    },
+    {
+      "counterparty_name": "Kinetik",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "midstream_gathering_processing_services",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Midstream service costs – Kinetik — 23 109",
+      "evidence_quotes": [
+        "Midstream service costs – Kinetik — 23 109"
+      ],
+      "confidence": 0.6,
+      "chunk_index": 7
+    },
+    {
+      "counterparty_name": "Sinopec",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint venture participant in Egypt oil and gas operations",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Sinopec holds a one-third minority participation interest in the Company’s oil and gas operations in Egypt.",
+      "evidence_quotes": [
+        "Sinopec holds a one-third minority participation interest in the Company’s oil and gas operations in Egypt."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 8
+    },
+    {
+      "counterparty_name": "EGPC",
+      "counterparty_type": "government",
+      "category": "partner",
+      "subtype": "oil and gas concession agreement",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "$28 million is related to the merged concession agreement with the EGPC",
+      "evidence_quotes": [
+        "$28 million is related to the merged concession agreement with the EGPC"
+      ],
+      "confidence": 0.65,
+      "chunk_index": 9
+    },
+    {
+      "counterparty_name": "Ryder Scott Company, L.P.",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "petroleum reserve consulting services",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Consent of Ryder Scott Company, L.P., Petroleum Consultants.",
+      "evidence_quotes": [
+        "Consent of Ryder Scott Company, L.P., Petroleum Consultants."
+      ],
+      "confidence": 0.65,
+      "chunk_index": 11
+    }
+  ],
+  "candidatesPerChunk": [
+    0,
+    6,
+    1,
+    3,
+    0,
+    0,
+    1,
+    2,
+    1,
+    1,
+    0,
+    1
+  ],
+  "parseErrors": 16,
+  "apiErrors": 0,
+  "inputTokens": 281676,
+  "outputTokens": 2349
+}

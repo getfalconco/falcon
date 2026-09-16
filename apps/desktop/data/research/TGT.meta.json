@@ -1,0 +1,13 @@
+{
+  "ticker": "TGT",
+  "companyName": "TARGET CORP",
+  "form": "10-K",
+  "filingDate": "2026-03-11",
+  "sourceUrl": "https://www.sec.gov/Archives/edgar/data/27419/000002741926000016/tgt-20260131.htm",
+  "generatedAt": "2026-08-26T11:12:32.993Z",
+  "cacheKey": "TGT|0000027419-26-000016|5",
+  "accessionNumber": "0000027419-26-000016",
+  "validatedCount": 5,
+  "rejectedCount": 13,
+  "mergedCount": 0
+}

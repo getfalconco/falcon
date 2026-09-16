@@ -1,0 +1,91 @@
+# Falcon desktop packaging. `pnpm --filter desktop dist` builds the renderer,
+# main and preload with electron-vite, then wraps them here.
+#
+# Signing: none for now. Windows installs with a SmartScreen warning; macOS
+# builds cannot self-update (see main/update/update-service.ts), which the app
+# tells the user about instead of failing quietly.
+
+appId: com.falcon.desktop
+productName: Falcon
+copyright: © 2026 Falcon
+
+directories:
+  output: release
+  buildResources: resources
+
+# electron-vite output only. Production dependencies are collected by
+# electron-builder from package.json on its own.
+files:
+  - out/**
+  - "!out/**/*.map"
+  # Belt and braces: secrets never ship. The desktop holds no privileged key —
+  # main acts on the user's behalf with the public anon key + their own JWT
+  # (see main/session-bridge.ts); everything privileged runs server-side.
+  - "!**/.env"
+  - "!**/.env.*"
+
+# Things the main process reads from disk at runtime — they cannot live inside
+# the asar. See main/index.ts (icon) and main/data-root.ts (seed data).
+extraResources:
+  - from: resources/icon.ico
+    to: icon.ico
+  - from: resources/icon.png
+    to: icon.png
+  - from: data/graph.json
+    to: seed-data/graph.json
+  - from: data/research
+    to: seed-data/research
+  - from: data/cache
+    to: seed-data/cache
+
+asar: true
+npmRebuild: false
+
+win:
+  target:
+    - target: nsis
+      arch: [x64]
+  icon: resources/icon.ico
+  # Stable name, so getfalcon.co can link .../releases/latest/download/Falcon-Setup.exe
+  artifactName: Falcon-Setup.${ext}
+
+nsis:
+  oneClick: true
+  # The bootstrapper (apps/installer) runs this silently and decides when to
+  # start Falcon, so the installer must not launch it on its own.
+  runAfterFinish: false
+  perMachine: false
+  allowToChangeInstallationDirectory: false
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: Falcon
+  deleteAppDataOnUninstall: false
+
+mac:
+  target:
+    - target: dmg
+      arch: [arm64, x64]
+  icon: resources/icon.png
+  category: public.app-category.finance
+  artifactName: Falcon-${arch}.${ext}
+  # Unsigned on purpose (no Apple Developer account yet).
+  identity: null
+  hardenedRuntime: false
+  gatekeeperAssess: false
+
+dmg:
+  contents:
+    - x: 130
+      y: 220
+    - x: 410
+      y: 220
+      type: link
+      path: /Applications
+
+# Public release-only repo; the source repo stays private. electron-updater
+# reads latest.yml from here. Publishing needs GH_TOKEN in the environment.
+publish:
+  provider: github
+  owner: KuzeyKovalak
+  repo: Falcon-Releases
+  releaseType: release

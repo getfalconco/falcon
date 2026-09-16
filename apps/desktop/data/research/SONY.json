@@ -1,0 +1,117 @@
+[
+  {
+    "root_ticker": "SONY",
+    "counterparty_name": "TSMC",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "strategic development and manufacturing partnership",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "SSS signed a non-binding MOU with TSMC regarding a strategic partnership for the development and manufacturing of next-generation image sensors",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/313838/000119312526274893/d28719d20f.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-06-18",
+    "shared_evidence_group": "ev_77d71485afec"
+  },
+  {
+    "root_ticker": "SONY",
+    "counterparty_name": "TCL",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "strategic partnership in home entertainment",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Signed definitive agreements for a strategic partnership in the home entertainment field of ET&S segment with TCL on March 31, 2026.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/313838/000119312526274893/d28719d20f.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-06-18",
+    "shared_evidence_group": "ev_4a3fc675d301"
+  },
+  {
+    "root_ticker": "SONY",
+    "counterparty_name": "Bandai Namco",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "AI collaboration pilot",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Sony is continuing a collaborative pilot initiative with Bandai Namco to explore the use of generative AI and other advanced technologies",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/313838/000119312526274893/d28719d20f.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "Building on the strategic partnerships announced with Bandai Namco, Sony is further strengthening its position in anime and other areas.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/313838/000119312526274893/d28719d20f.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-06-18",
+    "shared_evidence_group": "ev_af0dfa3ad9be"
+  },
+  {
+    "root_ticker": "SONY",
+    "counterparty_name": "GIC Private Limited",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "music IP investment partnership",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.93,
+    "evidence": [
+      {
+        "quote": "Sony Music Group announced a partnership with GIC Private Limited, to further build its music IP investments.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/313838/000119312526274893/d28719d20f.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-06-18",
+    "shared_evidence_group": "ev_c82bbd88413c"
+  },
+  {
+    "root_ticker": "SONY",
+    "counterparty_name": "Gaudiy Inc.",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "platform partnership for fan engagement",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "Crunchyroll newly adopted MyAnimeList as the platform for global fan participation in voting for the 2026 Crunchyroll Anime Awards, in partnership with Gaudiy Inc.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/313838/000119312526274893/d28719d20f.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-06-18",
+    "shared_evidence_group": "ev_0327f7c3a44e"
+  }
+]

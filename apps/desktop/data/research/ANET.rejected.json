@@ -1,0 +1,155 @@
+[
+  {
+    "counterparty_name": "VMware",
+    "category": "competitor",
+    "subtype": "acquired_by_broadcom",
+    "evidence_quote": "Broadcom has acquired VMware",
+    "confidence": 0.85,
+    "reason": "non-narrative evidence (identifier/tag/fragment)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Broadcom",
+    "category": "competitor",
+    "subtype": "network equipment vendor through acquisition",
+    "evidence_quote": "Broadcom has acquired VMware",
+    "confidence": 0.88,
+    "reason": "non-narrative evidence (identifier/tag/fragment)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Gigamon",
+    "category": "competitor",
+    "subtype": "network packet broker vendor",
+    "evidence_quote": "In the network packet broker market, Arista DANZ Monitoring Fabric competes with Cisco, Gigamon, Keysight, Netscout and other network monitoring software providers.",
+    "confidence": 0.93,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Keysight",
+    "category": "competitor",
+    "subtype": "network packet broker vendor",
+    "evidence_quote": "In the network packet broker market, Arista DANZ Monitoring Fabric competes with Cisco, Gigamon, Keysight, Netscout and other network monitoring software providers.",
+    "confidence": 0.93,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Netscout",
+    "category": "competitor",
+    "subtype": "network packet broker vendor",
+    "evidence_quote": "In the network packet broker market, Arista DANZ Monitoring Fabric competes with Cisco, Gigamon, Keysight, Netscout and other network monitoring software providers.",
+    "confidence": 0.93,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Acacia Communications",
+    "category": "competitor",
+    "subtype": "acquired_competitor",
+    "evidence_quote": "Cisco acquired Acacia Communications",
+    "confidence": 0.88,
+    "reason": "non-narrative evidence (identifier/tag/fragment)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Force10 Networks",
+    "category": "competitor",
+    "subtype": "acquired_competitor",
+    "evidence_quote": "Dell acquired Force10 Networks",
+    "confidence": 0.88,
+    "reason": "non-narrative evidence (identifier/tag/fragment)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "U.S. government",
+    "category": "customer",
+    "subtype": "federal government customer",
+    "evidence_quote": "We anticipate increasing our sales efforts to U.S. and foreign, federal, state and local governmental customers in the future.",
+    "confidence": 0.85,
+    "reason": "counterparty name not in quote",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "EMC",
+    "category": "competitor",
+    "subtype": "network_equipment_vendor",
+    "evidence_quote": "The data center and campus networking markets have been historically dominated by Cisco, with competition also coming from other large network equipment and system vendors, including Dell/EMC",
+    "confidence": 0.92,
+    "reason": "The evidence_quote states 'Dell/EMC' as a single entity in the context of network equipment vendors. EMC was acquired by Dell in 2016 and became Dell EMC, later rebranded to just Dell Technologies' infrastructure solutions division. By the time of this filing, EMC does not exist as a standalone competitor - it's part of Dell. The actual competitor is Dell (or Dell Technologies), not EMC separately. Additionally, the context groups them as 'Dell/EMC' suggesting a single entity, not EMC as an independent counterparty. EMC should not be listed as a separate competitor counterparty.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Broadcom",
+    "category": "competitor",
+    "subtype": "network_equipment_vendor",
+    "evidence_quote": "Broadcom acquired Brocade Communications and VMware",
+    "confidence": 0.88,
+    "reason": "The evidence quote 'Broadcom acquired Brocade Communications and VMware' is provided in a context describing industry consolidation activities by various companies, not to identify Broadcom as a competitor. The sentence is part of a list of acquisition examples ('For example, Cisco acquired Acacia Communications, Broadcom acquired Brocade Communications and VMware, Dell acquired Force10 Networks...') that illustrates consolidation trends. While the broader paragraph does discuss competition and mentions competitors like Cisco, Dell/EMC, Extreme Networks, HPE, Huawei, and Nvidia, Broadcom itself is not explicitly identified as a competitor to Arista. The quote merely states a corporate transaction fact without establishing Broadcom's competitive relationship to the root company. To classify Broadcom as a competitor would require evidence showing Broadcom directly competes with Arista in networking markets, which this passage does not provide.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "VMware",
+    "category": "competitor",
+    "subtype": "acquired_competitor",
+    "evidence_quote": "Broadcom acquired Brocade Communications and VMware",
+    "confidence": 0.88,
+    "reason": "VMware was acquired by Broadcom and is mentioned in the context of industry consolidation trends. The evidence quote 'Broadcom acquired Brocade Communications and VMware' is a factual statement about a corporate acquisition, not evidence that VMware is currently a competitor of Arista. The passage discusses how industry consolidation may result in stronger competitors, but VMware is listed as an acquisition target, not as an active competitor. Furthermore, as a Broadcom subsidiary post-acquisition, VMware's relationship to Arista (if any) would be through Broadcom, not as an independent competitor. The subtype 'acquired_competitor' is not a valid category - once acquired, the entity becomes part of the acquirer and ceases to be an independent counterparty.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "VeloCloud",
+    "category": "supplier",
+    "subtype": "acquisition",
+    "evidence_quote": "we completed the acquisition of VeloCloud in June 2025 which required management to focus efforts on integrating the VeloCloud business with the Company.",
+    "confidence": 0.95,
+    "reason": "The evidence quote states 'we completed the acquisition of VeloCloud in June 2025' which is a future date (the document context is from a 10-K filing that would be dated before 2025). This appears to be either a typo or hypothetical example rather than actual evidence from a real 10-K filing. More critically, if Arista Networks acquired VeloCloud, then VeloCloud became a subsidiary of Arista Networks, not a supplier. An acquired company becomes part of the acquiring company's internal structure. The category 'supplier' with subtype 'acquisition' is contradictory - you don't acquire your suppliers and then continue to call them suppliers; they become part of your company. The relationship described is an M&A transaction where VeloCloud was integrated into Arista Networks, making it internal to the ROOT company, not an external counterparty.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "China",
+    "category": "dependency",
+    "subtype": "manufacturing_jurisdiction",
+    "evidence_quote": "geopolitical conditions such as international trade tensions between the U.S. and China, Canada, Mexico and other countries where we manufacture our products including Malaysia and Vietnam",
+    "confidence": 0.85,
+    "reason": "China is referenced as a geographic location where manufacturing occurs and as a source of geopolitical trade tensions, but it is not a counterparty organization. The excerpt discusses 'international trade tensions between the U.S. and China' and 'China's restrictions on the use of certain U.S. products' - these are regulatory/geopolitical risks, not a dependency relationship with China as an organizational counterparty. Additionally, the category 'dependency' with subtype 'manufacturing_jurisdiction' is conceptually flawed: a jurisdiction is not a counterparty entity. The filing describes geopolitical and regulatory risks related to China as a country, not a relationship with the Chinese government as a distinct organizational entity providing critical infrastructure or services. This is a risk factor disclosure about geographic/regulatory exposure, not a counterparty relationship.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Canada",
+    "category": "dependency",
+    "subtype": "manufacturing_jurisdiction",
+    "evidence_quote": "geopolitical conditions such as international trade tensions between the U.S. and China, Canada, Mexico and other countries where we manufacture our products including Malaysia and Vietnam",
+    "confidence": 0.85,
+    "reason": "Canada is listed as a jurisdiction where international trade tensions exist, not as a manufacturing location for Arista. The text states 'international trade tensions between the U.S. and China, Canada, Mexico and other countries where we manufacture our products including Malaysia and Vietnam.' The grammar indicates Malaysia and Vietnam are manufacturing locations, while Canada is grouped with China and Mexico as countries involved in trade tensions. Canada is not identified as a manufacturing jurisdiction or dependency for Arista.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Mexico",
+    "category": "dependency",
+    "subtype": "manufacturing_jurisdiction",
+    "evidence_quote": "geopolitical conditions such as international trade tensions between the U.S. and China, Canada, Mexico and other countries where we manufacture our products including Malaysia and Vietnam",
+    "confidence": 0.85,
+    "reason": "Mexico is cited only as a manufacturing location within the context of geopolitical trade tensions, not as a dependency relationship. The passage discusses 'countries where we manufacture our products including Malaysia and Vietnam' alongside Mexico, indicating these are manufacturing jurisdictions where Arista has operations. A dependency relationship requires the root to critically rely on counterparty infrastructure or services with no commercial vendor relationship. Here, Mexico is simply a geographic jurisdiction where manufacturing occurs, not an entity providing critical infrastructure. Manufacturing locations do not constitute dependencies unless there's evidence of critical reliance on government-provided infrastructure unique to that jurisdiction. The evidence shows Mexico as one of several manufacturing locations affected by trade tensions, not as a critical dependency.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Malaysia",
+    "category": "dependency",
+    "subtype": "manufacturing_jurisdiction",
+    "evidence_quote": "geopolitical conditions such as international trade tensions between the U.S. and China, Canada, Mexico and other countries where we manufacture our products including Malaysia and Vietnam",
+    "confidence": 0.85,
+    "reason": "Malaysia is mentioned as a jurisdiction where Arista manufactures products, not as a counterparty entity. The evidence describes geopolitical conditions affecting manufacturing in Malaysia, but does not establish Malaysia (the government) as a specific dependency relationship. Manufacturing jurisdictions are geographic locations, not counterparty relationships. Additionally, the category 'dependency' requires the root to critically rely on counterparty infrastructure/service with no commercial relationship - here Malaysia is simply a location where contract manufacturers operate, not a service provider. The evidence does not support Malaysia as a distinct counterparty entity.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Vietnam",
+    "category": "dependency",
+    "subtype": "manufacturing_jurisdiction",
+    "evidence_quote": "geopolitical conditions such as international trade tensions between the U.S. and China, Canada, Mexico and other countries where we manufacture our products including Malaysia and Vietnam",
+    "confidence": 0.85,
+    "reason": "Vietnam is mentioned only as a manufacturing jurisdiction in the context of geopolitical trade tensions and supply chain risk, but there is no evidence of a dependency relationship. The text states 'countries where we manufacture our products including Malaysia and Vietnam' — this indicates Arista manufactures products in Vietnam (likely via contract manufacturers), not that Arista depends on Vietnam as a government entity. Manufacturing jurisdiction does not constitute a dependency relationship with a government. The actual counterparties would be the contract manufacturers operating in Vietnam (which would be suppliers), not the Vietnamese government itself. A dependency would require evidence that Vietnam provides critical infrastructure, regulatory frameworks, or services that Arista relies upon, not merely that manufacturing happens within its borders.",
+    "stage": "audit"
+  }
+]

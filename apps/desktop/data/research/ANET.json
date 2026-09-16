@@ -1,0 +1,419 @@
+[
+  {
+    "root_ticker": "ANET",
+    "counterparty_name": "Jabil Inc.",
+    "counterparty_ticker": "JBL",
+    "counterparty_type": "public_company",
+    "category": "supplier",
+    "subtype": "contract_manufacturer",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Our primary manufacturing partners are Jabil Inc., Sanmina Corporation and Foxconn Hon Hai.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1596532/000159653226000013/anet-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_ae05e27beb0d"
+  },
+  {
+    "root_ticker": "ANET",
+    "counterparty_name": "Sanmina Corporation",
+    "counterparty_ticker": "SANM",
+    "counterparty_type": "public_company",
+    "category": "supplier",
+    "subtype": "contract_manufacturer",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.98,
+    "evidence": [
+      {
+        "quote": "Our primary manufacturing partners are Jabil Inc., Sanmina Corporation and Foxconn Hon Hai.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1596532/000159653226000013/anet-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_ae05e27beb0d"
+  },
+  {
+    "root_ticker": "ANET",
+    "counterparty_name": "Foxconn Hon Hai",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "supplier",
+    "subtype": "contract_manufacturer",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Our primary manufacturing partners are Jabil Inc., Sanmina Corporation and Foxconn Hon Hai.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1596532/000159653226000013/anet-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_ae05e27beb0d"
+  },
+  {
+    "root_ticker": "ANET",
+    "counterparty_name": "Broadcom",
+    "counterparty_ticker": "AVGO",
+    "counterparty_type": "public_company",
+    "category": "supplier",
+    "subtype": "merchant_silicon_vendor",
+    "strength": 1,
+    "strength_tier": "critical",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.98,
+    "evidence": [
+      {
+        "quote": "we are primarily reliant upon our predominant merchant silicon vendor, Broadcom, for our switching chips.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1596532/000159653226000013/anet-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_998424490b01"
+  },
+  {
+    "root_ticker": "ANET",
+    "counterparty_name": "Cisco",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "network_equipment_vendor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "The data center and campus networking markets have historically been dominated by Cisco",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1596532/000159653226000013/anet-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "The data center and campus networking markets have historically been dominated by Cisco, with competition also coming from other large network equipment and system vendors",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1596532/000159653226000013/anet-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "The data center and campus networking markets have been historically dominated by Cisco",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1596532/000159653226000013/anet-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_79e97b71f225"
+  },
+  {
+    "root_ticker": "ANET",
+    "counterparty_name": "Dell",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "network_equipment_vendor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "The data center and campus networking markets have been historically dominated by Cisco, with competition also coming from other large network equipment and system vendors, including Dell/EMC",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1596532/000159653226000013/anet-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "competition also coming from other large network equipment and system vendors, including Dell/EMC, Extreme Networks, Hewlett Packard Enterprise, Huawei, Juniper Networks, Nvidia",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1596532/000159653226000013/anet-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_41218533e2ed"
+  },
+  {
+    "root_ticker": "ANET",
+    "counterparty_name": "Extreme Networks",
+    "counterparty_ticker": "EXTR",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "network equipment vendor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "with competition also coming from other large network equipment and system vendors, including Dell/EMC, Extreme Networks, Hewlett Packard Enterprise, Huawei, Juniper Networks, Nvidia",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1596532/000159653226000013/anet-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "competition also coming from other large network equipment and system vendors, including Dell/EMC, Extreme Networks, Hewlett Packard Enterprise, Huawei, Juniper Networks, Nvidia",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1596532/000159653226000013/anet-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "The data center and campus networking markets have been historically dominated by Cisco, with competition also coming from other large network equipment and system vendors, including Dell/EMC, Extreme Networks",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1596532/000159653226000013/anet-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_0a26a76db9fd"
+  },
+  {
+    "root_ticker": "ANET",
+    "counterparty_name": "Hewlett Packard Enterprise",
+    "counterparty_ticker": "HPE",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "network equipment vendor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "with competition also coming from other large network equipment and system vendors, including Dell/EMC, Extreme Networks, Hewlett Packard Enterprise, Huawei, Juniper Networks, Nvidia",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1596532/000159653226000013/anet-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "competition also coming from other large network equipment and system vendors, including Dell/EMC, Extreme Networks, Hewlett Packard Enterprise, Huawei, Juniper Networks, Nvidia",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1596532/000159653226000013/anet-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "The data center and campus networking markets have been historically dominated by Cisco, with competition also coming from other large network equipment and system vendors, including Dell/EMC, Extreme Networks, Hewlett Packard Enterprise",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1596532/000159653226000013/anet-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_0a26a76db9fd"
+  },
+  {
+    "root_ticker": "ANET",
+    "counterparty_name": "Huawei",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "competitor",
+    "subtype": "network equipment vendor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "with competition also coming from other large network equipment and system vendors, including Dell/EMC, Extreme Networks, Hewlett Packard Enterprise, Huawei, Juniper Networks, Nvidia",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1596532/000159653226000013/anet-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "competition also coming from other large network equipment and system vendors, including Dell/EMC, Extreme Networks, Hewlett Packard Enterprise, Huawei, Juniper Networks, Nvidia",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1596532/000159653226000013/anet-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "The data center and campus networking markets have been historically dominated by Cisco, with competition also coming from other large network equipment and system vendors, including Dell/EMC, Extreme Networks, Hewlett Packard Enterprise, Huawei",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1596532/000159653226000013/anet-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_0a26a76db9fd"
+  },
+  {
+    "root_ticker": "ANET",
+    "counterparty_name": "Juniper Networks",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "network equipment vendor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "with competition also coming from other large network equipment and system vendors, including Dell/EMC, Extreme Networks, Hewlett Packard Enterprise, Huawei, Juniper Networks, Nvidia",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1596532/000159653226000013/anet-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "competition also coming from other large network equipment and system vendors, including Dell/EMC, Extreme Networks, Hewlett Packard Enterprise, Huawei, Juniper Networks, Nvidia",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1596532/000159653226000013/anet-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "Hewlett Packard Enterprise acquired Juniper Networks",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1596532/000159653226000013/anet-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_0a26a76db9fd"
+  },
+  {
+    "root_ticker": "ANET",
+    "counterparty_name": "Nvidia",
+    "counterparty_ticker": "NVDA",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "network equipment and AI interconnect vendor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "with competition also coming from other large network equipment and system vendors, including Dell/EMC, Extreme Networks, Hewlett Packard Enterprise, Huawei, Juniper Networks, Nvidia",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1596532/000159653226000013/anet-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "competition also coming from other large network equipment and system vendors, including Dell/EMC, Extreme Networks, Hewlett Packard Enterprise, Huawei, Juniper Networks, Nvidia",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1596532/000159653226000013/anet-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "The data center and campus networking markets have been historically dominated by Cisco, with competition also coming from other large network equipment and system vendors, including Dell/EMC, Extreme Networks, Hewlett Packard Enterprise, Huawei, Nvidia",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1596532/000159653226000013/anet-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_0a26a76db9fd"
+  },
+  {
+    "root_ticker": "ANET",
+    "counterparty_name": "Dell/EMC",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "network equipment vendor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "with competition also coming from other large network equipment and system vendors, including Dell/EMC, Extreme Networks, Hewlett Packard Enterprise, Huawei, Juniper Networks, Nvidia",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1596532/000159653226000013/anet-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_0a26a76db9fd"
+  },
+  {
+    "root_ticker": "ANET",
+    "counterparty_name": "Darktrace",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "network security vendor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.93,
+    "evidence": [
+      {
+        "quote": "In the NDR market, our Arista NDR offerings compete with other network security vendors including Cisco, Darktrace, and ExtraHop.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1596532/000159653226000013/anet-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_e90f84965ccb"
+  },
+  {
+    "root_ticker": "ANET",
+    "counterparty_name": "ExtraHop",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "competitor",
+    "subtype": "network security vendor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.93,
+    "evidence": [
+      {
+        "quote": "In the NDR market, our Arista NDR offerings compete with other network security vendors including Cisco, Darktrace, and ExtraHop.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1596532/000159653226000013/anet-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_e90f84965ccb"
+  },
+  {
+    "root_ticker": "ANET",
+    "counterparty_name": "Brocade Communications",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "acquired_competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "Broadcom acquired Brocade Communications and VMware",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1596532/000159653226000013/anet-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_00f74e9731ea"
+  },
+  {
+    "root_ticker": "ANET",
+    "counterparty_name": "foreign government entities",
+    "counterparty_ticker": null,
+    "counterparty_type": "government_entity",
+    "category": "customer",
+    "subtype": "government customer",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.65,
+    "evidence": [
+      {
+        "quote": "We anticipate increasing our sales efforts to U.S. and foreign, federal, state and local governmental customers in the future.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1596532/000159653226000013/anet-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_faf3abdbf7da"
+  }
+]

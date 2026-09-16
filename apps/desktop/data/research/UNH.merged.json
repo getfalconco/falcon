@@ -1,0 +1,18 @@
+[
+  {
+    "counterparty_name": "HHS",
+    "category": "dependency",
+    "subtype": "regulatory_body",
+    "evidence_quote": "we must submit data on proposed rate increases to HHS on many of our products for monitoring purposes.",
+    "confidence": 0.85,
+    "merged_into": "HHS"
+  },
+  {
+    "counterparty_name": "CMS",
+    "category": "dependency",
+    "subtype": "payment_administrator",
+    "evidence_quote": "CMS in the past has reduced or frozen Medicare Advantage benchmarks, and additional cuts to Medicare Advantage benchmarks are possible.",
+    "confidence": 0.95,
+    "merged_into": "CMS"
+  }
+]

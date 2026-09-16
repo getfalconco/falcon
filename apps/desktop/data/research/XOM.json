@@ -1,0 +1,46 @@
+[
+  {
+    "root_ticker": "XOM",
+    "counterparty_name": "OPEC",
+    "counterparty_ticker": null,
+    "counterparty_type": "other",
+    "category": "dependency",
+    "subtype": "production_coordination",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.85,
+    "evidence": [
+      {
+        "quote": "World oil, gas, and petrochemical supply levels can also be affected by factors that reduce available supplies, such as the level of, and adherence by, participating countries to production quotas established by OPEC or OPEC+",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/34088/000003408826000045/xom-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-18",
+    "shared_evidence_group": "ev_c7ed993243bf"
+  },
+  {
+    "root_ticker": "XOM",
+    "counterparty_name": "Imperial Oil Limited",
+    "counterparty_ticker": "IMO",
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "joint_venture_partner",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Imperial Oil Limited is the owner of a 25 percent interest in the joint venture.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/34088/000003408826000045/xom-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-18",
+    "shared_evidence_group": "ev_be9cd57e4540"
+  }
+]

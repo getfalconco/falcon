@@ -1,0 +1,646 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 196136,
+  "chunks": 9,
+  "candidates": [
+    {
+      "counterparty_name": "Novartis",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "collaboration_license_ex_us_commercialization",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Under our collaboration agreement with Novartis Pharmaceutical International Ltd. (“Novartis”), Novartis received exclusive development and commercialization rights to ruxolitinib outside of the United States for all hematologic and oncologic indications",
+      "evidence_quotes": [
+        "Under our collaboration agreement with Novartis Pharmaceutical International Ltd. (“Novartis”), Novartis received exclusive development and commercialization rights to ruxolitinib outside of the United States for all hematologic and oncologic indications"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "ARIAD Pharmaceuticals",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "acquisition_and_exclusive_license",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In June 2016, we acquired the European operations of ARIAD Pharmaceuticals, Inc. and obtained an exclusive license to develop and commercialize ICLUSIG (ponatinib), a kinase inhibitor, in Europe and other select countries.",
+      "evidence_quotes": [
+        "In June 2016, we acquired the European operations of ARIAD Pharmaceuticals, Inc. and obtained an exclusive license to develop and commercialize ICLUSIG (ponatinib), a kinase inhibitor, in Europe and other select countries."
+      ],
+      "confidence": 0.7,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "MorphoSys",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "collaboration_and_license_agreement",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In January 2020, we and MorphoSys AG (“MorphoSys”) entered into a collaboration and license agreement to further develop and commercialize MorphoSys’ proprietary anti-CD19 antibody tafasitamab (formerly MOR208) globally.",
+      "evidence_quotes": [
+        "In January 2020, we and MorphoSys AG (“MorphoSys”) entered into a collaboration and license agreement to further develop and commercialize MorphoSys’ proprietary anti-CD19 antibody tafasitamab (formerly MOR208) globally."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Syndax",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "exclusive_worldwide_collaboration_and_license",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In September 2021, we entered into an exclusive worldwide collaboration and license agreement with Syndax Pharmaceuticals, Inc. (“Syndax”) to develop and commercialize axatilimab, Syndax’s anti-CSF-1R monoclonal antibody.",
+      "evidence_quotes": [
+        "In September 2021, we entered into an exclusive worldwide collaboration and license agreement with Syndax Pharmaceuticals, Inc. (“Syndax”) to develop and commercialize axatilimab, Syndax’s anti-CSF-1R monoclonal antibody."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Enable Injections",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "technology_license_agreement",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In October 2025, we announced an agreement with Enable Injections, Inc. (“Enable”) to develop for use with specific assets in our portfolio, including INCA033989, Enable’s enFuse on-body delivery system.",
+      "evidence_quotes": [
+        "In October 2025, we announced an agreement with Enable Injections, Inc. (“Enable”) to develop for use with specific assets in our portfolio, including INCA033989, Enable’s enFuse on-body delivery system."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "MacroGenics",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "exclusive_global_collaboration_and_license",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In October 2017, we and MacroGenics, Inc. (“MacroGenics”), announced an exclusive global collaboration and license agreement for MacroGenics’ retifanlimab (formerly INCMGA0012), a humanized monoclonal antibody targeting programmed death receptor-1",
+      "evidence_quotes": [
+        "In October 2017, we and MacroGenics, Inc. (“MacroGenics”), announced an exclusive global collaboration and license agreement for MacroGenics’ retifanlimab (formerly INCMGA0012), a humanized monoclonal antibody targeting programmed death receptor-1"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Merus",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "licensed_technology_platform",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "INCA33890 is a TGFβR2xPD-1 bispecific antibody developed by Incyte using Merus’s licensed bispecific platform to avoid the known toxicity of broad TGFβ pathway blockade",
+      "evidence_quotes": [
+        "INCA33890 is a TGFβR2xPD-1 bispecific antibody developed by Incyte using Merus’s licensed bispecific platform to avoid the known toxicity of broad TGFβ pathway blockade"
+      ],
+      "confidence": 0.7,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Eli Lilly and Company",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "licensing_partner",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "OLUMIANT (baricitinib), which is licensed to our collaborative partner Eli Lilly and Company (\"Lilly\")",
+      "evidence_quotes": [
+        "OLUMIANT (baricitinib), which is licensed to our collaborative partner Eli Lilly and Company (\"Lilly\")"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Novartis",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "licensing_partner",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "JAKAVI (ruxolitinib) and TABRECTA (capmatinib), which are licensed to Novartis",
+      "evidence_quotes": [
+        "JAKAVI (ruxolitinib) and TABRECTA (capmatinib), which are licensed to Novartis"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Syndax",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "collaboration_and_licensing",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In September 2021, we entered into a Collaboration and License Agreement with Syndax covering the worldwide development and commercialization of NIKTIMVO (axatilimab-csfr)",
+      "evidence_quotes": [
+        "In September 2021, we entered into a Collaboration and License Agreement with Syndax covering the worldwide development and commercialization of NIKTIMVO (axatilimab-csfr)"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "MacroGenics, Inc.",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "licensor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Retifanlimab licensed from MacroGenics, Inc.",
+      "evidence_quotes": [
+        "Retifanlimab licensed from MacroGenics, Inc."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Xencor, Inc.",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "licensor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Tafasitamab licensed from Xencor, Inc.",
+      "evidence_quotes": [
+        "Tafasitamab licensed from Xencor, Inc."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Syndax Therapeutics, Inc.",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "licensor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Axatilimab licensed from Syndax Therapeutics, Inc.",
+      "evidence_quotes": [
+        "Axatilimab licensed from Syndax Therapeutics, Inc."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "ARIAD",
+      "counterparty_type": "other",
+      "category": "supplier",
+      "subtype": "licensor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Under these licenses, such as our licenses from ARIAD/Takeda, Enable Injections, MacroGenics, Merus, Xencor and Syndax",
+      "evidence_quotes": [
+        "Under these licenses, such as our licenses from ARIAD/Takeda, Enable Injections, MacroGenics, Merus, Xencor and Syndax"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Takeda",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "licensor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Under these licenses, such as our licenses from ARIAD/Takeda, Enable Injections, MacroGenics, Merus, Xencor and Syndax",
+      "evidence_quotes": [
+        "Under these licenses, such as our licenses from ARIAD/Takeda, Enable Injections, MacroGenics, Merus, Xencor and Syndax"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Enable Injections",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "licensor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Under these licenses, such as our licenses from ARIAD/Takeda, Enable Injections, MacroGenics, Merus, Xencor and Syndax",
+      "evidence_quotes": [
+        "Under these licenses, such as our licenses from ARIAD/Takeda, Enable Injections, MacroGenics, Merus, Xencor and Syndax"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Merus",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "licensor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Under these licenses, such as our licenses from ARIAD/Takeda, Enable Injections, MacroGenics, Merus, Xencor and Syndax",
+      "evidence_quotes": [
+        "Under these licenses, such as our licenses from ARIAD/Takeda, Enable Injections, MacroGenics, Merus, Xencor and Syndax"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "ARIAD",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "licensor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Under these licenses, such as our licenses from ARIAD/Takeda, Enable Injections, MacroGenics, Merus, Xencor and Syndax, we may be required to pay up-front fees, license fees, milestone payments and royalties",
+      "evidence_quotes": [
+        "Under these licenses, such as our licenses from ARIAD/Takeda, Enable Injections, MacroGenics, Merus, Xencor and Syndax, we may be required to pay up-front fees, license fees, milestone payments and royalties"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Takeda",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "licensor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Under these licenses, such as our licenses from ARIAD/Takeda, Enable Injections, MacroGenics, Merus, Xencor and Syndax, we may be required to pay up-front fees, license fees, milestone payments and royalties",
+      "evidence_quotes": [
+        "Under these licenses, such as our licenses from ARIAD/Takeda, Enable Injections, MacroGenics, Merus, Xencor and Syndax, we may be required to pay up-front fees, license fees, milestone payments and royalties"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Enable Injections",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "licensor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Under these licenses, such as our licenses from ARIAD/Takeda, Enable Injections, MacroGenics, Merus, Xencor and Syndax, we may be required to pay up-front fees, license fees, milestone payments and royalties",
+      "evidence_quotes": [
+        "Under these licenses, such as our licenses from ARIAD/Takeda, Enable Injections, MacroGenics, Merus, Xencor and Syndax, we may be required to pay up-front fees, license fees, milestone payments and royalties"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "MacroGenics",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "licensor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Under these licenses, such as our licenses from ARIAD/Takeda, Enable Injections, MacroGenics, Merus, Xencor and Syndax, we may be required to pay up-front fees, license fees, milestone payments and royalties",
+      "evidence_quotes": [
+        "Under these licenses, such as our licenses from ARIAD/Takeda, Enable Injections, MacroGenics, Merus, Xencor and Syndax, we may be required to pay up-front fees, license fees, milestone payments and royalties"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Merus",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "licensor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Under these licenses, such as our licenses from ARIAD/Takeda, Enable Injections, MacroGenics, Merus, Xencor and Syndax, we may be required to pay up-front fees, license fees, milestone payments and royalties",
+      "evidence_quotes": [
+        "Under these licenses, such as our licenses from ARIAD/Takeda, Enable Injections, MacroGenics, Merus, Xencor and Syndax, we may be required to pay up-front fees, license fees, milestone payments and royalties"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Xencor",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "licensor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Under these licenses, such as our licenses from ARIAD/Takeda, Enable Injections, MacroGenics, Merus, Xencor and Syndax, we may be required to pay up-front fees, license fees, milestone payments and royalties",
+      "evidence_quotes": [
+        "Under these licenses, such as our licenses from ARIAD/Takeda, Enable Injections, MacroGenics, Merus, Xencor and Syndax, we may be required to pay up-front fees, license fees, milestone payments and royalties"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Syndax",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "licensor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Under these licenses, such as our licenses from ARIAD/Takeda, Enable Injections, MacroGenics, Merus, Xencor and Syndax, we may be required to pay up-front fees, license fees, milestone payments and royalties",
+      "evidence_quotes": [
+        "Under these licenses, such as our licenses from ARIAD/Takeda, Enable Injections, MacroGenics, Merus, Xencor and Syndax, we may be required to pay up-front fees, license fees, milestone payments and royalties"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Novartis Pharmaceutical International Ltd.",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "licensing/royalty collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "our agreements with Novartis Pharmaceutical International Ltd. for sales of JAKAVI outside the United States and TABRECTA globally",
+      "evidence_quotes": [
+        "our agreements with Novartis Pharmaceutical International Ltd. for sales of JAKAVI outside the United States and TABRECTA globally"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Eli Lilly and Company",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "licensing/royalty collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "our agreements with Novartis Pharmaceutical International Ltd. for sales of JAKAVI outside the United States and TABRECTA globally and with Eli Lilly and Company for worldwide sales of OLUMIANT",
+      "evidence_quotes": [
+        "our agreements with Novartis Pharmaceutical International Ltd. for sales of JAKAVI outside the United States and TABRECTA globally and with Eli Lilly and Company for worldwide sales of OLUMIANT"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Medicare",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "reimbursement dependency",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "If recent proposals for changes to Medicare and Medicaid reimbursement of drug prices are adopted into law, our results of operations and financial condition could be harmed.",
+      "evidence_quotes": [
+        "If recent proposals for changes to Medicare and Medicaid reimbursement of drug prices are adopted into law, our results of operations and financial condition could be harmed."
+      ],
+      "confidence": 0.65,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Medicaid",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "reimbursement dependency",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "If recent proposals for changes to Medicare and Medicaid reimbursement of drug prices are adopted into law, our results of operations and financial condition could be harmed.",
+      "evidence_quotes": [
+        "If recent proposals for changes to Medicare and Medicaid reimbursement of drug prices are adopted into law, our results of operations and financial condition could be harmed."
+      ],
+      "confidence": 0.65,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Novartis",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "commercialization_collaborator",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Factors similar to those listed above also apply to our collaborator Novartis for JAKAVI and TABRECTA in the jurisdictions in which it has commercialization rights",
+      "evidence_quotes": [
+        "Factors similar to those listed above also apply to our collaborator Novartis for JAKAVI and TABRECTA in the jurisdictions in which it has commercialization rights"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "Lilly",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "commercialization_collaborator",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Factors similar to those listed above also apply to our collaborator Lilly for OLUMIANT in all jurisdictions.",
+      "evidence_quotes": [
+        "Factors similar to those listed above also apply to our collaborator Lilly for OLUMIANT in all jurisdictions."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "Apotex, Inc.",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "generic_manufacturer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We have received a notice letter from each of Apotex, Inc., Hikma Pharmaceuticals USA Inc., Sun Pharmaceutical Industries Inc., Granules India Ltd., Dr. Reddy's Laboratories, Inc., and Eugia Pharma Specialties, Ltd.",
+      "evidence_quotes": [
+        "We have received a notice letter from each of Apotex, Inc., Hikma Pharmaceuticals USA Inc., Sun Pharmaceutical Industries Inc., Granules India Ltd., Dr. Reddy's Laboratories, Inc., and Eugia Pharma Specialties, Ltd."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "Hikma Pharmaceuticals USA Inc.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "generic_manufacturer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We have received a notice letter from each of Apotex, Inc., Hikma Pharmaceuticals USA Inc., Sun Pharmaceutical Industries Inc., Granules India Ltd., Dr. Reddy's Laboratories, Inc., and Eugia Pharma Specialties, Ltd.",
+      "evidence_quotes": [
+        "We have received a notice letter from each of Apotex, Inc., Hikma Pharmaceuticals USA Inc., Sun Pharmaceutical Industries Inc., Granules India Ltd., Dr. Reddy's Laboratories, Inc., and Eugia Pharma Specialties, Ltd."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "Sun Pharmaceutical Industries Inc.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "generic_manufacturer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We have received a notice letter from each of Apotex, Inc., Hikma Pharmaceuticals USA Inc., Sun Pharmaceutical Industries Inc., Granules India Ltd., Dr. Reddy's Laboratories, Inc., and Eugia Pharma Specialties, Ltd.",
+      "evidence_quotes": [
+        "We have received a notice letter from each of Apotex, Inc., Hikma Pharmaceuticals USA Inc., Sun Pharmaceutical Industries Inc., Granules India Ltd., Dr. Reddy's Laboratories, Inc., and Eugia Pharma Specialties, Ltd."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "Granules India Ltd.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "generic_manufacturer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We have received a notice letter from each of Apotex, Inc., Hikma Pharmaceuticals USA Inc., Sun Pharmaceutical Industries Inc., Granules India Ltd., Dr. Reddy's Laboratories, Inc., and Eugia Pharma Specialties, Ltd.",
+      "evidence_quotes": [
+        "We have received a notice letter from each of Apotex, Inc., Hikma Pharmaceuticals USA Inc., Sun Pharmaceutical Industries Inc., Granules India Ltd., Dr. Reddy's Laboratories, Inc., and Eugia Pharma Specialties, Ltd."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "Dr. Reddy's Laboratories, Inc.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "generic_manufacturer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We have received a notice letter from each of Apotex, Inc., Hikma Pharmaceuticals USA Inc., Sun Pharmaceutical Industries Inc., Granules India Ltd., Dr. Reddy's Laboratories, Inc., and Eugia Pharma Specialties, Ltd.",
+      "evidence_quotes": [
+        "We have received a notice letter from each of Apotex, Inc., Hikma Pharmaceuticals USA Inc., Sun Pharmaceutical Industries Inc., Granules India Ltd., Dr. Reddy's Laboratories, Inc., and Eugia Pharma Specialties, Ltd."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "Eugia Pharma Specialties, Ltd.",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "generic_manufacturer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We have received a notice letter from each of Apotex, Inc., Hikma Pharmaceuticals USA Inc., Sun Pharmaceutical Industries Inc., Granules India Ltd., Dr. Reddy's Laboratories, Inc., and Eugia Pharma Specialties, Ltd.",
+      "evidence_quotes": [
+        "We have received a notice letter from each of Apotex, Inc., Hikma Pharmaceuticals USA Inc., Sun Pharmaceutical Industries Inc., Granules India Ltd., Dr. Reddy's Laboratories, Inc., and Eugia Pharma Specialties, Ltd."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "Padagis Israel Pharmaceuticals Ltd.",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "generic_manufacturer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We have received a notice letter from each of Padagis Israel Pharmaceuticals Ltd., Taro Pharmaceuticals Inc., Zydus Lifesciences Limited and Encube Ethicals Private Limited",
+      "evidence_quotes": [
+        "We have received a notice letter from each of Padagis Israel Pharmaceuticals Ltd., Taro Pharmaceuticals Inc., Zydus Lifesciences Limited and Encube Ethicals Private Limited"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "Taro Pharmaceuticals Inc.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "generic_manufacturer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We have received a notice letter from each of Padagis Israel Pharmaceuticals Ltd., Taro Pharmaceuticals Inc., Zydus Lifesciences Limited and Encube Ethicals Private Limited",
+      "evidence_quotes": [
+        "We have received a notice letter from each of Padagis Israel Pharmaceuticals Ltd., Taro Pharmaceuticals Inc., Zydus Lifesciences Limited and Encube Ethicals Private Limited"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "Zydus Lifesciences Limited",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "generic_manufacturer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We have received a notice letter from each of Padagis Israel Pharmaceuticals Ltd., Taro Pharmaceuticals Inc., Zydus Lifesciences Limited and Encube Ethicals Private Limited",
+      "evidence_quotes": [
+        "We have received a notice letter from each of Padagis Israel Pharmaceuticals Ltd., Taro Pharmaceuticals Inc., Zydus Lifesciences Limited and Encube Ethicals Private Limited"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "Encube Ethicals Private Limited",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "generic_manufacturer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We have received a notice letter from each of Padagis Israel Pharmaceuticals Ltd., Taro Pharmaceuticals Inc., Zydus Lifesciences Limited and Encube Ethicals Private Limited",
+      "evidence_quotes": [
+        "We have received a notice letter from each of Padagis Israel Pharmaceuticals Ltd., Taro Pharmaceuticals Inc., Zydus Lifesciences Limited and Encube Ethicals Private Limited"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "Novartis",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "licensee",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We have licensed to Novartis rights to ruxolitinib outside of the United States and worldwide rights to our MET inhibitor compounds, including TABRECTA",
+      "evidence_quotes": [
+        "We have licensed to Novartis rights to ruxolitinib outside of the United States and worldwide rights to our MET inhibitor compounds, including TABRECTA"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "Lilly",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "licensee",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "licensed to Lilly worldwide rights to baricitinib",
+      "evidence_quotes": [
+        "licensed to Lilly worldwide rights to baricitinib"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "MacroGenics, Inc.",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "collaboration_partner",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "such as our collaborations with MacroGenics, Inc. (\"MacroGenics\"), Merus N.V. (\"Merus\") and Syndax Pharmaceuticals Inc.",
+      "evidence_quotes": [
+        "such as our collaborations with MacroGenics, Inc. (\"MacroGenics\"), Merus N.V. (\"Merus\") and Syndax Pharmaceuticals Inc."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "Merus N.V.",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "collaboration_partner",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "such as our collaborations with MacroGenics, Inc. (\"MacroGenics\"), Merus N.V. (\"Merus\") and Syndax Pharmaceuticals Inc.",
+      "evidence_quotes": [
+        "such as our collaborations with MacroGenics, Inc. (\"MacroGenics\"), Merus N.V. (\"Merus\") and Syndax Pharmaceuticals Inc."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "Syndax Pharmaceuticals Inc.",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "collaboration_partner",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "such as our collaborations with MacroGenics, Inc. (\"MacroGenics\"), Merus N.V. (\"Merus\") and Syndax Pharmaceuticals Inc.",
+      "evidence_quotes": [
+        "such as our collaborations with MacroGenics, Inc. (\"MacroGenics\"), Merus N.V. (\"Merus\") and Syndax Pharmaceuticals Inc."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "MacroGenics",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "manufacturing collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We are responsible for the sourcing and manufacturing of ZYNYZ together with our collaborator MacroGenics.",
+      "evidence_quotes": [
+        "We are responsible for the sourcing and manufacturing of ZYNYZ together with our collaborator MacroGenics."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 7
+    },
+    {
+      "counterparty_name": "MorphoSys AG",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "product rights acquisition",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "in February 2024 we entered into a purchase agreement with MorphoSys AG and MorphoSys US Inc. under which we acquired rights to tafasitamab",
+      "evidence_quotes": [
+        "in February 2024 we entered into a purchase agreement with MorphoSys AG and MorphoSys US Inc. under which we acquired rights to tafasitamab"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 7
+    },
+    {
+      "counterparty_name": "MorphoSys US Inc.",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "product rights acquisition",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "in February 2024 we entered into a purchase agreement with MorphoSys AG and MorphoSys US Inc. under which we acquired rights to tafasitamab",
+      "evidence_quotes": [
+        "in February 2024 we entered into a purchase agreement with MorphoSys AG and MorphoSys US Inc. under which we acquired rights to tafasitamab"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 7
+    }
+  ],
+  "candidatesPerChunk": [
+    7,
+    10,
+    7,
+    0,
+    4,
+    12,
+    5,
+    3,
+    0
+  ],
+  "parseErrors": 51,
+  "apiErrors": 0,
+  "inputTokens": 125087,
+  "outputTokens": 9421
+}

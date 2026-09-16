@@ -1,0 +1,42 @@
+[
+  {
+    "counterparty_name": "Apple",
+    "category": "dependency",
+    "subtype": "mobile_operating_system_provider",
+    "evidence_quote": "mobile operating system and browser providers, such as Apple and Google, have implemented product changes and/or announced plans to limit the ability of websites and application developers to collect and use these signals",
+    "confidence": 0.85,
+    "merged_into": "Apple"
+  },
+  {
+    "counterparty_name": "Google",
+    "category": "dependency",
+    "subtype": "mobile_operating_system_provider",
+    "evidence_quote": "mobile operating system and browser providers, such as Apple and Google, have implemented product changes and/or announced plans to limit the ability of websites and application developers to collect and use these signals",
+    "confidence": 0.85,
+    "merged_into": "Google"
+  },
+  {
+    "counterparty_name": "Apple",
+    "category": "dependency",
+    "subtype": "platform_provider",
+    "evidence_quote": "each of Apple and Google have integrated competitive products with iOS and Android, respectively. In addition, Apple has released changes to iOS that limit our ability",
+    "confidence": 0.85,
+    "merged_into": "Apple"
+  },
+  {
+    "counterparty_name": "Google",
+    "category": "dependency",
+    "subtype": "platform_provider",
+    "evidence_quote": "each of Apple and Google have integrated competitive products with iOS and Android, respectively",
+    "confidence": 0.85,
+    "merged_into": "Google"
+  },
+  {
+    "counterparty_name": "FTC",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "In July 2019, we entered into a settlement and modified consent order to resolve the FTC inquiry, which took effect in April 2020",
+    "confidence": 0.95,
+    "merged_into": "FTC"
+  }
+]

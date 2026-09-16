@@ -1,0 +1,554 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 163158,
+  "chunks": 8,
+  "candidates": [
+    {
+      "counterparty_name": "Mellanox",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "acquisition",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our acquisition of Mellanox in 2020 expanded our offerings to include networking, enabled our platforms to be data center scale",
+      "evidence_quotes": [
+        "Our acquisition of Mellanox in 2020 expanded our offerings to include networking, enabled our platforms to be data center scale"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Taiwan Semiconductor Manufacturing Company Limited",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "wafer_fabrication",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We utilize foundries, such as Taiwan Semiconductor Manufacturing Company Limited, or TSMC, and Samsung Electronics Co., Ltd., or Samsung, to produce our semiconductor wafers.",
+      "evidence_quotes": [
+        "We utilize foundries, such as Taiwan Semiconductor Manufacturing Company Limited, or TSMC, and Samsung Electronics Co., Ltd., or Samsung, to produce our semiconductor wafers."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Samsung Electronics Co., Ltd.",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "wafer_fabrication",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We utilize foundries, such as Taiwan Semiconductor Manufacturing Company Limited, or TSMC, and Samsung Electronics Co., Ltd., or Samsung, to produce our semiconductor wafers.",
+      "evidence_quotes": [
+        "We utilize foundries, such as Taiwan Semiconductor Manufacturing Company Limited, or TSMC, and Samsung Electronics Co., Ltd., or Samsung, to produce our semiconductor wafers."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "SK Hynix Inc.",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "memory",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We purchase memory from SK Hynix Inc., Micron Technology, Inc., and Samsung.",
+      "evidence_quotes": [
+        "We purchase memory from SK Hynix Inc., Micron Technology, Inc., and Samsung."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Micron Technology, Inc.",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "memory",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We purchase memory from SK Hynix Inc., Micron Technology, Inc., and Samsung.",
+      "evidence_quotes": [
+        "We purchase memory from SK Hynix Inc., Micron Technology, Inc., and Samsung."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Samsung",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "memory",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We purchase memory from SK Hynix Inc., Micron Technology, Inc., and Samsung.",
+      "evidence_quotes": [
+        "We purchase memory from SK Hynix Inc., Micron Technology, Inc., and Samsung."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Hon Hai Precision Industry Co., Ltd.",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "assembly_testing_packaging",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We engage with independent subcontractors and contract manufacturers such as Hon Hai Precision Industry Co., Ltd., Wistron Corporation, and Fabrinet to perform assembly, testing and packaging of our final products.",
+      "evidence_quotes": [
+        "We engage with independent subcontractors and contract manufacturers such as Hon Hai Precision Industry Co., Ltd., Wistron Corporation, and Fabrinet to perform assembly, testing and packaging of our final products."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Wistron Corporation",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "assembly_testing_packaging",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We engage with independent subcontractors and contract manufacturers such as Hon Hai Precision Industry Co., Ltd., Wistron Corporation, and Fabrinet to perform assembly, testing and packaging of our final products.",
+      "evidence_quotes": [
+        "We engage with independent subcontractors and contract manufacturers such as Hon Hai Precision Industry Co., Ltd., Wistron Corporation, and Fabrinet to perform assembly, testing and packaging of our final products."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Fabrinet",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "assembly_testing_packaging",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We engage with independent subcontractors and contract manufacturers such as Hon Hai Precision Industry Co., Ltd., Wistron Corporation, and Fabrinet to perform assembly, testing and packaging of our final products.",
+      "evidence_quotes": [
+        "We engage with independent subcontractors and contract manufacturers such as Hon Hai Precision Industry Co., Ltd., Wistron Corporation, and Fabrinet to perform assembly, testing and packaging of our final products."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Advanced Micro Devices, Inc.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "GPUs_accelerated_computing_AI",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "suppliers and licensors of hardware and software for discrete and integrated GPUs, custom chips and other accelerated computing solutions, including solutions offered for AI, such as Advanced Micro Devices, Inc., or AMD, Huawei Technologies Co. Ltd., or Huawei, and Intel",
+      "evidence_quotes": [
+        "suppliers and licensors of hardware and software for discrete and integrated GPUs, custom chips and other accelerated computing solutions, including solutions offered for AI, such as Advanced Micro Devices, Inc., or AMD, Huawei Technologies Co. Ltd., or Huawei, and Intel"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Huawei Technologies Co. Ltd.",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "GPUs_accelerated_computing_AI",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "suppliers and licensors of hardware and software for discrete and integrated GPUs, custom chips and other accelerated computing solutions, including solutions offered for AI, such as Advanced Micro Devices, Inc., or AMD, Huawei Technologies Co. Ltd., or Huawei, and Intel",
+      "evidence_quotes": [
+        "suppliers and licensors of hardware and software for discrete and integrated GPUs, custom chips and other accelerated computing solutions, including solutions offered for AI, such as Advanced Micro Devices, Inc., or AMD, Huawei Technologies Co. Ltd., or Huawei, and Intel"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Intel Corporation",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "GPUs_accelerated_computing_AI",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "suppliers and licensors of hardware and software for discrete and integrated GPUs, custom chips and other accelerated computing solutions, including solutions offered for AI, such as Advanced Micro Devices, Inc., or AMD, Huawei Technologies Co. Ltd., or Huawei, and Intel",
+      "evidence_quotes": [
+        "suppliers and licensors of hardware and software for discrete and integrated GPUs, custom chips and other accelerated computing solutions, including solutions offered for AI, such as Advanced Micro Devices, Inc., or AMD, Huawei Technologies Co. Ltd., or Huawei, and Intel"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Alibaba Group",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "cloud_services_internal_AI_hardware",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "large cloud services companies with internal teams designing hardware and software that incorporate accelerated or AI computing functionality as part of their internal solutions or platforms, such as Alibaba Group, Alphabet Inc., Amazon, Inc., or Amazon, Baidu, Inc., Huawei, and",
+      "evidence_quotes": [
+        "large cloud services companies with internal teams designing hardware and software that incorporate accelerated or AI computing functionality as part of their internal solutions or platforms, such as Alibaba Group, Alphabet Inc., Amazon, Inc., or Amazon, Baidu, Inc., Huawei, and"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Alphabet Inc.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "cloud_services_internal_AI_hardware",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "large cloud services companies with internal teams designing hardware and software that incorporate accelerated or AI computing functionality as part of their internal solutions or platforms, such as Alibaba Group, Alphabet Inc., Amazon, Inc., or Amazon, Baidu, Inc., Huawei, and",
+      "evidence_quotes": [
+        "large cloud services companies with internal teams designing hardware and software that incorporate accelerated or AI computing functionality as part of their internal solutions or platforms, such as Alibaba Group, Alphabet Inc., Amazon, Inc., or Amazon, Baidu, Inc., Huawei, and"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Amazon, Inc.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "cloud_services_internal_AI_hardware",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "large cloud services companies with internal teams designing hardware and software that incorporate accelerated or AI computing functionality as part of their internal solutions or platforms, such as Alibaba Group, Alphabet Inc., Amazon, Inc., or Amazon, Baidu, Inc., Huawei, and",
+      "evidence_quotes": [
+        "large cloud services companies with internal teams designing hardware and software that incorporate accelerated or AI computing functionality as part of their internal solutions or platforms, such as Alibaba Group, Alphabet Inc., Amazon, Inc., or Amazon, Baidu, Inc., Huawei, and"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Baidu, Inc.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "cloud_services_internal_AI_hardware",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "large cloud services companies with internal teams designing hardware and software that incorporate accelerated or AI computing functionality as part of their internal solutions or platforms, such as Alibaba Group, Alphabet Inc., Amazon, Inc., or Amazon, Baidu, Inc., Huawei, and",
+      "evidence_quotes": [
+        "large cloud services companies with internal teams designing hardware and software that incorporate accelerated or AI computing functionality as part of their internal solutions or platforms, such as Alibaba Group, Alphabet Inc., Amazon, Inc., or Amazon, Baidu, Inc., Huawei, and"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Microsoft Corporation",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "cloud_services_internal_AI_hardware",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "large cloud services companies with internal teams designing hardware and software that incorporate accelerated or AI computing functionality as part of their internal solutions or platforms, such as Alibaba Group, Alphabet Inc., Amazon, Inc., or Amazon, Baidu, Inc., Huawei, and",
+      "evidence_quotes": [
+        "large cloud services companies with internal teams designing hardware and software that incorporate accelerated or AI computing functionality as part of their internal solutions or platforms, such as Alibaba Group, Alphabet Inc., Amazon, Inc., or Amazon, Baidu, Inc., Huawei, and"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Amazon",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "Arm_CPUs_internal_solutions",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "suppliers of Arm-based CPUs and companies that incorporate hardware and software for CPUs as part of their internal solutions or platforms, such as Amazon, Huawei, and Microsoft",
+      "evidence_quotes": [
+        "suppliers of Arm-based CPUs and companies that incorporate hardware and software for CPUs as part of their internal solutions or platforms, such as Amazon, Huawei, and Microsoft"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Huawei",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "Arm_CPUs_internal_solutions",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "suppliers of Arm-based CPUs and companies that incorporate hardware and software for CPUs as part of their internal solutions or platforms, such as Amazon, Huawei, and Microsoft",
+      "evidence_quotes": [
+        "suppliers of Arm-based CPUs and companies that incorporate hardware and software for CPUs as part of their internal solutions or platforms, such as Amazon, Huawei, and Microsoft"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Microsoft",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "Arm_CPUs_internal_solutions",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "suppliers of Arm-based CPUs and companies that incorporate hardware and software for CPUs as part of their internal solutions or platforms, such as Amazon, Huawei, and Microsoft",
+      "evidence_quotes": [
+        "suppliers of Arm-based CPUs and companies that incorporate hardware and software for CPUs as part of their internal solutions or platforms, such as Amazon, Huawei, and Microsoft"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Ambarella, Inc.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "SoC_products",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "suppliers of hardware and software for SoC products that are used in servers or embedded into automobiles, autonomous machines, and gaming devices, such as Ambarella, Inc., AMD, Broadcom, Intel, Qualcomm Incorporated, Renesas Electronics Corporation, and Samsung",
+      "evidence_quotes": [
+        "suppliers of hardware and software for SoC products that are used in servers or embedded into automobiles, autonomous machines, and gaming devices, such as Ambarella, Inc., AMD, Broadcom, Intel, Qualcomm Incorporated, Renesas Electronics Corporation, and Samsung"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "AMD",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "SoC_products",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "suppliers of hardware and software for SoC products that are used in servers or embedded into automobiles, autonomous machines, and gaming devices, such as Ambarella, Inc., AMD, Broadcom, Intel, Qualcomm Incorporated, Renesas Electronics Corporation, and Samsung",
+      "evidence_quotes": [
+        "suppliers of hardware and software for SoC products that are used in servers or embedded into automobiles, autonomous machines, and gaming devices, such as Ambarella, Inc., AMD, Broadcom, Intel, Qualcomm Incorporated, Renesas Electronics Corporation, and Samsung"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Broadcom",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "SoC_products",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "suppliers of hardware and software for SoC products that are used in servers or embedded into automobiles, autonomous machines, and gaming devices, such as Ambarella, Inc., AMD, Broadcom, Intel, Qualcomm Incorporated, Renesas Electronics Corporation, and Samsung",
+      "evidence_quotes": [
+        "suppliers of hardware and software for SoC products that are used in servers or embedded into automobiles, autonomous machines, and gaming devices, such as Ambarella, Inc., AMD, Broadcom, Intel, Qualcomm Incorporated, Renesas Electronics Corporation, and Samsung"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Intel",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "SoC_products",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "suppliers of hardware and software for SoC products that are used in servers or embedded into automobiles, autonomous machines, and gaming devices, such as Ambarella, Inc., AMD, Broadcom, Intel, Qualcomm Incorporated, Renesas Electronics Corporation, and Samsung",
+      "evidence_quotes": [
+        "suppliers of hardware and software for SoC products that are used in servers or embedded into automobiles, autonomous machines, and gaming devices, such as Ambarella, Inc., AMD, Broadcom, Intel, Qualcomm Incorporated, Renesas Electronics Corporation, and Samsung"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Qualcomm Incorporated",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "SoC_products",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "suppliers of hardware and software for SoC products that are used in servers or embedded into automobiles, autonomous machines, and gaming devices, such as Ambarella, Inc., AMD, Broadcom, Intel, Qualcomm Incorporated, Renesas Electronics Corporation, and Samsung",
+      "evidence_quotes": [
+        "suppliers of hardware and software for SoC products that are used in servers or embedded into automobiles, autonomous machines, and gaming devices, such as Ambarella, Inc., AMD, Broadcom, Intel, Qualcomm Incorporated, Renesas Electronics Corporation, and Samsung"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Renesas Electronics Corporation",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "SoC_products",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "suppliers of hardware and software for SoC products that are used in servers or embedded into automobiles, autonomous machines, and gaming devices, such as Ambarella, Inc., AMD, Broadcom, Intel, Qualcomm Incorporated, Renesas Electronics Corporation, and Samsung",
+      "evidence_quotes": [
+        "suppliers of hardware and software for SoC products that are used in servers or embedded into automobiles, autonomous machines, and gaming devices, such as Ambarella, Inc., AMD, Broadcom, Intel, Qualcomm Incorporated, Renesas Electronics Corporation, and Samsung"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Samsung",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "SoC_products",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "suppliers of hardware and software for SoC products that are used in servers or embedded into automobiles, autonomous machines, and gaming devices, such as Ambarella, Inc., AMD, Broadcom, Intel, Qualcomm Incorporated, Renesas Electronics Corporation, and Samsung",
+      "evidence_quotes": [
+        "suppliers of hardware and software for SoC products that are used in servers or embedded into automobiles, autonomous machines, and gaming devices, such as Ambarella, Inc., AMD, Broadcom, Intel, Qualcomm Incorporated, Renesas Electronics Corporation, and Samsung"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Tesla, Inc.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "SoC_internal_design",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "companies with internal teams designing SoC products for their own products and services, such as Tesla, Inc.",
+      "evidence_quotes": [
+        "companies with internal teams designing SoC products for their own products and services, such as Tesla, Inc."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Arista Networks",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "networking_products",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "networking products consisting of switches, network adapters (including DPUs), and cable solutions (including optical modules) include such as AMD, Arista Networks, Broadcom, Cisco Systems, Inc., Hewlett Packard Enterprise Company, Huawei, Intel, Lumentum Holdings Inc., and Marvell Technology, Inc",
+      "evidence_quotes": [
+        "networking products consisting of switches, network adapters (including DPUs), and cable solutions (including optical modules) include such as AMD, Arista Networks, Broadcom, Cisco Systems, Inc., Hewlett Packard Enterprise Company, Huawei, Intel, Lumentum Holdings Inc., and Marvell Technology, Inc"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Cisco Systems, Inc.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "networking_products",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "networking products consisting of switches, network adapters (including DPUs), and cable solutions (including optical modules) include such as AMD, Arista Networks, Broadcom, Cisco Systems, Inc., Hewlett Packard Enterprise Company, Huawei, Intel, Lumentum Holdings Inc., and Marvell Technology, Inc",
+      "evidence_quotes": [
+        "networking products consisting of switches, network adapters (including DPUs), and cable solutions (including optical modules) include such as AMD, Arista Networks, Broadcom, Cisco Systems, Inc., Hewlett Packard Enterprise Company, Huawei, Intel, Lumentum Holdings Inc., and Marvell Technology, Inc"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Hewlett Packard Enterprise Company",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "networking_products",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "networking products consisting of switches, network adapters (including DPUs), and cable solutions (including optical modules) include such as AMD, Arista Networks, Broadcom, Cisco Systems, Inc., Hewlett Packard Enterprise Company, Huawei, Intel, Lumentum Holdings Inc., and Marvell Technology, Inc",
+      "evidence_quotes": [
+        "networking products consisting of switches, network adapters (including DPUs), and cable solutions (including optical modules) include such as AMD, Arista Networks, Broadcom, Cisco Systems, Inc., Hewlett Packard Enterprise Company, Huawei, Intel, Lumentum Holdings Inc., and Marvell Technology, Inc"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Lumentum Holdings Inc.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "networking_products",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "networking products consisting of switches, network adapters (including DPUs), and cable solutions (including optical modules) include such as AMD, Arista Networks, Broadcom, Cisco Systems, Inc., Hewlett Packard Enterprise Company, Huawei, Intel, Lumentum Holdings Inc., and Marvell Technology, Inc",
+      "evidence_quotes": [
+        "networking products consisting of switches, network adapters (including DPUs), and cable solutions (including optical modules) include such as AMD, Arista Networks, Broadcom, Cisco Systems, Inc., Hewlett Packard Enterprise Company, Huawei, Intel, Lumentum Holdings Inc., and Marvell Technology, Inc"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Marvell Technology, Inc",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "networking_products",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "networking products consisting of switches, network adapters (including DPUs), and cable solutions (including optical modules) include such as AMD, Arista Networks, Broadcom, Cisco Systems, Inc., Hewlett Packard Enterprise Company, Huawei, Intel, Lumentum Holdings Inc., and Marvell Technology, Inc",
+      "evidence_quotes": [
+        "networking products consisting of switches, network adapters (including DPUs), and cable solutions (including optical modules) include such as AMD, Arista Networks, Broadcom, Cisco Systems, Inc., Hewlett Packard Enterprise Company, Huawei, Intel, Lumentum Holdings Inc., and Marvell Technology, Inc"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Groq, Inc.",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "ip_licensor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We have entered into an intellectual property license arrangement with Groq, Inc., or Groq, that required significant, nonrefundable payments.",
+      "evidence_quotes": [
+        "We have entered into an intellectual property license arrangement with Groq, Inc., or Groq, that required significant, nonrefundable payments."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Ethereum",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "cryptocurrency_mining",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "our Gaming GPUs began to be used for mining digital currencies, such as Ethereum.",
+      "evidence_quotes": [
+        "our Gaming GPUs began to be used for mining digital currencies, such as Ethereum."
+      ],
+      "confidence": 0.75,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "OpenAI",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "investment_and_partnership",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We are finalizing an investment and partnership agreement with OpenAI.",
+      "evidence_quotes": [
+        "We are finalizing an investment and partnership agreement with OpenAI."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "French Competition Authority",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the French Competition Authority collected information from us regarding our business and competition in the graphics card and CSP market",
+      "evidence_quotes": [
+        "the French Competition Authority collected information from us regarding our business and competition in the graphics card and CSP market"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "U.S. Department of Commerce",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "do business without an export license with entities on the U.S. Department of Commerce's U.S. Entity List",
+      "evidence_quotes": [
+        "do business without an export license with entities on the U.S. Department of Commerce's U.S. Entity List"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "Mellanox",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "acquisition_target",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Regulators in China have inquired about our sales and efforts to supply the China market and our fulfillment of the commitments we entered at the close of our Mellanox acquisition",
+      "evidence_quotes": [
+        "Regulators in China have inquired about our sales and efforts to supply the China market and our fulfillment of the commitments we entered at the close of our Mellanox acquisition"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "Microsoft",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "agreement",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "our certificate of incorporation, bylaws and agreement with Microsoft could delay or prevent a change in control.",
+      "evidence_quotes": [
+        "our certificate of incorporation, bylaws and agreement with Microsoft could delay or prevent a change in control."
+      ],
+      "confidence": 0.75,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "Microsoft",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "hardware supply agreement",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Under our agreement with Microsoft for the Xbox, if someone makes an offer to purchase at least 30% of our outstanding common stock, Microsoft may have first and last rights of refusal",
+      "evidence_quotes": [
+        "Under our agreement with Microsoft for the Xbox, if someone makes an offer to purchase at least 30% of our outstanding common stock, Microsoft may have first and last rights of refusal"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 7
+    }
+  ],
+  "candidatesPerChunk": [
+    1,
+    32,
+    1,
+    1,
+    1,
+    3,
+    1,
+    1
+  ],
+  "parseErrors": 0,
+  "apiErrors": 0,
+  "inputTokens": 38615,
+  "outputTokens": 5657
+}

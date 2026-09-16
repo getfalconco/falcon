@@ -1,0 +1,519 @@
+[
+  {
+    "root_ticker": "OPK",
+    "counterparty_name": "Merck Sharp & Dohme LLC",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "clinical collaboration",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "This includes advancing our internal candidates and progressing our clinical collaborations with Merck Sharp & Dohme LLC (\"Merck\") and Regeneron Pharmaceuticals, Inc. (\"Regeneron\").",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/944809/000119312526076596/opk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_a6d2ba875249"
+  },
+  {
+    "root_ticker": "OPK",
+    "counterparty_name": "Regeneron Pharmaceuticals, Inc.",
+    "counterparty_ticker": "REGN",
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "clinical collaboration",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "This includes advancing our internal candidates and progressing our clinical collaborations with Merck Sharp & Dohme LLC (\"Merck\") and Regeneron Pharmaceuticals, Inc. (\"Regeneron\").",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/944809/000119312526076596/opk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_a6d2ba875249"
+  },
+  {
+    "root_ticker": "OPK",
+    "counterparty_name": "Regeneron",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "license and collaboration",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "In October 2025, ModeX entered into a strategic license and collaboration agreement with Regeneron to discover and develop multispecific antibodies.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/944809/000119312526076596/opk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "In October 2025, ModeX entered into the Regeneron Collaboration Agreement with Regeneron to discover and develop multispecific antibodies for several therapeutic indications.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/944809/000119312526076596/opk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_ef91b3ef466f"
+  },
+  {
+    "root_ticker": "OPK",
+    "counterparty_name": "Merck",
+    "counterparty_ticker": "MRK",
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "license and research collaboration",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "In March 2023, ModeX, OPKO, and Merck entered into a License and Research Collaboration Agreement",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/944809/000119312526076596/opk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "In March 2023, ModeX and Merck entered into the Merck Agreement, pursuant to which ModeX granted Merck an exclusive license for the development of a preclinical nanoparticle vaccine candidate targeting EBV.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/944809/000119312526076596/opk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_b21aca5591bc"
+  },
+  {
+    "root_ticker": "OPK",
+    "counterparty_name": "Nicoya Macau Limited",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "development_and_commercialization_license",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "On June 18, 2021, we entered into a development and license agreement with Nicoya, an affiliate of Nicoya Therapeutics, granting them exclusive rights for the development and commercialization of Rayaldee in Greater China",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/944809/000119312526076596/opk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "OPKO and/or its affiliates have entered into exclusive license agreements with respect to Rayaldee patents in certain territories outside of North America with VFMCRP (Europe and many other countries throughout the rest of the world), and Nicoya Macau Limited (China).",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/944809/000119312526076596/opk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_0df0dcdbb7b2"
+  },
+  {
+    "root_ticker": "OPK",
+    "counterparty_name": "HCR Injection SPV, LLC",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "royalty_monetization",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "we entered into a $250 million agreement with HCR Injection SPV, LLC in 2024, providing immediate capital while retaining long-term upside in the profit share.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/944809/000119312526076596/opk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_bcf83a48f945"
+  },
+  {
+    "root_ticker": "OPK",
+    "counterparty_name": "Pfizer",
+    "counterparty_ticker": "PFE",
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "exclusive license",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "In December 2014, we entered into the Pfizer Transaction for the development and commercialization of our long-acting hGH-CTP for the treatment of GHD.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/944809/000119312526076596/opk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "In December 2014, we entered into a development and commercialization agreement with Pfizer relating to our long-acting hGH-CTP for the treatment of GHD",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/944809/000119312526076596/opk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_56d8339c19c3"
+  },
+  {
+    "root_ticker": "OPK",
+    "counterparty_name": "LeaderMed",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "distribution license",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "In September 2021, we also entered into specific arrangements with LeaderMed in certain countries in Asia with respect to OPK-88003 and Factor VIIa.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/944809/000119312526076596/opk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_7330b792611b"
+  },
+  {
+    "root_ticker": "OPK",
+    "counterparty_name": "Entera",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "collaboration agreement",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "We have entered into a collaboration agreement with Entera to advance an oral GLP-1/Glucagon tablet candidate into clinical development for the treatment of obesity and other metabolic disorders.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/944809/000119312526076596/opk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_845d29557d22"
+  },
+  {
+    "root_ticker": "OPK",
+    "counterparty_name": "Sanofi",
+    "counterparty_ticker": "SNY",
+    "counterparty_type": "public_company",
+    "category": "supplier",
+    "subtype": "IP licensor",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "ModeX and Sanofi are parties to the Sanofi In-License Agreement, pursuant to which ModeX licenses certain intellectual property underlying its Epstein-Barr Virus (EBV) technology.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/944809/000119312526076596/opk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_a1934284dc00"
+  },
+  {
+    "root_ticker": "OPK",
+    "counterparty_name": "Ascendis Pharma A/S",
+    "counterparty_ticker": "ASND",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "pharmaceutical",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "There are pharmaceutical and biopharmaceutical companies, including Ascendis Pharma A/S, a biopharmaceutical company, and Novo Nordisk A/S, a global pharmaceutical company, that have successfully developed and commenced commercialization of long‑acting human growth hormone products addressing areas that we are targeting",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/944809/000119312526076596/opk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_e77c4aef9eea"
+  },
+  {
+    "root_ticker": "OPK",
+    "counterparty_name": "Novo Nordisk A/S",
+    "counterparty_ticker": "NVO",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "pharmaceutical",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "There are pharmaceutical and biopharmaceutical companies, including Ascendis Pharma A/S, a biopharmaceutical company, and Novo Nordisk A/S, a global pharmaceutical company, that have successfully developed and commenced commercialization of long‑acting human growth hormone products addressing areas that we are targeting",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/944809/000119312526076596/opk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_e77c4aef9eea"
+  },
+  {
+    "root_ticker": "OPK",
+    "counterparty_name": "CMS",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "customer",
+    "subtype": "government payor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.88,
+    "evidence": [
+      {
+        "quote": "CMS pays laboratories on the basis of a fee schedule that is reviewed and re-calculated on an annual basis.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/944809/000119312526076596/opk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "Such LDT testing is currently under the purview of CMS and state agencies that provide oversight of the safe and effective use of LDTs.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/944809/000119312526076596/opk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "exclusion from participation in the CMS and other government programs",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/944809/000119312526076596/opk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_9ae4384cdb89"
+  },
+  {
+    "root_ticker": "OPK",
+    "counterparty_name": "College of American Pathologists",
+    "counterparty_ticker": null,
+    "counterparty_type": "other",
+    "category": "dependency",
+    "subtype": "accreditation_body",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.85,
+    "evidence": [
+      {
+        "quote": "We are required to comply with the College of American Pathologists and CLIA laboratory safety requirements",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/944809/000119312526076596/opk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_f00b5d6b6871"
+  },
+  {
+    "root_ticker": "OPK",
+    "counterparty_name": "OSHA",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "dependency",
+    "subtype": "workplace_safety",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "We are required to comply with the College of American Pathologists and CLIA laboratory safety requirements in addition to OSHA regulations.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/944809/000119312526076596/opk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_fff543a2053a"
+  },
+  {
+    "root_ticker": "OPK",
+    "counterparty_name": "Nicoya",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "development and licensing",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "On June 18, 2021, EirGen and Nicoya entered into the Nicoya Agreement granting Nicoya the exclusive rights for the development and commercialization of the Nicoya Product",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/944809/000119312526076596/opk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_d09fd55da9b3"
+  },
+  {
+    "root_ticker": "OPK",
+    "counterparty_name": "Medicare",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "customer",
+    "subtype": "government_payor",
+    "strength": 1,
+    "strength_tier": "critical",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "A significant portion of our revenues come from government subsidized healthcare programs such as Medicaid and Medicare.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/944809/000119312526076596/opk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "alleged fee-for-service claims for payment to Medicare, Medicaid, and the TRICARE Program",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/944809/000119312526076596/opk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "to resolve a investigation and related civil action concerning alleged fee-for-service claims for payment to Medicare, Medicaid, and the TRICARE Program",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/944809/000119312526076596/opk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_97ce13d8913d"
+  },
+  {
+    "root_ticker": "OPK",
+    "counterparty_name": "Medicaid",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "customer",
+    "subtype": "government_payor",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "A significant portion of our revenues come from government subsidized healthcare programs such as Medicaid and Medicare.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/944809/000119312526076596/opk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "alleged fee-for-service claims for payment to Medicare, Medicaid, and the TRICARE Program",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/944809/000119312526076596/opk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "to resolve a investigation and related civil action concerning alleged fee-for-service claims for payment to Medicare, Medicaid, and the TRICARE Program",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/944809/000119312526076596/opk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_97ce13d8913d"
+  },
+  {
+    "root_ticker": "OPK",
+    "counterparty_name": "TRICARE Program",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "customer",
+    "subtype": "payor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "alleged fee-for-service claims for payment to Medicare, Medicaid, and the TRICARE Program",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/944809/000119312526076596/opk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "to resolve a investigation and related civil action concerning alleged fee-for-service claims for payment to Medicare, Medicaid, and the TRICARE Program",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/944809/000119312526076596/opk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_c19223f8e051"
+  },
+  {
+    "root_ticker": "OPK",
+    "counterparty_name": "CAP",
+    "counterparty_ticker": null,
+    "counterparty_type": "other",
+    "category": "dependency",
+    "subtype": "accreditation_body",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "Laboratories must undergo on-site surveys at least every two years, which may be conducted by the Federal CLIA program or by a private CMS approved accrediting agency such as CAP, among others.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/944809/000119312526076596/opk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_d1371c5d9f07"
+  },
+  {
+    "root_ticker": "OPK",
+    "counterparty_name": "Medicaid",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "customer",
+    "subtype": "government payer program",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.88,
+    "evidence": [
+      {
+        "quote": "Medicaid reimbursement, which varies by state, is also subject to administrative and billing requirements and budget pressures.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/944809/000119312526076596/opk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_bffa293377cd"
+  }
+]

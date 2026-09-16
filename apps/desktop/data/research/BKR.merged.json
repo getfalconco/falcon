@@ -1,0 +1,26 @@
+[
+  {
+    "counterparty_name": "GE Vernova",
+    "category": "supplier",
+    "subtype": "gas_turbine_technology_license",
+    "evidence_quote": "a heavy duty gas turbine distribution and supply agreement that licenses certain intellectual property of GE Vernova to Baker Hughes",
+    "confidence": 0.85,
+    "merged_into": "GE Vernova"
+  },
+  {
+    "counterparty_name": "GE Aerospace",
+    "category": "supplier",
+    "subtype": "aeroderivative_technology_supply",
+    "evidence_quote": "a second amended and restated supply and technology development agreement with GE Vernova, GE Aerospace, and the aeroderivative joint venture (\"Aero JV\") which governs the supply of certain aeroderivative technology to us",
+    "confidence": 0.8,
+    "merged_into": "GE Aerospace"
+  },
+  {
+    "counterparty_name": "GE Vernova",
+    "category": "partner",
+    "subtype": "intellectual_property_cross_license",
+    "evidence_quote": "an intellectual property cross-license agreement with GE Aerospace, GE Vernova, and GE HealthCare that allows all parties to have continued rights to commercially utilize certain intellectual property of the other pursuant to the terms of the agreement",
+    "confidence": 0.85,
+    "merged_into": "GE Vernova"
+  }
+]

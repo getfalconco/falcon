@@ -1,0 +1,198 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 62723,
+  "chunks": 3,
+  "candidates": [
+    {
+      "counterparty_name": "Walgreens",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "pharmaceutical retail",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "As of September 30, 2025, our two largest trade receivable balances due from customers (Walgreens and Boots together and Evernorth Health Services) represented approximately 38% and 5% of our accounts receivable, net.",
+      "evidence_quotes": [
+        "As of September 30, 2025, our two largest trade receivable balances due from customers (Walgreens and Boots together and Evernorth Health Services) represented approximately 38% and 5% of our accounts receivable, net."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Boots",
+      "counterparty_type": "private_company",
+      "category": "customer",
+      "subtype": "pharmaceutical retail",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "As of September 30, 2025, our two largest trade receivable balances due from customers (Walgreens and Boots together and Evernorth Health Services) represented approximately 38% and 5% of our accounts receivable, net.",
+      "evidence_quotes": [
+        "As of September 30, 2025, our two largest trade receivable balances due from customers (Walgreens and Boots together and Evernorth Health Services) represented approximately 38% and 5% of our accounts receivable, net."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Evernorth Health Services",
+      "counterparty_type": "private_company",
+      "category": "customer",
+      "subtype": "healthcare services",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "As of September 30, 2025, our two largest trade receivable balances due from customers (Walgreens and Boots together and Evernorth Health Services) represented approximately 38% and 5% of our accounts receivable, net.",
+      "evidence_quotes": [
+        "As of September 30, 2025, our two largest trade receivable balances due from customers (Walgreens and Boots together and Evernorth Health Services) represented approximately 38% and 5% of our accounts receivable, net."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "FDA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory infrastructure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we are subject to the risk of changes in various laws, which include operating, record keeping, and security standards of the DEA, the FDA, HHS, various state boards of pharmacy and comparable agencies.",
+      "evidence_quotes": [
+        "we are subject to the risk of changes in various laws, which include operating, record keeping, and security standards of the DEA, the FDA, HHS, various state boards of pharmacy and comparable agencies."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "DEA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory infrastructure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we are subject to the risk of changes in various laws, which include operating, record keeping, and security standards of the DEA, the FDA, HHS, various state boards of pharmacy and comparable agencies.",
+      "evidence_quotes": [
+        "we are subject to the risk of changes in various laws, which include operating, record keeping, and security standards of the DEA, the FDA, HHS, various state boards of pharmacy and comparable agencies."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "HHS",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory infrastructure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we are subject to the risk of changes in various laws, which include operating, record keeping, and security standards of the DEA, the FDA, HHS, various state boards of pharmacy and comparable agencies.",
+      "evidence_quotes": [
+        "we are subject to the risk of changes in various laws, which include operating, record keeping, and security standards of the DEA, the FDA, HHS, various state boards of pharmacy and comparable agencies."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "CMS",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory infrastructure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In November 2023, CMS finalized a retrospective refund rule that provides for lump-sum refund payments totaling approximately $9 billion to be made to affected 340B hospitals",
+      "evidence_quotes": [
+        "In November 2023, CMS finalized a retrospective refund rule that provides for lump-sum refund payments totaling approximately $9 billion to be made to affected 340B hospitals"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "HRSA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_infrastructure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "HRSA has finalized a rule that allows 340B program covered entities to bring administrative dispute claims against manufacturers for alleged 340B overcharges",
+      "evidence_quotes": [
+        "HRSA has finalized a rule that allows 340B program covered entities to bring administrative dispute claims against manufacturers for alleged 340B overcharges"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Medicare",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "reimbursement_program",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "prohibit persons from soliciting, offering, receiving or paying any remuneration in order to induce the referral of a patient for treatment or the ordering or purchasing of items or services that are in any way paid for by Medicare",
+      "evidence_quotes": [
+        "prohibit persons from soliciting, offering, receiving or paying any remuneration in order to induce the referral of a patient for treatment or the ordering or purchasing of items or services that are in any way paid for by Medicare"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Medicaid",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "reimbursement_program",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "prohibit persons from soliciting, offering, receiving or paying any remuneration in order to induce the referral of a patient for treatment or the ordering or purchasing of items or services that are in any way paid for by Medicare, Medicaid",
+      "evidence_quotes": [
+        "prohibit persons from soliciting, offering, receiving or paying any remuneration in order to induce the referral of a patient for treatment or the ordering or purchasing of items or services that are in any way paid for by Medicare, Medicaid"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "U.S. Customs and Border Protection",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_infrastructure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "misrepresentations on documents filed with U.S. Customs and Border Protection that results in the underpayment of duties and tariffs",
+      "evidence_quotes": [
+        "misrepresentations on documents filed with U.S. Customs and Border Protection that results in the underpayment of duties and tariffs"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "EU GDPR",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_framework",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the EU GDPR imposes more stringent data protection requirements, including a broader scope of protected data, restrictions on cross-border transfers of personal data",
+      "evidence_quotes": [
+        "the EU GDPR imposes more stringent data protection requirements, including a broader scope of protected data, restrictions on cross-border transfers of personal data"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "U.K. GDPR",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_framework",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Many foreign data privacy regulations (including, without limitation, the EU GDPR, the U.K. GDPR, Brazil's General Data Protection Law (\"LGPD\")",
+      "evidence_quotes": [
+        "Many foreign data privacy regulations (including, without limitation, the EU GDPR, the U.K. GDPR, Brazil's General Data Protection Law (\"LGPD\")"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Delaware Court of Chancery",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "legal_infrastructure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the sole and exclusive forum for any derivative action or proceeding brought on behalf of the Company shall be the Delaware Court of Chancery located within the State of Delaware",
+      "evidence_quotes": [
+        "the sole and exclusive forum for any derivative action or proceeding brought on behalf of the Company shall be the Delaware Court of Chancery located within the State of Delaware"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 2
+    }
+  ],
+  "candidatesPerChunk": [
+    7,
+    4,
+    3
+  ],
+  "parseErrors": 0,
+  "apiErrors": 0,
+  "inputTokens": 14540,
+  "outputTokens": 1532
+}

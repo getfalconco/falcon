@@ -1,0 +1,974 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 272137,
+  "chunks": 12,
+  "candidates": [
+    {
+      "counterparty_name": "Garmin",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "aerospace competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Some of our key competitors include but are not limited to: AEROSPACE TECHNOLOGIES... Garmin",
+      "evidence_quotes": [
+        "Some of our key competitors include but are not limited to: AEROSPACE TECHNOLOGIES... Garmin"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "L3 Harris",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "aerospace competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Some of our key competitors include but are not limited to: AEROSPACE TECHNOLOGIES... L3 Harris",
+      "evidence_quotes": [
+        "Some of our key competitors include but are not limited to: AEROSPACE TECHNOLOGIES... L3 Harris"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Rolls Royce",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "aerospace competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Some of our key competitors include but are not limited to: AEROSPACE TECHNOLOGIES... Rolls Royce",
+      "evidence_quotes": [
+        "Some of our key competitors include but are not limited to: AEROSPACE TECHNOLOGIES... Rolls Royce"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "RTX Corporation",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "aerospace competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Some of our key competitors include but are not limited to: AEROSPACE TECHNOLOGIES... RTX Corporation",
+      "evidence_quotes": [
+        "Some of our key competitors include but are not limited to: AEROSPACE TECHNOLOGIES... RTX Corporation"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Safran",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "aerospace competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Some of our key competitors include but are not limited to: AEROSPACE TECHNOLOGIES... Safran",
+      "evidence_quotes": [
+        "Some of our key competitors include but are not limited to: AEROSPACE TECHNOLOGIES... Safran"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Thales",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "aerospace competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Some of our key competitors include but are not limited to: AEROSPACE TECHNOLOGIES... Thales",
+      "evidence_quotes": [
+        "Some of our key competitors include but are not limited to: AEROSPACE TECHNOLOGIES... Thales"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Johnson Controls",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "building automation competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Some of our key competitors include but are not limited to:... BUILDING AUTOMATION • Johnson Controls",
+      "evidence_quotes": [
+        "Some of our key competitors include but are not limited to:... BUILDING AUTOMATION • Johnson Controls"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Schneider Electric",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "building automation competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Some of our key competitors include but are not limited to:... BUILDING AUTOMATION • Schneider Electric",
+      "evidence_quotes": [
+        "Some of our key competitors include but are not limited to:... BUILDING AUTOMATION • Schneider Electric"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Siemens",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "building automation competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Some of our key competitors include but are not limited to:... BUILDING AUTOMATION... Siemens",
+      "evidence_quotes": [
+        "Some of our key competitors include but are not limited to:... BUILDING AUTOMATION... Siemens"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Clariant",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "energy and sustainability competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Some of our key competitors include but are not limited to: ENERGY AND SUSTAINABILITY SOLUTIONS • Clariant",
+      "evidence_quotes": [
+        "Some of our key competitors include but are not limited to: ENERGY AND SUSTAINABILITY SOLUTIONS • Clariant"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Flowserve",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "energy and sustainability competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Some of our key competitors include but are not limited to: ENERGY AND SUSTAINABILITY SOLUTIONS • Flowserve",
+      "evidence_quotes": [
+        "Some of our key competitors include but are not limited to: ENERGY AND SUSTAINABILITY SOLUTIONS • Flowserve"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Topsoe",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "energy and sustainability competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Some of our key competitors include but are not limited to: ENERGY AND SUSTAINABILITY SOLUTIONS... Topsoe",
+      "evidence_quotes": [
+        "Some of our key competitors include but are not limited to: ENERGY AND SUSTAINABILITY SOLUTIONS... Topsoe"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Dematic",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "industrial automation competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Some of our key competitors include but are not limited to:... INDUSTRIAL AUTOMATION • Dematic",
+      "evidence_quotes": [
+        "Some of our key competitors include but are not limited to:... INDUSTRIAL AUTOMATION • Dematic"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Emerson Electric",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "industrial automation competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Some of our key competitors include but are not limited to:... INDUSTRIAL AUTOMATION • Emerson Electric",
+      "evidence_quotes": [
+        "Some of our key competitors include but are not limited to:... INDUSTRIAL AUTOMATION • Emerson Electric"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Itron",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "industrial automation competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Some of our key competitors include but are not limited to:... INDUSTRIAL AUTOMATION • Itron",
+      "evidence_quotes": [
+        "Some of our key competitors include but are not limited to:... INDUSTRIAL AUTOMATION • Itron"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "MSA Safety Incorporated",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "industrial automation competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Some of our key competitors include but are not limited to:... INDUSTRIAL AUTOMATION • MSA Safety Incorporated",
+      "evidence_quotes": [
+        "Some of our key competitors include but are not limited to:... INDUSTRIAL AUTOMATION • MSA Safety Incorporated"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Rockwell Automation",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "industrial automation competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Some of our key competitors include but are not limited to:... INDUSTRIAL AUTOMATION... Rockwell Automation",
+      "evidence_quotes": [
+        "Some of our key competitors include but are not limited to:... INDUSTRIAL AUTOMATION... Rockwell Automation"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "TE Connectivity",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "industrial automation competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Some of our key competitors include but are not limited to:... INDUSTRIAL AUTOMATION • TE Connectivity",
+      "evidence_quotes": [
+        "Some of our key competitors include but are not limited to:... INDUSTRIAL AUTOMATION • TE Connectivity"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Zebra Technologies",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "industrial automation competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Some of our key competitors include but are not limited to:... INDUSTRIAL AUTOMATION... Zebra Technologies",
+      "evidence_quotes": [
+        "Some of our key competitors include but are not limited to:... INDUSTRIAL AUTOMATION... Zebra Technologies"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Garmin",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "aerospace_technologies",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Some of our key competitors include but are not limited to: AEROSPACE TECHNOLOGIES ... Garmin",
+      "evidence_quotes": [
+        "Some of our key competitors include but are not limited to: AEROSPACE TECHNOLOGIES ... Garmin"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "L3 Harris",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "aerospace_technologies",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Some of our key competitors include but are not limited to: AEROSPACE TECHNOLOGIES ... L3 Harris",
+      "evidence_quotes": [
+        "Some of our key competitors include but are not limited to: AEROSPACE TECHNOLOGIES ... L3 Harris"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Rolls Royce",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "aerospace_technologies",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Some of our key competitors include but are not limited to: AEROSPACE TECHNOLOGIES ... Rolls Royce",
+      "evidence_quotes": [
+        "Some of our key competitors include but are not limited to: AEROSPACE TECHNOLOGIES ... Rolls Royce"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "RTX Corporation",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "aerospace_technologies",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Some of our key competitors include but are not limited to: AEROSPACE TECHNOLOGIES ... RTX Corporation",
+      "evidence_quotes": [
+        "Some of our key competitors include but are not limited to: AEROSPACE TECHNOLOGIES ... RTX Corporation"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Safran",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "aerospace_technologies",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Some of our key competitors include but are not limited to: AEROSPACE TECHNOLOGIES ... Safran",
+      "evidence_quotes": [
+        "Some of our key competitors include but are not limited to: AEROSPACE TECHNOLOGIES ... Safran"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Thales",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "aerospace_technologies",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Some of our key competitors include but are not limited to: AEROSPACE TECHNOLOGIES ... Thales",
+      "evidence_quotes": [
+        "Some of our key competitors include but are not limited to: AEROSPACE TECHNOLOGIES ... Thales"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Johnson Controls",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "building_automation",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Some of our key competitors include but are not limited to: ... BUILDING AUTOMATION • Johnson Controls",
+      "evidence_quotes": [
+        "Some of our key competitors include but are not limited to: ... BUILDING AUTOMATION • Johnson Controls"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Schneider Electric",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "building_automation",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Some of our key competitors include but are not limited to: ... BUILDING AUTOMATION • Schneider Electric",
+      "evidence_quotes": [
+        "Some of our key competitors include but are not limited to: ... BUILDING AUTOMATION • Schneider Electric"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Siemens",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "building_automation",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Some of our key competitors include but are not limited to: ... BUILDING AUTOMATION • Siemens",
+      "evidence_quotes": [
+        "Some of our key competitors include but are not limited to: ... BUILDING AUTOMATION • Siemens"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Clariant",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "energy_sustainability_solutions",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Some of our key competitors include but are not limited to: ENERGY AND SUSTAINABILITY SOLUTIONS ... • Clariant",
+      "evidence_quotes": [
+        "Some of our key competitors include but are not limited to: ENERGY AND SUSTAINABILITY SOLUTIONS ... • Clariant"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Flowserve",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "energy_sustainability_solutions",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Some of our key competitors include but are not limited to: ENERGY AND SUSTAINABILITY SOLUTIONS ... • Flowserve",
+      "evidence_quotes": [
+        "Some of our key competitors include but are not limited to: ENERGY AND SUSTAINABILITY SOLUTIONS ... • Flowserve"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Topsoe",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "energy_sustainability_solutions",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Some of our key competitors include but are not limited to: ENERGY AND SUSTAINABILITY SOLUTIONS ... • Topsoe",
+      "evidence_quotes": [
+        "Some of our key competitors include but are not limited to: ENERGY AND SUSTAINABILITY SOLUTIONS ... • Topsoe"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Dematic",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "industrial_automation",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Some of our key competitors include but are not limited to: ... INDUSTRIAL AUTOMATION • Dematic",
+      "evidence_quotes": [
+        "Some of our key competitors include but are not limited to: ... INDUSTRIAL AUTOMATION • Dematic"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Emerson Electric",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "industrial_automation",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Some of our key competitors include but are not limited to: ... INDUSTRIAL AUTOMATION • Emerson Electric",
+      "evidence_quotes": [
+        "Some of our key competitors include but are not limited to: ... INDUSTRIAL AUTOMATION • Emerson Electric"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Itron",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "industrial_automation",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Some of our key competitors include but are not limited to: ... INDUSTRIAL AUTOMATION • Itron",
+      "evidence_quotes": [
+        "Some of our key competitors include but are not limited to: ... INDUSTRIAL AUTOMATION • Itron"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "MSA Safety Incorporated",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "industrial_automation",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Some of our key competitors include but are not limited to: ... INDUSTRIAL AUTOMATION • MSA Safety Incorporated",
+      "evidence_quotes": [
+        "Some of our key competitors include but are not limited to: ... INDUSTRIAL AUTOMATION • MSA Safety Incorporated"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Rockwell Automation",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "industrial_automation",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Some of our key competitors include but are not limited to: ... INDUSTRIAL AUTOMATION • Rockwell Automation",
+      "evidence_quotes": [
+        "Some of our key competitors include but are not limited to: ... INDUSTRIAL AUTOMATION • Rockwell Automation"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "TE Connectivity",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "industrial_automation",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Some of our key competitors include but are not limited to: ... INDUSTRIAL AUTOMATION • TE Connectivity",
+      "evidence_quotes": [
+        "Some of our key competitors include but are not limited to: ... INDUSTRIAL AUTOMATION • TE Connectivity"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Zebra Technologies",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "industrial_automation",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Some of our key competitors include but are not limited to: ... INDUSTRIAL AUTOMATION • Zebra Technologies",
+      "evidence_quotes": [
+        "Some of our key competitors include but are not limited to: ... INDUSTRIAL AUTOMATION • Zebra Technologies"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "U.S. Department of Defense",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "government_defense",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The Company, principally through our Aerospace Technologies reportable business segment, sells to the U.S. government acting through its various departments and agencies",
+      "evidence_quotes": [
+        "The Company, principally through our Aerospace Technologies reportable business segment, sells to the U.S. government acting through its various departments and agencies"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Resideo Technologies, Inc.",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "indemnification agreement",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we entered into a termination agreement for the accelerated monetization of the indemnification and reimbursement agreement we had with Resideo Technologies, Inc. (Resideo)",
+      "evidence_quotes": [
+        "we entered into a termination agreement for the accelerated monetization of the indemnification and reimbursement agreement we had with Resideo Technologies, Inc. (Resideo)"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Bombardier",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "strategic supply agreement",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "our Commercial Aviation Original Equipment business entered into a strategic agreement with Bombardier (the Bombardier Agreement) to provide advanced technology for current and future Bombardier aircraft in avionics, propulsion, and satellite communications technologies",
+      "evidence_quotes": [
+        "our Commercial Aviation Original Equipment business entered into a strategic agreement with Bombardier (the Bombardier Agreement) to provide advanced technology for current and future Bombardier aircraft in avionics, propulsion, and satellite communications technologies"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Flexjet",
+      "counterparty_type": "private_company",
+      "category": "customer",
+      "subtype": "commercial aviation aftermarket",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "our Commercial Aviation Aftermarket business recorded charges for the settlement negotiations with Flexjet and the other parties to related litigation matters",
+      "evidence_quotes": [
+        "our Commercial Aviation Aftermarket business recorded charges for the settlement negotiations with Flexjet and the other parties to related litigation matters"
+      ],
+      "confidence": 0.88,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Bombardier",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "commercial aviation customer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Aerospace Technologies' sales and segment profit for 2024 decreased by approximately $370 million due to the Bombardier Agreement.",
+      "evidence_quotes": [
+        "Aerospace Technologies' sales and segment profit for 2024 decreased by approximately $370 million due to the Bombardier Agreement."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "China",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "trade and tariff infrastructure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The U.S. continues to implement certain trade actions, including imposing tariffs on certain goods imported from China and other countries, which has resulted in retaliatory tariffs by China",
+      "evidence_quotes": [
+        "The U.S. continues to implement certain trade actions, including imposing tariffs on certain goods imported from China and other countries, which has resulted in retaliatory tariffs by China"
+      ],
+      "confidence": 0.75,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Russia",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "contractual obligations",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Given the uncertainty inherent in our remaining obligations related to our contracts with Russian counterparties, we do not believe it is possible to develop estimates of reasonably possible loss",
+      "evidence_quotes": [
+        "Given the uncertainty inherent in our remaining obligations related to our contracts with Russian counterparties, we do not believe it is possible to develop estimates of reasonably possible loss"
+      ],
+      "confidence": 0.7,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Access Solutions",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "acquisition",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the acquisition of Access Solutions contributed $302 million of inorganic sales growth during 2025",
+      "evidence_quotes": [
+        "the acquisition of Access Solutions contributed $302 million of inorganic sales growth during 2025"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "LNG",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "acquisition",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Sales increased $490 million due to inorganic sales growth from the acquisitions of LNG and Sundyne.",
+      "evidence_quotes": [
+        "Sales increased $490 million due to inorganic sales growth from the acquisitions of LNG and Sundyne."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Sundyne",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "acquisition",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Sales increased $490 million due to inorganic sales growth from the acquisitions of LNG and Sundyne.",
+      "evidence_quotes": [
+        "Sales increased $490 million due to inorganic sales growth from the acquisitions of LNG and Sundyne."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "U.S. government",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "government_contracts",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "As a supplier to the U.S. government, we are subject to unique risks, such as the right of the U.S. government to terminate contracts for convenience",
+      "evidence_quotes": [
+        "As a supplier to the U.S. government, we are subject to unique risks, such as the right of the U.S. government to terminate contracts for convenience"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Federal Trade Commission",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_enforcement",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "potential consequences of a material cybersecurity incident and its effects include financial loss, reputational damage, litigation with third parties, theft of intellectual property, fines levied by the Federal Trade Commission",
+      "evidence_quotes": [
+        "potential consequences of a material cybersecurity incident and its effects include financial loss, reputational damage, litigation with third parties, theft of intellectual property, fines levied by the Federal Trade Commission"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Federal Aviation Administration",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_body",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "mandates of the Federal Aviation Administration and other similar international regulatory bodies regulating the installation of equipment on aircraft",
+      "evidence_quotes": [
+        "mandates of the Federal Aviation Administration and other similar international regulatory bodies regulating the installation of equipment on aircraft"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "EU",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_framework",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "On December 15, 2022, the Council of the European Union (EU) formally adopted the OECD's framework",
+      "evidence_quotes": [
+        "On December 15, 2022, the Council of the European Union (EU) formally adopted the OECD's framework"
+      ],
+      "confidence": 0.75,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "OECD",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_framework",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The Organisation for Economic Co-operation and Development (OECD)/G20 and other invited countries, developed a global tax framework",
+      "evidence_quotes": [
+        "The Organisation for Economic Co-operation and Development (OECD)/G20 and other invited countries, developed a global tax framework"
+      ],
+      "confidence": 0.75,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "Resideo",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "indemnification_reimbursement",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Reimbursements from Resideo for payments related to environmental matters at certain sites, as defined in the indemnification and reimbursement agreement, were $105 million in 2025.",
+      "evidence_quotes": [
+        "Reimbursements from Resideo for payments related to environmental matters at certain sites, as defined in the indemnification and reimbursement agreement, were $105 million in 2025."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "Johnson Matthey",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "acquisition_target",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In the second quarter of 2025, we acquired Sundyne for total consideration of $2.2 billion, net of cash acquired, as well as announced our agreement to acquire Johnson Matthey's Catalyst Technologies business segment for £1.8 billion.",
+      "evidence_quotes": [
+        "In the second quarter of 2025, we acquired Sundyne for total consideration of $2.2 billion, net of cash acquired, as well as announced our agreement to acquire Johnson Matthey's Catalyst Technologies business segment for £1.8 billion."
+      ],
+      "confidence": 0.92,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "S&P Global Inc.",
+      "counterparty_type": "public_company",
+      "category": "dependency",
+      "subtype": "credit_rating_agency",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our credit ratings are periodically reviewed by the major independent debt-rating agencies. As of December 31, 2025, S&P Global Inc. (S&P), Fitch Ratings Inc. (Fitch), and Moody's Investor Service (Moody's) have ratings on our debt",
+      "evidence_quotes": [
+        "Our credit ratings are periodically reviewed by the major independent debt-rating agencies. As of December 31, 2025, S&P Global Inc. (S&P), Fitch Ratings Inc. (Fitch), and Moody's Investor Service (Moody's) have ratings on our debt"
+      ],
+      "confidence": 0.88,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "Fitch Ratings Inc.",
+      "counterparty_type": "public_company",
+      "category": "dependency",
+      "subtype": "credit_rating_agency",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our credit ratings are periodically reviewed by the major independent debt-rating agencies. As of December 31, 2025, S&P Global Inc. (S&P), Fitch Ratings Inc. (Fitch), and Moody's Investor Service (Moody's) have ratings on our debt",
+      "evidence_quotes": [
+        "Our credit ratings are periodically reviewed by the major independent debt-rating agencies. As of December 31, 2025, S&P Global Inc. (S&P), Fitch Ratings Inc. (Fitch), and Moody's Investor Service (Moody's) have ratings on our debt"
+      ],
+      "confidence": 0.88,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "Moody's Investor Service",
+      "counterparty_type": "public_company",
+      "category": "dependency",
+      "subtype": "credit_rating_agency",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our credit ratings are periodically reviewed by the major independent debt-rating agencies. As of December 31, 2025, S&P Global Inc. (S&P), Fitch Ratings Inc. (Fitch), and Moody's Investor Service (Moody's) have ratings on our debt",
+      "evidence_quotes": [
+        "Our credit ratings are periodically reviewed by the major independent debt-rating agencies. As of December 31, 2025, S&P Global Inc. (S&P), Fitch Ratings Inc. (Fitch), and Moody's Investor Service (Moody's) have ratings on our debt"
+      ],
+      "confidence": 0.88,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "Nasdaq",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "stock_exchange_listing",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our common stock is listed on The Nasdaq Stock Market LLC (Nasdaq) under the ticker symbol \"HON.\"",
+      "evidence_quotes": [
+        "Our common stock is listed on The Nasdaq Stock Market LLC (Nasdaq) under the ticker symbol \"HON.\""
+      ],
+      "confidence": 0.95,
+      "chunk_index": 8
+    },
+    {
+      "counterparty_name": "International Organization for Standardizations",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "standards_body",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The risk management program leverages recognized industry standards such as International Organization for Standardizations (ISO) 22301 standard for business continuity, ISO 27001 standard for information security management systems",
+      "evidence_quotes": [
+        "The risk management program leverages recognized industry standards such as International Organization for Standardizations (ISO) 22301 standard for business continuity, ISO 27001 standard for information security management systems"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 8
+    },
+    {
+      "counterparty_name": "National Institute of Standards and Technology",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "standards_body",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "National Institute of Standards and Technology (NIST) Cyber Security Framework for measuring overall readiness to respond to cyber threats, and NIST 800-171 on protecting controlled unclassified information",
+      "evidence_quotes": [
+        "National Institute of Standards and Technology (NIST) Cyber Security Framework for measuring overall readiness to respond to cyber threats, and NIST 800-171 on protecting controlled unclassified information"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 8
+    },
+    {
+      "counterparty_name": "U.S. Department of War",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "certification_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we subject our information security management system to third-party assessment and certification against recognized industry standards such as ISO 27001 and the U.S. Department of War's Cybersecurity Maturity Model Certification (CMMC)",
+      "evidence_quotes": [
+        "we subject our information security management system to third-party assessment and certification against recognized industry standards such as ISO 27001 and the U.S. Department of War's Cybersecurity Maturity Model Certification (CMMC)"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 8
+    },
+    {
+      "counterparty_name": "Standard & Poor's",
+      "counterparty_type": "private_company",
+      "category": "dependency",
+      "subtype": "index_provider",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The following graph compares the five-year cumulative total return on our common stock to the total returns on the Standard & Poor's (S&P) 500 Stock Index",
+      "evidence_quotes": [
+        "The following graph compares the five-year cumulative total return on our common stock to the total returns on the Standard & Poor's (S&P) 500 Stock Index"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 8
+    },
+    {
+      "counterparty_name": "Johnson Matthey",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "acquisition_target",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "On May 22, 2025, the Company announced its agreement to acquire Johnson Matthey's Catalyst Technologies business segment in an all-cash transaction for £ 1.8 billion.",
+      "evidence_quotes": [
+        "On May 22, 2025, the Company announced its agreement to acquire Johnson Matthey's Catalyst Technologies business segment in an all-cash transaction for £ 1.8 billion."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 10
+    },
+    {
+      "counterparty_name": "Sundyne",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "acquisition_target",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "On June 6, 2025, the Company acquired 100 % of the outstanding equity interests of Sundyne, a leader in the design manufacturing, and aftermarket support of highly-engineered pumps and gas compressors",
+      "evidence_quotes": [
+        "On June 6, 2025, the Company acquired 100 % of the outstanding equity interests of Sundyne, a leader in the design manufacturing, and aftermarket support of highly-engineered pumps and gas compressors"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 10
+    },
+    {
+      "counterparty_name": "Air Products",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "acquisition_target",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "On September 30, 2024, the Company acquired 100 % of the outstanding equity interests of Air Products' liquefied natural gas process technology and equipment business",
+      "evidence_quotes": [
+        "On September 30, 2024, the Company acquired 100 % of the outstanding equity interests of Air Products' liquefied natural gas process technology and equipment business"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 10
+    },
+    {
+      "counterparty_name": "CAES Systems Holdings LLC",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "acquisition_target",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "On August 30, 2024, the Company acquired 100 % of the outstanding equity interests of CAES Systems Holdings LLC (CAES), enhancing the Company's defense and space portfolio",
+      "evidence_quotes": [
+        "On August 30, 2024, the Company acquired 100 % of the outstanding equity interests of CAES Systems Holdings LLC (CAES), enhancing the Company's defense and space portfolio"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 10
+    },
+    {
+      "counterparty_name": "Civitanavi Systems S.p.A.",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "acquisition_target",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "On August 19, 2024, the Company completed the acquisition of Civitanavi Systems S.p.A., a leader in position navigation and timing technology",
+      "evidence_quotes": [
+        "On August 19, 2024, the Company completed the acquisition of Civitanavi Systems S.p.A., a leader in position navigation and timing technology"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 10
+    },
+    {
+      "counterparty_name": "Carrier Global Corporation",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "acquisition_target",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "On June 3, 2024, the Company acquired 100 % of the outstanding equity interests of Carrier Global Corporation's Global Access Solutions business",
+      "evidence_quotes": [
+        "On June 3, 2024, the Company acquired 100 % of the outstanding equity interests of Carrier Global Corporation's Global Access Solutions business"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 10
+    },
+    {
+      "counterparty_name": "SCADAfence",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "acquisition_target",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "On August 25, 2023, the Company acquired 100 % of the outstanding equity interests of SCADAfence, a provider of operational technology and Internet of Things (IoT) cybersecurity solutions",
+      "evidence_quotes": [
+        "On August 25, 2023, the Company acquired 100 % of the outstanding equity interests of SCADAfence, a provider of operational technology and Internet of Things (IoT) cybersecurity solutions"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 10
+    },
+    {
+      "counterparty_name": "Compressor Controls Corporation",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "acquisition_target",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "On June 30, 2023, the Company acquired 100 % of the outstanding equity interests of Compressor Controls Corporation, a turbomachinery services and controls company",
+      "evidence_quotes": [
+        "On June 30, 2023, the Company acquired 100 % of the outstanding equity interests of Compressor Controls Corporation, a turbomachinery services and controls company"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 10
+    },
+    {
+      "counterparty_name": "Resideo Technologies, Inc.",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "reimbursement_obligor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In conjunction with the Resideo Technologies, Inc. (Resideo) spin-off, the Company entered into a reimbursement agreement under which Honeywell received cash payments as reimbursement primarily related to net spending for environmental matters",
+      "evidence_quotes": [
+        "In conjunction with the Resideo Technologies, Inc. (Resideo) spin-off, the Company entered into a reimbursement agreement under which Honeywell received cash payments as reimbursement primarily related to net spending for environmental matters"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 10
+    },
+    {
+      "counterparty_name": "Quantinuum",
+      "counterparty_type": "private_company",
+      "category": "customer",
+      "subtype": "quantum_computing_services",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Corporate and All Other includes revenue from Honeywell's majority-owned investment in Quantinuum. Through Quantinuum, Honeywell provides a wide range of service offerings of fully integrated quantum computing hardware and software solutions.",
+      "evidence_quotes": [
+        "Corporate and All Other includes revenue from Honeywell's majority-owned investment in Quantinuum. Through Quantinuum, Honeywell provides a wide range of service offerings of fully integrated quantum computing hardware and software solutions."
+      ],
+      "confidence": 0.65,
+      "chunk_index": 11
+    }
+  ],
+  "candidatesPerChunk": [
+    19,
+    20,
+    3,
+    6,
+    2,
+    3,
+    5,
+    0,
+    5,
+    0,
+    9,
+    1
+  ],
+  "parseErrors": 0,
+  "apiErrors": 0,
+  "inputTokens": 88079,
+  "outputTokens": 9522
+}

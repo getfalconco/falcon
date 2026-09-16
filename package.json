@@ -1,0 +1,39 @@
+{
+  "name": "meridian",
+  "private": true,
+  "version": "0.1.0",
+  "packageManager": "pnpm@10.33.0",
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "electron",
+      "esbuild"
+    ]
+  },
+  "scripts": {
+    "postinstall": "node scripts/install-git-hooks.mjs",
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "dev:web": "turbo run dev --filter=web",
+    "build:web": "turbo run build --filter=web",
+    "start:web": "pnpm --filter web start",
+    "dev:desktop": "turbo run dev --filter=falcon",
+    "build:desktop": "turbo run build --filter=falcon",
+    "dev:installer": "turbo run dev --filter=installer",
+    "build:installer": "turbo run build --filter=installer",
+    "dev:research-worker": "turbo run dev --filter=research-worker",
+    "seed": "pnpm --filter @meridian/research exec node --import tsx ../../scripts/seed-research.ts",
+    "graph": "pnpm --filter @meridian/research exec node --import tsx ../../scripts/build-graph.ts",
+    "backfill-filing-dates": "pnpm --filter @meridian/research exec node --import tsx ../../scripts/backfill-filing-dates.ts",
+    "propagate": "pnpm --filter @meridian/research exec node --import tsx ../../scripts/run-propagation.ts",
+    "backfill-entity-resolution": "pnpm --filter @meridian/research exec node --import tsx ../../scripts/backfill-entity-resolution.ts",
+    "expand-universe": "pnpm --filter @meridian/research exec node --import tsx ../../scripts/expand-universe-from-graph.ts",
+    "verify-billing": "pnpm --filter @meridian/research exec node --import tsx ../../scripts/verify-billing.ts",
+    "dataset:build": "pnpm --filter @meridian/research exec node --import tsx ../../scripts/build-dataset.ts",
+    "dataset:eval": "pnpm --filter @meridian/research exec node --import tsx ../../scripts/dataset-eval.ts"
+  },
+  "devDependencies": {
+    "pg": "^8.21.0",
+    "turbo": "^2.9.16"
+  }
+}

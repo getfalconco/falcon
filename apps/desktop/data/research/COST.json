@@ -1,0 +1,90 @@
+[
+  {
+    "root_ticker": "COST",
+    "counterparty_name": "Walmart",
+    "counterparty_ticker": "WMT",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "general merchandise retail competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.98,
+    "evidence": [
+      {
+        "quote": "Walmart, Target, Kroger, and Amazon are among our significant general merchandise retail competitors in the U.S.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/909832/000090983225000101/cost-20250831.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-10-08",
+    "shared_evidence_group": "ev_e7dde561dc90"
+  },
+  {
+    "root_ticker": "COST",
+    "counterparty_name": "Target",
+    "counterparty_ticker": "TGT",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "general merchandise retail competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Walmart, Target, Kroger, and Amazon are among our significant general merchandise retail competitors in the U.S.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/909832/000090983225000101/cost-20250831.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-10-08",
+    "shared_evidence_group": "ev_e7dde561dc90"
+  },
+  {
+    "root_ticker": "COST",
+    "counterparty_name": "Kroger",
+    "counterparty_ticker": "KR",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "general merchandise retail competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Walmart, Target, Kroger, and Amazon are among our significant general merchandise retail competitors in the U.S.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/909832/000090983225000101/cost-20250831.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-10-08",
+    "shared_evidence_group": "ev_e7dde561dc90"
+  },
+  {
+    "root_ticker": "COST",
+    "counterparty_name": "Amazon",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "general merchandise retail competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.98,
+    "evidence": [
+      {
+        "quote": "Walmart, Target, Kroger, and Amazon are among our significant general merchandise retail competitors in the U.S.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/909832/000090983225000101/cost-20250831.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-10-08",
+    "shared_evidence_group": "ev_e7dde561dc90"
+  }
+]

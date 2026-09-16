@@ -1,0 +1,13 @@
+{
+  "ticker": "SONY",
+  "companyName": "Sony Group Corp",
+  "form": "20-F",
+  "filingDate": "2026-06-18",
+  "sourceUrl": "https://www.sec.gov/Archives/edgar/data/313838/000119312526274893/d28719d20f.htm",
+  "generatedAt": "2026-08-22T20:52:46.314Z",
+  "cacheKey": "SONY|0001193125-26-274893|5",
+  "accessionNumber": "0001193125-26-274893",
+  "validatedCount": 5,
+  "rejectedCount": 3,
+  "mergedCount": 1
+}

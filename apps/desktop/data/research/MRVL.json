@@ -1,0 +1,24 @@
+[
+  {
+    "root_ticker": "MRVL",
+    "counterparty_name": "Taiwan",
+    "counterparty_ticker": null,
+    "counterparty_type": "other",
+    "category": "dependency",
+    "subtype": "manufacturing_location",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.85,
+    "evidence": [
+      {
+        "quote": "where our third-party manufacturing partners or suppliers operate, such as Taiwan and elsewhere in the Pacific Rim",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1835632/000183563226000011/mrvl-20260131.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-03-11",
+    "shared_evidence_group": "ev_e28c408c934e"
+  }
+]

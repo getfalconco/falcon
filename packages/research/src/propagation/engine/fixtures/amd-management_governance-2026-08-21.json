@@ -1,0 +1,1056 @@
+{
+ "recorded_at": "2026-08-22T19:59:56.471Z",
+ "request": {
+  "request_id": "pr-49d08435-e3d8-57d8-a5c6-35bae08f3f89-eb0f6491ac",
+  "incident_id": "49d08435-e3d8-57d8-a5c6-35bae08f3f89",
+  "root_ticker": "AMD",
+  "incident": {
+   "incident_id": "49d08435-e3d8-57d8-a5c6-35bae08f3f89",
+   "ticker": "AMD",
+   "trigger_type": "organic",
+   "window_start": "2026-08-21T00:39:53.797Z",
+   "window_end": "2026-08-21T08:39:53.797Z",
+   "window_status": "closed",
+   "composite_tags": [],
+   "priority": 5,
+   "priority_band": "P3",
+   "degraded_context": false,
+   "discovery_floor_applied": false,
+   "earnings_absorption": false,
+   "messages": [
+    {
+     "id": "07c2a1b7-37af-495d-81e8-47deb1e4fd34",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "AMD",
+     "timestamp": "2026-08-21T00:39:53.797Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 4.253492092129321,
+      "r_squared": 0.44143338242827235,
+      "daily_vol_30d": 0.039512564205617266,
+      "vol_regime": 0.7448930692611332,
+      "move_today": -0.033933107756065284,
+      "move_zscore": -0.8587928533183178,
+      "residual_move": 0.0002470223096052576,
+      "residual_zscore": 0.007026134952948641,
+      "volume_ratio": 0.5606717127198866,
+      "volume_ratio_partial": false,
+      "momentum_5d": 0.021114403727890085,
+      "momentum_20d": -0.11038150364447474,
+      "momentum_60d": 0.07728151293445329,
+      "pct_from_52w_high": -0.16624775981497075,
+      "pct_from_52w_low": 2.204545410949963,
+      "earnings_rhythm": 0.11371178105901392,
+      "prev_close": 484.3349914550781,
+      "last_price": 467.9,
+      "price_asof": "2026-08-20T23:59:58.000Z",
+      "session": "post"
+     },
+     "payload": {
+      "headline": "Cathie Wood Bets Big on Broadcom and Cerebras, Trims AMD Stock for Third Straight Day",
+      "source": "Benzinga",
+      "url": "https://finnhub.io/api/news?id=9ce5b25155d704f744a541d88cfeefb31cf18ff9493e38ba01ecb5f654c151bb",
+      "published_at": "2026-08-19T22:42:35.000Z",
+      "article_id": "141264006",
+      "summary": "Ark Invest bought Broadcom and Cerebras shares while trimming AMD stock on Wednesday, Aug.19, 2026."
+     }
+    },
+    {
+     "id": "07c6a9f9-8779-40b9-be6b-8c83a7ba2da9",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "AMD",
+     "timestamp": "2026-08-21T00:39:53.797Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 4.253492092129321,
+      "r_squared": 0.44143338242827235,
+      "daily_vol_30d": 0.039512564205617266,
+      "vol_regime": 0.7448930692611332,
+      "move_today": -0.033933107756065284,
+      "move_zscore": -0.8587928533183178,
+      "residual_move": 0.0002470223096052576,
+      "residual_zscore": 0.007026134952948641,
+      "volume_ratio": 0.5606717127198866,
+      "volume_ratio_partial": false,
+      "momentum_5d": 0.021114403727890085,
+      "momentum_20d": -0.11038150364447474,
+      "momentum_60d": 0.07728151293445329,
+      "pct_from_52w_high": -0.16624775981497075,
+      "pct_from_52w_low": 2.204545410949963,
+      "earnings_rhythm": 0.11371178105901392,
+      "prev_close": 484.3349914550781,
+      "last_price": 467.9,
+      "price_asof": "2026-08-20T23:59:58.000Z",
+      "session": "post"
+     },
+     "payload": {
+      "headline": "Amtech Systems shares are trading lower after the company reported worse-than-expected Q1 financial results.",
+      "source": "Benzinga",
+      "url": "https://finnhub.io/api/news?id=5fe19d8d82b011548d036955326e9eec94c792a8eb80183da6279cfc3441aa8f",
+      "published_at": "2026-08-19T15:23:44.000Z",
+      "article_id": "139978089",
+      "summary": ""
+     }
+    },
+    {
+     "id": "25d3c889-e672-4729-82c9-4489f06c9faf",
+     "schema_version": 1,
+     "type": "insider_filing",
+     "ticker": "AMD",
+     "timestamp": "2026-08-21T00:39:53.797Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 4.253492092129321,
+      "r_squared": 0.44143338242827235,
+      "daily_vol_30d": 0.039512564205617266,
+      "vol_regime": 0.7448930692611332,
+      "move_today": -0.033933107756065284,
+      "move_zscore": -0.8587928533183178,
+      "residual_move": 0.0002470223096052576,
+      "residual_zscore": 0.007026134952948641,
+      "volume_ratio": 0.5606717127198866,
+      "volume_ratio_partial": false,
+      "momentum_5d": 0.021114403727890085,
+      "momentum_20d": -0.11038150364447474,
+      "momentum_60d": 0.07728151293445329,
+      "pct_from_52w_high": -0.16624775981497075,
+      "pct_from_52w_low": 2.204545410949963,
+      "earnings_rhythm": 0.11371178105901392,
+      "prev_close": 484.3349914550781,
+      "last_price": 467.9,
+      "price_asof": "2026-08-20T23:59:58.000Z",
+      "session": "post"
+     },
+     "payload": {
+      "insider_name": "Hahn Ava",
+      "role": "SVP, GC &amp; Corporate Secretary",
+      "transaction_code": "S",
+      "is_10b5_1_plan": true,
+      "shares": 2993,
+      "value": 1462649.17,
+      "filed_at": "2026-08-20T00:00:00.000Z",
+      "filing_url": "https://www.sec.gov/Archives/edgar/data/2488/000000248826000165/xslF345X06/wk-form4_1787257137.xml"
+     }
+    },
+    {
+     "id": "2d2da2ff-c4a2-446b-8852-660437c68a87",
+     "schema_version": 1,
+     "type": "insider_filing",
+     "ticker": "AMD",
+     "timestamp": "2026-08-21T00:39:53.797Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 4.253492092129321,
+      "r_squared": 0.44143338242827235,
+      "daily_vol_30d": 0.039512564205617266,
+      "vol_regime": 0.7448930692611332,
+      "move_today": -0.033933107756065284,
+      "move_zscore": -0.8587928533183178,
+      "residual_move": 0.0002470223096052576,
+      "residual_zscore": 0.007026134952948641,
+      "volume_ratio": 0.5606717127198866,
+      "volume_ratio_partial": false,
+      "momentum_5d": 0.021114403727890085,
+      "momentum_20d": -0.11038150364447474,
+      "momentum_60d": 0.07728151293445329,
+      "pct_from_52w_high": -0.16624775981497075,
+      "pct_from_52w_low": 2.204545410949963,
+      "earnings_rhythm": 0.11371178105901392,
+      "prev_close": 484.3349914550781,
+      "last_price": 467.9,
+      "price_asof": "2026-08-20T23:59:58.000Z",
+      "session": "post"
+     },
+     "payload": {
+      "insider_name": "RYAN TIMOTHY",
+      "role": "director",
+      "transaction_code": "A",
+      "is_10b5_1_plan": false,
+      "shares": 548,
+      "value": 0,
+      "filed_at": "2026-08-20T00:00:00.000Z",
+      "filing_url": "https://www.sec.gov/Archives/edgar/data/2488/000000248826000172/xslF345X06/wk-form4_1787258149.xml"
+     }
+    },
+    {
+     "id": "4f35135c-9b19-4b36-accf-06b3782abd7b",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "AMD",
+     "timestamp": "2026-08-21T00:39:53.797Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 4.253492092129321,
+      "r_squared": 0.44143338242827235,
+      "daily_vol_30d": 0.039512564205617266,
+      "vol_regime": 0.7448930692611332,
+      "move_today": -0.033933107756065284,
+      "move_zscore": -0.8587928533183178,
+      "residual_move": 0.0002470223096052576,
+      "residual_zscore": 0.007026134952948641,
+      "volume_ratio": 0.5606717127198866,
+      "volume_ratio_partial": false,
+      "momentum_5d": 0.021114403727890085,
+      "momentum_20d": -0.11038150364447474,
+      "momentum_60d": 0.07728151293445329,
+      "pct_from_52w_high": -0.16624775981497075,
+      "pct_from_52w_low": 2.204545410949963,
+      "earnings_rhythm": 0.11371178105901392,
+      "prev_close": 484.3349914550781,
+      "last_price": 467.9,
+      "price_asof": "2026-08-20T23:59:58.000Z",
+      "session": "post"
+     },
+     "payload": {
+      "headline": "S&P 500 Just Got The Green Light To 8000",
+      "source": "SeekingAlpha",
+      "url": "https://finnhub.io/api/news?id=1a961459316c8bdf0d9d3718475df173b3baef3c3c18a7fb603ef47084c11ff0",
+      "published_at": "2026-08-20T14:48:08.000Z",
+      "article_id": "141263451",
+      "summary": "The S&P 500 could hit 8000 on AI fundamentals and liquidity from Treasury buybacks. Click for why recent decisions could be jet fuel for the market."
+     }
+    },
+    {
+     "id": "59893e68-fbc3-4134-a683-e2b34ff7b917",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "AMD",
+     "timestamp": "2026-08-21T00:39:53.797Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 4.253492092129321,
+      "r_squared": 0.44143338242827235,
+      "daily_vol_30d": 0.039512564205617266,
+      "vol_regime": 0.7448930692611332,
+      "move_today": -0.033933107756065284,
+      "move_zscore": -0.8587928533183178,
+      "residual_move": 0.0002470223096052576,
+      "residual_zscore": 0.007026134952948641,
+      "volume_ratio": 0.5606717127198866,
+      "volume_ratio_partial": false,
+      "momentum_5d": 0.021114403727890085,
+      "momentum_20d": -0.11038150364447474,
+      "momentum_60d": 0.07728151293445329,
+      "pct_from_52w_high": -0.16624775981497075,
+      "pct_from_52w_low": 2.204545410949963,
+      "earnings_rhythm": 0.11371178105901392,
+      "prev_close": 484.3349914550781,
+      "last_price": 467.9,
+      "price_asof": "2026-08-20T23:59:58.000Z",
+      "session": "post"
+     },
+     "payload": {
+      "headline": "AMD Appoints Tim Ryan To Board, Names KC McClure Audit & Finance Committee Chair Following Householder Retirement",
+      "source": "Benzinga",
+      "url": "https://finnhub.io/api/news?id=da69e4b6f7750cb1bbe806db07447d752ca772be9efc07c6e091723c8a097974",
+      "published_at": "2026-08-19T16:20:52.000Z",
+      "article_id": "141257579",
+      "summary": "Appointment strengthens AMD&#39;s board with deep expertise spanning technology, enterprise operations and financial governanceKC McClure named chair of the Audit and Finance Committee SANTA CLARA, Calif., Aug. 19, 2026"
+     }
+    },
+    {
+     "id": "5f90862c-6d65-45a5-907c-30e24cdbe855",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "AMD",
+     "timestamp": "2026-08-21T00:39:53.797Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 4.253492092129321,
+      "r_squared": 0.44143338242827235,
+      "daily_vol_30d": 0.039512564205617266,
+      "vol_regime": 0.7448930692611332,
+      "move_today": -0.033933107756065284,
+      "move_zscore": -0.8587928533183178,
+      "residual_move": 0.0002470223096052576,
+      "residual_zscore": 0.007026134952948641,
+      "volume_ratio": 0.5606717127198866,
+      "volume_ratio_partial": false,
+      "momentum_5d": 0.021114403727890085,
+      "momentum_20d": -0.11038150364447474,
+      "momentum_60d": 0.07728151293445329,
+      "pct_from_52w_high": -0.16624775981497075,
+      "pct_from_52w_low": 2.204545410949963,
+      "earnings_rhythm": 0.11371178105901392,
+      "prev_close": 484.3349914550781,
+      "last_price": 467.9,
+      "price_asof": "2026-08-20T23:59:58.000Z",
+      "session": "post"
+     },
+     "payload": {
+      "headline": "Here’s How Much You Would Have Made Owning Advanced Micro Devices Stock In The Last 15 Years",
+      "source": "Benzinga",
+      "url": "https://finnhub.io/api/news?id=eaf0d768a3465293908200bb1b4b2a401dd585245413a1c76954517dc12f6e22",
+      "published_at": "2026-08-19T16:15:41.000Z",
+      "article_id": "141257580",
+      "summary": "Advanced Micro Devices (NASDAQ:AMD) has outperformed the market over the past 15 years by 19.72% on an annualized basis producing an average annual return of 33.14%. Currently, Advanced Micro Devices has a market"
+     }
+    },
+    {
+     "id": "9813cdfe-8203-4c1f-af62-2ae27ce400a5",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "AMD",
+     "timestamp": "2026-08-21T00:39:53.797Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 4.253492092129321,
+      "r_squared": 0.44143338242827235,
+      "daily_vol_30d": 0.039512564205617266,
+      "vol_regime": 0.7448930692611332,
+      "move_today": -0.033933107756065284,
+      "move_zscore": -0.8587928533183178,
+      "residual_move": 0.0002470223096052576,
+      "residual_zscore": 0.007026134952948641,
+      "volume_ratio": 0.5606717127198866,
+      "volume_ratio_partial": false,
+      "momentum_5d": 0.021114403727890085,
+      "momentum_20d": -0.11038150364447474,
+      "momentum_60d": 0.07728151293445329,
+      "pct_from_52w_high": -0.16624775981497075,
+      "pct_from_52w_low": 2.204545410949963,
+      "earnings_rhythm": 0.11371178105901392,
+      "prev_close": 484.3349914550781,
+      "last_price": 467.9,
+      "price_asof": "2026-08-20T23:59:58.000Z",
+      "session": "post"
+     },
+     "payload": {
+      "headline": "Broadcom’s AI Competition Fears Look Overblown: Analyst",
+      "source": "Benzinga",
+      "url": "https://finnhub.io/api/news?id=63c566376229af761e76e86d8d60aaa72226cbc105b2c97850699d483dab931e",
+      "published_at": "2026-08-20T12:05:58.000Z",
+      "article_id": "141263194",
+      "summary": "JPMorgan reiterates Overweight on Broadcom (AVGO), citing intact Google TPU roadmap, surging network demand, and projected $56B+ AI revenue."
+     }
+    },
+    {
+     "id": "99f4b79e-f5d0-4126-97e5-84d37c1c7166",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "AMD",
+     "timestamp": "2026-08-21T00:39:53.797Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 4.253492092129321,
+      "r_squared": 0.44143338242827235,
+      "daily_vol_30d": 0.039512564205617266,
+      "vol_regime": 0.7448930692611332,
+      "move_today": -0.033933107756065284,
+      "move_zscore": -0.8587928533183178,
+      "residual_move": 0.0002470223096052576,
+      "residual_zscore": 0.007026134952948641,
+      "volume_ratio": 0.5606717127198866,
+      "volume_ratio_partial": false,
+      "momentum_5d": 0.021114403727890085,
+      "momentum_20d": -0.11038150364447474,
+      "momentum_60d": 0.07728151293445329,
+      "pct_from_52w_high": -0.16624775981497075,
+      "pct_from_52w_low": 2.204545410949963,
+      "earnings_rhythm": 0.11371178105901392,
+      "prev_close": 484.3349914550781,
+      "last_price": 467.9,
+      "price_asof": "2026-08-20T23:59:58.000Z",
+      "session": "post"
+     },
+     "payload": {
+      "headline": "Nvidia: The Greatest Company At A Fair Price",
+      "source": "SeekingAlpha",
+      "url": "https://finnhub.io/api/news?id=e13ecf41fadd7f9e572dadd5e3bdc5317777a408234248d7e28300b61060f4d3",
+      "published_at": "2026-08-20T09:45:08.000Z",
+      "article_id": "141261424",
+      "summary": "Nvidia Corporation stays a Strong Buy: watch revenue guidance, $1T visibility, margins amid HBM4 costs, and risks from AMD/hyperscalers. Click for this NVDA update."
+     }
+    },
+    {
+     "id": "9dd75db9-3f28-4094-b3a5-b92bbe4d4081",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "AMD",
+     "timestamp": "2026-08-21T00:39:53.797Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 4.253492092129321,
+      "r_squared": 0.44143338242827235,
+      "daily_vol_30d": 0.039512564205617266,
+      "vol_regime": 0.7448930692611332,
+      "move_today": -0.033933107756065284,
+      "move_zscore": -0.8587928533183178,
+      "residual_move": 0.0002470223096052576,
+      "residual_zscore": 0.007026134952948641,
+      "volume_ratio": 0.5606717127198866,
+      "volume_ratio_partial": false,
+      "momentum_5d": 0.021114403727890085,
+      "momentum_20d": -0.11038150364447474,
+      "momentum_60d": 0.07728151293445329,
+      "pct_from_52w_high": -0.16624775981497075,
+      "pct_from_52w_low": 2.204545410949963,
+      "earnings_rhythm": 0.11371178105901392,
+      "prev_close": 484.3349914550781,
+      "last_price": 467.9,
+      "price_asof": "2026-08-20T23:59:58.000Z",
+      "session": "post"
+     },
+     "payload": {
+      "headline": "AMD: The AI Infrastructure Flywheel Is Finally Turning (Rating Upgrade)",
+      "source": "SeekingAlpha",
+      "url": "https://finnhub.io/api/news?id=4e7184bfd609e88f557691df433702cf82c61fb0f0ec5ae260a1c694f69dc48e",
+      "published_at": "2026-08-20T09:07:26.000Z",
+      "article_id": "141261331",
+      "summary": "Advanced Micro Devices is upgraded to Buy as Data Center revenue jumps 107% YoY and AI infrastructure drives growth. Click for this AMD stock update."
+     }
+    },
+    {
+     "id": "a4a4de88-0fc6-4111-bc6c-b03dafdb1c16",
+     "schema_version": 1,
+     "type": "filing_item",
+     "ticker": "AMD",
+     "timestamp": "2026-08-21T00:39:53.797Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 4.253492092129321,
+      "r_squared": 0.44143338242827235,
+      "daily_vol_30d": 0.039512564205617266,
+      "vol_regime": 0.7448930692611332,
+      "move_today": -0.033933107756065284,
+      "move_zscore": -0.8587928533183178,
+      "residual_move": 0.0002470223096052576,
+      "residual_zscore": 0.007026134952948641,
+      "volume_ratio": 0.5606717127198866,
+      "volume_ratio_partial": false,
+      "momentum_5d": 0.021114403727890085,
+      "momentum_20d": -0.11038150364447474,
+      "momentum_60d": 0.07728151293445329,
+      "pct_from_52w_high": -0.16624775981497075,
+      "pct_from_52w_low": 2.204545410949963,
+      "earnings_rhythm": 0.11371178105901392,
+      "prev_close": 484.3349914550781,
+      "last_price": 467.9,
+      "price_asof": "2026-08-20T23:59:58.000Z",
+      "session": "post"
+     },
+     "payload": {
+      "form_type": "8-K",
+      "accession_number": "0000002488-26-000163",
+      "filed_at": "2026-08-19T00:00:00.000Z",
+      "item_codes": [
+       "5.02",
+       "9.01"
+      ],
+      "filing_url": "https://www.sec.gov/Archives/edgar/data/2488/000000248826000163/amd-20260817.htm"
+     }
+    },
+    {
+     "id": "e8874072-1a76-4a8a-8a21-84cadeaaab04",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "AMD",
+     "timestamp": "2026-08-21T00:39:53.797Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 4.253492092129321,
+      "r_squared": 0.44143338242827235,
+      "daily_vol_30d": 0.039512564205617266,
+      "vol_regime": 0.7448930692611332,
+      "move_today": -0.033933107756065284,
+      "move_zscore": -0.8587928533183178,
+      "residual_move": 0.0002470223096052576,
+      "residual_zscore": 0.007026134952948641,
+      "volume_ratio": 0.5606717127198866,
+      "volume_ratio_partial": false,
+      "momentum_5d": 0.021114403727890085,
+      "momentum_20d": -0.11038150364447474,
+      "momentum_60d": 0.07728151293445329,
+      "pct_from_52w_high": -0.16624775981497075,
+      "pct_from_52w_low": 2.204545410949963,
+      "earnings_rhythm": 0.11371178105901392,
+      "prev_close": 484.3349914550781,
+      "last_price": 467.9,
+      "price_asof": "2026-08-20T23:59:58.000Z",
+      "session": "post"
+     },
+     "payload": {
+      "headline": "Nvidia FQ2 Preview: I'm Seeing A 50%+ FCF Discount",
+      "source": "SeekingAlpha",
+      "url": "https://finnhub.io/api/news?id=b77380b3f8123ad2ebbb78612bce447fe5a9fecb805b09a4d0898abf53ad90f8",
+      "published_at": "2026-08-20T08:45:38.000Z",
+      "article_id": "141261179",
+      "summary": "Nvidia will provide up to $105 billion for the credit and compute for an OpenAI data center in Ohio. Find out why NVDA stock is a buy."
+     }
+    },
+    {
+     "id": "eca2d420-d95e-498a-a577-22e43abf3d8a",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "AMD",
+     "timestamp": "2026-08-21T00:39:53.797Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 4.253492092129321,
+      "r_squared": 0.44143338242827235,
+      "daily_vol_30d": 0.039512564205617266,
+      "vol_regime": 0.7448930692611332,
+      "move_today": -0.033933107756065284,
+      "move_zscore": -0.8587928533183178,
+      "residual_move": 0.0002470223096052576,
+      "residual_zscore": 0.007026134952948641,
+      "volume_ratio": 0.5606717127198866,
+      "volume_ratio_partial": false,
+      "momentum_5d": 0.021114403727890085,
+      "momentum_20d": -0.11038150364447474,
+      "momentum_60d": 0.07728151293445329,
+      "pct_from_52w_high": -0.16624775981497075,
+      "pct_from_52w_low": 2.204545410949963,
+      "earnings_rhythm": 0.11371178105901392,
+      "prev_close": 484.3349914550781,
+      "last_price": 467.9,
+      "price_asof": "2026-08-20T23:59:58.000Z",
+      "session": "post"
+     },
+     "payload": {
+      "headline": "What's Going On With AMD Stock Thursday?",
+      "source": "Benzinga",
+      "url": "https://finnhub.io/api/news?id=41cae174d3cc966cb31e71459f7ea71cbc49da9ec49069e5e54e3e879d82dd2f",
+      "published_at": "2026-08-20T09:25:11.000Z",
+      "article_id": "141261724",
+      "summary": "AMD stock dips premarket near $463 support. With mixed short-term moving averages and positive MACD momentum, can buyers hold key levels?"
+     }
+    },
+    {
+     "id": "f9909630-4e10-4454-b948-e215826015fa",
+     "schema_version": 1,
+     "type": "insider_filing",
+     "ticker": "AMD",
+     "timestamp": "2026-08-21T00:39:53.797Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 4.253492092129321,
+      "r_squared": 0.44143338242827235,
+      "daily_vol_30d": 0.039512564205617266,
+      "vol_regime": 0.7448930692611332,
+      "move_today": -0.033933107756065284,
+      "move_zscore": -0.8587928533183178,
+      "residual_move": 0.0002470223096052576,
+      "residual_zscore": 0.007026134952948641,
+      "volume_ratio": 0.5606717127198866,
+      "volume_ratio_partial": false,
+      "momentum_5d": 0.021114403727890085,
+      "momentum_20d": -0.11038150364447474,
+      "momentum_60d": 0.07728151293445329,
+      "pct_from_52w_high": -0.16624775981497075,
+      "pct_from_52w_low": 2.204545410949963,
+      "earnings_rhythm": 0.11371178105901392,
+      "prev_close": 484.3349914550781,
+      "last_price": 467.9,
+      "price_asof": "2026-08-20T23:59:58.000Z",
+      "session": "post"
+     },
+     "payload": {
+      "insider_name": "Su Lisa T",
+      "role": "Chair, President &amp; CEO",
+      "transaction_code": "S",
+      "is_10b5_1_plan": true,
+      "shares": 700,
+      "value": 333130,
+      "filed_at": "2026-08-20T00:00:00.000Z",
+      "filing_url": "https://www.sec.gov/Archives/edgar/data/2488/000000248826000167/xslF345X06/wk-form4_1787257549.xml"
+     }
+    },
+    {
+     "id": "ffbf4d74-386a-44e9-8a09-a6c967847bfe",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "AMD",
+     "timestamp": "2026-08-21T00:39:53.797Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 4.253492092129321,
+      "r_squared": 0.44143338242827235,
+      "daily_vol_30d": 0.039512564205617266,
+      "vol_regime": 0.7448930692611332,
+      "move_today": -0.033933107756065284,
+      "move_zscore": -0.8587928533183178,
+      "residual_move": 0.0002470223096052576,
+      "residual_zscore": 0.007026134952948641,
+      "volume_ratio": 0.5606717127198866,
+      "volume_ratio_partial": false,
+      "momentum_5d": 0.021114403727890085,
+      "momentum_20d": -0.11038150364447474,
+      "momentum_60d": 0.07728151293445329,
+      "pct_from_52w_high": -0.16624775981497075,
+      "pct_from_52w_low": 2.204545410949963,
+      "earnings_rhythm": 0.11371178105901392,
+      "prev_close": 484.3349914550781,
+      "last_price": 467.9,
+      "price_asof": "2026-08-20T23:59:58.000Z",
+      "session": "post"
+     },
+     "payload": {
+      "headline": "Tracking Cathie Wood's ARK Invest 13F Portfolio - Q2 2026 Update",
+      "source": "SeekingAlpha",
+      "url": "https://finnhub.io/api/news?id=6176cf1f3006a9b7f1e7eece33e01b74901f7d28aa6591f2ed6baa2cc5a017ee",
+      "published_at": "2026-08-19T20:47:48.000Z",
+      "article_id": "141258291",
+      "summary": "ARK Invest's Q2 2026 13F portfolio rose to ~$15.4B, with holdings increasing from 182 to 191 and a focus on disruptive innovation. Read more on the portfolio here."
+     }
+    }
+   ],
+   "quant_context": {
+    "beta_90d": 4.253492092129321,
+    "r_squared": 0.44143338242827235,
+    "daily_vol_30d": 0.039512564205617266,
+    "vol_regime": 0.7448930692611332,
+    "move_today": -0.033933107756065284,
+    "move_zscore": -0.8587928533183178,
+    "residual_move": 0.0002470223096052576,
+    "residual_zscore": 0.007026134952948641,
+    "volume_ratio": 0.5606717127198866,
+    "volume_ratio_partial": false,
+    "momentum_5d": 0.021114403727890085,
+    "momentum_20d": -0.11038150364447474,
+    "momentum_60d": 0.07728151293445329,
+    "pct_from_52w_high": -0.16624775981497075,
+    "pct_from_52w_low": 2.204545410949963,
+    "earnings_rhythm": 0.11371178105901392,
+    "prev_close": 484.3349914550781,
+    "last_price": 467.9,
+    "price_asof": "2026-08-20T23:59:58.000Z",
+    "session": "post"
+   },
+   "user_proximity": "tracked",
+   "related_incident_id": null,
+   "propagation_candidates": []
+  },
+  "event": {
+   "type": "management_governance",
+   "direction": "unclear",
+   "materiality": "standard",
+   "label": "8-K Item 5.02 — officer / director change",
+   "source_msg_ids": [
+    "a4a4de88-0fc6-4111-bc6c-b03dafdb1c16"
+   ],
+   "event_ts": "2026-08-21T00:39:53.797Z",
+   "source": "filing_item",
+   "evidence_lines": [
+    "8-K items 5.02, 9.01 filed 2026-08-19 — Departure of Directors or Certain Officers; Election of Directors; Appointment of Certain Officers; Compensatory Arrangements; Financial Statements and Exhibits"
+   ]
+  },
+  "trigger_rules": [
+   "filing_item.8k.mapped"
+  ],
+  "update": false,
+  "prior_run_id": null,
+  "requested_at": "2026-08-22T19:59:56.471Z",
+  "verdicts": {
+   "07c2a1b7-37af-495d-81e8-47deb1e4fd34": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141264006",
+     "kind": "news",
+     "event_type": "ownership_flows",
+     "event_label": "Ark Invest trims AMD, adds Broadcom and Cerebras",
+     "syndication_scope": 2,
+     "tickers": [
+      {
+       "ticker": "AMD",
+       "relevance": "direct",
+       "materiality": "low",
+       "direction": "negative"
+      },
+      {
+       "ticker": "AVGO",
+       "relevance": "direct",
+       "materiality": "low",
+       "direction": "positive"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:05:47.074Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "AMD",
+     "relevance": "direct",
+     "materiality": "low",
+     "direction": "negative"
+    }
+   },
+   "07c6a9f9-8779-40b9-be6b-8c83a7ba2da9": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:139978089",
+     "kind": "news",
+     "event_type": "earnings_results",
+     "event_label": "Amtech Systems Q1 results miss expectations",
+     "syndication_scope": 4,
+     "tickers": [
+      {
+       "ticker": "AMD",
+       "relevance": "none"
+      },
+      {
+       "ticker": "AVGO",
+       "relevance": "none"
+      },
+      {
+       "ticker": "INTC",
+       "relevance": "none"
+      },
+      {
+       "ticker": "AMKR",
+       "relevance": "none"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:50.085Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "AMD",
+     "relevance": "none"
+    }
+   },
+   "4f35135c-9b19-4b36-accf-06b3782abd7b": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141263451",
+     "kind": "news",
+     "event_type": "macro_sector",
+     "event_label": "S&P 500 market outlook tied to AI fundamentals and Treasury policy",
+     "syndication_scope": 3,
+     "tickers": [
+      {
+       "ticker": "META",
+       "relevance": "none"
+      },
+      {
+       "ticker": "AMD",
+       "relevance": "none"
+      },
+      {
+       "ticker": "NVDA",
+       "relevance": "none"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:04:30.301Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "AMD",
+     "relevance": "none"
+    }
+   },
+   "59893e68-fbc3-4134-a683-e2b34ff7b917": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141257579",
+     "kind": "news",
+     "event_type": "management_governance",
+     "event_label": "AMD appoints Tim Ryan to board; KC McClure chairs Audit & Finance Committee",
+     "syndication_scope": 1,
+     "tickers": [
+      {
+       "ticker": "AMD",
+       "relevance": "direct",
+       "materiality": "low",
+       "direction": "positive"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-22T08:55:14.159Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "AMD",
+     "relevance": "direct",
+     "materiality": "low",
+     "direction": "positive"
+    }
+   },
+   "5f90862c-6d65-45a5-907c-30e24cdbe855": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141257580",
+     "kind": "news",
+     "event_type": "other",
+     "event_label": "Historical stock performance retrospective",
+     "syndication_scope": 1,
+     "tickers": [
+      {
+       "ticker": "AMD",
+       "relevance": "none"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-22T08:55:14.737Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "AMD",
+     "relevance": "none"
+    }
+   },
+   "9813cdfe-8203-4c1f-af62-2ae27ce400a5": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141263194",
+     "kind": "news",
+     "event_type": "analyst_action",
+     "event_label": "JPMorgan reiterates Overweight on Broadcom",
+     "syndication_scope": 4,
+     "tickers": [
+      {
+       "ticker": "AVGO",
+       "relevance": "direct",
+       "materiality": "low",
+       "direction": "positive"
+      },
+      {
+       "ticker": "AAPL",
+       "relevance": "none"
+      },
+      {
+       "ticker": "META",
+       "relevance": "none"
+      },
+      {
+       "ticker": "AMD",
+       "relevance": "none"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:04:28.639Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "AMD",
+     "relevance": "none"
+    }
+   },
+   "99f4b79e-f5d0-4126-97e5-84d37c1c7166": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141261424",
+     "kind": "news",
+     "event_type": "analyst_action",
+     "event_label": "Analyst maintains Strong Buy rating on Nvidia",
+     "syndication_scope": 5,
+     "tickers": [
+      {
+       "ticker": "MSFT",
+       "relevance": "none"
+      },
+      {
+       "ticker": "AVGO",
+       "relevance": "none"
+      },
+      {
+       "ticker": "NVDA",
+       "relevance": "direct",
+       "materiality": "low",
+       "direction": "positive"
+      },
+      {
+       "ticker": "AMD",
+       "relevance": "none"
+      },
+      {
+       "ticker": "INTC",
+       "relevance": "none"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:04:21.101Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "AMD",
+     "relevance": "none"
+    }
+   },
+   "9dd75db9-3f28-4094-b3a5-b92bbe4d4081": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141261331",
+     "kind": "news",
+     "event_type": "analyst_action",
+     "event_label": "AMD upgraded to Buy on strong Data Center growth",
+     "syndication_scope": 1,
+     "tickers": [
+      {
+       "ticker": "AMD",
+       "relevance": "direct",
+       "materiality": "low",
+       "direction": "positive"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-22T08:55:23.679Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "AMD",
+     "relevance": "direct",
+     "materiality": "low",
+     "direction": "positive"
+    }
+   },
+   "e8874072-1a76-4a8a-8a21-84cadeaaab04": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141261179",
+     "kind": "news",
+     "event_type": "contract_partnership",
+     "event_label": "Nvidia to provide $105B for OpenAI data center in Ohio",
+     "syndication_scope": 2,
+     "tickers": [
+      {
+       "ticker": "NVDA",
+       "relevance": "direct",
+       "materiality": "high",
+       "direction": "positive"
+      },
+      {
+       "ticker": "AMD",
+       "relevance": "none"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:04:20.988Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "AMD",
+     "relevance": "none"
+    }
+   },
+   "eca2d420-d95e-498a-a577-22e43abf3d8a": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141261724",
+     "kind": "news",
+     "event_type": "other",
+     "event_label": "AMD stock price movement and technical analysis",
+     "syndication_scope": 1,
+     "tickers": [
+      {
+       "ticker": "AMD",
+       "relevance": "none"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-22T08:55:24.306Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "AMD",
+     "relevance": "none"
+    }
+   },
+   "ffbf4d74-386a-44e9-8a09-a6c967847bfe": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141258291",
+     "kind": "news",
+     "event_type": "ownership_flows",
+     "event_label": "ARK Invest Q2 2026 13F portfolio update",
+     "syndication_scope": 2,
+     "tickers": [
+      {
+       "ticker": "PLTR",
+       "relevance": "none"
+      },
+      {
+       "ticker": "AMD",
+       "relevance": "none"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-22T08:55:15.917Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "AMD",
+     "relevance": "none"
+    }
+   }
+  }
+ },
+ "graph_version": {
+  "generatedAt": "2026-08-13T22:38:11.325Z",
+  "pipelineVersion": 5
+ }
+}

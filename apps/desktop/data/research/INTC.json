@@ -1,0 +1,617 @@
+[
+  {
+    "root_ticker": "INTC",
+    "counterparty_name": "NVIDIA",
+    "counterparty_ticker": "NVDA",
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "product development",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "We also announced a strategic partnership with NVIDIA to co-develop custom client and data center products combining our x86 CPU technologies with NVIDIA's AI and accelerated computing capabilities.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/50863/000005086326000011/intc-20251227.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-23",
+    "shared_evidence_group": "ev_6af4603c7384"
+  },
+  {
+    "root_ticker": "INTC",
+    "counterparty_name": "TSMC",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "supplier",
+    "subtype": "foundry manufacturing",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "we have also strategically utilized third-party foundry manufacturing capacity, including at one of our key foundry competitors, TSMC, for various tiles or an entire product",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/50863/000005086326000011/intc-20251227.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "we would expect, over time, to shift manufacturing to third-party foundries, particularly TSMC, as we develop products for nodes beyond Intel 18A",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/50863/000005086326000011/intc-20251227.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "some of our newer and more high-end products and a number of our future products involve the use of tiles manufactured by TSMC",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/50863/000005086326000011/intc-20251227.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-23",
+    "shared_evidence_group": "ev_73d71a1a5a7f"
+  },
+  {
+    "root_ticker": "INTC",
+    "counterparty_name": "AMD",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "x86 processors",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "CCG's primary competitor is AMD, which like us designs processors based on the x86 architecture.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/50863/000005086326000011/intc-20251227.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "DCAI competitors include AMD, which utilizes the x86 architecture and competes with us across the full spectrum of CPUs, GPUs, accelerators and other products",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/50863/000005086326000011/intc-20251227.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "Our competitors include companies offering platform products, such as AMD and Qualcomm; accelerator products such as GPUs, including those offered by NVIDIA and AMD",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/50863/000005086326000011/intc-20251227.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-23",
+    "shared_evidence_group": "ev_b6408ef89b09"
+  },
+  {
+    "root_ticker": "INTC",
+    "counterparty_name": "Apple",
+    "counterparty_ticker": "AAPL",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "ARM processors",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "We also face significant competition from companies that design processors based on the ARM architecture, such as Apple with its M series products",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/50863/000005086326000011/intc-20251227.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "in 2020, Apple introduced PC products utilizing its own internally developed ARM-based semiconductor designs in place of our client CPUs, and we face increasing competition from Apple's products and ecosystem.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/50863/000005086326000011/intc-20251227.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-23",
+    "shared_evidence_group": "ev_74870a7c27a6"
+  },
+  {
+    "root_ticker": "INTC",
+    "counterparty_name": "Qualcomm",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "ARM processors",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "We also face significant competition from companies that design processors based on the ARM architecture, such as Apple with its M series products, Qualcomm with its Snapdragon products",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/50863/000005086326000011/intc-20251227.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "Our competitors include companies offering platform products, such as AMD and Qualcomm; accelerator products such as GPUs, including those offered by NVIDIA and AMD",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/50863/000005086326000011/intc-20251227.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-23",
+    "shared_evidence_group": "ev_ec9ac6452101"
+  },
+  {
+    "root_ticker": "INTC",
+    "counterparty_name": "MediaTek",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "ARM processors",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "We also face significant competition from companies that design processors based on the ARM architecture, such as Apple with its M series products, Qualcomm with its Snapdragon products and MediaTek with its Kompanio products.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/50863/000005086326000011/intc-20251227.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-23",
+    "shared_evidence_group": "ev_2a3aaf3858cd"
+  },
+  {
+    "root_ticker": "INTC",
+    "counterparty_name": "NVIDIA",
+    "counterparty_ticker": "NVDA",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "accelerator_products",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.98,
+    "evidence": [
+      {
+        "quote": "Our competitors include companies offering platform products, such as AMD and Qualcomm; accelerator products such as GPUs, including those offered by NVIDIA and AMD",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/50863/000005086326000011/intc-20251227.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "providers of GPU systems such as NVIDIA, whose GPU systems have experienced the highest demand in the market as AI workloads have become the dominant source of compute demand",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/50863/000005086326000011/intc-20251227.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-23",
+    "shared_evidence_group": "ev_a21cf42586db"
+  },
+  {
+    "root_ticker": "INTC",
+    "counterparty_name": "Amazon",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "custom silicon",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "companies developing their own custom silicon, including many hyperscalers such as Amazon, Google, Meta and Microsoft",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/50863/000005086326000011/intc-20251227.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-23",
+    "shared_evidence_group": "ev_c879fcd593eb"
+  },
+  {
+    "root_ticker": "INTC",
+    "counterparty_name": "Google",
+    "counterparty_ticker": "GOOGL",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "custom silicon",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "companies developing their own custom silicon, including many hyperscalers such as Amazon, Google, Meta and Microsoft",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/50863/000005086326000011/intc-20251227.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-23",
+    "shared_evidence_group": "ev_c879fcd593eb"
+  },
+  {
+    "root_ticker": "INTC",
+    "counterparty_name": "Meta",
+    "counterparty_ticker": "META",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "custom silicon",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "companies developing their own custom silicon, including many hyperscalers such as Amazon, Google, Meta and Microsoft",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/50863/000005086326000011/intc-20251227.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-23",
+    "shared_evidence_group": "ev_c879fcd593eb"
+  },
+  {
+    "root_ticker": "INTC",
+    "counterparty_name": "Microsoft",
+    "counterparty_ticker": "MSFT",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "custom silicon",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "companies developing their own custom silicon, including many hyperscalers such as Amazon, Google, Meta and Microsoft",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/50863/000005086326000011/intc-20251227.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-23",
+    "shared_evidence_group": "ev_c879fcd593eb"
+  },
+  {
+    "root_ticker": "INTC",
+    "counterparty_name": "Broadcom",
+    "counterparty_ticker": "AVGO",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "custom ASICs",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "We also compete with Broadcom in the custom ASICs development market.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/50863/000005086326000011/intc-20251227.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-23",
+    "shared_evidence_group": "ev_2cee06152125"
+  },
+  {
+    "root_ticker": "INTC",
+    "counterparty_name": "TSMC",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "leading-edge foundry",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.98,
+    "evidence": [
+      {
+        "quote": "Our primary competitor in leading-edge semiconductor process technology is TSMC, which holds a leading position in manufacturing at scale for the most advanced nodes.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/50863/000005086326000011/intc-20251227.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "Most of our competitors rely on third-party foundries, such as TSMC or Samsung, for the manufacture and assembly and test of their semiconductor components and products.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/50863/000005086326000011/intc-20251227.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "we face intense competition from well-established competitors such as TSMC, Samsung, Global Foundries, UMC and SMIC.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/50863/000005086326000011/intc-20251227.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-23",
+    "shared_evidence_group": "ev_f8ed94db19ab"
+  },
+  {
+    "root_ticker": "INTC",
+    "counterparty_name": "Samsung",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "leading-edge foundry",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "We also compete directly with Samsung in this market.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/50863/000005086326000011/intc-20251227.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "we face intense competition from well-established competitors such as TSMC, Samsung, Global Foundries, UMC and SMIC.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/50863/000005086326000011/intc-20251227.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-23",
+    "shared_evidence_group": "ev_cf53480834f7"
+  },
+  {
+    "root_ticker": "INTC",
+    "counterparty_name": "GlobalFoundries",
+    "counterparty_ticker": "GFS",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "mature foundry technologies",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Other Intel Foundry competitors include GlobalFoundries, UMC and SMIC, which primarily focus on mature process technologies.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/50863/000005086326000011/intc-20251227.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-23",
+    "shared_evidence_group": "ev_b7e2b27c1167"
+  },
+  {
+    "root_ticker": "INTC",
+    "counterparty_name": "UMC",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "foundry",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "we face intense competition from well-established competitors such as TSMC, Samsung, Global Foundries, UMC and SMIC.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/50863/000005086326000011/intc-20251227.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "Other Intel Foundry competitors include GlobalFoundries, UMC and SMIC, which primarily focus on mature process technologies.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/50863/000005086326000011/intc-20251227.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-23",
+    "shared_evidence_group": "ev_fb59e8422124"
+  },
+  {
+    "root_ticker": "INTC",
+    "counterparty_name": "SMIC",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "foundry",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "we face intense competition from well-established competitors such as TSMC, Samsung, Global Foundries, UMC and SMIC.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/50863/000005086326000011/intc-20251227.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "Other Intel Foundry competitors include GlobalFoundries, UMC and SMIC, which primarily focus on mature process technologies.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/50863/000005086326000011/intc-20251227.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "a number of semiconductor companies in China, including SMIC, are making significant investments, in many instances with the support of the Chinese government, in advanced semiconductor technologies to enable such companies to develop products and technologies that compete with ours.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/50863/000005086326000011/intc-20251227.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-23",
+    "shared_evidence_group": "ev_fb59e8422124"
+  },
+  {
+    "root_ticker": "INTC",
+    "counterparty_name": "UMC",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "process development collaboration",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "In 2024, we announced a strategic collaboration with UMC to develop a 12 nm process platform that expands our mature‑node process portfolio",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/50863/000005086326000011/intc-20251227.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-23",
+    "shared_evidence_group": "ev_8d0c4275c7f2"
+  },
+  {
+    "root_ticker": "INTC",
+    "counterparty_name": "ASML",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "supplier",
+    "subtype": "semiconductor_manufacturing_equipment",
+    "strength": 1,
+    "strength_tier": "critical",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "we are reliant upon sole-source providers, such as with the EUV lithography tools manufactured by ASML that are required for leading-edge process technologies",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/50863/000005086326000011/intc-20251227.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-23",
+    "shared_evidence_group": "ev_82674f88fb0a"
+  },
+  {
+    "root_ticker": "INTC",
+    "counterparty_name": "SLP VII Gryphon Aggregator, L.P.",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "divestiture_buyer",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "On April 14, 2025, we signed a transaction agreement with SLP VII Gryphon Aggregator, L.P., an affiliate of SLP, to sell 51% of all issued and outstanding common stock of Altera",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/50863/000005086326000011/intc-20251227.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-23",
+    "shared_evidence_group": "ev_5b6bc405ba75"
+  },
+  {
+    "root_ticker": "INTC",
+    "counterparty_name": "Mobileye",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "majority_owned_subsidiary",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.05,
+    "evidence": [
+      {
+        "quote": "Net income (loss) attributable to non-controlling interests is comprised of net income or loss attributable to the non-controlling interests in Mobileye, IMS Nanofabrication, Ireland SCIP and Arizona SCIP, all of which are our majority owned subsidiaries",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/50863/000005086326000011/intc-20251227.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-23",
+    "shared_evidence_group": "ev_47e5b5739544"
+  },
+  {
+    "root_ticker": "INTC",
+    "counterparty_name": "Global Foundries",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "foundry",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "we face intense competition from well-established competitors such as TSMC, Samsung, Global Foundries, UMC and SMIC.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/50863/000005086326000011/intc-20251227.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-23",
+    "shared_evidence_group": "ev_fb59e8422124"
+  },
+  {
+    "root_ticker": "INTC",
+    "counterparty_name": "Brookfield",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "joint_investment",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "our 2022 joint investment with Brookfield in the manufacturing expansion of our Arizona campus",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/50863/000005086326000011/intc-20251227.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-23",
+    "shared_evidence_group": "ev_89b8526f05a0"
+  },
+  {
+    "root_ticker": "INTC",
+    "counterparty_name": "Apollo",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "joint_investment",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "our 2024 joint investment with Apollo related to Fab 34 in Ireland",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/50863/000005086326000011/intc-20251227.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-23",
+    "shared_evidence_group": "ev_9e963bb8262d"
+  },
+  {
+    "root_ticker": "INTC",
+    "counterparty_name": "ASML Holding N.V.",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "supplier",
+    "subtype": "manufacturing_equipment",
+    "strength": 1,
+    "strength_tier": "critical",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.98,
+    "evidence": [
+      {
+        "quote": "ASML Holding N.V. (ASML) is currently the sole supplier of EUV lithography tools that we are deploying in our Intel 4, Intel 3, Intel 18A and planned future leading-edge manufacturing process nodes.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/50863/000005086326000011/intc-20251227.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-23",
+    "shared_evidence_group": "ev_bf25d1759f0e"
+  }
+]

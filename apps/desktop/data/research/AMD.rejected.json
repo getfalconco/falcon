@@ -1,0 +1,101 @@
+[
+  {
+    "counterparty_name": "ZT Group Int'l, Inc.",
+    "category": "supplier",
+    "subtype": "acquired_design_operations",
+    "evidence_quote": "In March 2025, we acquired ZT Group Int'l, Inc. (ZT Systems), where we retained certain intellectual property and employees associated with the design operations",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Microsoft Corporation",
+    "category": "dependency",
+    "subtype": "software_platform_support",
+    "evidence_quote": "If we lose Microsoft Corporation's support for our products or other software vendors do not design and develop software to run on our products, our ability to sell our products could be materially adversely affected.",
+    "confidence": 0.85,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Microsoft",
+    "category": "customer",
+    "subtype": "semi_custom_soc_customer",
+    "evidence_quote": "The success of our semi-custom SoC products in our Client and Gaming segment is dependent on securing customers for our semi-custom design pipeline and consumer market conditions, including the success of game console systems and next generation consoles for Sony",
+    "confidence": 0.9,
+    "reason": "counterparty name not in quote",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "TSMC",
+    "category": "supplier",
+    "subtype": "semiconductor foundry",
+    "evidence_quote": "we are presently focusing our 7 nm and lower product microprocessor and GPU portfolio on TSMC's processes",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Microsoft Corporation",
+    "category": "dependency",
+    "subtype": "operating system provider",
+    "evidence_quote": "If we lose Microsoft Corporation's support for our products or other software vendors do not design and develop software to run on our products, our ability to sell our products could be materially adversely affected",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Sanmina Corporation",
+    "category": "customer",
+    "subtype": "asset_buyer",
+    "evidence_quote": "In October 2025, we sold the ZT data center infrastructure manufacturing business (ZT Manufacturing Business) to Sanmina Corporation (Sanmina).",
+    "confidence": 0.95,
+    "reason": "Sanmina Corporation is the buyer of AMD's ZT Manufacturing Business asset, not a customer purchasing AMD's products or services. The relationship is an asset divestiture transaction. The category 'customer' with subtype 'asset_buyer' is inappropriate; asset buyers in divestitures are not counterparties in the operational relationship sense intended by the knowledge graph (supplier, customer, partner, competitor, dependency). This is a one-time M&A transaction, not an ongoing commercial relationship where Sanmina buys AMD products.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Sony Interactive Entertainment",
+    "category": "customer",
+    "subtype": "semi_custom_soc_customer",
+    "evidence_quote": "PlayStation is a registered trademark of Sony Interactive Entertainment, Inc.",
+    "confidence": 0.75,
+    "reason": "The evidence_quote is a trademark attribution statement, not evidence of a commercial relationship. Trademark acknowledgments in 10-K filings are legal boilerplate required to avoid infringement claims and do not demonstrate that Sony Interactive Entertainment is a customer of AMD. While AMD does supply semi-custom SoCs to Sony for PlayStation consoles (a well-known fact), this particular quote does not constitute valid evidence of that relationship—it is merely acknowledging Sony's trademark ownership. The filing chunk contains no natural-language sentence describing a business relationship with Sony Interactive Entertainment. XBRL tags, identifiers, table headers, cover-page fragments, and trademark attributions are explicitly excluded as valid evidence per the auditing rules.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Intel",
+    "category": "dependency",
+    "subtype": "x86 instruction set controller",
+    "evidence_quote": "Our ability to innovate beyond the x86 instruction set controlled by Intel depends partially on Microsoft designing and developing its operating systems",
+    "confidence": 0.85,
+    "reason": "The evidence_quote is taken out of context and mischaracterizes the relationship. The full passage states: 'Our ability to innovate beyond the x86 instruction set controlled by Intel depends partially on Microsoft designing and developing its operating systems to run on or support our x86-based microprocessor products.' This describes AMD's dependency on Microsoft's OS support for AMD's own x86 products, NOT a dependency on Intel. Intel controls the x86 instruction set architecture, but AMD licenses it and develops its own x86-compatible processors. Intel is a competitor to AMD in the x86 processor market, not a dependency. The phrase 'controlled by Intel' refers to Intel's historical control of the x86 ISA IP, not AMD depending on Intel for infrastructure or services. AMD and Intel cross-license x86 technology, making them competitors with shared IP, not a dependency relationship where AMD relies on Intel's infrastructure. The correct dependency from this passage would be on Microsoft, not Intel.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Microsoft",
+    "category": "dependency",
+    "subtype": "operating_system_compatibility",
+    "evidence_quote": "Our ability to innovate beyond the x86 instruction set controlled by Intel depends partially on Microsoft designing and developing its operating systems to run on or support our x86-based microprocessor products.",
+    "confidence": 0.95,
+    "reason": "The evidence_quote describes AMD's dependency on Microsoft designing and developing operating systems to support AMD's x86 products. This creates a technical compatibility dependency, but Microsoft is simultaneously a commercial vendor to AMD (AMD pays Microsoft for operating system licenses and tools). The filing does not indicate AMD receives Microsoft's OS infrastructure for free or without a commercial relationship. Commercial platform dependencies where the root company pays for services are classified as 'supplier,' not 'dependency.' The 'dependency' category is reserved for critical reliance on infrastructure/services with NO commercial vendor relationship (like GPS, regulatory infrastructure, free public networks). Since AMD has a commercial licensing relationship with Microsoft for Windows and development tools, this should be categorized as 'supplier' with subtype related to software licensing/platform support, not 'dependency.'",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Bureau of Industry and Security",
+    "category": "dependency",
+    "subtype": "export_license_authority",
+    "evidence_quote": "In October 2023, the Bureau of Industry and Security (BIS) of the United States Department of Commerce issued requirements for the export of certain advanced computing items",
+    "confidence": 0.92,
+    "reason": "The Bureau of Industry and Security (BIS) is a regulatory authority acting in its governmental regulatory capacity. The filing discusses BIS issuing export control requirements and licensing rules that AMD must comply with. This is a regulatory compliance relationship, not a dependency in the sense meant by the knowledge graph category. BIS is not providing infrastructure or services that AMD operationally relies upon; rather, it is enforcing regulations. Per the instructions, 'regulators acting as regulators' should be rejected as counterparties. The evidence quote confirms BIS issued requirements/regulations, which is regulatory action, not a service dependency.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Taiwan",
+    "category": "dependency",
+    "subtype": "wafer_foundry_infrastructure",
+    "evidence_quote": "In April 2024, Taiwan experienced an earthquake where our third-party wafer foundries are located.",
+    "confidence": 0.85,
+    "reason": "The counterparty 'Taiwan' is a geographic location/country, not a specific organization that AMD has a commercial or infrastructure relationship with. The evidence quote mentions 'our third-party wafer foundries are located' in Taiwan, but Taiwan itself is not the counterparty—the actual wafer foundries (like TSMC) would be the counterparties. Taiwan is merely the geographic location where these foundries operate. The category 'dependency' with subtype 'wafer_foundry_infrastructure' would be appropriate for the actual foundry companies (which would be suppliers, not dependencies, as AMD pays them for manufacturing services), but not for the country itself. Additionally, 'government' as counterparty_type doesn't fit the relationship described—there's no mention of Taiwan's government providing infrastructure or services that AMD depends on.",
+    "stage": "audit"
+  }
+]

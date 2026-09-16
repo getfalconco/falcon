@@ -1,0 +1,13 @@
+{
+  "ticker": "BKR",
+  "companyName": "Baker Hughes Co",
+  "form": "10-K",
+  "filingDate": "2026-02-05",
+  "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1701605/000170160526000007/bkr-20251231.htm",
+  "generatedAt": "2026-08-26T10:55:29.741Z",
+  "cacheKey": "BKR|0001701605-26-000007|5",
+  "accessionNumber": "0001701605-26-000007",
+  "validatedCount": 19,
+  "rejectedCount": 4,
+  "mergedCount": 3
+}

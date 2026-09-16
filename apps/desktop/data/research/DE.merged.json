@@ -1,0 +1,42 @@
+[
+  {
+    "counterparty_name": "AGCO Corporation",
+    "category": "competitor",
+    "subtype": "agriculture_turf_competitor",
+    "evidence_quote": "The competitive environment for the agriculture and turf operations includes some global competitors, such as AGCO Corporation, CLAAS KGaA mbH, CNH Industrial N.V., Kubota Tractor Corporation, and The Toro Company.",
+    "confidence": 0.95,
+    "merged_into": "AGCO Corporation"
+  },
+  {
+    "counterparty_name": "CLAAS KGaA mbH",
+    "category": "competitor",
+    "subtype": "agriculture_turf_competitor",
+    "evidence_quote": "The competitive environment for the agriculture and turf operations includes some global competitors, such as AGCO Corporation, CLAAS KGaA mbH, CNH Industrial N.V., Kubota Tractor Corporation, and The Toro Company.",
+    "confidence": 0.95,
+    "merged_into": "CLAAS KGaA mbH"
+  },
+  {
+    "counterparty_name": "CNH Industrial N.V.",
+    "category": "competitor",
+    "subtype": "agriculture_turf_competitor",
+    "evidence_quote": "The competitive environment for the agriculture and turf operations includes some global competitors, such as AGCO Corporation, CLAAS KGaA mbH, CNH Industrial N.V., Kubota Tractor Corporation, and The Toro Company.",
+    "confidence": 0.95,
+    "merged_into": "CNH Industrial N.V."
+  },
+  {
+    "counterparty_name": "Kubota Tractor Corporation",
+    "category": "competitor",
+    "subtype": "agriculture_turf_competitor",
+    "evidence_quote": "The competitive environment for the agriculture and turf operations includes some global competitors, such as AGCO Corporation, CLAAS KGaA mbH, CNH Industrial N.V., Kubota Tractor Corporation, and The Toro Company.",
+    "confidence": 0.95,
+    "merged_into": "Kubota Tractor Corporation"
+  },
+  {
+    "counterparty_name": "The Toro Company",
+    "category": "competitor",
+    "subtype": "agriculture_turf_competitor",
+    "evidence_quote": "The competitive environment for the agriculture and turf operations includes some global competitors, such as AGCO Corporation, CLAAS KGaA mbH, CNH Industrial N.V., Kubota Tractor Corporation, and The Toro Company.",
+    "confidence": 0.95,
+    "merged_into": "The Toro Company"
+  }
+]

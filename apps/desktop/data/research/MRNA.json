@@ -1,0 +1,710 @@
+[
+  {
+    "root_ticker": "MRNA",
+    "counterparty_name": "Merck",
+    "counterparty_ticker": "MRK",
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "oncology collaboration - joint development and commercialization",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.97,
+    "evidence": [
+      {
+        "quote": "We are developing mRNA-4157 in collaboration with Merck.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1682852/000168285226000033/mrna-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "We are advancing intismeran in collaboration with Merck, with eight Phase 2 and Phase 3 clinical trials underway across multiple tumor types.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1682852/000168285226000033/mrna-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "we and Merck will collaborate on further development and commercialization of mRNA-4157, and we will share costs and any profits and losses worldwide related to mRNA-4157 equally",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1682852/000168285226000033/mrna-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-20",
+    "shared_evidence_group": "ev_308e6fc138ed"
+  },
+  {
+    "root_ticker": "MRNA",
+    "counterparty_name": "Recordati",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "clinical development and commercialization collaboration",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.93,
+    "evidence": [
+      {
+        "quote": "we entered into a strategic collaboration with Recordati, an international pharmaceutical group, to advance mRNA-3927 through the final stages of clinical development",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1682852/000168285226000033/mrna-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "in January 2026, we entered into a collaboration with Recordati, an international pharmaceutical group, to advance our investigational PA therapeutic (mRNA-3927) through the final stages of clinical development",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1682852/000168285226000033/mrna-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-20",
+    "shared_evidence_group": "ev_04a3c053f6c3"
+  },
+  {
+    "root_ticker": "MRNA",
+    "counterparty_name": "Blackstone Life Sciences",
+    "counterparty_ticker": null,
+    "counterparty_type": "investment_firm",
+    "category": "partner",
+    "subtype": "project financing collaboration",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.75,
+    "evidence": [
+      {
+        "quote": "funded by project financing through Blackstone Life Sciences, a collaboration we announced in 2024",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1682852/000168285226000033/mrna-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-20",
+    "shared_evidence_group": "ev_339af585c9b8"
+  },
+  {
+    "root_ticker": "MRNA",
+    "counterparty_name": "CEPI",
+    "counterparty_ticker": null,
+    "counterparty_type": "other",
+    "category": "partner",
+    "subtype": "clinical trial funding collaboration",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.85,
+    "evidence": [
+      {
+        "quote": "In December 2025, CEPI agreed to invest up to $54.3 million to support a pivotal Phase 3 clinical trial that aims to help advance our investigational mRNA-based H5 pandemic influenza vaccine candidate, mRNA-1018, to licensure.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1682852/000168285226000033/mrna-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "the Coalition for Epidemic Preparedness Innovations (CEPI) will invest up to $54.3 million to support a pivotal Phase 3 clinical trial",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1682852/000168285226000033/mrna-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-20",
+    "shared_evidence_group": "ev_0cb52210c075"
+  },
+  {
+    "root_ticker": "MRNA",
+    "counterparty_name": "Gates Foundation",
+    "counterparty_ticker": null,
+    "counterparty_type": "other",
+    "category": "partner",
+    "subtype": "global health project funding framework agreement",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.94,
+    "evidence": [
+      {
+        "quote": "In January 2016, we entered a global health project framework agreement with the Bill & Melinda Gates Foundation (n/k/a the Gates Foundation) to advance mRNA development projects for various infectious diseases.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1682852/000168285226000033/mrna-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "In collaboration with the Gates Foundation, International AIDS Vaccine Initiative (IAVI), The Scripps Research Institute and the National Institutes of Health (NIH), Phase 1 studies of previous versions of our HIV vaccine have been completed",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1682852/000168285226000033/mrna-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "we entered a global health project framework agreement with the Bill & Melinda Gates Foundation (n/k/a the Gates Foundation) to advance mRNA development projects for various infectious diseases",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1682852/000168285226000033/mrna-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-20",
+    "shared_evidence_group": "ev_cdb647f0cf57"
+  },
+  {
+    "root_ticker": "MRNA",
+    "counterparty_name": "IAVI",
+    "counterparty_ticker": null,
+    "counterparty_type": "other",
+    "category": "partner",
+    "subtype": "vaccine R&D collaboration",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "In collaboration with the Gates Foundation, International AIDS Vaccine Initiative (IAVI), The Scripps Research Institute and the National Institutes of Health (NIH), Phase 1 studies of previous versions of our HIV vaccine have been completed",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1682852/000168285226000033/mrna-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-20",
+    "shared_evidence_group": "ev_2b84a9a7f6a2"
+  },
+  {
+    "root_ticker": "MRNA",
+    "counterparty_name": "The Scripps Research Institute",
+    "counterparty_ticker": null,
+    "counterparty_type": "academic research institute",
+    "category": "partner",
+    "subtype": "HIV vaccine research collaboration",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.75,
+    "evidence": [
+      {
+        "quote": "In collaboration with the Gates Foundation, International AIDS Vaccine Initiative (IAVI), The Scripps Research Institute and the National Institutes of Health (NIH), Phase 1 studies of previous versions of our HIV vaccine have been completed",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1682852/000168285226000033/mrna-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-20",
+    "shared_evidence_group": "ev_2b84a9a7f6a2"
+  },
+  {
+    "root_ticker": "MRNA",
+    "counterparty_name": "National Institutes of Health (NIH)",
+    "counterparty_ticker": null,
+    "counterparty_type": "government research agency",
+    "category": "partner",
+    "subtype": "HIV vaccine Phase 1 research collaboration",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.65,
+    "evidence": [
+      {
+        "quote": "In collaboration with the Gates Foundation, International AIDS Vaccine Initiative (IAVI), The Scripps Research Institute and the National Institutes of Health (NIH), Phase 1 studies of previous versions of our HIV vaccine have been completed",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1682852/000168285226000033/mrna-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-20",
+    "shared_evidence_group": "ev_2b84a9a7f6a2"
+  },
+  {
+    "root_ticker": "MRNA",
+    "counterparty_name": "Immatics",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "cell therapy enhancer collaboration",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "mRNA-4203 is being developed in collaboration with Immatics",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1682852/000168285226000033/mrna-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "our collaboration with Immatics N.V. to pioneer novel and transformative therapies for cancer patients with high unmet medical need",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1682852/000168285226000033/mrna-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-20",
+    "shared_evidence_group": "ev_68b407342de4"
+  },
+  {
+    "root_ticker": "MRNA",
+    "counterparty_name": "NIH-Vaccine Research Center",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "partner",
+    "subtype": "clinical trial collaboration",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.85,
+    "evidence": [
+      {
+        "quote": "In collaboration with the NIH-Vaccine Research Center (VRC), we conducted a Phase 1 clinical trial of mRNA-1215, our vaccine candidate against NiV",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1682852/000168285226000033/mrna-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-20",
+    "shared_evidence_group": "ev_ae021dc12f08"
+  },
+  {
+    "root_ticker": "MRNA",
+    "counterparty_name": "NIAID",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "partner",
+    "subtype": "trial sponsorship and funding",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.88,
+    "evidence": [
+      {
+        "quote": "The trial was sponsored and funded by the National Institute of Allergy and Infectious Diseases (NIAID).",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1682852/000168285226000033/mrna-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "our agreements funded by BARDA and DARPA and our collaboration with NIAID, and with foreign governments and agencies, including in the United Kingdom, Canada and Australia",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1682852/000168285226000033/mrna-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-20",
+    "shared_evidence_group": "ev_ec319126c625"
+  },
+  {
+    "root_ticker": "MRNA",
+    "counterparty_name": "Vertex",
+    "counterparty_ticker": "VERX",
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "cystic fibrosis therapy collaboration",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "We are collaborating with Vertex on our CF candidate, mRNA-3692/VX-522, which is designed to treat the underlying cause of CF",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1682852/000168285226000033/mrna-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "Representative relationships and associated programs include those with Merck, for our intismeran programs (mRNA-4157), and Vertex, for our CF program (mRNA-3692).",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1682852/000168285226000033/mrna-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-20",
+    "shared_evidence_group": "ev_e511458d667b"
+  },
+  {
+    "root_ticker": "MRNA",
+    "counterparty_name": "BARDA",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "partner",
+    "subtype": "government development funding award",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.93,
+    "evidence": [
+      {
+        "quote": "In April 2020, we entered into an agreement with BARDA for an award of up to $483 million to accelerate development of mRNA-1273, our original COVID vaccine.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1682852/000168285226000033/mrna-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-20",
+    "shared_evidence_group": "ev_7384cd438b32"
+  },
+  {
+    "root_ticker": "MRNA",
+    "counterparty_name": "ILCM",
+    "counterparty_ticker": null,
+    "counterparty_type": "other",
+    "category": "partner",
+    "subtype": "therapeutic development and license collaboration",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "In September 2021, we entered into a collaboration agreement with the ILCM to develop a new mRNA therapeutic (mRNA-3351) for type 1 Crigler-Najjar syndrome (CN-1).",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1682852/000168285226000033/mrna-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-20",
+    "shared_evidence_group": "ev_4c755a1c1816"
+  },
+  {
+    "root_ticker": "MRNA",
+    "counterparty_name": "United Kingdom",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "customer",
+    "subtype": "government purchase commitment for mRNA products",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.85,
+    "evidence": [
+      {
+        "quote": "in the United Kingdom, Canada and Australia. The se facilities were fully licensed in 2025, and the government in each of these countries has entered into a multi-year commitment to purchase mRNA products from us.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1682852/000168285226000033/mrna-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "our agreements funded by BARDA and DARPA and our collaboration with NIAID, and with foreign governments and agencies, including in the United Kingdom, Canada and Australia",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1682852/000168285226000033/mrna-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-20",
+    "shared_evidence_group": "ev_1b3a27a274d3"
+  },
+  {
+    "root_ticker": "MRNA",
+    "counterparty_name": "Canada",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "customer",
+    "subtype": "government purchase commitment for mRNA products",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "in the United Kingdom, Canada and Australia. The se facilities were fully licensed in 2025, and the government in each of these countries has entered into a multi-year commitment to purchase mRNA products from us.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1682852/000168285226000033/mrna-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "our agreements funded by BARDA and DARPA and our collaboration with NIAID, and with foreign governments and agencies, including in the United Kingdom, Canada and Australia",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1682852/000168285226000033/mrna-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-20",
+    "shared_evidence_group": "ev_1b3a27a274d3"
+  },
+  {
+    "root_ticker": "MRNA",
+    "counterparty_name": "Australia",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "customer",
+    "subtype": "government purchase commitment for mRNA products",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "in the United Kingdom, Canada and Australia. The se facilities were fully licensed in 2025, and the government in each of these countries has entered into a multi-year commitment to purchase mRNA products from us.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1682852/000168285226000033/mrna-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "our agreements funded by BARDA and DARPA and our collaboration with NIAID, and with foreign governments and agencies, including in the United Kingdom, Canada and Australia",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1682852/000168285226000033/mrna-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-20",
+    "shared_evidence_group": "ev_1b3a27a274d3"
+  },
+  {
+    "root_ticker": "MRNA",
+    "counterparty_name": "Cellscript",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "supplier",
+    "subtype": "patent sublicense agreement (royalty-bearing)",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "granted its affiliate, Cellscript, LLC (Cellscript), a sublicense to the Penn Modified mRNA Patents in certain fields of use",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1682852/000168285226000033/mrna-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-20",
+    "shared_evidence_group": "ev_562350f85f46"
+  },
+  {
+    "root_ticker": "MRNA",
+    "counterparty_name": "MRT",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "supplier",
+    "subtype": "patent sublicense agreement (royalty-bearing)",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.75,
+    "evidence": [
+      {
+        "quote": "mRNA RiboTherapeutics, Inc. (MRT) obtained an exclusive license to the Penn Modified mRNA Patents and granted its affiliate, Cellscript, LLC (Cellscript), a sublicense",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1682852/000168285226000033/mrna-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-20",
+    "shared_evidence_group": "ev_97fbe52e4358"
+  },
+  {
+    "root_ticker": "MRNA",
+    "counterparty_name": "NIAID",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "supplier",
+    "subtype": "patent license agreement (royalty-bearing)",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "we entered into a non-exclusive patent license agreement with the National Institute of Allergy and Infectious Diseases (NIAID), an Institute or Center of the National Institutes of Health (NIH)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1682852/000168285226000033/mrna-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-20",
+    "shared_evidence_group": "ev_8d0596626fa0"
+  },
+  {
+    "root_ticker": "MRNA",
+    "counterparty_name": "Pfizer",
+    "counterparty_ticker": "PFE",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "COVID vaccine competitor",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.98,
+    "evidence": [
+      {
+        "quote": "We largely compete against Pfizer and BioNTech for sales of our COVID vaccines, whose vaccine is also based on mRNA technology.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1682852/000168285226000033/mrna-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "we compete with larger, well-established and experienced pharmaceutical companies for sales of our products, including against Pfizer and Sanofi for sales of our COVID vaccines",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1682852/000168285226000033/mrna-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "and Pfizer and GSK for our RSV vaccine",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1682852/000168285226000033/mrna-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-20",
+    "shared_evidence_group": "ev_06b7e28fade5"
+  },
+  {
+    "root_ticker": "MRNA",
+    "counterparty_name": "BioNTech",
+    "counterparty_ticker": "BNTX",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "COVID vaccine competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "We largely compete against Pfizer and BioNTech for sales of our COVID vaccines, whose vaccine is also based on mRNA technology.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1682852/000168285226000033/mrna-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-20",
+    "shared_evidence_group": "ev_06b7e28fade5"
+  },
+  {
+    "root_ticker": "MRNA",
+    "counterparty_name": "GlaxoSmithKline",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "RSV vaccine competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.97,
+    "evidence": [
+      {
+        "quote": "we compete against Pfizer and GlaxoSmithKline, who entered the U.S. market prior to us",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1682852/000168285226000033/mrna-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-20",
+    "shared_evidence_group": "ev_8f1df9301e94"
+  },
+  {
+    "root_ticker": "MRNA",
+    "counterparty_name": "Sanofi",
+    "counterparty_ticker": "SNY",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "COVID vaccine competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.97,
+    "evidence": [
+      {
+        "quote": "we compete with larger, well-established and experienced pharmaceutical companies for sales of our products, including against Pfizer and Sanofi for sales of our COVID vaccines",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1682852/000168285226000033/mrna-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-20",
+    "shared_evidence_group": "ev_f8dca0c83f37"
+  },
+  {
+    "root_ticker": "MRNA",
+    "counterparty_name": "GSK",
+    "counterparty_ticker": "GSK",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "RSV vaccine competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.97,
+    "evidence": [
+      {
+        "quote": "and Pfizer and GSK for our RSV vaccine",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1682852/000168285226000033/mrna-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-20",
+    "shared_evidence_group": "ev_968418182177"
+  },
+  {
+    "root_ticker": "MRNA",
+    "counterparty_name": "BARDA",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "partner",
+    "subtype": "government-funded joint development agreement",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.7,
+    "evidence": [
+      {
+        "quote": "our agreements funded by BARDA and DARPA and our collaboration with NIAID, and with foreign governments and agencies, including in the United Kingdom, Canada and Australia",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1682852/000168285226000033/mrna-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-20",
+    "shared_evidence_group": "ev_63ce85591403"
+  },
+  {
+    "root_ticker": "MRNA",
+    "counterparty_name": "DARPA",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "customer",
+    "subtype": "government-funded research and development contract",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.72,
+    "evidence": [
+      {
+        "quote": "our agreements funded by BARDA and DARPA and our collaboration with NIAID, and with foreign governments and agencies, including in the United Kingdom, Canada and Australia",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1682852/000168285226000033/mrna-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-20",
+    "shared_evidence_group": "ev_63ce85591403"
+  },
+  {
+    "root_ticker": "MRNA",
+    "counterparty_name": "Gavi",
+    "counterparty_ticker": null,
+    "counterparty_type": "other",
+    "category": "partner",
+    "subtype": "patent non-enforcement commitment for global vaccine access",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.75,
+    "evidence": [
+      {
+        "quote": "we will not enforce our patents for COVID vaccines against companies manufacturing in or for the Gavi COVAX Advance Market Commitment (AMC) countries",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1682852/000168285226000033/mrna-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-20",
+    "shared_evidence_group": "ev_3a6126db580c"
+  },
+  {
+    "root_ticker": "MRNA",
+    "counterparty_name": "Ares Capital Corporation",
+    "counterparty_ticker": null,
+    "counterparty_type": "financial_institution",
+    "category": "partner",
+    "subtype": "lender / administrative agent under credit agreement",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.6,
+    "evidence": [
+      {
+        "quote": "our credit agreement with lenders led by Ares Capital Corporation, as administrative agent, could result in an event of default",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1682852/000168285226000033/mrna-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-20",
+    "shared_evidence_group": "ev_1517d42defea"
+  }
+]

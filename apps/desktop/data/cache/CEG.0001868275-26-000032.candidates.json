@@ -1,0 +1,501 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 151949,
+  "chunks": 7,
+  "candidates": [
+    {
+      "counterparty_name": "Microsoft",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "power_purchase_agreement",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In September 2024, we executed a 20-year PPA with Microsoft that will support the restart of Three Mile Island Unit 1, renamed as the Crane Clean Energy Center",
+      "evidence_quotes": [
+        "In September 2024, we executed a 20-year PPA with Microsoft that will support the restart of Three Mile Island Unit 1, renamed as the Crane Clean Energy Center"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "PSEG Nuclear, LLC",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "operations_partner",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We operate all of our nuclear generating stations, except for the units at Salem and STP, which are operated by PSEG Nuclear, LLC (an indirect, wholly owned subsidiary of PSEG)",
+      "evidence_quotes": [
+        "We operate all of our nuclear generating stations, except for the units at Salem and STP, which are operated by PSEG Nuclear, LLC (an indirect, wholly owned subsidiary of PSEG)"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "STPNOC",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "operations_partner",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We operate all of our nuclear generating stations, except for the units at Salem and STP, which are operated by PSEG Nuclear, LLC (an indirect, wholly owned subsidiary of PSEG) and STPNOC, respectively.",
+      "evidence_quotes": [
+        "We operate all of our nuclear generating stations, except for the units at Salem and STP, which are operated by PSEG Nuclear, LLC (an indirect, wholly owned subsidiary of PSEG) and STPNOC, respectively."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "NextEra Energy Resources LLC",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "operations_partner",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We wholly own all our natural gas and oil facilities except for Wyman, which is operated by the principal owner, NextEra Energy Resources LLC, a subsidiary of NextEra Energy, Inc.",
+      "evidence_quotes": [
+        "We wholly own all our natural gas and oil facilities except for Wyman, which is operated by the principal owner, NextEra Energy Resources LLC, a subsidiary of NextEra Energy, Inc."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "NRC",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_licensing",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "All of our nuclear units were originally licensed by the NRC for 40 years and have since received 20-year operating license renewals.",
+      "evidence_quotes": [
+        "All of our nuclear units were originally licensed by the NRC for 40 years and have since received 20-year operating license renewals."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "FERC",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_licensing",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "FERC has the exclusive authority to license most non-federal hydropower projects located on navigable waterways or federal lands, or connected to the interstate electrical grid",
+      "evidence_quotes": [
+        "FERC has the exclusive authority to license most non-federal hydropower projects located on navigable waterways or federal lands, or connected to the interstate electrical grid"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "DOE Office of Energy Dominance Financing",
+      "counterparty_type": "government",
+      "category": "supplier",
+      "subtype": "loan_guarantee",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In November 2025, the DOE Office of Energy Dominance Financing issued a guarantee for up to $1.0 billion as an unsecured loan to support the restart of the Crane Clean Energy Center.",
+      "evidence_quotes": [
+        "In November 2025, the DOE Office of Energy Dominance Financing issued a guarantee for up to $1.0 billion as an unsecured loan to support the restart of the Crane Clean Energy Center."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "MDE",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_approval",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In September 2025, we reached a settlement agreement with MDE, Lower Susquehanna Riverkeeper Association, and Waterkeepers Chesapeake which allows us to move forward with resubmitting the license application with FERC.",
+      "evidence_quotes": [
+        "In September 2025, we reached a settlement agreement with MDE, Lower Susquehanna Riverkeeper Association, and Waterkeepers Chesapeake which allows us to move forward with resubmitting the license application with FERC."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "PJM",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "regional transmission organization",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "RTOs and ISOs are FERC-regulated entities that exist in several regions to provide transmission service across multiple transmission systems. FERC has approved PJM, MISO, ISO-NE, and SPP as RTOs",
+      "evidence_quotes": [
+        "RTOs and ISOs are FERC-regulated entities that exist in several regions to provide transmission service across multiple transmission systems. FERC has approved PJM, MISO, ISO-NE, and SPP as RTOs"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "MISO",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "regional transmission organization",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "RTOs and ISOs are FERC-regulated entities that exist in several regions to provide transmission service across multiple transmission systems. FERC has approved PJM, MISO, ISO-NE, and SPP as RTOs",
+      "evidence_quotes": [
+        "RTOs and ISOs are FERC-regulated entities that exist in several regions to provide transmission service across multiple transmission systems. FERC has approved PJM, MISO, ISO-NE, and SPP as RTOs"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "ISO-NE",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "regional transmission organization",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "RTOs and ISOs are FERC-regulated entities that exist in several regions to provide transmission service across multiple transmission systems. FERC has approved PJM, MISO, ISO-NE, and SPP as RTOs",
+      "evidence_quotes": [
+        "RTOs and ISOs are FERC-regulated entities that exist in several regions to provide transmission service across multiple transmission systems. FERC has approved PJM, MISO, ISO-NE, and SPP as RTOs"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "SPP",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "regional transmission organization",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "RTOs and ISOs are FERC-regulated entities that exist in several regions to provide transmission service across multiple transmission systems. FERC has approved PJM, MISO, ISO-NE, and SPP as RTOs",
+      "evidence_quotes": [
+        "RTOs and ISOs are FERC-regulated entities that exist in several regions to provide transmission service across multiple transmission systems. FERC has approved PJM, MISO, ISO-NE, and SPP as RTOs"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "CAISO",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "independent system operator",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "FERC has approved PJM, MISO, ISO-NE, and SPP as RTOs and CAISO and NYISO as ISOs.",
+      "evidence_quotes": [
+        "FERC has approved PJM, MISO, ISO-NE, and SPP as RTOs and CAISO and NYISO as ISOs."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "NYISO",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "independent system operator",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "FERC has approved PJM, MISO, ISO-NE, and SPP as RTOs and CAISO and NYISO as ISOs.",
+      "evidence_quotes": [
+        "FERC has approved PJM, MISO, ISO-NE, and SPP as RTOs and CAISO and NYISO as ISOs."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "ERCOT",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "independent system operator",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "ERCOT is not subject to regulation by FERC but performs a similar function in Texas to that performed by RTOs and ISOs in markets regulated by FERC.",
+      "evidence_quotes": [
+        "ERCOT is not subject to regulation by FERC but performs a similar function in Texas to that performed by RTOs and ISOs in markets regulated by FERC."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Calpine",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "acquisition target",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "This strategy was realized, in part, with the acquisition of Calpine, a combination that brings together premier nuclear, natural gas, and geothermal fleets with a leading commercial platform",
+      "evidence_quotes": [
+        "This strategy was realized, in part, with the acquisition of Calpine, a combination that brings together premier nuclear, natural gas, and geothermal fleets with a leading commercial platform"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Microsoft",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "power_purchase_agreement",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Recent examples include the PPA with Microsoft that will support the restart of Crane",
+      "evidence_quotes": [
+        "Recent examples include the PPA with Microsoft that will support the restart of Crane"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Meta",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "power_purchase_agreement",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the PPA with Meta for the output of Clinton which supports Meta's clean energy goals and the continued operations of Clinton",
+      "evidence_quotes": [
+        "the PPA with Meta for the output of Clinton which supports Meta's clean energy goals and the continued operations of Clinton"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Google",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "data_center_customer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "driven by widespread adoption of AI technologies and large-scale infrastructure investments by major hyperscalers such as Microsoft, Google, Meta, and Amazon",
+      "evidence_quotes": [
+        "driven by widespread adoption of AI technologies and large-scale infrastructure investments by major hyperscalers such as Microsoft, Google, Meta, and Amazon"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Amazon",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "data_center_customer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "driven by widespread adoption of AI technologies and large-scale infrastructure investments by major hyperscalers such as Microsoft, Google, Meta, and Amazon",
+      "evidence_quotes": [
+        "driven by widespread adoption of AI technologies and large-scale infrastructure investments by major hyperscalers such as Microsoft, Google, Meta, and Amazon"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Calpine",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "acquisition_target",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "This strategy was realized, in part, with the acquisition of Calpine, a combination that brings together premier nuclear, natural gas, and geothermal fleets",
+      "evidence_quotes": [
+        "This strategy was realized, in part, with the acquisition of Calpine, a combination that brings together premier nuclear, natural gas, and geothermal fleets"
+      ],
+      "confidence": 0.7,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "DOE",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "spent_nuclear_fuel_disposal",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "For a discussion of matters associated with our contracts with the DOE for the disposal of SNF",
+      "evidence_quotes": [
+        "For a discussion of matters associated with our contracts with the DOE for the disposal of SNF"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "NRC",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_licensing",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "There are no facilities for the reprocessing or permanent disposal of SNF currently in operation in the United States, nor has the NRC licensed any such facilities.",
+      "evidence_quotes": [
+        "There are no facilities for the reprocessing or permanent disposal of SNF currently in operation in the United States, nor has the NRC licensed any such facilities."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "PJM",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "wholesale_market_operator",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "PJM is considering market rule changes as part of its stakeholder process",
+      "evidence_quotes": [
+        "PJM is considering market rule changes as part of its stakeholder process"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "PJM",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "grid_operator",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Approximately 70% of our generating resources, which include directly owned assets and capacity obtained through long-term contracts, are in the area encompassed by PJM.",
+      "evidence_quotes": [
+        "Approximately 70% of our generating resources, which include directly owned assets and capacity obtained through long-term contracts, are in the area encompassed by PJM."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "FERC",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_infrastructure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our future results of operations are impacted by (1) FERC's and PJM's level of support for policies that favor the preservation of competitive wholesale power markets",
+      "evidence_quotes": [
+        "Our future results of operations are impacted by (1) FERC's and PJM's level of support for policies that favor the preservation of competitive wholesale power markets"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "NRC",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_infrastructure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We are also subject to certain financial requirements under NRC regulations as a result of our operation of nuclear power plants",
+      "evidence_quotes": [
+        "We are also subject to certain financial requirements under NRC regulations as a result of our operation of nuclear power plants"
+      ],
+      "confidence": 0.93,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "NERC",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "regulatory_infrastructure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We, as a user of the bulk power transmission system, are subject to mandatory reliability standards promulgated by NERC and enforced by FERC.",
+      "evidence_quotes": [
+        "We, as a user of the bulk power transmission system, are subject to mandatory reliability standards promulgated by NERC and enforced by FERC."
+      ],
+      "confidence": 0.94,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "DOE",
+      "counterparty_type": "government",
+      "category": "partner",
+      "subtype": "technology_development",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Calpine has completed or commenced front-end engineering design studies for post-combustion CCUS technology and has also received funding from the DOE for certain geothermal drilling technologies",
+      "evidence_quotes": [
+        "Calpine has completed or commenced front-end engineering design studies for post-combustion CCUS technology and has also received funding from the DOE for certain geothermal drilling technologies"
+      ],
+      "confidence": 0.88,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Calpine",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "acquisition_target",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We expect to have a significant goodwill balance following the acquisition of Calpine in January 2026.",
+      "evidence_quotes": [
+        "We expect to have a significant goodwill balance following the acquisition of Calpine in January 2026."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "NEIL",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "insurance_provider",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We are a member of an industry mutual insurance company, NEIL, which provides property and accidental outage insurance for our nuclear operations.",
+      "evidence_quotes": [
+        "We are a member of an industry mutual insurance company, NEIL, which provides property and accidental outage insurance for our nuclear operations."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "PECO",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "utility_customer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We have recourse to collect additional amounts from utility customers through PECO (subject to certain limitations and thresholds) for former PECO units",
+      "evidence_quotes": [
+        "We have recourse to collect additional amounts from utility customers through PECO (subject to certain limitations and thresholds) for former PECO units"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "CenterPoint",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "utility_customer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We have recourse to collect additional amounts from utility customers through PECO (subject to certain limitations and thresholds) for former PECO units and through CenterPoint and AEP Texas for STP units.",
+      "evidence_quotes": [
+        "We have recourse to collect additional amounts from utility customers through PECO (subject to certain limitations and thresholds) for former PECO units and through CenterPoint and AEP Texas for STP units."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "AEP Texas",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "utility_customer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We have recourse to collect additional amounts from utility customers through PECO (subject to certain limitations and thresholds) for former PECO units and through CenterPoint and AEP Texas for STP units.",
+      "evidence_quotes": [
+        "We have recourse to collect additional amounts from utility customers through PECO (subject to certain limitations and thresholds) for former PECO units and through CenterPoint and AEP Texas for STP units."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "NRC",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_infrastructure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "NRC regulations require that licensees of nuclear generating facilities demonstrate reasonable assurance that funds will be available in certain minimum amounts at the end of the life of the facility to decommission the facility.",
+      "evidence_quotes": [
+        "NRC regulations require that licensees of nuclear generating facilities demonstrate reasonable assurance that funds will be available in certain minimum amounts at the end of the life of the facility to decommission the facility."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "FERC",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "it is possible that FERC, state public utility commissions, or others could limit our ability to make acquisitions or investments",
+      "evidence_quotes": [
+        "it is possible that FERC, state public utility commissions, or others could limit our ability to make acquisitions or investments"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "NRC",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The restart is subject to certain regulatory approvals, including the NRC comprehensive safety and environmental review",
+      "evidence_quotes": [
+        "The restart is subject to certain regulatory approvals, including the NRC comprehensive safety and environmental review"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 6
+    }
+  ],
+  "candidatesPerChunk": [
+    8,
+    8,
+    5,
+    3,
+    6,
+    5,
+    2
+  ],
+  "parseErrors": 0,
+  "apiErrors": 0,
+  "inputTokens": 36193,
+  "outputTokens": 3785
+}

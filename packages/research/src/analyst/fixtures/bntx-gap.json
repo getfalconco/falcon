@@ -1,0 +1,343 @@
+{
+ "recorded_at": "2026-08-21",
+ "incident": {
+  "incident_id": "f1b8fdcb-d702-447a-a792-6944ac6ddf3a",
+  "ticker": "BNTX",
+  "trigger_type": "organic",
+  "window_start": "2026-08-21T16:18:06.317Z",
+  "window_end": null,
+  "window_status": "open",
+  "composite_tags": [],
+  "priority": 48,
+  "priority_band": "P1",
+  "degraded_context": false,
+  "discovery_floor_applied": false,
+  "earnings_absorption": false,
+  "messages": [
+   {
+    "id": "53ccda76-5a0d-41a0-a2b9-c9504fce5a7d",
+    "schema_version": 1,
+    "type": "gap_event",
+    "ticker": "BNTX",
+    "timestamp": "2026-08-21T16:18:06.317Z",
+    "source_engine": "tracker",
+    "context_flags": [],
+    "quant_context": {
+     "beta_90d": 0.23555219857963386,
+     "r_squared": 0.004044017079733453,
+     "daily_vol_30d": 0.01469685591186054,
+     "vol_regime": 0.8021429720460558,
+     "move_today": 0.04883218455525418,
+     "move_zscore": 3.3226279721396748,
+     "residual_move": 0.047789713147363785,
+     "residual_zscore": 2.720481529809042,
+     "volume_ratio": 1.8157136534631555,
+     "volume_ratio_partial": true,
+     "momentum_5d": 0.20375592795738195,
+     "momentum_20d": 0.2075574123766175,
+     "momentum_60d": 0.2034946833536282,
+     "pct_from_52w_high": -0.07080607681868434,
+     "pct_from_52w_low": 0.3218500440629595,
+     "earnings_rhythm": null,
+     "prev_close": 110.88999938964844,
+     "last_price": 116.30500030517578,
+     "price_asof": "2026-08-21T16:18:56.000Z",
+     "session": "regular"
+    },
+    "payload": {
+     "gap_pct": -0.03596181660789388,
+     "gap_z": -6.587465655378493,
+     "direction": "down",
+     "prev_close": 113.12000274658203,
+     "open_price": 109.052001953125
+    }
+   },
+   {
+    "id": "5ee66d3d-5445-4a87-bea7-71e4bff9dd8d",
+    "schema_version": 1,
+    "type": "scheduled_event",
+    "ticker": "BNTX",
+    "timestamp": "2026-08-21T17:47:14.122Z",
+    "source_engine": "tracker",
+    "context_flags": [],
+    "quant_context": {
+     "beta_90d": 0.23555219857963386,
+     "r_squared": 0.004044017079733453,
+     "daily_vol_30d": 0.01469685591186054,
+     "vol_regime": 0.8021429720460558,
+     "move_today": 0.041572735465105426,
+     "move_zscore": 2.8286822511171064,
+     "residual_move": 0.04060130052033951,
+     "residual_zscore": 2.3112733029221557,
+     "volume_ratio": 2.1396149590617393,
+     "volume_ratio_partial": true,
+     "momentum_5d": 0.20375592795738195,
+     "momentum_20d": 0.2075574123766175,
+     "momentum_60d": 0.2034946833536282,
+     "pct_from_52w_high": -0.07080607681868434,
+     "pct_from_52w_low": 0.3218500440629595,
+     "earnings_rhythm": null,
+     "prev_close": 110.88999938964844,
+     "last_price": 115.5,
+     "price_asof": "2026-08-21T17:46:48.000Z",
+     "session": "regular"
+    },
+    "payload": {
+     "event_type": "earnings",
+     "due_at": "2026-11-03T20:00:00.000Z",
+     "fiscal_period": "Q3 2026",
+     "earnings_rhythm": null,
+     "rescheduled": false,
+     "previous_due_at": null
+    }
+   },
+   {
+    "id": "e7dcf9ef-860f-4096-a619-c3ffb9319300",
+    "schema_version": 1,
+    "type": "scheduled_event",
+    "ticker": "BNTX",
+    "timestamp": "2026-08-21T17:47:14.122Z",
+    "source_engine": "tracker",
+    "context_flags": [],
+    "quant_context": {
+     "beta_90d": 0.23555219857963386,
+     "r_squared": 0.004044017079733453,
+     "daily_vol_30d": 0.01469685591186054,
+     "vol_regime": 0.8021429720460558,
+     "move_today": 0.041572735465105426,
+     "move_zscore": 2.8286822511171064,
+     "residual_move": 0.04060130052033951,
+     "residual_zscore": 2.3112733029221557,
+     "volume_ratio": 2.1396149590617393,
+     "volume_ratio_partial": true,
+     "momentum_5d": 0.20375592795738195,
+     "momentum_20d": 0.2075574123766175,
+     "momentum_60d": 0.2034946833536282,
+     "pct_from_52w_high": -0.07080607681868434,
+     "pct_from_52w_low": 0.3218500440629595,
+     "earnings_rhythm": null,
+     "prev_close": 110.88999938964844,
+     "last_price": 115.5,
+     "price_asof": "2026-08-21T17:46:48.000Z",
+     "session": "regular"
+    },
+    "payload": {
+     "event_type": "earnings",
+     "due_at": "2027-03-08T20:00:00.000Z",
+     "fiscal_period": "Q4 2026",
+     "earnings_rhythm": null,
+     "rescheduled": false,
+     "previous_due_at": null
+    }
+   },
+   {
+    "id": "79b957e9-c06b-4c5f-8625-107c948ae306",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "BNTX",
+    "timestamp": "2026-08-21T18:40:37.281Z",
+    "source_engine": "tracker",
+    "context_flags": [],
+    "quant_context": {
+     "beta_90d": 0.23555219857963386,
+     "r_squared": 0.004044017079733453,
+     "daily_vol_30d": 0.01469685591186054,
+     "vol_regime": 0.8021429720460558,
+     "move_today": 0.03129228280099583,
+     "move_zscore": 2.1291821181796156,
+     "residual_move": 0.030430494371498452,
+     "residual_zscore": 1.7322890728668505,
+     "volume_ratio": 2.3644290772294756,
+     "volume_ratio_partial": true,
+     "momentum_5d": 0.20375592795738195,
+     "momentum_20d": 0.2075574123766175,
+     "momentum_60d": 0.2034946833536282,
+     "pct_from_52w_high": -0.07080607681868434,
+     "pct_from_52w_low": 0.3218500440629595,
+     "earnings_rhythm": null,
+     "prev_close": 110.88999938964844,
+     "last_price": 114.36000061035156,
+     "price_asof": "2026-08-21T18:40:38.000Z",
+     "session": "regular"
+    },
+    "payload": {
+     "headline": "Why Is Arbutus Biopharma Stock Gaining Friday?",
+     "source": "Benzinga",
+     "published_at": "2026-08-21T12:36:10.000Z",
+     "article_id": "141271592"
+    }
+   },
+   {
+    "id": "8f82cdbf-a419-4812-9bc5-823bacfc4c85",
+    "schema_version": 1,
+    "type": "unexplained_move",
+    "ticker": "BNTX",
+    "timestamp": "2026-08-21T20:00:42.910Z",
+    "source_engine": "tracker",
+    "context_flags": [],
+    "quant_context": {
+     "beta_90d": 0.2211169164847852,
+     "r_squared": 0.0033801352229571036,
+     "daily_vol_30d": 0.015484708776631901,
+     "vol_regime": 0.8623908265945758,
+     "move_today": 0.051221934677961656,
+     "move_zscore": 3.3079042955758453,
+     "residual_move": 0.05034627584259289,
+     "residual_zscore": 2.8470676852039962,
+     "volume_ratio": 2.9987854039055546,
+     "volume_ratio_partial": false,
+     "momentum_5d": 0.25222907165779396,
+     "momentum_20d": 0.30493672120691495,
+     "momentum_60d": 0.25344085693359375,
+     "pct_from_52w_high": -0.023210966382332,
+     "pct_from_52w_low": 0.38955776067401326,
+     "earnings_rhythm": null,
+     "prev_close": 110.88999938964844,
+     "last_price": 116.56999969482422,
+     "price_asof": "2026-08-21T20:00:00.000Z",
+     "session": "closed"
+    },
+    "payload": {
+     "residual_zscore": 3.3079042955758453,
+     "measure_used": "move_zscore",
+     "direction": "up",
+     "volume_ratio": 2.9987854039055546,
+     "news_items_since_prev_close": 1,
+     "catch_up": false
+    }
+   }
+  ],
+  "quant_context": {
+   "beta_90d": 0.2211169164847852,
+   "r_squared": 0.0033801352229571036,
+   "daily_vol_30d": 0.015484708776631901,
+   "vol_regime": 0.8623908265945758,
+   "move_today": 0.051221934677961656,
+   "move_zscore": 3.3079042955758453,
+   "residual_move": 0.05034627584259289,
+   "residual_zscore": 2.8470676852039962,
+   "volume_ratio": 2.9987854039055546,
+   "volume_ratio_partial": false,
+   "momentum_5d": 0.25222907165779396,
+   "momentum_20d": 0.30493672120691495,
+   "momentum_60d": 0.25344085693359375,
+   "pct_from_52w_high": -0.023210966382332,
+   "pct_from_52w_low": 0.38955776067401326,
+   "earnings_rhythm": null,
+   "prev_close": 110.88999938964844,
+   "last_price": 116.56999969482422,
+   "price_asof": "2026-08-21T20:00:00.000Z",
+   "session": "closed"
+  },
+  "user_proximity": "tracked",
+  "related_incident_id": null,
+  "propagation_candidates": []
+ },
+ "routing": {
+  "destinations": [
+   {
+    "destination": "analyst",
+    "rules": [
+     "gap_event.analyst",
+     "unexplained_move.analyst"
+    ],
+    "message_ids": [
+     "53ccda76-5a0d-41a0-a2b9-c9504fce5a7d",
+     "8f82cdbf-a419-4812-9bc5-823bacfc4c85"
+    ]
+   },
+   {
+    "destination": "scheduler",
+    "rules": [
+     "scheduled_event"
+    ],
+    "message_ids": [
+     "5ee66d3d-5445-4a87-bea7-71e4bff9dd8d",
+     "e7dcf9ef-860f-4096-a619-c3ffb9319300"
+    ]
+   },
+   {
+    "destination": "classifier",
+    "rules": [
+     "news_item"
+    ],
+    "message_ids": [
+     "79b957e9-c06b-4c5f-8625-107c948ae306"
+    ]
+   }
+  ],
+  "store_only": false,
+  "per_message": [
+   {
+    "message_id": "53ccda76-5a0d-41a0-a2b9-c9504fce5a7d",
+    "outcome": {
+     "action": "route",
+     "destination": "analyst",
+     "rule": "gap_event.analyst"
+    }
+   },
+   {
+    "message_id": "5ee66d3d-5445-4a87-bea7-71e4bff9dd8d",
+    "outcome": {
+     "action": "route",
+     "destination": "scheduler",
+     "rule": "scheduled_event"
+    }
+   },
+   {
+    "message_id": "e7dcf9ef-860f-4096-a619-c3ffb9319300",
+    "outcome": {
+     "action": "route",
+     "destination": "scheduler",
+     "rule": "scheduled_event"
+    }
+   },
+   {
+    "message_id": "79b957e9-c06b-4c5f-8625-107c948ae306",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "8f82cdbf-a419-4812-9bc5-823bacfc4c85",
+    "outcome": {
+     "action": "route",
+     "destination": "analyst",
+     "rule": "unexplained_move.analyst"
+    }
+   }
+  ]
+ },
+ "verdicts": {
+  "79b957e9-c06b-4c5f-8625-107c948ae306": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141271592",
+    "kind": "news",
+    "event_type": "capital_allocation",
+    "event_label": "Arbutus Biopharma announces $230M stock buyback via modified Dutch auction",
+    "syndication_scope": 2,
+    "tickers": [
+     {
+      "ticker": "BNTX",
+      "relevance": "none"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:03:05.308Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "BNTX",
+    "relevance": "none"
+   }
+  }
+ }
+}

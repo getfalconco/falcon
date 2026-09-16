@@ -1,0 +1,13 @@
+{
+  "ticker": "APA",
+  "companyName": "APA Corp",
+  "form": "10-K",
+  "filingDate": "2026-02-26",
+  "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1841666/000184166626000015/apa-20251231.htm",
+  "generatedAt": "2026-08-26T10:39:28.439Z",
+  "cacheKey": "APA|0001841666-26-000015|5",
+  "accessionNumber": "0001841666-26-000015",
+  "validatedCount": 9,
+  "rejectedCount": 5,
+  "mergedCount": 2
+}

@@ -1,0 +1,10 @@
+[
+  {
+    "counterparty_name": "Japanese Ministry of Economy, Trade and Industry",
+    "category": "dependency",
+    "subtype": "government_funding_provider",
+    "evidence_quote": "We also receive incentives from the Japanese Ministry of Economy, Trade and Industry to support the production of DRAM using EUV lithography in Hiroshima, Japan.",
+    "confidence": 0.92,
+    "merged_into": "Japanese Ministry of Economy, Trade and Industry"
+  }
+]

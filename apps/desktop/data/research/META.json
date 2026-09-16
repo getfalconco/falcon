@@ -1,0 +1,154 @@
+[
+  {
+    "root_ticker": "META",
+    "counterparty_name": "Oakley",
+    "counterparty_ticker": null,
+    "counterparty_type": "brand_of_public_company",
+    "category": "partner",
+    "subtype": "product collaboration",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.88,
+    "evidence": [
+      {
+        "quote": "Our current AI glasses include the Ray-Ban Meta and Oakley Meta glasses",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1326801/000162828026003942/meta-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-29",
+    "shared_evidence_group": "ev_d9ef0f96b661"
+  },
+  {
+    "root_ticker": "META",
+    "counterparty_name": "TikTok",
+    "counterparty_ticker": null,
+    "counterparty_type": "company",
+    "category": "competitor",
+    "subtype": "social_media",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "User growth and engagement are also impacted by a number of other factors, including competitive products and services, such as TikTok, that have reduced some users' engagement with our products and services",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1326801/000162828026003942/meta-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-29",
+    "shared_evidence_group": "ev_c346262c90be"
+  },
+  {
+    "root_ticker": "META",
+    "counterparty_name": "Apple",
+    "counterparty_ticker": "AAPL",
+    "counterparty_type": "public_company",
+    "category": "dependency",
+    "subtype": "mobile_operating_system",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "changes to the content or application of third-party policies that limit our ability to deliver, target, or measure the effectiveness of advertising, including changes by mobile operating system and browser providers such as Apple and Google",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1326801/000162828026003942/meta-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "mobile operating system and browser providers, such as Apple and Google, have implemented product changes and/or announced plans to limit the ability of websites and application developers to collect and use these signals",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1326801/000162828026003942/meta-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "each of Apple and Google have integrated competitive products with iOS and Android, respectively. In addition, Apple has released changes to iOS that limit our ability",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1326801/000162828026003942/meta-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-29",
+    "shared_evidence_group": "ev_9beff80e085c"
+  },
+  {
+    "root_ticker": "META",
+    "counterparty_name": "Google",
+    "counterparty_ticker": "GOOGL",
+    "counterparty_type": "public_company",
+    "category": "dependency",
+    "subtype": "mobile_operating_system",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "changes to the content or application of third-party policies that limit our ability to deliver, target, or measure the effectiveness of advertising, including changes by mobile operating system and browser providers such as Apple and Google",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1326801/000162828026003942/meta-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "mobile operating system and browser providers, such as Apple and Google, have implemented product changes and/or announced plans to limit the ability of websites and application developers to collect and use these signals",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1326801/000162828026003942/meta-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "each of Apple and Google have integrated competitive products with iOS and Android, respectively",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1326801/000162828026003942/meta-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-29",
+    "shared_evidence_group": "ev_9beff80e085c"
+  },
+  {
+    "root_ticker": "META",
+    "counterparty_name": "China",
+    "counterparty_ticker": null,
+    "counterparty_type": "geographic_market",
+    "category": "customer",
+    "subtype": "advertising_reseller_market",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.72,
+    "evidence": [
+      {
+        "quote": "we generate meaningful revenue from a small number of resellers serving advertisers based in China",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1326801/000162828026003942/meta-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-29",
+    "shared_evidence_group": "ev_5ff2706dccd5"
+  },
+  {
+    "root_ticker": "META",
+    "counterparty_name": "IDPC",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "We also notify the IDPC, our lead European Union privacy regulator under the GDPR, and other regulators of certain other personal data breaches",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1326801/000162828026003942/meta-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-29",
+    "shared_evidence_group": "ev_ce5070a35913"
+  }
+]

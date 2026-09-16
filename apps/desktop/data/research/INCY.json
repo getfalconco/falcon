@@ -1,0 +1,629 @@
+[
+  {
+    "root_ticker": "INCY",
+    "counterparty_name": "Novartis",
+    "counterparty_ticker": "NVS",
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "collaboration_license_ex_us_commercialization",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Under our collaboration agreement with Novartis Pharmaceutical International Ltd. (“Novartis”), Novartis received exclusive development and commercialization rights to ruxolitinib outside of the United States for all hematologic and oncologic indications",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/879169/000087916926000010/incy-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "JAKAVI (ruxolitinib) and TABRECTA (capmatinib), which are licensed to Novartis",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/879169/000087916926000010/incy-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "Factors similar to those listed above also apply to our collaborator Novartis for JAKAVI and TABRECTA in the jurisdictions in which it has commercialization rights",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/879169/000087916926000010/incy-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-10",
+    "shared_evidence_group": "ev_2064a9cb4638"
+  },
+  {
+    "root_ticker": "INCY",
+    "counterparty_name": "ARIAD Pharmaceuticals",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "acquisition_and_exclusive_license",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.82,
+    "evidence": [
+      {
+        "quote": "In June 2016, we acquired the European operations of ARIAD Pharmaceuticals, Inc. and obtained an exclusive license to develop and commercialize ICLUSIG (ponatinib), a kinase inhibitor, in Europe and other select countries.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/879169/000087916926000010/incy-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-10",
+    "shared_evidence_group": "ev_40a6c431ab4f"
+  },
+  {
+    "root_ticker": "INCY",
+    "counterparty_name": "MorphoSys",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "terminated_collaboration_and_license_agreement",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.75,
+    "evidence": [
+      {
+        "quote": "In January 2020, we and MorphoSys AG (“MorphoSys”) entered into a collaboration and license agreement to further develop and commercialize MorphoSys’ proprietary anti-CD19 antibody tafasitamab (formerly MOR208) globally.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/879169/000087916926000010/incy-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "in February 2024 we entered into a purchase agreement with MorphoSys AG and MorphoSys US Inc. under which we acquired rights to tafasitamab",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/879169/000087916926000010/incy-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-10",
+    "shared_evidence_group": "ev_f0a413fe01f4"
+  },
+  {
+    "root_ticker": "INCY",
+    "counterparty_name": "Syndax",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "exclusive_worldwide_collaboration_and_license",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.97,
+    "evidence": [
+      {
+        "quote": "In September 2021, we entered into an exclusive worldwide collaboration and license agreement with Syndax Pharmaceuticals, Inc. (“Syndax”) to develop and commercialize axatilimab, Syndax’s anti-CSF-1R monoclonal antibody.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/879169/000087916926000010/incy-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "In September 2021, we entered into a Collaboration and License Agreement with Syndax covering the worldwide development and commercialization of NIKTIMVO (axatilimab-csfr)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/879169/000087916926000010/incy-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-10",
+    "shared_evidence_group": "ev_b831f9d0d099"
+  },
+  {
+    "root_ticker": "INCY",
+    "counterparty_name": "Enable Injections",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "technology_license_agreement",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "In October 2025, we announced an agreement with Enable Injections, Inc. (“Enable”) to develop for use with specific assets in our portfolio, including INCA033989, Enable’s enFuse on-body delivery system.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/879169/000087916926000010/incy-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-10",
+    "shared_evidence_group": "ev_953f67e9fe11"
+  },
+  {
+    "root_ticker": "INCY",
+    "counterparty_name": "MacroGenics",
+    "counterparty_ticker": "MGNX",
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "exclusive_global_collaboration_and_license",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.97,
+    "evidence": [
+      {
+        "quote": "In October 2017, we and MacroGenics, Inc. (“MacroGenics”), announced an exclusive global collaboration and license agreement for MacroGenics’ retifanlimab (formerly INCMGA0012), a humanized monoclonal antibody targeting programmed death receptor-1",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/879169/000087916926000010/incy-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "We are responsible for the sourcing and manufacturing of ZYNYZ together with our collaborator MacroGenics.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/879169/000087916926000010/incy-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-10",
+    "shared_evidence_group": "ev_f389255bf573"
+  },
+  {
+    "root_ticker": "INCY",
+    "counterparty_name": "Merus",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "licensed_technology_platform",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.85,
+    "evidence": [
+      {
+        "quote": "INCA33890 is a TGFβR2xPD-1 bispecific antibody developed by Incyte using Merus’s licensed bispecific platform to avoid the known toxicity of broad TGFβ pathway blockade",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/879169/000087916926000010/incy-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-10",
+    "shared_evidence_group": "ev_ce843ff8afda"
+  },
+  {
+    "root_ticker": "INCY",
+    "counterparty_name": "MacroGenics, Inc.",
+    "counterparty_ticker": "MGNX",
+    "counterparty_type": "public_company",
+    "category": "supplier",
+    "subtype": "licensor",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "Retifanlimab licensed from MacroGenics, Inc.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/879169/000087916926000010/incy-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "Under these licenses, such as our licenses from ARIAD/Takeda, Enable Injections, MacroGenics, Merus, Xencor and Syndax, we may be required to pay up-front fees, license fees, milestone payments and royalties",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/879169/000087916926000010/incy-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-10",
+    "shared_evidence_group": "ev_ae6a638f40b6"
+  },
+  {
+    "root_ticker": "INCY",
+    "counterparty_name": "Xencor, Inc.",
+    "counterparty_ticker": "XNCR",
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "licensor",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.85,
+    "evidence": [
+      {
+        "quote": "Tafasitamab licensed from Xencor, Inc.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/879169/000087916926000010/incy-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "Under these licenses, such as our licenses from ARIAD/Takeda, Enable Injections, MacroGenics, Merus, Xencor and Syndax, we may be required to pay up-front fees, license fees, milestone payments and royalties",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/879169/000087916926000010/incy-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-10",
+    "shared_evidence_group": "ev_6ae9864d5903"
+  },
+  {
+    "root_ticker": "INCY",
+    "counterparty_name": "Syndax Therapeutics, Inc.",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "licensor",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.85,
+    "evidence": [
+      {
+        "quote": "Axatilimab licensed from Syndax Therapeutics, Inc.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/879169/000087916926000010/incy-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-10",
+    "shared_evidence_group": "ev_683ba9793eee"
+  },
+  {
+    "root_ticker": "INCY",
+    "counterparty_name": "ARIAD",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "supplier",
+    "subtype": "licensor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "Under these licenses, such as our licenses from ARIAD/Takeda, Enable Injections, MacroGenics, Merus, Xencor and Syndax, we may be required to pay up-front fees, license fees, milestone payments and royalties",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/879169/000087916926000010/incy-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "Under these licenses, such as our licenses from ARIAD/Takeda, Enable Injections, MacroGenics, Merus, Xencor and Syndax",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/879169/000087916926000010/incy-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-10",
+    "shared_evidence_group": "ev_63b78ca9c1be"
+  },
+  {
+    "root_ticker": "INCY",
+    "counterparty_name": "Takeda",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "licensor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.85,
+    "evidence": [
+      {
+        "quote": "Under these licenses, such as our licenses from ARIAD/Takeda, Enable Injections, MacroGenics, Merus, Xencor and Syndax, we may be required to pay up-front fees, license fees, milestone payments and royalties",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/879169/000087916926000010/incy-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "Under these licenses, such as our licenses from ARIAD/Takeda, Enable Injections, MacroGenics, Merus, Xencor and Syndax",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/879169/000087916926000010/incy-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-10",
+    "shared_evidence_group": "ev_63b78ca9c1be"
+  },
+  {
+    "root_ticker": "INCY",
+    "counterparty_name": "Enable Injections",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "supplier",
+    "subtype": "licensing_agreement",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.85,
+    "evidence": [
+      {
+        "quote": "Under these licenses, such as our licenses from ARIAD/Takeda, Enable Injections, MacroGenics, Merus, Xencor and Syndax, we may be required to pay up-front fees, license fees, milestone payments and royalties",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/879169/000087916926000010/incy-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "Under these licenses, such as our licenses from ARIAD/Takeda, Enable Injections, MacroGenics, Merus, Xencor and Syndax",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/879169/000087916926000010/incy-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-10",
+    "shared_evidence_group": "ev_63b78ca9c1be"
+  },
+  {
+    "root_ticker": "INCY",
+    "counterparty_name": "Merus",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "licensor",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.85,
+    "evidence": [
+      {
+        "quote": "Under these licenses, such as our licenses from ARIAD/Takeda, Enable Injections, MacroGenics, Merus, Xencor and Syndax, we may be required to pay up-front fees, license fees, milestone payments and royalties",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/879169/000087916926000010/incy-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "Under these licenses, such as our licenses from ARIAD/Takeda, Enable Injections, MacroGenics, Merus, Xencor and Syndax",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/879169/000087916926000010/incy-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-10",
+    "shared_evidence_group": "ev_63b78ca9c1be"
+  },
+  {
+    "root_ticker": "INCY",
+    "counterparty_name": "Syndax",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "licensor",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.75,
+    "evidence": [
+      {
+        "quote": "Under these licenses, such as our licenses from ARIAD/Takeda, Enable Injections, MacroGenics, Merus, Xencor and Syndax, we may be required to pay up-front fees, license fees, milestone payments and royalties",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/879169/000087916926000010/incy-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-10",
+    "shared_evidence_group": "ev_63b78ca9c1be"
+  },
+  {
+    "root_ticker": "INCY",
+    "counterparty_name": "Novartis Pharmaceutical International Ltd.",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "licensing/royalty collaboration",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "our agreements with Novartis Pharmaceutical International Ltd. for sales of JAKAVI outside the United States and TABRECTA globally",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/879169/000087916926000010/incy-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-10",
+    "shared_evidence_group": "ev_6d8082b36d9b"
+  },
+  {
+    "root_ticker": "INCY",
+    "counterparty_name": "Eli Lilly and Company",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "licensing/royalty collaboration",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.93,
+    "evidence": [
+      {
+        "quote": "our agreements with Novartis Pharmaceutical International Ltd. for sales of JAKAVI outside the United States and TABRECTA globally and with Eli Lilly and Company for worldwide sales of OLUMIANT",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/879169/000087916926000010/incy-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-10",
+    "shared_evidence_group": "ev_377f66a4c6bd"
+  },
+  {
+    "root_ticker": "INCY",
+    "counterparty_name": "Medicare",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "dependency",
+    "subtype": "reimbursement dependency",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.75,
+    "evidence": [
+      {
+        "quote": "If recent proposals for changes to Medicare and Medicaid reimbursement of drug prices are adopted into law, our results of operations and financial condition could be harmed.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/879169/000087916926000010/incy-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-10",
+    "shared_evidence_group": "ev_558f47c75936"
+  },
+  {
+    "root_ticker": "INCY",
+    "counterparty_name": "Medicaid",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "dependency",
+    "subtype": "reimbursement dependency",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.8,
+    "evidence": [
+      {
+        "quote": "If recent proposals for changes to Medicare and Medicaid reimbursement of drug prices are adopted into law, our results of operations and financial condition could be harmed.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/879169/000087916926000010/incy-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-10",
+    "shared_evidence_group": "ev_558f47c75936"
+  },
+  {
+    "root_ticker": "INCY",
+    "counterparty_name": "Padagis Israel Pharmaceuticals Ltd.",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "competitor",
+    "subtype": "generic_manufacturer",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "We have received a notice letter from each of Padagis Israel Pharmaceuticals Ltd., Taro Pharmaceuticals Inc., Zydus Lifesciences Limited and Encube Ethicals Private Limited",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/879169/000087916926000010/incy-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-10",
+    "shared_evidence_group": "ev_6bf5829e61f2"
+  },
+  {
+    "root_ticker": "INCY",
+    "counterparty_name": "Taro Pharmaceuticals Inc.",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "generic_manufacturer",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "We have received a notice letter from each of Padagis Israel Pharmaceuticals Ltd., Taro Pharmaceuticals Inc., Zydus Lifesciences Limited and Encube Ethicals Private Limited",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/879169/000087916926000010/incy-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-10",
+    "shared_evidence_group": "ev_6bf5829e61f2"
+  },
+  {
+    "root_ticker": "INCY",
+    "counterparty_name": "Zydus Lifesciences Limited",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "anda_patent_challenger",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.85,
+    "evidence": [
+      {
+        "quote": "We have received a notice letter from each of Padagis Israel Pharmaceuticals Ltd., Taro Pharmaceuticals Inc., Zydus Lifesciences Limited and Encube Ethicals Private Limited",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/879169/000087916926000010/incy-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-10",
+    "shared_evidence_group": "ev_6bf5829e61f2"
+  },
+  {
+    "root_ticker": "INCY",
+    "counterparty_name": "Encube Ethicals Private Limited",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "competitor",
+    "subtype": "generic_manufacturer",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.93,
+    "evidence": [
+      {
+        "quote": "We have received a notice letter from each of Padagis Israel Pharmaceuticals Ltd., Taro Pharmaceuticals Inc., Zydus Lifesciences Limited and Encube Ethicals Private Limited",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/879169/000087916926000010/incy-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-10",
+    "shared_evidence_group": "ev_6bf5829e61f2"
+  },
+  {
+    "root_ticker": "INCY",
+    "counterparty_name": "Novartis",
+    "counterparty_ticker": "NVS",
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "licensee",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.85,
+    "evidence": [
+      {
+        "quote": "We have licensed to Novartis rights to ruxolitinib outside of the United States and worldwide rights to our MET inhibitor compounds, including TABRECTA",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/879169/000087916926000010/incy-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-10",
+    "shared_evidence_group": "ev_800b508789cd"
+  },
+  {
+    "root_ticker": "INCY",
+    "counterparty_name": "Eli Lilly and Company",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "licensee",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.85,
+    "evidence": [
+      {
+        "quote": "licensed to Lilly worldwide rights to baricitinib",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/879169/000087916926000010/incy-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-10",
+    "shared_evidence_group": "ev_395fd5f27f38"
+  },
+  {
+    "root_ticker": "INCY",
+    "counterparty_name": "MorphoSys AG",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "product rights acquisition",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.75,
+    "evidence": [
+      {
+        "quote": "in February 2024 we entered into a purchase agreement with MorphoSys AG and MorphoSys US Inc. under which we acquired rights to tafasitamab",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/879169/000087916926000010/incy-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-10",
+    "shared_evidence_group": "ev_b0936c8325d5"
+  }
+]

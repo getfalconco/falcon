@@ -1,0 +1,572 @@
+[
+  {
+    "root_ticker": "CNH",
+    "counterparty_name": "Iveco Group",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "supplier",
+    "subtype": "financing_receivables_servicing",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.82,
+    "evidence": [
+      {
+        "quote": "In Europe, companies within Iveco Group's Financial Services segment manage and service CNH dealer financing receivables that are funded through a dedicated securitization.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1567094/000156709426000006/cnhi-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "The European Financial Services operations are supported by the Iveco Group's Financial Services segment.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1567094/000156709426000006/cnhi-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_c8023751a0f5"
+  },
+  {
+    "root_ticker": "CNH",
+    "counterparty_name": "Iveco Group",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "dealer_financing_support_agreement",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.6,
+    "evidence": [
+      {
+        "quote": "CNH Financial Services serves as a lender for Iveco Group dealers and end customers in the region and assumes the credit risk associated with those financing arrangements.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1567094/000156709426000006/cnhi-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "Financial Services also provides financial products and services to dealers and end customers of Iveco Group companies in the North America, South America and Asia Pacific regions.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1567094/000156709426000006/cnhi-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_bb2934e994d2"
+  },
+  {
+    "root_ticker": "CNH",
+    "counterparty_name": "Deere & Company",
+    "counterparty_ticker": "DE",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "agricultural_equipment_competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.97,
+    "evidence": [
+      {
+        "quote": "Our principal competitors in the agricultural equipment market are Deere & Company, AGCO Corporation, Claas Group, Kubota Tractor Corporation, Argo Tractors S.p.A., Same Deutz Fahr Group and Mahindra.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1567094/000156709426000006/cnhi-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "competitors in the construction equipment market are Caterpillar Inc., Komatsu Ltd., J C Bamford Excavators Ltd., Hitachi Construction Machinery Co, Ltd., Volvo Group, Liebherr Group, Develon, Bobcat, Kubota Tractor Corporation, SANY Heavy Industry Co., Ltd and Deere & Company.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1567094/000156709426000006/cnhi-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_2590977d1f0d"
+  },
+  {
+    "root_ticker": "CNH",
+    "counterparty_name": "AGCO Corporation",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "agricultural_equipment_competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.98,
+    "evidence": [
+      {
+        "quote": "Our principal competitors in the agricultural equipment market are Deere & Company, AGCO Corporation, Claas Group, Kubota Tractor Corporation, Argo Tractors S.p.A., Same Deutz Fahr Group and Mahindra.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1567094/000156709426000006/cnhi-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_2590977d1f0d"
+  },
+  {
+    "root_ticker": "CNH",
+    "counterparty_name": "Claas Group",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "competitor",
+    "subtype": "agricultural_equipment_competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.97,
+    "evidence": [
+      {
+        "quote": "Our principal competitors in the agricultural equipment market are Deere & Company, AGCO Corporation, Claas Group, Kubota Tractor Corporation, Argo Tractors S.p.A., Same Deutz Fahr Group and Mahindra.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1567094/000156709426000006/cnhi-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_2590977d1f0d"
+  },
+  {
+    "root_ticker": "CNH",
+    "counterparty_name": "Kubota Tractor Corporation",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "agricultural_equipment_competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.97,
+    "evidence": [
+      {
+        "quote": "Our principal competitors in the agricultural equipment market are Deere & Company, AGCO Corporation, Claas Group, Kubota Tractor Corporation, Argo Tractors S.p.A., Same Deutz Fahr Group and Mahindra.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1567094/000156709426000006/cnhi-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "competitors in the construction equipment market are Caterpillar Inc., Komatsu Ltd., J C Bamford Excavators Ltd., Hitachi Construction Machinery Co, Ltd., Volvo Group, Liebherr Group, Develon, Bobcat, Kubota Tractor Corporation, SANY Heavy Industry Co., Ltd and Deere & Company.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1567094/000156709426000006/cnhi-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_2590977d1f0d"
+  },
+  {
+    "root_ticker": "CNH",
+    "counterparty_name": "Argo Tractors S.p.A.",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "competitor",
+    "subtype": "agricultural_equipment_competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.97,
+    "evidence": [
+      {
+        "quote": "Our principal competitors in the agricultural equipment market are Deere & Company, AGCO Corporation, Claas Group, Kubota Tractor Corporation, Argo Tractors S.p.A., Same Deutz Fahr Group and Mahindra.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1567094/000156709426000006/cnhi-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_2590977d1f0d"
+  },
+  {
+    "root_ticker": "CNH",
+    "counterparty_name": "Same Deutz Fahr Group",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "competitor",
+    "subtype": "agricultural_equipment_competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.97,
+    "evidence": [
+      {
+        "quote": "Our principal competitors in the agricultural equipment market are Deere & Company, AGCO Corporation, Claas Group, Kubota Tractor Corporation, Argo Tractors S.p.A., Same Deutz Fahr Group and Mahindra.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1567094/000156709426000006/cnhi-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_2590977d1f0d"
+  },
+  {
+    "root_ticker": "CNH",
+    "counterparty_name": "Mahindra",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "agricultural_equipment_competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.97,
+    "evidence": [
+      {
+        "quote": "Our principal competitors in the agricultural equipment market are Deere & Company, AGCO Corporation, Claas Group, Kubota Tractor Corporation, Argo Tractors S.p.A., Same Deutz Fahr Group and Mahindra.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1567094/000156709426000006/cnhi-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_2590977d1f0d"
+  },
+  {
+    "root_ticker": "CNH",
+    "counterparty_name": "Caterpillar Inc.",
+    "counterparty_ticker": "CAT",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "construction_equipment_competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.97,
+    "evidence": [
+      {
+        "quote": "competitors in the construction equipment market are Caterpillar Inc., Komatsu Ltd., J C Bamford Excavators Ltd., Hitachi Construction Machinery Co, Ltd., Volvo Group, Liebherr Group, Develon, Bobcat, Kubota Tractor Corporation, SANY Heavy Industry Co., Ltd and Deere & Company.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1567094/000156709426000006/cnhi-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_76ed4563531b"
+  },
+  {
+    "root_ticker": "CNH",
+    "counterparty_name": "Komatsu Ltd.",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "construction_equipment_competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.97,
+    "evidence": [
+      {
+        "quote": "competitors in the construction equipment market are Caterpillar Inc., Komatsu Ltd., J C Bamford Excavators Ltd., Hitachi Construction Machinery Co, Ltd., Volvo Group, Liebherr Group, Develon, Bobcat, Kubota Tractor Corporation, SANY Heavy Industry Co., Ltd and Deere & Company.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1567094/000156709426000006/cnhi-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_76ed4563531b"
+  },
+  {
+    "root_ticker": "CNH",
+    "counterparty_name": "J C Bamford Excavators Ltd.",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "competitor",
+    "subtype": "construction_equipment_competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.97,
+    "evidence": [
+      {
+        "quote": "competitors in the construction equipment market are Caterpillar Inc., Komatsu Ltd., J C Bamford Excavators Ltd., Hitachi Construction Machinery Co, Ltd., Volvo Group, Liebherr Group, Develon, Bobcat, Kubota Tractor Corporation, SANY Heavy Industry Co., Ltd and Deere & Company.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1567094/000156709426000006/cnhi-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_76ed4563531b"
+  },
+  {
+    "root_ticker": "CNH",
+    "counterparty_name": "Hitachi Construction Machinery Co, Ltd.",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "construction_equipment_competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.97,
+    "evidence": [
+      {
+        "quote": "competitors in the construction equipment market are Caterpillar Inc., Komatsu Ltd., J C Bamford Excavators Ltd., Hitachi Construction Machinery Co, Ltd., Volvo Group, Liebherr Group, Develon, Bobcat, Kubota Tractor Corporation, SANY Heavy Industry Co., Ltd and Deere & Company.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1567094/000156709426000006/cnhi-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_76ed4563531b"
+  },
+  {
+    "root_ticker": "CNH",
+    "counterparty_name": "Volvo Group",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "construction_equipment_competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.97,
+    "evidence": [
+      {
+        "quote": "competitors in the construction equipment market are Caterpillar Inc., Komatsu Ltd., J C Bamford Excavators Ltd., Hitachi Construction Machinery Co, Ltd., Volvo Group, Liebherr Group, Develon, Bobcat, Kubota Tractor Corporation, SANY Heavy Industry Co., Ltd and Deere & Company.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1567094/000156709426000006/cnhi-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_76ed4563531b"
+  },
+  {
+    "root_ticker": "CNH",
+    "counterparty_name": "Liebherr Group",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "competitor",
+    "subtype": "construction_equipment_competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.97,
+    "evidence": [
+      {
+        "quote": "competitors in the construction equipment market are Caterpillar Inc., Komatsu Ltd., J C Bamford Excavators Ltd., Hitachi Construction Machinery Co, Ltd., Volvo Group, Liebherr Group, Develon, Bobcat, Kubota Tractor Corporation, SANY Heavy Industry Co., Ltd and Deere & Company.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1567094/000156709426000006/cnhi-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_76ed4563531b"
+  },
+  {
+    "root_ticker": "CNH",
+    "counterparty_name": "Develon",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "construction_equipment_competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.85,
+    "evidence": [
+      {
+        "quote": "competitors in the construction equipment market are Caterpillar Inc., Komatsu Ltd., J C Bamford Excavators Ltd., Hitachi Construction Machinery Co, Ltd., Volvo Group, Liebherr Group, Develon, Bobcat, Kubota Tractor Corporation, SANY Heavy Industry Co., Ltd and Deere & Company.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1567094/000156709426000006/cnhi-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_76ed4563531b"
+  },
+  {
+    "root_ticker": "CNH",
+    "counterparty_name": "Bobcat",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "construction_equipment_competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.85,
+    "evidence": [
+      {
+        "quote": "competitors in the construction equipment market are Caterpillar Inc., Komatsu Ltd., J C Bamford Excavators Ltd., Hitachi Construction Machinery Co, Ltd., Volvo Group, Liebherr Group, Develon, Bobcat, Kubota Tractor Corporation, SANY Heavy Industry Co., Ltd and Deere & Company.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1567094/000156709426000006/cnhi-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_76ed4563531b"
+  },
+  {
+    "root_ticker": "CNH",
+    "counterparty_name": "SANY Heavy Industry Co., Ltd",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "construction_equipment_competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.97,
+    "evidence": [
+      {
+        "quote": "competitors in the construction equipment market are Caterpillar Inc., Komatsu Ltd., J C Bamford Excavators Ltd., Hitachi Construction Machinery Co, Ltd., Volvo Group, Liebherr Group, Develon, Bobcat, Kubota Tractor Corporation, SANY Heavy Industry Co., Ltd and Deere & Company.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1567094/000156709426000006/cnhi-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_76ed4563531b"
+  },
+  {
+    "root_ticker": "CNH",
+    "counterparty_name": "TürkTraktör ve Ziraat Makineleri A.S.",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "joint_venture",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.97,
+    "evidence": [
+      {
+        "quote": "in Türkiye, we own 37.5% of TürkTraktör ve Ziraat Makineleri A.S., which manufactures and distributes various models of both New Holland and Case IH tractors",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1567094/000156709426000006/cnhi-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_184241292d2a"
+  },
+  {
+    "root_ticker": "CNH",
+    "counterparty_name": "New Holland HFT Japan Inc.",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "joint_venture",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.94,
+    "evidence": [
+      {
+        "quote": "in Japan, we own 50% of New Holland HFT Japan Inc. (\"HFT\"), which distributes our products in Japan.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1567094/000156709426000006/cnhi-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_d0a46702759a"
+  },
+  {
+    "root_ticker": "CNH",
+    "counterparty_name": "CNH de Mexico S.A. de C.V.",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "joint_venture",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.93,
+    "evidence": [
+      {
+        "quote": "in Mexico, we own 50% of CNH de Mexico S.A. de C.V.,which manufactures New Holland agricultural equipment and distributes our agricultural equipment through one or more of its wholly-owned subsidiaries",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1567094/000156709426000006/cnhi-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_06c3ff008fd8"
+  },
+  {
+    "root_ticker": "CNH",
+    "counterparty_name": "Al Ghazi Tractors Ltd.",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "joint_venture",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "in Pakistan, we own 43.2% of Al Ghazi Tractors Ltd., which manufactures and distributes New Holland tractors.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1567094/000156709426000006/cnhi-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_04b7919409a0"
+  },
+  {
+    "root_ticker": "CNH",
+    "counterparty_name": "BNP Paribas",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "financial_services_joint_venture",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "This entity is majority owned by BNP Paribas, and 24.95% owned by CNH Industrial N.V. through its joint venture CIFINS S.p.A..",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1567094/000156709426000006/cnhi-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_3c20590f32ca"
+  },
+  {
+    "root_ticker": "CNH",
+    "counterparty_name": "BNDES",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "dependency",
+    "subtype": "government_financing_infrastructure",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.75,
+    "evidence": [
+      {
+        "quote": "Banco CNH Industrial Capital S.A. also serves as a lender for funding provided by BNDES, a federally-owned financial institution linked to the Brazilian Ministry of Development, Industry and Foreign Trade.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1567094/000156709426000006/cnhi-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_562885607b40"
+  },
+  {
+    "root_ticker": "CNH",
+    "counterparty_name": "FPT Industrial S.p.A.",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "supplier",
+    "subtype": "engine supplier",
+    "strength": 1,
+    "strength_tier": "critical",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Our internal combustion engines are primarily supplied by FPT Industrial S.p.A., a company controlled by Iveco N.V.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1567094/000156709426000006/cnhi-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_2d97132db031"
+  }
+]

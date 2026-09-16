@@ -1,0 +1,416 @@
+[
+  {
+    "root_ticker": "MRK",
+    "counterparty_name": "Pfizer",
+    "counterparty_ticker": "PFE",
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "collaboration_partner",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "KEYNOTE-A39 trial that was conducted in collaboration with Seagen (now Pfizer Inc., Pfizer) and Astellas",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/310158/000031015826000063/mrk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "KEYNOTE-905 trial conducted in collaboration with Pfizer and Astellas",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/310158/000031015826000063/mrk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "The application is based on data from the Phase 3 KEYNOTE-905 trial conducted in collaboration with Pfizer and Astellas.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/310158/000031015826000063/mrk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_2e2fcd8b8e92"
+  },
+  {
+    "root_ticker": "MRK",
+    "counterparty_name": "Astellas",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "collaboration_partner",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "KEYNOTE-A39 trial that was conducted in collaboration with Seagen (now Pfizer Inc., Pfizer) and Astellas",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/310158/000031015826000063/mrk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "KEYNOTE-905 trial conducted in collaboration with Pfizer and Astellas",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/310158/000031015826000063/mrk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "The application is based on data from the Phase 3 KEYNOTE-905 trial conducted in collaboration with Pfizer and Astellas.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/310158/000031015826000063/mrk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_2e2fcd8b8e92"
+  },
+  {
+    "root_ticker": "MRK",
+    "counterparty_name": "AstraZeneca",
+    "counterparty_ticker": "AZN",
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "joint development and commercialization",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Being jointly developed and commercialized in a worldwide collaboration with AstraZeneca.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/310158/000031015826000063/mrk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "Part of a global strategic oncology collaboration with AstraZeneca.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/310158/000031015826000063/mrk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "Lynparza is being developed as part of a collaboration with AstraZeneca PLC.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/310158/000031015826000063/mrk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_e5569490f827"
+  },
+  {
+    "root_ticker": "MRK",
+    "counterparty_name": "Sanofi Pasteur MSD",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "co-promotion collaboration",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.88,
+    "evidence": [
+      {
+        "quote": "subject to a collaboration agreement with Sanofi Pasteur MSD, co-promotes a hexavalent vaccine that includes a hepatitis B component",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/310158/000031015826000063/mrk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_7bd69357bf02"
+  },
+  {
+    "root_ticker": "MRK",
+    "counterparty_name": "Eisai Co., Ltd.",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "global strategic oncology collaboration",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Part of a global strategic oncology collaboration with Eisai Co., Ltd.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/310158/000031015826000063/mrk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "Lenvima is being developed as part of a collaboration with Eisai Co., Ltd.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/310158/000031015826000063/mrk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_2c6c8b82b95c"
+  },
+  {
+    "root_ticker": "MRK",
+    "counterparty_name": "Bayer AG",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "worldwide collaboration",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Commercialized under a worldwide collaboration with Bayer AG.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/310158/000031015826000063/mrk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_b669c98064c0"
+  },
+  {
+    "root_ticker": "MRK",
+    "counterparty_name": "Moderna, Inc.",
+    "counterparty_ticker": "MRNA",
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "development_collaboration",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.98,
+    "evidence": [
+      {
+        "quote": "Intismeran autogene is being developed as part of a collaboration with Moderna, Inc.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/310158/000031015826000063/mrk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_3ee0b8de07e0"
+  },
+  {
+    "root_ticker": "MRK",
+    "counterparty_name": "Taiho Pharmaceutical Co. Ltd.",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "development_collaboration",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Calderasib is being developed as part of a collaboration with Taiho Pharmaceutical Co. Ltd. and Astex Pharmaceuticals (UK)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/310158/000031015826000063/mrk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_04856f7ad99e"
+  },
+  {
+    "root_ticker": "MRK",
+    "counterparty_name": "Astex Pharmaceuticals (UK)",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "development_collaboration",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Calderasib is being developed as part of a collaboration with Taiho Pharmaceutical Co. Ltd. and Astex Pharmaceuticals (UK)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/310158/000031015826000063/mrk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_04856f7ad99e"
+  },
+  {
+    "root_ticker": "MRK",
+    "counterparty_name": "Daiichi Sankyo",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "development_collaboration",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Patritumab deruxtecan is being developed as part of a collaboration with Daiichi Sankyo.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/310158/000031015826000063/mrk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_9c77c4517ad9"
+  },
+  {
+    "root_ticker": "MRK",
+    "counterparty_name": "Kelun-Biotech",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "development_collaboration",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Sacituzumab tirumotecan is being developed as part of a collaboration with Kelun-Biotech.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/310158/000031015826000063/mrk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_97c3e512244e"
+  },
+  {
+    "root_ticker": "MRK",
+    "counterparty_name": "Blackstone Life Sciences",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "funding_partner",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "A portion of sacituzumab tirumotecan 2026 development costs will be funded by Blackstone Life Sciences.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/310158/000031015826000063/mrk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_61c7a0d96ec0"
+  },
+  {
+    "root_ticker": "MRK",
+    "counterparty_name": "Ridgeback Biotherapeutics LP",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "development_collaboration",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Merck is developing Lagevrio in collaboration with Ridgeback Biotherapeutics LP.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/310158/000031015826000063/mrk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_01ea956d0281"
+  },
+  {
+    "root_ticker": "MRK",
+    "counterparty_name": "Cidara Therapeutics, Inc.",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "supplier",
+    "subtype": "acquisition",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.15,
+    "evidence": [
+      {
+        "quote": "MK-1406, which received Breakthrough Therapy designation from the FDA in 2025, was obtained in connection with the January 2026 acquisition of Cidara Therapeutics, Inc.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/310158/000031015826000063/mrk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_caef33a160b5"
+  },
+  {
+    "root_ticker": "MRK",
+    "counterparty_name": "Medicaid",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "dependency",
+    "subtype": "reimbursement_program",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.88,
+    "evidence": [
+      {
+        "quote": "increased purchasing power of entities that negotiate on behalf of Medicare, Medicaid, and private sector beneficiaries, could result in further pricing pressures.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/310158/000031015826000063/mrk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_69021af5aa88"
+  },
+  {
+    "root_ticker": "MRK",
+    "counterparty_name": "FDA",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "dependency",
+    "subtype": "regulatory_approval_authority",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "will be expanded in the future to include enlicitide decanoate pending FDA approval.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/310158/000031015826000063/mrk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "Lost market opportunity resulting from delays and uncertainties in the approval process of the FDA and/or foreign regulatory authorities.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/310158/000031015826000063/mrk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_b74259e4f371"
+  },
+  {
+    "root_ticker": "MRK",
+    "counterparty_name": "Wuxi Apptech Co., Ltd.",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "research and manufacturing collaboration",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "the Company has significant research and manufacturing operations in China, including working with Chinese entities such as Wuxi Apptech Co., Ltd.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/310158/000031015826000063/mrk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_fdcb1c775006"
+  }
+]

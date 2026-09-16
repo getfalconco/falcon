@@ -1,0 +1,977 @@
+{
+ "schema_version": 1,
+ "rows": {
+  "RTX": {
+   "ticker": "RTX",
+   "official_name": "RTX Corp",
+   "aliases": [
+    "RTX Corp",
+    "RTX"
+   ],
+   "sector": "Aerospace & Defense",
+   "market_cap_usd": 286115591683.69617,
+   "cap_bucket": "mega",
+   "refreshed_at": "2026-08-21T18:48:09.116Z",
+   "source": "finnhub"
+  },
+  "PLTR": {
+   "ticker": "PLTR",
+   "official_name": "Palantir Technologies Inc",
+   "aliases": [
+    "Palantir Technologies Inc",
+    "Palantir Technologies"
+   ],
+   "sector": "Technology",
+   "market_cap_usd": 418042087550.04346,
+   "cap_bucket": "mega",
+   "refreshed_at": "2026-08-21T18:48:09.116Z",
+   "source": "finnhub"
+  },
+  "PFE": {
+   "ticker": "PFE",
+   "official_name": "Pfizer Inc",
+   "aliases": [
+    "Pfizer Inc",
+    "Pfizer"
+   ],
+   "sector": "Pharmaceuticals",
+   "market_cap_usd": 158393920830.85233,
+   "cap_bucket": "large",
+   "refreshed_at": "2026-08-21T18:48:09.116Z",
+   "source": "finnhub"
+  },
+  "NVDA": {
+   "ticker": "NVDA",
+   "official_name": "NVIDIA Corp",
+   "aliases": [
+    "NVIDIA Corp",
+    "NVIDIA"
+   ],
+   "sector": "Semiconductors",
+   "market_cap_usd": 5247769941110.8125,
+   "cap_bucket": "mega",
+   "refreshed_at": "2026-08-21T18:48:09.116Z",
+   "source": "finnhub"
+  },
+  "NOC": {
+   "ticker": "NOC",
+   "official_name": "Northrop Grumman Corp",
+   "aliases": [
+    "Northrop Grumman Corp",
+    "Northrop Grumman"
+   ],
+   "sector": "Aerospace & Defense",
+   "market_cap_usd": 80103666074.35678,
+   "cap_bucket": "large",
+   "refreshed_at": "2026-08-21T18:48:09.116Z",
+   "source": "finnhub"
+  },
+  "MSTR": {
+   "ticker": "MSTR",
+   "official_name": "Strategy Inc",
+   "aliases": [
+    "Strategy Inc",
+    "Strategy"
+   ],
+   "sector": "Technology",
+   "market_cap_usd": 43183105097.46916,
+   "cap_bucket": "large",
+   "refreshed_at": "2026-08-21T18:48:09.116Z",
+   "source": "finnhub"
+  },
+  "MSFT": {
+   "ticker": "MSFT",
+   "official_name": "Microsoft Corp",
+   "aliases": [
+    "Microsoft Corp",
+    "Microsoft"
+   ],
+   "sector": "Technology",
+   "market_cap_usd": 3572801156086.192,
+   "cap_bucket": "mega",
+   "refreshed_at": "2026-08-21T18:48:09.116Z",
+   "source": "finnhub"
+  },
+  "META": {
+   "ticker": "META",
+   "official_name": "Meta Platforms Inc",
+   "aliases": [
+    "Meta Platforms Inc",
+    "Meta Platforms"
+   ],
+   "sector": "Media",
+   "market_cap_usd": 1390505347710.8694,
+   "cap_bucket": "mega",
+   "refreshed_at": "2026-08-21T18:48:09.116Z",
+   "source": "finnhub"
+  },
+  "LLY": {
+   "ticker": "LLY",
+   "official_name": "Eli Lilly and Co",
+   "aliases": [
+    "Eli Lilly and Co",
+    "Eli Lilly and"
+   ],
+   "sector": "Pharmaceuticals",
+   "market_cap_usd": 1171424688796.6055,
+   "cap_bucket": "mega",
+   "refreshed_at": "2026-08-21T18:48:09.116Z",
+   "source": "finnhub"
+  },
+  "INTC": {
+   "ticker": "INTC",
+   "official_name": "Intel Corp",
+   "aliases": [
+    "Intel Corp",
+    "Intel"
+   ],
+   "sector": "Semiconductors",
+   "market_cap_usd": 484099530129.2072,
+   "cap_bucket": "mega",
+   "refreshed_at": "2026-08-21T18:48:09.116Z",
+   "source": "finnhub"
+  },
+  "BNTX": {
+   "ticker": "BNTX",
+   "official_name": "Biontech SE",
+   "aliases": [
+    "Biontech SE",
+    "Biontech"
+   ],
+   "sector": "Biotechnology",
+   "market_cap_usd": 28416238572,
+   "cap_bucket": "large",
+   "refreshed_at": "2026-08-21T18:48:09.116Z",
+   "source": "finnhub"
+  },
+  "AVGO": {
+   "ticker": "AVGO",
+   "official_name": "Broadcom Inc",
+   "aliases": [
+    "Broadcom Inc",
+    "Broadcom"
+   ],
+   "sector": "Semiconductors",
+   "market_cap_usd": 1731901928331.5977,
+   "cap_bucket": "mega",
+   "refreshed_at": "2026-08-21T18:48:09.116Z",
+   "source": "finnhub"
+  },
+  "AAPL": {
+   "ticker": "AAPL",
+   "official_name": "Apple Inc",
+   "aliases": [
+    "Apple Inc",
+    "Apple"
+   ],
+   "sector": "Technology",
+   "market_cap_usd": 4543167944172.558,
+   "cap_bucket": "mega",
+   "refreshed_at": "2026-08-21T18:48:09.116Z",
+   "source": "finnhub"
+  },
+  "WMT": {
+   "ticker": "WMT",
+   "official_name": "Walmart Inc",
+   "aliases": [
+    "Walmart Inc",
+    "Walmart"
+   ],
+   "sector": "Retail",
+   "market_cap_usd": 884142590000,
+   "cap_bucket": "mega",
+   "refreshed_at": "2026-08-21T18:48:09.116Z",
+   "source": "finnhub"
+  },
+  "TSM": {
+   "ticker": "TSM",
+   "official_name": "Taiwan Semiconductor Manufacturing Co Ltd",
+   "aliases": [
+    "Taiwan Semiconductor Manufacturing Co Ltd",
+    "Taiwan Semiconductor Manufacturing"
+   ],
+   "sector": "Semiconductors",
+   "market_cap_usd": 60941067480469,
+   "cap_bucket": "mega",
+   "refreshed_at": "2026-08-21T18:48:09.116Z",
+   "source": "finnhub"
+  },
+  "CAT": {
+   "ticker": "CAT",
+   "official_name": "Caterpillar Inc",
+   "aliases": [
+    "Caterpillar Inc",
+    "Caterpillar"
+   ],
+   "sector": "Machinery",
+   "market_cap_usd": 374814299973.60046,
+   "cap_bucket": "mega",
+   "refreshed_at": "2026-08-21T18:48:09.116Z",
+   "source": "finnhub"
+  },
+  "AMD": {
+   "ticker": "AMD",
+   "official_name": "Advanced Micro Devices Inc",
+   "aliases": [
+    "Advanced Micro Devices Inc",
+    "Advanced Micro Devices"
+   ],
+   "sector": "Semiconductors",
+   "market_cap_usd": 766373561726.5383,
+   "cap_bucket": "mega",
+   "refreshed_at": "2026-08-21T18:48:09.116Z",
+   "source": "finnhub"
+  },
+  "ZLAB": {
+   "ticker": "ZLAB",
+   "official_name": "Zai Lab Ltd",
+   "aliases": [
+    "Zai Lab Ltd",
+    "Zai Lab"
+   ],
+   "sector": "Biotechnology",
+   "market_cap_usd": 23075224966,
+   "cap_bucket": "large",
+   "refreshed_at": "2026-08-21T18:48:09.116Z",
+   "source": "finnhub"
+  },
+  "XOM": {
+   "ticker": "XOM",
+   "official_name": "Exxonmobil Holdings Corp",
+   "aliases": [
+    "Exxonmobil Holdings Corp",
+    "Exxonmobil"
+   ],
+   "sector": "Energy",
+   "market_cap_usd": 650632360000,
+   "cap_bucket": "mega",
+   "refreshed_at": "2026-08-21T18:48:09.116Z",
+   "source": "finnhub"
+  },
+  "UNH": {
+   "ticker": "UNH",
+   "official_name": "UnitedHealth Group Inc",
+   "aliases": [
+    "UnitedHealth Group Inc",
+    "UnitedHealth"
+   ],
+   "sector": "Health Care",
+   "market_cap_usd": 345439364475.35614,
+   "cap_bucket": "mega",
+   "refreshed_at": "2026-08-21T18:48:09.116Z",
+   "source": "finnhub"
+  },
+  "UMC": {
+   "ticker": "UMC",
+   "official_name": "United Microelectronics Corp",
+   "aliases": [
+    "United Microelectronics Corp",
+    "United Microelectronics"
+   ],
+   "sector": "Semiconductors",
+   "market_cap_usd": 1451845828125,
+   "cap_bucket": "mega",
+   "refreshed_at": "2026-08-21T18:48:09.116Z",
+   "source": "finnhub"
+  },
+  "SONY": {
+   "ticker": "SONY",
+   "official_name": "Sony Group Corp",
+   "aliases": [
+    "Sony Group Corp",
+    "Sony"
+   ],
+   "sector": "Consumer products",
+   "market_cap_usd": 21859293787598,
+   "cap_bucket": "mega",
+   "refreshed_at": "2026-08-21T18:48:09.116Z",
+   "source": "finnhub"
+  },
+  "QCOM": {
+   "ticker": "QCOM",
+   "official_name": "Qualcomm Inc",
+   "aliases": [
+    "Qualcomm Inc",
+    "Qualcomm"
+   ],
+   "sector": "Semiconductors",
+   "market_cap_usd": 168814598769.7443,
+   "cap_bucket": "large",
+   "refreshed_at": "2026-08-21T18:48:09.116Z",
+   "source": "finnhub"
+  },
+  "OPK": {
+   "ticker": "OPK",
+   "official_name": "OPKO Health Inc",
+   "aliases": [
+    "OPKO Health Inc",
+    "OPKO Health"
+   ],
+   "sector": "Health Care",
+   "market_cap_usd": 1089639269,
+   "cap_bucket": "small",
+   "refreshed_at": "2026-08-21T18:48:09.116Z",
+   "source": "finnhub"
+  },
+  "MRT": {
+   "ticker": "MRT",
+   "official_name": "Marti Technologies Inc",
+   "aliases": [
+    "Marti Technologies Inc",
+    "Marti Technologies"
+   ],
+   "sector": "Road & Rail",
+   "market_cap_usd": 174666734.85714284,
+   "cap_bucket": "small",
+   "refreshed_at": "2026-08-21T18:48:09.116Z",
+   "source": "finnhub"
+  },
+  "MRK": {
+   "ticker": "MRK",
+   "official_name": "Merck & Co Inc",
+   "aliases": [
+    "Merck & Co Inc",
+    "Merck &"
+   ],
+   "sector": "Pharmaceuticals",
+   "market_cap_usd": 367583893911.7288,
+   "cap_bucket": "mega",
+   "refreshed_at": "2026-08-21T18:48:09.116Z",
+   "source": "finnhub"
+  },
+  "MCK": {
+   "ticker": "MCK",
+   "official_name": "McKesson Corp",
+   "aliases": [
+    "McKesson Corp",
+    "McKesson"
+   ],
+   "sector": "Health Care",
+   "market_cap_usd": 97790169104.3841,
+   "cap_bucket": "large",
+   "refreshed_at": "2026-08-21T18:48:09.116Z",
+   "source": "finnhub"
+  },
+  "LMT": {
+   "ticker": "LMT",
+   "official_name": "Lockheed Martin Corp",
+   "aliases": [
+    "Lockheed Martin Corp",
+    "Lockheed Martin"
+   ],
+   "sector": "Aerospace & Defense",
+   "market_cap_usd": 131892306833.49605,
+   "cap_bucket": "large",
+   "refreshed_at": "2026-08-21T18:48:09.116Z",
+   "source": "finnhub"
+  },
+  "HON": {
+   "ticker": "HON",
+   "official_name": "Honeywell International Inc",
+   "aliases": [
+    "Honeywell International Inc",
+    "Honeywell International"
+   ],
+   "sector": "Industrial Conglomerates",
+   "market_cap_usd": 69194339999.50319,
+   "cap_bucket": "large",
+   "refreshed_at": "2026-08-21T18:48:09.116Z",
+   "source": "finnhub"
+  },
+  "GFS": {
+   "ticker": "GFS",
+   "official_name": "GlobalFoundries Inc",
+   "aliases": [
+    "GlobalFoundries Inc",
+    "GlobalFoundries"
+   ],
+   "sector": "Semiconductors",
+   "market_cap_usd": 25970010111.064636,
+   "cap_bucket": "large",
+   "refreshed_at": "2026-08-21T18:48:09.116Z",
+   "source": "finnhub"
+  },
+  "GD": {
+   "ticker": "GD",
+   "official_name": "General Dynamics Corp",
+   "aliases": [
+    "General Dynamics Corp",
+    "General Dynamics"
+   ],
+   "sector": "Aerospace & Defense",
+   "market_cap_usd": 104454013345.89838,
+   "cap_bucket": "large",
+   "refreshed_at": "2026-08-21T18:48:09.116Z",
+   "source": "finnhub"
+  },
+  "CVX": {
+   "ticker": "CVX",
+   "official_name": "Chevron Corp",
+   "aliases": [
+    "Chevron Corp",
+    "Chevron"
+   ],
+   "sector": "Energy",
+   "market_cap_usd": 406554437248.87494,
+   "cap_bucket": "mega",
+   "refreshed_at": "2026-08-21T18:48:09.116Z",
+   "source": "finnhub"
+  },
+  "COST": {
+   "ticker": "COST",
+   "official_name": "Costco Wholesale Corp",
+   "aliases": [
+    "Costco Wholesale Corp",
+    "Costco Wholesale"
+   ],
+   "sector": "Retail",
+   "market_cap_usd": 413991909780.86334,
+   "cap_bucket": "mega",
+   "refreshed_at": "2026-08-21T18:48:09.116Z",
+   "source": "finnhub"
+  },
+  "COR": {
+   "ticker": "COR",
+   "official_name": "Cencora Inc",
+   "aliases": [
+    "Cencora Inc",
+    "Cencora"
+   ],
+   "sector": "Health Care",
+   "market_cap_usd": 60051406100.869095,
+   "cap_bucket": "large",
+   "refreshed_at": "2026-08-21T18:48:09.116Z",
+   "source": "finnhub"
+  },
+  "COP": {
+   "ticker": "COP",
+   "official_name": "ConocoPhillips",
+   "aliases": [
+    "ConocoPhillips"
+   ],
+   "sector": "Energy",
+   "market_cap_usd": 162048420940.83945,
+   "cap_bucket": "large",
+   "refreshed_at": "2026-08-21T18:48:09.116Z",
+   "source": "finnhub"
+  },
+  "CEG": {
+   "ticker": "CEG",
+   "official_name": "Constellation Energy Corp",
+   "aliases": [
+    "Constellation Energy Corp",
+    "Constellation Energy"
+   ],
+   "sector": "Utilities",
+   "market_cap_usd": 96697572987.99985,
+   "cap_bucket": "large",
+   "refreshed_at": "2026-08-21T18:48:09.116Z",
+   "source": "finnhub"
+  },
+  "CAH": {
+   "ticker": "CAH",
+   "official_name": "Cardinal Health Inc",
+   "aliases": [
+    "Cardinal Health Inc",
+    "Cardinal Health"
+   ],
+   "sector": "Health Care",
+   "market_cap_usd": 53134252512.70394,
+   "cap_bucket": "large",
+   "refreshed_at": "2026-08-21T18:48:09.116Z",
+   "source": "finnhub"
+  },
+  "BLK": {
+   "ticker": "BLK",
+   "official_name": "BlackRock Inc",
+   "aliases": [
+    "BlackRock Inc",
+    "BlackRock"
+   ],
+   "sector": "Financial Services",
+   "market_cap_usd": 185193617561.14108,
+   "cap_bucket": "large",
+   "refreshed_at": "2026-08-21T18:48:09.116Z",
+   "source": "finnhub"
+  },
+  "BA": {
+   "ticker": "BA",
+   "official_name": "Boeing Co",
+   "aliases": [
+    "Boeing Co",
+    "Boeing"
+   ],
+   "sector": "Aerospace & Defense",
+   "market_cap_usd": 170008583614.74033,
+   "cap_bucket": "large",
+   "refreshed_at": "2026-08-21T18:48:09.116Z",
+   "source": "finnhub"
+  },
+  "AZN": {
+   "ticker": "AZN",
+   "official_name": "AstraZeneca PLC",
+   "aliases": [
+    "AstraZeneca PLC",
+    "AstraZeneca"
+   ],
+   "sector": "Pharmaceuticals",
+   "market_cap_usd": 186881746643,
+   "cap_bucket": "large",
+   "refreshed_at": "2026-08-21T18:48:09.116Z",
+   "source": "finnhub"
+  },
+  "AMKR": {
+   "ticker": "AMKR",
+   "official_name": "Amkor Technology Inc",
+   "aliases": [
+    "Amkor Technology Inc",
+    "Amkor Technology"
+   ],
+   "sector": "Semiconductors",
+   "market_cap_usd": 12636292415.023382,
+   "cap_bucket": "large",
+   "refreshed_at": "2026-08-21T18:48:09.116Z",
+   "source": "finnhub"
+  },
+  "ACDC": {
+   "ticker": "ACDC",
+   "official_name": "ProFrac Holding Corp",
+   "aliases": [
+    "ProFrac Holding Corp",
+    "ProFrac"
+   ],
+   "sector": "Energy",
+   "market_cap_usd": 808625076.1276596,
+   "cap_bucket": "small",
+   "refreshed_at": "2026-08-21T18:48:09.116Z",
+   "source": "finnhub"
+  },
+  "AMZN": {
+   "ticker": "AMZN",
+   "official_name": "Amazon.com Inc",
+   "aliases": [
+    "Amazon.com Inc",
+    "Amazon.com"
+   ],
+   "sector": "Retail",
+   "market_cap_usd": 2789664349908.392,
+   "cap_bucket": "mega",
+   "refreshed_at": "2026-08-24T17:08:06.183Z",
+   "source": "finnhub"
+  },
+  "TGT": {
+   "ticker": "TGT",
+   "official_name": "Target Corp",
+   "aliases": [
+    "Target Corp",
+    "Target"
+   ],
+   "sector": "Retail",
+   "market_cap_usd": 75141380810.12677,
+   "cap_bucket": "large",
+   "refreshed_at": "2026-08-24T21:32:01.127Z",
+   "source": "finnhub"
+  },
+  "MRNA": {
+   "ticker": "MRNA",
+   "official_name": "Moderna Inc",
+   "aliases": [
+    "Moderna Inc",
+    "Moderna"
+   ],
+   "sector": "Biotechnology",
+   "market_cap_usd": 57941105049.024376,
+   "cap_bucket": "large",
+   "refreshed_at": "2026-08-24T21:32:01.127Z",
+   "source": "finnhub"
+  },
+  "LSCC": {
+   "ticker": "LSCC",
+   "official_name": "Lattice Semiconductor Corp",
+   "aliases": [
+    "Lattice Semiconductor Corp",
+    "Lattice Semiconductor"
+   ],
+   "sector": "Semiconductors",
+   "market_cap_usd": 16715540738.18008,
+   "cap_bucket": "large",
+   "refreshed_at": "2026-08-24T21:32:01.127Z",
+   "source": "finnhub"
+  },
+  "GEV": {
+   "ticker": "GEV",
+   "official_name": "GE Vernova Inc",
+   "aliases": [
+    "GE Vernova Inc",
+    "GE Vernova"
+   ],
+   "sector": "Electrical Equipment",
+   "market_cap_usd": 254841295915.49835,
+   "cap_bucket": "mega",
+   "refreshed_at": "2026-08-24T21:32:01.127Z",
+   "source": "finnhub"
+  },
+  "CNH": {
+   "ticker": "CNH",
+   "official_name": "CNH Industrial NV",
+   "aliases": [
+    "CNH Industrial NV",
+    "CNH Industrial"
+   ],
+   "sector": "Machinery",
+   "market_cap_usd": 14691806909.999998,
+   "cap_bucket": "large",
+   "refreshed_at": "2026-08-24T21:32:01.127Z",
+   "source": "finnhub"
+  },
+  "SHEL": {
+   "ticker": "SHEL",
+   "official_name": "Shell PLC",
+   "aliases": [
+    "Shell PLC",
+    "Shell"
+   ],
+   "sector": "Energy",
+   "market_cap_usd": 189886950220,
+   "cap_bucket": "large",
+   "refreshed_at": "2026-08-24T21:32:01.127Z",
+   "source": "finnhub"
+  },
+  "ORCL": {
+   "ticker": "ORCL",
+   "official_name": "Oracle Corp",
+   "aliases": [
+    "Oracle Corp",
+    "Oracle"
+   ],
+   "sector": "Technology",
+   "market_cap_usd": 421902601396.3557,
+   "cap_bucket": "mega",
+   "refreshed_at": "2026-08-24T21:32:01.127Z",
+   "source": "finnhub"
+  },
+  "NXPI": {
+   "ticker": "NXPI",
+   "official_name": "NXP Semiconductors NV",
+   "aliases": [
+    "NXP Semiconductors NV",
+    "NXP Semiconductors"
+   ],
+   "sector": "Semiconductors",
+   "market_cap_usd": 56878150341.09002,
+   "cap_bucket": "large",
+   "refreshed_at": "2026-08-24T21:32:01.127Z",
+   "source": "finnhub"
+  },
+  "MU": {
+   "ticker": "MU",
+   "official_name": "Micron Technology Inc",
+   "aliases": [
+    "Micron Technology Inc",
+    "Micron Technology"
+   ],
+   "sector": "Semiconductors",
+   "market_cap_usd": 1091874647892.0679,
+   "cap_bucket": "mega",
+   "refreshed_at": "2026-08-24T21:32:01.127Z",
+   "source": "finnhub"
+  },
+  "MRVL": {
+   "ticker": "MRVL",
+   "official_name": "Marvell Technology Inc",
+   "aliases": [
+    "Marvell Technology Inc",
+    "Marvell Technology"
+   ],
+   "sector": "Semiconductors",
+   "market_cap_usd": 207591667287.90662,
+   "cap_bucket": "mega",
+   "refreshed_at": "2026-08-24T21:32:01.127Z",
+   "source": "finnhub"
+  },
+  "MORN": {
+   "ticker": "MORN",
+   "official_name": "Morningstar Inc",
+   "aliases": [
+    "Morningstar Inc",
+    "Morningstar"
+   ],
+   "sector": "Financial Services",
+   "market_cap_usd": 8101805674.867672,
+   "cap_bucket": "mid",
+   "refreshed_at": "2026-08-24T21:32:01.127Z",
+   "source": "finnhub"
+  },
+  "LITE": {
+   "ticker": "LITE",
+   "official_name": "Lumentum Holdings Inc",
+   "aliases": [
+    "Lumentum Holdings Inc",
+    "Lumentum"
+   ],
+   "sector": "Communications",
+   "market_cap_usd": 77743886945.78629,
+   "cap_bucket": "large",
+   "refreshed_at": "2026-08-24T21:32:01.127Z",
+   "source": "finnhub"
+  },
+  "KR": {
+   "ticker": "KR",
+   "official_name": "Kroger Co",
+   "aliases": [
+    "Kroger Co",
+    "Kroger"
+   ],
+   "sector": "Retail",
+   "market_cap_usd": 35472280728.16407,
+   "cap_bucket": "large",
+   "refreshed_at": "2026-08-24T21:32:01.127Z",
+   "source": "finnhub"
+  },
+  "JD": {
+   "ticker": "JD",
+   "official_name": "JD.com Inc",
+   "aliases": [
+    "JD.com Inc",
+    "JD.com"
+   ],
+   "sector": "Retail",
+   "market_cap_usd": 275930743408,
+   "cap_bucket": "mega",
+   "refreshed_at": "2026-08-24T21:32:01.127Z",
+   "source": "finnhub"
+  },
+  "INCY": {
+   "ticker": "INCY",
+   "official_name": "Incyte Corp",
+   "aliases": [
+    "Incyte Corp",
+    "Incyte"
+   ],
+   "sector": "Biotechnology",
+   "market_cap_usd": 25906800174.9504,
+   "cap_bucket": "large",
+   "refreshed_at": "2026-08-24T21:32:01.127Z",
+   "source": "finnhub"
+  },
+  "IMO": {
+   "ticker": "IMO",
+   "official_name": "Imperial Oil Ltd",
+   "aliases": [
+    "Imperial Oil Ltd",
+    "Imperial Oil"
+   ],
+   "sector": "Energy",
+   "market_cap_usd": 91326486689,
+   "cap_bucket": "large",
+   "refreshed_at": "2026-08-24T21:32:01.127Z",
+   "source": "finnhub"
+  },
+  "HPE": {
+   "ticker": "HPE",
+   "official_name": "Hewlett Packard Enterprise Co",
+   "aliases": [
+    "Hewlett Packard Enterprise Co",
+    "Hewlett Packard Enterprise"
+   ],
+   "sector": "Technology",
+   "market_cap_usd": 70778675788.52145,
+   "cap_bucket": "large",
+   "refreshed_at": "2026-08-24T21:32:01.127Z",
+   "source": "finnhub"
+  },
+  "GOOGL": {
+   "ticker": "GOOGL",
+   "official_name": "Alphabet Inc",
+   "aliases": [
+    "Alphabet Inc",
+    "Alphabet"
+   ],
+   "sector": "Media",
+   "market_cap_usd": 4217148599999.9995,
+   "cap_bucket": "mega",
+   "refreshed_at": "2026-08-24T21:32:01.127Z",
+   "source": "finnhub"
+  },
+  "GNRC": {
+   "ticker": "GNRC",
+   "official_name": "Generac Holdings Inc",
+   "aliases": [
+    "Generac Holdings Inc",
+    "Generac"
+   ],
+   "sector": "Electrical Equipment",
+   "market_cap_usd": 12154129847.492718,
+   "cap_bucket": "large",
+   "refreshed_at": "2026-08-24T21:32:01.127Z",
+   "source": "finnhub"
+  },
+  "GBX": {
+   "ticker": "GBX",
+   "official_name": "Greenbrier Companies Inc",
+   "aliases": [
+    "Greenbrier Companies Inc",
+    "Greenbrier Companies"
+   ],
+   "sector": "Machinery",
+   "market_cap_usd": 1424772574.8199081,
+   "cap_bucket": "small",
+   "refreshed_at": "2026-08-24T21:32:01.127Z",
+   "source": "finnhub"
+  },
+  "FANG": {
+   "ticker": "FANG",
+   "official_name": "Diamondback Energy Inc",
+   "aliases": [
+    "Diamondback Energy Inc",
+    "Diamondback Energy"
+   ],
+   "sector": "Energy",
+   "market_cap_usd": 59006732864.39125,
+   "cap_bucket": "large",
+   "refreshed_at": "2026-08-24T21:32:01.127Z",
+   "source": "finnhub"
+  },
+  "EOG": {
+   "ticker": "EOG",
+   "official_name": "EOG Resources Inc",
+   "aliases": [
+    "EOG Resources Inc",
+    "EOG Resources"
+   ],
+   "sector": "Energy",
+   "market_cap_usd": 80279191491.56778,
+   "cap_bucket": "large",
+   "refreshed_at": "2026-08-24T21:32:01.127Z",
+   "source": "finnhub"
+  },
+  "DE": {
+   "ticker": "DE",
+   "official_name": "Deere & Co",
+   "aliases": [
+    "Deere & Co",
+    "Deere &"
+   ],
+   "sector": "Machinery",
+   "market_cap_usd": 174776394293.9007,
+   "cap_bucket": "large",
+   "refreshed_at": "2026-08-24T21:32:01.127Z",
+   "source": "finnhub"
+  },
+  "CSCO": {
+   "ticker": "CSCO",
+   "official_name": "Cisco Systems Inc",
+   "aliases": [
+    "Cisco Systems Inc",
+    "Cisco Systems"
+   ],
+   "sector": "Communications",
+   "market_cap_usd": 437656907171.98,
+   "cap_bucket": "mega",
+   "refreshed_at": "2026-08-24T21:32:01.127Z",
+   "source": "finnhub"
+  },
+  "CDNS": {
+   "ticker": "CDNS",
+   "official_name": "Cadence Design Systems Inc",
+   "aliases": [
+    "Cadence Design Systems Inc",
+    "Cadence Design Systems"
+   ],
+   "sector": "Technology",
+   "market_cap_usd": 87855875547.70535,
+   "cap_bucket": "large",
+   "refreshed_at": "2026-08-24T21:32:01.127Z",
+   "source": "finnhub"
+  },
+  "BKR": {
+   "ticker": "BKR",
+   "official_name": "Baker Hughes Co",
+   "aliases": [
+    "Baker Hughes Co",
+    "Baker Hughes"
+   ],
+   "sector": "Energy",
+   "market_cap_usd": 61883300461.6964,
+   "cap_bucket": "large",
+   "refreshed_at": "2026-08-24T21:32:01.127Z",
+   "source": "finnhub"
+  },
+  "APA": {
+   "ticker": "APA",
+   "official_name": "APA Corp (US)",
+   "aliases": [
+    "APA Corp (US)"
+   ],
+   "sector": "Energy",
+   "market_cap_usd": 15201751439.356611,
+   "cap_bucket": "large",
+   "refreshed_at": "2026-08-24T21:32:01.127Z",
+   "source": "finnhub"
+  },
+  "ANET": {
+   "ticker": "ANET",
+   "official_name": "Arista Networks Inc",
+   "aliases": [
+    "Arista Networks Inc",
+    "Arista Networks"
+   ],
+   "sector": "Communications",
+   "market_cap_usd": 237930022558.9467,
+   "cap_bucket": "mega",
+   "refreshed_at": "2026-08-24T21:32:01.127Z",
+   "source": "finnhub"
+  },
+  "ADI": {
+   "ticker": "ADI",
+   "official_name": "Analog Devices Inc",
+   "aliases": [
+    "Analog Devices Inc",
+    "Analog Devices"
+   ],
+   "sector": "Semiconductors",
+   "market_cap_usd": 180786522779.15637,
+   "cap_bucket": "large",
+   "refreshed_at": "2026-08-24T21:32:01.127Z",
+   "source": "finnhub"
+  },
+  "FN": {
+   "ticker": "FN",
+   "official_name": "Fabrinet",
+   "aliases": [
+    "Fabrinet"
+   ],
+   "sector": "Electrical Equipment",
+   "market_cap_usd": 15091494143.822474,
+   "cap_bucket": "large",
+   "refreshed_at": "2026-08-25T17:05:01.357Z",
+   "source": "finnhub"
+  },
+  "AMBA": {
+   "ticker": "AMBA",
+   "official_name": "Ambarella Inc",
+   "aliases": [
+    "Ambarella Inc",
+    "Ambarella"
+   ],
+   "sector": "Semiconductors",
+   "market_cap_usd": 3070772959.446629,
+   "cap_bucket": "mid",
+   "refreshed_at": "2026-08-25T17:05:01.357Z",
+   "source": "finnhub"
+  },
+  "TSLA": {
+   "ticker": "TSLA",
+   "official_name": "Tesla Inc",
+   "aliases": [
+    "Tesla Inc",
+    "Tesla"
+   ],
+   "sector": "Automobiles",
+   "market_cap_usd": 1391623148156.9902,
+   "cap_bucket": "mega",
+   "refreshed_at": "2026-08-25T17:16:47.991Z",
+   "source": "finnhub"
+  }
+ }
+}

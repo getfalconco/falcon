@@ -1,0 +1,101 @@
+[
+  {
+    "counterparty_name": "Eli Lilly and Company",
+    "category": "partner",
+    "subtype": "licensing_partner",
+    "evidence_quote": "OLUMIANT (baricitinib), which is licensed to our collaborative partner Eli Lilly and Company (\"Lilly\")",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Lilly",
+    "category": "partner",
+    "subtype": "commercialization_collaborator",
+    "evidence_quote": "Factors similar to those listed above also apply to our collaborator Lilly for OLUMIANT in all jurisdictions.",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Apotex, Inc.",
+    "category": "competitor",
+    "subtype": "generic_manufacturer",
+    "evidence_quote": "We have received a notice letter from each of Apotex, Inc., Hikma Pharmaceuticals USA Inc., Sun Pharmaceutical Industries Inc., Granules India Ltd., Dr. Reddy's Laboratories, Inc., and Eugia Pharma Specialties, Ltd.",
+    "confidence": 0.9,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Hikma Pharmaceuticals USA Inc.",
+    "category": "competitor",
+    "subtype": "generic_manufacturer",
+    "evidence_quote": "We have received a notice letter from each of Apotex, Inc., Hikma Pharmaceuticals USA Inc., Sun Pharmaceutical Industries Inc., Granules India Ltd., Dr. Reddy's Laboratories, Inc., and Eugia Pharma Specialties, Ltd.",
+    "confidence": 0.9,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Sun Pharmaceutical Industries Inc.",
+    "category": "competitor",
+    "subtype": "generic_manufacturer",
+    "evidence_quote": "We have received a notice letter from each of Apotex, Inc., Hikma Pharmaceuticals USA Inc., Sun Pharmaceutical Industries Inc., Granules India Ltd., Dr. Reddy's Laboratories, Inc., and Eugia Pharma Specialties, Ltd.",
+    "confidence": 0.9,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Granules India Ltd.",
+    "category": "competitor",
+    "subtype": "generic_manufacturer",
+    "evidence_quote": "We have received a notice letter from each of Apotex, Inc., Hikma Pharmaceuticals USA Inc., Sun Pharmaceutical Industries Inc., Granules India Ltd., Dr. Reddy's Laboratories, Inc., and Eugia Pharma Specialties, Ltd.",
+    "confidence": 0.9,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Dr. Reddy's Laboratories, Inc.",
+    "category": "competitor",
+    "subtype": "generic_manufacturer",
+    "evidence_quote": "We have received a notice letter from each of Apotex, Inc., Hikma Pharmaceuticals USA Inc., Sun Pharmaceutical Industries Inc., Granules India Ltd., Dr. Reddy's Laboratories, Inc., and Eugia Pharma Specialties, Ltd.",
+    "confidence": 0.9,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Eugia Pharma Specialties, Ltd.",
+    "category": "competitor",
+    "subtype": "generic_manufacturer",
+    "evidence_quote": "We have received a notice letter from each of Apotex, Inc., Hikma Pharmaceuticals USA Inc., Sun Pharmaceutical Industries Inc., Granules India Ltd., Dr. Reddy's Laboratories, Inc., and Eugia Pharma Specialties, Ltd.",
+    "confidence": 0.9,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "MacroGenics, Inc.",
+    "category": "partner",
+    "subtype": "collaboration_partner",
+    "evidence_quote": "such as our collaborations with MacroGenics, Inc. (\"MacroGenics\"), Merus N.V. (\"Merus\") and Syndax Pharmaceuticals Inc.",
+    "confidence": 0.9,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Merus N.V.",
+    "category": "partner",
+    "subtype": "collaboration_partner",
+    "evidence_quote": "such as our collaborations with MacroGenics, Inc. (\"MacroGenics\"), Merus N.V. (\"Merus\") and Syndax Pharmaceuticals Inc.",
+    "confidence": 0.9,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Syndax Pharmaceuticals Inc.",
+    "category": "partner",
+    "subtype": "collaboration_partner",
+    "evidence_quote": "such as our collaborations with MacroGenics, Inc. (\"MacroGenics\"), Merus N.V. (\"Merus\") and Syndax Pharmaceuticals Inc.",
+    "confidence": 0.9,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  }
+]

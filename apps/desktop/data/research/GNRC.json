@@ -1,0 +1,112 @@
+[
+  {
+    "root_ticker": "GNRC",
+    "counterparty_name": "Wallbox N.V.",
+    "counterparty_ticker": "WBX",
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "minority_investment",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.75,
+    "evidence": [
+      {
+        "quote": "reduced loss from the change in fair value of our investment in warrants and equity securities of Wallbox N.V.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1474735/000143774926004568/gnrc20251231_10k.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-18",
+    "shared_evidence_group": "ev_3f563d42f9db"
+  },
+  {
+    "root_ticker": "GNRC",
+    "counterparty_name": "Wallbox",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "equity investment and warrant agreement",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.72,
+    "evidence": [
+      {
+        "quote": "the Company entered into a $ 30,000 agreement with Wallbox to purchase 5 % of its Class A common stock and acquire stock warrants",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1474735/000143774926004568/gnrc20251231_10k.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-18",
+    "shared_evidence_group": "ev_0ed9209c768f"
+  },
+  {
+    "root_ticker": "GNRC",
+    "counterparty_name": "Power Home Solar, LLC d/b/a Pink Energy",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "customer",
+    "subtype": "dealer purchasing clean energy equipment for resale",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.72,
+    "evidence": [
+      {
+        "quote": "breaches of warranty, product liability, and other causes of action against Generac Power relating to the sale and performance of certain clean energy equipment",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1474735/000143774926004568/gnrc20251231_10k.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-18",
+    "shared_evidence_group": "ev_40b8b092c469"
+  },
+  {
+    "root_ticker": "GNRC",
+    "counterparty_name": "Spartronics",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "supplier",
+    "subtype": "contract manufacturer",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "Spartronics Vietnam, Inc., a contract manufacturer of Generac Power’s clean energy products, filed multiple lawsuits against Generac Power and sub-suppliers accusing Generac Power of fraud, breaching its supply agreement",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1474735/000143774926004568/gnrc20251231_10k.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-18",
+    "shared_evidence_group": "ev_c569891df6d9"
+  },
+  {
+    "root_ticker": "GNRC",
+    "counterparty_name": "Champion Power Equipment",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "competitor",
+    "subtype": "patent infringement litigant / portable generator maker",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "Champion Power Equipment, Inc. (Champion) filed a patent infringement lawsuit against Generac Power",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1474735/000143774926004568/gnrc20251231_10k.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-18",
+    "shared_evidence_group": "ev_ee1014f92167"
+  }
+]

@@ -1,0 +1,13 @@
+{
+  "ticker": "INCY",
+  "companyName": "INCYTE CORP",
+  "form": "10-K",
+  "filingDate": "2026-02-10",
+  "sourceUrl": "https://www.sec.gov/Archives/edgar/data/879169/000087916926000010/incy-20251231.htm",
+  "generatedAt": "2026-08-26T11:11:29.313Z",
+  "cacheKey": "INCY|0000879169-26-000010|5",
+  "accessionNumber": "0000879169-26-000010",
+  "validatedCount": 26,
+  "rejectedCount": 11,
+  "mergedCount": 11
+}

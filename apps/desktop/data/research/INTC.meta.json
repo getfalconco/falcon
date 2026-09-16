@@ -1,0 +1,13 @@
+{
+  "ticker": "INTC",
+  "companyName": "INTEL CORP",
+  "form": "10-K",
+  "filingDate": "2026-01-23",
+  "sourceUrl": "https://www.sec.gov/Archives/edgar/data/50863/000005086326000011/intc-20251227.htm",
+  "generatedAt": "2026-07-24T19:53:05.982Z",
+  "cacheKey": "INTC|0000050863-26-000011|5",
+  "accessionNumber": "0000050863-26-000011",
+  "validatedCount": 25,
+  "rejectedCount": 10,
+  "mergedCount": 18
+}

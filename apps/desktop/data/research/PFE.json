@@ -1,0 +1,421 @@
+[
+  {
+    "root_ticker": "PFE",
+    "counterparty_name": "BioNTech",
+    "counterparty_ticker": "BNTX",
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "joint_development_commercialization",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.98,
+    "evidence": [
+      {
+        "quote": "Comirnaty is an mRNA-based coronavirus vaccine to help prevent COVID-19, which is jointly developed and commercialized with BioNTech.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/78003/000007800326000026/pfe-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "Product is being commercialized in collaboration with BioNTech. The Comirnaty trademark covers marketed variants.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/78003/000007800326000026/pfe-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_81541f9ea307"
+  },
+  {
+    "root_ticker": "PFE",
+    "counterparty_name": "BMS",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "joint_development_commercialization",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Eliquis (apixaban) is part of the novel oral anticoagulant market and was jointly developed and is commercialized with BMS",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/78003/000007800326000026/pfe-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "Eliquis was jointly developed and is commercialized in collaboration with BMS.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/78003/000007800326000026/pfe-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_96edba88ef58"
+  },
+  {
+    "root_ticker": "PFE",
+    "counterparty_name": "Astellas",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "joint_development_commercialization",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Xtandi (enzalutamide) is an androgen receptor inhibitor that blocks multiple steps in the androgen receptor signaling pathway within tumor cells that is being developed and commercialized in collaboration with Astellas",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/78003/000007800326000026/pfe-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "Xtandi is being developed and commercialized in collaboration with Astellas, which has exclusive commercialization rights for Xtandi outside the U.S.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/78003/000007800326000026/pfe-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_a4e1c2d676ff"
+  },
+  {
+    "root_ticker": "PFE",
+    "counterparty_name": "SMPS",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "joint_development_commercialization",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Orgovyx (relugolix) is an oral gonadotropin-releasing hormone (GnRH) receptor antagonist for the treatment of adult patients with advanced prostate cancer that is being developed and commercialized with SMPS.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/78003/000007800326000026/pfe-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_960a67fbb570"
+  },
+  {
+    "root_ticker": "PFE",
+    "counterparty_name": "Genmab",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "joint_commercialization",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Tivdak (tisotumab vedotin-tftv) is commercialized in collaboration with Genmab.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/78003/000007800326000026/pfe-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "Tivdak is commercialized in collaboration with Genmab. Pfizer has co-promotion rights in the U.S.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/78003/000007800326000026/pfe-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_2203c4044684"
+  },
+  {
+    "root_ticker": "PFE",
+    "counterparty_name": "Zai Lab",
+    "counterparty_ticker": "ZLAB",
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "regional_commercialization",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "certain territories where Zai Lab Limited (Zai Lab) has commercialization rights (mainland China, Hong Kong, Macau, and Taiwan).",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/78003/000007800326000026/pfe-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "except certain territories where Zai Lab has commercialization rights (mainland China, Hong Kong, Macau, and Taiwan).",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/78003/000007800326000026/pfe-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_cbff6e694fcb"
+  },
+  {
+    "root_ticker": "PFE",
+    "counterparty_name": "CDC",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "customer",
+    "subtype": "government_vaccine_purchaser",
+    "strength": 1,
+    "strength_tier": "critical",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.93,
+    "evidence": [
+      {
+        "quote": "Our vaccines in the U.S. are primarily sold directly to the federal government (including the CDC)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/78003/000007800326000026/pfe-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_39a3ced8ba19"
+  },
+  {
+    "root_ticker": "PFE",
+    "counterparty_name": "YaoPharma",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "in_licensing",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "our in-licensing agreements with YaoPharma and 3SBio entered into in 2025 in the obesity and cardiometabolic diseases and oncology therapeutic areas",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/78003/000007800326000026/pfe-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_cd7ce66a8572"
+  },
+  {
+    "root_ticker": "PFE",
+    "counterparty_name": "3SBio",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "in_licensing",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "our in-licensing agreements with YaoPharma and 3SBio entered into in 2025 in the obesity and cardiometabolic diseases and oncology therapeutic areas",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/78003/000007800326000026/pfe-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_cd7ce66a8572"
+  },
+  {
+    "root_ticker": "PFE",
+    "counterparty_name": "Takeda",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "commercialization collaboration",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Adcetris is commercialized in collaboration with Takeda. Pfizer has commercialization rights for Adcetris in the U.S. and its territories and in Canada. Takeda has commercialization rights in the rest of the world.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/78003/000007800326000026/pfe-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_762ff51d1fd0"
+  },
+  {
+    "root_ticker": "PFE",
+    "counterparty_name": "Medison Pharma Ltd.",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "commercialization rights",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "Medison Pharma Ltd. has exclusive rights to commercialize the product in Israel",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/78003/000007800326000026/pfe-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_5911be271ddc"
+  },
+  {
+    "root_ticker": "PFE",
+    "counterparty_name": "OPKO Health, Inc.",
+    "counterparty_ticker": "OPK",
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "licensing agreement",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Ngenla is licensed from OPKO Health, Inc., and is developed and commercialized by Pfizer",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/78003/000007800326000026/pfe-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_3c709276162a"
+  },
+  {
+    "root_ticker": "PFE",
+    "counterparty_name": "EMA",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "supplier",
+    "subtype": "regulatory_authority",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "We may not be able to successfully address all the comments received from regulatory authorities such as the FDA and the EMA, or be able to obtain approval for new products and indications from regulators.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/78003/000007800326000026/pfe-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "In the EU, the EMA conducts the scientific evaluation, supervision and safety monitoring of our innovative medicinal products that are eligible for the centralized marketing authorization procedure.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/78003/000007800326000026/pfe-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "In October 2025, the EMA adopted a negative opinion on benefit-risk for Oxbryta for the treatment of hemolytic anemia due to SCD",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/78003/000007800326000026/pfe-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_57fd9a8c690a"
+  },
+  {
+    "root_ticker": "PFE",
+    "counterparty_name": "Metsera",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "supplier",
+    "subtype": "acquisition_target",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "including our recent acquisition of Metsera",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/78003/000007800326000026/pfe-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "our acquisitions of Metsera and Seagen represent significant investments in obesity and oncology, respectively",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/78003/000007800326000026/pfe-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "we financed a portion of the acquisitions of Seagen and Metsera with the proceeds from the issuance of long-term debt",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/78003/000007800326000026/pfe-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_542002bdd223"
+  },
+  {
+    "root_ticker": "PFE",
+    "counterparty_name": "HHS",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "dependency",
+    "subtype": "pricing_authority",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "The IRA directs HHS to set the prices of certain high-expenditure, single-source drugs and biologics covered under Medicare.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/78003/000007800326000026/pfe-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_d9a7372a97cf"
+  },
+  {
+    "root_ticker": "PFE",
+    "counterparty_name": "CDC",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "dependency",
+    "subtype": "recommendation_authority",
+    "strength": 1,
+    "strength_tier": "critical",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "in January 2026, the CDC unilaterally reduced the number of immunizations routinely recommended for all children in the U.S.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/78003/000007800326000026/pfe-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_b39e55880e05"
+  },
+  {
+    "root_ticker": "PFE",
+    "counterparty_name": "ACIP",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "dependency",
+    "subtype": "advisory_committee",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "We may not be able to receive or maintain favorable recommendations by technical or advisory committees, such as the ACIP or an FDA Advisory Committee, which may impact the availability or commercial potential",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/78003/000007800326000026/pfe-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-26",
+    "shared_evidence_group": "ev_292248d88a0e"
+  }
+]

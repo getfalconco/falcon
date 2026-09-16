@@ -1,0 +1,13 @@
+{
+  "ticker": "DE",
+  "companyName": "DEERE & CO",
+  "form": "10-K",
+  "filingDate": "2025-12-18",
+  "sourceUrl": "https://www.sec.gov/Archives/edgar/data/315189/000110465925122321/de-20251102x10k.htm",
+  "generatedAt": "2026-08-26T10:58:18.594Z",
+  "cacheKey": "DE|0001104659-25-122321|5",
+  "accessionNumber": "0001104659-25-122321",
+  "validatedCount": 25,
+  "rejectedCount": 6,
+  "mergedCount": 5
+}

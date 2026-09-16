@@ -1,0 +1,95 @@
+[
+  {
+    "root_ticker": "MSFT",
+    "counterparty_name": "Dell",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "OEM",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "We have distribution agreements covering one or more of our products with virtually all the multinational OEMs, including Dell, Hewlett-Packard, Lenovo",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/789019/000095017025100235/msft-20250630.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-07-30",
+    "shared_evidence_group": "ev_39cf85218acd"
+  },
+  {
+    "root_ticker": "MSFT",
+    "counterparty_name": "Hewlett-Packard",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "OEM",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "We have distribution agreements covering one or more of our products with virtually all the multinational OEMs, including Dell, Hewlett-Packard, Lenovo",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/789019/000095017025100235/msft-20250630.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-07-30",
+    "shared_evidence_group": "ev_39cf85218acd"
+  },
+  {
+    "root_ticker": "MSFT",
+    "counterparty_name": "Lenovo",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "OEM",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "We have distribution agreements covering one or more of our products with virtually all the multinational OEMs, including Dell, Hewlett-Packard, Lenovo",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/789019/000095017025100235/msft-20250630.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-07-30",
+    "shared_evidence_group": "ev_39cf85218acd"
+  },
+  {
+    "root_ticker": "MSFT",
+    "counterparty_name": "OpenAI",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "strategic_partnership",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.98,
+    "evidence": [
+      {
+        "quote": "In January 2023 we announced the third phase of our OpenAI strategic partnership.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/789019/000095017025100235/msft-20250630.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "This AI may be developed by Microsoft or others, including our strategic partner, OpenAI.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/789019/000095017025100235/msft-20250630.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-07-30",
+    "shared_evidence_group": "ev_85f78365354e"
+  }
+]

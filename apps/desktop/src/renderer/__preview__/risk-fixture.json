@@ -1,0 +1,182 @@
+{
+  "snapshot": {
+    "schema_version": 1,
+    "computed_at": "2026-08-26T12:01:40.342Z",
+    "account": "paper",
+    "trigger": [
+      "manual"
+    ],
+    "invested_fraction": 0.7446,
+    "position_count": 6,
+    "weights": [
+      {
+        "ticker": "JPM",
+        "weight": 0.43216,
+        "market_value": 6300,
+        "side": "long"
+      },
+      {
+        "ticker": "NVDA",
+        "weight": 0.27768,
+        "market_value": 4047.95,
+        "side": "long"
+      },
+      {
+        "ticker": "CEG",
+        "weight": 0.0764,
+        "market_value": 1113.68,
+        "side": "long"
+      },
+      {
+        "ticker": "ZLAB",
+        "weight": 0.07181,
+        "market_value": 1046.8,
+        "side": "long"
+      },
+      {
+        "ticker": "OPK",
+        "weight": 0.07155,
+        "market_value": 1043,
+        "side": "long"
+      },
+      {
+        "ticker": "BNTX",
+        "weight": 0.07041,
+        "market_value": 1026.45,
+        "side": "long"
+      }
+    ],
+    "blend_weights": {
+      "concentration": 0.18,
+      "market": 0.17,
+      "volatility": 0.18,
+      "network": 0.22,
+      "event": 0.13,
+      "sharpe": 0.12
+    },
+    "graph_version": {
+      "generatedAt": "2026-08-26T11:19:13.873Z",
+      "pipelineVersion": 5
+    },
+    "score": 33,
+    "band": "moderate",
+    "components": {
+      "concentration": {
+        "score": 68,
+        "hhi": 0.2849,
+        "top": [
+          {
+            "ticker": "JPM",
+            "weight": 0.4322
+          },
+          {
+            "ticker": "NVDA",
+            "weight": 0.2777
+          },
+          {
+            "ticker": "CEG",
+            "weight": 0.0764
+          },
+          {
+            "ticker": "ZLAB",
+            "weight": 0.0718
+          },
+          {
+            "ticker": "OPK",
+            "weight": 0.0715
+          }
+        ]
+      },
+      "market": {
+        "score": 39,
+        "beta_eff": 0.897,
+        "beta_port": 1.204
+      },
+      "volatility": {
+        "score": 41,
+        "port_vol_daily_pct": 1.407,
+        "spy_vol_daily_pct": 0.603,
+        "systematic_share": 0.2665
+      },
+      "network": {
+        "score": 5,
+        "linked_fraction": 0,
+        "pair_count": 10,
+        "excluded": [
+          "JPM"
+        ],
+        "top_links": []
+      },
+      "event": {
+        "score": 11,
+        "raw": 1.8368,
+        "contributors": [
+          {
+            "ticker": "NVDA",
+            "kind": "earnings_window",
+            "detail": "today",
+            "contribution": 5.584,
+            "weighted": 1.5506
+          },
+          {
+            "ticker": "OPK",
+            "kind": "drift",
+            "detail": "drift",
+            "contribution": 4,
+            "weighted": 0.2862
+          }
+        ]
+      },
+      "sharpe": {
+        "score": 35,
+        "sharpe": 1.121,
+        "sessions": 90,
+        "ann_return_pct": 34.07,
+        "ann_vol_pct": 26.81,
+        "risk_free_pct": 4,
+        "excluded": [
+          "JPM"
+        ]
+      }
+    },
+    "driver": {
+      "component": "concentration",
+      "sentence": "43% of the portfolio sits in JPM.",
+      "contribution": 12.24
+    },
+    "degraded": [
+      {
+        "ticker": "JPM",
+        "field": "graph",
+        "substitute": "excluded"
+      },
+      {
+        "ticker": "JPM",
+        "field": "history",
+        "substitute": "excluded"
+      },
+      {
+        "ticker": "JPM",
+        "field": "price",
+        "substitute": "cost_basis"
+      },
+      {
+        "ticker": "JPM",
+        "field": "quant",
+        "substitute": 1
+      },
+      {
+        "ticker": "JPM",
+        "field": "vol",
+        "substitute": 0.01961
+      }
+    ],
+    "empty": false
+  },
+  "keys": {
+    "close": "BNTX:2026-08-25,CEG:2026-08-25,JPM:-,NVDA:2026-08-25,OPK:2026-08-25,ZLAB:2026-08-25",
+    "bands": "BNTX:-,CEG:-,JPM:-,NVDA:-,OPK:-,ZLAB:-",
+    "horizon": "NVDA"
+  },
+  "errors": []
+}

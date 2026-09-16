@@ -1,0 +1,13 @@
+{
+  "ticker": "RTX",
+  "companyName": "RTX Corp",
+  "form": "10-K",
+  "filingDate": "2026-02-06",
+  "sourceUrl": "https://www.sec.gov/Archives/edgar/data/101829/000010182926000006/rtx-20251231.htm",
+  "generatedAt": "2026-07-24T20:00:47.135Z",
+  "cacheKey": "RTX|0000101829-26-000006|5",
+  "accessionNumber": "0000101829-26-000006",
+  "validatedCount": 12,
+  "rejectedCount": 26,
+  "mergedCount": 7
+}

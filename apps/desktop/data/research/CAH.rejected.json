@@ -1,0 +1,200 @@
+[
+  {
+    "counterparty_name": "Vizient, Inc.",
+    "category": "partner",
+    "subtype": "group_purchasing_organization",
+    "evidence_quote": "Our two largest GPO relationships in terms of revenue are with Vizient, Inc. and Premier, Inc. Sales to members of these two GPOs ... collectively accounted for 29 percent of our revenue in fiscal 2026.",
+    "confidence": 0.9,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Premier, Inc.",
+    "category": "partner",
+    "subtype": "group_purchasing_organization",
+    "evidence_quote": "Our two largest GPO relationships in terms of revenue are with Vizient, Inc. and Premier, Inc. Sales to members of these two GPOs ... collectively accounted for 29 percent of our revenue in fiscal 2026.",
+    "confidence": 0.9,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "U.S. Drug Enforcement Administration",
+    "category": "dependency",
+    "subtype": "regulatory_infrastructure",
+    "evidence_quote": "State Boards of Pharmacy, FDA, DEA, and various other state authorities regulate the marketing, purchase, storage, and distribution of pharmaceutical and medical products",
+    "confidence": 0.85,
+    "reason": "counterparty name not in quote",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "U.S. Food and Drug Administration",
+    "category": "dependency",
+    "subtype": "regulatory_infrastructure",
+    "evidence_quote": "State Boards of Pharmacy, FDA, DEA, and various other state authorities regulate the marketing, purchase, storage, and distribution of pharmaceutical and medical products",
+    "confidence": 0.85,
+    "reason": "counterparty name not in quote",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "U.S. Nuclear Regulatory Commission",
+    "category": "dependency",
+    "subtype": "regulatory_infrastructure",
+    "evidence_quote": "Our nuclear pharmacies and radiopharmaceutical manufacturing facilities (including for Xofigo ® ) require licenses or permits and must abide by regulations issued by the NRC",
+    "confidence": 0.85,
+    "reason": "counterparty name not in quote",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Medicare",
+    "category": "customer",
+    "subtype": "federal_healthcare_program",
+    "evidence_quote": "Some of our businesses and entities...are Medicare-certified suppliers or participate in other federal and state healthcare programs",
+    "confidence": 0.85,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Medicaid",
+    "category": "customer",
+    "subtype": "state_healthcare_program",
+    "evidence_quote": "Some of our businesses and entities...are Medicare-certified suppliers or participate in other federal and state healthcare programs, such as state Medicaid programs",
+    "confidence": 0.85,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Department of Justice",
+    "category": "dependency",
+    "subtype": "regulatory_body",
+    "evidence_quote": "in November 2023, we received a Civil Investigative Demand from the Department of Justice focused on potential violations of the Anti-Kickback Statute and False Claims Act",
+    "confidence": 0.9,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "IRS",
+    "category": "dependency",
+    "subtype": "tax_authority",
+    "evidence_quote": "During fiscal 2026, we received two Notices of Proposed Adjustment from the IRS in connection with their audit of our fiscal years 2015-2020",
+    "confidence": 0.9,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "U.S. Government",
+    "category": "dependency",
+    "subtype": "tariff_refund_infrastructure",
+    "evidence_quote": "After receiving refunds of IEEPA tariffs from the U.S. Government, we expect to return to customers the portion of those refunds",
+    "confidence": 0.85,
+    "reason": "The U.S. Government is providing a tariff refund to Cardinal Health, which is a standard governmental tax/tariff administration function, not a dependency relationship. Cardinal Health is receiving a refund of tariffs it paid, similar to a tax refund. This is a transactional event, not an infrastructural dependency. The tariff system itself is regulatory infrastructure, but the refund is simply a governmental payment obligation. Furthermore, the exclusion rules explicitly state that tax and revenue authorities (which administer tariffs) are not valid counterparties. The U.S. Government acting in its capacity to refund tariffs is analogous to the IRS issuing a tax refund—it is a regulatory/administrative function, not a dependency relationship.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Elliott Associates, L.P.",
+    "category": "partner",
+    "subtype": "shareholder cooperation agreement",
+    "evidence_quote": "the agreement (the \"Cooperation Agreement\") entered into among Elliott Associates, L.P., Elliott International, L.P. (together, \"Elliott\"), and Cardinal Health.",
+    "confidence": 0.85,
+    "reason": "Elliott Associates, L.P. and Elliott International, L.P. are activist shareholders who entered into a Cooperation Agreement with Cardinal Health, not operational partners. The filing explicitly categorizes costs related to this agreement as non-GAAP adjustments because they 'do not occur in or reflect the ordinary course of our ongoing business operations.' The agreement involved board committee formation and business review, which are corporate governance matters, not a commercial partnership. The relationship is investor/shareholder activism, not a business partnership involving joint development, distribution, or licensing. Additionally, the filing states 'The Cooperation Agreement expired in the second quarter of fiscal 2025,' indicating this was a temporary governance arrangement. This does not qualify as a counterparty relationship under the defined categories (supplier, customer, partner, competitor, dependency).",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Elliott International, L.P.",
+    "category": "partner",
+    "subtype": "shareholder cooperation agreement",
+    "evidence_quote": "the agreement (the \"Cooperation Agreement\") entered into among Elliott Associates, L.P., Elliott International, L.P. (together, \"Elliott\"), and Cardinal Health.",
+    "confidence": 0.85,
+    "reason": "Elliott Associates, L.P. and Elliott International, L.P. are activist shareholders who entered into a Cooperation Agreement with Cardinal Health. The filing explicitly describes costs incurred 'to negotiate and finalize the Cooperation Agreement' and references a Business Review Committee formed under this agreement. This is a shareholder activism settlement/cooperation arrangement, not a business partnership. Elliott is an investment fund acting in its capacity as a shareholder to influence corporate governance and strategy, not as a commercial partner in joint business development, distribution, or licensing. The category 'partner' with subtype 'shareholder cooperation agreement' is internally contradictory—shareholder activism agreements do not constitute business partnerships under the standard category definitions. While Elliott is a real external entity, it is acting as an investor/shareholder, not a counterparty in the operational sense required for edges in this knowledge graph.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "FDA",
+    "category": "dependency",
+    "subtype": "regulatory_infrastructure",
+    "evidence_quote": "Certain of our procedures and certain facilities across our organization and those of our suppliers are subject to ongoing regulation and periodic inspection by the FDA and other authorities.",
+    "confidence": 0.92,
+    "reason": "The FDA is a regulatory authority, not a dependency. The evidence quote describes ongoing regulation and periodic inspection by the FDA, which is the FDA acting in its regulatory capacity. This falls under the explicit exclusion rule: 'regulators acting as regulators' are always rejected as counterparties. The FDA does not provide infrastructure or services that Cardinal Health depends on; it enforces compliance requirements. This is a regulatory relationship, not a dependency relationship.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "DEA",
+    "category": "dependency",
+    "subtype": "regulatory_body",
+    "evidence_quote": "From time to time, regulatory authorities, including the DOJ, FDA, DEA, and FTC, investigate our policies or practices",
+    "confidence": 0.9,
+    "reason": "The DEA is a regulatory authority that investigates and oversees Cardinal Health's compliance with controlled substance distribution laws. While Cardinal Health must comply with DEA regulations and obtain DEA licenses, the relationship is regulatory oversight, not dependency. The DEA does not provide critical infrastructure or services that Cardinal Health relies upon operationally (like GPS satellites or public internet infrastructure). The evidence shows the DEA 'investigates our policies or practices' as a regulator, which is fundamentally different from a dependency relationship. Regulators acting in their regulatory capacity should be rejected as counterparties per the guidelines. The DEA is enforcing laws, not providing a service Cardinal Health depends on.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "FTC",
+    "category": "dependency",
+    "subtype": "regulatory_body",
+    "evidence_quote": "From time to time, regulatory authorities, including the DOJ, FDA, DEA, and FTC, investigate our policies or practices",
+    "confidence": 0.9,
+    "reason": "The FTC is listed alongside DOJ, FDA, and DEA as regulatory authorities that 'investigate our policies or practices,' which describes a regulatory/enforcement role, not a dependency relationship. The root company does not rely on FTC infrastructure or services to operate; rather, the FTC is a government regulator that may investigate the company. This is a regulatory oversight relationship, not a dependency. Regulators acting in their regulatory capacity should be rejected as counterparties per the auditing rules.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Office of Inspector General of the Department of Health and Human Services",
+    "category": "dependency",
+    "subtype": "regulatory_oversight",
+    "evidence_quote": "In fiscal 2022, our Specialty Pharmaceutical Distribution business entered into a five-year Corporate Integrity Agreement with the Office of Inspector General of the Department of Health and Human Services",
+    "confidence": 0.9,
+    "reason": "The Office of Inspector General (OIG) is a regulatory/enforcement body, not a dependency. The Corporate Integrity Agreement (CIA) is a compliance monitoring agreement resulting from an investigation into alleged violations. This is a regulatory oversight relationship, not a dependency where Cardinal Health relies on OIG infrastructure or services for operations. The OIG is enforcing rules, not providing critical infrastructure. Additionally, per instructions, regulators acting as regulators should be rejected as counterparties. The CIA is a remedial enforcement mechanism, not a dependency relationship.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Customs and Border protection",
+    "category": "dependency",
+    "subtype": "regulatory_infrastructure",
+    "evidence_quote": "From time to time, Customs and Border protection agencies, whether in the U.S. or other jurisdictions, have challenged these determinations.",
+    "confidence": 0.88,
+    "reason": "U.S. Customs and Border Protection (CBP) is a regulatory/government agency acting in its regulatory enforcement capacity. The evidence_quote shows CBP challenging Cardinal Health's country-of-origin determinations for imported products—a classic regulatory enforcement action, not a dependency relationship. The filing states: 'From time to time, Customs and Border protection agencies, whether in the U.S. or other jurisdictions, have challenged these determinations. These and other actions by border protection have resulted in products being detained or delayed and supply disruptions and could result in the imposition of fines and penalties.' This describes regulatory oversight and enforcement (detaining products, imposing fines), not a critical infrastructure dependency. Per the auditor instructions, 'regulators acting as regulators' and 'tax and revenue authorities' are excluded as counterparties. CBP is performing border enforcement and tariff administration—regulatory functions—not providing infrastructure Cardinal Health depends upon for operations. Additionally, the evidence_quote itself is not a complete natural-language sentence; it's a fragment ('From time to time, Customs and Border protection agencies...have challenged these determinations') that lacks full context without the preceding sentence. The relationship is regulatory oversight, not dependency.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Integrated Oncology Network",
+    "category": "supplier",
+    "subtype": "acquisition",
+    "evidence_quote": "in fiscal 2025, we completed several acquisitions in disparate businesses: the acquisition of Integrated Oncology Network and GI Alliance",
+    "confidence": 0.85,
+    "reason": "The evidence_quote states that Cardinal Health 'completed several acquisitions' including 'the acquisition of Integrated Oncology Network.' This makes Integrated Oncology Network an acquisition target of Cardinal Health, not a supplier. An acquisition target is a company that Cardinal Health purchased/acquired, which means ION became part of Cardinal Health (either a subsidiary or was absorbed). This is the opposite relationship from 'supplier.' The category 'supplier' with subtype 'acquisition' is contradictory and nonsensical—suppliers are external vendors Cardinal Health pays for goods/services, whereas acquisitions are companies Cardinal Health bought and now owns or controls. The correct interpretation is that ION is now part of Cardinal Health's corporate structure (likely a subsidiary), making it internal rather than a counterparty. Additionally, the filing later mentions 'our Navista & ION reporting unit,' confirming ION is now an internal reporting unit of Cardinal Health, not an external counterparty.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "GI Alliance",
+    "category": "supplier",
+    "subtype": "acquisition",
+    "evidence_quote": "in fiscal 2025, we completed several acquisitions in disparate businesses: the acquisition of Integrated Oncology Network and GI Alliance",
+    "confidence": 0.85,
+    "reason": "GI Alliance is described as an acquisition target that Cardinal Health acquired ('we completed several acquisitions...the acquisition of...GI Alliance, which are part of our Specialty business'). This makes GI Alliance a subsidiary/part of Cardinal Health's operations, not an external counterparty. The relationship is correctly identified as 'acquisition' in subtype, but the category 'supplier' is inappropriate—GI Alliance became part of Cardinal Health through acquisition, so it cannot simultaneously be a supplier to the root company. Acquired entities become internal to the acquiring company and do not qualify as counterparties in the ongoing operational sense. The evidence supports an acquisition event, not an ongoing supplier relationship.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Advanced Diabetes Supply Group",
+    "category": "supplier",
+    "subtype": "acquisition",
+    "evidence_quote": "the acquisition of Advanced Diabetes Supply Group, which is part of our Cardinal Health At-Home businesses",
+    "confidence": 0.85,
+    "reason": "The evidence_quote describes Advanced Diabetes Supply Group as an acquisition target that 'is part of our Cardinal Health At-Home businesses' after completion of the acquisition. This language clearly indicates Advanced Diabetes Supply Group is now a subsidiary of Cardinal Health (the ROOT company), not an external counterparty. Subsidiaries and acquired businesses that are now internal operating units are invalid counterparties per the auditing rules. The category 'supplier' with subtype 'acquisition' is also contradictory — an acquisition target becomes an internal unit, not a supplier relationship.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Solaris Health",
+    "category": "supplier",
+    "subtype": "acquisition",
+    "evidence_quote": "In fiscal 2026, the Specialty Alliance completed several acquisitions, including the acquisition of Solaris Health.",
+    "confidence": 0.85,
+    "reason": "The evidence_quote describes the Specialty Alliance (a business segment or unit within Cardinal Health) acquiring Solaris Health, not Cardinal Health paying Solaris Health as a commercial supplier. An acquisition target is not a supplier relationship—it becomes part of the acquiring company. The 'supplier' category is incorrect for an acquisition, and 'subtype: acquisition' contradicts the supplier classification. Additionally, post-acquisition, Solaris Health would be an internal subsidiary/unit, not an external counterparty.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Ernst & Young LLP",
+    "category": "supplier",
+    "subtype": "external_auditor",
+    "evidence_quote": "Our independent registered public accounting firm, Ernst & Young LLP, has issued a report on our internal control over financial reporting.",
+    "confidence": 0.95,
+    "reason": "Ernst & Young LLP is the external auditor of Cardinal Health Inc., which falls under the exclusion rule for counterparties. The instructions explicitly state to 'always reject these as counterparties: ... external auditors.' While the evidence quote is valid and the relationship is real, external auditors are not valid counterparties for the purposes of this financial knowledge graph, as they represent a mandatory regulatory service relationship rather than a business counterparty relationship.",
+    "stage": "audit"
+  }
+]

@@ -1,0 +1,13 @@
+{
+  "ticker": "LLY",
+  "companyName": "ELI LILLY & Co",
+  "form": "10-K",
+  "filingDate": "2026-02-12",
+  "sourceUrl": "https://www.sec.gov/Archives/edgar/data/59478/000005947826000013/lly-20251231.htm",
+  "generatedAt": "2026-07-24T20:16:20.602Z",
+  "cacheKey": "LLY|0000059478-26-000013|5",
+  "accessionNumber": "0000059478-26-000013",
+  "validatedCount": 13,
+  "rejectedCount": 6,
+  "mergedCount": 7
+}

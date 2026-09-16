@@ -1,0 +1,302 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 65866,
+  "chunks": 3,
+  "candidates": [
+    {
+      "counterparty_name": "Coinbase",
+      "counterparty_type": "public_company",
+      "category": "dependency",
+      "subtype": "principal_market_exchange",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "As of February 13, 2026, at 4:00 p.m. Eastern Time, the market price of one bitcoin reported on the Coinbase exchange (our principal market) was $68,734.",
+      "evidence_quotes": [
+        "As of February 13, 2026, at 4:00 p.m. Eastern Time, the market price of one bitcoin reported on the Coinbase exchange (our principal market) was $68,734."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Securities and Exchange Commission",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the Securities and Exchange Commission (\"SEC\") approved the first U.S. spot bitcoin exchange-traded products (\"ETPs\") in January 2024",
+      "evidence_quotes": [
+        "the Securities and Exchange Commission (\"SEC\") approved the first U.S. spot bitcoin exchange-traded products (\"ETPs\") in January 2024"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Financial Crimes Enforcement Network",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "a number of U.S. federal and state agencies, including the Financial Crimes Enforcement Network, the Commodity Futures Trading Commission (\"CFTC\"), the SEC",
+      "evidence_quotes": [
+        "a number of U.S. federal and state agencies, including the Financial Crimes Enforcement Network, the Commodity Futures Trading Commission (\"CFTC\"), the SEC"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Commodity Futures Trading Commission",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "a number of U.S. federal and state agencies, including the Financial Crimes Enforcement Network, the Commodity Futures Trading Commission (\"CFTC\"), the SEC",
+      "evidence_quotes": [
+        "a number of U.S. federal and state agencies, including the Financial Crimes Enforcement Network, the Commodity Futures Trading Commission (\"CFTC\"), the SEC"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Financial Industry Regulatory Authority",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "a number of U.S. federal and state agencies, including the Financial Crimes Enforcement Network, the Commodity Futures Trading Commission (\"CFTC\"), the SEC, the Financial Industry Regulatory Authority",
+      "evidence_quotes": [
+        "a number of U.S. federal and state agencies, including the Financial Crimes Enforcement Network, the Commodity Futures Trading Commission (\"CFTC\"), the SEC, the Financial Industry Regulatory Authority"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Consumer Financial Protection Bureau",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the SEC, the Financial Industry Regulatory Authority, the Consumer Financial Protection Bureau, the Department of Justice, the Department of Homeland Security, the Federal Bureau of Investigation",
+      "evidence_quotes": [
+        "the SEC, the Financial Industry Regulatory Authority, the Consumer Financial Protection Bureau, the Department of Justice, the Department of Homeland Security, the Federal Bureau of Investigation"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Department of Justice",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the Consumer Financial Protection Bureau, the Department of Justice, the Department of Homeland Security, the Federal Bureau of Investigation, the Internal Revenue Service (\"IRS\")",
+      "evidence_quotes": [
+        "the Consumer Financial Protection Bureau, the Department of Justice, the Department of Homeland Security, the Federal Bureau of Investigation, the Internal Revenue Service (\"IRS\")"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Department of Homeland Security",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the Consumer Financial Protection Bureau, the Department of Justice, the Department of Homeland Security, the Federal Bureau of Investigation, the Internal Revenue Service (\"IRS\")",
+      "evidence_quotes": [
+        "the Consumer Financial Protection Bureau, the Department of Justice, the Department of Homeland Security, the Federal Bureau of Investigation, the Internal Revenue Service (\"IRS\")"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Federal Bureau of Investigation",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the Department of Justice, the Department of Homeland Security, the Federal Bureau of Investigation, the Internal Revenue Service (\"IRS\") and state financial regulators",
+      "evidence_quotes": [
+        "the Department of Justice, the Department of Homeland Security, the Federal Bureau of Investigation, the Internal Revenue Service (\"IRS\") and state financial regulators"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "U.S. Department of Health and Human Services",
+      "counterparty_type": "government",
+      "category": "partner",
+      "subtype": "fedramp_authorization",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Strategy's government cloud solution achieved this designation through collaboration with the U.S. Department of Health and Human Services.",
+      "evidence_quotes": [
+        "Strategy's government cloud solution achieved this designation through collaboration with the U.S. Department of Health and Human Services."
+      ],
+      "confidence": 0.94,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "AWS",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "cloud_infrastructure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our cloud-native, containerized architecture has been optimized for all three hyperscalers – AWS, Azure, and GCP",
+      "evidence_quotes": [
+        "Our cloud-native, containerized architecture has been optimized for all three hyperscalers – AWS, Azure, and GCP"
+      ],
+      "confidence": 0.96,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Azure",
+      "counterparty_type": "product",
+      "category": "supplier",
+      "subtype": "cloud_infrastructure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our cloud-native, containerized architecture has been optimized for all three hyperscalers – AWS, Azure, and GCP",
+      "evidence_quotes": [
+        "Our cloud-native, containerized architecture has been optimized for all three hyperscalers – AWS, Azure, and GCP"
+      ],
+      "confidence": 0.96,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "GCP",
+      "counterparty_type": "product",
+      "category": "supplier",
+      "subtype": "cloud_infrastructure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our cloud-native, containerized architecture has been optimized for all three hyperscalers – AWS, Azure, and GCP",
+      "evidence_quotes": [
+        "Our cloud-native, containerized architecture has been optimized for all three hyperscalers – AWS, Azure, and GCP"
+      ],
+      "confidence": 0.96,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "AWS",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "cloud hosting provider",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Strategy has established strategic partnerships with a wide variety of third-party vendors, including cloud hosting providers (AWS, Microsoft, STACKIT, and Google)",
+      "evidence_quotes": [
+        "Strategy has established strategic partnerships with a wide variety of third-party vendors, including cloud hosting providers (AWS, Microsoft, STACKIT, and Google)"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Microsoft",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "cloud hosting provider",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Strategy has established strategic partnerships with a wide variety of third-party vendors, including cloud hosting providers (AWS, Microsoft, STACKIT, and Google)",
+      "evidence_quotes": [
+        "Strategy has established strategic partnerships with a wide variety of third-party vendors, including cloud hosting providers (AWS, Microsoft, STACKIT, and Google)"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "STACKIT",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "cloud hosting provider",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Strategy has established strategic partnerships with a wide variety of third-party vendors, including cloud hosting providers (AWS, Microsoft, STACKIT, and Google)",
+      "evidence_quotes": [
+        "Strategy has established strategic partnerships with a wide variety of third-party vendors, including cloud hosting providers (AWS, Microsoft, STACKIT, and Google)"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Google",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "cloud hosting provider",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Strategy has established strategic partnerships with a wide variety of third-party vendors, including cloud hosting providers (AWS, Microsoft, STACKIT, and Google)",
+      "evidence_quotes": [
+        "Strategy has established strategic partnerships with a wide variety of third-party vendors, including cloud hosting providers (AWS, Microsoft, STACKIT, and Google)"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "IBM",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "enterprise analytics",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "For enterprise analytics, Strategy competes with global ISVs, such as IBM, Microsoft, Oracle, Salesforce, and SAP.",
+      "evidence_quotes": [
+        "For enterprise analytics, Strategy competes with global ISVs, such as IBM, Microsoft, Oracle, Salesforce, and SAP."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Microsoft",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "enterprise analytics",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "For enterprise analytics, Strategy competes with global ISVs, such as IBM, Microsoft, Oracle, Salesforce, and SAP.",
+      "evidence_quotes": [
+        "For enterprise analytics, Strategy competes with global ISVs, such as IBM, Microsoft, Oracle, Salesforce, and SAP."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Oracle",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "enterprise analytics",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "For enterprise analytics, Strategy competes with global ISVs, such as IBM, Microsoft, Oracle, Salesforce, and SAP.",
+      "evidence_quotes": [
+        "For enterprise analytics, Strategy competes with global ISVs, such as IBM, Microsoft, Oracle, Salesforce, and SAP."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Salesforce",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "enterprise analytics",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "For enterprise analytics, Strategy competes with global ISVs, such as IBM, Microsoft, Oracle, Salesforce, and SAP.",
+      "evidence_quotes": [
+        "For enterprise analytics, Strategy competes with global ISVs, such as IBM, Microsoft, Oracle, Salesforce, and SAP."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "SAP",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "enterprise analytics",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "For enterprise analytics, Strategy competes with global ISVs, such as IBM, Microsoft, Oracle, Salesforce, and SAP.",
+      "evidence_quotes": [
+        "For enterprise analytics, Strategy competes with global ISVs, such as IBM, Microsoft, Oracle, Salesforce, and SAP."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    }
+  ],
+  "candidatesPerChunk": [
+    1,
+    12,
+    9
+  ],
+  "parseErrors": 3,
+  "apiErrors": 0,
+  "inputTokens": 15300,
+  "outputTokens": 2450
+}

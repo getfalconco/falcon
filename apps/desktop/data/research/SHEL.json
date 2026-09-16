@@ -1,0 +1,1865 @@
+[
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "Northern Lights",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "joint venture",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.85,
+    "evidence": [
+      {
+        "quote": "The Northern Lights joint venture, for example, has already transported CO 2 from its first industrial customers and injected it beneath the Norwegian Sea.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_9c8b1d80cd11"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "Adura Energy Limited",
+    "counterparty_ticker": null,
+    "counterparty_type": "joint_venture_entity",
+    "category": "partner",
+    "subtype": "joint venture",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.72,
+    "evidence": [
+      {
+        "quote": "We also completed the formation of the Adura Energy Limited joint venture, which is one of the largest independent producers in the UK North Sea.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "gains on disposal of assets, mainly related to the incorporation of the Adura Energy Limited joint venture in the UK",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_61d2f4d59f9d"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "ExxonMobil",
+    "counterparty_ticker": "XOM",
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "joint_venture",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Shell and ExxonMobil are 50:50 shareholders in Nederlandse Aardolie Maatschappij B.V. (NAM).",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "Nederlandse Aardolie Maatschappij B.V. (NAM), a joint venture between Shell and ExxonMobil (50:50) has settled claims for physical damage to property caused by earthquakes induced by historical production from the Groningen gas field",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "In January 2026, ExxonMobil closed the Fife Ethylene Plant (Mossmorran) after announcing this in November 2025.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_68ffedd91ebf"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "Nederlandse Aardolie Maatschappij B.V. (NAM)",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "joint venture",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.82,
+    "evidence": [
+      {
+        "quote": "Nederlandse Aardolie Maatschappij B.V. (NAM), a joint venture between Shell and ExxonMobil (50:50) has settled claims for physical damage to property caused by earthquakes induced by historical production from the Groningen gas field",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_17a3132f32c1"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "China National Petroleum Corporation",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "joint venture",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.93,
+    "evidence": [
+      {
+        "quote": "we have a 50% interest in the Arrow joint venture with China National Petroleum Corporation (CNPC)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_fbc1bd06db22"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "Woodside",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "joint venture operator",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "Woodside operates the NWS joint venture (Shell interest 16.7%)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_c9131dc23b22"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "Chevron",
+    "counterparty_ticker": "CVX",
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "joint venture",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "We have a 25% interest in the Chevron-operated Gorgon LNG joint venture",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_4168afa3842c"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "Repsol",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "joint venture operator",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.93,
+    "evidence": [
+      {
+        "quote": "We have a 37.5% interest in the Repsol-operated Caipipendi block",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_632d67983671"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "Petronas",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "joint venture",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Shell has a 40% interest in LNG Canada which is a joint venture with Petronas, PetroChina, Mitsubishi and Kogas",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "Shell is the largest owner in LNG Canada, holding a 40% interest. The other joint venture partners include PETRONAS of Malaysia, PetroChina, Mitsubishi Corporation of Japan, and Korea Gas Corporation",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_0c02c49aa659"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "PetroChina",
+    "counterparty_ticker": "PCCYF",
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "joint venture",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.97,
+    "evidence": [
+      {
+        "quote": "Shell has a 40% interest in LNG Canada which is a joint venture with Petronas, PetroChina, Mitsubishi and Kogas",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "Shell is the largest owner in LNG Canada, holding a 40% interest. The other joint venture partners include PETRONAS of Malaysia, PetroChina, Mitsubishi Corporation of Japan, and Korea Gas Corporation",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_0c02c49aa659"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "Mitsubishi",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "joint venture",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Shell has a 40% interest in LNG Canada which is a joint venture with Petronas, PetroChina, Mitsubishi and Kogas",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "Shell is the largest owner in LNG Canada, holding a 40% interest. The other joint venture partners include PETRONAS of Malaysia, PetroChina, Mitsubishi Corporation of Japan, and Korea Gas Corporation",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_0c02c49aa659"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "Kogas",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "joint venture",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Shell has a 40% interest in LNG Canada which is a joint venture with Petronas, PetroChina, Mitsubishi and Kogas",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_0c02c49aa659"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "Arcius",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "divestiture/asset sale",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.55,
+    "evidence": [
+      {
+        "quote": "A sales and purchase agreement (SPA) has been signed for the El Burg concession to divest 100% of Shell interest to Arcius",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_e695c7ebbcb9"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "Oman LNG",
+    "counterparty_ticker": null,
+    "counterparty_type": "other",
+    "category": "supplier",
+    "subtype": "LNG offtake",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "we have had a long-term offtake agreement in place to purchase up to 1.6 mtpa over a 10-year period from Oman LNG",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_da463d7bfd9f"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "Novatek",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "supplier",
+    "subtype": "LNG purchase contract",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "Shell still holds one long-term LNG purchase contract with a Novatek entity",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_5a09ed238fbe"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "Touchstone Exploration Trinidad Limited",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "customer",
+    "subtype": "asset buyer",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.85,
+    "evidence": [
+      {
+        "quote": "we completed the sale of our 65% interest in the Central Block facility to Touchstone Exploration Trinidad Limited",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_4f5589067f6a"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "bp",
+    "counterparty_ticker": "BP",
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "joint venture operator",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.93,
+    "evidence": [
+      {
+        "quote": "We also have a 50% interest in exploration blocks 25a, 25b and 27 in the Columbus Basin. We operate Block 27 and bp is the operator of the remaining two",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "We also have a 50% interest in exploration blocks 25a, 25b and 27 in the Columbus Basin. We operate Block 27 and bp is the operator of the remaining two.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "a $500 million joint investment commitment with Shell, bp, Equinor and TotalEnergies announced in November 2024",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_69ea96052ab1"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "Kinder Morgan",
+    "counterparty_ticker": "KMI",
+    "counterparty_type": "public_company",
+    "category": "supplier",
+    "subtype": "LNG liquefaction capacity lease",
+    "strength": 1,
+    "strength_tier": "critical",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "We have offtake rights via a lease to 100% of the capacity (2.5 mtpa) of the Kinder Morgan-operated Elba Island liquefaction plant",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_03f8a7bf3290"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "Korea Gas Corporation",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "joint_venture",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Shell is the largest owner in LNG Canada, holding a 40% interest. The other joint venture partners include PETRONAS of Malaysia, PetroChina, Mitsubishi Corporation of Japan, and Korea Gas Corporation",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_a26ac41b0af3"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "Chevron U.S.A. Inc.",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "joint_venture",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.93,
+    "evidence": [
+      {
+        "quote": "Shell has a 60% interest in the Whale development, and Chevron U.S.A. Inc. has a 40% interest.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_3a0a62b3c056"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "NEO Energy",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "joint_venture",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "we restarted production at the Penguins field in the UK North Sea with a modernised Shell-operated FPSO facility (Shell interest 50%) NEO Energy holds the other 50%.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_2ca6108afbb7"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "ConocoPhillips Company",
+    "counterparty_ticker": "COP",
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "asset_seller",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.85,
+    "evidence": [
+      {
+        "quote": "we signed an agreement to acquire a 15.96% working interest from ConocoPhillips Company (COP) in the Shell-operated Ursa platform in the GoA.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_3a4e99413147"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "Ecopetrol",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "joint_venture",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "At FID, Shell held a 50% interest, Ecopetrol held 30%, and TotalEnergies had 20%.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "Shell Brasil operates the project with partners Ecopetrol (30%) and PPSA as the contract manager.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_54a03715b7ba"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "TotalEnergies",
+    "counterparty_ticker": "TTE",
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "joint_venture",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "At FID, Shell held a 50% interest, Ecopetrol held 30%, and TotalEnergies had 20%.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "the Lapa field (Shell interest 27%[B] in BM-S-9A block, operated by TotalEnergies)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "the Northern Lights joint venture (Shell interest 33.3%) with Equinor and TotalEnergies completed the world's first cross-border commercial carbon transport and storage service",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_54a03715b7ba"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "Kuwait Petroleum Exploration Company (KUFPEC)",
+    "counterparty_ticker": null,
+    "counterparty_type": "state_owned_enterprise",
+    "category": "partner",
+    "subtype": "joint_venture_partner",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.85,
+    "evidence": [
+      {
+        "quote": "In February 2026, we agreed to sell a 20% interest to Kuwait Petroleum Exploration Company (KUFPEC).",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_333c87484d94"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "Petrobras",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "joint_venture_operator",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.93,
+    "evidence": [
+      {
+        "quote": "The unitised Mero field is operated by Petrobras (38.6%), in partnership with Shell, TotalEnergies (19.3%), CNPC (9.65%), China National Offshore Oil Corporation (CNOOC) (9.65%)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "the Sapinhoá field (Shell interest 30%, operated by Petrobras and straddling the BM-S-9 and Entorno de Sapinhoá blocks already unitised and redetermined)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_913df4c56a1c"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "CNPC",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "joint_venture",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.93,
+    "evidence": [
+      {
+        "quote": "The unitised Mero field is operated by Petrobras (38.6%), in partnership with Shell, TotalEnergies (19.3%), CNPC (9.65%), China National Offshore Oil Corporation (CNOOC) (9.65%)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_913df4c56a1c"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "China National Offshore Oil Corporation",
+    "counterparty_ticker": null,
+    "counterparty_type": "state_owned_enterprise",
+    "category": "partner",
+    "subtype": "joint_venture",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "The unitised Mero field is operated by Petrobras (38.6%), in partnership with Shell, TotalEnergies (19.3%), CNPC (9.65%), China National Offshore Oil Corporation (CNOOC) (9.65%)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_913df4c56a1c"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "TotalEnergies EP Nigeria Limited",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "supplier",
+    "subtype": "asset_seller",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.82,
+    "evidence": [
+      {
+        "quote": "we signed an agreement to acquire an additional interest of up to 12.5% in the OML 118 production-sharing contract (OML 118 PSC) in Nigeria from TotalEnergies EP Nigeria Limited.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_088cc76636dc"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "Sunlink Energies and Resources Limited",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "joint_venture",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "we announced, together with Sunlink Energies and Resources Limited, an FID on the HI gas project offshore Nigeria (Shell interest 40%).",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_2f29f3ed1434"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "Equinor ASA",
+    "counterparty_ticker": "EQNR",
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "joint_venture",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.97,
+    "evidence": [
+      {
+        "quote": "In December 2025, we and Equinor ASA completed a deal to combine our UK offshore oil and gas operations to form a new company Adura, which is a 50:50 joint venture.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_224c012282ee"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "ExxonMobil",
+    "counterparty_ticker": "XOM",
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "joint_venture_operator",
+    "strength": 1,
+    "strength_tier": "critical",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.72,
+    "evidence": [
+      {
+        "quote": "ExxonMobil Production Deutschland GmbH has a service contract with BEB, under which it provides operating services to BEB for most of the concessions.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_e149090f4af4"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "Eni S.p.A.",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "joint_venture_operator",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Shell has a 39% interest in the Val d'Agri producing concession, operated by Eni S.p.A.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_0ea097c2c895"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "TotalEnergies EP Italia S.p.A.",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "joint_venture_operator",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "a 25% interest in the Tempa Rossa producing concession, operated by TotalEnergies EP Italia S.p.A.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_dd155e173372"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "Tenaz Energy",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "customer",
+    "subtype": "asset_buyer",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "On May 1, 2025, the sale of NAM Offshore B.V., the entity holding OneGas East, NAM's offshore asset in the Dutch North Sea, to Tenaz Energy was completed.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_c433e23ba61d"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "Gassco",
+    "counterparty_ticker": null,
+    "counterparty_type": "state_owned_enterprise",
+    "category": "customer",
+    "subtype": "technical_services",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.78,
+    "evidence": [
+      {
+        "quote": "Shell is the technical service provider for the Nyhamna gas facility, operated by Gassco, which processes and exports gas from several Norwegian fields.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_54d044fa2789"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "Modec",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "supplier",
+    "subtype": "FPSO contractor",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Working closely with Modec, the contractor responsible for the floating production, storage and offloading (FPSO) unit, we applied lessons from projects like Vito and Whale in the Gulf of America",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_7cbb22156d58"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "Kuwait Petroleum Exploration Company",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "partner",
+    "subtype": "asset sale / joint interest holder",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "In February 2026, Shell agreed to sell a 20% interest to Kuwait Petroleum Exploration Company.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_e4b1da515424"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "Equinor",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "carbon capture and storage joint venture",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.97,
+    "evidence": [
+      {
+        "quote": "the Northern Lights joint venture (Shell interest 33.3%) with Equinor and TotalEnergies completed the world's first cross-border commercial carbon transport and storage service",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "the combination of Shell and Equinor's UK offshore oil and gas assets into the Adura joint venture on December 1, 2025",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "a $500 million joint investment commitment with Shell, bp, Equinor and TotalEnergies announced in November 2024",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_ca35971da952"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "Scuderia Ferrari HP",
+    "counterparty_ticker": null,
+    "counterparty_type": "sports_team",
+    "category": "partner",
+    "subtype": "fuel development partnership",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.82,
+    "evidence": [
+      {
+        "quote": "Aided by our partnership with Scuderia Ferrari HP, we have concentrated on developing fuels with special formulations designed to clean engines and improve performance.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_60a8657faabe"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "Raízen",
+    "counterparty_ticker": null,
+    "counterparty_type": "joint_venture",
+    "category": "partner",
+    "subtype": "biofuels joint venture",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.85,
+    "evidence": [
+      {
+        "quote": "Shell and the non-operated joint venture Raízen (Shell interest 44%) are, together, one of the world's largest blenders and distributors of biofuels.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "Through our Raízen joint venture in Brazil we are already the largest producer of second-generation ethanol and the leading sugar-cane ethanol producer globally.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_984ddf287121"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "Delta Air Lines",
+    "counterparty_ticker": "DAL",
+    "counterparty_type": "public_company",
+    "category": "customer",
+    "subtype": "sustainable aviation fuel supply",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.8,
+    "evidence": [
+      {
+        "quote": "Photo: Shell Aviation supplies sustainable aviation fuel to Delta.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_e1222ec7b85f"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "Intel",
+    "counterparty_ticker": "INTC",
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "product certification and technology testing partnership",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.85,
+    "evidence": [
+      {
+        "quote": "In 2025, Shell Lubricants' immersion cooling fluids became the first to earn Intel Data Center Certification for Immersion Cooling, with confirmed compatibility with 4th and 5th Gen Intel Xeon processors.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "Shell Lubricants' immersion cooling fluids became the first to earn Intel Data Center Certification for Immersion Cooling, with confirmed compatibility with 4th and 5th Gen Intel Xeon processors.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_9d798ce70cc0"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "CNOOC Petrochemicals Investment Ltd",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "petrochemical joint venture (CSPC)",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "a 50:50 joint venture between Shell Nanhai B.V. and CNOOC Petrochemicals Investment Ltd, took the final investment decision to expand its petrochemical complex in Daya Bay, Huizhou, south China.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_cb2897e10626"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "Canadian Natural Resources Limited",
+    "counterparty_ticker": "CNQ",
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "asset swap agreement",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.93,
+    "evidence": [
+      {
+        "quote": "we completed the previously announced agreement with Canadian Natural Resources Limited to swap our remaining 10% interest in the Albian mining and extraction operations in exchange for an additional 10% interest in the Scotford upgrader",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_1e9ba717d255"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "Google",
+    "counterparty_ticker": "GOOGL",
+    "counterparty_type": "public_company",
+    "category": "customer",
+    "subtype": "renewable energy supply management customer",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.88,
+    "evidence": [
+      {
+        "quote": "Google selected Shell Energy Europe Limited as its renewable energy supply manager in the UK, under the USA-based technology company's Carbon-Free Energy supply model to reach its goal of running entirely on clean energy by 2030.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "In May 2025, we signed a new Corporate Power Purchase Agreement (CPPA) with Google, which extends the lifespan of the NoordzeeWind offshore wind farm in the Netherlands.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "In September 2025, Google selected Shell as its renewable energy manager in the UK, leveraging Shell's trading and battery capabilities to support Google's decarbonisation goals.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_d363382dcff1"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "Ares Infrastructure Opportunities",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "joint venture (solar power assets)",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "Shell subsidiary Savion and a fund managed by the Ares Infrastructure Opportunities strategy formed Tango Holdings, LLC, (Shell interest 20%), a joint venture to manage five assets",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_99cc5cc536fd"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "EDF-RE Offshore Development",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "joint venture (offshore wind)",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "we voluntarily withdrew from Atlantic Shores Offshore Wind, LLC, in the USA, assigning our 50% outstanding membership interest to our existing joint-venture partner, EDF-RE Offshore Development, LLC",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_a2b36f92b7ea"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "ScottishPower Renewables",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "joint venture (offshore wind, asset exchange)",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "we and ScottishPower Renewables (SPR) agreed to exchange our 50% stakes in two offshore wind projects.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_51b0720fceea"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "Keppel Ltd",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "joint venture (renewable assets)",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "we completed the sale of our 49% interest in Cleantech Renewable Assets Pte Ltd to our joint-venture partner Keppel Ltd",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_e3a3a1c9d103"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "Nordsee One GmbH",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "supplier",
+    "subtype": "renewable electricity supply (PPA)",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "In November 2025, we signed two separate power purchase agreements (PPAs) in Germany with Nordsee One GmbH and Solarkraftwerk Halenbeck-Rohlsdorf I/II GmbH to secure a significant proportion of the renewable electricity needed to power the REFHYNE II facility.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "In November 2025, Shell Energy Europe Limited signed two separate power purchase agreements (PPA) in Germany with Nordsee One GmbH and Solarkraftwerk Halenbeck-Rohlsdorf I/II GmbH.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "Shell Energy Europe Limited signed two separate power purchase agreements (PPA) in Germany with Nordsee One GmbH and Solarkraftwerk Halenbeck-Rohlsdorf I/II GmbH.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_f4d5707e3c97"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "Solarkraftwerk Halenbeck-Rohlsdorf I/II GmbH",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "supplier",
+    "subtype": "renewable electricity supply (PPA)",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "In November 2025, we signed two separate power purchase agreements (PPAs) in Germany with Nordsee One GmbH and Solarkraftwerk Halenbeck-Rohlsdorf I/II GmbH to secure a significant proportion of the renewable electricity needed to power the REFHYNE II facility.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "In November 2025, Shell Energy Europe Limited signed two separate power purchase agreements (PPA) in Germany with Nordsee One GmbH and Solarkraftwerk Halenbeck-Rohlsdorf I/II GmbH.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "Shell Energy Europe Limited signed two separate power purchase agreements (PPA) in Germany with Nordsee One GmbH and Solarkraftwerk Halenbeck-Rohlsdorf I/II GmbH.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_f4d5707e3c97"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "Yara",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "customer",
+    "subtype": "CCS transport and storage service customer of Northern Lights venture",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.78,
+    "evidence": [
+      {
+        "quote": "The venture has agreements with Yara and Ørsted to transport and store CO 2 from facilities in the Netherlands and Denmark.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_5b75b0b8dc30"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "Ørsted",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "customer",
+    "subtype": "CCS transport and storage service customer of Northern Lights venture",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.85,
+    "evidence": [
+      {
+        "quote": "The venture has agreements with Yara and Ørsted to transport and store CO 2 from facilities in the Netherlands and Denmark.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_5b75b0b8dc30"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "Stockholm Exergi",
+    "counterparty_ticker": null,
+    "counterparty_type": "state_owned_company",
+    "category": "customer",
+    "subtype": "CCS transport and storage service customer of Northern Lights venture",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.65,
+    "evidence": [
+      {
+        "quote": "Swedish energy provider Stockholm Exergi has already signed up for the transportation and storage of up to 900,000 tonnes of CO 2 annually from 2028.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "following a commercial agreement with Swedish energy provider, Stockholm Exergi, for the cross-border transport and storage of up to 900,000 tonnes of biogenic CO 2 annually for 15 years",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_3c30911d3852"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "World Bank",
+    "counterparty_ticker": null,
+    "counterparty_type": "international organization",
+    "category": "partner",
+    "subtype": "flaring and methane reduction partnership",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.85,
+    "evidence": [
+      {
+        "quote": "we became the first official partner to the World Bank Global Flaring and Methane Reduction Fund Partnership, which we committed to at the 28th Conference of the Parties",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_25f618f946c3"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "Vodafone Procure & Connect",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "joint battery storage pilot project",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.82,
+    "evidence": [
+      {
+        "quote": "Shell Energy Europe Limited and Vodafone Procure & Connect launched a pilot project to explore how battery storage could support more flexible and sustainable energy use in the future.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_9027a5255ef4"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "International Union for the Conservation of Nature",
+    "counterparty_ticker": null,
+    "counterparty_type": "other",
+    "category": "partner",
+    "subtype": "sustainability partnership",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.78,
+    "evidence": [
+      {
+        "quote": "Our key sustainability, including climate, partnerships include the International Union for the Conservation of Nature (IUCN)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_7367e7b91c65"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "Ipieca",
+    "counterparty_ticker": null,
+    "counterparty_type": "industry association",
+    "category": "partner",
+    "subtype": "industry association membership",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.75,
+    "evidence": [
+      {
+        "quote": "Ipieca (the global oil and gas industry association for advancing environmental and social performance across the energy transition)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "together with Ipieca, we helped to create a toolkit on worker welfare with resources, guidance and definitions",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_546bd7c1d4f5"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "United Nations Global Compact",
+    "counterparty_ticker": null,
+    "counterparty_type": "other",
+    "category": "partner",
+    "subtype": "sustainability partnership",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.75,
+    "evidence": [
+      {
+        "quote": "United Nations Global Compact, Business for Social Responsibility (BSR), Rocky Mountain Institute (RMI) and World Business Council for Sustainable Development (WBCSD).",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_d608ec04a01f"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "Business for Social Responsibility",
+    "counterparty_ticker": null,
+    "counterparty_type": "other",
+    "category": "partner",
+    "subtype": "sustainability partnership",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.8,
+    "evidence": [
+      {
+        "quote": "United Nations Global Compact, Business for Social Responsibility (BSR), Rocky Mountain Institute (RMI) and World Business Council for Sustainable Development (WBCSD).",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_d608ec04a01f"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "Rocky Mountain Institute",
+    "counterparty_ticker": null,
+    "counterparty_type": "other",
+    "category": "partner",
+    "subtype": "sustainability partnership",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.75,
+    "evidence": [
+      {
+        "quote": "United Nations Global Compact, Business for Social Responsibility (BSR), Rocky Mountain Institute (RMI) and World Business Council for Sustainable Development (WBCSD).",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_d608ec04a01f"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "World Business Council for Sustainable Development",
+    "counterparty_ticker": null,
+    "counterparty_type": "other",
+    "category": "partner",
+    "subtype": "sustainability partnership",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "United Nations Global Compact, Business for Social Responsibility (BSR), Rocky Mountain Institute (RMI) and World Business Council for Sustainable Development (WBCSD).",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_d608ec04a01f"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "Detect Technologies",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "supplier",
+    "subtype": "AI safety monitoring technology vendor",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "We continue to expand the deployment of T-Pulse, an AI-automated safety monitoring solution developed by Detect Technologies.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "an AI-automated safety monitoring solution developed by Detect Technologies",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_635cb407f138"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "HEPCA",
+    "counterparty_ticker": null,
+    "counterparty_type": "other",
+    "category": "partner",
+    "subtype": "biodiversity conservation partnership",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.88,
+    "evidence": [
+      {
+        "quote": "we partnered with the Hurghada Environmental Protection and Conservation Association (HEPCA) to install 32 mooring buoys near several coral reef sites in Egypt",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_949acf7c41c4"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "ConocoPhillips",
+    "counterparty_ticker": "COP",
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "joint conservation monitoring programme",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.78,
+    "evidence": [
+      {
+        "quote": "Together with ConocoPhillips, Santos and Eco Logical Australia, we completed a decade-long monitoring programme under the Gladstone Long-term Turtle Management Plan",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_429a59ff014b"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "Santos",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "joint environmental conservation collaboration",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.6,
+    "evidence": [
+      {
+        "quote": "Together with ConocoPhillips, Santos and Eco Logical Australia, we completed a decade-long monitoring programme under the Gladstone Long-term Turtle Management Plan",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_429a59ff014b"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "Eco Logical Australia",
+    "counterparty_ticker": null,
+    "counterparty_type": "environmental_consultancy",
+    "category": "partner",
+    "subtype": "joint turtle conservation monitoring programme",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.72,
+    "evidence": [
+      {
+        "quote": "Together with ConocoPhillips, Santos and Eco Logical Australia, we completed a decade-long monitoring programme under the Gladstone Long-term Turtle Management Plan",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_429a59ff014b"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "Marine Well Containment Company",
+    "counterparty_ticker": null,
+    "counterparty_type": "industry consortium",
+    "category": "partner",
+    "subtype": "spill response industry consortium",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.72,
+    "evidence": [
+      {
+        "quote": "These include the Marine Well Containment Company in the Gulf of America and Oil Spill Response Limited, a global industry group",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_5087104c0999"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "Oil Spill Response Limited",
+    "counterparty_ticker": null,
+    "counterparty_type": "industry_association",
+    "category": "partner",
+    "subtype": "spill response industry consortium",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.72,
+    "evidence": [
+      {
+        "quote": "These include the Marine Well Containment Company in the Gulf of America and Oil Spill Response Limited, a global industry group",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_5087104c0999"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "Renaissance Africa Energy Company Limited",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "joint venture operator relationship",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.8,
+    "evidence": [
+      {
+        "quote": "SPDC (now, under its new ownership, Renaissance Africa Energy Company Limited) to continue to perform its role as operator of the joint venture (previously known as the SPDC JV) and to meet its share of commitments within the joint venture",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_5db79899d4b0"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "bp",
+    "counterparty_ticker": "BP",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "energy industry peer/competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "The REMCO has determined to retain the existing peer group (being bp, Chevron, ExxonMobil and TotalEnergies) and vesting schedule for the relative performance conditions. Outperforming Shell's closest competitors on key financial metrics is challenging.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_4c7acfc44f40"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "Chevron",
+    "counterparty_ticker": "CVX",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "energy industry peer/competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "The REMCO has determined to retain the existing peer group (being bp, Chevron, ExxonMobil and TotalEnergies) and vesting schedule for the relative performance conditions. Outperforming Shell's closest competitors on key financial metrics is challenging.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_4c7acfc44f40"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "TotalEnergies",
+    "counterparty_ticker": "TTE",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "energy industry peer/competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "The REMCO has determined to retain the existing peer group (being bp, Chevron, ExxonMobil and TotalEnergies) and vesting schedule for the relative performance conditions. Outperforming Shell's closest competitors on key financial metrics is challenging.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_4c7acfc44f40"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "Ellason",
+    "counterparty_ticker": null,
+    "counterparty_type": "professional_services_firm",
+    "category": "supplier",
+    "subtype": "remuneration_consultant",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.85,
+    "evidence": [
+      {
+        "quote": "The total fees in relation to Ellason's advice were £77,565 (excluding value-added tax).",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_1337cb608bdf"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "Ares Management",
+    "counterparty_ticker": null,
+    "counterparty_type": "financial_investor",
+    "category": "partner",
+    "subtype": "joint venture for renewable asset divestment",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.72,
+    "evidence": [
+      {
+        "quote": "including the sale of interests in SouthCoast Wind Energy LLC, Brazos Wind and Madison Fields Solar, Cleantech Renewable Assets and five US solar projects via a new joint venture with Ares",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_73f7cd7a73b9"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "ATCO EnPower",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "joint development of carbon storage hub",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.88,
+    "evidence": [
+      {
+        "quote": "Project Atlas, a carbon storage hub developed in partnership with ATCO EnPower",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_f344f5d9a673"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "Aider",
+    "counterparty_ticker": null,
+    "counterparty_type": "other",
+    "category": "supplier",
+    "subtype": "nature-based carbon offset project",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.55,
+    "evidence": [
+      {
+        "quote": "projects such as Aider, which supports conservation of approximately 173,000 hectares of the Peruvian Amazon",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_39d0fe1e3c0b"
+  },
+  {
+    "root_ticker": "SHEL",
+    "counterparty_name": "Select Carbon",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "carbon farming project development",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.62,
+    "evidence": [
+      {
+        "quote": "Select Carbon, a specialist in developing and aggregating carbon farming projects",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-12",
+    "shared_evidence_group": "ev_f8be18b37670"
+  }
+]

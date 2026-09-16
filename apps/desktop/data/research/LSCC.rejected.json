@@ -1,0 +1,29 @@
+[
+  {
+    "counterparty_name": "ChatGPT",
+    "category": "dependency",
+    "subtype": "AI tool",
+    "evidence_quote": "while we restrict the use of third-party and open source AI tools, such as ChatGPT, the internal governance of the adoption of these technologies can be challenging",
+    "confidence": 0.7,
+    "reason": "ChatGPT is a product/AI tool, not an external organization counterparty. The evidence describes internal governance challenges around restricting employee use of third-party AI tools like ChatGPT, not a business relationship with a counterparty. The text explicitly states 'we restrict the use of third-party and open source AI tools, such as ChatGPT' and discusses risks of unauthorized employee use—this is about tool governance, not a dependency relationship with an external entity. ChatGPT fails the counterparty validity test (must be a real external organization, not a product).",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Ukraine",
+    "category": "dependency",
+    "subtype": "geopolitical_risk",
+    "evidence_quote": "terrorist acts or acts of war, including the ongoing conflict between Ukraine and Russia",
+    "confidence": 0.65,
+    "reason": "The evidence_quote mentions 'the ongoing conflict between Ukraine and Russia' only as an example of acts of war that could cause stock price volatility or business disruption. This is a hypothetical geopolitical risk factor in boilerplate risk disclosure language, not evidence that LSCC has a dependency relationship with Ukraine as a counterparty. Ukraine is not described as providing critical infrastructure, services, or resources that LSCC relies upon. The filing does not establish any operational, supply chain, or functional dependency on Ukraine. The mention is purely illustrative of general war-related risks affecting stock volatility. Additionally, 'Ukraine' as a government entity is not a counterparty in this context—it's simply named as a participant in a conflict used to exemplify geopolitical risk. This does not meet the threshold for a valid dependency relationship.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Russia",
+    "category": "dependency",
+    "subtype": "geopolitical_risk",
+    "evidence_quote": "terrorist acts or acts of war, including the ongoing conflict between Ukraine and Russia",
+    "confidence": 0.65,
+    "reason": "The evidence_quote mentions the 'ongoing conflict between Ukraine and Russia' as one example of potential business disruption risks (terrorist acts or acts of war), and also mentions this conflict as a factor that could contribute to stock price volatility. However, this is a general risk disclosure about geopolitical events that could affect the company, not evidence of a dependency relationship on Russia as a counterparty. Russia is not described as providing critical infrastructure, services, or resources that Lattice depends upon. The mention is purely in the context of how geopolitical conflicts (including this one) create market uncertainty and business disruption risks. This does not establish Russia as a 'dependency' counterparty in the knowledge graph sense—there is no operational, technical, or supply chain reliance on Russia indicated. The category 'dependency' requires the root company to critically rely on the counterparty's infrastructure or services; general geopolitical risk exposure does not meet this threshold.",
+    "stage": "audit"
+  }
+]

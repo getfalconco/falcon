@@ -1,0 +1,200 @@
+[
+  {
+    "counterparty_name": "Takeda",
+    "category": "partner",
+    "subtype": "joint_development_commercialization",
+    "evidence_quote": "Adcetris (brentuximab vedotin) is being developed and commercialized in collaboration with Takeda.",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Ono",
+    "category": "partner",
+    "subtype": "commercialization rights with royalties",
+    "evidence_quote": "Ono has exclusive rights to commercialize the product in Japan and South Korea...Pfizer receives royalties from Pierre Fabre and Ono on sales of Braftovi and Mektovi.",
+    "confidence": 0.9,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Pierre Fabre",
+    "category": "partner",
+    "subtype": "commercialization rights with royalties",
+    "evidence_quote": "Pierre Fabre has exclusive rights to commercialize the product in all other countries, including Europe and Asia...Pfizer receives royalties from Pierre Fabre and Ono on sales of Braftovi and Mektovi.",
+    "confidence": 0.9,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "USPSTF",
+    "category": "dependency",
+    "subtype": "advisory_committee",
+    "evidence_quote": "Coverage and cost sharing for certain insurance programs including Medicare, Medicaid and Children's Health Immunization Program (CHIP) can depend on recommendations from advisory committees, including the U.S. Preventive Services Taskforce (USPSTF)",
+    "confidence": 0.9,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "ACIP",
+    "category": "dependency",
+    "subtype": "advisory_committee",
+    "evidence_quote": "Coverage and cost sharing for certain insurance programs including Medicare, Medicaid and Children's Health Immunization Program (CHIP) can depend on recommendations from advisory committees, including the U.S. Preventive Services Taskforce (USPSTF) and the ACIP.",
+    "confidence": 0.9,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "PRAC",
+    "category": "dependency",
+    "subtype": "pharmacovigilance_authority",
+    "evidence_quote": "In the EU, the EMA's PRAC is responsible for reviewing and making recommendations on product safety issues.",
+    "confidence": 0.85,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Bristol Myers Squibb",
+    "category": "partner",
+    "subtype": "co-promotion",
+    "evidence_quote": "Eliquis accounted for 13% of Total revenues in 2025.",
+    "confidence": 0.95,
+    "reason": "counterparty name not in quote",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "BioNTech",
+    "category": "partner",
+    "subtype": "collaboration",
+    "evidence_quote": "Comirnaty",
+    "confidence": 0.7,
+    "reason": "counterparty name not in quote",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "FDA",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "The FDA, pursuant to the FFDCA, the Public Health Service Act and other federal statutes and regulations, extensively regulates pre- and post-marketing activities related to our biopharmaceutical products and devices.",
+    "confidence": 0.95,
+    "reason": "The FDA is a regulatory authority acting in its regulatory capacity. The filing describes the FDA regulating Pfizer's activities ('extensively regulates pre- and post-marketing activities'), which is a government regulatory function, not a dependency relationship. Rule 4 explicitly states 'regulators acting as regulators' must be rejected as counterparties. The FDA does not provide infrastructure or services that Pfizer depends on; rather, it exercises statutory authority to approve and oversee Pfizer's products. This is government oversight, not a dependency relationship.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "DEA",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "Other U.S. federal agencies, including the DEA, may also regulate certain of our products and activities.",
+    "confidence": 0.9,
+    "reason": "The DEA is a regulatory authority that enforces controlled substance laws, not a dependency. The evidence_quote states the DEA 'may also regulate certain of our products and activities,' which is a regulatory enforcement role, not a critical infrastructure or service dependency. Regulators acting as regulators (tax authorities, revenue agencies, drug enforcement) are explicitly excluded from valid counterparty relationships per the audit criteria. The DEA does not provide infrastructure or services that Pfizer critically relies upon; it is a government agency enforcing compliance. This should be rejected as the counterparty is a regulator acting in a regulatory capacity.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "CMS",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "In August 2023, CMS published the first ten medicines subject to the MDPNP, which included Eliquis.",
+    "confidence": 0.95,
+    "reason": "CMS (Centers for Medicare & Medicaid Services) is a government regulatory agency administering Medicare/Medicaid programs. The evidence_quote describes CMS publishing a list of medicines subject to the Medicare Drug Price Negotiation Program (MDPNP), which is a regulatory action, not a critical infrastructure dependency. CMS is acting in its regulatory capacity—setting pricing rules and selecting drugs for negotiation—not providing essential infrastructure or services that Pfizer depends upon for operations. Regulators acting as regulators should be rejected as counterparties per the instructions. The relationship is one of regulatory compliance/pricing control, not operational dependency.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "HRSA",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "In 2021 and 2022, HRSA sent letters to numerous manufacturers (not including Pfizer) that implemented contract pharmacy policies and integrity initiatives",
+    "confidence": 0.9,
+    "reason": "HRSA is a regulatory authority, not a dependency. The evidence_quote describes HRSA sending enforcement letters to manufacturers regarding 340B Program compliance. This is a classic regulatory enforcement action, not a critical infrastructure dependency. The text states 'HRSA sent letters to numerous manufacturers (not including Pfizer)' - explicitly excluding Pfizer from the action described. Even if Pfizer were included, HRSA would still be acting as a regulator enforcing statutory compliance, which disqualifies it as a dependency counterparty under the stated rules. Regulators acting as regulators must be rejected as counterparties.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "EC",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "The EC grants marketing authorization by issuing a legally binding decision based on the EMA's recommendation.",
+    "confidence": 0.85,
+    "reason": "EC (European Commission) is a regulatory authority, not a dependency. The evidence shows the EC grants marketing authorization based on EMA recommendations—a regulatory approval function, not a critical infrastructure dependency. Pfizer does not rely on EC-operated infrastructure or services; it seeks regulatory approvals from the EC. Regulators acting in their regulatory capacity (approving drugs, enforcing compliance) are explicitly excluded as counterparties per instruction 4. The category 'dependency' is reserved for entities providing critical infrastructure/services the root relies on without a commercial relationship (e.g., GPS, public networks), not for regulatory bodies approving products. This is a standard regulatory relationship, not a dependency.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "MHRA",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "In the U.K., the Medicines and Healthcare products Regulatory Agency (MHRA) is the sole regulatory authority, and companies must obtain an MHRA marketing authorization to market medicines in the U.K.",
+    "confidence": 0.9,
+    "reason": "MHRA is a regulatory authority acting in its regulatory capacity. Under the audit rules, 'regulators acting as regulators, tax and revenue authorities' must always be rejected as counterparties. The evidence quote confirms MHRA is the UK regulatory authority for marketing authorization—a pure regulatory function, not a commercial vendor relationship or infrastructure dependency. Regulatory approval authorities do not qualify as 'dependency' counterparties.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Pharmaceuticals and Medical Device Agency",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "In Japan, the Pharmaceuticals and Medical Device Agency is involved in a wide range of regulatory activities, including clinical studies, approvals, post-marketing reviews and pharmaceutical safety.",
+    "confidence": 0.9,
+    "reason": "While the Pharmaceuticals and Medical Device Agency (PMDA) is a real government regulatory authority in Japan and the evidence_quote accurately describes its role, regulatory authorities acting in their regulatory capacity should be rejected as counterparties per the auditor instructions. The instructions explicitly state: 'regulators acting as regulators' are to be rejected. The PMDA's activities described (clinical studies approvals, post-marketing reviews, pharmaceutical safety monitoring) are purely regulatory functions, not commercial vendor services, joint ventures, or critical infrastructure dependencies. This is analogous to rejecting the IRS or FDA as counterparties when they perform their regulatory roles. The 'dependency' category with 'regulatory_authority' subtype suggests an attempt to capture regulatory oversight, but regulatory approval processes are business-as-usual requirements for pharmaceutical companies globally, not the type of critical infrastructure dependency (like GPS or public internet) that warrants a counterparty relationship in a financial knowledge graph.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "National Medical Product Administration",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "In China, the National Medical Product Administration is the primary regulatory authority for approving and supervising medicines.",
+    "confidence": 0.9,
+    "reason": "The National Medical Product Administration is a regulatory authority, not a dependency. The evidence shows it is 'the primary regulatory authority for approving and supervising medicines' in China, which is a standard regulatory function. This is not a critical operational dependency on infrastructure or services (like GPS or internet infrastructure). Regulatory bodies should not be categorized as dependencies; they are part of the operating environment, not counterparties in a relationship sense. Additionally, regulators acting in their regulatory capacity are explicitly excluded per the instructions.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "WHO",
+    "category": "dependency",
+    "subtype": "regulatory_support",
+    "evidence_quote": "By way of example, the EMA, in cooperation with the WHO, can provide scientific opinions on high priority human medicines, including vaccines, for markets outside the EU.",
+    "confidence": 0.75,
+    "reason": "The WHO is mentioned only in a narrow regulatory context where the EMA, in cooperation with WHO, can provide scientific opinions for markets outside the EU. This is not a dependency relationship. Pfizer does not critically rely on WHO infrastructure or services to operate its core business. The WHO here acts as a cooperative advisory entity alongside the EMA, not as a critical dependency for Pfizer. The evidence describes a regulatory mechanism (scientific opinions for third markets) rather than a fundamental operational dependency. Furthermore, the WHO in this context is providing scientific opinions in cooperation with the EMA, not serving as a foundational infrastructure Pfizer cannot function without. The 'dependency' category requires critical reliance on infrastructure/services with no commercial vendor relationship, which is not established here. This is better characterized as part of the regulatory environment, not a counterparty dependency.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Seagen",
+    "category": "supplier",
+    "subtype": "acquisition",
+    "evidence_quote": "we financed a portion of the acquisitions of Seagen and Metsera with the proceeds from the issuance of long-term debt",
+    "confidence": 0.95,
+    "reason": "Seagen is an acquired company, not a supplier. The evidence quote states Pfizer financed the acquisition of Seagen with debt proceeds. An acquisition target becomes a subsidiary after acquisition, not a commercial vendor. The relationship is an M&A transaction, and Seagen is now part of Pfizer's corporate structure. Additionally, the filing mentions 'our recent acquisition of Metsera' in the same section, reinforcing that these are acquired entities, not external counterparties in ongoing commercial relationships. Post-acquisition, Seagen would be an internal subsidiary, not a counterparty.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Trump Administration",
+    "category": "partner",
+    "subtype": "pricing_agreement",
+    "evidence_quote": "Several manufacturers, including Pfizer, have signed voluntary agreements with the Trump Administration designed to ensure U.S. patients pay lower prices for their prescription medicines.",
+    "confidence": 0.9,
+    "reason": "The Trump Administration is not a counterparty in the commercial or partnership sense required for a financial knowledge graph. The evidence describes a voluntary pricing agreement with a government administration, which does not constitute a partner relationship. The Trump Administration is a government entity acting in a regulatory/policy-setting capacity, not as a commercial partner. Additionally, the filing describes this as a 'voluntary agreement' designed to ensure lower drug prices - this is more accurately characterized as a regulatory/policy compliance action rather than a true partnership. Furthermore, government administrations as political entities (distinct from specific regulatory agencies or departments) are typically not appropriate counterparties for relationship extraction, as they are temporary political constructs rather than persistent organizational entities. The relationship described is better categorized under regulatory compliance or government relations context rather than as a formal 'partner' relationship.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Trump Administration",
+    "category": "dependency",
+    "subtype": "pricing_negotiation",
+    "evidence_quote": "in September 2025, we announced an agreement with the Trump Administration in which we voluntarily agreed to implement measures designed to make certain drug prices for U.S. patients more comparable to those in other developed countries",
+    "confidence": 0.92,
+    "reason": "The Trump Administration is not a valid counterparty under the knowledge graph rules. Government entities acting in their regulatory or policymaking capacity (setting rules, approving drugs, negotiating on behalf of Medicare, issuing executive orders) are not commercial counterparties—they are the regulatory environment. The evidence_quote describes a voluntary pricing agreement Pfizer made with the Trump Administration to implement price controls comparable to other countries. This is a regulatory/policy negotiation, not a dependency relationship where Pfizer relies on critical infrastructure or services. The Trump Administration is not providing a service or platform Pfizer depends on to operate; rather, it is exercising governmental pricing pressure. Tax authorities, regulators acting as regulators, and government policymakers negotiating pricing fall into the category of entities that should be rejected as counterparties. Additionally, 'pricing_negotiation' as a subtype of dependency is conceptually incorrect—dependencies are about critical reliance on infrastructure or services (like GPS satellites, public internet backbone), not about being subject to regulatory pricing pressure. This edge conflates regulatory environment with counterparty relationship.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "European Patent Office",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "inter partes review, post-grant review, re-examination or opposition proceedings, before the U.S. Patent and Trademark Office, the European Patent Office, or other foreign counterparts",
+    "confidence": 0.9,
+    "reason": "The European Patent Office (EPO) is mentioned as a venue for patent proceedings (inter partes review, opposition proceedings), not as a regulatory dependency. Patent offices administer intellectual property rights but are not regulatory authorities in the sense of product approval or market authorization. The context describes patent litigation and challenges, which are legal/IP enforcement matters, not a dependency on the EPO's infrastructure or services for business operations. Additionally, the instructions explicitly state to reject 'regulators acting as regulators' and patent offices function as administrative bodies for IP rights, not as dependencies. The EPO does not grant marketing authorization or regulate product safety/efficacy—those are functions of bodies like the EMA. The relationship is better characterized as a legal/administrative interaction, not a dependency.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "U.S. Patent and Trademark Office",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "inter partes review, post-grant review, re-examination or opposition proceedings, before the U.S. Patent and Trademark Office, the European Patent Office, or other foreign counterparts",
+    "confidence": 0.9,
+    "reason": "The U.S. Patent and Trademark Office (USPTO) is a government regulatory body, not a dependency. The evidence_quote describes inter partes review and opposition proceedings before the USPTO—these are patent dispute resolution mechanisms, not infrastructure or services that Pfizer critically relies upon for operations. The USPTO grants patents and adjudicates disputes, making it a regulator, not a dependency. Per the instructions, 'regulators acting as regulators' should be rejected as counterparties. The relationship is regulatory, not a critical operational dependency like GPS or public infrastructure.",
+    "stage": "audit"
+  }
+]

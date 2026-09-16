@@ -1,0 +1,188 @@
+[
+  {
+    "root_ticker": "ORCL",
+    "counterparty_name": "Adobe Systems Incorporated",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "enterprise_software",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Our enterprise cloud, software and hardware offerings compete directly with certain offerings from some of the largest and most competitive companies in the world, including Adobe Systems Incorporated",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1341439/000119312526277521/orcl-20260531.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-06-22",
+    "shared_evidence_group": "ev_316b3f497b26"
+  },
+  {
+    "root_ticker": "ORCL",
+    "counterparty_name": "Hewlett-Packard Enterprise",
+    "counterparty_ticker": "HPE",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "enterprise_hardware",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "as well as other companies like Hewlett-Packard Enterprise and Workday, Inc.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1341439/000119312526277521/orcl-20260531.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "other companies like Hewlett-Packard Enterprise and Workday, Inc.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1341439/000119312526277521/orcl-20260531.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-06-22",
+    "shared_evidence_group": "ev_2f05c22dfc2e"
+  },
+  {
+    "root_ticker": "ORCL",
+    "counterparty_name": "Workday, Inc.",
+    "counterparty_ticker": "WDAY",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "enterprise_software",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "as well as other companies like Hewlett-Packard Enterprise and Workday, Inc.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1341439/000119312526277521/orcl-20260531.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "other companies like Hewlett-Packard Enterprise and Workday, Inc.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1341439/000119312526277521/orcl-20260531.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-06-22",
+    "shared_evidence_group": "ev_2f05c22dfc2e"
+  },
+  {
+    "root_ticker": "ORCL",
+    "counterparty_name": "Allscripts Healthcare Solutions, Inc.",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "healthcare IT competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "we also face competition from large healthcare IT providers such as Allscripts Healthcare Solutions, Inc., Arcadia Solutions, athenahealth, Inc., Epic Systems Corporation and InterSystems Corporation, among others.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1341439/000119312526277521/orcl-20260531.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-06-22",
+    "shared_evidence_group": "ev_bb188f8b260f"
+  },
+  {
+    "root_ticker": "ORCL",
+    "counterparty_name": "Arcadia Solutions",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "competitor",
+    "subtype": "healthcare IT competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "we also face competition from large healthcare IT providers such as Allscripts Healthcare Solutions, Inc., Arcadia Solutions, athenahealth, Inc., Epic Systems Corporation and InterSystems Corporation, among others.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1341439/000119312526277521/orcl-20260531.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-06-22",
+    "shared_evidence_group": "ev_bb188f8b260f"
+  },
+  {
+    "root_ticker": "ORCL",
+    "counterparty_name": "athenahealth, Inc.",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "competitor",
+    "subtype": "healthcare IT competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "we also face competition from large healthcare IT providers such as Allscripts Healthcare Solutions, Inc., Arcadia Solutions, athenahealth, Inc., Epic Systems Corporation and InterSystems Corporation, among others.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1341439/000119312526277521/orcl-20260531.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-06-22",
+    "shared_evidence_group": "ev_bb188f8b260f"
+  },
+  {
+    "root_ticker": "ORCL",
+    "counterparty_name": "Epic Systems Corporation",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "competitor",
+    "subtype": "healthcare IT competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "we also face competition from large healthcare IT providers such as Allscripts Healthcare Solutions, Inc., Arcadia Solutions, athenahealth, Inc., Epic Systems Corporation and InterSystems Corporation, among others.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1341439/000119312526277521/orcl-20260531.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-06-22",
+    "shared_evidence_group": "ev_bb188f8b260f"
+  },
+  {
+    "root_ticker": "ORCL",
+    "counterparty_name": "InterSystems Corporation",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "competitor",
+    "subtype": "healthcare IT competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "we also face competition from large healthcare IT providers such as Allscripts Healthcare Solutions, Inc., Arcadia Solutions, athenahealth, Inc., Epic Systems Corporation and InterSystems Corporation, among others.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1341439/000119312526277521/orcl-20260531.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-06-22",
+    "shared_evidence_group": "ev_bb188f8b260f"
+  }
+]

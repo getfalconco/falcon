@@ -1,0 +1,92 @@
+[
+  {
+    "counterparty_name": "Financial Crimes Enforcement Network",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "a number of U.S. federal and state agencies, including the Financial Crimes Enforcement Network, the Commodity Futures Trading Commission (\"CFTC\"), the SEC",
+    "confidence": 0.92,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Commodity Futures Trading Commission",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "a number of U.S. federal and state agencies, including the Financial Crimes Enforcement Network, the Commodity Futures Trading Commission (\"CFTC\"), the SEC",
+    "confidence": 0.92,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Financial Industry Regulatory Authority",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "a number of U.S. federal and state agencies, including the Financial Crimes Enforcement Network, the Commodity Futures Trading Commission (\"CFTC\"), the SEC, the Financial Industry Regulatory Authority",
+    "confidence": 0.92,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "U.S. Department of Health and Human Services",
+    "category": "partner",
+    "subtype": "fedramp_authorization",
+    "evidence_quote": "Strategy's government cloud solution achieved this designation through collaboration with the U.S. Department of Health and Human Services.",
+    "confidence": 0.94,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Coinbase",
+    "category": "dependency",
+    "subtype": "principal_market_exchange",
+    "evidence_quote": "As of February 13, 2026, at 4:00 p.m. Eastern Time, the market price of one bitcoin reported on the Coinbase exchange (our principal market) was $68,734.",
+    "confidence": 0.85,
+    "reason": "unparseable auditor output",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Securities and Exchange Commission",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "the Securities and Exchange Commission (\"SEC\") approved the first U.S. spot bitcoin exchange-traded products (\"ETPs\") in January 2024",
+    "confidence": 0.95,
+    "reason": "The SEC is a regulatory authority, not a dependency counterparty. The evidence_quote describes the SEC approving bitcoin ETPs, which is a regulatory action. This does not establish that MSTR 'critically relies on counterparty infrastructure/service with NO commercial vendor relationship' as required by the dependency category definition. The SEC regulating or approving financial products does not create a dependency relationship with MSTR—it is the SEC performing its regulatory function. Per instruction #4, regulators acting as regulators should be rejected as counterparties. The approval of bitcoin ETPs is regulatory oversight of the broader market, not a service or infrastructure that MSTR depends upon for its operations.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Consumer Financial Protection Bureau",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "the SEC, the Financial Industry Regulatory Authority, the Consumer Financial Protection Bureau, the Department of Justice, the Department of Homeland Security, the Federal Bureau of Investigation",
+    "confidence": 0.92,
+    "reason": "The Consumer Financial Protection Bureau (CFPB) is listed among regulatory agencies examining digital asset operations, but no evidence shows Strategy Inc critically relies on CFPB infrastructure or services in a dependency relationship. The CFPB is a regulator acting in its regulatory capacity, which per instruction #4 should be rejected as a counterparty. The excerpt discusses potential regulatory oversight but does not establish a dependency relationship where Strategy relies on CFPB infrastructure or services. The CFPB is not a commercial vendor, and regulators acting as regulators are explicitly excluded from valid counterparty relationships.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Department of Justice",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "the Consumer Financial Protection Bureau, the Department of Justice, the Department of Homeland Security, the Federal Bureau of Investigation, the Internal Revenue Service (\"IRS\")",
+    "confidence": 0.92,
+    "reason": "The Department of Justice is listed among regulatory and law enforcement agencies examining digital asset operations, not as a dependency. The root company (MSTR) does not critically rely on DOJ infrastructure or services; rather, DOJ is a regulator/law enforcement entity overseeing the industry. Per the instructions, 'regulators acting as regulators' and 'tax and revenue authorities' are invalid counterparties. The evidence quote is a list fragment, not a natural-language sentence describing reliance.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Department of Homeland Security",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "the Consumer Financial Protection Bureau, the Department of Justice, the Department of Homeland Security, the Federal Bureau of Investigation, the Internal Revenue Service (\"IRS\")",
+    "confidence": 0.92,
+    "reason": "The Department of Homeland Security is listed among federal agencies examining digital asset operations for law enforcement and regulatory purposes, not as a dependency. The context describes DHS as a regulator monitoring for illegal use of digital assets, which makes it a regulatory authority but not a dependency in the sense used for this category. Dependencies are for critical infrastructure or services the root company relies on (like GPS, public internet). Regulatory oversight does not constitute a dependency relationship. Additionally, the listing format (a simple enumeration of agencies) does not constitute proper natural-language evidence. Finally, regulators acting in their regulatory capacity should be excluded per instruction #4.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Federal Bureau of Investigation",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "the Department of Justice, the Department of Homeland Security, the Federal Bureau of Investigation, the Internal Revenue Service (\"IRS\") and state financial regulators",
+    "confidence": 0.92,
+    "reason": "The FBI is listed among a set of regulatory and law enforcement agencies examining digital asset operations, not as a dependency. The passage describes government agencies that regulate and monitor digital asset markets, including the FBI's role in enforcement and investigation. This is a regulatory/law enforcement relationship, not a dependency. Additionally, the FBI is explicitly described as a regulator/law enforcement entity examining operations ('examining the operations of digital asset networks'), which falls under the exclusion criteria for regulators acting as regulators. The relationship is about regulatory oversight and potential enforcement actions, not about MSTR being operationally dependent on FBI infrastructure or services. The evidence shows regulatory scrutiny, not dependency.",
+    "stage": "audit"
+  }
+]

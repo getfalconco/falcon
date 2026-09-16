@@ -1,0 +1,166 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 227955,
+  "chunks": 10,
+  "candidates": [
+    {
+      "counterparty_name": "Wallbox N.V.",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "investment",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "reduced loss from the change in fair value of our investment in warrants and equity securities of Wallbox N.V.",
+      "evidence_quotes": [
+        "reduced loss from the change in fair value of our investment in warrants and equity securities of Wallbox N.V."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Wallbox N.V.",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "investment",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "cash payments of $35.0 million for an incremental minority investment in Wallbox N.V.",
+      "evidence_quotes": [
+        "cash payments of $35.0 million for an incremental minority investment in Wallbox N.V."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Earth Foundry Fund",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "investment",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "$2.8 million for a minority investment in Earth Foundry Fund",
+      "evidence_quotes": [
+        "$2.8 million for a minority investment in Earth Foundry Fund"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Rolling Energy Resources",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "investment",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "$2.0 million of cash proceeds from the sale of our minority interest in Rolling Energy Resources",
+      "evidence_quotes": [
+        "$2.0 million of cash proceeds from the sale of our minority interest in Rolling Energy Resources"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Wallbox N.V",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "equity investment and warrant holder",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Equity securities consist of shares of Wallbox N.V's (Wallbox) Class A common stock (Wallbox Shares).",
+      "evidence_quotes": [
+        "Equity securities consist of shares of Wallbox N.V's (Wallbox) Class A common stock (Wallbox Shares)."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "Wallbox",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "equity investment and warrant agreement",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the Company entered into a $ 30,000 agreement with Wallbox to purchase 5 % of its Class A common stock and acquire stock warrants",
+      "evidence_quotes": [
+        "the Company entered into a $ 30,000 agreement with Wallbox to purchase 5 % of its Class A common stock and acquire stock warrants"
+      ],
+      "confidence": 0.8,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "Power Home Solar",
+      "counterparty_type": "private_company",
+      "category": "customer",
+      "subtype": "dealer purchasing clean energy equipment for resale",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "breaches of warranty, product liability, and other causes of action against Generac Power relating to the sale and performance of certain clean energy equipment",
+      "evidence_quotes": [
+        "breaches of warranty, product liability, and other causes of action against Generac Power relating to the sale and performance of certain clean energy equipment"
+      ],
+      "confidence": 0.7,
+      "chunk_index": 8
+    },
+    {
+      "counterparty_name": "Spartronics",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "contract manufacturer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Spartronics Vietnam, Inc., a contract manufacturer of Generac Power’s clean energy products, filed multiple lawsuits against Generac Power and sub-suppliers accusing Generac Power of fraud, breaching its supply agreement",
+      "evidence_quotes": [
+        "Spartronics Vietnam, Inc., a contract manufacturer of Generac Power’s clean energy products, filed multiple lawsuits against Generac Power and sub-suppliers accusing Generac Power of fraud, breaching its supply agreement"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 9
+    },
+    {
+      "counterparty_name": "ecobee",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "patent infringement litigant / thermostat maker",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Ollnova Technologies Limited, a non-practicing entity, filed a patent infringement lawsuit against ecobee Technologies, ULC. (ecobee) in the United States District Court",
+      "evidence_quotes": [
+        "Ollnova Technologies Limited, a non-practicing entity, filed a patent infringement lawsuit against ecobee Technologies, ULC. (ecobee) in the United States District Court"
+      ],
+      "confidence": 0.6,
+      "chunk_index": 9
+    },
+    {
+      "counterparty_name": "Champion Power Equipment",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "patent infringement litigant / portable generator maker",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Champion Power Equipment, Inc. (Champion) filed a patent infringement lawsuit against Generac Power",
+      "evidence_quotes": [
+        "Champion Power Equipment, Inc. (Champion) filed a patent infringement lawsuit against Generac Power"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 9
+    },
+    {
+      "counterparty_name": "Allmand",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "acquisition target",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the Company completed the acquisition of Allmand, a leading manufacturer of mobile power equipment for C&I markets, headquartered in Holdrege, Nebraska",
+      "evidence_quotes": [
+        "the Company completed the acquisition of Allmand, a leading manufacturer of mobile power equipment for C&I markets, headquartered in Holdrege, Nebraska"
+      ],
+      "confidence": 0.6,
+      "chunk_index": 9
+    }
+  ],
+  "candidatesPerChunk": [
+    0,
+    4,
+    0,
+    0,
+    0,
+    1,
+    1,
+    0,
+    1,
+    4
+  ],
+  "parseErrors": 9,
+  "apiErrors": 0,
+  "inputTokens": 291549,
+  "outputTokens": 1729
+}

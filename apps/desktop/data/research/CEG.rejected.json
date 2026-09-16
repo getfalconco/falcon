@@ -1,0 +1,47 @@
+[
+  {
+    "counterparty_name": "FERC",
+    "category": "dependency",
+    "subtype": "regulatory_infrastructure",
+    "evidence_quote": "Our future results of operations are impacted by (1) FERC's and PJM's level of support for policies that favor the preservation of competitive wholesale power markets",
+    "confidence": 0.92,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "PSEG Nuclear, LLC",
+    "category": "partner",
+    "subtype": "operations_partner",
+    "evidence_quote": "We operate all of our nuclear generating stations, except for the units at Salem and STP, which are operated by PSEG Nuclear, LLC (an indirect, wholly owned subsidiary of PSEG)",
+    "confidence": 0.9,
+    "reason": "PSEG Nuclear, LLC is described as 'an indirect, wholly owned subsidiary of PSEG' that operates Salem units on behalf of Constellation. This is a third-party operator managing jointly-owned assets where Constellation holds a 42.59% ownership interest. PSEG Nuclear, LLC operates the Salem units that Constellation part-owns, but this is a contracted operating arrangement for jointly-owned nuclear stations, not a partnership. The category 'partner' with subtype 'operations_partner' is incorrect—this is better characterized as a supplier relationship (operational services provider) or could be rejected entirely because the counterparty is acting as an operator of jointly-owned assets rather than a true business partner. Additionally, the entity is a subsidiary of PSEG (the actual counterparty company), making the relationship more accurately described as a supplier of operations management services. The relationship does not constitute a joint development, distribution, or licensing alliance that would qualify as a 'partner' category.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "FERC",
+    "category": "dependency",
+    "subtype": "regulatory_licensing",
+    "evidence_quote": "FERC has the exclusive authority to license most non-federal hydropower projects located on navigable waterways or federal lands, or connected to the interstate electrical grid",
+    "confidence": 0.9,
+    "reason": "FERC is a regulatory authority, not a counterparty. The evidence describes FERC's authority to license hydropower projects, which is a regulatory function. Per the auditor instructions, 'regulators acting as regulators' must be rejected as counterparties. FERC grants licenses but does not provide infrastructure or services that Constellation relies upon as a dependency. The licensing authority is a regulatory compliance requirement, not a dependency relationship. This is analogous to FDA approval authority or SEC filing requirements—essential regulatory oversight, but not a counterparty relationship.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "DOE Office of Energy Dominance Financing",
+    "category": "supplier",
+    "subtype": "loan_guarantee",
+    "evidence_quote": "In November 2025, the DOE Office of Energy Dominance Financing issued a guarantee for up to $1.0 billion as an unsecured loan to support the restart of the Crane Clean Energy Center.",
+    "confidence": 0.9,
+    "reason": "The DOE Office of Energy Dominance Financing provided a loan guarantee, not a commercial service that makes it a supplier. Loan guarantees are government support mechanisms (backing debt issued by private lenders) and do not constitute a commercial vendor relationship. The root company does not 'pay' the DOE for this guarantee in the way it would pay a supplier for goods or services. This is government financial support/facilitation, which is categorically different from a supplier relationship. The counterparty should be rejected as it does not fit any valid category: it is neither a supplier (no commercial sale), customer, partner, competitor, nor dependency (not infrastructure the root critically relies upon). Government loan guarantees are financial instruments, not counterparty relationships in the operational sense required for this knowledge graph.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Calpine",
+    "category": "supplier",
+    "subtype": "acquisition_target",
+    "evidence_quote": "This strategy was realized, in part, with the acquisition of Calpine, a combination that brings together premier nuclear, natural gas, and geothermal fleets",
+    "confidence": 0.7,
+    "reason": "The evidence describes Constellation Energy's acquisition of Calpine, not Calpine as a supplier. The quote states 'This strategy was realized, in part, with the acquisition of Calpine' and 'our acquisition of Calpine,' making Calpine an acquisition target that became part of Constellation Energy. After acquisition, Calpine is a subsidiary/internal unit of the ROOT company, not an external counterparty. The filing confirms this throughout, referring to 'our significantly increased presence in Texas following the Calpine acquisition' and 'Calpine's 460 MW Pin Oak Creek peaking facility' as owned assets. While the subtype 'acquisition_target' is descriptively accurate for the historical transaction, post-acquisition Calpine is not a valid counterparty relationship—it's now part of the ROOT company itself.",
+    "stage": "audit"
+  }
+]

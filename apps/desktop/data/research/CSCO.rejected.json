@@ -1,0 +1,47 @@
+[
+  {
+    "counterparty_name": "California",
+    "category": "dependency",
+    "subtype": "regulatory",
+    "evidence_quote": "we are subject to California's Consumer Privacy Act",
+    "confidence": 0.85,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Singapore",
+    "category": "dependency",
+    "subtype": "regulatory",
+    "evidence_quote": "we are subject to...Singapore's Personal Data Protection Act",
+    "confidence": 0.85,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Splunk",
+    "category": "supplier",
+    "subtype": "acquisition",
+    "evidence_quote": "This shift in our business model was accelerated by recent acquisitions, including our acquisition of Splunk in the third quarter of fiscal 2024.",
+    "confidence": 0.95,
+    "reason": "Splunk is described as an acquisition target acquired by Cisco in Q3 FY2024. Post-acquisition, Splunk became a subsidiary of Cisco (the ROOT company), not an external counterparty. The evidence quote states 'our acquisition of Splunk,' clearly indicating Cisco now owns Splunk. Internal subsidiaries cannot be counterparties. The 'supplier' category and 'acquisition' subtype are contradictory—acquisitions convert external entities into internal ones. The relationship would have been valid before the acquisition closed, but the filing describes the post-acquisition state where Splunk is part of Cisco's operations.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Internal Revenue Service",
+    "category": "dependency",
+    "subtype": "tax_authority",
+    "evidence_quote": "we are subject to the continuous examination of our income tax returns by the Internal Revenue Service and other tax authorities.",
+    "confidence": 0.92,
+    "reason": "The Internal Revenue Service (IRS) is a tax and revenue authority acting in its regulatory capacity. The evidence describes the IRS conducting tax examinations of Cisco's income tax returns, which is a standard regulatory function. Tax authorities like the IRS are explicitly excluded as valid counterparties per the auditing rules. While Cisco is subject to IRS oversight, this is a regulatory relationship, not a dependency relationship. The IRS does not provide infrastructure or services that Cisco critically relies upon for its operations; rather, it enforces tax compliance. This falls under the category of regulators acting as regulators, which should always be rejected.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Organisation for Economic Co-operation and Development",
+    "category": "dependency",
+    "subtype": "international_tax_framework",
+    "evidence_quote": "The Organisation for Economic Co-operation and Development (OECD), an international association comprised of 38 countries, including the United States, has made changes, including a Pillar Two framework that imposes a minimum tax rate of 15%",
+    "confidence": 0.88,
+    "reason": "The OECD is not a counterparty to Cisco in any business relationship. The evidence describes the OECD as an international association that has created a tax policy framework (Pillar Two minimum tax). The OECD is functioning as a standard-setting body whose policies affect Cisco through member countries' adoption of those policies. This is a regulatory/policy environment matter, not a dependency relationship. The OECD does not provide infrastructure or services that Cisco relies upon; rather, it sets tax policy frameworks that governments may adopt. This falls under general regulatory risk, not a counterparty relationship. The filing context makes clear this is about tax risk exposure ('our provision for income taxes is subject to volatility'), not operational dependency on OECD services or infrastructure.",
+    "stage": "audit"
+  }
+]

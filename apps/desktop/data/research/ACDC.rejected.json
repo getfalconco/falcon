@@ -1,0 +1,146 @@
+[
+  {
+    "counterparty_name": "CLMG Corp.",
+    "category": "supplier",
+    "subtype": "lender",
+    "evidence_quote": "In June and December 2025, we amended the senior secured term loan credit agreement (the \"Alpine Term Loan Credit Agreement\") between our Alpine subsidiary and CLMG Corp., as administrative agent and collateral agent",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Flying A Pump Services, LLC",
+    "category": "customer",
+    "subtype": "equipment_purchaser",
+    "evidence_quote": "In June 2023, ProFrac arranged to sell certain surplus equipment and inventory components and to assign certain pre-orders for equipment to Flying A Pump Services, LLC (\"Flying A\"), at prices which are consistent with fair market value, for a total",
+    "confidence": 0.9,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Flotek",
+    "category": "dependency",
+    "subtype": "variable_interest_entity",
+    "evidence_quote": "Due to our determination that Flotek is a variable interest entity of which ProFrac is the primary beneficiary, Flotek's financial statements have been included in our consolidated financial statements from May 17, 2022.",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Alpine Holding, LLC",
+    "category": "dependency",
+    "subtype": "segregated collateral entity",
+    "evidence_quote": "we are required to segregate collateral associated with Alpine Holding, LLC, PF Proppant Holdings, LLC and their respective subsidiaries and may have limited ability to access or use Alpine's cash",
+    "confidence": 0.65,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "PF Proppant Holdings, LLC",
+    "category": "dependency",
+    "subtype": "segregated collateral entity",
+    "evidence_quote": "we are required to segregate collateral associated with Alpine Holding, LLC, PF Proppant Holdings, LLC and their respective subsidiaries and may have limited ability to access or use Alpine's cash",
+    "confidence": 0.65,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "MSHA",
+    "category": "dependency",
+    "subtype": "regulatory_infrastructure",
+    "evidence_quote": "In June 2022, the DOL's MSHA launched a new enforcement initiative to better protect U.S. miners from health hazards resulting from repeated overexposure to respirable crystalline silica.",
+    "confidence": 0.85,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "IRS",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "The U.S. Internal Revenue Service (\"IRS\") or another taxing authority may challenge all or part of the tax basis increases",
+    "confidence": 0.85,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "PC Energy Credit I, LLC",
+    "category": "customer",
+    "subtype": "asset_purchaser",
+    "evidence_quote": "In November 2025, we assigned the Flotek PWRtek Note receivable to PC Energy Credit I, LLC, a related party to the Company controlled by the Wilks Parties, in exchange for cash consideration of $40.4 million.",
+    "confidence": 0.9,
+    "reason": "PC Energy Credit I, LLC is the purchaser of a note receivable (a financial asset) from ProFrac, not a purchaser of operational assets or products/services. The evidence describes an intercompany note assignment transaction where ProFrac assigned the Flotek PWRtek Note to PC Energy Credit I, LLC for cash. This is a financing/treasury transaction, not a customer-supplier relationship. PC Energy Credit I, LLC is explicitly identified as 'a related party to the Company controlled by the Wilks Parties,' further indicating this is an internal financing arrangement rather than an arm's-length commercial customer relationship. The category 'customer' with subtype 'asset_purchaser' is inappropriate for a related-party financial note assignment. This entity should not be classified as a counterparty in the operational sense.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "U.S. Army Corps of Engineers",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "The discharge of dredge and fill material into regulated waters, including wetlands, is also prohibited, unless authorized by a permit issued by the U.S. Army Corps of Engineers",
+    "confidence": 0.85,
+    "reason": "The U.S. Army Corps of Engineers is referenced solely in its regulatory capacity for issuing permits related to dredge and fill activities in wetlands and regulated waters. It is not a dependency in the sense of critical infrastructure the company relies upon (like GPS or public networks). The Corps is a government permitting authority, and regulators acting as regulators should be rejected as counterparties per instruction 4. The relationship is regulatory compliance, not a dependency on infrastructure or services.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "MSHA",
+    "category": "dependency",
+    "subtype": "regulatory_infrastructure",
+    "evidence_quote": "MSHA also administers and enforces the provisions of the Federal Mine Safety and Health Act of 1977, as amended by the Mine Improvement and New Emergency Response Act of 2006, which imposes stringent health and safety standards on numerous aspects",
+    "confidence": 0.85,
+    "reason": "MSHA (Mine Safety and Health Administration) is a regulatory agency exercising governmental authority over ProFrac's operations. The evidence shows MSHA 'administers and enforces' safety standards and 'must perform at least two unannounced inspections annually' at facilities. This is a regulator acting in its regulatory capacity—enforcing compliance, conducting inspections, and imposing requirements. Per instruction #4, regulators acting as regulators are always rejected as counterparties. MSHA is not providing infrastructure or services the company depends on; it is exercising legal authority over the company's conduct. The correct treatment is to exclude such regulatory relationships from the knowledge graph entirely.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "DOL",
+    "category": "dependency",
+    "subtype": "regulatory_infrastructure",
+    "evidence_quote": "In April 2024, the DOL issued a final rule amending its existing standards and setting a permissible exposure limit of respirable crystalline silica",
+    "confidence": 0.85,
+    "reason": "The DOL (Department of Labor) is mentioned in the excerpt only in its regulatory capacity, issuing a final rule on permissible exposure limits for respirable crystalline silica. This is a regulatory action, not a dependency relationship where ProFrac critically relies on DOL infrastructure or services. The DOL is acting as a regulator setting standards, not providing essential infrastructure or services that ProFrac depends upon. Per instruction #4, regulators acting as regulators should be rejected as counterparties. Additionally, the category 'dependency' with subtype 'regulatory_infrastructure' is inappropriate here—regulatory oversight and rule-making do not constitute infrastructure that the company depends upon in the operational sense (like GPS or public networks). The relationship is purely compliance-based.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Corps",
+    "category": "dependency",
+    "subtype": "permitting_authority",
+    "evidence_quote": "If wetlands are implicated, a wetlands permit may be required from the Corps.",
+    "confidence": 0.88,
+    "reason": "The counterparty 'Corps' is incomplete. The full context clearly refers to 'the Corps' as shorthand for the U.S. Army Corps of Engineers, a federal agency that issues wetlands permits. However, the counterparty_name field contains only 'Corps,' which is ambiguous and not a properly identified entity. More critically, the relationship is miscategorized: the Army Corps of Engineers is a regulatory/permitting authority that ProFrac must comply with to obtain wetlands permits for its operations. This is a compliance obligation, not a dependency in the sense of the root company relying on the Corps' infrastructure or services for operations. The Corps does not provide a service or infrastructure that ProFrac depends on; rather, ProFrac must obtain authorization from the Corps to proceed with certain activities. This is a regulatory compliance requirement, not an operational dependency. The evidence_quote is valid but does not support a 'dependency' relationship—it describes a permitting requirement, which falls under regulatory compliance, not operational reliance on external infrastructure/services.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "OSHA",
+    "category": "dependency",
+    "subtype": "regulatory_infrastructure",
+    "evidence_quote": "OSHA has implemented rules establishing a more stringent permissible exposure limit for exposure to respirable crystalline silica and provided other provisions to protect employees.",
+    "confidence": 0.85,
+    "reason": "OSHA is a regulatory authority acting in its regulatory capacity. The evidence describes OSHA implementing rules and workplace exposure standards that ProFrac must comply with. This is regulatory oversight, not a dependency relationship. Per instruction 4, regulators acting as regulators should be rejected as counterparties. The relationship is one of compliance obligation, not reliance on infrastructure or services. OSHA does not provide infrastructure that ProFrac depends upon; rather, OSHA enforces regulations that ProFrac must follow. This is a fundamental regulatory relationship, not a counterparty dependency.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "FTS International, Inc.",
+    "category": "dependency",
+    "subtype": "subsidiary",
+    "evidence_quote": "As the sole shareholder of FTS International, Inc., which is the sole member of ProFrac LLC, the Issuer indirectly controls and operates ProFrac LLC.",
+    "confidence": 0.95,
+    "reason": "FTS International, Inc. is described as being wholly owned by the Issuer (ProFrac Holding Corp.), making it a subsidiary of the ROOT company, not an external counterparty. The evidence states 'As the sole shareholder of FTS International, Inc., which is the sole member of ProFrac LLC, the Issuer indirectly controls and operates ProFrac LLC.' This establishes FTS International as an internal entity within ProFrac's corporate structure, not a dependency or external relationship. Subsidiaries are explicitly excluded from being valid counterparties per the audit instructions.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Russia",
+    "category": "dependency",
+    "subtype": "geopolitical_risk_factor",
+    "evidence_quote": "The ongoing wars between Russia and Ukraine, conflicts in the Middle East, as well as the potential for disruption to strategic shipping routes",
+    "confidence": 0.65,
+    "reason": "Russia is mentioned only as a party to geopolitical conflicts that may affect global energy markets and commodity prices, not as a counterparty with which ProFrac has any direct dependency relationship. The evidence describes broad macro risks ('could disrupt global energy markets, contribute to commodity price volatility') affecting the industry generally. There is no evidence that ProFrac critically relies on Russian infrastructure, services, or regulatory frameworks for its operations. This is a general geopolitical risk factor, not a counterparty dependency. Russia is not a valid counterparty in this context.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Ukraine",
+    "category": "dependency",
+    "subtype": "geopolitical_risk_factor",
+    "evidence_quote": "The ongoing wars between Russia and Ukraine, conflicts in the Middle East, as well as the potential for disruption to strategic shipping routes",
+    "confidence": 0.65,
+    "reason": "Ukraine is mentioned only as a party to an armed conflict that contributes to broader geopolitical risk, not as a counterparty with which ProFrac has any operational relationship. The text describes the war between Russia and Ukraine as one of several global events (alongside Middle East conflicts and Venezuelan instability) that could disrupt energy markets and commodity prices. Ukraine is not an infrastructure or service provider upon which ProFrac critically depends, nor is there any commercial, partnership, or competitive relationship. The evidence_quote references Ukraine purely as a geopolitical event factor, not as an entity with which the ROOT company has any business relationship. Additionally, 'government' as counterparty_type is inappropriate here since Ukraine is referenced in the context of war, not as a governmental regulatory or infrastructure entity. This does not meet the standard for a valid counterparty relationship.",
+    "stage": "audit"
+  }
+]

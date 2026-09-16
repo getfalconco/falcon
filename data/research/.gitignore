@@ -1,0 +1,4 @@
+# Results from Falcon deep-research step 1 (10-K relationship extraction).
+# Files: {TICKER}.json, {TICKER}.rejected.json, {TICKER}.meta.json
+*
+!.gitignore

@@ -1,0 +1,888 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 84732,
+  "chunks": 4,
+  "candidates": [
+    {
+      "counterparty_name": "CASE",
+      "counterparty_type": "product",
+      "category": "competitor",
+      "subtype": "construction_machinery",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Examples of global competitors include CASE (part of CNH Industrial N.V.), Deere Construction & Forestry (part of Deere & Company), Doosan Bobcat",
+      "evidence_quotes": [
+        "Examples of global competitors include CASE (part of CNH Industrial N.V.), Deere Construction & Forestry (part of Deere & Company), Doosan Bobcat"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "CNH Industrial N.V.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "construction_machinery",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Examples of global competitors include CASE (part of CNH Industrial N.V.), Deere Construction & Forestry (part of Deere & Company), Doosan Bobcat",
+      "evidence_quotes": [
+        "Examples of global competitors include CASE (part of CNH Industrial N.V.), Deere Construction & Forestry (part of Deere & Company), Doosan Bobcat"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Deere & Company",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "construction_machinery",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Examples of global competitors include CASE (part of CNH Industrial N.V.), Deere Construction & Forestry (part of Deere & Company), Doosan Bobcat",
+      "evidence_quotes": [
+        "Examples of global competitors include CASE (part of CNH Industrial N.V.), Deere Construction & Forestry (part of Deere & Company), Doosan Bobcat"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Doosan Group",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "construction_machinery",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Examples of global competitors include CASE (part of CNH Industrial N.V.), Deere Construction & Forestry (part of Deere & Company), Doosan Bobcat (Part of Doosan Group)",
+      "evidence_quotes": [
+        "Examples of global competitors include CASE (part of CNH Industrial N.V.), Deere Construction & Forestry (part of Deere & Company), Doosan Bobcat (Part of Doosan Group)"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Hitachi Construction Machinery Co., Ltd.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "construction_machinery",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Examples of global competitors include CASE (part of CNH Industrial N.V.), Deere Construction & Forestry (part of Deere & Company), Doosan Bobcat (Part of Doosan Group), Hitachi Construction Machinery Co., Ltd.",
+      "evidence_quotes": [
+        "Examples of global competitors include CASE (part of CNH Industrial N.V.), Deere Construction & Forestry (part of Deere & Company), Doosan Bobcat (Part of Doosan Group), Hitachi Construction Machinery Co., Ltd."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Hyundai Construction Equipment Co., Ltd.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "construction_machinery",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Hitachi Construction Machinery Co., Ltd., Hyundai Construction Equipment Co., Ltd., Hyundai Doosan Infracore Co., Ltd. (both part of Hyundai Heavy Industries Group)",
+      "evidence_quotes": [
+        "Hitachi Construction Machinery Co., Ltd., Hyundai Construction Equipment Co., Ltd., Hyundai Doosan Infracore Co., Ltd. (both part of Hyundai Heavy Industries Group)"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Hyundai Doosan Infracore Co., Ltd.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "construction_machinery",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Hyundai Construction Equipment Co., Ltd., Hyundai Doosan Infracore Co., Ltd. (both part of Hyundai Heavy Industries Group), J.C. Bamford Excavators Ltd.",
+      "evidence_quotes": [
+        "Hyundai Construction Equipment Co., Ltd., Hyundai Doosan Infracore Co., Ltd. (both part of Hyundai Heavy Industries Group), J.C. Bamford Excavators Ltd."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Hyundai Heavy Industries Group",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "construction_machinery",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Hyundai Construction Equipment Co., Ltd., Hyundai Doosan Infracore Co., Ltd. (both part of Hyundai Heavy Industries Group), J.C. Bamford Excavators Ltd.",
+      "evidence_quotes": [
+        "Hyundai Construction Equipment Co., Ltd., Hyundai Doosan Infracore Co., Ltd. (both part of Hyundai Heavy Industries Group), J.C. Bamford Excavators Ltd."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "J.C. Bamford Excavators Ltd.",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "construction_machinery",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Hyundai Doosan Infracore Co., Ltd. (both part of Hyundai Heavy Industries Group), J.C. Bamford Excavators Ltd., Kobelco Construction Machinery (part of Kobe Steel, Ltd)",
+      "evidence_quotes": [
+        "Hyundai Doosan Infracore Co., Ltd. (both part of Hyundai Heavy Industries Group), J.C. Bamford Excavators Ltd., Kobelco Construction Machinery (part of Kobe Steel, Ltd)"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Kobe Steel, Ltd",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "construction_machinery",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "J.C. Bamford Excavators Ltd., Kobelco Construction Machinery (part of Kobe Steel, Ltd), Komatsu Ltd., Kubota Farm & Industrial Machinery",
+      "evidence_quotes": [
+        "J.C. Bamford Excavators Ltd., Kobelco Construction Machinery (part of Kobe Steel, Ltd), Komatsu Ltd., Kubota Farm & Industrial Machinery"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Komatsu Ltd.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "construction_machinery",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Kobelco Construction Machinery (part of Kobe Steel, Ltd), Komatsu Ltd., Kubota Farm & Industrial Machinery (part of Kubota Corporation), Sany Heavy Industry Co., Ltd.",
+      "evidence_quotes": [
+        "Kobelco Construction Machinery (part of Kobe Steel, Ltd), Komatsu Ltd., Kubota Farm & Industrial Machinery (part of Kubota Corporation), Sany Heavy Industry Co., Ltd."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Kubota Corporation",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "construction_machinery",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Komatsu Ltd., Kubota Farm & Industrial Machinery (part of Kubota Corporation), Sany Heavy Industry Co., Ltd., and Volvo Construction Equipment",
+      "evidence_quotes": [
+        "Komatsu Ltd., Kubota Farm & Industrial Machinery (part of Kubota Corporation), Sany Heavy Industry Co., Ltd., and Volvo Construction Equipment"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Sany Heavy Industry Co., Ltd.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "construction_machinery",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Kubota Farm & Industrial Machinery (part of Kubota Corporation), Sany Heavy Industry Co., Ltd., and Volvo Construction Equipment (part of the Volvo Group).",
+      "evidence_quotes": [
+        "Kubota Farm & Industrial Machinery (part of Kubota Corporation), Sany Heavy Industry Co., Ltd., and Volvo Construction Equipment (part of the Volvo Group)."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Volvo Group",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "construction_machinery",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Sany Heavy Industry Co., Ltd., and Volvo Construction Equipment (part of the Volvo Group).",
+      "evidence_quotes": [
+        "Sany Heavy Industry Co., Ltd., and Volvo Construction Equipment (part of the Volvo Group)."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Guangxi LiuGong Machinery Co., Ltd.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "construction_machinery_china",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "our competitors in China also include Guangxi LiuGong Machinery Co., Ltd., Longking Holdings Ltd., Sany Heavy Industry Co, XCMG Construction Machinery Co., Ltd.",
+      "evidence_quotes": [
+        "our competitors in China also include Guangxi LiuGong Machinery Co., Ltd., Longking Holdings Ltd., Sany Heavy Industry Co, XCMG Construction Machinery Co., Ltd."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Longking Holdings Ltd.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "construction_machinery_china",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "our competitors in China also include Guangxi LiuGong Machinery Co., Ltd., Longking Holdings Ltd., Sany Heavy Industry Co, XCMG Construction Machinery Co., Ltd.",
+      "evidence_quotes": [
+        "our competitors in China also include Guangxi LiuGong Machinery Co., Ltd., Longking Holdings Ltd., Sany Heavy Industry Co, XCMG Construction Machinery Co., Ltd."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "XCMG Construction Machinery Co., Ltd.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "construction_machinery_china",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Guangxi LiuGong Machinery Co., Ltd., Longking Holdings Ltd., Sany Heavy Industry Co, XCMG Construction Machinery Co., Ltd., Shandong Lingong Construction Machinery Co., Ltd.",
+      "evidence_quotes": [
+        "Guangxi LiuGong Machinery Co., Ltd., Longking Holdings Ltd., Sany Heavy Industry Co, XCMG Construction Machinery Co., Ltd., Shandong Lingong Construction Machinery Co., Ltd."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Shandong Lingong Construction Machinery Co., Ltd.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "construction_machinery_china",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "XCMG Construction Machinery Co., Ltd., Shandong Lingong Construction Machinery Co., Ltd. (SDLG, JV with Volvo Construction Equipment) and Shantui Construction Machinery Co., Ltd.",
+      "evidence_quotes": [
+        "XCMG Construction Machinery Co., Ltd., Shandong Lingong Construction Machinery Co., Ltd. (SDLG, JV with Volvo Construction Equipment) and Shantui Construction Machinery Co., Ltd."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Shantui Construction Machinery Co., Ltd.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "construction_machinery_china",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Shandong Lingong Construction Machinery Co., Ltd. (SDLG, JV with Volvo Construction Equipment) and Shantui Construction Machinery Co., Ltd., (part of Shandong Heavy Industry Group Co.).",
+      "evidence_quotes": [
+        "Shandong Lingong Construction Machinery Co., Ltd. (SDLG, JV with Volvo Construction Equipment) and Shantui Construction Machinery Co., Ltd., (part of Shandong Heavy Industry Group Co.)."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Shandong Heavy Industry Group Co.",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "construction_machinery_china",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Shantui Construction Machinery Co., Ltd., (part of Shandong Heavy Industry Group Co.).",
+      "evidence_quotes": [
+        "Shantui Construction Machinery Co., Ltd., (part of Shandong Heavy Industry Group Co.)."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Epiroc AB",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "resource_industries",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our global surface competitors include Deere Construction & Forestry (part of Deere & Company), Epiroc AB, Hitachi Construction Machinery Co., Ltd., Komatsu Ltd., Liebherr-International AG, Sandvik AB",
+      "evidence_quotes": [
+        "Our global surface competitors include Deere Construction & Forestry (part of Deere & Company), Epiroc AB, Hitachi Construction Machinery Co., Ltd., Komatsu Ltd., Liebherr-International AG, Sandvik AB"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Liebherr-International AG",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "resource_industries",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our global surface competitors include Deere Construction & Forestry (part of Deere & Company), Epiroc AB, Hitachi Construction Machinery Co., Ltd., Komatsu Ltd., Liebherr-International AG, Sandvik AB",
+      "evidence_quotes": [
+        "Our global surface competitors include Deere Construction & Forestry (part of Deere & Company), Epiroc AB, Hitachi Construction Machinery Co., Ltd., Komatsu Ltd., Liebherr-International AG, Sandvik AB"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Sandvik AB",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "resource_industries",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our global surface competitors include Deere Construction & Forestry (part of Deere & Company), Epiroc AB, Hitachi Construction Machinery Co., Ltd., Komatsu Ltd., Liebherr-International AG, Sandvik AB",
+      "evidence_quotes": [
+        "Our global surface competitors include Deere Construction & Forestry (part of Deere & Company), Epiroc AB, Hitachi Construction Machinery Co., Ltd., Komatsu Ltd., Liebherr-International AG, Sandvik AB"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Cummins Inc.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "power_energy",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Principal global competitors include Cummins Inc., Deutz AG, Rolls-Royce Power Systems AG and Siemens Energy AG.",
+      "evidence_quotes": [
+        "Principal global competitors include Cummins Inc., Deutz AG, Rolls-Royce Power Systems AG and Siemens Energy AG."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Deutz AG",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "power_energy",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Principal global competitors include Cummins Inc., Deutz AG, Rolls-Royce Power Systems AG and Siemens Energy AG.",
+      "evidence_quotes": [
+        "Principal global competitors include Cummins Inc., Deutz AG, Rolls-Royce Power Systems AG and Siemens Energy AG."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Rolls-Royce Power Systems AG",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "power_energy",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Principal global competitors include Cummins Inc., Deutz AG, Rolls-Royce Power Systems AG and Siemens Energy AG.",
+      "evidence_quotes": [
+        "Principal global competitors include Cummins Inc., Deutz AG, Rolls-Royce Power Systems AG and Siemens Energy AG."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Siemens Energy AG",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "power_energy",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Principal global competitors include Cummins Inc., Deutz AG, Rolls-Royce Power Systems AG and Siemens Energy AG.",
+      "evidence_quotes": [
+        "Principal global competitors include Cummins Inc., Deutz AG, Rolls-Royce Power Systems AG and Siemens Energy AG."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Volvo Penta AB",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "power_energy",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Other competitors, such as Volvo Penta AB, FPT Industrial SpA (Iveco Group), INNIO Group, GE Vernova Inc., Kawasaki Heavy Industries Ltd., Everllence SE",
+      "evidence_quotes": [
+        "Other competitors, such as Volvo Penta AB, FPT Industrial SpA (Iveco Group), INNIO Group, GE Vernova Inc., Kawasaki Heavy Industries Ltd., Everllence SE"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "FPT Industrial SpA",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "power_energy",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Other competitors, such as Volvo Penta AB, FPT Industrial SpA (Iveco Group), INNIO Group, GE Vernova Inc., Kawasaki Heavy Industries Ltd., Everllence SE",
+      "evidence_quotes": [
+        "Other competitors, such as Volvo Penta AB, FPT Industrial SpA (Iveco Group), INNIO Group, GE Vernova Inc., Kawasaki Heavy Industries Ltd., Everllence SE"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Iveco Group",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "power_energy",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Other competitors, such as Volvo Penta AB, FPT Industrial SpA (Iveco Group), INNIO Group, GE Vernova Inc., Kawasaki Heavy Industries Ltd., Everllence SE",
+      "evidence_quotes": [
+        "Other competitors, such as Volvo Penta AB, FPT Industrial SpA (Iveco Group), INNIO Group, GE Vernova Inc., Kawasaki Heavy Industries Ltd., Everllence SE"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "INNIO Group",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "power_energy",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Other competitors, such as Volvo Penta AB, FPT Industrial SpA (Iveco Group), INNIO Group, GE Vernova Inc., Kawasaki Heavy Industries Ltd., Everllence SE",
+      "evidence_quotes": [
+        "Other competitors, such as Volvo Penta AB, FPT Industrial SpA (Iveco Group), INNIO Group, GE Vernova Inc., Kawasaki Heavy Industries Ltd., Everllence SE"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "GE Vernova Inc.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "power_energy",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Other competitors, such as Volvo Penta AB, FPT Industrial SpA (Iveco Group), INNIO Group, GE Vernova Inc., Kawasaki Heavy Industries Ltd., Everllence SE",
+      "evidence_quotes": [
+        "Other competitors, such as Volvo Penta AB, FPT Industrial SpA (Iveco Group), INNIO Group, GE Vernova Inc., Kawasaki Heavy Industries Ltd., Everllence SE"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Kawasaki Heavy Industries Ltd.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "power_energy",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Other competitors, such as Volvo Penta AB, FPT Industrial SpA (Iveco Group), INNIO Group, GE Vernova Inc., Kawasaki Heavy Industries Ltd., Everllence SE",
+      "evidence_quotes": [
+        "Other competitors, such as Volvo Penta AB, FPT Industrial SpA (Iveco Group), INNIO Group, GE Vernova Inc., Kawasaki Heavy Industries Ltd., Everllence SE"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Everllence SE",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "power_energy",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "GE Vernova Inc., Kawasaki Heavy Industries Ltd., Everllence SE (formerly MAN Energy Solutions SE), Weichai Power Co., Ltd., and other emerging market competitors",
+      "evidence_quotes": [
+        "GE Vernova Inc., Kawasaki Heavy Industries Ltd., Everllence SE (formerly MAN Energy Solutions SE), Weichai Power Co., Ltd., and other emerging market competitors"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Weichai Power Co., Ltd.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "power_energy",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Kawasaki Heavy Industries Ltd., Everllence SE (formerly MAN Energy Solutions SE), Weichai Power Co., Ltd., and other emerging market competitors compete in certain markets",
+      "evidence_quotes": [
+        "Kawasaki Heavy Industries Ltd., Everllence SE (formerly MAN Energy Solutions SE), Weichai Power Co., Ltd., and other emerging market competitors compete in certain markets"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Aggreko plc",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "power_energy_packagers",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "An additional set of competitors, including Aggreko plc, Generac Holdings Inc., Discovery Energy, LLC (Rehlko, formerly Kohler Energy), Baker Hughes Co., and others",
+      "evidence_quotes": [
+        "An additional set of competitors, including Aggreko plc, Generac Holdings Inc., Discovery Energy, LLC (Rehlko, formerly Kohler Energy), Baker Hughes Co., and others"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Generac Holdings Inc.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "power_energy_packagers",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "An additional set of competitors, including Aggreko plc, Generac Holdings Inc., Discovery Energy, LLC (Rehlko, formerly Kohler Energy), Baker Hughes Co., and others",
+      "evidence_quotes": [
+        "An additional set of competitors, including Aggreko plc, Generac Holdings Inc., Discovery Energy, LLC (Rehlko, formerly Kohler Energy), Baker Hughes Co., and others"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Discovery Energy, LLC",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "power_energy_packagers",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "An additional set of competitors, including Aggreko plc, Generac Holdings Inc., Discovery Energy, LLC (Rehlko, formerly Kohler Energy), Baker Hughes Co., and others",
+      "evidence_quotes": [
+        "An additional set of competitors, including Aggreko plc, Generac Holdings Inc., Discovery Energy, LLC (Rehlko, formerly Kohler Energy), Baker Hughes Co., and others"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Baker Hughes Co.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "power_energy_packagers",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "An additional set of competitors, including Aggreko plc, Generac Holdings Inc., Discovery Energy, LLC (Rehlko, formerly Kohler Energy), Baker Hughes Co., and others",
+      "evidence_quotes": [
+        "An additional set of competitors, including Aggreko plc, Generac Holdings Inc., Discovery Energy, LLC (Rehlko, formerly Kohler Energy), Baker Hughes Co., and others"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Wabtec Corp",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "rail",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In rail-related businesses, our global competitors include Wabtec Corp, Greenbrier Companies, Inc., Voestalpine AG, Vossloh AG, Alstom SA, and Siemens Mobility A/S.",
+      "evidence_quotes": [
+        "In rail-related businesses, our global competitors include Wabtec Corp, Greenbrier Companies, Inc., Voestalpine AG, Vossloh AG, Alstom SA, and Siemens Mobility A/S."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Greenbrier Companies, Inc.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "rail",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In rail-related businesses, our global competitors include Wabtec Corp, Greenbrier Companies, Inc., Voestalpine AG, Vossloh AG, Alstom SA, and Siemens Mobility A/S.",
+      "evidence_quotes": [
+        "In rail-related businesses, our global competitors include Wabtec Corp, Greenbrier Companies, Inc., Voestalpine AG, Vossloh AG, Alstom SA, and Siemens Mobility A/S."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Voestalpine AG",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "rail",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In rail-related businesses, our global competitors include Wabtec Corp, Greenbrier Companies, Inc., Voestalpine AG, Vossloh AG, Alstom SA, and Siemens Mobility A/S.",
+      "evidence_quotes": [
+        "In rail-related businesses, our global competitors include Wabtec Corp, Greenbrier Companies, Inc., Voestalpine AG, Vossloh AG, Alstom SA, and Siemens Mobility A/S."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Vossloh AG",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "rail",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In rail-related businesses, our global competitors include Wabtec Corp, Greenbrier Companies, Inc., Voestalpine AG, Vossloh AG, Alstom SA, and Siemens Mobility A/S.",
+      "evidence_quotes": [
+        "In rail-related businesses, our global competitors include Wabtec Corp, Greenbrier Companies, Inc., Voestalpine AG, Vossloh AG, Alstom SA, and Siemens Mobility A/S."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Alstom SA",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "rail",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In rail-related businesses, our global competitors include Wabtec Corp, Greenbrier Companies, Inc., Voestalpine AG, Vossloh AG, Alstom SA, and Siemens Mobility A/S.",
+      "evidence_quotes": [
+        "In rail-related businesses, our global competitors include Wabtec Corp, Greenbrier Companies, Inc., Voestalpine AG, Vossloh AG, Alstom SA, and Siemens Mobility A/S."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Siemens Mobility A/S",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "rail",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In rail-related businesses, our global competitors include Wabtec Corp, Greenbrier Companies, Inc., Voestalpine AG, Vossloh AG, Alstom SA, and Siemens Mobility A/S.",
+      "evidence_quotes": [
+        "In rail-related businesses, our global competitors include Wabtec Corp, Greenbrier Companies, Inc., Voestalpine AG, Vossloh AG, Alstom SA, and Siemens Mobility A/S."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Wells Fargo Equipment Finance Inc.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "financial_products",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Cat Financial's competitors include Wells Fargo Equipment Finance Inc., Banc of America Leasing & Capital LLC, BNP Paribas Leasing Solutions Limited, Australia and New Zealand Banking Group Limited, Société Générale S.A.",
+      "evidence_quotes": [
+        "Cat Financial's competitors include Wells Fargo Equipment Finance Inc., Banc of America Leasing & Capital LLC, BNP Paribas Leasing Solutions Limited, Australia and New Zealand Banking Group Limited, Société Générale S.A."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Banc of America Leasing & Capital LLC",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "financial_products",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Cat Financial's competitors include Wells Fargo Equipment Finance Inc., Banc of America Leasing & Capital LLC, BNP Paribas Leasing Solutions Limited, Australia and New Zealand Banking Group Limited, Société Générale S.A.",
+      "evidence_quotes": [
+        "Cat Financial's competitors include Wells Fargo Equipment Finance Inc., Banc of America Leasing & Capital LLC, BNP Paribas Leasing Solutions Limited, Australia and New Zealand Banking Group Limited, Société Générale S.A."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "BNP Paribas Leasing Solutions Limited",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "financial_products",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Cat Financial's competitors include Wells Fargo Equipment Finance Inc., Banc of America Leasing & Capital LLC, BNP Paribas Leasing Solutions Limited, Australia and New Zealand Banking Group Limited, Société Générale S.A.",
+      "evidence_quotes": [
+        "Cat Financial's competitors include Wells Fargo Equipment Finance Inc., Banc of America Leasing & Capital LLC, BNP Paribas Leasing Solutions Limited, Australia and New Zealand Banking Group Limited, Société Générale S.A."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Australia and New Zealand Banking Group Limited",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "financial_products",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Cat Financial's competitors include Wells Fargo Equipment Finance Inc., Banc of America Leasing & Capital LLC, BNP Paribas Leasing Solutions Limited, Australia and New Zealand Banking Group Limited, Société Générale S.A.",
+      "evidence_quotes": [
+        "Cat Financial's competitors include Wells Fargo Equipment Finance Inc., Banc of America Leasing & Capital LLC, BNP Paribas Leasing Solutions Limited, Australia and New Zealand Banking Group Limited, Société Générale S.A."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Société Générale S.A.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "financial_products",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "BNP Paribas Leasing Solutions Limited, Australia and New Zealand Banking Group Limited, Société Générale S.A. and various other banks and finance companies.",
+      "evidence_quotes": [
+        "BNP Paribas Leasing Solutions Limited, Australia and New Zealand Banking Group Limited, Société Générale S.A. and various other banks and finance companies."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "John Deere Capital Corporation",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "financial_products",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "many of the manufacturers that compete with Caterpillar also own financial subsidiaries, such as John Deere Capital Corporation, Komatsu Financial L.P., Volvo Financial Services and Kubota Credit Corporation",
+      "evidence_quotes": [
+        "many of the manufacturers that compete with Caterpillar also own financial subsidiaries, such as John Deere Capital Corporation, Komatsu Financial L.P., Volvo Financial Services and Kubota Credit Corporation"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Komatsu Financial L.P.",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "financial_products",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "many of the manufacturers that compete with Caterpillar also own financial subsidiaries, such as John Deere Capital Corporation, Komatsu Financial L.P., Volvo Financial Services and Kubota Credit Corporation",
+      "evidence_quotes": [
+        "many of the manufacturers that compete with Caterpillar also own financial subsidiaries, such as John Deere Capital Corporation, Komatsu Financial L.P., Volvo Financial Services and Kubota Credit Corporation"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Volvo Financial Services",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "financial_products",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "many of the manufacturers that compete with Caterpillar also own financial subsidiaries, such as John Deere Capital Corporation, Komatsu Financial L.P., Volvo Financial Services and Kubota Credit Corporation",
+      "evidence_quotes": [
+        "many of the manufacturers that compete with Caterpillar also own financial subsidiaries, such as John Deere Capital Corporation, Komatsu Financial L.P., Volvo Financial Services and Kubota Credit Corporation"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Kubota Credit Corporation",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "financial_products",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "many of the manufacturers that compete with Caterpillar also own financial subsidiaries, such as John Deere Capital Corporation, Komatsu Financial L.P., Volvo Financial Services and Kubota Credit Corporation",
+      "evidence_quotes": [
+        "many of the manufacturers that compete with Caterpillar also own financial subsidiaries, such as John Deere Capital Corporation, Komatsu Financial L.P., Volvo Financial Services and Kubota Credit Corporation"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Missouri Department of Insurance",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "insurance_regulator",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Caterpillar Insurance Company, a wholly owned subsidiary of Caterpillar Insurance Holdings Inc., is a U.S. insurance company domiciled in Missouri and primarily regulated by the Missouri Department of Insurance.",
+      "evidence_quotes": [
+        "Caterpillar Insurance Company, a wholly owned subsidiary of Caterpillar Insurance Holdings Inc., is a U.S. insurance company domiciled in Missouri and primarily regulated by the Missouri Department of Insurance."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Swiss Financial Market Supervisory Authority",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "insurance_regulator",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Caterpillar Insurance Company is also licensed to conduct insurance business through a branch in Zurich, Switzerland and, as such, is regulated by the Swiss Financial Market Supervisory Authority.",
+      "evidence_quotes": [
+        "Caterpillar Insurance Company is also licensed to conduct insurance business through a branch in Zurich, Switzerland and, as such, is regulated by the Swiss Financial Market Supervisory Authority."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Bermuda Monetary Authority",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "insurance_regulator",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Caterpillar Insurance Co. Ltd., a wholly owned subsidiary of Caterpillar Insurance Holdings Inc., is a captive insurance company domiciled in Bermuda and regulated by the Bermuda Monetary Authority.",
+      "evidence_quotes": [
+        "Caterpillar Insurance Co. Ltd., a wholly owned subsidiary of Caterpillar Insurance Holdings Inc., is a captive insurance company domiciled in Bermuda and regulated by the Bermuda Monetary Authority."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "UAW",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "labor_union",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "there were 7,972 hourly production employees in the United States who were covered by collective bargaining agreements with various labor unions, including The United Automobile, Aerospace and Agricultural Implement Workers of America (UAW)",
+      "evidence_quotes": [
+        "there were 7,972 hourly production employees in the United States who were covered by collective bargaining agreements with various labor unions, including The United Automobile, Aerospace and Agricultural Implement Workers of America (UAW)"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "The International Association of Machinists",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "labor_union",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "there were 7,972 hourly production employees in the United States who were covered by collective bargaining agreements with various labor unions, including...The International Association of Machinists",
+      "evidence_quotes": [
+        "there were 7,972 hourly production employees in the United States who were covered by collective bargaining agreements with various labor unions, including...The International Association of Machinists"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "The United Steelworkers",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "labor_union",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "there were 7,972 hourly production employees in the United States who were covered by collective bargaining agreements with various labor unions, including...The United Steelworkers",
+      "evidence_quotes": [
+        "there were 7,972 hourly production employees in the United States who were covered by collective bargaining agreements with various labor unions, including...The United Steelworkers"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Cat Financial",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "financing_infrastructure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Cat Financial is significant to our operations and provides financing support for a significant share of our global sales.",
+      "evidence_quotes": [
+        "Cat Financial is significant to our operations and provides financing support for a significant share of our global sales."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "U.S. Internal Revenue Service",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "tax_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We are also subject to the continuous examination of our income tax returns by the U.S. Internal Revenue Service and other tax authorities.",
+      "evidence_quotes": [
+        "We are also subject to the continuous examination of our income tax returns by the U.S. Internal Revenue Service and other tax authorities."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Customs and Border Protection",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_body",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "These include U.S. regulations issued by Customs and Border Protection, the Bureau of Industry and Security, the Office of Antiboycott Compliance",
+      "evidence_quotes": [
+        "These include U.S. regulations issued by Customs and Border Protection, the Bureau of Industry and Security, the Office of Antiboycott Compliance"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Bureau of Industry and Security",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_body",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "These include U.S. regulations issued by Customs and Border Protection, the Bureau of Industry and Security, the Office of Antiboycott Compliance",
+      "evidence_quotes": [
+        "These include U.S. regulations issued by Customs and Border Protection, the Bureau of Industry and Security, the Office of Antiboycott Compliance"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Office of Antiboycott Compliance",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_body",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "These include U.S. regulations issued by Customs and Border Protection, the Bureau of Industry and Security, the Office of Antiboycott Compliance",
+      "evidence_quotes": [
+        "These include U.S. regulations issued by Customs and Border Protection, the Bureau of Industry and Security, the Office of Antiboycott Compliance"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Directorate of Defense Trade Controls",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_body",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the Bureau of Industry and Security, the Office of Antiboycott Compliance, the Directorate of Defense Trade Controls and the Office of Foreign Assets Control",
+      "evidence_quotes": [
+        "the Bureau of Industry and Security, the Office of Antiboycott Compliance, the Directorate of Defense Trade Controls and the Office of Foreign Assets Control"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Office of Foreign Assets Control",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_body",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the Office of Antiboycott Compliance, the Directorate of Defense Trade Controls and the Office of Foreign Assets Control, as well as the counterparts of these agencies",
+      "evidence_quotes": [
+        "the Office of Antiboycott Compliance, the Directorate of Defense Trade Controls and the Office of Foreign Assets Control, as well as the counterparts of these agencies"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 3
+    }
+  ],
+  "candidatesPerChunk": [
+    57,
+    3,
+    1,
+    6
+  ],
+  "parseErrors": 0,
+  "apiErrors": 0,
+  "inputTokens": 19816,
+  "outputTokens": 7775
+}

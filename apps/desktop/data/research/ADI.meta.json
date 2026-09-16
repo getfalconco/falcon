@@ -1,0 +1,13 @@
+{
+  "ticker": "ADI",
+  "companyName": "ANALOG DEVICES INC",
+  "form": "10-K",
+  "filingDate": "2025-11-25",
+  "sourceUrl": "https://www.sec.gov/Archives/edgar/data/6281/000000628125000153/adi-20251101.htm",
+  "generatedAt": "2026-08-25T10:35:32.966Z",
+  "cacheKey": "ADI|0000006281-25-000153|5",
+  "accessionNumber": "0000006281-25-000153",
+  "validatedCount": 2,
+  "rejectedCount": 7,
+  "mergedCount": 1
+}

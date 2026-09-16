@@ -1,0 +1,134 @@
+[
+  {
+    "root_ticker": "MU",
+    "counterparty_name": "U.S. Department of Commerce",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "partner",
+    "subtype": "government_grant_provider",
+    "strength": 1,
+    "strength_tier": "critical",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.85,
+    "evidence": [
+      {
+        "quote": "On December 9, 2024, we entered into direct funding agreements with the U.S. Department of Commerce for up to $6.1 billion in direct funding pursuant to the CHIPS Act",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/723125/000072312525000028/mu-20250828.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-10-03",
+    "shared_evidence_group": "ev_9a15963f55dd"
+  },
+  {
+    "root_ticker": "MU",
+    "counterparty_name": "State of New York",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "supplier",
+    "subtype": "government_incentive_provider",
+    "strength": 1,
+    "strength_tier": "critical",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "we have also signed a non-binding term sheet with the State of New York that provides for up to $5.5 billion in funding for the planned four-fab facility",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/723125/000072312525000028/mu-20250828.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-10-03",
+    "shared_evidence_group": "ev_a494e009fa34"
+  },
+  {
+    "root_ticker": "MU",
+    "counterparty_name": "Japanese Ministry of Economy, Trade and Industry",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "partner",
+    "subtype": "government_incentive_provider",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.88,
+    "evidence": [
+      {
+        "quote": "We also receive incentives from the Japanese Ministry of Economy, Trade and Industry to support the production of DRAM using EUV lithography in Hiroshima, Japan.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/723125/000072312525000028/mu-20250828.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-10-03",
+    "shared_evidence_group": "ev_b01b1b09ccef"
+  },
+  {
+    "root_ticker": "MU",
+    "counterparty_name": "Indian central government",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "partner",
+    "subtype": "government_incentive_provider",
+    "strength": 1,
+    "strength_tier": "critical",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.88,
+    "evidence": [
+      {
+        "quote": "We receive incentives for the construction of a new assembly and test facility in Gujarat, India, representing 50 % of the total project cost from the Indian central government",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/723125/000072312525000028/mu-20250828.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-10-03",
+    "shared_evidence_group": "ev_4238a2bd8fb5"
+  },
+  {
+    "root_ticker": "MU",
+    "counterparty_name": "state of Gujarat",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "dependency",
+    "subtype": "construction_incentive_provider",
+    "strength": 1,
+    "strength_tier": "critical",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "We receive incentives for the construction of a new assembly and test facility in Gujarat, India, representing 50 % of the total project cost from the Indian central government and 20 % of the total project cost from the state",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/723125/000072312525000028/mu-20250828.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-10-03",
+    "shared_evidence_group": "ev_0e7a2f0a2bdb"
+  },
+  {
+    "root_ticker": "MU",
+    "counterparty_name": "U.S. Department of Commerce",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "supplier",
+    "subtype": "government_funding",
+    "strength": 1,
+    "strength_tier": "critical",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "the Company has entered into direct funding agreements with the U.S. Department of Commerce for up to $6.4 billion in direct funding pursuant to the U.S. CHIPS Act",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/723125/000072312525000028/mu-20250828.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-10-03",
+    "shared_evidence_group": "ev_3ad43bf944f1"
+  }
+]

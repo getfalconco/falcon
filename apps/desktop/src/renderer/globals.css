@@ -1,0 +1,678 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root,
+  [data-theme="dark"] {
+    --ds-gray-100: hsla(0, 0%, 14%, 1);
+    --ds-gray-200: hsla(0, 0%, 18%, 1);
+    --ds-gray-500: hsla(0, 0%, 42%, 1);
+    --ds-gray-600: hsla(0, 0%, 58%, 1);
+    --ds-gray-700: hsla(0, 0%, 68%, 1);
+    --ds-gray-1000: hsla(0, 0%, 93%, 1);
+    --ds-background-100: hsla(0, 0%, 3.5%, 1);
+  }
+
+  [data-theme="light"] {
+    --ds-gray-100: hsla(0, 0%, 94%, 1);
+    --ds-gray-200: hsla(0, 0%, 90%, 1);
+    --ds-gray-500: hsla(0, 0%, 46%, 1);
+    --ds-gray-600: hsla(0, 0%, 40%, 1);
+    --ds-gray-700: hsla(0, 0%, 32%, 1);
+    --ds-gray-1000: hsla(0, 0%, 12%, 1);
+    --ds-background-100: hsla(60, 25%, 98%, 1);
+  }
+}
+
+:root,
+[data-theme="dark"] {
+  --font-sans: "Geist Sans", "Segoe UI", system-ui, sans-serif;
+  --font-serif: "Libre Baskerville", Georgia, "Times New Roman", serif;
+  /* Aliases used by components ported from the marketing site. */
+  --font-geist-sans: var(--font-sans);
+  --font-geist-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --font-libre-baskerville: "Libre Baskerville", Georgia, "Times New Roman", serif;
+  --background: 0 0% 3.5%;
+  --foreground: 0 0% 90%;
+  --primary: 0 0% 90%;
+  --primary-foreground: 0 0% 6%;
+  --secondary: 0 0% 7%;
+  --secondary-foreground: 0 0% 93%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 0 0% 22%;
+  --input: 0 0% 16%;
+  --ring: 0 0% 70%;
+  --radius: 0.375rem;
+  --muted: 0 0% 16%;
+  --muted-foreground: 0 0% 58%;
+  --accent: 0 0% 16%;
+  --accent-foreground: 0 0% 90%;
+  --fg-default: #ededed;
+  --fg-muted: #a3a3a3;
+  --fg-faint: #737373;
+  --fg-body: #d4d4d4;
+  --ink-default: #e8e8e8;
+  --ink-soft: #f5f5f5;
+  --surface-elevated: #141414;
+  --surface-prompt: #141414;
+  --surface-sticky: hsl(0 0% 3.5%);
+  /* Calendar chrome: left panel vs main + ActivityBar (bg) */
+  --panel-sidebar: #080808;
+  --panel-main: #0a0a0a;
+  --market-gain: #059669;
+  --market-gain-soft: #ecfdf5;
+  --market-gain-muted: #6ee7b7;
+  --market-gain-bright: #10b981;
+  --market-gain-deep: #064e3b;
+  --market-loss: #dc2626;
+  --market-loss-soft: #fef2f2;
+  --market-loss-muted: #fca5a5;
+  --chart-background: transparent;
+  --chart-foreground: #e8e8e8;
+  --chart-foreground-muted: #a3a3a3;
+  --chart-line-primary: var(--market-gain);
+  --chart-line-secondary: #737373;
+  --chart-crosshair: rgba(255, 255, 255, 0.12);
+  --chart-grid: rgba(255, 255, 255, 0.06);
+  --chart-tooltip-background: rgba(28, 28, 28, 0.96);
+  --chart-tooltip-foreground: #e8e8e8;
+  --chart-tooltip-muted: #a3a3a3;
+  --chart-marker-background: #262626;
+  --chart-marker-border: rgba(255, 255, 255, 0.1);
+  --chart-marker-foreground: #e8e8e8;
+  --chart-label: #737373;
+  --scrollbar-size: 2px;
+  --scrollbar-thumb: rgba(255, 255, 255, 0.14);
+  --scrollbar-thumb-hover: rgba(255, 255, 255, 0.24);
+  --cta-bg: #ffffff;
+  --cta-fg: #0a0a0a;
+  --cta-border: rgba(255, 255, 255, 0.1);
+  --cta-hover: rgba(255, 255, 255, 0.9);
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+  /* Match the marketing site background (#fcfcfa) exactly. */
+  --background: 60 10% 91%;
+  --foreground: 0 0% 7%;
+  --primary: 0 0% 9%;
+  --primary-foreground: 0 0% 98%;
+  --secondary: 0 0% 94%;
+  --secondary-foreground: 0 0% 15%;
+  --border: 0 0% 88%;
+  --input: 0 0% 92%;
+  --ring: 0 0% 45%;
+  --muted: 0 0% 94%;
+  --muted-foreground: 0 0% 42%;
+  --accent: 0 0% 94%;
+  --accent-foreground: 0 0% 9%;
+  --fg-default: #171717;
+  --fg-muted: #404040;
+  --fg-faint: #525252;
+  --fg-body: #2e2e2e;
+  --ink-default: #171717;
+  --ink-soft: #404040;
+  --surface-elevated: #ffffff;
+  --surface-prompt: #f3f3f3;
+  --surface-sticky: hsl(0 0% 97%);
+  --panel-sidebar: #ffffff;
+  --panel-main: #f2f2f2;
+  --chart-foreground: #171717;
+  --chart-foreground-muted: #525252;
+  --chart-line-secondary: #a3a3a3;
+  --chart-crosshair: rgba(0, 0, 0, 0.1);
+  --chart-grid: rgba(0, 0, 0, 0.06);
+  --chart-tooltip-background: rgba(255, 255, 255, 0.98);
+  --chart-tooltip-foreground: #171717;
+  --chart-tooltip-muted: #525252;
+  --chart-marker-background: #f5f5f5;
+  --chart-marker-border: rgba(0, 0, 0, 0.1);
+  --chart-marker-foreground: #171717;
+  --chart-label: #737373;
+  --scrollbar-size: 2px;
+  --scrollbar-thumb: rgba(0, 0, 0, 0.12);
+  --scrollbar-thumb-hover: rgba(0, 0, 0, 0.2);
+  --cta-bg: #0a0a0a;
+  --cta-fg: #ededed;
+  --cta-border: rgba(0, 0, 0, 0.12);
+  --cta-hover: #171717;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  background: transparent;
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+body {
+  color: hsl(var(--foreground));
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/*
+ * Soften sharp chrome: theme radius was 0, and many panels use `border`
+ * without a rounded-* class. Explicit rounded-* utilities still win
+ * (utilities layer overrides this base rule).
+ */
+@layer base {
+  .border:not([class*="rounded"]) {
+    border-radius: var(--radius);
+  }
+
+  input:not([class*="rounded"]),
+  textarea:not([class*="rounded"]),
+  select:not([class*="rounded"]),
+  button:not([class*="rounded"]) {
+    border-radius: calc(var(--radius) - 1px);
+  }
+}
+
+/* Thin custom scrollbars  -  classic mode (OverlayScrollbar disabled in main process). */
+html,
+body,
+#root,
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) transparent;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+#root::-webkit-scrollbar,
+*::-webkit-scrollbar {
+  width: var(--scrollbar-size);
+  height: var(--scrollbar-size);
+}
+
+html::-webkit-scrollbar-track,
+body::-webkit-scrollbar-track,
+#root::-webkit-scrollbar-track,
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+html::-webkit-scrollbar-thumb,
+body::-webkit-scrollbar-thumb,
+#root::-webkit-scrollbar-thumb,
+*::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-thumb);
+  border-radius: 9999px;
+  border: 1px solid transparent;
+  background-clip: padding-box;
+  min-height: 24px;
+}
+
+html::-webkit-scrollbar-thumb:hover,
+body::-webkit-scrollbar-thumb:hover,
+#root::-webkit-scrollbar-thumb:hover,
+*::-webkit-scrollbar-thumb:hover {
+  background-color: var(--scrollbar-thumb-hover);
+}
+
+html::-webkit-scrollbar-corner,
+body::-webkit-scrollbar-corner,
+#root::-webkit-scrollbar-corner,
+*::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+html::-webkit-scrollbar-button,
+body::-webkit-scrollbar-button,
+#root::-webkit-scrollbar-button,
+*::-webkit-scrollbar-button {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+::selection {
+  background-color: rgba(255, 255, 255, 0.14);
+  color: #f5f5f5;
+}
+
+[data-theme="light"] ::selection {
+  background-color: rgba(37, 99, 235, 0.16);
+  color: #0a0a0b;
+}
+
+.app-drag-region {
+  -webkit-app-region: drag;
+}
+
+.app-drag-region input,
+.app-drag-region button,
+.app-drag-region a,
+.app-drag-region label,
+.app-drag-region select,
+.app-drag-region textarea {
+  -webkit-app-region: no-drag;
+}
+
+.app-no-drag {
+  -webkit-app-region: no-drag;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .animate-news-marquee {
+    animation: news-marquee var(--news-marquee-duration, 40s) linear infinite;
+  }
+
+  @keyframes news-marquee {
+    from {
+      transform: translateX(calc(-1 * var(--news-marquee-distance, 0px)));
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  .scrollbar-meridian {
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) transparent;
+  }
+
+  .scrollbar-meridian::-webkit-scrollbar {
+    width: var(--scrollbar-size);
+    height: var(--scrollbar-size);
+  }
+
+  .scrollbar-meridian::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-meridian::-webkit-scrollbar-thumb {
+    background-color: var(--scrollbar-thumb);
+    border-radius: 9999px;
+    min-height: 28px;
+  }
+
+  .scrollbar-meridian::-webkit-scrollbar-thumb:hover {
+    background-color: var(--scrollbar-thumb-hover);
+  }
+
+  .scrollbar-meridian::-webkit-scrollbar-button {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+
+  /* Extra-thin scrollbar for compact dropdown lists (e.g. Search tickers). */
+  .scrollbar-ticker {
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in srgb, var(--scrollbar-thumb) 75%, transparent) transparent;
+  }
+
+  .scrollbar-ticker::-webkit-scrollbar {
+    width: 3px;
+    height: 3px;
+  }
+
+  .scrollbar-ticker::-webkit-scrollbar-track {
+    background: transparent;
+    margin-block: 4px;
+  }
+
+  .scrollbar-ticker::-webkit-scrollbar-thumb {
+    background-color: color-mix(in srgb, var(--scrollbar-thumb) 65%, transparent);
+    border-radius: 9999px;
+    min-height: 20px;
+  }
+
+  .scrollbar-ticker::-webkit-scrollbar-thumb:hover {
+    background-color: var(--scrollbar-thumb-hover);
+  }
+
+  .scrollbar-ticker::-webkit-scrollbar-button {
+    display: none;
+    height: 0;
+    width: 0;
+  }
+
+  .signal-analysis-scroll-fade {
+    background: linear-gradient(
+      to top,
+      var(--surface-sticky) 0%,
+      var(--surface-sticky) 14%,
+      color-mix(in srgb, var(--surface-sticky) 90%, transparent) 18%,
+      color-mix(in srgb, var(--surface-sticky) 55%, transparent) 21%,
+      color-mix(in srgb, var(--surface-sticky) 20%, transparent) 24%,
+      transparent 28%,
+      transparent 100%
+    );
+  }
+}
+
+/* Light mode: remap common hardcoded dark-surface utilities */
+[data-theme="light"] .border-white\/\[0\.08\] {
+  border-color: rgb(0 0 0 / 0.08);
+}
+
+[data-theme="light"] .border-white\/\[0\.1\] {
+  border-color: rgb(0 0 0 / 0.1);
+}
+
+[data-theme="light"] .border-white\/\[0\.12\] {
+  border-color: rgb(0 0 0 / 0.12);
+}
+
+[data-theme="light"] .border-white\/\[0\.14\] {
+  border-color: rgb(0 0 0 / 0.14);
+}
+
+[data-theme="light"] .border-white\/\[0\.15\] {
+  border-color: rgb(0 0 0 / 0.15);
+}
+
+[data-theme="light"] .bg-white\/\[0\.02\] {
+  background-color: rgb(0 0 0 / 0.02);
+}
+
+[data-theme="light"] .bg-white\/\[0\.03\] {
+  background-color: rgb(0 0 0 / 0.03);
+}
+
+[data-theme="light"] .bg-white\/\[0\.04\] {
+  background-color: rgb(0 0 0 / 0.04);
+}
+
+[data-theme="light"] .bg-white\/\[0\.05\] {
+  background-color: rgb(0 0 0 / 0.05);
+}
+
+[data-theme="light"] .bg-white\/\[0\.06\] {
+  background-color: rgb(0 0 0 / 0.06);
+}
+
+[data-theme="light"] .bg-white\/\[0\.06\] {
+  background-color: rgb(0 0 0 / 0.04);
+}
+
+[data-theme="light"] .bg-white\/\[0\.1\] {
+  background-color: rgb(0 0 0 / 0.07);
+}
+
+[data-theme="light"] .bg-white\/\[0\.08\] {
+  background-color: rgb(0 0 0 / 0.06);
+}
+
+[data-theme="light"] .bg-\[\#141414\] {
+  background-color: var(--surface-prompt);
+}
+
+[data-theme="light"] .bg-\[\#1a1a1a\] {
+  background-color: #ececec;
+}
+
+[data-theme="light"] .bg-\[\#0a0a0a\] {
+  background-color: #fafafa;
+}
+
+[data-theme="light"] .text-\[\#505050\] {
+  color: #5c5c5c;
+}
+
+[data-theme="light"] .text-\[\#666666\] {
+  color: #6b6b6b;
+}
+
+[data-theme="light"] .text-\[\#888888\] {
+  color: #737373;
+}
+
+[data-theme="light"] .text-\[\#e8e8e8\] {
+  color: #171717;
+}
+
+[data-theme="light"] .placeholder\:text-\[\#555555\]::placeholder {
+  color: #8a8a8a;
+}
+
+/* Light mode for the auth surface (login + onboarding, right column only —
+   the left gradient panel keeps its own white-on-gradient styling). Remaps the
+   hardcoded dark-surface whites these screens use. */
+[data-theme="light"] .auth-surface .text-white {
+  color: #141414;
+}
+[data-theme="light"] .auth-surface .text-white\/80 {
+  color: rgb(0 0 0 / 0.8);
+}
+[data-theme="light"] .auth-surface .text-white\/70 {
+  color: rgb(0 0 0 / 0.7);
+}
+[data-theme="light"] .auth-surface .text-white\/60 {
+  color: rgb(0 0 0 / 0.6);
+}
+[data-theme="light"] .auth-surface .text-white\/50 {
+  color: rgb(0 0 0 / 0.55);
+}
+[data-theme="light"] .auth-surface .text-white\/40 {
+  color: rgb(0 0 0 / 0.45);
+}
+[data-theme="light"] .auth-surface .text-white\/35 {
+  color: rgb(0 0 0 / 0.42);
+}
+[data-theme="light"] .auth-surface .text-white\/30 {
+  color: rgb(0 0 0 / 0.4);
+}
+[data-theme="light"] .auth-surface .text-white\/25 {
+  color: rgb(0 0 0 / 0.35);
+}
+[data-theme="light"] .auth-surface .hover\:text-white:hover {
+  color: #141414;
+}
+[data-theme="light"] .auth-surface .hover\:text-white\/70:hover {
+  color: rgb(0 0 0 / 0.7);
+}
+[data-theme="light"] .auth-surface .hover\:text-white\/60:hover {
+  color: rgb(0 0 0 / 0.6);
+}
+[data-theme="light"] .auth-surface .border-white\/\[0\.06\] {
+  border-color: rgb(0 0 0 / 0.08);
+}
+[data-theme="light"] .auth-surface .border-white\/10 {
+  border-color: rgb(0 0 0 / 0.1);
+}
+[data-theme="light"] .auth-surface .border-white\/40 {
+  border-color: rgb(0 0 0 / 0.35);
+}
+[data-theme="light"] .auth-surface .border-white\/15 {
+  border-color: rgb(0 0 0 / 0.15);
+}
+[data-theme="light"] .auth-surface .border-white\/20 {
+  border-color: rgb(0 0 0 / 0.18);
+}
+[data-theme="light"] .auth-surface .border-white\/25 {
+  border-color: rgb(0 0 0 / 0.22);
+}
+[data-theme="light"] .auth-surface .focus\:border-white\/20:focus {
+  border-color: rgb(0 0 0 / 0.28);
+}
+[data-theme="light"] .auth-surface .focus\:border-white\/40:focus {
+  border-color: rgb(0 0 0 / 0.45);
+}
+[data-theme="light"] .auth-surface .bg-white\/\[0\.04\] {
+  background-color: rgb(0 0 0 / 0.035);
+}
+[data-theme="light"] .auth-surface .bg-white\/\[0\.06\] {
+  background-color: rgb(0 0 0 / 0.05);
+}
+[data-theme="light"] .auth-surface .hover\:bg-white\/\[0\.05\]:hover {
+  background-color: rgb(0 0 0 / 0.04);
+}
+[data-theme="light"] .auth-surface .hover\:bg-white\/\[0\.06\]:hover {
+  background-color: rgb(0 0 0 / 0.05);
+}
+[data-theme="light"] .auth-surface .hover\:bg-white\/\[0\.08\]:hover {
+  background-color: rgb(0 0 0 / 0.06);
+}
+/* Primary CTA: white pill → dark pill with light text. */
+[data-theme="light"] .auth-surface .bg-white {
+  background-color: #141414;
+}
+[data-theme="light"] .auth-surface .text-black {
+  color: #fafafa;
+}
+/* Disabled CTA + popover surfaces. */
+[data-theme="light"] .auth-surface .bg-\[\#2a2a2a\] {
+  background-color: #e6e6e6;
+}
+[data-theme="light"] .auth-surface .bg-\[\#0d0d0d\] {
+  background-color: #ffffff;
+}
+
+@layer components {
+  /*
+   * Glass CTA. One recipe for every card button.
+   *
+   * The fill is #1d1b1b — the same ink the portfolio headline is set in, so
+   * the buttons read as the same family as the type rather than as a
+   * separate slate. It is opaque on purpose: the greys in the type ramp
+   * (#9CA3AF, #6b7280, #4b5563) all washed out or turned blue at button
+   * size, and any translucency over a light card lifts the fill several
+   * levels off the tone it is meant to match.
+   *
+   * What makes it glass rather than the flat slab this replaced is the edge:
+   * a hairline white border and an inner top highlight, so it catches light
+   * the way the card frames do.
+   *
+   * Layout (width, padding, radius, font) stays on the caller as utilities —
+   * those beat this layer, so each button keeps its own shape.
+   */
+  .glass-cta {
+    @apply rounded-xl border border-white/[0.16] bg-[#1d1b1b] text-white
+      shadow-[inset_0_1px_0_rgba(255,255,255,0.20),0_1px_3px_rgba(0,0,0,0.14)]
+      ring-1 ring-black/[0.06] backdrop-blur-xl backdrop-saturate-150
+      transition-[background-color,box-shadow] duration-150;
+  }
+
+  .glass-cta:hover {
+    @apply bg-[#2a2727] shadow-[inset_0_1px_0_rgba(255,255,255,0.26),0_2px_8px_rgba(0,0,0,0.18)];
+  }
+
+  .glass-cta:active {
+    @apply bg-black shadow-[inset_0_1px_2px_rgba(0,0,0,0.28)];
+  }
+
+  .markdown-body {
+    @apply max-w-3xl text-sm leading-[1.7] text-fg-muted;
+  }
+
+  .markdown-body > * + * {
+    @apply mt-5;
+  }
+
+  .markdown-body h1,
+  .markdown-body h2,
+  .markdown-body h3,
+  .markdown-body h4 {
+    @apply text-sm font-medium text-foreground;
+  }
+
+  .markdown-body h1 + *,
+  .markdown-body h2 + *,
+  .markdown-body h3 + *,
+  .markdown-body h4 + * {
+    @apply mt-2;
+  }
+
+  .markdown-body p {
+    @apply text-sm leading-[1.7] text-fg-muted;
+  }
+
+  .markdown-body ul,
+  .markdown-body ol {
+    @apply space-y-1.5 pl-4 text-fg-muted;
+  }
+
+  .markdown-body ul {
+    @apply list-disc;
+  }
+
+  .markdown-body ol {
+    @apply list-decimal;
+  }
+
+  .markdown-body li {
+    @apply leading-[1.7];
+  }
+
+  .markdown-body strong {
+    @apply font-medium text-foreground;
+  }
+
+  .markdown-body em {
+    @apply text-fg-muted;
+  }
+
+  .markdown-body a {
+    @apply text-foreground underline decoration-white/20 underline-offset-2 transition-colors hover:decoration-white/40;
+  }
+
+  .markdown-body code {
+    @apply bg-white/[0.06] px-1 py-0.5 text-[0.8125rem] text-foreground;
+  }
+
+  .markdown-body blockquote {
+    @apply border-l border-white/[0.12] pl-4 text-fg-muted;
+  }
+
+  .markdown-body hr {
+    @apply border-white/[0.08];
+  }
+
+  .markdown-body-compact > * + * {
+    @apply mt-3;
+  }
+
+  .markdown-body-compact p {
+    @apply text-sm leading-[1.65];
+  }
+
+  .markdown-body-compact ul,
+  .markdown-body-compact ol {
+    @apply mt-2 space-y-1;
+  }
+}
+
+/* Last-resort thin scrollbar overrides (must beat native / overlay scrollbars). */
+.scrollbar-meridian,
+.scrollbar-ticker {
+  scrollbar-width: thin !important;
+  scrollbar-color: var(--scrollbar-thumb) transparent !important;
+}
+
+.scrollbar-meridian::-webkit-scrollbar,
+.scrollbar-ticker::-webkit-scrollbar {
+  width: 2px !important;
+  height: 2px !important;
+}
+
+.scrollbar-meridian::-webkit-scrollbar-thumb,
+.scrollbar-ticker::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-thumb) !important;
+  border-radius: 9999px !important;
+  min-height: 20px !important;
+}
+
+.scrollbar-meridian::-webkit-scrollbar-track,
+.scrollbar-ticker::-webkit-scrollbar-track {
+  background: transparent !important;
+}

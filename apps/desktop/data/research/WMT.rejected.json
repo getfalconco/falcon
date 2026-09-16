@@ -1,0 +1,92 @@
+[
+  {
+    "counterparty_name": "Moody's Investors Service",
+    "category": "dependency",
+    "subtype": "credit_rating_agency",
+    "evidence_quote": "the ratings assigned to our commercial paper and rated series of our outstanding long-term debt were as follows: Rating agency Commercial paper Long-term debt Moody's Investors Service P-1 Aa2",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Fitch Ratings",
+    "category": "dependency",
+    "subtype": "credit_rating_agency",
+    "evidence_quote": "the ratings assigned to our commercial paper and rated series of our outstanding long-term debt were as follows: Rating agency Commercial paper Long-term debt Fitch Ratings F1+ AA",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "U.S. Environmental Protection Agency",
+    "category": "dependency",
+    "subtype": "regulatory_body",
+    "evidence_quote": "the Company received a Finding of Violation from the U.S. Environmental Protection Agency (the \"EPA\") alleging violations of the Clean Air Act",
+    "confidence": 0.9,
+    "reason": "The U.S. Environmental Protection Agency (EPA) is acting in its regulatory/enforcement capacity, not as a counterparty the company relies upon for critical infrastructure or services. The excerpt describes the EPA issuing a Finding of Violation for Clean Air Act violations and potentially imposing penalties—this is a regulatory enforcement action, not a dependency relationship. Regulators acting as regulators should be rejected per the instructions. The EPA is not providing a service or infrastructure that Walmart depends on; it is enforcing compliance with environmental law.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Federal Trade Commission",
+    "category": "dependency",
+    "subtype": "regulatory_body",
+    "evidence_quote": "Federal Trade Commission, et al. v. Walmart Inc. , USDC, N.D. Cal., 2/26/26",
+    "confidence": 0.9,
+    "reason": "The FTC is a regulatory government agency acting in its enforcement capacity, not a dependency provider. The evidence_quote shows litigation filed by the FTC against Walmart (Federal Trade Commission, et al. v. Walmart Inc.), which is a regulatory enforcement action. The company explicitly states its policy: 'Always reject these as counterparties:...regulators acting as regulators, tax and revenue authorities.' The FTC is a regulator conducting enforcement, not providing critical infrastructure or services Walmart depends upon. Category 'dependency' with subtype 'regulatory_body' is fundamentally incorrect—regulators enforcing law are not dependencies. Additionally, the evidence_quote is a case citation (not a natural-language sentence from the filing body), which violates the requirement that 'evidence_quote must be a natural-language sentence from the filing; XBRL tags, identifiers, table headers, and cover-page fragments are never valid evidence.' A proper dependency would be something like GPS infrastructure or public internet protocols the company relies upon but does not pay for commercially.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Comisión Federal de Competencia Económica",
+    "category": "dependency",
+    "subtype": "regulatory_body",
+    "evidence_quote": "Comisión Federal de Competencia Económica of México, Investigative Authority v. Nueva Wal-Mart de México",
+    "confidence": 0.9,
+    "reason": "The Comisión Federal de Competencia Económica is a regulatory authority acting in its regulatory capacity by bringing an antitrust investigation/proceeding against Walmart's Mexican subsidiary. Per instruction #4, regulators acting as regulators must be rejected as counterparties. This is not a dependency relationship (which requires critical reliance on infrastructure/service), nor is it a commercial vendor relationship—it is purely a legal proceeding by a government antitrust authority. The evidence_quote shows only the docket caption of an antitrust case, not any operational dependency or commercial relationship.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Competition Commission of India",
+    "category": "dependency",
+    "subtype": "regulatory_body",
+    "evidence_quote": "Competition Commission of India, Case No. 40 of 2019, order initiating investigation 1/13/20.",
+    "confidence": 0.9,
+    "reason": "The Competition Commission of India is a regulator acting in its regulatory capacity, investigating potential antitrust violations. The evidence shows only that the CCI initiated an investigation (Case No. 40 of 2019) on 1/13/20. There is no evidence Walmart depends on the CCI's infrastructure or services in any operational sense. Regulators conducting investigations or enforcement actions are explicitly excluded as valid counterparties per instruction 4. This is regulatory oversight, not a dependency relationship.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "PhonePe",
+    "category": "dependency",
+    "subtype": "subsidiary",
+    "evidence_quote": "a charge of $0.7 billion related to PhonePe's modification of certain share-based payment arrangements in contemplation of a potential public offering",
+    "confidence": 0.95,
+    "reason": "PhonePe is identified in the filing as 'our PhonePe subsidiary' (appears twice explicitly: 'for our PhonePe subsidiary' and 'at the Company's PhonePe subsidiary'), making it an internal subsidiary of Walmart, not an external counterparty. The relationship category 'dependency' with subtype 'subsidiary' is contradictory—subsidiaries are internal entities, not external dependencies. The evidence_quote describes a non-cash share-based compensation charge related to PhonePe's contemplated IPO, which is an internal accounting treatment for a subsidiary, not evidence of a business relationship with an external counterparty. Per the auditing rules, subsidiaries of the ROOT company must be rejected as counterparties.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "VIZIO",
+    "category": "customer",
+    "subtype": "acquisition_target",
+    "evidence_quote": "the acquisition of VIZIO for net consideration of $1.9 billion",
+    "confidence": 0.9,
+    "reason": "VIZIO is described as an acquisition target that Walmart acquired ('the acquisition of VIZIO for net consideration of $1.9 billion'). Once acquired, VIZIO becomes a subsidiary of Walmart, not a customer. The category 'customer' implies VIZIO buys from Walmart, but the evidence shows Walmart bought VIZIO. An acquisition target that has been acquired is now part of the ROOT company's corporate structure, making it an internal entity rather than an external counterparty. The subtype 'acquisition_target' contradicts the category 'customer' - these are mutually exclusive relationship types.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "PhonePe",
+    "category": "partner",
+    "subtype": "majority_owned_subsidiary",
+    "evidence_quote": "we received $0.7 billion related to new rounds of equity funding for the Company's majority owned PhonePe subsidiary.",
+    "confidence": 0.92,
+    "reason": "PhonePe is described as 'the Company's majority owned PhonePe subsidiary' in the evidence quote and throughout the filing. A majority-owned subsidiary is an internal entity controlled by the root company (Walmart), not an external counterparty. The relationship is internal ownership/control, not a partner relationship. The subtype 'majority_owned_subsidiary' itself confirms this is an internal entity. Per the auditor instructions, subsidiaries of the ROOT company must be rejected as counterparties.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Standard & Poor's",
+    "category": "dependency",
+    "subtype": "credit_rating_agency",
+    "evidence_quote": "the ratings assigned to our commercial paper and rated series of our outstanding long-term debt were as follows: Rating agency Commercial paper Long-term debt Standard & Poor's A-1+ AA",
+    "confidence": 0.95,
+    "reason": "Standard & Poor's is a credit rating agency, not a dependency. The ROOT company (Walmart) does not 'critically rely' on S&P's infrastructure or service in the operational sense required for the 'dependency' category. Credit ratings are assessments provided by third parties that may affect borrowing costs, but receiving a rating does not constitute operational dependency. S&P does not provide a platform, infrastructure, or service that Walmart's business operations depend upon. The evidence_quote shows S&P assigned ratings to Walmart's debt, which is a standard financial market service, not a critical operational dependency. This relationship does not fit any of the defined categories (supplier, customer, partner, competitor, dependency). Credit rating agencies occupy a unique role as external assessors and should not be classified as counterparties in this financial knowledge graph framework.",
+    "stage": "audit"
+  }
+]

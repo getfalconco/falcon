@@ -1,0 +1,226 @@
+[
+  {
+    "counterparty_name": "Adura Energy Limited",
+    "category": "partner",
+    "subtype": "joint venture",
+    "evidence_quote": "gains on disposal of assets, mainly related to the incorporation of the Adura Energy Limited joint venture in the UK",
+    "confidence": 0.65,
+    "merged_into": "Adura Energy Limited"
+  },
+  {
+    "counterparty_name": "bp",
+    "category": "partner",
+    "subtype": "joint_venture_operator",
+    "evidence_quote": "We also have a 50% interest in exploration blocks 25a, 25b and 27 in the Columbus Basin. We operate Block 27 and bp is the operator of the remaining two.",
+    "confidence": 0.95,
+    "merged_into": "bp"
+  },
+  {
+    "counterparty_name": "PETRONAS",
+    "category": "partner",
+    "subtype": "joint_venture",
+    "evidence_quote": "Shell is the largest owner in LNG Canada, holding a 40% interest. The other joint venture partners include PETRONAS of Malaysia, PetroChina, Mitsubishi Corporation of Japan, and Korea Gas Corporation",
+    "confidence": 0.95,
+    "merged_into": "Petronas"
+  },
+  {
+    "counterparty_name": "PetroChina",
+    "category": "partner",
+    "subtype": "joint_venture",
+    "evidence_quote": "Shell is the largest owner in LNG Canada, holding a 40% interest. The other joint venture partners include PETRONAS of Malaysia, PetroChina, Mitsubishi Corporation of Japan, and Korea Gas Corporation",
+    "confidence": 0.95,
+    "merged_into": "PetroChina"
+  },
+  {
+    "counterparty_name": "Mitsubishi Corporation",
+    "category": "partner",
+    "subtype": "joint_venture",
+    "evidence_quote": "Shell is the largest owner in LNG Canada, holding a 40% interest. The other joint venture partners include PETRONAS of Malaysia, PetroChina, Mitsubishi Corporation of Japan, and Korea Gas Corporation",
+    "confidence": 0.95,
+    "merged_into": "Mitsubishi"
+  },
+  {
+    "counterparty_name": "ExxonMobil",
+    "category": "partner",
+    "subtype": "joint venture",
+    "evidence_quote": "Nederlandse Aardolie Maatschappij B.V. (NAM), a joint venture between Shell and ExxonMobil (50:50) has settled claims for physical damage to property caused by earthquakes induced by historical production from the Groningen gas field",
+    "confidence": 0.9,
+    "merged_into": "ExxonMobil"
+  },
+  {
+    "counterparty_name": "Petrobras",
+    "category": "partner",
+    "subtype": "joint venture / field operator",
+    "evidence_quote": "the Sapinhoá field (Shell interest 30%, operated by Petrobras and straddling the BM-S-9 and Entorno de Sapinhoá blocks already unitised and redetermined)",
+    "confidence": 0.9,
+    "merged_into": "Petrobras"
+  },
+  {
+    "counterparty_name": "TotalEnergies",
+    "category": "partner",
+    "subtype": "joint venture / field operator",
+    "evidence_quote": "the Lapa field (Shell interest 27%[B] in BM-S-9A block, operated by TotalEnergies)",
+    "confidence": 0.85,
+    "merged_into": "TotalEnergies"
+  },
+  {
+    "counterparty_name": "Ecopetrol",
+    "category": "partner",
+    "subtype": "joint venture partner",
+    "evidence_quote": "Shell Brasil operates the project with partners Ecopetrol (30%) and PPSA as the contract manager.",
+    "confidence": 0.9,
+    "merged_into": "Ecopetrol"
+  },
+  {
+    "counterparty_name": "Raízen",
+    "category": "partner",
+    "subtype": "joint venture - biofuels blending and distribution",
+    "evidence_quote": "Shell and the non-operated joint venture Raízen (Shell interest 44%) are, together, one of the world's largest blenders and distributors of biofuels.",
+    "confidence": 0.9,
+    "merged_into": "Raízen"
+  },
+  {
+    "counterparty_name": "ExxonMobil",
+    "category": "partner",
+    "subtype": "joint arrangement (chemical plant capacity rights)",
+    "evidence_quote": "In January 2026, ExxonMobil closed the Fife Ethylene Plant (Mossmorran) after announcing this in November 2025.",
+    "confidence": 0.7,
+    "merged_into": "ExxonMobil"
+  },
+  {
+    "counterparty_name": "Google",
+    "category": "customer",
+    "subtype": "renewable energy management services",
+    "evidence_quote": "In September 2025, Google selected Shell as its renewable energy manager in the UK, leveraging Shell's trading and battery capabilities to support Google's decarbonisation goals.",
+    "confidence": 0.85,
+    "merged_into": "Google"
+  },
+  {
+    "counterparty_name": "Equinor",
+    "category": "partner",
+    "subtype": "joint venture formation",
+    "evidence_quote": "the combination of Shell and Equinor's UK offshore oil and gas assets into the Adura joint venture on December 1, 2025",
+    "confidence": 0.9,
+    "merged_into": "Equinor"
+  },
+  {
+    "counterparty_name": "TotalEnergies",
+    "category": "partner",
+    "subtype": "carbon capture and storage joint venture",
+    "evidence_quote": "the Northern Lights joint venture (Shell interest 33.3%) with Equinor and TotalEnergies completed the world's first cross-border commercial carbon transport and storage service",
+    "confidence": 0.95,
+    "merged_into": "TotalEnergies"
+  },
+  {
+    "counterparty_name": "Intel",
+    "category": "partner",
+    "subtype": "product certification / technology alliance",
+    "evidence_quote": "Shell Lubricants' immersion cooling fluids became the first to earn Intel Data Center Certification for Immersion Cooling, with confirmed compatibility with 4th and 5th Gen Intel Xeon processors.",
+    "confidence": 0.65,
+    "merged_into": "Intel"
+  },
+  {
+    "counterparty_name": "Raízen",
+    "category": "partner",
+    "subtype": "joint venture",
+    "evidence_quote": "Through our Raízen joint venture in Brazil we are already the largest producer of second-generation ethanol and the leading sugar-cane ethanol producer globally.",
+    "confidence": 0.9,
+    "merged_into": "Raízen"
+  },
+  {
+    "counterparty_name": "Nordsee One GmbH",
+    "category": "supplier",
+    "subtype": "power purchase agreement",
+    "evidence_quote": "In November 2025, Shell Energy Europe Limited signed two separate power purchase agreements (PPA) in Germany with Nordsee One GmbH and Solarkraftwerk Halenbeck-Rohlsdorf I/II GmbH.",
+    "confidence": 0.85,
+    "merged_into": "Nordsee One GmbH"
+  },
+  {
+    "counterparty_name": "Solarkraftwerk Halenbeck-Rohlsdorf I/II GmbH",
+    "category": "supplier",
+    "subtype": "power purchase agreement",
+    "evidence_quote": "In November 2025, Shell Energy Europe Limited signed two separate power purchase agreements (PPA) in Germany with Nordsee One GmbH and Solarkraftwerk Halenbeck-Rohlsdorf I/II GmbH.",
+    "confidence": 0.85,
+    "merged_into": "Solarkraftwerk Halenbeck-Rohlsdorf I/II GmbH"
+  },
+  {
+    "counterparty_name": "Nordsee One GmbH",
+    "category": "supplier",
+    "subtype": "renewable electricity supplier (power purchase agreement)",
+    "evidence_quote": "Shell Energy Europe Limited signed two separate power purchase agreements (PPA) in Germany with Nordsee One GmbH and Solarkraftwerk Halenbeck-Rohlsdorf I/II GmbH.",
+    "confidence": 0.85,
+    "merged_into": "Nordsee One GmbH"
+  },
+  {
+    "counterparty_name": "Solarkraftwerk Halenbeck-Rohlsdorf I/II GmbH",
+    "category": "supplier",
+    "subtype": "renewable electricity supplier (power purchase agreement)",
+    "evidence_quote": "Shell Energy Europe Limited signed two separate power purchase agreements (PPA) in Germany with Nordsee One GmbH and Solarkraftwerk Halenbeck-Rohlsdorf I/II GmbH.",
+    "confidence": 0.85,
+    "merged_into": "Solarkraftwerk Halenbeck-Rohlsdorf I/II GmbH"
+  },
+  {
+    "counterparty_name": "Stockholm Exergi",
+    "category": "customer",
+    "subtype": "CO2 transport and storage services customer (via Northern Lights joint venture)",
+    "evidence_quote": "following a commercial agreement with Swedish energy provider, Stockholm Exergi, for the cross-border transport and storage of up to 900,000 tonnes of biogenic CO 2 annually for 15 years",
+    "confidence": 0.65,
+    "merged_into": "Stockholm Exergi"
+  },
+  {
+    "counterparty_name": "Google",
+    "category": "customer",
+    "subtype": "corporate power purchase agreement",
+    "evidence_quote": "In May 2025, we signed a new Corporate Power Purchase Agreement (CPPA) with Google, which extends the lifespan of the NoordzeeWind offshore wind farm in the Netherlands.",
+    "confidence": 0.85,
+    "merged_into": "Google"
+  },
+  {
+    "counterparty_name": "Detect Technologies",
+    "category": "supplier",
+    "subtype": "AI safety monitoring technology provider",
+    "evidence_quote": "an AI-automated safety monitoring solution developed by Detect Technologies",
+    "confidence": 0.75,
+    "merged_into": "Detect Technologies"
+  },
+  {
+    "counterparty_name": "bp",
+    "category": "partner",
+    "subtype": "joint investment - Energy Access Fund",
+    "evidence_quote": "a $500 million joint investment commitment with Shell, bp, Equinor and TotalEnergies announced in November 2024",
+    "confidence": 0.85,
+    "merged_into": "bp"
+  },
+  {
+    "counterparty_name": "Equinor",
+    "category": "partner",
+    "subtype": "joint investment - Energy Access Fund",
+    "evidence_quote": "a $500 million joint investment commitment with Shell, bp, Equinor and TotalEnergies announced in November 2024",
+    "confidence": 0.85,
+    "merged_into": "Equinor"
+  },
+  {
+    "counterparty_name": "TotalEnergies",
+    "category": "partner",
+    "subtype": "joint investment - Energy Access Fund",
+    "evidence_quote": "a $500 million joint investment commitment with Shell, bp, Equinor and TotalEnergies announced in November 2024",
+    "confidence": 0.85,
+    "merged_into": "TotalEnergies"
+  },
+  {
+    "counterparty_name": "Ipieca",
+    "category": "partner",
+    "subtype": "industry collaboration - worker welfare toolkit",
+    "evidence_quote": "together with Ipieca, we helped to create a toolkit on worker welfare with resources, guidance and definitions",
+    "confidence": 0.65,
+    "merged_into": "Ipieca"
+  },
+  {
+    "counterparty_name": "Equinor",
+    "category": "partner",
+    "subtype": "joint_venture",
+    "evidence_quote": "the recognition and measurement of the Adura Energy Limited joint venture with Equinor",
+    "confidence": 0.9,
+    "merged_into": "Equinor"
+  }
+]

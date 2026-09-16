@@ -1,0 +1,2401 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 785250,
+  "chunks": 35,
+  "candidates": [
+    {
+      "counterparty_name": "Pfizer",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "commercialization_partner",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our reported revenue is partially based on preliminary estimates of COVID-19 vaccine sales and costs from Pfizer Inc., or Pfizer",
+      "evidence_quotes": [
+        "Our reported revenue is partially based on preliminary estimates of COVID-19 vaccine sales and costs from Pfizer Inc., or Pfizer"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "FDA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Any product candidates we may develop and the activities associated with their development and commercialization...are subject to comprehensive regulation by the FDA",
+      "evidence_quotes": [
+        "Any product candidates we may develop and the activities associated with their development and commercialization...are subject to comprehensive regulation by the FDA"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "EMA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Any product candidates we may develop and the activities associated with their development and commercialization...are subject to comprehensive regulation by the FDA and by comparable global health authorities",
+      "evidence_quotes": [
+        "Any product candidates we may develop and the activities associated with their development and commercialization...are subject to comprehensive regulation by the FDA and by comparable global health authorities"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "InstaDeep",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "acquisition",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Following our acquisition of InstaDeep Ltd., or InstaDeep, we also face competition in the rapidly growing and developing artificial intelligence, or AI, industry",
+      "evidence_quotes": [
+        "Following our acquisition of InstaDeep Ltd., or InstaDeep, we also face competition in the rapidly growing and developing artificial intelligence, or AI, industry"
+      ],
+      "confidence": 0.88,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "WuXi Biologics Co., Ltd.",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "contract_manufacturing_organization",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we and our collaborators rely on WuXi Biologics Co., Ltd. and its affiliates for outsourcing activities related to manufacturing and the supply chain, research and development, certain IP, and commercialization readiness",
+      "evidence_quotes": [
+        "we and our collaborators rely on WuXi Biologics Co., Ltd. and its affiliates for outsourcing activities related to manufacturing and the supply chain, research and development, certain IP, and commercialization readiness"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "WuXi Biologics Co., Ltd.",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "contract manufacturing organization (CMO)",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we and our collaborators rely on WuXi Biologics Co., Ltd. and its affiliates for outsourcing activities related to manufacturing and the supply chain, research and development, certain IP, and commercialization readiness",
+      "evidence_quotes": [
+        "we and our collaborators rely on WuXi Biologics Co., Ltd. and its affiliates for outsourcing activities related to manufacturing and the supply chain, research and development, certain IP, and commercialization readiness"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Moderna, Inc.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "mRNA vaccine developer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "To our knowledge, other than our, Moderna, Inc.'s and Arcturus Therapeutics' vaccines, no mRNA immunotherapies have been approved or received emergency use authorization",
+      "evidence_quotes": [
+        "To our knowledge, other than our, Moderna, Inc.'s and Arcturus Therapeutics' vaccines, no mRNA immunotherapies have been approved or received emergency use authorization"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Arcturus Therapeutics",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "mRNA vaccine developer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "To our knowledge, other than our, Moderna, Inc.'s and Arcturus Therapeutics' vaccines, no mRNA immunotherapies have been approved or received emergency use authorization",
+      "evidence_quotes": [
+        "To our knowledge, other than our, Moderna, Inc.'s and Arcturus Therapeutics' vaccines, no mRNA immunotherapies have been approved or received emergency use authorization"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "FDA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory approval authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "acceptance of this data in support of a marketing application or IND requires the clinical trial to have been conducted in accordance with GCPs, and that the FDA is able to validate the data",
+      "evidence_quotes": [
+        "acceptance of this data in support of a marketing application or IND requires the clinical trial to have been conducted in accordance with GCPs, and that the FDA is able to validate the data"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "EMA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory approval authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "To our knowledge, other than our, Moderna, Inc.'s and Arcturus Therapeutics' vaccines, no mRNA immunotherapies have been approved or received emergency use authorization or conditional marketing authorization to date by the FDA or the EMA.",
+      "evidence_quotes": [
+        "To our knowledge, other than our, Moderna, Inc.'s and Arcturus Therapeutics' vaccines, no mRNA immunotherapies have been approved or received emergency use authorization or conditional marketing authorization to date by the FDA or the EMA."
+      ],
+      "confidence": 0.92,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Pfizer",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "commercialization_collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We depend on Pfizer to determine and provide estimates of the costs and profits to be shared with us in the countries where it is commercializing our COVID-19 vaccine under our collaboration agreement with Pfizer",
+      "evidence_quotes": [
+        "We depend on Pfizer to determine and provide estimates of the costs and profits to be shared with us in the countries where it is commercializing our COVID-19 vaccine under our collaboration agreement with Pfizer"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "FDA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "clinical trials or interactions with the FDA or other regulatory authorities, which could result in regulatory sanctions and cause serious harm to our reputation.",
+      "evidence_quotes": [
+        "clinical trials or interactions with the FDA or other regulatory authorities, which could result in regulatory sanctions and cause serious harm to our reputation."
+      ],
+      "confidence": 0.92,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "EMA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "in December 2020, we were informed by the EMA that the agency was subject to a cyberattack and that some documents relating to our regulatory submission for our COVID-19 vaccine candidate",
+      "evidence_quotes": [
+        "in December 2020, we were informed by the EMA that the agency was subject to a cyberattack and that some documents relating to our regulatory submission for our COVID-19 vaccine candidate"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "InstaDeep",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "acquired_ai_technology",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We are investing in AI technology systems, including through our acquisition of InstaDeep",
+      "evidence_quotes": [
+        "We are investing in AI technology systems, including through our acquisition of InstaDeep"
+      ],
+      "confidence": 0.88,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Pfizer",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint development",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We and Pfizer intend to continue to observe our COVID-19 vaccine, including variant- adapted vaccine candidates, in global clinical trials.",
+      "evidence_quotes": [
+        "We and Pfizer intend to continue to observe our COVID-19 vaccine, including variant- adapted vaccine candidates, in global clinical trials."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Moderna, Inc.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "COVID-19 vaccine",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "A number of competitors currently have programs to develop COVID-19 vaccine candidates, including vaccines developed by Moderna, Inc. and Novavax, Inc .",
+      "evidence_quotes": [
+        "A number of competitors currently have programs to develop COVID-19 vaccine candidates, including vaccines developed by Moderna, Inc. and Novavax, Inc ."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Novavax, Inc",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "COVID-19 vaccine",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "A number of competitors currently have programs to develop COVID-19 vaccine candidates, including vaccines developed by Moderna, Inc. and Novavax, Inc .",
+      "evidence_quotes": [
+        "A number of competitors currently have programs to develop COVID-19 vaccine candidates, including vaccines developed by Moderna, Inc. and Novavax, Inc ."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "CMS",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "reimbursement decision-maker",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In the United States, the principal decisions about reimbursement for new medicines are typically made by the Centers for Medicare & Medicaid Services, or CMS",
+      "evidence_quotes": [
+        "In the United States, the principal decisions about reimbursement for new medicines are typically made by the Centers for Medicare & Medicaid Services, or CMS"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "FDA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We and the manufacturers we engage to make our products and the manufacturing facilities in which our products are made are subject to periodic review and inspection by the U.S. Food and Drug Administration, or the FDA",
+      "evidence_quotes": [
+        "We and the manufacturers we engage to make our products and the manufacturing facilities in which our products are made are subject to periodic review and inspection by the U.S. Food and Drug Administration, or the FDA"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Medicare",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "reimbursement_program",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Successful sales of our product candidates, if approved, depend on the availability of coverage and adequate reimbursement from third-party payors including governmental healthcare programs, such as Medicare and Medicaid in the United States",
+      "evidence_quotes": [
+        "Successful sales of our product candidates, if approved, depend on the availability of coverage and adequate reimbursement from third-party payors including governmental healthcare programs, such as Medicare and Medicaid in the United States"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "Medicaid",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "reimbursement_program",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Successful sales of our product candidates, if approved, depend on the availability of coverage and adequate reimbursement from third-party payors including governmental healthcare programs, such as Medicare and Medicaid in the United States",
+      "evidence_quotes": [
+        "Successful sales of our product candidates, if approved, depend on the availability of coverage and adequate reimbursement from third-party payors including governmental healthcare programs, such as Medicare and Medicaid in the United States"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "CMS",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "payment_system_administrator",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "from time to time, CMS revises the reimbursement systems used to reimburse healthcare providers, including the Medicare Physician Fee Schedule and Outpatient Prospective Payment System, which may result in reduced Medicare payments.",
+      "evidence_quotes": [
+        "from time to time, CMS revises the reimbursement systems used to reimburse healthcare providers, including the Medicare Physician Fee Schedule and Outpatient Prospective Payment System, which may result in reduced Medicare payments."
+      ],
+      "confidence": 0.8,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "FDA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our expenses could increase beyond our expectations if we are required by the FDA, the European Medicines Agency, or EMA, or other regulatory agencies to perform clinical and other trials",
+      "evidence_quotes": [
+        "Our expenses could increase beyond our expectations if we are required by the FDA, the European Medicines Agency, or EMA, or other regulatory agencies to perform clinical and other trials"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "European Medicines Agency",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our expenses could increase beyond our expectations if we are required by the FDA, the European Medicines Agency, or EMA, or other regulatory agencies to perform clinical and other trials",
+      "evidence_quotes": [
+        "Our expenses could increase beyond our expectations if we are required by the FDA, the European Medicines Agency, or EMA, or other regulatory agencies to perform clinical and other trials"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "Biotheus",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "acquisition",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "This includes our acquisitions of Biotheus in January 2025 and CureVac in December 2025",
+      "evidence_quotes": [
+        "This includes our acquisitions of Biotheus in January 2025 and CureVac in December 2025"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 7
+    },
+    {
+      "counterparty_name": "CureVac",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "acquisition",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "This includes our acquisitions of Biotheus in January 2025 and CureVac in December 2025",
+      "evidence_quotes": [
+        "This includes our acquisitions of Biotheus in January 2025 and CureVac in December 2025"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 7
+    },
+    {
+      "counterparty_name": "Nasdaq",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "stock_exchange_listing",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "rules subsequently implemented by the SEC and the Nasdaq Stock Market LLC, or Nasdaq, have imposed various requirements on public companies",
+      "evidence_quotes": [
+        "rules subsequently implemented by the SEC and the Nasdaq Stock Market LLC, or Nasdaq, have imposed various requirements on public companies"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 7
+    },
+    {
+      "counterparty_name": "U.S. Department of Treasury",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "financial infrastructure provider",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "There is no guarantee that the U.S. Department of Treasury, the Federal Deposit Insurance Corporation, and Federal Reserve Board will provide access to uninsured funds in a timely fashion",
+      "evidence_quotes": [
+        "There is no guarantee that the U.S. Department of Treasury, the Federal Deposit Insurance Corporation, and Federal Reserve Board will provide access to uninsured funds in a timely fashion"
+      ],
+      "confidence": 0.75,
+      "chunk_index": 8
+    },
+    {
+      "counterparty_name": "Federal Deposit Insurance Corporation",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "financial infrastructure provider",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "There is no guarantee that the U.S. Department of Treasury, the Federal Deposit Insurance Corporation, and Federal Reserve Board will provide access to uninsured funds in a timely fashion",
+      "evidence_quotes": [
+        "There is no guarantee that the U.S. Department of Treasury, the Federal Deposit Insurance Corporation, and Federal Reserve Board will provide access to uninsured funds in a timely fashion"
+      ],
+      "confidence": 0.75,
+      "chunk_index": 8
+    },
+    {
+      "counterparty_name": "Federal Reserve Board",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "financial infrastructure provider",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "There is no guarantee that the U.S. Department of Treasury, the Federal Deposit Insurance Corporation, and Federal Reserve Board will provide access to uninsured funds in a timely fashion",
+      "evidence_quotes": [
+        "There is no guarantee that the U.S. Department of Treasury, the Federal Deposit Insurance Corporation, and Federal Reserve Board will provide access to uninsured funds in a timely fashion"
+      ],
+      "confidence": 0.75,
+      "chunk_index": 8
+    },
+    {
+      "counterparty_name": "FDA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our facilities are subject to various regulatory requirements and may be subject to announced or unannounced inspections by the FDA or other regulatory authorities at any time",
+      "evidence_quotes": [
+        "Our facilities are subject to various regulatory requirements and may be subject to announced or unannounced inspections by the FDA or other regulatory authorities at any time"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 8
+    },
+    {
+      "counterparty_name": "EMA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "If we or our external CMOs cannot successfully manufacture material that conforms to our specifications and the strict regulatory requirements of the FDA, the EMA or comparable regulatory authorities",
+      "evidence_quotes": [
+        "If we or our external CMOs cannot successfully manufacture material that conforms to our specifications and the strict regulatory requirements of the FDA, the EMA or comparable regulatory authorities"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 8
+    },
+    {
+      "counterparty_name": "Pfizer",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "exclusive licensing/collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we have granted exclusive rights or options to Pfizer for certain targets, and under the terms of our respective collaboration agreements with them",
+      "evidence_quotes": [
+        "we have granted exclusive rights or options to Pfizer for certain targets, and under the terms of our respective collaboration agreements with them"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 9
+    },
+    {
+      "counterparty_name": "Fosun Pharma",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "development and commercialization collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we are aware that there have been allegations that Fosun International Ltd., an affiliate of our collaboration partner Fosun Pharma, is facing liquidity risks",
+      "evidence_quotes": [
+        "we are aware that there have been allegations that Fosun International Ltd., an affiliate of our collaboration partner Fosun Pharma, is facing liquidity risks"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 9
+    },
+    {
+      "counterparty_name": "FDA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory approval authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "GMP requirements, which are enforced, in the case of the FDA, in part through its facilities inspection program",
+      "evidence_quotes": [
+        "GMP requirements, which are enforced, in the case of the FDA, in part through its facilities inspection program"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 9
+    },
+    {
+      "counterparty_name": "EMA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory approval authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we must adhere to the FDA's, the EMA's and other countries' GMP requirements",
+      "evidence_quotes": [
+        "we must adhere to the FDA's, the EMA's and other countries' GMP requirements"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 9
+    },
+    {
+      "counterparty_name": "Pfizer",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "exclusive rights and options collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we have granted exclusive rights or options to Pfizer for certain targets, and under the terms of our respective collaboration agreements with them",
+      "evidence_quotes": [
+        "we have granted exclusive rights or options to Pfizer for certain targets, and under the terms of our respective collaboration agreements with them"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 10
+    },
+    {
+      "counterparty_name": "Acuitas Therapeutics Inc.",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "intellectual property licensor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we have obtained licenses from Acuitas Therapeutics Inc., or Acuitas, CellScript LLC, or CellScript, and its affiliate, mRNA RiboTherapeutics, Inc., to patent rights claiming certain uses of modified RNA",
+      "evidence_quotes": [
+        "we have obtained licenses from Acuitas Therapeutics Inc., or Acuitas, CellScript LLC, or CellScript, and its affiliate, mRNA RiboTherapeutics, Inc., to patent rights claiming certain uses of modified RNA"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 10
+    },
+    {
+      "counterparty_name": "CellScript LLC",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "intellectual property licensor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we have obtained licenses from Acuitas Therapeutics Inc., or Acuitas, CellScript LLC, or CellScript, and its affiliate, mRNA RiboTherapeutics, Inc., to patent rights claiming certain uses of modified RNA",
+      "evidence_quotes": [
+        "we have obtained licenses from Acuitas Therapeutics Inc., or Acuitas, CellScript LLC, or CellScript, and its affiliate, mRNA RiboTherapeutics, Inc., to patent rights claiming certain uses of modified RNA"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 10
+    },
+    {
+      "counterparty_name": "mRNA RiboTherapeutics, Inc.",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "intellectual property licensor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we have obtained licenses from Acuitas Therapeutics Inc., or Acuitas, CellScript LLC, or CellScript, and its affiliate, mRNA RiboTherapeutics, Inc., to patent rights claiming certain uses of modified RNA",
+      "evidence_quotes": [
+        "we have obtained licenses from Acuitas Therapeutics Inc., or Acuitas, CellScript LLC, or CellScript, and its affiliate, mRNA RiboTherapeutics, Inc., to patent rights claiming certain uses of modified RNA"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 10
+    },
+    {
+      "counterparty_name": "Pfizer",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "co-defendant",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "ModernaTX, Inc., or Moderna, has brought litigation against us and Pfizer regarding European patents",
+      "evidence_quotes": [
+        "ModernaTX, Inc., or Moderna, has brought litigation against us and Pfizer regarding European patents"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 11
+    },
+    {
+      "counterparty_name": "ModernaTX, Inc.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "patent_litigation_opponent",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "ModernaTX, Inc., or Moderna, has brought litigation against us and Pfizer regarding European patents 3590949B1, or EP'949, and 3718565B1",
+      "evidence_quotes": [
+        "ModernaTX, Inc., or Moderna, has brought litigation against us and Pfizer regarding European patents 3590949B1, or EP'949, and 3718565B1"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 11
+    },
+    {
+      "counterparty_name": "Arbutus Biopharma Corp.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "patent_litigation_opponent",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Arbutus Biopharma Corp., or Arbutus, and Genevant Sciences GmbH, or Genevant, have brought litigation against us and Pfizer in the United States",
+      "evidence_quotes": [
+        "Arbutus Biopharma Corp., or Arbutus, and Genevant Sciences GmbH, or Genevant, have brought litigation against us and Pfizer in the United States"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 11
+    },
+    {
+      "counterparty_name": "Genevant Sciences GmbH",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "patent_litigation_opponent",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Arbutus Biopharma Corp., or Arbutus, and Genevant Sciences GmbH, or Genevant, have brought litigation against us and Pfizer in the United States",
+      "evidence_quotes": [
+        "Arbutus Biopharma Corp., or Arbutus, and Genevant Sciences GmbH, or Genevant, have brought litigation against us and Pfizer in the United States"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 11
+    },
+    {
+      "counterparty_name": "Promosome LLC",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "patent_litigation_opponent",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Promosome LLC, or Promosome, has initiated litigation against us and Pfizer in the Unified Patent Court",
+      "evidence_quotes": [
+        "Promosome LLC, or Promosome, has initiated litigation against us and Pfizer in the Unified Patent Court"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 11
+    },
+    {
+      "counterparty_name": "GlaxoSmithKline Biologicals SA",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "patent_litigation_opponent",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "GlaxoSmithKline Biologicals SA and GlaxoSmithKline LLC, or collectively, GSK, have brought litigation against us and Pfizer in the United States",
+      "evidence_quotes": [
+        "GlaxoSmithKline Biologicals SA and GlaxoSmithKline LLC, or collectively, GSK, have brought litigation against us and Pfizer in the United States"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 11
+    },
+    {
+      "counterparty_name": "GlaxoSmithKline LLC",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "patent_litigation_opponent",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "GlaxoSmithKline Biologicals SA and GlaxoSmithKline LLC, or collectively, GSK, have brought litigation against us and Pfizer in the United States",
+      "evidence_quotes": [
+        "GlaxoSmithKline Biologicals SA and GlaxoSmithKline LLC, or collectively, GSK, have brought litigation against us and Pfizer in the United States"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 11
+    },
+    {
+      "counterparty_name": "Bayer CropScience LLC",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "patent_litigation_opponent",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Bayer CropScience LLC, or Bayer, Monsanto Company, and Monsanto Technology, LLC, or Monsanto, have initiated litigation against us and Pfizer",
+      "evidence_quotes": [
+        "Bayer CropScience LLC, or Bayer, Monsanto Company, and Monsanto Technology, LLC, or Monsanto, have initiated litigation against us and Pfizer"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 11
+    },
+    {
+      "counterparty_name": "Monsanto Company",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "patent_litigation_opponent",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Bayer CropScience LLC, or Bayer, Monsanto Company, and Monsanto Technology, LLC, or Monsanto, have initiated litigation against us and Pfizer",
+      "evidence_quotes": [
+        "Bayer CropScience LLC, or Bayer, Monsanto Company, and Monsanto Technology, LLC, or Monsanto, have initiated litigation against us and Pfizer"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 11
+    },
+    {
+      "counterparty_name": "Monsanto Technology, LLC",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "patent_litigation_opponent",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Bayer CropScience LLC, or Bayer, Monsanto Company, and Monsanto Technology, LLC, or Monsanto, have initiated litigation against us and Pfizer",
+      "evidence_quotes": [
+        "Bayer CropScience LLC, or Bayer, Monsanto Company, and Monsanto Technology, LLC, or Monsanto, have initiated litigation against us and Pfizer"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 11
+    },
+    {
+      "counterparty_name": "University of Pennsylvania",
+      "counterparty_type": "other",
+      "category": "supplier",
+      "subtype": "intellectual property licensor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we were in discussions with the University of Pennsylvania, or UPenn, and the National Institutes of Health, or the NIH, concerning royalties and other related amounts allegedly owed on sales of our COVID-19 vaccine",
+      "evidence_quotes": [
+        "we were in discussions with the University of Pennsylvania, or UPenn, and the National Institutes of Health, or the NIH, concerning royalties and other related amounts allegedly owed on sales of our COVID-19 vaccine"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 12
+    },
+    {
+      "counterparty_name": "National Institutes of Health",
+      "counterparty_type": "government",
+      "category": "supplier",
+      "subtype": "intellectual property licensor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we were in discussions with the University of Pennsylvania, or UPenn, and the National Institutes of Health, or the NIH, concerning royalties and other related amounts allegedly owed on sales of our COVID-19 vaccine",
+      "evidence_quotes": [
+        "we were in discussions with the University of Pennsylvania, or UPenn, and the National Institutes of Health, or the NIH, concerning royalties and other related amounts allegedly owed on sales of our COVID-19 vaccine"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 12
+    },
+    {
+      "counterparty_name": "Louisiana State University",
+      "counterparty_type": "other",
+      "category": "supplier",
+      "subtype": "intellectual property licensor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "intellectual property rights that have been in-licensed, including patent applications and patents that we in-license from the University of Pennsylvania, the Louisiana State University, the Broad Institute, the NIH, Genevant, and CellScript",
+      "evidence_quotes": [
+        "intellectual property rights that have been in-licensed, including patent applications and patents that we in-license from the University of Pennsylvania, the Louisiana State University, the Broad Institute, the NIH, Genevant, and CellScript"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 12
+    },
+    {
+      "counterparty_name": "Broad Institute",
+      "counterparty_type": "other",
+      "category": "supplier",
+      "subtype": "intellectual property licensor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "intellectual property rights that have been in-licensed, including patent applications and patents that we in-license from the University of Pennsylvania, the Louisiana State University, the Broad Institute, the NIH, Genevant, and CellScript",
+      "evidence_quotes": [
+        "intellectual property rights that have been in-licensed, including patent applications and patents that we in-license from the University of Pennsylvania, the Louisiana State University, the Broad Institute, the NIH, Genevant, and CellScript"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 12
+    },
+    {
+      "counterparty_name": "Genevant",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "intellectual property licensor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "intellectual property rights that have been in-licensed, including patent applications and patents that we in-license from the University of Pennsylvania, the Louisiana State University, the Broad Institute, the NIH, Genevant, and CellScript",
+      "evidence_quotes": [
+        "intellectual property rights that have been in-licensed, including patent applications and patents that we in-license from the University of Pennsylvania, the Louisiana State University, the Broad Institute, the NIH, Genevant, and CellScript"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 12
+    },
+    {
+      "counterparty_name": "CellScript",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "intellectual property licensor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "intellectual property rights that have been in-licensed, including patent applications and patents that we in-license from the University of Pennsylvania, the Louisiana State University, the Broad Institute, the NIH, Genevant, and CellScript",
+      "evidence_quotes": [
+        "intellectual property rights that have been in-licensed, including patent applications and patents that we in-license from the University of Pennsylvania, the Louisiana State University, the Broad Institute, the NIH, Genevant, and CellScript"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 12
+    },
+    {
+      "counterparty_name": "CureVac",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "patent_litigation_plaintiff",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "BioNTech SE and certain of our wholly owned subsidiaries are defendants in litigations initiated by CureVac, Moderna, Arbutus, Genevant, GSK, and Promosome regarding Comirnaty",
+      "evidence_quotes": [
+        "BioNTech SE and certain of our wholly owned subsidiaries are defendants in litigations initiated by CureVac, Moderna, Arbutus, Genevant, GSK, and Promosome regarding Comirnaty"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 13
+    },
+    {
+      "counterparty_name": "Moderna",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "patent_litigation_plaintiff",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "BioNTech SE and certain of our wholly owned subsidiaries are defendants in litigations initiated by CureVac, Moderna, Arbutus, Genevant, GSK, and Promosome regarding Comirnaty",
+      "evidence_quotes": [
+        "BioNTech SE and certain of our wholly owned subsidiaries are defendants in litigations initiated by CureVac, Moderna, Arbutus, Genevant, GSK, and Promosome regarding Comirnaty"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 13
+    },
+    {
+      "counterparty_name": "Arbutus",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "patent_litigation_plaintiff",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "BioNTech SE and certain of our wholly owned subsidiaries are defendants in litigations initiated by CureVac, Moderna, Arbutus, Genevant, GSK, and Promosome regarding Comirnaty",
+      "evidence_quotes": [
+        "BioNTech SE and certain of our wholly owned subsidiaries are defendants in litigations initiated by CureVac, Moderna, Arbutus, Genevant, GSK, and Promosome regarding Comirnaty"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 13
+    },
+    {
+      "counterparty_name": "Genevant",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "patent_litigation_plaintiff",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "BioNTech SE and certain of our wholly owned subsidiaries are defendants in litigations initiated by CureVac, Moderna, Arbutus, Genevant, GSK, and Promosome regarding Comirnaty",
+      "evidence_quotes": [
+        "BioNTech SE and certain of our wholly owned subsidiaries are defendants in litigations initiated by CureVac, Moderna, Arbutus, Genevant, GSK, and Promosome regarding Comirnaty"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 13
+    },
+    {
+      "counterparty_name": "GSK",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "patent_litigation_plaintiff",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "BioNTech SE and certain of our wholly owned subsidiaries are defendants in litigations initiated by CureVac, Moderna, Arbutus, Genevant, GSK, and Promosome regarding Comirnaty",
+      "evidence_quotes": [
+        "BioNTech SE and certain of our wholly owned subsidiaries are defendants in litigations initiated by CureVac, Moderna, Arbutus, Genevant, GSK, and Promosome regarding Comirnaty"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 13
+    },
+    {
+      "counterparty_name": "Promosome",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "patent_litigation_plaintiff",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "BioNTech SE and certain of our wholly owned subsidiaries are defendants in litigations initiated by CureVac, Moderna, Arbutus, Genevant, GSK, and Promosome regarding Comirnaty",
+      "evidence_quotes": [
+        "BioNTech SE and certain of our wholly owned subsidiaries are defendants in litigations initiated by CureVac, Moderna, Arbutus, Genevant, GSK, and Promosome regarding Comirnaty"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 13
+    },
+    {
+      "counterparty_name": "Pfizer",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "covid_vaccine_collaborator",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "a former employee of our COVID-19 vaccine collaborator, Pfizer, has reportedly misappropriated trade secrets on our COVID-19 vaccine",
+      "evidence_quotes": [
+        "a former employee of our COVID-19 vaccine collaborator, Pfizer, has reportedly misappropriated trade secrets on our COVID-19 vaccine"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 13
+    },
+    {
+      "counterparty_name": "FDA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "If safe and effective use of a biologic product depends on an in vitro diagnostic, then the FDA generally requires approval or clearance of the diagnostic, known as a companion diagnostic, concurrently with approval of the therapeutic product.",
+      "evidence_quotes": [
+        "If safe and effective use of a biologic product depends on an in vitro diagnostic, then the FDA generally requires approval or clearance of the diagnostic, known as a companion diagnostic, concurrently with approval of the therapeutic product."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 14
+    },
+    {
+      "counterparty_name": "EMA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Because we are developing some of our product candidates for the treatment of diseases in which there is little clinical experience and, in some cases, using new endpoints or methodologies, the FDA, the EMA or other regulatory authorities may not",
+      "evidence_quotes": [
+        "Because we are developing some of our product candidates for the treatment of diseases in which there is little clinical experience and, in some cases, using new endpoints or methodologies, the FDA, the EMA or other regulatory authorities may not"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 14
+    },
+    {
+      "counterparty_name": "FDA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Under the U.S. Orphan Drug Act, the FDA may grant Orphan Drug Designation to a drug or biologic intended to treat a rare disease",
+      "evidence_quotes": [
+        "Under the U.S. Orphan Drug Act, the FDA may grant Orphan Drug Designation to a drug or biologic intended to treat a rare disease"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 15
+    },
+    {
+      "counterparty_name": "EMA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "a special committee called the Committee for Advanced Therapies was established within the EMA in accordance with Regulation (EC) No 1394/2007",
+      "evidence_quotes": [
+        "a special committee called the Committee for Advanced Therapies was established within the EMA in accordance with Regulation (EC) No 1394/2007"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 15
+    },
+    {
+      "counterparty_name": "FDA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The holder of an approved BLA is obligated to monitor and report adverse events and any failure of a product to meet the specifications in the BLA.",
+      "evidence_quotes": [
+        "The holder of an approved BLA is obligated to monitor and report adverse events and any failure of a product to meet the specifications in the BLA."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 16
+    },
+    {
+      "counterparty_name": "EMA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "If in the future we are unable to demonstrate that such adverse events were caused by factors other than our product candidate, the FDA, the EMA or other regulatory authorities could order us to cease further development",
+      "evidence_quotes": [
+        "If in the future we are unable to demonstrate that such adverse events were caused by factors other than our product candidate, the FDA, the EMA or other regulatory authorities could order us to cease further development"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 16
+    },
+    {
+      "counterparty_name": "Medicare",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "government_payor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The U.S. federal Anti-Kickback Statute, which prohibits, among other things, persons or entities from knowingly and willfully soliciting, receiving, offering or paying any remuneration (including any kickback, bribe or rebate), directly or indirectly, overtly or covertly, in cash or in",
+      "evidence_quotes": [
+        "The U.S. federal Anti-Kickback Statute, which prohibits, among other things, persons or entities from knowingly and willfully soliciting, receiving, offering or paying any remuneration (including any kickback, bribe or rebate), directly or indirectly, overtly or covertly, in cash or in"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 16
+    },
+    {
+      "counterparty_name": "Medicaid",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "government_payor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "in return for the purchase, recommendation, leasing or furnishing of an item or service reimbursable under a federal healthcare program, such as the Medicare and Medicaid programs.",
+      "evidence_quotes": [
+        "in return for the purchase, recommendation, leasing or furnishing of an item or service reimbursable under a federal healthcare program, such as the Medicare and Medicaid programs."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 16
+    },
+    {
+      "counterparty_name": "InstaDeep",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "AI/ML technology acquisition",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "in July 2023, we acquired InstaDeep, a leading global technology company in the field of AI and machine learning",
+      "evidence_quotes": [
+        "in July 2023, we acquired InstaDeep, a leading global technology company in the field of AI and machine learning"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 17
+    },
+    {
+      "counterparty_name": "Biotheus",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "clinical-stage biotech acquisition",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In January 2025, we acquired Biotheus, a clinical-stage biotechnology company, for upfront consideration predominantly of cash",
+      "evidence_quotes": [
+        "In January 2025, we acquired Biotheus, a clinical-stage biotechnology company, for upfront consideration predominantly of cash"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 17
+    },
+    {
+      "counterparty_name": "CureVac N.V.",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "mRNA therapeutics acquisition",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In December 2025, we acquired CureVac N.V., a biotechnology company focused on the development of mRNA therapeutics, through a public exchange offer.",
+      "evidence_quotes": [
+        "In December 2025, we acquired CureVac N.V., a biotechnology company focused on the development of mRNA therapeutics, through a public exchange offer."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 17
+    },
+    {
+      "counterparty_name": "European Commission",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "vaccine advance purchase agreement",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "On November 30, 2020, prior to our acquisition of CureVac, CureVac AG entered into an Advance Purchase Agreement, which we refer to as the APA, with the EU Commission, acting on behalf of all Member States of the European Union,",
+      "evidence_quotes": [
+        "On November 30, 2020, prior to our acquisition of CureVac, CureVac AG entered into an Advance Purchase Agreement, which we refer to as the APA, with the EU Commission, acting on behalf of all Member States of the European Union,"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 17
+    },
+    {
+      "counterparty_name": "Pfizer",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "co-development and commercialization",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Under our collaboration with Pfizer, we are the Marketing Authorization Holder in the United States, the European Union, or EU, the UK, Canada and other countries.",
+      "evidence_quotes": [
+        "Under our collaboration with Pfizer, we are the Marketing Authorization Holder in the United States, the European Union, or EU, the UK, Canada and other countries."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 18
+    },
+    {
+      "counterparty_name": "Pfizer",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "distribution",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Pfizer has marketing and distribution rights worldwide apart from Greater China, Germany, and Türkiye.",
+      "evidence_quotes": [
+        "Pfizer has marketing and distribution rights worldwide apart from Greater China, Germany, and Türkiye."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 18
+    },
+    {
+      "counterparty_name": "Fosun Pharma",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "distribution",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Under our collaboration with Fosun Pharmaceutical Industrial Development, Co., Ltd, or Fosun Pharma, Fosun Pharma has marketing and distribution rights in Mainland China, Hong Kong Special Administrative Region, or SAR, Macau SAR and Taiwan region.",
+      "evidence_quotes": [
+        "Under our collaboration with Fosun Pharmaceutical Industrial Development, Co., Ltd, or Fosun Pharma, Fosun Pharma has marketing and distribution rights in Mainland China, Hong Kong Special Administrative Region, or SAR, Macau SAR and Taiwan region."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 18
+    },
+    {
+      "counterparty_name": "Bristol Myers Squibb",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "co-development and co-commercialization",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In June 2025, we entered into a global co-development and co-commercialization agreement with Bristol Myers Squibb Company, or Bristol Myers Squibb, to jointly develop, manufacture and commercialize pumitamig across numerous solid tumor types.",
+      "evidence_quotes": [
+        "In June 2025, we entered into a global co-development and co-commercialization agreement with Bristol Myers Squibb Company, or Bristol Myers Squibb, to jointly develop, manufacture and commercialize pumitamig across numerous solid tumor types."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 18
+    },
+    {
+      "counterparty_name": "European Commission",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "vaccine purchase agreement",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We and Pfizer have an ongoing COVID-19 Vaccine Purchase Agreement with the European Commission, or the EC, to deliver COVID-19 vaccines to the EU.",
+      "evidence_quotes": [
+        "We and Pfizer have an ongoing COVID-19 Vaccine Purchase Agreement with the European Commission, or the EC, to deliver COVID-19 vaccines to the EU."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 18
+    },
+    {
+      "counterparty_name": "FDA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The FDA advised manufacturers that COVID-19 vaccines for use in the United States in the fall of 2025 should be a monovalent JN.1-lineage-based composition",
+      "evidence_quotes": [
+        "The FDA advised manufacturers that COVID-19 vaccines for use in the United States in the fall of 2025 should be a monovalent JN.1-lineage-based composition"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 18
+    },
+    {
+      "counterparty_name": "EMA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The EMA recommended that marketing authorization holders adapt vaccines to target the LP.8.1 variant",
+      "evidence_quotes": [
+        "The EMA recommended that marketing authorization holders adapt vaccines to target the LP.8.1 variant"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 18
+    },
+    {
+      "counterparty_name": "WHO",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory guidance",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In May 2025, the WHO, EMA and FDA each issued recommendations to update the antigenic composition of authorized COVID-19 vaccines for the 2025-2026 vaccination season.",
+      "evidence_quotes": [
+        "In May 2025, the WHO, EMA and FDA each issued recommendations to update the antigenic composition of authorized COVID-19 vaccines for the 2025-2026 vaccination season."
+      ],
+      "confidence": 0.88,
+      "chunk_index": 18
+    },
+    {
+      "counterparty_name": "Pfizer",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint development and commercialization",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "following authorization by the EC, the new variant-adapted COVID-19 vaccine was made available for shipment to applicable EU member states. – In August 2025, the FDA approved the supplemental Biologics License Application for our and Pfizer's LP.8.1- adapted monovalent COVID-19",
+      "evidence_quotes": [
+        "following authorization by the EC, the new variant-adapted COVID-19 vaccine was made available for shipment to applicable EU member states. – In August 2025, the FDA approved the supplemental Biologics License Application for our and Pfizer's LP.8.1- adapted monovalent COVID-19"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 19
+    },
+    {
+      "counterparty_name": "Bristol Myers Squibb",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "co-exclusive rights partnership",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Partnered with Bristol Myers Squibb. (4) Trial is currently being conducted by or on behalf of BioNTech. Bristol Myers Squibb holds co-exclusive rights to pumitamig.",
+      "evidence_quotes": [
+        "Partnered with Bristol Myers Squibb. (4) Trial is currently being conducted by or on behalf of BioNTech. Bristol Myers Squibb holds co-exclusive rights to pumitamig."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 19
+    },
+    {
+      "counterparty_name": "DualityBio",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "development partnership",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Partnered with DualityBio.",
+      "evidence_quotes": [
+        "Partnered with DualityBio."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 19
+    },
+    {
+      "counterparty_name": "Genentech",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "development partnership",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Partnered with Genentech, a member of the Roche Group.",
+      "evidence_quotes": [
+        "Partnered with Genentech, a member of the Roche Group."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 19
+    },
+    {
+      "counterparty_name": "OncoC4",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "development partnership",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Partnered with OncoC4.",
+      "evidence_quotes": [
+        "Partnered with OncoC4."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 19
+    },
+    {
+      "counterparty_name": "MediLink Therapeutics",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "development partnership",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Partnered with MediLink Therapeutics.",
+      "evidence_quotes": [
+        "Partnered with MediLink Therapeutics."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 19
+    },
+    {
+      "counterparty_name": "Genmab",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "development partnership",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Partnered with Genmab.",
+      "evidence_quotes": [
+        "Partnered with Genmab."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 19
+    },
+    {
+      "counterparty_name": "Regeneron",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In collaboration with Regeneron.",
+      "evidence_quotes": [
+        "In collaboration with Regeneron."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 19
+    },
+    {
+      "counterparty_name": "University of Pennsylvania",
+      "counterparty_type": "other",
+      "category": "partner",
+      "subtype": "development partnership",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Partnered with University of Pennsylvania.",
+      "evidence_quotes": [
+        "Partnered with University of Pennsylvania."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 19
+    },
+    {
+      "counterparty_name": "Fosun Pharma",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "development partnership",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Partnered with Fosun Pharma.",
+      "evidence_quotes": [
+        "Partnered with Fosun Pharma."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 19
+    },
+    {
+      "counterparty_name": "Gates Foundation",
+      "counterparty_type": "other",
+      "category": "partner",
+      "subtype": "funding partner",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Funded by the Gates Foundation.",
+      "evidence_quotes": [
+        "Funded by the Gates Foundation."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 19
+    },
+    {
+      "counterparty_name": "Coalition for Epidemic Preparedness Innovations",
+      "counterparty_type": "other",
+      "category": "partner",
+      "subtype": "funding partner",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Funded by the Coalition for Epidemic Preparedness Innovations (CEPI).",
+      "evidence_quotes": [
+        "Funded by the Coalition for Epidemic Preparedness Innovations (CEPI)."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 19
+    },
+    {
+      "counterparty_name": "Roche",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint development",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We and our partner Roche have decided to discontinue the Phase 2 clinical trial (IMcode004; NCT06534983) evaluating autogene cevumeran",
+      "evidence_quotes": [
+        "We and our partner Roche have decided to discontinue the Phase 2 clinical trial (IMcode004; NCT06534983) evaluating autogene cevumeran"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 19
+    },
+    {
+      "counterparty_name": "Roche",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "clinical development partner",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We and our partner Roche have decided to discontinue the Phase 2 clinical trial (IMcode004; NCT06534983)",
+      "evidence_quotes": [
+        "We and our partner Roche have decided to discontinue the Phase 2 clinical trial (IMcode004; NCT06534983)"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 20
+    },
+    {
+      "counterparty_name": "Regeneron Pharmaceuticals Inc.",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "clinical development partner",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "A Phase 2 clinical trial (BNT111-01; NCT04526899) in collaboration with Regeneron Pharmaceuticals Inc., or Regeneron, to evaluate BNT111 in combination with cemiplimab",
+      "evidence_quotes": [
+        "A Phase 2 clinical trial (BNT111-01; NCT04526899) in collaboration with Regeneron Pharmaceuticals Inc., or Regeneron, to evaluate BNT111 in combination with cemiplimab"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 20
+    },
+    {
+      "counterparty_name": "DualityBio",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "co-development partner",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Trastuzumab Pamirtecan (BNT323/DB-1303), an ADC in Development in Collaboration with DualityBio",
+      "evidence_quotes": [
+        "Trastuzumab Pamirtecan (BNT323/DB-1303), an ADC in Development in Collaboration with DualityBio"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 20
+    },
+    {
+      "counterparty_name": "MediLink Therapeutics",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "co-development partner",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "BNT326/YL202, an ADC in Development in Collaboration with MediLink Therapeutics",
+      "evidence_quotes": [
+        "BNT326/YL202, an ADC in Development in Collaboration with MediLink Therapeutics"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 20
+    },
+    {
+      "counterparty_name": "OncoC4",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "co-development partner",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Gotistobart (BNT316/ONC-392) is a tumor microenvironment-selective regulatory T cell-depleting antibody targeting cytotoxic T-lymphocyte associated protein 4, or CTLA-4, candidate being developed in collaboration with OncoC4.",
+      "evidence_quotes": [
+        "Gotistobart (BNT316/ONC-392) is a tumor microenvironment-selective regulatory T cell-depleting antibody targeting cytotoxic T-lymphocyte associated protein 4, or CTLA-4, candidate being developed in collaboration with OncoC4."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 20
+    },
+    {
+      "counterparty_name": "Genmab",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "co-development partner",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "BNT314/GEN1059 is being developed in collaboration with Genmab.",
+      "evidence_quotes": [
+        "BNT314/GEN1059 is being developed in collaboration with Genmab."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 20
+    },
+    {
+      "counterparty_name": "Pfizer",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "commercialization and development partner",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In collaboration with Pfizer, we are aiming to develop a vaccine candidate that enhances and broadens SARS-CoV-2 immunogenicity responses.",
+      "evidence_quotes": [
+        "In collaboration with Pfizer, we are aiming to develop a vaccine candidate that enhances and broadens SARS-CoV-2 immunogenicity responses."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 20
+    },
+    {
+      "counterparty_name": "Pfizer",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "co-commercialization partnership",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "As a result of our partnership with Pfizer, under which our commercialization responsibilities are limited to Germany and Türkiye, we maintain a lean fixed cost base for our COVID-19 vaccine business.",
+      "evidence_quotes": [
+        "As a result of our partnership with Pfizer, under which our commercialization responsibilities are limited to Germany and Türkiye, we maintain a lean fixed cost base for our COVID-19 vaccine business."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 21
+    },
+    {
+      "counterparty_name": "Pfizer",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "technology platform collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Pfizer for our COVID-19 vaccine program, which leverages technology from our infectious disease mRNA-based platform.",
+      "evidence_quotes": [
+        "Pfizer for our COVID-19 vaccine program, which leverages technology from our infectious disease mRNA-based platform."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 21
+    },
+    {
+      "counterparty_name": "Siemens",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "automation technology partnership",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In 2015, our wholly owned subsidiary, BioNTech RNA Pharmaceuticals GmbH, or BioNTech RNA, and Siemens announced a collaboration for developing an automated, paperless and digitalized production site for individualized mRNA.",
+      "evidence_quotes": [
+        "In 2015, our wholly owned subsidiary, BioNTech RNA Pharmaceuticals GmbH, or BioNTech RNA, and Siemens announced a collaboration for developing an automated, paperless and digitalized production site for individualized mRNA."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 21
+    },
+    {
+      "counterparty_name": "CureVac",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "acquired business operations",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In January 2026, we became the sole owner of the German mRNA company CureVac's business operations.",
+      "evidence_quotes": [
+        "In January 2026, we became the sole owner of the German mRNA company CureVac's business operations."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 21
+    },
+    {
+      "counterparty_name": "CEPI",
+      "counterparty_type": "other",
+      "category": "partner",
+      "subtype": "manufacturing funding partnership",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In 2024, we announced that CEPI would be committing up to $145 million to support us to establish further mRNA clinical-scale manufacturing capabilities at the Kigali facility.",
+      "evidence_quotes": [
+        "In 2024, we announced that CEPI would be committing up to $145 million to support us to establish further mRNA clinical-scale manufacturing capabilities at the Kigali facility."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 21
+    },
+    {
+      "counterparty_name": "European Investment Bank",
+      "counterparty_type": "government",
+      "category": "partner",
+      "subtype": "infrastructure financing",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In October 2025, up to €95 million in blended EC and EIB financing was awarded to support site infrastructure and facility operations",
+      "evidence_quotes": [
+        "In October 2025, up to €95 million in blended EC and EIB financing was awarded to support site infrastructure and facility operations"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 21
+    },
+    {
+      "counterparty_name": "European Commission",
+      "counterparty_type": "government",
+      "category": "partner",
+      "subtype": "infrastructure financing",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In October 2025, up to €95 million in blended EC and EIB financing was awarded to support site infrastructure and facility operations",
+      "evidence_quotes": [
+        "In October 2025, up to €95 million in blended EC and EIB financing was awarded to support site infrastructure and facility operations"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 21
+    },
+    {
+      "counterparty_name": "State of Victoria",
+      "counterparty_type": "government",
+      "category": "partner",
+      "subtype": "strategic mRNA ecosystem partnership",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In 2023, we signed a multi-year strategic partnership with the State of Victoria, Australia, for an initiative to strengthen the local mRNA ecosystem with our BioNTainer technology.",
+      "evidence_quotes": [
+        "In 2023, we signed a multi-year strategic partnership with the State of Victoria, Australia, for an initiative to strengthen the local mRNA ecosystem with our BioNTainer technology."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 21
+    },
+    {
+      "counterparty_name": "La Trobe University",
+      "counterparty_type": "other",
+      "category": "partner",
+      "subtype": "manufacturing facility partnership",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We are advancing the development and commissioning of a state-of-the-art mRNA manufacturing facility at La Trobe University in Melbourne, Australia, and have established R&D mRNA manufacturing capabilities in leased laboratory space at the university.",
+      "evidence_quotes": [
+        "We are advancing the development and commissioning of a state-of-the-art mRNA manufacturing facility at La Trobe University in Melbourne, Australia, and have established R&D mRNA manufacturing capabilities in leased laboratory space at the university."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 21
+    },
+    {
+      "counterparty_name": "Bristol Myers Squibb",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "co-development and co-commercialization",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Bristol Myers Squibb to jointly develop, manufacture and commercialize pumitamig",
+      "evidence_quotes": [
+        "Bristol Myers Squibb to jointly develop, manufacture and commercialize pumitamig"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 21
+    },
+    {
+      "counterparty_name": "DualityBio",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "research and development collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "DualityBio for the research and development of certain antibody drug conjugates",
+      "evidence_quotes": [
+        "DualityBio for the research and development of certain antibody drug conjugates"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 21
+    },
+    {
+      "counterparty_name": "Genentech",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "platform technology collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Genentech for our iNeST platform in our mRNA drug class",
+      "evidence_quotes": [
+        "Genentech for our iNeST platform in our mRNA drug class"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 21
+    },
+    {
+      "counterparty_name": "Genmab",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "checkpoint immunomodulator platform collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Genmab for our next-generation checkpoint immunomodulator platform in our protein-based therapeutics drug class",
+      "evidence_quotes": [
+        "Genmab for our next-generation checkpoint immunomodulator platform in our protein-based therapeutics drug class"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 21
+    },
+    {
+      "counterparty_name": "OncoC4",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "research and development collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "OncoC4 for the research and development of certain monoclonal anti-CTLA4 antibodies",
+      "evidence_quotes": [
+        "OncoC4 for the research and development of certain monoclonal anti-CTLA4 antibodies"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 21
+    },
+    {
+      "counterparty_name": "EMA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory approval authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our manufacturing site in Marburg was approved by the EMA for manufacturing of our COVID-19 drug product in March 2021.",
+      "evidence_quotes": [
+        "Our manufacturing site in Marburg was approved by the EMA for manufacturing of our COVID-19 drug product in March 2021."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 21
+    },
+    {
+      "counterparty_name": "BMS",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "co-development and co-commercialization",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The parties will equally share any profits and losses from the commercialization of pumitamig.",
+      "evidence_quotes": [
+        "The parties will equally share any profits and losses from the commercialization of pumitamig."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 22
+    },
+    {
+      "counterparty_name": "DualityBio",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "license and collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "DualityBio granted us the exclusive, royalty-bearing and sublicensable right to exploit certain patents and know-how",
+      "evidence_quotes": [
+        "DualityBio granted us the exclusive, royalty-bearing and sublicensable right to exploit certain patents and know-how"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 22
+    },
+    {
+      "counterparty_name": "Genentech",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "co-development and co-commercialization",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Genentech has the sole right to commercialize the Genentech Collaboration Products on a worldwide basis, with all profits and losses from such commercialization to be split equally with us.",
+      "evidence_quotes": [
+        "Genentech has the sole right to commercialize the Genentech Collaboration Products on a worldwide basis, with all profits and losses from such commercialization to be split equally with us."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 22
+    },
+    {
+      "counterparty_name": "F. Hoffman-La Roche Ltd",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "co-development and co-commercialization",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we entered into a Collaboration Agreement with Genentech and F. Hoffman-La Roche Ltd, together with all amendments thereto",
+      "evidence_quotes": [
+        "we entered into a Collaboration Agreement with Genentech and F. Hoffman-La Roche Ltd, together with all amendments thereto"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 22
+    },
+    {
+      "counterparty_name": "Genmab",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "co-development and co-commercialization",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We and Genmab must use commercially reasonable efforts to jointly commercialize all LCA Products and share equally all expenses and profits arising from such commercialization.",
+      "evidence_quotes": [
+        "We and Genmab must use commercially reasonable efforts to jointly commercialize all LCA Products and share equally all expenses and profits arising from such commercialization."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 22
+    },
+    {
+      "counterparty_name": "OncoC4",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "license and collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "OncoC4 granted us an exclusive license under ONC-392 and OncoC4's interest in joint intellectual property to exploit OncoC4 Licensed Compounds",
+      "evidence_quotes": [
+        "OncoC4 granted us an exclusive license under ONC-392 and OncoC4's interest in joint intellectual property to exploit OncoC4 Licensed Compounds"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 22
+    },
+    {
+      "counterparty_name": "BioNTech IMFS",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "manufacturing subcontractor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We are permitted to subcontract certain steps in the clinical manufacturing process to our affiliate, BioNTech IMFS.",
+      "evidence_quotes": [
+        "We are permitted to subcontract certain steps in the clinical manufacturing process to our affiliate, BioNTech IMFS."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 22
+    },
+    {
+      "counterparty_name": "OncoC4",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "license_and_collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "a License and Collaboration Agreement, or the OncoC4 Agreement, for the license, development and commercialization of ONC-392 and all other monoclonal anti- CTLA4 antibodies",
+      "evidence_quotes": [
+        "a License and Collaboration Agreement, or the OncoC4 Agreement, for the license, development and commercialization of ONC-392 and all other monoclonal anti- CTLA4 antibodies"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 23
+    },
+    {
+      "counterparty_name": "Pfizer",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "collaboration_and_commercialization",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we entered into a Collaboration Agreement with Pfizer for the research and development of immunogenic compositions comprising RNA encoding a SARS-CoV-2 polypeptide",
+      "evidence_quotes": [
+        "we entered into a Collaboration Agreement with Pfizer for the research and development of immunogenic compositions comprising RNA encoding a SARS-CoV-2 polypeptide"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 23
+    },
+    {
+      "counterparty_name": "Fosun",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "collaboration_territory",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "collaborate on research, development and commercialization in the Pfizer Corona Field worldwide (excluding the Fosun collaboration territory)",
+      "evidence_quotes": [
+        "collaborate on research, development and commercialization in the Pfizer Corona Field worldwide (excluding the Fosun collaboration territory)"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 23
+    },
+    {
+      "counterparty_name": "FDA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_approval",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In the United States, the FDA regulates drugs under the Federal Food, Drug, and Cosmetic Act",
+      "evidence_quotes": [
+        "In the United States, the FDA regulates drugs under the Federal Food, Drug, and Cosmetic Act"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 23
+    },
+    {
+      "counterparty_name": "FDA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The FDA reviews NDA and BLA applications to determine, among other things, whether the proposed product is safe and potent, and/or effective",
+      "evidence_quotes": [
+        "The FDA reviews NDA and BLA applications to determine, among other things, whether the proposed product is safe and potent, and/or effective"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 24
+    },
+    {
+      "counterparty_name": "FDA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "If regulatory approval for marketing of a product or for a new indication for an existing product is obtained, the sponsor will be required to comply with rigorous and extensive post-approval regulatory requirements as well as any post-approval requirements that",
+      "evidence_quotes": [
+        "If regulatory approval for marketing of a product or for a new indication for an existing product is obtained, the sponsor will be required to comply with rigorous and extensive post-approval regulatory requirements as well as any post-approval requirements that"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 25
+    },
+    {
+      "counterparty_name": "EMA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "During the development of a medicinal product, the European Medicines Agency, or EMA, and national medicines regulators within the European Union provide the opportunity for dialogue and guidance on the development program.",
+      "evidence_quotes": [
+        "During the development of a medicinal product, the European Medicines Agency, or EMA, and national medicines regulators within the European Union provide the opportunity for dialogue and guidance on the development program."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 25
+    },
+    {
+      "counterparty_name": "European Commission",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The centralized procedure provides for the grant of a single marketing authorization by the European Commission that is valid for all European Union and European Economic Area member states.",
+      "evidence_quotes": [
+        "The centralized procedure provides for the grant of a single marketing authorization by the European Commission that is valid for all European Union and European Economic Area member states."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 25
+    },
+    {
+      "counterparty_name": "EMA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The CHMP and CAT are also responsible for providing guidelines on ATMPs and have published numerous guidelines, including specific guidelines on gene therapies and cell therapies.",
+      "evidence_quotes": [
+        "The CHMP and CAT are also responsible for providing guidelines on ATMPs and have published numerous guidelines, including specific guidelines on gene therapies and cell therapies."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 26
+    },
+    {
+      "counterparty_name": "European Commission",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The European Commission may grant a so-called \"marketing authorization under exceptional circumstances.\"",
+      "evidence_quotes": [
+        "The European Commission may grant a so-called \"marketing authorization under exceptional circumstances.\""
+      ],
+      "confidence": 0.95,
+      "chunk_index": 26
+    },
+    {
+      "counterparty_name": "FDA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In order to secure coverage and reimbursement for any product that might be approved for sale, a company may need to conduct expensive pharmacoeconomic studies in order to demonstrate the medical necessity and cost- effectiveness of the product, and the",
+      "evidence_quotes": [
+        "In order to secure coverage and reimbursement for any product that might be approved for sale, a company may need to conduct expensive pharmacoeconomic studies in order to demonstrate the medical necessity and cost- effectiveness of the product, and the"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 26
+    },
+    {
+      "counterparty_name": "Medicare",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "payor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "sales of such product candidates will depend, in part, on the extent to which third-party payors, including government health programs in the United States (such as Medicare and Medicaid), commercial health insurers and managed care organizations, provide coverage",
+      "evidence_quotes": [
+        "sales of such product candidates will depend, in part, on the extent to which third-party payors, including government health programs in the United States (such as Medicare and Medicaid), commercial health insurers and managed care organizations, provide coverage"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 26
+    },
+    {
+      "counterparty_name": "Medicaid",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "payor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "sales of such product candidates will depend, in part, on the extent to which third-party payors, including government health programs in the United States (such as Medicare and Medicaid), commercial health insurers and managed care organizations, provide coverage",
+      "evidence_quotes": [
+        "sales of such product candidates will depend, in part, on the extent to which third-party payors, including government health programs in the United States (such as Medicare and Medicaid), commercial health insurers and managed care organizations, provide coverage"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 26
+    },
+    {
+      "counterparty_name": "European Commission",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "vaccine_procurement",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Currently, COVID-19 vaccine candidates are supplied in the European Union based on vaccine supply agreements with the European Commission that is acting on behalf and in the name of the member states",
+      "evidence_quotes": [
+        "Currently, COVID-19 vaccine candidates are supplied in the European Union based on vaccine supply agreements with the European Commission that is acting on behalf and in the name of the member states"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 27
+    },
+    {
+      "counterparty_name": "NMPA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "China's drug law and regulations require that NMPA's Center for Drug Evaluation, or CDE, approve a clinical trial application prior to initiating a study",
+      "evidence_quotes": [
+        "China's drug law and regulations require that NMPA's Center for Drug Evaluation, or CDE, approve a clinical trial application prior to initiating a study"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 27
+    },
+    {
+      "counterparty_name": "National Health Commission",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the National Health Commission must approve the collection and use of certain human samples containing genetic material and related genetic data",
+      "evidence_quotes": [
+        "the National Health Commission must approve the collection and use of certain human samples containing genetic material and related genetic data"
+      ],
+      "confidence": 0.93,
+      "chunk_index": 27
+    },
+    {
+      "counterparty_name": "FDA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "an international recognition route by which a company relies on a positive CHMP opinion or an approval granted by another reference regulator, including the FDA",
+      "evidence_quotes": [
+        "an international recognition route by which a company relies on a positive CHMP opinion or an approval granted by another reference regulator, including the FDA"
+      ],
+      "confidence": 0.91,
+      "chunk_index": 27
+    },
+    {
+      "counterparty_name": "MHRA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "medicines for supply in the UK are now authorized UK-wide by the Medicines and Healthcare products Regulatory Agency (MHRA) only",
+      "evidence_quotes": [
+        "medicines for supply in the UK are now authorized UK-wide by the Medicines and Healthcare products Regulatory Agency (MHRA) only"
+      ],
+      "confidence": 0.94,
+      "chunk_index": 27
+    },
+    {
+      "counterparty_name": "CMS",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "requires certain manufacturers of drugs, devices, biologics and medical supplies to report annually to the Centers for Medicare & Medicaid Services, or CMS",
+      "evidence_quotes": [
+        "requires certain manufacturers of drugs, devices, biologics and medical supplies to report annually to the Centers for Medicare & Medicaid Services, or CMS"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 27
+    },
+    {
+      "counterparty_name": "WHO",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "authorization by a foreign stringent regulatory authority or registration as a WHO pre-qualified product may be a condition for approval",
+      "evidence_quotes": [
+        "authorization by a foreign stringent regulatory authority or registration as a WHO pre-qualified product may be a condition for approval"
+      ],
+      "confidence": 0.88,
+      "chunk_index": 27
+    },
+    {
+      "counterparty_name": "Medicare",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "government healthcare program",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "exclusion from participation in government funded healthcare programs, such as Medicare and Medicaid",
+      "evidence_quotes": [
+        "exclusion from participation in government funded healthcare programs, such as Medicare and Medicaid"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 28
+    },
+    {
+      "counterparty_name": "Medicaid",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "government healthcare program",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "exclusion from participation in government funded healthcare programs, such as Medicare and Medicaid",
+      "evidence_quotes": [
+        "exclusion from participation in government funded healthcare programs, such as Medicare and Medicaid"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 28
+    },
+    {
+      "counterparty_name": "CMS",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory body",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the Middle Class Tax Relief and Job Creation Act of 2012 required that CMS reduce the Medicare clinical laboratory fee schedule by 2% in 2013",
+      "evidence_quotes": [
+        "the Middle Class Tax Relief and Job Creation Act of 2012 required that CMS reduce the Medicare clinical laboratory fee schedule by 2% in 2013"
+      ],
+      "confidence": 0.8,
+      "chunk_index": 28
+    },
+    {
+      "counterparty_name": "General Services Administration",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "government purchaser",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "If our products are made available to authorized users of the Federal Supply Schedule of the General Services Administration, additional laws and requirements apply",
+      "evidence_quotes": [
+        "If our products are made available to authorized users of the Federal Supply Schedule of the General Services Administration, additional laws and requirements apply"
+      ],
+      "confidence": 0.75,
+      "chunk_index": 28
+    },
+    {
+      "counterparty_name": "FDA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory body",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "FDA has been adapting and applying existing regulatory frameworks to account for AI and has issued guidance, discussion papers, and frameworks outlining FDA's approach to regulation",
+      "evidence_quotes": [
+        "FDA has been adapting and applying existing regulatory frameworks to account for AI and has issued guidance, discussion papers, and frameworks outlining FDA's approach to regulation"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 28
+    },
+    {
+      "counterparty_name": "EMA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory body",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the EMA has published a reflection paper on the use of AI (September 2024), which is aimed at biopharmaceutical companies intending to use AI in the lifecycle of their medicines",
+      "evidence_quotes": [
+        "the EMA has published a reflection paper on the use of AI (September 2024), which is aimed at biopharmaceutical companies intending to use AI in the lifecycle of their medicines"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 28
+    },
+    {
+      "counterparty_name": "Pfizer",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "BNT162b2 Filings, including filings that have arisen through collaboration with third parties such as Pfizer.",
+      "evidence_quotes": [
+        "BNT162b2 Filings, including filings that have arisen through collaboration with third parties such as Pfizer."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 29
+    },
+    {
+      "counterparty_name": "Genentech",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Some of our most advanced clinical oncology programs involve our iNeST immunotherapy product candidates being developed with our collaborator, Genentech.",
+      "evidence_quotes": [
+        "Some of our most advanced clinical oncology programs involve our iNeST immunotherapy product candidates being developed with our collaborator, Genentech."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 29
+    },
+    {
+      "counterparty_name": "TRON",
+      "counterparty_type": "other",
+      "category": "partner",
+      "subtype": "co-ownership",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Such mRNA Lipoplex Filings are solely owned by BioNTech or jointly owned by BioNTech and TRON.",
+      "evidence_quotes": [
+        "Such mRNA Lipoplex Filings are solely owned by BioNTech or jointly owned by BioNTech and TRON."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 29
+    },
+    {
+      "counterparty_name": "mRNA RiboTherapeutics, Inc.",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "license",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We have non-exclusive rights to use certain U.S. and European patent filings owned by University of Pennsylvania and relating to RNA containing modified nucleosides through our sublicense agreements with mRNA RiboTherapeutics, Inc. (MRT) and CellScript",
+      "evidence_quotes": [
+        "We have non-exclusive rights to use certain U.S. and European patent filings owned by University of Pennsylvania and relating to RNA containing modified nucleosides through our sublicense agreements with mRNA RiboTherapeutics, Inc. (MRT) and CellScript"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 29
+    },
+    {
+      "counterparty_name": "CellScript",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "license",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We have non-exclusive rights to use certain U.S. and European patent filings owned by University of Pennsylvania and relating to RNA containing modified nucleosides through our sublicense agreements with mRNA RiboTherapeutics, Inc. (MRT) and CellScript",
+      "evidence_quotes": [
+        "We have non-exclusive rights to use certain U.S. and European patent filings owned by University of Pennsylvania and relating to RNA containing modified nucleosides through our sublicense agreements with mRNA RiboTherapeutics, Inc. (MRT) and CellScript"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 29
+    },
+    {
+      "counterparty_name": "University of Pennsylvania",
+      "counterparty_type": "other",
+      "category": "supplier",
+      "subtype": "license",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We have non-exclusive rights to use certain U.S. and European patent filings owned by University of Pennsylvania and relating to RNA containing modified nucleosides through our sublicense agreements",
+      "evidence_quotes": [
+        "We have non-exclusive rights to use certain U.S. and European patent filings owned by University of Pennsylvania and relating to RNA containing modified nucleosides through our sublicense agreements"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 29
+    },
+    {
+      "counterparty_name": "National Institutes of Health",
+      "counterparty_type": "government",
+      "category": "supplier",
+      "subtype": "license",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We also have a non-exclusive license from the National Institutes of Health granting us a right to use certain technology described in U.S. and European patent filings",
+      "evidence_quotes": [
+        "We also have a non-exclusive license from the National Institutes of Health granting us a right to use certain technology described in U.S. and European patent filings"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 29
+    },
+    {
+      "counterparty_name": "Acuitas",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "license",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we have obtained third-party licenses to technologies relating to certain lipids and/or lipid nanoparticles and formulations used in BNT162b2, including a non-exclusive license from Acuitas granting use rights",
+      "evidence_quotes": [
+        "we have obtained third-party licenses to technologies relating to certain lipids and/or lipid nanoparticles and formulations used in BNT162b2, including a non-exclusive license from Acuitas granting use rights"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 29
+    },
+    {
+      "counterparty_name": "Genevant",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "license",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "certain patent filings we have licensed from Acuitas and Genevant relating to lipid or non-liposomal formulations.",
+      "evidence_quotes": [
+        "certain patent filings we have licensed from Acuitas and Genevant relating to lipid or non-liposomal formulations."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 29
+    },
+    {
+      "counterparty_name": "Acuitas",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "licensing",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In April 2020, we entered into a Non-Exclusive License Agreement with Acuitas, or the Acuitas License Agreement. Under the Acuitas License Agreement, Acuitas grants us a non-exclusive worldwide license",
+      "evidence_quotes": [
+        "In April 2020, we entered into a Non-Exclusive License Agreement with Acuitas, or the Acuitas License Agreement. Under the Acuitas License Agreement, Acuitas grants us a non-exclusive worldwide license"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 30
+    },
+    {
+      "counterparty_name": "Genmab",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "development",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our antibodies product class features bispecific checkpoint immunomodulators for oncology therapy, which are developed through collaboration with Genmab.",
+      "evidence_quotes": [
+        "Our antibodies product class features bispecific checkpoint immunomodulators for oncology therapy, which are developed through collaboration with Genmab."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 30
+    },
+    {
+      "counterparty_name": "MRT",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "licensing",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "BioNTech RNA is obliged to pay MRT and CellScript development milestone payments of up to approximately $26 million as well as royalties in the low to mid-single digits on net sales of licensed products",
+      "evidence_quotes": [
+        "BioNTech RNA is obliged to pay MRT and CellScript development milestone payments of up to approximately $26 million as well as royalties in the low to mid-single digits on net sales of licensed products"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 30
+    },
+    {
+      "counterparty_name": "CellScript",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "licensing",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "BioNTech RNA is obliged to pay MRT and CellScript development milestone payments of up to approximately $26 million as well as royalties in the low to mid-single digits on net sales of licensed products",
+      "evidence_quotes": [
+        "BioNTech RNA is obliged to pay MRT and CellScript development milestone payments of up to approximately $26 million as well as royalties in the low to mid-single digits on net sales of licensed products"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 30
+    },
+    {
+      "counterparty_name": "NIH",
+      "counterparty_type": "government",
+      "category": "supplier",
+      "subtype": "licensing",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "On May 27, 2020, we and the HHS, as represented by the National Institute of Allergy and Infectious Diseases, or NIAID, of the NIH, entered into a patent license agreement",
+      "evidence_quotes": [
+        "On May 27, 2020, we and the HHS, as represented by the National Institute of Allergy and Infectious Diseases, or NIAID, of the NIH, entered into a patent license agreement"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 30
+    },
+    {
+      "counterparty_name": "TRON",
+      "counterparty_type": "other",
+      "category": "partner",
+      "subtype": "research_services",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In 2015, we and our subsidiaries entered into a Master Agreement for Research Services with TRON. Under the TRON Research Agreement, TRON from time to time performs certain services for us under work orders",
+      "evidence_quotes": [
+        "In 2015, we and our subsidiaries entered into a Master Agreement for Research Services with TRON. Under the TRON Research Agreement, TRON from time to time performs certain services for us under work orders"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 30
+    },
+    {
+      "counterparty_name": "Pfizer",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Licensed Products (as defined in the NIH License Agreement, and which includes our and Pfizer's COVID-19 vaccine)",
+      "evidence_quotes": [
+        "Licensed Products (as defined in the NIH License Agreement, and which includes our and Pfizer's COVID-19 vaccine)"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 30
+    },
+    {
+      "counterparty_name": "Genmab",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "collaborator",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Some of our collaborators, such as Genmab and Pfizer, may also be competitors within the same market or other markets.",
+      "evidence_quotes": [
+        "Some of our collaborators, such as Genmab and Pfizer, may also be competitors within the same market or other markets."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 31
+    },
+    {
+      "counterparty_name": "Pfizer",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "collaborator",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Some of our collaborators, such as Genmab and Pfizer, may also be competitors within the same market or other markets.",
+      "evidence_quotes": [
+        "Some of our collaborators, such as Genmab and Pfizer, may also be competitors within the same market or other markets."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 31
+    },
+    {
+      "counterparty_name": "Moderna",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "COVID-19 vaccine competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "our marketed monovalent and bivalent COVID-19 vaccines and any other COVID-19 vaccines we and Pfizer develop compete with other COVID-19 vaccines that have been approved or authorized",
+      "evidence_quotes": [
+        "our marketed monovalent and bivalent COVID-19 vaccines and any other COVID-19 vaccines we and Pfizer develop compete with other COVID-19 vaccines that have been approved or authorized"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 31
+    },
+    {
+      "counterparty_name": "Arbutus Biopharma Corp.",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "lipid nanoparticle technology",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "alleging that Pfizer and we have infringed the following patents owned by Arbutus… through the use of Genevant's lipid nanoparticle technology and methods for producing such lipids in Comirnaty",
+      "evidence_quotes": [
+        "alleging that Pfizer and we have infringed the following patents owned by Arbutus… through the use of Genevant's lipid nanoparticle technology and methods for producing such lipids in Comirnaty"
+      ],
+      "confidence": 0.8,
+      "chunk_index": 31
+    },
+    {
+      "counterparty_name": "Genevant Sciences GmbH",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "lipid nanoparticle technology",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "through the use of Genevant's lipid nanoparticle technology and methods for producing such lipids in Comirnaty",
+      "evidence_quotes": [
+        "through the use of Genevant's lipid nanoparticle technology and methods for producing such lipids in Comirnaty"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 31
+    },
+    {
+      "counterparty_name": "GlaxoSmithKline",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "cationic lipid technology",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "GlaxoSmithKline Biologicals SA and GlaxoSmithKline LLC, or GSK, filed a lawsuit against Pfizer and us… alleging that the cationic lipid used in Comirnaty infringes U.S. Patent Nos.",
+      "evidence_quotes": [
+        "GlaxoSmithKline Biologicals SA and GlaxoSmithKline LLC, or GSK, filed a lawsuit against Pfizer and us… alleging that the cationic lipid used in Comirnaty infringes U.S. Patent Nos."
+      ],
+      "confidence": 0.75,
+      "chunk_index": 31
+    },
+    {
+      "counterparty_name": "CureVac AG",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "mRNA technology",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "CureVac AG, or CureVac, filed a lawsuit against us and our wholly owned subsidiaries… alleging Comirnaty's infringement of one European patent",
+      "evidence_quotes": [
+        "CureVac AG, or CureVac, filed a lawsuit against us and our wholly owned subsidiaries… alleging Comirnaty's infringement of one European patent"
+      ],
+      "confidence": 0.8,
+      "chunk_index": 31
+    },
+    {
+      "counterparty_name": "Pfizer",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "co-development and co-commercialization",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we and Pfizer appealed this written decision",
+      "evidence_quotes": [
+        "we and Pfizer appealed this written decision"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 32
+    },
+    {
+      "counterparty_name": "BMS",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "co-development and co-commercialization alliance",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we and BMS announced a global strategic partnership to co-develop and co-commercialize our next-generation bispecific antibody candidate, pumitamig",
+      "evidence_quotes": [
+        "we and BMS announced a global strategic partnership to co-develop and co-commercialize our next-generation bispecific antibody candidate, pumitamig"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 32
+    },
+    {
+      "counterparty_name": "BMS",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "collaboration_and_licensing",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "On August 15, 2025, we and BMS entered into an amended and restated agreement that replaced the original agreement. The new agreement governs the collaboration",
+      "evidence_quotes": [
+        "On August 15, 2025, we and BMS entered into an amended and restated agreement that replaced the original agreement. The new agreement governs the collaboration"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 33
+    },
+    {
+      "counterparty_name": "German government",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "pandemic_preparedness_contract",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our remaining other revenues were mainly derived from a pandemic preparedness contract with the German government, during the year ended December 31, 2025",
+      "evidence_quotes": [
+        "Our remaining other revenues were mainly derived from a pandemic preparedness contract with the German government, during the year ended December 31, 2025"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 33
+    },
+    {
+      "counterparty_name": "Pfizer",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "covid19_vaccine_collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "higher COVID-19 vaccine sales in our commercialization territory, which included the share of gross profit we owe our collaboration partner Pfizer",
+      "evidence_quotes": [
+        "higher COVID-19 vaccine sales in our commercialization territory, which included the share of gross profit we owe our collaboration partner Pfizer"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 33
+    },
+    {
+      "counterparty_name": "Biotheus",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "license_and_collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "a payment of €565.1 million for the settlement of our pre-existing relationship in connection with the License and Collaboration Agreement with Biotheus entered into in November 2023",
+      "evidence_quotes": [
+        "a payment of €565.1 million for the settlement of our pre-existing relationship in connection with the License and Collaboration Agreement with Biotheus entered into in November 2023"
+      ],
+      "confidence": 0.93,
+      "chunk_index": 33
+    },
+    {
+      "counterparty_name": "CureVac",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "business_combination",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the consideration for the CureVac business combination was mainly settled in ADSs, a positive cash contribution of €264.4 million was generated",
+      "evidence_quotes": [
+        "the consideration for the CureVac business combination was mainly settled in ADSs, a positive cash contribution of €264.4 million was generated"
+      ],
+      "confidence": 0.91,
+      "chunk_index": 33
+    }
+  ],
+  "candidatesPerChunk": [
+    4,
+    1,
+    5,
+    4,
+    5,
+    3,
+    2,
+    3,
+    5,
+    4,
+    4,
+    10,
+    6,
+    7,
+    2,
+    2,
+    4,
+    4,
+    8,
+    13,
+    7,
+    15,
+    7,
+    4,
+    1,
+    3,
+    5,
+    7,
+    6,
+    9,
+    7,
+    7,
+    2,
+    5,
+    0
+  ],
+  "parseErrors": 9,
+  "apiErrors": 0,
+  "inputTokens": 195420,
+  "outputTokens": 19401
+}

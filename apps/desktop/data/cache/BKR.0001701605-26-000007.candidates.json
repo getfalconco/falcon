@@ -1,0 +1,358 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 140678,
+  "chunks": 7,
+  "candidates": [
+    {
+      "counterparty_name": "Cactus",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the Company announced the creation of a joint venture with a subsidiary of Cactus, Inc. (\"Cactus\"), to which Baker Hughes will contribute its surface pressure control business.",
+      "evidence_quotes": [
+        "the Company announced the creation of a joint venture with a subsidiary of Cactus, Inc. (\"Cactus\"), to which Baker Hughes will contribute its surface pressure control business."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Fervo Energy",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "strategic partnership",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we have established strategic partnerships with companies such as Fervo Energy, Frontier Carbon Solutions, HIF Global, and NET Power.",
+      "evidence_quotes": [
+        "we have established strategic partnerships with companies such as Fervo Energy, Frontier Carbon Solutions, HIF Global, and NET Power."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Frontier Carbon Solutions",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "strategic partnership",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we have established strategic partnerships with companies such as Fervo Energy, Frontier Carbon Solutions, HIF Global, and NET Power.",
+      "evidence_quotes": [
+        "we have established strategic partnerships with companies such as Fervo Energy, Frontier Carbon Solutions, HIF Global, and NET Power."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "HIF Global",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "strategic partnership",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we have established strategic partnerships with companies such as Fervo Energy, Frontier Carbon Solutions, HIF Global, and NET Power.",
+      "evidence_quotes": [
+        "we have established strategic partnerships with companies such as Fervo Energy, Frontier Carbon Solutions, HIF Global, and NET Power."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "NET Power",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "strategic partnership",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we have established strategic partnerships with companies such as Fervo Energy, Frontier Carbon Solutions, HIF Global, and NET Power.",
+      "evidence_quotes": [
+        "we have established strategic partnerships with companies such as Fervo Energy, Frontier Carbon Solutions, HIF Global, and NET Power."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "SLB",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "OFSE segment competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "OFSE competitors include SLB, Halliburton, NOV, Weatherford, and TechnipFMC.",
+      "evidence_quotes": [
+        "OFSE competitors include SLB, Halliburton, NOV, Weatherford, and TechnipFMC."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Halliburton",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "OFSE segment competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "OFSE competitors include SLB, Halliburton, NOV, Weatherford, and TechnipFMC.",
+      "evidence_quotes": [
+        "OFSE competitors include SLB, Halliburton, NOV, Weatherford, and TechnipFMC."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "NOV",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "OFSE segment competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "OFSE competitors include SLB, Halliburton, NOV, Weatherford, and TechnipFMC.",
+      "evidence_quotes": [
+        "OFSE competitors include SLB, Halliburton, NOV, Weatherford, and TechnipFMC."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Weatherford",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "OFSE segment competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "OFSE competitors include SLB, Halliburton, NOV, Weatherford, and TechnipFMC.",
+      "evidence_quotes": [
+        "OFSE competitors include SLB, Halliburton, NOV, Weatherford, and TechnipFMC."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "TechnipFMC",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "OFSE segment competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "OFSE competitors include SLB, Halliburton, NOV, Weatherford, and TechnipFMC.",
+      "evidence_quotes": [
+        "OFSE competitors include SLB, Halliburton, NOV, Weatherford, and TechnipFMC."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Siemens Energy",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "IET segment competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "IET main competitors include Siemens Energy, Solar (a Caterpillar company), Mitsubishi Heavy Industry, Sulzer, Flowserve, and Emerson.",
+      "evidence_quotes": [
+        "IET main competitors include Siemens Energy, Solar (a Caterpillar company), Mitsubishi Heavy Industry, Sulzer, Flowserve, and Emerson."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Solar",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "IET segment competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "IET main competitors include Siemens Energy, Solar (a Caterpillar company), Mitsubishi Heavy Industry, Sulzer, Flowserve, and Emerson.",
+      "evidence_quotes": [
+        "IET main competitors include Siemens Energy, Solar (a Caterpillar company), Mitsubishi Heavy Industry, Sulzer, Flowserve, and Emerson."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Mitsubishi Heavy Industry",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "IET segment competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "IET main competitors include Siemens Energy, Solar (a Caterpillar company), Mitsubishi Heavy Industry, Sulzer, Flowserve, and Emerson.",
+      "evidence_quotes": [
+        "IET main competitors include Siemens Energy, Solar (a Caterpillar company), Mitsubishi Heavy Industry, Sulzer, Flowserve, and Emerson."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Sulzer",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "IET segment competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "IET main competitors include Siemens Energy, Solar (a Caterpillar company), Mitsubishi Heavy Industry, Sulzer, Flowserve, and Emerson.",
+      "evidence_quotes": [
+        "IET main competitors include Siemens Energy, Solar (a Caterpillar company), Mitsubishi Heavy Industry, Sulzer, Flowserve, and Emerson."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Flowserve",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "IET segment competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "IET main competitors include Siemens Energy, Solar (a Caterpillar company), Mitsubishi Heavy Industry, Sulzer, Flowserve, and Emerson.",
+      "evidence_quotes": [
+        "IET main competitors include Siemens Energy, Solar (a Caterpillar company), Mitsubishi Heavy Industry, Sulzer, Flowserve, and Emerson."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Emerson",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "IET segment competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "IET main competitors include Siemens Energy, Solar (a Caterpillar company), Mitsubishi Heavy Industry, Sulzer, Flowserve, and Emerson.",
+      "evidence_quotes": [
+        "IET main competitors include Siemens Energy, Solar (a Caterpillar company), Mitsubishi Heavy Industry, Sulzer, Flowserve, and Emerson."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Crane Company",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "divestiture buyer of PSI business",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the Company announced the sale of its PSI business to Crane Company, a diversified manufacturer of engineered industrial products.",
+      "evidence_quotes": [
+        "the Company announced the sale of its PSI business to Crane Company, a diversified manufacturer of engineered industrial products."
+      ],
+      "confidence": 0.7,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "GE Aerospace",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "intellectual_property_cross_license",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "an intellectual property cross-license agreement with GE Aerospace, GE Vernova, and GE HealthCare that allows all parties to have continued rights to commercially utilize certain intellectual property of the other pursuant to the terms of the agreement",
+      "evidence_quotes": [
+        "an intellectual property cross-license agreement with GE Aerospace, GE Vernova, and GE HealthCare that allows all parties to have continued rights to commercially utilize certain intellectual property of the other pursuant to the terms of the agreement"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "GE Vernova",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "intellectual_property_cross_license",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "an intellectual property cross-license agreement with GE Aerospace, GE Vernova, and GE HealthCare that allows all parties to have continued rights to commercially utilize certain intellectual property of the other pursuant to the terms of the agreement",
+      "evidence_quotes": [
+        "an intellectual property cross-license agreement with GE Aerospace, GE Vernova, and GE HealthCare that allows all parties to have continued rights to commercially utilize certain intellectual property of the other pursuant to the terms of the agreement"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "GE HealthCare",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "intellectual_property_cross_license",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "an intellectual property cross-license agreement with GE Aerospace, GE Vernova, and GE HealthCare that allows all parties to have continued rights to commercially utilize certain intellectual property of the other pursuant to the terms of the agreement",
+      "evidence_quotes": [
+        "an intellectual property cross-license agreement with GE Aerospace, GE Vernova, and GE HealthCare that allows all parties to have continued rights to commercially utilize certain intellectual property of the other pursuant to the terms of the agreement"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "GE Vernova",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "gas_turbine_technology_license",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "a heavy duty gas turbine distribution and supply agreement that licenses certain intellectual property of GE Vernova to Baker Hughes",
+      "evidence_quotes": [
+        "a heavy duty gas turbine distribution and supply agreement that licenses certain intellectual property of GE Vernova to Baker Hughes"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "GE Aerospace",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "aeroderivative_technology_supply",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "a second amended and restated supply and technology development agreement with GE Vernova, GE Aerospace, and the aeroderivative joint venture (\"Aero JV\") which governs the supply of certain aeroderivative technology to us",
+      "evidence_quotes": [
+        "a second amended and restated supply and technology development agreement with GE Vernova, GE Aerospace, and the aeroderivative joint venture (\"Aero JV\") which governs the supply of certain aeroderivative technology to us"
+      ],
+      "confidence": 0.8,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Aero JV",
+      "counterparty_type": "other",
+      "category": "supplier",
+      "subtype": "aeroderivative_technology_supply",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "a second amended and restated supply and technology development agreement with GE Vernova, GE Aerospace, and the aeroderivative joint venture (\"Aero JV\") which governs the supply of certain aeroderivative technology to us",
+      "evidence_quotes": [
+        "a second amended and restated supply and technology development agreement with GE Vernova, GE Aerospace, and the aeroderivative joint venture (\"Aero JV\") which governs the supply of certain aeroderivative technology to us"
+      ],
+      "confidence": 0.75,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "GE Vernova",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "long-term supply agreement",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We currently have extensive commercial relationships with GE Vernova and GE Aerospace.",
+      "evidence_quotes": [
+        "We currently have extensive commercial relationships with GE Vernova and GE Aerospace."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "GE Aerospace",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "long-term supply agreement",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We currently have extensive commercial relationships with GE Vernova and GE Aerospace.",
+      "evidence_quotes": [
+        "We currently have extensive commercial relationships with GE Vernova and GE Aerospace."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "GE Vernova",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint venture (Aero JV)",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The Aero JV is jointly controlled by GE Vernova and us, and as a result, realizing the benefits of this joint venture depends on the continued cooperation between the parties.",
+      "evidence_quotes": [
+        "The Aero JV is jointly controlled by GE Vernova and us, and as a result, realizing the benefits of this joint venture depends on the continued cooperation between the parties."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 3
+    }
+  ],
+  "candidatesPerChunk": [
+    17,
+    6,
+    0,
+    3,
+    0,
+    0,
+    0
+  ],
+  "parseErrors": 5,
+  "apiErrors": 0,
+  "inputTokens": 171828,
+  "outputTokens": 3759
+}

@@ -1,0 +1,58 @@
+[
+  {
+    "counterparty_name": "Boehringer Ingelheim",
+    "category": "partner",
+    "subtype": "collaboration",
+    "evidence_quote": "Jardiance In collaboration with Boehringer Ingelheim, for the treatment of type 2 diabetes",
+    "confidence": 0.95,
+    "merged_into": "Boehringer Ingelheim"
+  },
+  {
+    "counterparty_name": "Boehringer Ingelheim",
+    "category": "partner",
+    "subtype": "collaboration",
+    "evidence_quote": "Jardiance is part of our Boehringer Ingelheim collaboration.",
+    "confidence": 0.95,
+    "merged_into": "Boehringer Ingelheim"
+  },
+  {
+    "counterparty_name": "Boehringer Ingelheim",
+    "category": "partner",
+    "subtype": "collaboration",
+    "evidence_quote": "HHS selected Jardiance, which is part of our collaboration with Boehringer Ingelheim, as one of the first ten medicines subject to government-set prices",
+    "confidence": 0.95,
+    "merged_into": "Boehringer Ingelheim"
+  },
+  {
+    "counterparty_name": "Boehringer Ingelheim",
+    "category": "partner",
+    "subtype": "collaboration",
+    "evidence_quote": "For example, in August 2023, HHS selected Jardiance, which is part of our collaboration with Boehringer Ingelheim, as one of the first ten medicines subject to government-set prices",
+    "confidence": 0.95,
+    "merged_into": "Boehringer Ingelheim"
+  },
+  {
+    "counterparty_name": "China",
+    "category": "dependency",
+    "subtype": "regulatory_and_market_access",
+    "evidence_quote": "we, and the pharmaceutical industry generally, depend on China-based suppliers for portions of our supply chain",
+    "confidence": 0.9,
+    "merged_into": "China"
+  },
+  {
+    "counterparty_name": "China",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "In some markets, including the EU, Japan, and China, governments have significant power as large single payors to regulate prices and access criteria",
+    "confidence": 0.85,
+    "merged_into": "China"
+  },
+  {
+    "counterparty_name": "FDA",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "We rely on the FDA and other global regulatory bodies for appropriate oversight, administration and enforcement across our industry",
+    "confidence": 0.95,
+    "merged_into": "FDA"
+  }
+]

@@ -1,0 +1,364 @@
+[
+  {
+    "root_ticker": "GD",
+    "counterparty_name": "U.S. Navy",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "customer",
+    "subtype": "defense_customer",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.98,
+    "evidence": [
+      {
+        "quote": "Our Marine Systems segment is the leading designer and builder of nuclear-powered submarines and a leader in surface combatant and auxiliary ship design and construction for the U.S. Navy.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/40533/000004053326000006/gd-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-30",
+    "shared_evidence_group": "ev_e4ebdbd71770"
+  },
+  {
+    "root_ticker": "GD",
+    "counterparty_name": "DSEC Co., Ltd",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "design_and_procurement_partner",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "NASSCO has partnered with a leading South Korean ship design and equipment procurement company, DSEC Co., Ltd, (DSEC), to design and build many large ocean-going commercial vessels",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/40533/000004053326000006/gd-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-30",
+    "shared_evidence_group": "ev_d5a6a812d261"
+  },
+  {
+    "root_ticker": "GD",
+    "counterparty_name": "U.S. Marine Corps",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "customer",
+    "subtype": "defense_customer",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "The Advanced Reconnaissance Vehicle (ARV) for the U.S. Marine Corps will provide sensors, communications systems and lethality options to overmatch threats",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/40533/000004053326000006/gd-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-30",
+    "shared_evidence_group": "ev_4b0b94acfbe6"
+  },
+  {
+    "root_ticker": "GD",
+    "counterparty_name": "Canadian army",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "customer",
+    "subtype": "military_vehicle_customer",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Land Systems is producing 515 new LAVs for the Canadian army in nine variants",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/40533/000004053326000006/gd-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "Land Systems is producing 515 new LAVs for the Canadian army in nine variants, including ambulances, command posts, maintenance and recovery vehicles, and troop-carrying vehicles",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/40533/000004053326000006/gd-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "For the Canadian Army, we provide the Land Command, Control, Communications, Computers, Intelligence, Surveillance and Reconnaissance (C4ISR) system.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/40533/000004053326000006/gd-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-30",
+    "shared_evidence_group": "ev_5a8ef9a963b0"
+  },
+  {
+    "root_ticker": "GD",
+    "counterparty_name": "U.K. Armed Forces",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "customer",
+    "subtype": "defense_customer",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.91,
+    "evidence": [
+      {
+        "quote": "the first fully digitized ground combat vehicle in the U.K. Armed Forces",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/40533/000004053326000006/gd-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-30",
+    "shared_evidence_group": "ev_10d9fa5cc2f2"
+  },
+  {
+    "root_ticker": "GD",
+    "counterparty_name": "Germany",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "customer",
+    "subtype": "military_vehicle_customer",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "We are currently providing the Piranha 5 family of vehicles for several countries, including Germany, Romania, Spain and Denmark.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/40533/000004053326000006/gd-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-30",
+    "shared_evidence_group": "ev_936386329bbb"
+  },
+  {
+    "root_ticker": "GD",
+    "counterparty_name": "Romania",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "customer",
+    "subtype": "military_vehicle_customer",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "We are currently providing the Piranha 5 family of vehicles for several countries, including Germany, Romania, Spain and Denmark.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/40533/000004053326000006/gd-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-30",
+    "shared_evidence_group": "ev_936386329bbb"
+  },
+  {
+    "root_ticker": "GD",
+    "counterparty_name": "Spain",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "customer",
+    "subtype": "military_vehicle_customer",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "We are currently providing the Piranha 5 family of vehicles for several countries, including Germany, Romania, Spain and Denmark.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/40533/000004053326000006/gd-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-30",
+    "shared_evidence_group": "ev_936386329bbb"
+  },
+  {
+    "root_ticker": "GD",
+    "counterparty_name": "Denmark",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "customer",
+    "subtype": "military_vehicle_customer",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "We are currently providing the Piranha 5 family of vehicles for several countries, including Germany, Romania, Spain and Denmark.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/40533/000004053326000006/gd-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-30",
+    "shared_evidence_group": "ev_936386329bbb"
+  },
+  {
+    "root_ticker": "GD",
+    "counterparty_name": "Switzerland",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "customer",
+    "subtype": "military_vehicle_customer",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "the Heavy Mission Carrier (HMC) self-propelled howitzer based on the 10x10 variant for Switzerland",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/40533/000004053326000006/gd-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-30",
+    "shared_evidence_group": "ev_60727e29aebf"
+  },
+  {
+    "root_ticker": "GD",
+    "counterparty_name": "Luxembourg",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "customer",
+    "subtype": "military_vehicle_customer",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "is currently producing these vehicles for Germany, Switzerland and Luxembourg",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/40533/000004053326000006/gd-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-30",
+    "shared_evidence_group": "ev_91a5eddf7bd0"
+  },
+  {
+    "root_ticker": "GD",
+    "counterparty_name": "Centers for Medicare and Medicaid Services",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "customer",
+    "subtype": "federal_it_customer",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "GDIT is operating and modernizing the Healthcare Integrated General Ledger Accounting System (HIGLAS) for the Centers for Medicare and Medicaid Services (CMS).",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/40533/000004053326000006/gd-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-30",
+    "shared_evidence_group": "ev_5ce61a07626e"
+  },
+  {
+    "root_ticker": "GD",
+    "counterparty_name": "National Geospatial-Intelligence Agency",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "customer",
+    "subtype": "federal_it_customer",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Under the User Facing and Data Center Services (UDS) contract for the National Geospatial-Intelligence Agency (NGA), GDIT is providing hybrid cloud services",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/40533/000004053326000006/gd-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-30",
+    "shared_evidence_group": "ev_62d9b2bc4047"
+  },
+  {
+    "root_ticker": "GD",
+    "counterparty_name": "U.S. Space Development Agency",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "customer",
+    "subtype": "space_systems_customer",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "The U.S. Space Development Agency (SDA) selected Mission Systems to establish the ground operations and integration segment",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/40533/000004053326000006/gd-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-30",
+    "shared_evidence_group": "ev_811a14ec26a2"
+  },
+  {
+    "root_ticker": "GD",
+    "counterparty_name": "Civil Aviation Administration of Israel",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "dependency",
+    "subtype": "regulatory",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "subject to FAA regulation in the United States and other similar aviation regulatory authorities internationally, including the Civil Aviation Administration of Israel (CAAI)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/40533/000004053326000006/gd-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-30",
+    "shared_evidence_group": "ev_4f948ba6b4ba"
+  },
+  {
+    "root_ticker": "GD",
+    "counterparty_name": "European Aviation Safety Agency",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "dependency",
+    "subtype": "regulatory",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "other similar aviation regulatory authorities internationally, including the Civil Aviation Administration of Israel (CAAI), the European Aviation Safety Agency (EASA)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/40533/000004053326000006/gd-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-30",
+    "shared_evidence_group": "ev_3d508553e660"
+  }
+]

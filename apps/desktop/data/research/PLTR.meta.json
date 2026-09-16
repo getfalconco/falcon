@@ -1,0 +1,13 @@
+{
+  "ticker": "PLTR",
+  "companyName": "Palantir Technologies Inc.",
+  "form": "10-K",
+  "filingDate": "2026-02-17",
+  "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1321655/000132165526000011/pltr-20251231.htm",
+  "generatedAt": "2026-07-25T20:06:58.589Z",
+  "cacheKey": "PLTR|0001321655-26-000011|5",
+  "accessionNumber": "0001321655-26-000011",
+  "validatedCount": 6,
+  "rejectedCount": 24,
+  "mergedCount": 2
+}

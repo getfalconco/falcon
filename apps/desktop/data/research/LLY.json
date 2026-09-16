@@ -1,0 +1,313 @@
+[
+  {
+    "root_ticker": "LLY",
+    "counterparty_name": "Boehringer Ingelheim",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "collaboration",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Basaglar In collaboration with Boehringer Ingelheim, a long-acting human insulin analog for the treatment of diabetes.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/59478/000005947826000013/lly-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "Jardiance In collaboration with Boehringer Ingelheim, for the treatment of type 2 diabetes",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/59478/000005947826000013/lly-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "Jardiance is part of our Boehringer Ingelheim collaboration.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/59478/000005947826000013/lly-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-12",
+    "shared_evidence_group": "ev_8e9a0768290a"
+  },
+  {
+    "root_ticker": "LLY",
+    "counterparty_name": "Innovent Biologics, Inc.",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "collaboration",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Tyvyt In collaboration with Innovent Biologics, Inc., for the treatment of relapsed or refractory classic Hodgkin's lymphoma",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/59478/000005947826000013/lly-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-12",
+    "shared_evidence_group": "ev_36c64390e708"
+  },
+  {
+    "root_ticker": "LLY",
+    "counterparty_name": "Almirall S.A.",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "collaboration",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Ebglyss For the treatment of adult and adolescent patients 12 years or older with moderate to severe atopic dermatitis (in Europe, in collaboration with Almirall S.A.).",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/59478/000005947826000013/lly-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-12",
+    "shared_evidence_group": "ev_d3d5e885054c"
+  },
+  {
+    "root_ticker": "LLY",
+    "counterparty_name": "Incyte Corporation",
+    "counterparty_ticker": "INCY",
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "collaboration",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Olumiant In collaboration with Incyte Corporation, for the treatment of adults with moderately to severely active rheumatoid arthritis",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/59478/000005947826000013/lly-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-12",
+    "shared_evidence_group": "ev_57ba8bd3f3dc"
+  },
+  {
+    "root_ticker": "LLY",
+    "counterparty_name": "McKesson Corporation",
+    "counterparty_ticker": "MCK",
+    "counterparty_type": "public_company",
+    "category": "customer",
+    "subtype": "wholesale_distributor",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "In 2025, 2024, and 2023, three wholesale distributors in the U.S.—McKesson Corporation, Cencora, Inc., and Cardinal Health, Inc.—each accounted for a significant percentage of our consolidated revenue.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/59478/000005947826000013/lly-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-12",
+    "shared_evidence_group": "ev_c9cf059cf51b"
+  },
+  {
+    "root_ticker": "LLY",
+    "counterparty_name": "Cencora, Inc.",
+    "counterparty_ticker": "COR",
+    "counterparty_type": "public_company",
+    "category": "customer",
+    "subtype": "wholesale_distributor",
+    "strength": 1,
+    "strength_tier": "critical",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "In 2025, 2024, and 2023, three wholesale distributors in the U.S.—McKesson Corporation, Cencora, Inc., and Cardinal Health, Inc.—each accounted for a significant percentage of our consolidated revenue.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/59478/000005947826000013/lly-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-12",
+    "shared_evidence_group": "ev_c9cf059cf51b"
+  },
+  {
+    "root_ticker": "LLY",
+    "counterparty_name": "Cardinal Health, Inc.",
+    "counterparty_ticker": "CAH",
+    "counterparty_type": "public_company",
+    "category": "customer",
+    "subtype": "wholesale_distributor",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.98,
+    "evidence": [
+      {
+        "quote": "In 2025, 2024, and 2023, three wholesale distributors in the U.S.—McKesson Corporation, Cencora, Inc., and Cardinal Health, Inc.—each accounted for a significant percentage of our consolidated revenue.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/59478/000005947826000013/lly-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-12",
+    "shared_evidence_group": "ev_c9cf059cf51b"
+  },
+  {
+    "root_ticker": "LLY",
+    "counterparty_name": "FDA",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "strength": 1,
+    "strength_tier": "critical",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Pursuant to laws and regulations that include the Federal Food, Drug, and Cosmetic Act (FDCA) and the Public Health Service Act (PHSA), the FDA exercises jurisdiction over all of our products and devices in the U.S.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/59478/000005947826000013/lly-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "We rely on the FDA and other global regulatory bodies for appropriate oversight, administration and enforcement across our industry",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/59478/000005947826000013/lly-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-12",
+    "shared_evidence_group": "ev_c412b8c35461"
+  },
+  {
+    "root_ticker": "LLY",
+    "counterparty_name": "EMA",
+    "counterparty_ticker": null,
+    "counterparty_type": "regulatory_agency",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "Outside the U.S., our products and operations are subject to similar regulatory requirements, notably by the EMA in the EU",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/59478/000005947826000013/lly-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-12",
+    "shared_evidence_group": "ev_327f872c9a6f"
+  },
+  {
+    "root_ticker": "LLY",
+    "counterparty_name": "Ministry of Health, Labor and Welfare",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "partner",
+    "subtype": "regulatory_authority",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.88,
+    "evidence": [
+      {
+        "quote": "Outside the U.S., our products and operations are subject to similar regulatory requirements, notably by the EMA in the EU, the Ministry of Health, Labor and Welfare in Japan",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/59478/000005947826000013/lly-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-12",
+    "shared_evidence_group": "ev_58348758a2c3"
+  },
+  {
+    "root_ticker": "LLY",
+    "counterparty_name": "China",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "dependency",
+    "subtype": "supplier_jurisdiction",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "we, and the pharmaceutical industry generally, depend on China-based suppliers for portions of our supply chain, including integral chemical synthesis, reagents, starting materials, and ingredients.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/59478/000005947826000013/lly-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "we, and the pharmaceutical industry generally, depend on China-based suppliers for portions of our supply chain",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/59478/000005947826000013/lly-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "In some markets, including the EU, Japan, and China, governments have significant power as large single payors to regulate prices and access criteria",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/59478/000005947826000013/lly-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-12",
+    "shared_evidence_group": "ev_40d82cd6ff05"
+  },
+  {
+    "root_ticker": "LLY",
+    "counterparty_name": "CVS Caremark",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "pharmacy_benefit_manager",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.85,
+    "evidence": [
+      {
+        "quote": "For example, in July 2025, CVS Caremark, the pharmacy benefit management division of CVS Health, stopped covering Zepbound as a preferred obesity management medicine on some insurance plans",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/59478/000005947826000013/lly-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-12",
+    "shared_evidence_group": "ev_e124a56d1718"
+  },
+  {
+    "root_ticker": "LLY",
+    "counterparty_name": "HHS",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "dependency",
+    "subtype": "regulatory_pricing_authority",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "For example, in August 2023, HHS selected Jardiance, which is part of our collaboration with Boehringer Ingelheim, as one of the first ten medicines subject to government-set prices in Medicare",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/59478/000005947826000013/lly-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-12",
+    "shared_evidence_group": "ev_35679b1b8e38"
+  }
+]

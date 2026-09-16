@@ -1,0 +1,18 @@
+[
+  {
+    "counterparty_name": "Intel",
+    "category": "supplier",
+    "subtype": "talent_source",
+    "evidence_quote": "Prior to joining us in May 2017, he was a Senior Director of Technology and Manufacturing Group of Quality and Reliability at Intel.",
+    "confidence": 0.75,
+    "merged_into": "Intel"
+  },
+  {
+    "counterparty_name": "NYSE",
+    "category": "dependency",
+    "subtype": "exchange_listing",
+    "evidence_quote": "Our ADSs are listed on the NYSE, and we therefore expect that dividends we pay with respect to the ADSs will be qualified dividend income.",
+    "confidence": 0.85,
+    "merged_into": "NYSE"
+  }
+]

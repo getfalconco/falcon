@@ -1,0 +1,839 @@
+{
+ "recorded_at": "2026-08-22",
+ "incident": {
+  "incident_id": "edd9aa05-61eb-5087-acb6-2043e8a44528",
+  "ticker": "META",
+  "trigger_type": "organic",
+  "window_start": "2026-08-19T10:41:59.996Z",
+  "window_end": "2026-08-19T18:41:59.996Z",
+  "window_status": "closed",
+  "composite_tags": [],
+  "priority": 21,
+  "priority_band": "P2",
+  "degraded_context": false,
+  "discovery_floor_applied": false,
+  "earnings_absorption": false,
+  "messages": [
+   {
+    "id": "029a182a-7c67-4709-bfb4-726c973358f5",
+    "schema_version": 1,
+    "type": "insider_filing",
+    "ticker": "META",
+    "timestamp": "2026-08-19T10:41:59.996Z",
+    "source_engine": "tracker",
+    "context_flags": [],
+    "quant_context": {
+     "beta_90d": 1.1220474730999357,
+     "r_squared": 0.10736672847359274,
+     "daily_vol_30d": 0.02484366048867004,
+     "vol_regime": 1.3429586829736238,
+     "move_today": -0.00033015275358483365,
+     "move_zscore": -0.013289215320560347,
+     "residual_move": -0.0004894754829383985,
+     "residual_zscore": -0.027527626785934397,
+     "volume_ratio": 1.4520744027189472,
+     "volume_ratio_partial": true,
+     "momentum_5d": -0.09003205181101592,
+     "momentum_20d": -0.15319738006062278,
+     "momentum_60d": -0.10157513016114605,
+     "pct_from_52w_high": -0.29898519485585107,
+     "pct_from_52w_low": 0.037977112099119026,
+     "earnings_rhythm": 0.09560923303974081,
+     "prev_close": 545.1799926757812,
+     "last_price": 545,
+     "price_asof": "2026-08-19T10:41:49.000Z",
+     "session": "pre"
+    },
+    "payload": {
+     "insider_name": "Olivan Javier",
+     "role": "Chief Operating Officer",
+     "transaction_code": "M",
+     "is_10b5_1_plan": false,
+     "shares": 6791,
+     "value": 0,
+     "filed_at": "2026-08-18T00:00:00.000Z"
+    }
+   },
+   {
+    "id": "0a397c3f-137e-40d2-9669-0e42c1ba5ed6",
+    "schema_version": 1,
+    "type": "insider_filing",
+    "ticker": "META",
+    "timestamp": "2026-08-19T10:41:59.996Z",
+    "source_engine": "tracker",
+    "context_flags": [],
+    "quant_context": {
+     "beta_90d": 1.1220474730999357,
+     "r_squared": 0.10736672847359274,
+     "daily_vol_30d": 0.02484366048867004,
+     "vol_regime": 1.3429586829736238,
+     "move_today": -0.00033015275358483365,
+     "move_zscore": -0.013289215320560347,
+     "residual_move": -0.0004894754829383985,
+     "residual_zscore": -0.027527626785934397,
+     "volume_ratio": 1.4520744027189472,
+     "volume_ratio_partial": true,
+     "momentum_5d": -0.09003205181101592,
+     "momentum_20d": -0.15319738006062278,
+     "momentum_60d": -0.10157513016114605,
+     "pct_from_52w_high": -0.29898519485585107,
+     "pct_from_52w_low": 0.037977112099119026,
+     "earnings_rhythm": 0.09560923303974081,
+     "prev_close": 545.1799926757812,
+     "last_price": 545,
+     "price_asof": "2026-08-19T10:41:49.000Z",
+     "session": "pre"
+    },
+    "payload": {
+     "insider_name": "Bosworth Andrew",
+     "role": "Chief Technology Officer",
+     "transaction_code": "M",
+     "is_10b5_1_plan": false,
+     "shares": 6791,
+     "value": 0,
+     "filed_at": "2026-08-18T00:00:00.000Z"
+    }
+   },
+   {
+    "id": "1587f878-7665-4865-96a8-78ac72cc463d",
+    "schema_version": 1,
+    "type": "insider_filing",
+    "ticker": "META",
+    "timestamp": "2026-08-19T10:41:59.996Z",
+    "source_engine": "tracker",
+    "context_flags": [],
+    "quant_context": {
+     "beta_90d": 1.1220474730999357,
+     "r_squared": 0.10736672847359274,
+     "daily_vol_30d": 0.02484366048867004,
+     "vol_regime": 1.3429586829736238,
+     "move_today": -0.00033015275358483365,
+     "move_zscore": -0.013289215320560347,
+     "residual_move": -0.0004894754829383985,
+     "residual_zscore": -0.027527626785934397,
+     "volume_ratio": 1.4520744027189472,
+     "volume_ratio_partial": true,
+     "momentum_5d": -0.09003205181101592,
+     "momentum_20d": -0.15319738006062278,
+     "momentum_60d": -0.10157513016114605,
+     "pct_from_52w_high": -0.29898519485585107,
+     "pct_from_52w_low": 0.037977112099119026,
+     "earnings_rhythm": 0.09560923303974081,
+     "prev_close": 545.1799926757812,
+     "last_price": 545,
+     "price_asof": "2026-08-19T10:41:49.000Z",
+     "session": "pre"
+    },
+    "payload": {
+     "insider_name": "Anderson Aaron",
+     "role": "Chief Accounting Officer",
+     "transaction_code": "M",
+     "is_10b5_1_plan": false,
+     "shares": 1450,
+     "value": 0,
+     "filed_at": "2026-08-18T00:00:00.000Z"
+    }
+   },
+   {
+    "id": "1ca87252-b110-4d5b-a0f7-b2cf77eff50a",
+    "schema_version": 1,
+    "type": "insider_filing",
+    "ticker": "META",
+    "timestamp": "2026-08-19T10:41:59.996Z",
+    "source_engine": "tracker",
+    "context_flags": [],
+    "quant_context": {
+     "beta_90d": 1.1220474730999357,
+     "r_squared": 0.10736672847359274,
+     "daily_vol_30d": 0.02484366048867004,
+     "vol_regime": 1.3429586829736238,
+     "move_today": -0.00033015275358483365,
+     "move_zscore": -0.013289215320560347,
+     "residual_move": -0.0004894754829383985,
+     "residual_zscore": -0.027527626785934397,
+     "volume_ratio": 1.4520744027189472,
+     "volume_ratio_partial": true,
+     "momentum_5d": -0.09003205181101592,
+     "momentum_20d": -0.15319738006062278,
+     "momentum_60d": -0.10157513016114605,
+     "pct_from_52w_high": -0.29898519485585107,
+     "pct_from_52w_low": 0.037977112099119026,
+     "earnings_rhythm": 0.09560923303974081,
+     "prev_close": 545.1799926757812,
+     "last_price": 545,
+     "price_asof": "2026-08-19T10:41:49.000Z",
+     "session": "pre"
+    },
+    "payload": {
+     "insider_name": "LI SUSAN J",
+     "role": "Chief Financial Officer",
+     "transaction_code": "C",
+     "is_10b5_1_plan": false,
+     "shares": 2400,
+     "value": 0,
+     "filed_at": "2026-08-18T00:00:00.000Z"
+    }
+   },
+   {
+    "id": "27b489fd-cc8a-488e-95dc-aea37e04094e",
+    "schema_version": 1,
+    "type": "insider_filing",
+    "ticker": "META",
+    "timestamp": "2026-08-19T10:41:59.996Z",
+    "source_engine": "tracker",
+    "context_flags": [],
+    "quant_context": {
+     "beta_90d": 1.1220474730999357,
+     "r_squared": 0.10736672847359274,
+     "daily_vol_30d": 0.02484366048867004,
+     "vol_regime": 1.3429586829736238,
+     "move_today": -0.00033015275358483365,
+     "move_zscore": -0.013289215320560347,
+     "residual_move": -0.0004894754829383985,
+     "residual_zscore": -0.027527626785934397,
+     "volume_ratio": 1.4520744027189472,
+     "volume_ratio_partial": true,
+     "momentum_5d": -0.09003205181101592,
+     "momentum_20d": -0.15319738006062278,
+     "momentum_60d": -0.10157513016114605,
+     "pct_from_52w_high": -0.29898519485585107,
+     "pct_from_52w_low": 0.037977112099119026,
+     "earnings_rhythm": 0.09560923303974081,
+     "prev_close": 545.1799926757812,
+     "last_price": 545,
+     "price_asof": "2026-08-19T10:41:49.000Z",
+     "session": "pre"
+    },
+    "payload": {
+     "insider_name": "Elkann John",
+     "role": "director",
+     "transaction_code": "M",
+     "is_10b5_1_plan": false,
+     "shares": 110,
+     "value": 0,
+     "filed_at": "2026-08-18T00:00:00.000Z"
+    }
+   },
+   {
+    "id": "646de900-1562-4586-94b0-af060d35d149",
+    "schema_version": 1,
+    "type": "insider_filing",
+    "ticker": "META",
+    "timestamp": "2026-08-19T10:41:59.996Z",
+    "source_engine": "tracker",
+    "context_flags": [],
+    "quant_context": {
+     "beta_90d": 1.1220474730999357,
+     "r_squared": 0.10736672847359274,
+     "daily_vol_30d": 0.02484366048867004,
+     "vol_regime": 1.3429586829736238,
+     "move_today": -0.00033015275358483365,
+     "move_zscore": -0.013289215320560347,
+     "residual_move": -0.0004894754829383985,
+     "residual_zscore": -0.027527626785934397,
+     "volume_ratio": 1.4520744027189472,
+     "volume_ratio_partial": true,
+     "momentum_5d": -0.09003205181101592,
+     "momentum_20d": -0.15319738006062278,
+     "momentum_60d": -0.10157513016114605,
+     "pct_from_52w_high": -0.29898519485585107,
+     "pct_from_52w_low": 0.037977112099119026,
+     "earnings_rhythm": 0.09560923303974081,
+     "prev_close": 545.1799926757812,
+     "last_price": 545,
+     "price_asof": "2026-08-19T10:41:49.000Z",
+     "session": "pre"
+    },
+    "payload": {
+     "insider_name": "Collison Patrick",
+     "role": "director",
+     "transaction_code": "M",
+     "is_10b5_1_plan": false,
+     "shares": 103,
+     "value": 0,
+     "filed_at": "2026-08-18T00:00:00.000Z"
+    }
+   },
+   {
+    "id": "7b350e06-01ec-48a5-a924-8653c7cae67c",
+    "schema_version": 1,
+    "type": "insider_filing",
+    "ticker": "META",
+    "timestamp": "2026-08-19T10:41:59.996Z",
+    "source_engine": "tracker",
+    "context_flags": [],
+    "quant_context": {
+     "beta_90d": 1.1220474730999357,
+     "r_squared": 0.10736672847359274,
+     "daily_vol_30d": 0.02484366048867004,
+     "vol_regime": 1.3429586829736238,
+     "move_today": -0.00033015275358483365,
+     "move_zscore": -0.013289215320560347,
+     "residual_move": -0.0004894754829383985,
+     "residual_zscore": -0.027527626785934397,
+     "volume_ratio": 1.4520744027189472,
+     "volume_ratio_partial": true,
+     "momentum_5d": -0.09003205181101592,
+     "momentum_20d": -0.15319738006062278,
+     "momentum_60d": -0.10157513016114605,
+     "pct_from_52w_high": -0.29898519485585107,
+     "pct_from_52w_low": 0.037977112099119026,
+     "earnings_rhythm": 0.09560923303974081,
+     "prev_close": 545.1799926757812,
+     "last_price": 545,
+     "price_asof": "2026-08-19T10:41:49.000Z",
+     "session": "pre"
+    },
+    "payload": {
+     "insider_name": "Mahoney Curtis J.",
+     "role": "Chief Legal Officer",
+     "transaction_code": "M",
+     "is_10b5_1_plan": false,
+     "shares": 4757,
+     "value": 0,
+     "filed_at": "2026-08-18T00:00:00.000Z"
+    }
+   },
+   {
+    "id": "9caf3788-1bec-48e3-bd3b-b316c3c5b731",
+    "schema_version": 1,
+    "type": "insider_filing",
+    "ticker": "META",
+    "timestamp": "2026-08-19T10:41:59.996Z",
+    "source_engine": "tracker",
+    "context_flags": [],
+    "quant_context": {
+     "beta_90d": 1.1220474730999357,
+     "r_squared": 0.10736672847359274,
+     "daily_vol_30d": 0.02484366048867004,
+     "vol_regime": 1.3429586829736238,
+     "move_today": -0.00033015275358483365,
+     "move_zscore": -0.013289215320560347,
+     "residual_move": -0.0004894754829383985,
+     "residual_zscore": -0.027527626785934397,
+     "volume_ratio": 1.4520744027189472,
+     "volume_ratio_partial": true,
+     "momentum_5d": -0.09003205181101592,
+     "momentum_20d": -0.15319738006062278,
+     "momentum_60d": -0.10157513016114605,
+     "pct_from_52w_high": -0.29898519485585107,
+     "pct_from_52w_low": 0.037977112099119026,
+     "earnings_rhythm": 0.09560923303974081,
+     "prev_close": 545.1799926757812,
+     "last_price": 545,
+     "price_asof": "2026-08-19T10:41:49.000Z",
+     "session": "pre"
+    },
+    "payload": {
+     "insider_name": "Songhurst Charles",
+     "role": "director",
+     "transaction_code": "M",
+     "is_10b5_1_plan": false,
+     "shares": 110,
+     "value": 0,
+     "filed_at": "2026-08-18T00:00:00.000Z"
+    }
+   },
+   {
+    "id": "ad0267cd-06b9-4d5d-a64b-5a52ada04581",
+    "schema_version": 1,
+    "type": "insider_filing",
+    "ticker": "META",
+    "timestamp": "2026-08-19T10:41:59.996Z",
+    "source_engine": "tracker",
+    "context_flags": [],
+    "quant_context": {
+     "beta_90d": 1.1220474730999357,
+     "r_squared": 0.10736672847359274,
+     "daily_vol_30d": 0.02484366048867004,
+     "vol_regime": 1.3429586829736238,
+     "move_today": -0.00033015275358483365,
+     "move_zscore": -0.013289215320560347,
+     "residual_move": -0.0004894754829383985,
+     "residual_zscore": -0.027527626785934397,
+     "volume_ratio": 1.4520744027189472,
+     "volume_ratio_partial": true,
+     "momentum_5d": -0.09003205181101592,
+     "momentum_20d": -0.15319738006062278,
+     "momentum_60d": -0.10157513016114605,
+     "pct_from_52w_high": -0.29898519485585107,
+     "pct_from_52w_low": 0.037977112099119026,
+     "earnings_rhythm": 0.09560923303974081,
+     "prev_close": 545.1799926757812,
+     "last_price": 545,
+     "price_asof": "2026-08-19T10:41:49.000Z",
+     "session": "pre"
+    },
+    "payload": {
+     "insider_name": "White Dana",
+     "role": "director",
+     "transaction_code": "M",
+     "is_10b5_1_plan": false,
+     "shares": 110,
+     "value": 0,
+     "filed_at": "2026-08-18T00:00:00.000Z"
+    }
+   },
+   {
+    "id": "b1c1acf6-99c2-4e48-8329-b7b4ae603f9c",
+    "schema_version": 1,
+    "type": "insider_filing",
+    "ticker": "META",
+    "timestamp": "2026-08-19T10:41:59.996Z",
+    "source_engine": "tracker",
+    "context_flags": [],
+    "quant_context": {
+     "beta_90d": 1.1220474730999357,
+     "r_squared": 0.10736672847359274,
+     "daily_vol_30d": 0.02484366048867004,
+     "vol_regime": 1.3429586829736238,
+     "move_today": -0.00033015275358483365,
+     "move_zscore": -0.013289215320560347,
+     "residual_move": -0.0004894754829383985,
+     "residual_zscore": -0.027527626785934397,
+     "volume_ratio": 1.4520744027189472,
+     "volume_ratio_partial": true,
+     "momentum_5d": -0.09003205181101592,
+     "momentum_20d": -0.15319738006062278,
+     "momentum_60d": -0.10157513016114605,
+     "pct_from_52w_high": -0.29898519485585107,
+     "pct_from_52w_low": 0.037977112099119026,
+     "earnings_rhythm": 0.09560923303974081,
+     "prev_close": 545.1799926757812,
+     "last_price": 545,
+     "price_asof": "2026-08-19T10:41:49.000Z",
+     "session": "pre"
+    },
+    "payload": {
+     "insider_name": "Powell Dina H.",
+     "role": "President and Vice Chairman",
+     "transaction_code": "M",
+     "is_10b5_1_plan": false,
+     "shares": 2024,
+     "value": 0,
+     "filed_at": "2026-08-18T00:00:00.000Z"
+    }
+   },
+   {
+    "id": "b753eabb-fca2-4297-97ba-b1fb49d40e28",
+    "schema_version": 1,
+    "type": "insider_filing",
+    "ticker": "META",
+    "timestamp": "2026-08-19T10:41:59.996Z",
+    "source_engine": "tracker",
+    "context_flags": [],
+    "quant_context": {
+     "beta_90d": 1.1220474730999357,
+     "r_squared": 0.10736672847359274,
+     "daily_vol_30d": 0.02484366048867004,
+     "vol_regime": 1.3429586829736238,
+     "move_today": -0.00033015275358483365,
+     "move_zscore": -0.013289215320560347,
+     "residual_move": -0.0004894754829383985,
+     "residual_zscore": -0.027527626785934397,
+     "volume_ratio": 1.4520744027189472,
+     "volume_ratio_partial": true,
+     "momentum_5d": -0.09003205181101592,
+     "momentum_20d": -0.15319738006062278,
+     "momentum_60d": -0.10157513016114605,
+     "pct_from_52w_high": -0.29898519485585107,
+     "pct_from_52w_low": 0.037977112099119026,
+     "earnings_rhythm": 0.09560923303974081,
+     "prev_close": 545.1799926757812,
+     "last_price": 545,
+     "price_asof": "2026-08-19T10:41:49.000Z",
+     "session": "pre"
+    },
+    "payload": {
+     "insider_name": "Arnold John Douglas",
+     "role": "director",
+     "transaction_code": "M",
+     "is_10b5_1_plan": false,
+     "shares": 167,
+     "value": 0,
+     "filed_at": "2026-08-18T00:00:00.000Z"
+    }
+   },
+   {
+    "id": "f309db5a-fbe4-4300-9bcc-85e85735a50a",
+    "schema_version": 1,
+    "type": "insider_filing",
+    "ticker": "META",
+    "timestamp": "2026-08-19T10:41:59.996Z",
+    "source_engine": "tracker",
+    "context_flags": [],
+    "quant_context": {
+     "beta_90d": 1.1220474730999357,
+     "r_squared": 0.10736672847359274,
+     "daily_vol_30d": 0.02484366048867004,
+     "vol_regime": 1.3429586829736238,
+     "move_today": -0.00033015275358483365,
+     "move_zscore": -0.013289215320560347,
+     "residual_move": -0.0004894754829383985,
+     "residual_zscore": -0.027527626785934397,
+     "volume_ratio": 1.4520744027189472,
+     "volume_ratio_partial": true,
+     "momentum_5d": -0.09003205181101592,
+     "momentum_20d": -0.15319738006062278,
+     "momentum_60d": -0.10157513016114605,
+     "pct_from_52w_high": -0.29898519485585107,
+     "pct_from_52w_low": 0.037977112099119026,
+     "earnings_rhythm": 0.09560923303974081,
+     "prev_close": 545.1799926757812,
+     "last_price": 545,
+     "price_asof": "2026-08-19T10:41:49.000Z",
+     "session": "pre"
+    },
+    "payload": {
+     "insider_name": "Cox Christopher K",
+     "role": "Chief Product Officer",
+     "transaction_code": "M",
+     "is_10b5_1_plan": false,
+     "shares": 6791,
+     "value": 0,
+     "filed_at": "2026-08-18T00:00:00.000Z"
+    }
+   },
+   {
+    "id": "e1cd9414-1708-4b04-bba1-84dffcf88085",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "META",
+    "timestamp": "2026-08-19T11:21:59.952Z",
+    "source_engine": "tracker",
+    "context_flags": [],
+    "quant_context": {
+     "beta_90d": 1.1220474730999357,
+     "r_squared": 0.10736672847359274,
+     "daily_vol_30d": 0.02484366048867004,
+     "vol_regime": 1.3429586829736238,
+     "move_today": -0.0021644093540369447,
+     "move_zscore": -0.08712119355454984,
+     "residual_move": -0.0027038735312831675,
+     "residual_zscore": -0.1520632269438853,
+     "volume_ratio": 1.4520744027189472,
+     "volume_ratio_partial": true,
+     "momentum_5d": -0.09003205181101592,
+     "momentum_20d": -0.15319738006062278,
+     "momentum_60d": -0.10157513016114605,
+     "pct_from_52w_high": -0.29898519485585107,
+     "pct_from_52w_low": 0.037977112099119026,
+     "earnings_rhythm": 0.09560923303974081,
+     "prev_close": 545.1799926757812,
+     "last_price": 544,
+     "price_asof": "2026-08-19T11:22:04.000Z",
+     "session": "pre"
+    },
+    "payload": {
+     "headline": "Meta's AI Payoff Has Already Begun",
+     "source": "SeekingAlpha",
+     "published_at": "2026-08-19T07:05:25.000Z",
+     "article_id": "141252836"
+    }
+   },
+   {
+    "id": "7a4f20a7-71cb-409d-869a-909b853420bf",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "META",
+    "timestamp": "2026-08-19T15:36:40.458Z",
+    "source_engine": "tracker",
+    "context_flags": [],
+    "quant_context": {
+     "beta_90d": 1.1220474730999357,
+     "r_squared": 0.10736672847359274,
+     "daily_vol_30d": 0.02484366048867004,
+     "vol_regime": 1.3429586829736238,
+     "move_today": 0.012335442810523567,
+     "move_zscore": 0.4965227574313838,
+     "residual_move": 0.007570556662162452,
+     "residual_zscore": 0.4257607696849746,
+     "volume_ratio": 0.5060353262234425,
+     "volume_ratio_partial": true,
+     "momentum_5d": -0.09003205181101592,
+     "momentum_20d": -0.15319738006062278,
+     "momentum_60d": -0.10157513016114605,
+     "pct_from_52w_high": -0.29898519485585107,
+     "pct_from_52w_low": 0.037977112099119026,
+     "earnings_rhythm": 0.09560923303974081,
+     "prev_close": 545.1799926757812,
+     "last_price": 551.905029296875,
+     "price_asof": "2026-08-19T15:36:46.000Z",
+     "session": "regular"
+    },
+    "payload": {
+     "headline": "3 Sectors Investors Should Buy Now as S&P 500 Stumbles — Strategist Sees 15%-18% Upside",
+     "source": "Benzinga",
+     "published_at": "2026-08-19T08:11:45.000Z",
+     "article_id": "141253662"
+    }
+   },
+   {
+    "id": "afe32b08-f63c-4de1-b166-eb3570085558",
+    "schema_version": 1,
+    "type": "gap_event",
+    "ticker": "META",
+    "timestamp": "2026-08-19T15:36:40.458Z",
+    "source_engine": "tracker",
+    "context_flags": [],
+    "quant_context": {
+     "beta_90d": 1.1220474730999357,
+     "r_squared": 0.10736672847359274,
+     "daily_vol_30d": 0.02484366048867004,
+     "vol_regime": 1.3429586829736238,
+     "move_today": 0.011775896027744093,
+     "move_zscore": 0.4740000384852504,
+     "residual_move": 0.006908653396338278,
+     "residual_zscore": 0.3885359714977034,
+     "volume_ratio": 0.5079374508195349,
+     "volume_ratio_partial": true,
+     "momentum_5d": -0.09003205181101592,
+     "momentum_20d": -0.15319738006062278,
+     "momentum_60d": -0.10157513016114605,
+     "pct_from_52w_high": -0.29898519485585107,
+     "pct_from_52w_low": 0.037977112099119026,
+     "earnings_rhythm": 0.09560923303974081,
+     "prev_close": 545.1799926757812,
+     "last_price": 551.5999755859375,
+     "price_asof": "2026-08-19T15:37:59.000Z",
+     "session": "regular"
+    },
+    "payload": {
+     "gap_pct": -0.020493125727043204,
+     "gap_z": -2.0821126456280843,
+     "direction": "down",
+     "prev_close": 568.969970703125,
+     "open_price": 557.3099975585938
+    }
+   }
+  ],
+  "quant_context": {
+   "beta_90d": 1.1220474730999357,
+   "r_squared": 0.10736672847359274,
+   "daily_vol_30d": 0.02484366048867004,
+   "vol_regime": 1.3429586829736238,
+   "move_today": 0.011775896027744093,
+   "move_zscore": 0.4740000384852504,
+   "residual_move": 0.006908653396338278,
+   "residual_zscore": 0.3885359714977034,
+   "volume_ratio": 0.5079374508195349,
+   "volume_ratio_partial": true,
+   "momentum_5d": -0.09003205181101592,
+   "momentum_20d": -0.15319738006062278,
+   "momentum_60d": -0.10157513016114605,
+   "pct_from_52w_high": -0.29898519485585107,
+   "pct_from_52w_low": 0.037977112099119026,
+   "earnings_rhythm": 0.09560923303974081,
+   "prev_close": 545.1799926757812,
+   "last_price": 551.5999755859375,
+   "price_asof": "2026-08-19T15:37:59.000Z",
+   "session": "regular"
+  },
+  "user_proximity": "tracked",
+  "related_incident_id": null,
+  "propagation_candidates": [
+   {
+    "ticker": "META",
+    "article_key": "id:141252836",
+    "event_type": "earnings_results",
+    "event_label": "Q2 revenue $60.8B (+28% YoY), ad impressions +14%, pricing +12%"
+   }
+  ]
+ },
+ "routing": {
+  "destinations": [
+   {
+    "destination": "classifier",
+    "rules": [
+     "news_item"
+    ],
+    "message_ids": [
+     "e1cd9414-1708-4b04-bba1-84dffcf88085",
+     "7a4f20a7-71cb-409d-869a-909b853420bf"
+    ]
+   },
+   {
+    "destination": "analyst",
+    "rules": [
+     "gap_event.analyst"
+    ],
+    "message_ids": [
+     "afe32b08-f63c-4de1-b166-eb3570085558"
+    ]
+   }
+  ],
+  "store_only": false,
+  "per_message": [
+   {
+    "message_id": "029a182a-7c67-4709-bfb4-726c973358f5",
+    "outcome": {
+     "action": "store_only",
+     "rule": "insider_filing"
+    }
+   },
+   {
+    "message_id": "0a397c3f-137e-40d2-9669-0e42c1ba5ed6",
+    "outcome": {
+     "action": "store_only",
+     "rule": "insider_filing"
+    }
+   },
+   {
+    "message_id": "1587f878-7665-4865-96a8-78ac72cc463d",
+    "outcome": {
+     "action": "store_only",
+     "rule": "insider_filing"
+    }
+   },
+   {
+    "message_id": "1ca87252-b110-4d5b-a0f7-b2cf77eff50a",
+    "outcome": {
+     "action": "store_only",
+     "rule": "insider_filing"
+    }
+   },
+   {
+    "message_id": "27b489fd-cc8a-488e-95dc-aea37e04094e",
+    "outcome": {
+     "action": "store_only",
+     "rule": "insider_filing"
+    }
+   },
+   {
+    "message_id": "646de900-1562-4586-94b0-af060d35d149",
+    "outcome": {
+     "action": "store_only",
+     "rule": "insider_filing"
+    }
+   },
+   {
+    "message_id": "7b350e06-01ec-48a5-a924-8653c7cae67c",
+    "outcome": {
+     "action": "store_only",
+     "rule": "insider_filing"
+    }
+   },
+   {
+    "message_id": "9caf3788-1bec-48e3-bd3b-b316c3c5b731",
+    "outcome": {
+     "action": "store_only",
+     "rule": "insider_filing"
+    }
+   },
+   {
+    "message_id": "ad0267cd-06b9-4d5d-a64b-5a52ada04581",
+    "outcome": {
+     "action": "store_only",
+     "rule": "insider_filing"
+    }
+   },
+   {
+    "message_id": "b1c1acf6-99c2-4e48-8329-b7b4ae603f9c",
+    "outcome": {
+     "action": "store_only",
+     "rule": "insider_filing"
+    }
+   },
+   {
+    "message_id": "b753eabb-fca2-4297-97ba-b1fb49d40e28",
+    "outcome": {
+     "action": "store_only",
+     "rule": "insider_filing"
+    }
+   },
+   {
+    "message_id": "f309db5a-fbe4-4300-9bcc-85e85735a50a",
+    "outcome": {
+     "action": "store_only",
+     "rule": "insider_filing"
+    }
+   },
+   {
+    "message_id": "e1cd9414-1708-4b04-bba1-84dffcf88085",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "7a4f20a7-71cb-409d-869a-909b853420bf",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "afe32b08-f63c-4de1-b166-eb3570085558",
+    "outcome": {
+     "action": "route",
+     "destination": "analyst",
+     "rule": "gap_event.analyst"
+    }
+   }
+  ]
+ },
+ "verdicts": {
+  "e1cd9414-1708-4b04-bba1-84dffcf88085": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141252836",
+    "kind": "news",
+    "event_type": "earnings_results",
+    "event_label": "Q2 revenue $60.8B (+28% YoY), ad impressions +14%, pricing +12%",
+    "syndication_scope": 1,
+    "tickers": [
+     {
+      "ticker": "META",
+      "relevance": "direct",
+      "materiality": "high",
+      "direction": "positive"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:03:11.748Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "META",
+    "relevance": "direct",
+    "materiality": "high",
+    "direction": "positive"
+   }
+  },
+  "7a4f20a7-71cb-409d-869a-909b853420bf": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141253662",
+    "kind": "news",
+    "event_type": "macro_sector",
+    "event_label": "Strategist recommends tech, financials, industrials sectors",
+    "syndication_scope": 1,
+    "tickers": [
+     {
+      "ticker": "META",
+      "relevance": "none"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:03:12.509Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "META",
+    "relevance": "none"
+   }
+  }
+ }
+}

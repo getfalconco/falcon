@@ -1,0 +1,263 @@
+[
+  {
+    "counterparty_name": "Celestial AI, Inc.",
+    "category": "supplier",
+    "subtype": "acquired_company",
+    "evidence_quote": "on February 2, 2026, we completed the previously announced acquisition of Celestial AI, Inc. (\"Celestial\"), a provider of a Photonic Fabric TM technology platform purpose-built for next-generation scale-up interconnect.",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "XConn Technologies Holdings, Ltd.",
+    "category": "supplier",
+    "subtype": "acquired_company",
+    "evidence_quote": "on February 10, 2026, we completed the previously announced acquisition of XConn Technologies Holdings, Ltd. (\"XConn\"), a provider of advanced PCIe and CXL switching silicon",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Advanced Micro Devices, Inc.",
+    "category": "competitor",
+    "subtype": "semiconductor_competitor",
+    "evidence_quote": "Companies that compete directly with our businesses include, but are not limited to, Advanced Micro Devices, Inc. (\"AMD\"), Alchip Technologies (\"Alchip\"), Astera Labs, Inc., Ayar Labs, Inc. (\"Ayar Labs\"), Broadcom Inc. (\"Broadcom\"), Cisco Systems, Inc. (\"Cisco\"), Credo Technology Group Holding",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Alchip Technologies",
+    "category": "competitor",
+    "subtype": "semiconductor_competitor",
+    "evidence_quote": "Companies that compete directly with our businesses include, but are not limited to, Advanced Micro Devices, Inc. (\"AMD\"), Alchip Technologies (\"Alchip\"), Astera Labs, Inc., Ayar Labs, Inc. (\"Ayar Labs\"), Broadcom Inc. (\"Broadcom\"), Cisco Systems, Inc. (\"Cisco\"), Credo Technology Group Holding",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Astera Labs, Inc.",
+    "category": "competitor",
+    "subtype": "semiconductor_competitor",
+    "evidence_quote": "Companies that compete directly with our businesses include, but are not limited to, Advanced Micro Devices, Inc. (\"AMD\"), Alchip Technologies (\"Alchip\"), Astera Labs, Inc., Ayar Labs, Inc. (\"Ayar Labs\"), Broadcom Inc. (\"Broadcom\"), Cisco Systems, Inc. (\"Cisco\"), Credo Technology Group Holding",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Ayar Labs, Inc.",
+    "category": "competitor",
+    "subtype": "semiconductor_competitor",
+    "evidence_quote": "Companies that compete directly with our businesses include, but are not limited to, Advanced Micro Devices, Inc. (\"AMD\"), Alchip Technologies (\"Alchip\"), Astera Labs, Inc., Ayar Labs, Inc. (\"Ayar Labs\"), Broadcom Inc. (\"Broadcom\"), Cisco Systems, Inc. (\"Cisco\"), Credo Technology Group Holding",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Broadcom Inc.",
+    "category": "competitor",
+    "subtype": "semiconductor_competitor",
+    "evidence_quote": "Companies that compete directly with our businesses include, but are not limited to, Advanced Micro Devices, Inc. (\"AMD\"), Alchip Technologies (\"Alchip\"), Astera Labs, Inc., Ayar Labs, Inc. (\"Ayar Labs\"), Broadcom Inc. (\"Broadcom\"), Cisco Systems, Inc. (\"Cisco\"), Credo Technology Group Holding",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Cisco Systems, Inc.",
+    "category": "competitor",
+    "subtype": "semiconductor_competitor",
+    "evidence_quote": "Companies that compete directly with our businesses include, but are not limited to, Advanced Micro Devices, Inc. (\"AMD\"), Alchip Technologies (\"Alchip\"), Astera Labs, Inc., Ayar Labs, Inc. (\"Ayar Labs\"), Broadcom Inc. (\"Broadcom\"), Cisco Systems, Inc. (\"Cisco\"), Credo Technology Group Holding",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Credo Technology Group Holding Ltd",
+    "category": "competitor",
+    "subtype": "semiconductor_competitor",
+    "evidence_quote": "Companies that compete directly with our businesses include, but are not limited to, Advanced Micro Devices, Inc. (\"AMD\"), Alchip Technologies (\"Alchip\"), Astera Labs, Inc., Ayar Labs, Inc. (\"Ayar Labs\"), Broadcom Inc. (\"Broadcom\"), Cisco Systems, Inc. (\"Cisco\"), Credo Technology Group Holding",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Intel Corporation",
+    "category": "competitor",
+    "subtype": "semiconductor_competitor",
+    "evidence_quote": "Companies that compete directly with our businesses include, but are not limited to, Advanced Micro Devices, Inc. (\"AMD\"), Alchip Technologies (\"Alchip\"), Astera Labs, Inc., Ayar Labs, Inc. (\"Ayar Labs\"), Broadcom Inc. (\"Broadcom\"), Cisco Systems, Inc. (\"Cisco\"), Credo Technology Group Holding",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Global Unichip Corporation",
+    "category": "competitor",
+    "subtype": "semiconductor_competitor",
+    "evidence_quote": "Companies that compete directly with our businesses include, but are not limited to, Advanced Micro Devices, Inc. (\"AMD\"), Alchip Technologies (\"Alchip\"), Astera Labs, Inc., Ayar Labs, Inc. (\"Ayar Labs\"), Broadcom Inc. (\"Broadcom\"), Cisco Systems, Inc. (\"Cisco\"), Credo Technology Group Holding",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Lightmatter, Inc.",
+    "category": "competitor",
+    "subtype": "semiconductor_competitor",
+    "evidence_quote": "Companies that compete directly with our businesses include, but are not limited to, Advanced Micro Devices, Inc. (\"AMD\"), Alchip Technologies (\"Alchip\"), Astera Labs, Inc., Ayar Labs, Inc. (\"Ayar Labs\"), Broadcom Inc. (\"Broadcom\"), Cisco Systems, Inc. (\"Cisco\"), Credo Technology Group Holding",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "MACOM Technology Solutions Holdings, Inc.",
+    "category": "competitor",
+    "subtype": "semiconductor_competitor",
+    "evidence_quote": "Companies that compete directly with our businesses include, but are not limited to, Advanced Micro Devices, Inc. (\"AMD\"), Alchip Technologies (\"Alchip\"), Astera Labs, Inc., Ayar Labs, Inc. (\"Ayar Labs\"), Broadcom Inc. (\"Broadcom\"), Cisco Systems, Inc. (\"Cisco\"), Credo Technology Group Holding",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "MediaTek Inc.",
+    "category": "competitor",
+    "subtype": "semiconductor_competitor",
+    "evidence_quote": "Companies that compete directly with our businesses include, but are not limited to, Advanced Micro Devices, Inc. (\"AMD\"), Alchip Technologies (\"Alchip\"), Astera Labs, Inc., Ayar Labs, Inc. (\"Ayar Labs\"), Broadcom Inc. (\"Broadcom\"), Cisco Systems, Inc. (\"Cisco\"), Credo Technology Group Holding",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Microchip Technology Inc.",
+    "category": "competitor",
+    "subtype": "semiconductor_competitor",
+    "evidence_quote": "Companies that compete directly with our businesses include, but are not limited to, Advanced Micro Devices, Inc. (\"AMD\"), Alchip Technologies (\"Alchip\"), Astera Labs, Inc., Ayar Labs, Inc. (\"Ayar Labs\"), Broadcom Inc. (\"Broadcom\"), Cisco Systems, Inc. (\"Cisco\"), Credo Technology Group Holding",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Montage Technology",
+    "category": "competitor",
+    "subtype": "semiconductor_competitor",
+    "evidence_quote": "Companies that compete directly with our businesses include, but are not limited to, Advanced Micro Devices, Inc. (\"AMD\"), Alchip Technologies (\"Alchip\"), Astera Labs, Inc., Ayar Labs, Inc. (\"Ayar Labs\"), Broadcom Inc. (\"Broadcom\"), Cisco Systems, Inc. (\"Cisco\"), Credo Technology Group Holding",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Nvidia Corporation",
+    "category": "competitor",
+    "subtype": "semiconductor_competitor",
+    "evidence_quote": "Companies that compete directly with our businesses include, but are not limited to, Advanced Micro Devices, Inc. (\"AMD\"), Alchip Technologies (\"Alchip\"), Astera Labs, Inc., Ayar Labs, Inc. (\"Ayar Labs\"), Broadcom Inc. (\"Broadcom\"), Cisco Systems, Inc. (\"Cisco\"), Credo Technology Group Holding",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "NXP Semiconductors N.V.",
+    "category": "competitor",
+    "subtype": "semiconductor_competitor",
+    "evidence_quote": "Companies that compete directly with our businesses include, but are not limited to, Advanced Micro Devices, Inc. (\"AMD\"), Alchip Technologies (\"Alchip\"), Astera Labs, Inc., Ayar Labs, Inc. (\"Ayar Labs\"), Broadcom Inc. (\"Broadcom\"), Cisco Systems, Inc. (\"Cisco\"), Credo Technology Group Holding",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Phison Electronics Corporation",
+    "category": "competitor",
+    "subtype": "semiconductor_competitor",
+    "evidence_quote": "Companies that compete directly with our businesses include, but are not limited to, Advanced Micro Devices, Inc. (\"AMD\"), Alchip Technologies (\"Alchip\"), Astera Labs, Inc., Ayar Labs, Inc. (\"Ayar Labs\"), Broadcom Inc. (\"Broadcom\"), Cisco Systems, Inc. (\"Cisco\"), Credo Technology Group Holding",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Qualcomm Incorporated",
+    "category": "competitor",
+    "subtype": "semiconductor_competitor",
+    "evidence_quote": "Companies that compete directly with our businesses include, but are not limited to, Advanced Micro Devices, Inc. (\"AMD\"), Alchip Technologies (\"Alchip\"), Astera Labs, Inc., Ayar Labs, Inc. (\"Ayar Labs\"), Broadcom Inc. (\"Broadcom\"), Cisco Systems, Inc. (\"Cisco\"), Credo Technology Group Holding",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Rambus, Inc.",
+    "category": "competitor",
+    "subtype": "semiconductor_competitor",
+    "evidence_quote": "Companies that compete directly with our businesses include, but are not limited to, Advanced Micro Devices, Inc. (\"AMD\"), Alchip Technologies (\"Alchip\"), Astera Labs, Inc., Ayar Labs, Inc. (\"Ayar Labs\"), Broadcom Inc. (\"Broadcom\"), Cisco Systems, Inc. (\"Cisco\"), Credo Technology Group Holding",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Ranovus Inc.",
+    "category": "competitor",
+    "subtype": "semiconductor_competitor",
+    "evidence_quote": "Companies that compete directly with our businesses include, but are not limited to, Advanced Micro Devices, Inc. (\"AMD\"), Alchip Technologies (\"Alchip\"), Astera Labs, Inc., Ayar Labs, Inc. (\"Ayar Labs\"), Broadcom Inc. (\"Broadcom\"), Cisco Systems, Inc. (\"Cisco\"), Credo Technology Group Holding",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Realtek Semiconductor Corporation",
+    "category": "competitor",
+    "subtype": "semiconductor_competitor",
+    "evidence_quote": "Companies that compete directly with our businesses include, but are not limited to, Advanced Micro Devices, Inc. (\"AMD\"), Alchip Technologies (\"Alchip\"), Astera Labs, Inc., Ayar Labs, Inc. (\"Ayar Labs\"), Broadcom Inc. (\"Broadcom\"), Cisco Systems, Inc. (\"Cisco\"), Credo Technology Group Holding",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Semtech Corporation",
+    "category": "competitor",
+    "subtype": "semiconductor_competitor",
+    "evidence_quote": "Companies that compete directly with our businesses include, but are not limited to, Advanced Micro Devices, Inc. (\"AMD\"), Alchip Technologies (\"Alchip\"), Astera Labs, Inc., Ayar Labs, Inc. (\"Ayar Labs\"), Broadcom Inc. (\"Broadcom\"), Cisco Systems, Inc. (\"Cisco\"), Credo Technology Group Holding",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Silicon Motion Technology Corporation",
+    "category": "competitor",
+    "subtype": "semiconductor_competitor",
+    "evidence_quote": "Companies that compete directly with our businesses include, but are not limited to, Advanced Micro Devices, Inc. (\"AMD\"), Alchip Technologies (\"Alchip\"), Astera Labs, Inc., Ayar Labs, Inc. (\"Ayar Labs\"), Broadcom Inc. (\"Broadcom\"), Cisco Systems, Inc. (\"Cisco\"), Credo Technology Group Holding",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Socionext Inc.",
+    "category": "competitor",
+    "subtype": "semiconductor_competitor",
+    "evidence_quote": "Companies that compete directly with our businesses include, but are not limited to, Advanced Micro Devices, Inc. (\"AMD\"), Alchip Technologies (\"Alchip\"), Astera Labs, Inc., Ayar Labs, Inc. (\"Ayar Labs\"), Broadcom Inc. (\"Broadcom\"), Cisco Systems, Inc. (\"Cisco\"), Credo Technology Group Holding",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "U.S. Department of Defense",
+    "category": "customer",
+    "subtype": "government_contractor",
+    "evidence_quote": "A portion of the business we acquired in our Avera acquisition in fiscal 2021 requires facility security clearances under the National Industrial Security Program.",
+    "confidence": 0.85,
+    "reason": "counterparty name not in quote",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Nasdaq Global Select Market",
+    "category": "dependency",
+    "subtype": "stock_exchange",
+    "evidence_quote": "Our stock is traded on the Nasdaq Global Select Market under the ticker symbol \"MRVL\".",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Infineon Technologies AG",
+    "category": "customer",
+    "subtype": "acquirer_of_business_unit",
+    "evidence_quote": "On August 14, 2025, we completed the sale of our automotive ethernet business to Infineon Technologies AG for $2.5 billion in cash.",
+    "confidence": 0.95,
+    "reason": "Infineon Technologies AG purchased a business unit from Marvell (the automotive ethernet business), making Infineon the acquirer/buyer, not a customer of Marvell's ongoing products or services. The transaction was a one-time divestiture/sale of assets totaling $2.5 billion, not a recurring revenue relationship. The correct interpretation is that Infineon is the counterparty in an M&A transaction (business unit buyer), but this does not establish Infineon as a 'customer' in the commercial sense required for a customer relationship edge. The subtype 'acquirer_of_business_unit' correctly describes the transaction nature, but the category 'customer' is fundamentally incorrect for a one-time asset sale. This type of M&A counterparty relationship does not fit the standard supplier/customer/partner/competitor/dependency taxonomy used for ongoing commercial relationships.",
+    "stage": "audit"
+  }
+]

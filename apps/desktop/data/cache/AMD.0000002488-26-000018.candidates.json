@@ -1,0 +1,672 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 191635,
+  "chunks": 9,
+  "candidates": [
+    {
+      "counterparty_name": "ZT Group Int'l, Inc.",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "acquired_design_operations",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In March 2025, we acquired ZT Group Int'l, Inc. (ZT Systems), where we retained certain intellectual property and employees associated with the design operations",
+      "evidence_quotes": [
+        "In March 2025, we acquired ZT Group Int'l, Inc. (ZT Systems), where we retained certain intellectual property and employees associated with the design operations"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Sanmina Corporation",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "asset_buyer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In October 2025, we sold the ZT data center infrastructure manufacturing business (ZT Manufacturing Business) to Sanmina Corporation (Sanmina).",
+      "evidence_quotes": [
+        "In October 2025, we sold the ZT data center infrastructure manufacturing business (ZT Manufacturing Business) to Sanmina Corporation (Sanmina)."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "OpenAI OpCo, LLC",
+      "counterparty_type": "private_company",
+      "category": "customer",
+      "subtype": "product_purchase_agreement",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In October 2025, we entered into a product purchase agreement with OpenAI OpCo, LLC, (OpenAI) to deploy 6 gigawatts of AMD GPUs",
+      "evidence_quotes": [
+        "In October 2025, we entered into a product purchase agreement with OpenAI OpCo, LLC, (OpenAI) to deploy 6 gigawatts of AMD GPUs"
+      ],
+      "confidence": 0.98,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Sony",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "semi_custom_soc",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "AMD semi-custom SoC products power the Sony PlayStation ® 5",
+      "evidence_quotes": [
+        "AMD semi-custom SoC products power the Sony PlayStation ® 5"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Microsoft",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "semi_custom_soc",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "AMD semi-custom SoC products power the Sony PlayStation ® 5, the Microsoft ® Xbox Series S™ and X™ game consoles",
+      "evidence_quotes": [
+        "AMD semi-custom SoC products power the Sony PlayStation ® 5, the Microsoft ® Xbox Series S™ and X™ game consoles"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Valve",
+      "counterparty_type": "private_company",
+      "category": "customer",
+      "subtype": "semi_custom_soc",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "AMD semi-custom SoC products power the Sony PlayStation ® 5, the Microsoft ® Xbox Series S™ and X™ game consoles, as well as the recently revealed Valve Steam Machine PC.",
+      "evidence_quotes": [
+        "AMD semi-custom SoC products power the Sony PlayStation ® 5, the Microsoft ® Xbox Series S™ and X™ game consoles, as well as the recently revealed Valve Steam Machine PC."
+      ],
+      "confidence": 0.92,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Asus",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "handheld_gaming_oem",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we introduced the Ryzen Z2 Series, bringing higher efficiency and improved graphics performance for portable gaming devices including the new Asus ROG Xbox Ally.",
+      "evidence_quotes": [
+        "we introduced the Ryzen Z2 Series, bringing higher efficiency and improved graphics performance for portable gaming devices including the new Asus ROG Xbox Ally."
+      ],
+      "confidence": 0.93,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Intel Corporation",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "CPU and GPU competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In the Data Center segment, we compete primarily against Intel Corporation (Intel) and Nvidia Corporation (Nvidia with our CPU, GPU DPU and AI NIC server products.",
+      "evidence_quotes": [
+        "In the Data Center segment, we compete primarily against Intel Corporation (Intel) and Nvidia Corporation (Nvidia with our CPU, GPU DPU and AI NIC server products."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Nvidia Corporation",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "CPU, GPU, DPU and AI NIC competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In the Data Center segment, we compete primarily against Intel Corporation (Intel) and Nvidia Corporation (Nvidia with our CPU, GPU DPU and AI NIC server products.",
+      "evidence_quotes": [
+        "In the Data Center segment, we compete primarily against Intel Corporation (Intel) and Nvidia Corporation (Nvidia with our CPU, GPU DPU and AI NIC server products."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Altera",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "FPGA and adaptive SoC competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In addition, we compete against Altera with our FPGA and adaptive SoC server products.",
+      "evidence_quotes": [
+        "In addition, we compete against Altera with our FPGA and adaptive SoC server products."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Lattice Semiconductor Corporation",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "FPGA competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We expect continued competition from our primary FPGA competitors such as Altera, Lattice Semiconductor Corporation and Microsemi Corporation",
+      "evidence_quotes": [
+        "We expect continued competition from our primary FPGA competitors such as Altera, Lattice Semiconductor Corporation and Microsemi Corporation"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Microsemi Corporation",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "FPGA competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We expect continued competition from our primary FPGA competitors such as Altera, Lattice Semiconductor Corporation and Microsemi Corporation",
+      "evidence_quotes": [
+        "We expect continued competition from our primary FPGA competitors such as Altera, Lattice Semiconductor Corporation and Microsemi Corporation"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Broadcom Corporation",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "ASSP vendor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "from ASSP vendors such as Broadcom Corporation, Marvell Technology Group, Ltd., Analog Devices, Texas Instruments Incorporated, NXP Semiconductors N.V., Qualcomm Incorporated and NVIDIA.",
+      "evidence_quotes": [
+        "from ASSP vendors such as Broadcom Corporation, Marvell Technology Group, Ltd., Analog Devices, Texas Instruments Incorporated, NXP Semiconductors N.V., Qualcomm Incorporated and NVIDIA."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Marvell Technology Group, Ltd.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "ASSP vendor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "from ASSP vendors such as Broadcom Corporation, Marvell Technology Group, Ltd., Analog Devices, Texas Instruments Incorporated, NXP Semiconductors N.V., Qualcomm Incorporated and NVIDIA.",
+      "evidence_quotes": [
+        "from ASSP vendors such as Broadcom Corporation, Marvell Technology Group, Ltd., Analog Devices, Texas Instruments Incorporated, NXP Semiconductors N.V., Qualcomm Incorporated and NVIDIA."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Analog Devices",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "ASSP vendor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "from ASSP vendors such as Broadcom Corporation, Marvell Technology Group, Ltd., Analog Devices, Texas Instruments Incorporated, NXP Semiconductors N.V., Qualcomm Incorporated and NVIDIA.",
+      "evidence_quotes": [
+        "from ASSP vendors such as Broadcom Corporation, Marvell Technology Group, Ltd., Analog Devices, Texas Instruments Incorporated, NXP Semiconductors N.V., Qualcomm Incorporated and NVIDIA."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Texas Instruments Incorporated",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "ASSP vendor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "from ASSP vendors such as Broadcom Corporation, Marvell Technology Group, Ltd., Analog Devices, Texas Instruments Incorporated, NXP Semiconductors N.V., Qualcomm Incorporated and NVIDIA.",
+      "evidence_quotes": [
+        "from ASSP vendors such as Broadcom Corporation, Marvell Technology Group, Ltd., Analog Devices, Texas Instruments Incorporated, NXP Semiconductors N.V., Qualcomm Incorporated and NVIDIA."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "NXP Semiconductors N.V.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "ASSP vendor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "from ASSP vendors such as Broadcom Corporation, Marvell Technology Group, Ltd., Analog Devices, Texas Instruments Incorporated, NXP Semiconductors N.V., Qualcomm Incorporated and NVIDIA.",
+      "evidence_quotes": [
+        "from ASSP vendors such as Broadcom Corporation, Marvell Technology Group, Ltd., Analog Devices, Texas Instruments Incorporated, NXP Semiconductors N.V., Qualcomm Incorporated and NVIDIA."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Qualcomm Incorporated",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "ASSP vendor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "from ASSP vendors such as Broadcom Corporation, Marvell Technology Group, Ltd., Analog Devices, Texas Instruments Incorporated, NXP Semiconductors N.V., Qualcomm Incorporated and NVIDIA.",
+      "evidence_quotes": [
+        "from ASSP vendors such as Broadcom Corporation, Marvell Technology Group, Ltd., Analog Devices, Texas Instruments Incorporated, NXP Semiconductors N.V., Qualcomm Incorporated and NVIDIA."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Taiwan Semiconductor Manufacturing Company Limited",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "wafer foundry",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We utilize Taiwan Semiconductor Manufacturing Company Limited (TSMC) for the production of wafers for our HPC, FPGA and adaptive SoC products",
+      "evidence_quotes": [
+        "We utilize Taiwan Semiconductor Manufacturing Company Limited (TSMC) for the production of wafers for our HPC, FPGA and adaptive SoC products"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "GLOBALFOUNDRIES Inc.",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "wafer foundry",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "GLOBALFOUNDRIES Inc. (GF), with respect to wafer purchases for our HPC products at the 12 nm and 14 nm technology nodes.",
+      "evidence_quotes": [
+        "GLOBALFOUNDRIES Inc. (GF), with respect to wafer purchases for our HPC products at the 12 nm and 14 nm technology nodes."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "United Microelectronics Corporation",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "wafer foundry",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Additionally, we utilize TSMC, United Microelectronics Corporation (UMC) and Samsung Electronics Co., Ltd. for the production of our ICs in the form of programmable logic devices.",
+      "evidence_quotes": [
+        "Additionally, we utilize TSMC, United Microelectronics Corporation (UMC) and Samsung Electronics Co., Ltd. for the production of our ICs in the form of programmable logic devices."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Samsung Electronics Co., Ltd.",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "wafer foundry",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Additionally, we utilize TSMC, United Microelectronics Corporation (UMC) and Samsung Electronics Co., Ltd. for the production of our ICs in the form of programmable logic devices.",
+      "evidence_quotes": [
+        "Additionally, we utilize TSMC, United Microelectronics Corporation (UMC) and Samsung Electronics Co., Ltd. for the production of our ICs in the form of programmable logic devices."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Tongfu Microelectronics Co., Ltd.",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "ATMP joint venture partner",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We are party to two ATMP joint ventures (collectively, the ATMP JVs) with Tongfu Microelectronics Co., Ltd.",
+      "evidence_quotes": [
+        "We are party to two ATMP joint ventures (collectively, the ATMP JVs) with Tongfu Microelectronics Co., Ltd."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Siliconware Precision Industries Ltd.",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "ATMP services",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The ATMP JVs, Siliconware Precision Industries Ltd. (SPIL) and King Yuan Electronics Company (KYEC) provide ATMP services for our products.",
+      "evidence_quotes": [
+        "The ATMP JVs, Siliconware Precision Industries Ltd. (SPIL) and King Yuan Electronics Company (KYEC) provide ATMP services for our products."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "King Yuan Electronics Company",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "ATMP services",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The ATMP JVs, Siliconware Precision Industries Ltd. (SPIL) and King Yuan Electronics Company (KYEC) provide ATMP services for our products.",
+      "evidence_quotes": [
+        "The ATMP JVs, Siliconware Precision Industries Ltd. (SPIL) and King Yuan Electronics Company (KYEC) provide ATMP services for our products."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Microsoft Corporation",
+      "counterparty_type": "public_company",
+      "category": "dependency",
+      "subtype": "software_platform_support",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "If we lose Microsoft Corporation's support for our products or other software vendors do not design and develop software to run on our products, our ability to sell our products could be materially adversely affected.",
+      "evidence_quotes": [
+        "If we lose Microsoft Corporation's support for our products or other software vendors do not design and develop software to run on our products, our ability to sell our products could be materially adversely affected."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Intel Corporation",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "microprocessor_competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Intel Corporation (Intel) uses its microprocessor market position to price its products aggressively and target our customers and channel partners with special incentives.",
+      "evidence_quotes": [
+        "Intel Corporation (Intel) uses its microprocessor market position to price its products aggressively and target our customers and channel partners with special incentives."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Nvidia Corporation",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "data_center_gpu_competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Nvidia Corporation (Nvidia) leverages its market position in data center GPU, financial resources, and proprietary software ecosystem to promote its systems and influences customers who do business with us.",
+      "evidence_quotes": [
+        "Nvidia Corporation (Nvidia) leverages its market position in data center GPU, financial resources, and proprietary software ecosystem to promote its systems and influences customers who do business with us."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Sony Interactive Entertainment",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "semi_custom_soc_customer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "PlayStation is a registered trademark of Sony Interactive Entertainment, Inc.",
+      "evidence_quotes": [
+        "PlayStation is a registered trademark of Sony Interactive Entertainment, Inc."
+      ],
+      "confidence": 0.75,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Nvidia",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "direct_competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "in September 2025, Nvidia announced a partnership and investment in Intel to partner on new data center and client platform products. This partnership may result in increased competition",
+      "evidence_quotes": [
+        "in September 2025, Nvidia announced a partnership and investment in Intel to partner on new data center and client platform products. This partnership may result in increased competition"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Intel",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "direct_competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "in September 2025, Nvidia announced a partnership and investment in Intel to partner on new data center and client platform products. This partnership may result in increased competition",
+      "evidence_quotes": [
+        "in September 2025, Nvidia announced a partnership and investment in Intel to partner on new data center and client platform products. This partnership may result in increased competition"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Sony",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "semi_custom_soc_customer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The success of our semi-custom SoC products in our Client and Gaming segment is dependent on securing customers for our semi-custom design pipeline and consumer market conditions, including the success of game console systems and next generation consoles for Sony",
+      "evidence_quotes": [
+        "The success of our semi-custom SoC products in our Client and Gaming segment is dependent on securing customers for our semi-custom design pipeline and consumer market conditions, including the success of game console systems and next generation consoles for Sony"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Microsoft",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "semi_custom_soc_customer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The success of our semi-custom SoC products in our Client and Gaming segment is dependent on securing customers for our semi-custom design pipeline and consumer market conditions, including the success of game console systems and next generation consoles for Sony",
+      "evidence_quotes": [
+        "The success of our semi-custom SoC products in our Client and Gaming segment is dependent on securing customers for our semi-custom design pipeline and consumer market conditions, including the success of game console systems and next generation consoles for Sony"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Taiwan Semiconductor Manufacturing Company Limited",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "wafer_foundry",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We rely on Taiwan Semiconductor Manufacturing Company Limited (TSMC) for the production of all wafers for microprocessor and GPU products at 7 nanometer (nm) or smaller nodes",
+      "evidence_quotes": [
+        "We rely on Taiwan Semiconductor Manufacturing Company Limited (TSMC) for the production of all wafers for microprocessor and GPU products at 7 nanometer (nm) or smaller nodes"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "GLOBALFOUNDRIES Inc.",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "wafer_foundry",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we rely primarily on GLOBALFOUNDRIES Inc. (GF) for wafers for microprocessor and GPU products manufactured at process nodes larger than 7 nm.",
+      "evidence_quotes": [
+        "we rely primarily on GLOBALFOUNDRIES Inc. (GF) for wafers for microprocessor and GPU products manufactured at process nodes larger than 7 nm."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "United Microelectronics Corporation",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "ic_foundry",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We also utilize TSMC, United Microelectronics Corporation (UMC) and Samsung Electronics Co., Ltd. for our integrated circuits (IC) in the form of programmable logic devices.",
+      "evidence_quotes": [
+        "We also utilize TSMC, United Microelectronics Corporation (UMC) and Samsung Electronics Co., Ltd. for our integrated circuits (IC) in the form of programmable logic devices."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Samsung Electronics Co., Ltd.",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "ic_foundry",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We also utilize TSMC, United Microelectronics Corporation (UMC) and Samsung Electronics Co., Ltd. for our integrated circuits (IC) in the form of programmable logic devices.",
+      "evidence_quotes": [
+        "We also utilize TSMC, United Microelectronics Corporation (UMC) and Samsung Electronics Co., Ltd. for our integrated circuits (IC) in the form of programmable logic devices."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Tongfu Microelectronics Co., Ltd.",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "ATMP joint venture partner",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We are party to two ATMP joint ventures (collectively, the ATMP JVs) with affiliates of Tongfu Microelectronics Co., Ltd. The majority of our ATMP services are provided by the ATMP JVs",
+      "evidence_quotes": [
+        "We are party to two ATMP joint ventures (collectively, the ATMP JVs) with affiliates of Tongfu Microelectronics Co., Ltd. The majority of our ATMP services are provided by the ATMP JVs"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "TSMC",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "semiconductor foundry",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we are presently focusing our 7 nm and lower product microprocessor and GPU portfolio on TSMC's processes",
+      "evidence_quotes": [
+        "we are presently focusing our 7 nm and lower product microprocessor and GPU portfolio on TSMC's processes"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "UMC",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "semiconductor foundry",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we rely on TSMC, UMC and our other foundries to produce wafers with competitive performance attributes for our IC products",
+      "evidence_quotes": [
+        "we rely on TSMC, UMC and our other foundries to produce wafers with competitive performance attributes for our IC products"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Intel",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "microprocessor competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "our microprocessors are not designed to function with motherboards and chipsets designed to work with Intel microprocessors",
+      "evidence_quotes": [
+        "our microprocessors are not designed to function with motherboards and chipsets designed to work with Intel microprocessors"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Intel",
+      "counterparty_type": "public_company",
+      "category": "dependency",
+      "subtype": "x86 instruction set controller",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our ability to innovate beyond the x86 instruction set controlled by Intel depends partially on Microsoft designing and developing its operating systems",
+      "evidence_quotes": [
+        "Our ability to innovate beyond the x86 instruction set controlled by Intel depends partially on Microsoft designing and developing its operating systems"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Microsoft Corporation",
+      "counterparty_type": "public_company",
+      "category": "dependency",
+      "subtype": "operating system provider",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "If we lose Microsoft Corporation's support for our products or other software vendors do not design and develop software to run on our products, our ability to sell our products could be materially adversely affected",
+      "evidence_quotes": [
+        "If we lose Microsoft Corporation's support for our products or other software vendors do not design and develop software to run on our products, our ability to sell our products could be materially adversely affected"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Intel",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "instruction_set_controller",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our ability to innovate beyond the x86 instruction set controlled by Intel depends partially on Microsoft designing and developing its operating systems",
+      "evidence_quotes": [
+        "Our ability to innovate beyond the x86 instruction set controlled by Intel depends partially on Microsoft designing and developing its operating systems"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "Microsoft",
+      "counterparty_type": "public_company",
+      "category": "dependency",
+      "subtype": "operating_system_compatibility",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our ability to innovate beyond the x86 instruction set controlled by Intel depends partially on Microsoft designing and developing its operating systems to run on or support our x86-based microprocessor products.",
+      "evidence_quotes": [
+        "Our ability to innovate beyond the x86 instruction set controlled by Intel depends partially on Microsoft designing and developing its operating systems to run on or support our x86-based microprocessor products."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "Bureau of Industry and Security",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "export_license_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In October 2023, the Bureau of Industry and Security (BIS) of the United States Department of Commerce issued requirements for the export of certain advanced computing items",
+      "evidence_quotes": [
+        "In October 2023, the Bureau of Industry and Security (BIS) of the United States Department of Commerce issued requirements for the export of certain advanced computing items"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "Higon Information Technology Co., Ltd.",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "joint_venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We have equity interests in two joint ventures (collectively, the THATIC JV) with Higon Information Technology Co., Ltd. (THATIC), a third-party Chinese entity.",
+      "evidence_quotes": [
+        "We have equity interests in two joint ventures (collectively, the THATIC JV) with Higon Information Technology Co., Ltd. (THATIC), a third-party Chinese entity."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "ZT Systems",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "acquisition_target",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "For example, in March 2025, we completed our acquisition of ZT Systems.",
+      "evidence_quotes": [
+        "For example, in March 2025, we completed our acquisition of ZT Systems."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 7
+    },
+    {
+      "counterparty_name": "THATIC",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "joint_venture_partner",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In June 2019, the BIS added certain Chinese entities to the Entity List, including THATIC and the THATIC JV.",
+      "evidence_quotes": [
+        "In June 2019, the BIS added certain Chinese entities to the Entity List, including THATIC and the THATIC JV."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 7
+    },
+    {
+      "counterparty_name": "Taiwan",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "wafer_foundry_infrastructure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In April 2024, Taiwan experienced an earthquake where our third-party wafer foundries are located.",
+      "evidence_quotes": [
+        "In April 2024, Taiwan experienced an earthquake where our third-party wafer foundries are located."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 8
+    }
+  ],
+  "candidatesPerChunk": [
+    7,
+    18,
+    4,
+    8,
+    6,
+    3,
+    1,
+    2,
+    1
+  ],
+  "parseErrors": 0,
+  "apiErrors": 0,
+  "inputTokens": 45813,
+  "outputTokens": 5361
+}

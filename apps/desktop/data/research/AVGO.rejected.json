@@ -1,0 +1,110 @@
+[
+  {
+    "counterparty_name": "TSMC",
+    "category": "supplier",
+    "subtype": "foundry",
+    "evidence_quote": "The majority of our front-end wafer manufacturing operations is outsourced to external foundries, including Taiwan Semiconductor Manufacturing Company Limited (\"TSMC\").",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "AT&T/Bell Labs",
+    "category": "supplier",
+    "subtype": "acquisition/IP heritage",
+    "evidence_quote": "Our more than 60-year history of innovation dates back to our diverse origins from AT&T/Bell Labs, Lucent and Hewlett-Packard Company",
+    "confidence": 0.65,
+    "reason": "AT&T/Bell Labs is cited as part of Broadcom's '60-year history of innovation' and 'diverse origins,' indicating it is a heritage/legacy source of IP and engineering lineage—not a current supplier relationship. The text describes historical corporate ancestry (along with Lucent and HP), not an ongoing commercial vendor arrangement. The category 'supplier' with subtype 'acquisition/IP heritage' is internally contradictory: heritage/lineage is not a supplier relationship. AT&T/Bell Labs is not providing goods or services to Broadcom today; it is a historical progenitor. This does not constitute a valid counterparty relationship for the knowledge graph.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Lucent",
+    "category": "supplier",
+    "subtype": "acquisition/IP heritage",
+    "evidence_quote": "Our more than 60-year history of innovation dates back to our diverse origins from AT&T/Bell Labs, Lucent and Hewlett-Packard Company",
+    "confidence": 0.65,
+    "reason": "The evidence_quote describes Lucent as part of Broadcom's historical corporate origins through acquisition/merger activity ('our diverse origins from AT&T/Bell Labs, Lucent and Hewlett-Packard Company... has evolved through acquisitions'). This makes Lucent a former entity that was acquired and integrated into Broadcom, not an ongoing external counterparty relationship. Lucent is now part of Broadcom's internal heritage, similar to how Activision Blizzard is part of Microsoft. The category 'supplier' with subtype 'acquisition/IP heritage' is contradictory—an acquired entity ceases to be an external counterparty. This represents historical corporate structure, not a current business relationship that belongs in a knowledge graph of active counterparty relationships.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Hewlett-Packard Company",
+    "category": "supplier",
+    "subtype": "acquisition/IP heritage",
+    "evidence_quote": "Our more than 60-year history of innovation dates back to our diverse origins from AT&T/Bell Labs, Lucent and Hewlett-Packard Company",
+    "confidence": 0.65,
+    "reason": "Hewlett-Packard Company (HP) is cited as part of Broadcom's 60-year historical lineage and organizational origins — not as a current supplier relationship. The text states 'Our more than 60-year history of innovation dates back to our diverse origins from AT&T/Bell Labs, Lucent and Hewlett-Packard Company,' which describes corporate heritage/ancestry, not an ongoing commercial vendor relationship. The category 'supplier' with subtype 'acquisition/IP heritage' is internally contradictory: suppliers are active commercial vendors the root pays for goods/services, whereas acquisition/IP heritage describes historical M&A or lineage events. HP represents a legacy parent or acquisition source from which Broadcom's technology lines descended, not a current external counterparty providing products or services to Broadcom. This is a historical attribution, not a present-day business relationship of any recognized category (supplier, customer, partner, competitor, dependency).",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "LSI Corporation",
+    "category": "supplier",
+    "subtype": "acquisition",
+    "evidence_quote": "has evolved through acquisitions, including LSI Corporation, Broadcom Corporation, Brocade Communications Systems, Inc., CA, Inc., Symantec Enterprise Security, and VMware, Inc.",
+    "confidence": 0.9,
+    "reason": "LSI Corporation was acquired by Broadcom, not a supplier. The evidence quote states 'has evolved through acquisitions, including LSI Corporation,' which clearly identifies LSI as an acquisition target, not a commercial vendor. Acquisitions represent ownership transactions where the ROOT company purchases and absorbs another entity, fundamentally different from a supplier relationship where the ROOT pays for goods/services. Additionally, after acquisition, LSI would become part of Broadcom's internal structure, not an external counterparty. The category 'supplier' with subtype 'acquisition' is contradictory—acquisitions are not supplier relationships.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Broadcom Corporation",
+    "category": "supplier",
+    "subtype": "acquisition",
+    "evidence_quote": "has evolved through acquisitions, including LSI Corporation, Broadcom Corporation, Brocade Communications Systems, Inc., CA, Inc., Symantec Enterprise Security, and VMware, Inc.",
+    "confidence": 0.9,
+    "reason": "Broadcom Corporation is not a supplier or external counterparty. The evidence quote states that Broadcom Inc. 'has evolved through acquisitions, including...Broadcom Corporation,' meaning Broadcom Corporation was acquired by (or merged into) the ROOT company. After an acquisition, the acquired entity becomes part of the ROOT company, not an external counterparty. The subtype 'acquisition' confirms this is a historical corporate transaction, not an ongoing supplier relationship. Broadcom Corporation is now internal to Broadcom Inc., similar to how the instructions specify that subsidiaries and acquired brands are not valid counterparties.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Brocade Communications Systems, Inc.",
+    "category": "supplier",
+    "subtype": "acquisition",
+    "evidence_quote": "has evolved through acquisitions, including LSI Corporation, Broadcom Corporation, Brocade Communications Systems, Inc., CA, Inc., Symantec Enterprise Security, and VMware, Inc.",
+    "confidence": 0.9,
+    "reason": "The evidence_quote states that Broadcom (the ROOT company) 'has evolved through acquisitions, including...Brocade Communications Systems, Inc.' This clearly indicates that Brocade was acquired BY Broadcom, making Brocade a subsidiary/acquired entity of the ROOT company, not a supplier or external counterparty. Acquired companies become part of the ROOT company and are explicitly excluded from valid counterparty relationships per the audit rules. The category 'supplier' with subtype 'acquisition' is contradictory—an acquisition target becomes internal, not a supplier.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "CA, Inc.",
+    "category": "supplier",
+    "subtype": "acquisition",
+    "evidence_quote": "has evolved through acquisitions, including LSI Corporation, Broadcom Corporation, Brocade Communications Systems, Inc., CA, Inc., Symantec Enterprise Security, and VMware, Inc.",
+    "confidence": 0.9,
+    "reason": "CA, Inc. is listed as an acquisition target that Broadcom acquired, not a supplier. The evidence quote states 'has evolved through acquisitions, including...CA, Inc.' which clearly identifies CA as a company that Broadcom acquired (making it a subsidiary/part of Broadcom after the acquisition), not a commercial vendor or supplier that Broadcom pays for goods/services. Acquisitions are not supplier relationships—they are corporate structure changes where the acquired entity becomes part of the acquiring company. Additionally, after acquisition, CA, Inc. would be an internal subsidiary, not an external counterparty. The 'subtype: acquisition' field actually contradicts the 'category: supplier' classification.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Symantec Enterprise Security",
+    "category": "supplier",
+    "subtype": "acquisition",
+    "evidence_quote": "has evolved through acquisitions, including LSI Corporation, Broadcom Corporation, Brocade Communications Systems, Inc., CA, Inc., Symantec Enterprise Security, and VMware, Inc.",
+    "confidence": 0.9,
+    "reason": "Symantec Enterprise Security is not a supplier to Broadcom. The evidence_quote lists it as one of the companies Broadcom acquired (alongside LSI Corporation, Broadcom Corporation, Brocade, CA Inc., and VMware). An acquisition target becomes part of the acquiring company, making it a subsidiary/internal unit, not an external counterparty. The text further confirms this by describing 'Symantec and Carbon Black endpoint security solutions' as part of Broadcom's own Cybersecurity Portfolio offerings. Since Symantec Enterprise Security was acquired by and integrated into Broadcom, it cannot simultaneously be categorized as a supplier or any other external counterparty relationship.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "VMware, Inc.",
+    "category": "supplier",
+    "subtype": "acquisition",
+    "evidence_quote": "has evolved through acquisitions, including LSI Corporation, Broadcom Corporation, Brocade Communications Systems, Inc., CA, Inc., Symantec Enterprise Security, and VMware, Inc.",
+    "confidence": 0.9,
+    "reason": "VMware, Inc. is explicitly listed as one of Broadcom's acquisitions ('has evolved through acquisitions, including... VMware, Inc.'). The evidence describes Broadcom's corporate evolution through acquiring other companies, making VMware a subsidiary of Broadcom (the ROOT company), not an external supplier. Per the instructions, subsidiaries of the ROOT company must be rejected as counterparties. The category 'supplier' with subtype 'acquisition' is contradictory—an acquisition target becomes part of the acquiring company, not a supplier to it.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "VMware",
+    "category": "customer",
+    "subtype": "acquired_company",
+    "evidence_quote": "Any acquisitions we may undertake, including the acquisition of VMware, and their integration involve risks and uncertainties",
+    "confidence": 0.95,
+    "reason": "The evidence_quote 'Any acquisitions we may undertake, including the acquisition of VMware, and their integration involve risks and uncertainties' describes VMware as an acquired entity, not a customer. The quote appears in a risk factors section discussing acquisition integration risks, not customer relationships. VMware was acquired by Broadcom in November 2022, making it a subsidiary of the ROOT company, not an external counterparty. Per the auditing instructions, subsidiaries of the ROOT company must be rejected as counterparties. The text explicitly states VMware as 'the acquisition of VMware,' indicating it is now part of Broadcom's corporate structure, not a separate customer entity.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Dell",
+    "category": "dependency",
+    "subtype": "tax_indemnification",
+    "evidence_quote": "If the VMware spin-off from Dell in November 2021 is determined to not be tax-free for any reason, we could be liable for all or a portion of the tax liability",
+    "confidence": 0.85,
+    "reason": "The evidence_quote describes a potential tax indemnification obligation arising from the 2021 VMware spin-off from Dell, but this is a legacy tax liability risk related to a past corporate action (VMware's separation from Dell before Broadcom acquired VMware), not an ongoing operational dependency. Dell is not providing infrastructure, services, or critical inputs that Broadcom relies on for its operations. The relationship described is purely a potential indemnification obligation for a historical transaction tax consequence. This does not meet the 'dependency' category definition (critical reliance on counterparty infrastructure/service). Furthermore, this is a contingent liability/indemnification matter, not an operational dependency. The subtype 'tax_indemnification' is not a recognized dependency subtype and this type of contingent obligation does not establish Dell as a counterparty in an ongoing business relationship sense.",
+    "stage": "audit"
+  }
+]

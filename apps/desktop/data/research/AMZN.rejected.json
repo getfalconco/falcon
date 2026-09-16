@@ -1,0 +1,92 @@
+[
+  {
+    "counterparty_name": "Indian tax authority",
+    "category": "dependency",
+    "subtype": "tax_regulatory_authority",
+    "evidence_quote": "the Indian tax authority has asserted that tax applies to cloud services fees paid to Amazon in the U.S.",
+    "confidence": 0.75,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Kindle",
+    "category": "supplier",
+    "subtype": "electronic_device_manufacturer",
+    "evidence_quote": "We also manufacture and sell electronic devices, including Kindle, Fire tablet, Fire TV, Echo, Ring, Blink, and eero",
+    "confidence": 0.95,
+    "reason": "Kindle is explicitly identified as a product that Amazon manufactures and sells ('We also manufacture and sell electronic devices, including Kindle...'), not an external counterparty. Kindle is Amazon's own product line, not a supplier or separate external organization. The category 'supplier' and counterparty_type 'product' are contradictory and nonsensical. Additionally, the rule explicitly states that the ROOT company's own products must be rejected as counterparties.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Fire tablet",
+    "category": "supplier",
+    "subtype": "electronic_device_manufacturer",
+    "evidence_quote": "We also manufacture and sell electronic devices, including Kindle, Fire tablet, Fire TV, Echo, Ring, Blink, and eero",
+    "confidence": 0.95,
+    "reason": "Fire tablet is explicitly identified as a product manufactured and sold by Amazon, not an external counterparty. The evidence quote 'We also manufacture and sell electronic devices, including Kindle, Fire tablet, Fire TV, Echo, Ring, Blink, and eero' clearly states that Amazon manufactures Fire tablet. A product the root company manufactures is internal, not a supplier. Additionally, counterparty_type is correctly identified as 'product' which by definition cannot be a counterparty. The category 'supplier' is nonsensical when the root is the manufacturer.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Fire TV",
+    "category": "supplier",
+    "subtype": "electronic_device_manufacturer",
+    "evidence_quote": "We also manufacture and sell electronic devices, including Kindle, Fire tablet, Fire TV, Echo, Ring, Blink, and eero",
+    "confidence": 0.95,
+    "reason": "Fire TV is explicitly identified as a product manufactured and sold by Amazon, not an external counterparty. The evidence quote states 'We also manufacture and sell electronic devices, including Kindle, Fire tablet, Fire TV, Echo, Ring, Blink, and eero' — Fire TV is listed among Amazon's own product lines. It is not a supplier or external organization. The counterparty_type is correctly identified as 'product,' which confirms this is not a valid external relationship. Products and brands owned/operated by the ROOT company cannot be counterparties.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Echo",
+    "category": "supplier",
+    "subtype": "electronic_device_manufacturer",
+    "evidence_quote": "We also manufacture and sell electronic devices, including Kindle, Fire tablet, Fire TV, Echo, Ring, Blink, and eero",
+    "confidence": 0.95,
+    "reason": "Echo is identified in the evidence_quote as a product manufactured and sold by Amazon ('We also manufacture and sell electronic devices, including Kindle, Fire tablet, Fire TV, Echo, Ring, Blink, and eero'), not a separate external counterparty. Echo is Amazon's own product line (smart speakers/devices), not a supplier. The counterparty_type is correctly labeled 'product,' which confirms it is not a valid external counterparty. Additionally, the category 'supplier' is incorrect since Amazon manufactures Echo itself rather than sourcing it from an external supplier. This edge fails criteria #2 (Echo is not a real external organization) and #4 (it is Amazon's own product, analogous to the ROOT company's subsidiaries/brands).",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Ring",
+    "category": "supplier",
+    "subtype": "electronic_device_manufacturer",
+    "evidence_quote": "We also manufacture and sell electronic devices, including Kindle, Fire tablet, Fire TV, Echo, Ring, Blink, and eero",
+    "confidence": 0.95,
+    "reason": "Ring is not a counterparty; it is a product brand manufactured and sold by Amazon itself. The evidence states 'We also manufacture and sell electronic devices, including Kindle, Fire tablet, Fire TV, Echo, Ring, Blink, and eero' — making Ring an internal product line, not an external supplier. The counterparty_type 'product' confirms this. Amazon does not have a supplier relationship with Ring; Ring is part of Amazon's own electronics offerings.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Blink",
+    "category": "supplier",
+    "subtype": "electronic_device_manufacturer",
+    "evidence_quote": "We also manufacture and sell electronic devices, including Kindle, Fire tablet, Fire TV, Echo, Ring, Blink, and eero",
+    "confidence": 0.95,
+    "reason": "Blink is an Amazon-manufactured product, not an external counterparty. The evidence_quote states 'We also manufacture and sell electronic devices, including Kindle, Fire tablet, Fire TV, Echo, Ring, Blink, and eero' — Blink is listed alongside other Amazon devices as something Amazon manufactures and sells, making it a product line owned by Amazon, not a supplier. This is an internal product, not an external counterparty relationship.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "eero",
+    "category": "supplier",
+    "subtype": "electronic_device_manufacturer",
+    "evidence_quote": "We also manufacture and sell electronic devices, including Kindle, Fire tablet, Fire TV, Echo, Ring, Blink, and eero",
+    "confidence": 0.95,
+    "reason": "eero is listed among Amazon's own manufactured electronic devices ('We also manufacture and sell electronic devices, including Kindle, Fire tablet, Fire TV, Echo, Ring, Blink, and eero'). This indicates eero is a product brand owned and manufactured by Amazon itself, not an external supplier. The ROOT company does not purchase from eero; Amazon manufactures and sells eero products. This is an internal product, not a counterparty relationship.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "China-based sellers",
+    "category": "customer",
+    "subtype": "third-party seller",
+    "evidence_quote": "China-based sellers account for significant portions of our third-party seller services and advertising revenues",
+    "confidence": 0.85,
+    "reason": "China-based sellers are not a distinct external counterparty organization. The filing describes them as a category of third-party sellers who use Amazon's platform, not a separate entity with which Amazon has a customer relationship. Amazon provides services TO these sellers (third-party seller services, advertising), making the relationship direction reversed from what a 'customer' category implies. Furthermore, 'China-based sellers' is a geographic/categorical descriptor of multiple entities, not a named counterparty. The evidence_quote shows they are users of Amazon's services (thus Amazon's customers in the service relationship), not Amazon's customers in the traditional sense. If anything, this would be closer to a supplier relationship (they supply inventory sold on Amazon's platform), but even that is imprecise since they are platform participants, not direct suppliers to Amazon.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Federal Trade Commission",
+    "category": "dependency",
+    "subtype": "regulatory_body",
+    "evidence_quote": "we are litigating a number of matters alleging price fixing, monopolization, and consumer protection claims, including those brought by state attorneys general and the Federal Trade Commission.",
+    "confidence": 0.85,
+    "reason": "The Federal Trade Commission (FTC) is a regulatory authority bringing enforcement actions against Amazon, not a dependency. The evidence describes litigation involving the FTC ('litigating a number of matters alleging price fixing, monopolization, and consumer protection claims, including those brought by state attorneys general and the Federal Trade Commission'). A regulator acting in its enforcement or regulatory capacity is explicitly excluded from counterparty relationships per the instructions. The FTC is not providing critical infrastructure or services that Amazon relies upon; it is exercising governmental authority over Amazon. This does not constitute a dependency relationship.",
+    "stage": "audit"
+  }
+]

@@ -1,0 +1,10 @@
+[
+  {
+    "counterparty_name": "ExxonMobil",
+    "category": "supplier",
+    "subtype": "crude oil and petroleum product purchases",
+    "evidence_quote": "Purchases and sales are made under both spot and term contracts from domestic and foreign sources, including ExxonMobil.",
+    "confidence": 0.65,
+    "merged_into": "ExxonMobil"
+  }
+]

@@ -1,0 +1,13 @@
+{
+  "ticker": "ZLAB",
+  "companyName": "Zai Lab Ltd",
+  "form": "10-K",
+  "filingDate": "2026-02-26",
+  "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1704292/000170429226000015/zlab-20251231.htm",
+  "generatedAt": "2026-08-22T21:00:50.427Z",
+  "cacheKey": "ZLAB|0001704292-26-000015|5",
+  "accessionNumber": "0001704292-26-000015",
+  "validatedCount": 24,
+  "rejectedCount": 26,
+  "mergedCount": 35
+}

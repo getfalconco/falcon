@@ -1,0 +1,794 @@
+[
+  {
+    "root_ticker": "HPE",
+    "counterparty_name": "Intel",
+    "counterparty_ticker": "INTC",
+    "counterparty_type": "public_company",
+    "category": "supplier",
+    "subtype": "component_supplier",
+    "strength": 1,
+    "strength_tier": "critical",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "In some instances, our single-source suppliers (e.g., Intel and AMD as suppliers of certain x86 processors Broadcom and others for industry standard Application-Specific Standard Product, or NVIDIA for Graphics Processing Units)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1645590/000164559025000130/hpe-20251031.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-12-18",
+    "shared_evidence_group": "ev_3e5aea694c85"
+  },
+  {
+    "root_ticker": "HPE",
+    "counterparty_name": "AMD",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "supplier",
+    "subtype": "component_supplier",
+    "strength": 1,
+    "strength_tier": "critical",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "In some instances, our single-source suppliers (e.g., Intel and AMD as suppliers of certain x86 processors Broadcom and others for industry standard Application-Specific Standard Product, or NVIDIA for Graphics Processing Units)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1645590/000164559025000130/hpe-20251031.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-12-18",
+    "shared_evidence_group": "ev_3e5aea694c85"
+  },
+  {
+    "root_ticker": "HPE",
+    "counterparty_name": "Broadcom",
+    "counterparty_ticker": "AVGO",
+    "counterparty_type": "public_company",
+    "category": "supplier",
+    "subtype": "component_supplier",
+    "strength": 1,
+    "strength_tier": "critical",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "In some instances, our single-source suppliers (e.g., Intel and AMD as suppliers of certain x86 processors Broadcom and others for industry standard Application-Specific Standard Product, or NVIDIA for Graphics Processing Units)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1645590/000164559025000130/hpe-20251031.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-12-18",
+    "shared_evidence_group": "ev_3e5aea694c85"
+  },
+  {
+    "root_ticker": "HPE",
+    "counterparty_name": "NVIDIA",
+    "counterparty_ticker": "NVDA",
+    "counterparty_type": "public_company",
+    "category": "supplier",
+    "subtype": "component_supplier",
+    "strength": 1,
+    "strength_tier": "critical",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "In some instances, our single-source suppliers (e.g., Intel and AMD as suppliers of certain x86 processors Broadcom and others for industry standard Application-Specific Standard Product, or NVIDIA for Graphics Processing Units)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1645590/000164559025000130/hpe-20251031.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-12-18",
+    "shared_evidence_group": "ev_3e5aea694c85"
+  },
+  {
+    "root_ticker": "HPE",
+    "counterparty_name": "Dell Technologies Inc.",
+    "counterparty_ticker": "DELL",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "data center infrastructure competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.98,
+    "evidence": [
+      {
+        "quote": "Our primary competitors in data center infrastructure are technology vendors, such as Dell Technologies Inc., Super Micro Computer, Inc., Cisco Systems, Inc., and Lenovo Group Ltd.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1645590/000164559025000130/hpe-20251031.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-12-18",
+    "shared_evidence_group": "ev_55c33322a29b"
+  },
+  {
+    "root_ticker": "HPE",
+    "counterparty_name": "Super Micro Computer, Inc.",
+    "counterparty_ticker": "SMCI",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "data center infrastructure competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Our primary competitors in data center infrastructure are technology vendors, such as Dell Technologies Inc., Super Micro Computer, Inc., Cisco Systems, Inc., and Lenovo Group Ltd.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1645590/000164559025000130/hpe-20251031.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-12-18",
+    "shared_evidence_group": "ev_55c33322a29b"
+  },
+  {
+    "root_ticker": "HPE",
+    "counterparty_name": "Cisco Systems, Inc.",
+    "counterparty_ticker": "CSCO",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "data center infrastructure competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Our primary competitors in data center infrastructure are technology vendors, such as Dell Technologies Inc., Super Micro Computer, Inc., Cisco Systems, Inc., and Lenovo Group Ltd.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1645590/000164559025000130/hpe-20251031.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-12-18",
+    "shared_evidence_group": "ev_55c33322a29b"
+  },
+  {
+    "root_ticker": "HPE",
+    "counterparty_name": "Lenovo Group Ltd.",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "data center infrastructure competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Our primary competitors in data center infrastructure are technology vendors, such as Dell Technologies Inc., Super Micro Computer, Inc., Cisco Systems, Inc., and Lenovo Group Ltd.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1645590/000164559025000130/hpe-20251031.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-12-18",
+    "shared_evidence_group": "ev_55c33322a29b"
+  },
+  {
+    "root_ticker": "HPE",
+    "counterparty_name": "Broadcom",
+    "counterparty_ticker": "AVGO",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "hybrid cloud competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Our primary competitors are other infrastructure and cloud management software technology vendors, such as Broadcom, Cisco Systems Inc., Dell Technologies Inc., IBM, NetApp Inc., Nutanix, and Pure Storage and public cloud vendors like Amazon Web Services, Google Cloud, and Microsoft",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1645590/000164559025000130/hpe-20251031.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-12-18",
+    "shared_evidence_group": "ev_292b68744688"
+  },
+  {
+    "root_ticker": "HPE",
+    "counterparty_name": "IBM",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "hybrid cloud competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Our primary competitors are other infrastructure and cloud management software technology vendors, such as Broadcom, Cisco Systems Inc., Dell Technologies Inc., IBM, NetApp Inc., Nutanix, and Pure Storage and public cloud vendors like Amazon Web Services, Google Cloud, and Microsoft",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1645590/000164559025000130/hpe-20251031.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-12-18",
+    "shared_evidence_group": "ev_292b68744688"
+  },
+  {
+    "root_ticker": "HPE",
+    "counterparty_name": "NetApp Inc.",
+    "counterparty_ticker": "NTAP",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "hybrid cloud competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Our primary competitors are other infrastructure and cloud management software technology vendors, such as Broadcom, Cisco Systems Inc., Dell Technologies Inc., IBM, NetApp Inc., Nutanix, and Pure Storage and public cloud vendors like Amazon Web Services, Google Cloud, and Microsoft",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1645590/000164559025000130/hpe-20251031.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-12-18",
+    "shared_evidence_group": "ev_292b68744688"
+  },
+  {
+    "root_ticker": "HPE",
+    "counterparty_name": "Nutanix",
+    "counterparty_ticker": "NTNX",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "hybrid cloud competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.98,
+    "evidence": [
+      {
+        "quote": "Our primary competitors are other infrastructure and cloud management software technology vendors, such as Broadcom, Cisco Systems Inc., Dell Technologies Inc., IBM, NetApp Inc., Nutanix, and Pure Storage and public cloud vendors like Amazon Web Services, Google Cloud, and Microsoft",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1645590/000164559025000130/hpe-20251031.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-12-18",
+    "shared_evidence_group": "ev_292b68744688"
+  },
+  {
+    "root_ticker": "HPE",
+    "counterparty_name": "Pure Storage",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "hybrid cloud competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Our primary competitors are other infrastructure and cloud management software technology vendors, such as Broadcom, Cisco Systems Inc., Dell Technologies Inc., IBM, NetApp Inc., Nutanix, and Pure Storage and public cloud vendors like Amazon Web Services, Google Cloud, and Microsoft",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1645590/000164559025000130/hpe-20251031.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-12-18",
+    "shared_evidence_group": "ev_292b68744688"
+  },
+  {
+    "root_ticker": "HPE",
+    "counterparty_name": "Amazon Web Services",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "public cloud competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Our primary competitors are other infrastructure and cloud management software technology vendors, such as Broadcom, Cisco Systems Inc., Dell Technologies Inc., IBM, NetApp Inc., Nutanix, and Pure Storage and public cloud vendors like Amazon Web Services, Google Cloud, and Microsoft",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1645590/000164559025000130/hpe-20251031.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-12-18",
+    "shared_evidence_group": "ev_292b68744688"
+  },
+  {
+    "root_ticker": "HPE",
+    "counterparty_name": "Google Cloud",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "public cloud competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Our primary competitors are other infrastructure and cloud management software technology vendors, such as Broadcom, Cisco Systems Inc., Dell Technologies Inc., IBM, NetApp Inc., Nutanix, and Pure Storage and public cloud vendors like Amazon Web Services, Google Cloud, and Microsoft",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1645590/000164559025000130/hpe-20251031.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-12-18",
+    "shared_evidence_group": "ev_292b68744688"
+  },
+  {
+    "root_ticker": "HPE",
+    "counterparty_name": "Microsoft Corporation",
+    "counterparty_ticker": "MSFT",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "public cloud competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Our primary competitors are other infrastructure and cloud management software technology vendors, such as Broadcom, Cisco Systems Inc., Dell Technologies Inc., IBM, NetApp Inc., Nutanix, and Pure Storage and public cloud vendors like Amazon Web Services, Google Cloud, and Microsoft",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1645590/000164559025000130/hpe-20251031.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-12-18",
+    "shared_evidence_group": "ev_292b68744688"
+  },
+  {
+    "root_ticker": "HPE",
+    "counterparty_name": "Arista Networks Inc",
+    "counterparty_ticker": "ANET",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "networking competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.98,
+    "evidence": [
+      {
+        "quote": "Our primary competitors are technology vendors, such as Cisco Systems, Inc., Arista Networks Inc, Nokia Corporation, Huawei Technologies Co. Ltd., Ciena Corporation, NVIDIA Corporation, Extreme Networks, Inc., Palo Alto Networks, Fortinet, Inc., Zscaler, Inc., Netskope, Inc., Ruckus Networks, and Ubiquiti",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1645590/000164559025000130/hpe-20251031.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-12-18",
+    "shared_evidence_group": "ev_5e2716cdbbb5"
+  },
+  {
+    "root_ticker": "HPE",
+    "counterparty_name": "Nokia Corporation",
+    "counterparty_ticker": "NOK",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "networking competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Our primary competitors are technology vendors, such as Cisco Systems, Inc., Arista Networks Inc, Nokia Corporation, Huawei Technologies Co. Ltd., Ciena Corporation, NVIDIA Corporation, Extreme Networks, Inc., Palo Alto Networks, Fortinet, Inc., Zscaler, Inc., Netskope, Inc., Ruckus Networks, and Ubiquiti",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1645590/000164559025000130/hpe-20251031.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-12-18",
+    "shared_evidence_group": "ev_5e2716cdbbb5"
+  },
+  {
+    "root_ticker": "HPE",
+    "counterparty_name": "Huawei Technologies Co. Ltd.",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "competitor",
+    "subtype": "networking competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Our primary competitors are technology vendors, such as Cisco Systems, Inc., Arista Networks Inc, Nokia Corporation, Huawei Technologies Co. Ltd., Ciena Corporation, NVIDIA Corporation, Extreme Networks, Inc., Palo Alto Networks, Fortinet, Inc., Zscaler, Inc., Netskope, Inc., Ruckus Networks, and Ubiquiti",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1645590/000164559025000130/hpe-20251031.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-12-18",
+    "shared_evidence_group": "ev_5e2716cdbbb5"
+  },
+  {
+    "root_ticker": "HPE",
+    "counterparty_name": "Ciena Corporation",
+    "counterparty_ticker": "CIEN",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "networking competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.98,
+    "evidence": [
+      {
+        "quote": "Our primary competitors are technology vendors, such as Cisco Systems, Inc., Arista Networks Inc, Nokia Corporation, Huawei Technologies Co. Ltd., Ciena Corporation, NVIDIA Corporation, Extreme Networks, Inc., Palo Alto Networks, Fortinet, Inc., Zscaler, Inc., Netskope, Inc., Ruckus Networks, and Ubiquiti",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1645590/000164559025000130/hpe-20251031.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-12-18",
+    "shared_evidence_group": "ev_5e2716cdbbb5"
+  },
+  {
+    "root_ticker": "HPE",
+    "counterparty_name": "NVIDIA Corporation",
+    "counterparty_ticker": "NVDA",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "networking competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Our primary competitors are technology vendors, such as Cisco Systems, Inc., Arista Networks Inc, Nokia Corporation, Huawei Technologies Co. Ltd., Ciena Corporation, NVIDIA Corporation, Extreme Networks, Inc., Palo Alto Networks, Fortinet, Inc., Zscaler, Inc., Netskope, Inc., Ruckus Networks, and Ubiquiti",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1645590/000164559025000130/hpe-20251031.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-12-18",
+    "shared_evidence_group": "ev_5e2716cdbbb5"
+  },
+  {
+    "root_ticker": "HPE",
+    "counterparty_name": "Extreme Networks, Inc.",
+    "counterparty_ticker": "EXTR",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "networking competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Our primary competitors are technology vendors, such as Cisco Systems, Inc., Arista Networks Inc, Nokia Corporation, Huawei Technologies Co. Ltd., Ciena Corporation, NVIDIA Corporation, Extreme Networks, Inc., Palo Alto Networks, Fortinet, Inc., Zscaler, Inc., Netskope, Inc., Ruckus Networks, and Ubiquiti",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1645590/000164559025000130/hpe-20251031.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-12-18",
+    "shared_evidence_group": "ev_5e2716cdbbb5"
+  },
+  {
+    "root_ticker": "HPE",
+    "counterparty_name": "Palo Alto Networks",
+    "counterparty_ticker": "PANW",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "networking competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Our primary competitors are technology vendors, such as Cisco Systems, Inc., Arista Networks Inc, Nokia Corporation, Huawei Technologies Co. Ltd., Ciena Corporation, NVIDIA Corporation, Extreme Networks, Inc., Palo Alto Networks, Fortinet, Inc., Zscaler, Inc., Netskope, Inc., Ruckus Networks, and Ubiquiti",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1645590/000164559025000130/hpe-20251031.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-12-18",
+    "shared_evidence_group": "ev_5e2716cdbbb5"
+  },
+  {
+    "root_ticker": "HPE",
+    "counterparty_name": "Fortinet, Inc.",
+    "counterparty_ticker": "FTNT",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "networking competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Our primary competitors are technology vendors, such as Cisco Systems, Inc., Arista Networks Inc, Nokia Corporation, Huawei Technologies Co. Ltd., Ciena Corporation, NVIDIA Corporation, Extreme Networks, Inc., Palo Alto Networks, Fortinet, Inc., Zscaler, Inc., Netskope, Inc., Ruckus Networks, and Ubiquiti",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1645590/000164559025000130/hpe-20251031.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-12-18",
+    "shared_evidence_group": "ev_5e2716cdbbb5"
+  },
+  {
+    "root_ticker": "HPE",
+    "counterparty_name": "Zscaler, Inc.",
+    "counterparty_ticker": "ZS",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "networking competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.98,
+    "evidence": [
+      {
+        "quote": "Our primary competitors are technology vendors, such as Cisco Systems, Inc., Arista Networks Inc, Nokia Corporation, Huawei Technologies Co. Ltd., Ciena Corporation, NVIDIA Corporation, Extreme Networks, Inc., Palo Alto Networks, Fortinet, Inc., Zscaler, Inc., Netskope, Inc., Ruckus Networks, and Ubiquiti",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1645590/000164559025000130/hpe-20251031.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-12-18",
+    "shared_evidence_group": "ev_5e2716cdbbb5"
+  },
+  {
+    "root_ticker": "HPE",
+    "counterparty_name": "Netskope, Inc.",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "competitor",
+    "subtype": "networking competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Our primary competitors are technology vendors, such as Cisco Systems, Inc., Arista Networks Inc, Nokia Corporation, Huawei Technologies Co. Ltd., Ciena Corporation, NVIDIA Corporation, Extreme Networks, Inc., Palo Alto Networks, Fortinet, Inc., Zscaler, Inc., Netskope, Inc., Ruckus Networks, and Ubiquiti",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1645590/000164559025000130/hpe-20251031.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-12-18",
+    "shared_evidence_group": "ev_5e2716cdbbb5"
+  },
+  {
+    "root_ticker": "HPE",
+    "counterparty_name": "Ruckus Networks",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "competitor",
+    "subtype": "networking competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Our primary competitors are technology vendors, such as Cisco Systems, Inc., Arista Networks Inc, Nokia Corporation, Huawei Technologies Co. Ltd., Ciena Corporation, NVIDIA Corporation, Extreme Networks, Inc., Palo Alto Networks, Fortinet, Inc., Zscaler, Inc., Netskope, Inc., Ruckus Networks, and Ubiquiti",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1645590/000164559025000130/hpe-20251031.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-12-18",
+    "shared_evidence_group": "ev_5e2716cdbbb5"
+  },
+  {
+    "root_ticker": "HPE",
+    "counterparty_name": "Ubiquiti",
+    "counterparty_ticker": "UI",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "networking competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Our primary competitors are technology vendors, such as Cisco Systems, Inc., Arista Networks Inc, Nokia Corporation, Huawei Technologies Co. Ltd., Ciena Corporation, NVIDIA Corporation, Extreme Networks, Inc., Palo Alto Networks, Fortinet, Inc., Zscaler, Inc., Netskope, Inc., Ruckus Networks, and Ubiquiti",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1645590/000164559025000130/hpe-20251031.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-12-18",
+    "shared_evidence_group": "ev_5e2716cdbbb5"
+  },
+  {
+    "root_ticker": "HPE",
+    "counterparty_name": "Nile",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "competitor",
+    "subtype": "networking-as-a-service competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "networking-as-a-service vendors such as Nile and Meter.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1645590/000164559025000130/hpe-20251031.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-12-18",
+    "shared_evidence_group": "ev_4f025e8351c0"
+  },
+  {
+    "root_ticker": "HPE",
+    "counterparty_name": "Meter",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "competitor",
+    "subtype": "networking-as-a-service competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "networking-as-a-service vendors such as Nile and Meter.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1645590/000164559025000130/hpe-20251031.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-12-18",
+    "shared_evidence_group": "ev_4f025e8351c0"
+  },
+  {
+    "root_ticker": "HPE",
+    "counterparty_name": "IBM Global Financing",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "captive financing competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Financial Services primarily competes with captive financing companies, such as IBM Global Financing, Dell Financial Services, and Cisco Capital, as well as banks and other financial institutions.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1645590/000164559025000130/hpe-20251031.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-12-18",
+    "shared_evidence_group": "ev_72028e3a676f"
+  },
+  {
+    "root_ticker": "HPE",
+    "counterparty_name": "Dell Financial Services",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "captive financing competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Financial Services primarily competes with captive financing companies, such as IBM Global Financing, Dell Financial Services, and Cisco Capital, as well as banks and other financial institutions.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1645590/000164559025000130/hpe-20251031.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-12-18",
+    "shared_evidence_group": "ev_72028e3a676f"
+  },
+  {
+    "root_ticker": "HPE",
+    "counterparty_name": "Cisco Capital",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "captive financing competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Financial Services primarily competes with captive financing companies, such as IBM Global Financing, Dell Financial Services, and Cisco Capital, as well as banks and other financial institutions.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1645590/000164559025000130/hpe-20251031.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-12-18",
+    "shared_evidence_group": "ev_72028e3a676f"
+  },
+  {
+    "root_ticker": "HPE",
+    "counterparty_name": "Nvidia",
+    "counterparty_ticker": "NVDA",
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "AI technology partner",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "we have invested in building turn-key integrated systems co-engineered with Nvidia that integrate HPE AI hardware and software technologies with Nvidia technologies",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1645590/000164559025000130/hpe-20251031.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-12-18",
+    "shared_evidence_group": "ev_d550ed39a1ca"
+  },
+  {
+    "root_ticker": "HPE",
+    "counterparty_name": "Morpheus",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "supplier",
+    "subtype": "acquired cloud orchestration technology",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.72,
+    "evidence": [
+      {
+        "quote": "We have expanded our cloud observability and orchestration capabilities and virtualization options through the acquisitions of OpsRamp (observability) and Morpheus (orchestration)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1645590/000164559025000130/hpe-20251031.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-12-18",
+    "shared_evidence_group": "ev_4fd1378ddfc0"
+  },
+  {
+    "root_ticker": "HPE",
+    "counterparty_name": "Energy STAR",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "partner",
+    "subtype": "product_certification",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.75,
+    "evidence": [
+      {
+        "quote": "many of our products are certified by eco-labels, such as the Electronic Product Environment Assessment Tool, Energy STAR, China SEPA, and the China Energy Conservation Program.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1645590/000164559025000130/hpe-20251031.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-12-18",
+    "shared_evidence_group": "ev_6b3c2c4e8433"
+  }
+]

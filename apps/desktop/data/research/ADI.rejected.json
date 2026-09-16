@@ -1,0 +1,65 @@
+[
+  {
+    "counterparty_name": "Standard & Poor's 500 Index",
+    "category": "dependency",
+    "subtype": "index_inclusion",
+    "evidence_quote": "Our common stock is listed on the Nasdaq Global Select Market under the symbol ADI and is included in the Standard & Poor's 500 Index.",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "TSMC",
+    "category": "supplier",
+    "subtype": "semiconductor wafer foundry",
+    "evidence_quote": "With respect to TSMC in particular, tensions across the Taiwan Strait or other geopolitical events could disrupt TSMC's operations, which would adversely affect our ability to manufacture certain products",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Maxim Integrated Products, Inc.",
+    "category": "supplier",
+    "subtype": "acquisition",
+    "evidence_quote": "an IRS income tax audit for Maxim Integrated Products, Inc.'s fiscal years ended June 27, 2015 through August 26, 2021",
+    "confidence": 0.85,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Taiwan Semiconductor Manufacturing Company",
+    "category": "supplier",
+    "subtype": "wafer_fabrication_foundry",
+    "evidence_quote": "rely on supplies, services, internal manufacturing capacity, wafer fabrication foundries and other subcontractors in locations around the world",
+    "confidence": 0.65,
+    "reason": "counterparty name not in quote",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Nasdaq Global Select Market",
+    "category": "dependency",
+    "subtype": "stock_exchange",
+    "evidence_quote": "Our common stock is listed on the Nasdaq Global Select Market under the symbol ADI",
+    "confidence": 0.95,
+    "reason": "Nasdaq Global Select Market is a stock exchange/listing venue. Per instruction #4, stock exchanges and listing venues must always be rejected as counterparties. The evidence quote 'Our common stock is listed on the Nasdaq Global Select Market under the symbol ADI' describes only a listing relationship, not a dependency or any genuine counterparty relationship. Nasdaq is a venue where ADI's shares trade, not an entity ADI depends upon for operations, technology, or critical services.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "China",
+    "category": "customer",
+    "subtype": "foreign_government_infrastructure_customer",
+    "evidence_quote": "a decline in infrastructure spending by foreign governments, including China",
+    "confidence": 0.75,
+    "reason": "The evidence_quote 'a decline in infrastructure spending by foreign governments, including China' describes China as a risk factor related to government infrastructure spending, NOT as a customer relationship. This is a discussion of macroeconomic and geopolitical risk factors that could affect ADI's business environment. The text does not establish that China (as a government entity) purchases products or services from ADI. Instead, it refers to potential declines in infrastructure spending by foreign governments that could indirectly affect market demand for ADI's products. This is a market risk factor, not evidence of a direct customer relationship. Additionally, 'China' as a country/government is too broad and generic to constitute a specific counterparty in a financial knowledge graph without evidence of direct commercial transactions.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "IRS",
+    "category": "dependency",
+    "subtype": "tax_authority",
+    "evidence_quote": "we are subject to, and are under tax examination and audit in various jurisdictions, including an IRS income tax audit",
+    "confidence": 0.95,
+    "reason": "The IRS is a tax and revenue authority acting in its regulatory capacity, not a counterparty in a business relationship. The evidence quote describes the company being 'subject to' and 'under tax examination and audit' by the IRS, which is a standard regulatory/compliance activity. The audit instructions explicitly state that 'tax and revenue authorities (IRS, national revenue agencies)' should always be rejected as counterparties. The IRS is not a dependency in the sense of critical infrastructure or service the company relies on; rather, it is a government regulator to which the company must submit. Category 'dependency' with subtype 'tax_authority' is incorrect—tax authorities are excluded from the knowledge graph.",
+    "stage": "audit"
+  }
+]

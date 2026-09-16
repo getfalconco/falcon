@@ -1,0 +1,83 @@
+[
+  {
+    "counterparty_name": "Daiichi Sankyo",
+    "category": "partner",
+    "subtype": "product development and commercialization collaboration",
+    "evidence_quote": "Enhertu (trastuzumab deruxtecan) A HER2-directed ADC indicated for HER2- positive, HER2-low and HER2-ultralow advanced breast cancers",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Daiichi Sankyo",
+    "category": "partner",
+    "subtype": "product development and commercialization collaboration",
+    "evidence_quote": "Datroway (datopotamab deruxtecan) A TROP2-directed antibody drug conjugate (ADC) indicated for patients with previously treated metastatic HR-positive, HER2-negative breast cancer",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Activision Blizzard",
+    "category": "dependency",
+    "subtype": "infrastructure",
+    "evidence_quote": "Activision Blizzard is a Microsoft subsidiary",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "MedImmune",
+    "category": "supplier",
+    "subtype": "acquisition",
+    "evidence_quote": "In 2007, the Group acquired MedImmune, a biologics and vaccines business based in the United States.",
+    "confidence": 0.95,
+    "reason": "MedImmune is not a supplier to AstraZeneca; it is a wholly-owned subsidiary acquired in 2007. The evidence states 'the Group acquired MedImmune,' meaning AstraZeneca purchased and now owns MedImmune as an internal business unit. Internal subsidiaries and acquired entities that are now part of the corporate group are not counterparties. The 'supplier' category and 'acquisition' subtype are both inappropriate—acquisitions create internal subsidiaries, not ongoing supplier relationships. MedImmune should be rejected as a counterparty.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Alexion",
+    "category": "supplier",
+    "subtype": "acquisition",
+    "evidence_quote": "In 2021, the Group acquired Alexion, a rare disease business based in the United States.",
+    "confidence": 0.95,
+    "reason": "Alexion is a subsidiary of AstraZeneca, not an external counterparty. The evidence states 'the Group acquired Alexion' in 2021, making it an internal entity post-acquisition. The ROOT company's own subsidiaries cannot be categorized as suppliers, customers, partners, competitors, or dependencies. The 'acquisition' subtype further confirms this is an M&A transaction that made Alexion part of AstraZeneca's corporate structure, similar to how the text describes MedImmune (acquired 2007) as 'a biologics and vaccines business' that became part of the Group. Post-acquisition entities are internal operations, not external counterparties.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Astra",
+    "category": "supplier",
+    "subtype": "merger",
+    "evidence_quote": "Also in 1999, the Company merged with Astra of Sweden.",
+    "confidence": 0.95,
+    "reason": "The evidence quote 'Also in 1999, the Company merged with Astra of Sweden' describes a historical merger where Astra AB (Swedish pharmaceutical company) merged with Zeneca to form AstraZeneca PLC. This is not a supplier relationship. Astra became part of AstraZeneca through the merger - it's a corporate combination that created the ROOT company, not an ongoing counterparty relationship. The category 'supplier' with subtype 'merger' is nonsensical; mergers create new corporate entities, they don't establish vendor relationships. Additionally, post-merger, Astra ceased to exist as a separate legal entity and became part of AstraZeneca, making it internal rather than an external counterparty. This is a historical corporate formation event from 1999, not a current business relationship.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Novartis",
+    "category": "partner",
+    "subtype": "joint_venture",
+    "evidence_quote": "In 2000, it demerged the agrochemical business and merged it with the similar business of Novartis to form a new company called Syngenta AG.",
+    "confidence": 0.85,
+    "reason": "The evidence_quote describes a historical 2000 demerger and joint venture to create Syngenta AG, not an ongoing partnership relationship. A 26-year-old transaction that formed a separate entity (Syngenta) is not evidence of a current partner relationship between AstraZeneca and Novartis. Additionally, the context confirms AstraZeneca exited agrochemicals entirely in 2000, so there is no continuing collaboration. Historical corporate restructuring events do not qualify as active counterparty relationships.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Iranian Food and Drug Administration",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "In July 2017, AstraZeneca Pars submitted regulatory applications to the Iranian Food and Drug Administration and subsequently received marketing authorizations for several products.",
+    "confidence": 0.85,
+    "reason": "The Iranian Food and Drug Administration is a regulatory authority, not a dependency. The evidence shows AstraZeneca Pars submitted applications and received marketing authorizations, which is a standard regulatory approval process, not a critical dependency relationship. Regulatory authorities acting in their regulatory capacity (approving products, enforcing rules) should be rejected as counterparties per the instructions. The relationship is one of regulatory oversight/approval, not a commercial or infrastructural dependency that would justify 'dependency' categorization. Additionally, the text indicates AstraZeneca operates through third-party distributors in Iran with no direct commercial relationship with the Iranian government or its agencies.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Iranian Ministry of Health",
+    "category": "customer",
+    "subtype": "government_hospitals",
+    "evidence_quote": "AstraZeneca, through a distributor, sponsored health care provider education programs in Iran, including for employees of hospitals owned or controlled by the Iranian Ministry of Health.",
+    "confidence": 0.8,
+    "reason": "The evidence_quote describes educational sponsorship for employees of Iranian Ministry of Health hospitals, not a customer relationship. The Iranian Ministry of Health is not purchasing AstraZeneca products directly; the filing explicitly states products are 'exclusively sold by a third-party distributor' and that government hospitals 'may purchase AstraZeneca products from the third-party distributor or the sub-distributors.' The educational program sponsorship does not constitute a commercial sales relationship. Additionally, the Ministry of Health as a regulatory/governmental health authority does not fit the profile of a typical customer counterparty.",
+    "stage": "audit"
+  }
+]

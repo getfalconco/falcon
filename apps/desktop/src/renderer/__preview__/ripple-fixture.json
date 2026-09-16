@@ -1,0 +1,473 @@
+{
+ "listItem": {
+  "run_id": "run-16e2b661-af43-5db5-a108-960a2233b526-e0e36539e5",
+  "incident_id": "16e2b661-af43-5db5-a108-960a2233b526",
+  "root_ticker": "WMT",
+  "event_label": "Walmart issues soft Q3 guidance; UBS maintains bullish stance on e-commerce and",
+  "event_type": "guidance",
+  "event_direction": "negative",
+  "event_materiality": "high",
+  "produced_at": "2026-08-22T20:08:55.782Z",
+  "event_ts": "2026-08-21T06:03:10.000Z",
+  "status": "stage1_only",
+  "summary": {
+   "targets": 8,
+   "open": 0,
+   "partial": 0,
+   "priced": 1,
+   "contradicted": 0,
+   "stale": 0,
+   "untracked": 7,
+   "vetoed": 0,
+   "no_edge": true
+  },
+  "superseded": false,
+  "update": false,
+  "stage2_state": "ok",
+  "synthetic": false
+ },
+ "run": {
+  "schema_version": 1,
+  "run_id": "run-16e2b661-af43-5db5-a108-960a2233b526-e0e36539e5",
+  "incident_id": "16e2b661-af43-5db5-a108-960a2233b526",
+  "request_id": "pr-16e2b661-af43-5db5-a108-960a2233b526-e0e36539e5",
+  "update_of": null,
+  "graph_version": {
+   "generatedAt": "2026-08-13T22:38:11.325Z",
+   "pipelineVersion": 5
+  },
+  "root_ticker": "WMT",
+  "event": {
+   "type": "guidance",
+   "direction": "negative",
+   "materiality": "high",
+   "label": "Walmart issues soft Q3 guidance; UBS maintains bullish stance on e-commerce and",
+   "source_msg_ids": [
+    "308ad865-faa8-48ef-9fb8-bcf162cbd782"
+   ],
+   "event_ts": "2026-08-21T06:03:10.000Z",
+   "source": "verdict",
+   "evidence_lines": [
+    "Walmart stock selling might have been an overreaction, says Fmr. Walmart U.S. CEO (earnings_results · standard · unclear)",
+    "What Walmart, Lowe's, And La-Z-Boy Earnings Say About The American Consumer (earnings_results · standard · negative)",
+    "WMT Stock Just Got Crushed 9% — Top Analyst Says Walmart's E-Commerce, Advertising Growth Still ‘Support the Bull Case’ (guidance · high · negative)",
+    "Walmart Rolling Out Tap To Pay Option Across All U.S. Stores, Clubs By End Of 2026 (product_clinical · standard · positive)",
+    "Walmart’s AI Bet Is Working: Sparky Users Spend 40% More as CEO Says AI Will Reshape ‘Nearly Every Part of Our Business’ (earnings_results · standard · positive)",
+    "Walmart In No Man's Land (guidance · standard · negative)",
+    "Walmart's Guide-Down Sinks the Dow as Trump Readies an \"Economic D-Day\" for Iran (guidance · high · negative)",
+    "Walmart’s US Sales Growth Hits Weakest Pace Since 2020 — Pharmacy Drag Packs A Punch (earnings_results · high · mixed)"
+   ]
+  },
+  "targets": [
+   {
+    "target": "name:flipkart",
+    "ticker": null,
+    "label": "Flipkart",
+    "tracked": false,
+    "relationship": {
+     "role": "partner",
+     "subtype": "majority_owned_subsidiary",
+     "tier": "critical",
+     "confidence": 0.95,
+     "evidence_quote": "we paid $3.5 billion to acquire shares from certain Flipkart noncontrolling interest holders",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/104169/000010416926000055/wmt-20260131.htm",
+     "filing_date": "2026-03-13",
+     "via": "forward",
+     "evidence_via": "forward",
+     "edge_ids": [
+      "WMT:name:flipkart:partner:majority_owned_subsidiary:441"
+     ],
+     "merged_evidence": []
+    },
+    "transmission": {
+     "tier": "strong",
+     "direction": "negative",
+     "matrix_cell": "guidance:partner",
+     "transmits": "weak",
+     "rule": "same"
+    },
+    "pricing": {
+     "status": "unknown",
+     "realized_resid_pct": null,
+     "expected_pct": null,
+     "basis": "none",
+     "reference_close_ts": null,
+     "reference_close": null,
+     "last_price": null,
+     "last_price_ts": null,
+     "realized_raw_pct": null,
+     "bench_move_pct": null,
+     "beta": null,
+     "ratio": null,
+     "sessions_elapsed": null,
+     "note": null
+    },
+    "mechanism": "WMT Walmart issues soft Q3 guidance; UBS maintains bullish stance on e-commerce and. Flipkart is a critical partner of WMT (majority owned subsidiary, per WMT filing). Transmits weakly negative.",
+    "stage2": null
+   },
+   {
+    "target": "name:china",
+    "ticker": null,
+    "label": "China",
+    "tracked": false,
+    "relationship": {
+     "role": "supplier",
+     "subtype": "import_source",
+     "tier": "important",
+     "confidence": 0.9,
+     "evidence_quote": "less than one third of what we sell in the U.S. is imported, with most of our imports coming from China, Mexico, Vietnam, India and Canada.",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/104169/000010416926000055/wmt-20260131.htm",
+     "filing_date": "2026-03-13",
+     "via": "forward",
+     "evidence_via": "forward",
+     "edge_ids": [
+      "WMT:name:china:supplier:import_source:435"
+     ],
+     "merged_evidence": []
+    },
+    "transmission": {
+     "tier": "moderate",
+     "direction": "negative",
+     "matrix_cell": "guidance:supplier",
+     "transmits": "yes",
+     "rule": "same"
+    },
+    "pricing": {
+     "status": "unknown",
+     "realized_resid_pct": null,
+     "expected_pct": null,
+     "basis": "none",
+     "reference_close_ts": null,
+     "reference_close": null,
+     "last_price": null,
+     "last_price_ts": null,
+     "realized_raw_pct": null,
+     "bench_move_pct": null,
+     "beta": null,
+     "ratio": null,
+     "sessions_elapsed": null,
+     "note": null
+    },
+    "mechanism": "WMT Walmart issues soft Q3 guidance; UBS maintains bullish stance on e-commerce and. China is an important supplier of WMT (import source, per WMT filing). Transmits negative.",
+    "stage2": null
+   },
+   {
+    "target": "name:mexico",
+    "ticker": null,
+    "label": "Mexico",
+    "tracked": false,
+    "relationship": {
+     "role": "supplier",
+     "subtype": "import_source",
+     "tier": "important",
+     "confidence": 0.9,
+     "evidence_quote": "less than one third of what we sell in the U.S. is imported, with most of our imports coming from China, Mexico, Vietnam, India and Canada.",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/104169/000010416926000055/wmt-20260131.htm",
+     "filing_date": "2026-03-13",
+     "via": "forward",
+     "evidence_via": "forward",
+     "edge_ids": [
+      "WMT:name:mexico:supplier:import_source:436"
+     ],
+     "merged_evidence": []
+    },
+    "transmission": {
+     "tier": "moderate",
+     "direction": "negative",
+     "matrix_cell": "guidance:supplier",
+     "transmits": "yes",
+     "rule": "same"
+    },
+    "pricing": {
+     "status": "unknown",
+     "realized_resid_pct": null,
+     "expected_pct": null,
+     "basis": "none",
+     "reference_close_ts": null,
+     "reference_close": null,
+     "last_price": null,
+     "last_price_ts": null,
+     "realized_raw_pct": null,
+     "bench_move_pct": null,
+     "beta": null,
+     "ratio": null,
+     "sessions_elapsed": null,
+     "note": null
+    },
+    "mechanism": "WMT Walmart issues soft Q3 guidance; UBS maintains bullish stance on e-commerce and. Mexico is an important supplier of WMT (import source, per WMT filing). Transmits negative.",
+    "stage2": null
+   },
+   {
+    "target": "COST",
+    "ticker": "COST",
+    "label": "COSTCO WHOLESALE CORP /NEW",
+    "tracked": true,
+    "relationship": {
+     "role": "competitor",
+     "subtype": "general merchandise retail competitor",
+     "tier": "marginal",
+     "confidence": 0.98,
+     "evidence_quote": "Walmart, Target, Kroger, and Amazon are among our significant general merchandise retail competitors in the U.S.",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/909832/000090983225000101/cost-20250831.htm",
+     "filing_date": "2025-10-08",
+     "via": "reverse",
+     "evidence_via": "reverse",
+     "edge_ids": [
+      "COST:WMT:competitor:general merchandise retail competitor:188"
+     ],
+     "merged_evidence": []
+    },
+    "transmission": {
+     "tier": "weak",
+     "direction": "unclear",
+     "matrix_cell": "guidance:competitor",
+     "transmits": "yes",
+     "rule": "unclear"
+    },
+    "pricing": {
+     "status": "priced",
+     "realized_resid_pct": 0.029651522089978233,
+     "expected_pct": 0.002429422172480312,
+     "basis": "raw",
+     "reference_close_ts": "2026-08-20T20:00:00.000Z",
+     "reference_close": 933.510009765625,
+     "last_price": 961.1900024414062,
+     "last_price_ts": "2026-08-25T17:08:58.000Z",
+     "realized_raw_pct": 0.029651522089978233,
+     "bench_move_pct": 0.0031865378818958234,
+     "beta": -0.43240099911792773,
+     "ratio": 12.205174722557832,
+     "sessions_elapsed": 3,
+     "anchor": "close",
+     "since_event_pct": null,
+     "first_30m_pct": null,
+     "note": "low R² (0.07) — raw move; direction unclear — magnitude comparison only"
+    },
+    "mechanism": "WMT Walmart issues soft Q3 guidance; UBS maintains bullish stance on e-commerce and. COST is a marginal competitor of WMT (general merchandise retail competitor, per COST filing). Transmits with uncl…",
+    "stage2": null
+   },
+   {
+    "target": "name:canada",
+    "ticker": null,
+    "label": "Canada",
+    "tracked": false,
+    "relationship": {
+     "role": "supplier",
+     "subtype": "import_source",
+     "tier": "marginal",
+     "confidence": 0.92,
+     "evidence_quote": "less than one third of what we sell in the U.S. is imported, with most of our imports coming from China, Mexico, Vietnam, India and Canada.",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/104169/000010416926000055/wmt-20260131.htm",
+     "filing_date": "2026-03-13",
+     "via": "forward",
+     "evidence_via": "forward",
+     "edge_ids": [
+      "WMT:name:canada:supplier:import_source:439"
+     ],
+     "merged_evidence": []
+    },
+    "transmission": {
+     "tier": "weak",
+     "direction": "negative",
+     "matrix_cell": "guidance:supplier",
+     "transmits": "yes",
+     "rule": "same"
+    },
+    "pricing": {
+     "status": "unknown",
+     "realized_resid_pct": null,
+     "expected_pct": null,
+     "basis": "none",
+     "reference_close_ts": null,
+     "reference_close": null,
+     "last_price": null,
+     "last_price_ts": null,
+     "realized_raw_pct": null,
+     "bench_move_pct": null,
+     "beta": null,
+     "ratio": null,
+     "sessions_elapsed": null,
+     "note": null
+    },
+    "mechanism": "WMT Walmart issues soft Q3 guidance; UBS maintains bullish stance on e-commerce and. Canada is a marginal supplier of WMT (import source, per WMT filing). Transmits negative.",
+    "stage2": null
+   },
+   {
+    "target": "name:india",
+    "ticker": null,
+    "label": "India",
+    "tracked": false,
+    "relationship": {
+     "role": "supplier",
+     "subtype": "import_source",
+     "tier": "marginal",
+     "confidence": 0.92,
+     "evidence_quote": "less than one third of what we sell in the U.S. is imported, with most of our imports coming from China, Mexico, Vietnam, India and Canada.",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/104169/000010416926000055/wmt-20260131.htm",
+     "filing_date": "2026-03-13",
+     "via": "forward",
+     "evidence_via": "forward",
+     "edge_ids": [
+      "WMT:name:india:supplier:import_source:438"
+     ],
+     "merged_evidence": []
+    },
+    "transmission": {
+     "tier": "weak",
+     "direction": "negative",
+     "matrix_cell": "guidance:supplier",
+     "transmits": "yes",
+     "rule": "same"
+    },
+    "pricing": {
+     "status": "unknown",
+     "realized_resid_pct": null,
+     "expected_pct": null,
+     "basis": "none",
+     "reference_close_ts": null,
+     "reference_close": null,
+     "last_price": null,
+     "last_price_ts": null,
+     "realized_raw_pct": null,
+     "bench_move_pct": null,
+     "beta": null,
+     "ratio": null,
+     "sessions_elapsed": null,
+     "note": null
+    },
+    "mechanism": "WMT Walmart issues soft Q3 guidance; UBS maintains bullish stance on e-commerce and. India is a marginal supplier of WMT (import source, per WMT filing). Transmits negative.",
+    "stage2": null
+   },
+   {
+    "target": "name:vietnam",
+    "ticker": null,
+    "label": "Vietnam",
+    "tracked": false,
+    "relationship": {
+     "role": "supplier",
+     "subtype": "import_source",
+     "tier": "marginal",
+     "confidence": 0.9,
+     "evidence_quote": "less than one third of what we sell in the U.S. is imported, with most of our imports coming from China, Mexico, Vietnam, India and Canada.",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/104169/000010416926000055/wmt-20260131.htm",
+     "filing_date": "2026-03-13",
+     "via": "forward",
+     "evidence_via": "forward",
+     "edge_ids": [
+      "WMT:name:vietnam:supplier:import_source:437"
+     ],
+     "merged_evidence": []
+    },
+    "transmission": {
+     "tier": "weak",
+     "direction": "negative",
+     "matrix_cell": "guidance:supplier",
+     "transmits": "yes",
+     "rule": "same"
+    },
+    "pricing": {
+     "status": "unknown",
+     "realized_resid_pct": null,
+     "expected_pct": null,
+     "basis": "none",
+     "reference_close_ts": null,
+     "reference_close": null,
+     "last_price": null,
+     "last_price_ts": null,
+     "realized_raw_pct": null,
+     "bench_move_pct": null,
+     "beta": null,
+     "ratio": null,
+     "sessions_elapsed": null,
+     "note": null
+    },
+    "mechanism": "WMT Walmart issues soft Q3 guidance; UBS maintains bullish stance on e-commerce and. Vietnam is a marginal supplier of WMT (import source, per WMT filing). Transmits negative.",
+    "stage2": null
+   },
+   {
+    "target": "JD",
+    "ticker": "JD",
+    "label": "JD",
+    "tracked": false,
+    "relationship": {
+     "role": "partner",
+     "subtype": "strategic_investment",
+     "tier": "marginal",
+     "confidence": 0.88,
+     "evidence_quote": "net proceeds received from sales of certain strategic investments, including $3.6 billion related to the sale of our JD.com investment.",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/104169/000010416926000055/wmt-20260131.htm",
+     "filing_date": "2026-03-13",
+     "via": "forward",
+     "evidence_via": "forward",
+     "edge_ids": [
+      "WMT:JD:partner:strategic_investment:440"
+     ],
+     "merged_evidence": []
+    },
+    "transmission": {
+     "tier": "weak",
+     "direction": "negative",
+     "matrix_cell": "guidance:partner",
+     "transmits": "weak",
+     "rule": "same"
+    },
+    "pricing": {
+     "status": "unknown",
+     "realized_resid_pct": null,
+     "expected_pct": null,
+     "basis": "none",
+     "reference_close_ts": null,
+     "reference_close": null,
+     "last_price": null,
+     "last_price_ts": null,
+     "realized_raw_pct": null,
+     "bench_move_pct": null,
+     "beta": null,
+     "ratio": null,
+     "sessions_elapsed": null,
+     "note": null
+    },
+    "mechanism": "WMT Walmart issues soft Q3 guidance; UBS maintains bullish stance on e-commerce and. JD is a marginal partner of WMT (strategic investment, per WMT filing). Transmits weakly negative.",
+    "stage2": null
+   }
+  ],
+  "summary": {
+   "targets": 8,
+   "open": 0,
+   "partial": 0,
+   "priced": 1,
+   "contradicted": 0,
+   "stale": 0,
+   "untracked": 7,
+   "vetoed": 0,
+   "no_edge": true
+  },
+  "status": "stage1_only",
+  "stage2": {
+   "model": "claude-fable-5",
+   "prompt_version": "pr-1.0",
+   "attempts": 0,
+   "latency_ms": 0,
+   "retry_errors": [],
+   "failure_reason": null,
+   "skipped_reason": "stage-2 off",
+   "input_tokens": 0,
+   "output_tokens": 0
+  },
+  "overflow": 0,
+  "non_transmitting": 0,
+  "reachable": 8,
+  "trigger": {
+   "rules": [
+    "filing_item.8k.mapped",
+    "gap_event.propagation"
+   ],
+   "priority_band": "P0"
+  },
+  "produced_at": "2026-08-22T20:08:55.782Z",
+  "superseded_by": null,
+  "update": false,
+  "failure_reason": null,
+  "synthetic": false
+ }
+}

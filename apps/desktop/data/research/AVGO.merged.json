@@ -1,0 +1,18 @@
+[
+  {
+    "counterparty_name": "TSMC",
+    "category": "supplier",
+    "subtype": "contract_manufacturer_wafer_foundry",
+    "evidence_quote": "During fiscal year 2025, approximately 95% of the wafers manufactured by our CMs were produced by TSMC.",
+    "confidence": 0.95,
+    "merged_into": "TSMC"
+  },
+  {
+    "counterparty_name": "Dell",
+    "category": "dependency",
+    "subtype": "tax_indemnification",
+    "evidence_quote": "we may be required to indemnify Dell and its affiliates for any such tax liabilities, which could be material.",
+    "confidence": 0.85,
+    "merged_into": "Dell"
+  }
+]

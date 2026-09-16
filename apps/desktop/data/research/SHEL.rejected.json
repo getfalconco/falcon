@@ -1,0 +1,83 @@
+[
+  {
+    "counterparty_name": "QatarEnergy",
+    "category": "partner",
+    "subtype": "joint venture",
+    "evidence_quote": "Shell holds 25% in the joint venture, which owns 25% of the North Field East expansion project",
+    "confidence": 0.95,
+    "reason": "counterparty name not in quote",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Alliance to End Plastic Waste",
+    "category": "partner",
+    "subtype": "plastics circularity alliance membership",
+    "evidence_quote": "we are a founding member of the Alliance to End Plastic Waste, which helps governments to assess and improve waste collection and waste management",
+    "confidence": 0.65,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Korn Ferry",
+    "category": "supplier",
+    "subtype": "executive search and advisory services",
+    "evidence_quote": "The NOMCO was assisted during 2025 by Korn Ferry (UK) Limited, an external global search company whose main role was to propose suitable candidates.",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Pavilion Energy",
+    "category": "supplier",
+    "subtype": "LNG third-party volumes",
+    "evidence_quote": "higher purchases from third parties following the Pavilion Energy acquisition",
+    "confidence": 0.85,
+    "reason": "Pavilion Energy Pte. Ltd. was acquired 100% by Shell in March 2025 (per the same chunk: 'we completed the acquisition of 100% of the shares in Pavilion Energy'), making it a wholly-owned subsidiary of Shell, not an external counterparty. The evidence quote actually describes increased third-party LNG purchase volumes gained through that acquisition, not a supplier relationship with Pavilion Energy itself.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Renaissance",
+    "category": "customer",
+    "subtype": "asset_buyer",
+    "evidence_quote": "In March 2025, we completed the sale of The Shell Petroleum Development Company of Nigeria Limited (SPDC) to Renaissance.",
+    "confidence": 0.95,
+    "reason": "Renaissance is the buyer of a Shell asset (SPDC) in a divestment sale, not a customer purchasing goods/services from Shell's ongoing operations. This is a one-time asset disposal transaction, not a commercial customer relationship; the correct relationship framing would be a divestment/asset sale counterparty, which doesn't fit any of the defined categories (supplier/customer/partner/competitor/dependency).",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "RockRose Energy Limited",
+    "category": "customer",
+    "subtype": "potential_asset_buyer",
+    "evidence_quote": "Shell signed an agreement with RockRose Energy Limited, a subsidiary of Viaro Energy, to divest its equity stake in 11 gas fields",
+    "confidence": 0.85,
+    "reason": "The excerpt shows this transaction did not proceed: 'in January 2026, Shell, ExxonMobil and Viaro Energy mutually agreed not to proceed with the transaction given that the completion conditions were not met. Shell and ExxonMobil will continue to own the assets.' The divestment to RockRose was abandoned, so no actual counterparty relationship exists.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Sumitomo Heavy Industries Marine & Engineering",
+    "category": "supplier",
+    "subtype": "FPSO shipbuilding",
+    "evidence_quote": "First hull block being placed in the dry dock at Sumitomo Heavy Industries Marine & Engineering Yokosuka.",
+    "confidence": 0.6,
+    "reason": "The quote is a photo caption noting where a hull block was placed in dry dock; it doesn't establish a commercial relationship between Shell and Sumitomo. The text identifies Modec as the contractor responsible for the FPSO ('Working closely with Modec, the contractor responsible for the floating production, storage and offloading (FPSO) unit'), with the FPSO 'built in China and Japan' — meaning this shipyard is at most a subcontractor to Modec, not a direct Shell vendor. No sentence supports Shell having a direct supplier relationship with this yard.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "No 4",
+    "category": "supplier",
+    "subtype": "board performance review services",
+    "evidence_quote": "an externally facilitated performance review by an external provider, Jan Hall of No 4, through one-on-one interviews with the Board members",
+    "confidence": 0.75,
+    "reason": "This is a board governance disclosure, not a business relationship material to the ROOT company's commercial operations. No.4 (Jan Hall's firm) is an external board evaluation consultant engaged for a one-off UK Corporate Governance Code compliance exercise, not a vendor relationship relevant to a financial knowledge graph of Shell's commercial/operational counterparties. This is analogous to auditors and other governance-process providers that should be excluded from this graph.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "ExxonMobil",
+    "category": "competitor",
+    "subtype": "energy industry peer/competitor",
+    "evidence_quote": "The REMCO has determined to retain the existing peer group (being bp, Chevron, ExxonMobil and TotalEnergies) and vesting schedule for the relative performance conditions. Outperforming Shell's closest competitors on key financial metrics is challenging.",
+    "confidence": 0.75,
+    "reason": "This excerpt is a Directors' Remuneration Report. ExxonMobil appears only as a member of the executive pay/performance benchmarking peer group used by the REMCO to set TSR targets and vesting schedules, not as a named business competitor in an operational or market-competition context. This is compensation-committee peer benchmarking language, not a substantive competitor relationship disclosure.",
+    "stage": "audit"
+  }
+]

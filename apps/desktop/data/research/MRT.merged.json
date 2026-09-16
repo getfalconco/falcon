@@ -1,0 +1,18 @@
+[
+  {
+    "counterparty_name": "Ministry of Transportation and Infrastructure",
+    "category": "dependency",
+    "subtype": "regulatory licensing authority",
+    "evidence_quote": "Operators first secure a national license from the Ministry of Transportation and Infrastructure, followed by city level licenses in each city where they would like to operate",
+    "confidence": 0.95,
+    "merged_into": "Ministry of Transportation and Infrastructure"
+  },
+  {
+    "counterparty_name": "Antalya Chamber of Drivers",
+    "category": "competitor",
+    "subtype": "plaintiff in unfair competition lawsuit",
+    "evidence_quote": "Additionally, a lawsuit filed by the Antalya Chamber of Drivers was combined with the existing case, as both were related.",
+    "confidence": 0.75,
+    "merged_into": "Antalya Chamber of Drivers"
+  }
+]

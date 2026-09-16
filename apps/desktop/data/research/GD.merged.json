@@ -1,0 +1,18 @@
+[
+  {
+    "counterparty_name": "Canadian army",
+    "category": "customer",
+    "subtype": "defense_customer",
+    "evidence_quote": "Land Systems is producing 515 new LAVs for the Canadian army in nine variants, including ambulances, command posts, maintenance and recovery vehicles, and troop-carrying vehicles",
+    "confidence": 0.93,
+    "merged_into": "Canadian army"
+  },
+  {
+    "counterparty_name": "Canadian Army",
+    "category": "customer",
+    "subtype": "c4isr_customer",
+    "evidence_quote": "For the Canadian Army, we provide the Land Command, Control, Communications, Computers, Intelligence, Surveillance and Reconnaissance (C4ISR) system.",
+    "confidence": 0.95,
+    "merged_into": "Canadian army"
+  }
+]

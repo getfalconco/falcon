@@ -1,0 +1,90 @@
+[
+  {
+    "root_ticker": "GBX",
+    "counterparty_name": "Axis, LLC",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "joint venture",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.93,
+    "evidence": [
+      {
+        "quote": "We have a 41.9% interest in Axis, LLC (Axis), a joint venture that manufactures and sells axles to its joint venture partners for use and distribution both domestically and internationally.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/923120/000119312525253612/gbx-20250831.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-10-28",
+    "shared_evidence_group": "ev_875eaaa8c66e"
+  },
+  {
+    "root_ticker": "GBX",
+    "counterparty_name": "Greenbrier-Maxion",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "joint venture",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "We have a 60% ownership interest in Greenbrier Maxion-Equipamentos e Serviços Ferroviários S.A. (Greenbrier-Maxion), a leading railcar manufacturer in South America, based in Hortolandia, Brazil.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/923120/000119312525253612/gbx-20250831.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-10-28",
+    "shared_evidence_group": "ev_5cbdf2bba1de"
+  },
+  {
+    "root_ticker": "GBX",
+    "counterparty_name": "Amsted-Maxion",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "joint venture",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "We have a 29.5% ownership interest in Amsted-Maxion Fundição e Equipamentos Ferroviários S.A. (Amsted-Maxion) based in Cruzeiro, Brazil.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/923120/000119312525253612/gbx-20250831.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-10-28",
+    "shared_evidence_group": "ev_a83a575e99f2"
+  },
+  {
+    "root_ticker": "GBX",
+    "counterparty_name": "Association of American Railroads (AAR)",
+    "counterparty_ticker": null,
+    "counterparty_type": "industry association",
+    "category": "dependency",
+    "subtype": "industry certification/standards body",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.85,
+    "evidence": [
+      {
+        "quote": "These regulations require maintaining certifications with the AAR as a railcar builder and maintenance provider and component manufacturer.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/923120/000119312525253612/gbx-20250831.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-10-28",
+    "shared_evidence_group": "ev_2f67361273ff"
+  }
+]

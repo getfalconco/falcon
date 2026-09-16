@@ -1,0 +1,83 @@
+[
+  {
+    "counterparty_name": "Pfizer",
+    "category": "partner",
+    "subtype": "clinical trial collaboration",
+    "evidence_quote": "The application is based on data from the Phase 3 KEYNOTE-905 trial conducted in collaboration with Pfizer",
+    "confidence": 0.92,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Gilead Sciences Inc.",
+    "category": "partner",
+    "subtype": "product_supplier",
+    "evidence_quote": "Keytruda and Keytruda Qlex are under review by the FDA in combination with Gilead Sciences Inc.'s sacituzumab govitecan (Trodelvy)",
+    "confidence": 0.9,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "HHS",
+    "category": "dependency",
+    "subtype": "regulatory_pricing_authority",
+    "evidence_quote": "in 2023, HHS selected Januvia for the first year of the IRA's price setting program, which resulted in a government set price becoming effective on January 1, 2026.",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "IRS",
+    "category": "dependency",
+    "subtype": "regulatory_tax_authority",
+    "evidence_quote": "The Internal Revenue Service (IRS) is currently conducting examinations of the Company's tax returns for the years 2017 and 2018",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Science Based Targets initiative",
+    "category": "dependency",
+    "subtype": "standard_setter",
+    "evidence_quote": "the Company committed to a net-zero target for its GHG emissions across its global operations (Scopes 1, 2, and 3) by 2045, aligned with the guidelines of the Science Based Targets initiative (SBTi), a third-party organization.",
+    "confidence": 0.85,
+    "reason": "The Science Based Targets initiative (SBTi) is described as 'a third-party organization' that provides guidelines for net-zero targets. While Merck aligns its climate goals with SBTi guidelines, this represents voluntary adoption of a standard or framework, not a critical dependency where Merck relies on SBTi's infrastructure or service for operations. SBTi is a standard-setting body that publishes guidelines; companies choose to align with these standards but do not depend on SBTi for ongoing operations. This is more appropriately categorized as a voluntary alignment with industry standards rather than a dependency relationship. The 'dependency' category should be reserved for cases where the root company critically relies on counterparty infrastructure/service with no alternative (like GPS satellites for navigation systems), not for voluntary standard adoption. Additionally, SBTi functions as a standard-setter/guideline provider, not an entity providing critical infrastructure or services that Merck depends upon.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "American Chemical Society",
+    "category": "dependency",
+    "subtype": "industry_association",
+    "evidence_quote": "The Company received the Peter J. Dunn Award for Green Chemistry and Engineering Impact for four of the past five years, an award given by the American Chemical Society",
+    "confidence": 0.75,
+    "reason": "The American Chemical Society is an industry association that administers an award to Merck, not a dependency. Receiving an award from a professional society does not constitute a business dependency or reliance relationship. The ACS is not infrastructure Merck relies on for operations, nor does the award create any critical dependency. This is merely recognition/acknowledgment, which does not fit any counterparty relationship category.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "U.S. Securities and Exchange Commission",
+    "category": "dependency",
+    "subtype": "regulatory_infrastructure",
+    "evidence_quote": "filed or furnished pursuant to Section 13(a) or 15(d) of the Securities Exchange Act of 1934, as amended, as soon as reasonably practicable after such reports are electronically filed with, or furnished to, the U.S. Securities and Exchange Commission (SEC).",
+    "confidence": 0.65,
+    "reason": "The U.S. Securities and Exchange Commission (SEC) is a regulator acting in its regulatory capacity. The evidence quote describes the SEC as the entity to which Merck files mandatory reports under securities law. This is a standard regulatory filing obligation, not a dependency relationship. Per the instructions, regulators acting as regulators must be rejected as counterparties. The SEC does not provide critical infrastructure or services that Merck depends on for operations; it is the recipient of legally mandated disclosures.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Medicare",
+    "category": "customer",
+    "subtype": "reimbursement_program",
+    "evidence_quote": "increased purchasing power of entities that negotiate on behalf of Medicare, Medicaid, and private sector beneficiaries, could result in further pricing pressures.",
+    "confidence": 0.85,
+    "reason": "Medicare is a government reimbursement program, not a customer. The evidence quote discusses 'entities that negotiate on behalf of Medicare' and the general pricing pressures from Medicare as a regulatory/reimbursement framework, not Medicare purchasing products directly from Merck. Medicare does not buy pharmaceuticals; it reimburses providers and pharmacies who dispense to beneficiaries. Additionally, the quote discusses pricing pressures and negotiation dynamics, not a direct commercial customer relationship. Medicare is better characterized as a regulatory/reimbursement dependency or excluded entirely, as it is not an external organization that purchases from the root company.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "OECD",
+    "category": "dependency",
+    "subtype": "regulatory_standard_setter",
+    "evidence_quote": "In connection with the Organization for Economic Cooperation and Development (OECD) Base Erosion and Profit Shifting project, companies are required to disclose more information to tax authorities",
+    "confidence": 0.92,
+    "reason": "The OECD is not a counterparty to Merck in any meaningful business relationship sense. The evidence quote describes the OECD Base Erosion and Profit Shifting project as creating disclosure requirements that companies must follow—this is a multilateral policy framework that affects tax reporting obligations. The OECD itself is not providing infrastructure or services that Merck depends on; rather, it's a standard-setting body whose recommendations are implemented by national tax authorities. The actual regulatory enforcement and dependency relationship is with the tax authorities themselves (IRS, foreign tax agencies), not the OECD. This is analogous to accounting standard setters like FASB—they create rules but aren't counterparties. The OECD does not fit the dependency category criteria (critical reliance on counterparty infrastructure/service with no commercial relationship), as it's a policy organization, not an operational dependency.",
+    "stage": "audit"
+  }
+]

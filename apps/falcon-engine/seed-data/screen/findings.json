@@ -1,0 +1,1072 @@
+{
+ "schema_version": 1,
+ "findings": [
+  {
+   "id": "screen:AMD:compression:2026-08-21",
+   "schema_version": 1,
+   "ticker": "AMD",
+   "pattern": "compression",
+   "state": "ended",
+   "day_count": 2,
+   "first_session": "2026-08-21",
+   "last_evaluated": "2026-08-25",
+   "sessions": [
+    "2026-08-21",
+    "2026-08-24"
+   ],
+   "values": {
+    "vol_regime": 0.707,
+    "vol_regime_max": 0.8,
+    "range": 0.1448,
+    "range_window": 10,
+    "range_implied": 0.1221,
+    "range_bound": 0.1832,
+    "range_ratio": 1.1859,
+    "range_ratio_max": 1.5,
+    "daily_vol": 0.0386,
+    "pct_from_52w_high": -0.2135,
+    "pct_from_52w_low": 2.0228
+   },
+   "modifiers": [],
+   "qualifying_sessions": [
+    "2026-08-18",
+    "2026-08-19",
+    "2026-08-20",
+    "2026-08-21",
+    "2026-08-24"
+   ],
+   "sessions_view": [
+    {
+     "d": "2026-08-18",
+     "close": 484.3900146484375,
+     "volume": 23721500,
+     "ret": -0.042707480931941655,
+     "bench_ret": -0.006755757074274671,
+     "volume_ratio": 0.891207769397665,
+     "residual_move": -0.013972930015978609,
+     "residual_z": -0.3974408644640074
+    },
+    {
+     "d": "2026-08-19",
+     "close": 466.4200134277344,
+     "volume": 19208400,
+     "ret": -0.03709820738923664,
+     "bench_ret": 0.00209783741736147,
+     "volume_ratio": 0.7361514582455064,
+     "residual_move": -0.04603549614901041,
+     "residual_z": -1.3475343710436516
+    },
+    {
+     "d": "2026-08-20",
+     "close": 469.4599914550781,
+     "volume": 15178900,
+     "ret": 0.006517683503764804,
+     "bench_ret": -0.008399893367440514,
+     "volume_ratio": 0.581723067489365,
+     "residual_move": 0.04220260577573713,
+     "residual_z": 1.2008404014760583
+    },
+    {
+     "d": "2026-08-21",
+     "close": 473.25,
+     "volume": 14310600,
+     "ret": 0.008073123618425715,
+     "bench_ret": 0.0040912604472485015,
+     "volume_ratio": 0.5696259971022338,
+     "residual_move": -0.009448566963224051,
+     "residual_z": -0.27481643865666633
+    },
+    {
+     "d": "2026-08-24",
+     "close": 456.8699951171875,
+     "volume": 12438869,
+     "ret": -0.03461173773441628,
+     "bench_ret": -0.0029384110198065194,
+     "volume_ratio": 0.5066996757478981,
+     "residual_move": -0.02188964794768692,
+     "residual_z": -0.6442649652475081
+    }
+   ],
+   "read": "vol regime 0.71× its 90d norm; 10-session range 14.5% inside the 18.3% band vol implies — coiled, no direction claimed",
+   "ended_at": "2026-08-25",
+   "ended_reason": "untracked"
+  },
+  {
+   "id": "screen:CEG:compression:2026-08-21",
+   "schema_version": 1,
+   "ticker": "CEG",
+   "pattern": "compression",
+   "state": "ended",
+   "day_count": 1,
+   "first_session": "2026-08-21",
+   "last_evaluated": "2026-08-24",
+   "sessions": [
+    "2026-08-21"
+   ],
+   "values": {
+    "vol_regime": 0.7627,
+    "vol_regime_max": 0.8,
+    "range": 0.0797,
+    "range_window": 10,
+    "range_implied": 0.068,
+    "range_bound": 0.102,
+    "range_ratio": 1.1712,
+    "range_ratio_max": 1.5,
+    "daily_vol": 0.0215,
+    "pct_from_52w_high": -0.3207,
+    "pct_from_52w_low": 0.1556
+   },
+   "modifiers": [],
+   "qualifying_sessions": [
+    "2026-08-17",
+    "2026-08-18",
+    "2026-08-19",
+    "2026-08-20",
+    "2026-08-21"
+   ],
+   "sessions_view": [
+    {
+     "d": "2026-08-17",
+     "close": 277.77301025390625,
+     "volume": 2196400,
+     "ret": -0.015221224154883695,
+     "bench_ret": -0.004727366641364417,
+     "volume_ratio": 0.815338641720957,
+     "residual_move": -0.009848614438044714,
+     "residual_z": -0.4028353604779426
+    },
+    {
+     "d": "2026-08-18",
+     "close": 266.8299865722656,
+     "volume": 3755800,
+     "ret": -0.03939556140331213,
+     "bench_ret": -0.006755757074274671,
+     "volume_ratio": 1.3942127438424559,
+     "residual_move": -0.03134387850686455,
+     "residual_z": -1.2960800979587004
+    },
+    {
+     "d": "2026-08-19",
+     "close": 274.1700134277344,
+     "volume": 2431900,
+     "ret": 0.027508253288019535,
+     "bench_ret": 0.00209783741736147,
+     "volume_ratio": 0.872790568306207,
+     "residual_move": 0.024983304536428663,
+     "residual_z": 1.0352601948015276
+    },
+    {
+     "d": "2026-08-20",
+     "close": 272.9200134277344,
+     "volume": 2175700,
+     "ret": -0.0045592148622389805,
+     "bench_ret": -0.008399893367440514,
+     "volume_ratio": 0.807654472223769,
+     "residual_move": 0.0053519410320612,
+     "residual_z": 0.21960507074740296
+    },
+    {
+     "d": "2026-08-21",
+     "close": 272.8800048828125,
+     "volume": 1966623,
+     "ret": -0.00014659439745512426,
+     "bench_ret": 0.003960162113734178,
+     "volume_ratio": 0.7300417617907455,
+     "residual_move": -0.0047823515459034585,
+     "residual_z": -0.19810668171791956
+    }
+   ],
+   "read": "vol regime 0.76× its 90d norm; 10-session range 8.0% inside the 10.2% band vol implies — coiled, no direction claimed",
+   "ended_at": "2026-08-24",
+   "ended_reason": "condition_false"
+  },
+  {
+   "id": "screen:MSTR:independent_tape:2026-08-21",
+   "schema_version": 1,
+   "ticker": "MSTR",
+   "pattern": "independent_tape",
+   "state": "ended",
+   "day_count": 2,
+   "first_session": "2026-08-21",
+   "last_evaluated": "2026-08-25",
+   "sessions": [
+    "2026-08-21",
+    "2026-08-24"
+   ],
+   "values": {
+    "sessions_qualifying": 3,
+    "sessions_window": 5,
+    "direction": "up",
+    "residual_z_min": 1,
+    "net_residual": 0.2769,
+    "net_residual_implied": 0.1118,
+    "net_residual_z": 2.476,
+    "net_residual_z_min": 1.5,
+    "r2": 0.2092,
+    "beta": 2.8594,
+    "daily_vol": 0.05,
+    "residual_z_max_abs": 3.4726
+   },
+   "modifiers": [],
+   "qualifying_sessions": [
+    "2026-08-19",
+    "2026-08-20",
+    "2026-08-21"
+   ],
+   "sessions_view": [
+    {
+     "d": "2026-08-18",
+     "close": 92.5199966430664,
+     "volume": 16911000,
+     "ret": -0.05282559015139521,
+     "bench_ret": -0.006755757074274671,
+     "volume_ratio": 1.202012950550505,
+     "residual_move": -0.032087298612043416,
+     "residual_z": -0.9413820758828355
+    },
+    {
+     "d": "2026-08-19",
+     "close": 104.25,
+     "volume": 49175200,
+     "ret": 0.12678343906763057,
+     "bench_ret": 0.00209783741736147,
+     "volume_ratio": 3.4953123556212637,
+     "residual_move": 0.12030874838736418,
+     "residual_z": 3.4725642432716706
+    },
+    {
+     "d": "2026-08-20",
+     "close": 112.38999938964844,
+     "volume": 47249100,
+     "ret": 0.07808152891749098,
+     "bench_ret": -0.008399893367440514,
+     "volume_ratio": 3.207242736899267,
+     "residual_move": 0.10246860099419286,
+     "residual_z": 2.807527931211379
+    },
+    {
+     "d": "2026-08-21",
+     "close": 119.25,
+     "volume": 45839500,
+     "ret": 0.06103746461078274,
+     "bench_ret": 0.0040912604472485015,
+     "volume_ratio": 3.1115598696714635,
+     "residual_move": 0.0491032990385491,
+     "residual_z": 1.267733671608821
+    },
+    {
+     "d": "2026-08-24",
+     "close": 122.66999816894531,
+     "volume": 38416160,
+     "ret": 0.02867922992826255,
+     "bench_ret": -0.0029384110198065194,
+     "volume_ratio": 2.391161403967409,
+     "residual_move": 0.0370812625965585,
+     "residual_z": 0.9699483095646267
+    }
+   ],
+   "read": "3 of the last 5 sessions moved upward on their own (|residual z| ≥ 1.0); net residual +27.7% against 11.2% vol-implied — market-independent pressure",
+   "ended_at": "2026-08-25",
+   "ended_reason": "untracked"
+  },
+  {
+   "id": "screen:QCOM:compression:2026-08-21",
+   "schema_version": 1,
+   "ticker": "QCOM",
+   "pattern": "compression",
+   "state": "ended",
+   "day_count": 2,
+   "first_session": "2026-08-21",
+   "last_evaluated": "2026-08-25",
+   "sessions": [
+    "2026-08-21",
+    "2026-08-24"
+   ],
+   "values": {
+    "vol_regime": 0.7235,
+    "vol_regime_max": 0.8,
+    "range": 0.0678,
+    "range_window": 10,
+    "range_implied": 0.0985,
+    "range_bound": 0.1478,
+    "range_ratio": 0.6879,
+    "range_ratio_max": 1.5,
+    "daily_vol": 0.0312,
+    "pct_from_52w_high": -0.3661,
+    "pct_from_52w_low": 0.2825
+   },
+   "modifiers": [],
+   "qualifying_sessions": [
+    "2026-08-18",
+    "2026-08-19",
+    "2026-08-20",
+    "2026-08-21",
+    "2026-08-24"
+   ],
+   "sessions_view": [
+    {
+     "d": "2026-08-18",
+     "close": 160.19000244140625,
+     "volume": 11069500,
+     "ret": -0.012270257271211338,
+     "bench_ret": -0.006755757074274671,
+     "volume_ratio": 1.1224567398611822,
+     "residual_move": 0.008312224256816672,
+     "residual_z": 0.24700710315890959
+    },
+    {
+     "d": "2026-08-19",
+     "close": 161.91000366210938,
+     "volume": 8099500,
+     "ret": 0.010737256972901621,
+     "bench_ret": 0.00209783741736147,
+     "volume_ratio": 0.8212962071011017,
+     "residual_move": 0.0043409595625629694,
+     "residual_z": 0.12904901705501243
+    },
+    {
+     "d": "2026-08-20",
+     "close": 160.74000549316406,
+     "volume": 8509900,
+     "ret": -0.0072262253256876186,
+     "bench_ret": -0.008399893367440514,
+     "volume_ratio": 0.8629111170824947,
+     "residual_move": 0.018179402197627075,
+     "residual_z": 0.5381473460313176
+    },
+    {
+     "d": "2026-08-21",
+     "close": 160.75,
+     "volume": 8517400,
+     "ret": 0.00006217809191477741,
+     "bench_ret": 0.0040912604472485015,
+     "volume_ratio": 0.8758702246902155,
+     "residual_move": -0.012474925798761891,
+     "residual_z": -0.3686015241696151
+    },
+    {
+     "d": "2026-08-24",
+     "close": 158.5399932861328,
+     "volume": 5208323,
+     "ret": -0.01374809775345065,
+     "bench_ret": -0.0029384110198065194,
+     "volume_ratio": 0.5487268283175212,
+     "residual_move": -0.004657302910898525,
+     "residual_z": -0.13698572796510564
+    }
+   ],
+   "read": "vol regime 0.72× its 90d norm; 10-session range 6.8% inside the 14.8% band vol implies — coiled, no direction claimed",
+   "ended_at": "2026-08-25",
+   "ended_reason": "untracked"
+  },
+  {
+   "id": "screen:TSM:compression:2026-08-21",
+   "schema_version": 1,
+   "ticker": "TSM",
+   "pattern": "compression",
+   "state": "continuing",
+   "day_count": 2,
+   "first_session": "2026-08-21",
+   "last_evaluated": "2026-08-24",
+   "sessions": [
+    "2026-08-21",
+    "2026-08-24"
+   ],
+   "values": {
+    "vol_regime": 0.7124,
+    "vol_regime_max": 0.8,
+    "range": 0.0753,
+    "range_window": 10,
+    "range_implied": 0.054,
+    "range_bound": 0.0811,
+    "range_ratio": 1.3936,
+    "range_ratio_max": 1.5,
+    "daily_vol": 0.0171,
+    "pct_from_52w_high": -0.1412,
+    "pct_from_52w_low": 0.8156
+   },
+   "modifiers": [],
+   "qualifying_sessions": [
+    "2026-08-18",
+    "2026-08-19",
+    "2026-08-20",
+    "2026-08-21",
+    "2026-08-24"
+   ],
+   "sessions_view": [
+    {
+     "d": "2026-08-18",
+     "close": 413.4100036621094,
+     "volume": 14030100,
+     "ret": -0.04074528971588709,
+     "bench_ret": -0.006755757074274671,
+     "volume_ratio": 1.204238408322318,
+     "residual_move": -0.023743088066120063,
+     "residual_z": -1.0618130525602185
+    },
+    {
+     "d": "2026-08-19",
+     "close": 412.0899963378906,
+     "volume": 8424700,
+     "ret": -0.0031929738335447766,
+     "bench_ret": 0.00209783741736147,
+     "volume_ratio": 0.7231129727224349,
+     "residual_move": -0.008483908067563245,
+     "residual_z": -0.38951252525532726
+    },
+    {
+     "d": "2026-08-20",
+     "close": 416,
+     "volume": 10447900,
+     "ret": 0.009488227564018237,
+     "bench_ret": -0.008399893367440514,
+     "volume_ratio": 0.8967692651022265,
+     "residual_move": 0.03053576867457467,
+     "residual_z": 1.3584415374103114
+    },
+    {
+     "d": "2026-08-21",
+     "close": 418.95001220703125,
+     "volume": 8936800,
+     "ret": 0.0070913754976713594,
+     "bench_ret": 0.0040912604472485015,
+     "volume_ratio": 0.7670677905000601,
+     "residual_move": -0.0031661202706632016,
+     "residual_z": -0.14141455783096957
+    },
+    {
+     "d": "2026-08-24",
+     "close": 410.1300048828125,
+     "volume": 9683860,
+     "ret": -0.021052648447853928,
+     "bench_ret": -0.0029384110198065194,
+     "volume_ratio": 0.8644374023655435,
+     "residual_move": -0.013553340098797188,
+     "residual_z": -0.6240317937702935
+    }
+   ],
+   "read": "vol regime 0.71× its 90d norm; 10-session range 7.5% inside the 8.1% band vol implies — coiled, no direction claimed",
+   "ended_at": null,
+   "ended_reason": null
+  },
+  {
+   "id": "screen:ZLAB:quiet_accumulation:2026-08-21",
+   "schema_version": 1,
+   "ticker": "ZLAB",
+   "pattern": "quiet_accumulation",
+   "state": "ended",
+   "day_count": 1,
+   "first_session": "2026-08-21",
+   "last_evaluated": "2026-08-24",
+   "sessions": [
+    "2026-08-21"
+   ],
+   "values": {
+    "sessions_qualifying": 3,
+    "sessions_window": 5,
+    "avg_volume_ratio": 2.0553,
+    "max_volume_ratio": 2.2051,
+    "volume_ratio_min": 1.5,
+    "momentum_5d": 0.0042,
+    "momentum_5d_z": 0.0737,
+    "daily_vol": 0.0258,
+    "news_burst_in_window": false,
+    "window_start": "2026-08-17"
+   },
+   "modifiers": [],
+   "qualifying_sessions": [
+    "2026-08-17",
+    "2026-08-18",
+    "2026-08-19"
+   ],
+   "sessions_view": [
+    {
+     "d": "2026-08-17",
+     "close": 25.639999389648438,
+     "volume": 1359100,
+     "ret": -0.010038619023600925,
+     "bench_ret": -0.004727366641364417,
+     "volume_ratio": 1.985536888239591,
+     "residual_move": -0.00579416034996633,
+     "residual_z": -0.21443439302425835
+    },
+    {
+     "d": "2026-08-18",
+     "close": 25.56999969482422,
+     "volume": 1631000,
+     "ret": -0.0027300973670256745,
+     "bench_ret": -0.006755757074274671,
+     "volume_ratio": 2.2050970053403636,
+     "residual_move": 0.003498645029857193,
+     "residual_z": 0.13210814794289757
+    },
+    {
+     "d": "2026-08-19",
+     "close": 26.719999313354492,
+     "volume": 1729200,
+     "ret": 0.044974565203575345,
+     "bench_ret": 0.00209783741736147,
+     "volume_ratio": 1.9753255654557917,
+     "residual_move": 0.04303367344865289,
+     "residual_z": 1.6176410688080247
+    },
+    {
+     "d": "2026-08-20",
+     "close": 26.020000457763672,
+     "volume": 1386100,
+     "ret": -0.02619756263395434,
+     "bench_ret": -0.008399893367440514,
+     "volume_ratio": 1.2724101528434388,
+     "residual_move": -0.01839589851720106,
+     "residual_z": -0.6754755491116129
+    },
+    {
+     "d": "2026-08-21",
+     "close": 26.010000228881836,
+     "volume": 988952,
+     "ret": -0.00038432854365499924,
+     "bench_ret": 0.003960162113734178,
+     "volume_ratio": 0.8343826197004851,
+     "residual_move": -0.0039316709478030565,
+     "residual_z": -0.1455844330013234
+    }
+   ],
+   "read": "volume arriving for 3 of the last 5 sessions (avg 2.1× its 20d median) while price sits 0.1σ from flat — no news burst in the window",
+   "ended_at": "2026-08-24",
+   "ended_reason": "condition_false"
+  }
+ ],
+ "scans": [
+  {
+   "schema_version": 1,
+   "session": "2026-08-21",
+   "scanned_at": "2026-08-24T17:08:51.235Z",
+   "trigger": "close_run",
+   "tickers_scanned": 43,
+   "tickers_total": 43,
+   "evaluations": 172,
+   "new": 0,
+   "continuing": 0,
+   "ended": 0,
+   "degraded": [
+    {
+     "ticker": "AAPL",
+     "pattern": "independent_tape",
+     "reason": "r² 0.03 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 260
+    },
+    {
+     "ticker": "ACDC",
+     "pattern": "independent_tape",
+     "reason": "r² 0.01 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 260
+    },
+    {
+     "ticker": "AZN",
+     "pattern": "independent_tape",
+     "reason": "r² 0.01 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 260
+    },
+    {
+     "ticker": "BNTX",
+     "pattern": "independent_tape",
+     "reason": "r² 0.00 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 260
+    },
+    {
+     "ticker": "CAH",
+     "pattern": "independent_tape",
+     "reason": "r² 0.03 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 260
+    },
+    {
+     "ticker": "CEG",
+     "pattern": "independent_tape",
+     "reason": "r² 0.12 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 260
+    },
+    {
+     "ticker": "COR",
+     "pattern": "independent_tape",
+     "reason": "r² 0.09 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 260
+    },
+    {
+     "ticker": "COST",
+     "pattern": "independent_tape",
+     "reason": "r² 0.06 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 260
+    },
+    {
+     "ticker": "GD",
+     "pattern": "independent_tape",
+     "reason": "r² 0.00 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 260
+    },
+    {
+     "ticker": "HON",
+     "pattern": "independent_tape",
+     "reason": "r² 0.11 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 260
+    },
+    {
+     "ticker": "LLY",
+     "pattern": "independent_tape",
+     "reason": "r² 0.00 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 260
+    },
+    {
+     "ticker": "LMT",
+     "pattern": "independent_tape",
+     "reason": "r² 0.01 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 260
+    },
+    {
+     "ticker": "META",
+     "pattern": "independent_tape",
+     "reason": "r² 0.10 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 260
+    },
+    {
+     "ticker": "MRK",
+     "pattern": "independent_tape",
+     "reason": "r² 0.00 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 260
+    },
+    {
+     "ticker": "MRT",
+     "pattern": "independent_tape",
+     "reason": "r² 0.02 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 260
+    },
+    {
+     "ticker": "MSFT",
+     "pattern": "independent_tape",
+     "reason": "r² 0.09 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 260
+    },
+    {
+     "ticker": "NOC",
+     "pattern": "independent_tape",
+     "reason": "r² 0.00 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 260
+    },
+    {
+     "ticker": "OPK",
+     "pattern": "independent_tape",
+     "reason": "r² 0.02 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 260
+    },
+    {
+     "ticker": "PFE",
+     "pattern": "independent_tape",
+     "reason": "r² 0.00 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 260
+    },
+    {
+     "ticker": "PLTR",
+     "pattern": "independent_tape",
+     "reason": "r² 0.12 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 260
+    },
+    {
+     "ticker": "RTX",
+     "pattern": "independent_tape",
+     "reason": "r² 0.00 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 260
+    },
+    {
+     "ticker": "SONY",
+     "pattern": "independent_tape",
+     "reason": "r² 0.02 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 260
+    },
+    {
+     "ticker": "UNH",
+     "pattern": "independent_tape",
+     "reason": "r² 0.00 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 260
+    },
+    {
+     "ticker": "WMT",
+     "pattern": "independent_tape",
+     "reason": "r² 0.01 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 260
+    },
+    {
+     "ticker": "ZLAB",
+     "pattern": "independent_tape",
+     "reason": "r² 0.04 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 260
+    }
+   ],
+   "errors": []
+  },
+  {
+   "schema_version": 1,
+   "session": "2026-08-24",
+   "scanned_at": "2026-08-25T17:05:46.408Z",
+   "trigger": "close_run",
+   "tickers_scanned": 75,
+   "tickers_total": 75,
+   "evaluations": 300,
+   "new": 0,
+   "continuing": 0,
+   "ended": 0,
+   "degraded": [
+    {
+     "ticker": "AAPL",
+     "pattern": "independent_tape",
+     "reason": "r² 0.03 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 259
+    },
+    {
+     "ticker": "ACDC",
+     "pattern": "independent_tape",
+     "reason": "r² 0.00 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 259
+    },
+    {
+     "ticker": "APA",
+     "pattern": "independent_tape",
+     "reason": "r² 0.14 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 259
+    },
+    {
+     "ticker": "AZN",
+     "pattern": "independent_tape",
+     "reason": "r² 0.01 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 259
+    },
+    {
+     "ticker": "BKR",
+     "pattern": "independent_tape",
+     "reason": "r² 0.05 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 259
+    },
+    {
+     "ticker": "BNTX",
+     "pattern": "independent_tape",
+     "reason": "r² 0.00 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 259
+    },
+    {
+     "ticker": "CAH",
+     "pattern": "independent_tape",
+     "reason": "r² 0.03 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 259
+    },
+    {
+     "ticker": "CEG",
+     "pattern": "independent_tape",
+     "reason": "r² 0.12 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 259
+    },
+    {
+     "ticker": "CNH",
+     "pattern": "independent_tape",
+     "reason": "r² 0.11 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 259
+    },
+    {
+     "ticker": "COR",
+     "pattern": "independent_tape",
+     "reason": "r² 0.09 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 259
+    },
+    {
+     "ticker": "COST",
+     "pattern": "independent_tape",
+     "reason": "r² 0.07 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 259
+    },
+    {
+     "ticker": "CSCO",
+     "pattern": "independent_tape",
+     "reason": "r² 0.13 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 259
+    },
+    {
+     "ticker": "DE",
+     "pattern": "independent_tape",
+     "reason": "r² 0.05 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 259
+    },
+    {
+     "ticker": "FANG",
+     "pattern": "independent_tape",
+     "reason": "r² 0.09 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 259
+    },
+    {
+     "ticker": "GBX",
+     "pattern": "independent_tape",
+     "reason": "r² 0.01 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 259
+    },
+    {
+     "ticker": "GD",
+     "pattern": "independent_tape",
+     "reason": "r² 0.00 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 259
+    },
+    {
+     "ticker": "HON",
+     "pattern": "independent_tape",
+     "reason": "r² 0.11 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 259
+    },
+    {
+     "ticker": "IMO",
+     "pattern": "independent_tape",
+     "reason": "r² 0.03 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 259
+    },
+    {
+     "ticker": "INCY",
+     "pattern": "independent_tape",
+     "reason": "r² 0.01 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 259
+    },
+    {
+     "ticker": "JD",
+     "pattern": "independent_tape",
+     "reason": "r² 0.01 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 259
+    },
+    {
+     "ticker": "KR",
+     "pattern": "independent_tape",
+     "reason": "r² 0.09 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 259
+    },
+    {
+     "ticker": "LLY",
+     "pattern": "independent_tape",
+     "reason": "r² 0.00 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 259
+    },
+    {
+     "ticker": "LMT",
+     "pattern": "independent_tape",
+     "reason": "r² 0.01 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 259
+    },
+    {
+     "ticker": "META",
+     "pattern": "independent_tape",
+     "reason": "r² 0.09 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 259
+    },
+    {
+     "ticker": "MORN",
+     "pattern": "independent_tape",
+     "reason": "r² 0.04 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 259
+    },
+    {
+     "ticker": "MRK",
+     "pattern": "independent_tape",
+     "reason": "r² 0.00 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 259
+    },
+    {
+     "ticker": "MRNA",
+     "pattern": "independent_tape",
+     "reason": "r² 0.01 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 259
+    },
+    {
+     "ticker": "MRT",
+     "pattern": "independent_tape",
+     "reason": "r² 0.02 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 259
+    },
+    {
+     "ticker": "MSFT",
+     "pattern": "independent_tape",
+     "reason": "r² 0.08 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 259
+    },
+    {
+     "ticker": "NOC",
+     "pattern": "independent_tape",
+     "reason": "r² 0.00 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 259
+    },
+    {
+     "ticker": "OPK",
+     "pattern": "independent_tape",
+     "reason": "r² 0.02 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 259
+    },
+    {
+     "ticker": "PFE",
+     "pattern": "independent_tape",
+     "reason": "r² 0.00 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 259
+    },
+    {
+     "ticker": "PLTR",
+     "pattern": "independent_tape",
+     "reason": "r² 0.11 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 259
+    },
+    {
+     "ticker": "RTX",
+     "pattern": "independent_tape",
+     "reason": "r² 0.00 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 259
+    },
+    {
+     "ticker": "SHEL",
+     "pattern": "independent_tape",
+     "reason": "r² 0.04 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 259
+    },
+    {
+     "ticker": "SONY",
+     "pattern": "independent_tape",
+     "reason": "r² 0.02 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 259
+    },
+    {
+     "ticker": "TGT",
+     "pattern": "independent_tape",
+     "reason": "r² 0.00 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 259
+    },
+    {
+     "ticker": "UNH",
+     "pattern": "independent_tape",
+     "reason": "r² 0.00 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 259
+    },
+    {
+     "ticker": "WMT",
+     "pattern": "independent_tape",
+     "reason": "r² 0.01 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 259
+    },
+    {
+     "ticker": "ZLAB",
+     "pattern": "independent_tape",
+     "reason": "r² 0.04 below the 0.15 floor — residual reads unusable",
+     "history_sessions": 259
+    }
+   ],
+   "errors": []
+  },
+  {
+   "schema_version": 1,
+   "session": "2026-08-25",
+   "scanned_at": "2026-08-26T10:22:44.448Z",
+   "trigger": "close_run",
+   "tickers_scanned": 4,
+   "tickers_total": 4,
+   "evaluations": 16,
+   "new": 0,
+   "continuing": 0,
+   "ended": 3,
+   "degraded": [
+    {
+     "ticker": "BA",
+     "pattern": "quiet_accumulation",
+     "reason": "history window not yet full (0 sessions on file, 25 needed)",
+     "history_sessions": 0
+    },
+    {
+     "ticker": "BA",
+     "pattern": "independent_tape",
+     "reason": "benchmark series unavailable — residual reads not computable",
+     "history_sessions": 0
+    },
+    {
+     "ticker": "BA",
+     "pattern": "insider_divergence",
+     "reason": "history window not yet full (0 sessions on file, 31 needed)",
+     "history_sessions": 0
+    },
+    {
+     "ticker": "BA",
+     "pattern": "compression",
+     "reason": "history window not yet full (0 sessions on file, 91 needed)",
+     "history_sessions": 0
+    },
+    {
+     "ticker": "HPE",
+     "pattern": "quiet_accumulation",
+     "reason": "history window not yet full (0 sessions on file, 25 needed)",
+     "history_sessions": 0
+    },
+    {
+     "ticker": "HPE",
+     "pattern": "independent_tape",
+     "reason": "benchmark series unavailable — residual reads not computable",
+     "history_sessions": 0
+    },
+    {
+     "ticker": "HPE",
+     "pattern": "insider_divergence",
+     "reason": "history window not yet full (0 sessions on file, 31 needed)",
+     "history_sessions": 0
+    },
+    {
+     "ticker": "HPE",
+     "pattern": "compression",
+     "reason": "history window not yet full (0 sessions on file, 91 needed)",
+     "history_sessions": 0
+    },
+    {
+     "ticker": "JD",
+     "pattern": "quiet_accumulation",
+     "reason": "history window not yet full (0 sessions on file, 25 needed)",
+     "history_sessions": 0
+    },
+    {
+     "ticker": "JD",
+     "pattern": "independent_tape",
+     "reason": "benchmark series unavailable — residual reads not computable",
+     "history_sessions": 0
+    },
+    {
+     "ticker": "JD",
+     "pattern": "insider_divergence",
+     "reason": "history window not yet full (0 sessions on file, 31 needed)",
+     "history_sessions": 0
+    },
+    {
+     "ticker": "JD",
+     "pattern": "compression",
+     "reason": "history window not yet full (0 sessions on file, 91 needed)",
+     "history_sessions": 0
+    },
+    {
+     "ticker": "TSM",
+     "pattern": "quiet_accumulation",
+     "reason": "history window not yet full (0 sessions on file, 25 needed)",
+     "history_sessions": 0
+    },
+    {
+     "ticker": "TSM",
+     "pattern": "independent_tape",
+     "reason": "benchmark series unavailable — residual reads not computable",
+     "history_sessions": 0
+    },
+    {
+     "ticker": "TSM",
+     "pattern": "insider_divergence",
+     "reason": "history window not yet full (0 sessions on file, 31 needed)",
+     "history_sessions": 0
+    },
+    {
+     "ticker": "TSM",
+     "pattern": "compression",
+     "reason": "history window not yet full (0 sessions on file, 91 needed)",
+     "history_sessions": 0
+    }
+   ],
+   "errors": []
+  }
+ ]
+}

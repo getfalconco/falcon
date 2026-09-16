@@ -1,0 +1,24 @@
+[
+  {
+    "root_ticker": "AMZN",
+    "counterparty_name": "China-based suppliers",
+    "counterparty_ticker": null,
+    "counterparty_type": "other",
+    "category": "supplier",
+    "subtype": "components and finished goods",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "China-based suppliers provide significant portions of our components and finished goods",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1018724/000101872426000004/amzn-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-06",
+    "shared_evidence_group": "ev_25f73d4572d1"
+  }
+]

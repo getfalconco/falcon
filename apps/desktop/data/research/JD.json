@@ -1,0 +1,315 @@
+[
+  {
+    "root_ticker": "JD",
+    "counterparty_name": "Tencent",
+    "counterparty_ticker": null,
+    "counterparty_type": "company",
+    "category": "supplier",
+    "subtype": "payment platform",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.75,
+    "evidence": [
+      {
+        "quote": "online payments through various third-party online payment platforms such as Weixin Pay, UnionPay and JD Pay",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1549802/000119312526157870/d53690d20f.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-04-16",
+    "shared_evidence_group": "ev_82362f16e8d3"
+  },
+  {
+    "root_ticker": "JD",
+    "counterparty_name": "UnionPay",
+    "counterparty_ticker": null,
+    "counterparty_type": "organization",
+    "category": "supplier",
+    "subtype": "payment platform",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.85,
+    "evidence": [
+      {
+        "quote": "online payments through various third-party online payment platforms such as Weixin Pay, UnionPay and JD Pay",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1549802/000119312526157870/d53690d20f.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-04-16",
+    "shared_evidence_group": "ev_82362f16e8d3"
+  },
+  {
+    "root_ticker": "JD",
+    "counterparty_name": "JD Technology",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "supplier",
+    "subtype": "payment services provider",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.85,
+    "evidence": [
+      {
+        "quote": "JD Technology currently provides us with certain payment services on a non-exclusive basis and other services to us.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1549802/000119312526157870/d53690d20f.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-04-16",
+    "shared_evidence_group": "ev_890e407d9106"
+  },
+  {
+    "root_ticker": "JD",
+    "counterparty_name": "JD Technology",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "IP licensing",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.82,
+    "evidence": [
+      {
+        "quote": "we continue to license certain of our intellectual properties, including our “JD” brand and related trademarks and domain names, to JD Technology",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1549802/000119312526157870/d53690d20f.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-04-16",
+    "shared_evidence_group": "ev_421ed72148e3"
+  },
+  {
+    "root_ticker": "JD",
+    "counterparty_name": "Tencent",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "strategic cooperation / traffic and marketing alliance",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "we acquired certain e-commerce businesses and assets from, and entered into a strategic cooperation agreement and formed a strategic partnership with Tencent, a leading internet company serving the largest online community in China",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1549802/000119312526157870/d53690d20f.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "In January 2018, we, along with Tencent, entered into a strategic partnership agreement with Wanda Commercial Properties, a leading developer, owner and operator of commercial properties in China, and its major shareholder, Dalian Wanda Group Co., Ltd.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1549802/000119312526157870/d53690d20f.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-04-16",
+    "shared_evidence_group": "ev_d12bea7692ae"
+  },
+  {
+    "root_ticker": "JD",
+    "counterparty_name": "Wanda Commercial Properties",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "strategic partnership/investment agreement",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.88,
+    "evidence": [
+      {
+        "quote": "In January 2018, we, along with Tencent, entered into a strategic partnership agreement with Wanda Commercial Properties, a leading developer, owner and operator of commercial properties in China, and its major shareholder, Dalian Wanda Group Co., Ltd.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1549802/000119312526157870/d53690d20f.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-04-16",
+    "shared_evidence_group": "ev_352baf1278f4"
+  },
+  {
+    "root_ticker": "JD",
+    "counterparty_name": "Dalian Wanda Group Co., Ltd.",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "strategic partnership/investment agreement",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.85,
+    "evidence": [
+      {
+        "quote": "In January 2018, we, along with Tencent, entered into a strategic partnership agreement with Wanda Commercial Properties, a leading developer, owner and operator of commercial properties in China, and its major shareholder, Dalian Wanda Group Co., Ltd.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1549802/000119312526157870/d53690d20f.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-04-16",
+    "shared_evidence_group": "ev_352baf1278f4"
+  },
+  {
+    "root_ticker": "JD",
+    "counterparty_name": "CECONOMY",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "takeover-related cooperation agreement",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.72,
+    "evidence": [
+      {
+        "quote": "We have also signed an investment agreement with CECONOMY regarding the Takeover Offer and the intended cooperation after completion of the Takeover Offer.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1549802/000119312526157870/d53690d20f.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-04-16",
+    "shared_evidence_group": "ev_85dcd6c9224f"
+  },
+  {
+    "root_ticker": "JD",
+    "counterparty_name": "Convergenta",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "shareholder cooperation partner",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.85,
+    "evidence": [
+      {
+        "quote": "This results in a total shareholding of 85.2% in CECONOMY in combination with the retained stake of JD.com’s future partner Convergenta.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1549802/000119312526157870/d53690d20f.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-04-16",
+    "shared_evidence_group": "ev_388a39c0da66"
+  },
+  {
+    "root_ticker": "JD",
+    "counterparty_name": "iQiyi",
+    "counterparty_ticker": "IQ",
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "content and lifestyle service provider for JD Plus membership benefits",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.85,
+    "evidence": [
+      {
+        "quote": "JD Plus also partnered with content and lifestyle service providers such as Tencent Video, iQiyi, among others, providing JD Plus members with greater benefits.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1549802/000119312526157870/d53690d20f.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-04-16",
+    "shared_evidence_group": "ev_201363633af3"
+  },
+  {
+    "root_ticker": "JD",
+    "counterparty_name": "Alibaba Group",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "e-commerce competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.98,
+    "evidence": [
+      {
+        "quote": "major e-commerce companies in China that offer a wide range of general merchandise product categories, such as Alibaba Group, which operates taobao.com and tmall.com",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1549802/000119312526157870/d53690d20f.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-04-16",
+    "shared_evidence_group": "ev_4c11b36bda6c"
+  },
+  {
+    "root_ticker": "JD",
+    "counterparty_name": "Suning.com Group Co., Ltd.",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "traditional retailer moving into online retailing",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "major traditional retailers in China that are moving into online retailing, such as Suning.com Group Co., Ltd., which operates suning.com",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1549802/000119312526157870/d53690d20f.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-04-16",
+    "shared_evidence_group": "ev_021218f606f5"
+  },
+  {
+    "root_ticker": "JD",
+    "counterparty_name": "China Telecom",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "supplier",
+    "subtype": "basic telecommunications carrier providing wholesale mobile network capacity for resale",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.85,
+    "evidence": [
+      {
+        "quote": "has cooperated with China Telecom in 60 cities and with China Unicom in 105 cities",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1549802/000119312526157870/d53690d20f.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-04-16",
+    "shared_evidence_group": "ev_b4403a38c915"
+  },
+  {
+    "root_ticker": "JD",
+    "counterparty_name": "China Unicom",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "supplier",
+    "subtype": "basic telecommunications network operator providing wholesale mobile capacity for resale",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.75,
+    "evidence": [
+      {
+        "quote": "has cooperated with China Telecom in 60 cities and with China Unicom in 105 cities",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1549802/000119312526157870/d53690d20f.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-04-16",
+    "shared_evidence_group": "ev_b4403a38c915"
+  }
+]

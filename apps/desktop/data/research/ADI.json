@@ -1,0 +1,51 @@
+[
+  {
+    "root_ticker": "ADI",
+    "counterparty_name": "Taiwan Semiconductor Manufacturing Company",
+    "counterparty_ticker": "TSM",
+    "counterparty_type": "public_company",
+    "category": "supplier",
+    "subtype": "wafer fabrication foundry",
+    "strength": 1,
+    "strength_tier": "critical",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "We currently source more than half of our wafer requirements annually from third-party wafer fabrication foundries, such as Taiwan Semiconductor Manufacturing Company (TSMC) and others",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/6281/000000628125000153/adi-20251101.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "We currently source more than half of our wafer requirements annually from third-party wafer foundries, including Taiwan Semiconductor Manufacturing Company (TSMC) and others.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/6281/000000628125000153/adi-20251101.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-11-25",
+    "shared_evidence_group": "ev_5c89e1ec9846"
+  },
+  {
+    "root_ticker": "ADI",
+    "counterparty_name": "TSMC",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "supplier",
+    "subtype": "wafer fabrication foundry",
+    "strength": 1,
+    "strength_tier": "critical",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.98,
+    "evidence": [
+      {
+        "quote": "We currently source more than half of our wafer requirements annually from third-party wafer fabrication foundries, such as Taiwan Semiconductor Manufacturing Company (TSMC) and others",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/6281/000000628125000153/adi-20251101.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-11-25",
+    "shared_evidence_group": "ev_5c89e1ec9846"
+  }
+]

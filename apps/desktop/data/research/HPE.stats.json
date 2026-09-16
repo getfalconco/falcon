@@ -1,0 +1,29 @@
+{
+  "form_type": "10-K",
+  "filing_date": "2025-12-18",
+  "section_chars": 75306,
+  "section_method": "item_span_last",
+  "section_extraction_failed": false,
+  "content_suspect": false,
+  "chunks": 4,
+  "api_errors": 0,
+  "parse_errors": 1,
+  "candidates_extracted": 44,
+  "candidates_per_chunk": [
+    4,
+    38,
+    2,
+    0
+  ],
+  "dropped_low_confidence": 0,
+  "deduped": 0,
+  "rejected_quote_not_found": 6,
+  "rejected_by_auditor": 2,
+  "validated": 36,
+  "input_tokens": 233618,
+  "output_tokens": 17696,
+  "estimated_cost_usd": 0.966294,
+  "fetch_seconds": 4,
+  "extract_seconds": 44.9,
+  "audit_seconds": 69.5
+}

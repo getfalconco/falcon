@@ -1,0 +1,605 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 145146,
+  "chunks": 7,
+  "candidates": [
+    {
+      "counterparty_name": "Boeing",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "aircraft_manufacturer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Collins' largest commercial customers are Boeing and Airbus with combined sales, prior to discounts and incentives, of 16%, 16%, and 19% of total Collins segment sales in 2025, 2024, and 2023, respectively.",
+      "evidence_quotes": [
+        "Collins' largest commercial customers are Boeing and Airbus with combined sales, prior to discounts and incentives, of 16%, 16%, and 19% of total Collins segment sales in 2025, 2024, and 2023, respectively."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Airbus",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "aircraft_manufacturer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Collins' largest commercial customers are Boeing and Airbus with combined sales, prior to discounts and incentives, of 16%, 16%, and 19% of total Collins segment sales in 2025, 2024, and 2023, respectively.",
+      "evidence_quotes": [
+        "Collins' largest commercial customers are Boeing and Airbus with combined sales, prior to discounts and incentives, of 16%, 16%, and 19% of total Collins segment sales in 2025, 2024, and 2023, respectively."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Airbus",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "aircraft_manufacturer",
+      "disclosed_revenue_dependency_pct": 29,
+      "evidence_quote": "Pratt & Whitney's largest commercial customer by sales is Airbus, with sales, prior to discounts and incentives, of 29%, 31%, and 48% of total Pratt & Whitney segment sales in 2025, 2024, and 2023, respectively.",
+      "evidence_quotes": [
+        "Pratt & Whitney's largest commercial customer by sales is Airbus, with sales, prior to discounts and incentives, of 29%, 31%, and 48% of total Pratt & Whitney segment sales in 2025, 2024, and 2023, respectively."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Federal Aviation Administration",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "government_agency",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Collins was also awarded a contract by the Federal Aviation Administration (FAA) to support the Radar System Replacement program as part of the Department of Transportation's Brand New Air Traffic Control System.",
+      "evidence_quotes": [
+        "Collins was also awarded a contract by the Federal Aviation Administration (FAA) to support the Radar System Replacement program as part of the Department of Transportation's Brand New Air Traffic Control System."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "U.S. Navy",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "military",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Collins was selected to be the primary subcontractor for the U.S. Navy's solution for engineering design and manufacturing of the Very Low Frequency communication subsystem",
+      "evidence_quotes": [
+        "Collins was selected to be the primary subcontractor for the U.S. Navy's solution for engineering design and manufacturing of the Very Low Frequency communication subsystem"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Pratt & Whitney Canada",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "development_collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Collins was selected by the European Union's Clean Aviation Joint Undertaking (Clean Aviation) to collaborate with Pratt & Whitney Canada as well as other consortium members on multiple development projects",
+      "evidence_quotes": [
+        "Collins was selected by the European Union's Clean Aviation Joint Undertaking (Clean Aviation) to collaborate with Pratt & Whitney Canada as well as other consortium members on multiple development projects"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Embraer",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "aircraft_manufacturer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The GTF family now powers more than 2,600 aircraft for over 90 operators across three aircraft platforms: Airbus A320neo family, Airbus A220, and Embraer E-Jets E2.",
+      "evidence_quotes": [
+        "The GTF family now powers more than 2,600 aircraft for over 90 operators across three aircraft platforms: Airbus A320neo family, Airbus A220, and Embraer E-Jets E2."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Lockheed Martin",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "defense_prime",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Pratt & Whitney produces and sustains the F135 engine for the U.S. government's F-35 Joint Program Office to exclusively power the single-engine F-35 Lightning II fifth generation aircraft (commonly known as the Joint Strike Fighter) produced by Lockheed Martin.",
+      "evidence_quotes": [
+        "Pratt & Whitney produces and sustains the F135 engine for the U.S. government's F-35 Joint Program Office to exclusively power the single-engine F-35 Lightning II fifth generation aircraft (commonly known as the Joint Strike Fighter) produced by Lockheed Martin."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "U.S. Air Force",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "military",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In early 2025, Pratt & Whitney completed the Detailed Design Review of its XA103 engine for the U.S. Air Force's NGAP",
+      "evidence_quotes": [
+        "In early 2025, Pratt & Whitney completed the Detailed Design Review of its XA103 engine for the U.S. Air Force's NGAP"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "ATR",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "development_collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "As part of the PHARES consortium, Pratt & Whitney Canada will collaborate with Collins, ATR, Airbus, and technology research organizations to design and integrate a hybrid-electric propulsion demonstrator",
+      "evidence_quotes": [
+        "As part of the PHARES consortium, Pratt & Whitney Canada will collaborate with Collins, ATR, Airbus, and technology research organizations to design and integrate a hybrid-electric propulsion demonstrator"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "U.S. Navy",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "military",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Major new contracts awarded in 2025 include contracts to provide AMRAAM missiles to the U.S. Navy, U.S. Air Force and international customers",
+      "evidence_quotes": [
+        "Major new contracts awarded in 2025 include contracts to provide AMRAAM missiles to the U.S. Navy, U.S. Air Force and international customers"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "U.S. Army",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "military",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "low-rate initial production of LTAMDS for the U.S. Army and Poland",
+      "evidence_quotes": [
+        "low-rate initial production of LTAMDS for the U.S. Army and Poland"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Missile Defense Agency",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "military",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "SM-3 exoatmospheric missile defense interceptors to the Missile Defense Agency",
+      "evidence_quotes": [
+        "SM-3 exoatmospheric missile defense interceptors to the Missile Defense Agency"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "U.S. Space Force",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "military",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Raytheon serves as a prime contractor or major subcontractor on numerous programs with the U.S. Department of War (DoW) (formerly referred to as the U.S. Department of Defense), including the U.S. Navy, U.S. Army, Missile Defense Agency, U.S. Air Force,",
+      "evidence_quotes": [
+        "Raytheon serves as a prime contractor or major subcontractor on numerous programs with the U.S. Department of War (DoW) (formerly referred to as the U.S. Department of Defense), including the U.S. Navy, U.S. Army, Missile Defense Agency, U.S. Air Force,"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "NATO Support and Procurement Agency",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "international_government",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Guidance Enhanced Missiles (GEM-T) for the North Atlantic Treaty Organization (NATO) Support and Procurement Agency (NSPA) and an international customer",
+      "evidence_quotes": [
+        "Guidance Enhanced Missiles (GEM-T) for the North Atlantic Treaty Organization (NATO) Support and Procurement Agency (NSPA) and an international customer"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Royal Australian Air Force",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "military",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Next Generation Jammer Mid-Band (NGJ-MB) for the U.S. Navy and the Royal Australian Air Force",
+      "evidence_quotes": [
+        "Next Generation Jammer Mid-Band (NGJ-MB) for the U.S. Navy and the Royal Australian Air Force"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "DoD",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "defense_contracting",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We deal with numerous U.S. government agencies and entities, including but not limited to all of the branches of the DoD and the FAA.",
+      "evidence_quotes": [
+        "We deal with numerous U.S. government agencies and entities, including but not limited to all of the branches of the DoD and the FAA."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "FAA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We deal with numerous U.S. government agencies and entities, including but not limited to all of the branches of the DoD and the FAA.",
+      "evidence_quotes": [
+        "We deal with numerous U.S. government agencies and entities, including but not limited to all of the branches of the DoD and the FAA."
+      ],
+      "confidence": 0.92,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "U.S. Department of Commerce",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "these laws and regulations include, among others, the Export Administration Regulations (EAR) administered by the U.S. Department of Commerce",
+      "evidence_quotes": [
+        "these laws and regulations include, among others, the Export Administration Regulations (EAR) administered by the U.S. Department of Commerce"
+      ],
+      "confidence": 0.93,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "U.S. Department of State",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the International Traffic in Arms Regulations (ITAR) and the Arms Export Control Act (AECA) provisions administered by the U.S. Department of State (DOS)",
+      "evidence_quotes": [
+        "the International Traffic in Arms Regulations (ITAR) and the Arms Export Control Act (AECA) provisions administered by the U.S. Department of State (DOS)"
+      ],
+      "confidence": 0.93,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "U.S. Department of the Treasury",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "embargoes and sanctions regulations administered by the U.S. Department of the Treasury",
+      "evidence_quotes": [
+        "embargoes and sanctions regulations administered by the U.S. Department of the Treasury"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "U.S. Department of Homeland Security",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "import regulations administered by the U.S. Department of Homeland Security and the U.S. Department of Justice (DOJ)",
+      "evidence_quotes": [
+        "import regulations administered by the U.S. Department of Homeland Security and the U.S. Department of Justice (DOJ)"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "U.S. Department of Justice",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "import regulations administered by the U.S. Department of Homeland Security and the U.S. Department of Justice (DOJ)",
+      "evidence_quotes": [
+        "import regulations administered by the U.S. Department of Homeland Security and the U.S. Department of Justice (DOJ)"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Securities and Exchange Commission",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "on October 16, 2024, the Company became subject to an administrative order issued by the Securities and Exchange Commission (SEC)",
+      "evidence_quotes": [
+        "on October 16, 2024, the Company became subject to an administrative order issued by the Securities and Exchange Commission (SEC)"
+      ],
+      "confidence": 0.91,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Environmental Protection Agency",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the facility or facilities involved in the violation could be deemed ineligible to be used in performing any U.S. government contract we are awarded until the Environmental Protection Agency (EPA) thereafter certifies",
+      "evidence_quotes": [
+        "the facility or facilities involved in the violation could be deemed ineligible to be used in performing any U.S. government contract we are awarded until the Environmental Protection Agency (EPA) thereafter certifies"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Thales-Raytheon Systems",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "joint_venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the previously disclosed criminal and civil government investigations into payments made by Raytheon Company and its joint venture, Thales-Raytheon Systems (TRS)",
+      "evidence_quotes": [
+        "the previously disclosed criminal and civil government investigations into payments made by Raytheon Company and its joint venture, Thales-Raytheon Systems (TRS)"
+      ],
+      "confidence": 0.94,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "U.S. Department of War",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "defense_programs",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our U.S. government revenues largely result from contracts awarded under various U.S. government programs, primarily defense-related programs with the U.S. Department of War (DoW)",
+      "evidence_quotes": [
+        "Our U.S. government revenues largely result from contracts awarded under various U.S. government programs, primarily defense-related programs with the U.S. Department of War (DoW)"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Airbus",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "commercial_aerospace",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "because we have significant business with Airbus and Boeing, our aerospace businesses could be adversely affected by challenges faced by these or other individual customers.",
+      "evidence_quotes": [
+        "because we have significant business with Airbus and Boeing, our aerospace businesses could be adversely affected by challenges faced by these or other individual customers."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Boeing",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "commercial_aerospace",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "because we have significant business with Airbus and Boeing, our aerospace businesses could be adversely affected by challenges faced by these or other individual customers.",
+      "evidence_quotes": [
+        "because we have significant business with Airbus and Boeing, our aerospace businesses could be adversely affected by challenges faced by these or other individual customers."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Raytheon",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "segment_realignment",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Raytheon Missiles & Defense (RMD) (a former RTX Corporation (RTX) business segment, which became part of Raytheon as a result of the July 1, 2023 RTX segment realignment)",
+      "evidence_quotes": [
+        "Raytheon Missiles & Defense (RMD) (a former RTX Corporation (RTX) business segment, which became part of Raytheon as a result of the July 1, 2023 RTX segment realignment)"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "DoW",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "defense_contracting",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "bid protests from unsuccessful bidders on new program awards are frequent with respect to DoW awards in particular",
+      "evidence_quotes": [
+        "bid protests from unsuccessful bidders on new program awards are frequent with respect to DoW awards in particular"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "U.S. government",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "defense_and_aerospace_customer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the U.S. government may award large competitive contracts to other suppliers to maintain a broad industrial base",
+      "evidence_quotes": [
+        "the U.S. government may award large competitive contracts to other suppliers to maintain a broad industrial base"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "U.S. Department of Commerce",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the Export Administration Regulations (EAR) administered by the U.S. Department of Commerce",
+      "evidence_quotes": [
+        "the Export Administration Regulations (EAR) administered by the U.S. Department of Commerce"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "U.S. Department of State",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the International Traffic in Arms Regulations (ITAR) and Arms Export Control Act (AECA) provisions administered by the U.S. Department of State (DOS)",
+      "evidence_quotes": [
+        "the International Traffic in Arms Regulations (ITAR) and Arms Export Control Act (AECA) provisions administered by the U.S. Department of State (DOS)"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "U.S. Department of the Treasury",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "embargoes and sanctions regulations administered by the U.S. Department of the Treasury",
+      "evidence_quotes": [
+        "embargoes and sanctions regulations administered by the U.S. Department of the Treasury"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "U.S. Department of Homeland Security",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "import regulations administered by the U.S. Department of Homeland Security and the U.S. Department of Justice (DOJ)",
+      "evidence_quotes": [
+        "import regulations administered by the U.S. Department of Homeland Security and the U.S. Department of Justice (DOJ)"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "U.S. Department of Justice",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "import regulations administered by the U.S. Department of Homeland Security and the U.S. Department of Justice (DOJ)",
+      "evidence_quotes": [
+        "import regulations administered by the U.S. Department of Homeland Security and the U.S. Department of Justice (DOJ)"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Defense Contract Audit Agency",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The Defense Contract Audit Agency (DCAA) and the Defense Contract Management Agency (DCMA) also review the adequacy of, and our compliance with, our internal control systems",
+      "evidence_quotes": [
+        "The Defense Contract Audit Agency (DCAA) and the Defense Contract Management Agency (DCMA) also review the adequacy of, and our compliance with, our internal control systems"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Defense Contract Management Agency",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The Defense Contract Audit Agency (DCAA) and the Defense Contract Management Agency (DCMA) also review the adequacy of, and our compliance with, our internal control systems",
+      "evidence_quotes": [
+        "The Defense Contract Audit Agency (DCAA) and the Defense Contract Management Agency (DCMA) also review the adequacy of, and our compliance with, our internal control systems"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Thales-Raytheon Systems",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "joint_venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "payments made by Raytheon Company and its joint venture, Thales-Raytheon Systems (TRS), since 2012 in connection with certain Middle East contracts",
+      "evidence_quotes": [
+        "payments made by Raytheon Company and its joint venture, Thales-Raytheon Systems (TRS), since 2012 in connection with certain Middle East contracts"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "U.S. Environmental Protection Agency",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_body",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "A criminal violation of certain U.S. environmental statutes such as the Clean Air Act and Clean Water Act could result in suspension, debarment, or disqualification by the U.S. Environmental Protection Agency (EPA).",
+      "evidence_quotes": [
+        "A criminal violation of certain U.S. environmental statutes such as the Clean Air Act and Clean Water Act could result in suspension, debarment, or disqualification by the U.S. Environmental Protection Agency (EPA)."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "DOJ",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_body",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "in October 2024, the Company entered into a DPA with the DOJ and consented to the entry of an SEC Administrative Order to resolve investigations related to conduct that, among other things, violated the FCPA.",
+      "evidence_quotes": [
+        "in October 2024, the Company entered into a DPA with the DOJ and consented to the entry of an SEC Administrative Order to resolve investigations related to conduct that, among other things, violated the FCPA."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "SEC",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_body",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "in October 2024, the Company entered into a DPA with the DOJ and consented to the entry of an SEC Administrative Order to resolve investigations related to conduct that, among other things, violated the FCPA.",
+      "evidence_quotes": [
+        "in October 2024, the Company entered into a DPA with the DOJ and consented to the entry of an SEC Administrative Order to resolve investigations related to conduct that, among other things, violated the FCPA."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "Department of Homeland Security",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_body",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we may obtain limitations of liability and additional defenses for various reasons including the qualification of our products and services by the Department of Homeland Security under the SAFETY Act provisions of the Homeland Security Act of 2002.",
+      "evidence_quotes": [
+        "we may obtain limitations of liability and additional defenses for various reasons including the qualification of our products and services by the Department of Homeland Security under the SAFETY Act provisions of the Homeland Security Act of 2002."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "Department of Homeland Security",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_qualification",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we may obtain limitations of liability and additional defenses for various reasons including the qualification of our products and services by the Department of Homeland Security under the SAFETY Act provisions",
+      "evidence_quotes": [
+        "we may obtain limitations of liability and additional defenses for various reasons including the qualification of our products and services by the Department of Homeland Security under the SAFETY Act provisions"
+      ],
+      "confidence": 0.75,
+      "chunk_index": 6
+    }
+  ],
+  "candidatesPerChunk": [
+    16,
+    10,
+    4,
+    2,
+    8,
+    4,
+    1
+  ],
+  "parseErrors": 0,
+  "apiErrors": 0,
+  "inputTokens": 34605,
+  "outputTokens": 4897
+}

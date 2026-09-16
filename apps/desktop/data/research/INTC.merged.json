@@ -1,0 +1,146 @@
+[
+  {
+    "counterparty_name": "AMD",
+    "category": "competitor",
+    "subtype": "data center x86 CPUs and accelerators",
+    "evidence_quote": "DCAI competitors include AMD, which utilizes the x86 architecture and competes with us across the full spectrum of CPUs, GPUs, accelerators and other products",
+    "confidence": 0.95,
+    "merged_into": "AMD"
+  },
+  {
+    "counterparty_name": "TSMC",
+    "category": "supplier",
+    "subtype": "foundry manufacturing",
+    "evidence_quote": "we would expect, over time, to shift manufacturing to third-party foundries, particularly TSMC, as we develop products for nodes beyond Intel 18A",
+    "confidence": 0.9,
+    "merged_into": "TSMC"
+  },
+  {
+    "counterparty_name": "AMD",
+    "category": "competitor",
+    "subtype": "platform_products",
+    "evidence_quote": "Our competitors include companies offering platform products, such as AMD and Qualcomm; accelerator products such as GPUs, including those offered by NVIDIA and AMD",
+    "confidence": 0.95,
+    "merged_into": "AMD"
+  },
+  {
+    "counterparty_name": "Qualcomm",
+    "category": "competitor",
+    "subtype": "platform_products",
+    "evidence_quote": "Our competitors include companies offering platform products, such as AMD and Qualcomm; accelerator products such as GPUs, including those offered by NVIDIA and AMD",
+    "confidence": 0.95,
+    "merged_into": "Qualcomm"
+  },
+  {
+    "counterparty_name": "NVIDIA",
+    "category": "competitor",
+    "subtype": "GPU systems",
+    "evidence_quote": "providers of GPU systems such as NVIDIA, whose GPU systems have experienced the highest demand in the market as AI workloads have become the dominant source of compute demand",
+    "confidence": 0.9,
+    "merged_into": "NVIDIA"
+  },
+  {
+    "counterparty_name": "Apple",
+    "category": "competitor",
+    "subtype": "internally_developed_semiconductors",
+    "evidence_quote": "in 2020, Apple introduced PC products utilizing its own internally developed ARM-based semiconductor designs in place of our client CPUs, and we face increasing competition from Apple's products and ecosystem.",
+    "confidence": 0.95,
+    "merged_into": "Apple"
+  },
+  {
+    "counterparty_name": "TSMC",
+    "category": "competitor",
+    "subtype": "foundry",
+    "evidence_quote": "Most of our competitors rely on third-party foundries, such as TSMC or Samsung, for the manufacture and assembly and test of their semiconductor components and products.",
+    "confidence": 0.85,
+    "merged_into": "TSMC"
+  },
+  {
+    "counterparty_name": "Samsung",
+    "category": "competitor",
+    "subtype": "foundry",
+    "evidence_quote": "we face intense competition from well-established competitors such as TSMC, Samsung, Global Foundries, UMC and SMIC.",
+    "confidence": 0.95,
+    "merged_into": "Samsung"
+  },
+  {
+    "counterparty_name": "UMC",
+    "category": "competitor",
+    "subtype": "mature foundry technologies",
+    "evidence_quote": "Other Intel Foundry competitors include GlobalFoundries, UMC and SMIC, which primarily focus on mature process technologies.",
+    "confidence": 0.9,
+    "merged_into": "UMC"
+  },
+  {
+    "counterparty_name": "SMIC",
+    "category": "competitor",
+    "subtype": "mature foundry technologies",
+    "evidence_quote": "Other Intel Foundry competitors include GlobalFoundries, UMC and SMIC, which primarily focus on mature process technologies.",
+    "confidence": 0.9,
+    "merged_into": "SMIC"
+  },
+  {
+    "counterparty_name": "TSMC",
+    "category": "competitor",
+    "subtype": "foundry_competitor",
+    "evidence_quote": "we face intense competition from well-established competitors such as TSMC, Samsung, Global Foundries, UMC and SMIC.",
+    "confidence": 0.95,
+    "merged_into": "TSMC"
+  },
+  {
+    "counterparty_name": "Samsung",
+    "category": "competitor",
+    "subtype": "foundry_competitor",
+    "evidence_quote": "we face intense competition from well-established competitors such as TSMC, Samsung, Global Foundries, UMC and SMIC.",
+    "confidence": 0.95,
+    "merged_into": "Samsung"
+  },
+  {
+    "counterparty_name": "Global Foundries",
+    "category": "competitor",
+    "subtype": "foundry_competitor",
+    "evidence_quote": "we face intense competition from well-established competitors such as TSMC, Samsung, Global Foundries, UMC and SMIC.",
+    "confidence": 0.95,
+    "merged_into": "Global Foundries"
+  },
+  {
+    "counterparty_name": "UMC",
+    "category": "competitor",
+    "subtype": "foundry_competitor",
+    "evidence_quote": "we face intense competition from well-established competitors such as TSMC, Samsung, Global Foundries, UMC and SMIC.",
+    "confidence": 0.95,
+    "merged_into": "UMC"
+  },
+  {
+    "counterparty_name": "SMIC",
+    "category": "competitor",
+    "subtype": "foundry_competitor",
+    "evidence_quote": "we face intense competition from well-established competitors such as TSMC, Samsung, Global Foundries, UMC and SMIC.",
+    "confidence": 0.95,
+    "merged_into": "SMIC"
+  },
+  {
+    "counterparty_name": "TSMC",
+    "category": "supplier",
+    "subtype": "third_party_foundry",
+    "evidence_quote": "some of our newer and more high-end products and a number of our future products involve the use of tiles manufactured by TSMC",
+    "confidence": 0.92,
+    "merged_into": "TSMC"
+  },
+  {
+    "counterparty_name": "SMIC",
+    "category": "competitor",
+    "subtype": "semiconductor_manufacturer",
+    "evidence_quote": "a number of semiconductor companies in China, including SMIC, are making significant investments, in many instances with the support of the Chinese government, in advanced semiconductor technologies to enable such companies to develop products and technologies that compete with ours.",
+    "confidence": 0.95,
+    "merged_into": "SMIC"
+  },
+  {
+    "counterparty_name": "TSMC",
+    "category": "supplier",
+    "subtype": "foundry",
+    "evidence_quote": "Some of our most advanced current and future products are or will be either exclusively manufactured by TSMC or reliant upon critical components, including various compute die, manufactured by TSMC.",
+    "confidence": 0.95,
+    "merged_into": "TSMC"
+  }
+]

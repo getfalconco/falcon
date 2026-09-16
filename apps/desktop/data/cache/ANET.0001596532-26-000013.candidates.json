@@ -1,0 +1,696 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 140900,
+  "chunks": 7,
+  "candidates": [
+    {
+      "counterparty_name": "Jabil Inc.",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "contract_manufacturer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our primary manufacturing partners are Jabil Inc., Sanmina Corporation and Foxconn Hon Hai.",
+      "evidence_quotes": [
+        "Our primary manufacturing partners are Jabil Inc., Sanmina Corporation and Foxconn Hon Hai."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Sanmina Corporation",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "contract_manufacturer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our primary manufacturing partners are Jabil Inc., Sanmina Corporation and Foxconn Hon Hai.",
+      "evidence_quotes": [
+        "Our primary manufacturing partners are Jabil Inc., Sanmina Corporation and Foxconn Hon Hai."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Foxconn Hon Hai",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "contract_manufacturer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our primary manufacturing partners are Jabil Inc., Sanmina Corporation and Foxconn Hon Hai.",
+      "evidence_quotes": [
+        "Our primary manufacturing partners are Jabil Inc., Sanmina Corporation and Foxconn Hon Hai."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Broadcom",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "merchant_silicon_vendor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we are primarily reliant upon our predominant merchant silicon vendor, Broadcom, for our switching chips.",
+      "evidence_quotes": [
+        "we are primarily reliant upon our predominant merchant silicon vendor, Broadcom, for our switching chips."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Cisco",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "network_equipment_vendor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The data center and campus networking markets have historically been dominated by Cisco",
+      "evidence_quotes": [
+        "The data center and campus networking markets have historically been dominated by Cisco"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Dell",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "network_equipment_vendor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "competition also coming from other large network equipment and system vendors, including Dell/EMC, Extreme Networks, Hewlett Packard Enterprise, Huawei, Juniper Networks, Nvidia",
+      "evidence_quotes": [
+        "competition also coming from other large network equipment and system vendors, including Dell/EMC, Extreme Networks, Hewlett Packard Enterprise, Huawei, Juniper Networks, Nvidia"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Extreme Networks",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "network_equipment_vendor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "competition also coming from other large network equipment and system vendors, including Dell/EMC, Extreme Networks, Hewlett Packard Enterprise, Huawei, Juniper Networks, Nvidia",
+      "evidence_quotes": [
+        "competition also coming from other large network equipment and system vendors, including Dell/EMC, Extreme Networks, Hewlett Packard Enterprise, Huawei, Juniper Networks, Nvidia"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Hewlett Packard Enterprise",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "network_equipment_vendor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "competition also coming from other large network equipment and system vendors, including Dell/EMC, Extreme Networks, Hewlett Packard Enterprise, Huawei, Juniper Networks, Nvidia",
+      "evidence_quotes": [
+        "competition also coming from other large network equipment and system vendors, including Dell/EMC, Extreme Networks, Hewlett Packard Enterprise, Huawei, Juniper Networks, Nvidia"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Huawei",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "network_equipment_vendor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "competition also coming from other large network equipment and system vendors, including Dell/EMC, Extreme Networks, Hewlett Packard Enterprise, Huawei, Juniper Networks, Nvidia",
+      "evidence_quotes": [
+        "competition also coming from other large network equipment and system vendors, including Dell/EMC, Extreme Networks, Hewlett Packard Enterprise, Huawei, Juniper Networks, Nvidia"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Juniper Networks",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "network_equipment_vendor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "competition also coming from other large network equipment and system vendors, including Dell/EMC, Extreme Networks, Hewlett Packard Enterprise, Huawei, Juniper Networks, Nvidia",
+      "evidence_quotes": [
+        "competition also coming from other large network equipment and system vendors, including Dell/EMC, Extreme Networks, Hewlett Packard Enterprise, Huawei, Juniper Networks, Nvidia"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Nvidia",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "network_equipment_vendor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "competition also coming from other large network equipment and system vendors, including Dell/EMC, Extreme Networks, Hewlett Packard Enterprise, Huawei, Juniper Networks, Nvidia",
+      "evidence_quotes": [
+        "competition also coming from other large network equipment and system vendors, including Dell/EMC, Extreme Networks, Hewlett Packard Enterprise, Huawei, Juniper Networks, Nvidia"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "VMware",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "acquired_by_broadcom",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Broadcom has acquired VMware",
+      "evidence_quotes": [
+        "Broadcom has acquired VMware"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Cisco",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "network equipment vendor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The data center and campus networking markets have historically been dominated by Cisco, with competition also coming from other large network equipment and system vendors",
+      "evidence_quotes": [
+        "The data center and campus networking markets have historically been dominated by Cisco, with competition also coming from other large network equipment and system vendors"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Dell/EMC",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "network equipment vendor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "with competition also coming from other large network equipment and system vendors, including Dell/EMC, Extreme Networks, Hewlett Packard Enterprise, Huawei, Juniper Networks, Nvidia",
+      "evidence_quotes": [
+        "with competition also coming from other large network equipment and system vendors, including Dell/EMC, Extreme Networks, Hewlett Packard Enterprise, Huawei, Juniper Networks, Nvidia"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Extreme Networks",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "network equipment vendor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "with competition also coming from other large network equipment and system vendors, including Dell/EMC, Extreme Networks, Hewlett Packard Enterprise, Huawei, Juniper Networks, Nvidia",
+      "evidence_quotes": [
+        "with competition also coming from other large network equipment and system vendors, including Dell/EMC, Extreme Networks, Hewlett Packard Enterprise, Huawei, Juniper Networks, Nvidia"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Hewlett Packard Enterprise",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "network equipment vendor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "with competition also coming from other large network equipment and system vendors, including Dell/EMC, Extreme Networks, Hewlett Packard Enterprise, Huawei, Juniper Networks, Nvidia",
+      "evidence_quotes": [
+        "with competition also coming from other large network equipment and system vendors, including Dell/EMC, Extreme Networks, Hewlett Packard Enterprise, Huawei, Juniper Networks, Nvidia"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Huawei",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "network equipment vendor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "with competition also coming from other large network equipment and system vendors, including Dell/EMC, Extreme Networks, Hewlett Packard Enterprise, Huawei, Juniper Networks, Nvidia",
+      "evidence_quotes": [
+        "with competition also coming from other large network equipment and system vendors, including Dell/EMC, Extreme Networks, Hewlett Packard Enterprise, Huawei, Juniper Networks, Nvidia"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Juniper Networks",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "network equipment vendor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "with competition also coming from other large network equipment and system vendors, including Dell/EMC, Extreme Networks, Hewlett Packard Enterprise, Huawei, Juniper Networks, Nvidia",
+      "evidence_quotes": [
+        "with competition also coming from other large network equipment and system vendors, including Dell/EMC, Extreme Networks, Hewlett Packard Enterprise, Huawei, Juniper Networks, Nvidia"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Nvidia",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "network equipment and AI interconnect vendor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "with competition also coming from other large network equipment and system vendors, including Dell/EMC, Extreme Networks, Hewlett Packard Enterprise, Huawei, Juniper Networks, Nvidia",
+      "evidence_quotes": [
+        "with competition also coming from other large network equipment and system vendors, including Dell/EMC, Extreme Networks, Hewlett Packard Enterprise, Huawei, Juniper Networks, Nvidia"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Broadcom",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "network equipment vendor through acquisition",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Broadcom has acquired VMware",
+      "evidence_quotes": [
+        "Broadcom has acquired VMware"
+      ],
+      "confidence": 0.88,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Darktrace",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "network security vendor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In the NDR market, our Arista NDR offerings compete with other network security vendors including Cisco, Darktrace, and ExtraHop.",
+      "evidence_quotes": [
+        "In the NDR market, our Arista NDR offerings compete with other network security vendors including Cisco, Darktrace, and ExtraHop."
+      ],
+      "confidence": 0.93,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "ExtraHop",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "network security vendor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In the NDR market, our Arista NDR offerings compete with other network security vendors including Cisco, Darktrace, and ExtraHop.",
+      "evidence_quotes": [
+        "In the NDR market, our Arista NDR offerings compete with other network security vendors including Cisco, Darktrace, and ExtraHop."
+      ],
+      "confidence": 0.93,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Gigamon",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "network packet broker vendor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In the network packet broker market, Arista DANZ Monitoring Fabric competes with Cisco, Gigamon, Keysight, Netscout and other network monitoring software providers.",
+      "evidence_quotes": [
+        "In the network packet broker market, Arista DANZ Monitoring Fabric competes with Cisco, Gigamon, Keysight, Netscout and other network monitoring software providers."
+      ],
+      "confidence": 0.93,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Keysight",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "network packet broker vendor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In the network packet broker market, Arista DANZ Monitoring Fabric competes with Cisco, Gigamon, Keysight, Netscout and other network monitoring software providers.",
+      "evidence_quotes": [
+        "In the network packet broker market, Arista DANZ Monitoring Fabric competes with Cisco, Gigamon, Keysight, Netscout and other network monitoring software providers."
+      ],
+      "confidence": 0.93,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Netscout",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "network packet broker vendor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In the network packet broker market, Arista DANZ Monitoring Fabric competes with Cisco, Gigamon, Keysight, Netscout and other network monitoring software providers.",
+      "evidence_quotes": [
+        "In the network packet broker market, Arista DANZ Monitoring Fabric competes with Cisco, Gigamon, Keysight, Netscout and other network monitoring software providers."
+      ],
+      "confidence": 0.93,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Broadcom",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "merchant silicon vendor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we are primarily reliant upon our predominant merchant silicon vendor, Broadcom, for our switching chips.",
+      "evidence_quotes": [
+        "we are primarily reliant upon our predominant merchant silicon vendor, Broadcom, for our switching chips."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Cisco",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "primary_competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The data center and campus networking markets have been historically dominated by Cisco",
+      "evidence_quotes": [
+        "The data center and campus networking markets have been historically dominated by Cisco"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Dell",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "network_equipment_vendor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The data center and campus networking markets have been historically dominated by Cisco, with competition also coming from other large network equipment and system vendors, including Dell/EMC",
+      "evidence_quotes": [
+        "The data center and campus networking markets have been historically dominated by Cisco, with competition also coming from other large network equipment and system vendors, including Dell/EMC"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "EMC",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "network_equipment_vendor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The data center and campus networking markets have been historically dominated by Cisco, with competition also coming from other large network equipment and system vendors, including Dell/EMC",
+      "evidence_quotes": [
+        "The data center and campus networking markets have been historically dominated by Cisco, with competition also coming from other large network equipment and system vendors, including Dell/EMC"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Extreme Networks",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "network_equipment_vendor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The data center and campus networking markets have been historically dominated by Cisco, with competition also coming from other large network equipment and system vendors, including Dell/EMC, Extreme Networks",
+      "evidence_quotes": [
+        "The data center and campus networking markets have been historically dominated by Cisco, with competition also coming from other large network equipment and system vendors, including Dell/EMC, Extreme Networks"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Hewlett Packard Enterprise",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "network_equipment_vendor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The data center and campus networking markets have been historically dominated by Cisco, with competition also coming from other large network equipment and system vendors, including Dell/EMC, Extreme Networks, Hewlett Packard Enterprise",
+      "evidence_quotes": [
+        "The data center and campus networking markets have been historically dominated by Cisco, with competition also coming from other large network equipment and system vendors, including Dell/EMC, Extreme Networks, Hewlett Packard Enterprise"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Huawei",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "network_equipment_vendor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The data center and campus networking markets have been historically dominated by Cisco, with competition also coming from other large network equipment and system vendors, including Dell/EMC, Extreme Networks, Hewlett Packard Enterprise, Huawei",
+      "evidence_quotes": [
+        "The data center and campus networking markets have been historically dominated by Cisco, with competition also coming from other large network equipment and system vendors, including Dell/EMC, Extreme Networks, Hewlett Packard Enterprise, Huawei"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Nvidia",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "network_equipment_vendor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The data center and campus networking markets have been historically dominated by Cisco, with competition also coming from other large network equipment and system vendors, including Dell/EMC, Extreme Networks, Hewlett Packard Enterprise, Huawei, Nvidia",
+      "evidence_quotes": [
+        "The data center and campus networking markets have been historically dominated by Cisco, with competition also coming from other large network equipment and system vendors, including Dell/EMC, Extreme Networks, Hewlett Packard Enterprise, Huawei, Nvidia"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Acacia Communications",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "acquired_competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Cisco acquired Acacia Communications",
+      "evidence_quotes": [
+        "Cisco acquired Acacia Communications"
+      ],
+      "confidence": 0.88,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Brocade Communications",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "acquired_competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Broadcom acquired Brocade Communications and VMware",
+      "evidence_quotes": [
+        "Broadcom acquired Brocade Communications and VMware"
+      ],
+      "confidence": 0.88,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Broadcom",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "network_equipment_vendor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Broadcom acquired Brocade Communications and VMware",
+      "evidence_quotes": [
+        "Broadcom acquired Brocade Communications and VMware"
+      ],
+      "confidence": 0.88,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "VMware",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "acquired_competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Broadcom acquired Brocade Communications and VMware",
+      "evidence_quotes": [
+        "Broadcom acquired Brocade Communications and VMware"
+      ],
+      "confidence": 0.88,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Force10 Networks",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "acquired_competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Dell acquired Force10 Networks",
+      "evidence_quotes": [
+        "Dell acquired Force10 Networks"
+      ],
+      "confidence": 0.88,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Juniper Networks",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "acquired_competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Hewlett Packard Enterprise acquired Juniper Networks",
+      "evidence_quotes": [
+        "Hewlett Packard Enterprise acquired Juniper Networks"
+      ],
+      "confidence": 0.88,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "VeloCloud",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "acquisition",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we completed the acquisition of VeloCloud in June 2025 which required management to focus efforts on integrating the VeloCloud business with the Company.",
+      "evidence_quotes": [
+        "we completed the acquisition of VeloCloud in June 2025 which required management to focus efforts on integrating the VeloCloud business with the Company."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "U.S. government",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "federal government customer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We anticipate increasing our sales efforts to U.S. and foreign, federal, state and local governmental customers in the future.",
+      "evidence_quotes": [
+        "We anticipate increasing our sales efforts to U.S. and foreign, federal, state and local governmental customers in the future."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "foreign governments",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "foreign government customer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We anticipate increasing our sales efforts to U.S. and foreign, federal, state and local governmental customers in the future.",
+      "evidence_quotes": [
+        "We anticipate increasing our sales efforts to U.S. and foreign, federal, state and local governmental customers in the future."
+      ],
+      "confidence": 0.8,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "China",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "trade policy infrastructure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "geopolitical conditions such as international trade tensions between the U.S. and China, Canada, Mexico and other countries where we manufacture our products including Malaysia and Vietnam",
+      "evidence_quotes": [
+        "geopolitical conditions such as international trade tensions between the U.S. and China, Canada, Mexico and other countries where we manufacture our products including Malaysia and Vietnam"
+      ],
+      "confidence": 0.75,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "Canada",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "trade policy infrastructure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "geopolitical conditions such as international trade tensions between the U.S. and China, Canada, Mexico and other countries where we manufacture our products including Malaysia and Vietnam",
+      "evidence_quotes": [
+        "geopolitical conditions such as international trade tensions between the U.S. and China, Canada, Mexico and other countries where we manufacture our products including Malaysia and Vietnam"
+      ],
+      "confidence": 0.75,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "Mexico",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "trade policy infrastructure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "geopolitical conditions such as international trade tensions between the U.S. and China, Canada, Mexico and other countries where we manufacture our products including Malaysia and Vietnam",
+      "evidence_quotes": [
+        "geopolitical conditions such as international trade tensions between the U.S. and China, Canada, Mexico and other countries where we manufacture our products including Malaysia and Vietnam"
+      ],
+      "confidence": 0.75,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "Malaysia",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "manufacturing location infrastructure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "geopolitical conditions such as international trade tensions between the U.S. and China, Canada, Mexico and other countries where we manufacture our products including Malaysia and Vietnam",
+      "evidence_quotes": [
+        "geopolitical conditions such as international trade tensions between the U.S. and China, Canada, Mexico and other countries where we manufacture our products including Malaysia and Vietnam"
+      ],
+      "confidence": 0.75,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "Vietnam",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "manufacturing location infrastructure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "geopolitical conditions such as international trade tensions between the U.S. and China, Canada, Mexico and other countries where we manufacture our products including Malaysia and Vietnam",
+      "evidence_quotes": [
+        "geopolitical conditions such as international trade tensions between the U.S. and China, Canada, Mexico and other countries where we manufacture our products including Malaysia and Vietnam"
+      ],
+      "confidence": 0.75,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "China",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "manufacturing_jurisdiction",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "geopolitical conditions such as international trade tensions between the U.S. and China, Canada, Mexico and other countries where we manufacture our products including Malaysia and Vietnam",
+      "evidence_quotes": [
+        "geopolitical conditions such as international trade tensions between the U.S. and China, Canada, Mexico and other countries where we manufacture our products including Malaysia and Vietnam"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "Canada",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "manufacturing_jurisdiction",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "geopolitical conditions such as international trade tensions between the U.S. and China, Canada, Mexico and other countries where we manufacture our products including Malaysia and Vietnam",
+      "evidence_quotes": [
+        "geopolitical conditions such as international trade tensions between the U.S. and China, Canada, Mexico and other countries where we manufacture our products including Malaysia and Vietnam"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "Mexico",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "manufacturing_jurisdiction",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "geopolitical conditions such as international trade tensions between the U.S. and China, Canada, Mexico and other countries where we manufacture our products including Malaysia and Vietnam",
+      "evidence_quotes": [
+        "geopolitical conditions such as international trade tensions between the U.S. and China, Canada, Mexico and other countries where we manufacture our products including Malaysia and Vietnam"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "Malaysia",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "manufacturing_jurisdiction",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "geopolitical conditions such as international trade tensions between the U.S. and China, Canada, Mexico and other countries where we manufacture our products including Malaysia and Vietnam",
+      "evidence_quotes": [
+        "geopolitical conditions such as international trade tensions between the U.S. and China, Canada, Mexico and other countries where we manufacture our products including Malaysia and Vietnam"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "Vietnam",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "manufacturing_jurisdiction",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "geopolitical conditions such as international trade tensions between the U.S. and China, Canada, Mexico and other countries where we manufacture our products including Malaysia and Vietnam",
+      "evidence_quotes": [
+        "geopolitical conditions such as international trade tensions between the U.S. and China, Canada, Mexico and other countries where we manufacture our products including Malaysia and Vietnam"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 6
+    }
+  ],
+  "candidatesPerChunk": [
+    12,
+    13,
+    1,
+    13,
+    1,
+    7,
+    5
+  ],
+  "parseErrors": 0,
+  "apiErrors": 0,
+  "inputTokens": 32381,
+  "outputTokens": 5144
+}

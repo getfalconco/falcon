@@ -1,0 +1,13 @@
+{
+  "ticker": "ACDC",
+  "companyName": "ProFrac Holding Corp.",
+  "form": "10-K",
+  "filingDate": "2026-03-13",
+  "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1881487/000119312526106120/acdc-20251231.htm",
+  "generatedAt": "2026-08-13T17:34:47.562Z",
+  "cacheKey": "ACDC|0001193125-26-106120|5",
+  "accessionNumber": "0001193125-26-106120",
+  "validatedCount": 23,
+  "rejectedCount": 16,
+  "mergedCount": 1
+}

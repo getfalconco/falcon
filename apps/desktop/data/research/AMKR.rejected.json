@@ -1,0 +1,92 @@
+[
+  {
+    "counterparty_name": "IDMs",
+    "category": "customer",
+    "subtype": "integrated_device_manufacturers",
+    "evidence_quote": "We provide our services to integrated device manufacturers (\"IDMs\"), \"fabless\" semiconductor companies, original equipment manufacturers (\"OEMs\") and contract foundries.",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "fabless semiconductor companies",
+    "category": "customer",
+    "subtype": "semiconductor_companies",
+    "evidence_quote": "We provide our services to integrated device manufacturers (\"IDMs\"), \"fabless\" semiconductor companies, original equipment manufacturers (\"OEMs\") and contract foundries.",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "OEMs",
+    "category": "customer",
+    "subtype": "original_equipment_manufacturers",
+    "evidence_quote": "We provide our services to integrated device manufacturers (\"IDMs\"), \"fabless\" semiconductor companies, original equipment manufacturers (\"OEMs\") and contract foundries.",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "contract foundries",
+    "category": "customer",
+    "subtype": "semiconductor_foundries",
+    "evidence_quote": "We provide our services to integrated device manufacturers (\"IDMs\"), \"fabless\" semiconductor companies, original equipment manufacturers (\"OEMs\") and contract foundries.",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "North Korea",
+    "category": "dependency",
+    "subtype": "geopolitical_risk",
+    "evidence_quote": "there have been heightened security concerns in recent years stemming from North Korea's nuclear weapon and long-range missile programs as well as its military actions in the region.",
+    "confidence": 0.65,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "U.S. Department of Commerce",
+    "category": "dependency",
+    "subtype": "funding_award",
+    "evidence_quote": "In December 2024, the Commerce Department awarded us up to $407 million in direct funding pursuant to the CHIPS Act for the Arizona Facility.",
+    "confidence": 0.95,
+    "reason": "counterparty name not in quote",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "European Union",
+    "category": "dependency",
+    "subtype": "regulatory_framework",
+    "evidence_quote": "The European Union's Restriction of Hazardous Substances in Electrical and Electronic Equipment directive and similar laws in other jurisdictions, including China, impose strict restrictions",
+    "confidence": 0.85,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Democratic Republic of Congo",
+    "category": "dependency",
+    "subtype": "mineral_sourcing_region",
+    "evidence_quote": "SEC rules and related industry initiatives require diligence and disclosure regarding the use of certain minerals originating from the conflict zones of the Democratic Republic of Congo and adjoining countries.",
+    "confidence": 0.65,
+    "reason": "The evidence quote describes SEC disclosure requirements and customer diligence initiatives related to conflict minerals from the Democratic Republic of Congo and adjoining countries. This is a regulatory compliance obligation, not a dependency relationship. The DRC is not a counterparty that Amkor directly relies upon for critical infrastructure or services. The text states Amkor must certify that materials 'do not come from the conflict areas,' indicating avoidance rather than dependency. Furthermore, this is a government regulatory context, not a commercial or operational dependency. The relationship described is compliance-driven due diligence, not a critical operational reliance that would constitute a 'dependency' edge in a financial knowledge graph.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "BIS",
+    "category": "dependency",
+    "subtype": "regulatory",
+    "evidence_quote": "the BIS Regulations place limitations on the ability of companies to export certain advanced computing semiconductor chips, as well as chipmaking equipment",
+    "confidence": 0.85,
+    "reason": "BIS (Bureau of Industry and Security) is a U.S. regulatory agency enforcing export controls. The evidence_quote describes the BIS Regulations as placing limitations on export activities, which is a regulatory function, not a dependency relationship. The ROOT company (Amkor) does not 'critically rely on BIS infrastructure/service' – rather, BIS is a regulator imposing constraints. Regulators acting in their regulatory capacity are explicitly excluded as counterparties per the guidelines. BIS is not providing a service that Amkor depends on; it is a government agency restricting certain export activities. This is regulatory compliance, not dependency.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "OECD",
+    "category": "dependency",
+    "subtype": "regulatory_framework",
+    "evidence_quote": "The OECD, which represents a coalition of member countries, recommended changes to long-standing tax principles related to transfer pricing and has developed model rules",
+    "confidence": 0.85,
+    "reason": "The OECD is not a counterparty in any commercial or operational relationship with Amkor Technology. It is an intergovernmental organization that develops model tax rules and policy recommendations. The evidence_quote describes OECD's role in recommending changes to tax principles and developing Pillar Two Model Rules. This is regulatory policy development, not a dependency relationship. The root company does not 'rely' on OECD in the sense of dependency (like relying on GPS infrastructure or a critical platform) - rather, Amkor is subject to tax laws that various countries may enact based on OECD recommendations. The OECD itself is not providing infrastructure, services, or frameworks that Amkor depends upon; it is a policy-making body whose recommendations influence national tax authorities. This falls into the category of regulatory/policy context rather than a counterparty relationship. Additionally, the OECD does not fit the dependency category definition, which requires the root to critically rely on counterparty infrastructure/service with NO commercial vendor relationship - the OECD provides neither infrastructure nor services to Amkor.",
+    "stage": "audit"
+  }
+]

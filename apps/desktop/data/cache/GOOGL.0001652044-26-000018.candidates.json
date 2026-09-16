@@ -1,0 +1,177 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 168202,
+  "chunks": 8,
+  "candidates": [
+    {
+      "counterparty_name": "Intersect",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "acquisition_target",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In December 2025, we entered into a definitive agreement to acquire Intersect, which provides data center and energy infrastructure solutions, for $4.8 billion in cash",
+      "evidence_quotes": [
+        "In December 2025, we entered into a definitive agreement to acquire Intersect, which provides data center and energy infrastructure solutions, for $4.8 billion in cash"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Ernst & Young LLP",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "external_auditor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We have audited the accompanying consolidated balance sheets of Alphabet Inc. (the Company) as of December 31, 2024 and 2025",
+      "evidence_quotes": [
+        "We have audited the accompanying consolidated balance sheets of Alphabet Inc. (the Company) as of December 31, 2024 and 2025"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Google Network partners",
+      "counterparty_type": "other",
+      "category": "customer",
+      "subtype": "advertising_partner",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "amounts paid to Google Network partners primarily for ads displayed on their properties.",
+      "evidence_quotes": [
+        "amounts paid to Google Network partners primarily for ads displayed on their properties."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "content providers",
+      "counterparty_type": "other",
+      "category": "supplier",
+      "subtype": "content_licensing",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "content acquisition costs, which are payments to content providers from whom we license video and other content for distribution, primarily related to YouTube",
+      "evidence_quotes": [
+        "content acquisition costs, which are payments to content providers from whom we license video and other content for distribution, primarily related to YouTube"
+      ],
+      "confidence": 0.88,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "FASB",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "standard_setter",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In November 2024, the Financial Accounting Standards Board (FASB) issued Accounting Standards Update (ASU) 2024-03",
+      "evidence_quotes": [
+        "In November 2024, the Financial Accounting Standards Board (FASB) issued Accounting Standards Update (ASU) 2024-03"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Waymo",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "consolidated_subsidiary_VIE",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In February 2026, Waymo, a consolidated VIE, announced an investment round of $16.0 billion, the significant majority of which was funded by Alphabet.",
+      "evidence_quotes": [
+        "In February 2026, Waymo, a consolidated VIE, announced an investment round of $16.0 billion, the significant majority of which was funded by Alphabet."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Wiz",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "cloud security platform",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In March 2025, we entered into a definitive agreement to acquire Wiz, a leading cloud security platform, for $ 32.0 billion",
+      "evidence_quotes": [
+        "In March 2025, we entered into a definitive agreement to acquire Wiz, a leading cloud security platform, for $ 32.0 billion"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "Intersect",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "data center and energy infrastructure solutions",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In December 2025, we entered into a definitive agreement to acquire Intersect, which provides data center and energy infrastructure solutions, for $ 4.8 billion",
+      "evidence_quotes": [
+        "In December 2025, we entered into a definitive agreement to acquire Intersect, which provides data center and energy infrastructure solutions, for $ 4.8 billion"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "Epic Games",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "litigation opponent",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In December 2023, a California jury delivered a verdict against Google in Epic Games v. Google related to Google Play's business.",
+      "evidence_quotes": [
+        "In December 2023, a California jury delivered a verdict against Google in Epic Games v. Google related to Google Play's business."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "IRS",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "tax_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The IRS is currently examining our 2019 through 2021 tax returns.",
+      "evidence_quotes": [
+        "The IRS is currently examining our 2019 through 2021 tax returns."
+      ],
+      "confidence": 0.92,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "Ernst & Young LLP",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "external_auditor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The effectiveness of our internal control over financial reporting as of December 31, 2025 has been audited by Ernst & Young LLP, an independent registered public accounting firm",
+      "evidence_quotes": [
+        "The effectiveness of our internal control over financial reporting as of December 31, 2025 has been audited by Ernst & Young LLP, an independent registered public accounting firm"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 7
+    },
+    {
+      "counterparty_name": "Russian Federal Security Service",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_infrastructure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Google LLC, a subsidiary of Alphabet, filed notifications with the Russian Federal Security Service (FSB) pursuant to Russian encryption control requirements",
+      "evidence_quotes": [
+        "Google LLC, a subsidiary of Alphabet, filed notifications with the Russian Federal Security Service (FSB) pursuant to Russian encryption control requirements"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 7
+    }
+  ],
+  "candidatesPerChunk": [
+    1,
+    1,
+    2,
+    1,
+    1,
+    3,
+    1,
+    2
+  ],
+  "parseErrors": 1,
+  "apiErrors": 0,
+  "inputTokens": 48277,
+  "outputTokens": 1318
+}

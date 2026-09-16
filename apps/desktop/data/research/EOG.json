@@ -1,0 +1,205 @@
+[
+  {
+    "root_ticker": "EOG",
+    "counterparty_name": "National Gas Company of Trinidad and Tobago Limited",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "customer",
+    "subtype": "natural_gas_purchaser",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "natural gas volumes from Trinidad were sold to the National Gas Company of Trinidad and Tobago Limited and its subsidiary under two natural gas sales arrangements.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/821189/000082118926000054/eog-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_28cd15d84420"
+  },
+  {
+    "root_ticker": "EOG",
+    "counterparty_name": "Heritage Petroleum Company Limited",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "customer",
+    "subtype": "crude_oil_purchaser",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Crude oil and condensate are sold to both Heritage Petroleum Company Limited and BP Trinidad and Tobago LLC.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/821189/000082118926000054/eog-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_2a55d19bb337"
+  },
+  {
+    "root_ticker": "EOG",
+    "counterparty_name": "BP Trinidad and Tobago LLC",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "customer",
+    "subtype": "crude_oil_purchaser",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "Crude oil and condensate are sold to both Heritage Petroleum Company Limited and BP Trinidad and Tobago LLC.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/821189/000082118926000054/eog-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_2a55d19bb337"
+  },
+  {
+    "root_ticker": "EOG",
+    "counterparty_name": "BP Trinidad and Tobago LLC",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "farmout_partner",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "EOG also continues to move forward on the design and construction of the Coconut Platform in accordance with the farmout agreement signed in 2024 with BP Trinidad and Tobago LLC.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/821189/000082118926000054/eog-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_942c206a13e4"
+  },
+  {
+    "root_ticker": "EOG",
+    "counterparty_name": "Bapco Energies B.S.C. (Closed)",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "exploration_participation_partner",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "a subsidiary of EOG signed an exploration participation agreement with Bapco Energies B.S.C. (Closed) (Bapco) to evaluate a gas exploration prospect in the Kingdom of Bahrain.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/821189/000082118926000054/eog-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_e39871d32d87"
+  },
+  {
+    "root_ticker": "EOG",
+    "counterparty_name": "Abu Dhabi National Oil Company",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "exploration_concession_partner",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "in coordination with Abu Dhabi National Oil Company (ADNOC), has commenced drilling operations to explore and appraise unconventional oil potential in the concession area.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/821189/000082118926000054/eog-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_d4d8d794babe"
+  },
+  {
+    "root_ticker": "EOG",
+    "counterparty_name": "Bureau of Land Management",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "supplier",
+    "subtype": "federal_land_lease_grantor",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.88,
+    "evidence": [
+      {
+        "quote": "A portion of EOG's oil and gas leases in New Mexico, North Dakota and Wyoming, as well as in other areas, are granted by the federal government and administered by the Bureau of Land Management (BLM)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/821189/000082118926000054/eog-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "the rules and regulations adopted by the U.S. EPA and the Bureau of Land Management with respect to GHG emissions and related matters",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/821189/000082118926000054/eog-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_73e2f9d66113"
+  },
+  {
+    "root_ticker": "EOG",
+    "counterparty_name": "Bureau of Indian Affairs",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "dependency",
+    "subtype": "federal_land_lease_administrator",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "A portion of EOG's oil and gas leases in New Mexico, North Dakota and Wyoming, as well as in other areas, are granted by the federal government and administered by the Bureau of Land Management (BLM) and/or the Bureau of",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/821189/000082118926000054/eog-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_871d84b20934"
+  },
+  {
+    "root_ticker": "EOG",
+    "counterparty_name": "Organization of Petroleum Exporting Countries",
+    "counterparty_ticker": null,
+    "counterparty_type": "other",
+    "category": "dependency",
+    "subtype": "commodity_price_influence",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "Due to the many uncertainties associated with the world political and economic environment (for example, the actions of other crude oil exporting nations, including the Organization of Petroleum Exporting Countries",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/821189/000082118926000054/eog-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_3dbe0885a499"
+  }
+]

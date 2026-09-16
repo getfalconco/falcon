@@ -1,0 +1,156 @@
+[
+  {
+    "root_ticker": "WMT",
+    "counterparty_name": "China",
+    "counterparty_ticker": null,
+    "counterparty_type": "other",
+    "category": "supplier",
+    "subtype": "import_source",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "less than one third of what we sell in the U.S. is imported, with most of our imports coming from China, Mexico, Vietnam, India and Canada.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/104169/000010416926000055/wmt-20260131.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-03-13",
+    "shared_evidence_group": "ev_168041124c3e"
+  },
+  {
+    "root_ticker": "WMT",
+    "counterparty_name": "Mexico",
+    "counterparty_ticker": null,
+    "counterparty_type": "other",
+    "category": "supplier",
+    "subtype": "import_source",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "less than one third of what we sell in the U.S. is imported, with most of our imports coming from China, Mexico, Vietnam, India and Canada.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/104169/000010416926000055/wmt-20260131.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-03-13",
+    "shared_evidence_group": "ev_168041124c3e"
+  },
+  {
+    "root_ticker": "WMT",
+    "counterparty_name": "Vietnam",
+    "counterparty_ticker": null,
+    "counterparty_type": "other",
+    "category": "supplier",
+    "subtype": "import_source",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "less than one third of what we sell in the U.S. is imported, with most of our imports coming from China, Mexico, Vietnam, India and Canada.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/104169/000010416926000055/wmt-20260131.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-03-13",
+    "shared_evidence_group": "ev_168041124c3e"
+  },
+  {
+    "root_ticker": "WMT",
+    "counterparty_name": "India",
+    "counterparty_ticker": null,
+    "counterparty_type": "other",
+    "category": "supplier",
+    "subtype": "import_source",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "less than one third of what we sell in the U.S. is imported, with most of our imports coming from China, Mexico, Vietnam, India and Canada.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/104169/000010416926000055/wmt-20260131.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-03-13",
+    "shared_evidence_group": "ev_168041124c3e"
+  },
+  {
+    "root_ticker": "WMT",
+    "counterparty_name": "Canada",
+    "counterparty_ticker": null,
+    "counterparty_type": "other",
+    "category": "supplier",
+    "subtype": "import_source",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "less than one third of what we sell in the U.S. is imported, with most of our imports coming from China, Mexico, Vietnam, India and Canada.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/104169/000010416926000055/wmt-20260131.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-03-13",
+    "shared_evidence_group": "ev_168041124c3e"
+  },
+  {
+    "root_ticker": "WMT",
+    "counterparty_name": "JD.com",
+    "counterparty_ticker": "JD",
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "strategic_investment",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.88,
+    "evidence": [
+      {
+        "quote": "net proceeds received from sales of certain strategic investments, including $3.6 billion related to the sale of our JD.com investment.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/104169/000010416926000055/wmt-20260131.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-03-13",
+    "shared_evidence_group": "ev_7b501f650504"
+  },
+  {
+    "root_ticker": "WMT",
+    "counterparty_name": "Flipkart",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "majority_owned_subsidiary",
+    "strength": 1,
+    "strength_tier": "critical",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "we paid $3.5 billion to acquire shares from certain Flipkart noncontrolling interest holders",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/104169/000010416926000055/wmt-20260131.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-03-13",
+    "shared_evidence_group": "ev_cc62e3347d4e"
+  }
+]

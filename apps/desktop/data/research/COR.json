@@ -1,0 +1,112 @@
+[
+  {
+    "root_ticker": "COR",
+    "counterparty_name": "Walgreens",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "customer",
+    "subtype": "pharmaceutical retail",
+    "strength": 1,
+    "strength_tier": "critical",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.98,
+    "evidence": [
+      {
+        "quote": "As of September 30, 2025, our two largest trade receivable balances due from customers (Walgreens and Boots together and Evernorth Health Services) represented approximately 38% and 5% of our accounts receivable, net.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1140859/000114085925000131/cor-20250930.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-11-25",
+    "shared_evidence_group": "ev_8ac4b3ad2044"
+  },
+  {
+    "root_ticker": "COR",
+    "counterparty_name": "Boots",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "customer",
+    "subtype": "pharmaceutical retail",
+    "strength": 1,
+    "strength_tier": "critical",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "As of September 30, 2025, our two largest trade receivable balances due from customers (Walgreens and Boots together and Evernorth Health Services) represented approximately 38% and 5% of our accounts receivable, net.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1140859/000114085925000131/cor-20250930.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-11-25",
+    "shared_evidence_group": "ev_8ac4b3ad2044"
+  },
+  {
+    "root_ticker": "COR",
+    "counterparty_name": "Evernorth Health Services",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "customer",
+    "subtype": "healthcare services",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "As of September 30, 2025, our two largest trade receivable balances due from customers (Walgreens and Boots together and Evernorth Health Services) represented approximately 38% and 5% of our accounts receivable, net.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1140859/000114085925000131/cor-20250930.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-11-25",
+    "shared_evidence_group": "ev_8ac4b3ad2044"
+  },
+  {
+    "root_ticker": "COR",
+    "counterparty_name": "FDA",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "dependency",
+    "subtype": "regulatory infrastructure",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "we are subject to the risk of changes in various laws, which include operating, record keeping, and security standards of the DEA, the FDA, HHS, various state boards of pharmacy and comparable agencies.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1140859/000114085925000131/cor-20250930.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-11-25",
+    "shared_evidence_group": "ev_795fa2e20396"
+  },
+  {
+    "root_ticker": "COR",
+    "counterparty_name": "Medicaid",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "dependency",
+    "subtype": "reimbursement_program",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.88,
+    "evidence": [
+      {
+        "quote": "prohibit persons from soliciting, offering, receiving or paying any remuneration in order to induce the referral of a patient for treatment or the ordering or purchasing of items or services that are in any way paid for by Medicare, Medicaid",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1140859/000114085925000131/cor-20250930.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2025-11-25",
+    "shared_evidence_group": "ev_5896ca051e59"
+  }
+]

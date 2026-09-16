@@ -1,0 +1,131 @@
+{
+  "run-8a4e70a3-eb12-5ea1-a30f-02df1d0361b6-ef56ab9f05:13k2bnd": {
+    "run_id": "run-8a4e70a3-eb12-5ea1-a30f-02df1d0361b6-ef56ab9f05",
+    "headline": "NVDA U.S. export controls on Nvidia chips to China; loophole closure under review",
+    "summary": "Washington is reviewing whether to close workarounds that let Nvidia keep selling downgraded AI accelerators into China. That would cut off a revenue channel Nvidia built specifically to stay inside the existing rules, and the demand hit runs back through its foundry and packaging supply chain. Rivals gain only to the extent buyers shift to non-restricted architectures rather than losing the China market entirely.",
+    "points": [
+      "TSM feels it through order cuts on Nvidia wafer and CoWoS bookings, diluted by non-AI demand",
+      "INTC exposure runs through joint product work with Nvidia, not direct China chip sales",
+      "AMD and AVGO read as relative winners only if rules stay Nvidia-specific rather than blanket",
+      "Watch the published rule text: a performance-threshold rewrite hits all accelerator vendors alike"
+    ],
+    "model": "claude-opus-5",
+    "generated_at": "2026-08-24T19:14:51.531Z"
+  },
+  "run-c3f1a862-a679-5416-ad68-0a896ea1ce75-5ec2de564d:it3m8i": {
+    "run_id": "run-c3f1a862-a679-5416-ad68-0a896ea1ce75-5ec2de564d",
+    "headline": "BNTX BioNTech to present lung cancer treatment data at IASLC conference",
+    "summary": "BioNTech will show clinical data on a lung cancer candidate at the IASLC meeting, putting its oncology pipeline in front of investors who mostly still value the company on COVID vaccine cash flow. The read-through matters because BioNTech's near-term revenue base is shrinking, and credible solid-tumor data is the main path to re-rating the equity.",
+    "points": [
+      "Watch response rates and durability versus checkpoint-inhibitor standards; abstract text lands before the talk",
+      "Pfizer moves only marginally: partnership is vaccine-centered, not this oncology asset",
+      "Confirms if data supports a registrational path or a partner deal; kills if efficacy sits in line with existing therapy",
+      "Follow-on catalyst is trial expansion or enrollment guidance disclosed alongside the presentation"
+    ],
+    "model": "claude-opus-5",
+    "generated_at": "2026-08-24T20:21:43.328Z"
+  },
+  "run-49d08435-e3d8-57d8-a5c6-35bae08f3f89-eb0f6491ac:892qfm": {
+    "run_id": "run-49d08435-e3d8-57d8-a5c6-35bae08f3f89-eb0f6491ac",
+    "headline": "AMD 8-K Item 5.02 — officer / director change",
+    "summary": "AMD filed an 8-K under Item 5.02, the item used for departures, appointments or elections of officers and directors. Without knowing which seat changed hands and why, the read is neutral: leadership changes at this level only move the stock if they touch the people running the data center or client silicon roadmap. Competitors are named in the filing chain but the signal reaching them is thin.",
+    "points": [
+      "Check the exhibit for the name and role; a CFO or data center GM exit matters, a board rotation does not",
+      "Departure language matters: resignation with no successor named is worse than a planned retirement",
+      "INTC, NVDA and AVGO only re-rate if the change hints at execution problems in AMD's AI roadmap",
+      "Kill the read if the filing is a routine board appointment or a scheduled transition with a named successor"
+    ],
+    "model": "claude-opus-5",
+    "generated_at": "2026-08-24T20:23:24.295Z"
+  },
+  "run-36f56070-dcf0-5afb-a18c-e8141735ab38-2a1901639b:jj826d": {
+    "run_id": "run-36f56070-dcf0-5afb-a18c-e8141735ab38-2a1901639b",
+    "headline": "NVDA NVIDIA partners with Cloverleaf Infrastructure on data center development",
+    "summary": "Nvidia is teaming with Cloverleaf Infrastructure to develop data center sites, addressing the power and land bottleneck that now gates AI compute deployment rather than chip supply. Securing buildout capacity ahead of demand pulls forward the pipeline for Nvidia GPUs and the systems built around them, and reinforces that siting, not silicon, is the binding constraint.",
+    "points": [
+      "Incremental GPU volume flows upstream to TSMC wafer and advanced packaging demand as sole leading-edge foundry",
+      "Intel's co-developed custom data center products ride the same deployment pipeline, a modest read-through",
+      "AMD and Broadcom lose marginal share of rack space if the sites fill with Nvidia-standard systems",
+      "Confirmation needs disclosed site capacity, power contracts or timelines; vague MOU with no megawatts kills the read"
+    ],
+    "model": "claude-opus-5",
+    "generated_at": "2026-08-24T22:25:44.464Z"
+  },
+  "run-664d3e65-d850-5cfa-a999-b7668020f33e-114a45a418:1v523cd": {
+    "run_id": "run-664d3e65-d850-5cfa-a999-b7668020f33e-114a45a418",
+    "headline": "WMT Walmart stock rebounds after sales miss-driven selloff",
+    "summary": "Walmart shares recovered the ground lost after a sales figure came in below expectations, suggesting buyers treated the initial drop as an overreaction rather than a signal about the underlying business. For connected names, the read-through is about whether US consumer spending at scale is softening or whether this was a Walmart-specific miss. The rebound argues for the latter, which limits how far the negative signal travels.",
+    "points": [
+      "COST reads as a consumer-demand proxy, not a share-shift trade; sign depends on which explanation holds",
+      "JD gets only a sentiment tickle via the strategic stake; no operating link to WMT quarterly sales",
+      "Confirming: peer retail prints showing steady traffic and comps alongside WMT's recovery",
+      "Killing: further weakness in discretionary categories across retailers, marking this as demand not execution"
+    ],
+    "model": "claude-opus-5",
+    "generated_at": "2026-08-25T20:32:22.335Z"
+  },
+  "run-fcf504ce-8177-5511-aa61-dcbde1dbe16a-49f701e76d:100ymg8": {
+    "run_id": "run-fcf504ce-8177-5511-aa61-dcbde1dbe16a-49f701e76d",
+    "headline": "NOC 8-K Item 5.02 — officer / director change",
+    "summary": "Northrop Grumman filed an 8-K disclosing a change in officer or director roles. The filing provides no detail on whether this is a departure, appointment, or role shift, leaving the strategic or operational implications uncertain. For defense peers, the read depends entirely on whether NOC lost talent or added capability.",
+    "points": [
+      "Marginal competitor effect: BA, LMT, GD, RTX face no direct business overlap from an NOC personnel move",
+      "Direction unclear until the 8-K details whether this is a senior departure or incoming executive appointment",
+      "Watch for NOC's next 10-Q or earnings call to confirm whether the change affects program execution or strategy"
+    ],
+    "model": "claude-opus-5",
+    "generated_at": "2026-08-26T10:22:17.821Z"
+  },
+  "run-3e13381d-24cb-54e6-a197-d8be63a83b56-ee28d8b7ee:6synnr": {
+    "run_id": "run-3e13381d-24cb-54e6-a197-d8be63a83b56-ee28d8b7ee",
+    "headline": "BA 8-K Item 5.02 — officer / director change",
+    "summary": "Boeing disclosed a change among its officers or directors under Item 5.02 of an 8-K. Item 5.02 covers departures, appointments and elections, so the read depends entirely on which seat changed and whether the exit was voluntary. Until the named role and effective terms are known, this says little about Boeing's programs, cash burn or certification timelines.",
+    "points": [
+      "Check which seat moved: CEO, CFO or a program head matters, a routine board rotation does not.",
+      "Language on resignation versus termination, and any interim appointment, sets the direction.",
+      "Defense peers RTX, GD, LMT, NOC only see a read-through if the change signals strategy or program shifts.",
+      "Kills the read: independent director retirement or a scheduled succession already telegraphed."
+    ],
+    "model": "claude-opus-5",
+    "generated_at": "2026-08-26T11:35:17.735Z"
+  },
+  "run-02344802-2cf5-520c-ad6e-b7ac04c0d92c-620e8d2f2f:1sigi6m": {
+    "run_id": "run-02344802-2cf5-520c-ad6e-b7ac04c0d92c-620e8d2f2f",
+    "headline": "CVX Libya signs production-sharing agreement with Chevron",
+    "summary": "Chevron signed a production-sharing agreement covering Libyan acreage, giving it a formal stake in exploration and production there. Production-sharing terms mean Chevron carries upfront cost in exchange for a share of output, so the near-term effect is spending and optionality rather than volumes. It matters mainly as a signal that majors are willing to re-enter Libyan barrels.",
+    "points": [
+      "CVX: adds long-dated exploration optionality, no near-term production or cash flow change",
+      "COP: reads across via its existing joint-venture ties to CVX and Libya re-entry appetite",
+      "Confirms if Chevron discloses work commitments, seismic or drilling timing on the block",
+      "Kills if security or NOC political disputes stall the agreement before field work starts"
+    ],
+    "model": "claude-opus-5",
+    "generated_at": "2026-08-26T11:35:46.097Z"
+  },
+  "run-3ba66b97-77bb-5f4c-a9d4-32acc2fcb884-88d72ae69a:3awrl7": {
+    "run_id": "run-3ba66b97-77bb-5f4c-a9d4-32acc2fcb884-88d72ae69a",
+    "headline": "NVDA Nvidia discusses investment in Perplexity at $30B+ valuation",
+    "summary": "Nvidia is in talks to take a stake in AI search startup Perplexity at a valuation above $30B. It extends Nvidia's pattern of funding customers that buy its compute, which recycles capital into demand for its own chips and the systems built around them. The read-through is to the names that supply or assemble that silicon rather than to Perplexity itself.",
+    "points": [
+      "Investment signals Nvidia still sees runway in AI inference demand, supporting TSM wafer and MU memory pull.",
+      "HPE benefits only if the funding converts into server orders, not from the stake itself.",
+      "INTC read is via existing product-development tie to NVDA, the most direct partner link here.",
+      "Confirmation: a signed deal plus disclosed compute commitments. Kill: talks lapse or no purchase agreement."
+    ],
+    "model": "claude-opus-5",
+    "generated_at": "2026-08-26T12:44:33.498Z"
+  },
+  "run-c62d4ce3-d04b-57a0-a0c4-4d5fdb2252d8-4e9171c195:lp08rl": {
+    "run_id": "run-c62d4ce3-d04b-57a0-a0c4-4d5fdb2252d8-4e9171c195",
+    "headline": "NVDA Nvidia forecasts 70% revenue growth for fiscal 2028",
+    "summary": "Nvidia projects 70% revenue growth by fiscal 2028, signaling continued AI infrastructure buildout and capacity expansion across its supply chain. The guidance implies sustained demand for advanced chips and manufacturing capacity through the next three years. TSM stands to benefit most directly through increased wafer orders, while design partners and customers see mixed opportunity and competitive pressure.",
+    "points": [
+      "TSM likely sees incremental wafer volume as NVDA scales production to meet the growth target",
+      "HPE benefits as NVDA customer but faces margin pressure competing against NVDA's own server products",
+      "CDNS gains from extended design cycles for next-gen chips; INTC partnership unclear given foundry competition",
+      "Watch NVDA capital equipment orders and TSM capacity announcements to confirm the trajectory"
+    ],
+    "model": "claude-opus-5",
+    "generated_at": "2026-08-29T18:01:32.394+00:00"
+  }
+}

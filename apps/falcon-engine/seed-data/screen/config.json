@@ -1,0 +1,105 @@
+{
+ "schemaVersion": 1,
+ "patterns": {
+  "quiet_accumulation": {
+   "enabled": true,
+   "priority": 1
+  },
+  "independent_tape": {
+   "enabled": true,
+   "priority": 2
+  },
+  "insider_divergence": {
+   "enabled": true,
+   "priority": 3
+  },
+  "compression": {
+   "enabled": true,
+   "priority": 4
+  }
+ },
+ "windows": {
+  "sessions": 5,
+  "volumeBaselineSessions": 20,
+  "compressionRangeSessions": 10,
+  "betaSessions": 90,
+  "volShortSessions": 30,
+  "volLongSessions": 90,
+  "momentumShort": 5,
+  "momentumLong": 20,
+  "week52Sessions": 252
+ },
+ "thresholds": {
+  "quietAccumulation": {
+   "minQualifyingSessions": 3,
+   "volumeRatioMin": 1.5,
+   "momentumZMax": 1
+  },
+  "compression": {
+   "volRegimeMax": 0.8,
+   "rangeVolMultiple": 1.5,
+   "near52wPct": 0.03
+  },
+  "independentTape": {
+   "minQualifyingSessions": 3,
+   "residualZMin": 1,
+   "netResidualVolMultiple": 1.5
+  },
+  "insiderDivergence": {
+   "momentumZMin": 0.75
+  }
+ },
+ "retentionDays": 180,
+ "staleEndSessions": 5,
+ "pollIntervalMs": 60000,
+ "bannedWords": [
+  "buy",
+  "sell",
+  "enter",
+  "exit",
+  "long",
+  "short",
+  "add",
+  "trim",
+  "target",
+  "stop",
+  "take profit",
+  "signal",
+  "prediction",
+  "recommend"
+ ],
+ "labels": {
+  "quiet_accumulation": "Quiet accumulation",
+  "compression": "Compression",
+  "independent_tape": "Independent tape",
+  "insider_divergence": "Insider divergence"
+ },
+ "templates": {
+  "quiet_accumulation": "volume arriving for {n} of the last {window} sessions (avg {ratio}× its {baseline}d median) while price sits {z}σ from flat — no news burst in the window",
+  "compression": "vol regime {regime}× its 90d norm; {window}-session range {range} inside the {bound} band vol implies — coiled, no direction claimed",
+  "independent_tape": "{n} of the last {window} sessions moved {dir} on their own (|residual z| ≥ {zmin}); net residual {net} against {implied} vol-implied — market-independent pressure",
+  "independent_tape_dir_up": "upward",
+  "independent_tape_dir_down": "downward",
+  "insider_divergence_buy": "insiders accumulating ({count} insiders over {window} business days, {notional}) into a 20d decline of {m20} ({z}σ)",
+  "insider_divergence_sell": "insiders distributing ({count} insiders over {window} business days, {notional}) into a 20d advance of {m20} ({z}σ)",
+  "modifier_near_52w_high": "within {pct} of the 52w high",
+  "modifier_near_52w_low": "within {pct} of the 52w low",
+  "na_history": "history window not yet full ({sessions} sessions on file, {needed} needed)",
+  "na_benchmark": "benchmark series unavailable — residual reads not computable",
+  "na_r2": "r² {r2} below the {floor} floor — residual reads unusable",
+  "na_cluster_direction": "insider cluster direction unavailable",
+  "na_detectors": "detector state unavailable — Tracker state not yet built",
+  "na_bars_lag": "latest bar {as_of} is behind the scan session {session}",
+  "na_no_bars": "no daily bars on file"
+ },
+ "emit": {
+  "screenEmitEnabled": false,
+  "dailyEmitCap": 5,
+  "priority": [
+   "insider_divergence",
+   "independent_tape",
+   "quiet_accumulation",
+   "compression"
+  ]
+ }
+}

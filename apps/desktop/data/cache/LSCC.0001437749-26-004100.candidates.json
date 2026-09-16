@@ -1,0 +1,253 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 138599,
+  "chunks": 6,
+  "candidates": [
+    {
+      "counterparty_name": "UMC",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "wafer_fabrication",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Lattice partners with United Microelectronics Corporation (\"UMC\") and its subsidiary United Semiconductor Japan Corporation (\"USJC\") to manufacture our products on its 130nm, 90nm, 65nm, and 40nm CMOS process technologies",
+      "evidence_quotes": [
+        "Lattice partners with United Microelectronics Corporation (\"UMC\") and its subsidiary United Semiconductor Japan Corporation (\"USJC\") to manufacture our products on its 130nm, 90nm, 65nm, and 40nm CMOS process technologies"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "USJC",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "wafer_fabrication",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Lattice partners with United Microelectronics Corporation (\"UMC\") and its subsidiary United Semiconductor Japan Corporation (\"USJC\") to manufacture our products on its 130nm, 90nm, 65nm, and 40nm CMOS process technologies",
+      "evidence_quotes": [
+        "Lattice partners with United Microelectronics Corporation (\"UMC\") and its subsidiary United Semiconductor Japan Corporation (\"USJC\") to manufacture our products on its 130nm, 90nm, 65nm, and 40nm CMOS process technologies"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "UMC",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "wafer fabrication foundry",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We source silicon wafers from our foundry partners, UMC, USJC, Samsung, TSMC, and Epson, pursuant to agreements with each company and their respective affiliates.",
+      "evidence_quotes": [
+        "We source silicon wafers from our foundry partners, UMC, USJC, Samsung, TSMC, and Epson, pursuant to agreements with each company and their respective affiliates."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "USJC",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "wafer fabrication foundry",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We source silicon wafers from our foundry partners, UMC, USJC, Samsung, TSMC, and Epson, pursuant to agreements with each company and their respective affiliates.",
+      "evidence_quotes": [
+        "We source silicon wafers from our foundry partners, UMC, USJC, Samsung, TSMC, and Epson, pursuant to agreements with each company and their respective affiliates."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Samsung",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "wafer fabrication foundry",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We source silicon wafers from our foundry partners, UMC, USJC, Samsung, TSMC, and Epson, pursuant to agreements with each company and their respective affiliates.",
+      "evidence_quotes": [
+        "We source silicon wafers from our foundry partners, UMC, USJC, Samsung, TSMC, and Epson, pursuant to agreements with each company and their respective affiliates."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "TSMC",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "wafer fabrication foundry",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We source silicon wafers from our foundry partners, UMC, USJC, Samsung, TSMC, and Epson, pursuant to agreements with each company and their respective affiliates.",
+      "evidence_quotes": [
+        "We source silicon wafers from our foundry partners, UMC, USJC, Samsung, TSMC, and Epson, pursuant to agreements with each company and their respective affiliates."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Epson",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "wafer fabrication foundry",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We source silicon wafers from our foundry partners, UMC, USJC, Samsung, TSMC, and Epson, pursuant to agreements with each company and their respective affiliates.",
+      "evidence_quotes": [
+        "We source silicon wafers from our foundry partners, UMC, USJC, Samsung, TSMC, and Epson, pursuant to agreements with each company and their respective affiliates."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "ASE",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "assembly and test (OSAT)",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Wafer sort testing is primarily performed by ASE in Taiwan and Malaysia",
+      "evidence_quotes": [
+        "Wafer sort testing is primarily performed by ASE in Taiwan and Malaysia"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Amkor",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "assembly and test (OSAT)",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Final testing is performed by ASE and Amkor.",
+      "evidence_quotes": [
+        "Final testing is performed by ASE and Amkor."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Taiwan Semiconductor Manufacturing",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "wafer foundry",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We rely on foundries in Japan, Korea and Taiwan to supply and fabricate silicon wafers for our semiconductor products, including Taiwan Semiconductor Manufacturing, Samsung Semiconductor, United Microelectronics Corporation, and Seiko Epson.",
+      "evidence_quotes": [
+        "We rely on foundries in Japan, Korea and Taiwan to supply and fabricate silicon wafers for our semiconductor products, including Taiwan Semiconductor Manufacturing, Samsung Semiconductor, United Microelectronics Corporation, and Seiko Epson."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Samsung Semiconductor",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "wafer foundry",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We rely on foundries in Japan, Korea and Taiwan to supply and fabricate silicon wafers for our semiconductor products, including Taiwan Semiconductor Manufacturing, Samsung Semiconductor, United Microelectronics Corporation, and Seiko Epson.",
+      "evidence_quotes": [
+        "We rely on foundries in Japan, Korea and Taiwan to supply and fabricate silicon wafers for our semiconductor products, including Taiwan Semiconductor Manufacturing, Samsung Semiconductor, United Microelectronics Corporation, and Seiko Epson."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "United Microelectronics Corporation",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "wafer foundry",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We rely on foundries in Japan, Korea and Taiwan to supply and fabricate silicon wafers for our semiconductor products, including Taiwan Semiconductor Manufacturing, Samsung Semiconductor, United Microelectronics Corporation, and Seiko Epson.",
+      "evidence_quotes": [
+        "We rely on foundries in Japan, Korea and Taiwan to supply and fabricate silicon wafers for our semiconductor products, including Taiwan Semiconductor Manufacturing, Samsung Semiconductor, United Microelectronics Corporation, and Seiko Epson."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Seiko Epson",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "wafer foundry",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We rely on foundries in Japan, Korea and Taiwan to supply and fabricate silicon wafers for our semiconductor products, including Taiwan Semiconductor Manufacturing, Samsung Semiconductor, United Microelectronics Corporation, and Seiko Epson.",
+      "evidence_quotes": [
+        "We rely on foundries in Japan, Korea and Taiwan to supply and fabricate silicon wafers for our semiconductor products, including Taiwan Semiconductor Manufacturing, Samsung Semiconductor, United Microelectronics Corporation, and Seiko Epson."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Advanced Semiconductor Engineering",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "OSAT (packaging and test)",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We rely on our OSATs in Malaysia, Taiwan and Japan to support the packaging and test of our products, including Advanced Semiconductor Engineering and Amkor Technology.",
+      "evidence_quotes": [
+        "We rely on our OSATs in Malaysia, Taiwan and Japan to support the packaging and test of our products, including Advanced Semiconductor Engineering and Amkor Technology."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Amkor Technology",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "OSAT (packaging and test)",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We rely on our OSATs in Malaysia, Taiwan and Japan to support the packaging and test of our products, including Advanced Semiconductor Engineering and Amkor Technology.",
+      "evidence_quotes": [
+        "We rely on our OSATs in Malaysia, Taiwan and Japan to support the packaging and test of our products, including Advanced Semiconductor Engineering and Amkor Technology."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "ChatGPT",
+      "counterparty_type": "product",
+      "category": "dependency",
+      "subtype": "AI tool",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "while we restrict the use of third-party and open source AI tools, such as ChatGPT, the internal governance of the adoption of these technologies can be challenging",
+      "evidence_quotes": [
+        "while we restrict the use of third-party and open source AI tools, such as ChatGPT, the internal governance of the adoption of these technologies can be challenging"
+      ],
+      "confidence": 0.7,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Ukraine",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "geopolitical_risk",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "terrorist acts or acts of war, including the ongoing conflict between Ukraine and Russia",
+      "evidence_quotes": [
+        "terrorist acts or acts of war, including the ongoing conflict between Ukraine and Russia"
+      ],
+      "confidence": 0.65,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "Russia",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "geopolitical_risk",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "terrorist acts or acts of war, including the ongoing conflict between Ukraine and Russia",
+      "evidence_quotes": [
+        "terrorist acts or acts of war, including the ongoing conflict between Ukraine and Russia"
+      ],
+      "confidence": 0.65,
+      "chunk_index": 5
+    }
+  ],
+  "candidatesPerChunk": [
+    2,
+    7,
+    6,
+    0,
+    1,
+    2
+  ],
+  "parseErrors": 11,
+  "apiErrors": 0,
+  "inputTokens": 37458,
+  "outputTokens": 3181
+}

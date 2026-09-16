@@ -1,0 +1,698 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 186299,
+  "chunks": 9,
+  "candidates": [
+    {
+      "counterparty_name": "BioNTech",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint_development_commercialization",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Comirnaty is an mRNA-based coronavirus vaccine to help prevent COVID-19, which is jointly developed and commercialized with BioNTech.",
+      "evidence_quotes": [
+        "Comirnaty is an mRNA-based coronavirus vaccine to help prevent COVID-19, which is jointly developed and commercialized with BioNTech."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "BMS",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint_development_commercialization",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Eliquis (apixaban) is part of the novel oral anticoagulant market and was jointly developed and is commercialized with BMS",
+      "evidence_quotes": [
+        "Eliquis (apixaban) is part of the novel oral anticoagulant market and was jointly developed and is commercialized with BMS"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Astellas",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint_development_commercialization",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Xtandi (enzalutamide) is an androgen receptor inhibitor that blocks multiple steps in the androgen receptor signaling pathway within tumor cells that is being developed and commercialized in collaboration with Astellas",
+      "evidence_quotes": [
+        "Xtandi (enzalutamide) is an androgen receptor inhibitor that blocks multiple steps in the androgen receptor signaling pathway within tumor cells that is being developed and commercialized in collaboration with Astellas"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "SMPS",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint_development_commercialization",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Orgovyx (relugolix) is an oral gonadotropin-releasing hormone (GnRH) receptor antagonist for the treatment of adult patients with advanced prostate cancer that is being developed and commercialized with SMPS.",
+      "evidence_quotes": [
+        "Orgovyx (relugolix) is an oral gonadotropin-releasing hormone (GnRH) receptor antagonist for the treatment of adult patients with advanced prostate cancer that is being developed and commercialized with SMPS."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Takeda",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint_development_commercialization",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Adcetris (brentuximab vedotin) is being developed and commercialized in collaboration with Takeda.",
+      "evidence_quotes": [
+        "Adcetris (brentuximab vedotin) is being developed and commercialized in collaboration with Takeda."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Genmab",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint_commercialization",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Tivdak (tisotumab vedotin-tftv) is commercialized in collaboration with Genmab.",
+      "evidence_quotes": [
+        "Tivdak (tisotumab vedotin-tftv) is commercialized in collaboration with Genmab."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Zai Lab",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "regional_commercialization",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "certain territories where Zai Lab Limited (Zai Lab) has commercialization rights (mainland China, Hong Kong, Macau, and Taiwan).",
+      "evidence_quotes": [
+        "certain territories where Zai Lab Limited (Zai Lab) has commercialization rights (mainland China, Hong Kong, Macau, and Taiwan)."
+      ],
+      "confidence": 0.92,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "CDC",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "government_vaccine_purchaser",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our vaccines in the U.S. are primarily sold directly to the federal government (including the CDC)",
+      "evidence_quotes": [
+        "Our vaccines in the U.S. are primarily sold directly to the federal government (including the CDC)"
+      ],
+      "confidence": 0.93,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "YaoPharma",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "in_licensing",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "our in-licensing agreements with YaoPharma and 3SBio entered into in 2025 in the obesity and cardiometabolic diseases and oncology therapeutic areas",
+      "evidence_quotes": [
+        "our in-licensing agreements with YaoPharma and 3SBio entered into in 2025 in the obesity and cardiometabolic diseases and oncology therapeutic areas"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "3SBio",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "in_licensing",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "our in-licensing agreements with YaoPharma and 3SBio entered into in 2025 in the obesity and cardiometabolic diseases and oncology therapeutic areas",
+      "evidence_quotes": [
+        "our in-licensing agreements with YaoPharma and 3SBio entered into in 2025 in the obesity and cardiometabolic diseases and oncology therapeutic areas"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Takeda",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "commercialization collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Adcetris is commercialized in collaboration with Takeda. Pfizer has commercialization rights for Adcetris in the U.S. and its territories and in Canada. Takeda has commercialization rights in the rest of the world.",
+      "evidence_quotes": [
+        "Adcetris is commercialized in collaboration with Takeda. Pfizer has commercialization rights for Adcetris in the U.S. and its territories and in Canada. Takeda has commercialization rights in the rest of the world."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "BMS",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint development and commercialization",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Eliquis was jointly developed and is commercialized in collaboration with BMS.",
+      "evidence_quotes": [
+        "Eliquis was jointly developed and is commercialized in collaboration with BMS."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Astellas",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "development and commercialization collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Xtandi is being developed and commercialized in collaboration with Astellas, which has exclusive commercialization rights for Xtandi outside the U.S.",
+      "evidence_quotes": [
+        "Xtandi is being developed and commercialized in collaboration with Astellas, which has exclusive commercialization rights for Xtandi outside the U.S."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Ono",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "commercialization rights with royalties",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Ono has exclusive rights to commercialize the product in Japan and South Korea...Pfizer receives royalties from Pierre Fabre and Ono on sales of Braftovi and Mektovi.",
+      "evidence_quotes": [
+        "Ono has exclusive rights to commercialize the product in Japan and South Korea...Pfizer receives royalties from Pierre Fabre and Ono on sales of Braftovi and Mektovi."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Medison Pharma Ltd.",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "commercialization rights",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Medison Pharma Ltd. has exclusive rights to commercialize the product in Israel",
+      "evidence_quotes": [
+        "Medison Pharma Ltd. has exclusive rights to commercialize the product in Israel"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Pierre Fabre",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "commercialization rights with royalties",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Pierre Fabre has exclusive rights to commercialize the product in all other countries, including Europe and Asia...Pfizer receives royalties from Pierre Fabre and Ono on sales of Braftovi and Mektovi.",
+      "evidence_quotes": [
+        "Pierre Fabre has exclusive rights to commercialize the product in all other countries, including Europe and Asia...Pfizer receives royalties from Pierre Fabre and Ono on sales of Braftovi and Mektovi."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Genmab",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "commercialization collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Tivdak is commercialized in collaboration with Genmab. Pfizer has co-promotion rights in the U.S.",
+      "evidence_quotes": [
+        "Tivdak is commercialized in collaboration with Genmab. Pfizer has co-promotion rights in the U.S."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Zai Lab",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "commercialization rights",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "except certain territories where Zai Lab has commercialization rights (mainland China, Hong Kong, Macau, and Taiwan).",
+      "evidence_quotes": [
+        "except certain territories where Zai Lab has commercialization rights (mainland China, Hong Kong, Macau, and Taiwan)."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "BioNTech",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "commercialization collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Product is being commercialized in collaboration with BioNTech. The Comirnaty trademark covers marketed variants.",
+      "evidence_quotes": [
+        "Product is being commercialized in collaboration with BioNTech. The Comirnaty trademark covers marketed variants."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "OPKO Health, Inc.",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "licensing agreement",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Ngenla is licensed from OPKO Health, Inc., and is developed and commercialized by Pfizer",
+      "evidence_quotes": [
+        "Ngenla is licensed from OPKO Health, Inc., and is developed and commercialized by Pfizer"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "FDA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The FDA, pursuant to the FFDCA, the Public Health Service Act and other federal statutes and regulations, extensively regulates pre- and post-marketing activities related to our biopharmaceutical products and devices.",
+      "evidence_quotes": [
+        "The FDA, pursuant to the FFDCA, the Public Health Service Act and other federal statutes and regulations, extensively regulates pre- and post-marketing activities related to our biopharmaceutical products and devices."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "DEA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Other U.S. federal agencies, including the DEA, may also regulate certain of our products and activities.",
+      "evidence_quotes": [
+        "Other U.S. federal agencies, including the DEA, may also regulate certain of our products and activities."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "CMS",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In August 2023, CMS published the first ten medicines subject to the MDPNP, which included Eliquis.",
+      "evidence_quotes": [
+        "In August 2023, CMS published the first ten medicines subject to the MDPNP, which included Eliquis."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "HRSA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In 2021 and 2022, HRSA sent letters to numerous manufacturers (not including Pfizer) that implemented contract pharmacy policies and integrity initiatives",
+      "evidence_quotes": [
+        "In 2021 and 2022, HRSA sent letters to numerous manufacturers (not including Pfizer) that implemented contract pharmacy policies and integrity initiatives"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "USPSTF",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "advisory_committee",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Coverage and cost sharing for certain insurance programs including Medicare, Medicaid and Children's Health Immunization Program (CHIP) can depend on recommendations from advisory committees, including the U.S. Preventive Services Taskforce (USPSTF)",
+      "evidence_quotes": [
+        "Coverage and cost sharing for certain insurance programs including Medicare, Medicaid and Children's Health Immunization Program (CHIP) can depend on recommendations from advisory committees, including the U.S. Preventive Services Taskforce (USPSTF)"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "ACIP",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "advisory_committee",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Coverage and cost sharing for certain insurance programs including Medicare, Medicaid and Children's Health Immunization Program (CHIP) can depend on recommendations from advisory committees, including the U.S. Preventive Services Taskforce (USPSTF) and the ACIP.",
+      "evidence_quotes": [
+        "Coverage and cost sharing for certain insurance programs including Medicare, Medicaid and Children's Health Immunization Program (CHIP) can depend on recommendations from advisory committees, including the U.S. Preventive Services Taskforce (USPSTF) and the ACIP."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "EMA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In the EU, the EMA conducts the scientific evaluation, supervision and safety monitoring of our innovative medicinal products that are eligible for the centralized marketing authorization procedure.",
+      "evidence_quotes": [
+        "In the EU, the EMA conducts the scientific evaluation, supervision and safety monitoring of our innovative medicinal products that are eligible for the centralized marketing authorization procedure."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "EC",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The EC grants marketing authorization by issuing a legally binding decision based on the EMA's recommendation.",
+      "evidence_quotes": [
+        "The EC grants marketing authorization by issuing a legally binding decision based on the EMA's recommendation."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "MHRA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In the U.K., the Medicines and Healthcare products Regulatory Agency (MHRA) is the sole regulatory authority, and companies must obtain an MHRA marketing authorization to market medicines in the U.K.",
+      "evidence_quotes": [
+        "In the U.K., the Medicines and Healthcare products Regulatory Agency (MHRA) is the sole regulatory authority, and companies must obtain an MHRA marketing authorization to market medicines in the U.K."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Pharmaceuticals and Medical Device Agency",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In Japan, the Pharmaceuticals and Medical Device Agency is involved in a wide range of regulatory activities, including clinical studies, approvals, post-marketing reviews and pharmaceutical safety.",
+      "evidence_quotes": [
+        "In Japan, the Pharmaceuticals and Medical Device Agency is involved in a wide range of regulatory activities, including clinical studies, approvals, post-marketing reviews and pharmaceutical safety."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "National Medical Product Administration",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In China, the National Medical Product Administration is the primary regulatory authority for approving and supervising medicines.",
+      "evidence_quotes": [
+        "In China, the National Medical Product Administration is the primary regulatory authority for approving and supervising medicines."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "WHO",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_support",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "By way of example, the EMA, in cooperation with the WHO, can provide scientific opinions on high priority human medicines, including vaccines, for markets outside the EU.",
+      "evidence_quotes": [
+        "By way of example, the EMA, in cooperation with the WHO, can provide scientific opinions on high priority human medicines, including vaccines, for markets outside the EU."
+      ],
+      "confidence": 0.75,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "PRAC",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "pharmacovigilance_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In the EU, the EMA's PRAC is responsible for reviewing and making recommendations on product safety issues.",
+      "evidence_quotes": [
+        "In the EU, the EMA's PRAC is responsible for reviewing and making recommendations on product safety issues."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Bristol Myers Squibb",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "co-promotion",
+      "disclosed_revenue_dependency_pct": 13,
+      "evidence_quote": "Eliquis accounted for 13% of Total revenues in 2025.",
+      "evidence_quotes": [
+        "Eliquis accounted for 13% of Total revenues in 2025."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Seagen",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "acquisition_target",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "our acquisitions of Metsera and Seagen represent significant investments in obesity and oncology, respectively",
+      "evidence_quotes": [
+        "our acquisitions of Metsera and Seagen represent significant investments in obesity and oncology, respectively"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Metsera",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "acquisition_target",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "our acquisitions of Metsera and Seagen represent significant investments in obesity and oncology, respectively",
+      "evidence_quotes": [
+        "our acquisitions of Metsera and Seagen represent significant investments in obesity and oncology, respectively"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Trump Administration",
+      "counterparty_type": "government",
+      "category": "partner",
+      "subtype": "pricing_agreement",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Several manufacturers, including Pfizer, have signed voluntary agreements with the Trump Administration designed to ensure U.S. patients pay lower prices for their prescription medicines.",
+      "evidence_quotes": [
+        "Several manufacturers, including Pfizer, have signed voluntary agreements with the Trump Administration designed to ensure U.S. patients pay lower prices for their prescription medicines."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "CMS",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "pricing_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In August 2023, CMS published the first ten medicines subject to the MDPNP, which included Eliquis. In August 2024, the government released the new Medicare price for Eliquis",
+      "evidence_quotes": [
+        "In August 2023, CMS published the first ten medicines subject to the MDPNP, which included Eliquis. In August 2024, the government released the new Medicare price for Eliquis"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "HHS",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "pricing_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The IRA directs HHS to set the prices of certain high-expenditure, single-source drugs and biologics covered under Medicare.",
+      "evidence_quotes": [
+        "The IRA directs HHS to set the prices of certain high-expenditure, single-source drugs and biologics covered under Medicare."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "FDA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We may not be able to successfully address all the comments received from regulatory authorities such as the FDA and the EMA, or be able to obtain approval for new products and indications from regulators.",
+      "evidence_quotes": [
+        "We may not be able to successfully address all the comments received from regulatory authorities such as the FDA and the EMA, or be able to obtain approval for new products and indications from regulators."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "EMA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We may not be able to successfully address all the comments received from regulatory authorities such as the FDA and the EMA, or be able to obtain approval for new products and indications from regulators.",
+      "evidence_quotes": [
+        "We may not be able to successfully address all the comments received from regulatory authorities such as the FDA and the EMA, or be able to obtain approval for new products and indications from regulators."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "CDC",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "recommendation_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "in January 2026, the CDC unilaterally reduced the number of immunizations routinely recommended for all children in the U.S.",
+      "evidence_quotes": [
+        "in January 2026, the CDC unilaterally reduced the number of immunizations routinely recommended for all children in the U.S."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "ACIP",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "advisory_committee",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We may not be able to receive or maintain favorable recommendations by technical or advisory committees, such as the ACIP or an FDA Advisory Committee, which may impact the availability or commercial potential",
+      "evidence_quotes": [
+        "We may not be able to receive or maintain favorable recommendations by technical or advisory committees, such as the ACIP or an FDA Advisory Committee, which may impact the availability or commercial potential"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "Trump Administration",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "pricing_negotiation",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "in September 2025, we announced an agreement with the Trump Administration in which we voluntarily agreed to implement measures designed to make certain drug prices for U.S. patients more comparable to those in other developed countries",
+      "evidence_quotes": [
+        "in September 2025, we announced an agreement with the Trump Administration in which we voluntarily agreed to implement measures designed to make certain drug prices for U.S. patients more comparable to those in other developed countries"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "EMA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In October 2025, the EMA adopted a negative opinion on benefit-risk for Oxbryta for the treatment of hemolytic anemia due to SCD",
+      "evidence_quotes": [
+        "In October 2025, the EMA adopted a negative opinion on benefit-risk for Oxbryta for the treatment of hemolytic anemia due to SCD"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "FDA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "As a condition to granting marketing authorization or approval of a product, the FDA may require, or the sponsor may voluntarily agree to undertake, post-marketing commitments",
+      "evidence_quotes": [
+        "As a condition to granting marketing authorization or approval of a product, the FDA may require, or the sponsor may voluntarily agree to undertake, post-marketing commitments"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "European Patent Office",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "inter partes review, post-grant review, re-examination or opposition proceedings, before the U.S. Patent and Trademark Office, the European Patent Office, or other foreign counterparts",
+      "evidence_quotes": [
+        "inter partes review, post-grant review, re-examination or opposition proceedings, before the U.S. Patent and Trademark Office, the European Patent Office, or other foreign counterparts"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "U.S. Patent and Trademark Office",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "inter partes review, post-grant review, re-examination or opposition proceedings, before the U.S. Patent and Trademark Office, the European Patent Office, or other foreign counterparts",
+      "evidence_quotes": [
+        "inter partes review, post-grant review, re-examination or opposition proceedings, before the U.S. Patent and Trademark Office, the European Patent Office, or other foreign counterparts"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "Metsera",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "acquisition_target",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "including our recent acquisition of Metsera",
+      "evidence_quotes": [
+        "including our recent acquisition of Metsera"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "Seagen",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "acquisition",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we financed a portion of the acquisitions of Seagen and Metsera with the proceeds from the issuance of long-term debt",
+      "evidence_quotes": [
+        "we financed a portion of the acquisitions of Seagen and Metsera with the proceeds from the issuance of long-term debt"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 7
+    },
+    {
+      "counterparty_name": "Metsera",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "acquisition",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we financed a portion of the acquisitions of Seagen and Metsera with the proceeds from the issuance of long-term debt",
+      "evidence_quotes": [
+        "we financed a portion of the acquisitions of Seagen and Metsera with the proceeds from the issuance of long-term debt"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 7
+    },
+    {
+      "counterparty_name": "BioNTech",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Comirnaty",
+      "evidence_quotes": [
+        "Comirnaty"
+      ],
+      "confidence": 0.7,
+      "chunk_index": 7
+    }
+  ],
+  "candidatesPerChunk": [
+    10,
+    10,
+    6,
+    7,
+    4,
+    7,
+    5,
+    3,
+    0
+  ],
+  "parseErrors": 15,
+  "apiErrors": 0,
+  "inputTokens": 46698,
+  "outputTokens": 5581
+}

@@ -1,0 +1,11 @@
+[
+  {
+    "counterparty_name": "TechInsights",
+    "category": "supplier",
+    "subtype": "data_provider",
+    "evidence_quote": "According to analyst data, 68% of new vehicles produced in 2030 are projected to have embedded cellular connectivity",
+    "confidence": 0.75,
+    "reason": "counterparty name not in quote",
+    "stage": "quote_check"
+  }
+]

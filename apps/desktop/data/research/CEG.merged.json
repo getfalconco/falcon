@@ -1,0 +1,74 @@
+[
+  {
+    "counterparty_name": "Microsoft",
+    "category": "customer",
+    "subtype": "power_purchase_agreement",
+    "evidence_quote": "Recent examples include the PPA with Microsoft that will support the restart of Crane",
+    "confidence": 0.95,
+    "merged_into": "Microsoft"
+  },
+  {
+    "counterparty_name": "NRC",
+    "category": "dependency",
+    "subtype": "regulatory_licensing",
+    "evidence_quote": "There are no facilities for the reprocessing or permanent disposal of SNF currently in operation in the United States, nor has the NRC licensed any such facilities.",
+    "confidence": 0.9,
+    "merged_into": "NRC"
+  },
+  {
+    "counterparty_name": "PJM",
+    "category": "dependency",
+    "subtype": "regional transmission organization",
+    "evidence_quote": "RTOs and ISOs are FERC-regulated entities that exist in several regions to provide transmission service across multiple transmission systems. FERC has approved PJM, MISO, ISO-NE, and SPP as RTOs",
+    "confidence": 0.85,
+    "merged_into": "PJM"
+  },
+  {
+    "counterparty_name": "PJM",
+    "category": "dependency",
+    "subtype": "wholesale_market_operator",
+    "evidence_quote": "PJM is considering market rule changes as part of its stakeholder process",
+    "confidence": 0.9,
+    "merged_into": "PJM"
+  },
+  {
+    "counterparty_name": "NRC",
+    "category": "dependency",
+    "subtype": "regulatory_licensing",
+    "evidence_quote": "All of our nuclear units were originally licensed by the NRC for 40 years and have since received 20-year operating license renewals.",
+    "confidence": 0.9,
+    "merged_into": "NRC"
+  },
+  {
+    "counterparty_name": "Calpine",
+    "category": "partner",
+    "subtype": "acquisition_target",
+    "evidence_quote": "We expect to have a significant goodwill balance following the acquisition of Calpine in January 2026.",
+    "confidence": 0.95,
+    "merged_into": "Calpine"
+  },
+  {
+    "counterparty_name": "NRC",
+    "category": "dependency",
+    "subtype": "regulatory_infrastructure",
+    "evidence_quote": "NRC regulations require that licensees of nuclear generating facilities demonstrate reasonable assurance that funds will be available in certain minimum amounts at the end of the life of the facility to decommission the facility.",
+    "confidence": 0.9,
+    "merged_into": "NRC"
+  },
+  {
+    "counterparty_name": "FERC",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "it is possible that FERC, state public utility commissions, or others could limit our ability to make acquisitions or investments",
+    "confidence": 0.85,
+    "merged_into": "FERC"
+  },
+  {
+    "counterparty_name": "NRC",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "The restart is subject to certain regulatory approvals, including the NRC comprehensive safety and environmental review",
+    "confidence": 0.92,
+    "merged_into": "NRC"
+  }
+]

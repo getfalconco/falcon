@@ -1,0 +1,538 @@
+[
+  {
+    "root_ticker": "CEG",
+    "counterparty_name": "Microsoft",
+    "counterparty_ticker": "MSFT",
+    "counterparty_type": "public_company",
+    "category": "customer",
+    "subtype": "power_purchase_agreement",
+    "strength": 1,
+    "strength_tier": "critical",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.98,
+    "evidence": [
+      {
+        "quote": "In September 2024, we executed a 20-year PPA with Microsoft that will support the restart of Three Mile Island Unit 1, renamed as the Crane Clean Energy Center",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1868275/000186827526000032/ceg-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "Recent examples include the PPA with Microsoft that will support the restart of Crane",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1868275/000186827526000032/ceg-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_2036c59cf238"
+  },
+  {
+    "root_ticker": "CEG",
+    "counterparty_name": "STPNOC",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "operations_partner",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "We operate all of our nuclear generating stations, except for the units at Salem and STP, which are operated by PSEG Nuclear, LLC (an indirect, wholly owned subsidiary of PSEG) and STPNOC, respectively.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1868275/000186827526000032/ceg-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_aa719c815c26"
+  },
+  {
+    "root_ticker": "CEG",
+    "counterparty_name": "NextEra Energy Resources LLC",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "joint_venture_partner",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.85,
+    "evidence": [
+      {
+        "quote": "We wholly own all our natural gas and oil facilities except for Wyman, which is operated by the principal owner, NextEra Energy Resources LLC, a subsidiary of NextEra Energy, Inc.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1868275/000186827526000032/ceg-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_8223f50fde28"
+  },
+  {
+    "root_ticker": "CEG",
+    "counterparty_name": "NRC",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "dependency",
+    "subtype": "regulatory_infrastructure",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "We are also subject to certain financial requirements under NRC regulations as a result of our operation of nuclear power plants",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1868275/000186827526000032/ceg-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "All of our nuclear units were originally licensed by the NRC for 40 years and have since received 20-year operating license renewals.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1868275/000186827526000032/ceg-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "There are no facilities for the reprocessing or permanent disposal of SNF currently in operation in the United States, nor has the NRC licensed any such facilities.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1868275/000186827526000032/ceg-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_6af35f38cb1d"
+  },
+  {
+    "root_ticker": "CEG",
+    "counterparty_name": "MDE",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "dependency",
+    "subtype": "regulatory_approval",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "In September 2025, we reached a settlement agreement with MDE, Lower Susquehanna Riverkeeper Association, and Waterkeepers Chesapeake which allows us to move forward with resubmitting the license application with FERC.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1868275/000186827526000032/ceg-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_ab27363249ff"
+  },
+  {
+    "root_ticker": "CEG",
+    "counterparty_name": "PJM",
+    "counterparty_ticker": null,
+    "counterparty_type": "other",
+    "category": "dependency",
+    "subtype": "grid_operator",
+    "strength": 1,
+    "strength_tier": "critical",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Approximately 70% of our generating resources, which include directly owned assets and capacity obtained through long-term contracts, are in the area encompassed by PJM.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1868275/000186827526000032/ceg-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "PJM is considering market rule changes as part of its stakeholder process",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1868275/000186827526000032/ceg-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "RTOs and ISOs are FERC-regulated entities that exist in several regions to provide transmission service across multiple transmission systems. FERC has approved PJM, MISO, ISO-NE, and SPP as RTOs",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1868275/000186827526000032/ceg-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_8607fc7c6165"
+  },
+  {
+    "root_ticker": "CEG",
+    "counterparty_name": "MISO",
+    "counterparty_ticker": null,
+    "counterparty_type": "other",
+    "category": "dependency",
+    "subtype": "regional transmission organization",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "RTOs and ISOs are FERC-regulated entities that exist in several regions to provide transmission service across multiple transmission systems. FERC has approved PJM, MISO, ISO-NE, and SPP as RTOs",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1868275/000186827526000032/ceg-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_2b874c55027e"
+  },
+  {
+    "root_ticker": "CEG",
+    "counterparty_name": "ISO-NE",
+    "counterparty_ticker": null,
+    "counterparty_type": "other",
+    "category": "dependency",
+    "subtype": "regional transmission organization",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "RTOs and ISOs are FERC-regulated entities that exist in several regions to provide transmission service across multiple transmission systems. FERC has approved PJM, MISO, ISO-NE, and SPP as RTOs",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1868275/000186827526000032/ceg-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_2b874c55027e"
+  },
+  {
+    "root_ticker": "CEG",
+    "counterparty_name": "SPP",
+    "counterparty_ticker": null,
+    "counterparty_type": "other",
+    "category": "dependency",
+    "subtype": "regional transmission organization",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "RTOs and ISOs are FERC-regulated entities that exist in several regions to provide transmission service across multiple transmission systems. FERC has approved PJM, MISO, ISO-NE, and SPP as RTOs",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1868275/000186827526000032/ceg-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_2b874c55027e"
+  },
+  {
+    "root_ticker": "CEG",
+    "counterparty_name": "CAISO",
+    "counterparty_ticker": null,
+    "counterparty_type": "other",
+    "category": "dependency",
+    "subtype": "independent system operator",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.88,
+    "evidence": [
+      {
+        "quote": "FERC has approved PJM, MISO, ISO-NE, and SPP as RTOs and CAISO and NYISO as ISOs.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1868275/000186827526000032/ceg-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_3db6779bf1ea"
+  },
+  {
+    "root_ticker": "CEG",
+    "counterparty_name": "NYISO",
+    "counterparty_ticker": null,
+    "counterparty_type": "other",
+    "category": "dependency",
+    "subtype": "independent system operator",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "FERC has approved PJM, MISO, ISO-NE, and SPP as RTOs and CAISO and NYISO as ISOs.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1868275/000186827526000032/ceg-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_3db6779bf1ea"
+  },
+  {
+    "root_ticker": "CEG",
+    "counterparty_name": "ERCOT",
+    "counterparty_ticker": null,
+    "counterparty_type": "other",
+    "category": "dependency",
+    "subtype": "independent system operator",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "ERCOT is not subject to regulation by FERC but performs a similar function in Texas to that performed by RTOs and ISOs in markets regulated by FERC.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1868275/000186827526000032/ceg-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_39c1a546b9b2"
+  },
+  {
+    "root_ticker": "CEG",
+    "counterparty_name": "Calpine",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "acquisition target",
+    "strength": 1,
+    "strength_tier": "critical",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.05,
+    "evidence": [
+      {
+        "quote": "This strategy was realized, in part, with the acquisition of Calpine, a combination that brings together premier nuclear, natural gas, and geothermal fleets with a leading commercial platform",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1868275/000186827526000032/ceg-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "We expect to have a significant goodwill balance following the acquisition of Calpine in January 2026.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1868275/000186827526000032/ceg-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_402a74d6e36f"
+  },
+  {
+    "root_ticker": "CEG",
+    "counterparty_name": "Meta",
+    "counterparty_ticker": "META",
+    "counterparty_type": "public_company",
+    "category": "customer",
+    "subtype": "power_purchase_agreement",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "the PPA with Meta for the output of Clinton which supports Meta's clean energy goals and the continued operations of Clinton",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1868275/000186827526000032/ceg-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_004772ed12bd"
+  },
+  {
+    "root_ticker": "CEG",
+    "counterparty_name": "Google",
+    "counterparty_ticker": "GOOGL",
+    "counterparty_type": "public_company",
+    "category": "customer",
+    "subtype": "data_center_customer",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.85,
+    "evidence": [
+      {
+        "quote": "driven by widespread adoption of AI technologies and large-scale infrastructure investments by major hyperscalers such as Microsoft, Google, Meta, and Amazon",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1868275/000186827526000032/ceg-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_91cb90b7eec1"
+  },
+  {
+    "root_ticker": "CEG",
+    "counterparty_name": "Amazon",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "customer",
+    "subtype": "data_center_customer",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.85,
+    "evidence": [
+      {
+        "quote": "driven by widespread adoption of AI technologies and large-scale infrastructure investments by major hyperscalers such as Microsoft, Google, Meta, and Amazon",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1868275/000186827526000032/ceg-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_91cb90b7eec1"
+  },
+  {
+    "root_ticker": "CEG",
+    "counterparty_name": "DOE",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "dependency",
+    "subtype": "spent_nuclear_fuel_disposal",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "For a discussion of matters associated with our contracts with the DOE for the disposal of SNF",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1868275/000186827526000032/ceg-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_704b812c3a42"
+  },
+  {
+    "root_ticker": "CEG",
+    "counterparty_name": "NERC",
+    "counterparty_ticker": null,
+    "counterparty_type": "other",
+    "category": "dependency",
+    "subtype": "regulatory_infrastructure",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.94,
+    "evidence": [
+      {
+        "quote": "We, as a user of the bulk power transmission system, are subject to mandatory reliability standards promulgated by NERC and enforced by FERC.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1868275/000186827526000032/ceg-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_7cdfc10243ee"
+  },
+  {
+    "root_ticker": "CEG",
+    "counterparty_name": "DOE",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "partner",
+    "subtype": "technology_development",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.88,
+    "evidence": [
+      {
+        "quote": "Calpine has completed or commenced front-end engineering design studies for post-combustion CCUS technology and has also received funding from the DOE for certain geothermal drilling technologies",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1868275/000186827526000032/ceg-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_2cddb721eb2b"
+  },
+  {
+    "root_ticker": "CEG",
+    "counterparty_name": "NEIL",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "supplier",
+    "subtype": "insurance_provider",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "We are a member of an industry mutual insurance company, NEIL, which provides property and accidental outage insurance for our nuclear operations.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1868275/000186827526000032/ceg-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_f40e04c79df4"
+  },
+  {
+    "root_ticker": "CEG",
+    "counterparty_name": "PECO Energy Company",
+    "counterparty_ticker": null,
+    "counterparty_type": "utility",
+    "category": "partner",
+    "subtype": "regulatory_financial_arrangement",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.75,
+    "evidence": [
+      {
+        "quote": "We have recourse to collect additional amounts from utility customers through PECO (subject to certain limitations and thresholds) for former PECO units",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1868275/000186827526000032/ceg-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_682f06b5afab"
+  },
+  {
+    "root_ticker": "CEG",
+    "counterparty_name": "CenterPoint",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "customer",
+    "subtype": "utility_customer",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.85,
+    "evidence": [
+      {
+        "quote": "We have recourse to collect additional amounts from utility customers through PECO (subject to certain limitations and thresholds) for former PECO units and through CenterPoint and AEP Texas for STP units.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1868275/000186827526000032/ceg-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_f0877dedb2a4"
+  },
+  {
+    "root_ticker": "CEG",
+    "counterparty_name": "AEP Texas",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "customer",
+    "subtype": "utility_customer",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.88,
+    "evidence": [
+      {
+        "quote": "We have recourse to collect additional amounts from utility customers through PECO (subject to certain limitations and thresholds) for former PECO units and through CenterPoint and AEP Texas for STP units.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1868275/000186827526000032/ceg-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_f0877dedb2a4"
+  }
+]

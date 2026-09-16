@@ -1,0 +1,24 @@
+[
+  {
+    "root_ticker": "UMC",
+    "counterparty_name": "SILICON INTEGRATED SYSTEMS CORP.",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "equity investment",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "Bargain purchase gain, which is derived from the acquisition of significant influence over SILICON INTEGRATED SYSTEMS CORP. (SIS).",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1033767/000119312526193757/d91630d20f.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-04-30",
+    "shared_evidence_group": "ev_7695a4838737"
+  }
+]

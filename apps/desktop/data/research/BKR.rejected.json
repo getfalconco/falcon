@@ -1,0 +1,38 @@
+[
+  {
+    "counterparty_name": "Fervo Energy",
+    "category": "partner",
+    "subtype": "strategic partnership",
+    "evidence_quote": "we have established strategic partnerships with companies such as Fervo Energy, Frontier Carbon Solutions, HIF Global, and NET Power.",
+    "confidence": 0.85,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Frontier Carbon Solutions",
+    "category": "partner",
+    "subtype": "strategic partnership",
+    "evidence_quote": "we have established strategic partnerships with companies such as Fervo Energy, Frontier Carbon Solutions, HIF Global, and NET Power.",
+    "confidence": 0.85,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "HIF Global",
+    "category": "partner",
+    "subtype": "strategic partnership",
+    "evidence_quote": "we have established strategic partnerships with companies such as Fervo Energy, Frontier Carbon Solutions, HIF Global, and NET Power.",
+    "confidence": 0.85,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "NET Power",
+    "category": "partner",
+    "subtype": "strategic partnership",
+    "evidence_quote": "we have established strategic partnerships with companies such as Fervo Energy, Frontier Carbon Solutions, HIF Global, and NET Power.",
+    "confidence": 0.85,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  }
+]

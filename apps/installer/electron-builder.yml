@@ -1,0 +1,43 @@
+# The Falcon bootstrapper: the file people actually download. It shows the
+# welcome screen, fetches the real Falcon installer from the release feed,
+# checks it against the published hash, runs it silently and starts the app.
+#
+# Built as a portable target: one .exe, no install step of its own — installing
+# is what it does, not what it needs.
+
+appId: com.falcon.installer
+productName: Falcon Installer
+copyright: © 2026 Falcon
+
+directories:
+  output: release
+  buildResources: resources
+
+files:
+  - out/**
+  - "!out/**/*.map"
+
+extraResources:
+  - from: resources/icon.ico
+    to: icon.ico
+  - from: resources/icon.png
+    to: icon.png
+
+asar: true
+npmRebuild: false
+
+win:
+  target:
+    - target: portable
+      arch: [x64]
+  icon: resources/icon.ico
+  # Stable name so getfalcon.co can link straight at it.
+  artifactName: Falcon-Installer.${ext}
+
+portable:
+  # No splash while it unpacks itself; the welcome screen is the first thing seen.
+  splashImage: null
+  unpackDirName: FalconInstaller
+
+# The bootstrapper is downloaded from the site, not auto-updated.
+publish: null

@@ -1,0 +1,1915 @@
+{
+ "recorded_at": "2026-08-22T19:59:56.471Z",
+ "request": {
+  "request_id": "pr-85374131-a51c-5b07-a97c-e97765517813-d1d49d2837",
+  "incident_id": "85374131-a51c-5b07-a97c-e97765517813",
+  "root_ticker": "MRK",
+  "incident": {
+   "incident_id": "85374131-a51c-5b07-a97c-e97765517813",
+   "ticker": "MRK",
+   "trigger_type": "organic",
+   "window_start": "2026-08-19T15:36:40.458Z",
+   "window_end": "2026-08-19T23:36:40.458Z",
+   "window_status": "closed",
+   "composite_tags": [],
+   "priority": 15,
+   "priority_band": "P2",
+   "degraded_context": false,
+   "discovery_floor_applied": false,
+   "earnings_absorption": false,
+   "messages": [
+    {
+     "id": "108f83ee-46bc-4b21-b30d-9cca4973d501",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "MRK",
+     "timestamp": "2026-08-19T15:36:40.458Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": -0.27248678316306707,
+      "r_squared": 0.015390957433537467,
+      "daily_vol_30d": 0.010566386688162488,
+      "vol_regime": 0.6306995062288022,
+      "move_today": 0.1045284011647043,
+      "move_zscore": 9.8925398293257,
+      "residual_move": 0.10568554338001371,
+      "residual_zscore": 6.705249087679608,
+      "volume_ratio": 2.8294872257134025,
+      "volume_ratio_partial": true,
+      "momentum_5d": 0.037954278620905946,
+      "momentum_20d": 0.07215264396342747,
+      "momentum_60d": 0.17659194738948036,
+      "pct_from_52w_high": -0.004412782953070016,
+      "pct_from_52w_low": 0.7851456521472295,
+      "earnings_rhythm": 0.010751353509758144,
+      "prev_close": 135.3699951171875,
+      "last_price": 149.52000427246094,
+      "price_asof": "2026-08-19T15:36:43.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "AstraZeneca Vs. Bristol-Myers Squibb: Who's The Better Bargain For Investors?",
+      "source": "SeekingAlpha",
+      "url": "https://finnhub.io/api/news?id=2e1130e90380ab9807504bf240b0038a51a19924cdacc932dd13f4834b335bfb",
+      "published_at": "2026-08-19T09:22:10.000Z",
+      "article_id": "141253313",
+      "summary": "Rumors of an AstraZeneca PLC-Bristol-Myers Squibb Company merger are cooling. Click here for risks and drug portfolio insights on BMY and AZN stock."
+     }
+    },
+    {
+     "id": "1b4d6288-2180-48ce-914e-526897ad67e7",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "MRK",
+     "timestamp": "2026-08-19T15:36:40.458Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": -0.27248678316306707,
+      "r_squared": 0.015390957433537467,
+      "daily_vol_30d": 0.010566386688162488,
+      "vol_regime": 0.6306995062288022,
+      "move_today": 0.1045284011647043,
+      "move_zscore": 9.8925398293257,
+      "residual_move": 0.10568554338001371,
+      "residual_zscore": 6.705249087679608,
+      "volume_ratio": 2.8294872257134025,
+      "volume_ratio_partial": true,
+      "momentum_5d": 0.037954278620905946,
+      "momentum_20d": 0.07215264396342747,
+      "momentum_60d": 0.17659194738948036,
+      "pct_from_52w_high": -0.004412782953070016,
+      "pct_from_52w_low": 0.7851456521472295,
+      "earnings_rhythm": 0.010751353509758144,
+      "prev_close": 135.3699951171875,
+      "last_price": 149.52000427246094,
+      "price_asof": "2026-08-19T15:36:43.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "Merck And Moderna Announce Topline Results From The Phase 3 Interpath-001 Trial Evaluating Adjuvant Treatment With Intismeran Autogene In Combination With KEYTRUDA In Patients With Completely Resected Stage IIB-IV Melanoma; At A Pre-specified Interim Analysis, Intismeran In Combination With KEYTRUDA As Adjuvant Therapy Demonstrated Statistically Significant And Clinically Meaningful Improvements In RFS And DMFS Compared To KEYTRUDA Alone",
+      "source": "Benzinga",
+      "url": "https://finnhub.io/api/news?id=9e7199bb26b9b774c5f3aeda95d80147d50f2723df8632b6435bb1be0163af9a",
+      "published_at": "2026-08-19T06:47:27.000Z",
+      "article_id": "141253686",
+      "summary": "Merck (NYSE:MRK), known as MSD outside of the United States and Canada, and Moderna, Inc. (NASDAQ:MRNA) today announced positive topline results from the Phase 3 INTerpath-001 trial evaluating adjuvant treatment with"
+     }
+    },
+    {
+     "id": "231045b3-fd02-4c70-84ce-5af2071bb350",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "MRK",
+     "timestamp": "2026-08-19T15:36:40.458Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": -0.27248678316306707,
+      "r_squared": 0.015390957433537467,
+      "daily_vol_30d": 0.010566386688162488,
+      "vol_regime": 0.6306995062288022,
+      "move_today": 0.1045284011647043,
+      "move_zscore": 9.8925398293257,
+      "residual_move": 0.10568554338001371,
+      "residual_zscore": 6.705249087679608,
+      "volume_ratio": 2.8294872257134025,
+      "volume_ratio_partial": true,
+      "momentum_5d": 0.037954278620905946,
+      "momentum_20d": 0.07215264396342747,
+      "momentum_60d": 0.17659194738948036,
+      "pct_from_52w_high": -0.004412782953070016,
+      "pct_from_52w_low": 0.7851456521472295,
+      "earnings_rhythm": 0.010751353509758144,
+      "prev_close": 135.3699951171875,
+      "last_price": 149.52000427246094,
+      "price_asof": "2026-08-19T15:36:43.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "Which S&P500 stocks are gapping on Wednesday?",
+      "source": "ChartMill",
+      "url": "https://finnhub.io/api/news?id=865016aa954b32bc2aa1313ff88956f0cf017e3f938aece960261cd4ce456bf8",
+      "published_at": "2026-08-19T14:35:02.000Z",
+      "article_id": "141253496",
+      "summary": "Let's take a look at the S&P500 stocks that are experiencing notable price gaps in today's session on Wednesday. Discover the gap up and gap down stocks in the S&P500 index."
+     }
+    },
+    {
+     "id": "e03a33ee-2529-487c-9c62-7162e1775485",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "MRK",
+     "timestamp": "2026-08-19T15:36:40.458Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": -0.27248678316306707,
+      "r_squared": 0.015390957433537467,
+      "daily_vol_30d": 0.010566386688162488,
+      "vol_regime": 0.6306995062288022,
+      "move_today": 0.1045284011647043,
+      "move_zscore": 9.8925398293257,
+      "residual_move": 0.10568554338001371,
+      "residual_zscore": 6.705249087679608,
+      "volume_ratio": 2.8294872257134025,
+      "volume_ratio_partial": true,
+      "momentum_5d": 0.037954278620905946,
+      "momentum_20d": 0.07215264396342747,
+      "momentum_60d": 0.17659194738948036,
+      "pct_from_52w_high": -0.004412782953070016,
+      "pct_from_52w_low": 0.7851456521472295,
+      "earnings_rhythm": 0.010751353509758144,
+      "prev_close": 135.3699951171875,
+      "last_price": 149.52000427246094,
+      "price_asof": "2026-08-19T15:36:43.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "Merck and Moderna Release Landmark Personalized Cancer Therapy Trial Success, Stocks Soar",
+      "source": "Benzinga",
+      "url": "https://finnhub.io/api/news?id=922be37f07b47e91ea7174e9e92f34c1bfd15cd3aaf2c1dd8ea5d241a7a28c8d",
+      "published_at": "2026-08-19T07:40:56.000Z",
+      "article_id": "141253685",
+      "summary": "Merck and Moderna report positive Phase 3 results for their mRNA cancer therapy combined with Keytruda in melanoma patients."
+     }
+    },
+    {
+     "id": "f03dcf55-3b37-4956-99ee-f43049e75a1e",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "MRK",
+     "timestamp": "2026-08-19T15:36:40.458Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": -0.27248678316306707,
+      "r_squared": 0.015390957433537467,
+      "daily_vol_30d": 0.010566386688162488,
+      "vol_regime": 0.6306995062288022,
+      "move_today": 0.1045284011647043,
+      "move_zscore": 9.8925398293257,
+      "residual_move": 0.10568554338001371,
+      "residual_zscore": 6.705249087679608,
+      "volume_ratio": 2.8294872257134025,
+      "volume_ratio_partial": true,
+      "momentum_5d": 0.037954278620905946,
+      "momentum_20d": 0.07215264396342747,
+      "momentum_60d": 0.17659194738948036,
+      "pct_from_52w_high": -0.004412782953070016,
+      "pct_from_52w_low": 0.7851456521472295,
+      "earnings_rhythm": 0.010751353509758144,
+      "prev_close": 135.3699951171875,
+      "last_price": 149.52000427246094,
+      "price_asof": "2026-08-19T15:36:43.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "Estee Lauder, Moderna, Merck And Other Big Stocks Moving Higher On Wednesday",
+      "source": "Benzinga",
+      "url": "https://finnhub.io/api/news?id=197e8c0d9d262c1b0887027aa7719c9b3fc37a633e76ff3691b8fb96e449251b",
+      "published_at": "2026-08-19T10:08:12.000Z",
+      "article_id": "141253626",
+      "summary": "Dow Jones up 200 points on Wed. Estee Lauder &amp; other top stocks record gains after reporting strong Q4 results and positive sales guidance."
+     }
+    },
+    {
+     "id": "f336ccfa-341a-4047-8a60-1d005f0e7838",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "MRK",
+     "timestamp": "2026-08-19T15:36:40.458Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": -0.27248678316306707,
+      "r_squared": 0.015390957433537467,
+      "daily_vol_30d": 0.010566386688162488,
+      "vol_regime": 0.6306995062288022,
+      "move_today": 0.1045284011647043,
+      "move_zscore": 9.8925398293257,
+      "residual_move": 0.10568554338001371,
+      "residual_zscore": 6.705249087679608,
+      "volume_ratio": 2.8294872257134025,
+      "volume_ratio_partial": true,
+      "momentum_5d": 0.037954278620905946,
+      "momentum_20d": 0.07215264396342747,
+      "momentum_60d": 0.17659194738948036,
+      "pct_from_52w_high": -0.004412782953070016,
+      "pct_from_52w_low": 0.7851456521472295,
+      "earnings_rhythm": 0.010751353509758144,
+      "prev_close": 135.3699951171875,
+      "last_price": 149.52000427246094,
+      "price_asof": "2026-08-19T15:36:43.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "Top S&P500 movers in Wednesday's pre-market session",
+      "source": "ChartMill",
+      "url": "https://finnhub.io/api/news?id=c58a9c33229815012952c86e761766a0666280beddf95bea50271904dede2ca4",
+      "published_at": "2026-08-19T12:35:01.000Z",
+      "article_id": "141253173",
+      "summary": "Stay updated with the S&P500 stocks that are on the move in today's pre-market session."
+     }
+    },
+    {
+     "id": "159c1e9d-5dda-4943-a8ae-baec78b04cc6",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "MRK",
+     "timestamp": "2026-08-19T19:20:06.313Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": -0.27248678316306707,
+      "r_squared": 0.015390957433537467,
+      "daily_vol_30d": 0.010566386688162488,
+      "vol_regime": 0.6306995062288022,
+      "move_today": 0.13222946730739227,
+      "move_zscore": 12.514161293711577,
+      "residual_move": 0.1331362836545672,
+      "residual_zscore": 8.44686904151038,
+      "volume_ratio": 6.9538307407025854,
+      "volume_ratio_partial": true,
+      "momentum_5d": 0.037954278620905946,
+      "momentum_20d": 0.07215264396342747,
+      "momentum_60d": 0.17659194738948036,
+      "pct_from_52w_high": -0.004412782953070016,
+      "pct_from_52w_low": 0.7851456521472295,
+      "earnings_rhythm": 0.010751353509758144,
+      "prev_close": 135.3699951171875,
+      "last_price": 153.2698974609375,
+      "price_asof": "2026-08-19T19:20:24.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "Pfizer Stock Rises Wednesday: What's Going On?",
+      "source": "Benzinga",
+      "url": "https://finnhub.io/api/news?id=2b286492921519f765948c500cb6a5dbb1095b7ae86a0c930813419698ce748e",
+      "published_at": "2026-08-19T13:56:14.000Z",
+      "article_id": "141255462",
+      "summary": "Pfizer Inc (NYSE:PFE) shares are trading higher Wednesday, moving in sympathy with mRNA cancer vaccine-related companies after Merck &amp; Co Inc (NYSE:MRK) and Moderna Inc (NASDAQ:MRNA) announced that their combination therapy of intismeran autogene and Keytruda showed positive recurrence-free survival results in melanoma patients."
+     }
+    },
+    {
+     "id": "2f148628-cb21-4d82-9c11-9248e95f001b",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "MRK",
+     "timestamp": "2026-08-19T19:20:06.313Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": -0.27248678316306707,
+      "r_squared": 0.015390957433537467,
+      "daily_vol_30d": 0.010566386688162488,
+      "vol_regime": 0.6306995062288022,
+      "move_today": 0.13222946730739227,
+      "move_zscore": 12.514161293711577,
+      "residual_move": 0.1331362836545672,
+      "residual_zscore": 8.44686904151038,
+      "volume_ratio": 6.9538307407025854,
+      "volume_ratio_partial": true,
+      "momentum_5d": 0.037954278620905946,
+      "momentum_20d": 0.07215264396342747,
+      "momentum_60d": 0.17659194738948036,
+      "pct_from_52w_high": -0.004412782953070016,
+      "pct_from_52w_low": 0.7851456521472295,
+      "earnings_rhythm": 0.010751353509758144,
+      "prev_close": 135.3699951171875,
+      "last_price": 153.2698974609375,
+      "price_asof": "2026-08-19T19:20:24.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "Merck Soars On Cancer Vaccine Trial Win With Moderna, More Upside Ahead",
+      "source": "SeekingAlpha",
+      "url": "https://finnhub.io/api/news?id=332a7e0719712ea75c9aa97201b73d49a69acc28bde48ac76686737f51f41954",
+      "published_at": "2026-08-19T12:19:55.000Z",
+      "article_id": "141254113",
+      "summary": "Merck & Co., Inc. hits all-time highs on positive Phase 3 melanoma vaccine data with Moderna. Click for this MRK update."
+     }
+    },
+    {
+     "id": "3161b6dc-65d1-4d7d-a29f-3a8194dfd0d1",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "MRK",
+     "timestamp": "2026-08-19T19:20:06.313Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": -0.27248678316306707,
+      "r_squared": 0.015390957433537467,
+      "daily_vol_30d": 0.010566386688162488,
+      "vol_regime": 0.6306995062288022,
+      "move_today": 0.13222946730739227,
+      "move_zscore": 12.514161293711577,
+      "residual_move": 0.1331362836545672,
+      "residual_zscore": 8.44686904151038,
+      "volume_ratio": 6.9538307407025854,
+      "volume_ratio_partial": true,
+      "momentum_5d": 0.037954278620905946,
+      "momentum_20d": 0.07215264396342747,
+      "momentum_60d": 0.17659194738948036,
+      "pct_from_52w_high": -0.004412782953070016,
+      "pct_from_52w_low": 0.7851456521472295,
+      "earnings_rhythm": 0.010751353509758144,
+      "prev_close": 135.3699951171875,
+      "last_price": 153.2698974609375,
+      "price_asof": "2026-08-19T19:20:24.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "'An increased ability to be disease-free': Moderna CEO & Merck's Dr. Li on skin cancer vaccine trial",
+      "source": "CNBC",
+      "url": "https://finnhub.io/api/news?id=15264f55e016123df482408b04b326a707d997d600a5b117bf24f202d6274f6e",
+      "published_at": "2026-08-19T08:15:35.000Z",
+      "article_id": "141254577",
+      "summary": "Stephane Bancel, Moderna CEO, and Dr. Dean Li, Merck Research Laboratories president, join 'Squawk Box' to discuss details of an experimental personalized cancer vaccine that showed positive initial results in its first-ever late-stage trial, how the mRNA-based shot in combination with Merck’s immunotherapy Keytruda could serve as a new treatment option for melanoma, and more."
+     }
+    },
+    {
+     "id": "3b9d12cb-ff73-4444-be08-6d5687ddc374",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "MRK",
+     "timestamp": "2026-08-19T19:20:06.313Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": -0.27248678316306707,
+      "r_squared": 0.015390957433537467,
+      "daily_vol_30d": 0.010566386688162488,
+      "vol_regime": 0.6306995062288022,
+      "move_today": 0.13222946730739227,
+      "move_zscore": 12.514161293711577,
+      "residual_move": 0.1331362836545672,
+      "residual_zscore": 8.44686904151038,
+      "volume_ratio": 6.9538307407025854,
+      "volume_ratio_partial": true,
+      "momentum_5d": 0.037954278620905946,
+      "momentum_20d": 0.07215264396342747,
+      "momentum_60d": 0.17659194738948036,
+      "pct_from_52w_high": -0.004412782953070016,
+      "pct_from_52w_low": 0.7851456521472295,
+      "earnings_rhythm": 0.010751353509758144,
+      "prev_close": 135.3699951171875,
+      "last_price": 153.2698974609375,
+      "price_asof": "2026-08-19T19:20:24.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "These dow jones stocks are moving in today's session",
+      "source": "ChartMill",
+      "url": "https://finnhub.io/api/news?id=a53cd1f5883972a76c50bbb639d04690497dfa9d3cc4c64befd2cd557bc9cbf6",
+      "published_at": "2026-08-19T16:40:06.000Z",
+      "article_id": "141254410",
+      "summary": "Stay updated with the movements of the dow jones index in the middle of the day on Wednesday. Discover which stocks are leading as top gainers and losers in today's session."
+     }
+    },
+    {
+     "id": "4affc88a-0f44-461c-a19c-bbcb02c4245e",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "MRK",
+     "timestamp": "2026-08-19T19:20:06.313Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": -0.27248678316306707,
+      "r_squared": 0.015390957433537467,
+      "daily_vol_30d": 0.010566386688162488,
+      "vol_regime": 0.6306995062288022,
+      "move_today": 0.13222946730739227,
+      "move_zscore": 12.514161293711577,
+      "residual_move": 0.1331362836545672,
+      "residual_zscore": 8.44686904151038,
+      "volume_ratio": 6.9538307407025854,
+      "volume_ratio_partial": true,
+      "momentum_5d": 0.037954278620905946,
+      "momentum_20d": 0.07215264396342747,
+      "momentum_60d": 0.17659194738948036,
+      "pct_from_52w_high": -0.004412782953070016,
+      "pct_from_52w_low": 0.7851456521472295,
+      "earnings_rhythm": 0.010751353509758144,
+      "prev_close": 135.3699951171875,
+      "last_price": 153.2698974609375,
+      "price_asof": "2026-08-19T19:20:24.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "Let's take a look at the S&P500 stocks that are experiencing unusual volume in today's session.",
+      "source": "ChartMill",
+      "url": "https://finnhub.io/api/news?id=a14e9232a459dfb79110228cde8185ff998722229b244931ed0f700428b0617d",
+      "published_at": "2026-08-19T17:05:00.000Z",
+      "article_id": "141254498",
+      "summary": "Let's take a look at the S&P500 stocks that are experiencing unusual volume in today's session."
+     }
+    },
+    {
+     "id": "53c48ec7-0e7a-4bcf-9cc7-1dc3de490cfe",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "MRK",
+     "timestamp": "2026-08-19T19:20:06.313Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": -0.27248678316306707,
+      "r_squared": 0.015390957433537467,
+      "daily_vol_30d": 0.010566386688162488,
+      "vol_regime": 0.6306995062288022,
+      "move_today": 0.13222946730739227,
+      "move_zscore": 12.514161293711577,
+      "residual_move": 0.1331362836545672,
+      "residual_zscore": 8.44686904151038,
+      "volume_ratio": 6.9538307407025854,
+      "volume_ratio_partial": true,
+      "momentum_5d": 0.037954278620905946,
+      "momentum_20d": 0.07215264396342747,
+      "momentum_60d": 0.17659194738948036,
+      "pct_from_52w_high": -0.004412782953070016,
+      "pct_from_52w_low": 0.7851456521472295,
+      "earnings_rhythm": 0.010751353509758144,
+      "prev_close": 135.3699951171875,
+      "last_price": 153.2698974609375,
+      "price_asof": "2026-08-19T19:20:24.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "Moderna's Cancer Vaccine Win Is Merck's Story Too",
+      "source": "Benzinga",
+      "url": "https://finnhub.io/api/news?id=81075d72f0e1257e25c20e6c8887ff8193b9c2985bc25e6ce0491257afbe647b",
+      "published_at": "2026-08-19T11:12:16.000Z",
+      "article_id": "141255468",
+      "summary": "Moderna and Merck announce success of personalized cancer therapy trial. MRNA stock surges, but MRK may be more important for investors."
+     }
+    },
+    {
+     "id": "5eafcfbf-5d6c-46d2-a0a6-11fbbdec4b13",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "MRK",
+     "timestamp": "2026-08-19T19:20:06.313Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": -0.27248678316306707,
+      "r_squared": 0.015390957433537467,
+      "daily_vol_30d": 0.010566386688162488,
+      "vol_regime": 0.6306995062288022,
+      "move_today": 0.13222946730739227,
+      "move_zscore": 12.514161293711577,
+      "residual_move": 0.1331362836545672,
+      "residual_zscore": 8.44686904151038,
+      "volume_ratio": 6.9538307407025854,
+      "volume_ratio_partial": true,
+      "momentum_5d": 0.037954278620905946,
+      "momentum_20d": 0.07215264396342747,
+      "momentum_60d": 0.17659194738948036,
+      "pct_from_52w_high": -0.004412782953070016,
+      "pct_from_52w_low": 0.7851456521472295,
+      "earnings_rhythm": 0.010751353509758144,
+      "prev_close": 135.3699951171875,
+      "last_price": 153.2698974609375,
+      "price_asof": "2026-08-19T19:20:24.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "Merck Just Raised the Stakes for Pfizer's Cancer Vaccine Ambitions",
+      "source": "Benzinga",
+      "url": "https://finnhub.io/api/news?id=8a923a2aeedb4a03f6cfb97eb0cbbceddf7628f540dbe08c20e1ddf7577c5e35",
+      "published_at": "2026-08-19T14:31:15.000Z",
+      "article_id": "141255461",
+      "summary": "Merck&#39;s deeper push into personalized cancer vaccines raises the competitive bar for Pfizer, BioNTech in biotech&#39;s fastest-growing race."
+     }
+    },
+    {
+     "id": "65522a18-4aae-47ce-8a9d-89ab11f7639d",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "MRK",
+     "timestamp": "2026-08-19T19:20:06.313Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": -0.27248678316306707,
+      "r_squared": 0.015390957433537467,
+      "daily_vol_30d": 0.010566386688162488,
+      "vol_regime": 0.6306995062288022,
+      "move_today": 0.13222946730739227,
+      "move_zscore": 12.514161293711577,
+      "residual_move": 0.1331362836545672,
+      "residual_zscore": 8.44686904151038,
+      "volume_ratio": 6.9538307407025854,
+      "volume_ratio_partial": true,
+      "momentum_5d": 0.037954278620905946,
+      "momentum_20d": 0.07215264396342747,
+      "momentum_60d": 0.17659194738948036,
+      "pct_from_52w_high": -0.004412782953070016,
+      "pct_from_52w_low": 0.7851456521472295,
+      "earnings_rhythm": 0.010751353509758144,
+      "prev_close": 135.3699951171875,
+      "last_price": 153.2698974609375,
+      "price_asof": "2026-08-19T19:20:24.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "What's going on in today's session: S&P500 movers",
+      "source": "ChartMill",
+      "url": "https://finnhub.io/api/news?id=9d113a09f48670d436e6f2252bf1887b5a026dfadda5e1b78c4e9f01efe715bf",
+      "published_at": "2026-08-19T16:35:01.000Z",
+      "article_id": "141254409",
+      "summary": "Join us in exploring the top gainers and losers within the S&P500 index in the middle of the day on Wednesday as we examine the latest happenings in today's session."
+     }
+    },
+    {
+     "id": "854d76ad-6ab7-4cfa-968c-9e001130fe7e",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "MRK",
+     "timestamp": "2026-08-19T19:20:06.313Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": -0.27248678316306707,
+      "r_squared": 0.015390957433537467,
+      "daily_vol_30d": 0.010566386688162488,
+      "vol_regime": 0.6306995062288022,
+      "move_today": 0.13222946730739227,
+      "move_zscore": 12.514161293711577,
+      "residual_move": 0.1331362836545672,
+      "residual_zscore": 8.44686904151038,
+      "volume_ratio": 6.9538307407025854,
+      "volume_ratio_partial": true,
+      "momentum_5d": 0.037954278620905946,
+      "momentum_20d": 0.07215264396342747,
+      "momentum_60d": 0.17659194738948036,
+      "pct_from_52w_high": -0.004412782953070016,
+      "pct_from_52w_low": 0.7851456521472295,
+      "earnings_rhythm": 0.010751353509758144,
+      "prev_close": 135.3699951171875,
+      "last_price": 153.2698974609375,
+      "price_asof": "2026-08-19T19:20:24.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "Moderna, Merck cancer vaccine data 'a great result, but not entirely unexpected', says Simon Baker",
+      "source": "CNBC",
+      "url": "https://finnhub.io/api/news?id=9d7e9e7f859431ad4d509702fbb12e5043156a5da79a8c786fba99c1fedadb5f",
+      "published_at": "2026-08-19T12:19:29.000Z",
+      "article_id": "141254575",
+      "summary": "Simon Baker, Rothschild & Co Redburn global biopharma research co-head, joins 'Squawk on the Street' to discuss Moderna and Merck shares surging after an experimental personalized cancer vaccine from both companies showed positive initial results in its first-ever late-stage trial."
+     }
+    },
+    {
+     "id": "89ae8812-0517-4b0e-a9a9-4ded9a29d216",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "MRK",
+     "timestamp": "2026-08-19T19:20:06.313Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": -0.27248678316306707,
+      "r_squared": 0.015390957433537467,
+      "daily_vol_30d": 0.010566386688162488,
+      "vol_regime": 0.6306995062288022,
+      "move_today": 0.13222946730739227,
+      "move_zscore": 12.514161293711577,
+      "residual_move": 0.1331362836545672,
+      "residual_zscore": 8.44686904151038,
+      "volume_ratio": 6.9538307407025854,
+      "volume_ratio_partial": true,
+      "momentum_5d": 0.037954278620905946,
+      "momentum_20d": 0.07215264396342747,
+      "momentum_60d": 0.17659194738948036,
+      "pct_from_52w_high": -0.004412782953070016,
+      "pct_from_52w_low": 0.7851456521472295,
+      "earnings_rhythm": 0.010751353509758144,
+      "prev_close": 135.3699951171875,
+      "last_price": 153.2698974609375,
+      "price_asof": "2026-08-19T19:20:24.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "Moderna Stock Jumps 150%, Best Day Ever On Cancer Vaccine Win",
+      "source": "Benzinga",
+      "url": "https://finnhub.io/api/news?id=20b77426df96ac5e8ca9049a7559277387b7db199336f0bc9ea5baf067e90b6e",
+      "published_at": "2026-08-19T11:06:46.000Z",
+      "article_id": "141255469",
+      "summary": "Moderna surged 151% on Phase 3 melanoma data with Merck, its biggest daily gain ever. Every Wall Street price target now sits below the price."
+     }
+    },
+    {
+     "id": "8db8e6ac-ddae-42af-85d3-a99029eb5461",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "MRK",
+     "timestamp": "2026-08-19T19:20:06.313Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": -0.27248678316306707,
+      "r_squared": 0.015390957433537467,
+      "daily_vol_30d": 0.010566386688162488,
+      "vol_regime": 0.6306995062288022,
+      "move_today": 0.13222946730739227,
+      "move_zscore": 12.514161293711577,
+      "residual_move": 0.1331362836545672,
+      "residual_zscore": 8.44686904151038,
+      "volume_ratio": 6.9538307407025854,
+      "volume_ratio_partial": true,
+      "momentum_5d": 0.037954278620905946,
+      "momentum_20d": 0.07215264396342747,
+      "momentum_60d": 0.17659194738948036,
+      "pct_from_52w_high": -0.004412782953070016,
+      "pct_from_52w_low": 0.7851456521472295,
+      "earnings_rhythm": 0.010751353509758144,
+      "prev_close": 135.3699951171875,
+      "last_price": 153.2698974609375,
+      "price_asof": "2026-08-19T19:20:24.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "Moderna Doubles, Gold Rallies To $4,500 As Dollar Sinks: Stock Market Today",
+      "source": "Benzinga",
+      "url": "https://finnhub.io/api/news?id=85516d8c008355770031d63deb6a804ab3ae2903871b25ce3955544dea3beff6",
+      "published_at": "2026-08-19T13:10:27.000Z",
+      "article_id": "141254702",
+      "summary": "Treasury&#39;s expanded long-bond buybacks knocked yields off 20-month highs and sank the dollar, aa gold soars."
+     }
+    },
+    {
+     "id": "a4029926-8e08-48f5-b075-a2aae2a3d055",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "MRK",
+     "timestamp": "2026-08-19T19:20:06.313Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": -0.27248678316306707,
+      "r_squared": 0.015390957433537467,
+      "daily_vol_30d": 0.010566386688162488,
+      "vol_regime": 0.6306995062288022,
+      "move_today": 0.13222946730739227,
+      "move_zscore": 12.514161293711577,
+      "residual_move": 0.1331362836545672,
+      "residual_zscore": 8.44686904151038,
+      "volume_ratio": 6.9538307407025854,
+      "volume_ratio_partial": true,
+      "momentum_5d": 0.037954278620905946,
+      "momentum_20d": 0.07215264396342747,
+      "momentum_60d": 0.17659194738948036,
+      "pct_from_52w_high": -0.004412782953070016,
+      "pct_from_52w_low": 0.7851456521472295,
+      "earnings_rhythm": 0.010751353509758144,
+      "prev_close": 135.3699951171875,
+      "last_price": 153.2698974609375,
+      "price_asof": "2026-08-19T19:20:24.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "Stocks making the biggest moves premarket: Moderna, Lowe's, Estee Lauder & more",
+      "source": "CNBC",
+      "url": "https://finnhub.io/api/news?id=615b4c20357dff6843cbc3cc73731ea6690e792f225c7e9861c0c27946818b87",
+      "published_at": "2026-08-19T07:32:40.000Z",
+      "article_id": "141254578",
+      "summary": "These are the stocks posting the largest moves premarket."
+     }
+    },
+    {
+     "id": "d07b9975-b14e-432e-8a56-30159bd0c27a",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "MRK",
+     "timestamp": "2026-08-19T19:20:06.313Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": -0.27248678316306707,
+      "r_squared": 0.015390957433537467,
+      "daily_vol_30d": 0.010566386688162488,
+      "vol_regime": 0.6306995062288022,
+      "move_today": 0.13222946730739227,
+      "move_zscore": 12.514161293711577,
+      "residual_move": 0.1331362836545672,
+      "residual_zscore": 8.44686904151038,
+      "volume_ratio": 6.9538307407025854,
+      "volume_ratio_partial": true,
+      "momentum_5d": 0.037954278620905946,
+      "momentum_20d": 0.07215264396342747,
+      "momentum_60d": 0.17659194738948036,
+      "pct_from_52w_high": -0.004412782953070016,
+      "pct_from_52w_low": 0.7851456521472295,
+      "earnings_rhythm": 0.010751353509758144,
+      "prev_close": 135.3699951171875,
+      "last_price": 153.2698974609375,
+      "price_asof": "2026-08-19T19:20:24.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "Why Is BioNTech Stock Surging on Wednesday?",
+      "source": "Benzinga",
+      "url": "https://finnhub.io/api/news?id=5a1e4b571ebfb2c67874e94c76a1594ee33097d7e1832173b68ce1b99dc89ea0",
+      "published_at": "2026-08-19T12:39:16.000Z",
+      "article_id": "141255466",
+      "summary": "BioNTech stock rises as Merck and Moderna report positive cancer vaccine data, highlighting its individualized mRNA cancer therapies."
+     }
+    },
+    {
+     "id": "dadb7a51-6beb-446f-94d5-263c1fc631ce",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "MRK",
+     "timestamp": "2026-08-19T19:20:06.313Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": -0.27248678316306707,
+      "r_squared": 0.015390957433537467,
+      "daily_vol_30d": 0.010566386688162488,
+      "vol_regime": 0.6306995062288022,
+      "move_today": 0.13222946730739227,
+      "move_zscore": 12.514161293711577,
+      "residual_move": 0.1331362836545672,
+      "residual_zscore": 8.44686904151038,
+      "volume_ratio": 6.9538307407025854,
+      "volume_ratio_partial": true,
+      "momentum_5d": 0.037954278620905946,
+      "momentum_20d": 0.07215264396342747,
+      "momentum_60d": 0.17659194738948036,
+      "pct_from_52w_high": -0.004412782953070016,
+      "pct_from_52w_low": 0.7851456521472295,
+      "earnings_rhythm": 0.010751353509758144,
+      "prev_close": 135.3699951171875,
+      "last_price": 153.2698974609375,
+      "price_asof": "2026-08-19T19:20:24.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "Merck: Why Consolidation Looks Like The Next Move (Rating Downgrade)",
+      "source": "SeekingAlpha",
+      "url": "https://finnhub.io/api/news?id=e0c310d135d9f52c015bce90d67f1cfcf65240fd61b70cb6898f48f7303a4fce",
+      "published_at": "2026-08-19T12:08:10.000Z",
+      "article_id": "141254046",
+      "summary": "Merck & Co., Inc. stock: After a 72% surge, valuation and FY2027 earnings expectations cap upside. Click for this MRK update."
+     }
+    },
+    {
+     "id": "f1a4357c-e3dc-463d-aaa3-05a73d8304ec",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "MRK",
+     "timestamp": "2026-08-19T19:20:06.313Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": -0.27248678316306707,
+      "r_squared": 0.015390957433537467,
+      "daily_vol_30d": 0.010566386688162488,
+      "vol_regime": 0.6306995062288022,
+      "move_today": 0.13222946730739227,
+      "move_zscore": 12.514161293711577,
+      "residual_move": 0.1331362836545672,
+      "residual_zscore": 8.44686904151038,
+      "volume_ratio": 6.9538307407025854,
+      "volume_ratio_partial": true,
+      "momentum_5d": 0.037954278620905946,
+      "momentum_20d": 0.07215264396342747,
+      "momentum_60d": 0.17659194738948036,
+      "pct_from_52w_high": -0.004412782953070016,
+      "pct_from_52w_low": 0.7851456521472295,
+      "earnings_rhythm": 0.010751353509758144,
+      "prev_close": 135.3699951171875,
+      "last_price": 153.2698974609375,
+      "price_asof": "2026-08-19T19:20:24.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "Investors Should Position For Humanoid Robot Boom—Here's A Picks-And-Shovels Play; First mRNA Cancer Vaccine Succeeds",
+      "source": "Benzinga",
+      "url": "https://finnhub.io/api/news?id=85690539df1f074b0141508ef60dd8720ee3792d4601920da3731c6695610e5e",
+      "published_at": "2026-08-19T13:09:55.000Z",
+      "article_id": "141254712",
+      "summary": "\n\n\n\nPlease click here for an enlarged chart of Moderna Inc (NASDAQ:MRNA).\n\n\n\nNote the following:\n\n\n\n\nThis article is about the big picture, not an individual stock.  The chart of MRNA stock is being used to illustrate"
+     }
+    },
+    {
+     "id": "ffca8ace-bbbd-45cf-9c3b-25b91eca97dd",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "MRK",
+     "timestamp": "2026-08-19T19:20:06.313Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": -0.27248678316306707,
+      "r_squared": 0.015390957433537467,
+      "daily_vol_30d": 0.010566386688162488,
+      "vol_regime": 0.6306995062288022,
+      "move_today": 0.13222946730739227,
+      "move_zscore": 12.514161293711577,
+      "residual_move": 0.1331362836545672,
+      "residual_zscore": 8.44686904151038,
+      "volume_ratio": 6.9538307407025854,
+      "volume_ratio_partial": true,
+      "momentum_5d": 0.037954278620905946,
+      "momentum_20d": 0.07215264396342747,
+      "momentum_60d": 0.17659194738948036,
+      "pct_from_52w_high": -0.004412782953070016,
+      "pct_from_52w_low": 0.7851456521472295,
+      "earnings_rhythm": 0.010751353509758144,
+      "prev_close": 135.3699951171875,
+      "last_price": 153.2698974609375,
+      "price_asof": "2026-08-19T19:20:24.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "Moderna stock nearly doubles on new cancer vaccine results",
+      "source": "CNBC",
+      "url": "https://finnhub.io/api/news?id=1b836e838eaedf2d33b698a7cbfdb205c0e53ea7218647fd41929187bc0ac8b2",
+      "published_at": "2026-08-19T10:32:26.000Z",
+      "article_id": "141254576",
+      "summary": "CNBC’s Annika Kim Constantino reports on Moderna after its experimental skin cancer vaccine with Merck showed success in a late-stage trial."
+     }
+    },
+    {
+     "id": "0aae4355-9480-4dfa-bf67-f51b6609d9f8",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "MRK",
+     "timestamp": "2026-08-19T19:52:47.800Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": -0.27248678316306707,
+      "r_squared": 0.015390957433537467,
+      "daily_vol_30d": 0.010566386688162488,
+      "vol_regime": 0.6306995062288022,
+      "move_today": 0.12299630461580358,
+      "move_zscore": 11.640337254891136,
+      "residual_move": 0.12337941090070362,
+      "residual_zscore": 7.827841499624062,
+      "volume_ratio": 3.5741562789739363,
+      "volume_ratio_partial": true,
+      "momentum_5d": 0.037954278620905946,
+      "momentum_20d": 0.07215264396342747,
+      "momentum_60d": 0.17659194738948036,
+      "pct_from_52w_high": -0.004412782953070016,
+      "pct_from_52w_low": 0.7851456521472295,
+      "earnings_rhythm": 0.010751353509758144,
+      "prev_close": 135.3699951171875,
+      "last_price": 152.02000427246094,
+      "price_asof": "2026-08-19T19:52:51.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "Which dow jones stocks are moving on Wednesday?",
+      "source": "ChartMill",
+      "url": "https://finnhub.io/api/news?id=40115c3c3464e83a2660ead2dc4dec4295ca940e8503f339c0e49581f3b5cef4",
+      "published_at": "2026-08-19T19:10:05.000Z",
+      "article_id": "141255654",
+      "summary": "Wondering what's happening in today's session for the dow jones index? Stay informed with the top movers within the dow jones index on Wednesday."
+     }
+    },
+    {
+     "id": "dc778486-0c14-4811-a54e-83a064af1f33",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "MRK",
+     "timestamp": "2026-08-19T19:52:47.800Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": -0.27248678316306707,
+      "r_squared": 0.015390957433537467,
+      "daily_vol_30d": 0.010566386688162488,
+      "vol_regime": 0.6306995062288022,
+      "move_today": 0.12299630461580358,
+      "move_zscore": 11.640337254891136,
+      "residual_move": 0.12337941090070362,
+      "residual_zscore": 7.827841499624062,
+      "volume_ratio": 3.5741562789739363,
+      "volume_ratio_partial": true,
+      "momentum_5d": 0.037954278620905946,
+      "momentum_20d": 0.07215264396342747,
+      "momentum_60d": 0.17659194738948036,
+      "pct_from_52w_high": -0.004412782953070016,
+      "pct_from_52w_low": 0.7851456521472295,
+      "earnings_rhythm": 0.010751353509758144,
+      "prev_close": 135.3699951171875,
+      "last_price": 152.02000427246094,
+      "price_asof": "2026-08-19T19:52:51.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "Exploring the top movers within the S&P500 index during today's session.",
+      "source": "ChartMill",
+      "url": "https://finnhub.io/api/news?id=e46427aae39604591751787a13c6e26e654e9b8fcdfef2fc617183f68f47e48f",
+      "published_at": "2026-08-19T19:05:01.000Z",
+      "article_id": "141255653",
+      "summary": "Curious about the top performers within the S&P500 index one hour before the close of the markets on Wednesday? Dive into the list of today's session's top gainers and losers for a comprehensive overview."
+     }
+    }
+   ],
+   "quant_context": {
+    "beta_90d": -0.27248678316306707,
+    "r_squared": 0.015390957433537467,
+    "daily_vol_30d": 0.010566386688162488,
+    "vol_regime": 0.6306995062288022,
+    "move_today": 0.12299630461580358,
+    "move_zscore": 11.640337254891136,
+    "residual_move": 0.12337941090070362,
+    "residual_zscore": 7.827841499624062,
+    "volume_ratio": 3.5741562789739363,
+    "volume_ratio_partial": true,
+    "momentum_5d": 0.037954278620905946,
+    "momentum_20d": 0.07215264396342747,
+    "momentum_60d": 0.17659194738948036,
+    "pct_from_52w_high": -0.004412782953070016,
+    "pct_from_52w_low": 0.7851456521472295,
+    "earnings_rhythm": 0.010751353509758144,
+    "prev_close": 135.3699951171875,
+    "last_price": 152.02000427246094,
+    "price_asof": "2026-08-19T19:52:51.000Z",
+    "session": "regular"
+   },
+   "user_proximity": "tracked",
+   "related_incident_id": null,
+   "propagation_candidates": [
+    {
+     "ticker": "MRK",
+     "article_key": "id:141253686",
+     "event_type": "product_clinical",
+     "event_label": "Phase 3 trial positive results for intismeran + KEYTRUDA in melanoma"
+    },
+    {
+     "ticker": "MRK",
+     "article_key": "id:141253685",
+     "event_type": "product_clinical",
+     "event_label": "Merck-Moderna mRNA cancer therapy Phase 3 trial success"
+    },
+    {
+     "ticker": "MRK",
+     "article_key": "id:141255462",
+     "event_type": "product_clinical",
+     "event_label": "Merck/Moderna mRNA cancer vaccine shows positive melanoma trial results"
+    },
+    {
+     "ticker": "MRK",
+     "article_key": "id:141254113",
+     "event_type": "product_clinical",
+     "event_label": "Phase 3 melanoma vaccine trial success with Moderna"
+    },
+    {
+     "ticker": "MRK",
+     "article_key": "id:141254577",
+     "event_type": "product_clinical",
+     "event_label": "Moderna-Merck skin cancer vaccine shows positive late-stage trial results"
+    },
+    {
+     "ticker": "MRK",
+     "article_key": "id:141255468",
+     "event_type": "product_clinical",
+     "event_label": "Moderna-Merck personalized cancer therapy trial success"
+    },
+    {
+     "ticker": "MRK",
+     "article_key": "id:141255461",
+     "event_type": "product_clinical",
+     "event_label": "Merck advances personalized cancer vaccine development"
+    },
+    {
+     "ticker": "MRK",
+     "article_key": "id:141254575",
+     "event_type": "product_clinical",
+     "event_label": "Moderna-Merck cancer vaccine shows positive Phase 3 trial results"
+    },
+    {
+     "ticker": "MRK",
+     "article_key": "id:141255466",
+     "event_type": "product_clinical",
+     "event_label": "Merck and Moderna report positive cancer vaccine data"
+    },
+    {
+     "ticker": "MRK",
+     "article_key": "id:141254576",
+     "event_type": "product_clinical",
+     "event_label": "Moderna-Merck skin cancer vaccine shows success in late-stage trial"
+    }
+   ]
+  },
+  "event": {
+   "type": "product_clinical",
+   "direction": "positive",
+   "materiality": "high",
+   "label": "Merck/Moderna mRNA cancer vaccine shows positive melanoma trial results",
+   "source_msg_ids": [
+    "159c1e9d-5dda-4943-a8ae-baec78b04cc6"
+   ],
+   "event_ts": "2026-08-19T13:56:14.000Z",
+   "source": "verdict",
+   "evidence_lines": [
+    "Pfizer Stock Rises Wednesday: What's Going On? (product_clinical · high · positive)",
+    "Merck Soars On Cancer Vaccine Trial Win With Moderna, More Upside Ahead (product_clinical · high · positive)",
+    "'An increased ability to be disease-free': Moderna CEO & Merck's Dr. Li on skin cancer vaccine trial (product_clinical · high · positive)",
+    "Moderna's Cancer Vaccine Win Is Merck's Story Too (product_clinical · standard · positive)",
+    "Merck Just Raised the Stakes for Pfizer's Cancer Vaccine Ambitions (product_clinical · standard · positive)",
+    "Moderna, Merck cancer vaccine data 'a great result, but not entirely unexpected', says Simon Baker (product_clinical · high · positive)",
+    "Why Is BioNTech Stock Surging on Wednesday? (product_clinical · standard · positive)",
+    "Moderna stock nearly doubles on new cancer vaccine results (product_clinical · standard · positive)"
+   ]
+  },
+  "trigger_rules": [
+   "propagation_candidates"
+  ],
+  "update": false,
+  "prior_run_id": null,
+  "requested_at": "2026-08-22T19:59:56.471Z",
+  "verdicts": {
+   "108f83ee-46bc-4b21-b30d-9cca4973d501": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141253313",
+     "kind": "news",
+     "event_type": "macro_sector",
+     "event_label": "AstraZeneca vs Bristol-Myers Squibb valuation comparison",
+     "syndication_scope": 3,
+     "tickers": [
+      {
+       "ticker": "MRK",
+       "relevance": "none"
+      },
+      {
+       "ticker": "PFE",
+       "relevance": "none"
+      },
+      {
+       "ticker": "AZN",
+       "relevance": "indirect",
+       "materiality": "low",
+       "direction": "unclear"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:10.172Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "MRK",
+     "relevance": "none"
+    }
+   },
+   "1b4d6288-2180-48ce-914e-526897ad67e7": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141253686",
+     "kind": "news",
+     "event_type": "product_clinical",
+     "event_label": "Phase 3 trial positive results for intismeran + KEYTRUDA in melanoma",
+     "syndication_scope": 1,
+     "tickers": [
+      {
+       "ticker": "MRK",
+       "relevance": "direct",
+       "materiality": "standard",
+       "direction": "positive"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:26.384Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "MRK",
+     "relevance": "direct",
+     "materiality": "standard",
+     "direction": "positive"
+    }
+   },
+   "231045b3-fd02-4c70-84ce-5af2071bb350": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141253496",
+     "kind": "news",
+     "event_type": "other",
+     "event_label": "S&P 500 gap analysis roundup",
+     "syndication_scope": 1,
+     "tickers": [
+      {
+       "ticker": "MRK",
+       "relevance": "none"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:25.385Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "MRK",
+     "relevance": "none"
+    }
+   },
+   "e03a33ee-2529-487c-9c62-7162e1775485": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141253685",
+     "kind": "news",
+     "event_type": "product_clinical",
+     "event_label": "Merck-Moderna mRNA cancer therapy Phase 3 trial success",
+     "syndication_scope": 1,
+     "tickers": [
+      {
+       "ticker": "MRK",
+       "relevance": "direct",
+       "materiality": "high",
+       "direction": "positive"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:26.110Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "MRK",
+     "relevance": "direct",
+     "materiality": "high",
+     "direction": "positive"
+    }
+   },
+   "f03dcf55-3b37-4956-99ee-f43049e75a1e": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141253626",
+     "kind": "news",
+     "event_type": "macro_sector",
+     "event_label": "Market roundup: multiple stocks moving higher on Wednesday",
+     "syndication_scope": 2,
+     "tickers": [
+      {
+       "ticker": "BNTX",
+       "relevance": "none"
+      },
+      {
+       "ticker": "MRK",
+       "relevance": "none"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:25.548Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "MRK",
+     "relevance": "none"
+    }
+   },
+   "f336ccfa-341a-4047-8a60-1d005f0e7838": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141253173",
+     "kind": "news",
+     "event_type": "macro_sector",
+     "event_label": "S&P 500 pre-market movers roundup",
+     "syndication_scope": 1,
+     "tickers": [
+      {
+       "ticker": "MRK",
+       "relevance": "none"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:25.089Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "MRK",
+     "relevance": "none"
+    }
+   },
+   "159c1e9d-5dda-4943-a8ae-baec78b04cc6": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141255462",
+     "kind": "news",
+     "event_type": "product_clinical",
+     "event_label": "Merck/Moderna mRNA cancer vaccine shows positive melanoma trial results",
+     "syndication_scope": 3,
+     "tickers": [
+      {
+       "ticker": "MRK",
+       "relevance": "direct",
+       "materiality": "high",
+       "direction": "positive"
+      },
+      {
+       "ticker": "BNTX",
+       "relevance": "indirect",
+       "materiality": "standard",
+       "direction": "positive"
+      },
+      {
+       "ticker": "PFE",
+       "relevance": "indirect",
+       "materiality": "low",
+       "direction": "positive"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:07.139Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "MRK",
+     "relevance": "direct",
+     "materiality": "high",
+     "direction": "positive"
+    }
+   },
+   "2f148628-cb21-4d82-9c11-9248e95f001b": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141254113",
+     "kind": "news",
+     "event_type": "product_clinical",
+     "event_label": "Phase 3 melanoma vaccine trial success with Moderna",
+     "syndication_scope": 1,
+     "tickers": [
+      {
+       "ticker": "MRK",
+       "relevance": "direct",
+       "materiality": "high",
+       "direction": "positive"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:30.278Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "MRK",
+     "relevance": "direct",
+     "materiality": "high",
+     "direction": "positive"
+    }
+   },
+   "3161b6dc-65d1-4d7d-a29f-3a8194dfd0d1": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141254577",
+     "kind": "news",
+     "event_type": "product_clinical",
+     "event_label": "Moderna-Merck skin cancer vaccine shows positive late-stage trial results",
+     "syndication_scope": 1,
+     "tickers": [
+      {
+       "ticker": "MRK",
+       "relevance": "direct",
+       "materiality": "high",
+       "direction": "positive"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:33.918Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "MRK",
+     "relevance": "direct",
+     "materiality": "high",
+     "direction": "positive"
+    }
+   },
+   "3b9d12cb-ff73-4444-be08-6d5687ddc374": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141254410",
+     "kind": "news",
+     "event_type": "macro_sector",
+     "event_label": "Dow Jones stocks intraday price movements",
+     "syndication_scope": 8,
+     "tickers": [
+      {
+       "ticker": "MRK",
+       "relevance": "none"
+      },
+      {
+       "ticker": "HON",
+       "relevance": "none"
+      },
+      {
+       "ticker": "BA",
+       "relevance": "none"
+      },
+      {
+       "ticker": "CAT",
+       "relevance": "none"
+      },
+      {
+       "ticker": "NVDA",
+       "relevance": "none"
+      },
+      {
+       "ticker": "UNH",
+       "relevance": "none"
+      },
+      {
+       "ticker": "WMT",
+       "relevance": "none"
+      },
+      {
+       "ticker": "AAPL",
+       "relevance": "none"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:31.680Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "MRK",
+     "relevance": "none"
+    }
+   },
+   "4affc88a-0f44-461c-a19c-bbcb02c4245e": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141254498",
+     "kind": "news",
+     "event_type": "macro_sector",
+     "event_label": "S&P 500 stocks with unusual volume",
+     "syndication_scope": 1,
+     "tickers": [
+      {
+       "ticker": "MRK",
+       "relevance": "none"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:31.424Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "MRK",
+     "relevance": "none"
+    }
+   },
+   "53c48ec7-0e7a-4bcf-9cc7-1dc3de490cfe": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141255468",
+     "kind": "news",
+     "event_type": "product_clinical",
+     "event_label": "Moderna-Merck personalized cancer therapy trial success",
+     "syndication_scope": 1,
+     "tickers": [
+      {
+       "ticker": "MRK",
+       "relevance": "direct",
+       "materiality": "standard",
+       "direction": "positive"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:37.465Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "MRK",
+     "relevance": "direct",
+     "materiality": "standard",
+     "direction": "positive"
+    }
+   },
+   "5eafcfbf-5d6c-46d2-a0a6-11fbbdec4b13": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141255461",
+     "kind": "news",
+     "event_type": "product_clinical",
+     "event_label": "Merck advances personalized cancer vaccine development",
+     "syndication_scope": 3,
+     "tickers": [
+      {
+       "ticker": "MRK",
+       "relevance": "direct",
+       "materiality": "standard",
+       "direction": "positive"
+      },
+      {
+       "ticker": "BNTX",
+       "relevance": "indirect",
+       "materiality": "standard",
+       "direction": "negative"
+      },
+      {
+       "ticker": "PFE",
+       "relevance": "indirect",
+       "materiality": "standard",
+       "direction": "negative"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:06.759Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "MRK",
+     "relevance": "direct",
+     "materiality": "standard",
+     "direction": "positive"
+    }
+   },
+   "65522a18-4aae-47ce-8a9d-89ab11f7639d": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141254409",
+     "kind": "news",
+     "event_type": "macro_sector",
+     "event_label": "S&P 500 movers market roundup",
+     "syndication_scope": 2,
+     "tickers": [
+      {
+       "ticker": "MRK",
+       "relevance": "none"
+      },
+      {
+       "ticker": "AVGO",
+       "relevance": "none"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:30.633Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "MRK",
+     "relevance": "none"
+    }
+   },
+   "854d76ad-6ab7-4cfa-968c-9e001130fe7e": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141254575",
+     "kind": "news",
+     "event_type": "product_clinical",
+     "event_label": "Moderna-Merck cancer vaccine shows positive Phase 3 trial results",
+     "syndication_scope": 1,
+     "tickers": [
+      {
+       "ticker": "MRK",
+       "relevance": "direct",
+       "materiality": "high",
+       "direction": "positive"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:33.306Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "MRK",
+     "relevance": "direct",
+     "materiality": "high",
+     "direction": "positive"
+    }
+   },
+   "89ae8812-0517-4b0e-a9a9-4ded9a29d216": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141255469",
+     "kind": "news",
+     "event_type": "product_clinical",
+     "event_label": "Moderna Phase 3 melanoma vaccine data with Merck",
+     "syndication_scope": 1,
+     "tickers": [
+      {
+       "ticker": "MRK",
+       "relevance": "indirect",
+       "materiality": "standard",
+       "direction": "positive"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:37.672Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "MRK",
+     "relevance": "indirect",
+     "materiality": "standard",
+     "direction": "positive"
+    }
+   },
+   "8db8e6ac-ddae-42af-85d3-a99029eb5461": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141254702",
+     "kind": "news",
+     "event_type": "macro_sector",
+     "event_label": "Treasury bond buybacks, dollar weakness, gold rally",
+     "syndication_scope": 2,
+     "tickers": [
+      {
+       "ticker": "MRK",
+       "relevance": "none"
+      },
+      {
+       "ticker": "MSTR",
+       "relevance": "none"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:35.089Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "MRK",
+     "relevance": "none"
+    }
+   },
+   "a4029926-8e08-48f5-b075-a2aae2a3d055": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141254578",
+     "kind": "news",
+     "event_type": "other",
+     "event_label": "Premarket stock moves roundup",
+     "syndication_scope": 1,
+     "tickers": [
+      {
+       "ticker": "MRK",
+       "relevance": "none"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:34.066Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "MRK",
+     "relevance": "none"
+    }
+   },
+   "d07b9975-b14e-432e-8a56-30159bd0c27a": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141255466",
+     "kind": "news",
+     "event_type": "product_clinical",
+     "event_label": "Merck and Moderna report positive cancer vaccine data",
+     "syndication_scope": 2,
+     "tickers": [
+      {
+       "ticker": "BNTX",
+       "relevance": "indirect",
+       "materiality": "standard",
+       "direction": "positive"
+      },
+      {
+       "ticker": "MRK",
+       "relevance": "direct",
+       "materiality": "standard",
+       "direction": "positive"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:37.628Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "MRK",
+     "relevance": "direct",
+     "materiality": "standard",
+     "direction": "positive"
+    }
+   },
+   "dadb7a51-6beb-446f-94d5-263c1fc631ce": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141254046",
+     "kind": "news",
+     "event_type": "analyst_action",
+     "event_label": "Analyst downgrades Merck; cites valuation and FY2027 earnings",
+     "syndication_scope": 1,
+     "tickers": [
+      {
+       "ticker": "MRK",
+       "relevance": "direct",
+       "materiality": "low",
+       "direction": "negative"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:30.624Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "MRK",
+     "relevance": "direct",
+     "materiality": "low",
+     "direction": "negative"
+    }
+   },
+   "f1a4357c-e3dc-463d-aaa3-05a73d8304ec": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141254712",
+     "kind": "news",
+     "event_type": "macro_sector",
+     "event_label": "Humanoid robot boom and mRNA cancer vaccine thematic coverage",
+     "syndication_scope": 5,
+     "tickers": [
+      {
+       "ticker": "META",
+       "relevance": "none"
+      },
+      {
+       "ticker": "MRK",
+       "relevance": "none"
+      },
+      {
+       "ticker": "NVDA",
+       "relevance": "none"
+      },
+      {
+       "ticker": "MSFT",
+       "relevance": "none"
+      },
+      {
+       "ticker": "AAPL",
+       "relevance": "none"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:34.804Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "MRK",
+     "relevance": "none"
+    }
+   },
+   "ffca8ace-bbbd-45cf-9c3b-25b91eca97dd": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141254576",
+     "kind": "news",
+     "event_type": "product_clinical",
+     "event_label": "Moderna-Merck skin cancer vaccine shows success in late-stage trial",
+     "syndication_scope": 1,
+     "tickers": [
+      {
+       "ticker": "MRK",
+       "relevance": "direct",
+       "materiality": "standard",
+       "direction": "positive"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:33.299Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "MRK",
+     "relevance": "direct",
+     "materiality": "standard",
+     "direction": "positive"
+    }
+   },
+   "0aae4355-9480-4dfa-bf67-f51b6609d9f8": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141255654",
+     "kind": "news",
+     "event_type": "macro_sector",
+     "event_label": "Dow Jones index movers coverage",
+     "syndication_scope": 6,
+     "tickers": [
+      {
+       "ticker": "MRK",
+       "relevance": "none"
+      },
+      {
+       "ticker": "UNH",
+       "relevance": "none"
+      },
+      {
+       "ticker": "CAT",
+       "relevance": "none"
+      },
+      {
+       "ticker": "BA",
+       "relevance": "none"
+      },
+      {
+       "ticker": "NVDA",
+       "relevance": "none"
+      },
+      {
+       "ticker": "HON",
+       "relevance": "none"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:39.220Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "MRK",
+     "relevance": "none"
+    }
+   },
+   "dc778486-0c14-4811-a54e-83a064af1f33": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141255653",
+     "kind": "news",
+     "event_type": "macro_sector",
+     "event_label": "S&P 500 top movers market roundup",
+     "syndication_scope": 1,
+     "tickers": [
+      {
+       "ticker": "MRK",
+       "relevance": "none"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:37.692Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "MRK",
+     "relevance": "none"
+    }
+   }
+  }
+ },
+ "graph_version": {
+  "generatedAt": "2026-08-13T22:38:11.325Z",
+  "pipelineVersion": 5
+ }
+}

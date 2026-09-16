@@ -1,0 +1,353 @@
+[
+  {
+    "counterparty_name": "Aperio Group, LLC",
+    "category": "supplier",
+    "subtype": "acquired_entity",
+    "evidence_quote": "net AUM from the acquisition of Aperio Group, LLC (\"Aperio Transaction\") in February 2021",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Kreos Capital",
+    "category": "supplier",
+    "subtype": "acquired_entity",
+    "evidence_quote": "net AUM from the acquisition of Kreos Capital (the \"Kreos Transaction\") in August 2023",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Global Infrastructure Management, LLC",
+    "category": "supplier",
+    "subtype": "acquired_entity",
+    "evidence_quote": "net AUM from the acquisition of GIP (the \"GIP Transaction\") in October 2024",
+    "confidence": 0.95,
+    "reason": "counterparty name not in quote",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Federal Trade Commission",
+    "category": "dependency",
+    "subtype": "regulatory_body",
+    "evidence_quote": "In October 2024, the Federal Trade Commission (\"FTC\"), with concurrence from the Antitrust Division of the Department of Justice (the \"DOJ\") approved amendments to rules",
+    "confidence": 0.85,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Department of Justice",
+    "category": "dependency",
+    "subtype": "regulatory_body",
+    "evidence_quote": "In October 2024, the Federal Trade Commission (\"FTC\"), with concurrence from the Antitrust Division of the Department of Justice (the \"DOJ\") approved amendments to rules",
+    "confidence": 0.85,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "International Sustainability Standards Board",
+    "category": "dependency",
+    "subtype": "standard_setting_body",
+    "evidence_quote": "The International Sustainability Standards Board's (\"ISSB\") disclosure standards have been adopted by several national regulators",
+    "confidence": 0.85,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Organisation for Economic Cooperation and Development",
+    "category": "dependency",
+    "subtype": "international_organization",
+    "evidence_quote": "The Organisation for Economic Cooperation and Development (\"OECD\") has proposed certain international tax reforms",
+    "confidence": 0.85,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Financial Industry Regulatory Authority",
+    "category": "dependency",
+    "subtype": "self_regulatory_organization",
+    "evidence_quote": "BlackRock and certain of its US subsidiaries are currently subject to extensive regulation, primarily at the federal level, by the SEC, the US Department of Labor (\"DOL\"), the Federal Reserve, the Office of the Comptroller of the Currency (\"OCC\"), the",
+    "confidence": 0.9,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "National Futures Association",
+    "category": "dependency",
+    "subtype": "self_regulatory_organization",
+    "evidence_quote": "BlackRock and certain of its US subsidiaries are currently subject to extensive regulation, primarily at the federal level, by the SEC, the US Department of Labor (\"DOL\"), the Federal Reserve, the Office of the Comptroller of the Currency (\"OCC\"), the",
+    "confidence": 0.9,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Commodity Futures Trading Commission",
+    "category": "dependency",
+    "subtype": "regulatory_body",
+    "evidence_quote": "BlackRock and certain of its US subsidiaries are currently subject to extensive regulation, primarily at the federal level, by the SEC, the US Department of Labor (\"DOL\"), the Federal Reserve, the Office of the Comptroller of the Currency (\"OCC\"), the",
+    "confidence": 0.9,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Municipal Securities Rulemaking Board",
+    "category": "dependency",
+    "subtype": "self_regulatory_organization",
+    "evidence_quote": "Furthermore, the Dodd-Frank Act requires one of BlackRock's subsidiaries, BTC, to register as a municipal advisor (as that term is defined in the Exchange Act) with the SEC and Municipal Securities Rulemaking Board (\"MSRB\").",
+    "confidence": 0.9,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "FINRA",
+    "category": "dependency",
+    "subtype": "regulatory_infrastructure",
+    "evidence_quote": "three of BlackRock's subsidiaries are registered with the SEC as broker-dealers and are member-firms of FINRA.",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "OCC",
+    "category": "dependency",
+    "subtype": "regulatory_infrastructure",
+    "evidence_quote": "BTC is organized as a nationally-chartered limited purpose trust company that does not accept deposits or make commercial loans. Accordingly, BTC is examined and supervised by the OCC",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Dubai Financial Services Authority",
+    "category": "dependency",
+    "subtype": "regulatory_infrastructure",
+    "evidence_quote": "BlackRock maintains a number of branches and subsidiaries across the Middle East, including regulated branches in Dubai overseen by the Dubai Financial Services Authority",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Financial Services Regulatory Authority",
+    "category": "dependency",
+    "subtype": "regulatory_infrastructure",
+    "evidence_quote": "BlackRock maintains a number of branches and subsidiaries across the Middle East, including regulated branches in Abu Dhabi overseen by the Financial Services Regulatory Authority in Abu Dhabi",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Kuwait Capital Markets Authority",
+    "category": "dependency",
+    "subtype": "regulatory_infrastructure",
+    "evidence_quote": "BlackRock maintains a number of branches and subsidiaries across the Middle East, including regulated branches in Kuwait City overseen by the Kuwait Capital Markets Authority",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Qatar Financial Centre Regulatory Authority",
+    "category": "dependency",
+    "subtype": "regulatory_infrastructure",
+    "evidence_quote": "BlackRock maintains a number of branches and subsidiaries across the Middle East, including regulated branches in Doha overseen by the Qatar Financial Centre Regulatory Authority",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Saudi Capital Markets Authority",
+    "category": "dependency",
+    "subtype": "regulatory_infrastructure",
+    "evidence_quote": "BlackRock maintains a regulated subsidiary in Riyadh, Saudi Arabia overseen by the Saudi Capital Markets Authority.",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "CCB Wealth Management Co., Ltd.",
+    "category": "partner",
+    "subtype": "joint_venture",
+    "evidence_quote": "BlackRock CCB Wealth Management Limited, which is BlackRock's wealth management joint venture company with CCB Wealth Management Co., Ltd. and Fullerton Management Pte Ltd. in China",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Fullerton Management Pte Ltd.",
+    "category": "partner",
+    "subtype": "joint_venture",
+    "evidence_quote": "BlackRock CCB Wealth Management Limited, which is BlackRock's wealth management joint venture company with CCB Wealth Management Co., Ltd. and Fullerton Management Pte Ltd. in China",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "GIP",
+    "category": "supplier",
+    "subtype": "acquisition_target",
+    "evidence_quote": "private markets becoming an increasing component of the overall composition of the Company's performance fee generating assets, including from the Company's acquisition of GIP",
+    "confidence": 0.85,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "HPS",
+    "category": "supplier",
+    "subtype": "acquisition_target",
+    "evidence_quote": "private markets becoming an increasing component of the overall composition of the Company's performance fee generating assets, including from the Company's acquisition of GIP (the \"GIP Acquisition\") and HPS",
+    "confidence": 0.85,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Federal Trade Commission",
+    "category": "dependency",
+    "subtype": "regulatory_body",
+    "evidence_quote": "In October 2024, the Federal Trade Commission (\"FTC\"), with concurrence from the Antitrust Division of the Department of Justice (the \"DOJ\") approved amendments to rules enacted under the Hart-Scott-Rodino Antitrust Improvements Act",
+    "confidence": 0.85,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Department of Justice",
+    "category": "dependency",
+    "subtype": "regulatory_body",
+    "evidence_quote": "In October 2024, the Federal Trade Commission (\"FTC\"), with concurrence from the Antitrust Division of the Department of Justice (the \"DOJ\") approved amendments to rules enacted under the Hart-Scott-Rodino Antitrust Improvements Act",
+    "confidence": 0.85,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "SEC",
+    "category": "dependency",
+    "subtype": "regulatory_body",
+    "evidence_quote": "BlackRock, certain of the investment funds it manages and certain of its subsidiaries and employees have been named as defendants in various legal actions... Certain of BlackRock's subsidiaries and employees are also subject to periodic examination, special inquiries and potential",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Office of the Comptroller of the Currency",
+    "category": "dependency",
+    "subtype": "regulatory_body",
+    "evidence_quote": "Certain of BlackRock's subsidiaries and employees are also subject to periodic examination, special inquiries and potential proceedings by regulatory authorities, including the SEC, Office of the Comptroller of the Currency (\"OCC\"), DOL",
+    "confidence": 0.9,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "DOL",
+    "category": "dependency",
+    "subtype": "regulatory_body",
+    "evidence_quote": "Certain of BlackRock's subsidiaries and employees are also subject to periodic examination, special inquiries and potential proceedings by regulatory authorities, including the SEC, Office of the Comptroller of the Currency (\"OCC\"), DOL, Commodity Futures Trading Commission",
+    "confidence": 0.9,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Commodity Futures Trading Commission",
+    "category": "dependency",
+    "subtype": "regulatory_body",
+    "evidence_quote": "Certain of BlackRock's subsidiaries and employees are also subject to periodic examination, special inquiries and potential proceedings by regulatory authorities, including the SEC, Office of the Comptroller of the Currency (\"OCC\"), DOL, Commodity Futures Trading Commission, the FCA",
+    "confidence": 0.9,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "FCA",
+    "category": "dependency",
+    "subtype": "regulatory_body",
+    "evidence_quote": "Certain of BlackRock's subsidiaries and employees are also subject to periodic examination, special inquiries and potential proceedings by regulatory authorities, including the SEC, Office of the Comptroller of the Currency (\"OCC\"), DOL, Commodity Futures Trading Commission, the FCA, US state",
+    "confidence": 0.9,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "OCC",
+    "category": "dependency",
+    "subtype": "regulatory_infrastructure",
+    "evidence_quote": "BlackRock's trust bank subsidiary, which is a national banking association chartered by the OCC, is subject to OCC regulation",
+    "confidence": 0.85,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Financial Stability Oversight Council",
+    "category": "dependency",
+    "subtype": "regulatory_body",
+    "evidence_quote": "The FSOC has the authority to designate nonbank financial institutions as SIFIs in the US under the Dodd-Frank Wall Street Reform and Consumer Protection Act of 2010.",
+    "confidence": 0.9,
+    "reason": "FSOC (Financial Stability Oversight Council) is a regulatory body exercising governmental authority over financial institutions. The evidence describes FSOC's power to designate firms as SIFIs, which is a regulatory function, not a dependency relationship. BlackRock does not 'rely' on FSOC infrastructure or services; rather, FSOC is a regulator that may impose requirements on BlackRock. Per the auditing rules, regulators acting as regulators should be rejected as counterparties. The relationship is regulatory oversight, not dependency.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Federal Reserve",
+    "category": "dependency",
+    "subtype": "regulatory_body",
+    "evidence_quote": "If BlackRock is designated as a SIFI, it could become subject to enhanced regulatory and capital requirements and direct supervision by the Federal Reserve.",
+    "confidence": 0.9,
+    "reason": "The Federal Reserve is mentioned solely as a potential regulator IF BlackRock were designated as a SIFI, not as an existing dependency. The evidence quote describes a hypothetical conditional scenario ('If BlackRock is designated...it could become subject to...direct supervision by the Federal Reserve'), not a current relationship. The filing does not indicate that BlackRock has actually been designated as a SIFI or is currently under Federal Reserve supervision. This is a discussion of regulatory risk, not an established dependency relationship. Additionally, the Federal Reserve in this context would be acting as a regulator (which should be rejected per instruction #4), not as a dependency in the sense of infrastructure the company relies upon.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "SEC",
+    "category": "dependency",
+    "subtype": "regulatory_infrastructure",
+    "evidence_quote": "BlackRock files annual, quarterly and current reports, proxy statements and all amendments to these reports and other information with the SEC.",
+    "confidence": 0.95,
+    "reason": "The SEC is a regulator acting in its regulatory capacity. The evidence quote describes a mandatory filing obligation imposed by securities law, not a dependency relationship. BlackRock files reports *with* the SEC because it is legally required to do so as a public company, not because it critically relies on SEC infrastructure or services to operate its business. The SEC is explicitly excluded under rule 4 (regulators acting as regulators). The filing obligation is a compliance requirement, not an operational dependency.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "CFTC",
+    "category": "dependency",
+    "subtype": "regulatory_infrastructure",
+    "evidence_quote": "BlackRock has eight subsidiaries that are registered as commodity pool operators and/or commodity trading advisors with the CFTC",
+    "confidence": 0.95,
+    "reason": "The CFTC is a regulatory authority, not a dependency. The evidence shows that eight BlackRock subsidiaries are 'registered as commodity pool operators and/or commodity trading advisors with the CFTC,' which describes a regulatory compliance relationship. The CFTC regulates BlackRock's derivatives activities and administers rules for futures/swaps markets. This is a regulatory oversight function, not a critical infrastructure dependency. The CFTC does not provide infrastructure or services that BlackRock relies upon; rather, it enforces rules that BlackRock must follow. Per the audit criteria, 'regulators acting as regulators' and 'tax and revenue authorities' should be rejected. The CFTC falls squarely into this category as a financial regulator exercising statutory oversight authority.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "FCA",
+    "category": "dependency",
+    "subtype": "regulatory_infrastructure",
+    "evidence_quote": "The FCA currently regulates certain BlackRock subsidiaries in the UK.",
+    "confidence": 0.95,
+    "reason": "The FCA is a regulator actively supervising BlackRock's UK subsidiaries, not a dependency infrastructure that BlackRock relies upon without regulatory oversight. The evidence describes a classic regulatory relationship: 'The FCA currently regulates certain BlackRock subsidiaries in the UK' and 'Authorization by the FCA...is required to conduct certain financial services-related business in the UK.' This is regulatory supervision, not a critical infrastructure dependency. Per the instructions, 'regulators acting as regulators' should be rejected as counterparties. The FCA falls squarely into this exclusion—it is a government regulator exercising its statutory authority over BlackRock's operations, not a dependency infrastructure like GPS or public networks that BlackRock relies upon for operational capability.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Financial Stability Board",
+    "category": "dependency",
+    "subtype": "global standard setter",
+    "evidence_quote": "Policymaking workstreams focused on the financial services sector led by global standard setters, such as the Financial Stability Board",
+    "confidence": 0.85,
+    "reason": "The Financial Stability Board is cited as a 'global standard setter' that leads 'policymaking workstreams' which may 'lead to or inform new regulations.' This describes the FSB's role in the regulatory ecosystem, not a direct dependency where BlackRock relies on FSB infrastructure or services. The FSB is a coordinating body that influences regulators, but the actual regulatory obligations come from national authorities (SEC, FCA, etc.) who implement regulations. The text describes regulatory risk and potential future compliance costs, not an operational dependency. Additionally, the FSB is not a government but an international coordinating body. The category 'dependency' requires the root company to critically rely on the counterparty's infrastructure/service with no commercial vendor relationship—here, BlackRock is subject to potential regulations informed by FSB guidance, which is a regulatory risk, not a dependency relationship.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "FTC",
+    "category": "dependency",
+    "subtype": "regulatory_infrastructure",
+    "evidence_quote": "In 2021, the FTC identified common ownership as a key enforcement area and passed a resolution empowering individual commissioners to investigate shareholder conduct",
+    "confidence": 0.82,
+    "reason": "The FTC is acting in a regulatory enforcement capacity, not as a dependency/infrastructure provider. The quote describes the FTC monitoring common ownership as a potential antitrust issue and empowering commissioners to investigate shareholder conduct. This is regulatory oversight/enforcement, not a dependency relationship. The FTC is explicitly excluded as a valid counterparty under rule 4 (regulators acting as regulators). BlackRock does not 'depend' on FTC regulatory infrastructure in the same way it might depend on GPS or public internet; rather, it is subject to FTC enforcement actions. The relationship described is one of regulatory scrutiny and potential enforcement, not dependency.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "DOJ",
+    "category": "dependency",
+    "subtype": "regulatory_infrastructure",
+    "evidence_quote": "In 2023, the FTC and DOJ released new merger guidelines recognizing that common ownership may reduce competitive incentives.",
+    "confidence": 0.82,
+    "reason": "The evidence_quote describes DOJ releasing merger guidelines that recognize common ownership theory, but this is the DOJ acting in its regulatory/policy-making capacity, not as a counterparty in a dependency relationship. The text discusses how the DOJ and FTC have taken positions on common ownership theory and may consider it in enforcement actions, but this is regulatory scrutiny, not infrastructure dependency. The ROOT company (BlackRock) does not 'depend' on DOJ in the sense required for the dependency category—it is subject to DOJ regulation and potential enforcement, which is a completely different relationship. Additionally, regulators acting as regulators should be rejected as counterparties per the audit instructions.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Certified Information Systems Security Professional",
+    "category": "dependency",
+    "subtype": "certification_body",
+    "evidence_quote": "He also holds the Certified Information Systems Security Professional certification.",
+    "confidence": 0.65,
+    "reason": "CISSP (Certified Information Systems Security Professional) is a professional certification, not an external organization that BlackRock has a dependency relationship with. The evidence quote merely states that BlackRock's CISO holds this certification as a professional credential. This is similar to mentioning someone has an MBA or CPA - it describes individual qualifications, not an organizational dependency. There is no commercial, operational, or infrastructural relationship between BlackRock and the certifying body (ISC²). Additionally, certification bodies do not fit the dependency category definition, which requires the root to critically rely on counterparty infrastructure/service with no commercial vendor relationship.",
+    "stage": "audit"
+  }
+]

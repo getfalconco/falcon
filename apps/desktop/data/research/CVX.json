@@ -1,0 +1,310 @@
+[
+  {
+    "root_ticker": "CVX",
+    "counterparty_name": "Organization of Petroleum Exporting Countries",
+    "counterparty_ticker": null,
+    "counterparty_type": "other",
+    "category": "dependency",
+    "subtype": "production_level_influencer",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.85,
+    "evidence": [
+      {
+        "quote": "Production levels from the members of Organization of Petroleum Exporting Countries (OPEC), Russia and the United States are major factors in determining worldwide supply.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/93410/000009341026000078/cvx-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_1c584a3087a0"
+  },
+  {
+    "root_ticker": "CVX",
+    "counterparty_name": "Russia",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "dependency",
+    "subtype": "production_level_influencer",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.15,
+    "evidence": [
+      {
+        "quote": "Production levels from the members of Organization of Petroleum Exporting Countries (OPEC), Russia and the United States are major factors in determining worldwide supply.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/93410/000009341026000078/cvx-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_1c584a3087a0"
+  },
+  {
+    "root_ticker": "CVX",
+    "counterparty_name": "Bayou Bend CCS LLC",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "carbon storage joint venture",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Chevron has a 50 percent interest in Bayou Bend CCS LLC, a carbon dioxide transportation and sequestration affiliate",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/93410/000009341026000078/cvx-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_577ad1d29de9"
+  },
+  {
+    "root_ticker": "CVX",
+    "counterparty_name": "ACES Delta, LLC",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "hydrogen storage joint venture",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "Chevron also owns a majority interest in ACES Delta, LLC, a joint venture developing the Advanced Clean Energy Storage Project",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/93410/000009341026000078/cvx-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_a60727f5ce94"
+  },
+  {
+    "root_ticker": "CVX",
+    "counterparty_name": "Angola LNG Limited",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "LNG processing joint venture",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Chevron has a 36.4 percent shareholding in Angola LNG Limited, which operates an onshore natural gas liquefaction plant",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/93410/000009341026000078/cvx-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_f343196a5ce7"
+  },
+  {
+    "root_ticker": "CVX",
+    "counterparty_name": "Atlantic Methanol Production Company",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "methanol processing joint venture",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "a 45 percent nonoperated interest in the Atlantic Methanol Production Company.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/93410/000009341026000078/cvx-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_e5edd4073373"
+  },
+  {
+    "root_ticker": "CVX",
+    "counterparty_name": "Singapore Refining Company",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "joint_venture",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Singapore Refining Company (SRC), a 50 percent-owned joint venture, has a total capacity of 290,000 barrels of crude per day",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/93410/000009341026000078/cvx-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_14dca53a03dc"
+  },
+  {
+    "root_ticker": "CVX",
+    "counterparty_name": "Bunge Chevron Ag Renewables LLC",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "joint_venture",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Chevron holds a 50 percent working interest in Bunge Chevron Ag Renewables LLC, which produces soybean oil from processing facilities in Destrehan, Louisiana, and Cairo, Illinois.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/93410/000009341026000078/cvx-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_fb72a9ff7ac0"
+  },
+  {
+    "root_ticker": "CVX",
+    "counterparty_name": "Chevron Phillips Chemical Company LLC",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "joint_venture",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.98,
+    "evidence": [
+      {
+        "quote": "Chevron owns a 50 percent interest in Chevron Phillips Chemical Company LLC (CPChem).",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/93410/000009341026000078/cvx-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_6a135f8b7d98"
+  },
+  {
+    "root_ticker": "CVX",
+    "counterparty_name": "West African Gas Pipeline Company Limited",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "joint_venture",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "the company holds a 36.9 percent interest in the West African Gas Pipeline Company Limited affiliate, which supplies Nigerian natural gas to customers in Benin, Togo and Ghana.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/93410/000009341026000078/cvx-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_d33852016a71"
+  },
+  {
+    "root_ticker": "CVX",
+    "counterparty_name": "Marine Spill Response Corporation",
+    "counterparty_ticker": null,
+    "counterparty_type": "other",
+    "category": "supplier",
+    "subtype": "emergency_response",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "Chevron maintains active membership in international oil spill response cooperatives, including the Marine Spill Response Corporation",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/93410/000009341026000078/cvx-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_d021ec5ea59e"
+  },
+  {
+    "root_ticker": "CVX",
+    "counterparty_name": "Marine Well Containment Company",
+    "counterparty_ticker": null,
+    "counterparty_type": "industry_consortium",
+    "category": "partner",
+    "subtype": "industry_cooperative",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.88,
+    "evidence": [
+      {
+        "quote": "The company is a founding member of the Marine Well Containment Company",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/93410/000009341026000078/cvx-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_1aa2a9f35409"
+  },
+  {
+    "root_ticker": "CVX",
+    "counterparty_name": "Subsea Well Response Project",
+    "counterparty_ticker": null,
+    "counterparty_type": "industry_cooperative",
+    "category": "partner",
+    "subtype": "emergency_response",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.88,
+    "evidence": [
+      {
+        "quote": "the company is a member of the Subsea Well Response Project",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/93410/000009341026000078/cvx-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_fe0f593bf52f"
+  },
+  {
+    "root_ticker": "CVX",
+    "counterparty_name": "Responsible AI institute",
+    "counterparty_ticker": null,
+    "counterparty_type": "other",
+    "category": "partner",
+    "subtype": "consortium",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "Chevron is a member of the Responsible AI institute, a consortium focused on integrating AI responsibly",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/93410/000009341026000078/cvx-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_6fd710f006cb"
+  }
+]

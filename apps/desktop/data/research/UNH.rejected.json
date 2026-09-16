@@ -1,0 +1,155 @@
+[
+  {
+    "counterparty_name": "Centers for Medicare & Medicaid Services",
+    "category": "dependency",
+    "subtype": "regulator and payment infrastructure",
+    "evidence_quote": "Premium revenues from CMS represented 44% of UnitedHealth Group's total consolidated revenues for the year ended December 31, 2025",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "U.S. Department of Veterans Affairs",
+    "category": "customer",
+    "subtype": "federal agency client",
+    "evidence_quote": "public entities, including the U.S. Departments of Health and Human Services (HHS), Veterans Affairs, Defense, and other federal, state and local health care agencies",
+    "confidence": 0.85,
+    "reason": "counterparty name not in quote",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "U.S. Department of Defense",
+    "category": "customer",
+    "subtype": "federal agency client",
+    "evidence_quote": "public entities, including the U.S. Departments of Health and Human Services (HHS), Veterans Affairs, Defense, and other federal, state and local health care agencies",
+    "confidence": 0.85,
+    "reason": "counterparty name not in quote",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "CMS",
+    "category": "dependency",
+    "subtype": "regulatory_infrastructure",
+    "evidence_quote": "CMS regulates our UnitedHealthcare businesses and certain aspects of our Optum businesses.",
+    "confidence": 0.95,
+    "reason": "CMS is a government regulator, not a dependency. The evidence_quote states 'CMS regulates our UnitedHealthcare businesses and certain aspects of our Optum businesses,' which describes a regulatory relationship. The filing clarifies CMS acts as the regulator with audit rights, contract oversight, and compliance enforcement powers. This is a regulatory authority relationship, not a dependency where the root critically relies on counterparty infrastructure/service. CMS does not provide infrastructure or services that UnitedHealth depends on; rather, CMS governs UnitedHealth's operations in Medicare/Medicaid markets. Per the audit instructions, regulators acting as regulators should be rejected as counterparties. Additionally, the filing describes CMS making payments TO UnitedHealth and auditing UnitedHealth's compliance—this is the opposite of a dependency relationship where the root would rely on CMS-provided infrastructure.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "HHS",
+    "category": "dependency",
+    "subtype": "regulatory_infrastructure",
+    "evidence_quote": "adds federal data breach notification requirements for covered entities and business associates and reporting requirements to HHS and the Federal Trade Commission",
+    "confidence": 0.9,
+    "reason": "HHS (Department of Health and Human Services) is a regulatory authority that oversees healthcare compliance and receives breach notifications. The evidence_quote describes a regulatory reporting requirement to HHS, not a dependency relationship. Regulatory authorities acting in their regulatory capacity are excluded from counterparty relationships per instruction #4. While UnitedHealth must comply with HHS regulations, this is a regulatory obligation, not a dependency on infrastructure or services. HHS does not provide critical infrastructure that the root relies upon; rather, it enforces compliance. This is analogous to the IRS or other revenue authorities that are explicitly excluded.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Federal Trade Commission",
+    "category": "dependency",
+    "subtype": "regulatory_infrastructure",
+    "evidence_quote": "adds federal data breach notification requirements for covered entities and business associates and reporting requirements to HHS and the Federal Trade Commission",
+    "confidence": 0.9,
+    "reason": "The Federal Trade Commission (FTC) is mentioned solely as a regulator receiving data breach notifications under HITECH. The evidence_quote describes a legal reporting requirement ('reporting requirements to HHS and the Federal Trade Commission'), not a dependency on infrastructure or services provided by the FTC. The FTC is acting strictly in a regulatory capacity (receiving mandated reports), which is a compliance obligation, not an infrastructure or service dependency. According to the auditor instructions, regulators acting as regulators should be rejected as counterparties. The category 'dependency/regulatory_infrastructure' does not apply to regulators who merely receive compliance reports.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "U.S. Department of Labor",
+    "category": "dependency",
+    "subtype": "regulatory_infrastructure",
+    "evidence_quote": "ERISA is a set of laws and regulations subject to interpretation by the U.S. Department of Labor (DOL) as well as the federal courts.",
+    "confidence": 0.9,
+    "reason": "The U.S. Department of Labor is acting as a regulator interpreting ERISA law, not as a dependency infrastructure. The evidence quote describes the DOL interpreting statutes and regulations that apply to UnitedHealth Group's operations with employer-sponsored health plans. This is standard regulatory oversight, not a critical infrastructure dependency. The DOL does not provide essential infrastructure or services that UnitedHealth relies on operationally; rather, it interprets and enforces laws. Per instruction #4, regulators acting as regulators should be rejected as counterparties. The DOL here is clearly functioning in a regulatory capacity.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "National Association of Insurance Commissioners",
+    "category": "dependency",
+    "subtype": "regulatory_infrastructure",
+    "evidence_quote": "The National Association of Insurance Commissioners (NAIC) has adopted model regulations which require expanded governance practices and risk and solvency assessment reporting.",
+    "confidence": 0.88,
+    "reason": "The NAIC is a standard-setting organization that adopts model regulations which states may choose to adopt. The filing describes NAIC as having 'adopted model regulations which require expanded governance practices' — these are not direct regulatory mandates on UnitedHealth Group but rather models that states can implement. The actual regulators are state insurance departments and agencies (Connecticut, New York, etc.). NAIC is not infrastructure UnitedHealth depends on for operations; it is a standards body whose recommendations influence state regulators. This does not meet the 'dependency' threshold (critical operational reliance) and NAIC does not fit the regulatory_infrastructure subtype, which is reserved for entities like government-provided GPS or actual regulatory agencies whose direct approvals/infrastructure UnitedHealth must use. The relationship is better characterized as indirect influence through state adoption of model regulations, not a direct dependency.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "U.S. Drug Enforcement Administration",
+    "category": "dependency",
+    "subtype": "regulatory_infrastructure",
+    "evidence_quote": "Certain of our pharmacies must also register with the U.S. Drug Enforcement Administration (DEA) and individual state controlled substance authorities to dispense controlled substances.",
+    "confidence": 0.92,
+    "reason": "The DEA registration requirement is a routine licensing/regulatory requirement for pharmacies dispensing controlled substances, not a critical operational dependency. The text states pharmacies 'must also register' with the DEA as a compliance obligation, similar to business licenses. The DEA does not provide infrastructure or services that the root company relies upon for operations - it is a regulatory body that issues required registrations. This is fundamentally different from a dependency relationship where the root critically relies on counterparty-provided infrastructure or services (like GPS satellites or public telecommunications networks). The DEA acts purely as a regulator enforcing controlled substance laws, not as a service provider. Additionally, per the audit instructions, 'regulators acting as regulators' should be rejected as counterparties.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Federal Communications Commission",
+    "category": "dependency",
+    "subtype": "regulatory_infrastructure",
+    "evidence_quote": "give the FTC, the Federal Communications Commission (FCC) and state attorneys general the ability to regulate, and bring enforcement actions relating to, telemarketing practices",
+    "confidence": 0.88,
+    "reason": "The FCC is cited as a regulator with enforcement authority over telemarketing practices, not as infrastructure the company depends on. The evidence_quote describes a regulatory enforcement power ('give the FTC, the Federal Communications Commission (FCC) and state attorneys general the ability to regulate, and bring enforcement actions relating to, telemarketing practices'), not a dependency on FCC infrastructure or services. This is regulatory oversight, not dependency. Regulators acting in their regulatory capacity are explicitly excluded as counterparties per instruction #4.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Utah State Department of Financial Institutions",
+    "category": "dependency",
+    "subtype": "regulatory_infrastructure",
+    "evidence_quote": "Optum Bank is subject to supervision and regulation by the Utah State Department of Financial Institutions",
+    "confidence": 0.92,
+    "reason": "The Utah State Department of Financial Institutions is a regulatory agency supervising Optum Bank. Regulatory agencies acting in their supervisory capacity should be categorized as 'dependency' only when the root company critically relies on infrastructure or services provided by the regulator (like GPS from a government entity). Here, the relationship is purely supervisory/regulatory oversight, not a dependency on infrastructure or services. Furthermore, per the instructions, 'regulators acting as regulators' and 'tax and revenue authorities' should always be rejected as counterparties. The Utah Department of Financial Institutions is a state regulator overseeing banking compliance, which falls squarely into the 'regulators acting as regulators' exclusion category.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Consumer Financial Protection Bureau",
+    "category": "dependency",
+    "subtype": "regulatory_infrastructure",
+    "evidence_quote": "and the Consumer Financial Protection Bureau, which may perform periodic examinations to ensure the bank is in compliance with applicable consumer protection statutes",
+    "confidence": 0.9,
+    "reason": "The Consumer Financial Protection Bureau (CFPB) is a regulatory authority performing examinations to ensure compliance with consumer protection statutes. This is a regulatory oversight function, not a dependency relationship. The CFPB does not provide infrastructure or services that UnitedHealth Group relies upon to operate its business; rather, it is a government regulator that audits Optum Bank's compliance with consumer protection laws. According to the instructions, regulators acting as regulators should be rejected as counterparties. The evidence describes regulatory examination authority, not a critical operational dependency.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "FTC",
+    "category": "dependency",
+    "subtype": "regulatory_enforcement",
+    "evidence_quote": "governmental actions, such as actions by the FTC or DOJ or comparable non-U.S. regulatory bodies, may affect our ability to complete strategic transactions",
+    "confidence": 0.85,
+    "reason": "The FTC is a regulatory enforcement agency, not a dependency. The evidence_quote describes how FTC/DOJ actions may affect UNH's ability to complete strategic transactions (M&A approval authority), which is a regulatory compliance relationship, not a critical operational dependency. Regulatory agencies exercising enforcement or approval authority over a company do not constitute 'dependency' relationships—they are regulators. The category 'dependency' is reserved for critical infrastructure or services the root relies upon (e.g., GPS, public networks, essential third-party platforms) where the root has no alternative and is not in a commercial vendor relationship. The FTC is a government regulator acting in its regulatory capacity (antitrust enforcement), explicitly excluded from valid counterparty types per the instructions.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "DOJ",
+    "category": "dependency",
+    "subtype": "regulatory_enforcement",
+    "evidence_quote": "governmental actions, such as actions by the FTC or DOJ or comparable non-U.S. regulatory bodies, may affect our ability to complete strategic transactions",
+    "confidence": 0.85,
+    "reason": "The DOJ (Department of Justice) is a regulatory enforcement body, not a dependency. The evidence_quote describes the DOJ as a government agency whose actions may affect UNH's ability to complete strategic transactions (mergers/acquisitions), which is a regulatory enforcement function, not a critical infrastructure or service dependency. The DOJ is not providing essential infrastructure (like GPS or public networks) that UNH relies upon for operations. Additionally, the text later explicitly categorizes this as 'antitrust regulatory enforcement actions,' confirming this is a regulatory relationship. Regulators acting in their regulatory capacity should be rejected per instruction #4.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "DOL",
+    "category": "dependency",
+    "subtype": "regulatory_body",
+    "evidence_quote": "the DOL, which is the agency that enforces ERISA, could assert that fiduciary obligations imposed by the statute apply",
+    "confidence": 0.9,
+    "reason": "DOL (Department of Labor) is a regulatory enforcement agency, not a dependency counterparty. The evidence describes the DOL as 'the agency that enforces ERISA' and discusses potential regulatory assertions regarding fiduciary obligations. This is a standard regulatory oversight relationship, not a dependency where the root company relies on DOL infrastructure or services for its operations. Regulators acting in their regulatory capacity must be rejected per the audit instructions. The relationship is regulatory supervision, not operational dependency.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "DEA",
+    "category": "dependency",
+    "subtype": "regulatory_body",
+    "evidence_quote": "subjects it to extensive federal, state and local laws and regulations, including those of the DEA and individual state controlled substance authorities",
+    "confidence": 0.92,
+    "reason": "The DEA (Drug Enforcement Administration) is referenced as a regulatory body that regulates Optum Rx's pharmacy operations, not as a dependency relationship. The text states Optum Rx 'is subject to extensive federal, state and local laws and regulations, including those of the DEA.' This describes regulatory oversight, not a critical dependency on DEA infrastructure or services. The DEA is acting purely as a regulator enforcing controlled substance laws. According to the strict criteria, regulators acting as regulators should be rejected as counterparties. The category 'dependency' with subtype 'regulatory_body' is contradictory—regulatory bodies exercise authority over the company; they are not dependencies the company relies upon for critical infrastructure or services (like GPS satellites or public internet infrastructure). This is standard pharmaceutical regulatory compliance, not a dependency relationship.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Food and Drug Administration",
+    "category": "dependency",
+    "subtype": "regulatory_body",
+    "evidence_quote": "subjects it to extensive federal, state and local laws and regulations, including those of the DEA and individual state controlled substance authorities, the Food and Drug Administration",
+    "confidence": 0.92,
+    "reason": "The FDA is mentioned only as a regulatory body governing pharmacy operations alongside the DEA and state Boards of Pharmacy. The filing states FDA regulates the pharmacies (controlled activities like drug approval, distribution), which makes the FDA a regulator, not a dependency. Category 'dependency' requires the root to critically rely on counterparty infrastructure/service with NO commercial vendor relationship. The FDA is a regulator enforcing compliance obligations, not providing infrastructure or services that UnitedHealth depends on. This is a regulatory compliance relationship, not a dependency. Additionally, per instruction #4, 'regulators acting as regulators' should be rejected as counterparties.",
+    "stage": "audit"
+  }
+]

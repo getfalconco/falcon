@@ -1,0 +1,130 @@
+[
+  {
+    "counterparty_name": "Nicoya Macau Limited",
+    "category": "partner",
+    "subtype": "distribution license",
+    "evidence_quote": "OPKO and/or its affiliates have entered into exclusive license agreements with respect to Rayaldee patents in certain territories outside of North America with VFMCRP (Europe and many other countries throughout the rest of the world), and Nicoya Macau Limited (China).",
+    "confidence": 0.95,
+    "merged_into": "Nicoya Macau Limited"
+  },
+  {
+    "counterparty_name": "Merck",
+    "category": "partner",
+    "subtype": "exclusive license",
+    "evidence_quote": "In March 2023, ModeX and Merck entered into the Merck Agreement, pursuant to which ModeX granted Merck an exclusive license for the development of a preclinical nanoparticle vaccine candidate targeting EBV.",
+    "confidence": 0.95,
+    "merged_into": "Merck"
+  },
+  {
+    "counterparty_name": "Regeneron",
+    "category": "partner",
+    "subtype": "collaboration agreement",
+    "evidence_quote": "In October 2025, ModeX entered into the Regeneron Collaboration Agreement with Regeneron to discover and develop multispecific antibodies for several therapeutic indications.",
+    "confidence": 0.95,
+    "merged_into": "Regeneron"
+  },
+  {
+    "counterparty_name": "FDA",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "The FDA and similar regulatory bodies may inspect our facilities and the facilities of those who manufacture on our behalf worldwide.",
+    "confidence": 0.85,
+    "merged_into": "FDA"
+  },
+  {
+    "counterparty_name": "VFMCRP",
+    "category": "partner",
+    "subtype": "development and licensing",
+    "evidence_quote": "In May 2016, EirGen, our wholly-owned subsidiary, partnered with VFMCRP through a Development and License Agreement for the development and marketing of Rayaldee",
+    "confidence": 0.95,
+    "merged_into": "VFMCRP"
+  },
+  {
+    "counterparty_name": "Pfizer",
+    "category": "partner",
+    "subtype": "development and commercialization",
+    "evidence_quote": "In December 2014, we entered into a development and commercialization agreement with Pfizer relating to our long-acting hGH-CTP for the treatment of GHD",
+    "confidence": 0.95,
+    "merged_into": "Pfizer"
+  },
+  {
+    "counterparty_name": "FDA",
+    "category": "dependency",
+    "subtype": "regulatory approval authority",
+    "evidence_quote": "Before it can be marketed, Somatrogon (hGH-CTP) for the adult indication must be approved by the FDA or similar foreign governmental agencies.",
+    "confidence": 0.95,
+    "merged_into": "FDA"
+  },
+  {
+    "counterparty_name": "FDA",
+    "category": "dependency",
+    "subtype": "regulatory_infrastructure",
+    "evidence_quote": "we are required to register with the FDA and are subject to periodic inspection by the FDA for compliance with its Quality System Regulation",
+    "confidence": 0.95,
+    "merged_into": "FDA"
+  },
+  {
+    "counterparty_name": "CMS",
+    "category": "dependency",
+    "subtype": "regulatory_infrastructure",
+    "evidence_quote": "exclusion from participation in the CMS and other government programs",
+    "confidence": 0.85,
+    "merged_into": "CMS"
+  },
+  {
+    "counterparty_name": "Medicare",
+    "category": "customer",
+    "subtype": "payor",
+    "evidence_quote": "alleged fee-for-service claims for payment to Medicare, Medicaid, and the TRICARE Program",
+    "confidence": 0.9,
+    "merged_into": "Medicare"
+  },
+  {
+    "counterparty_name": "Medicaid",
+    "category": "customer",
+    "subtype": "payor",
+    "evidence_quote": "alleged fee-for-service claims for payment to Medicare, Medicaid, and the TRICARE Program",
+    "confidence": 0.9,
+    "merged_into": "Medicaid"
+  },
+  {
+    "counterparty_name": "Medicare",
+    "category": "customer",
+    "subtype": "healthcare_program_payer",
+    "evidence_quote": "to resolve a investigation and related civil action concerning alleged fee-for-service claims for payment to Medicare, Medicaid, and the TRICARE Program",
+    "confidence": 0.85,
+    "merged_into": "Medicare"
+  },
+  {
+    "counterparty_name": "Medicaid",
+    "category": "customer",
+    "subtype": "healthcare_program_payer",
+    "evidence_quote": "to resolve a investigation and related civil action concerning alleged fee-for-service claims for payment to Medicare, Medicaid, and the TRICARE Program",
+    "confidence": 0.85,
+    "merged_into": "Medicaid"
+  },
+  {
+    "counterparty_name": "TRICARE Program",
+    "category": "customer",
+    "subtype": "healthcare_program_payer",
+    "evidence_quote": "to resolve a investigation and related civil action concerning alleged fee-for-service claims for payment to Medicare, Medicaid, and the TRICARE Program",
+    "confidence": 0.85,
+    "merged_into": "TRICARE Program"
+  },
+  {
+    "counterparty_name": "CMS",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "Such LDT testing is currently under the purview of CMS and state agencies that provide oversight of the safe and effective use of LDTs.",
+    "confidence": 0.92,
+    "merged_into": "CMS"
+  },
+  {
+    "counterparty_name": "FDA",
+    "category": "dependency",
+    "subtype": "regulatory approval authority",
+    "evidence_quote": "Approval or clearance by the FDA does not ensure approval by regulatory authorities in other countries",
+    "confidence": 0.95,
+    "merged_into": "FDA"
+  }
+]

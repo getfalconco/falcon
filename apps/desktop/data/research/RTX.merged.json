@@ -1,0 +1,58 @@
+[
+  {
+    "counterparty_name": "U.S. Department of Commerce",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "these laws and regulations include, among others, the Export Administration Regulations (EAR) administered by the U.S. Department of Commerce",
+    "confidence": 0.93,
+    "merged_into": "U.S. Department of Commerce"
+  },
+  {
+    "counterparty_name": "U.S. Department of State",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "the International Traffic in Arms Regulations (ITAR) and the Arms Export Control Act (AECA) provisions administered by the U.S. Department of State (DOS)",
+    "confidence": 0.93,
+    "merged_into": "U.S. Department of State"
+  },
+  {
+    "counterparty_name": "U.S. Department of the Treasury",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "embargoes and sanctions regulations administered by the U.S. Department of the Treasury",
+    "confidence": 0.92,
+    "merged_into": "U.S. Department of the Treasury"
+  },
+  {
+    "counterparty_name": "U.S. Department of Homeland Security",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "import regulations administered by the U.S. Department of Homeland Security and the U.S. Department of Justice (DOJ)",
+    "confidence": 0.92,
+    "merged_into": "U.S. Department of Homeland Security"
+  },
+  {
+    "counterparty_name": "U.S. Department of Justice",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "import regulations administered by the U.S. Department of Homeland Security and the U.S. Department of Justice (DOJ)",
+    "confidence": 0.92,
+    "merged_into": "U.S. Department of Justice"
+  },
+  {
+    "counterparty_name": "Thales-Raytheon Systems",
+    "category": "partner",
+    "subtype": "joint_venture",
+    "evidence_quote": "payments made by Raytheon Company and its joint venture, Thales-Raytheon Systems (TRS), since 2012 in connection with certain Middle East contracts",
+    "confidence": 0.92,
+    "merged_into": "Thales-Raytheon Systems"
+  },
+  {
+    "counterparty_name": "Department of Homeland Security",
+    "category": "dependency",
+    "subtype": "regulatory_qualification",
+    "evidence_quote": "we may obtain limitations of liability and additional defenses for various reasons including the qualification of our products and services by the Department of Homeland Security under the SAFETY Act provisions",
+    "confidence": 0.75,
+    "merged_into": "Department of Homeland Security"
+  }
+]

@@ -1,0 +1,51 @@
+[
+  {
+    "root_ticker": "LITE",
+    "counterparty_name": "Huawei Technologies Co. Ltd.",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "customer",
+    "subtype": "networking customer",
+    "strength": 1,
+    "strength_tier": "critical",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "we stopped all of our product shipments to Huawei, historically our largest networking customer in China, in the beginning of calendar year 2024.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1633978/000162828026057358/lite-20260627.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-08-17",
+    "shared_evidence_group": "ev_e59391736a2b"
+  },
+  {
+    "root_ticker": "LITE",
+    "counterparty_name": "China",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "dependency",
+    "subtype": "export_controls_rare_earth_metals",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "the restrictions in China on the export of indium, gallium, germanium and other rare earth metals and critical minerals",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1633978/000162828026057358/lite-20260627.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "Further, certain of our suppliers are located in China, which exposes us to risks associated with Chinese laws and regulations",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1633978/000162828026057358/lite-20260627.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-08-17",
+    "shared_evidence_group": "ev_4c0d013ff68a"
+  }
+]

@@ -1,0 +1,149 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 125266,
+  "chunks": 6,
+  "candidates": [
+    {
+      "counterparty_name": "Nasdaq Global Select Market",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "stock_exchange",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our common stock is listed on the Nasdaq Global Select Market under the symbol ADI",
+      "evidence_quotes": [
+        "Our common stock is listed on the Nasdaq Global Select Market under the symbol ADI"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Standard & Poor's 500 Index",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "index_inclusion",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our common stock is listed on the Nasdaq Global Select Market under the symbol ADI and is included in the Standard & Poor's 500 Index.",
+      "evidence_quotes": [
+        "Our common stock is listed on the Nasdaq Global Select Market under the symbol ADI and is included in the Standard & Poor's 500 Index."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Taiwan Semiconductor Manufacturing Company",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "wafer fabrication foundry",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We currently source more than half of our wafer requirements annually from third-party wafer fabrication foundries, such as Taiwan Semiconductor Manufacturing Company (TSMC) and others",
+      "evidence_quotes": [
+        "We currently source more than half of our wafer requirements annually from third-party wafer fabrication foundries, such as Taiwan Semiconductor Manufacturing Company (TSMC) and others"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "TSMC",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "wafer fabrication foundry",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We currently source more than half of our wafer requirements annually from third-party wafer fabrication foundries, such as Taiwan Semiconductor Manufacturing Company (TSMC) and others",
+      "evidence_quotes": [
+        "We currently source more than half of our wafer requirements annually from third-party wafer fabrication foundries, such as Taiwan Semiconductor Manufacturing Company (TSMC) and others"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Taiwan Semiconductor Manufacturing Company",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "semiconductor wafer foundry",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We currently source more than half of our wafer requirements annually from third-party wafer foundries, including Taiwan Semiconductor Manufacturing Company (TSMC) and others.",
+      "evidence_quotes": [
+        "We currently source more than half of our wafer requirements annually from third-party wafer foundries, including Taiwan Semiconductor Manufacturing Company (TSMC) and others."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "TSMC",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "semiconductor wafer foundry",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "With respect to TSMC in particular, tensions across the Taiwan Strait or other geopolitical events could disrupt TSMC's operations, which would adversely affect our ability to manufacture certain products",
+      "evidence_quotes": [
+        "With respect to TSMC in particular, tensions across the Taiwan Strait or other geopolitical events could disrupt TSMC's operations, which would adversely affect our ability to manufacture certain products"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "China",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "foreign_government_infrastructure_customer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "a decline in infrastructure spending by foreign governments, including China",
+      "evidence_quotes": [
+        "a decline in infrastructure spending by foreign governments, including China"
+      ],
+      "confidence": 0.75,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "IRS",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "tax_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we are subject to, and are under tax examination and audit in various jurisdictions, including an IRS income tax audit",
+      "evidence_quotes": [
+        "we are subject to, and are under tax examination and audit in various jurisdictions, including an IRS income tax audit"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Maxim Integrated Products, Inc.",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "acquisition",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "an IRS income tax audit for Maxim Integrated Products, Inc.'s fiscal years ended June 27, 2015 through August 26, 2021",
+      "evidence_quotes": [
+        "an IRS income tax audit for Maxim Integrated Products, Inc.'s fiscal years ended June 27, 2015 through August 26, 2021"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Taiwan Semiconductor Manufacturing Company",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "wafer_fabrication_foundry",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "rely on supplies, services, internal manufacturing capacity, wafer fabrication foundries and other subcontractors in locations around the world",
+      "evidence_quotes": [
+        "rely on supplies, services, internal manufacturing capacity, wafer fabrication foundries and other subcontractors in locations around the world"
+      ],
+      "confidence": 0.65,
+      "chunk_index": 5
+    }
+  ],
+  "candidatesPerChunk": [
+    2,
+    2,
+    2,
+    1,
+    2,
+    1
+  ],
+  "parseErrors": 0,
+  "apiErrors": 0,
+  "inputTokens": 28632,
+  "outputTokens": 1025
+}

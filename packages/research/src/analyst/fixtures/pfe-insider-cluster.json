@@ -1,0 +1,444 @@
+{
+ "recorded_at": "2026-08-21",
+ "incident": {
+  "incident_id": "2e8b907e-a73e-493e-b0da-39a46e319ebc",
+  "ticker": "PFE",
+  "trigger_type": "organic",
+  "window_start": "2026-08-19T19:21:06.322Z",
+  "window_end": "2026-08-20T01:36:47.647Z",
+  "window_status": "closed",
+  "composite_tags": [
+   "standalone_insider_cluster"
+  ],
+  "priority": 44,
+  "priority_band": "P1",
+  "degraded_context": false,
+  "discovery_floor_applied": false,
+  "earnings_absorption": false,
+  "messages": [
+   {
+    "id": "535bfb95-d096-4483-bb63-6e817019de42",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "PFE",
+    "timestamp": "2026-08-19T19:21:06.322Z",
+    "source_engine": "tracker",
+    "context_flags": [],
+    "quant_context": {
+     "beta_90d": 0.03062450054355357,
+     "r_squared": 0.0004263346330255491,
+     "daily_vol_30d": 0.012493269784877612,
+     "vol_regime": 1.0377119607607754,
+     "move_today": 0.037777396284724096,
+     "move_zscore": 3.023819779386456,
+     "residual_move": 0.03767548015728997,
+     "residual_zscore": 3.10127468239422,
+     "volume_ratio": 3.6141537219458235,
+     "volume_ratio_partial": true,
+     "momentum_5d": 0.02422984711046361,
+     "momentum_20d": 0.11234844482072504,
+     "momentum_60d": 0.06905469654276675,
+     "pct_from_52w_high": -0.012262699883500594,
+     "pct_from_52w_low": 0.23632015966365194,
+     "earnings_rhythm": 0.01721682522733961,
+     "prev_close": 27.264999389648438,
+     "last_price": 28.295000076293945,
+     "price_asof": "2026-08-19T19:21:06.000Z",
+     "session": "regular"
+    },
+    "payload": {
+     "headline": "Merck Just Raised the Stakes for Pfizer's Cancer Vaccine Ambitions",
+     "source": "Benzinga",
+     "published_at": "2026-08-19T14:31:15.000Z",
+     "article_id": "141255461"
+    }
+   },
+   {
+    "id": "8a95122f-3330-4871-8051-cfd0370ad82b",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "PFE",
+    "timestamp": "2026-08-19T19:21:06.322Z",
+    "source_engine": "tracker",
+    "context_flags": [],
+    "quant_context": {
+     "beta_90d": 0.03062450054355357,
+     "r_squared": 0.0004263346330255491,
+     "daily_vol_30d": 0.012493269784877612,
+     "vol_regime": 1.0377119607607754,
+     "move_today": 0.037777396284724096,
+     "move_zscore": 3.023819779386456,
+     "residual_move": 0.03767548015728997,
+     "residual_zscore": 3.10127468239422,
+     "volume_ratio": 3.6141537219458235,
+     "volume_ratio_partial": true,
+     "momentum_5d": 0.02422984711046361,
+     "momentum_20d": 0.11234844482072504,
+     "momentum_60d": 0.06905469654276675,
+     "pct_from_52w_high": -0.012262699883500594,
+     "pct_from_52w_low": 0.23632015966365194,
+     "earnings_rhythm": 0.01721682522733961,
+     "prev_close": 27.264999389648438,
+     "last_price": 28.295000076293945,
+     "price_asof": "2026-08-19T19:21:06.000Z",
+     "session": "regular"
+    },
+    "payload": {
+     "headline": "What's going on in today's session: S&P500 most active stocks",
+     "source": "ChartMill",
+     "published_at": "2026-08-19T18:05:02.000Z",
+     "article_id": "141254987"
+    }
+   },
+   {
+    "id": "e8f3f999-6f33-4a3f-acf8-2b6424e6490e",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "PFE",
+    "timestamp": "2026-08-19T19:21:06.322Z",
+    "source_engine": "tracker",
+    "context_flags": [],
+    "quant_context": {
+     "beta_90d": 0.03062450054355357,
+     "r_squared": 0.0004263346330255491,
+     "daily_vol_30d": 0.012493269784877612,
+     "vol_regime": 1.0377119607607754,
+     "move_today": 0.037777396284724096,
+     "move_zscore": 3.023819779386456,
+     "residual_move": 0.03767548015728997,
+     "residual_zscore": 3.10127468239422,
+     "volume_ratio": 3.6141537219458235,
+     "volume_ratio_partial": true,
+     "momentum_5d": 0.02422984711046361,
+     "momentum_20d": 0.11234844482072504,
+     "momentum_60d": 0.06905469654276675,
+     "pct_from_52w_high": -0.012262699883500594,
+     "pct_from_52w_low": 0.23632015966365194,
+     "earnings_rhythm": 0.01721682522733961,
+     "prev_close": 27.264999389648438,
+     "last_price": 28.295000076293945,
+     "price_asof": "2026-08-19T19:21:06.000Z",
+     "session": "regular"
+    },
+    "payload": {
+     "headline": "ImmunityBio Expands Commercial Access For ANKTIVA Bladder And Lung Cancer Treatment To Saudi Arabia",
+     "source": "Benzinga",
+     "published_at": "2026-08-19T12:15:36.000Z",
+     "article_id": "139941575"
+    }
+   },
+   {
+    "id": "e933149a-310c-46e8-82e7-1d83237334a3",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "PFE",
+    "timestamp": "2026-08-19T19:21:06.322Z",
+    "source_engine": "tracker",
+    "context_flags": [],
+    "quant_context": {
+     "beta_90d": 0.03062450054355357,
+     "r_squared": 0.0004263346330255491,
+     "daily_vol_30d": 0.012493269784877612,
+     "vol_regime": 1.0377119607607754,
+     "move_today": 0.037777396284724096,
+     "move_zscore": 3.023819779386456,
+     "residual_move": 0.03767548015728997,
+     "residual_zscore": 3.10127468239422,
+     "volume_ratio": 3.6141537219458235,
+     "volume_ratio_partial": true,
+     "momentum_5d": 0.02422984711046361,
+     "momentum_20d": 0.11234844482072504,
+     "momentum_60d": 0.06905469654276675,
+     "pct_from_52w_high": -0.012262699883500594,
+     "pct_from_52w_low": 0.23632015966365194,
+     "earnings_rhythm": 0.01721682522733961,
+     "prev_close": 27.264999389648438,
+     "last_price": 28.295000076293945,
+     "price_asof": "2026-08-19T19:21:06.000Z",
+     "session": "regular"
+    },
+    "payload": {
+     "headline": "Pfizer Stock Rises Wednesday: What's Going On?",
+     "source": "Benzinga",
+     "published_at": "2026-08-19T13:56:14.000Z",
+     "article_id": "141255462"
+    }
+   },
+   {
+    "id": "a091ba5e-223f-43a0-9694-e876ac08707c",
+    "schema_version": 1,
+    "type": "insider_cluster",
+    "ticker": "PFE",
+    "timestamp": "2026-08-19T19:36:47.647Z",
+    "source_engine": "tracker",
+    "context_flags": [],
+    "quant_context": {
+     "beta_90d": 0.03062450054355357,
+     "r_squared": 0.0004263346330255491,
+     "daily_vol_30d": 0.012493269784877612,
+     "vol_regime": 1.0377119607607754,
+     "move_today": 0.03539336784119884,
+     "move_zscore": 2.8329947604301706,
+     "residual_move": 0.03531758836330816,
+     "residual_zscore": 2.907183722067442,
+     "volume_ratio": 3.656089243867531,
+     "volume_ratio_partial": true,
+     "momentum_5d": 0.02422984711046361,
+     "momentum_20d": 0.11234844482072504,
+     "momentum_60d": 0.06905469654276675,
+     "pct_from_52w_high": -0.012262699883500594,
+     "pct_from_52w_low": 0.23632015966365194,
+     "earnings_rhythm": 0.01721682522733961,
+     "prev_close": 27.264999389648438,
+     "last_price": 28.229999542236328,
+     "price_asof": "2026-08-19T19:38:04.000Z",
+     "session": "regular"
+    },
+    "payload": {
+     "window_business_days": 10,
+     "insider_count": 3,
+     "direction": "buy",
+     "total_notional": 2960109.9,
+     "transactions": [
+      {
+       "insider_name": "BOURLA ALBERT",
+       "transaction_code": "P",
+       "is_10b5_1_plan": false,
+       "filed_at": "2026-08-12T00:00:00.000Z",
+       "value": 1000920
+      },
+      {
+       "insider_name": "BLAYLOCK RONALD E",
+       "transaction_code": "P",
+       "is_10b5_1_plan": false,
+       "filed_at": "2026-08-05T00:00:00.000Z",
+       "value": 998821.26
+      },
+      {
+       "insider_name": "Buckley Mortimer J",
+       "transaction_code": "P",
+       "is_10b5_1_plan": false,
+       "filed_at": "2026-08-05T00:00:00.000Z",
+       "value": 960368.64
+      }
+     ]
+    }
+   }
+  ],
+  "quant_context": {
+   "beta_90d": 0.03062450054355357,
+   "r_squared": 0.0004263346330255491,
+   "daily_vol_30d": 0.012493269784877612,
+   "vol_regime": 1.0377119607607754,
+   "move_today": 0.03539336784119884,
+   "move_zscore": 2.8329947604301706,
+   "residual_move": 0.03531758836330816,
+   "residual_zscore": 2.907183722067442,
+   "volume_ratio": 3.656089243867531,
+   "volume_ratio_partial": true,
+   "momentum_5d": 0.02422984711046361,
+   "momentum_20d": 0.11234844482072504,
+   "momentum_60d": 0.06905469654276675,
+   "pct_from_52w_high": -0.012262699883500594,
+   "pct_from_52w_low": 0.23632015966365194,
+   "earnings_rhythm": 0.01721682522733961,
+   "prev_close": 27.264999389648438,
+   "last_price": 28.229999542236328,
+   "price_asof": "2026-08-19T19:38:04.000Z",
+   "session": "regular"
+  },
+  "user_proximity": "tracked",
+  "related_incident_id": null,
+  "propagation_candidates": []
+ },
+ "routing": {
+  "destinations": [
+   {
+    "destination": "classifier",
+    "rules": [
+     "news_item"
+    ],
+    "message_ids": [
+     "535bfb95-d096-4483-bb63-6e817019de42",
+     "8a95122f-3330-4871-8051-cfd0370ad82b",
+     "e8f3f999-6f33-4a3f-acf8-2b6424e6490e",
+     "e933149a-310c-46e8-82e7-1d83237334a3"
+    ]
+   },
+   {
+    "destination": "analyst",
+    "rules": [
+     "insider_cluster.analyst"
+    ],
+    "message_ids": [
+     "a091ba5e-223f-43a0-9694-e876ac08707c"
+    ]
+   }
+  ],
+  "store_only": false,
+  "per_message": [
+   {
+    "message_id": "535bfb95-d096-4483-bb63-6e817019de42",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "8a95122f-3330-4871-8051-cfd0370ad82b",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "e8f3f999-6f33-4a3f-acf8-2b6424e6490e",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "e933149a-310c-46e8-82e7-1d83237334a3",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "a091ba5e-223f-43a0-9694-e876ac08707c",
+    "outcome": {
+     "action": "route",
+     "destination": "analyst",
+     "rule": "insider_cluster.analyst"
+    }
+   }
+  ]
+ },
+ "verdicts": {
+  "535bfb95-d096-4483-bb63-6e817019de42": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141255461",
+    "kind": "news",
+    "event_type": "product_clinical",
+    "event_label": "Merck advances personalized cancer vaccine development",
+    "syndication_scope": 3,
+    "tickers": [
+     {
+      "ticker": "PFE",
+      "relevance": "indirect",
+      "materiality": "standard",
+      "direction": "negative"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:03:06.759Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "PFE",
+    "relevance": "indirect",
+    "materiality": "standard",
+    "direction": "negative"
+   }
+  },
+  "8a95122f-3330-4871-8051-cfd0370ad82b": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141254987",
+    "kind": "news",
+    "event_type": "macro_sector",
+    "event_label": "S&P 500 most active stocks market roundup",
+    "syndication_scope": 5,
+    "tickers": [
+     {
+      "ticker": "PFE",
+      "relevance": "none"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:03:06.637Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "PFE",
+    "relevance": "none"
+   }
+  },
+  "e8f3f999-6f33-4a3f-acf8-2b6424e6490e": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:139941575",
+    "kind": "news",
+    "event_type": "product_clinical",
+    "event_label": "ImmunityBio expands ANKTIVA commercial access to Saudi Arabia",
+    "syndication_scope": 2,
+    "tickers": [
+     {
+      "ticker": "PFE",
+      "relevance": "none"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:03:05.688Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "PFE",
+    "relevance": "none"
+   }
+  },
+  "e933149a-310c-46e8-82e7-1d83237334a3": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141255462",
+    "kind": "news",
+    "event_type": "product_clinical",
+    "event_label": "Merck/Moderna mRNA cancer vaccine shows positive melanoma trial results",
+    "syndication_scope": 3,
+    "tickers": [
+     {
+      "ticker": "PFE",
+      "relevance": "indirect",
+      "materiality": "low",
+      "direction": "positive"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:03:07.139Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "PFE",
+    "relevance": "indirect",
+    "materiality": "low",
+    "direction": "positive"
+   }
+  }
+ }
+}

@@ -1,0 +1,369 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 103786,
+  "chunks": 5,
+  "candidates": [
+    {
+      "counterparty_name": "U.S. Department of War",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "defense_contracting",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We deliver a broad range of products, services and solutions to U.S. and international customers, and principally to the U.S. Department of War (\"DoW\") and intelligence community.",
+      "evidence_quotes": [
+        "We deliver a broad range of products, services and solutions to U.S. and international customers, and principally to the U.S. Department of War (\"DoW\") and intelligence community."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "The Boeing Company",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "defense_aerospace",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We compete with many companies in the defense, intelligence and federal civil markets, including The Boeing Company, General Dynamics Corporation, L3Harris Technologies, Inc., Lockheed Martin Corporation, and RTX Corporation",
+      "evidence_quotes": [
+        "We compete with many companies in the defense, intelligence and federal civil markets, including The Boeing Company, General Dynamics Corporation, L3Harris Technologies, Inc., Lockheed Martin Corporation, and RTX Corporation"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "General Dynamics Corporation",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "defense_aerospace",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We compete with many companies in the defense, intelligence and federal civil markets, including The Boeing Company, General Dynamics Corporation, L3Harris Technologies, Inc., Lockheed Martin Corporation, and RTX Corporation",
+      "evidence_quotes": [
+        "We compete with many companies in the defense, intelligence and federal civil markets, including The Boeing Company, General Dynamics Corporation, L3Harris Technologies, Inc., Lockheed Martin Corporation, and RTX Corporation"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "L3Harris Technologies, Inc.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "defense_aerospace",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We compete with many companies in the defense, intelligence and federal civil markets, including The Boeing Company, General Dynamics Corporation, L3Harris Technologies, Inc., Lockheed Martin Corporation, and RTX Corporation",
+      "evidence_quotes": [
+        "We compete with many companies in the defense, intelligence and federal civil markets, including The Boeing Company, General Dynamics Corporation, L3Harris Technologies, Inc., Lockheed Martin Corporation, and RTX Corporation"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Lockheed Martin Corporation",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "defense_aerospace",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We compete with many companies in the defense, intelligence and federal civil markets, including The Boeing Company, General Dynamics Corporation, L3Harris Technologies, Inc., Lockheed Martin Corporation, and RTX Corporation",
+      "evidence_quotes": [
+        "We compete with many companies in the defense, intelligence and federal civil markets, including The Boeing Company, General Dynamics Corporation, L3Harris Technologies, Inc., Lockheed Martin Corporation, and RTX Corporation"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "RTX Corporation",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "defense_aerospace",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We compete with many companies in the defense, intelligence and federal civil markets, including The Boeing Company, General Dynamics Corporation, L3Harris Technologies, Inc., Lockheed Martin Corporation, and RTX Corporation",
+      "evidence_quotes": [
+        "We compete with many companies in the defense, intelligence and federal civil markets, including The Boeing Company, General Dynamics Corporation, L3Harris Technologies, Inc., Lockheed Martin Corporation, and RTX Corporation"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Veritas Capital",
+      "counterparty_type": "private_company",
+      "category": "customer",
+      "subtype": "divestiture_buyer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "2021 - Completed the sale of our IT and mission support services business to Veritas Capital.",
+      "evidence_quotes": [
+        "2021 - Completed the sale of our IT and mission support services business to Veritas Capital."
+      ],
+      "confidence": 0.92,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "U.S. Air Force",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "defense_contracting",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Aeronautics Systems is a leader in the design, development, production, integration, sustainment and modernization of military aircraft systems for the U.S. Air Force, the U.S. Navy, other U.S. government agencies, and international customers.",
+      "evidence_quotes": [
+        "Aeronautics Systems is a leader in the design, development, production, integration, sustainment and modernization of military aircraft systems for the U.S. Air Force, the U.S. Navy, other U.S. government agencies, and international customers."
+      ],
+      "confidence": 0.93,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "U.S. Navy",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "defense_contracting",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Aeronautics Systems is a leader in the design, development, production, integration, sustainment and modernization of military aircraft systems for the U.S. Air Force, the U.S. Navy, other U.S. government agencies, and international customers.",
+      "evidence_quotes": [
+        "Aeronautics Systems is a leader in the design, development, production, integration, sustainment and modernization of military aircraft systems for the U.S. Air Force, the U.S. Navy, other U.S. government agencies, and international customers."
+      ],
+      "confidence": 0.93,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Japan",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "international_defense",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "E-2D Advanced Hawkeye battle management aircraft production for the U.S. Navy, Japan, and France",
+      "evidence_quotes": [
+        "E-2D Advanced Hawkeye battle management aircraft production for the U.S. Navy, Japan, and France"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "France",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "international_defense",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "E-2D Advanced Hawkeye battle management aircraft production for the U.S. Navy, Japan, and France",
+      "evidence_quotes": [
+        "E-2D Advanced Hawkeye battle management aircraft production for the U.S. Navy, Japan, and France"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Australia",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "international_defense",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "MQ-4C Triton, which provides wide area strategic ISR over vast ocean and coastal regions for maritime domain awareness to the U.S. Navy and Australia",
+      "evidence_quotes": [
+        "MQ-4C Triton, which provides wide area strategic ISR over vast ocean and coastal regions for maritime domain awareness to the U.S. Navy and Australia"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Republic of Korea",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "international_defense",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "RQ-4 Global Hawk, which provides high resolution imagery of land masses for theater awareness and strategic ISR to the U.S. Air Force, Japan, and the Republic of Korea",
+      "evidence_quotes": [
+        "RQ-4 Global Hawk, which provides high resolution imagery of land masses for theater awareness and strategic ISR to the U.S. Air Force, Japan, and the Republic of Korea"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Poland",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "international_defense",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Integrated Battle Command System (IBCS) for the U.S. Army and Poland",
+      "evidence_quotes": [
+        "Integrated Battle Command System (IBCS) for the U.S. Army and Poland"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "U.S. Army",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "defense_contracting",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Integrated Battle Command System (IBCS) for the U.S. Army and Poland",
+      "evidence_quotes": [
+        "Integrated Battle Command System (IBCS) for the U.S. Army and Poland"
+      ],
+      "confidence": 0.93,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "NASA",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "civil_space_contracting",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Cygnus spacecraft, used in the execution of our Commercial Resupply Services (CRS) contracts with NASA to resupply and re-boost the International Space Station",
+      "evidence_quotes": [
+        "Cygnus spacecraft, used in the execution of our Commercial Resupply Services (CRS) contracts with NASA to resupply and re-boost the International Space Station"
+      ],
+      "confidence": 0.93,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Missile Defense Agency",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "defense_contracting",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Missile defense systems, interceptors, targets, mission processing and boosters for the Missile Defense Agency's (MDA) Ground-based Midcourse Defense Weapon Systems (GWS)",
+      "evidence_quotes": [
+        "Missile defense systems, interceptors, targets, mission processing and boosters for the Missile Defense Agency's (MDA) Ground-based Midcourse Defense Weapon Systems (GWS)"
+      ],
+      "confidence": 0.93,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Space Development Agency",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "defense_contracting",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Space Development Agency (SDA) Tracking and Transport layers providing missile warning/tracking and resilient, low-latency, high-volume data transport communication systems",
+      "evidence_quotes": [
+        "Space Development Agency (SDA) Tracking and Transport layers providing missile warning/tracking and resilient, low-latency, high-volume data transport communication systems"
+      ],
+      "confidence": 0.93,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Defense Contract Audit Agency",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "government_oversight",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In addition, costs incurred and allocated to contracts with the U.S. government are routinely audited by the Defense Contract Audit Agency (DCAA).",
+      "evidence_quotes": [
+        "In addition, costs incurred and allocated to contracts with the U.S. government are routinely audited by the Defense Contract Audit Agency (DCAA)."
+      ],
+      "confidence": 0.91,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "U.S. government",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "primary_customer",
+      "disclosed_revenue_dependency_pct": 84,
+      "evidence_quote": "Our primary customer is the U.S. government, from which we derived 84 percent of our sales in 2025.",
+      "evidence_quotes": [
+        "Our primary customer is the U.S. government, from which we derived 84 percent of our sales in 2025."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "DCAA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_auditor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We operate in a highly regulated environment and are routinely audited and reviewed by the U.S. government and its agencies, such as the DCAA",
+      "evidence_quotes": [
+        "We operate in a highly regulated environment and are routinely audited and reviewed by the U.S. government and its agencies, such as the DCAA"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Defense Contract Management Agency",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_auditor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We operate in a highly regulated environment and are routinely audited and reviewed by the U.S. government and its agencies, such as the DCAA, Defense Contract Management Agency (DCMA)",
+      "evidence_quotes": [
+        "We operate in a highly regulated environment and are routinely audited and reviewed by the U.S. government and its agencies, such as the DCAA, Defense Contract Management Agency (DCMA)"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "DoW Inspector General",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_auditor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We operate in a highly regulated environment and are routinely audited and reviewed by the U.S. government and its agencies, such as the DCAA, Defense Contract Management Agency (DCMA) and the DoW Inspector General.",
+      "evidence_quotes": [
+        "We operate in a highly regulated environment and are routinely audited and reviewed by the U.S. government and its agencies, such as the DCAA, Defense Contract Management Agency (DCMA) and the DoW Inspector General."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Environmental Protection Agency",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "If we are found to be in violation of the Federal Clean Air Act or the Clean Water Act, the facility or facilities involved in the violation could be placed by the Environmental Protection Agency on a list",
+      "evidence_quotes": [
+        "If we are found to be in violation of the Federal Clean Air Act or the Clean Water Act, the facility or facilities involved in the violation could be placed by the Environmental Protection Agency on a list"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "U.S. government",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "defense_contractor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In connection with our U.S. government contracts, we are required to procure certain raw materials, chemicals, components and parts from supply sources approved by the customer",
+      "evidence_quotes": [
+        "In connection with our U.S. government contracts, we are required to procure certain raw materials, chemicals, components and parts from supply sources approved by the customer"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "United States Foreign Military Sales",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "international_defense_sales_program",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "one of the ways in which our business sells our products and services internationally is through the United States Foreign Military Sales (FMS) program",
+      "evidence_quotes": [
+        "one of the ways in which our business sells our products and services internationally is through the United States Foreign Military Sales (FMS) program"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Pension Benefit Guaranty Corporation",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_infrastructure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Funding requirements for our pension plans, including Pension Benefit Guaranty Corporation premiums, are subject to legislative and other government regulatory actions.",
+      "evidence_quotes": [
+        "Funding requirements for our pension plans, including Pension Benefit Guaranty Corporation premiums, are subject to legislative and other government regulatory actions."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 4
+    }
+  ],
+  "candidatesPerChunk": [
+    19,
+    1,
+    4,
+    2,
+    1
+  ],
+  "parseErrors": 0,
+  "apiErrors": 0,
+  "inputTokens": 24703,
+  "outputTokens": 2913
+}

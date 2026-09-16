@@ -1,0 +1,155 @@
+[
+  {
+    "counterparty_name": "Apple",
+    "category": "competitor",
+    "subtype": "advertising_competitor",
+    "evidence_quote": "Apple previously released an update to its Safari browser that limits the use of third-party cookies...also released changes to iOS that limit our ability to target and measure ads effectively, while expanding their own advertising business.",
+    "confidence": 0.9,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Irish Data Protection Commission",
+    "category": "dependency",
+    "subtype": "regulatory_body",
+    "evidence_quote": "the IDPC issued a Final Decision concluding that Meta Platforms Ireland's reliance on SCCs in respect of certain transfers of European Economic Area (EEA) Facebook user data was not in compliance with the GDPR",
+    "confidence": 0.92,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Competition Commission of India",
+    "category": "dependency",
+    "subtype": "regulatory_body",
+    "evidence_quote": "we have been managing investigations and lawsuits in India and other jurisdictions regarding the 2021 updates to WhatsApp's terms of service and privacy policy and its sharing of certain data with other Meta products and services, including a lawsuit currently",
+    "confidence": 0.9,
+    "reason": "counterparty name not in quote",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "European Commission",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "In March 2024, the European Commission opened formal proceedings regarding the compliance of our 'subscription for no ads' model with requirements under the DMA",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "FTC",
+    "category": "dependency",
+    "subtype": "regulatory_oversight",
+    "evidence_quote": "we are subject to a variety of laws and regulations in the United States and abroad relating to cybersecurity and data protection, including the GDPR and EU member state laws implementing the EU Cybersecurity Directive (NIS2), as well as obligations",
+    "confidence": 0.85,
+    "reason": "counterparty name not in quote",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Ray-Ban",
+    "category": "partner",
+    "subtype": "product collaboration",
+    "evidence_quote": "Our current AI glasses include the Ray-Ban Meta and Oakley Meta glasses",
+    "confidence": 0.95,
+    "reason": "Ray-Ban is not the counterparty; it is a brand owned by EssilorLuxottica. The filing describes 'Ray-Ban Meta' glasses as a Meta product line using the Ray-Ban brand name under a licensing/partnership arrangement. The actual counterparty would be EssilorLuxottica (the owner of Ray-Ban and Oakley brands), not Ray-Ban itself. Additionally, 'public_company' is incorrect for Ray-Ban as it is a brand, not a separate legal entity. The evidence supports a partnership relationship, but the counterparty_name must be the actual corporate entity that Meta partners with.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Internal Revenue Service",
+    "category": "dependency",
+    "subtype": "tax_authority",
+    "evidence_quote": "tax obligations that may arise from resolutions of tax examinations, including the examination we are currently under by the Internal Revenue Service (IRS)",
+    "confidence": 0.9,
+    "reason": "The Internal Revenue Service (IRS) is a tax authority acting in its regulatory capacity conducting a tax examination of the root company. Tax authorities (including the IRS and national revenue agencies) are explicitly excluded as counterparties per the audit rules. The evidence quote describes a tax examination relationship, not a dependency or commercial relationship. The IRS is not a counterparty in the knowledge graph sense—it is a regulator enforcing tax law.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Asia",
+    "category": "supplier",
+    "subtype": "manufacturing_region",
+    "evidence_quote": "we rely on certain third-party equipment and components for our technical infrastructure that are manufactured by a small number of third parties, often with significant operations in a single region such as Asia.",
+    "confidence": 0.75,
+    "reason": "Asia is a geographic region, not a counterparty. The evidence describes supply chain concentration risk ('manufactured by a small number of third parties, often with significant operations in a single region such as Asia'), but does not name any specific third-party organization. A valid counterparty must be an identifiable external entity (company, organization), not a continent or region. Geographic regions cannot be business relationship counterparties.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "IRS",
+    "category": "dependency",
+    "subtype": "tax_authority",
+    "evidence_quote": "For example, in 2016 and 2018, the IRS issued formal assessments relating to transfer pricing with our foreign subsidiaries in conjunction with the examination of the 2010 through 2013 tax years.",
+    "confidence": 0.95,
+    "reason": "The IRS (Internal Revenue Service) is explicitly excluded under the audit rules: 'tax and revenue authorities (IRS, national revenue agencies)' are never valid counterparties. The IRS is a tax authority acting in its regulatory capacity (issuing formal assessments, conducting examinations), not a counterparty with a commercial or dependency relationship. The evidence describes a tax examination and dispute, not a dependency. The root company does not rely on IRS infrastructure or services for its operations—it is subject to IRS regulatory authority, which is fundamentally different from a dependency relationship.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "U.S. Office of Foreign Assets Control",
+    "category": "dependency",
+    "subtype": "regulatory_body",
+    "evidence_quote": "We also must manage our obligations to comply with laws and regulations related to import and export controls, trade restrictions, and sanctions, including regulations established by the U.S. Office of Foreign Assets Control.",
+    "confidence": 0.92,
+    "reason": "The U.S. Office of Foreign Assets Control (OFAC) is a regulatory authority that issues sanctions and export control regulations. The filing states Meta must 'comply with laws and regulations related to import and export controls, trade restrictions, and sanctions, including regulations established by the U.S. Office of Foreign Assets Control.' This describes a compliance obligation with a regulator acting in its regulatory capacity, not a dependency relationship. Per instruction #4, regulators acting as regulators should be rejected as counterparties. OFAC does not provide infrastructure or services that Meta depends on; it issues regulations Meta must follow. The correct classification would require a regulatory/compliance framework, but the relationship does not meet the 'dependency' definition (critical reliance on counterparty infrastructure/service with no commercial vendor relationship). This is regulatory compliance, not operational dependency.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "United Kingdom Competition and Markets Authority",
+    "category": "dependency",
+    "subtype": "regulatory_body",
+    "evidence_quote": "For example, we completed our divestiture of Giphy in 2023 following the United Kingdom Competition and Markets Authority's order directing us to divest Giphy post-acquisition.",
+    "confidence": 0.95,
+    "reason": "The UK Competition and Markets Authority is a regulatory authority acting in its regulatory capacity (ordering divestiture). Under the strict criteria, regulators acting as regulators must be rejected as counterparties. The text describes a regulatory enforcement action, not a dependency relationship. The CMA is not providing infrastructure or services Meta relies upon; it is exercising governmental regulatory power. This falls squarely within the exclusion for 'regulators acting as regulators.'",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "FTC",
+    "category": "dependency",
+    "subtype": "regulatory_body",
+    "evidence_quote": "In addition, although we were able to successfully complete the acquisition after prevailing in federal court, the FTC sought to enjoin our proposed acquisition of Within Unlimited.",
+    "confidence": 0.95,
+    "reason": "The FTC is a regulator acting in its regulatory capacity by seeking to enjoin Meta's acquisition. Under the audit rules, regulators acting as regulators are explicitly excluded as valid counterparties. The evidence_quote shows the FTC performing enforcement/regulatory actions (attempting to block an acquisition), not providing infrastructure or services that Meta depends upon. The 'dependency' category requires critical reliance on counterparty infrastructure/service with no commercial vendor relationship (like GPS or public networks), which does not apply to regulatory enforcement. The FTC's regulatory actions impose legal constraints but do not constitute a dependency relationship in the knowledge graph sense.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "U.S. Department of Justice",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "beginning in 2019, we became the subject of antitrust inquiries and investigations by the FTC and the U.S. Department of Justice",
+    "confidence": 0.95,
+    "reason": "The U.S. Department of Justice is described as conducting antitrust inquiries and investigations, not as an entity the root critically relies upon for infrastructure or services. This is a regulatory/enforcement action, making the DOJ a regulator acting in its regulatory capacity. Per the instructions, 'regulators acting as regulators' must be rejected as counterparties. The evidence_quote describes an adversarial investigation context, not a dependency relationship. The DOJ is not providing a service or infrastructure that Meta relies upon to operate.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Instagram",
+    "category": "partner",
+    "subtype": "acquisition",
+    "evidence_quote": "we violated antitrust laws, including by acquiring Instagram in 2012 and WhatsApp in 2014",
+    "confidence": 0.75,
+    "reason": "Instagram is identified in the filing as an entity that Meta acquired in 2012, meaning it is now a wholly owned subsidiary/product of Meta (the ROOT company). The filing's context confirms Instagram is an internal brand/service of Meta, not an external counterparty. The rule explicitly states: 'if the text says the root operates \"under the X brand\" or X is described as its subsidiary, X is internal, not a counterparty.' Since Instagram was acquired and is now part of Meta's product portfolio (referenced throughout as 'Facebook and Instagram' as Meta's services), it cannot be categorized as a partner. The acquisition happened in the past; Instagram is now internal to Meta.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "WhatsApp",
+    "category": "partner",
+    "subtype": "acquisition",
+    "evidence_quote": "we violated antitrust laws, including by acquiring Instagram in 2012 and WhatsApp in 2014",
+    "confidence": 0.75,
+    "reason": "WhatsApp is identified as counterparty_type='product' in the candidate edge, but the instruction explicitly states that the ROOT company's own subsidiaries, brands, or products are not valid counterparties. The evidence_quote refers to Meta's acquisition of WhatsApp in 2014. Since WhatsApp was acquired by Meta (the ROOT company) and is now a Meta subsidiary/product, it cannot be a 'partner' counterparty. This is an internal entity, not an external organization. The relationship described is a past acquisition that made WhatsApp part of Meta, not an ongoing external partnership.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Nasdaq",
+    "category": "dependency",
+    "subtype": "stock_exchange_listing",
+    "evidence_quote": "Because we qualify as a \"controlled company\" under the corporate governance rules for Nasdaq-listed companies",
+    "confidence": 0.95,
+    "reason": "Nasdaq is a stock exchange/listing venue. Per the auditor instructions, stock exchanges and listing venues must always be rejected as counterparties. The evidence_quote mentions Nasdaq only in the context of corporate governance rules for Nasdaq-listed companies, which is a regulatory/listing relationship, not a dependency relationship. Nasdaq does not provide critical infrastructure or services that Meta depends on for operations; it is simply the venue where Meta's stock trades. This falls squarely under the explicit exclusion criteria.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "S&P 500 Index",
+    "category": "dependency",
+    "subtype": "index_inclusion",
+    "evidence_quote": "The inclusion, exclusion, or deletion of our stock from any trading indices, such as the S&P 500 Index",
+    "confidence": 0.92,
+    "reason": "The S&P 500 Index is a stock market index, not an external organization counterparty. It is a benchmark/trading index used for measuring stock performance, not an entity that Meta depends on for operations. The filing mentions index inclusion/exclusion as a factor that could affect stock price volatility, not as an operational dependency. Additionally, per the audit instructions, stock exchanges and listing venues (which include trading indices like the S&P 500) should be rejected as counterparties. The relationship described is about stock price impact from index membership changes, not a business dependency relationship.",
+    "stage": "audit"
+  }
+]

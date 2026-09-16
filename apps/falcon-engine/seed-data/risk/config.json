@@ -1,0 +1,203 @@
+{
+ "schemaVersion": 3,
+ "anchors": {
+  "concentration": [
+   [
+    0.05,
+    10
+   ],
+   [
+    0.1,
+    30
+   ],
+   [
+    0.2,
+    55
+   ],
+   [
+    0.33,
+    75
+   ],
+   [
+    0.5,
+    95
+   ]
+  ],
+  "market": [
+   [
+    0.5,
+    15
+   ],
+   [
+    1,
+    45
+   ],
+   [
+    1.5,
+    70
+   ],
+   [
+    2,
+    90
+   ]
+  ],
+  "volatility": [
+   [
+    0.8,
+    15
+   ],
+   [
+    1.5,
+    45
+   ],
+   [
+    2.5,
+    70
+   ],
+   [
+    4,
+    90
+   ]
+  ],
+  "network": [
+   [
+    0,
+    5
+   ],
+   [
+    0.15,
+    40
+   ],
+   [
+    0.3,
+    65
+   ],
+   [
+    0.5,
+    90
+   ]
+  ],
+  "event": [
+   [
+    0,
+    5
+   ],
+   [
+    10,
+    40
+   ],
+   [
+    20,
+    65
+   ],
+   [
+    35,
+    90
+   ]
+  ],
+  "sharpe": [
+   [
+    -1,
+    95
+   ],
+   [
+    -0.25,
+    80
+   ],
+   [
+    0.25,
+    62
+   ],
+   [
+    0.75,
+    45
+   ],
+   [
+    1.5,
+    25
+   ],
+   [
+    2.5,
+    10
+   ]
+  ]
+ },
+ "weights": {
+  "concentration": 0.18,
+  "market": 0.17,
+  "volatility": 0.18,
+  "network": 0.22,
+  "event": 0.13,
+  "sharpe": 0.12
+ },
+ "bands": {
+  "moderate": 30,
+  "elevated": 55,
+  "high": 75
+ },
+ "tierWeights": {
+  "critical": 1,
+  "important": 0.6,
+  "marginal": 0.3
+ },
+ "sharedDependencyFactor": 0.5,
+ "sharedMinTier": "important",
+ "dependencyCategories": [
+  "supplier",
+  "dependency"
+ ],
+ "event": {
+  "incident": {
+   "P0": 25,
+   "P1": 15,
+   "P2": 6,
+   "P3": 0
+  },
+  "anomalies": {
+   "insider_cluster": 8,
+   "unexplained_move": 6,
+   "drift": 4,
+   "filing_overdue": 4
+  },
+  "earnings": {
+   "horizonSessions": 5,
+   "base": 10,
+   "rhythmRef": 0.05,
+   "maxFactor": 2
+  }
+ },
+ "sharpe": {
+  "windowSessions": 90,
+  "minSessions": 60,
+  "riskFreeAnnualPct": 4,
+  "tradingDaysPerYear": 252
+ },
+ "substitutes": {
+  "beta": 1,
+  "spyVol": 0.01
+ },
+ "payloadTop": 5,
+ "templates": {
+  "concentration": "{pct}% of the portfolio sits in {ticker}.",
+  "market": "The book moves about {beta_eff}× the market.",
+  "volatility": "A typical day swings the book about {vol}%.",
+  "sharpe": "The book's {sessions}-session Sharpe is {sharpe}.",
+  "network": {
+   "direct": "{a} and {b} share a {tier} {category} link.",
+   "shared": "{a} and {b} both depend on {counterparty}."
+  },
+  "event": {
+   "incident": "{ticker} has an open {band} incident.",
+   "insider_cluster": "{ticker} shows an active insider selling cluster.",
+   "unexplained_move": "{ticker} moved without a matching news explanation.",
+   "drift": "{ticker} is in an active drift.",
+   "filing_overdue": "{ticker} has an overdue filing.",
+   "earnings_window": "{ticker} reports earnings in {n} {sessions}.",
+   "earnings_today": "{ticker} reports earnings today."
+  }
+ },
+ "debounceMs": 60000,
+ "pollIntervalMs": 60000,
+ "historyRetentionDays": 180,
+ "riskCardEnabled": true
+}

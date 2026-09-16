@@ -1,0 +1,47 @@
+[
+  {
+    "counterparty_name": "EGPC",
+    "category": "customer",
+    "subtype": "crude oil, natural gas, and NGLs sales",
+    "evidence_quote": "During 2025, sales to EGPC in Egypt accounted for approximately 15 percent of the Company's worldwide crude oil, natural gas, and NGLs revenues.",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Oil Spill Response Limited",
+    "category": "supplier",
+    "subtype": "oil spill response cooperative services",
+    "evidence_quote": "The Company's subsidiary, Apache, is a member of Oil Spill Response Limited (OSRL), a large international oil spill response cooperative, which entitles any affiliated entity worldwide to access OSRL's services.",
+    "confidence": 0.7,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "EGPC",
+    "category": "customer",
+    "subtype": "gas_sales_agreement",
+    "evidence_quote": "Effective January 2025, substantially all of the Company's natural gas production was sold to EGPC under the terms of this agreement.",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Kinetik",
+    "category": "supplier",
+    "subtype": "midstream_gathering_processing_services",
+    "evidence_quote": "Midstream service costs – Kinetik — 23 109",
+    "confidence": 0.6,
+    "reason": "evidence_quote is a table row fragment ('Midstream service costs – Kinetik — 23 109'), not a natural-language sentence from the filing text, which fails the evidence validity requirement even though the underlying relationship (APA paying Kinetik for midstream gathering/processing services) is plausible from context.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Ryder Scott Company, L.P.",
+    "category": "supplier",
+    "subtype": "petroleum reserve consulting services",
+    "evidence_quote": "Consent of Ryder Scott Company, L.P., Petroleum Consultants.",
+    "confidence": 0.65,
+    "reason": "evidence_quote is an exhibit list entry ('Consent of Ryder Scott Company, L.P., Petroleum Consultants.'), not a natural-language sentence describing the relationship. This is a cover-page/exhibit-index fragment, which is explicitly disallowed as evidence regardless of whether Ryder Scott is plausibly a real consulting vendor.",
+    "stage": "audit"
+  }
+]

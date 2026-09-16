@@ -1,0 +1,330 @@
+[
+  {
+    "root_ticker": "BA",
+    "counterparty_name": "Airbus",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "commercial aircraft manufacturer",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "BCA faces aggressive international competitors who are intent on increasing their market share, such as Airbus and entrants from China.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/12927/000162828026004357/ba-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "Non-U.S. companies such as BAE Systems and Airbus Group continue to build a strategic presence in the U.S. market by strengthening their North American operations and partnering with U.S. defense companies.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/12927/000162828026004357/ba-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-30",
+    "shared_evidence_group": "ev_9d26545f0598"
+  },
+  {
+    "root_ticker": "BA",
+    "counterparty_name": "General Dynamics Corporation",
+    "counterparty_ticker": "GD",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "defense contractor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "BDS faces strong competition primarily from General Dynamics Corporation, Lockheed Martin Corporation, Northrop Grumman Corporation, RTX Corporation and SpaceX.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/12927/000162828026004357/ba-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-30",
+    "shared_evidence_group": "ev_388e5aa55b00"
+  },
+  {
+    "root_ticker": "BA",
+    "counterparty_name": "Lockheed Martin Corporation",
+    "counterparty_ticker": "LMT",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "defense contractor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.98,
+    "evidence": [
+      {
+        "quote": "BDS faces strong competition primarily from General Dynamics Corporation, Lockheed Martin Corporation, Northrop Grumman Corporation, RTX Corporation and SpaceX.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/12927/000162828026004357/ba-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-30",
+    "shared_evidence_group": "ev_388e5aa55b00"
+  },
+  {
+    "root_ticker": "BA",
+    "counterparty_name": "Northrop Grumman Corporation",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "defense contractor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "BDS faces strong competition primarily from General Dynamics Corporation, Lockheed Martin Corporation, Northrop Grumman Corporation, RTX Corporation and SpaceX.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/12927/000162828026004357/ba-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-30",
+    "shared_evidence_group": "ev_388e5aa55b00"
+  },
+  {
+    "root_ticker": "BA",
+    "counterparty_name": "RTX Corporation",
+    "counterparty_ticker": "RTX",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "defense contractor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "BDS faces strong competition primarily from General Dynamics Corporation, Lockheed Martin Corporation, Northrop Grumman Corporation, RTX Corporation and SpaceX.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/12927/000162828026004357/ba-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-30",
+    "shared_evidence_group": "ev_388e5aa55b00"
+  },
+  {
+    "root_ticker": "BA",
+    "counterparty_name": "SpaceX",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "competitor",
+    "subtype": "defense and space contractor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "BDS faces strong competition primarily from General Dynamics Corporation, Lockheed Martin Corporation, Northrop Grumman Corporation, RTX Corporation and SpaceX.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/12927/000162828026004357/ba-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-30",
+    "shared_evidence_group": "ev_388e5aa55b00"
+  },
+  {
+    "root_ticker": "BA",
+    "counterparty_name": "BAE Systems",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "defense contractor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Non-U.S. companies such as BAE Systems and Airbus Group continue to build a strategic presence in the U.S. market by strengthening their North American operations and partnering with U.S. defense companies.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/12927/000162828026004357/ba-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-30",
+    "shared_evidence_group": "ev_6ace7ff5dec4"
+  },
+  {
+    "root_ticker": "BA",
+    "counterparty_name": "NASA",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "customer",
+    "subtype": "government_contracts",
+    "strength": 1,
+    "strength_tier": "critical",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "We derive a substantial portion of our revenue from the U.S. government, primarily from defense related programs with the United States Department of War (DoW) and contracts with other government agencies, including NASA.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/12927/000162828026004357/ba-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "We work with numerous U.S. government agencies and entities, including but not limited to, all of the branches of the U.S. military, the National Aeronautics and Space Administration (NASA), the Federal Aviation Administration (FAA) and the Department of Homeland Security.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/12927/000162828026004357/ba-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-30",
+    "shared_evidence_group": "ev_d1d0bb0f03bf"
+  },
+  {
+    "root_ticker": "BA",
+    "counterparty_name": "Department of Homeland Security",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "customer",
+    "subtype": "U.S. government agency",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "We work with numerous U.S. government agencies and entities, including but not limited to, all of the branches of the U.S. military, the National Aeronautics and Space Administration (NASA), the Federal Aviation Administration (FAA) and the Department of Homeland Security.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/12927/000162828026004357/ba-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-30",
+    "shared_evidence_group": "ev_fb0bc3981f7a"
+  },
+  {
+    "root_ticker": "BA",
+    "counterparty_name": "FAA",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "dependency",
+    "subtype": "aviation safety regulator and certification authority",
+    "strength": 1,
+    "strength_tier": "critical",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.85,
+    "evidence": [
+      {
+        "quote": "We follow the lead of the FAA as we work through the certification process, and the FAA ultimately determines the timing of certification and entry into service.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/12927/000162828026004357/ba-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-30",
+    "shared_evidence_group": "ev_63ec5642db43"
+  },
+  {
+    "root_ticker": "BA",
+    "counterparty_name": "Spirit AeroSystems Holdings, Inc.",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "supplier",
+    "subtype": "aerostructures manufacturer",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "the FAA investigated the 737 quality control system, including Spirit AeroSystems Holdings, Inc. (Spirit), and increased its oversight of our production and quality and safety management systems.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/12927/000162828026004357/ba-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-30",
+    "shared_evidence_group": "ev_6f96ffd3e4de"
+  },
+  {
+    "root_ticker": "BA",
+    "counterparty_name": "Spirit AeroSystems",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "supplier",
+    "subtype": "acquisition_target",
+    "strength": 1,
+    "strength_tier": "critical",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "The Spirit Acquisition closed in December 2025, and difficulties in integrating Spirit may result in the failure to realize anticipated benefits",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/12927/000162828026004357/ba-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "These actions, as well as our recent acquisition of Spirit (Spirit Acquisition), significantly impacted our financial position, results of operations and cash flows.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/12927/000162828026004357/ba-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "the $230 million of 3.250% Exchangeable Notes, maturing November 1, 2028 (the Spirit Exchangeable Notes), that we assumed in connection with the Spirit Acquisition.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/12927/000162828026004357/ba-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-30",
+    "shared_evidence_group": "ev_bf3f170b45bb"
+  },
+  {
+    "root_ticker": "BA",
+    "counterparty_name": "International Association of Machinists and Aerospace Workers",
+    "counterparty_ticker": null,
+    "counterparty_type": "other",
+    "category": "dependency",
+    "subtype": "labor_union",
+    "strength": 1,
+    "strength_tier": "critical",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "During 2024, employees represented by International Association of Machinists and Aerospace Workers (IAM) District 751, which represents over 30,000 Boeing manufacturing employees primarily located in Washington state, went out on strike for 53 days",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/12927/000162828026004357/ba-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-30",
+    "shared_evidence_group": "ev_121926287c64"
+  },
+  {
+    "root_ticker": "BA",
+    "counterparty_name": "Society of Professional Engineering Employees in Aerospace",
+    "counterparty_ticker": null,
+    "counterparty_type": "other",
+    "category": "dependency",
+    "subtype": "labor_union",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "including with Society of Professional Engineering Employees in Aerospace who have two contracts expiring in October 2026",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/12927/000162828026004357/ba-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-30",
+    "shared_evidence_group": "ev_a57827ce5445"
+  }
+]

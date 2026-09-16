@@ -1,0 +1,74 @@
+[
+  {
+    "counterparty_name": "Pfizer",
+    "category": "partner",
+    "subtype": "collaboration_partner",
+    "evidence_quote": "KEYNOTE-905 trial conducted in collaboration with Pfizer and Astellas",
+    "confidence": 0.95,
+    "merged_into": "Pfizer"
+  },
+  {
+    "counterparty_name": "Astellas",
+    "category": "partner",
+    "subtype": "collaboration_partner",
+    "evidence_quote": "KEYNOTE-905 trial conducted in collaboration with Pfizer and Astellas",
+    "confidence": 0.95,
+    "merged_into": "Astellas"
+  },
+  {
+    "counterparty_name": "AstraZeneca",
+    "category": "partner",
+    "subtype": "global strategic oncology collaboration",
+    "evidence_quote": "Part of a global strategic oncology collaboration with AstraZeneca.",
+    "confidence": 0.95,
+    "merged_into": "AstraZeneca"
+  },
+  {
+    "counterparty_name": "Bayer AG",
+    "category": "partner",
+    "subtype": "worldwide collaboration",
+    "evidence_quote": "Commercialized under a worldwide collaboration with Bayer AG.",
+    "confidence": 0.95,
+    "merged_into": "Bayer AG"
+  },
+  {
+    "counterparty_name": "Pfizer",
+    "category": "partner",
+    "subtype": "clinical_trial_collaboration",
+    "evidence_quote": "The application is based on data from the Phase 3 KEYNOTE-905 trial conducted in collaboration with Pfizer and Astellas.",
+    "confidence": 0.95,
+    "merged_into": "Pfizer"
+  },
+  {
+    "counterparty_name": "Astellas",
+    "category": "partner",
+    "subtype": "clinical_trial_collaboration",
+    "evidence_quote": "The application is based on data from the Phase 3 KEYNOTE-905 trial conducted in collaboration with Pfizer and Astellas.",
+    "confidence": 0.95,
+    "merged_into": "Astellas"
+  },
+  {
+    "counterparty_name": "Eisai Co., Ltd.",
+    "category": "partner",
+    "subtype": "product_collaboration",
+    "evidence_quote": "Lenvima is being developed as part of a collaboration with Eisai Co., Ltd.",
+    "confidence": 0.95,
+    "merged_into": "Eisai Co., Ltd."
+  },
+  {
+    "counterparty_name": "AstraZeneca PLC",
+    "category": "partner",
+    "subtype": "product_collaboration",
+    "evidence_quote": "Lynparza is being developed as part of a collaboration with AstraZeneca PLC.",
+    "confidence": 0.95,
+    "merged_into": "AstraZeneca"
+  },
+  {
+    "counterparty_name": "FDA",
+    "category": "dependency",
+    "subtype": "regulatory_approval_authority",
+    "evidence_quote": "Lost market opportunity resulting from delays and uncertainties in the approval process of the FDA and/or foreign regulatory authorities.",
+    "confidence": 0.95,
+    "merged_into": "FDA"
+  }
+]

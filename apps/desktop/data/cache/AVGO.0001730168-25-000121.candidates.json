@@ -1,0 +1,266 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 135775,
+  "chunks": 6,
+  "candidates": [
+    {
+      "counterparty_name": "AT&T/Bell Labs",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "acquisition/IP heritage",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our more than 60-year history of innovation dates back to our diverse origins from AT&T/Bell Labs, Lucent and Hewlett-Packard Company",
+      "evidence_quotes": [
+        "Our more than 60-year history of innovation dates back to our diverse origins from AT&T/Bell Labs, Lucent and Hewlett-Packard Company"
+      ],
+      "confidence": 0.65,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Lucent",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "acquisition/IP heritage",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our more than 60-year history of innovation dates back to our diverse origins from AT&T/Bell Labs, Lucent and Hewlett-Packard Company",
+      "evidence_quotes": [
+        "Our more than 60-year history of innovation dates back to our diverse origins from AT&T/Bell Labs, Lucent and Hewlett-Packard Company"
+      ],
+      "confidence": 0.65,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Hewlett-Packard Company",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "acquisition/IP heritage",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our more than 60-year history of innovation dates back to our diverse origins from AT&T/Bell Labs, Lucent and Hewlett-Packard Company",
+      "evidence_quotes": [
+        "Our more than 60-year history of innovation dates back to our diverse origins from AT&T/Bell Labs, Lucent and Hewlett-Packard Company"
+      ],
+      "confidence": 0.65,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "LSI Corporation",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "acquisition",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "has evolved through acquisitions, including LSI Corporation, Broadcom Corporation, Brocade Communications Systems, Inc., CA, Inc., Symantec Enterprise Security, and VMware, Inc.",
+      "evidence_quotes": [
+        "has evolved through acquisitions, including LSI Corporation, Broadcom Corporation, Brocade Communications Systems, Inc., CA, Inc., Symantec Enterprise Security, and VMware, Inc."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Broadcom Corporation",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "acquisition",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "has evolved through acquisitions, including LSI Corporation, Broadcom Corporation, Brocade Communications Systems, Inc., CA, Inc., Symantec Enterprise Security, and VMware, Inc.",
+      "evidence_quotes": [
+        "has evolved through acquisitions, including LSI Corporation, Broadcom Corporation, Brocade Communications Systems, Inc., CA, Inc., Symantec Enterprise Security, and VMware, Inc."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Brocade Communications Systems, Inc.",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "acquisition",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "has evolved through acquisitions, including LSI Corporation, Broadcom Corporation, Brocade Communications Systems, Inc., CA, Inc., Symantec Enterprise Security, and VMware, Inc.",
+      "evidence_quotes": [
+        "has evolved through acquisitions, including LSI Corporation, Broadcom Corporation, Brocade Communications Systems, Inc., CA, Inc., Symantec Enterprise Security, and VMware, Inc."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "CA, Inc.",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "acquisition",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "has evolved through acquisitions, including LSI Corporation, Broadcom Corporation, Brocade Communications Systems, Inc., CA, Inc., Symantec Enterprise Security, and VMware, Inc.",
+      "evidence_quotes": [
+        "has evolved through acquisitions, including LSI Corporation, Broadcom Corporation, Brocade Communications Systems, Inc., CA, Inc., Symantec Enterprise Security, and VMware, Inc."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Symantec Enterprise Security",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "acquisition",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "has evolved through acquisitions, including LSI Corporation, Broadcom Corporation, Brocade Communications Systems, Inc., CA, Inc., Symantec Enterprise Security, and VMware, Inc.",
+      "evidence_quotes": [
+        "has evolved through acquisitions, including LSI Corporation, Broadcom Corporation, Brocade Communications Systems, Inc., CA, Inc., Symantec Enterprise Security, and VMware, Inc."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "VMware, Inc.",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "acquisition",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "has evolved through acquisitions, including LSI Corporation, Broadcom Corporation, Brocade Communications Systems, Inc., CA, Inc., Symantec Enterprise Security, and VMware, Inc.",
+      "evidence_quotes": [
+        "has evolved through acquisitions, including LSI Corporation, Broadcom Corporation, Brocade Communications Systems, Inc., CA, Inc., Symantec Enterprise Security, and VMware, Inc."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "TSMC",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "foundry",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The majority of our front-end wafer manufacturing operations is outsourced to external foundries, including Taiwan Semiconductor Manufacturing Company Limited (\"TSMC\").",
+      "evidence_quotes": [
+        "The majority of our front-end wafer manufacturing operations is outsourced to external foundries, including Taiwan Semiconductor Manufacturing Company Limited (\"TSMC\")."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "TSMC",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "assembly and test",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We use third-party CMs for a significant majority of our assembly and test operations, including TSMC, Advanced Semiconductor Engineering, Inc., Foxconn Technology Group, Amkor Technology, Inc. and Siliconware Precision Industries Co., Ltd.",
+      "evidence_quotes": [
+        "We use third-party CMs for a significant majority of our assembly and test operations, including TSMC, Advanced Semiconductor Engineering, Inc., Foxconn Technology Group, Amkor Technology, Inc. and Siliconware Precision Industries Co., Ltd."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Advanced Semiconductor Engineering, Inc.",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "assembly and test",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We use third-party CMs for a significant majority of our assembly and test operations, including TSMC, Advanced Semiconductor Engineering, Inc., Foxconn Technology Group, Amkor Technology, Inc. and Siliconware Precision Industries Co., Ltd.",
+      "evidence_quotes": [
+        "We use third-party CMs for a significant majority of our assembly and test operations, including TSMC, Advanced Semiconductor Engineering, Inc., Foxconn Technology Group, Amkor Technology, Inc. and Siliconware Precision Industries Co., Ltd."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Foxconn Technology Group",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "assembly and test",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We use third-party CMs for a significant majority of our assembly and test operations, including TSMC, Advanced Semiconductor Engineering, Inc., Foxconn Technology Group, Amkor Technology, Inc. and Siliconware Precision Industries Co., Ltd.",
+      "evidence_quotes": [
+        "We use third-party CMs for a significant majority of our assembly and test operations, including TSMC, Advanced Semiconductor Engineering, Inc., Foxconn Technology Group, Amkor Technology, Inc. and Siliconware Precision Industries Co., Ltd."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Amkor Technology, Inc.",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "assembly and test",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We use third-party CMs for a significant majority of our assembly and test operations, including TSMC, Advanced Semiconductor Engineering, Inc., Foxconn Technology Group, Amkor Technology, Inc. and Siliconware Precision Industries Co., Ltd.",
+      "evidence_quotes": [
+        "We use third-party CMs for a significant majority of our assembly and test operations, including TSMC, Advanced Semiconductor Engineering, Inc., Foxconn Technology Group, Amkor Technology, Inc. and Siliconware Precision Industries Co., Ltd."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Siliconware Precision Industries Co., Ltd.",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "assembly and test",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We use third-party CMs for a significant majority of our assembly and test operations, including TSMC, Advanced Semiconductor Engineering, Inc., Foxconn Technology Group, Amkor Technology, Inc. and Siliconware Precision Industries Co., Ltd.",
+      "evidence_quotes": [
+        "We use third-party CMs for a significant majority of our assembly and test operations, including TSMC, Advanced Semiconductor Engineering, Inc., Foxconn Technology Group, Amkor Technology, Inc. and Siliconware Precision Industries Co., Ltd."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "TSMC",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "contract_manufacturer_wafer_foundry",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "During fiscal year 2025, approximately 95% of the wafers manufactured by our CMs were produced by TSMC.",
+      "evidence_quotes": [
+        "During fiscal year 2025, approximately 95% of the wafers manufactured by our CMs were produced by TSMC."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "VMware",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "acquired_company",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Any acquisitions we may undertake, including the acquisition of VMware, and their integration involve risks and uncertainties",
+      "evidence_quotes": [
+        "Any acquisitions we may undertake, including the acquisition of VMware, and their integration involve risks and uncertainties"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Dell",
+      "counterparty_type": "public_company",
+      "category": "dependency",
+      "subtype": "tax_indemnification",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "If the VMware spin-off from Dell in November 2021 is determined to not be tax-free for any reason, we could be liable for all or a portion of the tax liability",
+      "evidence_quotes": [
+        "If the VMware spin-off from Dell in November 2021 is determined to not be tax-free for any reason, we could be liable for all or a portion of the tax liability"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "Dell",
+      "counterparty_type": "public_company",
+      "category": "dependency",
+      "subtype": "tax_indemnification",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we may be required to indemnify Dell and its affiliates for any such tax liabilities, which could be material.",
+      "evidence_quotes": [
+        "we may be required to indemnify Dell and its affiliates for any such tax liabilities, which could be material."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 5
+    }
+  ],
+  "candidatesPerChunk": [
+    9,
+    6,
+    0,
+    1,
+    1,
+    2
+  ],
+  "parseErrors": 0,
+  "apiErrors": 0,
+  "inputTokens": 36100,
+  "outputTokens": 2293
+}

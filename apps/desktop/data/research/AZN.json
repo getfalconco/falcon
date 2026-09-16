@@ -1,0 +1,156 @@
+[
+  {
+    "root_ticker": "AZN",
+    "counterparty_name": "FDA",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "strength": 1,
+    "strength_tier": "critical",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.05,
+    "evidence": [
+      {
+        "quote": "Health authorities, such as the FDA in the US and the European Medicines Agency in the EU, can refuse to approve our products or require us to conduct additional clinical trials",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/901832/000110465926019130/azn-20251231x20f.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_e18529db5247"
+  },
+  {
+    "root_ticker": "AZN",
+    "counterparty_name": "European Medicines Agency",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0,
+    "evidence": [
+      {
+        "quote": "Health authorities, such as the FDA in the US and the European Medicines Agency in the EU, can refuse to approve our products or require us to conduct additional clinical trials",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/901832/000110465926019130/azn-20251231x20f.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_e18529db5247"
+  },
+  {
+    "root_ticker": "AZN",
+    "counterparty_name": "Amgen",
+    "counterparty_ticker": "AMGN",
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "joint_development",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Developed in collaboration with Amgen Inc. (Amgen).",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/901832/000110465926019130/azn-20251231x20f.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_7fcac6b9ae80"
+  },
+  {
+    "root_ticker": "AZN",
+    "counterparty_name": "Sanofi",
+    "counterparty_ticker": "SNY",
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "joint_development_and_commercialization",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Jointly developed and commercialised with Sanofi.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/901832/000110465926019130/azn-20251231x20f.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_b87e9939846c"
+  },
+  {
+    "root_ticker": "AZN",
+    "counterparty_name": "Daiichi Sankyo",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "licensing",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Rights licensed to Daiichi Sankyo, Inc.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/901832/000110465926019130/azn-20251231x20f.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_e329327f9c55"
+  },
+  {
+    "root_ticker": "AZN",
+    "counterparty_name": "Samsung Bioepis",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "biosimilar_settlement",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.85,
+    "evidence": [
+      {
+        "quote": "Settled with Amgen and Samsung Bioepis for licensed biosimilar entry date of 1 March 2025.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/901832/000110465926019130/azn-20251231x20f.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_0932c63a26e6"
+  },
+  {
+    "root_ticker": "AZN",
+    "counterparty_name": "Sanofi",
+    "counterparty_ticker": "SNY",
+    "counterparty_type": "public_company",
+    "category": "customer",
+    "subtype": "pharmaceutical_distribution_partner",
+    "strength": 1,
+    "strength_tier": "critical",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "Beyfortus sales in the US decreased by 21% to $184 million (2024: $232 million; 2023: $87 million), comprised of sales to Sanofi.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/901832/000110465926019130/azn-20251231x20f.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-02-24",
+    "shared_evidence_group": "ev_94b374dcc545"
+  }
+]

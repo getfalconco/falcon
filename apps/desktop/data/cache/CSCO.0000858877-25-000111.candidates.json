@@ -1,0 +1,81 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 62229,
+  "chunks": 3,
+  "candidates": [
+    {
+      "counterparty_name": "Splunk",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "acquisition",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "This shift in our business model was accelerated by recent acquisitions, including our acquisition of Splunk in the third quarter of fiscal 2024.",
+      "evidence_quotes": [
+        "This shift in our business model was accelerated by recent acquisitions, including our acquisition of Splunk in the third quarter of fiscal 2024."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Internal Revenue Service",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "tax_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we are subject to the continuous examination of our income tax returns by the Internal Revenue Service and other tax authorities.",
+      "evidence_quotes": [
+        "we are subject to the continuous examination of our income tax returns by the Internal Revenue Service and other tax authorities."
+      ],
+      "confidence": 0.92,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Organisation for Economic Co-operation and Development",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "international_tax_framework",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The Organisation for Economic Co-operation and Development (OECD), an international association comprised of 38 countries, including the United States, has made changes, including a Pillar Two framework that imposes a minimum tax rate of 15%",
+      "evidence_quotes": [
+        "The Organisation for Economic Co-operation and Development (OECD), an international association comprised of 38 countries, including the United States, has made changes, including a Pillar Two framework that imposes a minimum tax rate of 15%"
+      ],
+      "confidence": 0.88,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "California",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we are subject to California's Consumer Privacy Act",
+      "evidence_quotes": [
+        "we are subject to California's Consumer Privacy Act"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Singapore",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we are subject to...Singapore's Personal Data Protection Act",
+      "evidence_quotes": [
+        "we are subject to...Singapore's Personal Data Protection Act"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 2
+    }
+  ],
+  "candidatesPerChunk": [
+    1,
+    2,
+    2
+  ],
+  "parseErrors": 1,
+  "apiErrors": 0,
+  "inputTokens": 14116,
+  "outputTokens": 563
+}

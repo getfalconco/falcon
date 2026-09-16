@@ -1,0 +1,13 @@
+{
+  "ticker": "XOM",
+  "companyName": "EXXON MOBIL CORP",
+  "form": "10-K",
+  "filingDate": "2026-02-18",
+  "sourceUrl": "https://www.sec.gov/Archives/edgar/data/34088/000003408826000045/xom-20251231.htm",
+  "generatedAt": "2026-07-24T20:47:19.982Z",
+  "cacheKey": "XOM|0000034088-26-000045|5",
+  "accessionNumber": "0000034088-26-000045",
+  "validatedCount": 2,
+  "rejectedCount": 3,
+  "mergedCount": 1
+}

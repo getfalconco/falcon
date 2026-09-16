@@ -1,0 +1,358 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 161360,
+  "chunks": 7,
+  "candidates": [
+    {
+      "counterparty_name": "Boehringer Ingelheim",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Basaglar In collaboration with Boehringer Ingelheim, a long-acting human insulin analog for the treatment of diabetes.",
+      "evidence_quotes": [
+        "Basaglar In collaboration with Boehringer Ingelheim, a long-acting human insulin analog for the treatment of diabetes."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Boehringer Ingelheim",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Jardiance In collaboration with Boehringer Ingelheim, for the treatment of type 2 diabetes",
+      "evidence_quotes": [
+        "Jardiance In collaboration with Boehringer Ingelheim, for the treatment of type 2 diabetes"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Innovent Biologics, Inc.",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Tyvyt In collaboration with Innovent Biologics, Inc., for the treatment of relapsed or refractory classic Hodgkin's lymphoma",
+      "evidence_quotes": [
+        "Tyvyt In collaboration with Innovent Biologics, Inc., for the treatment of relapsed or refractory classic Hodgkin's lymphoma"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Almirall S.A.",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Ebglyss For the treatment of adult and adolescent patients 12 years or older with moderate to severe atopic dermatitis (in Europe, in collaboration with Almirall S.A.).",
+      "evidence_quotes": [
+        "Ebglyss For the treatment of adult and adolescent patients 12 years or older with moderate to severe atopic dermatitis (in Europe, in collaboration with Almirall S.A.)."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Incyte Corporation",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Olumiant In collaboration with Incyte Corporation, for the treatment of adults with moderately to severely active rheumatoid arthritis",
+      "evidence_quotes": [
+        "Olumiant In collaboration with Incyte Corporation, for the treatment of adults with moderately to severely active rheumatoid arthritis"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "McKesson Corporation",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "wholesale_distributor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In 2025, 2024, and 2023, three wholesale distributors in the U.S.—McKesson Corporation, Cencora, Inc., and Cardinal Health, Inc.—each accounted for a significant percentage of our consolidated revenue.",
+      "evidence_quotes": [
+        "In 2025, 2024, and 2023, three wholesale distributors in the U.S.—McKesson Corporation, Cencora, Inc., and Cardinal Health, Inc.—each accounted for a significant percentage of our consolidated revenue."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Cencora, Inc.",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "wholesale_distributor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In 2025, 2024, and 2023, three wholesale distributors in the U.S.—McKesson Corporation, Cencora, Inc., and Cardinal Health, Inc.—each accounted for a significant percentage of our consolidated revenue.",
+      "evidence_quotes": [
+        "In 2025, 2024, and 2023, three wholesale distributors in the U.S.—McKesson Corporation, Cencora, Inc., and Cardinal Health, Inc.—each accounted for a significant percentage of our consolidated revenue."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Cardinal Health, Inc.",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "wholesale_distributor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In 2025, 2024, and 2023, three wholesale distributors in the U.S.—McKesson Corporation, Cencora, Inc., and Cardinal Health, Inc.—each accounted for a significant percentage of our consolidated revenue.",
+      "evidence_quotes": [
+        "In 2025, 2024, and 2023, three wholesale distributors in the U.S.—McKesson Corporation, Cencora, Inc., and Cardinal Health, Inc.—each accounted for a significant percentage of our consolidated revenue."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Boehringer Ingelheim",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Jardiance is part of our Boehringer Ingelheim collaboration.",
+      "evidence_quotes": [
+        "Jardiance is part of our Boehringer Ingelheim collaboration."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "FDA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Pursuant to laws and regulations that include the Federal Food, Drug, and Cosmetic Act (FDCA) and the Public Health Service Act (PHSA), the FDA exercises jurisdiction over all of our products and devices in the U.S.",
+      "evidence_quotes": [
+        "Pursuant to laws and regulations that include the Federal Food, Drug, and Cosmetic Act (FDCA) and the Public Health Service Act (PHSA), the FDA exercises jurisdiction over all of our products and devices in the U.S."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "EMA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Outside the U.S., our products and operations are subject to similar regulatory requirements, notably by the EMA in the EU",
+      "evidence_quotes": [
+        "Outside the U.S., our products and operations are subject to similar regulatory requirements, notably by the EMA in the EU"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Ministry of Health, Labor and Welfare",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Outside the U.S., our products and operations are subject to similar regulatory requirements, notably by the EMA in the EU, the Ministry of Health, Labor and Welfare in Japan",
+      "evidence_quotes": [
+        "Outside the U.S., our products and operations are subject to similar regulatory requirements, notably by the EMA in the EU, the Ministry of Health, Labor and Welfare in Japan"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "National Medical Products Administration",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Outside the U.S., our products and operations are subject to similar regulatory requirements, notably by the EMA in the EU, the Ministry of Health, Labor and Welfare in Japan, and the National Medical Products Administration in China.",
+      "evidence_quotes": [
+        "Outside the U.S., our products and operations are subject to similar regulatory requirements, notably by the EMA in the EU, the Ministry of Health, Labor and Welfare in Japan, and the National Medical Products Administration in China."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Boehringer Ingelheim",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "HHS selected Jardiance, which is part of our collaboration with Boehringer Ingelheim, as one of the first ten medicines subject to government-set prices",
+      "evidence_quotes": [
+        "HHS selected Jardiance, which is part of our collaboration with Boehringer Ingelheim, as one of the first ten medicines subject to government-set prices"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Health Resources and Services Administration",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_infrastructure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Lilly sued the Health Resources and Services Administration (HRSA) over its purported rejection of Lilly's plan to implement a cash replenishment model",
+      "evidence_quotes": [
+        "Lilly sued the Health Resources and Services Administration (HRSA) over its purported rejection of Lilly's plan to implement a cash replenishment model"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "China",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_and_market_access",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we, and the pharmaceutical industry generally, depend on China-based suppliers for portions of our supply chain",
+      "evidence_quotes": [
+        "we, and the pharmaceutical industry generally, depend on China-based suppliers for portions of our supply chain"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Boehringer Ingelheim",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "For example, in August 2023, HHS selected Jardiance, which is part of our collaboration with Boehringer Ingelheim, as one of the first ten medicines subject to government-set prices",
+      "evidence_quotes": [
+        "For example, in August 2023, HHS selected Jardiance, which is part of our collaboration with Boehringer Ingelheim, as one of the first ten medicines subject to government-set prices"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "CVS Caremark",
+      "counterparty_type": "private_company",
+      "category": "customer",
+      "subtype": "pharmacy_benefit_manager",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "For example, in July 2025, CVS Caremark, the pharmacy benefit management division of CVS Health, stopped covering Zepbound as a preferred obesity management medicine on some insurance plans",
+      "evidence_quotes": [
+        "For example, in July 2025, CVS Caremark, the pharmacy benefit management division of CVS Health, stopped covering Zepbound as a preferred obesity management medicine on some insurance plans"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "HHS",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_pricing_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "For example, in August 2023, HHS selected Jardiance, which is part of our collaboration with Boehringer Ingelheim, as one of the first ten medicines subject to government-set prices in Medicare",
+      "evidence_quotes": [
+        "For example, in August 2023, HHS selected Jardiance, which is part of our collaboration with Boehringer Ingelheim, as one of the first ten medicines subject to government-set prices in Medicare"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "European Commission",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "an agreement-in-principle announced in December 2025 between the European Commission, Council and Parliament to revise the EU's general pharmaceutical legislation",
+      "evidence_quotes": [
+        "an agreement-in-principle announced in December 2025 between the European Commission, Council and Parliament to revise the EU's general pharmaceutical legislation"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "USPTO",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Changes proposed by the USPTO and by certain bills in Congress to limit the number of, and differences between, patents obtained",
+      "evidence_quotes": [
+        "Changes proposed by the USPTO and by certain bills in Congress to limit the number of, and differences between, patents obtained"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "China",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "supplier_jurisdiction",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we, and the pharmaceutical industry generally, depend on China-based suppliers for portions of our supply chain, including integral chemical synthesis, reagents, starting materials, and ingredients.",
+      "evidence_quotes": [
+        "we, and the pharmaceutical industry generally, depend on China-based suppliers for portions of our supply chain, including integral chemical synthesis, reagents, starting materials, and ingredients."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "EU",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In some markets, including the EU, Japan, and China, governments have significant power as large single payors to regulate prices and access criteria",
+      "evidence_quotes": [
+        "In some markets, including the EU, Japan, and China, governments have significant power as large single payors to regulate prices and access criteria"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "Japan",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In some markets, including the EU, Japan, and China, governments have significant power as large single payors to regulate prices and access criteria",
+      "evidence_quotes": [
+        "In some markets, including the EU, Japan, and China, governments have significant power as large single payors to regulate prices and access criteria"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "China",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In some markets, including the EU, Japan, and China, governments have significant power as large single payors to regulate prices and access criteria",
+      "evidence_quotes": [
+        "In some markets, including the EU, Japan, and China, governments have significant power as large single payors to regulate prices and access criteria"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "FDA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We rely on the FDA and other global regulatory bodies for appropriate oversight, administration and enforcement across our industry",
+      "evidence_quotes": [
+        "We rely on the FDA and other global regulatory bodies for appropriate oversight, administration and enforcement across our industry"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 6
+    }
+  ],
+  "candidatesPerChunk": [
+    8,
+    5,
+    3,
+    0,
+    3,
+    3,
+    4
+  ],
+  "parseErrors": 0,
+  "apiErrors": 0,
+  "inputTokens": 43830,
+  "outputTokens": 5181
+}

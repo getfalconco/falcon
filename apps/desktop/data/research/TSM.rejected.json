@@ -1,0 +1,191 @@
+[
+  {
+    "counterparty_name": "Vanguard International Semiconductor Corporation",
+    "category": "supplier",
+    "subtype": "wafer_manufacturing",
+    "evidence_quote": "In 2025 , we had total purchases of NT$ 878 million (US$ 28 million) from VIS, representing 0.1% of our total cost of revenue",
+    "confidence": 0.95,
+    "reason": "counterparty name not in quote",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Systems on Silicon Manufacturing Company Pte. Ltd.",
+    "category": "supplier",
+    "subtype": "wafer_manufacturing",
+    "evidence_quote": "In 2025 , we had total purchases of NT$ 4,113 million (US$ 131 million) from SSMC, representing 0.3% of our total cost of revenue",
+    "confidence": 0.95,
+    "reason": "counterparty name not in quote",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Global Unichip Corporation",
+    "category": "customer",
+    "subtype": "soc_design_services",
+    "evidence_quote": "In 2025 , we had total sales of NT $31,094 million (US $991 million) to GUC, representing 0.8% of our total revenue",
+    "confidence": 0.95,
+    "reason": "counterparty name not in quote",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Longitude Licensing Ltd.",
+    "category": "competitor",
+    "subtype": "patent_litigation_plaintiff",
+    "evidence_quote": "In February 2025, Longitude Licensing Ltd. and Marlin Semiconductor Limited (collectively, \"Marlin\") filed complaints with the U.S. International Trade Commission (\"ITC\") and the U.S. District Court for the Eastern District of Texas alleging that TSMC and its customers infringe five",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Marlin Semiconductor Limited",
+    "category": "competitor",
+    "subtype": "patent_litigation_plaintiff",
+    "evidence_quote": "In February 2025, Longitude Licensing Ltd. and Marlin Semiconductor Limited (collectively, \"Marlin\") filed complaints with the U.S. International Trade Commission (\"ITC\") and the U.S. District Court for the Eastern District of Texas alleging that TSMC and its customers infringe five",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Deloitte & Touche",
+    "category": "supplier",
+    "subtype": "external_auditor",
+    "evidence_quote": "Our independent registered public accounting firm, Deloitte & Touche, independently assessed the effectiveness of our company's internal control over financial reporting.",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "NYSE",
+    "category": "dependency",
+    "subtype": "stock_exchange_listing_venue",
+    "evidence_quote": "NYSE Section 303A.02 establishes general standards to evaluate directors' independence",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Chartered Semiconductor Manufacturing Ltd.",
+    "category": "competitor",
+    "subtype": "former_employer",
+    "evidence_quote": "Before joining us in 1998, he was Senior Vice President of Technology at Chartered Semiconductor Manufacturing Ltd. in Singapore",
+    "confidence": 0.75,
+    "reason": "The evidence_quote describes Chartered Semiconductor Manufacturing Ltd. as Dr. C.C. Wei's former employer before he joined TSMC in 1998, not as a competitor. The quote states he 'was Senior Vice President of Technology at Chartered Semiconductor Manufacturing Ltd. in Singapore' before joining TSMC. While Chartered may have been a competitor in the semiconductor manufacturing industry, the evidence provided only establishes it as a former employer, not as a competitive relationship. The 'subtype' field 'former_employer' further confirms this is about employment history, not competitive dynamics. To classify as a competitor, the filing would need to explicitly identify Chartered as a competing entity in the market, not merely as a previous workplace of an executive.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "STMicroelectronics N.V.",
+    "category": "competitor",
+    "subtype": "former_employer",
+    "evidence_quote": "Senior Manager for Logic and SRAM technology development at STMicroelectronics N.V. in Texas",
+    "confidence": 0.75,
+    "reason": "The evidence_quote describes STMicroelectronics N.V. as a former employer of C.C. Wei (TSMC's Chairman and CEO) before he joined TSMC in 1998. This is a biographical fact about an executive's career history, not evidence of a competitive relationship between TSMC and STMicroelectronics. Former employment does not establish that STMicroelectronics is a competitor of TSMC. The 'competitor' category requires evidence that the counterparty competes with the root company in the same market or for the same customers, not merely that an executive previously worked there. The subtype 'former_employer' is contradictory to the category 'competitor' and represents a category error.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Xilinx, Inc.",
+    "category": "customer",
+    "subtype": "board_member_prior_employer",
+    "evidence_quote": "Mr. Moshe N. Gavrielov served as President and CEO of Xilinx, Inc. in the United States from January 2008 to January 2018",
+    "confidence": 0.7,
+    "reason": "The evidence_quote describes Mr. Gavrielov's prior employment at Xilinx, Inc., not a commercial relationship between TSMC (the ROOT company) and Xilinx. The quote states he 'served as President and CEO of Xilinx, Inc.... from January 2008 to January 2018' as part of his biographical information as a TSMC board member. This establishes his professional background, not that Xilinx is a customer of TSMC. While Xilinx may indeed be a TSMC customer in reality, this specific evidence does not support that claim—it only documents board_member_prior_employer linkage. A customer relationship requires evidence of Xilinx purchasing semiconductor manufacturing services from TSMC, which is absent here. Additionally, Xilinx was acquired by AMD and is now an AMD subsidiary, further complicating the counterparty validity.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "LSI Logic Corp.",
+    "category": "competitor",
+    "subtype": "board_member_prior_employer",
+    "evidence_quote": "He also served at a variety of executive management positions in LSI Logic Corp. in the United States for nearly 10 years",
+    "confidence": 0.7,
+    "reason": "The evidence describes LSI Logic Corp. as a prior employer where board member Moshe N. Gavrielov held executive positions for nearly 10 years before joining TSMC. There is no evidence in the text that LSI Logic is a competitor of TSMC. The relationship is purely historical employment of a current board member, which does not establish a competitor relationship between the two companies. The category 'competitor' is unsupported by the evidence.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Intel",
+    "category": "supplier",
+    "subtype": "talent_source",
+    "evidence_quote": "Prior to joining us in November 2016, he was a Vice President of Technology and Manufacturing Group of Circuit Technology at Intel.",
+    "confidence": 0.75,
+    "reason": "The evidence_quote describes Kevin Zhang's prior employment at Intel before joining TSMC, not a supplier relationship. Intel is mentioned solely as Zhang's former employer ('Prior to joining us in November 2016, he was a Vice President of Technology and Manufacturing Group of Circuit Technology at Intel'). This is a biographical fact about executive background, not evidence of a commercial supplier relationship, talent acquisition partnership, or any ongoing business relationship between TSM and Intel. The quote does not support categorizing Intel as a 'supplier' or 'talent_source' to TSM. Prior employment does not constitute a counterparty relationship.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Mozilla",
+    "category": "supplier",
+    "subtype": "talent_source",
+    "evidence_quote": "Prior to joining us in January 2021, he was Vice President of Information Technology in Mozilla.",
+    "confidence": 0.75,
+    "reason": "Mozilla is not a supplier to TSMC. The evidence quote describes Chris Horng-Dar Lin's prior employment at Mozilla before he joined TSMC in January 2021 as Vice President of Corporate Information Technology and Chief Information Officer. This is a biographical detail about an executive's career history, not evidence of a commercial relationship where Mozilla provides goods or services to TSMC. Mozilla was simply Lin's previous employer. The 'talent_source' subtype is not a valid category for counterparty relationships in a financial knowledge graph focused on commercial, competitive, partnership, or dependency relationships. Prior employers of executives do not constitute counterparties.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Micron Technology, Inc.",
+    "category": "supplier",
+    "subtype": "talent_source",
+    "evidence_quote": "Prior to joining us in November 2021, he was Chairman, Taiwan in Micron Technology, Inc.",
+    "confidence": 0.75,
+    "reason": "The evidence_quote describes K.C. Hsu's prior employment at Micron Technology, Inc. before joining TSMC in November 2021. This is a standard executive biography disclosure showing previous work history, not evidence of a supplier relationship or talent acquisition arrangement between TSM and Micron. Prior employment at another company does not establish a commercial 'talent_source' supplier relationship. Micron is a competitor/peer in the semiconductor industry, and hiring executives from competitors is normal talent mobility, not a documented business relationship that would constitute a knowledge graph edge.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Synopsys Inc.",
+    "category": "supplier",
+    "subtype": "talent_source",
+    "evidence_quote": "Prior to joining us in 2011, he was Group R&D Director in Synopsys Inc.",
+    "confidence": 0.75,
+    "reason": "The evidence_quote describes a prior employment relationship (Lipen Yuan worked at Synopsys Inc. before joining TSMC in 2011), not a current supplier, customer, partner, competitor, or dependency relationship between TSMC and Synopsys. Prior employment does not establish Synopsys as a 'talent_source' supplier in the context of a financial knowledge graph tracking current business relationships. The subtype 'talent_source' is not a recognized commercial supplier category for knowledge graphs focused on operational business relationships. This is biographical information about an executive's career history, not evidence of an ongoing counterparty relationship.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Qualcomm",
+    "category": "supplier",
+    "subtype": "talent_source",
+    "evidence_quote": "Prior to joining us in March 2016, he was Vice President of Engineering, Silicon Technology in Qualcomm.",
+    "confidence": 0.75,
+    "reason": "The evidence_quote describes Geoffrey Yeap's prior employment at Qualcomm before joining TSMC in March 2016. This is a biographical detail about a past employer, not evidence of a commercial supplier relationship between TSMC and Qualcomm. A 'talent_source' is not a recognized commercial category (supplier, customer, partner, competitor, dependency). Former employers of hired executives do not constitute counterparty relationships for the ROOT company. The quote does not support that Qualcomm supplies goods, services, or components to TSMC in any commercial capacity.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Texas Instruments",
+    "category": "supplier",
+    "subtype": "talent_source",
+    "evidence_quote": "Prior to joining us in 1989, he was an engineer at Texas Instruments.",
+    "confidence": 0.75,
+    "reason": "The evidence_quote describes Arthur Chuang's employment history prior to joining TSMC in 1989, stating he 'was an engineer at Texas Instruments.' This is a biographical fact about an individual employee's previous employer from 35+ years ago, not evidence of any current commercial, competitive, partnership, or dependency relationship between TSMC and Texas Instruments. Past employment of an individual does not constitute a supplier, customer, partner, competitor, or dependency relationship between the companies. The category 'supplier' with subtype 'talent_source' is not a recognized business relationship category—a former employer is not a 'supplier' merely because TSMC later hired someone who once worked there. This is simply background information on an executive's career history and does not support any current counterparty relationship.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Taiwan Stock Exchange",
+    "category": "dependency",
+    "subtype": "stock_exchange_infrastructure",
+    "evidence_quote": "foreign investors who have registered with the Taiwan Stock Exchange for making investments in the R.O.C. securities market",
+    "confidence": 0.92,
+    "reason": "The Taiwan Stock Exchange is a stock exchange/listing venue, which is explicitly excluded from valid counterparties per the audit rules. The evidence quote describes a registration process for foreign investors with the Taiwan Stock Exchange for making investments in the R.O.C. securities market. This is a regulatory/listing infrastructure function, not a dependency relationship. TSM does not 'rely' on the Taiwan Stock Exchange in a business-critical operational sense that creates a dependency; rather, the exchange is where TSM's shares are listed and traded. Stock exchanges and listing venues are categorically rejected as counterparties.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Taipei Exchange",
+    "category": "dependency",
+    "subtype": "stock_exchange_infrastructure",
+    "evidence_quote": "companies whose shares are listed on the Taiwan Stock Exchange or traded on the Taipei Exchange",
+    "confidence": 0.92,
+    "reason": "The Taipei Exchange is a stock exchange/listing venue. Under the audit rules, stock exchanges and listing venues must always be rejected as counterparties. The excerpt repeatedly refers to the Taipei Exchange as a trading venue where R.O.C. company shares are 'traded on the Taipei Exchange' or 'listed on the Taiwan Stock Exchange or traded on the Taipei Exchange,' confirming it is a market infrastructure entity, not a business counterparty. Additionally, the evidence_quote 'companies whose shares are listed on the Taiwan Stock Exchange or traded on the Taipei Exchange' is a generic descriptive phrase appearing in regulatory context, not evidence of a specific dependency relationship. Stock exchanges are explicitly excluded from valid counterparty relationships.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "NYSE",
+    "category": "dependency",
+    "subtype": "stock_exchange_infrastructure",
+    "evidence_quote": "make our ADSs eligible for the direct registration system, as required by the NYSE",
+    "confidence": 0.93,
+    "reason": "NYSE is a stock exchange and listing venue. The instructions explicitly state: 'Always reject these as counterparties: stock exchanges and listing venues, transfer agents, external auditors, regulators acting as regulators, tax and revenue authorities (IRS, national revenue agencies), and the ROOT company's own subsidiaries, brands, or products.' The evidence_quote refers to NYSE only as a regulatory requirement setter for ADS eligibility in the direct registration system, not as a dependency for TSM's business operations. The relationship is regulatory/compliance-based, not a critical infrastructure dependency that would warrant categorization as a counterparty.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "TWSE",
+    "category": "dependency",
+    "subtype": "stock_exchange_listing_venue",
+    "evidence_quote": "as required by the TWSE, the compensation committee of the companies listed on the TWSE must consist of a majority of independent directors",
+    "confidence": 0.95,
+    "reason": "TWSE (Taiwan Stock Exchange) is explicitly a stock exchange and listing venue. The evidence_quote describes a regulatory requirement imposed by TWSE on listed companies ('as required by the TWSE, the compensation committee of the companies listed on the TWSE must consist of a majority of independent directors'). This is TWSE acting in its regulatory capacity for listing compliance, not as a counterparty in a commercial, dependency, partner, or competitive relationship. Per instruction #4, stock exchanges and listing venues must always be rejected as counterparties. The relationship described is purely regulatory/listing compliance, not a dependency relationship where TSM critically relies on TWSE infrastructure or services in the operational sense.",
+    "stage": "audit"
+  }
+]

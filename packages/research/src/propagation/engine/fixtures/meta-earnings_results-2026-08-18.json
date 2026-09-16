@@ -1,0 +1,1669 @@
+{
+ "recorded_at": "2026-08-22T19:59:56.471Z",
+ "request": {
+  "request_id": "pr-5fe6556c-2c55-5208-a7cf-14b2fcd49af5-636343a5fe",
+  "incident_id": "5fe6556c-2c55-5208-a7cf-14b2fcd49af5",
+  "root_ticker": "META",
+  "incident": {
+   "incident_id": "5fe6556c-2c55-5208-a7cf-14b2fcd49af5",
+   "ticker": "META",
+   "trigger_type": "organic",
+   "window_start": "2026-08-18T19:45:48.408Z",
+   "window_end": "2026-08-19T01:45:48.408Z",
+   "window_status": "closed",
+   "composite_tags": [],
+   "priority": 18,
+   "priority_band": "P2",
+   "degraded_context": false,
+   "discovery_floor_applied": false,
+   "earnings_absorption": false,
+   "messages": [
+    {
+     "id": "94bfa59d-3cb6-409c-b87a-b7339cbfeaf0",
+     "schema_version": 1,
+     "type": "gap_event",
+     "ticker": "META",
+     "timestamp": "2026-08-18T19:45:48.408Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 1.2088758930941235,
+      "r_squared": 0.13081635257386381,
+      "daily_vol_30d": 0.02807131135260228,
+      "vol_regime": 1.490113757196038,
+      "move_today": -0.041812361376373564,
+      "move_zscore": -1.4895050983251432,
+      "residual_move": -0.028638859735326927,
+      "residual_zscore": -1.5888858127467254,
+      "volume_ratio": 2.5753163789783855,
+      "volume_ratio_partial": true,
+      "momentum_5d": -0.0038000339347648016,
+      "momentum_20d": -0.08693369039291288,
+      "momentum_60d": -0.0202673960515084,
+      "pct_from_52w_high": -0.24635683192468638,
+      "pct_from_52w_low": 0.12302502376409286,
+      "earnings_rhythm": 0.09560923303974081,
+      "prev_close": 568.969970703125,
+      "last_price": 545.1799926757812,
+      "price_asof": "2026-08-18T19:46:39.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "gap_pct": -0.020493125727043204,
+      "gap_z": -2.0821126456280843,
+      "direction": "down",
+      "prev_close": 568.969970703125,
+      "open_price": 557.3099975585938
+     }
+    },
+    {
+     "id": "00a4113c-23fa-4d3b-b091-3ec74ac1dbd9",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "META",
+     "timestamp": "2026-08-18T19:46:48.420Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 1.1197035478987332,
+      "r_squared": 0.10674649585088802,
+      "daily_vol_30d": 0.02484366048867004,
+      "vol_regime": 1.3429586829736238,
+      "move_today": -0.041812361376373564,
+      "move_zscore": -1.6830193519768195,
+      "residual_move": -0.03487103388831274,
+      "residual_zscore": -1.9618376365347652,
+      "volume_ratio": 2.5753163789783855,
+      "volume_ratio_partial": true,
+      "momentum_5d": -0.09003205181101592,
+      "momentum_20d": -0.15319738006062278,
+      "momentum_60d": -0.10157513016114605,
+      "pct_from_52w_high": -0.29898519485585107,
+      "pct_from_52w_low": 0.037977112099119026,
+      "earnings_rhythm": 0.09560923303974081,
+      "prev_close": 568.969970703125,
+      "last_price": 545.1799926757812,
+      "price_asof": "2026-08-18T19:46:39.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "What's Going On With Meta Platforms Stock Tuesday?",
+      "source": "Benzinga",
+      "url": "https://finnhub.io/api/news?id=66a2e374186bcc6131e77b5c68c5b5c8f79e4714d8db4fe8c26693fc677446f0",
+      "published_at": "2026-08-18T11:43:57.000Z",
+      "article_id": "141246364",
+      "summary": "Meta (META) stock fell nearly 3% as a high-stakes child-safety trial in California threatens up to $1.4 trillion in potential liabilities."
+     }
+    },
+    {
+     "id": "00ff4297-3ef6-4efa-9a65-3c279853865a",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "META",
+     "timestamp": "2026-08-18T19:46:48.420Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 1.1197035478987332,
+      "r_squared": 0.10674649585088802,
+      "daily_vol_30d": 0.02484366048867004,
+      "vol_regime": 1.3429586829736238,
+      "move_today": -0.041812361376373564,
+      "move_zscore": -1.6830193519768195,
+      "residual_move": -0.03487103388831274,
+      "residual_zscore": -1.9618376365347652,
+      "volume_ratio": 2.5753163789783855,
+      "volume_ratio_partial": true,
+      "momentum_5d": -0.09003205181101592,
+      "momentum_20d": -0.15319738006062278,
+      "momentum_60d": -0.10157513016114605,
+      "pct_from_52w_high": -0.29898519485585107,
+      "pct_from_52w_low": 0.037977112099119026,
+      "earnings_rhythm": 0.09560923303974081,
+      "prev_close": 568.969970703125,
+      "last_price": 545.1799926757812,
+      "price_asof": "2026-08-18T19:46:39.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "Tuesday's big stock stories: What’s likely to move the market in the next trading session",
+      "source": "CNBC",
+      "url": "https://finnhub.io/api/news?id=e2e4febccf8af8c031a5a3f6e7b5ac2d1b1bda497ea5555ce7877c313abdfbe0",
+      "published_at": "2026-08-17T19:48:03.000Z",
+      "article_id": "141246874",
+      "summary": "The Dow Industrials dropped more than 270 points on Monday as oil prices rose and Treasury yields climbed. The three major averages posted back-to-back losses."
+     }
+    },
+    {
+     "id": "11e0565e-64c9-4ba0-8e73-ea6e38edb128",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "META",
+     "timestamp": "2026-08-18T19:46:48.420Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 1.1197035478987332,
+      "r_squared": 0.10674649585088802,
+      "daily_vol_30d": 0.02484366048867004,
+      "vol_regime": 1.3429586829736238,
+      "move_today": -0.041812361376373564,
+      "move_zscore": -1.6830193519768195,
+      "residual_move": -0.03487103388831274,
+      "residual_zscore": -1.9618376365347652,
+      "volume_ratio": 2.5753163789783855,
+      "volume_ratio_partial": true,
+      "momentum_5d": -0.09003205181101592,
+      "momentum_20d": -0.15319738006062278,
+      "momentum_60d": -0.10157513016114605,
+      "pct_from_52w_high": -0.29898519485585107,
+      "pct_from_52w_low": 0.037977112099119026,
+      "earnings_rhythm": 0.09560923303974081,
+      "prev_close": 568.969970703125,
+      "last_price": 545.1799926757812,
+      "price_asof": "2026-08-18T19:46:39.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "Watch CNBC's full interview with former Assistant Attorney General Jonathan Kanter",
+      "source": "CNBC",
+      "url": "https://finnhub.io/api/news?id=c27da295c924af7e25d446ed65d4cc3f2eeae6bed1a2a52f2b888e0b8f13b1ef",
+      "published_at": "2026-08-18T10:35:34.000Z",
+      "article_id": "141246870",
+      "summary": "Former Assistant Attorney General Jonathan Kanter joins ‘Squawk on the Street’ to discuss Meta’s federal trial over child safety, which begins on Tuesday, what it means for other social media giants, and more."
+     }
+    },
+    {
+     "id": "197bbe5b-19e0-4084-b343-cad74a54da7d",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "META",
+     "timestamp": "2026-08-18T19:46:48.420Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 1.1197035478987332,
+      "r_squared": 0.10674649585088802,
+      "daily_vol_30d": 0.02484366048867004,
+      "vol_regime": 1.3429586829736238,
+      "move_today": -0.041812361376373564,
+      "move_zscore": -1.6830193519768195,
+      "residual_move": -0.03487103388831274,
+      "residual_zscore": -1.9618376365347652,
+      "volume_ratio": 2.5753163789783855,
+      "volume_ratio_partial": true,
+      "momentum_5d": -0.09003205181101592,
+      "momentum_20d": -0.15319738006062278,
+      "momentum_60d": -0.10157513016114605,
+      "pct_from_52w_high": -0.29898519485585107,
+      "pct_from_52w_low": 0.037977112099119026,
+      "earnings_rhythm": 0.09560923303974081,
+      "prev_close": 568.969970703125,
+      "last_price": 545.1799926757812,
+      "price_asof": "2026-08-18T19:46:39.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "AI's Half-Trillion-Dollar Borrowing Binge Is Competing With Uncle Sam for Bond Buyers",
+      "source": "Benzinga",
+      "url": "https://finnhub.io/api/news?id=500c10a1c96bef92e5179f17a2b87f82403829553ea1ccc071ecef97cabdb7eb",
+      "published_at": "2026-08-18T12:00:12.000Z",
+      "article_id": "141247366",
+      "summary": "Four companies, Amazon, Alphabet, Meta Platforms, and Oracle dominate AI bond supply, expected to reach $400B in 2027. Investors push back on prices."
+     }
+    },
+    {
+     "id": "1f029a97-e218-489f-ab19-f7f239110893",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "META",
+     "timestamp": "2026-08-18T19:46:48.420Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 1.1197035478987332,
+      "r_squared": 0.10674649585088802,
+      "daily_vol_30d": 0.02484366048867004,
+      "vol_regime": 1.3429586829736238,
+      "move_today": -0.041812361376373564,
+      "move_zscore": -1.6830193519768195,
+      "residual_move": -0.03487103388831274,
+      "residual_zscore": -1.9618376365347652,
+      "volume_ratio": 2.5753163789783855,
+      "volume_ratio_partial": true,
+      "momentum_5d": -0.09003205181101592,
+      "momentum_20d": -0.15319738006062278,
+      "momentum_60d": -0.10157513016114605,
+      "pct_from_52w_high": -0.29898519485585107,
+      "pct_from_52w_low": 0.037977112099119026,
+      "earnings_rhythm": 0.09560923303974081,
+      "prev_close": 568.969970703125,
+      "last_price": 545.1799926757812,
+      "price_asof": "2026-08-18T19:46:39.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "Wall Street Lunch: Meta Faces High-Stakes Federal Trial Over Child Safety",
+      "source": "SeekingAlpha",
+      "url": "https://finnhub.io/api/news?id=069dcaa59f8d9b58211f0ace2cb2a20b41ee5c27991f7c110010c37daa93981c",
+      "published_at": "2026-08-18T14:00:00.000Z",
+      "article_id": "141247265",
+      "summary": "Opening arguments begin today in a major federal trial facing Meta Platforms (META) in California."
+     }
+    },
+    {
+     "id": "31938926-6567-4aa5-826a-7624922627c1",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "META",
+     "timestamp": "2026-08-18T19:46:48.420Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 1.1197035478987332,
+      "r_squared": 0.10674649585088802,
+      "daily_vol_30d": 0.02484366048867004,
+      "vol_regime": 1.3429586829736238,
+      "move_today": -0.041812361376373564,
+      "move_zscore": -1.6830193519768195,
+      "residual_move": -0.03487103388831274,
+      "residual_zscore": -1.9618376365347652,
+      "volume_ratio": 2.5753163789783855,
+      "volume_ratio_partial": true,
+      "momentum_5d": -0.09003205181101592,
+      "momentum_20d": -0.15319738006062278,
+      "momentum_60d": -0.10157513016114605,
+      "pct_from_52w_high": -0.29898519485585107,
+      "pct_from_52w_low": 0.037977112099119026,
+      "earnings_rhythm": 0.09560923303974081,
+      "prev_close": 568.969970703125,
+      "last_price": 545.1799926757812,
+      "price_asof": "2026-08-18T19:46:39.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "'Meta Exploits Youths on Social Media, States Allege at Trial' - Bloomberg",
+      "source": "Benzinga",
+      "url": "https://finnhub.io/api/news?id=f7e6b9a046eea18f8c53f811e4deac0646f6f9276b11d3352d3830021c5936d8",
+      "published_at": "2026-08-18T13:50:44.000Z",
+      "article_id": "141247379",
+      "summary": "https://www.bloomberg.com/news/articles/2026-08-18/meta-exploits-youths-on-social-media-states-allege-at-trial"
+     }
+    },
+    {
+     "id": "5e1a5285-0c36-4d6a-970d-9e3b603418ef",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "META",
+     "timestamp": "2026-08-18T19:46:48.420Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 1.1197035478987332,
+      "r_squared": 0.10674649585088802,
+      "daily_vol_30d": 0.02484366048867004,
+      "vol_regime": 1.3429586829736238,
+      "move_today": -0.041812361376373564,
+      "move_zscore": -1.6830193519768195,
+      "residual_move": -0.03487103388831274,
+      "residual_zscore": -1.9618376365347652,
+      "volume_ratio": 2.5753163789783855,
+      "volume_ratio_partial": true,
+      "momentum_5d": -0.09003205181101592,
+      "momentum_20d": -0.15319738006062278,
+      "momentum_60d": -0.10157513016114605,
+      "pct_from_52w_high": -0.29898519485585107,
+      "pct_from_52w_low": 0.037977112099119026,
+      "earnings_rhythm": 0.09560923303974081,
+      "prev_close": 568.969970703125,
+      "last_price": 545.1799926757812,
+      "price_asof": "2026-08-18T19:46:39.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "Landmark Meta trial kicks off: Here's what to know",
+      "source": "CNBC",
+      "url": "https://finnhub.io/api/news?id=d3373c89481a8d135818b2d62628ef1dfb002c6297eabf800fb791c0ce7b9136",
+      "published_at": "2026-08-18T08:20:02.000Z",
+      "article_id": "141246873",
+      "summary": "CNBC's Julia Boorstin reports on the latest news on Meta."
+     }
+    },
+    {
+     "id": "73d183fb-d629-4ed8-a942-55c129b0d27d",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "META",
+     "timestamp": "2026-08-18T19:46:48.420Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 1.1197035478987332,
+      "r_squared": 0.10674649585088802,
+      "daily_vol_30d": 0.02484366048867004,
+      "vol_regime": 1.3429586829736238,
+      "move_today": -0.041812361376373564,
+      "move_zscore": -1.6830193519768195,
+      "residual_move": -0.03487103388831274,
+      "residual_zscore": -1.9618376365347652,
+      "volume_ratio": 2.5753163789783855,
+      "volume_ratio_partial": true,
+      "momentum_5d": -0.09003205181101592,
+      "momentum_20d": -0.15319738006062278,
+      "momentum_60d": -0.10157513016114605,
+      "pct_from_52w_high": -0.29898519485585107,
+      "pct_from_52w_low": 0.037977112099119026,
+      "earnings_rhythm": 0.09560923303974081,
+      "prev_close": 568.969970703125,
+      "last_price": 545.1799926757812,
+      "price_asof": "2026-08-18T19:46:39.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "Trump-Backed World Liberty Partners With Platform Offering Chinese AI Models Flagged by US: Report",
+      "source": "Benzinga",
+      "url": "https://finnhub.io/api/news?id=855bef031029bcfea51393425d34e046ad9351a9149d7cff35a80dd49b1256bf",
+      "published_at": "2026-08-18T06:33:36.000Z",
+      "article_id": "141246297",
+      "summary": "Trump-backed World Liberty Financial reportedly partners with Hong Kong venture raising concerns over Chinese AI models and profits."
+     }
+    },
+    {
+     "id": "810a2c8d-c6db-4be0-a3cf-4dea8060a6c8",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "META",
+     "timestamp": "2026-08-18T19:46:48.420Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 1.1197035478987332,
+      "r_squared": 0.10674649585088802,
+      "daily_vol_30d": 0.02484366048867004,
+      "vol_regime": 1.3429586829736238,
+      "move_today": -0.041812361376373564,
+      "move_zscore": -1.6830193519768195,
+      "residual_move": -0.03487103388831274,
+      "residual_zscore": -1.9618376365347652,
+      "volume_ratio": 2.5753163789783855,
+      "volume_ratio_partial": true,
+      "momentum_5d": -0.09003205181101592,
+      "momentum_20d": -0.15319738006062278,
+      "momentum_60d": -0.10157513016114605,
+      "pct_from_52w_high": -0.29898519485585107,
+      "pct_from_52w_low": 0.037977112099119026,
+      "earnings_rhythm": 0.09560923303974081,
+      "prev_close": 568.969970703125,
+      "last_price": 545.1799926757812,
+      "price_asof": "2026-08-18T19:46:39.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "Former Assistant Attorney General Jonathan Kanter on Meta's federal trial over child safety",
+      "source": "CNBC",
+      "url": "https://finnhub.io/api/news?id=56a2e8bedc2c552c3e5a7bd7aef0935449cb6f75fade55ee628108f3ce0bf3b6",
+      "published_at": "2026-08-18T10:34:40.000Z",
+      "article_id": "141246871",
+      "summary": "Former Assistant Attorney General Jonathan Kanter joins ‘Squawk on the Street’ to discuss Meta’s federal trial over child safety, which begins on Tuesday, what it means for other social media giants, and more."
+     }
+    },
+    {
+     "id": "8a9c7de3-03ba-4e38-bc5a-88fb60b6b577",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "META",
+     "timestamp": "2026-08-18T19:46:48.420Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 1.1197035478987332,
+      "r_squared": 0.10674649585088802,
+      "daily_vol_30d": 0.02484366048867004,
+      "vol_regime": 1.3429586829736238,
+      "move_today": -0.041812361376373564,
+      "move_zscore": -1.6830193519768195,
+      "residual_move": -0.03487103388831274,
+      "residual_zscore": -1.9618376365347652,
+      "volume_ratio": 2.5753163789783855,
+      "volume_ratio_partial": true,
+      "momentum_5d": -0.09003205181101592,
+      "momentum_20d": -0.15319738006062278,
+      "momentum_60d": -0.10157513016114605,
+      "pct_from_52w_high": -0.29898519485585107,
+      "pct_from_52w_low": 0.037977112099119026,
+      "earnings_rhythm": 0.09560923303974081,
+      "prev_close": 568.969970703125,
+      "last_price": 545.1799926757812,
+      "price_asof": "2026-08-18T19:46:39.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "What the Meta Platform trial means for investors",
+      "source": "CNBC",
+      "url": "https://finnhub.io/api/news?id=61419e5ccce82ee534a5eccc54a21c4c6a90de6020ba5752811beb171565cdd9",
+      "published_at": "2026-08-18T12:51:53.000Z",
+      "article_id": "141246866",
+      "summary": "Meta could pay hundreds of billions in damages, but potential changes to how content is served are a bigger concern for shareholders"
+     }
+    },
+    {
+     "id": "906ff3b7-5d49-4823-a782-5c62ad24fb14",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "META",
+     "timestamp": "2026-08-18T19:46:48.420Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 1.1197035478987332,
+      "r_squared": 0.10674649585088802,
+      "daily_vol_30d": 0.02484366048867004,
+      "vol_regime": 1.3429586829736238,
+      "move_today": -0.041812361376373564,
+      "move_zscore": -1.6830193519768195,
+      "residual_move": -0.03487103388831274,
+      "residual_zscore": -1.9618376365347652,
+      "volume_ratio": 2.5753163789783855,
+      "volume_ratio_partial": true,
+      "momentum_5d": -0.09003205181101592,
+      "momentum_20d": -0.15319738006062278,
+      "momentum_60d": -0.10157513016114605,
+      "pct_from_52w_high": -0.29898519485585107,
+      "pct_from_52w_low": 0.037977112099119026,
+      "earnings_rhythm": 0.09560923303974081,
+      "prev_close": 568.969970703125,
+      "last_price": 545.1799926757812,
+      "price_asof": "2026-08-18T19:46:39.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "Sandisk's Nvidia Catalyst Just Emerged (Rating Upgrade)",
+      "source": "SeekingAlpha",
+      "url": "https://finnhub.io/api/news?id=c3e5cbbc28b448df3697394d77148468ce1d882e0b2ca0fbf71f4814c78bf310",
+      "published_at": "2026-08-18T10:25:27.000Z",
+      "article_id": "141245854",
+      "summary": "Sandisk Corporation turns strongly bullish on Investor Day guidance and rising NAND prices tied to Nvidia Vera-Rubin. Click for this SNDK update after earnings."
+     }
+    },
+    {
+     "id": "91dd41f3-6578-4493-b2ec-a60b28322d75",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "META",
+     "timestamp": "2026-08-18T19:46:48.420Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 1.1197035478987332,
+      "r_squared": 0.10674649585088802,
+      "daily_vol_30d": 0.02484366048867004,
+      "vol_regime": 1.3429586829736238,
+      "move_today": -0.041812361376373564,
+      "move_zscore": -1.6830193519768195,
+      "residual_move": -0.03487103388831274,
+      "residual_zscore": -1.9618376365347652,
+      "volume_ratio": 2.5753163789783855,
+      "volume_ratio_partial": true,
+      "momentum_5d": -0.09003205181101592,
+      "momentum_20d": -0.15319738006062278,
+      "momentum_60d": -0.10157513016114605,
+      "pct_from_52w_high": -0.29898519485585107,
+      "pct_from_52w_low": 0.037977112099119026,
+      "earnings_rhythm": 0.09560923303974081,
+      "prev_close": 568.969970703125,
+      "last_price": 545.1799926757812,
+      "price_asof": "2026-08-18T19:46:39.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "Nike, Meta Platforms, INVO Fertility, EyePoint Pharmaceuticals, and Micron: Why These 5 Stocks Are on Investors' Radars Today",
+      "source": "Benzinga",
+      "url": "https://finnhub.io/api/news?id=14eaf6a82d989559fa530a34f6a73894e65032b407affaa3ec297116d9bb64b8",
+      "published_at": "2026-08-17T21:39:10.000Z",
+      "article_id": "141246327",
+      "summary": "Major U.S. indices ended lower on Monday, with the Dow Jones Industrial Average falling 0.51% to 53,459.78"
+     }
+    },
+    {
+     "id": "9b8d11c1-edfd-4258-a8c3-214708ae00bb",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "META",
+     "timestamp": "2026-08-18T19:46:48.420Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 1.1197035478987332,
+      "r_squared": 0.10674649585088802,
+      "daily_vol_30d": 0.02484366048867004,
+      "vol_regime": 1.3429586829736238,
+      "move_today": -0.041812361376373564,
+      "move_zscore": -1.6830193519768195,
+      "residual_move": -0.03487103388831274,
+      "residual_zscore": -1.9618376365347652,
+      "volume_ratio": 2.5753163789783855,
+      "volume_ratio_partial": true,
+      "momentum_5d": -0.09003205181101592,
+      "momentum_20d": -0.15319738006062278,
+      "momentum_60d": -0.10157513016114605,
+      "pct_from_52w_high": -0.29898519485585107,
+      "pct_from_52w_low": 0.037977112099119026,
+      "earnings_rhythm": 0.09560923303974081,
+      "prev_close": 568.969970703125,
+      "last_price": 545.1799926757812,
+      "price_asof": "2026-08-18T19:46:39.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "J.P. Morgan’s Bill Eigen Sounds 2008 Crash Alarm Over AI Boom — Says Investors Are Missing One Warning Sign That Could Change Everything: ‘What I’m Terrified of Is…’ (UPDATED)",
+      "source": "Benzinga",
+      "url": "https://finnhub.io/api/news?id=66674a9a9f1dc975189dca3fcd8ca3fd0d96596014f66182c046025ded88d0bd",
+      "published_at": "2026-08-18T09:10:07.000Z",
+      "article_id": "141245983",
+      "summary": "J.P. Morgan&#39;s Bill Eigen said the AI boom shows the same warning signs as 2008&#39;s real estate crash, not a typical tech cycle."
+     }
+    },
+    {
+     "id": "a9c69c16-2306-4ac4-a130-716fdb0804ae",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "META",
+     "timestamp": "2026-08-18T19:46:48.420Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 1.1197035478987332,
+      "r_squared": 0.10674649585088802,
+      "daily_vol_30d": 0.02484366048867004,
+      "vol_regime": 1.3429586829736238,
+      "move_today": -0.041812361376373564,
+      "move_zscore": -1.6830193519768195,
+      "residual_move": -0.03487103388831274,
+      "residual_zscore": -1.9618376365347652,
+      "volume_ratio": 2.5753163789783855,
+      "volume_ratio_partial": true,
+      "momentum_5d": -0.09003205181101592,
+      "momentum_20d": -0.15319738006062278,
+      "momentum_60d": -0.10157513016114605,
+      "pct_from_52w_high": -0.29898519485585107,
+      "pct_from_52w_low": 0.037977112099119026,
+      "earnings_rhythm": 0.09560923303974081,
+      "prev_close": 568.969970703125,
+      "last_price": 545.1799926757812,
+      "price_asof": "2026-08-18T19:46:39.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "Meta’s AI Spending Math Is 'Astonishing,' Steve Eisman Says: Why Are Expenses Up 55%?",
+      "source": "Benzinga",
+      "url": "https://finnhub.io/api/news?id=320f768ce810cb7fc2072a05de5d171ec4f7d9ee253a8eab81cb8158938e0e0b",
+      "published_at": "2026-08-18T10:20:49.000Z",
+      "article_id": "141247383",
+      "summary": "Steve Eisman Questions Meta’s AI Spending Math As Expenses Surge 55%: Where’s The Return?"
+     }
+    },
+    {
+     "id": "ab2c58e1-38ee-42f8-a028-d7289f723ecd",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "META",
+     "timestamp": "2026-08-18T19:46:48.420Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 1.1197035478987332,
+      "r_squared": 0.10674649585088802,
+      "daily_vol_30d": 0.02484366048867004,
+      "vol_regime": 1.3429586829736238,
+      "move_today": -0.041812361376373564,
+      "move_zscore": -1.6830193519768195,
+      "residual_move": -0.03487103388831274,
+      "residual_zscore": -1.9618376365347652,
+      "volume_ratio": 2.5753163789783855,
+      "volume_ratio_partial": true,
+      "momentum_5d": -0.09003205181101592,
+      "momentum_20d": -0.15319738006062278,
+      "momentum_60d": -0.10157513016114605,
+      "pct_from_52w_high": -0.29898519485585107,
+      "pct_from_52w_low": 0.037977112099119026,
+      "earnings_rhythm": 0.09560923303974081,
+      "prev_close": 568.969970703125,
+      "last_price": 545.1799926757812,
+      "price_asof": "2026-08-18T19:46:39.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "Nvidia, AMD, Broadcom, Meta Slide as Bond Yields Surge: Why Tech Stocks Are Getting Hit",
+      "source": "Benzinga",
+      "url": "https://finnhub.io/api/news?id=8be0662f56a93fc1a3eafb7348c7ea178f1847ba7757168a8bfdfcfd45768efa",
+      "published_at": "2026-08-18T11:42:44.000Z",
+      "article_id": "141247382",
+      "summary": "Nvidia, AMD, Broadcom and Meta fell as bond yields surged, putting pressure on high-growth tech stocks and AI names."
+     }
+    },
+    {
+     "id": "c86c0585-f937-4b93-8374-05c4d842184d",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "META",
+     "timestamp": "2026-08-18T19:46:48.420Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 1.1197035478987332,
+      "r_squared": 0.10674649585088802,
+      "daily_vol_30d": 0.02484366048867004,
+      "vol_regime": 1.3429586829736238,
+      "move_today": -0.041812361376373564,
+      "move_zscore": -1.6830193519768195,
+      "residual_move": -0.03487103388831274,
+      "residual_zscore": -1.9618376365347652,
+      "volume_ratio": 2.5753163789783855,
+      "volume_ratio_partial": true,
+      "momentum_5d": -0.09003205181101592,
+      "momentum_20d": -0.15319738006062278,
+      "momentum_60d": -0.10157513016114605,
+      "pct_from_52w_high": -0.29898519485585107,
+      "pct_from_52w_low": 0.037977112099119026,
+      "earnings_rhythm": 0.09560923303974081,
+      "prev_close": 568.969970703125,
+      "last_price": 545.1799926757812,
+      "price_asof": "2026-08-18T19:46:39.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "XLC: Alphabet And Meta Just Keep Churning",
+      "source": "SeekingAlpha",
+      "url": "https://finnhub.io/api/news?id=90836467a4e2ed96426dd09492f4bf24abf02bb02849dbc087d69bd04d2cfba1",
+      "published_at": "2026-08-18T13:53:08.000Z",
+      "article_id": "141247204",
+      "summary": "XLC ETF outlook: Hold rating amid weak technicals and neutral signals."
+     }
+    },
+    {
+     "id": "f1ae625f-57ec-4fa1-8ccb-169106c46d69",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "META",
+     "timestamp": "2026-08-18T19:46:48.420Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 1.1197035478987332,
+      "r_squared": 0.10674649585088802,
+      "daily_vol_30d": 0.02484366048867004,
+      "vol_regime": 1.3429586829736238,
+      "move_today": -0.041812361376373564,
+      "move_zscore": -1.6830193519768195,
+      "residual_move": -0.03487103388831274,
+      "residual_zscore": -1.9618376365347652,
+      "volume_ratio": 2.5753163789783855,
+      "volume_ratio_partial": true,
+      "momentum_5d": -0.09003205181101592,
+      "momentum_20d": -0.15319738006062278,
+      "momentum_60d": -0.10157513016114605,
+      "pct_from_52w_high": -0.29898519485585107,
+      "pct_from_52w_low": 0.037977112099119026,
+      "earnings_rhythm": 0.09560923303974081,
+      "prev_close": 568.969970703125,
+      "last_price": 545.1799926757812,
+      "price_asof": "2026-08-18T19:46:39.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "Opening statements begin in landmark Meta trial",
+      "source": "CNBC",
+      "url": "https://finnhub.io/api/news?id=e9369dc5b73c72314f5280f9ab40c4dc9b7c6faf57dbfbec0b1369c96dc56a99",
+      "published_at": "2026-08-18T12:47:22.000Z",
+      "article_id": "141246868",
+      "summary": "CNBC's Julia Boorstin joins 'Squawk on the Street' to discuss opening statements in Meta's landmark child safety trial."
+     }
+    },
+    {
+     "id": "f1b2428b-754a-4ec1-a51d-7c2eeb9e5e15",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "META",
+     "timestamp": "2026-08-18T19:46:48.420Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 1.1197035478987332,
+      "r_squared": 0.10674649585088802,
+      "daily_vol_30d": 0.02484366048867004,
+      "vol_regime": 1.3429586829736238,
+      "move_today": -0.041812361376373564,
+      "move_zscore": -1.6830193519768195,
+      "residual_move": -0.03487103388831274,
+      "residual_zscore": -1.9618376365347652,
+      "volume_ratio": 2.5753163789783855,
+      "volume_ratio_partial": true,
+      "momentum_5d": -0.09003205181101592,
+      "momentum_20d": -0.15319738006062278,
+      "momentum_60d": -0.10157513016114605,
+      "pct_from_52w_high": -0.29898519485585107,
+      "pct_from_52w_low": 0.037977112099119026,
+      "earnings_rhythm": 0.09560923303974081,
+      "prev_close": 568.969970703125,
+      "last_price": 545.1799926757812,
+      "price_asof": "2026-08-18T19:46:39.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "Meta's Dip Offers A 30% Upside Potential",
+      "source": "SeekingAlpha",
+      "url": "https://finnhub.io/api/news?id=d8f5e1a97ecfb2a78a9c612c30fae89f33e7e22f96024105d2caf5d2e74bfd97",
+      "published_at": "2026-08-18T09:30:51.000Z",
+      "article_id": "141245671",
+      "summary": "Meta Platforms (META) has underperformed peers, dropping ~27% YTD, but I view the negative repricing as excessive."
+     }
+    },
+    {
+     "id": "56c7e2e4-5117-4b54-adf1-520ba3c55cdb",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "META",
+     "timestamp": "2026-08-18T20:44:07.867Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 1.1220474730999357,
+      "r_squared": 0.10736672847359274,
+      "daily_vol_30d": 0.02484366048867004,
+      "vol_regime": 1.3429586829736238,
+      "move_today": -0.04160144106353103,
+      "move_zscore": -1.674529447160308,
+      "residual_move": -0.03404394223764869,
+      "residual_zscore": -1.9145983178034753,
+      "volume_ratio": 1.7031898742654321,
+      "volume_ratio_partial": false,
+      "momentum_5d": -0.09003205181101592,
+      "momentum_20d": -0.15319738006062278,
+      "momentum_60d": -0.10157513016114605,
+      "pct_from_52w_high": -0.29898519485585107,
+      "pct_from_52w_low": 0.037977112099119026,
+      "earnings_rhythm": 0.09560923303974081,
+      "prev_close": 568.969970703125,
+      "last_price": 545.3,
+      "price_asof": "2026-08-18T20:44:15.000Z",
+      "session": "post"
+     },
+     "payload": {
+      "headline": "US Debt Nearing $40T; Home Depot earnings Better Than Expected",
+      "source": "Benzinga",
+      "url": "https://finnhub.io/api/news?id=fc95bb776035a8a99f006e588d26997bf8c8186e805418709d8338d1a9d649c2",
+      "published_at": "2026-08-18T14:23:59.000Z",
+      "article_id": "141248033",
+      "summary": "\n\n\n\n$40 Trillion Debt\n\n\n\nPlease click here for an enlarged chart of Home Depot Inc (NYSE:HD).\n\n\n\nNote the following:\n\n\n\n\nThis article is about the big picture, not an individual stock.  The chart of HD stock is being"
+     }
+    },
+    {
+     "id": "3606b18d-66f7-4dea-93d6-894bd4d72b31",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "META",
+     "timestamp": "2026-08-18T21:48:08.152Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 1.1220474730999357,
+      "r_squared": 0.10736672847359274,
+      "daily_vol_30d": 0.02484366048867004,
+      "vol_regime": 1.3429586829736238,
+      "move_today": -0.04248022206383961,
+      "move_zscore": -1.70990189159978,
+      "residual_move": -0.034541674066314185,
+      "residual_zscore": -1.9425902734714748,
+      "volume_ratio": 2.8286027222957024,
+      "volume_ratio_partial": false,
+      "momentum_5d": -0.09003205181101592,
+      "momentum_20d": -0.15319738006062278,
+      "momentum_60d": -0.10157513016114605,
+      "pct_from_52w_high": -0.29898519485585107,
+      "pct_from_52w_low": 0.037977112099119026,
+      "earnings_rhythm": 0.09560923303974081,
+      "prev_close": 568.969970703125,
+      "last_price": 544.8,
+      "price_asof": "2026-08-18T21:48:12.000Z",
+      "session": "post"
+     },
+     "payload": {
+      "headline": "AMD: On Dilution And Insider Sales",
+      "source": "SeekingAlpha",
+      "url": "https://finnhub.io/api/news?id=66ab3affb53046c7710ef217f37050fe03579ce79910d4c241482d9ea6d6c1bc",
+      "published_at": "2026-08-18T17:25:13.000Z",
+      "article_id": "141248943",
+      "summary": "Advanced Micro Devices, Inc. stock surged on AI deals, but dilution, insider selling, and margin risk threaten long-term earnings. Click for more on AMD prospects."
+     }
+    },
+    {
+     "id": "bcf76298-71a8-4c5b-a1a7-45453bb36e98",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "META",
+     "timestamp": "2026-08-18T22:04:08.280Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 1.1220474730999357,
+      "r_squared": 0.10736672847359274,
+      "daily_vol_30d": 0.02484366048867004,
+      "vol_regime": 1.3429586829736238,
+      "move_today": -0.041865075363623605,
+      "move_zscore": -1.6851411804921497,
+      "residual_move": -0.034400951010823036,
+      "residual_zscore": -1.934676145212217,
+      "volume_ratio": 1.7031898742654321,
+      "volume_ratio_partial": false,
+      "momentum_5d": -0.09003205181101592,
+      "momentum_20d": -0.15319738006062278,
+      "momentum_60d": -0.10157513016114605,
+      "pct_from_52w_high": -0.29898519485585107,
+      "pct_from_52w_low": 0.037977112099119026,
+      "earnings_rhythm": 0.09560923303974081,
+      "prev_close": 568.969970703125,
+      "last_price": 545.15,
+      "price_asof": "2026-08-18T22:04:14.000Z",
+      "session": "post"
+     },
+     "payload": {
+      "headline": "AI Utilization May Be The Next Driver Of Growth",
+      "source": "SeekingAlpha",
+      "url": "https://finnhub.io/api/news?id=4d2d5bcd7f640b2e20b026df63f0801731062a4dd7031dc67029e970601b4e97",
+      "published_at": "2026-08-18T17:41:38.000Z",
+      "article_id": "141249056",
+      "summary": "Explore Alger AI Enablers & Adopters ETF (ALAI): AI cloud spend to hit $42B by 2026, active picks for efficiency gains. Read more macro analysis here."
+     }
+    }
+   ],
+   "quant_context": {
+    "beta_90d": 1.1220474730999357,
+    "r_squared": 0.10736672847359274,
+    "daily_vol_30d": 0.02484366048867004,
+    "vol_regime": 1.3429586829736238,
+    "move_today": -0.041865075363623605,
+    "move_zscore": -1.6851411804921497,
+    "residual_move": -0.034400951010823036,
+    "residual_zscore": -1.934676145212217,
+    "volume_ratio": 1.7031898742654321,
+    "volume_ratio_partial": false,
+    "momentum_5d": -0.09003205181101592,
+    "momentum_20d": -0.15319738006062278,
+    "momentum_60d": -0.10157513016114605,
+    "pct_from_52w_high": -0.29898519485585107,
+    "pct_from_52w_low": 0.037977112099119026,
+    "earnings_rhythm": 0.09560923303974081,
+    "prev_close": 568.969970703125,
+    "last_price": 545.15,
+    "price_asof": "2026-08-18T22:04:14.000Z",
+    "session": "post"
+   },
+   "user_proximity": "tracked",
+   "related_incident_id": null,
+   "propagation_candidates": [
+    {
+     "ticker": "META",
+     "article_key": "id:141247383",
+     "event_type": "earnings_results",
+     "event_label": "Meta expenses surge 55%; analyst questions AI spending ROI"
+    }
+   ]
+  },
+  "event": {
+   "type": "earnings_results",
+   "direction": "negative",
+   "materiality": "standard",
+   "label": "Meta expenses surge 55%; analyst questions AI spending ROI",
+   "source_msg_ids": [
+    "a9c69c16-2306-4ac4-a130-716fdb0804ae"
+   ],
+   "event_ts": "2026-08-18T10:20:49.000Z",
+   "source": "verdict",
+   "evidence_lines": [
+    "Meta’s AI Spending Math Is 'Astonishing,' Steve Eisman Says: Why Are Expenses Up 55%? (earnings_results · standard · negative)"
+   ]
+  },
+  "trigger_rules": [
+   "propagation_candidates"
+  ],
+  "update": false,
+  "prior_run_id": null,
+  "requested_at": "2026-08-22T19:59:56.471Z",
+  "verdicts": {
+   "00a4113c-23fa-4d3b-b091-3ec74ac1dbd9": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141246364",
+     "kind": "news",
+     "event_type": "legal",
+     "event_label": "Child-safety trial in California with potential $1.4 trillion liabilities",
+     "syndication_scope": 1,
+     "tickers": [
+      {
+       "ticker": "META",
+       "relevance": "direct",
+       "materiality": "high",
+       "direction": "negative"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:14.675Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "META",
+     "relevance": "direct",
+     "materiality": "high",
+     "direction": "negative"
+    }
+   },
+   "00ff4297-3ef6-4efa-9a65-3c279853865a": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141246874",
+     "kind": "news",
+     "event_type": "macro_sector",
+     "event_label": "Market roundup: Dow decline amid oil and Treasury moves",
+     "syndication_scope": 1,
+     "tickers": [
+      {
+       "ticker": "META",
+       "relevance": "none"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:16.904Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "META",
+     "relevance": "none"
+    }
+   },
+   "11e0565e-64c9-4ba0-8e73-ea6e38edb128": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141246870",
+     "kind": "news",
+     "event_type": "legal",
+     "event_label": "Federal trial over child safety begins Tuesday",
+     "syndication_scope": 1,
+     "tickers": [
+      {
+       "ticker": "META",
+       "relevance": "direct",
+       "materiality": "high",
+       "direction": "negative"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:16.453Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "META",
+     "relevance": "direct",
+     "materiality": "high",
+     "direction": "negative"
+    }
+   },
+   "197bbe5b-19e0-4084-b343-cad74a54da7d": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141247366",
+     "kind": "news",
+     "event_type": "macro_sector",
+     "event_label": "AI companies' bond issuance surge competes with government borrowing",
+     "syndication_scope": 3,
+     "tickers": [
+      {
+       "ticker": "META",
+       "relevance": "indirect",
+       "materiality": "low",
+       "direction": "unclear"
+      },
+      {
+       "ticker": "NVDA",
+       "relevance": "none"
+      },
+      {
+       "ticker": "MSFT",
+       "relevance": "none"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:18.196Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "META",
+     "relevance": "indirect",
+     "materiality": "low",
+     "direction": "unclear"
+    }
+   },
+   "1f029a97-e218-489f-ab19-f7f239110893": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141247265",
+     "kind": "news",
+     "event_type": "legal",
+     "event_label": "Federal trial begins over child safety allegations",
+     "syndication_scope": 1,
+     "tickers": [
+      {
+       "ticker": "META",
+       "relevance": "direct",
+       "materiality": "high",
+       "direction": "negative"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:17.761Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "META",
+     "relevance": "direct",
+     "materiality": "high",
+     "direction": "negative"
+    }
+   },
+   "31938926-6567-4aa5-826a-7624922627c1": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141247379",
+     "kind": "news",
+     "event_type": "legal",
+     "event_label": "States allege Meta exploits youths on social media at trial",
+     "syndication_scope": 1,
+     "tickers": [
+      {
+       "ticker": "META",
+       "relevance": "direct",
+       "materiality": "standard",
+       "direction": "negative"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:18.315Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "META",
+     "relevance": "direct",
+     "materiality": "standard",
+     "direction": "negative"
+    }
+   },
+   "5e1a5285-0c36-4d6a-970d-9e3b603418ef": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141246873",
+     "kind": "news",
+     "event_type": "legal",
+     "event_label": "Landmark Meta trial kicks off",
+     "syndication_scope": 1,
+     "tickers": [
+      {
+       "ticker": "META",
+       "relevance": "direct",
+       "materiality": "standard",
+       "direction": "unclear"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:16.780Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "META",
+     "relevance": "direct",
+     "materiality": "standard",
+     "direction": "unclear"
+    }
+   },
+   "73d183fb-d629-4ed8-a942-55c129b0d27d": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141246297",
+     "kind": "news",
+     "event_type": "macro_sector",
+     "event_label": "Trump-backed firm partners with Chinese AI platform amid US concerns",
+     "syndication_scope": 3,
+     "tickers": [
+      {
+       "ticker": "PLTR",
+       "relevance": "indirect",
+       "materiality": "low",
+       "direction": "unclear"
+      },
+      {
+       "ticker": "META",
+       "relevance": "indirect",
+       "materiality": "low",
+       "direction": "unclear"
+      },
+      {
+       "ticker": "NVDA",
+       "relevance": "indirect",
+       "materiality": "low",
+       "direction": "unclear"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:15.678Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "META",
+     "relevance": "indirect",
+     "materiality": "low",
+     "direction": "unclear"
+    }
+   },
+   "810a2c8d-c6db-4be0-a3cf-4dea8060a6c8": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141246871",
+     "kind": "news",
+     "event_type": "legal",
+     "event_label": "Meta federal trial over child safety begins",
+     "syndication_scope": 1,
+     "tickers": [
+      {
+       "ticker": "META",
+       "relevance": "direct",
+       "materiality": "high",
+       "direction": "negative"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:16.611Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "META",
+     "relevance": "direct",
+     "materiality": "high",
+     "direction": "negative"
+    }
+   },
+   "8a9c7de3-03ba-4e38-bc5a-88fb60b6b577": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141246866",
+     "kind": "news",
+     "event_type": "legal",
+     "event_label": "Meta Platform trial with potential damages and content implications",
+     "syndication_scope": 1,
+     "tickers": [
+      {
+       "ticker": "META",
+       "relevance": "direct",
+       "materiality": "high",
+       "direction": "negative"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:15.201Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "META",
+     "relevance": "direct",
+     "materiality": "high",
+     "direction": "negative"
+    }
+   },
+   "906ff3b7-5d49-4823-a782-5c62ad24fb14": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141245854",
+     "kind": "news",
+     "event_type": "analyst_action",
+     "event_label": "Sandisk rating upgrade on Nvidia Vera-Rubin catalyst",
+     "syndication_scope": 2,
+     "tickers": [
+      {
+       "ticker": "NVDA",
+       "relevance": "indirect",
+       "materiality": "low",
+       "direction": "positive"
+      },
+      {
+       "ticker": "META",
+       "relevance": "none"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:13.217Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "META",
+     "relevance": "none"
+    }
+   },
+   "91dd41f3-6578-4493-b2ec-a60b28322d75": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141246327",
+     "kind": "news",
+     "event_type": "macro_sector",
+     "event_label": "Market roundup featuring five stocks including META",
+     "syndication_scope": 1,
+     "tickers": [
+      {
+       "ticker": "META",
+       "relevance": "none"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:14.492Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "META",
+     "relevance": "none"
+    }
+   },
+   "9b8d11c1-edfd-4258-a8c3-214708ae00bb": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141245983",
+     "kind": "news",
+     "event_type": "macro_sector",
+     "event_label": "J.P. Morgan analyst warns AI boom mirrors 2008 crash patterns",
+     "syndication_scope": 3,
+     "tickers": [
+      {
+       "ticker": "MSFT",
+       "relevance": "indirect",
+       "materiality": "low",
+       "direction": "negative"
+      },
+      {
+       "ticker": "NVDA",
+       "relevance": "indirect",
+       "materiality": "low",
+       "direction": "negative"
+      },
+      {
+       "ticker": "META",
+       "relevance": "indirect",
+       "materiality": "low",
+       "direction": "negative"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:14.056Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "META",
+     "relevance": "indirect",
+     "materiality": "low",
+     "direction": "negative"
+    }
+   },
+   "a9c69c16-2306-4ac4-a130-716fdb0804ae": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141247383",
+     "kind": "news",
+     "event_type": "earnings_results",
+     "event_label": "Meta expenses surge 55%; analyst questions AI spending ROI",
+     "syndication_scope": 2,
+     "tickers": [
+      {
+       "ticker": "META",
+       "relevance": "direct",
+       "materiality": "standard",
+       "direction": "negative"
+      },
+      {
+       "ticker": "NVDA",
+       "relevance": "none"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:19.071Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "META",
+     "relevance": "direct",
+     "materiality": "standard",
+     "direction": "negative"
+    }
+   },
+   "ab2c58e1-38ee-42f8-a028-d7289f723ecd": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141247382",
+     "kind": "news",
+     "event_type": "macro_sector",
+     "event_label": "Bond yields surge, pressuring tech and AI stocks",
+     "syndication_scope": 4,
+     "tickers": [
+      {
+       "ticker": "AVGO",
+       "relevance": "indirect",
+       "materiality": "standard",
+       "direction": "negative"
+      },
+      {
+       "ticker": "AMD",
+       "relevance": "indirect",
+       "materiality": "standard",
+       "direction": "negative"
+      },
+      {
+       "ticker": "NVDA",
+       "relevance": "indirect",
+       "materiality": "standard",
+       "direction": "negative"
+      },
+      {
+       "ticker": "META",
+       "relevance": "indirect",
+       "materiality": "standard",
+       "direction": "negative"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:19.153Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "META",
+     "relevance": "indirect",
+     "materiality": "standard",
+     "direction": "negative"
+    }
+   },
+   "c86c0585-f937-4b93-8374-05c4d842184d": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141247204",
+     "kind": "news",
+     "event_type": "macro_sector",
+     "event_label": "XLC ETF outlook on Alphabet and Meta performance",
+     "syndication_scope": 1,
+     "tickers": [
+      {
+       "ticker": "META",
+       "relevance": "indirect",
+       "materiality": "low",
+       "direction": "unclear"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:17.576Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "META",
+     "relevance": "indirect",
+     "materiality": "low",
+     "direction": "unclear"
+    }
+   },
+   "f1ae625f-57ec-4fa1-8ccb-169106c46d69": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141246868",
+     "kind": "news",
+     "event_type": "legal",
+     "event_label": "Opening statements begin in landmark Meta child safety trial",
+     "syndication_scope": 1,
+     "tickers": [
+      {
+       "ticker": "META",
+       "relevance": "direct",
+       "materiality": "standard",
+       "direction": "negative"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:15.619Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "META",
+     "relevance": "direct",
+     "materiality": "standard",
+     "direction": "negative"
+    }
+   },
+   "f1b2428b-754a-4ec1-a51d-7c2eeb9e5e15": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141245671",
+     "kind": "news",
+     "event_type": "other",
+     "event_label": "Analyst opinion on Meta valuation and upside potential",
+     "syndication_scope": 1,
+     "tickers": [
+      {
+       "ticker": "META",
+       "relevance": "none"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:13.310Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "META",
+     "relevance": "none"
+    }
+   },
+   "56c7e2e4-5117-4b54-adf1-520ba3c55cdb": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141248033",
+     "kind": "news",
+     "event_type": "macro_sector",
+     "event_label": "US debt nearing $40T; Home Depot earnings better than expected",
+     "syndication_scope": 4,
+     "tickers": [
+      {
+       "ticker": "NVDA",
+       "relevance": "none"
+      },
+      {
+       "ticker": "MSFT",
+       "relevance": "none"
+      },
+      {
+       "ticker": "META",
+       "relevance": "none"
+      },
+      {
+       "ticker": "AAPL",
+       "relevance": "none"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:19.380Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "META",
+     "relevance": "none"
+    }
+   },
+   "3606b18d-66f7-4dea-93d6-894bd4d72b31": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141248943",
+     "kind": "news",
+     "event_type": "ownership_flows",
+     "event_label": "AMD insider selling and dilution concerns",
+     "syndication_scope": 3,
+     "tickers": [
+      {
+       "ticker": "AMD",
+       "relevance": "direct",
+       "materiality": "standard",
+       "direction": "negative"
+      },
+      {
+       "ticker": "NVDA",
+       "relevance": "none"
+      },
+      {
+       "ticker": "META",
+       "relevance": "none"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:20.351Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "META",
+     "relevance": "none"
+    }
+   },
+   "bcf76298-71a8-4c5b-a1a7-45453bb36e98": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141249056",
+     "kind": "news",
+     "event_type": "macro_sector",
+     "event_label": "AI cloud spend forecast and thematic analysis",
+     "syndication_scope": 2,
+     "tickers": [
+      {
+       "ticker": "META",
+       "relevance": "none"
+      },
+      {
+       "ticker": "MSFT",
+       "relevance": "none"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:20.468Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "META",
+     "relevance": "none"
+    }
+   }
+  }
+ },
+ "graph_version": {
+  "generatedAt": "2026-08-13T22:38:11.325Z",
+  "pipelineVersion": 5
+ }
+}

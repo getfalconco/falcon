@@ -1,0 +1,489 @@
+{
+ "enabled": true,
+ "model": "claude-fable-5",
+ "temperature": 0,
+ "maxTokens": 16000,
+ "effort": "high",
+ "timeoutMs": 120000,
+ "transportRetries": 2,
+ "validationRetries": 2,
+ "retryBackoffMs": 2000,
+ "concurrency": 1,
+ "promptVersion": "pr-1.0",
+ "breaker": {
+  "consecutiveFailures": 3,
+  "cooldownMs": 600000
+ },
+ "maxTargets": 15,
+ "matrix": {
+  "earnings_results": {
+   "supplier": {
+    "transmits": "yes",
+    "direction": "same",
+    "note": "demand read-through"
+   },
+   "customer": {
+    "transmits": "weak",
+    "direction": "same"
+   },
+   "competitor": {
+    "transmits": "yes",
+    "direction": "unclear",
+    "note": "share-shift vs sector read-through \u2014 stage-2 resolves"
+   },
+   "partner": {
+    "transmits": "weak",
+    "direction": "same"
+   },
+   "dependency": {
+    "transmits": "yes",
+    "direction": "same"
+   },
+   "depended_on_by": {
+    "transmits": "weak",
+    "direction": "same"
+   }
+  },
+  "guidance": {
+   "supplier": {
+    "transmits": "yes",
+    "direction": "same",
+    "note": "demand read-through"
+   },
+   "customer": {
+    "transmits": "weak",
+    "direction": "same"
+   },
+   "competitor": {
+    "transmits": "yes",
+    "direction": "unclear",
+    "note": "share-shift vs sector read-through \u2014 stage-2 resolves"
+   },
+   "partner": {
+    "transmits": "weak",
+    "direction": "same"
+   },
+   "dependency": {
+    "transmits": "yes",
+    "direction": "same"
+   },
+   "depended_on_by": {
+    "transmits": "weak",
+    "direction": "same"
+   }
+  },
+  "supply_chain_ops": {
+   "supplier": {
+    "transmits": "weak",
+    "direction": "same"
+   },
+   "customer": {
+    "transmits": "yes",
+    "direction": "inverse",
+    "note": "supply risk to the root's customers"
+   },
+   "competitor": {
+    "transmits": "yes",
+    "direction": "inverse",
+    "note": "competitors gain"
+   },
+   "partner": {
+    "transmits": "weak",
+    "direction": "same"
+   },
+   "dependency": {
+    "transmits": "yes",
+    "direction": "same"
+   },
+   "depended_on_by": {
+    "transmits": "yes",
+    "direction": "inverse",
+    "note": "supply risk to those who depend on the root"
+   }
+  },
+  "regulatory_decision": {
+   "supplier": {
+    "transmits": "weak",
+    "direction": "same"
+   },
+   "customer": {
+    "transmits": "weak",
+    "direction": "same"
+   },
+   "competitor": {
+    "transmits": "yes",
+    "direction": "inverse"
+   },
+   "partner": {
+    "transmits": "yes",
+    "direction": "same"
+   },
+   "dependency": {
+    "transmits": "yes",
+    "direction": "same"
+   },
+   "depended_on_by": {
+    "transmits": "weak",
+    "direction": "same"
+   }
+  },
+  "product_clinical": {
+   "supplier": {
+    "transmits": "weak",
+    "direction": "same"
+   },
+   "customer": {
+    "transmits": "weak",
+    "direction": "same"
+   },
+   "competitor": {
+    "transmits": "yes",
+    "direction": "inverse"
+   },
+   "partner": {
+    "transmits": "yes",
+    "direction": "same"
+   },
+   "dependency": {
+    "transmits": "weak",
+    "direction": "same"
+   },
+   "depended_on_by": {
+    "transmits": "weak",
+    "direction": "same"
+   }
+  },
+  "ma_activity": {
+   "supplier": {
+    "transmits": "weak",
+    "direction": "same"
+   },
+   "customer": {
+    "transmits": "weak",
+    "direction": "same"
+   },
+   "competitor": {
+    "transmits": "yes",
+    "direction": "unclear",
+    "note": "consolidation vs peer re-rating \u2014 stage-2 resolves"
+   },
+   "partner": {
+    "transmits": "yes",
+    "direction": "same"
+   },
+   "dependency": {
+    "transmits": "weak",
+    "direction": "same"
+   },
+   "depended_on_by": {
+    "transmits": "weak",
+    "direction": "same"
+   }
+  },
+  "contract_partnership": {
+   "supplier": {
+    "transmits": "yes",
+    "direction": "same"
+   },
+   "customer": {
+    "transmits": "yes",
+    "direction": "same"
+   },
+   "competitor": {
+    "transmits": "yes",
+    "direction": "inverse"
+   },
+   "partner": {
+    "transmits": "yes",
+    "direction": "same"
+   },
+   "dependency": {
+    "transmits": "weak",
+    "direction": "same"
+   },
+   "depended_on_by": {
+    "transmits": "yes",
+    "direction": "same"
+   }
+  },
+  "legal": {
+   "supplier": {
+    "transmits": "no",
+    "direction": "unclear"
+   },
+   "customer": {
+    "transmits": "no",
+    "direction": "unclear"
+   },
+   "competitor": {
+    "transmits": "weak",
+    "direction": "unclear"
+   },
+   "partner": {
+    "transmits": "weak",
+    "direction": "same"
+   },
+   "dependency": {
+    "transmits": "weak",
+    "direction": "same"
+   },
+   "depended_on_by": {
+    "transmits": "weak",
+    "direction": "same"
+   }
+  },
+  "management_governance": {
+   "supplier": {
+    "transmits": "no",
+    "direction": "unclear"
+   },
+   "customer": {
+    "transmits": "no",
+    "direction": "unclear"
+   },
+   "competitor": {
+    "transmits": "weak",
+    "direction": "unclear"
+   },
+   "partner": {
+    "transmits": "weak",
+    "direction": "same"
+   },
+   "dependency": {
+    "transmits": "weak",
+    "direction": "same"
+   },
+   "depended_on_by": {
+    "transmits": "weak",
+    "direction": "same"
+   }
+  },
+  "financing_credit": {
+   "supplier": {
+    "transmits": "no",
+    "direction": "unclear"
+   },
+   "customer": {
+    "transmits": "no",
+    "direction": "unclear"
+   },
+   "competitor": {
+    "transmits": "weak",
+    "direction": "unclear"
+   },
+   "partner": {
+    "transmits": "weak",
+    "direction": "same"
+   },
+   "dependency": {
+    "transmits": "weak",
+    "direction": "same"
+   },
+   "depended_on_by": {
+    "transmits": "weak",
+    "direction": "same"
+   }
+  },
+  "analyst_action": {
+   "supplier": {
+    "transmits": "no",
+    "direction": "unclear"
+   },
+   "customer": {
+    "transmits": "no",
+    "direction": "unclear"
+   },
+   "competitor": {
+    "transmits": "no",
+    "direction": "unclear"
+   },
+   "partner": {
+    "transmits": "no",
+    "direction": "unclear"
+   },
+   "dependency": {
+    "transmits": "no",
+    "direction": "unclear"
+   },
+   "depended_on_by": {
+    "transmits": "no",
+    "direction": "unclear"
+   }
+  },
+  "ownership_flows": {
+   "supplier": {
+    "transmits": "no",
+    "direction": "unclear"
+   },
+   "customer": {
+    "transmits": "no",
+    "direction": "unclear"
+   },
+   "competitor": {
+    "transmits": "no",
+    "direction": "unclear"
+   },
+   "partner": {
+    "transmits": "no",
+    "direction": "unclear"
+   },
+   "dependency": {
+    "transmits": "no",
+    "direction": "unclear"
+   },
+   "depended_on_by": {
+    "transmits": "no",
+    "direction": "unclear"
+   }
+  },
+  "macro_sector": {
+   "supplier": {
+    "transmits": "no",
+    "direction": "unclear"
+   },
+   "customer": {
+    "transmits": "no",
+    "direction": "unclear"
+   },
+   "competitor": {
+    "transmits": "no",
+    "direction": "unclear"
+   },
+   "partner": {
+    "transmits": "no",
+    "direction": "unclear"
+   },
+   "dependency": {
+    "transmits": "no",
+    "direction": "unclear"
+   },
+   "depended_on_by": {
+    "transmits": "no",
+    "direction": "unclear"
+   }
+  },
+  "capital_allocation": {
+   "supplier": {
+    "transmits": "no",
+    "direction": "unclear"
+   },
+   "customer": {
+    "transmits": "no",
+    "direction": "unclear"
+   },
+   "competitor": {
+    "transmits": "no",
+    "direction": "unclear"
+   },
+   "partner": {
+    "transmits": "no",
+    "direction": "unclear"
+   },
+   "dependency": {
+    "transmits": "no",
+    "direction": "unclear"
+   },
+   "depended_on_by": {
+    "transmits": "no",
+    "direction": "unclear"
+   }
+  },
+  "other": {
+   "supplier": {
+    "transmits": "no",
+    "direction": "unclear"
+   },
+   "customer": {
+    "transmits": "no",
+    "direction": "unclear"
+   },
+   "competitor": {
+    "transmits": "no",
+    "direction": "unclear"
+   },
+   "partner": {
+    "transmits": "no",
+    "direction": "unclear"
+   },
+   "dependency": {
+    "transmits": "no",
+    "direction": "unclear"
+   },
+   "depended_on_by": {
+    "transmits": "no",
+    "direction": "unclear"
+   }
+  }
+ },
+ "strengthMap": {
+  "critical": {
+   "high": "strong",
+   "standard": "moderate",
+   "low": "weak"
+  },
+  "important": {
+   "high": "moderate",
+   "standard": "weak",
+   "low": "weak"
+  },
+  "marginal": {
+   "high": "weak",
+   "standard": "weak",
+   "low": "weak"
+  }
+ },
+ "pricing": {
+  "openBelow": 0.35,
+  "pricedAtOrAbove": 1,
+  "tierScale": {
+   "strong": 1,
+   "moderate": 0.5,
+   "weak": 0.25
+  },
+  "horizonSessions": 3,
+  "lowR2Fallback": 0.15
+ },
+ "eightKItemEvents": {
+  "2.02": {
+   "type": "earnings_results",
+   "materiality": "high",
+   "direction": "unclear",
+   "label": "8-K Item 2.02 \u2014 results of operations"
+  },
+  "1.01": {
+   "type": "contract_partnership",
+   "materiality": "standard",
+   "direction": "unclear",
+   "label": "8-K Item 1.01 \u2014 material definitive agreement"
+  },
+  "1.05": {
+   "type": "supply_chain_ops",
+   "materiality": "standard",
+   "direction": "negative",
+   "label": "8-K Item 1.05 \u2014 material cybersecurity incident"
+  },
+  "5.02": {
+   "type": "management_governance",
+   "materiality": "standard",
+   "direction": "unclear",
+   "label": "8-K Item 5.02 \u2014 officer / director change"
+  },
+  "8.01": {
+   "type": "other",
+   "materiality": "low",
+   "direction": "unclear",
+   "label": "8-K Item 8.01 \u2014 other events"
+  }
+ },
+ "gapHighMaterialityZ": 3,
+ "fieldCaps": {
+  "mechanism": 200,
+  "rationale": 200,
+  "label": 120
+ },
+ "maxAttemptsPerRequest": 3,
+ "retentionDays": 90,
+ "latencyWindow": 500,
+ "propagationSurfacingEnabled": true,
+ "configVersion": 2
+}

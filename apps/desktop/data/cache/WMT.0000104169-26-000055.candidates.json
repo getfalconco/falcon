@@ -1,0 +1,237 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 60948,
+  "chunks": 3,
+  "candidates": [
+    {
+      "counterparty_name": "China",
+      "counterparty_type": "other",
+      "category": "supplier",
+      "subtype": "import_source",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "less than one third of what we sell in the U.S. is imported, with most of our imports coming from China, Mexico, Vietnam, India and Canada.",
+      "evidence_quotes": [
+        "less than one third of what we sell in the U.S. is imported, with most of our imports coming from China, Mexico, Vietnam, India and Canada."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Mexico",
+      "counterparty_type": "other",
+      "category": "supplier",
+      "subtype": "import_source",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "less than one third of what we sell in the U.S. is imported, with most of our imports coming from China, Mexico, Vietnam, India and Canada.",
+      "evidence_quotes": [
+        "less than one third of what we sell in the U.S. is imported, with most of our imports coming from China, Mexico, Vietnam, India and Canada."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Vietnam",
+      "counterparty_type": "other",
+      "category": "supplier",
+      "subtype": "import_source",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "less than one third of what we sell in the U.S. is imported, with most of our imports coming from China, Mexico, Vietnam, India and Canada.",
+      "evidence_quotes": [
+        "less than one third of what we sell in the U.S. is imported, with most of our imports coming from China, Mexico, Vietnam, India and Canada."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "India",
+      "counterparty_type": "other",
+      "category": "supplier",
+      "subtype": "import_source",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "less than one third of what we sell in the U.S. is imported, with most of our imports coming from China, Mexico, Vietnam, India and Canada.",
+      "evidence_quotes": [
+        "less than one third of what we sell in the U.S. is imported, with most of our imports coming from China, Mexico, Vietnam, India and Canada."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Canada",
+      "counterparty_type": "other",
+      "category": "supplier",
+      "subtype": "import_source",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "less than one third of what we sell in the U.S. is imported, with most of our imports coming from China, Mexico, Vietnam, India and Canada.",
+      "evidence_quotes": [
+        "less than one third of what we sell in the U.S. is imported, with most of our imports coming from China, Mexico, Vietnam, India and Canada."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "U.S. Environmental Protection Agency",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_body",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the Company received a Finding of Violation from the U.S. Environmental Protection Agency (the \"EPA\") alleging violations of the Clean Air Act",
+      "evidence_quotes": [
+        "the Company received a Finding of Violation from the U.S. Environmental Protection Agency (the \"EPA\") alleging violations of the Clean Air Act"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Federal Trade Commission",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_body",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Federal Trade Commission, et al. v. Walmart Inc. , USDC, N.D. Cal., 2/26/26",
+      "evidence_quotes": [
+        "Federal Trade Commission, et al. v. Walmart Inc. , USDC, N.D. Cal., 2/26/26"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Comisión Federal de Competencia Económica",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_body",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Comisión Federal de Competencia Económica of México, Investigative Authority v. Nueva Wal-Mart de México",
+      "evidence_quotes": [
+        "Comisión Federal de Competencia Económica of México, Investigative Authority v. Nueva Wal-Mart de México"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Competition Commission of India",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_body",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Competition Commission of India, Case No. 40 of 2019, order initiating investigation 1/13/20.",
+      "evidence_quotes": [
+        "Competition Commission of India, Case No. 40 of 2019, order initiating investigation 1/13/20."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "PhonePe",
+      "counterparty_type": "private_company",
+      "category": "dependency",
+      "subtype": "subsidiary",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "a charge of $0.7 billion related to PhonePe's modification of certain share-based payment arrangements in contemplation of a potential public offering",
+      "evidence_quotes": [
+        "a charge of $0.7 billion related to PhonePe's modification of certain share-based payment arrangements in contemplation of a potential public offering"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "JD.com",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "strategic_investment",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "net proceeds received from sales of certain strategic investments, including $3.6 billion related to the sale of our JD.com investment.",
+      "evidence_quotes": [
+        "net proceeds received from sales of certain strategic investments, including $3.6 billion related to the sale of our JD.com investment."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "VIZIO",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "acquisition_target",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the acquisition of VIZIO for net consideration of $1.9 billion",
+      "evidence_quotes": [
+        "the acquisition of VIZIO for net consideration of $1.9 billion"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Flipkart",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "majority_owned_subsidiary",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we paid $3.5 billion to acquire shares from certain Flipkart noncontrolling interest holders",
+      "evidence_quotes": [
+        "we paid $3.5 billion to acquire shares from certain Flipkart noncontrolling interest holders"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "PhonePe",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "majority_owned_subsidiary",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we received $0.7 billion related to new rounds of equity funding for the Company's majority owned PhonePe subsidiary.",
+      "evidence_quotes": [
+        "we received $0.7 billion related to new rounds of equity funding for the Company's majority owned PhonePe subsidiary."
+      ],
+      "confidence": 0.92,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Standard & Poor's",
+      "counterparty_type": "private_company",
+      "category": "dependency",
+      "subtype": "credit_rating_agency",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the ratings assigned to our commercial paper and rated series of our outstanding long-term debt were as follows: Rating agency Commercial paper Long-term debt Standard & Poor's A-1+ AA",
+      "evidence_quotes": [
+        "the ratings assigned to our commercial paper and rated series of our outstanding long-term debt were as follows: Rating agency Commercial paper Long-term debt Standard & Poor's A-1+ AA"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Moody's Investors Service",
+      "counterparty_type": "private_company",
+      "category": "dependency",
+      "subtype": "credit_rating_agency",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the ratings assigned to our commercial paper and rated series of our outstanding long-term debt were as follows: Rating agency Commercial paper Long-term debt Moody's Investors Service P-1 Aa2",
+      "evidence_quotes": [
+        "the ratings assigned to our commercial paper and rated series of our outstanding long-term debt were as follows: Rating agency Commercial paper Long-term debt Moody's Investors Service P-1 Aa2"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Fitch Ratings",
+      "counterparty_type": "private_company",
+      "category": "dependency",
+      "subtype": "credit_rating_agency",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the ratings assigned to our commercial paper and rated series of our outstanding long-term debt were as follows: Rating agency Commercial paper Long-term debt Fitch Ratings F1+ AA",
+      "evidence_quotes": [
+        "the ratings assigned to our commercial paper and rated series of our outstanding long-term debt were as follows: Rating agency Commercial paper Long-term debt Fitch Ratings F1+ AA"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    }
+  ],
+  "candidatesPerChunk": [
+    9,
+    1,
+    7
+  ],
+  "parseErrors": 0,
+  "apiErrors": 0,
+  "inputTokens": 17749,
+  "outputTokens": 1691
+}

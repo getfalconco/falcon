@@ -1,0 +1,32 @@
+{
+  "form_type": "10-K",
+  "filing_date": "2026-02-06",
+  "section_chars": 145146,
+  "section_method": "item_span_last",
+  "section_extraction_failed": false,
+  "content_suspect": false,
+  "chunks": 7,
+  "api_errors": 0,
+  "parse_errors": 0,
+  "candidates_extracted": 45,
+  "candidates_per_chunk": [
+    16,
+    10,
+    4,
+    2,
+    8,
+    4,
+    1
+  ],
+  "dropped_low_confidence": 0,
+  "deduped": 7,
+  "rejected_quote_not_found": 11,
+  "rejected_by_auditor": 15,
+  "validated": 12,
+  "input_tokens": 180512,
+  "output_tokens": 11097,
+  "estimated_cost_usd": 0.707991,
+  "fetch_seconds": 2.6,
+  "extract_seconds": 20.7,
+  "audit_seconds": 49.4
+}

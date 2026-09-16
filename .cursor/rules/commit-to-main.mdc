@@ -1,0 +1,11 @@
+---
+description: Always commit and push to main, never to cursor/* feature branches
+alwaysApply: true
+---
+
+# Git branch policy
+
+- Work and commit only on `main`.
+- Never create commits on `cursor/*` or other feature branches unless the user explicitly asks for that branch.
+- Before committing or pushing, ensure the current branch is `main` (`git checkout main` if needed).
+- Prefer updating `main` directly over opening or maintaining parallel Cursor cloud branches for routine work.

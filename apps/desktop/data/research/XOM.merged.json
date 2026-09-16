@@ -1,0 +1,10 @@
+[
+  {
+    "counterparty_name": "OPEC+",
+    "category": "dependency",
+    "subtype": "production_coordination",
+    "evidence_quote": "World oil, gas, and petrochemical supply levels can also be affected by factors that reduce available supplies, such as the level of, and adherence by, participating countries to production quotas established by OPEC or OPEC+",
+    "confidence": 0.85,
+    "merged_into": "OPEC"
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "counterparty_name": "Cencora, Inc.",
+    "category": "competitor",
+    "subtype": "specialty distribution and GPO competitor",
+    "evidence_quote": "Certain competitors also offer combinations of distribution, GPO, and provider services capabilities, including Cencora, Inc. and Cardinal Health, Inc.",
+    "confidence": 0.95,
+    "merged_into": "Cencora, Inc."
+  },
+  {
+    "counterparty_name": "Cardinal Health, Inc.",
+    "category": "competitor",
+    "subtype": "specialty distribution and GPO competitor",
+    "evidence_quote": "Certain competitors also offer combinations of distribution, GPO, and provider services capabilities, including Cencora, Inc. and Cardinal Health, Inc.",
+    "confidence": 0.95,
+    "merged_into": "Cardinal Health, Inc."
+  },
+  {
+    "counterparty_name": "FDA",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "We distribute pharmaceutical, medical, and other FDA-regulated products manufactured by third parties",
+    "confidence": 0.8,
+    "merged_into": "FDA"
+  }
+]

@@ -1,0 +1,249 @@
+[
+  {
+    "root_ticker": "MSTR",
+    "counterparty_name": "AWS",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "supplier",
+    "subtype": "cloud_infrastructure",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.96,
+    "evidence": [
+      {
+        "quote": "Our cloud-native, containerized architecture has been optimized for all three hyperscalers – AWS, Azure, and GCP",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1050446/000105044626000020/mstr-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "Strategy has established strategic partnerships with a wide variety of third-party vendors, including cloud hosting providers (AWS, Microsoft, STACKIT, and Google)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1050446/000105044626000020/mstr-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-19",
+    "shared_evidence_group": "ev_1d5f0c809949"
+  },
+  {
+    "root_ticker": "MSTR",
+    "counterparty_name": "Microsoft Azure",
+    "counterparty_ticker": null,
+    "counterparty_type": "company",
+    "category": "supplier",
+    "subtype": "cloud_infrastructure",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Our cloud-native, containerized architecture has been optimized for all three hyperscalers – AWS, Azure, and GCP",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1050446/000105044626000020/mstr-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-19",
+    "shared_evidence_group": "ev_1d5f0c809949"
+  },
+  {
+    "root_ticker": "MSTR",
+    "counterparty_name": "Google Cloud Platform",
+    "counterparty_ticker": null,
+    "counterparty_type": "company",
+    "category": "supplier",
+    "subtype": "cloud_infrastructure",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "Our cloud-native, containerized architecture has been optimized for all three hyperscalers – AWS, Azure, and GCP",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1050446/000105044626000020/mstr-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-19",
+    "shared_evidence_group": "ev_1d5f0c809949"
+  },
+  {
+    "root_ticker": "MSTR",
+    "counterparty_name": "Microsoft",
+    "counterparty_ticker": "MSFT",
+    "counterparty_type": "public_company",
+    "category": "supplier",
+    "subtype": "cloud hosting provider",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Strategy has established strategic partnerships with a wide variety of third-party vendors, including cloud hosting providers (AWS, Microsoft, STACKIT, and Google)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1050446/000105044626000020/mstr-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-19",
+    "shared_evidence_group": "ev_bf751648b27a"
+  },
+  {
+    "root_ticker": "MSTR",
+    "counterparty_name": "STACKIT",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "supplier",
+    "subtype": "cloud hosting provider",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Strategy has established strategic partnerships with a wide variety of third-party vendors, including cloud hosting providers (AWS, Microsoft, STACKIT, and Google)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1050446/000105044626000020/mstr-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-19",
+    "shared_evidence_group": "ev_bf751648b27a"
+  },
+  {
+    "root_ticker": "MSTR",
+    "counterparty_name": "Google",
+    "counterparty_ticker": "GOOGL",
+    "counterparty_type": "public_company",
+    "category": "supplier",
+    "subtype": "cloud hosting provider",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Strategy has established strategic partnerships with a wide variety of third-party vendors, including cloud hosting providers (AWS, Microsoft, STACKIT, and Google)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1050446/000105044626000020/mstr-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-19",
+    "shared_evidence_group": "ev_bf751648b27a"
+  },
+  {
+    "root_ticker": "MSTR",
+    "counterparty_name": "IBM",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "enterprise analytics",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "For enterprise analytics, Strategy competes with global ISVs, such as IBM, Microsoft, Oracle, Salesforce, and SAP.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1050446/000105044626000020/mstr-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-19",
+    "shared_evidence_group": "ev_949e600e52b1"
+  },
+  {
+    "root_ticker": "MSTR",
+    "counterparty_name": "Microsoft",
+    "counterparty_ticker": "MSFT",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "enterprise analytics",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "For enterprise analytics, Strategy competes with global ISVs, such as IBM, Microsoft, Oracle, Salesforce, and SAP.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1050446/000105044626000020/mstr-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-19",
+    "shared_evidence_group": "ev_949e600e52b1"
+  },
+  {
+    "root_ticker": "MSTR",
+    "counterparty_name": "Oracle",
+    "counterparty_ticker": "ORCL",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "enterprise analytics",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "For enterprise analytics, Strategy competes with global ISVs, such as IBM, Microsoft, Oracle, Salesforce, and SAP.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1050446/000105044626000020/mstr-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-19",
+    "shared_evidence_group": "ev_949e600e52b1"
+  },
+  {
+    "root_ticker": "MSTR",
+    "counterparty_name": "Salesforce",
+    "counterparty_ticker": "CRM",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "enterprise analytics",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "For enterprise analytics, Strategy competes with global ISVs, such as IBM, Microsoft, Oracle, Salesforce, and SAP.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1050446/000105044626000020/mstr-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-19",
+    "shared_evidence_group": "ev_949e600e52b1"
+  },
+  {
+    "root_ticker": "MSTR",
+    "counterparty_name": "SAP",
+    "counterparty_ticker": "SAP",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "enterprise analytics",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "For enterprise analytics, Strategy competes with global ISVs, such as IBM, Microsoft, Oracle, Salesforce, and SAP.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1050446/000105044626000020/mstr-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-19",
+    "shared_evidence_group": "ev_949e600e52b1"
+  }
+]

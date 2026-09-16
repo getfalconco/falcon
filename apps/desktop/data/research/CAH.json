@@ -1,0 +1,269 @@
+[
+  {
+    "root_ticker": "CAH",
+    "counterparty_name": "CVS Health",
+    "counterparty_ticker": "CVS",
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "generic pharmaceutical sourcing joint venture",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Red Oak Sourcing, LLC (\"Red Oak Sourcing\"), a U.S.-based generic pharmaceutical sourcing venture with CVS Health, negotiates generic pharmaceutical supply contracts on behalf of both companies.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/721371/000072137126000038/cah-20260630.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "the Red Oak Sourcing, LLC venture (\"Red Oak Sourcing\") with CVS Health Corporation (\"CVS Health\")",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/721371/000072137126000038/cah-20260630.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "Purchase obligations and other payments also includes quarterly payments to CVS Health in connection with Red Oak Sourcing.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/721371/000072137126000038/cah-20260630.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-08-11",
+    "shared_evidence_group": "ev_c9bc1d7a9317"
+  },
+  {
+    "root_ticker": "CAH",
+    "counterparty_name": "Outcomes",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "equity_investment",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.15,
+    "evidence": [
+      {
+        "quote": "During fiscal 2026, we recognized a pre-tax impairment charge of $122 million in connection with the observed reduction of the estimated fair value of the Outcomes business, of which we hold a 16 percent equity interest.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/721371/000072137126000038/cah-20260630.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-08-11",
+    "shared_evidence_group": "ev_c3312d1ef863"
+  },
+  {
+    "root_ticker": "CAH",
+    "counterparty_name": "CVS Health",
+    "counterparty_ticker": "CVS",
+    "counterparty_type": "public_company",
+    "category": "supplier",
+    "subtype": "joint_purchasing_agreement",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "Purchase obligations and other payments also includes quarterly payments to CVS Health in connection with Red Oak Sourcing.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/721371/000072137126000038/cah-20260630.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-08-11",
+    "shared_evidence_group": "ev_ba34655f80c8"
+  },
+  {
+    "root_ticker": "CAH",
+    "counterparty_name": "OptumRx",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "customer",
+    "subtype": "pharmaceutical_distribution",
+    "strength": 0.17,
+    "strength_tier": "critical",
+    "strength_basis": "disclosed",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "OptumRx — — 17 % — —",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/721371/000072137126000038/cah-20260630.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "includes the impact of unwinding the negative net working capital associated with the OptumRx contracts",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/721371/000072137126000038/cah-20260630.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-08-11",
+    "shared_evidence_group": "ev_30204076f292"
+  },
+  {
+    "root_ticker": "CAH",
+    "counterparty_name": "CVS Health",
+    "counterparty_ticker": "CVS",
+    "counterparty_type": "public_company",
+    "category": "customer",
+    "subtype": "distribution_customer",
+    "strength": 0.28,
+    "strength_tier": "critical",
+    "strength_basis": "disclosed",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Our largest customer, CVS Health, accounted for 28 percent of our fiscal 2026 revenue.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/721371/000072137126000038/cah-20260630.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "In fiscal 2026, CVS Health was our largest customer. CVS Health accounted for 28 percent of our fiscal 2026 revenue",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/721371/000072137126000038/cah-20260630.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "CVS Health 28 % 30 % 24 % 22 % 26 %",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/721371/000072137126000038/cah-20260630.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-08-11",
+    "shared_evidence_group": "ev_e9c7b49f0880"
+  },
+  {
+    "root_ticker": "CAH",
+    "counterparty_name": "McKesson Corporation",
+    "counterparty_ticker": "MCK",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "pharmaceutical_wholesale_distributor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "In the Pharma segment, we compete with wholesale distributors with national reach, including McKesson Corporation and Cencora, Inc.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/721371/000072137126000038/cah-20260630.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-08-11",
+    "shared_evidence_group": "ev_a3ff0615c9e2"
+  },
+  {
+    "root_ticker": "CAH",
+    "counterparty_name": "Cencora, Inc.",
+    "counterparty_ticker": "COR",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "pharmaceutical_wholesale_distributor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "In the Pharma segment, we compete with wholesale distributors with national reach, including McKesson Corporation and Cencora, Inc.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/721371/000072137126000038/cah-20260630.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-08-11",
+    "shared_evidence_group": "ev_a3ff0615c9e2"
+  },
+  {
+    "root_ticker": "CAH",
+    "counterparty_name": "Medline Industries, Inc.",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "competitor",
+    "subtype": "medical_products_distributor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "In the GMPD segment, we compete with many diversified healthcare companies and national medical product distributors, such as Medline Industries, Inc. and Owens & Minor, Inc.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/721371/000072137126000038/cah-20260630.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-08-11",
+    "shared_evidence_group": "ev_83a86285e729"
+  },
+  {
+    "root_ticker": "CAH",
+    "counterparty_name": "Owens & Minor, Inc.",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "medical_products_distributor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "In the GMPD segment, we compete with many diversified healthcare companies and national medical product distributors, such as Medline Industries, Inc. and Owens & Minor, Inc.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/721371/000072137126000038/cah-20260630.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-08-11",
+    "shared_evidence_group": "ev_83a86285e729"
+  },
+  {
+    "root_ticker": "CAH",
+    "counterparty_name": "Vizient, Inc.",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "group_purchasing_organization",
+    "strength": 1,
+    "strength_tier": "critical",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "Vizient, Inc. and Premier, Inc. are our two largest GPO member relationships in terms of revenue.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/721371/000072137126000038/cah-20260630.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-08-11",
+    "shared_evidence_group": "ev_010014eef9c2"
+  },
+  {
+    "root_ticker": "CAH",
+    "counterparty_name": "Premier, Inc.",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "group_purchasing_organization",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "Vizient, Inc. and Premier, Inc. are our two largest GPO member relationships in terms of revenue.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/721371/000072137126000038/cah-20260630.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-08-11",
+    "shared_evidence_group": "ev_010014eef9c2"
+  }
+]

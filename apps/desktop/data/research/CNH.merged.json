@@ -1,0 +1,34 @@
+[
+  {
+    "counterparty_name": "Kubota Tractor Corporation",
+    "category": "competitor",
+    "subtype": "construction_equipment_competitor",
+    "evidence_quote": "competitors in the construction equipment market are Caterpillar Inc., Komatsu Ltd., J C Bamford Excavators Ltd., Hitachi Construction Machinery Co, Ltd., Volvo Group, Liebherr Group, Develon, Bobcat, Kubota Tractor Corporation, SANY Heavy Industry Co., Ltd and Deere & Company.",
+    "confidence": 0.95,
+    "merged_into": "Kubota Tractor Corporation"
+  },
+  {
+    "counterparty_name": "Deere & Company",
+    "category": "competitor",
+    "subtype": "construction_equipment_competitor",
+    "evidence_quote": "competitors in the construction equipment market are Caterpillar Inc., Komatsu Ltd., J C Bamford Excavators Ltd., Hitachi Construction Machinery Co, Ltd., Volvo Group, Liebherr Group, Develon, Bobcat, Kubota Tractor Corporation, SANY Heavy Industry Co., Ltd and Deere & Company.",
+    "confidence": 0.95,
+    "merged_into": "Deere & Company"
+  },
+  {
+    "counterparty_name": "Iveco Group",
+    "category": "supplier",
+    "subtype": "financial services operational support",
+    "evidence_quote": "The European Financial Services operations are supported by the Iveco Group's Financial Services segment.",
+    "confidence": 0.7,
+    "merged_into": "Iveco Group"
+  },
+  {
+    "counterparty_name": "Iveco Group",
+    "category": "customer",
+    "subtype": "financial services provided to Iveco Group dealers and customers",
+    "evidence_quote": "Financial Services also provides financial products and services to dealers and end customers of Iveco Group companies in the North America, South America and Asia Pacific regions.",
+    "confidence": 0.7,
+    "merged_into": "Iveco Group"
+  }
+]

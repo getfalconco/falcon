@@ -1,0 +1,236 @@
+[
+  {
+    "counterparty_name": "Hanhui",
+    "category": "partner",
+    "subtype": "promotion partner",
+    "evidence_quote": "We have an exclusive promotion agreement with Huizheng, a subsidiary of Hanhui, one of the leading pharmaceutical companies for antibiotics in mainland China, which allows us to use Hanhui's existing infrastructure for sales of NUZYRA in mainland China.",
+    "confidence": 0.9,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Pfizer",
+    "category": "partner",
+    "subtype": "commercialization partner",
+    "evidence_quote": "In November 2024, we entered into a strategic collaboration with Pfizer that allows us to leverage the industry-leading commercialization infrastructure of Pfizer's affiliated companies in the anti-infective therapeutic area to support sales of XACDURO in mainland China.",
+    "confidence": 0.9,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "SciClone Pharmaceuticals",
+    "category": "partner",
+    "subtype": "commercialization partner",
+    "evidence_quote": "In December 2025, we entered into a strategic collaboration with SciClone Pharmaceuticals that allows us to leverage SciClone's commercialization infrastructure to support sales of AUGTYRO in mainland China.",
+    "confidence": 0.9,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "MediLink",
+    "category": "supplier",
+    "subtype": "licensor",
+    "evidence_quote": "We have an exclusive global license from MediLink to research, develop, manufacture, and commercialize zoci.",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Seagen",
+    "category": "supplier",
+    "subtype": "licensor",
+    "evidence_quote": "Tisotumab vedotin (TIVDAK) ... Greater China Seagen (now owned by Pfizer)",
+    "confidence": 0.9,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Karuna",
+    "category": "supplier",
+    "subtype": "licensor",
+    "evidence_quote": "Xanomeline and Trospium Chloride (KarXT) ... Greater China Karuna (now owned by BMS)",
+    "confidence": 0.9,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Vertex",
+    "category": "supplier",
+    "subtype": "licensor",
+    "evidence_quote": "Povetacicept ... Greater China and Singapore Vertex",
+    "confidence": 0.9,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Zenas",
+    "category": "supplier",
+    "subtype": "licensor",
+    "evidence_quote": "Elegrobart ... Greater China Zenas",
+    "confidence": 0.9,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Genmab",
+    "category": "supplier",
+    "subtype": "antibody technology licensor",
+    "evidence_quote": "TIVDAK is an ADC composed of Genmab's human monoclonal antibody directed against cell surface tissue factor and Seagen's ADC technology",
+    "confidence": 0.9,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Seagen",
+    "category": "supplier",
+    "subtype": "exclusive license for development and commercialization",
+    "evidence_quote": "We have an exclusive license from Seagen (a company later acquired by Pfizer) to develop and commercialize tisotumab vedotin in Greater China",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "BMS",
+    "category": "supplier",
+    "subtype": "exclusive license and product supplier",
+    "evidence_quote": "we entered into a license agreement with Karuna (a company later acquired by BMS), pursuant to which we obtained an exclusive license to develop, manufacture, and commercialize xanomeline and trospium chloride",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "PCAOB",
+    "category": "dependency",
+    "subtype": "regulatory_infrastructure",
+    "evidence_quote": "inspections by the PCAOB of auditors located in mainland China and Hong Kong have at times identified deficiencies in those auditors' audit procedures and quality control procedures",
+    "confidence": 0.8,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "NMPA",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "our regulatory authorities may withdraw or limit their approval of such products or product candidates",
+    "confidence": 0.85,
+    "reason": "counterparty name not in quote",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "NHSA",
+    "category": "dependency",
+    "subtype": "pricing_regulator",
+    "evidence_quote": "In mainland China, the NHSA is responsible for administering mainland China's social security system, including price negotiations with drug companies seeking to include their products in the NRDL.",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "AstraZeneca",
+    "category": "competitor",
+    "subtype": "talent competitor",
+    "evidence_quote": "Our commercial team has a proven track record and experience from leading global pharmaceutical companies including AstraZeneca, Roche, Novartis, and BMS",
+    "confidence": 0.75,
+    "reason": "The evidence_quote describes AstraZeneca as a former employer of Zai Lab's commercial team members ('Our commercial team has a proven track record and experience from leading global pharmaceutical companies including AstraZeneca, Roche, Novartis, and BMS'). This indicates that AstraZeneca is mentioned only as a source of talent/experience for hiring purposes, not as a competitive threat in the market. The 'talent competitor' subtype is not a recognized category for business relationships in a financial knowledge graph context. AstraZeneca is not identified in this passage as competing with Zai Lab for market share, customers, or business opportunities. The relationship described is about employee backgrounds, not commercial competition. This does not constitute a valid counterparty relationship.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Roche",
+    "category": "competitor",
+    "subtype": "talent competitor",
+    "evidence_quote": "Our commercial team has a proven track record and experience from leading global pharmaceutical companies including AstraZeneca, Roche, Novartis, and BMS",
+    "confidence": 0.75,
+    "reason": "The evidence_quote describes Roche as one of the 'leading global pharmaceutical companies' from which Zai Lab's commercial team members have prior work experience. This establishes Roche as a talent source (former employer of Zai Lab hires), not as a competitor relationship. The quote does not describe Roche competing with Zai Lab for market share, customers, drug development, or any business activity. Prior employment at a company does not establish a competitor relationship between that company and the current employer. The category 'competitor' with subtype 'talent competitor' is not supported by this evidence.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Novartis",
+    "category": "competitor",
+    "subtype": "talent competitor",
+    "evidence_quote": "Our commercial team has a proven track record and experience from leading global pharmaceutical companies including AstraZeneca, Roche, Novartis, and BMS",
+    "confidence": 0.75,
+    "reason": "The evidence quote states that Zai Lab's commercial team has experience from leading global pharmaceutical companies including Novartis. This describes the employment background of Zai Lab's employees, not a competitive relationship between Zai Lab and Novartis as companies. The quote indicates Novartis as a source of talent/employees, not as a business competitor. A talent competitor relationship would require evidence that the companies compete for the same employees or that employee poaching is a strategic concern, which is not stated here. This is simply a statement about employee credentials.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "FDA",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "In the United States, the FDA regulates drugs and biological products under the Federal Food, Drug, and Cosmetic Act, the Public Health Service Act, and their implementing regulations.",
+    "confidence": 0.95,
+    "reason": "The FDA is a regulatory authority, not a dependency. The evidence quote describes the FDA's regulatory role under U.S. law, which is a standard regulatory function, not a critical infrastructure or service dependency. Regulators acting in their regulatory capacity should be rejected per the audit guidelines. The FDA regulates Zai Lab's potential future U.S. activities but is not a counterparty in a commercial, partnership, or dependency relationship. This is analogous to tax authorities or other regulators that should be excluded.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "CSRC",
+    "category": "dependency",
+    "subtype": "securities_regulatory_authority",
+    "evidence_quote": "These regulations include the requirement to submit filing documents including the offering prospectus to the CSRC.",
+    "confidence": 0.93,
+    "reason": "The CSRC (China Securities Regulatory Commission) is a securities regulatory authority, not a dependency counterparty. The filing requirement described is a standard regulatory compliance obligation for companies listing securities overseas, similar to SEC filing requirements in the US. This is a regulatory relationship, not a dependency where the root company relies on CSRC infrastructure or services to operate its core business. Securities regulators acting in their regulatory capacity should be rejected per the audit instructions (point 4: 'regulators acting as regulators'). The CSRC does not provide a critical service or infrastructure that Zai Lab depends on for its pharmaceutical business operations; rather, it enforces rules governing overseas listings.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "SEC",
+    "category": "dependency",
+    "subtype": "regulatory_infrastructure",
+    "evidence_quote": "We file reports and other information with the SEC and the Hong Kong Stock Exchange.",
+    "confidence": 0.9,
+    "reason": "The SEC is a regulator acting in its regulatory capacity. The evidence quote 'We file reports and other information with the SEC and the Hong Kong Stock Exchange' describes a mandatory compliance obligation, not a dependency relationship. The SEC is not infrastructure or a service that Zai Lab relies upon for operations; it is the regulatory body to which the company must submit filings. Per the instructions, regulators acting as regulators must be rejected as counterparties. The SEC does not provide a critical service or infrastructure that the root depends on for business operations; rather, it enforces disclosure obligations.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Hong Kong Stock Exchange",
+    "category": "dependency",
+    "subtype": "listing_venue",
+    "evidence_quote": "We file reports and other information with the SEC and the Hong Kong Stock Exchange.",
+    "confidence": 0.9,
+    "reason": "The Hong Kong Stock Exchange is a listing venue, not a counterparty. The auditor instructions explicitly state to 'always reject stock exchanges and listing venues' as counterparties. The evidence quote ('We file reports and other information with the SEC and the Hong Kong Stock Exchange') merely describes a regulatory filing obligation, not a dependency relationship. Filing disclosure reports with an exchange does not create a counterparty relationship. The Hong Kong Stock Exchange is infrastructure where securities are listed and traded, similar to NYSE or NASDAQ, and should not be treated as a counterparty to the ROOT company.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "CFIUS",
+    "category": "dependency",
+    "subtype": "regulatory infrastructure",
+    "evidence_quote": "The CFIUS has jurisdiction over investments in which a foreign person acquires control over a U.S. company, as well as certain non-controlling investments in U.S. businesses",
+    "confidence": 0.85,
+    "reason": "CFIUS (Committee on Foreign Investment in the United States) is a U.S. government regulatory body. The evidence quote describes CFIUS's jurisdiction over investments, but does not establish a dependency relationship. CFIUS is acting in its regulatory capacity, and regulatory authorities acting as regulators are explicitly excluded as valid counterparties per the auditing instructions. The text describes potential future regulatory review scenarios, not an actual critical reliance on CFIUS infrastructure or services. CFIUS should be rejected as a counterparty.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Hong Kong Department of Health",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "in September 2025, the Hong Kong Department of Health approved TIVDAK for the treatment of adult patients with recurrent or metastatic cervical cancer",
+    "confidence": 0.95,
+    "reason": "The Hong Kong Department of Health is acting as a regulatory authority granting marketing approval, not as a critical infrastructure provider the company depends on for operations. Regulatory approval agencies are explicitly excluded from the 'dependency' category per instruction #4. The relationship here is regulatory oversight, not operational dependency. The evidence quote confirms approval activity, which is a regulatory function, not a dependency relationship where the root relies on counterparty infrastructure/service.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "U.S. Patent and Trademark Office",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "Our owned or in-licensed patents could be found invalid or unenforceable if challenged in court or before the U.S. Patent and Trademark Office or other foreign authority.",
+    "confidence": 0.85,
+    "reason": "The U.S. Patent and Trademark Office (USPTO) is a regulatory authority, not a dependency. The evidence quote states that patents 'could be found invalid or unenforceable if challenged in court or before the U.S. Patent and Trademark Office' — this describes the USPTO as a forum for patent challenges (a regulatory function), not as infrastructure or service the root company critically relies upon. The USPTO does not provide a service that Zai Lab depends on for operations; rather, it is the authority that administers patent law. Regulators acting in their regulatory capacity are explicitly excluded as counterparties per the instructions. Additionally, the relationship described is adversarial/risk-based (patents being challenged), not a dependency relationship. This should be rejected as it conflates regulatory oversight with operational dependency.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Nasdaq",
+    "category": "dependency",
+    "subtype": "stock_exchange_listing",
+    "evidence_quote": "our ordinary shares on the Hong Kong Stock Exchange and our ADSs on Nasdaq may be adversely affected",
+    "confidence": 0.9,
+    "reason": "Nasdaq is a stock exchange listing venue, not a counterparty. Per auditor guidelines, stock exchanges and listing venues must always be rejected as counterparties. The evidence_quote describes market effects on securities traded on Nasdaq, but this is a listing relationship, not a commercial or dependency relationship with an external counterparty. Nasdaq does not provide critical infrastructure services to Zai Lab in the dependency sense (like government GPS or regulatory infrastructure); rather, it is simply the venue where ADSs are listed and traded. This fails criterion #4.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Zai Lab (US) LLC",
+    "category": "supplier",
+    "subtype": "subsidiary",
+    "evidence_quote": "Because the Company includes at least one U.S. subsidiary (Zai Lab (US) LLC), certain of our non-U.S. subsidiaries will be treated as CFCs",
+    "confidence": 0.95,
+    "reason": "Zai Lab (US) LLC is described as a U.S. subsidiary of the root company (Zai Lab Ltd), not an external counterparty. The evidence quote explicitly states 'Because the Company includes at least one U.S. subsidiary (Zai Lab (US) LLC)...' This clearly identifies it as part of the corporate family, not a supplier or external entity. Per the audit rules, the ROOT company's own subsidiaries must be rejected as counterparties.",
+    "stage": "audit"
+  }
+]

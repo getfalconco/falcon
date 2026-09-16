@@ -1,0 +1,200 @@
+[
+  {
+    "counterparty_name": "Turkish Competition Authority",
+    "category": "dependency",
+    "subtype": "regulatory body",
+    "evidence_quote": "we have previously been investigated, and may be investigated in the future, by the Turkish Competition Authority (the \"TCA\") to determine whether we hold a dominant position in the markets we serve",
+    "confidence": 0.9,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "U.S. Treasury Department's Office of Foreign Assets Control",
+    "category": "dependency",
+    "subtype": "sanctions_regulatory_authority",
+    "evidence_quote": "economic and trade sanctions regulations (such as those administered by the U.S. Treasury Department's Office of Foreign Assets Control (\"OFAC\"))",
+    "confidence": 0.88,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "SEC",
+    "category": "dependency",
+    "subtype": "regulatory authority",
+    "evidence_quote": "The Exchange Act requires, among other things, that we file annual and current reports with respect to our business and operating results.",
+    "confidence": 0.95,
+    "reason": "counterparty name not in quote",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Stuarts Corporate Services Ltd.",
+    "category": "supplier",
+    "subtype": "registered office services",
+    "evidence_quote": "Our registered office is Stuarts Corporate Services Ltd., P.O. Box 2510, Kensington House, 69 Dr Roy's Drive, George Town, Grand Cayman",
+    "confidence": 0.91,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "McKinsey & Company",
+    "category": "supplier",
+    "subtype": "market research and consulting",
+    "evidence_quote": "According to McKinsey & Company's Turkish Consumer Mobility Market Assessment (2021), the size of the shared mobility market in Türkiye was estimated at $10-$15 billion",
+    "confidence": 0.85,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Istanbul Otomobilciler Esnaf Odası",
+    "category": "competitor",
+    "subtype": "legal_adversary",
+    "evidence_quote": "the Istanbul Otomobilciler Esnaf Odası, an association of taxi owners, filed a lawsuit against us...regarding our ride-hailing and e-moped services, claiming that these services create unfair competition",
+    "confidence": 0.85,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "municipalities",
+    "category": "supplier",
+    "subtype": "occupancy_fees",
+    "evidence_quote": "Our variable costs include the field operations team, the operations service vans and motorcycles, the fuel consumed by field operations service vans and motorcycles, the repair and maintenance team, spare parts, charging station rent, electricity costs, consumer service call center",
+    "confidence": 0.85,
+    "reason": "counterparty name not in quote",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Callaway Capital Management LLC",
+    "category": "supplier",
+    "subtype": "debt_financing",
+    "evidence_quote": "The Company and Callaway Capital Management LLC (\"Callaway\"), entered into a Commitment Letter, dated as of March 22, 2024",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "405 MSTV I, L.P.",
+    "category": "supplier",
+    "subtype": "debt_financing",
+    "evidence_quote": "the Company and 405 MSTV I, L.P. (\"MSTV\"), as the subscribers party thereto further entered into a Convertible Notes Subscription Agreement",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "New Holland Tactical Alpha Fund LP",
+    "category": "supplier",
+    "subtype": "debt_financing",
+    "evidence_quote": "the subscribers party thereto, MSTV and New Holland Tactical Alpha Fund LP (\"NHTAF\"), further entered into various Subscription Agreements",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Farragut Square Global Master Fund, LP",
+    "category": "supplier",
+    "subtype": "debt_financing",
+    "evidence_quote": "Callaway and Farragut Square Global Master Fund, LP (\"Farragut\"), as the other subscribers party thereto, entered into a Note Subscription Agreement",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "local business partners",
+    "category": "partner",
+    "subtype": "manufacturing collaboration",
+    "evidence_quote": "achieve the design tolerances, high quality and output rates we have planned for expanding the production capacity in Türkiye through collaborations with local business partners.",
+    "confidence": 0.75,
+    "reason": "The counterparty 'local business partners' fails three critical tests: (1) It is not a real, identifiable external organization but a generic, unnamed group; (2) The evidence_quote describes a production/manufacturing goal ('achieve design tolerances... through collaborations with local business partners') which requires a concrete named supplier or manufacturer to constitute a verifiable edge, not an anonymous placeholder; (3) Financial knowledge graphs require specific counterparties (e.g., 'ABC Manufacturing Ltd.') to be actionable and verifiable. Generic references like 'local business partners' or 'third-party suppliers' are not valid nodes in a knowledge graph designed to map real inter-organizational relationships.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Iran",
+    "category": "dependency",
+    "subtype": "geopolitical_risk_factor",
+    "evidence_quote": "the military conflict involving Iran that commenced in February 2026 has disrupted global shipping routes, including through the Strait of Hormuz",
+    "confidence": 0.75,
+    "reason": "The evidence_quote describes Iran as a participant in a military conflict that has disrupted shipping routes (the Strait of Hormuz), which is cited as a geopolitical risk factor affecting regional stability and investor perception of Turkey, where the root company operates. However, Iran is not described as a critical infrastructure or service provider upon which the root company depends. The relationship category 'dependency' is reserved for situations where the root critically relies on a counterparty's infrastructure or service (e.g., GPS systems, regulatory infrastructure, free public networks). This is a geopolitical risk exposure, not a dependency relationship. Additionally, Iran as a government entity is not a counterparty in any commercial, partnership, or service-dependency sense—it is merely a named geopolitical risk factor. The correct treatment would be to exclude this as a counterparty relationship entirely, as geopolitical risk factors (countries involved in conflicts affecting the operating environment) do not constitute actionable relationship edges in a financial knowledge graph focused on commercial and operational dependencies.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Android",
+    "category": "dependency",
+    "subtype": "mobile operating system infrastructure",
+    "evidence_quote": "We are dependent on the interoperability of the Marti App with popular mobile operating systems, networks, and standards that we do not control, such as the Android and iOS operating systems.",
+    "confidence": 0.85,
+    "reason": "Android is not an external organization; it is a mobile operating system (a product) developed by Google. The filing correctly identifies it as infrastructure the company depends on but does not control. However, under the auditor rules, Google would be the proper counterparty if this were a commercial vendor relationship. Since the filing describes Android as infrastructure Marti does NOT control and for which there is NO indication of a commercial payment relationship, this falls under 'dependency' for infrastructure reliance. BUT the counterparty must be a real external organization. The correct counterparty would be Google Inc. (or Alphabet Inc.), the owner and operator of the Android platform, not 'Android' itself. Additionally, the relationship to iOS is also mentioned in the same sentence, suggesting the dependency is on both major mobile OS providers. The current edge names a product rather than an organization, violating rule #2.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Ministry of Environment, Urbanization and Climate Change",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "the Ministry of Transportation and Infrastructure, together with the Ministry of Environment, Urbanization and Climate Change and the Ministry of Interior, has adopted regulations requiring shared e-scooter operators to implement software-based geofencing",
+    "confidence": 0.93,
+    "reason": "The Ministry of Environment, Urbanization and Climate Change is acting as a regulatory authority that adopts regulations requiring compliance, not as a dependency. Auditor rule 4 explicitly states: 'regulators acting as regulators' and 'tax and revenue authorities' must be rejected as counterparties. The evidence shows this ministry jointly adopted regulations that Marti must comply with, which is a standard regulatory function. This is not a critical dependency on infrastructure or services (like GPS satellites would be); it is regulatory compliance. The ministry does not provide a service or infrastructure that Marti relies upon to operate—it mandates requirements. Regulatory bodies enforcing compliance obligations do not qualify as counterparties in a financial knowledge graph focused on commercial and operational dependencies.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Ministry of Interior",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "the Ministry of Transportation and Infrastructure, together with the Ministry of Environment, Urbanization and Climate Change and the Ministry of Interior, has adopted regulations requiring shared e-scooter operators to implement software-based geofencing",
+    "confidence": 0.93,
+    "reason": "The Ministry of Interior is mentioned in the context of adopting regulations requiring geofencing and compliance measures for e-scooter operators. While these are regulatory requirements, the Ministry is acting in a regulatory capacity, not as a dependency in the sense intended by the category. The root company (Marti Technologies) does not critically rely on Ministry of Interior infrastructure or services—rather, it must comply with regulations set by this government body. Per the instructions, regulators acting as regulators should be rejected as counterparties. Additionally, the evidence describes a regulatory framework, not a dependency relationship where the root's operations fundamentally depend on the counterparty's infrastructure or service provision (like GPS from the U.S. government). The relationship is compliance-based, not dependency-based.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Istanbul Metropolitan Municipality",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "The Istanbul Metropolitan Municipality has adopted regulations that include designated parking zones, speed limitations in certain areas, and recurring consumer education requirements.",
+    "confidence": 0.94,
+    "reason": "The Istanbul Metropolitan Municipality is acting in a regulatory capacity, not as a critical infrastructure dependency. The evidence quote describes regulatory requirements (parking zones, speed limits, consumer education) imposed by the municipality. This is a regulatory relationship, not a dependency. The filing context makes clear the municipality is a regulatory authority overseeing operations, similar to other government regulators mentioned. Regulators acting in their regulatory capacity should be rejected per instruction 4. Additionally, the filing discusses multiple regulatory bodies (Ministry of Transportation, district municipalities, etc.) all imposing similar requirements - none constitute dependencies where the root 'critically relies on counterparty infrastructure/service.' The municipality provides regulatory oversight, not infrastructure or services the company depends on.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Istanbul Otomobilciler Esnaf Odası",
+    "category": "competitor",
+    "subtype": "trade association litigation",
+    "evidence_quote": "Istanbul Otomobilciler Esnaf Odası, an association of taxi owners, filed a lawsuit against us before the Istanbul 14 th Commercial Court regarding our ride-hailing and e-moped services, claiming that these services create unfair competition.",
+    "confidence": 0.85,
+    "reason": "Istanbul Otomobilciler Esnaf Odası is a trade association (association of taxi owners) that filed a lawsuit against Marti Technologies alleging unfair competition. It is not a competitor itself—it represents taxi owners. Trade associations acting in litigation do not constitute counterparty relationships in the sense of operational business relationships. The category 'competitor' requires the counterparty to be a competing business entity, not a trade group representing competitors. Additionally, 'trade association litigation' is not a standard subtype; the relationship here is adversarial/legal rather than a business counterparty relationship. This should be rejected as it does not represent a genuine business counterparty edge.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Antalya Chamber of Drivers",
+    "category": "competitor",
+    "subtype": "trade association litigation",
+    "evidence_quote": "Additionally, a lawsuit filed by the Antalya Chamber of Drivers was combined with the existing case, as both were related.",
+    "confidence": 0.8,
+    "reason": "The Antalya Chamber of Drivers is not a competitor; it is a trade association that filed a lawsuit against Marti (the ROOT company). The evidence shows the lawsuit was 'combined with the existing case' filed by another taxi association claiming unfair competition. Being sued by a trade association does not make that association a competitor. The category 'competitor' applies to entities that compete with the ROOT in the market, not plaintiff organizations in litigation. Additionally, the counterparty_type should be 'trade association' or similar, not 'other', and the subtype 'trade association litigation' contradicts the 'competitor' category. The relationship is litigation-based, not market competition.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Turkish Revenue Administration",
+    "category": "dependency",
+    "subtype": "tax_authority",
+    "evidence_quote": "If the Turkish Revenue Administration disagrees with our tax positions and we do not prevail, we could incur additional tax liabilities",
+    "confidence": 0.87,
+    "reason": "The Turkish Revenue Administration is a tax authority acting in its regulatory capacity. Per the audit guidelines, tax and revenue authorities (including national revenue agencies like the IRS and the Turkish Revenue Administration) must be rejected as counterparties. The evidence describes a potential tax audit scenario where the authority may disagree with tax positions—this is a regulatory enforcement function, not a dependency relationship. The ROOT company does not 'rely' on the tax authority's infrastructure or services; rather, it is subject to the authority's jurisdiction. This is analogous to the IRS in the U.S. and falls squarely within the exclusion for regulators and tax authorities.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "NYSE American",
+    "category": "dependency",
+    "subtype": "stock exchange listing venue",
+    "evidence_quote": "We are subject to the reporting requirements of the Exchange Act, the Sarbanes-Oxley Act, the Dodd-Frank Wall Street Reform and Consumer Protection Act, the NYSE American listing requirements",
+    "confidence": 0.92,
+    "reason": "NYSE American is a stock exchange and listing venue. Per instruction #4, stock exchanges and listing venues must always be rejected as counterparties. The evidence_quote describes listing requirements and regulatory compliance, which confirms NYSE American's role as a listing venue, not a dependency in the operational sense. The ROOT company's listing on an exchange does not constitute a counterparty relationship.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "TSE-certified domestic manufacturers",
+    "category": "supplier",
+    "subtype": "fleet_supplier",
+    "evidence_quote": "operators are required to source at least 30% of their fleet from TSE-certified domestic manufacturers in Türkiye by July 2026",
+    "confidence": 0.65,
+    "reason": "The counterparty 'TSE-certified domestic manufacturers' is not a specific, identifiable external organization but a generic category or class of suppliers defined by regulatory certification. The evidence describes a regulatory requirement that operators must source from this category, not a disclosed commercial relationship with a named counterparty. Valid counterparties must be real, named entities. Additionally, the evidence_quote describes a future regulatory obligation (by July 2026), not an actual supplier relationship.",
+    "stage": "audit"
+  }
+]

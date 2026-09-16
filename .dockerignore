@@ -1,0 +1,21 @@
+# Keep the Docker build context small + deterministic.
+**/node_modules
+.git
+.githooks
+**/dist
+**/out
+**/.next
+**/.turbo
+**/*.log
+
+# Desktop build artifacts + runtime data (NOT graph.json — the worker needs it)
+apps/desktop/out
+apps/desktop/dist
+apps/desktop/data/events
+apps/desktop/data/signals
+apps/desktop/apps
+
+# Local secrets / runtime signal + event dirs
+**/.env
+data/events
+data/signals

@@ -1,0 +1,67 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 31901,
+  "chunks": 2,
+  "candidates": [
+    {
+      "counterparty_name": "AMF",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "acquisition",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We also completed the strategic, complementary acquisitions of AMF, MIPS and Infinilink, which expanded our technology portfolio",
+      "evidence_quotes": [
+        "We also completed the strategic, complementary acquisitions of AMF, MIPS and Infinilink, which expanded our technology portfolio"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "MIPS",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "acquisition",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We also completed the strategic, complementary acquisitions of AMF, MIPS and Infinilink, which expanded our technology portfolio",
+      "evidence_quotes": [
+        "We also completed the strategic, complementary acquisitions of AMF, MIPS and Infinilink, which expanded our technology portfolio"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Infinilink",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "acquisition",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We also completed the strategic, complementary acquisitions of AMF, MIPS and Infinilink, which expanded our technology portfolio",
+      "evidence_quotes": [
+        "We also completed the strategic, complementary acquisitions of AMF, MIPS and Infinilink, which expanded our technology portfolio"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Singapore Economic Development Board",
+      "counterparty_type": "government",
+      "category": "supplier",
+      "subtype": "debt_financing",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "other debt facilities, which consists of the loan agreement with Singapore Economic Development Board",
+      "evidence_quotes": [
+        "other debt facilities, which consists of the loan agreement with Singapore Economic Development Board"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    }
+  ],
+  "candidatesPerChunk": [
+    3,
+    1
+  ],
+  "parseErrors": 0,
+  "apiErrors": 0,
+  "inputTokens": 8679,
+  "outputTokens": 374
+}

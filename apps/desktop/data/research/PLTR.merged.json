@@ -1,0 +1,18 @@
+[
+  {
+    "counterparty_name": "SEC",
+    "category": "dependency",
+    "subtype": "regulatory_compliance",
+    "evidence_quote": "our ability to sell or transfer, or realize value from noncash consideration and our investments may be limited by applicable securities laws and regulations, including the requirement that offers or sales of securities must be registered with the SEC",
+    "confidence": 0.75,
+    "merged_into": "SEC"
+  },
+  {
+    "counterparty_name": "Nasdaq",
+    "category": "dependency",
+    "subtype": "listing_venue",
+    "evidence_quote": "Any future issuances of additional shares of Class A common stock and Class B common stock will not be subject to approval by our stockholders except as required by the Nasdaq listing standards.",
+    "confidence": 0.75,
+    "merged_into": "Nasdaq"
+  }
+]

@@ -1,0 +1,568 @@
+{
+ "recorded_at": "2026-08-21",
+ "incident": {
+  "incident_id": "c8e67916-b4a5-4c0e-a8ce-f514197cc615",
+  "ticker": "CAH",
+  "trigger_type": "organic",
+  "window_start": "2026-08-21T00:39:53.797Z",
+  "window_end": "2026-08-21T06:39:53.797Z",
+  "window_status": "closed",
+  "composite_tags": [
+   "standalone_insider_cluster"
+  ],
+  "priority": 58,
+  "priority_band": "P1",
+  "degraded_context": false,
+  "discovery_floor_applied": false,
+  "earnings_absorption": false,
+  "messages": [
+   {
+    "id": "14e96ce7-b318-48a4-9d82-a219414f6fb5",
+    "schema_version": 1,
+    "type": "insider_filing",
+    "ticker": "CAH",
+    "timestamp": "2026-08-21T00:39:53.797Z",
+    "source_engine": "tracker",
+    "context_flags": [],
+    "quant_context": {
+     "beta_90d": -0.40993985289617973,
+     "r_squared": 0.04204598804177606,
+     "daily_vol_30d": 0.016795192565105723,
+     "vol_regime": 1.0744731482913894,
+     "move_today": -0.02309990187334543,
+     "move_zscore": -1.3753877357344857,
+     "residual_move": -0.02639408867035882,
+     "residual_zscore": -1.8795008713013883,
+     "volume_ratio": 0.7625966202889279,
+     "volume_ratio_partial": false,
+     "momentum_5d": -0.02522266585010402,
+     "momentum_20d": 0.03130917576735737,
+     "momentum_60d": 0.16998060771636037,
+     "pct_from_52w_high": -0.02522266585010402,
+     "pct_from_52w_low": 0.6203483501744285,
+     "earnings_rhythm": 0.07863290376956122,
+     "prev_close": 234.1999969482422,
+     "last_price": 228.79,
+     "price_asof": "2026-08-20T23:45:47.000Z",
+     "session": "post"
+    },
+    "payload": {
+     "insider_name": "WEITZMAN DEBORAH",
+     "role": "CEO, PSS Segment",
+     "transaction_code": "S",
+     "is_10b5_1_plan": false,
+     "shares": 6665,
+     "value": 1568274.5,
+     "filed_at": "2026-08-20T00:00:00.000Z"
+    }
+   },
+   {
+    "id": "3825aa9c-b2ff-402e-a2e4-fed9281fa65b",
+    "schema_version": 1,
+    "type": "insider_filing",
+    "ticker": "CAH",
+    "timestamp": "2026-08-21T00:39:53.797Z",
+    "source_engine": "tracker",
+    "context_flags": [],
+    "quant_context": {
+     "beta_90d": -0.40993985289617973,
+     "r_squared": 0.04204598804177606,
+     "daily_vol_30d": 0.016795192565105723,
+     "vol_regime": 1.0744731482913894,
+     "move_today": -0.02309990187334543,
+     "move_zscore": -1.3753877357344857,
+     "residual_move": -0.02639408867035882,
+     "residual_zscore": -1.8795008713013883,
+     "volume_ratio": 0.7625966202889279,
+     "volume_ratio_partial": false,
+     "momentum_5d": -0.02522266585010402,
+     "momentum_20d": 0.03130917576735737,
+     "momentum_60d": 0.16998060771636037,
+     "pct_from_52w_high": -0.02522266585010402,
+     "pct_from_52w_low": 0.6203483501744285,
+     "earnings_rhythm": 0.07863290376956122,
+     "prev_close": 234.1999969482422,
+     "last_price": 228.79,
+     "price_asof": "2026-08-20T23:45:47.000Z",
+     "session": "post"
+    },
+    "payload": {
+     "insider_name": "Greene Michelle D.",
+     "role": "Chief Information Officer",
+     "transaction_code": "S",
+     "is_10b5_1_plan": false,
+     "shares": 2500,
+     "value": 586425,
+     "filed_at": "2026-08-20T00:00:00.000Z"
+    }
+   },
+   {
+    "id": "6bf8992e-f946-464c-8e3f-de18d4c699ba",
+    "schema_version": 1,
+    "type": "insider_filing",
+    "ticker": "CAH",
+    "timestamp": "2026-08-21T00:39:53.797Z",
+    "source_engine": "tracker",
+    "context_flags": [],
+    "quant_context": {
+     "beta_90d": -0.40993985289617973,
+     "r_squared": 0.04204598804177606,
+     "daily_vol_30d": 0.016795192565105723,
+     "vol_regime": 1.0744731482913894,
+     "move_today": -0.02309990187334543,
+     "move_zscore": -1.3753877357344857,
+     "residual_move": -0.02639408867035882,
+     "residual_zscore": -1.8795008713013883,
+     "volume_ratio": 0.7625966202889279,
+     "volume_ratio_partial": false,
+     "momentum_5d": -0.02522266585010402,
+     "momentum_20d": 0.03130917576735737,
+     "momentum_60d": 0.16998060771636037,
+     "pct_from_52w_high": -0.02522266585010402,
+     "pct_from_52w_low": 0.6203483501744285,
+     "earnings_rhythm": 0.07863290376956122,
+     "prev_close": 234.1999969482422,
+     "last_price": 228.79,
+     "price_asof": "2026-08-20T23:45:47.000Z",
+     "session": "post"
+    },
+    "payload": {
+     "insider_name": "Hollar Jason M.",
+     "role": "Chief Executive Officer",
+     "transaction_code": "S",
+     "is_10b5_1_plan": false,
+     "shares": 21407,
+     "value": 5021225.92,
+     "filed_at": "2026-08-20T00:00:00.000Z"
+    }
+   },
+   {
+    "id": "6ed51679-954c-4a6c-8019-8efb95d67cae",
+    "schema_version": 1,
+    "type": "insider_filing",
+    "ticker": "CAH",
+    "timestamp": "2026-08-21T00:39:53.797Z",
+    "source_engine": "tracker",
+    "context_flags": [],
+    "quant_context": {
+     "beta_90d": -0.40993985289617973,
+     "r_squared": 0.04204598804177606,
+     "daily_vol_30d": 0.016795192565105723,
+     "vol_regime": 1.0744731482913894,
+     "move_today": -0.02309990187334543,
+     "move_zscore": -1.3753877357344857,
+     "residual_move": -0.02639408867035882,
+     "residual_zscore": -1.8795008713013883,
+     "volume_ratio": 0.7625966202889279,
+     "volume_ratio_partial": false,
+     "momentum_5d": -0.02522266585010402,
+     "momentum_20d": 0.03130917576735737,
+     "momentum_60d": 0.16998060771636037,
+     "pct_from_52w_high": -0.02522266585010402,
+     "pct_from_52w_low": 0.6203483501744285,
+     "earnings_rhythm": 0.07863290376956122,
+     "prev_close": 234.1999969482422,
+     "last_price": 228.79,
+     "price_asof": "2026-08-20T23:45:47.000Z",
+     "session": "post"
+    },
+    "payload": {
+     "insider_name": "Alt Aaron E",
+     "role": "Chief Financial Officer",
+     "transaction_code": "S",
+     "is_10b5_1_plan": false,
+     "shares": 3115,
+     "value": 730623.25,
+     "filed_at": "2026-08-20T00:00:00.000Z"
+    }
+   },
+   {
+    "id": "b8b1630a-d88f-4e3d-b332-deba2b4fee1d",
+    "schema_version": 1,
+    "type": "insider_filing",
+    "ticker": "CAH",
+    "timestamp": "2026-08-21T00:39:53.797Z",
+    "source_engine": "tracker",
+    "context_flags": [],
+    "quant_context": {
+     "beta_90d": -0.40993985289617973,
+     "r_squared": 0.04204598804177606,
+     "daily_vol_30d": 0.016795192565105723,
+     "vol_regime": 1.0744731482913894,
+     "move_today": -0.02309990187334543,
+     "move_zscore": -1.3753877357344857,
+     "residual_move": -0.02639408867035882,
+     "residual_zscore": -1.8795008713013883,
+     "volume_ratio": 0.7625966202889279,
+     "volume_ratio_partial": false,
+     "momentum_5d": -0.02522266585010402,
+     "momentum_20d": 0.03130917576735737,
+     "momentum_60d": 0.16998060771636037,
+     "pct_from_52w_high": -0.02522266585010402,
+     "pct_from_52w_low": 0.6203483501744285,
+     "earnings_rhythm": 0.07863290376956122,
+     "prev_close": 234.1999969482422,
+     "last_price": 228.79,
+     "price_asof": "2026-08-20T23:45:47.000Z",
+     "session": "post"
+    },
+    "payload": {
+     "insider_name": "Scherer Mary C.",
+     "role": "Chief Accounting Officer",
+     "transaction_code": "S",
+     "is_10b5_1_plan": false,
+     "shares": 100,
+     "value": 23740,
+     "filed_at": "2026-08-20T00:00:00.000Z"
+    }
+   },
+   {
+    "id": "d34391cf-e56b-4059-bf5d-7e40aa677945",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "CAH",
+    "timestamp": "2026-08-21T00:39:53.797Z",
+    "source_engine": "tracker",
+    "context_flags": [],
+    "quant_context": {
+     "beta_90d": -0.40993985289617973,
+     "r_squared": 0.04204598804177606,
+     "daily_vol_30d": 0.016795192565105723,
+     "vol_regime": 1.0744731482913894,
+     "move_today": -0.02309990187334543,
+     "move_zscore": -1.3753877357344857,
+     "residual_move": -0.02639408867035882,
+     "residual_zscore": -1.8795008713013883,
+     "volume_ratio": 0.7625966202889279,
+     "volume_ratio_partial": false,
+     "momentum_5d": -0.02522266585010402,
+     "momentum_20d": 0.03130917576735737,
+     "momentum_60d": 0.16998060771636037,
+     "pct_from_52w_high": -0.02522266585010402,
+     "pct_from_52w_low": 0.6203483501744285,
+     "earnings_rhythm": 0.07863290376956122,
+     "prev_close": 234.1999969482422,
+     "last_price": 228.79,
+     "price_asof": "2026-08-20T23:45:47.000Z",
+     "session": "post"
+    },
+    "payload": {
+     "headline": "RBC Capital Initiates Coverage of Cardinal Health (CAH) with Outperform Recommendation",
+     "source": "Fintel",
+     "published_at": "2026-08-19T22:11:38.000Z",
+     "article_id": "141257357"
+    }
+   },
+   {
+    "id": "e1459434-a1f0-4d31-81ee-f6be1e1001bf",
+    "schema_version": 1,
+    "type": "insider_cluster",
+    "ticker": "CAH",
+    "timestamp": "2026-08-21T00:39:53.797Z",
+    "source_engine": "tracker",
+    "context_flags": [],
+    "quant_context": {
+     "beta_90d": -0.40993985289617973,
+     "r_squared": 0.04204598804177606,
+     "daily_vol_30d": 0.016795192565105723,
+     "vol_regime": 1.0744731482913894,
+     "move_today": -0.02309990187334543,
+     "move_zscore": -1.3753877357344857,
+     "residual_move": -0.02639408867035882,
+     "residual_zscore": -1.8795008713013883,
+     "volume_ratio": 0.7625966202889279,
+     "volume_ratio_partial": false,
+     "momentum_5d": -0.02522266585010402,
+     "momentum_20d": 0.03130917576735737,
+     "momentum_60d": 0.16998060771636037,
+     "pct_from_52w_high": -0.02522266585010402,
+     "pct_from_52w_low": 0.6203483501744285,
+     "earnings_rhythm": 0.07863290376956122,
+     "prev_close": 234.1999969482422,
+     "last_price": 228.79,
+     "price_asof": "2026-08-20T23:45:47.000Z",
+     "session": "post"
+    },
+    "payload": {
+     "window_business_days": 10,
+     "insider_count": 6,
+     "direction": "sell",
+     "total_notional": 9548873.67,
+     "transactions": [
+      {
+       "insider_name": "Hollar Jason M.",
+       "transaction_code": "S",
+       "is_10b5_1_plan": false,
+       "filed_at": "2026-08-20T00:00:00.000Z",
+       "value": 5021225.92
+      },
+      {
+       "insider_name": "Mason Stephen M",
+       "transaction_code": "S",
+       "is_10b5_1_plan": false,
+       "filed_at": "2026-08-20T00:00:00.000Z",
+       "value": 727229
+      },
+      {
+       "insider_name": "WEITZMAN DEBORAH",
+       "transaction_code": "S",
+       "is_10b5_1_plan": false,
+       "filed_at": "2026-08-20T00:00:00.000Z",
+       "value": 1568274.5
+      },
+      {
+       "insider_name": "Alt Aaron E",
+       "transaction_code": "S",
+       "is_10b5_1_plan": false,
+       "filed_at": "2026-08-20T00:00:00.000Z",
+       "value": 730623.25
+      },
+      {
+       "insider_name": "Mayer Jessica L",
+       "transaction_code": "S",
+       "is_10b5_1_plan": false,
+       "filed_at": "2026-08-20T00:00:00.000Z",
+       "value": 915096
+      },
+      {
+       "insider_name": "Greene Michelle D.",
+       "transaction_code": "S",
+       "is_10b5_1_plan": false,
+       "filed_at": "2026-08-20T00:00:00.000Z",
+       "value": 586425
+      }
+     ]
+    }
+   },
+   {
+    "id": "e24ea72d-a70d-47a6-8cba-9c37a60eb963",
+    "schema_version": 1,
+    "type": "insider_filing",
+    "ticker": "CAH",
+    "timestamp": "2026-08-21T00:39:53.797Z",
+    "source_engine": "tracker",
+    "context_flags": [],
+    "quant_context": {
+     "beta_90d": -0.40993985289617973,
+     "r_squared": 0.04204598804177606,
+     "daily_vol_30d": 0.016795192565105723,
+     "vol_regime": 1.0744731482913894,
+     "move_today": -0.02309990187334543,
+     "move_zscore": -1.3753877357344857,
+     "residual_move": -0.02639408867035882,
+     "residual_zscore": -1.8795008713013883,
+     "volume_ratio": 0.7625966202889279,
+     "volume_ratio_partial": false,
+     "momentum_5d": -0.02522266585010402,
+     "momentum_20d": 0.03130917576735737,
+     "momentum_60d": 0.16998060771636037,
+     "pct_from_52w_high": -0.02522266585010402,
+     "pct_from_52w_low": 0.6203483501744285,
+     "earnings_rhythm": 0.07863290376956122,
+     "prev_close": 234.1999969482422,
+     "last_price": 228.79,
+     "price_asof": "2026-08-20T23:45:47.000Z",
+     "session": "post"
+    },
+    "payload": {
+     "insider_name": "Mayer Jessica L",
+     "role": "Chief Legal/Compliance Officer",
+     "transaction_code": "S",
+     "is_10b5_1_plan": false,
+     "shares": 3900,
+     "value": 915096,
+     "filed_at": "2026-08-20T00:00:00.000Z"
+    }
+   },
+   {
+    "id": "fc29d55b-b8d3-441e-be51-320fab9e5d57",
+    "schema_version": 1,
+    "type": "insider_filing",
+    "ticker": "CAH",
+    "timestamp": "2026-08-21T00:39:53.797Z",
+    "source_engine": "tracker",
+    "context_flags": [],
+    "quant_context": {
+     "beta_90d": -0.40993985289617973,
+     "r_squared": 0.04204598804177606,
+     "daily_vol_30d": 0.016795192565105723,
+     "vol_regime": 1.0744731482913894,
+     "move_today": -0.02309990187334543,
+     "move_zscore": -1.3753877357344857,
+     "residual_move": -0.02639408867035882,
+     "residual_zscore": -1.8795008713013883,
+     "volume_ratio": 0.7625966202889279,
+     "volume_ratio_partial": false,
+     "momentum_5d": -0.02522266585010402,
+     "momentum_20d": 0.03130917576735737,
+     "momentum_60d": 0.16998060771636037,
+     "pct_from_52w_high": -0.02522266585010402,
+     "pct_from_52w_low": 0.6203483501744285,
+     "earnings_rhythm": 0.07863290376956122,
+     "prev_close": 234.1999969482422,
+     "last_price": 228.79,
+     "price_asof": "2026-08-20T23:45:47.000Z",
+     "session": "post"
+    },
+    "payload": {
+     "insider_name": "Mason Stephen M",
+     "role": "CEO, GMPD Segment",
+     "transaction_code": "S",
+     "is_10b5_1_plan": false,
+     "shares": 3100,
+     "value": 727229,
+     "filed_at": "2026-08-20T00:00:00.000Z"
+    }
+   }
+  ],
+  "quant_context": {
+   "beta_90d": -0.40993985289617973,
+   "r_squared": 0.04204598804177606,
+   "daily_vol_30d": 0.016795192565105723,
+   "vol_regime": 1.0744731482913894,
+   "move_today": -0.02309990187334543,
+   "move_zscore": -1.3753877357344857,
+   "residual_move": -0.02639408867035882,
+   "residual_zscore": -1.8795008713013883,
+   "volume_ratio": 0.7625966202889279,
+   "volume_ratio_partial": false,
+   "momentum_5d": -0.02522266585010402,
+   "momentum_20d": 0.03130917576735737,
+   "momentum_60d": 0.16998060771636037,
+   "pct_from_52w_high": -0.02522266585010402,
+   "pct_from_52w_low": 0.6203483501744285,
+   "earnings_rhythm": 0.07863290376956122,
+   "prev_close": 234.1999969482422,
+   "last_price": 228.79,
+   "price_asof": "2026-08-20T23:45:47.000Z",
+   "session": "post"
+  },
+  "user_proximity": "tracked",
+  "related_incident_id": null,
+  "propagation_candidates": []
+ },
+ "routing": {
+  "destinations": [
+   {
+    "destination": "classifier",
+    "rules": [
+     "news_item"
+    ],
+    "message_ids": [
+     "d34391cf-e56b-4059-bf5d-7e40aa677945"
+    ]
+   },
+   {
+    "destination": "analyst",
+    "rules": [
+     "insider_cluster.analyst"
+    ],
+    "message_ids": [
+     "e1459434-a1f0-4d31-81ee-f6be1e1001bf"
+    ]
+   }
+  ],
+  "store_only": false,
+  "per_message": [
+   {
+    "message_id": "14e96ce7-b318-48a4-9d82-a219414f6fb5",
+    "outcome": {
+     "action": "store_only",
+     "rule": "insider_filing"
+    }
+   },
+   {
+    "message_id": "3825aa9c-b2ff-402e-a2e4-fed9281fa65b",
+    "outcome": {
+     "action": "store_only",
+     "rule": "insider_filing"
+    }
+   },
+   {
+    "message_id": "6bf8992e-f946-464c-8e3f-de18d4c699ba",
+    "outcome": {
+     "action": "store_only",
+     "rule": "insider_filing"
+    }
+   },
+   {
+    "message_id": "6ed51679-954c-4a6c-8019-8efb95d67cae",
+    "outcome": {
+     "action": "store_only",
+     "rule": "insider_filing"
+    }
+   },
+   {
+    "message_id": "b8b1630a-d88f-4e3d-b332-deba2b4fee1d",
+    "outcome": {
+     "action": "store_only",
+     "rule": "insider_filing"
+    }
+   },
+   {
+    "message_id": "d34391cf-e56b-4059-bf5d-7e40aa677945",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "e1459434-a1f0-4d31-81ee-f6be1e1001bf",
+    "outcome": {
+     "action": "route",
+     "destination": "analyst",
+     "rule": "insider_cluster.analyst"
+    }
+   },
+   {
+    "message_id": "e24ea72d-a70d-47a6-8cba-9c37a60eb963",
+    "outcome": {
+     "action": "store_only",
+     "rule": "insider_filing"
+    }
+   },
+   {
+    "message_id": "fc29d55b-b8d3-441e-be51-320fab9e5d57",
+    "outcome": {
+     "action": "store_only",
+     "rule": "insider_filing"
+    }
+   }
+  ]
+ },
+ "verdicts": {
+  "d34391cf-e56b-4059-bf5d-7e40aa677945": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141257357",
+    "kind": "news",
+    "event_type": "analyst_action",
+    "event_label": "RBC Capital initiates coverage with Outperform rating",
+    "syndication_scope": 1,
+    "tickers": [
+     {
+      "ticker": "CAH",
+      "relevance": "direct",
+      "materiality": "low",
+      "direction": "positive"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:03:04.809Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "CAH",
+    "relevance": "direct",
+    "materiality": "low",
+    "direction": "positive"
+   }
+  }
+ }
+}

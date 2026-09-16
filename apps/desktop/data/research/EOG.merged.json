@@ -1,0 +1,18 @@
+[
+  {
+    "counterparty_name": "Bureau of Land Management",
+    "category": "dependency",
+    "subtype": "regulatory_body",
+    "evidence_quote": "the rules and regulations adopted by the U.S. EPA and the Bureau of Land Management with respect to GHG emissions and related matters",
+    "confidence": 0.85,
+    "merged_into": "Bureau of Land Management"
+  },
+  {
+    "counterparty_name": "SEC",
+    "category": "dependency",
+    "subtype": "regulatory_body",
+    "evidence_quote": "evolving legal and compliance matters, including increased regulatory focus on prevention and new disclosure requirements recently enacted by the SEC with respect to material cyber incidents",
+    "confidence": 0.85,
+    "merged_into": "SEC"
+  }
+]

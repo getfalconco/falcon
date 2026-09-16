@@ -1,0 +1,593 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 168132,
+  "chunks": 8,
+  "candidates": [
+    {
+      "counterparty_name": "Adobe Systems Incorporated",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "enterprise_software",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our enterprise cloud, software and hardware offerings compete directly with certain offerings from some of the largest and most competitive companies in the world, including Adobe Systems Incorporated",
+      "evidence_quotes": [
+        "Our enterprise cloud, software and hardware offerings compete directly with certain offerings from some of the largest and most competitive companies in the world, including Adobe Systems Incorporated"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Alphabet Inc.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "enterprise_cloud",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our enterprise cloud, software and hardware offerings compete directly with certain offerings from some of the largest and most competitive companies in the world, including Alphabet Inc.",
+      "evidence_quotes": [
+        "Our enterprise cloud, software and hardware offerings compete directly with certain offerings from some of the largest and most competitive companies in the world, including Alphabet Inc."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Amazon.com, Inc.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "enterprise_cloud",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our enterprise cloud, software and hardware offerings compete directly with certain offerings from some of the largest and most competitive companies in the world, including Amazon.com, Inc.",
+      "evidence_quotes": [
+        "Our enterprise cloud, software and hardware offerings compete directly with certain offerings from some of the largest and most competitive companies in the world, including Amazon.com, Inc."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Cisco Systems, Inc.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "enterprise_hardware",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our enterprise cloud, software and hardware offerings compete directly with certain offerings from some of the largest and most competitive companies in the world, including Cisco Systems, Inc.",
+      "evidence_quotes": [
+        "Our enterprise cloud, software and hardware offerings compete directly with certain offerings from some of the largest and most competitive companies in the world, including Cisco Systems, Inc."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Intel Corporation",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "enterprise_hardware",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our enterprise cloud, software and hardware offerings compete directly with certain offerings from some of the largest and most competitive companies in the world, including Intel Corporation",
+      "evidence_quotes": [
+        "Our enterprise cloud, software and hardware offerings compete directly with certain offerings from some of the largest and most competitive companies in the world, including Intel Corporation"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "International Business Machines Corporation",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "enterprise_cloud_software_hardware",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our enterprise cloud, software and hardware offerings compete directly with certain offerings from some of the largest and most competitive companies in the world, including International Business Machines Corporation",
+      "evidence_quotes": [
+        "Our enterprise cloud, software and hardware offerings compete directly with certain offerings from some of the largest and most competitive companies in the world, including International Business Machines Corporation"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Microsoft Corporation",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "enterprise_cloud_software",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our enterprise cloud, software and hardware offerings compete directly with certain offerings from some of the largest and most competitive companies in the world, including Microsoft Corporation",
+      "evidence_quotes": [
+        "Our enterprise cloud, software and hardware offerings compete directly with certain offerings from some of the largest and most competitive companies in the world, including Microsoft Corporation"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Salesforce, Inc.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "enterprise_cloud_software",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our enterprise cloud, software and hardware offerings compete directly with certain offerings from some of the largest and most competitive companies in the world, including Salesforce, Inc.",
+      "evidence_quotes": [
+        "Our enterprise cloud, software and hardware offerings compete directly with certain offerings from some of the largest and most competitive companies in the world, including Salesforce, Inc."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "SAP SE",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "enterprise_software",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our enterprise cloud, software and hardware offerings compete directly with certain offerings from some of the largest and most competitive companies in the world, including SAP SE",
+      "evidence_quotes": [
+        "Our enterprise cloud, software and hardware offerings compete directly with certain offerings from some of the largest and most competitive companies in the world, including SAP SE"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Hewlett-Packard Enterprise",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "enterprise_hardware",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "as well as other companies like Hewlett-Packard Enterprise and Workday, Inc.",
+      "evidence_quotes": [
+        "as well as other companies like Hewlett-Packard Enterprise and Workday, Inc."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Workday, Inc.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "enterprise_software",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "as well as other companies like Hewlett-Packard Enterprise and Workday, Inc.",
+      "evidence_quotes": [
+        "as well as other companies like Hewlett-Packard Enterprise and Workday, Inc."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Adobe Systems Incorporated",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "enterprise software competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our enterprise cloud, software and hardware offerings compete directly with certain offerings from some of the largest and most competitive companies in the world, including Adobe Systems Incorporated",
+      "evidence_quotes": [
+        "Our enterprise cloud, software and hardware offerings compete directly with certain offerings from some of the largest and most competitive companies in the world, including Adobe Systems Incorporated"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Alphabet Inc.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "enterprise cloud and technology competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our enterprise cloud, software and hardware offerings compete directly with certain offerings from some of the largest and most competitive companies in the world, including Alphabet Inc.",
+      "evidence_quotes": [
+        "Our enterprise cloud, software and hardware offerings compete directly with certain offerings from some of the largest and most competitive companies in the world, including Alphabet Inc."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Amazon.com, Inc.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "enterprise cloud and technology competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our enterprise cloud, software and hardware offerings compete directly with certain offerings from some of the largest and most competitive companies in the world, including Amazon.com, Inc.",
+      "evidence_quotes": [
+        "Our enterprise cloud, software and hardware offerings compete directly with certain offerings from some of the largest and most competitive companies in the world, including Amazon.com, Inc."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Cisco Systems, Inc.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "enterprise hardware and networking competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our enterprise cloud, software and hardware offerings compete directly with certain offerings from some of the largest and most competitive companies in the world, including Cisco Systems, Inc.",
+      "evidence_quotes": [
+        "Our enterprise cloud, software and hardware offerings compete directly with certain offerings from some of the largest and most competitive companies in the world, including Cisco Systems, Inc."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Intel Corporation",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "enterprise hardware and technology competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our enterprise cloud, software and hardware offerings compete directly with certain offerings from some of the largest and most competitive companies in the world, including Intel Corporation",
+      "evidence_quotes": [
+        "Our enterprise cloud, software and hardware offerings compete directly with certain offerings from some of the largest and most competitive companies in the world, including Intel Corporation"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "International Business Machines Corporation",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "enterprise cloud and technology competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our enterprise cloud, software and hardware offerings compete directly with certain offerings from some of the largest and most competitive companies in the world, including International Business Machines Corporation",
+      "evidence_quotes": [
+        "Our enterprise cloud, software and hardware offerings compete directly with certain offerings from some of the largest and most competitive companies in the world, including International Business Machines Corporation"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Microsoft Corporation",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "enterprise cloud and software competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our enterprise cloud, software and hardware offerings compete directly with certain offerings from some of the largest and most competitive companies in the world, including Microsoft Corporation",
+      "evidence_quotes": [
+        "Our enterprise cloud, software and hardware offerings compete directly with certain offerings from some of the largest and most competitive companies in the world, including Microsoft Corporation"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Salesforce, Inc.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "enterprise cloud applications competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our enterprise cloud, software and hardware offerings compete directly with certain offerings from some of the largest and most competitive companies in the world, including Salesforce, Inc.",
+      "evidence_quotes": [
+        "Our enterprise cloud, software and hardware offerings compete directly with certain offerings from some of the largest and most competitive companies in the world, including Salesforce, Inc."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "SAP SE",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "enterprise software competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our enterprise cloud, software and hardware offerings compete directly with certain offerings from some of the largest and most competitive companies in the world, including SAP SE",
+      "evidence_quotes": [
+        "Our enterprise cloud, software and hardware offerings compete directly with certain offerings from some of the largest and most competitive companies in the world, including SAP SE"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Hewlett-Packard Enterprise",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "enterprise hardware and technology competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "other companies like Hewlett-Packard Enterprise and Workday, Inc.",
+      "evidence_quotes": [
+        "other companies like Hewlett-Packard Enterprise and Workday, Inc."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Workday, Inc.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "enterprise cloud applications competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "other companies like Hewlett-Packard Enterprise and Workday, Inc.",
+      "evidence_quotes": [
+        "other companies like Hewlett-Packard Enterprise and Workday, Inc."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Allscripts Healthcare Solutions, Inc.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "healthcare IT competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we also face competition from large healthcare IT providers such as Allscripts Healthcare Solutions, Inc., Arcadia Solutions, athenahealth, Inc., Epic Systems Corporation and InterSystems Corporation, among others.",
+      "evidence_quotes": [
+        "we also face competition from large healthcare IT providers such as Allscripts Healthcare Solutions, Inc., Arcadia Solutions, athenahealth, Inc., Epic Systems Corporation and InterSystems Corporation, among others."
+      ],
+      "confidence": 0.92,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Arcadia Solutions",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "healthcare IT competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we also face competition from large healthcare IT providers such as Allscripts Healthcare Solutions, Inc., Arcadia Solutions, athenahealth, Inc., Epic Systems Corporation and InterSystems Corporation, among others.",
+      "evidence_quotes": [
+        "we also face competition from large healthcare IT providers such as Allscripts Healthcare Solutions, Inc., Arcadia Solutions, athenahealth, Inc., Epic Systems Corporation and InterSystems Corporation, among others."
+      ],
+      "confidence": 0.92,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "athenahealth, Inc.",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "healthcare IT competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we also face competition from large healthcare IT providers such as Allscripts Healthcare Solutions, Inc., Arcadia Solutions, athenahealth, Inc., Epic Systems Corporation and InterSystems Corporation, among others.",
+      "evidence_quotes": [
+        "we also face competition from large healthcare IT providers such as Allscripts Healthcare Solutions, Inc., Arcadia Solutions, athenahealth, Inc., Epic Systems Corporation and InterSystems Corporation, among others."
+      ],
+      "confidence": 0.92,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Epic Systems Corporation",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "healthcare IT competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we also face competition from large healthcare IT providers such as Allscripts Healthcare Solutions, Inc., Arcadia Solutions, athenahealth, Inc., Epic Systems Corporation and InterSystems Corporation, among others.",
+      "evidence_quotes": [
+        "we also face competition from large healthcare IT providers such as Allscripts Healthcare Solutions, Inc., Arcadia Solutions, athenahealth, Inc., Epic Systems Corporation and InterSystems Corporation, among others."
+      ],
+      "confidence": 0.92,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "InterSystems Corporation",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "healthcare IT competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we also face competition from large healthcare IT providers such as Allscripts Healthcare Solutions, Inc., Arcadia Solutions, athenahealth, Inc., Epic Systems Corporation and InterSystems Corporation, among others.",
+      "evidence_quotes": [
+        "we also face competition from large healthcare IT providers such as Allscripts Healthcare Solutions, Inc., Arcadia Solutions, athenahealth, Inc., Epic Systems Corporation and InterSystems Corporation, among others."
+      ],
+      "confidence": 0.92,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Microsoft Azure",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "cloud_services",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "OCI's multicloud services work with a number of our competitors' products, including Microsoft Azure, Amazon Web Services and Google Cloud.",
+      "evidence_quotes": [
+        "OCI's multicloud services work with a number of our competitors' products, including Microsoft Azure, Amazon Web Services and Google Cloud."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Amazon Web Services",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "cloud_services",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "OCI's multicloud services work with a number of our competitors' products, including Microsoft Azure, Amazon Web Services and Google Cloud.",
+      "evidence_quotes": [
+        "OCI's multicloud services work with a number of our competitors' products, including Microsoft Azure, Amazon Web Services and Google Cloud."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Google Cloud",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "cloud_services",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "OCI's multicloud services work with a number of our competitors' products, including Microsoft Azure, Amazon Web Services and Google Cloud.",
+      "evidence_quotes": [
+        "OCI's multicloud services work with a number of our competitors' products, including Microsoft Azure, Amazon Web Services and Google Cloud."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "European Union",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_body",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The GDPR provides for monetary penalties of up to €20 million, or up to 4% of an organization's worldwide revenue of the preceding financial year, whichever is greater.",
+      "evidence_quotes": [
+        "The GDPR provides for monetary penalties of up to €20 million, or up to 4% of an organization's worldwide revenue of the preceding financial year, whichever is greater."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Organisation for Economic Co-operation and Development",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "international_tax_framework",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "governments of countries around the world and organizations such as the Organisation for Economic Co-operation and Development (OECD), continually consider and make changes to relevant tax, accounting and other laws",
+      "evidence_quotes": [
+        "governments of countries around the world and organizations such as the Organisation for Economic Co-operation and Development (OECD), continually consider and make changes to relevant tax, accounting and other laws"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "Oracle Financial Services Software Limited",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "majority_shareholding",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "As the majority shareholder of Oracle Financial Services Software Limited, a publicly traded company in India",
+      "evidence_quotes": [
+        "As the majority shareholder of Oracle Financial Services Software Limited, a publicly traded company in India"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "Oracle Corporation Japan",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "majority_shareholding",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "As the majority shareholder of Oracle Financial Services Software Limited, a publicly traded company in India, and Oracle Corporation Japan, a publicly traded company in Japan",
+      "evidence_quotes": [
+        "As the majority shareholder of Oracle Financial Services Software Limited, a publicly traded company in India, and Oracle Corporation Japan, a publicly traded company in Japan"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "Australian Dollar",
+      "counterparty_type": "commodity",
+      "category": "dependency",
+      "subtype": "currency_exposure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Changes in the values of major foreign currencies, particularly the Australian Dollar, British Pound, Brazilian Real, Canadian Dollar, Euro, Indian Rupee, Japanese Yen and Saudi Riyal, relative to the U.S. Dollar can significantly affect our total assets, revenues, operating results",
+      "evidence_quotes": [
+        "Changes in the values of major foreign currencies, particularly the Australian Dollar, British Pound, Brazilian Real, Canadian Dollar, Euro, Indian Rupee, Japanese Yen and Saudi Riyal, relative to the U.S. Dollar can significantly affect our total assets, revenues, operating results"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "British Pound",
+      "counterparty_type": "commodity",
+      "category": "dependency",
+      "subtype": "currency_exposure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Changes in the values of major foreign currencies, particularly the Australian Dollar, British Pound, Brazilian Real, Canadian Dollar, Euro, Indian Rupee, Japanese Yen and Saudi Riyal, relative to the U.S. Dollar can significantly affect our total assets, revenues, operating results",
+      "evidence_quotes": [
+        "Changes in the values of major foreign currencies, particularly the Australian Dollar, British Pound, Brazilian Real, Canadian Dollar, Euro, Indian Rupee, Japanese Yen and Saudi Riyal, relative to the U.S. Dollar can significantly affect our total assets, revenues, operating results"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "Brazilian Real",
+      "counterparty_type": "commodity",
+      "category": "dependency",
+      "subtype": "currency_exposure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Changes in the values of major foreign currencies, particularly the Australian Dollar, British Pound, Brazilian Real, Canadian Dollar, Euro, Indian Rupee, Japanese Yen and Saudi Riyal, relative to the U.S. Dollar can significantly affect our total assets, revenues, operating results",
+      "evidence_quotes": [
+        "Changes in the values of major foreign currencies, particularly the Australian Dollar, British Pound, Brazilian Real, Canadian Dollar, Euro, Indian Rupee, Japanese Yen and Saudi Riyal, relative to the U.S. Dollar can significantly affect our total assets, revenues, operating results"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "Canadian Dollar",
+      "counterparty_type": "commodity",
+      "category": "dependency",
+      "subtype": "currency_exposure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Changes in the values of major foreign currencies, particularly the Australian Dollar, British Pound, Brazilian Real, Canadian Dollar, Euro, Indian Rupee, Japanese Yen and Saudi Riyal, relative to the U.S. Dollar can significantly affect our total assets, revenues, operating results",
+      "evidence_quotes": [
+        "Changes in the values of major foreign currencies, particularly the Australian Dollar, British Pound, Brazilian Real, Canadian Dollar, Euro, Indian Rupee, Japanese Yen and Saudi Riyal, relative to the U.S. Dollar can significantly affect our total assets, revenues, operating results"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "Euro",
+      "counterparty_type": "commodity",
+      "category": "dependency",
+      "subtype": "currency_exposure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Changes in the values of major foreign currencies, particularly the Australian Dollar, British Pound, Brazilian Real, Canadian Dollar, Euro, Indian Rupee, Japanese Yen and Saudi Riyal, relative to the U.S. Dollar can significantly affect our total assets, revenues, operating results",
+      "evidence_quotes": [
+        "Changes in the values of major foreign currencies, particularly the Australian Dollar, British Pound, Brazilian Real, Canadian Dollar, Euro, Indian Rupee, Japanese Yen and Saudi Riyal, relative to the U.S. Dollar can significantly affect our total assets, revenues, operating results"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "Indian Rupee",
+      "counterparty_type": "commodity",
+      "category": "dependency",
+      "subtype": "currency_exposure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Changes in the values of major foreign currencies, particularly the Australian Dollar, British Pound, Brazilian Real, Canadian Dollar, Euro, Indian Rupee, Japanese Yen and Saudi Riyal, relative to the U.S. Dollar can significantly affect our total assets, revenues, operating results",
+      "evidence_quotes": [
+        "Changes in the values of major foreign currencies, particularly the Australian Dollar, British Pound, Brazilian Real, Canadian Dollar, Euro, Indian Rupee, Japanese Yen and Saudi Riyal, relative to the U.S. Dollar can significantly affect our total assets, revenues, operating results"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "Japanese Yen",
+      "counterparty_type": "commodity",
+      "category": "dependency",
+      "subtype": "currency_exposure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Changes in the values of major foreign currencies, particularly the Australian Dollar, British Pound, Brazilian Real, Canadian Dollar, Euro, Indian Rupee, Japanese Yen and Saudi Riyal, relative to the U.S. Dollar can significantly affect our total assets, revenues, operating results",
+      "evidence_quotes": [
+        "Changes in the values of major foreign currencies, particularly the Australian Dollar, British Pound, Brazilian Real, Canadian Dollar, Euro, Indian Rupee, Japanese Yen and Saudi Riyal, relative to the U.S. Dollar can significantly affect our total assets, revenues, operating results"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "Saudi Riyal",
+      "counterparty_type": "commodity",
+      "category": "dependency",
+      "subtype": "currency_exposure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Changes in the values of major foreign currencies, particularly the Australian Dollar, British Pound, Brazilian Real, Canadian Dollar, Euro, Indian Rupee, Japanese Yen and Saudi Riyal, relative to the U.S. Dollar can significantly affect our total assets, revenues, operating results",
+      "evidence_quotes": [
+        "Changes in the values of major foreign currencies, particularly the Australian Dollar, British Pound, Brazilian Real, Canadian Dollar, Euro, Indian Rupee, Japanese Yen and Saudi Riyal, relative to the U.S. Dollar can significantly affect our total assets, revenues, operating results"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "Cloud Security Alliance",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "certification_body",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "including System and Organization Controls (SOC) 1, SOC 2, International Organization for Standardization (ISO) 27001, 27017 and 27018, Cloud Security Alliance Security Trust Assurance and Risk (CSA STAR)",
+      "evidence_quotes": [
+        "including System and Organization Controls (SOC) 1, SOC 2, International Organization for Standardization (ISO) 27001, 27017 and 27018, Cloud Security Alliance Security Trust Assurance and Risk (CSA STAR)"
+      ],
+      "confidence": 0.75,
+      "chunk_index": 7
+    },
+    {
+      "counterparty_name": "International Organization for Standardization",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "certification_body",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "including System and Organization Controls (SOC) 1, SOC 2, International Organization for Standardization (ISO) 27001, 27017 and 27018, Cloud Security Alliance Security Trust Assurance and Risk (CSA STAR)",
+      "evidence_quotes": [
+        "including System and Organization Controls (SOC) 1, SOC 2, International Organization for Standardization (ISO) 27001, 27017 and 27018, Cloud Security Alliance Security Trust Assurance and Risk (CSA STAR)"
+      ],
+      "confidence": 0.75,
+      "chunk_index": 7
+    }
+  ],
+  "candidatesPerChunk": [
+    0,
+    11,
+    16,
+    3,
+    1,
+    3,
+    8,
+    2
+  ],
+  "parseErrors": 0,
+  "apiErrors": 0,
+  "inputTokens": 43478,
+  "outputTokens": 5615
+}

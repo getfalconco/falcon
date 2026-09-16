@@ -1,0 +1,47 @@
+[
+  {
+    "counterparty_name": "Customer A",
+    "category": "customer",
+    "subtype": "major_customer",
+    "evidence_quote": "Customer A 26.6 % 15.4 % 18.9 %",
+    "confidence": 0.95,
+    "reason": "The counterparty 'Customer A' is an anonymized designation, not a real external organization. The evidence_quote is a table fragment (percentage figures without context) and does not constitute a natural-language sentence from the filing. While the filing does disclose Customer A as representing 26.6% of revenue, anonymized customer designations do not meet the standard for valid counterparties in a knowledge graph, as they provide no actionable information about actual business relationships. The filing explicitly uses this anonymization to protect customer identity, making it impossible to verify this is a real external entity rather than an internal aggregation or reporting artifact.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Customer B",
+    "category": "customer",
+    "subtype": "major_customer",
+    "evidence_quote": "Customer B 15.0 % 16.0 % 11.4 %",
+    "confidence": 0.95,
+    "reason": "The counterparty 'Customer B' is not a real external organization. It is a generic placeholder label used in financial disclosures to anonymize a major customer for confidentiality purposes. The evidence_quote 'Customer B 15.0 % 16.0 % 11.4 %' is a table fragment showing revenue percentages across fiscal years, not a natural-language sentence from the filing. Additionally, the use of alphabetic placeholders (Customer A, Customer B) indicates these are anonymized designations rather than actual company names. Such placeholder identifiers fail the requirement that counterparties must be 'real external organizations' and cannot be validated as specific entities.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Viavi",
+    "category": "dependency",
+    "subtype": "indemnification_obligation",
+    "evidence_quote": "we agreed to indemnify Viavi for any liability associated with contamination from past operations at all properties transferred to us from Viavi",
+    "confidence": 0.92,
+    "reason": "The evidence_quote describes an indemnification obligation that Lumentum (the ROOT company) owes TO Viavi, not a dependency OF Lumentum ON Viavi. The quoted text states 'we agreed to indemnify Viavi for any liability associated with contamination from past operations at all properties transferred to us from Viavi' – this is a contingent liability from a 2015 corporate separation, not a reliance relationship. Indemnification obligations are not dependencies; they are legal commitments arising from past transactions. A dependency would mean Lumentum relies on Viavi for ongoing operations, infrastructure, or services. Furthermore, the context makes clear this is a legacy obligation from when Lumentum separated from JDSU/Viavi, with no ongoing operational reliance indicated. The category 'dependency' is fundamentally incorrect for this relationship type.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "OEM",
+    "category": "customer",
+    "subtype": "original equipment manufacturer",
+    "evidence_quote": "We contract with a number of large OEM and end-user service providers and product companies that have considerable bargaining power",
+    "confidence": 0.85,
+    "reason": "OEM (Original Equipment Manufacturer) is a generic category descriptor, not a specific external organization. The evidence_quote describes 'a number of large OEM and end-user service providers' as a class of customers with bargaining power, but does not name any individual counterparty entity. Valid counterparties must be identifiable real-world organizations, not generic industry categories or types. This is analogous to saying 'we sell to retailers' without naming a specific retailer—it describes a customer type but identifies no actual counterparty for the knowledge graph.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "OEM partners",
+    "category": "customer",
+    "subtype": "original_equipment_manufacturer",
+    "evidence_quote": "changes in buying patterns among our OEM partners and other customers, including unpredictable changes in their desired inventory levels",
+    "confidence": 0.75,
+    "reason": "The term 'OEM partners' is a generic class descriptor, not a specific external organization. The evidence quote discusses 'changes in buying patterns among our OEM partners and other customers' but does not identify any named counterparty. Valid counterparties must be identifiable external entities (e.g., 'Apple', 'Cisco'), not categorical references like 'OEM partners', 'suppliers', or 'customers'. Additionally, the filing uses 'OEM partners' as a general business term throughout without naming specific entities, making this an invalid counterparty for the knowledge graph.",
+    "stage": "audit"
+  }
+]

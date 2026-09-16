@@ -1,0 +1,13 @@
+{
+  "ticker": "CNH",
+  "companyName": "CNH Industrial N.V.",
+  "form": "10-K",
+  "filingDate": "2026-02-26",
+  "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1567094/000156709426000006/cnhi-20251231.htm",
+  "generatedAt": "2026-08-26T11:00:35.994Z",
+  "cacheKey": "CNH|0001567094-26-000006|5",
+  "accessionNumber": "0001567094-26-000006",
+  "validatedCount": 25,
+  "rejectedCount": 0,
+  "mergedCount": 4
+}

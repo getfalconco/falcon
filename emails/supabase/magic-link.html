@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="supported-color-schemes" content="dark" />
+    <title>Your Falcon sign-in code</title>
+  </head>
+  <body style="margin:0;padding:0;background-color:#090909;-webkit-font-smoothing:antialiased;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#090909;">
+      <tr>
+        <td align="center" style="padding:40px 16px;">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:560px;background-color:#121212;">
+            <tr>
+              <td style="padding:36px 40px 0;">
+                <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+                  <tr>
+                    <td style="vertical-align:middle;">
+                      <img src="https://getfalcon.co/brand/falcon-icon-on-dark.png?v=2" width="28" height="28" alt="Falcon" style="display:block;border:0;outline:none;" />
+                    </td>
+                    <td style="padding-left:10px;vertical-align:middle;font-family:'Playfair Display',Georgia,'Times New Roman',serif;font-size:20px;font-weight:400;letter-spacing:0.01em;color:#ffffff;">
+                      Falcon
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:36px 40px 0;font-family:'Playfair Display',Georgia,'Times New Roman',serif;font-size:28px;line-height:1.25;font-weight:400;letter-spacing:0.01em;color:#ffffff;">
+                Confirm Verification Code
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:24px 40px 0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;font-size:15px;line-height:1.6;color:#b3b3b3;">
+                Hi there,
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:8px 40px 0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;font-size:15px;line-height:1.6;color:#b3b3b3;">
+                This is your sign-in code:
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:28px 40px 0;">
+                <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+                  <tr>
+                    <td align="center" style="width:40px;height:48px;border-radius:8px;background-color:#0d0d0d;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:22px;font-weight:700;line-height:48px;color:#ffffff;">{{ slice .Token 0 1 }}</td>
+                    <td style="width:8px;">&nbsp;</td>
+                    <td align="center" style="width:40px;height:48px;border-radius:8px;background-color:#0d0d0d;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:22px;font-weight:700;line-height:48px;color:#ffffff;">{{ slice .Token 1 2 }}</td>
+                    <td style="width:8px;">&nbsp;</td>
+                    <td align="center" style="width:40px;height:48px;border-radius:8px;background-color:#0d0d0d;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:22px;font-weight:700;line-height:48px;color:#ffffff;">{{ slice .Token 2 3 }}</td>
+                    <td style="width:8px;">&nbsp;</td>
+                    <td align="center" style="width:40px;height:48px;border-radius:8px;background-color:#0d0d0d;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:22px;font-weight:700;line-height:48px;color:#ffffff;">{{ slice .Token 3 4 }}</td>
+                    <td style="width:8px;">&nbsp;</td>
+                    <td align="center" style="width:40px;height:48px;border-radius:8px;background-color:#0d0d0d;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:22px;font-weight:700;line-height:48px;color:#ffffff;">{{ slice .Token 4 5 }}</td>
+                    <td style="width:8px;">&nbsp;</td>
+                    <td align="center" style="width:40px;height:48px;border-radius:8px;background-color:#0d0d0d;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:22px;font-weight:700;line-height:48px;color:#ffffff;">{{ slice .Token 5 6 }}</td>
+                    <td style="width:8px;">&nbsp;</td>
+                    <td align="center" style="width:40px;height:48px;border-radius:8px;background-color:#0d0d0d;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:22px;font-weight:700;line-height:48px;color:#ffffff;">{{ slice .Token 6 7 }}</td>
+                    <td style="width:8px;">&nbsp;</td>
+                    <td align="center" style="width:40px;height:48px;border-radius:8px;background-color:#0d0d0d;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:22px;font-weight:700;line-height:48px;color:#ffffff;">{{ slice .Token 7 8 }}</td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:28px 40px 0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;font-size:15px;line-height:1.6;color:#b3b3b3;">
+                This code expires shortly and can only be used once. Enter it in the Falcon app to sign in as <span style="color:#ffffff;">{{ .Email }}</span>.
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:28px 40px 0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;font-size:15px;line-height:1.6;color:#b3b3b3;">
+                Thanks,<br />
+                <span style="color:#ffffff;">Falcon Team</span>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:36px 40px 40px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;font-size:12px;line-height:1.55;color:#666666;">
+                Questions? Contact us at
+                <a href="mailto:hello@getfalcon.co" style="color:#9a9a9a;text-decoration:underline;">hello@getfalcon.co</a>.<br />
+                If you did not request this email, you can ignore it.<br />
+                <span style="color:#888888;">© Falcon</span>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>

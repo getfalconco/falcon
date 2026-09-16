@@ -1,0 +1,394 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 77603,
+  "chunks": 4,
+  "candidates": [
+    {
+      "counterparty_name": "U.S. Navy",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "defense_customer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our Marine Systems segment is the leading designer and builder of nuclear-powered submarines and a leader in surface combatant and auxiliary ship design and construction for the U.S. Navy.",
+      "evidence_quotes": [
+        "Our Marine Systems segment is the leading designer and builder of nuclear-powered submarines and a leader in surface combatant and auxiliary ship design and construction for the U.S. Navy."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "DSEC Co., Ltd",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "design_and_procurement_partner",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "NASSCO has partnered with a leading South Korean ship design and equipment procurement company, DSEC Co., Ltd, (DSEC), to design and build many large ocean-going commercial vessels",
+      "evidence_quotes": [
+        "NASSCO has partnered with a leading South Korean ship design and equipment procurement company, DSEC Co., Ltd, (DSEC), to design and build many large ocean-going commercial vessels"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Samsung Heavy Industries",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "strategic_alliance",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In 2025, NASSCO, along with DSEC, signed a tri-party memorandum of agreement with Samsung Heavy Industries, one of the world's leading shipbuilders, to explore future commercial and government opportunities.",
+      "evidence_quotes": [
+        "In 2025, NASSCO, along with DSEC, signed a tri-party memorandum of agreement with Samsung Heavy Industries, one of the world's leading shipbuilders, to explore future commercial and government opportunities."
+      ],
+      "confidence": 0.88,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "U.S. Army",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "defense_customer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Land Systems is the sole-source producer of two foundational products central to the U.S. Army's warfighting capabilities — the Abrams main battle tank and Stryker wheeled combat vehicle.",
+      "evidence_quotes": [
+        "Land Systems is the sole-source producer of two foundational products central to the U.S. Army's warfighting capabilities — the Abrams main battle tank and Stryker wheeled combat vehicle."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "U.S. Marine Corps",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "defense_customer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The Advanced Reconnaissance Vehicle (ARV) for the U.S. Marine Corps will provide sensors, communications systems and lethality options to overmatch threats",
+      "evidence_quotes": [
+        "The Advanced Reconnaissance Vehicle (ARV) for the U.S. Marine Corps will provide sensors, communications systems and lethality options to overmatch threats"
+      ],
+      "confidence": 0.94,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Canadian army",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "defense_customer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Land Systems is producing 515 new LAVs for the Canadian army in nine variants, including ambulances, command posts, maintenance and recovery vehicles, and troop-carrying vehicles",
+      "evidence_quotes": [
+        "Land Systems is producing 515 new LAVs for the Canadian army in nine variants, including ambulances, command posts, maintenance and recovery vehicles, and troop-carrying vehicles"
+      ],
+      "confidence": 0.93,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "British Army",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "defense_customer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Land Systems is also producing the British Army's Ajax armored fighting vehicle, a next-generation, medium-weight tracked combat vehicle",
+      "evidence_quotes": [
+        "Land Systems is also producing the British Army's Ajax armored fighting vehicle, a next-generation, medium-weight tracked combat vehicle"
+      ],
+      "confidence": 0.93,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "U.K. Armed Forces",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "defense_customer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the first fully digitized ground combat vehicle in the U.K. Armed Forces",
+      "evidence_quotes": [
+        "the first fully digitized ground combat vehicle in the U.K. Armed Forces"
+      ],
+      "confidence": 0.91,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "FAA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_certification",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The G800 entered service in 2025 following U.S. Federal Aviation Administration (FAA) certification in April 2025.",
+      "evidence_quotes": [
+        "The G800 entered service in 2025 following U.S. Federal Aviation Administration (FAA) certification in April 2025."
+      ],
+      "confidence": 0.89,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Canadian army",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "military_vehicle_customer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Land Systems is producing 515 new LAVs for the Canadian army in nine variants",
+      "evidence_quotes": [
+        "Land Systems is producing 515 new LAVs for the Canadian army in nine variants"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "British Army",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "military_vehicle_customer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Land Systems is also producing the British Army's Ajax armored fighting vehicle",
+      "evidence_quotes": [
+        "Land Systems is also producing the British Army's Ajax armored fighting vehicle"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Germany",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "military_vehicle_customer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We are currently providing the Piranha 5 family of vehicles for several countries, including Germany, Romania, Spain and Denmark.",
+      "evidence_quotes": [
+        "We are currently providing the Piranha 5 family of vehicles for several countries, including Germany, Romania, Spain and Denmark."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Romania",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "military_vehicle_customer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We are currently providing the Piranha 5 family of vehicles for several countries, including Germany, Romania, Spain and Denmark.",
+      "evidence_quotes": [
+        "We are currently providing the Piranha 5 family of vehicles for several countries, including Germany, Romania, Spain and Denmark."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Spain",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "military_vehicle_customer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We are currently providing the Piranha 5 family of vehicles for several countries, including Germany, Romania, Spain and Denmark.",
+      "evidence_quotes": [
+        "We are currently providing the Piranha 5 family of vehicles for several countries, including Germany, Romania, Spain and Denmark."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Denmark",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "military_vehicle_customer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We are currently providing the Piranha 5 family of vehicles for several countries, including Germany, Romania, Spain and Denmark.",
+      "evidence_quotes": [
+        "We are currently providing the Piranha 5 family of vehicles for several countries, including Germany, Romania, Spain and Denmark."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Switzerland",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "military_vehicle_customer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the Heavy Mission Carrier (HMC) self-propelled howitzer based on the 10x10 variant for Switzerland",
+      "evidence_quotes": [
+        "the Heavy Mission Carrier (HMC) self-propelled howitzer based on the 10x10 variant for Switzerland"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Luxembourg",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "military_vehicle_customer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "is currently producing these vehicles for Germany, Switzerland and Luxembourg",
+      "evidence_quotes": [
+        "is currently producing these vehicles for Germany, Switzerland and Luxembourg"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Centers for Medicare and Medicaid Services",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "federal_it_customer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "GDIT is operating and modernizing the Healthcare Integrated General Ledger Accounting System (HIGLAS) for the Centers for Medicare and Medicaid Services (CMS).",
+      "evidence_quotes": [
+        "GDIT is operating and modernizing the Healthcare Integrated General Ledger Accounting System (HIGLAS) for the Centers for Medicare and Medicaid Services (CMS)."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "National Geospatial-Intelligence Agency",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "federal_it_customer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Under the User Facing and Data Center Services (UDS) contract for the National Geospatial-Intelligence Agency (NGA), GDIT is providing hybrid cloud services",
+      "evidence_quotes": [
+        "Under the User Facing and Data Center Services (UDS) contract for the National Geospatial-Intelligence Agency (NGA), GDIT is providing hybrid cloud services"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "National Security Agency",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "certification_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "These Type 1 National Security Agency (NSA)-certified products and capabilities provide needed protection",
+      "evidence_quotes": [
+        "These Type 1 National Security Agency (NSA)-certified products and capabilities provide needed protection"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "U.S. Central Command",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "defense_it_customer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "GDIT is modernizing the U.S. Central Command's (CENTCOM) enterprise IT infrastructure.",
+      "evidence_quotes": [
+        "GDIT is modernizing the U.S. Central Command's (CENTCOM) enterprise IT infrastructure."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "U.S. Space Development Agency",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "space_systems_customer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The U.S. Space Development Agency (SDA) selected Mission Systems to establish the ground operations and integration segment",
+      "evidence_quotes": [
+        "The U.S. Space Development Agency (SDA) selected Mission Systems to establish the ground operations and integration segment"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Canadian Army",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "c4isr_customer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "For the Canadian Army, we provide the Land Command, Control, Communications, Computers, Intelligence, Surveillance and Reconnaissance (C4ISR) system.",
+      "evidence_quotes": [
+        "For the Canadian Army, we provide the Land Command, Control, Communications, Computers, Intelligence, Surveillance and Reconnaissance (C4ISR) system."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "DoW",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the DoW implements the FAR through the Defense Federal Acquisition Regulation Supplement (DFARS).",
+      "evidence_quotes": [
+        "the DoW implements the FAR through the Defense Federal Acquisition Regulation Supplement (DFARS)."
+      ],
+      "confidence": 0.65,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "FAA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The Aerospace segment is subject to FAA regulation in the United States",
+      "evidence_quotes": [
+        "The Aerospace segment is subject to FAA regulation in the United States"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Civil Aviation Administration of Israel",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "subject to FAA regulation in the United States and other similar aviation regulatory authorities internationally, including the Civil Aviation Administration of Israel (CAAI)",
+      "evidence_quotes": [
+        "subject to FAA regulation in the United States and other similar aviation regulatory authorities internationally, including the Civil Aviation Administration of Israel (CAAI)"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "European Aviation Safety Agency",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "other similar aviation regulatory authorities internationally, including the Civil Aviation Administration of Israel (CAAI), the European Aviation Safety Agency (EASA)",
+      "evidence_quotes": [
+        "other similar aviation regulatory authorities internationally, including the Civil Aviation Administration of Israel (CAAI), the European Aviation Safety Agency (EASA)"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Civil Aviation Administration of China",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "aviation regulatory authorities internationally, including the Civil Aviation Administration of Israel (CAAI), the European Aviation Safety Agency (EASA) and the Civil Aviation Administration of China (CAAC).",
+      "evidence_quotes": [
+        "aviation regulatory authorities internationally, including the Civil Aviation Administration of Israel (CAAI), the European Aviation Safety Agency (EASA) and the Civil Aviation Administration of China (CAAC)."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "SEC",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_filing",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "These factors may be revised or supplemented in future filings with the SEC.",
+      "evidence_quotes": [
+        "These factors may be revised or supplemented in future filings with the SEC."
+      ],
+      "confidence": 0.92,
+      "chunk_index": 3
+    }
+  ],
+  "candidatesPerChunk": [
+    9,
+    14,
+    5,
+    1
+  ],
+  "parseErrors": 0,
+  "apiErrors": 0,
+  "inputTokens": 19206,
+  "outputTokens": 2741
+}

@@ -1,0 +1,41 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 42623,
+  "chunks": 2,
+  "candidates": [
+    {
+      "counterparty_name": "SILICON INTEGRATED SYSTEMS CORP.",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "equity investment",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Bargain purchase gain, which is derived from the acquisition of significant influence over SILICON INTEGRATED SYSTEMS CORP. (SIS).",
+      "evidence_quotes": [
+        "Bargain purchase gain, which is derived from the acquisition of significant influence over SILICON INTEGRATED SYSTEMS CORP. (SIS)."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Novatek Microelectronics Corp.",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "investment_counterparty",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we issued zero coupon exchangeable bonds due 2026. The exchangeable bond offerings consist of US$400 million bonds exchangeable into common shares of Novatek Microelectronics Corp., Ltd., or Novatek.",
+      "evidence_quotes": [
+        "we issued zero coupon exchangeable bonds due 2026. The exchangeable bond offerings consist of US$400 million bonds exchangeable into common shares of Novatek Microelectronics Corp., Ltd., or Novatek."
+      ],
+      "confidence": 0.7,
+      "chunk_index": 1
+    }
+  ],
+  "candidatesPerChunk": [
+    1,
+    1
+  ],
+  "parseErrors": 0,
+  "apiErrors": 0,
+  "inputTokens": 12272,
+  "outputTokens": 226
+}

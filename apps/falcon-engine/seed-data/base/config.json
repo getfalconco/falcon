@@ -1,0 +1,300 @@
+{
+ "window": {
+  "measurementSilenceMs": 21600000,
+  "hardCapMs": 28800000,
+  "relatedLookbackMs": 86400000,
+  "extendingTypes": [
+   "gap_event",
+   "volume_anomaly",
+   "unexplained_move",
+   "drift_event",
+   "news_burst",
+   "silence_anomaly",
+   "filing_overdue",
+   "insider_cluster",
+   "tape_structure"
+  ],
+  "silenceAnchorFallback": "none",
+  "noMeasurementCloseGraceMs": 3600000,
+  "includeSourceScheduledEvent": true
+ },
+ "earnings": {
+  "enabled": true,
+  "announcementItemCode": "2.02",
+  "openOnAnnouncementFiling": true,
+  "intradayAnnouncementTreatedAs": "bmo",
+  "scoreRealisedReaction": true,
+  "absorptionGraceMs": 21600000,
+  "realisedReaction": {
+   "path": "quant_context.residual_zscore",
+   "curve": "zscore",
+   "abs": true
+  }
+ },
+ "dedupe": {
+  "enabled": true,
+  "ttlMs": 172800000,
+  "syndicatedMinTickers": 3,
+  "strippedQueryParams": [
+   "ref",
+   "source",
+   "fbclid",
+   "gclid",
+   "mc_cid",
+   "mc_eid"
+  ]
+ },
+ "tags": {
+  "weights": {
+   "earnings_surprise": 15,
+   "insider_confirmation": 15,
+   "silent_accumulation": 15,
+   "insider_divergence": 15,
+   "insider_distribution": 15,
+   "standalone_insider_cluster": 8,
+   "disclosure_risk": 15,
+   "unexplained_activity": 8,
+   "pre_earnings_silence": 8,
+   "volume_without_price": 8,
+   "event_gap": 0,
+   "explained_move": -15,
+   "tape_structure": 8
+  },
+  "positiveBonusCap": 30,
+  "earningsItemCode": "2.02",
+  "eightKFormTypes": [
+   "8-K",
+   "8-K/A"
+  ],
+  "earningsWindowFlag": "earnings_window",
+  "preEarningsSilenceDays": 14,
+  "preEarningsSilenceUsesSilencePayload": true,
+  "volumeWithoutPriceMaxAbsMoveZ": 0.5,
+  "standaloneInsiderClusterMinNotional": 1000000,
+  "explainedMoveNewsItemCount": 3,
+  "tapeStructureSeverity": {
+   "insider_divergence": 15,
+   "independent_tape": 12,
+   "quiet_accumulation": 10,
+   "compression": 8
+  }
+ },
+ "priority": {
+  "severity": {
+   "max": 40,
+   "base": 5,
+   "clampBelowFirstAnchor": true,
+   "curves": {
+    "zscore": [
+     [
+      2,
+      10
+     ],
+     [
+      3,
+      25
+     ],
+     [
+      4,
+      40
+     ]
+    ],
+    "volume": [
+     [
+      3,
+      8
+     ],
+     [
+      5,
+      15
+     ],
+     [
+      10,
+      25
+     ]
+    ],
+    "insiderCount": [
+     [
+      3,
+      20
+     ],
+     [
+      5,
+      30
+     ]
+    ]
+   },
+   "sources": {
+    "unexplained_move": {
+     "path": "payload.residual_zscore",
+     "curve": "zscore",
+     "abs": true
+    },
+    "gap_event": {
+     "path": "payload.gap_z",
+     "curve": "zscore",
+     "abs": true
+    },
+    "drift_event": {
+     "path": "payload.drift_z",
+     "curve": "zscore",
+     "abs": true
+    },
+    "volume_anomaly": {
+     "path": "payload.volume_ratio",
+     "curve": "volume",
+     "abs": false
+    },
+    "insider_cluster": {
+     "path": "payload.insider_count",
+     "curve": "insiderCount",
+     "abs": false
+    }
+   },
+   "multipliers": {
+    "insider_cluster": {
+     "path": "payload.total_notional",
+     "tiers": [
+      {
+       "under": 250000,
+       "multiplier": 0.8
+      },
+      {
+       "under": 1000000,
+       "multiplier": 1
+      },
+      {
+       "under": 5000000,
+       "multiplier": 1.3
+      },
+      {
+       "under": null,
+       "multiplier": 1.5
+      }
+     ]
+    }
+   }
+  },
+  "freshness": {
+   "max": 10,
+   "neutral": 5,
+   "fullMs": 3600000,
+   "zeroMs": 86400000,
+   "anchors": {
+    "gap_event": {
+     "kind": "market_open"
+    },
+    "news_item": {
+     "kind": "path",
+     "path": "payload.published_at"
+    },
+    "filing_item": {
+     "kind": "path",
+     "path": "payload.filed_at"
+    },
+    "insider_filing": {
+     "kind": "path",
+     "path": "payload.filed_at"
+    },
+    "volume_anomaly": {
+     "kind": "neutral"
+    },
+    "unexplained_move": {
+     "kind": "neutral"
+    },
+    "drift_event": {
+     "kind": "neutral"
+    },
+    "silence_anomaly": {
+     "kind": "neutral"
+    },
+    "filing_overdue": {
+     "kind": "neutral"
+    }
+   },
+   "defaultAnchor": {
+    "kind": "message"
+   }
+  },
+  "proximityMultipliers": {
+   "held": 1.5,
+   "watchlist": 1.25,
+   "tracked": 1
+  },
+  "bands": {
+   "P0": 70,
+   "P1": 40,
+   "P2": 15
+  },
+  "discoveryFloor": {
+   "enabled": true,
+   "minCombined": 30,
+   "band": "P1"
+  },
+  "round": true
+ },
+ "routing": {
+  "mapped8kItemCodes": [
+   "2.02",
+   "1.01",
+   "5.02",
+   "1.05",
+   "8.01"
+  ],
+  "extractionForms": [
+   "10-K",
+   "10-Q",
+   "20-F"
+  ],
+  "eightKFormTypes": [
+   "8-K",
+   "8-K/A"
+  ],
+  "otherFilingDestination": "classifier",
+  "analystMinBand": "P1",
+  "scheduledTriggerDestination": "analyst",
+  "screenToAnalystEnabled": false,
+  "tapeStructureMinBand": "P2"
+ },
+ "degraded": {
+  "onAnyNullQuantField": false
+ },
+ "classifier": {
+  "rescoreEnabled": false,
+  "tickerCap": 8,
+  "dailyBudget": 500,
+  "severityMapping": {
+   "direct": {
+    "high": 25,
+    "standard": 12,
+    "low": 2
+   },
+   "indirect": {
+    "high": 10,
+    "standard": 5,
+    "low": 0
+   },
+   "none": 0,
+   "unassessed": 5
+  },
+  "networkRelevantEventTypes": [
+   "contract_partnership",
+   "ma_activity",
+   "supply_chain_ops",
+   "regulatory_decision",
+   "product_clinical",
+   "guidance",
+   "earnings_results"
+  ],
+  "propagationMinMateriality": "standard",
+  "syndicationFanoutMinScope": 3
+ },
+ "analyst": {
+  "dailyBudget": 50,
+  "tapeStructureDailySubCap": 5
+ },
+ "propagation": {
+  "dailyBudget": 30,
+  "dispatchMinBand": "P2"
+ }
+}

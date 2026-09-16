@@ -1,0 +1,106 @@
+[
+  {
+    "counterparty_name": "BMS",
+    "category": "partner",
+    "subtype": "joint development and commercialization",
+    "evidence_quote": "Eliquis was jointly developed and is commercialized in collaboration with BMS.",
+    "confidence": 0.95,
+    "merged_into": "BMS"
+  },
+  {
+    "counterparty_name": "Astellas",
+    "category": "partner",
+    "subtype": "development and commercialization collaboration",
+    "evidence_quote": "Xtandi is being developed and commercialized in collaboration with Astellas, which has exclusive commercialization rights for Xtandi outside the U.S.",
+    "confidence": 0.95,
+    "merged_into": "Astellas"
+  },
+  {
+    "counterparty_name": "Genmab",
+    "category": "partner",
+    "subtype": "commercialization collaboration",
+    "evidence_quote": "Tivdak is commercialized in collaboration with Genmab. Pfizer has co-promotion rights in the U.S.",
+    "confidence": 0.95,
+    "merged_into": "Genmab"
+  },
+  {
+    "counterparty_name": "Zai Lab",
+    "category": "partner",
+    "subtype": "commercialization rights",
+    "evidence_quote": "except certain territories where Zai Lab has commercialization rights (mainland China, Hong Kong, Macau, and Taiwan).",
+    "confidence": 0.9,
+    "merged_into": "Zai Lab"
+  },
+  {
+    "counterparty_name": "BioNTech",
+    "category": "partner",
+    "subtype": "commercialization collaboration",
+    "evidence_quote": "Product is being commercialized in collaboration with BioNTech. The Comirnaty trademark covers marketed variants.",
+    "confidence": 0.95,
+    "merged_into": "BioNTech"
+  },
+  {
+    "counterparty_name": "CMS",
+    "category": "dependency",
+    "subtype": "pricing_authority",
+    "evidence_quote": "In August 2023, CMS published the first ten medicines subject to the MDPNP, which included Eliquis. In August 2024, the government released the new Medicare price for Eliquis",
+    "confidence": 0.95,
+    "merged_into": "CMS"
+  },
+  {
+    "counterparty_name": "FDA",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "We may not be able to successfully address all the comments received from regulatory authorities such as the FDA and the EMA, or be able to obtain approval for new products and indications from regulators.",
+    "confidence": 0.95,
+    "merged_into": "FDA"
+  },
+  {
+    "counterparty_name": "EMA",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "In the EU, the EMA conducts the scientific evaluation, supervision and safety monitoring of our innovative medicinal products that are eligible for the centralized marketing authorization procedure.",
+    "confidence": 0.85,
+    "merged_into": "EMA"
+  },
+  {
+    "counterparty_name": "EMA",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "In October 2025, the EMA adopted a negative opinion on benefit-risk for Oxbryta for the treatment of hemolytic anemia due to SCD",
+    "confidence": 0.95,
+    "merged_into": "EMA"
+  },
+  {
+    "counterparty_name": "FDA",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "As a condition to granting marketing authorization or approval of a product, the FDA may require, or the sponsor may voluntarily agree to undertake, post-marketing commitments",
+    "confidence": 0.95,
+    "merged_into": "FDA"
+  },
+  {
+    "counterparty_name": "Metsera",
+    "category": "supplier",
+    "subtype": "acquisition_target",
+    "evidence_quote": "our acquisitions of Metsera and Seagen represent significant investments in obesity and oncology, respectively",
+    "confidence": 0.85,
+    "merged_into": "Metsera"
+  },
+  {
+    "counterparty_name": "Seagen",
+    "category": "supplier",
+    "subtype": "acquisition_target",
+    "evidence_quote": "our acquisitions of Metsera and Seagen represent significant investments in obesity and oncology, respectively",
+    "confidence": 0.85,
+    "merged_into": "Seagen"
+  },
+  {
+    "counterparty_name": "Metsera",
+    "category": "supplier",
+    "subtype": "acquisition",
+    "evidence_quote": "we financed a portion of the acquisitions of Seagen and Metsera with the proceeds from the issuance of long-term debt",
+    "confidence": 0.95,
+    "merged_into": "Metsera"
+  }
+]

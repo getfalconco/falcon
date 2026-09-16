@@ -1,0 +1,871 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 295725,
+  "chunks": 13,
+  "candidates": [
+    {
+      "counterparty_name": "Hilcorp",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "joint venture operator",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Greater Prudhoe Area 36.5 % Hilcorp 63 15 40 85",
+      "evidence_quotes": [
+        "Greater Prudhoe Area 36.5 % Hilcorp 63 15 40 85"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Equinor",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint venture operator",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Heidrun 24.0 Equinor 9 — 35 15",
+      "evidence_quotes": [
+        "Heidrun 24.0 Equinor 9 — 35 15"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Aker BP",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint venture operator",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Visund 9.1 Aker BP 1 1 44 9",
+      "evidence_quotes": [
+        "Visund 9.1 Aker BP 1 1 44 9"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Equinor",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint_venture_operator",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Ekofisk South 22.4 Equinor 8 1 50 18",
+      "evidence_quotes": [
+        "Ekofisk South 22.4 Equinor 8 1 50 18"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Aker BP",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint_venture_operator",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Visund 9.1 Aker BP 1 1 44 9",
+      "evidence_quotes": [
+        "Visund 9.1 Aker BP 1 1 44 9"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "QatarEnergy",
+      "counterparty_type": "other",
+      "category": "partner",
+      "subtype": "joint_venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "N(3), is an integrated development jointly owned by QatarEnergy (68.5 percent), ConocoPhillips (30 percent) and Mitsui & Co., Ltd. (1.5 percent).",
+      "evidence_quotes": [
+        "N(3), is an integrated development jointly owned by QatarEnergy (68.5 percent), ConocoPhillips (30 percent) and Mitsui & Co., Ltd. (1.5 percent)."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Mitsui & Co., Ltd.",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint_venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "N(3), is an integrated development jointly owned by QatarEnergy (68.5 percent), ConocoPhillips (30 percent) and Mitsui & Co., Ltd. (1.5 percent).",
+      "evidence_quotes": [
+        "N(3), is an integrated development jointly owned by QatarEnergy (68.5 percent), ConocoPhillips (30 percent) and Mitsui & Co., Ltd. (1.5 percent)."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Shell plc",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint_venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "QatarEnergy LNG N(4) (N4), a joint venture between QatarEnergy and Shell plc.",
+      "evidence_quotes": [
+        "QatarEnergy LNG N(4) (N4), a joint venture between QatarEnergy and Shell plc."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Waha Oil Co.",
+      "counterparty_type": "other",
+      "category": "partner",
+      "subtype": "operator",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Waha Concession 20.4 % Waha Oil Co. 60 — 32 65",
+      "evidence_quotes": [
+        "Waha Concession 20.4 % Waha Oil Co. 60 — 32 65"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Chevron Corporation",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint_venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We own a 52.2 percent interest in the Alba Plant LLC, our joint venture with Chevron Corporation (27.8 percent) and Sociedad Nacional de Gas de Guinea Ecuatorial (SONAGAS) (20 percent)",
+      "evidence_quotes": [
+        "We own a 52.2 percent interest in the Alba Plant LLC, our joint venture with Chevron Corporation (27.8 percent) and Sociedad Nacional de Gas de Guinea Ecuatorial (SONAGAS) (20 percent)"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "SONAGAS",
+      "counterparty_type": "other",
+      "category": "partner",
+      "subtype": "joint_venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We own a 52.2 percent interest in the Alba Plant LLC, our joint venture with Chevron Corporation (27.8 percent) and Sociedad Nacional de Gas de Guinea Ecuatorial (SONAGAS) (20 percent)",
+      "evidence_quotes": [
+        "We own a 52.2 percent interest in the Alba Plant LLC, our joint venture with Chevron Corporation (27.8 percent) and Sociedad Nacional de Gas de Guinea Ecuatorial (SONAGAS) (20 percent)"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Marubeni Gas Development UK Limited",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "joint_venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We own a 56 percent interest in EG LNG, our joint venture with SONAGAS (37.9 percent) and Marubeni Gas Development UK Limited (6.1 percent)",
+      "evidence_quotes": [
+        "We own a 56 percent interest in EG LNG, our joint venture with SONAGAS (37.9 percent) and Marubeni Gas Development UK Limited (6.1 percent)"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Origin Energy Limited",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint_venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Australia Pacific LNG Pty Ltd. (APLNG), our joint venture with Origin Energy Limited (Origin) and China Petrochemical Corporation (Sinopec)",
+      "evidence_quotes": [
+        "Australia Pacific LNG Pty Ltd. (APLNG), our joint venture with Origin Energy Limited (Origin) and China Petrochemical Corporation (Sinopec)"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "China Petrochemical Corporation",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint_venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Australia Pacific LNG Pty Ltd. (APLNG), our joint venture with Origin Energy Limited (Origin) and China Petrochemical Corporation (Sinopec)",
+      "evidence_quotes": [
+        "Australia Pacific LNG Pty Ltd. (APLNG), our joint venture with Origin Energy Limited (Origin) and China Petrochemical Corporation (Sinopec)"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Sinopec",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "LNG_offtaker",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The LNG is being sold to Sinopec under a 20-year sales agreement for 7.6 MTPA of LNG",
+      "evidence_quotes": [
+        "The LNG is being sold to Sinopec under a 20-year sales agreement for 7.6 MTPA of LNG"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Kansai Electric Power Co., Inc.",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "LNG_offtaker",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Japan-based Kansai Electric Power Co., Inc. under a 20-year sales agreement for approximately one MTPA of LNG.",
+      "evidence_quotes": [
+        "Japan-based Kansai Electric Power Co., Inc. under a 20-year sales agreement for approximately one MTPA of LNG."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Korea National Oil Corporation",
+      "counterparty_type": "other",
+      "category": "partner",
+      "subtype": "working_interest_partner",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We own a 51 percent working interest in both Exploration Permit (T/49P) and (VIC/P79) located in the Otway Basin, Australia, after transferring 29 percent working interest to Korea National Oil Corporation in 2025.",
+      "evidence_quotes": [
+        "We own a 51 percent working interest in both Exploration Permit (T/49P) and (VIC/P79) located in the Otway Basin, Australia, after transferring 29 percent working interest to Korea National Oil Corporation in 2025."
+      ],
+      "confidence": 0.93,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "CNOOC",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "operator",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Penglai 49.0 % CNOOC 34 — — 34",
+      "evidence_quotes": [
+        "Penglai 49.0 % CNOOC 34 — — 34"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Shell",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "operator",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Gumusut 29.5 % Shell 14 — — 14",
+      "evidence_quotes": [
+        "Gumusut 29.5 % Shell 14 — — 14"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "PTTEP",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "operator",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Siakap North-Petai 21.0 PTTEP 1 — — 1",
+      "evidence_quotes": [
+        "Siakap North-Petai 21.0 PTTEP 1 — — 1"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "WTI",
+      "counterparty_type": "commodity",
+      "category": "dependency",
+      "subtype": "pricing_benchmark",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "For example, over the course of 2025, WTI crude oil prices ranged from a high of $80 per barrel in January to a low of $55 per barrel in December.",
+      "evidence_quotes": [
+        "For example, over the course of 2025, WTI crude oil prices ranged from a high of $80 per barrel in January to a low of $55 per barrel in December."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Venezuelan government",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "expropriation_risk",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Actions by host governments, such as the expropriation of our oil assets by the Venezuelan government, have affected operations significantly in the past",
+      "evidence_quotes": [
+        "Actions by host governments, such as the expropriation of our oil assets by the Venezuelan government, have affected operations significantly in the past"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "New York",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_climate_liability",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "in 2024, New York and Vermont passed legislation seeking to hold certain energy companies financially responsible for state climate change mitigation and adaptation measures",
+      "evidence_quotes": [
+        "in 2024, New York and Vermont passed legislation seeking to hold certain energy companies financially responsible for state climate change mitigation and adaptation measures"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Vermont",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_climate_liability",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "in 2024, New York and Vermont passed legislation seeking to hold certain energy companies financially responsible for state climate change mitigation and adaptation measures",
+      "evidence_quotes": [
+        "in 2024, New York and Vermont passed legislation seeking to hold certain energy companies financially responsible for state climate change mitigation and adaptation measures"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "EPA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_emissions",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "in December 2023, the EPA published a final rule that revises the regulations governing, among other things, the emission of methane and volatile organic compounds",
+      "evidence_quotes": [
+        "in December 2023, the EPA published a final rule that revises the regulations governing, among other things, the emission of methane and volatile organic compounds"
+      ],
+      "confidence": 0.93,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Marathon Oil",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "acquisition_target",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In November 2024, we completed our acquisition of Marathon Oil.",
+      "evidence_quotes": [
+        "In November 2024, we completed our acquisition of Marathon Oil."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "APA Corporation",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "performance_peer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "our performance peer group consisting of APA Corporation, Chevron, Devon Energy, Diamondback Energy, EOG Resources, ExxonMobil and Occidental Petroleum",
+      "evidence_quotes": [
+        "our performance peer group consisting of APA Corporation, Chevron, Devon Energy, Diamondback Energy, EOG Resources, ExxonMobil and Occidental Petroleum"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Chevron",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "performance_peer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "our performance peer group consisting of APA Corporation, Chevron, Devon Energy, Diamondback Energy, EOG Resources, ExxonMobil and Occidental Petroleum",
+      "evidence_quotes": [
+        "our performance peer group consisting of APA Corporation, Chevron, Devon Energy, Diamondback Energy, EOG Resources, ExxonMobil and Occidental Petroleum"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Devon Energy",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "performance_peer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "our performance peer group consisting of APA Corporation, Chevron, Devon Energy, Diamondback Energy, EOG Resources, ExxonMobil and Occidental Petroleum",
+      "evidence_quotes": [
+        "our performance peer group consisting of APA Corporation, Chevron, Devon Energy, Diamondback Energy, EOG Resources, ExxonMobil and Occidental Petroleum"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Diamondback Energy",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "performance_peer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "our performance peer group consisting of APA Corporation, Chevron, Devon Energy, Diamondback Energy, EOG Resources, ExxonMobil and Occidental Petroleum",
+      "evidence_quotes": [
+        "our performance peer group consisting of APA Corporation, Chevron, Devon Energy, Diamondback Energy, EOG Resources, ExxonMobil and Occidental Petroleum"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "EOG Resources",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "performance_peer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "our performance peer group consisting of APA Corporation, Chevron, Devon Energy, Diamondback Energy, EOG Resources, ExxonMobil and Occidental Petroleum",
+      "evidence_quotes": [
+        "our performance peer group consisting of APA Corporation, Chevron, Devon Energy, Diamondback Energy, EOG Resources, ExxonMobil and Occidental Petroleum"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "ExxonMobil",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "performance_peer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "our performance peer group consisting of APA Corporation, Chevron, Devon Energy, Diamondback Energy, EOG Resources, ExxonMobil and Occidental Petroleum",
+      "evidence_quotes": [
+        "our performance peer group consisting of APA Corporation, Chevron, Devon Energy, Diamondback Energy, EOG Resources, ExxonMobil and Occidental Petroleum"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Occidental Petroleum",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "performance_peer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "our performance peer group consisting of APA Corporation, Chevron, Devon Energy, Diamondback Energy, EOG Resources, ExxonMobil and Occidental Petroleum",
+      "evidence_quotes": [
+        "our performance peer group consisting of APA Corporation, Chevron, Devon Energy, Diamondback Energy, EOG Resources, ExxonMobil and Occidental Petroleum"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Hess Corporation",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "performance_peer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Due to Chevron's acquisition of Hess Corporation in 2025, Hess Corporation has been removed from our performance peer group",
+      "evidence_quotes": [
+        "Due to Chevron's acquisition of Hess Corporation in 2025, Hess Corporation has been removed from our performance peer group"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Ursa Oil Pipeline Company LLC",
+      "counterparty_type": "private_company",
+      "category": "customer",
+      "subtype": "divestiture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Completed dispositions to date include the Ursa and Europa fields and Ursa Oil Pipeline Company LLC for net proceeds of $0.7 billion",
+      "evidence_quotes": [
+        "Completed dispositions to date include the Ursa and Europa fields and Ursa Oil Pipeline Company LLC for net proceeds of $0.7 billion"
+      ],
+      "confidence": 0.93,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "NYSE",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "stock_exchange_listing",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "ConocoPhillips' common stock is traded on the NYSE under the symbol \"COP.\"",
+      "evidence_quotes": [
+        "ConocoPhillips' common stock is traded on the NYSE under the symbol \"COP.\""
+      ],
+      "confidence": 0.95,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "OPEC Plus",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "market_influence",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Dynamics that could influence world energy markets and commodity prices include...actions taken by OPEC Plus and other major oil producing countries",
+      "evidence_quotes": [
+        "Dynamics that could influence world energy markets and commodity prices include...actions taken by OPEC Plus and other major oil producing countries"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "NFE",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "equity_lng_project",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Continued to advance...equity LNG projects at NFE and NFS in Qatar and PALNG on the U.S. Gulf Coast; all projects remain on schedule with NFE startup expected in the second half of 2026",
+      "evidence_quotes": [
+        "Continued to advance...equity LNG projects at NFE and NFS in Qatar and PALNG on the U.S. Gulf Coast; all projects remain on schedule with NFE startup expected in the second half of 2026"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "NFS",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "equity_lng_project",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Continued to advance...equity LNG projects at NFE and NFS in Qatar and PALNG on the U.S. Gulf Coast",
+      "evidence_quotes": [
+        "Continued to advance...equity LNG projects at NFE and NFS in Qatar and PALNG on the U.S. Gulf Coast"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "PALNG",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "equity_lng_project",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Continued to advance...equity LNG projects at NFE and NFS in Qatar and PALNG on the U.S. Gulf Coast",
+      "evidence_quotes": [
+        "Continued to advance...equity LNG projects at NFE and NFS in Qatar and PALNG on the U.S. Gulf Coast"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "Marathon Oil",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "acquisition",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Completed the integration of Marathon Oil and doubled synergy capture to more than $1 billion on a run-rate basis in 2025",
+      "evidence_quotes": [
+        "Completed the integration of Marathon Oil and doubled synergy capture to more than $1 billion on a run-rate basis in 2025"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "TotalEnergies EP Canada Ltd.",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "asset_seller",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In October 2023, we acquired the remaining 50 percent working interest in Surmont from TotalEnergies EP Canada Ltd. for approximately $2.7 billion",
+      "evidence_quotes": [
+        "In October 2023, we acquired the remaining 50 percent working interest in Surmont from TotalEnergies EP Canada Ltd. for approximately $2.7 billion"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "Chevron U.S.A. Inc.",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "asset_seller",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we completed an acquisition that increased our working interest by approximately five percent in the Kuparuk River Unit and approximately 0.4 percent in the Prudhoe Bay Unit in Alaska from Chevron U.S.A. Inc.",
+      "evidence_quotes": [
+        "we completed an acquisition that increased our working interest by approximately five percent in the Kuparuk River Unit and approximately 0.4 percent in the Prudhoe Bay Unit in Alaska from Chevron U.S.A. Inc."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "Union Oil Company of California",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "asset_seller",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we completed an acquisition that increased our working interest by approximately five percent in the Kuparuk River Unit and approximately 0.4 percent in the Prudhoe Bay Unit in Alaska from Chevron U.S.A. Inc. and Union Oil Company of California",
+      "evidence_quotes": [
+        "we completed an acquisition that increased our working interest by approximately five percent in the Kuparuk River Unit and approximately 0.4 percent in the Prudhoe Bay Unit in Alaska from Chevron U.S.A. Inc. and Union Oil Company of California"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "Marathon Oil",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "acquisition_target",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In November 2024, we acquired Marathon Oil. At closing, the acquisition was valued at $16.5 billion",
+      "evidence_quotes": [
+        "In November 2024, we acquired Marathon Oil. At closing, the acquisition was valued at $16.5 billion"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "NFE4",
+      "counterparty_type": "other",
+      "category": "supplier",
+      "subtype": "investment",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Investments in NFE4, NFS3 and PALNG.",
+      "evidence_quotes": [
+        "Investments in NFE4, NFS3 and PALNG."
+      ],
+      "confidence": 0.7,
+      "chunk_index": 7
+    },
+    {
+      "counterparty_name": "NFS3",
+      "counterparty_type": "other",
+      "category": "supplier",
+      "subtype": "investment",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Investments in NFE4, NFS3 and PALNG.",
+      "evidence_quotes": [
+        "Investments in NFE4, NFS3 and PALNG."
+      ],
+      "confidence": 0.7,
+      "chunk_index": 7
+    },
+    {
+      "counterparty_name": "PALNG",
+      "counterparty_type": "other",
+      "category": "supplier",
+      "subtype": "investment",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Investments in NFE4, NFS3 and PALNG.",
+      "evidence_quotes": [
+        "Investments in NFE4, NFS3 and PALNG."
+      ],
+      "confidence": 0.7,
+      "chunk_index": 7
+    },
+    {
+      "counterparty_name": "EPA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_infrastructure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We occasionally receive requests for information or notices of potential liability from the EPA and state environmental agencies",
+      "evidence_quotes": [
+        "We occasionally receive requests for information or notices of potential liability from the EPA and state environmental agencies"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 7
+    },
+    {
+      "counterparty_name": "World Bank Zero Routine Flaring Initiative",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "standard_setting_body",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Achieved our target of zero routine flaring by the end of 2025 for heritage ConocoPhillips assets by taking all economically viable steps to eliminate routine flaring in accordance with the World Bank Zero Routine Flaring Initiative.",
+      "evidence_quotes": [
+        "Achieved our target of zero routine flaring by the end of 2025 for heritage ConocoPhillips assets by taking all economically viable steps to eliminate routine flaring in accordance with the World Bank Zero Routine Flaring Initiative."
+      ],
+      "confidence": 0.75,
+      "chunk_index": 8
+    },
+    {
+      "counterparty_name": "Oil and Gas Methane Partnership 2.0 Initiative",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "reporting_standard",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Achieved the Gold Standard Reporting for emissions reporting in the Oil and Gas Methane Partnership 2.0 Initiative for the second consecutive year.",
+      "evidence_quotes": [
+        "Achieved the Gold Standard Reporting for emissions reporting in the Oil and Gas Methane Partnership 2.0 Initiative for the second consecutive year."
+      ],
+      "confidence": 0.75,
+      "chunk_index": 8
+    },
+    {
+      "counterparty_name": "OPEC",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "oil_production_quota_setting",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the imposition or lifting of crude oil production quotas or other actions that might be imposed by OPEC and other producing countries",
+      "evidence_quotes": [
+        "the imposition or lifting of crude oil production quotas or other actions that might be imposed by OPEC and other producing countries"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 9
+    },
+    {
+      "counterparty_name": "PDVSA",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "payment_collection",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "our ability to collect payments when due from the government of Venezuela or PDVSA",
+      "evidence_quotes": [
+        "our ability to collect payments when due from the government of Venezuela or PDVSA"
+      ],
+      "confidence": 0.75,
+      "chunk_index": 9
+    },
+    {
+      "counterparty_name": "Ernst & Young LLP",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "external_auditor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The company's financial statements have been audited by Ernst & Young LLP, an independent registered public accounting firm",
+      "evidence_quotes": [
+        "The company's financial statements have been audited by Ernst & Young LLP, an independent registered public accounting firm"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 9
+    },
+    {
+      "counterparty_name": "Ernst & Young LLP",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "external_auditor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We have audited the accompanying consolidated balance sheets of ConocoPhillips (the Company) as of December 31, 2025 and 2024",
+      "evidence_quotes": [
+        "We have audited the accompanying consolidated balance sheets of ConocoPhillips (the Company) as of December 31, 2025 and 2024"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 10
+    },
+    {
+      "counterparty_name": "TotalEnergies EP Canada Ltd.",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "asset_seller",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we completed our acquisition of the remaining 50 percent working interest in Surmont, an asset in our Canada segment, from TotalEnergies EP Canada Ltd.",
+      "evidence_quotes": [
+        "we completed our acquisition of the remaining 50 percent working interest in Surmont, an asset in our Canada segment, from TotalEnergies EP Canada Ltd."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 11
+    },
+    {
+      "counterparty_name": "Chevron U.S.A. Inc.",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "asset_seller",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we completed an acquisition that increased our working interest by approximately 5 percent in the Kuparuk River Unit and approximately 0.4 percent in the Prudhoe Bay Unit from Chevron U.S.A. Inc. and Union Oil Company of California",
+      "evidence_quotes": [
+        "we completed an acquisition that increased our working interest by approximately 5 percent in the Kuparuk River Unit and approximately 0.4 percent in the Prudhoe Bay Unit from Chevron U.S.A. Inc. and Union Oil Company of California"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 11
+    },
+    {
+      "counterparty_name": "Union Oil Company of California",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "asset_seller",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we completed an acquisition that increased our working interest by approximately 5 percent in the Kuparuk River Unit and approximately 0.4 percent in the Prudhoe Bay Unit from Chevron U.S.A. Inc. and Union Oil Company of California",
+      "evidence_quotes": [
+        "we completed an acquisition that increased our working interest by approximately 5 percent in the Kuparuk River Unit and approximately 0.4 percent in the Prudhoe Bay Unit from Chevron U.S.A. Inc. and Union Oil Company of California"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 11
+    },
+    {
+      "counterparty_name": "Origin Energy",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint_venture_partner",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "APLNG— 47.5 percent owned joint venture with Origin Energy ( 27.5 percent) and Sinopec ( 25 percent)—to produce CBM from the Bowen and Surat basins in Queensland, Australia, as well as process and export LNG.",
+      "evidence_quotes": [
+        "APLNG— 47.5 percent owned joint venture with Origin Energy ( 27.5 percent) and Sinopec ( 25 percent)—to produce CBM from the Bowen and Surat basins in Queensland, Australia, as well as process and export LNG."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 12
+    },
+    {
+      "counterparty_name": "Sinopec",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint_venture_partner",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "APLNG— 47.5 percent owned joint venture with Origin Energy ( 27.5 percent) and Sinopec ( 25 percent)—to produce CBM from the Bowen and Surat basins in Queensland, Australia, as well as process and export LNG.",
+      "evidence_quotes": [
+        "APLNG— 47.5 percent owned joint venture with Origin Energy ( 27.5 percent) and Sinopec ( 25 percent)—to produce CBM from the Bowen and Surat basins in Queensland, Australia, as well as process and export LNG."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 12
+    },
+    {
+      "counterparty_name": "Sempra PALNG Holdings, LLC",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "joint_venture_partner",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "PALNG— 30 percent owned joint venture with Sempra PALNG Holdings, LLC for the development of a large-scale LNG facility for the first phase of the Port Arthur LNG project",
+      "evidence_quotes": [
+        "PALNG— 30 percent owned joint venture with Sempra PALNG Holdings, LLC for the development of a large-scale LNG facility for the first phase of the Port Arthur LNG project"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 12
+    },
+    {
+      "counterparty_name": "QatarEnergy",
+      "counterparty_type": "other",
+      "category": "partner",
+      "subtype": "joint_venture_partner",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "QatarEnergy LNG N(3) (N3)— 30 percent owned joint venture with affiliates of QatarEnergy ( 68.5 percent) and Mitsui & Co., Ltd. ( 1.5 percent)—produces and liquefies natural gas from Qatar's North Field",
+      "evidence_quotes": [
+        "QatarEnergy LNG N(3) (N3)— 30 percent owned joint venture with affiliates of QatarEnergy ( 68.5 percent) and Mitsui & Co., Ltd. ( 1.5 percent)—produces and liquefies natural gas from Qatar's North Field"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 12
+    },
+    {
+      "counterparty_name": "Mitsui & Co., Ltd.",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint_venture_partner",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "QatarEnergy LNG N(3) (N3)— 30 percent owned joint venture with affiliates of QatarEnergy ( 68.5 percent) and Mitsui & Co., Ltd. ( 1.5 percent)—produces and liquefies natural gas from Qatar's North Field",
+      "evidence_quotes": [
+        "QatarEnergy LNG N(3) (N3)— 30 percent owned joint venture with affiliates of QatarEnergy ( 68.5 percent) and Mitsui & Co., Ltd. ( 1.5 percent)—produces and liquefies natural gas from Qatar's North Field"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 12
+    },
+    {
+      "counterparty_name": "China National Petroleum Corporation",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint_venture_partner",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "QatarEnergy LNG NFE(4) (NFE4)— 25 percent owned joint venture with affiliates of QatarEnergy ( 70 percent) and China National Petroleum Corporation ( 5 percent)—participant in the North Field East LNG project.",
+      "evidence_quotes": [
+        "QatarEnergy LNG NFE(4) (NFE4)— 25 percent owned joint venture with affiliates of QatarEnergy ( 70 percent) and China National Petroleum Corporation ( 5 percent)—participant in the North Field East LNG project."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 12
+    },
+    {
+      "counterparty_name": "Export-Import Bank of the United States",
+      "counterparty_type": "government",
+      "category": "supplier",
+      "subtype": "lender",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In 2012, APLNG executed an $ 8.5 billion project finance facility that became non-recourse following financial completion in 2017. The facility is currently composed of a financing agreement with the Export-Import Bank of the United States, a commercial bank facility",
+      "evidence_quotes": [
+        "In 2012, APLNG executed an $ 8.5 billion project finance facility that became non-recourse following financial completion in 2017. The facility is currently composed of a financing agreement with the Export-Import Bank of the United States, a commercial bank facility"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 12
+    }
+  ],
+  "candidatesPerChunk": [
+    3,
+    17,
+    1,
+    4,
+    11,
+    5,
+    4,
+    4,
+    2,
+    3,
+    1,
+    3,
+    7
+  ],
+  "parseErrors": 0,
+  "apiErrors": 0,
+  "inputTokens": 78880,
+  "outputTokens": 6963
+}

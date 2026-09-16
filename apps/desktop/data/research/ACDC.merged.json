@@ -1,0 +1,10 @@
+[
+  {
+    "counterparty_name": "Liberty Energy Inc.",
+    "category": "competitor",
+    "subtype": "power_generation",
+    "evidence_quote": "Competitors include Life Cycle Power, Voltagrid LLC, Solaris Energy Infrastructure, Inc., Liberty Energy Inc. and Gensystems Power Solutions, among others.",
+    "confidence": 0.95,
+    "merged_into": "Liberty Energy Inc."
+  }
+]

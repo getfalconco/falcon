@@ -1,0 +1,13 @@
+{
+  "ticker": "COP",
+  "companyName": "CONOCOPHILLIPS",
+  "form": "10-K",
+  "filingDate": "2026-02-17",
+  "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1163165/000116316526000009/cop-20251231.htm",
+  "generatedAt": "2026-07-24T20:12:35.664Z",
+  "cacheKey": "COP|0001163165-26-000009|5",
+  "accessionNumber": "0001163165-26-000009",
+  "validatedCount": 34,
+  "rejectedCount": 23,
+  "mergedCount": 8
+}

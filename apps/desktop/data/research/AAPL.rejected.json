@@ -1,0 +1,137 @@
+[
+  {
+    "counterparty_name": "China mainland",
+    "category": "supplier",
+    "subtype": "manufacturing_location",
+    "evidence_quote": "A significant majority of the Company's manufacturing is performed in whole or in part by outsourcing partners located primarily in China mainland, India, Japan, South Korea, Taiwan and Vietnam",
+    "confidence": 0.85,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "India",
+    "category": "supplier",
+    "subtype": "manufacturing_location",
+    "evidence_quote": "A significant majority of the Company's manufacturing is performed in whole or in part by outsourcing partners located primarily in China mainland, India, Japan, South Korea, Taiwan and Vietnam",
+    "confidence": 0.85,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Japan",
+    "category": "supplier",
+    "subtype": "manufacturing_location",
+    "evidence_quote": "A significant majority of the Company's manufacturing is performed in whole or in part by outsourcing partners located primarily in China mainland, India, Japan, South Korea, Taiwan and Vietnam",
+    "confidence": 0.85,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "South Korea",
+    "category": "supplier",
+    "subtype": "manufacturing_location",
+    "evidence_quote": "A significant majority of the Company's manufacturing is performed in whole or in part by outsourcing partners located primarily in China mainland, India, Japan, South Korea, Taiwan and Vietnam",
+    "confidence": 0.85,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Taiwan",
+    "category": "supplier",
+    "subtype": "manufacturing_location",
+    "evidence_quote": "A significant majority of the Company's manufacturing is performed in whole or in part by outsourcing partners located primarily in China mainland, India, Japan, South Korea, Taiwan and Vietnam",
+    "confidence": 0.85,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Vietnam",
+    "category": "supplier",
+    "subtype": "manufacturing_location",
+    "evidence_quote": "A significant majority of the Company's manufacturing is performed in whole or in part by outsourcing partners located primarily in China mainland, India, Japan, South Korea, Taiwan and Vietnam",
+    "confidence": 0.85,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Android",
+    "category": "competitor",
+    "subtype": "mobile_operating_system",
+    "evidence_quote": "third-party developer support depends on the perceived benefits of creating software and services for the Company's products compared to competitors' platforms, such as Android for smartphones and tablets",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Windows",
+    "category": "competitor",
+    "subtype": "personal_computer_operating_system",
+    "evidence_quote": "third-party developer support depends on the perceived benefits of creating software and services for the Company's products compared to competitors' platforms, such as Android for smartphones and tablets, Windows for personal computers and tablets",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "PlayStation",
+    "category": "competitor",
+    "subtype": "gaming_platform",
+    "evidence_quote": "third-party developer support depends on the perceived benefits of creating software and services for the Company's products compared to competitors' platforms, such as Android for smartphones and tablets, Windows for personal computers and tablets, and PlayStation, Nintendo and Xbox for",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Nintendo",
+    "category": "competitor",
+    "subtype": "gaming_platform",
+    "evidence_quote": "third-party developer support depends on the perceived benefits of creating software and services for the Company's products compared to competitors' platforms, such as Android for smartphones and tablets, Windows for personal computers and tablets, and PlayStation, Nintendo and Xbox for",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Xbox",
+    "category": "competitor",
+    "subtype": "gaming_platform",
+    "evidence_quote": "third-party developer support depends on the perceived benefits of creating software and services for the Company's products compared to competitors' platforms, such as Android for smartphones and tablets, Windows for personal computers and tablets, and PlayStation, Nintendo and Xbox for",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Google",
+    "category": "partner",
+    "subtype": "licensing",
+    "evidence_quote": "the Company earns revenue from licensing arrangements with Google LLC (\"Google\") and other companies to offer their search services on the Company's platforms and applications",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Google",
+    "category": "partner",
+    "subtype": "licensing_partner",
+    "evidence_quote": "the Company earns revenue from licensing arrangements with Google LLC (\"Google\") and other companies to offer their search services on the Company's platforms and applications",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "U.S. Department of Justice",
+    "category": "dependency",
+    "subtype": "regulatory_body",
+    "evidence_quote": "The court's order is also subject to appeal by both the U.S. Department of Justice (\"DOJ\") and Google.",
+    "confidence": 0.85,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "U.S. Internal Revenue Service",
+    "category": "dependency",
+    "subtype": "tax_authority",
+    "evidence_quote": "The Company is also subject to the examination of its tax returns and other tax matters by the U.S. Internal Revenue Service and other tax authorities",
+    "confidence": 0.9,
+    "reason": "The U.S. Internal Revenue Service is a tax authority and regulatory body, not a counterparty in a business relationship. Per the auditing instructions, 'tax and revenue authorities (IRS, national revenue agencies)' must always be rejected as counterparties. While the evidence_quote is valid and from the filing, the IRS's role as examiner of tax returns is a regulatory function, not a dependency relationship. The root company does not 'depend' on the IRS for business operations; rather, it is subject to the IRS's regulatory authority. The category 'dependency' is inappropriate for a tax authority relationship.",
+    "stage": "audit"
+  }
+]

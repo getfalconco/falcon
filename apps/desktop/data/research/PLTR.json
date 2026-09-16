@@ -1,0 +1,134 @@
+[
+  {
+    "root_ticker": "PLTR",
+    "counterparty_name": "Fujitsu Limited",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "strategic global partnership",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "we, through Palantir Technologies Japan KK, entered into a strategic global partnership with Fujitsu Limited through which the parties will incorporate the capabilities of Foundry and AIP",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1321655/000132165526000011/pltr-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_12a5f1867158"
+  },
+  {
+    "root_ticker": "PLTR",
+    "counterparty_name": "U.S. Army",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "customer",
+    "subtype": "defense_customer",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "in March 2024, we were selected by the U.S. Army to develop and deliver the Tactical Intelligence Targeting Access Node ground station system",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1321655/000132165526000011/pltr-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_4b52e9426f2a"
+  },
+  {
+    "root_ticker": "PLTR",
+    "counterparty_name": "SOMPO Holdings, Inc.",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "joint venture",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.15,
+    "evidence": [
+      {
+        "quote": "in November 2019, we created a jointly controlled entity in Japan with SOMPO Holdings, Inc., in which we subsequently obtained a controlling interest in November 2022.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1321655/000132165526000011/pltr-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_67c0fb1478ea"
+  },
+  {
+    "root_ticker": "PLTR",
+    "counterparty_name": "HD Hyundai Co. Ltd.",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "joint venture",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "We also created a jointly-owned entity in South Korea with HD Hyundai Co. Ltd. in December 2022 in which we have a controlling interest.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1321655/000132165526000011/pltr-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_46df6dc7ace5"
+  },
+  {
+    "root_ticker": "PLTR",
+    "counterparty_name": "U.S. government",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "customer",
+    "subtype": "federal_government_customer",
+    "strength": 1,
+    "strength_tier": "critical",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "we generate a substantial portion of our revenue from contracts with governments and government agencies, and in particular from contracts with the U.S. government and government agencies",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1321655/000132165526000011/pltr-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_7bb96fc162d2"
+  },
+  {
+    "root_ticker": "PLTR",
+    "counterparty_name": "Department of Defense",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "customer",
+    "subtype": "defense_agency_customer",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "The U.S. government also conducts periodic reviews of U.S. defense strategies and priorities which may shift Department of Defense budgetary priorities",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1321655/000132165526000011/pltr-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_b0ab94e69faf"
+  }
+]

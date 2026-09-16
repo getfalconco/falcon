@@ -1,0 +1,73 @@
+[
+  {
+    "root_ticker": "IMO",
+    "counterparty_name": "ExxonMobil Canada Properties",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "joint venture participant",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.88,
+    "evidence": [
+      {
+        "quote": "the company holds a 70.96 percent participating interest in the joint venture and ExxonMobil Canada Properties holds the other 29.04 percent",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/49938/000004993826000009/imo-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-18",
+    "shared_evidence_group": "ev_7d4182d06d4c"
+  },
+  {
+    "root_ticker": "IMO",
+    "counterparty_name": "ExxonMobil",
+    "counterparty_ticker": "XOM",
+    "counterparty_type": "public_company",
+    "category": "supplier",
+    "subtype": "shared corporate/operational support services",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "the company has agreements with affiliates of ExxonMobil to provide services to the company and to share common business and operational support services to allow the companies to consolidate duplicate work and systems",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/49938/000004993826000009/imo-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "Purchases and sales are made under both spot and term contracts from domestic and foreign sources, including ExxonMobil.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/49938/000004993826000009/imo-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-18",
+    "shared_evidence_group": "ev_c3659c173e43"
+  },
+  {
+    "root_ticker": "IMO",
+    "counterparty_name": "ExxonMobil",
+    "counterparty_ticker": "XOM",
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "shared research and development",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "Imperial relies upon the research and development organizations of the company and ExxonMobil, with whom the company conducts shared research.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/49938/000004993826000009/imo-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-18",
+    "shared_evidence_group": "ev_34ba5e5cfe7e"
+  }
+]

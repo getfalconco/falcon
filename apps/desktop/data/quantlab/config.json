@@ -1,0 +1,49 @@
+{
+ "schemaVersion": 1,
+ "backtest": {
+  "windowYears": 5,
+  "inSampleRatio": 0.6,
+  "minSignals": 30,
+  "variantWarningThreshold": 10,
+  "baseRateMultiplier": 20,
+  "bootstrapIterations": 2000,
+  "randomSeed": 20260825,
+  "sessionsPerYear": 252,
+  "riskFreeRate": 0,
+  "overfitSharpeGap": 1
+ },
+ "data": {
+  "benchmark": "SPY",
+  "minHistorySessions": 300,
+  "maxGapSessions": 3,
+  "minSectorPeers": 3,
+  "earningsKnowledgeHorizonSessions": 21,
+  "fetchSpacingMs": 1100
+ },
+ "filterDefaults": {
+  "minDollarVolume20d": 5000000,
+  "r2Floor": 0.15,
+  "unprisedMaxRatio": 0.35,
+  "volRegimeMax": 1.5
+ },
+ "holdHorizons": [
+  1,
+  3,
+  5,
+  10
+ ],
+ "resultRetentionDays": 365,
+ "unavailableHistorically": {
+  "insider_cluster": "Tracker prunes insider transactions to a 10-business-day window, so no cluster history exists. The Form 4 filings are on disk and a backfill can retire this.",
+  "news_burst": "News counts are ~40 trading days deep and the provider's free tier caps at ~12 months, so burst state cannot be rebuilt for a multi-year window.",
+  "classifier_verdict": "Classifier verdicts only exist from Aug 2026 forward.",
+  "analyst_output": "Analyst outputs only exist from Aug 2026 forward.",
+  "propagation_run": "Propagation runs only exist from Aug 2026 forward."
+ },
+ "reportCaveats": [
+  "Returns are gross — no transaction costs, no slippage, no market impact.",
+  "The news-burst veto is inactive in backtest (it cannot be rebuilt historically). This is permissive: more signals fire here than would fire live.",
+  "Earnings dates are treated as known only within the configured horizon; before that the event is invisible to the rule.",
+  "Sector membership is today's mapping applied to past sessions — it is not point-in-time."
+ ]
+}

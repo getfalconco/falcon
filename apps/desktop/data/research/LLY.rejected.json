@@ -1,0 +1,56 @@
+[
+  {
+    "counterparty_name": "Health Resources and Services Administration",
+    "category": "dependency",
+    "subtype": "regulatory_infrastructure",
+    "evidence_quote": "Lilly sued the Health Resources and Services Administration (HRSA) over its purported rejection of Lilly's plan to implement a cash replenishment model",
+    "confidence": 0.85,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "National Medical Products Administration",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "Outside the U.S., our products and operations are subject to similar regulatory requirements, notably by the EMA in the EU, the Ministry of Health, Labor and Welfare in Japan, and the National Medical Products Administration in China.",
+    "confidence": 0.95,
+    "reason": "The National Medical Products Administration (NMPA) is a regulatory authority, not a dependency. The evidence shows NMPA is one of several regulators whose approval requirements Lilly must meet to market products in China—this is a standard regulatory compliance obligation, not a critical dependency where Lilly relies on NMPA infrastructure or services. The text states products 'are subject to similar regulatory requirements' by NMPA, EMA, and Japan's ministry, describing regulatory oversight, not a dependency relationship. Per instruction #3, regulators acting as regulators should be rejected. NMPA exercises governmental regulatory authority over pharmaceutical approvals; it does not provide infrastructure, services, or resources that Lilly depends upon. The correct characterization would be that Lilly is regulated by NMPA, not dependent on it.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "European Commission",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "an agreement-in-principle announced in December 2025 between the European Commission, Council and Parliament to revise the EU's general pharmaceutical legislation",
+    "confidence": 0.85,
+    "reason": "The European Commission is mentioned solely as a legislative body negotiating changes to EU pharmaceutical legislation. This is a regulatory/legislative action, not a dependency relationship. The Commission is not providing infrastructure or critical services that Lilly relies upon; it is acting as a regulator/lawmaker. Under the strict rules, regulators acting as regulators are not valid counterparties. The evidence describes proposed legislative changes that 'could have a negative impact' on IP rights, not an ongoing dependency on Commission services or infrastructure. This is regulatory risk, not a dependency relationship.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "USPTO",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "Changes proposed by the USPTO and by certain bills in Congress to limit the number of, and differences between, patents obtained",
+    "confidence": 0.9,
+    "reason": "The USPTO (U.S. Patent and Trademark Office) is a regulatory authority, not a dependency in the sense defined. The evidence describes proposed USPTO rule changes that could affect the scope of patent protection and mentions IPR proceedings conducted at the USPTO. However, this is a regulatory/policy relationship, not a critical infrastructure or service dependency. The USPTO acts as a regulator and patent examiner, which makes it a regulatory authority rather than a dependency. According to the instructions, regulators acting as regulators should be rejected as counterparties. Additionally, the relationship is better characterized as regulatory oversight rather than the root company critically relying on USPTO infrastructure or services in a dependency sense (like relying on GPS or public networks). The category 'dependency' with subtype 'regulatory_authority' is contradictory—regulatory authorities are explicitly excluded from being valid counterparties.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "EU",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "In some markets, including the EU, Japan, and China, governments have significant power as large single payors to regulate prices and access criteria",
+    "confidence": 0.85,
+    "reason": "The EU is presented as a regulatory authority exercising pricing and access control as a single payor, which falls under regulatory jurisdiction, not a dependency relationship. The text states 'In some markets, including the EU, Japan, and China, governments have significant power as large single payors to regulate prices and access criteria.' This describes government regulation and payer pressure in markets where Lilly operates, not a critical dependency on EU infrastructure or services. The EU is acting as a regulator/payer in its own market, which is explicitly excluded from the dependency category per the guidelines ('regulators acting as regulators' and 'tax and revenue authorities' should be rejected). Additionally, 'EU' as a governmental/regulatory entity does not fit the dependency definition requiring critical reliance on counterparty infrastructure/service with NO commercial relationship—this is a commercial market with regulated pricing. The relationship is better characterized as operating under regulatory oversight, which is not a valid counterparty relationship type for this knowledge graph.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Japan",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "In some markets, including the EU, Japan, and China, governments have significant power as large single payors to regulate prices and access criteria",
+    "confidence": 0.85,
+    "reason": "The evidence_quote states that Japan is a government with 'significant power as large single payors to regulate prices and access criteria.' This describes a commercial payor relationship where Japan's government-run healthcare system purchases/reimburses drugs from Lilly, making Japan a customer (government payor), not a dependency. The category 'dependency' requires the root to critically rely on counterparty infrastructure/service with NO commercial vendor relationship. Here, there IS a commercial relationship (Japan pays for Lilly's products). The pricing power Japan holds is a characteristic of the customer relationship, not a dependency. Compare to true dependencies like GPS infrastructure or regulatory frameworks that provide services without payment. Japan's role as described is that of a powerful customer/payor, which should be categorized as 'customer' with subtype 'government_payor' or similar, not 'dependency.'",
+    "stage": "audit"
+  }
+]

@@ -1,0 +1,47 @@
+[
+  {
+    "counterparty_name": "Türkiye",
+    "category": "customer",
+    "subtype": "international_customer",
+    "evidence_quote": "the U.S. Government has imposed certain sanctions on Türkish entities and persons, which has affected our ability to obtain certain U.S. export permits or authorizations necessary to perform under our existing contracts supporting the Türkish Utility Helicopter Program (TUHP)",
+    "confidence": 0.9,
+    "reason": "counterparty name not in quote",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "IRS",
+    "category": "dependency",
+    "subtype": "tax_authority",
+    "evidence_quote": "We are subject to income and other taxes in the U.S. and foreign jurisdictions.",
+    "confidence": 0.95,
+    "reason": "counterparty name not in quote",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Defense Contract Audit Agency",
+    "category": "dependency",
+    "subtype": "audit and oversight",
+    "evidence_quote": "U.S. Government agencies, including the Defense Contract Audit Agency, the Defense Contract Management Agency and various agency Inspectors General, routinely audit and investigate government contractors.",
+    "confidence": 0.85,
+    "reason": "The Defense Contract Audit Agency (DCAA) is a government regulatory/oversight body that routinely audits government contractors as part of its regulatory function. The evidence_quote states that 'U.S. Government agencies, including the Defense Contract Audit Agency, the Defense Contract Management Agency and various agency Inspectors General, routinely audit and investigate government contractors.' This describes regulatory oversight, not a dependency relationship. DCAA is acting as a regulator/auditor, which per the instructions should be rejected. The root company does not 'critically rely on DCAA infrastructure/service' - rather, DCAA exercises regulatory authority over the root. This is fundamentally different from a dependency relationship where the root relies on external infrastructure or services to operate.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Russia",
+    "category": "dependency",
+    "subtype": "geopolitical_environment",
+    "evidence_quote": "Economic sanctions, export controls, and other trade restrictions, for instance those that the U.S. Government and other nations implemented against Russia in light of its invasion of Ukraine",
+    "confidence": 0.65,
+    "reason": "Russia is mentioned solely as a subject of sanctions imposed by the U.S. and other nations ('Economic sanctions, export controls, and other trade restrictions, for instance those that the U.S. Government and other nations implemented against Russia in light of its invasion of Ukraine'). Russia is not described as a dependency of Lockheed Martin. The text discusses how sanctions against Russia could disrupt LMT's business and supply chain, but this describes Russia as a geopolitical risk factor, not as an entity LMT depends upon for critical infrastructure or services. The dependency category requires the root company to critically rely on the counterparty's infrastructure/service; here, Russia is a target of restrictions that create risk, not a provider of something LMT depends on. This is a geopolitical risk, not a counterparty relationship.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "China",
+    "category": "competitor",
+    "subtype": "geopolitical_restrictions",
+    "evidence_quote": "China has placed restrictions on and sanctioned our company and certain executives in connection with foreign military sales by the U.S. Government to Taiwan involving our products and services.",
+    "confidence": 0.85,
+    "reason": "China is not a competitor in this context. The evidence describes China as a government imposing sanctions and export restrictions on Lockheed Martin in response to U.S. foreign military sales to Taiwan. This is a governmental/regulatory action, not a competitive relationship. China is acting as a sovereign state exercising foreign policy powers, not as a commercial competitor offering rival products or services. The correct relationship type would be regulatory/geopolitical constraint, but 'competitor' is factually incorrect. Additionally, 'government' entities acting in their sovereign regulatory capacity (like imposing sanctions) are excluded as valid counterparties under the audit rules, similar to regulators and tax authorities.",
+    "stage": "audit"
+  }
+]

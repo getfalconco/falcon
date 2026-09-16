@@ -1,0 +1,74 @@
+[
+  {
+    "counterparty_name": "Fujitsu Network Communications, Inc.",
+    "category": "competitor",
+    "subtype": "high-performance infrastructure competitor",
+    "evidence_quote": "Our primary competitors in high-performance infrastructure include technology vendors that can design and build solutions that deliver performance scalability and the connectivity necessary to handle super-compute and exascale workloads, such as Dell Technologies Inc., Super Micro Computer, Inc., Lenovo Group",
+    "confidence": 0.95,
+    "reason": "counterparty name not in quote",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Atos Information Technology Incorporated",
+    "category": "competitor",
+    "subtype": "high-performance infrastructure competitor",
+    "evidence_quote": "Our primary competitors in high-performance infrastructure include technology vendors that can design and build solutions that deliver performance scalability and the connectivity necessary to handle super-compute and exascale workloads, such as Dell Technologies Inc., Super Micro Computer, Inc., Lenovo Group",
+    "confidence": 0.95,
+    "reason": "counterparty name not in quote",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "ERI",
+    "category": "competitor",
+    "subtype": "ITAD competitor",
+    "evidence_quote": "Our primary IT Asset Disposition (\"ITAD\") competitors are ERI, Ingram Micro, Sage Sustainable Electronics, and Sims Recycling Solutions.",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Ingram Micro",
+    "category": "competitor",
+    "subtype": "ITAD competitor",
+    "evidence_quote": "Our primary IT Asset Disposition (\"ITAD\") competitors are ERI, Ingram Micro, Sage Sustainable Electronics, and Sims Recycling Solutions.",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Sage Sustainable Electronics",
+    "category": "competitor",
+    "subtype": "ITAD competitor",
+    "evidence_quote": "Our primary IT Asset Disposition (\"ITAD\") competitors are ERI, Ingram Micro, Sage Sustainable Electronics, and Sims Recycling Solutions.",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Sims Recycling Solutions",
+    "category": "competitor",
+    "subtype": "ITAD competitor",
+    "evidence_quote": "Our primary IT Asset Disposition (\"ITAD\") competitors are ERI, Ingram Micro, Sage Sustainable Electronics, and Sims Recycling Solutions.",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "OpsRamp",
+    "category": "supplier",
+    "subtype": "acquired cloud observability technology",
+    "evidence_quote": "We have expanded our cloud observability and orchestration capabilities and virtualization options through the acquisitions of OpsRamp (observability) and Morpheus (orchestration)",
+    "confidence": 0.85,
+    "reason": "OpsRamp is not a supplier; it is an acquired company. The evidence_quote explicitly states HPE 'expanded our cloud observability and orchestration capabilities...through the acquisitions of OpsRamp (observability).' An acquisition makes OpsRamp a former independent entity now integrated into HPE, not an external counterparty providing ongoing goods or services. Post-acquisition, OpsRamp's technology and staff are internal HPE assets. The relationship category 'supplier' is fundamentally incorrect for an acquired entity, and acquired companies do not qualify as counterparties in a financial knowledge graph focused on ongoing external business relationships.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "China SEPA",
+    "category": "dependency",
+    "subtype": "product_certification",
+    "evidence_quote": "many of our products are certified by eco-labels, such as the Electronic Product Environment Assessment Tool, Energy STAR, China SEPA, and the China Energy Conservation Program.",
+    "confidence": 0.85,
+    "reason": "China SEPA is a government eco-label certification program, not an external organization counterparty. The evidence describes eco-labels that certify HPE's products for market access, which is a product certification or regulatory standard, but SEPA itself does not provide infrastructure or services that HPE critically depends upon. This is a certification standard that HPE complies with to sell products in China, not a dependency relationship. The cited phrase describes eco-labels alongside other standards (Energy STAR, China Energy Conservation Program) – these are certification schemes, not counterparties in the sense of business relationships. Additionally, the 'dependency' category requires critical reliance on infrastructure/services with NO commercial vendor relationship, but certification programs are neither infrastructure dependencies nor commercial vendors – they are regulatory/market-access requirements.",
+    "stage": "audit"
+  }
+]

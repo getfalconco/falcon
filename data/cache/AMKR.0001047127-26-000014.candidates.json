@@ -1,0 +1,214 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 130902,
+  "chunks": 6,
+  "candidates": [
+    {
+      "counterparty_name": "IDMs",
+      "counterparty_type": "other",
+      "category": "customer",
+      "subtype": "integrated_device_manufacturers",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We provide our services to integrated device manufacturers (\"IDMs\"), \"fabless\" semiconductor companies, original equipment manufacturers (\"OEMs\") and contract foundries.",
+      "evidence_quotes": [
+        "We provide our services to integrated device manufacturers (\"IDMs\"), \"fabless\" semiconductor companies, original equipment manufacturers (\"OEMs\") and contract foundries."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "fabless semiconductor companies",
+      "counterparty_type": "other",
+      "category": "customer",
+      "subtype": "semiconductor_companies",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We provide our services to integrated device manufacturers (\"IDMs\"), \"fabless\" semiconductor companies, original equipment manufacturers (\"OEMs\") and contract foundries.",
+      "evidence_quotes": [
+        "We provide our services to integrated device manufacturers (\"IDMs\"), \"fabless\" semiconductor companies, original equipment manufacturers (\"OEMs\") and contract foundries."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "OEMs",
+      "counterparty_type": "other",
+      "category": "customer",
+      "subtype": "original_equipment_manufacturers",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We provide our services to integrated device manufacturers (\"IDMs\"), \"fabless\" semiconductor companies, original equipment manufacturers (\"OEMs\") and contract foundries.",
+      "evidence_quotes": [
+        "We provide our services to integrated device manufacturers (\"IDMs\"), \"fabless\" semiconductor companies, original equipment manufacturers (\"OEMs\") and contract foundries."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "contract foundries",
+      "counterparty_type": "other",
+      "category": "customer",
+      "subtype": "semiconductor_foundries",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We provide our services to integrated device manufacturers (\"IDMs\"), \"fabless\" semiconductor companies, original equipment manufacturers (\"OEMs\") and contract foundries.",
+      "evidence_quotes": [
+        "We provide our services to integrated device manufacturers (\"IDMs\"), \"fabless\" semiconductor companies, original equipment manufacturers (\"OEMs\") and contract foundries."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Apple",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "semiconductor_packaging_customer",
+      "disclosed_revenue_dependency_pct": 29.8,
+      "evidence_quote": "Direct sales to Apple and Qualcomm accounted for 29.8% and 11.1% of our net sales, respectively, for the year ended December 31, 2025.",
+      "evidence_quotes": [
+        "Direct sales to Apple and Qualcomm accounted for 29.8% and 11.1% of our net sales, respectively, for the year ended December 31, 2025."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Qualcomm",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "semiconductor_packaging_customer",
+      "disclosed_revenue_dependency_pct": 11.1,
+      "evidence_quote": "Direct sales to Apple and Qualcomm accounted for 29.8% and 11.1% of our net sales, respectively, for the year ended December 31, 2025.",
+      "evidence_quotes": [
+        "Direct sales to Apple and Qualcomm accounted for 29.8% and 11.1% of our net sales, respectively, for the year ended December 31, 2025."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "ASE Technology",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "packaging_and_test_service_provider",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We face competition from established packaging and test service providers primarily located in Asia, including ASE Technology, JCET Group and Powertech Technology.",
+      "evidence_quotes": [
+        "We face competition from established packaging and test service providers primarily located in Asia, including ASE Technology, JCET Group and Powertech Technology."
+      ],
+      "confidence": 0.92,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "JCET Group",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "packaging_and_test_service_provider",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We face competition from established packaging and test service providers primarily located in Asia, including ASE Technology, JCET Group and Powertech Technology.",
+      "evidence_quotes": [
+        "We face competition from established packaging and test service providers primarily located in Asia, including ASE Technology, JCET Group and Powertech Technology."
+      ],
+      "confidence": 0.92,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Powertech Technology",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "packaging_and_test_service_provider",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We face competition from established packaging and test service providers primarily located in Asia, including ASE Technology, JCET Group and Powertech Technology.",
+      "evidence_quotes": [
+        "We face competition from established packaging and test service providers primarily located in Asia, including ASE Technology, JCET Group and Powertech Technology."
+      ],
+      "confidence": 0.92,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Democratic Republic of Congo",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "mineral_sourcing_region",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "SEC rules and related industry initiatives require diligence and disclosure regarding the use of certain minerals originating from the conflict zones of the Democratic Republic of Congo and adjoining countries.",
+      "evidence_quotes": [
+        "SEC rules and related industry initiatives require diligence and disclosure regarding the use of certain minerals originating from the conflict zones of the Democratic Republic of Congo and adjoining countries."
+      ],
+      "confidence": 0.65,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "BIS",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the BIS Regulations place limitations on the ability of companies to export certain advanced computing semiconductor chips, as well as chipmaking equipment",
+      "evidence_quotes": [
+        "the BIS Regulations place limitations on the ability of companies to export certain advanced computing semiconductor chips, as well as chipmaking equipment"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "North Korea",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "geopolitical_risk",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "there have been heightened security concerns in recent years stemming from North Korea's nuclear weapon and long-range missile programs as well as its military actions in the region.",
+      "evidence_quotes": [
+        "there have been heightened security concerns in recent years stemming from North Korea's nuclear weapon and long-range missile programs as well as its military actions in the region."
+      ],
+      "confidence": 0.65,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "OECD",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "regulatory_framework",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The OECD, which represents a coalition of member countries, recommended changes to long-standing tax principles related to transfer pricing and has developed model rules",
+      "evidence_quotes": [
+        "The OECD, which represents a coalition of member countries, recommended changes to long-standing tax principles related to transfer pricing and has developed model rules"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "U.S. Department of Commerce",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "funding_award",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In December 2024, the Commerce Department awarded us up to $407 million in direct funding pursuant to the CHIPS Act for the Arizona Facility.",
+      "evidence_quotes": [
+        "In December 2024, the Commerce Department awarded us up to $407 million in direct funding pursuant to the CHIPS Act for the Arizona Facility."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "European Union",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_framework",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The European Union's Restriction of Hazardous Substances in Electrical and Electronic Equipment directive and similar laws in other jurisdictions, including China, impose strict restrictions",
+      "evidence_quotes": [
+        "The European Union's Restriction of Hazardous Substances in Electrical and Electronic Equipment directive and similar laws in other jurisdictions, including China, impose strict restrictions"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 5
+    }
+  ],
+  "candidatesPerChunk": [
+    4,
+    5,
+    1,
+    1,
+    1,
+    3
+  ],
+  "parseErrors": 4,
+  "apiErrors": 0,
+  "inputTokens": 35612,
+  "outputTokens": 1950
+}

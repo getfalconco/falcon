@@ -1,0 +1,26 @@
+[
+  {
+    "counterparty_name": "Adobe Systems Incorporated",
+    "category": "competitor",
+    "subtype": "enterprise software competitor",
+    "evidence_quote": "Our enterprise cloud, software and hardware offerings compete directly with certain offerings from some of the largest and most competitive companies in the world, including Adobe Systems Incorporated",
+    "confidence": 0.95,
+    "merged_into": "Adobe Systems Incorporated"
+  },
+  {
+    "counterparty_name": "Hewlett-Packard Enterprise",
+    "category": "competitor",
+    "subtype": "enterprise hardware and technology competitor",
+    "evidence_quote": "other companies like Hewlett-Packard Enterprise and Workday, Inc.",
+    "confidence": 0.9,
+    "merged_into": "Hewlett-Packard Enterprise"
+  },
+  {
+    "counterparty_name": "Workday, Inc.",
+    "category": "competitor",
+    "subtype": "enterprise cloud applications competitor",
+    "evidence_quote": "other companies like Hewlett-Packard Enterprise and Workday, Inc.",
+    "confidence": 0.9,
+    "merged_into": "Workday, Inc."
+  }
+]

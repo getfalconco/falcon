@@ -1,0 +1,33 @@
+{
+ "enabled": true,
+ "model": "nvidia/nemotron-3-super-120b-a12b:free",
+ "temperature": 0,
+ "maxTokens": 1024,
+ "timeoutMs": 30000,
+ "transportRetries": 2,
+ "validationRetries": 2,
+ "retryBackoffMs": 1000,
+ "concurrency": 2,
+ "tickerCap": 8,
+ "verdictTtlDays": 7,
+ "promptVersion": "cls-1.0",
+ "breaker": {
+  "consecutiveFailures": 5,
+  "cooldownMs": 300000
+ },
+ "metadataRefreshMs": 604800000,
+ "capBuckets": {
+  "mega": 200000000000,
+  "large": 10000000000,
+  "mid": 2000000000
+ },
+ "eval": {
+  "relevanceAccuracy": 0.9,
+  "eventTypeAccuracy": 0.8,
+  "materialityWithinOneTier": 0.85,
+  "directionAccuracyDirect": 0.85,
+  "minLabeledArticles": 100
+ },
+ "latencyWindow": 500,
+ "maxAttemptsPerArticle": 3
+}

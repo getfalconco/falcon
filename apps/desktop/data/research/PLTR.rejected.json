@@ -1,0 +1,218 @@
+[
+  {
+    "counterparty_name": "Hamas",
+    "category": "dependency",
+    "subtype": "geopolitical_risk_factor",
+    "evidence_quote": "uncertainty about macroeconomic conditions (including as a result of the ongoing Russia-Ukraine conflict and related economic sanctions, the conflict resulting from Hamas' attack on Israel and the ongoing conflict in the Middle East",
+    "confidence": 0.65,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "U.S. federal government",
+    "category": "customer",
+    "subtype": "government_customer",
+    "evidence_quote": "the fiscal year end procurement cycle of our government customers, and in particular U.S. government customers which have a fiscal year end of September 30",
+    "confidence": 0.95,
+    "reason": "counterparty name not in quote",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "U.S. government",
+    "category": "customer",
+    "subtype": "government_customer",
+    "evidence_quote": "Additionally, the U.S. federal government is prohibited from exercising contract options more than one year in advance.",
+    "confidence": 0.95,
+    "reason": "counterparty name not in quote",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Amazon Web Services",
+    "category": "supplier",
+    "subtype": "cloud_infrastructure",
+    "evidence_quote": "We rely on the technology, infrastructure, and software applications, including software-as-a-service offerings, of certain third parties, such as AWS and Microsoft Azure, in order to host or operate some or all of certain key technology platform features",
+    "confidence": 0.95,
+    "reason": "counterparty name not in quote",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "California Privacy Protection Agency",
+    "category": "dependency",
+    "subtype": "regulatory_enforcement_authority",
+    "evidence_quote": "The CPRA went into effect on January 1, 2023 instilling enforcement authority in a new dedicated regulatory body, the California Privacy Protection Agency (\"CPPA\").",
+    "confidence": 0.9,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Information Commissioner's Office",
+    "category": "dependency",
+    "subtype": "regulatory_enforcement_authority",
+    "evidence_quote": "as the U.K. and its regulator, the Information Commissioner's Office, continue to examine its global market standing.",
+    "confidence": 0.9,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Russia",
+    "category": "dependency",
+    "subtype": "economic_sanctions_target",
+    "evidence_quote": "following Russia's invasion of Ukraine, and as the conflict has continued, the United States and other countries have imposed economic sanctions and severe export control restrictions against Russia",
+    "confidence": 0.85,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Nasdaq",
+    "category": "dependency",
+    "subtype": "stock_exchange_listing",
+    "evidence_quote": "Although we currently are not considered to be a \"controlled company\" under The Nasdaq Stock Market LLC (\"Nasdaq\") corporate governance rules",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Wilmington Trust, National Association",
+    "category": "supplier",
+    "subtype": "trust_services",
+    "evidence_quote": "voting agreement among our Founders and Wilmington Trust, National Association (the \"Founder Voting Agreement\")",
+    "confidence": 0.92,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Hamas",
+    "category": "dependency",
+    "subtype": "geopolitical_risk",
+    "evidence_quote": "Our business operations have been, and could in the future be, subject to interruption by natural disasters, earthquakes, flooding, fire, power shortages, pandemics, terrorism, such as Hamas' attack against Israel in 2023 and the ensuing conflict",
+    "confidence": 0.65,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "SEC",
+    "category": "dependency",
+    "subtype": "regulatory_infrastructure",
+    "evidence_quote": "The Sarbanes-Oxley Act requires, among other things, that we maintain effective disclosure controls and procedures and internal control over financial reporting.",
+    "confidence": 0.95,
+    "reason": "counterparty name not in quote",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Alexander Karp",
+    "category": "dependency",
+    "subtype": "key_personnel",
+    "evidence_quote": "We are highly dependent on the continued contributions and customer relationships of our management, and particularly on the services of Alexander Karp, our Chief Executive Officer.",
+    "confidence": 0.95,
+    "reason": "Alexander Karp is an individual executive/employee of the ROOT company (Palantir Technologies Inc.), not an external counterparty organization. The 'dependency' category in this context is meant for external entities the company critically relies upon (e.g., infrastructure providers, regulatory bodies), not internal key personnel. While the company is indeed highly dependent on Karp as stated in the evidence, this is a key personnel risk disclosed in the 10-K, not a counterparty relationship. Internal executives, officers, and employees of the ROOT company cannot be counterparties in a financial knowledge graph modeling external business relationships.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "SEC",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "the SEC adopted cybersecurity risk management and disclosure rules, which require the disclosure of information pertaining to cybersecurity incidents and cybersecurity risk management, strategy, and governance",
+    "confidence": 0.9,
+    "reason": "The SEC in this context is acting as a regulatory authority that adopted disclosure rules, not as a counterparty upon which Palantir has a dependency relationship. The evidence describes the SEC's role in creating cybersecurity disclosure requirements that Palantir must comply with, which is a regulatory compliance obligation, not a dependency on SEC infrastructure or services. Regulators acting in their regulatory capacity (adopting rules, enforcement) are explicitly excluded as counterparties. The SEC is not providing a critical infrastructure or service that Palantir relies upon for operations; rather, it is imposing compliance obligations. This is a regulatory compliance relationship, not a dependency relationship.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "California Attorney General",
+    "category": "dependency",
+    "subtype": "regulatory_enforcement_authority",
+    "evidence_quote": "The CCPA went into effect on January 1, 2020, and the California Attorney General may bring enforcement actions, with penalties for violations of the CCPA.",
+    "confidence": 0.85,
+    "reason": "The California Attorney General is a regulatory enforcement authority, not a dependency. The relationship is correctly identified as governmental and involves regulatory enforcement, but the category 'dependency' is incorrect. A dependency implies the root company critically relies on the counterparty's infrastructure or services for its operations (like GPS satellites or public internet). Here, the Attorney General is simply an enforcement authority that can penalize violations - this is a regulatory compliance obligation, not an operational dependency. The evidence quote shows enforcement authority over CCPA violations, which is a legal/regulatory relationship, not a dependency relationship. This should be rejected as the category is fundamentally wrong and cannot be corrected to fit the defined relationship types (supplier, customer, partner, competitor, dependency).",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "European Commission",
+    "category": "dependency",
+    "subtype": "regulatory_body",
+    "evidence_quote": "paving the way for a 2021 European Commission adequacy determination for export of personal data from the European Economic Area to the U.K.",
+    "confidence": 0.85,
+    "reason": "The evidence_quote describes the European Commission issuing an adequacy determination (a regulatory decision allowing data transfers from the EEA to the U.K.), not a dependency relationship between Palantir and the European Commission. The adequacy determination is a general regulatory framework affecting all companies transferring data between these jurisdictions, not a specific relationship where Palantir 'critically relies on European Commission infrastructure/service.' The European Commission is acting in its regulatory capacity here, and per instruction #4, regulators acting as regulators should be rejected as counterparties. Additionally, this is contextual background explaining the regulatory environment, not evidence of a material dependency relationship affecting Palantir's operations.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Russia",
+    "category": "dependency",
+    "subtype": "geopolitical_risk",
+    "evidence_quote": "volatility in non-U.S. political and economic environments, including by way of examples, the potential effects of the ongoing Russia-Ukraine conflict, as well as economic sanctions the United States and other countries have imposed on Russia",
+    "confidence": 0.65,
+    "reason": "Russia is mentioned solely as an example of geopolitical risk affecting Palantir's international operations, not as a counterparty with which Palantir has a business relationship. The evidence_quote discusses 'volatility in non-U.S. political and economic environments' and cites the Russia-Ukraine conflict and sanctions as examples of risk factors. This is a general risk disclosure about operating in unstable regions, not evidence of any dependency relationship. Russia is a sovereign nation mentioned as a source of geopolitical uncertainty, not an entity Palantir depends upon for infrastructure, services, or critical capabilities. The 'dependency' category requires the root company to critically rely on the counterparty's infrastructure/service with no commercial relationship - this does not apply to geopolitical risk from conflicts and sanctions. Furthermore, regulators and governments acting in their sovereign/regulatory capacity are explicitly excluded as counterparties.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "European Union",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "The European Union Parliament adopted the EU AIA, that, despite recent moves to delay the implementation of some provisions, when effective, will likely impose onerous obligations",
+    "confidence": 0.85,
+    "reason": "The European Union is not a counterparty in a business relationship with Palantir. The evidence quote discusses the EU AI Act (AIA) as a regulatory framework that will impose obligations on Palantir's operations. While the EU is indeed a government/regulatory body, this is a regulatory compliance matter, not a dependency relationship. The root company does not 'critically rely on EU infrastructure/service' - rather, the EU is acting as a regulator imposing legal requirements. Per the instructions, 'regulators acting as regulators' should be rejected as counterparties. The 'dependency' category is defined as the root critically relying on counterparty infrastructure/service with NO commercial vendor relationship (examples given: government GPS, regulatory infrastructure, free public networks). However, regulatory bodies imposing compliance obligations are explicitly excluded. The EU Parliament adopting legislation that creates compliance burdens does not constitute a dependency relationship - it's standard regulatory oversight.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Belarus",
+    "category": "dependency",
+    "subtype": "economic_sanctions_target",
+    "evidence_quote": "the United States and other countries have imposed economic sanctions and severe export control restrictions against Russia, Belarus, and certain regions of Ukraine",
+    "confidence": 0.85,
+    "reason": "Belarus is mentioned as a target of economic sanctions imposed by the United States and other countries, not as a counterparty with which Palantir has a dependency relationship. The evidence describes Belarus as subject to export control restrictions and sanctions following Russia's invasion of Ukraine. This is a regulatory/geopolitical constraint on Palantir's business operations, not a dependency relationship. Belarus is not providing infrastructure, services, or capabilities that Palantir relies upon. The category 'dependency' requires the root company to critically rely on the counterparty for infrastructure/service; here, Belarus is simply a sanctioned jurisdiction that Palantir must avoid under export controls. This is a compliance constraint, not a business dependency. Additionally, economic_sanctions_target is not a valid subtype for any existing category in the relationship taxonomy.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Ukraine",
+    "category": "dependency",
+    "subtype": "economic_sanctions_target",
+    "evidence_quote": "the United States and other countries have imposed economic sanctions and severe export control restrictions against Russia, Belarus, and certain regions of Ukraine",
+    "confidence": 0.85,
+    "reason": "Ukraine is listed as a target/subject of economic sanctions imposed by the United States and other countries following Russia's invasion, not as an entity upon which Palantir depends. The evidence states 'the United States and other countries have imposed economic sanctions and severe export control restrictions against Russia, Belarus, and certain regions of Ukraine.' This describes Ukraine as a sanctions target (certain regions), not as a dependency. Palantir does not rely on Ukraine for infrastructure, services, or anything critical to its operations. The category 'dependency' with subtype 'economic_sanctions_target' conflates being a target of sanctions with being a dependency, which is incorrect. A dependency requires the root company to critically rely on the counterparty; here, Ukraine is merely mentioned as part of the geopolitical context of sanctions, not as something Palantir depends on.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "S&P",
+    "category": "dependency",
+    "subtype": "index_provider",
+    "evidence_quote": "S&P did not allow most newly public companies utilizing dual- or multi-class capital structures to be included in their indices from 2017 until a change in their eligibility requirements for such companies in 2023. Following this change, we joined the",
+    "confidence": 0.85,
+    "reason": "S&P is not a counterparty. S&P (Standard & Poor's) is an index provider that sets eligibility criteria for indices; Palantir has no direct commercial relationship with S&P. Palantir's inclusion in the S&P 500 index does not constitute a dependency relationship—it is simply a passive result of meeting index eligibility requirements. Additionally, the evidence_quote only discusses index inclusion eligibility rules, not any operational dependency on S&P infrastructure or services. Index providers are not counterparties; they are third-party data/index compilers that companies have no control over or commercial relationship with.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Nasdaq",
+    "category": "dependency",
+    "subtype": "listing_venue",
+    "evidence_quote": "We are subject to the reporting requirements of the Exchange Act, the Sarbanes-Oxley Act, and the rules and regulations of the Nasdaq listing standards.",
+    "confidence": 0.95,
+    "reason": "Nasdaq is a stock exchange and listing venue. Per the auditing rules, stock exchanges and listing venues must always be rejected as counterparties. The evidence_quote mentions Nasdaq listing standards as a regulatory compliance requirement, not a dependency relationship. The ROOT company is subject to listing rules, but this does not constitute a counterparty relationship—it is a regulatory framework, similar to SEC reporting requirements.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "U.S. Federal Reserve",
+    "category": "dependency",
+    "subtype": "monetary_policy_authority",
+    "evidence_quote": "the U.S. Federal Reserve, the European Central Bank, and the Bank of England have raised, and could maintain or raise, interest rates and implement fiscal policy interventions.",
+    "confidence": 0.7,
+    "reason": "The evidence_quote describes the U.S. Federal Reserve as a monetary authority that sets interest rates and implements fiscal policy interventions, which are macroeconomic factors affecting the entire economy. The excerpt discusses general economic risks (inflation, interest rates, recession) that impact Palantir's business environment indirectly, not a critical dependency relationship. The Federal Reserve is not providing infrastructure or services that Palantir relies upon to operate; rather, the Fed's policies create macroeconomic conditions that affect all businesses. This is a general risk factor, not a counterparty dependency. Additionally, the Federal Reserve is a regulatory/governmental institution acting in its systemic monetary policy capacity, similar to tax authorities or regulators, which should be excluded per the instructions. The relationship described is too indirect and universal to constitute a disclosed dependency edge in a financial knowledge graph.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "European Central Bank",
+    "category": "dependency",
+    "subtype": "monetary_policy_authority",
+    "evidence_quote": "the U.S. Federal Reserve, the European Central Bank, and the Bank of England have raised, and could maintain or raise, interest rates and implement fiscal policy interventions.",
+    "confidence": 0.7,
+    "reason": "The European Central Bank is cited solely as a monetary policy institution raising interest rates to address inflation, not as a counterparty with whom Palantir has a dependency relationship. The 'dependency' category requires the root company to critically rely on the counterparty's infrastructure or service. Here, the ECB's interest rate decisions create macroeconomic conditions affecting Palantir indirectly (like all companies), but Palantir does not operationally depend on the ECB for any service or infrastructure. The evidence describes general macroeconomic risk factors, not a bilateral operational dependency. Furthermore, monetary policy authorities acting in their regulatory/policy capacity are analogous to regulators and should be rejected as counterparties under the stated rules.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Bank of England",
+    "category": "dependency",
+    "subtype": "monetary_policy_authority",
+    "evidence_quote": "the U.S. Federal Reserve, the European Central Bank, and the Bank of England have raised, and could maintain or raise, interest rates and implement fiscal policy interventions.",
+    "confidence": 0.7,
+    "reason": "The Bank of England is mentioned solely as one of several central banks that 'have raised, and could maintain or raise, interest rates and implement fiscal policy interventions' in the context of general macroeconomic risk factors. This does not establish any dependency relationship between Palantir and the Bank of England. The filing discusses general market conditions and monetary policy as external risks affecting the business environment, not a critical reliance on the Bank of England's infrastructure or services. The Bank of England is not providing any service or infrastructure that Palantir depends upon; rather, its monetary policy actions are general economic conditions that may affect Palantir's business indirectly. This is a general risk factor, not a counterparty relationship. Moreover, the Bank of England in this context is acting as a monetary policy regulator, which under the auditing rules should be rejected when acting in regulatory capacity.",
+    "stage": "audit"
+  }
+]

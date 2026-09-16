@@ -1,0 +1,251 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 71949,
+  "chunks": 4,
+  "candidates": [
+    {
+      "counterparty_name": "Apple",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "shop-in-shop retail partnership",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We also sell merchandise through periodic exclusive design and creative partnerships, and shop-in-shop experiences, with partners such as Apple, Levi's, and Ulta Beauty",
+      "evidence_quotes": [
+        "We also sell merchandise through periodic exclusive design and creative partnerships, and shop-in-shop experiences, with partners such as Apple, Levi's, and Ulta Beauty"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Levi's",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "shop-in-shop retail partnership",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We also sell merchandise through periodic exclusive design and creative partnerships, and shop-in-shop experiences, with partners such as Apple, Levi's, and Ulta Beauty",
+      "evidence_quotes": [
+        "We also sell merchandise through periodic exclusive design and creative partnerships, and shop-in-shop experiences, with partners such as Apple, Levi's, and Ulta Beauty"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Ulta Beauty",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "shop-in-shop operating agreement",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In 2025, we reached a mutual agreement with Ulta Beauty to terminate our commercial shop-in-shop operating agreement when it expires in August 2026.",
+      "evidence_quotes": [
+        "In 2025, we reached a mutual agreement with Ulta Beauty to terminate our commercial shop-in-shop operating agreement when it expires in August 2026."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Starbucks",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "in-store amenity licensing",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "and generate revenue from in-store amenities such as Starbucks and Target Optical",
+      "evidence_quotes": [
+        "and generate revenue from in-store amenities such as Starbucks and Target Optical"
+      ],
+      "confidence": 0.8,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "CVS",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "in-store pharmacy operating agreement",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "CVS Pharmacy, Inc. (CVS) operates pharmacies and clinics in our stores under a perpetual operating agreement from which we generate annual occupancy income.",
+      "evidence_quotes": [
+        "CVS Pharmacy, Inc. (CVS) operates pharmacies and clinics in our stores under a perpetual operating agreement from which we generate annual occupancy income."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Apple",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "consumer-facing brand collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We have consumer-facing relationships with a variety of other companies, including Apple, CVS, Disney, Levi's, Starbucks, and Ulta Beauty.",
+      "evidence_quotes": [
+        "We have consumer-facing relationships with a variety of other companies, including Apple, CVS, Disney, Levi's, Starbucks, and Ulta Beauty."
+      ],
+      "confidence": 0.65,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "CVS",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "consumer-facing brand collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We have consumer-facing relationships with a variety of other companies, including Apple, CVS, Disney, Levi's, Starbucks, and Ulta Beauty.",
+      "evidence_quotes": [
+        "We have consumer-facing relationships with a variety of other companies, including Apple, CVS, Disney, Levi's, Starbucks, and Ulta Beauty."
+      ],
+      "confidence": 0.65,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Disney",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "consumer-facing brand collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We have consumer-facing relationships with a variety of other companies, including Apple, CVS, Disney, Levi's, Starbucks, and Ulta Beauty.",
+      "evidence_quotes": [
+        "We have consumer-facing relationships with a variety of other companies, including Apple, CVS, Disney, Levi's, Starbucks, and Ulta Beauty."
+      ],
+      "confidence": 0.65,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Levi's",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "consumer-facing brand collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We have consumer-facing relationships with a variety of other companies, including Apple, CVS, Disney, Levi's, Starbucks, and Ulta Beauty.",
+      "evidence_quotes": [
+        "We have consumer-facing relationships with a variety of other companies, including Apple, CVS, Disney, Levi's, Starbucks, and Ulta Beauty."
+      ],
+      "confidence": 0.65,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Starbucks",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "consumer-facing brand collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We have consumer-facing relationships with a variety of other companies, including Apple, CVS, Disney, Levi's, Starbucks, and Ulta Beauty.",
+      "evidence_quotes": [
+        "We have consumer-facing relationships with a variety of other companies, including Apple, CVS, Disney, Levi's, Starbucks, and Ulta Beauty."
+      ],
+      "confidence": 0.65,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Ulta Beauty",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "consumer-facing brand collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We have consumer-facing relationships with a variety of other companies, including Apple, CVS, Disney, Levi's, Starbucks, and Ulta Beauty.",
+      "evidence_quotes": [
+        "We have consumer-facing relationships with a variety of other companies, including Apple, CVS, Disney, Levi's, Starbucks, and Ulta Beauty."
+      ],
+      "confidence": 0.65,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Apple",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "consumer-facing business relationship",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we have consumer-facing relationships with a variety of other companies, including Apple, CVS, Disney, Levi's, Starbucks, and Ulta Beauty",
+      "evidence_quotes": [
+        "we have consumer-facing relationships with a variety of other companies, including Apple, CVS, Disney, Levi's, Starbucks, and Ulta Beauty"
+      ],
+      "confidence": 0.8,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "CVS",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "consumer-facing business relationship",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we have consumer-facing relationships with a variety of other companies, including Apple, CVS, Disney, Levi's, Starbucks, and Ulta Beauty",
+      "evidence_quotes": [
+        "we have consumer-facing relationships with a variety of other companies, including Apple, CVS, Disney, Levi's, Starbucks, and Ulta Beauty"
+      ],
+      "confidence": 0.8,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Disney",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "consumer-facing business relationship",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we have consumer-facing relationships with a variety of other companies, including Apple, CVS, Disney, Levi's, Starbucks, and Ulta Beauty",
+      "evidence_quotes": [
+        "we have consumer-facing relationships with a variety of other companies, including Apple, CVS, Disney, Levi's, Starbucks, and Ulta Beauty"
+      ],
+      "confidence": 0.8,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Levi's",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "consumer-facing business relationship",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we have consumer-facing relationships with a variety of other companies, including Apple, CVS, Disney, Levi's, Starbucks, and Ulta Beauty",
+      "evidence_quotes": [
+        "we have consumer-facing relationships with a variety of other companies, including Apple, CVS, Disney, Levi's, Starbucks, and Ulta Beauty"
+      ],
+      "confidence": 0.8,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Starbucks",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "consumer-facing business relationship",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we have consumer-facing relationships with a variety of other companies, including Apple, CVS, Disney, Levi's, Starbucks, and Ulta Beauty",
+      "evidence_quotes": [
+        "we have consumer-facing relationships with a variety of other companies, including Apple, CVS, Disney, Levi's, Starbucks, and Ulta Beauty"
+      ],
+      "confidence": 0.8,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Ulta Beauty",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "consumer-facing business relationship",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we have consumer-facing relationships with a variety of other companies, including Apple, CVS, Disney, Levi's, Starbucks, and Ulta Beauty",
+      "evidence_quotes": [
+        "we have consumer-facing relationships with a variety of other companies, including Apple, CVS, Disney, Levi's, Starbucks, and Ulta Beauty"
+      ],
+      "confidence": 0.8,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "U.S. Customs",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "customs/tariff regulatory dependency",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we pay duties and tariffs to U.S. Customs for merchandise on the basis of the price paid by our vendors",
+      "evidence_quotes": [
+        "we pay duties and tariffs to U.S. Customs for merchandise on the basis of the price paid by our vendors"
+      ],
+      "confidence": 0.6,
+      "chunk_index": 2
+    }
+  ],
+  "candidatesPerChunk": [
+    5,
+    6,
+    7,
+    0
+  ],
+  "parseErrors": 2,
+  "apiErrors": 0,
+  "inputTokens": 71648,
+  "outputTokens": 2094
+}

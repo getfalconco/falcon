@@ -1,0 +1,775 @@
+[
+  {
+    "root_ticker": "COP",
+    "counterparty_name": "Hilcorp",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "supplier",
+    "subtype": "field operator",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.88,
+    "evidence": [
+      {
+        "quote": "Greater Prudhoe Area 36.5 % Hilcorp 63 15 40 85",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1163165/000116316526000009/cop-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_d3e7806c1106"
+  },
+  {
+    "root_ticker": "COP",
+    "counterparty_name": "Equinor",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "joint venture operator",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Heidrun 24.0 Equinor 9 — 35 15",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1163165/000116316526000009/cop-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_742313d657d4"
+  },
+  {
+    "root_ticker": "COP",
+    "counterparty_name": "Shell plc",
+    "counterparty_ticker": "SHEL",
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "joint_venture",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "QatarEnergy LNG N(4) (N4), a joint venture between QatarEnergy and Shell plc.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1163165/000116316526000009/cop-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "Gumusut 29.5 % Shell 14 — — 14",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1163165/000116316526000009/cop-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_a6f976a281a3"
+  },
+  {
+    "root_ticker": "COP",
+    "counterparty_name": "Waha Oil Co.",
+    "counterparty_ticker": null,
+    "counterparty_type": "other",
+    "category": "partner",
+    "subtype": "operator",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "Waha Concession 20.4 % Waha Oil Co. 60 — 32 65",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1163165/000116316526000009/cop-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_87dece3494d4"
+  },
+  {
+    "root_ticker": "COP",
+    "counterparty_name": "Chevron Corporation",
+    "counterparty_ticker": "CVX",
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "joint_venture",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "We own a 52.2 percent interest in the Alba Plant LLC, our joint venture with Chevron Corporation (27.8 percent) and Sociedad Nacional de Gas de Guinea Ecuatorial (SONAGAS) (20 percent)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1163165/000116316526000009/cop-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_3c176c2d3814"
+  },
+  {
+    "root_ticker": "COP",
+    "counterparty_name": "SONAGAS",
+    "counterparty_ticker": null,
+    "counterparty_type": "other",
+    "category": "partner",
+    "subtype": "joint_venture",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "We own a 52.2 percent interest in the Alba Plant LLC, our joint venture with Chevron Corporation (27.8 percent) and Sociedad Nacional de Gas de Guinea Ecuatorial (SONAGAS) (20 percent)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1163165/000116316526000009/cop-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_3c176c2d3814"
+  },
+  {
+    "root_ticker": "COP",
+    "counterparty_name": "Marubeni Gas Development UK Limited",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "joint_venture",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "We own a 56 percent interest in EG LNG, our joint venture with SONAGAS (37.9 percent) and Marubeni Gas Development UK Limited (6.1 percent)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1163165/000116316526000009/cop-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_d22e8c36e5f9"
+  },
+  {
+    "root_ticker": "COP",
+    "counterparty_name": "Origin Energy Limited",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "joint_venture",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.98,
+    "evidence": [
+      {
+        "quote": "Australia Pacific LNG Pty Ltd. (APLNG), our joint venture with Origin Energy Limited (Origin) and China Petrochemical Corporation (Sinopec)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1163165/000116316526000009/cop-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "APLNG— 47.5 percent owned joint venture with Origin Energy ( 27.5 percent) and Sinopec ( 25 percent)—to produce CBM from the Bowen and Surat basins in Queensland, Australia, as well as process and export LNG.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1163165/000116316526000009/cop-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_4453e0ee3bbc"
+  },
+  {
+    "root_ticker": "COP",
+    "counterparty_name": "China Petrochemical Corporation",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "joint_venture",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Australia Pacific LNG Pty Ltd. (APLNG), our joint venture with Origin Energy Limited (Origin) and China Petrochemical Corporation (Sinopec)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1163165/000116316526000009/cop-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_4453e0ee3bbc"
+  },
+  {
+    "root_ticker": "COP",
+    "counterparty_name": "Sinopec",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "customer",
+    "subtype": "LNG_offtaker",
+    "strength": 1,
+    "strength_tier": "critical",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "The LNG is being sold to Sinopec under a 20-year sales agreement for 7.6 MTPA of LNG",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1163165/000116316526000009/cop-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_eddc42d917f2"
+  },
+  {
+    "root_ticker": "COP",
+    "counterparty_name": "Kansai Electric Power Co., Inc.",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "customer",
+    "subtype": "LNG_offtaker",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Japan-based Kansai Electric Power Co., Inc. under a 20-year sales agreement for approximately one MTPA of LNG.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1163165/000116316526000009/cop-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_6ad729d8a66a"
+  },
+  {
+    "root_ticker": "COP",
+    "counterparty_name": "Korea National Oil Corporation",
+    "counterparty_ticker": null,
+    "counterparty_type": "other",
+    "category": "partner",
+    "subtype": "working_interest_partner",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.93,
+    "evidence": [
+      {
+        "quote": "We own a 51 percent working interest in both Exploration Permit (T/49P) and (VIC/P79) located in the Otway Basin, Australia, after transferring 29 percent working interest to Korea National Oil Corporation in 2025.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1163165/000116316526000009/cop-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_ace41987a6f0"
+  },
+  {
+    "root_ticker": "COP",
+    "counterparty_name": "CNOOC",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "operator",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "Penglai 49.0 % CNOOC 34 — — 34",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1163165/000116316526000009/cop-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_91d6ad067ef2"
+  },
+  {
+    "root_ticker": "COP",
+    "counterparty_name": "PTTEP",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "operator",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "Siakap North-Petai 21.0 PTTEP 1 — — 1",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1163165/000116316526000009/cop-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_af9b57df3162"
+  },
+  {
+    "root_ticker": "COP",
+    "counterparty_name": "Venezuelan government",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "dependency",
+    "subtype": "expropriation_risk",
+    "strength": 1,
+    "strength_tier": "critical",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Actions by host governments, such as the expropriation of our oil assets by the Venezuelan government, have affected operations significantly in the past",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1163165/000116316526000009/cop-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_b32277156a78"
+  },
+  {
+    "root_ticker": "COP",
+    "counterparty_name": "Vermont",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "dependency",
+    "subtype": "regulatory_climate_liability",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "in 2024, New York and Vermont passed legislation seeking to hold certain energy companies financially responsible for state climate change mitigation and adaptation measures",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1163165/000116316526000009/cop-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_8dc4009aec0d"
+  },
+  {
+    "root_ticker": "COP",
+    "counterparty_name": "Marathon Oil",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "acquisition_target",
+    "strength": 1,
+    "strength_tier": "critical",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.98,
+    "evidence": [
+      {
+        "quote": "In November 2024, we completed our acquisition of Marathon Oil.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1163165/000116316526000009/cop-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_e921566079cf"
+  },
+  {
+    "root_ticker": "COP",
+    "counterparty_name": "APA Corporation",
+    "counterparty_ticker": "APA",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "performance_peer",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "our performance peer group consisting of APA Corporation, Chevron, Devon Energy, Diamondback Energy, EOG Resources, ExxonMobil and Occidental Petroleum",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1163165/000116316526000009/cop-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_6680f3f0d632"
+  },
+  {
+    "root_ticker": "COP",
+    "counterparty_name": "Chevron",
+    "counterparty_ticker": "CVX",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "performance_peer",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "our performance peer group consisting of APA Corporation, Chevron, Devon Energy, Diamondback Energy, EOG Resources, ExxonMobil and Occidental Petroleum",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1163165/000116316526000009/cop-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_6680f3f0d632"
+  },
+  {
+    "root_ticker": "COP",
+    "counterparty_name": "Devon Energy",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "performance_peer",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "our performance peer group consisting of APA Corporation, Chevron, Devon Energy, Diamondback Energy, EOG Resources, ExxonMobil and Occidental Petroleum",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1163165/000116316526000009/cop-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_6680f3f0d632"
+  },
+  {
+    "root_ticker": "COP",
+    "counterparty_name": "Diamondback Energy",
+    "counterparty_ticker": "FANG",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "performance_peer",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "our performance peer group consisting of APA Corporation, Chevron, Devon Energy, Diamondback Energy, EOG Resources, ExxonMobil and Occidental Petroleum",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1163165/000116316526000009/cop-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_6680f3f0d632"
+  },
+  {
+    "root_ticker": "COP",
+    "counterparty_name": "EOG Resources",
+    "counterparty_ticker": "EOG",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "performance_peer",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "our performance peer group consisting of APA Corporation, Chevron, Devon Energy, Diamondback Energy, EOG Resources, ExxonMobil and Occidental Petroleum",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1163165/000116316526000009/cop-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_6680f3f0d632"
+  },
+  {
+    "root_ticker": "COP",
+    "counterparty_name": "ExxonMobil",
+    "counterparty_ticker": "XOM",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "performance_peer",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "our performance peer group consisting of APA Corporation, Chevron, Devon Energy, Diamondback Energy, EOG Resources, ExxonMobil and Occidental Petroleum",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1163165/000116316526000009/cop-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_6680f3f0d632"
+  },
+  {
+    "root_ticker": "COP",
+    "counterparty_name": "Occidental Petroleum",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "performance_peer",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "our performance peer group consisting of APA Corporation, Chevron, Devon Energy, Diamondback Energy, EOG Resources, ExxonMobil and Occidental Petroleum",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1163165/000116316526000009/cop-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_6680f3f0d632"
+  },
+  {
+    "root_ticker": "COP",
+    "counterparty_name": "Ursa Oil Pipeline Company LLC",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "divestiture",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.87,
+    "evidence": [
+      {
+        "quote": "Completed dispositions to date include the Ursa and Europa fields and Ursa Oil Pipeline Company LLC for net proceeds of $0.7 billion",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1163165/000116316526000009/cop-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_d14f414652ad"
+  },
+  {
+    "root_ticker": "COP",
+    "counterparty_name": "TotalEnergies EP Canada Ltd.",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "supplier",
+    "subtype": "asset_seller",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "In October 2023, we acquired the remaining 50 percent working interest in Surmont from TotalEnergies EP Canada Ltd. for approximately $2.7 billion",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1163165/000116316526000009/cop-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "we completed our acquisition of the remaining 50 percent working interest in Surmont, an asset in our Canada segment, from TotalEnergies EP Canada Ltd.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1163165/000116316526000009/cop-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_7eb78b683146"
+  },
+  {
+    "root_ticker": "COP",
+    "counterparty_name": "Chevron U.S.A. Inc.",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "supplier",
+    "subtype": "asset_seller",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "we completed an acquisition that increased our working interest by approximately five percent in the Kuparuk River Unit and approximately 0.4 percent in the Prudhoe Bay Unit in Alaska from Chevron U.S.A. Inc.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1163165/000116316526000009/cop-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "we completed an acquisition that increased our working interest by approximately 5 percent in the Kuparuk River Unit and approximately 0.4 percent in the Prudhoe Bay Unit from Chevron U.S.A. Inc. and Union Oil Company of California",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1163165/000116316526000009/cop-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_484391fbd5b1"
+  },
+  {
+    "root_ticker": "COP",
+    "counterparty_name": "Union Oil Company of California",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "supplier",
+    "subtype": "asset_seller",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "we completed an acquisition that increased our working interest by approximately five percent in the Kuparuk River Unit and approximately 0.4 percent in the Prudhoe Bay Unit in Alaska from Chevron U.S.A. Inc. and Union Oil Company of California",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1163165/000116316526000009/cop-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "we completed an acquisition that increased our working interest by approximately 5 percent in the Kuparuk River Unit and approximately 0.4 percent in the Prudhoe Bay Unit from Chevron U.S.A. Inc. and Union Oil Company of California",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1163165/000116316526000009/cop-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_f9c4cff65f51"
+  },
+  {
+    "root_ticker": "COP",
+    "counterparty_name": "OPEC",
+    "counterparty_ticker": null,
+    "counterparty_type": "other",
+    "category": "dependency",
+    "subtype": "oil_production_quota_setting",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.88,
+    "evidence": [
+      {
+        "quote": "the imposition or lifting of crude oil production quotas or other actions that might be imposed by OPEC and other producing countries",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1163165/000116316526000009/cop-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_04e2494984fb"
+  },
+  {
+    "root_ticker": "COP",
+    "counterparty_name": "PDVSA",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "customer",
+    "subtype": "payment_collection",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.82,
+    "evidence": [
+      {
+        "quote": "our ability to collect payments when due from the government of Venezuela or PDVSA",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1163165/000116316526000009/cop-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_47dcbc5ad7a4"
+  },
+  {
+    "root_ticker": "COP",
+    "counterparty_name": "Sinopec",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "joint_venture_partner",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "APLNG— 47.5 percent owned joint venture with Origin Energy ( 27.5 percent) and Sinopec ( 25 percent)—to produce CBM from the Bowen and Surat basins in Queensland, Australia, as well as process and export LNG.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1163165/000116316526000009/cop-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_0fc24efea0ca"
+  },
+  {
+    "root_ticker": "COP",
+    "counterparty_name": "Sempra PALNG Holdings, LLC",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "joint_venture_partner",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "PALNG— 30 percent owned joint venture with Sempra PALNG Holdings, LLC for the development of a large-scale LNG facility for the first phase of the Port Arthur LNG project",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1163165/000116316526000009/cop-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_16736a077766"
+  },
+  {
+    "root_ticker": "COP",
+    "counterparty_name": "China National Petroleum Corporation",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "joint_venture_partner",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "QatarEnergy LNG NFE(4) (NFE4)— 25 percent owned joint venture with affiliates of QatarEnergy ( 70 percent) and China National Petroleum Corporation ( 5 percent)—participant in the North Field East LNG project.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1163165/000116316526000009/cop-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_c164e8a9050d"
+  },
+  {
+    "root_ticker": "COP",
+    "counterparty_name": "Export-Import Bank of the United States",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "supplier",
+    "subtype": "lender",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.88,
+    "evidence": [
+      {
+        "quote": "In 2012, APLNG executed an $ 8.5 billion project finance facility that became non-recourse following financial completion in 2017. The facility is currently composed of a financing agreement with the Export-Import Bank of the United States, a commercial bank facility",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1163165/000116316526000009/cop-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_ee8e992cc052"
+  }
+]

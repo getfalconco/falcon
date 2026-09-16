@@ -1,0 +1,158 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 326783,
+  "chunks": 15,
+  "candidates": [
+    {
+      "counterparty_name": "Citibank, N.A.",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "administrative_agent",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The term loan credit agreement with Diamondback Energy, Inc., as guarantor, with Diamondback E&P, as borrower, and Citibank, N.A., as administrative agent.",
+      "evidence_quotes": [
+        "The term loan credit agreement with Diamondback Energy, Inc., as guarantor, with Diamondback E&P, as borrower, and Citibank, N.A., as administrative agent."
+      ],
+      "confidence": 0.92,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Wells Fargo Bank, National Association",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "banking_services",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Wells Fargo Wells Fargo Bank, National Association.",
+      "evidence_quotes": [
+        "Wells Fargo Wells Fargo Bank, National Association."
+      ],
+      "confidence": 0.75,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Ryder Scott Company, L.P.",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "reservoir_engineering",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Ryder Scott Ryder Scott Company, L.P.",
+      "evidence_quotes": [
+        "Ryder Scott Ryder Scott Company, L.P."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "EPIC Crude Holdings, LP",
+      "counterparty_type": "private_company",
+      "category": "customer",
+      "subtype": "midstream_equity_investment",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we divested approximately $1.7 billion in non-core assets, including our 27.5% equity interest in EPIC Crude Holdings, LP",
+      "evidence_quotes": [
+        "we divested approximately $1.7 billion in non-core assets, including our 27.5% equity interest in EPIC Crude Holdings, LP"
+      ],
+      "confidence": 0.75,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "GRP Energy Capital LLC",
+      "counterparty_type": "private_company",
+      "category": "customer",
+      "subtype": "asset_buyer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Viper divested all of its non-Permian assets, including those acquired from Sitio, to an affiliate of GRP Energy Capital LLC and Warwick Capital Partners LLP for net cash proceeds of approximately $617 million",
+      "evidence_quotes": [
+        "Viper divested all of its non-Permian assets, including those acquired from Sitio, to an affiliate of GRP Energy Capital LLC and Warwick Capital Partners LLP for net cash proceeds of approximately $617 million"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Warwick Capital Partners LLP",
+      "counterparty_type": "private_company",
+      "category": "customer",
+      "subtype": "asset_buyer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Viper divested all of its non-Permian assets, including those acquired from Sitio, to an affiliate of GRP Energy Capital LLC and Warwick Capital Partners LLP for net cash proceeds of approximately $617 million",
+      "evidence_quotes": [
+        "Viper divested all of its non-Permian assets, including those acquired from Sitio, to an affiliate of GRP Energy Capital LLC and Warwick Capital Partners LLP for net cash proceeds of approximately $617 million"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Sitio Royalties Corp.",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "acquisition_target",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "On August 19, 2025, Viper and Viper LLC completed a series of transactions in which Viper Energy, Inc. acquired Sitio, Sitio Royalties Operating Partnership, LP and their respective subsidiaries",
+      "evidence_quotes": [
+        "On August 19, 2025, Viper and Viper LLC completed a series of transactions in which Viper Energy, Inc. acquired Sitio, Sitio Royalties Operating Partnership, LP and their respective subsidiaries"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Double Eagle IV Midco, LLC",
+      "counterparty_type": "private_company",
+      "category": "customer",
+      "subtype": "acquisition_target",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "On April 1, 2025, we completed our acquisition of all of the issued and outstanding interests of DE Permian, LLC, DE IV Combo, LLC and DE IV Operating, LLC, each of which were wholly owned subsidiaries of Double Eagle IV",
+      "evidence_quotes": [
+        "On April 1, 2025, we completed our acquisition of all of the issued and outstanding interests of DE Permian, LLC, DE IV Combo, LLC and DE IV Operating, LLC, each of which were wholly owned subsidiaries of Double Eagle IV"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Ryder Scott",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "independent reserve auditor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The estimated reserves as of December 31, 2025, 2024 and 2023 are based on reserve estimates prepared by our internal reservoir engineers and audited by Ryder Scott, an independent petroleum engineering firm.",
+      "evidence_quotes": [
+        "The estimated reserves as of December 31, 2025, 2024 and 2023 are based on reserve estimates prepared by our internal reservoir engineers and audited by Ryder Scott, an independent petroleum engineering firm."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "EPA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_infrastructure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Numerous federal, state and local governmental agencies, such as the EPA, issue regulations that often require difficult and costly compliance measures",
+      "evidence_quotes": [
+        "Numerous federal, state and local governmental agencies, such as the EPA, issue regulations that often require difficult and costly compliance measures"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 3
+    }
+  ],
+  "candidatesPerChunk": [
+    3,
+    5,
+    1,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "parseErrors": 0,
+  "apiErrors": 11,
+  "inputTokens": 24075,
+  "outputTokens": 1108
+}

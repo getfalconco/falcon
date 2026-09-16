@@ -1,0 +1,1684 @@
+{
+ "recorded_at": "2026-08-22T19:59:56.471Z",
+ "request": {
+  "request_id": "pr-8a4e70a3-eb12-5ea1-a30f-02df1d0361b6-ef56ab9f05",
+  "incident_id": "8a4e70a3-eb12-5ea1-a30f-02df1d0361b6",
+  "root_ticker": "NVDA",
+  "incident": {
+   "incident_id": "8a4e70a3-eb12-5ea1-a30f-02df1d0361b6",
+   "ticker": "NVDA",
+   "trigger_type": "organic",
+   "window_start": "2026-08-19T19:21:06.322Z",
+   "window_end": "2026-08-20T03:21:06.322Z",
+   "window_status": "closed",
+   "composite_tags": [],
+   "priority": 15,
+   "priority_band": "P2",
+   "degraded_context": false,
+   "discovery_floor_applied": false,
+   "earnings_absorption": false,
+   "messages": [
+    {
+     "id": "0447dd9d-fb70-4131-b216-f26058b9fc4c",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "NVDA",
+     "timestamp": "2026-08-19T19:21:06.322Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 1.9733783285841193,
+      "r_squared": 0.4103313185487134,
+      "daily_vol_30d": 0.035033041121105876,
+      "vol_regime": 1.388313187644808,
+      "move_today": 0.0017313873255411227,
+      "move_zscore": 0.0494215537713635,
+      "residual_move": -0.00483587332008768,
+      "residual_zscore": -0.3294804392086041,
+      "volume_ratio": 0.5585449928343349,
+      "volume_ratio_partial": true,
+      "momentum_5d": 0.009103428632363464,
+      "momentum_20d": 0.05880651664926129,
+      "momentum_60d": 0.0010286685419922392,
+      "pct_from_52w_high": -0.067889246080996,
+      "pct_from_52w_low": 0.33036141391308527,
+      "earnings_rhythm": 0.027920256540486466,
+      "prev_close": 219.47999572753906,
+      "last_price": 219.86000061035156,
+      "price_asof": "2026-08-19T19:21:04.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "Jim Cramer Slams Data Center Reliance on Leveraged Retail-Driven SK Hynix, Samsung Stocks: 'Decided By Them, Not Us'",
+      "source": "Benzinga",
+      "url": "https://finnhub.io/api/news?id=3477bba4c5726ec23c0c5c22469cd9b56c26ead00ad018573074f87ff03bc65d",
+      "published_at": "2026-08-19T07:28:41.000Z",
+      "article_id": "141253914",
+      "summary": "Jim Cramer slams data center reliance on retail-driven SK Hynix and Samsung stocks as SKHY unveils a massive $29 billion buyback plan."
+     }
+    },
+    {
+     "id": "04bf989f-702b-4754-b067-a6473f3ef607",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "NVDA",
+     "timestamp": "2026-08-19T19:21:06.322Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 1.9733783285841193,
+      "r_squared": 0.4103313185487134,
+      "daily_vol_30d": 0.035033041121105876,
+      "vol_regime": 1.388313187644808,
+      "move_today": 0.0017313873255411227,
+      "move_zscore": 0.0494215537713635,
+      "residual_move": -0.00483587332008768,
+      "residual_zscore": -0.3294804392086041,
+      "volume_ratio": 0.5585449928343349,
+      "volume_ratio_partial": true,
+      "momentum_5d": 0.009103428632363464,
+      "momentum_20d": 0.05880651664926129,
+      "momentum_60d": 0.0010286685419922392,
+      "pct_from_52w_high": -0.067889246080996,
+      "pct_from_52w_low": 0.33036141391308527,
+      "earnings_rhythm": 0.027920256540486466,
+      "prev_close": 219.47999572753906,
+      "last_price": 219.86000061035156,
+      "price_asof": "2026-08-19T19:21:04.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "These dow jones stocks are moving in today's session",
+      "source": "ChartMill",
+      "url": "https://finnhub.io/api/news?id=a53cd1f5883972a76c50bbb639d04690497dfa9d3cc4c64befd2cd557bc9cbf6",
+      "published_at": "2026-08-19T16:40:06.000Z",
+      "article_id": "141254410",
+      "summary": "Stay updated with the movements of the dow jones index in the middle of the day on Wednesday. Discover which stocks are leading as top gainers and losers in today's session."
+     }
+    },
+    {
+     "id": "05c952c7-cc88-4f5f-9e1c-0abb6de71c66",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "NVDA",
+     "timestamp": "2026-08-19T19:21:06.322Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 1.9733783285841193,
+      "r_squared": 0.4103313185487134,
+      "daily_vol_30d": 0.035033041121105876,
+      "vol_regime": 1.388313187644808,
+      "move_today": 0.0017313873255411227,
+      "move_zscore": 0.0494215537713635,
+      "residual_move": -0.00483587332008768,
+      "residual_zscore": -0.3294804392086041,
+      "volume_ratio": 0.5585449928343349,
+      "volume_ratio_partial": true,
+      "momentum_5d": 0.009103428632363464,
+      "momentum_20d": 0.05880651664926129,
+      "momentum_60d": 0.0010286685419922392,
+      "pct_from_52w_high": -0.067889246080996,
+      "pct_from_52w_low": 0.33036141391308527,
+      "earnings_rhythm": 0.027920256540486466,
+      "prev_close": 219.47999572753906,
+      "last_price": 219.86000061035156,
+      "price_asof": "2026-08-19T19:21:04.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "AMD's Helios Platform And Explosive EPS Growth Make It A Buy",
+      "source": "SeekingAlpha",
+      "url": "https://finnhub.io/api/news?id=40ee1181574ba41d6f7d831f60ab656cee9073ec8b8a7fb44efc5176d74c4491",
+      "published_at": "2026-08-19T13:13:58.000Z",
+      "article_id": "141254500",
+      "summary": "Advanced Micro Devices, Inc.âs AI hardware, like the Helios rack-scale platform, fuels growthâopen architecture & partnerships imply upside. Click for an AMD update."
+     }
+    },
+    {
+     "id": "0f2da7ed-5982-4e4b-acd7-6e239a1cedfa",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "NVDA",
+     "timestamp": "2026-08-19T19:21:06.322Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 1.9733783285841193,
+      "r_squared": 0.4103313185487134,
+      "daily_vol_30d": 0.035033041121105876,
+      "vol_regime": 1.388313187644808,
+      "move_today": 0.0017313873255411227,
+      "move_zscore": 0.0494215537713635,
+      "residual_move": -0.00483587332008768,
+      "residual_zscore": -0.3294804392086041,
+      "volume_ratio": 0.5585449928343349,
+      "volume_ratio_partial": true,
+      "momentum_5d": 0.009103428632363464,
+      "momentum_20d": 0.05880651664926129,
+      "momentum_60d": 0.0010286685419922392,
+      "pct_from_52w_high": -0.067889246080996,
+      "pct_from_52w_low": 0.33036141391308527,
+      "earnings_rhythm": 0.027920256540486466,
+      "prev_close": 219.47999572753906,
+      "last_price": 219.86000061035156,
+      "price_asof": "2026-08-19T19:21:04.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "The U.S. banned Nvidia's best chips from going to China. Now it's trying to close a crucial loophole",
+      "source": "CNBC",
+      "url": "https://finnhub.io/api/news?id=e88258b4db74d13ba714f8b2815f29b5e5747ecf33fbe99875767eb13128fe11",
+      "published_at": "2026-08-19T06:32:51.000Z",
+      "article_id": "141254525",
+      "summary": "Chinese AI firms have reportedly accessed advanced Nvidia computing power overseas, testing U.S. export controls. Lawmakers weigh closing the cloud-access gap."
+     }
+    },
+    {
+     "id": "11c28ef9-3768-4318-aef8-266066fdce5e",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "NVDA",
+     "timestamp": "2026-08-19T19:21:06.322Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 1.9733783285841193,
+      "r_squared": 0.4103313185487134,
+      "daily_vol_30d": 0.035033041121105876,
+      "vol_regime": 1.388313187644808,
+      "move_today": 0.0017313873255411227,
+      "move_zscore": 0.0494215537713635,
+      "residual_move": -0.00483587332008768,
+      "residual_zscore": -0.3294804392086041,
+      "volume_ratio": 0.5585449928343349,
+      "volume_ratio_partial": true,
+      "momentum_5d": 0.009103428632363464,
+      "momentum_20d": 0.05880651664926129,
+      "momentum_60d": 0.0010286685419922392,
+      "pct_from_52w_high": -0.067889246080996,
+      "pct_from_52w_low": 0.33036141391308527,
+      "earnings_rhythm": 0.027920256540486466,
+      "prev_close": 219.47999572753906,
+      "last_price": 219.86000061035156,
+      "price_asof": "2026-08-19T19:21:04.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "Nvidia plays matchmaker in Nordics, sources tell CNBC, as AI data center deals boom in region",
+      "source": "CNBC",
+      "url": "https://finnhub.io/api/news?id=92b53ba3845e0f6516253c98186b838b8beb933356b88baf293df526014a2acf",
+      "published_at": "2026-08-19T10:21:59.000Z",
+      "article_id": "141254524",
+      "summary": "Nvidia is trying to connect GPU customers with Nordic data-center operators as cheap power and available land fuel the region’s AI infrastructure boom."
+     }
+    },
+    {
+     "id": "20d2643d-e3df-4355-83ad-0b88081e14f4",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "NVDA",
+     "timestamp": "2026-08-19T19:21:06.322Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 1.9733783285841193,
+      "r_squared": 0.4103313185487134,
+      "daily_vol_30d": 0.035033041121105876,
+      "vol_regime": 1.388313187644808,
+      "move_today": 0.0017313873255411227,
+      "move_zscore": 0.0494215537713635,
+      "residual_move": -0.00483587332008768,
+      "residual_zscore": -0.3294804392086041,
+      "volume_ratio": 0.5585449928343349,
+      "volume_ratio_partial": true,
+      "momentum_5d": 0.009103428632363464,
+      "momentum_20d": 0.05880651664926129,
+      "momentum_60d": 0.0010286685419922392,
+      "pct_from_52w_high": -0.067889246080996,
+      "pct_from_52w_low": 0.33036141391308527,
+      "earnings_rhythm": 0.027920256540486466,
+      "prev_close": 219.47999572753906,
+      "last_price": 219.86000061035156,
+      "price_asof": "2026-08-19T19:21:04.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "Which stocks are most active on Wednesday?",
+      "source": "ChartMill",
+      "url": "https://finnhub.io/api/news?id=709907e313da67eb9297d61718e239cfbac798b8fcaa3222f3077e4bb4eb234f",
+      "published_at": "2026-08-19T18:00:00.000Z",
+      "article_id": "141254986",
+      "summary": "Get a pulse on the US markets on Wednesday by checking out the most active stocks in today's session. Discover the stocks that are leading the way in terms of trading volume and market activity."
+     }
+    },
+    {
+     "id": "24a45a06-eb2e-45f2-af75-d3cd6a2eb50b",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "NVDA",
+     "timestamp": "2026-08-19T19:21:06.322Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 1.9733783285841193,
+      "r_squared": 0.4103313185487134,
+      "daily_vol_30d": 0.035033041121105876,
+      "vol_regime": 1.388313187644808,
+      "move_today": 0.0017313873255411227,
+      "move_zscore": 0.0494215537713635,
+      "residual_move": -0.00483587332008768,
+      "residual_zscore": -0.3294804392086041,
+      "volume_ratio": 0.5585449928343349,
+      "volume_ratio_partial": true,
+      "momentum_5d": 0.009103428632363464,
+      "momentum_20d": 0.05880651664926129,
+      "momentum_60d": 0.0010286685419922392,
+      "pct_from_52w_high": -0.067889246080996,
+      "pct_from_52w_low": 0.33036141391308527,
+      "earnings_rhythm": 0.027920256540486466,
+      "prev_close": 219.47999572753906,
+      "last_price": 219.86000061035156,
+      "price_asof": "2026-08-19T19:21:04.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "What's Going On With IREN Stock Wednesday?",
+      "source": "Benzinga",
+      "url": "https://finnhub.io/api/news?id=215022eb05e8ec82bc901431de0a496f3cbbb86c236c24da0e169e1885f6a7ec",
+      "published_at": "2026-08-19T12:44:38.000Z",
+      "article_id": "141255439",
+      "summary": "IREN stock surged as a report ranked it #1 in AI monetization efficiency with $40M/MW, outpacing CoreWeave. Here’s the price breakdown."
+     }
+    },
+    {
+     "id": "262db787-412f-4aee-a68a-e2cebfc35a7d",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "NVDA",
+     "timestamp": "2026-08-19T19:21:06.322Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 1.9733783285841193,
+      "r_squared": 0.4103313185487134,
+      "daily_vol_30d": 0.035033041121105876,
+      "vol_regime": 1.388313187644808,
+      "move_today": 0.0017313873255411227,
+      "move_zscore": 0.0494215537713635,
+      "residual_move": -0.00483587332008768,
+      "residual_zscore": -0.3294804392086041,
+      "volume_ratio": 0.5585449928343349,
+      "volume_ratio_partial": true,
+      "momentum_5d": 0.009103428632363464,
+      "momentum_20d": 0.05880651664926129,
+      "momentum_60d": 0.0010286685419922392,
+      "pct_from_52w_high": -0.067889246080996,
+      "pct_from_52w_low": 0.33036141391308527,
+      "earnings_rhythm": 0.027920256540486466,
+      "prev_close": 219.47999572753906,
+      "last_price": 219.86000061035156,
+      "price_asof": "2026-08-19T19:21:04.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "Investors Should Position For Humanoid Robot Boom—Here's A Picks-And-Shovels Play; First mRNA Cancer Vaccine Succeeds",
+      "source": "Benzinga",
+      "url": "https://finnhub.io/api/news?id=85690539df1f074b0141508ef60dd8720ee3792d4601920da3731c6695610e5e",
+      "published_at": "2026-08-19T13:09:55.000Z",
+      "article_id": "141254712",
+      "summary": "\n\n\n\nPlease click here for an enlarged chart of Moderna Inc (NASDAQ:MRNA).\n\n\n\nNote the following:\n\n\n\n\nThis article is about the big picture, not an individual stock.  The chart of MRNA stock is being used to illustrate"
+     }
+    },
+    {
+     "id": "2e8f2b3e-b911-46fd-a697-f473a79eb3b8",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "NVDA",
+     "timestamp": "2026-08-19T19:21:06.322Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 1.9733783285841193,
+      "r_squared": 0.4103313185487134,
+      "daily_vol_30d": 0.035033041121105876,
+      "vol_regime": 1.388313187644808,
+      "move_today": 0.0017313873255411227,
+      "move_zscore": 0.0494215537713635,
+      "residual_move": -0.00483587332008768,
+      "residual_zscore": -0.3294804392086041,
+      "volume_ratio": 0.5585449928343349,
+      "volume_ratio_partial": true,
+      "momentum_5d": 0.009103428632363464,
+      "momentum_20d": 0.05880651664926129,
+      "momentum_60d": 0.0010286685419922392,
+      "pct_from_52w_high": -0.067889246080996,
+      "pct_from_52w_low": 0.33036141391308527,
+      "earnings_rhythm": 0.027920256540486466,
+      "prev_close": 219.47999572753906,
+      "last_price": 219.86000061035156,
+      "price_asof": "2026-08-19T19:21:04.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "Marvell Won Alphabet's Deal; Everything Changes (Upgrade)",
+      "source": "SeekingAlpha",
+      "url": "https://finnhub.io/api/news?id=3d43c746f0dbb97241e734fe4bda17e4e10a8f572faa86b8719fb158727659c3",
+      "published_at": "2026-08-19T13:50:54.000Z",
+      "article_id": "141254890",
+      "summary": "Marvell Technology, Inc. lands major Alphabet custom silicon deal for AI and networking. Click for this MRVL update and see why I am bullish on the stock."
+     }
+    },
+    {
+     "id": "314fec3c-9f51-4c5b-8745-92c0c92b4e62",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "NVDA",
+     "timestamp": "2026-08-19T19:21:06.322Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 1.9733783285841193,
+      "r_squared": 0.4103313185487134,
+      "daily_vol_30d": 0.035033041121105876,
+      "vol_regime": 1.388313187644808,
+      "move_today": 0.0017313873255411227,
+      "move_zscore": 0.0494215537713635,
+      "residual_move": -0.00483587332008768,
+      "residual_zscore": -0.3294804392086041,
+      "volume_ratio": 0.5585449928343349,
+      "volume_ratio_partial": true,
+      "momentum_5d": 0.009103428632363464,
+      "momentum_20d": 0.05880651664926129,
+      "momentum_60d": 0.0010286685419922392,
+      "pct_from_52w_high": -0.067889246080996,
+      "pct_from_52w_low": 0.33036141391308527,
+      "earnings_rhythm": 0.027920256540486466,
+      "prev_close": 219.47999572753906,
+      "last_price": 219.86000061035156,
+      "price_asof": "2026-08-19T19:21:04.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "NVIDIA Supplier SK Hynix Rolls Out $29 Billion Buyback After AI Spending Fears Hammer Stock",
+      "source": "Benzinga",
+      "url": "https://finnhub.io/api/news?id=08f4ef026e0bdb91c66c51330e4dd08a73fb2f8692d3e8f49536c60eb7793cec",
+      "published_at": "2026-08-19T06:28:56.000Z",
+      "article_id": "141253915",
+      "summary": "SK hynix stock rebounds 5% as the company unveils a massive $29B buyback plan to boost shareholder returns. Get the key details."
+     }
+    },
+    {
+     "id": "435cdfd4-b4e6-445a-ba51-e77da4418437",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "NVDA",
+     "timestamp": "2026-08-19T19:21:06.322Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 1.9733783285841193,
+      "r_squared": 0.4103313185487134,
+      "daily_vol_30d": 0.035033041121105876,
+      "vol_regime": 1.388313187644808,
+      "move_today": 0.0017313873255411227,
+      "move_zscore": 0.0494215537713635,
+      "residual_move": -0.00483587332008768,
+      "residual_zscore": -0.3294804392086041,
+      "volume_ratio": 0.5585449928343349,
+      "volume_ratio_partial": true,
+      "momentum_5d": 0.009103428632363464,
+      "momentum_20d": 0.05880651664926129,
+      "momentum_60d": 0.0010286685419922392,
+      "pct_from_52w_high": -0.067889246080996,
+      "pct_from_52w_low": 0.33036141391308527,
+      "earnings_rhythm": 0.027920256540486466,
+      "prev_close": 219.47999572753906,
+      "last_price": 219.86000061035156,
+      "price_asof": "2026-08-19T19:21:04.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "SKHY Stock Rips 6% in Premarket on $29 Billion Buyback Plan",
+      "source": "Benzinga",
+      "url": "https://finnhub.io/api/news?id=b86f316d5b0a35c7b053a80459e4bac98084d90e171aae6000a1f4773fb4c050",
+      "published_at": "2026-08-19T06:15:26.000Z",
+      "article_id": "141253916",
+      "summary": "SK Hynix (SKHY) shares surged 6% premarket following the memory chipmaker&#39;s announcement of a $29 billion treasury share buyback plan."
+     }
+    },
+    {
+     "id": "47975c21-6a84-4f60-8631-e6341a5c7bd0",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "NVDA",
+     "timestamp": "2026-08-19T19:21:06.322Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 1.9733783285841193,
+      "r_squared": 0.4103313185487134,
+      "daily_vol_30d": 0.035033041121105876,
+      "vol_regime": 1.388313187644808,
+      "move_today": 0.0017313873255411227,
+      "move_zscore": 0.0494215537713635,
+      "residual_move": -0.00483587332008768,
+      "residual_zscore": -0.3294804392086041,
+      "volume_ratio": 0.5585449928343349,
+      "volume_ratio_partial": true,
+      "momentum_5d": 0.009103428632363464,
+      "momentum_20d": 0.05880651664926129,
+      "momentum_60d": 0.0010286685419922392,
+      "pct_from_52w_high": -0.067889246080996,
+      "pct_from_52w_low": 0.33036141391308527,
+      "earnings_rhythm": 0.027920256540486466,
+      "prev_close": 219.47999572753906,
+      "last_price": 219.86000061035156,
+      "price_asof": "2026-08-19T19:21:04.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "'China Eases Limits on Nvidia H200 Chips as AI Race Escalates' - FT",
+      "source": "Benzinga",
+      "url": "https://finnhub.io/api/news?id=8b989b448edca223d0849047a666183f2218fee4e5dc979571b9a39d3570a545",
+      "published_at": "2026-08-19T03:40:33.000Z",
+      "article_id": "141253918",
+      "summary": "https://www.ft.com/content/6c5650fb-969d-4d4e-80d6-8d11002a8cf7?syn-25a6b1a6=1 "
+     }
+    },
+    {
+     "id": "4addc714-38fe-4cab-ad8b-6a49609cba49",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "NVDA",
+     "timestamp": "2026-08-19T19:21:06.322Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 1.9733783285841193,
+      "r_squared": 0.4103313185487134,
+      "daily_vol_30d": 0.035033041121105876,
+      "vol_regime": 1.388313187644808,
+      "move_today": 0.0017313873255411227,
+      "move_zscore": 0.0494215537713635,
+      "residual_move": -0.00483587332008768,
+      "residual_zscore": -0.3294804392086041,
+      "volume_ratio": 0.5585449928343349,
+      "volume_ratio_partial": true,
+      "momentum_5d": 0.009103428632363464,
+      "momentum_20d": 0.05880651664926129,
+      "momentum_60d": 0.0010286685419922392,
+      "pct_from_52w_high": -0.067889246080996,
+      "pct_from_52w_low": 0.33036141391308527,
+      "earnings_rhythm": 0.027920256540486466,
+      "prev_close": 219.47999572753906,
+      "last_price": 219.86000061035156,
+      "price_asof": "2026-08-19T19:21:04.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "8 Information Technology Stocks With Whale Alerts In Today’s Session",
+      "source": "Benzinga",
+      "url": "https://finnhub.io/api/news?id=de83141ce2b10055fe3032abde94416522ff165022812de1ec89e1dfbfd67b59",
+      "published_at": "2026-08-19T13:35:16.000Z",
+      "article_id": "141255125",
+      "summary": "This whale alert can help traders discover the next big trading opportunities.\nWhales are entities with large sums of money and we track their transactions here at Benzinga on our options activity scanner.\nTraders will"
+     }
+    },
+    {
+     "id": "684397ef-641f-494e-8543-d4011356ee96",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "NVDA",
+     "timestamp": "2026-08-19T19:21:06.322Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 1.9733783285841193,
+      "r_squared": 0.4103313185487134,
+      "daily_vol_30d": 0.035033041121105876,
+      "vol_regime": 1.388313187644808,
+      "move_today": 0.0017313873255411227,
+      "move_zscore": 0.0494215537713635,
+      "residual_move": -0.00483587332008768,
+      "residual_zscore": -0.3294804392086041,
+      "volume_ratio": 0.5585449928343349,
+      "volume_ratio_partial": true,
+      "momentum_5d": 0.009103428632363464,
+      "momentum_20d": 0.05880651664926129,
+      "momentum_60d": 0.0010286685419922392,
+      "pct_from_52w_high": -0.067889246080996,
+      "pct_from_52w_low": 0.33036141391308527,
+      "earnings_rhythm": 0.027920256540486466,
+      "prev_close": 219.47999572753906,
+      "last_price": 219.86000061035156,
+      "price_asof": "2026-08-19T19:21:04.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "Taiwan Semiconductor’s AI Bottleneck Hands Samsung a Powerful Pricing Opportunity",
+      "source": "Benzinga",
+      "url": "https://finnhub.io/api/news?id=d3e68ad50cd62bb2eda41d53822a55b0ed049f85c81afb4a03b02db6193e0b92",
+      "published_at": "2026-08-19T10:01:22.000Z",
+      "article_id": "141253902",
+      "summary": "Samsung raises prices on advanced foundry services up to 15% to capitalize on tight capacity and boost profitability."
+     }
+    },
+    {
+     "id": "6ee50b12-a330-46e6-83cd-143dc7c3741d",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "NVDA",
+     "timestamp": "2026-08-19T19:21:06.322Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 1.9733783285841193,
+      "r_squared": 0.4103313185487134,
+      "daily_vol_30d": 0.035033041121105876,
+      "vol_regime": 1.388313187644808,
+      "move_today": 0.0017313873255411227,
+      "move_zscore": 0.0494215537713635,
+      "residual_move": -0.00483587332008768,
+      "residual_zscore": -0.3294804392086041,
+      "volume_ratio": 0.5585449928343349,
+      "volume_ratio_partial": true,
+      "momentum_5d": 0.009103428632363464,
+      "momentum_20d": 0.05880651664926129,
+      "momentum_60d": 0.0010286685419922392,
+      "pct_from_52w_high": -0.067889246080996,
+      "pct_from_52w_low": 0.33036141391308527,
+      "earnings_rhythm": 0.027920256540486466,
+      "prev_close": 219.47999572753906,
+      "last_price": 219.86000061035156,
+      "price_asof": "2026-08-19T19:21:04.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "Exploring The Competitive Space: NVIDIA Versus Industry Peers In Semiconductors &amp; Semiconductor Equipment",
+      "source": "Benzinga",
+      "url": "https://finnhub.io/api/news?id=aa36146e372d219d7a80136c43001d1be1ce9cdd1103dc51e0447dfacd3fb2e9",
+      "published_at": "2026-08-19T05:58:30.000Z",
+      "article_id": "141253917",
+      "summary": "In today&#39;s rapidly changing and fiercely competitive business landscape, it is essential for investors and industry enthusiasts to thoroughly analyze companies. In this article, we will conduct a comprehensive"
+     }
+    },
+    {
+     "id": "a7450f51-2c38-4e7f-ba5d-79575e2a3ac6",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "NVDA",
+     "timestamp": "2026-08-19T19:21:06.322Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 1.9733783285841193,
+      "r_squared": 0.4103313185487134,
+      "daily_vol_30d": 0.035033041121105876,
+      "vol_regime": 1.388313187644808,
+      "move_today": 0.0017313873255411227,
+      "move_zscore": 0.0494215537713635,
+      "residual_move": -0.00483587332008768,
+      "residual_zscore": -0.3294804392086041,
+      "volume_ratio": 0.5585449928343349,
+      "volume_ratio_partial": true,
+      "momentum_5d": 0.009103428632363464,
+      "momentum_20d": 0.05880651664926129,
+      "momentum_60d": 0.0010286685419922392,
+      "pct_from_52w_high": -0.067889246080996,
+      "pct_from_52w_low": 0.33036141391308527,
+      "earnings_rhythm": 0.027920256540486466,
+      "prev_close": 219.47999572753906,
+      "last_price": 219.86000061035156,
+      "price_asof": "2026-08-19T19:21:04.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "Nvidia Gets a Limited China Break — H200 Chips Reach ByteDance, Tencent as Beijing Eases AI Curbs: Report (UPDATED)",
+      "source": "Benzinga",
+      "url": "https://finnhub.io/api/news?id=dd6f67bba55c824241ca741b5f66c0783f1672200000a3832e3b9d1450a3b949",
+      "published_at": "2026-08-19T08:57:13.000Z",
+      "article_id": "141253912",
+      "summary": "China approves limited Nvidia H200 chip shipments to ByteDance and Tencent as Beijing cautiously eases AI hardware restrictions."
+     }
+    },
+    {
+     "id": "b81f6cf7-4b17-4c07-8b6f-2c57721641f0",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "NVDA",
+     "timestamp": "2026-08-19T19:21:06.322Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 1.9733783285841193,
+      "r_squared": 0.4103313185487134,
+      "daily_vol_30d": 0.035033041121105876,
+      "vol_regime": 1.388313187644808,
+      "move_today": 0.0017313873255411227,
+      "move_zscore": 0.0494215537713635,
+      "residual_move": -0.00483587332008768,
+      "residual_zscore": -0.3294804392086041,
+      "volume_ratio": 0.5585449928343349,
+      "volume_ratio_partial": true,
+      "momentum_5d": 0.009103428632363464,
+      "momentum_20d": 0.05880651664926129,
+      "momentum_60d": 0.0010286685419922392,
+      "pct_from_52w_high": -0.067889246080996,
+      "pct_from_52w_low": 0.33036141391308527,
+      "earnings_rhythm": 0.027920256540486466,
+      "prev_close": 219.47999572753906,
+      "last_price": 219.86000061035156,
+      "price_asof": "2026-08-19T19:21:04.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "Watch CNBC's full interview with Trivariate Research's Adam Parker",
+      "source": "CNBC",
+      "url": "https://finnhub.io/api/news?id=0389155863692877db48238ecbe1dc14804d7e0684f3f7739d7aa03d1d704580",
+      "published_at": "2026-08-18T15:29:53.000Z",
+      "article_id": "141254526",
+      "summary": "Adam Parker, Trivariate founder and CEO and CNBC contributor, joins 'Closing Bell' to discuss the 30-year treasury yield topping 5.33 percent."
+     }
+    },
+    {
+     "id": "c035696f-90b0-472a-9537-a6c273c55283",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "NVDA",
+     "timestamp": "2026-08-19T19:21:06.322Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 1.9733783285841193,
+      "r_squared": 0.4103313185487134,
+      "daily_vol_30d": 0.035033041121105876,
+      "vol_regime": 1.388313187644808,
+      "move_today": 0.0017313873255411227,
+      "move_zscore": 0.0494215537713635,
+      "residual_move": -0.00483587332008768,
+      "residual_zscore": -0.3294804392086041,
+      "volume_ratio": 0.5585449928343349,
+      "volume_ratio_partial": true,
+      "momentum_5d": 0.009103428632363464,
+      "momentum_20d": 0.05880651664926129,
+      "momentum_60d": 0.0010286685419922392,
+      "pct_from_52w_high": -0.067889246080996,
+      "pct_from_52w_low": 0.33036141391308527,
+      "earnings_rhythm": 0.027920256540486466,
+      "prev_close": 219.47999572753906,
+      "last_price": 219.86000061035156,
+      "price_asof": "2026-08-19T19:21:04.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "What's going on in today's session: S&P500 most active stocks",
+      "source": "ChartMill",
+      "url": "https://finnhub.io/api/news?id=06bc9619bf53a11a041c1a94ae5eb97fa03663fcef161e2b5f6c6836998b06d4",
+      "published_at": "2026-08-19T18:05:02.000Z",
+      "article_id": "141254987",
+      "summary": "Curious about the most active S&P500 stocks in today's session? Get insights into the stocks that are leading the way in terms of trading volume and market attention."
+     }
+    },
+    {
+     "id": "c3ac49a1-6d5e-44a8-a405-97e1c9e149b5",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "NVDA",
+     "timestamp": "2026-08-19T19:21:06.322Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 1.9733783285841193,
+      "r_squared": 0.4103313185487134,
+      "daily_vol_30d": 0.035033041121105876,
+      "vol_regime": 1.388313187644808,
+      "move_today": 0.0017313873255411227,
+      "move_zscore": 0.0494215537713635,
+      "residual_move": -0.00483587332008768,
+      "residual_zscore": -0.3294804392086041,
+      "volume_ratio": 0.5585449928343349,
+      "volume_ratio_partial": true,
+      "momentum_5d": 0.009103428632363464,
+      "momentum_20d": 0.05880651664926129,
+      "momentum_60d": 0.0010286685419922392,
+      "pct_from_52w_high": -0.067889246080996,
+      "pct_from_52w_low": 0.33036141391308527,
+      "earnings_rhythm": 0.027920256540486466,
+      "prev_close": 219.47999572753906,
+      "last_price": 219.86000061035156,
+      "price_asof": "2026-08-19T19:21:04.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "Why Falling AI Prices Could Be Good News for Nvidia Stock",
+      "source": "Benzinga",
+      "url": "https://finnhub.io/api/news?id=ee70e602e4fbf100b1bc05dc912afc1bd8514b2a1b0473ed81f3cbdb8f3c3250",
+      "published_at": "2026-08-19T10:37:10.000Z",
+      "article_id": "141253908",
+      "summary": "AI companies like OpenAI, DeepSeek are slashing prices. Cheaper AI could, increase demand for Nvidia&#39;s GPUs by accelerating adoption."
+     }
+    },
+    {
+     "id": "ccf52bb5-f77b-4db8-9da0-c5ac706cf080",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "NVDA",
+     "timestamp": "2026-08-19T19:21:06.322Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 1.9733783285841193,
+      "r_squared": 0.4103313185487134,
+      "daily_vol_30d": 0.035033041121105876,
+      "vol_regime": 1.388313187644808,
+      "move_today": 0.0017313873255411227,
+      "move_zscore": 0.0494215537713635,
+      "residual_move": -0.00483587332008768,
+      "residual_zscore": -0.3294804392086041,
+      "volume_ratio": 0.5585449928343349,
+      "volume_ratio_partial": true,
+      "momentum_5d": 0.009103428632363464,
+      "momentum_20d": 0.05880651664926129,
+      "momentum_60d": 0.0010286685419922392,
+      "pct_from_52w_high": -0.067889246080996,
+      "pct_from_52w_low": 0.33036141391308527,
+      "earnings_rhythm": 0.027920256540486466,
+      "prev_close": 219.47999572753906,
+      "last_price": 219.86000061035156,
+      "price_asof": "2026-08-19T19:21:04.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "SK Hynix vs. Micron: One AI Memory Leader Is Trading at Half the Multiple",
+      "source": "Benzinga",
+      "url": "https://finnhub.io/api/news?id=a81131142284db71ebe99ae471bb6f948ebbfd6909b57b65ba54339c62436e82",
+      "published_at": "2026-08-19T08:25:08.000Z",
+      "article_id": "141253913",
+      "summary": "SK Hynix trades at roughly half Micron&#39;s trailing valuation. Here&#39;s why investors are watching the surprising gap."
+     }
+    },
+    {
+     "id": "f4aa5be2-5bff-491e-8f97-5015f018eace",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "NVDA",
+     "timestamp": "2026-08-19T19:52:47.800Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 1.9733783285841193,
+      "r_squared": 0.4103313185487134,
+      "daily_vol_30d": 0.035033041121105876,
+      "vol_regime": 1.388313187644808,
+      "move_today": -0.00820073025000767,
+      "move_zscore": -0.23408559427251918,
+      "residual_move": -0.010975226801327377,
+      "residual_zscore": -0.7477703214214516,
+      "volume_ratio": 0.6088131612417712,
+      "volume_ratio_partial": true,
+      "momentum_5d": 0.009103428632363464,
+      "momentum_20d": 0.05880651664926129,
+      "momentum_60d": 0.0010286685419922392,
+      "pct_from_52w_high": -0.067889246080996,
+      "pct_from_52w_low": 0.33036141391308527,
+      "earnings_rhythm": 0.027920256540486466,
+      "prev_close": 219.47999572753906,
+      "last_price": 217.6800994873047,
+      "price_asof": "2026-08-19T19:52:53.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "Which dow jones stocks are moving on Wednesday?",
+      "source": "ChartMill",
+      "url": "https://finnhub.io/api/news?id=40115c3c3464e83a2660ead2dc4dec4295ca940e8503f339c0e49581f3b5cef4",
+      "published_at": "2026-08-19T19:10:05.000Z",
+      "article_id": "141255654",
+      "summary": "Wondering what's happening in today's session for the dow jones index? Stay informed with the top movers within the dow jones index on Wednesday."
+     }
+    }
+   ],
+   "quant_context": {
+    "beta_90d": 1.9733783285841193,
+    "r_squared": 0.4103313185487134,
+    "daily_vol_30d": 0.035033041121105876,
+    "vol_regime": 1.388313187644808,
+    "move_today": -0.00820073025000767,
+    "move_zscore": -0.23408559427251918,
+    "residual_move": -0.010975226801327377,
+    "residual_zscore": -0.7477703214214516,
+    "volume_ratio": 0.6088131612417712,
+    "volume_ratio_partial": true,
+    "momentum_5d": 0.009103428632363464,
+    "momentum_20d": 0.05880651664926129,
+    "momentum_60d": 0.0010286685419922392,
+    "pct_from_52w_high": -0.067889246080996,
+    "pct_from_52w_low": 0.33036141391308527,
+    "earnings_rhythm": 0.027920256540486466,
+    "prev_close": 219.47999572753906,
+    "last_price": 217.6800994873047,
+    "price_asof": "2026-08-19T19:52:53.000Z",
+    "session": "regular"
+   },
+   "user_proximity": "tracked",
+   "related_incident_id": null,
+   "propagation_candidates": [
+    {
+     "ticker": "NVDA",
+     "article_key": "id:141254525",
+     "event_type": "regulatory_decision",
+     "event_label": "U.S. export controls on Nvidia chips to China; loophole closure under review"
+    },
+    {
+     "ticker": "NVDA",
+     "article_key": "id:141254524",
+     "event_type": "contract_partnership",
+     "event_label": "Nvidia facilitates GPU customer connections with Nordic data-center operators"
+    },
+    {
+     "ticker": "NVDA",
+     "article_key": "id:141253918",
+     "event_type": "regulatory_decision",
+     "event_label": "China eases limits on Nvidia H200 chips"
+    },
+    {
+     "ticker": "NVDA",
+     "article_key": "id:141253912",
+     "event_type": "regulatory_decision",
+     "event_label": "China approves limited Nvidia H200 chip shipments to ByteDance, Tencent"
+    }
+   ]
+  },
+  "event": {
+   "type": "regulatory_decision",
+   "direction": "negative",
+   "materiality": "high",
+   "label": "U.S. export controls on Nvidia chips to China; loophole closure under review",
+   "source_msg_ids": [
+    "0f2da7ed-5982-4e4b-acd7-6e239a1cedfa"
+   ],
+   "event_ts": "2026-08-19T06:32:51.000Z",
+   "source": "verdict",
+   "evidence_lines": [
+    "The U.S. banned Nvidia's best chips from going to China. Now it's trying to close a crucial loophole (regulatory_decision · high · negative)",
+    "Nvidia plays matchmaker in Nordics, sources tell CNBC, as AI data center deals boom in region (contract_partnership · standard · positive)",
+    "'China Eases Limits on Nvidia H200 Chips as AI Race Escalates' - FT (regulatory_decision · high · positive)",
+    "Nvidia Gets a Limited China Break — H200 Chips Reach ByteDance, Tencent as Beijing Eases AI Curbs: Report (UPDATED) (regulatory_decision · standard · positive)"
+   ]
+  },
+  "trigger_rules": [
+   "propagation_candidates"
+  ],
+  "update": false,
+  "prior_run_id": null,
+  "requested_at": "2026-08-22T19:59:56.471Z",
+  "verdicts": {
+   "0447dd9d-fb70-4131-b216-f26058b9fc4c": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141253914",
+     "kind": "news",
+     "event_type": "macro_sector",
+     "event_label": "Cramer commentary on data center reliance on memory chip stocks",
+     "syndication_scope": 1,
+     "tickers": [
+      {
+       "ticker": "NVDA",
+       "relevance": "indirect",
+       "materiality": "low",
+       "direction": "unclear"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:28.926Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "NVDA",
+     "relevance": "indirect",
+     "materiality": "low",
+     "direction": "unclear"
+    }
+   },
+   "04bf989f-702b-4754-b067-a6473f3ef607": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141254410",
+     "kind": "news",
+     "event_type": "macro_sector",
+     "event_label": "Dow Jones stocks intraday price movements",
+     "syndication_scope": 8,
+     "tickers": [
+      {
+       "ticker": "MRK",
+       "relevance": "none"
+      },
+      {
+       "ticker": "HON",
+       "relevance": "none"
+      },
+      {
+       "ticker": "BA",
+       "relevance": "none"
+      },
+      {
+       "ticker": "CAT",
+       "relevance": "none"
+      },
+      {
+       "ticker": "NVDA",
+       "relevance": "none"
+      },
+      {
+       "ticker": "UNH",
+       "relevance": "none"
+      },
+      {
+       "ticker": "WMT",
+       "relevance": "none"
+      },
+      {
+       "ticker": "AAPL",
+       "relevance": "none"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:31.680Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "NVDA",
+     "relevance": "none"
+    }
+   },
+   "05c952c7-cc88-4f5f-9e1c-0abb6de71c66": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141254500",
+     "kind": "news",
+     "event_type": "product_clinical",
+     "event_label": "AMD Helios Platform and EPS growth outlook",
+     "syndication_scope": 2,
+     "tickers": [
+      {
+       "ticker": "AMD",
+       "relevance": "direct",
+       "materiality": "standard",
+       "direction": "positive"
+      },
+      {
+       "ticker": "NVDA",
+       "relevance": "none"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:32.067Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "NVDA",
+     "relevance": "none"
+    }
+   },
+   "0f2da7ed-5982-4e4b-acd7-6e239a1cedfa": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141254525",
+     "kind": "news",
+     "event_type": "regulatory_decision",
+     "event_label": "U.S. export controls on Nvidia chips to China; loophole closure under review",
+     "syndication_scope": 1,
+     "tickers": [
+      {
+       "ticker": "NVDA",
+       "relevance": "direct",
+       "materiality": "high",
+       "direction": "negative"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:32.714Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "NVDA",
+     "relevance": "direct",
+     "materiality": "high",
+     "direction": "negative"
+    }
+   },
+   "11c28ef9-3768-4318-aef8-266066fdce5e": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141254524",
+     "kind": "news",
+     "event_type": "contract_partnership",
+     "event_label": "Nvidia facilitates GPU customer connections with Nordic data-center operators",
+     "syndication_scope": 1,
+     "tickers": [
+      {
+       "ticker": "NVDA",
+       "relevance": "direct",
+       "materiality": "standard",
+       "direction": "positive"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:32.102Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "NVDA",
+     "relevance": "direct",
+     "materiality": "standard",
+     "direction": "positive"
+    }
+   },
+   "20d2643d-e3df-4355-83ad-0b88081e14f4": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141254986",
+     "kind": "news",
+     "event_type": "other",
+     "event_label": "Most active stocks market roundup",
+     "syndication_scope": 2,
+     "tickers": [
+      {
+       "ticker": "INTC",
+       "relevance": "none"
+      },
+      {
+       "ticker": "NVDA",
+       "relevance": "none"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:36.288Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "NVDA",
+     "relevance": "none"
+    }
+   },
+   "24a45a06-eb2e-45f2-af75-d3cd6a2eb50b": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141255439",
+     "kind": "news",
+     "event_type": "other",
+     "event_label": "IREN ranked #1 in AI monetization efficiency",
+     "syndication_scope": 2,
+     "tickers": [
+      {
+       "ticker": "MSFT",
+       "relevance": "none"
+      },
+      {
+       "ticker": "NVDA",
+       "relevance": "none"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:36.503Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "NVDA",
+     "relevance": "none"
+    }
+   },
+   "262db787-412f-4aee-a68a-e2cebfc35a7d": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141254712",
+     "kind": "news",
+     "event_type": "macro_sector",
+     "event_label": "Humanoid robot boom and mRNA cancer vaccine thematic coverage",
+     "syndication_scope": 5,
+     "tickers": [
+      {
+       "ticker": "META",
+       "relevance": "none"
+      },
+      {
+       "ticker": "MRK",
+       "relevance": "none"
+      },
+      {
+       "ticker": "NVDA",
+       "relevance": "none"
+      },
+      {
+       "ticker": "MSFT",
+       "relevance": "none"
+      },
+      {
+       "ticker": "AAPL",
+       "relevance": "none"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:34.804Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "NVDA",
+     "relevance": "none"
+    }
+   },
+   "2e8f2b3e-b911-46fd-a697-f473a79eb3b8": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141254890",
+     "kind": "news",
+     "event_type": "contract_partnership",
+     "event_label": "Marvell wins Alphabet custom silicon deal for AI and networking",
+     "syndication_scope": 2,
+     "tickers": [
+      {
+       "ticker": "NVDA",
+       "relevance": "indirect",
+       "materiality": "standard",
+       "direction": "negative"
+      },
+      {
+       "ticker": "MSFT",
+       "relevance": "none"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:35.274Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "NVDA",
+     "relevance": "indirect",
+     "materiality": "standard",
+     "direction": "negative"
+    }
+   },
+   "314fec3c-9f51-4c5b-8745-92c0c92b4e62": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141253915",
+     "kind": "news",
+     "event_type": "capital_allocation",
+     "event_label": "SK Hynix announces $29B buyback program",
+     "syndication_scope": 1,
+     "tickers": [
+      {
+       "ticker": "NVDA",
+       "relevance": "indirect",
+       "materiality": "low",
+       "direction": "positive"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:29.295Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "NVDA",
+     "relevance": "indirect",
+     "materiality": "low",
+     "direction": "positive"
+    }
+   },
+   "435cdfd4-b4e6-445a-ba51-e77da4418437": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141253916",
+     "kind": "news",
+     "event_type": "capital_allocation",
+     "event_label": "SK Hynix announces $29B share buyback plan",
+     "syndication_scope": 1,
+     "tickers": [
+      {
+       "ticker": "NVDA",
+       "relevance": "none"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:29.059Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "NVDA",
+     "relevance": "none"
+    }
+   },
+   "47975c21-6a84-4f60-8631-e6341a5c7bd0": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141253918",
+     "kind": "news",
+     "event_type": "regulatory_decision",
+     "event_label": "China eases limits on Nvidia H200 chips",
+     "syndication_scope": 1,
+     "tickers": [
+      {
+       "ticker": "NVDA",
+       "relevance": "direct",
+       "materiality": "high",
+       "direction": "positive"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:30.378Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "NVDA",
+     "relevance": "direct",
+     "materiality": "high",
+     "direction": "positive"
+    }
+   },
+   "4addc714-38fe-4cab-ad8b-6a49609cba49": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141255125",
+     "kind": "news",
+     "event_type": "ownership_flows",
+     "event_label": "Whale alerts in information technology stocks",
+     "syndication_scope": 3,
+     "tickers": [
+      {
+       "ticker": "TSM",
+       "relevance": "none"
+      },
+      {
+       "ticker": "NVDA",
+       "relevance": "none"
+      },
+      {
+       "ticker": "MSTR",
+       "relevance": "none"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:36.295Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "NVDA",
+     "relevance": "none"
+    }
+   },
+   "684397ef-641f-494e-8543-d4011356ee96": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141253902",
+     "kind": "news",
+     "event_type": "supply_chain_ops",
+     "event_label": "Samsung raises foundry prices 15% amid TSMC capacity constraints",
+     "syndication_scope": 5,
+     "tickers": [
+      {
+       "ticker": "AVGO",
+       "relevance": "indirect",
+       "materiality": "standard",
+       "direction": "positive"
+      },
+      {
+       "ticker": "INTC",
+       "relevance": "indirect",
+       "materiality": "standard",
+       "direction": "positive"
+      },
+      {
+       "ticker": "TSM",
+       "relevance": "direct",
+       "materiality": "standard",
+       "direction": "negative"
+      },
+      {
+       "ticker": "NVDA",
+       "relevance": "indirect",
+       "materiality": "low",
+       "direction": "negative"
+      },
+      {
+       "ticker": "AAPL",
+       "relevance": "indirect",
+       "materiality": "low",
+       "direction": "negative"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:27.421Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "NVDA",
+     "relevance": "indirect",
+     "materiality": "low",
+     "direction": "negative"
+    }
+   },
+   "6ee50b12-a330-46e6-83cd-143dc7c3741d": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141253917",
+     "kind": "news",
+     "event_type": "macro_sector",
+     "event_label": "NVIDIA competitive analysis versus semiconductor industry peers",
+     "syndication_scope": 1,
+     "tickers": [
+      {
+       "ticker": "NVDA",
+       "relevance": "indirect",
+       "materiality": "low",
+       "direction": "unclear"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:29.209Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "NVDA",
+     "relevance": "indirect",
+     "materiality": "low",
+     "direction": "unclear"
+    }
+   },
+   "a7450f51-2c38-4e7f-ba5d-79575e2a3ac6": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141253912",
+     "kind": "news",
+     "event_type": "regulatory_decision",
+     "event_label": "China approves limited Nvidia H200 chip shipments to ByteDance, Tencent",
+     "syndication_scope": 2,
+     "tickers": [
+      {
+       "ticker": "AMD",
+       "relevance": "none"
+      },
+      {
+       "ticker": "NVDA",
+       "relevance": "direct",
+       "materiality": "standard",
+       "direction": "positive"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:27.725Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "NVDA",
+     "relevance": "direct",
+     "materiality": "standard",
+     "direction": "positive"
+    }
+   },
+   "b81f6cf7-4b17-4c07-8b6f-2c57721641f0": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141254526",
+     "kind": "news",
+     "event_type": "macro_sector",
+     "event_label": "30-year treasury yield tops 5.33%",
+     "syndication_scope": 1,
+     "tickers": [
+      {
+       "ticker": "NVDA",
+       "relevance": "none"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:32.923Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "NVDA",
+     "relevance": "none"
+    }
+   },
+   "c035696f-90b0-472a-9537-a6c273c55283": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141254987",
+     "kind": "news",
+     "event_type": "macro_sector",
+     "event_label": "S&P 500 most active stocks market roundup",
+     "syndication_scope": 5,
+     "tickers": [
+      {
+       "ticker": "INTC",
+       "relevance": "none"
+      },
+      {
+       "ticker": "PLTR",
+       "relevance": "none"
+      },
+      {
+       "ticker": "PFE",
+       "relevance": "none"
+      },
+      {
+       "ticker": "NVDA",
+       "relevance": "none"
+      },
+      {
+       "ticker": "AAPL",
+       "relevance": "none"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:06.637Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "NVDA",
+     "relevance": "none"
+    }
+   },
+   "c3ac49a1-6d5e-44a8-a405-97e1c9e149b5": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141253908",
+     "kind": "news",
+     "event_type": "macro_sector",
+     "event_label": "AI pricing pressure and demand implications for GPU suppliers",
+     "syndication_scope": 1,
+     "tickers": [
+      {
+       "ticker": "NVDA",
+       "relevance": "indirect",
+       "materiality": "standard",
+       "direction": "mixed"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:27.981Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "NVDA",
+     "relevance": "indirect",
+     "materiality": "standard",
+     "direction": "mixed"
+    }
+   },
+   "ccf52bb5-f77b-4db8-9da0-c5ac706cf080": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141253913",
+     "kind": "news",
+     "event_type": "macro_sector",
+     "event_label": "SK Hynix vs. Micron valuation comparison in AI memory",
+     "syndication_scope": 1,
+     "tickers": [
+      {
+       "ticker": "NVDA",
+       "relevance": "none"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:28.024Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "NVDA",
+     "relevance": "none"
+    }
+   },
+   "f4aa5be2-5bff-491e-8f97-5015f018eace": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141255654",
+     "kind": "news",
+     "event_type": "macro_sector",
+     "event_label": "Dow Jones index movers coverage",
+     "syndication_scope": 6,
+     "tickers": [
+      {
+       "ticker": "MRK",
+       "relevance": "none"
+      },
+      {
+       "ticker": "UNH",
+       "relevance": "none"
+      },
+      {
+       "ticker": "CAT",
+       "relevance": "none"
+      },
+      {
+       "ticker": "BA",
+       "relevance": "none"
+      },
+      {
+       "ticker": "NVDA",
+       "relevance": "none"
+      },
+      {
+       "ticker": "HON",
+       "relevance": "none"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:39.220Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "NVDA",
+     "relevance": "none"
+    }
+   }
+  }
+ },
+ "graph_version": {
+  "generatedAt": "2026-08-13T22:38:11.325Z",
+  "pipelineVersion": 5
+ }
+}

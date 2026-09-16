@@ -1,0 +1,92 @@
+[
+  {
+    "counterparty_name": "NVIDIA",
+    "category": "partner",
+    "subtype": "joint_product_development",
+    "evidence_quote": "we announced a strategic partnership with NVIDIA to co-develop custom client and data center products combining our x86 CPU technologies with NVIDIA's AI and accelerated computing capabilities.",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Federal Security Service of the Russian Federation",
+    "category": "dependency",
+    "subtype": "regulatory",
+    "evidence_quote": "there may be a need to file documents or engage with FSB as Intel winds up our local Russian offices.",
+    "confidence": 0.65,
+    "reason": "counterparty name not in quote",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Pozitiv Teknolodzhiz, AO",
+    "category": "partner",
+    "subtype": "security_research",
+    "evidence_quote": "we communicated with Positive Technologies regarding its IT security research and coordinated disclosure of security vulnerabilities identified by the firm",
+    "confidence": 0.7,
+    "reason": "counterparty name not in quote",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Ernst & Young LLP",
+    "category": "supplier",
+    "subtype": "external_auditor",
+    "evidence_quote": "We have served as the Company's auditor since 1968.",
+    "confidence": 0.95,
+    "reason": "counterparty name not in quote",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Mobileye",
+    "category": "customer",
+    "subtype": "autonomous driving subsidiary",
+    "evidence_quote": "Mobileye, a publicly-traded company and a global leader in driving assistance and self-driving solutions with a product portfolio designed to encompass the entire stack required for assisted and autonomous driving",
+    "confidence": 0.7,
+    "reason": "Mobileye is explicitly identified in the filing as a publicly-traded company that Intel consolidates and in which Intel holds an 80% ownership interest as of December 27, 2025. The text states 'As of December 27, 2025, we continued to consolidate Mobileye and held equity interests representing an 80% ownership interest in Mobileye.' This makes Mobileye a majority-owned subsidiary of Intel (the ROOT company), not an external customer. Intel's own subsidiaries, brands, and majority-controlled entities do not qualify as counterparties in this knowledge graph context, as they are part of Intel's internal corporate structure rather than external business relationships.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "SoftBank Group",
+    "category": "customer",
+    "subtype": "private_placement_investor",
+    "evidence_quote": "on August 18, 2025, we entered into an agreement with SoftBank Group to issue and sell to SoftBank Group 87 million shares of our common stock at $23.00 per share",
+    "confidence": 0.95,
+    "reason": "SoftBank Group is a private placement investor who purchased Intel common stock for cash ($2.0 billion). This is a capital markets transaction, not a customer relationship. Private placement investors are equity financing sources, not customers who purchase Intel's products or services. The 'customer' category requires the counterparty to buy Intel's commercial offerings (chips, processors, foundry services, etc.). SoftBank Group is providing capital by buying equity shares, making them an investor/shareholder, not a customer. This is analogous to why stock exchanges are excluded as counterparties—capital markets participants in financing transactions are not business counterparties in the operational sense.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "NVIDIA",
+    "category": "customer",
+    "subtype": "private_placement_investor",
+    "evidence_quote": "on September 15, 2025, we entered into an agreement with NVIDIA to issue and sell to NVIDIA 215 million shares of our common stock at $23.28 per share",
+    "confidence": 0.95,
+    "reason": "NVIDIA purchased Intel common stock in a private placement as an investor. This transaction makes NVIDIA an equity investor, not a customer of Intel's products or services. The category 'customer' applies when NVIDIA buys Intel's products (semiconductors, processors, etc.), but the evidence shows a financial investment transaction. Additionally, 'private_placement_investor' is an accurate subtype for this relationship, but the correct category should be 'investor' or similar, not 'customer'. Since the relationship categories provided do not include 'investor' and the candidate incorrectly classifies this as a customer relationship, this edge must be rejected as the category is fundamentally wrong for the type of transaction described.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Altera",
+    "category": "dependency",
+    "subtype": "divested_subsidiary",
+    "evidence_quote": "Effective September 12, 2025, Altera, previously a wholly-owned subsidiary, was deconsolidated from our Consolidated Financial Statements following the closing of the sale of 51% of Altera's issued and outstanding common stock.",
+    "confidence": 0.95,
+    "reason": "Altera is Intel's former wholly-owned subsidiary that was divested in Q3 2025. The filing explicitly states 'Altera, previously a wholly-owned subsidiary, was deconsolidated from our Consolidated Financial Statements following the closing of the sale of 51% of Altera's issued and outstanding common stock.' A divested subsidiary is NOT a counterparty relationship—it represents a past internal structure, not an external relationship with another organization. Furthermore, 'dependency' as a category is entirely inappropriate here; the text describes a divestiture event, not a critical reliance on an external entity. After divestiture, Intel retains a non-controlling equity interest (49%), which could potentially be modeled as an equity_investment edge, but the current edge incorrectly frames Altera as a dependency counterparty. The evidence_quote describes a corporate restructuring event, not an operational dependency. This edge must be rejected because: (1) subsidiaries—even divested ones—are not counterparties in the KG model; (2) the category 'dependency' is factually wrong; (3) the relationship type 'divested_subsidiary' acknowledges internal origin, contradicting counterparty status.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Mobileye",
+    "category": "dependency",
+    "subtype": "subsidiary_business",
+    "evidence_quote": "higher 2025 Mobileye revenue, which totaled $1.9 billion, up $240 million from 2024 due to improved customer inventory levels and higher demand for Eye Q® products.",
+    "confidence": 0.95,
+    "reason": "Mobileye is described as part of Intel's 'all other' category which includes 'non-reportable segments, including our Mobileye business' that are part of Intel's consolidated financial statements. The filing states 'higher 2025 Mobileye revenue, which totaled $1.9 billion' as part of Intel's own revenue reporting, indicating Mobileye is a subsidiary business unit of Intel, not an external counterparty. The revenue is Intel's consolidated revenue from its Mobileye segment, not revenue dependency on an external entity. This is an internal business segment, similar to how CCG and DCAI are Intel's internal segments, and therefore not a valid counterparty relationship.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "R2 Semiconductor, Inc.",
+    "category": "competitor",
+    "subtype": "ip_litigation",
+    "evidence_quote": "In February 2024, R2 Semiconductor, Inc., a non-practicing entity, was able to obtain an injunction and recall order against us and our customers in the Dusseldorf Regional Court in Germany",
+    "confidence": 0.85,
+    "reason": "R2 Semiconductor is a non-practicing entity (NPE) that sued Intel for patent infringement and obtained an injunction against Intel. This is IP litigation enforcement, not a competitive business relationship. The filing explicitly states R2 is 'a non-practicing entity' that obtained an injunction against Intel in patent litigation. Non-practicing entities do not compete in product markets—they assert patent rights. The 'competitor' category requires actual market competition (producing/selling competing products), not patent assertion. The subtype 'ip_litigation' signals a legal adversary relationship, not a competitive market relationship. This should be rejected as it represents a legal/IP enforcement action by a patent holder, not a business competitor.",
+    "stage": "audit"
+  }
+]

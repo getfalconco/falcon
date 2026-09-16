@@ -1,0 +1,301 @@
+/* Neumorphic ThemeSwitcher — soft UI track + raised thumb.
+   Matches light-mode reference: inset track, embossed pill, thin icons. */
+
+.theme-provider {
+  --c-surface: #e8e8e9;
+  --c-shadow-dark: #bebebe;
+  --c-shadow-light: #ffffff;
+  --c-icon: #1a1a2e;
+  --c-content: #222233;
+  --c-bg: #e8e8e9;
+  --c-muted: #6b6b78;
+
+  --track-inset: inset 6px 6px 12px var(--c-shadow-dark),
+    inset -6px -6px 12px var(--c-shadow-light);
+  --thumb-outset: 6px 6px 12px var(--c-shadow-dark),
+    -6px -6px 12px var(--c-shadow-light);
+
+  min-height: 100vh;
+  font-size: 20px;
+  font-family: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  font-optical-sizing: auto;
+  background: var(--c-bg);
+  color: var(--c-content);
+
+  transition:
+    background 400ms cubic-bezier(1, 0, 0.4, 1),
+    color 400ms cubic-bezier(1, 0, 0.4, 1);
+}
+
+.theme-provider[data-theme="dark"] {
+  --c-surface: #2a2a2e;
+  --c-shadow-dark: #1a1a1c;
+  --c-shadow-light: #3a3a40;
+  --c-icon: #e8e8ec;
+  --c-content: #e1e1e1;
+  --c-bg: #2a2a2e;
+  --c-muted: #9a9aa3;
+
+  --track-inset: inset 6px 6px 12px var(--c-shadow-dark),
+    inset -5px -5px 10px var(--c-shadow-light);
+  --thumb-outset: 6px 6px 12px var(--c-shadow-dark),
+    -5px -5px 10px var(--c-shadow-light);
+}
+
+.theme-provider[data-theme="dim"] {
+  --c-surface: #1e2a36;
+  --c-shadow-dark: #121820;
+  --c-shadow-light: #2a3a4a;
+  --c-icon: #d5dbe2;
+  --c-content: #d5dbe2;
+  --c-bg: #1e2a36;
+  --c-muted: #8a9aab;
+
+  --track-inset: inset 6px 6px 12px var(--c-shadow-dark),
+    inset -5px -5px 10px var(--c-shadow-light);
+  --thumb-outset: 6px 6px 12px var(--c-shadow-dark),
+    -5px -5px 10px var(--c-shadow-light);
+}
+
+.switcher {
+  /* Slot ≈ thumb so the raised pill sits flush under each icon */
+  --slot: 72px;
+  --thumb-w: 60px;
+  --pad: 6px;
+
+  position: fixed;
+  z-index: 1;
+  top: 40px;
+  left: 50%;
+  translate: -50%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0;
+  width: calc(var(--slot) * 3 + var(--pad) * 2);
+  height: 60px;
+  box-sizing: border-box;
+  padding: var(--pad);
+  margin: 0 auto;
+  border: none;
+  border-radius: 9999px;
+  background-color: var(--c-surface);
+  box-shadow: var(--track-inset);
+  transition:
+    background-color 400ms cubic-bezier(1, 0, 0.4, 1),
+    box-shadow 400ms cubic-bezier(1, 0, 0.4, 1);
+}
+
+.switcher__legend {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+  white-space: nowrap;
+  clip-path: inset(100%);
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+}
+
+.switcher__input {
+  clip: rect(0 0 0 0);
+  clip-path: inset(100%);
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+}
+
+.switcher__icon {
+  display: block;
+  width: 28px;
+  height: 28px;
+  stroke: var(--c);
+  fill: none;
+  transition:
+    stroke 160ms ease,
+    scale 200ms cubic-bezier(0.5, 0, 0, 1);
+}
+
+.switcher__option {
+  --c: var(--c-icon);
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--slot);
+  height: 100%;
+  box-sizing: border-box;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: color 160ms ease;
+}
+
+.switcher__option:hover {
+  --c: color-mix(in srgb, var(--c-icon) 75%, black);
+}
+
+.switcher__option:hover .switcher__icon {
+  scale: 1.08;
+}
+
+.switcher__option:has(input:checked) {
+  cursor: default;
+}
+
+.switcher__option:has(input:checked) .switcher__icon {
+  scale: 1;
+}
+
+.switcher::after {
+  content: "";
+  position: absolute;
+  left: calc(var(--pad) + (var(--slot) - var(--thumb-w)) / 2);
+  top: var(--pad);
+  display: block;
+  width: var(--thumb-w);
+  height: calc(100% - var(--pad) * 2);
+  border-radius: 9999px;
+  background-color: var(--c-surface);
+  box-shadow: var(--thumb-outset);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.switcher:has(input[data-c-option="1"]:checked)::after {
+  translate: 0 0;
+  transform-origin: right;
+  transition:
+    background-color 400ms cubic-bezier(1, 0, 0.4, 1),
+    box-shadow 400ms cubic-bezier(1, 0, 0.4, 1),
+    translate 400ms cubic-bezier(1, 0, 0.4, 1);
+  animation: scaleToggle 440ms ease;
+}
+
+.switcher:has(input[data-c-option="2"]:checked)::after {
+  translate: var(--slot) 0;
+  transition:
+    background-color 400ms cubic-bezier(1, 0, 0.4, 1),
+    box-shadow 400ms cubic-bezier(1, 0, 0.4, 1),
+    translate 400ms cubic-bezier(1, 0, 0.4, 1);
+  animation: scaleToggle2 440ms ease;
+}
+
+.switcher[data-previous="1"]:has(input[data-c-option="2"]:checked)::after {
+  transform-origin: left;
+}
+
+.switcher[data-previous="3"]:has(input[data-c-option="2"]:checked)::after {
+  transform-origin: right;
+}
+
+.switcher:has(input[data-c-option="3"]:checked)::after {
+  translate: calc(var(--slot) * 2) 0;
+  transform-origin: left;
+  transition:
+    background-color 400ms cubic-bezier(1, 0, 0.4, 1),
+    box-shadow 400ms cubic-bezier(1, 0, 0.4, 1),
+    translate 400ms cubic-bezier(1, 0, 0.4, 1);
+  animation: scaleToggle3 440ms ease;
+}
+
+@keyframes scaleToggle {
+  0% {
+    scale: 1 1;
+  }
+  50% {
+    scale: 1.06 1;
+  }
+  100% {
+    scale: 1 1;
+  }
+}
+
+@keyframes scaleToggle2 {
+  0% {
+    scale: 1 1;
+  }
+  50% {
+    scale: 1.1 1;
+  }
+  100% {
+    scale: 1 1;
+  }
+}
+
+@keyframes scaleToggle3 {
+  0% {
+    scale: 1 1;
+  }
+  50% {
+    scale: 1.06 1;
+  }
+  100% {
+    scale: 1 1;
+  }
+}
+
+.theme-provider .article {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 5em 2em;
+}
+
+.theme-provider h1,
+.theme-provider h2,
+.theme-provider p,
+.theme-provider blockquote {
+  width: 100%;
+  max-width: 600px;
+  box-sizing: border-box;
+}
+
+.theme-provider h1 {
+  font-size: 2.4em;
+  margin: 1.4em 0 0.6em;
+}
+
+.theme-provider h2 {
+  font-size: 1.6em;
+  margin: 1.4em 0 0.6em;
+}
+
+.theme-provider p {
+  line-height: 160%;
+  margin: 0 0 1em;
+  color: var(--c-content);
+}
+
+.theme-provider blockquote {
+  margin-left: 0;
+  margin-right: 0;
+  font-size: 1.5em;
+  padding-left: 1em;
+  border-left: 0.1em solid currentColor;
+}
+
+.theme-provider a {
+  color: var(--c-icon);
+  text-decoration-thickness: 0.05em;
+  text-underline-position: under;
+  text-decoration-color: color-mix(in srgb, currentColor, transparent 60%);
+}
+
+.theme-provider .box {
+  padding: 1em 1.4em;
+  border-radius: 0.8em;
+  background-color: color-mix(in srgb, var(--c-icon) 6%, var(--c-bg));
+  box-shadow: var(--track-inset);
+  color: var(--c-muted);
+  font-size: 0.85em;
+}
+
+.theme-provider code {
+  font-size: 0.95em;
+  color: var(--c-content);
+}

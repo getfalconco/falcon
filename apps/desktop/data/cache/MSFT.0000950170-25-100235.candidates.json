@@ -1,0 +1,201 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 131690,
+  "chunks": 6,
+  "candidates": [
+    {
+      "counterparty_name": "OEMs",
+      "counterparty_type": "other",
+      "category": "customer",
+      "subtype": "hardware manufacturers licensing Windows",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Server products revenue is mainly affected by purchases through volume licensing programs, licenses sold to OEMs, and retail packaged products.",
+      "evidence_quotes": [
+        "Server products revenue is mainly affected by purchases through volume licensing programs, licenses sold to OEMs, and retail packaged products."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "LinkedIn",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "subsidiary providing professional network services",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "LinkedIn, including Talent Solutions, Marketing Solutions, Premium Subscriptions, and Sales Solutions.",
+      "evidence_quotes": [
+        "LinkedIn, including Talent Solutions, Marketing Solutions, Premium Subscriptions, and Sales Solutions."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "GitHub",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "subsidiary providing developer collaboration platform",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "GitHub provides a collaboration platform for developers to manage code and incorporate AI and agent-based tools across the software development lifecycle.",
+      "evidence_quotes": [
+        "GitHub provides a collaboration platform for developers to manage code and incorporate AI and agent-based tools across the software development lifecycle."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Nuance",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "subsidiary providing AI healthcare solutions",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Nuance Healthcare provides AI solutions to the healthcare industry.",
+      "evidence_quotes": [
+        "Nuance Healthcare provides AI solutions to the healthcare industry."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Dell",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "OEM",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We have distribution agreements covering one or more of our products with virtually all the multinational OEMs, including Dell, Hewlett-Packard, Lenovo",
+      "evidence_quotes": [
+        "We have distribution agreements covering one or more of our products with virtually all the multinational OEMs, including Dell, Hewlett-Packard, Lenovo"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Hewlett-Packard",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "OEM",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We have distribution agreements covering one or more of our products with virtually all the multinational OEMs, including Dell, Hewlett-Packard, Lenovo",
+      "evidence_quotes": [
+        "We have distribution agreements covering one or more of our products with virtually all the multinational OEMs, including Dell, Hewlett-Packard, Lenovo"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Lenovo",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "OEM",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We have distribution agreements covering one or more of our products with virtually all the multinational OEMs, including Dell, Hewlett-Packard, Lenovo",
+      "evidence_quotes": [
+        "We have distribution agreements covering one or more of our products with virtually all the multinational OEMs, including Dell, Hewlett-Packard, Lenovo"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Activision Blizzard",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "acquisition",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "in October 2023 we completed our acquisition of Activision Blizzard, Inc.",
+      "evidence_quotes": [
+        "in October 2023 we completed our acquisition of Activision Blizzard, Inc."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "OpenAI",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "strategic_partnership",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In January 2023 we announced the third phase of our OpenAI strategic partnership.",
+      "evidence_quotes": [
+        "In January 2023 we announced the third phase of our OpenAI strategic partnership."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "OpenAI",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "strategic_partner",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "This AI may be developed by Microsoft or others, including our strategic partner, OpenAI.",
+      "evidence_quotes": [
+        "This AI may be developed by Microsoft or others, including our strategic partner, OpenAI."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Organisation for Economic Co-operation and Development",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_body",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the Organisation for Economic Co-operation and Development continues to advance proposals or guidance in international taxation, including the establishment of a global minimum tax.",
+      "evidence_quotes": [
+        "the Organisation for Economic Co-operation and Development continues to advance proposals or guidance in international taxation, including the establishment of a global minimum tax."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "NIST",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "standards_body",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Annually, we assess our cybersecurity program's alignment with the National Institute of Standards & Technology's Cyber Security Framework (\"NIST\")",
+      "evidence_quotes": [
+        "Annually, we assess our cybersecurity program's alignment with the National Institute of Standards & Technology's Cyber Security Framework (\"NIST\")"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "COSO",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "standards_body",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "ERM is structured using a framework based on the Committee of Sponsoring Organization (\"COSO\") guidance on Enterprise Risk Management",
+      "evidence_quotes": [
+        "ERM is structured using a framework based on the Committee of Sponsoring Organization (\"COSO\") guidance on Enterprise Risk Management"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "International Organization for Standardization",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "standards_body",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "it also aligns with the International Organization for Standardization 31000:2018 Risk Management Standard.",
+      "evidence_quotes": [
+        "it also aligns with the International Organization for Standardization 31000:2018 Risk Management Standard."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 5
+    }
+  ],
+  "candidatesPerChunk": [
+    4,
+    3,
+    2,
+    1,
+    1,
+    3
+  ],
+  "parseErrors": 1,
+  "apiErrors": 0,
+  "inputTokens": 30083,
+  "outputTokens": 1767
+}

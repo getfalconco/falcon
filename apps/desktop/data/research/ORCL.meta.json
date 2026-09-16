@@ -1,0 +1,13 @@
+{
+  "ticker": "ORCL",
+  "companyName": "ORACLE CORP",
+  "form": "10-K",
+  "filingDate": "2026-06-22",
+  "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1341439/000119312526277521/orcl-20260531.htm",
+  "generatedAt": "2026-08-25T10:43:36.050Z",
+  "cacheKey": "ORCL|0001193125-26-277521|5",
+  "accessionNumber": "0001193125-26-277521",
+  "validatedCount": 8,
+  "rejectedCount": 33,
+  "mergedCount": 3
+}

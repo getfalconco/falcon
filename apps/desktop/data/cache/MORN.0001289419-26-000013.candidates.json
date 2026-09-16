@@ -1,0 +1,16 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 79654,
+  "chunks": 4,
+  "candidates": [],
+  "candidatesPerChunk": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "parseErrors": 1,
+  "apiErrors": 0,
+  "inputTokens": 122310,
+  "outputTokens": 16
+}

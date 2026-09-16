@@ -1,0 +1,83 @@
+[
+  {
+    "counterparty_name": "OEMs",
+    "category": "customer",
+    "subtype": "hardware manufacturers licensing Windows",
+    "evidence_quote": "Server products revenue is mainly affected by purchases through volume licensing programs, licenses sold to OEMs, and retail packaged products.",
+    "confidence": 0.85,
+    "reason": "generic group, not a named entity",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Activision Blizzard",
+    "category": "supplier",
+    "subtype": "acquisition",
+    "evidence_quote": "in October 2023 we completed our acquisition of Activision Blizzard, Inc.",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "NIST",
+    "category": "dependency",
+    "subtype": "standards_body",
+    "evidence_quote": "Annually, we assess our cybersecurity program's alignment with the National Institute of Standards & Technology's Cyber Security Framework (\"NIST\")",
+    "confidence": 0.85,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "COSO",
+    "category": "dependency",
+    "subtype": "standards_body",
+    "evidence_quote": "ERM is structured using a framework based on the Committee of Sponsoring Organization (\"COSO\") guidance on Enterprise Risk Management",
+    "confidence": 0.85,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "LinkedIn",
+    "category": "supplier",
+    "subtype": "subsidiary providing professional network services",
+    "evidence_quote": "LinkedIn, including Talent Solutions, Marketing Solutions, Premium Subscriptions, and Sales Solutions.",
+    "confidence": 0.95,
+    "reason": "LinkedIn is a wholly-owned subsidiary of Microsoft Corporation (acquired in 2016), not an external counterparty. The evidence quote is merely a list fragment from an index/table of contents describing LinkedIn's business lines within Microsoft's Productivity and Business Processes segment. It does not constitute a natural-language sentence establishing any external supplier relationship. The filing consistently refers to LinkedIn as part of Microsoft's own operating segments ('This segment primarily comprises... LinkedIn'), making it an internal division, not a separate counterparty. Additionally, the counterparty_type 'public_company' is incorrect—LinkedIn ceased to be a public company after the Microsoft acquisition. The category 'supplier' is nonsensical for a company's own subsidiary.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "GitHub",
+    "category": "supplier",
+    "subtype": "subsidiary providing developer collaboration platform",
+    "evidence_quote": "GitHub provides a collaboration platform for developers to manage code and incorporate AI and agent-based tools across the software development lifecycle.",
+    "confidence": 0.95,
+    "reason": "GitHub is a Microsoft subsidiary, not an external supplier. The filing describes GitHub as a product/service Microsoft offers ('GitHub provides a collaboration platform...') and it appears in the Server Products and Cloud Services section as part of Microsoft's own cloud portfolio ('comprising cloud and AI consumption-based services, GitHub cloud services...'). Microsoft acquired GitHub in 2018. Internal subsidiaries and products cannot be counterparties to the root company.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Nuance",
+    "category": "supplier",
+    "subtype": "subsidiary providing AI healthcare solutions",
+    "evidence_quote": "Nuance Healthcare provides AI solutions to the healthcare industry.",
+    "confidence": 0.95,
+    "reason": "Nuance is a Microsoft subsidiary, not an external supplier. The filing states 'Nuance Healthcare provides AI solutions to the healthcare industry' and categorizes it under Microsoft's Intelligent Cloud segment offerings ('Azure and other cloud services, comprising...Nuance Healthcare cloud services' and 'Nuance professional services'). The text describes Nuance as part of Microsoft's own product/service portfolio, not as an external counterparty. Microsoft acquired Nuance in 2022, making it a wholly-owned subsidiary. Internal subsidiaries must be rejected as counterparties per the audit rules.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Organisation for Economic Co-operation and Development",
+    "category": "dependency",
+    "subtype": "regulatory_body",
+    "evidence_quote": "the Organisation for Economic Co-operation and Development continues to advance proposals or guidance in international taxation, including the establishment of a global minimum tax.",
+    "confidence": 0.85,
+    "reason": "The OECD is not a counterparty in any commercial, partnership, or dependency relationship with Microsoft. The evidence quote describes the OECD as an international policy body advancing tax proposals (global minimum tax). While such proposals may create regulatory obligations for Microsoft, the OECD itself is not providing infrastructure, services, or regulatory clearances that Microsoft depends upon operationally. It is a multilateral standard-setting organization whose guidance influences domestic tax laws. This does not constitute a dependency relationship. Furthermore, the filing context places this reference under tax risks, not operational dependencies. The OECD is not a regulatory body with direct authority over Microsoft; it issues guidance that national governments may adopt. Regulators (tax authorities, IRS) are excluded per instructions, and the OECD is analogous: an international policy forum, not a direct counterparty.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "International Organization for Standardization",
+    "category": "dependency",
+    "subtype": "standards_body",
+    "evidence_quote": "it also aligns with the International Organization for Standardization 31000:2018 Risk Management Standard.",
+    "confidence": 0.85,
+    "reason": "The International Organization for Standardization (ISO) is a standards-setting body, not a counterparty with whom Microsoft has a commercial, partnership, or critical operational dependency relationship. The evidence quote merely states that Microsoft's ERM framework 'aligns with' the ISO 31000:2018 standard—this is a voluntary adoption of a public framework for internal risk management, not a dependency on ISO's infrastructure or services. ISO does not provide a service Microsoft critically relies upon; rather, Microsoft references ISO's published standard as a benchmark. Standards bodies that publish voluntary frameworks do not qualify as dependencies unless the root company is legally required to use them or operationally cannot function without their active participation. Here, Microsoft could choose any risk management framework. This is akin to citing GAAP or a style guide—alignment with a published standard is not a counterparty relationship.",
+    "stage": "audit"
+  }
+]

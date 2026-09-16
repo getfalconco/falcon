@@ -1,0 +1,329 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 74248,
+  "chunks": 4,
+  "candidates": [
+    {
+      "counterparty_name": "Airbus",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "commercial aircraft manufacturer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "BCA faces aggressive international competitors who are intent on increasing their market share, such as Airbus and entrants from China.",
+      "evidence_quotes": [
+        "BCA faces aggressive international competitors who are intent on increasing their market share, such as Airbus and entrants from China."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "General Dynamics Corporation",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "defense contractor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "BDS faces strong competition primarily from General Dynamics Corporation, Lockheed Martin Corporation, Northrop Grumman Corporation, RTX Corporation and SpaceX.",
+      "evidence_quotes": [
+        "BDS faces strong competition primarily from General Dynamics Corporation, Lockheed Martin Corporation, Northrop Grumman Corporation, RTX Corporation and SpaceX."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Lockheed Martin Corporation",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "defense contractor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "BDS faces strong competition primarily from General Dynamics Corporation, Lockheed Martin Corporation, Northrop Grumman Corporation, RTX Corporation and SpaceX.",
+      "evidence_quotes": [
+        "BDS faces strong competition primarily from General Dynamics Corporation, Lockheed Martin Corporation, Northrop Grumman Corporation, RTX Corporation and SpaceX."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Northrop Grumman Corporation",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "defense contractor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "BDS faces strong competition primarily from General Dynamics Corporation, Lockheed Martin Corporation, Northrop Grumman Corporation, RTX Corporation and SpaceX.",
+      "evidence_quotes": [
+        "BDS faces strong competition primarily from General Dynamics Corporation, Lockheed Martin Corporation, Northrop Grumman Corporation, RTX Corporation and SpaceX."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "RTX Corporation",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "defense contractor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "BDS faces strong competition primarily from General Dynamics Corporation, Lockheed Martin Corporation, Northrop Grumman Corporation, RTX Corporation and SpaceX.",
+      "evidence_quotes": [
+        "BDS faces strong competition primarily from General Dynamics Corporation, Lockheed Martin Corporation, Northrop Grumman Corporation, RTX Corporation and SpaceX."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "SpaceX",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "defense and space contractor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "BDS faces strong competition primarily from General Dynamics Corporation, Lockheed Martin Corporation, Northrop Grumman Corporation, RTX Corporation and SpaceX.",
+      "evidence_quotes": [
+        "BDS faces strong competition primarily from General Dynamics Corporation, Lockheed Martin Corporation, Northrop Grumman Corporation, RTX Corporation and SpaceX."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "BAE Systems",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "defense contractor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Non-U.S. companies such as BAE Systems and Airbus Group continue to build a strategic presence in the U.S. market by strengthening their North American operations and partnering with U.S. defense companies.",
+      "evidence_quotes": [
+        "Non-U.S. companies such as BAE Systems and Airbus Group continue to build a strategic presence in the U.S. market by strengthening their North American operations and partnering with U.S. defense companies."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Airbus Group",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "defense contractor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Non-U.S. companies such as BAE Systems and Airbus Group continue to build a strategic presence in the U.S. market by strengthening their North American operations and partnering with U.S. defense companies.",
+      "evidence_quotes": [
+        "Non-U.S. companies such as BAE Systems and Airbus Group continue to build a strategic presence in the U.S. market by strengthening their North American operations and partnering with U.S. defense companies."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "NASA",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "U.S. government space agency",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We work with numerous U.S. government agencies and entities, including but not limited to, all of the branches of the U.S. military, the National Aeronautics and Space Administration (NASA), the Federal Aviation Administration (FAA) and the Department of Homeland Security.",
+      "evidence_quotes": [
+        "We work with numerous U.S. government agencies and entities, including but not limited to, all of the branches of the U.S. military, the National Aeronautics and Space Administration (NASA), the Federal Aviation Administration (FAA) and the Department of Homeland Security."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Department of Homeland Security",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "U.S. government agency",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We work with numerous U.S. government agencies and entities, including but not limited to, all of the branches of the U.S. military, the National Aeronautics and Space Administration (NASA), the Federal Aviation Administration (FAA) and the Department of Homeland Security.",
+      "evidence_quotes": [
+        "We work with numerous U.S. government agencies and entities, including but not limited to, all of the branches of the U.S. military, the National Aeronautics and Space Administration (NASA), the Federal Aviation Administration (FAA) and the Department of Homeland Security."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "FAA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "aviation safety regulator and certification authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We follow the lead of the FAA as we work through the certification process, and the FAA ultimately determines the timing of certification and entry into service.",
+      "evidence_quotes": [
+        "We follow the lead of the FAA as we work through the certification process, and the FAA ultimately determines the timing of certification and entry into service."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Spirit AeroSystems Holdings, Inc.",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "aerostructures manufacturer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the FAA investigated the 737 quality control system, including Spirit AeroSystems Holdings, Inc. (Spirit), and increased its oversight of our production and quality and safety management systems.",
+      "evidence_quotes": [
+        "the FAA investigated the 737 quality control system, including Spirit AeroSystems Holdings, Inc. (Spirit), and increased its oversight of our production and quality and safety management systems."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "FAA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_certification",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We follow the lead of the FAA as we work through the certification process, and the FAA ultimately determines the timing of certification and entry into service.",
+      "evidence_quotes": [
+        "We follow the lead of the FAA as we work through the certification process, and the FAA ultimately determines the timing of certification and entry into service."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Spirit",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "component_manufacturer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "These actions, as well as our recent acquisition of Spirit (Spirit Acquisition), significantly impacted our financial position, results of operations and cash flows.",
+      "evidence_quotes": [
+        "These actions, as well as our recent acquisition of Spirit (Spirit Acquisition), significantly impacted our financial position, results of operations and cash flows."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "United States Department of War",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "defense_contracts",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We derive a substantial portion of our revenue from the U.S. government, primarily from defense related programs with the United States Department of War (DoW)",
+      "evidence_quotes": [
+        "We derive a substantial portion of our revenue from the U.S. government, primarily from defense related programs with the United States Department of War (DoW)"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "NASA",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "government_contracts",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We derive a substantial portion of our revenue from the U.S. government, primarily from defense related programs with the United States Department of War (DoW) and contracts with other government agencies, including NASA.",
+      "evidence_quotes": [
+        "We derive a substantial portion of our revenue from the U.S. government, primarily from defense related programs with the United States Department of War (DoW) and contracts with other government agencies, including NASA."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "International Association of Machinists and Aerospace Workers",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "labor_union",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "During 2024, employees represented by International Association of Machinists and Aerospace Workers (IAM) District 751, which represents over 30,000 Boeing manufacturing employees primarily located in Washington state, went out on strike for 53 days",
+      "evidence_quotes": [
+        "During 2024, employees represented by International Association of Machinists and Aerospace Workers (IAM) District 751, which represents over 30,000 Boeing manufacturing employees primarily located in Washington state, went out on strike for 53 days"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Society of Professional Engineering Employees in Aerospace",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "labor_union",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "including with Society of Professional Engineering Employees in Aerospace who have two contracts expiring in October 2026",
+      "evidence_quotes": [
+        "including with Society of Professional Engineering Employees in Aerospace who have two contracts expiring in October 2026"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Export-Import Bank of the United States",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "export_financing",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the uncertainty of the ability of non-U.S. customers to finance purchases, including the availability of financing from the Export-Import Bank of the United States",
+      "evidence_quotes": [
+        "the uncertainty of the ability of non-U.S. customers to finance purchases, including the availability of financing from the Export-Import Bank of the United States"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Spirit",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "acquisition_target",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The Spirit Acquisition closed in December 2025, and difficulties in integrating Spirit may result in the failure to realize anticipated benefits",
+      "evidence_quotes": [
+        "The Spirit Acquisition closed in December 2025, and difficulties in integrating Spirit may result in the failure to realize anticipated benefits"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Airbus",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "services_customer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "in connection with the Spirit Acquisition, we are required to provide services to buyers of divested Spirit businesses, including Airbus",
+      "evidence_quotes": [
+        "in connection with the Spirit Acquisition, we are required to provide services to buyers of divested Spirit businesses, including Airbus"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Defense Contract Audit Agency",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "audit_agency",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "U.S. government agencies, including the Defense Contract Audit Agency and the Defense Contract Management Agency, routinely audit government contractors.",
+      "evidence_quotes": [
+        "U.S. government agencies, including the Defense Contract Audit Agency and the Defense Contract Management Agency, routinely audit government contractors."
+      ],
+      "confidence": 0.92,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Defense Contract Management Agency",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "contract_management_agency",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "U.S. government agencies, including the Defense Contract Audit Agency and the Defense Contract Management Agency, routinely audit government contractors.",
+      "evidence_quotes": [
+        "U.S. government agencies, including the Defense Contract Audit Agency and the Defense Contract Management Agency, routinely audit government contractors."
+      ],
+      "confidence": 0.92,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Spirit",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "acquisition",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the $230 million of 3.250% Exchangeable Notes, maturing November 1, 2028 (the Spirit Exchangeable Notes), that we assumed in connection with the Spirit Acquisition.",
+      "evidence_quotes": [
+        "the $230 million of 3.250% Exchangeable Notes, maturing November 1, 2028 (the Spirit Exchangeable Notes), that we assumed in connection with the Spirit Acquisition."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 3
+    }
+  ],
+  "candidatesPerChunk": [
+    12,
+    7,
+    4,
+    1
+  ],
+  "parseErrors": 0,
+  "apiErrors": 0,
+  "inputTokens": 17829,
+  "outputTokens": 2505
+}

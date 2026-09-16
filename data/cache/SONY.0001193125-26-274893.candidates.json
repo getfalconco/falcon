@@ -1,0 +1,132 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 41289,
+  "chunks": 2,
+  "candidates": [
+    {
+      "counterparty_name": "TSMC",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "strategic development and manufacturing partnership",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "SSS signed a non-binding MOU with TSMC regarding a strategic partnership for the development and manufacturing of next-generation image sensors",
+      "evidence_quotes": [
+        "SSS signed a non-binding MOU with TSMC regarding a strategic partnership for the development and manufacturing of next-generation image sensors"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "TCL",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "strategic partnership in home entertainment",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Signed definitive agreements for a strategic partnership in the home entertainment field of ET&S segment with TCL on March 31, 2026.",
+      "evidence_quotes": [
+        "Signed definitive agreements for a strategic partnership in the home entertainment field of ET&S segment with TCL on March 31, 2026."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Bandai Namco",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "strategic partnership for anime and collaborative AI pilot",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Building on the strategic partnerships announced with Bandai Namco, Sony is further strengthening its position in anime and other areas.",
+      "evidence_quotes": [
+        "Building on the strategic partnerships announced with Bandai Namco, Sony is further strengthening its position in anime and other areas."
+      ],
+      "confidence": 0.92,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "WildBrain Ltd.",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "equity acquisition transaction",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Sony acquired an additional equity interest in Peanuts Holdings, which was owned by WildBrain Ltd., increasing Sony's ownership stake to 80%.",
+      "evidence_quotes": [
+        "Sony acquired an additional equity interest in Peanuts Holdings, which was owned by WildBrain Ltd., increasing Sony's ownership stake to 80%."
+      ],
+      "confidence": 0.88,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "GIC Private Limited",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "music IP investment partnership",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Sony Music Group announced a partnership with GIC Private Limited, to further build its music IP investments.",
+      "evidence_quotes": [
+        "Sony Music Group announced a partnership with GIC Private Limited, to further build its music IP investments."
+      ],
+      "confidence": 0.93,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Gaudiy Inc.",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "platform partnership for fan engagement",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Crunchyroll newly adopted MyAnimeList as the platform for global fan participation in voting for the 2026 Crunchyroll Anime Awards, in partnership with Gaudiy Inc.",
+      "evidence_quotes": [
+        "Crunchyroll newly adopted MyAnimeList as the platform for global fan participation in voting for the 2026 Crunchyroll Anime Awards, in partnership with Gaudiy Inc."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Nature",
+      "counterparty_type": "other",
+      "category": "partner",
+      "subtype": "research award collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "together with the world's leading science journal Nature , Sony launched the \"Sony Women in Technology Award with Nature \"",
+      "evidence_quotes": [
+        "together with the world's leading science journal Nature , Sony launched the \"Sony Women in Technology Award with Nature \""
+      ],
+      "confidence": 0.92,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Bandai Namco",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "AI collaboration pilot",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Sony is continuing a collaborative pilot initiative with Bandai Namco to explore the use of generative AI and other advanced technologies",
+      "evidence_quotes": [
+        "Sony is continuing a collaborative pilot initiative with Bandai Namco to explore the use of generative AI and other advanced technologies"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "TSMC",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "strategic partnership for sensor development and manufacturing",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "SSS signed a non-binding MOU with TSMC to form a strategic partnership for the development and manufacturing of next-generation image sensors.",
+      "evidence_quotes": [
+        "SSS signed a non-binding MOU with TSMC to form a strategic partnership for the development and manufacturing of next-generation image sensors."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    }
+  ],
+  "candidatesPerChunk": [
+    7,
+    2
+  ],
+  "parseErrors": 0,
+  "apiErrors": 0,
+  "inputTokens": 10286,
+  "outputTokens": 889
+}

@@ -1,0 +1,474 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 130324,
+  "chunks": 6,
+  "candidates": [
+    {
+      "counterparty_name": "TTTech Auto",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "acquired_company",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "On June 17, 2025, NXP announced the closing of the acquisition of 100% of TTTech Auto for $766 million in cash",
+      "evidence_quotes": [
+        "On June 17, 2025, NXP announced the closing of the acquisition of 100% of TTTech Auto for $766 million in cash"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Aviva Links",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "acquired_company",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "On October 24, 2025, NXP closed the previously announced acquisition of 100% of Aviva Links for $222 million in cash",
+      "evidence_quotes": [
+        "On October 24, 2025, NXP closed the previously announced acquisition of 100% of Aviva Links for $222 million in cash"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Kinara, Inc.",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "acquired_company",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "On October 27, 2025, NXP closed the previously announced acquisition of 100% of Kinara, Inc. for $284 million in cash",
+      "evidence_quotes": [
+        "On October 27, 2025, NXP closed the previously announced acquisition of 100% of Kinara, Inc. for $284 million in cash"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "TSMC",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint_venture_manufacturing",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "ESMC is 70% owned by TSMC, with Bosch, Infineon, and NXP each owning 10%.",
+      "evidence_quotes": [
+        "ESMC is 70% owned by TSMC, with Bosch, Infineon, and NXP each owning 10%."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Bosch",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint_venture_manufacturing",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "ESMC is 70% owned by TSMC, with Bosch, Infineon, and NXP each owning 10%.",
+      "evidence_quotes": [
+        "ESMC is 70% owned by TSMC, with Bosch, Infineon, and NXP each owning 10%."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Infineon",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint_venture_manufacturing",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "ESMC is 70% owned by TSMC, with Bosch, Infineon, and NXP each owning 10%.",
+      "evidence_quotes": [
+        "ESMC is 70% owned by TSMC, with Bosch, Infineon, and NXP each owning 10%."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Vanguard International Semiconductor Corporation",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint_venture_manufacturing",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "VSMC is 60% owned by Vanguard International Semiconductor Corporation and 40% owned by NXP.",
+      "evidence_quotes": [
+        "VSMC is 60% owned by Vanguard International Semiconductor Corporation and 40% owned by NXP."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Apple",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "end_customer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our 10 largest end customers, some of whom are supplied by distributors, in alphabetical order, are Apple, Aptiv, Aumovio, Bosch, Denso, Harman Auto, Hyundai, LGE Automotive, Samsung and Visteon.",
+      "evidence_quotes": [
+        "Our 10 largest end customers, some of whom are supplied by distributors, in alphabetical order, are Apple, Aptiv, Aumovio, Bosch, Denso, Harman Auto, Hyundai, LGE Automotive, Samsung and Visteon."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Aptiv",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "end_customer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our 10 largest end customers, some of whom are supplied by distributors, in alphabetical order, are Apple, Aptiv, Aumovio, Bosch, Denso, Harman Auto, Hyundai, LGE Automotive, Samsung and Visteon.",
+      "evidence_quotes": [
+        "Our 10 largest end customers, some of whom are supplied by distributors, in alphabetical order, are Apple, Aptiv, Aumovio, Bosch, Denso, Harman Auto, Hyundai, LGE Automotive, Samsung and Visteon."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Aumovio",
+      "counterparty_type": "private_company",
+      "category": "customer",
+      "subtype": "end_customer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our 10 largest end customers, some of whom are supplied by distributors, in alphabetical order, are Apple, Aptiv, Aumovio, Bosch, Denso, Harman Auto, Hyundai, LGE Automotive, Samsung and Visteon.",
+      "evidence_quotes": [
+        "Our 10 largest end customers, some of whom are supplied by distributors, in alphabetical order, are Apple, Aptiv, Aumovio, Bosch, Denso, Harman Auto, Hyundai, LGE Automotive, Samsung and Visteon."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Denso",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "end_customer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our 10 largest end customers, some of whom are supplied by distributors, in alphabetical order, are Apple, Aptiv, Aumovio, Bosch, Denso, Harman Auto, Hyundai, LGE Automotive, Samsung and Visteon.",
+      "evidence_quotes": [
+        "Our 10 largest end customers, some of whom are supplied by distributors, in alphabetical order, are Apple, Aptiv, Aumovio, Bosch, Denso, Harman Auto, Hyundai, LGE Automotive, Samsung and Visteon."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Harman Auto",
+      "counterparty_type": "private_company",
+      "category": "customer",
+      "subtype": "end_customer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our 10 largest end customers, some of whom are supplied by distributors, in alphabetical order, are Apple, Aptiv, Aumovio, Bosch, Denso, Harman Auto, Hyundai, LGE Automotive, Samsung and Visteon.",
+      "evidence_quotes": [
+        "Our 10 largest end customers, some of whom are supplied by distributors, in alphabetical order, are Apple, Aptiv, Aumovio, Bosch, Denso, Harman Auto, Hyundai, LGE Automotive, Samsung and Visteon."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Hyundai",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "end_customer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our 10 largest end customers, some of whom are supplied by distributors, in alphabetical order, are Apple, Aptiv, Aumovio, Bosch, Denso, Harman Auto, Hyundai, LGE Automotive, Samsung and Visteon.",
+      "evidence_quotes": [
+        "Our 10 largest end customers, some of whom are supplied by distributors, in alphabetical order, are Apple, Aptiv, Aumovio, Bosch, Denso, Harman Auto, Hyundai, LGE Automotive, Samsung and Visteon."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "LGE Automotive",
+      "counterparty_type": "private_company",
+      "category": "customer",
+      "subtype": "end_customer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our 10 largest end customers, some of whom are supplied by distributors, in alphabetical order, are Apple, Aptiv, Aumovio, Bosch, Denso, Harman Auto, Hyundai, LGE Automotive, Samsung and Visteon.",
+      "evidence_quotes": [
+        "Our 10 largest end customers, some of whom are supplied by distributors, in alphabetical order, are Apple, Aptiv, Aumovio, Bosch, Denso, Harman Auto, Hyundai, LGE Automotive, Samsung and Visteon."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Samsung",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "end_customer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our 10 largest end customers, some of whom are supplied by distributors, in alphabetical order, are Apple, Aptiv, Aumovio, Bosch, Denso, Harman Auto, Hyundai, LGE Automotive, Samsung and Visteon.",
+      "evidence_quotes": [
+        "Our 10 largest end customers, some of whom are supplied by distributors, in alphabetical order, are Apple, Aptiv, Aumovio, Bosch, Denso, Harman Auto, Hyundai, LGE Automotive, Samsung and Visteon."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Visteon",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "end_customer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our 10 largest end customers, some of whom are supplied by distributors, in alphabetical order, are Apple, Aptiv, Aumovio, Bosch, Denso, Harman Auto, Hyundai, LGE Automotive, Samsung and Visteon.",
+      "evidence_quotes": [
+        "Our 10 largest end customers, some of whom are supplied by distributors, in alphabetical order, are Apple, Aptiv, Aumovio, Bosch, Denso, Harman Auto, Hyundai, LGE Automotive, Samsung and Visteon."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Arrow",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "distributor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We also have a strong position with our distribution partners, including our five largest in alphabetical order, Arrow, Avnet, Nexty, WT Micro and World Peace.",
+      "evidence_quotes": [
+        "We also have a strong position with our distribution partners, including our five largest in alphabetical order, Arrow, Avnet, Nexty, WT Micro and World Peace."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Avnet",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "distributor",
+      "disclosed_revenue_dependency_pct": 23,
+      "evidence_quote": "Avnet accounted for 23% of our revenue in 2025 and 22% in 2024.",
+      "evidence_quotes": [
+        "Avnet accounted for 23% of our revenue in 2025 and 22% in 2024."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Nexty",
+      "counterparty_type": "private_company",
+      "category": "customer",
+      "subtype": "distributor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We also have a strong position with our distribution partners, including our five largest in alphabetical order, Arrow, Avnet, Nexty, WT Micro and World Peace.",
+      "evidence_quotes": [
+        "We also have a strong position with our distribution partners, including our five largest in alphabetical order, Arrow, Avnet, Nexty, WT Micro and World Peace."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "WT Micro",
+      "counterparty_type": "private_company",
+      "category": "customer",
+      "subtype": "distributor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We also have a strong position with our distribution partners, including our five largest in alphabetical order, Arrow, Avnet, Nexty, WT Micro and World Peace.",
+      "evidence_quotes": [
+        "We also have a strong position with our distribution partners, including our five largest in alphabetical order, Arrow, Avnet, Nexty, WT Micro and World Peace."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "World Peace",
+      "counterparty_type": "private_company",
+      "category": "customer",
+      "subtype": "distributor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We also have a strong position with our distribution partners, including our five largest in alphabetical order, Arrow, Avnet, Nexty, WT Micro and World Peace.",
+      "evidence_quotes": [
+        "We also have a strong position with our distribution partners, including our five largest in alphabetical order, Arrow, Avnet, Nexty, WT Micro and World Peace."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Analog Devices Inc.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "semiconductor_competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our primary key public competitors in alphabetical order include, but are not limited to, Analog Devices Inc., Broadcom Inc., Infineon Technologies AG, Microchip Technology Inc., Qualcomm Inc., Renesas Electronics Corp., STMicroelectronics NV and Texas Instruments Inc.",
+      "evidence_quotes": [
+        "Our primary key public competitors in alphabetical order include, but are not limited to, Analog Devices Inc., Broadcom Inc., Infineon Technologies AG, Microchip Technology Inc., Qualcomm Inc., Renesas Electronics Corp., STMicroelectronics NV and Texas Instruments Inc."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Broadcom Inc.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "semiconductor_competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our primary key public competitors in alphabetical order include, but are not limited to, Analog Devices Inc., Broadcom Inc., Infineon Technologies AG, Microchip Technology Inc., Qualcomm Inc., Renesas Electronics Corp., STMicroelectronics NV and Texas Instruments Inc.",
+      "evidence_quotes": [
+        "Our primary key public competitors in alphabetical order include, but are not limited to, Analog Devices Inc., Broadcom Inc., Infineon Technologies AG, Microchip Technology Inc., Qualcomm Inc., Renesas Electronics Corp., STMicroelectronics NV and Texas Instruments Inc."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Infineon Technologies AG",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "semiconductor_competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our primary key public competitors in alphabetical order include, but are not limited to, Analog Devices Inc., Broadcom Inc., Infineon Technologies AG, Microchip Technology Inc., Qualcomm Inc., Renesas Electronics Corp., STMicroelectronics NV and Texas Instruments Inc.",
+      "evidence_quotes": [
+        "Our primary key public competitors in alphabetical order include, but are not limited to, Analog Devices Inc., Broadcom Inc., Infineon Technologies AG, Microchip Technology Inc., Qualcomm Inc., Renesas Electronics Corp., STMicroelectronics NV and Texas Instruments Inc."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Microchip Technology Inc.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "semiconductor_competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our primary key public competitors in alphabetical order include, but are not limited to, Analog Devices Inc., Broadcom Inc., Infineon Technologies AG, Microchip Technology Inc., Qualcomm Inc., Renesas Electronics Corp., STMicroelectronics NV and Texas Instruments Inc.",
+      "evidence_quotes": [
+        "Our primary key public competitors in alphabetical order include, but are not limited to, Analog Devices Inc., Broadcom Inc., Infineon Technologies AG, Microchip Technology Inc., Qualcomm Inc., Renesas Electronics Corp., STMicroelectronics NV and Texas Instruments Inc."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Qualcomm Inc.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "semiconductor_competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our primary key public competitors in alphabetical order include, but are not limited to, Analog Devices Inc., Broadcom Inc., Infineon Technologies AG, Microchip Technology Inc., Qualcomm Inc., Renesas Electronics Corp., STMicroelectronics NV and Texas Instruments Inc.",
+      "evidence_quotes": [
+        "Our primary key public competitors in alphabetical order include, but are not limited to, Analog Devices Inc., Broadcom Inc., Infineon Technologies AG, Microchip Technology Inc., Qualcomm Inc., Renesas Electronics Corp., STMicroelectronics NV and Texas Instruments Inc."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Renesas Electronics Corp.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "semiconductor_competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our primary key public competitors in alphabetical order include, but are not limited to, Analog Devices Inc., Broadcom Inc., Infineon Technologies AG, Microchip Technology Inc., Qualcomm Inc., Renesas Electronics Corp., STMicroelectronics NV and Texas Instruments Inc.",
+      "evidence_quotes": [
+        "Our primary key public competitors in alphabetical order include, but are not limited to, Analog Devices Inc., Broadcom Inc., Infineon Technologies AG, Microchip Technology Inc., Qualcomm Inc., Renesas Electronics Corp., STMicroelectronics NV and Texas Instruments Inc."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "STMicroelectronics NV",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "semiconductor_competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our primary key public competitors in alphabetical order include, but are not limited to, Analog Devices Inc., Broadcom Inc., Infineon Technologies AG, Microchip Technology Inc., Qualcomm Inc., Renesas Electronics Corp., STMicroelectronics NV and Texas Instruments Inc.",
+      "evidence_quotes": [
+        "Our primary key public competitors in alphabetical order include, but are not limited to, Analog Devices Inc., Broadcom Inc., Infineon Technologies AG, Microchip Technology Inc., Qualcomm Inc., Renesas Electronics Corp., STMicroelectronics NV and Texas Instruments Inc."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Texas Instruments Inc.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "semiconductor_competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our primary key public competitors in alphabetical order include, but are not limited to, Analog Devices Inc., Broadcom Inc., Infineon Technologies AG, Microchip Technology Inc., Qualcomm Inc., Renesas Electronics Corp., STMicroelectronics NV and Texas Instruments Inc.",
+      "evidence_quotes": [
+        "Our primary key public competitors in alphabetical order include, but are not limited to, Analog Devices Inc., Broadcom Inc., Infineon Technologies AG, Microchip Technology Inc., Qualcomm Inc., Renesas Electronics Corp., STMicroelectronics NV and Texas Instruments Inc."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "ISO 45001",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "certification_standard",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "NXP is certified to ISO 45001, the international standard for occupational health and safety management systems.",
+      "evidence_quotes": [
+        "NXP is certified to ISO 45001, the international standard for occupational health and safety management systems."
+      ],
+      "confidence": 0.75,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "U.S. Department of Commerce",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_body",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "import and export regulations, such as the U.S. Export Administration Regulations administered by the U.S. Department of Commerce and sanctions imposed by the European Union",
+      "evidence_quotes": [
+        "import and export regulations, such as the U.S. Export Administration Regulations administered by the U.S. Department of Commerce and sanctions imposed by the European Union"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "European Union",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_body",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "import and export regulations, such as the U.S. Export Administration Regulations administered by the U.S. Department of Commerce and sanctions imposed by the European Union",
+      "evidence_quotes": [
+        "import and export regulations, such as the U.S. Export Administration Regulations administered by the U.S. Department of Commerce and sanctions imposed by the European Union"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Huawei",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "former_customer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "in 2020, due to regulations imposed by the U.S. government, we ceased shipments of our products to Huawei pending approval of export licenses.",
+      "evidence_quotes": [
+        "in 2020, due to regulations imposed by the U.S. government, we ceased shipments of our products to Huawei pending approval of export licenses."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "European Investment Bank",
+      "counterparty_type": "other",
+      "category": "supplier",
+      "subtype": "lender",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The RCF Agreement, European Investment Bank (EIB) loan facilities and the indentures governing our unsecured notes",
+      "evidence_quotes": [
+        "The RCF Agreement, European Investment Bank (EIB) loan facilities and the indentures governing our unsecured notes"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "OECD",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "regulatory_framework",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the Organization for Economic Co-operation and Development (OECD), and other government agencies in jurisdictions where we and our affiliates do business have had an extended focus on issues related to the taxation of multinational corporations",
+      "evidence_quotes": [
+        "the Organization for Economic Co-operation and Development (OECD), and other government agencies in jurisdictions where we and our affiliates do business have had an extended focus on issues related to the taxation of multinational corporations"
+      ],
+      "confidence": 0.88,
+      "chunk_index": 5
+    }
+  ],
+  "candidatesPerChunk": [
+    3,
+    26,
+    1,
+    0,
+    3,
+    2
+  ],
+  "parseErrors": 10,
+  "apiErrors": 0,
+  "inputTokens": 35420,
+  "outputTokens": 5378
+}

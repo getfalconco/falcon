@@ -1,0 +1,13 @@
+{
+  "ticker": "AMD",
+  "companyName": "ADVANCED MICRO DEVICES INC",
+  "form": "10-K",
+  "filingDate": "2026-02-04",
+  "sourceUrl": "https://www.sec.gov/Archives/edgar/data/2488/000000248826000018/amd-20251227.htm",
+  "generatedAt": "2026-07-24T19:47:16.801Z",
+  "cacheKey": "AMD|0000002488-26-000018|5",
+  "accessionNumber": "0000002488-26-000018",
+  "validatedCount": 28,
+  "rejectedCount": 11,
+  "mergedCount": 11
+}

@@ -1,0 +1,29 @@
+[
+  {
+    "counterparty_name": "AMF",
+    "category": "supplier",
+    "subtype": "acquisition",
+    "evidence_quote": "We also completed the strategic, complementary acquisitions of AMF, MIPS and Infinilink, which expanded our technology portfolio",
+    "confidence": 0.85,
+    "reason": "The evidence_quote states 'We also completed the strategic, complementary acquisitions of AMF, MIPS and Infinilink, which expanded our technology portfolio.' This indicates that GLOBALFOUNDRIES acquired AMF, making AMF a target of acquisition, not a supplier. An acquisition target becomes part of the acquiring company (or is fully absorbed), so AMF would be internal to GFS post-acquisition, not an external counterparty. Additionally, the category 'supplier' with subtype 'acquisition' is contradictory—acquisitions do not establish supplier relationships. The relationship described is an acquisition event, not an ongoing commercial counterparty relationship that belongs in a business relationship knowledge graph.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "MIPS",
+    "category": "supplier",
+    "subtype": "acquisition",
+    "evidence_quote": "We also completed the strategic, complementary acquisitions of AMF, MIPS and Infinilink, which expanded our technology portfolio",
+    "confidence": 0.85,
+    "reason": "The evidence quote states 'We also completed the strategic, complementary acquisitions of AMF, MIPS and Infinilink, which expanded our technology portfolio.' This indicates that MIPS was acquired BY GlobalFoundries (the ROOT company), not that MIPS is a supplier TO GlobalFoundries. When a company acquires another entity, the acquired entity becomes part of the acquiring company (typically a subsidiary or integrated business unit), not a counterparty in an ongoing commercial relationship. The category 'supplier' with subtype 'acquisition' is contradictory - acquisitions result in ownership/control, eliminating the counterparty relationship. Post-acquisition, MIPS would be an internal part of GlobalFoundries, similar to how subsidiaries are not valid counterparties. The relationship described is a one-time M&A transaction that terminated MIPS's status as an external entity relative to GlobalFoundries.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Infinilink",
+    "category": "supplier",
+    "subtype": "acquisition",
+    "evidence_quote": "We also completed the strategic, complementary acquisitions of AMF, MIPS and Infinilink, which expanded our technology portfolio",
+    "confidence": 0.85,
+    "reason": "The category 'supplier' with subtype 'acquisition' is contradictory. An acquisition target becomes part of the ROOT company upon completion, making it an internal entity (subsidiary), not an external counterparty. The evidence states 'We also completed the strategic, complementary acquisitions of AMF, MIPS and Infinilink,' confirming Infinilink was acquired by GLOBALFOUNDRIES. Post-acquisition, Infinilink is no longer a separate counterparty but part of GFS. Acquisitions should be rejected as ongoing counterparty relationships.",
+    "stage": "audit"
+  }
+]

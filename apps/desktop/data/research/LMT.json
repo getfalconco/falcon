@@ -1,0 +1,222 @@
+[
+  {
+    "root_ticker": "LMT",
+    "counterparty_name": "RTX Corporation",
+    "counterparty_ticker": "RTX",
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "joint_venture",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Javelin was developed and is currently produced for the U.S. Army and U.S. Marine Corps by a joint venture between Lockheed Martin and RTX Corporation.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/936468/000162828026004195/lmt-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-29",
+    "shared_evidence_group": "ev_dc055d3012e8"
+  },
+  {
+    "root_ticker": "LMT",
+    "counterparty_name": "The Boeing Company",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "primary_competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.98,
+    "evidence": [
+      {
+        "quote": "The Boeing Company, General Dynamics, L3Harris Technologies, Northrop Grumman, and RTX Corporation are some of our primary competitors.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/936468/000162828026004195/lmt-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-29",
+    "shared_evidence_group": "ev_2416f67a6b7c"
+  },
+  {
+    "root_ticker": "LMT",
+    "counterparty_name": "General Dynamics",
+    "counterparty_ticker": "GD",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "primary_competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.98,
+    "evidence": [
+      {
+        "quote": "The Boeing Company, General Dynamics, L3Harris Technologies, Northrop Grumman, and RTX Corporation are some of our primary competitors.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/936468/000162828026004195/lmt-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-29",
+    "shared_evidence_group": "ev_2416f67a6b7c"
+  },
+  {
+    "root_ticker": "LMT",
+    "counterparty_name": "L3Harris Technologies",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "primary_competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "The Boeing Company, General Dynamics, L3Harris Technologies, Northrop Grumman, and RTX Corporation are some of our primary competitors.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/936468/000162828026004195/lmt-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-29",
+    "shared_evidence_group": "ev_2416f67a6b7c"
+  },
+  {
+    "root_ticker": "LMT",
+    "counterparty_name": "Northrop Grumman",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "primary_competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.98,
+    "evidence": [
+      {
+        "quote": "The Boeing Company, General Dynamics, L3Harris Technologies, Northrop Grumman, and RTX Corporation are some of our primary competitors.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/936468/000162828026004195/lmt-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-29",
+    "shared_evidence_group": "ev_2416f67a6b7c"
+  },
+  {
+    "root_ticker": "LMT",
+    "counterparty_name": "RTX Corporation",
+    "counterparty_ticker": "RTX",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "primary_competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "The Boeing Company, General Dynamics, L3Harris Technologies, Northrop Grumman, and RTX Corporation are some of our primary competitors.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/936468/000162828026004195/lmt-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-29",
+    "shared_evidence_group": "ev_2416f67a6b7c"
+  },
+  {
+    "root_ticker": "LMT",
+    "counterparty_name": "NASA",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "customer",
+    "subtype": "government_agency",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "We contract with numerous U.S. Government agencies and entities, principally all branches of the U.S. military and NASA.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/936468/000162828026004195/lmt-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-29",
+    "shared_evidence_group": "ev_3be429a69911"
+  },
+  {
+    "root_ticker": "LMT",
+    "counterparty_name": "Department of Defense",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "customer",
+    "subtype": "government_agency",
+    "strength": 0.63,
+    "strength_tier": "critical",
+    "strength_basis": "disclosed",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.97,
+    "evidence": [
+      {
+        "quote": "We derived 72% of our total consolidated sales from the U.S. Government in 2025, including 63% from the Department of War (DoW), also known as the Department of Defense",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/936468/000162828026004195/lmt-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-29",
+    "shared_evidence_group": "ev_dac3b6d74632"
+  },
+  {
+    "root_ticker": "LMT",
+    "counterparty_name": "Defense Contract Management Agency",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "dependency",
+    "subtype": "audit and oversight",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "U.S. Government agencies, including the Defense Contract Audit Agency, the Defense Contract Management Agency and various agency Inspectors General, routinely audit and investigate government contractors.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/936468/000162828026004195/lmt-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-29",
+    "shared_evidence_group": "ev_cb479cf5dfed"
+  },
+  {
+    "root_ticker": "LMT",
+    "counterparty_name": "Taiwan",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "customer",
+    "subtype": "foreign_military_sales",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "We will continue to follow official U.S. Government guidance as it relates to sales to Taiwan and do not currently expect a material impact to our business from these actions.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/936468/000162828026004195/lmt-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-29",
+    "shared_evidence_group": "ev_6ca022163fd7"
+  }
+]

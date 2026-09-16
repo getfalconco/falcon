@@ -1,0 +1,18 @@
+[
+  {
+    "counterparty_name": "Shihui Partners",
+    "category": "supplier",
+    "subtype": "legal counsel services",
+    "evidence_quote": "In the opinion of Shihui Partners, our PRC legal counsel",
+    "confidence": 0.7,
+    "merged_into": "Shihui Partners"
+  },
+  {
+    "counterparty_name": "Tencent",
+    "category": "partner",
+    "subtype": "strategic partnership/investment agreement",
+    "evidence_quote": "In January 2018, we, along with Tencent, entered into a strategic partnership agreement with Wanda Commercial Properties, a leading developer, owner and operator of commercial properties in China, and its major shareholder, Dalian Wanda Group Co., Ltd.",
+    "confidence": 0.75,
+    "merged_into": "Tencent"
+  }
+]

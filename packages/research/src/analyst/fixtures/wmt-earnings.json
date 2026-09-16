@@ -1,0 +1,6408 @@
+{
+ "recorded_at": "2026-08-21",
+ "incident": {
+  "incident_id": "0f5aa7fb-f959-474e-9641-c4d18005360b",
+  "ticker": "WMT",
+  "trigger_type": "organic",
+  "window_start": "2026-08-21T00:39:53.797Z",
+  "window_end": null,
+  "window_status": "open",
+  "composite_tags": [
+   "earnings_surprise",
+   "volume_without_price",
+   "event_gap"
+  ],
+  "priority": 71,
+  "priority_band": "P0",
+  "degraded_context": false,
+  "discovery_floor_applied": false,
+  "earnings_absorption": true,
+  "messages": [
+   {
+    "id": "0a5ce174-9787-4b56-a3f2-0a0de33f056a",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T00:39:53.797Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.35386879752864064,
+     "r_squared": 0.03344161179093852,
+     "daily_vol_30d": 0.012702451335563053,
+     "vol_regime": 0.9842027699776553,
+     "move_today": -0.09684408438134429,
+     "move_zscore": -7.624046872764621,
+     "residual_move": -0.09968769646847912,
+     "residual_zscore": -7.591258558821705,
+     "volume_ratio": 3.542389678584646,
+     "volume_ratio_partial": false,
+     "momentum_5d": 0.01836477275674353,
+     "momentum_20d": 0.044840990810861125,
+     "momentum_60d": -0.049447834029037185,
+     "pct_from_52w_high": -0.14053652041158704,
+     "pct_from_52w_low": 0.20805121141585814,
+     "earnings_rhythm": 0.04901262074841814,
+     "prev_close": 115.33999633789062,
+     "last_price": 104.17,
+     "price_asof": "2026-08-20T23:59:58.000Z",
+     "session": "post"
+    },
+    "payload": {
+     "headline": "Walmart’s US Sales Growth Hits Weakest Pace Since 2020 — Pharmacy Drag Packs A Punch",
+     "source": "Benzinga",
+     "published_at": "2026-08-20T09:17:25.000Z",
+     "article_id": "141265608"
+    }
+   },
+   {
+    "id": "0b9e615b-c8db-421c-8d1e-119a1db2f7e2",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T00:39:53.797Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.35386879752864064,
+     "r_squared": 0.03344161179093852,
+     "daily_vol_30d": 0.012702451335563053,
+     "vol_regime": 0.9842027699776553,
+     "move_today": -0.09684408438134429,
+     "move_zscore": -7.624046872764621,
+     "residual_move": -0.09968769646847912,
+     "residual_zscore": -7.591258558821705,
+     "volume_ratio": 3.542389678584646,
+     "volume_ratio_partial": false,
+     "momentum_5d": 0.01836477275674353,
+     "momentum_20d": 0.044840990810861125,
+     "momentum_60d": -0.049447834029037185,
+     "pct_from_52w_high": -0.14053652041158704,
+     "pct_from_52w_low": 0.20805121141585814,
+     "earnings_rhythm": 0.04901262074841814,
+     "prev_close": 115.33999633789062,
+     "last_price": 104.17,
+     "price_asof": "2026-08-20T23:59:58.000Z",
+     "session": "post"
+    },
+    "payload": {
+     "headline": "Walmart, Deere And 3 Stocks To Watch Heading Into Thursday",
+     "source": "Benzinga",
+     "published_at": "2026-08-20T03:34:19.000Z",
+     "article_id": "141261993"
+    }
+   },
+   {
+    "id": "0c649f4c-cb1c-4d41-b380-adc6c41c88db",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T00:39:53.797Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.35386879752864064,
+     "r_squared": 0.03344161179093852,
+     "daily_vol_30d": 0.012702451335563053,
+     "vol_regime": 0.9842027699776553,
+     "move_today": -0.09684408438134429,
+     "move_zscore": -7.624046872764621,
+     "residual_move": -0.09968769646847912,
+     "residual_zscore": -7.591258558821705,
+     "volume_ratio": 3.542389678584646,
+     "volume_ratio_partial": false,
+     "momentum_5d": 0.01836477275674353,
+     "momentum_20d": 0.044840990810861125,
+     "momentum_60d": -0.049447834029037185,
+     "pct_from_52w_high": -0.14053652041158704,
+     "pct_from_52w_low": 0.20805121141585814,
+     "earnings_rhythm": 0.04901262074841814,
+     "prev_close": 115.33999633789062,
+     "last_price": 104.17,
+     "price_asof": "2026-08-20T23:59:58.000Z",
+     "session": "post"
+    },
+    "payload": {
+     "headline": "Walmart Raises FY2027 Adj EPS Guidance from $2.75-$2.85 to $2.80-$2.87 vs $2.90 Est; Raises FY2027 Sales Guidance from $731.124B-$738.188B to $734.656B-$741.720B vs $752.250B Est",
+     "source": "Benzinga",
+     "published_at": "2026-08-20T07:03:07.000Z",
+     "article_id": "141265615"
+    }
+   },
+   {
+    "id": "0dc342ad-283c-4c4a-8e82-ca283c2e9700",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T00:39:53.797Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.35386879752864064,
+     "r_squared": 0.03344161179093852,
+     "daily_vol_30d": 0.012702451335563053,
+     "vol_regime": 0.9842027699776553,
+     "move_today": -0.09684408438134429,
+     "move_zscore": -7.624046872764621,
+     "residual_move": -0.09968769646847912,
+     "residual_zscore": -7.591258558821705,
+     "volume_ratio": 3.542389678584646,
+     "volume_ratio_partial": false,
+     "momentum_5d": 0.01836477275674353,
+     "momentum_20d": 0.044840990810861125,
+     "momentum_60d": -0.049447834029037185,
+     "pct_from_52w_high": -0.14053652041158704,
+     "pct_from_52w_low": 0.20805121141585814,
+     "earnings_rhythm": 0.04901262074841814,
+     "prev_close": 115.33999633789062,
+     "last_price": 104.17,
+     "price_asof": "2026-08-20T23:59:58.000Z",
+     "session": "post"
+    },
+    "payload": {
+     "headline": "Walmart Exec Says Forecast Assumes Fuel, Tariffs Stay At Current Rates; Price Rollback Count Started Late July, Pleased With Start Of Back-To-School Season",
+     "source": "Benzinga",
+     "published_at": "2026-08-20T08:46:23.000Z",
+     "article_id": "141265609"
+    }
+   },
+   {
+    "id": "133fb382-62cb-4e35-a076-71429db3191a",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T00:39:53.797Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.35386879752864064,
+     "r_squared": 0.03344161179093852,
+     "daily_vol_30d": 0.012702451335563053,
+     "vol_regime": 0.9842027699776553,
+     "move_today": -0.09684408438134429,
+     "move_zscore": -7.624046872764621,
+     "residual_move": -0.09968769646847912,
+     "residual_zscore": -7.591258558821705,
+     "volume_ratio": 3.542389678584646,
+     "volume_ratio_partial": false,
+     "momentum_5d": 0.01836477275674353,
+     "momentum_20d": 0.044840990810861125,
+     "momentum_60d": -0.049447834029037185,
+     "pct_from_52w_high": -0.14053652041158704,
+     "pct_from_52w_low": 0.20805121141585814,
+     "earnings_rhythm": 0.04901262074841814,
+     "prev_close": 115.33999633789062,
+     "last_price": 104.17,
+     "price_asof": "2026-08-20T23:59:58.000Z",
+     "session": "post"
+    },
+    "payload": {
+     "headline": "Which dow jones stocks are moving on Thursday?",
+     "source": "ChartMill",
+     "published_at": "2026-08-20T19:10:06.000Z",
+     "article_id": "141263725"
+    }
+   },
+   {
+    "id": "153f31d1-b758-4894-bdf8-23228c972e15",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T00:39:53.797Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.35386879752864064,
+     "r_squared": 0.03344161179093852,
+     "daily_vol_30d": 0.012702451335563053,
+     "vol_regime": 0.9842027699776553,
+     "move_today": -0.09684408438134429,
+     "move_zscore": -7.624046872764621,
+     "residual_move": -0.09968769646847912,
+     "residual_zscore": -7.591258558821705,
+     "volume_ratio": 3.542389678584646,
+     "volume_ratio_partial": false,
+     "momentum_5d": 0.01836477275674353,
+     "momentum_20d": 0.044840990810861125,
+     "momentum_60d": -0.049447834029037185,
+     "pct_from_52w_high": -0.14053652041158704,
+     "pct_from_52w_low": 0.20805121141585814,
+     "earnings_rhythm": 0.04901262074841814,
+     "prev_close": 115.33999633789062,
+     "last_price": 104.17,
+     "price_asof": "2026-08-20T23:59:58.000Z",
+     "session": "post"
+    },
+    "payload": {
+     "headline": "Thursday's session: top gainers and losers in the S&P500 index",
+     "source": "ChartMill",
+     "published_at": "2026-08-20T16:35:01.000Z",
+     "article_id": "141262493"
+    }
+   },
+   {
+    "id": "1e849f35-9f06-41e9-a39d-5f5003bd0b62",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T00:39:53.797Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.35386879752864064,
+     "r_squared": 0.03344161179093852,
+     "daily_vol_30d": 0.012702451335563053,
+     "vol_regime": 0.9842027699776553,
+     "move_today": -0.09684408438134429,
+     "move_zscore": -7.624046872764621,
+     "residual_move": -0.09968769646847912,
+     "residual_zscore": -7.591258558821705,
+     "volume_ratio": 3.542389678584646,
+     "volume_ratio_partial": false,
+     "momentum_5d": 0.01836477275674353,
+     "momentum_20d": 0.044840990810861125,
+     "momentum_60d": -0.049447834029037185,
+     "pct_from_52w_high": -0.14053652041158704,
+     "pct_from_52w_low": 0.20805121141585814,
+     "earnings_rhythm": 0.04901262074841814,
+     "prev_close": 115.33999633789062,
+     "last_price": 104.17,
+     "price_asof": "2026-08-20T23:59:58.000Z",
+     "session": "post"
+    },
+    "payload": {
+     "headline": "QUICK SPARK: Dow Falls 700 Points, Nasdaq Drops 1% As Yields Rise Again",
+     "source": "Benzinga",
+     "published_at": "2026-08-20T16:22:35.000Z",
+     "article_id": "141265599"
+    }
+   },
+   {
+    "id": "2251b5a9-c45b-4473-8020-46cfc7fabb38",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T00:39:53.797Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.35386879752864064,
+     "r_squared": 0.03344161179093852,
+     "daily_vol_30d": 0.012702451335563053,
+     "vol_regime": 0.9842027699776553,
+     "move_today": -0.09684408438134429,
+     "move_zscore": -7.624046872764621,
+     "residual_move": -0.09968769646847912,
+     "residual_zscore": -7.591258558821705,
+     "volume_ratio": 3.542389678584646,
+     "volume_ratio_partial": false,
+     "momentum_5d": 0.01836477275674353,
+     "momentum_20d": 0.044840990810861125,
+     "momentum_60d": -0.049447834029037185,
+     "pct_from_52w_high": -0.14053652041158704,
+     "pct_from_52w_low": 0.20805121141585814,
+     "earnings_rhythm": 0.04901262074841814,
+     "prev_close": 115.33999633789062,
+     "last_price": 104.17,
+     "price_asof": "2026-08-20T23:59:58.000Z",
+     "session": "post"
+    },
+    "payload": {
+     "headline": "Hedging Exposure In This Volatile Market",
+     "source": "SeekingAlpha",
+     "published_at": "2026-08-20T17:45:00.000Z",
+     "article_id": "141265068"
+    }
+   },
+   {
+    "id": "27b95426-2eec-4707-a79b-9bea3c1d0193",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T00:39:53.797Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.35386879752864064,
+     "r_squared": 0.03344161179093852,
+     "daily_vol_30d": 0.012702451335563053,
+     "vol_regime": 0.9842027699776553,
+     "move_today": -0.09684408438134429,
+     "move_zscore": -7.624046872764621,
+     "residual_move": -0.09968769646847912,
+     "residual_zscore": -7.591258558821705,
+     "volume_ratio": 3.542389678584646,
+     "volume_ratio_partial": false,
+     "momentum_5d": 0.01836477275674353,
+     "momentum_20d": 0.044840990810861125,
+     "momentum_60d": -0.049447834029037185,
+     "pct_from_52w_high": -0.14053652041158704,
+     "pct_from_52w_low": 0.20805121141585814,
+     "earnings_rhythm": 0.04901262074841814,
+     "prev_close": 115.33999633789062,
+     "last_price": 104.17,
+     "price_asof": "2026-08-20T23:59:58.000Z",
+     "session": "post"
+    },
+    "payload": {
+     "headline": "UBS' Michael Lasser on key takeaways from Walmart's Q2 results",
+     "source": "CNBC",
+     "published_at": "2026-08-20T08:13:32.000Z",
+     "article_id": "141262654"
+    }
+   },
+   {
+    "id": "2c30a892-21e3-441f-8ec9-40681cb8b452",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T00:39:53.797Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.35386879752864064,
+     "r_squared": 0.03344161179093852,
+     "daily_vol_30d": 0.012702451335563053,
+     "vol_regime": 0.9842027699776553,
+     "move_today": -0.09684408438134429,
+     "move_zscore": -7.624046872764621,
+     "residual_move": -0.09968769646847912,
+     "residual_zscore": -7.591258558821705,
+     "volume_ratio": 3.542389678584646,
+     "volume_ratio_partial": false,
+     "momentum_5d": 0.01836477275674353,
+     "momentum_20d": 0.044840990810861125,
+     "momentum_60d": -0.049447834029037185,
+     "pct_from_52w_high": -0.14053652041158704,
+     "pct_from_52w_low": 0.20805121141585814,
+     "earnings_rhythm": 0.04901262074841814,
+     "prev_close": 115.33999633789062,
+     "last_price": 104.17,
+     "price_asof": "2026-08-20T23:59:58.000Z",
+     "session": "post"
+    },
+    "payload": {
+     "headline": "Stock Market Today: Dow Jones, S&P 500, Nasdaq 100 Futures Fall as Trump Launches ‘Operation Economic Fury’ on Iran— BULL, WMT, MRK Stock in Focus (UPDATED)",
+     "source": "Benzinga",
+     "published_at": "2026-08-20T08:36:14.000Z",
+     "article_id": "141261780"
+    }
+   },
+   {
+    "id": "2ccabaf0-3ee5-43cb-8e1f-6cd8507855a3",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T00:39:53.797Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.35386879752864064,
+     "r_squared": 0.03344161179093852,
+     "daily_vol_30d": 0.012702451335563053,
+     "vol_regime": 0.9842027699776553,
+     "move_today": -0.09684408438134429,
+     "move_zscore": -7.624046872764621,
+     "residual_move": -0.09968769646847912,
+     "residual_zscore": -7.591258558821705,
+     "volume_ratio": 3.542389678584646,
+     "volume_ratio_partial": false,
+     "momentum_5d": 0.01836477275674353,
+     "momentum_20d": 0.044840990810861125,
+     "momentum_60d": -0.049447834029037185,
+     "pct_from_52w_high": -0.14053652041158704,
+     "pct_from_52w_low": 0.20805121141585814,
+     "earnings_rhythm": 0.04901262074841814,
+     "prev_close": 115.33999633789062,
+     "last_price": 104.17,
+     "price_asof": "2026-08-20T23:59:58.000Z",
+     "session": "post"
+    },
+    "payload": {
+     "headline": "Walmart Exec Says Annual Forecast Assumes Slightly Better Second-Half Sales Versus Prior Target Driven By Price Investments",
+     "source": "Benzinga",
+     "published_at": "2026-08-20T08:37:56.000Z",
+     "article_id": "141265610"
+    }
+   },
+   {
+    "id": "40356f29-77cc-4ea3-a153-c1c292a6dede",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T00:39:53.797Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.35386879752864064,
+     "r_squared": 0.03344161179093852,
+     "daily_vol_30d": 0.012702451335563053,
+     "vol_regime": 0.9842027699776553,
+     "move_today": -0.09684408438134429,
+     "move_zscore": -7.624046872764621,
+     "residual_move": -0.09968769646847912,
+     "residual_zscore": -7.591258558821705,
+     "volume_ratio": 3.542389678584646,
+     "volume_ratio_partial": false,
+     "momentum_5d": 0.01836477275674353,
+     "momentum_20d": 0.044840990810861125,
+     "momentum_60d": -0.049447834029037185,
+     "pct_from_52w_high": -0.14053652041158704,
+     "pct_from_52w_low": 0.20805121141585814,
+     "earnings_rhythm": 0.04901262074841814,
+     "prev_close": 115.33999633789062,
+     "last_price": 104.17,
+     "price_asof": "2026-08-20T23:59:58.000Z",
+     "session": "post"
+    },
+    "payload": {
+     "headline": "Discover which dow jones stocks are making waves on Thursday.",
+     "source": "ChartMill",
+     "published_at": "2026-08-20T16:40:04.000Z",
+     "article_id": "141262494"
+    }
+   },
+   {
+    "id": "46df7468-a6cb-45b3-a3e3-7d4c9d487fd3",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T00:39:53.797Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.35386879752864064,
+     "r_squared": 0.03344161179093852,
+     "daily_vol_30d": 0.012702451335563053,
+     "vol_regime": 0.9842027699776553,
+     "move_today": -0.09684408438134429,
+     "move_zscore": -7.624046872764621,
+     "residual_move": -0.09968769646847912,
+     "residual_zscore": -7.591258558821705,
+     "volume_ratio": 3.542389678584646,
+     "volume_ratio_partial": false,
+     "momentum_5d": 0.01836477275674353,
+     "momentum_20d": 0.044840990810861125,
+     "momentum_60d": -0.049447834029037185,
+     "pct_from_52w_high": -0.14053652041158704,
+     "pct_from_52w_low": 0.20805121141585814,
+     "earnings_rhythm": 0.04901262074841814,
+     "prev_close": 115.33999633789062,
+     "last_price": 104.17,
+     "price_asof": "2026-08-20T23:59:58.000Z",
+     "session": "post"
+    },
+    "payload": {
+     "headline": "What's going on in today's session: S&P500 gap up and gap down stocks",
+     "source": "ChartMill",
+     "published_at": "2026-08-20T14:35:01.000Z",
+     "article_id": "141261787"
+    }
+   },
+   {
+    "id": "47b88bc1-c32f-4428-ab82-186d7081a0b6",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T00:39:53.797Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.35386879752864064,
+     "r_squared": 0.03344161179093852,
+     "daily_vol_30d": 0.012702451335563053,
+     "vol_regime": 0.9842027699776553,
+     "move_today": -0.09684408438134429,
+     "move_zscore": -7.624046872764621,
+     "residual_move": -0.09968769646847912,
+     "residual_zscore": -7.591258558821705,
+     "volume_ratio": 3.542389678584646,
+     "volume_ratio_partial": false,
+     "momentum_5d": 0.01836477275674353,
+     "momentum_20d": 0.044840990810861125,
+     "momentum_60d": -0.049447834029037185,
+     "pct_from_52w_high": -0.14053652041158704,
+     "pct_from_52w_low": 0.20805121141585814,
+     "earnings_rhythm": 0.04901262074841814,
+     "prev_close": 115.33999633789062,
+     "last_price": 104.17,
+     "price_asof": "2026-08-20T23:59:58.000Z",
+     "session": "post"
+    },
+    "payload": {
+     "headline": "Walmart Says Q2 Global Advertising Business Rises 38%, Membership Fee Revenue Up 17% Globally",
+     "source": "Benzinga",
+     "published_at": "2026-08-20T07:10:20.000Z",
+     "article_id": "141265613"
+    }
+   },
+   {
+    "id": "47d9f51f-0821-42fc-a141-f362c551c0b6",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T00:39:53.797Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.35386879752864064,
+     "r_squared": 0.03344161179093852,
+     "daily_vol_30d": 0.012702451335563053,
+     "vol_regime": 0.9842027699776553,
+     "move_today": -0.09684408438134429,
+     "move_zscore": -7.624046872764621,
+     "residual_move": -0.09968769646847912,
+     "residual_zscore": -7.591258558821705,
+     "volume_ratio": 3.542389678584646,
+     "volume_ratio_partial": false,
+     "momentum_5d": 0.01836477275674353,
+     "momentum_20d": 0.044840990810861125,
+     "momentum_60d": -0.049447834029037185,
+     "pct_from_52w_high": -0.14053652041158704,
+     "pct_from_52w_low": 0.20805121141585814,
+     "earnings_rhythm": 0.04901262074841814,
+     "prev_close": 115.33999633789062,
+     "last_price": 104.17,
+     "price_asof": "2026-08-20T23:59:58.000Z",
+     "session": "post"
+    },
+    "payload": {
+     "headline": "Wall Street Lunch: Walmart Tumbles As Weak U.S. Sales Spark Spending Concerns",
+     "source": "SeekingAlpha",
+     "published_at": "2026-08-20T14:53:00.000Z",
+     "article_id": "141263450"
+    }
+   },
+   {
+    "id": "4a5e888c-c48c-4af0-b248-86a02a6ffc56",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T00:39:53.797Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.35386879752864064,
+     "r_squared": 0.03344161179093852,
+     "daily_vol_30d": 0.012702451335563053,
+     "vol_regime": 0.9842027699776553,
+     "move_today": -0.09684408438134429,
+     "move_zscore": -7.624046872764621,
+     "residual_move": -0.09968769646847912,
+     "residual_zscore": -7.591258558821705,
+     "volume_ratio": 3.542389678584646,
+     "volume_ratio_partial": false,
+     "momentum_5d": 0.01836477275674353,
+     "momentum_20d": 0.044840990810861125,
+     "momentum_60d": -0.049447834029037185,
+     "pct_from_52w_high": -0.14053652041158704,
+     "pct_from_52w_low": 0.20805121141585814,
+     "earnings_rhythm": 0.04901262074841814,
+     "prev_close": 115.33999633789062,
+     "last_price": 104.17,
+     "price_asof": "2026-08-20T23:59:58.000Z",
+     "session": "post"
+    },
+    "payload": {
+     "headline": "QUICK SPARK: Walmart Will Use $2.9 Billion Tariff Refund To Keep Prices Low",
+     "source": "Benzinga",
+     "published_at": "2026-08-20T11:20:02.000Z",
+     "article_id": "141265607"
+    }
+   },
+   {
+    "id": "5175f3ff-b48d-4b76-b11f-3c1421238401",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T00:39:53.797Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.35386879752864064,
+     "r_squared": 0.03344161179093852,
+     "daily_vol_30d": 0.012702451335563053,
+     "vol_regime": 0.9842027699776553,
+     "move_today": -0.09684408438134429,
+     "move_zscore": -7.624046872764621,
+     "residual_move": -0.09968769646847912,
+     "residual_zscore": -7.591258558821705,
+     "volume_ratio": 3.542389678584646,
+     "volume_ratio_partial": false,
+     "momentum_5d": 0.01836477275674353,
+     "momentum_20d": 0.044840990810861125,
+     "momentum_60d": -0.049447834029037185,
+     "pct_from_52w_high": -0.14053652041158704,
+     "pct_from_52w_low": 0.20805121141585814,
+     "earnings_rhythm": 0.04901262074841814,
+     "prev_close": 115.33999633789062,
+     "last_price": 104.17,
+     "price_asof": "2026-08-20T23:59:58.000Z",
+     "session": "post"
+    },
+    "payload": {
+     "headline": "Walmart Earnings Prediction Market Preview: What Will New CEO John Furner Say?",
+     "source": "Benzinga",
+     "published_at": "2026-08-19T16:40:08.000Z",
+     "article_id": "141265621"
+    }
+   },
+   {
+    "id": "691f65c9-d43d-48cb-95c3-ddd2e70c9e59",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T00:39:53.797Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.35386879752864064,
+     "r_squared": 0.03344161179093852,
+     "daily_vol_30d": 0.012702451335563053,
+     "vol_regime": 0.9842027699776553,
+     "move_today": -0.09684408438134429,
+     "move_zscore": -7.624046872764621,
+     "residual_move": -0.09968769646847912,
+     "residual_zscore": -7.591258558821705,
+     "volume_ratio": 3.542389678584646,
+     "volume_ratio_partial": false,
+     "momentum_5d": 0.01836477275674353,
+     "momentum_20d": 0.044840990810861125,
+     "momentum_60d": -0.049447834029037185,
+     "pct_from_52w_high": -0.14053652041158704,
+     "pct_from_52w_low": 0.20805121141585814,
+     "earnings_rhythm": 0.04901262074841814,
+     "prev_close": 115.33999633789062,
+     "last_price": 104.17,
+     "price_asof": "2026-08-20T23:59:58.000Z",
+     "session": "post"
+    },
+    "payload": {
+     "headline": "These S&P500 stocks that are showing activity before the opening bell on Thursday.",
+     "source": "ChartMill",
+     "published_at": "2026-08-20T12:35:01.000Z",
+     "article_id": "141261177"
+    }
+   },
+   {
+    "id": "69915aa8-e742-4a43-8992-3e988fcc2c1a",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T00:39:53.797Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.35386879752864064,
+     "r_squared": 0.03344161179093852,
+     "daily_vol_30d": 0.012702451335563053,
+     "vol_regime": 0.9842027699776553,
+     "move_today": -0.09684408438134429,
+     "move_zscore": -7.624046872764621,
+     "residual_move": -0.09968769646847912,
+     "residual_zscore": -7.591258558821705,
+     "volume_ratio": 3.542389678584646,
+     "volume_ratio_partial": false,
+     "momentum_5d": 0.01836477275674353,
+     "momentum_20d": 0.044840990810861125,
+     "momentum_60d": -0.049447834029037185,
+     "pct_from_52w_high": -0.14053652041158704,
+     "pct_from_52w_low": 0.20805121141585814,
+     "earnings_rhythm": 0.04901262074841814,
+     "prev_close": 115.33999633789062,
+     "last_price": 104.17,
+     "price_asof": "2026-08-20T23:59:58.000Z",
+     "session": "post"
+    },
+    "payload": {
+     "headline": "Stock Market: Will S&P 500 Open Up or Down Today?",
+     "source": "Benzinga",
+     "published_at": "2026-08-20T01:45:08.000Z",
+     "article_id": "141261781"
+    }
+   },
+   {
+    "id": "69fdfc03-4c0b-422e-8717-051526058183",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T00:39:53.797Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.35386879752864064,
+     "r_squared": 0.03344161179093852,
+     "daily_vol_30d": 0.012702451335563053,
+     "vol_regime": 0.9842027699776553,
+     "move_today": -0.09684408438134429,
+     "move_zscore": -7.624046872764621,
+     "residual_move": -0.09968769646847912,
+     "residual_zscore": -7.591258558821705,
+     "volume_ratio": 3.542389678584646,
+     "volume_ratio_partial": false,
+     "momentum_5d": 0.01836477275674353,
+     "momentum_20d": 0.044840990810861125,
+     "momentum_60d": -0.049447834029037185,
+     "pct_from_52w_high": -0.14053652041158704,
+     "pct_from_52w_low": 0.20805121141585814,
+     "earnings_rhythm": 0.04901262074841814,
+     "prev_close": 115.33999633789062,
+     "last_price": 104.17,
+     "price_asof": "2026-08-20T23:59:58.000Z",
+     "session": "post"
+    },
+    "payload": {
+     "headline": "Walmart Inc. (WMT) Q2 2027 Earnings Call Transcript",
+     "source": "SeekingAlpha",
+     "published_at": "2026-08-20T14:21:50.000Z",
+     "article_id": "141263267"
+    }
+   },
+   {
+    "id": "6c501d31-7b60-46ee-86b7-694c55295742",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T00:39:53.797Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.35386879752864064,
+     "r_squared": 0.03344161179093852,
+     "daily_vol_30d": 0.012702451335563053,
+     "vol_regime": 0.9842027699776553,
+     "move_today": -0.09684408438134429,
+     "move_zscore": -7.624046872764621,
+     "residual_move": -0.09968769646847912,
+     "residual_zscore": -7.591258558821705,
+     "volume_ratio": 3.542389678584646,
+     "volume_ratio_partial": false,
+     "momentum_5d": 0.01836477275674353,
+     "momentum_20d": 0.044840990810861125,
+     "momentum_60d": -0.049447834029037185,
+     "pct_from_52w_high": -0.14053652041158704,
+     "pct_from_52w_low": 0.20805121141585814,
+     "earnings_rhythm": 0.04901262074841814,
+     "prev_close": 115.33999633789062,
+     "last_price": 104.17,
+     "price_asof": "2026-08-20T23:59:58.000Z",
+     "session": "post"
+    },
+    "payload": {
+     "headline": "Walmart Exec Says Company Rolled Back Prices On 11,000 Items In US In Q2; Continues To See Growth From Higher-Income Households",
+     "source": "Benzinga",
+     "published_at": "2026-08-20T08:15:48.000Z",
+     "article_id": "141265612"
+    }
+   },
+   {
+    "id": "6d665efa-10ac-458c-a289-87b953c21b3a",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T00:39:53.797Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.35386879752864064,
+     "r_squared": 0.03344161179093852,
+     "daily_vol_30d": 0.012702451335563053,
+     "vol_regime": 0.9842027699776553,
+     "move_today": -0.09684408438134429,
+     "move_zscore": -7.624046872764621,
+     "residual_move": -0.09968769646847912,
+     "residual_zscore": -7.591258558821705,
+     "volume_ratio": 3.542389678584646,
+     "volume_ratio_partial": false,
+     "momentum_5d": 0.01836477275674353,
+     "momentum_20d": 0.044840990810861125,
+     "momentum_60d": -0.049447834029037185,
+     "pct_from_52w_high": -0.14053652041158704,
+     "pct_from_52w_low": 0.20805121141585814,
+     "earnings_rhythm": 0.04901262074841814,
+     "prev_close": 115.33999633789062,
+     "last_price": 104.17,
+     "price_asof": "2026-08-20T23:59:58.000Z",
+     "session": "post"
+    },
+    "payload": {
+     "headline": "Morning Call Sheet: Rising yields and $40 trillion debt test the rally",
+     "source": "CNBC",
+     "published_at": "2026-08-20T07:18:05.000Z",
+     "article_id": "141262656"
+    }
+   },
+   {
+    "id": "7f5edc9d-c5e6-4027-a413-998e7e8fe31f",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T00:39:53.797Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.35386879752864064,
+     "r_squared": 0.03344161179093852,
+     "daily_vol_30d": 0.012702451335563053,
+     "vol_regime": 0.9842027699776553,
+     "move_today": -0.09684408438134429,
+     "move_zscore": -7.624046872764621,
+     "residual_move": -0.09968769646847912,
+     "residual_zscore": -7.591258558821705,
+     "volume_ratio": 3.542389678584646,
+     "volume_ratio_partial": false,
+     "momentum_5d": 0.01836477275674353,
+     "momentum_20d": 0.044840990810861125,
+     "momentum_60d": -0.049447834029037185,
+     "pct_from_52w_high": -0.14053652041158704,
+     "pct_from_52w_low": 0.20805121141585814,
+     "earnings_rhythm": 0.04901262074841814,
+     "prev_close": 115.33999633789062,
+     "last_price": 104.17,
+     "price_asof": "2026-08-20T23:59:58.000Z",
+     "session": "post"
+    },
+    "payload": {
+     "headline": "Stocks making the biggest moves midday: Walmart, Deere, CrowdStrike, Moderna & more ",
+     "source": "CNBC",
+     "published_at": "2026-08-20T13:05:48.000Z",
+     "article_id": "141262651"
+    }
+   },
+   {
+    "id": "7fbed674-ccc6-43ae-af89-11d22d1c8c84",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T00:39:53.797Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.35386879752864064,
+     "r_squared": 0.03344161179093852,
+     "daily_vol_30d": 0.012702451335563053,
+     "vol_regime": 0.9842027699776553,
+     "move_today": -0.09684408438134429,
+     "move_zscore": -7.624046872764621,
+     "residual_move": -0.09968769646847912,
+     "residual_zscore": -7.591258558821705,
+     "volume_ratio": 3.542389678584646,
+     "volume_ratio_partial": false,
+     "momentum_5d": 0.01836477275674353,
+     "momentum_20d": 0.044840990810861125,
+     "momentum_60d": -0.049447834029037185,
+     "pct_from_52w_high": -0.14053652041158704,
+     "pct_from_52w_low": 0.20805121141585814,
+     "earnings_rhythm": 0.04901262074841814,
+     "prev_close": 115.33999633789062,
+     "last_price": 104.17,
+     "price_asof": "2026-08-20T23:59:58.000Z",
+     "session": "post"
+    },
+    "payload": {
+     "headline": "Stocks making the biggest moves premarket: Walmart, Coinbase, Moderna, Alibaba & more",
+     "source": "CNBC",
+     "published_at": "2026-08-20T07:39:39.000Z",
+     "article_id": "141262655"
+    }
+   },
+   {
+    "id": "87602c58-e415-4c78-b5e9-bc1852231cf6",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T00:39:53.797Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.35386879752864064,
+     "r_squared": 0.03344161179093852,
+     "daily_vol_30d": 0.012702451335563053,
+     "vol_regime": 0.9842027699776553,
+     "move_today": -0.09684408438134429,
+     "move_zscore": -7.624046872764621,
+     "residual_move": -0.09968769646847912,
+     "residual_zscore": -7.591258558821705,
+     "volume_ratio": 3.542389678584646,
+     "volume_ratio_partial": false,
+     "momentum_5d": 0.01836477275674353,
+     "momentum_20d": 0.044840990810861125,
+     "momentum_60d": -0.049447834029037185,
+     "pct_from_52w_high": -0.14053652041158704,
+     "pct_from_52w_low": 0.20805121141585814,
+     "earnings_rhythm": 0.04901262074841814,
+     "prev_close": 115.33999633789062,
+     "last_price": 104.17,
+     "price_asof": "2026-08-20T23:59:58.000Z",
+     "session": "post"
+    },
+    "payload": {
+     "headline": "Looking for the most active stocks in the S&P500 index on Thursday?",
+     "source": "ChartMill",
+     "published_at": "2026-08-20T18:05:01.000Z",
+     "article_id": "141263200"
+    }
+   },
+   {
+    "id": "9ab58b77-1dfb-4944-b4ba-d817e1396aa9",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T00:39:53.797Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.35386879752864064,
+     "r_squared": 0.03344161179093852,
+     "daily_vol_30d": 0.012702451335563053,
+     "vol_regime": 0.9842027699776553,
+     "move_today": -0.09684408438134429,
+     "move_zscore": -7.624046872764621,
+     "residual_move": -0.09968769646847912,
+     "residual_zscore": -7.591258558821705,
+     "volume_ratio": 3.542389678584646,
+     "volume_ratio_partial": false,
+     "momentum_5d": 0.01836477275674353,
+     "momentum_20d": 0.044840990810861125,
+     "momentum_60d": -0.049447834029037185,
+     "pct_from_52w_high": -0.14053652041158704,
+     "pct_from_52w_low": 0.20805121141585814,
+     "earnings_rhythm": 0.04901262074841814,
+     "prev_close": 115.33999633789062,
+     "last_price": 104.17,
+     "price_asof": "2026-08-20T23:59:58.000Z",
+     "session": "post"
+    },
+    "payload": {
+     "headline": "Walmart's Outlook Signals Cautious Spending Ahead; Treasury Euphoria Fades; Samsung Soars; Bitcoin Shorts Crushed",
+     "source": "Benzinga",
+     "published_at": "2026-08-20T14:04:03.000Z",
+     "article_id": "141263681"
+    }
+   },
+   {
+    "id": "a5cc86ab-69bb-4fad-9a49-ca1ce5a4b236",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T00:39:53.797Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.35386879752864064,
+     "r_squared": 0.03344161179093852,
+     "daily_vol_30d": 0.012702451335563053,
+     "vol_regime": 0.9842027699776553,
+     "move_today": -0.09684408438134429,
+     "move_zscore": -7.624046872764621,
+     "residual_move": -0.09968769646847912,
+     "residual_zscore": -7.591258558821705,
+     "volume_ratio": 3.542389678584646,
+     "volume_ratio_partial": false,
+     "momentum_5d": 0.01836477275674353,
+     "momentum_20d": 0.044840990810861125,
+     "momentum_60d": -0.049447834029037185,
+     "pct_from_52w_high": -0.14053652041158704,
+     "pct_from_52w_low": 0.20805121141585814,
+     "earnings_rhythm": 0.04901262074841814,
+     "prev_close": 115.33999633789062,
+     "last_price": 104.17,
+     "price_asof": "2026-08-20T23:59:58.000Z",
+     "session": "post"
+    },
+    "payload": {
+     "headline": "Dow Gains Over 100 Points: Investor Sentiment Improves, Fear Index In ‘Greed’ Zone",
+     "source": "Benzinga",
+     "published_at": "2026-08-20T03:49:44.000Z",
+     "article_id": "141264404"
+    }
+   },
+   {
+    "id": "aa720735-96e5-4dea-a9f8-1c133f942035",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T00:39:53.797Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.35386879752864064,
+     "r_squared": 0.03344161179093852,
+     "daily_vol_30d": 0.012702451335563053,
+     "vol_regime": 0.9842027699776553,
+     "move_today": -0.09684408438134429,
+     "move_zscore": -7.624046872764621,
+     "residual_move": -0.09968769646847912,
+     "residual_zscore": -7.591258558821705,
+     "volume_ratio": 3.542389678584646,
+     "volume_ratio_partial": false,
+     "momentum_5d": 0.01836477275674353,
+     "momentum_20d": 0.044840990810861125,
+     "momentum_60d": -0.049447834029037185,
+     "pct_from_52w_high": -0.14053652041158704,
+     "pct_from_52w_low": 0.20805121141585814,
+     "earnings_rhythm": 0.04901262074841814,
+     "prev_close": 115.33999633789062,
+     "last_price": 104.17,
+     "price_asof": "2026-08-20T23:59:58.000Z",
+     "session": "post"
+    },
+    "payload": {
+     "headline": "Walmart Could Swing $41.4 Billion In Value After Earnings",
+     "source": "Benzinga",
+     "published_at": "2026-08-19T15:31:06.000Z",
+     "article_id": "141256335"
+    }
+   },
+   {
+    "id": "ac2b73c9-6dc2-4e23-8c80-5a7484ad16b3",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T00:39:53.797Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.35386879752864064,
+     "r_squared": 0.03344161179093852,
+     "daily_vol_30d": 0.012702451335563053,
+     "vol_regime": 0.9842027699776553,
+     "move_today": -0.09684408438134429,
+     "move_zscore": -7.624046872764621,
+     "residual_move": -0.09968769646847912,
+     "residual_zscore": -7.591258558821705,
+     "volume_ratio": 3.542389678584646,
+     "volume_ratio_partial": false,
+     "momentum_5d": 0.01836477275674353,
+     "momentum_20d": 0.044840990810861125,
+     "momentum_60d": -0.049447834029037185,
+     "pct_from_52w_high": -0.14053652041158704,
+     "pct_from_52w_low": 0.20805121141585814,
+     "earnings_rhythm": 0.04901262074841814,
+     "prev_close": 115.33999633789062,
+     "last_price": 104.17,
+     "price_asof": "2026-08-20T23:59:58.000Z",
+     "session": "post"
+    },
+    "payload": {
+     "headline": "Thursday's session: most active stocks",
+     "source": "ChartMill",
+     "published_at": "2026-08-20T18:00:00.000Z",
+     "article_id": "141263199"
+    }
+   },
+   {
+    "id": "b0943efe-c5df-48c8-b0a1-6a58b9d8c2a3",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T00:39:53.797Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.35386879752864064,
+     "r_squared": 0.03344161179093852,
+     "daily_vol_30d": 0.012702451335563053,
+     "vol_regime": 0.9842027699776553,
+     "move_today": -0.09684408438134429,
+     "move_zscore": -7.624046872764621,
+     "residual_move": -0.09968769646847912,
+     "residual_zscore": -7.591258558821705,
+     "volume_ratio": 3.542389678584646,
+     "volume_ratio_partial": false,
+     "momentum_5d": 0.01836477275674353,
+     "momentum_20d": 0.044840990810861125,
+     "momentum_60d": -0.049447834029037185,
+     "pct_from_52w_high": -0.14053652041158704,
+     "pct_from_52w_low": 0.20805121141585814,
+     "earnings_rhythm": 0.04901262074841814,
+     "prev_close": 115.33999633789062,
+     "last_price": 104.17,
+     "price_asof": "2026-08-20T23:59:58.000Z",
+     "session": "post"
+    },
+    "payload": {
+     "headline": "Walmart Sees Q3 Adj EPS $0.62-$0.64 vs $0.68 Est; Sees Sales $183.134B-$184.468B vs $188.339B Est",
+     "source": "Benzinga",
+     "published_at": "2026-08-20T07:04:25.000Z",
+     "article_id": "141265614"
+    }
+   },
+   {
+    "id": "bb54b9b0-2aba-4962-b54e-556a12a57df7",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T00:39:53.797Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.35386879752864064,
+     "r_squared": 0.03344161179093852,
+     "daily_vol_30d": 0.012702451335563053,
+     "vol_regime": 0.9842027699776553,
+     "move_today": -0.09684408438134429,
+     "move_zscore": -7.624046872764621,
+     "residual_move": -0.09968769646847912,
+     "residual_zscore": -7.591258558821705,
+     "volume_ratio": 3.542389678584646,
+     "volume_ratio_partial": false,
+     "momentum_5d": 0.01836477275674353,
+     "momentum_20d": 0.044840990810861125,
+     "momentum_60d": -0.049447834029037185,
+     "pct_from_52w_high": -0.14053652041158704,
+     "pct_from_52w_low": 0.20805121141585814,
+     "earnings_rhythm": 0.04901262074841814,
+     "prev_close": 115.33999633789062,
+     "last_price": 104.17,
+     "price_asof": "2026-08-20T23:59:58.000Z",
+     "session": "post"
+    },
+    "payload": {
+     "headline": "Curious about which S&P500 stocks are generating unusual volume on Thursday? Find out below.",
+     "source": "ChartMill",
+     "published_at": "2026-08-20T17:05:00.000Z",
+     "article_id": "141262580"
+    }
+   },
+   {
+    "id": "bc82e795-26c9-4caf-bb60-824cef9b5f34",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T00:39:53.797Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.35386879752864064,
+     "r_squared": 0.03344161179093852,
+     "daily_vol_30d": 0.012702451335563053,
+     "vol_regime": 0.9842027699776553,
+     "move_today": -0.09684408438134429,
+     "move_zscore": -7.624046872764621,
+     "residual_move": -0.09968769646847912,
+     "residual_zscore": -7.591258558821705,
+     "volume_ratio": 3.542389678584646,
+     "volume_ratio_partial": false,
+     "momentum_5d": 0.01836477275674353,
+     "momentum_20d": 0.044840990810861125,
+     "momentum_60d": -0.049447834029037185,
+     "pct_from_52w_high": -0.14053652041158704,
+     "pct_from_52w_low": 0.20805121141585814,
+     "earnings_rhythm": 0.04901262074841814,
+     "prev_close": 115.33999633789062,
+     "last_price": 104.17,
+     "price_asof": "2026-08-20T23:59:58.000Z",
+     "session": "post"
+    },
+    "payload": {
+     "headline": "Walmart CFO on Q2 earnings beat: Our business is strong, it was a good quarter for us",
+     "source": "CNBC",
+     "published_at": "2026-08-20T10:19:20.000Z",
+     "article_id": "141262653"
+    }
+   },
+   {
+    "id": "c7c22f80-ce05-4a24-bd05-237ea51bf8d5",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T00:39:53.797Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.35386879752864064,
+     "r_squared": 0.03344161179093852,
+     "daily_vol_30d": 0.012702451335563053,
+     "vol_regime": 0.9842027699776553,
+     "move_today": -0.09684408438134429,
+     "move_zscore": -7.624046872764621,
+     "residual_move": -0.09968769646847912,
+     "residual_zscore": -7.591258558821705,
+     "volume_ratio": 3.542389678584646,
+     "volume_ratio_partial": false,
+     "momentum_5d": 0.01836477275674353,
+     "momentum_20d": 0.044840990810861125,
+     "momentum_60d": -0.049447834029037185,
+     "pct_from_52w_high": -0.14053652041158704,
+     "pct_from_52w_low": 0.20805121141585814,
+     "earnings_rhythm": 0.04901262074841814,
+     "prev_close": 115.33999633789062,
+     "last_price": 104.17,
+     "price_asof": "2026-08-20T23:59:58.000Z",
+     "session": "post"
+    },
+    "payload": {
+     "headline": "Market Open: August 20, 2026",
+     "source": "CNBC",
+     "published_at": "2026-08-20T10:20:04.000Z",
+     "article_id": "141262652"
+    }
+   },
+   {
+    "id": "c8203027-97aa-4082-bcd9-b72981c377c4",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T00:39:53.797Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.35386879752864064,
+     "r_squared": 0.03344161179093852,
+     "daily_vol_30d": 0.012702451335563053,
+     "vol_regime": 0.9842027699776553,
+     "move_today": -0.09684408438134429,
+     "move_zscore": -7.624046872764621,
+     "residual_move": -0.09968769646847912,
+     "residual_zscore": -7.591258558821705,
+     "volume_ratio": 3.542389678584646,
+     "volume_ratio_partial": false,
+     "momentum_5d": 0.01836477275674353,
+     "momentum_20d": 0.044840990810861125,
+     "momentum_60d": -0.049447834029037185,
+     "pct_from_52w_high": -0.14053652041158704,
+     "pct_from_52w_low": 0.20805121141585814,
+     "earnings_rhythm": 0.04901262074841814,
+     "prev_close": 115.33999633789062,
+     "last_price": 104.17,
+     "price_asof": "2026-08-20T23:59:58.000Z",
+     "session": "post"
+    },
+    "payload": {
+     "headline": "Walmart Down 9%, Says $4 Gas Is Where Shoppers Start Cutting Back: 'Consumers Are Making Trade-Offs'",
+     "source": "Benzinga",
+     "published_at": "2026-08-20T13:03:39.000Z",
+     "article_id": "141265603"
+    }
+   },
+   {
+    "id": "cb7affad-16bd-4bd8-9710-e8f9526d2f1e",
+    "schema_version": 1,
+    "type": "volume_anomaly",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T00:39:53.797Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.1882515720306951,
+     "r_squared": 0.007082123107954308,
+     "daily_vol_30d": 0.013855128242972478,
+     "vol_regime": 1.1293421392042782,
+     "move_today": -0.09151361710052308,
+     "move_zscore": -6.605035730863055,
+     "residual_move": -0.09309491023183397,
+     "residual_zscore": -7.267089197490272,
+     "volume_ratio": 3.8378419346681687,
+     "volume_ratio_partial": false,
+     "momentum_5d": -0.10266163807028272,
+     "momentum_20d": -0.04206646793173385,
+     "momentum_60d": -0.1242304410461813,
+     "pct_from_52w_high": -0.22622951788933876,
+     "pct_from_52w_low": 0.08760219656949242,
+     "earnings_rhythm": 0.04901263945577847,
+     "prev_close": 114.30000305175781,
+     "last_price": 103.83999633789062,
+     "price_asof": "2026-08-20T20:00:00.000Z",
+     "session": "closed"
+    },
+    "payload": {
+     "volume_ratio": 3.8378419346681687,
+     "threshold_crossed": 3
+    }
+   },
+   {
+    "id": "d2476eb8-8b09-474b-a994-86ddca4997fd",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T00:39:53.797Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.35386879752864064,
+     "r_squared": 0.03344161179093852,
+     "daily_vol_30d": 0.012702451335563053,
+     "vol_regime": 0.9842027699776553,
+     "move_today": -0.09684408438134429,
+     "move_zscore": -7.624046872764621,
+     "residual_move": -0.09968769646847912,
+     "residual_zscore": -7.591258558821705,
+     "volume_ratio": 3.542389678584646,
+     "volume_ratio_partial": false,
+     "momentum_5d": 0.01836477275674353,
+     "momentum_20d": 0.044840990810861125,
+     "momentum_60d": -0.049447834029037185,
+     "pct_from_52w_high": -0.14053652041158704,
+     "pct_from_52w_low": 0.20805121141585814,
+     "earnings_rhythm": 0.04901262074841814,
+     "prev_close": 115.33999633789062,
+     "last_price": 104.17,
+     "price_asof": "2026-08-20T23:59:58.000Z",
+     "session": "post"
+    },
+    "payload": {
+     "headline": "Walmart Gears Up For Q2 Print; Here Are The Recent Forecast Changes From Wall Street's Most Accurate Analysts",
+     "source": "Benzinga",
+     "published_at": "2026-08-20T01:29:20.000Z",
+     "article_id": "141265620"
+    }
+   },
+   {
+    "id": "d439f2fa-c46f-45b6-8850-c0d462a4a982",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T00:39:53.797Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.35386879752864064,
+     "r_squared": 0.03344161179093852,
+     "daily_vol_30d": 0.012702451335563053,
+     "vol_regime": 0.9842027699776553,
+     "move_today": -0.09684408438134429,
+     "move_zscore": -7.624046872764621,
+     "residual_move": -0.09968769646847912,
+     "residual_zscore": -7.591258558821705,
+     "volume_ratio": 3.542389678584646,
+     "volume_ratio_partial": false,
+     "momentum_5d": 0.01836477275674353,
+     "momentum_20d": 0.044840990810861125,
+     "momentum_60d": -0.049447834029037185,
+     "pct_from_52w_high": -0.14053652041158704,
+     "pct_from_52w_low": 0.20805121141585814,
+     "earnings_rhythm": 0.04901262074841814,
+     "prev_close": 115.33999633789062,
+     "last_price": 104.17,
+     "price_asof": "2026-08-20T23:59:58.000Z",
+     "session": "post"
+    },
+    "payload": {
+     "headline": "Crude Oil Gains 3%; Walmart Shares Drop After Q2 Results",
+     "source": "Benzinga",
+     "published_at": "2026-08-20T12:02:01.000Z",
+     "article_id": "141262717"
+    }
+   },
+   {
+    "id": "de6d7c7f-c9b1-44d5-8b51-45d4bd29ada3",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T00:39:53.797Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.35386879752864064,
+     "r_squared": 0.03344161179093852,
+     "daily_vol_30d": 0.012702451335563053,
+     "vol_regime": 0.9842027699776553,
+     "move_today": -0.09684408438134429,
+     "move_zscore": -7.624046872764621,
+     "residual_move": -0.09968769646847912,
+     "residual_zscore": -7.591258558821705,
+     "volume_ratio": 3.542389678584646,
+     "volume_ratio_partial": false,
+     "momentum_5d": 0.01836477275674353,
+     "momentum_20d": 0.044840990810861125,
+     "momentum_60d": -0.049447834029037185,
+     "pct_from_52w_high": -0.14053652041158704,
+     "pct_from_52w_low": 0.20805121141585814,
+     "earnings_rhythm": 0.04901262074841814,
+     "prev_close": 115.33999633789062,
+     "last_price": 104.17,
+     "price_asof": "2026-08-20T23:59:58.000Z",
+     "session": "post"
+    },
+    "payload": {
+     "headline": "Why Is Walmart Stock Falling Thursday?",
+     "source": "Benzinga",
+     "published_at": "2026-08-20T13:32:28.000Z",
+     "article_id": "141265601"
+    }
+   },
+   {
+    "id": "e5bfc966-cfc3-471f-80d8-c0958a2c4adf",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T00:39:53.797Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.35386879752864064,
+     "r_squared": 0.03344161179093852,
+     "daily_vol_30d": 0.012702451335563053,
+     "vol_regime": 0.9842027699776553,
+     "move_today": -0.09684408438134429,
+     "move_zscore": -7.624046872764621,
+     "residual_move": -0.09968769646847912,
+     "residual_zscore": -7.591258558821705,
+     "volume_ratio": 3.542389678584646,
+     "volume_ratio_partial": false,
+     "momentum_5d": 0.01836477275674353,
+     "momentum_20d": 0.044840990810861125,
+     "momentum_60d": -0.049447834029037185,
+     "pct_from_52w_high": -0.14053652041158704,
+     "pct_from_52w_low": 0.20805121141585814,
+     "earnings_rhythm": 0.04901262074841814,
+     "prev_close": 115.33999633789062,
+     "last_price": 104.17,
+     "price_asof": "2026-08-20T23:59:58.000Z",
+     "session": "post"
+    },
+    "payload": {
+     "headline": "Walmart Inc. 2027 Q2 - Results - Earnings Call Presentation",
+     "source": "SeekingAlpha",
+     "published_at": "2026-08-20T08:31:17.000Z",
+     "article_id": "141261153"
+    }
+   },
+   {
+    "id": "eb97201b-7ad0-478d-a569-95821039e738",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T00:39:53.797Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.35386879752864064,
+     "r_squared": 0.03344161179093852,
+     "daily_vol_30d": 0.012702451335563053,
+     "vol_regime": 0.9842027699776553,
+     "move_today": -0.09684408438134429,
+     "move_zscore": -7.624046872764621,
+     "residual_move": -0.09968769646847912,
+     "residual_zscore": -7.591258558821705,
+     "volume_ratio": 3.542389678584646,
+     "volume_ratio_partial": false,
+     "momentum_5d": 0.01836477275674353,
+     "momentum_20d": 0.044840990810861125,
+     "momentum_60d": -0.049447834029037185,
+     "pct_from_52w_high": -0.14053652041158704,
+     "pct_from_52w_low": 0.20805121141585814,
+     "earnings_rhythm": 0.04901262074841814,
+     "prev_close": 115.33999633789062,
+     "last_price": 104.17,
+     "price_asof": "2026-08-20T23:59:58.000Z",
+     "session": "post"
+    },
+    "payload": {
+     "headline": "Walmart Q2 Adj. EPS $0.81 Beats $0.74 Estimate, Sales $187.937B Beat $186.794B Estimate",
+     "source": "Benzinga",
+     "published_at": "2026-08-20T07:00:51.000Z",
+     "article_id": "141265616"
+    }
+   },
+   {
+    "id": "f0944335-fb2b-4f07-89bc-caf5b7b26576",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T00:39:53.797Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.35386879752864064,
+     "r_squared": 0.03344161179093852,
+     "daily_vol_30d": 0.012702451335563053,
+     "vol_regime": 0.9842027699776553,
+     "move_today": -0.09684408438134429,
+     "move_zscore": -7.624046872764621,
+     "residual_move": -0.09968769646847912,
+     "residual_zscore": -7.591258558821705,
+     "volume_ratio": 3.542389678584646,
+     "volume_ratio_partial": false,
+     "momentum_5d": 0.01836477275674353,
+     "momentum_20d": 0.044840990810861125,
+     "momentum_60d": -0.049447834029037185,
+     "pct_from_52w_high": -0.14053652041158704,
+     "pct_from_52w_low": 0.20805121141585814,
+     "earnings_rhythm": 0.04901262074841814,
+     "prev_close": 115.33999633789062,
+     "last_price": 104.17,
+     "price_asof": "2026-08-20T23:59:58.000Z",
+     "session": "post"
+    },
+    "payload": {
+     "headline": "Stock of the Day: Is Nebius About to Reverse?",
+     "source": "Benzinga",
+     "published_at": "2026-08-20T12:02:08.000Z",
+     "article_id": "141263167"
+    }
+   },
+   {
+    "id": "f8d1ae93-2e3c-4e7a-b930-f8a9040f9154",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T00:39:53.797Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.35386879752864064,
+     "r_squared": 0.03344161179093852,
+     "daily_vol_30d": 0.012702451335563053,
+     "vol_regime": 0.9842027699776553,
+     "move_today": -0.09684408438134429,
+     "move_zscore": -7.624046872764621,
+     "residual_move": -0.09968769646847912,
+     "residual_zscore": -7.591258558821705,
+     "volume_ratio": 3.542389678584646,
+     "volume_ratio_partial": false,
+     "momentum_5d": 0.01836477275674353,
+     "momentum_20d": 0.044840990810861125,
+     "momentum_60d": -0.049447834029037185,
+     "pct_from_52w_high": -0.14053652041158704,
+     "pct_from_52w_low": 0.20805121141585814,
+     "earnings_rhythm": 0.04901262074841814,
+     "prev_close": 115.33999633789062,
+     "last_price": 104.17,
+     "price_asof": "2026-08-20T23:59:58.000Z",
+     "session": "post"
+    },
+    "payload": {
+     "headline": "Exploring the top movers within the S&P500 index during today's session.",
+     "source": "ChartMill",
+     "published_at": "2026-08-20T19:05:01.000Z",
+     "article_id": "141263724"
+    }
+   },
+   {
+    "id": "f9946fe6-9224-4b66-9bd7-ad6a4ab72c2e",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T00:39:53.797Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.35386879752864064,
+     "r_squared": 0.03344161179093852,
+     "daily_vol_30d": 0.012702451335563053,
+     "vol_regime": 0.9842027699776553,
+     "move_today": -0.09684408438134429,
+     "move_zscore": -7.624046872764621,
+     "residual_move": -0.09968769646847912,
+     "residual_zscore": -7.591258558821705,
+     "volume_ratio": 3.542389678584646,
+     "volume_ratio_partial": false,
+     "momentum_5d": 0.01836477275674353,
+     "momentum_20d": 0.044840990810861125,
+     "momentum_60d": -0.049447834029037185,
+     "pct_from_52w_high": -0.14053652041158704,
+     "pct_from_52w_low": 0.20805121141585814,
+     "earnings_rhythm": 0.04901262074841814,
+     "prev_close": 115.33999633789062,
+     "last_price": 104.17,
+     "price_asof": "2026-08-20T23:59:58.000Z",
+     "session": "post"
+    },
+    "payload": {
+     "headline": "Bessent's Bond Rescue Fizzles, Walmart Craters 9%: Stock Market Today",
+     "source": "Benzinga",
+     "published_at": "2026-08-20T13:02:57.000Z",
+     "article_id": "141262763"
+    }
+   },
+   {
+    "id": "fea59ee3-167e-4db1-b173-a5ada02fbd1c",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T00:39:53.797Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.35386879752864064,
+     "r_squared": 0.03344161179093852,
+     "daily_vol_30d": 0.012702451335563053,
+     "vol_regime": 0.9842027699776553,
+     "move_today": -0.09684408438134429,
+     "move_zscore": -7.624046872764621,
+     "residual_move": -0.09968769646847912,
+     "residual_zscore": -7.591258558821705,
+     "volume_ratio": 3.542389678584646,
+     "volume_ratio_partial": false,
+     "momentum_5d": 0.01836477275674353,
+     "momentum_20d": 0.044840990810861125,
+     "momentum_60d": -0.049447834029037185,
+     "pct_from_52w_high": -0.14053652041158704,
+     "pct_from_52w_low": 0.20805121141585814,
+     "earnings_rhythm": 0.04901262074841814,
+     "prev_close": 115.33999633789062,
+     "last_price": 104.17,
+     "price_asof": "2026-08-20T23:59:58.000Z",
+     "session": "post"
+    },
+    "payload": {
+     "headline": "Walmart Q2 2027 Earnings Call: Complete Transcript",
+     "source": "Benzinga",
+     "published_at": "2026-08-20T13:22:05.000Z",
+     "article_id": "141265602"
+    }
+   },
+   {
+    "id": "a176aadc-e4e5-47b0-9048-5f6d70dc7874",
+    "schema_version": 1,
+    "type": "filing_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T00:42:53.838Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.1882515720306951,
+     "r_squared": 0.007082123107954308,
+     "daily_vol_30d": 0.013855128242972478,
+     "vol_regime": 1.1293421392042782,
+     "move_today": -0.08862644603054559,
+     "move_zscore": -6.396652883779565,
+     "residual_move": -0.09013919439770077,
+     "residual_zscore": -7.036362828501998,
+     "volume_ratio": 3.4985872048918414,
+     "volume_ratio_partial": false,
+     "momentum_5d": -0.10266163807028272,
+     "momentum_20d": -0.04206646793173385,
+     "momentum_60d": -0.1242304410461813,
+     "pct_from_52w_high": -0.22622951788933876,
+     "pct_from_52w_low": 0.08760219656949242,
+     "earnings_rhythm": 0.04901263945577847,
+     "prev_close": 114.30000305175781,
+     "last_price": 104.17,
+     "price_asof": "2026-08-20T23:59:58.000Z",
+     "session": "post"
+    },
+    "payload": {
+     "form_type": "8-K",
+     "accession_number": "0000104169-26-000145",
+     "filed_at": "2026-08-20T00:00:00.000Z",
+     "item_codes": [
+      "2.02",
+      "9.01"
+     ]
+    }
+   },
+   {
+    "id": "05e6cb9b-d6b5-46dc-be1b-9bb4946c146f",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T16:18:06.317Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.1882515720306951,
+     "r_squared": 0.007082123107954308,
+     "daily_vol_30d": 0.013855128242972478,
+     "vol_regime": 1.1293421392042782,
+     "move_today": -0.006789235617518097,
+     "move_zscore": -0.4900160791338539,
+     "residual_move": -0.00584377697452045,
+     "residual_zscore": -0.45617153954307366,
+     "volume_ratio": 1.0865294131169398,
+     "volume_ratio_partial": true,
+     "momentum_5d": -0.10266163807028272,
+     "momentum_20d": -0.04206646793173385,
+     "momentum_60d": -0.1242304410461813,
+     "pct_from_52w_high": -0.22622951788933876,
+     "pct_from_52w_low": 0.08760219656949242,
+     "earnings_rhythm": 0.06065480449100874,
+     "prev_close": 103.83999633789062,
+     "last_price": 103.13500213623047,
+     "price_asof": "2026-08-21T16:18:05.000Z",
+     "session": "regular"
+    },
+    "payload": {
+     "headline": "Walmart In No Man's Land",
+     "source": "SeekingAlpha",
+     "published_at": "2026-08-21T08:53:47.000Z",
+     "article_id": "141269797"
+    }
+   },
+   {
+    "id": "42dd0929-8b57-4f52-99a9-77c4145c5556",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T16:18:06.317Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.1882515720306951,
+     "r_squared": 0.007082123107954308,
+     "daily_vol_30d": 0.013855128242972478,
+     "vol_regime": 1.1293421392042782,
+     "move_today": -0.006789235617518097,
+     "move_zscore": -0.4900160791338539,
+     "residual_move": -0.00584377697452045,
+     "residual_zscore": -0.45617153954307366,
+     "volume_ratio": 1.0865294131169398,
+     "volume_ratio_partial": true,
+     "momentum_5d": -0.10266163807028272,
+     "momentum_20d": -0.04206646793173385,
+     "momentum_60d": -0.1242304410461813,
+     "pct_from_52w_high": -0.22622951788933876,
+     "pct_from_52w_low": 0.08760219656949242,
+     "earnings_rhythm": 0.06065480449100874,
+     "prev_close": 103.83999633789062,
+     "last_price": 103.13500213623047,
+     "price_asof": "2026-08-21T16:18:05.000Z",
+     "session": "regular"
+    },
+    "payload": {
+     "headline": "$1 Million In The S&P 500: An 11-Stock Direct Indexing Strategy",
+     "source": "SeekingAlpha",
+     "published_at": "2026-08-21T08:30:26.000Z",
+     "article_id": "141269649"
+    }
+   },
+   {
+    "id": "513ab349-4cf6-45fd-ab06-21413324f85d",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T16:18:06.317Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.1882515720306951,
+     "r_squared": 0.007082123107954308,
+     "daily_vol_30d": 0.013855128242972478,
+     "vol_regime": 1.1293421392042782,
+     "move_today": -0.006789235617518097,
+     "move_zscore": -0.4900160791338539,
+     "residual_move": -0.00584377697452045,
+     "residual_zscore": -0.45617153954307366,
+     "volume_ratio": 1.0865294131169398,
+     "volume_ratio_partial": true,
+     "momentum_5d": -0.10266163807028272,
+     "momentum_20d": -0.04206646793173385,
+     "momentum_60d": -0.1242304410461813,
+     "pct_from_52w_high": -0.22622951788933876,
+     "pct_from_52w_low": 0.08760219656949242,
+     "earnings_rhythm": 0.06065480449100874,
+     "prev_close": 103.83999633789062,
+     "last_price": 103.13500213623047,
+     "price_asof": "2026-08-21T16:18:05.000Z",
+     "session": "regular"
+    },
+    "payload": {
+     "headline": "Ross Stores To Rally Around 18%? Here Are 10 Top Analyst Forecasts For Friday",
+     "source": "Benzinga",
+     "published_at": "2026-08-21T08:24:30.000Z",
+     "article_id": "141270322"
+    }
+   },
+   {
+    "id": "6a9b78a8-aded-425c-892c-7322692c1cea",
+    "schema_version": 1,
+    "type": "gap_event",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T16:18:06.317Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.1882515720306951,
+     "r_squared": 0.007082123107954308,
+     "daily_vol_30d": 0.013855128242972478,
+     "vol_regime": 1.1293421392042782,
+     "move_today": -0.007078129881335826,
+     "move_zscore": -0.5108671502139257,
+     "residual_move": -0.006244994455235896,
+     "residual_zscore": -0.4874910092400804,
+     "volume_ratio": 1.0895607917059378,
+     "volume_ratio_partial": true,
+     "momentum_5d": -0.10266163807028272,
+     "momentum_20d": -0.04206646793173385,
+     "momentum_60d": -0.1242304410461813,
+     "pct_from_52w_high": -0.22622951788933876,
+     "pct_from_52w_low": 0.08760219656949242,
+     "earnings_rhythm": 0.06065480449100874,
+     "prev_close": 103.83999633789062,
+     "last_price": 103.1050033569336,
+     "price_asof": "2026-08-21T16:19:27.000Z",
+     "session": "regular"
+    },
+    "payload": {
+     "gap_pct": -0.06959756446771459,
+     "gap_z": -7.309622822384506,
+     "direction": "down",
+     "prev_close": 114.30000305175781,
+     "open_price": 106.34500122070312
+    }
+   },
+   {
+    "id": "9edf34c9-4084-4654-b4af-9cb529f30a85",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T16:18:06.317Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.1882515720306951,
+     "r_squared": 0.007082123107954308,
+     "daily_vol_30d": 0.013855128242972478,
+     "vol_regime": 1.1293421392042782,
+     "move_today": -0.006789235617518097,
+     "move_zscore": -0.4900160791338539,
+     "residual_move": -0.00584377697452045,
+     "residual_zscore": -0.45617153954307366,
+     "volume_ratio": 1.0865294131169398,
+     "volume_ratio_partial": true,
+     "momentum_5d": -0.10266163807028272,
+     "momentum_20d": -0.04206646793173385,
+     "momentum_60d": -0.1242304410461813,
+     "pct_from_52w_high": -0.22622951788933876,
+     "pct_from_52w_low": 0.08760219656949242,
+     "earnings_rhythm": 0.06065480449100874,
+     "prev_close": 103.83999633789062,
+     "last_price": 103.13500213623047,
+     "price_asof": "2026-08-21T16:18:05.000Z",
+     "session": "regular"
+    },
+    "payload": {
+     "headline": "Asia's Digital Economy Benefits From The Continued Shift To Online Buying",
+     "source": "SeekingAlpha",
+     "published_at": "2026-08-21T03:05:00.000Z",
+     "article_id": "141268508"
+    }
+   },
+   {
+    "id": "a87051c5-73f0-4fa5-bc37-e82f14807950",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T16:18:06.317Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.1882515720306951,
+     "r_squared": 0.007082123107954308,
+     "daily_vol_30d": 0.013855128242972478,
+     "vol_regime": 1.1293421392042782,
+     "move_today": -0.006789235617518097,
+     "move_zscore": -0.4900160791338539,
+     "residual_move": -0.00584377697452045,
+     "residual_zscore": -0.45617153954307366,
+     "volume_ratio": 1.0865294131169398,
+     "volume_ratio_partial": true,
+     "momentum_5d": -0.10266163807028272,
+     "momentum_20d": -0.04206646793173385,
+     "momentum_60d": -0.1242304410461813,
+     "pct_from_52w_high": -0.22622951788933876,
+     "pct_from_52w_low": 0.08760219656949242,
+     "earnings_rhythm": 0.06065480449100874,
+     "prev_close": 103.83999633789062,
+     "last_price": 103.13500213623047,
+     "price_asof": "2026-08-21T16:18:05.000Z",
+     "session": "regular"
+    },
+    "payload": {
+     "headline": "Walmart's Guide-Down Sinks the Dow as Trump Readies an \"Economic D-Day\" for Iran",
+     "source": "ChartMill",
+     "published_at": "2026-08-21T08:39:55.000Z",
+     "article_id": "141268893"
+    }
+   },
+   {
+    "id": "f0b90f8e-ad0d-4087-b1d6-299e17fd193e",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T16:18:06.317Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.1882515720306951,
+     "r_squared": 0.007082123107954308,
+     "daily_vol_30d": 0.013855128242972478,
+     "vol_regime": 1.1293421392042782,
+     "move_today": -0.006789235617518097,
+     "move_zscore": -0.4900160791338539,
+     "residual_move": -0.00584377697452045,
+     "residual_zscore": -0.45617153954307366,
+     "volume_ratio": 1.0865294131169398,
+     "volume_ratio_partial": true,
+     "momentum_5d": -0.10266163807028272,
+     "momentum_20d": -0.04206646793173385,
+     "momentum_60d": -0.1242304410461813,
+     "pct_from_52w_high": -0.22622951788933876,
+     "pct_from_52w_low": 0.08760219656949242,
+     "earnings_rhythm": 0.06065480449100874,
+     "prev_close": 103.83999633789062,
+     "last_price": 103.13500213623047,
+     "price_asof": "2026-08-21T16:18:05.000Z",
+     "session": "regular"
+    },
+    "payload": {
+     "headline": "Jim Cramer Says Stocks and the Economy Are Telling Two Very Different Stories: ‘Jarring Gulf’",
+     "source": "Benzinga",
+     "published_at": "2026-08-21T07:58:47.000Z",
+     "article_id": "141270346"
+    }
+   },
+   {
+    "id": "f246f347-1620-4340-a913-03cee293e5b1",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T16:18:06.317Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.1882515720306951,
+     "r_squared": 0.007082123107954308,
+     "daily_vol_30d": 0.013855128242972478,
+     "vol_regime": 1.1293421392042782,
+     "move_today": -0.006789235617518097,
+     "move_zscore": -0.4900160791338539,
+     "residual_move": -0.00584377697452045,
+     "residual_zscore": -0.45617153954307366,
+     "volume_ratio": 1.0865294131169398,
+     "volume_ratio_partial": true,
+     "momentum_5d": -0.10266163807028272,
+     "momentum_20d": -0.04206646793173385,
+     "momentum_60d": -0.1242304410461813,
+     "pct_from_52w_high": -0.22622951788933876,
+     "pct_from_52w_low": 0.08760219656949242,
+     "earnings_rhythm": 0.06065480449100874,
+     "prev_close": 103.83999633789062,
+     "last_price": 103.13500213623047,
+     "price_asof": "2026-08-21T16:18:05.000Z",
+     "session": "regular"
+    },
+    "payload": {
+     "headline": "Walmart, Ross Stores, Advance Auto Parts, MARA Holdings and SpaceX: Why These 5 Stocks Are on Investors' Radars Today",
+     "source": "Benzinga",
+     "published_at": "2026-08-20T21:24:17.000Z",
+     "article_id": "141270391"
+    }
+   },
+   {
+    "id": "114eb153-4102-4a3b-a550-0791ce7c65d5",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T16:34:06.436Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.1882515720306951,
+     "r_squared": 0.007082123107954308,
+     "daily_vol_30d": 0.013855128242972478,
+     "vol_regime": 1.1293421392042782,
+     "move_today": -0.008088378133496166,
+     "move_zscore": -0.5837822639858067,
+     "residual_move": -0.007194764452181269,
+     "residual_zscore": -0.5616310805685117,
+     "volume_ratio": 1.1326352497643732,
+     "volume_ratio_partial": true,
+     "momentum_5d": -0.10266163807028272,
+     "momentum_20d": -0.04206646793173385,
+     "momentum_60d": -0.1242304410461813,
+     "pct_from_52w_high": -0.22622951788933876,
+     "pct_from_52w_low": 0.08760219656949242,
+     "earnings_rhythm": 0.06065480449100874,
+     "prev_close": 103.83999633789062,
+     "last_price": 103.0000991821289,
+     "price_asof": "2026-08-21T16:34:02.000Z",
+     "session": "regular"
+    },
+    "payload": {
+     "headline": "Walmart Takes Hit as Analysts Trim Price Targets: ‘Tough Combo’",
+     "source": "Benzinga",
+     "published_at": "2026-08-21T11:57:51.000Z",
+     "article_id": "141270774"
+    }
+   },
+   {
+    "id": "17ce7e91-4a0b-4e4f-aa04-d9e1ee78736b",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T16:34:06.436Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.1882515720306951,
+     "r_squared": 0.007082123107954308,
+     "daily_vol_30d": 0.013855128242972478,
+     "vol_regime": 1.1293421392042782,
+     "move_today": -0.008088378133496166,
+     "move_zscore": -0.5837822639858067,
+     "residual_move": -0.007194764452181269,
+     "residual_zscore": -0.5616310805685117,
+     "volume_ratio": 1.1326352497643732,
+     "volume_ratio_partial": true,
+     "momentum_5d": -0.10266163807028272,
+     "momentum_20d": -0.04206646793173385,
+     "momentum_60d": -0.1242304410461813,
+     "pct_from_52w_high": -0.22622951788933876,
+     "pct_from_52w_low": 0.08760219656949242,
+     "earnings_rhythm": 0.06065480449100874,
+     "prev_close": 103.83999633789062,
+     "last_price": 103.0000991821289,
+     "price_asof": "2026-08-21T16:34:02.000Z",
+     "session": "regular"
+    },
+    "payload": {
+     "headline": "UBS Maintains Buy on Walmart, Lowers Price Target to $130",
+     "source": "Benzinga",
+     "published_at": "2026-08-21T11:46:03.000Z",
+     "article_id": "141270775"
+    }
+   },
+   {
+    "id": "286bc995-be17-488f-a3fe-f75eff5d7435",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T16:34:06.436Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.1882515720306951,
+     "r_squared": 0.007082123107954308,
+     "daily_vol_30d": 0.013855128242972478,
+     "vol_regime": 1.1293421392042782,
+     "move_today": -0.008088378133496166,
+     "move_zscore": -0.5837822639858067,
+     "residual_move": -0.007194764452181269,
+     "residual_zscore": -0.5616310805685117,
+     "volume_ratio": 1.1326352497643732,
+     "volume_ratio_partial": true,
+     "momentum_5d": -0.10266163807028272,
+     "momentum_20d": -0.04206646793173385,
+     "momentum_60d": -0.1242304410461813,
+     "pct_from_52w_high": -0.22622951788933876,
+     "pct_from_52w_low": 0.08760219656949242,
+     "earnings_rhythm": 0.06065480449100874,
+     "prev_close": 103.83999633789062,
+     "last_price": 103.0000991821289,
+     "price_asof": "2026-08-21T16:34:02.000Z",
+     "session": "regular"
+    },
+    "payload": {
+     "headline": "Wells Fargo Maintains Overweight on Walmart, Lowers Price Target to $120",
+     "source": "Benzinga",
+     "published_at": "2026-08-21T10:55:19.000Z",
+     "article_id": "141270776"
+    }
+   },
+   {
+    "id": "2d984ec2-9233-46c8-8da0-12d599d1ca36",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T16:34:06.436Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.1882515720306951,
+     "r_squared": 0.007082123107954308,
+     "daily_vol_30d": 0.013855128242972478,
+     "vol_regime": 1.1293421392042782,
+     "move_today": -0.008088378133496166,
+     "move_zscore": -0.5837822639858067,
+     "residual_move": -0.007194764452181269,
+     "residual_zscore": -0.5616310805685117,
+     "volume_ratio": 1.1326352497643732,
+     "volume_ratio_partial": true,
+     "momentum_5d": -0.10266163807028272,
+     "momentum_20d": -0.04206646793173385,
+     "momentum_60d": -0.1242304410461813,
+     "pct_from_52w_high": -0.22622951788933876,
+     "pct_from_52w_low": 0.08760219656949242,
+     "earnings_rhythm": 0.06065480449100874,
+     "prev_close": 103.83999633789062,
+     "last_price": 103.0000991821289,
+     "price_asof": "2026-08-21T16:34:02.000Z",
+     "session": "regular"
+    },
+    "payload": {
+     "headline": "Guggenheim Maintains Buy on Walmart, Lowers Price Target to $130",
+     "source": "Benzinga",
+     "published_at": "2026-08-21T08:55:25.000Z",
+     "article_id": "141270779"
+    }
+   },
+   {
+    "id": "308ad865-faa8-48ef-9fb8-bcf162cbd782",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T16:34:06.436Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.1882515720306951,
+     "r_squared": 0.007082123107954308,
+     "daily_vol_30d": 0.013855128242972478,
+     "vol_regime": 1.1293421392042782,
+     "move_today": -0.008088378133496166,
+     "move_zscore": -0.5837822639858067,
+     "residual_move": -0.007194764452181269,
+     "residual_zscore": -0.5616310805685117,
+     "volume_ratio": 1.1326352497643732,
+     "volume_ratio_partial": true,
+     "momentum_5d": -0.10266163807028272,
+     "momentum_20d": -0.04206646793173385,
+     "momentum_60d": -0.1242304410461813,
+     "pct_from_52w_high": -0.22622951788933876,
+     "pct_from_52w_low": 0.08760219656949242,
+     "earnings_rhythm": 0.06065480449100874,
+     "prev_close": 103.83999633789062,
+     "last_price": 103.0000991821289,
+     "price_asof": "2026-08-21T16:34:02.000Z",
+     "session": "regular"
+    },
+    "payload": {
+     "headline": "WMT Stock Just Got Crushed 9% — Top Analyst Says Walmart's E-Commerce, Advertising Growth Still ‘Support the Bull Case’",
+     "source": "Benzinga",
+     "published_at": "2026-08-21T06:03:10.000Z",
+     "article_id": "141270787"
+    }
+   },
+   {
+    "id": "42781721-0af2-46b8-9ea8-2c9949ea43e8",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T16:34:06.436Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.1882515720306951,
+     "r_squared": 0.007082123107954308,
+     "daily_vol_30d": 0.013855128242972478,
+     "vol_regime": 1.1293421392042782,
+     "move_today": -0.008088378133496166,
+     "move_zscore": -0.5837822639858067,
+     "residual_move": -0.007194764452181269,
+     "residual_zscore": -0.5616310805685117,
+     "volume_ratio": 1.1326352497643732,
+     "volume_ratio_partial": true,
+     "momentum_5d": -0.10266163807028272,
+     "momentum_20d": -0.04206646793173385,
+     "momentum_60d": -0.1242304410461813,
+     "pct_from_52w_high": -0.22622951788933876,
+     "pct_from_52w_low": 0.08760219656949242,
+     "earnings_rhythm": 0.06065480449100874,
+     "prev_close": 103.83999633789062,
+     "last_price": 103.0000991821289,
+     "price_asof": "2026-08-21T16:34:02.000Z",
+     "session": "regular"
+    },
+    "payload": {
+     "headline": "Morgan Stanley Maintains Overweight on Walmart, Lowers Price Target to $125",
+     "source": "Benzinga",
+     "published_at": "2026-08-21T09:50:48.000Z",
+     "article_id": "141270777"
+    }
+   },
+   {
+    "id": "459d702f-4011-4026-91a1-a51d24c0707b",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T16:34:06.436Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.1882515720306951,
+     "r_squared": 0.007082123107954308,
+     "daily_vol_30d": 0.013855128242972478,
+     "vol_regime": 1.1293421392042782,
+     "move_today": -0.008088378133496166,
+     "move_zscore": -0.5837822639858067,
+     "residual_move": -0.007194764452181269,
+     "residual_zscore": -0.5616310805685117,
+     "volume_ratio": 1.1326352497643732,
+     "volume_ratio_partial": true,
+     "momentum_5d": -0.10266163807028272,
+     "momentum_20d": -0.04206646793173385,
+     "momentum_60d": -0.1242304410461813,
+     "pct_from_52w_high": -0.22622951788933876,
+     "pct_from_52w_low": 0.08760219656949242,
+     "earnings_rhythm": 0.06065480449100874,
+     "prev_close": 103.83999633789062,
+     "last_price": 103.0000991821289,
+     "price_asof": "2026-08-21T16:34:02.000Z",
+     "session": "regular"
+    },
+    "payload": {
+     "headline": "These Analysts Slash Their Forecasts On Walmart After Q2 Earnings",
+     "source": "Benzinga",
+     "published_at": "2026-08-21T08:31:07.000Z",
+     "article_id": "141270781"
+    }
+   },
+   {
+    "id": "4c86e5ac-1d8c-4a9e-aa81-37e34996ada6",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T16:34:06.436Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.1882515720306951,
+     "r_squared": 0.007082123107954308,
+     "daily_vol_30d": 0.013855128242972478,
+     "vol_regime": 1.1293421392042782,
+     "move_today": -0.008088378133496166,
+     "move_zscore": -0.5837822639858067,
+     "residual_move": -0.007194764452181269,
+     "residual_zscore": -0.5616310805685117,
+     "volume_ratio": 1.1326352497643732,
+     "volume_ratio_partial": true,
+     "momentum_5d": -0.10266163807028272,
+     "momentum_20d": -0.04206646793173385,
+     "momentum_60d": -0.1242304410461813,
+     "pct_from_52w_high": -0.22622951788933876,
+     "pct_from_52w_low": 0.08760219656949242,
+     "earnings_rhythm": 0.06065480449100874,
+     "prev_close": 103.83999633789062,
+     "last_price": 103.0000991821289,
+     "price_asof": "2026-08-21T16:34:02.000Z",
+     "session": "regular"
+    },
+    "payload": {
+     "headline": "Walmart Rolling Out Tap To Pay Option Across All U.S. Stores, Clubs By End Of 2026",
+     "source": "Benzinga",
+     "published_at": "2026-08-21T09:34:30.000Z",
+     "article_id": "141270778"
+    }
+   },
+   {
+    "id": "6ec310b7-de1c-463d-aaf1-8100412d207e",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T16:34:06.436Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.1882515720306951,
+     "r_squared": 0.007082123107954308,
+     "daily_vol_30d": 0.013855128242972478,
+     "vol_regime": 1.1293421392042782,
+     "move_today": -0.008088378133496166,
+     "move_zscore": -0.5837822639858067,
+     "residual_move": -0.007194764452181269,
+     "residual_zscore": -0.5616310805685117,
+     "volume_ratio": 1.1326352497643732,
+     "volume_ratio_partial": true,
+     "momentum_5d": -0.10266163807028272,
+     "momentum_20d": -0.04206646793173385,
+     "momentum_60d": -0.1242304410461813,
+     "pct_from_52w_high": -0.22622951788933876,
+     "pct_from_52w_low": 0.08760219656949242,
+     "earnings_rhythm": 0.06065480449100874,
+     "prev_close": 103.83999633789062,
+     "last_price": 103.0000991821289,
+     "price_asof": "2026-08-21T16:34:02.000Z",
+     "session": "regular"
+    },
+    "payload": {
+     "headline": "Walmart’s AI Bet Is Working: Sparky Users Spend 40% More as CEO Says AI Will Reshape ‘Nearly Every Part of Our Business’",
+     "source": "Benzinga",
+     "published_at": "2026-08-21T06:17:29.000Z",
+     "article_id": "141270786"
+    }
+   },
+   {
+    "id": "7d92b14c-6b1e-4ab2-9aab-17c354620ed4",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T16:34:06.436Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.1882515720306951,
+     "r_squared": 0.007082123107954308,
+     "daily_vol_30d": 0.013855128242972478,
+     "vol_regime": 1.1293421392042782,
+     "move_today": -0.008088378133496166,
+     "move_zscore": -0.5837822639858067,
+     "residual_move": -0.007194764452181269,
+     "residual_zscore": -0.5616310805685117,
+     "volume_ratio": 1.1326352497643732,
+     "volume_ratio_partial": true,
+     "momentum_5d": -0.10266163807028272,
+     "momentum_20d": -0.04206646793173385,
+     "momentum_60d": -0.1242304410461813,
+     "pct_from_52w_high": -0.22622951788933876,
+     "pct_from_52w_low": 0.08760219656949242,
+     "earnings_rhythm": 0.06065480449100874,
+     "prev_close": 103.83999633789062,
+     "last_price": 103.0000991821289,
+     "price_asof": "2026-08-21T16:34:02.000Z",
+     "session": "regular"
+    },
+    "payload": {
+     "headline": "DA Davidson Maintains Buy on Walmart, Lowers Price Target to $132",
+     "source": "Benzinga",
+     "published_at": "2026-08-21T08:52:25.000Z",
+     "article_id": "141270780"
+    }
+   },
+   {
+    "id": "8e69cf18-5377-4629-910d-3e58572bbc18",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T16:34:06.436Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.1882515720306951,
+     "r_squared": 0.007082123107954308,
+     "daily_vol_30d": 0.013855128242972478,
+     "vol_regime": 1.1293421392042782,
+     "move_today": -0.008088378133496166,
+     "move_zscore": -0.5837822639858067,
+     "residual_move": -0.007194764452181269,
+     "residual_zscore": -0.5616310805685117,
+     "volume_ratio": 1.1326352497643732,
+     "volume_ratio_partial": true,
+     "momentum_5d": -0.10266163807028272,
+     "momentum_20d": -0.04206646793173385,
+     "momentum_60d": -0.1242304410461813,
+     "pct_from_52w_high": -0.22622951788933876,
+     "pct_from_52w_low": 0.08760219656949242,
+     "earnings_rhythm": 0.06065480449100874,
+     "prev_close": 103.83999633789062,
+     "last_price": 103.0000991821289,
+     "price_asof": "2026-08-21T16:34:02.000Z",
+     "session": "regular"
+    },
+    "payload": {
+     "headline": "BTIG Maintains Buy on Walmart, Lowers Price Target to $140",
+     "source": "Benzinga",
+     "published_at": "2026-08-21T05:43:50.000Z",
+     "article_id": "141270788"
+    }
+   },
+   {
+    "id": "8ff59b31-63e6-4d6f-928b-95475b713fda",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T16:34:06.436Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.1882515720306951,
+     "r_squared": 0.007082123107954308,
+     "daily_vol_30d": 0.013855128242972478,
+     "vol_regime": 1.1293421392042782,
+     "move_today": -0.008088378133496166,
+     "move_zscore": -0.5837822639858067,
+     "residual_move": -0.007194764452181269,
+     "residual_zscore": -0.5616310805685117,
+     "volume_ratio": 1.1326352497643732,
+     "volume_ratio_partial": true,
+     "momentum_5d": -0.10266163807028272,
+     "momentum_20d": -0.04206646793173385,
+     "momentum_60d": -0.1242304410461813,
+     "pct_from_52w_high": -0.22622951788933876,
+     "pct_from_52w_low": 0.08760219656949242,
+     "earnings_rhythm": 0.06065480449100874,
+     "prev_close": 103.83999633789062,
+     "last_price": 103.0000991821289,
+     "price_asof": "2026-08-21T16:34:02.000Z",
+     "session": "regular"
+    },
+    "payload": {
+     "headline": "Baird Maintains Outperform on Walmart, Lowers Price Target to $120",
+     "source": "Benzinga",
+     "published_at": "2026-08-21T08:17:01.000Z",
+     "article_id": "141270784"
+    }
+   },
+   {
+    "id": "9394088b-e5ba-4954-85fa-c7bb73e80fa4",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T16:34:06.436Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.1882515720306951,
+     "r_squared": 0.007082123107954308,
+     "daily_vol_30d": 0.013855128242972478,
+     "vol_regime": 1.1293421392042782,
+     "move_today": -0.008088378133496166,
+     "move_zscore": -0.5837822639858067,
+     "residual_move": -0.007194764452181269,
+     "residual_zscore": -0.5616310805685117,
+     "volume_ratio": 1.1326352497643732,
+     "volume_ratio_partial": true,
+     "momentum_5d": -0.10266163807028272,
+     "momentum_20d": -0.04206646793173385,
+     "momentum_60d": -0.1242304410461813,
+     "pct_from_52w_high": -0.22622951788933876,
+     "pct_from_52w_low": 0.08760219656949242,
+     "earnings_rhythm": 0.06065480449100874,
+     "prev_close": 103.83999633789062,
+     "last_price": 103.0000991821289,
+     "price_asof": "2026-08-21T16:34:02.000Z",
+     "session": "regular"
+    },
+    "payload": {
+     "headline": "RBC Capital Maintains Outperform on Walmart, Lowers Price Target to $131",
+     "source": "Benzinga",
+     "published_at": "2026-08-21T08:26:50.000Z",
+     "article_id": "141270782"
+    }
+   },
+   {
+    "id": "ac0d750a-22ba-4d03-b941-d1a8d3d348ec",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T16:34:06.436Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.1882515720306951,
+     "r_squared": 0.007082123107954308,
+     "daily_vol_30d": 0.013855128242972478,
+     "vol_regime": 1.1293421392042782,
+     "move_today": -0.008088378133496166,
+     "move_zscore": -0.5837822639858067,
+     "residual_move": -0.007194764452181269,
+     "residual_zscore": -0.5616310805685117,
+     "volume_ratio": 1.1326352497643732,
+     "volume_ratio_partial": true,
+     "momentum_5d": -0.10266163807028272,
+     "momentum_20d": -0.04206646793173385,
+     "momentum_60d": -0.1242304410461813,
+     "pct_from_52w_high": -0.22622951788933876,
+     "pct_from_52w_low": 0.08760219656949242,
+     "earnings_rhythm": 0.06065480449100874,
+     "prev_close": 103.83999633789062,
+     "last_price": 103.0000991821289,
+     "price_asof": "2026-08-21T16:34:02.000Z",
+     "session": "regular"
+    },
+    "payload": {
+     "headline": "Dow Tumbles Over 700 Points As Yields Rise Again: Investor Sentiment Weakens, Fear & Greed Index Moves To ‘Neutral’ Zone",
+     "source": "Benzinga",
+     "published_at": "2026-08-21T04:02:05.000Z",
+     "article_id": "141270789"
+    }
+   },
+   {
+    "id": "5e0a51f7-420b-41fb-92ff-453f73f4cb5d",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T17:19:06.817Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.1882515720306951,
+     "r_squared": 0.007082123107954308,
+     "daily_vol_30d": 0.013855128242972478,
+     "vol_regime": 1.1293421392042782,
+     "move_today": -0.011604335941414745,
+     "move_zscore": -0.8375480715814112,
+     "residual_move": -0.010727988847164239,
+     "residual_zscore": -0.837438391292034,
+     "volume_ratio": 1.2207936829038413,
+     "volume_ratio_partial": true,
+     "momentum_5d": -0.10266163807028272,
+     "momentum_20d": -0.04206646793173385,
+     "momentum_60d": -0.1242304410461813,
+     "pct_from_52w_high": -0.22622951788933876,
+     "pct_from_52w_low": 0.08760219656949242,
+     "earnings_rhythm": 0.06065480449100874,
+     "prev_close": 103.83999633789062,
+     "last_price": 102.63500213623047,
+     "price_asof": "2026-08-21T17:19:05.000Z",
+     "session": "regular"
+    },
+    "payload": {
+     "headline": "What Walmart, Lowe's, And La-Z-Boy Earnings Say About The American Consumer",
+     "source": "SeekingAlpha",
+     "published_at": "2026-08-21T12:52:48.000Z",
+     "article_id": "141270979"
+    }
+   },
+   {
+    "id": "9af9d956-1720-40ad-941b-391b852fa1db",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T17:19:06.817Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.1882515720306951,
+     "r_squared": 0.007082123107954308,
+     "daily_vol_30d": 0.013855128242972478,
+     "vol_regime": 1.1293421392042782,
+     "move_today": -0.011604335941414745,
+     "move_zscore": -0.8375480715814112,
+     "residual_move": -0.010727988847164239,
+     "residual_zscore": -0.837438391292034,
+     "volume_ratio": 1.2207936829038413,
+     "volume_ratio_partial": true,
+     "momentum_5d": -0.10266163807028272,
+     "momentum_20d": -0.04206646793173385,
+     "momentum_60d": -0.1242304410461813,
+     "pct_from_52w_high": -0.22622951788933876,
+     "pct_from_52w_low": 0.08760219656949242,
+     "earnings_rhythm": 0.06065480449100874,
+     "prev_close": 103.83999633789062,
+     "last_price": 102.63500213623047,
+     "price_asof": "2026-08-21T17:19:05.000Z",
+     "session": "regular"
+    },
+    "payload": {
+     "headline": "Stay informed with the top movers within the dow jones index on Friday.",
+     "source": "ChartMill",
+     "published_at": "2026-08-21T16:40:05.000Z",
+     "article_id": "141270977"
+    }
+   },
+   {
+    "id": "03a1ea05-45d4-4e8d-828b-b710148e7c12",
+    "schema_version": 1,
+    "type": "scheduled_event",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T17:47:14.122Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.1882515720306951,
+     "r_squared": 0.007082123107954308,
+     "daily_vol_30d": 0.013855128242972478,
+     "vol_regime": 1.1293421392042782,
+     "move_today": -0.008763444383739771,
+     "move_zscore": -0.6325054687375209,
+     "residual_move": -0.007987080772699603,
+     "residual_zscore": -0.6234801479288573,
+     "volume_ratio": 1.2908138663479,
+     "volume_ratio_partial": true,
+     "momentum_5d": -0.10266163807028272,
+     "momentum_20d": -0.04206646793173385,
+     "momentum_60d": -0.1242304410461813,
+     "pct_from_52w_high": -0.22622951788933876,
+     "pct_from_52w_low": 0.08760219656949242,
+     "earnings_rhythm": 0.06065480449100874,
+     "prev_close": 103.83999633789062,
+     "last_price": 102.93000030517578,
+     "price_asof": "2026-08-21T17:47:26.000Z",
+     "session": "regular"
+    },
+    "payload": {
+     "event_type": "earnings",
+     "due_at": "2026-11-19T20:00:00.000Z",
+     "fiscal_period": "Q3 2027",
+     "earnings_rhythm": 0.06065480449100874,
+     "rescheduled": false,
+     "previous_due_at": null
+    }
+   },
+   {
+    "id": "5cfe2154-1d35-4c17-baca-48753941cc49",
+    "schema_version": 1,
+    "type": "scheduled_event",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T17:47:14.122Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.1882515720306951,
+     "r_squared": 0.007082123107954308,
+     "daily_vol_30d": 0.013855128242972478,
+     "vol_regime": 1.1293421392042782,
+     "move_today": -0.008763444383739771,
+     "move_zscore": -0.6325054687375209,
+     "residual_move": -0.007987080772699603,
+     "residual_zscore": -0.6234801479288573,
+     "volume_ratio": 1.2908138663479,
+     "volume_ratio_partial": true,
+     "momentum_5d": -0.10266163807028272,
+     "momentum_20d": -0.04206646793173385,
+     "momentum_60d": -0.1242304410461813,
+     "pct_from_52w_high": -0.22622951788933876,
+     "pct_from_52w_low": 0.08760219656949242,
+     "earnings_rhythm": 0.06065480449100874,
+     "prev_close": 103.83999633789062,
+     "last_price": 102.93000030517578,
+     "price_asof": "2026-08-21T17:47:26.000Z",
+     "session": "regular"
+    },
+    "payload": {
+     "event_type": "earnings",
+     "due_at": "2027-02-18T20:00:00.000Z",
+     "fiscal_period": "Q4 2027",
+     "earnings_rhythm": 0.06065480449100874,
+     "rescheduled": false,
+     "previous_due_at": null
+    }
+   },
+   {
+    "id": "0c3243d2-9dc6-43e1-9c78-b98e12dabd20",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T17:49:14.126Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.1882515720306951,
+     "r_squared": 0.007082123107954308,
+     "daily_vol_30d": 0.013855128242972478,
+     "vol_regime": 1.1293421392042782,
+     "move_today": -0.008907891515648636,
+     "move_zscore": -0.6429310042775568,
+     "residual_move": -0.008153736411879714,
+     "residual_zscore": -0.6364894670438404,
+     "volume_ratio": 1.2948922553504516,
+     "volume_ratio_partial": true,
+     "momentum_5d": -0.10266163807028272,
+     "momentum_20d": -0.04206646793173385,
+     "momentum_60d": -0.1242304410461813,
+     "pct_from_52w_high": -0.22622951788933876,
+     "pct_from_52w_low": 0.08760219656949242,
+     "earnings_rhythm": 0.06065480449100874,
+     "prev_close": 103.83999633789062,
+     "last_price": 102.91500091552734,
+     "price_asof": "2026-08-21T17:49:12.000Z",
+     "session": "regular"
+    },
+    "payload": {
+     "headline": "Micron is American exceptionalism at work, says Jim Cramer",
+     "source": "CNBC",
+     "published_at": "2026-08-20T19:14:02.000Z",
+     "article_id": "141271068"
+    }
+   },
+   {
+    "id": "152a034c-75de-4cb5-a89b-fe0600feb362",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T17:49:14.126Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.1882515720306951,
+     "r_squared": 0.007082123107954308,
+     "daily_vol_30d": 0.013855128242972478,
+     "vol_regime": 1.1293421392042782,
+     "move_today": -0.008907891515648636,
+     "move_zscore": -0.6429310042775568,
+     "residual_move": -0.008153736411879714,
+     "residual_zscore": -0.6364894670438404,
+     "volume_ratio": 1.2948922553504516,
+     "volume_ratio_partial": true,
+     "momentum_5d": -0.10266163807028272,
+     "momentum_20d": -0.04206646793173385,
+     "momentum_60d": -0.1242304410461813,
+     "pct_from_52w_high": -0.22622951788933876,
+     "pct_from_52w_low": 0.08760219656949242,
+     "earnings_rhythm": 0.06065480449100874,
+     "prev_close": 103.83999633789062,
+     "last_price": 102.91500091552734,
+     "price_asof": "2026-08-21T17:49:12.000Z",
+     "session": "regular"
+    },
+    "payload": {
+     "headline": "Walmart stock selling might have been an overreaction, says Fmr. Walmart U.S. CEO",
+     "source": "CNBC",
+     "published_at": "2026-08-20T18:05:11.000Z",
+     "article_id": "141271121"
+    }
+   },
+   {
+    "id": "1e89ba6b-a054-478e-9adf-069e5928ee0f",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T17:49:14.126Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.1882515720306951,
+     "r_squared": 0.007082123107954308,
+     "daily_vol_30d": 0.013855128242972478,
+     "vol_regime": 1.1293421392042782,
+     "move_today": -0.008907891515648636,
+     "move_zscore": -0.6429310042775568,
+     "residual_move": -0.008153736411879714,
+     "residual_zscore": -0.6364894670438404,
+     "volume_ratio": 1.2948922553504516,
+     "volume_ratio_partial": true,
+     "momentum_5d": -0.10266163807028272,
+     "momentum_20d": -0.04206646793173385,
+     "momentum_60d": -0.1242304410461813,
+     "pct_from_52w_high": -0.22622951788933876,
+     "pct_from_52w_low": 0.08760219656949242,
+     "earnings_rhythm": 0.06065480449100874,
+     "prev_close": 103.83999633789062,
+     "last_price": 102.91500091552734,
+     "price_asof": "2026-08-21T17:49:12.000Z",
+     "session": "regular"
+    },
+    "payload": {
+     "headline": "Walmart fundamentals still strong, valuation is the problem, says Oppenheimer's Rupesh Parikh",
+     "source": "CNBC",
+     "published_at": "2026-08-20T17:06:09.000Z",
+     "article_id": "141271124"
+    }
+   },
+   {
+    "id": "72034f73-8f02-426f-9e5e-0947d1ed0a54",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T17:49:14.126Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.1882515720306951,
+     "r_squared": 0.007082123107954308,
+     "daily_vol_30d": 0.013855128242972478,
+     "vol_regime": 1.1293421392042782,
+     "move_today": -0.008907891515648636,
+     "move_zscore": -0.6429310042775568,
+     "residual_move": -0.008153736411879714,
+     "residual_zscore": -0.6364894670438404,
+     "volume_ratio": 1.2948922553504516,
+     "volume_ratio_partial": true,
+     "momentum_5d": -0.10266163807028272,
+     "momentum_20d": -0.04206646793173385,
+     "momentum_60d": -0.1242304410461813,
+     "pct_from_52w_high": -0.22622951788933876,
+     "pct_from_52w_low": 0.08760219656949242,
+     "earnings_rhythm": 0.06065480449100874,
+     "prev_close": 103.83999633789062,
+     "last_price": 102.91500091552734,
+     "price_asof": "2026-08-21T17:49:12.000Z",
+     "session": "regular"
+    },
+    "payload": {
+     "headline": "Post Market Wrap: August 20, 2026",
+     "source": "CNBC",
+     "published_at": "2026-08-20T17:27:24.000Z",
+     "article_id": "141271123"
+    }
+   },
+   {
+    "id": "97921f0c-2e0d-4b7d-8019-2cd542bf879b",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T17:49:14.126Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.1882515720306951,
+     "r_squared": 0.007082123107954308,
+     "daily_vol_30d": 0.013855128242972478,
+     "vol_regime": 1.1293421392042782,
+     "move_today": -0.008907891515648636,
+     "move_zscore": -0.6429310042775568,
+     "residual_move": -0.008153736411879714,
+     "residual_zscore": -0.6364894670438404,
+     "volume_ratio": 1.2948922553504516,
+     "volume_ratio_partial": true,
+     "momentum_5d": -0.10266163807028272,
+     "momentum_20d": -0.04206646793173385,
+     "momentum_60d": -0.1242304410461813,
+     "pct_from_52w_high": -0.22622951788933876,
+     "pct_from_52w_low": 0.08760219656949242,
+     "earnings_rhythm": 0.06065480449100874,
+     "prev_close": 103.83999633789062,
+     "last_price": 102.91500091552734,
+     "price_asof": "2026-08-21T17:49:12.000Z",
+     "session": "regular"
+    },
+    "payload": {
+     "headline": "CNBC Markets Now: August 20, 2026",
+     "source": "CNBC",
+     "published_at": "2026-08-20T17:27:55.000Z",
+     "article_id": "141271122"
+    }
+   },
+   {
+    "id": "ffe0cbd9-a687-4063-ab11-d5a559c633aa",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T17:49:14.126Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.1882515720306951,
+     "r_squared": 0.007082123107954308,
+     "daily_vol_30d": 0.013855128242972478,
+     "vol_regime": 1.1293421392042782,
+     "move_today": -0.008907891515648636,
+     "move_zscore": -0.6429310042775568,
+     "residual_move": -0.008153736411879714,
+     "residual_zscore": -0.6364894670438404,
+     "volume_ratio": 1.2948922553504516,
+     "volume_ratio_partial": true,
+     "momentum_5d": -0.10266163807028272,
+     "momentum_20d": -0.04206646793173385,
+     "momentum_60d": -0.1242304410461813,
+     "pct_from_52w_high": -0.22622951788933876,
+     "pct_from_52w_low": 0.08760219656949242,
+     "earnings_rhythm": 0.06065480449100874,
+     "prev_close": 103.83999633789062,
+     "last_price": 102.91500091552734,
+     "price_asof": "2026-08-21T17:49:12.000Z",
+     "session": "regular"
+    },
+    "payload": {
+     "headline": "Consumers are finally starting to pull back, says 5 New Digital's Michael Zakkour",
+     "source": "CNBC",
+     "published_at": "2026-08-21T08:19:19.000Z",
+     "article_id": "141271119"
+    }
+   },
+   {
+    "id": "8a038801-4fae-40ba-9200-e2091ac3edc0",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T18:35:14.168Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.1882515720306951,
+     "r_squared": 0.007082123107954308,
+     "daily_vol_30d": 0.013855128242972478,
+     "vol_regime": 1.1293421392042782,
+     "move_today": -0.008522674673024921,
+     "move_zscore": -0.6151278085316709,
+     "residual_move": -0.00786603209236291,
+     "residual_zscore": -0.6140309572582332,
+     "volume_ratio": 1.4077217535229076,
+     "volume_ratio_partial": true,
+     "momentum_5d": -0.10266163807028272,
+     "momentum_20d": -0.04206646793173385,
+     "momentum_60d": -0.1242304410461813,
+     "pct_from_52w_high": -0.22622951788933876,
+     "pct_from_52w_low": 0.08760219656949242,
+     "earnings_rhythm": 0.06065480449100874,
+     "prev_close": 103.83999633789062,
+     "last_price": 102.95500183105469,
+     "price_asof": "2026-08-21T18:35:13.000Z",
+     "session": "regular"
+    },
+    "payload": {
+     "headline": "Which S&P500 stocks are the most active on Friday?",
+     "source": "ChartMill",
+     "published_at": "2026-08-21T18:05:01.000Z",
+     "article_id": "141271515"
+    }
+   },
+   {
+    "id": "ecd09873-dbee-4b36-9d2f-c0243972eb39",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T18:35:14.168Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.1882515720306951,
+     "r_squared": 0.007082123107954308,
+     "daily_vol_30d": 0.013855128242972478,
+     "vol_regime": 1.1293421392042782,
+     "move_today": -0.008522674673024921,
+     "move_zscore": -0.6151278085316709,
+     "residual_move": -0.00786603209236291,
+     "residual_zscore": -0.6140309572582332,
+     "volume_ratio": 1.4077217535229076,
+     "volume_ratio_partial": true,
+     "momentum_5d": -0.10266163807028272,
+     "momentum_20d": -0.04206646793173385,
+     "momentum_60d": -0.1242304410461813,
+     "pct_from_52w_high": -0.22622951788933876,
+     "pct_from_52w_low": 0.08760219656949242,
+     "earnings_rhythm": 0.06065480449100874,
+     "prev_close": 103.83999633789062,
+     "last_price": 102.95500183105469,
+     "price_asof": "2026-08-21T18:35:13.000Z",
+     "session": "regular"
+    },
+    "payload": {
+     "headline": "Bitcoin Jumps Above $77,000, Gold Hits 3-Month Highs: Stock Market Today",
+     "source": "Benzinga",
+     "published_at": "2026-08-21T13:03:32.000Z",
+     "article_id": "141271561"
+    }
+   },
+   {
+    "id": "0bcb5f93-eb2d-46c8-8973-ccf3a20dd7c2",
+    "schema_version": 1,
+    "type": "news_item",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T19:50:42.835Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.1882515720306951,
+     "r_squared": 0.007082123107954308,
+     "daily_vol_30d": 0.013855128242972478,
+     "vol_regime": 1.1293421392042782,
+     "move_today": -0.004285436349363958,
+     "move_zscore": -0.30930326116162754,
+     "residual_move": -0.0033695990939479267,
+     "residual_zscore": -0.26303454307568097,
+     "volume_ratio": 1.647289947357532,
+     "volume_ratio_partial": true,
+     "momentum_5d": -0.10266163807028272,
+     "momentum_20d": -0.04206646793173385,
+     "momentum_60d": -0.1242304410461813,
+     "pct_from_52w_high": -0.22622951788933876,
+     "pct_from_52w_low": 0.08760219656949242,
+     "earnings_rhythm": 0.06065480449100874,
+     "prev_close": 103.83999633789062,
+     "last_price": 103.3949966430664,
+     "price_asof": "2026-08-21T19:50:42.000Z",
+     "session": "regular"
+    },
+    "payload": {
+     "headline": "Discover which dow jones stocks are making waves on Friday.",
+     "source": "ChartMill",
+     "published_at": "2026-08-21T19:10:05.000Z",
+     "article_id": "141272166"
+    }
+   },
+   {
+    "id": "b85e6b5b-5478-40c9-b5a5-a057b62e2541",
+    "schema_version": 1,
+    "type": "drift_event",
+    "ticker": "WMT",
+    "timestamp": "2026-08-21T20:00:42.910Z",
+    "source_engine": "tracker",
+    "context_flags": [
+     "earnings_window"
+    ],
+    "quant_context": {
+     "beta_90d": -0.20237506860300047,
+     "r_squared": 0.00803811792717235,
+     "daily_vol_30d": 0.012878002412463504,
+     "vol_regime": 1.0334752867841641,
+     "move_today": -0.001348222212882999,
+     "move_zscore": -0.10469187453934405,
+     "residual_move": -0.0005467841334370414,
+     "residual_zscore": -0.0436181330375668,
+     "volume_ratio": 1.9654025299974585,
+     "volume_ratio_partial": false,
+     "momentum_5d": -0.1003730374925812,
+     "momentum_20d": -0.052708543053982426,
+     "momentum_60d": -0.1251898418480718,
+     "pct_from_52w_high": -0.22727273244099355,
+     "pct_from_52w_low": 0.08613586712929688,
+     "earnings_rhythm": 0.06065476927278632,
+     "prev_close": 103.83999633789062,
+     "last_price": 103.69999694824219,
+     "price_asof": "2026-08-21T20:00:00.000Z",
+     "session": "closed"
+    },
+    "payload": {
+     "momentum_5d": -0.1003730374925812,
+     "drift_z": 3.4856482822884027,
+     "direction": "down",
+     "news_items_last_5d": 97,
+     "catch_up": false
+    }
+   }
+  ],
+  "quant_context": {
+   "beta_90d": -0.20237506860300047,
+   "r_squared": 0.00803811792717235,
+   "daily_vol_30d": 0.012878002412463504,
+   "vol_regime": 1.0334752867841641,
+   "move_today": -0.001348222212882999,
+   "move_zscore": -0.10469187453934405,
+   "residual_move": -0.0005467841334370414,
+   "residual_zscore": -0.0436181330375668,
+   "volume_ratio": 1.9654025299974585,
+   "volume_ratio_partial": false,
+   "momentum_5d": -0.1003730374925812,
+   "momentum_20d": -0.052708543053982426,
+   "momentum_60d": -0.1251898418480718,
+   "pct_from_52w_high": -0.22727273244099355,
+   "pct_from_52w_low": 0.08613586712929688,
+   "earnings_rhythm": 0.06065476927278632,
+   "prev_close": 103.83999633789062,
+   "last_price": 103.69999694824219,
+   "price_asof": "2026-08-21T20:00:00.000Z",
+   "session": "closed"
+  },
+  "user_proximity": "tracked",
+  "related_incident_id": null,
+  "propagation_candidates": [
+   {
+    "ticker": "WMT",
+    "article_key": "id:141265608",
+    "event_type": "earnings_results",
+    "event_label": "Walmart Q2 earnings beat; weak US sales growth and pharmacy drag"
+   },
+   {
+    "ticker": "WMT",
+    "article_key": "id:141261993",
+    "event_type": "earnings_results",
+    "event_label": "Walmart earnings report expected"
+   },
+   {
+    "ticker": "WMT",
+    "article_key": "id:141265615",
+    "event_type": "guidance",
+    "event_label": "Walmart raises FY2027 EPS and sales guidance"
+   },
+   {
+    "ticker": "WMT",
+    "article_key": "id:141265609",
+    "event_type": "guidance",
+    "event_label": "Walmart exec discusses forecast assumptions on fuel, tariffs; back-to-school sea"
+   },
+   {
+    "ticker": "WMT",
+    "article_key": "id:141262654",
+    "event_type": "earnings_results",
+    "event_label": "Walmart Q2 earnings results coverage"
+   },
+   {
+    "ticker": "WMT",
+    "article_key": "id:141265610",
+    "event_type": "guidance",
+    "event_label": "Walmart raises second-half sales forecast on price investments"
+   },
+   {
+    "ticker": "WMT",
+    "article_key": "id:141265613",
+    "event_type": "earnings_results",
+    "event_label": "Q2 advertising business +38%, membership fees +17%, eCommerce +23%"
+   },
+   {
+    "ticker": "WMT",
+    "article_key": "id:141263450",
+    "event_type": "guidance",
+    "event_label": "Walmart issues cautious guidance citing weak U.S. sales"
+   },
+   {
+    "ticker": "WMT",
+    "article_key": "id:141265621",
+    "event_type": "earnings_results",
+    "event_label": "Walmart Q2 earnings report with new CEO John Furner"
+   },
+   {
+    "ticker": "WMT",
+    "article_key": "id:141263267",
+    "event_type": "earnings_results",
+    "event_label": "Walmart Q2 2027 earnings call transcript"
+   },
+   {
+    "ticker": "WMT",
+    "article_key": "id:141265612",
+    "event_type": "earnings_results",
+    "event_label": "Walmart Q2 price rollbacks on 11,000 items; higher-income household growth"
+   },
+   {
+    "ticker": "WMT",
+    "article_key": "id:141256335",
+    "event_type": "earnings_results",
+    "event_label": "Walmart earnings report with 4.50% implied volatility"
+   },
+   {
+    "ticker": "WMT",
+    "article_key": "id:141265614",
+    "event_type": "guidance",
+    "event_label": "Walmart Q3 guidance misses analyst estimates on EPS and sales"
+   },
+   {
+    "ticker": "WMT",
+    "article_key": "id:141262653",
+    "event_type": "earnings_results",
+    "event_label": "Walmart Q2 earnings beat; CFO discusses strong business performance"
+   },
+   {
+    "ticker": "WMT",
+    "article_key": "id:141265603",
+    "event_type": "guidance",
+    "event_label": "Walmart cites $4 gas threshold triggering consumer spending trade-offs"
+   },
+   {
+    "ticker": "WMT",
+    "article_key": "id:141265620",
+    "event_type": "earnings_results",
+    "event_label": "Walmart Q2 earnings report"
+   },
+   {
+    "ticker": "WMT",
+    "article_key": "id:141262717",
+    "event_type": "earnings_results",
+    "event_label": "Walmart Q2 results below estimates"
+   },
+   {
+    "ticker": "WMT",
+    "article_key": "id:141265601",
+    "event_type": "guidance",
+    "event_label": "Walmart issues weak Q3 guidance despite Q2 earnings beat"
+   },
+   {
+    "ticker": "WMT",
+    "article_key": "id:141261153",
+    "event_type": "earnings_results",
+    "event_label": "Walmart 2027 Q2 earnings results presentation"
+   },
+   {
+    "ticker": "WMT",
+    "article_key": "id:141265616",
+    "event_type": "earnings_results",
+    "event_label": "Walmart Q2 EPS $0.81 beats estimate; sales $187.937B beat"
+   },
+   {
+    "ticker": "WMT",
+    "article_key": "id:141265602",
+    "event_type": "earnings_results",
+    "event_label": "Walmart Q2 2027 earnings call transcript"
+   },
+   {
+    "ticker": "WMT",
+    "article_key": "id:141269797",
+    "event_type": "guidance",
+    "event_label": "Walmart guidance weakens amid sales slowdown"
+   },
+   {
+    "ticker": "WMT",
+    "article_key": "id:141268893",
+    "event_type": "guidance",
+    "event_label": "Walmart issues downbeat outlook, shares fall ~10%"
+   },
+   {
+    "ticker": "WMT",
+    "article_key": "id:141270787",
+    "event_type": "guidance",
+    "event_label": "Walmart issues soft Q3 guidance; UBS maintains bullish stance on e-commerce and"
+   },
+   {
+    "ticker": "WMT",
+    "article_key": "id:141270778",
+    "event_type": "product_clinical",
+    "event_label": "Walmart rolling out tap-to-pay across all U.S. stores and clubs by end of 2026"
+   },
+   {
+    "ticker": "WMT",
+    "article_key": "id:141270786",
+    "event_type": "earnings_results",
+    "event_label": "Walmart reports Sparky AI assistant drives 40% higher spending per order"
+   },
+   {
+    "ticker": "WMT",
+    "article_key": "id:141270979",
+    "event_type": "earnings_results",
+    "event_label": "Walmart earnings results signal consumer weakness amid inflation"
+   },
+   {
+    "ticker": "WMT",
+    "article_key": "id:141271121",
+    "event_type": "earnings_results",
+    "event_label": "Walmart quarterly results and stock reaction commentary"
+   }
+  ]
+ },
+ "routing": {
+  "destinations": [
+   {
+    "destination": "classifier",
+    "rules": [
+     "news_item"
+    ],
+    "message_ids": [
+     "0a5ce174-9787-4b56-a3f2-0a0de33f056a",
+     "0b9e615b-c8db-421c-8d1e-119a1db2f7e2",
+     "0c649f4c-cb1c-4d41-b380-adc6c41c88db",
+     "0dc342ad-283c-4c4a-8e82-ca283c2e9700",
+     "133fb382-62cb-4e35-a076-71429db3191a",
+     "153f31d1-b758-4894-bdf8-23228c972e15",
+     "1e849f35-9f06-41e9-a39d-5f5003bd0b62",
+     "2251b5a9-c45b-4473-8020-46cfc7fabb38",
+     "27b95426-2eec-4707-a79b-9bea3c1d0193",
+     "2c30a892-21e3-441f-8ec9-40681cb8b452",
+     "2ccabaf0-3ee5-43cb-8e1f-6cd8507855a3",
+     "40356f29-77cc-4ea3-a153-c1c292a6dede",
+     "46df7468-a6cb-45b3-a3e3-7d4c9d487fd3",
+     "47b88bc1-c32f-4428-ab82-186d7081a0b6",
+     "47d9f51f-0821-42fc-a141-f362c551c0b6",
+     "4a5e888c-c48c-4af0-b248-86a02a6ffc56",
+     "5175f3ff-b48d-4b76-b11f-3c1421238401",
+     "691f65c9-d43d-48cb-95c3-ddd2e70c9e59",
+     "69915aa8-e742-4a43-8992-3e988fcc2c1a",
+     "69fdfc03-4c0b-422e-8717-051526058183",
+     "6c501d31-7b60-46ee-86b7-694c55295742",
+     "6d665efa-10ac-458c-a289-87b953c21b3a",
+     "7f5edc9d-c5e6-4027-a413-998e7e8fe31f",
+     "7fbed674-ccc6-43ae-af89-11d22d1c8c84",
+     "87602c58-e415-4c78-b5e9-bc1852231cf6",
+     "9ab58b77-1dfb-4944-b4ba-d817e1396aa9",
+     "a5cc86ab-69bb-4fad-9a49-ca1ce5a4b236",
+     "aa720735-96e5-4dea-a9f8-1c133f942035",
+     "ac2b73c9-6dc2-4e23-8c80-5a7484ad16b3",
+     "b0943efe-c5df-48c8-b0a1-6a58b9d8c2a3",
+     "bb54b9b0-2aba-4962-b54e-556a12a57df7",
+     "bc82e795-26c9-4caf-bb60-824cef9b5f34",
+     "c7c22f80-ce05-4a24-bd05-237ea51bf8d5",
+     "c8203027-97aa-4082-bcd9-b72981c377c4",
+     "d2476eb8-8b09-474b-a994-86ddca4997fd",
+     "d439f2fa-c46f-45b6-8850-c0d462a4a982",
+     "de6d7c7f-c9b1-44d5-8b51-45d4bd29ada3",
+     "e5bfc966-cfc3-471f-80d8-c0958a2c4adf",
+     "eb97201b-7ad0-478d-a569-95821039e738",
+     "f0944335-fb2b-4f07-89bc-caf5b7b26576",
+     "f8d1ae93-2e3c-4e7a-b930-f8a9040f9154",
+     "f9946fe6-9224-4b66-9bd7-ad6a4ab72c2e",
+     "fea59ee3-167e-4db1-b173-a5ada02fbd1c",
+     "05e6cb9b-d6b5-46dc-be1b-9bb4946c146f",
+     "42dd0929-8b57-4f52-99a9-77c4145c5556",
+     "513ab349-4cf6-45fd-ab06-21413324f85d",
+     "9edf34c9-4084-4654-b4af-9cb529f30a85",
+     "a87051c5-73f0-4fa5-bc37-e82f14807950",
+     "f0b90f8e-ad0d-4087-b1d6-299e17fd193e",
+     "f246f347-1620-4340-a913-03cee293e5b1",
+     "114eb153-4102-4a3b-a550-0791ce7c65d5",
+     "17ce7e91-4a0b-4e4f-aa04-d9e1ee78736b",
+     "286bc995-be17-488f-a3fe-f75eff5d7435",
+     "2d984ec2-9233-46c8-8da0-12d599d1ca36",
+     "308ad865-faa8-48ef-9fb8-bcf162cbd782",
+     "42781721-0af2-46b8-9ea8-2c9949ea43e8",
+     "459d702f-4011-4026-91a1-a51d24c0707b",
+     "4c86e5ac-1d8c-4a9e-aa81-37e34996ada6",
+     "6ec310b7-de1c-463d-aaf1-8100412d207e",
+     "7d92b14c-6b1e-4ab2-9aab-17c354620ed4",
+     "8e69cf18-5377-4629-910d-3e58572bbc18",
+     "8ff59b31-63e6-4d6f-928b-95475b713fda",
+     "9394088b-e5ba-4954-85fa-c7bb73e80fa4",
+     "ac0d750a-22ba-4d03-b941-d1a8d3d348ec",
+     "5e0a51f7-420b-41fb-92ff-453f73f4cb5d",
+     "9af9d956-1720-40ad-941b-391b852fa1db",
+     "0c3243d2-9dc6-43e1-9c78-b98e12dabd20",
+     "152a034c-75de-4cb5-a89b-fe0600feb362",
+     "1e89ba6b-a054-478e-9adf-069e5928ee0f",
+     "72034f73-8f02-426f-9e5e-0947d1ed0a54",
+     "97921f0c-2e0d-4b7d-8019-2cd542bf879b",
+     "ffe0cbd9-a687-4063-ab11-d5a559c633aa",
+     "8a038801-4fae-40ba-9200-e2091ac3edc0",
+     "ecd09873-dbee-4b36-9d2f-c0243972eb39",
+     "0bcb5f93-eb2d-46c8-8973-ccf3a20dd7c2"
+    ]
+   },
+   {
+    "destination": "propagation",
+    "rules": [
+     "filing_item.8k.mapped",
+     "gap_event.propagation"
+    ],
+    "message_ids": [
+     "a176aadc-e4e5-47b0-9048-5f6d70dc7874",
+     "6a9b78a8-aded-425c-892c-7322692c1cea"
+    ]
+   },
+   {
+    "destination": "scheduler",
+    "rules": [
+     "scheduled_event"
+    ],
+    "message_ids": [
+     "03a1ea05-45d4-4e8d-828b-b710148e7c12",
+     "5cfe2154-1d35-4c17-baca-48753941cc49"
+    ]
+   },
+   {
+    "destination": "analyst",
+    "rules": [
+     "drift_event.analyst"
+    ],
+    "message_ids": [
+     "b85e6b5b-5478-40c9-b5a5-a057b62e2541"
+    ]
+   }
+  ],
+  "store_only": false,
+  "per_message": [
+   {
+    "message_id": "0a5ce174-9787-4b56-a3f2-0a0de33f056a",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "0b9e615b-c8db-421c-8d1e-119a1db2f7e2",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "0c649f4c-cb1c-4d41-b380-adc6c41c88db",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "0dc342ad-283c-4c4a-8e82-ca283c2e9700",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "133fb382-62cb-4e35-a076-71429db3191a",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "153f31d1-b758-4894-bdf8-23228c972e15",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "1e849f35-9f06-41e9-a39d-5f5003bd0b62",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "2251b5a9-c45b-4473-8020-46cfc7fabb38",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "27b95426-2eec-4707-a79b-9bea3c1d0193",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "2c30a892-21e3-441f-8ec9-40681cb8b452",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "2ccabaf0-3ee5-43cb-8e1f-6cd8507855a3",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "40356f29-77cc-4ea3-a153-c1c292a6dede",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "46df7468-a6cb-45b3-a3e3-7d4c9d487fd3",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "47b88bc1-c32f-4428-ab82-186d7081a0b6",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "47d9f51f-0821-42fc-a141-f362c551c0b6",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "4a5e888c-c48c-4af0-b248-86a02a6ffc56",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "5175f3ff-b48d-4b76-b11f-3c1421238401",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "691f65c9-d43d-48cb-95c3-ddd2e70c9e59",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "69915aa8-e742-4a43-8992-3e988fcc2c1a",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "69fdfc03-4c0b-422e-8717-051526058183",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "6c501d31-7b60-46ee-86b7-694c55295742",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "6d665efa-10ac-458c-a289-87b953c21b3a",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "7f5edc9d-c5e6-4027-a413-998e7e8fe31f",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "7fbed674-ccc6-43ae-af89-11d22d1c8c84",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "87602c58-e415-4c78-b5e9-bc1852231cf6",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "9ab58b77-1dfb-4944-b4ba-d817e1396aa9",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "a5cc86ab-69bb-4fad-9a49-ca1ce5a4b236",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "aa720735-96e5-4dea-a9f8-1c133f942035",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "ac2b73c9-6dc2-4e23-8c80-5a7484ad16b3",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "b0943efe-c5df-48c8-b0a1-6a58b9d8c2a3",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "bb54b9b0-2aba-4962-b54e-556a12a57df7",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "bc82e795-26c9-4caf-bb60-824cef9b5f34",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "c7c22f80-ce05-4a24-bd05-237ea51bf8d5",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "c8203027-97aa-4082-bcd9-b72981c377c4",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "cb7affad-16bd-4bd8-9710-e8f9526d2f1e",
+    "outcome": {
+     "action": "store_only",
+     "rule": "volume_anomaly.store"
+    }
+   },
+   {
+    "message_id": "d2476eb8-8b09-474b-a994-86ddca4997fd",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "d439f2fa-c46f-45b6-8850-c0d462a4a982",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "de6d7c7f-c9b1-44d5-8b51-45d4bd29ada3",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "e5bfc966-cfc3-471f-80d8-c0958a2c4adf",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "eb97201b-7ad0-478d-a569-95821039e738",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "f0944335-fb2b-4f07-89bc-caf5b7b26576",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "f8d1ae93-2e3c-4e7a-b930-f8a9040f9154",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "f9946fe6-9224-4b66-9bd7-ad6a4ab72c2e",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "fea59ee3-167e-4db1-b173-a5ada02fbd1c",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "a176aadc-e4e5-47b0-9048-5f6d70dc7874",
+    "outcome": {
+     "action": "route",
+     "destination": "propagation",
+     "rule": "filing_item.8k.mapped"
+    }
+   },
+   {
+    "message_id": "05e6cb9b-d6b5-46dc-be1b-9bb4946c146f",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "42dd0929-8b57-4f52-99a9-77c4145c5556",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "513ab349-4cf6-45fd-ab06-21413324f85d",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "6a9b78a8-aded-425c-892c-7322692c1cea",
+    "outcome": {
+     "action": "route",
+     "destination": "propagation",
+     "rule": "gap_event.propagation"
+    }
+   },
+   {
+    "message_id": "9edf34c9-4084-4654-b4af-9cb529f30a85",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "a87051c5-73f0-4fa5-bc37-e82f14807950",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "f0b90f8e-ad0d-4087-b1d6-299e17fd193e",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "f246f347-1620-4340-a913-03cee293e5b1",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "114eb153-4102-4a3b-a550-0791ce7c65d5",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "17ce7e91-4a0b-4e4f-aa04-d9e1ee78736b",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "286bc995-be17-488f-a3fe-f75eff5d7435",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "2d984ec2-9233-46c8-8da0-12d599d1ca36",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "308ad865-faa8-48ef-9fb8-bcf162cbd782",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "42781721-0af2-46b8-9ea8-2c9949ea43e8",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "459d702f-4011-4026-91a1-a51d24c0707b",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "4c86e5ac-1d8c-4a9e-aa81-37e34996ada6",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "6ec310b7-de1c-463d-aaf1-8100412d207e",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "7d92b14c-6b1e-4ab2-9aab-17c354620ed4",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "8e69cf18-5377-4629-910d-3e58572bbc18",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "8ff59b31-63e6-4d6f-928b-95475b713fda",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "9394088b-e5ba-4954-85fa-c7bb73e80fa4",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "ac0d750a-22ba-4d03-b941-d1a8d3d348ec",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "5e0a51f7-420b-41fb-92ff-453f73f4cb5d",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "9af9d956-1720-40ad-941b-391b852fa1db",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "03a1ea05-45d4-4e8d-828b-b710148e7c12",
+    "outcome": {
+     "action": "route",
+     "destination": "scheduler",
+     "rule": "scheduled_event"
+    }
+   },
+   {
+    "message_id": "5cfe2154-1d35-4c17-baca-48753941cc49",
+    "outcome": {
+     "action": "route",
+     "destination": "scheduler",
+     "rule": "scheduled_event"
+    }
+   },
+   {
+    "message_id": "0c3243d2-9dc6-43e1-9c78-b98e12dabd20",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "152a034c-75de-4cb5-a89b-fe0600feb362",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "1e89ba6b-a054-478e-9adf-069e5928ee0f",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "72034f73-8f02-426f-9e5e-0947d1ed0a54",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "97921f0c-2e0d-4b7d-8019-2cd542bf879b",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "ffe0cbd9-a687-4063-ab11-d5a559c633aa",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "8a038801-4fae-40ba-9200-e2091ac3edc0",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "ecd09873-dbee-4b36-9d2f-c0243972eb39",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "0bcb5f93-eb2d-46c8-8973-ccf3a20dd7c2",
+    "outcome": {
+     "action": "route",
+     "destination": "classifier",
+     "rule": "news_item"
+    }
+   },
+   {
+    "message_id": "b85e6b5b-5478-40c9-b5a5-a057b62e2541",
+    "outcome": {
+     "action": "route",
+     "destination": "analyst",
+     "rule": "drift_event.analyst"
+    }
+   }
+  ]
+ },
+ "verdicts": {
+  "0a5ce174-9787-4b56-a3f2-0a0de33f056a": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141265608",
+    "kind": "news",
+    "event_type": "earnings_results",
+    "event_label": "Walmart Q2 earnings beat; weak US sales growth and pharmacy drag",
+    "syndication_scope": 1,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "direct",
+      "materiality": "high",
+      "direction": "mixed"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:02:50.566Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "direct",
+    "materiality": "high",
+    "direction": "mixed"
+   }
+  },
+  "0b9e615b-c8db-421c-8d1e-119a1db2f7e2": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141261993",
+    "kind": "news",
+    "event_type": "earnings_results",
+    "event_label": "Walmart earnings report expected",
+    "syndication_scope": 1,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "direct",
+      "materiality": "standard",
+      "direction": "unclear"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:02:38.976Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "direct",
+    "materiality": "standard",
+    "direction": "unclear"
+   }
+  },
+  "0c649f4c-cb1c-4d41-b380-adc6c41c88db": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141265615",
+    "kind": "news",
+    "event_type": "guidance",
+    "event_label": "Walmart raises FY2027 EPS and sales guidance",
+    "syndication_scope": 1,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "direct",
+      "materiality": "standard",
+      "direction": "mixed"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:02:51.744Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "direct",
+    "materiality": "standard",
+    "direction": "mixed"
+   }
+  },
+  "0dc342ad-283c-4c4a-8e82-ca283c2e9700": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141265609",
+    "kind": "news",
+    "event_type": "guidance",
+    "event_label": "Walmart exec discusses forecast assumptions on fuel, tariffs; back-to-school sea",
+    "syndication_scope": 1,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "direct",
+      "materiality": "standard",
+      "direction": "mixed"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:02:50.647Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "direct",
+    "materiality": "standard",
+    "direction": "mixed"
+   }
+  },
+  "133fb382-62cb-4e35-a076-71429db3191a": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141263725",
+    "kind": "news",
+    "event_type": "macro_sector",
+    "event_label": "Dow Jones stocks market movement roundup",
+    "syndication_scope": 7,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "none"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:02:47.899Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "none"
+   }
+  },
+  "153f31d1-b758-4894-bdf8-23228c972e15": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141262493",
+    "kind": "news",
+    "event_type": "macro_sector",
+    "event_label": "S&P 500 top gainers and losers market roundup",
+    "syndication_scope": 1,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "none"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:02:38.872Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "none"
+   }
+  },
+  "1e849f35-9f06-41e9-a39d-5f5003bd0b62": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141265599",
+    "kind": "news",
+    "event_type": "macro_sector",
+    "event_label": "Dow falls 700 points, Nasdaq drops 1% as Treasury yields rise",
+    "syndication_scope": 1,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "indirect",
+      "materiality": "low",
+      "direction": "unclear"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:02:48.002Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "indirect",
+    "materiality": "low",
+    "direction": "unclear"
+   }
+  },
+  "2251b5a9-c45b-4473-8020-46cfc7fabb38": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141265068",
+    "kind": "news",
+    "event_type": "other",
+    "event_label": "Market volatility and hedging strategy commentary",
+    "syndication_scope": 4,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "none"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:02:48.158Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "none"
+   }
+  },
+  "27b95426-2eec-4707-a79b-9bea3c1d0193": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141262654",
+    "kind": "news",
+    "event_type": "earnings_results",
+    "event_label": "Walmart Q2 earnings results coverage",
+    "syndication_scope": 1,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "direct",
+      "materiality": "standard",
+      "direction": "unclear"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:02:41.353Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "direct",
+    "materiality": "standard",
+    "direction": "unclear"
+   }
+  },
+  "2c30a892-21e3-441f-8ec9-40681cb8b452": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141261780",
+    "kind": "news",
+    "event_type": "macro_sector",
+    "event_label": "Stock market futures decline amid geopolitical tensions",
+    "syndication_scope": 2,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "none"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:02:37.606Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "none"
+   }
+  },
+  "2ccabaf0-3ee5-43cb-8e1f-6cd8507855a3": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141265610",
+    "kind": "news",
+    "event_type": "guidance",
+    "event_label": "Walmart raises second-half sales forecast on price investments",
+    "syndication_scope": 1,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "direct",
+      "materiality": "standard",
+      "direction": "positive"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:02:50.451Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "direct",
+    "materiality": "standard",
+    "direction": "positive"
+   }
+  },
+  "40356f29-77cc-4ea3-a153-c1c292a6dede": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141262494",
+    "kind": "news",
+    "event_type": "macro_sector",
+    "event_label": "Dow Jones stocks market movement roundup",
+    "syndication_scope": 4,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "none"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:02:39.989Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "none"
+   }
+  },
+  "46df7468-a6cb-45b3-a3e3-7d4c9d487fd3": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141261787",
+    "kind": "news",
+    "event_type": "macro_sector",
+    "event_label": "S&P 500 gap up and gap down stocks market roundup",
+    "syndication_scope": 1,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "none"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:02:38.457Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "none"
+   }
+  },
+  "47b88bc1-c32f-4428-ab82-186d7081a0b6": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141265613",
+    "kind": "news",
+    "event_type": "earnings_results",
+    "event_label": "Q2 advertising business +38%, membership fees +17%, eCommerce +23%",
+    "syndication_scope": 1,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "direct",
+      "materiality": "standard",
+      "direction": "positive"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:02:51.628Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "direct",
+    "materiality": "standard",
+    "direction": "positive"
+   }
+  },
+  "47d9f51f-0821-42fc-a141-f362c551c0b6": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141263450",
+    "kind": "news",
+    "event_type": "guidance",
+    "event_label": "Walmart issues cautious guidance citing weak U.S. sales",
+    "syndication_scope": 2,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "direct",
+      "materiality": "high",
+      "direction": "negative"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:02:46.762Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "direct",
+    "materiality": "high",
+    "direction": "negative"
+   }
+  },
+  "4a5e888c-c48c-4af0-b248-86a02a6ffc56": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141265607",
+    "kind": "news",
+    "event_type": "capital_allocation",
+    "event_label": "Walmart to deploy $2.9B tariff refund toward price reductions",
+    "syndication_scope": 1,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "direct",
+      "materiality": "standard",
+      "direction": "positive"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:02:49.400Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "direct",
+    "materiality": "standard",
+    "direction": "positive"
+   }
+  },
+  "5175f3ff-b48d-4b76-b11f-3c1421238401": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141265621",
+    "kind": "news",
+    "event_type": "earnings_results",
+    "event_label": "Walmart Q2 earnings report with new CEO John Furner",
+    "syndication_scope": 1,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "direct",
+      "materiality": "high",
+      "direction": "unclear"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:02:53.044Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "direct",
+    "materiality": "high",
+    "direction": "unclear"
+   }
+  },
+  "691f65c9-d43d-48cb-95c3-ddd2e70c9e59": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141261177",
+    "kind": "news",
+    "event_type": "macro_sector",
+    "event_label": "S&P 500 pre-market activity roundup",
+    "syndication_scope": 1,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "none"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:02:37.255Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "none"
+   }
+  },
+  "69915aa8-e742-4a43-8992-3e988fcc2c1a": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141261781",
+    "kind": "news",
+    "event_type": "macro_sector",
+    "event_label": "S&P 500 market outlook; Walmart earnings mentioned in context",
+    "syndication_scope": 1,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "none"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:02:39.045Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "none"
+   }
+  },
+  "69fdfc03-4c0b-422e-8717-051526058183": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141263267",
+    "kind": "news",
+    "event_type": "earnings_results",
+    "event_label": "Walmart Q2 2027 earnings call transcript",
+    "syndication_scope": 1,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "direct",
+      "materiality": "high",
+      "direction": "unclear"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:02:46.436Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "direct",
+    "materiality": "high",
+    "direction": "unclear"
+   }
+  },
+  "6c501d31-7b60-46ee-86b7-694c55295742": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141265612",
+    "kind": "news",
+    "event_type": "earnings_results",
+    "event_label": "Walmart Q2 price rollbacks on 11,000 items; higher-income household growth",
+    "syndication_scope": 1,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "direct",
+      "materiality": "standard",
+      "direction": "positive"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:02:50.626Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "direct",
+    "materiality": "standard",
+    "direction": "positive"
+   }
+  },
+  "6d665efa-10ac-458c-a289-87b953c21b3a": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141262656",
+    "kind": "news",
+    "event_type": "macro_sector",
+    "event_label": "Market strategists discuss rising yields, debt, and consumer impact",
+    "syndication_scope": 1,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "none"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:02:45.317Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "none"
+   }
+  },
+  "7f5edc9d-c5e6-4027-a413-998e7e8fe31f": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141262651",
+    "kind": "news",
+    "event_type": "other",
+    "event_label": "Stocks making biggest moves midday market roundup",
+    "syndication_scope": 1,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "none"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:02:40.053Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "none"
+   }
+  },
+  "7fbed674-ccc6-43ae-af89-11d22d1c8c84": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141262655",
+    "kind": "news",
+    "event_type": "other",
+    "event_label": "Premarket stock movement roundup",
+    "syndication_scope": 1,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "none"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:02:41.594Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "none"
+   }
+  },
+  "87602c58-e415-4c78-b5e9-bc1852231cf6": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141263200",
+    "kind": "news",
+    "event_type": "other",
+    "event_label": "Most active S&P 500 stocks roundup",
+    "syndication_scope": 3,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "none"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:02:44.845Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "none"
+   }
+  },
+  "9ab58b77-1dfb-4944-b4ba-d817e1396aa9": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141263681",
+    "kind": "news",
+    "event_type": "macro_sector",
+    "event_label": "Walmart outlook signals cautious consumer spending; market themes",
+    "syndication_scope": 5,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "indirect",
+      "materiality": "standard",
+      "direction": "negative"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:02:46.348Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "indirect",
+    "materiality": "standard",
+    "direction": "negative"
+   }
+  },
+  "a5cc86ab-69bb-4fad-9a49-ca1ce5a4b236": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141264404",
+    "kind": "news",
+    "event_type": "macro_sector",
+    "event_label": "Market sentiment improves; Dow gains 100+ points",
+    "syndication_scope": 1,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "none"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:02:47.884Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "none"
+   }
+  },
+  "aa720735-96e5-4dea-a9f8-1c133f942035": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141256335",
+    "kind": "news",
+    "event_type": "earnings_results",
+    "event_label": "Walmart earnings report with 4.50% implied volatility",
+    "syndication_scope": 1,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "direct",
+      "materiality": "high",
+      "direction": "unclear"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:02:37.695Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "direct",
+    "materiality": "high",
+    "direction": "unclear"
+   }
+  },
+  "ac2b73c9-6dc2-4e23-8c80-5a7484ad16b3": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141263199",
+    "kind": "news",
+    "event_type": "other",
+    "event_label": "Market activity roundup",
+    "syndication_scope": 2,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "none"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:02:44.341Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "none"
+   }
+  },
+  "b0943efe-c5df-48c8-b0a1-6a58b9d8c2a3": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141265614",
+    "kind": "news",
+    "event_type": "guidance",
+    "event_label": "Walmart Q3 guidance misses analyst estimates on EPS and sales",
+    "syndication_scope": 1,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "direct",
+      "materiality": "high",
+      "direction": "negative"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:02:52.002Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "direct",
+    "materiality": "high",
+    "direction": "negative"
+   }
+  },
+  "bb54b9b0-2aba-4962-b54e-556a12a57df7": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141262580",
+    "kind": "news",
+    "event_type": "other",
+    "event_label": "S&P 500 unusual volume roundup",
+    "syndication_scope": 1,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "none"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:02:40.326Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "none"
+   }
+  },
+  "bc82e795-26c9-4caf-bb60-824cef9b5f34": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141262653",
+    "kind": "news",
+    "event_type": "earnings_results",
+    "event_label": "Walmart Q2 earnings beat; CFO discusses strong business performance",
+    "syndication_scope": 1,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "direct",
+      "materiality": "high",
+      "direction": "positive"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:02:41.488Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "direct",
+    "materiality": "high",
+    "direction": "positive"
+   }
+  },
+  "c7c22f80-ce05-4a24-bd05-237ea51bf8d5": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141262652",
+    "kind": "news",
+    "event_type": "macro_sector",
+    "event_label": "Market Open: August 20, 2026",
+    "syndication_scope": 1,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "none"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:02:44.698Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "none"
+   }
+  },
+  "c8203027-97aa-4082-bcd9-b72981c377c4": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141265603",
+    "kind": "news",
+    "event_type": "guidance",
+    "event_label": "Walmart cites $4 gas threshold triggering consumer spending trade-offs",
+    "syndication_scope": 1,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "direct",
+      "materiality": "high",
+      "direction": "negative"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:02:49.121Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "direct",
+    "materiality": "high",
+    "direction": "negative"
+   }
+  },
+  "d2476eb8-8b09-474b-a994-86ddca4997fd": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141265620",
+    "kind": "news",
+    "event_type": "earnings_results",
+    "event_label": "Walmart Q2 earnings report",
+    "syndication_scope": 1,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "direct",
+      "materiality": "high",
+      "direction": "unclear"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:02:52.807Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "direct",
+    "materiality": "high",
+    "direction": "unclear"
+   }
+  },
+  "d439f2fa-c46f-45b6-8850-c0d462a4a982": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141262717",
+    "kind": "news",
+    "event_type": "earnings_results",
+    "event_label": "Walmart Q2 results below estimates",
+    "syndication_scope": 1,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "direct",
+      "materiality": "high",
+      "direction": "negative"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:02:42.657Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "direct",
+    "materiality": "high",
+    "direction": "negative"
+   }
+  },
+  "de6d7c7f-c9b1-44d5-8b51-45d4bd29ada3": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141265601",
+    "kind": "news",
+    "event_type": "guidance",
+    "event_label": "Walmart issues weak Q3 guidance despite Q2 earnings beat",
+    "syndication_scope": 1,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "direct",
+      "materiality": "high",
+      "direction": "negative"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:02:49.208Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "direct",
+    "materiality": "high",
+    "direction": "negative"
+   }
+  },
+  "e5bfc966-cfc3-471f-80d8-c0958a2c4adf": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141261153",
+    "kind": "news",
+    "event_type": "earnings_results",
+    "event_label": "Walmart 2027 Q2 earnings results presentation",
+    "syndication_scope": 1,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "direct",
+      "materiality": "high",
+      "direction": "unclear"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:02:37.389Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "direct",
+    "materiality": "high",
+    "direction": "unclear"
+   }
+  },
+  "eb97201b-7ad0-478d-a569-95821039e738": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141265616",
+    "kind": "news",
+    "event_type": "earnings_results",
+    "event_label": "Walmart Q2 EPS $0.81 beats estimate; sales $187.937B beat",
+    "syndication_scope": 1,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "direct",
+      "materiality": "high",
+      "direction": "positive"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:02:52.254Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "direct",
+    "materiality": "high",
+    "direction": "positive"
+   }
+  },
+  "f0944335-fb2b-4f07-89bc-caf5b7b26576": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141263167",
+    "kind": "news",
+    "event_type": "other",
+    "event_label": "Nebius technical analysis commentary",
+    "syndication_scope": 1,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "none"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:02:43.736Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "none"
+   }
+  },
+  "f8d1ae93-2e3c-4e7a-b930-f8a9040f9154": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141263724",
+    "kind": "news",
+    "event_type": "macro_sector",
+    "event_label": "S&P 500 index top movers coverage",
+    "syndication_scope": 1,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "none"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:02:46.754Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "none"
+   }
+  },
+  "f9946fe6-9224-4b66-9bd7-ad6a4ab72c2e": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141262763",
+    "kind": "news",
+    "event_type": "macro_sector",
+    "event_label": "Treasury yields rise; Walmart posts worst session in four years",
+    "syndication_scope": 2,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "indirect",
+      "materiality": "standard",
+      "direction": "negative"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:02:42.876Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "indirect",
+    "materiality": "standard",
+    "direction": "negative"
+   }
+  },
+  "fea59ee3-167e-4db1-b173-a5ada02fbd1c": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141265602",
+    "kind": "news",
+    "event_type": "earnings_results",
+    "event_label": "Walmart Q2 2027 earnings call transcript",
+    "syndication_scope": 1,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "direct",
+      "materiality": "standard",
+      "direction": "unclear"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:02:49.346Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "direct",
+    "materiality": "standard",
+    "direction": "unclear"
+   }
+  },
+  "05e6cb9b-d6b5-46dc-be1b-9bb4946c146f": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141269797",
+    "kind": "news",
+    "event_type": "guidance",
+    "event_label": "Walmart guidance weakens amid sales slowdown",
+    "syndication_scope": 2,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "direct",
+      "materiality": "standard",
+      "direction": "negative"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:02:54.266Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "direct",
+    "materiality": "standard",
+    "direction": "negative"
+   }
+  },
+  "42dd0929-8b57-4f52-99a9-77c4145c5556": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141269649",
+    "kind": "news",
+    "event_type": "other",
+    "event_label": "Direct indexing strategy article featuring S&P 500 stocks",
+    "syndication_scope": 4,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "none"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:02:54.158Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "none"
+   }
+  },
+  "513ab349-4cf6-45fd-ab06-21413324f85d": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141270322",
+    "kind": "news",
+    "event_type": "analyst_action",
+    "event_label": "BTIG cuts WMT price target",
+    "syndication_scope": 1,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "direct",
+      "materiality": "low",
+      "direction": "negative"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:02:54.665Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "direct",
+    "materiality": "low",
+    "direction": "negative"
+   }
+  },
+  "9edf34c9-4084-4654-b4af-9cb529f30a85": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141268508",
+    "kind": "news",
+    "event_type": "macro_sector",
+    "event_label": "Asia's digital economy shift to online buying",
+    "syndication_scope": 1,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "none"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:02:53.512Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "none"
+   }
+  },
+  "a87051c5-73f0-4fa5-bc37-e82f14807950": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141268893",
+    "kind": "news",
+    "event_type": "guidance",
+    "event_label": "Walmart issues downbeat outlook, shares fall ~10%",
+    "syndication_scope": 3,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "direct",
+      "materiality": "high",
+      "direction": "negative"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:02:53.651Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "direct",
+    "materiality": "high",
+    "direction": "negative"
+   }
+  },
+  "f0b90f8e-ad0d-4087-b1d6-299e17fd193e": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141270346",
+    "kind": "news",
+    "event_type": "macro_sector",
+    "event_label": "Analyst commentary on stock-economy divergence",
+    "syndication_scope": 1,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "none"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:02:55.045Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "none"
+   }
+  },
+  "f246f347-1620-4340-a913-03cee293e5b1": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141270391",
+    "kind": "news",
+    "event_type": "macro_sector",
+    "event_label": "Stocks trending on investors' radars",
+    "syndication_scope": 1,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "none"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:02:55.492Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "none"
+   }
+  },
+  "114eb153-4102-4a3b-a550-0791ce7c65d5": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141270774",
+    "kind": "news",
+    "event_type": "analyst_action",
+    "event_label": "Analysts trim Walmart price targets following Q2 results",
+    "syndication_scope": 1,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "direct",
+      "materiality": "low",
+      "direction": "negative"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:02:55.405Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "direct",
+    "materiality": "low",
+    "direction": "negative"
+   }
+  },
+  "17ce7e91-4a0b-4e4f-aa04-d9e1ee78736b": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141270775",
+    "kind": "news",
+    "event_type": "analyst_action",
+    "event_label": "UBS maintains Buy on WMT, lowers price target to $130",
+    "syndication_scope": 1,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "direct",
+      "materiality": "low",
+      "direction": "mixed"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:02:56.096Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "direct",
+    "materiality": "low",
+    "direction": "mixed"
+   }
+  },
+  "286bc995-be17-488f-a3fe-f75eff5d7435": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141270776",
+    "kind": "news",
+    "event_type": "analyst_action",
+    "event_label": "Wells Fargo maintains Overweight on WMT, lowers PT to $120",
+    "syndication_scope": 1,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "direct",
+      "materiality": "low",
+      "direction": "negative"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:02:56.454Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "direct",
+    "materiality": "low",
+    "direction": "negative"
+   }
+  },
+  "2d984ec2-9233-46c8-8da0-12d599d1ca36": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141270779",
+    "kind": "news",
+    "event_type": "analyst_action",
+    "event_label": "Guggenheim maintains Buy on WMT, lowers price target to $130",
+    "syndication_scope": 1,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "direct",
+      "materiality": "low",
+      "direction": "mixed"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:02:57.271Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "direct",
+    "materiality": "low",
+    "direction": "mixed"
+   }
+  },
+  "308ad865-faa8-48ef-9fb8-bcf162cbd782": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141270787",
+    "kind": "news",
+    "event_type": "guidance",
+    "event_label": "Walmart issues soft Q3 guidance; UBS maintains bullish stance on e-commerce and",
+    "syndication_scope": 1,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "direct",
+      "materiality": "high",
+      "direction": "negative"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:02:59.962Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "direct",
+    "materiality": "high",
+    "direction": "negative"
+   }
+  },
+  "42781721-0af2-46b8-9ea8-2c9949ea43e8": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141270777",
+    "kind": "news",
+    "event_type": "analyst_action",
+    "event_label": "Morgan Stanley maintains Overweight, lowers PT to $125",
+    "syndication_scope": 1,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "direct",
+      "materiality": "low",
+      "direction": "mixed"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:02:56.855Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "direct",
+    "materiality": "low",
+    "direction": "mixed"
+   }
+  },
+  "459d702f-4011-4026-91a1-a51d24c0707b": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141270781",
+    "kind": "news",
+    "event_type": "analyst_action",
+    "event_label": "Analysts slash price targets on Walmart after Q2 earnings",
+    "syndication_scope": 1,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "direct",
+      "materiality": "low",
+      "direction": "negative"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:02:58.787Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "direct",
+    "materiality": "low",
+    "direction": "negative"
+   }
+  },
+  "4c86e5ac-1d8c-4a9e-aa81-37e34996ada6": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141270778",
+    "kind": "news",
+    "event_type": "product_clinical",
+    "event_label": "Walmart rolling out tap-to-pay across all U.S. stores and clubs by end of 2026",
+    "syndication_scope": 1,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "direct",
+      "materiality": "standard",
+      "direction": "positive"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:02:57.047Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "direct",
+    "materiality": "standard",
+    "direction": "positive"
+   }
+  },
+  "6ec310b7-de1c-463d-aaf1-8100412d207e": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141270786",
+    "kind": "news",
+    "event_type": "earnings_results",
+    "event_label": "Walmart reports Sparky AI assistant drives 40% higher spending per order",
+    "syndication_scope": 1,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "direct",
+      "materiality": "standard",
+      "direction": "positive"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:02:59.196Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "direct",
+    "materiality": "standard",
+    "direction": "positive"
+   }
+  },
+  "7d92b14c-6b1e-4ab2-9aab-17c354620ed4": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141270780",
+    "kind": "news",
+    "event_type": "analyst_action",
+    "event_label": "DA Davidson maintains Buy on WMT, lowers price target to $132",
+    "syndication_scope": 1,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "direct",
+      "materiality": "low",
+      "direction": "mixed"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:02:57.842Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "direct",
+    "materiality": "low",
+    "direction": "mixed"
+   }
+  },
+  "8e69cf18-5377-4629-910d-3e58572bbc18": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141270788",
+    "kind": "news",
+    "event_type": "analyst_action",
+    "event_label": "BTIG maintains Buy on WMT, lowers price target to $140",
+    "syndication_scope": 1,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "direct",
+      "materiality": "low",
+      "direction": "mixed"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:03:00.308Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "direct",
+    "materiality": "low",
+    "direction": "mixed"
+   }
+  },
+  "8ff59b31-63e6-4d6f-928b-95475b713fda": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141270784",
+    "kind": "news",
+    "event_type": "analyst_action",
+    "event_label": "Baird maintains Outperform on WMT, lowers PT to $120",
+    "syndication_scope": 1,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "direct",
+      "materiality": "low",
+      "direction": "negative"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:02:58.567Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "direct",
+    "materiality": "low",
+    "direction": "negative"
+   }
+  },
+  "9394088b-e5ba-4954-85fa-c7bb73e80fa4": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141270782",
+    "kind": "news",
+    "event_type": "analyst_action",
+    "event_label": "RBC Capital maintains Outperform, lowers PT to $131",
+    "syndication_scope": 1,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "direct",
+      "materiality": "low",
+      "direction": "mixed"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:02:58.722Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "direct",
+    "materiality": "low",
+    "direction": "mixed"
+   }
+  },
+  "ac0d750a-22ba-4d03-b941-d1a8d3d348ec": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141270789",
+    "kind": "news",
+    "event_type": "macro_sector",
+    "event_label": "Market downturn; Dow falls 700+ points amid rising yields",
+    "syndication_scope": 1,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "indirect",
+      "materiality": "low",
+      "direction": "unclear"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:03:00.026Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "indirect",
+    "materiality": "low",
+    "direction": "unclear"
+   }
+  },
+  "5e0a51f7-420b-41fb-92ff-453f73f4cb5d": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141270979",
+    "kind": "news",
+    "event_type": "earnings_results",
+    "event_label": "Walmart earnings results signal consumer weakness amid inflation",
+    "syndication_scope": 1,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "direct",
+      "materiality": "standard",
+      "direction": "negative"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:03:01.329Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "direct",
+    "materiality": "standard",
+    "direction": "negative"
+   }
+  },
+  "9af9d956-1720-40ad-941b-391b852fa1db": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141270977",
+    "kind": "news",
+    "event_type": "macro_sector",
+    "event_label": "Dow Jones index top movers on Friday",
+    "syndication_scope": 8,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "none"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:03:01.755Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "none"
+   }
+  },
+  "0c3243d2-9dc6-43e1-9c78-b98e12dabd20": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141271068",
+    "kind": "news",
+    "event_type": "macro_sector",
+    "event_label": "Jim Cramer commentary on Micron and market themes",
+    "syndication_scope": 1,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "none"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:03:01.119Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "none"
+   }
+  },
+  "152a034c-75de-4cb5-a89b-fe0600feb362": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141271121",
+    "kind": "news",
+    "event_type": "earnings_results",
+    "event_label": "Walmart quarterly results and stock reaction commentary",
+    "syndication_scope": 1,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "direct",
+      "materiality": "standard",
+      "direction": "unclear"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:03:02.245Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "direct",
+    "materiality": "standard",
+    "direction": "unclear"
+   }
+  },
+  "1e89ba6b-a054-478e-9adf-069e5928ee0f": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141271124",
+    "kind": "news",
+    "event_type": "analyst_action",
+    "event_label": "Oppenheimer analyst commentary on Walmart fundamentals and valuation",
+    "syndication_scope": 1,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "direct",
+      "materiality": "low",
+      "direction": "mixed"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:03:03.203Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "direct",
+    "materiality": "low",
+    "direction": "mixed"
+   }
+  },
+  "72034f73-8f02-426f-9e5e-0947d1ed0a54": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141271123",
+    "kind": "news",
+    "event_type": "other",
+    "event_label": "Post Market Wrap: August 20, 2026",
+    "syndication_scope": 1,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "none"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:03:12.672Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "none"
+   }
+  },
+  "97921f0c-2e0d-4b7d-8019-2cd542bf879b": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141271122",
+    "kind": "news",
+    "event_type": "macro_sector",
+    "event_label": "CNBC Markets Now daily market commentary and analysis",
+    "syndication_scope": 1,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "none"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:03:02.671Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "none"
+   }
+  },
+  "ffe0cbd9-a687-4063-ab11-d5a559c633aa": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141271119",
+    "kind": "news",
+    "event_type": "macro_sector",
+    "event_label": "Retail sector commentary on consumer pullback trends",
+    "syndication_scope": 1,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "indirect",
+      "materiality": "low",
+      "direction": "unclear"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:03:01.595Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "indirect",
+    "materiality": "low",
+    "direction": "unclear"
+   }
+  },
+  "8a038801-4fae-40ba-9200-e2091ac3edc0": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141271515",
+    "kind": "news",
+    "event_type": "macro_sector",
+    "event_label": "S&P 500 most active stocks on Friday",
+    "syndication_scope": 5,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "none"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:03:04.310Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "none"
+   }
+  },
+  "ecd09873-dbee-4b36-9d2f-c0243972eb39": {
+   "state": "classified",
+   "verdict": {
+    "schema_version": 1,
+    "prompt_version": "cls-1.0",
+    "model": "claude-haiku-4-5",
+    "article_key": "id:141271561",
+    "kind": "news",
+    "event_type": "macro_sector",
+    "event_label": "Bitcoin jumps above $77,000, gold hits 3-month highs",
+    "syndication_scope": 3,
+    "tickers": [
+     {
+      "ticker": "WMT",
+      "relevance": "none"
+     }
+    ],
+    "unassessed_tickers": [],
+    "status": "ok",
+    "metadata_missing": false,
+    "classified_at": "2026-08-21T19:03:04.091Z",
+    "failure_reason": null
+   },
+   "entry": {
+    "ticker": "WMT",
+    "relevance": "none"
+   }
+  }
+ }
+}

@@ -1,0 +1,112 @@
+[
+  {
+    "root_ticker": "TGT",
+    "counterparty_name": "Apple",
+    "counterparty_ticker": "AAPL",
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "shop-in-shop retail partnership",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.85,
+    "evidence": [
+      {
+        "quote": "We also sell merchandise through periodic exclusive design and creative partnerships, and shop-in-shop experiences, with partners such as Apple, Levi's, and Ulta Beauty",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/27419/000002741926000016/tgt-20260131.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-03-11",
+    "shared_evidence_group": "ev_25f1ca496f91"
+  },
+  {
+    "root_ticker": "TGT",
+    "counterparty_name": "Levi's",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "shop-in-shop retail partnership",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "We also sell merchandise through periodic exclusive design and creative partnerships, and shop-in-shop experiences, with partners such as Apple, Levi's, and Ulta Beauty",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/27419/000002741926000016/tgt-20260131.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-03-11",
+    "shared_evidence_group": "ev_25f1ca496f91"
+  },
+  {
+    "root_ticker": "TGT",
+    "counterparty_name": "Ulta Beauty",
+    "counterparty_ticker": "ULTA",
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "shop-in-shop operating agreement",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.85,
+    "evidence": [
+      {
+        "quote": "In 2025, we reached a mutual agreement with Ulta Beauty to terminate our commercial shop-in-shop operating agreement when it expires in August 2026.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/27419/000002741926000016/tgt-20260131.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-03-11",
+    "shared_evidence_group": "ev_0cf35a4e37fa"
+  },
+  {
+    "root_ticker": "TGT",
+    "counterparty_name": "Starbucks",
+    "counterparty_ticker": "SBUX",
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "in-store amenity licensing",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.75,
+    "evidence": [
+      {
+        "quote": "and generate revenue from in-store amenities such as Starbucks and Target Optical",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/27419/000002741926000016/tgt-20260131.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-03-11",
+    "shared_evidence_group": "ev_5c9cfb5240d3"
+  },
+  {
+    "root_ticker": "TGT",
+    "counterparty_name": "CVS Pharmacy, Inc.",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "customer",
+    "subtype": "in-store pharmacy/clinic space leased under perpetual operating agreement generating occupancy income",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.75,
+    "evidence": [
+      {
+        "quote": "CVS Pharmacy, Inc. (CVS) operates pharmacies and clinics in our stores under a perpetual operating agreement from which we generate annual occupancy income.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/27419/000002741926000016/tgt-20260131.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-03-11",
+    "shared_evidence_group": "ev_b8f0c22e0b0d"
+  }
+]

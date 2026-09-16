@@ -1,0 +1,551 @@
+[
+  {
+    "counterparty_name": "Garmin",
+    "category": "competitor",
+    "subtype": "aerospace competitor",
+    "evidence_quote": "Some of our key competitors include but are not limited to: AEROSPACE TECHNOLOGIES... Garmin",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "L3 Harris",
+    "category": "competitor",
+    "subtype": "aerospace competitor",
+    "evidence_quote": "Some of our key competitors include but are not limited to: AEROSPACE TECHNOLOGIES... L3 Harris",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Rolls Royce",
+    "category": "competitor",
+    "subtype": "aerospace competitor",
+    "evidence_quote": "Some of our key competitors include but are not limited to: AEROSPACE TECHNOLOGIES... Rolls Royce",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "RTX Corporation",
+    "category": "competitor",
+    "subtype": "aerospace competitor",
+    "evidence_quote": "Some of our key competitors include but are not limited to: AEROSPACE TECHNOLOGIES... RTX Corporation",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Safran",
+    "category": "competitor",
+    "subtype": "aerospace competitor",
+    "evidence_quote": "Some of our key competitors include but are not limited to: AEROSPACE TECHNOLOGIES... Safran",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Thales",
+    "category": "competitor",
+    "subtype": "aerospace competitor",
+    "evidence_quote": "Some of our key competitors include but are not limited to: AEROSPACE TECHNOLOGIES... Thales",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Johnson Controls",
+    "category": "competitor",
+    "subtype": "building automation competitor",
+    "evidence_quote": "Some of our key competitors include but are not limited to:... BUILDING AUTOMATION • Johnson Controls",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Schneider Electric",
+    "category": "competitor",
+    "subtype": "building automation competitor",
+    "evidence_quote": "Some of our key competitors include but are not limited to:... BUILDING AUTOMATION • Schneider Electric",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Siemens",
+    "category": "competitor",
+    "subtype": "building automation competitor",
+    "evidence_quote": "Some of our key competitors include but are not limited to:... BUILDING AUTOMATION... Siemens",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Clariant",
+    "category": "competitor",
+    "subtype": "energy and sustainability competitor",
+    "evidence_quote": "Some of our key competitors include but are not limited to: ENERGY AND SUSTAINABILITY SOLUTIONS • Clariant",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Flowserve",
+    "category": "competitor",
+    "subtype": "energy and sustainability competitor",
+    "evidence_quote": "Some of our key competitors include but are not limited to: ENERGY AND SUSTAINABILITY SOLUTIONS • Flowserve",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Topsoe",
+    "category": "competitor",
+    "subtype": "energy and sustainability competitor",
+    "evidence_quote": "Some of our key competitors include but are not limited to: ENERGY AND SUSTAINABILITY SOLUTIONS... Topsoe",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Dematic",
+    "category": "competitor",
+    "subtype": "industrial automation competitor",
+    "evidence_quote": "Some of our key competitors include but are not limited to:... INDUSTRIAL AUTOMATION • Dematic",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Emerson Electric",
+    "category": "competitor",
+    "subtype": "industrial automation competitor",
+    "evidence_quote": "Some of our key competitors include but are not limited to:... INDUSTRIAL AUTOMATION • Emerson Electric",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Itron",
+    "category": "competitor",
+    "subtype": "industrial automation competitor",
+    "evidence_quote": "Some of our key competitors include but are not limited to:... INDUSTRIAL AUTOMATION • Itron",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "MSA Safety Incorporated",
+    "category": "competitor",
+    "subtype": "industrial automation competitor",
+    "evidence_quote": "Some of our key competitors include but are not limited to:... INDUSTRIAL AUTOMATION • MSA Safety Incorporated",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Rockwell Automation",
+    "category": "competitor",
+    "subtype": "industrial automation competitor",
+    "evidence_quote": "Some of our key competitors include but are not limited to:... INDUSTRIAL AUTOMATION... Rockwell Automation",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "TE Connectivity",
+    "category": "competitor",
+    "subtype": "industrial automation competitor",
+    "evidence_quote": "Some of our key competitors include but are not limited to:... INDUSTRIAL AUTOMATION • TE Connectivity",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Zebra Technologies",
+    "category": "competitor",
+    "subtype": "industrial automation competitor",
+    "evidence_quote": "Some of our key competitors include but are not limited to:... INDUSTRIAL AUTOMATION... Zebra Technologies",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Garmin",
+    "category": "competitor",
+    "subtype": "aerospace_technologies",
+    "evidence_quote": "Some of our key competitors include but are not limited to: AEROSPACE TECHNOLOGIES ... Garmin",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "L3 Harris",
+    "category": "competitor",
+    "subtype": "aerospace_technologies",
+    "evidence_quote": "Some of our key competitors include but are not limited to: AEROSPACE TECHNOLOGIES ... L3 Harris",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Rolls Royce",
+    "category": "competitor",
+    "subtype": "aerospace_technologies",
+    "evidence_quote": "Some of our key competitors include but are not limited to: AEROSPACE TECHNOLOGIES ... Rolls Royce",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "RTX Corporation",
+    "category": "competitor",
+    "subtype": "aerospace_technologies",
+    "evidence_quote": "Some of our key competitors include but are not limited to: AEROSPACE TECHNOLOGIES ... RTX Corporation",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Safran",
+    "category": "competitor",
+    "subtype": "aerospace_technologies",
+    "evidence_quote": "Some of our key competitors include but are not limited to: AEROSPACE TECHNOLOGIES ... Safran",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Thales",
+    "category": "competitor",
+    "subtype": "aerospace_technologies",
+    "evidence_quote": "Some of our key competitors include but are not limited to: AEROSPACE TECHNOLOGIES ... Thales",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Johnson Controls",
+    "category": "competitor",
+    "subtype": "building_automation",
+    "evidence_quote": "Some of our key competitors include but are not limited to: ... BUILDING AUTOMATION • Johnson Controls",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Schneider Electric",
+    "category": "competitor",
+    "subtype": "building_automation",
+    "evidence_quote": "Some of our key competitors include but are not limited to: ... BUILDING AUTOMATION • Schneider Electric",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Siemens",
+    "category": "competitor",
+    "subtype": "building_automation",
+    "evidence_quote": "Some of our key competitors include but are not limited to: ... BUILDING AUTOMATION • Siemens",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Clariant",
+    "category": "competitor",
+    "subtype": "energy_sustainability_solutions",
+    "evidence_quote": "Some of our key competitors include but are not limited to: ENERGY AND SUSTAINABILITY SOLUTIONS ... • Clariant",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Flowserve",
+    "category": "competitor",
+    "subtype": "energy_sustainability_solutions",
+    "evidence_quote": "Some of our key competitors include but are not limited to: ENERGY AND SUSTAINABILITY SOLUTIONS ... • Flowserve",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Topsoe",
+    "category": "competitor",
+    "subtype": "energy_sustainability_solutions",
+    "evidence_quote": "Some of our key competitors include but are not limited to: ENERGY AND SUSTAINABILITY SOLUTIONS ... • Topsoe",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Dematic",
+    "category": "competitor",
+    "subtype": "industrial_automation",
+    "evidence_quote": "Some of our key competitors include but are not limited to: ... INDUSTRIAL AUTOMATION • Dematic",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Emerson Electric",
+    "category": "competitor",
+    "subtype": "industrial_automation",
+    "evidence_quote": "Some of our key competitors include but are not limited to: ... INDUSTRIAL AUTOMATION • Emerson Electric",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Itron",
+    "category": "competitor",
+    "subtype": "industrial_automation",
+    "evidence_quote": "Some of our key competitors include but are not limited to: ... INDUSTRIAL AUTOMATION • Itron",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "MSA Safety Incorporated",
+    "category": "competitor",
+    "subtype": "industrial_automation",
+    "evidence_quote": "Some of our key competitors include but are not limited to: ... INDUSTRIAL AUTOMATION • MSA Safety Incorporated",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Rockwell Automation",
+    "category": "competitor",
+    "subtype": "industrial_automation",
+    "evidence_quote": "Some of our key competitors include but are not limited to: ... INDUSTRIAL AUTOMATION • Rockwell Automation",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "TE Connectivity",
+    "category": "competitor",
+    "subtype": "industrial_automation",
+    "evidence_quote": "Some of our key competitors include but are not limited to: ... INDUSTRIAL AUTOMATION • TE Connectivity",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Zebra Technologies",
+    "category": "competitor",
+    "subtype": "industrial_automation",
+    "evidence_quote": "Some of our key competitors include but are not limited to: ... INDUSTRIAL AUTOMATION • Zebra Technologies",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "U.S. Department of Defense",
+    "category": "customer",
+    "subtype": "government_defense",
+    "evidence_quote": "The Company, principally through our Aerospace Technologies reportable business segment, sells to the U.S. government acting through its various departments and agencies",
+    "confidence": 0.95,
+    "reason": "counterparty name not in quote",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "EU",
+    "category": "dependency",
+    "subtype": "regulatory_framework",
+    "evidence_quote": "On December 15, 2022, the Council of the European Union (EU) formally adopted the OECD's framework",
+    "confidence": 0.75,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "S&P Global Inc.",
+    "category": "dependency",
+    "subtype": "credit_rating_agency",
+    "evidence_quote": "Our credit ratings are periodically reviewed by the major independent debt-rating agencies. As of December 31, 2025, S&P Global Inc. (S&P), Fitch Ratings Inc. (Fitch), and Moody's Investor Service (Moody's) have ratings on our debt",
+    "confidence": 0.88,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Fitch Ratings Inc.",
+    "category": "dependency",
+    "subtype": "credit_rating_agency",
+    "evidence_quote": "Our credit ratings are periodically reviewed by the major independent debt-rating agencies. As of December 31, 2025, S&P Global Inc. (S&P), Fitch Ratings Inc. (Fitch), and Moody's Investor Service (Moody's) have ratings on our debt",
+    "confidence": 0.88,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Moody's Investor Service",
+    "category": "dependency",
+    "subtype": "credit_rating_agency",
+    "evidence_quote": "Our credit ratings are periodically reviewed by the major independent debt-rating agencies. As of December 31, 2025, S&P Global Inc. (S&P), Fitch Ratings Inc. (Fitch), and Moody's Investor Service (Moody's) have ratings on our debt",
+    "confidence": 0.88,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Nasdaq",
+    "category": "dependency",
+    "subtype": "stock_exchange_listing",
+    "evidence_quote": "Our common stock is listed on The Nasdaq Stock Market LLC (Nasdaq) under the ticker symbol \"HON.\"",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "U.S. Department of War",
+    "category": "dependency",
+    "subtype": "certification_authority",
+    "evidence_quote": "we subject our information security management system to third-party assessment and certification against recognized industry standards such as ISO 27001 and the U.S. Department of War's Cybersecurity Maturity Model Certification (CMMC)",
+    "confidence": 0.9,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "China",
+    "category": "dependency",
+    "subtype": "trade and tariff infrastructure",
+    "evidence_quote": "The U.S. continues to implement certain trade actions, including imposing tariffs on certain goods imported from China and other countries, which has resulted in retaliatory tariffs by China",
+    "confidence": 0.75,
+    "reason": "China is described as a government that imposed retaliatory tariffs in response to U.S. trade actions. This is a regulatory/trade policy action by a sovereign government, not a critical infrastructure or service dependency. The evidence_quote discusses tariffs and trade restrictions, which are regulatory matters, not dependencies on Chinese-provided infrastructure or services that Honeywell critically relies upon. The tariffs affect business costs and demand but do not represent a dependency relationship. Additionally, governments acting in their regulatory or trade policy capacity should not be classified as counterparties. The quoted material describes trade tensions and regulatory actions, not a dependency on Chinese infrastructure or services.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Russia",
+    "category": "dependency",
+    "subtype": "contractual obligations",
+    "evidence_quote": "Given the uncertainty inherent in our remaining obligations related to our contracts with Russian counterparties, we do not believe it is possible to develop estimates of reasonably possible loss",
+    "confidence": 0.7,
+    "reason": "Russia is not a counterparty in the commercial sense required for knowledge graph inclusion. The evidence describes regulatory obligations and contractual wind-down issues stemming from international sanctions, not an ongoing business relationship. The quote refers to 'contracts with Russian counterparties' (plural, unnamed entities) in the context of estimating loss accruals related to sanctions, not a direct operational dependency on the Russian government. The category 'dependency' is incorrect—this is a compliance/regulatory exposure disclosure, not a critical infrastructure dependency. Russia as a sovereign government is also not an appropriate entity type for this graph's counterparty schema, which focuses on specific organizations (companies, agencies, named entities). The 'contractual obligations' subtype does not match standard dependency subtypes (regulatory framework, critical infrastructure, etc.). Finally, the confidence of 0.7 was already marginal, reflecting uncertainty that this edge belongs in the graph.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Access Solutions",
+    "category": "supplier",
+    "subtype": "acquisition",
+    "evidence_quote": "the acquisition of Access Solutions contributed $302 million of inorganic sales growth during 2025",
+    "confidence": 0.9,
+    "reason": "Access Solutions is not a supplier; it is an acquired company that became part of Honeywell. The evidence_quote states 'the acquisition of Access Solutions contributed $302 million of inorganic sales growth during 2025,' which clearly identifies Access Solutions as an acquisition target, not a commercial vendor supplying goods/services to Honeywell. The text indicates Access Solutions' results are now consolidated into Honeywell's Building Automation segment (Products and Building Solutions), making it a subsidiary/internal unit rather than an external counterparty. The 'subtype: acquisition' flag actually confirms this is not a supplier relationship. An acquired entity that is now part of the root company cannot simultaneously be a supplier counterparty.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "LNG",
+    "category": "supplier",
+    "subtype": "acquisition",
+    "evidence_quote": "Sales increased $490 million due to inorganic sales growth from the acquisitions of LNG and Sundyne.",
+    "confidence": 0.9,
+    "reason": "LNG is not a valid counterparty. The evidence_quote states 'inorganic sales growth from the acquisitions of LNG and Sundyne,' which indicates LNG was an acquisition target acquired by Honeywell. Once acquired, LNG became part of Honeywell (the text explicitly states 'Beginning October 2025, the results of LNG are considered organic'), making it an internal subsidiary/business unit, not an external counterparty. Additionally, 'LNG' appears to be an acronym or abbreviated name without full company identification, and the category 'supplier' is incorrect for an acquisition target. Acquired entities are not suppliers to the acquirer; they become part of the acquirer's operations.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Sundyne",
+    "category": "supplier",
+    "subtype": "acquisition_target",
+    "evidence_quote": "On June 6, 2025, the Company acquired 100 % of the outstanding equity interests of Sundyne, a leader in the design manufacturing, and aftermarket support of highly-engineered pumps and gas compressors",
+    "confidence": 0.95,
+    "reason": "Sundyne is an acquisition target that Honeywell acquired 100% equity interests in on June 6, 2025. Once acquired, Sundyne became a wholly-owned subsidiary of Honeywell, not an external counterparty. The evidence states 'the Company acquired 100% of the outstanding equity interests of Sundyne' and 'The business is part of the Energy and Sustainability Solutions reportable business segment,' confirming Sundyne is now an internal business unit. Subsidiaries and acquired businesses are explicitly excluded as counterparties per the audit criteria. Additionally, 'supplier' is incorrect - an acquisition target is not a supplier to the acquiring company; rather, the target becomes part of the acquirer.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Federal Trade Commission",
+    "category": "dependency",
+    "subtype": "regulatory_enforcement",
+    "evidence_quote": "potential consequences of a material cybersecurity incident and its effects include financial loss, reputational damage, litigation with third parties, theft of intellectual property, fines levied by the Federal Trade Commission",
+    "confidence": 0.85,
+    "reason": "The Federal Trade Commission is mentioned solely as a regulatory/enforcement body that could levy fines in the event of a material cybersecurity incident. This describes a regulatory enforcement authority, not a 'dependency' relationship. The FTC is a regulator acting as a regulator (potential fine issuer), which per instruction #4 should be rejected. The text does not establish that Honeywell critically relies on FTC infrastructure or service; it describes potential consequences of regulatory enforcement. This is analogous to tax authorities or other enforcement agencies—entities excluded from counterparty status under the auditing rules.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "OECD",
+    "category": "dependency",
+    "subtype": "regulatory_framework",
+    "evidence_quote": "The Organisation for Economic Co-operation and Development (OECD)/G20 and other invited countries, developed a global tax framework",
+    "confidence": 0.75,
+    "reason": "The OECD is not a counterparty to Honeywell in any business relationship sense. The evidence quote describes the OECD/G20 developing a global tax framework (Pillar Two). The OECD here is acting as an international policy-setting body that creates regulatory frameworks—it is not providing critical infrastructure or services that Honeywell depends on. This is a regulatory/policy entity setting tax rules, not a dependency relationship. The category 'dependency' with subtype 'regulatory_framework' is inappropriate; regulatory bodies creating rules are not counterparties. This is similar to citing the IRS or EU as a counterparty for tax regulations. The OECD does not meet the threshold of being a real external organization with which Honeywell has a business relationship.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Resideo",
+    "category": "customer",
+    "subtype": "indemnification_reimbursement",
+    "evidence_quote": "Reimbursements from Resideo for payments related to environmental matters at certain sites, as defined in the indemnification and reimbursement agreement, were $105 million in 2025.",
+    "confidence": 0.95,
+    "reason": "The filing explicitly states that in 2025, Honeywell and Resideo entered into a TERMINATION agreement for the indemnification and reimbursement arrangement, and 'Resideo no longer has any obligation to make cash payments to Honeywell.' The $105 million reimbursement occurred in 2025 BEFORE termination, and the relationship was a legacy indemnification obligation from Resideo TO Honeywell (not Honeywell selling to Resideo). Resideo was reimbursing Honeywell for environmental cleanup costs at certain sites under a prior agreement—this makes Resideo a debtor/obligor under an indemnification arrangement, not a 'customer' purchasing goods or services. The category 'customer' with subtype 'indemnification_reimbursement' is contradictory: customers buy products/services; indemnification is a liability settlement mechanism. Furthermore, the relationship has been terminated as of this filing date, so it no longer exists as an ongoing commercial arrangement. The evidence_quote describes a reimbursement flow, not a revenue-generating customer relationship.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Johnson Matthey",
+    "category": "supplier",
+    "subtype": "acquisition_target",
+    "evidence_quote": "On May 22, 2025, the Company announced its agreement to acquire Johnson Matthey's Catalyst Technologies business segment in an all-cash transaction for £ 1.8 billion.",
+    "confidence": 0.95,
+    "reason": "Johnson Matthey's Catalyst Technologies business is identified as an acquisition target, not a supplier. The evidence_quote describes Honeywell's agreement to acquire this business segment for £1.8 billion in an all-cash transaction announced on May 22, 2025. The transaction is pending regulatory approvals and has not yet closed. This represents a prospective M&A transaction where Honeywell is the acquirer, not a commercial supplier relationship where Honeywell pays Johnson Matthey for goods or services. The category 'supplier' is fundamentally incorrect for an acquisition target. Additionally, until the acquisition closes, Johnson Matthey's Catalyst Technologies business is not yet part of Honeywell's operations, making any counterparty relationship premature. The appropriate classification would be 'acquisition_target' as a standalone category if such edges are tracked, but it does not fit the supplier, customer, partner, competitor, or dependency categories defined in the audit criteria.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "International Organization for Standardizations",
+    "category": "dependency",
+    "subtype": "standards_body",
+    "evidence_quote": "The risk management program leverages recognized industry standards such as International Organization for Standardizations (ISO) 22301 standard for business continuity, ISO 27001 standard for information security management systems",
+    "confidence": 0.85,
+    "reason": "ISO (International Organization for Standardization) is a standards body that publishes voluntary industry standards, not a dependency relationship. The evidence shows Honeywell 'leverages recognized industry standards' from ISO—this describes adoption of publicly available frameworks, not a critical operational dependency or commercial relationship. ISO does not provide infrastructure or services to Honeywell; it publishes standards that any organization can adopt. Additionally, 'International Organization for Standardizations' is grammatically incorrect (should be 'Standardization' singular). Standards bodies like ISO do not meet the dependency criteria (which requires critical infrastructure reliance with no commercial alternative), nor do they constitute supplier, customer, partner, or competitor relationships.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Standard & Poor's",
+    "category": "dependency",
+    "subtype": "index_provider",
+    "evidence_quote": "The following graph compares the five-year cumulative total return on our common stock to the total returns on the Standard & Poor's (S&P) 500 Stock Index",
+    "confidence": 0.85,
+    "reason": "The evidence_quote describes S&P 500 as a benchmark index used in a performance comparison graph for investor reporting purposes. This is a standard SEC disclosure requirement for public companies to show stock performance relative to market indices. Standard & Poor's is not providing a critical infrastructure or service that Honeywell depends on for operations; rather, the S&P 500 is simply a published index used as a comparative benchmark. Index providers for performance graphs are not operational dependencies. Additionally, the 'dependency' category requires the root to critically rely on counterparty infrastructure/service with NO commercial vendor relationship - this performance benchmark usage does not constitute operational reliance. This is a routine disclosure artifact, not a business relationship.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Air Products",
+    "category": "supplier",
+    "subtype": "acquisition_target",
+    "evidence_quote": "On September 30, 2024, the Company acquired 100 % of the outstanding equity interests of Air Products' liquefied natural gas process technology and equipment business",
+    "confidence": 0.95,
+    "reason": "Air Products is the seller of a business unit to Honeywell, making Honeywell the acquirer, not the supplier. The category 'supplier' implies Air Products provides goods/services to Honeywell, but the evidence shows Honeywell acquired Air Products' LNG business unit. The subtype 'acquisition_target' contradicts the 'supplier' category. Additionally, Air Products sold a division to Honeywell; this is a one-time M&A transaction, not an ongoing commercial relationship. Air Products should be categorized as an acquisition counterparty or the relationship rejected as it doesn't fit standard ongoing relationship categories.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "CAES Systems Holdings LLC",
+    "category": "supplier",
+    "subtype": "acquisition_target",
+    "evidence_quote": "On August 30, 2024, the Company acquired 100 % of the outstanding equity interests of CAES Systems Holdings LLC (CAES), enhancing the Company's defense and space portfolio",
+    "confidence": 0.95,
+    "reason": "The candidate edge categorizes CAES Systems Holdings LLC as a 'supplier' with subtype 'acquisition_target'. This is incorrect. An acquisition target is a company that was acquired by the ROOT company (Honeywell), not a supplier to it. The evidence clearly states 'the Company acquired 100% of the outstanding equity interests of CAES Systems Holdings LLC', meaning CAES became a subsidiary of Honeywell through acquisition. Post-acquisition, CAES is now part of Honeywell's Aerospace Technologies segment, making it an internal entity, not an external counterparty. Acquisitions should not be categorized as supplier relationships - they represent ownership changes where the target becomes part of the acquiring company. Additionally, per the instructions, subsidiaries of the ROOT company are not valid counterparties.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Carrier Global Corporation",
+    "category": "supplier",
+    "subtype": "acquisition_target",
+    "evidence_quote": "On June 3, 2024, the Company acquired 100 % of the outstanding equity interests of Carrier Global Corporation's Global Access Solutions business",
+    "confidence": 0.95,
+    "reason": "Carrier Global Corporation is the seller in an acquisition transaction, not a supplier. Honeywell acquired Carrier's Global Access Solutions business; this makes Carrier the target of an acquisition/divestiture, not a counterparty in an ongoing commercial relationship. The category 'supplier' implies an ongoing vendor relationship where Honeywell pays for goods/services, which is incorrect. The subtype 'acquisition_target' contradicts the 'supplier' category. Carrier should be classified under a divestiture/M&A context, not as a supplier. Additionally, after the acquisition closed, the business became part of Honeywell, so there is no ongoing counterparty relationship.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Compressor Controls Corporation",
+    "category": "supplier",
+    "subtype": "acquisition_target",
+    "evidence_quote": "On June 30, 2023, the Company acquired 100 % of the outstanding equity interests of Compressor Controls Corporation, a turbomachinery services and controls company",
+    "confidence": 0.95,
+    "reason": "The candidate edge classifies Compressor Controls Corporation as a 'supplier' with subtype 'acquisition_target'. This is contradictory and incorrect. An acquisition target is a company that Honeywell acquired (purchased 100% of equity interests), not a supplier that provides goods/services to Honeywell. The evidence clearly states 'the Company acquired 100% of the outstanding equity interests of Compressor Controls Corporation' on June 30, 2023 for $673 million. Once acquired, Compressor Controls Corporation became a subsidiary of Honeywell (part of the Industrial Automation reportable business segment), not an external counterparty. Per the audit instructions, subsidiaries of the ROOT company should be rejected as counterparties. Additionally, an 'acquisition_target' is not a valid relationship category for ongoing commercial relationships (supplier/customer/partner/competitor/dependency) - it describes a one-time M&A transaction that converted an external entity into an internal one.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Quantinuum",
+    "category": "customer",
+    "subtype": "quantum_computing_services",
+    "evidence_quote": "Corporate and All Other includes revenue from Honeywell's majority-owned investment in Quantinuum. Through Quantinuum, Honeywell provides a wide range of service offerings of fully integrated quantum computing hardware and software solutions.",
+    "confidence": 0.65,
+    "reason": "The evidence_quote describes Quantinuum as 'Honeywell's majority-owned investment,' which makes it a subsidiary/affiliate of Honeywell, not an external customer. The text states Honeywell 'provides' quantum computing services 'through Quantinuum,' meaning Quantinuum is the operating entity/vehicle through which Honeywell delivers services to external customers, not itself a customer of Honeywell. The revenue appears in 'Corporate and All Other' as consolidation of a majority-owned subsidiary's operations, not as sales to an external counterparty. This violates the rule that ROOT company subsidiaries are internal entities and cannot be counterparties.",
+    "stage": "audit"
+  }
+]

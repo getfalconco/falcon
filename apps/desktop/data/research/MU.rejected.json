@@ -1,0 +1,101 @@
+[
+  {
+    "counterparty_name": "China's Cyberspace Administration",
+    "category": "dependency",
+    "subtype": "regulatory_infrastructure",
+    "evidence_quote": "In 2023, China's Cyberspace Administration (the \"CAC\") conducted a cybersecurity review of our products sold in China and decided that our products presented a cybersecurity risk.",
+    "confidence": 0.85,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Netlist, Inc.",
+    "category": "competitor",
+    "subtype": "patent_litigation_adversary",
+    "evidence_quote": "On April 28, 2021, Netlist, Inc. (\"Netlist\") filed two patent infringement actions against Micron, Micron Semiconductor Products, Inc. (\"MSP\"), and Micron Technology Texas, LLC (\"MTEC\")",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Yangtze Memory Technologies Company, Ltd.",
+    "category": "competitor",
+    "subtype": "patent_litigation_adversary",
+    "evidence_quote": "On November 9, 2023, Yangtze Memory Technologies Company, Ltd. (\"YMTC\") filed a patent infringement complaint against Micron and one of its subsidiaries",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "U.S. Department of Commerce",
+    "category": "dependency",
+    "subtype": "government_funding_provider",
+    "evidence_quote": "On December 9, 2024, we entered into direct funding agreements with the U.S. Department of Commerce for up to $6.1 billion in direct funding pursuant to the CHIPS Act",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "CHIPS Act",
+    "category": "dependency",
+    "subtype": "regulatory_government_program",
+    "evidence_quote": "subject to market conditions, restrictions applicable under our CHIPS Act direct funding agreements, and our ongoing determination of the best use of available cash.",
+    "confidence": 0.85,
+    "reason": "The CHIPS Act is a legislative statute (Creating Helpful Incentives to Produce Semiconductors for America Act), not a counterparty. The evidence_quote mentions 'restrictions applicable under our CHIPS Act direct funding agreements,' which refers to contractual terms imposed by the Act's implementing agencies (likely the U.S. Department of Commerce), not a relationship with the Act itself. The Act is a legal framework, not an entity that Micron depends on. Funding agreements would be with government agencies administering the program, not the Act. Additionally, the classification as 'dependency' is incorrect—Micron receives funding (a financial benefit, not a dependency on infrastructure/service), and the root-counterparty relationship would be with the administering agency as a government funding source, not the legislative act. The counterparty_name is fundamentally invalid.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Crucial",
+    "category": "supplier",
+    "subtype": "brand",
+    "evidence_quote": "Micron delivers a rich portfolio of high-performance DRAM, NAND, and NOR memory and storage products through our Micron® and Crucial® brands.",
+    "confidence": 0.95,
+    "reason": "Crucial is explicitly identified in the evidence quote as a brand ('Crucial® brands') through which Micron delivers products, not an external counterparty. The filing states 'Micron delivers a rich portfolio of high-performance DRAM, NAND, and NOR memory and storage products through our Micron® and Crucial® brands.' This indicates Crucial is an internal brand owned and operated by Micron Technology, Inc. (the ROOT company), not a separate external entity. Per the auditor instructions, the ROOT company's own brands are not valid counterparties. The counterparty_type 'product' in the candidate edge also confirms this is not an external organization.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Besang Inc.",
+    "category": "competitor",
+    "subtype": "patent_litigation_adversary",
+    "evidence_quote": "On January 23, 2023, Besang Inc. filed a patent infringement complaint against Micron in E.D. Tex.",
+    "confidence": 0.95,
+    "reason": "The evidence_quote describes patent litigation adversaries, not competitors. Besang Inc. filed a patent infringement complaint against Micron, and per the filing 'On September 17, 2025, the District Court issued a judgment that the accused products do not infringe the asserted patent.' This is a legal adversary in patent litigation, not a market competitor. Patent litigation adversaries are not valid counterparties under the knowledge graph schema, as they represent legal claims rather than commercial or competitive market relationships. The filing provides no evidence that Besang Inc. competes with Micron in any product market.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Palisade Technologies, LLP",
+    "category": "competitor",
+    "subtype": "patent_litigation_adversary",
+    "evidence_quote": "On October 16, 2024, Palisade Technologies, LLP filed a patent infringement lawsuit against Micron and MSP in W.D. Tex.",
+    "confidence": 0.95,
+    "reason": "Palisade Technologies, LLP filed a patent infringement lawsuit against Micron, making it a patent litigation adversary, not a competitor. A competitor is a company that competes in the same market or product space. Patent litigation adversaries are entities asserting IP claims, which is fundamentally different from market competition. The category should be 'legal_adversary' or similar if such a category exists, but 'competitor' is incorrect. Additionally, the subtype 'patent_litigation_adversary' suggests this is a legal relationship, not a competitive business relationship.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Advanced Memory Technologies, LLC",
+    "category": "competitor",
+    "subtype": "patent_litigation_adversary",
+    "evidence_quote": "On June 30, 2025, Advanced Memory Technologies, LLC filed a patent infringement lawsuit against Micron in W.D. Tex.",
+    "confidence": 0.95,
+    "reason": "The evidence_quote states that Advanced Memory Technologies, LLC filed a patent infringement lawsuit against Micron. A patent litigation adversary is not a 'competitor' in the business relationship sense required for knowledge graph edges. Patent litigation adversaries are legal claimants, not market competitors who offer competing products/services. The category 'competitor' requires evidence of market competition (e.g., 'competes with us in the DRAM market'), not merely filing a lawsuit. Patent trolls, NPEs, and litigation entities do not qualify as competitors unless they actually compete in the same product markets. No evidence in the excerpt suggests Advanced Memory Technologies competes with Micron in any product market—only that it filed a patent suit.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "YMTC",
+    "category": "competitor",
+    "subtype": "litigation_adversary",
+    "evidence_quote": "On June 7, 2025, YMTC filed a complaint against Micron and DCI Group AZ, LLC in the U.S. District Court for the District of Columbia.",
+    "confidence": 0.95,
+    "reason": "YMTC is a litigation adversary, not a competitor in the standard business sense. The evidence shows YMTC filed a lawsuit against Micron for 'false advertising, product disparagement, and unfair competition regarding YMTC's 3D NAND flash products,' making this a legal dispute, not evidence of competitive market positioning. While YMTC may indeed be a competitor in the NAND flash market, the quoted evidence only establishes them as a litigation counterparty. A competitor relationship requires evidence of market competition (e.g., 'we compete with YMTC in the NAND market'), not just a lawsuit alleging unfair competition. The subtype 'litigation_adversary' is inconsistent with category 'competitor' - litigation adversaries belong under a legal/dispute category if at all, not as competitors. Additionally, litigation adversaries are typically not considered valid counterparty relationships for a financial knowledge graph focused on business relationships.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "PricewaterhouseCoopers LLP",
+    "category": "supplier",
+    "subtype": "audit_services",
+    "evidence_quote": "The effectiveness of our internal control over financial reporting as of August 28, 2025 has been audited by PricewaterhouseCoopers LLP, an independent registered public accounting firm",
+    "confidence": 0.92,
+    "reason": "PricewaterhouseCoopers LLP is Micron's external auditor. Per the auditing instructions, external auditors must always be rejected as counterparties. While the evidence_quote is valid and PwC does provide audit services, external auditors are explicitly excluded from the relationship graph regardless of the services they provide to the ROOT company.",
+    "stage": "audit"
+  }
+]

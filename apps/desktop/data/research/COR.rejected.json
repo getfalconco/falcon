@@ -1,0 +1,83 @@
+[
+  {
+    "counterparty_name": "U.K. GDPR",
+    "category": "dependency",
+    "subtype": "regulatory_framework",
+    "evidence_quote": "Many foreign data privacy regulations (including, without limitation, the EU GDPR, the U.K. GDPR, Brazil's General Data Protection Law (\"LGPD\")",
+    "confidence": 0.85,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Delaware Court of Chancery",
+    "category": "dependency",
+    "subtype": "legal_infrastructure",
+    "evidence_quote": "the sole and exclusive forum for any derivative action or proceeding brought on behalf of the Company shall be the Delaware Court of Chancery located within the State of Delaware",
+    "confidence": 0.9,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "DEA",
+    "category": "dependency",
+    "subtype": "regulatory infrastructure",
+    "evidence_quote": "we are subject to the risk of changes in various laws, which include operating, record keeping, and security standards of the DEA, the FDA, HHS, various state boards of pharmacy and comparable agencies.",
+    "confidence": 0.85,
+    "reason": "The DEA is a regulatory agency, not a counterparty dependency. The evidence describes the DEA as setting 'operating, record keeping, and security standards' to which Cencora is subject—this is regulatory oversight, not a critical infrastructure or service dependency. The DEA does not provide infrastructure that Cencora relies upon (like GPS or public networks); it enforces compliance standards. Regulatory agencies acting in their regulatory capacity are explicitly excluded as counterparties per the instructions.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "HHS",
+    "category": "dependency",
+    "subtype": "regulatory infrastructure",
+    "evidence_quote": "we are subject to the risk of changes in various laws, which include operating, record keeping, and security standards of the DEA, the FDA, HHS, various state boards of pharmacy and comparable agencies.",
+    "confidence": 0.85,
+    "reason": "HHS is cited here purely as a regulator establishing 'operating, record keeping, and security standards' alongside the DEA and FDA. The text describes regulatory oversight, not a dependency on HHS-provided infrastructure or services. Regulatory agencies acting in their regulatory capacity do not qualify as counterparties under the stated rules (point 4: 'regulators acting as regulators'). While HHS may operate programs like HRSA, the evidence_quote specifically references HHS in its standards-setting regulatory role, not as a dependency for infrastructure or services.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "CMS",
+    "category": "dependency",
+    "subtype": "regulatory infrastructure",
+    "evidence_quote": "In November 2023, CMS finalized a retrospective refund rule that provides for lump-sum refund payments totaling approximately $9 billion to be made to affected 340B hospitals",
+    "confidence": 0.85,
+    "reason": "CMS (Centers for Medicare & Medicaid Services) is a government regulator establishing payment rules and reimbursement policies, not a dependency infrastructure. The evidence quote describes CMS finalizing a retrospective refund rule affecting hospital payments—this is regulatory action, not critical infrastructure that Cencora relies upon. CMS acts as a regulator setting Medicare/Medicaid reimbursement terms; Cencora does not depend on CMS infrastructure to operate. The proper categorization for regulatory agencies acting in their regulatory capacity is exclusion per the instructions (regulators acting as regulators should be rejected). While CMS rules impact Cencora's business environment, this is regulatory exposure, not operational dependency on infrastructure or services.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "HRSA",
+    "category": "dependency",
+    "subtype": "regulatory_infrastructure",
+    "evidence_quote": "HRSA has finalized a rule that allows 340B program covered entities to bring administrative dispute claims against manufacturers for alleged 340B overcharges",
+    "confidence": 0.85,
+    "reason": "HRSA (Health Resources and Services Administration) is a federal government regulatory agency administering the 340B drug pricing program. The evidence describes HRSA finalizing a rule allowing covered entities to bring administrative dispute claims against manufacturers. This is HRSA acting in its regulatory capacity, creating and enforcing rules. The auditor instructions explicitly state: 'Always reject these as counterparties: ...regulators acting as regulators...' HRSA is not providing infrastructure or services that Cencora critically relies upon; rather, HRSA is a government regulator whose rule-making affects the business environment. The fact that HRSA's rules impact Cencora's operations does not make it a dependency counterparty—it makes it a regulator. The evidence_quote is valid natural language, but the counterparty itself is invalid under the given criteria.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Medicare",
+    "category": "dependency",
+    "subtype": "reimbursement_program",
+    "evidence_quote": "prohibit persons from soliciting, offering, receiving or paying any remuneration in order to induce the referral of a patient for treatment or the ordering or purchasing of items or services that are in any way paid for by Medicare",
+    "confidence": 0.9,
+    "reason": "Medicare is not an external organization but a U.S. government program administered by CMS. The evidence quote describes anti-fraud/anti-kickback laws that prohibit inducements 'in any way paid for by Medicare,' not a dependency relationship. The quote establishes regulatory compliance obligations—not that Cencora relies on Medicare's infrastructure to operate. Medicare as a payer program affects revenue but does not fit the 'dependency' category, which requires the root to critically rely on the counterparty's infrastructure/service with NO commercial vendor relationship (like GPS or public networks). Government reimbursement programs are regulatory/payment frameworks, not infrastructure dependencies. Additionally, the text later states 'future reductions in Medicare reimbursement rates... could negatively impact our and our customers' businesses,' showing Medicare affects customers (healthcare providers), not a direct dependency. The counterparty itself (a program, not an entity) and category are both invalid.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "U.S. Customs and Border Protection",
+    "category": "dependency",
+    "subtype": "regulatory_infrastructure",
+    "evidence_quote": "misrepresentations on documents filed with U.S. Customs and Border Protection that results in the underpayment of duties and tariffs",
+    "confidence": 0.85,
+    "reason": "U.S. Customs and Border Protection is mentioned solely in the context of potential legal liability for 'misrepresentations on documents filed with U.S. Customs and Border Protection that results in the underpayment of duties and tariffs.' This is a regulatory enforcement scenario where CBP acts as a regulator enforcing customs laws. The filing describes possible qui tam complaints for alleged violations, not a dependency relationship. Per the instructions, regulators acting as regulators should be rejected as counterparties. There is no evidence that Cencora depends on CBP infrastructure or services; CBP is enforcing compliance, not providing critical infrastructure the company relies upon.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "EU GDPR",
+    "category": "dependency",
+    "subtype": "regulatory_framework",
+    "evidence_quote": "the EU GDPR imposes more stringent data protection requirements, including a broader scope of protected data, restrictions on cross-border transfers of personal data",
+    "confidence": 0.85,
+    "reason": "EU GDPR is not a valid counterparty. It is a regulatory framework/law, not a government entity or organization. The relationship described is one of regulatory compliance obligation, not a dependency relationship with an external organization. The filing describes GDPR as imposing requirements, which is a compliance obligation under law, not a dependency on an external counterparty's infrastructure or service. Regulatory frameworks, laws, and regulations themselves cannot be counterparties in a knowledge graph of business relationships.",
+    "stage": "audit"
+  }
+]

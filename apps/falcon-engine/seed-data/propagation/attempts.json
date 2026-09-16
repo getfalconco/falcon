@@ -1,0 +1,45 @@
+{
+ "schema_version": 1,
+ "attempts": {
+  "pr-8ea0778a-9889-53e4-aefe-b19480a401ce-c0d9901e8a": {
+   "request_id": "pr-8ea0778a-9889-53e4-aefe-b19480a401ce-c0d9901e8a",
+   "incident_id": "8ea0778a-9889-53e4-aefe-b19480a401ce",
+   "attempts": 1,
+   "last_error": "stage2: transport: 400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CePnDsQgiGuFbZJ4DSfY2\"}",
+   "last_attempt_at": "2026-08-25T16:27:03.740Z",
+   "permanent_failed": false
+  },
+  "pr-b3656698-f454-58e7-ae7f-8115c7dbc019-7ab823ecca": {
+   "request_id": "pr-b3656698-f454-58e7-ae7f-8115c7dbc019-7ab823ecca",
+   "incident_id": "b3656698-f454-58e7-ae7f-8115c7dbc019",
+   "attempts": 1,
+   "last_error": "stage2: transport: 400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CePr46B5FiBa5FBs1JgN5\"}",
+   "last_attempt_at": "2026-08-25T17:17:18.321Z",
+   "permanent_failed": false
+  },
+  "pr-02344802-2cf5-520c-ad6e-b7ac04c0d92c-620e8d2f2f": {
+   "request_id": "pr-02344802-2cf5-520c-ad6e-b7ac04c0d92c-620e8d2f2f",
+   "incident_id": "02344802-2cf5-520c-ad6e-b7ac04c0d92c",
+   "attempts": 1,
+   "last_error": "stage2: transport: 400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CePr491EFcyUfpP27Ys4v\"}",
+   "last_attempt_at": "2026-08-25T17:17:18.971Z",
+   "permanent_failed": false
+  },
+  "pr-664d3e65-d850-5cfa-a999-b7668020f33e-114a45a418": {
+   "request_id": "pr-664d3e65-d850-5cfa-a999-b7668020f33e-114a45a418",
+   "incident_id": "664d3e65-d850-5cfa-a999-b7668020f33e",
+   "attempts": 1,
+   "last_error": "stage2: transport: 400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CePsevU1mvbfXv6SooAd1\"}",
+   "last_attempt_at": "2026-08-25T17:38:17.689Z",
+   "permanent_failed": false
+  },
+  "pr-3ba66b97-77bb-5f4c-a9d4-32acc2fcb884-88d72ae69a": {
+   "request_id": "pr-3ba66b97-77bb-5f4c-a9d4-32acc2fcb884-88d72ae69a",
+   "incident_id": "3ba66b97-77bb-5f4c-a9d4-32acc2fcb884",
+   "attempts": 1,
+   "last_error": "stage2: transport: 400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CePseytPchq3PxeMaBWe9\"}",
+   "last_attempt_at": "2026-08-25T17:38:18.482Z",
+   "permanent_failed": false
+  }
+ }
+}

@@ -1,0 +1,299 @@
+{
+ "recorded_at": "2026-08-22T19:59:56.471Z",
+ "request": {
+  "request_id": "pr-c96852bf-8db3-51f2-aa49-d1a8716cbb19-0a5d8e5443",
+  "incident_id": "c96852bf-8db3-51f2-aa49-d1a8716cbb19",
+  "root_ticker": "HON",
+  "incident": {
+   "incident_id": "c96852bf-8db3-51f2-aa49-d1a8716cbb19",
+   "ticker": "HON",
+   "trigger_type": "organic",
+   "window_start": "2026-08-19T12:52:00.295Z",
+   "window_end": "2026-08-19T20:52:00.295Z",
+   "window_status": "closed",
+   "composite_tags": [],
+   "priority": 15,
+   "priority_band": "P2",
+   "degraded_context": false,
+   "discovery_floor_applied": false,
+   "earnings_absorption": false,
+   "messages": [
+    {
+     "id": "9c575b7d-9ef6-40b0-973c-5765a2e7ec56",
+     "schema_version": 1,
+     "type": "filing_item",
+     "ticker": "HON",
+     "timestamp": "2026-08-19T12:52:00.295Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 0.8307509802502785,
+      "r_squared": 0.10358341606612165,
+      "daily_vol_30d": 0.01635164508132077,
+      "vol_regime": 0.9674820623251311,
+      "move_today": 0.007052633519853968,
+      "move_zscore": 0.4313103351240489,
+      "residual_move": 0.0023354169177851342,
+      "residual_zscore": 0.15431524340862363,
+      "volume_ratio": 0.37914729445757817,
+      "volume_ratio_partial": true,
+      "momentum_5d": -0.008092097194817627,
+      "momentum_20d": -0.006970152553026021,
+      "momentum_60d": -0.027507375679551638,
+      "pct_from_52w_high": -0.11772307457138953,
+      "pct_from_52w_low": 0.1689511119819731,
+      "earnings_rhythm": 0.04903251303584935,
+      "prev_close": 227.5749969482422,
+      "last_price": 229.18,
+      "price_asof": "2026-08-19T12:49:31.000Z",
+      "session": "pre"
+     },
+     "payload": {
+      "form_type": "8-K",
+      "accession_number": "0000773840-26-000130",
+      "filed_at": "2026-08-19T00:00:00.000Z",
+      "item_codes": [
+       "5.02",
+       "7.01",
+       "9.01"
+      ],
+      "filing_url": "https://www.sec.gov/Archives/edgar/data/773840/000077384026000130/hon-20260819.htm"
+     }
+    },
+    {
+     "id": "8dbeb2d9-d6f3-4cbd-8d6f-3d714e135421",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "HON",
+     "timestamp": "2026-08-19T19:20:06.313Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 0.8307509802502785,
+      "r_squared": 0.10358341606612165,
+      "daily_vol_30d": 0.01635164508132077,
+      "vol_regime": 0.9674820623251311,
+      "move_today": -0.023376874159157457,
+      "move_zscore": -1.4296343910902227,
+      "residual_move": -0.026141553460581456,
+      "residual_zscore": -1.7273319186087694,
+      "volume_ratio": 0.3611790780141844,
+      "volume_ratio_partial": true,
+      "momentum_5d": -0.008092097194817627,
+      "momentum_20d": -0.006970152553026021,
+      "momentum_60d": -0.027507375679551638,
+      "pct_from_52w_high": -0.11772307457138953,
+      "pct_from_52w_low": 0.1689511119819731,
+      "earnings_rhythm": 0.04903251303584935,
+      "prev_close": 227.5749969482422,
+      "last_price": 222.2550048828125,
+      "price_asof": "2026-08-19T19:20:12.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "These dow jones stocks are moving in today's session",
+      "source": "ChartMill",
+      "url": "https://finnhub.io/api/news?id=a53cd1f5883972a76c50bbb639d04690497dfa9d3cc4c64befd2cd557bc9cbf6",
+      "published_at": "2026-08-19T16:40:06.000Z",
+      "article_id": "141254410",
+      "summary": "Stay updated with the movements of the dow jones index in the middle of the day on Wednesday. Discover which stocks are leading as top gainers and losers in today's session."
+     }
+    },
+    {
+     "id": "f8bae998-578d-4bde-bb2d-e4a658661ac1",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "HON",
+     "timestamp": "2026-08-19T19:52:47.800Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 0.8307509802502785,
+      "r_squared": 0.10358341606612165,
+      "daily_vol_30d": 0.01635164508132077,
+      "vol_regime": 0.9674820623251311,
+      "move_today": -0.02392614363812584,
+      "move_zscore": -1.4632254748152382,
+      "residual_move": -0.025094148625473413,
+      "residual_zscore": -1.6581234912628056,
+      "volume_ratio": 0.43114000525348045,
+      "volume_ratio_partial": true,
+      "momentum_5d": -0.008092097194817627,
+      "momentum_20d": -0.006970152553026021,
+      "momentum_60d": -0.027507375679551638,
+      "pct_from_52w_high": -0.11772307457138953,
+      "pct_from_52w_low": 0.1689511119819731,
+      "earnings_rhythm": 0.04903251303584935,
+      "prev_close": 227.5749969482422,
+      "last_price": 222.1300048828125,
+      "price_asof": "2026-08-19T19:52:51.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "Which dow jones stocks are moving on Wednesday?",
+      "source": "ChartMill",
+      "url": "https://finnhub.io/api/news?id=40115c3c3464e83a2660ead2dc4dec4295ca940e8503f339c0e49581f3b5cef4",
+      "published_at": "2026-08-19T19:10:05.000Z",
+      "article_id": "141255654",
+      "summary": "Wondering what's happening in today's session for the dow jones index? Stay informed with the top movers within the dow jones index on Wednesday."
+     }
+    }
+   ],
+   "quant_context": {
+    "beta_90d": 0.8307509802502785,
+    "r_squared": 0.10358341606612165,
+    "daily_vol_30d": 0.01635164508132077,
+    "vol_regime": 0.9674820623251311,
+    "move_today": -0.02392614363812584,
+    "move_zscore": -1.4632254748152382,
+    "residual_move": -0.025094148625473413,
+    "residual_zscore": -1.6581234912628056,
+    "volume_ratio": 0.43114000525348045,
+    "volume_ratio_partial": true,
+    "momentum_5d": -0.008092097194817627,
+    "momentum_20d": -0.006970152553026021,
+    "momentum_60d": -0.027507375679551638,
+    "pct_from_52w_high": -0.11772307457138953,
+    "pct_from_52w_low": 0.1689511119819731,
+    "earnings_rhythm": 0.04903251303584935,
+    "prev_close": 227.5749969482422,
+    "last_price": 222.1300048828125,
+    "price_asof": "2026-08-19T19:52:51.000Z",
+    "session": "regular"
+   },
+   "user_proximity": "tracked",
+   "related_incident_id": null,
+   "propagation_candidates": []
+  },
+  "event": {
+   "type": "management_governance",
+   "direction": "unclear",
+   "materiality": "standard",
+   "label": "8-K Item 5.02 — officer / director change",
+   "source_msg_ids": [
+    "9c575b7d-9ef6-40b0-973c-5765a2e7ec56"
+   ],
+   "event_ts": "2026-08-19T12:52:00.295Z",
+   "source": "filing_item",
+   "evidence_lines": [
+    "8-K items 5.02, 7.01, 9.01 filed 2026-08-19 — Departure of Directors or Certain Officers; Election of Directors; Appointment of Certain Officers; Compensatory Arrangements; Regulation FD Disclosure; Financial Statements and Exhibits"
+   ]
+  },
+  "trigger_rules": [
+   "filing_item.8k.mapped"
+  ],
+  "update": false,
+  "prior_run_id": null,
+  "requested_at": "2026-08-22T19:59:56.471Z",
+  "verdicts": {
+   "8dbeb2d9-d6f3-4cbd-8d6f-3d714e135421": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141254410",
+     "kind": "news",
+     "event_type": "macro_sector",
+     "event_label": "Dow Jones stocks intraday price movements",
+     "syndication_scope": 8,
+     "tickers": [
+      {
+       "ticker": "MRK",
+       "relevance": "none"
+      },
+      {
+       "ticker": "HON",
+       "relevance": "none"
+      },
+      {
+       "ticker": "BA",
+       "relevance": "none"
+      },
+      {
+       "ticker": "CAT",
+       "relevance": "none"
+      },
+      {
+       "ticker": "NVDA",
+       "relevance": "none"
+      },
+      {
+       "ticker": "UNH",
+       "relevance": "none"
+      },
+      {
+       "ticker": "WMT",
+       "relevance": "none"
+      },
+      {
+       "ticker": "AAPL",
+       "relevance": "none"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:31.680Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "HON",
+     "relevance": "none"
+    }
+   },
+   "f8bae998-578d-4bde-bb2d-e4a658661ac1": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141255654",
+     "kind": "news",
+     "event_type": "macro_sector",
+     "event_label": "Dow Jones index movers coverage",
+     "syndication_scope": 6,
+     "tickers": [
+      {
+       "ticker": "MRK",
+       "relevance": "none"
+      },
+      {
+       "ticker": "UNH",
+       "relevance": "none"
+      },
+      {
+       "ticker": "CAT",
+       "relevance": "none"
+      },
+      {
+       "ticker": "BA",
+       "relevance": "none"
+      },
+      {
+       "ticker": "NVDA",
+       "relevance": "none"
+      },
+      {
+       "ticker": "HON",
+       "relevance": "none"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:39.220Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "HON",
+     "relevance": "none"
+    }
+   }
+  }
+ },
+ "graph_version": {
+  "generatedAt": "2026-08-13T22:38:11.325Z",
+  "pipelineVersion": 5
+ }
+}

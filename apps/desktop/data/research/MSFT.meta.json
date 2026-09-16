@@ -1,0 +1,13 @@
+{
+  "ticker": "MSFT",
+  "companyName": "MICROSOFT CORP",
+  "form": "10-K",
+  "filingDate": "2025-07-30",
+  "sourceUrl": "https://www.sec.gov/Archives/edgar/data/789019/000095017025100235/msft-20250630.htm",
+  "generatedAt": "2026-07-22T22:14:30.320Z",
+  "cacheKey": "MSFT|0000950170-25-100235|5",
+  "accessionNumber": "0000950170-25-100235",
+  "validatedCount": 4,
+  "rejectedCount": 9,
+  "mergedCount": 1
+}

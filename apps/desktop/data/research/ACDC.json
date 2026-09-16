@@ -1,0 +1,513 @@
+[
+  {
+    "root_ticker": "ACDC",
+    "counterparty_name": "Halliburton Company",
+    "counterparty_ticker": "HAL",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "well_stimulation_services",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Our Stimulation Services competitors include Halliburton Company, Liberty Energy Inc., ProPetro Holding Corp., and Patterson-UTI Energy, Inc., among others.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1881487/000119312526106120/acdc-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-03-13",
+    "shared_evidence_group": "ev_54cf26e9135b"
+  },
+  {
+    "root_ticker": "ACDC",
+    "counterparty_name": "Liberty Energy Inc.",
+    "counterparty_ticker": "LBRT",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "well_stimulation_services",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Our Stimulation Services competitors include Halliburton Company, Liberty Energy Inc., ProPetro Holding Corp., and Patterson-UTI Energy, Inc., among others.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1881487/000119312526106120/acdc-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "Competitors include Life Cycle Power, Voltagrid LLC, Solaris Energy Infrastructure, Inc., Liberty Energy Inc. and Gensystems Power Solutions, among others.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1881487/000119312526106120/acdc-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-03-13",
+    "shared_evidence_group": "ev_54cf26e9135b"
+  },
+  {
+    "root_ticker": "ACDC",
+    "counterparty_name": "ProPetro Holding Corp.",
+    "counterparty_ticker": "PUMP",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "well_stimulation_services",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Our Stimulation Services competitors include Halliburton Company, Liberty Energy Inc., ProPetro Holding Corp., and Patterson-UTI Energy, Inc., among others.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1881487/000119312526106120/acdc-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-03-13",
+    "shared_evidence_group": "ev_54cf26e9135b"
+  },
+  {
+    "root_ticker": "ACDC",
+    "counterparty_name": "Patterson-UTI Energy, Inc.",
+    "counterparty_ticker": "PTEN",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "well_stimulation_services",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Our Stimulation Services competitors include Halliburton Company, Liberty Energy Inc., ProPetro Holding Corp., and Patterson-UTI Energy, Inc., among others.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1881487/000119312526106120/acdc-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-03-13",
+    "shared_evidence_group": "ev_54cf26e9135b"
+  },
+  {
+    "root_ticker": "ACDC",
+    "counterparty_name": "Atlas Energy Solutions Inc.",
+    "counterparty_ticker": "AESI",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "frac_sand_production",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.98,
+    "evidence": [
+      {
+        "quote": "Competitors to our Proppant Production segment include Atlas Energy Solutions Inc., Badger Mining Corporation, Iron Oak Energy Solutions, Freedom Proppant, Signal Peak Silica, U.S. Silica Inc., Vista Minerals and Capital Sand Company, among others.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1881487/000119312526106120/acdc-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-03-13",
+    "shared_evidence_group": "ev_00afceff0493"
+  },
+  {
+    "root_ticker": "ACDC",
+    "counterparty_name": "Badger Mining Corporation",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "competitor",
+    "subtype": "frac_sand_production",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Competitors to our Proppant Production segment include Atlas Energy Solutions Inc., Badger Mining Corporation, Iron Oak Energy Solutions, Freedom Proppant, Signal Peak Silica, U.S. Silica Inc., Vista Minerals and Capital Sand Company, among others.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1881487/000119312526106120/acdc-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-03-13",
+    "shared_evidence_group": "ev_00afceff0493"
+  },
+  {
+    "root_ticker": "ACDC",
+    "counterparty_name": "Iron Oak Energy Solutions",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "competitor",
+    "subtype": "frac_sand_production",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Competitors to our Proppant Production segment include Atlas Energy Solutions Inc., Badger Mining Corporation, Iron Oak Energy Solutions, Freedom Proppant, Signal Peak Silica, U.S. Silica Inc., Vista Minerals and Capital Sand Company, among others.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1881487/000119312526106120/acdc-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-03-13",
+    "shared_evidence_group": "ev_00afceff0493"
+  },
+  {
+    "root_ticker": "ACDC",
+    "counterparty_name": "Freedom Proppant",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "competitor",
+    "subtype": "frac_sand_production",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Competitors to our Proppant Production segment include Atlas Energy Solutions Inc., Badger Mining Corporation, Iron Oak Energy Solutions, Freedom Proppant, Signal Peak Silica, U.S. Silica Inc., Vista Minerals and Capital Sand Company, among others.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1881487/000119312526106120/acdc-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-03-13",
+    "shared_evidence_group": "ev_00afceff0493"
+  },
+  {
+    "root_ticker": "ACDC",
+    "counterparty_name": "Signal Peak Silica",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "competitor",
+    "subtype": "frac_sand_production",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Competitors to our Proppant Production segment include Atlas Energy Solutions Inc., Badger Mining Corporation, Iron Oak Energy Solutions, Freedom Proppant, Signal Peak Silica, U.S. Silica Inc., Vista Minerals and Capital Sand Company, among others.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1881487/000119312526106120/acdc-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-03-13",
+    "shared_evidence_group": "ev_00afceff0493"
+  },
+  {
+    "root_ticker": "ACDC",
+    "counterparty_name": "U.S. Silica Inc.",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "frac_sand_production",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Competitors to our Proppant Production segment include Atlas Energy Solutions Inc., Badger Mining Corporation, Iron Oak Energy Solutions, Freedom Proppant, Signal Peak Silica, U.S. Silica Inc., Vista Minerals and Capital Sand Company, among others.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1881487/000119312526106120/acdc-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-03-13",
+    "shared_evidence_group": "ev_00afceff0493"
+  },
+  {
+    "root_ticker": "ACDC",
+    "counterparty_name": "Vista Minerals",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "competitor",
+    "subtype": "frac_sand_production",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Competitors to our Proppant Production segment include Atlas Energy Solutions Inc., Badger Mining Corporation, Iron Oak Energy Solutions, Freedom Proppant, Signal Peak Silica, U.S. Silica Inc., Vista Minerals and Capital Sand Company, among others.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1881487/000119312526106120/acdc-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-03-13",
+    "shared_evidence_group": "ev_00afceff0493"
+  },
+  {
+    "root_ticker": "ACDC",
+    "counterparty_name": "Capital Sand Company",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "competitor",
+    "subtype": "frac_sand_production",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Competitors to our Proppant Production segment include Atlas Energy Solutions Inc., Badger Mining Corporation, Iron Oak Energy Solutions, Freedom Proppant, Signal Peak Silica, U.S. Silica Inc., Vista Minerals and Capital Sand Company, among others.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1881487/000119312526106120/acdc-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-03-13",
+    "shared_evidence_group": "ev_00afceff0493"
+  },
+  {
+    "root_ticker": "ACDC",
+    "counterparty_name": "Caterpillar, Inc.",
+    "counterparty_ticker": "CAT",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "manufacturing",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Competitors to our Manufacturing segment include Caterpillar, Inc., Gardner Denver, and EnQuest Energy Solutions, among others.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1881487/000119312526106120/acdc-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-03-13",
+    "shared_evidence_group": "ev_61d02f7230fa"
+  },
+  {
+    "root_ticker": "ACDC",
+    "counterparty_name": "Gardner Denver",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "manufacturing",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Competitors to our Manufacturing segment include Caterpillar, Inc., Gardner Denver, and EnQuest Energy Solutions, among others.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1881487/000119312526106120/acdc-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-03-13",
+    "shared_evidence_group": "ev_61d02f7230fa"
+  },
+  {
+    "root_ticker": "ACDC",
+    "counterparty_name": "EnQuest Energy Solutions",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "competitor",
+    "subtype": "manufacturing",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Competitors to our Manufacturing segment include Caterpillar, Inc., Gardner Denver, and EnQuest Energy Solutions, among others.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1881487/000119312526106120/acdc-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-03-13",
+    "shared_evidence_group": "ev_61d02f7230fa"
+  },
+  {
+    "root_ticker": "ACDC",
+    "counterparty_name": "Life Cycle Power",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "competitor",
+    "subtype": "power_generation",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Competitors include Life Cycle Power, Voltagrid LLC, Solaris Energy Infrastructure, Inc., Liberty Energy Inc. and Gensystems Power Solutions, among others.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1881487/000119312526106120/acdc-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-03-13",
+    "shared_evidence_group": "ev_bfed7d143eb2"
+  },
+  {
+    "root_ticker": "ACDC",
+    "counterparty_name": "Voltagrid LLC",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "competitor",
+    "subtype": "power_generation",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Competitors include Life Cycle Power, Voltagrid LLC, Solaris Energy Infrastructure, Inc., Liberty Energy Inc. and Gensystems Power Solutions, among others.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1881487/000119312526106120/acdc-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-03-13",
+    "shared_evidence_group": "ev_bfed7d143eb2"
+  },
+  {
+    "root_ticker": "ACDC",
+    "counterparty_name": "Solaris Energy Infrastructure, Inc.",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "competitor",
+    "subtype": "power_generation",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Competitors include Life Cycle Power, Voltagrid LLC, Solaris Energy Infrastructure, Inc., Liberty Energy Inc. and Gensystems Power Solutions, among others.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1881487/000119312526106120/acdc-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-03-13",
+    "shared_evidence_group": "ev_bfed7d143eb2"
+  },
+  {
+    "root_ticker": "ACDC",
+    "counterparty_name": "Gensystems Power Solutions",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "competitor",
+    "subtype": "power_generation",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Competitors include Life Cycle Power, Voltagrid LLC, Solaris Energy Infrastructure, Inc., Liberty Energy Inc. and Gensystems Power Solutions, among others.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1881487/000119312526106120/acdc-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-03-13",
+    "shared_evidence_group": "ev_bfed7d143eb2"
+  },
+  {
+    "root_ticker": "ACDC",
+    "counterparty_name": "Beal Bank USA",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "supplier",
+    "subtype": "lender",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "In June 2025, we entered into a purchase agreement with Beal Bank USA and Wilks Brothers, LLC, pursuant to which we agreed to issue and sell $60.0 million in additional senior secured floating rate notes",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1881487/000119312526106120/acdc-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-03-13",
+    "shared_evidence_group": "ev_4cecbbf00e16"
+  },
+  {
+    "root_ticker": "ACDC",
+    "counterparty_name": "Wilks Brothers, LLC",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "lender",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "In June 2025, we entered into a purchase agreement with Beal Bank USA and Wilks Brothers, LLC, pursuant to which we agreed to issue and sell $60.0 million in additional senior secured floating rate notes",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1881487/000119312526106120/acdc-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-03-13",
+    "shared_evidence_group": "ev_4cecbbf00e16"
+  },
+  {
+    "root_ticker": "ACDC",
+    "counterparty_name": "Texas Railroad Commission",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "supplier",
+    "subtype": "regulatory_authority",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.75,
+    "evidence": [
+      {
+        "quote": "The Texas Railroad Commission has suspended produced water handling permits and introduced injection volume curtailment within the boundaries of certain seismic response areas.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1881487/000119312526106120/acdc-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-03-13",
+    "shared_evidence_group": "ev_097eaf64476c"
+  },
+  {
+    "root_ticker": "ACDC",
+    "counterparty_name": "Wilks Parties",
+    "counterparty_ticker": null,
+    "counterparty_type": "other",
+    "category": "partner",
+    "subtype": "controlling_shareholder",
+    "strength": 1,
+    "strength_tier": "critical",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "the Wilks Parties beneficially own more than a majority of the voting power of ProFrac",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1881487/000119312526106120/acdc-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-03-13",
+    "shared_evidence_group": "ev_a0a5b61517eb"
+  }
+]

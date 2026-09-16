@@ -1,0 +1,13 @@
+{
+  "ticker": "GD",
+  "companyName": "GENERAL DYNAMICS CORP",
+  "form": "10-K",
+  "filingDate": "2026-01-30",
+  "sourceUrl": "https://www.sec.gov/Archives/edgar/data/40533/000004053326000006/gd-20251231.htm",
+  "generatedAt": "2026-07-24T20:02:27.366Z",
+  "cacheKey": "GD|0000040533-26-000006|5",
+  "accessionNumber": "0000040533-26-000006",
+  "validatedCount": 16,
+  "rejectedCount": 11,
+  "mergedCount": 2
+}

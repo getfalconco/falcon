@@ -1,0 +1,13 @@
+{
+  "ticker": "HPE",
+  "companyName": "Hewlett Packard Enterprise Co",
+  "form": "10-K",
+  "filingDate": "2025-12-18",
+  "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1645590/000164559025000130/hpe-20251031.htm",
+  "generatedAt": "2026-08-25T10:41:00.864Z",
+  "cacheKey": "HPE|0001645590-25-000130|5",
+  "accessionNumber": "0001645590-25-000130",
+  "validatedCount": 36,
+  "rejectedCount": 8,
+  "mergedCount": 0
+}

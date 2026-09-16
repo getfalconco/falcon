@@ -1,0 +1,29 @@
+[
+  {
+    "counterparty_name": "WildBrain Ltd.",
+    "category": "supplier",
+    "subtype": "equity acquisition transaction",
+    "evidence_quote": "Sony acquired an additional equity interest in Peanuts Holdings, which was owned by WildBrain Ltd., increasing Sony's ownership stake to 80%.",
+    "confidence": 0.88,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Nature",
+    "category": "partner",
+    "subtype": "research award collaboration",
+    "evidence_quote": "together with the world's leading science journal Nature , Sony launched the \"Sony Women in Technology Award with Nature \"",
+    "confidence": 0.92,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "TSMC",
+    "category": "partner",
+    "subtype": "strategic partnership for sensor development and manufacturing",
+    "evidence_quote": "SSS signed a non-binding MOU with TSMC to form a strategic partnership for the development and manufacturing of next-generation image sensors.",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  }
+]

@@ -1,0 +1,18 @@
+[
+  {
+    "counterparty_name": "UMC",
+    "category": "supplier",
+    "subtype": "wafer fabrication foundry",
+    "evidence_quote": "We source silicon wafers from our foundry partners, UMC, USJC, Samsung, TSMC, and Epson, pursuant to agreements with each company and their respective affiliates.",
+    "confidence": 0.95,
+    "merged_into": "UMC"
+  },
+  {
+    "counterparty_name": "USJC",
+    "category": "supplier",
+    "subtype": "wafer fabrication foundry",
+    "evidence_quote": "We source silicon wafers from our foundry partners, UMC, USJC, Samsung, TSMC, and Epson, pursuant to agreements with each company and their respective affiliates.",
+    "confidence": 0.95,
+    "merged_into": "USJC"
+  }
+]

@@ -1,0 +1,83 @@
+[
+  {
+    "counterparty_name": "Ernst & Young LLP",
+    "category": "supplier",
+    "subtype": "external_auditor",
+    "evidence_quote": "We have audited the accompanying consolidated balance sheets of Alphabet Inc. (the Company) as of December 31, 2024 and 2025",
+    "confidence": 0.95,
+    "reason": "counterparty name not in quote",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Waymo",
+    "category": "partner",
+    "subtype": "consolidated_subsidiary_VIE",
+    "evidence_quote": "In February 2026, Waymo, a consolidated VIE, announced an investment round of $16.0 billion, the significant majority of which was funded by Alphabet.",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Ernst & Young LLP",
+    "category": "supplier",
+    "subtype": "external_auditor",
+    "evidence_quote": "The effectiveness of our internal control over financial reporting as of December 31, 2025 has been audited by Ernst & Young LLP, an independent registered public accounting firm",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Google Network partners",
+    "category": "customer",
+    "subtype": "advertising_partner",
+    "evidence_quote": "amounts paid to Google Network partners primarily for ads displayed on their properties.",
+    "confidence": 0.85,
+    "reason": "Google Network partners are not external counterparties but rather a collective category of partner websites/properties that participate in Google's ad programs (AdMob, AdSense, Google Ad Manager). The evidence_quote describes TAC (traffic acquisition costs) paid TO these partners for ads displayed on their properties, which would make them suppliers of ad inventory to Google, not customers. More fundamentally, 'Google Network partners' is a generic group descriptor for numerous individual entities, not a specific identifiable organization. The filing does not name any specific partner entity, and the term represents an aggregated category similar to 'distribution partners' or 'content providers.' This fails the counterparty validity test requiring a real external organization rather than a generic group.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "content providers",
+    "category": "supplier",
+    "subtype": "content_licensing",
+    "evidence_quote": "content acquisition costs, which are payments to content providers from whom we license video and other content for distribution, primarily related to YouTube",
+    "confidence": 0.88,
+    "reason": "The counterparty 'content providers' is a generic category, not a specific external organization. The evidence describes payments to a class of entities from whom content is licensed, but does not name any specific counterparty. Valid counterparties must be identifiable real organizations, not broad descriptive categories like 'content providers,' 'suppliers,' or 'customers.' This is analogous to rejecting 'vendors' or 'partners' as counterparties—they are categories, not entities.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "FASB",
+    "category": "dependency",
+    "subtype": "standard_setter",
+    "evidence_quote": "In November 2024, the Financial Accounting Standards Board (FASB) issued Accounting Standards Update (ASU) 2024-03",
+    "confidence": 0.85,
+    "reason": "FASB is a standard-setting body, not a counterparty. The evidence_quote describes FASB issuing an accounting standard (ASU 2024-03) that Alphabet must follow for financial reporting. FASB does not provide infrastructure, services, or products to Alphabet in a transactional or dependency relationship. Standard-setters and regulators acting in their regulatory/standard-setting capacity are explicitly excluded as counterparties. This is analogous to tax authorities and regulators—they set rules Alphabet must follow, but are not commercial or operational counterparties. The relationship is compliance/regulatory, not a business dependency.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Epic Games",
+    "category": "competitor",
+    "subtype": "litigation opponent",
+    "evidence_quote": "In December 2023, a California jury delivered a verdict against Google in Epic Games v. Google related to Google Play's business.",
+    "confidence": 0.85,
+    "reason": "The evidence_quote describes Epic Games as a litigation opponent in a jury verdict against Google, not as a competitor in the marketplace sense. The excerpt provides no evidence that Epic Games and Alphabet compete in the same product/service markets. Litigation opponent is a legal relationship, not a competitive business relationship. The 'competitor' category requires evidence of market competition (e.g., competing products, services, or for customers), which is absent here.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "IRS",
+    "category": "dependency",
+    "subtype": "tax_authority",
+    "evidence_quote": "The IRS is currently examining our 2019 through 2021 tax returns.",
+    "confidence": 0.92,
+    "reason": "The IRS is a tax authority acting in its regulatory capacity. The evidence quote describes a tax examination, which is a regulatory/compliance activity, not a dependency relationship. Per instruction #4, tax and revenue authorities (including the IRS) must be rejected as counterparties when acting as regulators. Additionally, per instruction #3, dependency requires the root to critically rely on counterparty infrastructure/service with NO commercial vendor relationship—tax examination does not constitute infrastructure the root relies upon. The IRS examining tax returns is a regulatory oversight function, not a dependency.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Russian Federal Security Service",
+    "category": "dependency",
+    "subtype": "regulatory_infrastructure",
+    "evidence_quote": "Google LLC, a subsidiary of Alphabet, filed notifications with the Russian Federal Security Service (FSB) pursuant to Russian encryption control requirements",
+    "confidence": 0.85,
+    "reason": "The FSB notification filing is a regulatory compliance requirement, not a dependency. The root company does not critically rely on the FSB for infrastructure or services; rather, Google LLC must notify the FSB to comply with Russian encryption import controls. This is a regulatory obligation (similar to tax filings or export licenses), not a dependency relationship. Regulators acting in their regulatory capacity are explicitly excluded from valid counterparties. The relationship does not meet the 'dependency' threshold of critical reliance on counterparty-provided infrastructure/service.",
+    "stage": "audit"
+  }
+]

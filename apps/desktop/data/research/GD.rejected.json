@@ -1,0 +1,101 @@
+[
+  {
+    "counterparty_name": "Samsung Heavy Industries",
+    "category": "partner",
+    "subtype": "strategic_alliance",
+    "evidence_quote": "In 2025, NASSCO, along with DSEC, signed a tri-party memorandum of agreement with Samsung Heavy Industries, one of the world's leading shipbuilders, to explore future commercial and government opportunities.",
+    "confidence": 0.88,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "U.S. Army",
+    "category": "customer",
+    "subtype": "defense_customer",
+    "evidence_quote": "Land Systems is the sole-source producer of two foundational products central to the U.S. Army's warfighting capabilities — the Abrams main battle tank and Stryker wheeled combat vehicle.",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "British Army",
+    "category": "customer",
+    "subtype": "defense_customer",
+    "evidence_quote": "Land Systems is also producing the British Army's Ajax armored fighting vehicle, a next-generation, medium-weight tracked combat vehicle",
+    "confidence": 0.93,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "FAA",
+    "category": "dependency",
+    "subtype": "regulatory_certification",
+    "evidence_quote": "The G800 entered service in 2025 following U.S. Federal Aviation Administration (FAA) certification in April 2025.",
+    "confidence": 0.89,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "British Army",
+    "category": "customer",
+    "subtype": "military_vehicle_customer",
+    "evidence_quote": "Land Systems is also producing the British Army's Ajax armored fighting vehicle",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "U.S. Central Command",
+    "category": "customer",
+    "subtype": "defense_it_customer",
+    "evidence_quote": "GDIT is modernizing the U.S. Central Command's (CENTCOM) enterprise IT infrastructure.",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "National Security Agency",
+    "category": "dependency",
+    "subtype": "certification_authority",
+    "evidence_quote": "These Type 1 National Security Agency (NSA)-certified products and capabilities provide needed protection",
+    "confidence": 0.85,
+    "reason": "The NSA is acting as a certification authority for encryption products (Type 1 certification), which is a regulatory/standards function, not a dependency relationship. The root company (General Dynamics) manufactures products that receive NSA certification, but this is a compliance requirement, not a critical infrastructure dependency. Additionally, the evidence_quote describes the NSA's role as certifying products that General Dynamics produces, not as providing essential infrastructure or services that the company depends on. This is analogous to FDA approval for pharmaceuticals - it's regulatory oversight, not a dependency. The NSA as a regulator/certification body should be rejected as a counterparty per the audit rules.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "DoW",
+    "category": "dependency",
+    "subtype": "regulatory",
+    "evidence_quote": "the DoW implements the FAR through the Defense Federal Acquisition Regulation Supplement (DFARS).",
+    "confidence": 0.65,
+    "reason": "DoW (Department of War) is not a valid counterparty in this context. The evidence quote states 'the DoW implements the FAR through the Defense Federal Acquisition Regulation Supplement (DFARS)' - DoW here refers to the Department of Defense (commonly abbreviated DoD, though the text uses DoW). This is a regulatory/government entity acting in its regulatory capacity by implementing procurement regulations (FAR/DFARS). Under the audit criteria, regulators acting as regulators must be rejected as counterparties. The relationship described is purely regulatory oversight of procurement rules, not a commercial or dependency relationship. Additionally, the filing explicitly states 'Our U.S. government customer is a supplier for some of our programs' - the U.S. government is a customer, not a dependency. The FAR/DFARS implementation is regulatory framework governing how GD does business with its government customer, not a critical infrastructure dependency.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "FAA",
+    "category": "dependency",
+    "subtype": "regulatory",
+    "evidence_quote": "The Aerospace segment is subject to FAA regulation in the United States",
+    "confidence": 0.95,
+    "reason": "The FAA is a regulatory authority governing the Aerospace segment's aircraft certification and operations, not a dependency in the sense of infrastructure or services the root company relies upon to function. The evidence_quote confirms the FAA regulates the segment, but regulation by a government agency falls under the company's operational context, not a counterparty relationship. Per the instructions, regulators acting as regulators should be rejected. The FAA does not provide a critical infrastructure or service that GD depends on; it enforces compliance requirements. This is a regulatory oversight relationship, not a dependency relationship suitable for a knowledge graph edge.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Civil Aviation Administration of China",
+    "category": "dependency",
+    "subtype": "regulatory",
+    "evidence_quote": "aviation regulatory authorities internationally, including the Civil Aviation Administration of Israel (CAAI), the European Aviation Safety Agency (EASA) and the Civil Aviation Administration of China (CAAC).",
+    "confidence": 0.95,
+    "reason": "The Civil Aviation Administration of China (CAAC) is an aviation regulatory authority, not a dependency. The filing context describes CAAC as one of several regulatory bodies that General Dynamics' Aerospace segment must comply with to obtain type certificates and airworthiness certifications for business jet aircraft. This is a regulatory compliance relationship, not a critical dependency where GD relies on CAAC infrastructure or services. Regulatory authorities acting in their regulatory capacity should be rejected as counterparties per the instructions. The relationship is one of mandated compliance oversight, not a foundational dependency that enables GD's operations. CAAC does not provide critical infrastructure or services that GD depends upon; rather, it is a government regulator that GD must satisfy to sell aircraft in China.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "SEC",
+    "category": "dependency",
+    "subtype": "regulatory_filing",
+    "evidence_quote": "These factors may be revised or supplemented in future filings with the SEC.",
+    "confidence": 0.92,
+    "reason": "The SEC is a regulatory authority, not a dependency counterparty. The evidence quote 'These factors may be revised or supplemented in future filings with the SEC' merely references routine regulatory filing obligations. The SEC does not provide infrastructure or services that GD critically relies upon operationally. Per the rubric, regulators acting as regulators should be rejected as counterparties. Additionally, routine filing obligations do not constitute the type of critical operational dependency (like GPS infrastructure or free public networks) that would merit a dependency classification.",
+    "stage": "audit"
+  }
+]

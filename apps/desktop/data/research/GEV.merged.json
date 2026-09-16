@@ -1,0 +1,26 @@
+[
+  {
+    "counterparty_name": "GE",
+    "category": "partner",
+    "subtype": "intellectual property licensing agreement",
+    "evidence_quote": "we have a license to use certain IP from GE , including the GE name and the GE Monogram",
+    "confidence": 0.85,
+    "merged_into": "GE"
+  },
+  {
+    "counterparty_name": "GE",
+    "category": "dependency",
+    "subtype": "credit support and guarantees",
+    "evidence_quote": "certain GE credit support and guarantees of our obligations may not be replaced or released when expected, which could impose contractual restrictions, require alternative credit support, and obligate us to indemnify GE for amounts paid.",
+    "confidence": 0.75,
+    "merged_into": "GE"
+  },
+  {
+    "counterparty_name": "GE",
+    "category": "dependency",
+    "subtype": "credit support and guarantees",
+    "evidence_quote": "certain GE credit support and guarantees of our obligations may not be replaced or released when expected, which could impose contractual restrictions, require alternative credit support, and obligate us to indemnify GE for amounts paid",
+    "confidence": 0.7,
+    "merged_into": "GE"
+  }
+]

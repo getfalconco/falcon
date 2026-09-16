@@ -1,0 +1,228 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 145187,
+  "chunks": 7,
+  "candidates": [
+    {
+      "counterparty_name": "FDA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Health authorities, such as the FDA in the US and the European Medicines Agency in the EU, can refuse to approve our products or require us to conduct additional clinical trials",
+      "evidence_quotes": [
+        "Health authorities, such as the FDA in the US and the European Medicines Agency in the EU, can refuse to approve our products or require us to conduct additional clinical trials"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "European Medicines Agency",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Health authorities, such as the FDA in the US and the European Medicines Agency in the EU, can refuse to approve our products or require us to conduct additional clinical trials",
+      "evidence_quotes": [
+        "Health authorities, such as the FDA in the US and the European Medicines Agency in the EU, can refuse to approve our products or require us to conduct additional clinical trials"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "MedImmune",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "acquisition",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In 2007, the Group acquired MedImmune, a biologics and vaccines business based in the United States.",
+      "evidence_quotes": [
+        "In 2007, the Group acquired MedImmune, a biologics and vaccines business based in the United States."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Alexion",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "acquisition",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In 2021, the Group acquired Alexion, a rare disease business based in the United States.",
+      "evidence_quotes": [
+        "In 2021, the Group acquired Alexion, a rare disease business based in the United States."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Astra",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "merger",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Also in 1999, the Company merged with Astra of Sweden.",
+      "evidence_quotes": [
+        "Also in 1999, the Company merged with Astra of Sweden."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Novartis",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint_venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In 2000, it demerged the agrochemical business and merged it with the similar business of Novartis to form a new company called Syngenta AG.",
+      "evidence_quotes": [
+        "In 2000, it demerged the agrochemical business and merged it with the similar business of Novartis to form a new company called Syngenta AG."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Daiichi Sankyo",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "product development and commercialization collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Enhertu (trastuzumab deruxtecan) A HER2-directed ADC indicated for HER2- positive, HER2-low and HER2-ultralow advanced breast cancers",
+      "evidence_quotes": [
+        "Enhertu (trastuzumab deruxtecan) A HER2-directed ADC indicated for HER2- positive, HER2-low and HER2-ultralow advanced breast cancers"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Daiichi Sankyo",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "product development and commercialization collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Datroway (datopotamab deruxtecan) A TROP2-directed antibody drug conjugate (ADC) indicated for patients with previously treated metastatic HR-positive, HER2-negative breast cancer",
+      "evidence_quotes": [
+        "Datroway (datopotamab deruxtecan) A TROP2-directed antibody drug conjugate (ADC) indicated for patients with previously treated metastatic HR-positive, HER2-negative breast cancer"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Amgen",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint_development",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Developed in collaboration with Amgen Inc. (Amgen).",
+      "evidence_quotes": [
+        "Developed in collaboration with Amgen Inc. (Amgen)."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Sanofi",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint_development_and_commercialization",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Jointly developed and commercialised with Sanofi.",
+      "evidence_quotes": [
+        "Jointly developed and commercialised with Sanofi."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Daiichi Sankyo",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "licensing",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Rights licensed to Daiichi Sankyo, Inc.",
+      "evidence_quotes": [
+        "Rights licensed to Daiichi Sankyo, Inc."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Samsung Bioepis",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "biosimilar_settlement",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Settled with Amgen and Samsung Bioepis for licensed biosimilar entry date of 1 March 2025.",
+      "evidence_quotes": [
+        "Settled with Amgen and Samsung Bioepis for licensed biosimilar entry date of 1 March 2025."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Sanofi",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "pharmaceutical_products",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Beyfortus sales in the US decreased by 21% to $184 million (2024: $232 million; 2023: $87 million), comprised of sales to Sanofi.",
+      "evidence_quotes": [
+        "Beyfortus sales in the US decreased by 21% to $184 million (2024: $232 million; 2023: $87 million), comprised of sales to Sanofi."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Iranian Food and Drug Administration",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In July 2017, AstraZeneca Pars submitted regulatory applications to the Iranian Food and Drug Administration and subsequently received marketing authorizations for several products.",
+      "evidence_quotes": [
+        "In July 2017, AstraZeneca Pars submitted regulatory applications to the Iranian Food and Drug Administration and subsequently received marketing authorizations for several products."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "Iranian Ministry of Health",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "government_hospitals",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "AstraZeneca, through a distributor, sponsored health care provider education programs in Iran, including for employees of hospitals owned or controlled by the Iranian Ministry of Health.",
+      "evidence_quotes": [
+        "AstraZeneca, through a distributor, sponsored health care provider education programs in Iran, including for employees of hospitals owned or controlled by the Iranian Ministry of Health."
+      ],
+      "confidence": 0.8,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "Activision Blizzard",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "infrastructure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Activision Blizzard is a Microsoft subsidiary",
+      "evidence_quotes": [
+        "Activision Blizzard is a Microsoft subsidiary"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 6
+    }
+  ],
+  "candidatesPerChunk": [
+    2,
+    4,
+    2,
+    4,
+    1,
+    2,
+    1
+  ],
+  "parseErrors": 0,
+  "apiErrors": 0,
+  "inputTokens": 63390,
+  "outputTokens": 1729
+}

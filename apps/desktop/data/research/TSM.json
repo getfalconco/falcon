@@ -1,0 +1,310 @@
+[
+  {
+    "root_ticker": "TSM",
+    "counterparty_name": "Global Unichip Corp.",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "related_company",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.82,
+    "evidence": [
+      {
+        "quote": "Dr. Tseng is currently the Chairman of TSMC China Co., Ltd. (a non-public company) and Global Unichip Corp.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1046179/000162828026025362/tsm-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-04-16",
+    "shared_evidence_group": "ev_f7c9c57c6422"
+  },
+  {
+    "root_ticker": "TSM",
+    "counterparty_name": "eMemory Technology, Inc.",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "board_representation",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "and the Director of eMemory Technology, Inc.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1046179/000162828026025362/tsm-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-04-16",
+    "shared_evidence_group": "ev_8537050d6cc6"
+  },
+  {
+    "root_ticker": "TSM",
+    "counterparty_name": "Applied Materials",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "supplier",
+    "subtype": "board_member_prior_employer",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.85,
+    "evidence": [
+      {
+        "quote": "Mr. Michael R. Splinter served as Chief Executive Officer of Applied Materials from 2003 to 2012",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1046179/000162828026025362/tsm-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-04-16",
+    "shared_evidence_group": "ev_11c3afa85a0d"
+  },
+  {
+    "root_ticker": "TSM",
+    "counterparty_name": "Intel Corp.",
+    "counterparty_ticker": "INTC",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "board_member_prior_employer",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.15,
+    "evidence": [
+      {
+        "quote": "Prior to that, he served at Intel Corp. as Executive Vice President of Sales and Marketing from 2001 to 2003",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1046179/000162828026025362/tsm-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-04-16",
+    "shared_evidence_group": "ev_a9d0d3b10c67"
+  },
+  {
+    "root_ticker": "TSM",
+    "counterparty_name": "Cadence Design Systems, Inc.",
+    "counterparty_ticker": "CDNS",
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "board_member_prior_employer",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.85,
+    "evidence": [
+      {
+        "quote": "he served at Cadence Design Systems, Inc. in the United States as Executive Vice President and General Manager of the Verification Division from April 2005 to November 2007",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1046179/000162828026025362/tsm-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-04-16",
+    "shared_evidence_group": "ev_184ed11703fb"
+  },
+  {
+    "root_ticker": "TSM",
+    "counterparty_name": "National Development Fund, Executive Yuan",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "partner",
+    "subtype": "major_shareholder",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "National Development Fund, Executive Yuan 1,653,709,980 6.38%",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1046179/000162828026025362/tsm-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-04-16",
+    "shared_evidence_group": "ev_ca246fdae255"
+  },
+  {
+    "root_ticker": "TSM",
+    "counterparty_name": "Philips",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "joint_venture",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "SSMC is a joint venture in Singapore that we established with Philips and EDB to produce integrated circuits",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1046179/000162828026025362/tsm-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-04-16",
+    "shared_evidence_group": "ev_3defcff42f18"
+  },
+  {
+    "root_ticker": "TSM",
+    "counterparty_name": "NXP",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "joint_venture",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "our current ownership in SSMC is 38.8%, with NXP holding the remaining 61.2%",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1046179/000162828026025362/tsm-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-04-16",
+    "shared_evidence_group": "ev_9607582eb7d6"
+  },
+  {
+    "root_ticker": "TSM",
+    "counterparty_name": "Xintec, Inc.",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "supplier",
+    "subtype": "wafer_level_packaging",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "In 2025 , we incurred total manufacturing expenses of NT$ 5,448 million (US$ 174 million) from Xintec, representing 0.4% of our total cost of revenue",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1046179/000162828026025362/tsm-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-04-16",
+    "shared_evidence_group": "ev_730faff375c3"
+  },
+  {
+    "root_ticker": "TSM",
+    "counterparty_name": "Citibank, N.A.",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "supplier",
+    "subtype": "adr_depositary",
+    "strength": 1,
+    "strength_tier": "critical",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.88,
+    "evidence": [
+      {
+        "quote": "5,313,450,863 common shares, represented by 1,062,690,167 ADSs, were registered in the name of a nominee of Citibank, N.A., the depositary under our ADS deposit agreement",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1046179/000162828026025362/tsm-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-04-16",
+    "shared_evidence_group": "ev_ab1ecfe00845"
+  },
+  {
+    "root_ticker": "TSM",
+    "counterparty_name": "CTBC Bank Co., Ltd.",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "supplier",
+    "subtype": "share_registrar",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Our share registrar, CTBC Bank Co., Ltd., maintains the register of our shareholders at its office in Taipei, Taiwan.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1046179/000162828026025362/tsm-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-04-16",
+    "shared_evidence_group": "ev_28ee9987f8bf"
+  },
+  {
+    "root_ticker": "TSM",
+    "counterparty_name": "Taiwan Depository & Clearing Corporation",
+    "counterparty_ticker": null,
+    "counterparty_type": "other",
+    "category": "dependency",
+    "subtype": "settlement_infrastructure",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "The settlement of trading in the common shares is carried out on the book-entry system maintained by the Taiwan Depository & Clearing Corporation",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1046179/000162828026025362/tsm-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-04-16",
+    "shared_evidence_group": "ev_4abf77318446"
+  },
+  {
+    "root_ticker": "TSM",
+    "counterparty_name": "Central Bank of the Republic of China (Taiwan)",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "dependency",
+    "subtype": "regulatory_infrastructure",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "depositary may be required to obtain foreign exchange approval from the Central Bank of the Republic of China (Taiwan)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1046179/000162828026025362/tsm-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-04-16",
+    "shared_evidence_group": "ev_4ef413476624"
+  },
+  {
+    "root_ticker": "TSM",
+    "counterparty_name": "Citibank, N.A.",
+    "counterparty_ticker": null,
+    "counterparty_type": "financial_institution",
+    "category": "partner",
+    "subtype": "depositary_bank",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.88,
+    "evidence": [
+      {
+        "quote": "we received reimbursement of proxy related expenses of US $12,284 from Citibank, N.A., the Depositary Bank for our ADR program.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1046179/000162828026025362/tsm-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-04-16",
+    "shared_evidence_group": "ev_720f320e9557"
+  }
+]

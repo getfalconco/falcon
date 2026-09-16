@@ -1,0 +1,127 @@
+[
+  {
+    "root_ticker": "MCK",
+    "counterparty_name": "Cencora, Inc.",
+    "counterparty_ticker": "COR",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "pharmaceutical distribution competitor",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.98,
+    "evidence": [
+      {
+        "quote": "Our primary competitors in distribution, wholesaling, and logistics are Cencora, Inc. and Cardinal Health, Inc.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/927653/000092765326000069/mck-20260331.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "Certain competitors also offer combinations of distribution, GPO, and provider services capabilities, including Cencora, Inc. and Cardinal Health, Inc.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/927653/000092765326000069/mck-20260331.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-05-08",
+    "shared_evidence_group": "ev_25fc13490f09"
+  },
+  {
+    "root_ticker": "MCK",
+    "counterparty_name": "Cardinal Health, Inc.",
+    "counterparty_ticker": "CAH",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "pharmaceutical distribution competitor",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Our primary competitors in distribution, wholesaling, and logistics are Cencora, Inc. and Cardinal Health, Inc.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/927653/000092765326000069/mck-20260331.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "Certain competitors also offer combinations of distribution, GPO, and provider services capabilities, including Cencora, Inc. and Cardinal Health, Inc.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/927653/000092765326000069/mck-20260331.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-05-08",
+    "shared_evidence_group": "ev_25fc13490f09"
+  },
+  {
+    "root_ticker": "MCK",
+    "counterparty_name": "FDA",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "dependency",
+    "subtype": "product safety and distribution regulatory body",
+    "strength": 1,
+    "strength_tier": "critical",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "In the U.S., the FDA is the principal federal authority that regulates the safety, efficacy, quality, testing, premarket approval, manufacture, labeling, storage, distribution, and post-market surveillance of healthcare products",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/927653/000092765326000069/mck-20260331.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "We distribute pharmaceutical, medical, and other FDA-regulated products manufactured by third parties",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/927653/000092765326000069/mck-20260331.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-05-08",
+    "shared_evidence_group": "ev_1ed2493df215"
+  },
+  {
+    "root_ticker": "MCK",
+    "counterparty_name": "CVS",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "customer",
+    "subtype": "pharmaceutical distribution partnership",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "In fiscal 2023, we extended our pharmaceutical distribution partnership with CVS to June 2027.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/927653/000092765326000069/mck-20260331.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-05-08",
+    "shared_evidence_group": "ev_2668e3f956ad"
+  },
+  {
+    "root_ticker": "MCK",
+    "counterparty_name": "ClarusONE",
+    "counterparty_ticker": null,
+    "counterparty_type": "other",
+    "category": "supplier",
+    "subtype": "generic pharmaceutical sourcing partner",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.85,
+    "evidence": [
+      {
+        "quote": "Input cost increases, product discontinuations, and market shortages could result in ClarusONE being unsuccessful in sourcing product to meet the needs of our customers",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/927653/000092765326000069/mck-20260331.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-05-08",
+    "shared_evidence_group": "ev_fb5537d257b2"
+  }
+]

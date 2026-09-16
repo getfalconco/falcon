@@ -1,0 +1,271 @@
+[
+  {
+    "root_ticker": "RTX",
+    "counterparty_name": "Embraer",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "customer",
+    "subtype": "aircraft_manufacturer",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "The GTF family now powers more than 2,600 aircraft for over 90 operators across three aircraft platforms: Airbus A320neo family, Airbus A220, and Embraer E-Jets E2.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/101829/000010182926000006/rtx-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-06",
+    "shared_evidence_group": "ev_d92f474e79fa"
+  },
+  {
+    "root_ticker": "RTX",
+    "counterparty_name": "ATR",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "development_collaboration",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "As part of the PHARES consortium, Pratt & Whitney Canada will collaborate with Collins, ATR, Airbus, and technology research organizations to design and integrate a hybrid-electric propulsion demonstrator",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/101829/000010182926000006/rtx-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-06",
+    "shared_evidence_group": "ev_e4313a5986b2"
+  },
+  {
+    "root_ticker": "RTX",
+    "counterparty_name": "U.S. Navy",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "customer",
+    "subtype": "military",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Major new contracts awarded in 2025 include contracts to provide AMRAAM missiles to the U.S. Navy, U.S. Air Force and international customers",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/101829/000010182926000006/rtx-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-06",
+    "shared_evidence_group": "ev_9cee53704931"
+  },
+  {
+    "root_ticker": "RTX",
+    "counterparty_name": "U.S. Army",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "customer",
+    "subtype": "military",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "low-rate initial production of LTAMDS for the U.S. Army and Poland",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/101829/000010182926000006/rtx-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-06",
+    "shared_evidence_group": "ev_fd5a9ac12c61"
+  },
+  {
+    "root_ticker": "RTX",
+    "counterparty_name": "Missile Defense Agency",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "customer",
+    "subtype": "military",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "SM-3 exoatmospheric missile defense interceptors to the Missile Defense Agency",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/101829/000010182926000006/rtx-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-06",
+    "shared_evidence_group": "ev_3dff28ec32d0"
+  },
+  {
+    "root_ticker": "RTX",
+    "counterparty_name": "NATO Support and Procurement Agency",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "customer",
+    "subtype": "international_government",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Guidance Enhanced Missiles (GEM-T) for the North Atlantic Treaty Organization (NATO) Support and Procurement Agency (NSPA) and an international customer",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/101829/000010182926000006/rtx-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-06",
+    "shared_evidence_group": "ev_cd4219a1bc3d"
+  },
+  {
+    "root_ticker": "RTX",
+    "counterparty_name": "Royal Australian Air Force",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "customer",
+    "subtype": "military",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Next Generation Jammer Mid-Band (NGJ-MB) for the U.S. Navy and the Royal Australian Air Force",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/101829/000010182926000006/rtx-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-06",
+    "shared_evidence_group": "ev_4f928b06b797"
+  },
+  {
+    "root_ticker": "RTX",
+    "counterparty_name": "Thales-Raytheon Systems",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "joint_venture",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "the previously disclosed criminal and civil government investigations into payments made by Raytheon Company and its joint venture, Thales-Raytheon Systems (TRS)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/101829/000010182926000006/rtx-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "payments made by Raytheon Company and its joint venture, Thales-Raytheon Systems (TRS), since 2012 in connection with certain Middle East contracts",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/101829/000010182926000006/rtx-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-06",
+    "shared_evidence_group": "ev_31dc382f86cb"
+  },
+  {
+    "root_ticker": "RTX",
+    "counterparty_name": "Airbus",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "customer",
+    "subtype": "commercial_aerospace",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "because we have significant business with Airbus and Boeing, our aerospace businesses could be adversely affected by challenges faced by these or other individual customers.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/101829/000010182926000006/rtx-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-06",
+    "shared_evidence_group": "ev_2c64abd6e266"
+  },
+  {
+    "root_ticker": "RTX",
+    "counterparty_name": "Boeing",
+    "counterparty_ticker": "BA",
+    "counterparty_type": "public_company",
+    "category": "customer",
+    "subtype": "commercial_aerospace",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "because we have significant business with Airbus and Boeing, our aerospace businesses could be adversely affected by challenges faced by these or other individual customers.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/101829/000010182926000006/rtx-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-06",
+    "shared_evidence_group": "ev_2c64abd6e266"
+  },
+  {
+    "root_ticker": "RTX",
+    "counterparty_name": "U.S. government",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "customer",
+    "subtype": "defense_and_aerospace_customer",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "the U.S. government may award large competitive contracts to other suppliers to maintain a broad industrial base",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/101829/000010182926000006/rtx-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-06",
+    "shared_evidence_group": "ev_8200d269d080"
+  },
+  {
+    "root_ticker": "RTX",
+    "counterparty_name": "Defense Contract Management Agency",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "supplier",
+    "subtype": "regulatory_authority",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.88,
+    "evidence": [
+      {
+        "quote": "The Defense Contract Audit Agency (DCAA) and the Defense Contract Management Agency (DCMA) also review the adequacy of, and our compliance with, our internal control systems",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/101829/000010182926000006/rtx-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-06",
+    "shared_evidence_group": "ev_a1e12399e10b"
+  }
+]

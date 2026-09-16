@@ -1,0 +1,56 @@
+[
+  {
+    "counterparty_name": "Wallbox N.V.",
+    "category": "supplier",
+    "subtype": "investment",
+    "evidence_quote": "cash payments of $35.0 million for an incremental minority investment in Wallbox N.V.",
+    "confidence": 0.85,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Earth Foundry Fund",
+    "category": "supplier",
+    "subtype": "investment",
+    "evidence_quote": "$2.8 million for a minority investment in Earth Foundry Fund",
+    "confidence": 0.85,
+    "reason": "The $2.8 million is a minority equity investment by Generac into Earth Foundry Fund (an investment vehicle), not a purchase from a commercial vendor. There is no supplier relationship; this is a financial/passive investment, not a business relationship category covered by supplier/customer/partner/competitor/dependency.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Rolling Energy Resources",
+    "category": "supplier",
+    "subtype": "investment",
+    "evidence_quote": "$2.0 million of cash proceeds from the sale of our minority interest in Rolling Energy Resources",
+    "confidence": 0.85,
+    "reason": "The evidence describes Generac divesting a minority equity stake in Rolling Energy Resources, not a supplier/vendor purchasing relationship. There is no indication of a commercial buy/sell arrangement; this is a passive investment transaction (now sold), so 'supplier' with subtype 'investment' misclassifies a financial investment as a commercial relationship. No category in the allowed list (supplier/customer/partner/competitor/dependency) accurately captures a divested minority investment stake.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Wallbox N.V",
+    "category": "partner",
+    "subtype": "equity investment and warrant holder",
+    "evidence_quote": "Equity securities consist of shares of Wallbox N.V's (Wallbox) Class A common stock (Wallbox Shares).",
+    "confidence": 0.85,
+    "reason": "The evidence describes Generac holding Wallbox equity securities and stock warrants as passive financial investments (fair value accounting, Level 1/Level 3 classification, gains/losses in other expense). There is no mention of any commercial, distribution, licensing, or joint development arrangement between Generac and Wallbox — nothing supports 'partner' as defined. This is an investment holding, not a business relationship fitting supplier/customer/partner/competitor/dependency categories.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "ecobee",
+    "category": "competitor",
+    "subtype": "patent infringement litigant / thermostat maker",
+    "evidence_quote": "Ollnova Technologies Limited, a non-practicing entity, filed a patent infringement lawsuit against ecobee Technologies, ULC. (ecobee) in the United States District Court",
+    "confidence": 0.6,
+    "reason": "The evidence describes a patent lawsuit between Ollnova Technologies (a non-practicing entity) and ecobee Technologies ULC. Generac is not a party to this litigation at all — it's unrelated third-party litigation disclosed in the filing's legal proceedings section. There is no stated relationship, competitive or otherwise, between Generac and ecobee in this text.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Allmand",
+    "category": "partner",
+    "subtype": "acquisition target",
+    "evidence_quote": "the Company completed the acquisition of Allmand, a leading manufacturer of mobile power equipment for C&I markets, headquartered in Holdrege, Nebraska",
+    "confidence": 0.6,
+    "reason": "Allmand was acquired by Generac and is now a wholly-owned subsidiary as of the acquisition completion date; per the rule excluding the root's own subsidiaries/brands, it is internal to Generac and not an external counterparty. There is no ongoing partner/vendor relationship described, just a completed M&A transaction.",
+    "stage": "audit"
+  }
+]

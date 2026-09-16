@@ -1,0 +1,298 @@
+[
+  {
+    "root_ticker": "LSCC",
+    "counterparty_name": "UMC",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "supplier",
+    "subtype": "wafer_fabrication",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.98,
+    "evidence": [
+      {
+        "quote": "Lattice partners with United Microelectronics Corporation (\"UMC\") and its subsidiary United Semiconductor Japan Corporation (\"USJC\") to manufacture our products on its 130nm, 90nm, 65nm, and 40nm CMOS process technologies",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/855658/000143774926004100/lscc20260103_10k.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "We source silicon wafers from our foundry partners, UMC, USJC, Samsung, TSMC, and Epson, pursuant to agreements with each company and their respective affiliates.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/855658/000143774926004100/lscc20260103_10k.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-13",
+    "shared_evidence_group": "ev_2a085cfd2da4"
+  },
+  {
+    "root_ticker": "LSCC",
+    "counterparty_name": "USJC",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "supplier",
+    "subtype": "wafer_fabrication",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Lattice partners with United Microelectronics Corporation (\"UMC\") and its subsidiary United Semiconductor Japan Corporation (\"USJC\") to manufacture our products on its 130nm, 90nm, 65nm, and 40nm CMOS process technologies",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/855658/000143774926004100/lscc20260103_10k.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "We source silicon wafers from our foundry partners, UMC, USJC, Samsung, TSMC, and Epson, pursuant to agreements with each company and their respective affiliates.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/855658/000143774926004100/lscc20260103_10k.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-13",
+    "shared_evidence_group": "ev_2a085cfd2da4"
+  },
+  {
+    "root_ticker": "LSCC",
+    "counterparty_name": "Samsung",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "supplier",
+    "subtype": "wafer fabrication foundry",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "We source silicon wafers from our foundry partners, UMC, USJC, Samsung, TSMC, and Epson, pursuant to agreements with each company and their respective affiliates.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/855658/000143774926004100/lscc20260103_10k.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-13",
+    "shared_evidence_group": "ev_3d71091037c1"
+  },
+  {
+    "root_ticker": "LSCC",
+    "counterparty_name": "TSMC",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "supplier",
+    "subtype": "wafer fabrication foundry",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.98,
+    "evidence": [
+      {
+        "quote": "We source silicon wafers from our foundry partners, UMC, USJC, Samsung, TSMC, and Epson, pursuant to agreements with each company and their respective affiliates.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/855658/000143774926004100/lscc20260103_10k.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-13",
+    "shared_evidence_group": "ev_3d71091037c1"
+  },
+  {
+    "root_ticker": "LSCC",
+    "counterparty_name": "Epson",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "supplier",
+    "subtype": "wafer fabrication foundry",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "We source silicon wafers from our foundry partners, UMC, USJC, Samsung, TSMC, and Epson, pursuant to agreements with each company and their respective affiliates.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/855658/000143774926004100/lscc20260103_10k.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-13",
+    "shared_evidence_group": "ev_3d71091037c1"
+  },
+  {
+    "root_ticker": "LSCC",
+    "counterparty_name": "ASE",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "supplier",
+    "subtype": "assembly and test (OSAT)",
+    "strength": 1,
+    "strength_tier": "critical",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Wafer sort testing is primarily performed by ASE in Taiwan and Malaysia",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/855658/000143774926004100/lscc20260103_10k.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-13",
+    "shared_evidence_group": "ev_6899dec4e082"
+  },
+  {
+    "root_ticker": "LSCC",
+    "counterparty_name": "Amkor",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "supplier",
+    "subtype": "assembly and test (OSAT)",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Final testing is performed by ASE and Amkor.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/855658/000143774926004100/lscc20260103_10k.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-13",
+    "shared_evidence_group": "ev_9519d1dd8721"
+  },
+  {
+    "root_ticker": "LSCC",
+    "counterparty_name": "Taiwan Semiconductor Manufacturing",
+    "counterparty_ticker": "TSM",
+    "counterparty_type": "public_company",
+    "category": "supplier",
+    "subtype": "wafer foundry",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.98,
+    "evidence": [
+      {
+        "quote": "We rely on foundries in Japan, Korea and Taiwan to supply and fabricate silicon wafers for our semiconductor products, including Taiwan Semiconductor Manufacturing, Samsung Semiconductor, United Microelectronics Corporation, and Seiko Epson.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/855658/000143774926004100/lscc20260103_10k.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-13",
+    "shared_evidence_group": "ev_80e1ca97921d"
+  },
+  {
+    "root_ticker": "LSCC",
+    "counterparty_name": "Samsung Semiconductor",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "supplier",
+    "subtype": "wafer foundry",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "We rely on foundries in Japan, Korea and Taiwan to supply and fabricate silicon wafers for our semiconductor products, including Taiwan Semiconductor Manufacturing, Samsung Semiconductor, United Microelectronics Corporation, and Seiko Epson.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/855658/000143774926004100/lscc20260103_10k.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-13",
+    "shared_evidence_group": "ev_80e1ca97921d"
+  },
+  {
+    "root_ticker": "LSCC",
+    "counterparty_name": "United Microelectronics Corporation",
+    "counterparty_ticker": "UMC",
+    "counterparty_type": "public_company",
+    "category": "supplier",
+    "subtype": "wafer foundry",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "We rely on foundries in Japan, Korea and Taiwan to supply and fabricate silicon wafers for our semiconductor products, including Taiwan Semiconductor Manufacturing, Samsung Semiconductor, United Microelectronics Corporation, and Seiko Epson.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/855658/000143774926004100/lscc20260103_10k.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-13",
+    "shared_evidence_group": "ev_80e1ca97921d"
+  },
+  {
+    "root_ticker": "LSCC",
+    "counterparty_name": "Seiko Epson",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "supplier",
+    "subtype": "wafer foundry",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "We rely on foundries in Japan, Korea and Taiwan to supply and fabricate silicon wafers for our semiconductor products, including Taiwan Semiconductor Manufacturing, Samsung Semiconductor, United Microelectronics Corporation, and Seiko Epson.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/855658/000143774926004100/lscc20260103_10k.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-13",
+    "shared_evidence_group": "ev_80e1ca97921d"
+  },
+  {
+    "root_ticker": "LSCC",
+    "counterparty_name": "Advanced Semiconductor Engineering",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "supplier",
+    "subtype": "OSAT (packaging and test)",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "We rely on our OSATs in Malaysia, Taiwan and Japan to support the packaging and test of our products, including Advanced Semiconductor Engineering and Amkor Technology.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/855658/000143774926004100/lscc20260103_10k.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-13",
+    "shared_evidence_group": "ev_d608418ab0cf"
+  },
+  {
+    "root_ticker": "LSCC",
+    "counterparty_name": "Amkor Technology",
+    "counterparty_ticker": "AMKR",
+    "counterparty_type": "public_company",
+    "category": "supplier",
+    "subtype": "OSAT (packaging and test)",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "We rely on our OSATs in Malaysia, Taiwan and Japan to support the packaging and test of our products, including Advanced Semiconductor Engineering and Amkor Technology.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/855658/000143774926004100/lscc20260103_10k.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-13",
+    "shared_evidence_group": "ev_d608418ab0cf"
+  }
+]

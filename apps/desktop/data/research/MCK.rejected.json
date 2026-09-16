@@ -1,0 +1,74 @@
+[
+  {
+    "counterparty_name": "DEA",
+    "category": "dependency",
+    "subtype": "regulatory body for controlled substances",
+    "evidence_quote": "We are subject to the operating and security standards of the U.S. Drug Enforcement Administration (\"DEA\")... we are required to hold valid DEA and state-level registrations and licenses",
+    "confidence": 0.9,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "CMS",
+    "category": "dependency",
+    "subtype": "Medicare and Medicaid regulatory body",
+    "evidence_quote": "We are subject to the operating and security standards of... the Centers for Medicare & Medicaid Services (\"CMS\")... CMS adopted a rule, effective January 1, 2026, on bona fide service fees",
+    "confidence": 0.9,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "HRSA",
+    "category": "dependency",
+    "subtype": "340B program regulatory body",
+    "evidence_quote": "There are ongoing developments with respect to the 340B Drug Pricing Program (the \"340B program\") administered by the Health Resources and Services Administration (\"HRSA\").",
+    "confidence": 0.9,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Change Healthcare Inc.",
+    "category": "partner",
+    "subtype": "former_joint_venture_partner",
+    "evidence_quote": "On March 10, 2020, the Company completed a separation of its interest in Change Healthcare LLC...followed by a merger of SpinCo with and into Change Healthcare Inc.",
+    "confidence": 0.85,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "IRS",
+    "category": "dependency",
+    "subtype": "tax_authority",
+    "evidence_quote": "An opinion of legal counsel is not binding on the IRS or the courts, and the IRS or the courts may not agree with the intended tax-free treatment",
+    "confidence": 0.75,
+    "reason": "The IRS is a tax and revenue authority acting in its regulatory capacity. Per the auditor instructions, tax and revenue authorities (including the IRS and national revenue agencies) must always be rejected as counterparties. The evidence_quote discusses the IRS's role in determining tax treatment of corporate transactions, which is a regulatory function, not a dependency relationship. The IRS is not providing infrastructure or services that the root company critically relies upon for operations; rather, it is the government body that may rule on tax matters. This falls squarely within the exclusion criteria.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "SEC",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "the effectiveness of a registration statement to be filed with the SEC",
+    "confidence": 0.8,
+    "reason": "The SEC is a regulatory authority, not a dependency. The evidence_quote describes a procedural requirement ('the effectiveness of a registration statement to be filed with the SEC') related to the planned separation of Medical-Surgical Solutions. This is a regulatory filing obligation, not a critical dependency on SEC infrastructure or services. The SEC is acting in its regulatory capacity, which per instruction #4 should be rejected as a counterparty. Additionally, filing requirements with regulators do not constitute the type of dependency defined in the instructions (critical reliance on infrastructure/service with NO commercial vendor relationship, like GPS or public networks). This is a standard regulatory compliance matter, not an operational dependency.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Court of Chancery of the State of Delaware",
+    "category": "dependency",
+    "subtype": "legal infrastructure",
+    "evidence_quote": "the sole and exclusive forum for specified legal actions is the Court of Chancery of the State of Delaware",
+    "confidence": 0.75,
+    "reason": "The Court of Chancery of the State of Delaware is a judicial forum specified in McKesson's bylaws for dispute resolution, not a dependency relationship. This is a legal infrastructure element that all Delaware corporations interact with, but it does not constitute a critical operational dependency where McKesson relies on the court's infrastructure or services for business operations. The court is a neutral judicial body available to all Delaware entities, not a counterparty McKesson depends upon for its business functions. Additionally, courts acting in their judicial capacity (like regulators acting as regulators) should be rejected as counterparties. The evidence quote describes a forum selection clause, not an operational dependency.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "United States District Court for the District of Delaware",
+    "category": "dependency",
+    "subtype": "legal infrastructure",
+    "evidence_quote": "or the United States District Court for the District of Delaware if the Court of Chancery does not have or declines to accept jurisdiction",
+    "confidence": 0.75,
+    "reason": "The United States District Court for the District of Delaware is not a counterparty to McKesson. It is a legal venue specified in the company's bylaws for stockholder disputes. The quote describes an exclusive forum provision, not a dependency relationship. Courts are part of the legal infrastructure available to all entities and do not constitute a counterparty relationship. This is akin to rejecting regulators acting as regulators or tax authorities—they are public infrastructure, not business counterparties. The 'dependency' category is reserved for situations where the root company critically relies on external infrastructure (like GPS satellites or public networks), not for judicial venues that exist as general legal infrastructure for dispute resolution.",
+    "stage": "audit"
+  }
+]

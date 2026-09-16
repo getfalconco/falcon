@@ -1,0 +1,1291 @@
+[
+  {
+    "root_ticker": "BNTX",
+    "counterparty_name": "Pfizer",
+    "counterparty_ticker": "PFE",
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "commercialization_partner",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Our reported revenue is partially based on preliminary estimates of COVID-19 vaccine sales and costs from Pfizer Inc., or Pfizer",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "We depend on Pfizer to determine and provide estimates of the costs and profits to be shared with us in the countries where it is commercializing our COVID-19 vaccine under our collaboration agreement with Pfizer",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "We and Pfizer intend to continue to observe our COVID-19 vaccine, including variant- adapted vaccine candidates, in global clinical trials.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-10",
+    "shared_evidence_group": "ev_851df2dea83e"
+  },
+  {
+    "root_ticker": "BNTX",
+    "counterparty_name": "InstaDeep",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "supplier",
+    "subtype": "AI/ML technology acquisition",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.15,
+    "evidence": [
+      {
+        "quote": "in July 2023, we acquired InstaDeep, a leading global technology company in the field of AI and machine learning",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "Following our acquisition of InstaDeep Ltd., or InstaDeep, we also face competition in the rapidly growing and developing artificial intelligence, or AI, industry",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "We are investing in AI technology systems, including through our acquisition of InstaDeep",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-10",
+    "shared_evidence_group": "ev_39e9464287d9"
+  },
+  {
+    "root_ticker": "BNTX",
+    "counterparty_name": "WuXi Biologics Co., Ltd.",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "supplier",
+    "subtype": "contract_manufacturing_organization",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "we and our collaborators rely on WuXi Biologics Co., Ltd. and its affiliates for outsourcing activities related to manufacturing and the supply chain, research and development, certain IP, and commercialization readiness",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-10",
+    "shared_evidence_group": "ev_744190607bcf"
+  },
+  {
+    "root_ticker": "BNTX",
+    "counterparty_name": "EMA",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Because we are developing some of our product candidates for the treatment of diseases in which there is little clinical experience and, in some cases, using new endpoints or methodologies, the FDA, the EMA or other regulatory authorities may not",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "in December 2020, we were informed by the EMA that the agency was subject to a cyberattack and that some documents relating to our regulatory submission for our COVID-19 vaccine candidate",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "If we or our external CMOs cannot successfully manufacture material that conforms to our specifications and the strict regulatory requirements of the FDA, the EMA or comparable regulatory authorities",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-10",
+    "shared_evidence_group": "ev_cf77a23ec702"
+  },
+  {
+    "root_ticker": "BNTX",
+    "counterparty_name": "Moderna, Inc.",
+    "counterparty_ticker": "MRNA",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "COVID-19 vaccine",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "A number of competitors currently have programs to develop COVID-19 vaccine candidates, including vaccines developed by Moderna, Inc. and Novavax, Inc .",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "BioNTech SE and certain of our wholly owned subsidiaries are defendants in litigations initiated by CureVac, Moderna, Arbutus, Genevant, GSK, and Promosome regarding Comirnaty",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-10",
+    "shared_evidence_group": "ev_5bdddb70ea35"
+  },
+  {
+    "root_ticker": "BNTX",
+    "counterparty_name": "Novavax, Inc",
+    "counterparty_ticker": "NVAX",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "COVID-19 vaccine",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "A number of competitors currently have programs to develop COVID-19 vaccine candidates, including vaccines developed by Moderna, Inc. and Novavax, Inc .",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-10",
+    "shared_evidence_group": "ev_5bdddb70ea35"
+  },
+  {
+    "root_ticker": "BNTX",
+    "counterparty_name": "Medicare",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "dependency",
+    "subtype": "reimbursement_program",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "Successful sales of our product candidates, if approved, depend on the availability of coverage and adequate reimbursement from third-party payors including governmental healthcare programs, such as Medicare and Medicaid in the United States",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "exclusion from participation in government funded healthcare programs, such as Medicare and Medicaid",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-10",
+    "shared_evidence_group": "ev_4e901411c98a"
+  },
+  {
+    "root_ticker": "BNTX",
+    "counterparty_name": "Medicaid",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "dependency",
+    "subtype": "reimbursement_program",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "Successful sales of our product candidates, if approved, depend on the availability of coverage and adequate reimbursement from third-party payors including governmental healthcare programs, such as Medicare and Medicaid in the United States",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "exclusion from participation in government funded healthcare programs, such as Medicare and Medicaid",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-10",
+    "shared_evidence_group": "ev_4e901411c98a"
+  },
+  {
+    "root_ticker": "BNTX",
+    "counterparty_name": "Biotheus",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "supplier",
+    "subtype": "clinical-stage biotech acquisition",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "In January 2025, we acquired Biotheus, a clinical-stage biotechnology company, for upfront consideration predominantly of cash",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "This includes our acquisitions of Biotheus in January 2025 and CureVac in December 2025",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-10",
+    "shared_evidence_group": "ev_42aeeac2ae6b"
+  },
+  {
+    "root_ticker": "BNTX",
+    "counterparty_name": "Fosun Pharma",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "distribution",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Under our collaboration with Fosun Pharmaceutical Industrial Development, Co., Ltd, or Fosun Pharma, Fosun Pharma has marketing and distribution rights in Mainland China, Hong Kong Special Administrative Region, or SAR, Macau SAR and Taiwan region.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "we are aware that there have been allegations that Fosun International Ltd., an affiliate of our collaboration partner Fosun Pharma, is facing liquidity risks",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-10",
+    "shared_evidence_group": "ev_53eead58ed30"
+  },
+  {
+    "root_ticker": "BNTX",
+    "counterparty_name": "Arbutus Biopharma Corp.",
+    "counterparty_ticker": "ABUS",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "patent_litigation_opponent",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.85,
+    "evidence": [
+      {
+        "quote": "Arbutus Biopharma Corp., or Arbutus, and Genevant Sciences GmbH, or Genevant, have brought litigation against us and Pfizer in the United States",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-10",
+    "shared_evidence_group": "ev_42dc65b17d46"
+  },
+  {
+    "root_ticker": "BNTX",
+    "counterparty_name": "Genevant Sciences GmbH",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "competitor",
+    "subtype": "patent_litigation_opponent",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.15,
+    "evidence": [
+      {
+        "quote": "Arbutus Biopharma Corp., or Arbutus, and Genevant Sciences GmbH, or Genevant, have brought litigation against us and Pfizer in the United States",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-10",
+    "shared_evidence_group": "ev_42dc65b17d46"
+  },
+  {
+    "root_ticker": "BNTX",
+    "counterparty_name": "GlaxoSmithKline Biologicals SA",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "patent_litigation_opponent",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "GlaxoSmithKline Biologicals SA and GlaxoSmithKline LLC, or collectively, GSK, have brought litigation against us and Pfizer in the United States",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-10",
+    "shared_evidence_group": "ev_b8190c8edb07"
+  },
+  {
+    "root_ticker": "BNTX",
+    "counterparty_name": "GlaxoSmithKline LLC",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "patent_litigation_opponent",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.15,
+    "evidence": [
+      {
+        "quote": "GlaxoSmithKline Biologicals SA and GlaxoSmithKline LLC, or collectively, GSK, have brought litigation against us and Pfizer in the United States",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-10",
+    "shared_evidence_group": "ev_b8190c8edb07"
+  },
+  {
+    "root_ticker": "BNTX",
+    "counterparty_name": "University of Pennsylvania",
+    "counterparty_ticker": null,
+    "counterparty_type": "other",
+    "category": "supplier",
+    "subtype": "intellectual property licensor",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "we were in discussions with the University of Pennsylvania, or UPenn, and the National Institutes of Health, or the NIH, concerning royalties and other related amounts allegedly owed on sales of our COVID-19 vaccine",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "We have non-exclusive rights to use certain U.S. and European patent filings owned by University of Pennsylvania and relating to RNA containing modified nucleosides through our sublicense agreements",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-10",
+    "shared_evidence_group": "ev_302ba2ffb467"
+  },
+  {
+    "root_ticker": "BNTX",
+    "counterparty_name": "National Institutes of Health",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "dependency",
+    "subtype": "intellectual property rights holder",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.82,
+    "evidence": [
+      {
+        "quote": "we were in discussions with the University of Pennsylvania, or UPenn, and the National Institutes of Health, or the NIH, concerning royalties and other related amounts allegedly owed on sales of our COVID-19 vaccine",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "We also have a non-exclusive license from the National Institutes of Health granting us a right to use certain technology described in U.S. and European patent filings",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-10",
+    "shared_evidence_group": "ev_302ba2ffb467"
+  },
+  {
+    "root_ticker": "BNTX",
+    "counterparty_name": "Louisiana State University",
+    "counterparty_ticker": null,
+    "counterparty_type": "other",
+    "category": "supplier",
+    "subtype": "intellectual property licensor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "intellectual property rights that have been in-licensed, including patent applications and patents that we in-license from the University of Pennsylvania, the Louisiana State University, the Broad Institute, the NIH, Genevant, and CellScript",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-10",
+    "shared_evidence_group": "ev_52c51f1a0290"
+  },
+  {
+    "root_ticker": "BNTX",
+    "counterparty_name": "Broad Institute",
+    "counterparty_ticker": null,
+    "counterparty_type": "other",
+    "category": "supplier",
+    "subtype": "intellectual property licensor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "intellectual property rights that have been in-licensed, including patent applications and patents that we in-license from the University of Pennsylvania, the Louisiana State University, the Broad Institute, the NIH, Genevant, and CellScript",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-10",
+    "shared_evidence_group": "ev_52c51f1a0290"
+  },
+  {
+    "root_ticker": "BNTX",
+    "counterparty_name": "Genevant",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "supplier",
+    "subtype": "intellectual property licensor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "intellectual property rights that have been in-licensed, including patent applications and patents that we in-license from the University of Pennsylvania, the Louisiana State University, the Broad Institute, the NIH, Genevant, and CellScript",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "certain patent filings we have licensed from Acuitas and Genevant relating to lipid or non-liposomal formulations.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-10",
+    "shared_evidence_group": "ev_52c51f1a0290"
+  },
+  {
+    "root_ticker": "BNTX",
+    "counterparty_name": "CellScript",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "supplier",
+    "subtype": "licensing",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "BioNTech RNA is obliged to pay MRT and CellScript development milestone payments of up to approximately $26 million as well as royalties in the low to mid-single digits on net sales of licensed products",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "intellectual property rights that have been in-licensed, including patent applications and patents that we in-license from the University of Pennsylvania, the Louisiana State University, the Broad Institute, the NIH, Genevant, and CellScript",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "We have non-exclusive rights to use certain U.S. and European patent filings owned by University of Pennsylvania and relating to RNA containing modified nucleosides through our sublicense agreements with mRNA RiboTherapeutics, Inc. (MRT) and CellScript",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-10",
+    "shared_evidence_group": "ev_6255d52e2e69"
+  },
+  {
+    "root_ticker": "BNTX",
+    "counterparty_name": "CureVac",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "patent_litigation_plaintiff",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "BioNTech SE and certain of our wholly owned subsidiaries are defendants in litigations initiated by CureVac, Moderna, Arbutus, Genevant, GSK, and Promosome regarding Comirnaty",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-10",
+    "shared_evidence_group": "ev_6e928fdfe396"
+  },
+  {
+    "root_ticker": "BNTX",
+    "counterparty_name": "Arbutus",
+    "counterparty_ticker": null,
+    "counterparty_type": "company",
+    "category": "competitor",
+    "subtype": "patent_litigation_plaintiff",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.72,
+    "evidence": [
+      {
+        "quote": "BioNTech SE and certain of our wholly owned subsidiaries are defendants in litigations initiated by CureVac, Moderna, Arbutus, Genevant, GSK, and Promosome regarding Comirnaty",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-10",
+    "shared_evidence_group": "ev_6e928fdfe396"
+  },
+  {
+    "root_ticker": "BNTX",
+    "counterparty_name": "Genevant",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "supplier",
+    "subtype": "patent_litigation_plaintiff",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.72,
+    "evidence": [
+      {
+        "quote": "BioNTech SE and certain of our wholly owned subsidiaries are defendants in litigations initiated by CureVac, Moderna, Arbutus, Genevant, GSK, and Promosome regarding Comirnaty",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-10",
+    "shared_evidence_group": "ev_6e928fdfe396"
+  },
+  {
+    "root_ticker": "BNTX",
+    "counterparty_name": "GSK",
+    "counterparty_ticker": "GSK",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "patent_litigation_plaintiff",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.88,
+    "evidence": [
+      {
+        "quote": "BioNTech SE and certain of our wholly owned subsidiaries are defendants in litigations initiated by CureVac, Moderna, Arbutus, Genevant, GSK, and Promosome regarding Comirnaty",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-10",
+    "shared_evidence_group": "ev_6e928fdfe396"
+  },
+  {
+    "root_ticker": "BNTX",
+    "counterparty_name": "European Commission",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "customer",
+    "subtype": "vaccine purchase agreement",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "We and Pfizer have an ongoing COVID-19 Vaccine Purchase Agreement with the European Commission, or the EC, to deliver COVID-19 vaccines to the EU.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "On November 30, 2020, prior to our acquisition of CureVac, CureVac AG entered into an Advance Purchase Agreement, which we refer to as the APA, with the EU Commission, acting on behalf of all Member States of the European Union,",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "Currently, COVID-19 vaccine candidates are supplied in the European Union based on vaccine supply agreements with the European Commission that is acting on behalf and in the name of the member states",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-10",
+    "shared_evidence_group": "ev_2dd4302db4b6"
+  },
+  {
+    "root_ticker": "BNTX",
+    "counterparty_name": "Bristol Myers Squibb",
+    "counterparty_ticker": "BMY",
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "co-exclusive rights partnership",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Partnered with Bristol Myers Squibb. (4) Trial is currently being conducted by or on behalf of BioNTech. Bristol Myers Squibb holds co-exclusive rights to pumitamig.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "Bristol Myers Squibb to jointly develop, manufacture and commercialize pumitamig",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-10",
+    "shared_evidence_group": "ev_9bc5d2fa6b12"
+  },
+  {
+    "root_ticker": "BNTX",
+    "counterparty_name": "Genentech",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "co-development and co-commercialization",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Genentech has the sole right to commercialize the Genentech Collaboration Products on a worldwide basis, with all profits and losses from such commercialization to be split equally with us.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "Partnered with Genentech, a member of the Roche Group.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "Genentech for our iNeST platform in our mRNA drug class",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-10",
+    "shared_evidence_group": "ev_83e35383bc9f"
+  },
+  {
+    "root_ticker": "BNTX",
+    "counterparty_name": "University of Pennsylvania",
+    "counterparty_ticker": null,
+    "counterparty_type": "other",
+    "category": "partner",
+    "subtype": "development partnership",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Partnered with University of Pennsylvania.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-10",
+    "shared_evidence_group": "ev_39fa8214fe22"
+  },
+  {
+    "root_ticker": "BNTX",
+    "counterparty_name": "Gates Foundation",
+    "counterparty_ticker": null,
+    "counterparty_type": "other",
+    "category": "partner",
+    "subtype": "funding partner",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "Funded by the Gates Foundation.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-10",
+    "shared_evidence_group": "ev_89ebdd8abc70"
+  },
+  {
+    "root_ticker": "BNTX",
+    "counterparty_name": "Coalition for Epidemic Preparedness Innovations",
+    "counterparty_ticker": null,
+    "counterparty_type": "other",
+    "category": "partner",
+    "subtype": "funding partner",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "Funded by the Coalition for Epidemic Preparedness Innovations (CEPI).",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-10",
+    "shared_evidence_group": "ev_9c059ac803db"
+  },
+  {
+    "root_ticker": "BNTX",
+    "counterparty_name": "Roche",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "clinical development partner",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "We and our partner Roche have decided to discontinue the Phase 2 clinical trial (IMcode004; NCT06534983)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "We and our partner Roche have decided to discontinue the Phase 2 clinical trial (IMcode004; NCT06534983) evaluating autogene cevumeran",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-10",
+    "shared_evidence_group": "ev_354d14822373"
+  },
+  {
+    "root_ticker": "BNTX",
+    "counterparty_name": "Regeneron Pharmaceuticals Inc.",
+    "counterparty_ticker": "REGN",
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "clinical development partner",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "A Phase 2 clinical trial (BNT111-01; NCT04526899) in collaboration with Regeneron Pharmaceuticals Inc., or Regeneron, to evaluate BNT111 in combination with cemiplimab",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-10",
+    "shared_evidence_group": "ev_cccb4cec2c0e"
+  },
+  {
+    "root_ticker": "BNTX",
+    "counterparty_name": "DualityBio",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "co-development partner",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Trastuzumab Pamirtecan (BNT323/DB-1303), an ADC in Development in Collaboration with DualityBio",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "DualityBio for the research and development of certain antibody drug conjugates",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-10",
+    "shared_evidence_group": "ev_e3f6486ad79e"
+  },
+  {
+    "root_ticker": "BNTX",
+    "counterparty_name": "OncoC4",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "co-development partner",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Gotistobart (BNT316/ONC-392) is a tumor microenvironment-selective regulatory T cell-depleting antibody targeting cytotoxic T-lymphocyte associated protein 4, or CTLA-4, candidate being developed in collaboration with OncoC4.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "OncoC4 for the research and development of certain monoclonal anti-CTLA4 antibodies",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "a License and Collaboration Agreement, or the OncoC4 Agreement, for the license, development and commercialization of ONC-392 and all other monoclonal anti- CTLA4 antibodies",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-10",
+    "shared_evidence_group": "ev_4ebba9078296"
+  },
+  {
+    "root_ticker": "BNTX",
+    "counterparty_name": "Siemens",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "supplier",
+    "subtype": "automation technology partnership",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "In 2015, our wholly owned subsidiary, BioNTech RNA Pharmaceuticals GmbH, or BioNTech RNA, and Siemens announced a collaboration for developing an automated, paperless and digitalized production site for individualized mRNA.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-10",
+    "shared_evidence_group": "ev_d85cbf092cdc"
+  },
+  {
+    "root_ticker": "BNTX",
+    "counterparty_name": "CEPI",
+    "counterparty_ticker": null,
+    "counterparty_type": "other",
+    "category": "partner",
+    "subtype": "manufacturing funding partnership",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "In 2024, we announced that CEPI would be committing up to $145 million to support us to establish further mRNA clinical-scale manufacturing capabilities at the Kigali facility.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-10",
+    "shared_evidence_group": "ev_e07261f69902"
+  },
+  {
+    "root_ticker": "BNTX",
+    "counterparty_name": "State of Victoria",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "partner",
+    "subtype": "strategic mRNA ecosystem partnership",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "In 2023, we signed a multi-year strategic partnership with the State of Victoria, Australia, for an initiative to strengthen the local mRNA ecosystem with our BioNTainer technology.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-10",
+    "shared_evidence_group": "ev_9076f21c06b9"
+  },
+  {
+    "root_ticker": "BNTX",
+    "counterparty_name": "La Trobe University",
+    "counterparty_ticker": null,
+    "counterparty_type": "other",
+    "category": "partner",
+    "subtype": "manufacturing facility partnership",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "We are advancing the development and commissioning of a state-of-the-art mRNA manufacturing facility at La Trobe University in Melbourne, Australia, and have established R&D mRNA manufacturing capabilities in leased laboratory space at the university.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-10",
+    "shared_evidence_group": "ev_ad88f2f3a45e"
+  },
+  {
+    "root_ticker": "BNTX",
+    "counterparty_name": "Genmab",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "co-development and co-commercialization",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "We and Genmab must use commercially reasonable efforts to jointly commercialize all LCA Products and share equally all expenses and profits arising from such commercialization.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "Genmab for our next-generation checkpoint immunomodulator platform in our protein-based therapeutics drug class",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "Our antibodies product class features bispecific checkpoint immunomodulators for oncology therapy, which are developed through collaboration with Genmab.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-10",
+    "shared_evidence_group": "ev_044fdc27043c"
+  },
+  {
+    "root_ticker": "BNTX",
+    "counterparty_name": "DualityBio",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "license and collaboration",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "DualityBio granted us the exclusive, royalty-bearing and sublicensable right to exploit certain patents and know-how",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-10",
+    "shared_evidence_group": "ev_667920e55ef1"
+  },
+  {
+    "root_ticker": "BNTX",
+    "counterparty_name": "F. Hoffman-La Roche Ltd",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "co-development and co-commercialization",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "we entered into a Collaboration Agreement with Genentech and F. Hoffman-La Roche Ltd, together with all amendments thereto",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-10",
+    "shared_evidence_group": "ev_8678eb7c05ef"
+  },
+  {
+    "root_ticker": "BNTX",
+    "counterparty_name": "Fosun",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "collaboration_territory",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "collaborate on research, development and commercialization in the Pfizer Corona Field worldwide (excluding the Fosun collaboration territory)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-10",
+    "shared_evidence_group": "ev_4b6c864224be"
+  },
+  {
+    "root_ticker": "BNTX",
+    "counterparty_name": "Medicare",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "customer",
+    "subtype": "payor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.88,
+    "evidence": [
+      {
+        "quote": "sales of such product candidates will depend, in part, on the extent to which third-party payors, including government health programs in the United States (such as Medicare and Medicaid), commercial health insurers and managed care organizations, provide coverage",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-10",
+    "shared_evidence_group": "ev_43d507aad74e"
+  },
+  {
+    "root_ticker": "BNTX",
+    "counterparty_name": "TRON",
+    "counterparty_ticker": null,
+    "counterparty_type": "other",
+    "category": "partner",
+    "subtype": "co-ownership",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "Such mRNA Lipoplex Filings are solely owned by BioNTech or jointly owned by BioNTech and TRON.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-10",
+    "shared_evidence_group": "ev_dca9f02af7ac"
+  },
+  {
+    "root_ticker": "BNTX",
+    "counterparty_name": "mRNA RiboTherapeutics, Inc.",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "supplier",
+    "subtype": "license",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "We have non-exclusive rights to use certain U.S. and European patent filings owned by University of Pennsylvania and relating to RNA containing modified nucleosides through our sublicense agreements with mRNA RiboTherapeutics, Inc. (MRT) and CellScript",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-10",
+    "shared_evidence_group": "ev_10f8b1c0ec1a"
+  },
+  {
+    "root_ticker": "BNTX",
+    "counterparty_name": "Acuitas",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "supplier",
+    "subtype": "licensing",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "In April 2020, we entered into a Non-Exclusive License Agreement with Acuitas, or the Acuitas License Agreement. Under the Acuitas License Agreement, Acuitas grants us a non-exclusive worldwide license",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "we have obtained third-party licenses to technologies relating to certain lipids and/or lipid nanoparticles and formulations used in BNT162b2, including a non-exclusive license from Acuitas granting use rights",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-10",
+    "shared_evidence_group": "ev_e7299d0461d8"
+  },
+  {
+    "root_ticker": "BNTX",
+    "counterparty_name": "MRT",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "supplier",
+    "subtype": "licensing",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "BioNTech RNA is obliged to pay MRT and CellScript development milestone payments of up to approximately $26 million as well as royalties in the low to mid-single digits on net sales of licensed products",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-10",
+    "shared_evidence_group": "ev_6255d52e2e69"
+  },
+  {
+    "root_ticker": "BNTX",
+    "counterparty_name": "NIH",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "partner",
+    "subtype": "licensing",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "On May 27, 2020, we and the HHS, as represented by the National Institute of Allergy and Infectious Diseases, or NIAID, of the NIH, entered into a patent license agreement",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-10",
+    "shared_evidence_group": "ev_8502da76456a"
+  },
+  {
+    "root_ticker": "BNTX",
+    "counterparty_name": "BMS",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "co-development and co-commercialization alliance",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "we and BMS announced a global strategic partnership to co-develop and co-commercialize our next-generation bispecific antibody candidate, pumitamig",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "On August 15, 2025, we and BMS entered into an amended and restated agreement that replaced the original agreement. The new agreement governs the collaboration",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-10",
+    "shared_evidence_group": "ev_86890c99191b"
+  },
+  {
+    "root_ticker": "BNTX",
+    "counterparty_name": "German government",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "customer",
+    "subtype": "pandemic_preparedness_contract",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "Our remaining other revenues were mainly derived from a pandemic preparedness contract with the German government, during the year ended December 31, 2025",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-10",
+    "shared_evidence_group": "ev_a19e623e9bb4"
+  },
+  {
+    "root_ticker": "BNTX",
+    "counterparty_name": "Biotheus",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "license_and_collaboration",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.93,
+    "evidence": [
+      {
+        "quote": "a payment of €565.1 million for the settlement of our pre-existing relationship in connection with the License and Collaboration Agreement with Biotheus entered into in November 2023",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-10",
+    "shared_evidence_group": "ev_942a52d11342"
+  },
+  {
+    "root_ticker": "BNTX",
+    "counterparty_name": "CureVac",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "business_combination",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "the consideration for the CureVac business combination was mainly settled in ADSs, a positive cash contribution of €264.4 million was generated",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      }
+    ],
+    "valid_from": "2026-03-10",
+    "shared_evidence_group": "ev_1dc9883cbf61"
+  }
+]

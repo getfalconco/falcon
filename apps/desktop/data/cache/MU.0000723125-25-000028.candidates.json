@@ -1,0 +1,254 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 151388,
+  "chunks": 7,
+  "candidates": [
+    {
+      "counterparty_name": "China's Cyberspace Administration",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_infrastructure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In 2023, China's Cyberspace Administration (the \"CAC\") conducted a cybersecurity review of our products sold in China and decided that our products presented a cybersecurity risk.",
+      "evidence_quotes": [
+        "In 2023, China's Cyberspace Administration (the \"CAC\") conducted a cybersecurity review of our products sold in China and decided that our products presented a cybersecurity risk."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "U.S. Department of Commerce",
+      "counterparty_type": "government",
+      "category": "supplier",
+      "subtype": "government_grant_provider",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "On December 9, 2024, we entered into direct funding agreements with the U.S. Department of Commerce for up to $6.1 billion in direct funding pursuant to the CHIPS Act",
+      "evidence_quotes": [
+        "On December 9, 2024, we entered into direct funding agreements with the U.S. Department of Commerce for up to $6.1 billion in direct funding pursuant to the CHIPS Act"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "State of New York",
+      "counterparty_type": "government",
+      "category": "supplier",
+      "subtype": "government_incentive_provider",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we have also signed a non-binding term sheet with the State of New York that provides for up to $5.5 billion in funding for the planned four-fab facility",
+      "evidence_quotes": [
+        "we have also signed a non-binding term sheet with the State of New York that provides for up to $5.5 billion in funding for the planned four-fab facility"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "CHIPS Act",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_government_program",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "subject to market conditions, restrictions applicable under our CHIPS Act direct funding agreements, and our ongoing determination of the best use of available cash.",
+      "evidence_quotes": [
+        "subject to market conditions, restrictions applicable under our CHIPS Act direct funding agreements, and our ongoing determination of the best use of available cash."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Crucial",
+      "counterparty_type": "product",
+      "category": "supplier",
+      "subtype": "brand",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Micron delivers a rich portfolio of high-performance DRAM, NAND, and NOR memory and storage products through our Micron® and Crucial® brands.",
+      "evidence_quotes": [
+        "Micron delivers a rich portfolio of high-performance DRAM, NAND, and NOR memory and storage products through our Micron® and Crucial® brands."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Netlist, Inc.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "patent_litigation_adversary",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "On April 28, 2021, Netlist, Inc. (\"Netlist\") filed two patent infringement actions against Micron, Micron Semiconductor Products, Inc. (\"MSP\"), and Micron Technology Texas, LLC (\"MTEC\")",
+      "evidence_quotes": [
+        "On April 28, 2021, Netlist, Inc. (\"Netlist\") filed two patent infringement actions against Micron, Micron Semiconductor Products, Inc. (\"MSP\"), and Micron Technology Texas, LLC (\"MTEC\")"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Besang Inc.",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "patent_litigation_adversary",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "On January 23, 2023, Besang Inc. filed a patent infringement complaint against Micron in E.D. Tex.",
+      "evidence_quotes": [
+        "On January 23, 2023, Besang Inc. filed a patent infringement complaint against Micron in E.D. Tex."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Yangtze Memory Technologies Company, Ltd.",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "patent_litigation_adversary",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "On November 9, 2023, Yangtze Memory Technologies Company, Ltd. (\"YMTC\") filed a patent infringement complaint against Micron and one of its subsidiaries",
+      "evidence_quotes": [
+        "On November 9, 2023, Yangtze Memory Technologies Company, Ltd. (\"YMTC\") filed a patent infringement complaint against Micron and one of its subsidiaries"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Palisade Technologies, LLP",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "patent_litigation_adversary",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "On October 16, 2024, Palisade Technologies, LLP filed a patent infringement lawsuit against Micron and MSP in W.D. Tex.",
+      "evidence_quotes": [
+        "On October 16, 2024, Palisade Technologies, LLP filed a patent infringement lawsuit against Micron and MSP in W.D. Tex."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Advanced Memory Technologies, LLC",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "patent_litigation_adversary",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "On June 30, 2025, Advanced Memory Technologies, LLC filed a patent infringement lawsuit against Micron in W.D. Tex.",
+      "evidence_quotes": [
+        "On June 30, 2025, Advanced Memory Technologies, LLC filed a patent infringement lawsuit against Micron in W.D. Tex."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "YMTC",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "litigation_adversary",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "On June 7, 2025, YMTC filed a complaint against Micron and DCI Group AZ, LLC in the U.S. District Court for the District of Columbia.",
+      "evidence_quotes": [
+        "On June 7, 2025, YMTC filed a complaint against Micron and DCI Group AZ, LLC in the U.S. District Court for the District of Columbia."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Japanese Ministry of Economy, Trade and Industry",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "government_funding_provider",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We also receive incentives from the Japanese Ministry of Economy, Trade and Industry to support the production of DRAM using EUV lithography in Hiroshima, Japan.",
+      "evidence_quotes": [
+        "We also receive incentives from the Japanese Ministry of Economy, Trade and Industry to support the production of DRAM using EUV lithography in Hiroshima, Japan."
+      ],
+      "confidence": 0.92,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "U.S. Department of Commerce",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "government_funding_provider",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "On December 9, 2024, we entered into direct funding agreements with the U.S. Department of Commerce for up to $6.1 billion in direct funding pursuant to the CHIPS Act",
+      "evidence_quotes": [
+        "On December 9, 2024, we entered into direct funding agreements with the U.S. Department of Commerce for up to $6.1 billion in direct funding pursuant to the CHIPS Act"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Indian central government",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "construction_incentive_provider",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We receive incentives for the construction of a new assembly and test facility in Gujarat, India, representing 50 % of the total project cost from the Indian central government",
+      "evidence_quotes": [
+        "We receive incentives for the construction of a new assembly and test facility in Gujarat, India, representing 50 % of the total project cost from the Indian central government"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "state of Gujarat",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "construction_incentive_provider",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We receive incentives for the construction of a new assembly and test facility in Gujarat, India, representing 50 % of the total project cost from the Indian central government and 20 % of the total project cost from the state",
+      "evidence_quotes": [
+        "We receive incentives for the construction of a new assembly and test facility in Gujarat, India, representing 50 % of the total project cost from the Indian central government and 20 % of the total project cost from the state"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "Japanese Ministry of Economy, Trade and Industry",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "production_incentive_provider",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We also receive incentives from the Japanese Ministry of Economy, Trade and Industry to support the production of DRAM using EUV lithography in Hiroshima, Japan.",
+      "evidence_quotes": [
+        "We also receive incentives from the Japanese Ministry of Economy, Trade and Industry to support the production of DRAM using EUV lithography in Hiroshima, Japan."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "U.S. Department of Commerce",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "government_funding",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the Company has entered into direct funding agreements with the U.S. Department of Commerce for up to $6.4 billion in direct funding pursuant to the U.S. CHIPS Act",
+      "evidence_quotes": [
+        "the Company has entered into direct funding agreements with the U.S. Department of Commerce for up to $6.4 billion in direct funding pursuant to the U.S. CHIPS Act"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "PricewaterhouseCoopers LLP",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "audit_services",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The effectiveness of our internal control over financial reporting as of August 28, 2025 has been audited by PricewaterhouseCoopers LLP, an independent registered public accounting firm",
+      "evidence_quotes": [
+        "The effectiveness of our internal control over financial reporting as of August 28, 2025 has been audited by PricewaterhouseCoopers LLP, an independent registered public accounting firm"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 6
+    }
+  ],
+  "candidatesPerChunk": [
+    3,
+    1,
+    1,
+    5,
+    3,
+    3,
+    2
+  ],
+  "parseErrors": 0,
+  "apiErrors": 0,
+  "inputTokens": 44447,
+  "outputTokens": 1980
+}

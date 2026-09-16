@@ -1,0 +1,74 @@
+[
+  {
+    "counterparty_name": "TSMC",
+    "category": "partner",
+    "subtype": "joint_venture_manufacturing",
+    "evidence_quote": "ESMC is 70% owned by TSMC, with Bosch, Infineon, and NXP each owning 10%.",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Bosch",
+    "category": "partner",
+    "subtype": "joint_venture_manufacturing",
+    "evidence_quote": "ESMC is 70% owned by TSMC, with Bosch, Infineon, and NXP each owning 10%.",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Infineon",
+    "category": "partner",
+    "subtype": "joint_venture_manufacturing",
+    "evidence_quote": "ESMC is 70% owned by TSMC, with Bosch, Infineon, and NXP each owning 10%.",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "TTTech Auto",
+    "category": "supplier",
+    "subtype": "acquired_company",
+    "evidence_quote": "On June 17, 2025, NXP announced the closing of the acquisition of 100% of TTTech Auto for $766 million in cash",
+    "confidence": 0.95,
+    "reason": "TTTech Auto was acquired by NXP, making it a subsidiary of the ROOT company, not an external counterparty. The filing clearly states 'NXP announced the closing of the acquisition of 100% of TTTech Auto' on June 17, 2025. Post-acquisition, TTTech Auto is part of NXP's corporate structure, not a supplier. Acquired companies are internal entities after the acquisition closes, analogous to subsidiaries and brands. The 'supplier' category and 'acquired_company' subtype are contradictory—an acquired company becomes part of the acquiring entity and cannot simultaneously be a counterparty supplier.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "ISO 45001",
+    "category": "dependency",
+    "subtype": "certification_standard",
+    "evidence_quote": "NXP is certified to ISO 45001, the international standard for occupational health and safety management systems.",
+    "confidence": 0.75,
+    "reason": "ISO 45001 is an international certification standard, not an external organization or counterparty. It is a publicly available management system standard published by ISO (International Organization for Standardization) that companies adopt and certify to. NXP's certification to ISO 45001 does not create a commercial, partnership, competitive, or dependency relationship with a counterparty. The standard itself is not an entity NXP transacts with or relies upon in the way 'dependency' implies (e.g., critical infrastructure or services). This is analogous to claiming GAAP or ISO 9001 as a counterparty—they are frameworks or standards, not organizations with which NXP has a business relationship. The evidence quote simply states NXP is certified to the standard, which does not support a counterparty relationship.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "U.S. Department of Commerce",
+    "category": "dependency",
+    "subtype": "regulatory_body",
+    "evidence_quote": "import and export regulations, such as the U.S. Export Administration Regulations administered by the U.S. Department of Commerce and sanctions imposed by the European Union",
+    "confidence": 0.85,
+    "reason": "The U.S. Department of Commerce administers regulations that NXP must comply with, making it a regulatory authority, not a dependency. Regulatory bodies acting in their regulatory capacity (enforcing compliance, issuing permits, administering export controls) are explicitly excluded from the counterparty set per instruction #4. The evidence_quote describes DoC as the administrator of Export Administration Regulations that govern NXP's activities—a classic regulator-regulated relationship. While NXP is subject to these regulations, this is not a 'dependency' on infrastructure or services in the intended sense (like GPS satellites or public internet). The DoC provides no operational infrastructure to NXP; it enforces rules. This falls squarely into the 'regulators acting as regulators' exclusion.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "European Union",
+    "category": "dependency",
+    "subtype": "regulatory_body",
+    "evidence_quote": "import and export regulations, such as the U.S. Export Administration Regulations administered by the U.S. Department of Commerce and sanctions imposed by the European Union",
+    "confidence": 0.85,
+    "reason": "The evidence_quote mentions the European Union only as an entity that imposes sanctions, not as a regulatory body on which NXP has a critical dependency. The passage states 'import and export regulations, such as the U.S. Export Administration Regulations administered by the U.S. Department of Commerce and sanctions imposed by the European Union' in the context of compliance burdens and potential business disruption. The EU is mentioned alongside other regulatory regimes as a source of sanctions and restrictions, but this does not establish a 'dependency' relationship. The text describes compliance obligations and risks from EU regulations (e.g., GDPR, foreign investment controls), but compliance with a regulator's rules does not constitute a dependency in the knowledge graph sense. A dependency relationship requires the root company to critically rely on counterparty infrastructure or services with no commercial relationship. Regulators acting in their regulatory capacity should be rejected as counterparties per the instructions. The EU here is acting as a regulator imposing sanctions and rules, not providing critical infrastructure NXP depends upon.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "OECD",
+    "category": "dependency",
+    "subtype": "regulatory_framework",
+    "evidence_quote": "the Organization for Economic Co-operation and Development (OECD), and other government agencies in jurisdictions where we and our affiliates do business have had an extended focus on issues related to the taxation of multinational corporations",
+    "confidence": 0.88,
+    "reason": "The OECD is not a counterparty to NXP in any commercial, dependency, partnership, customer, supplier, or competitor relationship. The evidence quote describes the OECD as a multilateral policy organization that has 'had an extended focus on issues related to the taxation of multinational corporations.' This is a regulatory/policy context, not a dependency relationship. The OECD does not provide infrastructure or services that NXP relies upon; rather, it develops international tax policy frameworks that influence national legislation. The passage discusses potential future tax law changes influenced by OECD initiatives (like Pillar 2), which is a general regulatory risk faced by all multinationals, not a specific operational dependency on the OECD itself. The OECD is a policy-setting body, not a service provider or critical infrastructure NXP depends on. This should be rejected as it conflates regulatory environment risk with counterparty dependency.",
+    "stage": "audit"
+  }
+]

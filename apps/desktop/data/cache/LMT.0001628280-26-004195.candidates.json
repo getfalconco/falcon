@@ -1,0 +1,213 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 114044,
+  "chunks": 5,
+  "candidates": [
+    {
+      "counterparty_name": "RTX Corporation",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint_venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Javelin was developed and is currently produced for the U.S. Army and U.S. Marine Corps by a joint venture between Lockheed Martin and RTX Corporation.",
+      "evidence_quotes": [
+        "Javelin was developed and is currently produced for the U.S. Army and U.S. Marine Corps by a joint venture between Lockheed Martin and RTX Corporation."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "The Boeing Company",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "primary_competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The Boeing Company, General Dynamics, L3Harris Technologies, Northrop Grumman, and RTX Corporation are some of our primary competitors.",
+      "evidence_quotes": [
+        "The Boeing Company, General Dynamics, L3Harris Technologies, Northrop Grumman, and RTX Corporation are some of our primary competitors."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "General Dynamics",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "primary_competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The Boeing Company, General Dynamics, L3Harris Technologies, Northrop Grumman, and RTX Corporation are some of our primary competitors.",
+      "evidence_quotes": [
+        "The Boeing Company, General Dynamics, L3Harris Technologies, Northrop Grumman, and RTX Corporation are some of our primary competitors."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "L3Harris Technologies",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "primary_competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The Boeing Company, General Dynamics, L3Harris Technologies, Northrop Grumman, and RTX Corporation are some of our primary competitors.",
+      "evidence_quotes": [
+        "The Boeing Company, General Dynamics, L3Harris Technologies, Northrop Grumman, and RTX Corporation are some of our primary competitors."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Northrop Grumman",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "primary_competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The Boeing Company, General Dynamics, L3Harris Technologies, Northrop Grumman, and RTX Corporation are some of our primary competitors.",
+      "evidence_quotes": [
+        "The Boeing Company, General Dynamics, L3Harris Technologies, Northrop Grumman, and RTX Corporation are some of our primary competitors."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "RTX Corporation",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "primary_competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The Boeing Company, General Dynamics, L3Harris Technologies, Northrop Grumman, and RTX Corporation are some of our primary competitors.",
+      "evidence_quotes": [
+        "The Boeing Company, General Dynamics, L3Harris Technologies, Northrop Grumman, and RTX Corporation are some of our primary competitors."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "NASA",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "government_agency",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We contract with numerous U.S. Government agencies and entities, principally all branches of the U.S. military and NASA.",
+      "evidence_quotes": [
+        "We contract with numerous U.S. Government agencies and entities, principally all branches of the U.S. military and NASA."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Department of Defense",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "government_agency",
+      "disclosed_revenue_dependency_pct": 63,
+      "evidence_quote": "We derived 72% of our total consolidated sales from the U.S. Government in 2025, including 63% from the Department of War (DoW), also known as the Department of Defense",
+      "evidence_quotes": [
+        "We derived 72% of our total consolidated sales from the U.S. Government in 2025, including 63% from the Department of War (DoW), also known as the Department of Defense"
+      ],
+      "confidence": 0.98,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Defense Contract Audit Agency",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "audit and oversight",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "U.S. Government agencies, including the Defense Contract Audit Agency, the Defense Contract Management Agency and various agency Inspectors General, routinely audit and investigate government contractors.",
+      "evidence_quotes": [
+        "U.S. Government agencies, including the Defense Contract Audit Agency, the Defense Contract Management Agency and various agency Inspectors General, routinely audit and investigate government contractors."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Defense Contract Management Agency",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "audit and oversight",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "U.S. Government agencies, including the Defense Contract Audit Agency, the Defense Contract Management Agency and various agency Inspectors General, routinely audit and investigate government contractors.",
+      "evidence_quotes": [
+        "U.S. Government agencies, including the Defense Contract Audit Agency, the Defense Contract Management Agency and various agency Inspectors General, routinely audit and investigate government contractors."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Russia",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "geopolitical_environment",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Economic sanctions, export controls, and other trade restrictions, for instance those that the U.S. Government and other nations implemented against Russia in light of its invasion of Ukraine",
+      "evidence_quotes": [
+        "Economic sanctions, export controls, and other trade restrictions, for instance those that the U.S. Government and other nations implemented against Russia in light of its invasion of Ukraine"
+      ],
+      "confidence": 0.65,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "China",
+      "counterparty_type": "government",
+      "category": "competitor",
+      "subtype": "geopolitical_restrictions",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "China has placed restrictions on and sanctioned our company and certain executives in connection with foreign military sales by the U.S. Government to Taiwan involving our products and services.",
+      "evidence_quotes": [
+        "China has placed restrictions on and sanctioned our company and certain executives in connection with foreign military sales by the U.S. Government to Taiwan involving our products and services."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Taiwan",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "foreign_military_sales",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We will continue to follow official U.S. Government guidance as it relates to sales to Taiwan and do not currently expect a material impact to our business from these actions.",
+      "evidence_quotes": [
+        "We will continue to follow official U.S. Government guidance as it relates to sales to Taiwan and do not currently expect a material impact to our business from these actions."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Türkiye",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "international_customer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the U.S. Government has imposed certain sanctions on Türkish entities and persons, which has affected our ability to obtain certain U.S. export permits or authorizations necessary to perform under our existing contracts supporting the Türkish Utility Helicopter Program (TUHP)",
+      "evidence_quotes": [
+        "the U.S. Government has imposed certain sanctions on Türkish entities and persons, which has affected our ability to obtain certain U.S. export permits or authorizations necessary to perform under our existing contracts supporting the Türkish Utility Helicopter Program (TUHP)"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "IRS",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "tax_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We are subject to income and other taxes in the U.S. and foreign jurisdictions.",
+      "evidence_quotes": [
+        "We are subject to income and other taxes in the U.S. and foreign jurisdictions."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 4
+    }
+  ],
+  "candidatesPerChunk": [
+    6,
+    2,
+    2,
+    4,
+    1
+  ],
+  "parseErrors": 0,
+  "apiErrors": 0,
+  "inputTokens": 26177,
+  "outputTokens": 1528
+}

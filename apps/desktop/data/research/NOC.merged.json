@@ -1,0 +1,10 @@
+[
+  {
+    "counterparty_name": "U.S. government",
+    "category": "customer",
+    "subtype": "defense_contractor",
+    "evidence_quote": "In connection with our U.S. government contracts, we are required to procure certain raw materials, chemicals, components and parts from supply sources approved by the customer",
+    "confidence": 0.95,
+    "merged_into": "U.S. government"
+  }
+]

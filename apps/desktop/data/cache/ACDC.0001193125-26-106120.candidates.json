@@ -1,0 +1,542 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 204046,
+  "chunks": 9,
+  "candidates": [
+    {
+      "counterparty_name": "Halliburton Company",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "well_stimulation_services",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our Stimulation Services competitors include Halliburton Company, Liberty Energy Inc., ProPetro Holding Corp., and Patterson-UTI Energy, Inc., among others.",
+      "evidence_quotes": [
+        "Our Stimulation Services competitors include Halliburton Company, Liberty Energy Inc., ProPetro Holding Corp., and Patterson-UTI Energy, Inc., among others."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Liberty Energy Inc.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "well_stimulation_services",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our Stimulation Services competitors include Halliburton Company, Liberty Energy Inc., ProPetro Holding Corp., and Patterson-UTI Energy, Inc., among others.",
+      "evidence_quotes": [
+        "Our Stimulation Services competitors include Halliburton Company, Liberty Energy Inc., ProPetro Holding Corp., and Patterson-UTI Energy, Inc., among others."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "ProPetro Holding Corp.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "well_stimulation_services",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our Stimulation Services competitors include Halliburton Company, Liberty Energy Inc., ProPetro Holding Corp., and Patterson-UTI Energy, Inc., among others.",
+      "evidence_quotes": [
+        "Our Stimulation Services competitors include Halliburton Company, Liberty Energy Inc., ProPetro Holding Corp., and Patterson-UTI Energy, Inc., among others."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Patterson-UTI Energy, Inc.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "well_stimulation_services",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our Stimulation Services competitors include Halliburton Company, Liberty Energy Inc., ProPetro Holding Corp., and Patterson-UTI Energy, Inc., among others.",
+      "evidence_quotes": [
+        "Our Stimulation Services competitors include Halliburton Company, Liberty Energy Inc., ProPetro Holding Corp., and Patterson-UTI Energy, Inc., among others."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Atlas Energy Solutions Inc.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "frac_sand_production",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Competitors to our Proppant Production segment include Atlas Energy Solutions Inc., Badger Mining Corporation, Iron Oak Energy Solutions, Freedom Proppant, Signal Peak Silica, U.S. Silica Inc., Vista Minerals and Capital Sand Company, among others.",
+      "evidence_quotes": [
+        "Competitors to our Proppant Production segment include Atlas Energy Solutions Inc., Badger Mining Corporation, Iron Oak Energy Solutions, Freedom Proppant, Signal Peak Silica, U.S. Silica Inc., Vista Minerals and Capital Sand Company, among others."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Badger Mining Corporation",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "frac_sand_production",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Competitors to our Proppant Production segment include Atlas Energy Solutions Inc., Badger Mining Corporation, Iron Oak Energy Solutions, Freedom Proppant, Signal Peak Silica, U.S. Silica Inc., Vista Minerals and Capital Sand Company, among others.",
+      "evidence_quotes": [
+        "Competitors to our Proppant Production segment include Atlas Energy Solutions Inc., Badger Mining Corporation, Iron Oak Energy Solutions, Freedom Proppant, Signal Peak Silica, U.S. Silica Inc., Vista Minerals and Capital Sand Company, among others."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Iron Oak Energy Solutions",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "frac_sand_production",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Competitors to our Proppant Production segment include Atlas Energy Solutions Inc., Badger Mining Corporation, Iron Oak Energy Solutions, Freedom Proppant, Signal Peak Silica, U.S. Silica Inc., Vista Minerals and Capital Sand Company, among others.",
+      "evidence_quotes": [
+        "Competitors to our Proppant Production segment include Atlas Energy Solutions Inc., Badger Mining Corporation, Iron Oak Energy Solutions, Freedom Proppant, Signal Peak Silica, U.S. Silica Inc., Vista Minerals and Capital Sand Company, among others."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Freedom Proppant",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "frac_sand_production",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Competitors to our Proppant Production segment include Atlas Energy Solutions Inc., Badger Mining Corporation, Iron Oak Energy Solutions, Freedom Proppant, Signal Peak Silica, U.S. Silica Inc., Vista Minerals and Capital Sand Company, among others.",
+      "evidence_quotes": [
+        "Competitors to our Proppant Production segment include Atlas Energy Solutions Inc., Badger Mining Corporation, Iron Oak Energy Solutions, Freedom Proppant, Signal Peak Silica, U.S. Silica Inc., Vista Minerals and Capital Sand Company, among others."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Signal Peak Silica",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "frac_sand_production",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Competitors to our Proppant Production segment include Atlas Energy Solutions Inc., Badger Mining Corporation, Iron Oak Energy Solutions, Freedom Proppant, Signal Peak Silica, U.S. Silica Inc., Vista Minerals and Capital Sand Company, among others.",
+      "evidence_quotes": [
+        "Competitors to our Proppant Production segment include Atlas Energy Solutions Inc., Badger Mining Corporation, Iron Oak Energy Solutions, Freedom Proppant, Signal Peak Silica, U.S. Silica Inc., Vista Minerals and Capital Sand Company, among others."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "U.S. Silica Inc.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "frac_sand_production",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Competitors to our Proppant Production segment include Atlas Energy Solutions Inc., Badger Mining Corporation, Iron Oak Energy Solutions, Freedom Proppant, Signal Peak Silica, U.S. Silica Inc., Vista Minerals and Capital Sand Company, among others.",
+      "evidence_quotes": [
+        "Competitors to our Proppant Production segment include Atlas Energy Solutions Inc., Badger Mining Corporation, Iron Oak Energy Solutions, Freedom Proppant, Signal Peak Silica, U.S. Silica Inc., Vista Minerals and Capital Sand Company, among others."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Vista Minerals",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "frac_sand_production",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Competitors to our Proppant Production segment include Atlas Energy Solutions Inc., Badger Mining Corporation, Iron Oak Energy Solutions, Freedom Proppant, Signal Peak Silica, U.S. Silica Inc., Vista Minerals and Capital Sand Company, among others.",
+      "evidence_quotes": [
+        "Competitors to our Proppant Production segment include Atlas Energy Solutions Inc., Badger Mining Corporation, Iron Oak Energy Solutions, Freedom Proppant, Signal Peak Silica, U.S. Silica Inc., Vista Minerals and Capital Sand Company, among others."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Capital Sand Company",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "frac_sand_production",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Competitors to our Proppant Production segment include Atlas Energy Solutions Inc., Badger Mining Corporation, Iron Oak Energy Solutions, Freedom Proppant, Signal Peak Silica, U.S. Silica Inc., Vista Minerals and Capital Sand Company, among others.",
+      "evidence_quotes": [
+        "Competitors to our Proppant Production segment include Atlas Energy Solutions Inc., Badger Mining Corporation, Iron Oak Energy Solutions, Freedom Proppant, Signal Peak Silica, U.S. Silica Inc., Vista Minerals and Capital Sand Company, among others."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Caterpillar, Inc.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "manufacturing",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Competitors to our Manufacturing segment include Caterpillar, Inc., Gardner Denver, and EnQuest Energy Solutions, among others.",
+      "evidence_quotes": [
+        "Competitors to our Manufacturing segment include Caterpillar, Inc., Gardner Denver, and EnQuest Energy Solutions, among others."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Gardner Denver",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "manufacturing",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Competitors to our Manufacturing segment include Caterpillar, Inc., Gardner Denver, and EnQuest Energy Solutions, among others.",
+      "evidence_quotes": [
+        "Competitors to our Manufacturing segment include Caterpillar, Inc., Gardner Denver, and EnQuest Energy Solutions, among others."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "EnQuest Energy Solutions",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "manufacturing",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Competitors to our Manufacturing segment include Caterpillar, Inc., Gardner Denver, and EnQuest Energy Solutions, among others.",
+      "evidence_quotes": [
+        "Competitors to our Manufacturing segment include Caterpillar, Inc., Gardner Denver, and EnQuest Energy Solutions, among others."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Life Cycle Power",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "power_generation",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Competitors include Life Cycle Power, Voltagrid LLC, Solaris Energy Infrastructure, Inc., Liberty Energy Inc. and Gensystems Power Solutions, among others.",
+      "evidence_quotes": [
+        "Competitors include Life Cycle Power, Voltagrid LLC, Solaris Energy Infrastructure, Inc., Liberty Energy Inc. and Gensystems Power Solutions, among others."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Voltagrid LLC",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "power_generation",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Competitors include Life Cycle Power, Voltagrid LLC, Solaris Energy Infrastructure, Inc., Liberty Energy Inc. and Gensystems Power Solutions, among others.",
+      "evidence_quotes": [
+        "Competitors include Life Cycle Power, Voltagrid LLC, Solaris Energy Infrastructure, Inc., Liberty Energy Inc. and Gensystems Power Solutions, among others."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Solaris Energy Infrastructure, Inc.",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "power_generation",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Competitors include Life Cycle Power, Voltagrid LLC, Solaris Energy Infrastructure, Inc., Liberty Energy Inc. and Gensystems Power Solutions, among others.",
+      "evidence_quotes": [
+        "Competitors include Life Cycle Power, Voltagrid LLC, Solaris Energy Infrastructure, Inc., Liberty Energy Inc. and Gensystems Power Solutions, among others."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Liberty Energy Inc.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "power_generation",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Competitors include Life Cycle Power, Voltagrid LLC, Solaris Energy Infrastructure, Inc., Liberty Energy Inc. and Gensystems Power Solutions, among others.",
+      "evidence_quotes": [
+        "Competitors include Life Cycle Power, Voltagrid LLC, Solaris Energy Infrastructure, Inc., Liberty Energy Inc. and Gensystems Power Solutions, among others."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Gensystems Power Solutions",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "power_generation",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Competitors include Life Cycle Power, Voltagrid LLC, Solaris Energy Infrastructure, Inc., Liberty Energy Inc. and Gensystems Power Solutions, among others.",
+      "evidence_quotes": [
+        "Competitors include Life Cycle Power, Voltagrid LLC, Solaris Energy Infrastructure, Inc., Liberty Energy Inc. and Gensystems Power Solutions, among others."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "PC Energy Credit I, LLC",
+      "counterparty_type": "private_company",
+      "category": "customer",
+      "subtype": "asset_purchaser",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In November 2025, we assigned the Flotek PWRtek Note receivable to PC Energy Credit I, LLC, a related party to the Company controlled by the Wilks Parties, in exchange for cash consideration of $40.4 million.",
+      "evidence_quotes": [
+        "In November 2025, we assigned the Flotek PWRtek Note receivable to PC Energy Credit I, LLC, a related party to the Company controlled by the Wilks Parties, in exchange for cash consideration of $40.4 million."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "CLMG Corp.",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "lender",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In June and December 2025, we amended the senior secured term loan credit agreement (the \"Alpine Term Loan Credit Agreement\") between our Alpine subsidiary and CLMG Corp., as administrative agent and collateral agent",
+      "evidence_quotes": [
+        "In June and December 2025, we amended the senior secured term loan credit agreement (the \"Alpine Term Loan Credit Agreement\") between our Alpine subsidiary and CLMG Corp., as administrative agent and collateral agent"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Beal Bank USA",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "lender",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In June 2025, we entered into a purchase agreement with Beal Bank USA and Wilks Brothers, LLC, pursuant to which we agreed to issue and sell $60.0 million in additional senior secured floating rate notes",
+      "evidence_quotes": [
+        "In June 2025, we entered into a purchase agreement with Beal Bank USA and Wilks Brothers, LLC, pursuant to which we agreed to issue and sell $60.0 million in additional senior secured floating rate notes"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Wilks Brothers, LLC",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "lender",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In June 2025, we entered into a purchase agreement with Beal Bank USA and Wilks Brothers, LLC, pursuant to which we agreed to issue and sell $60.0 million in additional senior secured floating rate notes",
+      "evidence_quotes": [
+        "In June 2025, we entered into a purchase agreement with Beal Bank USA and Wilks Brothers, LLC, pursuant to which we agreed to issue and sell $60.0 million in additional senior secured floating rate notes"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Flying A Pump Services, LLC",
+      "counterparty_type": "private_company",
+      "category": "customer",
+      "subtype": "equipment_purchaser",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In June 2023, ProFrac arranged to sell certain surplus equipment and inventory components and to assign certain pre-orders for equipment to Flying A Pump Services, LLC (\"Flying A\"), at prices which are consistent with fair market value, for a total",
+      "evidence_quotes": [
+        "In June 2023, ProFrac arranged to sell certain surplus equipment and inventory components and to assign certain pre-orders for equipment to Flying A Pump Services, LLC (\"Flying A\"), at prices which are consistent with fair market value, for a total"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "U.S. Army Corps of Engineers",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The discharge of dredge and fill material into regulated waters, including wetlands, is also prohibited, unless authorized by a permit issued by the U.S. Army Corps of Engineers",
+      "evidence_quotes": [
+        "The discharge of dredge and fill material into regulated waters, including wetlands, is also prohibited, unless authorized by a permit issued by the U.S. Army Corps of Engineers"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Texas Railroad Commission",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The Texas Railroad Commission has suspended produced water handling permits and introduced injection volume curtailment within the boundaries of certain seismic response areas.",
+      "evidence_quotes": [
+        "The Texas Railroad Commission has suspended produced water handling permits and introduced injection volume curtailment within the boundaries of certain seismic response areas."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "MSHA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_infrastructure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "MSHA also administers and enforces the provisions of the Federal Mine Safety and Health Act of 1977, as amended by the Mine Improvement and New Emergency Response Act of 2006, which imposes stringent health and safety standards on numerous aspects",
+      "evidence_quotes": [
+        "MSHA also administers and enforces the provisions of the Federal Mine Safety and Health Act of 1977, as amended by the Mine Improvement and New Emergency Response Act of 2006, which imposes stringent health and safety standards on numerous aspects"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "DOL",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_infrastructure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In April 2024, the DOL issued a final rule amending its existing standards and setting a permissible exposure limit of respirable crystalline silica",
+      "evidence_quotes": [
+        "In April 2024, the DOL issued a final rule amending its existing standards and setting a permissible exposure limit of respirable crystalline silica"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Corps",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "permitting_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "If wetlands are implicated, a wetlands permit may be required from the Corps.",
+      "evidence_quotes": [
+        "If wetlands are implicated, a wetlands permit may be required from the Corps."
+      ],
+      "confidence": 0.88,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Flotek",
+      "counterparty_type": "public_company",
+      "category": "dependency",
+      "subtype": "variable_interest_entity",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Due to our determination that Flotek is a variable interest entity of which ProFrac is the primary beneficiary, Flotek's financial statements have been included in our consolidated financial statements from May 17, 2022.",
+      "evidence_quotes": [
+        "Due to our determination that Flotek is a variable interest entity of which ProFrac is the primary beneficiary, Flotek's financial statements have been included in our consolidated financial statements from May 17, 2022."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Alpine Holding, LLC",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "segregated collateral entity",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we are required to segregate collateral associated with Alpine Holding, LLC, PF Proppant Holdings, LLC and their respective subsidiaries and may have limited ability to access or use Alpine's cash",
+      "evidence_quotes": [
+        "we are required to segregate collateral associated with Alpine Holding, LLC, PF Proppant Holdings, LLC and their respective subsidiaries and may have limited ability to access or use Alpine's cash"
+      ],
+      "confidence": 0.65,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "PF Proppant Holdings, LLC",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "segregated collateral entity",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we are required to segregate collateral associated with Alpine Holding, LLC, PF Proppant Holdings, LLC and their respective subsidiaries and may have limited ability to access or use Alpine's cash",
+      "evidence_quotes": [
+        "we are required to segregate collateral associated with Alpine Holding, LLC, PF Proppant Holdings, LLC and their respective subsidiaries and may have limited ability to access or use Alpine's cash"
+      ],
+      "confidence": 0.65,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "OSHA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_infrastructure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "OSHA has implemented rules establishing a more stringent permissible exposure limit for exposure to respirable crystalline silica and provided other provisions to protect employees.",
+      "evidence_quotes": [
+        "OSHA has implemented rules establishing a more stringent permissible exposure limit for exposure to respirable crystalline silica and provided other provisions to protect employees."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "MSHA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_infrastructure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In June 2022, the DOL's MSHA launched a new enforcement initiative to better protect U.S. miners from health hazards resulting from repeated overexposure to respirable crystalline silica.",
+      "evidence_quotes": [
+        "In June 2022, the DOL's MSHA launched a new enforcement initiative to better protect U.S. miners from health hazards resulting from repeated overexposure to respirable crystalline silica."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "Wilks Parties",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "controlling_shareholder",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the Wilks Parties beneficially own more than a majority of the voting power of ProFrac",
+      "evidence_quotes": [
+        "the Wilks Parties beneficially own more than a majority of the voting power of ProFrac"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 7
+    },
+    {
+      "counterparty_name": "FTS International, Inc.",
+      "counterparty_type": "private_company",
+      "category": "dependency",
+      "subtype": "subsidiary",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "As the sole shareholder of FTS International, Inc., which is the sole member of ProFrac LLC, the Issuer indirectly controls and operates ProFrac LLC.",
+      "evidence_quotes": [
+        "As the sole shareholder of FTS International, Inc., which is the sole member of ProFrac LLC, the Issuer indirectly controls and operates ProFrac LLC."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 7
+    },
+    {
+      "counterparty_name": "IRS",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The U.S. Internal Revenue Service (\"IRS\") or another taxing authority may challenge all or part of the tax basis increases",
+      "evidence_quotes": [
+        "The U.S. Internal Revenue Service (\"IRS\") or another taxing authority may challenge all or part of the tax basis increases"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 7
+    },
+    {
+      "counterparty_name": "Russia",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "geopolitical_risk_factor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The ongoing wars between Russia and Ukraine, conflicts in the Middle East, as well as the potential for disruption to strategic shipping routes",
+      "evidence_quotes": [
+        "The ongoing wars between Russia and Ukraine, conflicts in the Middle East, as well as the potential for disruption to strategic shipping routes"
+      ],
+      "confidence": 0.65,
+      "chunk_index": 8
+    },
+    {
+      "counterparty_name": "Ukraine",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "geopolitical_risk_factor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The ongoing wars between Russia and Ukraine, conflicts in the Middle East, as well as the potential for disruption to strategic shipping routes",
+      "evidence_quotes": [
+        "The ongoing wars between Russia and Ukraine, conflicts in the Middle East, as well as the potential for disruption to strategic shipping routes"
+      ],
+      "confidence": 0.65,
+      "chunk_index": 8
+    }
+  ],
+  "candidatesPerChunk": [
+    12,
+    13,
+    2,
+    3,
+    1,
+    2,
+    2,
+    3,
+    2
+  ],
+  "parseErrors": 8,
+  "apiErrors": 0,
+  "inputTokens": 48463,
+  "outputTokens": 5247
+}

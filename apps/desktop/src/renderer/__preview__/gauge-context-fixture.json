@@ -1,0 +1,1014 @@
+{
+ "run": {
+  "schema_version": 1,
+  "run_id": "run-fixture-nvda-earnings-synthetic",
+  "incident_id": "inc-fixture-nvda-earnings",
+  "request_id": "pr-fixture-nvda-earnings-synthetic",
+  "update_of": null,
+  "graph_version": {
+   "generatedAt": "2026-08-22T21:02:46.551Z",
+   "pipelineVersion": 5
+  },
+  "root_ticker": "NVDA",
+  "event": {
+   "type": "earnings_results",
+   "direction": "negative",
+   "materiality": "high",
+   "label": "Q2 revenue miss; data-center guide below consensus",
+   "source_msg_ids": [
+    "n-nvda-1"
+   ],
+   "event_ts": "2026-08-20T21:05:00.000Z",
+   "source": "verdict",
+   "evidence_lines": [
+    "Nvidia Q2 revenue misses; data-center guide below consensus (earnings_results · high · negative)"
+   ]
+  },
+  "targets": [
+   {
+    "target": "TSM",
+    "ticker": "TSM",
+    "label": "TAIWAN SEMICONDUCTOR MANUFACTURING CO LTD",
+    "tracked": true,
+    "relationship": {
+     "role": "supplier",
+     "subtype": "wafer_fabrication",
+     "tier": "important",
+     "confidence": 0.98,
+     "evidence_quote": "We utilize foundries, such as Taiwan Semiconductor Manufacturing Company Limited, or TSMC, and Samsung Electronics Co., Ltd., or Samsung, to produce our semiconductor wafers.",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm",
+     "filing_date": "2026-02-25",
+     "via": "forward",
+     "evidence_via": "forward",
+     "edge_ids": [
+      "NVDA:TSM:supplier:wafer_fabrication:450"
+     ],
+     "merged_evidence": []
+    },
+    "transmission": {
+     "tier": "moderate",
+     "direction": "negative",
+     "matrix_cell": "earnings_results:supplier",
+     "transmits": "yes",
+     "rule": "same"
+    },
+    "pricing": {
+     "status": "open",
+     "realized_resid_pct": -0.0029582290399742996,
+     "expected_pct": 0.008545114376410482,
+     "basis": "residual",
+     "reference_close_ts": "2026-08-20T20:00:00.000Z",
+     "reference_close": 416,
+     "last_price": 418.8999938964844,
+     "last_price_ts": "2026-08-21T20:00:00.000Z",
+     "realized_raw_pct": 0.006971139174241303,
+     "bench_move_pct": 0.003960162113734178,
+     "beta": 2.5073135717802337,
+     "ratio": 0.3461895194920671,
+     "sessions_elapsed": 1,
+     "note": "benchmark leg measured close-to-close"
+    },
+    "mechanism": "NVDA Q2 revenue miss; data-center guide below consensus. TSM is an important supplier of NVDA (wafer fabrication, per NVDA filing). Transmits negative.",
+    "stage2": null
+   },
+   {
+    "target": "name:samsung electronics",
+    "ticker": null,
+    "label": "Samsung Electronics Co., Ltd.",
+    "tracked": false,
+    "relationship": {
+     "role": "supplier",
+     "subtype": "wafer_fabrication",
+     "tier": "important",
+     "confidence": 0.98,
+     "evidence_quote": "We utilize foundries, such as Taiwan Semiconductor Manufacturing Company Limited, or TSMC, and Samsung Electronics Co., Ltd., or Samsung, to produce our semiconductor wafers.",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm",
+     "filing_date": "2026-02-25",
+     "via": "forward",
+     "evidence_via": "forward",
+     "edge_ids": [
+      "NVDA:name:samsung electronics:supplier:wafer_fabrication:451",
+      "NVDA:name:samsung electronics:supplier:memory:454"
+     ],
+     "merged_evidence": [
+      {
+       "quote": "We purchase memory from SK Hynix Inc., Micron Technology, Inc., and Samsung.",
+       "source_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm",
+       "edge_id": "NVDA:name:samsung electronics:supplier:memory:454"
+      }
+     ]
+    },
+    "transmission": {
+     "tier": "moderate",
+     "direction": "negative",
+     "matrix_cell": "earnings_results:supplier",
+     "transmits": "yes",
+     "rule": "same"
+    },
+    "pricing": {
+     "status": "unknown",
+     "realized_resid_pct": null,
+     "expected_pct": null,
+     "basis": "none",
+     "reference_close_ts": null,
+     "reference_close": null,
+     "last_price": null,
+     "last_price_ts": null,
+     "realized_raw_pct": null,
+     "bench_move_pct": null,
+     "beta": null,
+     "ratio": null,
+     "sessions_elapsed": null,
+     "note": null
+    },
+    "mechanism": "NVDA Q2 revenue miss; data-center guide below consensus. Samsung Electronics Co., Ltd. is an important supplier of NVDA (wafer fabrication, per NVDA filing). Transmits negative.",
+    "stage2": null
+   },
+   {
+    "target": "INTC",
+    "ticker": "INTC",
+    "label": "INTEL CORP",
+    "tracked": true,
+    "relationship": {
+     "role": "partner",
+     "subtype": "product development",
+     "tier": "important",
+     "confidence": 0.95,
+     "evidence_quote": "We also announced a strategic partnership with NVIDIA to co-develop custom client and data center products combining our x86 CPU technologies with NVIDIA's AI and accelerated computing capabilities.",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/50863/000005086326000011/intc-20251227.htm",
+     "filing_date": "2026-01-23",
+     "via": "reverse",
+     "evidence_via": "reverse",
+     "edge_ids": [
+      "INTC:NVDA:partner:product development:326"
+     ],
+     "merged_evidence": []
+    },
+    "transmission": {
+     "tier": "moderate",
+     "direction": "negative",
+     "matrix_cell": "earnings_results:partner",
+     "transmits": "weak",
+     "rule": "same"
+    },
+    "pricing": {
+     "status": "priced",
+     "realized_resid_pct": -0.0374320712760454,
+     "expected_pct": 0.021892340538858766,
+     "basis": "residual",
+     "reference_close_ts": "2026-08-20T20:00:00.000Z",
+     "reference_close": 92.12999725341797,
+     "last_price": 90.06999969482422,
+     "last_price_ts": "2026-08-21T20:00:00.000Z",
+     "realized_raw_pct": -0.02235968327370519,
+     "bench_move_pct": 0.003960162113734178,
+     "beta": 3.8060027770246805,
+     "ratio": 1.7098250052160346,
+     "sessions_elapsed": 1,
+     "note": "benchmark leg measured close-to-close"
+    },
+    "mechanism": "NVDA Q2 revenue miss; data-center guide below consensus. INTC is an important partner of NVDA (product development, per INTC filing). Transmits weakly negative.",
+    "stage2": null
+   },
+   {
+    "target": "name:groq",
+    "ticker": null,
+    "label": "Groq, Inc.",
+    "tracked": false,
+    "relationship": {
+     "role": "supplier",
+     "subtype": "ip_licensor",
+     "tier": "important",
+     "confidence": 0.95,
+     "evidence_quote": "We have entered into an intellectual property license arrangement with Groq, Inc., or Groq, that required significant, nonrefundable payments.",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm",
+     "filing_date": "2026-02-25",
+     "via": "forward",
+     "evidence_via": "forward",
+     "edge_ids": [
+      "NVDA:name:groq:supplier:ip_licensor:478"
+     ],
+     "merged_evidence": []
+    },
+    "transmission": {
+     "tier": "moderate",
+     "direction": "negative",
+     "matrix_cell": "earnings_results:supplier",
+     "transmits": "yes",
+     "rule": "same"
+    },
+    "pricing": {
+     "status": "unknown",
+     "realized_resid_pct": null,
+     "expected_pct": null,
+     "basis": "none",
+     "reference_close_ts": null,
+     "reference_close": null,
+     "last_price": null,
+     "last_price_ts": null,
+     "realized_raw_pct": null,
+     "bench_move_pct": null,
+     "beta": null,
+     "ratio": null,
+     "sessions_elapsed": null,
+     "note": null
+    },
+    "mechanism": "NVDA Q2 revenue miss; data-center guide below consensus. Groq, Inc. is an important supplier of NVDA (ip licensor, per NVDA filing). Transmits negative.",
+    "stage2": null
+   },
+   {
+    "target": "name:hon hai precision industry",
+    "ticker": null,
+    "label": "Hon Hai Precision Industry Co., Ltd.",
+    "tracked": false,
+    "relationship": {
+     "role": "supplier",
+     "subtype": "assembly_testing_packaging",
+     "tier": "important",
+     "confidence": 0.95,
+     "evidence_quote": "We engage with independent subcontractors and contract manufacturers such as Hon Hai Precision Industry Co., Ltd., Wistron Corporation, and Fabrinet to perform assembly, testing and packaging of our final products.",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm",
+     "filing_date": "2026-02-25",
+     "via": "forward",
+     "evidence_via": "forward",
+     "edge_ids": [
+      "NVDA:name:hon hai precision industry:supplier:assembly_testing_packaging:455"
+     ],
+     "merged_evidence": []
+    },
+    "transmission": {
+     "tier": "moderate",
+     "direction": "negative",
+     "matrix_cell": "earnings_results:supplier",
+     "transmits": "yes",
+     "rule": "same"
+    },
+    "pricing": {
+     "status": "unknown",
+     "realized_resid_pct": null,
+     "expected_pct": null,
+     "basis": "none",
+     "reference_close_ts": null,
+     "reference_close": null,
+     "last_price": null,
+     "last_price_ts": null,
+     "realized_raw_pct": null,
+     "bench_move_pct": null,
+     "beta": null,
+     "ratio": null,
+     "sessions_elapsed": null,
+     "note": null
+    },
+    "mechanism": "NVDA Q2 revenue miss; data-center guide below consensus. Hon Hai Precision Industry Co., Ltd. is an important supplier of NVDA (assembly testing packaging, per NVDA filing). Transmits negative.",
+    "stage2": null
+   },
+   {
+    "target": "name:wistron",
+    "ticker": null,
+    "label": "Wistron Corporation",
+    "tracked": false,
+    "relationship": {
+     "role": "supplier",
+     "subtype": "assembly_testing_packaging",
+     "tier": "important",
+     "confidence": 0.95,
+     "evidence_quote": "We engage with independent subcontractors and contract manufacturers such as Hon Hai Precision Industry Co., Ltd., Wistron Corporation, and Fabrinet to perform assembly, testing and packaging of our final products.",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm",
+     "filing_date": "2026-02-25",
+     "via": "forward",
+     "evidence_via": "forward",
+     "edge_ids": [
+      "NVDA:name:wistron:supplier:assembly_testing_packaging:456"
+     ],
+     "merged_evidence": []
+    },
+    "transmission": {
+     "tier": "moderate",
+     "direction": "negative",
+     "matrix_cell": "earnings_results:supplier",
+     "transmits": "yes",
+     "rule": "same"
+    },
+    "pricing": {
+     "status": "unknown",
+     "realized_resid_pct": null,
+     "expected_pct": null,
+     "basis": "none",
+     "reference_close_ts": null,
+     "reference_close": null,
+     "last_price": null,
+     "last_price_ts": null,
+     "realized_raw_pct": null,
+     "bench_move_pct": null,
+     "beta": null,
+     "ratio": null,
+     "sessions_elapsed": null,
+     "note": null
+    },
+    "mechanism": "NVDA Q2 revenue miss; data-center guide below consensus. Wistron Corporation is an important supplier of NVDA (assembly testing packaging, per NVDA filing). Transmits negative.",
+    "stage2": null
+   },
+   {
+    "target": "name:openai",
+    "ticker": null,
+    "label": "OpenAI",
+    "tracked": false,
+    "relationship": {
+     "role": "partner",
+     "subtype": "investment_and_partnership",
+     "tier": "important",
+     "confidence": 0.85,
+     "evidence_quote": "We are finalizing an investment and partnership agreement with OpenAI.",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm",
+     "filing_date": "2026-02-25",
+     "via": "forward",
+     "evidence_via": "forward",
+     "edge_ids": [
+      "NVDA:name:openai:partner:investment_and_partnership:479"
+     ],
+     "merged_evidence": []
+    },
+    "transmission": {
+     "tier": "moderate",
+     "direction": "negative",
+     "matrix_cell": "earnings_results:partner",
+     "transmits": "weak",
+     "rule": "same"
+    },
+    "pricing": {
+     "status": "unknown",
+     "realized_resid_pct": null,
+     "expected_pct": null,
+     "basis": "none",
+     "reference_close_ts": null,
+     "reference_close": null,
+     "last_price": null,
+     "last_price_ts": null,
+     "realized_raw_pct": null,
+     "bench_move_pct": null,
+     "beta": null,
+     "ratio": null,
+     "sessions_elapsed": null,
+     "note": null
+    },
+    "mechanism": "NVDA Q2 revenue miss; data-center guide below consensus. OpenAI is an important partner of NVDA (investment and partnership, per NVDA filing). Transmits weakly negative.",
+    "stage2": null
+   },
+   {
+    "target": "AMD",
+    "ticker": "AMD",
+    "label": "ADVANCED MICRO DEVICES INC",
+    "tracked": true,
+    "relationship": {
+     "role": "competitor",
+     "subtype": "CPU, GPU, DPU and AI NIC competitor",
+     "tier": "marginal",
+     "confidence": 0.98,
+     "evidence_quote": "In the Data Center segment, we compete primarily against Intel Corporation (Intel) and Nvidia Corporation (Nvidia with our CPU, GPU DPU and AI NIC server products.",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/2488/000000248826000018/amd-20251227.htm",
+     "filing_date": "2026-02-04",
+     "via": "both",
+     "evidence_via": "reverse",
+     "edge_ids": [
+      "AMD:NVDA:competitor:CPU, GPU, DPU and AI NIC competitor:29",
+      "NVDA:AMD:competitor:SoC_products:467",
+      "NVDA:AMD:competitor:GPUs_accelerated_computing_AI:458"
+     ],
+     "merged_evidence": [
+      {
+       "quote": "suppliers of hardware and software for SoC products that are used in servers or embedded into automobiles, autonomous machines, and gaming devices, such as Ambarella, Inc., AMD, Broadcom, Intel, Qualcomm Incorporated, Renesas Electronics Corporation, and Samsung",
+       "source_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm",
+       "edge_id": "NVDA:AMD:competitor:SoC_products:467"
+      },
+      {
+       "quote": "suppliers and licensors of hardware and software for discrete and integrated GPUs, custom chips and other accelerated computing solutions, including solutions offered for AI, such as Advanced Micro Devices, Inc., or AMD, Huawei Technologies Co. Ltd., or Huawei, and Intel",
+       "source_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm",
+       "edge_id": "NVDA:AMD:competitor:GPUs_accelerated_computing_AI:458"
+      }
+     ]
+    },
+    "transmission": {
+     "tier": "weak",
+     "direction": "unclear",
+     "matrix_cell": "earnings_results:competitor",
+     "transmits": "yes",
+     "rule": "unclear"
+    },
+    "pricing": {
+     "status": "partial",
+     "realized_resid_pct": -0.008889310365986992,
+     "expected_pct": 0.009857814156564133,
+     "basis": "residual",
+     "reference_close_ts": "2026-08-20T20:00:00.000Z",
+     "reference_close": 469.4599914550781,
+     "last_price": 473.25,
+     "last_price_ts": "2026-08-21T20:00:00.000Z",
+     "realized_raw_pct": 0.008073123618425715,
+     "bench_move_pct": 0.003960162113734178,
+     "beta": 4.2832675777553515,
+     "ratio": 0.901752683181572,
+     "sessions_elapsed": 1,
+     "note": "benchmark leg measured close-to-close"
+    },
+    "mechanism": "NVDA Q2 revenue miss; data-center guide below consensus. AMD is a marginal competitor of NVDA (CPU, GPU, DPU and AI NIC competitor, per AMD filing). Transmits with unclear sign.",
+    "stage2": null
+   },
+   {
+    "target": "INTC",
+    "ticker": "INTC",
+    "label": "INTEL CORP",
+    "tracked": true,
+    "relationship": {
+     "role": "competitor",
+     "subtype": "accelerator_products",
+     "tier": "marginal",
+     "confidence": 0.98,
+     "evidence_quote": "Our competitors include companies offering platform products, such as AMD and Qualcomm; accelerator products such as GPUs, including those offered by NVIDIA and AMD",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/50863/000005086326000011/intc-20251227.htm",
+     "filing_date": "2026-01-23",
+     "via": "both",
+     "evidence_via": "reverse",
+     "edge_ids": [
+      "INTC:NVDA:competitor:accelerator_products:332",
+      "NVDA:INTC:competitor:GPUs_accelerated_computing_AI:460"
+     ],
+     "merged_evidence": [
+      {
+       "quote": "suppliers and licensors of hardware and software for discrete and integrated GPUs, custom chips and other accelerated computing solutions, including solutions offered for AI, such as Advanced Micro Devices, Inc., or AMD, Huawei Technologies Co. Ltd., or Huawei, and Intel",
+       "source_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm",
+       "edge_id": "NVDA:INTC:competitor:GPUs_accelerated_computing_AI:460"
+      }
+     ]
+    },
+    "transmission": {
+     "tier": "weak",
+     "direction": "unclear",
+     "matrix_cell": "earnings_results:competitor",
+     "transmits": "yes",
+     "rule": "unclear"
+    },
+    "pricing": {
+     "status": "priced",
+     "realized_resid_pct": -0.0374320712760454,
+     "expected_pct": 0.010946170269429383,
+     "basis": "residual",
+     "reference_close_ts": "2026-08-20T20:00:00.000Z",
+     "reference_close": 92.12999725341797,
+     "last_price": 90.06999969482422,
+     "last_price_ts": "2026-08-21T20:00:00.000Z",
+     "realized_raw_pct": -0.02235968327370519,
+     "bench_move_pct": 0.003960162113734178,
+     "beta": 3.8060027770246805,
+     "ratio": 3.4196500104320693,
+     "sessions_elapsed": 1,
+     "note": "benchmark leg measured close-to-close; direction unclear — magnitude comparison only"
+    },
+    "mechanism": "NVDA Q2 revenue miss; data-center guide below consensus. INTC is a marginal competitor of NVDA (accelerator products, per INTC filing). Transmits with unclear sign.",
+    "stage2": null
+   },
+   {
+    "target": "MU",
+    "ticker": "MU",
+    "label": "Micron Technology, Inc.",
+    "tracked": false,
+    "relationship": {
+     "role": "supplier",
+     "subtype": "memory",
+     "tier": "marginal",
+     "confidence": 0.98,
+     "evidence_quote": "We purchase memory from SK Hynix Inc., Micron Technology, Inc., and Samsung.",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm",
+     "filing_date": "2026-02-25",
+     "via": "forward",
+     "evidence_via": "forward",
+     "edge_ids": [
+      "NVDA:MU:supplier:memory:453"
+     ],
+     "merged_evidence": []
+    },
+    "transmission": {
+     "tier": "weak",
+     "direction": "negative",
+     "matrix_cell": "earnings_results:supplier",
+     "transmits": "yes",
+     "rule": "same"
+    },
+    "pricing": {
+     "status": "unknown",
+     "realized_resid_pct": null,
+     "expected_pct": null,
+     "basis": "none",
+     "reference_close_ts": null,
+     "reference_close": null,
+     "last_price": null,
+     "last_price_ts": null,
+     "realized_raw_pct": null,
+     "bench_move_pct": null,
+     "beta": null,
+     "ratio": null,
+     "sessions_elapsed": null,
+     "note": null
+    },
+    "mechanism": "NVDA Q2 revenue miss; data-center guide below consensus. MU is a marginal supplier of NVDA (memory, per NVDA filing). Transmits negative.",
+    "stage2": null
+   },
+   {
+    "target": "name:huawei technologies",
+    "ticker": null,
+    "label": "Huawei Technologies Co. Ltd.",
+    "tracked": false,
+    "relationship": {
+     "role": "competitor",
+     "subtype": "GPUs_accelerated_computing_AI",
+     "tier": "marginal",
+     "confidence": 0.98,
+     "evidence_quote": "suppliers and licensors of hardware and software for discrete and integrated GPUs, custom chips and other accelerated computing solutions, including solutions offered for AI, such as Advanced Micro Devices, Inc., or AMD, Huawei Technologies Co. Ltd., or Huawei, and Intel",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm",
+     "filing_date": "2026-02-25",
+     "via": "forward",
+     "evidence_via": "forward",
+     "edge_ids": [
+      "NVDA:name:huawei technologies:competitor:GPUs_accelerated_computing_AI:459",
+      "NVDA:name:huawei technologies:competitor:Arm_CPUs_internal_solutions:464"
+     ],
+     "merged_evidence": [
+      {
+       "quote": "suppliers of Arm-based CPUs and companies that incorporate hardware and software for CPUs as part of their internal solutions or platforms, such as Amazon, Huawei, and Microsoft",
+       "source_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm",
+       "edge_id": "NVDA:name:huawei technologies:competitor:Arm_CPUs_internal_solutions:464"
+      }
+     ]
+    },
+    "transmission": {
+     "tier": "weak",
+     "direction": "unclear",
+     "matrix_cell": "earnings_results:competitor",
+     "transmits": "yes",
+     "rule": "unclear"
+    },
+    "pricing": {
+     "status": "unknown",
+     "realized_resid_pct": null,
+     "expected_pct": null,
+     "basis": "none",
+     "reference_close_ts": null,
+     "reference_close": null,
+     "last_price": null,
+     "last_price_ts": null,
+     "realized_raw_pct": null,
+     "bench_move_pct": null,
+     "beta": null,
+     "ratio": null,
+     "sessions_elapsed": null,
+     "note": null
+    },
+    "mechanism": "NVDA Q2 revenue miss; data-center guide below consensus. Huawei Technologies Co. Ltd. is a marginal competitor of NVDA (GPUs accelerated computing AI, per NVDA filing). Transmits with unclear sign.",
+    "stage2": null
+   },
+   {
+    "target": "AMBA",
+    "ticker": "AMBA",
+    "label": "Ambarella, Inc.",
+    "tracked": false,
+    "relationship": {
+     "role": "competitor",
+     "subtype": "SoC_products",
+     "tier": "marginal",
+     "confidence": 0.95,
+     "evidence_quote": "suppliers of hardware and software for SoC products that are used in servers or embedded into automobiles, autonomous machines, and gaming devices, such as Ambarella, Inc., AMD, Broadcom, Intel, Qualcomm Incorporated, Renesas Electronics Corporation, and Samsung",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm",
+     "filing_date": "2026-02-25",
+     "via": "forward",
+     "evidence_via": "forward",
+     "edge_ids": [
+      "NVDA:AMBA:competitor:SoC_products:466"
+     ],
+     "merged_evidence": []
+    },
+    "transmission": {
+     "tier": "weak",
+     "direction": "unclear",
+     "matrix_cell": "earnings_results:competitor",
+     "transmits": "yes",
+     "rule": "unclear"
+    },
+    "pricing": {
+     "status": "unknown",
+     "realized_resid_pct": null,
+     "expected_pct": null,
+     "basis": "none",
+     "reference_close_ts": null,
+     "reference_close": null,
+     "last_price": null,
+     "last_price_ts": null,
+     "realized_raw_pct": null,
+     "bench_move_pct": null,
+     "beta": null,
+     "ratio": null,
+     "sessions_elapsed": null,
+     "note": null
+    },
+    "mechanism": "NVDA Q2 revenue miss; data-center guide below consensus. AMBA is a marginal competitor of NVDA (SoC products, per NVDA filing). Transmits with unclear sign.",
+    "stage2": null
+   },
+   {
+    "target": "ANET",
+    "ticker": "ANET",
+    "label": "Arista Networks",
+    "tracked": false,
+    "relationship": {
+     "role": "competitor",
+     "subtype": "networking_products",
+     "tier": "marginal",
+     "confidence": 0.95,
+     "evidence_quote": "networking products consisting of switches, network adapters (including DPUs), and cable solutions (including optical modules) include such as AMD, Arista Networks, Broadcom, Cisco Systems, Inc., Hewlett Packard Enterprise Company, Huawei, Intel, Lumentum Holdings Inc., and Marvell Technology, Inc",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm",
+     "filing_date": "2026-02-25",
+     "via": "forward",
+     "evidence_via": "forward",
+     "edge_ids": [
+      "NVDA:ANET:competitor:networking_products:473"
+     ],
+     "merged_evidence": []
+    },
+    "transmission": {
+     "tier": "weak",
+     "direction": "unclear",
+     "matrix_cell": "earnings_results:competitor",
+     "transmits": "yes",
+     "rule": "unclear"
+    },
+    "pricing": {
+     "status": "unknown",
+     "realized_resid_pct": null,
+     "expected_pct": null,
+     "basis": "none",
+     "reference_close_ts": null,
+     "reference_close": null,
+     "last_price": null,
+     "last_price_ts": null,
+     "realized_raw_pct": null,
+     "bench_move_pct": null,
+     "beta": null,
+     "ratio": null,
+     "sessions_elapsed": null,
+     "note": null
+    },
+    "mechanism": "NVDA Q2 revenue miss; data-center guide below consensus. ANET is a marginal competitor of NVDA (networking products, per NVDA filing). Transmits with unclear sign.",
+    "stage2": null
+   },
+   {
+    "target": "AVGO",
+    "ticker": "AVGO",
+    "label": "Broadcom Inc.",
+    "tracked": true,
+    "relationship": {
+     "role": "competitor",
+     "subtype": "SoC_products",
+     "tier": "marginal",
+     "confidence": 0.95,
+     "evidence_quote": "suppliers of hardware and software for SoC products that are used in servers or embedded into automobiles, autonomous machines, and gaming devices, such as Ambarella, Inc., AMD, Broadcom, Intel, Qualcomm Incorporated, Renesas Electronics Corporation, and Samsung",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm",
+     "filing_date": "2026-02-25",
+     "via": "forward",
+     "evidence_via": "forward",
+     "edge_ids": [
+      "NVDA:AVGO:competitor:SoC_products:468"
+     ],
+     "merged_evidence": []
+    },
+    "transmission": {
+     "tier": "weak",
+     "direction": "unclear",
+     "matrix_cell": "earnings_results:competitor",
+     "transmits": "yes",
+     "rule": "unclear"
+    },
+    "pricing": {
+     "status": "partial",
+     "realized_resid_pct": 0.003012397959032794,
+     "expected_pct": 0.005033135081877469,
+     "basis": "residual",
+     "reference_close_ts": "2026-08-20T20:00:00.000Z",
+     "reference_close": 364.0299987792969,
+     "last_price": 368.45001220703125,
+     "last_price_ts": "2026-08-21T20:00:00.000Z",
+     "realized_raw_pct": 0.012141893367458856,
+     "bench_move_pct": 0.003960162113734178,
+     "beta": 2.305333758121719,
+     "ratio": 0.5985132347985987,
+     "sessions_elapsed": 1,
+     "note": "benchmark leg measured close-to-close"
+    },
+    "mechanism": "NVDA Q2 revenue miss; data-center guide below consensus. AVGO is a marginal competitor of NVDA (SoC products, per NVDA filing). Transmits with unclear sign.",
+    "stage2": null
+   },
+   {
+    "target": "CSCO",
+    "ticker": "CSCO",
+    "label": "Cisco Systems, Inc.",
+    "tracked": false,
+    "relationship": {
+     "role": "competitor",
+     "subtype": "networking_products",
+     "tier": "marginal",
+     "confidence": 0.95,
+     "evidence_quote": "networking products consisting of switches, network adapters (including DPUs), and cable solutions (including optical modules) include such as AMD, Arista Networks, Broadcom, Cisco Systems, Inc., Hewlett Packard Enterprise Company, Huawei, Intel, Lumentum Holdings Inc., and Marvell Technology, Inc",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm",
+     "filing_date": "2026-02-25",
+     "via": "forward",
+     "evidence_via": "forward",
+     "edge_ids": [
+      "NVDA:CSCO:competitor:networking_products:474"
+     ],
+     "merged_evidence": []
+    },
+    "transmission": {
+     "tier": "weak",
+     "direction": "unclear",
+     "matrix_cell": "earnings_results:competitor",
+     "transmits": "yes",
+     "rule": "unclear"
+    },
+    "pricing": {
+     "status": "unknown",
+     "realized_resid_pct": null,
+     "expected_pct": null,
+     "basis": "none",
+     "reference_close_ts": null,
+     "reference_close": null,
+     "last_price": null,
+     "last_price_ts": null,
+     "realized_raw_pct": null,
+     "bench_move_pct": null,
+     "beta": null,
+     "ratio": null,
+     "sessions_elapsed": null,
+     "note": null
+    },
+    "mechanism": "NVDA Q2 revenue miss; data-center guide below consensus. CSCO is a marginal competitor of NVDA (networking products, per NVDA filing). Transmits with unclear sign.",
+    "stage2": null
+   }
+  ],
+  "summary": {
+   "targets": 15,
+   "open": 1,
+   "partial": 2,
+   "priced": 2,
+   "stale": 0,
+   "untracked": 10,
+   "vetoed": 0,
+   "no_edge": false
+  },
+  "status": "stage1_only",
+  "stage2": {
+   "model": "claude-fable-5",
+   "prompt_version": "pr-1.0",
+   "attempts": 0,
+   "latency_ms": 0,
+   "retry_errors": [],
+   "failure_reason": null,
+   "skipped_reason": "fixture seed — stage-1 only",
+   "input_tokens": 0,
+   "output_tokens": 0
+  },
+  "overflow": 13,
+  "non_transmitting": 0,
+  "reachable": 28,
+  "trigger": {
+   "rules": [
+    "fixture:synthetic_nvda_earnings"
+   ],
+   "priority_band": "P0"
+  },
+  "produced_at": "2026-08-23T11:06:24.699Z",
+  "superseded_by": null,
+  "update": false,
+  "failure_reason": null,
+  "synthetic": true
+ },
+ "target": {
+  "target": "TSM",
+  "ticker": "TSM",
+  "label": "TAIWAN SEMICONDUCTOR MANUFACTURING CO LTD",
+  "tracked": true,
+  "relationship": {
+   "role": "supplier",
+   "subtype": "wafer_fabrication",
+   "tier": "important",
+   "confidence": 0.98,
+   "evidence_quote": "We utilize foundries, such as Taiwan Semiconductor Manufacturing Company Limited, or TSMC, and Samsung Electronics Co., Ltd., or Samsung, to produce our semiconductor wafers.",
+   "source_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm",
+   "filing_date": "2026-02-25",
+   "via": "forward",
+   "evidence_via": "forward",
+   "edge_ids": [
+    "NVDA:TSM:supplier:wafer_fabrication:450"
+   ],
+   "merged_evidence": []
+  },
+  "transmission": {
+   "tier": "moderate",
+   "direction": "negative",
+   "matrix_cell": "earnings_results:supplier",
+   "transmits": "yes",
+   "rule": "same"
+  },
+  "pricing": {
+   "status": "open",
+   "realized_resid_pct": -0.0029582290399742996,
+   "expected_pct": 0.008545114376410482,
+   "basis": "residual",
+   "reference_close_ts": "2026-08-20T20:00:00.000Z",
+   "reference_close": 416,
+   "last_price": 418.8999938964844,
+   "last_price_ts": "2026-08-21T20:00:00.000Z",
+   "realized_raw_pct": 0.006971139174241303,
+   "bench_move_pct": 0.003960162113734178,
+   "beta": 2.5073135717802337,
+   "ratio": 0.3461895194920671,
+   "sessions_elapsed": 1,
+   "note": "benchmark leg measured close-to-close"
+  },
+  "mechanism": "NVDA Q2 revenue miss; data-center guide below consensus. TSM is an important supplier of NVDA (wafer fabrication, per NVDA filing). Transmits negative.",
+  "stage2": null
+ },
+ "readout": {
+  "schema_version": 1,
+  "ticker": "TSM",
+  "tracked": true,
+  "mode": "context",
+  "context": {
+   "expected_direction": "down",
+   "event_ts": "2026-08-20T21:05:00.000Z",
+   "source": "propagation_target",
+   "pricing_status": "open",
+   "sessions_since_event": 1,
+   "thesis_is_scheduled_event": false
+  },
+  "computed_at": "2026-08-24T21:29:38.582Z",
+  "quant_as_of": "2026-08-21",
+  "setup": {
+   "key": "coiled",
+   "name": "COILED",
+   "read": "Compressed for 2 sessions — vol 0.72× its 90d norm, quiet volume, no event wall for 36 sessions",
+   "direction": null,
+   "values": {
+    "vol_regime": 0.7183381594368237,
+    "volume_ratio": 0.6620959607230529,
+    "stretch_z": 0.5023907178486345,
+    "event_sessions": 36,
+    "range_ratio": 1.3936,
+    "range": 0.0753,
+    "compression_days": 2
+   },
+   "screen": [
+    {
+     "pattern": "compression",
+     "day_count": 2,
+     "read": "vol regime 0.71× its 90d norm; 10-session range 7.5% inside the 8.1% band vol implies — coiled, no direction claimed"
+    }
+   ]
+  },
+  "state": "actionable",
+  "missing": null,
+  "state_line": null,
+  "readable": true,
+  "readability_note": null,
+  "checks": [
+   {
+    "key": "trend",
+    "number": 1,
+    "label": "Trend coherence",
+    "status": "pass",
+    "reason": "5d momentum −1.7% (z −0.46) aligned with the expected down move",
+    "note": null,
+    "short_label": null,
+    "values": {
+     "momentum_5d": -0.017473934796244484,
+     "momentum_20d": 0.038397635392674045,
+     "daily_vol": 0.017090228752820964,
+     "momentum_5d_z": -0.45725433642720675,
+     "expected_direction": "down"
+    }
+   },
+   {
+    "key": "regime",
+    "number": 2,
+    "label": "Volatility regime",
+    "status": "pass",
+    "reason": "vol regime 0.72× its 90d norm — contracting, quieter than usual",
+    "note": null,
+    "short_label": null,
+    "values": {
+     "vol_regime": 0.7183381594368237,
+     "daily_vol": 0.017090228752820964
+    }
+   },
+   {
+    "key": "residual",
+    "number": 3,
+    "label": "Residual readability",
+    "status": "pass",
+    "reason": "r² 0.49, β 2.51 — residual reads usable",
+    "note": null,
+    "short_label": null,
+    "values": {
+     "r2": 0.48592466203167717,
+     "beta": 2.5073135717802337,
+     "r2_floor": 0.15
+    }
+   },
+   {
+    "key": "volume",
+    "number": 4,
+    "label": "Volume state",
+    "status": "pass",
+    "reason": "volume 0.66× its average — early, market not yet looking",
+    "note": null,
+    "short_label": null,
+    "values": {
+     "volume_ratio": 0.6620959607230529,
+     "partial": false
+    }
+   },
+   {
+    "key": "stretch",
+    "number": 5,
+    "label": "Stretch",
+    "status": "pass",
+    "reason": "20d move +3.8% is 0.50σ — not stretched",
+    "note": null,
+    "short_label": null,
+    "values": {
+     "momentum_20d": 0.038397635392674045,
+     "daily_vol": 0.017090228752820964,
+     "pct_from_52w_high": -0.1228511265949408,
+     "pct_from_52w_low": 0.8630747112298431,
+     "stretch_z": 0.5023907178486345
+    }
+   },
+   {
+    "key": "event_wall",
+    "number": 6,
+    "label": "Event wall",
+    "status": "pass",
+    "reason": "earnings in 36 sessions — outside the 3-session wall",
+    "note": null,
+    "short_label": null,
+    "values": {
+     "due_at": "2026-10-14T20:00:00.000Z",
+     "sessions_until": 36,
+     "fiscal_period": "Q3 2026",
+     "earnings_rhythm": null
+    }
+   },
+   {
+    "key": "conflict",
+    "number": 7,
+    "label": "Conflict scan",
+    "status": "pass",
+    "reason": "nothing live contradicting the thesis",
+    "note": null,
+    "short_label": null,
+    "values": {
+     "insider_cluster": false,
+     "drift": false,
+     "unexplained_move": false,
+     "filing_overdue": false,
+     "news_burst": false,
+     "open_incidents": 0,
+     "incident_tags": null,
+     "conflicts": 0
+    }
+   },
+   {
+    "key": "freshness",
+    "number": 8,
+    "label": "Window freshness",
+    "status": "pass",
+    "reason": "1 session since the event — fresh",
+    "note": null,
+    "short_label": null,
+    "values": {
+     "event_ts": "2026-08-20T21:05:00.000Z",
+     "sessions_since_event": 1,
+     "pricing_status": "open"
+    }
+   }
+  ],
+  "summary": {
+   "evaluable": 8,
+   "aligned": 8,
+   "cautions": 0,
+   "fails": 0,
+   "unavailable": 0,
+   "overall": "clear",
+   "binding_check": null,
+   "binding_line": "clear — 8 of 8 aligned",
+   "sentence": "clear — 8 of 8 aligned",
+   "calibrating": false,
+   "tooltip": "conditions are consistent and readable"
+  }
+ }
+}

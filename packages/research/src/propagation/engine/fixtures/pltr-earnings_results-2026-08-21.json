@@ -1,0 +1,740 @@
+{
+ "recorded_at": "2026-08-22T19:59:56.471Z",
+ "request": {
+  "request_id": "pr-c6d38fec-c2ea-5d40-a96a-28c92023fac3-3d04965b8d",
+  "incident_id": "c6d38fec-c2ea-5d40-a96a-28c92023fac3",
+  "root_ticker": "PLTR",
+  "incident": {
+   "incident_id": "c6d38fec-c2ea-5d40-a96a-28c92023fac3",
+   "ticker": "PLTR",
+   "trigger_type": "organic",
+   "window_start": "2026-08-21T16:18:06.317Z",
+   "window_end": "2026-08-22T00:18:06.317Z",
+   "window_status": "closed",
+   "composite_tags": [],
+   "priority": 15,
+   "priority_band": "P2",
+   "degraded_context": false,
+   "discovery_floor_applied": false,
+   "earnings_absorption": false,
+   "messages": [
+    {
+     "id": "56f95ff1-6b20-4b8a-9a77-42fd398266d2",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "PLTR",
+     "timestamp": "2026-08-21T16:18:06.317Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 1.9426633437977325,
+      "r_squared": 0.11781059417733353,
+      "daily_vol_30d": 0.0235672303235212,
+      "vol_regime": 0.815942346142573,
+      "move_today": 0.03931936119743429,
+      "move_zscore": 1.6683912643817005,
+      "residual_move": 0.02956269447207598,
+      "residual_zscore": 0.9961892577278921,
+      "volume_ratio": 0.5797886399114583,
+      "volume_ratio_partial": true,
+      "momentum_5d": -0.02821064715901045,
+      "momentum_20d": 0.41006730032424143,
+      "momentum_60d": 0.27349926018334236,
+      "pct_from_52w_high": -0.16034360042622675,
+      "pct_from_52w_low": 0.6217023600057268,
+      "earnings_rhythm": 0.12792247563290016,
+      "prev_close": 173.9600067138672,
+      "last_price": 180.8000030517578,
+      "price_asof": "2026-08-21T16:18:17.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "Palantir: Buy Before The Next Leg Higher",
+      "source": "SeekingAlpha",
+      "url": "https://finnhub.io/api/news?id=09dd430241735b1edee854831b176c591fbb7c99a727eecb0b7e7fbdd2f84658",
+      "published_at": "2026-08-21T01:01:17.000Z",
+      "article_id": "141268082",
+      "summary": "Palantir (PLTR) stock Q2 blew past estimates; revenue was +93% and guidance was raised. Read here for a detailed investment analysis."
+     }
+    },
+    {
+     "id": "7f5820bf-0308-4bdb-9561-48c273bcf302",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "PLTR",
+     "timestamp": "2026-08-21T16:18:06.317Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 1.9426633437977325,
+      "r_squared": 0.11781059417733353,
+      "daily_vol_30d": 0.0235672303235212,
+      "vol_regime": 0.815942346142573,
+      "move_today": 0.03931936119743429,
+      "move_zscore": 1.6683912643817005,
+      "residual_move": 0.02956269447207598,
+      "residual_zscore": 0.9961892577278921,
+      "volume_ratio": 0.5797886399114583,
+      "volume_ratio_partial": true,
+      "momentum_5d": -0.02821064715901045,
+      "momentum_20d": 0.41006730032424143,
+      "momentum_60d": 0.27349926018334236,
+      "pct_from_52w_high": -0.16034360042622675,
+      "pct_from_52w_low": 0.6217023600057268,
+      "earnings_rhythm": 0.12792247563290016,
+      "prev_close": 173.9600067138672,
+      "last_price": 180.8000030517578,
+      "price_asof": "2026-08-21T16:18:17.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "BUZZ Investing: Markets Look Through Intra-Period Volatility",
+      "source": "SeekingAlpha",
+      "url": "https://finnhub.io/api/news?id=f8b1da701340dfb84dd264e2e4b41797bbdb4a488d598888072f0f3a46f94b8e",
+      "published_at": "2026-08-21T02:10:00.000Z",
+      "article_id": "141268316",
+      "summary": "AI and semiconductor volatility gave way to an August recovery as a leveraged hedge fund unwind cleared, and Super Micro and Palantir led BUZZ Index gains. Read more here."
+     }
+    },
+    {
+     "id": "a8d64959-dcb3-4545-9745-d4f8c869c3f0",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "PLTR",
+     "timestamp": "2026-08-21T16:18:06.317Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 1.9426633437977325,
+      "r_squared": 0.11781059417733353,
+      "daily_vol_30d": 0.0235672303235212,
+      "vol_regime": 0.815942346142573,
+      "move_today": 0.03931936119743429,
+      "move_zscore": 1.6683912643817005,
+      "residual_move": 0.02956269447207598,
+      "residual_zscore": 0.9961892577278921,
+      "volume_ratio": 0.5797886399114583,
+      "volume_ratio_partial": true,
+      "momentum_5d": -0.02821064715901045,
+      "momentum_20d": 0.41006730032424143,
+      "momentum_60d": 0.27349926018334236,
+      "pct_from_52w_high": -0.16034360042622675,
+      "pct_from_52w_low": 0.6217023600057268,
+      "earnings_rhythm": 0.12792247563290016,
+      "prev_close": 173.9600067138672,
+      "last_price": 180.8000030517578,
+      "price_asof": "2026-08-21T16:18:17.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "Palantir Just Turned Its Biggest Weakness Into A Strength",
+      "source": "SeekingAlpha",
+      "url": "https://finnhub.io/api/news?id=a72b8d63e409015943cd721506c3dc35fccd653eca3e2d5a8371a2c93d947dfa",
+      "published_at": "2026-08-21T10:42:24.000Z",
+      "article_id": "141270240",
+      "summary": "Palantir's accelerating enterprise adoption, 155% Rule of 40 score, and expanding contract visibility justify its premium valuation. Learn more about PLTR stock here."
+     }
+    },
+    {
+     "id": "dde85869-766a-4246-b281-bb8bf40f7a44",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "PLTR",
+     "timestamp": "2026-08-21T16:18:06.317Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 1.9426633437977325,
+      "r_squared": 0.11781059417733353,
+      "daily_vol_30d": 0.0235672303235212,
+      "vol_regime": 0.815942346142573,
+      "move_today": 0.03931936119743429,
+      "move_zscore": 1.6683912643817005,
+      "residual_move": 0.02956269447207598,
+      "residual_zscore": 0.9961892577278921,
+      "volume_ratio": 0.5797886399114583,
+      "volume_ratio_partial": true,
+      "momentum_5d": -0.02821064715901045,
+      "momentum_20d": 0.41006730032424143,
+      "momentum_60d": 0.27349926018334236,
+      "pct_from_52w_high": -0.16034360042622675,
+      "pct_from_52w_low": 0.6217023600057268,
+      "earnings_rhythm": 0.12792247563290016,
+      "prev_close": 173.9600067138672,
+      "last_price": 180.8000030517578,
+      "price_asof": "2026-08-21T16:18:17.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "Palantir: Why Michael Burry's Put Buys Should Not Deter Retail Investors",
+      "source": "SeekingAlpha",
+      "url": "https://finnhub.io/api/news?id=fb6d0b4e229c71f8998c80f8371c3b91003c4401f6d439d64fb5bfb42f9d5191",
+      "published_at": "2026-08-21T05:14:04.000Z",
+      "article_id": "141268947",
+      "summary": "Palantir's U.S. commercial business is delivering triple-digit growth, with GAAP net income margins rising. Learn why PLTR stock is a strong buy."
+     }
+    },
+    {
+     "id": "09fb347d-ebd1-4aaf-8419-a5c050b0beb8",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "PLTR",
+     "timestamp": "2026-08-21T16:34:06.436Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 1.9426633437977325,
+      "r_squared": 0.11781059417733353,
+      "daily_vol_30d": 0.0235672303235212,
+      "vol_regime": 0.815942346142573,
+      "move_today": 0.04075647312173536,
+      "move_zscore": 1.7293705099091974,
+      "residual_move": 0.031534820821676274,
+      "residual_zscore": 1.0626450094595092,
+      "volume_ratio": 0.6130625049901024,
+      "volume_ratio_partial": true,
+      "momentum_5d": -0.02821064715901045,
+      "momentum_20d": 0.41006730032424143,
+      "momentum_60d": 0.27349926018334236,
+      "pct_from_52w_high": -0.16034360042622675,
+      "pct_from_52w_low": 0.6217023600057268,
+      "earnings_rhythm": 0.12792247563290016,
+      "prev_close": 173.9600067138672,
+      "last_price": 181.0500030517578,
+      "price_asof": "2026-08-21T16:34:12.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "Here's How Much $100 Invested In Palantir Technologies 10 Years Ago Would Be Worth Today",
+      "source": "Benzinga",
+      "url": "https://finnhub.io/api/news?id=ec7680735d5fa01e25e8283d5d438a4c8ea399d1b7dda49fda3f53271372d18f",
+      "published_at": "2026-08-20T19:00:39.000Z",
+      "article_id": "141270686",
+      "summary": "Palantir Technologies (NASDAQ:PLTR) has outperformed the market over the past 10 years by 45.6% on an annualized basis producing an average annual return of 58.95%. Currently, Palantir Technologies has a market"
+     }
+    },
+    {
+     "id": "eb9b24e9-3ccc-4f68-a896-bc04f9327731",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "PLTR",
+     "timestamp": "2026-08-21T16:34:06.436Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 1.9426633437977325,
+      "r_squared": 0.11781059417733353,
+      "daily_vol_30d": 0.0235672303235212,
+      "vol_regime": 0.815942346142573,
+      "move_today": 0.04075647312173536,
+      "move_zscore": 1.7293705099091974,
+      "residual_move": 0.031534820821676274,
+      "residual_zscore": 1.0626450094595092,
+      "volume_ratio": 0.6130625049901024,
+      "volume_ratio_partial": true,
+      "momentum_5d": -0.02821064715901045,
+      "momentum_20d": 0.41006730032424143,
+      "momentum_60d": 0.27349926018334236,
+      "pct_from_52w_high": -0.16034360042622675,
+      "pct_from_52w_low": 0.6217023600057268,
+      "earnings_rhythm": 0.12792247563290016,
+      "prev_close": 173.9600067138672,
+      "last_price": 181.0500030517578,
+      "price_asof": "2026-08-21T16:34:12.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "Sky News Reported Arcturis Data, Akrivia Health To Merge In £140M Deal To Gain Ground In NHS Patient Data Battle With Palantir Technologies",
+      "source": "Benzinga",
+      "url": "https://finnhub.io/api/news?id=4ceea1716bfafab0a89f62ff7a87b851250c9392aaebbd538ea60cb7d4b0ebdb",
+      "published_at": "2026-08-21T05:34:00.000Z",
+      "article_id": "141270685",
+      "summary": "https://news.sky.com/story/nhs-patient-data-groups-arcturis-and-akrivia-agree-140m-merger-13575267"
+     }
+    },
+    {
+     "id": "6696c925-d95e-48e3-ad96-62065673bf15",
+     "schema_version": 1,
+     "type": "scheduled_event",
+     "ticker": "PLTR",
+     "timestamp": "2026-08-21T17:47:14.122Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 1.9426633437977325,
+      "r_squared": 0.11781059417733353,
+      "daily_vol_30d": 0.0235672303235212,
+      "vol_regime": 0.815942346142573,
+      "move_today": 0.03403079984172819,
+      "move_zscore": 1.443988087465834,
+      "residual_move": 0.0260191104180656,
+      "residual_zscore": 0.8767792908253352,
+      "volume_ratio": 0.7212648016761237,
+      "volume_ratio_partial": true,
+      "momentum_5d": -0.02821064715901045,
+      "momentum_20d": 0.41006730032424143,
+      "momentum_60d": 0.27349926018334236,
+      "pct_from_52w_high": -0.16034360042622675,
+      "pct_from_52w_low": 0.6217023600057268,
+      "earnings_rhythm": 0.12792247563290016,
+      "prev_close": 173.9600067138672,
+      "last_price": 179.8800048828125,
+      "price_asof": "2026-08-21T17:47:24.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "event_type": "earnings",
+      "due_at": "2026-11-02T20:00:00.000Z",
+      "fiscal_period": "Q3 2026",
+      "earnings_rhythm": 0.12792247563290016,
+      "rescheduled": false,
+      "previous_due_at": null
+     }
+    },
+    {
+     "id": "b9de121f-c39a-4f52-9acf-782e3a08705a",
+     "schema_version": 1,
+     "type": "scheduled_event",
+     "ticker": "PLTR",
+     "timestamp": "2026-08-21T17:47:14.122Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 1.9426633437977325,
+      "r_squared": 0.11781059417733353,
+      "daily_vol_30d": 0.0235672303235212,
+      "vol_regime": 0.815942346142573,
+      "move_today": 0.03403079984172819,
+      "move_zscore": 1.443988087465834,
+      "residual_move": 0.0260191104180656,
+      "residual_zscore": 0.8767792908253352,
+      "volume_ratio": 0.7212648016761237,
+      "volume_ratio_partial": true,
+      "momentum_5d": -0.02821064715901045,
+      "momentum_20d": 0.41006730032424143,
+      "momentum_60d": 0.27349926018334236,
+      "pct_from_52w_high": -0.16034360042622675,
+      "pct_from_52w_low": 0.6217023600057268,
+      "earnings_rhythm": 0.12792247563290016,
+      "prev_close": 173.9600067138672,
+      "last_price": 179.8800048828125,
+      "price_asof": "2026-08-21T17:47:24.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "event_type": "earnings",
+      "due_at": "2027-02-01T20:00:00.000Z",
+      "fiscal_period": "Q4 2026",
+      "earnings_rhythm": 0.12792247563290016,
+      "rescheduled": false,
+      "previous_due_at": null
+     }
+    },
+    {
+     "id": "55d1e001-e18f-4478-a983-fb810b61f263",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "PLTR",
+     "timestamp": "2026-08-21T18:41:37.290Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 1.9426633437977325,
+      "r_squared": 0.11781059417733353,
+      "daily_vol_30d": 0.0235672303235212,
+      "vol_regime": 0.815942346142573,
+      "move_today": 0.029863140175514724,
+      "move_zscore": 1.2671467866849806,
+      "residual_move": 0.022946823209344918,
+      "residual_zscore": 0.773250855118188,
+      "volume_ratio": 0.791114066169446,
+      "volume_ratio_partial": true,
+      "momentum_5d": -0.02821064715901045,
+      "momentum_20d": 0.41006730032424143,
+      "momentum_60d": 0.27349926018334236,
+      "pct_from_52w_high": -0.16034360042622675,
+      "pct_from_52w_low": 0.6217023600057268,
+      "earnings_rhythm": 0.12792247563290016,
+      "prev_close": 173.9600067138672,
+      "last_price": 179.15499877929688,
+      "price_asof": "2026-08-21T18:41:37.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "10 Information Technology Stocks Whale Activity In Today’s Session",
+      "source": "Benzinga",
+      "url": "https://finnhub.io/api/news?id=fd259331b2813de364df203b1226e57f8c5cb587cd8e0ea01bd780e40b8e0863",
+      "published_at": "2026-08-21T13:35:18.000Z",
+      "article_id": "141271554",
+      "summary": "This whale alert can help traders discover the next big trading opportunities.\nWhales are entities with large sums of money and we track their transactions here at Benzinga on our options activity scanner.\nTraders often"
+     }
+    },
+    {
+     "id": "c3f2c021-58db-4964-bbe6-b79ca9c6a111",
+     "schema_version": 1,
+     "type": "news_item",
+     "ticker": "PLTR",
+     "timestamp": "2026-08-21T18:41:37.290Z",
+     "source_engine": "tracker",
+     "context_flags": [],
+     "quant_context": {
+      "beta_90d": 1.9426633437977325,
+      "r_squared": 0.11781059417733353,
+      "daily_vol_30d": 0.0235672303235212,
+      "vol_regime": 0.815942346142573,
+      "move_today": 0.029863140175514724,
+      "move_zscore": 1.2671467866849806,
+      "residual_move": 0.022946823209344918,
+      "residual_zscore": 0.773250855118188,
+      "volume_ratio": 0.791114066169446,
+      "volume_ratio_partial": true,
+      "momentum_5d": -0.02821064715901045,
+      "momentum_20d": 0.41006730032424143,
+      "momentum_60d": 0.27349926018334236,
+      "pct_from_52w_high": -0.16034360042622675,
+      "pct_from_52w_low": 0.6217023600057268,
+      "earnings_rhythm": 0.12792247563290016,
+      "prev_close": 173.9600067138672,
+      "last_price": 179.15499877929688,
+      "price_asof": "2026-08-21T18:41:37.000Z",
+      "session": "regular"
+     },
+     "payload": {
+      "headline": "Which S&P500 stocks are the most active on Friday?",
+      "source": "ChartMill",
+      "url": "https://finnhub.io/api/news?id=c44337b50efe0da34e7f47d53a781801f081fdbdc9b1b80bf495179c51b14ae9",
+      "published_at": "2026-08-21T18:05:01.000Z",
+      "article_id": "141271515",
+      "summary": "Stay informed about the most active stocks in the S&P500 index on Friday's session. Discover the stocks that are generating the highest trading volume and driving market activity."
+     }
+    }
+   ],
+   "quant_context": {
+    "beta_90d": 1.9426633437977325,
+    "r_squared": 0.11781059417733353,
+    "daily_vol_30d": 0.0235672303235212,
+    "vol_regime": 0.815942346142573,
+    "move_today": 0.029863140175514724,
+    "move_zscore": 1.2671467866849806,
+    "residual_move": 0.022946823209344918,
+    "residual_zscore": 0.773250855118188,
+    "volume_ratio": 0.791114066169446,
+    "volume_ratio_partial": true,
+    "momentum_5d": -0.02821064715901045,
+    "momentum_20d": 0.41006730032424143,
+    "momentum_60d": 0.27349926018334236,
+    "pct_from_52w_high": -0.16034360042622675,
+    "pct_from_52w_low": 0.6217023600057268,
+    "earnings_rhythm": 0.12792247563290016,
+    "prev_close": 173.9600067138672,
+    "last_price": 179.15499877929688,
+    "price_asof": "2026-08-21T18:41:37.000Z",
+    "session": "regular"
+   },
+   "user_proximity": "tracked",
+   "related_incident_id": null,
+   "propagation_candidates": [
+    {
+     "ticker": "PLTR",
+     "article_key": "id:141268082",
+     "event_type": "earnings_results",
+     "event_label": "Q2 earnings beat with 93% revenue growth and raised guidance"
+    }
+   ]
+  },
+  "event": {
+   "type": "earnings_results",
+   "direction": "positive",
+   "materiality": "high",
+   "label": "Q2 earnings beat with 93% revenue growth and raised guidance",
+   "source_msg_ids": [
+    "56f95ff1-6b20-4b8a-9a77-42fd398266d2"
+   ],
+   "event_ts": "2026-08-21T01:01:17.000Z",
+   "source": "verdict",
+   "evidence_lines": [
+    "Palantir: Buy Before The Next Leg Higher (earnings_results · high · positive)"
+   ]
+  },
+  "trigger_rules": [
+   "propagation_candidates"
+  ],
+  "update": false,
+  "prior_run_id": null,
+  "requested_at": "2026-08-22T19:59:56.471Z",
+  "verdicts": {
+   "56f95ff1-6b20-4b8a-9a77-42fd398266d2": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141268082",
+     "kind": "news",
+     "event_type": "earnings_results",
+     "event_label": "Q2 earnings beat with 93% revenue growth and raised guidance",
+     "syndication_scope": 1,
+     "tickers": [
+      {
+       "ticker": "PLTR",
+       "relevance": "direct",
+       "materiality": "high",
+       "direction": "positive"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:38.918Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "PLTR",
+     "relevance": "direct",
+     "materiality": "high",
+     "direction": "positive"
+    }
+   },
+   "7f5820bf-0308-4bdb-9561-48c273bcf302": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141268316",
+     "kind": "news",
+     "event_type": "macro_sector",
+     "event_label": "Market recovery amid AI/semiconductor volatility; PLTR among gainers",
+     "syndication_scope": 1,
+     "tickers": [
+      {
+       "ticker": "PLTR",
+       "relevance": "indirect",
+       "materiality": "low",
+       "direction": "positive"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:38.941Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "PLTR",
+     "relevance": "indirect",
+     "materiality": "low",
+     "direction": "positive"
+    }
+   },
+   "a8d64959-dcb3-4545-9745-d4f8c869c3f0": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141270240",
+     "kind": "news",
+     "event_type": "other",
+     "event_label": "Opinion piece on Palantir valuation and business metrics",
+     "syndication_scope": 1,
+     "tickers": [
+      {
+       "ticker": "PLTR",
+       "relevance": "none"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:40.334Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "PLTR",
+     "relevance": "none"
+    }
+   },
+   "dde85869-766a-4246-b281-bb8bf40f7a44": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141268947",
+     "kind": "news",
+     "event_type": "analyst_action",
+     "event_label": "Analyst commentary on Palantir valuation and investment thesis",
+     "syndication_scope": 1,
+     "tickers": [
+      {
+       "ticker": "PLTR",
+       "relevance": "direct",
+       "materiality": "low",
+       "direction": "positive"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:38.909Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "PLTR",
+     "relevance": "direct",
+     "materiality": "low",
+     "direction": "positive"
+    }
+   },
+   "09fb347d-ebd1-4aaf-8419-a5c050b0beb8": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141270686",
+     "kind": "news",
+     "event_type": "other",
+     "event_label": "Historical investment performance retrospective",
+     "syndication_scope": 1,
+     "tickers": [
+      {
+       "ticker": "PLTR",
+       "relevance": "none"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:42.897Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "PLTR",
+     "relevance": "none"
+    }
+   },
+   "eb9b24e9-3ccc-4f68-a896-bc04f9327731": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141270685",
+     "kind": "news",
+     "event_type": "ma_activity",
+     "event_label": "Arcturis Data, Akrivia Health merge in £140M deal",
+     "syndication_scope": 1,
+     "tickers": [
+      {
+       "ticker": "PLTR",
+       "relevance": "indirect",
+       "materiality": "low",
+       "direction": "negative"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:42.827Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "PLTR",
+     "relevance": "indirect",
+     "materiality": "low",
+     "direction": "negative"
+    }
+   },
+   "55d1e001-e18f-4478-a983-fb810b61f263": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141271554",
+     "kind": "news",
+     "event_type": "ownership_flows",
+     "event_label": "Whale activity detected in IT stocks",
+     "syndication_scope": 4,
+     "tickers": [
+      {
+       "ticker": "PLTR",
+       "relevance": "none"
+      },
+      {
+       "ticker": "MSFT",
+       "relevance": "none"
+      },
+      {
+       "ticker": "NVDA",
+       "relevance": "none"
+      },
+      {
+       "ticker": "MSTR",
+       "relevance": "none"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:09.207Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "PLTR",
+     "relevance": "none"
+    }
+   },
+   "c3f2c021-58db-4964-bbe6-b79ca9c6a111": {
+    "state": "classified",
+    "verdict": {
+     "schema_version": 1,
+     "prompt_version": "cls-1.0",
+     "model": "claude-haiku-4-5",
+     "article_key": "id:141271515",
+     "kind": "news",
+     "event_type": "macro_sector",
+     "event_label": "S&P 500 most active stocks on Friday",
+     "syndication_scope": 5,
+     "tickers": [
+      {
+       "ticker": "WMT",
+       "relevance": "none"
+      },
+      {
+       "ticker": "AAPL",
+       "relevance": "none"
+      },
+      {
+       "ticker": "INTC",
+       "relevance": "none"
+      },
+      {
+       "ticker": "NVDA",
+       "relevance": "none"
+      },
+      {
+       "ticker": "PLTR",
+       "relevance": "none"
+      }
+     ],
+     "unassessed_tickers": [],
+     "status": "ok",
+     "metadata_missing": false,
+     "classified_at": "2026-08-21T19:03:04.310Z",
+     "failure_reason": null
+    },
+    "entry": {
+     "ticker": "PLTR",
+     "relevance": "none"
+    }
+   }
+  }
+ },
+ "graph_version": {
+  "generatedAt": "2026-08-13T22:38:11.325Z",
+  "pipelineVersion": 5
+ }
+}

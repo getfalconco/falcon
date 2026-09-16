@@ -1,0 +1,10 @@
+[
+  {
+    "counterparty_name": "China",
+    "category": "dependency",
+    "subtype": "regulatory_jurisdiction",
+    "evidence_quote": "Further, certain of our suppliers are located in China, which exposes us to risks associated with Chinese laws and regulations",
+    "confidence": 0.85,
+    "merged_into": "China"
+  }
+]

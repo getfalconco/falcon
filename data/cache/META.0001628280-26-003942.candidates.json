@@ -1,0 +1,387 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 220454,
+  "chunks": 10,
+  "candidates": [
+    {
+      "counterparty_name": "Ray-Ban",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "product collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our current AI glasses include the Ray-Ban Meta and Oakley Meta glasses",
+      "evidence_quotes": [
+        "Our current AI glasses include the Ray-Ban Meta and Oakley Meta glasses"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Oakley",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "product collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our current AI glasses include the Ray-Ban Meta and Oakley Meta glasses",
+      "evidence_quotes": [
+        "Our current AI glasses include the Ray-Ban Meta and Oakley Meta glasses"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "TikTok",
+      "counterparty_type": "product",
+      "category": "competitor",
+      "subtype": "social_media",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "User growth and engagement are also impacted by a number of other factors, including competitive products and services, such as TikTok, that have reduced some users' engagement with our products and services",
+      "evidence_quotes": [
+        "User growth and engagement are also impacted by a number of other factors, including competitive products and services, such as TikTok, that have reduced some users' engagement with our products and services"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Apple",
+      "counterparty_type": "public_company",
+      "category": "dependency",
+      "subtype": "mobile_operating_system",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "changes to the content or application of third-party policies that limit our ability to deliver, target, or measure the effectiveness of advertising, including changes by mobile operating system and browser providers such as Apple and Google",
+      "evidence_quotes": [
+        "changes to the content or application of third-party policies that limit our ability to deliver, target, or measure the effectiveness of advertising, including changes by mobile operating system and browser providers such as Apple and Google"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Google",
+      "counterparty_type": "public_company",
+      "category": "dependency",
+      "subtype": "mobile_operating_system",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "changes to the content or application of third-party policies that limit our ability to deliver, target, or measure the effectiveness of advertising, including changes by mobile operating system and browser providers such as Apple and Google",
+      "evidence_quotes": [
+        "changes to the content or application of third-party policies that limit our ability to deliver, target, or measure the effectiveness of advertising, including changes by mobile operating system and browser providers such as Apple and Google"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Apple",
+      "counterparty_type": "public_company",
+      "category": "dependency",
+      "subtype": "mobile_operating_system_provider",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "mobile operating system and browser providers, such as Apple and Google, have implemented product changes and/or announced plans to limit the ability of websites and application developers to collect and use these signals",
+      "evidence_quotes": [
+        "mobile operating system and browser providers, such as Apple and Google, have implemented product changes and/or announced plans to limit the ability of websites and application developers to collect and use these signals"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Google",
+      "counterparty_type": "public_company",
+      "category": "dependency",
+      "subtype": "mobile_operating_system_provider",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "mobile operating system and browser providers, such as Apple and Google, have implemented product changes and/or announced plans to limit the ability of websites and application developers to collect and use these signals",
+      "evidence_quotes": [
+        "mobile operating system and browser providers, such as Apple and Google, have implemented product changes and/or announced plans to limit the ability of websites and application developers to collect and use these signals"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Apple",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "advertising_competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Apple previously released an update to its Safari browser that limits the use of third-party cookies...also released changes to iOS that limit our ability to target and measure ads effectively, while expanding their own advertising business.",
+      "evidence_quotes": [
+        "Apple previously released an update to its Safari browser that limits the use of third-party cookies...also released changes to iOS that limit our ability to target and measure ads effectively, while expanding their own advertising business."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Apple",
+      "counterparty_type": "public_company",
+      "category": "dependency",
+      "subtype": "platform_provider",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "each of Apple and Google have integrated competitive products with iOS and Android, respectively. In addition, Apple has released changes to iOS that limit our ability",
+      "evidence_quotes": [
+        "each of Apple and Google have integrated competitive products with iOS and Android, respectively. In addition, Apple has released changes to iOS that limit our ability"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Google",
+      "counterparty_type": "public_company",
+      "category": "dependency",
+      "subtype": "platform_provider",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "each of Apple and Google have integrated competitive products with iOS and Android, respectively",
+      "evidence_quotes": [
+        "each of Apple and Google have integrated competitive products with iOS and Android, respectively"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Internal Revenue Service",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "tax_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "tax obligations that may arise from resolutions of tax examinations, including the examination we are currently under by the Internal Revenue Service (IRS)",
+      "evidence_quotes": [
+        "tax obligations that may arise from resolutions of tax examinations, including the examination we are currently under by the Internal Revenue Service (IRS)"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Asia",
+      "counterparty_type": "other",
+      "category": "supplier",
+      "subtype": "manufacturing_region",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we rely on certain third-party equipment and components for our technical infrastructure that are manufactured by a small number of third parties, often with significant operations in a single region such as Asia.",
+      "evidence_quotes": [
+        "we rely on certain third-party equipment and components for our technical infrastructure that are manufactured by a small number of third parties, often with significant operations in a single region such as Asia."
+      ],
+      "confidence": 0.75,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "IRS",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "tax_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "For example, in 2016 and 2018, the IRS issued formal assessments relating to transfer pricing with our foreign subsidiaries in conjunction with the examination of the 2010 through 2013 tax years.",
+      "evidence_quotes": [
+        "For example, in 2016 and 2018, the IRS issued formal assessments relating to transfer pricing with our foreign subsidiaries in conjunction with the examination of the 2010 through 2013 tax years."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "U.S. Office of Foreign Assets Control",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_body",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We also must manage our obligations to comply with laws and regulations related to import and export controls, trade restrictions, and sanctions, including regulations established by the U.S. Office of Foreign Assets Control.",
+      "evidence_quotes": [
+        "We also must manage our obligations to comply with laws and regulations related to import and export controls, trade restrictions, and sanctions, including regulations established by the U.S. Office of Foreign Assets Control."
+      ],
+      "confidence": 0.92,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "United Kingdom Competition and Markets Authority",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_body",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "For example, we completed our divestiture of Giphy in 2023 following the United Kingdom Competition and Markets Authority's order directing us to divest Giphy post-acquisition.",
+      "evidence_quotes": [
+        "For example, we completed our divestiture of Giphy in 2023 following the United Kingdom Competition and Markets Authority's order directing us to divest Giphy post-acquisition."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "FTC",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_body",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In addition, although we were able to successfully complete the acquisition after prevailing in federal court, the FTC sought to enjoin our proposed acquisition of Within Unlimited.",
+      "evidence_quotes": [
+        "In addition, although we were able to successfully complete the acquisition after prevailing in federal court, the FTC sought to enjoin our proposed acquisition of Within Unlimited."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "China",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "advertising_market_access",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we generate meaningful revenue from a small number of resellers serving advertisers based in China",
+      "evidence_quotes": [
+        "we generate meaningful revenue from a small number of resellers serving advertisers based in China"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "Irish Data Protection Commission",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_body",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the IDPC issued a Final Decision concluding that Meta Platforms Ireland's reliance on SCCs in respect of certain transfers of European Economic Area (EEA) Facebook user data was not in compliance with the GDPR",
+      "evidence_quotes": [
+        "the IDPC issued a Final Decision concluding that Meta Platforms Ireland's reliance on SCCs in respect of certain transfers of European Economic Area (EEA) Facebook user data was not in compliance with the GDPR"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "Competition Commission of India",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_body",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we have been managing investigations and lawsuits in India and other jurisdictions regarding the 2021 updates to WhatsApp's terms of service and privacy policy and its sharing of certain data with other Meta products and services, including a lawsuit currently",
+      "evidence_quotes": [
+        "we have been managing investigations and lawsuits in India and other jurisdictions regarding the 2021 updates to WhatsApp's terms of service and privacy policy and its sharing of certain data with other Meta products and services, including a lawsuit currently"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "FTC",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In July 2019, we entered into a settlement and modified consent order to resolve the FTC inquiry, which took effect in April 2020",
+      "evidence_quotes": [
+        "In July 2019, we entered into a settlement and modified consent order to resolve the FTC inquiry, which took effect in April 2020"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 7
+    },
+    {
+      "counterparty_name": "European Commission",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In March 2024, the European Commission opened formal proceedings regarding the compliance of our 'subscription for no ads' model with requirements under the DMA",
+      "evidence_quotes": [
+        "In March 2024, the European Commission opened formal proceedings regarding the compliance of our 'subscription for no ads' model with requirements under the DMA"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 7
+    },
+    {
+      "counterparty_name": "IDPC",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We also notify the IDPC, our lead European Union privacy regulator under the GDPR, and other regulators of certain other personal data breaches",
+      "evidence_quotes": [
+        "We also notify the IDPC, our lead European Union privacy regulator under the GDPR, and other regulators of certain other personal data breaches"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 7
+    },
+    {
+      "counterparty_name": "U.S. Department of Justice",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "beginning in 2019, we became the subject of antitrust inquiries and investigations by the FTC and the U.S. Department of Justice",
+      "evidence_quotes": [
+        "beginning in 2019, we became the subject of antitrust inquiries and investigations by the FTC and the U.S. Department of Justice"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 7
+    },
+    {
+      "counterparty_name": "Instagram",
+      "counterparty_type": "product",
+      "category": "partner",
+      "subtype": "acquisition",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we violated antitrust laws, including by acquiring Instagram in 2012 and WhatsApp in 2014",
+      "evidence_quotes": [
+        "we violated antitrust laws, including by acquiring Instagram in 2012 and WhatsApp in 2014"
+      ],
+      "confidence": 0.75,
+      "chunk_index": 7
+    },
+    {
+      "counterparty_name": "WhatsApp",
+      "counterparty_type": "product",
+      "category": "partner",
+      "subtype": "acquisition",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we violated antitrust laws, including by acquiring Instagram in 2012 and WhatsApp in 2014",
+      "evidence_quotes": [
+        "we violated antitrust laws, including by acquiring Instagram in 2012 and WhatsApp in 2014"
+      ],
+      "confidence": 0.75,
+      "chunk_index": 7
+    },
+    {
+      "counterparty_name": "FTC",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_oversight",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we are subject to a variety of laws and regulations in the United States and abroad relating to cybersecurity and data protection, including the GDPR and EU member state laws implementing the EU Cybersecurity Directive (NIS2), as well as obligations",
+      "evidence_quotes": [
+        "we are subject to a variety of laws and regulations in the United States and abroad relating to cybersecurity and data protection, including the GDPR and EU member state laws implementing the EU Cybersecurity Directive (NIS2), as well as obligations"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 8
+    },
+    {
+      "counterparty_name": "Nasdaq",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "stock_exchange_listing",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Because we qualify as a \"controlled company\" under the corporate governance rules for Nasdaq-listed companies",
+      "evidence_quotes": [
+        "Because we qualify as a \"controlled company\" under the corporate governance rules for Nasdaq-listed companies"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 9
+    },
+    {
+      "counterparty_name": "S&P 500 Index",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "index_inclusion",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The inclusion, exclusion, or deletion of our stock from any trading indices, such as the S&P 500 Index",
+      "evidence_quotes": [
+        "The inclusion, exclusion, or deletion of our stock from any trading indices, such as the S&P 500 Index"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 9
+    }
+  ],
+  "candidatesPerChunk": [
+    2,
+    3,
+    3,
+    3,
+    1,
+    4,
+    3,
+    6,
+    1,
+    2
+  ],
+  "parseErrors": 0,
+  "apiErrors": 0,
+  "inputTokens": 51024,
+  "outputTokens": 2852
+}

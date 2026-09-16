@@ -1,0 +1,182 @@
+[
+  {
+    "counterparty_name": "Pfizer",
+    "category": "partner",
+    "subtype": "development and commercialization",
+    "evidence_quote": "We have partnered with Pfizer Inc. (\"Pfizer\") for further development and commercialization of Somatrogon (hGH-CTP).",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Merck",
+    "category": "partner",
+    "subtype": "license_and_research_collaboration",
+    "evidence_quote": "In March 2023, ModeX, OPKO, and Merck entered into a License and Research Collaboration Agreement (the \"Merck Agreement\"), pursuant to which ModeX granted to Merck an exclusive, sublicensable, royalty-bearing license",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Vifor Fresenius Medical Care Renal Pharma",
+    "category": "partner",
+    "subtype": "development_and_commercialization_license",
+    "evidence_quote": "On May 8, 2016, we entered into a development and license agreement with VFMCRP for the development and commercialization of Rayaldee in Europe, and other international markets.",
+    "confidence": 0.95,
+    "reason": "counterparty name not in quote",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Entera Bio Ltd.",
+    "category": "partner",
+    "subtype": "technology_collaboration",
+    "evidence_quote": "we have expanded our peptide portfolio through a series of strategic agreements between OPKO Biologics and Entera. These collaborations combine our advanced protein chemistry and long-acting peptide capabilities with Entera's proprietary N-Tab® oral delivery technology",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "LeaderMed Health Group Limited",
+    "category": "partner",
+    "subtype": "joint_venture",
+    "evidence_quote": "On September 14, 2021, we formed a joint venture with LeaderMed Health Group Limited (\"LeaderMed\"), a pharmaceutical development company based in Asia.",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Pfizer Inc.",
+    "category": "partner",
+    "subtype": "commercialization_and_profit_share",
+    "evidence_quote": "In December 2014, we entered into an exclusive worldwide agreement with Pfizer Inc. (\"Pfizer\") for the development and commercialization of Somatrogon (hGH-CTP)",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Labcorp",
+    "category": "customer",
+    "subtype": "asset_sale",
+    "evidence_quote": "September 2024 BioReference Transaction: We completed the sale of laboratory testing businesses focused on clinical diagnostics, reproductive health, and women's health across the United States, excluding New York and New Jersey, for $237.5 million in cash.",
+    "confidence": 0.9,
+    "reason": "counterparty name not in quote",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Eli Lilly and Company",
+    "category": "supplier",
+    "subtype": "license-in agreement",
+    "evidence_quote": "Additionally, we maintain a license agreement with Eli Lilly and Company (\"Eli Lilly\"), under which we receive royalty payments for certain licensed intellectual property.",
+    "confidence": 0.85,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "OIG",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "Congress authorized the U.S. Department of Health and Human Services Office of Inspector General, or OIG, to issue a series of regulations, known as \"safe harbors.\"",
+    "confidence": 0.8,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "HCR Injection SPV, LLC",
+    "category": "supplier",
+    "subtype": "lender",
+    "evidence_quote": "the Company completed a private offering of $250 million aggregate principal amount of senior secured notes pursuant to a note purchase agreement by and among the Company, certain purchasers, and HCR Injection SPV, LLC, as agent.",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "FDA",
+    "category": "dependency",
+    "subtype": "regulatory_approval_authority",
+    "evidence_quote": "In general, we are not permitted to market our product candidates in the U.S. until we receive approval of a BLA, an approval of an NDA, a clearance letter under the premarket notification process, or 510(k) process, or an approval",
+    "confidence": 0.95,
+    "reason": "counterparty name not in quote",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Medicare",
+    "category": "dependency",
+    "subtype": "reimbursement program",
+    "evidence_quote": "CMS pays laboratories on the basis of a fee schedule that is reviewed and re-calculated on an annual basis.",
+    "confidence": 0.95,
+    "reason": "counterparty name not in quote",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Frost Real Estate Holdings, LLC",
+    "category": "supplier",
+    "subtype": "real_estate_lessor",
+    "evidence_quote": "We lease this space from Frost Real Estate Holdings, LLC (\"Frost Real Estate\"), an entity which is controlled by Dr. Phillip Frost",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "VFMCRP",
+    "category": "partner",
+    "subtype": "license and collaboration",
+    "evidence_quote": "Under the VFMCRP Agreement, as amended from time to time, we have a license and collaboration agreement for the development and commercialization of Rayaldee in Europe, Australia, and certain other international markets.",
+    "confidence": 0.95,
+    "reason": "VFMCRP is not identified as a real external organization with a clear identity. The filing uses 'VFMCRP' as an abbreviation without ever spelling out the full company name or providing sufficient context to establish it as a genuine counterparty. The evidence quote states 'Under the VFMCRP Agreement, as amended from time to time, we have a license and collaboration agreement' but this does not establish VFMCRP's identity as a verifiable entity. Without being able to confirm VFMCRP is a real, identifiable external organization (rather than an internal code, placeholder, or undefined abbreviation), this relationship cannot be validated. The counterparty_type 'other' further suggests uncertainty about the entity's nature.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "FDA",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "Generally, in order to gain FDA approval, we must first conduct preclinical studies in a laboratory and in animal models",
+    "confidence": 0.95,
+    "reason": "The FDA is a regulatory authority acting in its regulatory capacity. Under the audit instructions, 'regulators acting as regulators' and 'tax and revenue authorities' are explicitly excluded as valid counterparties. The evidence_quote describes the FDA's role in approving drugs through mandatory regulatory processes, not a dependency on critical infrastructure or services. The FDA is not providing a service the company relies on (like GPS infrastructure); it is exercising governmental authority that all pharmaceutical companies must comply with. This is a regulatory compliance requirement, not a counterparty relationship.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "CLIA",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "We are required to comply with the College of American Pathologists and CLIA laboratory safety requirements",
+    "confidence": 0.85,
+    "reason": "CLIA (Clinical Laboratory Improvement Amendments) is not a counterparty organization but a regulatory program/set of standards administered by CMS. The evidence_quote states 'We are required to comply with the College of American Pathologists and CLIA laboratory safety requirements' — this describes compliance with regulatory requirements/standards, not a dependency relationship with an external organization. CLIA is a regulatory framework, not an entity the company depends on for infrastructure or services. Furthermore, treating regulatory compliance obligations as 'dependency' relationships would mischaracterize the nature of government regulation. The College of American Pathologists mentioned in the same sentence is an actual organization, but CLIA itself is a regulatory program.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "CDC",
+    "category": "dependency",
+    "subtype": "guidance_provider",
+    "evidence_quote": "worked to ensure proper personal protective equipment using guidance provided by the CDC and OSHA where applicable",
+    "confidence": 0.8,
+    "reason": "The CDC is mentioned only as a guidance provider for workplace safety during the COVID-19 pandemic ('worked to ensure proper personal protective equipment using guidance provided by the CDC and OSHA where applicable'). This does not establish a critical dependency relationship. The CDC is acting in its regulatory/public health guidance capacity, not as infrastructure the root company critically relies upon to operate. The guidance was used situationally during a pandemic for employee safety protocols, not as a foundational operational dependency. Additionally, regulatory and public health agencies providing guidance fall under the category of regulators acting as regulators, which should be rejected as counterparties per the instructions.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Japan Tobacco",
+    "category": "partner",
+    "subtype": "licensing",
+    "evidence_quote": "In May 2021, we further amended the VFMCRP Agreement for VFMCRP to assume all the rights to Rayaldee in Japan that had been previously granted to Japan Tobacco.",
+    "confidence": 0.9,
+    "reason": "The evidence_quote describes a transfer of rights between VFMCRP and Japan Tobacco regarding Rayaldee in Japan. The text states 'we further amended the VFMCRP Agreement for VFMCRP to assume all the rights to Rayaldee in Japan that had been previously granted to Japan Tobacco.' This indicates Japan Tobacco was exiting/relinquishing rights that were then transferred to VFMCRP. This is a termination or assignment of a prior relationship, not an active licensing partnership. The quoted sentence does not establish that Japan Tobacco currently has any licensing relationship with OPKO Health at the time of the filing. The relationship described is historical and terminated, making Japan Tobacco not a current counterparty in an active licensing partnership.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "BioReference",
+    "category": "partner",
+    "subtype": "settlement_co-party",
+    "evidence_quote": "the Company and BioReference entered into (i) a settlement agreement",
+    "confidence": 0.75,
+    "reason": "BioReference is a subsidiary of OPKO Health, not an external counterparty. The 10-K repeatedly refers to 'the Company and BioReference' entering into agreements together, indicating BioReference is part of the OPKO corporate structure, not a separate partner. The settlement was with the U.S. government regarding Medicare/Medicaid billing issues, where both OPKO and its BioReference subsidiary were co-defendants/settling parties. This does not constitute a partnership relationship between OPKO and BioReference as distinct entities.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "HHS",
+    "category": "dependency",
+    "subtype": "regulatory compliance authority",
+    "evidence_quote": "the U.S. Department of Health and Human Services, or HHS, requires suppliers, such as us, to adopt, as a condition of Medicare participation, compliance programs",
+    "confidence": 0.95,
+    "reason": "HHS is acting purely as a regulator requiring compliance programs as a condition of Medicare participation. The evidence_quote describes a regulatory mandate, not a critical infrastructure dependency. HHS is a regulatory authority establishing rules, which falls squarely within the exclusion for 'regulators acting as regulators.' The relationship is regulatory compliance, not dependency on essential infrastructure or services that cannot be substituted. This is analogous to FDA approval requirements—a regulatory hurdle, not an infrastructure dependency.",
+    "stage": "audit"
+  }
+]

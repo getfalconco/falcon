@@ -1,0 +1,20 @@
+[
+  {
+    "counterparty_name": "Exxon Mobil Corporation",
+    "category": "customer",
+    "subtype": "bitumen/crude product sales to refineries",
+    "evidence_quote": "typically shipped to the company's refineries, Exxon Mobil Corporation refineries and to other third parties",
+    "confidence": 0.65,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Syncrude",
+    "category": "partner",
+    "subtype": "joint venture",
+    "evidence_quote": "The company's share of Syncrude joint venture leases covering about 55,000 net acres accounts for the entire synthetic crude oil acreage.",
+    "confidence": 0.75,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  }
+]

@@ -1,0 +1,120 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 63260,
+  "chunks": 3,
+  "candidates": [
+    {
+      "counterparty_name": "Walmart",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "general merchandise retail competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Walmart, Target, Kroger, and Amazon are among our significant general merchandise retail competitors in the U.S.",
+      "evidence_quotes": [
+        "Walmart, Target, Kroger, and Amazon are among our significant general merchandise retail competitors in the U.S."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Target",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "general merchandise retail competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Walmart, Target, Kroger, and Amazon are among our significant general merchandise retail competitors in the U.S.",
+      "evidence_quotes": [
+        "Walmart, Target, Kroger, and Amazon are among our significant general merchandise retail competitors in the U.S."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Kroger",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "general merchandise retail competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Walmart, Target, Kroger, and Amazon are among our significant general merchandise retail competitors in the U.S.",
+      "evidence_quotes": [
+        "Walmart, Target, Kroger, and Amazon are among our significant general merchandise retail competitors in the U.S."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Amazon",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "general merchandise retail competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Walmart, Target, Kroger, and Amazon are among our significant general merchandise retail competitors in the U.S.",
+      "evidence_quotes": [
+        "Walmart, Target, Kroger, and Amazon are among our significant general merchandise retail competitors in the U.S."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Sam's Club",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "warehouse club competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We also compete with other warehouse clubs, including Walmart's Sam's Club and BJ's Wholesale Club in the U.S.",
+      "evidence_quotes": [
+        "We also compete with other warehouse clubs, including Walmart's Sam's Club and BJ's Wholesale Club in the U.S."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "BJ's Wholesale Club",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "warehouse club competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We also compete with other warehouse clubs, including Walmart's Sam's Club and BJ's Wholesale Club in the U.S.",
+      "evidence_quotes": [
+        "We also compete with other warehouse clubs, including Walmart's Sam's Club and BJ's Wholesale Club in the U.S."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Payment Card Industry Data Security Standards",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "regulatory_standards",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We are subject to Payment Card Industry Data Security Standards, which contain compliance guidelines and standards with regard to our security surrounding the physical and electronic storage, processing and transmission of individual cardholder data.",
+      "evidence_quotes": [
+        "We are subject to Payment Card Industry Data Security Standards, which contain compliance guidelines and standards with regard to our security surrounding the physical and electronic storage, processing and transmission of individual cardholder data."
+      ],
+      "confidence": 0.75,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Canada",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "geographic_market",
+      "disclosed_revenue_dependency_pct": 27,
+      "evidence_quote": "During 2025, our international operations, including Canada, generated 27% and 34% of our net sales and operating income.",
+      "evidence_quotes": [
+        "During 2025, our international operations, including Canada, generated 27% and 34% of our net sales and operating income."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    }
+  ],
+  "candidatesPerChunk": [
+    6,
+    1,
+    1
+  ],
+  "parseErrors": 0,
+  "apiErrors": 0,
+  "inputTokens": 15039,
+  "outputTokens": 769
+}

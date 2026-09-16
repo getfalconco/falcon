@@ -1,0 +1,132 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 45682,
+  "chunks": 2,
+  "candidates": [
+    {
+      "counterparty_name": "3GPP",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "standards_organization",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "contributing to 3GPP (3rd Generation Partnership Project, a global organization that develops technical specifications) standardization activities",
+      "evidence_quotes": [
+        "contributing to 3GPP (3rd Generation Partnership Project, a global organization that develops technical specifications) standardization activities"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "TechInsights",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "data_provider",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "According to analyst data, 68% of new vehicles produced in 2030 are projected to have embedded cellular connectivity",
+      "evidence_quotes": [
+        "According to analyst data, 68% of new vehicles produced in 2030 are projected to have embedded cellular connectivity"
+      ],
+      "confidence": 0.75,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Taiwan Semiconductor Manufacturing Company",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "foundry",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The primary foundry suppliers for our various digital, analog/mixed-signal, RF and PM integrated circuits include Taiwan Semiconductor Manufacturing Company (TSMC), Samsung Electronics and Global Foundries.",
+      "evidence_quotes": [
+        "The primary foundry suppliers for our various digital, analog/mixed-signal, RF and PM integrated circuits include Taiwan Semiconductor Manufacturing Company (TSMC), Samsung Electronics and Global Foundries."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Samsung Electronics",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "foundry",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The primary foundry suppliers for our various digital, analog/mixed-signal, RF and PM integrated circuits include Taiwan Semiconductor Manufacturing Company (TSMC), Samsung Electronics and Global Foundries.",
+      "evidence_quotes": [
+        "The primary foundry suppliers for our various digital, analog/mixed-signal, RF and PM integrated circuits include Taiwan Semiconductor Manufacturing Company (TSMC), Samsung Electronics and Global Foundries."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Global Foundries",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "foundry",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The primary foundry suppliers for our various digital, analog/mixed-signal, RF and PM integrated circuits include Taiwan Semiconductor Manufacturing Company (TSMC), Samsung Electronics and Global Foundries.",
+      "evidence_quotes": [
+        "The primary foundry suppliers for our various digital, analog/mixed-signal, RF and PM integrated circuits include Taiwan Semiconductor Manufacturing Company (TSMC), Samsung Electronics and Global Foundries."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Advanced Semiconductor Engineering",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "semiconductor_assembly_test",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our primary semiconductor assembly and test suppliers are Advanced Semiconductor Engineering, Amkor Technology, Siliconware Precision Industries and STATSChipPAC.",
+      "evidence_quotes": [
+        "Our primary semiconductor assembly and test suppliers are Advanced Semiconductor Engineering, Amkor Technology, Siliconware Precision Industries and STATSChipPAC."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Amkor Technology",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "semiconductor_assembly_test",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our primary semiconductor assembly and test suppliers are Advanced Semiconductor Engineering, Amkor Technology, Siliconware Precision Industries and STATSChipPAC.",
+      "evidence_quotes": [
+        "Our primary semiconductor assembly and test suppliers are Advanced Semiconductor Engineering, Amkor Technology, Siliconware Precision Industries and STATSChipPAC."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Siliconware Precision Industries",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "semiconductor_assembly_test",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our primary semiconductor assembly and test suppliers are Advanced Semiconductor Engineering, Amkor Technology, Siliconware Precision Industries and STATSChipPAC.",
+      "evidence_quotes": [
+        "Our primary semiconductor assembly and test suppliers are Advanced Semiconductor Engineering, Amkor Technology, Siliconware Precision Industries and STATSChipPAC."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "STATSChipPAC",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "semiconductor_assembly_test",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our primary semiconductor assembly and test suppliers are Advanced Semiconductor Engineering, Amkor Technology, Siliconware Precision Industries and STATSChipPAC.",
+      "evidence_quotes": [
+        "Our primary semiconductor assembly and test suppliers are Advanced Semiconductor Engineering, Amkor Technology, Siliconware Precision Industries and STATSChipPAC."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    }
+  ],
+  "candidatesPerChunk": [
+    2,
+    7
+  ],
+  "parseErrors": 0,
+  "apiErrors": 0,
+  "inputTokens": 10507,
+  "outputTokens": 930
+}

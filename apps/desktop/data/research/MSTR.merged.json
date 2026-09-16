@@ -1,0 +1,10 @@
+[
+  {
+    "counterparty_name": "AWS",
+    "category": "supplier",
+    "subtype": "cloud hosting provider",
+    "evidence_quote": "Strategy has established strategic partnerships with a wide variety of third-party vendors, including cloud hosting providers (AWS, Microsoft, STACKIT, and Google)",
+    "confidence": 0.95,
+    "merged_into": "AWS"
+  }
+]

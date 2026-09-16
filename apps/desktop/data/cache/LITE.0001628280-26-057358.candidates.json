@@ -1,0 +1,123 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 133538,
+  "chunks": 6,
+  "candidates": [
+    {
+      "counterparty_name": "Customer A",
+      "counterparty_type": "other",
+      "category": "customer",
+      "subtype": "major_customer",
+      "disclosed_revenue_dependency_pct": 26.6,
+      "evidence_quote": "Customer A 26.6 % 15.4 % 18.9 %",
+      "evidence_quotes": [
+        "Customer A 26.6 % 15.4 % 18.9 %"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Customer B",
+      "counterparty_type": "other",
+      "category": "customer",
+      "subtype": "major_customer",
+      "disclosed_revenue_dependency_pct": 15,
+      "evidence_quote": "Customer B 15.0 % 16.0 % 11.4 %",
+      "evidence_quotes": [
+        "Customer B 15.0 % 16.0 % 11.4 %"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Viavi",
+      "counterparty_type": "public_company",
+      "category": "dependency",
+      "subtype": "indemnification_obligation",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we agreed to indemnify Viavi for any liability associated with contamination from past operations at all properties transferred to us from Viavi",
+      "evidence_quotes": [
+        "we agreed to indemnify Viavi for any liability associated with contamination from past operations at all properties transferred to us from Viavi"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Huawei Technologies Co. Ltd.",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "networking customer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we stopped all of our product shipments to Huawei, historically our largest networking customer in China, in the beginning of calendar year 2024.",
+      "evidence_quotes": [
+        "we stopped all of our product shipments to Huawei, historically our largest networking customer in China, in the beginning of calendar year 2024."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "China",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_jurisdiction",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Further, certain of our suppliers are located in China, which exposes us to risks associated with Chinese laws and regulations",
+      "evidence_quotes": [
+        "Further, certain of our suppliers are located in China, which exposes us to risks associated with Chinese laws and regulations"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "China",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "export_controls_rare_earth_metals",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the restrictions in China on the export of indium, gallium, germanium and other rare earth metals and critical minerals",
+      "evidence_quotes": [
+        "the restrictions in China on the export of indium, gallium, germanium and other rare earth metals and critical minerals"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "OEM",
+      "counterparty_type": "other",
+      "category": "customer",
+      "subtype": "original equipment manufacturer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We contract with a number of large OEM and end-user service providers and product companies that have considerable bargaining power",
+      "evidence_quotes": [
+        "We contract with a number of large OEM and end-user service providers and product companies that have considerable bargaining power"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "OEM partners",
+      "counterparty_type": "other",
+      "category": "customer",
+      "subtype": "original_equipment_manufacturer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "changes in buying patterns among our OEM partners and other customers, including unpredictable changes in their desired inventory levels",
+      "evidence_quotes": [
+        "changes in buying patterns among our OEM partners and other customers, including unpredictable changes in their desired inventory levels"
+      ],
+      "confidence": 0.75,
+      "chunk_index": 5
+    }
+  ],
+  "candidatesPerChunk": [
+    2,
+    1,
+    1,
+    2,
+    1,
+    1
+  ],
+  "parseErrors": 5,
+  "apiErrors": 0,
+  "inputTokens": 35705,
+  "outputTokens": 1598
+}

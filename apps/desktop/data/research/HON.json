@@ -1,0 +1,205 @@
+[
+  {
+    "root_ticker": "HON",
+    "counterparty_name": "Resideo Technologies, Inc.",
+    "counterparty_ticker": "REZI",
+    "counterparty_type": "public_company",
+    "category": "supplier",
+    "subtype": "indemnification services (terminated)",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.75,
+    "evidence": [
+      {
+        "quote": "we entered into a termination agreement for the accelerated monetization of the indemnification and reimbursement agreement we had with Resideo Technologies, Inc. (Resideo)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/773840/000077384026000013/hon-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_a77cc0bb8594"
+  },
+  {
+    "root_ticker": "HON",
+    "counterparty_name": "Bombardier",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "customer",
+    "subtype": "strategic supply agreement",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "our Commercial Aviation Original Equipment business entered into a strategic agreement with Bombardier (the Bombardier Agreement) to provide advanced technology for current and future Bombardier aircraft in avionics, propulsion, and satellite communications technologies",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/773840/000077384026000013/hon-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "Aerospace Technologies' sales and segment profit for 2024 decreased by approximately $370 million due to the Bombardier Agreement.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/773840/000077384026000013/hon-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_386ab0caded9"
+  },
+  {
+    "root_ticker": "HON",
+    "counterparty_name": "Flexjet",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "customer",
+    "subtype": "commercial aviation aftermarket",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "our Commercial Aviation Aftermarket business recorded charges for the settlement negotiations with Flexjet and the other parties to related litigation matters",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/773840/000077384026000013/hon-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_8fa10f9aeff4"
+  },
+  {
+    "root_ticker": "HON",
+    "counterparty_name": "U.S. government",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "customer",
+    "subtype": "government_contracts",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "As a supplier to the U.S. government, we are subject to unique risks, such as the right of the U.S. government to terminate contracts for convenience",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/773840/000077384026000013/hon-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_c77ae406fe90"
+  },
+  {
+    "root_ticker": "HON",
+    "counterparty_name": "Federal Aviation Administration",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "dependency",
+    "subtype": "regulatory_body",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.05,
+    "evidence": [
+      {
+        "quote": "mandates of the Federal Aviation Administration and other similar international regulatory bodies regulating the installation of equipment on aircraft",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/773840/000077384026000013/hon-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_1e47d40a4bf6"
+  },
+  {
+    "root_ticker": "HON",
+    "counterparty_name": "National Institute of Standards and Technology",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "dependency",
+    "subtype": "standards_body",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "National Institute of Standards and Technology (NIST) Cyber Security Framework for measuring overall readiness to respond to cyber threats, and NIST 800-171 on protecting controlled unclassified information",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/773840/000077384026000013/hon-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_ef7faccbcbde"
+  },
+  {
+    "root_ticker": "HON",
+    "counterparty_name": "Civitanavi Systems S.p.A.",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "supplier",
+    "subtype": "acquisition_target",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "On August 19, 2024, the Company completed the acquisition of Civitanavi Systems S.p.A., a leader in position navigation and timing technology",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/773840/000077384026000013/hon-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_ecb9f8037b1c"
+  },
+  {
+    "root_ticker": "HON",
+    "counterparty_name": "SCADAfence",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "acquisition_target",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.85,
+    "evidence": [
+      {
+        "quote": "On August 25, 2023, the Company acquired 100 % of the outstanding equity interests of SCADAfence, a provider of operational technology and Internet of Things (IoT) cybersecurity solutions",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/773840/000077384026000013/hon-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_eb9f2bbc5301"
+  },
+  {
+    "root_ticker": "HON",
+    "counterparty_name": "Resideo Technologies, Inc.",
+    "counterparty_ticker": "REZI",
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "spin-off_reimbursement_agreement",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "In conjunction with the Resideo Technologies, Inc. (Resideo) spin-off, the Company entered into a reimbursement agreement under which Honeywell received cash payments as reimbursement primarily related to net spending for environmental matters",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/773840/000077384026000013/hon-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-17",
+    "shared_evidence_group": "ev_4b9bb102e451"
+  }
+]

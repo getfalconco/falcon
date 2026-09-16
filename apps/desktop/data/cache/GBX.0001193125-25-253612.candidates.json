@@ -1,0 +1,71 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 121975,
+  "chunks": 6,
+  "candidates": [
+    {
+      "counterparty_name": "Axis, LLC",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "joint venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We have a 41.9% interest in Axis, LLC (Axis), a joint venture that manufactures and sells axles to its joint venture partners for use and distribution both domestically and internationally.",
+      "evidence_quotes": [
+        "We have a 41.9% interest in Axis, LLC (Axis), a joint venture that manufactures and sells axles to its joint venture partners for use and distribution both domestically and internationally."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Greenbrier-Maxion",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "joint venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We have a 60% ownership interest in Greenbrier Maxion-Equipamentos e Serviços Ferroviários S.A. (Greenbrier-Maxion), a leading railcar manufacturer in South America, based in Hortolandia, Brazil.",
+      "evidence_quotes": [
+        "We have a 60% ownership interest in Greenbrier Maxion-Equipamentos e Serviços Ferroviários S.A. (Greenbrier-Maxion), a leading railcar manufacturer in South America, based in Hortolandia, Brazil."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Amsted-Maxion",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "joint venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We have a 29.5% ownership interest in Amsted-Maxion Fundição e Equipamentos Ferroviários S.A. (Amsted-Maxion) based in Cruzeiro, Brazil.",
+      "evidence_quotes": [
+        "We have a 29.5% ownership interest in Amsted-Maxion Fundição e Equipamentos Ferroviários S.A. (Amsted-Maxion) based in Cruzeiro, Brazil."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "AAR",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "industry certification/infrastructure body",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "These regulations require maintaining certifications with the AAR as a railcar builder and maintenance provider and component manufacturer.",
+      "evidence_quotes": [
+        "These regulations require maintaining certifications with the AAR as a railcar builder and maintenance provider and component manufacturer."
+      ],
+      "confidence": 0.7,
+      "chunk_index": 1
+    }
+  ],
+  "candidatesPerChunk": [
+    3,
+    1,
+    0,
+    0,
+    0,
+    0
+  ],
+  "parseErrors": 5,
+  "apiErrors": 0,
+  "inputTokens": 150210,
+  "outputTokens": 662
+}

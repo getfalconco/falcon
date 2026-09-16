@@ -1,0 +1,13 @@
+{
+  "ticker": "CEG",
+  "companyName": "Constellation Energy Corp",
+  "form": "10-K",
+  "filingDate": "2026-02-24",
+  "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1868275/000186827526000032/ceg-20251231.htm",
+  "generatedAt": "2026-07-24T20:14:24.125Z",
+  "cacheKey": "CEG|0001868275-26-000032|5",
+  "accessionNumber": "0001868275-26-000032",
+  "validatedCount": 23,
+  "rejectedCount": 5,
+  "mergedCount": 9
+}

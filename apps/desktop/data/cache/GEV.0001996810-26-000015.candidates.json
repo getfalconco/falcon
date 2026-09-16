@@ -1,0 +1,305 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 119684,
+  "chunks": 6,
+  "candidates": [
+    {
+      "counterparty_name": "Siemens Energy",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "power and electrification equipment competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Key Power segment competitors include Siemens Energy, Mitsubishi Power, Westinghouse , Framatome, and Rolls-Royce.",
+      "evidence_quotes": [
+        "Key Power segment competitors include Siemens Energy, Mitsubishi Power, Westinghouse , Framatome, and Rolls-Royce."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Mitsubishi Power",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "power segment competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Key Power segment competitors include Siemens Energy, Mitsubishi Power, Westinghouse , Framatome, and Rolls-Royce.",
+      "evidence_quotes": [
+        "Key Power segment competitors include Siemens Energy, Mitsubishi Power, Westinghouse , Framatome, and Rolls-Royce."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Westinghouse",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "power segment competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Key Power segment competitors include Siemens Energy, Mitsubishi Power, Westinghouse , Framatome, and Rolls-Royce.",
+      "evidence_quotes": [
+        "Key Power segment competitors include Siemens Energy, Mitsubishi Power, Westinghouse , Framatome, and Rolls-Royce."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Framatome",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "power segment competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Key Power segment competitors include Siemens Energy, Mitsubishi Power, Westinghouse , Framatome, and Rolls-Royce.",
+      "evidence_quotes": [
+        "Key Power segment competitors include Siemens Energy, Mitsubishi Power, Westinghouse , Framatome, and Rolls-Royce."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Rolls-Royce",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "power segment competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Key Power segment competitors include Siemens Energy, Mitsubishi Power, Westinghouse , Framatome, and Rolls-Royce.",
+      "evidence_quotes": [
+        "Key Power segment competitors include Siemens Energy, Mitsubishi Power, Westinghouse , Framatome, and Rolls-Royce."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Vestas",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "wind segment competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Key Wind segment competitors include Vestas, Siemens-Gamesa, Nordex, Envision, and Goldwind.",
+      "evidence_quotes": [
+        "Key Wind segment competitors include Vestas, Siemens-Gamesa, Nordex, Envision, and Goldwind."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Siemens-Gamesa",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "wind segment competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Key Wind segment competitors include Vestas, Siemens-Gamesa, Nordex, Envision, and Goldwind.",
+      "evidence_quotes": [
+        "Key Wind segment competitors include Vestas, Siemens-Gamesa, Nordex, Envision, and Goldwind."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Nordex",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "wind segment competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Key Wind segment competitors include Vestas, Siemens-Gamesa, Nordex, Envision, and Goldwind.",
+      "evidence_quotes": [
+        "Key Wind segment competitors include Vestas, Siemens-Gamesa, Nordex, Envision, and Goldwind."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Envision",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "wind segment competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Key Wind segment competitors include Vestas, Siemens-Gamesa, Nordex, Envision, and Goldwind.",
+      "evidence_quotes": [
+        "Key Wind segment competitors include Vestas, Siemens-Gamesa, Nordex, Envision, and Goldwind."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Goldwind",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "wind segment competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Key Wind segment competitors include Vestas, Siemens-Gamesa, Nordex, Envision, and Goldwind.",
+      "evidence_quotes": [
+        "Key Wind segment competitors include Vestas, Siemens-Gamesa, Nordex, Envision, and Goldwind."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Hitachi Energy",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "electrification segment competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Key Electrification segment competitors include Hitachi Energy, Siemens Energy, Siemens, Schneider Electric, Mitsubishi Electric, and ABB.",
+      "evidence_quotes": [
+        "Key Electrification segment competitors include Hitachi Energy, Siemens Energy, Siemens, Schneider Electric, Mitsubishi Electric, and ABB."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Siemens",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "electrification segment competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Key Electrification segment competitors include Hitachi Energy, Siemens Energy, Siemens, Schneider Electric, Mitsubishi Electric, and ABB.",
+      "evidence_quotes": [
+        "Key Electrification segment competitors include Hitachi Energy, Siemens Energy, Siemens, Schneider Electric, Mitsubishi Electric, and ABB."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Schneider Electric",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "electrification segment competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Key Electrification segment competitors include Hitachi Energy, Siemens Energy, Siemens, Schneider Electric, Mitsubishi Electric, and ABB.",
+      "evidence_quotes": [
+        "Key Electrification segment competitors include Hitachi Energy, Siemens Energy, Siemens, Schneider Electric, Mitsubishi Electric, and ABB."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Mitsubishi Electric",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "electrification segment competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Key Electrification segment competitors include Hitachi Energy, Siemens Energy, Siemens, Schneider Electric, Mitsubishi Electric, and ABB.",
+      "evidence_quotes": [
+        "Key Electrification segment competitors include Hitachi Energy, Siemens Energy, Siemens, Schneider Electric, Mitsubishi Electric, and ABB."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "ABB",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "electrification segment competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Key Electrification segment competitors include Hitachi Energy, Siemens Energy, Siemens, Schneider Electric, Mitsubishi Electric, and ABB.",
+      "evidence_quotes": [
+        "Key Electrification segment competitors include Hitachi Energy, Siemens Energy, Siemens, Schneider Electric, Mitsubishi Electric, and ABB."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Hitachi, Ltd.",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint venture - small modular reactor design and development",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the design and development of small modular reactors through joint ventures with Hitachi, Ltd.",
+      "evidence_quotes": [
+        "the design and development of small modular reactors through joint ventures with Hitachi, Ltd."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "GE",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "intellectual property licensing agreement",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we have a license to use certain IP from GE , including the GE name and the GE Monogram",
+      "evidence_quotes": [
+        "we have a license to use certain IP from GE , including the GE name and the GE Monogram"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Dogger Bank",
+      "counterparty_type": "other",
+      "category": "customer",
+      "subtype": "offshore wind farm customer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "For Dogger Bank, we are the manufacturer and supplier of our Haliade-X.",
+      "evidence_quotes": [
+        "For Dogger Bank, we are the manufacturer and supplier of our Haliade-X."
+      ],
+      "confidence": 0.65,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "GE",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "trademark license agreement",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We use them under a Trademark License Agreement with GE, in combination with our Vernova trademark.",
+      "evidence_quotes": [
+        "We use them under a Trademark License Agreement with GE, in combination with our Vernova trademark."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "GE",
+      "counterparty_type": "public_company",
+      "category": "dependency",
+      "subtype": "separation and transition services agreements",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We and GE are subject to multiple separation and transition agreements; if either party fails to perform (including with respect to indemnities, transition services, or other obligations), we could experience operational disruption and increased costs.",
+      "evidence_quotes": [
+        "We and GE are subject to multiple separation and transition agreements; if either party fails to perform (including with respect to indemnities, transition services, or other obligations), we could experience operational disruption and increased costs."
+      ],
+      "confidence": 0.75,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "GE",
+      "counterparty_type": "public_company",
+      "category": "dependency",
+      "subtype": "credit support and guarantees",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "certain GE credit support and guarantees of our obligations may not be replaced or released when expected, which could impose contractual restrictions, require alternative credit support, and obligate us to indemnify GE for amounts paid.",
+      "evidence_quotes": [
+        "certain GE credit support and guarantees of our obligations may not be replaced or released when expected, which could impose contractual restrictions, require alternative credit support, and obligate us to indemnify GE for amounts paid."
+      ],
+      "confidence": 0.75,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "GE",
+      "counterparty_type": "public_company",
+      "category": "dependency",
+      "subtype": "credit support and guarantees",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "certain GE credit support and guarantees of our obligations may not be replaced or released when expected, which could impose contractual restrictions, require alternative credit support, and obligate us to indemnify GE for amounts paid",
+      "evidence_quotes": [
+        "certain GE credit support and guarantees of our obligations may not be replaced or released when expected, which could impose contractual restrictions, require alternative credit support, and obligate us to indemnify GE for amounts paid"
+      ],
+      "confidence": 0.7,
+      "chunk_index": 5
+    }
+  ],
+  "candidatesPerChunk": [
+    17,
+    1,
+    0,
+    0,
+    3,
+    1
+  ],
+  "parseErrors": 1,
+  "apiErrors": 0,
+  "inputTokens": 147757,
+  "outputTokens": 3170
+}

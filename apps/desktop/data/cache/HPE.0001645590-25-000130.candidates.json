@@ -1,0 +1,589 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 75306,
+  "chunks": 4,
+  "candidates": [
+    {
+      "counterparty_name": "Intel",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "component_supplier",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In some instances, our single-source suppliers (e.g., Intel and AMD as suppliers of certain x86 processors Broadcom and others for industry standard Application-Specific Standard Product, or NVIDIA for Graphics Processing Units)",
+      "evidence_quotes": [
+        "In some instances, our single-source suppliers (e.g., Intel and AMD as suppliers of certain x86 processors Broadcom and others for industry standard Application-Specific Standard Product, or NVIDIA for Graphics Processing Units)"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "AMD",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "component_supplier",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In some instances, our single-source suppliers (e.g., Intel and AMD as suppliers of certain x86 processors Broadcom and others for industry standard Application-Specific Standard Product, or NVIDIA for Graphics Processing Units)",
+      "evidence_quotes": [
+        "In some instances, our single-source suppliers (e.g., Intel and AMD as suppliers of certain x86 processors Broadcom and others for industry standard Application-Specific Standard Product, or NVIDIA for Graphics Processing Units)"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Broadcom",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "component_supplier",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In some instances, our single-source suppliers (e.g., Intel and AMD as suppliers of certain x86 processors Broadcom and others for industry standard Application-Specific Standard Product, or NVIDIA for Graphics Processing Units)",
+      "evidence_quotes": [
+        "In some instances, our single-source suppliers (e.g., Intel and AMD as suppliers of certain x86 processors Broadcom and others for industry standard Application-Specific Standard Product, or NVIDIA for Graphics Processing Units)"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "NVIDIA",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "component_supplier",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In some instances, our single-source suppliers (e.g., Intel and AMD as suppliers of certain x86 processors Broadcom and others for industry standard Application-Specific Standard Product, or NVIDIA for Graphics Processing Units)",
+      "evidence_quotes": [
+        "In some instances, our single-source suppliers (e.g., Intel and AMD as suppliers of certain x86 processors Broadcom and others for industry standard Application-Specific Standard Product, or NVIDIA for Graphics Processing Units)"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Dell Technologies Inc.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "data center infrastructure competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our primary competitors in data center infrastructure are technology vendors, such as Dell Technologies Inc., Super Micro Computer, Inc., Cisco Systems, Inc., and Lenovo Group Ltd.",
+      "evidence_quotes": [
+        "Our primary competitors in data center infrastructure are technology vendors, such as Dell Technologies Inc., Super Micro Computer, Inc., Cisco Systems, Inc., and Lenovo Group Ltd."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Super Micro Computer, Inc.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "data center infrastructure competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our primary competitors in data center infrastructure are technology vendors, such as Dell Technologies Inc., Super Micro Computer, Inc., Cisco Systems, Inc., and Lenovo Group Ltd.",
+      "evidence_quotes": [
+        "Our primary competitors in data center infrastructure are technology vendors, such as Dell Technologies Inc., Super Micro Computer, Inc., Cisco Systems, Inc., and Lenovo Group Ltd."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Cisco Systems, Inc.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "data center infrastructure competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our primary competitors in data center infrastructure are technology vendors, such as Dell Technologies Inc., Super Micro Computer, Inc., Cisco Systems, Inc., and Lenovo Group Ltd.",
+      "evidence_quotes": [
+        "Our primary competitors in data center infrastructure are technology vendors, such as Dell Technologies Inc., Super Micro Computer, Inc., Cisco Systems, Inc., and Lenovo Group Ltd."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Lenovo Group Ltd.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "data center infrastructure competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our primary competitors in data center infrastructure are technology vendors, such as Dell Technologies Inc., Super Micro Computer, Inc., Cisco Systems, Inc., and Lenovo Group Ltd.",
+      "evidence_quotes": [
+        "Our primary competitors in data center infrastructure are technology vendors, such as Dell Technologies Inc., Super Micro Computer, Inc., Cisco Systems, Inc., and Lenovo Group Ltd."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Fujitsu Network Communications, Inc.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "high-performance infrastructure competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our primary competitors in high-performance infrastructure include technology vendors that can design and build solutions that deliver performance scalability and the connectivity necessary to handle super-compute and exascale workloads, such as Dell Technologies Inc., Super Micro Computer, Inc., Lenovo Group",
+      "evidence_quotes": [
+        "Our primary competitors in high-performance infrastructure include technology vendors that can design and build solutions that deliver performance scalability and the connectivity necessary to handle super-compute and exascale workloads, such as Dell Technologies Inc., Super Micro Computer, Inc., Lenovo Group"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Atos Information Technology Incorporated",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "high-performance infrastructure competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our primary competitors in high-performance infrastructure include technology vendors that can design and build solutions that deliver performance scalability and the connectivity necessary to handle super-compute and exascale workloads, such as Dell Technologies Inc., Super Micro Computer, Inc., Lenovo Group",
+      "evidence_quotes": [
+        "Our primary competitors in high-performance infrastructure include technology vendors that can design and build solutions that deliver performance scalability and the connectivity necessary to handle super-compute and exascale workloads, such as Dell Technologies Inc., Super Micro Computer, Inc., Lenovo Group"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Broadcom",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "hybrid cloud competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our primary competitors are other infrastructure and cloud management software technology vendors, such as Broadcom, Cisco Systems Inc., Dell Technologies Inc., IBM, NetApp Inc., Nutanix, and Pure Storage and public cloud vendors like Amazon Web Services, Google Cloud, and Microsoft",
+      "evidence_quotes": [
+        "Our primary competitors are other infrastructure and cloud management software technology vendors, such as Broadcom, Cisco Systems Inc., Dell Technologies Inc., IBM, NetApp Inc., Nutanix, and Pure Storage and public cloud vendors like Amazon Web Services, Google Cloud, and Microsoft"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "IBM",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "hybrid cloud competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our primary competitors are other infrastructure and cloud management software technology vendors, such as Broadcom, Cisco Systems Inc., Dell Technologies Inc., IBM, NetApp Inc., Nutanix, and Pure Storage and public cloud vendors like Amazon Web Services, Google Cloud, and Microsoft",
+      "evidence_quotes": [
+        "Our primary competitors are other infrastructure and cloud management software technology vendors, such as Broadcom, Cisco Systems Inc., Dell Technologies Inc., IBM, NetApp Inc., Nutanix, and Pure Storage and public cloud vendors like Amazon Web Services, Google Cloud, and Microsoft"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "NetApp Inc.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "hybrid cloud competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our primary competitors are other infrastructure and cloud management software technology vendors, such as Broadcom, Cisco Systems Inc., Dell Technologies Inc., IBM, NetApp Inc., Nutanix, and Pure Storage and public cloud vendors like Amazon Web Services, Google Cloud, and Microsoft",
+      "evidence_quotes": [
+        "Our primary competitors are other infrastructure and cloud management software technology vendors, such as Broadcom, Cisco Systems Inc., Dell Technologies Inc., IBM, NetApp Inc., Nutanix, and Pure Storage and public cloud vendors like Amazon Web Services, Google Cloud, and Microsoft"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Nutanix",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "hybrid cloud competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our primary competitors are other infrastructure and cloud management software technology vendors, such as Broadcom, Cisco Systems Inc., Dell Technologies Inc., IBM, NetApp Inc., Nutanix, and Pure Storage and public cloud vendors like Amazon Web Services, Google Cloud, and Microsoft",
+      "evidence_quotes": [
+        "Our primary competitors are other infrastructure and cloud management software technology vendors, such as Broadcom, Cisco Systems Inc., Dell Technologies Inc., IBM, NetApp Inc., Nutanix, and Pure Storage and public cloud vendors like Amazon Web Services, Google Cloud, and Microsoft"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Pure Storage",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "hybrid cloud competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our primary competitors are other infrastructure and cloud management software technology vendors, such as Broadcom, Cisco Systems Inc., Dell Technologies Inc., IBM, NetApp Inc., Nutanix, and Pure Storage and public cloud vendors like Amazon Web Services, Google Cloud, and Microsoft",
+      "evidence_quotes": [
+        "Our primary competitors are other infrastructure and cloud management software technology vendors, such as Broadcom, Cisco Systems Inc., Dell Technologies Inc., IBM, NetApp Inc., Nutanix, and Pure Storage and public cloud vendors like Amazon Web Services, Google Cloud, and Microsoft"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Amazon Web Services",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "public cloud competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our primary competitors are other infrastructure and cloud management software technology vendors, such as Broadcom, Cisco Systems Inc., Dell Technologies Inc., IBM, NetApp Inc., Nutanix, and Pure Storage and public cloud vendors like Amazon Web Services, Google Cloud, and Microsoft",
+      "evidence_quotes": [
+        "Our primary competitors are other infrastructure and cloud management software technology vendors, such as Broadcom, Cisco Systems Inc., Dell Technologies Inc., IBM, NetApp Inc., Nutanix, and Pure Storage and public cloud vendors like Amazon Web Services, Google Cloud, and Microsoft"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Google Cloud",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "public cloud competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our primary competitors are other infrastructure and cloud management software technology vendors, such as Broadcom, Cisco Systems Inc., Dell Technologies Inc., IBM, NetApp Inc., Nutanix, and Pure Storage and public cloud vendors like Amazon Web Services, Google Cloud, and Microsoft",
+      "evidence_quotes": [
+        "Our primary competitors are other infrastructure and cloud management software technology vendors, such as Broadcom, Cisco Systems Inc., Dell Technologies Inc., IBM, NetApp Inc., Nutanix, and Pure Storage and public cloud vendors like Amazon Web Services, Google Cloud, and Microsoft"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Microsoft Azure",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "public cloud competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our primary competitors are other infrastructure and cloud management software technology vendors, such as Broadcom, Cisco Systems Inc., Dell Technologies Inc., IBM, NetApp Inc., Nutanix, and Pure Storage and public cloud vendors like Amazon Web Services, Google Cloud, and Microsoft",
+      "evidence_quotes": [
+        "Our primary competitors are other infrastructure and cloud management software technology vendors, such as Broadcom, Cisco Systems Inc., Dell Technologies Inc., IBM, NetApp Inc., Nutanix, and Pure Storage and public cloud vendors like Amazon Web Services, Google Cloud, and Microsoft"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Arista Networks Inc",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "networking competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our primary competitors are technology vendors, such as Cisco Systems, Inc., Arista Networks Inc, Nokia Corporation, Huawei Technologies Co. Ltd., Ciena Corporation, NVIDIA Corporation, Extreme Networks, Inc., Palo Alto Networks, Fortinet, Inc., Zscaler, Inc., Netskope, Inc., Ruckus Networks, and Ubiquiti",
+      "evidence_quotes": [
+        "Our primary competitors are technology vendors, such as Cisco Systems, Inc., Arista Networks Inc, Nokia Corporation, Huawei Technologies Co. Ltd., Ciena Corporation, NVIDIA Corporation, Extreme Networks, Inc., Palo Alto Networks, Fortinet, Inc., Zscaler, Inc., Netskope, Inc., Ruckus Networks, and Ubiquiti"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Nokia Corporation",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "networking competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our primary competitors are technology vendors, such as Cisco Systems, Inc., Arista Networks Inc, Nokia Corporation, Huawei Technologies Co. Ltd., Ciena Corporation, NVIDIA Corporation, Extreme Networks, Inc., Palo Alto Networks, Fortinet, Inc., Zscaler, Inc., Netskope, Inc., Ruckus Networks, and Ubiquiti",
+      "evidence_quotes": [
+        "Our primary competitors are technology vendors, such as Cisco Systems, Inc., Arista Networks Inc, Nokia Corporation, Huawei Technologies Co. Ltd., Ciena Corporation, NVIDIA Corporation, Extreme Networks, Inc., Palo Alto Networks, Fortinet, Inc., Zscaler, Inc., Netskope, Inc., Ruckus Networks, and Ubiquiti"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Huawei Technologies Co. Ltd.",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "networking competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our primary competitors are technology vendors, such as Cisco Systems, Inc., Arista Networks Inc, Nokia Corporation, Huawei Technologies Co. Ltd., Ciena Corporation, NVIDIA Corporation, Extreme Networks, Inc., Palo Alto Networks, Fortinet, Inc., Zscaler, Inc., Netskope, Inc., Ruckus Networks, and Ubiquiti",
+      "evidence_quotes": [
+        "Our primary competitors are technology vendors, such as Cisco Systems, Inc., Arista Networks Inc, Nokia Corporation, Huawei Technologies Co. Ltd., Ciena Corporation, NVIDIA Corporation, Extreme Networks, Inc., Palo Alto Networks, Fortinet, Inc., Zscaler, Inc., Netskope, Inc., Ruckus Networks, and Ubiquiti"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Ciena Corporation",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "networking competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our primary competitors are technology vendors, such as Cisco Systems, Inc., Arista Networks Inc, Nokia Corporation, Huawei Technologies Co. Ltd., Ciena Corporation, NVIDIA Corporation, Extreme Networks, Inc., Palo Alto Networks, Fortinet, Inc., Zscaler, Inc., Netskope, Inc., Ruckus Networks, and Ubiquiti",
+      "evidence_quotes": [
+        "Our primary competitors are technology vendors, such as Cisco Systems, Inc., Arista Networks Inc, Nokia Corporation, Huawei Technologies Co. Ltd., Ciena Corporation, NVIDIA Corporation, Extreme Networks, Inc., Palo Alto Networks, Fortinet, Inc., Zscaler, Inc., Netskope, Inc., Ruckus Networks, and Ubiquiti"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "NVIDIA Corporation",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "networking competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our primary competitors are technology vendors, such as Cisco Systems, Inc., Arista Networks Inc, Nokia Corporation, Huawei Technologies Co. Ltd., Ciena Corporation, NVIDIA Corporation, Extreme Networks, Inc., Palo Alto Networks, Fortinet, Inc., Zscaler, Inc., Netskope, Inc., Ruckus Networks, and Ubiquiti",
+      "evidence_quotes": [
+        "Our primary competitors are technology vendors, such as Cisco Systems, Inc., Arista Networks Inc, Nokia Corporation, Huawei Technologies Co. Ltd., Ciena Corporation, NVIDIA Corporation, Extreme Networks, Inc., Palo Alto Networks, Fortinet, Inc., Zscaler, Inc., Netskope, Inc., Ruckus Networks, and Ubiquiti"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Extreme Networks, Inc.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "networking competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our primary competitors are technology vendors, such as Cisco Systems, Inc., Arista Networks Inc, Nokia Corporation, Huawei Technologies Co. Ltd., Ciena Corporation, NVIDIA Corporation, Extreme Networks, Inc., Palo Alto Networks, Fortinet, Inc., Zscaler, Inc., Netskope, Inc., Ruckus Networks, and Ubiquiti",
+      "evidence_quotes": [
+        "Our primary competitors are technology vendors, such as Cisco Systems, Inc., Arista Networks Inc, Nokia Corporation, Huawei Technologies Co. Ltd., Ciena Corporation, NVIDIA Corporation, Extreme Networks, Inc., Palo Alto Networks, Fortinet, Inc., Zscaler, Inc., Netskope, Inc., Ruckus Networks, and Ubiquiti"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Palo Alto Networks",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "networking competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our primary competitors are technology vendors, such as Cisco Systems, Inc., Arista Networks Inc, Nokia Corporation, Huawei Technologies Co. Ltd., Ciena Corporation, NVIDIA Corporation, Extreme Networks, Inc., Palo Alto Networks, Fortinet, Inc., Zscaler, Inc., Netskope, Inc., Ruckus Networks, and Ubiquiti",
+      "evidence_quotes": [
+        "Our primary competitors are technology vendors, such as Cisco Systems, Inc., Arista Networks Inc, Nokia Corporation, Huawei Technologies Co. Ltd., Ciena Corporation, NVIDIA Corporation, Extreme Networks, Inc., Palo Alto Networks, Fortinet, Inc., Zscaler, Inc., Netskope, Inc., Ruckus Networks, and Ubiquiti"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Fortinet, Inc.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "networking competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our primary competitors are technology vendors, such as Cisco Systems, Inc., Arista Networks Inc, Nokia Corporation, Huawei Technologies Co. Ltd., Ciena Corporation, NVIDIA Corporation, Extreme Networks, Inc., Palo Alto Networks, Fortinet, Inc., Zscaler, Inc., Netskope, Inc., Ruckus Networks, and Ubiquiti",
+      "evidence_quotes": [
+        "Our primary competitors are technology vendors, such as Cisco Systems, Inc., Arista Networks Inc, Nokia Corporation, Huawei Technologies Co. Ltd., Ciena Corporation, NVIDIA Corporation, Extreme Networks, Inc., Palo Alto Networks, Fortinet, Inc., Zscaler, Inc., Netskope, Inc., Ruckus Networks, and Ubiquiti"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Zscaler, Inc.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "networking competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our primary competitors are technology vendors, such as Cisco Systems, Inc., Arista Networks Inc, Nokia Corporation, Huawei Technologies Co. Ltd., Ciena Corporation, NVIDIA Corporation, Extreme Networks, Inc., Palo Alto Networks, Fortinet, Inc., Zscaler, Inc., Netskope, Inc., Ruckus Networks, and Ubiquiti",
+      "evidence_quotes": [
+        "Our primary competitors are technology vendors, such as Cisco Systems, Inc., Arista Networks Inc, Nokia Corporation, Huawei Technologies Co. Ltd., Ciena Corporation, NVIDIA Corporation, Extreme Networks, Inc., Palo Alto Networks, Fortinet, Inc., Zscaler, Inc., Netskope, Inc., Ruckus Networks, and Ubiquiti"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Netskope, Inc.",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "networking competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our primary competitors are technology vendors, such as Cisco Systems, Inc., Arista Networks Inc, Nokia Corporation, Huawei Technologies Co. Ltd., Ciena Corporation, NVIDIA Corporation, Extreme Networks, Inc., Palo Alto Networks, Fortinet, Inc., Zscaler, Inc., Netskope, Inc., Ruckus Networks, and Ubiquiti",
+      "evidence_quotes": [
+        "Our primary competitors are technology vendors, such as Cisco Systems, Inc., Arista Networks Inc, Nokia Corporation, Huawei Technologies Co. Ltd., Ciena Corporation, NVIDIA Corporation, Extreme Networks, Inc., Palo Alto Networks, Fortinet, Inc., Zscaler, Inc., Netskope, Inc., Ruckus Networks, and Ubiquiti"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Ruckus Networks",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "networking competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our primary competitors are technology vendors, such as Cisco Systems, Inc., Arista Networks Inc, Nokia Corporation, Huawei Technologies Co. Ltd., Ciena Corporation, NVIDIA Corporation, Extreme Networks, Inc., Palo Alto Networks, Fortinet, Inc., Zscaler, Inc., Netskope, Inc., Ruckus Networks, and Ubiquiti",
+      "evidence_quotes": [
+        "Our primary competitors are technology vendors, such as Cisco Systems, Inc., Arista Networks Inc, Nokia Corporation, Huawei Technologies Co. Ltd., Ciena Corporation, NVIDIA Corporation, Extreme Networks, Inc., Palo Alto Networks, Fortinet, Inc., Zscaler, Inc., Netskope, Inc., Ruckus Networks, and Ubiquiti"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Ubiquiti",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "networking competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our primary competitors are technology vendors, such as Cisco Systems, Inc., Arista Networks Inc, Nokia Corporation, Huawei Technologies Co. Ltd., Ciena Corporation, NVIDIA Corporation, Extreme Networks, Inc., Palo Alto Networks, Fortinet, Inc., Zscaler, Inc., Netskope, Inc., Ruckus Networks, and Ubiquiti",
+      "evidence_quotes": [
+        "Our primary competitors are technology vendors, such as Cisco Systems, Inc., Arista Networks Inc, Nokia Corporation, Huawei Technologies Co. Ltd., Ciena Corporation, NVIDIA Corporation, Extreme Networks, Inc., Palo Alto Networks, Fortinet, Inc., Zscaler, Inc., Netskope, Inc., Ruckus Networks, and Ubiquiti"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Nile",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "networking-as-a-service competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "networking-as-a-service vendors such as Nile and Meter.",
+      "evidence_quotes": [
+        "networking-as-a-service vendors such as Nile and Meter."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Meter",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "networking-as-a-service competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "networking-as-a-service vendors such as Nile and Meter.",
+      "evidence_quotes": [
+        "networking-as-a-service vendors such as Nile and Meter."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "IBM Global Financing",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "captive financing competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Financial Services primarily competes with captive financing companies, such as IBM Global Financing, Dell Financial Services, and Cisco Capital, as well as banks and other financial institutions.",
+      "evidence_quotes": [
+        "Financial Services primarily competes with captive financing companies, such as IBM Global Financing, Dell Financial Services, and Cisco Capital, as well as banks and other financial institutions."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Dell Financial Services",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "captive financing competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Financial Services primarily competes with captive financing companies, such as IBM Global Financing, Dell Financial Services, and Cisco Capital, as well as banks and other financial institutions.",
+      "evidence_quotes": [
+        "Financial Services primarily competes with captive financing companies, such as IBM Global Financing, Dell Financial Services, and Cisco Capital, as well as banks and other financial institutions."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Cisco Capital",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "captive financing competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Financial Services primarily competes with captive financing companies, such as IBM Global Financing, Dell Financial Services, and Cisco Capital, as well as banks and other financial institutions.",
+      "evidence_quotes": [
+        "Financial Services primarily competes with captive financing companies, such as IBM Global Financing, Dell Financial Services, and Cisco Capital, as well as banks and other financial institutions."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "ERI",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "ITAD competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our primary IT Asset Disposition (\"ITAD\") competitors are ERI, Ingram Micro, Sage Sustainable Electronics, and Sims Recycling Solutions.",
+      "evidence_quotes": [
+        "Our primary IT Asset Disposition (\"ITAD\") competitors are ERI, Ingram Micro, Sage Sustainable Electronics, and Sims Recycling Solutions."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Ingram Micro",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "ITAD competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our primary IT Asset Disposition (\"ITAD\") competitors are ERI, Ingram Micro, Sage Sustainable Electronics, and Sims Recycling Solutions.",
+      "evidence_quotes": [
+        "Our primary IT Asset Disposition (\"ITAD\") competitors are ERI, Ingram Micro, Sage Sustainable Electronics, and Sims Recycling Solutions."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Sage Sustainable Electronics",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "ITAD competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our primary IT Asset Disposition (\"ITAD\") competitors are ERI, Ingram Micro, Sage Sustainable Electronics, and Sims Recycling Solutions.",
+      "evidence_quotes": [
+        "Our primary IT Asset Disposition (\"ITAD\") competitors are ERI, Ingram Micro, Sage Sustainable Electronics, and Sims Recycling Solutions."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Sims Recycling Solutions",
+      "counterparty_type": "private_company",
+      "category": "competitor",
+      "subtype": "ITAD competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our primary IT Asset Disposition (\"ITAD\") competitors are ERI, Ingram Micro, Sage Sustainable Electronics, and Sims Recycling Solutions.",
+      "evidence_quotes": [
+        "Our primary IT Asset Disposition (\"ITAD\") competitors are ERI, Ingram Micro, Sage Sustainable Electronics, and Sims Recycling Solutions."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Nvidia",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "AI technology partner",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we have invested in building turn-key integrated systems co-engineered with Nvidia that integrate HPE AI hardware and software technologies with Nvidia technologies",
+      "evidence_quotes": [
+        "we have invested in building turn-key integrated systems co-engineered with Nvidia that integrate HPE AI hardware and software technologies with Nvidia technologies"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "OpsRamp",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "acquired cloud observability technology",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We have expanded our cloud observability and orchestration capabilities and virtualization options through the acquisitions of OpsRamp (observability) and Morpheus (orchestration)",
+      "evidence_quotes": [
+        "We have expanded our cloud observability and orchestration capabilities and virtualization options through the acquisitions of OpsRamp (observability) and Morpheus (orchestration)"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Morpheus",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "acquired cloud orchestration technology",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We have expanded our cloud observability and orchestration capabilities and virtualization options through the acquisitions of OpsRamp (observability) and Morpheus (orchestration)",
+      "evidence_quotes": [
+        "We have expanded our cloud observability and orchestration capabilities and virtualization options through the acquisitions of OpsRamp (observability) and Morpheus (orchestration)"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Energy STAR",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "product_certification",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "many of our products are certified by eco-labels, such as the Electronic Product Environment Assessment Tool, Energy STAR, China SEPA, and the China Energy Conservation Program.",
+      "evidence_quotes": [
+        "many of our products are certified by eco-labels, such as the Electronic Product Environment Assessment Tool, Energy STAR, China SEPA, and the China Energy Conservation Program."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "China SEPA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "product_certification",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "many of our products are certified by eco-labels, such as the Electronic Product Environment Assessment Tool, Energy STAR, China SEPA, and the China Energy Conservation Program.",
+      "evidence_quotes": [
+        "many of our products are certified by eco-labels, such as the Electronic Product Environment Assessment Tool, Energy STAR, China SEPA, and the China Energy Conservation Program."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 2
+    }
+  ],
+  "candidatesPerChunk": [
+    4,
+    38,
+    2,
+    0
+  ],
+  "parseErrors": 1,
+  "apiErrors": 0,
+  "inputTokens": 25786,
+  "outputTokens": 7193
+}

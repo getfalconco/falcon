@@ -1,0 +1,173 @@
+[
+  {
+    "counterparty_name": "Wells Fargo Equipment Finance Inc.",
+    "category": "competitor",
+    "subtype": "financial_products",
+    "evidence_quote": "Cat Financial's competitors include Wells Fargo Equipment Finance Inc., Banc of America Leasing & Capital LLC, BNP Paribas Leasing Solutions Limited, Australia and New Zealand Banking Group Limited, Société Générale S.A.",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Banc of America Leasing & Capital LLC",
+    "category": "competitor",
+    "subtype": "financial_products",
+    "evidence_quote": "Cat Financial's competitors include Wells Fargo Equipment Finance Inc., Banc of America Leasing & Capital LLC, BNP Paribas Leasing Solutions Limited, Australia and New Zealand Banking Group Limited, Société Générale S.A.",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "BNP Paribas Leasing Solutions Limited",
+    "category": "competitor",
+    "subtype": "financial_products",
+    "evidence_quote": "Cat Financial's competitors include Wells Fargo Equipment Finance Inc., Banc of America Leasing & Capital LLC, BNP Paribas Leasing Solutions Limited, Australia and New Zealand Banking Group Limited, Société Générale S.A.",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Australia and New Zealand Banking Group Limited",
+    "category": "competitor",
+    "subtype": "financial_products",
+    "evidence_quote": "Cat Financial's competitors include Wells Fargo Equipment Finance Inc., Banc of America Leasing & Capital LLC, BNP Paribas Leasing Solutions Limited, Australia and New Zealand Banking Group Limited, Société Générale S.A.",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "The International Association of Machinists",
+    "category": "dependency",
+    "subtype": "labor_union",
+    "evidence_quote": "there were 7,972 hourly production employees in the United States who were covered by collective bargaining agreements with various labor unions, including...The International Association of Machinists",
+    "confidence": 0.85,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "The United Steelworkers",
+    "category": "dependency",
+    "subtype": "labor_union",
+    "evidence_quote": "there were 7,972 hourly production employees in the United States who were covered by collective bargaining agreements with various labor unions, including...The United Steelworkers",
+    "confidence": 0.85,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "CASE",
+    "category": "competitor",
+    "subtype": "construction_machinery",
+    "evidence_quote": "Examples of global competitors include CASE (part of CNH Industrial N.V.), Deere Construction & Forestry (part of Deere & Company), Doosan Bobcat",
+    "confidence": 0.95,
+    "reason": "CASE is described in the evidence as 'part of CNH Industrial N.V.', making CNH Industrial N.V. the actual counterparty company, not CASE itself. CASE appears to be a brand or division of CNH Industrial N.V., similar to how the filing describes other entities (e.g., 'Deere Construction & Forestry (part of Deere & Company)'). The actual competitor is CNH Industrial N.V., and CASE is merely a product line or brand name operated by that company. Additionally, counterparty_type is listed as 'product' which contradicts categorizing it as a competitor company.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Longking Holdings Ltd.",
+    "category": "competitor",
+    "subtype": "construction_machinery_china",
+    "evidence_quote": "our competitors in China also include Guangxi LiuGong Machinery Co., Ltd., Longking Holdings Ltd., Sany Heavy Industry Co, XCMG Construction Machinery Co., Ltd.",
+    "confidence": 0.95,
+    "reason": "Longking Holdings Ltd. is not a valid competitor for Caterpillar in construction machinery. The evidence_quote lists Longking Holdings Ltd. among 'our competitors in China' in the Construction Industries segment, but external research reveals that Longking (now part of China Everbright Environment Group) is primarily an environmental protection and air pollution control company, not a construction machinery manufacturer. The filing appears to contain an error or outdated information. The other companies listed (LiuGong, Sany, XCMG, etc.) are legitimate construction equipment competitors, but Longking does not fit this category. This makes the counterparty identification invalid.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Société Générale S.A.",
+    "category": "competitor",
+    "subtype": "financial_products",
+    "evidence_quote": "BNP Paribas Leasing Solutions Limited, Australia and New Zealand Banking Group Limited, Société Générale S.A. and various other banks and finance companies.",
+    "confidence": 0.95,
+    "reason": "Société Générale S.A. is listed as a competitor of Cat Financial (Caterpillar's finance subsidiary), not a competitor of the ROOT company Caterpillar Inc. The evidence quote shows Société Générale as a financial services competitor in the context of Cat Financial's equipment financing business. The ROOT company is a manufacturer of construction/mining equipment and engines; Société Générale is not a competitor in those core businesses. The relationship should be categorized relative to Caterpillar Inc.'s primary business (machinery/equipment), not its financial subsidiary's activities. Since Société Générale does not compete with Caterpillar in equipment manufacturing, this edge should be rejected.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Missouri Department of Insurance",
+    "category": "dependency",
+    "subtype": "insurance_regulator",
+    "evidence_quote": "Caterpillar Insurance Company, a wholly owned subsidiary of Caterpillar Insurance Holdings Inc., is a U.S. insurance company domiciled in Missouri and primarily regulated by the Missouri Department of Insurance.",
+    "confidence": 0.9,
+    "reason": "The Missouri Department of Insurance is a state regulatory authority acting in its regulatory capacity. Per instruction #4, regulators acting as regulators must be rejected as counterparties. The evidence clearly states Caterpillar Insurance Company 'is primarily regulated by the Missouri Department of Insurance' — this is a regulatory oversight relationship, not a dependency relationship where Caterpillar critically relies on infrastructure or services. Regulatory bodies overseeing compliance do not qualify as counterparties.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Swiss Financial Market Supervisory Authority",
+    "category": "dependency",
+    "subtype": "insurance_regulator",
+    "evidence_quote": "Caterpillar Insurance Company is also licensed to conduct insurance business through a branch in Zurich, Switzerland and, as such, is regulated by the Swiss Financial Market Supervisory Authority.",
+    "confidence": 0.9,
+    "reason": "The Swiss Financial Market Supervisory Authority is a regulatory body acting in its regulatory capacity. Under rule 4, regulators acting as regulators must be rejected as counterparties. The evidence describes the authority as regulating Caterpillar Insurance Company's branch in Switzerland, which is a standard regulatory oversight function, not a commercial vendor, customer, partner, competitor relationship, or infrastructure dependency where the root critically relies on the counterparty's service. This is regulatory supervision, not a dependency relationship.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Bermuda Monetary Authority",
+    "category": "dependency",
+    "subtype": "insurance_regulator",
+    "evidence_quote": "Caterpillar Insurance Co. Ltd., a wholly owned subsidiary of Caterpillar Insurance Holdings Inc., is a captive insurance company domiciled in Bermuda and regulated by the Bermuda Monetary Authority.",
+    "confidence": 0.9,
+    "reason": "The Bermuda Monetary Authority is a regulatory body exercising governmental authority over Caterpillar Insurance Co. Ltd., a wholly owned subsidiary of Caterpillar. Regulators acting as regulators are explicitly excluded from valid counterparties per instruction 4. This is a regulatory supervision relationship, not a dependency where the root company relies on infrastructure or services. The BMA does not provide critical infrastructure or services to Caterpillar; it regulates the subsidiary's insurance operations.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Cat Financial",
+    "category": "dependency",
+    "subtype": "financing_infrastructure",
+    "evidence_quote": "Cat Financial is significant to our operations and provides financing support for a significant share of our global sales.",
+    "confidence": 0.95,
+    "reason": "Cat Financial is Caterpillar's own Financial Products segment, not an external counterparty. The text explicitly states 'Cat Financial is significant to our operations' and 'Our Financial Products segment' confirming it is an internal business unit. The filing discusses Cat Financial's operations as part of Caterpillar's consolidated business structure, not as a separate external entity. Internal subsidiaries, divisions, and segments do not qualify as counterparties.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "U.S. Internal Revenue Service",
+    "category": "dependency",
+    "subtype": "tax_authority",
+    "evidence_quote": "We are also subject to the continuous examination of our income tax returns by the U.S. Internal Revenue Service and other tax authorities.",
+    "confidence": 0.95,
+    "reason": "The U.S. Internal Revenue Service is a tax and revenue authority acting in its regulatory/enforcement capacity. Per the auditor instructions, tax and revenue authorities (IRS, national revenue agencies) and regulators acting as regulators must always be rejected as counterparties. The evidence quote describes the IRS examining Caterpillar's tax returns, which is a regulatory function, not a dependency relationship. The ROOT company does not 'depend' on the IRS in the sense of relying on its infrastructure or services for business operations; rather, it is subject to the IRS's regulatory oversight. This is explicitly excluded from valid counterparty relationships.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Customs and Border Protection",
+    "category": "dependency",
+    "subtype": "regulatory_body",
+    "evidence_quote": "These include U.S. regulations issued by Customs and Border Protection, the Bureau of Industry and Security, the Office of Antiboycott Compliance",
+    "confidence": 0.95,
+    "reason": "Customs and Border Protection is a regulatory authority mentioned solely in the context of trade compliance laws the root company must follow. The evidence quote lists CBP among U.S. agencies that issue regulations governing import/export operations. This is a regulatory compliance obligation, not a dependency relationship. Regulatory agencies acting in their enforcement capacity (like CBP enforcing customs laws, or the IRS enforcing tax laws) should be rejected as counterparties per the instructions. The root does not 'depend' on CBP infrastructure or services—it must comply with CBP regulations, which is fundamentally different from the dependency category's intent (critical reliance on counterparty infrastructure/service). CBP is a regulator, not a dependency counterparty.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Bureau of Industry and Security",
+    "category": "dependency",
+    "subtype": "regulatory_body",
+    "evidence_quote": "These include U.S. regulations issued by Customs and Border Protection, the Bureau of Industry and Security, the Office of Antiboycott Compliance",
+    "confidence": 0.95,
+    "reason": "The Bureau of Industry and Security is a regulatory authority, not a dependency. The text shows it is a U.S. government agency that issues export control regulations that Caterpillar must comply with. This is a regulatory compliance relationship, not a dependency where Caterpillar relies on infrastructure or services provided by BIS. The instructions explicitly state that 'regulators acting as regulators' should be rejected as counterparties. The dependency category is reserved for critical reliance on counterparty infrastructure/services with NO commercial vendor relationship (like GPS), not for regulatory oversight bodies.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Office of Antiboycott Compliance",
+    "category": "dependency",
+    "subtype": "regulatory_body",
+    "evidence_quote": "These include U.S. regulations issued by Customs and Border Protection, the Bureau of Industry and Security, the Office of Antiboycott Compliance",
+    "confidence": 0.95,
+    "reason": "The Office of Antiboycott Compliance is a regulatory body, not a dependency. The filing lists it as one of several U.S. agencies whose regulations Caterpillar must comply with (alongside Customs and Border Protection, Bureau of Industry and Security, etc.). This is standard regulatory compliance, not a dependency relationship where Caterpillar critically relies on infrastructure or services provided by this office. Regulatory bodies enforcing laws that companies must follow do not constitute dependencies. The instructions explicitly state that 'regulators acting as regulators' should be rejected as counterparties, and tax/revenue authorities are listed as examples to always reject. While the Office of Antiboycott Compliance is not a tax authority, it falls into the same category of regulatory enforcement agencies that should not be treated as counterparties in a relationship graph focused on commercial and strategic business relationships.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Directorate of Defense Trade Controls",
+    "category": "dependency",
+    "subtype": "regulatory_body",
+    "evidence_quote": "the Bureau of Industry and Security, the Office of Antiboycott Compliance, the Directorate of Defense Trade Controls and the Office of Foreign Assets Control",
+    "confidence": 0.95,
+    "reason": "The Directorate of Defense Trade Controls (DDTC) is a regulatory authority mentioned in the context of compliance requirements, not a dependency. The text states: 'Due to the international scope of our operations, we are subject to a complex system of import- and export-related laws and regulations. These include U.S. regulations issued by Customs and Border Protection, the Bureau of Industry and Security, the Office of Antiboycott Compliance, the Directorate of Defense Trade Controls and the Office of Foreign Assets Control.' This describes regulatory oversight, not critical infrastructure dependency. DDTC is a regulator enforcing export control laws on Caterpillar, which falls under the instruction to reject 'regulators acting as regulators.' The category 'dependency' is reserved for critical infrastructure/services the root relies upon (like GPS satellites), not government regulatory bodies. Additionally, the evidence quote is a partial list without full sentence context, making it insufficient as natural-language evidence.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Office of Foreign Assets Control",
+    "category": "dependency",
+    "subtype": "regulatory_body",
+    "evidence_quote": "the Office of Antiboycott Compliance, the Directorate of Defense Trade Controls and the Office of Foreign Assets Control, as well as the counterparts of these agencies",
+    "confidence": 0.95,
+    "reason": "The Office of Foreign Assets Control (OFAC) is a regulatory agency of the U.S. Treasury Department being mentioned purely as a regulator that imposes compliance requirements on Caterpillar. The evidence quote lists OFAC alongside other regulatory agencies whose regulations Caterpillar must comply with in its import-export operations. This is a standard regulatory compliance relationship, not a dependency. The text states 'Any alleged or actual violations may subject us to increased government scrutiny, investigation and civil and criminal penalties' - this describes regulatory enforcement, not a dependency relationship where the root company critically relies on OFAC's infrastructure or services. OFAC acts as a regulator/enforcement body, which per the instructions should be rejected as a counterparty when acting in their regulatory capacity. There is no evidence of Caterpillar depending on OFAC infrastructure or services; rather, Caterpillar is subject to OFAC's regulatory authority.",
+    "stage": "audit"
+  }
+]

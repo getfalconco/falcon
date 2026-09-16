@@ -1,0 +1,13 @@
+{
+  "ticker": "BA",
+  "companyName": "BOEING CO",
+  "form": "10-K",
+  "filingDate": "2026-01-30",
+  "sourceUrl": "https://www.sec.gov/Archives/edgar/data/12927/000162828026004357/ba-20251231.htm",
+  "generatedAt": "2026-08-22T20:47:33.660Z",
+  "cacheKey": "BA|0001628280-26-004357|5",
+  "accessionNumber": "0001628280-26-004357",
+  "validatedCount": 14,
+  "rejectedCount": 5,
+  "mergedCount": 5
+}

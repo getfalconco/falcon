@@ -1,0 +1,66 @@
+[
+  {
+    "counterparty_name": "Aker BP",
+    "category": "partner",
+    "subtype": "joint_venture_operator",
+    "evidence_quote": "Visund 9.1 Aker BP 1 1 44 9",
+    "confidence": 0.92,
+    "merged_into": "Aker BP"
+  },
+  {
+    "counterparty_name": "Shell",
+    "category": "partner",
+    "subtype": "operator",
+    "evidence_quote": "Gumusut 29.5 % Shell 14 — — 14",
+    "confidence": 0.92,
+    "merged_into": "Shell plc"
+  },
+  {
+    "counterparty_name": "Marathon Oil",
+    "category": "supplier",
+    "subtype": "acquisition_target",
+    "evidence_quote": "In November 2024, we acquired Marathon Oil. At closing, the acquisition was valued at $16.5 billion",
+    "confidence": 0.95,
+    "merged_into": "Marathon Oil"
+  },
+  {
+    "counterparty_name": "EPA",
+    "category": "dependency",
+    "subtype": "regulatory_infrastructure",
+    "evidence_quote": "We occasionally receive requests for information or notices of potential liability from the EPA and state environmental agencies",
+    "confidence": 0.85,
+    "merged_into": "EPA"
+  },
+  {
+    "counterparty_name": "TotalEnergies EP Canada Ltd.",
+    "category": "supplier",
+    "subtype": "asset_seller",
+    "evidence_quote": "we completed our acquisition of the remaining 50 percent working interest in Surmont, an asset in our Canada segment, from TotalEnergies EP Canada Ltd.",
+    "confidence": 0.95,
+    "merged_into": "TotalEnergies EP Canada Ltd."
+  },
+  {
+    "counterparty_name": "Chevron U.S.A. Inc.",
+    "category": "supplier",
+    "subtype": "asset_seller",
+    "evidence_quote": "we completed an acquisition that increased our working interest by approximately 5 percent in the Kuparuk River Unit and approximately 0.4 percent in the Prudhoe Bay Unit from Chevron U.S.A. Inc. and Union Oil Company of California",
+    "confidence": 0.95,
+    "merged_into": "Chevron U.S.A. Inc."
+  },
+  {
+    "counterparty_name": "Union Oil Company of California",
+    "category": "supplier",
+    "subtype": "asset_seller",
+    "evidence_quote": "we completed an acquisition that increased our working interest by approximately 5 percent in the Kuparuk River Unit and approximately 0.4 percent in the Prudhoe Bay Unit from Chevron U.S.A. Inc. and Union Oil Company of California",
+    "confidence": 0.95,
+    "merged_into": "Union Oil Company of California"
+  },
+  {
+    "counterparty_name": "Origin Energy",
+    "category": "partner",
+    "subtype": "joint_venture_partner",
+    "evidence_quote": "APLNG— 47.5 percent owned joint venture with Origin Energy ( 27.5 percent) and Sinopec ( 25 percent)—to produce CBM from the Bowen and Surat basins in Queensland, Australia, as well as process and export LNG.",
+    "confidence": 0.95,
+    "merged_into": "Origin Energy Limited"
+  }
+]

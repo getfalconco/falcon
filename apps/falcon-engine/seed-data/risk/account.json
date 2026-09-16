@@ -1,0 +1,25 @@
+{
+ "account": "paper",
+ "cash": 7015.75,
+ "positions": [
+  {
+   "ticker": "HPE",
+   "shares": 18.740629685157423,
+   "cost_usd": 1000,
+   "market_value": null
+  },
+  {
+   "ticker": "JD",
+   "shares": 34.059945504087196,
+   "cost_usd": 1000,
+   "market_value": null
+  },
+  {
+   "ticker": "BA",
+   "shares": 4.737540269092287,
+   "cost_usd": 1000,
+   "market_value": null
+  }
+ ],
+ "as_of": "2026-08-25T20:35:41.555Z"
+}

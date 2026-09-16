@@ -1,0 +1,105 @@
+{
+  "readout": {
+    "schema_version": 1,
+    "ticker": "QCOM",
+    "tracked": true,
+    "mode": "standalone",
+    "context": null,
+    "computed_at": "2026-08-23T11:21:10.920Z",
+    "quant_as_of": "2026-08-21",
+    "checks": [
+      {
+        "key": "trend",
+        "number": 1,
+        "label": "Trend coherence",
+        "status": "pass",
+        "reason": "5d and 20d momentum agree (−3.0% / −3.7%) — price action coherent",
+        "note": null,
+        "values": {
+          "momentum_5d": -0.030399864227236062,
+          "momentum_20d": -0.03725220803275586,
+          "daily_vol": 0.032536562680931844
+        }
+      },
+      {
+        "key": "regime",
+        "number": 2,
+        "label": "Volatility regime",
+        "status": "pass",
+        "reason": "vol regime 0.76× its 90d norm — contracting, quieter than usual",
+        "note": null,
+        "values": {
+          "vol_regime": 0.7555449683568354,
+          "daily_vol": 0.032536562680931844
+        }
+      },
+      {
+        "key": "residual",
+        "number": 3,
+        "label": "Residual readability",
+        "status": "pass",
+        "reason": "r² 0.27, β 3.06 — residual reads usable",
+        "note": null,
+        "values": {
+          "r2": 0.2716965469717909,
+          "beta": 3.0648293496962022,
+          "r2_floor": 0.15
+        }
+      },
+      {
+        "key": "volume",
+        "number": 4,
+        "label": "Volume state",
+        "status": "pass",
+        "reason": "volume 0.83× its average — normal",
+        "note": null,
+        "values": {
+          "volume_ratio": 0.825558780612433,
+          "partial": false
+        }
+      },
+      {
+        "key": "stretch",
+        "number": 5,
+        "label": "Stretch",
+        "status": "pass",
+        "reason": "20d move −3.7% is 0.26σ — not stretched",
+        "note": null,
+        "values": {
+          "momentum_20d": -0.03725220803275586,
+          "daily_vol": 0.032536562680931844,
+          "pct_from_52w_high": -0.3572475444332658,
+          "pct_from_52w_low": 0.30042492217598515,
+          "stretch_z": -0.2560149647338843
+        }
+      },
+      {
+        "key": "event_wall",
+        "number": 6,
+        "label": "Event wall",
+        "status": "pass",
+        "reason": "earnings in 51 sessions — outside the 3-session wall",
+        "note": null,
+        "values": {
+          "due_at": "2026-11-03T20:00:00.000Z",
+          "sessions_until": 51,
+          "fiscal_period": "Q4 2026",
+          "earnings_rhythm": 0.07454979851347487
+        }
+      }
+    ],
+    "summary": {
+      "evaluable": 6,
+      "aligned": 6,
+      "cautions": 0,
+      "fails": 0,
+      "unavailable": 0,
+      "overall": "clear",
+      "binding_check": null,
+      "binding_line": "clear — 6 of 6 aligned",
+      "sentence": "clear — 6 of 6 aligned",
+      "calibrating": false
+    }
+  },
+  "errors": []
+}

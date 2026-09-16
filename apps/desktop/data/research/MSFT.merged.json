@@ -1,0 +1,10 @@
+[
+  {
+    "counterparty_name": "OpenAI",
+    "category": "partner",
+    "subtype": "strategic_partner",
+    "evidence_quote": "This AI may be developed by Microsoft or others, including our strategic partner, OpenAI.",
+    "confidence": 0.95,
+    "merged_into": "OpenAI"
+  }
+]

@@ -1,0 +1,13 @@
+{
+  "ticker": "GOOGL",
+  "companyName": "Alphabet Inc.",
+  "form": "10-K",
+  "filingDate": "2026-02-05",
+  "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1652044/000165204426000018/goog-20251231.htm",
+  "generatedAt": "2026-08-25T10:42:18.581Z",
+  "cacheKey": "GOOGL|0001652044-26-000018|5",
+  "accessionNumber": "0001652044-26-000018",
+  "validatedCount": 2,
+  "rejectedCount": 9,
+  "mergedCount": 1
+}

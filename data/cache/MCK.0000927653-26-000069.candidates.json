@@ -1,0 +1,227 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 117194,
+  "chunks": 6,
+  "candidates": [
+    {
+      "counterparty_name": "Cencora, Inc.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "pharmaceutical distribution competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our primary competitors in distribution, wholesaling, and logistics are Cencora, Inc. and Cardinal Health, Inc.",
+      "evidence_quotes": [
+        "Our primary competitors in distribution, wholesaling, and logistics are Cencora, Inc. and Cardinal Health, Inc."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Cardinal Health, Inc.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "pharmaceutical distribution competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our primary competitors in distribution, wholesaling, and logistics are Cencora, Inc. and Cardinal Health, Inc.",
+      "evidence_quotes": [
+        "Our primary competitors in distribution, wholesaling, and logistics are Cencora, Inc. and Cardinal Health, Inc."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Cencora, Inc.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "specialty distribution and GPO competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Certain competitors also offer combinations of distribution, GPO, and provider services capabilities, including Cencora, Inc. and Cardinal Health, Inc.",
+      "evidence_quotes": [
+        "Certain competitors also offer combinations of distribution, GPO, and provider services capabilities, including Cencora, Inc. and Cardinal Health, Inc."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Cardinal Health, Inc.",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "specialty distribution and GPO competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Certain competitors also offer combinations of distribution, GPO, and provider services capabilities, including Cencora, Inc. and Cardinal Health, Inc.",
+      "evidence_quotes": [
+        "Certain competitors also offer combinations of distribution, GPO, and provider services capabilities, including Cencora, Inc. and Cardinal Health, Inc."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "DEA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory body for controlled substances",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We are subject to the operating and security standards of the U.S. Drug Enforcement Administration (\"DEA\")... we are required to hold valid DEA and state-level registrations and licenses",
+      "evidence_quotes": [
+        "We are subject to the operating and security standards of the U.S. Drug Enforcement Administration (\"DEA\")... we are required to hold valid DEA and state-level registrations and licenses"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "FDA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "product safety and distribution regulatory body",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In the U.S., the FDA is the principal federal authority that regulates the safety, efficacy, quality, testing, premarket approval, manufacture, labeling, storage, distribution, and post-market surveillance of healthcare products",
+      "evidence_quotes": [
+        "In the U.S., the FDA is the principal federal authority that regulates the safety, efficacy, quality, testing, premarket approval, manufacture, labeling, storage, distribution, and post-market surveillance of healthcare products"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "CMS",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "Medicare and Medicaid regulatory body",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We are subject to the operating and security standards of... the Centers for Medicare & Medicaid Services (\"CMS\")... CMS adopted a rule, effective January 1, 2026, on bona fide service fees",
+      "evidence_quotes": [
+        "We are subject to the operating and security standards of... the Centers for Medicare & Medicaid Services (\"CMS\")... CMS adopted a rule, effective January 1, 2026, on bona fide service fees"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "HRSA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "340B program regulatory body",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "There are ongoing developments with respect to the 340B Drug Pricing Program (the \"340B program\") administered by the Health Resources and Services Administration (\"HRSA\").",
+      "evidence_quotes": [
+        "There are ongoing developments with respect to the 340B Drug Pricing Program (the \"340B program\") administered by the Health Resources and Services Administration (\"HRSA\")."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "CVS",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "pharmaceutical distribution partnership",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In fiscal 2023, we extended our pharmaceutical distribution partnership with CVS to June 2027.",
+      "evidence_quotes": [
+        "In fiscal 2023, we extended our pharmaceutical distribution partnership with CVS to June 2027."
+      ],
+      "confidence": 0.92,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Change Healthcare Inc.",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "former_joint_venture_partner",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "On March 10, 2020, the Company completed a separation of its interest in Change Healthcare LLC...followed by a merger of SpinCo with and into Change Healthcare Inc.",
+      "evidence_quotes": [
+        "On March 10, 2020, the Company completed a separation of its interest in Change Healthcare LLC...followed by a merger of SpinCo with and into Change Healthcare Inc."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "IRS",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "tax_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "An opinion of legal counsel is not binding on the IRS or the courts, and the IRS or the courts may not agree with the intended tax-free treatment",
+      "evidence_quotes": [
+        "An opinion of legal counsel is not binding on the IRS or the courts, and the IRS or the courts may not agree with the intended tax-free treatment"
+      ],
+      "confidence": 0.75,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "FDA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We distribute pharmaceutical, medical, and other FDA-regulated products manufactured by third parties",
+      "evidence_quotes": [
+        "We distribute pharmaceutical, medical, and other FDA-regulated products manufactured by third parties"
+      ],
+      "confidence": 0.8,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "SEC",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the effectiveness of a registration statement to be filed with the SEC",
+      "evidence_quotes": [
+        "the effectiveness of a registration statement to be filed with the SEC"
+      ],
+      "confidence": 0.8,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "ClarusONE",
+      "counterparty_type": "other",
+      "category": "supplier",
+      "subtype": "generic pharmaceutical sourcing partner",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Input cost increases, product discontinuations, and market shortages could result in ClarusONE being unsuccessful in sourcing product to meet the needs of our customers",
+      "evidence_quotes": [
+        "Input cost increases, product discontinuations, and market shortages could result in ClarusONE being unsuccessful in sourcing product to meet the needs of our customers"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Court of Chancery of the State of Delaware",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "legal infrastructure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the sole and exclusive forum for specified legal actions is the Court of Chancery of the State of Delaware",
+      "evidence_quotes": [
+        "the sole and exclusive forum for specified legal actions is the Court of Chancery of the State of Delaware"
+      ],
+      "confidence": 0.75,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "United States District Court for the District of Delaware",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "legal infrastructure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "or the United States District Court for the District of Delaware if the Court of Chancery does not have or declines to accept jurisdiction",
+      "evidence_quotes": [
+        "or the United States District Court for the District of Delaware if the Court of Chancery does not have or declines to accept jurisdiction"
+      ],
+      "confidence": 0.75,
+      "chunk_index": 4
+    }
+  ],
+  "candidatesPerChunk": [
+    0,
+    8,
+    1,
+    4,
+    3,
+    0
+  ],
+  "parseErrors": 28,
+  "apiErrors": 0,
+  "inputTokens": 34301,
+  "outputTokens": 2602
+}

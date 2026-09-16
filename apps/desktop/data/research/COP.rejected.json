@@ -1,0 +1,209 @@
+[
+  {
+    "counterparty_name": "Equinor",
+    "category": "partner",
+    "subtype": "joint_venture_operator",
+    "evidence_quote": "Ekofisk South 22.4 Equinor 8 1 50 18",
+    "confidence": 0.92,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "QatarEnergy",
+    "category": "partner",
+    "subtype": "joint_venture",
+    "evidence_quote": "N(3), is an integrated development jointly owned by QatarEnergy (68.5 percent), ConocoPhillips (30 percent) and Mitsui & Co., Ltd. (1.5 percent).",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Mitsui & Co., Ltd.",
+    "category": "partner",
+    "subtype": "joint_venture",
+    "evidence_quote": "N(3), is an integrated development jointly owned by QatarEnergy (68.5 percent), ConocoPhillips (30 percent) and Mitsui & Co., Ltd. (1.5 percent).",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Hess Corporation",
+    "category": "competitor",
+    "subtype": "performance_peer",
+    "evidence_quote": "Due to Chevron's acquisition of Hess Corporation in 2025, Hess Corporation has been removed from our performance peer group",
+    "confidence": 0.9,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "NYSE",
+    "category": "dependency",
+    "subtype": "stock_exchange_listing",
+    "evidence_quote": "ConocoPhillips' common stock is traded on the NYSE under the symbol \"COP.\"",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "OPEC Plus",
+    "category": "dependency",
+    "subtype": "market_influence",
+    "evidence_quote": "Dynamics that could influence world energy markets and commodity prices include...actions taken by OPEC Plus and other major oil producing countries",
+    "confidence": 0.85,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "NFE",
+    "category": "partner",
+    "subtype": "equity_lng_project",
+    "evidence_quote": "Continued to advance...equity LNG projects at NFE and NFS in Qatar and PALNG on the U.S. Gulf Coast; all projects remain on schedule with NFE startup expected in the second half of 2026",
+    "confidence": 0.92,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "NFS",
+    "category": "partner",
+    "subtype": "equity_lng_project",
+    "evidence_quote": "Continued to advance...equity LNG projects at NFE and NFS in Qatar and PALNG on the U.S. Gulf Coast",
+    "confidence": 0.92,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "PALNG",
+    "category": "partner",
+    "subtype": "equity_lng_project",
+    "evidence_quote": "Continued to advance...equity LNG projects at NFE and NFS in Qatar and PALNG on the U.S. Gulf Coast",
+    "confidence": 0.92,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Ernst & Young LLP",
+    "category": "supplier",
+    "subtype": "external_auditor",
+    "evidence_quote": "The company's financial statements have been audited by Ernst & Young LLP, an independent registered public accounting firm",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Ernst & Young LLP",
+    "category": "supplier",
+    "subtype": "external_auditor",
+    "evidence_quote": "We have audited the accompanying consolidated balance sheets of ConocoPhillips (the Company) as of December 31, 2025 and 2024",
+    "confidence": 0.95,
+    "reason": "counterparty name not in quote",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "QatarEnergy",
+    "category": "partner",
+    "subtype": "joint_venture_partner",
+    "evidence_quote": "QatarEnergy LNG N(3) (N3)— 30 percent owned joint venture with affiliates of QatarEnergy ( 68.5 percent) and Mitsui & Co., Ltd. ( 1.5 percent)—produces and liquefies natural gas from Qatar's North Field",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Mitsui & Co., Ltd.",
+    "category": "partner",
+    "subtype": "joint_venture_partner",
+    "evidence_quote": "QatarEnergy LNG N(3) (N3)— 30 percent owned joint venture with affiliates of QatarEnergy ( 68.5 percent) and Mitsui & Co., Ltd. ( 1.5 percent)—produces and liquefies natural gas from Qatar's North Field",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Aker BP",
+    "category": "partner",
+    "subtype": "joint venture operator",
+    "evidence_quote": "Visund 9.1 Aker BP 1 1 44 9",
+    "confidence": 0.95,
+    "reason": "The evidence_quote 'Visund 9.1 Aker BP 1 1 44 9' is not a natural-language sentence from the filing. It is clearly tabular data from a production table showing field name, interest percentage, operator, and production metrics (crude oil MBD, NGL MBD, natural gas MMCFD, total MBOED). XBRL tags, identifiers, table headers, and fragments like this are never valid evidence per the audit rules. While Aker BP is indeed a legitimate external operator of the Visund field (where ConocoPhillips holds a 9.1% interest), and a partner relationship is plausible, the evidence provided does not meet the standard of a natural-language sentence that substantiates the relationship. The table entry alone cannot serve as valid evidence.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "WTI",
+    "category": "dependency",
+    "subtype": "pricing_benchmark",
+    "evidence_quote": "For example, over the course of 2025, WTI crude oil prices ranged from a high of $80 per barrel in January to a low of $55 per barrel in December.",
+    "confidence": 0.85,
+    "reason": "WTI (West Texas Intermediate) is not a counterparty organization but rather a commodity pricing benchmark/index. It is not an external entity that ConocoPhillips has a business relationship with. The evidence quote describes WTI crude oil price movements as an example of commodity price volatility, not a relationship with an organization. The text states 'WTI crude oil prices ranged from a high of $80 per barrel...' which treats WTI as a price indicator, not a counterparty. While commodity benchmarks can represent dependencies in terms of pricing exposure, WTI itself is not an organization that provides infrastructure or services to ConocoPhillips—it is simply a market reference price. The 'dependency' category requires the root to rely on a counterparty's infrastructure or service; a pricing benchmark does not fit this definition as it is not provided by an external entity.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "New York",
+    "category": "dependency",
+    "subtype": "regulatory_climate_liability",
+    "evidence_quote": "in 2024, New York and Vermont passed legislation seeking to hold certain energy companies financially responsible for state climate change mitigation and adaptation measures",
+    "confidence": 0.92,
+    "reason": "New York is not a counterparty in a business relationship with ConocoPhillips. The filing describes New York as a U.S. state that passed legislation imposing potential liabilities on energy companies for climate-related costs. This is a regulatory/governmental action, not a dependency relationship. New York is acting in its sovereign regulatory capacity, which falls under the explicit exclusion 'regulators acting as regulators' and 'tax and revenue authorities.' The legislation may create compliance obligations or liabilities, but this does not constitute a business dependency where ConocoPhillips relies on New York infrastructure or services for operations. The category 'dependency' requires the root to critically rely on counterparty infrastructure/service with NO commercial vendor relationship, but here New York is simply imposing potential legal/financial obligations through legislation, similar to tax or regulatory enforcement. This is a legal/compliance risk, not an operational dependency.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "EPA",
+    "category": "dependency",
+    "subtype": "regulatory_emissions",
+    "evidence_quote": "in December 2023, the EPA published a final rule that revises the regulations governing, among other things, the emission of methane and volatile organic compounds",
+    "confidence": 0.93,
+    "reason": "The EPA is a regulatory authority acting in its regulatory capacity. The excerpt describes the EPA issuing regulations governing methane and VOC emissions, which is a regulatory action, not a dependency relationship. Under the strict auditing rules, regulators acting as regulators must be rejected as counterparties. Additionally, the text shows policy uncertainty (EPA 'moved to dismantle some climate-related regulations' in 2025), which further confirms this is about regulatory compliance exposure, not a critical dependency on EPA infrastructure or services. The root company does not 'critically rely on EPA infrastructure/service' in the dependency sense—it is subject to EPA regulations, which is fundamentally different.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Marathon Oil",
+    "category": "supplier",
+    "subtype": "acquisition",
+    "evidence_quote": "Completed the integration of Marathon Oil and doubled synergy capture to more than $1 billion on a run-rate basis in 2025",
+    "confidence": 0.95,
+    "reason": "Marathon Oil was acquired by ConocoPhillips (the ROOT company), making Marathon Oil a subsidiary, not a supplier. The evidence quote states 'Completed the integration of Marathon Oil,' which indicates Marathon Oil became part of ConocoPhillips through acquisition. The filing also explicitly states 'our acquisition of Marathon Oil in the fourth quarter of 2024' multiple times. Acquired companies become subsidiaries of the acquirer and are therefore internal to the ROOT company, not external counterparties. The 'supplier' category is additionally incorrect because acquisition targets do not supply goods/services to the acquirer—they are absorbed into the acquirer's corporate structure. The subtype 'acquisition' confirms this is an M&A transaction, not a commercial supplier relationship.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "NFE4",
+    "category": "supplier",
+    "subtype": "investment",
+    "evidence_quote": "Investments in NFE4, NFS3 and PALNG.",
+    "confidence": 0.7,
+    "reason": "NFE4 is not a valid counterparty. The evidence quote 'Investments in NFE4, NFS3 and PALNG' shows three shorthand identifiers without natural-language context explaining what these entities are, what services they provide, or their relationship to ConocoPhillips. These appear to be investment vehicle codes or project abbreviations, not external organizational counterparties. The quote does not provide enough information to determine if these represent real external entities, their nature, or whether they are suppliers. Additionally, 'counterparty_type: other' is too vague. The filing provides no supporting context for the claimed supplier relationship or why this would be categorized as a commercial vendor that ConocoPhillips pays. Without clear evidence that NFE4 is an external organization providing goods or services to ConocoPhillips in a commercial vendor capacity, this relationship cannot be validated.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "NFS3",
+    "category": "supplier",
+    "subtype": "investment",
+    "evidence_quote": "Investments in NFE4, NFS3 and PALNG.",
+    "confidence": 0.7,
+    "reason": "NFS3 is an abbreviation/identifier that appears only in a bulleted list ('Investments in NFE4, NFS3 and PALNG') without any natural-language sentence explaining what NFS3 is, what organization it represents, or any commercial relationship context. The evidence_quote provided is a sentence fragment from a list, not a complete natural-language sentence from the filing. Without knowing what NFS3 stands for or any details about the nature of the investment relationship, this cannot be validated as a legitimate counterparty relationship. The filing provides no context to determine if this is even an external organization versus an internal project code or investment vehicle.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "PALNG",
+    "category": "supplier",
+    "subtype": "investment",
+    "evidence_quote": "Investments in NFE4, NFS3 and PALNG.",
+    "confidence": 0.7,
+    "reason": "The evidence_quote 'Investments in NFE4, NFS3 and PALNG.' is a sentence fragment listing capital investments, not a natural-language sentence describing a relationship. The source chunk shows this phrase appears in a bulleted list of capital expenditures and investments for 2025, grouped with items like development activities and drilling programs. This is merely identifying where capital was deployed, not establishing PALNG as a supplier. PALNG appears to be an investment target or joint venture/partnership entity (likely Port Arthur LNG based on the abbreviation pattern matching NFE/NFS entities), not a commercial vendor supplying goods or services to ConocoPhillips. Without additional context describing what PALNG provides to ConocoPhillips in a vendor relationship, and given that the only evidence is a fragment from a capital allocation list, this relationship cannot be validated as a supplier relationship. The evidence does not meet the requirement of being a natural-language sentence from the filing that supports the claimed relationship.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "World Bank Zero Routine Flaring Initiative",
+    "category": "dependency",
+    "subtype": "standard_setting_body",
+    "evidence_quote": "Achieved our target of zero routine flaring by the end of 2025 for heritage ConocoPhillips assets by taking all economically viable steps to eliminate routine flaring in accordance with the World Bank Zero Routine Flaring Initiative.",
+    "confidence": 0.75,
+    "reason": "The World Bank Zero Routine Flaring Initiative is a voluntary standard/pledge that companies join to demonstrate commitment to flaring reduction, not a dependency relationship. ConocoPhillips is not critically reliant on the Initiative's infrastructure or service to operate; rather, the company chose to adopt the Initiative's standards as a voluntary target. The text states they 'achieved our target...by taking all economically viable steps to eliminate routine flaring in accordance with' the Initiative—this describes voluntary compliance with a standard, not operational dependency. The Initiative is not a counterparty providing essential infrastructure (like GPS satellites) but a voluntary framework. This should not be categorized as a dependency relationship. Additionally, 'standard_setting_body' is not appropriate for what is essentially a voluntary industry initiative/pledge program rather than a formal standards organization.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Oil and Gas Methane Partnership 2.0 Initiative",
+    "category": "dependency",
+    "subtype": "reporting_standard",
+    "evidence_quote": "Achieved the Gold Standard Reporting for emissions reporting in the Oil and Gas Methane Partnership 2.0 Initiative for the second consecutive year.",
+    "confidence": 0.75,
+    "reason": "The Oil and Gas Methane Partnership 2.0 Initiative is a voluntary reporting framework/standard, not an external organization upon which ConocoPhillips has a critical operational dependency. The text states the company 'Achieved the Gold Standard Reporting for emissions reporting' in this initiative, which describes participation in a voluntary reporting scheme, not a dependency relationship. This is analogous to achieving a certification or meeting a reporting standard—it demonstrates compliance/achievement but does not constitute a critical dependency on external infrastructure or services. The initiative is a measurement/reporting framework, not a counterparty providing essential services. Additionally, 'dependency' with subtype 'reporting_standard' is not an appropriate category; reporting standards and voluntary initiatives do not create the type of critical operational dependency (like GPS infrastructure or regulatory frameworks) contemplated by the dependency category.",
+    "stage": "audit"
+  }
+]

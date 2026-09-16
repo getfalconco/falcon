@@ -1,0 +1,1558 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 839440,
+  "chunks": 37,
+  "candidates": [
+    {
+      "counterparty_name": "Northern Lights",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "joint venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The Northern Lights joint venture, for example, has already transported CO 2 from its first industrial customers and injected it beneath the Norwegian Sea.",
+      "evidence_quotes": [
+        "The Northern Lights joint venture, for example, has already transported CO 2 from its first industrial customers and injected it beneath the Norwegian Sea."
+      ],
+      "confidence": 0.65,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Adura Energy Limited",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "joint venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We also completed the formation of the Adura Energy Limited joint venture, which is one of the largest independent producers in the UK North Sea.",
+      "evidence_quotes": [
+        "We also completed the formation of the Adura Energy Limited joint venture, which is one of the largest independent producers in the UK North Sea."
+      ],
+      "confidence": 0.65,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "ExxonMobil",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Nederlandse Aardolie Maatschappij B.V. (NAM), a joint venture between Shell and ExxonMobil (50:50) has settled claims for physical damage to property caused by earthquakes induced by historical production from the Groningen gas field",
+      "evidence_quotes": [
+        "Nederlandse Aardolie Maatschappij B.V. (NAM), a joint venture between Shell and ExxonMobil (50:50) has settled claims for physical damage to property caused by earthquakes induced by historical production from the Groningen gas field"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "NAM",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "joint venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Nederlandse Aardolie Maatschappij B.V. (NAM), a joint venture between Shell and ExxonMobil (50:50) has settled claims for physical damage to property caused by earthquakes induced by historical production from the Groningen gas field",
+      "evidence_quotes": [
+        "Nederlandse Aardolie Maatschappij B.V. (NAM), a joint venture between Shell and ExxonMobil (50:50) has settled claims for physical damage to property caused by earthquakes induced by historical production from the Groningen gas field"
+      ],
+      "confidence": 0.8,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Adura Energy Limited",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "joint venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "gains on disposal of assets, mainly related to the incorporation of the Adura Energy Limited joint venture in the UK",
+      "evidence_quotes": [
+        "gains on disposal of assets, mainly related to the incorporation of the Adura Energy Limited joint venture in the UK"
+      ],
+      "confidence": 0.65,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "Pavilion Energy",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "LNG third-party volumes",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "higher purchases from third parties following the Pavilion Energy acquisition",
+      "evidence_quotes": [
+        "higher purchases from third parties following the Pavilion Energy acquisition"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 8
+    },
+    {
+      "counterparty_name": "QatarEnergy",
+      "counterparty_type": "other",
+      "category": "partner",
+      "subtype": "joint venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Shell holds 25% in the joint venture, which owns 25% of the North Field East expansion project",
+      "evidence_quotes": [
+        "Shell holds 25% in the joint venture, which owns 25% of the North Field East expansion project"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 8
+    },
+    {
+      "counterparty_name": "China National Petroleum Corporation",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we have a 50% interest in the Arrow joint venture with China National Petroleum Corporation (CNPC)",
+      "evidence_quotes": [
+        "we have a 50% interest in the Arrow joint venture with China National Petroleum Corporation (CNPC)"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 8
+    },
+    {
+      "counterparty_name": "Woodside",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint venture operator",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Woodside operates the NWS joint venture (Shell interest 16.7%)",
+      "evidence_quotes": [
+        "Woodside operates the NWS joint venture (Shell interest 16.7%)"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 8
+    },
+    {
+      "counterparty_name": "Chevron",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We have a 25% interest in the Chevron-operated Gorgon LNG joint venture",
+      "evidence_quotes": [
+        "We have a 25% interest in the Chevron-operated Gorgon LNG joint venture"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 8
+    },
+    {
+      "counterparty_name": "Repsol",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint venture operator",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We have a 37.5% interest in the Repsol-operated Caipipendi block",
+      "evidence_quotes": [
+        "We have a 37.5% interest in the Repsol-operated Caipipendi block"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 8
+    },
+    {
+      "counterparty_name": "Petronas",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Shell has a 40% interest in LNG Canada which is a joint venture with Petronas, PetroChina, Mitsubishi and Kogas",
+      "evidence_quotes": [
+        "Shell has a 40% interest in LNG Canada which is a joint venture with Petronas, PetroChina, Mitsubishi and Kogas"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 8
+    },
+    {
+      "counterparty_name": "PetroChina",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Shell has a 40% interest in LNG Canada which is a joint venture with Petronas, PetroChina, Mitsubishi and Kogas",
+      "evidence_quotes": [
+        "Shell has a 40% interest in LNG Canada which is a joint venture with Petronas, PetroChina, Mitsubishi and Kogas"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 8
+    },
+    {
+      "counterparty_name": "Mitsubishi",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Shell has a 40% interest in LNG Canada which is a joint venture with Petronas, PetroChina, Mitsubishi and Kogas",
+      "evidence_quotes": [
+        "Shell has a 40% interest in LNG Canada which is a joint venture with Petronas, PetroChina, Mitsubishi and Kogas"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 8
+    },
+    {
+      "counterparty_name": "Kogas",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Shell has a 40% interest in LNG Canada which is a joint venture with Petronas, PetroChina, Mitsubishi and Kogas",
+      "evidence_quotes": [
+        "Shell has a 40% interest in LNG Canada which is a joint venture with Petronas, PetroChina, Mitsubishi and Kogas"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 8
+    },
+    {
+      "counterparty_name": "Arcius",
+      "counterparty_type": "private_company",
+      "category": "customer",
+      "subtype": "asset buyer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "A sales and purchase agreement (SPA) has been signed for the El Burg concession to divest 100% of Shell interest to Arcius",
+      "evidence_quotes": [
+        "A sales and purchase agreement (SPA) has been signed for the El Burg concession to divest 100% of Shell interest to Arcius"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 8
+    },
+    {
+      "counterparty_name": "Oman LNG",
+      "counterparty_type": "other",
+      "category": "supplier",
+      "subtype": "LNG offtake",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we have had a long-term offtake agreement in place to purchase up to 1.6 mtpa over a 10-year period from Oman LNG",
+      "evidence_quotes": [
+        "we have had a long-term offtake agreement in place to purchase up to 1.6 mtpa over a 10-year period from Oman LNG"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 8
+    },
+    {
+      "counterparty_name": "Novatek",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "LNG purchase contract",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Shell still holds one long-term LNG purchase contract with a Novatek entity",
+      "evidence_quotes": [
+        "Shell still holds one long-term LNG purchase contract with a Novatek entity"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 8
+    },
+    {
+      "counterparty_name": "Touchstone Exploration Trinidad Limited",
+      "counterparty_type": "private_company",
+      "category": "customer",
+      "subtype": "asset buyer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we completed the sale of our 65% interest in the Central Block facility to Touchstone Exploration Trinidad Limited",
+      "evidence_quotes": [
+        "we completed the sale of our 65% interest in the Central Block facility to Touchstone Exploration Trinidad Limited"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 8
+    },
+    {
+      "counterparty_name": "bp",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint venture operator",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We also have a 50% interest in exploration blocks 25a, 25b and 27 in the Columbus Basin. We operate Block 27 and bp is the operator of the remaining two",
+      "evidence_quotes": [
+        "We also have a 50% interest in exploration blocks 25a, 25b and 27 in the Columbus Basin. We operate Block 27 and bp is the operator of the remaining two"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 8
+    },
+    {
+      "counterparty_name": "Kinder Morgan",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "LNG liquefaction capacity lease",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We have offtake rights via a lease to 100% of the capacity (2.5 mtpa) of the Kinder Morgan-operated Elba Island liquefaction plant",
+      "evidence_quotes": [
+        "We have offtake rights via a lease to 100% of the capacity (2.5 mtpa) of the Kinder Morgan-operated Elba Island liquefaction plant"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 8
+    },
+    {
+      "counterparty_name": "bp",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint_venture_operator",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We also have a 50% interest in exploration blocks 25a, 25b and 27 in the Columbus Basin. We operate Block 27 and bp is the operator of the remaining two.",
+      "evidence_quotes": [
+        "We also have a 50% interest in exploration blocks 25a, 25b and 27 in the Columbus Basin. We operate Block 27 and bp is the operator of the remaining two."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 9
+    },
+    {
+      "counterparty_name": "PETRONAS",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint_venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Shell is the largest owner in LNG Canada, holding a 40% interest. The other joint venture partners include PETRONAS of Malaysia, PetroChina, Mitsubishi Corporation of Japan, and Korea Gas Corporation",
+      "evidence_quotes": [
+        "Shell is the largest owner in LNG Canada, holding a 40% interest. The other joint venture partners include PETRONAS of Malaysia, PetroChina, Mitsubishi Corporation of Japan, and Korea Gas Corporation"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 9
+    },
+    {
+      "counterparty_name": "PetroChina",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint_venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Shell is the largest owner in LNG Canada, holding a 40% interest. The other joint venture partners include PETRONAS of Malaysia, PetroChina, Mitsubishi Corporation of Japan, and Korea Gas Corporation",
+      "evidence_quotes": [
+        "Shell is the largest owner in LNG Canada, holding a 40% interest. The other joint venture partners include PETRONAS of Malaysia, PetroChina, Mitsubishi Corporation of Japan, and Korea Gas Corporation"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 9
+    },
+    {
+      "counterparty_name": "Mitsubishi Corporation",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint_venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Shell is the largest owner in LNG Canada, holding a 40% interest. The other joint venture partners include PETRONAS of Malaysia, PetroChina, Mitsubishi Corporation of Japan, and Korea Gas Corporation",
+      "evidence_quotes": [
+        "Shell is the largest owner in LNG Canada, holding a 40% interest. The other joint venture partners include PETRONAS of Malaysia, PetroChina, Mitsubishi Corporation of Japan, and Korea Gas Corporation"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 9
+    },
+    {
+      "counterparty_name": "Korea Gas Corporation",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint_venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Shell is the largest owner in LNG Canada, holding a 40% interest. The other joint venture partners include PETRONAS of Malaysia, PetroChina, Mitsubishi Corporation of Japan, and Korea Gas Corporation",
+      "evidence_quotes": [
+        "Shell is the largest owner in LNG Canada, holding a 40% interest. The other joint venture partners include PETRONAS of Malaysia, PetroChina, Mitsubishi Corporation of Japan, and Korea Gas Corporation"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 9
+    },
+    {
+      "counterparty_name": "Chevron U.S.A. Inc.",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint_venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Shell has a 60% interest in the Whale development, and Chevron U.S.A. Inc. has a 40% interest.",
+      "evidence_quotes": [
+        "Shell has a 60% interest in the Whale development, and Chevron U.S.A. Inc. has a 40% interest."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 9
+    },
+    {
+      "counterparty_name": "NEO Energy",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "joint_venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we restarted production at the Penguins field in the UK North Sea with a modernised Shell-operated FPSO facility (Shell interest 50%) NEO Energy holds the other 50%.",
+      "evidence_quotes": [
+        "we restarted production at the Penguins field in the UK North Sea with a modernised Shell-operated FPSO facility (Shell interest 50%) NEO Energy holds the other 50%."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 9
+    },
+    {
+      "counterparty_name": "ConocoPhillips Company",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "asset_seller",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we signed an agreement to acquire a 15.96% working interest from ConocoPhillips Company (COP) in the Shell-operated Ursa platform in the GoA.",
+      "evidence_quotes": [
+        "we signed an agreement to acquire a 15.96% working interest from ConocoPhillips Company (COP) in the Shell-operated Ursa platform in the GoA."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 9
+    },
+    {
+      "counterparty_name": "Renaissance",
+      "counterparty_type": "private_company",
+      "category": "customer",
+      "subtype": "asset_buyer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In March 2025, we completed the sale of The Shell Petroleum Development Company of Nigeria Limited (SPDC) to Renaissance.",
+      "evidence_quotes": [
+        "In March 2025, we completed the sale of The Shell Petroleum Development Company of Nigeria Limited (SPDC) to Renaissance."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 9
+    },
+    {
+      "counterparty_name": "Ecopetrol",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint_venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "At FID, Shell held a 50% interest, Ecopetrol held 30%, and TotalEnergies had 20%.",
+      "evidence_quotes": [
+        "At FID, Shell held a 50% interest, Ecopetrol held 30%, and TotalEnergies had 20%."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 9
+    },
+    {
+      "counterparty_name": "TotalEnergies",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint_venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "At FID, Shell held a 50% interest, Ecopetrol held 30%, and TotalEnergies had 20%.",
+      "evidence_quotes": [
+        "At FID, Shell held a 50% interest, Ecopetrol held 30%, and TotalEnergies had 20%."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 9
+    },
+    {
+      "counterparty_name": "Kuwait Petroleum Exploration Company",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "asset_buyer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In February 2026, we agreed to sell a 20% interest to Kuwait Petroleum Exploration Company (KUFPEC).",
+      "evidence_quotes": [
+        "In February 2026, we agreed to sell a 20% interest to Kuwait Petroleum Exploration Company (KUFPEC)."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 9
+    },
+    {
+      "counterparty_name": "Petrobras",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint_venture_operator",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The unitised Mero field is operated by Petrobras (38.6%), in partnership with Shell, TotalEnergies (19.3%), CNPC (9.65%), China National Offshore Oil Corporation (CNOOC) (9.65%)",
+      "evidence_quotes": [
+        "The unitised Mero field is operated by Petrobras (38.6%), in partnership with Shell, TotalEnergies (19.3%), CNPC (9.65%), China National Offshore Oil Corporation (CNOOC) (9.65%)"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 9
+    },
+    {
+      "counterparty_name": "CNPC",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint_venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The unitised Mero field is operated by Petrobras (38.6%), in partnership with Shell, TotalEnergies (19.3%), CNPC (9.65%), China National Offshore Oil Corporation (CNOOC) (9.65%)",
+      "evidence_quotes": [
+        "The unitised Mero field is operated by Petrobras (38.6%), in partnership with Shell, TotalEnergies (19.3%), CNPC (9.65%), China National Offshore Oil Corporation (CNOOC) (9.65%)"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 9
+    },
+    {
+      "counterparty_name": "China National Offshore Oil Corporation",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint_venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The unitised Mero field is operated by Petrobras (38.6%), in partnership with Shell, TotalEnergies (19.3%), CNPC (9.65%), China National Offshore Oil Corporation (CNOOC) (9.65%)",
+      "evidence_quotes": [
+        "The unitised Mero field is operated by Petrobras (38.6%), in partnership with Shell, TotalEnergies (19.3%), CNPC (9.65%), China National Offshore Oil Corporation (CNOOC) (9.65%)"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 9
+    },
+    {
+      "counterparty_name": "TotalEnergies EP Nigeria Limited",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "asset_seller",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we signed an agreement to acquire an additional interest of up to 12.5% in the OML 118 production-sharing contract (OML 118 PSC) in Nigeria from TotalEnergies EP Nigeria Limited.",
+      "evidence_quotes": [
+        "we signed an agreement to acquire an additional interest of up to 12.5% in the OML 118 production-sharing contract (OML 118 PSC) in Nigeria from TotalEnergies EP Nigeria Limited."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 9
+    },
+    {
+      "counterparty_name": "Sunlink Energies and Resources Limited",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "joint_venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we announced, together with Sunlink Energies and Resources Limited, an FID on the HI gas project offshore Nigeria (Shell interest 40%).",
+      "evidence_quotes": [
+        "we announced, together with Sunlink Energies and Resources Limited, an FID on the HI gas project offshore Nigeria (Shell interest 40%)."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 9
+    },
+    {
+      "counterparty_name": "Equinor ASA",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint_venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In December 2025, we and Equinor ASA completed a deal to combine our UK offshore oil and gas operations to form a new company Adura, which is a 50:50 joint venture.",
+      "evidence_quotes": [
+        "In December 2025, we and Equinor ASA completed a deal to combine our UK offshore oil and gas operations to form a new company Adura, which is a 50:50 joint venture."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 9
+    },
+    {
+      "counterparty_name": "ExxonMobil Production Deutschland GmbH",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "service_provider",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "ExxonMobil Production Deutschland GmbH has a service contract with BEB, under which it provides operating services to BEB for most of the concessions.",
+      "evidence_quotes": [
+        "ExxonMobil Production Deutschland GmbH has a service contract with BEB, under which it provides operating services to BEB for most of the concessions."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 9
+    },
+    {
+      "counterparty_name": "Eni S.p.A.",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint_venture_operator",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Shell has a 39% interest in the Val d'Agri producing concession, operated by Eni S.p.A.",
+      "evidence_quotes": [
+        "Shell has a 39% interest in the Val d'Agri producing concession, operated by Eni S.p.A."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 9
+    },
+    {
+      "counterparty_name": "TotalEnergies EP Italia S.p.A.",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint_venture_operator",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "a 25% interest in the Tempa Rossa producing concession, operated by TotalEnergies EP Italia S.p.A.",
+      "evidence_quotes": [
+        "a 25% interest in the Tempa Rossa producing concession, operated by TotalEnergies EP Italia S.p.A."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 9
+    },
+    {
+      "counterparty_name": "ExxonMobil",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint_venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Shell and ExxonMobil are 50:50 shareholders in Nederlandse Aardolie Maatschappij B.V. (NAM).",
+      "evidence_quotes": [
+        "Shell and ExxonMobil are 50:50 shareholders in Nederlandse Aardolie Maatschappij B.V. (NAM)."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 9
+    },
+    {
+      "counterparty_name": "Tenaz Energy",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "asset_buyer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "On May 1, 2025, the sale of NAM Offshore B.V., the entity holding OneGas East, NAM's offshore asset in the Dutch North Sea, to Tenaz Energy was completed.",
+      "evidence_quotes": [
+        "On May 1, 2025, the sale of NAM Offshore B.V., the entity holding OneGas East, NAM's offshore asset in the Dutch North Sea, to Tenaz Energy was completed."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 9
+    },
+    {
+      "counterparty_name": "Gassco",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "operator",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Shell is the technical service provider for the Nyhamna gas facility, operated by Gassco, which processes and exports gas from several Norwegian fields.",
+      "evidence_quotes": [
+        "Shell is the technical service provider for the Nyhamna gas facility, operated by Gassco, which processes and exports gas from several Norwegian fields."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 9
+    },
+    {
+      "counterparty_name": "RockRose Energy Limited",
+      "counterparty_type": "private_company",
+      "category": "customer",
+      "subtype": "potential_asset_buyer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Shell signed an agreement with RockRose Energy Limited, a subsidiary of Viaro Energy, to divest its equity stake in 11 gas fields",
+      "evidence_quotes": [
+        "Shell signed an agreement with RockRose Energy Limited, a subsidiary of Viaro Energy, to divest its equity stake in 11 gas fields"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 9
+    },
+    {
+      "counterparty_name": "Petrobras",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint venture / field operator",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the Sapinhoá field (Shell interest 30%, operated by Petrobras and straddling the BM-S-9 and Entorno de Sapinhoá blocks already unitised and redetermined)",
+      "evidence_quotes": [
+        "the Sapinhoá field (Shell interest 30%, operated by Petrobras and straddling the BM-S-9 and Entorno de Sapinhoá blocks already unitised and redetermined)"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 11
+    },
+    {
+      "counterparty_name": "TotalEnergies",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint venture / field operator",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the Lapa field (Shell interest 27%[B] in BM-S-9A block, operated by TotalEnergies)",
+      "evidence_quotes": [
+        "the Lapa field (Shell interest 27%[B] in BM-S-9A block, operated by TotalEnergies)"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 11
+    },
+    {
+      "counterparty_name": "Modec",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "FPSO contractor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Working closely with Modec, the contractor responsible for the floating production, storage and offloading (FPSO) unit, we applied lessons from projects like Vito and Whale in the Gulf of America",
+      "evidence_quotes": [
+        "Working closely with Modec, the contractor responsible for the floating production, storage and offloading (FPSO) unit, we applied lessons from projects like Vito and Whale in the Gulf of America"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 11
+    },
+    {
+      "counterparty_name": "Kuwait Petroleum Exploration Company",
+      "counterparty_type": "government",
+      "category": "partner",
+      "subtype": "asset sale / joint interest holder",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In February 2026, Shell agreed to sell a 20% interest to Kuwait Petroleum Exploration Company.",
+      "evidence_quotes": [
+        "In February 2026, Shell agreed to sell a 20% interest to Kuwait Petroleum Exploration Company."
+      ],
+      "confidence": 0.8,
+      "chunk_index": 11
+    },
+    {
+      "counterparty_name": "Ecopetrol",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint venture partner",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Shell Brasil operates the project with partners Ecopetrol (30%) and PPSA as the contract manager.",
+      "evidence_quotes": [
+        "Shell Brasil operates the project with partners Ecopetrol (30%) and PPSA as the contract manager."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 11
+    },
+    {
+      "counterparty_name": "Equinor",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint venture formation",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the combination of Shell and Equinor's UK offshore oil and gas assets into the Adura joint venture on December 1, 2025",
+      "evidence_quotes": [
+        "the combination of Shell and Equinor's UK offshore oil and gas assets into the Adura joint venture on December 1, 2025"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 11
+    },
+    {
+      "counterparty_name": "Sumitomo Heavy Industries Marine & Engineering",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "FPSO shipbuilding",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "First hull block being placed in the dry dock at Sumitomo Heavy Industries Marine & Engineering Yokosuka.",
+      "evidence_quotes": [
+        "First hull block being placed in the dry dock at Sumitomo Heavy Industries Marine & Engineering Yokosuka."
+      ],
+      "confidence": 0.6,
+      "chunk_index": 11
+    },
+    {
+      "counterparty_name": "Scuderia Ferrari HP",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "fuel development partnership",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Aided by our partnership with Scuderia Ferrari HP, we have concentrated on developing fuels with special formulations designed to clean engines and improve performance.",
+      "evidence_quotes": [
+        "Aided by our partnership with Scuderia Ferrari HP, we have concentrated on developing fuels with special formulations designed to clean engines and improve performance."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 12
+    },
+    {
+      "counterparty_name": "Raízen",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "biofuels joint venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Shell and the non-operated joint venture Raízen (Shell interest 44%) are, together, one of the world's largest blenders and distributors of biofuels.",
+      "evidence_quotes": [
+        "Shell and the non-operated joint venture Raízen (Shell interest 44%) are, together, one of the world's largest blenders and distributors of biofuels."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 12
+    },
+    {
+      "counterparty_name": "Delta",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "sustainable aviation fuel supply",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Photo: Shell Aviation supplies sustainable aviation fuel to Delta.",
+      "evidence_quotes": [
+        "Photo: Shell Aviation supplies sustainable aviation fuel to Delta."
+      ],
+      "confidence": 0.8,
+      "chunk_index": 12
+    },
+    {
+      "counterparty_name": "Raízen",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint venture - biofuels blending and distribution",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Shell and the non-operated joint venture Raízen (Shell interest 44%) are, together, one of the world's largest blenders and distributors of biofuels.",
+      "evidence_quotes": [
+        "Shell and the non-operated joint venture Raízen (Shell interest 44%) are, together, one of the world's largest blenders and distributors of biofuels."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 13
+    },
+    {
+      "counterparty_name": "Intel",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "product certification and technology testing partnership",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In 2025, Shell Lubricants' immersion cooling fluids became the first to earn Intel Data Center Certification for Immersion Cooling, with confirmed compatibility with 4th and 5th Gen Intel Xeon processors.",
+      "evidence_quotes": [
+        "In 2025, Shell Lubricants' immersion cooling fluids became the first to earn Intel Data Center Certification for Immersion Cooling, with confirmed compatibility with 4th and 5th Gen Intel Xeon processors."
+      ],
+      "confidence": 0.7,
+      "chunk_index": 13
+    },
+    {
+      "counterparty_name": "CNOOC Petrochemicals Investment Ltd",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "petrochemical joint venture (CSPC)",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "a 50:50 joint venture between Shell Nanhai B.V. and CNOOC Petrochemicals Investment Ltd, took the final investment decision to expand its petrochemical complex in Daya Bay, Huizhou, south China.",
+      "evidence_quotes": [
+        "a 50:50 joint venture between Shell Nanhai B.V. and CNOOC Petrochemicals Investment Ltd, took the final investment decision to expand its petrochemical complex in Daya Bay, Huizhou, south China."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 13
+    },
+    {
+      "counterparty_name": "Canadian Natural Resources Limited",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "asset swap agreement",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we completed the previously announced agreement with Canadian Natural Resources Limited to swap our remaining 10% interest in the Albian mining and extraction operations in exchange for an additional 10% interest in the Scotford upgrader",
+      "evidence_quotes": [
+        "we completed the previously announced agreement with Canadian Natural Resources Limited to swap our remaining 10% interest in the Albian mining and extraction operations in exchange for an additional 10% interest in the Scotford upgrader"
+      ],
+      "confidence": 0.8,
+      "chunk_index": 13
+    },
+    {
+      "counterparty_name": "ExxonMobil",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint arrangement (chemical plant capacity rights)",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In January 2026, ExxonMobil closed the Fife Ethylene Plant (Mossmorran) after announcing this in November 2025.",
+      "evidence_quotes": [
+        "In January 2026, ExxonMobil closed the Fife Ethylene Plant (Mossmorran) after announcing this in November 2025."
+      ],
+      "confidence": 0.7,
+      "chunk_index": 14
+    },
+    {
+      "counterparty_name": "Google",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "corporate power purchase agreement",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In May 2025, we signed a new Corporate Power Purchase Agreement (CPPA) with Google, which extends the lifespan of the NoordzeeWind offshore wind farm in the Netherlands.",
+      "evidence_quotes": [
+        "In May 2025, we signed a new Corporate Power Purchase Agreement (CPPA) with Google, which extends the lifespan of the NoordzeeWind offshore wind farm in the Netherlands."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 14
+    },
+    {
+      "counterparty_name": "Google",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "renewable energy management services",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In September 2025, Google selected Shell as its renewable energy manager in the UK, leveraging Shell's trading and battery capabilities to support Google's decarbonisation goals.",
+      "evidence_quotes": [
+        "In September 2025, Google selected Shell as its renewable energy manager in the UK, leveraging Shell's trading and battery capabilities to support Google's decarbonisation goals."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 14
+    },
+    {
+      "counterparty_name": "Ares Infrastructure Opportunities",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "joint venture (solar power assets)",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Shell subsidiary Savion and a fund managed by the Ares Infrastructure Opportunities strategy formed Tango Holdings, LLC, (Shell interest 20%), a joint venture to manage five assets",
+      "evidence_quotes": [
+        "Shell subsidiary Savion and a fund managed by the Ares Infrastructure Opportunities strategy formed Tango Holdings, LLC, (Shell interest 20%), a joint venture to manage five assets"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 14
+    },
+    {
+      "counterparty_name": "EDF-RE Offshore Development",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "joint venture (offshore wind)",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we voluntarily withdrew from Atlantic Shores Offshore Wind, LLC, in the USA, assigning our 50% outstanding membership interest to our existing joint-venture partner, EDF-RE Offshore Development, LLC",
+      "evidence_quotes": [
+        "we voluntarily withdrew from Atlantic Shores Offshore Wind, LLC, in the USA, assigning our 50% outstanding membership interest to our existing joint-venture partner, EDF-RE Offshore Development, LLC"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 14
+    },
+    {
+      "counterparty_name": "ScottishPower Renewables",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "joint venture (offshore wind, asset exchange)",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we and ScottishPower Renewables (SPR) agreed to exchange our 50% stakes in two offshore wind projects.",
+      "evidence_quotes": [
+        "we and ScottishPower Renewables (SPR) agreed to exchange our 50% stakes in two offshore wind projects."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 14
+    },
+    {
+      "counterparty_name": "Keppel Ltd",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint venture (renewable assets)",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we completed the sale of our 49% interest in Cleantech Renewable Assets Pte Ltd to our joint-venture partner Keppel Ltd",
+      "evidence_quotes": [
+        "we completed the sale of our 49% interest in Cleantech Renewable Assets Pte Ltd to our joint-venture partner Keppel Ltd"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 14
+    },
+    {
+      "counterparty_name": "Nordsee One GmbH",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "renewable electricity supply (PPA)",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In November 2025, we signed two separate power purchase agreements (PPAs) in Germany with Nordsee One GmbH and Solarkraftwerk Halenbeck-Rohlsdorf I/II GmbH to secure a significant proportion of the renewable electricity needed to power the REFHYNE II facility.",
+      "evidence_quotes": [
+        "In November 2025, we signed two separate power purchase agreements (PPAs) in Germany with Nordsee One GmbH and Solarkraftwerk Halenbeck-Rohlsdorf I/II GmbH to secure a significant proportion of the renewable electricity needed to power the REFHYNE II facility."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 14
+    },
+    {
+      "counterparty_name": "Solarkraftwerk Halenbeck-Rohlsdorf I/II GmbH",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "renewable electricity supply (PPA)",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In November 2025, we signed two separate power purchase agreements (PPAs) in Germany with Nordsee One GmbH and Solarkraftwerk Halenbeck-Rohlsdorf I/II GmbH to secure a significant proportion of the renewable electricity needed to power the REFHYNE II facility.",
+      "evidence_quotes": [
+        "In November 2025, we signed two separate power purchase agreements (PPAs) in Germany with Nordsee One GmbH and Solarkraftwerk Halenbeck-Rohlsdorf I/II GmbH to secure a significant proportion of the renewable electricity needed to power the REFHYNE II facility."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 14
+    },
+    {
+      "counterparty_name": "Equinor",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "carbon capture and storage joint venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the Northern Lights joint venture (Shell interest 33.3%) with Equinor and TotalEnergies completed the world's first cross-border commercial carbon transport and storage service",
+      "evidence_quotes": [
+        "the Northern Lights joint venture (Shell interest 33.3%) with Equinor and TotalEnergies completed the world's first cross-border commercial carbon transport and storage service"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 15
+    },
+    {
+      "counterparty_name": "TotalEnergies",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "carbon capture and storage joint venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the Northern Lights joint venture (Shell interest 33.3%) with Equinor and TotalEnergies completed the world's first cross-border commercial carbon transport and storage service",
+      "evidence_quotes": [
+        "the Northern Lights joint venture (Shell interest 33.3%) with Equinor and TotalEnergies completed the world's first cross-border commercial carbon transport and storage service"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 15
+    },
+    {
+      "counterparty_name": "Yara",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "CCS transport and storage service customer of Northern Lights venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The venture has agreements with Yara and Ørsted to transport and store CO 2 from facilities in the Netherlands and Denmark.",
+      "evidence_quotes": [
+        "The venture has agreements with Yara and Ørsted to transport and store CO 2 from facilities in the Netherlands and Denmark."
+      ],
+      "confidence": 0.7,
+      "chunk_index": 15
+    },
+    {
+      "counterparty_name": "Ørsted",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "CCS transport and storage service customer of Northern Lights venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The venture has agreements with Yara and Ørsted to transport and store CO 2 from facilities in the Netherlands and Denmark.",
+      "evidence_quotes": [
+        "The venture has agreements with Yara and Ørsted to transport and store CO 2 from facilities in the Netherlands and Denmark."
+      ],
+      "confidence": 0.7,
+      "chunk_index": 15
+    },
+    {
+      "counterparty_name": "Stockholm Exergi",
+      "counterparty_type": "private_company",
+      "category": "customer",
+      "subtype": "CCS transport and storage service customer of Northern Lights venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Swedish energy provider Stockholm Exergi has already signed up for the transportation and storage of up to 900,000 tonnes of CO 2 annually from 2028.",
+      "evidence_quotes": [
+        "Swedish energy provider Stockholm Exergi has already signed up for the transportation and storage of up to 900,000 tonnes of CO 2 annually from 2028."
+      ],
+      "confidence": 0.75,
+      "chunk_index": 15
+    },
+    {
+      "counterparty_name": "Intel",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "product certification / technology alliance",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Shell Lubricants' immersion cooling fluids became the first to earn Intel Data Center Certification for Immersion Cooling, with confirmed compatibility with 4th and 5th Gen Intel Xeon processors.",
+      "evidence_quotes": [
+        "Shell Lubricants' immersion cooling fluids became the first to earn Intel Data Center Certification for Immersion Cooling, with confirmed compatibility with 4th and 5th Gen Intel Xeon processors."
+      ],
+      "confidence": 0.65,
+      "chunk_index": 15
+    },
+    {
+      "counterparty_name": "World Bank",
+      "counterparty_type": "government",
+      "category": "partner",
+      "subtype": "flaring and methane reduction partnership",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we became the first official partner to the World Bank Global Flaring and Methane Reduction Fund Partnership, which we committed to at the 28th Conference of the Parties",
+      "evidence_quotes": [
+        "we became the first official partner to the World Bank Global Flaring and Methane Reduction Fund Partnership, which we committed to at the 28th Conference of the Parties"
+      ],
+      "confidence": 0.75,
+      "chunk_index": 16
+    },
+    {
+      "counterparty_name": "Raízen",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Through our Raízen joint venture in Brazil we are already the largest producer of second-generation ethanol and the leading sugar-cane ethanol producer globally.",
+      "evidence_quotes": [
+        "Through our Raízen joint venture in Brazil we are already the largest producer of second-generation ethanol and the leading sugar-cane ethanol producer globally."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 17
+    },
+    {
+      "counterparty_name": "Nordsee One GmbH",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "power purchase agreement",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In November 2025, Shell Energy Europe Limited signed two separate power purchase agreements (PPA) in Germany with Nordsee One GmbH and Solarkraftwerk Halenbeck-Rohlsdorf I/II GmbH.",
+      "evidence_quotes": [
+        "In November 2025, Shell Energy Europe Limited signed two separate power purchase agreements (PPA) in Germany with Nordsee One GmbH and Solarkraftwerk Halenbeck-Rohlsdorf I/II GmbH."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 18
+    },
+    {
+      "counterparty_name": "Solarkraftwerk Halenbeck-Rohlsdorf I/II GmbH",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "power purchase agreement",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In November 2025, Shell Energy Europe Limited signed two separate power purchase agreements (PPA) in Germany with Nordsee One GmbH and Solarkraftwerk Halenbeck-Rohlsdorf I/II GmbH.",
+      "evidence_quotes": [
+        "In November 2025, Shell Energy Europe Limited signed two separate power purchase agreements (PPA) in Germany with Nordsee One GmbH and Solarkraftwerk Halenbeck-Rohlsdorf I/II GmbH."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 18
+    },
+    {
+      "counterparty_name": "Nordsee One GmbH",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "renewable electricity supplier (power purchase agreement)",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Shell Energy Europe Limited signed two separate power purchase agreements (PPA) in Germany with Nordsee One GmbH and Solarkraftwerk Halenbeck-Rohlsdorf I/II GmbH.",
+      "evidence_quotes": [
+        "Shell Energy Europe Limited signed two separate power purchase agreements (PPA) in Germany with Nordsee One GmbH and Solarkraftwerk Halenbeck-Rohlsdorf I/II GmbH."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 19
+    },
+    {
+      "counterparty_name": "Solarkraftwerk Halenbeck-Rohlsdorf I/II GmbH",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "renewable electricity supplier (power purchase agreement)",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Shell Energy Europe Limited signed two separate power purchase agreements (PPA) in Germany with Nordsee One GmbH and Solarkraftwerk Halenbeck-Rohlsdorf I/II GmbH.",
+      "evidence_quotes": [
+        "Shell Energy Europe Limited signed two separate power purchase agreements (PPA) in Germany with Nordsee One GmbH and Solarkraftwerk Halenbeck-Rohlsdorf I/II GmbH."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 19
+    },
+    {
+      "counterparty_name": "Vodafone Procure & Connect",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint battery storage pilot project",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Shell Energy Europe Limited and Vodafone Procure & Connect launched a pilot project to explore how battery storage could support more flexible and sustainable energy use in the future.",
+      "evidence_quotes": [
+        "Shell Energy Europe Limited and Vodafone Procure & Connect launched a pilot project to explore how battery storage could support more flexible and sustainable energy use in the future."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 19
+    },
+    {
+      "counterparty_name": "Stockholm Exergi",
+      "counterparty_type": "private_company",
+      "category": "customer",
+      "subtype": "CO2 transport and storage services customer (via Northern Lights joint venture)",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "following a commercial agreement with Swedish energy provider, Stockholm Exergi, for the cross-border transport and storage of up to 900,000 tonnes of biogenic CO 2 annually for 15 years",
+      "evidence_quotes": [
+        "following a commercial agreement with Swedish energy provider, Stockholm Exergi, for the cross-border transport and storage of up to 900,000 tonnes of biogenic CO 2 annually for 15 years"
+      ],
+      "confidence": 0.65,
+      "chunk_index": 19
+    },
+    {
+      "counterparty_name": "Google",
+      "counterparty_type": "public_company",
+      "category": "customer",
+      "subtype": "renewable energy supply management customer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Google selected Shell Energy Europe Limited as its renewable energy supply manager in the UK, under the USA-based technology company's Carbon-Free Energy supply model to reach its goal of running entirely on clean energy by 2030.",
+      "evidence_quotes": [
+        "Google selected Shell Energy Europe Limited as its renewable energy supply manager in the UK, under the USA-based technology company's Carbon-Free Energy supply model to reach its goal of running entirely on clean energy by 2030."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 19
+    },
+    {
+      "counterparty_name": "International Union for the Conservation of Nature",
+      "counterparty_type": "other",
+      "category": "partner",
+      "subtype": "sustainability partnership",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our key sustainability, including climate, partnerships include the International Union for the Conservation of Nature (IUCN)",
+      "evidence_quotes": [
+        "Our key sustainability, including climate, partnerships include the International Union for the Conservation of Nature (IUCN)"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 22
+    },
+    {
+      "counterparty_name": "Ipieca",
+      "counterparty_type": "other",
+      "category": "partner",
+      "subtype": "sustainability partnership",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Ipieca (the global oil and gas industry association for advancing environmental and social performance across the energy transition)",
+      "evidence_quotes": [
+        "Ipieca (the global oil and gas industry association for advancing environmental and social performance across the energy transition)"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 22
+    },
+    {
+      "counterparty_name": "United Nations Global Compact",
+      "counterparty_type": "other",
+      "category": "partner",
+      "subtype": "sustainability partnership",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "United Nations Global Compact, Business for Social Responsibility (BSR), Rocky Mountain Institute (RMI) and World Business Council for Sustainable Development (WBCSD).",
+      "evidence_quotes": [
+        "United Nations Global Compact, Business for Social Responsibility (BSR), Rocky Mountain Institute (RMI) and World Business Council for Sustainable Development (WBCSD)."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 22
+    },
+    {
+      "counterparty_name": "Business for Social Responsibility",
+      "counterparty_type": "other",
+      "category": "partner",
+      "subtype": "sustainability partnership",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "United Nations Global Compact, Business for Social Responsibility (BSR), Rocky Mountain Institute (RMI) and World Business Council for Sustainable Development (WBCSD).",
+      "evidence_quotes": [
+        "United Nations Global Compact, Business for Social Responsibility (BSR), Rocky Mountain Institute (RMI) and World Business Council for Sustainable Development (WBCSD)."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 22
+    },
+    {
+      "counterparty_name": "Rocky Mountain Institute",
+      "counterparty_type": "other",
+      "category": "partner",
+      "subtype": "sustainability partnership",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "United Nations Global Compact, Business for Social Responsibility (BSR), Rocky Mountain Institute (RMI) and World Business Council for Sustainable Development (WBCSD).",
+      "evidence_quotes": [
+        "United Nations Global Compact, Business for Social Responsibility (BSR), Rocky Mountain Institute (RMI) and World Business Council for Sustainable Development (WBCSD)."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 22
+    },
+    {
+      "counterparty_name": "World Business Council for Sustainable Development",
+      "counterparty_type": "other",
+      "category": "partner",
+      "subtype": "sustainability partnership",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "United Nations Global Compact, Business for Social Responsibility (BSR), Rocky Mountain Institute (RMI) and World Business Council for Sustainable Development (WBCSD).",
+      "evidence_quotes": [
+        "United Nations Global Compact, Business for Social Responsibility (BSR), Rocky Mountain Institute (RMI) and World Business Council for Sustainable Development (WBCSD)."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 22
+    },
+    {
+      "counterparty_name": "Detect Technologies",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "AI safety monitoring technology vendor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We continue to expand the deployment of T-Pulse, an AI-automated safety monitoring solution developed by Detect Technologies.",
+      "evidence_quotes": [
+        "We continue to expand the deployment of T-Pulse, an AI-automated safety monitoring solution developed by Detect Technologies."
+      ],
+      "confidence": 0.75,
+      "chunk_index": 22
+    },
+    {
+      "counterparty_name": "Detect Technologies",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "AI safety monitoring technology provider",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "an AI-automated safety monitoring solution developed by Detect Technologies",
+      "evidence_quotes": [
+        "an AI-automated safety monitoring solution developed by Detect Technologies"
+      ],
+      "confidence": 0.75,
+      "chunk_index": 23
+    },
+    {
+      "counterparty_name": "bp",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint investment - Energy Access Fund",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "a $500 million joint investment commitment with Shell, bp, Equinor and TotalEnergies announced in November 2024",
+      "evidence_quotes": [
+        "a $500 million joint investment commitment with Shell, bp, Equinor and TotalEnergies announced in November 2024"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 24
+    },
+    {
+      "counterparty_name": "Equinor",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint investment - Energy Access Fund",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "a $500 million joint investment commitment with Shell, bp, Equinor and TotalEnergies announced in November 2024",
+      "evidence_quotes": [
+        "a $500 million joint investment commitment with Shell, bp, Equinor and TotalEnergies announced in November 2024"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 24
+    },
+    {
+      "counterparty_name": "TotalEnergies",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint investment - Energy Access Fund",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "a $500 million joint investment commitment with Shell, bp, Equinor and TotalEnergies announced in November 2024",
+      "evidence_quotes": [
+        "a $500 million joint investment commitment with Shell, bp, Equinor and TotalEnergies announced in November 2024"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 24
+    },
+    {
+      "counterparty_name": "Ipieca",
+      "counterparty_type": "other",
+      "category": "partner",
+      "subtype": "industry collaboration - worker welfare toolkit",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "together with Ipieca, we helped to create a toolkit on worker welfare with resources, guidance and definitions",
+      "evidence_quotes": [
+        "together with Ipieca, we helped to create a toolkit on worker welfare with resources, guidance and definitions"
+      ],
+      "confidence": 0.65,
+      "chunk_index": 24
+    },
+    {
+      "counterparty_name": "Alliance to End Plastic Waste",
+      "counterparty_type": "other",
+      "category": "partner",
+      "subtype": "plastics circularity alliance membership",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we are a founding member of the Alliance to End Plastic Waste, which helps governments to assess and improve waste collection and waste management",
+      "evidence_quotes": [
+        "we are a founding member of the Alliance to End Plastic Waste, which helps governments to assess and improve waste collection and waste management"
+      ],
+      "confidence": 0.65,
+      "chunk_index": 25
+    },
+    {
+      "counterparty_name": "HEPCA",
+      "counterparty_type": "other",
+      "category": "partner",
+      "subtype": "biodiversity conservation partnership",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we partnered with the Hurghada Environmental Protection and Conservation Association (HEPCA) to install 32 mooring buoys near several coral reef sites in Egypt",
+      "evidence_quotes": [
+        "we partnered with the Hurghada Environmental Protection and Conservation Association (HEPCA) to install 32 mooring buoys near several coral reef sites in Egypt"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 25
+    },
+    {
+      "counterparty_name": "ConocoPhillips",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint conservation monitoring programme",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Together with ConocoPhillips, Santos and Eco Logical Australia, we completed a decade-long monitoring programme under the Gladstone Long-term Turtle Management Plan",
+      "evidence_quotes": [
+        "Together with ConocoPhillips, Santos and Eco Logical Australia, we completed a decade-long monitoring programme under the Gladstone Long-term Turtle Management Plan"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 25
+    },
+    {
+      "counterparty_name": "Santos",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint conservation monitoring programme",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Together with ConocoPhillips, Santos and Eco Logical Australia, we completed a decade-long monitoring programme under the Gladstone Long-term Turtle Management Plan",
+      "evidence_quotes": [
+        "Together with ConocoPhillips, Santos and Eco Logical Australia, we completed a decade-long monitoring programme under the Gladstone Long-term Turtle Management Plan"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 25
+    },
+    {
+      "counterparty_name": "Eco Logical Australia",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "joint conservation monitoring programme",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Together with ConocoPhillips, Santos and Eco Logical Australia, we completed a decade-long monitoring programme under the Gladstone Long-term Turtle Management Plan",
+      "evidence_quotes": [
+        "Together with ConocoPhillips, Santos and Eco Logical Australia, we completed a decade-long monitoring programme under the Gladstone Long-term Turtle Management Plan"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 25
+    },
+    {
+      "counterparty_name": "Marine Well Containment Company",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "spill response industry consortium",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "These include the Marine Well Containment Company in the Gulf of America and Oil Spill Response Limited, a global industry group",
+      "evidence_quotes": [
+        "These include the Marine Well Containment Company in the Gulf of America and Oil Spill Response Limited, a global industry group"
+      ],
+      "confidence": 0.65,
+      "chunk_index": 25
+    },
+    {
+      "counterparty_name": "Oil Spill Response Limited",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "spill response industry consortium",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "These include the Marine Well Containment Company in the Gulf of America and Oil Spill Response Limited, a global industry group",
+      "evidence_quotes": [
+        "These include the Marine Well Containment Company in the Gulf of America and Oil Spill Response Limited, a global industry group"
+      ],
+      "confidence": 0.65,
+      "chunk_index": 25
+    },
+    {
+      "counterparty_name": "Renaissance Africa Energy Company Limited",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "joint venture operator relationship",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "SPDC (now, under its new ownership, Renaissance Africa Energy Company Limited) to continue to perform its role as operator of the joint venture (previously known as the SPDC JV) and to meet its share of commitments within the joint venture",
+      "evidence_quotes": [
+        "SPDC (now, under its new ownership, Renaissance Africa Energy Company Limited) to continue to perform its role as operator of the joint venture (previously known as the SPDC JV) and to meet its share of commitments within the joint venture"
+      ],
+      "confidence": 0.65,
+      "chunk_index": 25
+    },
+    {
+      "counterparty_name": "No 4",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "board performance review services",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "an externally facilitated performance review by an external provider, Jan Hall of No 4, through one-on-one interviews with the Board members",
+      "evidence_quotes": [
+        "an externally facilitated performance review by an external provider, Jan Hall of No 4, through one-on-one interviews with the Board members"
+      ],
+      "confidence": 0.75,
+      "chunk_index": 28
+    },
+    {
+      "counterparty_name": "Korn Ferry",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "executive search and advisory services",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The NOMCO was assisted during 2025 by Korn Ferry (UK) Limited, an external global search company whose main role was to propose suitable candidates.",
+      "evidence_quotes": [
+        "The NOMCO was assisted during 2025 by Korn Ferry (UK) Limited, an external global search company whose main role was to propose suitable candidates."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 29
+    },
+    {
+      "counterparty_name": "Equinor",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint_venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the recognition and measurement of the Adura Energy Limited joint venture with Equinor",
+      "evidence_quotes": [
+        "the recognition and measurement of the Adura Energy Limited joint venture with Equinor"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 30
+    },
+    {
+      "counterparty_name": "bp",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "energy industry peer/competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The REMCO has determined to retain the existing peer group (being bp, Chevron, ExxonMobil and TotalEnergies) and vesting schedule for the relative performance conditions. Outperforming Shell's closest competitors on key financial metrics is challenging.",
+      "evidence_quotes": [
+        "The REMCO has determined to retain the existing peer group (being bp, Chevron, ExxonMobil and TotalEnergies) and vesting schedule for the relative performance conditions. Outperforming Shell's closest competitors on key financial metrics is challenging."
+      ],
+      "confidence": 0.75,
+      "chunk_index": 32
+    },
+    {
+      "counterparty_name": "Chevron",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "energy industry peer/competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The REMCO has determined to retain the existing peer group (being bp, Chevron, ExxonMobil and TotalEnergies) and vesting schedule for the relative performance conditions. Outperforming Shell's closest competitors on key financial metrics is challenging.",
+      "evidence_quotes": [
+        "The REMCO has determined to retain the existing peer group (being bp, Chevron, ExxonMobil and TotalEnergies) and vesting schedule for the relative performance conditions. Outperforming Shell's closest competitors on key financial metrics is challenging."
+      ],
+      "confidence": 0.75,
+      "chunk_index": 32
+    },
+    {
+      "counterparty_name": "ExxonMobil",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "energy industry peer/competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The REMCO has determined to retain the existing peer group (being bp, Chevron, ExxonMobil and TotalEnergies) and vesting schedule for the relative performance conditions. Outperforming Shell's closest competitors on key financial metrics is challenging.",
+      "evidence_quotes": [
+        "The REMCO has determined to retain the existing peer group (being bp, Chevron, ExxonMobil and TotalEnergies) and vesting schedule for the relative performance conditions. Outperforming Shell's closest competitors on key financial metrics is challenging."
+      ],
+      "confidence": 0.75,
+      "chunk_index": 32
+    },
+    {
+      "counterparty_name": "TotalEnergies",
+      "counterparty_type": "public_company",
+      "category": "competitor",
+      "subtype": "energy industry peer/competitor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The REMCO has determined to retain the existing peer group (being bp, Chevron, ExxonMobil and TotalEnergies) and vesting schedule for the relative performance conditions. Outperforming Shell's closest competitors on key financial metrics is challenging.",
+      "evidence_quotes": [
+        "The REMCO has determined to retain the existing peer group (being bp, Chevron, ExxonMobil and TotalEnergies) and vesting schedule for the relative performance conditions. Outperforming Shell's closest competitors on key financial metrics is challenging."
+      ],
+      "confidence": 0.75,
+      "chunk_index": 32
+    },
+    {
+      "counterparty_name": "Ellason",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "remuneration_consultant",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The total fees in relation to Ellason's advice were £77,565 (excluding value-added tax).",
+      "evidence_quotes": [
+        "The total fees in relation to Ellason's advice were £77,565 (excluding value-added tax)."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 33
+    },
+    {
+      "counterparty_name": "Ares",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint venture for renewable asset divestment",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "including the sale of interests in SouthCoast Wind Energy LLC, Brazos Wind and Madison Fields Solar, Cleantech Renewable Assets and five US solar projects via a new joint venture with Ares",
+      "evidence_quotes": [
+        "including the sale of interests in SouthCoast Wind Energy LLC, Brazos Wind and Madison Fields Solar, Cleantech Renewable Assets and five US solar projects via a new joint venture with Ares"
+      ],
+      "confidence": 0.75,
+      "chunk_index": 34
+    },
+    {
+      "counterparty_name": "ATCO EnPower",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "joint development of carbon storage hub",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Project Atlas, a carbon storage hub developed in partnership with ATCO EnPower",
+      "evidence_quotes": [
+        "Project Atlas, a carbon storage hub developed in partnership with ATCO EnPower"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 34
+    },
+    {
+      "counterparty_name": "Aider",
+      "counterparty_type": "other",
+      "category": "partner",
+      "subtype": "nature-based carbon offset project",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "projects such as Aider, which supports conservation of approximately 173,000 hectares of the Peruvian Amazon",
+      "evidence_quotes": [
+        "projects such as Aider, which supports conservation of approximately 173,000 hectares of the Peruvian Amazon"
+      ],
+      "confidence": 0.6,
+      "chunk_index": 34
+    },
+    {
+      "counterparty_name": "Select Carbon",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "carbon farming project development",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Select Carbon, a specialist in developing and aggregating carbon farming projects",
+      "evidence_quotes": [
+        "Select Carbon, a specialist in developing and aggregating carbon farming projects"
+      ],
+      "confidence": 0.6,
+      "chunk_index": 34
+    }
+  ],
+  "candidatesPerChunk": [
+    0,
+    0,
+    2,
+    0,
+    2,
+    1,
+    0,
+    0,
+    16,
+    25,
+    0,
+    7,
+    3,
+    4,
+    9,
+    6,
+    1,
+    1,
+    2,
+    5,
+    0,
+    0,
+    7,
+    1,
+    4,
+    8,
+    0,
+    0,
+    1,
+    1,
+    1,
+    0,
+    4,
+    1,
+    4,
+    0,
+    0
+  ],
+  "parseErrors": 15,
+  "apiErrors": 1,
+  "inputTokens": 832086,
+  "outputTokens": 21481
+}

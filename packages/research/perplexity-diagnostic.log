@@ -1,0 +1,291 @@
+﻿[daily-signal] prompt bundle ΓÇö research-collect version=collect-v1 model=sonar-pro
+[daily-signal] prompt fingerprint: {
+  systemChars: 784,
+  hasCalibration: false,
+  hasSocialMediaRule: false,
+  has300to500Words: false,
+  hasMechanismVerifiedTags: false,
+  hasNamesToWatch: false,
+  hasSourcesSection: false,
+  hasNoVagueBeneficiaries: false
+}
+[daily-signal] ΓöÇΓöÇ system prompt ΓöÇΓöÇ
+You are a research data collector for institutional investors. Your ONLY job is to gather verifiable, current facts from the web.
+
+RULES:
+- Collect facts, numbers, dates, named entities, direct quotes, and source URLs.
+- Do NOT write investment analysis, edge thesis, mechanism chains, or opinions.
+- Do NOT recommend tickers or predict market impact.
+- Every factual claim must include its source URL inline or in a SOURCES list at the end.
+- Prefer primary sources: SEC EDGAR, company IR pages, government releases, then reputable trade press.
+
+OUTPUT FORMAT (plain text):
+EVENT SUMMARY
+2-4 bullet lines of verified facts only.
+
+KEY DATA POINTS
+Bullet list: dates, dollar amounts, percentages, filing types ΓÇö each with source URL.
+
+SOURCE URLS
+Numbered list of full URLs used above.
+[daily-signal] ΓöÇΓöÇ user prompt ΓöÇΓöÇ
+Signal date: 2026-06-13
+
+Research this development and collect raw verified facts only:
+
+Headline:
+Sleep NumberΓÇÖs fastΓÇætrack Chapter 11 + merger with Sleep Country Canada quietly concentrates North American specialty mattress distribution, setting up secondΓÇæorder margin and channel risk for USΓÇælisted suppliers and branded mattress peers over the next 2ΓÇô4 quarters.
+
+Initial signal insight (hypothesis to fact-check ΓÇö do not adopt as truth):
+Sleep Number (SNBR) has filed for Chapter 11 bankruptcy and plans to merge with Sleep Country Canada, aiming to create a leading North American bedding company. This merger is expected to increase purchasing leverage and exert pricing pressure on US-listed mattress manufacturers like Tempur Sealy International (TPX). The restructuring will likely lead to store closures and a shift towards higher-end products, impacting suppliers' margins. The combined entity's cross-border logistics optimization and potential private-label expansion could further challenge national brand suppliers.
+
+Tickers flagged for context: SNBR (negative), TPX (negative)
+
+Discovery mechanism notes (for fact-checking only):
+1. **Trigger: Sleep Number files prepackaged Chapter 11, intends to merge with Sleep Country Canada, and shrink/reshape its store footprint**  
+   - Sleep Number has filed for **Chapter 11 bankruptcy**, citing rising debt and declining sales, and simultaneously announced a plan to **merge with Sleep Country Canada** to create a ΓÇ£leading bedding company in North America.ΓÇ¥[1][VERIFIED:1]  
+   - The restructuring is prepackaged, with DIP financing in place and an explicit goal of emerging with a **reduced debt load and a more efficient, profitabilityΓÇæfocused store base**.[1][VERIFIED:1]  
+   - Management materials describe **ongoing operations during restructuring** and an intent to optimize underperforming stores rather than liquidate the chain.[1][VERIFIED:1]  
+
+   **Timing:** Operational changes (store optimization, purchasing consolidation) generally start during Chapter 11 and become visible in supplier orders within 1ΓÇô2 quarters; full postΓÇæemergence strategy typically drives P&L effects 2ΓÇô4 quarters out. [INFERRED]
+
+2. **Channel concentration + purchasing leverage in specialty bedding**  
+   - Sleep Number and Sleep Country both operate **specialty mattress retail chains** with substantial North American footprint (Sleep Number in the US, Sleep Country in Canada) and focus on higherΓÇæticket bedding.[1][VERIFIED:1]  
+   - The combined entity is explicitly positioned as a **ΓÇ£leading bedding company in North AmericaΓÇ¥**, implying a larger aggregate share of specialty bedding channel volume vs. todayΓÇÖs fragmented set of regionals.[1][VERIFIED:1]  
+   - Larger, more centralized retailers typically negotiate **better purchasing terms (rebates, MDF/coΓÇæop advertising support, extended payment terms)** from mattress and bedding suppliers, especially when volumes are consolidated.[INFERRED]  
+   - Therefore, the merged company is likely to exert **incrementally higher pricing and margin pressure on branded mattress suppliers** (e.g., USΓÇælisted mattress manufacturers) over the next 2ΓÇô4 quarters as unified buying programs roll out.[INFERRED]  
+
+   **Transmission:** Supplier gross margin impact should appear first in **rising customer concentration disclosures and lower realized ASP/margin in contracts tied to specialty channels** in upcoming 10ΓÇæQs/earnings commentary. [INFERRED]
+
+3. **Store rationalization: nearΓÇæterm volume airΓÇæpocket, mediumΓÇæterm mix shift for suppliers**  
+   - Sleep NumberΓÇÖs plan emphasizes **closing or restructuring underperforming stores** as part of the Chapter 11 process.[1][VERIFIED:1]  
+   - Store closures and tighter credit during bankruptcy typically cause a **nearΓÇæterm drop in order volumes** from the retailer to its suppliers as inventory is rightΓÇæsized and capex is frozen.[INFERRED]  
+   - PostΓÇæemergence, a leaner footprint focused on highΓÇæproductivity locations can **shift product mix toward higherΓÇæend, higherΓÇæattachment accessories (adjustable bases, pillows, protectors)**, benefiting suppliers with strong premium or accessory portfolios but hurting those dependent on volume midΓÇætier mattresses.[INFERRED]  
+
+   **Timing:**  
+   - NearΓÇæterm: order reductions / cautious inventory replenishment likely visible in **suppliersΓÇÖ 1ΓÇô2 next quarters** (order commentary, channel checks).  
+   - MediumΓÇæterm: mixΓÇæshift effects in **2ΓÇô4 quarters** as the merged company deploys its merchandising strategy. [INFERRED]
+
+4. **CrossΓÇæborder integration: logistics and privateΓÇælabel implications**  
+   - Sleep Country Canada already operates a broad network of stores and distribution focused on Canada, with known experience in **privateΓÇælabel and exclusive brands** alongside major mattress vendors.[1][VERIFIED:1]  
+   - Combining this footprint with Sleep NumberΓÇÖs US network should enable:  
+     - **CrossΓÇæborder logistics optimization** (shared DCs, freight consolidation), lowering effective distribution cost per unit.[INFERRED]  
+     - Potential expansion of **privateΓÇælabel or exclusive programs** into the US chain to replac
+
+Existing source hints:
+Sources:
+https://www.sleepnumber.com/press-release
+https://www.sleepcountry.ca/merger-announcement
+https://www.investopedia.com/stock-market-today-dow-jones-s-and-p-500-06122026-11996464
+https://www.e-scow.org/first-dry/Captivision-Inc-CAPT-Holds-Steady-at-006-Amid-Minimal-Movement-33-100
+https://www.sciencedirect.com/science/article/pii/S0304405X26000267
+
+
+Return structured raw research only. No analysis sections.
+[daily-signal] ΓöÇΓöÇ end prompt bundle ΓöÇΓöÇ
+[daily-signal] perplexity DIAGNOSTIC ΓÇö request {
+  url: 'https://api.perplexity.ai/chat/completions',
+  model: 'sonar-pro',
+  max_tokens: 2000,
+  return_citations: true,
+  search_recency_filter: 'week',
+  messageCount: 2,
+  systemPromptChars: 784,
+  userPromptChars: 5590
+}
+[daily-signal] perplexity DIAGNOSTIC ΓÇö full messages JSON:
+[
+  {
+    "role": "system",
+    "content": "You are a research data collector for institutional investors. Your ONLY job is to gather verifiable, current facts from the web.\n\nRULES:\n- Collect facts, numbers, dates, named entities, direct quotes, and source URLs.\n- Do NOT write investment analysis, edge thesis, mechanism chains, or opinions.\n- Do NOT recommend tickers or predict market impact.\n- Every factual claim must include its source URL inline or in a SOURCES list at the end.\n- Prefer primary sources: SEC EDGAR, company IR pages, government releases, then reputable trade press.\n\nOUTPUT FORMAT (plain text):\nEVENT SUMMARY\n2-4 bullet lines of verified facts only.\n\nKEY DATA POINTS\nBullet list: dates, dollar amounts, percentages, filing types ΓÇö each with source URL.\n\nSOURCE URLS\nNumbered list of full URLs used above."
+  },
+  {
+    "role": "user",
+    "content": "Signal date: 2026-06-13\n\nResearch this development and collect raw verified facts only:\n\nHeadline:\nSleep NumberΓÇÖs fastΓÇætrack Chapter 11 + merger with Sleep Country Canada quietly concentrates North American specialty mattress distribution, setting up secondΓÇæorder margin and channel risk for USΓÇælisted suppliers and branded mattress peers over the next 2ΓÇô4 quarters.\n\nInitial signal insight (hypothesis to fact-check ΓÇö do not adopt as truth):\nSleep Number (SNBR) has filed for Chapter 11 bankruptcy and plans to merge with Sleep Country Canada, aiming to create a leading North American bedding company. This merger is expected to increase purchasing leverage and exert pricing pressure on US-listed mattress manufacturers like Tempur Sealy International (TPX). The restructuring will likely lead to store closures and a shift towards higher-end products, impacting suppliers' margins. The combined entity's cross-border logistics optimization and potential private-label expansion could further challenge national brand suppliers.\n\nTickers flagged for context: SNBR (negative), TPX (negative)\n\nDiscovery mechanism notes (for fact-checking only):\n1. **Trigger: Sleep Number files prepackaged Chapter 11, intends to merge with Sleep Country Canada, and shrink/reshape its store footprint**  \n   - Sleep Number has filed for **Chapter 11 bankruptcy**, citing rising debt and declining sales, and simultaneously announced a plan to **merge with Sleep Country Canada** to create a ΓÇ£leading bedding company in North America.ΓÇ¥[1][VERIFIED:1]  \n   - The restructuring is prepackaged, with DIP financing in place and an explicit goal of emerging with a **reduced debt load and a more efficient, profitabilityΓÇæfocused store base**.[1][VERIFIED:1]  \n   - Management materials describe **ongoing operations during restructuring** and an intent to optimize underperforming stores rather than liquidate the chain.[1][VERIFIED:1]  \n\n   **Timing:** Operational changes (store optimization, purchasing consolidation) generally start during Chapter 11 and become visible in supplier orders within 1ΓÇô2 quarters; full postΓÇæemergence strategy typically drives P&L effects 2ΓÇô4 quarters out. [INFERRED]\n\n2. **Channel concentration + purchasing leverage in specialty bedding**  \n   - Sleep Number and Sleep Country both operate **specialty mattress retail chains** with substantial North American footprint (Sleep Number in the US, Sleep Country in Canada) and focus on higherΓÇæticket bedding.[1][VERIFIED:1]  \n   - The combined entity is explicitly positioned as a **ΓÇ£leading bedding company in North AmericaΓÇ¥**, implying a larger aggregate share of specialty bedding channel volume vs. todayΓÇÖs fragmented set of regionals.[1][VERIFIED:1]  \n   - Larger, more centralized retailers typically negotiate **better purchasing terms (rebates, MDF/coΓÇæop advertising support, extended payment terms)** from mattress and bedding suppliers, especially when volumes are consolidated.[INFERRED]  \n   - Therefore, the merged company is likely to exert **incrementally higher pricing and margin pressure on branded mattress suppliers** (e.g., USΓÇælisted mattress manufacturers) over the next 2ΓÇô4 quarters as unified buying programs roll out.[INFERRED]  \n\n   **Transmission:** Supplier gross margin impact should appear first in **rising customer concentration disclosures and lower realized ASP/margin in contracts tied to specialty channels** in upcoming 10ΓÇæQs/earnings commentary. [INFERRED]\n\n3. **Store rationalization: nearΓÇæterm volume airΓÇæpocket, mediumΓÇæterm mix shift for suppliers**  \n   - Sleep NumberΓÇÖs plan emphasizes **closing or restructuring underperforming stores** as part of the Chapter 11 process.[1][VERIFIED:1]  \n   - Store closures and tighter credit during bankruptcy typically cause a **nearΓÇæterm drop in order volumes** from the retailer to its suppliers as inventory is rightΓÇæsized and capex is frozen.[INFERRED]  \n   - PostΓÇæemergence, a leaner footprint focused on highΓÇæproductivity locations can **shift product mix toward higherΓÇæend, higherΓÇæattachment accessories (adjustable bases, pillows, protectors)**, benefiting suppliers with strong premium or accessory portfolios but hurting those dependent on volume midΓÇætier mattresses.[INFERRED]  \n\n   **Timing:**  \n   - NearΓÇæterm: order reductions / cautious inventory replenishment likely visible in **suppliersΓÇÖ 1ΓÇô2 next quarters** (order commentary, channel checks).  \n   - MediumΓÇæterm: mixΓÇæshift effects in **2ΓÇô4 quarters** as the merged company deploys its merchandising strategy. [INFERRED]\n\n4. **CrossΓÇæborder integration: logistics and privateΓÇælabel implications**  \n   - Sleep Country Canada already operates a broad network of stores and distribution focused on Canada, with known experience in **privateΓÇælabel and exclusive brands** alongside major mattress vendors.[1][VERIFIED:1]  \n   - Combining this footprint with Sleep NumberΓÇÖs US network should enable:  \n     - **CrossΓÇæborder logistics optimization** (shared DCs, freight consolidation), lowering effective distribution cost per unit.[INFERRED]  \n     - Potential expansion of **privateΓÇælabel or exclusive programs** into the US chain to replac\n\nExisting source hints:\nSources:\nhttps://www.sleepnumber.com/press-release\nhttps://www.sleepcountry.ca/merger-announcement\nhttps://www.investopedia.com/stock-market-today-dow-jones-s-and-p-500-06122026-11996464\nhttps://www.e-scow.org/first-dry/Captivision-Inc-CAPT-Holds-Steady-at-006-Amid-Minimal-Movement-33-100\nhttps://www.sciencedirect.com/science/article/pii/S0304405X26000267\n\n\nReturn structured raw research only. No analysis sections."
+  }
+]
+[daily-signal] perplexity DIAGNOSTIC ΓÇö request body JSON:
+{
+  "model": "sonar-pro",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a research data collector for institutional investors. Your ONLY job is to gather verifiable, current facts from the web.\n\nRULES:\n- Collect facts, numbers, dates, named entities, direct quotes, and source URLs.\n- Do NOT write investment analysis, edge thesis, mechanism chains, or opinions.\n- Do NOT recommend tickers or predict market impact.\n- Every factual claim must include its source URL inline or in a SOURCES list at the end.\n- Prefer primary sources: SEC EDGAR, company IR pages, government releases, then reputable trade press.\n\nOUTPUT FORMAT (plain text):\nEVENT SUMMARY\n2-4 bullet lines of verified facts only.\n\nKEY DATA POINTS\nBullet list: dates, dollar amounts, percentages, filing types ΓÇö each with source URL.\n\nSOURCE URLS\nNumbered list of full URLs used above."
+    },
+    {
+      "role": "user",
+      "content": "Signal date: 2026-06-13\n\nResearch this development and collect raw verified facts only:\n\nHeadline:\nSleep NumberΓÇÖs fastΓÇætrack Chapter 11 + merger with Sleep Country Canada quietly concentrates North American specialty mattress distribution, setting up secondΓÇæorder margin and channel risk for USΓÇælisted suppliers and branded mattress peers over the next 2ΓÇô4 quarters.\n\nInitial signal insight (hypothesis to fact-check ΓÇö do not adopt as truth):\nSleep Number (SNBR) has filed for Chapter 11 bankruptcy and plans to merge with Sleep Country Canada, aiming to create a leading North American bedding company. This merger is expected to increase purchasing leverage and exert pricing pressure on US-listed mattress manufacturers like Tempur Sealy International (TPX). The restructuring will likely lead to store closures and a shift towards higher-end products, impacting suppliers' margins. The combined entity's cross-border logistics optimization and potential private-label expansion could further challenge national brand suppliers.\n\nTickers flagged for context: SNBR (negative), TPX (negative)\n\nDiscovery mechanism notes (for fact-checking only):\n1. **Trigger: Sleep Number files prepackaged Chapter 11, intends to merge with Sleep Country Canada, and shrink/reshape its store footprint**  \n   - Sleep Number has filed for **Chapter 11 bankruptcy**, citing rising debt and declining sales, and simultaneously announced a plan to **merge with Sleep Country Canada** to create a ΓÇ£leading bedding company in North America.ΓÇ¥[1][VERIFIED:1]  \n   - The restructuring is prepackaged, with DIP financing in place and an explicit goal of emerging with a **reduced debt load and a more efficient, profitabilityΓÇæfocused store base**.[1][VERIFIED:1]  \n   - Management materials describe **ongoing operations during restructuring** and an intent to optimize underperforming stores rather than liquidate the chain.[1][VERIFIED:1]  \n\n   **Timing:** Operational changes (store optimization, purchasing consolidation) generally start during Chapter 11 and become visible in supplier orders within 1ΓÇô2 quarters; full postΓÇæemergence strategy typically drives P&L effects 2ΓÇô4 quarters out. [INFERRED]\n\n2. **Channel concentration + purchasing leverage in specialty bedding**  \n   - Sleep Number and Sleep Country both operate **specialty mattress retail chains** with substantial North American footprint (Sleep Number in the US, Sleep Country in Canada) and focus on higherΓÇæticket bedding.[1][VERIFIED:1]  \n   - The combined entity is explicitly positioned as a **ΓÇ£leading bedding company in North AmericaΓÇ¥**, implying a larger aggregate share of specialty bedding channel volume vs. todayΓÇÖs fragmented set of regionals.[1][VERIFIED:1]  \n   - Larger, more centralized retailers typically negotiate **better purchasing terms (rebates, MDF/coΓÇæop advertising support, extended payment terms)** from mattress and bedding suppliers, especially when volumes are consolidated.[INFERRED]  \n   - Therefore, the merged company is likely to exert **incrementally higher pricing and margin pressure on branded mattress suppliers** (e.g., USΓÇælisted mattress manufacturers) over the next 2ΓÇô4 quarters as unified buying programs roll out.[INFERRED]  \n\n   **Transmission:** Supplier gross margin impact should appear first in **rising customer concentration disclosures and lower realized ASP/margin in contracts tied to specialty channels** in upcoming 10ΓÇæQs/earnings commentary. [INFERRED]\n\n3. **Store rationalization: nearΓÇæterm volume airΓÇæpocket, mediumΓÇæterm mix shift for suppliers**  \n   - Sleep NumberΓÇÖs plan emphasizes **closing or restructuring underperforming stores** as part of the Chapter 11 process.[1][VERIFIED:1]  \n   - Store closures and tighter credit during bankruptcy typically cause a **nearΓÇæterm drop in order volumes** from the retailer to its suppliers as inventory is rightΓÇæsized and capex is frozen.[INFERRED]  \n   - PostΓÇæemergence, a leaner footprint focused on highΓÇæproductivity locations can **shift product mix toward higherΓÇæend, higherΓÇæattachment accessories (adjustable bases, pillows, protectors)**, benefiting suppliers with strong premium or accessory portfolios but hurting those dependent on volume midΓÇætier mattresses.[INFERRED]  \n\n   **Timing:**  \n   - NearΓÇæterm: order reductions / cautious inventory replenishment likely visible in **suppliersΓÇÖ 1ΓÇô2 next quarters** (order commentary, channel checks).  \n   - MediumΓÇæterm: mixΓÇæshift effects in **2ΓÇô4 quarters** as the merged company deploys its merchandising strategy. [INFERRED]\n\n4. **CrossΓÇæborder integration: logistics and privateΓÇælabel implications**  \n   - Sleep Country Canada already operates a broad network of stores and distribution focused on Canada, with known experience in **privateΓÇælabel and exclusive brands** alongside major mattress vendors.[1][VERIFIED:1]  \n   - Combining this footprint with Sleep NumberΓÇÖs US network should enable:  \n     - **CrossΓÇæborder logistics optimization** (shared DCs, freight consolidation), lowering effective distribution cost per unit.[INFERRED]  \n     - Potential expansion of **privateΓÇælabel or exclusive programs** into the US chain to replac\n\nExisting source hints:\nSources:\nhttps://www.sleepnumber.com/press-release\nhttps://www.sleepcountry.ca/merger-announcement\nhttps://www.investopedia.com/stock-market-today-dow-jones-s-and-p-500-06122026-11996464\nhttps://www.e-scow.org/first-dry/Captivision-Inc-CAPT-Holds-Steady-at-006-Amid-Minimal-Movement-33-100\nhttps://www.sciencedirect.com/science/article/pii/S0304405X26000267\n\n\nReturn structured raw research only. No analysis sections."
+    }
+  ],
+  "max_tokens": 2000,
+  "return_citations": true,
+  "search_recency_filter": "week"
+}
+[daily-signal] perplexity DIAGNOSTIC ΓÇö response status: 200
+[daily-signal] perplexity DIAGNOSTIC ΓÇö top-level JSON keys: [
+  'id',
+  'model',
+  'created',
+  'usage',
+  'citations',
+  'search_results',
+  'object',
+  'choices'
+]
+[daily-signal] perplexity DIAGNOSTIC ΓÇö choice[0] keys: [ 'index', 'message', 'delta', 'finish_reason' ]
+[daily-signal] perplexity DIAGNOSTIC ΓÇö message keys: [ 'role', 'content' ]
+[daily-signal] perplexity DIAGNOSTIC ΓÇö parsed citation fields: {
+  citationsArray: [
+    'https://seekingalpha.com/news/4602858-sleep-number-to-merge-with-sleep-country-canada-files-chapter-11-to-facilitate-deal',
+    'https://www.fox9.com/news/sleep-number-bankruptcy-minnesota-company-announces-merger-sleep-country-canada',
+    'https://www.businesswire.com/news/home/20260611396517/en/Sleep-Number-Enters-Asset-Purchase-Agreement-to-Combine-with-Sleep-Country-Canada-Creating-an-Industry-Leader-in-North-America',
+    'https://www.furnituretoday.com/financial/sleep-number-files-chapter-11-enters-agreement-to-sell-company-to-sleep-country-canada/',
+    'https://www.startribune.com/sleep-number-bankruptcy-sleep-country-canada-merger/601856424'
+  ],
+  searchResults: [
+    {
+      title: 'Sleep Number to merge with Sleep Country Canada; files chapter ...',
+      url: 'https://seekingalpha.com/news/4602858-sleep-number-to-merge-with-sleep-country-canada-files-chapter-11-to-facilitate-deal',
+      date: '2026-06-12',
+      last_updated: '2026-06-12',
+      snippet: 'Sleep Number (SNBR) merges with Sleep Country Canada in a Chapter 11 sale to expand North American mattress retail and online reachΓÇöread the latest deal...',
+      source: 'web'
+    },
+    {
+      title: 'Sleep Number bankruptcy: Minnesota company announces merger ...',
+      url: 'https://www.fox9.com/news/sleep-number-bankruptcy-minnesota-company-announces-merger-sleep-country-canada',
+      date: '2026-06-12',
+      last_updated: '2026-06-13',
+      snippet: 'Sleep Number announced it is combining with Sleep Country Canada. The company has started a voluntary Chapter 11 sale process but said it expects to keep stores ...',
+      source: 'web'
+    },
+    {
+      title: 'Sleep Number Enters Asset Purchase Agreement to Combine with ...',
+      url: 'https://www.businesswire.com/news/home/20260611396517/en/Sleep-Number-Enters-Asset-Purchase-Agreement-to-Combine-with-Sleep-Country-Canada-Creating-an-Industry-Leader-in-North-America',
+      date: '2026-06-12',
+      last_updated: '2026-06-13',
+      snippet: 'To facilitate the combination, Sleep Number initiated a voluntary Chapter 11 sale process. Through this process, Sleep Number fully expects to continue its ...',
+      source: 'web'
+    },
+    {
+      title: 'Sleep Number files Chapter 11, enters agreement to sell company to ...',
+      url: 'https://www.furnituretoday.com/financial/sleep-number-files-chapter-11-enters-agreement-to-sell-company-to-sleep-country-canada/',
+      date: '2026-06-12',
+      last_updated: '2026-06-12',
+      snippet: 'MINNEAPOLIS ΓÇö Sleep Number has filed for Chapter 11 bankruptcy protection and entered into an agreement that would combine the company with Sleep Country ...',
+      source: 'web'
+    },
+    {
+      title: 'Sleep Number runs out of time, files for bankruptcy protection',
+      url: 'https://www.startribune.com/sleep-number-bankruptcy-sleep-country-canada-merger/601856424',
+      date: '2026-06-12',
+      last_updated: '2026-06-12',
+      snippet: "Sleep Country Canada's bid is worth at least $415 million, but has to be approved by the bankruptcy court, Sleep Number said Friday. The bidder is a Canadian ...",
+      source: 'web'
+    }
+  ],
+  extractedCitationCount: 5
+}
+[daily-signal] perplexity DIAGNOSTIC ΓÇö raw response JSON:
+{
+  "id": "a69e55bd-a452-4b26-acd6-869da633c269",
+  "model": "sonar-pro",
+  "created": 1781341273,
+  "usage": {
+    "prompt_tokens": 1372,
+    "completion_tokens": 2000,
+    "total_tokens": 3372,
+    "search_context_size": "low",
+    "cost": {
+      "input_tokens_cost": 0.00412,
+      "output_tokens_cost": 0.03,
+      "request_cost": 0.006,
+      "total_cost": 0.04012
+    }
+  },
+  "citations": [
+    "https://seekingalpha.com/news/4602858-sleep-number-to-merge-with-sleep-country-canada-files-chapter-11-to-facilitate-deal",
+    "https://www.fox9.com/news/sleep-number-bankruptcy-minnesota-company-announces-merger-sleep-country-canada",
+    "https://www.businesswire.com/news/home/20260611396517/en/Sleep-Number-Enters-Asset-Purchase-Agreement-to-Combine-with-Sleep-Country-Canada-Creating-an-Industry-Leader-in-North-America",
+    "https://www.furnituretoday.com/financial/sleep-number-files-chapter-11-enters-agreement-to-sell-company-to-sleep-country-canada/",
+    "https://www.startribune.com/sleep-number-bankruptcy-sleep-country-canada-merger/601856424"
+  ],
+  "search_results": [
+    {
+      "title": "Sleep Number to merge with Sleep Country Canada; files chapter ...",
+      "url": "https://seekingalpha.com/news/4602858-sleep-number-to-merge-with-sleep-country-canada-files-chapter-11-to-facilitate-deal",
+      "date": "2026-06-12",
+      "last_updated": "2026-06-12",
+      "snippet": "Sleep Number (SNBR) merges with Sleep Country Canada in a Chapter 11 sale to expand North American mattress retail and online reachΓÇöread the latest deal...",
+      "source": "web"
+    },
+    {
+      "title": "Sleep Number bankruptcy: Minnesota company announces merger ...",
+      "url": "https://www.fox9.com/news/sleep-number-bankruptcy-minnesota-company-announces-merger-sleep-country-canada",
+      "date": "2026-06-12",
+      "last_updated": "2026-06-13",
+      "snippet": "Sleep Number announced it is combining with Sleep Country Canada. The company has started a voluntary Chapter 11 sale process but said it expects to keep stores ...",
+      "source": "web"
+    },
+    {
+      "title": "Sleep Number Enters Asset Purchase Agreement to Combine with ...",
+      "url": "https://www.businesswire.com/news/home/20260611396517/en/Sleep-Number-Enters-Asset-Purchase-Agreement-to-Combine-with-Sleep-Country-Canada-Creating-an-Industry-Leader-in-North-America",
+      "date": "2026-06-12",
+      "last_updated": "2026-06-13",
+      "snippet": "To facilitate the combination, Sleep Number initiated a voluntary Chapter 11 sale process. Through this process, Sleep Number fully expects to continue its ...",
+      "source": "web"
+    },
+    {
+      "title": "Sleep Number files Chapter 11, enters agreement to sell company to ...",
+      "url": "https://www.furnituretoday.com/financial/sleep-number-files-chapter-11-enters-agreement-to-sell-company-to-sleep-country-canada/",
+      "date": "2026-06-12",
+      "last_updated": "2026-06-12",
+      "snippet": "MINNEAPOLIS ΓÇö Sleep Number has filed for Chapter 11 bankruptcy protection and entered into an agreement that would combine the company with Sleep Country ...",
+      "source": "web"
+    },
+    {
+      "title": "Sleep Number runs out of time, files for bankruptcy protection",
+      "url": "https://www.startribune.com/sleep-number-bankruptcy-sleep-country-canada-merger/601856424",
+      "date": "2026-06-12",
+      "last_updated": "2026-06-12",
+      "snippet": "Sleep Country Canada's bid is worth at least $415 million, but has to be approved by the bankruptcy court, Sleep Number said Friday. The bidder is a Canadian ...",
+      "source": "web"
+    }
+  ],
+  "object": "chat.completion",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "EVENT SUMMARY\n- Sleep Number Corporation (Nasdaq: SNBR) announced it has entered into an **asset purchase agreement to combine with Sleep Country Canada** and has **initiated a voluntary Chapter 11 sale process** in U.S. Bankruptcy Court to facilitate the transaction. https://www.businesswire.com/news/home/20260611396517/en/Sleep-Number-Enters-Asset-Purchase-Agreement-to-Combine-with-Sleep-Country-Canada-Creating-an-Industry-Leader-in-North-America  \n- Sleep Number describes the deal as creatingΓÇª (8436 chars total)"
+      },
+      "delta": {
+        "role": "assistant",
+        "content": ""
+      },
+      "finish_reason": "length"
+    }
+  ]
+}
+[daily-signal] exchange ΓÇö perplexity-research model=sonar-pro
+[daily-signal] exchange input (system chars): 784
+[daily-signal] exchange input (user chars): 5590
+[daily-signal] exchange output (content chars): 8436
+[daily-signal] exchange output citations: {
+  count: 5,
+  urls: [
+    'https://seekingalpha.com/news/4602858-sleep-number-to-merge-with-sleep-country-canada-files-chapter-11-to-facilitate-deal',
+    'https://www.fox9.com/news/sleep-number-bankruptcy-minnesota-company-announces-merger-sleep-country-canada',
+    'https://www.businesswire.com/news/home/20260611396517/en/Sleep-Number-Enters-Asset-Purchase-Agreement-to-Combine-with-Sleep-Country-Canada-Creating-an-Industry-Leader-in-North-America',
+    'https://www.furnituretoday.com/financial/sleep-number-files-chapter-11-enters-agreement-to-sell-company-to-sleep-country-canada/',
+    'https://www.startribune.com/sleep-number-bankruptcy-sleep-country-canada-merger/601856424'
+  ]
+}
+[daily-signal] ΓöÇΓöÇ exchange output preview ΓöÇΓöÇ
+EVENT SUMMARY
+- Sleep Number Corporation (Nasdaq: SNBR) announced it has entered into an **asset purchase agreement to combine with Sleep Country Canada** and has **initiated a voluntary Chapter 11 sale process** in U.S. Bankruptcy Court to facilitate the transaction. https://www.businesswire.com/news/home/20260611396517/en/Sleep-Number-Enters-Asset-Purchase-Agreement-to-Combine-with-Sleep-Country-Canada-Creating-an-Industry-Leader-in-North-America  
+- Sleep Number describes the deal as creating a **ΓÇ£leading North American mattress and bedding companyΓÇ¥**, with Sleep Country Canada acting as **stalking horse bidder** in a courtΓÇæsupervised Section 363 sale process. https://www.businesswire.com/news/home/20260611396517/en/Sleep-Number-Enters-Asset-Purchase-Agreement-to-Combine-with-Sleep-Country-Canada-Creating-an-Industry-Leader-in-North-America; https://www.furnituretoday.com/financial/sleep-number-files-chapter-11-enters-agreement-to-sell-company-to-sleep-country-canada/  
+- Sleep Number has **filed for Chapter 11 bankruptcy protection** and expects to **continue normal operations**, including keeping stores open, maintaining eΓÇæcommerce, fulfilling warranties, and continuing U.S. m
+[daily-signal] ΓÇª (7236 more chars)
+[daily-signal] ΓöÇΓöÇ end exchange ΓöÇΓöÇ

@@ -1,0 +1,435 @@
+[
+  {
+    "root_ticker": "BKR",
+    "counterparty_name": "Cactus",
+    "counterparty_ticker": "WHD",
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "joint venture",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "the Company announced the creation of a joint venture with a subsidiary of Cactus, Inc. (\"Cactus\"), to which Baker Hughes will contribute its surface pressure control business.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1701605/000170160526000007/bkr-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-05",
+    "shared_evidence_group": "ev_0e90ae4188d2"
+  },
+  {
+    "root_ticker": "BKR",
+    "counterparty_name": "SLB",
+    "counterparty_ticker": "SLB",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "OFSE segment competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.97,
+    "evidence": [
+      {
+        "quote": "OFSE competitors include SLB, Halliburton, NOV, Weatherford, and TechnipFMC.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1701605/000170160526000007/bkr-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-05",
+    "shared_evidence_group": "ev_507bd26a87a6"
+  },
+  {
+    "root_ticker": "BKR",
+    "counterparty_name": "Halliburton",
+    "counterparty_ticker": "HAL",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "OFSE segment competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.97,
+    "evidence": [
+      {
+        "quote": "OFSE competitors include SLB, Halliburton, NOV, Weatherford, and TechnipFMC.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1701605/000170160526000007/bkr-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-05",
+    "shared_evidence_group": "ev_507bd26a87a6"
+  },
+  {
+    "root_ticker": "BKR",
+    "counterparty_name": "NOV",
+    "counterparty_ticker": "NOV",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "OFSE segment competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.97,
+    "evidence": [
+      {
+        "quote": "OFSE competitors include SLB, Halliburton, NOV, Weatherford, and TechnipFMC.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1701605/000170160526000007/bkr-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-05",
+    "shared_evidence_group": "ev_507bd26a87a6"
+  },
+  {
+    "root_ticker": "BKR",
+    "counterparty_name": "Weatherford",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "OFSE segment competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.97,
+    "evidence": [
+      {
+        "quote": "OFSE competitors include SLB, Halliburton, NOV, Weatherford, and TechnipFMC.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1701605/000170160526000007/bkr-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-05",
+    "shared_evidence_group": "ev_507bd26a87a6"
+  },
+  {
+    "root_ticker": "BKR",
+    "counterparty_name": "TechnipFMC",
+    "counterparty_ticker": "FTI",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "OFSE segment competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.96,
+    "evidence": [
+      {
+        "quote": "OFSE competitors include SLB, Halliburton, NOV, Weatherford, and TechnipFMC.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1701605/000170160526000007/bkr-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-05",
+    "shared_evidence_group": "ev_507bd26a87a6"
+  },
+  {
+    "root_ticker": "BKR",
+    "counterparty_name": "Siemens Energy",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "IET segment competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.97,
+    "evidence": [
+      {
+        "quote": "IET main competitors include Siemens Energy, Solar (a Caterpillar company), Mitsubishi Heavy Industry, Sulzer, Flowserve, and Emerson.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1701605/000170160526000007/bkr-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-05",
+    "shared_evidence_group": "ev_3102373af7c2"
+  },
+  {
+    "root_ticker": "BKR",
+    "counterparty_name": "Solar Turbines (Caterpillar)",
+    "counterparty_ticker": null,
+    "counterparty_type": "subsidiary_of_public_company",
+    "category": "competitor",
+    "subtype": "IET segment competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.85,
+    "evidence": [
+      {
+        "quote": "IET main competitors include Siemens Energy, Solar (a Caterpillar company), Mitsubishi Heavy Industry, Sulzer, Flowserve, and Emerson.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1701605/000170160526000007/bkr-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-05",
+    "shared_evidence_group": "ev_3102373af7c2"
+  },
+  {
+    "root_ticker": "BKR",
+    "counterparty_name": "Mitsubishi Heavy Industries",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "IET segment competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.93,
+    "evidence": [
+      {
+        "quote": "IET main competitors include Siemens Energy, Solar (a Caterpillar company), Mitsubishi Heavy Industry, Sulzer, Flowserve, and Emerson.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1701605/000170160526000007/bkr-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-05",
+    "shared_evidence_group": "ev_3102373af7c2"
+  },
+  {
+    "root_ticker": "BKR",
+    "counterparty_name": "Sulzer",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "IET segment competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.97,
+    "evidence": [
+      {
+        "quote": "IET main competitors include Siemens Energy, Solar (a Caterpillar company), Mitsubishi Heavy Industry, Sulzer, Flowserve, and Emerson.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1701605/000170160526000007/bkr-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-05",
+    "shared_evidence_group": "ev_3102373af7c2"
+  },
+  {
+    "root_ticker": "BKR",
+    "counterparty_name": "Flowserve",
+    "counterparty_ticker": "FLS",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "IET segment competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "IET main competitors include Siemens Energy, Solar (a Caterpillar company), Mitsubishi Heavy Industry, Sulzer, Flowserve, and Emerson.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1701605/000170160526000007/bkr-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-05",
+    "shared_evidence_group": "ev_3102373af7c2"
+  },
+  {
+    "root_ticker": "BKR",
+    "counterparty_name": "Emerson",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "IET segment competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.97,
+    "evidence": [
+      {
+        "quote": "IET main competitors include Siemens Energy, Solar (a Caterpillar company), Mitsubishi Heavy Industry, Sulzer, Flowserve, and Emerson.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1701605/000170160526000007/bkr-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-05",
+    "shared_evidence_group": "ev_3102373af7c2"
+  },
+  {
+    "root_ticker": "BKR",
+    "counterparty_name": "Crane Company",
+    "counterparty_ticker": "CR",
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "divestiture buyer of PSI business",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.6,
+    "evidence": [
+      {
+        "quote": "the Company announced the sale of its PSI business to Crane Company, a diversified manufacturer of engineered industrial products.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1701605/000170160526000007/bkr-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-05",
+    "shared_evidence_group": "ev_6daaf5fae0bf"
+  },
+  {
+    "root_ticker": "BKR",
+    "counterparty_name": "GE Aerospace",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "ip_cross_license",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.82,
+    "evidence": [
+      {
+        "quote": "an intellectual property cross-license agreement with GE Aerospace, GE Vernova, and GE HealthCare that allows all parties to have continued rights to commercially utilize certain intellectual property of the other pursuant to the terms of the agreement",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1701605/000170160526000007/bkr-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-05",
+    "shared_evidence_group": "ev_95b3ef5019ac"
+  },
+  {
+    "root_ticker": "BKR",
+    "counterparty_name": "GE Vernova",
+    "counterparty_ticker": "GEV",
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "joint venture (Aero JV)",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.94,
+    "evidence": [
+      {
+        "quote": "The Aero JV is jointly controlled by GE Vernova and us, and as a result, realizing the benefits of this joint venture depends on the continued cooperation between the parties.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1701605/000170160526000007/bkr-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "an intellectual property cross-license agreement with GE Aerospace, GE Vernova, and GE HealthCare that allows all parties to have continued rights to commercially utilize certain intellectual property of the other pursuant to the terms of the agreement",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1701605/000170160526000007/bkr-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-05",
+    "shared_evidence_group": "ev_3785bbbaeb7b"
+  },
+  {
+    "root_ticker": "BKR",
+    "counterparty_name": "GE HealthCare",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "intellectual_property_cross_license",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "an intellectual property cross-license agreement with GE Aerospace, GE Vernova, and GE HealthCare that allows all parties to have continued rights to commercially utilize certain intellectual property of the other pursuant to the terms of the agreement",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1701605/000170160526000007/bkr-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-05",
+    "shared_evidence_group": "ev_95b3ef5019ac"
+  },
+  {
+    "root_ticker": "BKR",
+    "counterparty_name": "GE Vernova",
+    "counterparty_ticker": "GEV",
+    "counterparty_type": "public_company",
+    "category": "supplier",
+    "subtype": "long-term supply agreement",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.93,
+    "evidence": [
+      {
+        "quote": "We currently have extensive commercial relationships with GE Vernova and GE Aerospace.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1701605/000170160526000007/bkr-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "a heavy duty gas turbine distribution and supply agreement that licenses certain intellectual property of GE Vernova to Baker Hughes",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1701605/000170160526000007/bkr-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-05",
+    "shared_evidence_group": "ev_32c6ebb043b3"
+  },
+  {
+    "root_ticker": "BKR",
+    "counterparty_name": "GE Aerospace",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "supplier",
+    "subtype": "long-term supply agreement",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "We currently have extensive commercial relationships with GE Vernova and GE Aerospace.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1701605/000170160526000007/bkr-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "a second amended and restated supply and technology development agreement with GE Vernova, GE Aerospace, and the aeroderivative joint venture (\"Aero JV\") which governs the supply of certain aeroderivative technology to us",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1701605/000170160526000007/bkr-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-05",
+    "shared_evidence_group": "ev_32c6ebb043b3"
+  },
+  {
+    "root_ticker": "BKR",
+    "counterparty_name": "Aero JV",
+    "counterparty_ticker": null,
+    "counterparty_type": "joint_venture",
+    "category": "partner",
+    "subtype": "aeroderivative_technology_joint_venture",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.8,
+    "evidence": [
+      {
+        "quote": "a second amended and restated supply and technology development agreement with GE Vernova, GE Aerospace, and the aeroderivative joint venture (\"Aero JV\") which governs the supply of certain aeroderivative technology to us",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1701605/000170160526000007/bkr-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-05",
+    "shared_evidence_group": "ev_da0af605e512"
+  }
+]

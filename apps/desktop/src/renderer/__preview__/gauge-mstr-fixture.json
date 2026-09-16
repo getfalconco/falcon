@@ -1,0 +1,137 @@
+{
+  "readout": {
+    "schema_version": 1,
+    "ticker": "MSTR",
+    "tracked": true,
+    "mode": "standalone",
+    "context": null,
+    "computed_at": "2026-08-24T21:29:06.629Z",
+    "quant_as_of": "2026-08-24",
+    "setup": {
+      "key": "confirmed_drift",
+      "name": "CONFIRMED DRIFT",
+      "read": "Independent move higher with volume building — 3 sessions, 2.39× average",
+      "direction": "up",
+      "values": {
+        "sessions_qualifying": 3,
+        "volume_ratio": 2.391161403967409,
+        "stretch_z": 1.0887129725762155,
+        "net_residual_z": 2.4704,
+        "day_count": 2
+      },
+      "screen": [
+        {
+          "pattern": "independent_tape",
+          "day_count": 2,
+          "read": "3 of the last 5 sessions moved upward on their own (|residual z| ≥ 1.0); net residual +27.6% against 11.2% vol-implied — market-independent pressure"
+        }
+      ]
+    },
+    "state": "actionable",
+    "missing": null,
+    "state_line": null,
+    "readable": true,
+    "readability_note": null,
+    "checks": [
+      {
+        "key": "trend",
+        "number": 1,
+        "label": "Trend coherence",
+        "status": "pass",
+        "reason": "5d and 20d momentum agree (+25.6% / +24.3%) — price action coherent",
+        "note": null,
+        "short_label": null,
+        "values": {
+          "momentum_5d": 0.25583535816640834,
+          "momentum_20d": 0.2434870377246292,
+          "daily_vol": 0.050008917107324365
+        }
+      },
+      {
+        "key": "regime",
+        "number": 2,
+        "label": "Volatility regime",
+        "status": "pass",
+        "reason": "vol regime 0.91× its 90d norm — stable",
+        "note": null,
+        "short_label": null,
+        "values": {
+          "vol_regime": 0.9078275033434063,
+          "daily_vol": 0.050008917107324365
+        }
+      },
+      {
+        "key": "residual",
+        "number": 3,
+        "label": "Residual readability",
+        "status": "pass",
+        "reason": "r² 0.21, β 2.86 — residual reads usable",
+        "note": null,
+        "short_label": null,
+        "values": {
+          "r2": 0.2094579825066778,
+          "beta": 2.86133291975569,
+          "r2_floor": 0.15
+        }
+      },
+      {
+        "key": "volume",
+        "number": 4,
+        "label": "Volume state",
+        "status": "caution",
+        "reason": "volume 2.39× its average — elevated",
+        "note": null,
+        "short_label": "volume elevated",
+        "values": {
+          "volume_ratio": 2.391161403967409,
+          "partial": false
+        }
+      },
+      {
+        "key": "stretch",
+        "number": 5,
+        "label": "Stretch",
+        "status": "caution",
+        "reason": "20d move +24.3% is 1.09σ — stretched",
+        "note": null,
+        "short_label": "stretched",
+        "values": {
+          "momentum_20d": 0.2434870377246292,
+          "daily_vol": 0.050008917107324365,
+          "pct_from_52w_high": -0.6589563309062827,
+          "pct_from_52w_low": 0.4903414142567628,
+          "stretch_z": 1.0887129725762155
+        }
+      },
+      {
+        "key": "event_wall",
+        "number": 6,
+        "label": "Event wall",
+        "status": "pass",
+        "reason": "earnings in 46 sessions — outside the 3-session wall",
+        "note": null,
+        "short_label": null,
+        "values": {
+          "due_at": "2026-10-28T20:00:00.000Z",
+          "sessions_until": 46,
+          "fiscal_period": "Q3 2026",
+          "earnings_rhythm": 0.09147307173515648
+        }
+      }
+    ],
+    "summary": {
+      "evaluable": 6,
+      "aligned": 4,
+      "cautions": 2,
+      "fails": 0,
+      "unavailable": 0,
+      "overall": "mixed",
+      "binding_check": "volume",
+      "binding_line": "mixed — 2 cautions: volume elevated, stretched",
+      "sentence": "mixed — 2 cautions: volume elevated, stretched",
+      "calibrating": false,
+      "tooltip": "conditions disagree — no clean read"
+    }
+  },
+  "errors": []
+}

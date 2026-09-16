@@ -1,0 +1,299 @@
+[
+  {
+    "counterparty_name": "Alphabet Inc.",
+    "category": "competitor",
+    "subtype": "enterprise_cloud",
+    "evidence_quote": "Our enterprise cloud, software and hardware offerings compete directly with certain offerings from some of the largest and most competitive companies in the world, including Alphabet Inc.",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Amazon.com, Inc.",
+    "category": "competitor",
+    "subtype": "enterprise_cloud",
+    "evidence_quote": "Our enterprise cloud, software and hardware offerings compete directly with certain offerings from some of the largest and most competitive companies in the world, including Amazon.com, Inc.",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Cisco Systems, Inc.",
+    "category": "competitor",
+    "subtype": "enterprise_hardware",
+    "evidence_quote": "Our enterprise cloud, software and hardware offerings compete directly with certain offerings from some of the largest and most competitive companies in the world, including Cisco Systems, Inc.",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Intel Corporation",
+    "category": "competitor",
+    "subtype": "enterprise_hardware",
+    "evidence_quote": "Our enterprise cloud, software and hardware offerings compete directly with certain offerings from some of the largest and most competitive companies in the world, including Intel Corporation",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "International Business Machines Corporation",
+    "category": "competitor",
+    "subtype": "enterprise_cloud_software_hardware",
+    "evidence_quote": "Our enterprise cloud, software and hardware offerings compete directly with certain offerings from some of the largest and most competitive companies in the world, including International Business Machines Corporation",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Microsoft Corporation",
+    "category": "competitor",
+    "subtype": "enterprise_cloud_software",
+    "evidence_quote": "Our enterprise cloud, software and hardware offerings compete directly with certain offerings from some of the largest and most competitive companies in the world, including Microsoft Corporation",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Salesforce, Inc.",
+    "category": "competitor",
+    "subtype": "enterprise_cloud_software",
+    "evidence_quote": "Our enterprise cloud, software and hardware offerings compete directly with certain offerings from some of the largest and most competitive companies in the world, including Salesforce, Inc.",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "SAP SE",
+    "category": "competitor",
+    "subtype": "enterprise_software",
+    "evidence_quote": "Our enterprise cloud, software and hardware offerings compete directly with certain offerings from some of the largest and most competitive companies in the world, including SAP SE",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Alphabet Inc.",
+    "category": "competitor",
+    "subtype": "enterprise cloud and technology competitor",
+    "evidence_quote": "Our enterprise cloud, software and hardware offerings compete directly with certain offerings from some of the largest and most competitive companies in the world, including Alphabet Inc.",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Amazon.com, Inc.",
+    "category": "competitor",
+    "subtype": "enterprise cloud and technology competitor",
+    "evidence_quote": "Our enterprise cloud, software and hardware offerings compete directly with certain offerings from some of the largest and most competitive companies in the world, including Amazon.com, Inc.",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Cisco Systems, Inc.",
+    "category": "competitor",
+    "subtype": "enterprise hardware and networking competitor",
+    "evidence_quote": "Our enterprise cloud, software and hardware offerings compete directly with certain offerings from some of the largest and most competitive companies in the world, including Cisco Systems, Inc.",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Intel Corporation",
+    "category": "competitor",
+    "subtype": "enterprise hardware and technology competitor",
+    "evidence_quote": "Our enterprise cloud, software and hardware offerings compete directly with certain offerings from some of the largest and most competitive companies in the world, including Intel Corporation",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "International Business Machines Corporation",
+    "category": "competitor",
+    "subtype": "enterprise cloud and technology competitor",
+    "evidence_quote": "Our enterprise cloud, software and hardware offerings compete directly with certain offerings from some of the largest and most competitive companies in the world, including International Business Machines Corporation",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Microsoft Corporation",
+    "category": "competitor",
+    "subtype": "enterprise cloud and software competitor",
+    "evidence_quote": "Our enterprise cloud, software and hardware offerings compete directly with certain offerings from some of the largest and most competitive companies in the world, including Microsoft Corporation",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Salesforce, Inc.",
+    "category": "competitor",
+    "subtype": "enterprise cloud applications competitor",
+    "evidence_quote": "Our enterprise cloud, software and hardware offerings compete directly with certain offerings from some of the largest and most competitive companies in the world, including Salesforce, Inc.",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "SAP SE",
+    "category": "competitor",
+    "subtype": "enterprise software competitor",
+    "evidence_quote": "Our enterprise cloud, software and hardware offerings compete directly with certain offerings from some of the largest and most competitive companies in the world, including SAP SE",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Microsoft Azure",
+    "category": "competitor",
+    "subtype": "cloud_services",
+    "evidence_quote": "OCI's multicloud services work with a number of our competitors' products, including Microsoft Azure, Amazon Web Services and Google Cloud.",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Amazon Web Services",
+    "category": "competitor",
+    "subtype": "cloud_services",
+    "evidence_quote": "OCI's multicloud services work with a number of our competitors' products, including Microsoft Azure, Amazon Web Services and Google Cloud.",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Google Cloud",
+    "category": "competitor",
+    "subtype": "cloud_services",
+    "evidence_quote": "OCI's multicloud services work with a number of our competitors' products, including Microsoft Azure, Amazon Web Services and Google Cloud.",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "European Union",
+    "category": "dependency",
+    "subtype": "regulatory_body",
+    "evidence_quote": "The GDPR provides for monetary penalties of up to €20 million, or up to 4% of an organization's worldwide revenue of the preceding financial year, whichever is greater.",
+    "confidence": 0.85,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Organisation for Economic Co-operation and Development",
+    "category": "dependency",
+    "subtype": "international_tax_framework",
+    "evidence_quote": "governments of countries around the world and organizations such as the Organisation for Economic Co-operation and Development (OECD), continually consider and make changes to relevant tax, accounting and other laws",
+    "confidence": 0.85,
+    "reason": "The OECD is not a counterparty to Oracle in any commercial, partnership, or operational dependency sense. The excerpt describes the OECD as a policy-making organization that 'considers and makes changes to relevant tax...laws.' Oracle is subject to tax regulations influenced by the OECD, but this is a regulatory environment risk, not a dependency relationship. The OECD does not provide infrastructure or services to Oracle; it sets international tax policy frameworks that governments may adopt. This is analogous to how a tax authority acts as a regulator—Oracle does not have a bilateral relationship with the OECD. The category 'dependency' with subtype 'international_tax_framework' is incorrect; this is a regulatory/legal risk factor, not a counterparty relationship. Additionally, the OECD is not a commercial entity Oracle transacts with, partners with, or relies upon for critical services.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Oracle Financial Services Software Limited",
+    "category": "partner",
+    "subtype": "majority_shareholding",
+    "evidence_quote": "As the majority shareholder of Oracle Financial Services Software Limited, a publicly traded company in India",
+    "confidence": 0.92,
+    "reason": "Oracle Financial Services Software Limited is explicitly described as a publicly traded company in India where Oracle is 'the majority shareholder.' This means Oracle Financial Services Software Limited is a majority-owned subsidiary of Oracle, not an external counterparty. Per instruction 4, the ROOT company's own subsidiaries must be rejected as counterparties. The relationship described is an ownership structure (Oracle owns a majority stake), not a partner relationship between two independent entities. This is an internal holding, not an arm's-length business relationship.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Oracle Corporation Japan",
+    "category": "partner",
+    "subtype": "majority_shareholding",
+    "evidence_quote": "As the majority shareholder of Oracle Financial Services Software Limited, a publicly traded company in India, and Oracle Corporation Japan, a publicly traded company in Japan",
+    "confidence": 0.92,
+    "reason": "Oracle Corporation Japan is identified in the evidence quote as a publicly traded company in Japan of which Oracle Corp is the majority shareholder. This makes Oracle Corporation Japan a majority-owned subsidiary of the ROOT company (Oracle Corp), not an external counterparty. The filing explicitly states Oracle is 'the majority shareholder' of Oracle Corporation Japan, indicating ownership control. Under the auditing guidelines, subsidiaries of the ROOT company must be rejected as counterparties, regardless of their public listing status. The relationship described is one of corporate ownership (parent-subsidiary), not a partnership.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Australian Dollar",
+    "category": "dependency",
+    "subtype": "currency_exposure",
+    "evidence_quote": "Changes in the values of major foreign currencies, particularly the Australian Dollar, British Pound, Brazilian Real, Canadian Dollar, Euro, Indian Rupee, Japanese Yen and Saudi Riyal, relative to the U.S. Dollar can significantly affect our total assets, revenues, operating results",
+    "confidence": 0.85,
+    "reason": "Australian Dollar is a currency, not a counterparty organization. Currencies are not external entities with which Oracle has a business relationship. The text describes foreign exchange risk exposure, which is a financial/market risk, not a dependency relationship with an external counterparty. Currency exposure belongs in financial risk disclosures, not as a counterparty edge in a knowledge graph. Additionally, 'commodity' is an inappropriate counterparty_type, and 'dependency' implies reliance on an external organization's infrastructure or service, which does not apply to currency fluctuation risk.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "British Pound",
+    "category": "dependency",
+    "subtype": "currency_exposure",
+    "evidence_quote": "Changes in the values of major foreign currencies, particularly the Australian Dollar, British Pound, Brazilian Real, Canadian Dollar, Euro, Indian Rupee, Japanese Yen and Saudi Riyal, relative to the U.S. Dollar can significantly affect our total assets, revenues, operating results",
+    "confidence": 0.85,
+    "reason": "The British Pound is a currency, not a counterparty. Currencies are not external organizations or entities that can be counterparties in a business relationship. The evidence_quote describes currency exchange rate risk exposure, which is a financial risk factor, not a dependency relationship with an external entity. The 'dependency' category requires a critical reliance on a counterparty's infrastructure or service (like GPS or regulatory infrastructure), but a currency is simply a medium of exchange and unit of account, not a service provider or infrastructure operator. Currency exposure is a financial risk management concern, not a counterparty relationship.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Brazilian Real",
+    "category": "dependency",
+    "subtype": "currency_exposure",
+    "evidence_quote": "Changes in the values of major foreign currencies, particularly the Australian Dollar, British Pound, Brazilian Real, Canadian Dollar, Euro, Indian Rupee, Japanese Yen and Saudi Riyal, relative to the U.S. Dollar can significantly affect our total assets, revenues, operating results",
+    "confidence": 0.85,
+    "reason": "The Brazilian Real is a currency, not a counterparty organization. Currencies are not valid counterparties in a relationship graph; they represent financial exposures rather than business relationships with external entities. The evidence_quote describes currency exchange rate risk exposure, not a dependency relationship with an external organization. Additionally, 'commodity' is an incorrect counterparty_type for a currency.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Canadian Dollar",
+    "category": "dependency",
+    "subtype": "currency_exposure",
+    "evidence_quote": "Changes in the values of major foreign currencies, particularly the Australian Dollar, British Pound, Brazilian Real, Canadian Dollar, Euro, Indian Rupee, Japanese Yen and Saudi Riyal, relative to the U.S. Dollar can significantly affect our total assets, revenues, operating results",
+    "confidence": 0.85,
+    "reason": "The Canadian Dollar is a currency, not a counterparty. A currency exposure is a financial risk factor, not a relationship with an external organization. The text describes how currency fluctuations affect Oracle's financial results, but this does not establish the Canadian Dollar itself as a dependency counterparty. Currencies are not entities Oracle has commercial, partnership, or dependency relationships with—they are simply units of account whose exchange rates create financial exposure. The 'dependency' category is reserved for external entities whose infrastructure or services Oracle critically relies upon (like government GPS systems or regulatory frameworks), not financial instruments or macroeconomic factors.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Euro",
+    "category": "dependency",
+    "subtype": "currency_exposure",
+    "evidence_quote": "Changes in the values of major foreign currencies, particularly the Australian Dollar, British Pound, Brazilian Real, Canadian Dollar, Euro, Indian Rupee, Japanese Yen and Saudi Riyal, relative to the U.S. Dollar can significantly affect our total assets, revenues, operating results",
+    "confidence": 0.85,
+    "reason": "The Euro is a currency, not an external organization counterparty. While Oracle does have currency exposure to the Euro as documented in the evidence quote, currencies are not valid counterparties for a financial knowledge graph. A counterparty must be a real external organization (company, government entity, etc.), not a commodity, currency, or abstract financial instrument. The 'commodity' counterparty_type and 'dependency' category are conceptually misapplied here—currency exposure is a financial risk factor, not a business relationship with an external party.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Indian Rupee",
+    "category": "dependency",
+    "subtype": "currency_exposure",
+    "evidence_quote": "Changes in the values of major foreign currencies, particularly the Australian Dollar, British Pound, Brazilian Real, Canadian Dollar, Euro, Indian Rupee, Japanese Yen and Saudi Riyal, relative to the U.S. Dollar can significantly affect our total assets, revenues, operating results",
+    "confidence": 0.85,
+    "reason": "The Indian Rupee is a currency, not a counterparty organization. While the evidence_quote confirms Oracle has currency exposure to the Indian Rupee, a currency itself cannot be a business counterparty. The dependency category requires a counterparty that provides critical infrastructure or services; a currency is simply a unit of account and medium of exchange that creates financial risk, not a relationship with an external entity. Additionally, counterparty_type 'commodity' is inappropriate for a currency.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Japanese Yen",
+    "category": "dependency",
+    "subtype": "currency_exposure",
+    "evidence_quote": "Changes in the values of major foreign currencies, particularly the Australian Dollar, British Pound, Brazilian Real, Canadian Dollar, Euro, Indian Rupee, Japanese Yen and Saudi Riyal, relative to the U.S. Dollar can significantly affect our total assets, revenues, operating results",
+    "confidence": 0.85,
+    "reason": "Japanese Yen is a currency, not a counterparty. Currencies are not entities that Oracle has a business relationship with. The evidence describes currency exposure and foreign exchange risk, which is a market/financial risk factor, not a dependency relationship with an external organization. The 'dependency' category requires a critical reliance on a counterparty's infrastructure or service (like GPS from a government). Currency fluctuation risk does not fit this definition—it's a macroeconomic exposure, not a relationship with a specific entity that provides a service or product to Oracle.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Saudi Riyal",
+    "category": "dependency",
+    "subtype": "currency_exposure",
+    "evidence_quote": "Changes in the values of major foreign currencies, particularly the Australian Dollar, British Pound, Brazilian Real, Canadian Dollar, Euro, Indian Rupee, Japanese Yen and Saudi Riyal, relative to the U.S. Dollar can significantly affect our total assets, revenues, operating results",
+    "confidence": 0.85,
+    "reason": "The Saudi Riyal is a currency, not a counterparty. Currencies are not external organizations with which Oracle has a business relationship. The evidence quote discusses foreign exchange exposure risks, which is a financial market risk factor, not a dependency relationship with an external entity. Currency exposure is not a valid category for a knowledge graph edge representing counterparty relationships. Additionally, counterparty_type 'commodity' is incorrect for a currency.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Cloud Security Alliance",
+    "category": "dependency",
+    "subtype": "certification_body",
+    "evidence_quote": "including System and Organization Controls (SOC) 1, SOC 2, International Organization for Standardization (ISO) 27001, 27017 and 27018, Cloud Security Alliance Security Trust Assurance and Risk (CSA STAR)",
+    "confidence": 0.75,
+    "reason": "Cloud Security Alliance is a certification body that provides the CSA STAR certification framework, but Oracle undergoes this certification process voluntarily as part of its security compliance program. This is a standard industry certification, not a dependency relationship. Oracle does not 'critically rely' on CSA infrastructure or services for its operations—it chooses to obtain this certification among many others (SOC 1, SOC 2, ISO 27001, PCI DSS, etc.) to demonstrate security compliance to customers. The certification body is not providing essential infrastructure or services that Oracle's business depends on; rather, Oracle is a customer of certification services. If any relationship exists, it would be 'supplier' (Oracle pays for certification services), but the evidence does not support even that—it only shows Oracle has obtained the certification. This is analogous to a company mentioning it has ISO certification; the ISO is not a dependency.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "International Organization for Standardization",
+    "category": "dependency",
+    "subtype": "certification_body",
+    "evidence_quote": "including System and Organization Controls (SOC) 1, SOC 2, International Organization for Standardization (ISO) 27001, 27017 and 27018, Cloud Security Alliance Security Trust Assurance and Risk (CSA STAR)",
+    "confidence": 0.75,
+    "reason": "ISO (International Organization for Standardization) is a standards-setting body, not a counterparty with which Oracle has a business relationship. The evidence shows Oracle undergoes 'security-related industry certifications and attestations by external auditors' including ISO 27001, 27017, and 27018 standards. ISO creates the standards, but the actual certification/attestation is performed by external auditors who assess Oracle's compliance with ISO standards. ISO itself does not provide a service to Oracle, nor does Oracle depend on ISO infrastructure. The relationship is with the certification auditors, not ISO. Additionally, certification bodies performing voluntary audits for compliance frameworks do not constitute 'dependencies' in the sense of critical infrastructure or services Oracle relies upon to operate. This is similar to how complying with accounting standards doesn't make the standards body a counterparty.",
+    "stage": "audit"
+  }
+]

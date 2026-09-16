@@ -1,0 +1,666 @@
+[
+  {
+    "root_ticker": "BLK",
+    "counterparty_name": "SpiderRock Advisors",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "supplier",
+    "subtype": "acquisition",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "net AUM from the acquisition of SpiderRock Advisors (the \"SpiderRock Transaction\") in May 2024",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/2012383/000119312526071966/blk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-25",
+    "shared_evidence_group": "ev_1933459f6799"
+  },
+  {
+    "root_ticker": "BLK",
+    "counterparty_name": "HPS Investment Partners",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "acquired_entity",
+    "strength": 1,
+    "strength_tier": "critical",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.98,
+    "evidence": [
+      {
+        "quote": "On July 1, 2025, BlackRock completed the acquisition of 100% of the business and assets of HPS Investment Partners",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/2012383/000119312526071966/blk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-25",
+    "shared_evidence_group": "ev_1ff4796fc30b"
+  },
+  {
+    "root_ticker": "BLK",
+    "counterparty_name": "ElmTree Funds",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "supplier",
+    "subtype": "acquired_entity",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "net AUM from the acquisition of ElmTree Funds (the \"ElmTree Transaction\") in September 2025",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/2012383/000119312526071966/blk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-25",
+    "shared_evidence_group": "ev_63d1a9072f4d"
+  },
+  {
+    "root_ticker": "BLK",
+    "counterparty_name": "Viridium",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "minority_investment_technology",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.85,
+    "evidence": [
+      {
+        "quote": "minority investments in financial technology and digital distribution providers, data and whole portfolio capabilities including Viridium",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/2012383/000119312526071966/blk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "BlackRock has made minority investments in financial technology and digital distribution providers, data and whole portfolio capabilities including Viridium, Generation Life, Securitize, Upvest, Avaloq, Human Interest, Circle, Clarity AI, Envestnet, Acorns, Scalable Capital and iCapital.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/2012383/000119312526071966/blk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-25",
+    "shared_evidence_group": "ev_e8dc1700ff48"
+  },
+  {
+    "root_ticker": "BLK",
+    "counterparty_name": "Generation Life",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "minority_investment_technology",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.85,
+    "evidence": [
+      {
+        "quote": "minority investments in financial technology and digital distribution providers, data and whole portfolio capabilities including Viridium, Generation Life",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/2012383/000119312526071966/blk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "BlackRock has made minority investments in financial technology and digital distribution providers, data and whole portfolio capabilities including Viridium, Generation Life, Securitize, Upvest, Avaloq, Human Interest, Circle, Clarity AI, Envestnet, Acorns, Scalable Capital and iCapital.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/2012383/000119312526071966/blk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-25",
+    "shared_evidence_group": "ev_b3e091496630"
+  },
+  {
+    "root_ticker": "BLK",
+    "counterparty_name": "Securitize",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "minority_investment_technology",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.88,
+    "evidence": [
+      {
+        "quote": "minority investments in financial technology and digital distribution providers, data and whole portfolio capabilities including Viridium, Generation Life, Securitize",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/2012383/000119312526071966/blk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "BlackRock has made minority investments in financial technology and digital distribution providers, data and whole portfolio capabilities including Viridium, Generation Life, Securitize, Upvest, Avaloq, Human Interest, Circle, Clarity AI, Envestnet, Acorns, Scalable Capital and iCapital.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/2012383/000119312526071966/blk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-25",
+    "shared_evidence_group": "ev_4961cb723c93"
+  },
+  {
+    "root_ticker": "BLK",
+    "counterparty_name": "Upvest",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "minority_investment_technology",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "minority investments in financial technology and digital distribution providers, data and whole portfolio capabilities including Viridium, Generation Life, Securitize, Upvest",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/2012383/000119312526071966/blk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "BlackRock has made minority investments in financial technology and digital distribution providers, data and whole portfolio capabilities including Viridium, Generation Life, Securitize, Upvest, Avaloq, Human Interest, Circle, Clarity AI, Envestnet, Acorns, Scalable Capital and iCapital.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/2012383/000119312526071966/blk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-25",
+    "shared_evidence_group": "ev_bf519216e457"
+  },
+  {
+    "root_ticker": "BLK",
+    "counterparty_name": "Avaloq",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "minority_investment_technology",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.88,
+    "evidence": [
+      {
+        "quote": "minority investments in financial technology and digital distribution providers, data and whole portfolio capabilities including Viridium, Generation Life, Securitize, Upvest, Avaloq",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/2012383/000119312526071966/blk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "BlackRock has made minority investments in financial technology and digital distribution providers, data and whole portfolio capabilities including Viridium, Generation Life, Securitize, Upvest, Avaloq, Human Interest, Circle, Clarity AI, Envestnet, Acorns, Scalable Capital and iCapital.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/2012383/000119312526071966/blk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-25",
+    "shared_evidence_group": "ev_f2b54701e225"
+  },
+  {
+    "root_ticker": "BLK",
+    "counterparty_name": "Human Interest",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "minority_investment_technology",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "minority investments in financial technology and digital distribution providers, data and whole portfolio capabilities including Viridium, Generation Life, Securitize, Upvest, Avaloq, Human Interest",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/2012383/000119312526071966/blk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "BlackRock has made minority investments in financial technology and digital distribution providers, data and whole portfolio capabilities including Viridium, Generation Life, Securitize, Upvest, Avaloq, Human Interest, Circle, Clarity AI, Envestnet, Acorns, Scalable Capital and iCapital.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/2012383/000119312526071966/blk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-25",
+    "shared_evidence_group": "ev_d7844e52f004"
+  },
+  {
+    "root_ticker": "BLK",
+    "counterparty_name": "Circle",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "minority_investment_technology",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "minority investments in financial technology and digital distribution providers, data and whole portfolio capabilities including Viridium, Generation Life, Securitize, Upvest, Avaloq, Human Interest, Circle",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/2012383/000119312526071966/blk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "BlackRock has made minority investments in financial technology and digital distribution providers, data and whole portfolio capabilities including Viridium, Generation Life, Securitize, Upvest, Avaloq, Human Interest, Circle, Clarity AI, Envestnet, Acorns, Scalable Capital and iCapital.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/2012383/000119312526071966/blk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-25",
+    "shared_evidence_group": "ev_9989eb70b003"
+  },
+  {
+    "root_ticker": "BLK",
+    "counterparty_name": "Clarity AI",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "minority_investment_technology",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "minority investments in financial technology and digital distribution providers, data and whole portfolio capabilities including Viridium, Generation Life, Securitize, Upvest, Avaloq, Human Interest, Circle, Clarity AI",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/2012383/000119312526071966/blk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "BlackRock has made minority investments in financial technology and digital distribution providers, data and whole portfolio capabilities including Viridium, Generation Life, Securitize, Upvest, Avaloq, Human Interest, Circle, Clarity AI, Envestnet, Acorns, Scalable Capital and iCapital.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/2012383/000119312526071966/blk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-25",
+    "shared_evidence_group": "ev_6574fd2b57d8"
+  },
+  {
+    "root_ticker": "BLK",
+    "counterparty_name": "Envestnet",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "minority_investment_technology",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "minority investments in financial technology and digital distribution providers, data and whole portfolio capabilities including Viridium, Generation Life, Securitize, Upvest, Avaloq, Human Interest, Circle, Clarity AI, Envestnet",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/2012383/000119312526071966/blk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "BlackRock has made minority investments in financial technology and digital distribution providers, data and whole portfolio capabilities including Viridium, Generation Life, Securitize, Upvest, Avaloq, Human Interest, Circle, Clarity AI, Envestnet, Acorns, Scalable Capital and iCapital.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/2012383/000119312526071966/blk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-25",
+    "shared_evidence_group": "ev_40ecf35e80bf"
+  },
+  {
+    "root_ticker": "BLK",
+    "counterparty_name": "Acorns",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "minority_investment_technology",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "minority investments in financial technology and digital distribution providers, data and whole portfolio capabilities including Viridium, Generation Life, Securitize, Upvest, Avaloq, Human Interest, Circle, Clarity AI, Envestnet, Acorns",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/2012383/000119312526071966/blk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "BlackRock has made minority investments in financial technology and digital distribution providers, data and whole portfolio capabilities including Viridium, Generation Life, Securitize, Upvest, Avaloq, Human Interest, Circle, Clarity AI, Envestnet, Acorns, Scalable Capital and iCapital.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/2012383/000119312526071966/blk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-25",
+    "shared_evidence_group": "ev_fedf2ae4ca24"
+  },
+  {
+    "root_ticker": "BLK",
+    "counterparty_name": "Scalable Capital",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "minority_investment_technology",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.88,
+    "evidence": [
+      {
+        "quote": "minority investments in financial technology and digital distribution providers, data and whole portfolio capabilities including Viridium, Generation Life, Securitize, Upvest, Avaloq, Human Interest, Circle, Clarity AI, Envestnet, Acorns, Scalable Capital",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/2012383/000119312526071966/blk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "BlackRock has made minority investments in financial technology and digital distribution providers, data and whole portfolio capabilities including Viridium, Generation Life, Securitize, Upvest, Avaloq, Human Interest, Circle, Clarity AI, Envestnet, Acorns, Scalable Capital and iCapital.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/2012383/000119312526071966/blk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-25",
+    "shared_evidence_group": "ev_a59f87bf1da2"
+  },
+  {
+    "root_ticker": "BLK",
+    "counterparty_name": "iCapital",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "minority_investment_technology",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "minority investments in financial technology and digital distribution providers, data and whole portfolio capabilities including Viridium, Generation Life, Securitize, Upvest, Avaloq, Human Interest, Circle, Clarity AI, Envestnet, Acorns, Scalable Capital and iCapital",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/2012383/000119312526071966/blk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "BlackRock has made minority investments in financial technology and digital distribution providers, data and whole portfolio capabilities including Viridium, Generation Life, Securitize, Upvest, Avaloq, Human Interest, Circle, Clarity AI, Envestnet, Acorns, Scalable Capital and iCapital.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/2012383/000119312526071966/blk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-25",
+    "shared_evidence_group": "ev_c70f4f2bd0a2"
+  },
+  {
+    "root_ticker": "BLK",
+    "counterparty_name": "HPS",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "acquisition_target",
+    "strength": 1,
+    "strength_tier": "critical",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "The closing of the HPS Transaction added $165 billion of client AUM and $118 billion of fee-paying AUM in July.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/2012383/000119312526071966/blk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "BlackRock is subject to risks associated with its recent acquisitions, including the GIP and HPS Acquisitions.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/2012383/000119312526071966/blk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-25",
+    "shared_evidence_group": "ev_26faab7c50f4"
+  },
+  {
+    "root_ticker": "BLK",
+    "counterparty_name": "GIP",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "supplier",
+    "subtype": "acquisition_target",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.05,
+    "evidence": [
+      {
+        "quote": "The completed acquisitions of HPS, GIP and Preqin position the Company's platform ahead of evolving client needs and structural industry trends.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/2012383/000119312526071966/blk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "BlackRock is subject to risks associated with its recent acquisitions, including the GIP and HPS Acquisitions.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/2012383/000119312526071966/blk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-25",
+    "shared_evidence_group": "ev_532e6b39d261"
+  },
+  {
+    "root_ticker": "BLK",
+    "counterparty_name": "Preqin",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "supplier",
+    "subtype": "acquisition_target",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "The completed acquisitions of HPS, GIP and Preqin position the Company's platform ahead of evolving client needs and structural industry trends.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/2012383/000119312526071966/blk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-25",
+    "shared_evidence_group": "ev_532e6b39d261"
+  },
+  {
+    "root_ticker": "BLK",
+    "counterparty_name": "ElmTree",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "supplier",
+    "subtype": "acquisition_target",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "In 2025, the HPS and ElmTree transactions added $118 billion and $3 billion to AUM, respectively.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/2012383/000119312526071966/blk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-25",
+    "shared_evidence_group": "ev_61d6d56a1635"
+  },
+  {
+    "root_ticker": "BLK",
+    "counterparty_name": "Lipper, Inc.",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "supplier",
+    "subtype": "data_provider",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.85,
+    "evidence": [
+      {
+        "quote": "Peer medians are based in part on data either from Lipper, Inc. or Morningstar, Inc. for each included product.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/2012383/000119312526071966/blk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-25",
+    "shared_evidence_group": "ev_83c0161a77c4"
+  },
+  {
+    "root_ticker": "BLK",
+    "counterparty_name": "Morningstar, Inc.",
+    "counterparty_ticker": "MORN",
+    "counterparty_type": "public_company",
+    "category": "supplier",
+    "subtype": "data_provider",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "Peer medians are based in part on data either from Lipper, Inc. or Morningstar, Inc. for each included product.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/2012383/000119312526071966/blk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-25",
+    "shared_evidence_group": "ev_83c0161a77c4"
+  },
+  {
+    "root_ticker": "BLK",
+    "counterparty_name": "NFA",
+    "counterparty_ticker": null,
+    "counterparty_type": "other",
+    "category": "dependency",
+    "subtype": "regulatory_infrastructure",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "BlackRock has eight subsidiaries that are registered as commodity pool operators and/or commodity trading advisors with the CFTC and are members of the NFA.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/2012383/000119312526071966/blk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-25",
+    "shared_evidence_group": "ev_d3fcfbc28ea2"
+  },
+  {
+    "root_ticker": "BLK",
+    "counterparty_name": "Federal Reserve System",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "dependency",
+    "subtype": "regulatory_infrastructure",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "BTC is also a member of the Federal Reserve System and is subject to various Federal Reserve regulations applicable to member institutions",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/2012383/000119312526071966/blk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-25",
+    "shared_evidence_group": "ev_fe67966b28e1"
+  },
+  {
+    "root_ticker": "BLK",
+    "counterparty_name": "FSCA",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "dependency",
+    "subtype": "regulatory_infrastructure",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "In South Africa, BlackRock Investment Management (UK) Limited operates a branch in Cape Town under the supervision of the Financial Sector Conduct Authority (FSCA).",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/2012383/000119312526071966/blk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-25",
+    "shared_evidence_group": "ev_bf372d1bcdc3"
+  },
+  {
+    "root_ticker": "BLK",
+    "counterparty_name": "Microsoft",
+    "counterparty_ticker": "MSFT",
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "strategic technology partnership",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "BlackRock has a number of key strategic partnerships, including with Microsoft.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/2012383/000119312526071966/blk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-25",
+    "shared_evidence_group": "ev_90f664ec7b62"
+  },
+  {
+    "root_ticker": "BLK",
+    "counterparty_name": "Microsoft",
+    "counterparty_ticker": null,
+    "counterparty_type": "technology company",
+    "category": "supplier",
+    "subtype": "cloud infrastructure hosting",
+    "strength": 1,
+    "strength_tier": "critical",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.98,
+    "evidence": [
+      {
+        "quote": "the Aladdin infrastructure and environment for BlackRock and its external Aladdin clients are hosted on Microsoft Azure and Amazon Web Services.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/2012383/000119312526071966/blk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-25",
+    "shared_evidence_group": "ev_8e07c797ef5b"
+  },
+  {
+    "root_ticker": "BLK",
+    "counterparty_name": "Amazon Web Services",
+    "counterparty_ticker": null,
+    "counterparty_type": "company",
+    "category": "supplier",
+    "subtype": "cloud infrastructure hosting",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "the Aladdin infrastructure and environment for BlackRock and its external Aladdin clients are hosted on Microsoft Azure and Amazon Web Services.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/2012383/000119312526071966/blk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-25",
+    "shared_evidence_group": "ev_8e07c797ef5b"
+  }
+]

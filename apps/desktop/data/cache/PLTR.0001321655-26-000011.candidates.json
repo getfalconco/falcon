@@ -1,0 +1,444 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 334272,
+  "chunks": 15,
+  "candidates": [
+    {
+      "counterparty_name": "Fujitsu Limited",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "strategic global partnership",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we, through Palantir Technologies Japan KK, entered into a strategic global partnership with Fujitsu Limited through which the parties will incorporate the capabilities of Foundry and AIP",
+      "evidence_quotes": [
+        "we, through Palantir Technologies Japan KK, entered into a strategic global partnership with Fujitsu Limited through which the parties will incorporate the capabilities of Foundry and AIP"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Hamas",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "geopolitical_risk_factor",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "uncertainty about macroeconomic conditions (including as a result of the ongoing Russia-Ukraine conflict and related economic sanctions, the conflict resulting from Hamas' attack on Israel and the ongoing conflict in the Middle East",
+      "evidence_quotes": [
+        "uncertainty about macroeconomic conditions (including as a result of the ongoing Russia-Ukraine conflict and related economic sanctions, the conflict resulting from Hamas' attack on Israel and the ongoing conflict in the Middle East"
+      ],
+      "confidence": 0.65,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "U.S. federal government",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "government_customer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the fiscal year end procurement cycle of our government customers, and in particular U.S. government customers which have a fiscal year end of September 30",
+      "evidence_quotes": [
+        "the fiscal year end procurement cycle of our government customers, and in particular U.S. government customers which have a fiscal year end of September 30"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "U.S. government",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "government_customer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Additionally, the U.S. federal government is prohibited from exercising contract options more than one year in advance.",
+      "evidence_quotes": [
+        "Additionally, the U.S. federal government is prohibited from exercising contract options more than one year in advance."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Alexander Karp",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "key_personnel",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We are highly dependent on the continued contributions and customer relationships of our management, and particularly on the services of Alexander Karp, our Chief Executive Officer.",
+      "evidence_quotes": [
+        "We are highly dependent on the continued contributions and customer relationships of our management, and particularly on the services of Alexander Karp, our Chief Executive Officer."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "U.S. Army",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "defense_customer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "in March 2024, we were selected by the U.S. Army to develop and deliver the Tactical Intelligence Targeting Access Node ground station system",
+      "evidence_quotes": [
+        "in March 2024, we were selected by the U.S. Army to develop and deliver the Tactical Intelligence Targeting Access Node ground station system"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "SOMPO Holdings, Inc.",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "in November 2019, we created a jointly controlled entity in Japan with SOMPO Holdings, Inc., in which we subsequently obtained a controlling interest in November 2022.",
+      "evidence_quotes": [
+        "in November 2019, we created a jointly controlled entity in Japan with SOMPO Holdings, Inc., in which we subsequently obtained a controlling interest in November 2022."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "HD Hyundai Co. Ltd.",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint venture",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We also created a jointly-owned entity in South Korea with HD Hyundai Co. Ltd. in December 2022 in which we have a controlling interest.",
+      "evidence_quotes": [
+        "We also created a jointly-owned entity in South Korea with HD Hyundai Co. Ltd. in December 2022 in which we have a controlling interest."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "SEC",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_compliance",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "our ability to sell or transfer, or realize value from noncash consideration and our investments may be limited by applicable securities laws and regulations, including the requirement that offers or sales of securities must be registered with the SEC",
+      "evidence_quotes": [
+        "our ability to sell or transfer, or realize value from noncash consideration and our investments may be limited by applicable securities laws and regulations, including the requirement that offers or sales of securities must be registered with the SEC"
+      ],
+      "confidence": 0.75,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "Amazon Web Services",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "cloud_infrastructure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We rely on the technology, infrastructure, and software applications, including software-as-a-service offerings, of certain third parties, such as AWS and Microsoft Azure, in order to host or operate some or all of certain key technology platform features",
+      "evidence_quotes": [
+        "We rely on the technology, infrastructure, and software applications, including software-as-a-service offerings, of certain third parties, such as AWS and Microsoft Azure, in order to host or operate some or all of certain key technology platform features"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 7
+    },
+    {
+      "counterparty_name": "California Attorney General",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_enforcement_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The CCPA went into effect on January 1, 2020, and the California Attorney General may bring enforcement actions, with penalties for violations of the CCPA.",
+      "evidence_quotes": [
+        "The CCPA went into effect on January 1, 2020, and the California Attorney General may bring enforcement actions, with penalties for violations of the CCPA."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 8
+    },
+    {
+      "counterparty_name": "California Privacy Protection Agency",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_enforcement_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The CPRA went into effect on January 1, 2023 instilling enforcement authority in a new dedicated regulatory body, the California Privacy Protection Agency (\"CPPA\").",
+      "evidence_quotes": [
+        "The CPRA went into effect on January 1, 2023 instilling enforcement authority in a new dedicated regulatory body, the California Privacy Protection Agency (\"CPPA\")."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 8
+    },
+    {
+      "counterparty_name": "European Commission",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_body",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "paving the way for a 2021 European Commission adequacy determination for export of personal data from the European Economic Area to the U.K.",
+      "evidence_quotes": [
+        "paving the way for a 2021 European Commission adequacy determination for export of personal data from the European Economic Area to the U.K."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 8
+    },
+    {
+      "counterparty_name": "Information Commissioner's Office",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_enforcement_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "as the U.K. and its regulator, the Information Commissioner's Office, continue to examine its global market standing.",
+      "evidence_quotes": [
+        "as the U.K. and its regulator, the Information Commissioner's Office, continue to examine its global market standing."
+      ],
+      "confidence": 0.9,
+      "chunk_index": 8
+    },
+    {
+      "counterparty_name": "Russia",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "geopolitical_risk",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "volatility in non-U.S. political and economic environments, including by way of examples, the potential effects of the ongoing Russia-Ukraine conflict, as well as economic sanctions the United States and other countries have imposed on Russia",
+      "evidence_quotes": [
+        "volatility in non-U.S. political and economic environments, including by way of examples, the potential effects of the ongoing Russia-Ukraine conflict, as well as economic sanctions the United States and other countries have imposed on Russia"
+      ],
+      "confidence": 0.65,
+      "chunk_index": 9
+    },
+    {
+      "counterparty_name": "European Union",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The European Union Parliament adopted the EU AIA, that, despite recent moves to delay the implementation of some provisions, when effective, will likely impose onerous obligations",
+      "evidence_quotes": [
+        "The European Union Parliament adopted the EU AIA, that, despite recent moves to delay the implementation of some provisions, when effective, will likely impose onerous obligations"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 9
+    },
+    {
+      "counterparty_name": "SEC",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the SEC adopted cybersecurity risk management and disclosure rules, which require the disclosure of information pertaining to cybersecurity incidents and cybersecurity risk management, strategy, and governance",
+      "evidence_quotes": [
+        "the SEC adopted cybersecurity risk management and disclosure rules, which require the disclosure of information pertaining to cybersecurity incidents and cybersecurity risk management, strategy, and governance"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 9
+    },
+    {
+      "counterparty_name": "Russia",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "economic_sanctions_target",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "following Russia's invasion of Ukraine, and as the conflict has continued, the United States and other countries have imposed economic sanctions and severe export control restrictions against Russia",
+      "evidence_quotes": [
+        "following Russia's invasion of Ukraine, and as the conflict has continued, the United States and other countries have imposed economic sanctions and severe export control restrictions against Russia"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 10
+    },
+    {
+      "counterparty_name": "Belarus",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "economic_sanctions_target",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the United States and other countries have imposed economic sanctions and severe export control restrictions against Russia, Belarus, and certain regions of Ukraine",
+      "evidence_quotes": [
+        "the United States and other countries have imposed economic sanctions and severe export control restrictions against Russia, Belarus, and certain regions of Ukraine"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 10
+    },
+    {
+      "counterparty_name": "Ukraine",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "economic_sanctions_target",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the United States and other countries have imposed economic sanctions and severe export control restrictions against Russia, Belarus, and certain regions of Ukraine",
+      "evidence_quotes": [
+        "the United States and other countries have imposed economic sanctions and severe export control restrictions against Russia, Belarus, and certain regions of Ukraine"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 10
+    },
+    {
+      "counterparty_name": "U.S. government",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "federal_government_customer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "we generate a substantial portion of our revenue from contracts with governments and government agencies, and in particular from contracts with the U.S. government and government agencies",
+      "evidence_quotes": [
+        "we generate a substantial portion of our revenue from contracts with governments and government agencies, and in particular from contracts with the U.S. government and government agencies"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 11
+    },
+    {
+      "counterparty_name": "Department of Defense",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "defense_agency_customer",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The U.S. government also conducts periodic reviews of U.S. defense strategies and priorities which may shift Department of Defense budgetary priorities",
+      "evidence_quotes": [
+        "The U.S. government also conducts periodic reviews of U.S. defense strategies and priorities which may shift Department of Defense budgetary priorities"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 11
+    },
+    {
+      "counterparty_name": "Nasdaq",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "stock_exchange_listing",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Although we currently are not considered to be a \"controlled company\" under The Nasdaq Stock Market LLC (\"Nasdaq\") corporate governance rules",
+      "evidence_quotes": [
+        "Although we currently are not considered to be a \"controlled company\" under The Nasdaq Stock Market LLC (\"Nasdaq\") corporate governance rules"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 12
+    },
+    {
+      "counterparty_name": "Wilmington Trust, National Association",
+      "counterparty_type": "private_company",
+      "category": "supplier",
+      "subtype": "trust_services",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "voting agreement among our Founders and Wilmington Trust, National Association (the \"Founder Voting Agreement\")",
+      "evidence_quotes": [
+        "voting agreement among our Founders and Wilmington Trust, National Association (the \"Founder Voting Agreement\")"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 12
+    },
+    {
+      "counterparty_name": "S&P",
+      "counterparty_type": "private_company",
+      "category": "dependency",
+      "subtype": "index_provider",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "S&P did not allow most newly public companies utilizing dual- or multi-class capital structures to be included in their indices from 2017 until a change in their eligibility requirements for such companies in 2023. Following this change, we joined the",
+      "evidence_quotes": [
+        "S&P did not allow most newly public companies utilizing dual- or multi-class capital structures to be included in their indices from 2017 until a change in their eligibility requirements for such companies in 2023. Following this change, we joined the"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 13
+    },
+    {
+      "counterparty_name": "Nasdaq",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "listing_venue",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Any future issuances of additional shares of Class A common stock and Class B common stock will not be subject to approval by our stockholders except as required by the Nasdaq listing standards.",
+      "evidence_quotes": [
+        "Any future issuances of additional shares of Class A common stock and Class B common stock will not be subject to approval by our stockholders except as required by the Nasdaq listing standards."
+      ],
+      "confidence": 0.75,
+      "chunk_index": 13
+    },
+    {
+      "counterparty_name": "U.S. Federal Reserve",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "monetary_policy_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the U.S. Federal Reserve, the European Central Bank, and the Bank of England have raised, and could maintain or raise, interest rates and implement fiscal policy interventions.",
+      "evidence_quotes": [
+        "the U.S. Federal Reserve, the European Central Bank, and the Bank of England have raised, and could maintain or raise, interest rates and implement fiscal policy interventions."
+      ],
+      "confidence": 0.7,
+      "chunk_index": 13
+    },
+    {
+      "counterparty_name": "European Central Bank",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "monetary_policy_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the U.S. Federal Reserve, the European Central Bank, and the Bank of England have raised, and could maintain or raise, interest rates and implement fiscal policy interventions.",
+      "evidence_quotes": [
+        "the U.S. Federal Reserve, the European Central Bank, and the Bank of England have raised, and could maintain or raise, interest rates and implement fiscal policy interventions."
+      ],
+      "confidence": 0.7,
+      "chunk_index": 13
+    },
+    {
+      "counterparty_name": "Bank of England",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "monetary_policy_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the U.S. Federal Reserve, the European Central Bank, and the Bank of England have raised, and could maintain or raise, interest rates and implement fiscal policy interventions.",
+      "evidence_quotes": [
+        "the U.S. Federal Reserve, the European Central Bank, and the Bank of England have raised, and could maintain or raise, interest rates and implement fiscal policy interventions."
+      ],
+      "confidence": 0.7,
+      "chunk_index": 13
+    },
+    {
+      "counterparty_name": "Hamas",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "geopolitical_risk",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Our business operations have been, and could in the future be, subject to interruption by natural disasters, earthquakes, flooding, fire, power shortages, pandemics, terrorism, such as Hamas' attack against Israel in 2023 and the ensuing conflict",
+      "evidence_quotes": [
+        "Our business operations have been, and could in the future be, subject to interruption by natural disasters, earthquakes, flooding, fire, power shortages, pandemics, terrorism, such as Hamas' attack against Israel in 2023 and the ensuing conflict"
+      ],
+      "confidence": 0.65,
+      "chunk_index": 14
+    },
+    {
+      "counterparty_name": "Nasdaq",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "listing_venue",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "We are subject to the reporting requirements of the Exchange Act, the Sarbanes-Oxley Act, and the rules and regulations of the Nasdaq listing standards.",
+      "evidence_quotes": [
+        "We are subject to the reporting requirements of the Exchange Act, the Sarbanes-Oxley Act, and the rules and regulations of the Nasdaq listing standards."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 14
+    },
+    {
+      "counterparty_name": "SEC",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_infrastructure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The Sarbanes-Oxley Act requires, among other things, that we maintain effective disclosure controls and procedures and internal control over financial reporting.",
+      "evidence_quotes": [
+        "The Sarbanes-Oxley Act requires, among other things, that we maintain effective disclosure controls and procedures and internal control over financial reporting."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 14
+    }
+  ],
+  "candidatesPerChunk": [
+    1,
+    1,
+    2,
+    1,
+    1,
+    2,
+    1,
+    1,
+    4,
+    3,
+    3,
+    2,
+    2,
+    5,
+    3
+  ],
+  "parseErrors": 1,
+  "apiErrors": 0,
+  "inputTokens": 82136,
+  "outputTokens": 3684
+}

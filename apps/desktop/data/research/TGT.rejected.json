@@ -1,0 +1,119 @@
+[
+  {
+    "counterparty_name": "Apple",
+    "category": "partner",
+    "subtype": "consumer-facing brand collaboration",
+    "evidence_quote": "We have consumer-facing relationships with a variety of other companies, including Apple, CVS, Disney, Levi's, Starbucks, and Ulta Beauty.",
+    "confidence": 0.65,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "CVS",
+    "category": "partner",
+    "subtype": "consumer-facing brand collaboration",
+    "evidence_quote": "We have consumer-facing relationships with a variety of other companies, including Apple, CVS, Disney, Levi's, Starbucks, and Ulta Beauty.",
+    "confidence": 0.65,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Disney",
+    "category": "partner",
+    "subtype": "consumer-facing brand collaboration",
+    "evidence_quote": "We have consumer-facing relationships with a variety of other companies, including Apple, CVS, Disney, Levi's, Starbucks, and Ulta Beauty.",
+    "confidence": 0.65,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Levi's",
+    "category": "partner",
+    "subtype": "consumer-facing brand collaboration",
+    "evidence_quote": "We have consumer-facing relationships with a variety of other companies, including Apple, CVS, Disney, Levi's, Starbucks, and Ulta Beauty.",
+    "confidence": 0.65,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Starbucks",
+    "category": "partner",
+    "subtype": "consumer-facing brand collaboration",
+    "evidence_quote": "We have consumer-facing relationships with a variety of other companies, including Apple, CVS, Disney, Levi's, Starbucks, and Ulta Beauty.",
+    "confidence": 0.65,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Ulta Beauty",
+    "category": "partner",
+    "subtype": "consumer-facing brand collaboration",
+    "evidence_quote": "We have consumer-facing relationships with a variety of other companies, including Apple, CVS, Disney, Levi's, Starbucks, and Ulta Beauty.",
+    "confidence": 0.65,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Apple",
+    "category": "partner",
+    "subtype": "consumer-facing business relationship",
+    "evidence_quote": "we have consumer-facing relationships with a variety of other companies, including Apple, CVS, Disney, Levi's, Starbucks, and Ulta Beauty",
+    "confidence": 0.8,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "CVS",
+    "category": "partner",
+    "subtype": "consumer-facing business relationship",
+    "evidence_quote": "we have consumer-facing relationships with a variety of other companies, including Apple, CVS, Disney, Levi's, Starbucks, and Ulta Beauty",
+    "confidence": 0.8,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Disney",
+    "category": "partner",
+    "subtype": "consumer-facing business relationship",
+    "evidence_quote": "we have consumer-facing relationships with a variety of other companies, including Apple, CVS, Disney, Levi's, Starbucks, and Ulta Beauty",
+    "confidence": 0.8,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Levi's",
+    "category": "partner",
+    "subtype": "consumer-facing business relationship",
+    "evidence_quote": "we have consumer-facing relationships with a variety of other companies, including Apple, CVS, Disney, Levi's, Starbucks, and Ulta Beauty",
+    "confidence": 0.8,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Starbucks",
+    "category": "partner",
+    "subtype": "consumer-facing business relationship",
+    "evidence_quote": "we have consumer-facing relationships with a variety of other companies, including Apple, CVS, Disney, Levi's, Starbucks, and Ulta Beauty",
+    "confidence": 0.8,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Ulta Beauty",
+    "category": "partner",
+    "subtype": "consumer-facing business relationship",
+    "evidence_quote": "we have consumer-facing relationships with a variety of other companies, including Apple, CVS, Disney, Levi's, Starbucks, and Ulta Beauty",
+    "confidence": 0.8,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "U.S. Customs",
+    "category": "dependency",
+    "subtype": "customs/tariff regulatory dependency",
+    "evidence_quote": "we pay duties and tariffs to U.S. Customs for merchandise on the basis of the price paid by our vendors",
+    "confidence": 0.6,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  }
+]

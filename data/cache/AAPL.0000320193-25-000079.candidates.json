@@ -1,0 +1,212 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 84095,
+  "chunks": 4,
+  "candidates": [
+    {
+      "counterparty_name": "China mainland",
+      "counterparty_type": "government",
+      "category": "supplier",
+      "subtype": "manufacturing_location",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "A significant majority of the Company's manufacturing is performed in whole or in part by outsourcing partners located primarily in China mainland, India, Japan, South Korea, Taiwan and Vietnam",
+      "evidence_quotes": [
+        "A significant majority of the Company's manufacturing is performed in whole or in part by outsourcing partners located primarily in China mainland, India, Japan, South Korea, Taiwan and Vietnam"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "India",
+      "counterparty_type": "government",
+      "category": "supplier",
+      "subtype": "manufacturing_location",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "A significant majority of the Company's manufacturing is performed in whole or in part by outsourcing partners located primarily in China mainland, India, Japan, South Korea, Taiwan and Vietnam",
+      "evidence_quotes": [
+        "A significant majority of the Company's manufacturing is performed in whole or in part by outsourcing partners located primarily in China mainland, India, Japan, South Korea, Taiwan and Vietnam"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Japan",
+      "counterparty_type": "government",
+      "category": "supplier",
+      "subtype": "manufacturing_location",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "A significant majority of the Company's manufacturing is performed in whole or in part by outsourcing partners located primarily in China mainland, India, Japan, South Korea, Taiwan and Vietnam",
+      "evidence_quotes": [
+        "A significant majority of the Company's manufacturing is performed in whole or in part by outsourcing partners located primarily in China mainland, India, Japan, South Korea, Taiwan and Vietnam"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "South Korea",
+      "counterparty_type": "government",
+      "category": "supplier",
+      "subtype": "manufacturing_location",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "A significant majority of the Company's manufacturing is performed in whole or in part by outsourcing partners located primarily in China mainland, India, Japan, South Korea, Taiwan and Vietnam",
+      "evidence_quotes": [
+        "A significant majority of the Company's manufacturing is performed in whole or in part by outsourcing partners located primarily in China mainland, India, Japan, South Korea, Taiwan and Vietnam"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Taiwan",
+      "counterparty_type": "government",
+      "category": "supplier",
+      "subtype": "manufacturing_location",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "A significant majority of the Company's manufacturing is performed in whole or in part by outsourcing partners located primarily in China mainland, India, Japan, South Korea, Taiwan and Vietnam",
+      "evidence_quotes": [
+        "A significant majority of the Company's manufacturing is performed in whole or in part by outsourcing partners located primarily in China mainland, India, Japan, South Korea, Taiwan and Vietnam"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Vietnam",
+      "counterparty_type": "government",
+      "category": "supplier",
+      "subtype": "manufacturing_location",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "A significant majority of the Company's manufacturing is performed in whole or in part by outsourcing partners located primarily in China mainland, India, Japan, South Korea, Taiwan and Vietnam",
+      "evidence_quotes": [
+        "A significant majority of the Company's manufacturing is performed in whole or in part by outsourcing partners located primarily in China mainland, India, Japan, South Korea, Taiwan and Vietnam"
+      ],
+      "confidence": 0.85,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Android",
+      "counterparty_type": "product",
+      "category": "competitor",
+      "subtype": "mobile_operating_system",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "third-party developer support depends on the perceived benefits of creating software and services for the Company's products compared to competitors' platforms, such as Android for smartphones and tablets",
+      "evidence_quotes": [
+        "third-party developer support depends on the perceived benefits of creating software and services for the Company's products compared to competitors' platforms, such as Android for smartphones and tablets"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Windows",
+      "counterparty_type": "product",
+      "category": "competitor",
+      "subtype": "personal_computer_operating_system",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "third-party developer support depends on the perceived benefits of creating software and services for the Company's products compared to competitors' platforms, such as Android for smartphones and tablets, Windows for personal computers and tablets",
+      "evidence_quotes": [
+        "third-party developer support depends on the perceived benefits of creating software and services for the Company's products compared to competitors' platforms, such as Android for smartphones and tablets, Windows for personal computers and tablets"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "PlayStation",
+      "counterparty_type": "product",
+      "category": "competitor",
+      "subtype": "gaming_platform",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "third-party developer support depends on the perceived benefits of creating software and services for the Company's products compared to competitors' platforms, such as Android for smartphones and tablets, Windows for personal computers and tablets, and PlayStation, Nintendo and Xbox for",
+      "evidence_quotes": [
+        "third-party developer support depends on the perceived benefits of creating software and services for the Company's products compared to competitors' platforms, such as Android for smartphones and tablets, Windows for personal computers and tablets, and PlayStation, Nintendo and Xbox for"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Nintendo",
+      "counterparty_type": "product",
+      "category": "competitor",
+      "subtype": "gaming_platform",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "third-party developer support depends on the perceived benefits of creating software and services for the Company's products compared to competitors' platforms, such as Android for smartphones and tablets, Windows for personal computers and tablets, and PlayStation, Nintendo and Xbox for",
+      "evidence_quotes": [
+        "third-party developer support depends on the perceived benefits of creating software and services for the Company's products compared to competitors' platforms, such as Android for smartphones and tablets, Windows for personal computers and tablets, and PlayStation, Nintendo and Xbox for"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Xbox",
+      "counterparty_type": "product",
+      "category": "competitor",
+      "subtype": "gaming_platform",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "third-party developer support depends on the perceived benefits of creating software and services for the Company's products compared to competitors' platforms, such as Android for smartphones and tablets, Windows for personal computers and tablets, and PlayStation, Nintendo and Xbox for",
+      "evidence_quotes": [
+        "third-party developer support depends on the perceived benefits of creating software and services for the Company's products compared to competitors' platforms, such as Android for smartphones and tablets, Windows for personal computers and tablets, and PlayStation, Nintendo and Xbox for"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Google",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "licensing",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the Company earns revenue from licensing arrangements with Google LLC (\"Google\") and other companies to offer their search services on the Company's platforms and applications",
+      "evidence_quotes": [
+        "the Company earns revenue from licensing arrangements with Google LLC (\"Google\") and other companies to offer their search services on the Company's platforms and applications"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Google",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "licensing_partner",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the Company earns revenue from licensing arrangements with Google LLC (\"Google\") and other companies to offer their search services on the Company's platforms and applications",
+      "evidence_quotes": [
+        "the Company earns revenue from licensing arrangements with Google LLC (\"Google\") and other companies to offer their search services on the Company's platforms and applications"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "U.S. Department of Justice",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_body",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The court's order is also subject to appeal by both the U.S. Department of Justice (\"DOJ\") and Google.",
+      "evidence_quotes": [
+        "The court's order is also subject to appeal by both the U.S. Department of Justice (\"DOJ\") and Google."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "U.S. Internal Revenue Service",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "tax_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The Company is also subject to the examination of its tax returns and other tax matters by the U.S. Internal Revenue Service and other tax authorities",
+      "evidence_quotes": [
+        "The Company is also subject to the examination of its tax returns and other tax matters by the U.S. Internal Revenue Service and other tax authorities"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 3
+    }
+  ],
+  "candidatesPerChunk": [
+    6,
+    5,
+    1,
+    3
+  ],
+  "parseErrors": 1,
+  "apiErrors": 0,
+  "inputTokens": 24107,
+  "outputTokens": 1638
+}

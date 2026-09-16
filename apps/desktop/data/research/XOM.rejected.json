@@ -1,0 +1,29 @@
+[
+  {
+    "counterparty_name": "National Institute of Standards and Technology",
+    "category": "dependency",
+    "subtype": "cybersecurity_framework_provider",
+    "evidence_quote": "The Corporation's cybersecurity program includes multi-layered technological capabilities designed to prevent and detect cybersecurity disruptions and leverages industry standard frameworks, including the National Institute of Standards and Technology Cybersecurity Framework.",
+    "confidence": 0.85,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "ExxonMobil Canada Properties",
+    "category": "partner",
+    "subtype": "joint_venture_partner",
+    "evidence_quote": "Imperial Oil Limited holds a 70.96 percent interest in the joint venture and ExxonMobil Canada Properties holds the other 29.04 percent.",
+    "confidence": 0.95,
+    "reason": "ExxonMobil Canada Properties is a wholly-owned subsidiary of Exxon Mobil Corporation (the ROOT company), not an external counterparty. The evidence states 'Exxon Mobil Corporation has a 69.6 percent interest in Imperial Oil Limited and a 100 percent interest in ExxonMobil Canada Properties.' When the ROOT owns 100% of an entity, that entity is an internal subsidiary, not a partner. The joint venture partner here is Imperial Oil Limited (which holds 70.96%), but even Imperial Oil is 69.6% owned by Exxon Mobil, making it also a subsidiary (though not wholly-owned). Neither entity qualifies as an external counterparty.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Government of Guyana",
+    "category": "dependency",
+    "subtype": "licensing_authority",
+    "evidence_quote": "The Petroleum Activities Act 2023 authorizes the Government of Guyana to license and enter petroleum agreements for petroleum exploration, development, production, and storage operations.",
+    "confidence": 0.85,
+    "reason": "The Government of Guyana is not a dependency in this context. The evidence_quote describes the Petroleum Activities Act 2023, which is a regulatory framework that authorizes the government to license petroleum operations. However, this is a standard licensing/regulatory relationship, not a dependency. ExxonMobil operates in Guyana under petroleum agreements governed by this framework, meaning Guyana acts as a licensing authority/regulator, not as a critical infrastructure provider that ExxonMobil depends on. The relationship is regulatory oversight, not dependency. Dependencies are for critical infrastructure/services the root relies on with no commercial vendor relationship (like GPS, public utilities). Government licensing authorities and regulators should be excluded as counterparties per the auditor instructions ('regulators acting as regulators' are invalid counterparties).",
+    "stage": "audit"
+  }
+]

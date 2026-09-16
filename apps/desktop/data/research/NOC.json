@@ -1,0 +1,491 @@
+[
+  {
+    "root_ticker": "NOC",
+    "counterparty_name": "The Boeing Company",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "defense_aerospace",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.98,
+    "evidence": [
+      {
+        "quote": "We compete with many companies in the defense, intelligence and federal civil markets, including The Boeing Company, General Dynamics Corporation, L3Harris Technologies, Inc., Lockheed Martin Corporation, and RTX Corporation",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1133421/000113342126000003/noc-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-27",
+    "shared_evidence_group": "ev_80881add9f92"
+  },
+  {
+    "root_ticker": "NOC",
+    "counterparty_name": "General Dynamics Corporation",
+    "counterparty_ticker": "GD",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "defense_aerospace",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.98,
+    "evidence": [
+      {
+        "quote": "We compete with many companies in the defense, intelligence and federal civil markets, including The Boeing Company, General Dynamics Corporation, L3Harris Technologies, Inc., Lockheed Martin Corporation, and RTX Corporation",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1133421/000113342126000003/noc-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-27",
+    "shared_evidence_group": "ev_80881add9f92"
+  },
+  {
+    "root_ticker": "NOC",
+    "counterparty_name": "L3Harris Technologies, Inc.",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "defense_aerospace",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "We compete with many companies in the defense, intelligence and federal civil markets, including The Boeing Company, General Dynamics Corporation, L3Harris Technologies, Inc., Lockheed Martin Corporation, and RTX Corporation",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1133421/000113342126000003/noc-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-27",
+    "shared_evidence_group": "ev_80881add9f92"
+  },
+  {
+    "root_ticker": "NOC",
+    "counterparty_name": "Lockheed Martin Corporation",
+    "counterparty_ticker": "LMT",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "defense_aerospace",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.98,
+    "evidence": [
+      {
+        "quote": "We compete with many companies in the defense, intelligence and federal civil markets, including The Boeing Company, General Dynamics Corporation, L3Harris Technologies, Inc., Lockheed Martin Corporation, and RTX Corporation",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1133421/000113342126000003/noc-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-27",
+    "shared_evidence_group": "ev_80881add9f92"
+  },
+  {
+    "root_ticker": "NOC",
+    "counterparty_name": "RTX Corporation",
+    "counterparty_ticker": "RTX",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "defense_aerospace",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "We compete with many companies in the defense, intelligence and federal civil markets, including The Boeing Company, General Dynamics Corporation, L3Harris Technologies, Inc., Lockheed Martin Corporation, and RTX Corporation",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1133421/000113342126000003/noc-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-27",
+    "shared_evidence_group": "ev_80881add9f92"
+  },
+  {
+    "root_ticker": "NOC",
+    "counterparty_name": "Veritas Capital",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "partner",
+    "subtype": "divestiture_buyer",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "2021 - Completed the sale of our IT and mission support services business to Veritas Capital.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1133421/000113342126000003/noc-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-27",
+    "shared_evidence_group": "ev_8d6c38a25f90"
+  },
+  {
+    "root_ticker": "NOC",
+    "counterparty_name": "U.S. Air Force",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "customer",
+    "subtype": "defense_contracting",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.98,
+    "evidence": [
+      {
+        "quote": "Aeronautics Systems is a leader in the design, development, production, integration, sustainment and modernization of military aircraft systems for the U.S. Air Force, the U.S. Navy, other U.S. government agencies, and international customers.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1133421/000113342126000003/noc-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-27",
+    "shared_evidence_group": "ev_6c9bef2bde83"
+  },
+  {
+    "root_ticker": "NOC",
+    "counterparty_name": "U.S. Navy",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "customer",
+    "subtype": "defense_contracting",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.97,
+    "evidence": [
+      {
+        "quote": "Aeronautics Systems is a leader in the design, development, production, integration, sustainment and modernization of military aircraft systems for the U.S. Air Force, the U.S. Navy, other U.S. government agencies, and international customers.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1133421/000113342126000003/noc-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-27",
+    "shared_evidence_group": "ev_6c9bef2bde83"
+  },
+  {
+    "root_ticker": "NOC",
+    "counterparty_name": "Japan",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "customer",
+    "subtype": "international_defense",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "E-2D Advanced Hawkeye battle management aircraft production for the U.S. Navy, Japan, and France",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1133421/000113342126000003/noc-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-27",
+    "shared_evidence_group": "ev_adbbd4bbc6ce"
+  },
+  {
+    "root_ticker": "NOC",
+    "counterparty_name": "France",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "customer",
+    "subtype": "international_defense",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "E-2D Advanced Hawkeye battle management aircraft production for the U.S. Navy, Japan, and France",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1133421/000113342126000003/noc-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-27",
+    "shared_evidence_group": "ev_adbbd4bbc6ce"
+  },
+  {
+    "root_ticker": "NOC",
+    "counterparty_name": "Australia",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "customer",
+    "subtype": "international_defense",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "MQ-4C Triton, which provides wide area strategic ISR over vast ocean and coastal regions for maritime domain awareness to the U.S. Navy and Australia",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1133421/000113342126000003/noc-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-27",
+    "shared_evidence_group": "ev_705be0e1dc80"
+  },
+  {
+    "root_ticker": "NOC",
+    "counterparty_name": "Republic of Korea",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "customer",
+    "subtype": "international_defense",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "RQ-4 Global Hawk, which provides high resolution imagery of land masses for theater awareness and strategic ISR to the U.S. Air Force, Japan, and the Republic of Korea",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1133421/000113342126000003/noc-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-27",
+    "shared_evidence_group": "ev_f39b0a38ba38"
+  },
+  {
+    "root_ticker": "NOC",
+    "counterparty_name": "Poland",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "customer",
+    "subtype": "international_defense",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.92,
+    "evidence": [
+      {
+        "quote": "Integrated Battle Command System (IBCS) for the U.S. Army and Poland",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1133421/000113342126000003/noc-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-27",
+    "shared_evidence_group": "ev_b3d650277c4a"
+  },
+  {
+    "root_ticker": "NOC",
+    "counterparty_name": "U.S. Army",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "customer",
+    "subtype": "defense_contracting",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Integrated Battle Command System (IBCS) for the U.S. Army and Poland",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1133421/000113342126000003/noc-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-27",
+    "shared_evidence_group": "ev_b3d650277c4a"
+  },
+  {
+    "root_ticker": "NOC",
+    "counterparty_name": "NASA",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "customer",
+    "subtype": "civil_space_contracting",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Cygnus spacecraft, used in the execution of our Commercial Resupply Services (CRS) contracts with NASA to resupply and re-boost the International Space Station",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1133421/000113342126000003/noc-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-27",
+    "shared_evidence_group": "ev_c0c401324e78"
+  },
+  {
+    "root_ticker": "NOC",
+    "counterparty_name": "Missile Defense Agency",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "customer",
+    "subtype": "defense_contracting",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Missile defense systems, interceptors, targets, mission processing and boosters for the Missile Defense Agency's (MDA) Ground-based Midcourse Defense Weapon Systems (GWS)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1133421/000113342126000003/noc-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-27",
+    "shared_evidence_group": "ev_e316f55a3d5c"
+  },
+  {
+    "root_ticker": "NOC",
+    "counterparty_name": "Space Development Agency",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "customer",
+    "subtype": "defense_contracting",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.93,
+    "evidence": [
+      {
+        "quote": "Space Development Agency (SDA) Tracking and Transport layers providing missile warning/tracking and resilient, low-latency, high-volume data transport communication systems",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1133421/000113342126000003/noc-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-27",
+    "shared_evidence_group": "ev_1247dc540894"
+  },
+  {
+    "root_ticker": "NOC",
+    "counterparty_name": "Defense Contract Audit Agency",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "dependency",
+    "subtype": "government_oversight",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.15,
+    "evidence": [
+      {
+        "quote": "In addition, costs incurred and allocated to contracts with the U.S. government are routinely audited by the Defense Contract Audit Agency (DCAA).",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1133421/000113342126000003/noc-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-27",
+    "shared_evidence_group": "ev_15d5fe23dee3"
+  },
+  {
+    "root_ticker": "NOC",
+    "counterparty_name": "U.S. government",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "customer",
+    "subtype": "primary_customer",
+    "strength": 0.84,
+    "strength_tier": "critical",
+    "strength_basis": "disclosed",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.98,
+    "evidence": [
+      {
+        "quote": "Our primary customer is the U.S. government, from which we derived 84 percent of our sales in 2025.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1133421/000113342126000003/noc-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "In connection with our U.S. government contracts, we are required to procure certain raw materials, chemicals, components and parts from supply sources approved by the customer",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1133421/000113342126000003/noc-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-27",
+    "shared_evidence_group": "ev_2fae8f4986f4"
+  },
+  {
+    "root_ticker": "NOC",
+    "counterparty_name": "DCAA",
+    "counterparty_ticker": null,
+    "counterparty_type": "government_agency",
+    "category": "dependency",
+    "subtype": "regulatory_oversight",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.72,
+    "evidence": [
+      {
+        "quote": "We operate in a highly regulated environment and are routinely audited and reviewed by the U.S. government and its agencies, such as the DCAA",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1133421/000113342126000003/noc-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-27",
+    "shared_evidence_group": "ev_acd736d0727e"
+  },
+  {
+    "root_ticker": "NOC",
+    "counterparty_name": "Defense Contract Management Agency",
+    "counterparty_ticker": null,
+    "counterparty_type": "government_agency",
+    "category": "customer",
+    "subtype": "government_oversight",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.75,
+    "evidence": [
+      {
+        "quote": "We operate in a highly regulated environment and are routinely audited and reviewed by the U.S. government and its agencies, such as the DCAA, Defense Contract Management Agency (DCMA)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1133421/000113342126000003/noc-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-27",
+    "shared_evidence_group": "ev_8bb74be3e483"
+  },
+  {
+    "root_ticker": "NOC",
+    "counterparty_name": "DoW Inspector General",
+    "counterparty_ticker": null,
+    "counterparty_type": "government",
+    "category": "dependency",
+    "subtype": "regulatory_auditor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0,
+    "evidence": [
+      {
+        "quote": "We operate in a highly regulated environment and are routinely audited and reviewed by the U.S. government and its agencies, such as the DCAA, Defense Contract Management Agency (DCMA) and the DoW Inspector General.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1133421/000113342126000003/noc-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-01-27",
+    "shared_evidence_group": "ev_d606f5323286"
+  }
+]

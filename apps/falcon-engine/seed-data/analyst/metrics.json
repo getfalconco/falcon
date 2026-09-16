@@ -1,0 +1,48 @@
+{
+ "schema_version": 1,
+ "metrics": {
+  "outputs_ok": 19,
+  "outputs_failed": 0,
+  "validation_failures": 3,
+  "transport_failures": 0,
+  "retries": 3,
+  "breaker_trips": 0,
+  "grounding_failed": 0,
+  "edge_deviations": 1,
+  "superseded": 2,
+  "cache_hits": 0,
+  "latencies_ms": [
+   10995,
+   5858,
+   10624,
+   18025,
+   7779,
+   7321,
+   12680,
+   21542,
+   7836,
+   12436,
+   10451,
+   7263,
+   10340,
+   14561,
+   27862,
+   29024,
+   5454,
+   4636,
+   5445,
+   5339,
+   5811,
+   26397
+  ],
+  "input_tokens": 198220,
+  "output_tokens": 9008,
+  "by_cell": {
+   "anomaly_review|unidentified|watch": 11,
+   "anomaly_review|identified|watch": 1,
+   "anomaly_review|identified|no_edge": 4,
+   "anomaly_review|partially_identified|watch": 2,
+   "anomaly_review|identified|potential_edge": 1
+  }
+ }
+}

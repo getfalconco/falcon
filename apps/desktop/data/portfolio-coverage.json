@@ -1,0 +1,112 @@
+{
+ "NVDA": {
+  "symbol": "NVDA",
+  "trackerAddedAt": "2026-08-29T19:49:45.967Z",
+  "step1": {
+   "status": "cached",
+   "at": "2026-08-23T10:04:42.018Z",
+   "jobId": null,
+   "error": null
+  },
+  "lastSeenAt": "2026-08-29T19:49:45.967Z"
+ },
+ "AMD": {
+  "symbol": "AMD",
+  "trackerAddedAt": "2026-08-23T11:14:01.922Z",
+  "step1": {
+   "status": "cached",
+   "at": "2026-08-23T11:14:01.971Z",
+   "jobId": null,
+   "error": null
+  },
+  "lastSeenAt": "2026-08-23T11:33:24.560Z"
+ },
+ "AVGO": {
+  "symbol": "AVGO",
+  "trackerAddedAt": "2026-08-23T11:17:28.428Z",
+  "step1": {
+   "status": "cached",
+   "at": "2026-08-23T11:17:28.435Z",
+   "jobId": null,
+   "error": null
+  },
+  "lastSeenAt": "2026-08-25T16:09:18.401Z"
+ },
+ "TSM": {
+  "symbol": "TSM",
+  "trackerAddedAt": "2026-08-26T14:46:29.627Z",
+  "step1": {
+   "status": "cached",
+   "at": "2026-08-23T11:45:05.271Z",
+   "jobId": null,
+   "error": null
+  },
+  "lastSeenAt": "2026-08-26T14:46:29.627Z"
+ },
+ "ANET": {
+  "symbol": "ANET",
+  "trackerAddedAt": "2026-08-25T20:32:03.654Z",
+  "step1": {
+   "status": "cached",
+   "at": "2026-08-25T17:49:36.846Z",
+   "jobId": null,
+   "error": null
+  },
+  "lastSeenAt": "2026-08-25T20:32:03.654Z"
+ },
+ "HPE": {
+  "symbol": "HPE",
+  "trackerAddedAt": "2026-08-28T12:36:40.278Z",
+  "step1": {
+   "status": "cached",
+   "at": "2026-08-25T17:50:05.176Z",
+   "jobId": null,
+   "error": null
+  },
+  "lastSeenAt": "2026-08-28T12:36:40.278Z"
+ },
+ "JD": {
+  "symbol": "JD",
+  "trackerAddedAt": "2026-08-26T14:46:27.256Z",
+  "step1": {
+   "status": "started",
+   "at": "2026-08-25T20:04:39.990Z",
+   "jobId": "8b0f13fe-46c8-4852-af9c-57ebf4d282b8",
+   "error": null
+  },
+  "lastSeenAt": "2026-08-26T14:46:27.256Z"
+ },
+ "BA": {
+  "symbol": "BA",
+  "trackerAddedAt": "2026-08-26T10:17:15.640Z",
+  "step1": {
+   "status": "cached",
+   "at": "2026-08-25T20:06:22.183Z",
+   "jobId": null,
+   "error": null
+  },
+  "lastSeenAt": "2026-08-26T10:17:15.640Z"
+ },
+ "CDNS": {
+  "symbol": "CDNS",
+  "trackerAddedAt": "2026-08-28T12:27:07.730Z",
+  "step1": {
+   "status": "cached",
+   "at": "2026-08-27T13:06:06.736Z",
+   "jobId": null,
+   "error": null
+  },
+  "lastSeenAt": "2026-08-28T12:27:07.730Z"
+ },
+ "NOC": {
+  "symbol": "NOC",
+  "trackerAddedAt": "2026-08-29T19:49:40.483Z",
+  "step1": {
+   "status": "cached",
+   "at": "2026-08-28T12:36:23.075Z",
+   "jobId": null,
+   "error": null
+  },
+  "lastSeenAt": "2026-08-29T19:49:40.483Z"
+ }
+}

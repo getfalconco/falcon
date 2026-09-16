@@ -1,0 +1,130 @@
+[
+  {
+    "counterparty_name": "Merck",
+    "category": "partner",
+    "subtype": "oncology clinical collaboration",
+    "evidence_quote": "We are advancing intismeran in collaboration with Merck, with eight Phase 2 and Phase 3 clinical trials underway across multiple tumor types.",
+    "confidence": 0.95,
+    "merged_into": "Merck"
+  },
+  {
+    "counterparty_name": "Merck",
+    "category": "partner",
+    "subtype": "cost and profit sharing agreement",
+    "evidence_quote": "we and Merck will collaborate on further development and commercialization of mRNA-4157, and we will share costs and any profits and losses worldwide related to mRNA-4157 equally",
+    "confidence": 0.95,
+    "merged_into": "Merck"
+  },
+  {
+    "counterparty_name": "Merck",
+    "category": "partner",
+    "subtype": "collaboration and license agreement for personalized mRNA cancer vaccine",
+    "evidence_quote": "Representative relationships and associated programs include those with Merck, for our intismeran programs (mRNA-4157), and Vertex, for our CF program (mRNA-3692).",
+    "confidence": 0.95,
+    "merged_into": "Merck"
+  },
+  {
+    "counterparty_name": "Vertex",
+    "category": "partner",
+    "subtype": "strategic collaboration and license agreement for cystic fibrosis program",
+    "evidence_quote": "Representative relationships and associated programs include those with Merck, for our intismeran programs (mRNA-4157), and Vertex, for our CF program (mRNA-3692).",
+    "confidence": 0.95,
+    "merged_into": "Vertex"
+  },
+  {
+    "counterparty_name": "Immatics",
+    "category": "partner",
+    "subtype": "cancer therapeutics collaboration",
+    "evidence_quote": "our collaboration with Immatics N.V. to pioneer novel and transformative therapies for cancer patients with high unmet medical need",
+    "confidence": 0.9,
+    "merged_into": "Immatics"
+  },
+  {
+    "counterparty_name": "Recordati",
+    "category": "partner",
+    "subtype": "clinical development and commercialization collaboration",
+    "evidence_quote": "in January 2026, we entered into a collaboration with Recordati, an international pharmaceutical group, to advance our investigational PA therapeutic (mRNA-3927) through the final stages of clinical development",
+    "confidence": 0.92,
+    "merged_into": "Recordati"
+  },
+  {
+    "counterparty_name": "CEPI",
+    "category": "partner",
+    "subtype": "clinical trial funding collaboration",
+    "evidence_quote": "the Coalition for Epidemic Preparedness Innovations (CEPI) will invest up to $54.3 million to support a pivotal Phase 3 clinical trial",
+    "confidence": 0.85,
+    "merged_into": "CEPI"
+  },
+  {
+    "counterparty_name": "Gates Foundation",
+    "category": "partner",
+    "subtype": "vaccine R&D collaboration",
+    "evidence_quote": "In collaboration with the Gates Foundation, International AIDS Vaccine Initiative (IAVI), The Scripps Research Institute and the National Institutes of Health (NIH), Phase 1 studies of previous versions of our HIV vaccine have been completed",
+    "confidence": 0.8,
+    "merged_into": "Gates Foundation"
+  },
+  {
+    "counterparty_name": "ILCM",
+    "category": "partner",
+    "subtype": "collaboration/licensing agreement",
+    "evidence_quote": "In September 2021, we entered into a collaboration agreement with the ILCM to develop a new mRNA therapeutic (mRNA-3351) for type 1 Crigler-Najjar syndrome (CN-1).",
+    "confidence": 0.9,
+    "merged_into": "ILCM"
+  },
+  {
+    "counterparty_name": "Gates Foundation",
+    "category": "partner",
+    "subtype": "global health collaboration/funding agreement",
+    "evidence_quote": "we entered a global health project framework agreement with the Bill & Melinda Gates Foundation (n/k/a the Gates Foundation) to advance mRNA development projects for various infectious diseases",
+    "confidence": 0.9,
+    "merged_into": "Gates Foundation"
+  },
+  {
+    "counterparty_name": "Pfizer",
+    "category": "competitor",
+    "subtype": "COVID vaccine competitor",
+    "evidence_quote": "we compete with larger, well-established and experienced pharmaceutical companies for sales of our products, including against Pfizer and Sanofi for sales of our COVID vaccines",
+    "confidence": 0.95,
+    "merged_into": "Pfizer"
+  },
+  {
+    "counterparty_name": "Pfizer",
+    "category": "competitor",
+    "subtype": "RSV vaccine competitor",
+    "evidence_quote": "and Pfizer and GSK for our RSV vaccine",
+    "confidence": 0.95,
+    "merged_into": "Pfizer"
+  },
+  {
+    "counterparty_name": "NIAID",
+    "category": "partner",
+    "subtype": "research collaboration",
+    "evidence_quote": "our agreements funded by BARDA and DARPA and our collaboration with NIAID, and with foreign governments and agencies, including in the United Kingdom, Canada and Australia",
+    "confidence": 0.8,
+    "merged_into": "NIAID"
+  },
+  {
+    "counterparty_name": "United Kingdom",
+    "category": "customer",
+    "subtype": "foreign government funding agreement",
+    "evidence_quote": "our agreements funded by BARDA and DARPA and our collaboration with NIAID, and with foreign governments and agencies, including in the United Kingdom, Canada and Australia",
+    "confidence": 0.65,
+    "merged_into": "United Kingdom"
+  },
+  {
+    "counterparty_name": "Canada",
+    "category": "customer",
+    "subtype": "foreign government funding agreement",
+    "evidence_quote": "our agreements funded by BARDA and DARPA and our collaboration with NIAID, and with foreign governments and agencies, including in the United Kingdom, Canada and Australia",
+    "confidence": 0.65,
+    "merged_into": "Canada"
+  },
+  {
+    "counterparty_name": "Australia",
+    "category": "customer",
+    "subtype": "foreign government funding agreement",
+    "evidence_quote": "our agreements funded by BARDA and DARPA and our collaboration with NIAID, and with foreign governments and agencies, including in the United Kingdom, Canada and Australia",
+    "confidence": 0.65,
+    "merged_into": "Australia"
+  }
+]

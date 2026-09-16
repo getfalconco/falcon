@@ -1,0 +1,236 @@
+[
+  {
+    "counterparty_name": "Boeing",
+    "category": "customer",
+    "subtype": "aircraft_manufacturer",
+    "evidence_quote": "Collins' largest commercial customers are Boeing and Airbus with combined sales, prior to discounts and incentives, of 16%, 16%, and 19% of total Collins segment sales in 2025, 2024, and 2023, respectively.",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Airbus",
+    "category": "customer",
+    "subtype": "aircraft_manufacturer",
+    "evidence_quote": "Collins' largest commercial customers are Boeing and Airbus with combined sales, prior to discounts and incentives, of 16%, 16%, and 19% of total Collins segment sales in 2025, 2024, and 2023, respectively.",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Airbus",
+    "category": "customer",
+    "subtype": "aircraft_manufacturer",
+    "evidence_quote": "Pratt & Whitney's largest commercial customer by sales is Airbus, with sales, prior to discounts and incentives, of 29%, 31%, and 48% of total Pratt & Whitney segment sales in 2025, 2024, and 2023, respectively.",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Federal Aviation Administration",
+    "category": "customer",
+    "subtype": "government_agency",
+    "evidence_quote": "Collins was also awarded a contract by the Federal Aviation Administration (FAA) to support the Radar System Replacement program as part of the Department of Transportation's Brand New Air Traffic Control System.",
+    "confidence": 0.9,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "U.S. Navy",
+    "category": "customer",
+    "subtype": "military",
+    "evidence_quote": "Collins was selected to be the primary subcontractor for the U.S. Navy's solution for engineering design and manufacturing of the Very Low Frequency communication subsystem",
+    "confidence": 0.9,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Pratt & Whitney Canada",
+    "category": "partner",
+    "subtype": "development_collaboration",
+    "evidence_quote": "Collins was selected by the European Union's Clean Aviation Joint Undertaking (Clean Aviation) to collaborate with Pratt & Whitney Canada as well as other consortium members on multiple development projects",
+    "confidence": 0.9,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Lockheed Martin",
+    "category": "customer",
+    "subtype": "defense_prime",
+    "evidence_quote": "Pratt & Whitney produces and sustains the F135 engine for the U.S. government's F-35 Joint Program Office to exclusively power the single-engine F-35 Lightning II fifth generation aircraft (commonly known as the Joint Strike Fighter) produced by Lockheed Martin.",
+    "confidence": 0.9,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "U.S. Air Force",
+    "category": "customer",
+    "subtype": "military",
+    "evidence_quote": "In early 2025, Pratt & Whitney completed the Detailed Design Review of its XA103 engine for the U.S. Air Force's NGAP",
+    "confidence": 0.9,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "U.S. Space Force",
+    "category": "customer",
+    "subtype": "military",
+    "evidence_quote": "Raytheon serves as a prime contractor or major subcontractor on numerous programs with the U.S. Department of War (DoW) (formerly referred to as the U.S. Department of Defense), including the U.S. Navy, U.S. Army, Missile Defense Agency, U.S. Air Force,",
+    "confidence": 0.85,
+    "reason": "counterparty name not in quote",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "DoD",
+    "category": "customer",
+    "subtype": "defense_contracting",
+    "evidence_quote": "We deal with numerous U.S. government agencies and entities, including but not limited to all of the branches of the DoD and the FAA.",
+    "confidence": 0.95,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "FAA",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "We deal with numerous U.S. government agencies and entities, including but not limited to all of the branches of the DoD and the FAA.",
+    "confidence": 0.92,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "U.S. Department of Commerce",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "the Export Administration Regulations (EAR) administered by the U.S. Department of Commerce",
+    "confidence": 0.95,
+    "reason": "The U.S. Department of Commerce is acting as a regulator administering the Export Administration Regulations (EAR), not as a dependency in the sense the category implies. The root company must comply with export regulations, but this is a regulatory compliance obligation common to all exporters, not a critical operational dependency on infrastructure or services provided by the Department of Commerce. Regulators acting in their regulatory capacity should be rejected as counterparties per the auditor instructions. The evidence quote is valid text, but the relationship does not constitute a 'dependency' as defined (critically relies on counterparty infrastructure/service with no commercial relationship). This is purely regulatory oversight.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "U.S. Department of State",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "the International Traffic in Arms Regulations (ITAR) and Arms Export Control Act (AECA) provisions administered by the U.S. Department of State (DOS)",
+    "confidence": 0.95,
+    "reason": "The U.S. Department of State is acting as a regulatory authority administering ITAR and AECA export control regulations. While the filing shows DOS exercises significant regulatory power over RTX's operations (including the Consent Agreement and potential for fines, debarment, and approval requirements), this is a regulatory relationship, not a dependency relationship. Per the auditor instructions, regulators acting as regulators should be rejected as counterparties. The DOS does not provide critical infrastructure or services that RTX relies upon (like GPS satellites or public networks); rather, it enforces legal compliance requirements. The category 'dependency' with subtype 'regulatory_authority' is contradictory—regulatory authorities are excluded from the counterparty framework. Additionally, tax and revenue authorities are explicitly listed as rejection cases, and regulatory agencies fall into the same exclusion category.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "U.S. Department of the Treasury",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "embargoes and sanctions regulations administered by the U.S. Department of the Treasury",
+    "confidence": 0.95,
+    "reason": "The U.S. Department of the Treasury is cited only in the context of administering 'embargoes and sanctions regulations'—a regulatory enforcement role. The filing treats Treasury as a regulatory authority that RTX must comply with, not as a dependency in the sense of critical infrastructure or services RTX relies upon. Regulators acting in their regulatory capacity (enforcement, rule-making) are excluded from counterparty relationships per instruction 4. The category 'dependency' is reserved for critical infrastructure or services the root relies on (like GPS or public networks), not for regulatory bodies enforcing compliance. Treasury here is a regulator, not a service provider or infrastructure RTX depends on for operations.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "U.S. Department of Homeland Security",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "import regulations administered by the U.S. Department of Homeland Security and the U.S. Department of Justice (DOJ)",
+    "confidence": 0.95,
+    "reason": "The U.S. Department of Homeland Security is cited solely in its regulatory capacity administering import regulations, not as a dependency relationship. The company does not critically rely on DHS infrastructure or services; rather, DHS enforces compliance requirements. This is a regulatory authority, not a dependency. The correct treatment is that regulators acting as regulators should be rejected as counterparties per instruction #4. The evidence describes legal/compliance obligations under 'import regulations administered by the U.S. Department of Homeland Security,' which is a regulatory function, not a dependency on critical infrastructure or services.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "U.S. Department of Justice",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "import regulations administered by the U.S. Department of Homeland Security and the U.S. Department of Justice (DOJ)",
+    "confidence": 0.95,
+    "reason": "The U.S. Department of Justice is referenced solely as a regulator administering import regulations, not as a dependency critical to RTX's infrastructure or operations. Regulatory authorities acting in their enforcement/oversight capacity should be excluded per the instructions (regulators acting as regulators are invalid counterparties). The DOJ is not a service provider or infrastructure the company critically depends on in a technical sense; it is an enforcement body. The context discusses compliance obligations, investigations, and settlements with DOJ—all regulatory enforcement activities. The quoted text 'import regulations administered by the U.S. Department of Justice' describes regulatory oversight, not a dependency relationship. This is a regulator acting as a regulator, which must be rejected.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Securities and Exchange Commission",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "on October 16, 2024, the Company became subject to an administrative order issued by the Securities and Exchange Commission (SEC)",
+    "confidence": 0.91,
+    "reason": "The SEC is a regulatory authority, not a counterparty dependency. The evidence_quote describes RTX becoming subject to an SEC administrative order as part of a compliance/enforcement action. This is a regulator-to-regulated relationship, not a dependency where RTX relies on SEC infrastructure or services for its operations. The auditing instructions explicitly exclude 'regulators acting as regulators' and 'tax and revenue authorities' as valid counterparties. The SEC issuing an administrative order is the SEC acting in its regulatory enforcement capacity, which disqualifies it as a counterparty under the stated rules.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Environmental Protection Agency",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "the facility or facilities involved in the violation could be deemed ineligible to be used in performing any U.S. government contract we are awarded until the Environmental Protection Agency (EPA) thereafter certifies",
+    "confidence": 0.92,
+    "reason": "The EPA is a regulatory authority, not a dependency. The evidence_quote describes a regulatory consequence (facility ineligibility for government contracts upon Clean Air/Water Act violation until EPA certifies correction). This is a regulatory enforcement mechanism, not a critical operational dependency where RTX relies on EPA infrastructure or services to function. The EPA acts in its capacity as a regulator enforcing environmental law, which is explicitly excluded from the dependency category per the instructions ('regulators acting as regulators' should be rejected). The relationship is regulatory compliance, not operational dependency.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "U.S. Department of War",
+    "category": "customer",
+    "subtype": "defense_programs",
+    "evidence_quote": "Our U.S. government revenues largely result from contracts awarded under various U.S. government programs, primarily defense-related programs with the U.S. Department of War (DoW)",
+    "confidence": 0.95,
+    "reason": "The counterparty name 'U.S. Department of War' appears to be outdated or incorrect terminology. The evidence_quote states '(DoW) (formerly referred to as the U.S. Department of Defense)' - meaning DoW is the current reference and Department of Defense is the former name. However, historically, the U.S. Department of War was renamed to the Department of Defense in 1947. The text appears to contain an error or unusual phrasing, as it suggests DoW (Department of War) is current and DoD (Department of Defense) is former, which contradicts standard nomenclature. The correct counterparty should be 'U.S. Department of Defense' (DoD), which is the actual current name of this government entity. While the customer relationship and category are correct, the counterparty_name itself is fundamentally wrong based on both historical fact and the context suggesting this is a current customer relationship.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Raytheon",
+    "category": "partner",
+    "subtype": "segment_realignment",
+    "evidence_quote": "Raytheon Missiles & Defense (RMD) (a former RTX Corporation (RTX) business segment, which became part of Raytheon as a result of the July 1, 2023 RTX segment realignment)",
+    "confidence": 0.85,
+    "reason": "Raytheon is not an external counterparty. The evidence quote explicitly states 'Raytheon Missiles & Defense (RMD) (a former RTX Corporation (RTX) business segment, which became part of Raytheon as a result of the July 1, 2023 RTX segment realignment)' — this describes an internal reorganization where RMD, a business segment of RTX, became part of 'Raytheon' through RTX's own segment realignment. The broader context confirms that 'Raytheon' refers to one of RTX's operating segments (alongside Collins Aerospace), not a separate external company. This is an internal restructuring, not a partner relationship with an external entity. Additionally, the filing refers to 'the Raytheon business' as part of RTX in the China sanctions discussion, further confirming Raytheon is a subsidiary/segment of RTX, not a counterparty.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "DoW",
+    "category": "customer",
+    "subtype": "defense_contracting",
+    "evidence_quote": "bid protests from unsuccessful bidders on new program awards are frequent with respect to DoW awards in particular",
+    "confidence": 0.85,
+    "reason": "DoW is not a counterparty; it is an abbreviation for 'Department of War' or similar U.S. government defense entity (likely DoD - Department of Defense based on context). The excerpt describes bid protests and procurement procedures typical of U.S. government defense contracting. While the U.S. government (specifically DoD) is indeed a customer of RTX, 'DoW' as presented is an abbreviation/shorthand, not the proper counterparty name. The evidence quote discusses bid protest procedures, not a customer relationship per se. More critically, regulatory/government entities acting in their procurement capacity should be identified by their proper full names (e.g., 'U.S. Department of Defense'), not abbreviations. The candidate uses 'DoW' which is ambiguous and appears nowhere else in standard defense industry terminology as a recognized customer name. The text repeatedly refers to 'DoW awards' and 'the DoW' but never spells out what DoW stands for, making this an invalid counterparty identification.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Defense Contract Audit Agency",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "The Defense Contract Audit Agency (DCAA) and the Defense Contract Management Agency (DCMA) also review the adequacy of, and our compliance with, our internal control systems",
+    "confidence": 0.95,
+    "reason": "The DCAA is a government audit agency, not a counterparty in a commercial, partnership, or competitive relationship. The evidence describes DCAA's role in reviewing RTX's internal controls and auditing allowable costs for compliance with government contracting standards. This is a regulatory oversight function inherent to doing business with the U.S. government, not a critical dependency on DCAA's infrastructure or services. RTX does not 'rely on' DCAA in the sense of dependency (like GPS or public internet); DCAA is an auditor enforcing compliance. This is analogous to a tax authority or financial regulator—excluded counterparty types. The relationship is regulatory oversight, not a dependency edge.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "U.S. Environmental Protection Agency",
+    "category": "dependency",
+    "subtype": "regulatory_body",
+    "evidence_quote": "A criminal violation of certain U.S. environmental statutes such as the Clean Air Act and Clean Water Act could result in suspension, debarment, or disqualification by the U.S. Environmental Protection Agency (EPA).",
+    "confidence": 0.85,
+    "reason": "The EPA is cited as a regulator enforcing environmental statutes (Clean Air Act, Clean Water Act) with authority to suspend, debar, or disqualify RTX facilities for criminal violations. This is a regulatory enforcement role, not a dependency relationship. The EPA is not providing infrastructure or services RTX relies upon; it is a government agency exercising regulatory authority. The audit rule explicitly states 'regulators acting as regulators' should be rejected as counterparties. The evidence describes potential penalties for non-compliance, which is a regulatory compliance risk, not a dependency.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "DOJ",
+    "category": "dependency",
+    "subtype": "regulatory_body",
+    "evidence_quote": "in October 2024, the Company entered into a DPA with the DOJ and consented to the entry of an SEC Administrative Order to resolve investigations related to conduct that, among other things, violated the FCPA.",
+    "confidence": 0.95,
+    "reason": "The DOJ (Department of Justice) is a regulatory and law enforcement authority acting in its governmental enforcement capacity. The evidence quote describes the DOJ investigating FCPA violations and entering into a Deferred Prosecution Agreement (DPA) with RTX - this is a regulatory enforcement action, not a dependency relationship. The DOJ is enforcing laws, not providing infrastructure or services that RTX's business operations depend upon. Regulators acting as regulators are explicitly excluded as counterparties per the audit instructions. The relationship is enforcement/compliance, not operational dependency.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "SEC",
+    "category": "dependency",
+    "subtype": "regulatory_body",
+    "evidence_quote": "in October 2024, the Company entered into a DPA with the DOJ and consented to the entry of an SEC Administrative Order to resolve investigations related to conduct that, among other things, violated the FCPA.",
+    "confidence": 0.95,
+    "reason": "The SEC is acting as a regulator in this context, not a dependency. The evidence shows the SEC issued an Administrative Order to resolve FCPA violations—this is a regulatory enforcement action, not a critical infrastructure or service dependency. Per instruction 4, 'regulators acting as regulators' should be rejected as counterparties. The SEC is not providing a critical infrastructure or service that RTX relies upon; it is enforcing securities laws. The relationship is regulatory compliance/enforcement, not dependency.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "Department of Homeland Security",
+    "category": "dependency",
+    "subtype": "regulatory_body",
+    "evidence_quote": "we may obtain limitations of liability and additional defenses for various reasons including the qualification of our products and services by the Department of Homeland Security under the SAFETY Act provisions of the Homeland Security Act of 2002.",
+    "confidence": 0.9,
+    "reason": "The Department of Homeland Security is acting as a regulatory body under the SAFETY Act, not as an entity RTX critically relies upon for infrastructure or service. The quoted passage describes DHS as a regulatory authority that can grant liability limitations and defenses (a protective legal mechanism), not as a dependency in the sense of critical infrastructure or service provision. DHS is excluded as a valid counterparty under rule 4 (regulators acting as regulators). The SAFETY Act qualification is a regulatory benefit, not a dependency relationship.",
+    "stage": "audit"
+  }
+]

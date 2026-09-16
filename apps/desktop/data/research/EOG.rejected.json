@@ -1,0 +1,65 @@
+[
+  {
+    "counterparty_name": "IRS",
+    "category": "dependency",
+    "subtype": "tax_authority",
+    "evidence_quote": "U.S. federal income tax laws applicable to oil and gas exploration and production companies",
+    "confidence": 0.75,
+    "reason": "counterparty name not in quote",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Federal Energy Regulatory Commission",
+    "category": "dependency",
+    "subtype": "regulatory_authority",
+    "evidence_quote": "The transportation and sale for resale of natural gas in interstate commerce are regulated pursuant to the Natural Gas Act of 1938, as amended (NGA), and the Natural Gas Policy Act of 1978. These statutes are administered by the Federal",
+    "confidence": 0.92,
+    "reason": "FERC is a regulatory authority, not a dependency. The evidence describes FERC as the administrator of the Natural Gas Act and Natural Gas Policy Act. The passage states that 'all of EOG's sales of natural gas currently may be made at unregulated market prices' and that effective 1993, natural gas prices for 'all first sales' were deregulated. FERC is not providing infrastructure or services that EOG critically relies upon; rather, FERC is a regulator overseeing aspects of natural gas interstate commerce. Regulators acting in their regulatory capacity are explicitly excluded as counterparties per the auditor instructions. While FERC has authority over certain sales, this is a regulatory oversight relationship, not a dependency on infrastructure or critical services. The correct treatment is rejection, as regulatory authorities like FERC, IRS, and other government agencies acting as regulators should not be included as counterparties.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "U.S. Securities and Exchange Commission",
+    "category": "dependency",
+    "subtype": "regulatory_body",
+    "evidence_quote": "in March 2024, the U.S. Securities and Exchange Commission (SEC) finalized extensive climate-related disclosure rules that would require U.S. public companies to significantly expand the climate-related disclosures",
+    "confidence": 0.75,
+    "reason": "The SEC is a regulator acting in its regulatory capacity. Per the auditing rules, regulators acting as regulators must be rejected as counterparties. The evidence quote describes the SEC finalizing climate-related disclosure rules, which is a regulatory function. Additionally, while EOG may be subject to SEC regulations, the relationship described is one of regulatory oversight, not a critical infrastructure dependency. The SEC is not providing infrastructure or services that EOG's operations depend upon; rather, it is imposing disclosure requirements as part of its regulatory mandate.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "U.S. Court of Appeals for the Eighth Circuit",
+    "category": "dependency",
+    "subtype": "judicial_body",
+    "evidence_quote": "these rules have been stayed in abeyance by the U.S. Court of Appeals for the Eighth Circuit until such time as the SEC reconsiders the challenged rules",
+    "confidence": 0.7,
+    "reason": "The U.S. Court of Appeals for the Eighth Circuit is a judicial body that issued a stay on SEC rules, but this does not create a dependency relationship with EOG Resources. The court is not providing critical infrastructure or services that EOG relies upon for its business operations. The stay is a legal procedural matter affecting regulatory requirements, not a relationship where EOG depends on the court's infrastructure or services. Courts adjudicating regulatory matters or legal disputes are not counterparties in the sense of business relationships. This is similar to how regulators acting in their regulatory capacity are explicitly excluded - courts acting in their judicial capacity should also be excluded.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "European Union",
+    "category": "dependency",
+    "subtype": "regulatory_body",
+    "evidence_quote": "in November 2023, the European Union approved methane emissions limits on crude oil and natural gas imports beginning in 2030.",
+    "confidence": 0.75,
+    "reason": "The European Union is mentioned only in the context of imposing methane emissions limits on imports beginning in 2030. This is a regulatory action affecting future market access, not a dependency relationship. The root company (EOG Resources) does not critically rely on EU infrastructure or services for current operations. The EU is acting as a regulator setting import standards, not as an entity EOG depends upon for operational continuity. This is a regulatory risk disclosure, not evidence of dependency. Additionally, regulators acting in their regulatory capacity should be rejected as counterparties per the instructions.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "U.S. EPA",
+    "category": "dependency",
+    "subtype": "regulatory_body",
+    "evidence_quote": "The U.S. Environmental Protection Agency (U.S. EPA) has, however, issued certain regulations relating to hydraulic fracturing",
+    "confidence": 0.85,
+    "reason": "The U.S. EPA is a regulatory authority acting in its regulatory capacity. Per instruction #4, regulators acting as regulators must be rejected as counterparties. The evidence quote describes the EPA issuing regulations relating to hydraulic fracturing, which is a classic regulatory function. This is not a dependency relationship where the root company critically relies on EPA infrastructure or services with no commercial vendor relationship involved—rather, it is a regulatory oversight relationship. The EPA does not provide a service or infrastructure that EOG depends on to operate; it enforces compliance requirements.",
+    "stage": "audit"
+  },
+  {
+    "counterparty_name": "SEC",
+    "category": "dependency",
+    "subtype": "regulatory_body",
+    "evidence_quote": "the SEC, in March 2024, finalized extensive climate-related disclosure rules that would require U.S. public companies to significantly expand the climate-related disclosures in their SEC filings",
+    "confidence": 0.9,
+    "reason": "The SEC is acting as a regulator in this context, not as a counterparty upon which EOG has a dependency relationship. The excerpt discusses SEC rulemaking and disclosure requirements—purely regulatory functions. Per the audit instructions, 'regulators acting as regulators' and 'tax and revenue authorities' are explicitly excluded as valid counterparties. The SEC is imposing compliance obligations, not providing infrastructure or services that EOG 'critically relies on' in the dependency sense. This is a regulatory compliance relationship, not a dependency.",
+    "stage": "audit"
+  }
+]

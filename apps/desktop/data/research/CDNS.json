@@ -1,0 +1,332 @@
+[
+  {
+    "root_ticker": "CDNS",
+    "counterparty_name": "NVIDIA",
+    "counterparty_ticker": "NVDA",
+    "counterparty_type": "public_company",
+    "category": "partner",
+    "subtype": "joint hardware development",
+    "strength": 0.6,
+    "strength_tier": "important",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.93,
+    "evidence": [
+      {
+        "quote": "The M2000 is a specialized, AI-accelerated platform co-developed with NVIDIA to dramatically speed up complex simulations in fields like semiconductor design, aerospace and defense, and drug discovery.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/813672/000081367226000016/cdns-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-19",
+    "shared_evidence_group": "ev_552424df46e5"
+  },
+  {
+    "root_ticker": "CDNS",
+    "counterparty_name": "Synopsys",
+    "counterparty_ticker": "SNPS",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "EDA tools competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.97,
+    "evidence": [
+      {
+        "quote": "Key competitors include Synopsys, Inc., Ansys, Inc. (acquired by Synopsys), Siemens EDA, and a variety of other tool providers, electronics device manufacturers with in-house EDA capabilities, technical and computational software companies, electronics design and consulting firms, and IP companies.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/813672/000081367226000016/cdns-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-19",
+    "shared_evidence_group": "ev_71ffb854713f"
+  },
+  {
+    "root_ticker": "CDNS",
+    "counterparty_name": "Ansys",
+    "counterparty_ticker": null,
+    "counterparty_type": "subsidiary",
+    "category": "competitor",
+    "subtype": "EDA tools competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.85,
+    "evidence": [
+      {
+        "quote": "Key competitors include Synopsys, Inc., Ansys, Inc. (acquired by Synopsys), Siemens EDA, and a variety of other tool providers, electronics device manufacturers with in-house EDA capabilities, technical and computational software companies, electronics design and consulting firms, and IP companies.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/813672/000081367226000016/cdns-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-19",
+    "shared_evidence_group": "ev_71ffb854713f"
+  },
+  {
+    "root_ticker": "CDNS",
+    "counterparty_name": "Siemens EDA",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "EDA tools competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "Key competitors include Synopsys, Inc., Ansys, Inc. (acquired by Synopsys), Siemens EDA, and a variety of other tool providers, electronics device manufacturers with in-house EDA capabilities, technical and computational software companies, electronics design and consulting firms, and IP companies.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/813672/000081367226000016/cdns-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-19",
+    "shared_evidence_group": "ev_71ffb854713f"
+  },
+  {
+    "root_ticker": "CDNS",
+    "counterparty_name": "Keysight Technologies",
+    "counterparty_ticker": "KEYS",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "U.S.-based competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.97,
+    "evidence": [
+      {
+        "quote": "U.S.-based competitors include Keysight Technologies, Inc., Schrödinger, Inc., and CEVA, Inc., while international competitors include Altium Limited (acquired by Renesas Electronics Corporation) and Zuken, Inc. (Japan)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/813672/000081367226000016/cdns-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-19",
+    "shared_evidence_group": "ev_5b1c157e5692"
+  },
+  {
+    "root_ticker": "CDNS",
+    "counterparty_name": "Schrödinger",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "U.S.-based competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "U.S.-based competitors include Keysight Technologies, Inc., Schrödinger, Inc., and CEVA, Inc., while international competitors include Altium Limited (acquired by Renesas Electronics Corporation) and Zuken, Inc. (Japan)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/813672/000081367226000016/cdns-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-19",
+    "shared_evidence_group": "ev_5b1c157e5692"
+  },
+  {
+    "root_ticker": "CDNS",
+    "counterparty_name": "CEVA",
+    "counterparty_ticker": "CEVA",
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "U.S.-based competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.97,
+    "evidence": [
+      {
+        "quote": "U.S.-based competitors include Keysight Technologies, Inc., Schrödinger, Inc., and CEVA, Inc., while international competitors include Altium Limited (acquired by Renesas Electronics Corporation) and Zuken, Inc. (Japan)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/813672/000081367226000016/cdns-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-19",
+    "shared_evidence_group": "ev_5b1c157e5692"
+  },
+  {
+    "root_ticker": "CDNS",
+    "counterparty_name": "Altium Limited",
+    "counterparty_ticker": null,
+    "counterparty_type": "subsidiary",
+    "category": "competitor",
+    "subtype": "international competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.85,
+    "evidence": [
+      {
+        "quote": "U.S.-based competitors include Keysight Technologies, Inc., Schrödinger, Inc., and CEVA, Inc., while international competitors include Altium Limited (acquired by Renesas Electronics Corporation) and Zuken, Inc. (Japan)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/813672/000081367226000016/cdns-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-19",
+    "shared_evidence_group": "ev_5b1c157e5692"
+  },
+  {
+    "root_ticker": "CDNS",
+    "counterparty_name": "Zuken",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "international competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "U.S.-based competitors include Keysight Technologies, Inc., Schrödinger, Inc., and CEVA, Inc., while international competitors include Altium Limited (acquired by Renesas Electronics Corporation) and Zuken, Inc. (Japan)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/813672/000081367226000016/cdns-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-19",
+    "shared_evidence_group": "ev_5b1c157e5692"
+  },
+  {
+    "root_ticker": "CDNS",
+    "counterparty_name": "Huada Empyrean",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "emerging China competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "and emerging players in China such as Huada Empyrean, Xpeedic Technology, X-EPIC, Primarius Technologies, Univista, and Giga Design Automation.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/813672/000081367226000016/cdns-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-19",
+    "shared_evidence_group": "ev_0b89d3e20ce5"
+  },
+  {
+    "root_ticker": "CDNS",
+    "counterparty_name": "Xpeedic Technology",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "competitor",
+    "subtype": "emerging China competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.95,
+    "evidence": [
+      {
+        "quote": "and emerging players in China such as Huada Empyrean, Xpeedic Technology, X-EPIC, Primarius Technologies, Univista, and Giga Design Automation.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/813672/000081367226000016/cdns-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-19",
+    "shared_evidence_group": "ev_0b89d3e20ce5"
+  },
+  {
+    "root_ticker": "CDNS",
+    "counterparty_name": "X-EPIC",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "competitor",
+    "subtype": "emerging China competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "and emerging players in China such as Huada Empyrean, Xpeedic Technology, X-EPIC, Primarius Technologies, Univista, and Giga Design Automation.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/813672/000081367226000016/cdns-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-19",
+    "shared_evidence_group": "ev_0b89d3e20ce5"
+  },
+  {
+    "root_ticker": "CDNS",
+    "counterparty_name": "Primarius Technologies",
+    "counterparty_ticker": null,
+    "counterparty_type": "public_company",
+    "category": "competitor",
+    "subtype": "emerging China competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "and emerging players in China such as Huada Empyrean, Xpeedic Technology, X-EPIC, Primarius Technologies, Univista, and Giga Design Automation.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/813672/000081367226000016/cdns-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-19",
+    "shared_evidence_group": "ev_0b89d3e20ce5"
+  },
+  {
+    "root_ticker": "CDNS",
+    "counterparty_name": "Univista",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "competitor",
+    "subtype": "emerging China competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.9,
+    "evidence": [
+      {
+        "quote": "and emerging players in China such as Huada Empyrean, Xpeedic Technology, X-EPIC, Primarius Technologies, Univista, and Giga Design Automation.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/813672/000081367226000016/cdns-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-19",
+    "shared_evidence_group": "ev_0b89d3e20ce5"
+  },
+  {
+    "root_ticker": "CDNS",
+    "counterparty_name": "Giga Design Automation",
+    "counterparty_ticker": null,
+    "counterparty_type": "private_company",
+    "category": "competitor",
+    "subtype": "emerging China competitor",
+    "strength": 0.3,
+    "strength_tier": "marginal",
+    "strength_basis": "classified",
+    "epistemic_label": "VERIFIED",
+    "confidence": 0.93,
+    "evidence": [
+      {
+        "quote": "and emerging players in China such as Huada Empyrean, Xpeedic Technology, X-EPIC, Primarius Technologies, Univista, and Giga Design Automation.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/813672/000081367226000016/cdns-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      }
+    ],
+    "valid_from": "2026-02-19",
+    "shared_evidence_group": "ev_0b89d3e20ce5"
+  }
+]

@@ -1,0 +1,477 @@
+{
+  "extractionVersion": 3,
+  "sectionChars": 202752,
+  "chunks": 9,
+  "candidates": [
+    {
+      "counterparty_name": "Pfizer",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "collaboration_partner",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "KEYNOTE-A39 trial that was conducted in collaboration with Seagen (now Pfizer Inc., Pfizer) and Astellas",
+      "evidence_quotes": [
+        "KEYNOTE-A39 trial that was conducted in collaboration with Seagen (now Pfizer Inc., Pfizer) and Astellas"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Astellas",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "collaboration_partner",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "KEYNOTE-A39 trial that was conducted in collaboration with Seagen (now Pfizer Inc., Pfizer) and Astellas",
+      "evidence_quotes": [
+        "KEYNOTE-A39 trial that was conducted in collaboration with Seagen (now Pfizer Inc., Pfizer) and Astellas"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Pfizer",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "collaboration_partner",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "KEYNOTE-905 trial conducted in collaboration with Pfizer and Astellas",
+      "evidence_quotes": [
+        "KEYNOTE-905 trial conducted in collaboration with Pfizer and Astellas"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "Astellas",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "collaboration_partner",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "KEYNOTE-905 trial conducted in collaboration with Pfizer and Astellas",
+      "evidence_quotes": [
+        "KEYNOTE-905 trial conducted in collaboration with Pfizer and Astellas"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 0
+    },
+    {
+      "counterparty_name": "AstraZeneca",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "joint development and commercialization",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Being jointly developed and commercialized in a worldwide collaboration with AstraZeneca.",
+      "evidence_quotes": [
+        "Being jointly developed and commercialized in a worldwide collaboration with AstraZeneca."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Sanofi Pasteur MSD",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "co-promotion collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "subject to a collaboration agreement with Sanofi Pasteur MSD, co-promotes a hexavalent vaccine that includes a hepatitis B component",
+      "evidence_quotes": [
+        "subject to a collaboration agreement with Sanofi Pasteur MSD, co-promotes a hexavalent vaccine that includes a hepatitis B component"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 1
+    },
+    {
+      "counterparty_name": "Eisai Co., Ltd.",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "global strategic oncology collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Part of a global strategic oncology collaboration with Eisai Co., Ltd.",
+      "evidence_quotes": [
+        "Part of a global strategic oncology collaboration with Eisai Co., Ltd."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "AstraZeneca",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "global strategic oncology collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Part of a global strategic oncology collaboration with AstraZeneca.",
+      "evidence_quotes": [
+        "Part of a global strategic oncology collaboration with AstraZeneca."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Bayer AG",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "worldwide collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Commercialized under a worldwide collaboration with Bayer AG.",
+      "evidence_quotes": [
+        "Commercialized under a worldwide collaboration with Bayer AG."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 2
+    },
+    {
+      "counterparty_name": "Bayer AG",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "worldwide collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Commercialized under a worldwide collaboration with Bayer AG.",
+      "evidence_quotes": [
+        "Commercialized under a worldwide collaboration with Bayer AG."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Pfizer",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "clinical trial collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The application is based on data from the Phase 3 KEYNOTE-905 trial conducted in collaboration with Pfizer",
+      "evidence_quotes": [
+        "The application is based on data from the Phase 3 KEYNOTE-905 trial conducted in collaboration with Pfizer"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 3
+    },
+    {
+      "counterparty_name": "Pfizer",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "clinical_trial_collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The application is based on data from the Phase 3 KEYNOTE-905 trial conducted in collaboration with Pfizer and Astellas.",
+      "evidence_quotes": [
+        "The application is based on data from the Phase 3 KEYNOTE-905 trial conducted in collaboration with Pfizer and Astellas."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Astellas",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "clinical_trial_collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The application is based on data from the Phase 3 KEYNOTE-905 trial conducted in collaboration with Pfizer and Astellas.",
+      "evidence_quotes": [
+        "The application is based on data from the Phase 3 KEYNOTE-905 trial conducted in collaboration with Pfizer and Astellas."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Gilead Sciences Inc.",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "product_supplier",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Keytruda and Keytruda Qlex are under review by the FDA in combination with Gilead Sciences Inc.'s sacituzumab govitecan (Trodelvy)",
+      "evidence_quotes": [
+        "Keytruda and Keytruda Qlex are under review by the FDA in combination with Gilead Sciences Inc.'s sacituzumab govitecan (Trodelvy)"
+      ],
+      "confidence": 0.9,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Eisai Co., Ltd.",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "product_collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Lenvima is being developed as part of a collaboration with Eisai Co., Ltd.",
+      "evidence_quotes": [
+        "Lenvima is being developed as part of a collaboration with Eisai Co., Ltd."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Moderna, Inc.",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "development_collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Intismeran autogene is being developed as part of a collaboration with Moderna, Inc.",
+      "evidence_quotes": [
+        "Intismeran autogene is being developed as part of a collaboration with Moderna, Inc."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Taiho Pharmaceutical Co. Ltd.",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "development_collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Calderasib is being developed as part of a collaboration with Taiho Pharmaceutical Co. Ltd. and Astex Pharmaceuticals (UK)",
+      "evidence_quotes": [
+        "Calderasib is being developed as part of a collaboration with Taiho Pharmaceutical Co. Ltd. and Astex Pharmaceuticals (UK)"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Astex Pharmaceuticals (UK)",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "development_collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Calderasib is being developed as part of a collaboration with Taiho Pharmaceutical Co. Ltd. and Astex Pharmaceuticals (UK)",
+      "evidence_quotes": [
+        "Calderasib is being developed as part of a collaboration with Taiho Pharmaceutical Co. Ltd. and Astex Pharmaceuticals (UK)"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "AstraZeneca PLC",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "product_collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Lynparza is being developed as part of a collaboration with AstraZeneca PLC.",
+      "evidence_quotes": [
+        "Lynparza is being developed as part of a collaboration with AstraZeneca PLC."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Daiichi Sankyo",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "development_collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Patritumab deruxtecan is being developed as part of a collaboration with Daiichi Sankyo.",
+      "evidence_quotes": [
+        "Patritumab deruxtecan is being developed as part of a collaboration with Daiichi Sankyo."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Kelun-Biotech",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "development_collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Sacituzumab tirumotecan is being developed as part of a collaboration with Kelun-Biotech.",
+      "evidence_quotes": [
+        "Sacituzumab tirumotecan is being developed as part of a collaboration with Kelun-Biotech."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Blackstone Life Sciences",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "funding_partner",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "A portion of sacituzumab tirumotecan 2026 development costs will be funded by Blackstone Life Sciences.",
+      "evidence_quotes": [
+        "A portion of sacituzumab tirumotecan 2026 development costs will be funded by Blackstone Life Sciences."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Ridgeback Biotherapeutics LP",
+      "counterparty_type": "private_company",
+      "category": "partner",
+      "subtype": "development_collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Merck is developing Lagevrio in collaboration with Ridgeback Biotherapeutics LP.",
+      "evidence_quotes": [
+        "Merck is developing Lagevrio in collaboration with Ridgeback Biotherapeutics LP."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Cidara Therapeutics, Inc.",
+      "counterparty_type": "public_company",
+      "category": "supplier",
+      "subtype": "acquisition",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "MK-1406, which received Breakthrough Therapy designation from the FDA in 2025, was obtained in connection with the January 2026 acquisition of Cidara Therapeutics, Inc.",
+      "evidence_quotes": [
+        "MK-1406, which received Breakthrough Therapy designation from the FDA in 2025, was obtained in connection with the January 2026 acquisition of Cidara Therapeutics, Inc."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 4
+    },
+    {
+      "counterparty_name": "Science Based Targets initiative",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "standard_setter",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the Company committed to a net-zero target for its GHG emissions across its global operations (Scopes 1, 2, and 3) by 2045, aligned with the guidelines of the Science Based Targets initiative (SBTi), a third-party organization.",
+      "evidence_quotes": [
+        "the Company committed to a net-zero target for its GHG emissions across its global operations (Scopes 1, 2, and 3) by 2045, aligned with the guidelines of the Science Based Targets initiative (SBTi), a third-party organization."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "American Chemical Society",
+      "counterparty_type": "other",
+      "category": "dependency",
+      "subtype": "industry_association",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The Company received the Peter J. Dunn Award for Green Chemistry and Engineering Impact for four of the past five years, an award given by the American Chemical Society",
+      "evidence_quotes": [
+        "The Company received the Peter J. Dunn Award for Green Chemistry and Engineering Impact for four of the past five years, an award given by the American Chemical Society"
+      ],
+      "confidence": 0.75,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "U.S. Securities and Exchange Commission",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_infrastructure",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "filed or furnished pursuant to Section 13(a) or 15(d) of the Securities Exchange Act of 1934, as amended, as soon as reasonably practicable after such reports are electronically filed with, or furnished to, the U.S. Securities and Exchange Commission (SEC).",
+      "evidence_quotes": [
+        "filed or furnished pursuant to Section 13(a) or 15(d) of the Securities Exchange Act of 1934, as amended, as soon as reasonably practicable after such reports are electronically filed with, or furnished to, the U.S. Securities and Exchange Commission (SEC)."
+      ],
+      "confidence": 0.65,
+      "chunk_index": 5
+    },
+    {
+      "counterparty_name": "HHS",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_pricing_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "in 2023, HHS selected Januvia for the first year of the IRA's price setting program, which resulted in a government set price becoming effective on January 1, 2026.",
+      "evidence_quotes": [
+        "in 2023, HHS selected Januvia for the first year of the IRA's price setting program, which resulted in a government set price becoming effective on January 1, 2026."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "Medicare",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "reimbursement_program",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "increased purchasing power of entities that negotiate on behalf of Medicare, Medicaid, and private sector beneficiaries, could result in further pricing pressures.",
+      "evidence_quotes": [
+        "increased purchasing power of entities that negotiate on behalf of Medicare, Medicaid, and private sector beneficiaries, could result in further pricing pressures."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "Medicaid",
+      "counterparty_type": "government",
+      "category": "customer",
+      "subtype": "reimbursement_program",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "increased purchasing power of entities that negotiate on behalf of Medicare, Medicaid, and private sector beneficiaries, could result in further pricing pressures.",
+      "evidence_quotes": [
+        "increased purchasing power of entities that negotiate on behalf of Medicare, Medicaid, and private sector beneficiaries, could result in further pricing pressures."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "FDA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_approval_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "will be expanded in the future to include enlicitide decanoate pending FDA approval.",
+      "evidence_quotes": [
+        "will be expanded in the future to include enlicitide decanoate pending FDA approval."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 6
+    },
+    {
+      "counterparty_name": "Wuxi Apptech Co., Ltd.",
+      "counterparty_type": "public_company",
+      "category": "partner",
+      "subtype": "research and manufacturing collaboration",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "the Company has significant research and manufacturing operations in China, including working with Chinese entities such as Wuxi Apptech Co., Ltd.",
+      "evidence_quotes": [
+        "the Company has significant research and manufacturing operations in China, including working with Chinese entities such as Wuxi Apptech Co., Ltd."
+      ],
+      "confidence": 0.85,
+      "chunk_index": 7
+    },
+    {
+      "counterparty_name": "IRS",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_tax_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "The Internal Revenue Service (IRS) is currently conducting examinations of the Company's tax returns for the years 2017 and 2018",
+      "evidence_quotes": [
+        "The Internal Revenue Service (IRS) is currently conducting examinations of the Company's tax returns for the years 2017 and 2018"
+      ],
+      "confidence": 0.95,
+      "chunk_index": 8
+    },
+    {
+      "counterparty_name": "OECD",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_standard_setter",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "In connection with the Organization for Economic Cooperation and Development (OECD) Base Erosion and Profit Shifting project, companies are required to disclose more information to tax authorities",
+      "evidence_quotes": [
+        "In connection with the Organization for Economic Cooperation and Development (OECD) Base Erosion and Profit Shifting project, companies are required to disclose more information to tax authorities"
+      ],
+      "confidence": 0.92,
+      "chunk_index": 8
+    },
+    {
+      "counterparty_name": "FDA",
+      "counterparty_type": "government",
+      "category": "dependency",
+      "subtype": "regulatory_approval_authority",
+      "disclosed_revenue_dependency_pct": null,
+      "evidence_quote": "Lost market opportunity resulting from delays and uncertainties in the approval process of the FDA and/or foreign regulatory authorities.",
+      "evidence_quotes": [
+        "Lost market opportunity resulting from delays and uncertainties in the approval process of the FDA and/or foreign regulatory authorities."
+      ],
+      "confidence": 0.95,
+      "chunk_index": 8
+    }
+  ],
+  "candidatesPerChunk": [
+    4,
+    2,
+    3,
+    2,
+    13,
+    3,
+    4,
+    1,
+    3
+  ],
+  "parseErrors": 0,
+  "apiErrors": 0,
+  "inputTokens": 52168,
+  "outputTokens": 3598
+}

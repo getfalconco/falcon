@@ -1,0 +1,47 @@
+[
+  {
+    "counterparty_name": "Kuayue-Express Group Co., LTD.",
+    "category": "partner",
+    "subtype": "strategic investment",
+    "evidence_quote": "our subsequent investments in Kuayue-Express Group Co., LTD., or Kuayue-Express, a renowned modern integrated express transportation enterprise specializing in \"limited-time express service\" in China, following our acquisition in 2020",
+    "confidence": 0.7,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Tencent",
+    "category": "partner",
+    "subtype": "mobile platform access partnership",
+    "evidence_quote": "As part of our strategic partnership with Tencent, we launched access on Tencent's Weixin and direct access on Tencent's Mobile QQ, whereby Tencent users can easily access our product offerings and have an enjoyable mobile shopping experience.",
+    "confidence": 0.9,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "GIC Private Limited",
+    "category": "partner",
+    "subtype": "property fund joint venture",
+    "evidence_quote": "Since 2019, JD Property established several Property Funds together with third parties, including GIC Private Limited (\"GIC\") and Mubadala Investment Company (\"MIC\")",
+    "confidence": 0.85,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Mubadala Investment Company",
+    "category": "partner",
+    "subtype": "property fund joint venture",
+    "evidence_quote": "Since 2019, JD Property established several Property Funds together with third parties, including GIC Private Limited (\"GIC\") and Mubadala Investment Company (\"MIC\")",
+    "confidence": 0.85,
+    "reason": "quote not found in source (hallucinated evidence)",
+    "stage": "quote_check"
+  },
+  {
+    "counterparty_name": "Shihui Partners",
+    "category": "supplier",
+    "subtype": "legal services",
+    "evidence_quote": "as advised by Shihui Partners, our PRC legal counsel",
+    "confidence": 0.7,
+    "reason": "Shihui Partners is JD's external law firm providing legal advice/opinion cited for regulatory compliance disclosures, not a commercial vendor relationship being described as a supplier arrangement in the substantive sense the category implies here — the quote only cites their legal advice on CAC filing requirements, similar to how auditors are excluded. This is a professional-opinion citation (legal counsel acting akin to an advisory/compliance gatekeeper for the filing itself), which falls under the same exclusion logic as external auditors in the rules, so it should not be recorded as a graph edge.",
+    "stage": "audit"
+  }
+]

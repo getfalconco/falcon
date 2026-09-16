@@ -1,0 +1,11 @@
+[
+  {
+    "counterparty_name": "Novatek Microelectronics Corp.",
+    "category": "customer",
+    "subtype": "investment_counterparty",
+    "evidence_quote": "we issued zero coupon exchangeable bonds due 2026. The exchangeable bond offerings consist of US$400 million bonds exchangeable into common shares of Novatek Microelectronics Corp., Ltd., or Novatek.",
+    "confidence": 0.7,
+    "reason": "The evidence describes UMC issuing exchangeable bonds that can be converted into shares of Novatek Microelectronics Corp. This is a financing/investment instrument, not a customer relationship. Novatek is the underlying equity for UMC's bonds, making this an investment counterparty relationship, but NOT a customer relationship. A customer would be an entity that purchases UMC's foundry services or products. The bond structure means UMC holds Novatek shares as reference assets for bondholders, but there is no evidence that Novatek buys semiconductor manufacturing services from UMC. The category 'customer' is incorrect and cannot be fixed to another commercial relationship category because no commercial goods/services exchange is evidenced.",
+    "stage": "audit"
+  }
+]
