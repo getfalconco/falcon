@@ -1,5 +1,4 @@
-import { useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { ArrowLeft, LogOut } from "lucide-react";
 import logoBlack from "@/assets/brand/logo-black.png";
 import GraphScreen from "@/components/graph/GraphScreen";
@@ -9,15 +8,28 @@ import StockPeekModal from "@/components/dashboard/StockPeekModal";
 import UpdatePill from "@/components/UpdatePill";
 import LiftableCard, { type DragPoint } from "@/components/dashboard/LiftableCard";
 import PortfolioCard from "@/components/dashboard/PortfolioCard";
-import PortfolioChart from "@/components/dashboard/PortfolioChart";
+import PortfolioValueCard from "@/components/dashboard/PortfolioValueCard";
 import InsightCard from "@/components/dashboard/InsightCard";
 import OpportunitiesPanel from "@/components/dashboard/OpportunitiesPanel";
+import {
+  bringToFront,
+  canvasHeight,
+  duplicateBox,
+  layoutFromFlow,
+  loadCanvasLayout,
+  moveBox,
+  reconcileCanvasLayout,
+  resizeBoxFromEdge,
+  saveCanvasLayout,
+  zIndexOf,
+  type CanvasLayout,
+  type Edge,
+} from "@/lib/canvas-layout";
+import { isCardHidden } from "@/lib/dashboard-config";
 import { toggleDemoMode } from "@/lib/demo-mode";
 import { startPortfolioSync } from "@/lib/portfolio-sync";
 import { startPortfolioCoverageSync } from "@/lib/portfolio-coverage";
 import { startRiskAccountBridge } from "@/lib/risk-account-bridge";
-import PortfolioValueHeadline from "@/components/dashboard/PortfolioValueHeadline";
-import TimeframeControls, { type Timeframe } from "@/components/dashboard/TimeframeControls";
 import WindowControls from "@/components/WindowControls";
 import { cn } from "@/lib/utils";
 import { STOCK_OPEN_EVENT, type StockOpenDetail } from "@/lib/stock-open";
@@ -27,38 +39,113 @@ import type { StockCatalogEntry } from "../../shared/stock-catalog";
  * Rebuilt shell: a bare frame with the brand mark top-left. Panels get
  * rebuilt into the content area step by step — every screen and service
  * is still intact in the codebase.
+ *
+ * The dashboard is one grid of cards. The balance card used to be a block of
+ * its own above the grid — with a dock beside it for the holdings card, a
+ * seam between the two, and a full-screen mode — and that made it a different
+ * kind of thing from every card under it: it could not be dragged, sat where
+ * it sat, and carried controls nothing else had. It is a card now, in the
+ * same grid, with the same menu. A reader who wants the holdings beside the
+ * chart drags them there.
  */
 
-/** Assets card docked beside the chart — remembered across sessions. */
-const ASSETS_DOCKED_KEY = "falcon.ui.assetsDocked";
-const DOCK_WIDTH = 340;
-const DOCK_GAP = 16;
+/** The height every dashboard card frame stands at. */
+const CARD_H = 560;
+/** Where earlier builds kept the balance card's own height; read once as
+ *  the card's starting height, so a dragged edge is not lost in the move. */
+const CHART_H_KEY = "falcon.ui.chartCardH";
 
-/** Bottom-row cards, in the order they sit — remembered across sessions. Every
- *  card lifts like the Assets card does; drop one on another to swap them. */
-type CardId = "assets" | "insight" | "risk";
+/** Cards, in the order they sit — remembered across sessions. Every card
+ *  lifts, drags, and drops onto a slot or onto another card to take its place. */
+type CardBase = "portfolio" | "assets" | "insight" | "risk";
+/** A card, or a copy of one made from its menu — `assets#1725...` reads as
+ *  "an assets card", so everything keyed by base keeps working on copies. */
+type CardId = CardBase | `${CardBase}#${number}`;
+const baseOf = (id: CardId): CardBase => id.split("#")[0] as CardBase;
 const CARD_ORDER_KEY = "falcon.ui.cardOrder.v4";
-const DEFAULT_CARD_ORDER: CardId[] = ["assets", "insight", "risk"];
+/**
+ * Per-card size — the share of the row's width, and the pixel height.
+ * Remembered like the order. A share rather than a column count: widths used
+ * to snap to quarters of the row, so a drag on the edge moved the card in
+ * jumps; now the edge follows the pointer, and the row wraps wherever the
+ * cards' widths add up to more than it has.
+ */
+const CARD_SIZE_KEY = "falcon.ui.cardSizes.v2";
+/** Where the previous build kept sizes, in columns of four; read once to migrate. */
+const CARD_SIZE_KEY_V1 = "falcon.ui.cardSizes.v1";
+const GRID_GAP = 16;
+const CARD_MIN_W = 0.2;
+const CARD_MIN_H = 320;
+const CARD_MAX_H = 1400;
+const CARD_DEFAULT_H = 560;
+
+type CardSize = { w: number; h: number };
+const clampW = (w: number): number => Math.min(1, Math.max(CARD_MIN_W, w));
+const clampH = (h: number): number => Math.min(CARD_MAX_H, Math.max(CARD_MIN_H, Math.round(h)));
+
+/** The size a card stands at until the reader drags it: the balance card
+ *  takes the whole row, everything else a quarter of it. */
+function defaultSize(id: CardId): CardSize {
+  if (baseOf(id) !== "portfolio") return { w: 0.25, h: CARD_DEFAULT_H };
+  let h = CARD_H;
+  try {
+    const raw = Number(localStorage.getItem(CHART_H_KEY));
+    if (Number.isFinite(raw) && raw > 0) h = clampH(raw);
+  } catch {
+    /* the shared card height */
+  }
+  return { w: 1, h };
+}
+
+function loadCardSizes(): Record<string, CardSize> {
+  try {
+    const raw = localStorage.getItem(CARD_SIZE_KEY) ?? localStorage.getItem(CARD_SIZE_KEY_V1);
+    const parsed: unknown = raw ? JSON.parse(raw) : null;
+    if (parsed && typeof parsed === "object") {
+      const out: Record<string, CardSize> = {};
+      for (const [id, value] of Object.entries(parsed as Record<string, unknown>)) {
+        const v = value as Partial<CardSize & { cols: number }> | null;
+        // A column count from the previous build is a share of four.
+        const w = Number.isFinite(Number(v?.w)) ? Number(v?.w) : Number(v?.cols) / 4;
+        const h = Number(v?.h);
+        out[id] = {
+          w: Number.isFinite(w) && w > 0 ? clampW(w) : 0.25,
+          h: Number.isFinite(h) ? clampH(h) : CARD_DEFAULT_H,
+        };
+      }
+      return out;
+    }
+  } catch {
+    /* fall back to the defaults below */
+  }
+  return {};
+}
+
+const DEFAULT_CARD_ORDER: CardId[] = ["portfolio", "assets", "insight", "risk"];
 function loadCardOrder(): CardId[] {
   try {
     const raw = localStorage.getItem(CARD_ORDER_KEY);
     const parsed: unknown = raw ? JSON.parse(raw) : null;
     if (Array.isArray(parsed)) {
-      const seen = parsed.filter((id): id is CardId => DEFAULT_CARD_ORDER.includes(id as CardId));
+      const seen = parsed.filter(
+        (id): id is CardId =>
+          typeof id === "string" && DEFAULT_CARD_ORDER.includes(baseOf(id as CardId)),
+      );
       const unique = Array.from(new Set(seen));
-      // Anything missing (a card added since) goes on the end.
-      return [...unique, ...DEFAULT_CARD_ORDER.filter((id) => !unique.includes(id))];
+      const missing = DEFAULT_CARD_ORDER.filter((id) => !unique.includes(id));
+      // The balance card goes first when an older arrangement has no place
+      // for it — that is where it always stood; anything else goes on the end.
+      return [
+        ...missing.filter((id) => id === "portfolio"),
+        ...unique,
+        ...missing.filter((id) => id !== "portfolio"),
+      ];
     }
   } catch {
     /* fall back */
   }
   return DEFAULT_CARD_ORDER;
 }
-
-/** One easing for every part of the chart's full-screen move. */
-const EXPAND_TWEEN = { duration: 0.6, ease: [0.4, 0, 0.2, 1] } as const;
-/** Top bar (pt-16) the main area sits under. */
-const TOP_BAR_PX = 64;
 
 type Props = {
   userName: string;
@@ -72,9 +159,6 @@ export default function HomePage({ userName, onSignOut }: Props) {
   const hour = new Date().getHours();
   const greeting = hour < 12 ? "Morning" : hour < 18 ? "Afternoon" : "Evening";
   const firstName = userName.trim().split(/\s+/)[0];
-  const [timeframe, setTimeframe] = useState<Timeframe>("Month");
-  const [scrubValue, setScrubValue] = useState<number | null>(null);
-  const [chartExpanded, setChartExpanded] = useState(false);
   const [privacyMode, setPrivacyMode] = useState(false);
   const [view, setView] = useState<"dashboard" | "stock" | "graph">("dashboard");
   // Ticker picked from the top search bar — opens the stock screen in place.
@@ -82,46 +166,191 @@ export default function HomePage({ userName, onSignOut }: Props) {
   // ⌘K's pick opens as a glass peek over the dashboard, not the stock view.
   const [peek, setPeek] = useState<StockCatalogEntry | null>(null);
 
-  // Assets card docking: hold the card to lift it, drag it up and a slot opens
-  // on the chart's left (the chart narrows to the right); drop it there to
-  // dock. Drag a docked card out again to send it back to the bottom row.
-  const [assetsDocked, setAssetsDocked] = useState<boolean>(() => {
-    try {
-      return localStorage.getItem(ASSETS_DOCKED_KEY) === "1";
-    } catch {
-      return false;
-    }
-  });
-  const [assetsLifted, setAssetsLifted] = useState(false);
-  const [assetsOverDock, setAssetsOverDock] = useState(false);
-  const chartRowRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    try {
-      localStorage.setItem(ASSETS_DOCKED_KEY, assetsDocked ? "1" : "0");
-    } catch {
-      /* non-fatal */
-    }
-  }, [assetsDocked]);
-
-  // The dock target: the left ~400px of the chart row, from its top edge down.
-  const overDockZone = (p: DragPoint): boolean => {
-    const rect = chartRowRef.current?.getBoundingClientRect();
-    if (!rect) return false;
-    return (
-      p.x >= rect.left - 24 &&
-      p.x <= rect.left + DOCK_WIDTH + 48 &&
-      p.y >= rect.top - 40 &&
-      p.y <= rect.bottom + 24
-    );
-  };
-
-  // Card order + swap-by-drop. While a card is lifted, the card under the
+  // Card ordering: hold a card to lift it and drag it; the card under the
   // pointer is marked as the swap target; dropping there exchanges the two.
   const [cardOrder, setCardOrder] = useState<CardId[]>(loadCardOrder);
   const [draggingCard, setDraggingCard] = useState<CardId | null>(null);
-  const [swapTarget, setSwapTarget] = useState<CardId | null>(null);
-  const cardRefs = useRef<Partial<Record<CardId, HTMLDivElement | null>>>({});
+  const cardRefs = useRef<Record<string, HTMLDivElement | null>>({});
+
+  // The canvas every card sits on: its own box, its own place in the
+  // stacking order, free to overlap the others. Seeded from the old row's
+  // arrangement the first time, so nothing moves on the day it arrives.
+  const [canvas, setCanvas] = useState<CanvasLayout | null>(() => loadCanvasLayout(localStorage));
+  const [canvasW, setCanvasW] = useState(0);
+  const canvasObserver = useRef<ResizeObserver | null>(null);
+  /** Columns spanned + height, per card. Dragged from the grip on each card. */
+  const [cardSizes, setCardSizes] = useState<Record<string, CardSize>>(loadCardSizes);
+  /** Which card is being resized, and by which edge — so only that edge's
+   *  bar lights up. */
+  const [resizing, setResizing] = useState<{ id: CardId; edge: Edge } | null>(null);
+  const gridRef = useRef<HTMLDivElement | null>(null);
+  // Measured whenever the canvas mounts, since it leaves the tree with the
+  // dashboard view and comes back with it.
+  // Stable, so React calls it when the canvas mounts and unmounts and not on
+  // every commit: an inline ref would rebuild the observer and force a
+  // layout on each pointermove of a resize.
+  const gridRefCb = useCallback((el: HTMLDivElement | null) => {
+    gridRef.current = el;
+    canvasObserver.current?.disconnect();
+    canvasObserver.current = null;
+    if (!el || typeof ResizeObserver === "undefined") return;
+    const ro = new ResizeObserver(() => setCanvasW(el.clientWidth));
+    ro.observe(el);
+    canvasObserver.current = ro;
+    setCanvasW(el.clientWidth);
+  }, []);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(CARD_SIZE_KEY, JSON.stringify(cardSizes));
+    } catch {
+      /* non-fatal */
+    }
+  }, [cardSizes]);
+
+  const sizeOf = (id: CardId): CardSize => cardSizes[id] ?? defaultSize(id);
+
+  /**
+   * A handle drags a card's size from any edge or corner, in pixels. Handles
+   * carry `data-no-lift` — without it the press would pick the card up
+   * instead. The right and bottom edges change only the size; the left and
+   * top edges move that edge and keep the opposite one put.
+   */
+  const startResize = (id: CardId, e: React.PointerEvent<HTMLElement>, edge: Edge) => {
+    // preventDefault only: the press still has to reach the document, where
+    // an open card menu is listening to close itself. The card's own lift
+    // already ignores handles through data-no-lift.
+    e.preventDefault();
+    if (!layout || canvasW <= 0) return;
+    const startX = e.clientX;
+    const startY = e.clientY;
+    // Every move is the whole gesture applied to the box as it was, so a
+    // pointer that outruns a frame does not compound into a different size.
+    const origin = layout.boxes[id];
+    if (!origin) return;
+    setResizing({ id, edge });
+    touchCard(id);
+
+    const onMove = (ev: PointerEvent) => {
+      updateCanvas((c) =>
+        resizeBoxFromEdge(
+          { ...c, boxes: { ...c.boxes, [id]: origin } },
+          id,
+          edge,
+          ev.clientX - startX,
+          ev.clientY - startY,
+          canvasW,
+        ),
+      );
+    };
+    const onUp = () => {
+      // The row's own size store learns the new size too: it is what a card
+      // that is removed and later comes back is laid out from.
+      const b = layoutRef.current?.boxes[id];
+      if (b) setCardSizes((prev) => ({ ...prev, [id]: { w: b.w, h: b.h } }));
+      window.requestAnimationFrame(() => setResizing(null));
+      window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointerup", onUp);
+      window.removeEventListener("pointercancel", onUp);
+    };
+    window.addEventListener("pointermove", onMove);
+    window.addEventListener("pointerup", onUp);
+    window.addEventListener("pointercancel", onUp);
+  };
+
+  /** One invisible strip per edge, lighting a short bar when the pointer is
+   *  near it or it is being dragged; one small square per corner. */
+  const resizeHandles = (id: CardId) => {
+    const lit = (edges: Edge[]) => resizing?.id === id && edges.includes(resizing.edge);
+    const bar = (on: boolean, vertical: boolean, group: string) =>
+      cn(
+        "rounded-full bg-[#1d1b1b]/30 transition-opacity duration-150",
+        vertical ? "h-16 w-[3px]" : "h-[3px] w-16",
+        on ? "opacity-100" : `opacity-0 ${group}`,
+      );
+    return (
+      <>
+        <div
+          data-no-lift
+          role="separator"
+          aria-label={`Resize ${id} card from the left`}
+          onPointerDown={(e) => startResize(id, e, "l")}
+          className="group/rzl app-no-drag absolute inset-y-4 left-0 z-20 flex w-3 cursor-ew-resize items-center justify-center"
+        >
+          <span aria-hidden className={bar(lit(["l"]), true, "group-hover/rzl:opacity-100")} />
+        </div>
+        <div
+          data-no-lift
+          role="separator"
+          aria-label={`Resize ${id} card from the right`}
+          onPointerDown={(e) => startResize(id, e, "r")}
+          className="group/rzr app-no-drag absolute inset-y-4 right-0 z-20 flex w-3 cursor-ew-resize items-center justify-center"
+        >
+          <span aria-hidden className={bar(lit(["r"]), true, "group-hover/rzr:opacity-100")} />
+        </div>
+        <div
+          data-no-lift
+          role="separator"
+          aria-label={`Resize ${id} card from the top`}
+          onPointerDown={(e) => startResize(id, e, "t")}
+          className="group/rzt app-no-drag absolute inset-x-4 top-0 z-20 flex h-3 cursor-ns-resize items-center justify-center"
+        >
+          <span aria-hidden className={bar(lit(["t"]), false, "group-hover/rzt:opacity-100")} />
+        </div>
+        <div
+          data-no-lift
+          role="separator"
+          aria-label={`Resize ${id} card from the bottom`}
+          onPointerDown={(e) => startResize(id, e, "b")}
+          className="group/rzb app-no-drag absolute inset-x-4 bottom-0 z-20 flex h-3 cursor-ns-resize items-center justify-center"
+        >
+          <span aria-hidden className={bar(lit(["b"]), false, "group-hover/rzb:opacity-100")} />
+        </div>
+        {/* Corners: three quiet squares, and the dotted glyph every card has
+            always shown in its bottom-right. */}
+        <div
+          data-no-lift
+          aria-label={`Resize ${id} card from the top left`}
+          onPointerDown={(e) => startResize(id, e, "tl")}
+          className="app-no-drag absolute left-0 top-0 z-20 h-4 w-4 cursor-nwse-resize"
+        />
+        <div
+          data-no-lift
+          aria-label={`Resize ${id} card from the top right`}
+          onPointerDown={(e) => startResize(id, e, "tr")}
+          className="app-no-drag absolute right-0 top-0 z-20 h-4 w-4 cursor-nesw-resize"
+        />
+        <div
+          data-no-lift
+          aria-label={`Resize ${id} card from the bottom left`}
+          onPointerDown={(e) => startResize(id, e, "bl")}
+          className="app-no-drag absolute bottom-0 left-0 z-20 h-4 w-4 cursor-nesw-resize"
+        />
+        <button
+          type="button"
+          data-no-lift
+          aria-label={`Resize ${id} card`}
+          title="Drag to resize"
+          onPointerDown={(e) => startResize(id, e, "br")}
+          className={cn(
+            "app-no-drag absolute bottom-1.5 right-1.5 z-20 flex h-6 w-6 cursor-nwse-resize items-center justify-center rounded-lg text-[#9CA3AF] transition-opacity hover:text-[#4b5563]",
+            resizing?.id === id ? "opacity-100" : "opacity-0 group-hover/card:opacity-100",
+          )}
+        >
+          <svg viewBox="0 0 10 10" className="h-[10px] w-[10px]" aria-hidden>
+            <path
+              d="M9 1v8H1"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.4"
+              strokeLinecap="round"
+              strokeDasharray="2.4 2.2"
+            />
+          </svg>
+        </button>
+      </>
+    );
+  };
 
   useEffect(() => {
     try {
@@ -131,94 +360,106 @@ export default function HomePage({ userName, onSignOut }: Props) {
     }
   }, [cardOrder]);
 
-  const cardUnder = (p: DragPoint, except: CardId): CardId | null => {
-    for (const id of cardOrder) {
-      if (id === except) continue;
-      if (id === "assets" && assetsDocked) continue;
-      const rect = cardRefs.current[id]?.getBoundingClientRect();
-      if (!rect) continue;
-      if (p.x >= rect.left && p.x <= rect.right && p.y >= rect.top && p.y <= rect.bottom) return id;
-    }
-    return null;
-  };
+  const rowCards = cardOrder.filter((id) => !isCardHidden(baseOf(id)));
+
+  /**
+   * The layout the page draws. With a saved canvas, that canvas — with any
+   * card the page shows but it lacks laid out underneath, and any it no
+   * longer shows dropped. Without one, the old row's arrangement, worked out
+   * afresh from the width the canvas has right now: the page mounts in the
+   * login-sized window and only then grows to the workspace, and a seed
+   * taken at the small size would have been kept at the wrong shares. So
+   * the seed is only drawn, never written, until the reader's first gesture
+   * makes it theirs. Until the canvas has been measured, nothing is drawn.
+   */
+  const seedSizes = Object.fromEntries(rowCards.map((id) => [id, sizeOf(id)]));
+  const layout: CanvasLayout | null =
+    canvasW > 0
+      ? canvas
+        ? reconcileCanvasLayout(canvas, rowCards, seedSizes, { w: 0.25, h: CARD_DEFAULT_H }, canvasW)
+        : layoutFromFlow(rowCards, seedSizes, { w: 0.25, h: CARD_DEFAULT_H }, canvasW, GRID_GAP)
+      : null;
+  const layoutRef = useRef<CanvasLayout | null>(null);
+  layoutRef.current = layout;
+
+  // A reconciliation of a kept canvas is kept too, and the canvas is
+  // written to storage whenever it changes.
+  useEffect(() => {
+    if (canvas && layout && layout !== canvas) setCanvas(layout);
+  }, [layout, canvas]);
+  useEffect(() => {
+    if (canvas) saveCanvasLayout(localStorage, canvas);
+  }, [canvas]);
+
+  /**
+   * Every change goes through here: the first one adopts whatever is being
+   * drawn — the seed, at the width it was drawn at — as the canvas.
+   */
+  const updateCanvas = (fn: (c: CanvasLayout) => CanvasLayout) =>
+    setCanvas((c) => {
+      const base = c ?? layoutRef.current;
+      return base ? fn(base) : c;
+    });
+
+  /** Whichever card is touched comes to the front. */
+  const touchCard = (id: CardId) => updateCanvas((c) => bringToFront(c, id));
 
   const onCardLift = (id: CardId) => {
     setDraggingCard(id);
-    if (id === "assets") setAssetsLifted(true);
+    touchCard(id);
   };
-  const onCardDragMove = (id: CardId, p: DragPoint) => {
-    if (id === "assets") setAssetsOverDock(overDockZone(p));
-    setSwapTarget(cardUnder(p, id));
-  };
-  const onCardDragEnd = (id: CardId, p: DragPoint) => {
-    const target = cardUnder(p, id);
+  // The drop is wherever the hand let go: the box moves by the distance the
+  // pointer travelled, and stays there.
+  const onCardDragEnd = (id: CardId, offset: DragPoint) => {
     setDraggingCard(null);
-    setSwapTarget(null);
-    if (id === "assets") {
-      const dock = overDockZone(p);
-      setAssetsLifted(false);
-      setAssetsOverDock(false);
-      // In full screen the bottom row is hidden, so a docked card stays put.
-      const docked = chartExpanded ? assetsDocked || dock : dock;
-      setAssetsDocked(docked);
-      if (docked) return;
-    }
-    if (target) {
-      setCardOrder((order) => {
-        const a = order.indexOf(id);
-        const b = order.indexOf(target);
-        if (a < 0 || b < 0) return order;
-        const next = [...order];
-        next[a] = target;
-        next[b] = id;
-        return next;
-      });
-    }
+    if (canvasW <= 0) return;
+    updateCanvas((c) => {
+      const b = c.boxes[id];
+      return b ? moveBox(c, id, b.x * canvasW + offset.x, b.y + offset.y, canvasW) : c;
+    });
   };
-  const dockOpen = assetsDocked || (assetsLifted && assetsOverDock);
-  // Full screen hides the drop target but keeps an already-docked card, at size.
-  const dockVisible = assetsDocked || (dockOpen && !chartExpanded);
 
-  // Full-screen geometry in pixels so framer can tween it (CSS can't animate
-  // from height:auto). The block takes the viewport under the top bar; the
-  // chart row takes half of it — or the docked card's own height if taller.
-  const [viewportH, setViewportH] = useState<number>(() => window.innerHeight);
-  useEffect(() => {
-    const onResize = () => setViewportH(window.innerHeight);
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
-  }, []);
-  const [dockedCardH, setDockedCardH] = useState(0);
-  const availableH = Math.max(320, viewportH - TOP_BAR_PX);
-  const expandedRowH = Math.min(
-    availableH - 140, // always leave room for the balance band
-    Math.max(Math.round(availableH * 0.5), assetsDocked ? dockedCardH : 0),
-  );
-  // Let the plot keep filling the row while it shrinks back, so collapsing
-  // is one glide too — released just before the tween lands on height:auto.
-  const [chartFill, setChartFill] = useState(false);
-  useEffect(() => {
-    if (chartExpanded) {
-      setChartFill(true);
-      return;
-    }
-    const t = window.setTimeout(() => setChartFill(false), 520);
-    return () => window.clearTimeout(t);
-  }, [chartExpanded]);
-  const toggleChartExpanded = () => {
-    if (!chartExpanded) {
-      // Measure the docked card before the row starts animating, so full
-      // screen can keep it at exactly this size.
-      const row = chartRowRef.current?.getBoundingClientRect();
-      setDockedCardH(row ? Math.round(row.height - 40) : 0); // minus pb-10
-    }
-    setChartExpanded((v) => !v);
+  /**
+   * The card menu's two verbs. Duplicate opens a copy right after the
+   * original, at the original's size — the copy is a card like any other, so
+   * it drags, resizes, and removes on its own. Remove takes the card off this
+   * arrangement only: `loadCardOrder` re-appends any missing default card on
+   * the next launch, so nobody can strand themselves with an empty grid.
+   */
+  const duplicateCard = (id: CardId) => {
+    const copy = `${baseOf(id)}#${Date.now()}` as CardId;
+    setCardOrder((order) => {
+      const at = order.indexOf(id);
+      return at < 0
+        ? [...order, copy]
+        : [...order.slice(0, at + 1), copy, ...order.slice(at + 1)];
+    });
+    setCardSizes((prev) => ({ ...prev, [copy]: sizeOf(id) }));
+    if (canvasW > 0) updateCanvas((c) => duplicateBox(c, id, copy, canvasW));
+  };
+  const removeCard = (id: CardId) => {
+    setCardOrder((order) => order.filter((c) => c !== id));
   };
 
   const cardContent = (id: CardId) => {
-    switch (id) {
+    switch (baseOf(id)) {
+      case "portfolio":
+        return (
+          <PortfolioValueCard
+            masked={privacyMode}
+            onDuplicate={() => duplicateCard(id)}
+            onRemove={() => removeCard(id)}
+          />
+        );
       case "assets":
-        return <PortfolioCard masked={privacyMode} onToggleMasked={() => setPrivacyMode((v) => !v)} />;
+        return (
+          <PortfolioCard
+            masked={privacyMode}
+            onToggleMasked={() => setPrivacyMode((v) => !v)}
+            onDuplicate={() => duplicateCard(id)}
+            onRemove={() => removeCard(id)}
+          />
+        );
       case "insight":
         return <InsightCard />;
       case "risk":
@@ -226,37 +467,51 @@ export default function HomePage({ userName, onSignOut }: Props) {
     }
   };
 
-  // One slot per card: hold to lift, drag over another card to mark it, drop
-  // to swap. The marked card dips so the target is unmistakable.
-  const renderCard = (id: CardId) => (
-    <LiftableCard
-      key={id}
-      layoutId={`card-${id}`}
-      // The row is a four-column grid, so a card is exactly its cell: a
-      // quarter of the workspace, gaps taken out, at whatever width the
-      // window happens to be. No fixed card size to fall out of step with it.
-      className="w-full min-w-0"
-      onLift={() => onCardLift(id)}
-      onDragMove={(p) => onCardDragMove(id, p)}
-      onDragEnd={(p) => onCardDragEnd(id, p)}
-    >
-      <motion.div
-        ref={(el) => {
-          cardRefs.current[id] = el;
+  // One box per card: hold to lift, drag it anywhere, let go and it stays.
+  // Cards may overlap; the one touched last is on top.
+  const renderCard = (id: CardId) => {
+    const box = layout?.boxes[id];
+    if (!layout || !box) return null;
+    return (
+      <LiftableCard
+        key={id}
+        free
+        // While the reader is dragging this card or any handle that sizes
+        // it, the box goes exactly where the pointer is, on the frame the
+        // pointer gets there.
+        instant={resizing?.id === id || draggingCard === id}
+        className="min-w-0"
+        style={{
+          position: "absolute",
+          left: box.x * canvasW,
+          top: box.y,
+          width: box.w * canvasW,
+          height: box.h,
+          zIndex: zIndexOf(layout, id),
+          // Grow from the corner the reader is dragging away from, never the
+          // middle: the masthead stays put while the box changes.
+          transformOrigin: "top left",
         }}
-        animate={{
-          scale: swapTarget === id && draggingCard !== id ? 0.965 : 1,
-          opacity: swapTarget === id && draggingCard !== id ? 0.72 : 1,
-        }}
-        transition={{ type: "spring", stiffness: 420, damping: 32 }}
-        className="h-full rounded-3xl"
+        onLift={() => onCardLift(id)}
+        onDragEnd={(_point, offset) => onCardDragEnd(id, offset)}
       >
-        {cardContent(id)}
-      </motion.div>
-    </LiftableCard>
-  );
-  const assetsCard = renderCard("assets");
-  const rowCards = cardOrder.filter((id) => !(id === "assets" && assetsDocked));
+        <div
+          ref={(el) => {
+            cardRefs.current[id] = el;
+          }}
+          // Any press, on anything in the card, brings it to the front.
+          onPointerDownCapture={() => touchCard(id)}
+          // The cards carry their own resting min-height; once a reader has
+          // set one by hand, the box is the authority.
+          className="group/card relative h-full rounded-3xl [&>*]:!min-h-0"
+        >
+          {cardContent(id)}
+
+          {resizeHandles(id)}
+        </div>
+      </LiftableCard>
+    );
+  };
 
   // Window sizing/animation system still runs so the frame behaves normally.
   useEffect(() => {
@@ -264,16 +519,6 @@ export default function HomePage({ userName, onSignOut }: Props) {
     enterStarted.current = true;
     void window.meridian?.enterWorkspace();
   }, []);
-
-  // Esc leaves full screen — the same way every other overlay closes.
-  useEffect(() => {
-    if (!chartExpanded) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setChartExpanded(false);
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [chartExpanded]);
 
   // Cloud sync — pulls the portfolio down (restoring it on a machine whose
   // local copy is gone), then keeps pushing local changes up so the 24/7
@@ -382,7 +627,7 @@ export default function HomePage({ userName, onSignOut }: Props) {
       {/* No app-no-drag here — a full-height no-drag surface would punch out
           the whole top drag strip (Electron ignores stacking for app-region). */}
       <main
-        className={cn("h-full pt-16", chartExpanded ? "overflow-hidden" : "overflow-y-auto")}
+        className="h-full overflow-x-hidden overflow-y-auto pt-16"
         aria-label={view === "stock" ? "Stock" : view === "graph" ? "Graph" : "Dashboard"}
       >
         {view === "graph" ? (
@@ -421,125 +666,28 @@ export default function HomePage({ userName, onSignOut }: Props) {
             </div>
           </div>
         ) : (
-        <>
-        {/* Greeting — in the scroll flow, so it slides away with content.
-            Fades while the chart owns the workspace. */}
-        <motion.div
-          initial={false}
-          animate={{ height: chartExpanded ? 0 : "auto", opacity: chartExpanded ? 0 : 1 }}
-          transition={EXPAND_TWEEN}
-          className={cn("select-none overflow-hidden pl-9", chartExpanded && "pointer-events-none")}
-        >
-          <span className="font-baskerville text-[30px] text-[#1d1b1b]">
-            {greeting}, {firstName}
-          </span>
-        </motion.div>
-
-        {/* Expanded, the block owns the viewport: the balance centres in the
-            band above the plot and the plot takes the rest. Every size that
-            changes is animated by framer (auto ↔ px), so the move glides
-            instead of snapping — CSS can't tween from height:auto. */}
-        <motion.div
-          initial={false}
-          animate={{ height: chartExpanded ? availableH : "auto" }}
-          transition={EXPAND_TWEEN}
-          className="flex flex-col"
-        >
-          {/* Headline band — timeframe controls on the right */}
-          <motion.div
-            initial={false}
-            animate={{ marginTop: chartExpanded ? 0 : 48 }}
-            transition={EXPAND_TWEEN}
-            className="relative flex min-h-0 flex-1 items-center"
-          >
-            <div className="flex w-full justify-center">
-              <PortfolioValueHeadline overrideValue={scrubValue} masked={privacyMode} />
+          <>
+            {/* Greeting — in the scroll flow, so it slides away with content. */}
+            <div className="select-none pl-9">
+              <span className="font-baskerville text-[30px] text-[#1d1b1b]">
+                {greeting}, {firstName}
+              </span>
             </div>
-            <div className="absolute right-12 top-1/2 -translate-y-1/2">
-              <TimeframeControls
-                onChange={setTimeframe}
-                expanded={chartExpanded}
-                onToggleExpanded={toggleChartExpanded}
-              />
-            </div>
-          </motion.div>
 
-          {/* Near-full-bleed chart — a small breath of space at each edge.
-              The dock slot on the left opens while the Assets card hovers
-              over it (or lives there), and the chart narrows to the right.
-              Full screen: the row takes half the viewport, or the docked
-              card's own height if that is taller — the card never shrinks. */}
-          <motion.div
-            ref={chartRowRef}
-            initial={false}
-            animate={{
-              height: chartExpanded ? expandedRowH : "auto",
-              marginTop: chartExpanded ? 0 : 40,
-              paddingLeft: chartExpanded && !assetsDocked ? 0 : 32,
-              paddingRight: chartExpanded ? 0 : 32,
-              paddingBottom: chartExpanded ? 0 : 40,
-            }}
-            transition={EXPAND_TWEEN}
-            className="flex min-h-0 shrink-0 items-stretch"
-          >
-            <motion.div
-              initial={false}
-              animate={{
-                width: dockVisible ? DOCK_WIDTH : 0,
-                marginRight: dockVisible ? DOCK_GAP : 0,
-              }}
-              transition={{ type: "spring", stiffness: 320, damping: 32 }}
-              className={cn("relative shrink-0 self-stretch", assetsLifted && "z-20")}
-            >
-              {assetsDocked ? (
-                assetsCard
-              ) : dockOpen ? (
-                <div
-                  aria-hidden
-                  className="h-full min-h-[300px] w-[340px] rounded-3xl border border-dashed border-[#1d1b1b]/55 bg-[#1d1b1b]/[0.07]"
-                />
-              ) : null}
-            </motion.div>
-            <div
-              className={cn(
-                "flex min-w-0 flex-1 flex-col",
-                // With a card docked on the left, the plot fades in off its edge
-                // instead of starting hard against it.
-                dockVisible &&
-                  "[mask-image:linear-gradient(to_right,transparent_0,#000_64px)] [-webkit-mask-image:linear-gradient(to_right,transparent_0,#000_64px)]",
-              )}
-            >
-              <PortfolioChart
-                timeframe={timeframe}
-                showGrowth
-                showSp500
-                expanded={chartExpanded}
-                fill={assetsDocked || chartFill}
-                onScrub={setScrubValue}
-              />
+            {/* The canvas. Every card is a box at its own place, as wide a
+                share of the width and as tall as it has been dragged to;
+                it grows downward to fit the lowest card. Nothing here
+                clips, so a lifted card can travel anywhere. */}
+            <div className="mt-6 px-8 pb-12 pt-1">
+              <div
+                ref={gridRefCb}
+                className="relative"
+                style={{ height: layout ? canvasHeight(layout, 480) : 480 }}
+              >
+                {rowCards.map((id) => renderCard(id))}
+              </div>
             </div>
-          </motion.div>
-        </motion.div>
-
-        {/* Card grid: four to a row, each column an equal share of the width.
-            Past the fourth card the grid wraps on its own — scroll for it. */}
-        <div
-          className={cn(
-            "-mt-2 origin-top transition-all duration-[550ms] ease-[cubic-bezier(0.4,0,0.2,1)]",
-            // A lifted card must be free to travel up past the row's edge.
-            draggingCard != null && !chartExpanded ? "overflow-visible" : "overflow-hidden",
-            // Going full screen the row sinks and fades rather than blinking
-            // out: opacity and the downward slide lead, the height follows.
-            chartExpanded
-              ? "pointer-events-none max-h-0 translate-y-6 scale-[0.98] opacity-0"
-              : "max-h-[1600px] translate-y-0 scale-100 opacity-100",
-          )}
-        >
-          <div className="grid grid-cols-4 items-stretch gap-4 px-8 pb-12 pt-1">
-            {rowCards.map(renderCard)}
-          </div>
-        </div>
-        </>
+          </>
         )}
       </main>
 

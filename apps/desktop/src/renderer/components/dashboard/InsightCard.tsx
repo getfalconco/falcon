@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import type {
   PropagationDirection,
   PropagationRun,
@@ -499,6 +499,14 @@ export default function InsightCard() {
     setCursorId(ordered[(cursor + 1) % ordered.length].run_id);
   }, [ordered, cursor]);
 
+  // The same ring the other way. `+ length` before the modulo because JS keeps
+  // the sign on a negative remainder, so stepping back from the first event
+  // would land on -1 rather than the last one.
+  const prevRun = useCallback(() => {
+    if (ordered.length < 2) return;
+    setCursorId(ordered[(cursor - 1 + ordered.length) % ordered.length].run_id);
+  }, [ordered, cursor]);
+
   // The full run carries the event's own words; the list row only summarises.
   useEffect(() => {
     if (!headline) {
@@ -714,6 +722,19 @@ export default function InsightCard() {
         ) : null}
 
         <div className="mt-auto flex items-stretch gap-2">
+          {/* Steps back through the same ring the arrow on the right steps
+              forward through. Both flank the CTA so the pair reads as one
+              control, and both dim together when there is only one event. */}
+          <button
+            type="button"
+            onClick={prevRun}
+            disabled={!live || ordered.length < 2}
+            aria-label="Previous propagation"
+            title="Previous propagation"
+            className="glass-cta app-no-drag flex w-[42px] shrink-0 items-center justify-center disabled:pointer-events-none disabled:border-white/10 disabled:bg-[#1d1b1b]/40 disabled:text-white/75 disabled:shadow-none"
+          >
+            <ArrowLeft size={15} strokeWidth={2} />
+          </button>
           {/* Own door, own switch: this one opens the card's detail panel in
               place rather than a detail view, so it stays live. */}
           <button

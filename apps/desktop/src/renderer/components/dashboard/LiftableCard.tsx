@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import { motion, useDragControls, type PanInfo } from "framer-motion";
+import type { CSSProperties } from "react";
+import { motion, useDragControls, useMotionValue, type PanInfo } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 /**
@@ -19,23 +20,48 @@ const HOLD_MS = 220;
  */
 const HOLD_SLOP_PX = 6;
 
+/** The lift's own pop. Never applied to position or size. */
+const LIFT_SPRING = { type: "spring", stiffness: 420, damping: 30 } as const;
+
 export default function LiftableCard({
   children,
   layoutId,
   className,
+  style,
   onLift,
   onDragMove,
   onDragEnd,
+  instant = false,
+  free = false,
 }: {
   children: ReactNode;
   /** Shared across slots so moving between them animates. */
   layoutId?: string;
   className?: string;
+  /** Layout the caller owns — the grid span and height of a resized card. */
+  style?: CSSProperties;
   onLift?: () => void;
   onDragMove?: (point: DragPoint) => void;
-  onDragEnd?: (point: DragPoint) => void;
+  /** Where the pointer let go, and how far it travelled from the press. */
+  onDragEnd?: (point: DragPoint, offset: DragPoint) => void;
+  /**
+   * The card is being moved or resized right now, so it must track the
+   * pointer rather than chase it. Framer's layout projection would otherwise
+   * spring the box towards each new size, which reads as the card lagging
+   * behind the hand that is dragging it.
+   */
+  instant?: boolean;
+  /**
+   * The card lives on a canvas rather than in a flow: a drop is a place, not
+   * a slot, so the card stays where it was let go instead of springing back.
+   * The caller moves the box by the offset it is handed; the drag transform
+   * is zeroed on the same frame, and nothing appears to move.
+   */
+  free?: boolean;
 }) {
   const controls = useDragControls();
+  const dragX = useMotionValue(0);
+  const dragY = useMotionValue(0);
   const [lifted, setLifted] = useState(false);
   const holdTimer = useRef<number | null>(null);
   const draggedRef = useRef(false);
@@ -73,21 +99,32 @@ export default function LiftableCard({
       dragListener={false}
       dragControls={controls}
       dragMomentum={false}
-      dragElastic={0.12}
-      dragSnapToOrigin
+      // No rubber band and no throw: the card sits exactly where the pointer
+      // put it, for as long as the pointer is down.
+      dragElastic={0}
+      dragSnapToOrigin={!free}
       animate={{
         scale: lifted ? 1.035 : 1,
         boxShadow: lifted
           ? "0 34px 70px -14px rgba(0,0,0,0.30), 0 12px 24px -10px rgba(0,0,0,0.18)"
           : "0 0px 0px 0px rgba(0,0,0,0)",
       }}
-      transition={{ type: "spring", stiffness: 420, damping: 30 }}
+      transition={{
+        scale: LIFT_SPRING,
+        boxShadow: LIFT_SPRING,
+        // Position and size follow the handle with nothing in between; once
+        // the gesture is over, a move between slots is worth animating.
+        layout: instant ? { duration: 0 } : LIFT_SPRING,
+        default: instant ? { duration: 0 } : LIFT_SPRING,
+      }}
       onPointerDown={(e) => {
         if (e.button !== 0) return;
         // Copy the reader is meant to highlight — the headline, the gloss —
         // owns its own drags. Lifting the card out from under a selection is
         // never what was wanted.
-        if ((e.target as HTMLElement | null)?.closest?.("[data-selectable]")) return;
+        // The resize grip owns its own drag, as selectable copy does.
+        if ((e.target as HTMLElement | null)?.closest?.("[data-selectable],[data-no-lift]"))
+          return;
         const native = e.nativeEvent;
         clearHold();
         draggedRef.current = false;
@@ -119,7 +156,14 @@ export default function LiftableCard({
       onDrag={(_e, info: PanInfo) => onDragMove?.({ x: info.point.x, y: info.point.y })}
       onDragEnd={(_e, info: PanInfo) => {
         setLifted(false);
-        onDragEnd?.({ x: info.point.x, y: info.point.y });
+        onDragEnd?.({ x: info.point.x, y: info.point.y }, { x: info.offset.x, y: info.offset.y });
+        // On a canvas the caller has just moved the box by this offset, so the
+        // transform that carried the card there is zeroed in the same frame:
+        // the box lands under the card and nothing is seen to move.
+        if (free) {
+          dragX.jump(0);
+          dragY.jump(0);
+        }
       }}
       onClickCapture={(e) => {
         // A drag that ends over a button shouldn't also click it.
@@ -130,11 +174,23 @@ export default function LiftableCard({
         }
       }}
       className={cn(
-        "relative rounded-3xl touch-none",
+        // `pan-y`, not `none`. touch-action is intersected down the tree, so a
+        // card that claimed the whole gesture also took it from anything
+        // scrollable inside it — the holdings list could be dragged nowhere and
+        // scrolled not at all by touch or pen. Framer does not set this itself
+        // here (the lift starts from `dragControls`, not from its own
+        // listener), so the class was the only thing saying `none`. Vertical
+        // panning belongs to whatever is under the finger; the lift is a hold,
+        // which no pan cancels.
+        "relative touch-pan-y rounded-3xl",
         lifted ? "z-50 cursor-grabbing select-none" : "",
         className,
       )}
-      style={{ zIndex: lifted ? 50 : undefined }}
+      // A lifted card rides above the others; otherwise the box keeps the
+      // z-index the caller gave it (a canvas orders its cards by touch), and
+      // everything else about it is the caller's. The drag transform lives
+      // in motion values so a free drop can zero it without a re-render.
+      style={{ ...style, x: dragX, y: dragY, zIndex: lifted ? 50 : style?.zIndex }}
     >
       {children}
     </motion.div>

@@ -682,7 +682,7 @@ export default function PortfolioChart({
       <div className={cn("flex items-stretch gap-3", (expanded || fill) && "min-h-0 flex-1")}>
         <div
           className={cn(
-            "relative min-w-0 flex-1 transition-[height] duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]",
+            "relative min-w-0 flex-1",
             expanded || fill ? "h-full" : "h-[300px]",
           )}
           onMouseMove={(e) => {

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { Gloss } from "../../../shared/gloss-types";
+import { cn } from "@/lib/utils";
 
 /**
  * Highlight a word in the copy and it explains itself. A spinner appears at
@@ -17,7 +18,12 @@ type Anchor = {
   left: number;
   /** Measured at selection time, so the popover clamps to the real card. */
   hostWidth: number;
+  /** ...and flips above the selection when there is no room under it. */
+  hostHeight: number;
 };
+
+/** What a selection is about, read off the copy it was made in. */
+export type GlossScope = { context?: string; ticker?: string };
 
 type State =
   | { phase: "idle" }
@@ -28,6 +34,8 @@ type State =
 const MIN_CHARS = 2;
 const MAX_CHARS = 400;
 const POPOVER_W = 290;
+/** About what a one-term answer stands at — enough to decide which way to open. */
+const POPOVER_EST_H = 150;
 
 function Spinner() {
   return (
@@ -50,12 +58,24 @@ function Spinner() {
 export default function SelectionGloss({
   ticker,
   context,
+  resolve,
+  className,
+  contentClassName,
   children,
 }: {
   /** The company the copy is about, when there is one. */
   ticker?: string;
   /** The sentence the selection lives in — the model needs it to pick a sense. */
   context?: string;
+  /**
+   * For copy that is a table rather than a sentence: given the selection,
+   * say what it is. A "1.98" means nothing on its own; the cell it sits in
+   * knows it is a beta, and whose. What this returns overrides the props.
+   */
+  resolve?: (range: Range) => GlossScope | null;
+  /** The host is the popover's frame; a caller whose copy scrolls sizes it. */
+  className?: string;
+  contentClassName?: string;
   children: React.ReactNode;
 }) {
   const hostRef = useRef<HTMLDivElement | null>(null);
@@ -138,6 +158,7 @@ export default function SelectionGloss({
       top: box.top - hostBox.top,
       bottom: box.bottom - hostBox.top,
       hostWidth: hostBox.width,
+      hostHeight: hostBox.height,
     };
 
     if (text.length > MAX_CHARS) {
@@ -145,13 +166,22 @@ export default function SelectionGloss({
       return;
     }
 
+    // Read the scope off the copy first — the props are the fallback.
+    const scope = resolve?.(range) ?? null;
+    const askContext = scope?.context ?? context;
+    const askTicker = scope?.ticker ?? ticker;
+
     const id = ++requestId.current;
     setTurkish({ showing: false, text: null, error: null });
     setState({ phase: "loading", text, anchor });
 
     void (async () => {
       try {
-        const res = await window.meridian?.explainSelection?.({ selection: text, context, ticker });
+        const res = await window.meridian?.explainSelection?.({
+          selection: text,
+          context: askContext,
+          ticker: askTicker,
+        });
         if (id !== requestId.current) return;
         if (res?.ok) setState({ phase: "ready", text, anchor, gloss: res.gloss });
         else setState({ phase: "error", text, anchor, error: res?.error ?? "Couldn't explain that." });
@@ -165,7 +195,7 @@ export default function SelectionGloss({
         });
       }
     })();
-  }, [context, ticker]);
+  }, [context, ticker, resolve]);
 
   // Keyboard selection (shift+arrow, caret browsing) never produces a mouseup.
   const onKeyUp = useCallback(
@@ -211,12 +241,16 @@ export default function SelectionGloss({
   }, [state.phase, close]);
 
   const anchor = state.phase === "idle" ? null : state.anchor;
+  // Under the selection by default; above it when the host has no room left
+  // there — a card that clips its overflow would otherwise swallow the answer
+  // to a highlight in its last rows.
+  const flipUp = anchor != null && anchor.bottom + 10 + POPOVER_EST_H > anchor.hostHeight && anchor.top > POPOVER_EST_H;
 
   return (
-    <div ref={hostRef} className="relative" onKeyUp={onKeyUp}>
+    <div ref={hostRef} className={cn("relative", className)} onKeyUp={onKeyUp}>
       {/* data-selectable tells LiftableCard to keep its hands off: a drag that
           starts here is a text selection, not a card being picked up. */}
-      <div data-selectable className="app-no-drag cursor-text select-text">
+      <div data-selectable className={cn("app-no-drag cursor-text select-text", contentClassName)}>
         {children}
       </div>
 
@@ -235,7 +269,9 @@ export default function SelectionGloss({
           data-selectable
           className="absolute z-50 w-[290px] rounded-2xl border border-white/70 bg-white/80 p-3.5 shadow-[0_12px_36px_rgba(0,0,0,0.12)] ring-1 ring-black/[0.04] backdrop-blur-2xl backdrop-saturate-150"
           style={{
-            top: anchor.bottom + 10,
+            ...(flipUp
+              ? { bottom: anchor.hostHeight - anchor.top + 10 }
+              : { top: anchor.bottom + 10 }),
             left: Math.max(0, Math.min(anchor.left - 20, anchor.hostWidth - POPOVER_W)),
           }}
         >

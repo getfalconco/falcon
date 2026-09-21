@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { getTrackerEngine } from "@meridian/research/tracker";
 import { resolveDataRoot } from "../data-root";
+import { callEngine, engineRemote } from "../engine/engine-client";
 import { registerIpcHandler } from "../ipc-register";
 import { ensureStep1Coverage } from "../research/register-step1-handlers";
 import type {
@@ -66,8 +67,29 @@ function normalize(symbols: unknown): string[] {
   return [...out];
 }
 
+/**
+ * Whether the tracker that actually answers the dashboard knows this name.
+ * With an engine service configured, that tracker is the remote one: the
+ * local engine is idle then, and adding a holding to it gave the card
+ * nothing, because every quant it shows is fetched from the service. The
+ * ledger stands in for a remote round trip here; coverOne asks the service
+ * itself before adding.
+ */
 function needsTracker(symbol: string): boolean {
+  if (engineRemote()) return ledger[symbol]?.trackerAddedAt == null;
   return getTrackerEngine().getTickerState(symbol) == null;
+}
+
+/** Add a name to whichever tracker the dashboard reads from. */
+async function addToTracker(symbol: string): Promise<void> {
+  if (!engineRemote()) {
+    await getTrackerEngine().addTicker(symbol);
+    return;
+  }
+  const known = await callEngine<{ ok: boolean }>("tracker:ticker-state", [symbol]);
+  if (known.ok) return;
+  const added = await callEngine<{ ok: boolean; error?: string }>("tracker:add-ticker", [symbol]);
+  if (!added.ok) throw new Error(added.error ?? "engine refused the ticker");
 }
 
 function needsStep1(symbol: string, nowMs: number): boolean {
@@ -96,8 +118,10 @@ async function coverOne(symbol: string): Promise<void> {
     try {
       entry.trackerAddedAt = nowIso;
       saveLedger(ledger);
-      await getTrackerEngine().addTicker(symbol);
-      console.info(`[portfolio] ${symbol} added to tracker (portfolio holding)`);
+      await addToTracker(symbol);
+      console.info(
+        `[portfolio] ${symbol} added to the ${engineRemote() ? "engine service's" : "local"} tracker (portfolio holding)`,
+      );
     } catch (err) {
       console.warn(`[portfolio] ${symbol} tracker add failed:`, err instanceof Error ? err.message : err);
     }

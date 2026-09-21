@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { getLiveQuote, getStockQuote } from "@/lib/stock-api";
 
 /**
@@ -18,8 +18,11 @@ import { getLiveQuote, getStockQuote } from "@/lib/stock-api";
  *
  * @param symbolsKey comma-joined, sorted symbols — a stable effect dependency.
  */
-export function useLivePrices(symbolsKey: string): Record<string, number> {
-  const [prices, setPrices] = useState<Record<string, number>>({});
+/** A live print and the move it is up or down on the session. */
+export type LiveQuoteRow = { price: number; changePercent: number | null };
+
+export function useLiveQuotes(symbolsKey: string): Record<string, LiveQuoteRow> {
+  const [prices, setPrices] = useState<Record<string, LiveQuoteRow>>({});
 
   useEffect(() => {
     const list = symbolsKey ? symbolsKey.split(",").filter(Boolean) : [];
@@ -29,18 +32,32 @@ export function useLivePrices(symbolsKey: string): Record<string, number> {
     }
     let cancelled = false;
 
-    const priceOf = async (s: string): Promise<readonly [string, number] | null> => {
+    const priceOf = async (s: string): Promise<readonly [string, LiveQuoteRow] | null> => {
       try {
         const live = await getLiveQuote(s);
         if (live.ok && Number.isFinite(live.quote.price) && live.quote.price > 0) {
-          return [s, live.quote.price] as const;
+          return [
+            s,
+            {
+              price: live.quote.price,
+              changePercent: Number.isFinite(live.quote.changePercent)
+                ? live.quote.changePercent
+                : null,
+            },
+          ] as const;
         }
       } catch {
         /* fall through to the regular-session quote */
       }
       try {
         const q = await getStockQuote(s);
-        return [s, q.price] as const;
+        return [
+          s,
+          {
+            price: q.price,
+            changePercent: Number.isFinite(q.changePercent) ? q.changePercent : null,
+          },
+        ] as const;
       } catch {
         return null;
       }
@@ -56,13 +73,13 @@ export function useLivePrices(symbolsKey: string): Record<string, number> {
           // position into its purchase price and the portfolio total jumped
           // to a number it had never been worth. Keeping the last good print
           // is what the note above always claimed this did.
-          const next: Record<string, number> = {};
+          const next: Record<string, LiveQuoteRow> = {};
           // Held symbols only: a sold position must not keep a stale price.
           for (const symbol of list) {
             if (prev[symbol] != null) next[symbol] = prev[symbol];
           }
           for (const e of entries) {
-            if (e && Number.isFinite(e[1]) && e[1] > 0) next[e[0]] = e[1];
+            if (e && Number.isFinite(e[1].price) && e[1].price > 0) next[e[0]] = e[1];
           }
           return next;
         });
@@ -78,4 +95,14 @@ export function useLivePrices(symbolsKey: string): Record<string, number> {
   }, [symbolsKey]);
 
   return prices;
+}
+
+/** Just the prints, for everything that values a book rather than tabulates it. */
+export function useLivePrices(symbolsKey: string): Record<string, number> {
+  const quotes = useLiveQuotes(symbolsKey);
+  return useMemo(() => {
+    const out: Record<string, number> = {};
+    for (const [symbol, quote] of Object.entries(quotes)) out[symbol] = quote.price;
+    return out;
+  }, [quotes]);
 }

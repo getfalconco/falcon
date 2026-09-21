@@ -9,10 +9,27 @@
 import type { PaperAccount, PaperPosition } from "@/lib/paper-account";
 import { useEffect, useState } from "react";
 
+/** One line of the demo book's cash: what is held, and what it is worth. */
+export type DemoCurrency = {
+  /** ISO code — "USD", "EUR". The name, glyph and flag are looked up from it. */
+  code: string;
+  /** How much of the currency itself is held. */
+  amount: number;
+  /** That holding in dollars — these sum to `account.cash`. */
+  usd: number;
+};
+
 export type DemoSnapshot = {
   /** Seed behind every random choice — a new one each time demo turns on. */
   seed: number;
   account: PaperAccount;
+  /**
+   * The cash split across currencies, dollars first. The account itself only
+   * ever carries one number, so this rides alongside it: the Positions card
+   * lists these rows, everything that values the book keeps reading
+   * `account.cash`, and the two agree by construction.
+   */
+  currencies: DemoCurrency[];
 };
 
 const DEMO_EVENT = "falcon:demo-mode-changed";
@@ -41,6 +58,43 @@ const POOL: Array<[symbol: string, refPrice: number]> = [
   ["MSTR", 380],
 ];
 
+/**
+ * Funds, kept apart from the companies so a generated book always holds some
+ * of each — drawn from the same list the Positions card files under ETFs, or
+ * they would come out looking like stocks.
+ */
+const ETF_POOL: Array<[symbol: string, refPrice: number]> = [
+  ["SPY", 640],
+  ["VOO", 590],
+  ["QQQ", 560],
+  ["VTI", 315],
+  ["SCHD", 27],
+  ["IWM", 240],
+  ["SMH", 285],
+  ["XLK", 260],
+  ["ARKK", 75],
+  ["GLD", 320],
+  ["TLT", 90],
+  ["VXUS", 68],
+  ["IBIT", 62],
+  ["JEPI", 58],
+];
+
+/**
+ * Currencies the demo book can hold beside dollars, with a rough rate in
+ * dollars. Fixed on purpose: demo mode is a presentation, and a live FX call
+ * would be one more thing to fail on stage. The amounts are invented either
+ * way — only their relative size has to look plausible. Codes come from
+ * `lib/currencies`, which owns the name, the glyph and the flag.
+ */
+const FX_POOL: Array<[code: string, usdPerUnit: number]> = [
+  ["EUR", 1.08],
+  ["GBP", 1.27],
+  ["TRY", 0.024],
+  ["JPY", 0.0064],
+  ["CHF", 1.13],
+];
+
 export function mulberry32(seed: number): () => number {
   let a = seed >>> 0;
   return () => {
@@ -60,13 +114,20 @@ function generate(seed: number): DemoSnapshot {
   const cash = Math.round(target * cashShare * 100) / 100;
   const invested = target - cash;
 
-  // 4–7 distinct tickers with random weights.
-  const count = 4 + Math.floor(rand() * 4);
-  const pool = [...POOL];
-  const picks: Array<[string, number]> = [];
-  while (picks.length < count && pool.length > 0) {
-    picks.push(pool.splice(Math.floor(rand() * pool.length), 1)[0]);
-  }
+  // A book of both kinds: 4–6 companies and 2–3 funds, drawn separately so
+  // neither group can come out empty on a bad roll.
+  const draw = (from: Array<[string, number]>, n: number): Array<[string, number]> => {
+    const pool = [...from];
+    const out: Array<[string, number]> = [];
+    while (out.length < n && pool.length > 0) {
+      out.push(pool.splice(Math.floor(rand() * pool.length), 1)[0]);
+    }
+    return out;
+  };
+  const picks = [
+    ...draw(POOL, 4 + Math.floor(rand() * 3)),
+    ...draw(ETF_POOL, 2 + Math.floor(rand() * 2)),
+  ];
   const weights = picks.map(() => 0.4 + rand());
   const totalW = weights.reduce((s, w) => s + w, 0);
 
@@ -81,7 +142,29 @@ function generate(seed: number): DemoSnapshot {
     positions[symbol] = { symbol, shares, costUsd };
   });
 
-  return { seed, account: { cash, positions } };
+  // The cash, split. Dollars keep the bulk of it; one to three other
+  // currencies share what is left. Rounded to the currency's own scale — a
+  // yen balance with two decimals reads as fake.
+  const fx = draw(FX_POOL, 1 + Math.floor(rand() * 3));
+  const fxShare = 0.15 + rand() * 0.3;
+  const fxWeights = fx.map(() => 0.4 + rand());
+  const fxTotalW = fxWeights.reduce((s, w) => s + w, 0);
+  const currencies: DemoCurrency[] = [];
+  let fxUsdUsed = 0;
+  fx.forEach(([code, usdPerUnit], i) => {
+    const usd = Math.round(cash * fxShare * (fxWeights[i] / fxTotalW) * 100) / 100;
+    const raw = usd / usdPerUnit;
+    // A yen balance carrying two decimals reads as fake, so the low-value
+    // currencies round to whole units.
+    const amount = usdPerUnit < 0.05 ? Math.round(raw) : Math.round(raw * 100) / 100;
+    fxUsdUsed += usd;
+    currencies.push({ code, amount, usd });
+  });
+  // Dollars take the remainder, so the rows still add up to `cash` exactly.
+  const usdLeft = Math.round((cash - fxUsdUsed) * 100) / 100;
+  currencies.unshift({ code: "USD", amount: usdLeft, usd: usdLeft });
+
+  return { seed, account: { cash, positions }, currencies };
 }
 
 export function isDemoMode(): boolean {

@@ -13,11 +13,18 @@ import { cn } from "@/lib/utils";
 export default function PortfolioValueHeadline({
   overrideValue,
   masked = false,
+  size = 76,
 }: {
   /** While scrubbing the chart, the hovered point's value shows instead. */
   overrideValue?: number | null;
   /** Privacy mode: digits render as stars. */
   masked?: boolean;
+  /**
+   * Type size in pixels. The caller sets it from the width it has to give:
+   * held at 76 the number simply runs off a narrowed card, or into the
+   * controls beside it.
+   */
+  size?: number;
 }) {
   const balance = usePortfolioBalance();
   const shown = overrideValue ?? balance;
@@ -27,7 +34,10 @@ export default function PortfolioValueHeadline({
   return (
     <div className="flex select-none flex-col items-center">
       {masked ? (
-        <span className="font-sans text-[76px] font-medium leading-none tracking-[0.01em] tabular-nums text-[#1d1b1b]">
+        <span
+          className="font-sans font-medium leading-none tracking-[0.01em] tabular-nums text-[#1d1b1b]"
+          style={{ fontSize: size }}
+        >
           $*****
         </span>
       ) : (
@@ -39,7 +49,8 @@ export default function PortfolioValueHeadline({
           minimumFractionDigits: 2,
           maximumFractionDigits: 2,
         }}
-        className="font-sans text-[76px] font-medium leading-none tracking-[0.01em] tabular-nums text-[#1d1b1b]"
+        className="font-sans font-medium leading-none tracking-[0.01em] tabular-nums text-[#1d1b1b]"
+        style={{ fontSize: size }}
       />
       )}
       {/* Which session the number is priced from — outside regular hours that
