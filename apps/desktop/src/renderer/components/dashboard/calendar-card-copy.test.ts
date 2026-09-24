@@ -31,10 +31,8 @@ describe("calendar card copy", () => {
   // somewhere this test does not look, or the scan has stopped seeing it.
   it("still finds the lines a reader meets", () => {
     for (const phrase of [
-      "TODAY",
-      "NEXT SESSION",
-      "LAST SESSION",
-      "All times ET",
+      "CALENDAR",
+      "UTC",
       "View Calendar",
       "Nothing scheduled for this session.",
       "Early close: this session ends at 13:00 ET.",
@@ -69,23 +67,22 @@ describe("calendar card wiring", () => {
     assert.ok(code.includes("nowMarkerLabel("), "the marker's label comes from the shared rule");
   });
 
-  // The button leads to a calendar view that does not exist yet, so it is a
-  // dashboard CTA held off on its own account: dimmed and inert whatever the
-  // set's switch says, never a live button that does nothing.
-  it("stands its button in as a dashboard CTA that is off on its own account", () => {
+  // The button is drawn live, outside the dashboard-CTA switch that would dim
+  // it: the reader asked for it not to sit recessed. Its click is wired the
+  // day the calendar view exists.
+  it("draws View Calendar as a live glass button", () => {
     const code = withoutComments(CARD);
-    assert.match(code, /<DashboardCta\s+disabled\b/, "the button must be a DashboardCta with `disabled` set");
-    assert.ok(!/<button\b/.test(code), "no plain button on the card: the header's menu is the only other control");
+    assert.ok(!code.includes("<DashboardCta"), "the button is not behind the dashboard-CTA switch");
+    assert.match(code, /<button[^>]*glass-cta[^>]*>\s*View Calendar/);
   });
 
-  // The head is "TODAY" only while the wall clock is on the day the rail lists.
-  // Once the report has rolled to the next session it names that session, and
-  // a report the clock has left behind is named as the last one, never as the
-  // next: the rail's standing decides, not the bare day comparison.
+  // The head always reads CALENDAR. The meta names the session's date once
+  // the report has rolled past today, and the rail's standing decides that,
+  // not the bare day comparison.
   it("names the session by where the clock stands", () => {
     const code = withoutComments(CARD);
     assert.match(code, /sessionStanding\(/);
-    assert.match(code, /on: "TODAY", before: "NEXT SESSION", after: "LAST SESSION"/);
+    assert.match(code, /label="CALENDAR"/);
     assert.ok(!code.includes("nowOnTargetDay"), "the card reads the standing, not the day flag on its own");
   });
 

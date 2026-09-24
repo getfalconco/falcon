@@ -8,20 +8,27 @@
  * caller passes in: no clock is read here, and the same seed and window always
  * give the same report.
  *
- * Figures and copy are the demo's own; the conclusions are not. The report
- * leads with what the night means for the book, and a second implementation of
- * that here would let the demo and a real report word the same figures two
- * ways, on the one surface where an audience is watching. So the engine's
- * `deriveImplications` is imported for real, from the renderer-safe half of the
- * contract (`briefing/contracts.ts`, whose comment names this file as the
- * reason it is exported). It is the only runtime import here, and the store
- * that builds this report already pulls the same module in for its window
- * rule, so it costs the bundle nothing new. Everything else is types.
+ * Figures and copy are the demo's own; the conclusions and the stories are
+ * not. The report leads with what happened and what the night means for the
+ * book, and a second implementation of either here would let the demo and a
+ * real report word the same figures two ways, on the one surface where an
+ * audience is watching. So the engine's `deriveImplications` and
+ * `deriveStories` are imported for real, from the renderer-safe half of the
+ * contract (`briefing/contracts.ts`, whose comments name this file as the
+ * reason they are exported), with `leadMarketRows` beside them for the lead's
+ * last-resort sentence. The store that builds this report already pulls the
+ * same module in for its window rule, so it costs the bundle nothing new.
+ * Everything else is types.
+ *
+ * The lead over the stories is the engine's template lead, assembled here the
+ * same way (see "The lead" below): `templateNarrative` lives in narrative.ts,
+ * which reaches into the model client, so the renderer cannot import it.
  */
 
-import { deriveImplications } from "./briefing-types";
+import { deriveImplications, deriveStories, leadMarketRows } from "./briefing-types";
 import type {
   BriefingBook,
+  BriefingHandover,
   BriefingHolding,
   BriefingNarrative,
   BriefingPriorityBand,
@@ -41,17 +48,21 @@ import type {
   ImplicationPosition,
   IndexFamily,
   MarketGroup,
+  MarketHeadline,
   MarketRow,
   MarketUnit,
+  Story,
 } from "./briefing-types";
 
 /**
- * Mirrors the engine's BRIEFING_SCHEMA_VERSION. Kept as a literal so a report
- * built here is stamped with the shape this file actually writes: importing the
- * constant would stamp every demo report with whatever the engine has moved on
- * to, whether or not the fields came with it.
+ * Mirrors the engine's BRIEFING_SCHEMA_VERSION: 3, the shape that carries
+ * market-wide headlines and the stories the panel leads with, both of which
+ * this file writes. Kept as a literal so a report built here is stamped with
+ * the shape this file actually writes: importing the constant would stamp
+ * every demo report with whatever the engine has moved on to, whether or not
+ * the fields came with it.
  */
-const DEMO_SCHEMA_VERSION = 2;
+const DEMO_SCHEMA_VERSION = 3;
 
 const MINUTE_MS = 60_000;
 const HOUR_MS = 60 * MINUTE_MS;
@@ -72,6 +83,34 @@ const OPEN_MINUTES_ET = 9 * 60 + 30;
 const FLAT_SHARES = 1e-9;
 
 const TOP_WEIGHTS = 5;
+
+/**
+ * The Asian session closes lower across the board: every row down, sized
+ * between these two figures in percent. The engine tells a region as one
+ * story only when every row printed the same way and the average move clears
+ * 1%, and a session left to the shared lean would show that story on one
+ * morning in five. Drawn one way, it is on stage every time; Europe and the
+ * futures keep the lean, so a night where Asia sold off and the West shrugged
+ * is a morning the demo can show.
+ */
+const ASIA_MOVE_MIN_PCT = 1.05;
+const ASIA_MOVE_SPAN_PCT = 1.2;
+
+type MoveRange = { min: number; span: number };
+
+/**
+ * The lead name's move, in units of its daily volatility: 1.6 to 2.8 normal
+ * days, either way. That clears 1.5% on the lowest volatility in the pool
+ * (1.6% a day), which is what makes the top-band headline beside it a story
+ * and not a footnote, and gives the volatility multiple something to say.
+ */
+const LEAD_MOVE_VOLS: MoveRange = { min: 1.6, span: 1.2 };
+/** The reporter's move on its results: 0.8 to 2 normal days, either way. */
+const RESULTS_MOVE_VOLS: MoveRange = { min: 0.8, span: 1.2 };
+
+/** How many market-wide headlines a night carries. */
+const MIN_MARKET_HEADLINES = 4;
+const MAX_MARKET_HEADLINES = 6;
 
 // ---------------------------------------------------------------------------
 // Tables
@@ -254,7 +293,146 @@ const DEMO_HEADLINES: Readonly<Record<string, DemoHeadline>> = {
   MSTR: { headline: "Strategy discloses its latest bitcoin holdings in a regulatory filing", tags: ["filing"], also: [] },
 };
 
+type DemoLeadHeadline = { up: string; down: string; tags: string[] };
+
+/**
+ * The top-band headline on the night's lead name, one wording for each way
+ * the name moved: a lifted outlook beside a 5% drop is the first thing a
+ * finance audience would catch. Invented and attributed to generic desks, as
+ * above. The engine still claims no link between headline and move; the
+ * reader draws it, which is the point of putting the two side by side.
+ */
+const DEMO_LEAD_HEADLINES: Readonly<Record<string, DemoLeadHeadline>> = {
+  NVDA: { up: "Nvidia lifts its data center outlook after a large cloud order", down: "Nvidia flags a shipment delay on its newest accelerator", tags: ["guidance"] },
+  AAPL: { up: "Apple posts record services revenue in an early holiday update", down: "Apple faces a new EU antitrust complaint over its app store terms", tags: ["regulatory"] },
+  MSFT: { up: "Microsoft wins a multi-year cloud contract with a US agency", down: "Microsoft names a new cloud chief as Azure growth slows", tags: ["management"] },
+  AMZN: { up: "Amazon reports its fastest cloud growth in two years", down: "Amazon warns on holiday-quarter margins as shipping costs climb", tags: ["guidance"] },
+  META: { up: "Meta reports stronger ad demand across its main apps", down: "Meta faces a fresh regulatory inquiry into its ad practices", tags: ["regulatory"] },
+  GOOGL: { up: "Alphabet wins a court ruling on its search distribution deals", down: "Alphabet loses a court ruling on its search distribution deals", tags: ["legal"] },
+  TSLA: { up: "Tesla reports record quarterly deliveries", down: "Tesla recalls vehicles over a steering software fault", tags: ["product"] },
+  AVGO: { up: "Broadcom wins a multi-year custom chip order from a hyperscaler", down: "Broadcom loses a custom chip order to a rival, filing shows", tags: ["contract"] },
+  LLY: { up: "Eli Lilly wins US approval for a once-weekly obesity pill", down: "Eli Lilly pauses a late-stage trial after a safety review", tags: ["regulatory"] },
+  COST: { up: "Costco raises its membership fee for the first time in years", down: "Costco reports slower comparable sales in its monthly update", tags: ["sales"] },
+  PLTR: { up: "Palantir lands its largest government contract to date", down: "Palantir loses a government contract renewal to a rival", tags: ["contract"] },
+  AMD: { up: "AMD lands a large accelerator order from a cloud customer", down: "AMD delays its next accelerator after a manufacturing issue", tags: ["product"] },
+  JPM: { up: "JPMorgan lifts its net interest income outlook in an early update", down: "JPMorgan sets aside more for credit losses in an early update", tags: ["guidance"] },
+  XOM: { up: "Exxon Mobil brings a large Guyana project online ahead of schedule", down: "Exxon Mobil halts output at a Gulf platform after a fire", tags: ["operations"] },
+  NFLX: { up: "Netflix reports its strongest subscriber quarter in three years", down: "Netflix reports a subscriber miss as price rises bite", tags: ["sales"] },
+  MSTR: { up: "Strategy discloses its largest bitcoin purchase to date", down: "Strategy prices a new convertible note at a steep discount", tags: ["filing"] },
+};
+
 const DEMO_NEWS_SOURCES = ["Newswire", "Market desk", "Company release"];
+
+type DemoMarketHeadline = {
+  slug: string;
+  /** The markets row whose sign picks the wording; null for a headline that claims no direction. */
+  symbol: string | null;
+  up: string;
+  down: string;
+  related: string[];
+  /** The query symbol that surfaced it: one of the engine's `MARKET_NEWS_SYMBOLS`. */
+  via: string;
+};
+
+/**
+ * Market-wide headlines since the close, invented and generic, the way the
+ * provider's search news reads for an index or a future. A headline that
+ * names a direction has one wording for each way its row moved, so the tape
+ * never says "futures lower" beside a row that is up. Asia is always lower in
+ * this demo (see ASIA_MOVE_MIN_PCT), so the two that mention it can say so.
+ */
+const DEMO_MARKET_HEADLINES: ReadonlyArray<DemoMarketHeadline> = [
+  {
+    slug: "futures",
+    symbol: "ES=F",
+    up: "Equity futures higher before the bell despite a weak Asian session",
+    down: "Equity futures lower before the bell after a weak Asian session",
+    related: ["SPY", "QQQ"],
+    via: "SPY",
+  },
+  {
+    slug: "asia",
+    symbol: null,
+    up: "Asian shares close lower across the board in a broad risk-off session",
+    down: "Asian shares close lower across the board in a broad risk-off session",
+    related: ["SPY"],
+    via: "^GSPC",
+  },
+  {
+    slug: "crude",
+    symbol: "CL=F",
+    up: "Crude climbs toward a three-week high on supply worries",
+    down: "Crude slips as inventories build more than anticipated",
+    related: ["CL=F"],
+    via: "CL=F",
+  },
+  {
+    slug: "gold",
+    symbol: "GC=F",
+    up: "Gold edges higher on steady central bank demand",
+    down: "Gold eases from last week's record close",
+    related: ["GC=F"],
+    via: "GC=F",
+  },
+  {
+    slug: "yields",
+    symbol: "^TNX",
+    up: "Treasury yields tick higher ahead of this week's auctions",
+    down: "Treasury yields dip ahead of this week's auctions",
+    related: ["TLT"],
+    via: "TLT",
+  },
+  {
+    slug: "dollar",
+    symbol: "DX-Y.NYB",
+    up: "Dollar firms against the yen and the euro",
+    down: "Dollar softens against the yen and the euro",
+    related: ["DX-Y.NYB"],
+    via: "DX-Y.NYB",
+  },
+  {
+    slug: "vix",
+    symbol: "^VIX",
+    up: "Volatility gauge climbs from a two-month low",
+    down: "Volatility gauge eases toward a two-month low",
+    related: ["^VIX"],
+    via: "^VIX",
+  },
+  {
+    slug: "small-caps",
+    symbol: "RTY=F",
+    up: "Small caps outpace large caps in early futures trading",
+    down: "Small caps lag large caps in early futures trading",
+    related: ["IWM"],
+    via: "IWM",
+  },
+  {
+    slug: "fed",
+    symbol: null,
+    up: "Fed speakers strike a cautious tone in overnight remarks",
+    down: "Fed speakers strike a cautious tone in overnight remarks",
+    related: ["SPY"],
+    via: "SPY",
+  },
+  {
+    slug: "chips",
+    symbol: null,
+    up: "Chipmakers in focus after a supplier's monthly sales update",
+    down: "Chipmakers in focus after a supplier's monthly sales update",
+    related: ["QQQ"],
+    via: "QQQ",
+  },
+];
+
+/**
+ * Filing labels worded as the chain writes them (`briefing/chain-slice.ts`:
+ * the form, the item codes, the item names in brackets), so the engine's
+ * stories read "results" and the form off a demo label the way they do off a
+ * real one.
+ */
+const RESULTS_FILING_LABEL = "8-K, items 2.02, 9.01 (results of operations)";
+const FD_FILING_LABEL = "8-K, item 7.01 (Regulation FD disclosure)";
+const INSIDER_FILING_LABEL = "Insider filing (Form 4)";
 
 /** Quarterly cash dividend per share for the well-known payers in the company pool. */
 const DEMO_DIVIDENDS: Readonly<Record<string, number>> = {
@@ -354,8 +532,17 @@ function pickSome<T>(rand: () => number, items: readonly T[], n: number): T[] {
   return out;
 }
 
+function pickOne<T>(rand: () => number, items: readonly T[]): T {
+  return items[intBetween(rand, 0, items.length - 1)];
+}
+
 function iso(ms: number): string {
   return new Date(ms).toISOString();
+}
+
+/** An instant cut to the minute, the resolution a feed stamps an article or a filing with. */
+function minuteIso(ms: number): string {
+  return iso(Math.floor(ms / MINUTE_MS) * MINUTE_MS);
 }
 
 function ymdToMs(ymd: string): number {
@@ -407,13 +594,6 @@ function fridayOnOrAfter(ymd: string): string {
   return out;
 }
 
-/** "up 0.42%", "down 1.10%" or "flat": a percentage in words, never a bare sign. */
-function moveWords(pct: number): string {
-  const size = Math.abs(pct).toFixed(2);
-  if (size === "0.00") return "flat";
-  return `${pct > 0 ? "up" : "down"} ${size}%`;
-}
-
 /**
  * The engine's own wording. Upstream an unannounced hour is stored as after
  * the close, so the real report cannot say "after the close" on its own, and
@@ -421,11 +601,6 @@ function moveWords(pct: number): string {
  */
 function earningsTimingWords(e: HeldEarnings): string {
   return e.timing === "bmo" ? "before the open" : "after the close, or at an hour not yet announced";
-}
-
-function whenWords(sessions: number): string {
-  if (sessions <= 0) return "today";
-  return sessions === 1 ? "in 1 session" : `in ${sessions} sessions`;
 }
 
 /** FNV-1a, 32 bit. The engine hashes with node:crypto, which a renderer bundle does not have. */
@@ -506,6 +681,11 @@ function etInstant(clock: Clock, timeEt: string): string {
   return iso(clock.openMs + (h * 60 + m - OPEN_MINUTES_ET) * MINUTE_MS);
 }
 
+/** A random instant inside the night: between the last close and the report's stamp. */
+function overnightMs(rand: () => number, clock: Clock): number {
+  return clock.sinceMs + rand() * (clock.generatedMs - clock.sinceMs);
+}
+
 // ---------------------------------------------------------------------------
 // Sections
 // ---------------------------------------------------------------------------
@@ -518,10 +698,14 @@ function moveIn(unit: MarketUnit, last: number, prev: number): number {
 }
 
 function buildMarkets(rand: () => number, clock: Clock, tone: number): MarketRow[] {
-  // About one report in three carries a stale Asian row, so the withheld-move
+  // About one report in three carries a stale European row (the FTSE shut on
+  // a UK bank holiday while the continent trades), so the withheld-move
   // design (a level with no figure beside it) is seen in a demo and not only
-  // on the one morning a year Tokyo is shut.
-  const staleIndex = rand() < 1 / 3 ? intBetween(rand, 0, 3) : -1;
+  // on the one morning a year London is shut. Europe rather than Asia because
+  // the Asian session is told as one story, and the engine tells a region's
+  // story only when every row in it printed since the close.
+  const europe = DEMO_MARKETS.map((def, index) => (def.group === "europe" ? index : -1)).filter((index) => index >= 0);
+  const staleIndex = europe.length > 0 && rand() < 1 / 3 ? pickOne(rand, europe) : -1;
   const targetDayMs = ymdToMs(msToYmd(clock.openMs));
 
   return DEMO_MARKETS.map((def, index) => {
@@ -530,7 +714,8 @@ function buildMarkets(rand: () => number, clock: Clock, tone: number): MarketRow
     // Volatility falls when equities rise; everything else in the macro block
     // is left uncorrelated, which is close enough for one morning.
     const lean = def.group === "macro" ? (def.unit === "pts" ? -0.9 * tone * def.swing : 0) : 0.9 * tone * def.swing;
-    const drawn = lean + noise;
+    // Asia is the one session drawn apart from the lean: see ASIA_MOVE_MIN_PCT.
+    const drawn = def.group === "asia" ? -(ASIA_MOVE_MIN_PCT + rand() * ASIA_MOVE_SPAN_PCT) : lean + noise;
 
     let last: number;
     if (def.unit === "pct") last = roundTo(prev * (1 + drawn / 100), def.decimals);
@@ -557,6 +742,47 @@ function buildMarkets(rand: () => number, clock: Clock, tone: number): MarketRow
   });
 }
 
+function buildCoverage(rand: () => number, holdings: BriefingHolding[]): Map<string, HeldCoverage> {
+  const coverage = new Map<string, HeldCoverage>();
+  for (const h of holdings) coverage.set(h.symbol, isFund(h.symbol) ? "price_only" : "tracked");
+
+  // Now and then the most recent company is "pending", the state a name is in
+  // for the first hours after it joins the book. Only with a few companies
+  // held, so a small book does not lose its only source of headlines.
+  const companies = holdings.filter((h) => !isFund(h.symbol));
+  if (companies.length >= 3 && rand() < 0.3) coverage.set(companies[companies.length - 1].symbol, "pending");
+  return coverage;
+}
+
+/**
+ * The two held names the night is about. The lead carries the top-band
+ * headline and the move well outside its range; the reporter filed results
+ * after the close and moved on them. Both are tracked companies (a fund has no
+ * news quota and no filings in the real report, and a pending name is not
+ * followed yet), drawn apart when the book allows, so a presentation gets two
+ * name stories of different shapes. A one-company book puts both on the one
+ * name, which is the most ordinary morning there is: results, a headline
+ * about them, and the move.
+ */
+type Cast = {
+  lead: string | null;
+  reporter: string | null;
+  /** When the results 8-K landed, UTC ms; null without a reporter. */
+  resultsAtMs: number | null;
+};
+
+function castOf(rand: () => number, holdings: BriefingHolding[], coverage: Map<string, HeldCoverage>, clock: Clock): Cast {
+  const tracked = holdings.map((h) => h.symbol).filter((s) => coverage.get(s) === "tracked");
+  if (tracked.length === 0) return { lead: null, reporter: null, resultsAtMs: null };
+  const lead = pickOne(rand, tracked);
+  const others = tracked.filter((s) => s !== lead);
+  const reporter = others.length > 0 ? pickOne(rand, others) : lead;
+  // Results land in the hour or so after the close, as an 8-K item 2.02 does;
+  // capped at the report's stamp for a window too short to hold that hour.
+  const resultsAtMs = Math.min(clock.sinceMs + intBetween(rand, 5, 75) * MINUTE_MS, clock.generatedMs);
+  return { lead, reporter, resultsAtMs };
+}
+
 type Priced = {
   holding: BriefingHolding;
   last: number;
@@ -569,17 +795,16 @@ type Priced = {
   beta: number;
 };
 
-function priceHoldings(rand: () => number, holdings: BriefingHolding[], markets: MarketRow[]): Priced[] {
+/** A move that is the name's own, either way, sized in its daily volatility. */
+function ownMove(rand: () => number, volPct: number, range: MoveRange): number {
+  return (rand() < 0.5 ? -1 : 1) * volPct * (range.min + rand() * range.span);
+}
+
+function priceHoldings(rand: () => number, holdings: BriefingHolding[], markets: MarketRow[], cast: Cast): Priced[] {
   const marketMove = (symbol: string): number => markets.find((r) => r.symbol === symbol)?.move ?? 0;
   const broad = marketMove("ES=F");
 
-  // One company gets a move well outside its usual range, so the list has a
-  // clear head and the volatility multiple has something to say. Never a
-  // fund: those follow their index (see DEMO_FUND_FOLLOWS).
-  const companyRows = holdings.map((h, i) => (isFund(h.symbol) ? -1 : i)).filter((i) => i >= 0);
-  const outlier = companyRows.length > 0 ? companyRows[intBetween(rand, 0, companyRows.length - 1)] : -1;
-
-  return holdings.map((holding, index) => {
+  return holdings.map((holding) => {
     const fund = isFund(holding.symbol);
     const volPct = DEMO_DAILY_VOL_PCT[holding.symbol] ?? (fund ? DEFAULT_FUND_VOL_PCT : DEFAULT_COMPANY_VOL_PCT);
     const beta = DEMO_BETA[holding.symbol] ?? (fund ? DEFAULT_FUND_BETA : DEFAULT_COMPANY_BETA);
@@ -594,23 +819,16 @@ function priceHoldings(rand: () => number, holdings: BriefingHolding[], markets:
     if (follows) drawn = marketMove(follows.symbol) * follows.factor + (rand() - 0.5) * 0.1;
     else if (fund) drawn = beta * broad + (rand() - 0.5) * 0.6 * volPct;
     else drawn = beta * broad + (rand() - 0.5) * 1.1 * volPct;
-    if (index === outlier) drawn = (rand() < 0.5 ? -1 : 1) * volPct * (1.6 + rand() * 1.2);
+    // The two names the night is about move apart from the market: the lead
+    // well outside its range, the reporter on its results. Neither draw has a
+    // market part, so the conclusions find a move the index does not explain
+    // and the story under it says so. Never a fund: those follow their index.
+    if (holding.symbol === cast.lead) drawn = ownMove(rand, volPct, LEAD_MOVE_VOLS);
+    else if (holding.symbol === cast.reporter) drawn = ownMove(rand, volPct, RESULTS_MOVE_VOLS);
 
     const last = roundTo(ref * (1 + drawn / 100), 2);
     return { holding, last, ref, movePct: (last / ref - 1) * 100, pnlUsd: holding.shares * (last - ref), volPct, beta };
   });
-}
-
-function buildCoverage(rand: () => number, holdings: BriefingHolding[]): Map<string, HeldCoverage> {
-  const coverage = new Map<string, HeldCoverage>();
-  for (const h of holdings) coverage.set(h.symbol, isFund(h.symbol) ? "price_only" : "tracked");
-
-  // Now and then the most recent company is "pending", the state a name is in
-  // for the first hours after it joins the book. Only with a few companies
-  // held, so a small book does not lose its only source of headlines.
-  const companies = holdings.filter((h) => !isFund(h.symbol));
-  if (companies.length >= 3 && rand() < 0.3) coverage.set(companies[companies.length - 1].symbol, "pending");
-  return coverage;
 }
 
 function buildMovers(priced: Priced[], coverage: Map<string, HeldCoverage>, asOf: string): HeldMover[] {
@@ -687,35 +905,72 @@ function buildNews(
   rand: () => number,
   holdings: BriefingHolding[],
   coverage: Map<string, HeldCoverage>,
+  cast: Cast,
+  movers: HeldMover[],
   clock: Clock,
 ): HeldNewsItem[] {
   // Only tracked names have a news quota; a headline on a price-only fund
   // would show something the real report can never show.
   const tracked = holdings.map((h) => h.symbol).filter((s) => coverage.get(s) === "tracked");
-  const chosen = pickSome(rand, tracked, Math.min(tracked.length, intBetween(rand, 2, 4)));
-  const bands: BriefingPriorityBand[] = ["P1", "P2", "P3"];
+  const moveOf = (ticker: string): number => movers.find((m) => m.ticker === ticker)?.move_pct ?? 0;
+  const item = (ticker: string, fields: Pick<HeldNewsItem, "also" | "headline" | "tags" | "band" | "published_at">): HeldNewsItem => ({
+    ticker,
+    ...fields,
+    source: pickOne(rand, DEMO_NEWS_SOURCES),
+    // example.com is reserved for documentation, so a click lands nowhere real.
+    url: `https://example.com/falcon-demo/news/${ticker.toLowerCase()}`,
+    incident_id: `demo-incident-${ticker}`,
+  });
 
-  const items = chosen.map((ticker, index): HeldNewsItem => {
+  const items: HeldNewsItem[] = [];
+  if (cast.lead !== null) {
+    const entry = DEMO_LEAD_HEADLINES[cast.lead];
+    // The wording follows the way the name moved (see DEMO_LEAD_HEADLINES).
+    const down = moveOf(cast.lead) < 0;
+    items.push(
+      item(cast.lead, {
+        also: [],
+        headline: entry ? (down ? entry.down : entry.up) : `${cast.lead} ${down ? "lowers" : "raises"} its outlook in an early update`,
+        tags: entry ? [...entry.tags] : ["guidance"],
+        band: "P0",
+        published_at: minuteIso(overnightMs(rand, clock)),
+      }),
+    );
+  }
+  if (cast.reporter !== null && cast.reporter !== cast.lead && cast.resultsAtMs !== null) {
+    // Published minutes after the 8-K (see buildFilings), so the two agree on when.
+    items.push(
+      item(cast.reporter, {
+        also: [],
+        headline: `${cast.reporter} reports quarterly results after the close`,
+        tags: ["earnings"],
+        band: "P1",
+        published_at: minuteIso(Math.min(cast.resultsAtMs + intBetween(rand, 2, 12) * MINUTE_MS, clock.generatedMs)),
+      }),
+    );
+  }
+
+  // The rest of the tape on held names: mild items, the kind a quiet night
+  // has, in the two bands that lead no story on their own.
+  const rest = tracked.filter((s) => s !== cast.lead && s !== cast.reporter);
+  const bands: BriefingPriorityBand[] = ["P2", "P3"];
+  for (const ticker of pickSome(rand, rest, Math.min(rest.length, intBetween(rand, 0, 2)))) {
     const entry = DEMO_HEADLINES[ticker] ?? {
       headline: `${ticker} features in a sector roundup after peer results`,
       tags: ["sector"],
       also: [],
     };
-    const publishedMs = clock.sinceMs + rand() * (clock.generatedMs - clock.sinceMs);
-    return {
-      ticker,
-      // The chain only attaches an article to names it follows.
-      also: entry.also.filter((s) => s !== ticker && coverage.get(s) === "tracked"),
-      headline: entry.headline,
-      source: DEMO_NEWS_SOURCES[Math.floor(rand() * DEMO_NEWS_SOURCES.length)] ?? DEMO_NEWS_SOURCES[0],
-      // example.com is reserved for documentation, so a click lands nowhere real.
-      url: `https://example.com/falcon-demo/news/${ticker.toLowerCase()}`,
-      published_at: iso(Math.floor(publishedMs / MINUTE_MS) * MINUTE_MS),
-      band: index === 0 ? "P1" : bands[intBetween(rand, 1, 2)],
-      tags: [...entry.tags],
-      incident_id: `demo-incident-${ticker}`,
-    };
-  });
+    items.push(
+      item(ticker, {
+        // The chain only attaches an article to names it follows.
+        also: entry.also.filter((s) => s !== ticker && coverage.get(s) === "tracked"),
+        headline: entry.headline,
+        tags: [...entry.tags],
+        band: pickOne(rand, bands),
+        published_at: minuteIso(overnightMs(rand, clock)),
+      }),
+    );
+  }
 
   // Heaviest band first, then newest; the name settles two items stamped in the same minute.
   return items.sort((a, b) => {
@@ -725,19 +980,30 @@ function buildNews(
   });
 }
 
-function buildFilings(rand: () => number, companies: string[], clock: Clock): HeldFiling[] {
-  const chosen = pickSome(rand, companies, Math.min(companies.length, intBetween(rand, 1, 2)));
-  return chosen.map((ticker, index): HeldFiling => {
-    const filedMs = clock.sinceMs + rand() * (clock.generatedMs - clock.sinceMs);
-    const insider = index === 1;
-    return {
-      ticker,
-      kind: insider ? "insider" : "filing",
-      label: insider ? "Form 4: director reported a share transaction" : "8-K: Regulation FD disclosure (Item 7.01)",
-      filed_at: iso(Math.floor(filedMs / MINUTE_MS) * MINUTE_MS),
-      url: `https://example.com/falcon-demo/filing/${ticker.toLowerCase()}`,
-    };
+function buildFilings(rand: () => number, companies: string[], coverage: Map<string, HeldCoverage>, cast: Cast, clock: Clock): HeldFiling[] {
+  const filing = (ticker: string, kind: HeldFiling["kind"], label: string, filedMs: number): HeldFiling => ({
+    ticker,
+    kind,
+    label,
+    filed_at: minuteIso(filedMs),
+    url: `https://example.com/falcon-demo/filing/${ticker.toLowerCase()}`,
   });
+
+  const out: HeldFiling[] = [];
+  if (cast.reporter !== null && cast.resultsAtMs !== null) out.push(filing(cast.reporter, "filing", RESULTS_FILING_LABEL, cast.resultsAtMs));
+
+  // One more filing on another name about half the time: an insider Form 4 or
+  // a Regulation FD 8-K. Never on the lead, because an insider filing outranks
+  // a headline in the engine's wording of what happened, and the lead's night
+  // is its headline. Never on a pending name, which the chain does not follow.
+  const rest = companies.filter((s) => s !== cast.lead && s !== cast.reporter && coverage.get(s) !== "pending");
+  if (rest.length > 0 && rand() < 0.5) {
+    const ticker = pickOne(rand, rest);
+    const insider = rand() < 0.5;
+    out.push(filing(ticker, insider ? "insider" : "filing", insider ? INSIDER_FILING_LABEL : FD_FILING_LABEL, overnightMs(rand, clock)));
+  }
+  // Newest first, as the chain lists them.
+  return out.sort((a, b) => (a.filed_at > b.filed_at ? -1 : a.filed_at < b.filed_at ? 1 : a.ticker < b.ticker ? -1 : 1));
 }
 
 function buildMeasurements(
@@ -1093,50 +1359,167 @@ function buildCalendarCoverage(rand: () => number, clock: Clock): CalendarCovera
   };
 }
 
-function buildNarrative(
-  markets: MarketRow[],
-  movers: HeldMover[],
-  book: BriefingBook,
-  events: CorporateEvent[],
-  calendar: CalendarItem[],
-  generatedAt: string,
-  hash: string,
-): BriefingNarrative {
-  const sentences: string[] = [];
-  const quotable = (symbol: string): MarketRow | undefined =>
-    markets.find((r) => r.symbol === symbol && r.move !== null && (r.state === "live" || r.state === "final"));
+function buildHeadlines(rand: () => number, markets: MarketRow[], clock: Clock): MarketHeadline[] {
+  const moveOf = (symbol: string): number | null => markets.find((r) => r.symbol === symbol)?.move ?? null;
+  // A headline that claims a direction is offered only when the row it reads
+  // moved at all; beside a flat or withheld row it would make a claim the
+  // table does not.
+  const candidates = DEMO_MARKET_HEADLINES.filter((h) => h.symbol === null || (moveOf(h.symbol) ?? 0) !== 0);
+  const chosen = pickSome(rand, candidates, Math.min(candidates.length, intBetween(rand, MIN_MARKET_HEADLINES, MAX_MARKET_HEADLINES)));
 
-  const es = quotable("ES=F");
-  const nq = quotable("NQ=F");
-  if (es?.move != null && nq?.move != null) {
-    sentences.push(`S&P 500 futures are ${moveWords(es.move)} and Nasdaq-100 futures are ${moveWords(nq.move)} ahead of the open.`);
+  const items = chosen.map((h): MarketHeadline => {
+    const move = h.symbol === null ? null : moveOf(h.symbol);
+    return {
+      id: `demo-headline-${h.slug}`,
+      title: move !== null && move < 0 ? h.down : h.up,
+      source: pickOne(rand, DEMO_NEWS_SOURCES),
+      // example.com is reserved for documentation, so a click lands nowhere real.
+      url: `https://example.com/falcon-demo/market/${h.slug}`,
+      published_at: minuteIso(overnightMs(rand, clock)),
+      related: [...h.related],
+      via: h.via,
+    };
+  });
+  // Newest first, as the report lists them; the id settles a shared minute.
+  return items.sort((a, b) => (a.published_at > b.published_at ? -1 : a.published_at < b.published_at ? 1 : a.id < b.id ? -1 : 1));
+}
+
+// ---------------------------------------------------------------------------
+// The lead: the engine's template, assembled the same way
+//
+// `templateNarrative` in the engine's narrative.ts is the lead a real report
+// carries whenever the model cannot be used, and a demo book never calls the
+// model. That module is Node-only, so the assembly is repeated here rule for
+// rule: the first story (or the open indication, or the market list), then
+// the calendar, at most two sentences and 55 words.
+// ---------------------------------------------------------------------------
+
+/** The lead's limits: the engine's validator holds a model lead to them and its template keeps under them. */
+const MAX_LEAD_WORDS = 55;
+/** A story sentence longer than this leaves no room for the calendar beside it. */
+const MAX_LEAD_STORY_WORDS = 40;
+const MAX_LEAD_CALENDAR_ITEMS = 3;
+/** The engine's facts carry at most this many calendar items for the lead to choose from. */
+const MAX_LEAD_CALENDAR_POOL = 4;
+
+const HANDOVER_OPENER: Record<BriefingHandover, string> = {
+  overnight: "Overnight markets show",
+  weekend: "After the weekend, markets show",
+  holiday: "After the holiday break, markets show",
+};
+
+const UNIT_SUFFIX: Record<MarketUnit, string> = { pct: "%", bp: " bp", pts: " pts" };
+
+function wordCount(text: string): number {
+  return text.split(/\s+/).filter(Boolean).length;
+}
+
+function listOf(parts: string[]): string {
+  if (parts.length <= 1) return parts.join("");
+  return `${parts.slice(0, -1).join(", ")} and ${parts[parts.length - 1]}`;
+}
+
+/** "up 0.4%", "down 6 bp", "flat": one decimal, as the engine's prose prints a table row. */
+function moveWords(move: number, unit: MarketUnit): string {
+  const size = Number(Math.abs(move).toFixed(1));
+  if (size === 0) return "flat";
+  return `${move > 0 ? "up" : "down"} ${size}${UNIT_SUFFIX[unit]}`;
+}
+
+/**
+ * The first story as one sentence: the event, then the reaction. A name story
+ * whose reaction opens with the ticker is joined on it ("NVDA reported results
+ * and is up 2.3% since the close"); anything else takes the reaction after a
+ * colon. "Since the close" is said once, by whichever half says it first.
+ */
+function storyLead(first: Story | undefined): string | null {
+  if (!first || first.what === "") return null;
+  const what = first.what.replace(/[.!?]+$/, "").trim();
+  let reaction = first.reaction.replace(/[.!?]+$/, "").trim();
+  if (reaction === "") return `${what}.`;
+  if (/since the close/i.test(what)) reaction = reaction.replace(" since the close", "");
+
+  const ticker = first.tickers[0];
+  const sentence =
+    first.scope === "name" && ticker && reaction.startsWith(`${ticker} `)
+      ? `${what} and ${reaction.slice(ticker.length + 1)}.`
+      : `${what}: ${reaction}.`;
+  return wordCount(sentence) > MAX_LEAD_STORY_WORDS ? null : sentence;
+}
+
+/** The table read aloud: the engine's lead rows that printed since the close. */
+function marketsSentence(markets: MarketRow[], handover: BriefingHandover): string {
+  const parts = leadMarketRows(markets).flatMap((row) => (row.move === null ? [] : [`${row.label} ${moveWords(row.move, row.unit)}`]));
+  if (parts.length > 0) return `${HANDOVER_OPENER[handover]} ${listOf(parts)}.`;
+  if (markets.every((row) => row.state === "unavailable")) return "The overnight market feed is unavailable, so index moves are not listed.";
+  return "The lead indices have no fresh print since the last US close.";
+}
+
+/** What the engine's facts carry of the calendar: the items the lead may name, in the order of the day. */
+function leadCalendar(calendar: CalendarItem[]): CalendarItem[] {
+  const timeKey = (item: CalendarItem): string => item.time_et ?? "";
+  return calendar
+    .filter((item) => item.importance >= 2 && item.kind !== "earnings" && item.kind !== "session")
+    .sort((a, b) => b.importance - a.importance || timeKey(a).localeCompare(timeKey(b)) || a.id.localeCompare(b.id))
+    .slice(0, MAX_LEAD_CALENDAR_POOL)
+    .sort((a, b) => timeKey(a).localeCompare(timeKey(b)) || a.id.localeCompare(b.id));
+}
+
+function calendarSentence(calendar: CalendarItem[], earnings: HeldEarnings[], earlyClose: boolean, maxItems: number): string {
+  const items: Array<{ text: string; importance: number }> = [];
+  const reporting = earnings
+    .filter((e) => e.sessions_until === 0)
+    .map((e) => e.ticker)
+    .sort();
+  if (reporting.length > 0) {
+    const named = reporting.slice(0, 3);
+    const rest = reporting.length - named.length;
+    const names = listOf(rest > 0 ? [...named, `${rest} more held ${rest === 1 ? "name" : "names"}`] : named);
+    // A held name reporting is about this book, so it ranks with the top releases.
+    items.push({ text: `earnings from ${names}`, importance: 3 });
   }
-
-  // A stale row has no move to quote, so the next Asian benchmark stands in.
-  const asia = quotable("^N225") ?? quotable("^HSI");
-  const europe = quotable("^STOXX50E");
-  if (asia?.move != null && europe?.move != null) {
-    sentences.push(`The ${asia.label} closed ${moveWords(asia.move)} and the ${europe.label} is ${moveWords(europe.move)}.`);
+  // The engine skips a title that breaks the copy rules. The titles here are
+  // the demo's own, and its test holds every one of them to the rules.
+  for (const item of leadCalendar(calendar)) {
+    items.push({ text: item.time_et ? `${item.title} at ${item.time_et} ET` : item.title, importance: item.importance });
   }
+  // Chosen by importance, then read out in the order they were given (the
+  // order of the day).
+  const chosen = new Set([...items].sort((a, b) => b.importance - a.importance).slice(0, maxItems));
+  const listed = listOf(items.filter((item) => chosen.has(item)).map((item) => item.text));
 
-  const head = movers[0];
-  if (!head) {
-    sentences.push("No positions were carried through the night.");
-  } else if (book.overnight_pnl_pct !== null) {
-    sentences.push(
-      `The book is ${moveWords(book.overnight_pnl_pct)} since the last close, and ${head.ticker}, ${moveWords(head.move_pct)}, is the largest move among held names.`,
-    );
-  } else {
-    sentences.push(`${head.ticker}, ${moveWords(head.move_pct)}, is the largest move among held names.`);
+  // The engine's "calendar file has run out" branch is not here: the demo's
+  // coverage always reaches past its target (see buildCalendarCoverage).
+  if (earlyClose) {
+    return listed
+      ? `This session closes early at 13:00 ET, and its calendar has ${listed}.`
+      : "This session closes early at 13:00 ET, with nothing else scheduled in the calendar file.";
   }
+  return listed ? `This session's calendar has ${listed}.` : "Nothing is scheduled in the calendar file for this session.";
+}
 
-  const timed = calendar.filter((c) => c.kind === "fomc" || c.kind === "data").sort((a, b) => b.importance - a.importance)[0];
-  const nextEvent = [...events].sort((a, b) => a.sessions_until - b.sessions_until)[0];
-  const onCalendar = timed ? `Today's calendar has ${timed.kind === "fomc" ? "the " : ""}${timed.title} at ${timed.time_et} ET` : null;
-  const onBook = nextEvent ? `the next event on a held name is the ${nextEvent.title}, ${whenWords(nextEvent.sessions_until)}` : null;
-  if (onCalendar && onBook) sentences.push(`${onCalendar}, and ${onBook}.`);
-  else if (onCalendar) sentences.push(`${onCalendar}.`);
-  else if (onBook) sentences.push(`${onBook.charAt(0).toUpperCase()}${onBook.slice(1)}.`);
+type LeadInput = {
+  stories: Story[];
+  implications: Implication[];
+  markets: MarketRow[];
+  calendar: CalendarItem[];
+  earnings: HeldEarnings[];
+  window: BriefingWindow;
+};
+
+function buildLead(input: LeadInput, generatedAt: string, hash: string): BriefingNarrative {
+  // The first story, or the open indication when there is no story to tell,
+  // or the plain market list when there is neither. The market list is last
+  // because it is the table read aloud, which is what the stories replace.
+  const open = input.implications.find((i) => i.kind === "open_indication" && i.headline.length > 0);
+  const first = storyLead(input.stories[0]) ?? open?.headline ?? marketsSentence(input.markets, input.window.handover);
+  const calendar = (maxItems: number): string => calendarSentence(input.calendar, input.earnings, input.window.early_close, maxItems);
+
+  // Held under the word limit by shortening the calendar to its top item and
+  // then giving it up; the first sentence always stays.
+  let sentences = [first, calendar(MAX_LEAD_CALENDAR_ITEMS)];
+  if (wordCount(sentences.join(" ")) > MAX_LEAD_WORDS) sentences = [first, calendar(1)];
+  if (wordCount(sentences.join(" ")) > MAX_LEAD_WORDS) sentences = [first];
 
   return {
     text: sentences.join(" "),
@@ -1170,18 +1553,21 @@ export function buildDemoBriefing(
   const tone = (rand() - 0.5) * 2;
 
   const markets = buildMarkets(rand, clock, tone);
-  const priced = priceHoldings(rand, holdings, markets);
   const coverage = buildCoverage(rand, holdings);
+  const cast = castOf(rand, holdings, coverage, clock);
+  const priced = priceHoldings(rand, holdings, markets, cast);
   const movers = buildMovers(priced, coverage, quotesAsOf);
   const book = buildBook(priced, cash, generatedAt);
-  const news = buildNews(rand, holdings, coverage, clock);
-  const filings = buildFilings(rand, companies, clock);
+  const news = buildNews(rand, holdings, coverage, cast, movers, clock);
+  const filings = buildFilings(rand, companies, coverage, cast, clock);
   const measurements = buildMeasurements(rand, movers, news, quotesAsOf);
-  const earnings = buildEarnings(rand, companies, clock);
+  // The reporter has just reported, so it is not also due to report soon.
+  const earnings = buildEarnings(rand, companies.filter((s) => s !== cast.reporter), clock);
   const events = buildCorporateEvents(rand, holdings, earnings, clock);
   const risk = buildRisk(rand, priced, book, iso(clock.generatedMs - 5 * MINUTE_MS));
   const calendar = buildCalendar(rand, window, clock, earnings, events);
   const calendarCoverage = buildCalendarCoverage(rand, clock);
+  const headlines = buildHeadlines(rand, markets, clock);
 
   // Forced to the pre-open phase because that is the state the panel is
   // designed around, and never auto-shown: a demo report that opened itself
@@ -1220,6 +1606,27 @@ export function buildDemoBriefing(
     implications = [];
   }
 
+  // What happened, told by the engine's own rule over the same body, so the
+  // demo's stories are exactly the ones a real report would tell of these
+  // figures. Guarded the same way as the conclusions: a throw costs the
+  // stories, and the lead then falls back to the open indication.
+  let stories: Story[] = [];
+  try {
+    stories = deriveStories({
+      generated_at: generatedAt,
+      window: reportWindow,
+      overnight,
+      held_coverage: heldCoverage,
+      book,
+      headlines,
+      implications,
+      calendar_today: calendar,
+      earnings_next: earnings,
+    });
+  } catch {
+    stories = [];
+  }
+
   const hash = factsHash({
     target: clock.targetYmd,
     markets: markets.map((r) => [r.symbol, r.move]),
@@ -1227,6 +1634,10 @@ export function buildDemoBriefing(
     pnl: book.overnight_pnl_pct,
     events: events.map((e) => e.id),
     calendar: calendar.map((c) => c.id),
+    // A new headline, or a story appearing or going, is a new morning, as the
+    // engine's own hash has it.
+    headlines: headlines.map((h) => h.id),
+    stories: stories.map((s) => s.id),
   });
 
   return {
@@ -1239,7 +1650,6 @@ export function buildDemoBriefing(
     held_coverage: heldCoverage,
     book,
     risk,
-    implications,
     earnings_next: earnings,
     corporate_events: events,
     corporate_coverage: {
@@ -1251,7 +1661,10 @@ export function buildDemoBriefing(
     },
     calendar_today: calendar,
     calendar_coverage: calendarCoverage,
-    narrative: buildNarrative(markets, movers, book, events, calendar, generatedAt, hash),
+    headlines,
+    stories,
+    implications,
+    narrative: buildLead({ stories, implications, markets, calendar, earnings, window: reportWindow }, generatedAt, hash),
     facts_hash: hash,
     degraded: [],
   };

@@ -113,6 +113,10 @@ interface MeridianBridge {
     | { ok: true; graph: import("../shared/graph-types").GraphFile; path: string }
     | { ok: false; error: string }
   >;
+  getNewsFeed: (options?: {
+    days?: number;
+    limit?: number;
+  }) => Promise<import("../shared/news-feed").NewsFeedResult>;
   listNewsEvents: (options?: {
     days?: number;
     ticker?: string;

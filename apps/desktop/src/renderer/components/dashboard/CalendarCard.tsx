@@ -2,7 +2,6 @@ import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { CalendarRows, ROW_GRID, nowMarkerLabel, sessionStanding, type SessionStanding } from "@/components/briefing/CalendarRail";
 import { HEAD_CLASS, QUIET_NOTE_CLASS } from "@/components/briefing/briefing-styles";
 import ChartCardHeader from "@/components/dashboard/ChartCardHeader";
-import DashboardCta from "@/components/dashboard/DashboardCta";
 import { useBriefing } from "@/hooks/useBriefing";
 import { briefingEnabled } from "@/lib/dashboard-config";
 import { cn } from "@/lib/utils";
@@ -16,8 +15,26 @@ type Props = {
 
 const SKELETON_BAR = "animate-pulse rounded bg-black/[0.06] motion-reduce:animate-none";
 
-/** The card's label by where the clock stands against the session it lists. */
-const HEAD_LABEL: Record<SessionStanding, string> = { on: "TODAY", before: "NEXT SESSION", after: "LAST SESSION" };
+/**
+ * The meta names New York's offset from UTC as it stands right now — "UTC−4"
+ * through the summer, "UTC−5" in winter — so a reader anywhere can place the
+ * times without knowing what "ET" means today. Read from the clock, never
+ * hard-coded: the switch happens twice a year and nobody would remember to
+ * edit a string on those two nights.
+ */
+function nyUtcOffset(now: Date): string {
+  try {
+    const part = new Intl.DateTimeFormat("en-US", { timeZone: "America/New_York", timeZoneName: "shortOffset" })
+      .formatToParts(now)
+      .find((p) => p.type === "timeZoneName")?.value;
+    const m = part ? /([+-])(\d{1,2})(?::(\d{2}))?/.exec(part) : null;
+    if (!m) return "UTC−4";
+    const sign = m[1] === "-" ? "−" : "+";
+    return `UTC${sign}${Number(m[2])}${m[3] && m[3] !== "00" ? `:${m[3]}` : ""}`;
+  } catch {
+    return "UTC−4";
+  }
+}
 
 type CardView = {
   calendar: CalendarView;
@@ -182,10 +199,10 @@ function CalendarCardInner({ onDuplicate, onRemove }: Props) {
   return (
     <div className="flex h-full min-h-[560px] w-full flex-col rounded-3xl border border-white/60 bg-white/40 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-black/[0.04] backdrop-blur-xl backdrop-saturate-150">
       <ChartCardHeader
-        label={HEAD_LABEL[standing]}
+        label="CALENDAR"
         meta={
           <span className={cn(HEAD_CLASS, "select-none truncate")}>
-            {standing === "on" || !view ? "All times ET" : `${view.sessionDate} · All times ET`}
+            {standing === "on" || !view ? nyUtcOffset(now) : `${view.sessionDate} · ${nyUtcOffset(now)}`}
           </span>
         }
         onDuplicate={onDuplicate}
@@ -202,20 +219,14 @@ function CalendarCardInner({ onDuplicate, onRemove }: Props) {
           </div>
         ) : null}
 
-        {/* A dashboard CTA, like every door from a card to a detail view. The
-            calendar view it leads to is not built yet, so it is held off on
-            its own account as well as by the set's switch: the day the other
-            doors open, this one must not turn into a live button that opens
-            nothing. A glass button does not read as off at half opacity, so
-            it is recessed instead. */}
+        {/* The door to the calendar view. Drawn live — the reader asked for
+            it not to sit recessed — and outside the dashboard-CTA switch,
+            which would dim it again. Nothing to open yet; the click is wired
+            the day the view exists. */}
         <div className="mt-auto pt-4">
-          <DashboardCta
-            disabled
-            className="glass-cta w-full py-2 text-[12.5px] font-medium"
-            disabledClassName="border-white/10 bg-[#1d1b1b]/40 text-white/75 shadow-none"
-          >
+          <button type="button" className="glass-cta app-no-drag w-full py-2 text-[12.5px] font-medium">
             View Calendar
-          </DashboardCta>
+          </button>
         </div>
       </div>
     </div>

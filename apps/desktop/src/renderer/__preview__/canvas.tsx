@@ -1,17 +1,13 @@
 import { createRoot } from "react-dom/client";
 import "../globals.css";
 import HomePage from "../pages/HomePage";
-import { isDemoMode, toggleDemoMode } from "../lib/demo-mode";
+import { toggleDemoMode } from "../lib/demo-mode";
 import { applyTheme, getStoredTheme } from "../lib/theme";
 
 /**
  * Scratch harness: the real dashboard canvas with nothing behind it, so the
- * cards' placement and the resize rules (edge snap, size match, the gutter
- * limit, the seam between two cards) can be driven and measured without the
- * desktop app's window. Presentation mode is switched on, so every card draws
- * its demo data and no provider, key or main process is involved.
- *
- *   ?seed=keep   keep whatever canvas this origin already has, instead of the two-card seed
+ * resize rules (edge snap, size match, the gutter limit, the seam between two
+ * cards) can be driven and measured without the desktop app's window.
  *
  * A hidden preview pane never fires requestAnimationFrame, and the page ends
  * a resize inside one; without this the canvas believes the resize is still
@@ -27,8 +23,7 @@ window.requestAnimationFrame = ((cb: FrameRequestCallback) =>
 );
 
 // Two cards side by side, further apart than a gutter, so an edge has
-// somewhere to travel before it meets the limit. Every other card the page
-// shows is laid out underneath by the page's own reconciliation.
+// somewhere to travel before it meets the limit.
 if (new URLSearchParams(location.search).get("seed") !== "keep") {
   localStorage.setItem(
     "falcon.ui.canvas.v1",
@@ -40,14 +35,13 @@ if (new URLSearchParams(location.search).get("seed") !== "keep") {
       order: ["portfolio", "assets"],
     }),
   );
-  localStorage.removeItem("falcon.ui.cardOrder.v4");
 }
 
 applyTheme(getStoredTheme());
-if (!isDemoMode()) toggleDemoMode();
+toggleDemoMode();
 
 createRoot(document.getElementById("root")!).render(
   <div style={{ height: "100vh" }}>
-    <HomePage userName="Kuzey" userEmail="kuzey@example.com" onSignOut={() => {}} />
+    <HomePage userName="Kuzey" onSignOut={() => {}} />
   </div>,
 );

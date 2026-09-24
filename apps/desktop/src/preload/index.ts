@@ -99,6 +99,10 @@ contextBridge.exposeInMainWorld("meridian", {
       | { ok: true; events: import("../shared/news-events").MaterialNewsEvent[] }
       | { ok: false; error: string }
     >,
+  getNewsFeed: (options?: { days?: number; limit?: number }) =>
+    ipcRenderer.invoke("news:feed", options) as Promise<
+      import("../shared/news-feed").NewsFeedResult
+    >,
   getNewsEventsStatus: () =>
     ipcRenderer.invoke("events:status") as Promise<
       { ok: true; status: import("../shared/news-events").EventsPollStatus } | { ok: false; error: string }

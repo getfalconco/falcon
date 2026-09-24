@@ -12,6 +12,7 @@ import PortfolioCard from "@/components/dashboard/PortfolioCard";
 import PortfolioValueCard from "@/components/dashboard/PortfolioValueCard";
 import InsightCard from "@/components/dashboard/InsightCard";
 import OpportunitiesPanel from "@/components/dashboard/OpportunitiesPanel";
+import NewsCard from "@/components/dashboard/NewsCard";
 import BriefingCard from "@/components/dashboard/BriefingCard";
 import CalendarCard from "@/components/dashboard/CalendarCard";
 import BriefingHost from "@/components/briefing/BriefingHost";
@@ -68,7 +69,7 @@ const CHART_H_KEY = "falcon.ui.chartCardH";
 
 /** Cards, in the order they sit — remembered across sessions. Every card
  *  lifts, drags, and drops onto a slot or onto another card to take its place. */
-type CardBase = "portfolio" | "assets" | "briefing" | "calendar" | "insight" | "risk";
+type CardBase = "portfolio" | "assets" | "briefing" | "calendar" | "news" | "insight" | "risk";
 /** A card, or a copy of one made from its menu — `assets#1725...` reads as
  *  "an assets card", so everything keyed by base keeps working on copies. */
 type CardId = CardBase | `${CardBase}#${number}`;
@@ -140,7 +141,7 @@ function loadCardSizes(): Record<string, CardSize> {
   return {};
 }
 
-const DEFAULT_CARD_ORDER: CardId[] = ["portfolio", "assets", "briefing", "calendar", "insight", "risk"];
+const DEFAULT_CARD_ORDER: CardId[] = ["portfolio", "assets", "briefing", "calendar", "news", "insight", "risk"];
 function loadCardOrder(): CardId[] {
   try {
     const raw = localStorage.getItem(CARD_ORDER_KEY);
@@ -560,6 +561,8 @@ export default function HomePage({ userName, userEmail, onSignOut }: Props) {
         );
       case "calendar":
         return <CalendarCard onDuplicate={() => duplicateCard(id)} onRemove={() => removeCard(id)} />;
+      case "news":
+        return <NewsCard onDuplicate={() => duplicateCard(id)} onRemove={() => removeCard(id)} />;
       case "insight":
         return <InsightCard />;
       case "risk":

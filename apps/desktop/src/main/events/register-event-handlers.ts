@@ -1,6 +1,7 @@
 import { registerIpcHandler } from "../ipc-register";
 import {
   getEventsPollStatus,
+  listNewsArticles,
   listStoredEvents,
   resolveEventsDataDir,
   runNewsEventPoll,
@@ -17,6 +18,22 @@ export function registerEventHandlers(): void {
     } catch (err) {
       const message = err instanceof Error ? err.message : String(err);
       return { ok: false as const, error: message };
+    }
+  });
+
+  // An engine channel: with a service configured (the normal case) this is
+  // answered there, from the poll that actually runs. This local body only
+  // serves a checkout that runs the chain itself, and knows no sectors.
+  registerIpcHandler("news:feed", async (_event, options?: { days?: number; limit?: number }) => {
+    try {
+      const articles = await listNewsArticles(resolveEventsDataDir(), options);
+      return {
+        ok: true as const,
+        articles: articles.map((a) => ({ ...a, sectors: [] as string[] })),
+        status: getEventsPollStatus(),
+      };
+    } catch (err) {
+      return { ok: false as const, error: err instanceof Error ? err.message : String(err) };
     }
   });
 

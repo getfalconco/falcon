@@ -25,7 +25,8 @@ import { narrativeView } from "../../shared/briefing-view";
  * (seed 7, a fixed book), so every figure is reproducible and no provider, key
  * or model is involved.
  *
- *   ?state=stories             default: the full report with three stories (the tape, a held name, a release), 2 h 14 min before the open
+ *   ?state=stories             default: the report as the demo builder writes it, headlines and stories included (a held name reporting,
+ *                              a top-band headline on another, the tape, Asia as one session), 2 h 14 min before the open
  *   ?state=pre                 the same report with no stories: the "nothing rises to a story" line, and a card led by the first conclusion
  *   ?state=degraded            several sections failed, two more stale rows, two unavailable rows, no risk block
  *   ?state=markets-down        no market row has a move: the story chips print n/a and the table gives way to the quiet line
@@ -61,11 +62,12 @@ import { narrativeView } from "../../shared/briefing-view";
  * in ?view=panel the store drops a demo report it finds on a first hold while
  * demo mode is off, which shows as one extra loading pass on open.
  *
- * The stories. The demo builder does not write stories yet, so this page
- * builds three from the report's own figures, which is what keeps the chips
- * in a story and the rows in the tables saying the same numbers. The market
- * story carries the first conclusion as its meaning, so the conclusions list
- * under the stories shows that one left out.
+ * The stories. The default state shows the demo builder's own headlines and
+ * stories, told by the engine's `deriveStories` over the same figures, so the
+ * chips in a story and the rows in the tables say the same numbers. The other
+ * variants still build three stories of their own from the report's figures
+ * (the tape, a held name, a release), which is what keeps the model-swap and
+ * degraded scenes independent of what the builder happens to draw.
  *
  * The launch mark. The panel opens by itself once per launch, recorded in
  * this origin's sessionStorage under `falcon.ui.briefingShownLaunch.v1`. A
@@ -167,9 +169,9 @@ function baseReport(): BriefingReport {
   const built = buildDemoBriefing(mulberry32(7), sceneWindow, holdings, CASH);
   return {
     ...built,
-    // The builder predates the two lists; until it writes them, the report
-    // carries them empty so the panel shows its "nothing rises" line, and the
-    // stories variant fills them in.
+    // The builder writes both lists (schema 3); the guards keep an older or
+    // hand-built report from crashing the page, with the panel then showing
+    // its "nothing rises" line.
     headlines: Array.isArray(built.headlines) ? built.headlines : [],
     stories: Array.isArray(built.stories) ? built.stories : [],
     // The builder stamps 2 h 14 min before the open whatever the scene; the
@@ -378,7 +380,7 @@ function modelNarrative(report: BriefingReport): BriefingNarrative {
 }
 
 const VARIANTS: Record<string, (report: BriefingReport) => BriefingReport> = {
-  stories: (r) => withStories(r, "template"),
+  stories: (r) => r,
   pre: (r) => r,
   degraded: (r) => withStories(degraded(r), "template"),
   "markets-down": (r) => withStories(marketsDown(r), "template"),

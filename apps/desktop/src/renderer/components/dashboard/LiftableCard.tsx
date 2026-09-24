@@ -1,27 +1,48 @@
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import type { CSSProperties } from "react";
 import { motion, useDragControls, useMotionValue, type PanInfo } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 /**
- * Press-and-hold to pick a card up: it lifts (scale + drop shadow) and can
- * then be dragged anywhere. Short presses still click through to whatever is
- * underneath, so the card's own buttons keep working. The parent decides
- * what a drop means via `onDragEnd` — the card itself just snaps back.
+ * Grab a card anywhere and drag it, the way a window is dragged by its title
+ * bar: no press-and-hold, no lift, no shadow. The press starts a drag on the
+ * spot; the drag only counts once the pointer has travelled a few pixels, so
+ * a plain click still reaches whatever was under it. The card's own controls
+ * keep their gestures: a button, a link, selectable copy, a resize grip and a
+ * scrollbar all own the press that lands on them. The parent decides what a
+ * drop means via `onDragEnd`.
  */
 
 export type DragPoint = { x: number; y: number };
 
-const HOLD_MS = 220;
 /**
- * How far the pointer may wander before the press stops counting as a hold.
- * Dragging across a word to select it is a press that moves; picking a card up
- * is a press that stays put.
+ * A press on any of these belongs to the element, not to the card. Selectable
+ * copy (the gloss hosts) and the resize grips say so themselves; the rest are
+ * the controls a reader clicks or types into.
  */
-const HOLD_SLOP_PX = 6;
+const OWNS_ITS_PRESS = "[data-selectable],[data-no-lift],button,a,input,textarea,select,[contenteditable]";
 
-/** The lift's own pop. Never applied to position or size. */
-const LIFT_SPRING = { type: "spring", stiffness: 420, damping: 30 } as const;
+/** How a move between slots animates once the gesture is over. */
+const SETTLE_SPRING = { type: "spring", stiffness: 420, damping: 30 } as const;
+
+/**
+ * Whether the press landed on a scrollbar of some scroller between the target
+ * and the card. A scrollbar is drawn inside its element's box, past the client
+ * area, so a press there is a press on the element with a coordinate outside
+ * `clientWidth`/`clientHeight`. Dragging the holdings list's thumb must scroll
+ * the list, not move the card.
+ */
+function onScrollbar(target: HTMLElement, root: HTMLElement, x: number, y: number): boolean {
+  for (let el: HTMLElement | null = target; el && el !== root; el = el.parentElement) {
+    const vertical = el.offsetWidth - el.clientWidth;
+    const horizontal = el.offsetHeight - el.clientHeight;
+    if (vertical <= 0 && horizontal <= 0) continue;
+    const rect = el.getBoundingClientRect();
+    if (vertical > 0 && x >= rect.left + el.clientLeft + el.clientWidth) return true;
+    if (horizontal > 0 && y >= rect.top + el.clientTop + el.clientHeight) return true;
+  }
+  return false;
+}
 
 export default function LiftableCard({
   children,
@@ -40,6 +61,7 @@ export default function LiftableCard({
   className?: string;
   /** Layout the caller owns — the grid span and height of a resized card. */
   style?: CSSProperties;
+  /** The drag has begun: the pointer has moved far enough for the press to be a drag. */
   onLift?: () => void;
   onDragMove?: (point: DragPoint) => void;
   /** Where the pointer let go, and how far it travelled from the press. */
@@ -62,35 +84,7 @@ export default function LiftableCard({
   const controls = useDragControls();
   const dragX = useMotionValue(0);
   const dragY = useMotionValue(0);
-  const [lifted, setLifted] = useState(false);
-  const holdTimer = useRef<number | null>(null);
-  const draggedRef = useRef(false);
-  const downAt = useRef<DragPoint | null>(null);
-
-  const clearHold = () => {
-    if (holdTimer.current != null) {
-      window.clearTimeout(holdTimer.current);
-      holdTimer.current = null;
-    }
-  };
-
-  useEffect(() => clearHold, []);
-
-  // A lift that never became a drag has no onDragEnd to unwind it: press and
-  // hold without moving, release, and the card would stay scaled and shadowed
-  // with its text unselectable. Release always ends a lift that never moved.
-  useEffect(() => {
-    if (!lifted) return;
-    const onUp = () => {
-      if (!draggedRef.current) setLifted(false);
-    };
-    window.addEventListener("pointerup", onUp);
-    window.addEventListener("pointercancel", onUp);
-    return () => {
-      window.removeEventListener("pointerup", onUp);
-      window.removeEventListener("pointercancel", onUp);
-    };
-  }, [lifted]);
+  const [dragging, setDragging] = useState(false);
 
   return (
     <motion.div
@@ -103,59 +97,28 @@ export default function LiftableCard({
       // put it, for as long as the pointer is down.
       dragElastic={0}
       dragSnapToOrigin={!free}
-      animate={{
-        scale: lifted ? 1.035 : 1,
-        boxShadow: lifted
-          ? "0 34px 70px -14px rgba(0,0,0,0.30), 0 12px 24px -10px rgba(0,0,0,0.18)"
-          : "0 0px 0px 0px rgba(0,0,0,0)",
-      }}
       transition={{
-        scale: LIFT_SPRING,
-        boxShadow: LIFT_SPRING,
         // Position and size follow the handle with nothing in between; once
         // the gesture is over, a move between slots is worth animating.
-        layout: instant ? { duration: 0 } : LIFT_SPRING,
-        default: instant ? { duration: 0 } : LIFT_SPRING,
+        layout: instant ? { duration: 0 } : SETTLE_SPRING,
+        default: instant ? { duration: 0 } : SETTLE_SPRING,
       }}
       onPointerDown={(e) => {
         if (e.button !== 0) return;
-        // Copy the reader is meant to highlight — the headline, the gloss —
-        // owns its own drags. Lifting the card out from under a selection is
-        // never what was wanted.
-        // The resize grip owns its own drag, as selectable copy does.
-        if ((e.target as HTMLElement | null)?.closest?.("[data-selectable],[data-no-lift]"))
-          return;
-        const native = e.nativeEvent;
-        clearHold();
-        draggedRef.current = false;
-        downAt.current = { x: e.clientX, y: e.clientY };
-        holdTimer.current = window.setTimeout(() => {
-          holdTimer.current = null;
-          setLifted(true);
-          onLift?.();
-          controls.start(native, { snapToCursor: false });
-        }, HOLD_MS);
-      }}
-      onPointerMove={(e) => {
-        // A press that travels is a swipe or a text drag, not a lift.
-        const from = downAt.current;
-        if (holdTimer.current == null || !from) return;
-        const dx = e.clientX - from.x;
-        const dy = e.clientY - from.y;
-        if (dx * dx + dy * dy > HOLD_SLOP_PX * HOLD_SLOP_PX) clearHold();
-      }}
-      onPointerUp={clearHold}
-      onPointerCancel={clearHold}
-      onPointerLeave={() => {
-        // Only cancel the pending hold — once dragging, leaving is expected.
-        if (!lifted) clearHold();
+        const target = e.target as HTMLElement | null;
+        if (target?.closest?.(OWNS_ITS_PRESS)) return;
+        if (target && onScrollbar(target, e.currentTarget, e.clientX, e.clientY)) return;
+        // Handed to framer at once. Its pan session waits for a few pixels of
+        // travel before it reports a drag, which is what keeps a click a click.
+        controls.start(e.nativeEvent, { snapToCursor: false });
       }}
       onDragStart={() => {
-        draggedRef.current = true;
+        setDragging(true);
+        onLift?.();
       }}
       onDrag={(_e, info: PanInfo) => onDragMove?.({ x: info.point.x, y: info.point.y })}
       onDragEnd={(_e, info: PanInfo) => {
-        setLifted(false);
+        setDragging(false);
         onDragEnd?.({ x: info.point.x, y: info.point.y }, { x: info.offset.x, y: info.offset.y });
         // On a canvas the caller has just moved the box by this offset, so the
         // transform that carried the card there is zeroed in the same frame:
@@ -166,31 +129,28 @@ export default function LiftableCard({
         }
       }}
       onClickCapture={(e) => {
-        // A drag that ends over a button shouldn't also click it.
-        if (draggedRef.current) {
+        // A drag that ends over a button shouldn't also click it. The click
+        // fires on the release that ends the drag, before the state flips.
+        if (dragging) {
           e.stopPropagation();
           e.preventDefault();
-          draggedRef.current = false;
         }
       }}
       className={cn(
         // `pan-y`, not `none`. touch-action is intersected down the tree, so a
         // card that claimed the whole gesture also took it from anything
         // scrollable inside it — the holdings list could be dragged nowhere and
-        // scrolled not at all by touch or pen. Framer does not set this itself
-        // here (the lift starts from `dragControls`, not from its own
-        // listener), so the class was the only thing saying `none`. Vertical
-        // panning belongs to whatever is under the finger; the lift is a hold,
-        // which no pan cancels.
+        // scrolled not at all by touch or pen. Vertical panning belongs to
+        // whatever is under the finger.
         "relative touch-pan-y rounded-3xl",
-        lifted ? "z-50 cursor-grabbing select-none" : "",
+        dragging ? "z-50 cursor-grabbing select-none" : "",
         className,
       )}
-      // A lifted card rides above the others; otherwise the box keeps the
-      // z-index the caller gave it (a canvas orders its cards by touch), and
-      // everything else about it is the caller's. The drag transform lives
-      // in motion values so a free drop can zero it without a re-render.
-      style={{ ...style, x: dragX, y: dragY, zIndex: lifted ? 50 : style?.zIndex }}
+      // A card being dragged rides above the others; otherwise the box keeps
+      // the z-index the caller gave it (a canvas orders its cards by touch).
+      // The drag transform lives in motion values so a free drop can zero it
+      // without a re-render.
+      style={{ ...style, x: dragX, y: dragY, zIndex: dragging ? 50 : style?.zIndex }}
     >
       {children}
     </motion.div>

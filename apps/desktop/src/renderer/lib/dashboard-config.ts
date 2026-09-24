@@ -26,7 +26,7 @@ export const DASHBOARD_CONFIG = {
    * arrangement of whatever is left — and gets it back intact if a card
    * returns.
    */
-  hiddenCards: ["insight", "risk"] as readonly string[],
+  hiddenCards: ["insight"] as readonly string[],
 
   /**
    * The handover briefing: the panel a reader meets before the US open.
