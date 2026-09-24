@@ -42,7 +42,16 @@ test("recordAttempt and put keep a bounded reason", () => {
 test("a store loaded with whole error bodies is clipped and written back once", () => {
   const backend = new MemoryBackend();
   const attempts: Record<string, AttemptRecord> = {
-    a1: { article_key: "a1", attempts: 1, last_error: huge, last_attempt_at: "2026-09-06T00:00:00.000Z", permanent_failed: false },
+    // Relative to now, not a fixed date: heal() drops rows older than
+    // ATTEMPT_TTL_DAYS, so a literal like "2026-09-06" passes on the day it is
+    // written and fails a fortnight later with nothing in the code changed.
+    a1: {
+      article_key: "a1",
+      attempts: 1,
+      last_error: huge,
+      last_attempt_at: new Date(Date.now() - 86_400_000).toISOString(),
+      permanent_failed: false,
+    },
     old: {
       article_key: "old",
       attempts: 2,
