@@ -14,7 +14,7 @@ import { briefingAutoOpen, briefingEnabled } from "@/lib/dashboard-config";
 import { isDemoMode } from "@/lib/demo-mode";
 import { hasPaperAccount, subscribePaperAccount } from "@/lib/paper-account";
 import { resolveBriefingWindow, type BriefingWindow } from "../../../shared/briefing-types";
-import BriefingPanel from "./BriefingPanel";
+import HandoverPopup from "./HandoverPopup";
 
 type Props = {
   /** The dashboard's privacy switch, passed straight through to the panel. */
@@ -308,7 +308,7 @@ function BriefingHostInner({ masked, view }: Props) {
 
   return (
     <BriefingBoundary onClose={close}>
-      <BriefingPanel open={open} onClose={close} masked={masked} />
+      <HandoverPopup open={open} onClose={close} masked={masked} />
     </BriefingBoundary>
   );
 }

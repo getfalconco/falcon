@@ -3,7 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, it } from "node:test";
-import { copyProblems, withoutComments } from "../../../shared/copy-rules";
+import { copyProblems } from "../../../shared/copy-rules";
 import { etClock } from "./briefing-clock";
 
 /**
@@ -20,6 +20,7 @@ import { etClock } from "./briefing-clock";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const VIEW = path.join(HERE, "..", "..", "..", "shared", "briefing-view.ts");
+const HANDOVER_VIEW = path.join(HERE, "..", "..", "..", "shared", "handover-view.ts");
 
 function sources(): Array<{ name: string; src: string }> {
   const own = fs
@@ -27,7 +28,11 @@ function sources(): Array<{ name: string; src: string }> {
     .filter((name) => /\.tsx?$/.test(name) && !/\.test\.tsx?$/.test(name))
     .sort()
     .map((name) => ({ name, src: fs.readFileSync(path.join(HERE, name), "utf8") }));
-  return [...own, { name: "shared/briefing-view.ts", src: fs.readFileSync(VIEW, "utf8") }];
+  return [
+    ...own,
+    { name: "shared/briefing-view.ts", src: fs.readFileSync(VIEW, "utf8") },
+    { name: "shared/handover-view.ts", src: fs.readFileSync(HANDOVER_VIEW, "utf8") },
+  ];
 }
 
 describe("handover panel copy", () => {
@@ -35,19 +40,11 @@ describe("handover panel copy", () => {
     const names = sources().map((s) => s.name);
     for (const expected of [
       "BriefingHost.tsx",
-      "BriefingPanel.tsx",
-      "BriefingMasthead.tsx",
-      "BriefingSection.tsx",
-      "BriefingNarrative.tsx",
-      "Stories.tsx",
+      "HandoverPopup.tsx",
+      "CalendarRail.tsx",
       "ReactionChip.tsx",
-      "Implications.tsx",
-      "OvernightMarkets.tsx",
-      "HeldOvernight.tsx",
-      "BookAndRisk.tsx",
-      "CorporateEvents.tsx",
-      "TodayCalendar.tsx",
       "shared/briefing-view.ts",
+      "shared/handover-view.ts",
     ]) {
       assert.ok(names.includes(expected), `${expected} is not being scanned`);
     }
@@ -81,26 +78,19 @@ describe("handover panel copy", () => {
       .map((s) => s.src)
       .join("\n");
     for (const phrase of [
-      "HANDOVER",
-      "WHAT HAPPENED",
-      "FOR YOUR BOOK",
-      "Nothing since the close rises to a story; the figures are below.",
-      "WHAT IT MEANS FOR YOUR BOOK",
-      "Nothing in this morning's figures clears the bar for a conclusion.",
-      "THE FIGURES",
+      "This is what happened when you were away",
+      "See more",
+      "Show less",
+      "Read the source",
+      "A quiet night: nothing since the last close made the summary.",
+      "Some sources could not be reached, so this summary is partial.",
+      "Demo book: the figures are illustrative.",
+      "released its quarterly results.",
       "Session so far, ",
       "After the close, ",
-      "OVERNIGHT MARKETS",
-      "HELD OVERNIGHT",
-      "BOOK AND RISK",
-      "CORPORATE EVENTS",
-      "All times ET",
       "Restart Falcon to enable the handover.",
       "The handover could not be put together right now.",
       "Try again",
-      "other names were quiet.",
-      "No positions in this book.",
-      "Early close: this session ends at 13:00 ET.",
       "Risk figures are not available for this book.",
     ]) {
       assert.ok(all.includes(phrase), `missing: ${phrase}`);
@@ -113,21 +103,6 @@ describe("handover panel copy", () => {
     assert.ok(problems.some((p) => p.includes('"consider"')), problems.join(" | "));
     assert.ok(problems.some((p) => p.includes('"trim"')), problems.join(" | "));
     assert.ok(problems.some((p) => p.startsWith("em dash")), problems.join(" | "));
-  });
-
-  // A market that has not traded since the last US close prints this in place
-  // of a move, on every row of a group the provider could not reach and on the
-  // Nikkei every Japanese holiday. It used to be a long dash, which the scan
-  // above waved through; it is now the view's own missing-value mark, the one
-  // already printed for a missing level in the same row.
-  it("marks a withheld move with the view's own missing-value mark", () => {
-    const markets = sources().find((s) => s.name === "OvernightMarkets.tsx");
-    assert.ok(markets, "OvernightMarkets.tsx is not being scanned");
-    const code = withoutComments(markets.src);
-    assert.match(code, /const NO_MOVE = NOT_AVAILABLE;/);
-    assert.match(code, /\{row\.move \|\| NO_MOVE\}/);
-    const view = fs.readFileSync(VIEW, "utf8");
-    assert.match(view, /export const NOT_AVAILABLE = "n\/a";/);
   });
 });
 
