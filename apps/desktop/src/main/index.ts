@@ -27,6 +27,7 @@ import {
   registerPropagationRunHandlers,
 } from "./propagation/register-propagation-run-handlers";
 import { bootstrapRisk, registerRiskHandlers } from "./risk/register-risk-handlers";
+import { registerBriefingHandlers } from "./briefing/register-briefing-handlers";
 import { registerGaugeHandlers } from "./gauge/register-gauge-handlers";
 import { bootstrapScreen, registerScreenHandlers } from "./screen/register-screen-handlers";
 import { bootstrapQuantLab, registerQuantLabHandlers } from "./quantlab/register-quantlab-handlers";
@@ -85,6 +86,7 @@ registerPropagationRunHandlers();
 registerGlossHandlers();
 registerInsightHandlers();
 registerRiskHandlers();
+registerBriefingHandlers();
 registerGaugeHandlers();
 registerScreenHandlers();
 registerQuantLabHandlers();

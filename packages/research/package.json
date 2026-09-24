@@ -24,7 +24,9 @@
     "./propagation/contracts": "./src/propagation/engine/contracts.ts",
     "./engine-channels": "./src/engine-channels.ts",
     "./billing": "./src/billing/index.ts",
-    "./dataset": "./src/dataset/index.ts"
+    "./dataset": "./src/dataset/index.ts",
+    "./briefing": "./src/briefing/index.ts",
+    "./briefing/contracts": "./src/briefing/contracts.ts"
   },
   "scripts": {
     "lint": "tsc --noEmit",

@@ -403,6 +403,15 @@ contextBridge.exposeInMainWorld("meridian", {
       ipcRenderer.removeListener("risk:snapshot", handler);
     };
   },
+  // Handover briefing: the pre-open window, the report, and the model narrative asked for after it.
+  getBriefingWindow: () =>
+    ipcRenderer.invoke("briefing:window") as Promise<import("../shared/briefing-types").BriefingWindowResult>,
+  getBriefing: (request: import("../shared/briefing-types").BriefingRequest) =>
+    ipcRenderer.invoke("briefing:get", request) as Promise<import("../shared/briefing-types").BriefingGetResult>,
+  getBriefingNarrative: (request: import("../shared/briefing-types").BriefingNarrativeRequest) =>
+    ipcRenderer.invoke("briefing:narrative", request) as Promise<
+      import("../shared/briefing-types").BriefingNarrativeResult
+    >,
   // Gauge (spec §8: Shift+F panel, Propagation drawer block, stock page block). Compute-on-read.
   getGaugeReadout: (req: import("../shared/gauge-types").GaugeReadoutRequest) =>
     ipcRenderer.invoke("gauge:readout", req) as Promise<

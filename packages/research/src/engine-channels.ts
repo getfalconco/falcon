@@ -70,6 +70,12 @@ export const ENGINE_CHANNELS = [
   "analyst:output-detail",
   "analyst:run-cycle",
   "analyst:set-enabled",
+
+  // The news feed the dashboard's News card reads: every story the server's
+  // poll has fetched, with the classifier's reading where there is one. The
+  // poll itself runs only on the service — the desktop never asks Finnhub for
+  // this — so the feed follows it there.
+  "news:feed",
 ] as const;
 
 export type EngineChannel = (typeof ENGINE_CHANNELS)[number];

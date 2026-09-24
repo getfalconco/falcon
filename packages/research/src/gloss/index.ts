@@ -8,7 +8,7 @@ export {
   TRANSLATE_SCHEMA,
   TRANSLATE_SYSTEM,
 } from "./prompt.js";
-export { glossSelection, translateGloss, GlossError, parseGloss } from "./service.js";
+export { glossSelection, translateGloss, GlossError, parseGloss, looksLikeAdviceOrLink } from "./service.js";
 export {
   DEFAULT_GLOSS_CONFIG,
   type GlossConfig,

@@ -20,6 +20,19 @@ export const RISK_BAND_LABEL: Record<RiskBand, string> = {
   high: "High",
 };
 
+/**
+ * One colour per band, beside the labels so a surface that prints a band takes
+ * both from the same place. The risk card and the Shift+R panel each carry
+ * their own copy of these four values; a third copy in the handover briefing
+ * would be one more that can drift when a band is recoloured.
+ */
+export const RISK_BAND_COLOR: Record<RiskBand, string> = {
+  low: "#16A34A",
+  moderate: "#CA8A04",
+  elevated: "#EA580C",
+  high: "#DC2626",
+};
+
 export function riskCardModel(latest: RiskLatest | null | undefined): RiskCardModel {
   if (!latest || !latest.riskCardEnabled) return { kind: "hidden" };
   const s = latest.snapshot;

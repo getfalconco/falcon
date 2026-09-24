@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { Plus, type LucideIcon } from "lucide-react";
+import { Plus } from "lucide-react";
 import AddAssetModal from "@/components/dashboard/AddAssetModal";
 import { useDemoMode } from "@/lib/demo-mode";
 import { createPaperAccount, hasPaperAccount, subscribePaperAccount } from "@/lib/paper-account";
@@ -36,36 +36,23 @@ export function usePortfolioConnected(): boolean {
 }
 
 /**
- * The empty state both portfolio cards share: a large grey glyph sunk into
- * the card's surface, one line saying what is missing, and the button that
- * fixes it. The button opens the same add-asset flow the app has always had
+ * The empty state both portfolio cards share: one line saying what is missing, and the
+ * button that fixes it. The button opens the same add-asset flow the app has always had
  * — a Falcon paper account, or a brokerage.
  */
-export default function ConnectPortfolioEmpty({
-  Icon,
-  line,
-}: {
-  /** The glyph behind the text — the card's own subject, drawn large and faint. */
-  Icon: LucideIcon;
-  line: string;
-}) {
+export default function ConnectPortfolioEmpty({ line }: { line: string }) {
   const [open, setOpen] = useState(false);
 
   return (
     <div className="relative flex h-full min-h-0 w-full flex-col items-center justify-center overflow-hidden">
-      <Icon
-        aria-hidden
-        strokeWidth={1}
-        className="pointer-events-none absolute left-1/2 top-1/2 h-[min(70%,260px)] w-auto -translate-x-1/2 -translate-y-1/2 text-[#1d1b1b]/[0.06]"
-      />
-      <p className="relative max-w-[280px] text-center text-[13px] font-normal leading-snug text-[#6b7280]">
+      <p className="relative max-w-[280px] text-center text-[13px] font-normal leading-snug text-[rgb(161,161,161)]">
         {line}
       </p>
       <button
         type="button"
         data-no-lift
         onClick={() => setOpen(true)}
-        className="app-no-drag relative mt-4 flex items-center gap-1.5 rounded-lg bg-[#1d1b1b] px-4 py-2 text-[12.5px] font-normal text-white transition-colors duration-150 hover:bg-black active:bg-black"
+        className="app-no-drag relative mt-4 flex items-center gap-1.5 rounded-lg bg-[#1d1b1b] px-[18px] py-[9px] text-[13px] font-normal not-italic leading-[20px] text-[rgb(231,231,231)] transition-colors duration-150 hover:bg-black active:bg-black"
       >
         <Plus className="h-3.5 w-3.5" strokeWidth={2} aria-hidden />
         Connect your portfolio

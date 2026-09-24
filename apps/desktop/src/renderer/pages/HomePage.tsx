@@ -5,25 +5,36 @@ import GraphScreen from "@/components/graph/GraphScreen";
 import StockView from "@/components/stock/StockView";
 import DashboardSearchBar from "@/components/dashboard/DashboardSearchBar";
 import StockPeekModal from "@/components/dashboard/StockPeekModal";
+import ProfilePill from "@/components/dashboard/ProfilePill";
 import UpdatePill from "@/components/UpdatePill";
 import LiftableCard, { type DragPoint } from "@/components/dashboard/LiftableCard";
 import PortfolioCard from "@/components/dashboard/PortfolioCard";
 import PortfolioValueCard from "@/components/dashboard/PortfolioValueCard";
 import InsightCard from "@/components/dashboard/InsightCard";
 import OpportunitiesPanel from "@/components/dashboard/OpportunitiesPanel";
+import BriefingCard from "@/components/dashboard/BriefingCard";
+import CalendarCard from "@/components/dashboard/CalendarCard";
+import BriefingHost from "@/components/briefing/BriefingHost";
 import {
   bringToFront,
   canvasHeight,
+  dragSeam,
   duplicateBox,
   layoutFromFlow,
+  limitResizedBox,
+  seamsOf,
+  type Seam,
   loadCanvasLayout,
   moveBox,
   reconcileCanvasLayout,
   resizeBoxFromEdge,
+  NO_GUIDES,
   saveCanvasLayout,
+  snapResizedBox,
   zIndexOf,
   type CanvasLayout,
   type Edge,
+  type SnapGuides,
 } from "@/lib/canvas-layout";
 import { isCardHidden } from "@/lib/dashboard-config";
 import { toggleDemoMode } from "@/lib/demo-mode";
@@ -57,7 +68,7 @@ const CHART_H_KEY = "falcon.ui.chartCardH";
 
 /** Cards, in the order they sit — remembered across sessions. Every card
  *  lifts, drags, and drops onto a slot or onto another card to take its place. */
-type CardBase = "portfolio" | "assets" | "insight" | "risk";
+type CardBase = "portfolio" | "assets" | "briefing" | "calendar" | "insight" | "risk";
 /** A card, or a copy of one made from its menu — `assets#1725...` reads as
  *  "an assets card", so everything keyed by base keeps working on copies. */
 type CardId = CardBase | `${CardBase}#${number}`;
@@ -74,6 +85,14 @@ const CARD_SIZE_KEY = "falcon.ui.cardSizes.v2";
 /** Where the previous build kept sizes, in columns of four; read once to migrate. */
 const CARD_SIZE_KEY_V1 = "falcon.ui.cardSizes.v1";
 const GRID_GAP = 16;
+/**
+ * Where the snap guides draw: above every card at rest (those start at ten),
+ * under the top bar's backdrop (thirty). Nothing between the page root and
+ * the canvas makes a stacking context, so a guide shares one with the bar,
+ * and at sixty it ran straight through the search box once the page had
+ * been scrolled.
+ */
+const GUIDE_Z = 29;
 const CARD_MIN_W = 0.2;
 const CARD_MIN_H = 320;
 const CARD_MAX_H = 1400;
@@ -121,7 +140,7 @@ function loadCardSizes(): Record<string, CardSize> {
   return {};
 }
 
-const DEFAULT_CARD_ORDER: CardId[] = ["portfolio", "assets", "insight", "risk"];
+const DEFAULT_CARD_ORDER: CardId[] = ["portfolio", "assets", "briefing", "calendar", "insight", "risk"];
 function loadCardOrder(): CardId[] {
   try {
     const raw = localStorage.getItem(CARD_ORDER_KEY);
@@ -149,11 +168,13 @@ function loadCardOrder(): CardId[] {
 
 type Props = {
   userName: string;
+  /** The address the session is signed in with; shown at the head of the account menu. */
+  userEmail?: string;
   skipGreeting?: boolean;
   onSignOut: () => void;
 };
 
-export default function HomePage({ userName, onSignOut }: Props) {
+export default function HomePage({ userName, userEmail, onSignOut }: Props) {
   const enterStarted = useRef(false);
 
   const hour = new Date().getHours();
@@ -177,6 +198,8 @@ export default function HomePage({ userName, onSignOut }: Props) {
   // arrangement the first time, so nothing moves on the day it arrives.
   const [canvas, setCanvas] = useState<CanvasLayout | null>(() => loadCanvasLayout(localStorage));
   const [canvasW, setCanvasW] = useState(0);
+  /** The lines a dragged edge is being held to right now, drawn while they hold. */
+  const [guides, setGuides] = useState<SnapGuides>(NO_GUIDES);
   const canvasObserver = useRef<ResizeObserver | null>(null);
   /** Columns spanned + height, per card. Dragged from the grip on each card. */
   const [cardSizes, setCardSizes] = useState<Record<string, CardSize>>(loadCardSizes);
@@ -216,6 +239,49 @@ export default function HomePage({ userName, onSignOut }: Props) {
    * instead. The right and bottom edges change only the size; the left and
    * top edges move that edge and keep the opposite one put.
    */
+  /**
+   * The gutter between cards that stand a gutter apart, taken hold of: both
+   * sides resize at once and the gutter travels between them. Same shape as a
+   * resize — the whole gesture applied to the boxes as they were at the press.
+   */
+  const [seaming, setSeaming] = useState<string | null>(null);
+  const seamKey = (s: Seam) => `${s.kind}:${s.before.join()}|${s.after.join()}`;
+  const startSeam = (seam: Seam, e: React.PointerEvent<HTMLElement>) => {
+    e.preventDefault();
+    const base = layoutRef.current;
+    if (!base || canvasW <= 0) return;
+    const start = seam.kind === "v" ? e.clientX : e.clientY;
+    const ids = [...seam.before, ...seam.after] as CardId[];
+    const origins = Object.fromEntries(ids.map((id) => [id, base.boxes[id]]));
+    setSeaming(seamKey(seam));
+
+    const onMove = (ev: PointerEvent) => {
+      const width = gridRef.current?.clientWidth || canvasW;
+      const d = (seam.kind === "v" ? ev.clientX : ev.clientY) - start;
+      updateCanvas((c) => dragSeam(c, seam, d, width, origins));
+    };
+    const onUp = () => {
+      const now = layoutRef.current;
+      if (now) {
+        setCardSizes((prev) => {
+          const next = { ...prev };
+          for (const id of ids) {
+            const b = now.boxes[id];
+            if (b) next[id] = { w: b.w, h: b.h };
+          }
+          return next;
+        });
+      }
+      setSeaming(null);
+      window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointerup", onUp);
+      window.removeEventListener("pointercancel", onUp);
+    };
+    window.addEventListener("pointermove", onMove);
+    window.addEventListener("pointerup", onUp);
+    window.addEventListener("pointercancel", onUp);
+  };
+
   const startResize = (id: CardId, e: React.PointerEvent<HTMLElement>, edge: Edge) => {
     // preventDefault only: the press still has to reach the document, where
     // an open card menu is listening to close itself. The card's own lift
@@ -232,22 +298,46 @@ export default function HomePage({ userName, onSignOut }: Props) {
     touchCard(id);
 
     const onMove = (ev: PointerEvent) => {
-      updateCanvas((c) =>
-        resizeBoxFromEdge(
-          { ...c, boxes: { ...c.boxes, [id]: origin } },
-          id,
-          edge,
-          ev.clientX - startX,
-          ev.clientY - startY,
-          canvasW,
-        ),
+      const base = layoutRef.current;
+      if (!base) return;
+      // The width as it is on this move, not as it was at the press: a corner
+      // drag that takes the canvas past the fold brings the scrollbar in, and
+      // the canvas is narrower from then on.
+      const width = gridRef.current?.clientWidth || canvasW;
+      const resized = resizeBoxFromEdge(
+        { ...base, boxes: { ...base.boxes, [id]: origin } },
+        id,
+        edge,
+        ev.clientX - startX,
+        ev.clientY - startY,
+        width,
       );
+      // An edge that comes level with another card's edge, the gutter beside
+      // it, or the canvas's own edge takes that line; failing a line, a width
+      // or height that comes level with another card's takes that size. Alt
+      // holds the snap off, for the one time the reader wants the in-between.
+      // First the limit: an edge pushed at a card that faces it stops a
+      // gutter short, which is where the seam between the two then appears.
+      // The snap runs on what is left, and the limit once more after it, so
+      // a line on the far side of a neighbour cannot pull the edge through.
+      // Alt lifts both — the way to overlap on purpose, or sit in between.
+      const limited = ev.altKey ? resized : limitResizedBox(resized, id, edge, width, origin);
+      const pulled = ev.altKey
+        ? { layout: limited, guides: NO_GUIDES }
+        : snapResizedBox(limited, id, edge, width, origin.w * width);
+      const held = ev.altKey ? pulled.layout : limitResizedBox(pulled.layout, id, edge, width, origin);
+      const snapped = held === pulled.layout ? pulled : { layout: held, guides: NO_GUIDES };
+      const box = snapped.layout.boxes[id];
+      const key = (s: SnapGuides) => [s.v, s.h, s.sameW, s.sameH].map((a) => a.join()).join("|");
+      setGuides((g) => (key(g) === key(snapped.guides) ? g : snapped.guides));
+      updateCanvas((c) => ({ ...c, boxes: { ...c.boxes, [id]: box } }));
     };
     const onUp = () => {
       // The row's own size store learns the new size too: it is what a card
       // that is removed and later comes back is laid out from.
       const b = layoutRef.current?.boxes[id];
       if (b) setCardSizes((prev) => ({ ...prev, [id]: { w: b.w, h: b.h } }));
+      setGuides(NO_GUIDES);
       window.requestAnimationFrame(() => setResizing(null));
       window.removeEventListener("pointermove", onMove);
       window.removeEventListener("pointerup", onUp);
@@ -460,6 +550,16 @@ export default function HomePage({ userName, onSignOut }: Props) {
             onRemove={() => removeCard(id)}
           />
         );
+      case "briefing":
+        return (
+          <BriefingCard
+            masked={privacyMode}
+            onDuplicate={() => duplicateCard(id)}
+            onRemove={() => removeCard(id)}
+          />
+        );
+      case "calendar":
+        return <CalendarCard onDuplicate={() => duplicateCard(id)} onRemove={() => removeCard(id)} />;
       case "insight":
         return <InsightCard />;
       case "risk":
@@ -606,6 +706,17 @@ export default function HomePage({ userName, onSignOut }: Props) {
         onNavigate={() => setView("dashboard")}
       />
 
+      {/* Who is signed in — a pill in the search bar's glass, standing just
+          off its right end. The offset is half the search bar's own width
+          (the same min() it is sized with), plus a gap. */}
+      <ProfilePill
+        name={firstName}
+        email={userEmail}
+        onSignOut={onSignOut}
+        className="absolute top-4 z-50"
+        style={{ left: "calc(50% + min(13rem, (100vw - 28rem) / 2) + 10px)" }}
+      />
+
       {/* Sign out. App has always passed the handler down and the shell has
           always dropped it on the floor — the only button that called it
           lived in WorkspaceTopBar, which nothing mounts, so there was no way
@@ -685,6 +796,110 @@ export default function HomePage({ userName, onSignOut }: Props) {
                 style={{ height: layout ? canvasHeight(layout, 480) : 480 }}
               >
                 {rowCards.map((id) => renderCard(id))}
+
+                {/* The lines a dragged edge is held to, above every card and
+                    out of the pointer's way. */}
+                {guides.v.map((x) => (
+                  <div
+                    key={`v${x}`}
+                    aria-hidden
+                    className="pointer-events-none absolute inset-y-0 w-px bg-[#1d1b1b]/40"
+                    style={{ left: x * canvasW, zIndex: GUIDE_Z }}
+                  />
+                ))}
+                {guides.h.map((y) => (
+                  <div
+                    key={`h${y}`}
+                    aria-hidden
+                    className="pointer-events-none absolute inset-x-0 h-px bg-[#1d1b1b]/40"
+                    style={{ top: y, zIndex: GUIDE_Z }}
+                  />
+                ))}
+
+                {/* The seams: wherever cards stand a gutter apart, the gutter
+                    itself is a handle that resizes both sides. It lives in
+                    the gap the cards already leave, so it costs no layout and
+                    covers none of their own edge handles — nothing until the
+                    pointer is in the gap, then the same short bar. Hidden
+                    while a card is being moved or resized: the pairs it is
+                    drawn from are changing under it. */}
+                {layout && canvasW > 0 && !draggingCard && !resizing
+                  ? seamsOf(layout, canvasW).map((s) => {
+                      const lit = seaming === seamKey(s);
+                      const v = s.kind === "v";
+                      return (
+                        <div
+                          key={seamKey(s)}
+                          data-no-lift
+                          role="separator"
+                          aria-orientation={v ? "vertical" : "horizontal"}
+                          aria-label="Resize the cards on both sides"
+                          title="Drag to resize both cards"
+                          onPointerDown={(e) => startSeam(s, e)}
+                          className={cn(
+                            "group/seam app-no-drag absolute flex items-center justify-center",
+                            v ? "cursor-col-resize" : "cursor-row-resize",
+                          )}
+                          style={
+                            v
+                              ? { left: s.at - GRID_GAP / 2, width: GRID_GAP, top: s.from, height: s.to - s.from, zIndex: GUIDE_Z - 1 }
+                              : { top: s.at - GRID_GAP / 2, height: GRID_GAP, left: s.from, width: s.to - s.from, zIndex: GUIDE_Z - 1 }
+                          }
+                        >
+                          <span
+                            aria-hidden
+                            className={cn(
+                              "rounded-full bg-[#1d1b1b]/30 transition-opacity duration-150",
+                              v ? "h-16 w-[3px]" : "h-[3px] w-16",
+                              lit ? "opacity-100" : "opacity-0 group-hover/seam:opacity-100",
+                            )}
+                          />
+                        </div>
+                      );
+                    })
+                  : null}
+
+                {/* A matched size is shown on the cards that share it, the
+                    way a design tool does: a measure along the dimension, on
+                    the card being resized and on every card it now equals,
+                    with the figure they have in common. In the accent rather
+                    than the guides' ink — a line says where an edge is, this
+                    says how big a thing is. */}
+                {layout && resizing
+                  ? [
+                      ...(guides.sameW.length > 0 ? [resizing.id, ...guides.sameW] : []).map((id) => ({
+                        id,
+                        axis: "w" as const,
+                      })),
+                      ...(guides.sameH.length > 0 ? [resizing.id, ...guides.sameH] : []).map((id) => ({
+                        id,
+                        axis: "h" as const,
+                      })),
+                    ].map(({ id, axis }) => {
+                      const b = layout.boxes[id];
+                      if (!b) return null;
+                      const px = axis === "w" ? Math.round(b.w * canvasW) : b.h;
+                      return (
+                        <div
+                          key={`${axis}-${id}`}
+                          aria-hidden
+                          className={cn(
+                            "pointer-events-none absolute flex items-center justify-center bg-[#189E9A]",
+                            axis === "w" ? "h-px" : "w-px",
+                          )}
+                          style={
+                            axis === "w"
+                              ? { left: b.x * canvasW, width: b.w * canvasW, top: b.y + 8, zIndex: GUIDE_Z }
+                              : { top: b.y, height: b.h, left: b.x * canvasW + 8, zIndex: GUIDE_Z }
+                          }
+                        >
+                          <span className="rounded-[4px] bg-[#189E9A] px-1.5 py-px font-['Geist_Mono'] text-[9.5px] leading-tight text-white">
+                            {px}
+                          </span>
+                        </div>
+                      );
+                    })
+                  : null}
               </div>
             </div>
           </>
@@ -692,6 +907,11 @@ export default function HomePage({ userName, onSignOut }: Props) {
       </main>
 
       <StockPeekModal entry={peek} onClose={() => setPeek(null)} />
+
+      {/* The handover briefing: opens by itself once per session before the
+          US open, and from Shift+M or its card at any other time. One host,
+          so the page carries none of its state. */}
+      <BriefingHost masked={privacyMode} view={view} />
 
       {/* Update notice — bottom-left, same inset as the brand mark up top. */}
       <UpdatePill className="absolute bottom-6 left-9 z-50" />

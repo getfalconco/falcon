@@ -97,7 +97,14 @@ export default function App() {
       session.user.email ?? "",
     );
 
-    return <HomePage userName={userName} skipGreeting onSignOut={handleSignOut} />;
+    return (
+      <HomePage
+        userName={userName}
+        userEmail={session.user.email ?? undefined}
+        skipGreeting
+        onSignOut={handleSignOut}
+      />
+    );
   }
 
   let loginMode: LoginPageMode = "login";

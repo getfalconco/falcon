@@ -27,6 +27,22 @@ export const DASHBOARD_CONFIG = {
    * returns.
    */
   hiddenCards: ["insight", "risk"] as readonly string[],
+
+  /**
+   * The handover briefing: the panel a reader meets before the US open.
+   *
+   * Two switches because they fail differently. `enabled` off removes the
+   * whole surface: no host, no Shift+M, no request to the main process.
+   * `autoOpen` off keeps all of that and only stops the panel from laying
+   * itself over the dashboard on arrival. A panel that opens uninvited is the
+   * part most likely to be unwelcome, and turning that off must not cost the
+   * reader the briefing itself.
+   *
+   * The calendar card draws the same report, so `enabled` off takes it off
+   * the dashboard too: left on its own it would keep the requests going
+   * that this switch exists to stop.
+   */
+  briefing: { enabled: true, autoOpen: true },
 };
 
 /** Is this card drawn on the dashboard at all? */
@@ -36,4 +52,13 @@ export function isCardHidden(id: string): boolean {
 
 export function dashboardCtasEnabled(): boolean {
   return DASHBOARD_CONFIG.dashboardCtasEnabled;
+}
+
+export function briefingEnabled(): boolean {
+  return DASHBOARD_CONFIG.briefing.enabled;
+}
+
+/** Whether the briefing opens by itself before the open. Never true while the feature is off. */
+export function briefingAutoOpen(): boolean {
+  return DASHBOARD_CONFIG.briefing.enabled && DASHBOARD_CONFIG.briefing.autoOpen;
 }

@@ -320,6 +320,7 @@ export default function PortfolioChart({
   timeframe,
   showGrowth = true,
   showSp500 = true,
+  comparisonLines = true,
   expanded = false,
   fill = false,
   onScrub,
@@ -327,6 +328,13 @@ export default function PortfolioChart({
   timeframe: Timeframe;
   showGrowth?: boolean;
   showSp500?: boolean;
+  /**
+   * Draw the benchmark and the hold-everything line behind the balance. Off,
+   * the two series are still worked out, because the bars under the plot are
+   * made from them; they are just not drawn, and the plot is scaled to the
+   * balance alone instead of making room for lines nobody can see.
+   */
+  comparisonLines?: boolean;
   /** Filling the workspace — the plot grows with the viewport. */
   expanded?: boolean;
   /** Stretch to the container height without the full-screen layout (dock mode). */
@@ -619,7 +627,9 @@ export default function PortfolioChart({
     const xAt = (t: number) =>
       ((Math.min(Math.max(t, domainStart), now) - domainStart) / (now - domainStart)) * W;
 
-    const values = [...series, ...benchmark, ...growth].map((p) => p.value);
+    const values = (comparisonLines ? [...series, ...benchmark, ...growth] : series).map(
+      (p) => p.value,
+    );
     let min = Math.min(...values);
     let max = Math.max(...values);
     if (min === max) {
@@ -648,11 +658,11 @@ export default function PortfolioChart({
     const area = `${line} L${pts[pts.length - 1][0]},${AREA_FLOOR} L${pts[0][0]},${AREA_FLOOR} Z`;
 
     const benchLine =
-      benchmark.length >= 2
+      comparisonLines && benchmark.length >= 2
         ? smoothPath(benchmark.map((p) => [xAt(p.t), yAt(p.value)]))
         : "";
     const growthLine =
-      growth.length >= 2
+      comparisonLines && growth.length >= 2
         ? smoothPath(growth.map((p) => [xAt(p.t), yAt(p.value)]))
         : "";
 
@@ -671,7 +681,7 @@ export default function PortfolioChart({
     }));
 
     return { line, area, benchLine, growthLine, xTicks, hoverPts };
-  }, [series, benchmark, growth, timeframe]);
+  }, [series, benchmark, growth, timeframe, comparisonLines]);
 
   if (!chart) return null;
 

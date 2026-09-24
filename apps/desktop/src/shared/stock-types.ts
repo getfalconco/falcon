@@ -22,6 +22,13 @@ export type LiveQuote = {
   session: LiveQuoteSession;
   /** Unix ms of the trade/candle behind `price`. */
   asOf: number;
+  /** The close before `regularPrice`'s session. Absent when the provider sent none. */
+  previousClose?: number;
+  /**
+   * The last regular-session price. Equal to `price` while the regular session
+   * trades; outside it, the close that an extended-hours `price` moved away from.
+   */
+  regularPrice?: number;
 };
 
 /** `t` = unix timestamp in milliseconds, `v` = price */

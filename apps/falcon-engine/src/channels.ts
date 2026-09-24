@@ -29,6 +29,8 @@ import {
   replayBase,
   type EarningsCalendar,
 } from "@meridian/research/base";
+import { getEventsPollStatus, listNewsArticles } from "@meridian/research/news";
+import { eventsDir } from "./news-cycle.js";
 
 type Handler = (args: unknown[]) => Promise<unknown> | unknown;
 
@@ -297,6 +299,34 @@ export const CHANNELS: Record<EngineChannel, Handler> = {
     const host = getAnalystHost();
     host.setEnabled(bool(a[0]));
     return { ok: true, status: host.status() };
+  },
+
+  // --- news ----------------------------------------------------------------
+  // The feed: every story the poll has filed, newest first, each with the
+  // sector of the names it was fetched for — read off the classifier's
+  // company table, which is the one place this service already knows a
+  // sector. The poll's own status rides along so the card can say how fresh
+  // the feed is.
+  "news:feed": async (a) => {
+    const o = (a[0] ?? {}) as { days?: number; limit?: number };
+    const articles = await listNewsArticles(eventsDir(), {
+      days: num(o.days) ?? 3,
+      limit: num(o.limit) ?? 300,
+    });
+    const metadata = getClassifierHost().metadata;
+    const sectorOf = new Map<string, string | null>();
+    const sector = (t: string): string | null => {
+      if (!sectorOf.has(t)) sectorOf.set(t, metadata.context(t).sector);
+      return sectorOf.get(t) ?? null;
+    };
+    return {
+      ok: true,
+      articles: articles.map((x) => ({
+        ...x,
+        sectors: [...new Set(x.tickers.map(sector).filter((s): s is string => Boolean(s)))],
+      })),
+      status: getEventsPollStatus(),
+    };
   },
 };
 

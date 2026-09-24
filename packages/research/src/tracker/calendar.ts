@@ -115,13 +115,13 @@ function easterSunday(year: number): string {
   return toYmd(year, month, day);
 }
 
-function nthWeekdayOfMonth(year: number, month: number, weekday: number, n: number): string {
+export function nthWeekdayOfMonth(year: number, month: number, weekday: number, n: number): string {
   const firstWeekday = weekdayOf(toYmd(year, month, 1));
   const offset = (weekday - firstWeekday + 7) % 7;
   return toYmd(year, month, 1 + offset + (n - 1) * 7);
 }
 
-function lastWeekdayOfMonth(year: number, month: number, weekday: number): string {
+export function lastWeekdayOfMonth(year: number, month: number, weekday: number): string {
   // Day 0 of next month = last day of this month.
   const lastDay = new Date(Date.UTC(year, month, 0)).getUTCDate();
   const lastYmd = toYmd(year, month, lastDay);

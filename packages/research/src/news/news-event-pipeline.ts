@@ -9,6 +9,7 @@ import {
   sleep,
 } from "./finnhub-news.js";
 import { SeenArticleStore } from "./seen-articles.js";
+import { ArticleStore } from "./article-store.js";
 
 /**
  * Delay between per-ticker Finnhub fetches. Env-tunable so the poll stays under
@@ -87,6 +88,9 @@ export async function runNewsEventPoll(options?: {
   const dataDir = options?.dataDir ?? resolveEventsDataDir();
   const seen = new SeenArticleStore(dataDir);
   await seen.load();
+  // Every story, not only the material ones — the feed the News card reads.
+  const feed = new ArticleStore(dataDir);
+  await feed.load();
 
   const { fromYmd, toYmd } = newsWindowDates();
   let newEvents = 0;
@@ -128,6 +132,9 @@ export async function runNewsEventPoll(options?: {
       }
 
       const totalReturned = articles.articles.length;
+      // Filed before the seen-filter: a story already read for another name
+      // still belongs on this one's feed.
+      feed.note(ticker, articles.articles);
       const fresh = articles.articles
         .filter((a) => Number.isFinite(a.id) && a.id > 0)
         .filter((a) => !seen.has(a.id))
@@ -146,6 +153,7 @@ export async function runNewsEventPoll(options?: {
 
         try {
           const classification = await classifyNewsArticle(ticker, article);
+          if (classification) feed.classify(article.id, classification);
           if (classification?.is_material_event) {
             const stored = await appendMaterialEvent(dataDir, ticker, article, classification);
             newMaterialEvents.push(stored);
@@ -171,6 +179,7 @@ export async function runNewsEventPoll(options?: {
     }
 
     await seen.persist();
+    await feed.persist();
 
     const summary = buildSummary(newEvents, articlesChecked, tickerErrors);
     const fatalError =

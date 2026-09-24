@@ -13,6 +13,10 @@ import {
   reconcileCanvasLayout,
   resizeBoxFromEdge,
   saveCanvasLayout,
+  snapResizedBox,
+  dragSeam,
+  limitResizedBox,
+  seamsOf,
   zIndexOf,
   type LayoutStore,
 } from "./canvas-layout";
@@ -236,5 +240,265 @@ describe("reconcile", () => {
   it("hands back the same object when nothing is missing or extra", () => {
     const saved = layoutFromFlow(["a", "b"], {}, FALLBACK, W);
     assert.equal(reconcileCanvasLayout(saved, ["a", "b"], {}, FALLBACK, W), saved);
+  });
+});
+
+describe("snapping a resized edge", () => {
+  // Two cards side by side on a 1000px canvas: a = 0..400, b = 500..900, both 300 tall.
+  const two = () => ({
+    boxes: { a: { x: 0, y: 0, w: 0.4, h: 300 }, b: { x: 0.5, y: 0, w: 0.4, h: 300 } },
+    order: ["a", "b"],
+  });
+  const CW = 1000;
+
+  it("pulls the right edge onto the neighbour's left edge when it comes within reach", () => {
+    const dragged = resizeBoxFromEdge(two(), "a", "r", 95, 0, CW); // right edge at 495
+    const s = snapResizedBox(dragged, "a", "r", CW);
+    near((s.layout.boxes.a.x + s.layout.boxes.a.w) * CW, 500);
+    near(s.layout.boxes.a.x, 0);
+    assert.deepEqual(s.guides.v, [0.5]);
+  });
+
+  it("prefers the gutter when that is the nearer line", () => {
+    const dragged = resizeBoxFromEdge(two(), "a", "r", 82, 0, CW); // 482: 2px from the 484 gutter, 18 from the edge
+    const s = snapResizedBox(dragged, "a", "r", CW);
+    near((s.layout.boxes.a.x + s.layout.boxes.a.w) * CW, 484);
+  });
+
+  it("leaves the edge alone out of reach, and hands back the same layout", () => {
+    const dragged = resizeBoxFromEdge(two(), "a", "r", 40, 0, CW); // 440
+    const s = snapResizedBox(dragged, "a", "r", CW);
+    assert.equal(s.layout, dragged);
+    assert.deepEqual(s.guides, { v: [], h: [], sameW: [], sameH: [] });
+  });
+
+  it("moves only the dragged edge: a left-edge snap keeps the right edge where it is", () => {
+    const dragged = resizeBoxFromEdge(two(), "b", "l", -95, 0, CW); // b's left at 405, a's right is 400
+    const s = snapResizedBox(dragged, "b", "l", CW);
+    near(s.layout.boxes.b.x * CW, 400);
+    near((s.layout.boxes.b.x + s.layout.boxes.b.w) * CW, 900);
+  });
+
+  it("snaps a bottom edge to the neighbour's bottom, and a corner on both axes at once", () => {
+    const taller = { ...two(), boxes: { ...two().boxes, b: { x: 0.5, y: 0, w: 0.4, h: 420 } } };
+    const dragged = resizeBoxFromEdge(taller, "a", "br", 97, 115, CW); // right 497, bottom 415
+    const s = snapResizedBox(dragged, "a", "br", CW);
+    assert.equal(s.layout.boxes.a.h, 420);
+    near((s.layout.boxes.a.x + s.layout.boxes.a.w) * CW, 500);
+    assert.deepEqual(s.guides, { v: [0.5], h: [420], sameW: [], sameH: [] });
+  });
+
+  it("snaps to the canvas's own right edge", () => {
+    const dragged = resizeBoxFromEdge(two(), "b", "r", 96, 0, CW); // 996
+    const s = snapResizedBox(dragged, "b", "r", CW);
+    near((s.layout.boxes.b.x + s.layout.boxes.b.w) * CW, 1000);
+  });
+
+  it("does not take a snap that would put the box under its minimum", () => {
+    // a is 300px wide (the floor). b's left edge sits 5px inside a's right edge,
+    // so snapping a's right edge onto it would make a 295px wide.
+    const tight = { boxes: { a: { x: 0, y: 0, w: 0.3, h: 300 }, b: { x: 0.295, y: 400, w: 0.4, h: 300 } }, order: ["a", "b"] };
+    const s = snapResizedBox(tight, "a", "r", CW);
+    near(s.layout.boxes.a.w * CW, 300);
+  });
+
+  it("can be switched off", () => {
+    const dragged = resizeBoxFromEdge(two(), "a", "r", 95, 0, CW);
+    assert.equal(snapResizedBox(dragged, "a", "r", CW, 300, 0).layout, dragged);
+  });
+  it("snaps a card narrower than the minimum from BOTH sides of a line", () => {
+    // A default quarter card on a 996px canvas is 237px wide. The floor is the
+    // width it had at the press, so overshooting the neighbour's edge by 3px is
+    // pulled back just as stopping 3px short of it is pulled forward.
+    const W2 = 996;
+    const l = { boxes: { a: { x: 0, y: 0, w: 237 / W2, h: 560 }, b: { x: 290 / W2, y: 0, w: 300 / W2, h: 560 } }, order: ["a", "b"] };
+    const short = snapResizedBox(resizeBoxFromEdge(l, "a", "r", 50, 0, W2), "a", "r", W2, 237);
+    near((short.layout.boxes.a.x + short.layout.boxes.a.w) * W2, 290, 1e-6);
+    const past = snapResizedBox(resizeBoxFromEdge(l, "a", "r", 56, 0, W2), "a", "r", W2, 237);
+    near((past.layout.boxes.a.x + past.layout.boxes.a.w) * W2, 290, 1e-6);
+  });
+
+  it("offers a gutter only where a gutter can be: not past a card's far edge", () => {
+    // b sits above at 100..500; a is below, its right edge coming in from 550 to
+    // line up with b's right edge. There is no line at 516 to be held by.
+    const l = { boxes: { a: { x: 0.1, y: 400, w: 0.45, h: 300 }, b: { x: 0.1, y: 0, w: 0.4, h: 300 } }, order: ["a", "b"] };
+    const at515 = snapResizedBox(resizeBoxFromEdge(l, "a", "r", -35, 0, CW), "a", "r", CW);
+    near((at515.layout.boxes.a.x + at515.layout.boxes.a.w) * CW, 515);
+    assert.deepEqual(at515.guides.v, []);
+    const at506 = snapResizedBox(resizeBoxFromEdge(l, "a", "r", -44, 0, CW), "a", "r", CW);
+    near((at506.layout.boxes.a.x + at506.layout.boxes.a.w) * CW, 500);
+    // The gutter before a card's near edge is still a line: a's bottom one gap above a card below it.
+    const stacked = { boxes: { a: { x: 0, y: 0, w: 0.4, h: 300 }, c: { x: 0, y: 420, w: 0.4, h: 300 } }, order: ["a", "c"] };
+    const down = snapResizedBox(resizeBoxFromEdge(stacked, "a", "b", 0, 99, CW), "a", "b", CW);
+    assert.equal(down.layout.boxes.a.h, 404);
+  });
+});
+
+describe("snapping a resized size", () => {
+  const CW = 1000;
+  // a = 0..300, 300 tall. b is 400 wide and 420 tall, down and to the right,
+  // where none of its edges is a line for anything a's edges can reach here.
+  const apart = () => ({
+    boxes: { a: { x: 0, y: 0, w: 0.3, h: 300 }, b: { x: 0.55, y: 600, w: 0.4, h: 420 } },
+    order: ["a", "b"],
+  });
+
+  it("takes another card's width when the dragged width comes within reach of it", () => {
+    const dragged = resizeBoxFromEdge(apart(), "a", "r", 95, 0, CW); // 395 wide; b is 400
+    const s = snapResizedBox(dragged, "a", "r", CW);
+    near(s.layout.boxes.a.w * CW, 400);
+    near(s.layout.boxes.a.x, 0);
+    assert.deepEqual(s.guides, { v: [], h: [], sameW: ["b"], sameH: [] });
+  });
+
+  it("takes a height from the bottom edge, and from the top edge keeps the bottom where it is", () => {
+    const down = snapResizedBox(resizeBoxFromEdge(apart(), "a", "b", 0, 115, CW), "a", "b", CW); // 415; b is 420
+    assert.equal(down.layout.boxes.a.h, 420);
+    assert.deepEqual(down.guides.sameH, ["b"]);
+
+    const lower = {
+      boxes: { c: { x: 0, y: 500, w: 0.3, h: 300 }, b: { x: 0.55, y: 600, w: 0.4, h: 420 } },
+      order: ["c", "b"],
+    };
+    const up = snapResizedBox(resizeBoxFromEdge(lower, "c", "t", 0, -115, CW), "c", "t", CW);
+    assert.equal(up.layout.boxes.c.h, 420);
+    assert.equal(up.layout.boxes.c.y + up.layout.boxes.c.h, 800);
+  });
+
+  it("lets a line win over a size on the same axis", () => {
+    // a's right edge comes to 405: five from b's left edge at 410, and a width
+    // five over b's 400. The edge is the thing in sight, so the edge has it.
+    const l = {
+      boxes: { a: { x: 0, y: 0, w: 0.3, h: 300 }, b: { x: 0.41, y: 600, w: 0.4, h: 300 } },
+      order: ["a", "b"],
+    };
+    const s = snapResizedBox(resizeBoxFromEdge(l, "a", "r", 105, 0, CW), "a", "r", CW);
+    near((s.layout.boxes.a.x + s.layout.boxes.a.w) * CW, 410);
+    assert.deepEqual(s.guides.sameW, []);
+  });
+
+  it("names every card that shares the size", () => {
+    const three = {
+      boxes: { ...apart().boxes, c: { x: 0.05, y: 1200, w: 0.4, h: 300 } },
+      order: ["a", "b", "c"],
+    };
+    const s = snapResizedBox(resizeBoxFromEdge(three, "a", "r", 96, 0, CW), "a", "r", CW);
+    assert.deepEqual(s.guides.sameW, ["b", "c"]);
+  });
+
+  it("is switched off with the rest", () => {
+    const dragged = resizeBoxFromEdge(apart(), "a", "r", 95, 0, CW);
+    assert.equal(snapResizedBox(dragged, "a", "r", CW, 300, 0).layout, dragged);
+  });
+});
+
+describe("holding a resized edge off its neighbour", () => {
+  const CW = 1000;
+  // Side by side: a = 0..400, b = 500..900, both 0..300 down.
+  const two = () => ({
+    boxes: { a: { x: 0, y: 0, w: 0.4, h: 300 }, b: { x: 0.5, y: 0, w: 0.4, h: 300 } },
+    order: ["a", "b"],
+  });
+
+  it("stops a right edge one gutter short of the card it faces, however far the pointer goes", () => {
+    const origin = two().boxes.a;
+    const pushed = resizeBoxFromEdge(two(), "a", "r", 300, 0, CW); // wants 700
+    const held = limitResizedBox(pushed, "a", "r", CW, origin);
+    near((held.boxes.a.x + held.boxes.a.w) * CW, 484);
+    near(held.boxes.a.x, 0);
+  });
+
+  it("stops a left edge the same way, and leaves the right edge where it was", () => {
+    const origin = two().boxes.b;
+    const pushed = resizeBoxFromEdge(two(), "b", "l", -300, 0, CW); // wants 200
+    const held = limitResizedBox(pushed, "b", "l", CW, origin);
+    near(held.boxes.b.x * CW, 416);
+    near((held.boxes.b.x + held.boxes.b.w) * CW, 900);
+  });
+
+  it("stops a bottom edge above the card under it", () => {
+    const stacked = { boxes: { a: { x: 0, y: 0, w: 0.4, h: 300 }, c: { x: 0, y: 420, w: 0.4, h: 300 } }, order: ["a", "c"] };
+    const pushed = resizeBoxFromEdge(stacked, "a", "b", 0, 400, CW);
+    assert.equal(limitResizedBox(pushed, "a", "b", CW, stacked.boxes.a).boxes.a.h, 404);
+  });
+
+  it("ignores a card that does not face the edge", () => {
+    // b is entirely below a: nothing of it is in the way of a's right edge.
+    const l = { boxes: { a: { x: 0, y: 0, w: 0.4, h: 300 }, b: { x: 0.5, y: 600, w: 0.4, h: 300 } }, order: ["a", "b"] };
+    const pushed = resizeBoxFromEdge(l, "a", "r", 300, 0, CW);
+    assert.equal(limitResizedBox(pushed, "a", "r", CW, l.boxes.a), pushed);
+  });
+
+  it("does not throw an edge back off a card it already overlapped at the press", () => {
+    const l = { boxes: { a: { x: 0, y: 0, w: 0.55, h: 300 }, b: { x: 0.5, y: 0, w: 0.4, h: 300 } }, order: ["a", "b"] };
+    const pushed = resizeBoxFromEdge(l, "a", "r", 40, 0, CW);
+    assert.equal(limitResizedBox(pushed, "a", "r", CW, l.boxes.a), pushed);
+  });
+});
+
+describe("seams", () => {
+  const CW = 1000;
+  // a | b a gutter apart; c stacked a gutter under a.
+  const tiled = () => ({
+    boxes: {
+      a: { x: 0, y: 0, w: 0.4, h: 300 },
+      b: { x: 0.416, y: 0, w: 0.4, h: 500 },
+      c: { x: 0, y: 316, w: 0.4, h: 184 },
+    },
+    order: ["a", "b", "c"],
+  });
+
+  it("finds the gutter between cards a gutter apart, with everyone on the line", () => {
+    const seams = seamsOf(tiled(), CW);
+    const v = seams.find((s) => s.kind === "v");
+    assert.ok(v);
+    assert.deepEqual([...v.before].sort(), ["a", "c"]);
+    assert.deepEqual(v.after, ["b"]);
+    near(v.at, 408);
+    assert.equal(v.from, 0);
+    assert.equal(v.to, 500);
+    const h = seams.find((s) => s.kind === "h");
+    assert.ok(h);
+    assert.deepEqual(h.before, ["a"]);
+    assert.deepEqual(h.after, ["c"]);
+    near(h.at, 308);
+  });
+
+  it("finds none between cards that are further apart, or that do not face", () => {
+    const apart = { boxes: { a: { x: 0, y: 0, w: 0.4, h: 300 }, b: { x: 0.5, y: 0, w: 0.4, h: 300 } }, order: ["a", "b"] };
+    assert.deepEqual(seamsOf(apart, CW), []);
+    const diagonal = { boxes: { a: { x: 0, y: 0, w: 0.4, h: 300 }, b: { x: 0.416, y: 600, w: 0.4, h: 300 } }, order: ["a", "b"] };
+    assert.deepEqual(seamsOf(diagonal, CW), []);
+  });
+
+  it("drags both sides at once and keeps the gutter", () => {
+    const l = tiled();
+    const v = seamsOf(l, CW).find((s) => s.kind === "v")!;
+    const moved = dragSeam(l, v, 60, CW, l.boxes);
+    near(moved.boxes.a.w * CW, 460);
+    near(moved.boxes.c.w * CW, 460);
+    near(moved.boxes.b.x * CW, 476);
+    near((moved.boxes.b.x + moved.boxes.b.w) * CW, 816);
+    near(moved.boxes.b.x * CW - (moved.boxes.a.x + moved.boxes.a.w) * CW, 16);
+  });
+
+  it("stops where the first card on either side reaches its floor", () => {
+    const l = tiled();
+    const v = seamsOf(l, CW).find((s) => s.kind === "v")!;
+    const squeezed = dragSeam(l, v, 500, CW, l.boxes); // b is 400 wide: 100 to give
+    near(squeezed.boxes.b.w * CW, MODULE_MIN_W_PX);
+    const other = dragSeam(l, v, -500, CW, l.boxes); // a and c are 400 wide
+    near(other.boxes.a.w * CW, MODULE_MIN_W_PX);
+  });
+
+  it("moves a horizontal seam in whole pixels, the card under it following", () => {
+    const l = tiled();
+    const h = seamsOf(l, CW).find((s) => s.kind === "h")!;
+    // c can only give 184 - MODULE_MIN_H, which is nothing: it is already under the floor.
+    const roomy = { ...l, boxes: { ...l.boxes, c: { x: 0, y: 316, w: 0.4, h: 400 } } };
+    const moved = dragSeam(roomy, h, 40.4, CW, roomy.boxes);
+    assert.equal(moved.boxes.a.h, 340);
+    assert.equal(moved.boxes.c.y, 356);
+    assert.equal(moved.boxes.c.h, 360);
   });
 });

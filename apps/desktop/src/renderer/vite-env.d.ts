@@ -251,6 +251,16 @@ interface MeridianBridge {
     | { ok: false; error: string }
   >;
   onRiskSnapshot: (callback: (payload: import("../shared/risk-types").RiskLatest) => void) => () => void;
+  // Handover briefing. Optional on purpose: the main process and the preload do
+  // not hot-reload, so a renderer that arrives over HMR can be talking to a
+  // build that predates these — callers check before they call.
+  getBriefingWindow?: () => Promise<import("../shared/briefing-types").BriefingWindowResult>;
+  getBriefing?: (
+    request: import("../shared/briefing-types").BriefingRequest,
+  ) => Promise<import("../shared/briefing-types").BriefingGetResult>;
+  getBriefingNarrative?: (
+    request: import("../shared/briefing-types").BriefingNarrativeRequest,
+  ) => Promise<import("../shared/briefing-types").BriefingNarrativeResult>;
   // Gauge
   getGaugeReadout: (req: import("../shared/gauge-types").GaugeReadoutRequest) => Promise<
     | ({ ok: true } & import("../shared/gauge-types").GaugeReadoutResponse)

@@ -23,6 +23,7 @@ export default function DashboardCta({
   children,
   ariaLabel,
   title,
+  disabled = false,
   disabledClassName = "opacity-50",
 }: {
   onClick?: () => void;
@@ -30,10 +31,16 @@ export default function DashboardCta({
   children: ReactNode;
   ariaLabel?: string;
   title?: string;
+  /**
+   * Off for a reason of the caller's own (the view it leads to is not built
+   * yet), which the dashboard switch cannot turn back on. Looks the same as
+   * the switch being off.
+   */
+  disabled?: boolean;
   /** What the switched-off button looks like. Half opacity by default. */
   disabledClassName?: string;
 }) {
-  const enabled = dashboardCtasEnabled();
+  const enabled = dashboardCtasEnabled() && !disabled;
   return (
     <button
       type="button"

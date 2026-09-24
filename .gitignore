@@ -64,6 +64,9 @@ apps/desktop/data/analyst/
 apps/desktop/data/risk/
 apps/desktop/data/screen/
 apps/desktop/data/gauge/
+# The handover briefing caches one report per user and session here. It holds
+# a reader's positions, so unlike data/insight it must never be tracked.
+apps/desktop/data/briefing/
 # stale artifact of the old double-path bug — never commit this
 apps/desktop/apps/
 packages/research/apps/

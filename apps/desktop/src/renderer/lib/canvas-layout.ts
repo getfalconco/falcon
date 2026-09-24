@@ -241,6 +241,370 @@ export function resizeBoxFromEdge(
   return { ...layout, boxes: { ...layout.boxes, [id]: next } };
 }
 
+/** How close, in pixels, a dragged edge has to come to a line before it takes it. */
+export const SNAP_PX = 8;
+/** The gutter the old row kept between cards; an edge snaps to it as well as to the card. */
+export const SNAP_GAP_PX = 16;
+
+/**
+ * The lines an edge is currently held to, for the page to draw. Vertical
+ * lines are shares of the canvas width, like everything else horizontal, so
+ * a guide stays on its edge if the canvas changes width mid-gesture (a
+ * scrollbar appearing is enough); horizontal lines are pixels.
+ */
+export type SnapGuides = {
+  v: number[];
+  h: number[];
+  /**
+   * The cards whose width (or height) the resized one has just been made
+   * equal to — the other thing a design tool snaps to. An edge has lines; a
+   * size has peers, so these are ids, and the page marks the cards themselves.
+   */
+  sameW: string[];
+  sameH: string[];
+};
+export const NO_GUIDES: SnapGuides = { v: [], h: [], sameW: [], sameH: [] };
+
+/**
+ * The nearest of `lines` to `at`, if any is within reach. Ties go to the
+ * first, which is the card's own edge rather than its gutter.
+ */
+function nearest(at: number, lines: readonly number[], reach: number): number | null {
+  let best: number | null = null;
+  let bestD = reach + 1e-9;
+  for (const l of lines) {
+    const d = Math.abs(l - at);
+    if (d < bestD) {
+      best = l;
+      bestD = d;
+    }
+  }
+  return best;
+}
+
+/**
+ * A box that has just been resized, with the edges that were dragged pulled
+ * onto any line they came close to: another card's edge, the gutter beside
+ * it, or the canvas's own edge. Only the dragged edges move — the opposite
+ * ones stay where they are, so a snap never shifts the card — and a snap
+ * that would take the box under its minimum or off the canvas is not taken.
+ *
+ * Each edge has its own lines. A card's two edges are lines for any edge; its
+ * gutter is a line only on the side where a gutter can exist, which is this
+ * card's right edge one gap before that card's left, its left edge one gap
+ * after that card's right, and the same for bottom against top. The other
+ * pairings describe nothing on the canvas, and held an edge sixteen pixels
+ * short of the line the reader was heading for.
+ *
+ * `floorWPx` is the narrowest the box may get, which is the resize's own
+ * floor: the readable minimum, or the width the box had when the gesture
+ * began if that was already less. Taken from the box as it is now, the floor
+ * would rise and fall with the pointer, and a narrow card would snap when
+ * approached from one side and not from the other.
+ *
+ * Where no line takes an edge, a size can: a width or height that comes
+ * within reach of another card's is made equal to it, the way a design tool
+ * matches dimensions. Same rule — only the dragged edge moves.
+ *
+ * Returns the lines that were taken and the cards whose size was matched, so
+ * they can be shown while they hold.
+ */
+export function snapResizedBox(
+  layout: CanvasLayout,
+  id: string,
+  edge: Edge,
+  canvasW: number,
+  floorWPx: number = MODULE_MIN_W_PX,
+  reach: number = SNAP_PX,
+): { layout: CanvasLayout; guides: SnapGuides } {
+  const b = layout.boxes[id];
+  if (!b || reach <= 0) return { layout, guides: NO_GUIDES };
+  const W = Math.max(1, canvasW);
+  const forRight: number[] = [];
+  const forLeft: number[] = [];
+  const forBottom: number[] = [];
+  const forTop: number[] = [];
+  for (const [other, o] of Object.entries(layout.boxes)) {
+    if (other === id) continue;
+    const l = o.x * W;
+    const r = (o.x + o.w) * W;
+    const t = o.y;
+    const bt = o.y + o.h;
+    forRight.push(l, r, l - SNAP_GAP_PX);
+    forLeft.push(l, r, r + SNAP_GAP_PX);
+    forBottom.push(t, bt, t - SNAP_GAP_PX);
+    forTop.push(t, bt, bt + SNAP_GAP_PX);
+  }
+  forRight.push(W);
+  forLeft.push(0);
+  forTop.push(0);
+
+  let left = b.x * W;
+  let right = (b.x + b.w) * W;
+  let top = b.y;
+  let bottom = b.y + b.h;
+  const minW = Math.min(MODULE_MIN_W_PX, Math.max(1, floorWPx));
+  const v: number[] = [];
+  const h: number[] = [];
+
+  if (edge.includes("r")) {
+    const to = nearest(right, forRight, reach);
+    if (to != null && to <= W + 1e-6 && to - left >= minW - 1e-6) {
+      right = to;
+      v.push(to / W);
+    }
+  }
+  if (edge.includes("l")) {
+    const to = nearest(left, forLeft, reach);
+    if (to != null && to >= -1e-6 && right - to >= minW - 1e-6) {
+      left = to;
+      v.push(to / W);
+    }
+  }
+  if (edge.includes("b")) {
+    const to = nearest(bottom, forBottom, reach);
+    if (to != null && to - top >= MODULE_MIN_H && to - top <= MODULE_MAX_H) {
+      bottom = to;
+      h.push(to);
+    }
+  }
+  if (edge.includes("t")) {
+    const to = nearest(top, forTop, reach);
+    if (to != null && to >= 0 && bottom - to >= MODULE_MIN_H && bottom - to <= MODULE_MAX_H) {
+      top = to;
+      h.push(to);
+    }
+  }
+  // Sizes, where no line took the edge. A width within reach of another
+  // card's width becomes that width — the dragged edge moves, the opposite
+  // one stays — and the same for height. A line wins over a size on its own
+  // axis: the line is where the reader can see they were heading, and taking
+  // both would move the edge twice.
+  const sameW: string[] = [];
+  const sameH: string[] = [];
+  const others = Object.entries(layout.boxes).filter(([other]) => other !== id);
+  if ((edge.includes("r") || edge.includes("l")) && v.length === 0) {
+    const to = nearest(
+      right - left,
+      others.map(([, o]) => o.w * W),
+      reach,
+    );
+    if (to != null && to >= minW - 1e-6) {
+      const nl = edge.includes("l") ? right - to : left;
+      const nr = edge.includes("l") ? right : left + to;
+      if (nl >= -1e-6 && nr <= W + 1e-6) {
+        left = nl;
+        right = nr;
+        for (const [other, o] of others) if (Math.abs(o.w * W - to) < 0.5) sameW.push(other);
+      }
+    }
+  }
+  if ((edge.includes("b") || edge.includes("t")) && h.length === 0) {
+    const to = nearest(
+      bottom - top,
+      others.map(([, o]) => o.h),
+      reach,
+    );
+    if (to != null && to >= MODULE_MIN_H && to <= MODULE_MAX_H) {
+      const nt = edge.includes("t") ? bottom - to : top;
+      if (nt >= 0) {
+        top = nt;
+        bottom = nt + to;
+        for (const [other, o] of others) if (Math.abs(o.h - to) < 0.5) sameH.push(other);
+      }
+    }
+  }
+
+  if (v.length === 0 && h.length === 0 && sameW.length === 0 && sameH.length === 0) {
+    return { layout, guides: NO_GUIDES };
+  }
+  const next = contain({ x: left / W, y: Math.round(top), w: (right - left) / W, h: Math.round(bottom - top) });
+  return { layout: { ...layout, boxes: { ...layout.boxes, [id]: next } }, guides: { v, h, sameW, sameH } };
+}
+
+/** How much two spans share; negative when they do not meet. */
+function overlap(a0: number, a1: number, b0: number, b1: number): number {
+  return Math.min(a1, b1) - Math.max(a0, b0);
+}
+
+/**
+ * How much two cards must share on the cross axis to count as facing one
+ * another. Corners that merely pass each other are not neighbours, and
+ * should neither stop an edge nor grow a seam between them.
+ */
+const FACING_MIN_PX = 24;
+
+/**
+ * A resized box, held a gutter away from the cards its edge is being pushed
+ * at. Moving a card is free to overlap anything — that is what the canvas is
+ * for — but an edge dragged into a neighbour is nearly always an overshoot,
+ * and the gutter is where the reader meant to stop. So a dragged edge stops
+ * one gutter short of any card that faces it, and stays there however far
+ * the pointer goes on.
+ *
+ * Only cards the edge was on the near side of AT THE PRESS can stop it: a
+ * card already overlapped, or already closer than a gutter, is left alone,
+ * or the first touch of a handle would throw the edge back.
+ */
+export function limitResizedBox(
+  layout: CanvasLayout,
+  id: string,
+  edge: Edge,
+  canvasW: number,
+  origin: ModuleBox,
+  gap: number = SNAP_GAP_PX,
+): CanvasLayout {
+  const b = layout.boxes[id];
+  if (!b) return layout;
+  const W = Math.max(1, canvasW);
+  let left = b.x * W;
+  let right = (b.x + b.w) * W;
+  let top = b.y;
+  let bottom = b.y + b.h;
+  const oLeft = origin.x * W;
+  const oRight = (origin.x + origin.w) * W;
+  const oTop = origin.y;
+  const oBottom = origin.y + origin.h;
+  const eps = 0.5;
+
+  for (const [other, o] of Object.entries(layout.boxes)) {
+    if (other === id) continue;
+    const l = o.x * W;
+    const r = (o.x + o.w) * W;
+    const t = o.y;
+    const bt = o.y + o.h;
+    if (overlap(top, bottom, t, bt) >= FACING_MIN_PX) {
+      if (edge.includes("r") && oRight <= l - gap + eps) right = Math.min(right, l - gap);
+      if (edge.includes("l") && oLeft >= r + gap - eps) left = Math.max(left, r + gap);
+    }
+    if (overlap(left, right, l, r) >= FACING_MIN_PX) {
+      if (edge.includes("b") && oBottom <= t - gap + eps) bottom = Math.min(bottom, t - gap);
+      if (edge.includes("t") && oTop >= bt + gap - eps) top = Math.max(top, bt + gap);
+    }
+  }
+
+  const next = contain({ x: left / W, y: Math.round(top), w: (right - left) / W, h: Math.round(bottom - top) });
+  if (Math.abs(next.x - b.x) < 1e-9 && Math.abs(next.w - b.w) < 1e-9 && next.y === b.y && next.h === b.h) return layout;
+  return { ...layout, boxes: { ...layout.boxes, [id]: next } };
+}
+
+/**
+ * The gutter two (or more) cards share: the cards whose right — or bottom —
+ * edge is on one side of it, the cards whose left — or top — edge is on the
+ * other, and the stretch of it they have in common. It is what a reader takes
+ * hold of to resize both sides at once.
+ */
+export type Seam = {
+  /** "v": a vertical gutter between side-by-side cards. "h": a horizontal one. */
+  kind: "v" | "h";
+  before: string[];
+  after: string[];
+  /** The middle of the gutter, in px from the canvas's left ("v") or top ("h"). */
+  at: number;
+  /** The shared stretch, in px on the other axis. */
+  from: number;
+  to: number;
+};
+
+/**
+ * Every seam in the layout: pairs of cards exactly a gutter apart that face
+ * one another. Cards on the same line are one seam, so a column of two beside
+ * one tall card moves as a unit and stays in line.
+ */
+export function seamsOf(layout: CanvasLayout, canvasW: number, gap: number = SNAP_GAP_PX): Seam[] {
+  const W = Math.max(1, canvasW);
+  const found = new Map<string, Seam>();
+  const add = (kind: "v" | "h", at: number, a: string, b: string, from: number, to: number) => {
+    const key = `${kind}${Math.round(at)}`;
+    const s = found.get(key);
+    if (!s) {
+      found.set(key, { kind, before: [a], after: [b], at, from, to });
+      return;
+    }
+    if (!s.before.includes(a)) s.before.push(a);
+    if (!s.after.includes(b)) s.after.push(b);
+    s.from = Math.min(s.from, from);
+    s.to = Math.max(s.to, to);
+  };
+  const ids = Object.keys(layout.boxes);
+  for (const a of ids) {
+    const A = layout.boxes[a];
+    const aR = (A.x + A.w) * W;
+    const aB = A.y + A.h;
+    for (const b of ids) {
+      if (a === b) continue;
+      const B = layout.boxes[b];
+      const bL = B.x * W;
+      if (Math.abs(aR + gap - bL) < 0.75 && overlap(A.y, aB, B.y, B.y + B.h) >= FACING_MIN_PX) {
+        add("v", aR + gap / 2, a, b, Math.max(A.y, B.y), Math.min(aB, B.y + B.h));
+      }
+      const aL = A.x * W;
+      const bR = (B.x + B.w) * W;
+      if (Math.abs(aB + gap - B.y) < 0.75 && overlap(aL, aR, bL, bR) >= FACING_MIN_PX) {
+        add("h", aB + gap / 2, a, b, Math.max(aL, bL), Math.min(aR, bR));
+      }
+    }
+  }
+  return [...found.values()].sort((p, q) => (p.kind === q.kind ? p.at - q.at : p.kind < q.kind ? 1 : -1));
+}
+
+/**
+ * A seam dragged by `delta` pixels: the cards before it grow by that much and
+ * the cards after it give the same up, so the gutter between them travels and
+ * keeps its width. The move is clamped to what every card on both sides can
+ * take — nobody goes under their floor — and measured from the boxes as they
+ * were at the press (`origins`), for the same reason a resize is.
+ */
+export function dragSeam(
+  layout: CanvasLayout,
+  seam: Seam,
+  delta: number,
+  canvasW: number,
+  origins: Record<string, ModuleBox>,
+): CanvasLayout {
+  const W = Math.max(1, canvasW);
+  const before = seam.before.filter((id) => origins[id] && layout.boxes[id]);
+  const after = seam.after.filter((id) => origins[id] && layout.boxes[id]);
+  if (before.length === 0 || after.length === 0) return layout;
+
+  let lo = -Infinity;
+  let hi = Infinity;
+  if (seam.kind === "v") {
+    for (const id of before) {
+      const w = origins[id].w * W;
+      lo = Math.max(lo, Math.min(MODULE_MIN_W_PX, w) - w);
+    }
+    for (const id of after) {
+      const w = origins[id].w * W;
+      hi = Math.min(hi, w - Math.min(MODULE_MIN_W_PX, w));
+    }
+  } else {
+    for (const id of before) {
+      lo = Math.max(lo, MODULE_MIN_H - origins[id].h);
+      hi = Math.min(hi, MODULE_MAX_H - origins[id].h);
+    }
+    for (const id of after) {
+      hi = Math.min(hi, origins[id].h - MODULE_MIN_H);
+      lo = Math.max(lo, origins[id].h - MODULE_MAX_H);
+    }
+  }
+  if (lo > hi) return layout;
+  const d = seam.kind === "v" ? Math.min(hi, Math.max(lo, delta)) : Math.round(Math.min(hi, Math.max(lo, delta)));
+
+  const boxes = { ...layout.boxes };
+  for (const id of before) {
+    const o = origins[id];
+    boxes[id] = contain(seam.kind === "v" ? { ...o, w: o.w + d / W } : { ...o, h: o.h + d });
+  }
+  for (const id of after) {
+    const o = origins[id];
+    boxes[id] = contain(
+      seam.kind === "v" ? { ...o, x: o.x + d / W, w: o.w - d / W } : { ...o, y: o.y + d, h: o.h - d },
+    );
+  }
+  return { ...layout, boxes };
+}
+
 /** A copy of a module, a step down and right of the original, on top. */
 export function duplicateBox(layout: CanvasLayout, id: string, copy: string, canvasW: number): CanvasLayout {
   const b = layout.boxes[id];

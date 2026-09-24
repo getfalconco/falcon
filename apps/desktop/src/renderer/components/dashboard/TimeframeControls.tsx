@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
  * with it the moment the selector is moved between those two layouts.
  */
 
-const TIMEFRAMES = ["Hour", "Day", "Week", "Month", "Quarter", "Year"] as const;
+export const TIMEFRAMES = ["Hour", "Day", "Week", "Month", "Quarter", "Year"] as const;
 export type Timeframe = (typeof TIMEFRAMES)[number];
 
 export default function TimeframeControls({

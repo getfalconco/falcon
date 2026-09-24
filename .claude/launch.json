@@ -70,6 +70,21 @@
       "port": 5194
     },
     {
+      "name": "desktop-briefing-preview",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "--filter",
+        "falcon",
+        "exec",
+        "vite",
+        "--config",
+        ".claude-preview.vite.config.mts",
+        "--port",
+        "5195"
+      ],
+      "port": 5195
+    },
+    {
       "name": "desktop-risk-preview",
       "runtimeExecutable": "pnpm",
       "runtimeArgs": [

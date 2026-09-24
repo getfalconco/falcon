@@ -33,7 +33,8 @@ const POLL_INTERVAL_MS = Math.max(
   Number.parseInt(process.env.NEWS_POLL_INTERVAL_MS ?? "60000", 10) || 60_000,
 );
 
-function eventsDir(): string {
+/** Where the poll files events and articles — the feed channel reads the same place. */
+export function eventsDir(): string {
   return (
     process.env.FALCON_EVENTS_DATA_DIR?.trim() ??
     path.resolve(process.cwd(), "data", "events")

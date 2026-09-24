@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion, Reorder, useDragControls } from "framer-motion";
 import {
@@ -9,7 +9,6 @@ import {
   Check,
   ChevronRight,
   Copy,
-  Layers,
   Eye,
   EyeOff,
   GripVertical,
@@ -517,13 +516,29 @@ export default function PortfolioCard({
     return () => el.removeEventListener("wheel", onWheel);
   }, []);
 
+  /** The width the table is seen through: the scroller's content box. */
   const [listWidth, setListWidth] = useState(0);
+  /** How far the rail sets the holdings rows in from the scroller's left edge. */
+  const [railOffset, setRailOffset] = useState(36);
+  const headGridRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     const el = listRef.current;
     if (!el || typeof ResizeObserver === "undefined") return;
-    const ro = new ResizeObserver(() => setListWidth(el.getBoundingClientRect().width));
+    const measure = () => {
+      const pad = parseFloat(getComputedStyle(el).paddingRight) || 0;
+      setListWidth(el.clientWidth - pad);
+      // Measured, not assumed: the rail's hairline border is half a pixel on a
+      // dense screen and a whole one elsewhere, and the group rows have to be
+      // set in by exactly what the rows under them are.
+      const head = headGridRef.current;
+      if (head) {
+        const off = head.getBoundingClientRect().left - el.getBoundingClientRect().left;
+        if (off > 0) setRailOffset((prev) => (Math.abs(prev - off) < 0.05 ? prev : off));
+      }
+    };
+    const ro = new ResizeObserver(measure);
     ro.observe(el);
-    setListWidth(el.getBoundingClientRect().width);
+    measure();
     return () => ro.disconnect();
   }, []);
 
@@ -669,25 +684,49 @@ export default function PortfolioCard({
         .filter((c): c is (typeof COLUMNS)[number] => c != null),
     [columnPrefs],
   );
-  const visibleColumns = useMemo(() => {
-    // The tree's indent and the scroller's own padding are not the table's.
-    const usable = listWidth - 40;
-    const out: typeof COLUMNS = [];
-    let used = NAME_MIN;
-    for (const column of orderedColumns) {
-      const next = used + COL_GAP + column.w;
-      if (out.length > 0 && next > usable) break;
-      used = next;
-      out.push(column);
-    }
-    return out;
-  }, [listWidth, orderedColumns]);
-  /** Name on the left takes the slack; every column keeps its own width. */
-  const gridTemplate = useMemo(
-    () => `minmax(0,1fr) ${visibleColumns.map((c) => `${c.w}px`).join(" ")}`,
-    [visibleColumns],
-  );
-
+  /**
+   * Every column the reader has switched on is always drawn, at its own
+   * width, and the card is a window over the table: a narrow card shows the
+   * head of it and cuts the rest off at its edge, and widening the card
+   * slides more of the table into view, a pixel for a pixel. Columns used to
+   * be fitted instead — one joined the table only once the whole of it had
+   * room — which is what made them arrive one by one, in steps, as the card
+   * was dragged wider.
+   */
+  const visibleColumns = orderedColumns;
+  const columnsWidth = visibleColumns.reduce((sum, c) => sum + COL_GAP + c.w, 0);
+  const tableMinW = NAME_MIN + columnsWidth;
+  const columnTracks = visibleColumns.map((c) => `${c.w}px`).join(" ");
+  /**
+   * Two shapes of row share the columns. The holdings rows and the heads over
+   * them stand off the rail; the group rows start at the scroller's edge. While
+   * the table fits, the name column takes the slack and both end at the same
+   * right edge, which is what lines their columns up. Once the table is wider
+   * than the card there is no shared right edge to lean on, so the group rows'
+   * name column is wider by exactly the rail, and the columns still meet.
+   *
+   * Where the card cuts a row off, the row fades out over its last few pixels
+   * rather than ending mid-figure. The fade is on the rows and not on the
+   * scroller, so the cash amounts at the right edge are left alone.
+   */
+  const rowStyle = (rail: number): CSSProperties => {
+    const minWidth = tableMinW + rail;
+    const seen = listWidth - (railOffset - rail);
+    const cut = listWidth > 0 && minWidth > seen + 0.5;
+    const fade = cut
+      ? `linear-gradient(to right, #000 0, #000 ${Math.max(0, seen - 28)}px, transparent ${seen}px)`
+      : undefined;
+    return {
+      gridTemplateColumns: `minmax(${NAME_MIN + rail}px,1fr) ${columnTracks}`,
+      minWidth,
+      maskImage: fade,
+      WebkitMaskImage: fade,
+    };
+  };
+  /** The heads and the holdings rows: set in by the rail already. */
+  const railRowStyle = rowStyle(0);
+  /** The group rows: from the scroller's own edge, so wider by the rail. */
+  const groupRowStyle = rowStyle(railOffset);
   /** A company or a fund — the only split the book can make from a ticker. */
   const needle = query.trim().toUpperCase();
   const matches = (symbol: string) => !needle || symbol.toUpperCase().includes(needle);
@@ -708,8 +747,13 @@ export default function PortfolioCard({
    * anything. A collapsed group still prints its totals under the columns,
    * so the heads stay as long as any group has rows — a row of figures with
    * nothing over them is exactly what the heads exist to prevent.
+   *
+   * Cash counts. Its line prints a value and a weight under those columns
+   * like any other group's, so a book that is all cash — every new account —
+   * showed "$10,000.00 · 100.0%" with nothing above to say what they were.
    */
-  const showColumnHeads = GROUPS.some((g) => (g.key === "stocks" ? stockRows : etfRows).length > 0);
+  const showColumnHeads =
+    account.cash > 0 || GROUPS.some((g) => (g.key === "stocks" ? stockRows : etfRows).length > 0);
   const sumValue = (list: typeof rows) => list.reduce((s, r) => s + r.value, 0);
   /** A group's line in the table: the count under Qty, the money under the
    *  columns it belongs to, and nothing under the ones a total cannot be. */
@@ -980,7 +1024,7 @@ export default function PortfolioCard({
     // height (the grid cell, or the dock), and a 560px floor inside it meant a
     // shortened card overflowed instead of shrinking — so the list never had a
     // bounded box to scroll inside.
-    <div className="grid h-full w-full grid-rows-[auto_auto_minmax(0,1fr)_auto] overflow-hidden rounded-3xl border border-white/60 bg-white/40 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-black/[0.04] backdrop-blur-xl backdrop-saturate-150">
+    <div className="grid h-full w-full grid-cols-[minmax(0,1fr)] grid-rows-[auto_auto_minmax(0,1fr)_auto] overflow-hidden rounded-3xl border border-white/60 bg-white/40 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-black/[0.04] backdrop-blur-xl backdrop-saturate-150">
       {/* Header */}
       <div className="flex shrink-0 items-center justify-between">
         <span className="select-none font-sans text-[11px] font-medium tracking-[0.08em] text-[#9CA3AF]">
@@ -1241,7 +1285,6 @@ export default function PortfolioCard({
       {!connected ? (
         <div className="row-span-3 min-h-0">
           <ConnectPortfolioEmpty
-            Icon={Layers}
             line="No account linked yet. Connect a brokerage or open a Falcon paper account to see your positions here."
           />
         </div>
@@ -1300,8 +1343,14 @@ export default function PortfolioCard({
       <SelectionGloss
         resolve={scopeOfSelection}
         context={TABLE_CONTEXT}
-        className="flex min-h-0 flex-col"
-        contentClassName="flex min-h-0 flex-1 flex-col"
+        // min-w-0 all the way down: this wrapper is the grid item now, and a
+        // grid item that is not itself a scroller sizes to its content's
+        // min-width — the table at its widest. That swelled the card's one
+        // column past the card, so the header's icons sat beyond the right
+        // edge and were clipped, and the list, measured at that width, never
+        // dropped a column to fit.
+        className="flex min-h-0 min-w-0 flex-col"
+        contentClassName="flex min-h-0 min-w-0 flex-1 flex-col"
       >
       <div
         ref={listRef}
@@ -1313,7 +1362,13 @@ export default function PortfolioCard({
         // Its own compositing layer, so a scroll inside the card's
         // backdrop-filter and framer's transformed wrappers is painted on
         // the frame it happens rather than on the next unrelated repaint.
-        className="scrollbar-meridian app-no-drag mt-4 min-h-0 flex-1 overflow-y-auto overscroll-contain pr-1 will-change-transform"
+        // Sideways the table is cut, never scrolled: focus landing on a control
+        // in a cut-off column would otherwise nudge the rows along with no way
+        // to bring them back.
+        onScroll={(e) => {
+          if (e.currentTarget.scrollLeft !== 0) e.currentTarget.scrollLeft = 0;
+        }}
+        className="scrollbar-meridian app-no-drag mt-4 min-h-0 flex-1 overflow-x-hidden overflow-y-auto overscroll-contain pr-1 will-change-transform"
       >
         {rows.length === 0 && account.cash <= 0 ? (
           <p className="py-1.5 text-[12.5px] text-[#9CA3AF]">No open positions.</p>
@@ -1336,8 +1391,9 @@ export default function PortfolioCard({
           <div className="sticky top-0 z-10 bg-[#F2F2EF]">
             <div className="ml-[21px] border-l-[0.5px] border-transparent pl-3.5">
               <div
+                ref={headGridRef}
                 className="grid items-center gap-3 border-b-[0.5px] border-black/[0.06] pb-1 text-right font-['Geist_Mono'] text-[9.5px] uppercase tracking-[0.06em] text-[#9CA3AF]"
-                style={{ gridTemplateColumns: gridTemplate }}
+                style={railRowStyle}
               >
                 <span className="text-left">Name</span>
                 {/* Every head is the switch for its own sort: largest first
@@ -1381,7 +1437,7 @@ export default function PortfolioCard({
                 onClick={() => toggleGroup(group.key)}
                 aria-expanded={open}
                 className="app-no-drag grid w-full items-center gap-3 py-1 text-right text-[12px]"
-                style={{ gridTemplateColumns: gridTemplate }}
+                style={groupRowStyle}
               >
                 <span className="flex min-w-0 items-center gap-1 text-left">
                   <ChevronRight
@@ -1408,7 +1464,7 @@ export default function PortfolioCard({
                     <div
                       data-symbol={row.symbol}
                       className="grid items-center gap-3 py-1.5 text-right text-[12.5px]"
-                      style={{ gridTemplateColumns: gridTemplate }}
+                      style={railRowStyle}
                     >
                       <span className="flex min-w-0 items-center gap-2.5 text-left">
                         <span className="flex h-5 w-5 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#E3E3E0]">
@@ -1451,7 +1507,7 @@ export default function PortfolioCard({
             onClick={() => toggleGroup("cash")}
             aria-expanded={openGroups.cash !== false}
             className="app-no-drag grid w-full items-center gap-3 py-1 text-right text-[12px]"
-            style={{ gridTemplateColumns: gridTemplate }}
+            style={groupRowStyle}
           >
             <span className="flex min-w-0 items-center gap-1 text-left">
               <ChevronRight

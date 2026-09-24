@@ -14,6 +14,7 @@ import type {
   StockQuote,
   StockSessionQuote,
 } from "../../shared/stock-types";
+import type { MarketHeadline } from "../../shared/briefing-types";
 
 const YAHOO_CHART_BASE = "https://query1.finance.yahoo.com/v8/finance/chart";
 const YAHOO_SEARCH_BASE = "https://query2.finance.yahoo.com/v1/finance/search";
@@ -646,7 +647,18 @@ async function requestLiveQuote(symbol: string): Promise<LiveQuote> {
     changePercent: baseline !== 0 ? (change / baseline) * 100 : 0,
     session,
     asOf: asOfSec * 1000,
+    // The two closes `change` cannot be unpicked into. Outside the regular
+    // session `price` is an extended-hours print, and a reader measuring "since
+    // the close" needs the regular price it moved away from, not the baseline
+    // this function chose for its own session.
+    previousClose: positiveOrUndefined(meta.previousClose ?? meta.chartPreviousClose),
+    regularPrice: positiveOrUndefined(meta.regularMarketPrice),
   };
+}
+
+/** Yahoo sends 0 for "no print"; a zero close is a placeholder, not a level. */
+function positiveOrUndefined(value: number | undefined): number | undefined {
+  return typeof value === "number" && Number.isFinite(value) && value > 0 ? value : undefined;
 }
 
 /** Latest traded price for a ticker, including pre/post-market sessions. */
@@ -776,8 +788,17 @@ type YahooQuoteSummaryResult = {
     trailingPE?: YahooNumber;
     marketCap?: YahooNumber;
     dividendYield?: YahooNumber;
+    dividendRate?: YahooNumber;
     fiftyTwoWeekLow?: YahooNumber;
     fiftyTwoWeekHigh?: YahooNumber;
+  };
+  calendarEvents?: {
+    earnings?: {
+      earningsDate?: YahooNumber[];
+      isEarningsDateEstimate?: boolean;
+    };
+    exDividendDate?: YahooNumber;
+    dividendDate?: YahooNumber;
   };
   defaultKeyStatistics?: {
     trailingEps?: YahooNumber;
@@ -814,6 +835,45 @@ type YahooQuoteSummaryResult = {
   };
 };
 
+/**
+ * One quoteSummary read through the crumb/cookie handshake, with the single
+ * re-auth a stale crumb needs (401/403).
+ *
+ * Throws when no answer was obtained (no crumb, a non-2xx status, a network
+ * error) and returns null only when the provider answered with nothing for the
+ * symbol. The two are kept apart because a caller that caches has to: "this
+ * fund has no calendar" is worth remembering for hours, "the request failed"
+ * is not.
+ */
+async function requestQuoteSummary(
+  normalized: string,
+  modules: string,
+  signal?: AbortSignal,
+): Promise<YahooQuoteSummaryResult | null> {
+  async function attempt(auth: YahooAuth): Promise<Response> {
+    const url = `${YAHOO_QUOTE_SUMMARY_BASE}/${encodeURIComponent(
+      normalized,
+    )}?modules=${modules}&crumb=${encodeURIComponent(auth.crumb)}`;
+    return fetch(url, { headers: { ...YAHOO_HEADERS, Cookie: auth.cookie }, signal });
+  }
+
+  let auth = await getYahooAuth();
+  if (!auth) throw new Error("Market data auth unavailable");
+
+  let response = await attempt(auth);
+  if (response.status === 401 || response.status === 403) {
+    auth = await getYahooAuth(true);
+    if (!auth) throw new Error("Market data auth unavailable");
+    response = await attempt(auth);
+  }
+
+  if (!response.ok) throw new Error(`Quote summary request failed (${response.status})`);
+  const payload = (await response.json()) as {
+    quoteSummary?: { result?: YahooQuoteSummaryResult[] };
+  };
+  return payload.quoteSummary?.result?.[0] ?? null;
+}
+
 async function fetchQuoteSummary(symbol: string): Promise<YahooQuoteSummaryResult | null> {
   const normalized = normalizeSymbol(symbol);
   const modules = [
@@ -825,29 +885,8 @@ async function fetchQuoteSummary(symbol: string): Promise<YahooQuoteSummaryResul
     "financialData",
   ].join(",");
 
-  async function attempt(auth: YahooAuth): Promise<Response> {
-    const url = `${YAHOO_QUOTE_SUMMARY_BASE}/${encodeURIComponent(
-      normalized,
-    )}?modules=${modules}&crumb=${encodeURIComponent(auth.crumb)}`;
-    return fetch(url, { headers: { ...YAHOO_HEADERS, Cookie: auth.cookie } });
-  }
-
   try {
-    let auth = await getYahooAuth();
-    if (!auth) return null;
-
-    let response = await attempt(auth);
-    if (response.status === 401 || response.status === 403) {
-      auth = await getYahooAuth(true);
-      if (!auth) return null;
-      response = await attempt(auth);
-    }
-
-    if (!response.ok) return null;
-    const payload = (await response.json()) as {
-      quoteSummary?: { result?: YahooQuoteSummaryResult[] };
-    };
-    return payload.quoteSummary?.result?.[0] ?? null;
+    return await requestQuoteSummary(normalized, modules);
   } catch {
     return null;
   }
@@ -1065,12 +1104,14 @@ export async function fetchStockOverview(
   };
 }
 
-type YahooNewsItem = {
+export type YahooNewsItem = {
   uuid?: string;
   title?: string;
   publisher?: string;
   link?: string;
   providerPublishTime?: number;
+  /** Tickers the provider tagged the article with; absent on most items. */
+  relatedTickers?: string[];
   thumbnail?: {
     resolutions?: Array<{ url?: string; width?: number; height?: number }>;
   };
@@ -1110,4 +1151,352 @@ export async function fetchStockNews(symbol: string, count = 12): Promise<StockN
   } catch {
     return [];
   }
+}
+
+/* ------------------------------------------------------------------ */
+/* Handover briefing reads                                             */
+/* ------------------------------------------------------------------ */
+
+/**
+ * The briefing fans out over seventeen market symbols and every held name at
+ * once, under a deadline of its own. A request that outlives that deadline only
+ * holds a socket open against a provider that is already slow, so each read
+ * here gives up by itself and is never retried on a 429.
+ */
+const BRIEFING_REQUEST_TIMEOUT_MS = 6_000;
+
+async function withRequestTimeout<T>(run: (signal: AbortSignal) => Promise<T>): Promise<T> {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), BRIEFING_REQUEST_TIMEOUT_MS);
+  try {
+    return await run(controller.signal);
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+function finiteOrNull(value: number | undefined): number | null {
+  return typeof value === "number" && Number.isFinite(value) ? value : null;
+}
+
+export type MarketSnapshotRead = {
+  symbol: string;
+  price: number | null;
+  previousClose: number | null;
+  /** When `price` printed on the exchange's own clock, epoch seconds. */
+  marketTime: number | null;
+  inRegularSession: boolean;
+};
+
+/**
+ * One chart-meta read of an index, a future or a macro symbol.
+ *
+ * Not `fetchLiveQuote`: for a symbol with no pre/post prints that function
+ * returns the prior close stamped as of now, which would pass an old session
+ * off as the overnight move. The `range=1d` meta is honest on both counts. Its
+ * `regularMarketTime` is the exchange's own last print (during a Japanese
+ * holiday ^N225 keeps the previous session's stamp), and its `previousClose`
+ * is the settlement the move is measured from, which for a future stays
+ * correct across a contract roll. Only `meta` is read; the candles are
+ * ignored.
+ */
+export async function fetchMarketSnapshot(symbol: string): Promise<MarketSnapshotRead> {
+  const normalized = normalizeSymbol(symbol);
+  const url = `${YAHOO_CHART_BASE}/${encodeURIComponent(
+    normalized,
+  )}?range=1d&interval=5m&includePrePost=true`;
+
+  return withRequestTimeout(async (signal) => {
+    const response = await fetch(url, { headers: YAHOO_HEADERS, signal });
+    if (!response.ok) {
+      throw new Error(`Market snapshot request failed (${response.status})`);
+    }
+    const payload = (await response.json()) as YahooChartResponse;
+    const meta = payload.chart?.result?.[0]?.meta;
+    if (!meta) {
+      throw new Error(payload.chart?.error?.description ?? "No market snapshot returned");
+    }
+
+    const nowSec = Math.floor(Date.now() / 1000);
+    const regular = meta.currentTradingPeriod?.regular;
+    return {
+      symbol: normalized,
+      price: finiteOrNull(meta.regularMarketPrice),
+      previousClose: finiteOrNull(meta.previousClose) ?? finiteOrNull(meta.chartPreviousClose),
+      marketTime: finiteOrNull(meta.regularMarketTime),
+      inRegularSession:
+        regular?.start != null && regular.end != null && nowSec >= regular.start && nowSec < regular.end,
+    };
+  });
+}
+
+const YMD_SHAPE = /^\d{4}-\d{2}-\d{2}$/;
+
+/**
+ * A quoteSummary calendar date as "YYYY-MM-DD".
+ *
+ * The provider's own `fmt` is the date it means. The raw epoch beside it is
+ * midnight UTC of that date, so reading it on a New York clock lands on the
+ * evening before and every ex-dividend date moves a day early. The fallback is
+ * therefore the UTC date slice, never a time-zone conversion.
+ */
+function calendarYmd(field: YahooNumber): string | null {
+  if (field != null && typeof field !== "number" && typeof field.fmt === "string" && YMD_SHAPE.test(field.fmt)) {
+    return field.fmt;
+  }
+  const raw = readNum(field);
+  return raw === undefined ? null : new Date(raw * 1000).toISOString().slice(0, 10);
+}
+
+export type CorporateCalendarRead = {
+  /** False when the provider keeps no calendar for the symbol at all (funds). */
+  available: boolean;
+  exDividendDate: string | null;
+  dividendDate: string | null;
+  /** The provider's indicated annual rate per share, not one payment. */
+  dividendRate: number | null;
+  earningsDates: string[];
+  earningsEstimated: boolean | null;
+};
+
+/**
+ * What the provider's forward calendar holds for one symbol. Throws when the
+ * request itself failed, so a caller can tell "nothing is scheduled" from
+ * "nothing was learned".
+ *
+ * `summaryDetail` rides along for more than the dividend rate. Asked for
+ * `calendarEvents` alone, the provider answers 404 for a fund, which cannot be
+ * told apart from a failed request; with a module every symbol has, a fund
+ * answers 200 with the calendar module simply absent.
+ */
+export async function fetchCorporateCalendar(symbol: string): Promise<CorporateCalendarRead> {
+  const normalized = normalizeSymbol(symbol);
+  const summary = await withRequestTimeout((signal) =>
+    requestQuoteSummary(normalized, "calendarEvents,summaryDetail", signal),
+  );
+
+  const calendar = summary?.calendarEvents;
+  const earningsDates = (calendar?.earnings?.earningsDate ?? [])
+    .map(calendarYmd)
+    .filter((ymd): ymd is string => ymd !== null);
+  const exDividendDate = calendarYmd(calendar?.exDividendDate);
+  const dividendDate = calendarYmd(calendar?.dividendDate);
+  const estimated = calendar?.earnings?.isEarningsDateEstimate;
+
+  return {
+    // A fund answers with a calendar object that has no dated field in it.
+    // That is the provider saying it keeps none, which is different from a
+    // company between announcements, whose `earnings` block is still there.
+    available: calendar?.earnings !== undefined || exDividendDate !== null || dividendDate !== null,
+    exDividendDate,
+    dividendDate,
+    dividendRate: readNum(summary?.summaryDetail?.dividendRate) ?? null,
+    earningsDates,
+    earningsEstimated: typeof estimated === "boolean" ? estimated : null,
+  };
+}
+
+type YahooChartEventsResponse = {
+  chart?: {
+    result?: Array<{
+      meta?: YahooChartMeta;
+      events?: {
+        dividends?: Record<string, { amount?: number; date?: number }>;
+        splits?: Record<string, { date?: number; numerator?: number; denominator?: number }>;
+      };
+    }>;
+    error?: { description?: string };
+  };
+};
+
+const NY_YMD_FORMAT = new Intl.DateTimeFormat("en-CA", {
+  timeZone: "America/New_York",
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+});
+
+/**
+ * Chart events are stamped with the instant the session opened (09:30 ET), so
+ * unlike the quoteSummary calendar these are real instants and the New York
+ * calendar date is the right reading of them.
+ */
+function nyYmdOfEpochSec(sec: number): string {
+  return NY_YMD_FORMAT.format(new Date(sec * 1000));
+}
+
+export type RecentCorporateEventsRead = {
+  dividends: Array<{ date: string; amount: number }>;
+  splits: Array<{ date: string; numerator: number; denominator: number }>;
+};
+
+function finiteNumber(value: unknown): value is number {
+  return typeof value === "number" && Number.isFinite(value);
+}
+
+/**
+ * Distributions and splits of the last three months, read off the daily chart,
+ * oldest first. The only place a fund's distribution or any split shows up:
+ * the provider publishes neither ahead of time.
+ */
+export async function fetchRecentCorporateEvents(symbol: string): Promise<RecentCorporateEventsRead> {
+  const normalized = normalizeSymbol(symbol);
+  const url = `${YAHOO_CHART_BASE}/${encodeURIComponent(
+    normalized,
+  )}?range=3mo&interval=1d&events=div%7Csplit`;
+
+  return withRequestTimeout(async (signal) => {
+    const response = await fetch(url, { headers: YAHOO_HEADERS, signal });
+    if (!response.ok) {
+      throw new Error(`Corporate events request failed (${response.status})`);
+    }
+    const payload = (await response.json()) as YahooChartEventsResponse;
+    const result = payload.chart?.result?.[0];
+    if (!result?.meta) {
+      throw new Error(payload.chart?.error?.description ?? "No corporate events returned");
+    }
+
+    const dividends = Object.values(result.events?.dividends ?? {})
+      .flatMap((d) => (finiteNumber(d?.date) && finiteNumber(d.amount) ? [{ at: d.date, amount: d.amount }] : []))
+      .sort((a, b) => a.at - b.at)
+      .map((d) => ({ date: nyYmdOfEpochSec(d.at), amount: d.amount }));
+
+    const splits = Object.values(result.events?.splits ?? {})
+      .flatMap((s) =>
+        finiteNumber(s?.date) && finiteNumber(s.numerator) && finiteNumber(s.denominator)
+          ? [{ at: s.date, numerator: s.numerator, denominator: s.denominator }]
+          : [],
+      )
+      .sort((a, b) => a.at - b.at)
+      .map((s) => ({ date: nyYmdOfEpochSec(s.at), numerator: s.numerator, denominator: s.denominator }));
+
+    return { dividends, splits };
+  });
+}
+
+/* ------------------------------------------------------------------ */
+/* Handover briefing: market-wide headlines                            */
+/* ------------------------------------------------------------------ */
+
+/**
+ * The symbols whose search news stands in for "the market". The provider's
+ * search endpoint answers a symbol with the articles it tagged that symbol
+ * with, and answers free text ("stock market", "Federal Reserve") with nothing
+ * usable, so market-wide news is read off the index funds, the futures and the
+ * macro instruments the briefing's own table prints. SPY is first on purpose:
+ * an article tagged with several of these is kept under the first symbol that
+ * surfaced it, and the index fund is the most useful "via" to show for it.
+ */
+export const BRIEFING_NEWS_SYMBOLS: readonly string[] = ["SPY", "QQQ", "^GSPC", "^VIX", "TLT", "CL=F", "GC=F", "DX-Y.NYB", "IWM"];
+
+const MARKET_HEADLINES_PER_SYMBOL = 10;
+/** Nine symbols through three sockets: a burst the provider's rate limit has not minded in the chart reads. */
+const MARKET_HEADLINES_CONCURRENCY = 3;
+/** Enough for a full night; a longer list is read by nobody and only grows the prompt. */
+export const MARKET_HEADLINES_MAX = 20;
+
+/** `fn` over `items`, at most `limit` at a time, results in input order. */
+async function mapLimit<T, R>(items: readonly T[], limit: number, fn: (item: T) => Promise<R>): Promise<R[]> {
+  const out: R[] = new Array(items.length);
+  let next = 0;
+  const worker = async (): Promise<void> => {
+    for (;;) {
+      const i = next++;
+      if (i >= items.length) return;
+      out[i] = await fn(items[i]!);
+    }
+  };
+  await Promise.all(Array.from({ length: Math.min(limit, items.length) }, worker));
+  return out;
+}
+
+/**
+ * One symbol's search news, raw. Not `fetchStockNews`: that reader is the stock
+ * view's, it swallows every failure into an empty list and takes no signal, and
+ * it drops the related tickers on the floor. The briefing needs the deadline,
+ * needs to tell "nothing was learned" from "nothing was published", and shows
+ * the tags.
+ */
+async function requestSearchNews(symbol: string, count: number, signal: AbortSignal): Promise<YahooNewsItem[]> {
+  const url = `${YAHOO_SEARCH_BASE}?q=${encodeURIComponent(symbol)}&quotesCount=0&newsCount=${count}`;
+  const response = await fetch(url, { headers: YAHOO_HEADERS, signal });
+  if (!response.ok) {
+    throw new Error(`Market news request failed (${response.status})`);
+  }
+  const json = (await response.json()) as { news?: YahooNewsItem[] };
+  return Array.isArray(json.news) ? json.news : [];
+}
+
+/**
+ * One raw search item as a briefing headline, or null when it cannot be one:
+ * no title, no link, or no publish time. The time is not optional here the way
+ * it is on the stock view, because the briefing keeps only what was published
+ * since the last US close and an undated item cannot be placed on either side
+ * of that line.
+ */
+export function toMarketHeadline(item: YahooNewsItem, via: string): MarketHeadline | null {
+  const title = typeof item.title === "string" ? item.title.trim() : "";
+  const url = typeof item.link === "string" ? item.link.trim() : "";
+  const at = item.providerPublishTime;
+  if (title === "" || url === "" || typeof at !== "number" || !Number.isFinite(at)) return null;
+  const related = Array.isArray(item.relatedTickers)
+    ? item.relatedTickers.flatMap((t) => (typeof t === "string" && t.trim() !== "" ? [t.trim().toUpperCase()] : []))
+    : [];
+  return {
+    id: typeof item.uuid === "string" && item.uuid !== "" ? item.uuid : url,
+    title,
+    source: typeof item.publisher === "string" ? item.publisher.trim() : "",
+    url,
+    published_at: new Date(at * 1000).toISOString(),
+    related,
+    via,
+  };
+}
+
+/**
+ * The market headline list the report carries, from the per-symbol reads
+ * flattened in query order: only items published at or after `since`, one per
+ * url with the first occurrence kept (so `via` names the earliest query symbol
+ * that surfaced it), newest first, capped. Pure, so the rule is pinned by a
+ * test without a provider.
+ */
+export function mergeMarketHeadlines(headlines: readonly MarketHeadline[], since: string, max = MARKET_HEADLINES_MAX): MarketHeadline[] {
+  const sinceMs = Date.parse(since);
+  if (!Number.isFinite(sinceMs)) throw new Error("market headlines: since is not an instant");
+  const seen = new Set<string>();
+  const kept: Array<{ headline: MarketHeadline; at: number }> = [];
+  for (const headline of headlines) {
+    const at = Date.parse(headline.published_at);
+    if (!Number.isFinite(at) || at < sinceMs) continue;
+    if (seen.has(headline.url)) continue;
+    seen.add(headline.url);
+    kept.push({ headline, at });
+  }
+  // A stable sort: two items with the same stamp stay in query order.
+  return kept
+    .map((entry, i) => ({ ...entry, i }))
+    .sort((a, b) => b.at - a.at || a.i - b.i)
+    .slice(0, max)
+    .map((entry) => entry.headline);
+}
+
+/**
+ * Market-wide headlines published at or after `since`, across the fixed query
+ * symbols. A symbol whose read fails or times out is skipped, so one slow query
+ * does not cost the list; but when every symbol failed the list is not
+ * returned empty, it throws. An empty list means "a quiet night" to the report,
+ * and nine failed requests are not that.
+ */
+export async function fetchMarketHeadlines(since: string): Promise<MarketHeadline[]> {
+  if (!Number.isFinite(Date.parse(since))) throw new Error("market headlines: since is not an instant");
+  const batches = await mapLimit(BRIEFING_NEWS_SYMBOLS, MARKET_HEADLINES_CONCURRENCY, async (symbol) => {
+    try {
+      const items = await withRequestTimeout((signal) => requestSearchNews(symbol, MARKET_HEADLINES_PER_SYMBOL, signal));
+      return { ok: true, headlines: items.flatMap((item) => toMarketHeadline(item, symbol) ?? []) };
+    } catch {
+      return { ok: false, headlines: [] as MarketHeadline[] };
+    }
+  });
+  if (batches.every((batch) => !batch.ok)) throw new Error("market headlines: every query failed");
+  return mergeMarketHeadlines(batches.flatMap((batch) => batch.headlines), since);
 }
