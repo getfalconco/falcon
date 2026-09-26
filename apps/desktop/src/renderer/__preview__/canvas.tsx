@@ -17,9 +17,17 @@ window.requestAnimationFrame = ((cb: FrameRequestCallback) =>
   window.setTimeout(() => cb(performance.now()), 16)) as typeof window.requestAnimationFrame;
 
 // Every IPC call answers "not here": the layout is what is being looked at.
+// A subscription (`onRiskSnapshot`, `onTrackerMessage`, ...) hands back its
+// unsubscribe function, as the real preload does; an async stand-in there
+// returns a promise, and the card that calls it on unmount takes the page down.
 (window as unknown as { meridian: unknown }).meridian = new Proxy(
   {},
-  { get: () => async () => ({ ok: false, error: "preview" }) },
+  {
+    get: (_target, key) =>
+      typeof key === "string" && /^on[A-Z]/.test(key)
+        ? () => () => {}
+        : async () => ({ ok: false, error: "preview" }),
+  },
 );
 
 // Two cards side by side, further apart than a gutter, so an edge has

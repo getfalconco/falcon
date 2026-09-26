@@ -1,4 +1,5 @@
 import { SlidersHorizontal } from "lucide-react";
+import ChartCardHeader from "@/components/dashboard/ChartCardHeader";
 import SelectionGloss from "@/components/dashboard/SelectionGloss";
 import { useRiskSnapshot } from "@/hooks/useRiskSnapshot";
 import { riskCardModel } from "../../../shared/risk-card";
@@ -73,7 +74,12 @@ function GaugeArc({
   );
 }
 
-export default function OpportunitiesPanel() {
+type Props = {
+  onDuplicate?: () => void;
+  onRemove?: () => void;
+};
+
+export default function OpportunitiesPanel({ onDuplicate, onRemove }: Props = {}) {
   const { latest, pending } = useRiskSnapshot();
   const model = riskCardModel(latest);
   const liveScore = model.kind === "score" ? model.score : null;
@@ -87,12 +93,31 @@ export default function OpportunitiesPanel() {
   const loading = pending && model.kind !== "hidden";
   const scoreColor = loading ? REST_COLOR : BAND_COLOR[band];
 
+  // The masthead every card carries: the label, and the three-dot menu with
+  // Duplicate and Delete module. The card's settings glyph rides beside the
+  // dots; it opens nothing yet, as before.
+  const header = (
+    <ChartCardHeader
+      label="RISK SCORE"
+      onDuplicate={onDuplicate}
+      onRemove={onRemove}
+      actions={
+        <button
+          type="button"
+          data-no-lift
+          aria-label="Risk score settings"
+          className="app-no-drag text-[#4b5563] transition-colors hover:text-[#1d1b1b]"
+        >
+          <SlidersHorizontal className="h-4 w-4" strokeWidth={1.75} aria-hidden />
+        </button>
+      }
+    />
+  );
+
   if (model.kind === "empty" && !loading) {
     return (
       <div className="relative flex h-full min-h-[560px] w-full flex-col rounded-3xl border border-white/60 bg-white/40 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-black/[0.04] backdrop-blur-xl backdrop-saturate-150">
-        <div className="flex items-center justify-between">
-          <span className="select-none font-sans text-[11px] font-medium tracking-[0.08em] text-[#9CA3AF]">RISK SCORE</span>
-        </div>
+        {header}
         <div className="flex flex-1 items-center justify-center text-[13px] text-[#9CA3AF]">No open positions.</div>
       </div>
     );
@@ -100,19 +125,7 @@ export default function OpportunitiesPanel() {
 
   return (
     <div className="relative flex h-full min-h-[560px] w-full flex-col rounded-3xl border border-white/60 bg-white/40 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-black/[0.04] backdrop-blur-xl backdrop-saturate-150">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <span className="select-none font-sans text-[11px] font-medium tracking-[0.08em] text-[#9CA3AF]">
-          RISK SCORE
-        </span>
-        <button
-          type="button"
-          aria-label="Risk score settings"
-          className="app-no-drag text-[#4b5563] transition-colors hover:text-[#1d1b1b]"
-        >
-          <SlidersHorizontal className="h-4 w-4" strokeWidth={1.75} aria-hidden />
-        </button>
-      </div>
+      {header}
 
       {/* Headline: the risk score, big */}
       <div className="relative z-10 mt-4 flex items-baseline gap-1">

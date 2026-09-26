@@ -10,10 +10,14 @@ import { DROPDOWN_FADE } from "@/lib/dropdown-motion";
  * carries, in the same place, with the same two verbs — so the card reads as
  * one of the set rather than a different kind of surface. Written for the
  * balance card, whose label is still the default; a second card passes its own.
+ * A card with a control of its own beside the dots (the Risk Score card's
+ * settings glyph) hands it in as `actions`, so the dots stay where they are
+ * on every card.
  */
 export default function ChartCardHeader({
   label = "PORTFOLIO VALUE",
   meta,
+  actions,
   timeframe,
   onTimeframe,
   onDuplicate,
@@ -23,6 +27,8 @@ export default function ChartCardHeader({
   label?: string;
   /** Sits beside the label, on its baseline: a date, a count. The caller styles it. */
   meta?: ReactNode;
+  /** The card's own controls, drawn left of the settings glyph and the dots, in the same row and gap. */
+  actions?: ReactNode;
   /** With both given, the settings glyph appears and its panel picks the chart's window. */
   timeframe?: Timeframe;
   onTimeframe?: (tf: Timeframe) => void;
@@ -65,6 +71,7 @@ export default function ChartCardHeader({
           label, so a card that passes no meta keeps the exact markup it had. */}
       {meta == null ? labelEl : <div className="flex min-w-0 items-baseline gap-3">{labelEl}{meta}</div>}
       <div className="flex items-center gap-3">
+      {actions}
       {/* Settings — the same switch glyph and glass panel the Positions card
           has. Here it holds the one choice the card offers: the window the
           chart draws. */}

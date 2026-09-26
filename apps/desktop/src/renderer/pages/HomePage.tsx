@@ -16,6 +16,7 @@ import OpportunitiesPanel from "@/components/dashboard/OpportunitiesPanel";
 import NewsCard from "@/components/dashboard/NewsCard";
 import CalendarCard from "@/components/dashboard/CalendarCard";
 import BriefingHost from "@/components/briefing/BriefingHost";
+import SettingsModal from "@/components/settings/SettingsModal";
 import {
   bringToFront,
   canvasHeight,
@@ -99,11 +100,11 @@ const CARD_SIZE_KEY = "falcon.ui.cardSizes.v2";
 const CARD_SIZE_KEY_V1 = "falcon.ui.cardSizes.v1";
 const GRID_GAP = 16;
 /**
- * Where the snap guides draw: above every card at rest (those start at ten),
- * under the top bar's backdrop (thirty). Nothing between the page root and
- * the canvas makes a stacking context, so a guide shares one with the bar,
- * and at sixty it ran straight through the search box once the page had
- * been scrolled.
+ * Where the canvas's own overlays (the seam handles between cards) draw:
+ * above every card at rest (those start at ten), under the top bar's
+ * backdrop (thirty). Nothing between the page root and the canvas makes a
+ * stacking context, so an overlay shares one with the bar, and at sixty it
+ * ran straight through the search box once the page had been scrolled.
  */
 const GUIDE_Z = 29;
 const CARD_MIN_W = 0.2;
@@ -194,6 +195,8 @@ export default function HomePage({ userName, userEmail, onSignOut }: Props) {
   const greeting = hour < 12 ? "Morning" : hour < 18 ? "Afternoon" : "Evening";
   const firstName = userName.trim().split(/\s+/)[0];
   const [privacyMode, setPrivacyMode] = useState(false);
+  /** Settings, opened from the account pill. Only its rail is built so far. */
+  const [settingsOpen, setSettingsOpen] = useState(false);
   const [view, setView] = useState<"dashboard" | "stock" | "graph">("dashboard");
   // Ticker picked from the top search bar — opens the stock screen in place.
   const [stock, setStock] = useState<StockCatalogEntry | null>(null);
@@ -218,7 +221,9 @@ export default function HomePage({ userName, userEmail, onSignOut }: Props) {
   const [canvas, setCanvas] = useState<CanvasLayout | null>(() => loadCanvasLayout(localStorage));
   const [canvasW, setCanvasW] = useState(0);
   /** The lines a dragged edge is being held to right now, drawn while they hold. */
-  const [guides, setGuides] = useState<SnapGuides>(NO_GUIDES);
+  // What a dragged edge is being held to. Kept as state so the snapping code
+  // keeps its shape; nothing draws it any more (see the canvas below).
+  const [, setGuides] = useState<SnapGuides>(NO_GUIDES);
   const canvasObserver = useRef<ResizeObserver | null>(null);
   /** Columns spanned + height, per card. Dragged from the grip on each card. */
   const [cardSizes, setCardSizes] = useState<Record<string, CardSize>>(loadCardSizes);
@@ -654,7 +659,7 @@ export default function HomePage({ userName, userEmail, onSignOut }: Props) {
       case "insight":
         return <InsightCard />;
       case "risk":
-        return <OpportunitiesPanel />;
+        return <OpportunitiesPanel onDuplicate={() => duplicateCard(id)} onRemove={() => removeCard(id)} />;
     }
   };
 
@@ -808,6 +813,11 @@ export default function HomePage({ userName, userEmail, onSignOut }: Props) {
         name={firstName}
         email={userEmail}
         onSignOut={onSignOut}
+        onSelect={(key) => {
+          // The other rows lead to screens that do not exist yet; they stay
+          // quiet rather than opening something half-built.
+          if (key === "settings") setSettingsOpen(true);
+        }}
         className="absolute top-4 z-50"
         style={{ right: "calc(50% + min(13rem, (100vw - 28rem) / 2) + 10px)" }}
       />
@@ -903,24 +913,12 @@ export default function HomePage({ userName, userEmail, onSignOut }: Props) {
               >
                 {rowCards.map((id) => renderCard(id))}
 
-                {/* The lines a dragged edge is held to, above every card and
-                    out of the pointer's way. */}
-                {guides.v.map((x) => (
-                  <div
-                    key={`v${x}`}
-                    aria-hidden
-                    className="pointer-events-none absolute inset-y-0 w-px bg-[#1d1b1b]/40"
-                    style={{ left: x * canvasW, zIndex: GUIDE_Z }}
-                  />
-                ))}
-                {guides.h.map((y) => (
-                  <div
-                    key={`h${y}`}
-                    aria-hidden
-                    className="pointer-events-none absolute inset-x-0 h-px bg-[#1d1b1b]/40"
-                    style={{ top: y, zIndex: GUIDE_Z }}
-                  />
-                ))}
+                {/* Snapping is felt, not drawn: a dragged edge is still held
+                    to the other cards' edges, the gutters and the canvas
+                    sides (`guides` carries what it was held to), but no line
+                    is laid over the canvas for it. The lines read as clutter
+                    on a surface the reader is arranging by hand, and the
+                    edge landing flush says the same thing. */}
 
                 {/* The seams: wherever cards stand a gutter apart, the gutter
                     itself is a handle that resizes both sides. It lives in
@@ -965,47 +963,6 @@ export default function HomePage({ userName, userEmail, onSignOut }: Props) {
                     })
                   : null}
 
-                {/* A matched size is shown on the cards that share it, the
-                    way a design tool does: a measure along the dimension, on
-                    the card being resized and on every card it now equals,
-                    with the figure they have in common. In the accent rather
-                    than the guides' ink — a line says where an edge is, this
-                    says how big a thing is. */}
-                {layout && resizing
-                  ? [
-                      ...(guides.sameW.length > 0 ? [resizing.id, ...guides.sameW] : []).map((id) => ({
-                        id,
-                        axis: "w" as const,
-                      })),
-                      ...(guides.sameH.length > 0 ? [resizing.id, ...guides.sameH] : []).map((id) => ({
-                        id,
-                        axis: "h" as const,
-                      })),
-                    ].map(({ id, axis }) => {
-                      const b = layout.boxes[id];
-                      if (!b) return null;
-                      const px = axis === "w" ? Math.round(b.w * canvasW) : b.h;
-                      return (
-                        <div
-                          key={`${axis}-${id}`}
-                          aria-hidden
-                          className={cn(
-                            "pointer-events-none absolute flex items-center justify-center bg-[#189E9A]",
-                            axis === "w" ? "h-px" : "w-px",
-                          )}
-                          style={
-                            axis === "w"
-                              ? { left: b.x * canvasW, width: b.w * canvasW, top: b.y + 8, zIndex: GUIDE_Z }
-                              : { top: b.y, height: b.h, left: b.x * canvasW + 8, zIndex: GUIDE_Z }
-                          }
-                        >
-                          <span className="rounded-[4px] bg-[#189E9A] px-1.5 py-px font-['Geist_Mono'] text-[9.5px] leading-tight text-white">
-                            {px}
-                          </span>
-                        </div>
-                      );
-                    })
-                  : null}
               </div>
             </div>
           </>
@@ -1018,6 +975,9 @@ export default function HomePage({ userName, userEmail, onSignOut }: Props) {
           US open, and from Shift+M or its card at any other time. One host,
           so the page carries none of its state. */}
       <BriefingHost masked={privacyMode} view={view} />
+
+      {/* Settings. The rail only, for now. */}
+      <SettingsModal open={settingsOpen} onClose={() => setSettingsOpen(false)} />
 
       {/* Update notice — bottom-left, same inset as the brand mark up top. */}
       <UpdatePill className="absolute bottom-6 left-9 z-50" />

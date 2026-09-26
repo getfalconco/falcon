@@ -21,9 +21,11 @@ import GaugeHost from "./components/gauge/GaugeHost";
 import TrackerHost from "./components/tracker/TrackerHost";
 import DiagnosticsHost from "./components/diagnostics/DiagnosticsHost";
 import "./globals.css";
-import { applyTheme, getStoredTheme } from "./lib/theme";
+import { applyTheme, getStoredTheme, watchSystemTheme } from "./lib/theme";
 
 applyTheme(getStoredTheme());
+// While the choice is "system", follow the machine for as long as the app runs.
+watchSystemTheme();
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
