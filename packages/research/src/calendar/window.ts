@@ -44,7 +44,68 @@ function classifyGap(prevYmd: string, targetYmd: string): SessionGap {
   return "weekend";
 }
 
+/** Early closes as the curated overrides correct them, and the close each implies. */
+function closeRule(overrides: readonly SessionOverride[]): { earlyCloseOf(ymd: string): boolean; closeOf(ymd: string, scheduled: Date): Date } {
+  const corrected = new Map<string, boolean>();
+  for (const o of Array.isArray(overrides) ? overrides : []) {
+    if (o && typeof o.date === "string" && typeof o.early_close === "boolean") corrected.set(o.date, o.early_close);
+  }
+  const earlyCloseOf = (ymd: string): boolean => corrected.get(ymd) ?? isEarlyClose(ymd);
+  const closeOf = (ymd: string, scheduled: Date): Date =>
+    earlyCloseOf(ymd) === isEarlyClose(ymd) ? scheduled : nyWallTimeToUtc(ymd, earlyCloseOf(ymd) ? 13 : 16, 0);
+  return { earlyCloseOf, closeOf };
+}
+
 /**
+ * The window for one named session, as the clock `now` stands against it: a
+ * day a calendar lists by date rather than the one the clock is on. Null for a
+ * day that does not trade (a weekend, a holiday), which has no open, no close
+ * and nothing to hand over to.
+ *
+ * `resolveSessionWindow` is this with the target chosen by the clock, so the two
+ * cannot disagree about a session's bounds, its gap or its phase.
+ */
+export function sessionWindowFor(
+  targetYmd: string,
+  now: Date,
+  overrides: readonly SessionOverride[] = [],
+): SessionWindow | null {
+  const t = now.getTime();
+  if (!Number.isFinite(t)) throw new RangeError("sessionWindowFor: invalid clock");
+  const targetTimes = sessionTimes(targetYmd);
+  if (!targetTimes) return null;
+  const { earlyCloseOf, closeOf } = closeRule(overrides);
+
+  const prev = previousTradingDay(targetYmd);
+  const prevTimes = sessionTimes(prev);
+  if (!prevTimes) throw new Error(`sessionWindowFor: no session times for ${prev}`);
+
+  const windowOpens = nyWallTimeToUtc(addCalendarDays(targetYmd, -1), WINDOW_OPENS_HOUR_ET, 0);
+  const openMs = targetTimes.openUtc.getTime();
+  const targetClose = closeOf(targetYmd, targetTimes.closeUtc);
+  const closeMs = targetClose.getTime();
+
+  let phase: SessionPhase;
+  if (t >= windowOpens.getTime() && t < openMs) phase = "pre_open";
+  else if (t >= openMs && t < closeMs) phase = "in_session";
+  else phase = "between_sessions";
+
+  return {
+    target_session_ymd: targetYmd,
+    prev_session_ymd: prev,
+    overnight_since: closeOf(prev, prevTimes.closeUtc).toISOString(),
+    window_opens_at: windowOpens.toISOString(),
+    target_open_at: targetTimes.openUtc.toISOString(),
+    target_close_at: targetClose.toISOString(),
+    phase,
+    gap: classifyGap(prev, targetYmd),
+    early_close: earlyCloseOf(targetYmd),
+  };
+}
+
+/**
+ * The window for the session the clock is on.
+ *
  * `overrides` are the ad-hoc closes the algorithmic NYSE calendar cannot know
  * (a day of national mourning), kept in the curated macro calendar. They are
  * applied HERE, before the target session is chosen, rather than patched onto
@@ -59,14 +120,7 @@ export function resolveSessionWindow(now: Date, overrides: readonly SessionOverr
   // Intl would throw an opaque RangeError a few frames down; a bad clock is a
   // caller bug and is named as one here.
   if (!Number.isFinite(t)) throw new RangeError("resolveSessionWindow: invalid clock");
-
-  const corrected = new Map<string, boolean>();
-  for (const o of Array.isArray(overrides) ? overrides : []) {
-    if (o && typeof o.date === "string" && typeof o.early_close === "boolean") corrected.set(o.date, o.early_close);
-  }
-  const earlyCloseOf = (ymd: string): boolean => corrected.get(ymd) ?? isEarlyClose(ymd);
-  const closeOf = (ymd: string, scheduled: Date): Date =>
-    earlyCloseOf(ymd) === isEarlyClose(ymd) ? scheduled : nyWallTimeToUtc(ymd, earlyCloseOf(ymd) ? 13 : 16, 0);
+  const { closeOf } = closeRule(overrides);
 
   const today = nyYmd(now);
   const todayTimes = sessionTimes(today);
@@ -76,32 +130,7 @@ export function resolveSessionWindow(now: Date, overrides: readonly SessionOverr
   const target =
     todayTimes && t < closeOf(today, todayTimes.closeUtc).getTime() ? today : nextTradingDay(today);
 
-  const prev = previousTradingDay(target);
-  const targetTimes = sessionTimes(target);
-  const prevTimes = sessionTimes(prev);
-  if (!targetTimes || !prevTimes) {
-    throw new Error(`resolveSessionWindow: no session times for ${prev} / ${target}`);
-  }
-
-  const windowOpens = nyWallTimeToUtc(addCalendarDays(target, -1), WINDOW_OPENS_HOUR_ET, 0);
-  const openMs = targetTimes.openUtc.getTime();
-  const targetClose = closeOf(target, targetTimes.closeUtc);
-  const closeMs = targetClose.getTime();
-
-  let phase: SessionPhase;
-  if (t >= windowOpens.getTime() && t < openMs) phase = "pre_open";
-  else if (t >= openMs && t < closeMs) phase = "in_session";
-  else phase = "between_sessions";
-
-  return {
-    target_session_ymd: target,
-    prev_session_ymd: prev,
-    overnight_since: closeOf(prev, prevTimes.closeUtc).toISOString(),
-    window_opens_at: windowOpens.toISOString(),
-    target_open_at: targetTimes.openUtc.toISOString(),
-    target_close_at: targetClose.toISOString(),
-    phase,
-    gap: classifyGap(prev, target),
-    early_close: earlyCloseOf(target),
-  };
+  const window = sessionWindowFor(target, now, overrides);
+  if (!window) throw new Error(`resolveSessionWindow: no session times for ${target}`);
+  return window;
 }

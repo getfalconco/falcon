@@ -13,7 +13,6 @@ import PortfolioValueCard from "@/components/dashboard/PortfolioValueCard";
 import InsightCard from "@/components/dashboard/InsightCard";
 import OpportunitiesPanel from "@/components/dashboard/OpportunitiesPanel";
 import NewsCard from "@/components/dashboard/NewsCard";
-import BriefingCard from "@/components/dashboard/BriefingCard";
 import CalendarCard from "@/components/dashboard/CalendarCard";
 import BriefingHost from "@/components/briefing/BriefingHost";
 import {
@@ -31,10 +30,12 @@ import {
   resizeBoxFromEdge,
   NO_GUIDES,
   saveCanvasLayout,
+  snapMovedBox,
   snapResizedBox,
   zIndexOf,
   type CanvasLayout,
   type Edge,
+  type ModuleBox,
   type SnapGuides,
 } from "@/lib/canvas-layout";
 import { isCardHidden } from "@/lib/dashboard-config";
@@ -69,7 +70,7 @@ const CHART_H_KEY = "falcon.ui.chartCardH";
 
 /** Cards, in the order they sit — remembered across sessions. Every card
  *  lifts, drags, and drops onto a slot or onto another card to take its place. */
-type CardBase = "portfolio" | "assets" | "briefing" | "calendar" | "news" | "insight" | "risk";
+type CardBase = "portfolio" | "assets" | "calendar" | "news" | "insight" | "risk";
 /** A card, or a copy of one made from its menu — `assets#1725...` reads as
  *  "an assets card", so everything keyed by base keeps working on copies. */
 type CardId = CardBase | `${CardBase}#${number}`;
@@ -141,7 +142,7 @@ function loadCardSizes(): Record<string, CardSize> {
   return {};
 }
 
-const DEFAULT_CARD_ORDER: CardId[] = ["portfolio", "assets", "briefing", "calendar", "news", "insight", "risk"];
+const DEFAULT_CARD_ORDER: CardId[] = ["portfolio", "assets", "calendar", "news", "insight", "risk"];
 function loadCardOrder(): CardId[] {
   try {
     const raw = localStorage.getItem(CARD_ORDER_KEY);
@@ -192,6 +193,12 @@ export default function HomePage({ userName, userEmail, onSignOut }: Props) {
   // pointer is marked as the swap target; dropping there exchanges the two.
   const [cardOrder, setCardOrder] = useState<CardId[]>(loadCardOrder);
   const [draggingCard, setDraggingCard] = useState<CardId | null>(null);
+  /**
+   * The box the card being dragged had when the press began. Every move is
+   * the whole journey applied to that box, so a pointer that outruns a frame
+   * lands in the same place as one that does not.
+   */
+  const dragOrigin = useRef<ModuleBox | null>(null);
   const cardRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   // The canvas every card sits on: its own box, its own place in the
@@ -498,16 +505,57 @@ export default function HomePage({ userName, userEmail, onSignOut }: Props) {
   const onCardLift = (id: CardId) => {
     setDraggingCard(id);
     touchCard(id);
+    dragOrigin.current = layoutRef.current?.boxes[id] ?? null;
   };
-  // The drop is wherever the hand let go: the box moves by the distance the
-  // pointer travelled, and stays there.
-  const onCardDragEnd = (id: CardId, offset: DragPoint) => {
+
+  /**
+   * Where a dragged card would come to rest: its box at the press, moved by
+   * how far the pointer has travelled, then pulled onto any line it came
+   * close to — another card's edge, the gutter beside it, the canvas's own
+   * side, or another card's middle. Alt holds the snap off, as it does on a
+   * resize.
+   *
+   * `nudge` is the difference between where the pointer has the card and
+   * where it would land. The card carries it as part of its drag transform,
+   * so the snap is seen while it holds instead of on release.
+   */
+  const dragPlacement = (id: CardId, offset: DragPoint, alt: boolean) => {
+    const base = layoutRef.current;
+    const origin = dragOrigin.current;
+    const width = gridRef.current?.clientWidth || canvasW;
+    if (!base || !origin || width <= 0) return null;
+    const rawLeft = origin.x * width + offset.x;
+    const rawTop = origin.y + offset.y;
+    const moved = moveBox({ ...base, boxes: { ...base.boxes, [id]: origin } }, id, rawLeft, rawTop, width);
+    const snapped = alt ? { layout: moved, guides: NO_GUIDES } : snapMovedBox(moved, id, width);
+    const box = snapped.layout.boxes[id] ?? origin;
+    return {
+      box,
+      guides: snapped.guides,
+      nudge: { x: box.x * width - rawLeft, y: box.y - rawTop },
+    };
+  };
+
+  const guideKey = (g: SnapGuides) => [g.v, g.h, g.sameW, g.sameH].map((a) => a.join()).join("|");
+
+  // While the card travels, only the lines change hands: the box stays where
+  // it was until the drop, and the card is carried by its own transform.
+  const onCardDragMove = (id: CardId, offset: DragPoint, alt: boolean): DragPoint | void => {
+    const at = dragPlacement(id, offset, alt);
+    if (!at) return;
+    setGuides((g) => (guideKey(g) === guideKey(at.guides) ? g : at.guides));
+    return at.nudge;
+  };
+
+  // The drop is where the card was last seen: the same placement, written to
+  // the box this time, so nothing shifts under the hand as it lets go.
+  const onCardDragEnd = (id: CardId, offset: DragPoint, alt: boolean) => {
+    const at = dragPlacement(id, offset, alt);
     setDraggingCard(null);
-    if (canvasW <= 0) return;
-    updateCanvas((c) => {
-      const b = c.boxes[id];
-      return b ? moveBox(c, id, b.x * canvasW + offset.x, b.y + offset.y, canvasW) : c;
-    });
+    setGuides(NO_GUIDES);
+    dragOrigin.current = null;
+    if (!at) return;
+    updateCanvas((c) => ({ ...c, boxes: { ...c.boxes, [id]: at.box } }));
   };
 
   /**
@@ -551,14 +599,6 @@ export default function HomePage({ userName, userEmail, onSignOut }: Props) {
             onRemove={() => removeCard(id)}
           />
         );
-      case "briefing":
-        return (
-          <BriefingCard
-            masked={privacyMode}
-            onDuplicate={() => duplicateCard(id)}
-            onRemove={() => removeCard(id)}
-          />
-        );
       case "calendar":
         return <CalendarCard onDuplicate={() => duplicateCard(id)} onRemove={() => removeCard(id)} />;
       case "news":
@@ -596,7 +636,8 @@ export default function HomePage({ userName, userEmail, onSignOut }: Props) {
           transformOrigin: "top left",
         }}
         onLift={() => onCardLift(id)}
-        onDragEnd={(_point, offset) => onCardDragEnd(id, offset)}
+        onDragMove={(_point, offset, alt) => onCardDragMove(id, offset, alt)}
+        onDragEnd={(_point, offset, alt) => onCardDragEnd(id, offset, alt)}
       >
         <div
           ref={(el) => {

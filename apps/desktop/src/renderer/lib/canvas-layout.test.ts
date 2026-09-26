@@ -13,11 +13,13 @@ import {
   reconcileCanvasLayout,
   resizeBoxFromEdge,
   saveCanvasLayout,
+  snapMovedBox,
   snapResizedBox,
   dragSeam,
   limitResizedBox,
   seamsOf,
   zIndexOf,
+  type CanvasLayout,
   type LayoutStore,
 } from "./canvas-layout";
 
@@ -240,6 +242,81 @@ describe("reconcile", () => {
   it("hands back the same object when nothing is missing or extra", () => {
     const saved = layoutFromFlow(["a", "b"], {}, FALLBACK, W);
     assert.equal(reconcileCanvasLayout(saved, ["a", "b"], {}, FALLBACK, W), saved);
+  });
+});
+
+describe("snapping a dragged card", () => {
+  // The same two cards, on a 1000px canvas: a = 0..400, b = 500..900, both 300
+  // tall. `held` puts a third card, 200 wide and 200 tall unless said
+  // otherwise, wherever the pointer has carried it.
+  const CW = 1000;
+  const held = (leftPx: number, topPx: number, wPx = 200, h = 200): CanvasLayout => ({
+    boxes: {
+      a: { x: 0, y: 0, w: 0.4, h: 300 },
+      b: { x: 0.5, y: 0, w: 0.4, h: 300 },
+      c: { x: leftPx / CW, y: topPx, w: wPx / CW, h },
+    },
+    order: ["a", "b", "c"],
+  });
+
+  it("takes a neighbour's edge, and the size is untouched", () => {
+    const s = snapMovedBox(held(495, 120), "c", CW);
+    near(s.layout.boxes.c.x * CW, 500);
+    near(s.layout.boxes.c.w * CW, 200);
+    assert.equal(s.layout.boxes.c.h, 200);
+    assert.deepEqual(s.guides.v, [0.5]);
+  });
+
+  it("takes the gutter beside a neighbour", () => {
+    // a's right edge is at 400, so a card set down beside it belongs at 416.
+    const s = snapMovedBox(held(419, 120), "c", CW);
+    near(s.layout.boxes.c.x * CW, 416);
+  });
+
+  it("lines a card's top up with a neighbour's top", () => {
+    const s = snapMovedBox(held(450, 5), "c", CW);
+    assert.equal(s.layout.boxes.c.y, 0);
+    assert.deepEqual(s.guides.h, [0]);
+  });
+
+  it("centres a card on another when neither pair of edges is near", () => {
+    // b runs 500..900, so its middle is 700 and c's is 697.
+    const s = snapMovedBox(held(597, 120), "c", CW);
+    near(s.layout.boxes.c.x * CW, 600);
+    assert.deepEqual(s.guides.v, [0.7]);
+  });
+
+  it("snaps to the canvas's own edge", () => {
+    const s = snapMovedBox(held(795, 120), "c", CW);
+    near((s.layout.boxes.c.x + s.layout.boxes.c.w) * CW, 1000);
+  });
+
+  it("leaves a card alone out of reach, and hands back the same layout", () => {
+    const dragged = held(450, 120);
+    const s = snapMovedBox(dragged, "c", CW);
+    assert.equal(s.layout, dragged);
+    assert.deepEqual(s.guides, { v: [], h: [], sameW: [], sameH: [] });
+  });
+
+  it("passes over a line that would push the card off the canvas for one that fits", () => {
+    // c is 100 wide at 893..993. b's right edge (900) and the canvas's own
+    // (1000) are both 7px away but would need 7px of room the card has not
+    // got; d's right edge, 6px the other way, is the one it can take.
+    const withD: CanvasLayout = {
+      boxes: { ...held(893, 400, 100).boxes, d: { x: 0.8, y: 0, w: 0.087, h: 300 } },
+      order: ["a", "b", "d", "c"],
+    };
+    const s = snapMovedBox(withD, "c", CW);
+    near(s.layout.boxes.c.x * CW, 887);
+    near(s.layout.boxes.c.w * CW, 100);
+  });
+
+  it("moves nothing but the dragged card", () => {
+    const dragged = held(495, 120);
+    const s = snapMovedBox(dragged, "c", CW);
+    assert.deepEqual(s.layout.boxes.a, dragged.boxes.a);
+    assert.deepEqual(s.layout.boxes.b, dragged.boxes.b);
+    assert.deepEqual(s.layout.order, dragged.order);
   });
 });
 

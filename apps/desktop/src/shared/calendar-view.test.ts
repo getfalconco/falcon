@@ -193,6 +193,74 @@ describe("the session's rows", () => {
   });
 });
 
+describe("the hover card's lines", () => {
+  const release = calendarItem("pce", {
+    time_et: "08:30",
+    at: "2026-09-21T12:30:00.000Z",
+    title: "Personal Income and Outlays (PCE inflation)",
+    importance: 3,
+    source: "bea",
+  });
+
+  it("puts the reader's own clock beside New York's", () => {
+    const [row] = calendarView(makeReport({ items: [release] }), MORNING, { zone: "Europe/Istanbul" }).timed;
+    assert.equal(row!.timeLine, "08:30 ET · 15:30 your time");
+  });
+
+  it("prints New York's clock alone to a reader on New York time", () => {
+    const [row] = calendarView(makeReport({ items: [release] }), MORNING, { zone: "America/New_York" }).timed;
+    assert.equal(row!.timeLine, "08:30 ET");
+  });
+
+  it("says when the release lands on another day where the reader is", () => {
+    const late = calendarItem("late", { time_et: "20:00", at: "2026-09-22T00:00:00.000Z" });
+    const [row] = calendarView(makeReport({ items: [late] }), MORNING, { zone: "Europe/Istanbul" }).timed;
+    assert.equal(row!.timeLine, "20:00 ET · 03:00 the next day your time");
+    const [west] = calendarView(makeReport({ items: [release] }), MORNING, { zone: "Pacific/Honolulu" }).timed;
+    assert.equal(west!.timeLine, "08:30 ET · 02:30 your time");
+  });
+
+  it("calls an untimed row all day", () => {
+    const [row] = calendarView(makeReport({ items: [calendarItem("opex", { kind: "opex", source: "rule" })] }), MORNING).allDay;
+    assert.equal(row!.timeLine, "All day");
+  });
+
+  it("names where each kind of row's date comes from", () => {
+    const view = calendarView(
+      makeReport({
+        items: [
+          release,
+          calendarItem("fomc", { kind: "fomc", source: "fed" }),
+          calendarItem("opex", { kind: "opex", source: "rule" }),
+          calendarItem("session", { kind: "session", source: "rule" }),
+          calendarItem("rebalance", { kind: "rebalance", source: "rule" }),
+          calendarItem("announced-index", { kind: "rebalance", source: "curated" }),
+          calendarItem("announced", { kind: "earnings", source: "tracker", tickers: ["NVDA"] }),
+          calendarItem("provided", { kind: "earnings", source: "yahoo", tickers: ["AMD"] }),
+          calendarItem("unknown", { source: "somewhere" }),
+        ],
+      }),
+      MORNING,
+    );
+    const byId = new Map([...view.allDay, ...view.timed].map((row) => [row.id, row.sourceLabel]));
+    assert.equal(byId.get("pce"), "Source: Bureau of Economic Analysis release schedule.");
+    assert.equal(byId.get("fomc"), "Source: Federal Reserve FOMC meeting calendar.");
+    assert.equal(byId.get("opex"), "Set by the exchanges' standard options expiry schedule.");
+    assert.equal(byId.get("session"), "Set by the NYSE holiday and early close schedule.");
+    assert.equal(byId.get("rebalance"), "Set by the index provider's published rules.");
+    assert.equal(byId.get("announced-index"), "Date announced by the index provider.");
+    assert.equal(byId.get("announced"), "Date announced by the company.");
+    assert.equal(byId.get("provided"), "Date from the data provider.");
+    assert.equal(byId.get("unknown"), null);
+  });
+
+  it("spells the row's weight out", () => {
+    const view = calendarView(makeReport({ items: [release, calendarItem("low", { importance: 1 })] }), MORNING);
+    assert.equal(view.timed[0]!.importanceLabel, "High importance");
+    assert.equal(view.allDay[0]!.importanceLabel, "Low importance");
+  });
+});
+
 describe("degraded sections", () => {
   it("gives one quiet line per failed section", () => {
     const notes = degradedNotes(

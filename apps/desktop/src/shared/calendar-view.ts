@@ -11,13 +11,14 @@
  * Lives in `shared/` and is compiled for the main process too, so no DOM types.
  */
 
-import type {
-  CalendarItem,
-  CalendarItemKind,
-  CalendarReport,
-  CalendarSectionKey,
-  SessionPhase,
-  SessionWindow,
+import {
+  MACRO_CALENDAR,
+  type CalendarItem,
+  type CalendarItemKind,
+  type CalendarReport,
+  type CalendarSectionKey,
+  type SessionPhase,
+  type SessionWindow,
 } from "./calendar-types";
 
 // ---------------------------------------------------------------------------
@@ -151,7 +152,12 @@ export function effectivePhase(window: SessionWindow, now: Date): SessionPhase {
 
 /** "MON SEP 28". */
 export function mastheadDate(report: CalendarReport): string {
-  return weekdayDate(report.window.target_session_ymd).toUpperCase();
+  return dayLabel(report.window.target_session_ymd);
+}
+
+/** "MON SEP 28" for any calendar date: the head names the day the strip has picked, closed days included. */
+export function dayLabel(ymd: string): string {
+  return weekdayDate(ymd).toUpperCase();
 }
 
 // ---------------------------------------------------------------------------
@@ -169,6 +175,11 @@ export type CalendarItemView = {
   /** "08:30" New York time; null for an all-day item. */
   timeLabel: string | null;
   past: boolean;
+  /** The hover card's clock line: "08:30 ET · 15:30 your time", "08:30 ET", or "All day". */
+  timeLine: string;
+  /** Where the row's date comes from, as a sentence; null when the row carries no known source. */
+  sourceLabel: string | null;
+  importanceLabel: string;
 };
 
 export type TimedCalendarItemView = CalendarItemView & { timeLabel: string };
@@ -199,6 +210,80 @@ export const CALENDAR_KIND_LABEL: Record<CalendarItemKind, string> = {
   rebalance: "Index",
 };
 
+const IMPORTANCE_LABEL: Record<1 | 2 | 3, string> = {
+  3: "High importance",
+  2: "Medium importance",
+  1: "Low importance",
+};
+
+/** The curated file names its publishers; a row carries the id, the hover card prints the name. */
+const PUBLISHER = new Map(MACRO_CALENDAR.sources.map((source) => [source.id, source.name]));
+
+/**
+ * Rows the engine derives by rule carry "rule" as their source, which names no
+ * publisher. What set the date differs by kind, so the kind picks the sentence.
+ */
+const RULE_SOURCE: Partial<Record<CalendarItemKind, string>> = {
+  opex: "Set by the exchanges' standard options expiry schedule.",
+  session: "Set by the NYSE holiday and early close schedule.",
+  rebalance: "Set by the index provider's published rules.",
+};
+
+function sourceLabel(item: CalendarItem): string | null {
+  if (item.kind === "earnings") {
+    return item.source === "tracker" ? "Date announced by the company." : "Date from the data provider.";
+  }
+  // "curated" is a date the index provider announced (Russell, MSCI): no rule
+  // gives those, so they are not called rule-derived.
+  if (item.kind === "rebalance" && item.source === "curated") return "Date announced by the index provider.";
+  if (item.source === "rule") return RULE_SOURCE[item.kind] ?? null;
+  const publisher = PUBLISHER.get(item.source);
+  return publisher ? `Source: ${publisher}.` : null;
+}
+
+/**
+ * The reader's own clock for a release, beside New York's. A card read in
+ * Istanbul says 08:30 ET and the reader has to do the arithmetic, across two
+ * DST changes a year that do not fall on the same weekend; the hover card does
+ * it once. Nothing is printed when the reader is on New York time already, and
+ * a release that lands on another calendar day where the reader is says so.
+ * `zone` is the reader's time zone, left to the runtime unless a test pins it.
+ */
+function localTime(at: string | null, zone: string | undefined): string | null {
+  if (!at) return null;
+  const instant = new Date(at);
+  if (!Number.isFinite(instant.getTime())) return null;
+  let parts: Record<string, string>;
+  try {
+    parts = {};
+    const format = new Intl.DateTimeFormat("en-US", {
+      timeZone: zone,
+      hourCycle: "h23",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+    for (const part of format.formatToParts(instant)) parts[part.type] = part.value;
+  } catch {
+    return null;
+  }
+  const ny = nyClock(instant);
+  if (!ny) return null;
+  const hm = `${parts.hour === "24" ? "00" : parts.hour}:${parts.minute}`;
+  const ymd = `${parts.year}-${parts.month}-${parts.day}`;
+  if (ymd === ny.ymd && hm === ny.hm) return null;
+  const shift = ymd > ny.ymd ? " the next day" : ymd < ny.ymd ? " the day before" : "";
+  return `${hm}${shift} your time`;
+}
+
+function timeLine(item: CalendarItem, zone: string | undefined): string {
+  if (!item.time_et) return "All day";
+  const local = localTime(item.at, zone);
+  return local ? `${item.time_et} ET · ${local}` : `${item.time_et} ET`;
+}
+
 /**
  * Whether a timed item is behind `now`. The engine sends the instant alongside
  * the ET label so nothing here converts zones; if the instant is missing, the
@@ -215,7 +300,7 @@ function isPast(item: CalendarItem, now: Date, targetYmd: string): boolean {
   return item.time_et <= clock.hm;
 }
 
-function calendarItemView(item: CalendarItem, past: boolean): CalendarItemView {
+function calendarItemView(item: CalendarItem, past: boolean, zone: string | undefined): CalendarItemView {
   return {
     id: item.id,
     kind: item.kind,
@@ -226,6 +311,9 @@ function calendarItemView(item: CalendarItem, past: boolean): CalendarItemView {
     tickers: [...list(item.tickers)],
     timeLabel: item.time_et ?? null,
     past,
+    timeLine: timeLine(item, zone),
+    sourceLabel: sourceLabel(item),
+    importanceLabel: IMPORTANCE_LABEL[item.importance] ?? IMPORTANCE_LABEL[1],
   };
 }
 
@@ -236,7 +324,13 @@ function calendarFootnote(report: CalendarReport): CalendarFootnote {
   return { text: `Calendar covers until ${fullDate(c.until)}.`, tone: "quiet" };
 }
 
-export function calendarView(report: CalendarReport, now: Date): CalendarView {
+export type CalendarViewOptions = {
+  /** The reader's IANA time zone for the hover card's second clock; the runtime's own when left out. */
+  zone?: string;
+};
+
+export function calendarView(report: CalendarReport, now: Date, options: CalendarViewOptions = {}): CalendarView {
+  const zone = options.zone;
   const targetYmd = report.window.target_session_ymd;
   const items = list(report.items);
 
@@ -246,7 +340,7 @@ export function calendarView(report: CalendarReport, now: Date): CalendarView {
     .map((i, index) => ({ i, index }))
     .sort((a, b) => (a.i.time_et as string).localeCompare(b.i.time_et as string) || b.i.importance - a.i.importance || a.index - b.index);
 
-  const timed = timedItems.map(({ i }) => calendarItemView(i, isPast(i, now, targetYmd)) as TimedCalendarItemView);
+  const timed = timedItems.map(({ i }) => calendarItemView(i, isPast(i, now, targetYmd), zone) as TimedCalendarItemView);
   const firstAhead = timed.findIndex((t) => !t.past);
 
   // An all-day item is behind us once the session it belongs to has closed.
@@ -256,7 +350,7 @@ export function calendarView(report: CalendarReport, now: Date): CalendarView {
     .filter((i) => !i.time_et)
     .map((i, index) => ({ i, index }))
     .sort((a, b) => b.i.importance - a.i.importance || a.index - b.index)
-    .map(({ i }) => calendarItemView(i, dayOver));
+    .map(({ i }) => calendarItemView(i, dayOver, zone));
 
   return {
     allDay,

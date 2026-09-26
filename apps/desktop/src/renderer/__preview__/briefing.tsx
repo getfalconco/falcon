@@ -1,7 +1,6 @@
 import { createRoot } from "react-dom/client";
 import "../globals.css";
 import BriefingHost from "../components/briefing/BriefingHost";
-import BriefingCard from "../components/dashboard/BriefingCard";
 import { BRIEFING_OPEN_EVENT, openBriefing } from "../lib/briefing-open";
 import { BRIEFING_SHOWN_LAUNCH_KEY, markShownThisLaunch } from "../lib/briefing-seen";
 import { mulberry32 } from "../lib/demo-mode";
@@ -38,7 +37,6 @@ import { narrativeView } from "../../shared/briefing-view";
  *   ?state=narrative-pending   the template ships with pending: true; the model lead AND model-written stories arrive 1.5 s later
  *   ?state=old-main            a bridge with no briefing handlers at all: the "unsupported" state
  *
- *   ?view=both | card | panel  default both: a 420px card on the left, the host mounted beside it
  *   ?masked=1                  the dashboard's privacy switch
  *   ?auto=1                    clears the launch mark first, so the host's own open-by-itself path runs
  *   ?open=1                    dispatches openBriefing("shortcut") once the host is up
@@ -59,8 +57,8 @@ import { narrativeView } from "../../shared/briefing-view";
  * picture: the window stays on Mon 2026-09-28, and the report is flagged
  * demo: true (the view then reads "now" from generated_at) and
  * synthetic_now: true. What it costs: a demo book never opens by itself, and
- * in ?view=panel the store drops a demo report it finds on a first hold while
- * demo mode is off, which shows as one extra loading pass on open.
+ * the store drops a demo report it finds on a first hold while demo mode is
+ * off, which shows as one extra loading pass on open.
  *
  * The stories. The default state shows the demo builder's own headlines and
  * stories, told by the engine's `deriveStories` over the same figures, so the
@@ -94,7 +92,6 @@ import { narrativeView } from "../../shared/briefing-view";
  */
 const params = new URLSearchParams(location.search);
 const state = params.get("state") ?? "stories";
-const view = params.get("view") ?? "both";
 const masked = params.get("masked") === "1";
 const auto = params.get("auto") === "1";
 const shownParam = params.get("shown") ?? params.get("seen");
@@ -397,7 +394,7 @@ const report = (VARIANTS[state] ?? ((r: BriefingReport) => r))(baseReport());
 // The bridge, the account and the launch mark: all in place BEFORE createRoot
 // ---------------------------------------------------------------------------
 
-const probes = { opens: 0, windows: 0, gets: 0, forced: 0, narratives: 0, glosses: 0, duplicates: 0, removes: 0, lastRequest: null as unknown, lastGloss: null as unknown };
+const probes = { opens: 0, windows: 0, gets: 0, forced: 0, narratives: 0, glosses: 0, lastRequest: null as unknown, lastGloss: null as unknown };
 (window as any).__briefing = probes;
 window.addEventListener(BRIEFING_OPEN_EVENT, () => {
   probes.opens += 1;
@@ -462,10 +459,9 @@ const positions: Record<string, PaperPosition> = {};
 for (const h of holdings) positions[h.symbol] = { symbol: h.symbol, shares: h.shares, costUsd: h.cost_usd };
 seedPaperAccount({ cash: CASH, positions });
 
-// Without ?auto=1 the panel has to stay shut until it is asked for, so the mark
-// is written for the scene's session. The card on its own has no host to write
-// one, so it starts unopened: that is the only way to look at its dot at rest.
-const markAsShown = shownParam === null ? !auto && view !== "card" : shownParam === "1";
+// Without ?auto=1 the popup has to stay shut until it is asked for, so the mark
+// is written for the scene's session.
+const markAsShown = shownParam === null ? !auto : shownParam === "1";
 try {
   // "keep" is the one load that does not touch the mark: sessionStorage
   // survives a reload, so this is how the once-per-launch rule is watched
@@ -483,21 +479,7 @@ if (params.get("open") === "1") setTimeout(() => openBriefing("shortcut"), 150);
 
 createRoot(document.getElementById("root")!).render(
   <div className="min-h-screen bg-[#EAEAE6] p-8">
-    {view !== "panel" ? (
-      <div className="w-[420px]">
-        <BriefingCard
-          masked={masked}
-          onDuplicate={() => {
-            probes.duplicates += 1;
-          }}
-          onRemove={() => {
-            probes.removes += 1;
-          }}
-        />
-      </div>
-    ) : (
-      <div className="font-sans text-[12px] text-[#6b7280]">dashboard stays mounted behind the panel (Shift+M, or ?open=1)</div>
-    )}
-    {view !== "card" ? <BriefingHost masked={masked} view="dashboard" /> : null}
+    <div className="font-sans text-[12px] text-[#6b7280]">dashboard stays mounted behind the popup (Shift+M, or ?open=1)</div>
+    <BriefingHost masked={masked} view="dashboard" />
   </div>,
 );

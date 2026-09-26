@@ -9,7 +9,7 @@ import {
   sessionTimes,
 } from "../tracker/calendar.js";
 import type { SessionOverride } from "./types.js";
-import { resolveSessionWindow } from "./window.js";
+import { resolveSessionWindow, sessionWindowFor } from "./window.js";
 
 /** A New York wall-clock moment as a UTC instant, via the calendar's own DST-aware converter. */
 const et = (ymd: string, hh: number, mm: number): Date => nyWallTimeToUtc(ymd, hh, mm);
@@ -284,3 +284,61 @@ describe("resolveSessionWindow: ad-hoc session overrides", () => {
     assert.deepEqual(resolveSessionWindow(at, undefined), plain);
   });
 });
+
+describe("sessionWindowFor: a session picked by date", () => {
+  it("is the clock's own window when the picked day is the one the clock resolves to", () => {
+    for (const now of [et("2026-09-26", 8, 0), et("2026-09-28", 3, 30), et("2026-09-28", 11, 0), et("2026-11-27", 12, 59)]) {
+      const w = resolveSessionWindow(now);
+      assert.deepEqual(sessionWindowFor(w.target_session_ymd, now), w);
+    }
+  });
+
+  it("gives a later session its own bounds, gap and phase as the clock stands against it", () => {
+    // Saturday morning, looking at Wednesday.
+    const w = sessionWindowFor("2026-09-30", et("2026-09-26", 8, 0));
+    assert.ok(w);
+    assert.equal(w.target_session_ymd, "2026-09-30");
+    assert.equal(w.prev_session_ymd, "2026-09-29");
+    assert.equal(w.gap, "overnight");
+    assert.equal(w.phase, "between_sessions");
+    assert.equal(w.target_open_at, iso("2026-09-30", 9, 30));
+    assert.equal(w.target_close_at, iso("2026-09-30", 16, 0));
+  });
+
+  it("gives an earlier session its bounds too, so a day already behind can be listed", () => {
+    const w = sessionWindowFor("2026-09-21", et("2026-09-26", 8, 0));
+    assert.ok(w);
+    assert.equal(w.prev_session_ymd, "2026-09-18");
+    assert.equal(w.gap, "weekend");
+    assert.equal(w.phase, "between_sessions");
+  });
+
+  it("is null for a day that does not trade", () => {
+    const now = et("2026-09-26", 8, 0);
+    assert.equal(sessionWindowFor("2026-09-26", now), null); // Saturday
+    assert.equal(sessionWindowFor("2026-11-26", now), null); // Thanksgiving
+    assert.equal(sessionWindowFor("2026-12-25", now), null); // Christmas
+  });
+
+  it("knows an early close and the holiday gap before a session", () => {
+    const w = sessionWindowFor("2026-11-27", et("2026-11-20", 12, 0));
+    assert.ok(w);
+    assert.equal(w.early_close, true);
+    assert.equal(w.target_close_at, iso("2026-11-27", 13, 0));
+    assert.equal(w.gap, "holiday");
+  });
+
+  it("applies an ad-hoc early close to the picked session", () => {
+    const w = sessionWindowFor("2026-10-14", et("2026-10-01", 12, 0), [
+      { date: "2026-10-14", early_close: true, note: "Test close.", source: "nyse" },
+    ]);
+    assert.ok(w);
+    assert.equal(w.early_close, true);
+    assert.equal(w.target_close_at, iso("2026-10-14", 13, 0));
+  });
+
+  it("rejects an invalid clock", () => {
+    assert.throws(() => sessionWindowFor("2026-09-28", new Date(Number.NaN)), RangeError);
+  });
+});
+

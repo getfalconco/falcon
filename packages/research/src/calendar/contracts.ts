@@ -14,4 +14,15 @@ export * from "./types.js";
 
 // `window.ts` reaches only into `tracker/calendar.ts`, which imports nothing
 // and leans on `Intl` alone, so the session rule runs unchanged in a browser.
-export { resolveSessionWindow } from "./window.js";
+export { resolveSessionWindow, sessionWindowFor } from "./window.js";
+
+// The rest of what a day's rows are built from in the renderer. Every one of these
+// reaches only the session calendar (Intl), the date rules beside it and the
+// curated data file, so a browser can list any covered day with the engine's
+// own rows instead of a copy of them.
+export { MACRO_CALENDAR } from "./data/macro-calendar.js";
+export { coverageStatus, loadMacroCalendar } from "./macro-calendar.js";
+export { expiryEventsBetween } from "./expiry.js";
+export { rebalanceEventsBetween } from "./rebalance.js";
+export { EARNINGS_HORIZON_SESSIONS, REBALANCE_HORIZON_SESSIONS, calendarToday } from "./today.js";
+export { addTradingDays } from "../tracker/calendar.js";

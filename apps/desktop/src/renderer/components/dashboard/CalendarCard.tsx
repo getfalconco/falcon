@@ -6,7 +6,9 @@ import { useBriefing } from "@/hooks/useBriefing";
 import { briefingEnabled } from "@/lib/dashboard-config";
 import { cn } from "@/lib/utils";
 import type { BriefingReport } from "../../../shared/briefing-types";
-import { calendarView, degradedNotes, mastheadDate, viewNow, type CalendarView } from "../../../shared/briefing-view";
+import { viewNow } from "../../../shared/briefing-view";
+import { calendarForDay } from "../../../shared/calendar-days";
+import { calendarView, degradedNotes, mastheadDate, type CalendarView } from "../../../shared/calendar-view";
 
 type Props = {
   onDuplicate?: () => void;
@@ -41,8 +43,9 @@ type CardView = {
   standing: SessionStanding;
   /** "THU SEP 25": the session the rail lists, for the head when that is not today. */
   sessionDate: string;
-  /** The engine's own line when the curated calendar could not be read. */
-  note: string | null;
+  earlyClose: boolean;
+  /** Quiet lines: a section of the report that failed. */
+  notes: string[];
   /** Set when the curated calendar does not reach this session: an empty rail then means "unknown", not "quiet". */
   warning: string | null;
 };
@@ -55,12 +58,19 @@ type CardView = {
  */
 function buildCardView(report: BriefingReport, now: Date): CardView | null {
   try {
-    const calendar = calendarView(report, now);
+    const day = calendarForDay(report, report.window.target_session_ymd, now);
+    // The report's own session always trades; a closed answer is a report
+    // this build cannot read, and is shown as one.
+    if (day.closed) return null;
+    const calendar = calendarView(day.report, now);
+    const degraded = degradedNotes(day.report);
+    const notes = [degraded.macro_calendar, degraded.earnings].filter((n): n is string => typeof n === "string");
     return {
       calendar,
-      standing: sessionStanding(calendar, now, report.window.target_close_at),
-      sessionDate: mastheadDate(report),
-      note: degradedNotes(report).macro_calendar ?? null,
+      standing: sessionStanding(calendar, now, day.report.window.target_close_at),
+      sessionDate: mastheadDate(day.report),
+      earlyClose: day.report.window.early_close === true,
+      notes,
       warning: calendar.footnote.tone === "warn" ? calendar.footnote.text : null,
     };
   } catch (error) {
@@ -119,18 +129,14 @@ function Skeleton() {
 }
 
 /**
- * The session's calendar on the dashboard: what is scheduled, on the rail the
- * handover panel draws it on, with the "now" line where the day stands. It
- * reads the same shared report the handover card reads, so the two never list
- * one session two ways, and holding that store is what keeps the report fresh
- * while the card is on screen.
+ * The calendar on the dashboard: what is scheduled for the session the clock
+ * is on, on the rail, with the "now" line where the day stands. The rows are
+ * the handover report's own, read through `calendarForDay`, and every row can
+ * be hovered for what else is known about it.
  *
- * The head says TODAY while the wall clock is on the day the rail lists. From
- * the close the report is already for the next session (20:00 ET is only when
- * the pre-open window opens), and the head then names that session's date
- * instead, because "TODAY" over tomorrow's rows would be a lie a reader could
- * act on. A report the clock has left behind, one the store has not managed to
- * replace yet, is named as the last session for the same reason.
+ * The session is today until the close and the next one after it, through
+ * the weekend. The head says so: the date appears beside the offset only
+ * when the rail is not listing today.
  */
 function CalendarCardInner({ onDuplicate, onRemove }: Props) {
   const { status, report } = useBriefing();
@@ -138,6 +144,7 @@ function CalendarCardInner({ onDuplicate, onRemove }: Props) {
   // `minute` is the only reason this recomputes between reports: the view
   // takes the clock as an argument, and this is the one place the card reads it.
   const now = useMemo(() => (report ? viewNow(report, new Date()) : new Date()), [report, minute]);
+
   const view = useMemo(() => (report ? buildCardView(report, now) : null), [report, now]);
 
   // Once per session, the list is scrolled so the "now" line sits mid-card: a
@@ -167,20 +174,23 @@ function CalendarCardInner({ onDuplicate, onRemove }: Props) {
 
   const unsupported = report === null && status === "unsupported";
   const failed = (report === null && status === "error") || (report !== null && view === null);
+
   const standing: SessionStanding = view ? view.standing : "on";
-  const nothing = view !== null && view.calendar.allDay.length === 0 && view.calendar.timed.length === 0;
 
   let body: ReactNode;
   if (view) {
+    const nothing = view.calendar.allDay.length === 0 && view.calendar.timed.length === 0;
     body = (
-      <div ref={listRef} className="scrollbar-meridian relative min-h-0 flex-1 overflow-y-auto pr-1">
-        {report?.window.early_close ? (
+      <div ref={listRef} className="scrollbar-meridian relative -mx-2 min-h-0 flex-1 overflow-y-auto px-2">
+        {view.earlyClose ? (
           <p className="pb-3 text-[12px] leading-[1.45] text-[#D97706]">Early close: this session ends at 13:00 ET.</p>
         ) : null}
 
         <CalendarRows view={view.calendar} markerLabel={nowMarkerLabel(standing, now)} markerRef={markerRef} />
 
-        {nothing && !view.warning && !view.note ? <p className={QUIET_NOTE_CLASS}>Nothing scheduled for this session.</p> : null}
+        {nothing && !view.warning && view.notes.length === 0 ? (
+          <p className={QUIET_NOTE_CLASS}>Nothing scheduled for this session.</p>
+        ) : null}
       </div>
     );
   } else if (unsupported) {
@@ -202,7 +212,15 @@ function CalendarCardInner({ onDuplicate, onRemove }: Props) {
         label="CALENDAR"
         meta={
           <span className={cn(HEAD_CLASS, "select-none truncate")}>
-            {standing === "on" || !view ? nyUtcOffset(now) : `${view.sessionDate} · ${nyUtcOffset(now)}`}
+            {/* The offset of the listed session's day, not of this instant: a
+                session across the November change is on UTC−5 while the clock
+                is still on UTC−4, and every time on its rows is that day's New
+                York time. Noon there is clear of the 02:00 change either way. */}
+            {!view || !report
+              ? nyUtcOffset(now)
+              : standing === "on"
+                ? nyUtcOffset(new Date(`${report.window.target_session_ymd}T16:00:00Z`))
+                : `${view.sessionDate} · ${nyUtcOffset(new Date(`${report.window.target_session_ymd}T16:00:00Z`))}`}
           </span>
         }
         onDuplicate={onDuplicate}
@@ -212,9 +230,13 @@ function CalendarCardInner({ onDuplicate, onRemove }: Props) {
       <div className="flex min-h-0 flex-1 flex-col pt-4">
         {body}
 
-        {view && (view.warning || view.note) ? (
+        {view && (view.warning || view.notes.length > 0) ? (
           <div className="mt-3 shrink-0 space-y-1 border-t-[0.5px] border-black/[0.06] pt-2">
-            {view.note ? <p className="text-[11px] leading-[1.45] text-[#9CA3AF]">{view.note}</p> : null}
+            {view.notes.map((note) => (
+              <p key={note} className="text-[11px] leading-[1.45] text-[#9CA3AF]">
+                {note}
+              </p>
+            ))}
             {view.warning ? <p className="text-[11px] leading-[1.45] text-[#D97706]">{view.warning}</p> : null}
           </div>
         ) : null}

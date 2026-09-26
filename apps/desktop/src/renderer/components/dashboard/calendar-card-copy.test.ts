@@ -9,12 +9,12 @@ import { copyProblems, withoutComments } from "../../../shared/copy-rules";
  * The house copy rules, held over the calendar card: no advice vocabulary, no
  * forward-looking vocabulary, no em or en dash.
  *
- * Checked against SOURCE, the way the handover card's guard is. The rows the
- * card prints come out of `shared/briefing-view.ts` and the rail in
- * `components/briefing/CalendarRail.tsx`, both scanned by the panel's own
- * test; what is left in the component are the head, the button and the lines
- * for the states that are awkward to reach (a main process from an older
- * build, a failed report, an empty day).
+ * Checked against SOURCE. The rows the card prints, and the lines of the hover
+ * card on each, come out of `shared/calendar-view.ts` (its own test scans it)
+ * and the rail in `components/briefing/CalendarRail.tsx` (scanned by the
+ * panel's copy test); what is left in the component are the head, the button
+ * and the lines for the states that are awkward to reach (a main process from
+ * an older build, a failed report, an empty day).
  */
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
@@ -84,6 +84,29 @@ describe("calendar card wiring", () => {
     assert.match(code, /sessionStanding\(/);
     assert.match(code, /label="CALENDAR"/);
     assert.ok(!code.includes("nowOnTargetDay"), "the card reads the standing, not the day flag on its own");
+  });
+
+  // The session's rows come through the shared day module, never assembled
+  // in the component, so the card and the calendar view behind View Calendar
+  // cannot list the same kind of row two ways.
+  it("reads its rows through the shared day module", () => {
+    const code = withoutComments(CARD);
+    assert.ok(code.includes("calendarForDay("), "the card must take its rows from calendarForDay");
+    assert.ok(!/calendarToday\(|macroEventsOn\(|expiryEventsBetween\(/.test(code), "the card must not assemble rows itself");
+  });
+
+  // Rows are hoverable and focusable, and the card that opens on them is
+  // placed outside the scrolling list, where it cannot be clipped.
+  it("lets every row be hovered and focused for its detail card", () => {
+    const rail = withoutComments(RAIL);
+    assert.match(rail, /onMouseEnter: show\(item\)/);
+    // Keyboard focus opens it; a press closes it (the press starts a drag of the
+    // card) and the focus that press gives the row opens nothing.
+    assert.match(rail, /onPointerDown: hide/);
+    assert.match(rail, /matches\(":focus-visible"\)\) show\(item\)/);
+    assert.match(rail, /tabIndex: 0/);
+    assert.match(rail, /createPortal\(/);
+    assert.match(rail, /role="tooltip"/);
   });
 
   // The calendar draws the handover report; with that feature switched off it

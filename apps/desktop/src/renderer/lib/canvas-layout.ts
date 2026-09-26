@@ -422,6 +422,114 @@ export function snapResizedBox(
   return { layout: { ...layout, boxes: { ...layout.boxes, [id]: next } }, guides: { v, h, sameW, sameH } };
 }
 
+/**
+ * The nearest correction, within reach, that puts one of a box's edges on a
+ * line and keeps the box on the canvas. Candidates are tried in the order
+ * they are given, so a tie goes to the edge listed first and, within an edge,
+ * to a card's own edge rather than the gutter beside it.
+ */
+function nearestShift(
+  pairs: ReadonlyArray<readonly [number, readonly number[]]>,
+  reach: number,
+  min: number,
+  max: number,
+): { delta: number; line: number } | null {
+  let best: { delta: number; line: number } | null = null;
+  let bestD = reach + 1e-9;
+  for (const [at, lines] of pairs) {
+    for (const line of lines) {
+      const delta = line - at;
+      if (delta < min - 1e-6 || delta > max + 1e-6) continue;
+      const d = Math.abs(delta);
+      if (d < bestD) {
+        bestD = d;
+        best = { delta, line };
+      }
+    }
+  }
+  return best;
+}
+
+/**
+ * A box that is being dragged, pulled onto any line it came close to. A move
+ * never changes the size: the whole box shifts by the smallest correction
+ * that puts one of its edges — or its middle — on a line, at most one
+ * correction per axis, and only one that keeps the box on the canvas.
+ *
+ * The lines are the ones a resized edge takes: another card's two edges, the
+ * gutter beside it on the side where a gutter can exist, and the canvas's own
+ * sides. A middle lines up with another middle as well, which is how two
+ * cards of different sizes are centred on each other.
+ *
+ * Nothing here stops a card being dropped over another: overlapping on
+ * purpose is what moving a card is for. The snap only decides where it rests
+ * when the reader brings it near a line, and the lines that were taken come
+ * back so the page can draw them while they hold.
+ */
+export function snapMovedBox(
+  layout: CanvasLayout,
+  id: string,
+  canvasW: number,
+  reach: number = SNAP_PX,
+): { layout: CanvasLayout; guides: SnapGuides } {
+  const b = layout.boxes[id];
+  if (!b || reach <= 0) return { layout, guides: NO_GUIDES };
+  const W = Math.max(1, canvasW);
+  const left = b.x * W;
+  const wPx = b.w * W;
+  const right = left + wPx;
+  const top = b.y;
+  const bottom = top + b.h;
+
+  const forLeft: number[] = [0];
+  const forRight: number[] = [W];
+  const forMidX: number[] = [];
+  const forTop: number[] = [0];
+  const forBottom: number[] = [];
+  const forMidY: number[] = [];
+  for (const [other, o] of Object.entries(layout.boxes)) {
+    if (other === id) continue;
+    const l = o.x * W;
+    const r = (o.x + o.w) * W;
+    const t = o.y;
+    const bt = o.y + o.h;
+    forLeft.push(l, r, r + SNAP_GAP_PX);
+    forRight.push(l, r, l - SNAP_GAP_PX);
+    forMidX.push((l + r) / 2);
+    forTop.push(t, bt, bt + SNAP_GAP_PX);
+    forBottom.push(t, bt, t - SNAP_GAP_PX);
+    forMidY.push((t + bt) / 2);
+  }
+
+  // Sideways the box is held inside the canvas, so a correction may not take
+  // either side past it. Downward there is no floor to hit: the canvas grows.
+  const x = nearestShift(
+    [
+      [left, forLeft],
+      [right, forRight],
+      [left + wPx / 2, forMidX],
+    ],
+    reach,
+    -left,
+    W - right,
+  );
+  const y = nearestShift(
+    [
+      [top, forTop],
+      [bottom, forBottom],
+      [top + b.h / 2, forMidY],
+    ],
+    reach,
+    -top,
+    Number.POSITIVE_INFINITY,
+  );
+  if (!x && !y) return { layout, guides: NO_GUIDES };
+
+  const next = contain({ ...b, x: (left + (x?.delta ?? 0)) / W, y: Math.round(top + (y?.delta ?? 0)) });
+  const guides: SnapGuides = { v: x ? [x.line / W] : [], h: y ? [y.line] : [], sameW: [], sameH: [] };
+  return { layout: { ...layout, boxes: { ...layout.boxes, [id]: next } }, guides };
+}
+
 /** How much two spans share; negative when they do not meet. */
 function overlap(a0: number, a1: number, b0: number, b1: number): number {
   return Math.min(a1, b1) - Math.max(a0, b0);
