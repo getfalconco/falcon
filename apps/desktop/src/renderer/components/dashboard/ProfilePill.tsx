@@ -13,6 +13,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { DROPDOWN_FADE } from "@/lib/dropdown-motion";
 
 /**
  * Who is signed in, and on what plan — the glass pill beside the search bar.
@@ -146,11 +147,7 @@ export default function ProfilePill({
           <motion.div
             role="menu"
             aria-label="Account"
-            initial={{ opacity: 0, scale: 0.92, y: -6 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: -4 }}
-            transition={{ type: "spring", stiffness: 480, damping: 34 }}
-            style={{ transformOrigin: "top left" }}
+            {...DROPDOWN_FADE}
             className="app-no-drag absolute left-0 top-full mt-2 w-60 rounded-2xl border border-white/60 bg-white/70 p-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_18px_44px_rgba(0,0,0,0.14)] ring-1 ring-black/[0.04] backdrop-blur-xl backdrop-saturate-150"
           >
             {email ? (

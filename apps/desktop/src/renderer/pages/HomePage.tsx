@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { ArrowLeft, LogOut } from "lucide-react";
+import { ArrowLeft, CalendarDays, Gauge, LineChart, List, LogOut, Newspaper, Sparkles, type LucideIcon } from "lucide-react";
 import logoBlack from "@/assets/brand/logo-black.png";
 import GraphScreen from "@/components/graph/GraphScreen";
 import StockView from "@/components/stock/StockView";
 import DashboardSearchBar from "@/components/dashboard/DashboardSearchBar";
 import StockPeekModal from "@/components/dashboard/StockPeekModal";
 import ProfilePill from "@/components/dashboard/ProfilePill";
+import AddModuleButton from "@/components/dashboard/AddModuleButton";
 import UpdatePill from "@/components/UpdatePill";
 import LiftableCard, { type DragPoint } from "@/components/dashboard/LiftableCard";
 import PortfolioCard from "@/components/dashboard/PortfolioCard";
@@ -75,6 +76,16 @@ type CardBase = "portfolio" | "assets" | "calendar" | "news" | "insight" | "risk
  *  "an assets card", so everything keyed by base keeps working on copies. */
 type CardId = CardBase | `${CardBase}#${number}`;
 const baseOf = (id: CardId): CardBase => id.split("#")[0] as CardBase;
+
+/** What the Add Module menu offers, in its order. A card the config hides is left out of it. */
+const MODULES: ReadonlyArray<{ id: CardBase; label: string; icon: LucideIcon }> = [
+  { id: "portfolio", label: "Portfolio Value", icon: LineChart },
+  { id: "assets", label: "Positions", icon: List },
+  { id: "calendar", label: "Calendar", icon: CalendarDays },
+  { id: "news", label: "News", icon: Newspaper },
+  { id: "risk", label: "Risk Score", icon: Gauge },
+  { id: "insight", label: "Insight", icon: Sparkles },
+];
 const CARD_ORDER_KEY = "falcon.ui.cardOrder.v4";
 /**
  * Per-card size — the share of the row's width, and the pixel height.
@@ -565,7 +576,7 @@ export default function HomePage({ userName, userEmail, onSignOut }: Props) {
    * arrangement only: `loadCardOrder` re-appends any missing default card on
    * the next launch, so nobody can strand themselves with an empty grid.
    */
-  const duplicateCard = (id: CardId) => {
+  const duplicateCard = (id: CardId): CardId => {
     const copy = `${baseOf(id)}#${Date.now()}` as CardId;
     setCardOrder((order) => {
       const at = order.indexOf(id);
@@ -575,10 +586,47 @@ export default function HomePage({ userName, userEmail, onSignOut }: Props) {
     });
     setCardSizes((prev) => ({ ...prev, [copy]: sizeOf(id) }));
     if (canvasW > 0) updateCanvas((c) => duplicateBox(c, id, copy, canvasW));
+    return copy;
   };
   const removeCard = (id: CardId) => {
     setCardOrder((order) => order.filter((c) => c !== id));
   };
+
+  /**
+   * Add Module: a card that is not on the canvas comes back (the canvas lays
+   * it out under the others, as it does for any card it lacks), and one that
+   * is gets a copy beside it, the card menu's Duplicate. Either way the new
+   * card is brought to the front and scrolled into view, because both land
+   * where the reader may not be looking.
+   */
+  const [revealId, setRevealId] = useState<CardId | null>(null);
+  const addModule = (base: CardBase) => {
+    const present = cardOrder.find((id) => baseOf(id) === base);
+    if (present) {
+      setRevealId(duplicateCard(present));
+    } else {
+      setCardOrder((order) => (order.includes(base) ? order : [...order, base]));
+      setRevealId(base);
+    }
+  };
+
+  // By hand, not scrollIntoView, which would also scroll the page's own
+  // clipped root and leave the top bar out of place.
+  useEffect(() => {
+    if (!revealId) return;
+    const el = cardRefs.current[revealId];
+    if (!el) return;
+    setRevealId(null);
+    touchCard(revealId);
+    const main = el.closest("main");
+    if (!main) return;
+    const card = el.getBoundingClientRect();
+    const view = main.getBoundingClientRect();
+    const topRoom = 72;
+    if (card.top < view.top + topRoom || card.bottom > view.bottom) {
+      main.scrollTo({ top: Math.max(0, main.scrollTop + card.top - view.top - topRoom), behavior: "smooth" });
+    }
+  });
 
   const cardContent = (id: CardId) => {
     switch (baseOf(id)) {
@@ -751,15 +799,29 @@ export default function HomePage({ userName, userEmail, onSignOut }: Props) {
       />
 
       {/* Who is signed in — a pill in the search bar's glass, standing just
-          off its right end. The offset is half the search bar's own width
-          (the same min() it is sized with), plus a gap. */}
+          off its left end; Add Module stands off its right end on the
+          dashboard. Both offsets are half the search bar's own width (the
+          same min() it is sized with), plus a gap: the pill is placed by its
+          right edge, so a longer name grows away from the search bar rather
+          than into it. */}
       <ProfilePill
         name={firstName}
         email={userEmail}
         onSignOut={onSignOut}
         className="absolute top-4 z-50"
-        style={{ left: "calc(50% + min(13rem, (100vw - 28rem) / 2) + 10px)" }}
+        style={{ right: "calc(50% + min(13rem, (100vw - 28rem) / 2) + 10px)" }}
       />
+      {view === "dashboard" ? (
+        <AddModuleButton
+          className="absolute top-4 z-50"
+          style={{ left: "calc(50% + min(13rem, (100vw - 28rem) / 2) + 10px)" }}
+          modules={MODULES.filter((m) => !isCardHidden(m.id)).map((m) => ({
+            ...m,
+            onCanvas: rowCards.some((id) => baseOf(id) === m.id),
+          }))}
+          onAdd={(id) => addModule(id as CardBase)}
+        />
+      ) : null}
 
       {/* Sign out. App has always passed the handler down and the shell has
           always dropped it on the floor — the only button that called it

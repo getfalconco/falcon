@@ -4,6 +4,7 @@ import { Check, ChevronDown, Copy, MoreVertical, Search, X } from "lucide-react"
 import StockIcon from "@/components/stock/StockIcon";
 import { readPaperAccount, subscribePaperAccount } from "@/lib/paper-account";
 import { cn } from "@/lib/utils";
+import { DROPDOWN_FADE } from "@/lib/dropdown-motion";
 import type { NewsFeedArticle } from "../../../shared/news-feed";
 
 /**
@@ -262,8 +263,10 @@ export default function NewsCard({
             >
               <MoreVertical className="h-4 w-4" strokeWidth={1.75} aria-hidden />
             </button>
+            <AnimatePresence>
             {menuOpen ? (
-              <div
+              <motion.div
+                {...DROPDOWN_FADE}
                 role="menu"
                 aria-label="Card actions"
                 className="app-no-drag absolute right-0 top-full z-50 mt-2 w-48 rounded-2xl border border-white/60 bg-white/70 p-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_18px_44px_rgba(0,0,0,0.14)] ring-1 ring-black/[0.04] backdrop-blur-xl backdrop-saturate-150"
@@ -293,8 +296,9 @@ export default function NewsCard({
                   <X className="h-[15px] w-[15px]" strokeWidth={2} aria-hidden />
                   Delete module
                 </button>
-              </div>
+              </motion.div>
             ) : null}
+            </AnimatePresence>
           </div>
         </div>
       </div>
@@ -329,10 +333,7 @@ export default function NewsCard({
                     <motion.div
                       role="listbox"
                       aria-label="Sector"
-                      initial={{ opacity: 0, y: -4 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -4 }}
-                      transition={{ duration: 0.14, ease: "easeOut" }}
+                      {...DROPDOWN_FADE}
                       className="scrollbar-meridian app-no-drag absolute left-0 top-full z-50 mt-2 max-h-56 w-52 overflow-y-auto rounded-2xl border border-white/60 bg-white/70 p-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_18px_44px_rgba(0,0,0,0.14)] ring-1 ring-black/[0.04] backdrop-blur-xl backdrop-saturate-150"
                     >
                       {sectors.length === 0 ? (

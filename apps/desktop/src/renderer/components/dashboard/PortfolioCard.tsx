@@ -35,6 +35,7 @@ import SelectionGloss, { type GlossScope } from "@/components/dashboard/Selectio
 import { currencyOr } from "@/lib/currencies";
 import { useDemoMode } from "@/lib/demo-mode";
 import { cn } from "@/lib/utils";
+import { DROPDOWN_FADE } from "@/lib/dropdown-motion";
 
 /**
  * Portfolio card in the Growth Forecast card's exact frame: every open
@@ -1121,12 +1122,8 @@ export default function PortfolioCard({
                   data-no-lift
                   role="dialog"
                   aria-label="Table settings"
-                  initial={{ opacity: 0, scale: 0.92, y: -6 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.95, y: -4 }}
-                  transition={{ type: "spring", stiffness: 480, damping: 34 }}
+                  {...DROPDOWN_FADE}
                   style={{
-                    transformOrigin: "top right",
                     top: settingsPos.top,
                     right: settingsPos.right,
                     maxHeight: `calc(100vh - ${settingsPos.top + 12}px)`,
@@ -1239,11 +1236,7 @@ export default function PortfolioCard({
                 <motion.div
                   role="menu"
                   aria-label="Card actions"
-                  initial={{ opacity: 0, scale: 0.92, y: -6 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.95, y: -4 }}
-                  transition={{ type: "spring", stiffness: 480, damping: 34 }}
-                  style={{ transformOrigin: "top right" }}
+                  {...DROPDOWN_FADE}
                   className="app-no-drag absolute right-0 top-full z-50 mt-2 w-48 rounded-2xl border border-white/60 bg-white/70 p-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_18px_44px_rgba(0,0,0,0.14)] ring-1 ring-black/[0.04] backdrop-blur-xl backdrop-saturate-150"
                 >
                   <button

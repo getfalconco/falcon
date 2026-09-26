@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Check, Copy, MoreVertical, SlidersHorizontal, X } from "lucide-react";
 import { TIMEFRAMES, type Timeframe } from "@/components/dashboard/TimeframeControls";
 import { cn } from "@/lib/utils";
+import { DROPDOWN_FADE } from "@/lib/dropdown-motion";
 
 /**
  * A card's masthead: the same small label and three-dot menu every other card
@@ -87,11 +88,7 @@ export default function ChartCardHeader({
               <motion.div
                 role="dialog"
                 aria-label="Chart settings"
-                initial={{ opacity: 0, scale: 0.92, y: -6 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.95, y: -4 }}
-                transition={{ type: "spring", stiffness: 480, damping: 34 }}
-                style={{ transformOrigin: "top right" }}
+                {...DROPDOWN_FADE}
                 className="app-no-drag absolute right-0 top-full z-50 mt-2 w-48 rounded-2xl border border-white/60 bg-white/70 p-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_18px_44px_rgba(0,0,0,0.14)] ring-1 ring-black/[0.04] backdrop-blur-xl backdrop-saturate-150"
               >
                 <div className="px-1 pb-1.5">
@@ -157,11 +154,7 @@ export default function ChartCardHeader({
             <motion.div
               role="menu"
               aria-label="Card actions"
-              initial={{ opacity: 0, scale: 0.92, y: -6 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: -4 }}
-              transition={{ type: "spring", stiffness: 480, damping: 34 }}
-              style={{ transformOrigin: "top right" }}
+              {...DROPDOWN_FADE}
               className="app-no-drag absolute right-0 top-full z-50 mt-2 w-48 rounded-2xl border border-white/60 bg-white/70 p-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_18px_44px_rgba(0,0,0,0.14)] ring-1 ring-black/[0.04] backdrop-blur-xl backdrop-saturate-150"
             >
               <button
