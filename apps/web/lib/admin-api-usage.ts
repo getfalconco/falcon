@@ -568,7 +568,7 @@ export type EngineCounters = {
  */
 export async function getEngineCounters(): Promise<EngineCounters> {
   const base = (
-    process.env.FALCON_ENGINE_URL?.trim() || "https://falcon-engine-production.up.railway.app"
+    process.env.FALCON_ENGINE_URL?.trim() || "https://engine.getfalcon.co"
   ).replace(/\/+$/, "");
   const out: EngineCounters = {
     reachable: false,

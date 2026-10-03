@@ -34,7 +34,7 @@ export type InsightExplanation = {
  * no `.env` to read, and an install that quietly reads no engine shows a card
  * that is empty rather than one that says so.
  */
-export const DEFAULT_ENGINE_URL = "https://falcon-engine-production.up.railway.app";
+export const DEFAULT_ENGINE_URL = "https://engine.getfalcon.co";
 
 const CONFIGURED_ENGINE_URL = (
   process.env.EXPO_PUBLIC_ENGINE_URL ?? DEFAULT_ENGINE_URL

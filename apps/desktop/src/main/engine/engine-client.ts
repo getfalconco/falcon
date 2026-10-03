@@ -27,7 +27,7 @@ import { getRendererSession } from "../session-bridge";
 
 const TIMEOUT_MS = 30_000;
 
-export const DEFAULT_ENGINE_URL = "https://falcon-engine-production.up.railway.app";
+export const DEFAULT_ENGINE_URL = "https://engine.getfalcon.co";
 
 export function engineUrl(): string | null {
   const raw = process.env.FALCON_ENGINE_URL?.trim();

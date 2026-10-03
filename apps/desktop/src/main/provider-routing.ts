@@ -22,7 +22,7 @@ import { getRendererSession, onRendererSession } from "./session-bridge";
  * a packaged build with real provider keys in its env keeps direct calls.
  */
 
-export const DEFAULT_RESEARCH_WORKER_URL = "https://research-worker-production-c17d.up.railway.app";
+export const DEFAULT_RESEARCH_WORKER_URL = "https://worker.getfalcon.co";
 
 function trimmed(key: string): string {
   return process.env[key]?.trim() ?? "";
