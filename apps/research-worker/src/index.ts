@@ -185,7 +185,10 @@ async function handleHealth(_req: IncomingMessage, res: ServerResponse): Promise
     anthropic: {
       upstreamHost: host,
       keyKind,
-      routeOk: keyKind === "anthropic" ? host === "api.anthropic.com" : keyKind === "gateway" && host !== "api.anthropic.com",
+      // Same rule as the engine's anthropicRoute(): only a non-`sk-ant-` key sent
+      // to api.anthropic.com is certainly broken. Moodly issues `sk-ant-` keys of
+      // its own, so an `sk-ant-` key going elsewhere is a working route.
+      routeOk: !(keyKind === "gateway" && host === "api.anthropic.com") && host !== "invalid",
     },
   });
 }

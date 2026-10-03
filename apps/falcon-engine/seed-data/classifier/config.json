@@ -1,6 +1,6 @@
 {
  "enabled": true,
- "model": "nvidia/nemotron-3-super-120b-a12b:free",
+ "model": "claude-haiku-4-5",
  "temperature": 0,
  "maxTokens": 1024,
  "timeoutMs": 30000,
