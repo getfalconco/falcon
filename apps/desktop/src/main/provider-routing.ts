@@ -1,4 +1,5 @@
 import { app } from "electron";
+import { pinEnvKeys } from "./load-desktop-env";
 import { getRendererSession, onRendererSession } from "./session-bridge";
 
 /**
@@ -57,6 +58,10 @@ export function configureProviderRouting(): { mode: "direct" | "proxy"; workerUr
   active = true;
   process.env.ANTHROPIC_BASE_URL = `${workerUrl}/api/anthropic`;
   process.env.FINNHUB_BASE_URL = `${workerUrl}/api/finnhub`;
+  // From here these four are the proxy's. Services that re-read .env later
+  // (onboarding, waitlist, SnapTrade, the schema checks) must not put the
+  // gateway's address back under the reader's session token.
+  pinEnvKeys(["ANTHROPIC_BASE_URL", "FINNHUB_BASE_URL", "ANTHROPIC_API_KEY", "FINNHUB_API_KEY"]);
   applyToken(getRendererSession().accessToken);
   onRendererSession((session) => applyToken(session.accessToken));
   console.info(`[providers] routing Anthropic + Finnhub through ${workerUrl}`);

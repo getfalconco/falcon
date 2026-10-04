@@ -7,8 +7,9 @@ import { briefingEnabled } from "@/lib/dashboard-config";
 import { cn } from "@/lib/utils";
 import type { BriefingReport } from "../../../shared/briefing-types";
 import { viewNow } from "../../../shared/briefing-view";
-import { calendarForDay } from "../../../shared/calendar-days";
-import { calendarView, degradedNotes, mastheadDate, type CalendarView } from "../../../shared/calendar-view";
+import { calendarForDay, stepSession } from "../../../shared/calendar-days";
+import { MACRO_CALENDAR } from "../../../shared/calendar-types";
+import { calendarView, degradedNotes, earningsReachNote, mastheadDate, type CalendarView } from "../../../shared/calendar-view";
 
 type Props = {
   onDuplicate?: () => void;
@@ -41,10 +42,12 @@ function nyUtcOffset(now: Date): string {
 type CardView = {
   calendar: CalendarView;
   standing: SessionStanding;
+  /** The report's own session, rather than a day stepped to with the arrows. */
+  isSession: boolean;
   /** "THU SEP 25": the session the rail lists, for the head when that is not today. */
   sessionDate: string;
   earlyClose: boolean;
-  /** Quiet lines: a section of the report that failed. */
+  /** Quiet lines: a section of the report that failed, or how far held names' earnings are known. */
   notes: string[];
   /** Set when the curated calendar does not reach this session: an empty rail then means "unknown", not "quiet". */
   warning: string | null;
@@ -56,18 +59,20 @@ type CardView = {
  * no boundary above it, so one field of the wrong shape would unmount the
  * whole page. A report the view cannot read is shown as one that failed.
  */
-function buildCardView(report: BriefingReport, now: Date): CardView | null {
+function buildCardView(report: BriefingReport, ymd: string, now: Date): CardView | null {
   try {
-    const day = calendarForDay(report, report.window.target_session_ymd, now);
-    // The report's own session always trades; a closed answer is a report
-    // this build cannot read, and is shown as one.
+    const day = calendarForDay(report, ymd, now);
+    // Only trading days are ever asked for (the arrows step over the rest);
+    // a closed answer is a report this build cannot read, and is shown as one.
     if (day.closed) return null;
     const calendar = calendarView(day.report, now);
     const degraded = degradedNotes(day.report);
     const notes = [degraded.macro_calendar, degraded.earnings].filter((n): n is string => typeof n === "string");
+    if (day.earningsKnownThrough) notes.push(earningsReachNote(day.earningsKnownThrough));
     return {
       calendar,
       standing: sessionStanding(calendar, now, day.report.window.target_close_at),
+      isSession: day.isSession,
       sessionDate: mastheadDate(day.report),
       earlyClose: day.report.window.early_close === true,
       notes,
@@ -128,15 +133,34 @@ function Skeleton() {
   );
 }
 
+/** A small solid triangle, the arrow the head steps days with. */
+function Triangle({ direction }: { direction: "left" | "right" }) {
+  return (
+    <svg viewBox="0 0 10 10" className="h-2.5 w-2.5" aria-hidden>
+      <path
+        d={direction === "left" ? "M7.25 1.5 L2.5 5 L7.25 8.5 Z" : "M2.75 1.5 L7.5 5 L2.75 8.5 Z"}
+        fill="currentColor"
+        stroke="currentColor"
+        strokeWidth="1"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+const STEP_BUTTON =
+  "app-no-drag flex h-5 w-5 items-center justify-center rounded-md text-[#4b5563] transition-colors hover:bg-[#1d1b1b]/[0.06] hover:text-[#1d1b1b] disabled:pointer-events-none disabled:opacity-30";
+
 /**
- * The calendar on the dashboard: what is scheduled for the session the clock
- * is on, on the rail, with the "now" line where the day stands. The rows are
- * the handover report's own, read through `calendarForDay`, and every row can
- * be hovered for what else is known about it.
+ * The calendar on the dashboard: what is scheduled for a session, on the
+ * rail, with the "now" line where the day stands, and every row can be
+ * hovered for what else is known about it. It opens on the session the clock
+ * is on (today until the close, the next one after it and through the
+ * weekend), whose rows are the handover report's own; the two triangles
+ * beside the dots step a trading day back or on, and those days are built
+ * from the same curated calendar and rules through `calendarForDay`.
  *
- * The session is today until the close and the next one after it, through
- * the weekend. The head says so: the date appears beside the offset only
- * when the rail is not listing today.
+ * The head names the day whenever the rail is not listing today.
  */
 function CalendarCardInner({ onDuplicate, onRemove }: Props) {
   const { status, report } = useBriefing();
@@ -145,32 +169,50 @@ function CalendarCardInner({ onDuplicate, onRemove }: Props) {
   // takes the clock as an argument, and this is the one place the card reads it.
   const now = useMemo(() => (report ? viewNow(report, new Date()) : new Date()), [report, minute]);
 
-  const view = useMemo(() => (report ? buildCardView(report, now) : null), [report, now]);
+  // The day on the rail: the session until an arrow picks another. Stepping
+  // back onto the session goes back to following it, so the card rolls with
+  // the report again at the close.
+  const sessionYmd = report?.window.target_session_ymd ?? null;
+  const [picked, setPicked] = useState<string | null>(null);
+  const shownYmd = picked ?? sessionYmd;
+  // Bounded by the curated file itself, which every day but the session is
+  // built from; a report's own coverage line can be a demo's.
+  const coverage = MACRO_CALENDAR.coverage;
+  const back = shownYmd ? stepSession(shownYmd, -1, coverage) : null;
+  const on = shownYmd ? stepSession(shownYmd, 1, coverage) : null;
+  const step = (ymd: string | null) => {
+    if (ymd) setPicked(ymd === sessionYmd ? null : ymd);
+  };
 
-  // Once per session, the list is scrolled so the "now" line sits mid-card: a
-  // reader who looks at 14:00 wants what is next, not the 08:30 print at the
-  // top. Once, so the list never moves under a reader who has scrolled it; and
-  // by hand, not with scrollIntoView, which would also scroll the page. The
-  // mark is forgotten whenever the list is not drawn (a report dropped by the
-  // store while a fresh one is fetched), because the list's box goes with it
-  // and comes back at the top: there is no reader position to protect then.
+  const view = useMemo(
+    () => (report && shownYmd ? buildCardView(report, shownYmd, now) : null),
+    [report, shownYmd, now],
+  );
+
+  // Once per day shown, the list is scrolled so the "now" line sits mid-card:
+  // a reader who looks at 14:00 wants what is next, not the 08:30 print at the
+  // top; a day without the line starts at the top. Once, so the list never
+  // moves under a reader who has scrolled it; and by hand, not with
+  // scrollIntoView, which would also scroll the page. The mark is forgotten
+  // whenever the list is not drawn (a report dropped by the store while a
+  // fresh one is fetched), because the list's box goes with it and comes back
+  // at the top: there is no reader position to protect then.
   const listRef = useRef<HTMLDivElement>(null);
   const markerRef = useRef<HTMLDivElement>(null);
   const placedFor = useRef<string | null>(null);
-  const targetYmd = report?.window.target_session_ymd ?? null;
   const ready = view !== null;
   useEffect(() => {
     if (!ready) {
       placedFor.current = null;
       return;
     }
-    if (targetYmd === null || placedFor.current === targetYmd) return;
+    if (shownYmd === null || placedFor.current === shownYmd) return;
     const list = listRef.current;
+    if (!list) return;
+    placedFor.current = shownYmd;
     const marker = markerRef.current;
-    if (!list || !marker) return;
-    placedFor.current = targetYmd;
-    list.scrollTop = Math.max(0, marker.offsetTop - list.clientHeight / 2);
-  }, [ready, targetYmd]);
+    list.scrollTop = marker ? Math.max(0, marker.offsetTop - list.clientHeight / 2) : 0;
+  }, [ready, shownYmd]);
 
   const unsupported = report === null && status === "unsupported";
   const failed = (report === null && status === "error") || (report !== null && view === null);
@@ -180,13 +222,16 @@ function CalendarCardInner({ onDuplicate, onRemove }: Props) {
   let body: ReactNode;
   if (view) {
     const nothing = view.calendar.allDay.length === 0 && view.calendar.timed.length === 0;
+    // The session carries its line wherever the clock stands against it; a
+    // day stepped to carries one only while the clock is on it.
+    const markerLabel = view.isSession || standing === "on" ? nowMarkerLabel(standing, now) : null;
     body = (
       <div ref={listRef} className="scrollbar-meridian relative -mx-2 min-h-0 flex-1 overflow-y-auto px-2">
         {view.earlyClose ? (
           <p className="pb-3 text-[12px] leading-[1.45] text-[#D97706]">Early close: this session ends at 13:00 ET.</p>
         ) : null}
 
-        <CalendarRows view={view.calendar} markerLabel={nowMarkerLabel(standing, now)} markerRef={markerRef} />
+        <CalendarRows view={view.calendar} markerLabel={markerLabel} markerRef={markerRef} />
 
         {nothing && !view.warning && view.notes.length === 0 ? (
           <p className={QUIET_NOTE_CLASS}>Nothing scheduled for this session.</p>
@@ -212,16 +257,28 @@ function CalendarCardInner({ onDuplicate, onRemove }: Props) {
         label="CALENDAR"
         meta={
           <span className={cn(HEAD_CLASS, "select-none truncate")}>
-            {/* The offset of the listed session's day, not of this instant: a
-                session across the November change is on UTC−5 while the clock
-                is still on UTC−4, and every time on its rows is that day's New
-                York time. Noon there is clear of the 02:00 change either way. */}
-            {!view || !report
+            {/* The offset of the listed day, not of this instant: a day across
+                the November change is on UTC−5 while the clock is still on
+                UTC−4, and every time on its rows is that day's New York time.
+                Noon there is clear of the 02:00 change either way. */}
+            {!view || !shownYmd
               ? nyUtcOffset(now)
               : standing === "on"
-                ? nyUtcOffset(new Date(`${report.window.target_session_ymd}T16:00:00Z`))
-                : `${view.sessionDate} · ${nyUtcOffset(new Date(`${report.window.target_session_ymd}T16:00:00Z`))}`}
+                ? nyUtcOffset(new Date(`${shownYmd}T16:00:00Z`))
+                : `${view.sessionDate} · ${nyUtcOffset(new Date(`${shownYmd}T16:00:00Z`))}`}
           </span>
+        }
+        actions={
+          report ? (
+            <div className="flex items-center gap-0.5">
+              <button type="button" aria-label="Previous day" disabled={!back} onClick={() => step(back)} className={STEP_BUTTON}>
+                <Triangle direction="left" />
+              </button>
+              <button type="button" aria-label="Next day" disabled={!on} onClick={() => step(on)} className={STEP_BUTTON}>
+                <Triangle direction="right" />
+              </button>
+            </div>
+          ) : null
         }
         onDuplicate={onDuplicate}
         onRemove={onRemove}

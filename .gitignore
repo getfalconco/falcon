@@ -67,6 +67,8 @@ apps/desktop/data/gauge/
 # The handover briefing caches one report per user and session here. It holds
 # a reader's positions, so unlike data/insight it must never be tracked.
 apps/desktop/data/briefing/
+# Development diagnostics (main/diagnostics/model-selftest.ts) write here; per run, never shared.
+apps/desktop/data/logs/
 # stale artifact of the old double-path bug — never commit this
 apps/desktop/apps/
 packages/research/apps/

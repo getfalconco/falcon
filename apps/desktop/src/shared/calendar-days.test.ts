@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import { buildDemoBriefing } from "./briefing-demo";
 import { resolveBriefingWindow, type BriefingReport, type CalendarItem, type HeldEarnings } from "./briefing-types";
-import { calendarForDay } from "./calendar-days";
+import { calendarForDay, stepSession } from "./calendar-days";
 
 /** Saturday 2026-09-26, 08:00 ET: the report is for Monday the 28th. */
 const SATURDAY = new Date("2026-09-26T12:00:00.000Z");
@@ -25,6 +25,23 @@ function briefing(overrides: Partial<BriefingReport> = {}): BriefingReport {
 function earnings(ticker: string, due: string): HeldEarnings {
   return { ticker, due_ymd: due, timing: "bmo", sessions_until: 0, fiscal_period: "Q3 2026", confirmed: true, source: "tracker" };
 }
+
+describe("stepping a session", () => {
+  const coverage = { from: "2026-09-01", until: "2026-12-31" };
+
+  it("moves one trading day, over weekends and holidays", () => {
+    assert.equal(stepSession("2026-09-28", 1, coverage), "2026-09-29");
+    assert.equal(stepSession("2026-09-28", -1, coverage), "2026-09-25"); // Monday back to Friday
+    assert.equal(stepSession("2026-11-25", 1, coverage), "2026-11-27"); // over Thanksgiving
+    assert.equal(stepSession("2026-12-24", 1, coverage), "2026-12-28"); // over Christmas and the weekend
+  });
+
+  it("stops at the edge of the curated months", () => {
+    assert.equal(stepSession("2026-09-01", -1, coverage), null);
+    assert.equal(stepSession("2026-12-31", 1, coverage), null);
+    assert.equal(stepSession("2026-09-02", -1, coverage), "2026-09-01");
+  });
+});
 
 describe("the picked day", () => {
   it("is the report itself on the report's own session", () => {

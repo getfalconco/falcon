@@ -4,7 +4,7 @@ import { isWaitlistUser, readWaitlistFlag, setWaitlistEmail, setWaitlistFlag } f
 import { displayNameFromUser } from "@/lib/greeting";
 import { setActivePaperUser } from "@/lib/paper-account";
 import { isSupabaseConfigured, supabase } from "@/lib/supabase";
-import { needsOnboarding } from "@/lib/user-preferences";
+import { needsOnboarding, readCallName } from "@/lib/user-preferences";
 import HomePage from "@/pages/HomePage";
 import LoginPage, { type LoginPageMode } from "@/pages/LoginPage";
 
@@ -100,6 +100,8 @@ export default function App() {
     return (
       <HomePage
         userName={userName}
+        user={session.user}
+        callName={readCallName(session.user)}
         userEmail={session.user.email ?? undefined}
         skipGreeting
         onSignOut={handleSignOut}

@@ -18,6 +18,8 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import type { User as AuthUser } from "@supabase/supabase-js";
+import AccountPane, { type AccountActions } from "./AccountPane";
 import GeneralPane from "./GeneralPane";
 
 /**
@@ -105,9 +107,15 @@ export default function SettingsModal({
   onClose,
   section,
   onSection,
+  user = null,
+  accountActions,
 }: {
   open: boolean;
   onClose: () => void;
+  /** The signed-in user, for the Account pane. */
+  user?: AuthUser | null;
+  /** Stand-ins for the Account pane's writes, for a harness with no session. */
+  accountActions?: AccountActions;
   /** The row that is lit. Left out, the panel keeps its own. */
   section?: SettingsSection;
   onSection?: (section: SettingsSection) => void;
@@ -248,6 +256,7 @@ export default function SettingsModal({
               <div className="app-drag-region absolute inset-x-0 top-0 h-14" aria-hidden />
               <div className="scrollbar-meridian h-full overflow-y-auto px-8 pb-8 pt-14">
                 {current === "general" ? <GeneralPane /> : null}
+                {current === "account" ? <AccountPane user={user} actions={accountActions} /> : null}
               </div>
               <button
                 type="button"

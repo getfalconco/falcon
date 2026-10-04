@@ -59,7 +59,12 @@ function hashOf(text: string): number {
   return h >>> 0;
 }
 
-function Avatar({ name }: { name: string }) {
+/**
+ * The generated mark: two hues and three bars from the name. Drawn at the
+ * pill's 20px by default; the account pane shows the same mark larger, with
+ * the bars scaled to it, so the two never disagree about who this is.
+ */
+export function Avatar({ name, size = 20 }: { name: string; size?: number }) {
   const { a, b, angle, bars } = useMemo(() => {
     const h = hashOf(name || "falcon");
     const hue = h % 360;
@@ -71,15 +76,22 @@ function Avatar({ name }: { name: string }) {
       bars: [0, 1, 2].map((i) => 4 + ((h >> (12 + i * 4)) % 7)),
     };
   }, [name]);
+  const k = size / 20;
 
   return (
     <span
       aria-hidden
-      className="relative flex h-5 w-5 shrink-0 items-end justify-center gap-[2px] overflow-hidden rounded-full pb-[4px]"
-      style={{ background: `linear-gradient(${angle}deg, ${a}, ${b})` }}
+      className="relative flex shrink-0 items-end justify-center overflow-hidden rounded-full"
+      style={{
+        width: size,
+        height: size,
+        gap: 2 * k,
+        paddingBottom: 4 * k,
+        background: `linear-gradient(${angle}deg, ${a}, ${b})`,
+      }}
     >
       {bars.map((height, i) => (
-        <span key={i} className="w-[2.5px] rounded-[1px] bg-white/85" style={{ height }} />
+        <span key={i} className="rounded-[1px] bg-white/85" style={{ width: 2.5 * k, height: height * k }} />
       ))}
     </span>
   );

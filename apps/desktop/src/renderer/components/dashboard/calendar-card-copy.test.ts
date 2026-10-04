@@ -38,6 +38,8 @@ describe("calendar card copy", () => {
       "Early close: this session ends at 13:00 ET.",
       "Restart Falcon to enable the calendar.",
       "The calendar could not be put together right now.",
+      "Previous day",
+      "Next day",
     ]) {
       assert.ok(CARD.includes(phrase), `missing: ${phrase}`);
     }

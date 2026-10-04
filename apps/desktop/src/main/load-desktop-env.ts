@@ -13,6 +13,20 @@ function isPackagedBuild(): boolean {
   return process.env.FALCON_PACKAGED === "1" || /[\\/]app\.asar[\\/]/.test(__dirname);
 }
 
+/**
+ * Keys another part of the process has taken charge of, which a reload of the
+ * .env files must leave alone. Several services call `loadDesktopEnv(true)`
+ * again after startup to pick up edits; with the provider proxy on, that put
+ * `ANTHROPIC_BASE_URL` back to the gateway in .env while the key stayed the
+ * reader's session token, so every model call carried the session to the
+ * gateway and came back "Invalid API key".
+ */
+const pinned = new Set<string>();
+
+export function pinEnvKeys(keys: readonly string[]): void {
+  for (const key of keys) pinned.add(key);
+}
+
 export function loadDesktopEnv(overrideDesktop = false): void {
   if (isPackagedBuild()) return;
   const desktopDir = path.join(__dirname, "../..");
@@ -47,7 +61,7 @@ function unquote(value: string): string {
   return match ? match[2] : value;
 }
 
-function loadEnvFile(
+export function loadEnvFile(
   envPath: string,
   override = false,
   opts?: { skipEmptyOverride?: boolean },
@@ -62,6 +76,7 @@ function loadEnvFile(
     if (separator === -1) continue;
 
     const key = trimmed.slice(0, separator).trim();
+    if (pinned.has(key)) continue;
     // Surrounding quotes are stripped, as every other .env reader does. Writing
     // KEY="value" is the normal way to paste a credential, and keeping the
     // quotes made the value silently wrong rather than obviously wrong: a

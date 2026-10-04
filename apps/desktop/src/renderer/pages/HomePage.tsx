@@ -1,3 +1,4 @@
+import type { User } from "@supabase/supabase-js";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ArrowLeft, CalendarDays, Gauge, LineChart, List, LogOut, Newspaper, Sparkles, type LucideIcon } from "lucide-react";
 import logoBlack from "@/assets/brand/logo-black.png";
@@ -40,6 +41,7 @@ import {
   type ModuleBox,
   type SnapGuides,
 } from "@/lib/canvas-layout";
+import { readCardOrder, writeCardOrder } from "@/lib/card-order";
 import { isCardHidden } from "@/lib/dashboard-config";
 import { toggleDemoMode } from "@/lib/demo-mode";
 import { startPortfolioSync } from "@/lib/portfolio-sync";
@@ -87,7 +89,6 @@ const MODULES: ReadonlyArray<{ id: CardBase; label: string; icon: LucideIcon }> 
   { id: "risk", label: "Risk Score", icon: Gauge },
   { id: "insight", label: "Insight", icon: Sparkles },
 ];
-const CARD_ORDER_KEY = "falcon.ui.cardOrder.v4";
 /**
  * Per-card size — the share of the row's width, and the pixel height.
  * Remembered like the order. A share rather than a column count: widths used
@@ -155,45 +156,33 @@ function loadCardSizes(): Record<string, CardSize> {
 }
 
 const DEFAULT_CARD_ORDER: CardId[] = ["portfolio", "assets", "calendar", "news", "insight", "risk"];
+/** The saved arrangement: see lib/card-order.ts for what a launch adds back and what it leaves deleted. */
 function loadCardOrder(): CardId[] {
   try {
-    const raw = localStorage.getItem(CARD_ORDER_KEY);
-    const parsed: unknown = raw ? JSON.parse(raw) : null;
-    if (Array.isArray(parsed)) {
-      const seen = parsed.filter(
-        (id): id is CardId =>
-          typeof id === "string" && DEFAULT_CARD_ORDER.includes(baseOf(id as CardId)),
-      );
-      const unique = Array.from(new Set(seen));
-      const missing = DEFAULT_CARD_ORDER.filter((id) => !unique.includes(id));
-      // The balance card goes first when an older arrangement has no place
-      // for it — that is where it always stood; anything else goes on the end.
-      return [
-        ...missing.filter((id) => id === "portfolio"),
-        ...unique,
-        ...missing.filter((id) => id !== "portfolio"),
-      ];
-    }
+    return readCardOrder(localStorage, DEFAULT_CARD_ORDER) as CardId[];
   } catch {
-    /* fall back */
+    return DEFAULT_CARD_ORDER;
   }
-  return DEFAULT_CARD_ORDER;
 }
 
 type Props = {
   userName: string;
+  /** The signed-in user, for the account pane. */
+  user?: User | null;
+  /** What the reader asked to be called; the first word of their name when they have not said. */
+  callName?: string;
   /** The address the session is signed in with; shown at the head of the account menu. */
   userEmail?: string;
   skipGreeting?: boolean;
   onSignOut: () => void;
 };
 
-export default function HomePage({ userName, userEmail, onSignOut }: Props) {
+export default function HomePage({ userName, user, callName, userEmail, onSignOut }: Props) {
   const enterStarted = useRef(false);
 
   const hour = new Date().getHours();
   const greeting = hour < 12 ? "Morning" : hour < 18 ? "Afternoon" : "Evening";
-  const firstName = userName.trim().split(/\s+/)[0];
+  const firstName = callName?.trim() || userName.trim().split(/\s+/)[0];
   const [privacyMode, setPrivacyMode] = useState(false);
   /** Settings, opened from the account pill. Only its rail is built so far. */
   const [settingsOpen, setSettingsOpen] = useState(false);
@@ -467,11 +456,7 @@ export default function HomePage({ userName, userEmail, onSignOut }: Props) {
   };
 
   useEffect(() => {
-    try {
-      localStorage.setItem(CARD_ORDER_KEY, JSON.stringify(cardOrder));
-    } catch {
-      /* non-fatal */
-    }
+    writeCardOrder(localStorage, cardOrder, DEFAULT_CARD_ORDER);
   }, [cardOrder]);
 
   const rowCards = cardOrder.filter((id) => !isCardHidden(baseOf(id)));
@@ -577,9 +562,8 @@ export default function HomePage({ userName, userEmail, onSignOut }: Props) {
   /**
    * The card menu's two verbs. Duplicate opens a copy right after the
    * original, at the original's size — the copy is a card like any other, so
-   * it drags, resizes, and removes on its own. Remove takes the card off this
-   * arrangement only: `loadCardOrder` re-appends any missing default card on
-   * the next launch, so nobody can strand themselves with an empty grid.
+   * it drags, resizes, and removes on its own. Remove takes the card off, and
+   * it stays off across launches; Add Module is the way back.
    */
   const duplicateCard = (id: CardId): CardId => {
     const copy = `${baseOf(id)}#${Date.now()}` as CardId;
@@ -977,7 +961,7 @@ export default function HomePage({ userName, userEmail, onSignOut }: Props) {
       <BriefingHost masked={privacyMode} view={view} />
 
       {/* Settings. The rail only, for now. */}
-      <SettingsModal open={settingsOpen} onClose={() => setSettingsOpen(false)} />
+      <SettingsModal open={settingsOpen} onClose={() => setSettingsOpen(false)} user={user ?? null} />
 
       {/* Update notice — bottom-left, same inset as the brand mark up top. */}
       <UpdatePill className="absolute bottom-6 left-9 z-50" />

@@ -57,6 +57,48 @@ export async function saveFullName(fullName: string): Promise<void> {
   if (error) throw error;
 }
 
+/**
+ * The account pane's own fields, kept in the user's metadata beside the
+ * onboarding answers. Metadata travels inside every access token, so the free
+ * text is capped: a long note would make every request the app sends heavier.
+ */
+export const INSTRUCTIONS_MAX = 1000;
+
+/** How the reader asked to be addressed; empty when they have not said. */
+export function readCallName(user: User | null | undefined): string {
+  const value = user?.user_metadata?.preferred_name;
+  return typeof value === "string" ? value.trim() : "";
+}
+
+/** What the reader wants Falcon to keep in mind when it writes for them. */
+export function readInstructions(user: User | null | undefined): string {
+  const value = user?.user_metadata?.falcon_instructions;
+  return typeof value === "string" ? value : "";
+}
+
+export type AccountFields = {
+  full_name?: string;
+  preferred_name?: string;
+  falcon_instructions?: string;
+};
+
+export async function saveAccountFields(fields: AccountFields): Promise<void> {
+  const client = requireSupabase();
+  const { error } = await client.auth.updateUser({ data: fields });
+  if (error) throw error;
+}
+
+/**
+ * Ends every session this account has, on every device, this one included.
+ * The auth listener in App sees the sign-out and takes the app back to the
+ * login screen, as a sign-out from the menu does.
+ */
+export async function signOutEverywhere(): Promise<void> {
+  const client = requireSupabase();
+  const { error } = await client.auth.signOut({ scope: "global" });
+  if (error) throw error;
+}
+
 export type OnboardingProfileInput = {
   fullName: string;
   experience: ExperienceLevel;

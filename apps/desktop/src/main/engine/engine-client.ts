@@ -64,6 +64,28 @@ function accessToken(): string | null {
 
 export type EngineResult<T> = { ok: true; value: T } | { ok: false; error: string };
 
+/**
+ * What a failed reply is called in the panels. The engine's own failures carry
+ * `error`; when the request never reached the engine, the reply is Railway's
+ * edge speaking in its own shape (`{status:"error", code, message}`), and the
+ * one that matters is 404 "Application not found": the service is gone from
+ * that address altogether. Every card used to print that as "HTTP 404", which
+ * reads as a broken channel, and the News card was blamed for an outage that
+ * had taken the whole chain with it.
+ */
+function failureMessage(status: number, body: unknown, base: string): string {
+  const record = body && typeof body === "object" ? (body as Record<string, unknown>) : null;
+  if (record && typeof record.error === "string") return record.error;
+  const host = base.replace(/^https?:\/\//, "");
+  if (record && record.status === "error" && typeof record.message === "string") {
+    if (status === 404 && /not found/i.test(record.message)) {
+      return `engine service not found at ${host} (the Railway deployment is gone or moved)`;
+    }
+    return `${record.message} (HTTP ${status} from ${host})`;
+  }
+  return `HTTP ${status} from ${host}`;
+}
+
 async function request<T>(path: string, init: RequestInit = {}): Promise<EngineResult<T>> {
   const base = engineUrl();
   if (!base) return { ok: false, error: "engine not configured" };
@@ -83,13 +105,7 @@ async function request<T>(path: string, init: RequestInit = {}): Promise<EngineR
       },
     });
     const body = (await res.json().catch(() => null)) as T | { error?: string } | null;
-    if (!res.ok) {
-      const message =
-        body && typeof body === "object" && "error" in body && typeof body.error === "string"
-          ? body.error
-          : `HTTP ${res.status}`;
-      return { ok: false, error: message };
-    }
+    if (!res.ok) return { ok: false, error: failureMessage(res.status, body, base) };
     return { ok: true, value: body as T };
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
@@ -130,7 +146,10 @@ export async function engineHealth(): Promise<EngineResult<EngineHealth>> {
     // /health is deliberately unauthenticated, so this works before sign-in —
     // which is exactly when the app most needs to know whether it has a chain.
     const res = await fetch(`${base}/health`, { signal: controller.signal });
-    if (!res.ok) return { ok: false, error: `HTTP ${res.status}` };
+    if (!res.ok) {
+      const body = await res.json().catch(() => null);
+      return { ok: false, error: failureMessage(res.status, body, base) };
+    }
     return { ok: true, value: (await res.json()) as EngineHealth };
   } catch (err) {
     return { ok: false, error: err instanceof Error ? err.message : String(err) };

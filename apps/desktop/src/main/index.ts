@@ -8,6 +8,7 @@ import { setRendererSession } from "./session-bridge";
 import { configureDataPaths, seedDataRoot } from "./data-root";
 import { loadDesktopEnv } from "./load-desktop-env";
 import { configureProviderRouting } from "./provider-routing";
+import { scheduleModelSelfTest } from "./diagnostics/model-selftest";
 import { registerStep1ResearchHandlers } from "./research/register-step1-handlers";
 import { registerGraphHandlers } from "./research/register-graph-handlers";
 import { registerGlossHandlers } from "./gloss/register-gloss-handlers";
@@ -61,6 +62,8 @@ seedDataRoot(configureDataPaths());
 // Packaged builds carry no provider keys: Anthropic + Finnhub go through the
 // research-worker with the user's own session (see provider-routing.ts).
 configureProviderRouting();
+// Dev only, behind FALCON_MODEL_SELFTEST=1: one call down the model route, written to data/logs.
+scheduleModelSelfTest();
 
 // Classic scrollbars so ::-webkit-scrollbar CSS styling applies on Windows.
 if (process.platform === "win32") {

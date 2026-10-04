@@ -155,6 +155,11 @@ export function mastheadDate(report: CalendarReport): string {
   return dayLabel(report.window.target_session_ymd);
 }
 
+/** The quiet line for a day past what the report knows of held names' earnings. */
+export function earningsReachNote(throughYmd: string): string {
+  return `Earnings of held names are listed through ${fullDate(throughYmd)}.`;
+}
+
 /** "MON SEP 28" for any calendar date: the head names the day the strip has picked, closed days included. */
 export function dayLabel(ymd: string): string {
   return weekdayDate(ymd).toUpperCase();

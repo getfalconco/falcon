@@ -39,6 +39,16 @@ import {
 // The picked day
 // ---------------------------------------------------------------------------
 
+/**
+ * The session before or after `ymd`, skipping weekends and market holidays,
+ * or null when that session falls outside the curated file's months: every
+ * day there would read "not covered", so the arrows stop at its edge.
+ */
+export function stepSession(ymd: string, direction: -1 | 1, coverage: { from: string; until: string }): string | null {
+  const next = addTradingDays(ymd, direction);
+  return next < coverage.from || next > coverage.until ? null : next;
+}
+
 export type DayCalendar =
   | {
       closed: false;
