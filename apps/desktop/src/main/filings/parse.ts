@@ -466,7 +466,10 @@ const FIRM_SUFFIX = "(?:LLP|L\\.L\\.P\\.|LLC|P\\.C\\.|PLLC|Ltd\\.?|Limited|AG|Gm
 export function auditorName(html: string, text: string): string | null {
   const tagged = /<ix:nonnumeric[^>]*name\s*=\s*"dei:AuditorName"[^>]*>([\s\S]*?)<\/ix:nonnumeric>/i.exec(html);
   if (tagged) {
-    const name = decodeEntities(tagged[1]!.replace(/<[^>]+>/g, " ")).replace(/\s+/g, " ").trim();
+    // Inline runs join as they read ("<span>Pric</span><span>ewaterhouse...", a
+    // 20-F laid out from a PDF); only a block or a line break parts words.
+    const inner = tagged[1]!.replace(/<(?:br|\/?(?:div|p|td|th|tr|li|table))\b[^>]*>/gi, " ").replace(/<[^>]+>/g, "");
+    const name = decodeEntities(inner).replace(/\s+/g, " ").trim();
     if (name) return name;
   }
   const at = text.search(/report of independent registered public accounting firm/i);

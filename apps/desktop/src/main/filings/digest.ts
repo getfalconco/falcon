@@ -25,7 +25,7 @@ import {
 } from "./parse";
 
 /** Bumped when the parser changes what a digest holds: older digests are read again. */
-export const DIGEST_VERSION = 1;
+export const DIGEST_VERSION = 2;
 
 /** The submissions index's entry for one filing (agents/sources.ts FilingRef). */
 export type FilingLike = {

@@ -151,6 +151,12 @@ describe("red flag readers", () => {
     const a = read("tenk-2025.html");
     assert.equal(auditorName(a.html, a.text), "Ernst & Young LLP");
     assert.equal(auditorName("", "Report of Independent Registered Public Accounting Firm\n/s/ Deloitte & Touche LLP\nSan Jose"), "Deloitte & Touche LLP");
+    // Spans that split a word (a 20-F laid out from a PDF) join; a block parts words.
+    assert.equal(
+      auditorName('<ix:nonNumeric name="dei:AuditorName"><span>Pric</span><span>ewaterhouseCoopers</span><span> Accountants N.V.</span></ix:nonNumeric>', ""),
+      "PricewaterhouseCoopers Accountants N.V.",
+    );
+    assert.equal(auditorName('<ix:nonNumeric name="dei:AuditorName"><div>KPMG</div><div>LLP</div></ix:nonNumeric>', ""), "KPMG LLP");
     assert.ok(sameAuditor("PricewaterhouseCoopers LLP", "PricewaterhouseCoopers, LLP"));
     assert.ok(!sameAuditor("Ernst & Young LLP", "KPMG LLP"));
   });

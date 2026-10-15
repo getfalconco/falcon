@@ -61,8 +61,8 @@ export { DIGEST_VERSION, digestOf, isAnnual, type FilingDigest, type FilingLike 
 const gunzip = promisify(zlib.gunzip);
 const gzip = promisify(zlib.gzip);
 
-/** 2: items carry `carried`. */
-const CHANGES_VERSION = 2;
+/** 2: items carry `carried`. 3: built from v2 digests (auditor names read whole). */
+const CHANGES_VERSION = 3;
 /** A kept answer that does not cover a filing asked about is read again, but not more often than this. */
 export const COVERING_RETRY_MS = 10 * 60_000;
 export const FAILURE_RETRY_MS = 30 * 60_000;

@@ -20,6 +20,10 @@ export default defineConfig({
     },
     plugins: [react()],
     build: {
+      // Fonts stay files: Vite would inline the small @fontsource subsets
+      // (cyrillic, vietnamese, symbols) as data: URLs, which the page's CSP
+      // (font-src 'self') refuses, so those glyphs fell back to system fonts.
+      assetsInlineLimit: (file) => (/\.(woff2?|ttf|otf)$/i.test(file) ? false : undefined),
       rollupOptions: {
         // The app, and the dark theme editor's window (Settings, Developer, Testing).
         input: {
