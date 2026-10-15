@@ -1,5 +1,8 @@
 import { createRoot } from "react-dom/client";
 import "../globals.css";
+import { applyLanguage, setLanguage } from "../lib/i18n";
+import { applyTheme, getStoredTheme } from "../lib/theme";
+import { isLanguageCode } from "../lib/i18n/languages";
 import CalendarCard from "../components/dashboard/CalendarCard";
 import { mulberry32 } from "../lib/demo-mode";
 import { seedPaperAccount, type PaperPosition } from "../lib/paper-account";
@@ -16,7 +19,8 @@ import { resolveBriefingWindow, type BriefingHolding, type BriefingReport, type 
  *   ?state=pre             default: 07:16 ET, every timed row ahead, the now line at the top
  *   ?state=open            11:00 ET, the morning prints behind the line, the afternoon ahead
  *   ?state=after           17:30 ET, every row behind the line, the line under the last one
- *   ?state=next            21:30 ET the evening before: the report has rolled to the next session
+ *   ?state=next            21:30 ET the Sunday evening before: the report has rolled to Monday, the card
+ *                          still opens on Sunday (today), with Monday one arrow on
  *   ?state=ended           01:00 ET the night after: a report the clock has left behind (a refetch that failed)
  *   ?state=empty           nothing on the session's calendar
  *   ?state=stale           the curated calendar ends before this session (covers_target: false)
@@ -25,12 +29,25 @@ import { resolveBriefingWindow, type BriefingHolding, type BriefingReport, type 
  *   ?state=error           getBriefing answers { ok: false, error: "build_failed" }
  *   ?state=old-main        a bridge with no briefing handlers at all: the "unsupported" state
  *
+ *   ?date=YYYY-MM-DD       fake the date: the clock is that New York day at ?at (default 11:00), and the
+ *                          report is resolved for that clock, as the engine would (2026-10-11 is a
+ *                          Sunday, 2026-09-07 Labor Day, 2026-10-09 with ?at=18:30 a Friday after the close)
+ *   ?at=HH:MM              the New York time on the scene day, or on ?date
+ *
+ *   ?theme=dark            draw in that theme
+ *
  *   ?w=px ?h=px            the card's box (default 420 by 560), the way the canvas sizes it
  *   ?delay=ms              how long the stubbed getBriefing takes (default 400)
  *
  * Probes: `window.__calendar.gets` counts requests to the bridge.
  */
 const params = new URLSearchParams(location.search);
+const themeParam = params.get("theme");
+applyTheme(themeParam === "dark" || themeParam === "light" ? themeParam : getStoredTheme());
+// ?lang=tr-TR shows the surface in that language (kept, as a pick would be).
+const langParam = params.get("lang");
+if (isLanguageCode(langParam)) setLanguage(langParam);
+applyLanguage();
 const state = params.get("state") ?? "pre";
 const width = Math.max(200, Number(params.get("w") ?? 420) || 420);
 const height = Math.max(200, Number(params.get("h") ?? 560) || 560);
@@ -63,11 +80,24 @@ const HOLDINGS: BriefingHolding[] = [
 
 /** `?at=HH:MM` pins the scene clock to that New York time on the scene day, whatever the state. */
 const at = /^\d\d:\d\d$/.test(params.get("at") ?? "") ? (params.get("at") as string).split(":").map(Number) : null;
-const sceneNowMs = at ? SCENE_DAY_OPEN_MS + ((at[0] - 9) * 60 + (at[1] - 30)) * 60_000 : (CLOCKS[state] ?? CLOCKS.pre);
+/** The instant a New York wall time names: EDT first, EST when that reads back wrong. */
+function nyWallMs(ymd: string, h: number, m: number): number {
+  const [y, mo, d] = ymd.split("-").map(Number);
+  const edt = Date.UTC(y, mo - 1, d, h + 4, m);
+  const hour = new Intl.DateTimeFormat("en-US", { timeZone: "America/New_York", hourCycle: "h23", hour: "2-digit" }).format(new Date(edt));
+  return Number(hour) % 24 === h ? edt : edt + HOUR_MS;
+}
+const fakeDate = /^\d{4}-\d{2}-\d{2}$/.test(params.get("date") ?? "") ? (params.get("date") as string) : null;
+const sceneNowMs = fakeDate
+  ? nyWallMs(fakeDate, at ? at[0] : 11, at ? at[1] : 0)
+  : at
+    ? SCENE_DAY_OPEN_MS + ((at[0] - 9) * 60 + (at[1] - 30)) * 60_000
+    : (CLOCKS[state] ?? CLOCKS.pre);
 // The window is resolved at 07:16 on the scene day for every state, so the
 // same session (and so the same rows) is listed whichever clock views it; a
 // window resolved at 21:30 the evening before would already be that session.
-const sceneWindow: BriefingWindow = resolveBriefingWindow(new Date(CLOCKS.pre));
+// A faked date resolves it at its own clock instead, as the engine would.
+const sceneWindow: BriefingWindow = resolveBriefingWindow(new Date(fakeDate ? sceneNowMs : CLOCKS.pre));
 
 /**
  * `?clock=real`: the report is not flagged demo, so the card reads the wall
@@ -174,10 +204,10 @@ for (const h of HOLDINGS) positions[h.symbol] = { symbol: h.symbol, shares: h.sh
 seedPaperAccount({ cash: CASH, positions });
 
 createRoot(document.getElementById("root")!).render(
-  <div className="min-h-screen bg-[#EAEAE6] p-8">
+  <div className="min-h-screen p-8" style={{ background: document.documentElement.dataset.theme === "dark" ? "hsl(0 0% 3.5%)" : "#EAEAE6" }}>
     {/* The canvas gives every card a box and overrides its resting min-height, as here. */}
     <div className="[&>*]:!min-h-0" style={{ width, height }}>
-      <CalendarCard onDuplicate={() => undefined} onRemove={() => undefined} />
+      <CalendarCard onDuplicate={() => undefined} onRemove={() => undefined} onOpenCalendar={() => console.log("open calendar")} />
     </div>
   </div>,
 );

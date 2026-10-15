@@ -1,4 +1,6 @@
+import { repairMojibake } from "@meridian/research/news";
 import { anthropicGlossCaller, glossConfigured } from "@meridian/research/gloss";
+import { insightModel } from "./insight-explanation-service";
 import { decodeEscapes } from "./explanation-cache";
 import type { InsightChatRequest } from "../../shared/insight-chat";
 
@@ -12,7 +14,6 @@ import type { InsightChatRequest } from "../../shared/insight-chat";
  * is a live call and the history lives only in the open panel.
  */
 
-const MODEL = "claude-opus-5";
 const MAX_TOKENS = 1600;
 const TIMEOUT_MS = 60_000;
 /** Enough for a real exchange, short enough that the prompt stays cheap. */
@@ -92,18 +93,23 @@ function buildUser(req: InsightChatRequest): string {
   return lines.join("\n");
 }
 
-export async function askInsightChat(req: InsightChatRequest): Promise<string> {
+export async function askInsightChat(rawReq: InsightChatRequest): Promise<string> {
+  // A headline filed before ingestion repaired provider mojibake ("weekâ€™s")
+  // is fixed before it reaches the model (and so the answer). Clean text is
+  // unchanged.
+  const req: InsightChatRequest =
+    typeof rawReq?.headline === "string" ? { ...rawReq, headline: repairMojibake(rawReq.headline) } : rawReq;
   const last = req.turns?.[req.turns.length - 1];
   if (!last || last.role !== "user" || !last.text.trim()) {
     throw new Error("Nothing to answer.");
   }
   if (last.text.length > MAX_QUESTION_CHARS) {
-    throw new Error("That question is too long — trim it and ask again.");
+    throw new Error("That question is too long. Trim it and ask again.");
   }
   if (!glossConfigured()) throw new Error("ANTHROPIC_API_KEY is not configured");
 
   const output = await anthropicGlossCaller({
-    model: MODEL,
+    model: insightModel(),
     max_tokens: MAX_TOKENS,
     effort: "low",
     system: SYSTEM,

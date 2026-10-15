@@ -1,6 +1,8 @@
 import { createRoot } from "react-dom/client";
 import "../globals.css";
 import ScreenPanel from "../components/screen/ScreenPanel";
+import { setLanguage } from "../lib/i18n";
+import { isLanguageCode } from "../lib/i18n/languages";
 import fixture from "./screen-fixture.json";
 import gaugeFixture from "./screen-gauge-fixture.json";
 
@@ -12,8 +14,11 @@ import gaugeFixture from "./screen-gauge-fixture.json";
  *   screen.html?empty=1    no scan yet
  *   screen.html?select=QCOM&gauge=1   pre-select the first QCOM row and open the Gauge link (headless screenshots)
  *   screen.html?rescan=1&nochange=1   press rescan (nochange: zero-transition scan → the "no change" line)
+ *   screen.html?lang=ja-JP            the panel in that language (kept, as a pick would be)
  */
 const params = new URLSearchParams(location.search);
+const langParam = params.get("lang");
+if (isLanguageCode(langParam)) setLanguage(langParam);
 const empty = params.get("empty") === "1";
 const select = params.get("select");
 const autoGauge = params.get("gauge") === "1";
@@ -61,11 +66,11 @@ window.addEventListener("falcon:gauge-open", (e) => {
 };
 
 if (autoRescan) {
-  setTimeout(() => [...document.querySelectorAll("button")].find((b) => b.textContent?.trim() === "rescan")?.click(), 400);
+  setTimeout(() => (document.querySelector("[data-testid=screen-rescan]") as HTMLButtonElement | null)?.click(), 400);
 }
 
 if (showEnded) {
-  setTimeout(() => [...document.querySelectorAll("button")].find((b) => b.textContent?.startsWith("ENDED"))?.click(), 300);
+  setTimeout(() => (document.querySelector("[data-testid=screen-ended-toggle]") as HTMLButtonElement | null)?.click(), 300);
 }
 
 if (select) {

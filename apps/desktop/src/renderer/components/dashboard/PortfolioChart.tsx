@@ -1,3 +1,4 @@
+import { clockLabel } from "@/lib/clock";
 import { useEffect, useMemo, useState } from "react";
 import type { PricePoint } from "../../../shared/stock-types";
 import { paperScopeKey, readPaperAccount } from "@/lib/paper-account";
@@ -6,6 +7,8 @@ import { getStockChartRange } from "@/lib/stock-api";
 import { fetchCloudSnapshots, type CloudSnapshot } from "@/lib/portfolio-sync";
 import { usePortfolioValuation } from "@/hooks/usePortfolioBalance";
 import { cn } from "@/lib/utils";
+import { useI18n } from "@/lib/i18n";
+import { monthDay, monthShort, weekdayShort } from "@/lib/dashboard-dates";
 import type { Timeframe } from "./TimeframeControls";
 
 /**
@@ -207,14 +210,13 @@ const AREA_FLOOR = H - 52;
 const COL_BASE = H - 2;
 const COL_MAX = 46;
 
-const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-
-/** Calendar tick positions for the bottom axis, per timeframe. */
+/** Calendar tick positions for the bottom axis, per timeframe. Month and
+ *  weekday names are the reader's language's (`locale`). */
 function xTicksFor(
   timeframe: Timeframe,
   domainStart: number,
   now: number,
+  locale: string,
 ): Array<{ t: number; label: string }> {
   const ticks: Array<{ t: number; label: string }> = [];
 
@@ -228,7 +230,7 @@ function xTicksFor(
     while (d.getTime() <= now) {
       ticks.push({
         t: d.getTime(),
-        label: `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`,
+        label: clockLabel(d.getHours(), d.getMinutes()),
       });
       d.setMinutes(d.getMinutes() + 10);
     }
@@ -247,8 +249,8 @@ function xTicksFor(
         t: d.getTime(),
         label:
           d.getHours() === 0
-            ? `${MONTHS[d.getMonth()]} ${d.getDate()}`
-            : `${String(d.getHours()).padStart(2, "0")}:00`,
+            ? monthDay(d, locale)
+            : clockLabel(d.getHours(), 0),
       });
       d.setHours(d.getHours() + 6);
     }
@@ -261,7 +263,7 @@ function xTicksFor(
     d.setHours(12, 0, 0, 0);
     if (d.getTime() < domainStart) d.setDate(d.getDate() + 1);
     while (d.getTime() <= now) {
-      ticks.push({ t: d.getTime(), label: WEEKDAYS[d.getDay()] });
+      ticks.push({ t: d.getTime(), label: weekdayShort(d, locale) });
       d.setDate(d.getDate() + 1);
     }
     return ticks;
@@ -273,7 +275,7 @@ function xTicksFor(
     d.setHours(12, 0, 0, 0);
     while (d.getDay() !== 1 || d.getTime() < domainStart) d.setDate(d.getDate() + 1);
     while (d.getTime() <= now) {
-      ticks.push({ t: d.getTime(), label: `${MONTHS[d.getMonth()]} ${d.getDate()}` });
+      ticks.push({ t: d.getTime(), label: monthDay(d, locale) });
       d.setDate(d.getDate() + 7);
     }
     return ticks;
@@ -285,7 +287,7 @@ function xTicksFor(
   d.setHours(0, 0, 0, 0);
   if (d.getTime() < domainStart) d.setMonth(d.getMonth() + 1);
   while (d.getTime() <= now) {
-    ticks.push({ t: d.getTime(), label: MONTHS[d.getMonth()] });
+    ticks.push({ t: d.getTime(), label: monthShort(d, locale) });
     d.setMonth(d.getMonth() + 1);
   }
   return ticks;
@@ -304,16 +306,15 @@ type HoverPoint = { xPct: number; yPct: number; value: number; t: number };
  * would be inventing a precision the data does not have, so those show the
  * date alone.
  */
-function hoverStamp(timeframe: Timeframe, t: number): string {
+function hoverStamp(timeframe: Timeframe, t: number, locale: string): string {
   const d = new Date(t);
-  const date = `${MONTHS[d.getMonth()]} ${d.getDate()}`;
-  const hh = String(d.getHours()).padStart(2, "0");
-  const mm = String(d.getMinutes()).padStart(2, "0");
+  const date = monthDay(d, locale);
+  const time = clockLabel(d.getHours(), d.getMinutes());
   // An hour of one day: the date is the same at every point, so the clock is
   // the only part that says anything.
-  if (timeframe === "Hour") return `${hh}:${mm}`;
+  if (timeframe === "Hour") return time;
   if (timeframe !== "Day" && timeframe !== "Week") return date;
-  return `${date} · ${hh}:${mm}`;
+  return `${date} · ${time}`;
 }
 
 export default function PortfolioChart({
@@ -342,6 +343,7 @@ export default function PortfolioChart({
   /** Fires with the hovered point's value while scrubbing, null on leave. */
   onScrub?: (value: number | null) => void;
 }) {
+  const { locale, t } = useI18n();
   const [hover, setHover] = useState<HoverPoint | null>(null);
   const demo = useDemoMode();
   const DEMO_SERIES = demo != null;
@@ -667,7 +669,7 @@ export default function PortfolioChart({
         : "";
 
     // Calendar ticks along the bottom, positioned as a % of chart width.
-    const xTicks = xTicksFor(timeframe, domainStart, now).map((tick) => ({
+    const xTicks = xTicksFor(timeframe, domainStart, now, locale).map((tick) => ({
       label: tick.label,
       leftPct: (xAt(tick.t) / W) * 100,
     }));
@@ -681,7 +683,7 @@ export default function PortfolioChart({
     }));
 
     return { line, area, benchLine, growthLine, xTicks, hoverPts };
-  }, [series, benchmark, growth, timeframe, comparisonLines]);
+  }, [series, benchmark, growth, timeframe, comparisonLines, locale]);
 
   if (!chart) return null;
 
@@ -723,7 +725,7 @@ export default function PortfolioChart({
             // the series continues past the window, so a hard stop reads as
             // the data ending there.
             className="h-full w-full [-webkit-mask-image:linear-gradient(to_right,transparent_0%,#000_4%)] [mask-image:linear-gradient(to_right,transparent_0%,#000_4%)]"
-            aria-label="Portfolio value chart"
+            aria-label={t("dashboard.portfolioValue.chartLabel")}
           >
             <defs>
               <linearGradient id="pv-fade" x1="0" y1="0" x2="0" y2="1">
@@ -809,7 +811,7 @@ export default function PortfolioChart({
                 className="pointer-events-none absolute top-1 z-10 -translate-x-1/2 whitespace-nowrap rounded-lg border border-white/60 bg-white/40 px-1.5 py-0.5 font-['Geist_Mono'] text-[10px] tabular-nums text-[#1d1b1b] shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_8px_24px_rgba(0,0,0,0.10)] ring-1 ring-black/[0.04] backdrop-blur-xl backdrop-saturate-150"
                 style={{ left: `${Math.min(Math.max(hover.xPct, 7), 93)}%` }}
               >
-                {hoverStamp(timeframe, hover.t)}
+                {hoverStamp(timeframe, hover.t, locale)}
               </div>
             </>
           ) : null}

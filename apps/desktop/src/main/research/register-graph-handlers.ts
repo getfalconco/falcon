@@ -26,7 +26,7 @@ export function registerGraphHandlers(): void {
       if (graph.edgeCount === 0) {
         return {
           ok: false as const,
-          error: "no validated edges yet — run Begin Analysis on a stock first",
+          error: "no filing links yet: run Begin Analysis on a stock first",
         };
       }
       return { ok: true as const, graph, path: researchDir };

@@ -109,11 +109,11 @@ describe("run badge priority — open > contradicted > partial > priced > no edg
     assert.deepEqual(runBadge(summary({ priced: 3 })), { word: "3 PRICED", tone: "priced" });
   });
 
-  it("NO EDGE only when nothing transmitted or nothing is tracked", () => {
-    assert.deepEqual(runBadge(summary()), { word: "NO EDGE", tone: "none" });
-    assert.deepEqual(runBadge(summary({ targets: 8, untracked: 8 })), { word: "NO EDGE", tone: "none" });
+  it("NO EFFECT only when nothing transmitted or nothing is tracked", () => {
+    assert.deepEqual(runBadge(summary()), { word: "NO EFFECT", tone: "none" });
+    assert.deepEqual(runBadge(summary({ targets: 8, untracked: 8 })), { word: "NO EFFECT", tone: "none" });
     // …and never for a run that has a contradicted target.
-    assert.notEqual(runBadge(summary({ contradicted: 1, untracked: 8 })).word, "NO EDGE");
+    assert.notEqual(runBadge(summary({ contradicted: 1, untracked: 8 })).word, "NO EFFECT");
   });
 
   it("the badge never contradicts the visibility rule", () => {

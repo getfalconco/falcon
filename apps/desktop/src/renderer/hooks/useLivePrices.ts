@@ -21,6 +21,12 @@ import { getLiveQuote, getStockQuote } from "@/lib/stock-api";
 /** A live print and the move it is up or down on the session. */
 export type LiveQuoteRow = { price: number; changePercent: number | null };
 
+function sameQuotes(a: Record<string, LiveQuoteRow>, b: Record<string, LiveQuoteRow>): boolean {
+  const keys = Object.keys(a);
+  if (keys.length !== Object.keys(b).length) return false;
+  return keys.every((k) => b[k] !== undefined && a[k].price === b[k].price && a[k].changePercent === b[k].changePercent);
+}
+
 export function useLiveQuotes(symbolsKey: string): Record<string, LiveQuoteRow> {
   const [prices, setPrices] = useState<Record<string, LiveQuoteRow>>({});
 
@@ -81,7 +87,9 @@ export function useLiveQuotes(symbolsKey: string): Record<string, LiveQuoteRow> 
           for (const e of entries) {
             if (e && Number.isFinite(e[1].price) && e[1].price > 0) next[e[0]] = e[1];
           }
-          return next;
+          // A tick that moved nothing keeps the same map, so nothing redraws
+          // (every card on the book reads it, kept tabs included).
+          return sameQuotes(prev, next) ? prev : next;
         });
       });
     };

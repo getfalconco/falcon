@@ -1,3 +1,6 @@
+import { monthDay, monthDayTime, monthShort, weekdayShort } from "./dashboard-dates";
+import { translate, type MessageVars } from "./i18n/translate";
+import type { MessageKey } from "./i18n/messages";
 import type { PairHistoryEvent } from "../../shared/propagation-pair";
 import type {
   PropagationDirection,
@@ -13,7 +16,16 @@ import type {
  * no React and no fetching — which run the card speaks for, and how the
  * network's days read as a field of dots, both have to be decidable on their
  * own.
+ *
+ * The words come out of the i18n tables: every function that writes copy
+ * takes the caller's `t` (and a `locale` for dates), defaulting to English so
+ * a test or a caller with no language still reads.
  */
+
+/** `t(key, vars)`, as `useT()` hands it out. */
+export type Translate = (key: MessageKey, vars?: MessageVars) => string;
+
+const EN: Translate = (key, vars) => translate("en-US", key, vars);
 
 const MATERIALITY_RANK: Record<PropagationMateriality, number> = {
   high: 3,
@@ -54,7 +66,7 @@ export function runBadge(summary: PropagationRunListItem["summary"]): RunBadge {
   if (contradicted > 0) return { word: `${contradicted} CONTRADICTED`, tone: "against" };
   if (summary.partial > 0) return { word: `${summary.partial} PARTIAL`, tone: "partial" };
   if (summary.priced > 0) return { word: `${summary.priced} PRICED`, tone: "priced" };
-  return { word: "NO EDGE", tone: "none" };
+  return { word: "NO EFFECT", tone: "none" };
 }
 
 /** How much of this run is still unabsorbed — the engine's `no_edge` test. */
@@ -150,13 +162,8 @@ export function pickRun(runs: PropagationRunListItem[]): PropagationRunListItem 
 }
 
 /** `Aug 22, 11:08 PM` */
-export function stamp(iso: string): string {
-  const d = new Date(iso);
-  if (!Number.isFinite(d.getTime())) return "";
-  return `${d.toLocaleString("en-US", { month: "short", day: "numeric" })}, ${d.toLocaleString(
-    "en-US",
-    { hour: "2-digit", minute: "2-digit", hour12: true },
-  )}`;
+export function stamp(iso: string, locale = "en-US"): string {
+  return monthDayTime(new Date(iso), locale);
 }
 
 // ---------------------------------------------------------------------------
@@ -430,35 +437,44 @@ export function pricedInColor(pricedIn: number | null | undefined): string {
  * ago sits next to a quote from a second ago and looks equally live. Naming
  * the as-of date makes a frozen number say so.
  */
-export function pricedInDetail(target: PropagationTarget): string {
+export function pricedInDetail(target: PropagationTarget, t: Translate = EN): string {
   const p = target.pricing;
   const pct = (x: number | null | undefined) =>
     x == null || !Number.isFinite(x) ? null : `${x >= 0 ? "+" : "−"}${Math.abs(x * 100).toFixed(2)}%`;
 
   const realized = pct(p.realized_resid_pct ?? p.realized_raw_pct);
   const expected = pct(p.expected_pct);
-  if (!realized || !expected) return "nothing to measure this by yet";
+  if (!realized || !expected) return t("dashboard.insight.detail.none");
 
-  const lines = [`moved ${realized} of the ${expected} called move`];
+  const lines = [t("dashboard.insight.detail.moved", { realized, expected })];
   if (p.basis === "residual") {
-    lines.push("measured after the market's own move is removed");
+    lines.push(t("dashboard.insight.detail.residual"));
   } else if (p.basis === "raw") {
-    lines.push("raw move — no market adjustment available");
+    lines.push(t("dashboard.insight.detail.raw"));
   }
   if (p.reference_close != null) {
-    const from = p.reference_close_ts ? ` on ${p.reference_close_ts.slice(0, 10)}` : "";
-    lines.push(`from ${p.reference_close.toFixed(2)}${from}`);
+    const price = p.reference_close.toFixed(2);
+    lines.push(
+      p.reference_close_ts
+        ? t("dashboard.insight.detail.fromOn", { price, date: p.reference_close_ts.slice(0, 10) })
+        : t("dashboard.insight.detail.from", { price }),
+    );
   }
   if (p.last_price != null) {
-    const at = p.last_price_ts ? ` (as of ${p.last_price_ts.slice(0, 10)})` : "";
-    lines.push(`to ${p.last_price.toFixed(2)}${at}`);
+    const price = p.last_price.toFixed(2);
+    lines.push(
+      p.last_price_ts
+        ? t("dashboard.insight.detail.toAsOf", { price, date: p.last_price_ts.slice(0, 10) })
+        : t("dashboard.insight.detail.to", { price }),
+    );
   }
-  if (p.status === "stale") lines.push("window closed — this is final");
+  if (p.status === "stale") lines.push(t("dashboard.insight.detail.stale"));
   return lines.join(" · ");
 }
 
-export function formatPricedIn(pricedIn: number | null | undefined): string {
-  if (pricedIn == null || !Number.isFinite(pricedIn)) return "—";
+/** `+42%`, or the reader's own "n/a" (`common.na`) when there is no share, never a dash. */
+export function formatPricedIn(pricedIn: number | null | undefined, t: Translate = EN): string {
+  if (pricedIn == null || !Number.isFinite(pricedIn)) return t("common.na");
   const p = Math.round(pricedIn * 100);
   return `${p > 0 ? "+" : p < 0 ? "−" : ""}${Math.abs(p)}%`;
 }
@@ -492,7 +508,7 @@ export const LEGEND_COLORS = [
  * Where each month starts, as a column index — the label row along the top.
  * A month is only labelled if it has room, so `Aug Sep` never collides.
  */
-export function monthTicks(columns: DayCell[][]): Array<{ column: number; label: string }> {
+export function monthTicks(columns: DayCell[][], locale = "en-US"): Array<{ column: number; label: string }> {
   const ticks: Array<{ column: number; label: string }> = [];
   let lastMonth = -1;
   let lastColumn = -99;
@@ -506,35 +522,36 @@ export function monthTicks(columns: DayCell[][]): Array<{ column: number; label:
     // does, and never crowd two labels together.
     if (i === 0 || i - lastColumn < 3) return;
     lastColumn = i;
-    ticks.push({ column: i, label: first.toLocaleString("en-US", { month: "short" }) });
+    ticks.push({ column: i, label: monthShort(first, locale) });
   });
   return ticks;
 }
 
-/** Rows GitHub labels: Mon, Wed, Fri, with Sunday on top. */
-export const WEEKDAY_TICKS: Array<{ row: number; label: string }> = [
-  { row: 1, label: "Mon" },
-  { row: 3, label: "Wed" },
-  { row: 5, label: "Fri" },
-];
+/** Rows GitHub labels: Mon, Wed, Fri, with Sunday on top. A known week
+ *  (Sunday 2024-01-07) supplies the names, in the reader's language. */
+export function weekdayTicks(locale = "en-US"): Array<{ row: number; label: string }> {
+  return [1, 3, 5].map((row) => ({ row, label: weekdayShort(new Date(2024, 0, 7 + row, 12), locale) }));
+}
 
 /** `Aug 21 · 4 open · 1 priced in` */
-export function dayLabel(cell: DayCell): string {
+export function dayLabel(cell: DayCell, t: Translate = EN, locale = "en-US"): string {
   const d = new Date(`${cell.date}T12:00:00`);
-  const when = Number.isFinite(d.getTime())
-    ? d.toLocaleString("en-US", { month: "short", day: "numeric" })
-    : cell.date;
-  if (cell.items.length === 0) return `${when} · nothing propagated`;
+  const date = Number.isFinite(d.getTime()) ? monthDay(d, locale) : cell.date;
+  if (cell.items.length === 0) return t("dashboard.insight.day.nothing", { date });
   const share =
     cell.priced_in == null
-      ? "nothing to measure it by yet"
-      : `${formatPricedIn(cell.priced_in)} of the called move`;
+      ? t("dashboard.insight.share.unmeasured")
+      : t("dashboard.insight.share.ofCalled", { share: formatPricedIn(cell.priced_in, t) });
   // Nothing countable on either side yet — say how many ran rather than
   // claiming zero of each.
   if (cell.open === 0 && cell.priced === 0) {
-    return `${when} · ${cell.runs} propagation${cell.runs === 1 ? "" : "s"} · ${share}`;
+    return t(cell.runs === 1 ? "dashboard.insight.day.runsOne" : "dashboard.insight.day.runsMany", {
+      date,
+      count: cell.runs,
+      share,
+    });
   }
-  return `${when} · ${cell.open} open · ${cell.priced} priced in · ${share}`;
+  return t("dashboard.insight.day.counts", { date, open: cell.open, priced: cell.priced, share });
 }
 
 // ---------------------------------------------------------------------------
@@ -714,16 +731,20 @@ const TIER_RANK: Record<PropagationTarget["relationship"]["tier"], number> = {
   marginal: 1,
 };
 
-/** Short, human role for a row — "supplier", "customer"… */
-export function roleLabel(role: PropagationTarget["relationship"]["role"]): string {
-  switch (role) {
-    case "depended_on_by":
-      return "depends on it";
-    case "dependency":
-      return "dependency";
-    default:
-      return role;
-  }
+const ROLE_KEY: Record<PropagationRole, MessageKey> = {
+  supplier: "dashboard.insight.role.supplier",
+  customer: "dashboard.insight.role.customer",
+  competitor: "dashboard.insight.role.competitor",
+  partner: "dashboard.insight.role.partner",
+  dependency: "dashboard.insight.role.dependency",
+  depended_on_by: "dashboard.insight.role.depended_on_by",
+};
+
+/** Short, human role for a row — "supplier", "customer"… A role the engine
+ *  adds later reads as it wrote it. */
+export function roleLabel(role: PropagationTarget["relationship"]["role"], t: Translate = EN): string {
+  const key = Object.prototype.hasOwnProperty.call(ROLE_KEY, role) ? ROLE_KEY[role] : undefined;
+  return key ? t(key) : String(role);
 }
 
 /**
@@ -771,28 +792,23 @@ export function cardTargets(run: PropagationRun, limit: number): PropagationTarg
 // Why a name is here, in plain words
 // ---------------------------------------------------------------------------
 
-/** How the link reads as a sentence — the engine's role, said out loud. */
-function linkSentence(ticker: string, root: string, role: PropagationRole): string {
-  switch (role) {
-    case "supplier":
-      return `${ticker} supplies ${root}`;
-    case "customer":
-      return `${ticker} buys from ${root}`;
-    case "competitor":
-      return `${ticker} competes with ${root}`;
-    case "partner":
-      return `${ticker} partners with ${root}`;
-    case "dependency":
-      return `${root} depends on ${ticker}`;
-    case "depended_on_by":
-      return `${ticker} depends on ${root}`;
-  }
-}
+/** How the link reads as a sentence — the engine's role and the link's tier,
+ *  said out loud. One whole sentence per pair, so every language keeps its
+ *  own word order (and English its "a critical" / "an important"). */
+const LINK_KEY: Record<PropagationRole, MessageKey> = {
+  supplier: "dashboard.insight.link.supplier",
+  customer: "dashboard.insight.link.customer",
+  competitor: "dashboard.insight.link.competitor",
+  partner: "dashboard.insight.link.partner",
+  dependency: "dashboard.insight.link.dependency",
+  depended_on_by: "dashboard.insight.link.depended_on_by",
+};
 
-/** "a critical link", but "an important link". */
-function article(word: string): string {
-  return /^[aeiou]/i.test(word) ? "an" : "a";
-}
+const TIER_KEY: Record<PropagationTarget["relationship"]["tier"], MessageKey> = {
+  critical: "dashboard.insight.tier.critical",
+  important: "dashboard.insight.tier.important",
+  marginal: "dashboard.insight.tier.marginal",
+};
 
 /** `-1.14%` / `+2.40%` — a signed move, or null when there is none to show. */
 function signedPct(value: number | null): string | null {
@@ -856,11 +872,13 @@ export function targetExplain(
   t: PropagationTarget,
   run: { root_ticker: string; event: { label: string } },
   pricedIn: number | null,
+  tr: Translate = EN,
 ): TargetExplanation {
   const ticker = (t.ticker ?? t.label).toUpperCase();
   const rootTicker = run.root_ticker.toUpperCase();
-  const tier = t.relationship.tier;
-  const link = `${linkSentence(ticker, rootTicker, t.relationship.role)} — ${article(tier)} ${tier} link.`;
+  const link = tr(TIER_KEY[t.relationship.tier] ?? "dashboard.insight.tier.marginal", {
+    link: tr(LINK_KEY[t.relationship.role] ?? "dashboard.insight.link.partner", { ticker, root: rootTicker }),
+  });
   // The engine's own words where it has them; the plain sentence otherwise.
   const trimmed = trimMechanism(t.mechanism ?? "", rootTicker, run.event.label);
   const why = trimmed || link;
@@ -869,20 +887,19 @@ export function targetExplain(
   const direction = t.stage2?.direction ?? t.transmission.direction;
   const size = sizePct(t.pricing.expected_pct);
   let expected: string;
-  if (direction === "positive" || direction === "negative") {
-    const way = direction === "positive" ? "higher" : "lower";
-    expected = size ? `Expected to move ${way}, about ${size}.` : `Expected to move ${way}.`;
+  if (direction === "positive") {
+    expected = size ? tr("dashboard.insight.expected.up", { size }) : tr("dashboard.insight.expected.upNoSize");
+  } else if (direction === "negative") {
+    expected = size ? tr("dashboard.insight.expected.down", { size }) : tr("dashboard.insight.expected.downNoSize");
   } else if (direction === "mixed") {
-    expected = size
-      ? `Could move either way — about ${size} of movement is what the link implies.`
-      : "Could move either way — only the size of the move is judged.";
+    expected = size ? tr("dashboard.insight.expected.mixed", { size }) : tr("dashboard.insight.expected.mixedNoSize");
   } else {
     expected = size
-      ? `Direction unclear — the link implies about ${size} of movement, either way.`
-      : "Direction unclear — only the size of the move is judged.";
+      ? tr("dashboard.insight.expected.unclear", { size })
+      : tr("dashboard.insight.expected.unclearNoSize");
   }
   if (t.transmission.transmits === "weak") {
-    expected += " The link transmits weakly, so expect a muted move.";
+    expected = `${expected} ${tr("dashboard.insight.expected.weak")}`;
   }
 
   // The tape sentence reads off the very number the row shows, so the card
@@ -890,33 +907,38 @@ export function targetExplain(
   // negative is a move against the call, past 100% is an overshoot.
   const moved = signedPct(t.pricing.realized_resid_pct ?? t.pricing.realized_raw_pct);
   const sessions = t.pricing.sessions_elapsed;
-  const sessionTail =
-    sessions != null && sessions > 0 ? ` ${sessions} session${sessions === 1 ? "" : "s"} in.` : "";
+  // "3 sessions in.": its own sentence, set after the one it qualifies.
+  const withSessions = (sentence: string) =>
+    sessions != null && sessions > 0
+      ? `${sentence} ${tr(sessions === 1 ? "dashboard.insight.tape.sessionsOne" : "dashboard.insight.tape.sessionsMany", { count: sessions })}`
+      : sentence;
   const share = pricedIn == null || !Number.isFinite(pricedIn) ? null : Math.round(pricedIn * 100);
   let tape: string;
   if (t.pricing.status === "stale") {
-    tape = "The window has closed — treat it as priced.";
+    tape = tr("dashboard.insight.tape.stale");
   } else if (share == null) {
     tape =
       t.pricing.status === "open"
-        ? `The market has not priced this in yet.${sessionTail}`
-        : "No usable price for this name yet.";
+        ? withSessions(tr("dashboard.insight.tape.notYet"))
+        : tr("dashboard.insight.tape.noPrice");
   } else if (share < 0) {
     tape = moved
-      ? `Moved ${moved} — the wrong way, ${Math.abs(share)}% of the called move against the call.`
-      : `Moving against the call — ${Math.abs(share)}% of it, the wrong way.`;
+      ? tr("dashboard.insight.tape.againstMoved", { moved, share: Math.abs(share) })
+      : tr("dashboard.insight.tape.against", { share: Math.abs(share) });
   } else if (share <= 2) {
-    tape = `The market has not priced this in yet.${sessionTail}`;
+    tape = withSessions(tr("dashboard.insight.tape.notYet"));
   } else if (share < 85) {
-    tape = moved
-      ? `Moved ${moved} so far — about ${share}% of the called move.${sessionTail}`
-      : `About ${share}% of the called move has arrived.${sessionTail}`;
+    tape = withSessions(
+      moved
+        ? tr("dashboard.insight.tape.partialMoved", { moved, share })
+        : tr("dashboard.insight.tape.partial", { share }),
+    );
   } else if (share <= 115) {
-    tape = moved ? `Moved ${moved} — the called move has arrived.` : "The called move has arrived.";
+    tape = moved ? tr("dashboard.insight.tape.arrivedMoved", { moved }) : tr("dashboard.insight.tape.arrived");
   } else {
     tape = moved
-      ? `Moved ${moved} — ${share}% of the called move, more than was called for.`
-      : `${share}% of the called move — more than was called for.`;
+      ? tr("dashboard.insight.tape.overMoved", { moved, share })
+      : tr("dashboard.insight.tape.over", { share });
   }
 
   return { why, expected, direction, tape };

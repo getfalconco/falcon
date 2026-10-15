@@ -6,6 +6,7 @@ import { describe, it } from "node:test";
 import type { CalendarItem, CalendarReport, SessionWindow } from "./calendar-types";
 import { calendarView, degradedNotes, effectivePhase, etClock, mastheadDate, nyYmd, viewNow } from "./calendar-view";
 import { copyProblems } from "./copy-rules";
+import { en as briefingEn } from "../renderer/lib/i18n/messages/areas/briefing";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 
@@ -317,10 +318,19 @@ describe("copy rules", () => {
     // "May ease later" in the same file still fails.
     const monthTableEntry = 'banned word "may": May';
     assert.deepEqual(copyProblems(src, { riskWords: true }).filter((problem) => problem !== monthTableEntry), []);
+  });
+
+  // The words themselves live in the briefing area's English table, which
+  // every other language is translated from; the rules are held over it.
+  it("keeps the English table the view reads clean", () => {
+    const table = Object.values(briefingEn)
+      .map((text) => JSON.stringify(text))
+      .join("\n");
+    assert.deepEqual(copyProblems(table, { riskWords: true }), []);
     // A rule that passes because the copy vanished would be worse than the
     // rule failing, so pin the lines the card actually shows.
-    assert.ok(src.includes("Calendar covers until"));
-    assert.ok(src.includes("The macro calendar is unavailable right now."));
-    assert.ok(src.includes("Earnings dates are unavailable for"));
+    assert.ok(table.includes("Calendar covers until"));
+    assert.ok(table.includes("The macro calendar is unavailable right now."));
+    assert.ok(table.includes("Earnings dates are unavailable for"));
   });
 });

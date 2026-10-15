@@ -1,6 +1,15 @@
 import { createRoot } from "react-dom/client";
+import { applyLanguage, setLanguage } from "../lib/i18n";
+import { isLanguageCode } from "../lib/i18n/languages";
 import "../globals.css";
 import PortfolioCard from "../components/dashboard/PortfolioCard";
+
+// ?lang=tr-TR shows the card in that language (kept, as a pick would be).
+{
+  const lang = new URLSearchParams(location.search).get("lang");
+  if (isLanguageCode(lang)) setLanguage(lang);
+  applyLanguage();
+}
 
 /**
  * Scratch harness: the real Assets card over a seeded paper account with one

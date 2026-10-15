@@ -19,21 +19,40 @@ type AnyHandler = (event: IpcMainInvokeEvent, ...args: never[]) => unknown;
 /** Every registered handler, by channel — what `invokeChannel` answers from. */
 const handlers = new Map<string, AnyHandler>();
 
+/**
+ * Wraps a channel's whole answer, wherever it comes from (the engine or the
+ * local handler). A cache that has to sit in front of an engine channel goes
+ * here, because the engine switch below runs before any handler body would.
+ */
+export type IpcAround = (args: unknown[], answer: () => Promise<unknown>) => Promise<unknown>;
+const arounds = new Map<string, IpcAround>();
+
+function answerChannel(channel: string, event: IpcMainInvokeEvent | null, args: unknown[]): Promise<unknown> {
+  const answer = async (): Promise<unknown> => {
+    if (isEngineChannel(channel) && engineRemote()) {
+      return callEngine(channel, args);
+    }
+    const handler = handlers.get(channel);
+    if (!handler) throw new Error(`No handler registered for ${channel}`);
+    return (handler as unknown as (event: IpcMainInvokeEvent | null, ...rest: unknown[]) => unknown)(event, ...args);
+  };
+  const around = arounds.get(channel);
+  return around ? around(args, answer) : answer();
+}
+
 export function registerIpcHandler<Args extends unknown[], Result>(
   channel: string,
   handler: (event: IpcMainInvokeEvent, ...args: Args) => Promise<Result> | Result,
+  options?: { around?: IpcAround },
 ): void {
   handlers.set(channel, handler as unknown as AnyHandler);
+  if (options?.around) arounds.set(channel, options.around);
+  else arounds.delete(channel);
   ipcMain.removeHandler(channel);
   // The renderer's contract is the channel name and the payload shape, both of
   // which are identical either way — so the switch lives here, once, rather
   // than in every handler module.
-  ipcMain.handle(channel, async (event, ...args) => {
-    if (isEngineChannel(channel) && engineRemote()) {
-      return callEngine(channel, args as unknown[]);
-    }
-    return handler(event, ...(args as Args));
-  });
+  ipcMain.handle(channel, (event, ...args) => answerChannel(channel, event, args));
 }
 
 /**
@@ -50,10 +69,5 @@ export function registerIpcHandler<Args extends unknown[], Result>(
  * The local handlers take the IPC event only to ignore it, so none is passed.
  */
 export async function invokeChannel<Result>(channel: string, ...args: unknown[]): Promise<Result> {
-  if (isEngineChannel(channel) && engineRemote()) {
-    return (await callEngine(channel, args)) as Result;
-  }
-  const handler = handlers.get(channel);
-  if (!handler) throw new Error(`No handler registered for ${channel}`);
-  return (await (handler as unknown as (event: null, ...rest: unknown[]) => unknown)(null, ...args)) as Result;
+  return (await answerChannel(channel, null, args)) as Result;
 }

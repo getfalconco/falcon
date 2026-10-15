@@ -19,5 +19,14 @@ export default defineConfig({
       },
     },
     plugins: [react()],
+    build: {
+      rollupOptions: {
+        // The app, and the dark theme editor's window (Settings, Developer, Testing).
+        input: {
+          index: resolve(projectRoot, "src/renderer/index.html"),
+          "theme-editor": resolve(projectRoot, "src/renderer/theme-editor.html"),
+        },
+      },
+    },
   },
 });

@@ -34,3 +34,16 @@ export type NewsFeedArticle = {
 export type NewsFeedResult =
   | { ok: true; articles: NewsFeedArticle[]; status: EventsPollStatus }
   | { ok: false; error: string };
+
+/** What `news:feed` is asked with; the cache keys on exactly these two. */
+export type NewsFeedOptions = { days?: number; limit?: number };
+
+/**
+ * The last good feed the main process holds for a request (in memory, or read
+ * back from disk after a restart), with when it was fetched. Answered locally
+ * on `news:feed-cached` and never forwarded to the engine, so it costs no
+ * network: it is what the card shows while the real request is out.
+ */
+export type NewsFeedCachedResult =
+  | { ok: true; articles: NewsFeedArticle[]; status: EventsPollStatus; fetchedAt: number }
+  | { ok: false; error: string };

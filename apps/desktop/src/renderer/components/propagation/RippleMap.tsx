@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import useMeasure from "react-use-measure";
+import { useI18n } from "../../lib/i18n";
 import type { PropagationRun, PropagationTarget } from "../../../shared/propagation-run-types";
-import { GROUP_LABEL, layoutRipple } from "./ripple-layout";
+import { GROUP_LABEL_KEY, layoutRipple } from "./ripple-layout";
 import { ACCENT, AMBER, AMBER_LINE, AMBER_SOFT, FAINT, HAIRLINE, INK, MUTED, directionColor, pricingWord, tierStroke } from "./ripple-format";
 
 /**
@@ -54,7 +55,13 @@ function shortLabel(t: PropagationTarget): string {
   return words.length > 13 ? `${words.slice(0, 12)}…` : words;
 }
 
+/** The pricing badge grows with its word (languages differ by a lot), within the chip. */
+function badgeWidth(word: string): number {
+  return Math.min(CHIP_W - 6, Math.max(62, Math.ceil(word.length * 5.6 + 12)));
+}
+
 export default function RippleMap({ run, selectedKey, onSelect }: Props) {
+  const { t: tr, locale } = useI18n();
   const [ref, bounds] = useMeasure();
   const width = Math.max(320, bounds.width);
   const height = Math.max(320, bounds.height);
@@ -111,7 +118,7 @@ export default function RippleMap({ run, selectedKey, onSelect }: Props) {
             fontFamily="Geist Sans, system-ui, sans-serif"
             style={{ textTransform: "uppercase" }}
           >
-            {GROUP_LABEL[g.group].toUpperCase()} · {g.count}
+            {tr("panels.ripple.groupLabel", { group: tr(GROUP_LABEL_KEY[g.group]).toLocaleUpperCase(locale), n: g.count })}
           </text>
         ))}
 
@@ -167,7 +174,8 @@ export default function RippleMap({ run, selectedKey, onSelect }: Props) {
           const x = revealed ? p.x : layout.cx;
           const y = revealed ? p.y : layout.cy;
           const open = t.tracked && t.pricing.status === "open" && t.stage2?.verdict !== "vetoed";
-          const badge = pricingWord(t);
+          const badge = pricingWord(t, tr);
+          const bw = badgeWidth(badge);
           return (
             <g
               key={p.key}
@@ -217,7 +225,7 @@ export default function RippleMap({ run, selectedKey, onSelect }: Props) {
               >
                 {shortLabel(t)}
               </text>
-              <rect x={CHIP_W / 2 - 31} y={25} width={62} height={13} rx={6.5} fill={tone.badgeFill} stroke={tone.badgeStroke} strokeWidth={0.75} />
+              <rect x={CHIP_W / 2 - bw / 2} y={25} width={bw} height={13} rx={6.5} fill={tone.badgeFill} stroke={tone.badgeStroke} strokeWidth={0.75} />
               <text
                 x={CHIP_W / 2}
                 y={32}

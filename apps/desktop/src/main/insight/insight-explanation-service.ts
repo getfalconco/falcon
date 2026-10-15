@@ -1,4 +1,5 @@
-import { anthropicGlossCaller, glossConfigured } from "@meridian/research/gloss";
+import { repairMojibake } from "@meridian/research/news";
+import { CLAUDE_WRITING_MODEL, anthropicGlossCaller, glossConfigured } from "@meridian/research/gloss";
 import { createFileStore, decodeEscapes, hash, readCloudRow, writeCloudRow } from "./explanation-cache";
 import type {
   InsightExplanation,
@@ -15,7 +16,14 @@ import type {
  * different explanation, a re-read of the same one is not.
  */
 
-const MODEL = "claude-opus-5";
+/**
+ * The Insight write-up model: `FALCON_INSIGHT_MODEL`, the same variable the
+ * engine service reads, else the writing tier. Read per call so a .env edit
+ * or a late env load is seen without a restart.
+ */
+export function insightModel(): string {
+  return process.env.FALCON_INSIGHT_MODEL?.trim() || CLAUDE_WRITING_MODEL;
+}
 const MAX_TOKENS = 1600;
 const TIMEOUT_MS = 45_000;
 const TABLE = "insight_explanations";
@@ -80,7 +88,7 @@ function buildUser(req: InsightExplanationRequest): string {
 async function generate(req: InsightExplanationRequest): Promise<InsightExplanation> {
   if (!glossConfigured()) throw new Error("ANTHROPIC_API_KEY is not configured");
   const output = await anthropicGlossCaller({
-    model: MODEL,
+    model: insightModel(),
     max_tokens: MAX_TOKENS,
     effort: "low",
     system: SYSTEM,
@@ -106,7 +114,7 @@ async function generate(req: InsightExplanationRequest): Promise<InsightExplanat
     headline: req.headline,
     summary,
     points: points.map((p) => decodeEscapes(p.trim())).slice(0, 4),
-    model: MODEL,
+    model: insightModel(),
     generated_at: new Date().toISOString(),
   };
 }
@@ -119,8 +127,13 @@ async function generate(req: InsightExplanationRequest): Promise<InsightExplanat
 const inFlight = new Map<string, Promise<{ explanation: InsightExplanation; source: "model" }>>();
 
 export async function getInsightExplanation(
-  req: InsightExplanationRequest,
+  rawReq: InsightExplanationRequest,
 ): Promise<{ explanation: InsightExplanation; source: "local" | "cloud" | "model" }> {
+  // A headline filed before ingestion repaired provider mojibake ("weekâ€™s")
+  // is fixed before it reaches the model (and so the brief). Clean text, and
+  // with it the cache key, is unchanged.
+  const req: InsightExplanationRequest =
+    typeof rawReq?.headline === "string" ? { ...rawReq, headline: repairMojibake(rawReq.headline) } : rawReq;
   if (!req.run_id || !req.headline?.trim()) {
     throw new Error("Nothing to explain yet.");
   }
@@ -153,7 +166,7 @@ export async function getInsightExplanation(
       headline: row.headline ?? req.headline,
       summary: row.summary,
       points: Array.isArray(row.points) ? row.points : [],
-      model: row.model ?? MODEL,
+      model: row.model ?? insightModel(),
       generated_at: row.generated_at ?? new Date().toISOString(),
     };
     store.put(key, cloud);

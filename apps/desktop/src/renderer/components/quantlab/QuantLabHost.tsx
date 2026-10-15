@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useShortcut } from "@/lib/use-shortcuts";
 import QuantLabPanel from "./QuantLabPanel";
 
 /**
@@ -6,7 +7,8 @@ import QuantLabPanel from "./QuantLabPanel";
  * root, reachable from any screen and ONLY by this shortcut — like Shift+T
  * (Tracker), Shift+B/A (Base/Analyst), Shift+P (Propagation), Shift+R (Risk),
  * Shift+S (Screen) and Shift+F (Gauge). Nothing in the product UI links to it
- * and nothing here touches the dashboard: this is a developer surface.
+ * and nothing here touches the dashboard: this is a developer surface. The
+ * key can be moved in Settings → Shortcuts.
  */
 /** Fire on `window` to open Quant Lab from anywhere. */
 export const QUANTLAB_OPEN_EVENT = "falcon:quantlab-open";
@@ -18,27 +20,12 @@ export function openQuantLabPanel(): void {
 export default function QuantLabHost() {
   const [open, setOpen] = useState(false);
 
+  useShortcut("quantlab", () => setOpen((v) => !v));
+
   useEffect(() => {
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (!event.shiftKey || event.ctrlKey || event.metaKey || event.altKey) return;
-      // `code` survives keyboard layouts; `key` covers synthetic input.
-      const isQ = event.code === "KeyQ" || event.key.toLowerCase() === "q";
-      if (!isQ) return;
-      const target = event.target as HTMLElement | null;
-      if (target) {
-        const tag = target.tagName;
-        if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || target.isContentEditable) return;
-      }
-      event.preventDefault();
-      setOpen((v) => !v);
-    };
     const onOpenRequest = () => setOpen(true);
-    window.addEventListener("keydown", onKeyDown);
     window.addEventListener(QUANTLAB_OPEN_EVENT, onOpenRequest);
-    return () => {
-      window.removeEventListener("keydown", onKeyDown);
-      window.removeEventListener(QUANTLAB_OPEN_EVENT, onOpenRequest);
-    };
+    return () => window.removeEventListener(QUANTLAB_OPEN_EVENT, onOpenRequest);
   }, []);
 
   if (!open) return null;

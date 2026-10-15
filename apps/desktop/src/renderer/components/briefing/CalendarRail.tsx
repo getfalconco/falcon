@@ -1,6 +1,8 @@
 import { Fragment, useEffect, useId, useLayoutEffect, useRef, useState, type FocusEvent, type MouseEvent, type Ref } from "react";
 import { createPortal } from "react-dom";
+import { useT } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
+import { ENGLISH, type BriefingText } from "../../../shared/briefing-text";
 import { etClock, type CalendarItemView, type CalendarView } from "../../../shared/calendar-view";
 import { HEAD_CLASS, MONO_CLASS } from "./briefing-styles";
 
@@ -41,8 +43,7 @@ function ItemText({ item }: { item: CalendarItemView }) {
       >
         {item.title}
       </span>
-      {item.detail ? <span className="block text-[11.5px] leading-[1.45] text-[#6b7280]">{item.detail}</span> : null}
-      <span className={cn(HEAD_CLASS, "mt-0.5 block truncate")}>{[item.kindLabel, ...item.tickers].join(" · ")}</span>
+      {/* Title only on the rail. The detail, kind and tickers live in the hover card. */}
     </span>
   );
 }
@@ -85,11 +86,11 @@ export function sessionStanding(view: CalendarView, now: Date, closeAtIso: strin
  * whole grammar is chronological, and "BEFORE THE OPEN" under rows that are
  * all dimmed as past would call an ended session a coming one.
  */
-export function nowMarkerLabel(standing: SessionStanding, now: Date): string {
-  if (standing === "before") return "BEFORE THE OPEN";
-  if (standing === "after") return "SESSION ENDED";
+export function nowMarkerLabel(standing: SessionStanding, now: Date, text: BriefingText = ENGLISH): string {
+  if (standing === "before") return text.t("briefing.rail.beforeOpen");
+  if (standing === "after") return text.t("briefing.rail.sessionEnded");
   const clock = etClock(now);
-  return clock ? `NOW ${clock}` : "NOW";
+  return clock ? text.t("briefing.rail.nowAt", { time: clock }) : text.t("briefing.rail.now");
 }
 
 export function NowMarker({ label, markerRef }: { label: string; markerRef?: Ref<HTMLDivElement> }) {
@@ -209,6 +210,7 @@ export function CalendarRows({
   markerLabel: string | null;
   markerRef?: Ref<HTMLDivElement>;
 }) {
+  const t = useT();
   const tooltipId = useId();
   // The row by id and element, never a copy of its item: the card gets a new
   // view every minute (the clock is part of it), and the item is read from
@@ -267,7 +269,8 @@ export function CalendarRows({
     <>
       {view.allDay.map((item) => (
         <div key={item.id} {...rowProps(item)}>
-          <span className={cn(HEAD_CLASS, "pt-[3px]")}>All day</span>
+          {/* The time column is 44px: a longer word ("Ganztägig") hyphenates, and one that cannot breaks rather than running into the rail. */}
+          <span className={cn(HEAD_CLASS, "pt-[3px] leading-[1.25] [hyphens:auto] [overflow-wrap:anywhere]")}>{t("briefing.rail.allDay")}</span>
           <Rail importance={item.importance} />
           <ItemText item={item} />
         </div>

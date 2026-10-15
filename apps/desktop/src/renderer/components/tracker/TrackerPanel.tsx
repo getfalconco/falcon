@@ -1,10 +1,15 @@
+import { na } from "@/lib/i18n/na";
+import { withClock } from "@/lib/clock";
+import { shortcutText } from "@/lib/shortcuts";
+import { useIsStaff } from "@/lib/staff";
+import { useI18n, type MessageKey, type TFunction } from "@/lib/i18n";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Activity, RefreshCw, X } from "lucide-react";
 import TrackerDataView from "./TrackerDataView";
 import { Toaster } from "@/components/ui/sonner";
+import { trackerTypeLabel } from "./tracker-labels";
 import {
   TRACKER_ANOMALY_TYPES,
-  TRACKER_TYPE_LABELS,
   type TrackerMessage,
   type TrackerMessageType,
   type TrackerQuantContext,
@@ -27,70 +32,94 @@ const CHANNEL_TYPES: TrackerMessageType[] = [
 
 const ANOMALY_SET = new Set<TrackerMessageType>(TRACKER_ANOMALY_TYPES);
 
+const FILTER_LABEL: Record<Filter, MessageKey> = {
+  all: "instruments.common.all",
+  anomalies: "instruments.tracker.filter.anomalies",
+  channels: "instruments.tracker.filter.channels",
+};
+
+const MODE_LABEL: Record<"stream" | "data", MessageKey> = {
+  stream: "instruments.tracker.mode.stream",
+  data: "instruments.tracker.mode.data",
+};
+
 function fmtPct(value: number | null, digits = 2): string {
-  if (value == null) return "—";
+  if (value == null) return na();
   return `${(value * 100).toFixed(digits)}%`;
 }
 
 function fmtNum(value: number | null, digits = 2): string {
-  if (value == null) return "—";
+  if (value == null) return na();
   return value.toFixed(digits);
 }
 
-function fmtTime(iso: string): string {
+function fmtTime(iso: string, locale: string): string {
   const d = new Date(iso);
-  return d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+  return d.toLocaleTimeString(locale, withClock({ hour: "2-digit", minute: "2-digit", second: "2-digit" }));
 }
 
-function headlineFor(message: TrackerMessage): string {
+function headlineFor(message: TrackerMessage, t: TFunction): string {
   const p = message.payload as Record<string, unknown>;
   switch (message.type) {
     case "news_item":
       return String(p.headline ?? "");
     case "filing_item": {
-      const items = Array.isArray(p.item_codes) && p.item_codes.length > 0
-        ? ` — items ${(p.item_codes as string[]).join(", ")}`
-        : "";
-      return `${String(p.form_type ?? "")} filed${items}`;
+      const form = String(p.form_type ?? "");
+      return Array.isArray(p.item_codes) && p.item_codes.length > 0
+        ? t("instruments.tracker.line.filedItems", { form, items: (p.item_codes as string[]).join(", ") })
+        : t("instruments.tracker.line.filed", { form });
     }
     case "insider_filing":
-      return `${String(p.insider_name ?? "")} (${String(p.role ?? "")}) — code ${String(
-        p.transaction_code ?? "?",
-      )}${p.is_10b5_1_plan ? " · 10b5-1" : ""}`;
+      return `${t("instruments.tracker.line.insider", {
+        name: String(p.insider_name ?? ""),
+        role: String(p.role ?? ""),
+        code: String(p.transaction_code ?? "?"),
+      })}${p.is_10b5_1_plan ? " · 10b5-1" : ""}`;
     case "scheduled_event":
-      return `Earnings ${String(p.fiscal_period ?? "")} due ${String(p.due_at ?? "").slice(0, 10)}${
-        p.rescheduled ? " (rescheduled)" : ""
-      }`;
+      return `${t("instruments.tracker.line.earnings", {
+        period: String(p.fiscal_period ?? ""),
+        date: String(p.due_at ?? "").slice(0, 10),
+      })}${p.rescheduled ? ` ${t("instruments.tracker.line.rescheduled")}` : ""}`;
     case "gap_event":
-      return `Gap ${fmtPct(p.gap_pct as number)} · z ${fmtNum(p.gap_z as number)} ${String(
-        p.direction ?? "",
-      )}`;
+      return t("instruments.tracker.line.gap", {
+        pct: fmtPct(p.gap_pct as number),
+        z: fmtNum(p.gap_z as number),
+        direction: String(p.direction ?? ""),
+      });
     case "volume_anomaly":
-      return `Volume ${fmtNum(p.volume_ratio as number)}× baseline`;
+      return t("instruments.tracker.line.volume", { ratio: fmtNum(p.volume_ratio as number) });
     case "silence_anomaly":
-      return `${String(p.trading_days_silent ?? "")} silent trading days vs ${fmtNum(
-        p.expected_daily_article_rate as number,
-        1,
-      )}/day baseline`;
+      return t("instruments.tracker.line.silence", {
+        n: String(p.trading_days_silent ?? ""),
+        rate: fmtNum(p.expected_daily_article_rate as number, 1),
+      });
     case "filing_overdue":
-      return `${String(p.expected_form ?? "")} overdue by ${String(
-        p.business_days_overdue ?? "",
-      )} business days`;
+      return t("instruments.tracker.line.overdue", {
+        form: String(p.expected_form ?? ""),
+        n: String(p.business_days_overdue ?? ""),
+      });
     case "unexplained_move":
-      return `${String(p.direction ?? "")} move, ${String(p.measure_used ?? "")} ${fmtNum(
-        p.residual_zscore as number,
-      )}, no news`;
+      return t("instruments.tracker.line.unexplained", {
+        direction: String(p.direction ?? ""),
+        measure: String(p.measure_used ?? ""),
+        z: fmtNum(p.residual_zscore as number),
+      });
     case "drift_event":
-      return `Drift ${fmtPct(p.momentum_5d as number)} over 5d · z ${fmtNum(p.drift_z as number)}`;
+      return t("instruments.tracker.line.drift", {
+        pct: fmtPct(p.momentum_5d as number),
+        z: fmtNum(p.drift_z as number),
+      });
     case "news_burst":
-      return `${String(p.articles_last_24h ?? "")} articles in 24h · ${fmtNum(
-        p.burst_multiple as number,
-        1,
-      )}× baseline`;
+      return t("instruments.tracker.line.burst", {
+        n: String(p.articles_last_24h ?? ""),
+        multiple: fmtNum(p.burst_multiple as number, 1),
+      });
     case "insider_cluster":
-      return `${String(p.insider_count ?? "")} insiders ${String(p.direction ?? "")} in ${String(
-        p.window_business_days ?? "",
-      )} business days`;
+      return t("instruments.tracker.line.cluster", {
+        n: String(p.insider_count ?? ""),
+        direction: String(p.direction ?? ""),
+        days: String(p.window_business_days ?? ""),
+      });
     default:
       return message.type;
   }
@@ -108,7 +137,7 @@ function QuantStrip({ quant }: { quant: TrackerQuantContext }) {
     [
       "vol×",
       quant.volume_ratio == null
-        ? "—"
+        ? na()
         : `${fmtNum(quant.volume_ratio, 1)}${quant.volume_ratio_partial ? "*" : ""}`,
     ],
     ["5d", fmtPct(quant.momentum_5d)],
@@ -127,6 +156,10 @@ function QuantStrip({ quant }: { quant: TrackerQuantContext }) {
 }
 
 export default function TrackerPanel({ onClose }: { onClose: () => void }) {
+  const { t, locale } = useI18n();
+  // A manual cycle polls the providers for the shared universe, for every
+  // account; the engine takes it from staff only.
+  const staff = useIsStaff();
   const [messages, setMessages] = useState<TrackerMessage[]>([]);
   const [status, setStatus] = useState<TrackerStatus | null>(null);
   const [filter, setFilter] = useState<Filter>("all");
@@ -223,14 +256,15 @@ export default function TrackerPanel({ onClose }: { onClose: () => void }) {
       <div className="flex h-[86%] w-[92%] flex-col overflow-hidden rounded-xl border border-[#e0e0da] bg-[#f7f7f4] shadow-2xl">
         {/* Header */}
         <div className="flex items-center gap-3 border-b border-[#e6e6e0] px-4 py-3">
-          <Activity className="h-4 w-4 text-[#1d1b1b]" strokeWidth={2} aria-hidden />
+          <Activity className="h-4 w-4 shrink-0 text-[#1d1b1b]" strokeWidth={2} aria-hidden />
           <span className="font-baskerville text-[15px] text-[#1d1b1b]">Tracker</span>
-          <span className="font-mono text-[11px] text-[#8b8b86]">
-            {status?.running ? "running" : "stopped"} · {status?.messagesEmitted ?? 0} emitted
+          <span className="min-w-0 truncate font-mono text-[11px] text-[#8b8b86]">
+            {status?.running ? t("instruments.tracker.running") : t("instruments.tracker.notRunning")} ·{" "}
+            {t("instruments.tracker.emitted", { n: status?.messagesEmitted ?? 0 })}
             {progress.pending > 0 && (
               <span className="text-[#b45309]">
                 {" "}
-                · backfilling {progress.done}/{progress.total}
+                · {t("instruments.tracker.backfilling", { done: progress.done, total: progress.total })}
               </span>
             )}
             {status?.rateLimits &&
@@ -241,22 +275,26 @@ export default function TrackerPanel({ onClose }: { onClose: () => void }) {
                 0 && (
                 <span
                   className="text-[#b45309]"
-                  title={`HTTP 429 today (${status.rateLimits.day}, ET)`}
+                  title={t("instruments.tracker.rateLimitHint", { day: status.rateLimits.day })}
                 >
                   {" "}
-                  · 429 today: news {status.rateLimits.news} · cal {status.rateLimits.calendar} ·
-                  filings {status.rateLimits.filings}
+                  ·{" "}
+                  {t("instruments.tracker.rateLimits", {
+                    news: status.rateLimits.news,
+                    calendar: status.rateLimits.calendar,
+                    filings: status.rateLimits.filings,
+                  })}
                 </span>
               )}
             {progress.pending === 0 && progress.insiderPending > 0 && (
               <span className="text-[#b45309]">
                 {" "}
-                · seeding insiders {progress.insiderDone}/{progress.total}
+                · {t("instruments.tracker.seeding", { done: progress.insiderDone, total: progress.total })}
               </span>
             )}
           </span>
 
-          <div className="ml-auto flex items-center gap-2">
+          <div className="ml-auto flex shrink-0 items-center gap-2">
             <div className="flex rounded-md border border-[#e0e0da] bg-white p-0.5">
               {(["stream", "data"] as const).map((m) => (
                 <button
@@ -267,7 +305,7 @@ export default function TrackerPanel({ onClose }: { onClose: () => void }) {
                     mode === m ? "bg-[#1d1b1b] text-white" : "text-[#6b7280] hover:text-[#1d1b1b]"
                   }`}
                 >
-                  {m}
+                  {t(MODE_LABEL[m])}
                 </button>
               ))}
             </div>
@@ -285,7 +323,7 @@ export default function TrackerPanel({ onClose }: { onClose: () => void }) {
                         : "text-[#6b7280] hover:text-[#1d1b1b]"
                     }`}
                   >
-                    {f}
+                    {t(FILTER_LABEL[f])}
                   </button>
                 ))}
               </div>
@@ -297,10 +335,10 @@ export default function TrackerPanel({ onClose }: { onClose: () => void }) {
                 onChange={(e) => setTickerFilter(e.target.value)}
                 className="rounded-md border border-[#e0e0da] bg-white px-2 py-1 text-[11px] text-[#1d1b1b]"
               >
-                <option value="all">all tickers</option>
-                {tickers.map((t) => (
-                  <option key={t} value={t}>
-                    {t}
+                <option value="all">{t("instruments.common.allTickers")}</option>
+                {tickers.map((tk) => (
+                  <option key={tk} value={tk}>
+                    {tk}
                   </option>
                 ))}
               </select>
@@ -310,9 +348,9 @@ export default function TrackerPanel({ onClose }: { onClose: () => void }) {
                 onChange={(e) => setDataTicker(e.target.value)}
                 className="rounded-md border border-[#e0e0da] bg-white px-2 py-1 text-[11px] text-[#1d1b1b]"
               >
-                {tickers.map((t) => (
-                  <option key={t} value={t}>
-                    {t}
+                {tickers.map((tk) => (
+                  <option key={tk} value={tk}>
+                    {tk}
                   </option>
                 ))}
               </select>
@@ -321,7 +359,8 @@ export default function TrackerPanel({ onClose }: { onClose: () => void }) {
             <button
               type="button"
               onClick={() => void runCycle()}
-              disabled={cycling}
+              disabled={!staff || cycling}
+              title={staff ? undefined : t("access.staffOnly.action")}
               className="flex items-center gap-1.5 rounded-md border border-[#e0e0da] bg-white px-2 py-1 text-[11px] text-[#6b7280] transition-colors hover:text-[#1d1b1b] disabled:opacity-50"
             >
               <RefreshCw
@@ -329,13 +368,14 @@ export default function TrackerPanel({ onClose }: { onClose: () => void }) {
                 strokeWidth={2}
                 aria-hidden
               />
-              cycle
+              {t("instruments.tracker.cycle")}
             </button>
 
             <button
               type="button"
               onClick={onClose}
-              aria-label="Close tracker"
+              aria-label={t("instruments.tracker.closeLabel")}
+              title={t("instruments.tracker.closeLabel")}
               className="rounded-md p-1 text-[#6b7280] transition-colors hover:bg-[#ececE6] hover:text-[#1d1b1b]"
             >
               <X className="h-4 w-4" strokeWidth={2} aria-hidden />
@@ -346,22 +386,22 @@ export default function TrackerPanel({ onClose }: { onClose: () => void }) {
         {/* Ticker health row — click a ticker to inspect its raw data */}
         <div className="max-h-[76px] overflow-y-auto border-b border-[#eeeee8] px-4 py-2">
           <div className="flex flex-wrap gap-1.5">
-            {(status?.tickers ?? []).map((t) => {
-              const errors = Object.entries(t.health).filter(([, h]) => h.last_error);
-              const selected = mode === "data" && activeDataTicker === t.ticker;
+            {(status?.tickers ?? []).map((tk) => {
+              const errors = Object.entries(tk.health).filter(([, h]) => h.last_error);
+              const selected = mode === "data" && activeDataTicker === tk.ticker;
               return (
                 <button
-                  key={t.ticker}
+                  key={tk.ticker}
                   type="button"
                   onClick={() => {
-                    setDataTicker(t.ticker);
+                    setDataTicker(tk.ticker);
                     setMode("data");
                   }}
                   title={[
                     errors.length > 0
                       ? errors.map(([c, h]) => `${c}: ${h.last_error}`).join("\n")
-                      : "all channels healthy",
-                    t.insiderSeeded ? null : "insider window not seeded yet",
+                      : t("instruments.tracker.healthy"),
+                    tk.insiderSeeded ? null : t("instruments.tracker.insiderNotSeeded"),
                   ]
                     .filter(Boolean)
                     .join("\n")}
@@ -373,7 +413,7 @@ export default function TrackerPanel({ onClose }: { onClose: () => void }) {
                 >
                   <span
                     className={`h-1.5 w-1.5 rounded-full ${
-                      !t.backfilled
+                      !tk.backfilled
                         ? "bg-[#d1d1c9]"
                         : errors.length > 0
                           ? "bg-[#d97706]"
@@ -384,13 +424,13 @@ export default function TrackerPanel({ onClose }: { onClose: () => void }) {
                   <span
                     className={`font-mono text-[11px] ${selected ? "text-white" : "text-[#1d1b1b]"}`}
                   >
-                    {t.ticker}
+                    {tk.ticker}
                   </span>
                 </button>
               );
             })}
             {(status?.tickers.length ?? 0) === 0 && (
-              <span className="font-mono text-[11px] text-[#a3a39c]">no tickers tracked</span>
+              <span className="font-mono text-[11px] text-[#a3a39c]">{t("instruments.tracker.noTickers")}</span>
             )}
           </div>
         </div>
@@ -402,7 +442,7 @@ export default function TrackerPanel({ onClose }: { onClose: () => void }) {
               <TrackerDataView ticker={activeDataTicker} />
             ) : (
               <div className="flex h-full items-center justify-center font-mono text-[12px] text-[#a3a39c]">
-                no ticker selected
+                {t("instruments.tracker.noTickerSelected")}
               </div>
             )}
           </div>
@@ -412,8 +452,8 @@ export default function TrackerPanel({ onClose }: { onClose: () => void }) {
         {mode === "stream" && (
         <div ref={scrollRef} className="min-h-0 flex-1 overflow-y-auto px-4 py-2">
           {visible.length === 0 ? (
-            <div className="flex h-full items-center justify-center font-mono text-[12px] text-[#a3a39c]">
-              no messages yet — the engine emits on channel arrivals and detector windows
+            <div className="flex h-full items-center justify-center text-center font-mono text-[12px] text-[#a3a39c]">
+              {t("instruments.tracker.empty")}
             </div>
           ) : (
             <ul className="divide-y divide-[#eeeee8]">
@@ -421,7 +461,7 @@ export default function TrackerPanel({ onClose }: { onClose: () => void }) {
                 <li key={message.id} className="py-2">
                   <div className="flex items-baseline gap-2">
                     <span className="font-mono text-[10px] text-[#a3a39c]">
-                      {fmtTime(message.timestamp)}
+                      {fmtTime(message.timestamp, locale)}
                     </span>
                     <span className="font-mono text-[11px] font-medium text-[#1d1b1b]">
                       {message.ticker}
@@ -433,7 +473,7 @@ export default function TrackerPanel({ onClose }: { onClose: () => void }) {
                           : "bg-[#eef2f6] text-[#475569]"
                       }`}
                     >
-                      {TRACKER_TYPE_LABELS[message.type] ?? message.type}
+                      {trackerTypeLabel(t, message.type)}
                     </span>
                     {message.context_flags.map((flag) => (
                       <span
@@ -445,7 +485,7 @@ export default function TrackerPanel({ onClose }: { onClose: () => void }) {
                     ))}
                   </div>
                   <div className="mt-0.5 text-[12px] leading-snug text-[#3f3f46]">
-                    {headlineFor(message)}
+                    {headlineFor(message, t)}
                   </div>
                   <QuantStrip quant={message.quant_context} />
                 </li>
@@ -456,9 +496,7 @@ export default function TrackerPanel({ onClose }: { onClose: () => void }) {
         )}
 
         <div className="border-t border-[#eeeee8] px-4 py-1.5 font-mono text-[10px] text-[#a3a39c]">
-          Shift+T to toggle · Esc to close · click a ticker for its raw data ·{" "}
-          {status?.tickers.length ?? 0} tracked · * = partial (pre-close) volume ratio · — = not
-          computable
+          {t("instruments.tracker.footer", { key: shortcutText("tracker"), n: status?.tickers.length ?? 0, dash: na() })}
         </div>
       </div>
     </div>

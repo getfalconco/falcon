@@ -1,5 +1,9 @@
+import { BrowserWindow } from "electron";
 import { registerIpcHandler } from "../ipc-register";
+import { deleteAccountFromMain, retryAccountCleanupsSoon } from "../account/account-deletion-main";
 import { loadDesktopEnv } from "../load-desktop-env";
+import { submitApplication, type ApplyPayload } from "./apply";
+import { getOwnMembership } from "./membership";
 
 /**
  * Proxies the marketing site's waitlist endpoints from the main process, so the
@@ -15,86 +19,19 @@ function siteBases(): string[] {
   return Array.from(new Set(bases));
 }
 
-export type Membership = {
-  found: boolean;
-  name: string | null;
-  memberNumber: number | null;
-  grantedAt: string | null;
-  approved: boolean;
-};
-
-async function fetchMembership(email: string): Promise<Membership> {
-  const trimmed = email.trim().toLowerCase();
-  for (const base of siteBases()) {
-    try {
-      const res = await fetch(`${base}/api/waitlist?email=${encodeURIComponent(trimmed)}`, {
-        method: "GET",
-        headers: { "Content-Type": "application/json", "User-Agent": "MeridianDesktop/1.0" },
-      });
-      if (!res.ok) continue;
-      const data = (await res.json()) as Partial<Membership>;
-      return {
-        found: data.found ?? false,
-        name: data.name ?? null,
-        memberNumber: data.memberNumber ?? null,
-        grantedAt: data.grantedAt ?? null,
-        approved: data.approved ?? false,
-      };
-    } catch {
-      // try next base
-    }
-  }
-  return { found: false, name: null, memberNumber: null, grantedAt: null, approved: false };
-}
-
-type ApplyPayload = {
-  name: string;
-  email: string;
-  password?: string;
-  phone?: string;
-  application?: Record<string, string>;
-};
-
-type ApplyResult =
-  | { ok: true; status: "created" | "updated"; memberNumber: number | null }
-  | { ok: false; error: string };
-
-async function submitApplication(payload: ApplyPayload): Promise<ApplyResult> {
-  const body = JSON.stringify({ ...payload, email: payload.email.trim().toLowerCase() });
-  let lastError = "Failed to submit your application.";
-  for (const base of siteBases()) {
-    try {
-      const res = await fetch(`${base}/api/waitlist`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", "User-Agent": "MeridianDesktop/1.0" },
-        body,
-      });
-      const data = (await res.json().catch(() => ({}))) as {
-        ok?: boolean;
-        status?: "created" | "updated";
-        memberNumber?: number | null;
-        error?: string;
-      };
-      if (res.ok && data.ok) {
-        return {
-          ok: true,
-          status: data.status ?? "created",
-          memberNumber: data.memberNumber ?? null,
-        };
-      }
-      lastError = data.error ?? lastError;
-    } catch {
-      // try next base
-    }
-  }
-  return { ok: false, error: lastError };
-}
-
 export function registerWaitlistHandlers(): void {
-  registerIpcHandler("waitlist:membership", async (_event, email: string) =>
-    fetchMembership(email),
+  // Account deletion: server, engine, SnapTrade and this machine's files
+  // (account/account-deletion.ts). Answers { ok, accountId, notices } so the
+  // renderer can clear its own storage for that account before signing out.
+  registerIpcHandler("account:delete", async (event, accessToken: string) =>
+    deleteAccountFromMain(accessToken, siteBases(), event ? BrowserWindow.fromWebContents(event.sender) : null),
   );
+  retryAccountCleanupsSoon(siteBases());
+  // The user's own ticket, asked for with their session token (membership.ts).
+  // Takes no email: an older renderer that still passes one is ignored.
+  registerIpcHandler("waitlist:membership", async () => getOwnMembership(siteBases()));
+  // Sends the signed-in user's token when there is one (apply.ts).
   registerIpcHandler("waitlist:apply", async (_event, payload: ApplyPayload) =>
-    submitApplication(payload),
+    submitApplication(siteBases(), payload),
   );
 }

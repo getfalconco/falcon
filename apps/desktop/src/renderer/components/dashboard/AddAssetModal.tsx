@@ -3,7 +3,8 @@ import { createPortal } from "react-dom";
 import { ArrowLeft, Check, Feather, Star, X, type LucideIcon } from "lucide-react";
 import { getAccessToken } from "@/lib/broker-links";
 import { cn } from "@/lib/utils";
-import falconLogo from "@/assets/brand/logo-black.png";
+import { useT } from "@/lib/i18n";
+import BrandLogo, { useBrandLogoSrc } from "@/components/BrandLogo";
 import type { SnaptradeBrokerage } from "../../../shared/snaptrade";
 
 type Broker = {
@@ -12,6 +13,8 @@ type Broker = {
   subtitle?: string;
   Icon?: LucideIcon;
   img?: string;
+  /** The Falcon mark itself, drawn in the theme's ink (black on light, white on dark). */
+  brandMark?: boolean;
   /** Color for the icon / monogram fallback (logo images have no tile). */
   accent?: string;
   /** Render the logo as a rounded-corner square (all brokers except Falcon). */
@@ -23,7 +26,7 @@ type Broker = {
 // Always available — the app's own paper-trading option, not from SnapTrade.
 const FALCON: Broker = {
   name: "Falcon",
-  img: falconLogo,
+  brandMark: true,
 };
 
 // Shown only when SnapTrade isn't configured, so the picker isn't empty.
@@ -54,6 +57,8 @@ function BrokerCard({
   onToggle: () => void;
 }) {
   const [imgOk, setImgOk] = useState(true);
+  const brandSrc = useBrandLogoSrc();
+  const img = broker.brandMark ? brandSrc : broker.img;
 
   return (
     <button
@@ -73,9 +78,9 @@ function BrokerCard({
         </span>
       ) : null}
 
-      {broker.img && imgOk ? (
+      {img && imgOk ? (
         <img
-          src={broker.img}
+          src={img}
           alt=""
           className={cn(
             "h-11 w-11 object-contain",
@@ -131,6 +136,7 @@ export default function AddAssetModal({
   onClose: () => void;
   onCreatePaperAccount: (balance: number) => void;
 }) {
+  const t = useT();
   const [selected, setSelected] = useState<string | null>(null);
   const [load, setLoad] = useState<LoadState>(
     () => cachedLoad ?? { status: "loading" },
@@ -227,7 +233,7 @@ export default function AddAssetModal({
     }
     const connect = window.meridian?.connectBrokerage;
     if (!connect) {
-      setConnectError("Connection API unavailable — restart the app to load the latest build.");
+      setConnectError(t("dashboard.addAsset.apiUnavailable"));
       return;
     }
     setConnecting(true);
@@ -238,7 +244,7 @@ export default function AddAssetModal({
       if (res.ok) {
         requestClose();
       } else {
-        setConnectError(res.error || "Couldn't start the connection.");
+        setConnectError(res.error || t("dashboard.addAsset.startFailed"));
       }
     } catch (err) {
       setConnectError(err instanceof Error ? err.message : String(err));
@@ -272,7 +278,7 @@ export default function AddAssetModal({
       <div
         role="dialog"
         aria-modal="true"
-        aria-label="Connect your brokerage"
+        aria-label={t("dashboard.addAsset.title")}
         className={cn(
           "app-no-drag relative z-10 flex max-h-[86vh] w-full max-w-3xl flex-col overflow-hidden rounded-2xl border border-white/[0.10] bg-background shadow-2xl transition-all duration-200 ease-out",
           visible
@@ -283,7 +289,7 @@ export default function AddAssetModal({
         <button
           type="button"
           onClick={requestClose}
-          aria-label="Close"
+          aria-label={t("common.close")}
           className="absolute right-5 top-5 z-20 text-fg-faint transition-colors hover:text-foreground"
         >
           <X className="h-5 w-5" strokeWidth={1.75} aria-hidden />
@@ -294,10 +300,10 @@ export default function AddAssetModal({
         {/* Scrollable content */}
         <div className="min-h-0 flex-1 overflow-y-auto px-8 pb-24 pt-8">
           <h2 className="pr-10 text-xl font-semibold text-foreground">
-            Connect your brokerage
+            {t("dashboard.addAsset.title")}
           </h2>
           <p className="mt-1 text-sm text-fg-muted">
-            Link an account to sync your portfolio live.
+            {t("dashboard.addAsset.subtitle")}
           </p>
 
           <div className="mt-6 flex flex-wrap justify-center gap-3">
@@ -313,16 +319,15 @@ export default function AddAssetModal({
 
           {load.status === "loading" ? (
             <p className="mt-4 text-center text-xs text-fg-faint">
-              Loading brokerages…
+              {t("dashboard.addAsset.loading")}
             </p>
           ) : load.status === "unconfigured" ? (
             <p className="mt-4 text-center text-xs text-fg-faint">
-              Set SNAPTRADE_CLIENT_ID and SNAPTRADE_CONSUMER_KEY to load every
-              supported brokerage.
+              {t("dashboard.addAsset.unconfigured")}
             </p>
           ) : load.status === "error" ? (
             <p className="mt-4 text-center text-xs text-red-400/80">
-              Couldn&apos;t load brokerages: {load.message}
+              {t("dashboard.addAsset.loadError", { error: load.message })}
             </p>
           ) : null}
         </div>
@@ -350,7 +355,7 @@ export default function AddAssetModal({
               disabled={connecting}
               className="app-no-drag w-full rounded-lg bg-white py-2.5 text-sm font-medium text-black transition-opacity hover:opacity-90 disabled:opacity-60"
             >
-              {connecting ? "Connecting…" : "Continue"}
+              {connecting ? t("dashboard.addAsset.connecting") : t("dashboard.addAsset.continue")}
             </button>
           </div>
         </div>
@@ -363,16 +368,16 @@ export default function AddAssetModal({
               className="app-no-drag flex items-center gap-1 self-start text-xs text-fg-faint transition-colors hover:text-foreground"
             >
               <ArrowLeft className="h-4 w-4" strokeWidth={1.75} aria-hidden />
-              Back
+              {t("dashboard.addAsset.back")}
             </button>
 
             <div className="mt-6 flex flex-col items-center text-center">
-              <img src={falconLogo} alt="" className="h-12 w-12 object-contain" />
+              <BrandLogo alt="" className="h-12 w-12 object-contain" />
               <h2 className="mt-4 text-xl font-semibold text-foreground">
-                Set your starting balance
+                {t("dashboard.addAsset.balanceTitle")}
               </h2>
               <p className="mt-1 text-sm text-fg-muted">
-                Your Falcon paper-trading account starts with this cash.
+                {t("dashboard.addAsset.balanceSubtitle")}
               </p>
 
               <div className="mt-7 flex items-center justify-center gap-1 text-4xl font-semibold tabular-nums text-foreground">
@@ -413,7 +418,7 @@ export default function AddAssetModal({
               disabled={!amountValid}
               className="app-no-drag mt-8 w-full rounded-lg bg-white py-2.5 text-sm font-medium text-black transition-opacity hover:opacity-90 disabled:opacity-40"
             >
-              Create account
+              {t("dashboard.addAsset.create")}
             </button>
           </div>
         )}

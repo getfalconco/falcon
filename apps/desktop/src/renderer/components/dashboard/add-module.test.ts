@@ -4,6 +4,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, it } from "node:test";
 import { copyProblems, withoutComments } from "../../../shared/copy-rules";
+import { en } from "../../lib/i18n/messages/en";
 
 /**
  * The Add Module menu lists the dashboard's cards by hand, beside the union
@@ -39,10 +40,23 @@ describe("add module", () => {
   // "add" is on the advice list because "add to the position" is advice. Here
   // it is the name of a dashboard command the reader asked for, about cards
   // and not about holdings, so it is the one word let through; every other
-  // word and the dash rule still apply.
+  // word and the dash rule still apply. The button's words come from the
+  // i18n tables now, so the English table is held to the same rules.
   it("follows the copy rules and still says what it does", () => {
     const problems = copyProblems(BUTTON, { riskWords: true, jsxText: true }).filter((p) => !p.startsWith('banned word "add":'));
     assert.deepEqual(problems, []);
-    for (const phrase of ["Add Module", "MODULES", "Add a copy"]) assert.ok(BUTTON.includes(phrase), `missing: ${phrase}`);
+    const words = {
+      "modules.addButton": "Add Module",
+      "modules.heading": "MODULES",
+      "modules.addCopy": "Add a copy",
+    } as const;
+    for (const [key, phrase] of Object.entries(words)) {
+      assert.equal(en[key as keyof typeof words], phrase, `en ${key}`);
+      assert.ok(BUTTON.includes(`t("${key}")`), `the button does not show ${key}`);
+      const wording = copyProblems(`const s = ${JSON.stringify(phrase)};`, { riskWords: true }).filter(
+        (p) => !p.startsWith('banned word "add":'),
+      );
+      assert.deepEqual(wording, [], `en ${key}`);
+    }
   });
 });

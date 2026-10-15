@@ -1,11 +1,18 @@
-import { contextBridge, ipcRenderer, type IpcRendererEvent } from "electron";
+import { contextBridge, ipcRenderer, webFrame, type IpcRendererEvent } from "electron";
 
 contextBridge.exposeInMainWorld("meridian", {
   openExternal: (url: string) => ipcRenderer.invoke("open-external", url),
+  /** The reader's language, for the words the main process shows (notifications, dialogs). */
+  setLanguage: (code: string) => ipcRenderer.invoke("i18n:set-language", code),
   minimize: () => ipcRenderer.invoke("window-minimize"),
   close: () => ipcRenderer.invoke("window-close"),
   toggleMaximize: () => ipcRenderer.invoke("window-toggle-maximize"),
   enterWorkspace: () => ipcRenderer.invoke("window-enter-workspace"),
+  // Settings, Appearance, Interface size: Chromium's page zoom for this window,
+  // held to the range the pane offers.
+  setZoomFactor: (factor: number) => {
+    if (Number.isFinite(factor)) webFrame.setZoomFactor(Math.min(1.5, Math.max(0.75, factor)));
+  },
   platform: process.platform,
   searchStockSymbols: (query: string, limit?: number) =>
     ipcRenderer.invoke("stock:search-symbols", query, limit),
@@ -102,6 +109,24 @@ contextBridge.exposeInMainWorld("meridian", {
   getNewsFeed: (options?: { days?: number; limit?: number }) =>
     ipcRenderer.invoke("news:feed", options) as Promise<
       import("../shared/news-feed").NewsFeedResult
+    >,
+  /** The last good feed the main process kept (memory or disk), with its age. Never hits the network. */
+  getCachedNewsFeed: (options?: { days?: number; limit?: number }) =>
+    ipcRenderer.invoke("news:feed-cached", options) as Promise<
+      import("../shared/news-feed").NewsFeedCachedResult
+    >,
+  /** The article's readable text, fetched and cached in main. */
+  getNewsArticle: (request: import("../shared/news-article").NewsArticleRequest) =>
+    ipcRenderer.invoke("news:article", request) as Promise<import("../shared/news-article").NewsArticleBodyResult>,
+  /** The server classifier's verdict for the article, or null when it has none. */
+  getNewsArticleReading: (request: import("../shared/news-article").NewsArticleRequest) =>
+    ipcRenderer.invoke("news:article-reading", request) as Promise<
+      import("../shared/news-article").NewsArticleReadingResult
+    >,
+  /** Falcon's read of an article the server has not analysed. */
+  analyzeNewsArticle: (request: import("../shared/news-article").NewsAnalysisRequest) =>
+    ipcRenderer.invoke("news:article-analysis", request) as Promise<
+      import("../shared/news-article").NewsAnalysisResult
     >,
   getNewsEventsStatus: () =>
     ipcRenderer.invoke("events:status") as Promise<
@@ -416,6 +441,26 @@ contextBridge.exposeInMainWorld("meridian", {
     ipcRenderer.invoke("briefing:narrative", request) as Promise<
       import("../shared/briefing-types").BriefingNarrativeResult
     >,
+  // Calendar tab: the reader's own events (kept by main, per account) and the corporate calendar of held and followed names.
+  listCalendarUserEvents: () =>
+    ipcRenderer.invoke("calendar:user-events:list") as Promise<import("../shared/calendar-events").UserEventsListResult>,
+  createCalendarUserEvent: (input: import("../shared/calendar-events").UserCalendarEventInput) =>
+    ipcRenderer.invoke("calendar:user-events:create", input) as Promise<import("../shared/calendar-events").UserEventWriteResult>,
+  updateCalendarUserEvent: (id: string, input: import("../shared/calendar-events").UserCalendarEventInput) =>
+    ipcRenderer.invoke("calendar:user-events:update", id, input) as Promise<
+      import("../shared/calendar-events").UserEventWriteResult
+    >,
+  deleteCalendarUserEvent: (id: string) =>
+    ipcRenderer.invoke("calendar:user-events:delete", id) as Promise<import("../shared/calendar-events").UserEventDeleteResult>,
+  getCalendarCorporate: (request: import("../shared/calendar-events").CalendarCorporateRequest) =>
+    ipcRenderer.invoke("calendar:corporate", request) as Promise<import("../shared/calendar-events").CalendarCorporateResult>,
+  // Earnings tab and card: the next reports of the reader's names, the covered universe, or the market (main/earnings).
+  getEarningsUpcoming: (request: import("../shared/earnings-types").EarningsRequest) =>
+    ipcRenderer.invoke("earnings:upcoming", request) as Promise<import("../shared/earnings-types").EarningsResult>,
+  getEarningsReactions: (tickers: string[]) =>
+    ipcRenderer.invoke("earnings:reactions", tickers) as Promise<import("../shared/earnings-types").EarningsReactionsResult>,
+  getEarningsDetail: (ticker: string) =>
+    ipcRenderer.invoke("earnings:detail", ticker) as Promise<import("../shared/earnings-types").EarningsDetailResult>,
   // Gauge (spec §8: Shift+F panel, Propagation drawer block, stock page block). Compute-on-read.
   getGaugeReadout: (req: import("../shared/gauge-types").GaugeReadoutRequest) =>
     ipcRenderer.invoke("gauge:readout", req) as Promise<
@@ -445,6 +490,33 @@ contextBridge.exposeInMainWorld("meridian", {
       | { ok: true; results: import("../shared/diagnostics-types").ProviderCheckResult[] }
       | { ok: false; error: string }
     >,
+  // Settings → Engines: endpoints, provider presence (never key values), models; live engine ping.
+  getEnginesOverview: () =>
+    ipcRenderer.invoke("engines:overview") as Promise<
+      | { ok: true; overview: import("../shared/engines-settings").EnginesOverview }
+      | { ok: false; error: string }
+    >,
+  checkEngines: () =>
+    ipcRenderer.invoke("engines:check") as Promise<
+      | { ok: true; result: import("../shared/engines-settings").EnginesCheckResult }
+      | { ok: false; error: string }
+    >,
+  // Settings → Developer: build info, DevTools, and a fixed set of folders to reveal.
+  getDeveloperInfo: () =>
+    ipcRenderer.invoke("developer:info") as Promise<
+      | { ok: true; info: import("../shared/developer-info").DeveloperBuildInfo }
+      | { ok: false; error: string }
+    >,
+  toggleDevTools: () =>
+    ipcRenderer.invoke("developer:toggle-devtools") as Promise<
+      { ok: true; open: boolean } | { ok: false; error: string }
+    >,
+  openDeveloperFolder: (which: import("../shared/developer-info").DeveloperFolder) =>
+    ipcRenderer.invoke("developer:open-folder", which) as Promise<{ ok: true } | { ok: false; error: string }>,
+  // Settings → Developer → Testing: the dark theme colour editor, a window of its own.
+  openThemeEditor: () => ipcRenderer.invoke("developer:open-theme-editor") as Promise<{ ok: true }>,
+  setThemeEditorOnTop: (on: boolean) =>
+    ipcRenderer.invoke("developer:theme-editor-on-top", on) as Promise<{ ok: true; onTop: boolean } | { ok: false }>,
   // Screen (spec §7 Shift+S panel). Findings store reads + a manual rescan of the last completed session.
   getScreenStatus: () =>
     ipcRenderer.invoke("screen:status") as Promise<
@@ -566,8 +638,34 @@ contextBridge.exposeInMainWorld("meridian", {
     ipcRenderer.invoke("onboarding:submit-survey", payload) as Promise<
       { ok: true } | { ok: false; error: string }
     >,
-  getWaitlistMembership: (email: string) =>
-    ipcRenderer.invoke("waitlist:membership", email) as Promise<{
+  getProfilePhoto: (userId: string) =>
+    ipcRenderer.invoke("profile:get-photo", userId) as Promise<
+      import("../shared/profile-photo").ProfilePhotoResult
+    >,
+  setProfilePhoto: (payload: { userId: string; dataUrl: string }) =>
+    ipcRenderer.invoke("profile:set-photo", payload) as Promise<
+      import("../shared/profile-photo").ProfilePhotoResult
+    >,
+  removeProfilePhoto: (userId: string) =>
+    ipcRenderer.invoke("profile:remove-photo", userId) as Promise<
+      import("../shared/profile-photo").ProfilePhotoResult
+    >,
+  /** Opens a plan's getfalcon.co page in the browser; main picks the URL. */
+  openPlanPage: (planKey: string) => ipcRenderer.invoke("plans:open", planKey) as Promise<void>,
+  /** Settings → Privacy / Usage: counted from this machine's data folder (main/privacy). */
+  getPrivacySummary: () =>
+    ipcRenderer.invoke("privacy:summary") as Promise<import("../shared/privacy-types").PrivacySummaryResult>,
+  getUsageSummary: () =>
+    ipcRenderer.invoke("privacy:usage") as Promise<import("../shared/privacy-types").UsageSummaryResult>,
+  exportMyData: (part: import("../shared/privacy-types").PrivacyExportRendererPart) =>
+    ipcRenderer.invoke("privacy:export", part) as Promise<import("../shared/privacy-types").PrivacyExportResult>,
+  clearLocalHistory: () =>
+    ipcRenderer.invoke("privacy:clear-history") as Promise<import("../shared/privacy-types").ClearHistoryResult>,
+  revealDataFolder: () =>
+    ipcRenderer.invoke("privacy:reveal-data") as Promise<{ ok: true } | { ok: false; error: string }>,
+  /** The signed-in user's own ticket; main sends their session token, never an email. */
+  getWaitlistMembership: () =>
+    ipcRenderer.invoke("waitlist:membership") as Promise<{
       found: boolean;
       name: string | null;
       memberNumber: number | null;
@@ -582,8 +680,12 @@ contextBridge.exposeInMainWorld("meridian", {
     application?: Record<string, string>;
   }) =>
     ipcRenderer.invoke("waitlist:apply", payload) as Promise<
-      | { ok: true; status: "created" | "updated"; memberNumber: number | null }
+      | { ok: true; memberNumber: number | null }
       | { ok: false; error: string }
+    >,
+  deleteAccount: (accessToken: string) =>
+    ipcRenderer.invoke("account:delete", accessToken) as Promise<
+      { ok: true; accountId: string; notices: string[] } | { ok: false; error: string }
     >,
   getUpdateStatus: () =>
     ipcRenderer.invoke("update:get-status") as Promise<import("../shared/update-types").UpdateStatus>,
@@ -597,4 +699,112 @@ contextBridge.exposeInMainWorld("meridian", {
   },
   installUpdate: () =>
     ipcRenderer.invoke("update:install") as Promise<{ ok: true } | { ok: false; error: string }>,
+  // Settings → System (main/system).
+  getSystemInfo: () =>
+    ipcRenderer.invoke("system:get-info") as Promise<
+      import("../shared/system-settings").SystemResult<import("../shared/system-settings").SystemInfo>
+    >,
+  setOpenAtLogin: (enabled: boolean) =>
+    ipcRenderer.invoke("system:set-open-at-login", enabled) as Promise<
+      import("../shared/system-settings").SystemResult<import("../shared/system-settings").SystemInfo>
+    >,
+  setHardwareAcceleration: (enabled: boolean) =>
+    ipcRenderer.invoke("system:set-hardware-acceleration", enabled) as Promise<
+      import("../shared/system-settings").SystemResult<import("../shared/system-settings").SystemInfo>
+    >,
+  getSystemStorage: () =>
+    ipcRenderer.invoke("system:get-storage") as Promise<
+      import("../shared/system-settings").SystemResult<import("../shared/system-settings").SystemStorage>
+    >,
+  clearSystemCache: () =>
+    ipcRenderer.invoke("system:clear-cache") as Promise<
+      import("../shared/system-settings").SystemResult<import("../shared/system-settings").SystemStorage>
+    >,
+  showDataFolder: () =>
+    ipcRenderer.invoke("system:show-data-folder") as Promise<
+      import("../shared/system-settings").SystemResult<string>
+    >,
+  checkForUpdates: () =>
+    ipcRenderer.invoke("system:check-updates") as Promise<
+      import("../shared/system-settings").SystemResult<import("../shared/system-settings").UpdateCheckOutcome>
+    >,
+  restartApp: () =>
+    ipcRenderer.invoke("system:restart") as Promise<import("../shared/system-settings").SystemResult<null>>,
+  setQuickOpenShortcut: (keys: string | null) =>
+    ipcRenderer.invoke("system:set-quick-open-shortcut", keys) as Promise<
+      import("../shared/system-settings").QuickOpenResult
+    >,
+  setTrayEnabled: (enabled: boolean) =>
+    ipcRenderer.invoke("system:set-tray", enabled) as Promise<
+      import("../shared/system-settings").SystemResult<import("../shared/system-settings").SystemInfo>
+    >,
+  setKeepAwake: (enabled: boolean) =>
+    ipcRenderer.invoke("system:set-keep-awake", enabled) as Promise<
+      import("../shared/system-settings").SystemResult<import("../shared/system-settings").SystemInfo>
+    >,
+  changeDataFolder: () =>
+    ipcRenderer.invoke("system:change-data-folder") as Promise<import("../shared/system-settings").DataMoveResult>,
+  // Settings → Notifications (main/notifications).
+  getNotificationsState: () =>
+    ipcRenderer.invoke("notifications:get-state") as Promise<
+      | { ok: true; state: import("../shared/notification-settings").NotificationsState }
+      | { ok: false; error: string }
+    >,
+  updateNotificationSettings: (patch: import("../shared/notification-settings").NotificationSettingsPatch) =>
+    ipcRenderer.invoke("notifications:update", patch) as Promise<
+      | { ok: true; state: import("../shared/notification-settings").NotificationsState }
+      | { ok: false; error: string }
+    >,
+  sendTestNotification: () =>
+    ipcRenderer.invoke("notifications:test") as Promise<
+      import("../shared/notification-settings").TestNotificationResult
+    >,
+  openSystemNotificationSettings: () =>
+    ipcRenderer.invoke("notifications:open-system-settings") as Promise<
+      { ok: true } | { ok: false; error: string }
+    >,
+  // Agents (main/agents): the contract is shared/agent-types.ts.
+  agents: {
+    list: () =>
+      ipcRenderer.invoke("agents:list") as Promise<
+        import("../shared/agent-types").AgentResult<import("../shared/agent-types").Agent[]>
+      >,
+    get: (id: string) =>
+      ipcRenderer.invoke("agents:get", id) as Promise<
+        import("../shared/agent-types").AgentResult<import("../shared/agent-types").AgentDetail>
+      >,
+    draftFromBrief: (brief: string) =>
+      ipcRenderer.invoke("agents:draftFromBrief", brief) as Promise<
+        import("../shared/agent-types").AgentResult<import("../shared/agent-types").AgentDraft>
+      >,
+    create: (draft: import("../shared/agent-types").AgentDraft) =>
+      ipcRenderer.invoke("agents:create", draft) as Promise<
+        import("../shared/agent-types").AgentResult<import("../shared/agent-types").Agent>
+      >,
+    update: (id: string, patch: import("../shared/agent-types").AgentPatch) =>
+      ipcRenderer.invoke("agents:update", id, patch) as Promise<
+        import("../shared/agent-types").AgentResult<import("../shared/agent-types").Agent>
+      >,
+    setStatus: (id: string, status: "active" | "paused") =>
+      ipcRenderer.invoke("agents:setStatus", id, status) as Promise<
+        import("../shared/agent-types").AgentResult<import("../shared/agent-types").Agent>
+      >,
+    remove: (id: string) =>
+      ipcRenderer.invoke("agents:remove", id) as Promise<import("../shared/agent-types").AgentResult<{ id: string }>>,
+    runNow: (id: string) =>
+      ipcRenderer.invoke("agents:runNow", id) as Promise<
+        import("../shared/agent-types").AgentResult<import("../shared/agent-types").AgentRun>
+      >,
+    sendMessage: (id: string, text: string) =>
+      ipcRenderer.invoke("agents:sendMessage", id, text) as Promise<
+        import("../shared/agent-types").AgentResult<import("../shared/agent-types").AgentMessage>
+      >,
+    markRead: (id: string) =>
+      ipcRenderer.invoke("agents:markRead", id) as Promise<import("../shared/agent-types").AgentResult<{ id: string }>>,
+    onEvent: (listener: (event: import("../shared/agent-types").AgentPushEvent) => void): (() => void) => {
+      const handler = (_event: IpcRendererEvent, payload: import("../shared/agent-types").AgentPushEvent) => listener(payload);
+      ipcRenderer.on("agents:event", handler);
+      return () => ipcRenderer.removeListener("agents:event", handler);
+    },
+  },
 });

@@ -1,6 +1,5 @@
-import { app } from "electron";
+import { app, safeStorage } from "electron";
 import { randomUUID } from "node:crypto";
-import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import {
   Snaptrade,
@@ -14,6 +13,9 @@ import type {
 } from "../../shared/snaptrade";
 import { ensureBrokerLinksSchema } from "../db/ensure-broker-links-schema";
 import { loadDesktopEnv } from "../load-desktop-env";
+import { resolveDataRoot } from "../data-root";
+import { createLocalSnaptradeStore, snaptradeAccountKey, type StoredUser } from "./local-secret-store";
+import { isSealed, openSecret, parseSecretKey, sealSecret } from "./secret-box";
 
 type SnaptradeClient = Snaptrade<CommercialApiKeyAuth>;
 
@@ -136,28 +138,67 @@ export async function listBrokerages(): Promise<SnaptradeBrokerage[]> {
 /* Connection flow                                                     */
 /* ------------------------------------------------------------------ */
 
-type StoredUser = { userId: string; userSecret: string };
+/**
+ * This machine's copy of an account's SnapTrade identity: one encrypted file
+ * per account under the data root (see local-secret-store.ts). The old
+ * per-machine plaintext `<userData>/snaptrade-user.json` is migrated into it
+ * on first use and deleted.
+ */
+const localStore = createLocalSnaptradeStore({
+  root: () => resolveDataRoot(),
+  legacyFile: () => path.join(app.getPath("userData"), "snaptrade-user.json"),
+  safeStorage,
+});
 
-function userFilePath(): string {
-  return path.join(app.getPath("userData"), "snaptrade-user.json");
+function loadStoredUser(supabaseUserId?: string): StoredUser | null {
+  return localStore.read(snaptradeAccountKey(supabaseUserId));
 }
 
-function loadStoredUser(): StoredUser | null {
+function saveStoredUser(user: StoredUser, supabaseUserId?: string): void {
+  localStore.write(snaptradeAccountKey(supabaseUserId), user);
+}
+
+/** The SnapTrade identity this machine holds for an account, if any (account deletion). */
+export function localSnaptradeIdentity(supabaseUserId: string): StoredUser | null {
+  return loadStoredUser(supabaseUserId);
+}
+
+/** Removes this machine's copy of an account's SnapTrade identity. Throws when the file cannot be removed. */
+export function forgetLocalSnaptradeIdentity(supabaseUserId: string): void {
+  localStore.remove(snaptradeAccountKey(supabaseUserId));
+}
+
+/**
+ * Account deletion in direct mode: removes the SnapTrade user and every
+ * brokerage connection under it. "absent" when SnapTrade no longer has it
+ * (the server side of the deletion may have removed it first).
+ */
+export async function deleteSnaptradeUser(snaptradeUserId: string): Promise<"deleted" | "absent"> {
+  const client = getClient();
+  if (!client) throw new Error("SnapTrade is not configured.");
   try {
-    const p = userFilePath();
-    if (!existsSync(p)) return null;
-    const parsed = JSON.parse(readFileSync(p, "utf8")) as Partial<StoredUser>;
-    if (typeof parsed.userId === "string" && typeof parsed.userSecret === "string") {
-      return { userId: parsed.userId, userSecret: parsed.userSecret };
-    }
-    return null;
-  } catch {
-    return null;
+    await client.authentication.deleteSnapTradeUser({ userId: snaptradeUserId });
+    return "deleted";
+  } catch (err) {
+    if ((err as { status?: number }).status === 404) return "absent";
+    throw err;
   }
 }
 
-function saveStoredUser(user: StoredUser): void {
-  writeFileSync(userFilePath(), JSON.stringify(user), "utf8");
+/**
+ * The key that seals the user secret in snaptrade_secrets (secret-box.ts).
+ * Same SNAPTRADE_SECRET_KEY as the research-worker; without it rows are read
+ * and written in plaintext, and a sealed row cannot be opened.
+ */
+let warnedPlaintext = false;
+function secretKey(): Buffer | null {
+  loadDesktopEnv(true);
+  const key = parseSecretKey(process.env.SNAPTRADE_SECRET_KEY);
+  if (!key && !warnedPlaintext) {
+    warnedPlaintext = true;
+    console.warn("[snaptrade] SNAPTRADE_SECRET_KEY not set: cloud SnapTrade secrets are read and written in plaintext.");
+  }
+  return key;
 }
 
 async function loadCloudUser(supabaseUserId: string): Promise<StoredUser | null> {
@@ -180,8 +221,19 @@ async function loadCloudUser(supabaseUserId: string): Promise<StoredUser | null>
     const rows = JSON.parse(body) as Array<{ snaptrade_user_id?: string; user_secret?: string }>;
     const row = rows[0];
     if (!row?.snaptrade_user_id || !row.user_secret) return null;
-    return { userId: row.snaptrade_user_id, userSecret: row.user_secret };
+    const key = secretKey();
+    if (isSealed(row.user_secret)) {
+      if (!key) {
+        throw new Error("SnapTrade secret is encrypted but SNAPTRADE_SECRET_KEY is not set in apps/desktop/.env.local.");
+      }
+      return { userId: row.snaptrade_user_id, userSecret: openSecret(row.user_secret, key, supabaseUserId) };
+    }
+    const user = { userId: row.snaptrade_user_id, userSecret: row.user_secret };
+    // A row from before encryption: seal it now (lazy re-encryption).
+    if (key) await saveCloudUser(supabaseUserId, user);
+    return user;
   } catch (err) {
+    if (err instanceof Error && /SNAPTRADE_SECRET_KEY/.test(err.message)) throw err;
     console.warn("[snaptrade] load secrets failed:", err instanceof Error ? err.message : err);
     return null;
   }
@@ -204,7 +256,10 @@ async function saveCloudUser(supabaseUserId: string, user: StoredUser): Promise<
         body: JSON.stringify({
           user_id: supabaseUserId,
           snaptrade_user_id: user.userId,
-          user_secret: user.userSecret,
+          user_secret: (() => {
+            const key = secretKey();
+            return key ? sealSecret(user.userSecret, key, supabaseUserId) : user.userSecret;
+          })(),
           updated_at: new Date().toISOString(),
         }),
       },
@@ -312,10 +367,10 @@ async function ensureUser(
   if (supabaseUserId) {
     const cloud = await loadCloudUser(supabaseUserId);
     if (cloud) {
-      saveStoredUser(cloud);
+      saveStoredUser(cloud, supabaseUserId);
       return cloud;
     }
-    const local = loadStoredUser();
+    const local = loadStoredUser(supabaseUserId);
     if (local) {
       await saveCloudUser(supabaseUserId, local);
       return local;
@@ -332,7 +387,7 @@ async function ensureUser(
     throw new Error("SnapTrade did not return a userSecret on registration.");
   }
   const stored: StoredUser = { userId, userSecret };
-  saveStoredUser(stored);
+  saveStoredUser(stored, supabaseUserId);
   if (supabaseUserId) await saveCloudUser(supabaseUserId, stored);
   return stored;
 }

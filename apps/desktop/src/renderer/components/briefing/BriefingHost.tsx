@@ -12,7 +12,9 @@ import {
 import { getBriefingState, isFullyDegraded, retainBriefing, subscribeBriefing } from "@/lib/briefing-store";
 import { briefingAutoOpen, briefingEnabled } from "@/lib/dashboard-config";
 import { isDemoMode } from "@/lib/demo-mode";
+import { useT } from "@/lib/i18n";
 import { hasPaperAccount, subscribePaperAccount } from "@/lib/paper-account";
+import { useShortcut } from "@/lib/use-shortcuts";
 import { resolveBriefingWindow, type BriefingWindow } from "../../../shared/briefing-types";
 import HandoverPopup from "./HandoverPopup";
 
@@ -46,41 +48,48 @@ class BriefingBoundary extends Component<{ onClose: () => void; children: ReactN
 
   render() {
     if (!this.state.failed) return this.props.children;
-    return createPortal(
-      <div className="app-no-drag fixed inset-0 z-[80] flex items-center justify-center bg-black/10 backdrop-blur-[3px]">
-        <div
-          role="alertdialog"
-          aria-modal="true"
-          aria-label="Handover"
-          className="w-[420px] max-w-[92vw] rounded-3xl border border-white/60 bg-white/70 p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_40px_100px_rgba(0,0,0,0.22)] ring-1 ring-black/[0.04] backdrop-blur-xl"
-        >
-          <div className="select-none font-sans text-[11px] font-medium tracking-[0.08em] text-[#9CA3AF]">HANDOVER</div>
-          <p className="mt-2 font-baskerville text-[17px] leading-[1.35] text-[#1d1b1b]">The handover could not be drawn.</p>
-          <p className="mt-1 text-[12px] leading-[1.5] text-[#9CA3AF]">The rest of the dashboard is unaffected.</p>
-          <div className="mt-4 flex justify-end gap-2">
-            <button
-              type="button"
-              onClick={() => this.setState({ failed: false })}
-              className="rounded-xl border-[0.5px] border-black/[0.12] px-3.5 py-1.5 font-sans text-[12px] font-medium text-[#1d1b1b] transition-colors hover:bg-black/[0.04]"
-            >
-              Try again
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                this.setState({ failed: false });
-                this.props.onClose();
-              }}
-              className="glass-cta px-3.5 py-1.5 font-sans text-[12px] font-medium"
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      </div>,
-      document.body,
+    return (
+      <BoundaryFallback
+        onRetry={() => this.setState({ failed: false })}
+        onClose={() => {
+          this.setState({ failed: false });
+          this.props.onClose();
+        }}
+      />
     );
   }
+}
+
+/** The boundary's card. A function of its own so it can read the language, which a class cannot. */
+function BoundaryFallback({ onRetry, onClose }: { onRetry: () => void; onClose: () => void }) {
+  const t = useT();
+  return createPortal(
+    <div className="app-no-drag fixed inset-0 z-[80] flex items-center justify-center bg-black/10 backdrop-blur-[3px]">
+      <div
+        role="alertdialog"
+        aria-modal="true"
+        aria-label={t("briefing.handover.label")}
+        className="w-[420px] max-w-[92vw] rounded-3xl border border-white/60 bg-white/70 p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_40px_100px_rgba(0,0,0,0.22)] ring-1 ring-black/[0.04] backdrop-blur-xl"
+      >
+        <div className="select-none font-sans text-[11px] font-medium tracking-[0.04em] text-[#9CA3AF]">{t("briefing.handover.heading")}</div>
+        <p className="mt-2 font-baskerville text-[17px] leading-[1.35] text-[#1d1b1b]">{t("briefing.handover.drawFailed")}</p>
+        <p className="mt-1 text-[12px] leading-[1.5] text-[#9CA3AF]">{t("briefing.handover.unaffected")}</p>
+        <div className="mt-4 flex justify-end gap-2">
+          <button
+            type="button"
+            onClick={onRetry}
+            className="rounded-xl border-[0.5px] border-black/[0.12] px-3.5 py-1.5 font-sans text-[12px] font-medium text-[#1d1b1b] transition-colors hover:bg-black/[0.04]"
+          >
+            {t("briefing.tryAgain")}
+          </button>
+          <button type="button" onClick={onClose} className="glass-cta px-3.5 py-1.5 font-sans text-[12px] font-medium">
+            {t("common.close")}
+          </button>
+        </div>
+      </div>
+    </div>,
+    document.body,
+  );
 }
 
 /** The launch mark's store; see `BRIEFING_SHOWN_LAUNCH_KEY` for why it is the session one. */
@@ -153,26 +162,14 @@ function BriefingHostInner({ masked, view }: Props) {
   // Shift+M from any page, and the card's "open" event. M is for "morning":
   // the letters that would fit the name better are taken (H is the diagnostics
   // panel, B is Base), and a shortcut that means two things means neither.
+  // The key can be moved in Settings → Shortcuts.
+  useShortcut("briefing", () => {
+    if (openRef.current) setOpen(false);
+    else openByHand();
+  });
   useEffect(() => {
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (!event.shiftKey || event.ctrlKey || event.metaKey || event.altKey) return;
-      const isM = event.code === "KeyM" || event.key.toLowerCase() === "m";
-      if (!isM) return;
-      const target = event.target as HTMLElement | null;
-      if (target) {
-        const tag = target.tagName;
-        if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || target.isContentEditable) return;
-      }
-      event.preventDefault();
-      if (openRef.current) setOpen(false);
-      else openByHand();
-    };
-    window.addEventListener("keydown", onKeyDown);
     window.addEventListener(BRIEFING_OPEN_EVENT, openByHand);
-    return () => {
-      window.removeEventListener("keydown", onKeyDown);
-      window.removeEventListener(BRIEFING_OPEN_EVENT, openByHand);
-    };
+    return () => window.removeEventListener(BRIEFING_OPEN_EVENT, openByHand);
   }, [openByHand]);
 
   // Opening by itself, once per launch, on arrival. An arrival is the mount,

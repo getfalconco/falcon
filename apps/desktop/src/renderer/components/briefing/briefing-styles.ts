@@ -8,7 +8,7 @@ import type { Tone } from "../../../shared/briefing-view";
  */
 
 /** The card label: "STOCK", "INSIGHT", and here "HANDOVER" and the section names. */
-export const LABEL_CLASS = "select-none font-sans text-[11px] font-medium tracking-[0.08em] text-[#9CA3AF]";
+export const LABEL_CLASS = "select-none font-sans text-[11px] font-medium tracking-[0.04em] text-[#9CA3AF]";
 
 /** The Positions card's table head. */
 export const HEAD_CLASS = "font-['Geist_Mono'] text-[9.5px] uppercase tracking-[0.06em] text-[#9CA3AF]";

@@ -66,6 +66,15 @@ describe("toMarketHeadline", () => {
     assert.equal(item?.via, "QQQ");
   });
 
+  it("repairs provider mojibake in the title and publisher", () => {
+    const item = toMarketHeadline(
+      { ...raw, title: "Fedâ€™s Powell speaks", publisher: "SociÃ©tÃ© Wire" },
+      "SPY",
+    );
+    assert.equal(item?.title, "Fed’s Powell speaks");
+    assert.equal(item?.source, "Société Wire");
+  });
+
   it("refuses an item with no title, no link or no publish time", () => {
     assert.equal(toMarketHeadline({ ...raw, title: " " }, "SPY"), null);
     assert.equal(toMarketHeadline({ ...raw, link: undefined }, "SPY"), null);
@@ -248,6 +257,38 @@ describe("market news cache", () => {
   it("starts over from a corrupt file instead of failing", async () => {
     fs.writeFileSync(file, "{not json", "utf8");
     assert.deepEqual((await make().get(SINCE)).map((h) => h.url), ["a"]);
+  });
+
+  it("repairs provider mojibake in a fresh read and leaves clean text alone", async () => {
+    answer = async () => [
+      headline({ url: "a", title: "Stocks slip as the weekâ€™s data loom", source: "SociÃ©tÃ© Wire" }),
+      headline({ url: "b", title: "Café chain in Zürich lifts £ guidance", source: "Wire" }),
+    ];
+    const got = await make().get(SINCE);
+    assert.equal(got[0].title, "Stocks slip as the week’s data loom");
+    assert.equal(got[0].source, "Société Wire");
+    assert.equal(got[1].title, "Café chain in Zürich lifts £ guidance");
+    // What is cached is the repaired text.
+    const stored = JSON.parse(fs.readFileSync(file, "utf8")) as {
+      by_since: Record<string, { headlines: MarketHeadline[] }>;
+    };
+    assert.equal(stored.by_since[SINCE].headlines[0].title, "Stocks slip as the week’s data loom");
+  });
+
+  it("repairs an entry an older build cached before it repaired anything", async () => {
+    fs.writeFileSync(
+      file,
+      JSON.stringify({
+        schema_version: 1,
+        by_since: {
+          [SINCE]: { at: START, headlines: [headline({ url: "old", title: "Oilâ€”and goldâ€”slide", source: "Wire" })] },
+        },
+      }),
+      "utf8",
+    );
+    const got = await make().get(SINCE);
+    assert.equal(calls.length, 0);
+    assert.equal(got[0].title, "Oil—and gold—slide");
   });
 
   it("refuses a since that is not an instant before reading anything", async () => {

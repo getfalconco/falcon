@@ -1,19 +1,23 @@
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
-import { CalendarRows, ROW_GRID, nowMarkerLabel, sessionStanding, type SessionStanding } from "@/components/briefing/CalendarRail";
+import { CalendarRows, NowMarker, ROW_GRID, nowMarkerLabel, sessionStanding, type SessionStanding } from "@/components/briefing/CalendarRail";
 import { HEAD_CLASS, QUIET_NOTE_CLASS } from "@/components/briefing/briefing-styles";
+import { useBriefingText } from "@/components/briefing/use-briefing-text";
 import ChartCardHeader from "@/components/dashboard/ChartCardHeader";
 import { useBriefing } from "@/hooks/useBriefing";
 import { briefingEnabled } from "@/lib/dashboard-config";
 import { cn } from "@/lib/utils";
+import type { BriefingText } from "../../../shared/briefing-text";
 import type { BriefingReport } from "../../../shared/briefing-types";
 import { viewNow } from "../../../shared/briefing-view";
-import { calendarForDay, stepSession } from "../../../shared/calendar-days";
+import { calendarForDay, openingDay, stepDay } from "../../../shared/calendar-days";
 import { MACRO_CALENDAR } from "../../../shared/calendar-types";
-import { calendarView, degradedNotes, earningsReachNote, mastheadDate, type CalendarView } from "../../../shared/calendar-view";
+import { calendarView, closedDayNote, dayLabel, degradedNotes, earningsReachNote, mastheadDate, type CalendarView } from "../../../shared/calendar-view";
 
 type Props = {
   onDuplicate?: () => void;
   onRemove?: () => void;
+  /** View Calendar: opens the home screen's Calendar tab. */
+  onOpenCalendar?: () => void;
 };
 
 const SKELETON_BAR = "animate-pulse rounded bg-black/[0.06] motion-reduce:animate-none";
@@ -47,6 +51,13 @@ type CardView = {
   /** "THU SEP 25": the session the rail lists, for the head when that is not today. */
   sessionDate: string;
   earlyClose: boolean;
+  /**
+   * Set on a day the market does not open: "US markets are closed for the
+   * weekend.", or the holiday by name. Such a day has no session, so its rail
+   * never carries a session mark (before the open, session ended); while the
+   * clock is on it, it carries the "now" line like any today.
+   */
+  closedNote: string | null;
   /** Quiet lines: a section of the report that failed, or how far held names' earnings are known. */
   notes: string[];
   /** Set when the curated calendar does not reach this session: an empty rail then means "unknown", not "quiet". */
@@ -59,22 +70,32 @@ type CardView = {
  * no boundary above it, so one field of the wrong shape would unmount the
  * whole page. A report the view cannot read is shown as one that failed.
  */
-function buildCardView(report: BriefingReport, ymd: string, now: Date): CardView | null {
+function buildCardView(report: BriefingReport, ymd: string, now: Date, text: BriefingText): CardView | null {
   try {
     const day = calendarForDay(report, ymd, now);
-    // Only trading days are ever asked for (the arrows step over the rest);
-    // a closed answer is a report this build cannot read, and is shown as one.
-    if (day.closed) return null;
-    const calendar = calendarView(day.report, now);
-    const degraded = degradedNotes(day.report);
+    const calendar = calendarView(day.report, now, { text });
+    if (day.closed) {
+      return {
+        calendar,
+        standing: sessionStanding(calendar, now, day.report.window.target_close_at),
+        isSession: false,
+        sessionDate: dayLabel(day.ymd, text),
+        earlyClose: false,
+        closedNote: closedDayNote(day.reason, day.holiday, text),
+        notes: [],
+        warning: calendar.footnote.tone === "warn" ? calendar.footnote.text : null,
+      };
+    }
+    const degraded = degradedNotes(day.report, text);
     const notes = [degraded.macro_calendar, degraded.earnings].filter((n): n is string => typeof n === "string");
-    if (day.earningsKnownThrough) notes.push(earningsReachNote(day.earningsKnownThrough));
+    if (day.earningsKnownThrough) notes.push(earningsReachNote(day.earningsKnownThrough, text));
     return {
       calendar,
       standing: sessionStanding(calendar, now, day.report.window.target_close_at),
       isSession: day.isSession,
-      sessionDate: mastheadDate(day.report),
+      sessionDate: mastheadDate(day.report, text),
       earlyClose: day.report.window.early_close === true,
+      closedNote: null,
       notes,
       warning: calendar.footnote.tone === "warn" ? calendar.footnote.text : null,
     };
@@ -154,39 +175,45 @@ const STEP_BUTTON =
 /**
  * The calendar on the dashboard: what is scheduled for a session, on the
  * rail, with the "now" line where the day stands, and every row can be
- * hovered for what else is known about it. It opens on the session the clock
- * is on (today until the close, the next one after it and through the
- * weekend), whose rows are the handover report's own; the two triangles
- * beside the dots step a trading day back or on, and those days are built
- * from the same curated calendar and rules through `calendarForDay`.
+ * hovered for what else is known about it. On a trading day it opens on the
+ * session the clock is on (today until the close, the next one after it),
+ * whose rows are the handover report's own; on a day the market does not open
+ * (a Saturday, a Sunday, a holiday) it opens on that day, today, with a line
+ * saying the market is closed (`openingDay`). The two triangles beside the
+ * dots step one calendar day back or on, weekends and holidays included, and
+ * those days are built from the same curated calendar and rules through
+ * `calendarForDay`.
  *
  * The head names the day whenever the rail is not listing today.
  */
-function CalendarCardInner({ onDuplicate, onRemove }: Props) {
+function CalendarCardInner({ onDuplicate, onRemove, onOpenCalendar }: Props) {
   const { status, report } = useBriefing();
+  const text = useBriefingText();
+  const t = text.t;
   const minute = useMinute();
   // `minute` is the only reason this recomputes between reports: the view
   // takes the clock as an argument, and this is the one place the card reads it.
   const now = useMemo(() => (report ? viewNow(report, new Date()) : new Date()), [report, minute]);
 
-  // The day on the rail: the session until an arrow picks another. Stepping
-  // back onto the session goes back to following it, so the card rolls with
-  // the report again at the close.
-  const sessionYmd = report?.window.target_session_ymd ?? null;
+  // The day on the rail: the opening day (the session, or today when the
+  // market is closed today) until an arrow picks another. Stepping back onto
+  // it goes back to following it, so the card rolls with the report again at
+  // the close, and with the calendar at midnight on a weekend.
+  const openYmd = report ? openingDay(report, now) : null;
   const [picked, setPicked] = useState<string | null>(null);
-  const shownYmd = picked ?? sessionYmd;
+  const shownYmd = picked ?? openYmd;
   // Bounded by the curated file itself, which every day but the session is
   // built from; a report's own coverage line can be a demo's.
   const coverage = MACRO_CALENDAR.coverage;
-  const back = shownYmd ? stepSession(shownYmd, -1, coverage) : null;
-  const on = shownYmd ? stepSession(shownYmd, 1, coverage) : null;
+  const back = shownYmd ? stepDay(shownYmd, -1, coverage) : null;
+  const on = shownYmd ? stepDay(shownYmd, 1, coverage) : null;
   const step = (ymd: string | null) => {
-    if (ymd) setPicked(ymd === sessionYmd ? null : ymd);
+    if (ymd) setPicked(ymd === openYmd ? null : ymd);
   };
 
   const view = useMemo(
-    () => (report && shownYmd ? buildCardView(report, shownYmd, now) : null),
-    [report, shownYmd, now],
+    () => (report && shownYmd ? buildCardView(report, shownYmd, now, text) : null),
+    [report, shownYmd, now, text],
   );
 
   // Once per day shown, the list is scrolled so the "now" line sits mid-card:
@@ -224,27 +251,34 @@ function CalendarCardInner({ onDuplicate, onRemove }: Props) {
     const nothing = view.calendar.allDay.length === 0 && view.calendar.timed.length === 0;
     // The session carries its line wherever the clock stands against it; a
     // day stepped to carries one only while the clock is on it.
-    const markerLabel = view.isSession || standing === "on" ? nowMarkerLabel(standing, now) : null;
+    const markerLabel = view.isSession || standing === "on" ? nowMarkerLabel(standing, now, text) : null;
     body = (
       <div ref={listRef} className="scrollbar-meridian relative -mx-2 min-h-0 flex-1 overflow-y-auto px-2">
         {view.earlyClose ? (
-          <p className="pb-3 text-[12px] leading-[1.45] text-[#D97706]">Early close: this session ends at 13:00 ET.</p>
+          <p className="pb-3 text-[12px] leading-[1.45] text-[#D97706]">{t("briefing.card.earlyClose")}</p>
         ) : null}
+        {view.closedNote ? <p className="pb-3 text-[12px] leading-[1.45] text-[#6b7280]">{view.closedNote}</p> : null}
 
         <CalendarRows view={view.calendar} markerLabel={markerLabel} markerRef={markerRef} />
+        {/* A closed today with no timed row still gets its "now" line, under
+            whatever all-day rows it has: the rail draws the line only among
+            timed rows, and without it a Sunday would not read as today. */}
+        {view.closedNote && markerLabel !== null && view.calendar.timed.length === 0 ? (
+          <NowMarker label={markerLabel} markerRef={markerRef} />
+        ) : null}
 
-        {nothing && !view.warning && view.notes.length === 0 ? (
-          <p className={QUIET_NOTE_CLASS}>Nothing scheduled for this session.</p>
+        {nothing && !view.closedNote && !view.warning && view.notes.length === 0 ? (
+          <p className={QUIET_NOTE_CLASS}>{t("briefing.card.nothing")}</p>
         ) : null}
       </div>
     );
   } else if (unsupported) {
-    body = <p className="text-[13px] leading-[1.5] text-[#6b7280]">Restart Falcon to enable the calendar.</p>;
+    body = <p className="text-[13px] leading-[1.5] text-[#6b7280]">{t("briefing.card.restart")}</p>;
   } else if (failed) {
     body = (
       <>
-        <p className="text-[13px] leading-[1.5] text-[#6b7280]">The calendar could not be put together right now.</p>
-        <p className={cn(QUIET_NOTE_CLASS, "mt-1")}>It is asked for again on its own. The rest of the dashboard is unaffected.</p>
+        <p className="text-[13px] leading-[1.5] text-[#6b7280]">{t("briefing.card.failed")}</p>
+        <p className={cn(QUIET_NOTE_CLASS, "mt-1")}>{t("briefing.card.failedNote")}</p>
       </>
     );
   } else {
@@ -254,7 +288,7 @@ function CalendarCardInner({ onDuplicate, onRemove }: Props) {
   return (
     <div className="flex h-full min-h-[560px] w-full flex-col rounded-3xl border border-white/60 bg-white/40 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-black/[0.04] backdrop-blur-xl backdrop-saturate-150">
       <ChartCardHeader
-        label="CALENDAR"
+        label={t("briefing.card.label")}
         meta={
           <span className={cn(HEAD_CLASS, "select-none truncate")}>
             {/* The offset of the listed day, not of this instant: a day across
@@ -271,10 +305,10 @@ function CalendarCardInner({ onDuplicate, onRemove }: Props) {
         actions={
           report ? (
             <div className="flex items-center gap-0.5">
-              <button type="button" aria-label="Previous day" disabled={!back} onClick={() => step(back)} className={STEP_BUTTON}>
+              <button type="button" aria-label={t("briefing.card.previousDay")} disabled={!back} onClick={() => step(back)} className={STEP_BUTTON}>
                 <Triangle direction="left" />
               </button>
-              <button type="button" aria-label="Next day" disabled={!on} onClick={() => step(on)} className={STEP_BUTTON}>
+              <button type="button" aria-label={t("briefing.card.nextDay")} disabled={!on} onClick={() => step(on)} className={STEP_BUTTON}>
                 <Triangle direction="right" />
               </button>
             </div>
@@ -282,6 +316,12 @@ function CalendarCardInner({ onDuplicate, onRemove }: Props) {
         }
         onDuplicate={onDuplicate}
         onRemove={onRemove}
+        // The door to the calendar view: the round arrow in the masthead.
+        // Live, outside the dashboard-CTA switch, as the full-width button it
+        // replaced was. It opens the Calendar tab beside the greeting;
+        // HomePage hands the switch down.
+        onOpen={onOpenCalendar}
+        openLabel={t("briefing.card.viewCalendar")}
       />
 
       <div className="flex min-h-0 flex-1 flex-col pt-4">
@@ -298,15 +338,6 @@ function CalendarCardInner({ onDuplicate, onRemove }: Props) {
           </div>
         ) : null}
 
-        {/* The door to the calendar view. Drawn live — the reader asked for
-            it not to sit recessed — and outside the dashboard-CTA switch,
-            which would dim it again. Nothing to open yet; the click is wired
-            the day the view exists. */}
-        <div className="mt-auto pt-4">
-          <button type="button" className="glass-cta app-no-drag w-full py-2 text-[12.5px] font-medium">
-            View Calendar
-          </button>
-        </div>
       </div>
     </div>
   );

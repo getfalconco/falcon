@@ -15,6 +15,7 @@ import { hasPaperAccount, subscribePaperAccount } from "@/lib/paper-account";
 import { parseFalconError } from "../../../shared/falcon-errors";
 import { fetchLatestSharedStep1, getAccessToken, saveSharedStep1 } from "@/lib/research-jobs";
 import { cn } from "@/lib/utils";
+import { upperEnglish, useI18n, useT, type MessageKey, type TFunction } from "@/lib/i18n";
 
 type Props = {
   symbol: string;
@@ -30,6 +31,30 @@ type UiState =
 
 type StrengthTier = "critical" | "important" | "marginal";
 
+const STRENGTH_LABEL: Record<StrengthTier, MessageKey> = {
+  critical: "stock.strength.critical",
+  important: "stock.strength.important",
+  marginal: "stock.strength.marginal",
+};
+
+/** `.one` or `.other` of a counted message, by the language's plural rule. */
+function plural(locale: string, count: number, one: MessageKey, other: MessageKey): MessageKey {
+  return new Intl.PluralRules(locale).select(count) === "one" ? one : other;
+}
+
+/** A filing date ("2025-02-26") as the reader's language writes it; anything else as given. */
+function formatFiledDate(raw: string, locale: string): string {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(raw)) return raw;
+  const date = new Date(`${raw}T00:00:00Z`);
+  if (Number.isNaN(date.getTime())) return raw;
+  return new Intl.DateTimeFormat(locale, {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    timeZone: "UTC",
+  }).format(date);
+}
+
 function StrengthChip({
   tier,
   strength,
@@ -37,13 +62,15 @@ function StrengthChip({
   tier?: StrengthTier | null;
   strength?: number | null;
 }) {
+  const t = useT();
   if (tier !== "critical" && tier !== "important" && tier !== "marginal") {
-    return <span className="text-fg-faint">—</span>;
+    return <span className="text-fg-faint">{t("common.na")}</span>;
   }
+  const label = t(STRENGTH_LABEL[tier]);
   const title =
     typeof strength === "number" && Number.isFinite(strength)
-      ? `strength ${strength.toFixed(2)}${tier ? ` (${tier})` : ""}`
-      : tier;
+      ? t("stock.strength.title", { value: strength.toFixed(2), tier: label })
+      : label;
   return (
     <span
       title={title}
@@ -54,20 +81,21 @@ function StrengthChip({
         tier === "marginal" && "bg-white/[0.05] text-fg-muted",
       )}
     >
-      {tier}
+      {label}
     </span>
   );
 }
 
 function QuoteCell({ quote }: { quote: string }) {
   const [open, setOpen] = useState(false);
+  const t = useT();
   const truncated = quote.length > 80 ? `${quote.slice(0, 80)}…` : quote;
   return (
     <button
       type="button"
       className="max-w-md text-left text-xs text-fg-muted hover:text-foreground"
       onClick={() => setOpen((v) => !v)}
-      title="Click to expand"
+      title={t("stock.edges.expandQuote")}
     >
       {open ? quote : truncated}
     </button>
@@ -119,12 +147,13 @@ function EdgeRow({
   showEvidence: boolean;
   evidenceRowSpan?: number;
 }) {
+  const t = useT();
   return (
     <tr className="border-b border-white/[0.06]">
       <td className="px-2 py-2 text-foreground">{edge.counterparty_name}</td>
-      <td className="px-2 py-2 tabular-nums text-fg-muted">{edge.counterparty_ticker ?? "—"}</td>
+      <td className="px-2 py-2 tabular-nums text-fg-muted">{edge.counterparty_ticker ?? t("common.na")}</td>
       <td className="px-2 py-2 text-fg-muted">{edge.category}</td>
-      <td className="px-2 py-2 text-fg-muted">{edge.subtype || "—"}</td>
+      <td className="px-2 py-2 text-fg-muted">{edge.subtype || t("common.na")}</td>
       <td className="px-2 py-2 tabular-nums text-fg-muted">{edge.confidence.toFixed(2)}</td>
       <td className="px-2 py-2">
         <StrengthChip tier={edge.strength_tier} strength={edge.strength} />
@@ -140,6 +169,7 @@ function EdgeRow({
 
 function EvidenceGroupBlock({ group }: { group: { groupId: string; edges: ValidatedEdge[] } }) {
   const [open, setOpen] = useState(false);
+  const t = useT();
   const quote = group.edges[0]?.evidence[0]?.quote ?? "";
   const isMulti = group.edges.length > 1;
 
@@ -156,7 +186,7 @@ function EvidenceGroupBlock({ group }: { group: { groupId: string; edges: Valida
             className="mb-1.5 text-xs text-fg-muted hover:text-foreground"
             onClick={() => setOpen(true)}
           >
-            ▸ {group.edges.length} counterparties (shared evidence)
+            ▸ {t("stock.edges.sharedEvidence", { count: group.edges.length })}
           </button>
           <CompactCounterparties edges={group.edges} />
         </td>
@@ -172,9 +202,9 @@ function EvidenceGroupBlock({ group }: { group: { groupId: string; edges: Valida
       {group.edges.map((edge, i) => (
         <tr key={`${edge.counterparty_name}-${edge.category}-${i}`} className="border-b border-white/[0.06]">
           <td className="px-2 py-2 text-foreground">{edge.counterparty_name}</td>
-          <td className="px-2 py-2 tabular-nums text-fg-muted">{edge.counterparty_ticker ?? "—"}</td>
+          <td className="px-2 py-2 tabular-nums text-fg-muted">{edge.counterparty_ticker ?? t("common.na")}</td>
           <td className="px-2 py-2 text-fg-muted">{edge.category}</td>
-          <td className="px-2 py-2 text-fg-muted">{edge.subtype || "—"}</td>
+          <td className="px-2 py-2 text-fg-muted">{edge.subtype || t("common.na")}</td>
           <td className="px-2 py-2 tabular-nums text-fg-muted">{edge.confidence.toFixed(2)}</td>
           <td className="px-2 py-2">
             <StrengthChip tier={edge.strength_tier} strength={edge.strength} />
@@ -186,7 +216,7 @@ function EvidenceGroupBlock({ group }: { group: { groupId: string; edges: Valida
                 className="mb-1.5 block text-xs text-fg-muted hover:text-foreground"
                 onClick={() => setOpen(false)}
               >
-                ▾ collapse
+                ▾ {t("stock.edges.collapse")}
               </button>
               <QuoteCell quote={quote} />
             </td>
@@ -199,18 +229,19 @@ function EvidenceGroupBlock({ group }: { group: { groupId: string; edges: Valida
 
 function EdgesTable({ edges }: { edges: ValidatedEdge[] }) {
   const groups = groupEdges(edges);
+  const t = useT();
   return (
     <div className="w-full overflow-auto">
       <table className="w-full min-w-[800px] border-collapse text-left text-xs">
         <thead>
           <tr className="border-b border-white/[0.1] text-fg-faint">
-            <th className="px-2 py-2 font-medium">Counterparty</th>
-            <th className="px-2 py-2 font-medium">Ticker</th>
-            <th className="px-2 py-2 font-medium">Category</th>
-            <th className="px-2 py-2 font-medium">Subtype</th>
-            <th className="px-2 py-2 font-medium">Conf.</th>
-            <th className="px-2 py-2 font-medium">Strength</th>
-            <th className="px-2 py-2 font-medium">Evidence</th>
+            <th className="px-2 py-2 font-medium">{t("stock.edges.counterparty")}</th>
+            <th className="px-2 py-2 font-medium">{t("stock.edges.ticker")}</th>
+            <th className="px-2 py-2 font-medium">{t("stock.edges.category")}</th>
+            <th className="px-2 py-2 font-medium">{t("stock.edges.subtype")}</th>
+            <th className="px-2 py-2 font-medium">{t("stock.edges.confidence")}</th>
+            <th className="px-2 py-2 font-medium">{t("stock.edges.strength")}</th>
+            <th className="px-2 py-2 font-medium">{t("stock.edges.evidence")}</th>
           </tr>
         </thead>
         <tbody>
@@ -234,29 +265,33 @@ function isSectionSuspect(stats: Step1Stats, form: string): boolean {
   return false;
 }
 
-function formatStatsLine(stats: Step1Stats): string {
+function formatStatsLine(stats: Step1Stats, t: TFunction, locale: string): string {
   const perChunk =
     stats.candidates_per_chunk.length > 0
       ? `[${stats.candidates_per_chunk.join(",")}]`
       : "[]";
   const parts = [
-    stats.section_extraction_failed ? "section extraction failed" : null,
-    `section ${stats.section_method}`,
-    `${stats.section_chars.toLocaleString()} chars`,
-    `${stats.chunks} chunks`,
-    `per-chunk ${perChunk}`,
-    `${stats.api_errors} api err`,
-    `${stats.parse_errors} parse err`,
-    `${stats.candidates_extracted} extracted`,
-    `${stats.dropped_low_confidence} dropped`,
-    `${stats.deduped} deduped`,
-    `${stats.rejected_quote_not_found} quote rejected`,
-    `${stats.rejected_by_auditor} auditor rejected`,
-    `${stats.validated} validated`,
+    stats.section_extraction_failed ? t("stock.stats.sectionFailed") : null,
+    t("stock.stats.section", { method: stats.section_method }),
+    t("stock.stats.chars", { count: stats.section_chars.toLocaleString("en-US") }),
+    t(plural(locale, stats.chunks, "stock.stats.chunks.one", "stock.stats.chunks.other"), { count: stats.chunks }),
+    t("stock.stats.perChunk", { list: perChunk }),
+    t("stock.stats.apiErrors", { count: stats.api_errors }),
+    t("stock.stats.parseErrors", { count: stats.parse_errors }),
+    t("stock.stats.extracted", { count: stats.candidates_extracted }),
+    t("stock.stats.dropped", { count: stats.dropped_low_confidence }),
+    t("stock.stats.deduped", { count: stats.deduped }),
+    t("stock.stats.quoteRejected", { count: stats.rejected_quote_not_found }),
+    t("stock.stats.auditorRejected", { count: stats.rejected_by_auditor }),
+    t("stock.stats.validated", { count: stats.validated }),
     stats.fetch_seconds != null ||
     stats.extract_seconds != null ||
     stats.audit_seconds != null
-      ? `fetch ${stats.fetch_seconds ?? 0}s · extract ${stats.extract_seconds ?? 0}s · audit ${stats.audit_seconds ?? 0}s`
+      ? t("stock.stats.timing", {
+          fetch: stats.fetch_seconds ?? 0,
+          extract: stats.extract_seconds ?? 0,
+          audit: stats.audit_seconds ?? 0,
+        })
       : null,
   ];
   return parts.filter(Boolean).join(" · ");
@@ -264,6 +299,7 @@ function formatStatsLine(stats: Step1Stats): string {
 
 function MergedSection({ merged }: { merged: MergedCandidate[] }) {
   const [open, setOpen] = useState(false);
+  const t = useT();
   if (merged.length === 0) return null;
   return (
     <div className="mt-6 border-t border-white/[0.08] pt-4">
@@ -272,14 +308,14 @@ function MergedSection({ merged }: { merged: MergedCandidate[] }) {
         className="text-xs text-fg-muted hover:text-foreground"
         onClick={() => setOpen((v) => !v)}
       >
-        {open ? "▾" : "▸"} Merged ({merged.length})
+        {open ? "▾" : "▸"} {t("stock.merged", { count: merged.length })}
       </button>
       {open ? (
         <ul className="mt-3 max-h-64 space-y-2 overflow-auto text-xs text-fg-muted">
           {merged.map((m, i) => (
             <li key={`${m.counterparty_name}-${i}`}>
               <span className="text-foreground">{m.counterparty_name}</span>
-              {" — "}
+              {" · "}
               {m.category}
               {" → "}
               {m.merged_into}
@@ -293,6 +329,7 @@ function MergedSection({ merged }: { merged: MergedCandidate[] }) {
 
 function RejectedSection({ rejected }: { rejected: RejectedCandidate[] }) {
   const [open, setOpen] = useState(false);
+  const t = useT();
   if (rejected.length === 0) return null;
   return (
     <div className="mt-6 border-t border-white/[0.08] pt-4">
@@ -301,14 +338,14 @@ function RejectedSection({ rejected }: { rejected: RejectedCandidate[] }) {
         className="text-xs text-fg-muted hover:text-foreground"
         onClick={() => setOpen((v) => !v)}
       >
-        {open ? "▾" : "▸"} Rejected ({rejected.length})
+        {open ? "▾" : "▸"} {t("stock.rejected", { count: rejected.length })}
       </button>
       {open ? (
         <ul className="mt-3 max-h-64 space-y-2 overflow-auto text-xs text-fg-muted">
           {rejected.map((r, i) => (
             <li key={`${r.counterparty_name}-${i}`}>
               <span className="text-foreground">{r.counterparty_name}</span>
-              {" — "}
+              {" · "}
               {r.category}
               {": "}
               {r.reason}
@@ -323,6 +360,7 @@ function RejectedSection({ rejected }: { rejected: RejectedCandidate[] }) {
 export default function StockView({ symbol }: Props) {
   const [ui, setUi] = useState<UiState>({ kind: "idle" });
   const [paperAccount, setPaperAccount] = useState(hasPaperAccount);
+  const { t, locale } = useI18n();
 
   // Shown on every screen except the analysis progress view.
   const live = useLiveQuote(symbol, { enabled: ui.kind !== "running" });
@@ -369,14 +407,14 @@ export default function StockView({ symbol }: Props) {
     if (!api?.startStep1Research || !api.getStep1ResearchStatus || !api.getStep1ResearchResult) {
       setUi({
         kind: "error",
-        message: "Restart Falcon and try again.",
+        message: t("stock.error.restart"),
         code: "FAL-INT-01",
       });
       return;
     }
 
     const token = await getAccessToken().catch(() => undefined);
-    setUi({ kind: "running", stage: "Starting…", progress: null });
+    setUi({ kind: "running", stage: t("stock.running.starting"), progress: null });
 
     let jobId: string;
     let via: "worker" | "local" | undefined;
@@ -451,7 +489,7 @@ export default function StockView({ symbol }: Props) {
     };
 
     window.setTimeout(() => void poll(), 1200);
-  }, [symbol]);
+  }, [symbol, t]);
 
   const [quota, setQuota] = useState<ResearchQuota | null>(null);
   useEffect(() => {
@@ -473,12 +511,12 @@ export default function StockView({ symbol }: Props) {
   if (ui.kind === "idle") {
     return (
       <div className="flex min-h-0 min-w-0 flex-1 flex-col items-center justify-center gap-5 overflow-y-auto py-6">
-        <p className="text-xs uppercase tracking-[0.12em] text-fg-faint">{symbol}</p>
+        <p lang="en" className="text-xs uppercase tracking-[0.12em] text-fg-faint">{symbol}</p>
 
         <StockLivePrice state={live} />
 
         {/* Gauge (spec §8 stock page block): standalone tape state — tracked tickers only say more than "not tracked". */}
-        <GaugeContextBlock ticker={symbol} context={null} surface="stock" title="Tape state" className="w-full max-w-md rounded-xl border border-[#e6e6e0] bg-[#fbfbf9] px-3.5 py-3 text-left" />
+        <GaugeContextBlock ticker={symbol} context={null} surface="stock" title={t("stock.gaugeTitle")} className="w-full max-w-md rounded-xl border border-[#e6e6e0] bg-[#fbfbf9] px-3.5 py-3 text-left" />
 
         {paperAccount ? (
           <StockPaperTradePanel symbol={symbol} price={live.quote?.price ?? null} />
@@ -491,7 +529,7 @@ export default function StockView({ symbol }: Props) {
             disabled={quota ? !quota.allowed : false}
             className="border-0 bg-white px-8 py-2.5 text-sm font-semibold text-black transition hover:bg-white/90 disabled:cursor-not-allowed disabled:opacity-40"
           >
-            Begin
+            {t("stock.begin")}
           </button>
           <ResearchQuotaPill quota={quota} />
         </div>
@@ -503,7 +541,7 @@ export default function StockView({ symbol }: Props) {
     const stageLower = ui.stage.toLowerCase();
     return (
       <div className="flex min-h-0 min-w-0 flex-1 flex-col items-center justify-center gap-3 px-8">
-        <p className="text-xs uppercase tracking-[0.12em] text-fg-faint">{symbol}</p>
+        <p lang="en" className="text-xs uppercase tracking-[0.12em] text-fg-faint">{symbol}</p>
         <ul className="w-full max-w-md space-y-2 text-sm">
           <li
             className={
@@ -512,15 +550,15 @@ export default function StockView({ symbol }: Props) {
                 : "text-fg-muted"
             }
           >
-            Fetching latest 10-K from SEC EDGAR
+            {t("stock.running.fetch")}
           </li>
           <li
             className={stageLower.includes("extracting") ? "text-foreground" : "text-fg-muted"}
           >
-            {stageLower.includes("extracting") ? ui.stage : "Extracting candidate relationships"}
+            {stageLower.includes("extracting") ? ui.stage : t("stock.running.extract")}
           </li>
           <li className={stageLower.includes("auditing") ? "text-foreground" : "text-fg-muted"}>
-            {stageLower.includes("auditing") ? ui.stage : "Auditing candidates"}
+            {stageLower.includes("auditing") ? ui.stage : t("stock.running.audit")}
           </li>
         </ul>
         <p className="mt-1 text-xs text-fg-faint">{ui.stage}</p>
@@ -531,17 +569,17 @@ export default function StockView({ symbol }: Props) {
   if (ui.kind === "error") {
     return (
       <div className="flex min-h-0 min-w-0 flex-1 flex-col items-center justify-center gap-4 px-8">
-        <p className="text-xs uppercase tracking-[0.12em] text-fg-faint">{symbol}</p>
+        <p lang="en" className="text-xs uppercase tracking-[0.12em] text-fg-faint">{symbol}</p>
         <p className="max-w-md text-center text-sm text-red-300">{ui.message}</p>
         {ui.code ? (
-          <p className="text-[11px] uppercase tracking-[0.12em] text-fg-faint">Ref {ui.code}</p>
+          <p className="text-[11px] uppercase tracking-[0.12em] text-fg-faint">{t("stock.errorRef", { code: upperEnglish(ui.code) })}</p>
         ) : null}
         <button
           type="button"
           onClick={() => void run(false)}
           className="border-0 bg-white px-8 py-2.5 text-sm font-semibold text-black transition hover:bg-white/90"
         >
-          Retry
+          {t("stock.retry")}
         </button>
       </div>
     );
@@ -549,7 +587,8 @@ export default function StockView({ symbol }: Props) {
 
   // done
   const form = ui.result.form || ui.result.stats?.form_type || "10-K";
-  const filed = ui.result.filingDate || ui.result.stats?.filing_date || "—";
+  const filedRaw = ui.result.filingDate || ui.result.stats?.filing_date || "";
+  const filed = filedRaw ? formatFiledDate(filedRaw, locale) : null;
   const sectionSuspect =
     ui.result.stats != null && isSectionSuspect(ui.result.stats, form);
   const contentSuspect =
@@ -559,27 +598,32 @@ export default function StockView({ symbol }: Props) {
     <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-auto px-8 py-6">
       <div className="mb-4 flex items-start justify-between gap-4">
         <div>
-          <p className="text-xs uppercase tracking-[0.12em] text-fg-faint">{symbol}</p>
+          <p lang="en" className="text-xs uppercase tracking-[0.12em] text-fg-faint">{symbol}</p>
           <p className="mt-1 text-sm text-fg-muted">
-            {ui.result.validated.length} validated · {form} · filed {filed}
+            {t(
+              plural(locale, ui.result.validated.length, "stock.result.validated.one", "stock.result.validated.other"),
+              { count: ui.result.validated.length },
+            )}
+            {` · ${form}`}
+            {filed ? ` · ${t("stock.result.filed", { date: filed })}` : null}
             {ui.fromCache ? (
               <span className="ml-2 rounded bg-white/10 px-1.5 py-0.5 text-[10px] uppercase tracking-wide text-fg-faint">
-                cached
+                {t("stock.badge.cached")}
               </span>
             ) : null}
             {sectionSuspect ? (
               <span className="ml-2 rounded bg-yellow-500/20 px-1.5 py-0.5 text-[10px] uppercase tracking-wide text-yellow-300">
-                section suspect
+                {t("stock.badge.sectionSuspect")}
               </span>
             ) : null}
             {contentSuspect ? (
               <span className="ml-2 rounded bg-orange-500/20 px-1.5 py-0.5 text-[10px] uppercase tracking-wide text-orange-300">
-                content suspect
+                {t("stock.badge.contentSuspect")}
               </span>
             ) : null}
           </p>
           {ui.result.stats ? (
-            <p className="mt-1 text-xs text-fg-faint">{formatStatsLine(ui.result.stats)}</p>
+            <p className="mt-1 text-xs text-fg-faint">{formatStatsLine(ui.result.stats, t, locale)}</p>
           ) : null}
         </div>
         <div className="flex shrink-0 flex-col items-end gap-2">
@@ -589,7 +633,7 @@ export default function StockView({ symbol }: Props) {
             onClick={() => void run(true)}
             className="border-0 bg-white px-4 py-1.5 text-xs font-semibold text-black transition hover:bg-white/90"
           >
-            Force re-run
+            {t("stock.forceRerun")}
           </button>
         </div>
       </div>

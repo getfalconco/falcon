@@ -379,6 +379,18 @@ describe("handover view: time and date labels", () => {
     assert.equal(etDateLabel(new Date("nope")), "");
   });
 
+  it("dates the footer by the clock on a day the market does not open, and by the session otherwise", () => {
+    const monday = makeReport({ window: { ...makeReport().window, target_session_ymd: "2026-10-12" } });
+    // Sunday 10:00 ET and Saturday 23:30 ET: the handover is Monday's, the footer reads today.
+    assert.equal(handoverView(monday, new Date("2026-10-11T14:00:00.000Z"), false).date, "Sun Oct 11");
+    assert.equal(handoverView(monday, new Date("2026-10-11T03:30:00.000Z"), false).date, "Sat Oct 10");
+    // Labor Day morning, the handover for Tuesday.
+    const tuesday = makeReport({ window: { ...makeReport().window, target_session_ymd: "2026-09-08" } });
+    assert.equal(handoverView(tuesday, new Date("2026-09-07T14:00:00.000Z"), false).date, "Mon Sep 7");
+    // Friday evening after the close is still a trading day: the footer names the session, as before.
+    assert.equal(handoverView(monday, new Date("2026-10-09T22:30:00.000Z"), false).date, "Mon Oct 12");
+  });
+
   it("names the session's weekday and date, and passes a malformed date through", () => {
     assert.equal(sessionDateLabel("2026-09-24"), "Thu Sep 24");
     assert.equal(sessionDateLabel("2026-01-05"), "Mon Jan 5");

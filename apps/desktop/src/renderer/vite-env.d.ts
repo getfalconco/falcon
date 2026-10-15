@@ -29,10 +29,14 @@ export type StockPanelData = {
 
 interface MeridianBridge {
   openExternal: (url: string) => Promise<void>;
+  /** Tells the main process the reader's language, for notifications and native dialogs. */
+  setLanguage?: (code: string) => Promise<{ ok: boolean }>;
   minimize: () => Promise<void>;
   close: () => Promise<void>;
   toggleMaximize: () => Promise<void>;
   enterWorkspace: () => Promise<void>;
+  /** Page zoom for this window (Settings, Appearance, Interface size). */
+  setZoomFactor?: (factor: number) => void;
   platform: NodeJS.Platform;
   searchStockSymbols: (query: string, limit?: number) => Promise<StockCatalogEntry[]>;
   getRandomStockSymbol: () => Promise<string>;
@@ -117,6 +121,21 @@ interface MeridianBridge {
     days?: number;
     limit?: number;
   }) => Promise<import("../shared/news-feed").NewsFeedResult>;
+  /** Absent on a main process older than the feed cache; the card then waits for `getNewsFeed`. */
+  getCachedNewsFeed?: (options?: {
+    days?: number;
+    limit?: number;
+  }) => Promise<import("../shared/news-feed").NewsFeedCachedResult>;
+  /** Absent on a main process older than the news panel. */
+  getNewsArticle?: (
+    request: import("../shared/news-article").NewsArticleRequest,
+  ) => Promise<import("../shared/news-article").NewsArticleBodyResult>;
+  getNewsArticleReading?: (
+    request: import("../shared/news-article").NewsArticleRequest,
+  ) => Promise<import("../shared/news-article").NewsArticleReadingResult>;
+  analyzeNewsArticle?: (
+    request: import("../shared/news-article").NewsAnalysisRequest,
+  ) => Promise<import("../shared/news-article").NewsAnalysisResult>;
   listNewsEvents: (options?: {
     days?: number;
     ticker?: string;
@@ -152,7 +171,19 @@ interface MeridianBridge {
     answers: import("../shared/onboarding-survey").OnboardingSurveyAnswers;
     accessToken: string;
   }) => Promise<{ ok: true } | { ok: false; error: string }>;
-  getWaitlistMembership: (email: string) => Promise<{
+  openPlanPage: (planKey: import("../shared/plans").PlanKey) => Promise<void>;
+  getPrivacySummary?: () => Promise<import("../shared/privacy-types").PrivacySummaryResult>;
+  getUsageSummary?: () => Promise<import("../shared/privacy-types").UsageSummaryResult>;
+  exportMyData?: (
+    part: import("../shared/privacy-types").PrivacyExportRendererPart,
+  ) => Promise<import("../shared/privacy-types").PrivacyExportResult>;
+  clearLocalHistory?: () => Promise<import("../shared/privacy-types").ClearHistoryResult>;
+  revealDataFolder?: () => Promise<{ ok: true } | { ok: false; error: string }>;
+  /** `notices`: what the deletion could not finish yet (main shows them in a dialog before answering). */
+  deleteAccount?: (
+    accessToken: string,
+  ) => Promise<{ ok: true; accountId: string; notices: string[] } | { ok: false; error: string }>;
+  getWaitlistMembership: () => Promise<{
     found: boolean;
     name: string | null;
     memberNumber: number | null;
@@ -166,7 +197,7 @@ interface MeridianBridge {
     phone?: string;
     application?: Record<string, string>;
   }) => Promise<
-    | { ok: true; status: "created" | "updated"; memberNumber: number | null }
+    | { ok: true; memberNumber: number | null }
     | { ok: false; error: string }
   >;
   setSession: (payload: {
@@ -265,6 +296,27 @@ interface MeridianBridge {
   getBriefingNarrative?: (
     request: import("../shared/briefing-types").BriefingNarrativeRequest,
   ) => Promise<import("../shared/briefing-types").BriefingNarrativeResult>;
+  // Calendar tab. Optional: a renderer can outlive a main process built before them (a dev reload).
+  listCalendarUserEvents?: () => Promise<import("../shared/calendar-events").UserEventsListResult>;
+  createCalendarUserEvent?: (
+    input: import("../shared/calendar-events").UserCalendarEventInput,
+  ) => Promise<import("../shared/calendar-events").UserEventWriteResult>;
+  updateCalendarUserEvent?: (
+    id: string,
+    input: import("../shared/calendar-events").UserCalendarEventInput,
+  ) => Promise<import("../shared/calendar-events").UserEventWriteResult>;
+  deleteCalendarUserEvent?: (id: string) => Promise<import("../shared/calendar-events").UserEventDeleteResult>;
+  getCalendarCorporate?: (
+    request: import("../shared/calendar-events").CalendarCorporateRequest,
+  ) => Promise<import("../shared/calendar-events").CalendarCorporateResult>;
+  /** Earnings tab and card (main/earnings). Absent on a main process older than the tab. */
+  getEarningsUpcoming?: (
+    request: import("../shared/earnings-types").EarningsRequest,
+  ) => Promise<import("../shared/earnings-types").EarningsResult>;
+  /** How each name has moved on its reports (main/earnings/earnings-reactions.ts). */
+  getEarningsReactions?: (tickers: string[]) => Promise<import("../shared/earnings-types").EarningsReactionsResult>;
+  /** The Earnings drawer's quarters and reaction figures for one name. */
+  getEarningsDetail?: (ticker: string) => Promise<import("../shared/earnings-types").EarningsDetailResult>;
   // Gauge
   getGaugeReadout: (req: import("../shared/gauge-types").GaugeReadoutRequest) => Promise<
     | ({ ok: true } & import("../shared/gauge-types").GaugeReadoutResponse)
@@ -288,6 +340,28 @@ interface MeridianBridge {
     | { ok: true; results: import("../shared/diagnostics-types").ProviderCheckResult[] }
     | { ok: false; error: string }
   >;
+  // Settings → Engines
+  getEnginesOverview: () => Promise<
+    | { ok: true; overview: import("../shared/engines-settings").EnginesOverview }
+    | { ok: false; error: string }
+  >;
+  checkEngines: () => Promise<
+    | { ok: true; result: import("../shared/engines-settings").EnginesCheckResult }
+    | { ok: false; error: string }
+  >;
+  // Settings → Developer
+  getDeveloperInfo: () => Promise<
+    | { ok: true; info: import("../shared/developer-info").DeveloperBuildInfo }
+    | { ok: false; error: string }
+  >;
+  toggleDevTools: () => Promise<{ ok: true; open: boolean } | { ok: false; error: string }>;
+  openDeveloperFolder: (
+    which: import("../shared/developer-info").DeveloperFolder,
+  ) => Promise<{ ok: true } | { ok: false; error: string }>;
+  /** Settings, Developer, Testing: open (or focus) the dark theme colour editor window. */
+  openThemeEditor?: () => Promise<{ ok: true }>;
+  /** The editor window keeps itself above other windows, or stops. */
+  setThemeEditorOnTop?: (on: boolean) => Promise<{ ok: true; onTop: boolean } | { ok: false }>;
   // Screen (spec §7 Shift+S panel).
   getScreenStatus: () => Promise<
     | { ok: true; status: import("../shared/screen-types").ScreenStatus }
@@ -508,11 +582,81 @@ interface MeridianBridge {
     | { ok: true; report: import("../shared/classifier-types").ClassifierEvalReport }
     | { ok: false; error: string }
   >;
+  getProfilePhoto: (userId: string) => Promise<import("../shared/profile-photo").ProfilePhotoResult>;
+  setProfilePhoto: (payload: {
+    userId: string;
+    dataUrl: string;
+  }) => Promise<import("../shared/profile-photo").ProfilePhotoResult>;
+  removeProfilePhoto: (userId: string) => Promise<import("../shared/profile-photo").ProfilePhotoResult>;
   getUpdateStatus: () => Promise<import("../shared/update-types").UpdateStatus>;
   onUpdateStatus: (
     listener: (status: import("../shared/update-types").UpdateStatus) => void,
   ) => () => void;
   installUpdate: () => Promise<{ ok: true } | { ok: false; error: string }>;
+  // Settings → System (main/system).
+  getSystemInfo: () => Promise<
+    import("../shared/system-settings").SystemResult<import("../shared/system-settings").SystemInfo>
+  >;
+  setOpenAtLogin: (
+    enabled: boolean,
+  ) => Promise<import("../shared/system-settings").SystemResult<import("../shared/system-settings").SystemInfo>>;
+  setHardwareAcceleration: (
+    enabled: boolean,
+  ) => Promise<import("../shared/system-settings").SystemResult<import("../shared/system-settings").SystemInfo>>;
+  getSystemStorage: () => Promise<
+    import("../shared/system-settings").SystemResult<import("../shared/system-settings").SystemStorage>
+  >;
+  clearSystemCache: () => Promise<
+    import("../shared/system-settings").SystemResult<import("../shared/system-settings").SystemStorage>
+  >;
+  showDataFolder: () => Promise<import("../shared/system-settings").SystemResult<string>>;
+  checkForUpdates: () => Promise<
+    import("../shared/system-settings").SystemResult<import("../shared/system-settings").UpdateCheckOutcome>
+  >;
+  restartApp: () => Promise<import("../shared/system-settings").SystemResult<null>>;
+  setQuickOpenShortcut: (keys: string | null) => Promise<import("../shared/system-settings").QuickOpenResult>;
+  setTrayEnabled: (
+    enabled: boolean,
+  ) => Promise<import("../shared/system-settings").SystemResult<import("../shared/system-settings").SystemInfo>>;
+  setKeepAwake: (
+    enabled: boolean,
+  ) => Promise<import("../shared/system-settings").SystemResult<import("../shared/system-settings").SystemInfo>>;
+  changeDataFolder: () => Promise<import("../shared/system-settings").DataMoveResult>;
+  // Settings → Notifications (main/notifications).
+  getNotificationsState: () => Promise<
+    | { ok: true; state: import("../shared/notification-settings").NotificationsState }
+    | { ok: false; error: string }
+  >;
+  updateNotificationSettings: (
+    patch: import("../shared/notification-settings").NotificationSettingsPatch,
+  ) => Promise<
+    | { ok: true; state: import("../shared/notification-settings").NotificationsState }
+    | { ok: false; error: string }
+  >;
+  sendTestNotification: () => Promise<import("../shared/notification-settings").TestNotificationResult>;
+  openSystemNotificationSettings: () => Promise<{ ok: true } | { ok: false; error: string }>;
+  /** Agents (main/agents); the contract is shared/agent-types.ts. Absent in builds without the engine. */
+  agents?: AgentsBridgeApi;
+}
+
+type AgentApiResult<T> = import("../shared/agent-types").AgentResult<T>;
+
+/** `window.meridian.agents`, as the header of shared/agent-types.ts lists it. */
+interface AgentsBridgeApi {
+  list: () => Promise<AgentApiResult<import("../shared/agent-types").Agent[]>>;
+  get: (id: string) => Promise<AgentApiResult<import("../shared/agent-types").AgentDetail>>;
+  draftFromBrief: (brief: string) => Promise<AgentApiResult<import("../shared/agent-types").AgentDraft>>;
+  create: (draft: import("../shared/agent-types").AgentDraft) => Promise<AgentApiResult<import("../shared/agent-types").Agent>>;
+  update: (
+    id: string,
+    patch: import("../shared/agent-types").AgentPatch,
+  ) => Promise<AgentApiResult<import("../shared/agent-types").Agent>>;
+  setStatus: (id: string, status: "active" | "paused") => Promise<AgentApiResult<import("../shared/agent-types").Agent>>;
+  remove: (id: string) => Promise<AgentApiResult<{ id: string }>>;
+  runNow: (id: string) => Promise<AgentApiResult<import("../shared/agent-types").AgentRun>>;
+  sendMessage: (id: string, text: string) => Promise<AgentApiResult<import("../shared/agent-types").AgentMessage>>;
+  markRead: (id: string) => Promise<AgentApiResult<{ id: string }>>;
+  onEvent: (listener: (event: import("../shared/agent-types").AgentPushEvent) => void) => () => void;
 }
 
 declare global {

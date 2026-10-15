@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { useI18n } from "@/lib/i18n";
 import type { EquityCurve } from "../../../shared/quantlab-types";
 import { pct } from "./quantlab-format";
 
@@ -24,6 +25,7 @@ export default function EquityChart({
   /** Whether the out-of-sample stats found an edge; null when undecidable. */
   hasEdge: boolean | null;
 }) {
+  const { t, tNodes } = useI18n();
   const [horizon, setHorizon] = useState(curves[0]?.horizon ?? 0);
   const curve = curves.find((c) => c.horizon === horizon) ?? curves[0] ?? null;
 
@@ -81,7 +83,7 @@ export default function EquityChart({
     <div className="mt-4 rounded-lg border border-[#e0e0da] bg-white px-4 py-3">
       <div className="flex flex-wrap items-baseline gap-x-5 gap-y-1">
         <span className="text-[10px] font-medium tracking-[0.08em] text-[#9CA3AF]">
-          GROWTH vs BUY-AND-HOLD S&amp;P 500
+          {t("instruments.quantlab.growthTitle")}
         </span>
         {curves.length > 1 && (
           <div className="flex items-center gap-1">
@@ -93,7 +95,7 @@ export default function EquityChart({
                   c.horizon === curve.horizon ? "bg-[#1d1b1b] text-white" : "text-[#9CA3AF] hover:bg-[#eeeee8]"
                 }`}
               >
-                {c.horizon}d
+                {t("instruments.quantlab.days", { n: c.horizon })}
               </button>
             ))}
           </div>
@@ -104,30 +106,31 @@ export default function EquityChart({
       </div>
 
       <div className="mt-2 flex flex-wrap items-baseline gap-x-6 gap-y-1">
-        <Figure label="Strategy" value={curve.strategy_total} accent="#189E9A" />
+        <Figure label={t("instruments.quantlab.strategy")} value={curve.strategy_total} accent="#189E9A" />
         <Figure label="S&P 500" value={curve.benchmark_total} accent="#9CA3AF" />
         <Figure
-          label="Difference"
+          label={t("instruments.quantlab.difference")}
           value={vsIndex}
           accent={vsIndex != null && vsIndex >= 0 ? "#1d7a55" : "#b23b3b"}
         />
         <div className="ml-auto flex items-baseline gap-4 text-[10px] text-[#9CA3AF] tabular-nums">
-          <span>worst fall {pct(curve.strategy_max_drawdown)} vs {pct(curve.benchmark_max_drawdown)} index</span>
-          <span>invested {(curve.exposure * 100).toFixed(0)}% of the time</span>
+          <span>
+            {t("instruments.quantlab.worstFall", {
+              strategy: pct(curve.strategy_max_drawdown),
+              index: pct(curve.benchmark_max_drawdown),
+            })}
+          </span>
+          <span>{t("instruments.quantlab.invested", { pct: (curve.exposure * 100).toFixed(0) })}</span>
         </div>
       </div>
 
       {flattering ? (
         <p className="mt-2 rounded-md border border-[#e0d9c8] bg-[#faf6ec] px-3 py-2 text-[11px] leading-relaxed text-[#8a7a55]">
-          This curve beats the index, but the verdict above says the rule has no edge — and the verdict is the one to
-          believe. A portfolio curve reflects <em>what</em> was held and for how long; buying high-beta names in a
-          rising market beats the index without the rule contributing anything. The per-trade measurement is what
-          isolates the rule.
+          {tNodes("instruments.quantlab.flattering", { what: <em>{t("instruments.quantlab.flatteringWhat")}</em> })}
         </p>
       ) : (
         <p className="mt-1 text-[11px] leading-relaxed text-[#6b7280]">
-          What this portfolio did — not proof the rule works. It was invested {(curve.exposure * 100).toFixed(0)}% of
-          the time, so it is partly a bet on being in the market at all; the verdict above is what isolates the rule.
+          {t("instruments.quantlab.curveNote", { pct: (curve.exposure * 100).toFixed(0) })}
         </p>
       )}
 
@@ -155,9 +158,9 @@ export default function EquityChart({
       </svg>
 
       <div className="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-[10px] text-[#9CA3AF]">
-        <Swatch color="#189E9A" label="Strategy" />
-        <Swatch color="#c0c0ba" label="S&P 500 (buy and hold)" />
-        {geometry.oosX != null && <span>· dashed line = out-of-sample begins</span>}
+        <Swatch color="#189E9A" label={t("instruments.quantlab.strategy")} />
+        <Swatch color="#c0c0ba" label={t("instruments.quantlab.benchmarkLegend")} />
+        {geometry.oosX != null && <span>· {t("instruments.quantlab.oosLine")}</span>}
         <span className="w-full">{curve.assumption}</span>
       </div>
     </div>

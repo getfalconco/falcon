@@ -21,6 +21,24 @@
 export const EM_DASH = "\u2014";
 export const EN_DASH = "\u2013";
 
+/**
+ * The dash rule made to hold on text a model wrote, without changing what it
+ * says: a range between numbers reads "2025 to 2026", a long dash between
+ * clauses becomes a comma, and any other dash (en, figure, minus) a hyphen.
+ * Light on purpose: the agents engine (main/agents/copy.ts) runs this inside
+ * its fuller clean-up, and the insight panel, the pair view and the gloss
+ * card run it alone on what they show.
+ */
+export function plainDashes(text: string): string {
+  return text
+    .replace(/(\d)\s*[\u2013\u2014]\s*(\d)/g, "$1 to $2")
+    .replace(/\s*[\u2014\u2015]\s*/g, ", ")
+    .replace(/[\u2012\u2013\u2015\u2212]/g, "-")
+    .replace(/,\s*,/g, ",")
+    .replace(/,\s*([.?;:])/g, "$1")
+    .replace(/^,\s*/gm, "");
+}
+
 /** Words that turn a description into an instruction to trade. */
 export const ADVICE_WORDS: readonly string[] = [
   "buy",
@@ -60,6 +78,67 @@ export const RISK_SENTENCE_WORDS: readonly string[] = [
   "likely",
   "may",
 ];
+
+/**
+ * Words that make the product sound like something it is not: trading-desk
+ * slang for an advantage ("edge"), and the label a reader should never need
+ * ("AI"). Checked in every literal and JSX text, like the advice words.
+ *
+ *   edge  the word and its forms ("edges", "edged"), case aside; "hedge",
+ *         "knowledge" and "ledger" are other words and pass. The graph's
+ *         links are "links" on screen.
+ *   AI    the acronym, "AI" or "A.I.", any case but all lower-case: "ai" is
+ *         Italian ("ai trader") and French ("j'ai"), never the acronym, and
+ *         the rule must not trip over the translation tables. "said",
+ *         "aim", "Haiku" and "Thai" are other words and pass. The rule is
+ *         about how Falcon speaks of itself, not about the market: a
+ *         company's "AI revenue", "AI semiconductor" line or "AI
+ *         infrastructure" spend is a business it reports on, so the
+ *         acronym followed by one of MARKET_AI_NOUNS passes.
+ */
+export const BRAND_WORDS: readonly string[] = ["edge", "AI"];
+
+/** Nouns after "AI" that make it a line of business a company reports, not a label for the product. */
+export const MARKET_AI_NOUNS: readonly string[] = [
+  "semiconductor",
+  "semiconductors",
+  "revenue",
+  "revenues",
+  "infrastructure",
+  "server",
+  "servers",
+  "accelerator",
+  "accelerators",
+  "chip",
+  "chips",
+  "demand",
+  "capex",
+  "spending",
+  "spend",
+  "datacenter",
+  "datacenters",
+  "networking",
+  "segment",
+  "sales",
+  "compute",
+  "workloads",
+];
+
+const AI_ACRONYM = /(^|[^\p{L}\p{N}_'\u2019])(?:A[Ii]|aI|A\.I\.?)(?=$|[^\p{L}\p{N}_])/gu;
+
+/** Which of BRAND_WORDS appear in `text`. */
+export function brandWordHits(text: string): string[] {
+  const hits: string[] = [];
+  if (bannedWordHits(text, ["edge"]).length > 0) hits.push("edge");
+  for (const m of text.matchAll(AI_ACRONYM)) {
+    const after = text.slice((m.index ?? 0) + m[0].length);
+    const next = /^\s+([\p{L}]+)/u.exec(after)?.[1]?.toLowerCase();
+    if (next && MARKET_AI_NOUNS.includes(next)) continue;
+    hits.push("AI");
+    break;
+  }
+  return hits;
+}
 
 /**
  * Modals and adverbs have no inflections, and pretending they do produces
@@ -240,6 +319,9 @@ export const NON_COPY_LITERALS: ReadonlySet<string> = new Set([
   "add",
   // The SVG gradient element name, as passed to createElementNS.
   "stop",
+  // An acronym in a list of words that are not tickers (the agents engine's
+  // ticker guard), not a label.
+  "AI",
 ]);
 
 /**
@@ -341,6 +423,7 @@ export function textProblems(text: string, opts: CopyRuleOptions = {}): string[]
   if (looksLikeCopy(prose)) {
     const words = opts.riskWords ? [...ADVICE_WORDS, ...RISK_SENTENCE_WORDS] : ADVICE_WORDS;
     for (const hit of bannedWordHits(prose, words)) problems.push(`banned word "${hit}": ${text}`);
+    for (const hit of brandWordHits(prose)) problems.push(`banned word "${hit}": ${text}`);
   }
   return problems;
 }
@@ -380,6 +463,7 @@ export function copyProblems(src: string, opts: CopyRuleOptions = {}): string[] 
       // Text between tags is on screen whatever its shape, so one lower-case
       // word is checked too; `looksLikeCopy` is for telling literals apart.
       for (const hit of bannedWordHits(text, words)) problems.push(`banned word "${hit}": ${text}`);
+      for (const hit of brandWordHits(text)) problems.push(`banned word "${hit}": ${text}`);
     }
   }
   return problems;

@@ -4,10 +4,11 @@ import {
   AnimatePresence,
   animate,
   motion,
-  useReducedMotion,
 } from "framer-motion";
 import { useEffect, useId, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
+import { useT } from "@/lib/i18n";
+import { useReducedMotionPref } from "@/lib/motion";
 
 export const EASE_OUT = [0.16, 1, 0.3, 1] as const;
 
@@ -45,11 +46,12 @@ export function OTPInput({
   mask = false,
   disabled = false,
   autoFocus = false,
-  "aria-label": ariaLabel = "One-time passcode",
+  "aria-label": ariaLabel,
   className,
 }: OTPInputProps) {
+  const t = useT();
   const uid = useId();
-  const reduce = useReducedMotion();
+  const reduce = useReducedMotionPref();
   const inputRef = useRef<HTMLInputElement>(null);
   const slotsRef = useRef<HTMLDivElement>(null);
 
@@ -220,7 +222,7 @@ export function OTPInput({
           autoComplete="one-time-code"
           autoFocus={autoFocus}
           disabled={disabled}
-          aria-label={ariaLabel}
+          aria-label={ariaLabel ?? t("shell.otp.label")}
           aria-invalid={status === "error"}
           value=""
           maxLength={length}
@@ -337,7 +339,7 @@ export function OTPInput({
                 strokeLinecap="round"
                 strokeLinejoin="round"
               >
-                <title>Verified</title>
+                <title>{t("shell.otp.verified")}</title>
                 <motion.path
                   d="M5 13l4 4L19 7"
                   initial={reduce ? { pathLength: 1 } : { pathLength: 0 }}

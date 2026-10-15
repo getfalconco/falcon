@@ -9,6 +9,15 @@ import aapl from "./gauge-aapl-fixture.json";
 import mstr from "./gauge-mstr-fixture.json";
 import avgo from "./gauge-avgo-fixture.json";
 import context from "./gauge-context-fixture.json";
+import { applyLanguage, setLanguage } from "../lib/i18n";
+import { isLanguageCode } from "../lib/i18n/languages";
+
+// ?lang=tr-TR shows the surfaces in that language (kept, as a pick would be).
+{
+  const lang = new URLSearchParams(location.search).get("lang");
+  if (isLanguageCode(lang)) setLanguage(lang);
+  applyLanguage();
+}
 
 /**
  * Scratch harness for the Gauge v2 surfaces against recorded real-data

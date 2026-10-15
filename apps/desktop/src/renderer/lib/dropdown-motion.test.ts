@@ -10,14 +10,14 @@ import { DROPDOWN_FADE } from "./dropdown-motion";
  * Every dropdown opens with a fade and nothing else. The dashboard folder is
  * read from disk, so a menu added later is held to it the day it is written:
  * any `motion.div` that is a menu, a list box or a popover panel must spread
- * DROPDOWN_FADE and set no motion of its own. The modals (the stock peek and
- * the insight detail) are dialogs too but open over the page, not from a
+ * DROPDOWN_FADE and set no motion of its own. The modals (the stock peek,
+ * the insight detail and the news article) are dialogs too but open over the page, not from a
  * button, and keep their own entrance.
  */
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const DASHBOARD = path.join(HERE, "..", "components", "dashboard");
-const MODALS = new Set(["StockPeekModal.tsx", "InsightDetailModal.tsx"]);
+const MODALS = new Set(["StockPeekModal.tsx", "InsightDetailModal.tsx", "NewsArticleModal.tsx"]);
 
 function panels(): Array<{ file: string; tag: string }> {
   const out: Array<{ file: string; tag: string }> = [];

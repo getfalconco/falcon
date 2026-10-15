@@ -15,6 +15,7 @@ import type {
   StockSessionQuote,
 } from "../../shared/stock-types";
 import type { MarketHeadline } from "../../shared/briefing-types";
+import { repairMojibake } from "@meridian/research/news";
 
 const YAHOO_CHART_BASE = "https://query1.finance.yahoo.com/v8/finance/chart";
 const YAHOO_SEARCH_BASE = "https://query2.finance.yahoo.com/v1/finance/search";
@@ -456,7 +457,7 @@ function formatCompactUsd(value: number): string {
 }
 
 function formatVolume(value: number | undefined): string {
-  if (value == null || Number.isNaN(value)) return "—";
+  if (value == null || Number.isNaN(value)) return "n/a";
   if (value >= 1_000_000_000) return `${(value / 1_000_000_000).toFixed(1)}B`;
   if (value >= 1_000_000) return `${(value / 1_000_000).toFixed(1)}M`;
   if (value >= 1_000) return `${(value / 1_000).toFixed(1)}K`;
@@ -468,8 +469,8 @@ function keyStatsFromMeta(meta: YahooChartMeta): StockKeyStat[] {
   const dayHigh = meta.regularMarketDayHigh;
 
   return [
-    { id: "marketCap", label: "Market Cap", value: "—" },
-    { id: "peRatio", label: "P/E Ratio", value: "—" },
+    { id: "marketCap", label: "Market Cap", value: "n/a" },
+    { id: "peRatio", label: "P/E Ratio", value: "n/a" },
     {
       id: "volume",
       label: "Volume",
@@ -478,20 +479,20 @@ function keyStatsFromMeta(meta: YahooChartMeta): StockKeyStat[] {
     {
       id: "weekHigh52",
       label: "52W High",
-      value: meta.fiftyTwoWeekHigh != null ? formatCompactUsd(meta.fiftyTwoWeekHigh) : "—",
+      value: meta.fiftyTwoWeekHigh != null ? formatCompactUsd(meta.fiftyTwoWeekHigh) : "n/a",
     },
     {
       id: "weekLow52",
       label: "52W Low",
-      value: meta.fiftyTwoWeekLow != null ? formatCompactUsd(meta.fiftyTwoWeekLow) : "—",
+      value: meta.fiftyTwoWeekLow != null ? formatCompactUsd(meta.fiftyTwoWeekLow) : "n/a",
     },
     {
       id: "dayRange",
       label: "Day Range",
       value:
         dayLow != null && dayHigh != null
-          ? `${formatCompactUsd(dayLow)} – ${formatCompactUsd(dayHigh)}`
-          : "—",
+          ? `${formatCompactUsd(dayLow)} - ${formatCompactUsd(dayHigh)}`
+          : "n/a",
     },
   ];
 }
@@ -720,7 +721,7 @@ export async function fetchStockPanelData(
 }
 
 function formatUsd(value: number | undefined, fractionDigits = 2): string {
-  if (value == null || Number.isNaN(value)) return "—";
+  if (value == null || Number.isNaN(value)) return "n/a";
   return new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
@@ -730,7 +731,7 @@ function formatUsd(value: number | undefined, fractionDigits = 2): string {
 }
 
 function formatPercent(value: number | undefined, fractionDigits = 2): string {
-  if (value == null || Number.isNaN(value)) return "—";
+  if (value == null || Number.isNaN(value)) return "n/a";
   return `${value.toFixed(fractionDigits)}%`;
 }
 
@@ -912,20 +913,20 @@ function overviewStatsFromSources(
 
   return {
     prevClose: formatUsd(previousClose),
-    peRatio: peRatio != null ? peRatio.toFixed(2) : "—",
+    peRatio: peRatio != null ? peRatio.toFixed(2) : "n/a",
     weekRange52:
       weekLow != null && weekHigh != null
         ? `${formatUsd(weekLow)} - ${formatUsd(weekHigh)}`
-        : "—",
-    marketCap: marketCap != null ? formatCompactUsd(marketCap) : "—",
+        : "n/a",
+    marketCap: marketCap != null ? formatCompactUsd(marketCap) : "n/a",
     dayRange:
       dayLow != null && dayHigh != null
         ? `${formatUsd(dayLow)} - ${formatUsd(dayHigh)}`
-        : "—",
-    eps: eps != null ? formatUsd(eps) : "—",
+        : "n/a",
+    eps: eps != null ? formatUsd(eps) : "n/a",
     open: formatUsd(open),
     dividendYield:
-      dividendYield != null ? formatPercent(dividendYield * 100) : "—",
+      dividendYield != null ? formatPercent(dividendYield * 100) : "n/a",
     volume: formatVolume(meta.regularMarketVolume),
   };
 }
@@ -1139,9 +1140,10 @@ export async function fetchStockNews(symbol: string, count = 12): Promise<StockN
       )
       .map((item) => ({
         id: item.uuid ?? item.link,
-        title: item.title,
+        // Provider mojibake ("weekâ€™s") is repaired before the stock screen shows it.
+        title: repairMojibake(item.title),
         url: item.link,
-        source: item.publisher,
+        source: typeof item.publisher === "string" ? repairMojibake(item.publisher) : item.publisher,
         publishedAt:
           item.providerPublishTime != null
             ? new Date(item.providerPublishTime * 1000).toISOString()
@@ -1296,6 +1298,25 @@ export async function fetchCorporateCalendar(symbol: string): Promise<CorporateC
   };
 }
 
+/**
+ * The sector and industry the provider files a symbol under, and what kind of
+ * security it is (a fund has no sector of its own). Throws when the request
+ * failed; nulls when the provider simply did not say. Used by the Calendar
+ * tab, behind its own month-long cache.
+ */
+export async function fetchCompanySector(
+  symbol: string,
+): Promise<{ sector: string | null; industry: string | null; quoteType: string | null }> {
+  const normalized = normalizeSymbol(symbol);
+  const summary = await withRequestTimeout((signal) => requestQuoteSummary(normalized, "assetProfile,quoteType", signal));
+  const quoteType = (summary as { quoteType?: { quoteType?: unknown } } | null)?.quoteType?.quoteType;
+  return {
+    sector: summary?.assetProfile?.sector?.trim() || null,
+    industry: summary?.assetProfile?.industry?.trim() || null,
+    quoteType: typeof quoteType === "string" && quoteType.trim() ? quoteType.trim() : null,
+  };
+}
+
 type YahooChartEventsResponse = {
   chart?: {
     result?: Array<{
@@ -1435,7 +1456,9 @@ async function requestSearchNews(symbol: string, count: number, signal: AbortSig
  * of that line.
  */
 export function toMarketHeadline(item: YahooNewsItem, via: string): MarketHeadline | null {
-  const title = typeof item.title === "string" ? item.title.trim() : "";
+  // Provider mojibake ("weekâ€™s") is repaired here; market-news.ts repairs
+  // again on the way out, for entries cached before this did.
+  const title = typeof item.title === "string" ? repairMojibake(item.title).trim() : "";
   const url = typeof item.link === "string" ? item.link.trim() : "";
   const at = item.providerPublishTime;
   if (title === "" || url === "" || typeof at !== "number" || !Number.isFinite(at)) return null;
@@ -1445,7 +1468,7 @@ export function toMarketHeadline(item: YahooNewsItem, via: string): MarketHeadli
   return {
     id: typeof item.uuid === "string" && item.uuid !== "" ? item.uuid : url,
     title,
-    source: typeof item.publisher === "string" ? item.publisher.trim() : "",
+    source: typeof item.publisher === "string" ? repairMojibake(item.publisher).trim() : "",
     url,
     published_at: new Date(at * 1000).toISOString(),
     related,
@@ -1499,4 +1522,68 @@ export async function fetchMarketHeadlines(since: string): Promise<MarketHeadlin
   });
   if (batches.every((batch) => !batch.ok)) throw new Error("market headlines: every query failed");
   return mergeMarketHeadlines(batches.flatMap((batch) => batch.headlines), since);
+}
+
+/* ------------------------------------------------------------------ */
+/* Agents: raw quote-summary modules                                   */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Named quote-summary modules for one symbol, raw, for callers that parse
+ * them themselves (the agent engine reads `earningsTrend` and
+ * `earningsHistory` for consensus). Same auth, crumb retry and deadline as
+ * the briefing reads; null when the provider has nothing for the symbol.
+ */
+export async function fetchQuoteSummaryModules(
+  symbol: string,
+  modules: readonly string[],
+): Promise<Record<string, unknown> | null> {
+  const normalized = normalizeSymbol(symbol);
+  const list = modules.filter((m) => /^[A-Za-z]+$/.test(m)).join(",");
+  if (!list) return null;
+  const result = await withRequestTimeout((signal) => requestQuoteSummary(normalized, list, signal));
+  return (result as Record<string, unknown> | null) ?? null;
+}
+
+/* ------------------------------------------------------------------ */
+/* Market caps, batched                                                */
+/* ------------------------------------------------------------------ */
+
+const YAHOO_QUOTE_BASE = "https://query2.finance.yahoo.com/v7/finance/quote";
+/** Symbols one batched quote read carries. */
+export const MARKET_CAP_BATCH = 100;
+
+/**
+ * Market capitalisation in dollars for up to MARKET_CAP_BATCH symbols in one
+ * read of Yahoo's batched quote (same crumb handshake and single re-auth as
+ * the quote summary). A symbol the provider has no cap for is absent from
+ * the answer. Throws when no answer was obtained.
+ */
+export async function fetchMarketCaps(symbols: readonly string[]): Promise<Record<string, number>> {
+  const list = [...new Set(symbols.map(normalizeSymbol))].filter((s) => /^[A-Z0-9.^=-]{1,12}$/.test(s)).slice(0, MARKET_CAP_BATCH);
+  if (list.length === 0) return {};
+  const attempt = (auth: YahooAuth, signal: AbortSignal) =>
+    fetch(
+      `${YAHOO_QUOTE_BASE}?symbols=${encodeURIComponent(list.join(","))}&fields=marketCap,quoteType&crumb=${encodeURIComponent(auth.crumb)}`,
+      { headers: { ...YAHOO_HEADERS, Cookie: auth.cookie }, signal },
+    );
+  return withRequestTimeout(async (signal) => {
+    let auth = await getYahooAuth();
+    if (!auth) throw new Error("Market data auth unavailable");
+    let response = await attempt(auth, signal);
+    if (response.status === 401 || response.status === 403) {
+      auth = await getYahooAuth(true);
+      if (!auth) throw new Error("Market data auth unavailable");
+      response = await attempt(auth, signal);
+    }
+    if (!response.ok) throw new Error(`Quote request failed (${response.status})`);
+    const payload = (await response.json()) as { quoteResponse?: { result?: Array<{ symbol?: string; marketCap?: number }> } };
+    const out: Record<string, number> = {};
+    for (const q of payload.quoteResponse?.result ?? []) {
+      if (typeof q.symbol === "string" && typeof q.marketCap === "number" && Number.isFinite(q.marketCap) && q.marketCap > 0) {
+        out[q.symbol.toUpperCase()] = q.marketCap;
+      }
+    }
+    return out;
+  });
 }

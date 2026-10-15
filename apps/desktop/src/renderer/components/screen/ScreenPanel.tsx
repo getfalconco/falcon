@@ -1,3 +1,8 @@
+import { na } from "@/lib/i18n/na";
+import { withClock } from "@/lib/clock";
+import { shortcutText } from "@/lib/shortcuts";
+import { useIsStaff } from "@/lib/staff";
+import { useI18n, type TFunction } from "@/lib/i18n";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { ChevronDown, ChevronRight, X } from "lucide-react";
 import type { GaugeReadout } from "../../../shared/gauge-types";
@@ -29,11 +34,21 @@ const PATTERN_COLOR: Record<ScreenPattern, string> = {
   insider_divergence: "#CA8A04",
 };
 
-function fmtWhen(iso: string | null | undefined): string {
-  if (!iso) return "—";
+/** Error value for "the preload has no bridge for this"; rendered through t() so it follows the language. */
+const SCREEN_BRIDGE_MISSING = "\u0000screen-bridge-missing";
+const GAUGE_BRIDGE_MISSING = "\u0000gauge-bridge-missing";
+
+function errorText(error: string, t: TFunction): string {
+  if (error === SCREEN_BRIDGE_MISSING) return t("instruments.common.bridgeUnavailable", { name: "Screen" });
+  if (error === GAUGE_BRIDGE_MISSING) return t("instruments.common.bridgeUnavailable", { name: "Gauge" });
+  return error;
+}
+
+function fmtWhen(iso: string | null | undefined, locale: string): string {
+  if (!iso) return na();
   const d = new Date(iso);
   if (Number.isNaN(d.getTime())) return iso;
-  return d.toLocaleString(undefined, { month: "short", day: "2-digit", hour: "2-digit", minute: "2-digit" });
+  return d.toLocaleString(locale, withClock({ month: "short", day: "2-digit", hour: "2-digit", minute: "2-digit" }));
 }
 
 function num(v: unknown): number | null {
@@ -41,36 +56,62 @@ function num(v: unknown): number | null {
 }
 
 function pct(v: number | null, digits = 1, signed = false): string {
-  if (v == null) return "—";
+  if (v == null) return na();
   const s = `${(Math.abs(v) * 100).toFixed(digits)}%`;
   if (!signed) return s;
   return v > 0 ? `+${s}` : v < 0 ? `−${s}` : s;
 }
 
 function fix(v: number | null, digits = 2): string {
-  return v == null ? "—" : v.toFixed(digits);
+  return v == null ? na() : v.toFixed(digits);
 }
 
 /** The row's key values — one short clause per pattern, condition language only. */
-function keyValues(f: ScreenFinding): string {
+function keyValues(f: ScreenFinding, t: TFunction): string {
   const v = f.values;
   switch (f.pattern) {
     case "quiet_accumulation":
-      return `${num(v.sessions_qualifying) ?? "?"}/${num(v.sessions_window) ?? "?"} sessions · avg ${fix(num(v.avg_volume_ratio), 1)}× · m5 ${fix(num(v.momentum_5d_z), 1)}σ`;
+      return t("instruments.screen.kv.quiet", {
+        qualifying: num(v.sessions_qualifying) ?? "?",
+        window: num(v.sessions_window) ?? "?",
+        avg: fix(num(v.avg_volume_ratio), 1),
+        m5: fix(num(v.momentum_5d_z), 1),
+      });
     case "compression":
-      return `regime ${fix(num(v.vol_regime))} · range ${pct(num(v.range))} / ${pct(num(v.range_bound))} band`;
+      return t("instruments.screen.kv.compression", {
+        regime: fix(num(v.vol_regime)),
+        range: pct(num(v.range)),
+        bound: pct(num(v.range_bound)),
+      });
     case "independent_tape":
-      return `${num(v.sessions_qualifying) ?? "?"}/${num(v.sessions_window) ?? "?"} ${String(v.direction ?? "")} · net ${pct(num(v.net_residual), 1, true)} (${fix(num(v.net_residual_z), 1)}σ) · r² ${fix(num(v.r2))}`;
+      return t("instruments.screen.kv.independent", {
+        qualifying: num(v.sessions_qualifying) ?? "?",
+        window: num(v.sessions_window) ?? "?",
+        direction: String(v.direction ?? ""),
+        net: pct(num(v.net_residual), 1, true),
+        z: fix(num(v.net_residual_z), 1),
+        r2: fix(num(v.r2)),
+      });
     case "insider_divergence":
-      return `${String(v.direction ?? "?")} · ${num(v.insider_count) ?? "?"} insiders · m20 ${pct(num(v.momentum_20d), 1, true)} (${fix(num(v.momentum_20d_z), 1)}σ)`;
+      return t("instruments.screen.kv.insider", {
+        direction: String(v.direction ?? "?"),
+        n: num(v.insider_count) ?? "?",
+        m20: pct(num(v.momentum_20d), 1, true),
+        z: fix(num(v.momentum_20d_z), 1),
+      });
   }
 }
 
-function modifierText(m: string): string {
-  return m === "near_52w_high" ? "near 52w high" : m === "near_52w_low" ? "near 52w low" : m;
+function modifierText(m: string, t: TFunction): string {
+  return m === "near_52w_high"
+    ? t("instruments.screen.near52High")
+    : m === "near_52w_low"
+      ? t("instruments.screen.near52Low")
+      : m;
 }
 
 function Row({ f, label, selected, onSelect }: { f: ScreenFinding; label: string; selected: boolean; onSelect: () => void }) {
+  const { t, locale } = useI18n();
   return (
     <button
       type="button"
@@ -81,22 +122,34 @@ function Row({ f, label, selected, onSelect }: { f: ScreenFinding; label: string
       <span className="w-28 shrink-0 truncate text-[11px] font-medium" style={{ color: PATTERN_COLOR[f.pattern] }}>
         {label}
       </span>
-      <span className="w-16 shrink-0 text-[11px] tabular-nums text-[#1d1b1b]">
-        day {f.day_count}
-        {f.state === "new" ? <span className="ml-1 rounded-full bg-[#189E9A] px-1.5 py-[1px] text-[9px] font-semibold tracking-[0.08em] text-white">NEW</span> : null}
+      <span className="w-16 shrink-0 whitespace-nowrap text-[11px] tabular-nums text-[#1d1b1b]">
+        {t("instruments.screen.day", { n: f.day_count })}
+        {f.state === "new" ? (
+          <span className="ml-1 rounded-full bg-[#189E9A] px-1.5 py-[1px] text-[9px] font-semibold tracking-[0.08em] text-white">
+            {t("instruments.screen.new")}
+          </span>
+        ) : null}
       </span>
       {f.emitted_at ? (
         <span
           className="shrink-0 rounded-full border border-[#5b21b6]/30 bg-[#ede9fe] px-1.5 py-[1px] text-[9px] font-semibold tracking-[0.08em] text-[#5b21b6]"
-          title={`Emitted to Base as a tape_structure message on ${new Date(f.emitted_at).toLocaleString()} — Shift+A shows the Analyst answer if one was produced`}
+          title={t("instruments.screen.emittedHint", {
+            when: new Date(f.emitted_at).toLocaleString(locale, withClock()),
+            key: shortcutText("analyst"),
+          })}
         >
-          EMITTED
+          {t("instruments.screen.emitted")}
         </span>
       ) : null}
-      <span className="min-w-0 flex-1 text-[10.5px] leading-tight tabular-nums text-[#4b5563]">{keyValues(f)}</span>
+      <span className="min-w-0 flex-1 text-[10.5px] leading-tight tabular-nums text-[#4b5563]">{keyValues(f, t)}</span>
       {f.modifiers.length || f.ended_at ? (
         <span className="w-24 shrink-0 text-right text-[10px] leading-tight text-[#9CA3AF]">
-          {[...f.modifiers.map(modifierText), ...(f.ended_at ? [`ended ${f.ended_at} · ${f.ended_reason?.replace(/_/g, " ")}`] : [])].join(" · ")}
+          {[
+            ...f.modifiers.map((m) => modifierText(m, t)),
+            ...(f.ended_at
+              ? [t("instruments.screen.endedOn", { date: f.ended_at, reason: f.ended_reason?.replace(/_/g, " ") ?? "" })]
+              : []),
+          ].join(" · ")}
         </span>
       ) : null}
     </button>
@@ -104,6 +157,7 @@ function Row({ f, label, selected, onSelect }: { f: ScreenFinding; label: string
 }
 
 function GaugeBlock({ ticker }: { ticker: string }) {
+  const { t } = useI18n();
   const [readout, setReadout] = useState<GaugeReadout | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -122,7 +176,7 @@ function GaugeBlock({ ticker }: { ticker: string }) {
     window.dispatchEvent(new CustomEvent("falcon:gauge-open", { detail: { ticker, mode: "standalone", source: "screen" } }));
     const bridge = window.meridian;
     if (!bridge?.getGaugeReadout) {
-      setError("gauge bridge unavailable — restart the app (new IPC handlers need a main-process restart)");
+      setError(GAUGE_BRIDGE_MISSING);
       return;
     }
     setLoading(true);
@@ -140,20 +194,26 @@ function GaugeBlock({ ticker }: { ticker: string }) {
   return (
     <div className="mt-3 rounded-xl border border-[#e0e0da] bg-white px-3 py-2">
       <div className="flex items-center gap-2">
-        <span className="text-[10px] font-medium tracking-[0.08em] text-[#9CA3AF]">GAUGE · standalone</span>
-        <button type="button" onClick={() => void open()} className="ml-auto rounded-lg bg-[#1d1b1b] px-3 py-1 text-[11px] font-medium text-white" data-testid="open-in-gauge">
-          open in Gauge →
+        <span className="text-[10px] font-medium tracking-[0.08em] text-[#9CA3AF]">{t("instruments.screen.gaugeTitle")}</span>
+        <button type="button" onClick={() => void open()} className="ml-auto shrink-0 rounded-lg bg-[#1d1b1b] px-3 py-1 text-[11px] font-medium text-white" data-testid="open-in-gauge">
+          {t("instruments.screen.openInGauge")}
         </button>
       </div>
-      {!opened ? <div className="mt-1 text-[11px] text-[#9CA3AF]">Screen finds → Gauge times → Analyst explains. Opens the standalone readout for {ticker}.</div> : null}
-      {loading ? <div className="mt-1 text-[11px] text-[#6b7280]">reading…</div> : null}
-      {error ? <div className="mt-1 text-[11px] text-red-700">{error}</div> : null}
+      {!opened ? <div className="mt-1 text-[11px] text-[#9CA3AF]">{t("instruments.screen.chain", { ticker })}</div> : null}
+      {loading ? <div className="mt-1 text-[11px] text-[#6b7280]">{t("instruments.screen.reading")}</div> : null}
+      {error ? <div className="mt-1 text-[11px] text-red-700">{errorText(error, t)}</div> : null}
       {readout ? (
         <div className="mt-2">
           <div className="font-baskerville text-[14px] text-[#1d1b1b]">{readout.summary.sentence}</div>
           <div className="mt-1 text-[10px] text-[#9CA3AF]">
-            {readout.mode} · quant as of {readout.quant_as_of ?? "—"} · {readout.summary.aligned}/{readout.summary.evaluable} aligned · {readout.summary.unavailable} unavailable
-            {readout.summary.calibrating ? " · calibrating" : ""}
+            {t("instruments.screen.readoutMeta", {
+              mode: readout.mode,
+              asOf: readout.quant_as_of ?? na(),
+              aligned: readout.summary.aligned,
+              evaluable: readout.summary.evaluable,
+              unavailable: readout.summary.unavailable,
+            })}
+            {readout.summary.calibrating ? ` · ${t("instruments.screen.calibrating")}` : ""}
           </div>
           <div className="mt-1 space-y-0.5">
             {readout.checks.map((c) => (
@@ -165,7 +225,7 @@ function GaugeBlock({ ticker }: { ticker: string }) {
                 </span>
                 <span className="min-w-0 flex-1">
                   {c.reason}
-                  {c.note ? <span className="text-[#9CA3AF]"> — {c.note}</span> : null}
+                  {c.note ? <span className="text-[#9CA3AF]"> · {c.note}</span> : null}
                 </span>
               </div>
             ))}
@@ -177,6 +237,7 @@ function GaugeBlock({ ticker }: { ticker: string }) {
 }
 
 function Detail({ f, label }: { f: ScreenFinding; label: string }) {
+  const { t } = useI18n();
   return (
     <div>
       <div className="flex items-baseline gap-3">
@@ -185,19 +246,25 @@ function Detail({ f, label }: { f: ScreenFinding; label: string }) {
           {label}
         </span>
         <span className="text-[11px] tabular-nums text-[#6b7280]">
-          {f.state} · day {f.day_count} · {f.first_session} → {f.last_evaluated}
-          {f.ended_at ? ` · ended ${f.ended_at} (${f.ended_reason?.replace(/_/g, " ")})` : ""}
+          {t("instruments.screen.detailMeta", { state: f.state, n: f.day_count, first: f.first_session, last: f.last_evaluated })}
+          {f.ended_at
+            ? ` · ${t("instruments.screen.endedDetail", { date: f.ended_at, reason: f.ended_reason?.replace(/_/g, " ") ?? "" })}`
+            : ""}
         </span>
       </div>
       <div className="mt-2 rounded-xl border border-[#e0e0da] bg-white px-3 py-2">
-        <div className="text-[10px] font-medium tracking-[0.08em] text-[#9CA3AF]">READ</div>
+        <div className="text-[10px] font-medium tracking-[0.08em] text-[#9CA3AF]">{t("instruments.screen.read")}</div>
         <div className="font-baskerville text-[15px] text-[#1d1b1b]">{f.read}</div>
-        {f.modifiers.length ? <div className="mt-1 text-[11px] text-[#6b7280]">modifiers: {f.modifiers.map(modifierText).join(" · ")}</div> : null}
+        {f.modifiers.length ? (
+          <div className="mt-1 text-[11px] text-[#6b7280]">
+            {t("instruments.screen.modifiers", { list: f.modifiers.map((m) => modifierText(m, t)).join(" · ") })}
+          </div>
+        ) : null}
       </div>
 
       <div className="mt-3 grid grid-cols-2 gap-3">
         <div className="rounded-xl border border-[#e0e0da] bg-white/60 px-3 py-2">
-          <div className="text-[10px] font-medium tracking-[0.08em] text-[#9CA3AF]">VALUES</div>
+          <div className="text-[10px] font-medium tracking-[0.08em] text-[#9CA3AF]">{t("instruments.screen.values")}</div>
           <div className="mt-1 space-y-0.5">
             {Object.entries(f.values).map(([k, v]) => (
               <div key={k} className="flex items-baseline gap-2 text-[11px] text-[#4b5563]">
@@ -208,25 +275,33 @@ function Detail({ f, label }: { f: ScreenFinding; label: string }) {
           </div>
         </div>
         <div className="rounded-xl border border-[#e0e0da] bg-white/60 px-3 py-2">
-          <div className="text-[10px] font-medium tracking-[0.08em] text-[#9CA3AF]">QUALIFYING SESSIONS · {f.qualifying_sessions.length}</div>
-          <div className="mt-1 text-[11px] tabular-nums text-[#1d1b1b]">{f.qualifying_sessions.length ? f.qualifying_sessions.join(" · ") : "—"}</div>
-          <div className="mt-2 text-[10px] font-medium tracking-[0.08em] text-[#9CA3AF]">HELD ON · {f.sessions.length}</div>
+          <div className="text-[10px] font-medium tracking-[0.08em] text-[#9CA3AF]">
+            {t("instruments.screen.qualifying", { n: f.qualifying_sessions.length })}
+          </div>
+          <div className="mt-1 text-[11px] tabular-nums text-[#1d1b1b]">{f.qualifying_sessions.length ? f.qualifying_sessions.join(" · ") : na()}</div>
+          <div className="mt-2 text-[10px] font-medium tracking-[0.08em] text-[#9CA3AF]">
+            {t("instruments.screen.heldOn", { n: f.sessions.length })}
+          </div>
           <div className="mt-1 text-[11px] tabular-nums text-[#4b5563]">{f.sessions.join(" · ")}</div>
         </div>
       </div>
 
       <div className="mt-3 rounded-xl border border-[#e0e0da] bg-white/60 px-3 py-2">
-        <div className="text-[10px] font-medium tracking-[0.08em] text-[#9CA3AF]">SESSION VIEWS · last {f.sessions_view.length}</div>
-        <table className="mt-1 w-full text-[11px] tabular-nums text-[#4b5563]">
+        <div className="text-[10px] font-medium tracking-[0.08em] text-[#9CA3AF]">
+          {t("instruments.screen.sessionViews", { n: f.sessions_view.length })}
+        </div>
+        {/* Nowrap and its own scroll: longer column names (de, fr) must not squeeze the dates apart. */}
+        <div className="overflow-x-auto">
+        <table className="mt-1 w-full whitespace-nowrap text-[11px] tabular-nums text-[#4b5563] [&_td]:pr-3 [&_th]:pr-3">
           <thead>
             <tr className="text-left text-[10px] text-[#9CA3AF]">
-              <th className="font-medium">session</th>
-              <th className="font-medium">close</th>
-              <th className="font-medium">ret</th>
-              <th className="font-medium">bench</th>
-              <th className="font-medium">vol ratio</th>
-              <th className="font-medium">residual</th>
-              <th className="font-medium">residual z</th>
+              <th className="font-medium">{t("instruments.screen.col.session")}</th>
+              <th className="font-medium">{t("instruments.screen.col.close")}</th>
+              <th className="font-medium">{t("instruments.screen.col.ret")}</th>
+              <th className="font-medium">{t("instruments.screen.col.bench")}</th>
+              <th className="font-medium">{t("instruments.screen.col.volRatio")}</th>
+              <th className="font-medium">{t("instruments.screen.col.residual")}</th>
+              <th className="font-medium">{t("instruments.screen.col.residualZ")}</th>
             </tr>
           </thead>
           <tbody>
@@ -249,6 +324,7 @@ function Detail({ f, label }: { f: ScreenFinding; label: string }) {
             })}
           </tbody>
         </table>
+        </div>
       </div>
 
       <GaugeBlock ticker={f.ticker} />
@@ -257,13 +333,20 @@ function Detail({ f, label }: { f: ScreenFinding; label: string }) {
 }
 
 export default function ScreenPanel({ onClose }: Props) {
+  const { t, tNodes, locale } = useI18n();
+  // A rescan rewrites the shared findings (and can emit into the shared
+  // pipeline) for every account; the engine takes it from staff only.
+  const staff = useIsStaff();
   const [payload, setPayload] = useState<ScreenFindingsPayload | null>(null);
   const [status, setStatus] = useState<ScreenStatus | null>(null);
   const [lastScan, setLastScan] = useState<ScreenScan | null>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  /** Result line for the last manual rescan (clears itself). */
-  const [flash, setFlash] = useState<string | null>(null);
+  /**
+   * Result of the last manual rescan (clears itself): the scan, or "none"
+   * when it produced none. Kept as data so the line follows the language.
+   */
+  const [flash, setFlash] = useState<{ scan: ScreenScan | null } | null>(null);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [showEnded, setShowEnded] = useState(false);
   const [showDegraded, setShowDegraded] = useState(false);
@@ -273,7 +356,7 @@ export default function ScreenPanel({ onClose }: Props) {
   const refresh = useCallback(async () => {
     const bridge = window.meridian;
     if (!bridge?.getScreenFindings) {
-      setError("screen bridge unavailable — restart the app (new IPC handlers need a main-process restart)");
+      setError(SCREEN_BRIDGE_MISSING);
       return;
     }
     const [f, s] = await Promise.all([bridge.getScreenFindings(), bridge.getScreenStatus()]);
@@ -307,7 +390,7 @@ export default function ScreenPanel({ onClose }: Props) {
   const rescan = async () => {
     const bridge = window.meridian;
     if (!bridge?.rescanScreen) {
-      setError("screen bridge unavailable — restart the app (new IPC handlers need a main-process restart)");
+      setError(SCREEN_BRIDGE_MISSING);
       return;
     }
     setBusy(true);
@@ -321,14 +404,7 @@ export default function ScreenPanel({ onClose }: Props) {
       // same session, same series, same findings. Without an explicit result
       // line the button reads as dead, so say what the run did — including
       // "no change", which is the normal answer between two closes.
-      const s = res.scan;
-      setFlash(
-        s == null
-          ? "rescan produced no scan — the close-run has not landed for any ticker yet"
-          : `scanned ${s.session} · ${s.tickers_scanned}/${s.tickers_total} tickers · ${s.new} new · ${s.continuing} continuing · ${s.ended} ended · ${s.degraded.length} degraded${
-              s.new + s.continuing + s.ended === 0 ? " — no change (session already scanned)" : ""
-            } · ${new Date(s.scanned_at).toLocaleTimeString()}`,
-      );
+      setFlash({ scan: res.scan ?? null });
       await refresh();
     } finally {
       setBusy(false);
@@ -345,29 +421,60 @@ export default function ScreenPanel({ onClose }: Props) {
   const labels = payload?.labels;
   const labelOf = (p: ScreenPattern) => labels?.[p] ?? p.replace(/_/g, " ");
 
+  const flashText = (() => {
+    if (!flash) return null;
+    const s = flash.scan;
+    if (s == null) return t("instruments.screen.flashNone");
+    const line = t("instruments.screen.flashScanned", {
+      session: s.session,
+      scanned: s.tickers_scanned,
+      total: s.tickers_total,
+      new: s.new,
+      continuing: s.continuing,
+      ended: s.ended,
+      degraded: s.degraded.length,
+    });
+    const noChange = s.new + s.continuing + s.ended === 0 ? ` · ${t("instruments.screen.flashNoChange")}` : "";
+    return `${line}${noChange} · ${new Date(s.scanned_at).toLocaleTimeString(locale, withClock())}`;
+  })();
+
   return (
     <div className="app-no-drag fixed inset-0 z-[200] flex items-center justify-center bg-[#1d1b1b]/30 backdrop-blur-[3px]">
       <div className="flex h-[92vh] w-[1180px] max-w-[96vw] flex-col overflow-hidden rounded-2xl border border-white/70 bg-[#F4F4F0] shadow-2xl">
         {/* Header */}
         <div className="flex items-center gap-4 border-b border-[#e0e0da] px-5 py-3">
-          <span className="font-sans text-[11px] font-medium tracking-[0.08em] text-[#9CA3AF]">SCREEN · Shift+S</span>
-          <span className="text-[13px] text-[#1d1b1b]">
+          <span className="shrink-0 font-sans text-[11px] font-medium tracking-[0.04em] text-[#9CA3AF]">
+            {t("instruments.screen.title", { key: shortcutText("screen") })}
+          </span>
+          <span className="shrink-0 text-[13px] text-[#1d1b1b]">
             {lastScan ? (
               <>
-                last scan <span className="font-semibold tabular-nums">{lastScan.session}</span>
-                <span className="text-[11px] text-[#9CA3AF]"> · {fmtWhen(lastScan.scanned_at)} · {lastScan.trigger}</span>
+                {tNodes("instruments.screen.lastScan", {
+                  session: <span className="font-semibold tabular-nums">{lastScan.session}</span>,
+                })}
+                <span className="text-[11px] text-[#9CA3AF]"> · {fmtWhen(lastScan.scanned_at, locale)} · {lastScan.trigger}</span>
               </>
             ) : (
-              <span className="text-[#6b7280]">No scan yet.</span>
+              <span className="text-[#6b7280]">{t("instruments.screen.noScan")}</span>
             )}
           </span>
-          <span className="text-[11px] tabular-nums text-[#6b7280]">
-            findings <span className="font-semibold text-[#1d1b1b]">{payload?.active.length ?? 0}</span> active · {payload?.ended.length ?? 0} ended
-            {lastScan ? ` · scan: ${lastScan.new} new · ${lastScan.continuing} continuing · ${lastScan.ended} ended · ${lastScan.degraded.length} degraded` : ""}
+          <span className="min-w-0 text-[11px] tabular-nums text-[#6b7280]">
+            {tNodes("instruments.screen.findings", {
+              active: <span className="font-semibold text-[#1d1b1b]">{payload?.active.length ?? 0}</span>,
+              ended: payload?.ended.length ?? 0,
+            })}
+            {lastScan
+              ? ` · ${t("instruments.screen.scanSummary", {
+                  new: lastScan.new,
+                  continuing: lastScan.continuing,
+                  ended: lastScan.ended,
+                  degraded: lastScan.degraded.length,
+                })}`
+              : ""}
           </span>
-          <div className="ml-auto flex items-center gap-2">
+          <div className="ml-auto flex shrink-0 items-center gap-2">
             <select className="rounded-md border border-[#e0e0da] bg-white px-2 py-1 text-[11px] text-[#1d1b1b]" value={patternFilter} onChange={(e) => setPatternFilter(e.target.value as ScreenPattern | "all")}>
-              <option value="all">all patterns</option>
+              <option value="all">{t("instruments.screen.allPatterns")}</option>
               {SCREEN_PATTERNS.map((p) => (
                 <option key={p} value={p}>
                   {labelOf(p)}
@@ -375,29 +482,45 @@ export default function ScreenPanel({ onClose }: Props) {
               ))}
             </select>
             <input
+              lang="en"
               className="w-24 rounded-md border border-[#e0e0da] bg-white px-2 py-1 text-[11px] uppercase text-[#1d1b1b] outline-none focus:border-[#189E9A]"
-              placeholder="ticker"
+              placeholder={t("instruments.screen.tickerPlaceholder")}
               value={tickerFilter}
               onChange={(e) => setTickerFilter(e.target.value)}
             />
-            <button type="button" onClick={() => void rescan()} disabled={busy} className="rounded-lg bg-[#1d1b1b] px-3 py-1.5 text-[11px] font-medium text-white disabled:opacity-50">
-              {busy ? "scanning…" : "rescan"}
+            <button
+              type="button"
+              onClick={() => void rescan()}
+              disabled={!staff || busy}
+              title={staff ? undefined : t("access.staffOnly.action")}
+              data-testid="screen-rescan"
+              className="whitespace-nowrap rounded-lg bg-[#1d1b1b] px-3 py-1.5 text-[11px] font-medium text-white disabled:opacity-50"
+            >
+              {busy ? t("instruments.screen.scanning") : t("instruments.screen.rescan")}
             </button>
-            <button type="button" onClick={onClose} aria-label="Close" className="rounded-lg p-1.5 text-[#6b7280] hover:bg-white">
+            <button
+              type="button"
+              onClick={onClose}
+              aria-label={t("common.close")}
+              title={t("common.close")}
+              className="rounded-lg p-1.5 text-[#6b7280] hover:bg-white"
+            >
               <X className="h-4 w-4" />
             </button>
           </div>
         </div>
 
-        {error ? <div className="border-b border-red-200 bg-red-50 px-5 py-2 text-[11px] text-red-700">{error}</div> : null}
-        {flash ? <div className="border-b border-[#189E9A]/30 bg-[#189E9A]/10 px-5 py-2 text-[11px] tabular-nums text-[#0f5f5d]">{flash}</div> : null}
+        {error ? <div className="border-b border-red-200 bg-red-50 px-5 py-2 text-[11px] text-red-700">{errorText(error, t)}</div> : null}
+        {flashText ? (
+          <div className="border-b border-[#189E9A]/30 bg-[#189E9A]/10 px-5 py-2 text-[11px] tabular-nums text-[#0f5f5d]">{flashText}</div>
+        ) : null}
 
         <div className="flex min-h-0 flex-1">
           {/* List */}
           <div className="w-[600px] shrink-0 overflow-y-auto border-r border-[#e0e0da] px-4 py-3">
-            <div className="mb-2 text-[10px] font-medium tracking-[0.08em] text-[#9CA3AF]">ACTIVE · {active.length}</div>
+            <div className="mb-2 text-[10px] font-medium tracking-[0.08em] text-[#9CA3AF]">{t("instruments.screen.active", { n: active.length })}</div>
             {active.length === 0 ? (
-              <div className="text-[12px] text-[#6b7280]">{payload ? "No active findings." : "Loading…"}</div>
+              <div className="text-[12px] text-[#6b7280]">{payload ? t("instruments.screen.noActive") : t("instruments.screen.loading")}</div>
             ) : (
               <div className="space-y-1">
                 {active.map((f) => (
@@ -405,13 +528,18 @@ export default function ScreenPanel({ onClose }: Props) {
                 ))}
               </div>
             )}
-            <button type="button" onClick={() => setShowEnded((v) => !v)} className="mt-4 flex items-center gap-1 text-[10px] font-medium tracking-[0.08em] text-[#9CA3AF]">
+            <button
+              type="button"
+              onClick={() => setShowEnded((v) => !v)}
+              data-testid="screen-ended-toggle"
+              className="mt-4 flex items-center gap-1 text-[10px] font-medium tracking-[0.08em] text-[#9CA3AF]"
+            >
               {showEnded ? <ChevronDown className="h-3 w-3" /> : <ChevronRight className="h-3 w-3" />}
-              ENDED · {ended.length}
+              {t("instruments.screen.ended", { n: ended.length })}
             </button>
             {showEnded ? (
               <div className="mt-2 space-y-1 opacity-80">
-                {ended.length === 0 ? <div className="text-[12px] text-[#6b7280]">No ended findings in the retention window.</div> : null}
+                {ended.length === 0 ? <div className="text-[12px] text-[#6b7280]">{t("instruments.screen.noEnded")}</div> : null}
                 {ended.map((f) => (
                   <Row key={f.id} f={f} label={labelOf(f.pattern)} selected={f.id === selectedId} onSelect={() => setSelectedId(f.id)} />
                 ))}
@@ -422,14 +550,14 @@ export default function ScreenPanel({ onClose }: Props) {
               <>
                 <button type="button" onClick={() => setShowDegraded((v) => !v)} className="mt-4 flex items-center gap-1 text-[10px] font-medium tracking-[0.08em] text-[#9CA3AF]">
                   {showDegraded ? <ChevronDown className="h-3 w-3" /> : <ChevronRight className="h-3 w-3" />}
-                  DEGRADED · {lastScan.degraded.length}
+                  {t("instruments.screen.degraded", { n: lastScan.degraded.length })}
                 </button>
                 {showDegraded ? (
                   <div className="mt-2 space-y-0.5">
                     {lastScan.degraded.map((d, i) => (
                       <div key={`${d.ticker}-${d.pattern}-${i}`} className="flex items-baseline gap-2 text-[11px] text-[#4b5563]">
                         <span className="w-14 font-semibold text-[#1d1b1b]">{d.ticker}</span>
-                        <span className="w-32">{d.pattern === "all" ? "all patterns" : labelOf(d.pattern)}</span>
+                        <span className="w-32">{d.pattern === "all" ? t("instruments.screen.allPatterns") : labelOf(d.pattern)}</span>
                         <span className="min-w-0 flex-1 truncate">{d.reason}</span>
                       </div>
                     ))}
@@ -444,32 +572,47 @@ export default function ScreenPanel({ onClose }: Props) {
             {selected ? (
               <Detail f={selected} label={labelOf(selected.pattern)} />
             ) : (
-              <div className="text-[12px] text-[#6b7280]">Click a finding for its full payload, the qualifying sessions and the Gauge link.</div>
+              <div className="text-[12px] text-[#6b7280]">{t("instruments.screen.clickHint")}</div>
             )}
 
             {status ? (
               <div className="mt-4 rounded-xl border border-[#e0e0da] bg-white/40 px-3 py-2 text-[10px] text-[#6b7280]">
                 <div>
-                  data {status.dataDir} · scans {status.scanCount} · poll {status.pollIntervalMs / 1000}s · retention {status.retentionDays}d · last poll {fmtWhen(status.lastPollAt)}
-                  {status.r2Floor != null ? ` · r² floor ${status.r2Floor}` : ""}
+                  {t("instruments.screen.statusLine", {
+                    dir: status.dataDir,
+                    scans: status.scanCount,
+                    poll: status.pollIntervalMs / 1000,
+                    days: status.retentionDays,
+                    when: fmtWhen(status.lastPollAt, locale),
+                  })}
+                  {status.r2Floor != null ? ` · ${t("instruments.screen.r2Floor", { value: status.r2Floor })}` : ""}
                 </div>
                 <div>
-                  patterns{" "}
-                  {SCREEN_PATTERNS.map((p) => `${p} ${status.patterns[p].enabled ? "on" : "off"}/p${status.patterns[p].priority}`).join(" · ")}
+                  {t("instruments.screen.patterns")}{" "}
+                  {SCREEN_PATTERNS.map(
+                    (p) =>
+                      `${p} ${status.patterns[p].enabled ? t("instruments.common.on") : t("instruments.common.off")}/p${status.patterns[p].priority}`,
+                  ).join(" · ")}
                 </div>
                 {status.keys ? (
                   <div className="font-mono">
-                    hook session {status.keys.session} · close-run landed {status.keys.landed}/{status.keys.total}
+                    {t("instruments.screen.hook", {
+                      session: status.keys.session,
+                      landed: status.keys.landed,
+                      total: status.keys.total,
+                    })}
                   </div>
                 ) : null}
-                {status.lastError ? <div className="text-red-600">last error: {status.lastError}</div> : null}
+                {status.lastError ? (
+                  <div className="text-red-600">{t("instruments.screen.lastError", { error: status.lastError })}</div>
+                ) : null}
               </div>
             ) : null}
           </div>
         </div>
 
         <div className="border-t border-[#e0e0da] px-5 py-2 text-[10px] text-[#9CA3AF]">
-          Shift+S to toggle · Esc to close · surface-only apart from the S1 emit gate (EMITTED = a first sighting sent to Base) · conditions, not predictions
+          {t("instruments.screen.footer", { key: shortcutText("screen"), emitted: t("instruments.screen.emitted") })}
         </div>
       </div>
     </div>

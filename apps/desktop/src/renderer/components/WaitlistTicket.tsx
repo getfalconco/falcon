@@ -2,6 +2,8 @@ import AdmitOneTicket, {
   TICKET_TEXTURE,
   TICKET_LAYOUT,
 } from "@/components/ui/admit-one-ticket";
+import { getLanguage, upperIn, useLanguage, type LanguageCode } from "@/lib/i18n";
+import { translate } from "@/lib/i18n/translate";
 
 /**
  * Founding-member ticket shown to a user on the waitlist — the same generative
@@ -40,16 +42,22 @@ const TICKET_MONO_CSS = `
 }
 `;
 
-export function grantedLabel(grantedAt: string | null): string {
+/**
+ * "Granted Oct 2026", in the language given (the app's, when none is): the
+ * month and year come from Intl, so each language orders and abbreviates
+ * them its own way ("Eki 2026", "2026年10月").
+ */
+export function grantedLabel(grantedAt: string | null, language: LanguageCode = getLanguage()): string {
   if (!grantedAt) return "2026";
   const d = new Date(grantedAt);
   if (Number.isNaN(d.getTime())) return "2026";
-  const month = d.toLocaleString("en-US", { month: "short" });
-  return `Granted ${month} ${d.getFullYear()}`;
+  const date = new Intl.DateTimeFormat(language, { month: "short", year: "numeric" }).format(d);
+  return translate(language, "auth.ticket.granted", { date });
 }
 
+/** "#007"; dots stand in until a number is assigned (no dashes, by house rule). */
 export function memberLabel(memberNumber: number | null): string {
-  return memberNumber != null ? `#${String(memberNumber).padStart(3, "0")}` : "#———";
+  return memberNumber != null ? `#${String(memberNumber).padStart(3, "0")}` : "#···";
 }
 
 export function waitlistTicketProps({
@@ -57,20 +65,25 @@ export function waitlistTicketProps({
   memberNumber,
   grantedAt,
   width = WAITLIST_TICKET_WIDTH,
+  language = getLanguage(),
 }: {
   fullName: string;
   memberNumber: number | null;
   grantedAt: string | null;
   width?: number;
+  language?: LanguageCode;
 }) {
-  const name = fullName.trim().replace(/\s+/g, " ") || "Member";
+  const t = (key: Parameters<typeof translate>[1], vars?: Parameters<typeof translate>[2]) =>
+    translate(language, key, vars);
+  const name = fullName.trim().replace(/\s+/g, " ") || t("auth.ticket.memberName");
   return {
-    name: "Early Access",
+    // The ticket uppercases its name in JS, by the root rule; cased here first, the language's own way ("ERKEN ERİŞİM").
+    name: upperIn(t("auth.ticket.tier"), language),
     presenter: name,
     event: "",
-    venue: `Member ${memberLabel(memberNumber)}`,
-    dates: grantedLabel(grantedAt),
-    stubText: "Admit one",
+    venue: t("auth.ticket.member", { number: memberLabel(memberNumber) }),
+    dates: grantedLabel(grantedAt, language),
+    stubText: t("auth.ticket.admit"),
     watermark: "2026",
     width,
     texture: BLUE_TEXTURE,
@@ -91,6 +104,7 @@ export default function WaitlistTicket({
   width?: number;
   tilt?: boolean;
 }) {
+  const language = useLanguage();
   return (
     <div
       className="wl-ticket"
@@ -102,7 +116,7 @@ export default function WaitlistTicket({
       <style>{TICKET_MONO_CSS}</style>
       <AdmitOneTicket
         tilt={tilt ? {} : false}
-        {...waitlistTicketProps({ fullName, memberNumber, grantedAt, width })}
+        {...waitlistTicketProps({ fullName, memberNumber, grantedAt, width, language })}
       />
     </div>
   );

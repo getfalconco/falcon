@@ -31,8 +31,8 @@ export function SettingsRow({
   className,
 }: {
   label: string;
-  /** One line under the label, for a setting whose name is not enough. */
-  description?: string;
+  /** One line under the label, for a setting whose name is not enough. May carry an inline link. */
+  description?: ReactNode;
   /** The control. Sits at the right, whatever its width. */
   children: ReactNode;
   className?: string;

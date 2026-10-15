@@ -10,9 +10,7 @@ import {
   CommandMenuList,
   CommandMenuSeparator,
   CommandMenuTrigger,
-  getModifierKey,
   useCommandMenu,
-  useCommandMenuShortcut,
 } from "@/components/ui/command-menu";
 import { Kbd } from "@/components/ui/kbd";
 import StockIcon from "@/components/stock/StockIcon";
@@ -23,7 +21,11 @@ import {
 } from "@/lib/recent-stock-search";
 import { getStockQuote, searchStockSymbols } from "@/lib/stock-api";
 import { formatSignedPercent, formatStockPrice } from "@/lib/stock-format";
+import { comboLabels } from "@/lib/shortcuts";
+import { useBinding, useShortcut } from "@/lib/use-shortcuts";
 import { cn } from "@/lib/utils";
+import { useI18n, useT, type MessageKey } from "@/lib/i18n";
+import { useNa } from "@/lib/i18n/na";
 import type { StockCatalogEntry } from "../../../shared/stock-catalog";
 
 /**
@@ -42,8 +44,9 @@ type Props = {
 
 type NavAction = {
   id: DashboardSearchTarget;
-  label: string;
-  hint: string;
+  /** Words by i18n key; `keywords` stay English, so either language finds the row. */
+  labelKey: MessageKey;
+  hintKey: MessageKey;
   icon: React.ReactNode;
   keywords: string;
 };
@@ -51,8 +54,8 @@ type NavAction = {
 const NAV_ACTIONS: NavAction[] = [
   {
     id: "dashboard",
-    label: "Dashboard",
-    hint: "Portfolio, assets, insight, risk",
+    labelKey: "search.nav.dashboard",
+    hintKey: "search.nav.dashboardHint",
     icon: <LayoutDashboard className="h-4 w-4" strokeWidth={1.75} />,
     keywords: "dashboard home portfolio assets",
   },
@@ -68,6 +71,7 @@ function cleanTicker(raw: string): string {
 
 /** Live price + day change, fetched lazily per visible row. */
 function QuoteTail({ symbol }: { symbol: string }) {
+  const na = useNa();
   const [price, setPrice] = useState<number | null>(null);
   const [changePercent, setChangePercent] = useState<number | null>(null);
 
@@ -94,7 +98,7 @@ function QuoteTail({ symbol }: { symbol: string }) {
   return (
     <span className="ml-auto shrink-0 text-right tabular-nums">
       <span className="block text-[12.5px] font-medium text-[#1d1b1b]">
-        {price != null ? formatStockPrice(price) : "—"}
+        {price != null ? formatStockPrice(price) : na}
       </span>
       <span
         className={cn(
@@ -146,6 +150,7 @@ function SearchBody({
   onPickNav: (target: DashboardSearchTarget) => void;
 }) {
   const { value, setSelectedIndex } = useCommandMenu();
+  const { t, tNodes } = useI18n();
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState<StockCatalogEntry[]>([]);
   const [trending, setTrending] = useState<StockCatalogEntry[]>([]);
@@ -202,9 +207,9 @@ function SearchBody({
     if (!searching) return NAV_ACTIONS;
     const q = query.toLowerCase();
     return NAV_ACTIONS.filter(
-      (a) => a.label.toLowerCase().includes(q) || a.keywords.includes(q),
+      (a) => t(a.labelKey).toLowerCase().includes(q) || a.keywords.includes(q),
     );
-  }, [query, searching]);
+  }, [query, searching, t]);
 
   const stockRows = searching ? results : [];
   const recentRows = searching ? [] : recent.slice(0, 4);
@@ -242,19 +247,18 @@ function SearchBody({
 
       {searching && !loading && total === 0 ? (
         <CommandMenuEmpty>
-          No results for “{query}”
-          {cleanTicker(query) ? (
-            <>
-              {" "}
-              — press <Kbd size="xs">↵</Kbd> to open{" "}
-              <span className="font-semibold text-[#1d1b1b]">{cleanTicker(query)}</span> anyway.
-            </>
-          ) : null}
+          {cleanTicker(query)
+            ? tNodes("search.noResultsOpen", {
+                query,
+                key: <Kbd size="xs">↵</Kbd>,
+                symbol: <span className="font-semibold text-[#1d1b1b]">{cleanTicker(query)}</span>,
+              })
+            : t("search.noResults", { query })}
         </CommandMenuEmpty>
       ) : null}
 
       {stockRows.length > 0 ? (
-        <CommandMenuGroup heading="Stocks">
+        <CommandMenuGroup heading={t("search.group.stocks")}>
           {stockRows.map((entry) => (
             <CommandMenuItem
               key={`s-${entry.symbol}`}
@@ -268,7 +272,7 @@ function SearchBody({
       ) : null}
 
       {recentRows.length > 0 ? (
-        <CommandMenuGroup heading="Recent">
+        <CommandMenuGroup heading={t("search.group.recent")}>
           {recentRows.map((entry) => (
             <CommandMenuItem
               key={`r-${entry.symbol}`}
@@ -285,7 +289,7 @@ function SearchBody({
       {trendingRows.length > 0 ? (
         <>
           {recentRows.length > 0 ? <CommandMenuSeparator /> : null}
-          <CommandMenuGroup heading="Trending">
+          <CommandMenuGroup heading={t("search.group.trending")}>
             {trendingRows.map((entry) => (
               <CommandMenuItem
                 key={`t-${entry.symbol}`}
@@ -303,7 +307,7 @@ function SearchBody({
       {navMatches.length > 0 ? (
         <>
           {total > navMatches.length ? <CommandMenuSeparator /> : null}
-          <CommandMenuGroup heading="Navigate">
+          <CommandMenuGroup heading={t("search.group.navigate")}>
             {navMatches.map((action) => (
               <CommandMenuItem
                 key={`n-${action.id}`}
@@ -312,8 +316,8 @@ function SearchBody({
                 onSelect={() => onPickNav(action.id)}
               >
                 <span className="flex items-baseline gap-2">
-                  <span className="text-[13px] font-medium text-[#1d1b1b]">{action.label}</span>
-                  <span className="truncate text-[11.5px] text-[#6b7280]">{action.hint}</span>
+                  <span className="text-[13px] font-medium text-[#1d1b1b]">{t(action.labelKey)}</span>
+                  <span className="truncate text-[11.5px] text-[#6b7280]">{t(action.hintKey)}</span>
                 </span>
               </CommandMenuItem>
             ))}
@@ -333,6 +337,7 @@ const MARGIN = 8;
 export default function DashboardSearchBar({ onSelect, onNavigate, className }: Props) {
   const [open, setOpen] = useState(false);
   const [anchor, setAnchor] = useState<Anchor | null>(null);
+  const t = useT();
   const [menuHeight, setMenuHeight] = useState(0);
   const mouse = useRef({ x: 0, y: 0 });
   const pillRef = useRef<HTMLButtonElement>(null);
@@ -347,12 +352,11 @@ export default function DashboardSearchBar({ onSelect, onNavigate, className }: 
     return () => document.removeEventListener("mousemove", onMove);
   }, []);
 
-  useCommandMenuShortcut(
-    useCallback(() => {
-      setAnchor({ x: mouse.current.x, y: mouse.current.y, mode: "cursor" });
-      setOpen(true);
-    }, []),
-  );
+  // Ctrl/⌘+K unless the reader moved it in Settings → Shortcuts.
+  useShortcut("search", () => {
+    setAnchor({ x: mouse.current.x, y: mouse.current.y, mode: "cursor" });
+    setOpen(true);
+  });
 
   // Track the menu's real height so it never runs off the bottom edge.
   useEffect(() => {
@@ -384,7 +388,7 @@ export default function DashboardSearchBar({ onSelect, onNavigate, className }: 
     [onNavigate],
   );
 
-  const mod = getModifierKey().symbol;
+  const searchKeys = comboLabels(useBinding("search"));
 
   // Positioning — clamped so the whole menu stays on screen.
   const vw = typeof window !== "undefined" ? window.innerWidth : 1200;
@@ -410,7 +414,7 @@ export default function DashboardSearchBar({ onSelect, onNavigate, className }: 
         <button
           ref={pillRef}
           type="button"
-          aria-label="Search anything"
+          aria-label={t("search.placeholder")}
           onClick={() => {
             const r = pillRef.current?.getBoundingClientRect();
             if (r) setAnchor({ x: r.left + r.width / 2, y: r.top - 6, mode: "pill" });
@@ -421,22 +425,19 @@ export default function DashboardSearchBar({ onSelect, onNavigate, className }: 
           )}
         >
           <Search className="h-4 w-4 shrink-0 text-[#6b7280]" strokeWidth={1.75} aria-hidden />
-          <span className="min-w-0 flex-1 truncate text-[13.5px] text-[#9CA3AF]">Search anything</span>
-          <span className="flex shrink-0 items-center gap-1">
-            <Kbd size="xs">{mod}</Kbd>
-            <Kbd size="xs">K</Kbd>
-          </span>
+          <span className="min-w-0 flex-1 truncate text-[13.5px] text-[#9CA3AF]">{t("search.placeholder")}</span>
         </button>
       </CommandMenuTrigger>
 
       <CommandMenuContent
         ref={contentRef}
         overlayClassName="bg-black/10 backdrop-blur-[3px]"
+        shortcutKeys={searchKeys}
         className="max-w-none translate-x-0 translate-y-0 rounded-3xl border border-white/60 bg-white/40 shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_24px_64px_rgba(0,0,0,0.12)] ring-1 ring-black/[0.04] backdrop-blur-xl backdrop-saturate-150"
         style={{ left, top, width }}
       >
         <CommandMenuInput
-          placeholder="Search anything"
+          placeholder={t("search.placeholder")}
           className="text-[14px] text-[#1d1b1b] placeholder:text-[#9CA3AF]"
         />
         <SearchBody onPickStock={pickStock} onPickNav={pickNav} />

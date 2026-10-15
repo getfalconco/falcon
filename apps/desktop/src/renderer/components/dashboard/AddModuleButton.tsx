@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Plus, type LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { DROPDOWN_FADE } from "@/lib/dropdown-motion";
+import { useT } from "@/lib/i18n";
 
 export type ModuleChoice = {
   id: string;
@@ -42,6 +43,7 @@ export default function AddModuleButton({
 }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const t = useT();
   useEffect(() => {
     if (!open) return;
     const onDown = (e: PointerEvent) => {
@@ -64,23 +66,23 @@ export default function AddModuleButton({
         type="button"
         aria-haspopup="menu"
         aria-expanded={open}
-        aria-label="Add module"
+        aria-label={t("modules.addLabel")}
         onClick={() => setOpen((v) => !v)}
         className="glass-cta app-no-drag flex h-9 items-center gap-1.5 rounded-full pl-3 pr-3.5 text-[13px] font-medium max-[980px]:px-2.5"
       >
         <Plus className="h-3.5 w-3.5 shrink-0" strokeWidth={2.25} aria-hidden />
-        <span className="max-[980px]:sr-only">Add Module</span>
+        <span className="max-[980px]:sr-only">{t("modules.addButton")}</span>
       </button>
 
       <AnimatePresence>
         {open ? (
           <motion.div
             role="menu"
-            aria-label="Add module"
+            aria-label={t("modules.addLabel")}
             {...DROPDOWN_FADE}
             className="app-no-drag absolute right-0 top-full mt-2 w-56 rounded-2xl border border-white/60 bg-white/70 p-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_18px_44px_rgba(0,0,0,0.14)] ring-1 ring-black/[0.04] backdrop-blur-xl backdrop-saturate-150"
           >
-            <div className="px-3 pb-1.5 pt-2 font-sans text-[11px] font-medium tracking-[0.08em] text-[#9CA3AF]">MODULES</div>
+            <div className="px-3 pb-1.5 pt-2 font-sans text-[11px] font-medium tracking-[0.04em] text-[#9CA3AF]">{t("modules.heading")}</div>
             {modules.map(({ id, label, icon: Icon, onCanvas }) => (
               <button
                 key={id}
@@ -94,7 +96,7 @@ export default function AddModuleButton({
               >
                 <Icon className="h-[15px] w-[15px] shrink-0 text-[#4b5563]" strokeWidth={1.75} aria-hidden />
                 {label}
-                {onCanvas ? <span className="ml-auto shrink-0 text-[11.5px] text-[#9CA3AF]">Add a copy</span> : null}
+                {onCanvas ? <span className="ml-auto shrink-0 text-[11.5px] text-[#9CA3AF]">{t("modules.addCopy")}</span> : null}
               </button>
             ))}
           </motion.div>

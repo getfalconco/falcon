@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { Gloss } from "../../../shared/gloss-types";
 import { cn } from "@/lib/utils";
+import { useT } from "@/lib/i18n";
 
 /**
  * Highlight a word in the copy and it explains itself. A spinner appears at
@@ -78,6 +79,7 @@ export default function SelectionGloss({
   contentClassName?: string;
   children: React.ReactNode;
 }) {
+  const t = useT();
   const hostRef = useRef<HTMLDivElement | null>(null);
   const popRef = useRef<HTMLDivElement | null>(null);
   const requestId = useRef(0);
@@ -162,7 +164,7 @@ export default function SelectionGloss({
     };
 
     if (text.length > MAX_CHARS) {
-      setState({ phase: "error", text, anchor, error: "Highlight a sentence or less." });
+      setState({ phase: "error", text, anchor, error: t("dashboard.gloss.tooLong") });
       return;
     }
 
@@ -184,7 +186,7 @@ export default function SelectionGloss({
         });
         if (id !== requestId.current) return;
         if (res?.ok) setState({ phase: "ready", text, anchor, gloss: res.gloss });
-        else setState({ phase: "error", text, anchor, error: res?.error ?? "Couldn't explain that." });
+        else setState({ phase: "error", text, anchor, error: res?.error ?? t("dashboard.gloss.failed") });
       } catch (err) {
         if (id !== requestId.current) return;
         setState({
@@ -195,7 +197,7 @@ export default function SelectionGloss({
         });
       }
     })();
-  }, [context, ticker, resolve]);
+  }, [context, ticker, resolve, t]);
 
   // Keyboard selection (shift+arrow, caret browsing) never produces a mouseup.
   const onKeyUp = useCallback(
@@ -282,13 +284,13 @@ export default function SelectionGloss({
                   {state.gloss.term}
                 </span>
                 <span className="shrink-0 font-['Geist_Mono'] text-[9px] uppercase tracking-[0.08em] text-[#9CA3AF]">
-                  {state.gloss.kind === "passage" ? "passage" : "term"}
+                  {t(state.gloss.kind === "passage" ? "dashboard.gloss.passage" : "dashboard.gloss.term")}
                 </span>
               </div>
 
               <p className="mt-2 font-sans text-[12px] leading-[1.5] text-[#373B42]">
                 {turkish.showing
-                  ? (turkish.text ?? turkish.error ?? "Çevriliyor…")
+                  ? (turkish.text ?? turkish.error ?? t("dashboard.gloss.translating"))
                   : state.gloss.english}
               </p>
 
@@ -300,7 +302,7 @@ export default function SelectionGloss({
 
               <div className="mt-3 flex items-center justify-between">
                 <span className="font-['Geist_Mono'] text-[9px] uppercase tracking-[0.08em] text-[#9CA3AF]">
-                  {state.gloss.kind === "term" && state.gloss.finance_specific ? "market sense" : ""}
+                  {state.gloss.kind === "term" && state.gloss.finance_specific ? t("dashboard.gloss.marketSense") : ""}
                 </span>
                 <div className="flex items-center gap-0.5 rounded-lg bg-black/[0.04] p-0.5">
                   {[

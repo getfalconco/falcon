@@ -1,9 +1,14 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Check, Copy, MoreVertical, SlidersHorizontal, X } from "lucide-react";
-import { TIMEFRAMES, type Timeframe } from "@/components/dashboard/TimeframeControls";
+import { ArrowUpRight, Check, Copy, MoreVertical, SlidersHorizontal, X } from "lucide-react";
+import { TIMEFRAMES, TIMEFRAME_KEY, type Timeframe } from "@/components/dashboard/TimeframeControls";
 import { cn } from "@/lib/utils";
 import { DROPDOWN_FADE } from "@/lib/dropdown-motion";
+import { useT } from "@/lib/i18n";
+
+/** The round arrow that opens a card's fuller view, beside the dots. */
+const OPEN_BUTTON =
+  "app-no-drag btn-quiet -my-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-white/60 bg-white/55 text-[#1d1b1b] shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-black/[0.06] transition-colors hover:bg-white/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#9CA3AF]";
 
 /**
  * A card's masthead: the same small label and three-dot menu every other card
@@ -13,15 +18,22 @@ import { DROPDOWN_FADE } from "@/lib/dropdown-motion";
  * A card with a control of its own beside the dots (the Risk Score card's
  * settings glyph) hands it in as `actions`, so the dots stay where they are
  * on every card.
+ *
+ * A card that leads to a fuller view (the Calendar, Agents and Earnings tabs)
+ * passes `onOpen` with `openLabel`, and a small round arrow sits just left of
+ * the dots. The label is never printed: it is the button's accessible name
+ * and its tooltip, so the card spends no line on a door.
  */
 export default function ChartCardHeader({
-  label = "PORTFOLIO VALUE",
+  label,
   meta,
   actions,
   timeframe,
   onTimeframe,
   onDuplicate,
   onRemove,
+  onOpen,
+  openLabel,
   className,
 }: {
   label?: string;
@@ -34,8 +46,13 @@ export default function ChartCardHeader({
   onTimeframe?: (tf: Timeframe) => void;
   onDuplicate?: () => void;
   onRemove?: () => void;
+  /** With both given, a round arrow beside the dots opens the card's fuller view. */
+  onOpen?: () => void;
+  /** The translated name of that view ("View Calendar"): aria-label and tooltip, never drawn. */
+  openLabel?: string;
   className?: string;
 }) {
+  const t = useT();
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const [settingsOpen, setSettingsOpen] = useState(false);
@@ -60,8 +77,8 @@ export default function ChartCardHeader({
   }, [menuOpen, settingsOpen]);
 
   const labelEl = (
-    <span className="select-none font-sans text-[11px] font-medium tracking-[0.08em] text-[#9CA3AF]">
-      {label}
+    <span className="select-none font-sans text-[11px] font-medium tracking-[0.04em] text-[#9CA3AF]">
+      {label ?? t("dashboard.portfolioValue.label")}
     </span>
   );
 
@@ -79,7 +96,7 @@ export default function ChartCardHeader({
         <div ref={settingsRef} data-no-lift className="relative flex">
           <button
             type="button"
-            aria-label="Chart settings"
+            aria-label={t("dashboard.card.chartSettings")}
             aria-haspopup="dialog"
             aria-expanded={settingsOpen}
             onClick={() => setSettingsOpen((v) => !v)}
@@ -94,16 +111,16 @@ export default function ChartCardHeader({
             {settingsOpen ? (
               <motion.div
                 role="dialog"
-                aria-label="Chart settings"
+                aria-label={t("dashboard.card.chartSettings")}
                 {...DROPDOWN_FADE}
-                className="app-no-drag absolute right-0 top-full z-50 mt-2 w-48 rounded-2xl border border-white/60 bg-white/70 p-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_18px_44px_rgba(0,0,0,0.14)] ring-1 ring-black/[0.04] backdrop-blur-xl backdrop-saturate-150"
+                className="app-no-drag absolute right-0 top-full z-50 mt-2 w-48 rounded-2xl border border-white/60 bg-white p-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_18px_44px_rgba(0,0,0,0.14)] ring-1 ring-black/[0.06]"
               >
                 <div className="px-1 pb-1.5">
-                  <span className="select-none font-sans text-[11px] font-normal tracking-[0.08em] text-[#9CA3AF]">
-                    TIMEFRAME
+                  <span className="select-none font-sans text-[11px] font-normal tracking-[0.04em] text-[#9CA3AF]">
+                    {t("dashboard.card.timeframeHeading")}
                   </span>
                 </div>
-                <div role="radiogroup" aria-label="Timeframe">
+                <div role="radiogroup" aria-label={t("dashboard.card.timeframe")}>
                   {TIMEFRAMES.map((tf) => {
                     const active = tf === timeframe;
                     return (
@@ -118,7 +135,7 @@ export default function ChartCardHeader({
                         }}
                         className="flex w-full items-center justify-between rounded-lg px-2 py-1.5 text-left text-[12.5px] font-normal text-[#1d1b1b] transition-colors hover:bg-[#1d1b1b]/[0.06]"
                       >
-                        {tf}
+                        {t(TIMEFRAME_KEY[tf])}
                         <span
                           aria-hidden
                           className={cn(
@@ -139,13 +156,29 @@ export default function ChartCardHeader({
           </AnimatePresence>
         </div>
       ) : null}
+      {/* The door to the card's fuller view. 24px round, pulled into the
+          row's 16px line height by -my-1 so the masthead stays the height
+          it is on cards without one. Light: the quiet white button; dark:
+          `.btn-quiet` takes the --cta-* tokens and keeps it round. */}
+      {onOpen && openLabel ? (
+        <button
+          type="button"
+          data-no-lift
+          onClick={onOpen}
+          aria-label={openLabel}
+          title={openLabel}
+          className={OPEN_BUTTON}
+        >
+          <ArrowUpRight className="h-[14px] w-[14px]" strokeWidth={2} aria-hidden />
+        </button>
+      ) : null}
       {/* Same pulled-in dots as the Positions card: the glyph is a 3px mark
           centred in a 16px box, so without the -mr the empty half of the box
           reads as extra padding against the card's edge. */}
       <div ref={menuRef} data-no-lift className="relative flex -mr-[10px]">
         <button
           type="button"
-          aria-label="Card menu"
+          aria-label={t("dashboard.card.menu")}
           aria-haspopup="menu"
           aria-expanded={menuOpen}
           onClick={() => setMenuOpen((v) => !v)}
@@ -160,9 +193,9 @@ export default function ChartCardHeader({
           {menuOpen ? (
             <motion.div
               role="menu"
-              aria-label="Card actions"
+              aria-label={t("dashboard.card.actions")}
               {...DROPDOWN_FADE}
-              className="app-no-drag absolute right-0 top-full z-50 mt-2 w-48 rounded-2xl border border-white/60 bg-white/70 p-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_18px_44px_rgba(0,0,0,0.14)] ring-1 ring-black/[0.04] backdrop-blur-xl backdrop-saturate-150"
+              className="app-no-drag absolute right-0 top-full z-50 mt-2 w-48 rounded-2xl border border-white/60 bg-white p-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_18px_44px_rgba(0,0,0,0.14)] ring-1 ring-black/[0.06]"
             >
               <button
                 role="menuitem"
@@ -178,7 +211,7 @@ export default function ChartCardHeader({
                   strokeWidth={1.75}
                   aria-hidden
                 />
-                Duplicate
+                {t("dashboard.card.duplicate")}
               </button>
               <div aria-hidden className="mx-2 my-1 h-px bg-black/[0.06]" />
               <button
@@ -191,7 +224,7 @@ export default function ChartCardHeader({
                 className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-left text-[13px] font-normal text-[#DC2626] transition-all duration-150 hover:translate-x-0.5 hover:bg-[#DC2626]/[0.10] active:scale-[0.97]"
               >
                 <X className="h-[15px] w-[15px]" strokeWidth={2} aria-hidden />
-                Delete module
+                {t("dashboard.card.delete")}
               </button>
             </motion.div>
           ) : null}

@@ -4,6 +4,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, it } from "node:test";
 import { copyProblems, withoutComments } from "../../../shared/copy-rules";
+import { en as briefingEn } from "../../lib/i18n/messages/areas/briefing";
 
 /**
  * The house copy rules, held over the calendar card: no advice vocabulary, no
@@ -20,31 +21,49 @@ import { copyProblems, withoutComments } from "../../../shared/copy-rules";
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const CARD = fs.readFileSync(path.join(HERE, "CalendarCard.tsx"), "utf8");
 const RAIL = fs.readFileSync(path.join(HERE, "..", "briefing", "CalendarRail.tsx"), "utf8");
+/**
+ * The card's words live in the briefing area's English table (every other
+ * language is translated from it), so the rules are held over that table as
+ * well as over whatever literals are left in the source.
+ */
+const TABLE = Object.values(briefingEn)
+  .map((text) => JSON.stringify(text))
+  .join("\n");
 
 describe("calendar card copy", () => {
   it("follows the copy rules", () => {
     assert.deepEqual(copyProblems(CARD, { riskWords: true, jsxText: true }), []);
+    assert.deepEqual(copyProblems(TABLE, { riskWords: true }), []);
   });
 
   // The scan above passes trivially over a file with no copy in it. These are
   // lines a reader is known to meet; if one goes missing, either the copy moved
   // somewhere this test does not look, or the scan has stopped seeing it.
   it("still finds the lines a reader meets", () => {
-    for (const phrase of [
-      "CALENDAR",
-      "UTC",
-      "View Calendar",
-      "Nothing scheduled for this session.",
-      "Early close: this session ends at 13:00 ET.",
-      "Restart Falcon to enable the calendar.",
-      "The calendar could not be put together right now.",
-      "Previous day",
-      "Next day",
-    ]) {
-      assert.ok(CARD.includes(phrase), `missing: ${phrase}`);
+    assert.ok(CARD.includes("UTC"), "missing: UTC");
+    const lines: Array<[key: keyof typeof briefingEn, phrase: string]> = [
+      ["briefing.card.label", "CALENDAR"],
+      ["briefing.card.viewCalendar", "View Calendar"],
+      ["briefing.card.nothing", "Nothing scheduled for this session."],
+      ["briefing.card.earlyClose", "Early close: this session ends at 13:00 ET."],
+      ["briefing.card.restart", "Restart Falcon to enable the calendar."],
+      ["briefing.card.failed", "The calendar could not be put together right now."],
+      ["briefing.card.previousDay", "Previous day"],
+      ["briefing.card.nextDay", "Next day"],
+    ];
+    for (const [key, phrase] of lines) {
+      assert.equal(briefingEn[key], phrase, `the English for ${key}`);
+      assert.ok(CARD.includes(`t("${key}")`), `the card does not print ${key}`);
     }
-    for (const phrase of ["BEFORE THE OPEN", "SESSION ENDED", "NOW ", "All day"]) {
-      assert.ok(RAIL.includes(phrase), `missing from the rail: ${phrase}`);
+    const rail: Array<[key: keyof typeof briefingEn, phrase: string]> = [
+      ["briefing.rail.beforeOpen", "BEFORE THE OPEN"],
+      ["briefing.rail.sessionEnded", "SESSION ENDED"],
+      ["briefing.rail.nowAt", "NOW {time}"],
+      ["briefing.rail.allDay", "All day"],
+    ];
+    for (const [key, phrase] of rail) {
+      assert.equal(briefingEn[key], phrase, `the English for ${key}`);
+      assert.ok(RAIL.includes(`"${key}"`), `missing from the rail: ${key}`);
     }
   });
 
@@ -69,13 +88,16 @@ describe("calendar card wiring", () => {
     assert.ok(code.includes("nowMarkerLabel("), "the marker's label comes from the shared rule");
   });
 
-  // The button is drawn live, outside the dashboard-CTA switch that would dim
-  // it: the reader asked for it not to sit recessed. Its click is wired the
-  // day the calendar view exists.
-  it("draws View Calendar as a live glass button", () => {
+  // The door to the calendar view is the masthead's round arrow, named View
+  // Calendar for screen readers and the tooltip. Live, outside the
+  // dashboard-CTA switch that would dim it, and no full-width button at the
+  // foot any more.
+  it("opens the calendar from the masthead arrow, named View Calendar", () => {
     const code = withoutComments(CARD);
-    assert.ok(!code.includes("<DashboardCta"), "the button is not behind the dashboard-CTA switch");
-    assert.match(code, /<button[^>]*glass-cta[^>]*>\s*View Calendar/);
+    assert.ok(!code.includes("<DashboardCta"), "the door is not behind the dashboard-CTA switch");
+    assert.match(code, /onOpen=\{onOpenCalendar\}/);
+    assert.match(code, /openLabel=\{t\("briefing\.card\.viewCalendar"\)\}/);
+    assert.ok(!/glass-cta[^"]*w-full/.test(code), "no full-width button at the foot");
   });
 
   // The head always reads CALENDAR. The meta names the session's date once
@@ -84,7 +106,7 @@ describe("calendar card wiring", () => {
   it("names the session by where the clock stands", () => {
     const code = withoutComments(CARD);
     assert.match(code, /sessionStanding\(/);
-    assert.match(code, /label="CALENDAR"/);
+    assert.match(code, /label=\{t\("briefing\.card\.label"\)\}/);
     assert.ok(!code.includes("nowOnTargetDay"), "the card reads the standing, not the day flag on its own");
   });
 
@@ -95,6 +117,16 @@ describe("calendar card wiring", () => {
     const code = withoutComments(CARD);
     assert.ok(code.includes("calendarForDay("), "the card must take its rows from calendarForDay");
     assert.ok(!/calendarToday\(|macroEventsOn\(|expiryEventsBetween\(/.test(code), "the card must not assemble rows itself");
+  });
+
+  // Weekends are days too: the card opens on today when the market is closed
+  // today, and the arrows step one calendar day, not one session.
+  it("opens on today and steps calendar days, weekends included", () => {
+    const code = withoutComments(CARD);
+    assert.ok(code.includes("openingDay("), "the opening day comes from the shared rule");
+    assert.ok(code.includes("stepDay("), "the arrows step calendar days");
+    assert.ok(!code.includes("stepSession("), "the arrows must not skip weekends and holidays");
+    assert.ok(code.includes("closedDayNote("), "a closed day says so, in the shared wording");
   });
 
   // Rows are hoverable and focusable, and the card that opens on them is

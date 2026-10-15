@@ -1,5 +1,8 @@
+import { na } from "@/lib/i18n/na";
 import { useCallback, useEffect, useState } from "react";
 import { X } from "lucide-react";
+import { shortcutText } from "@/lib/shortcuts";
+import { useT, type MessageKey } from "@/lib/i18n";
 import type {
   DiagnosticsEnvInfo,
   ProviderCheckResult,
@@ -28,13 +31,23 @@ const STATUS_COLOR: Record<ProviderCheckStatus, string> = {
   skipped: "#9CA3AF",
 };
 
+const STATUS_LABEL: Record<ProviderCheckStatus, MessageKey> = {
+  ok: "instruments.diagnostics.status.ok",
+  fail: "instruments.diagnostics.status.fail",
+  "missing-key": "instruments.diagnostics.status.missingKey",
+  skipped: "instruments.diagnostics.status.skipped",
+};
+
 function StatusPill({ status }: { status: ProviderCheckStatus }) {
+  const t = useT();
   return (
     <span
       className="rounded-full px-2 py-[2px] text-[10px] font-semibold uppercase tracking-[0.08em] text-white"
       style={{ background: STATUS_COLOR[status] }}
+      // A status this build has no word for is shown as its English code.
+      lang={STATUS_LABEL[status] ? undefined : "en"}
     >
-      {status}
+      {STATUS_LABEL[status] ? t(STATUS_LABEL[status]) : status}
     </span>
   );
 }
@@ -45,7 +58,7 @@ type EngineOutcome = { ok: boolean; summary: string };
 
 /** Compact one-liner out of an arbitrary status object — debug panel, not a contract. */
 function summarize(data: unknown): string {
-  if (data == null) return "—";
+  if (data == null) return na();
   if (typeof data !== "object") return String(data);
   const obj = data as Record<string, unknown>;
   const parts: string[] = [];
@@ -66,12 +79,12 @@ type Bridge = NonNullable<typeof window.meridian>;
 
 const ENGINE_CHECKS: Array<{
   id: string;
-  label: string;
+  label: MessageKey;
   run: (bridge: Bridge) => Promise<EngineOutcome>;
 }> = [
   {
     id: "tracker",
-    label: "Tracker (Engine1)",
+    label: "instruments.diagnostics.engine.tracker",
     run: async (b) => {
       const r = await b.getTrackerStatus();
       return { ok: r.ok, summary: summarize(r.status) };
@@ -79,7 +92,7 @@ const ENGINE_CHECKS: Array<{
   },
   {
     id: "events",
-    label: "News events poller",
+    label: "instruments.diagnostics.engine.events",
     run: async (b) => {
       const r = await b.getNewsEventsStatus();
       return r.ok ? { ok: true, summary: summarize(r.status) } : { ok: false, summary: r.error };
@@ -87,7 +100,7 @@ const ENGINE_CHECKS: Array<{
   },
   {
     id: "classifier",
-    label: "Classifier",
+    label: "instruments.diagnostics.engine.classifier",
     run: async (b) => {
       const r = await b.getClassifierStatus();
       return r.ok ? { ok: true, summary: summarize(r.status) } : { ok: false, summary: r.error };
@@ -95,7 +108,7 @@ const ENGINE_CHECKS: Array<{
   },
   {
     id: "analyst",
-    label: "Analyst",
+    label: "instruments.diagnostics.engine.analyst",
     run: async (b) => {
       const r = await b.getAnalystStatus();
       return r.ok ? { ok: true, summary: summarize(r.status) } : { ok: false, summary: r.error };
@@ -103,7 +116,7 @@ const ENGINE_CHECKS: Array<{
   },
   {
     id: "propagation",
-    label: "Propagation engine",
+    label: "instruments.diagnostics.engine.propagation",
     run: async (b) => {
       const r = await b.getPropagationStatus();
       return r.ok ? { ok: true, summary: summarize(r.status) } : { ok: false, summary: r.error };
@@ -111,7 +124,7 @@ const ENGINE_CHECKS: Array<{
   },
   {
     id: "risk",
-    label: "Risk engine",
+    label: "instruments.diagnostics.engine.risk",
     run: async (b) => {
       const r = await b.getRiskStatus();
       return r.ok ? { ok: true, summary: summarize(r.status) } : { ok: false, summary: r.error };
@@ -119,7 +132,7 @@ const ENGINE_CHECKS: Array<{
   },
   {
     id: "gauge",
-    label: "Gauge",
+    label: "instruments.diagnostics.engine.gauge",
     run: async (b) => {
       const r = await b.getGaugeStatus();
       return r.ok ? { ok: true, summary: summarize(r.status) } : { ok: false, summary: r.error };
@@ -127,7 +140,7 @@ const ENGINE_CHECKS: Array<{
   },
   {
     id: "screen",
-    label: "Screen",
+    label: "instruments.diagnostics.engine.screen",
     run: async (b) => {
       const r = await b.getScreenStatus();
       return r.ok ? { ok: true, summary: summarize(r.status) } : { ok: false, summary: r.error };
@@ -135,7 +148,7 @@ const ENGINE_CHECKS: Array<{
   },
   {
     id: "base",
-    label: "Base (replay-only)",
+    label: "instruments.diagnostics.engine.base",
     run: async (b) => {
       const r = await b.getBaseConfig();
       return r.ok ? { ok: true, summary: summarize(r.config) } : { ok: false, summary: r.error };
@@ -143,11 +156,15 @@ const ENGINE_CHECKS: Array<{
   },
 ];
 
-type EngineRow = { id: string; label: string; state: "pending" | "ok" | "fail"; summary: string };
+/** envError value for "the preload has no diagnostics bridge"; rendered through t(). */
+const BRIDGE_MISSING = "\u0000bridge-missing";
+
+type EngineRow = { id: string; label: MessageKey; state: "pending" | "ok" | "fail"; summary: string };
 
 /* --------------------------------- panel ---------------------------------- */
 
 export default function DiagnosticsPanel({ onClose }: Props) {
+  const t = useT();
   const [env, setEnv] = useState<DiagnosticsEnvInfo | null>(null);
   const [envError, setEnvError] = useState<string | null>(null);
   const [providers, setProviders] = useState<ProviderCheckResult[] | null>(null);
@@ -158,7 +175,8 @@ export default function DiagnosticsPanel({ onClose }: Props) {
   const loadEnv = useCallback(async () => {
     const bridge = window.meridian;
     if (!bridge?.getDiagnosticsEnv) {
-      setEnvError("diagnostics bridge unavailable — restart the app (new IPC handlers need a main-process restart)");
+      // Kept as a marker, not as words: the message follows the language.
+      setEnvError(BRIDGE_MISSING);
       return;
     }
     const r = await bridge.getDiagnosticsEnv();
@@ -214,31 +232,34 @@ export default function DiagnosticsPanel({ onClose }: Props) {
     return () => window.removeEventListener("keydown", onKey);
   }, [loadEnv, runEngines, runProviders, onClose]);
 
-  const sectionTitle = "font-sans text-[11px] font-medium tracking-[0.08em] text-[#9CA3AF]";
+  const envErrorText =
+    envError === BRIDGE_MISSING ? t("instruments.common.bridgeUnavailable", { name: "Diagnostics" }) : envError;
+
+  const sectionTitle = "font-sans text-[11px] font-medium tracking-[0.04em] text-[#9CA3AF]";
 
   return (
     <div className="app-no-drag fixed inset-0 z-[200] flex items-center justify-center bg-[#1d1b1b]/30 backdrop-blur-[3px]">
       <div className="flex h-[92vh] w-[1100px] max-w-[96vw] flex-col overflow-hidden rounded-2xl border border-white/70 bg-[#F4F4F0] shadow-2xl">
         {/* Header */}
         <div className="flex items-center gap-4 border-b border-[#e0e0da] px-5 py-3">
-          <span className={sectionTitle}>DIAGNOSTICS · Shift+H</span>
+          <span className={`${sectionTitle} shrink-0`}>{t("instruments.diagnostics.title", { key: shortcutText("diagnostics") })}</span>
           {env ? (
             <>
               <span className="rounded-full bg-[#1d1b1b] px-2 py-[2px] text-[10px] font-semibold uppercase tracking-[0.08em] text-white">
-                {env.packaged ? "packaged" : "dev"}
+                {env.packaged ? t("instruments.diagnostics.packaged") : t("instruments.diagnostics.dev")}
               </span>
               <span
                 className="rounded-full px-2 py-[2px] text-[10px] font-semibold uppercase tracking-[0.08em] text-white"
                 style={{ background: env.providerMode === "proxy" ? "#7C3AED" : "#189E9A" }}
               >
-                {env.providerMode === "proxy" ? "proxy → worker" : "direct keys"}
+                {env.providerMode === "proxy" ? t("instruments.diagnostics.proxy") : t("instruments.diagnostics.direct")}
               </span>
               <span className="text-[11px] tabular-nums text-[#9CA3AF]">
                 v{env.appVersion} · electron {env.electron} · node {env.node}
               </span>
             </>
           ) : (
-            <span className="text-[13px] text-[#6b7280]">{envError ?? "loading…"}</span>
+            <span className="text-[13px] text-[#6b7280]">{envErrorText ?? t("instruments.common.loading")}</span>
           )}
           <div className="ml-auto flex items-center gap-2">
             <button
@@ -251,9 +272,9 @@ export default function DiagnosticsPanel({ onClose }: Props) {
               disabled={providersBusy}
               className="rounded-lg bg-[#1d1b1b] px-3 py-1.5 text-[11px] font-medium text-white disabled:opacity-50"
             >
-              {providersBusy ? "checking…" : "re-run checks"}
+              {providersBusy ? t("instruments.diagnostics.checking") : t("instruments.diagnostics.rerun")}
             </button>
-            <button type="button" onClick={onClose} aria-label="Close" className="rounded-lg p-1.5 text-[#6b7280] hover:bg-white">
+            <button type="button" onClick={onClose} aria-label={t("common.close")} title={t("common.close")} className="rounded-lg p-1.5 text-[#6b7280] hover:bg-white">
               <X className="h-4 w-4" />
             </button>
           </div>
@@ -262,30 +283,32 @@ export default function DiagnosticsPanel({ onClose }: Props) {
         <div className="flex-1 space-y-5 overflow-y-auto px-5 py-4">
           {/* Environment */}
           <section>
-            <div className={sectionTitle}>ENVIRONMENT</div>
+            <div className={sectionTitle}>{t("instruments.diagnostics.environment")}</div>
             {env ? (
               <div className="mt-2 space-y-3">
                 <div className="rounded-xl border border-[#e0e0da] bg-white/60 px-3 py-2 text-[11px] leading-relaxed text-[#4b5563]">
                   <div>
-                    <span className="font-semibold text-[#1d1b1b]">anthropic base</span>{" "}
+                    <span className="font-semibold text-[#1d1b1b]">{t("instruments.diagnostics.anthropicBase")}</span>{" "}
                     <span className="font-mono">{env.anthropicBaseUrl}</span>
                   </div>
                   <div>
-                    <span className="font-semibold text-[#1d1b1b]">finnhub base</span>{" "}
+                    <span className="font-semibold text-[#1d1b1b]">{t("instruments.diagnostics.finnhubBase")}</span>{" "}
                     <span className="font-mono">{env.finnhubBaseUrl}</span>
                   </div>
                   <div>
-                    <span className="font-semibold text-[#1d1b1b]">worker url</span>{" "}
-                    <span className="font-mono">{env.workerUrl ?? "— (not set)"}</span>
+                    <span className="font-semibold text-[#1d1b1b]">{t("instruments.diagnostics.workerUrl")}</span>{" "}
+                    <span className="font-mono">{env.workerUrl ?? t("instruments.diagnostics.notSet")}</span>
                   </div>
                   <div>
-                    <span className="font-semibold text-[#1d1b1b]">data root</span>{" "}
+                    <span className="font-semibold text-[#1d1b1b]">{t("instruments.diagnostics.dataRoot")}</span>{" "}
                     <span className="font-mono">{env.dataRoot}</span>
                   </div>
                   <div>
-                    <span className="font-semibold text-[#1d1b1b]">supabase session</span>{" "}
-                    {env.session.hasToken ? `token present (pushed ${env.session.updatedAt ?? "?"})` : "no token — sign in first"}
-                    {env.session.hasSupabaseUrl ? "" : " · no supabase url"}
+                    <span className="font-semibold text-[#1d1b1b]">{t("instruments.diagnostics.session")}</span>{" "}
+                    {env.session.hasToken
+                      ? t("instruments.diagnostics.tokenPresent", { when: env.session.updatedAt ?? "?" })
+                      : t("instruments.diagnostics.noToken")}
+                    {env.session.hasSupabaseUrl ? "" : ` · ${t("instruments.diagnostics.noSupabaseUrl")}`}
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-x-6 gap-y-1 rounded-xl border border-[#e0e0da] bg-white/60 px-3 py-2">
@@ -297,7 +320,7 @@ export default function DiagnosticsPanel({ onClose }: Props) {
                       />
                       <span className="font-mono font-semibold text-[#1d1b1b]">{k.name}</span>
                       <span className="tabular-nums text-[#6b7280]">
-                        {k.present ? `set (${k.length} chars)` : "not set"}
+                        {k.present ? t("instruments.diagnostics.keySet", { n: k.length }) : t("instruments.diagnostics.keyNotSet")}
                       </span>
                       {k.note ? <span className="text-[10px] italic text-[#9CA3AF]">{k.note}</span> : null}
                     </div>
@@ -305,17 +328,15 @@ export default function DiagnosticsPanel({ onClose }: Props) {
                 </div>
               </div>
             ) : envError ? (
-              <div className="mt-2 text-[12px] text-[#DC2626]">{envError}</div>
+              <div className="mt-2 text-[12px] text-[#DC2626]">{envErrorText}</div>
             ) : null}
           </section>
 
           {/* Providers */}
           <section>
             <div className="flex items-baseline gap-3">
-              <div className={sectionTitle}>PROVIDERS (LIVE)</div>
-              <span className="text-[10px] text-[#9CA3AF]">
-                pings run through the same base-URL routing the engines use — green here means the packaged proxy path works
-              </span>
+              <div className={`${sectionTitle} shrink-0`}>{t("instruments.diagnostics.providers")}</div>
+              <span className="text-[10px] text-[#9CA3AF]">{t("instruments.diagnostics.providersHint")}</span>
             </div>
             {providersError ? <div className="mt-2 text-[12px] text-[#DC2626]">{providersError}</div> : null}
             <div className="mt-2 space-y-1.5">
@@ -333,7 +354,7 @@ export default function DiagnosticsPanel({ onClose }: Props) {
                 </div>
               ))}
               {!providers && !providersError ? (
-                <div className="text-[12px] text-[#6b7280]">{providersBusy ? "running live checks…" : "—"}</div>
+                <div className="text-[12px] text-[#6b7280]">{providersBusy ? t("instruments.diagnostics.runningChecks") : na()}</div>
               ) : null}
             </div>
           </section>
@@ -341,8 +362,8 @@ export default function DiagnosticsPanel({ onClose }: Props) {
           {/* Engines */}
           <section>
             <div className="flex items-baseline gap-3">
-              <div className={sectionTitle}>ENGINES</div>
-              <span className="text-[10px] text-[#9CA3AF]">each row is the engine host&apos;s own status IPC — a red row didn&apos;t bootstrap</span>
+              <div className={`${sectionTitle} shrink-0`}>{t("instruments.diagnostics.engines")}</div>
+              <span className="text-[10px] text-[#9CA3AF]">{t("instruments.diagnostics.enginesHint")}</span>
             </div>
             <div className="mt-2 space-y-1.5">
               {engines.map((e) => (
@@ -351,7 +372,7 @@ export default function DiagnosticsPanel({ onClose }: Props) {
                     className="inline-block h-2.5 w-2.5 shrink-0 rounded-full"
                     style={{ background: e.state === "ok" ? "#16A34A" : e.state === "fail" ? "#DC2626" : "#CA8A04" }}
                   />
-                  <span className="w-72 text-[12px] font-semibold text-[#1d1b1b]">{e.label}</span>
+                  <span className="w-72 text-[12px] font-semibold text-[#1d1b1b]">{t(e.label)}</span>
                   <span className="min-w-0 flex-1 truncate text-[11px] text-[#6b7280]" title={e.summary}>
                     {e.summary}
                   </span>

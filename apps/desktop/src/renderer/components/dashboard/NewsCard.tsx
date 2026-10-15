@@ -1,10 +1,15 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Check, ChevronDown, Copy, MoreVertical, Search, X } from "lucide-react";
 import StockIcon from "@/components/stock/StockIcon";
 import { readPaperAccount, subscribePaperAccount } from "@/lib/paper-account";
 import { cn } from "@/lib/utils";
 import { DROPDOWN_FADE } from "@/lib/dropdown-motion";
+import { useI18n, type MessageKey } from "@/lib/i18n";
+import { agoLabel } from "@/lib/dashboard-dates";
+import { eventTypeLabel } from "@/lib/event-type-labels";
+import { useNewsFeed } from "@/lib/news-feed-store";
+import NewsArticleModal from "./NewsArticleModal";
 import type { NewsFeedArticle } from "../../../shared/news-feed";
 
 /**
@@ -14,7 +19,9 @@ import type { NewsFeedArticle } from "../../../shared/news-feed";
  * The feed is the server's. The desktop never asks a news provider for it;
  * `news:feed` is answered by the always-on engine from the same poll that
  * mints events, so every install reads one feed and nobody spends the quota
- * twice. The card asks again every minute, which is the poll's own cadence.
+ * twice. The card reads it through a shared store that outlives the card and
+ * keeps itself fresh while the app is open (news-feed-store.ts), so coming
+ * back to the dashboard shows the list at once instead of loading it again.
  *
  * Three scopes, one at a time: the whole market, one sector (the sectors are
  * whatever the feed's names belong to — the engine's company table, not a
@@ -24,26 +31,14 @@ import type { NewsFeedArticle } from "../../../shared/news-feed";
 
 type Scope = "market" | "sector" | "positions";
 
-const SCOPES: Array<{ key: Scope; label: string }> = [
-  { key: "market", label: "Market" },
-  { key: "sector", label: "Sector" },
-  { key: "positions", label: "Positions" },
+const SCOPES: Array<{ key: Scope; label: MessageKey }> = [
+  { key: "market", label: "dashboard.news.scope.market" },
+  { key: "sector", label: "dashboard.news.scope.sector" },
+  { key: "positions", label: "dashboard.news.scope.positions" },
 ];
 
-const REFRESH_MS = 60_000;
 /** Names shown per story before the rest fold into "+n". */
 const TICKERS_SHOWN = 4;
-
-/** "just now" · "12m" · "3h" · "2d" — the age of a story, at a glance. */
-function ago(unixSec: number, nowMs: number): string {
-  const s = Math.max(0, Math.round(nowMs / 1000 - unixSec));
-  if (s < 60) return "just now";
-  const m = Math.floor(s / 60);
-  if (m < 60) return `${m}m ago`;
-  const h = Math.floor(m / 60);
-  if (h < 24) return `${h}h ago`;
-  return `${Math.floor(h / 24)}d ago`;
-}
 
 /** Names on a story, the one the classifier says it moves first. */
 function namesOf(a: NewsFeedArticle): string[] {
@@ -63,45 +58,28 @@ export default function NewsCard({
   /** Three-dot menu: take this card off the dashboard. */
   onRemove?: () => void;
 }) {
-  const [articles, setArticles] = useState<NewsFeedArticle[]>([]);
-  const [error, setError] = useState<string | null>(null);
-  const [loaded, setLoaded] = useState(false);
+  const { t, locale } = useI18n();
+  // The feed lives in a module-level store, not in this component: the
+  // dashboard unmounts on every tab switch and every trip into a stock, and
+  // the card used to come back to "loading" and a fresh request each time.
+  // Now it shows what the store holds at once and the store asks again only
+  // when that is older than its freshness window (see news-feed-store.ts). A
+  // failed read keeps the last good list and says so quietly underneath.
+  const feed = useNewsFeed();
+  // The story open in the article panel, if any.
+  const [openArticle, setOpenArticle] = useState<NewsFeedArticle | null>(null);
+  const closeArticle = useCallback(() => setOpenArticle(null), []);
+  const articles = useMemo(() => feed.value ?? [], [feed.value]);
+  const error = feed.error;
+  const loaded = feed.settled;
   const [now, setNow] = useState(() => Date.now());
 
-  // The feed, on the poll's cadence. A failed read keeps the last good list —
-  // an empty card is worse than a minute-old one — and says why underneath.
+  // "12m ago" has to keep counting between reads, and jumps on a new one.
   useEffect(() => {
-    let cancelled = false;
-    const load = () => {
-      void window.meridian
-        ?.getNewsFeed?.({ days: 3, limit: 300 })
-        .then((res) => {
-          if (cancelled) return;
-          if (res?.ok) {
-            setArticles(res.articles);
-            setError(null);
-          } else {
-            setError(res?.error ?? "The feed did not answer.");
-          }
-          setLoaded(true);
-          setNow(Date.now());
-        })
-        .catch((err: unknown) => {
-          if (cancelled) return;
-          setError(err instanceof Error ? err.message : String(err));
-          setLoaded(true);
-        });
-    };
-    load();
-    const id = window.setInterval(load, REFRESH_MS);
-    // "12m ago" has to keep counting between reads.
+    setNow(Date.now());
     const tick = window.setInterval(() => setNow(Date.now()), 30_000);
-    return () => {
-      cancelled = true;
-      window.clearInterval(id);
-      window.clearInterval(tick);
-    };
-  }, []);
+    return () => window.clearInterval(tick);
+  }, [feed.fetchedAt]);
 
   // The reader's names, for the Positions scope — demo book included, the way
   // every other card reads it.
@@ -168,14 +146,18 @@ export default function NewsCard({
     });
   }, [articles, scope, sector, held, query]);
 
+  // A failed read with no reason of its own is kept as "", and said here.
+  const errorText = error === "" ? t("dashboard.news.noAnswer") : error;
   const empty = (() => {
-    if (!loaded) return "Reading the feed…";
-    if (error && articles.length === 0) return `The feed is out of reach — ${error}`;
-    if (articles.length === 0) return "Nothing has come in yet.";
+    if (!loaded) return t("dashboard.news.loading");
+    if (errorText && articles.length === 0) return t("dashboard.news.outOfReach", { error: errorText });
+    if (articles.length === 0) return t("dashboard.news.nothingYet");
     if (shown.length > 0) return null;
-    if (query.trim()) return "Nothing matches that.";
-    if (scope === "positions") return held.length === 0 ? "No positions to follow yet." : "Nothing on your names right now.";
-    if (scope === "sector") return sector ? `Nothing in ${sector} right now.` : "Pick a sector.";
+    if (query.trim()) return t("dashboard.news.noMatch");
+    if (scope === "positions") {
+      return held.length === 0 ? t("dashboard.news.noPositions") : t("dashboard.news.nothingOnNames");
+    }
+    if (scope === "sector") return sector ? t("dashboard.news.nothingInSector", { sector }) : t("dashboard.news.pickSector");
     return null;
   })();
 
@@ -185,8 +167,8 @@ export default function NewsCard({
           pill and the three-dot menu, in the same places the Positions card
           keeps them. */}
       <div className="flex shrink-0 items-center justify-between">
-        <span className="select-none font-sans text-[11px] font-medium tracking-[0.08em] text-[#9CA3AF]">
-          NEWS
+        <span className="select-none font-sans text-[11px] font-medium tracking-[0.04em] text-[#9CA3AF]">
+          {t("dashboard.news.label")}
         </span>
         <div className="flex items-center gap-3">
           <motion.div
@@ -208,7 +190,7 @@ export default function NewsCard({
           >
             <button
               type="button"
-              aria-label={searchOpen ? "Close search" : "Search news"}
+              aria-label={searchOpen ? t("dashboard.card.closeSearch") : t("dashboard.news.search")}
               aria-expanded={searchOpen}
               onClick={() => {
                 if (searchOpen) {
@@ -239,8 +221,8 @@ export default function NewsCard({
               onBlur={() => {
                 if (!query.trim()) setSearchOpen(false);
               }}
-              placeholder="Search news"
-              aria-label="Search news"
+              placeholder={t("dashboard.news.search")}
+              aria-label={t("dashboard.news.search")}
               tabIndex={searchOpen ? 0 : -1}
               className={cn(
                 "app-no-drag ml-2 w-full min-w-0 bg-transparent text-[12.5px] text-[#1d1b1b] outline-none placeholder:text-[#9CA3AF]",
@@ -252,7 +234,7 @@ export default function NewsCard({
           <div ref={menuRef} data-no-lift className="relative flex -mr-[10px]">
             <button
               type="button"
-              aria-label="Card menu"
+              aria-label={t("dashboard.card.menu")}
               aria-haspopup="menu"
               aria-expanded={menuOpen}
               onClick={() => setMenuOpen((v) => !v)}
@@ -268,8 +250,8 @@ export default function NewsCard({
               <motion.div
                 {...DROPDOWN_FADE}
                 role="menu"
-                aria-label="Card actions"
-                className="app-no-drag absolute right-0 top-full z-50 mt-2 w-48 rounded-2xl border border-white/60 bg-white/70 p-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_18px_44px_rgba(0,0,0,0.14)] ring-1 ring-black/[0.04] backdrop-blur-xl backdrop-saturate-150"
+                aria-label={t("dashboard.card.actions")}
+                className="app-no-drag absolute right-0 top-full z-50 mt-2 w-48 rounded-2xl border border-white/60 bg-white p-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_18px_44px_rgba(0,0,0,0.14)] ring-1 ring-black/[0.06]"
               >
                 <button
                   role="menuitem"
@@ -281,7 +263,7 @@ export default function NewsCard({
                   className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-left text-[13px] font-medium text-[#1d1b1b] transition-colors hover:bg-black/[0.05]"
                 >
                   <Copy className="h-[15px] w-[15px] text-[#4b5563]" strokeWidth={1.75} aria-hidden />
-                  Duplicate
+                  {t("dashboard.card.duplicate")}
                 </button>
                 <div aria-hidden className="mx-2 my-1 h-px bg-black/[0.06]" />
                 <button
@@ -294,7 +276,7 @@ export default function NewsCard({
                   className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-left text-[13px] font-medium text-[#DC2626] transition-colors hover:bg-[#DC2626]/[0.06]"
                 >
                   <X className="h-[15px] w-[15px]" strokeWidth={2} aria-hidden />
-                  Delete module
+                  {t("dashboard.card.delete")}
                 </button>
               </motion.div>
             ) : null}
@@ -324,7 +306,7 @@ export default function NewsCard({
                     on ? "text-[#1d1b1b]" : "text-[#9CA3AF] hover:text-[#6b7280]",
                   )}
                 >
-                  {on && sector ? sector : s.label}
+                  {on && sector ? sector : t(s.label)}
                   <ChevronDown className="h-3 w-3" strokeWidth={2} aria-hidden />
                   {on ? <span aria-hidden className="absolute inset-x-0 bottom-0 h-px bg-[#1d1b1b]" /> : null}
                 </button>
@@ -332,12 +314,12 @@ export default function NewsCard({
                   {sectorOpen ? (
                     <motion.div
                       role="listbox"
-                      aria-label="Sector"
+                      aria-label={t("dashboard.news.scope.sector")}
                       {...DROPDOWN_FADE}
-                      className="scrollbar-meridian app-no-drag absolute left-0 top-full z-50 mt-2 max-h-56 w-52 overflow-y-auto rounded-2xl border border-white/60 bg-white/70 p-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_18px_44px_rgba(0,0,0,0.14)] ring-1 ring-black/[0.04] backdrop-blur-xl backdrop-saturate-150"
+                      className="scrollbar-meridian app-no-drag absolute left-0 top-full z-50 mt-2 max-h-56 w-52 overflow-y-auto rounded-2xl border border-white/60 bg-white p-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_18px_44px_rgba(0,0,0,0.14)] ring-1 ring-black/[0.06]"
                     >
                       {sectors.length === 0 ? (
-                        <p className="px-3 py-2 text-[12px] text-[#9CA3AF]">No sectors in the feed yet.</p>
+                        <p className="px-3 py-2 text-[12px] text-[#9CA3AF]">{t("dashboard.news.noSectors")}</p>
                       ) : (
                         sectors.map((name) => {
                           const picked = sector === name;
@@ -376,14 +358,14 @@ export default function NewsCard({
                 on ? "text-[#1d1b1b]" : "text-[#9CA3AF] hover:text-[#6b7280]",
               )}
             >
-              {s.label}
+              {t(s.label)}
               {on ? <span aria-hidden className="absolute inset-x-0 bottom-0 h-px bg-[#1d1b1b]" /> : null}
             </button>
           );
         })}
-        {error && articles.length > 0 ? (
-          <span className="ml-auto truncate text-[10.5px] text-[#9CA3AF]" title={error}>
-            last read failed
+        {errorText && articles.length > 0 ? (
+          <span className="ml-auto truncate text-[10.5px] text-[#9CA3AF]" title={errorText}>
+            {t("dashboard.news.lastReadFailed")}
           </span>
         ) : null}
       </div>
@@ -404,14 +386,19 @@ export default function NewsCard({
               const extra = names.length - TICKERS_SHOWN;
               const dir = a.event?.material ? a.event.direction : null;
               return (
-                <li key={a.id} className="border-b-[0.5px] border-black/[0.06] py-2.5 last:border-b-0">
-                  <p className="line-clamp-2 text-[13px] font-medium leading-snug text-[#1d1b1b]">
+                <li key={a.id} className="border-b-[0.5px] border-black/[0.06] last:border-b-0">
+                  <button
+                    type="button"
+                    onClick={() => setOpenArticle(a)}
+                    className="app-no-drag group block w-full py-2.5 text-left"
+                  >
+                  <p className="line-clamp-2 text-[13px] font-medium leading-snug text-[#1d1b1b] underline-offset-[3px] group-hover:underline">
                     {a.headline}
                   </p>
                   <div className="mt-1 flex items-center gap-1.5 text-[11px] text-[#9CA3AF]">
                     {a.source ? <span className="truncate">{a.source}</span> : null}
                     {a.source ? <span aria-hidden>·</span> : null}
-                    <span className="shrink-0 tabular-nums">{ago(a.datetime, now)}</span>
+                    <span className="shrink-0 tabular-nums">{agoLabel(a.datetime, now, locale, t("dashboard.news.justNow"))}</span>
                     {dir === "positive" || dir === "negative" ? (
                       <>
                         <span aria-hidden>·</span>
@@ -421,7 +408,7 @@ export default function NewsCard({
                             dir === "positive" ? "text-[#16A34A]" : "text-[#DC2626]",
                           )}
                         >
-                          {a.event?.event_type.replace(/_/g, " ")}
+                          {a.event ? eventTypeLabel(a.event.event_type, t) : null}
                         </span>
                       </>
                     ) : null}
@@ -444,12 +431,15 @@ export default function NewsCard({
                       ) : null}
                     </div>
                   ) : null}
+                  </button>
                 </li>
               );
             })}
           </ul>
         )}
       </div>
+
+      <NewsArticleModal article={openArticle} onClose={closeArticle} />
     </div>
   );
 }

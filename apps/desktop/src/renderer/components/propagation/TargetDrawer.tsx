@@ -3,6 +3,8 @@ import { ExternalLink, X } from "lucide-react";
 import type { AbsorptionPoint, PropagationRun, PropagationTarget } from "../../../shared/propagation-run-types";
 import type { GaugeContext } from "../../../shared/gauge-types";
 import GaugeContextBlock, { gaugeDirectionFromEvent } from "../gauge/GaugeContextBlock";
+import { useI18n } from "../../lib/i18n";
+import { formatList, plural } from "../../lib/panels-format";
 import {
   ACCENT,
   AMBER,
@@ -12,7 +14,6 @@ import {
   GAIN,
   LOSS,
   MUTED,
-  ROLE_WORD,
   directionColor,
   directionGlyph,
   directionWord,
@@ -24,6 +25,10 @@ import {
   fmtWhen,
   humanize,
   pricingWord,
+  roleWord,
+  strengthWord,
+  tierWord,
+  verdictWord,
 } from "./ripple-format";
 
 /**
@@ -66,6 +71,8 @@ function Badge({ word, open, vetoed, against }: { word: string; open: boolean; v
 }
 
 export default function TargetDrawer({ run, target: t, onClose }: Props) {
+  const { t: tr, tNodes, locale } = useI18n();
+  const na = tr("common.na");
   // How the reaction arrived, session by session. Live from the Tracker's
   // bars: the curve grows with every close, so it is fetched, never stored.
   const [curve, setCurve] = useState<AbsorptionPoint[]>([]);
@@ -119,7 +126,7 @@ export default function TargetDrawer({ run, target: t, onClose }: Props) {
         <div className="min-w-0">
           <div className="flex items-center gap-2">
             <h3 className="font-baskerville text-[22px] leading-none text-[#1d1b1b]">{t.ticker ?? t.label}</h3>
-            <Badge word={pricingWord(t)} open={open} vetoed={vetoed} against={against} />
+            <Badge word={pricingWord(t, tr)} open={open} vetoed={vetoed} against={against} />
           </div>
           {t.ticker && t.label !== t.ticker && <p className="mt-1 truncate text-[11px] text-[#9CA3AF]">{t.label}</p>}
         </div>
@@ -127,7 +134,7 @@ export default function TargetDrawer({ run, target: t, onClose }: Props) {
           type="button"
           onClick={onClose}
           className="app-no-drag -mr-1 rounded-md p-1 text-[#9CA3AF] transition-colors hover:bg-black/[0.04] hover:text-[#1d1b1b]"
-          aria-label="Close target"
+          aria-label={tr("panels.drawer.close")}
         >
           <X className="h-4 w-4" strokeWidth={1.75} />
         </button>
@@ -136,14 +143,19 @@ export default function TargetDrawer({ run, target: t, onClose }: Props) {
       <div className="scrollbar-meridian min-h-0 flex-1 overflow-y-auto px-5 pb-6 pt-4">
         {/* Relationship */}
         <section>
-          <p className="text-[10px] uppercase tracking-[0.14em] text-[#b4b4ae]">Relationship</p>
+          <p className="text-[10px] uppercase tracking-[0.14em] text-[#b4b4ae]">{tr("panels.drawer.relationship")}</p>
           <p className="mt-1.5 text-[13px] leading-snug text-[#1d1b1b]">
-            <span className="font-medium">{r.tier}</span> {ROLE_WORD[r.role]} of {run.root_ticker}
+            {tNodes("panels.drawer.relationOf", {
+              tier: <span className="font-medium">{strengthWord(r.tier, tr)}</span>,
+              role: roleWord(r.role, tr),
+              root: run.root_ticker,
+            })}
             {r.subtype ? <span className="text-[#6b7280]"> · {humanize(r.subtype)}</span> : null}
           </p>
           <p className="mt-0.5 text-[11px] text-[#9CA3AF]">
-            confidence {Math.round(r.confidence * 100)}% · asserted in {r.via === "both" ? "both filings" : `${filer}'s filing`}
-            {r.filing_date ? ` · ${fmtDay(r.filing_date)}` : ""}
+            {tr("panels.drawer.confidence", { pct: Math.round(r.confidence * 100) })} ·{" "}
+            {r.via === "both" ? tr("panels.drawer.assertedBoth") : tr("panels.drawer.assertedOne", { filer })}
+            {r.filing_date ? ` · ${fmtDay(r.filing_date, locale, na)}` : ""}
           </p>
           {/* A name can hold two roles toward the root at once. The engine
               keeps the strongest and folds the rest in (§4a); say which, and
@@ -154,18 +166,17 @@ export default function TargetDrawer({ run, target: t, onClose }: Props) {
               className="mt-1 text-[11px] leading-snug"
               style={{ color: t.transmission.role_conflict ? AMBER : "#9CA3AF" }}
             >
-              also {t.transmission.also_roles!.map((role) => ROLE_WORD[role]).join(" and ")} of{" "}
-              {run.root_ticker}
-              {t.transmission.role_conflict
-                ? " — the two roles point opposite ways, so no direction is called and the move is judged on size alone."
-                : "."}
+              {tr(t.transmission.role_conflict ? "panels.drawer.alsoRolesConflict" : "panels.drawer.alsoRoles", {
+                roles: formatList(t.transmission.also_roles!.map((role) => roleWord(role, tr)), locale),
+                root: run.root_ticker,
+              })}
             </p>
           )}
         </section>
 
         {/* Evidence — the trust moment */}
         <section className="mt-5">
-          <p className="text-[10px] uppercase tracking-[0.14em] text-[#b4b4ae]">From the filing</p>
+          <p className="text-[10px] uppercase tracking-[0.14em] text-[#b4b4ae]">{tr("panels.drawer.fromFiling")}</p>
           <blockquote className="mt-2 border-l-2 pl-3" style={{ borderColor: open ? ACCENT : "#1d1b1b" }}>
             <p className="font-baskerville text-[14px] leading-[1.6] text-[#1d1b1b]">“{r.evidence_quote}”</p>
           </blockquote>
@@ -176,13 +187,15 @@ export default function TargetDrawer({ run, target: t, onClose }: Props) {
                 onClick={() => openSource(r.source_url)}
                 className="app-no-drag inline-flex items-center gap-1 text-[11px] text-[#1d1b1b] underline decoration-[#cfcfc8] underline-offset-[3px] transition-colors hover:decoration-[#1d1b1b]"
               >
-                {filer} filing
+                {tr("panels.drawer.filingLink", { filer })}
                 <ExternalLink className="h-3 w-3" strokeWidth={1.75} />
               </button>
             ) : (
-              <span className="text-[11px] text-[#b4b4ae]">source unavailable</span>
+              <span className="text-[11px] text-[#b4b4ae]">{tr("panels.drawer.sourceUnavailable")}</span>
             )}
-            {r.merged_evidence.length > 0 && <span className="text-[11px] text-[#b4b4ae]">+{r.merged_evidence.length} more edge{r.merged_evidence.length === 1 ? "" : "s"}</span>}
+            {r.merged_evidence.length > 0 && (
+              <span className="text-[11px] text-[#b4b4ae]">{plural(tr, locale, "panels.drawer.moreEdges", r.merged_evidence.length)}</span>
+            )}
           </div>
           {r.merged_evidence.slice(0, 2).map((m) => (
             <p key={m.edge_id} className="mt-2 text-[11.5px] leading-relaxed text-[#6b7280]">
@@ -193,11 +206,11 @@ export default function TargetDrawer({ run, target: t, onClose }: Props) {
 
         {/* Mechanism */}
         <section className="mt-5">
-          <p className="text-[10px] uppercase tracking-[0.14em] text-[#b4b4ae]">Mechanism</p>
+          <p className="text-[10px] uppercase tracking-[0.14em] text-[#b4b4ae]">{tr("panels.drawer.mechanism")}</p>
           <p className="mt-1.5 text-[13px] leading-relaxed text-[#1d1b1b]">{t.mechanism}</p>
           <p className="mt-1.5 text-[11px]" style={{ color: dirColor }}>
-            {directionGlyph(t.transmission.direction)} {directionWord(t.transmission.direction)} · {t.transmission.tier}
-            {t.transmission.transmits === "weak" ? " · weak transmission" : ""}
+            {directionGlyph(t.transmission.direction)} {directionWord(t.transmission.direction, tr)} · {tierWord(t.transmission.tier, tr)}
+            {t.transmission.transmits === "weak" ? ` · ${tr("panels.drawer.weakTransmission")}` : ""}
             <span className="text-[#b4b4ae]"> · {t.transmission.matrix_cell}</span>
           </p>
         </section>
@@ -205,34 +218,58 @@ export default function TargetDrawer({ run, target: t, onClose }: Props) {
         {/* Pricing math */}
         <section className="mt-5 rounded-xl border border-[#e6e6e0] bg-[#fbfbf9] px-3.5 py-3">
           <div className="flex items-center justify-between">
-            <p className="text-[10px] uppercase tracking-[0.14em] text-[#b4b4ae]">Pricing check</p>
-            <span className="text-[10px] text-[#9CA3AF]">{t.tracked ? p.basis === "residual" ? "beta-adjusted residual" : p.basis === "raw" ? "raw move" : "—" : "not tracked"}</span>
+            <p className="text-[10px] uppercase tracking-[0.14em] text-[#b4b4ae]">{tr("panels.drawer.pricingCheck")}</p>
+            <span className="text-[10px] text-[#9CA3AF]">
+              {t.tracked
+                ? p.basis === "residual"
+                  ? tr("panels.drawer.basis.residual")
+                  : p.basis === "raw"
+                    ? tr("panels.drawer.basis.raw")
+                    : na
+                : tr("panels.drawer.notTracked")}
+            </span>
           </div>
           {t.tracked ? (
             <div className="mt-1.5">
-              <Row label="Reference close" value={`${fmtMoney(p.reference_close)} · ${fmtWhen(p.reference_close_ts)}`} />
-              <Row label="Last price" value={`${fmtMoney(p.last_price)} · ${fmtWhen(p.last_price_ts)}`} />
-              <Row label="Raw move" value={fmtPct(p.realized_raw_pct)} tone={(p.realized_raw_pct ?? 0) > 0 ? GAIN : (p.realized_raw_pct ?? 0) < 0 ? LOSS : undefined} />
-              {p.basis === "residual" && <Row label={`Benchmark × β ${fmtNum(p.beta)}`} value={fmtPct(p.bench_move_pct)} />}
-              <Row label="Realized residual" value={fmtPct(p.realized_resid_pct)} tone={(p.realized_resid_pct ?? 0) > 0 ? GAIN : (p.realized_resid_pct ?? 0) < 0 ? LOSS : undefined} />
-              <Row label="Expected scale" value={p.expected_pct == null ? "—" : `±${fmtAbsPct(p.expected_pct)}`} />
-              <Row label="Ratio" value={p.ratio == null ? "—" : `${fmtNum(p.ratio)}×`} />
-              <Row label="Sessions since" value={p.sessions_elapsed == null ? "—" : String(p.sessions_elapsed)} />
+              <Row label={tr("panels.drawer.referenceClose")} value={`${fmtMoney(p.reference_close, na)} · ${fmtWhen(p.reference_close_ts, locale, na)}`} />
+              <Row label={tr("panels.drawer.lastPrice")} value={`${fmtMoney(p.last_price, na)} · ${fmtWhen(p.last_price_ts, locale, na)}`} />
+              <Row
+                label={tr("panels.drawer.rawMove")}
+                value={fmtPct(p.realized_raw_pct, 2, na)}
+                tone={(p.realized_raw_pct ?? 0) > 0 ? GAIN : (p.realized_raw_pct ?? 0) < 0 ? LOSS : undefined}
+              />
+              {p.basis === "residual" && (
+                <Row label={tr("panels.drawer.benchmark", { beta: fmtNum(p.beta, 2, na) })} value={fmtPct(p.bench_move_pct, 2, na)} />
+              )}
+              <Row
+                label={tr("panels.drawer.realizedResidual")}
+                value={fmtPct(p.realized_resid_pct, 2, na)}
+                tone={(p.realized_resid_pct ?? 0) > 0 ? GAIN : (p.realized_resid_pct ?? 0) < 0 ? LOSS : undefined}
+              />
+              <Row label={tr("panels.drawer.expectedScale")} value={p.expected_pct == null ? na : `±${fmtAbsPct(p.expected_pct, 2, na)}`} />
+              <Row label={tr("panels.drawer.ratio")} value={p.ratio == null ? na : `${fmtNum(p.ratio, 2, na)}×`} />
+              <Row label={tr("panels.drawer.sessionsSince")} value={p.sessions_elapsed == null ? na : String(p.sessions_elapsed)} />
               <div className="mt-1.5 flex items-center justify-between border-t border-[#ebebe5] pt-2">
-                <span className="text-[11px] text-[#6b7280]">Status</span>
-                <Badge word={pricingWord(t)} open={open} vetoed={vetoed} against={against} />
+                <span className="text-[11px] text-[#6b7280]">{tr("panels.drawer.status")}</span>
+                <Badge word={pricingWord(t, tr)} open={open} vetoed={vetoed} against={against} />
               </div>
               {against && (
                 <p className="mt-2 rounded-md px-2 py-1.5 text-[11px] leading-relaxed" style={{ background: AMBER_SOFT, color: AMBER }}>
-                  Moved against the expected direction — {directionWord(t.transmission.direction)} was expected, the residual is{" "}
-                  {fmtPct(p.realized_resid_pct)} ({p.ratio == null ? "—" : `${fmtNum(p.ratio)}× the expected ${fmtAbsPct(p.expected_pct)}`}).
+                  {tr("panels.drawer.against", {
+                    direction: directionWord(t.transmission.direction, tr),
+                    residual: fmtPct(p.realized_resid_pct, 2, na),
+                    ratio:
+                      p.ratio == null
+                        ? na
+                        : tr("panels.drawer.againstRatio", { ratio: fmtNum(p.ratio, 2, na), expected: fmtAbsPct(p.expected_pct, 2, na) }),
+                  })}
                 </p>
               )}
               {p.note && <p className="mt-2 text-[10.5px] leading-relaxed text-[#9CA3AF]">{p.note}</p>}
             </div>
           ) : (
             <p className="mt-1.5 text-[11.5px] leading-relaxed text-[#6b7280]">
-              {t.ticker ? `${t.ticker} is not in the Tracker universe — the mechanism and evidence stand; the tape is unknown.` : "Name-only counterparty — no ticker to price."}
+              {t.ticker ? tr("panels.drawer.untrackedTicker", { ticker: t.ticker }) : tr("panels.drawer.nameOnly")}
             </p>
           )}
         </section>
@@ -244,8 +281,8 @@ export default function TargetDrawer({ run, target: t, onClose }: Props) {
         {curve.length > 0 && (
           <section className="mt-5">
             <div className="flex items-baseline justify-between">
-              <p className="text-[10px] uppercase tracking-[0.14em] text-[#b4b4ae]">How it arrived</p>
-              <span className="text-[10px] text-[#9CA3AF]">cumulative residual · × the called move</span>
+              <p className="text-[10px] uppercase tracking-[0.14em] text-[#b4b4ae]">{tr("panels.drawer.howItArrived")}</p>
+              <span className="text-[10px] text-[#9CA3AF]">{tr("panels.drawer.curveLegend")}</span>
             </div>
             <div className="mt-2 space-y-[3px]">
               {curve.map((p) => {
@@ -258,10 +295,10 @@ export default function TargetDrawer({ run, target: t, onClose }: Props) {
                 return (
                   <div key={p.date} className="flex items-center gap-2">
                     <span className="w-[46px] shrink-0 text-[10px] text-[#9CA3AF]">
-                      {p.session === 0 ? "day 0" : `day ${p.session}`}
+                      {tr("panels.drawer.day", { n: p.session })}
                     </span>
                     <span className="w-[54px] shrink-0 font-mono text-[10.5px] tabular-nums" style={{ color: p.residual_pct >= 0 ? GAIN : LOSS }}>
-                      {fmtPct(p.residual_pct)}
+                      {fmtPct(p.residual_pct, 2, na)}
                     </span>
                     <div className="h-[6px] flex-1 overflow-hidden rounded-full bg-[#f1f1ec]">
                       <div
@@ -270,7 +307,7 @@ export default function TargetDrawer({ run, target: t, onClose }: Props) {
                       />
                     </div>
                     <span className="w-[46px] shrink-0 text-right font-mono text-[10.5px] tabular-nums text-[#6b7280]">
-                      {m == null ? "—" : `${m.toFixed(1)}×`}
+                      {m == null ? na : `${m.toFixed(1)}×`}
                     </span>
                   </div>
                 );
@@ -278,25 +315,27 @@ export default function TargetDrawer({ run, target: t, onClose }: Props) {
             </div>
             <p className="mt-2 text-[10.5px] leading-relaxed text-[#9CA3AF]">
               {curve.length > 1 && Math.abs(curve[curve.length - 1].residual_pct) > Math.abs(curve[0].residual_pct) * 1.2
-                ? "The move kept going after day 0 — the expected scale understated it."
-                : "Most of the move was in by the first close."}
+                ? tr("panels.drawer.keptGoing")
+                : tr("panels.drawer.mostlyIn")}
             </p>
           </section>
         )}
 
         {/* Stage-2 */}
         <section className="mt-5">
-          <p className="text-[10px] uppercase tracking-[0.14em] text-[#b4b4ae]">Refinement</p>
+          <p className="text-[10px] uppercase tracking-[0.14em] text-[#b4b4ae]">{tr("panels.drawer.refinement")}</p>
           {t.stage2 ? (
             <div className="mt-1.5">
               <p className="text-[12px] text-[#1d1b1b]">
-                <span className="font-medium capitalize">{t.stage2.verdict}</span>
-                {t.stage2.direction ? <span className="text-[#6b7280]"> · resolved {directionWord(t.stage2.direction)}</span> : null}
+                <span className="font-medium">{verdictWord(t.stage2.verdict, tr)}</span>
+                {t.stage2.direction ? (
+                  <span className="text-[#6b7280]"> · {tr("panels.drawer.resolvedDirection", { direction: directionWord(t.stage2.direction, tr) })}</span>
+                ) : null}
               </p>
               {t.stage2.rationale && <p className="mt-1 text-[12px] leading-relaxed text-[#6b7280]">{t.stage2.rationale}</p>}
             </div>
           ) : (
-            <p className="mt-1.5 text-[11.5px] text-[#9CA3AF]">{run.status === "ok" ? "Confirmed as produced by stage-1." : "Refinement unavailable — stage-1 template."}</p>
+            <p className="mt-1.5 text-[11.5px] text-[#9CA3AF]">{run.status === "ok" ? tr("panels.drawer.confirmedStage1") : tr("panels.drawer.stage1Template")}</p>
           )}
         </section>
       </div>

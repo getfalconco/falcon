@@ -6,6 +6,7 @@ import { Search, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Kbd } from "@/components/ui/kbd";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useT } from "@/lib/i18n";
 
 // Utility function to detect OS and return appropriate modifier key
 export const getModifierKey = () => {
@@ -54,8 +55,18 @@ const useCommandMenu = () => {
   return context;
 };
 
-// Core CommandMenu component using Dialog
-const CommandMenu = DialogPrimitive.Root;
+/**
+ * The menu is a Radix Dialog run non-modal by default. Modal, Radix locks
+ * the page's scroll by injecting a stylesheet and turns off pointer events
+ * on <body>: each forces a restyle of every element on the page, twice per
+ * open, which was most of the delay between the click and the first frame
+ * of the menu. Non-modal it still takes focus, closes on Escape, on a click
+ * outside and on focus leaving it; the scrim below covers the page, so
+ * nothing behind it can be clicked or scrolled either.
+ */
+const CommandMenu = ({ modal = false, ...props }: React.ComponentProps<typeof DialogPrimitive.Root>) => (
+  <DialogPrimitive.Root modal={modal} {...props} />
+);
 const CommandMenuTrigger = DialogPrimitive.Trigger;
 const CommandMenuPortal = DialogPrimitive.Portal;
 const CommandMenuClose = DialogPrimitive.Close;
@@ -85,21 +96,21 @@ const CommandMenuDescription = React.forwardRef<
 ));
 CommandMenuDescription.displayName = "CommandMenuDescription";
 
-// Overlay with backdrop blur
-const CommandMenuOverlay = React.forwardRef<
-  React.ElementRef<typeof DialogPrimitive.Overlay>,
-  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>
->(({ className, ...props }, ref) => (
-  <DialogPrimitive.Overlay ref={ref} asChild {...props}>
+// The scrim behind the menu. A plain element, not Radix's Overlay: that one
+// only renders for a modal dialog (see CommandMenu above).
+const CommandMenuOverlay = React.forwardRef<HTMLDivElement, { className?: string }>(
+  ({ className }, ref) => (
     <motion.div
+      ref={ref}
+      aria-hidden
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.18 }}
-      className={cn("fixed inset-0 z-50 bg-black/50 backdrop-blur-sm", className)}
+      className={cn("app-no-drag fixed inset-0 z-50 bg-black/50 backdrop-blur-sm", className)}
     />
-  </DialogPrimitive.Overlay>
-));
+  ),
+);
 CommandMenuOverlay.displayName = "CommandMenuOverlay";
 
 // Main content container with keyboard navigation
@@ -107,6 +118,8 @@ const CommandMenuContent = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> & {
     showShortcut?: boolean;
+    /** The keycaps in the corner badge. Left out, the badge reads ⌘K / Ctrl K. */
+    shortcutKeys?: readonly string[];
     scrollType?: "auto" | "always" | "scroll" | "hover";
     scrollHideDelay?: number;
     overlayClassName?: string;
@@ -117,6 +130,7 @@ const CommandMenuContent = React.forwardRef<
       className,
       children,
       showShortcut = true,
+      shortcutKeys,
       scrollType = "hover",
       scrollHideDelay = 600,
       overlayClassName,
@@ -124,6 +138,7 @@ const CommandMenuContent = React.forwardRef<
     },
     ref,
   ) => {
+    const t = useT();
     const [value, setValue] = React.useState("");
     const [selectedIndex, setSelectedIndex] = React.useState(0);
 
@@ -164,20 +179,23 @@ const CommandMenuContent = React.forwardRef<
               scrollHideDelay={scrollHideDelay}
             >
               <VisuallyHidden.Root>
-                <CommandMenuTitle>Command Menu</CommandMenuTitle>
+                <CommandMenuTitle>{t("shell.commandMenu.title")}</CommandMenuTitle>
               </VisuallyHidden.Root>
 
               {children}
 
               <CommandMenuClose className="absolute right-3 top-3 rounded-lg p-1.5 text-muted-foreground hover:text-foreground hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring transition-colors">
                 <X size={14} />
-                <span className="sr-only">Close</span>
+                <span className="sr-only">{t("common.close")}</span>
               </CommandMenuClose>
 
               {showShortcut && (
                 <div className="absolute right-12 top-3 flex h-[26px] items-center justify-center gap-1">
-                  <Kbd size="xs">{getModifierKey().symbol}</Kbd>
-                  <Kbd size="xs">K</Kbd>
+                  {(shortcutKeys ?? [getModifierKey().symbol, "K"]).map((k) => (
+                    <Kbd key={k} size="xs">
+                      {k}
+                    </Kbd>
+                  ))}
                 </div>
               )}
             </CommandMenuProvider>
@@ -195,8 +213,9 @@ const CommandMenuInput = React.forwardRef<
   React.InputHTMLAttributes<HTMLInputElement> & {
     placeholder?: string;
   }
->(({ className, placeholder = "Type a command or search...", ...props }, ref) => {
+>(({ className, placeholder, ...props }, ref) => {
   const { value, setValue } = useCommandMenu();
+  const t = useT();
 
   return (
     <div className="flex items-center border-b border-border px-3 py-0">
@@ -209,7 +228,7 @@ const CommandMenuInput = React.forwardRef<
           "flex h-12 w-full rounded-none border-0 bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50",
           className,
         )}
-        placeholder={placeholder}
+        placeholder={placeholder ?? t("shell.commandMenu.placeholder")}
         {...props}
       />
     </div>

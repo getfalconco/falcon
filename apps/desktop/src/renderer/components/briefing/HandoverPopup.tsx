@@ -1,14 +1,15 @@
 import { useCallback, useEffect, useId, useMemo, useRef, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import logoBlack from "@/assets/brand/logo-black.png";
+import { AnimatePresence, motion } from "framer-motion";
+import { useReducedMotionPref } from "@/lib/motion";
+import BrandLogo from "@/components/BrandLogo";
 import { useBriefing } from "@/hooks/useBriefing";
 import { refreshBriefing } from "@/lib/briefing-store";
+import { useT } from "@/lib/i18n";
 import { openStock } from "@/lib/stock-open";
 import { cn } from "@/lib/utils";
 import { viewNow } from "../../../shared/briefing-view";
 import {
-  HANDOVER_INTRO,
   etDateLabel,
   etTimeLabel,
   handoverView,
@@ -16,6 +17,7 @@ import {
   type HandoverSection,
 } from "../../../shared/handover-view";
 import { HEAD_CLASS, MONO_CLASS, QUIET_NOTE_CLASS } from "./briefing-styles";
+import { useBriefingText } from "./use-briefing-text";
 
 type Props = {
   open: boolean;
@@ -46,6 +48,7 @@ function openArticle(url: string) {
  * one line until then, so the popup stays a glance.
  */
 function HandoverLine({ item, onOpenStock }: { item: HandoverItem; onOpenStock: (ticker: string) => void }) {
+  const t = useT();
   const [expanded, setExpanded] = useState(false);
   const detailId = useId();
   const hasMore = item.detail !== null || item.meaning !== null || item.url !== null;
@@ -70,7 +73,7 @@ function HandoverLine({ item, onOpenStock }: { item: HandoverItem; onOpenStock: 
         </p>
         {hasMore && (
           <button type="button" aria-expanded={expanded} aria-controls={detailId} onClick={() => setExpanded((e) => !e)} className={LINK_CLASS}>
-            {expanded ? "Show less" : "See more"}
+            {expanded ? t("briefing.handover.showLess") : t("briefing.handover.seeMore")}
           </button>
         )}
       </div>
@@ -80,7 +83,7 @@ function HandoverLine({ item, onOpenStock }: { item: HandoverItem; onOpenStock: 
           {item.meaning !== null && <p className="text-[#1d1b1b]">{item.meaning}</p>}
           {item.url !== null && (
             <button type="button" onClick={() => openArticle(item.url!)} className={LINK_CLASS}>
-              Read the source
+              {t("briefing.handover.readSource")}
             </button>
           )}
         </div>
@@ -112,6 +115,8 @@ function Centred({ children }: { children: ReactNode }) {
  */
 function HandoverContent({ titleId, masked, onClose }: { titleId: string; masked: boolean; onClose: () => void }) {
   const { status, report } = useBriefing();
+  const text = useBriefingText();
+  const t = useT();
 
   const [tick, setTick] = useState(0);
   useEffect(() => {
@@ -121,7 +126,7 @@ function HandoverContent({ titleId, masked, onClose }: { titleId: string; masked
   // `tick` is the only reason this recomputes between reports: the view takes
   // the clock as an argument, and this is the one place the popup reads it.
   const now = useMemo(() => (report ? viewNow(report, new Date()) : new Date()), [report, tick]);
-  const view = useMemo(() => (report ? handoverView(report, now, masked) : null), [report, now, masked]);
+  const view = useMemo(() => (report ? handoverView(report, now, masked, text) : null), [report, now, masked, text]);
 
   // Leaving for a stock page closes the popup first, or the page opens under it.
   const openFromPopup = useCallback(
@@ -136,15 +141,15 @@ function HandoverContent({ titleId, masked, onClose }: { titleId: string; masked
   if (view === null && status === "unsupported") {
     body = (
       <Centred>
-        <p className="text-[13px] text-[#6b7280]">Restart Falcon to enable the handover.</p>
+        <p className="text-[13px] text-[#6b7280]">{t("briefing.handover.restart")}</p>
       </Centred>
     );
   } else if (view === null && status === "error") {
     body = (
       <Centred>
-        <p className="text-[14px] text-[#1d1b1b]">The handover could not be put together right now.</p>
+        <p className="text-[14px] text-[#1d1b1b]">{t("briefing.handover.error")}</p>
         <button type="button" onClick={() => void refreshBriefing()} className="glass-cta app-no-drag mt-1 px-3.5 py-1.5 font-sans text-[12px] font-medium">
-          Try again
+          {t("briefing.tryAgain")}
         </button>
       </Centred>
     );
@@ -161,7 +166,7 @@ function HandoverContent({ titleId, masked, onClose }: { titleId: string; masked
   } else if (view.empty) {
     body = (
       <Centred>
-        <p className="text-[13.5px] text-[#4b5563]">A quiet night: nothing since the last close made the summary.</p>
+        <p className="text-[13.5px] text-[#4b5563]">{t("briefing.handover.quiet")}</p>
       </Centred>
     );
   } else {
@@ -180,12 +185,12 @@ function HandoverContent({ titleId, masked, onClose }: { titleId: string; masked
     <>
       <header className="flex items-start gap-4">
         <h2 id={titleId} className="min-w-0 flex-1 font-baskerville text-[21px] leading-[1.25] text-[#1d1b1b]">
-          {view?.intro ?? HANDOVER_INTRO}
+          {view?.intro ?? t("briefing.handover.intro")}
         </h2>
         <button
           type="button"
           onClick={onClose}
-          aria-label="Close"
+          aria-label={t("common.close")}
           className="app-no-drag -mr-1 -mt-1 flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[#9CA3AF] transition-colors hover:bg-black/[0.05] hover:text-[#1d1b1b] focus-visible:bg-black/[0.05] focus-visible:outline-none"
         >
           <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" aria-hidden>
@@ -199,15 +204,15 @@ function HandoverContent({ titleId, masked, onClose }: { titleId: string; masked
 
       {(partial || report?.demo) && (
         <p className={cn(QUIET_NOTE_CLASS, "mt-3")}>
-          {report?.demo ? "Demo book: the figures are illustrative." : "Some sources could not be reached, so this summary is partial."}
+          {report?.demo ? t("briefing.handover.demo") : t("briefing.handover.partial")}
         </p>
       )}
 
       {/* The design's bottom row: the time on the left, the mark in the middle, the date on the right. */}
       <footer className="mt-4 grid grid-cols-[1fr_auto_1fr] items-center border-t border-black/[0.06] pt-3.5">
-        <span className={cn(MONO_CLASS, "justify-self-start text-[12px] text-[#4b5563]")}>{view?.time ?? etTimeLabel(now)}</span>
-        <img src={logoBlack} alt="Falcon" className="h-6 w-6 select-none opacity-30" draggable={false} />
-        <span className={cn(MONO_CLASS, "justify-self-end text-[12px] text-[#4b5563]")}>{view?.date || etDateLabel(now)}</span>
+        <span className={cn(MONO_CLASS, "justify-self-start text-[12px] text-[#4b5563]")}>{view?.time ?? etTimeLabel(now, text)}</span>
+        <BrandLogo className="h-6 w-6 select-none opacity-30" draggable={false} />
+        <span className={cn(MONO_CLASS, "justify-self-end text-[12px] text-[#4b5563]")}>{view?.date || etDateLabel(now, text)}</span>
       </footer>
     </>
   );
@@ -220,7 +225,7 @@ function HandoverContent({ titleId, masked, onClose }: { titleId: string; masked
  * dashboard does not scroll underneath.
  */
 export default function HandoverPopup({ open, onClose, masked }: Props) {
-  const reduced = useReducedMotion() === true;
+  const reduced = useReducedMotionPref();
   const titleId = useId();
   const panelRef = useRef<HTMLDivElement>(null);
 

@@ -1,51 +1,75 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowLeft, Loader2 } from "lucide-react";
 import { EASE } from "@meridian/ui";
 import type { User } from "@supabase/supabase-js";
 import type { ExperienceLevel, SectorId } from "../../../shared/user-preferences";
 import { SECTOR_IDS } from "../../../shared/user-preferences";
-import type { OnboardingSurveyAnswers } from "../../../shared/onboarding-survey";
+import type { StockCatalogEntry } from "../../../shared/stock-catalog";
 import {
+  DASHBOARD_CARD_ORDER,
+  defaultDeskCards,
+  deskCardOrder,
+  inCardOrder,
+  type DashboardCard,
+  type HoldingPeriod,
+  type PositionsMode,
+} from "../../../shared/onboarding-desk";
+import {
+  DESK_CARD_LABEL_KEYS,
   EXPERIENCE_OPTIONS,
-  INVESTOR_ROLE_OPTIONS,
-  RESEARCH_FOCUS_OPTIONS,
-  SECTOR_LABELS,
-  SECTOR_PREVIEWS,
+  HOLDING_OPTIONS,
+  SECTOR_LABEL_KEYS,
 } from "@/lib/onboarding-copy";
-import {
-  hasFullName,
-  readPreferences,
-  saveFullName,
-  saveOnboardingProfile,
-} from "@/lib/user-preferences";
-import { submitOnboardingSurvey } from "@/lib/onboarding";
+import { hasFullName, readPreferences, saveFullName, saveOnboardingProfile } from "@/lib/user-preferences";
+import { inferCountry, submitOnboardingSurvey } from "@/lib/onboarding";
+import { readFirstReading, requestCoverage, type FirstReading } from "@/lib/onboarding-reading";
+import { writeCardOrder } from "@/lib/card-order";
+import { CANVAS_LAYOUT_KEY } from "@/lib/canvas-layout";
+import { DASHBOARD_CONFIG, isCardHidden } from "@/lib/dashboard-config";
+import { getAccessToken } from "@/lib/broker-links";
+import { heldSymbols } from "@/lib/portfolio-coverage";
+import { getWatchlist, toggleFollow } from "@/lib/watchlist";
+import { useI18n, type MessageKey } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 import {
   OnboardingContinueButton,
-  OnboardingCountrySelect,
   OnboardingOptionButton,
   OnboardingProgress,
   OnboardingShell,
   OnboardingSkipLink,
   onboardingInputClass,
 } from "@/components/onboarding/onboarding-ui";
+import TickerField from "@/components/onboarding/TickerField";
+import { listNames, wordFact } from "@/components/onboarding/reading-words";
 
-type LinearStep = "intro" | "country" | "role" | "tenure" | "focus" | "sectors" | "heard_about";
+/**
+ * Setup: five screens and a closing, about a minute. Every question changes
+ * something the reader sees: the name greets them, their names fill the
+ * watchlist and the first reading, the holding period picks the desk, the
+ * depth sets how much is explained, and the desk screen is the dashboard
+ * they open. It ends on a sentence about their own positions rather than a
+ * "Finish" button.
+ *
+ *   name -> holdings (-> sectors, only when no tickers were given) -> holding
+ *        -> depth -> desk -> reading
+ */
 
-const LINEAR_STEPS: LinearStep[] = [
-  "intro",
-  "country",
-  "role",
-  "tenure",
-  "focus",
-  "sectors",
-  "heard_about",
-];
+type Step = "name" | "holdings" | "sectors" | "holding" | "depth" | "desk" | "reading";
 
-type Step = "name" | LinearStep | "beat";
+/** The steps the counter counts; the sectors fallback stands in for holdings. */
+const COUNTED: Step[] = ["holdings", "holding", "depth", "desk"];
 
-const SECTOR_BEAT_MS = 4800;
+/** Where the flow can open. The preview harness also opens on the holdings sub-screens. */
+export type OnboardingStep = Step | "tickers" | "watch" | "brokerage";
+
+/** Starting answers, for the preview harness. */
+export type OnboardingPreset = {
+  tickers?: string[];
+  mode?: PositionsMode;
+  holding?: HoldingPeriod;
+  reading?: FirstReading;
+};
 
 type Props = {
   user: User;
@@ -53,58 +77,65 @@ type Props = {
   onNameCaptured: () => void;
   onBackToName: () => void;
   onComplete: () => void;
+  /** Where to open; the preview harness uses it to show one step. Defaults by whether a name is saved. */
+  initialStep?: OnboardingStep;
+  preset?: OnboardingPreset;
 };
 
-function firstName(fullName: string): string {
-  const part = fullName.trim().split(/\s+/)[0];
-  return part || fullName.trim();
+/** How "What do you hold?" is being answered on its second screen. */
+type EntryMode = "tickers" | "watch" | "brokerage";
+
+const VISIBLE_CARDS = DASHBOARD_CARD_ORDER.filter((card) => !isCardHidden(card));
+
+const enter = {
+  initial: { opacity: 0, x: 16 },
+  animate: { opacity: 1, x: 0 },
+  exit: { opacity: 0, y: -8 },
+  transition: { duration: 0.45, ease: EASE },
+};
+
+function Title({ children, size = "md" }: { children: React.ReactNode; size?: "md" | "lg" }) {
+  return (
+    <h1
+      className={cn(
+        "font-serif font-normal tracking-[0.01em] text-white",
+        size === "lg" ? "text-[2.5rem] leading-[1.2]" : "text-[2rem] leading-[1.25]",
+      )}
+    >
+      {children}
+    </h1>
+  );
 }
 
-type SelectStepProps<T extends string> = {
-  title: React.ReactNode;
-  subtitle?: React.ReactNode;
-  options: { id: T; label: string }[];
-  value: T | null;
-  onSelect: (id: T) => void;
-  onContinue: () => void;
-};
-
-function SelectStep<T extends string>({
-  title,
-  subtitle,
-  options,
-  value,
-  onSelect,
-  onContinue,
-}: SelectStepProps<T>) {
+function Subtitle({ children }: { children: React.ReactNode }) {
   return (
-    <OnboardingShell>
-      <header className="text-center">
-        <h1 className="font-serif text-[2rem] font-normal leading-[1.25] tracking-[0.01em] text-white">
-          {title}
-        </h1>
-        {subtitle ? (
-          <p className="mt-4 text-sm leading-relaxed text-[#888888]">{subtitle}</p>
-        ) : null}
-      </header>
-
-      <div className="mt-8 space-y-2">
-        {options.map((option) => (
-          <OnboardingOptionButton
-            key={option.id}
-            selected={value === option.id}
-            onClick={() => onSelect(option.id)}
-          >
-            {option.label}
-          </OnboardingOptionButton>
-        ))}
-      </div>
-
-      <OnboardingContinueButton disabled={!value} onClick={onContinue} className="mt-6">
-        Continue
-      </OnboardingContinueButton>
-    </OnboardingShell>
+    <p className="mt-4 text-balance text-sm leading-relaxed text-[#888888] [word-break:auto-phrase]">{children}</p>
   );
+}
+
+/**
+ * Writes the chosen desk where the dashboard reads it: the card order Add
+ * Module and the canvas share (lib/card-order), which also marks every kind
+ * as offered, so a card left off stays off on later launches. The saved canvas is cleared, so the
+ * dashboard lays the chosen cards out afresh instead of reconciling an older
+ * arrangement around them.
+ */
+function writeDesk(cards: DashboardCard[]): void {
+  try {
+    writeCardOrder(localStorage, deskCardOrder(cards, DASHBOARD_CONFIG.hiddenCards), DASHBOARD_CARD_ORDER);
+    localStorage.removeItem(CANVAS_LAYOUT_KEY);
+  } catch {
+    /* a blocked store opens the default dashboard instead */
+  }
+}
+
+/** Typed names go on the watchlist, which the calendar's earnings rows and the stock view read. */
+function writeWatchlist(tickers: string[], names: Record<string, string>): void {
+  const followed = new Set(getWatchlist().map((e) => e.ticker.toUpperCase()));
+  // In reverse, since a follow goes to the top: the list reads in the order typed.
+  for (const ticker of [...tickers].reverse()) {
+    if (!followed.has(ticker)) toggleFollow({ ticker, companyName: names[ticker] ?? ticker });
+  }
 }
 
 export default function OnboardingFlow({
@@ -113,62 +144,87 @@ export default function OnboardingFlow({
   onNameCaptured,
   onBackToName,
   onComplete,
+  initialStep,
+  preset,
 }: Props) {
+  const { t, tNodes, locale } = useI18n();
+  const br = { br: <br /> };
   const initial = readPreferences(user);
-  const [step, setStep] = useState<Step>(hasFullName(user) ? "intro" : "name");
+  const presetEntry: EntryMode | null =
+    initialStep === "tickers" || initialStep === "watch" || initialStep === "brokerage" ? initialStep : null;
+  const [step, setStep] = useState<Step>(
+    presetEntry ? "holdings" : (initialStep as Step | undefined) ?? (hasFullName(user) ? "holdings" : "name"),
+  );
   const [fullName, setFullName] = useState(initial.fullName);
   const [nameInput, setNameInput] = useState(initial.fullName);
-  const [investorRole, setInvestorRole] = useState<OnboardingSurveyAnswers["investorRole"]>(null);
-  const [investorRoleOther, setInvestorRoleOther] = useState("");
-  const [experience, setExperience] = useState<ExperienceLevel | null>(initial.experience);
-  const [focus, setFocus] = useState<OnboardingSurveyAnswers["researchFocus"]>(null);
+
+  // What do you hold?
+  const [entry, setEntry] = useState<EntryMode | null>(presetEntry);
+  const [brokerageOpened, setBrokerageOpened] = useState(presetEntry === "brokerage");
+  const [connecting, setConnecting] = useState(false);
+  const [tickers, setTickers] = useState<string[]>(preset?.tickers ?? []);
+  const [names, setNames] = useState<Record<string, string>>({});
+  const [positionsMode, setPositionsMode] = useState<PositionsMode | null>(preset?.mode ?? null);
   const [sectors, setSectors] = useState<SectorId[]>(initial.sectors);
-  const [previewSector, setPreviewSector] = useState<SectorId | null>(initial.sectors[0] ?? null);
-  const [country, setCountry] = useState("");
-  const [heardAbout, setHeardAbout] = useState("");
+
+  const [holding, setHolding] = useState<HoldingPeriod | null>(preset?.holding ?? initial.holdingPeriod);
+  const [experience, setExperience] = useState<ExperienceLevel | null>(initial.experience);
+  // The desk follows the holding period until the reader changes a card by hand.
+  const [deskCards, setDeskCards] = useState<DashboardCard[]>(() =>
+    preset?.holding ? defaultDeskCards(preset.holding) : initial.deskCards,
+  );
+  const [deskFor, setDeskFor] = useState<HoldingPeriod | null>(preset?.holding ?? null);
+  const [deskTouched, setDeskTouched] = useState(false);
+
+  const [reading, setReading] = useState<FirstReading | null>(preset?.reading ?? null);
+  const readingRun = useRef(0);
+
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  // A key, so the line follows a language change while it shows.
+  const [error, setError] = useState<MessageKey | null>(null);
   const [pendingAfterShell, setPendingAfterShell] = useState(false);
 
   useEffect(() => {
     if (pendingAfterShell && shellReady && step === "name" && fullName.trim()) {
       setPendingAfterShell(false);
-      setStep("intro");
+      setStep("holdings");
     }
   }, [pendingAfterShell, shellReady, step, fullName]);
 
-  useEffect(() => {
-    if (step !== "beat") return;
-    const timer = window.setTimeout(() => {
-      void finishAfterBeat();
-    }, SECTOR_BEAT_MS);
-    return () => window.clearTimeout(timer);
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- finish once when beat mounts
-  }, [step]);
-
-  function goNext() {
+  function go(next: Step) {
     setError(null);
-    setStep((s) => {
-      const idx = LINEAR_STEPS.indexOf(s as LinearStep);
-      if (idx === -1) return s;
-      return idx + 1 < LINEAR_STEPS.length ? LINEAR_STEPS[idx + 1]! : "beat";
-    });
+    setStep(next);
   }
 
   function goBack() {
     if (step === "name" || loading || pendingAfterShell) return;
     setError(null);
-    if (step === "intro") {
-      setStep("name");
-      onBackToName();
-      return;
+    switch (step) {
+      case "holdings":
+        if (entry) {
+          setEntry(null);
+          return;
+        }
+        setStep("name");
+        onBackToName();
+        return;
+      case "sectors":
+        setStep("holdings");
+        return;
+      case "holding":
+        // Back to wherever the names were given (or skipped).
+        setStep(positionsMode === "none" || (positionsMode === "brokerage" && tickers.length === 0) ? "sectors" : "holdings");
+        return;
+      case "depth":
+        setStep("holding");
+        return;
+      case "desk":
+        setStep("depth");
+        return;
+      case "reading":
+        setStep("desk");
+        return;
     }
-    if (step === "beat") {
-      setStep(LINEAR_STEPS[LINEAR_STEPS.length - 1]!);
-      return;
-    }
-    const idx = LINEAR_STEPS.indexOf(step);
-    if (idx > 0) setStep(LINEAR_STEPS[idx - 1]!);
   }
 
   async function handleNameContinue() {
@@ -182,60 +238,143 @@ export default function OnboardingFlow({
       setPendingAfterShell(true);
       onNameCaptured();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not save your name.");
+      console.warn("[onboarding] could not save the name:", err);
+      setError("auth.onboarding.name.saveFailed");
     } finally {
       setLoading(false);
     }
+  }
+
+  /** "Connect a brokerage": the SnapTrade portal the dashboard's Add asset opens, in the browser. */
+  async function connectBrokerage() {
+    if (connecting) return;
+    const connect = window.meridian?.connectBrokerage;
+    if (!connect) {
+      setError("auth.onboarding.brokerage.unavailable");
+      return;
+    }
+    setConnecting(true);
+    setError(null);
+    try {
+      const res = await connect({ accessToken: await getAccessToken() });
+      if (res.ok) {
+        setBrokerageOpened(true);
+        setEntry("brokerage");
+      } else {
+        setError(res.configured ? "dashboard.addAsset.startFailed" : "auth.onboarding.brokerage.unavailable");
+      }
+    } catch (err) {
+      console.warn("[onboarding] brokerage connection did not open:", err);
+      setError("dashboard.addAsset.startFailed");
+    } finally {
+      setConnecting(false);
+    }
+  }
+
+  /**
+   * Starts the first reading as soon as the names are known, so it is ready
+   * by the closing screen: the names are handed to coverage first (the
+   * Tracker fetches history for any it lacks), then the reading is gathered.
+   */
+  function startReading(names: string[]) {
+    const run = ++readingRun.current;
+    setReading(null);
+    const all = Array.from(new Set([...names, ...heldSymbols()]));
+    void requestCoverage(names)
+      .then((requested) => readFirstReading(all, requested))
+      .then((result) => {
+        if (readingRun.current === run) setReading(result);
+      })
+      .catch(() => {
+        if (readingRun.current === run) setReading({ facts: [], started: [], notTracked: [], sectors: [] });
+      });
+  }
+
+  function finishHoldings() {
+    if (tickers.length === 0) return;
+    const mode: PositionsMode = entry === "watch" ? "watch" : entry === "brokerage" ? "brokerage" : "tickers";
+    setPositionsMode(mode);
+    startReading(tickers);
+    go("holding");
+  }
+
+  /** No tickers: the sectors question stands in for them. */
+  function skipTickers() {
+    setTickers([]);
+    setPositionsMode(entry === "brokerage" ? "brokerage" : "none");
+    startReading([]);
+    go("sectors");
   }
 
   function toggleSector(id: SectorId) {
-    setSectors((current) => {
-      if (current.includes(id)) {
-        const next = current.filter((s) => s !== id);
-        setPreviewSector((prev) => (prev === id ? next[next.length - 1] ?? null : prev));
-        return next;
-      }
-      setPreviewSector(id);
-      return [...current, id];
-    });
+    setSectors((current) => (current.includes(id) ? current.filter((s) => s !== id) : [...current, id]));
   }
 
-  async function finishAfterBeat() {
-    if (!experience || sectors.length === 0 || !fullName.trim() || loading) {
-      return;
+  function enterDesk() {
+    if (!holding) return;
+    if (!deskTouched || deskFor === null || deskCards.length === 0) {
+      setDeskCards(defaultDeskCards(holding));
+      setDeskFor(holding);
+    } else if (deskFor !== holding) {
+      // A new holding period after hand edits: the edits were for the old desk.
+      setDeskCards(defaultDeskCards(holding));
+      setDeskFor(holding);
+      setDeskTouched(false);
     }
+    go("desk");
+  }
+
+  function toggleCard(card: DashboardCard) {
+    setDeskTouched(true);
+    setDeskCards((current) =>
+      current.includes(card) ? current.filter((c) => c !== card) : inCardOrder([...current, card]),
+    );
+  }
+
+  async function finish() {
+    if (!experience || !holding || !fullName.trim() || loading || deskCards.length === 0) return;
     setLoading(true);
     setError(null);
+    const mode = positionsMode ?? "none";
+    const inferred = reading?.sectors ?? [];
+    const finalSectors = tickers.length > 0 ? (inferred.length > 0 ? inferred : initial.sectors) : sectors;
     try {
+      // Local first: saving the profile marks setup done, and the app moves
+      // on to the dashboard the moment it does.
+      if (tickers.length > 0) writeWatchlist(tickers, names);
+      writeDesk(deskCards);
+      void submitOnboardingSurvey({
+        fullName: fullName.trim(),
+        investorRole: null,
+        investorRoleOther: null,
+        investingTenure: experience,
+        researchFocus: null,
+        sectors: finalSectors,
+        country: inferCountry(),
+        heardAbout: null,
+      });
       await saveOnboardingProfile({
         fullName: fullName.trim(),
         experience,
-        sectors,
-      });
-      void submitOnboardingSurvey({
-        fullName: fullName.trim(),
-        investorRole,
-        investorRoleOther:
-          investorRole === "other" ? investorRoleOther.trim() || null : null,
-        investingTenure: experience,
-        researchFocus: focus,
-        sectors,
-        country: country.trim() || null,
-        heardAbout: heardAbout.trim() || null,
+        sectors: finalSectors,
+        holdingPeriod: holding,
+        deskCards,
+        positionsMode: mode,
       });
       onComplete();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not save your preferences.");
-      setStep(LINEAR_STEPS[LINEAR_STEPS.length - 1]!);
+      console.warn("[onboarding] could not save preferences:", err);
+      setError("auth.onboarding.saveFailed");
     } finally {
       setLoading(false);
     }
   }
 
-  const experienceAck = EXPERIENCE_OPTIONS.find((o) => o.id === experience)?.acknowledgment;
-  const beatCopy = previewSector ? SECTOR_PREVIEWS[previewSector] : null;
-  const showChrome = step !== "name" && step !== "beat";
-  const progressIndex = showChrome ? LINEAR_STEPS.indexOf(step as LinearStep) + 1 : 0;
+  const experienceAckKey = EXPERIENCE_OPTIONS.find((o) => o.id === experience)?.acknowledgmentKey;
+  const showChrome = step !== "name";
+  const counted = step === "sectors" ? "holdings" : step;
+  const progressIndex = COUNTED.indexOf(counted) + 1;
+  const watching = positionsMode === "watch";
 
   return (
     <div className="relative flex min-h-0 flex-1 flex-col overflow-hidden">
@@ -245,32 +384,21 @@ export default function OnboardingFlow({
             type="button"
             onClick={goBack}
             disabled={loading}
-            aria-label="Back"
+            aria-label={t("auth.back")}
             className="app-no-drag absolute left-8 top-14 z-50 flex h-8 w-8 items-center justify-center text-white/40 transition hover:bg-white/[0.06] hover:text-white/70"
           >
             <ArrowLeft className="h-4 w-4" strokeWidth={1.75} />
           </button>
-          <OnboardingProgress index={progressIndex} total={LINEAR_STEPS.length} />
+          {progressIndex > 0 ? <OnboardingProgress index={progressIndex} total={COUNTED.length} /> : null}
         </>
       ) : null}
 
       <AnimatePresence mode="wait">
         {step === "name" ? (
-          <motion.div
-            key="name"
-            initial={{ opacity: 0, x: 16 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.45, ease: EASE }}
-            className="flex h-full flex-col"
-          >
+          <motion.div key="name" {...enter} exit={{ opacity: 0 }} className="flex h-full flex-col">
             <OnboardingShell>
               <header className="text-center">
-                <h1 className="font-serif text-[2rem] font-normal leading-[1.25] tracking-[0.01em] text-white">
-                  How should we
-                  <br />
-                  call you?
-                </h1>
+                <Title>{tNodes("auth.onboarding.name.title", br)}</Title>
               </header>
 
               <input
@@ -279,8 +407,8 @@ export default function OnboardingFlow({
                 type="text"
                 autoComplete="name"
                 autoFocus
-                placeholder="Your name"
-                aria-label="Your name"
+                placeholder={t("auth.onboarding.name.placeholder")}
+                aria-label={t("auth.onboarding.name.placeholder")}
                 value={nameInput}
                 onChange={(e) => setNameInput(e.target.value)}
                 onKeyDown={(e) => {
@@ -289,7 +417,11 @@ export default function OnboardingFlow({
                 className={cn(onboardingInputClass, "mt-8")}
               />
 
-              {error ? <p className="mt-3 text-center text-xs text-red-400">{error}</p> : null}
+              {error ? (
+                <p role="alert" className="mt-3 text-center text-xs text-red-400">
+                  {t(error)}
+                </p>
+              ) : null}
 
               <OnboardingContinueButton
                 disabled={!nameInput.trim() || pendingAfterShell}
@@ -297,231 +429,98 @@ export default function OnboardingFlow({
                 onClick={() => void handleNameContinue()}
                 className="mt-3"
               >
-                {loading || pendingAfterShell ? (
-                  <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
-                ) : null}
-                Continue
+                {loading || pendingAfterShell ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : null}
+                {t("auth.continue")}
               </OnboardingContinueButton>
             </OnboardingShell>
           </motion.div>
         ) : null}
 
-        {step === "intro" ? (
-          <motion.div
-            key="intro"
-            initial={{ opacity: 0, x: 16 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.45, ease: EASE }}
-            className="flex h-full flex-col"
-          >
+        {step === "holdings" && !entry ? (
+          <motion.div key="holdings" {...enter} className="flex h-full flex-col">
             <OnboardingShell>
               <header className="text-center">
-                <h1 className="font-serif text-[2.5rem] font-normal leading-[1.2] tracking-[0.01em] text-white">
-                  {firstName(fullName)}.
-                </h1>
-                <p className="mt-5 text-sm leading-relaxed text-[#888888]">
-                  A few quick questions, then Falcon reads the market for you.
-                </p>
+                <Title>{t("auth.onboarding.holdings.title")}</Title>
               </header>
-              <OnboardingContinueButton onClick={goNext}>Continue</OnboardingContinueButton>
+
+              <div className="mt-8 space-y-2">
+                <OnboardingOptionButton selected={false} disabled={connecting} onClick={() => void connectBrokerage()}>
+                  <span className="flex items-center gap-2">
+                    {t("auth.onboarding.holdings.brokerage")}
+                    {connecting ? <Loader2 className="h-3.5 w-3.5 animate-spin text-white/40" aria-hidden /> : null}
+                  </span>
+                </OnboardingOptionButton>
+                <OnboardingOptionButton
+                  selected={false}
+                  onClick={() => {
+                    setError(null);
+                    setEntry("tickers");
+                  }}
+                >
+                  {t("auth.onboarding.holdings.tickers")}
+                </OnboardingOptionButton>
+                <OnboardingOptionButton
+                  selected={false}
+                  onClick={() => {
+                    setError(null);
+                    setEntry("watch");
+                  }}
+                >
+                  {t("auth.onboarding.holdings.none")}
+                </OnboardingOptionButton>
+              </div>
+
+              {error ? (
+                <p role="alert" className="mt-4 text-center text-xs text-red-400">
+                  {t(error)}
+                </p>
+              ) : null}
             </OnboardingShell>
           </motion.div>
         ) : null}
 
-        {step === "country" ? (
-          <motion.div
-            key="country"
-            initial={{ opacity: 0, x: 16 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.45, ease: EASE }}
-            className="flex h-full flex-col"
-          >
+        {step === "holdings" && entry ? (
+          <motion.div key={`holdings-${entry}`} {...enter} className="flex h-full flex-col">
             <OnboardingShell>
               <header className="text-center">
-                <h1 className="font-serif text-[2rem] font-normal leading-[1.25] tracking-[0.01em] text-white">
-                  Where are you
-                  <br />
-                  based?
-                </h1>
+                <Title>{t(entry === "watch" ? "auth.onboarding.watch.title" : "auth.onboarding.holdings.title")}</Title>
+                {entry === "brokerage" && brokerageOpened ? (
+                  <Subtitle>{t("auth.onboarding.brokerage.opened")}</Subtitle>
+                ) : null}
               </header>
 
               <div className="mt-8">
-                <OnboardingCountrySelect value={country || null} onChange={setCountry} />
+                <TickerField
+                  tickers={tickers}
+                  onChange={(next, added) => {
+                    setTickers(next);
+                    if (added?.length) {
+                      setNames((prev) => ({
+                        ...prev,
+                        ...Object.fromEntries(
+                          added.map((e: StockCatalogEntry) => [e.symbol.toUpperCase(), e.companyName]),
+                        ),
+                      }));
+                    }
+                  }}
+                  onSubmit={finishHoldings}
+                />
               </div>
 
-              <OnboardingContinueButton disabled={!country} onClick={goNext} className="mt-6">
-                Continue
+              <OnboardingContinueButton disabled={tickers.length === 0} onClick={finishHoldings} className="mt-6">
+                {t("auth.continue")}
               </OnboardingContinueButton>
-              {!country ? <OnboardingSkipLink onClick={goNext} /> : null}
+              {tickers.length === 0 ? <OnboardingSkipLink onClick={skipTickers} /> : null}
             </OnboardingShell>
-          </motion.div>
-        ) : null}
-
-        {step === "role" ? (
-          <motion.div
-            key="role"
-            initial={{ opacity: 0, x: 16 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.45, ease: EASE }}
-            className="flex h-full flex-col"
-          >
-            <OnboardingShell>
-              <header className="text-center">
-                <h1 className="font-serif text-[2rem] font-normal leading-[1.25] tracking-[0.01em] text-white">
-                  How would you
-                  <br />
-                  describe yourself?
-                </h1>
-              </header>
-
-              <div className="mt-8 space-y-2">
-                {INVESTOR_ROLE_OPTIONS.map((option) => (
-                  <OnboardingOptionButton
-                    key={option.id}
-                    selected={investorRole === option.id}
-                    subtitle={option.subtitle}
-                    onClick={() => setInvestorRole(option.id)}
-                  >
-                    {option.label}
-                  </OnboardingOptionButton>
-                ))}
-
-                <AnimatePresence initial={false}>
-                  {investorRole === "other" ? (
-                    <motion.div
-                      key="role-other"
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.28, ease: EASE }}
-                      className="overflow-hidden"
-                    >
-                      <input
-                        type="text"
-                        autoFocus
-                        placeholder="Tell us in a few words"
-                        aria-label="Tell us in a few words"
-                        value={investorRoleOther}
-                        onChange={(e) => setInvestorRoleOther(e.target.value)}
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter" && investorRoleOther.trim()) goNext();
-                        }}
-                        className={cn(onboardingInputClass, "mt-2")}
-                      />
-                    </motion.div>
-                  ) : null}
-                </AnimatePresence>
-              </div>
-
-              <OnboardingContinueButton
-                disabled={
-                  !investorRole || (investorRole === "other" && !investorRoleOther.trim())
-                }
-                onClick={goNext}
-                className="mt-6"
-              >
-                Continue
-              </OnboardingContinueButton>
-            </OnboardingShell>
-          </motion.div>
-        ) : null}
-
-        {step === "tenure" ? (
-          <motion.div
-            key="tenure"
-            initial={{ opacity: 0, x: 16 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.45, ease: EASE }}
-            className="flex h-full flex-col"
-          >
-            <OnboardingShell>
-              <header className="text-center">
-                <h1 className="font-serif text-[2rem] font-normal leading-[1.25] tracking-[0.01em] text-white">
-                  How long have you
-                  <br />
-                  been investing?
-                </h1>
-                <p className="mt-4 text-sm leading-relaxed text-[#888888]">
-                  This sets how much we explain, and how much we skip.
-                </p>
-              </header>
-
-              <div className="mt-8 space-y-2">
-                {EXPERIENCE_OPTIONS.map((option) => (
-                  <OnboardingOptionButton
-                    key={option.id}
-                    selected={experience === option.id}
-                    onClick={() => setExperience(option.id)}
-                  >
-                    {option.label}
-                  </OnboardingOptionButton>
-                ))}
-              </div>
-
-              <div className="mt-5 flex min-h-[2.75rem] items-start justify-center">
-                <AnimatePresence mode="wait" initial={false}>
-                  {experienceAck ? (
-                    <motion.p
-                      key={experience}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.3, ease: EASE }}
-                      className="text-center text-sm leading-relaxed text-white/30"
-                    >
-                      {experienceAck}
-                    </motion.p>
-                  ) : null}
-                </AnimatePresence>
-              </div>
-
-              <OnboardingContinueButton disabled={!experience} onClick={goNext} className="mt-3">
-                Continue
-              </OnboardingContinueButton>
-            </OnboardingShell>
-          </motion.div>
-        ) : null}
-
-        {step === "focus" ? (
-          <motion.div
-            key="focus"
-            initial={{ opacity: 0, x: 16 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.45, ease: EASE }}
-            className="flex h-full flex-col"
-          >
-            <SelectStep
-              title="What's your primary focus?"
-              options={RESEARCH_FOCUS_OPTIONS}
-              value={focus}
-              onSelect={setFocus}
-              onContinue={goNext}
-            />
           </motion.div>
         ) : null}
 
         {step === "sectors" ? (
-          <motion.div
-            key="sectors"
-            initial={{ opacity: 0, x: 16 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.45, ease: EASE }}
-            className="flex h-full flex-col"
-          >
+          <motion.div key="sectors" {...enter} className="flex h-full flex-col">
             <OnboardingShell>
               <header className="text-center">
-                <h1 className="font-serif text-[2rem] font-normal leading-[1.25] tracking-[0.01em] text-white">
-                  What do you follow?
-                </h1>
-                <p className="mt-4 text-sm leading-relaxed text-[#888888]">
-                  Pick a few. This shapes what Falcon surfaces first.
-                </p>
+                <Title>{t("auth.onboarding.sectors.title")}</Title>
+                <Subtitle>{t("auth.onboarding.sectors.subtitle")}</Subtitle>
               </header>
 
               <div className="mt-8 flex flex-wrap justify-center gap-2">
@@ -532,6 +531,7 @@ export default function OnboardingFlow({
                       key={id}
                       type="button"
                       onClick={() => toggleSector(id)}
+                      aria-pressed={selected}
                       className={cn(
                         "app-no-drag border px-3 py-2 text-sm transition",
                         selected
@@ -539,94 +539,198 @@ export default function OnboardingFlow({
                           : "border-white/10 text-white/60 hover:border-white/20 hover:text-white",
                       )}
                     >
-                      {SECTOR_LABELS[id]}
+                      {t(SECTOR_LABEL_KEYS[id])}
                     </button>
                   );
                 })}
               </div>
 
-              {error ? <p className="mt-6 text-center text-xs text-red-400">{error}</p> : null}
-
               <OnboardingContinueButton
-                disabled={sectors.length === 0 || loading}
-                onClick={() => {
-                  if (sectors.length === 0) return;
-                  goNext();
-                }}
+                disabled={sectors.length === 0}
+                onClick={() => go("holding")}
                 className="mt-10"
               >
-                Continue
+                {t("auth.continue")}
               </OnboardingContinueButton>
             </OnboardingShell>
           </motion.div>
         ) : null}
 
-        {step === "heard_about" ? (
-          <motion.div
-            key="heard_about"
-            initial={{ opacity: 0, x: 16 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.45, ease: EASE }}
-            className="flex h-full flex-col"
-          >
+        {step === "holding" ? (
+          <motion.div key="holding" {...enter} className="flex h-full flex-col">
             <OnboardingShell>
               <header className="text-center">
-                <h1 className="font-serif text-[2rem] font-normal leading-[1.25] tracking-[0.01em] text-white">
-                  How did you hear
-                  <br />
-                  about Falcon?
-                </h1>
+                <Title>{tNodes("auth.onboarding.holding.title", br)}</Title>
               </header>
-
-              <input
-                type="text"
-                autoFocus
-                placeholder="Twitter, a friend, a newsletter…"
-                aria-label="How did you hear about Falcon?"
-                value={heardAbout}
-                onChange={(e) => setHeardAbout(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") goNext();
-                }}
-                className={cn(onboardingInputClass, "mt-8")}
-              />
-
-              {error ? <p className="mt-4 text-center text-xs text-red-400">{error}</p> : null}
-
-              <OnboardingContinueButton
-                disabled={loading}
-                loading={loading}
-                onClick={goNext}
-                className="mt-6"
-              >
-                {loading ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : null}
-                Finish
+              <div className="mt-8 space-y-2">
+                {HOLDING_OPTIONS.map((option) => (
+                  <OnboardingOptionButton
+                    key={option.id}
+                    selected={holding === option.id}
+                    onClick={() => setHolding(option.id)}
+                  >
+                    {t(option.labelKey)}
+                  </OnboardingOptionButton>
+                ))}
+              </div>
+              <OnboardingContinueButton disabled={!holding} onClick={() => go("depth")} className="mt-6">
+                {t("auth.continue")}
               </OnboardingContinueButton>
-              {!heardAbout.trim() ? <OnboardingSkipLink onClick={goNext} /> : null}
             </OnboardingShell>
           </motion.div>
         ) : null}
 
-        {step === "beat" && beatCopy ? (
+        {step === "depth" ? (
+          <motion.div key="depth" {...enter} className="flex h-full flex-col">
+            <OnboardingShell>
+              <header className="text-center">
+                <Title>{tNodes("auth.onboarding.depth.title", br)}</Title>
+              </header>
+
+              <div className="mt-8 space-y-2">
+                {EXPERIENCE_OPTIONS.map((option) => (
+                  <OnboardingOptionButton
+                    key={option.id}
+                    selected={experience === option.id}
+                    onClick={() => setExperience(option.id)}
+                  >
+                    {t(option.labelKey)}
+                  </OnboardingOptionButton>
+                ))}
+              </div>
+
+              <div className="mt-5 flex min-h-[2.75rem] items-start justify-center">
+                <AnimatePresence mode="wait" initial={false}>
+                  {experienceAckKey ? (
+                    <motion.p
+                      key={experience}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.3, ease: EASE }}
+                      className="text-balance text-center text-sm leading-relaxed text-white/30 [word-break:auto-phrase]"
+                    >
+                      {t(experienceAckKey)}
+                    </motion.p>
+                  ) : null}
+                </AnimatePresence>
+              </div>
+
+              <OnboardingContinueButton disabled={!experience} onClick={enterDesk} className="mt-3">
+                {t("auth.continue")}
+              </OnboardingContinueButton>
+            </OnboardingShell>
+          </motion.div>
+        ) : null}
+
+        {step === "desk" ? (
+          <motion.div key="desk" {...enter} className="flex h-full flex-col">
+            <OnboardingShell>
+              <header className="text-center">
+                <Title>{t("auth.onboarding.desk.title")}</Title>
+              </header>
+
+              <div className="mt-8 grid grid-cols-2 gap-2">
+                {VISIBLE_CARDS.map((card) => (
+                  <OnboardingOptionButton
+                    key={card}
+                    toggle
+                    selected={deskCards.includes(card)}
+                    onClick={() => toggleCard(card)}
+                  >
+                    {t(DESK_CARD_LABEL_KEYS[card])}
+                  </OnboardingOptionButton>
+                ))}
+              </div>
+
+              <OnboardingContinueButton
+                disabled={deskCards.length === 0}
+                onClick={() => go("reading")}
+                className="mt-6"
+              >
+                {t("auth.continue")}
+              </OnboardingContinueButton>
+              <p className="mt-4 text-center text-xs text-white/35">
+                {t("auth.onboarding.desk.later", { addModule: t("modules.addButton") })}
+              </p>
+            </OnboardingShell>
+          </motion.div>
+        ) : null}
+
+        {step === "reading" ? (
           <motion.div
-            key="sector-beat"
+            key="reading"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.55, ease: EASE }}
             className="flex h-full flex-col"
           >
-            <div className="flex min-h-0 flex-1 flex-col items-center justify-center px-10">
-              <motion.p
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, ease: EASE, delay: 0.08 }}
-                className="max-w-[26rem] text-center font-serif text-[1.35rem] font-normal leading-[1.45] tracking-[0.01em] text-white"
-              >
-                {beatCopy}
-              </motion.p>
-            </div>
+            <OnboardingShell>
+              <header className="text-center">
+                <p className="text-[10px] uppercase tracking-[0.14em] text-white/35">
+                  {t(watching ? "auth.onboarding.reading.titleWatch" : "auth.onboarding.reading.title")}
+                </p>
+              </header>
+
+              <div className="mt-6 flex min-h-[7.5rem] flex-col items-center justify-center" aria-live="polite">
+                {reading === null ? (
+                  <p className="flex items-center gap-2 text-sm text-white/40">
+                    <Loader2 className="h-3.5 w-3.5 animate-spin motion-reduce:animate-none" aria-hidden />
+                    {t("auth.onboarding.reading.loading")}
+                  </p>
+                ) : (
+                  <motion.div
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, ease: EASE }}
+                    className="space-y-3 text-center"
+                  >
+                    {reading.facts.length > 0 ? (
+                      reading.facts.map((fact, i) => (
+                        <p
+                          key={i}
+                          className="text-balance font-serif text-[1.3rem] font-normal leading-[1.45] tracking-[0.01em] text-white [word-break:auto-phrase]"
+                        >
+                          {wordFact(t, fact, locale)}
+                        </p>
+                      ))
+                    ) : (
+                      <p className="text-balance font-serif text-[1.3rem] font-normal leading-[1.45] tracking-[0.01em] text-white [word-break:auto-phrase]">
+                        {t(
+                          tickers.length === 0 && heldSymbols().length === 0
+                            ? "auth.onboarding.reading.noPositions"
+                            : watching
+                              ? "auth.onboarding.reading.nothingWatch"
+                              : "auth.onboarding.reading.nothing",
+                        )}
+                      </p>
+                    )}
+                    {reading.started.length > 0 ? (
+                      <p className="pt-2 text-xs text-white/40">
+                        {t("auth.onboarding.reading.started", { names: listNames(reading.started, locale) })}
+                      </p>
+                    ) : null}
+                    {reading.notTracked.length > 0 ? (
+                      <p className="pt-2 text-xs text-white/40">
+                        {t("auth.onboarding.reading.notTracked", { names: listNames(reading.notTracked, locale) })}
+                      </p>
+                    ) : null}
+                  </motion.div>
+                )}
+              </div>
+
+              {error ? (
+                <p role="alert" className="mt-4 text-center text-xs text-red-400">
+                  {t(error)}
+                </p>
+              ) : null}
+
+              <OnboardingContinueButton disabled={loading} loading={loading} onClick={() => void finish()}>
+                {loading ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : null}
+                {t("auth.onboarding.reading.open")}
+              </OnboardingContinueButton>
+            </OnboardingShell>
           </motion.div>
         ) : null}
       </AnimatePresence>

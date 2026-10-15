@@ -1,4 +1,17 @@
 import { currencyOr, type Currency, type FlagSpec } from "@/lib/currencies";
+import { useI18n } from "@/lib/i18n";
+
+/** The currency's name in the reader's language; the table's English name
+ *  where Intl has none. */
+function currencyName(c: Currency, locale: string): string {
+  try {
+    const name = new Intl.DisplayNames([locale], { type: "currency" }).of(c.code);
+    if (name && name !== c.code) return name;
+  } catch {
+    /* an older Intl, or a code it does not know */
+  }
+  return c.name;
+}
 
 /**
  * A currency's flag at row-icon size, cropped to the same circle every other
@@ -173,8 +186,9 @@ export default function CurrencyFlag({
   code?: string | null;
   className?: string;
 }) {
+  const { locale } = useI18n();
   const c: Currency = currencyOr(code);
-  const label = `${c.name} (${c.code})`;
+  const label = `${currencyName(c, locale)} (${c.code})`;
 
   if (!c.flag) {
     return (

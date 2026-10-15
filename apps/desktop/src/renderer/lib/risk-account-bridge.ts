@@ -9,11 +9,18 @@
  * in the history), so the card shows a real score for the demo book. Leaving
  * demo pushes the real account again and the host re-broadcasts the real
  * snapshot. Read-only on the account — never writes back.
+ *
+ * Every push goes through `risk-sync`: a failed push is retried, and a push
+ * that leaves the engine without a score for this account (a user it has
+ * never scored, or one whose state was archived when risk went per user) is
+ * followed by a recompute at once, so the card gets a real score instead of
+ * waiting on one that is not coming.
  */
 
 import { isDemoMode } from "@/lib/demo-mode";
 import { readPaperAccount, subscribePaperAccount, type PaperAccount } from "@/lib/paper-account";
 import type { RiskAccountPush } from "../../shared/risk-types";
+import { createRiskSync, type RiskSync, type RiskSyncState } from "@/lib/risk-sync";
 
 /** Fired (window) the moment a push goes out that will change the snapshot — the card shows loading until the next broadcast. */
 export const RISK_PENDING_EVENT = "falcon:risk-pending";
@@ -36,28 +43,55 @@ export function buildRiskAccountPush(account: PaperAccount = readPaperAccount(),
   };
 }
 
+/**
+ * Fired (window) when the sync state changes: a push or the recompute after it
+ * failed, or recovered. Read the state with `readRiskSyncState`.
+ */
+export const RISK_SYNC_EVENT = "falcon:risk-sync";
+
 let lastDemo: boolean | null = null;
+let active: RiskSync | null = null;
+const IDLE: RiskSyncState = { failed: false };
+
+/** Whether the last push (or the recompute it asked for) failed. */
+export function readRiskSyncState(): RiskSyncState {
+  return active?.state() ?? IDLE;
+}
+
+/** The card's Try again: push the account again and ask for a score. */
+export function retryRiskSync(): void {
+  void active?.retry();
+}
 
 function push(): void {
-  const bridge = window.meridian;
-  if (!bridge?.updateRiskAccount) return;
+  if (!active) return;
   const demo = isDemoMode();
   const demoToggled = lastDemo !== null && lastDemo !== demo;
   lastDemo = demo;
-  try {
-    // Demo on/off resolves immediately on the host → worth a loading state.
-    // Real-account edits are debounced 60s; the old score stays visible.
-    if (demoToggled) window.dispatchEvent(new CustomEvent(RISK_PENDING_EVENT));
-    void bridge.updateRiskAccount(buildRiskAccountPush(readPaperAccount(), demo)).then(() => {
-      window.dispatchEvent(new CustomEvent(RISK_PUSHED_EVENT));
-    });
-  } catch {
-    /* best-effort — the host keeps the last pushed account */
-  }
+  // Demo on/off resolves immediately on the host → worth a loading state.
+  // Real-account edits are debounced 60s; the old score stays visible.
+  if (demoToggled) window.dispatchEvent(new CustomEvent(RISK_PENDING_EVENT));
+  void active.sync();
 }
 
 /** Starts the bridge; returns an unsubscribe function. */
 export function startRiskAccountBridge(): () => void {
+  const bridge = window.meridian;
+  if (!bridge?.updateRiskAccount || !bridge.getRiskLatest) return () => {};
+  const sync = createRiskSync({
+    bridge,
+    build: () => buildRiskAccountPush(readPaperAccount(), isDemoMode()),
+    onState: () => window.dispatchEvent(new CustomEvent(RISK_SYNC_EVENT)),
+    onPushed: () => window.dispatchEvent(new CustomEvent(RISK_PUSHED_EVENT)),
+  });
+  active = sync;
+  lastDemo = null;
   push();
-  return subscribePaperAccount(push);
+  const unsubscribe = subscribePaperAccount(push);
+  return () => {
+    unsubscribe();
+    sync.dispose();
+    if (active === sync) active = null;
+    window.dispatchEvent(new CustomEvent(RISK_SYNC_EVENT));
+  };
 }

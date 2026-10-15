@@ -1,6 +1,25 @@
 import type { PropagationRun, PropagationTarget } from "../../../shared/propagation-run-types";
+import { useI18n, type MessageKey } from "../../lib/i18n";
 import { compareTargets, targetKey } from "./ripple-layout";
-import { ACCENT, AMBER, AMBER_LINE, AMBER_SOFT, FAINT, MUTED, ROLE_WORD, directionColor, directionGlyph, fmtAbsPct, fmtPct, humanize, pricingWord } from "./ripple-format";
+import {
+  ACCENT,
+  AMBER,
+  AMBER_LINE,
+  AMBER_SOFT,
+  FAINT,
+  MUTED,
+  directionColor,
+  directionGlyph,
+  directionWord,
+  fmtAbsPct,
+  fmtPct,
+  humanize,
+  pricingWord,
+  roleWord,
+  strengthWord,
+  tierWord,
+  verdictWord,
+} from "./ripple-format";
 
 /**
  * List mode (spec §8): the same data as a ranked table — open + strong first.
@@ -13,7 +32,19 @@ type Props = {
   onSelect: (key: string | null) => void;
 };
 
+const COLUMNS: readonly MessageKey[] = [
+  "panels.ripple.col.name",
+  "panels.ripple.col.relationship",
+  "panels.ripple.col.direction",
+  "panels.ripple.col.tier",
+  "panels.ripple.col.pricing",
+  "panels.ripple.col.realized",
+  "panels.ripple.col.expected",
+  "panels.ripple.col.mechanism",
+];
+
 function StatusPill({ t }: { t: PropagationTarget }) {
+  const { t: tr } = useI18n();
   const vetoed = t.stage2?.verdict === "vetoed";
   const open = t.tracked && t.pricing.status === "open" && !vetoed;
   const against = t.tracked && t.pricing.status === "contradicted" && !vetoed;
@@ -27,21 +58,23 @@ function StatusPill({ t }: { t: PropagationTarget }) {
         textDecoration: vetoed ? "line-through" : undefined,
       }}
     >
-      {pricingWord(t)}
+      {pricingWord(t, tr)}
     </span>
   );
 }
 
 export default function RippleTable({ run, selectedKey, onSelect }: Props) {
+  const { t: tr, tNodes } = useI18n();
+  const na = tr("common.na");
   const rows = [...run.targets].sort(compareTargets);
   return (
     <div className="scrollbar-meridian h-full overflow-auto px-6 pb-6">
       <table className="w-max min-w-full border-separate border-spacing-0 text-left">
         <thead className="sticky top-0 z-10 bg-[#f7f7f4]">
           <tr className="text-[10px] uppercase tracking-[0.12em] text-[#b4b4ae]">
-            {["Target", "Relationship", "Direction", "Tier", "Pricing", "Realized", "Expected", "Mechanism"].map((h) => (
+            {COLUMNS.map((h) => (
               <th key={h} className="whitespace-nowrap border-b border-[#e6e6e0] pb-2 pr-5 font-medium first:pl-1">
-                {h}
+                {tr(h)}
               </th>
             ))}
           </tr>
@@ -65,28 +98,35 @@ export default function RippleTable({ run, selectedKey, onSelect }: Props) {
                   {t.ticker && t.label !== t.ticker && <div className="max-w-[160px] truncate text-[10.5px] text-[#9CA3AF]">{t.label}</div>}
                 </td>
                 <td className="whitespace-nowrap border-b border-[#ebebe5] py-2.5 pr-5 text-[11.5px] text-[#6b7280]">
-                  <span className="text-[#1d1b1b]">{t.relationship.tier}</span> {ROLE_WORD[t.relationship.role]}
+                  {tNodes("panels.ripple.tierRole", {
+                    tier: <span className="text-[#1d1b1b]">{strengthWord(t.relationship.tier, tr)}</span>,
+                    role: roleWord(t.relationship.role, tr),
+                  })}
                   {t.relationship.subtype && <div className="max-w-[180px] truncate text-[10.5px] text-[#9CA3AF]">{humanize(t.relationship.subtype)}</div>}
                 </td>
                 <td className="whitespace-nowrap border-b border-[#ebebe5] py-2.5 pr-5 text-[11.5px]" style={{ color: directionColor(t.transmission.direction) }}>
-                  {directionGlyph(t.transmission.direction)} {t.transmission.direction}
+                  {directionGlyph(t.transmission.direction)} {directionWord(t.transmission.direction, tr)}
                 </td>
                 <td className="whitespace-nowrap border-b border-[#ebebe5] py-2.5 pr-5 text-[11.5px] text-[#1d1b1b]">
-                  {t.transmission.tier}
-                  {t.transmission.transmits === "weak" && <span className="text-[#9CA3AF]"> · weak</span>}
+                  {tierWord(t.transmission.tier, tr)}
+                  {t.transmission.transmits === "weak" && <span className="text-[#9CA3AF]"> · {tr("panels.ripple.weakShort")}</span>}
                 </td>
                 <td className="whitespace-nowrap border-b border-[#ebebe5] py-2.5 pr-5">
                   <StatusPill t={t} />
                 </td>
                 <td className="whitespace-nowrap border-b border-[#ebebe5] py-2.5 pr-5 font-mono text-[11px] tabular-nums text-[#1d1b1b]">
-                  {t.tracked ? fmtPct(t.pricing.realized_resid_pct) : "—"}
+                  {t.tracked ? fmtPct(t.pricing.realized_resid_pct, 2, na) : na}
                 </td>
                 <td className="whitespace-nowrap border-b border-[#ebebe5] py-2.5 pr-5 font-mono text-[11px] tabular-nums text-[#6b7280]">
-                  {t.tracked && t.pricing.expected_pct != null ? `±${fmtAbsPct(t.pricing.expected_pct)}` : "—"}
+                  {t.tracked && t.pricing.expected_pct != null ? `±${fmtAbsPct(t.pricing.expected_pct, 2, na)}` : na}
                 </td>
                 <td className="min-w-[300px] max-w-[420px] border-b border-[#ebebe5] py-2.5 pr-1 text-[11.5px] leading-relaxed text-[#6b7280]">
                   {t.mechanism}
-                  {t.stage2?.rationale && <div className="mt-0.5 text-[10.5px] text-[#9CA3AF]">{t.stage2.verdict}: {t.stage2.rationale}</div>}
+                  {t.stage2?.rationale && (
+                    <div className="mt-0.5 text-[10.5px] text-[#9CA3AF]">
+                      {tr("panels.ripple.verdictLine", { verdict: verdictWord(t.stage2.verdict, tr), rationale: t.stage2.rationale })}
+                    </div>
+                  )}
                 </td>
               </tr>
             );

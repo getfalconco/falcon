@@ -44,7 +44,18 @@ export type EventContributor = {
 };
 
 export type RiskComponents = {
-  concentration: { score: number; hhi: number; top: Array<{ ticker: string; weight: number }> };
+  /**
+   * `top[].weight` is the invested-only share the HHI runs on;
+   * `account_weight` is the share of the whole account, cash included
+   * (shared/portfolio-weights.ts), the figure any reader-facing percentage
+   * quotes. `account_weight` / `account_value` are absent on older snapshots.
+   */
+  concentration: {
+    score: number;
+    hhi: number;
+    top: Array<{ ticker: string; weight: number; account_weight?: number | null }>;
+    account_value?: number;
+  };
   market: { score: number; beta_eff: number; beta_port: number };
   volatility: { score: number; port_vol_daily_pct: number; spy_vol_daily_pct: number; systematic_share: number };
   network: { score: number; linked_fraction: number; pair_count: number; excluded: string[]; top_links: NetworkLink[] };

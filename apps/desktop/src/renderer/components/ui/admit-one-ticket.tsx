@@ -192,7 +192,14 @@ var ShaderMount = class {
   isSafari = isSafari();
   uniformCache = {};
   textureUnitMap = /* @__PURE__ */ new Map();
-  constructor(parentElement, fragmentShader, uniforms, webGlContextAttributes, speed = 0, frame = 0, minPixelRatio = 2, maxPixelCount = DEFAULT_MAX_PIXEL_COUNT, mipmaps = []) {
+  /**
+   * Falcon: false until the program has linked and the mount is set up. Calls
+   * that arrive before then are kept and applied by `finishSetup`.
+   */
+  isReady = false;
+  /** Resolves once the mount draws (or has given up: a failed link, a dispose). */
+  ready;
+  constructor(parentElement, fragmentShader, uniforms, webGlContextAttributes, speed = 0, frame = 0, minPixelRatio = 2, maxPixelCount = DEFAULT_MAX_PIXEL_COUNT, mipmaps = [], deferCompile = false) {
     if (parentElement instanceof HTMLElement) {
       this.parentElement = parentElement;
     } else {
@@ -218,22 +225,73 @@ var ShaderMount = class {
       throw new Error("Paper Shaders: WebGL is not supported in this browser");
     }
     this.gl = gl;
-    this.initProgram();
+    this.speed = speed;
+    if (deferCompile) {
+      this.ready = this.compileProgramAsync().then(this.finishSetup);
+    } else {
+      this.initProgram();
+      this.finishSetup();
+      this.ready = Promise.resolve();
+    }
+  }
+  finishSetup = () => {
+    if (this.hasBeenDisposed || !this.program) return;
+    this.isReady = true;
     this.setupPositionAttribute();
     this.setupUniforms();
     this.setUniformValues(this.providedUniforms);
     this.setupResizeObserver();
     visualViewport?.addEventListener("resize", this.handleVisualViewportChange);
-    this.setSpeed(speed);
+    this.setSpeed(this.speed);
     this.parentElement.setAttribute("data-paper-shader", "");
     this.parentElement.paperShaderMount = this;
     document.addEventListener("visibilitychange", this.handleDocumentVisibilityChange);
-  }
+  };
   initProgram = () => {
     const program = createProgram(this.gl, vertexShaderSource, this.fragmentShader);
     if (!program) return;
     this.program = program;
   };
+  /**
+   * Falcon: compile and link without blocking the page. Asking for a
+   * shader's or a program's status (`getShaderParameter`,
+   * `getProgramParameter(LINK_STATUS)`, even `getUniformLocation`) waits for
+   * the GPU process to finish compiling, which held the Plans panel's open
+   * click for well over 100ms on the first open. With
+   * KHR_parallel_shader_compile the driver compiles in the background and
+   * COMPLETION_STATUS_KHR can be asked every few milliseconds without
+   * waiting; the mount is set up when it reads true. Without the extension
+   * it compiles the old, blocking way.
+   */
+  compileProgramAsync = () => new Promise((resolve) => {
+    const gl = this.gl;
+    const ext = gl.getExtension("KHR_parallel_shader_compile");
+    if (!ext) {
+      this.initProgram();
+      resolve();
+      return;
+    }
+    const pending = startProgram(gl, vertexShaderSource, this.fragmentShader);
+    if (!pending) {
+      resolve();
+      return;
+    }
+    const poll = () => {
+      if (this.hasBeenDisposed) {
+        discardProgram(gl, pending);
+        resolve();
+        return;
+      }
+      if (!gl.getProgramParameter(pending.program, ext.COMPLETION_STATUS_KHR)) {
+        setTimeout(poll, 16);
+        return;
+      }
+      const program = finishProgram(gl, pending);
+      if (program) this.program = program;
+      resolve();
+    };
+    poll();
+  });
   setupPositionAttribute = () => {
     const positionAttributeLocation = this.gl.getAttribLocation(this.program, "a_position");
     const positionBuffer = this.gl.createBuffer();
@@ -331,7 +389,7 @@ var ShaderMount = class {
     }
   };
   render = (currentTime) => {
-    if (this.hasBeenDisposed) return;
+    if (this.hasBeenDisposed || !this.isReady) return;
     if (this.program === null) {
       console.warn("Tried to render before program or gl was initialized");
       return;
@@ -480,12 +538,14 @@ var ShaderMount = class {
   /** Set a frame to get a deterministic result, frames are literally just milliseconds from zero since the animation started */
   setFrame = (newFrame) => {
     this.currentFrame = newFrame;
+    if (!this.isReady) return;
     this.lastRenderTime = performance.now();
     this.render(performance.now());
   };
   /** Set an animation speed (or 0 to stop animation) */
   setSpeed = (newSpeed = 1) => {
     this.speed = newSpeed;
+    if (!this.isReady) return;
     this.setCurrentSpeed(document.hidden ? 0 : newSpeed);
   };
   setCurrentSpeed = (newSpeed) => {
@@ -502,20 +562,25 @@ var ShaderMount = class {
   /** Set the maximum pixel count for the shader, this will limit the number of pixels that will be rendered */
   setMaxPixelCount = (newMaxPixelCount = DEFAULT_MAX_PIXEL_COUNT) => {
     this.maxPixelCount = newMaxPixelCount;
-    this.handleResize();
+    if (this.isReady) this.handleResize();
   };
   /** Set the minimum pixel ratio for the shader */
   setMinPixelRatio = (newMinPixelRatio = 2) => {
     this.minPixelRatio = newMinPixelRatio;
-    this.handleResize();
+    if (this.isReady) this.handleResize();
   };
   /** Update the uniforms that are provided by the outside shader, can be a partial set with only the uniforms that have changed */
   setUniforms = (newUniforms) => {
+    if (!this.isReady) {
+      this.providedUniforms = { ...this.providedUniforms, ...newUniforms };
+      return;
+    }
     this.setUniformValues(newUniforms);
     this.providedUniforms = { ...this.providedUniforms, ...newUniforms };
     this.render(performance.now());
   };
   handleDocumentVisibilityChange = () => {
+    if (!this.isReady) return;
     this.setCurrentSpeed(document.hidden ? 0 : this.speed);
   };
   /** Dispose of the shader mount, cleaning up all of the WebGL resources */
@@ -560,6 +625,48 @@ function createShader(gl, type, source) {
     return null;
   }
   return shader;
+}
+/**
+ * Falcon: the first half of `createProgram`, with nothing that waits on the
+ * GPU: sources compiled and linked, no status read. `finishProgram` reads the
+ * status once the link has completed.
+ */
+function startProgram(gl, vertexShaderSource2, fragmentShaderSource) {
+  const format = gl.getShaderPrecisionFormat(gl.FRAGMENT_SHADER, gl.MEDIUM_FLOAT);
+  const precision = format ? format.precision : null;
+  if (precision && precision < 23) {
+    vertexShaderSource2 = vertexShaderSource2.replace(/precision\s+(lowp|mediump)\s+float;/g, "precision highp float;");
+    fragmentShaderSource = fragmentShaderSource.replace(/precision\s+(lowp|mediump)\s+float/g, "precision highp float").replace(/\b(uniform|varying|attribute)\s+(lowp|mediump)\s+(\w+)/g, "$1 highp $3");
+  }
+  const vertexShader = gl.createShader(gl.VERTEX_SHADER);
+  const fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
+  const program = gl.createProgram();
+  if (!vertexShader || !fragmentShader || !program) return null;
+  gl.shaderSource(vertexShader, vertexShaderSource2);
+  gl.compileShader(vertexShader);
+  gl.shaderSource(fragmentShader, fragmentShaderSource);
+  gl.compileShader(fragmentShader);
+  gl.attachShader(program, vertexShader);
+  gl.attachShader(program, fragmentShader);
+  gl.linkProgram(program);
+  return { program, vertexShader, fragmentShader };
+}
+function finishProgram(gl, { program, vertexShader, fragmentShader }) {
+  if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+    console.error("Unable to initialize the shader program: " + gl.getProgramInfoLog(program) + " " + gl.getShaderInfoLog(vertexShader) + " " + gl.getShaderInfoLog(fragmentShader));
+    discardProgram(gl, { program, vertexShader, fragmentShader });
+    return null;
+  }
+  gl.detachShader(program, vertexShader);
+  gl.detachShader(program, fragmentShader);
+  gl.deleteShader(vertexShader);
+  gl.deleteShader(fragmentShader);
+  return program;
+}
+function discardProgram(gl, { program, vertexShader, fragmentShader }) {
+  gl.deleteProgram(program);
+  gl.deleteShader(vertexShader);
+  gl.deleteShader(fragmentShader);
 }
 function createProgram(gl, vertexShaderSource2, fragmentShaderSource) {
   const format = gl.getShaderPrecisionFormat(gl.FRAGMENT_SHADER, gl.MEDIUM_FLOAT);
@@ -1379,7 +1486,10 @@ var ShaderMount2 = forwardRef(
       const initShader = async () => {
         const uniforms = await processUniforms(uniformsProp);
         if (divRef.current && !shaderMountRef.current) {
-          shaderMountRef.current = new ShaderMount(
+          // Falcon: compiled off the page's critical path (see
+          // ShaderMount.compileProgramAsync); the props effects below run
+          // again once it is ready.
+          const mount = new ShaderMount(
             divRef.current,
             fragmentShader,
             uniforms,
@@ -1388,9 +1498,12 @@ var ShaderMount2 = forwardRef(
             frame,
             minPixelRatio,
             maxPixelCount,
-            mipmaps
+            mipmaps,
+            true
           );
-          setIsInitialized(true);
+          shaderMountRef.current = mount;
+          await mount.ready;
+          if (shaderMountRef.current === mount) setIsInitialized(true);
         }
       };
       initShader();

@@ -67,6 +67,21 @@ export function registerRiskHandlers(): void {
       return { ok: false as const, error: err instanceof Error ? err.message : String(err) };
     }
   });
+
+  // Account deletion. With the engine service configured this channel is
+  // forwarded there (ipc-register.ts) and erases the signed-in user's risk
+  // state on the server, scoped by their session token. Locally it clears
+  // this machine's risk account copy and snapshot history. Call it from the
+  // main process with `invokeChannel("risk:delete-user-data")` BEFORE the
+  // session is signed out, or the engine cannot tell whose data to delete.
+  registerIpcHandler("risk:delete-user-data", () => {
+    try {
+      const { cleared } = host.clearState();
+      return { ok: true as const, deleted: cleared };
+    } catch (err) {
+      return { ok: false as const, error: err instanceof Error ? err.message : String(err) };
+    }
+  });
 }
 
 export function bootstrapRisk(): void {

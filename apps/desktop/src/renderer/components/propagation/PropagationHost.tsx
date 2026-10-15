@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useShortcut } from "@/lib/use-shortcuts";
 import RipplePanel from "./RipplePanel";
 
 /**
@@ -6,7 +7,8 @@ import RipplePanel from "./RipplePanel";
  * once at the root, reachable from any screen and ONLY by this shortcut —
  * same wiring as Shift+T / Shift+B / Shift+A, a different visual grade: this
  * is the first surface where Falcon's thesis is visible, so it is finished as
- * product, not as an instrument panel. Esc or Shift+P closes it.
+ * product, not as an instrument panel. Esc or Shift+P closes it. Shift+P can
+ * be moved in Settings → Shortcuts.
  */
 /** Fire on `window` to open the ripple panel from anywhere. */
 export const PROPAGATION_OPEN_EVENT = "falcon:propagation-open";
@@ -22,28 +24,12 @@ export default function PropagationHost() {
   const [open, setOpen] = useState(false);
   const [focus, setFocus] = useState<PropagationFocus | null>(null);
 
+  useShortcut("propagation", () => {
+    setFocus(null);
+    setOpen((v) => !v);
+  });
+
   useEffect(() => {
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (!event.shiftKey || event.ctrlKey || event.metaKey || event.altKey) return;
-      // `code` keeps this on the physical P across keyboard layouts; the `key`
-      // fallback covers events that carry no code (synthetic/remote input).
-      const isP = event.code === "KeyP" || event.key.toLowerCase() === "p";
-      if (!isP) return;
-
-      // Never steal the shortcut from a field the user is typing into.
-      const target = event.target as HTMLElement | null;
-      if (target) {
-        const tag = target.tagName;
-        if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || target.isContentEditable) {
-          return;
-        }
-      }
-
-      event.preventDefault();
-      setFocus(null);
-      setOpen((v) => !v);
-    };
-
     // Anything in the app can ask for the panel without knowing the shortcut
     // (the Opportunities card's button does).
     const onOpenRequest = (event: Event) => {
@@ -52,12 +38,8 @@ export default function PropagationHost() {
       setOpen(true);
     };
 
-    window.addEventListener("keydown", onKeyDown);
     window.addEventListener(PROPAGATION_OPEN_EVENT, onOpenRequest);
-    return () => {
-      window.removeEventListener("keydown", onKeyDown);
-      window.removeEventListener(PROPAGATION_OPEN_EVENT, onOpenRequest);
-    };
+    return () => window.removeEventListener(PROPAGATION_OPEN_EVENT, onOpenRequest);
   }, []);
 
   if (!open) return null;

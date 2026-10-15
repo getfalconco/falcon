@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { resolveDataRoot } from "../data-root";
+import { plainDashes } from "../../shared/copy-rules";
 
 /**
  * The plumbing both Insight write-ups share: a stable key, a JSON file on
@@ -23,16 +24,21 @@ export function hash(text: string): string {
  * A model sometimes escapes a character twice on the way into JSON, so an
  * em dash arrives as a literal backslash, a "u" and four hex digits, and
  * `JSON.parse` hands all six straight through to the page. Decode whatever
- * survived.
+ * survived, then hold the house dash rule (shared/copy-rules.ts): the prompts
+ * ask for no dashes, and this is what keeps that true when the model forgets.
+ * The Insight write-ups, the chat reply and the pair view all reach the
+ * reader through here.
  */
 export function decodeEscapes(text: string): string {
-  return text
-    .replace(/\\u([0-9a-fA-F]{4})/g, (_, hex: string) =>
-      String.fromCharCode(Number.parseInt(hex, 16)),
-    )
-    .replace(/\\n/g, "\n")
-    .replace(/\\t/g, " ")
-    .replace(/\\"/g, '"');
+  return plainDashes(
+    text
+      .replace(/\\u([0-9a-fA-F]{4})/g, (_, hex: string) =>
+        String.fromCharCode(Number.parseInt(hex, 16)),
+      )
+      .replace(/\\n/g, "\n")
+      .replace(/\\t/g, " ")
+      .replace(/\\"/g, '"'),
+  );
 }
 
 export function supabaseConfig(): { url: string; serviceKey: string } | null {

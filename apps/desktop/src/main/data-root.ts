@@ -1,6 +1,7 @@
 import { app } from "electron";
 import fs from "node:fs";
 import path from "node:path";
+import { chooseDataRoot, readDataLocation, type DataRootChoice } from "./system/data-location";
 
 /**
  * Where Falcon keeps its runtime data. In development this is the repo's
@@ -12,13 +13,39 @@ import path from "node:path";
  * override, so pointing them all at this root is a matter of setting those
  * env vars before any of them resolve a path (they all resolve lazily, inside
  * functions, so doing it at startup is enough).
+ *
+ * The reader can move the folder (Settings, System, Storage folder): the
+ * choice is kept in `<userData>/data-location.json` (system/data-location.ts)
+ * and wins over the build's default, while FALCON_DATA_ROOT still wins over
+ * it. The root is fixed for the run once `configureDataPaths` has run, so a
+ * move made in Settings applies from the next launch.
  */
-export function resolveDataRoot(): string {
-  const fromEnv = process.env.FALCON_DATA_ROOT?.trim();
-  if (fromEnv) return fromEnv;
+
+/** The build's own folder, when neither FALCON_DATA_ROOT nor a chosen folder says otherwise. */
+export function defaultDataRoot(): string {
   if (app.isPackaged) return path.join(app.getPath("userData"), "data");
   // out/main → apps/desktop/data, regardless of the cwd Electron was started from.
   return path.resolve(__dirname, "../../data");
+}
+
+function computeDataRoot(): DataRootChoice {
+  return chooseDataRoot({
+    envRoot: process.env.FALCON_DATA_ROOT,
+    customRoot: readDataLocation(app.getPath("userData")),
+    defaultRoot: defaultDataRoot(),
+  });
+}
+
+/** Set by `configureDataPaths`: the folder this run uses, whatever is chosen meanwhile. */
+let pinned: DataRootChoice | null = null;
+
+/** The folder this run uses and where that came from. */
+export function dataRootChoice(): DataRootChoice {
+  return pinned ?? computeDataRoot();
+}
+
+export function resolveDataRoot(): string {
+  return dataRootChoice().root;
 }
 
 const ENGINE_DIRS: ReadonlyArray<readonly [envKey: string, subdir: string]> = [
@@ -39,7 +66,9 @@ const ENGINE_DIRS: ReadonlyArray<readonly [envKey: string, subdir: string]> = [
 
 /** Points every engine at the data root. Explicit env overrides still win. */
 export function configureDataPaths(): string {
-  const root = resolveDataRoot();
+  pinned = computeDataRoot();
+  if (pinned.missing) console.warn(`[data] chosen data folder ${pinned.missing} not found; using ${pinned.root}`);
+  const root = pinned.root;
   const setDefault = (key: string, value: string) => {
     if (!process.env[key]?.trim()) process.env[key] = value;
   };

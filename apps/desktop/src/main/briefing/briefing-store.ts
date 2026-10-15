@@ -171,8 +171,8 @@ const USER_KEY_SHAPE = /^[a-z0-9-]{1,64}$/;
 const YMD_SHAPE = /^\d{4}-\d{2}-\d{2}$/;
 const HASH_SHAPE = /^[a-z0-9]{1,16}$/;
 
-const REPORT_FILE = /^report\.([a-z0-9-]{1,64})\.(\d{4}-\d{2}-\d{2})\.([a-z0-9]{1,16})\.json$/;
-const DEV_DIR = "_dev";
+export const REPORT_FILE = /^report\.([a-z0-9-]{1,64})\.(\d{4}-\d{2}-\d{2})\.([a-z0-9]{1,16})\.json$/;
+export const DEV_DIR = "_dev";
 const NARRATIVES_FILE = "narratives.json";
 const NARRATIVES_SCHEMA_VERSION = 1;
 

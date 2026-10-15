@@ -55,6 +55,16 @@ export function configureProviderRouting(): { mode: "direct" | "proxy"; workerUr
     return { mode: "direct", workerUrl };
   }
 
+  if (!app.isPackaged && trimmed("ANTHROPIC_API_KEY").startsWith("sk-ant-")) {
+    // The flag outranks a working key, and every model call then depends on the
+    // worker's own upstream and key. Left on by accident, that reads as "the
+    // model could not be reached" with a perfectly good key in .env.
+    console.warn(
+      `[providers] FALCON_PROVIDER_PROXY is on: the Claude API key in .env is set aside and model calls go through ${workerUrl}. ` +
+        "Set FALCON_PROVIDER_PROXY=0 to call the Claude API directly.",
+    );
+  }
+
   active = true;
   process.env.ANTHROPIC_BASE_URL = `${workerUrl}/api/anthropic`;
   process.env.FINNHUB_BASE_URL = `${workerUrl}/api/finnhub`;

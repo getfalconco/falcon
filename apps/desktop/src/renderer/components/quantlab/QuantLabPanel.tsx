@@ -1,5 +1,8 @@
+import { na } from "@/lib/i18n/na";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { X } from "lucide-react";
+import { shortcutText } from "@/lib/shortcuts";
+import { useT, type MessageKey, type TFunction } from "@/lib/i18n";
 import type {
   BacktestReport,
   LiveSignal,
@@ -21,17 +24,19 @@ type Tab = "builder" | "results" | "live";
  * existed has a new preload calling handlers that were never registered. The
  * panel then looks empty rather than broken, which is the worst of both.
  */
-function explain(error: string): string {
-  if (/unknown channel/i.test(error)) {
-    return "Quant Lab is not registered in the running app — restart it (stop and re-run `pnpm dev:desktop`). electron-vite does not reload the main process, so handlers added since this session started are missing.";
-  }
+function explain(error: string, t: TFunction): string {
+  if (error === BRIDGE_MISSING) return t("instruments.common.bridgeUnavailable", { name: "Quant Lab" });
+  if (/unknown channel/i.test(error)) return t("instruments.quantlab.notRegistered");
   return error;
 }
 
-const TABS: Array<{ key: Tab; label: string }> = [
-  { key: "builder", label: "Builder" },
-  { key: "results", label: "Results" },
-  { key: "live", label: "Live" },
+/** Error value for "the preload has no Quant Lab bridge"; explained in the reader's language. */
+const BRIDGE_MISSING = "\u0000bridge-missing";
+
+const TABS: Array<{ key: Tab; label: MessageKey }> = [
+  { key: "builder", label: "instruments.quantlab.tab.builder" },
+  { key: "results", label: "instruments.quantlab.tab.results" },
+  { key: "live", label: "instruments.quantlab.tab.live" },
 ];
 
 /**
@@ -41,6 +46,7 @@ const TABS: Array<{ key: Tab; label: string }> = [
  * dashboard, and nothing on the dashboard links here.
  */
 export default function QuantLabPanel({ onClose }: { onClose: () => void }) {
+  const t = useT();
   const [tab, setTab] = useState<Tab>("builder");
   const [status, setStatus] = useState<QuantLabStatus | null>(null);
   const [strategies, setStrategies] = useState<StrategyRow[]>([]);
@@ -53,7 +59,7 @@ export default function QuantLabPanel({ onClose }: { onClose: () => void }) {
   const refresh = useCallback(async () => {
     const bridge = window.meridian;
     if (!bridge?.getQuantLabStrategies) {
-      setError("quant lab bridge unavailable — restart the app (new IPC handlers need a main-process restart)");
+      setError(BRIDGE_MISSING);
       return;
     }
     const [s, st, r, l] = await Promise.all([
@@ -66,7 +72,7 @@ export default function QuantLabPanel({ onClose }: { onClose: () => void }) {
       setStrategies(s.strategies);
       setSelectedId((prev) => prev ?? s.strategies[0]?.strategy.strategy_id ?? null);
       setError(null);
-    } else setError(explain(s.error));
+    } else setError(s.error);
     if (st.ok) setStatus(st.status);
     if (r.ok) setReports(r.reports);
     if (l.ok) setLedger(l.signals);
@@ -96,7 +102,7 @@ export default function QuantLabPanel({ onClose }: { onClose: () => void }) {
       setError(null);
       try {
         const result = await window.meridian?.runQuantLabBacktest({ strategyId });
-        if (result && !result.ok) setError(explain(result.error));
+        if (result && !result.ok) setError(result.error);
         else {
           setTab("results");
           await refresh();
@@ -115,7 +121,7 @@ export default function QuantLabPanel({ onClose }: { onClose: () => void }) {
         version: row.strategy.version,
         enabled: !row.strategy.live_enabled,
       });
-      if (result && !result.ok) setError(explain(result.error));
+      if (result && !result.ok) setError(result.error);
       else await refresh();
     },
     [refresh],
@@ -125,7 +131,7 @@ export default function QuantLabPanel({ onClose }: { onClose: () => void }) {
     setBusy("sweep");
     try {
       const result = await window.meridian?.sweepQuantLabLedger();
-      if (result && !result.ok) setError(explain(result.error));
+      if (result && !result.ok) setError(result.error);
       else await refresh();
     } finally {
       setBusy(null);
@@ -136,42 +142,54 @@ export default function QuantLabPanel({ onClose }: { onClose: () => void }) {
     <div className="app-no-drag fixed inset-0 z-[200] flex items-center justify-center bg-[#1d1b1b]/30 backdrop-blur-[3px]">
       <div className="flex h-[92vh] w-[1240px] max-w-[96vw] flex-col overflow-hidden rounded-2xl border border-white/70 bg-[#F4F4F0] shadow-2xl">
         <div className="flex items-center gap-4 border-b border-[#e0e0da] px-5 py-3">
-          <span className="font-sans text-[11px] font-medium tracking-[0.08em] text-[#9CA3AF]">
-            QUANT LAB · Shift+Q
+          <span className="shrink-0 font-sans text-[11px] font-medium tracking-[0.04em] text-[#9CA3AF]">
+            {t("instruments.quantlab.title", { key: shortcutText("quantlab") })}
           </span>
-          <div className="flex items-center gap-1">
-            {TABS.map((t) => (
+          <div className="flex shrink-0 items-center gap-1">
+            {TABS.map((tabDef) => (
               <button
-                key={t.key}
-                onClick={() => setTab(t.key)}
-                className={`rounded-md px-3 py-1 text-[12px] transition-colors ${
-                  tab === t.key ? "bg-[#1d1b1b] text-white" : "text-[#6b7280] hover:bg-[#e8e8e2]"
+                key={tabDef.key}
+                data-tab={tabDef.key}
+                onClick={() => setTab(tabDef.key)}
+                className={`whitespace-nowrap rounded-md px-3 py-1 text-[12px] transition-colors ${
+                  tab === tabDef.key ? "bg-[#1d1b1b] text-white" : "text-[#6b7280] hover:bg-[#e8e8e2]"
                 }`}
               >
-                {t.label}
+                {t(tabDef.label)}
               </button>
             ))}
           </div>
-          <span className="text-[11px] text-[#9CA3AF] tabular-nums">
+          <span className="min-w-0 truncate text-[11px] text-[#9CA3AF] tabular-nums">
             {status
-              ? `${status.seriesCount} series · ${status.seriesFrom ?? "—"} → ${status.seriesTo ?? "—"} · ${status.strategyCount} strategies · ${status.reportCount} runs`
-              : "loading…"}
+              ? t("instruments.quantlab.status", {
+                  series: status.seriesCount,
+                  from: status.seriesFrom ?? na(),
+                  to: status.seriesTo ?? na(),
+                  strategies: status.strategyCount,
+                  runs: status.reportCount,
+                })
+              : t("instruments.common.loading")}
           </span>
-          <div className="ml-auto flex items-center gap-2">
+          <div className="ml-auto flex shrink-0 items-center gap-2">
             <button
               onClick={() => void refresh()}
               className="rounded-md px-2 py-1 text-[11px] text-[#6b7280] hover:bg-[#e8e8e2]"
             >
-              Refresh
+              {t("instruments.quantlab.refresh")}
             </button>
-            <button onClick={onClose} className="rounded-md p-1 text-[#6b7280] hover:bg-[#e8e8e2]">
+            <button
+              onClick={onClose}
+              aria-label={t("common.close")}
+              title={t("common.close")}
+              className="rounded-md p-1 text-[#6b7280] hover:bg-[#e8e8e2]"
+            >
               <X className="h-4 w-4" />
             </button>
           </div>
         </div>
 
         {error && (
-          <div className="border-b border-[#e0e0da] bg-[#fdf3f3] px-5 py-2 text-[12px] text-[#b23b3b]">{error}</div>
+          <div className="border-b border-[#e0e0da] bg-[#fdf3f3] px-5 py-2 text-[12px] text-[#b23b3b]">{explain(error, t)}</div>
         )}
 
         <div className="flex min-h-0 flex-1">
@@ -197,8 +215,7 @@ export default function QuantLabPanel({ onClose }: { onClose: () => void }) {
         </div>
 
         <div className="border-t border-[#e0e0da] px-5 py-2 text-[10px] text-[#9CA3AF]">
-          Shift+Q to toggle · Esc to close · developer surface, nothing here reaches the dashboard · returns are gross
-          (no costs, no slippage) · no orders, no sizing
+          {t("instruments.quantlab.footer", { key: shortcutText("quantlab") })}
         </div>
       </div>
     </div>

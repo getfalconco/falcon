@@ -15,7 +15,9 @@ import {
 } from "@/lib/paper-account";
 import { isFollowed, subscribeWatchlist, toggleFollow } from "@/lib/watchlist";
 import { cn } from "../../lib/utils";
-import type { ChartTimeframe, LiveQuoteSession, PricePoint } from "../../../shared/stock-types";
+import { useT } from "@/lib/i18n";
+import { marketSessionLabel } from "@/hooks/useMarketSession";
+import type { ChartTimeframe, PricePoint } from "../../../shared/stock-types";
 import type { StockCatalogEntry } from "../../../shared/stock-catalog";
 
 /**
@@ -47,13 +49,6 @@ const SIGNED_PERCENT = {
   signDisplay: "exceptZero",
 } as const satisfies Intl.NumberFormatOptions;
 
-const SESSION_LABEL: Record<LiveQuoteSession, string> = {
-  regular: "Live",
-  pre: "Pre-market",
-  post: "After hours",
-  closed: "Market closed",
-};
-
 /** The peek's mini ranges: a day, a week, a month. */
 const PEEK_TIMEFRAMES = ["1D", "1W", "1M"] as const satisfies readonly ChartTimeframe[];
 type PeekTimeframe = (typeof PEEK_TIMEFRAMES)[number];
@@ -71,11 +66,12 @@ type ChartSession = "pre" | "reg" | "post";
  * what it is.
  */
 function MiniChart({ series }: { series: PricePoint[] }) {
+  const t = useT();
   const points = series.filter((p) => Number.isFinite(p.v));
   if (points.length < 2) {
     return (
       <div className="flex h-full items-center justify-center text-[13px] text-[#9CA3AF]">
-        No chart data for this range.
+        {t("dashboard.peek.noChartData")}
       </div>
     );
   }
@@ -169,6 +165,7 @@ export default function StockPeekModal({
   entry: StockCatalogEntry | null;
   onClose: () => void;
 }) {
+  const t = useT();
   const open = entry != null;
   // The exit animation still needs a subject after `entry` goes null.
   const lastEntry = useRef<StockCatalogEntry | null>(null);
@@ -277,8 +274,8 @@ export default function StockPeekModal({
 
   const badges = useMemo(() => {
     const held = heldSide !== "flat";
-    return { held, heldLabel: heldSide === "long" ? "Held · Long" : "Held · Short" };
-  }, [heldSide]);
+    return { held, heldLabel: t(heldSide === "long" ? "dashboard.peek.heldLong" : "dashboard.peek.heldShort") };
+  }, [heldSide, t]);
 
   return createPortal(
     <AnimatePresence>
@@ -305,7 +302,7 @@ export default function StockPeekModal({
           <motion.div
             role="dialog"
             aria-modal="true"
-            aria-label={`${shown.symbol} overview`}
+            aria-label={t("dashboard.peek.overview", { symbol: shown.symbol })}
             className="app-no-drag relative flex h-[70vh] w-[70vw] flex-col overflow-hidden rounded-3xl border border-white/60 bg-white/40 p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_40px_100px_rgba(0,0,0,0.22)] ring-1 ring-black/[0.04] backdrop-blur-xl backdrop-saturate-150"
             initial={{ opacity: 0, scale: 0.94, y: 18 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -319,13 +316,13 @@ export default function StockPeekModal({
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.08, duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
             >
-              <span className="select-none font-sans text-[11px] font-medium tracking-[0.08em] text-[#9CA3AF]">
-                STOCK
+              <span className="select-none font-sans text-[11px] font-medium tracking-[0.04em] text-[#9CA3AF]">
+                {t("dashboard.peek.label")}
               </span>
               <button
                 type="button"
                 onClick={onClose}
-                aria-label="Close"
+                aria-label={t("common.close")}
                 className="app-no-drag rounded-lg p-1.5 text-[#6b7280] transition-colors hover:bg-black/[0.04] hover:text-[#1d1b1b]"
               >
                 <X className="h-4 w-4" strokeWidth={1.75} aria-hidden />
@@ -375,7 +372,7 @@ export default function StockPeekModal({
                       fill={watching ? "currentColor" : "none"}
                       aria-hidden
                     />
-                    {watching ? "Watching" : "Watch"}
+                    {watching ? t("dashboard.peek.watching") : t("dashboard.peek.watch")}
                   </button>
                 </div>
                 <p className="mt-1 truncate text-[13px] text-[#6b7280]">
@@ -421,13 +418,13 @@ export default function StockPeekModal({
                         )}
                       />
                       <span className="text-[10.5px] uppercase tracking-[0.1em] text-[#9CA3AF]">
-                        {SESSION_LABEL[quote.session]}
+                        {t(marketSessionLabel(quote.session))}
                       </span>
                     </p>
                   </>
                 ) : (
                   <p className="text-[13px] text-[#9CA3AF]">
-                    {live.loading ? "Loading price…" : (live.error ?? "Price unavailable")}
+                    {live.loading ? t("dashboard.peek.loadingPrice") : (live.error ?? t("dashboard.peek.priceUnavailable"))}
                   </p>
                 )}
               </div>
@@ -462,7 +459,7 @@ export default function StockPeekModal({
                 {chartLoading ? (
                   <div className="flex h-full items-center justify-center gap-2 text-[13px] text-[#9CA3AF]">
                     <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden />
-                    Loading chart…
+                    {t("dashboard.peek.loadingChart")}
                   </div>
                 ) : series ? (
                   <MiniChart series={series} />

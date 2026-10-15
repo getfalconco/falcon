@@ -14,8 +14,10 @@
  * instead of showing an empty heading.
  */
 
-import { MONTH_ABBR, WEEKDAY_ABBR, maskDollarAmounts } from "./briefing-view";
+import { maskDollarAmounts } from "./briefing-view";
+import { ENGLISH, formatterFor, weekdayDateLabel, type BriefingKey, type BriefingText } from "./briefing-text";
 import type { BriefingReport, HeldFiling, MarketHeadline, Story } from "./briefing-types";
+import { isTradingDay } from "./calendar-days";
 
 export type HandoverKind = "news" | "earnings" | "other";
 
@@ -48,7 +50,12 @@ export type HandoverView = {
   sections: HandoverSection[];
   /** "9:04 AM ET" — the time the popup is looked at, on the market's clock. */
   time: string;
-  /** "Thu Sep 24" — the session this handover is for. */
+  /**
+   * "Thu Sep 24": the session this handover is for, beside the time. On a day
+   * the market does not open (a weekend, a holiday) it is New York's own date
+   * instead: the footer reads as the clock, and "Mon" under a Sunday's time
+   * would call Monday today. The handover is still Monday's.
+   */
   date: string;
   /** Nothing to report at all: the popup says so rather than drawing empty headings. */
   empty: boolean;
@@ -57,12 +64,13 @@ export type HandoverView = {
 /** How many lines each section shows before the popup would stop being a glance. */
 export const ITEMS_PER_SECTION = 3;
 
-export const HANDOVER_INTRO = "This is what happened when you were away";
+/** The heading in English; the popup itself reads `briefing.handover.intro` in the reader's language. */
+export const HANDOVER_INTRO = ENGLISH.t("briefing.handover.intro");
 
-const SECTION_TITLES: Record<HandoverKind, string> = {
-  news: "News",
-  earnings: "Earnings",
-  other: "Other",
+const SECTION_TITLES: Record<HandoverKind, BriefingKey> = {
+  news: "briefing.handover.section.news",
+  earnings: "briefing.handover.section.earnings",
+  other: "briefing.handover.section.other",
 };
 
 const SECTION_ORDER: HandoverKind[] = ["news", "earnings", "other"];
@@ -95,19 +103,23 @@ function subjectOf(tickers: readonly string[] | undefined, fallback: string | nu
 }
 
 /** What an unnamed line is about: the tape as a whole, or a scheduled macro print. */
-const SCOPE_SUBJECT: Partial<Record<Story["scope"], string>> = { market: "Markets", release: "Macro" };
+const SCOPE_SUBJECT: Partial<Record<Story["scope"], BriefingKey>> = {
+  market: "briefing.handover.subject.markets",
+  release: "briefing.handover.subject.macro",
+};
 
 function soleTicker(tickers: readonly string[] | undefined): string | null {
   const named = tickersOf(tickers);
   return named.length === 1 ? named[0]! : null;
 }
 
-function fromStory(story: Story): HandoverItem | null {
+function fromStory(story: Story, text: BriefingText): HandoverItem | null {
   const summary = clean(story.what);
   if (!summary) return null;
+  const scope = SCOPE_SUBJECT[story.scope];
   return {
     id: story.id,
-    subject: subjectOf(story.tickers, SCOPE_SUBJECT[story.scope] ?? null),
+    subject: subjectOf(story.tickers, scope ? text.t(scope) : null),
     ticker: soleTicker(story.tickers),
     summary,
     detail: clean(story.reaction),
@@ -116,7 +128,7 @@ function fromStory(story: Story): HandoverItem | null {
   };
 }
 
-function fromHeadline(h: MarketHeadline): HandoverItem | null {
+function fromHeadline(h: MarketHeadline, text: BriefingText): HandoverItem | null {
   const summary = clean(h.title);
   if (!summary) return null;
   return {
@@ -124,7 +136,7 @@ function fromHeadline(h: MarketHeadline): HandoverItem | null {
     subject: subjectOf(h.related, clean(h.source)),
     ticker: soleTicker(h.related),
     summary,
-    detail: clean(h.source) ? `Reported by ${clean(h.source)}.` : null,
+    detail: clean(h.source) ? text.t("briefing.handover.reportedBy", { source: clean(h.source)! }) : null,
     meaning: null,
     url: clean(h.url),
   };
@@ -141,15 +153,15 @@ export function isEarningsFiling(f: HeldFiling): boolean {
   return /\b2\.02\b|\bresults\b/i.test(f.label ?? "");
 }
 
-function fromFiling(f: HeldFiling): HandoverItem | null {
+function fromFiling(f: HeldFiling, text: BriefingText): HandoverItem | null {
   const ticker = clean(f.ticker)?.toUpperCase();
   if (!ticker) return null;
   return {
     id: `filing:${ticker}:${f.filed_at}`,
     subject: ticker,
     ticker,
-    summary: `${ticker} released its quarterly results.`,
-    detail: `Filed with the SEC: ${clean(f.label) ?? "8-K"}.`,
+    summary: text.t("briefing.handover.resultsReleased", { ticker }),
+    detail: text.t("briefing.handover.filedWithSec", { form: clean(f.label) ?? "8-K" }),
     meaning: null,
     url: clean(f.url),
   };
@@ -167,17 +179,16 @@ function dedupe(items: HandoverItem[]): HandoverItem[] {
   return out;
 }
 
-const NY_TIME = new Intl.DateTimeFormat("en-US", {
-  timeZone: "America/New_York",
-  hour: "numeric",
-  minute: "2-digit",
-  hour12: true,
-});
-
-/** "9:04 AM ET". The market's clock, labelled, so it reads right from any timezone. */
-export function etTimeLabel(now: Date): string {
+/**
+ * "9:04 AM ET", "09:04 ET". The market's clock, labelled, so it reads right
+ * from any timezone; in the reader's language and on the reader's 12 or 24
+ * hour choice.
+ */
+export function etTimeLabel(now: Date, text: BriefingText = ENGLISH): string {
   if (!Number.isFinite(now.getTime())) return "";
-  return `${NY_TIME.format(now)} ET`;
+  const base: Intl.DateTimeFormatOptions = { timeZone: "America/New_York", hour: "numeric", minute: "2-digit" };
+  const options = text.clock ? text.clock(base) : base;
+  return text.t("briefing.time.et", { time: formatterFor(text.locale, options).format(now) });
 }
 
 const NY_DATE = new Intl.DateTimeFormat("en-CA", {
@@ -188,23 +199,31 @@ const NY_DATE = new Intl.DateTimeFormat("en-CA", {
 });
 
 /** "Thu Sep 24" for the New York calendar day `now` falls on: the footer's date before a report has arrived. */
-export function etDateLabel(now: Date): string {
+export function etDateLabel(now: Date, text: BriefingText = ENGLISH): string {
   if (!Number.isFinite(now.getTime())) return "";
   const parts = Object.fromEntries(NY_DATE.formatToParts(now).map((p) => [p.type, p.value]));
-  return sessionDateLabel(`${parts.year}-${parts.month}-${parts.day}`);
+  return sessionDateLabel(`${parts.year}-${parts.month}-${parts.day}`, text);
 }
 
-/** "Thu Sep 24" from a NY calendar date "2026-09-24"; the input unchanged if it will not parse. */
-export function sessionDateLabel(ymd: string): string {
-  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(ymd ?? "");
-  if (!m) return ymd ?? "";
-  const y = Number(m[1]);
-  const mo = Number(m[2]);
-  const d = Number(m[3]);
-  // Noon UTC: far enough from midnight that no timezone flips the weekday.
-  const dow = new Date(Date.UTC(y, mo - 1, d, 12)).getUTCDay();
-  if (mo < 1 || mo > 12 || !Number.isFinite(dow)) return ymd;
-  return `${WEEKDAY_ABBR[dow]} ${MONTH_ABBR[mo - 1]} ${d}`;
+function nyDateOf(now: Date): string | null {
+  if (!Number.isFinite(now.getTime())) return null;
+  const parts = Object.fromEntries(NY_DATE.formatToParts(now).map((p) => [p.type, p.value]));
+  return `${parts.year}-${parts.month}-${parts.day}`;
+}
+
+/**
+ * The footer's date: the report's session, unless the clock is on a day the
+ * market does not open, which is shown as itself (`HandoverView.date`).
+ */
+export function footerDateLabel(report: BriefingReport, now: Date, text: BriefingText = ENGLISH): string {
+  const today = nyDateOf(now);
+  if (today && !isTradingDay(today)) return sessionDateLabel(today, text);
+  return sessionDateLabel(report.window?.target_session_ymd ?? "", text);
+}
+
+/** "Thu Sep 24" from a NY calendar date "2026-09-24", in the reader's language; the input unchanged if it will not parse. */
+export function sessionDateLabel(ymd: string, text: BriefingText = ENGLISH): string {
+  return weekdayDateLabel(ymd, text);
 }
 
 function masking(item: HandoverItem, masked: boolean): HandoverItem {
@@ -218,14 +237,14 @@ function masking(item: HandoverItem, masked: boolean): HandoverItem {
  * switch) still runs the same backstop the full briefing does, so a figure
  * that slipped into the prose never reaches a masked screen.
  */
-export function handoverView(report: BriefingReport, now: Date, masked: boolean): HandoverView {
+export function handoverView(report: BriefingReport, now: Date, masked: boolean, text: BriefingText = ENGLISH): HandoverView {
   const buckets: Record<HandoverKind, HandoverItem[]> = { news: [], earnings: [], other: [] };
   const results = (report.overnight?.filings ?? []).filter(isEarningsFiling);
   const reported = new Set(results.map((f) => clean(f.ticker)?.toUpperCase()).filter((t): t is string => !!t));
   const told = new Set<string>();
 
   for (const story of report.stories ?? []) {
-    const item = fromStory(story);
+    const item = fromStory(story, text);
     if (!item) continue;
     buckets[kindOf(story, reported)].push(item);
     for (const t of tickersOf(story.tickers)) told.add(t);
@@ -235,14 +254,14 @@ export function handoverView(report: BriefingReport, now: Date, masked: boolean)
   // so a thin night or a model outage still leaves something true on screen.
   if (buckets.news.length === 0) {
     for (const h of report.headlines ?? []) {
-      const item = fromHeadline(h);
+      const item = fromHeadline(h, text);
       if (item) buckets.news.push(item);
     }
   }
   // A company that filed results but has no story of its own still belongs
   // under Earnings: that is the one line the reader opened the app for.
   for (const f of results) {
-    const item = fromFiling(f);
+    const item = fromFiling(f, text);
     if (!item || told.has(item.ticker!)) continue;
     told.add(item.ticker!);
     buckets.earnings.push(item);
@@ -254,15 +273,15 @@ export function handoverView(report: BriefingReport, now: Date, masked: boolean)
     const items = dedupe(buckets[kind])
       .slice(0, ITEMS_PER_SECTION)
       .map((item) => masking(item, masked));
-    if (items.length > 0) sections.push({ kind, title: SECTION_TITLES[kind], items });
+    if (items.length > 0) sections.push({ kind, title: text.t(SECTION_TITLES[kind]), items });
   }
 
   return {
-    intro: HANDOVER_INTRO,
+    intro: text.t("briefing.handover.intro"),
     lead: lead === null ? null : masked ? maskDollarAmounts(lead) : lead,
     sections,
-    time: etTimeLabel(now),
-    date: sessionDateLabel(report.window?.target_session_ymd ?? ""),
+    time: etTimeLabel(now, text),
+    date: footerDateLabel(report, now, text),
     empty: sections.length === 0,
   };
 }

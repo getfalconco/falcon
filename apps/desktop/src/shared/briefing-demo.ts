@@ -277,7 +277,7 @@ type DemoHeadline = { headline: string; tags: string[]; also: string[] };
 const DEMO_HEADLINES: Readonly<Record<string, DemoHeadline>> = {
   NVDA: { headline: "Nvidia supplier commentary points to steady data center orders", tags: ["supply_chain"], also: ["AMD", "AVGO"] },
   AAPL: { headline: "Apple widens its trade-in program to more regions before the holiday quarter", tags: ["product"], also: [] },
-  MSFT: { headline: "Microsoft outlines new enterprise pricing for its AI assistant tier", tags: ["product"], also: [] },
+  MSFT: { headline: "Microsoft outlines new enterprise pricing for its Copilot tier", tags: ["product"], also: [] },
   AMZN: { headline: "Amazon opens more same-day delivery sites in the Midwest", tags: ["operations"], also: [] },
   META: { headline: "Meta details capital spending plans for a new data center campus", tags: ["capex"], also: ["NVDA", "AVGO"] },
   GOOGL: { headline: "Alphabet cloud unit announces a multi-year contract with a European bank", tags: ["contract"], also: [] },
@@ -369,7 +369,7 @@ const DEMO_MARKET_HEADLINES: ReadonlyArray<DemoMarketHeadline> = [
   {
     slug: "gold",
     symbol: "GC=F",
-    up: "Gold edges higher on steady central bank demand",
+    up: "Gold inches higher on steady central bank demand",
     down: "Gold eases from last week's record close",
     related: ["GC=F"],
     via: "GC=F",

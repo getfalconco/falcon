@@ -3,6 +3,7 @@ import { Moon, Sunrise, Sunset } from "lucide-react";
 import { usePortfolioBalance } from "@/hooks/usePortfolioBalance";
 import { marketSessionLabel, useMarketSession } from "@/hooks/useMarketSession";
 import { cn } from "@/lib/utils";
+import { useT } from "@/lib/i18n";
 
 /**
  * Hero number for the dashboard: the live portfolio value (cash +
@@ -26,6 +27,7 @@ export default function PortfolioValueHeadline({
    */
   size?: number;
 }) {
+  const t = useT();
   const balance = usePortfolioBalance();
   const shown = overrideValue ?? balance;
   const session = useMarketSession();
@@ -71,7 +73,7 @@ export default function PortfolioValueHeadline({
           ) : (
             <Moon className="h-3.5 w-3.5" strokeWidth={1.75} aria-hidden />
           )}
-          {sessionLabel}
+          {t(sessionLabel)}
         </span>
       ) : null}
     </div>

@@ -14,6 +14,7 @@ import { registerGraphHandlers } from "./research/register-graph-handlers";
 import { registerGlossHandlers } from "./gloss/register-gloss-handlers";
 import { registerInsightHandlers } from "./insight/register-insight-handlers";
 import { bootstrapNewsEvents, registerEventHandlers } from "./events/register-event-handlers";
+import { registerNewsArticleHandlers } from "./news/register-news-article-handlers";
 import { registerBaseHandlers } from "./base/register-base-handlers";
 import {
   bootstrapClassifier,
@@ -29,15 +30,30 @@ import {
 } from "./propagation/register-propagation-run-handlers";
 import { bootstrapRisk, registerRiskHandlers } from "./risk/register-risk-handlers";
 import { registerBriefingHandlers } from "./briefing/register-briefing-handlers";
+import { registerCalendarHandlers } from "./calendar/register-calendar-handlers";
+import { registerEarningsHandlers } from "./earnings/register-earnings-handlers";
 import { registerGaugeHandlers } from "./gauge/register-gauge-handlers";
 import { bootstrapScreen, registerScreenHandlers } from "./screen/register-screen-handlers";
 import { bootstrapQuantLab, registerQuantLabHandlers } from "./quantlab/register-quantlab-handlers";
 import { registerStockHandlers } from "./stock/register-stock-handlers";
 import { registerWaitlistHandlers } from "./waitlist/register-waitlist-handlers";
+import { registerProfileHandlers } from "./profile/register-profile-handlers";
+import { registerPlansHandlers } from "./plans/register-plans-handlers";
+import { registerPrivacyHandlers } from "./privacy/register-privacy-handlers";
 import { registerSnaptradeHandlers } from "./snaptrade/register-snaptrade-handlers";
 import { registerUpdateHandlers, startUpdateService } from "./update/update-service";
 import { registerDiagnosticsHandlers } from "./diagnostics/register-diagnostics-handlers";
+import { registerEnginesHandlers } from "./engines/register-engines-handlers";
+import { registerDeveloperHandlers } from "./developer/register-developer-handlers";
+import { applyHardwareAccelerationPreference, registerSystemHandlers } from "./system/register-system-handlers";
+import { bootstrapSystemPresence, takeStartInTray } from "./system/presence-electron";
+import {
+  bootstrapNotifications,
+  registerNotificationHandlers,
+} from "./notifications/register-notification-handlers";
+import { bootstrapAgents, registerAgentsHandlers } from "./agents/register-agents-handlers";
 import { animateWindowToWorkspace } from "./window-animation";
+import { registerI18nHandlers } from "./i18n-store";
 
 // Tell the env loader (electron-free) that this is a packaged build, so it
 // reads no .env files — see load-desktop-env.ts.
@@ -53,11 +69,17 @@ if (app.isPackaged) {
   // (support / verification) without disturbing the real one.
   const userDataOverride = process.env.FALCON_USER_DATA_DIR?.trim();
   app.setPath("userData", userDataOverride || path.join(app.getPath("appData"), "Falcon"));
+  // One Falcon per profile: with the window hidden in the tray, launching it
+  // again brings the running one forward (system/presence-electron.ts)
+  // instead of starting a second copy on the same data folder.
+  if (!app.requestSingleInstanceLock()) app.exit(0);
 }
 
 // Must run before any handler registers: engines resolve their data dirs from
 // these env vars, and a packaged build has no repo to fall back on.
 seedDataRoot(configureDataPaths());
+// Settings → System: Chromium fixes its GPU path before ready, so this reads the stored choice now.
+applyHardwareAccelerationPreference();
 
 // Packaged builds carry no provider keys: Anthropic + Finnhub go through the
 // research-worker with the user's own session (see provider-routing.ts).
@@ -73,13 +95,19 @@ if (process.platform === "win32") {
   );
 }
 
+// The reader's language for notifications and dialogs: the kept choice, read before anything can notify.
+registerI18nHandlers();
 registerStockHandlers();
 registerStep1ResearchHandlers();
 registerGraphHandlers();
 registerEventHandlers();
+registerNewsArticleHandlers();
 registerSnaptradeHandlers();
 registerOnboardingHandlers();
 registerWaitlistHandlers();
+registerProfileHandlers();
+registerPlansHandlers();
+registerPrivacyHandlers();
 registerTrackerHandlers();
 registerPortfolioHandlers();
 registerBaseHandlers();
@@ -90,10 +118,17 @@ registerGlossHandlers();
 registerInsightHandlers();
 registerRiskHandlers();
 registerBriefingHandlers();
+registerCalendarHandlers();
+registerEarningsHandlers();
 registerGaugeHandlers();
 registerScreenHandlers();
 registerQuantLabHandlers();
 registerDiagnosticsHandlers();
+registerEnginesHandlers();
+registerDeveloperHandlers();
+registerSystemHandlers();
+registerNotificationHandlers();
+registerAgentsHandlers();
 
 // Renderer → main session bridge: the public anon key + the user's own JWT,
 // so main can act on the user's behalf without ever holding a privileged key.
@@ -147,6 +182,8 @@ function createWindow(): void {
   mainWindow.on("ready-to-show", () => {
     if (!mainWindow) return;
     mainWindow.center();
+    // Started at login with the tray on: the window waits in the tray (system/presence-electron).
+    if (takeStartInTray()) return;
     mainWindow.show();
     mainWindow.focus();
     if (process.platform === "win32") {
@@ -291,7 +328,13 @@ app.whenReady().then(async () => {
 
   registerUpdateHandlers();
   createWindow();
+  // Settings → System: the quick open shortcut, the tray, keeping the machine awake.
+  bootstrapSystemPresence({ getWindow: () => mainWindow, createWindow });
   startUpdateService(() => mainWindow);
+  // Update + second-order signal alerts, gated by Settings → Notifications.
+  bootstrapNotifications();
+  // Agents: standing watches the reader set up, checked while the app runs (main/agents).
+  bootstrapAgents();
 
   app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) {

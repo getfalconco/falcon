@@ -1,5 +1,7 @@
 import { createRoot } from "react-dom/client";
 import "../globals.css";
+import { applyLanguage, setLanguage } from "../lib/i18n";
+import { isLanguageCode } from "../lib/i18n/languages";
 import BriefingHost from "../components/briefing/BriefingHost";
 import { BRIEFING_OPEN_EVENT, openBriefing } from "../lib/briefing-open";
 import { BRIEFING_SHOWN_LAUNCH_KEY, markShownThisLaunch } from "../lib/briefing-seen";
@@ -91,6 +93,10 @@ import { narrativeView } from "../../shared/briefing-view";
  * `[role="dialog"]` instead.
  */
 const params = new URLSearchParams(location.search);
+// ?lang=tr-TR shows the surface in that language (kept, as a pick would be).
+const langParam = params.get("lang");
+if (isLanguageCode(langParam)) setLanguage(langParam);
+applyLanguage();
 const state = params.get("state") ?? "stories";
 const masked = params.get("masked") === "1";
 const auto = params.get("auto") === "1";

@@ -1,6 +1,8 @@
 import { createRoot } from "react-dom/client";
 import "../globals.css";
 import QuantLabPanel from "../components/quantlab/QuantLabPanel";
+import { setLanguage } from "../lib/i18n";
+import { isLanguageCode } from "../lib/i18n/languages";
 import fixture from "./quantlab-fixture.json";
 
 /**
@@ -13,8 +15,11 @@ import fixture from "./quantlab-fixture.json";
  *   quantlab.html?tab=live       the live signal ledger
  *   quantlab.html?select=<id>    pre-select a strategy
  *   quantlab.html?empty=1        a fresh install: no series, no strategies
+ *   quantlab.html?lang=de-DE     the panel in that language (kept, as a pick would be)
  */
 const params = new URLSearchParams(location.search);
+const langParam = params.get("lang");
+if (isLanguageCode(langParam)) setLanguage(langParam);
 const tab = params.get("tab") ?? "builder";
 const select = params.get("select");
 const empty = params.get("empty") === "1";
@@ -52,7 +57,7 @@ setTimeout(() => {
     row?.click();
   }
   if (tab !== "builder") {
-    const label = tab === "results" ? "Results" : "Live";
-    buttons.find((b) => b.textContent?.trim() === label)?.click();
+    // By the tab's key, not its label: the label follows ?lang=.
+    (document.querySelector(`[data-tab="${tab === "results" ? "results" : "live"}"]`) as HTMLButtonElement | null)?.click();
   }
 }, 400);

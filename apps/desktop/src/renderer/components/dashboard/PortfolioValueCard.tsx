@@ -4,6 +4,7 @@ import ConnectPortfolioEmpty, { usePortfolioConnected } from "@/components/dashb
 import PortfolioChart from "@/components/dashboard/PortfolioChart";
 import PortfolioValueHeadline from "@/components/dashboard/PortfolioValueHeadline";
 import { TIMEFRAMES, type Timeframe } from "@/components/dashboard/TimeframeControls";
+import { useT } from "@/lib/i18n";
 
 /**
  * The balance and its chart as a card like any other: it sits in the grid,
@@ -28,6 +29,7 @@ export default function PortfolioValueCard({
   onDuplicate?: () => void;
   onRemove?: () => void;
 }) {
+  const t = useT();
   // The window the chart draws — chosen from the settings panel, and kept:
   // a reader who works in days should not be handed a month on every launch.
   const [timeframe, setTimeframeState] = useState<Timeframe>(() => {
@@ -82,7 +84,7 @@ export default function PortfolioValueCard({
       {!connected ? (
         <div className="row-span-2 min-h-0">
           <ConnectPortfolioEmpty
-            line="No account linked yet. Connect a brokerage or open a Falcon paper account to track your portfolio's value."
+            line={t("dashboard.portfolioValue.empty")}
           />
         </div>
       ) : (

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import ScreenPanel from "./ScreenPanel";
+import { useShortcut } from "@/lib/use-shortcuts";
 import { getWatchlist, subscribeWatchlist } from "@/lib/watchlist";
 
 /**
@@ -7,7 +8,8 @@ import { getWatchlist, subscribeWatchlist } from "@/lib/watchlist";
  * root, reachable from any screen and ONLY by this shortcut — like Shift+T
  * (Tracker), Shift+B/A (Base/Analyst), Shift+P (Propagation), Shift+R (Risk)
  * and Shift+F (Gauge), nothing in the product UI links to it. Debug-grade;
- * the Opportunities/dashboard surface is a later design pass (§8).
+ * the Opportunities/dashboard surface is a later design pass (§8). The key
+ * can be moved in Settings → Shortcuts.
  */
 /** Fire on `window` to open the Screen panel from anywhere. */
 export const SCREEN_OPEN_EVENT = "falcon:screen-open";
@@ -30,27 +32,13 @@ export default function ScreenHost() {
     return subscribeWatchlist(push);
   }, []);
 
+  useShortcut("screen", () => setOpen((v) => !v));
+
   useEffect(() => {
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (!event.shiftKey || event.ctrlKey || event.metaKey || event.altKey) return;
-      const isS = event.code === "KeyS" || event.key.toLowerCase() === "s";
-      if (!isS) return;
-      const target = event.target as HTMLElement | null;
-      if (target) {
-        const tag = target.tagName;
-        if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || target.isContentEditable) return;
-      }
-      event.preventDefault();
-      setOpen((v) => !v);
-    };
     // The band card's own button asks for the panel without knowing the key.
     const onOpenRequest = () => setOpen(true);
-    window.addEventListener("keydown", onKeyDown);
     window.addEventListener(SCREEN_OPEN_EVENT, onOpenRequest);
-    return () => {
-      window.removeEventListener("keydown", onKeyDown);
-      window.removeEventListener(SCREEN_OPEN_EVENT, onOpenRequest);
-    };
+    return () => window.removeEventListener(SCREEN_OPEN_EVENT, onOpenRequest);
   }, []);
 
   if (!open) return null;

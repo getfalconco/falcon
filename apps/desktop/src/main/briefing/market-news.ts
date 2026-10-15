@@ -10,9 +10,14 @@
  * by the instant the list was asked to start from (the last US close, which is
  * the same for every report of one handover).
  *
+ * Provider text that arrived as mojibake ("weekâ€™s" for "week's") is
+ * repaired on the way through, for a fresh read and for an entry an older
+ * build cached before it did (repairMojibake leaves clean text untouched).
+ *
  * Electron-free: the file path, the reader and the clock are injected.
  */
 
+import { repairMojibake } from "@meridian/research/news";
 import type { MarketHeadline } from "../../shared/briefing-types";
 import { readJson, writeJsonAtomic } from "./json-file";
 
@@ -62,6 +67,13 @@ export function marketNewsKey(since: string): string {
   return new Date(ms).toISOString();
 }
 
+/** A headline's provider text (title, source) with mojibake repaired. */
+export function repairMarketHeadline(headline: MarketHeadline): MarketHeadline {
+  const title = typeof headline.title === "string" ? repairMojibake(headline.title).trim() : headline.title;
+  const source = typeof headline.source === "string" ? repairMojibake(headline.source).trim() : headline.source;
+  return title === headline.title && source === headline.source ? headline : { ...headline, title, source };
+}
+
 export function createMarketNews(deps: MarketNewsDeps): {
   get(since: string): Promise<MarketHeadline[]>;
 } {
@@ -97,13 +109,13 @@ export function createMarketNews(deps: MarketNewsDeps): {
     const entry = store.by_since[key];
     if (marketNewsEntryFresh(entry, now())) {
       if (entry.headlines === null) throw new Error("market news unavailable: the last read failed");
-      return entry.headlines;
+      return entry.headlines.map(repairMarketHeadline);
     }
 
     let headlines: MarketHeadline[] | null;
     let failure: unknown = null;
     try {
-      headlines = await deps.fetch(key);
+      headlines = (await deps.fetch(key)).map(repairMarketHeadline);
     } catch (err) {
       headlines = null;
       failure = err;

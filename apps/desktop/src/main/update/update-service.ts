@@ -1,6 +1,8 @@
 import { app, ipcMain, type BrowserWindow } from "electron";
 import { autoUpdater } from "electron-updater";
 import type { UpdateStatus } from "../../shared/update-types";
+import { mt } from "../i18n";
+import type { UpdateCheckOutcome } from "../../shared/system-settings";
 
 /**
  * Falcon's release feed: the public Falcon-Releases repo, holding only release assets, so
@@ -20,10 +22,48 @@ type WindowGetter = () => BrowserWindow | null;
 
 let current: UpdateStatus = { kind: "idle" };
 
+/** Main-process listeners (the update notification) — the window gets its own push. */
+const statusListeners = new Set<(status: UpdateStatus) => void>();
+
+export function onUpdateStatusChange(listener: (status: UpdateStatus) => void): () => void {
+  statusListeners.add(listener);
+  return () => statusListeners.delete(listener);
+}
+
 function publish(getWindow: WindowGetter, status: UpdateStatus): void {
   current = status;
   const win = getWindow();
   if (win && !win.isDestroyed()) win.webContents.send(UPDATE_STATUS_CHANNEL, status);
+  for (const listener of statusListeners) {
+    try {
+      listener(status);
+    } catch (err) {
+      console.warn("[update] status listener failed:", err instanceof Error ? err.message : err);
+    }
+  }
+}
+
+export function getUpdateStatus(): UpdateStatus {
+  return current;
+}
+
+/** The check startUpdateService wired, or null where this build does not check. */
+let runCheck: (() => Promise<UpdateCheckOutcome>) | null = null;
+let lastCheck: UpdateCheckOutcome | null = null;
+
+/** Whether this build checks for updates at all (packaged, or forced). */
+export function updateChecksEnabled(): boolean {
+  return app.isPackaged || Boolean(process.env.FALCON_UPDATE_CHECK?.trim());
+}
+
+/** The most recent check's outcome, launch and periodic checks included. */
+export function getLastUpdateCheck(): UpdateCheckOutcome | null {
+  return lastCheck;
+}
+
+/** Settings → System → "Check for updates": the same check the timer runs, now. */
+export async function checkForUpdatesNow(): Promise<UpdateCheckOutcome | null> {
+  return runCheck ? runCheck() : null;
 }
 
 export function registerUpdateHandlers(): void {
@@ -43,11 +83,17 @@ export function registerUpdateHandlers(): void {
  * from a dev build (useful once a release exists).
  */
 export function startUpdateService(getWindow: WindowGetter): void {
-  if (!app.isPackaged && !process.env.FALCON_UPDATE_CHECK?.trim()) return;
+  if (!updateChecksEnabled()) return;
 
-  const check = process.platform === "darwin"
+  const once = process.platform === "darwin"
     ? () => checkUnsignedMac(getWindow)
     : () => checkWithElectronUpdater(getWindow);
+  const check = () =>
+    once().then((outcome) => {
+      lastCheck = outcome;
+      return outcome;
+    });
+  runCheck = check;
 
   // Let the window come up first; the check is not on the critical path.
   setTimeout(() => void check(), 4_000);
@@ -61,7 +107,7 @@ export function startUpdateService(getWindow: WindowGetter): void {
  */
 let electronUpdaterWired = false;
 
-function checkWithElectronUpdater(getWindow: WindowGetter): Promise<void> {
+function checkWithElectronUpdater(getWindow: WindowGetter): Promise<UpdateCheckOutcome> {
   if (!electronUpdaterWired) {
     electronUpdaterWired = true;
     autoUpdater.autoDownload = true;
@@ -76,7 +122,18 @@ function checkWithElectronUpdater(getWindow: WindowGetter): Promise<void> {
       console.warn("[update] check failed:", err instanceof Error ? err.message : err);
     });
   }
-  return autoUpdater.checkForUpdates().then(() => undefined, () => undefined);
+  const checkedAt = () => new Date().toISOString();
+  return autoUpdater.checkForUpdates().then(
+    (result): UpdateCheckOutcome =>
+      result?.isUpdateAvailable
+        ? { kind: "available", version: result.updateInfo.version, checkedAt: checkedAt() }
+        : { kind: "current", checkedAt: checkedAt() },
+    (err): UpdateCheckOutcome => ({
+      kind: "error",
+      error: err instanceof Error ? err.message : String(err),
+      checkedAt: checkedAt(),
+    }),
+  );
 }
 
 /**
@@ -84,17 +141,21 @@ function checkWithElectronUpdater(getWindow: WindowGetter): Promise<void> {
  * bundle, so electron-updater cannot help. We still want the user to know a
  * newer Falcon exists, so read the feed by hand and compare versions.
  */
-async function checkUnsignedMac(getWindow: WindowGetter): Promise<void> {
+async function checkUnsignedMac(getWindow: WindowGetter): Promise<UpdateCheckOutcome> {
+  const checkedAt = new Date().toISOString();
   try {
     const res = await fetch(LATEST_YML_URL, { redirect: "follow" });
-    if (!res.ok) return;
+    if (!res.ok) return { kind: "error", error: mt("update.feedHttp", { status: res.status }), checkedAt };
     const latest = parseVersionFromYml(await res.text());
-    if (!latest) return;
+    if (!latest) return { kind: "error", error: mt("update.feedNoVersion"), checkedAt };
     if (compareVersions(latest, app.getVersion()) > 0) {
       publish(getWindow, { kind: "unsigned", version: latest });
+      return { kind: "available", version: latest, checkedAt };
     }
+    return { kind: "current", checkedAt };
   } catch (err) {
     console.warn("[update] mac check failed:", err instanceof Error ? err.message : err);
+    return { kind: "error", error: err instanceof Error ? err.message : String(err), checkedAt };
   }
 }
 

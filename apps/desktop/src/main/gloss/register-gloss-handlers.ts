@@ -95,7 +95,7 @@ export function registerGlossHandlers(): void {
       if (hit) return { ok: true as const, gloss: hit, cached: true as const };
 
       if (inFlight.has(cacheKey) === false && !withinRate("explain", Date.now())) {
-        return { ok: false as const, error: "too many lookups — give it a moment" };
+        return { ok: false as const, error: "too many lookups, give it a moment" };
       }
 
       try {
@@ -123,7 +123,7 @@ export function registerGlossHandlers(): void {
       if (hit) return { ok: true as const, turkish: hit, cached: true as const };
 
       if (inFlight.has(cacheKey) === false && !withinRate("translate", Date.now())) {
-        return { ok: false as const, error: "too many lookups — give it a moment" };
+        return { ok: false as const, error: "too many lookups, give it a moment" };
       }
 
       try {

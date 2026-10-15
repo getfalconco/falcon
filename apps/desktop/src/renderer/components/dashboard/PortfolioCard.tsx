@@ -18,6 +18,7 @@ import {
   X,
 } from "lucide-react";
 import type { BrokerageAccount } from "../../../shared/snaptrade";
+import { accountWeight, formatWeightPct, paperAccountWeights, positionMarketValue } from "../../../shared/portfolio-weights";
 import StockIcon from "@/components/stock/StockIcon";
 import {
   readPaperAccount,
@@ -36,6 +37,7 @@ import { currencyOr } from "@/lib/currencies";
 import { useDemoMode } from "@/lib/demo-mode";
 import { cn } from "@/lib/utils";
 import { DROPDOWN_FADE } from "@/lib/dropdown-motion";
+import { useI18n, type MessageKey } from "@/lib/i18n";
 
 /**
  * Portfolio card in the Growth Forecast card's exact frame: every open
@@ -93,30 +95,45 @@ function fmtNative(code: string, amount: number): string {
  * positions are left out of the denominator, so the share never reads over
  * one hundred and always describes what the named holdings actually did.
  */
+/** The sentence for each case, whole: `{amount}` is the coloured figure. */
+const PNL_KEYS = {
+  up: {
+    plain: "dashboard.positions.pnl.up",
+    all: ["dashboard.positions.pnl.upAllOne", "dashboard.positions.pnl.upAllTwo"],
+    share: ["dashboard.positions.pnl.upShareOne", "dashboard.positions.pnl.upShareTwo"],
+  },
+  down: {
+    plain: "dashboard.positions.pnl.down",
+    all: ["dashboard.positions.pnl.downAllOne", "dashboard.positions.pnl.downAllTwo"],
+    share: ["dashboard.positions.pnl.downShareOne", "dashboard.positions.pnl.downShareTwo"],
+  },
+} as const satisfies Record<
+  "up" | "down",
+  { plain: MessageKey; all: readonly [MessageKey, MessageKey]; share: readonly [MessageKey, MessageKey] }
+>;
+
 function pnlMessageParts(
   pnl: number,
   rows: ReadonlyArray<{ symbol: string; pnl: number }>,
-): { before: string; amount: string | null; after: string } {
-  if (Math.abs(pnl) < 0.005) return { before: "Flat for now.", amount: null, after: "" };
+): { key: MessageKey; amount: string | null; vars: Record<string, string | number> } {
+  if (Math.abs(pnl) < 0.005) return { key: "dashboard.positions.pnl.flat", amount: null, vars: {} };
   const up = pnl > 0;
+  const keys = PNL_KEYS[up ? "up" : "down"];
   const side = rows
     .filter((r) => (up ? r.pnl > 0 : r.pnl < 0))
     .sort((a, b) => Math.abs(b.pnl) - Math.abs(a.pnl));
   const gross = side.reduce((sum, r) => sum + Math.abs(r.pnl), 0);
-  const before = up ? "Up " : "Down ";
   const amount = fmtUsd(Math.abs(pnl));
-  const noun = up ? "gains" : "losses";
-  if (side.length === 0 || gross <= 0) return { before, amount, after: "." };
+  if (side.length === 0 || gross <= 0) return { key: keys.plain, amount, vars: {} };
 
   // Name the holdings that carry the figure: one if it carries most of it
   // alone, otherwise the top two.
   const named = side.slice(0, side[0].pnl / gross >= 0.5 ? 1 : 2);
   const share = Math.round((named.reduce((sum, r) => sum + Math.abs(r.pnl), 0) / gross) * 100);
-  const who = named.map((r) => r.symbol).join(" and ");
-  if (named.length === side.length && share >= 100) {
-    return { before, amount, after: `. All of the ${noun} from ${who}.` };
-  }
-  return { before, amount, after: `. ${share}% of the ${noun} from ${who}.` };
+  const vars = { share, first: named[0].symbol, second: named[1]?.symbol ?? "" };
+  const which = named.length > 1 ? 1 : 0;
+  if (named.length === side.length && share >= 100) return { key: keys.all[which], amount, vars };
+  return { key: keys.share[which], amount, vars };
 }
 /**
  * The table over the holdings, in reading order — and that order never
@@ -146,6 +163,11 @@ type ColumnKey =
 /** Which part of the settings panel a column is listed under. */
 type ColumnSection = "data" | "quant";
 
+/**
+ * `label` and `title` are English on purpose: they describe the table to the
+ * model behind the highlight gloss. What the reader sees comes from the
+ * column's message keys (`COLUMN_TEXT`).
+ */
 const COLUMNS: Array<{ key: ColumnKey; label: string; w: number; section: ColumnSection; title?: string }> = [
   { key: "qty", label: "Qty", w: 64, section: "data" },
   { key: "last", label: "Last", w: 78, section: "data" },
@@ -194,6 +216,26 @@ const COLUMNS: Array<{ key: ColumnKey; label: string; w: number; section: Column
     title: "Share of the book's standalone risk (value × volatility) from this position",
   },
 ];
+
+/** The words a column shows as: its head, and the tooltip over it. */
+const COLUMN_TEXT: Record<ColumnKey, { label: MessageKey; title?: MessageKey }> = {
+  qty: { label: "dashboard.positions.col.qty" },
+  last: { label: "dashboard.positions.col.last" },
+  avgCost: { label: "dashboard.positions.col.avgCost" },
+  value: { label: "dashboard.positions.col.value" },
+  weight: { label: "dashboard.positions.col.weight" },
+  beta: { label: "dashboard.positions.col.beta", title: "dashboard.positions.colTitle.beta" },
+  exposure: { label: "dashboard.positions.col.exposure", title: "dashboard.positions.colTitle.exposure" },
+  reaching: { label: "dashboard.positions.col.reaching", title: "dashboard.positions.colTitle.reaching" },
+  dayPnl: { label: "dashboard.positions.col.dayPnl" },
+  totalPnl: { label: "dashboard.positions.col.totalPnl" },
+  vol30: { label: "dashboard.positions.col.vol30", title: "dashboard.positions.colTitle.vol30" },
+  mom20: { label: "dashboard.positions.col.mom20", title: "dashboard.positions.colTitle.mom20" },
+  residZ: { label: "dashboard.positions.col.residZ", title: "dashboard.positions.colTitle.residZ" },
+  w52: { label: "dashboard.positions.col.w52", title: "dashboard.positions.colTitle.w52" },
+  earnings: { label: "dashboard.positions.col.earnings", title: "dashboard.positions.colTitle.earnings" },
+  riskShare: { label: "dashboard.positions.col.riskShare", title: "dashboard.positions.colTitle.riskShare" },
+};
 
 /** Which columns the reader keeps and in what order — remembered. */
 const COLUMN_PREFS_KEY = "falcon.ui.positionsColumns.v3";
@@ -274,6 +316,8 @@ function ColumnRow({
   checked: boolean;
   onToggle: () => void;
 }) {
+  const { t } = useI18n();
+  const label = t(COLUMN_TEXT[column.key].label);
   const controls = useDragControls();
   return (
     <Reorder.Item
@@ -286,19 +330,19 @@ function ColumnRow({
       <span
         onPointerDown={(e) => controls.start(e)}
         className="cursor-grab text-[#B4B4AE] active:cursor-grabbing"
-        aria-label={`Drag to reorder ${column.label}`}
+        aria-label={t("dashboard.positions.dragToReorder", { column: label })}
         role="button"
       >
         <GripVertical className="h-3.5 w-3.5" strokeWidth={1.75} aria-hidden />
       </span>
-      <button type="button" onClick={onToggle} className="flex-1 text-left font-normal">
-        {column.label}
+      <button type="button" onClick={onToggle} className="min-w-0 flex-1 truncate text-left font-normal">
+        {label}
       </button>
       <button
         type="button"
         role="checkbox"
         aria-checked={checked}
-        aria-label={`${checked ? "Hide" : "Show"} ${column.label}`}
+        aria-label={t(checked ? "dashboard.positions.hideColumn" : "dashboard.positions.showColumn", { column: label })}
         onClick={onToggle}
         className={cn(
           "flex h-[15px] w-[15px] shrink-0 items-center justify-center rounded-[4px] border transition-colors",
@@ -327,9 +371,9 @@ const COL_GAP = 12;
 
 /** The position groups, in the order the card lists them. */
 const GROUPS = [
-  { key: "stocks", label: "Stocks" },
-  { key: "etfs", label: "ETFs" },
-] as const;
+  { key: "stocks", label: "dashboard.positions.group.stocks" },
+  { key: "etfs", label: "dashboard.positions.group.etfs" },
+] as const satisfies ReadonlyArray<{ key: string; label: MessageKey }>;
 
 /** Privacy mask: always five stars, no digits, no separators. */
 const MASKED_MONEY = "$*****";
@@ -347,6 +391,7 @@ export default function PortfolioCard({
   /** Three-dot menu: take this card off the dashboard. */
   onRemove?: () => void;
 }) {
+  const { t, tNodes } = useI18n();
   const [account, setAccount] = useState<PaperAccount>(readPaperAccount);
   const [brokerAccounts, setBrokerAccounts] = useState<BrokerageAccount[]>([]);
   /** The book reads by what a holding is, not by which account it sits in. */
@@ -548,13 +593,12 @@ export default function PortfolioCard({
       .filter((p) => {
         // Float residue from an old "sell everything" — worth nothing, listed
         // as nothing.
-        const price = prices[p.symbol];
-        const value = price != null ? p.shares * price : p.costUsd;
+        const value = positionMarketValue(p.shares, p.costUsd, prices[p.symbol]);
         return Math.abs(value) >= 0.01;
       })
       .map((p) => {
       const price = prices[p.symbol];
-      const value = price != null ? p.shares * price : p.costUsd;
+      const value = positionMarketValue(p.shares, p.costUsd, price);
       const pnl = value - p.costUsd;
       const shares = Math.abs(p.shares);
       const changePct = quotes[p.symbol]?.changePercent ?? null;
@@ -820,10 +864,14 @@ export default function PortfolioCard({
     return known.reduce((s, r) => s + Math.abs(r.value) * (r.beta ?? 0), 0) / base;
   }
 
-  /** Share of the whole book — positions and the cash beside them. */
-  const bookValue = rows.reduce((s, r) => s + r.value, 0) + Math.max(0, account.cash);
-  const weightOf = (value: number): string =>
-    bookValue > 1e-9 ? `${((value / bookValue) * 100).toFixed(1)}%` : "—";
+  /**
+   * Share of the whole account: positions and the cash beside them, cash
+   * signed. One definition (shared/portfolio-weights.ts), the same one the
+   * Risk Score card quotes its concentration sentence from, over the same
+   * live prints, so the two cards cannot print different weights for a name.
+   */
+  const accountTotal = paperAccountWeights(account, prices).total;
+  const weightOf = (value: number): string => formatWeightPct(accountWeight(value, accountTotal)) ?? t("common.na");
 
   /**
    * What a highlight in the table is about. The cell it started in names the
@@ -857,13 +905,13 @@ export default function PortfolioCard({
       case "last":
         return (
           <span className="tabular-nums text-[#374151]">
-            {row.price != null ? money(fmtUsd(row.price)) : "—"}
+            {row.price != null ? money(fmtUsd(row.price)) : t("common.na")}
           </span>
         );
       case "avgCost":
         return (
           <span className="tabular-nums text-[#6b7280]">
-            {row.avgCost != null ? money(fmtUsd(row.avgCost)) : "—"}
+            {row.avgCost != null ? money(fmtUsd(row.avgCost)) : t("common.na")}
           </span>
         );
       case "value":
@@ -874,7 +922,7 @@ export default function PortfolioCard({
         return <span className="tabular-nums text-[#6b7280]">{weightOf(row.value)}</span>;
       case "dayPnl":
         return row.dayPnl == null ? (
-          <span className="tabular-nums text-[#9CA3AF]">—</span>
+          <span className="tabular-nums text-[#9CA3AF]">{t("common.na")}</span>
         ) : (
           <span className={cn("tabular-nums", pnlTone(row.dayPnl))}>
             {money(fmtUsd(row.dayPnl, true))}
@@ -900,18 +948,18 @@ export default function PortfolioCard({
             className={cn("tabular-nums", weak ? "text-[#B0B4BA]" : "text-[#6b7280]")}
             title={
               row.beta != null && row.betaR2 != null
-                ? `r² ${row.betaR2.toFixed(2)}${weak ? ": the market explains little of this name's moves, so the beta is a weak read" : ""}`
+                ? t(weak ? "dashboard.positions.betaWeak" : "dashboard.positions.betaR2", { r2: row.betaR2.toFixed(2) })
                 : undefined
             }
           >
-            {row.beta != null ? row.beta.toFixed(2) : "—"}
+            {row.beta != null ? row.beta.toFixed(2) : t("common.na")}
           </span>
         );
       }
       case "exposure":
         return (
           <span className="tabular-nums text-[#374151]">
-            {row.exposure != null ? money(fmtUsd(row.exposure)) : "—"}
+            {row.exposure != null ? money(fmtUsd(row.exposure)) : t("common.na")}
           </span>
         );
       case "reaching": {
@@ -922,7 +970,10 @@ export default function PortfolioCard({
             type="button"
             data-no-lift
             onClick={() => openStock(row.symbol)}
-            title={`${live.length} live event${live.length === 1 ? "" : "s"} reaching ${row.symbol}. Open its tape`}
+            title={t(live.length === 1 ? "dashboard.positions.reachingOne" : "dashboard.positions.reachingMany", {
+              count: live.length,
+              symbol: row.symbol,
+            })}
             className="app-no-drag inline-flex items-center justify-end gap-1 tabular-nums text-[#374151] hover:text-[#1d1b1b]"
           >
             <span>{live.length}</span>
@@ -944,12 +995,12 @@ export default function PortfolioCard({
       case "vol30":
         return (
           <span className="tabular-nums text-[#6b7280]">
-            {row.vol30 != null ? `${row.vol30.toFixed(1)}%` : "—"}
+            {row.vol30 != null ? `${row.vol30.toFixed(1)}%` : t("common.na")}
           </span>
         );
       case "mom20":
         return row.mom20 == null ? (
-          <span className="text-[#9CA3AF]">—</span>
+          <span className="text-[#9CA3AF]">{t("common.na")}</span>
         ) : (
           <span className={cn("tabular-nums", pnlTone(row.mom20))}>
             {row.mom20 >= 0 ? "+" : ""}
@@ -958,7 +1009,7 @@ export default function PortfolioCard({
         );
       case "residZ":
         return row.residZ == null ? (
-          <span className="text-[#9CA3AF]">—</span>
+          <span className="text-[#9CA3AF]">{t("common.na")}</span>
         ) : (
           <span className={cn("tabular-nums", pnlTone(row.residZ))}>
             {row.residZ >= 0 ? "+" : ""}
@@ -967,13 +1018,13 @@ export default function PortfolioCard({
         );
       case "w52":
         return row.fromHigh == null ? (
-          <span className="text-[#9CA3AF]">—</span>
+          <span className="text-[#9CA3AF]">{t("common.na")}</span>
         ) : (
           <span
             className="tabular-nums text-[#6b7280]"
             title={
               row.fromLow != null
-                ? `${row.fromHigh.toFixed(0)}% from the 52-week high · +${row.fromLow.toFixed(0)}% off the low`
+                ? t("dashboard.positions.w52Title", { fromHigh: row.fromHigh.toFixed(0), fromLow: row.fromLow.toFixed(0) })
                 : undefined
             }
           >
@@ -982,20 +1033,22 @@ export default function PortfolioCard({
         );
       case "earnings":
         return row.earningsIn == null ? (
-          <span className="text-[#9CA3AF]">—</span>
+          <span className="text-[#9CA3AF]">{t("common.na")}</span>
         ) : (
           <span
             className={cn("tabular-nums", row.earningsIn <= 3 ? "text-[#D97706]" : "text-[#6b7280]")}
-            title={`${row.earningsIn} session${row.earningsIn === 1 ? "" : "s"} to earnings`}
+            title={t(row.earningsIn === 1 ? "dashboard.positions.earningsOne" : "dashboard.positions.earningsMany", {
+              count: row.earningsIn,
+            })}
           >
-            {row.earningsIn}s
+            {t("dashboard.positions.earningsCell", { count: row.earningsIn })}
           </span>
         );
       case "riskShare": {
         const share = riskShareOf(row);
         return (
           <span className="tabular-nums text-[#6b7280]">
-            {share != null ? `${(share * 100).toFixed(0)}%` : "—"}
+            {share != null ? `${(share * 100).toFixed(0)}%` : t("common.na")}
           </span>
         );
       }
@@ -1003,13 +1056,9 @@ export default function PortfolioCard({
   };
 
   const totalPnl = rows.reduce((s, r) => s + r.pnl, 0);
-  // Falcon node value: cash + live-priced positions.
-  const paperValue =
-    account.cash +
-    Object.values(account.positions).reduce((s, p) => {
-      const price = prices[p.symbol];
-      return s + (price != null ? p.shares * price : p.costUsd);
-    }, 0);
+  // Falcon node value: cash + live-priced positions, the same account value
+  // every weight on this card is a share of.
+  const paperValue = accountTotal;
   const totalBasis = Object.values(account.positions).reduce(
     (s, p) => s + Math.abs(p.costUsd),
     0,
@@ -1028,8 +1077,8 @@ export default function PortfolioCard({
     <div className="grid h-full w-full grid-cols-[minmax(0,1fr)] grid-rows-[auto_auto_minmax(0,1fr)_auto] overflow-hidden rounded-3xl border border-white/60 bg-white/40 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-black/[0.04] backdrop-blur-xl backdrop-saturate-150">
       {/* Header */}
       <div className="flex shrink-0 items-center justify-between">
-        <span className="select-none font-sans text-[11px] font-medium tracking-[0.08em] text-[#9CA3AF]">
-          POSITIONS
+        <span className="select-none font-sans text-[11px] font-medium tracking-[0.04em] text-[#9CA3AF]">
+          {t("dashboard.positions.label")}
         </span>
         {/* gap-3 plus the pulled-in dots: the three-dot glyph is a 3px mark
             centred in a 16px box, so without the -mr the empty half of its
@@ -1057,7 +1106,7 @@ export default function PortfolioCard({
           >
             <button
               type="button"
-              aria-label={searchOpen ? "Close search" : "Search positions"}
+              aria-label={searchOpen ? t("dashboard.card.closeSearch") : t("dashboard.positions.search")}
               aria-expanded={searchOpen}
               onClick={() => {
                 if (searchOpen) {
@@ -1088,8 +1137,8 @@ export default function PortfolioCard({
               onBlur={() => {
                 if (!query.trim()) setSearchOpen(false);
               }}
-              placeholder="Search positions"
-              aria-label="Search positions"
+              placeholder={t("dashboard.positions.search")}
+              aria-label={t("dashboard.positions.search")}
               tabIndex={searchOpen ? 0 : -1}
               className={cn(
                 "app-no-drag ml-2 w-full min-w-0 bg-transparent text-[12.5px] text-[#1d1b1b] outline-none placeholder:text-[#9CA3AF]",
@@ -1103,7 +1152,7 @@ export default function PortfolioCard({
           <div ref={settingsRef} data-no-lift className="relative flex">
             <button
               type="button"
-              aria-label="Table settings"
+              aria-label={t("dashboard.positions.tableSettings")}
               aria-haspopup="dialog"
               aria-expanded={settingsOpen}
               onClick={() => setSettingsOpen((v) => !v)}
@@ -1121,18 +1170,18 @@ export default function PortfolioCard({
                   ref={settingsPanelRef}
                   data-no-lift
                   role="dialog"
-                  aria-label="Table settings"
+                  aria-label={t("dashboard.positions.tableSettings")}
                   {...DROPDOWN_FADE}
                   style={{
                     top: settingsPos.top,
                     right: settingsPos.right,
                     maxHeight: `calc(100vh - ${settingsPos.top + 12}px)`,
                   }}
-                  className="app-no-drag fixed z-[60] w-56 overflow-y-auto overscroll-contain rounded-2xl border border-white/60 bg-white/70 p-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_18px_44px_rgba(0,0,0,0.14)] ring-1 ring-black/[0.04] backdrop-blur-xl backdrop-saturate-150 [&::-webkit-scrollbar]:hidden"
+                  className="app-no-drag fixed z-[60] w-56 overflow-y-auto overscroll-contain rounded-2xl border border-white/60 bg-white p-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_18px_44px_rgba(0,0,0,0.14)] ring-1 ring-black/[0.06] [&::-webkit-scrollbar]:hidden"
                 >
                   <div className="flex items-center justify-between px-1 pb-1.5">
-                    <span className="select-none font-sans text-[11px] font-normal tracking-[0.08em] text-[#9CA3AF]">
-                      APPEARANCE
+                    <span className="select-none font-sans text-[11px] font-normal tracking-[0.04em] text-[#9CA3AF]">
+                      {t("dashboard.positions.appearance")}
                     </span>
                     <button
                       type="button"
@@ -1141,7 +1190,7 @@ export default function PortfolioCard({
                       }
                       className="text-[11.5px] font-normal text-[#6b7280] transition-colors hover:text-[#1d1b1b]"
                     >
-                      Reset
+                      {t("dashboard.positions.reset")}
                     </button>
                   </div>
                   <div aria-hidden className="mx-1 my-1 h-px bg-black/[0.06]" />
@@ -1151,8 +1200,8 @@ export default function PortfolioCard({
                     );
                     return (
                       <div key={section}>
-                        <span className="block select-none px-1 pb-1 pt-1.5 font-sans text-[11px] font-normal tracking-[0.08em] text-[#9CA3AF]">
-                          {section === "data" ? "DATA" : "QUANT"}
+                        <span className="block select-none px-1 pb-1 pt-1.5 font-sans text-[11px] font-normal tracking-[0.04em] text-[#9CA3AF]">
+                          {t(section === "data" ? "dashboard.positions.sectionData" : "dashboard.positions.sectionQuant")}
                         </span>
                         {/* Each section reorders among its own; the other
                             section's places in the overall order are kept. */}
@@ -1196,7 +1245,7 @@ export default function PortfolioCard({
           <button
             type="button"
             onClick={onToggleMasked}
-            aria-label={masked ? "Show values" : "Hide values"}
+            aria-label={masked ? t("dashboard.positions.showValues") : t("dashboard.positions.hideValues")}
             aria-pressed={masked}
             className="app-no-drag text-[#4b5563] transition-colors hover:text-[#1d1b1b]"
           >
@@ -1216,7 +1265,7 @@ export default function PortfolioCard({
           <div ref={menuRef} data-no-lift className="relative flex -mr-[10px]">
             <button
               type="button"
-              aria-label="Card menu"
+              aria-label={t("dashboard.card.menu")}
               aria-haspopup="menu"
               aria-expanded={menuOpen}
               onClick={() => setMenuOpen((v) => !v)}
@@ -1235,9 +1284,9 @@ export default function PortfolioCard({
               {menuOpen ? (
                 <motion.div
                   role="menu"
-                  aria-label="Card actions"
+                  aria-label={t("dashboard.card.actions")}
                   {...DROPDOWN_FADE}
-                  className="app-no-drag absolute right-0 top-full z-50 mt-2 w-48 rounded-2xl border border-white/60 bg-white/70 p-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_18px_44px_rgba(0,0,0,0.14)] ring-1 ring-black/[0.04] backdrop-blur-xl backdrop-saturate-150"
+                  className="app-no-drag absolute right-0 top-full z-50 mt-2 w-48 rounded-2xl border border-white/60 bg-white p-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_18px_44px_rgba(0,0,0,0.14)] ring-1 ring-black/[0.06]"
                 >
                   <button
                     role="menuitem"
@@ -1253,7 +1302,7 @@ export default function PortfolioCard({
                       strokeWidth={1.75}
                       aria-hidden
                     />
-                    Duplicate
+                    {t("dashboard.card.duplicate")}
                   </button>
                   <div aria-hidden className="mx-2 my-1 h-px bg-black/[0.06]" />
                   <button
@@ -1266,7 +1315,7 @@ export default function PortfolioCard({
                     className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-left text-[13px] font-normal text-[#DC2626] transition-all duration-150 hover:translate-x-0.5 hover:bg-[#DC2626]/[0.10] active:scale-[0.97]"
                   >
                     <X className="h-[15px] w-[15px]" strokeWidth={2} aria-hidden />
-                    Delete module
+                    {t("dashboard.card.delete")}
                   </button>
                 </motion.div>
               ) : null}
@@ -1278,7 +1327,7 @@ export default function PortfolioCard({
       {!connected ? (
         <div className="row-span-3 min-h-0">
           <ConnectPortfolioEmpty
-            line="No account linked yet. Connect a brokerage or open a Falcon paper account to see your positions here."
+            line={t("dashboard.positions.empty")}
           />
         </div>
       ) : (
@@ -1308,17 +1357,16 @@ export default function PortfolioCard({
         <p className="mt-1.5 text-[12.5px] leading-snug text-[#9CA3AF]">
           {(() => {
             const msg = pnlMessageParts(totalPnl, rows);
-            return (
-              <>
-                {msg.before}
-                {msg.amount ? (
-                  <span className={cn("font-medium tabular-nums", pnlTone(totalPnl))}>
-                    {money(msg.amount)}
-                  </span>
-                ) : null}
-                {msg.after}
-              </>
-            );
+            return tNodes(msg.key, {
+              ...msg.vars,
+              amount: msg.amount ? (
+                <span className={cn("font-medium tabular-nums", pnlTone(totalPnl))}>
+                  {money(msg.amount)}
+                </span>
+              ) : (
+                ""
+              ),
+            });
           })()}
         </p>
       </div>
@@ -1364,7 +1412,7 @@ export default function PortfolioCard({
         className="scrollbar-meridian app-no-drag mt-4 min-h-0 flex-1 overflow-x-hidden overflow-y-auto overscroll-contain pr-1 will-change-transform"
       >
         {rows.length === 0 && account.cash <= 0 ? (
-          <p className="py-1.5 text-[12.5px] text-[#9CA3AF]">No open positions.</p>
+          <p className="py-1.5 text-[12.5px] text-[#9CA3AF]">{t("dashboard.positions.noPositions")}</p>
         ) : null}
 
         {/* Column heads, listed once for the whole book. They stay pinned
@@ -1388,7 +1436,7 @@ export default function PortfolioCard({
                 className="grid items-center gap-3 border-b-[0.5px] border-black/[0.06] pb-1 text-right font-['Geist_Mono'] text-[9.5px] uppercase tracking-[0.06em] text-[#9CA3AF]"
                 style={railRowStyle}
               >
-                <span className="text-left">Name</span>
+                <span className="text-left">{t("dashboard.positions.name")}</span>
                 {/* Every head is the switch for its own sort: largest first
                     (arrow up), smallest first (arrow down), back to the book's
                     order. The arrow marks the sorted column and which way it runs. */}
@@ -1398,13 +1446,21 @@ export default function PortfolioCard({
                     type="button"
                     data-no-lift
                     onClick={() => cycleSort(c.key)}
-                    title={c.title ?? `Sort by ${c.label}`}
+                    title={(() => {
+                      const text = COLUMN_TEXT[c.key];
+                      return text.title ? t(text.title) : t("dashboard.positions.sortBy", { column: t(text.label) });
+                    })()}
                     className={cn(
-                      "app-no-drag inline-flex items-center justify-end gap-0.5 transition-colors hover:text-[#4b5563]",
+                      // min-w-0 and a truncating label: a long head in another
+                      // language ("Part du risque") is cut at its column, never
+                      // run into the next one; the tooltip still names it whole.
+                      // `uppercase` again: a <button> resets text-transform, so without it
+                      // NAME sat in caps and every other head in title case.
+                      "app-no-drag inline-flex min-w-0 items-center justify-end gap-0.5 uppercase transition-colors hover:text-[#4b5563]",
                       sort?.key === c.key && "text-[#1d1b1b]",
                     )}
                   >
-                    {c.label}
+                    <span className="truncate">{t(COLUMN_TEXT[c.key].label)}</span>
                     {sort?.key === c.key ? (
                       sort.dir === "desc" ? (
                         <ArrowDown className="h-2.5 w-2.5 shrink-0" strokeWidth={2.25} aria-hidden />
@@ -1441,7 +1497,7 @@ export default function PortfolioCard({
                     strokeWidth={2}
                     aria-hidden
                   />
-                  <span className="truncate text-[11.5px] font-normal text-[#6b7280]">{group.label}</span>
+                  <span className="truncate text-[11.5px] font-normal text-[#6b7280]">{t(group.label)}</span>
                 </span>
                 {visibleColumns.map((c) => (
                   <span key={c.key} className="whitespace-nowrap">
@@ -1473,8 +1529,8 @@ export default function PortfolioCard({
                           <span
                             role="img"
                             className="h-[5px] w-[5px] shrink-0 rounded-full bg-[#DC2626]"
-                            title={`Short position in ${row.symbol}`}
-                            aria-label={`${row.symbol} short position`}
+                            title={t("dashboard.positions.shortTitle", { symbol: row.symbol })}
+                            aria-label={t("dashboard.positions.shortLabel", { symbol: row.symbol })}
                           />
                         )}
                       </span>
@@ -1511,14 +1567,14 @@ export default function PortfolioCard({
                 strokeWidth={2}
                 aria-hidden
               />
-              <span className="truncate text-[11.5px] font-normal text-[#6b7280]">Cash</span>
+              <span className="truncate text-[11.5px] font-normal text-[#6b7280]">{t("dashboard.positions.group.cash")}</span>
             </span>
             {visibleColumns.map((c) => (
               <span key={c.key} className="whitespace-nowrap">
                 {c.key === "value" ? (
                   <span className="tabular-nums text-[#374151]">{money(fmtUsd(account.cash))}</span>
                 ) : c.key === "weight" ? (
-                  <span className="tabular-nums text-[#6b7280]">{weightOf(Math.max(0, account.cash))}</span>
+                  <span className="tabular-nums text-[#6b7280]">{weightOf(account.cash)}</span>
                 ) : null}
               </span>
             ))}
@@ -1566,7 +1622,7 @@ export default function PortfolioCard({
                 strokeWidth={2}
                 aria-hidden
               />
-              <span className="text-[11.5px] font-medium text-[#6b7280]">Connected</span>
+              <span className="text-[11.5px] font-medium text-[#6b7280]">{t("dashboard.positions.group.connected")}</span>
               <span className="ml-auto text-[12px] tabular-nums text-[#6b7280]">
                 {money(
                   fmtUsd(
@@ -1589,7 +1645,7 @@ export default function PortfolioCard({
                     <span className="text-[13px] font-semibold text-[#1d1b1b]">{acct.institution}</span>
                     <span className="text-[10.5px] text-[#9CA3AF]">{acct.name}</span>
                     <span className="ml-auto text-[12.5px] tabular-nums text-[#374151]">
-                      {acct.totalValue != null ? money(fmtUsd(acct.totalValue)) : "—"}
+                      {acct.totalValue != null ? money(fmtUsd(acct.totalValue)) : t("common.na")}
                     </span>
                   </div>
                 ))}

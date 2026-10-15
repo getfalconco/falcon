@@ -102,6 +102,25 @@ type Host = {
 
 let host: Host | null = null;
 
+let corporateActions: ReturnType<typeof createCorporateActions> | null = null;
+
+/**
+ * The one corporate-calendar cache. The briefing and the Calendar tab read
+ * through the same instance: two would each keep their own copy of the same
+ * file and overwrite each other's answers. Built on first use, for the same
+ * reason as the host below.
+ */
+export function getCorporateActions(): ReturnType<typeof createCorporateActions> {
+  if (!corporateActions) {
+    corporateActions = createCorporateActions({
+      file: path.join(briefingDir(), CORPORATE_ACTIONS_FILE),
+      fetchCalendar: fetchCorporateCalendar,
+      fetchEvents: fetchRecentCorporateEvents,
+    });
+  }
+  return corporateActions;
+}
+
 /**
  * Built on first use, not at import. A packaged build moves `userData`, and
  * with it the data root, in the first lines of startup, and every handler
@@ -113,11 +132,7 @@ function getHost(): Host {
 
   const store = new BriefingStore(briefingDir());
   const chain = createChainPort(invokeChannel);
-  const corporate = createCorporateActions({
-    file: path.join(briefingDir(), CORPORATE_ACTIONS_FILE),
-    fetchCalendar: fetchCorporateCalendar,
-    fetchEvents: fetchRecentCorporateEvents,
-  });
+  const corporate = getCorporateActions();
   const marketNews = createMarketNews({
     file: path.join(briefingDir(), MARKET_NEWS_FILE),
     fetch: fetchMarketHeadlines,

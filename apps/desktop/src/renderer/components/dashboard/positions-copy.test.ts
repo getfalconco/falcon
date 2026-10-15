@@ -3,6 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, it } from "node:test";
+import { en } from "../../lib/i18n/messages/areas/dashboard";
 
 /**
  * House rule for the Positions card: its copy uses no em dash (Kuzey,
@@ -60,8 +61,19 @@ describe("Positions card copy", () => {
   it("still says the things it is supposed to say", () => {
     // A rule that passes because the copy vanished would be worse than the
     // rule failing, so pin a couple of the lines the card actually shows.
-    assert.ok(src.includes("Flat for now."));
-    assert.ok(src.includes("of the ${noun} from ${who}."));
-    assert.ok(src.includes("Short position in "));
+    // The words live in the i18n tables now; the card asks for them by key.
+    assert.equal(en["dashboard.positions.pnl.flat"], "Flat for now.");
+    assert.equal(en["dashboard.positions.pnl.upShareOne"], "Up {amount}. {share}% of the gains from {first}.");
+    assert.equal(en["dashboard.positions.shortTitle"], "Short position in {symbol}");
+    for (const key of ["dashboard.positions.pnl.flat", "dashboard.positions.shortTitle", "dashboard.positions.label"]) {
+      assert.ok(src.includes(`"${key}"`), `the card does not show ${key}`);
+    }
+  });
+
+  it("keeps the English table free of dashes", () => {
+    const offenders = Object.entries(en).filter(
+      ([key, text]) => key.startsWith("dashboard.positions.") && (text.includes(EM_DASH) || text.includes("–")),
+    );
+    assert.deepEqual(offenders, []);
   });
 });

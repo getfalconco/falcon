@@ -1,20 +1,34 @@
 import { createRoot } from "react-dom/client";
+import { applyLanguage, setLanguage } from "../lib/i18n";
+import { isLanguageCode } from "../lib/i18n/languages";
 import "../globals.css";
 import OpportunitiesPanel from "../components/dashboard/OpportunitiesPanel";
+import PortfolioCard from "../components/dashboard/PortfolioCard";
 import RiskHost from "../components/risk/RiskHost";
 import fixture from "./risk-fixture.json";
+
+// ?lang=tr-TR shows the card in that language (kept, as a pick would be).
+{
+  const lang = new URLSearchParams(location.search).get("lang");
+  if (isLanguageCode(lang)) setLanguage(lang);
+  applyLanguage();
+}
 
 /**
  * Scratch harness for the Risk Engine surfaces against a recorded real-data
  * snapshot (scripts/risk-replay.ts --json).
  *   ?view=panel                 Shift+R panel
  *   ?view=card&state=on         dashboard card, riskCardEnabled: true
- *   ?view=card&state=off        flag off → static placeholder (unchanged)
- *   ?view=card&state=empty      flag on, empty snapshot → "No open positions."
+ *   ?view=card&state=off        flag off → "Risk score unavailable", no number
+ *   ?view=card&state=empty      flag on, empty snapshot, nothing held → "No positions to score yet"
+ *   ?view=card&state=none       no snapshot yet for a held book → "Calculating your risk score"
+ *   ?view=card&state=error      the read fails → the error line with Try again, no number
  *   ?view=card&state=loading    flag on, a demo push in flight → loading state
  *   ?view=panel&state=thin      Sharpe unmeasurable → the row is shown as out of the blend
  *   ?view=panel&state=boom      a corrupt payload → the error boundary holds, the app does not go white
  *   ?view=panel&state=legacy    a stored five-component snapshot (pre-Sharpe) → the row reads "not in this snapshot"
+ *   ?view=both                  Positions card beside the risk card over the fixture's book
+ *                               (its holdings + 5,000 cash): one weight for JPM on both
  */
 const params = new URLSearchParams(location.search);
 const view = params.get("view") ?? "panel";
@@ -59,8 +73,26 @@ const history = [
   { computed_at: "2026-08-19T14:00:00.000Z", score: null, band: null, driver_component: null, driver_sentence: null, trigger: ["startup"], empty: true },
 ];
 
+/** The fixture's book as a paper account, priced at the snapshot's own values. */
+const BOTH_PRICES: Record<string, number> = { JPM: 300, NVDA: 182.65, CEG: 278.42, ZLAB: 26.17, OPK: 1.49, BNTX: 102.645 };
+// "none" needs a held book too, or the card reads it as nothing to score.
+if (view === "both" || state === "none") {
+  const positions: Record<string, { symbol: string; shares: number; costUsd: number }> = {};
+  for (const w of real.weights as Array<{ ticker: string; market_value: number }>) {
+    const price = BOTH_PRICES[w.ticker];
+    positions[w.ticker] = { symbol: w.ticker, shares: w.market_value / price, costUsd: w.market_value * 0.9 };
+  }
+  localStorage.setItem("falcon.paperPositions", JSON.stringify(positions));
+  localStorage.setItem("falcon.paperBalance", "5000");
+}
+
 (window as any).meridian = {
-  getRiskLatest: async () => ({ ok: true, snapshot, riskCardEnabled }),
+  getLiveQuote: async (symbol: string) =>
+    BOTH_PRICES[symbol] != null ? { ok: true, quote: { symbol, price: BOTH_PRICES[symbol], session: "closed" } } : { ok: false },
+  getStockQuote: async (symbol: string) =>
+    BOTH_PRICES[symbol] != null ? { ok: true, quote: { symbol, price: BOTH_PRICES[symbol] } } : { ok: false },
+  getRiskLatest: async () =>
+    state === "error" ? { ok: false, error: "engine timed out" } : { ok: true, snapshot: state === "none" ? null : snapshot, riskCardEnabled },
   getRiskStatus: async () => ({
     ok: true,
     status: {
@@ -80,7 +112,9 @@ const history = [
     },
   }),
   getRiskHistory: async () => ({ ok: true, history }),
-  recomputeRisk: async () => ({ ok: true, snapshot, riskCardEnabled }),
+  // "none" never gets its score here, so the card stays on its calculating line.
+  recomputeRisk: async () =>
+    state === "none" ? new Promise<never>(() => {}) : state === "error" ? { ok: false, error: "engine timed out" } : { ok: true, snapshot, riskCardEnabled },
   setRiskCardEnabled: async () => ({ ok: true }),
   updateRiskAccount: async () => ({ ok: true }),
   onRiskSnapshot: () => () => {},
@@ -88,10 +122,19 @@ const history = [
 
 if (state === "loading") setTimeout(() => window.dispatchEvent(new CustomEvent("falcon:risk-pending")), 50);
 // Shift+R, the way the app opens it.
-if (view !== "card") setTimeout(() => window.dispatchEvent(new KeyboardEvent("keydown", { key: "R", code: "KeyR", shiftKey: true })), 60);
+if (view !== "card" && view !== "both") setTimeout(() => window.dispatchEvent(new KeyboardEvent("keydown", { key: "R", code: "KeyR", shiftKey: true })), 60);
 
 createRoot(document.getElementById("root")!).render(
-  view === "card" ? (
+  view === "both" ? (
+    <div className="flex min-h-screen items-center justify-center gap-6 bg-[#EAEAE6] p-10">
+      <div className="w-[380px] shrink-0">
+        <PortfolioCard masked={false} onToggleMasked={() => {}} />
+      </div>
+      <div className="h-[460px] w-[380px]">
+        <OpportunitiesPanel />
+      </div>
+    </div>
+  ) : view === "card" ? (
     <div className="flex min-h-screen items-center justify-center bg-[#EAEAE6] p-10">
       <div className="h-[460px] w-[380px]">
         <OpportunitiesPanel />

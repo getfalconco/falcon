@@ -24,6 +24,8 @@ export type GraphEdge = {
   filing_date?: string;
   /** SEC accession number of the source filing, dashed form. */
   accession_number?: string | null;
+  /** The source filing's form; absent on graphs built before it was carried. */
+  form?: "10-K" | "20-F" | null;
 };
 
 export type GraphFile = {

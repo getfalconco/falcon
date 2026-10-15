@@ -1,12 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { EASE } from "@meridian/ui";
+import { Globe } from "lucide-react";
 import type { User } from "@supabase/supabase-js";
 import AnimatedGradientPanel from "@/components/AnimatedGradientPanel";
 import LoginForm from "@/components/LoginForm";
 import OnboardingFlow from "@/components/onboarding/OnboardingFlow";
 import WindowControls from "@/components/WindowControls";
 import WaitlistView from "@/components/WaitlistView";
+import LanguageModal from "@/components/settings/LanguageModal";
+import { useI18n } from "@/lib/i18n";
 import { hasFullName } from "@/lib/user-preferences";
 
 const PANEL_DEFAULT = "minmax(0, 0.82fr) minmax(0, 1.18fr)";
@@ -24,6 +27,33 @@ type Props = {
   onWaitlist: () => void;
   onProfileComplete: () => void;
 };
+
+/**
+ * The language, chosen before signing in: a quiet globe and the language's
+ * own name in the top left corner, opening the same picker Settings uses.
+ */
+function LanguageButton() {
+  const { t, info } = useI18n();
+  const [open, setOpen] = useState(false);
+  // "English (United States)" reads as "English" here; the picker shows the rest.
+  const name = info.nativeName.replace(/\s*\(.*\)$/, "");
+  return (
+    <>
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        aria-haspopup="dialog"
+        aria-label={`${t("menu.language")}: ${info.nativeName}`}
+        title={t("menu.language")}
+        className="app-no-drag absolute left-3 top-[6px] z-50 flex h-6 items-center gap-1.5 px-1.5 text-[11.5px] text-white/40 transition hover:bg-white/[0.06] hover:text-white/70"
+      >
+        <Globe className="h-3.5 w-3.5" strokeWidth={1.75} aria-hidden />
+        <span lang={info.code}>{name}</span>
+      </button>
+      <LanguageModal open={open} onClose={() => setOpen(false)} />
+    </>
+  );
+}
 
 function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => {
@@ -96,6 +126,7 @@ export default function LoginPage({
         </div>
 
         <div className="auth-surface relative flex h-full min-w-0 flex-col bg-background">
+          <LanguageButton />
           {mode !== "waitlist" ? (
             <>
               <WindowControls className="absolute right-4 top-[5px] z-50" />

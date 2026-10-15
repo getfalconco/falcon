@@ -1,4 +1,6 @@
+import { repairMojibake } from "@meridian/research/news";
 import { anthropicGlossCaller, glossConfigured } from "@meridian/research/gloss";
+import { insightModel } from "./insight-explanation-service";
 import { createFileStore, decodeEscapes, hash, readCloudRow, writeCloudRow } from "./explanation-cache";
 import type { PairExplanation, PairExplanationRequest } from "../../shared/pair-explanation";
 
@@ -9,7 +11,6 @@ import type { PairExplanation, PairExplanationRequest } from "../../shared/pair-
  * new one and the second reader of a pair never spends a token.
  */
 
-const MODEL = "claude-opus-5";
 const MAX_TOKENS = 2200;
 const TIMEOUT_MS = 60_000;
 const TABLE = "insight_pair_explanations";
@@ -55,7 +56,7 @@ Return JSON only:
   does from here (up, down, or unclear); "magnitude" the size in words such as
   "1-2%"; "horizon" when, such as "the next 2-3 sessions"; "conviction" how
   much weight the evidence carries (low, medium, high — low when the record is
-  thin or the edge is marginal); "call" one line under 100 characters saying
+  thin or the link is marginal); "call" one line under 100 characters saying
   the expectation plainly, e.g. "Down 1-2% over the next few sessions, on a
   thin record." Be willing to say unclear: a stated non-view beats a
   manufactured one.
@@ -108,7 +109,7 @@ function buildUser(req: PairExplanationRequest): string {
     req.event_direction ? `Direction at the root: ${req.event_direction}` : null,
     req.event_materiality ? `Materiality: ${req.event_materiality}` : null,
     req.role ? `Relationship: ${target} is a ${req.role} of ${root}` : null,
-    req.tier ? `Edge strength: ${req.tier}` : null,
+    req.tier ? `Link strength: ${req.tier}` : null,
     req.mechanism ? `Mechanism on file: ${req.mechanism}` : null,
   ].filter((line): line is string => line !== null);
 
@@ -143,7 +144,7 @@ function buildUser(req: PairExplanationRequest): string {
 async function generate(req: PairExplanationRequest): Promise<PairExplanation> {
   if (!glossConfigured()) throw new Error("ANTHROPIC_API_KEY is not configured");
   const output = await anthropicGlossCaller({
-    model: MODEL,
+    model: insightModel(),
     max_tokens: MAX_TOKENS,
     effort: "low",
     system: SYSTEM,
@@ -195,7 +196,7 @@ async function generate(req: PairExplanationRequest): Promise<PairExplanation> {
     precedent: text("precedent"),
     this_time: text("this_time"),
     watch,
-    model: MODEL,
+    model: insightModel(),
     generated_at: new Date().toISOString(),
   };
 }
@@ -204,8 +205,13 @@ async function generate(req: PairExplanationRequest): Promise<PairExplanation> {
 const inFlight = new Map<string, Promise<{ explanation: PairExplanation; source: "model" }>>();
 
 export async function getPairExplanation(
-  req: PairExplanationRequest,
+  rawReq: PairExplanationRequest,
 ): Promise<{ explanation: PairExplanation; source: "local" | "cloud" | "model" }> {
+  // A headline filed before ingestion repaired provider mojibake ("weekâ€™s")
+  // is fixed before it reaches the model (and so the brief). Clean text, and
+  // with it the cache key, is unchanged.
+  const req: PairExplanationRequest =
+    typeof rawReq?.headline === "string" ? { ...rawReq, headline: repairMojibake(rawReq.headline) } : rawReq;
   if (!req.run_id || !req.headline?.trim() || !req.target_ticker?.trim()) {
     throw new Error("Nothing to explain yet.");
   }
@@ -236,7 +242,7 @@ export async function getPairExplanation(
       precedent: row.precedent ?? "",
       this_time: row.this_time ?? "",
       watch: Array.isArray(row.watch) ? row.watch : [],
-      model: row.model ?? MODEL,
+      model: row.model ?? insightModel(),
       generated_at: row.generated_at ?? new Date().toISOString(),
     };
     store.put(key, cloud);

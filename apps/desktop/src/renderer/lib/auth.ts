@@ -1,4 +1,5 @@
 import type { EmailOtpType, Session, SupabaseClient, User } from "@supabase/supabase-js";
+import { primeWaitlistMembership } from "@/lib/waitlist-api";
 
 type RegisterParams = {
   email: string;
@@ -83,6 +84,8 @@ async function resolveSessionUser(
   user: User | null,
 ): Promise<Exclude<ContinueResult, { type: "confirm_email" }>> {
   if (isWaitlistUser(user)) {
+    // The ticket can only be read with a live session: read it first.
+    await primeWaitlistMembership();
     await client.auth.signOut();
     setWaitlistFlag(true);
     if (user?.email) setWaitlistEmail(user.email);
@@ -90,38 +93,6 @@ async function resolveSessionUser(
   }
   setWaitlistFlag(false);
   return { type: "signed_in", session };
-}
-
-async function ensureApprovedEmailConfirmed(email: string): Promise<boolean> {
-  const endpoints = [
-    import.meta.env.VITE_SITE_URL
-      ? `${String(import.meta.env.VITE_SITE_URL).replace(/\/$/, "")}/api/auth/ensure-email`
-      : null,
-    "https://getfalcon.co/api/auth/ensure-email",
-  ].filter(Boolean) as string[];
-
-  for (const url of endpoints) {
-    // Best-effort + cross-origin: never let a slow/unreachable site hang the
-    // whole sign-in. Abort after 6s and fall through to signInWithPassword.
-    const controller = new AbortController();
-    const timer = window.setTimeout(() => controller.abort(), 6000);
-    try {
-      const res = await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-        signal: controller.signal,
-      });
-      if (!res.ok) continue;
-      const data = (await res.json()) as { confirmed?: boolean };
-      if (data.confirmed) return true;
-    } catch {
-      // timeout / network / CORS → try next endpoint
-    } finally {
-      window.clearTimeout(timer);
-    }
-  }
-  return false;
 }
 
 /**
@@ -133,10 +104,6 @@ export async function continueWithEmailPassword(
 ): Promise<ContinueResult> {
   const trimmedEmail = email.trim();
 
-  // Try the password first. The approved-email pre-check used to run here
-  // unconditionally, but it is a slow cross-origin call (~4s) that delayed every
-  // sign-in; it is only needed when Supabase reports "email not confirmed",
-  // which the branch below handles.
   const { data: signInData, error: signInError } = await client.auth.signInWithPassword({
     email: trimmedEmail,
     password,
@@ -148,19 +115,14 @@ export async function continueWithEmailPassword(
 
   if (signInError) {
     const msg = signInError.message.toLowerCase();
-    if (msg.includes("email not confirmed") || msg.includes("not confirmed")) {
-      const fixed = await ensureApprovedEmailConfirmed(trimmedEmail);
-      if (fixed) {
-        const retry = await client.auth.signInWithPassword({
-          email: trimmedEmail,
-          password,
-        });
-        if (!retry.error && retry.data.session) {
-          return resolveSessionUser(client, retry.data.session, retry.data.user);
-        }
-        throw new Error("Invalid email or password.");
-      }
-
+    if (
+      signInError.code === "email_not_confirmed" ||
+      msg.includes("email not confirmed") ||
+      msg.includes("not confirmed")
+    ) {
+      // Right password, unconfirmed email: the owner proves the address with
+      // the emailed code (the OTP step). The site no longer confirms emails
+      // on request (POST /api/auth/ensure-email answers the same for everyone).
       await client.auth.resend({ type: "signup", email: trimmedEmail });
       setWaitlistFlag(false);
       return { type: "confirm_email", email: trimmedEmail };

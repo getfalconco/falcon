@@ -1,5 +1,6 @@
 import logoWhite from "@/assets/brand/logo-white.png";
 import { useUpdateStatus } from "@/hooks/useUpdateStatus";
+import { useT } from "@/lib/i18n";
 
 /**
  * Bottom-left notice that a newer Falcon exists, wearing the dashboard's glass
@@ -32,6 +33,7 @@ function Mark({ dot }: { dot: boolean }) {
 
 export default function UpdatePill({ className = "" }: { className?: string }) {
   const status = useUpdateStatus();
+  const t = useT();
   if (status.kind === "idle") return null;
 
   if (status.kind === "ready") {
@@ -43,9 +45,9 @@ export default function UpdatePill({ className = "" }: { className?: string }) {
       >
         <Mark dot />
         <span className="flex flex-col leading-tight">
-          <span className="text-[12.5px] font-medium text-[#1d1b1b]">Update available</span>
+          <span className="text-[12.5px] font-medium text-[#1d1b1b]">{t("shell.update.ready")}</span>
           <span className="mt-0.5 text-[11px] text-[#6b7280]">
-            {status.version} · Click to restart
+            {status.version} · {t("shell.update.restart")}
           </span>
         </span>
       </button>
@@ -56,9 +58,9 @@ export default function UpdatePill({ className = "" }: { className?: string }) {
     <div className={`app-no-drag select-none ${GLASS} ${className}`}>
       <Mark dot={false} />
       <span className="flex flex-col leading-tight">
-        <span className="text-[12.5px] font-medium text-[#1d1b1b]">Auto update unavailable</span>
+        <span className="text-[12.5px] font-medium text-[#1d1b1b]">{t("shell.update.unavailable")}</span>
         <span className="mt-0.5 text-[11px] text-[#6b7280]">
-          {status.version} · Contact developer
+          {status.version} · {t("shell.update.contact")}
         </span>
       </span>
     </div>

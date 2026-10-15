@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect, useCallback } from "react";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
+import { useI18n } from "@/lib/i18n";
 
 /**
  * Spreadsheet-style data grid: click / shift-click / drag to select ranges,
@@ -37,10 +38,11 @@ export const ExcelTable: React.FC<ExcelTableProps> = ({
   headers,
   editable = false,
   className,
-  title = "Excel Table",
+  title,
   exportName = "table-data",
   onCellChange,
 }) => {
+  const { t, locale } = useI18n();
   const [selectedCells, setSelectedCells] = useState<Set<string>>(new Set());
   const [selectionRange, setSelectionRange] = useState<SelectionRange | null>(null);
   const [editingCell, setEditingCell] = useState<{ row: number; col: number } | null>(null);
@@ -245,13 +247,13 @@ export const ExcelTable: React.FC<ExcelTableProps> = ({
     // without waiting for the copy to resolve.
     const copied = await copyText(clipboardText);
     if (copied) {
-      toast.success(
-        `Copied ${selectedCells.size} cell${selectedCells.size > 1 ? "s" : ""} to clipboard`,
-      );
+      const count = selectedCells.size;
+      const plural = new Intl.PluralRules(locale).select(count);
+      toast.success(t(plural === "one" ? "shell.table.copied.one" : "shell.table.copied.other", { count }));
     } else {
-      toast.error("Could not copy to the clipboard");
+      toast.error(t("shell.table.copyFailed"));
     }
-  }, [selectedCells, data]);
+  }, [selectedCells, data, locale, t]);
 
   const exportToCSV = useCallback(() => {
     const escape = (cell: string) => `"${String(cell).replace(/"/g, '""')}"`;
@@ -268,8 +270,8 @@ export const ExcelTable: React.FC<ExcelTableProps> = ({
     a.click();
     URL.revokeObjectURL(url);
 
-    toast.success(`Exported ${exportName}.csv`);
-  }, [data, headers, exportName]);
+    toast.success(t("shell.table.exported", { file: `${exportName}.csv` }));
+  }, [data, headers, exportName, t]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -348,21 +350,21 @@ export const ExcelTable: React.FC<ExcelTableProps> = ({
   return (
     <div className={cn("w-full", className)} ref={tableRef}>
       <div className="mb-2 flex items-center justify-between">
-        <h3 className="text-sm font-semibold text-foreground">{title}</h3>
+        <h3 className="text-sm font-semibold text-foreground">{title ?? t("shell.table.title")}</h3>
         <div className="flex gap-2">
           <button
             type="button"
             onClick={() => void copyToClipboard()}
             className="cursor-pointer rounded bg-secondary px-3 py-1 text-xs text-secondary-foreground transition-colors hover:bg-secondary/80"
           >
-            Copy (Ctrl+C)
+            {t("shell.table.copy", { keys: "Ctrl+C" })}
           </button>
           <button
             type="button"
             onClick={exportToCSV}
             className="cursor-pointer rounded bg-primary px-3 py-1 text-xs text-primary-foreground transition-colors hover:bg-primary/90"
           >
-            Export CSV
+            {t("shell.table.export")}
           </button>
         </div>
       </div>
@@ -457,12 +459,17 @@ export const ExcelTable: React.FC<ExcelTableProps> = ({
       <div className="mt-1.5 text-[10px] text-muted-foreground">
         {selectedCells.size > 0 && (
           <span>
-            {selectedCells.size} cell{selectedCells.size > 1 ? "s" : ""} selected
+            {t(
+              new Intl.PluralRules(locale).select(selectedCells.size) === "one"
+                ? "shell.table.selected.one"
+                : "shell.table.selected.other",
+              { count: selectedCells.size },
+            )}
           </span>
         )}
         <span className="ml-4">
-          Click / shift-click / drag to select • Ctrl+C to copy
-          {editable && " • Double-click to edit"}
+          {t("shell.table.hint", { keys: "Ctrl+C" })}
+          {editable && ` ${t("shell.table.hintEdit")}`}
         </span>
       </div>
     </div>

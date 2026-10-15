@@ -1,3 +1,7 @@
+import { na } from "@/lib/i18n/na";
+import { withClock } from "@/lib/clock";
+import { shortcutText } from "@/lib/shortcuts";
+import { useI18n, type TFunction } from "@/lib/i18n";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Layers, RefreshCw, X } from "lucide-react";
 import {
@@ -10,9 +14,10 @@ import {
   type BaseReplayResult,
   type BaseReplayedIncident,
 } from "../../../shared/base-types";
-import { TRACKER_TYPE_LABELS, type TrackerMessage } from "../../../shared/tracker-types";
+import type { TrackerMessage } from "../../../shared/tracker-types";
 import { readPaperAccount, subscribePaperAccount } from "@/lib/paper-account";
 import { getWatchlist, subscribeWatchlist } from "@/lib/watchlist";
+import { trackerTypeLabel } from "../tracker/tracker-labels";
 import ClassifierView from "./ClassifierView";
 import AnalystView from "./AnalystView";
 
@@ -52,18 +57,18 @@ const DESTINATION_STYLE: Record<BaseDestinationKey, string> = {
   store_only: "bg-[#f1f1ec] text-[#8b8b86]",
 };
 
-function fmtTime(iso: string): string {
-  return new Date(iso).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+function fmtTime(iso: string, locale: string): string {
+  return new Date(iso).toLocaleTimeString(locale, withClock({ hour: "2-digit", minute: "2-digit" }));
 }
 
-function fmtDate(iso: string | null): string {
-  if (!iso) return "—";
-  return new Date(iso).toLocaleString([], {
+function fmtDate(iso: string | null, locale: string): string {
+  if (!iso) return na();
+  return new Date(iso).toLocaleString(locale, withClock({
     month: "short",
     day: "2-digit",
     hour: "2-digit",
     minute: "2-digit",
-  });
+  }));
 }
 
 function fmtDuration(ms: number): string {
@@ -74,47 +79,60 @@ function fmtDuration(ms: number): string {
 }
 
 function fmtNum(value: number | null, digits = 2): string {
-  return value == null ? "—" : value.toFixed(digits);
+  return value == null ? na() : value.toFixed(digits);
 }
 
 /** One-line summary of a constituent message. */
-function messageLine(message: TrackerMessage): string {
+function messageLine(message: TrackerMessage, t: TFunction): string {
   const p = message.payload as Record<string, unknown>;
   switch (message.type) {
     case "news_item":
       return String(p.headline ?? "");
     case "filing_item": {
-      const items = Array.isArray(p.item_codes) && p.item_codes.length > 0
-        ? ` items ${(p.item_codes as string[]).join(", ")}`
-        : "";
-      return `${String(p.form_type ?? "")}${items}`;
+      const form = String(p.form_type ?? "");
+      return Array.isArray(p.item_codes) && p.item_codes.length > 0
+        ? t("instruments.base.line.filing", { form, items: (p.item_codes as string[]).join(", ") })
+        : form;
     }
     case "insider_filing":
-      return `${String(p.insider_name ?? "")} (${String(p.role ?? "")}) code ${String(p.transaction_code ?? "?")}`;
+      return t("instruments.base.line.insider", {
+        name: String(p.insider_name ?? ""),
+        role: String(p.role ?? ""),
+        code: String(p.transaction_code ?? "?"),
+      });
     case "scheduled_event":
-      return `${String(p.fiscal_period ?? "")} due ${String(p.due_at ?? "").slice(0, 10)}`;
+      return t("instruments.base.line.scheduled", {
+        period: String(p.fiscal_period ?? ""),
+        date: String(p.due_at ?? "").slice(0, 10),
+      });
     case "gap_event":
-      return `gap z ${fmtNum(p.gap_z as number)} ${String(p.direction ?? "")}`;
+      return t("instruments.base.line.gap", { z: fmtNum(p.gap_z as number), direction: String(p.direction ?? "") });
     case "volume_anomaly":
-      return `${fmtNum(p.volume_ratio as number, 1)}× baseline volume`;
+      return t("instruments.base.line.volume", { ratio: fmtNum(p.volume_ratio as number, 1) });
     case "unexplained_move":
       return `${String(p.measure_used ?? "")} ${fmtNum(p.residual_zscore as number)} ${String(p.direction ?? "")}`;
     case "drift_event":
-      return `drift z ${fmtNum(p.drift_z as number)} ${String(p.direction ?? "")}`;
+      return t("instruments.base.line.drift", { z: fmtNum(p.drift_z as number), direction: String(p.direction ?? "") });
     case "news_burst":
-      return `${String(p.articles_last_24h ?? "")} articles / 24h · ${fmtNum(p.burst_multiple as number, 1)}×`;
+      return t("instruments.base.line.burst", {
+        n: String(p.articles_last_24h ?? ""),
+        multiple: fmtNum(p.burst_multiple as number, 1),
+      });
     case "silence_anomaly":
-      return `${String(p.trading_days_silent ?? "")} silent trading days`;
+      return t("instruments.base.line.silence", { n: String(p.trading_days_silent ?? "") });
     case "filing_overdue":
-      return `${String(p.expected_form ?? "")} overdue ${String(p.business_days_overdue ?? "")}bd`;
+      return t("instruments.base.line.overdue", {
+        form: String(p.expected_form ?? ""),
+        n: String(p.business_days_overdue ?? ""),
+      });
     case "insider_cluster": {
       // Notional drives both the severity multiplier and the standalone tag,
       // so it belongs on the line rather than buried in the payload.
       const notional =
         typeof p.total_notional === "number"
-          ? ` · $${Math.round(p.total_notional).toLocaleString()}`
+          ? ` · $${Math.round(p.total_notional).toLocaleString("en-US")}`
           : "";
-      return `${String(p.insider_count ?? "")} insiders ${String(p.direction ?? "")}${notional}`;
+      return `${t("instruments.base.line.cluster", { n: String(p.insider_count ?? ""), direction: String(p.direction ?? "") })}${notional}`;
     }
     default:
       return message.type;
@@ -155,6 +173,7 @@ function IncidentRow({
   expanded: boolean;
   onToggle: () => void;
 }) {
+  const { t, locale } = useI18n();
   const { incident, routing } = entry;
   const start = Date.parse(incident.window_start);
   const end = incident.window_end ? Date.parse(incident.window_end) : null;
@@ -178,8 +197,8 @@ function IncidentRow({
             {incident.ticker}
           </span>
           <span className="font-mono text-[10px] text-[#a3a39c]">
-            {fmtTime(incident.window_start)} →{" "}
-            {incident.window_end ? fmtTime(incident.window_end) : "open"}
+            {fmtTime(incident.window_start, locale)} →{" "}
+            {incident.window_end ? fmtTime(incident.window_end, locale) : t("instruments.base.open")}
             {end !== null && ` · ${fmtDuration(end - start)}`}
           </span>
           <span
@@ -189,11 +208,11 @@ function IncidentRow({
             aria-hidden
           />
           <span className="font-mono text-[10px] text-[#a3a39c]">
-            {incident.messages.length} msg
+            {t("instruments.base.msgCount", { n: incident.messages.length })}
           </span>
           {incident.trigger_type === "scheduled" && (
             <span className="rounded bg-[#ffedd5] px-1.5 py-0.5 font-mono text-[10px] text-[#9a3412]">
-              scheduled
+              {t("instruments.base.scheduled")}
             </span>
           )}
           {incident.user_proximity !== "tracked" && (
@@ -204,14 +223,14 @@ function IncidentRow({
           {incident.discovery_floor_applied && (
             <span
               className="rounded bg-[#ede9fe] px-1.5 py-0.5 font-mono text-[10px] text-[#5b21b6]"
-              title="Promoted by the discovery floor: strong enough regardless of proximity"
+              title={t("instruments.base.floorHint")}
             >
-              floor
+              {t("instruments.base.floor")}
             </span>
           )}
           {incident.degraded_context && (
             <span className="rounded bg-[#fef3c7] px-1.5 py-0.5 font-mono text-[10px] text-[#92400e]">
-              degraded
+              {t("instruments.base.degraded")}
             </span>
           )}
         </div>
@@ -232,7 +251,7 @@ function IncidentRow({
             </span>
           ))}
           {incident.composite_tags.length === 0 && (
-            <span className="font-mono text-[10px] text-[#c9c9c1]">no tags</span>
+            <span className="font-mono text-[10px] text-[#c9c9c1]">{t("instruments.base.noTags")}</span>
           )}
           <span className="font-mono text-[10px] text-[#c9c9c1]">→</span>
           {destinations.map((d) => (
@@ -250,17 +269,17 @@ function IncidentRow({
         <div className="mt-2 rounded-md border border-[#eeeee8] bg-white px-3 py-2">
           <div className="flex flex-wrap gap-x-4 gap-y-1 font-mono text-[10px] text-[#8b8b86]">
             <span>
-              <span className="text-[#b4b4ae]">incident</span> {incident.incident_id.slice(0, 8)}
+              <span className="text-[#b4b4ae]">{t("instruments.base.incident")}</span> {incident.incident_id.slice(0, 8)}
             </span>
             <span>
-              <span className="text-[#b4b4ae]">related</span>{" "}
-              {incident.related_incident_id ? incident.related_incident_id.slice(0, 8) : "—"}
+              <span className="text-[#b4b4ae]">{t("instruments.base.related")}</span>{" "}
+              {incident.related_incident_id ? incident.related_incident_id.slice(0, 8) : na()}
             </span>
             <span>
-              <span className="text-[#b4b4ae]">proximity</span> {incident.user_proximity}
+              <span className="text-[#b4b4ae]">{t("instruments.base.proximity")}</span> {incident.user_proximity}
             </span>
             <span>
-              <span className="text-[#b4b4ae]">status</span> {incident.window_status}
+              <span className="text-[#b4b4ae]">{t("instruments.base.status")}</span> {incident.window_status}
             </span>
             {routing.destinations.map((d) => (
               <span key={d.destination}>
@@ -275,16 +294,16 @@ function IncidentRow({
               return (
                 <li key={m.id} className="flex items-baseline gap-2 py-1">
                   <span className="w-10 shrink-0 font-mono text-[10px] text-[#a3a39c]">
-                    {fmtTime(m.timestamp)}
+                    {fmtTime(m.timestamp, locale)}
                   </span>
-                  <span className="w-[104px] shrink-0 font-mono text-[10px] text-[#475569]">
-                    {TRACKER_TYPE_LABELS[m.type] ?? m.type}
+                  <span className="w-[104px] shrink-0 truncate font-mono text-[10px] text-[#475569]">
+                    {trackerTypeLabel(t, m.type)}
                   </span>
                   <span className="min-w-0 flex-1 truncate text-[11px] text-[#3f3f46]">
-                    {messageLine(m)}
+                    {messageLine(m, t)}
                   </span>
                   <span className="shrink-0 font-mono text-[10px] text-[#a3a39c]">
-                    {outcome?.action === "route" ? outcome.destination : "store"}
+                    {outcome?.action === "route" ? outcome.destination : t("instruments.base.store")}
                   </span>
                 </li>
               );
@@ -316,6 +335,12 @@ function IncidentRow({
 
 export type BasePanelView = "incidents" | "classifier" | "analyst";
 
+const VIEW_LABEL = {
+  incidents: "instruments.base.tab.incidents",
+  classifier: "instruments.base.tab.classifier",
+  analyst: "instruments.base.tab.analyst",
+} as const;
+
 export default function BasePanel({
   onClose,
   initialView = "incidents",
@@ -324,6 +349,7 @@ export default function BasePanel({
   /** Shift+B opens on incidents; Shift+A opens straight on the analyst tab. */
   initialView?: BasePanelView;
 }) {
+  const { t, locale } = useI18n();
   const [result, setResult] = useState<BaseReplayResult | null>(null);
   const [config, setConfig] = useState<BaseConfigSummary | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -347,7 +373,7 @@ export default function BasePanel({
   const parseTickers = (raw: string): string[] =>
     raw
       .split(/[\s,]+/)
-      .map((t) => t.trim().toUpperCase())
+      .map((s) => s.trim().toUpperCase())
       .filter(Boolean);
 
   const effectiveHeld = useMemo(
@@ -380,12 +406,12 @@ export default function BasePanel({
         setResult(res.result);
         setError(null);
       } else {
-        setError(res?.error ?? "replay unavailable");
+        setError(res?.error ?? t("instruments.base.replayUnavailable"));
       }
     } finally {
       setLoading(false);
     }
-  }, [limit, effectiveHeld, effectiveWatchlist]);
+  }, [limit, effectiveHeld, effectiveWatchlist, t]);
 
   // Re-runs on a limit change and whenever the live held/watchlist sources
   // change (a position opened, a ticker followed) — the scores must follow
@@ -452,31 +478,34 @@ export default function BasePanel({
       <div className="flex h-[86%] w-[92%] flex-col overflow-hidden rounded-xl border border-[#e0e0da] bg-[#f7f7f4] shadow-2xl">
         {/* Header */}
         <div className="flex items-center gap-3 border-b border-[#e6e6e0] px-4 py-3">
-          <Layers className="h-4 w-4 text-[#1d1b1b]" strokeWidth={2} aria-hidden />
+          <Layers className="h-4 w-4 shrink-0 text-[#1d1b1b]" strokeWidth={2} aria-hidden />
           <span className="font-baskerville text-[15px] text-[#1d1b1b]">Base</span>
-          <div className="flex rounded-md border border-[#e0e0da] bg-white p-0.5">
+          <div className="flex shrink-0 rounded-md border border-[#e0e0da] bg-white p-0.5">
             {(["incidents", "classifier", "analyst"] as const).map((v) => (
               <button
                 key={v}
                 type="button"
                 onClick={() => setView(v)}
-                className={`rounded px-2 py-0.5 text-[11px] transition-colors ${
+                className={`whitespace-nowrap rounded px-2 py-0.5 text-[11px] transition-colors ${
                   view === v ? "bg-[#1d1b1b] text-white" : "text-[#6b7280] hover:text-[#1d1b1b]"
                 }`}
               >
-                {v}
+                {t(VIEW_LABEL[v])}
               </button>
             ))}
           </div>
-          <span className="font-mono text-[11px] text-[#8b8b86]">
-            replay · {summary?.message_count ?? 0} messages → {summary?.incident_count ?? 0}{" "}
-            incidents · {summary?.ticker_count ?? 0} tickers
+          <span className="min-w-0 truncate font-mono text-[11px] text-[#8b8b86]">
+            {t("instruments.base.summary", {
+              messages: summary?.message_count ?? 0,
+              incidents: summary?.incident_count ?? 0,
+              tickers: summary?.ticker_count ?? 0,
+            })}
             {summary && summary.open_incidents > 0 && (
-              <span className="text-[#16a34a]"> · {summary.open_incidents} open</span>
+              <span className="text-[#16a34a]"> · {t("instruments.base.openCount", { n: summary.open_incidents })}</span>
             )}
           </span>
 
-          <div className="ml-auto flex items-center gap-2">
+          <div className="ml-auto flex shrink-0 items-center gap-2">
             <select
               value={limit}
               onChange={(e) => setLimit(Number(e.target.value))}
@@ -484,7 +513,7 @@ export default function BasePanel({
             >
               {[300, 1000, 3000, 10000].map((n) => (
                 <option key={n} value={n}>
-                  last {n}
+                  {t("instruments.base.lastN", { n })}
                 </option>
               ))}
             </select>
@@ -499,12 +528,13 @@ export default function BasePanel({
                 strokeWidth={2}
                 aria-hidden
               />
-              replay
+              {t("instruments.base.replay")}
             </button>
             <button
               type="button"
               onClick={onClose}
-              aria-label="Close base panel"
+              aria-label={t("instruments.base.closeLabel")}
+              title={t("instruments.base.closeLabel")}
               className="rounded-md p-1 text-[#6b7280] transition-colors hover:bg-[#ececE6] hover:text-[#1d1b1b]"
             >
               <X className="h-4 w-4" strokeWidth={2} aria-hidden />
@@ -527,7 +557,7 @@ export default function BasePanel({
           {/* Distribution sidebar (§8 observability) */}
           <aside className="w-[264px] shrink-0 overflow-y-auto border-r border-[#eeeee8] px-3 py-3">
             <div className="font-mono text-[10px] uppercase tracking-wide text-[#b4b4ae]">
-              priority bands
+              {t("instruments.base.priorityBands")}
             </div>
             <div className="mt-1.5 space-y-1">
               {BASE_PRIORITY_BANDS.map((band) => (
@@ -546,7 +576,7 @@ export default function BasePanel({
             </div>
 
             <div className="mt-4 font-mono text-[10px] uppercase tracking-wide text-[#b4b4ae]">
-              destinations
+              {t("instruments.base.destinations")}
             </div>
             <div className="mt-1.5 space-y-1">
               {BASE_DESTINATIONS.map((d) => (
@@ -561,11 +591,11 @@ export default function BasePanel({
             </div>
 
             <div className="mt-4 font-mono text-[10px] uppercase tracking-wide text-[#b4b4ae]">
-              composite tags
+              {t("instruments.base.compositeTags")}
             </div>
             <div className="mt-1.5 space-y-1">
               {tagRows.length === 0 && (
-                <div className="font-mono text-[10px] text-[#c9c9c1]">none fired</div>
+                <div className="font-mono text-[10px] text-[#c9c9c1]">{t("instruments.base.noneFired")}</div>
               )}
               {tagRows.map(([tag, count]) => (
                 <div key={tag} className="flex items-center gap-2">
@@ -593,37 +623,37 @@ export default function BasePanel({
             </div>
 
             <div className="mt-4 font-mono text-[10px] uppercase tracking-wide text-[#b4b4ae]">
-              user proximity
+              {t("instruments.base.userProximity")}
             </div>
             <div className="mt-1.5 space-y-1.5">
               {/* Live sources (B8) — what the scorer actually sees right now. */}
               <div className="font-mono text-[10px] text-[#8b8b86]">
-                <span className="text-[#b4b4ae]">held</span> ×{config?.proximityMultipliers.held ?? 1.5}{" "}
+                <span className="text-[#b4b4ae]">{t("instruments.base.held")}</span> ×{config?.proximityMultipliers.held ?? 1.5}{" "}
                 <span className="text-[#1d1b1b]">
-                  {effectiveHeld.length ? effectiveHeld.join(", ") : "— none (paper account has no positions)"}
+                  {effectiveHeld.length ? effectiveHeld.join(", ") : t("instruments.base.heldNone")}
                 </span>
               </div>
               <div className="font-mono text-[10px] text-[#8b8b86]">
-                <span className="text-[#b4b4ae]">watchlist</span> ×{config?.proximityMultipliers.watchlist ?? 1.25}{" "}
+                <span className="text-[#b4b4ae]">{t("instruments.base.watchlist")}</span> ×{config?.proximityMultipliers.watchlist ?? 1.25}{" "}
                 <span className="text-[#1d1b1b]">
-                  {effectiveWatchlist.length ? effectiveWatchlist.join(", ") : "— none followed"}
+                  {effectiveWatchlist.length ? effectiveWatchlist.join(", ") : t("instruments.base.watchlistNone")}
                 </span>
               </div>
               <label className="block">
-                <span className="font-mono text-[10px] text-[#a3a39c]">what-if: also treat as held</span>
+                <span className="font-mono text-[10px] text-[#a3a39c]">{t("instruments.base.whatIfHeld")}</span>
                 <input
                   value={heldInput}
                   onChange={(e) => setHeldInput(e.target.value)}
-                  placeholder="extra tickers, comma-separated"
+                  placeholder={t("instruments.base.extraTickers")}
                   className="mt-0.5 w-full rounded border border-[#e0e0da] bg-white px-1.5 py-1 font-mono text-[10px] text-[#1d1b1b]"
                 />
               </label>
               <label className="block">
-                <span className="font-mono text-[10px] text-[#a3a39c]">what-if: also treat as watchlist</span>
+                <span className="font-mono text-[10px] text-[#a3a39c]">{t("instruments.base.whatIfWatchlist")}</span>
                 <input
                   value={watchlistInput}
                   onChange={(e) => setWatchlistInput(e.target.value)}
-                  placeholder="extra tickers, comma-separated"
+                  placeholder={t("instruments.base.extraTickers")}
                   className="mt-0.5 w-full rounded border border-[#e0e0da] bg-white px-1.5 py-1 font-mono text-[10px] text-[#1d1b1b]"
                 />
               </label>
@@ -632,49 +662,60 @@ export default function BasePanel({
                 onClick={() => void load()}
                 className="w-full rounded border border-[#e0e0da] bg-white py-1 font-mono text-[10px] text-[#6b7280] transition-colors hover:text-[#1d1b1b]"
               >
-                re-score
+                {t("instruments.base.rescore")}
               </button>
             </div>
 
             {summary && (
               <div className="mt-4 space-y-0.5 border-t border-[#eeeee8] pt-2 font-mono text-[10px] text-[#8b8b86]">
                 <div>
-                  <span className="text-[#b4b4ae]">span</span> {fmtDate(summary.first_message_at)} →{" "}
-                  {fmtDate(summary.last_message_at)}
+                  <span className="text-[#b4b4ae]">{t("instruments.base.span")}</span> {fmtDate(summary.first_message_at, locale)} →{" "}
+                  {fmtDate(summary.last_message_at, locale)}
                 </div>
                 <div>
-                  <span className="text-[#b4b4ae]">closed</span> {summary.closed_incidents} ·{" "}
-                  <span className="text-[#b4b4ae]">open</span> {summary.open_incidents}
+                  <span className="text-[#b4b4ae]">{t("instruments.base.closed")}</span> {summary.closed_incidents} ·{" "}
+                  <span className="text-[#b4b4ae]">{t("instruments.base.open")}</span> {summary.open_incidents}
                 </div>
                 <div>
-                  <span className="text-[#b4b4ae]">degraded</span> {summary.degraded_incidents} ·{" "}
-                  <span className="text-[#b4b4ae]">floor</span>{" "}
+                  <span className="text-[#b4b4ae]">{t("instruments.base.degraded")}</span> {summary.degraded_incidents} ·{" "}
+                  <span className="text-[#b4b4ae]">{t("instruments.base.floor")}</span>{" "}
                   {summary.discovery_floor_promotions}
                 </div>
-                <div title="Cross-ticker article dedupe: classifier requests after collapsing syndicated articles">
-                  <span className="text-[#b4b4ae]">classifier</span>{" "}
-                  {summary.dedupe.classifier_requests}/{summary.dedupe.news_messages} req ·{" "}
-                  <span className="text-[#16a34a]">-{summary.dedupe.requests_saved}</span> ·{" "}
-                  <span className="text-[#b4b4ae]">syndicated</span> {summary.dedupe.syndicated_articles}
+                <div title={t("instruments.base.dedupeHint")}>
+                  <span className="text-[#b4b4ae]">{t("instruments.base.classifier")}</span>{" "}
+                  {t("instruments.base.dedupeValue", {
+                    requests: summary.dedupe.classifier_requests,
+                    news: summary.dedupe.news_messages,
+                  })}{" "}
+                  · <span className="text-[#16a34a]">-{summary.dedupe.requests_saved}</span> ·{" "}
+                  <span className="text-[#b4b4ae]">{t("instruments.base.syndicated")}</span> {summary.dedupe.syndicated_articles}
                 </div>
-                <div title="Classifier verdicts applied to this replay (B9). Re-score is Phase B; promotions/demotions vs the same replay with re-score off.">
-                  <span className="text-[#b4b4ae]">verdicts</span>{" "}
-                  {summary.classification.messages_with_verdict}/{summary.classification.classifier_bound_messages} msgs ·{" "}
-                  <span className="text-[#b4b4ae]">re-score</span>{" "}
+                <div title={t("instruments.base.verdictsHint")}>
+                  <span className="text-[#b4b4ae]">{t("instruments.base.verdicts")}</span>{" "}
+                  {t("instruments.base.verdictsValue", {
+                    applied: summary.classification.messages_with_verdict,
+                    bound: summary.classification.classifier_bound_messages,
+                  })}{" "}
+                  · <span className="text-[#b4b4ae]">{t("instruments.base.rescore")}</span>{" "}
                   {summary.classification.rescore_applied ? (
                     <span className="text-[#16a34a]">
-                      on · +{summary.classification.incidents_promoted} / -{summary.classification.incidents_demoted}
+                      {t("instruments.base.rescoreOn", {
+                        promoted: summary.classification.incidents_promoted,
+                        demoted: summary.classification.incidents_demoted,
+                      })}
                     </span>
                   ) : (
-                    "off"
+                    t("instruments.common.off")
                   )}{" "}
-                  · <span className="text-[#b4b4ae]">prop. cands</span> {summary.classification.propagation_candidates}
+                  · <span className="text-[#b4b4ae]">{t("instruments.base.propCandidates")}</span> {summary.classification.propagation_candidates}
                 </div>
                 {config && (
                   <div>
-                    <span className="text-[#b4b4ae]">window</span>{" "}
-                    {fmtDuration(config.measurementSilenceMs)} silence /{" "}
-                    {fmtDuration(config.hardCapMs)} cap
+                    <span className="text-[#b4b4ae]">{t("instruments.base.window")}</span>{" "}
+                    {t("instruments.base.windowValue", {
+                      silence: fmtDuration(config.measurementSilenceMs),
+                      cap: fmtDuration(config.hardCapMs),
+                    })}
                   </div>
                 )}
               </div>
@@ -696,7 +737,7 @@ export default function BasePanel({
                         : "text-[#6b7280] hover:text-[#1d1b1b]"
                     }`}
                   >
-                    {b}
+                    {b === "all" ? t("instruments.common.all") : b}
                   </button>
                 ))}
               </div>
@@ -705,7 +746,7 @@ export default function BasePanel({
                 onChange={(e) => setDestinationFilter(e.target.value as BaseDestinationKey | "all")}
                 className="rounded-md border border-[#e0e0da] bg-white px-2 py-1 text-[11px] text-[#1d1b1b]"
               >
-                <option value="all">all destinations</option>
+                <option value="all">{t("instruments.base.allDestinations")}</option>
                 {BASE_DESTINATIONS.map((d) => (
                   <option key={d} value={d}>
                     {d}
@@ -717,15 +758,15 @@ export default function BasePanel({
                 onChange={(e) => setTickerFilter(e.target.value)}
                 className="rounded-md border border-[#e0e0da] bg-white px-2 py-1 text-[11px] text-[#1d1b1b]"
               >
-                <option value="all">all tickers</option>
-                {(summary?.by_ticker ?? []).map((t) => (
-                  <option key={t.ticker} value={t.ticker}>
-                    {t.ticker} ({t.incidents})
+                <option value="all">{t("instruments.common.allTickers")}</option>
+                {(summary?.by_ticker ?? []).map((row) => (
+                  <option key={row.ticker} value={row.ticker}>
+                    {row.ticker} ({row.incidents})
                   </option>
                 ))}
               </select>
               <span className="ml-auto font-mono text-[10px] text-[#a3a39c]">
-                {visible.length} shown
+                {t("instruments.base.shown", { n: visible.length })}
               </span>
             </div>
 
@@ -735,8 +776,8 @@ export default function BasePanel({
                   {error}
                 </div>
               ) : visible.length === 0 ? (
-                <div className="flex h-full items-center justify-center font-mono text-[12px] text-[#a3a39c]">
-                  {loading ? "replaying…" : "no incidents — Tracker has emitted nothing to group"}
+                <div className="flex h-full items-center justify-center text-center font-mono text-[12px] text-[#a3a39c]">
+                  {loading ? t("instruments.base.replaying") : t("instruments.base.empty")}
                 </div>
               ) : (
                 <ul className="divide-y divide-[#eeeee8]">
@@ -756,8 +797,8 @@ export default function BasePanel({
         )}
 
         <div className="border-t border-[#eeeee8] px-4 py-1.5 font-mono text-[10px] text-[#a3a39c]">
-          Shift+B to toggle · Shift+A opens the analyst tab · Esc to close · replay only — nothing is dispatched · click an incident
-          for its messages{config ? ` · config ${config.configFile}` : ""}
+          {t("instruments.base.footer", { baseKey: shortcutText("base"), analystKey: shortcutText("analyst") })}
+          {config ? ` · ${t("instruments.base.configFile", { file: config.configFile })}` : ""}
         </div>
       </div>
     </div>

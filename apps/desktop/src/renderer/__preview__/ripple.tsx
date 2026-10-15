@@ -1,7 +1,16 @@
 import { createRoot } from "react-dom/client";
 import "../globals.css";
 import RipplePanel from "../components/propagation/RipplePanel";
+import { applyLanguage, setLanguage } from "../lib/i18n";
+import { isLanguageCode } from "../lib/i18n/languages";
 import fixture from "./ripple-fixture.json";
+
+// ?lang=tr-TR shows the panel in that language (kept, as a pick would be).
+{
+  const lang = new URLSearchParams(location.search).get("lang");
+  if (isLanguageCode(lang)) setLanguage(lang);
+  applyLanguage();
+}
 
 /**
  * Scratch harness for the Shift+P ripple view (spec §8 step 5): renders the

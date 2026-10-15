@@ -1,6 +1,8 @@
 import { createRoot } from "react-dom/client";
 import "../globals.css";
 import { applyTheme } from "../lib/theme";
+import { setLanguage } from "../lib/i18n";
+import { isLanguageCode } from "../lib/i18n/languages";
 import UpdatePill from "../components/UpdatePill";
 import type { UpdateStatus } from "../../shared/update-types";
 
@@ -13,6 +15,9 @@ import type { UpdateStatus } from "../../shared/update-types";
  * window.__installs instead of restarting anything.
  */
 const asked = new URLSearchParams(location.search).get("kind") ?? "both";
+// ?lang=de-DE shows the cards in that language.
+const langParam = new URLSearchParams(location.search).get("lang");
+if (isLanguageCode(langParam)) setLanguage(langParam);
 
 applyTheme();
 (window as any).__installs = 0;

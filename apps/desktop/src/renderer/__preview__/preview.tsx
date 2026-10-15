@@ -1,10 +1,19 @@
 import { createRoot } from "react-dom/client";
+import { applyLanguage, setLanguage } from "../lib/i18n";
+import { isLanguageCode } from "../lib/i18n/languages";
 import "../globals.css";
 import InsightCard from "../components/dashboard/InsightCard";
 import InsightPairFrame from "../components/dashboard/InsightPairFrame";
 import LiftableCard from "../components/dashboard/LiftableCard";
 import fixture from "./fixture.json";
 import { runPricedIn } from "../../shared/propagation-progress";
+
+// ?lang=tr-TR shows the card in that language (kept, as a pick would be).
+{
+  const lang = new URLSearchParams(location.search).get("lang");
+  if (isLanguageCode(lang)) setLanguage(lang);
+  applyLanguage();
+}
 
 /** Scratch harness: renders the second-order card against the local fixture. */
 const params = new URLSearchParams(location.search);

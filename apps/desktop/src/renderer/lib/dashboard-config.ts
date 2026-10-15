@@ -1,3 +1,5 @@
+import { readBriefingAutoOpenPref } from "./general-prefs";
+
 /**
  * Dashboard-level switches. One place, so turning a surface off is a decision
  * rather than a sweep through the cards.
@@ -58,7 +60,11 @@ export function briefingEnabled(): boolean {
   return DASHBOARD_CONFIG.briefing.enabled;
 }
 
-/** Whether the briefing opens by itself before the open. Never true while the feature is off. */
+/**
+ * Whether the briefing opens by itself before the open. Never true while the
+ * feature is off, and off when the reader has turned it off in Settings,
+ * General (lib/general-prefs).
+ */
 export function briefingAutoOpen(): boolean {
-  return DASHBOARD_CONFIG.briefing.enabled && DASHBOARD_CONFIG.briefing.autoOpen;
+  return DASHBOARD_CONFIG.briefing.enabled && DASHBOARD_CONFIG.briefing.autoOpen && readBriefingAutoOpenPref();
 }

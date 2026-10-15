@@ -4,6 +4,7 @@ import { Plus } from "lucide-react";
 import AddAssetModal from "@/components/dashboard/AddAssetModal";
 import { useDemoMode } from "@/lib/demo-mode";
 import { createPaperAccount, hasPaperAccount, subscribePaperAccount } from "@/lib/paper-account";
+import { useT } from "@/lib/i18n";
 
 /**
  * Is there anything to show? A Falcon paper account (or demo mode standing in
@@ -41,6 +42,7 @@ export function usePortfolioConnected(): boolean {
  * — a Falcon paper account, or a brokerage.
  */
 export default function ConnectPortfolioEmpty({ line }: { line: string }) {
+  const t = useT();
   const [open, setOpen] = useState(false);
 
   return (
@@ -55,7 +57,7 @@ export default function ConnectPortfolioEmpty({ line }: { line: string }) {
         className="app-no-drag relative mt-4 flex items-center gap-1.5 rounded-lg bg-[#1d1b1b] px-[18px] py-[9px] text-[13px] font-normal not-italic leading-[20px] text-[rgb(231,231,231)] transition-colors duration-150 hover:bg-black active:bg-black"
       >
         <Plus className="h-3.5 w-3.5" strokeWidth={2} aria-hidden />
-        Connect your portfolio
+        {t("dashboard.connect.button")}
       </button>
 
       {open

@@ -1,25 +1,27 @@
+import { na } from "@/lib/i18n/na";
+import type { TFunction } from "@/lib/i18n";
 import type {
   HorizonStats,
   Strategy,
   StrategyFilter,
   StrategyTrigger,
 } from "../../../shared/quantlab-types";
+import { plural } from "../base/plural";
 
-/** An em dash, not a zero: a missing number must never read as a measured one. */
-export const DASH = "—";
+/** Missing numbers read as `na()` ("n/a" in the reader's language), never a zero. */
 
 export function pct(value: number | null | undefined, digits = 2): string {
-  if (value == null || !Number.isFinite(value)) return DASH;
+  if (value == null || !Number.isFinite(value)) return na();
   return `${value >= 0 ? "+" : ""}${(value * 100).toFixed(digits)}%`;
 }
 
 export function ratio(value: number | null | undefined, digits = 2): string {
-  if (value == null || !Number.isFinite(value)) return DASH;
+  if (value == null || !Number.isFinite(value)) return na();
   return value.toFixed(digits);
 }
 
 export function pctPlain(value: number | null | undefined, digits = 0): string {
-  if (value == null || !Number.isFinite(value)) return DASH;
+  if (value == null || !Number.isFinite(value)) return na();
   return `${(value * 100).toFixed(digits)}%`;
 }
 
@@ -30,6 +32,15 @@ export function money(value: number): string {
   return `$${value.toFixed(0)}`;
 }
 
+/** "a or b or c" in the reader's language, for names that are data (patterns, setups). */
+function orList(names: string[], locale: string): string {
+  try {
+    return new Intl.ListFormat(locale, { type: "disjunction" }).format(names);
+  } catch {
+    return names.join(" / ");
+  }
+}
+
 /**
  * A rule rendered as the conditions that must ALL hold (§2).
  *
@@ -37,64 +48,70 @@ export function money(value: number): string {
  * a strategy is readable clause by clause, and that when it fails you can name
  * the clause. A rendered weighted score would undo that.
  */
-export function triggerLines(trigger: StrategyTrigger): string[] {
+export function triggerLines(trigger: StrategyTrigger, t: TFunction, locale: string): string[] {
   const lines: string[] = [];
   if (trigger.event) {
-    const items = trigger.event.types.map((t) => t.replace("8k_item_", "")).join(" / ");
+    const items = trigger.event.types.map((type) => type.replace("8k_item_", "")).join(" / ");
     lines.push(
       trigger.event.on === "root"
-        ? `an 8-K carrying item ${items} is filed by the ticker itself`
-        : `an 8-K carrying item ${items} is filed by a graph neighbour's counterparty`,
+        ? t("instruments.quantlab.rule.eventRoot", { items })
+        : t("instruments.quantlab.rule.eventNeighbour", { items }),
     );
   }
   if (trigger.graph) {
+    const hops = trigger.graph.max_hops;
     lines.push(
-      `the link is at least ${trigger.graph.min_tier}, ${trigger.graph.max_hops} hop${trigger.graph.max_hops === 1 ? "" : "s"}, and was disclosed on or before the signal session`,
+      t(plural(locale, hops, "instruments.quantlab.rule.graph.one", "instruments.quantlab.rule.graph.other"), {
+        tier: trigger.graph.min_tier,
+        hops,
+      }),
     );
   }
   if (trigger.pattern) {
-    const names = trigger.pattern.names.join(" or ");
+    const names = orList(trigger.pattern.names, locale);
     lines.push(
       trigger.pattern.state === "new"
-        ? `Screen's ${names} pattern is on its FIRST session`
-        : `Screen's ${names} pattern holds`,
+        ? t("instruments.quantlab.rule.patternNew", { names })
+        : t("instruments.quantlab.rule.patternHolds", { names }),
     );
   }
   if (trigger.setup) {
-    lines.push(`Gauge reads setup ${trigger.setup.names.join(" or ")} in state ${trigger.setup.state}`);
+    lines.push(
+      t("instruments.quantlab.rule.setup", { names: orList(trigger.setup.names, locale), state: trigger.setup.state }),
+    );
   }
   return lines;
 }
 
-export function filterLine(filter: StrategyFilter): string {
+export function filterLine(filter: StrategyFilter, t: TFunction): string {
   switch (filter.kind) {
     case "r2_floor":
-      return `r² is at least ${filter.min}`;
+      return t("instruments.quantlab.rule.r2", { min: filter.min });
     case "no_earnings_within":
-      return `no earnings announcement within ${filter.sessions} sessions`;
+      return t("instruments.quantlab.rule.noEarnings", { n: filter.sessions });
     case "unpriced":
-      return `the session's sector-relative move is under ${filter.max_ratio}× its daily vol (still unpriced)`;
+      return t("instruments.quantlab.rule.unpriced", { ratio: filter.max_ratio });
     case "liquidity":
-      return `20-session median dollar volume is at least ${money(filter.min_dollar_volume_20d)}`;
+      return t("instruments.quantlab.rule.liquidity", { amount: money(filter.min_dollar_volume_20d) });
     case "vol_regime":
-      return `the vol regime is at or below ${filter.max}`;
+      return t("instruments.quantlab.rule.volRegime", { max: filter.max });
   }
 }
 
-export function entryLine(strategy: Strategy): string {
+export function entryLine(strategy: Strategy, t: TFunction): string {
   return strategy.entry.when === "signal_close"
-    ? "enter at the close of the signal session"
-    : "enter at the open of the following session";
+    ? t("instruments.quantlab.rule.entryClose")
+    : t("instruments.quantlab.rule.entryOpen");
 }
 
-export function directionLine(strategy: Strategy): string {
+export function directionLine(strategy: Strategy, t: TFunction): string {
   switch (strategy.direction.kind) {
     case "long_only":
-      return "always long";
+      return t("instruments.quantlab.rule.upOnly");
     case "event_direction":
-      return "signed by the event's own direction";
+      return t("instruments.quantlab.rule.eventDirection");
     case "pattern_direction":
-      return "signed by the pattern or setup's direction";
+      return t("instruments.quantlab.rule.patternDirection");
   }
 }
 

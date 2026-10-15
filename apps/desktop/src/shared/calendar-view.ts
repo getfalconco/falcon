@@ -20,17 +20,20 @@ import {
   type SessionPhase,
   type SessionWindow,
 } from "./calendar-types";
+import { ENGLISH, fullDateLabel, weekdayDateLabel, type BriefingKey, type BriefingText } from "./briefing-text";
+import { localizeCalendarDetail, localizeCalendarTitle } from "./calendar-i18n";
+import type { MarketHoliday } from "./calendar-days";
 
 // ---------------------------------------------------------------------------
 // Dates
 // ---------------------------------------------------------------------------
 
 /**
- * Month and weekday names are spelled out here instead of asked of Intl, for
- * two reasons. A session date is a calendar date, not an instant: handing
- * "2026-09-21" to a date formatter means picking a time of day and a zone for
- * it, and picking wrong prints the 20th to anyone west of UTC. And the text
- * then does not depend on which ICU build the runtime shipped with.
+ * English month and weekday abbreviations, kept for the callers that build an
+ * English label of their own (the main process's corporate rows, the Calendar
+ * tab's grid). What this module prints goes through `briefing-text`: the
+ * names come from Intl in the reader's language, and a session date is
+ * formatted as UTC noon in UTC, so no zone offset prints the 20th for the 21st.
  */
 export const MONTH_ABBR = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"] as const;
 export const WEEKDAY_ABBR = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"] as const;
@@ -44,34 +47,14 @@ function list<T>(value: readonly T[] | null | undefined): readonly T[] {
   return Array.isArray(value) ? value : [];
 }
 
-type YmdParts = { y: number; m: number; d: number; dow: number; noonUtc: number };
-
-/**
- * Reads a "YYYY-MM-DD" calendar date through UTC noon: far enough from both
- * ends of the day that no zone offset can push it onto a neighbouring date.
- * A date that does not exist (02-30) is rejected rather than rolled forward.
- */
-function parseYmd(ymd: string): YmdParts | null {
-  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(ymd ?? "");
-  if (!match) return null;
-  const y = Number(match[1]);
-  const m = Number(match[2]);
-  const d = Number(match[3]);
-  const at = new Date(Date.UTC(y, m - 1, d, 12));
-  if (at.getUTCMonth() !== m - 1 || at.getUTCDate() !== d) return null;
-  return { y, m, d, dow: at.getUTCDay(), noonUtc: at.getTime() };
+/** "Mon Sep 28" in the reader's language. An unreadable date is shown as it came, which beats showing nothing. */
+function weekdayDate(ymd: string, text: BriefingText): string {
+  return weekdayDateLabel(ymd, text);
 }
 
-/** "Mon Sep 28". An unreadable date is shown as it came, which beats showing nothing. */
-function weekdayDate(ymd: string): string {
-  const p = parseYmd(ymd);
-  return p ? `${WEEKDAY_ABBR[p.dow]} ${MONTH_ABBR[p.m - 1]} ${p.d}` : ymd;
-}
-
-/** "Oct 31, 2026". */
-function fullDate(ymd: string): string {
-  const p = parseYmd(ymd);
-  return p ? `${MONTH_ABBR[p.m - 1]} ${p.d}, ${p.y}` : ymd;
+/** "Oct 31, 2026" in the reader's language. */
+function fullDate(ymd: string, text: BriefingText): string {
+  return fullDateLabel(ymd, text);
 }
 
 const NY_CLOCK = new Intl.DateTimeFormat("en-US", {
@@ -151,18 +134,41 @@ export function effectivePhase(window: SessionWindow, now: Date): SessionPhase {
 }
 
 /** "MON SEP 28". */
-export function mastheadDate(report: CalendarReport): string {
-  return dayLabel(report.window.target_session_ymd);
+export function mastheadDate(report: CalendarReport, text: BriefingText = ENGLISH): string {
+  return dayLabel(report.window.target_session_ymd, text);
 }
 
 /** The quiet line for a day past what the report knows of held names' earnings. */
-export function earningsReachNote(throughYmd: string): string {
-  return `Earnings of held names are listed through ${fullDate(throughYmd)}.`;
+export function earningsReachNote(throughYmd: string, text: BriefingText = ENGLISH): string {
+  return text.t("briefing.calendar.earningsReach", { date: fullDate(throughYmd, text) });
+}
+
+const HOLIDAY_KEY: Record<MarketHoliday, BriefingKey> = {
+  new_year: "briefing.holiday.newYear",
+  mlk: "briefing.holiday.mlk",
+  washington: "briefing.holiday.washington",
+  good_friday: "briefing.holiday.goodFriday",
+  memorial: "briefing.holiday.memorial",
+  juneteenth: "briefing.holiday.juneteenth",
+  independence: "briefing.holiday.independence",
+  labor: "briefing.holiday.labor",
+  thanksgiving: "briefing.holiday.thanksgiving",
+  christmas: "briefing.holiday.christmas",
+};
+
+/**
+ * The one calm line a day the market does not open carries in place of a
+ * session: "US markets are closed for the weekend.", or the holiday by name.
+ */
+export function closedDayNote(reason: "weekend" | "holiday", holiday: MarketHoliday | null, text: BriefingText = ENGLISH): string {
+  if (reason === "weekend") return text.t("briefing.card.closedWeekend");
+  const key = holiday ? HOLIDAY_KEY[holiday] : undefined;
+  return key ? text.t("briefing.card.closedHoliday", { holiday: text.t(key) }) : text.t("briefing.card.closedHolidayUnnamed");
 }
 
 /** "MON SEP 28" for any calendar date: the head names the day the strip has picked, closed days included. */
-export function dayLabel(ymd: string): string {
-  return weekdayDate(ymd).toUpperCase();
+export function dayLabel(ymd: string, text: BriefingText = ENGLISH): string {
+  return weekdayDate(ymd, text).toLocaleUpperCase(text.locale);
 }
 
 // ---------------------------------------------------------------------------
@@ -206,19 +212,29 @@ export type CalendarView = {
   footnote: CalendarFootnote;
 };
 
-export const CALENDAR_KIND_LABEL: Record<CalendarItemKind, string> = {
-  fomc: "FOMC",
-  data: "Data",
-  opex: "Options",
-  earnings: "Earnings",
-  session: "Session",
-  rebalance: "Index",
+const KIND_KEY: Record<CalendarItemKind, BriefingKey> = {
+  fomc: "briefing.kind.fomc",
+  data: "briefing.kind.data",
+  opex: "briefing.kind.opex",
+  earnings: "briefing.kind.earnings",
+  session: "briefing.kind.session",
+  rebalance: "briefing.kind.rebalance",
 };
 
-const IMPORTANCE_LABEL: Record<1 | 2 | 3, string> = {
-  3: "High importance",
-  2: "Medium importance",
-  1: "Low importance",
+/** The kind labels in English, for callers that predate the translated view. */
+export const CALENDAR_KIND_LABEL: Record<CalendarItemKind, string> = {
+  fomc: ENGLISH.t(KIND_KEY.fomc),
+  data: ENGLISH.t(KIND_KEY.data),
+  opex: ENGLISH.t(KIND_KEY.opex),
+  earnings: ENGLISH.t(KIND_KEY.earnings),
+  session: ENGLISH.t(KIND_KEY.session),
+  rebalance: ENGLISH.t(KIND_KEY.rebalance),
+};
+
+const IMPORTANCE_KEY: Record<1 | 2 | 3, BriefingKey> = {
+  3: "briefing.importance.high",
+  2: "briefing.importance.medium",
+  1: "briefing.importance.low",
 };
 
 /** The curated file names its publishers; a row carries the id, the hover card prints the name. */
@@ -228,22 +244,25 @@ const PUBLISHER = new Map(MACRO_CALENDAR.sources.map((source) => [source.id, sou
  * Rows the engine derives by rule carry "rule" as their source, which names no
  * publisher. What set the date differs by kind, so the kind picks the sentence.
  */
-const RULE_SOURCE: Partial<Record<CalendarItemKind, string>> = {
-  opex: "Set by the exchanges' standard options expiry schedule.",
-  session: "Set by the NYSE holiday and early close schedule.",
-  rebalance: "Set by the index provider's published rules.",
+const RULE_SOURCE: Partial<Record<CalendarItemKind, BriefingKey>> = {
+  opex: "briefing.source.opex",
+  session: "briefing.source.session",
+  rebalance: "briefing.source.rebalance",
 };
 
-function sourceLabel(item: CalendarItem): string | null {
+function sourceLabel(item: CalendarItem, text: BriefingText): string | null {
   if (item.kind === "earnings") {
-    return item.source === "tracker" ? "Date announced by the company." : "Date from the data provider.";
+    return text.t(item.source === "tracker" ? "briefing.source.company" : "briefing.source.provider");
   }
   // "curated" is a date the index provider announced (Russell, MSCI): no rule
   // gives those, so they are not called rule-derived.
-  if (item.kind === "rebalance" && item.source === "curated") return "Date announced by the index provider.";
-  if (item.source === "rule") return RULE_SOURCE[item.kind] ?? null;
+  if (item.kind === "rebalance" && item.source === "curated") return text.t("briefing.source.indexProvider");
+  if (item.source === "rule") {
+    const key = RULE_SOURCE[item.kind];
+    return key ? text.t(key) : null;
+  }
   const publisher = PUBLISHER.get(item.source);
-  return publisher ? `Source: ${publisher}.` : null;
+  return publisher ? text.t("briefing.source.publisher", { publisher }) : null;
 }
 
 /**
@@ -254,7 +273,7 @@ function sourceLabel(item: CalendarItem): string | null {
  * a release that lands on another calendar day where the reader is says so.
  * `zone` is the reader's time zone, left to the runtime unless a test pins it.
  */
-function localTime(at: string | null, zone: string | undefined): string | null {
+function localTime(at: string | null, zone: string | undefined, text: BriefingText): string | null {
   if (!at) return null;
   const instant = new Date(at);
   if (!Number.isFinite(instant.getTime())) return null;
@@ -279,14 +298,17 @@ function localTime(at: string | null, zone: string | undefined): string | null {
   const hm = `${parts.hour === "24" ? "00" : parts.hour}:${parts.minute}`;
   const ymd = `${parts.year}-${parts.month}-${parts.day}`;
   if (ymd === ny.ymd && hm === ny.hm) return null;
-  const shift = ymd > ny.ymd ? " the next day" : ymd < ny.ymd ? " the day before" : "";
-  return `${hm}${shift} your time`;
+  const key: BriefingKey =
+    ymd > ny.ymd ? "briefing.time.localNextDay" : ymd < ny.ymd ? "briefing.time.localDayBefore" : "briefing.time.local";
+  return text.t(key, { time: hm });
 }
 
-function timeLine(item: CalendarItem, zone: string | undefined): string {
-  if (!item.time_et) return "All day";
-  const local = localTime(item.at, zone);
-  return local ? `${item.time_et} ET · ${local}` : `${item.time_et} ET`;
+function timeLine(item: CalendarItem, zone: string | undefined, text: BriefingText): string {
+  if (!item.time_et) return text.t("briefing.rail.allDay");
+  const local = localTime(item.at, zone, text);
+  return local
+    ? text.t("briefing.time.etAndLocal", { et: item.time_et, local })
+    : text.t("briefing.time.et", { time: item.time_et });
 }
 
 /**
@@ -305,37 +327,41 @@ function isPast(item: CalendarItem, now: Date, targetYmd: string): boolean {
   return item.time_et <= clock.hm;
 }
 
-function calendarItemView(item: CalendarItem, past: boolean, zone: string | undefined): CalendarItemView {
+function calendarItemView(item: CalendarItem, past: boolean, zone: string | undefined, text: BriefingText): CalendarItemView {
+  const kindKey: BriefingKey | undefined = KIND_KEY[item.kind];
   return {
     id: item.id,
     kind: item.kind,
-    kindLabel: CALENDAR_KIND_LABEL[item.kind] ?? "Event",
-    title: item.title,
-    detail: item.detail ?? null,
+    kindLabel: text.t(kindKey ?? "briefing.kind.event"),
+    title: localizeCalendarTitle(item.title, text),
+    detail: localizeCalendarDetail(item.detail ?? null, text),
     importance: item.importance,
     tickers: [...list(item.tickers)],
     timeLabel: item.time_et ?? null,
     past,
-    timeLine: timeLine(item, zone),
-    sourceLabel: sourceLabel(item),
-    importanceLabel: IMPORTANCE_LABEL[item.importance] ?? IMPORTANCE_LABEL[1],
+    timeLine: timeLine(item, zone, text),
+    sourceLabel: sourceLabel(item, text),
+    importanceLabel: text.t(IMPORTANCE_KEY[item.importance] ?? IMPORTANCE_KEY[1]),
   };
 }
 
-function calendarFootnote(report: CalendarReport): CalendarFootnote {
+function calendarFootnote(report: CalendarReport, t: BriefingText): CalendarFootnote {
   const c = report.coverage;
-  if (!c || !c.until) return { text: "Calendar coverage is unknown.", tone: "warn" };
-  if (!c.covers_target) return { text: `Calendar data ends ${fullDate(c.until)}. This session is not covered.`, tone: "warn" };
-  return { text: `Calendar covers until ${fullDate(c.until)}.`, tone: "quiet" };
+  if (!c || !c.until) return { text: t.t("briefing.calendar.coverageUnknown"), tone: "warn" };
+  if (!c.covers_target) return { text: t.t("briefing.calendar.coverageEnded", { date: fullDate(c.until, t) }), tone: "warn" };
+  return { text: t.t("briefing.calendar.coverageUntil", { date: fullDate(c.until, t) }), tone: "quiet" };
 }
 
 export type CalendarViewOptions = {
   /** The reader's IANA time zone for the hover card's second clock; the runtime's own when left out. */
   zone?: string;
+  /** The reader's language; English when left out. */
+  text?: BriefingText;
 };
 
 export function calendarView(report: CalendarReport, now: Date, options: CalendarViewOptions = {}): CalendarView {
   const zone = options.zone;
+  const text = options.text ?? ENGLISH;
   const targetYmd = report.window.target_session_ymd;
   const items = list(report.items);
 
@@ -345,7 +371,7 @@ export function calendarView(report: CalendarReport, now: Date, options: Calenda
     .map((i, index) => ({ i, index }))
     .sort((a, b) => (a.i.time_et as string).localeCompare(b.i.time_et as string) || b.i.importance - a.i.importance || a.index - b.index);
 
-  const timed = timedItems.map(({ i }) => calendarItemView(i, isPast(i, now, targetYmd), zone) as TimedCalendarItemView);
+  const timed = timedItems.map(({ i }) => calendarItemView(i, isPast(i, now, targetYmd), zone, text) as TimedCalendarItemView);
   const firstAhead = timed.findIndex((t) => !t.past);
 
   // An all-day item is behind us once the session it belongs to has closed.
@@ -355,14 +381,14 @@ export function calendarView(report: CalendarReport, now: Date, options: Calenda
     .filter((i) => !i.time_et)
     .map((i, index) => ({ i, index }))
     .sort((a, b) => b.i.importance - a.i.importance || a.index - b.index)
-    .map(({ i }) => calendarItemView(i, dayOver, zone));
+    .map(({ i }) => calendarItemView(i, dayOver, zone, text));
 
   return {
     allDay,
     timed,
     nowIndex: firstAhead === -1 ? timed.length : firstAhead,
     nowOnTargetDay: nyYmd(now) === targetYmd,
-    footnote: calendarFootnote(report),
+    footnote: calendarFootnote(report, text),
   };
 }
 
@@ -370,21 +396,21 @@ export function calendarView(report: CalendarReport, now: Date, options: Calenda
 // Degraded sections
 // ---------------------------------------------------------------------------
 
-const DEGRADED_NOTE: Record<CalendarSectionKey, string> = {
-  macro_calendar: "The macro calendar is unavailable right now.",
-  earnings: "Earnings dates are unavailable right now.",
+const DEGRADED_NOTE: Record<CalendarSectionKey, BriefingKey> = {
+  macro_calendar: "briefing.calendar.macroUnavailable",
+  earnings: "briefing.calendar.earningsUnavailable",
 };
 
 /** When only some symbols failed, the note names them and the rest of the section stands. */
-const DEGRADED_NOTE_FOR_SYMBOLS: Partial<Record<CalendarSectionKey, string>> = {
-  earnings: "Earnings dates are unavailable for",
+const DEGRADED_NOTE_FOR_SYMBOLS: Partial<Record<CalendarSectionKey, BriefingKey>> = {
+  earnings: "briefing.calendar.earningsUnavailableFor",
 };
 
-function symbolList(symbols: readonly string[]): string {
+function symbolList(symbols: readonly string[], text: BriefingText): string {
   const unique = [...new Set(symbols)];
   const shown = unique.slice(0, 4).join(", ");
   const rest = unique.length - 4;
-  return rest > 0 ? `${shown} and ${rest} more` : shown;
+  return rest > 0 ? text.t("briefing.calendar.symbolsMore", { symbols: shown, count: rest }) : shown;
 }
 
 /**
@@ -392,7 +418,7 @@ function symbolList(symbols: readonly string[]): string {
  * shown: it is written for a log, and keeping it out is also what guarantees
  * no provider text reaches the reader.
  */
-export function degradedNotes(report: CalendarReport): Partial<Record<CalendarSectionKey, string>> {
+export function degradedNotes(report: CalendarReport, text: BriefingText = ENGLISH): Partial<Record<CalendarSectionKey, string>> {
   const symbolsBySection = new Map<CalendarSectionKey, string[] | null>();
   for (const d of list(report.degraded)) {
     if (!(d.section in DEGRADED_NOTE)) continue;
@@ -406,7 +432,8 @@ export function degradedNotes(report: CalendarReport): Partial<Record<CalendarSe
   const notes: Partial<Record<CalendarSectionKey, string>> = {};
   for (const [section, symbols] of symbolsBySection) {
     const lead = DEGRADED_NOTE_FOR_SYMBOLS[section];
-    notes[section] = symbols && lead ? `${lead} ${symbolList(symbols)}.` : DEGRADED_NOTE[section];
+    notes[section] =
+      symbols && lead ? text.t(lead, { symbols: symbolList(symbols, text) }) : text.t(DEGRADED_NOTE[section]);
   }
   return notes;
 }

@@ -1,3 +1,4 @@
+import type { MessageKey } from "../../lib/i18n";
 import type { PropagationRole, PropagationTarget } from "../../../shared/propagation-run-types";
 
 /**
@@ -20,12 +21,13 @@ export const GROUP_OF_ROLE: Record<PropagationRole, RippleGroup> = {
   depended_on_by: "partners",
 };
 
-export const GROUP_LABEL: Record<RippleGroup, string> = {
-  suppliers: "Suppliers",
-  customers: "Customers",
-  competitors: "Competitors",
-  partners: "Partners & dependencies",
-};
+/** The sector heading's message, per group; the view puts it in the reader's language. */
+export const GROUP_LABEL_KEY = {
+  suppliers: "panels.ripple.group.suppliers",
+  customers: "panels.ripple.group.customers",
+  competitors: "panels.ripple.group.competitors",
+  partners: "panels.ripple.group.partners",
+} as const satisfies Record<RippleGroup, MessageKey>;
 
 /** Centre angle (degrees, SVG clockwise from +x) and max half-spread of each sector. */
 const SECTOR: Record<RippleGroup, { center: number; halfSpread: number }> = {

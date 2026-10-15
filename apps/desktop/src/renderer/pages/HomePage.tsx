@@ -1,7 +1,7 @@
 import type { User } from "@supabase/supabase-js";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { ArrowLeft, CalendarDays, Gauge, LineChart, List, LogOut, Newspaper, Sparkles, type LucideIcon } from "lucide-react";
-import logoBlack from "@/assets/brand/logo-black.png";
+import { ArrowLeft, CalendarClock, CalendarDays, Gauge, LineChart, List, Newspaper, Radar, Sparkles, type LucideIcon } from "lucide-react";
+import BrandLogo from "@/components/BrandLogo";
 import GraphScreen from "@/components/graph/GraphScreen";
 import StockView from "@/components/stock/StockView";
 import DashboardSearchBar from "@/components/dashboard/DashboardSearchBar";
@@ -16,8 +16,20 @@ import InsightCard from "@/components/dashboard/InsightCard";
 import OpportunitiesPanel from "@/components/dashboard/OpportunitiesPanel";
 import NewsCard from "@/components/dashboard/NewsCard";
 import CalendarCard from "@/components/dashboard/CalendarCard";
+import HomeTabStrip from "@/components/dashboard/HomeTabStrip";
+import HomeTabPanels, { HomeTabMain, KEPT, OnHomeTab } from "@/components/dashboard/HomeTabPanels";
+import CalendarTab from "@/components/calendar/CalendarTab";
+import AgentsTab from "@/components/agents/AgentsTab";
+import AgentsCard from "@/components/agents/AgentsCard";
+import EarningsTab from "@/components/earnings/EarningsTab";
+import EarningsCard from "@/components/dashboard/EarningsCard";
+import { onAgentsOpenRequest } from "@/components/agents/agents-store";
 import BriefingHost from "@/components/briefing/BriefingHost";
-import SettingsModal from "@/components/settings/SettingsModal";
+import SettingsModal, { type SettingsSection } from "@/components/settings/SettingsModal";
+import PlansModal from "@/components/plans/PlansModal";
+import ChangelogModal from "@/components/changelog/ChangelogModal";
+import LanguageModal from "@/components/settings/LanguageModal";
+import { useT, type MessageKey } from "@/lib/i18n";
 import {
   bringToFront,
   canvasHeight,
@@ -42,15 +54,27 @@ import {
   type SnapGuides,
 } from "@/lib/canvas-layout";
 import { readCardOrder, writeCardOrder } from "@/lib/card-order";
+import {
+  DEFAULT_HOME_TAB,
+  readHomeTabOrder,
+  writeHomeTabOrder,
+  type HomeTabId,
+} from "@/lib/home-tabs";
+import { createHomeTabStore, overlayShowing } from "@/lib/home-tab-store";
 import { isCardHidden } from "@/lib/dashboard-config";
 import { toggleDemoMode } from "@/lib/demo-mode";
+import { isTypingTarget } from "@/lib/shortcuts";
+import { useShortcut } from "@/lib/use-shortcuts";
 import { startPortfolioSync } from "@/lib/portfolio-sync";
 import { startPortfolioCoverageSync } from "@/lib/portfolio-coverage";
 import { startRiskAccountBridge } from "@/lib/risk-account-bridge";
 import WindowControls from "@/components/WindowControls";
 import { cn } from "@/lib/utils";
 import { STOCK_OPEN_EVENT, type StockOpenDetail } from "@/lib/stock-open";
+import { forgetStartScreen } from "@/lib/general-prefs";
 import type { StockCatalogEntry } from "../../shared/stock-catalog";
+import { DASHBOARD_CARD_ORDER } from "../../shared/onboarding-desk";
+import HeardAboutPrompt from "@/components/onboarding/HeardAboutPrompt";
 
 /**
  * Rebuilt shell: a bare frame with the brand mark top-left. Panels get
@@ -74,21 +98,48 @@ const CHART_H_KEY = "falcon.ui.chartCardH";
 
 /** Cards, in the order they sit — remembered across sessions. Every card
  *  lifts, drags, and drops onto a slot or onto another card to take its place. */
-type CardBase = "portfolio" | "assets" | "calendar" | "news" | "insight" | "risk";
+type CardBase = "portfolio" | "assets" | "calendar" | "news" | "insight" | "risk" | "agents" | "earnings";
 /** A card, or a copy of one made from its menu — `assets#1725...` reads as
  *  "an assets card", so everything keyed by base keeps working on copies. */
 type CardId = CardBase | `${CardBase}#${number}`;
 const baseOf = (id: CardId): CardBase => id.split("#")[0] as CardBase;
 
 /** What the Add Module menu offers, in its order. A card the config hides is left out of it. */
-const MODULES: ReadonlyArray<{ id: CardBase; label: string; icon: LucideIcon }> = [
-  { id: "portfolio", label: "Portfolio Value", icon: LineChart },
-  { id: "assets", label: "Positions", icon: List },
-  { id: "calendar", label: "Calendar", icon: CalendarDays },
-  { id: "news", label: "News", icon: Newspaper },
-  { id: "risk", label: "Risk Score", icon: Gauge },
-  { id: "insight", label: "Insight", icon: Sparkles },
+const MODULES: ReadonlyArray<{ id: CardBase; labelKey: MessageKey; icon: LucideIcon }> = [
+  { id: "portfolio", labelKey: "modules.portfolio", icon: LineChart },
+  { id: "assets", labelKey: "modules.assets", icon: List },
+  { id: "calendar", labelKey: "modules.calendar", icon: CalendarDays },
+  { id: "news", labelKey: "modules.news", icon: Newspaper },
+  { id: "risk", labelKey: "modules.risk", icon: Gauge },
+  { id: "insight", labelKey: "modules.insight", icon: Sparkles },
+  { id: "agents", labelKey: "modules.agents", icon: Radar },
+  { id: "earnings", labelKey: "modules.earnings", icon: CalendarClock },
 ];
+
+/**
+ * The tabs beside the greeting, one entry each. A tab with a `Component` is
+ * drawn by it; one without is drawn by this page — the Dashboard, whose
+ * canvas lives on this page's own state. A new tab is an id in
+ * lib/home-tabs.ts and an entry here; the type asks for both.
+ */
+type HomeTab = { labelKey: MessageKey; icon?: LucideIcon; Component?: React.ComponentType };
+const HOME_TABS: Readonly<Record<HomeTabId, HomeTab>> = {
+  dashboard: { labelKey: "home.tab.dashboard" },
+  calendar: { labelKey: "home.tab.calendar", Component: CalendarTab },
+  agents: { labelKey: "home.tab.agents", Component: AgentsTab },
+  earnings: { labelKey: "home.tab.earnings", Component: EarningsTab },
+};
+/**
+ * Each registry tab's body, made once: the panels keep every opened tab
+ * mounted, and an element that is the same object from render to render is
+ * one React does not redraw when the page or the front tab changes.
+ */
+const TAB_BODIES: Readonly<Record<HomeTabId, React.ReactNode>> = Object.fromEntries(
+  (Object.keys(HOME_TABS) as HomeTabId[]).map((id) => {
+    const Body = HOME_TABS[id].Component;
+    return [id, Body ? <Body /> : null];
+  }),
+) as Record<HomeTabId, React.ReactNode>;
 /**
  * Per-card size — the share of the row's width, and the pixel height.
  * Remembered like the order. A share rather than a column count: widths used
@@ -155,7 +206,8 @@ function loadCardSizes(): Record<string, CardSize> {
   return {};
 }
 
-const DEFAULT_CARD_ORDER: CardId[] = ["portfolio", "assets", "calendar", "news", "insight", "risk"];
+/** The fresh dashboard's order; shared with setup's desk screen (shared/onboarding-desk), which writes the same store. */
+const DEFAULT_CARD_ORDER: CardId[] = [...DASHBOARD_CARD_ORDER];
 /** The saved arrangement: see lib/card-order.ts for what a launch adds back and what it leaves deleted. */
 function loadCardOrder(): CardId[] {
   try {
@@ -179,18 +231,100 @@ type Props = {
 
 export default function HomePage({ userName, user, callName, userEmail, onSignOut }: Props) {
   const enterStarted = useRef(false);
+  const t = useT();
 
   const hour = new Date().getHours();
-  const greeting = hour < 12 ? "Morning" : hour < 18 ? "Afternoon" : "Evening";
+  const greetingKey: MessageKey =
+    hour < 12 ? "home.greeting.morning" : hour < 18 ? "home.greeting.afternoon" : "home.greeting.evening";
   const firstName = callName?.trim() || userName.trim().split(/\s+/)[0];
   const [privacyMode, setPrivacyMode] = useState(false);
   /** Settings, opened from the account pill. Only its rail is built so far. */
   const [settingsOpen, setSettingsOpen] = useState(false);
+  /** The Settings row that is lit; kept here so a shortcut can open Settings on a given pane. */
+  const [settingsSection, setSettingsSection] = useState<SettingsSection>("general");
+  /** "View All Plans", from the account pill. */
+  const [plansOpen, setPlansOpen] = useState(false);
+  /** "Choose your language", from the account pill's Language row. */
+  const [languageOpen, setLanguageOpen] = useState(false);
+  /** Settings, straight on Shortcuts — from "Learn more" → Keyboard shortcuts, and Ctrl+/ (⌘/). */
+  const openShortcuts = useCallback(() => {
+    setSettingsSection("shortcuts");
+    setSettingsOpen(true);
+  }, []);
+  // Ctrl/⌘ bindings fire inside fields in the registry; this one stands down
+  // while the reader is typing, so it never lands mid-sentence.
+  useShortcut("open-shortcuts", (e) => {
+    if (!isTypingTarget(e.target)) openShortcuts();
+  });
+  /** What's new, opened from the account pill's View Changelog. */
+  const [changelogOpen, setChangelogOpen] = useState(false);
+  // Every launch opens on the Dashboard; the start-screen choice is retired
+  // and what it kept is dropped once (lib/general-prefs).
+  useEffect(() => forgetStartScreen(), []);
   const [view, setView] = useState<"dashboard" | "stock" | "graph">("dashboard");
   // Ticker picked from the top search bar — opens the stock screen in place.
   const [stock, setStock] = useState<StockCatalogEntry | null>(null);
   // ⌘K's pick opens as a glass peek over the dashboard, not the stock view.
   const [peek, setPeek] = useState<StockCatalogEntry | null>(null);
+
+  /**
+   * The tab beside the greeting, under the screens above: a stock or the
+   * graph opens over whichever tab is in front, and their back button returns
+   * to it. The Dashboard on every launch. The order is the reader's, dragged.
+   */
+  // Kept in a store, not in this page's state: a switch then redraws the
+  // strip, the heading and the panels (components/dashboard/HomeTabPanels),
+  // not this page and every dashboard card on it. Read it with <OnHomeTab>.
+  const [tabStore] = useState(() => createHomeTabStore(DEFAULT_HOME_TAB));
+  const [tabOrder, setTabOrder] = useState<HomeTabId[]>(() => readHomeTabOrder(localStorage));
+  useEffect(() => writeHomeTabOrder(localStorage, tabOrder), [tabOrder]);
+  const mainRef = useRef<HTMLElement | null>(null);
+  const viewRef = useRef(view);
+  viewRef.current = view;
+  /** A stock or the graph stands where the tabs do. */
+  const tabsHidden = view === "graph" || (view === "stock" && stock !== null);
+  /** One of this page's own dialogs is up (they close themselves before opening a tab). */
+  const ownDialogRef = useRef(false);
+  ownDialogRef.current = settingsOpen || plansOpen || changelogOpen || languageOpen || peek !== null;
+  /**
+   * The tab in front, when a dialog it opened is showing. Opened tabs are
+   * kept mounted behind the front one, but a tab left with a dialog up (a
+   * notification bringing Agents forward over a news article, a stock opened
+   * from a calendar event) is unmounted instead, as every tab used to be, so
+   * the dialog goes with it.
+   */
+  const tabWithDialog = useCallback(
+    (): HomeTabId | undefined =>
+      viewRef.current === "dashboard" && !ownDialogRef.current && overlayShowing() ? tabStore.get().tab : undefined,
+    [tabStore],
+  );
+  /**
+   * Bring a tab to the front — from the strip, or from a card's own door to
+   * it (View Calendar). Leaves a stock or the graph if one is open. Each tab
+   * comes back at the scroll it was left at (a first visit at its top); a
+   * press on the tab already in front goes back to its top.
+   */
+  const openTab = useCallback(
+    (id: HomeTabId) => {
+      const current = tabStore.get().tab;
+      if (id === current && viewRef.current === "dashboard") {
+        mainRef.current?.scrollTo({ top: 0 });
+        return;
+      }
+      tabStore.open(id, id === current ? undefined : tabWithDialog());
+      if (viewRef.current !== "dashboard") setView("dashboard");
+    },
+    [tabStore, tabWithDialog],
+  );
+  /** A stock or the graph opens over the tabs, which are kept behind it, unless a dialog is up in the front one. */
+  const leaveTabs = useCallback(() => {
+    const evict = tabWithDialog();
+    if (evict) tabStore.evict(evict);
+  }, [tabStore, tabWithDialog]);
+  // Anything that asks to show an agent (a dashboard row, a click on an
+  // agent's notification) brings the Agents tab to the front; the tab
+  // itself picks the agent from the same request.
+  useEffect(() => onAgentsOpenRequest(() => openTab("agents")), [openTab]);
 
   // Card ordering: hold a card to lift it and drag it; the card under the
   // pointer is marked as the swap target; dropping there exchanges the two.
@@ -230,7 +364,10 @@ export default function HomePage({ userName, user, callName, userEmail, onSignOu
     canvasObserver.current?.disconnect();
     canvasObserver.current = null;
     if (!el || typeof ResizeObserver === "undefined") return;
-    const ro = new ResizeObserver(() => setCanvasW(el.clientWidth));
+    // A kept (hidden) dashboard measures nothing: zero would drop every card.
+    const ro = new ResizeObserver(() => {
+      if (el.clientWidth > 0) setCanvasW(el.clientWidth);
+    });
     ro.observe(el);
     canvasObserver.current = ro;
     setCanvasW(el.clientWidth);
@@ -364,6 +501,7 @@ export default function HomePage({ userName, user, callName, userEmail, onSignOu
   /** One invisible strip per edge, lighting a short bar when the pointer is
    *  near it or it is being dragged; one small square per corner. */
   const resizeHandles = (id: CardId) => {
+    const card = t(MODULES.find((m) => m.id === baseOf(id))?.labelKey ?? "modules.portfolio");
     const lit = (edges: Edge[]) => resizing?.id === id && edges.includes(resizing.edge);
     const bar = (on: boolean, vertical: boolean, group: string) =>
       cn(
@@ -376,7 +514,7 @@ export default function HomePage({ userName, user, callName, userEmail, onSignOu
         <div
           data-no-lift
           role="separator"
-          aria-label={`Resize ${id} card from the left`}
+          aria-label={t("shell.resize.left", { card })}
           onPointerDown={(e) => startResize(id, e, "l")}
           className="group/rzl app-no-drag absolute inset-y-4 left-0 z-20 flex w-3 cursor-ew-resize items-center justify-center"
         >
@@ -385,7 +523,7 @@ export default function HomePage({ userName, user, callName, userEmail, onSignOu
         <div
           data-no-lift
           role="separator"
-          aria-label={`Resize ${id} card from the right`}
+          aria-label={t("shell.resize.right", { card })}
           onPointerDown={(e) => startResize(id, e, "r")}
           className="group/rzr app-no-drag absolute inset-y-4 right-0 z-20 flex w-3 cursor-ew-resize items-center justify-center"
         >
@@ -394,7 +532,7 @@ export default function HomePage({ userName, user, callName, userEmail, onSignOu
         <div
           data-no-lift
           role="separator"
-          aria-label={`Resize ${id} card from the top`}
+          aria-label={t("shell.resize.top", { card })}
           onPointerDown={(e) => startResize(id, e, "t")}
           className="group/rzt app-no-drag absolute inset-x-4 top-0 z-20 flex h-3 cursor-ns-resize items-center justify-center"
         >
@@ -403,7 +541,7 @@ export default function HomePage({ userName, user, callName, userEmail, onSignOu
         <div
           data-no-lift
           role="separator"
-          aria-label={`Resize ${id} card from the bottom`}
+          aria-label={t("shell.resize.bottom", { card })}
           onPointerDown={(e) => startResize(id, e, "b")}
           className="group/rzb app-no-drag absolute inset-x-4 bottom-0 z-20 flex h-3 cursor-ns-resize items-center justify-center"
         >
@@ -413,27 +551,27 @@ export default function HomePage({ userName, user, callName, userEmail, onSignOu
             always shown in its bottom-right. */}
         <div
           data-no-lift
-          aria-label={`Resize ${id} card from the top left`}
+          aria-label={t("shell.resize.topLeft", { card })}
           onPointerDown={(e) => startResize(id, e, "tl")}
           className="app-no-drag absolute left-0 top-0 z-20 h-4 w-4 cursor-nwse-resize"
         />
         <div
           data-no-lift
-          aria-label={`Resize ${id} card from the top right`}
+          aria-label={t("shell.resize.topRight", { card })}
           onPointerDown={(e) => startResize(id, e, "tr")}
           className="app-no-drag absolute right-0 top-0 z-20 h-4 w-4 cursor-nesw-resize"
         />
         <div
           data-no-lift
-          aria-label={`Resize ${id} card from the bottom left`}
+          aria-label={t("shell.resize.bottomLeft", { card })}
           onPointerDown={(e) => startResize(id, e, "bl")}
           className="app-no-drag absolute bottom-0 left-0 z-20 h-4 w-4 cursor-nesw-resize"
         />
         <button
           type="button"
           data-no-lift
-          aria-label={`Resize ${id} card`}
-          title="Drag to resize"
+          aria-label={t("shell.resize.corner", { card })}
+          title={t("shell.resize.hint")}
           onPointerDown={(e) => startResize(id, e, "br")}
           className={cn(
             "app-no-drag absolute bottom-1.5 right-1.5 z-20 flex h-6 w-6 cursor-nwse-resize items-center justify-center rounded-lg text-[#9CA3AF] transition-opacity hover:text-[#4b5563]",
@@ -637,13 +775,35 @@ export default function HomePage({ userName, user, callName, userEmail, onSignOu
           />
         );
       case "calendar":
-        return <CalendarCard onDuplicate={() => duplicateCard(id)} onRemove={() => removeCard(id)} />;
+        return (
+          <CalendarCard
+            onDuplicate={() => duplicateCard(id)}
+            onRemove={() => removeCard(id)}
+            onOpenCalendar={() => openTab("calendar")}
+          />
+        );
       case "news":
         return <NewsCard onDuplicate={() => duplicateCard(id)} onRemove={() => removeCard(id)} />;
       case "insight":
         return <InsightCard />;
       case "risk":
         return <OpportunitiesPanel onDuplicate={() => duplicateCard(id)} onRemove={() => removeCard(id)} />;
+      case "agents":
+        return (
+          <AgentsCard
+            onDuplicate={() => duplicateCard(id)}
+            onRemove={() => removeCard(id)}
+            onOpenAgents={() => openTab("agents")}
+          />
+        );
+      case "earnings":
+        return (
+          <EarningsCard
+            onDuplicate={() => duplicateCard(id)}
+            onRemove={() => removeCard(id)}
+            onOpenEarnings={() => openTab("earnings")}
+          />
+        );
     }
   };
 
@@ -717,12 +877,13 @@ export default function HomePage({ userName, user, callName, userEmail, onSignOu
       const detail = (event as CustomEvent<StockOpenDetail>).detail;
       const symbol = detail?.ticker?.trim().toUpperCase();
       if (!symbol) return;
+      leaveTabs();
       setStock({ symbol, companyName: detail.companyName ?? symbol });
       setView("stock");
     };
     window.addEventListener(STOCK_OPEN_EVENT, onOpen);
     return () => window.removeEventListener(STOCK_OPEN_EVENT, onOpen);
-  }, []);
+  }, [leaveTabs]);
 
   // Coverage: any symbol the user holds that the system does not yet know is
   // auto-added to the Tracker universe and gets a relationship-graph (step1)
@@ -731,38 +892,17 @@ export default function HomePage({ userName, user, callName, userEmail, onSignOu
 
   // Shift+G opens the relationship graph — the counterparty map step1
   // builds from filings. Press again (or Esc, via the back button) to leave.
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (!e.shiftKey || e.ctrlKey || e.metaKey || e.altKey) return;
-      if (e.key !== "G" && e.key !== "g") return;
-      // Never steal the key while the user is typing into something.
-      const el = document.activeElement as HTMLElement | null;
-      const typing =
-        el != null &&
-        (el.tagName === "INPUT" ||
-          el.tagName === "TEXTAREA" ||
-          el.isContentEditable);
-      if (typing) return;
-      e.preventDefault();
-      setView((v) => (v === "graph" ? "dashboard" : "graph"));
-    };
-    document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
-  }, []);
+  // Like every app-wide key, it can be moved in Settings → Shortcuts, and it
+  // stands down while the user is typing into something.
+  useShortcut("graph", () => {
+    if (viewRef.current !== "graph") leaveTabs();
+    setView((v) => (v === "graph" ? "dashboard" : "graph"));
+  });
 
   // Ctrl/⌘+P toggles demo mode: a random >$10K portfolio, random holdings and
   // a random growth curve for presentations. Press again to get the real
   // account back — nothing is written or synced while it's on.
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if ((e.ctrlKey || e.metaKey) && !e.shiftKey && !e.altKey && e.key.toLowerCase() === "p") {
-        e.preventDefault();
-        toggleDemoMode();
-      }
-    };
-    document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
-  }, []);
+  useShortcut("demo-mode", () => toggleDemoMode());
 
   return (
     <div className="relative h-full overflow-hidden rounded-lg bg-background font-sans">
@@ -777,7 +917,7 @@ export default function HomePage({ userName, user, callName, userEmail, onSignOu
 
       {/* Brand — logo + wordmark, nudged in from the corner */}
       <div className="pointer-events-none absolute left-9 top-[18px] z-50 flex h-7 select-none items-center gap-2.5">
-        <img src={logoBlack} alt="Falcon" className="h-7 w-7 opacity-[0.89]" />
+        <BrandLogo className="h-7 w-7 opacity-[0.89]" />
       </div>
 
       {/* Stock search — centred in the top bar between brand and controls */}
@@ -795,51 +935,54 @@ export default function HomePage({ userName, user, callName, userEmail, onSignOu
           than into it. */}
       <ProfilePill
         name={firstName}
+        userId={user?.id}
+        appMetadata={user?.app_metadata}
         email={userEmail}
         onSignOut={onSignOut}
         onSelect={(key) => {
           // The other rows lead to screens that do not exist yet; they stay
           // quiet rather than opening something half-built.
           if (key === "settings") setSettingsOpen(true);
+          if (key === "shortcuts") openShortcuts();
+          if (key === "changelog") setChangelogOpen(true);
+          if (key === "plans") setPlansOpen(true);
+          if (key === "language") setLanguageOpen(true);
         }}
         className="absolute top-4 z-50"
         style={{ right: "calc(50% + min(13rem, (100vw - 28rem) / 2) + 10px)" }}
       />
+      {/* Add Module puts cards on the canvas, so it stands only over the Dashboard tab. */}
       {view === "dashboard" ? (
-        <AddModuleButton
-          className="absolute top-4 z-50"
-          style={{ left: "calc(50% + min(13rem, (100vw - 28rem) / 2) + 10px)" }}
-          modules={MODULES.filter((m) => !isCardHidden(m.id)).map((m) => ({
-            ...m,
-            onCanvas: rowCards.some((id) => baseOf(id) === m.id),
-          }))}
-          onAdd={(id) => addModule(id as CardBase)}
-        />
+        <OnHomeTab store={tabStore}>
+          {(tab) =>
+            tab === "dashboard" ? (
+              <AddModuleButton
+                className="absolute top-4 z-50"
+                style={{ left: "calc(50% + min(13rem, (100vw - 28rem) / 2) + 10px)" }}
+                modules={MODULES.filter((m) => !isCardHidden(m.id)).map((m) => ({
+                  id: m.id,
+                  icon: m.icon,
+                  label: t(m.labelKey),
+                  onCanvas: rowCards.some((id) => baseOf(id) === m.id),
+                }))}
+                onAdd={(id) => addModule(id as CardBase)}
+              />
+            ) : null
+          }
+        </OnHomeTab>
       ) : null}
-
-      {/* Sign out. App has always passed the handler down and the shell has
-          always dropped it on the floor — the only button that called it
-          lived in WorkspaceTopBar, which nothing mounts, so there was no way
-          out of the session from inside the app. Sits left of the window
-          controls, in their weight, so it reads as chrome and not as an
-          action anyone hits by accident. */}
-      <button
-        type="button"
-        onClick={onSignOut}
-        aria-label="Sign out"
-        title="Sign out"
-        className="app-no-drag absolute right-[104px] top-5 z-50 flex h-7 w-7 items-center justify-center text-fg-faint transition hover:bg-black/[0.05] hover:text-fg-muted"
-      >
-        <LogOut className="h-3.5 w-3.5" strokeWidth={2.5} aria-hidden />
-      </button>
 
       <WindowControls className="absolute right-3 top-5 z-50" />
 
       {/* No app-no-drag here — a full-height no-drag surface would punch out
           the whole top drag strip (Electron ignores stacking for app-region). */}
-      <main
+      <HomeTabMain
+        ref={mainRef}
+        store={tabStore}
         className="h-full overflow-x-hidden overflow-y-auto pt-16"
-        aria-label={view === "stock" ? "Stock" : view === "graph" ? "Graph" : "Dashboard"}
+        label={(tab) =>
+          view === "stock" ? t("home.view.stock") : view === "graph" ? t("home.view.graph") : t(HOME_TABS[tab].labelKey)
+        }
       >
         {view === "graph" ? (
           <div className="app-no-drag flex h-full min-h-0 flex-col px-8 pb-6 pt-6">
@@ -849,7 +992,8 @@ export default function HomePage({ userName, user, callName, userEmail, onSignOu
               className="mb-4 flex w-fit items-center gap-1.5 text-[13px] text-[#6b7280] transition-colors hover:text-[#1d1b1b]"
             >
               <ArrowLeft className="h-3.5 w-3.5" strokeWidth={2} aria-hidden />
-              Dashboard
+              {/* Back to the tab the graph opened over. */}
+              <OnHomeTab store={tabStore}>{(tab) => t(HOME_TABS[tab].labelKey)}</OnHomeTab>
             </button>
             {/* GraphScreen sizes itself with flex-1 in every state, so it
                 needs a flex column to grow into — a plain block collapses it. */}
@@ -865,7 +1009,8 @@ export default function HomePage({ userName, user, callName, userEmail, onSignOu
               className="mb-4 flex w-fit items-center gap-1.5 text-[13px] text-[#6b7280] transition-colors hover:text-[#1d1b1b]"
             >
               <ArrowLeft className="h-3.5 w-3.5" strokeWidth={2} aria-hidden />
-              Dashboard
+              {/* Back to the tab the stock opened over — Calendar, when it was picked there. */}
+              <OnHomeTab store={tabStore}>{(tab) => t(HOME_TABS[tab].labelKey)}</OnHomeTab>
             </button>
             <div className="min-h-0 flex-1">
               <StockView
@@ -876,19 +1021,54 @@ export default function HomePage({ userName, user, callName, userEmail, onSignOu
               />
             </div>
           </div>
-        ) : (
-          <>
-            {/* Greeting — in the scroll flow, so it slides away with content. */}
-            <div className="select-none pl-9">
-              <span className="font-baskerville text-[30px] text-[#1d1b1b]">
-                {greeting}, {firstName}
-              </span>
+        ) : null}
+        {/* The tabs: under a stock or the graph they are kept, not unmounted,
+            so the way back is a switch and not a fresh mount. */}
+        <div style={tabsHidden ? KEPT : undefined} aria-hidden={tabsHidden || undefined}>
+            {/* Greeting — it stays put while the page scrolls: it sticks at
+                the top of the scroll area's content box (main's pt-16 already
+                clears the top bar, and sticky offsets are measured inside the
+                padding), on the page's own background,
+                with a short fade below so cards slide under it softly. The tab
+                strip stands on its row, centred on the type; a stock or the
+                graph has neither. On a tab other than the dashboard the
+                heading names that tab. */}
+            <div className="sticky top-0 z-20 flex select-none flex-wrap items-center gap-x-6 gap-y-2 bg-background pb-2 pl-9 pr-8 pt-1">
+              {/* Fills the strip between the top bar's solid band and this row,
+                  where the bar only fades out, so nothing scrolls through it. */}
+              <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-full h-4 bg-background" />
+              <div aria-hidden className="pointer-events-none absolute inset-x-0 top-full h-4 bg-gradient-to-b from-background to-transparent" />
+              <OnHomeTab store={tabStore}>
+                {(tab) => (
+                  <>
+                    <span className="font-baskerville text-[30px] text-[#1d1b1b]">
+                      {tab === "dashboard" ? t(greetingKey, { name: firstName }) : t(HOME_TABS[tab].labelKey)}
+                    </span>
+                    <HomeTabStrip
+                      tabs={tabOrder.map((id) => ({ id, label: t(HOME_TABS[id].labelKey), icon: HOME_TABS[id].icon }))}
+                      active={tab}
+                      onSelect={openTab}
+                      onReorder={setTabOrder}
+                    />
+                  </>
+                )}
+              </OnHomeTab>
             </div>
 
-            {/* The canvas. Every card is a box at its own place, as wide a
+            {/* The tabs' bodies, every opened one kept mounted and the front
+                one shown. The Dashboard is this page's canvas; any other tab
+                draws its own registry component. */}
+            <HomeTabPanels
+              store={tabStore}
+              hidden={tabsHidden}
+              scrollRoot={mainRef}
+              panels={{
+                ...TAB_BODIES,
+                dashboard: (
+            /* The canvas. Every card is a box at its own place, as wide a
                 share of the width and as tall as it has been dragged to;
                 it grows downward to fit the lowest card. Nothing here
-                clips, so a lifted card can travel anywhere. */}
+                clips, so a lifted card can travel anywhere. */
             <div className="mt-6 px-8 pb-12 pt-1">
               <div
                 ref={gridRefCb}
@@ -921,8 +1101,8 @@ export default function HomePage({ userName, user, callName, userEmail, onSignOu
                           data-no-lift
                           role="separator"
                           aria-orientation={v ? "vertical" : "horizontal"}
-                          aria-label="Resize the cards on both sides"
-                          title="Drag to resize both cards"
+                          aria-label={t("shell.resize.seam")}
+                          title={t("shell.resize.seamHint")}
                           onPointerDown={(e) => startSeam(s, e)}
                           className={cn(
                             "group/seam app-no-drag absolute flex items-center justify-center",
@@ -949,9 +1129,11 @@ export default function HomePage({ userName, user, callName, userEmail, onSignOu
 
               </div>
             </div>
-          </>
-        )}
-      </main>
+                ),
+              }}
+            />
+        </div>
+      </HomeTabMain>
 
       <StockPeekModal entry={peek} onClose={() => setPeek(null)} />
 
@@ -961,10 +1143,32 @@ export default function HomePage({ userName, user, callName, userEmail, onSignOu
       <BriefingHost masked={privacyMode} view={view} />
 
       {/* Settings. The rail only, for now. */}
-      <SettingsModal open={settingsOpen} onClose={() => setSettingsOpen(false)} user={user ?? null} />
+      <SettingsModal
+        open={settingsOpen}
+        onClose={() => setSettingsOpen(false)}
+        section={settingsSection}
+        onSection={setSettingsSection}
+        user={user ?? null}
+        onOpenTab={(id) => {
+          setSettingsOpen(false);
+          openTab(id);
+        }}
+      />
+
+      {/* The membership plans, with Upgrade / Downgrade out to getfalcon.co. */}
+      <PlansModal open={plansOpen} onClose={() => setPlansOpen(false)} user={user ?? null} />
+
+      {/* What's new: the releases, newest first. */}
+      <ChangelogModal open={changelogOpen} onClose={() => setChangelogOpen(false)} />
+
+      {/* Choose your language: applies at once, everywhere, and is kept. */}
+      <LanguageModal open={languageOpen} onClose={() => setLanguageOpen(false)} />
 
       {/* Update notice — bottom-left, same inset as the brand mark up top. */}
       <UpdatePill className="absolute bottom-6 left-9 z-50" />
+
+      {/* "How did you hear about Falcon?", once, a week after setup. */}
+      <HeardAboutPrompt user={user} className="absolute bottom-6 right-9 z-50" />
     </div>
   );
 }

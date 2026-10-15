@@ -1,8 +1,11 @@
+import { na } from "@/lib/i18n/na";
 import { useState } from "react";
 import { ChevronDown, ChevronRight } from "lucide-react";
+import { useI18n, useT, type MessageKey } from "@/lib/i18n";
+import { plural } from "../base/plural";
 import EquityChart from "./EquityChart";
 import type { BacktestReport, HorizonStats, SampleStats, StrategyRow } from "../../../shared/quantlab-types";
-import { DASH, beatsBaseRate, edgeOf, pct, pctPlain, ratio } from "./quantlab-format";
+import { beatsBaseRate, edgeOf, pct, pctPlain, ratio } from "./quantlab-format";
 
 /**
  * Results (§10) — the report, with every figure sitting next to the thing that
@@ -21,6 +24,7 @@ export default function ResultsTab({
   selectedId: string | null;
   onSelect: (id: string) => void;
 }) {
+  const { t, locale } = useI18n();
   const [index, setIndex] = useState(0);
   // Collapsed by default: the chart answers the question, the tables are for
   // when you want to know why.
@@ -43,7 +47,7 @@ export default function ResultsTab({
           >
             <div className="text-[#1d1b1b]">{row.strategy.name}</div>
             <div className="mt-0.5 text-[10px] text-[#9CA3AF] tabular-nums">
-              {row.runs} run{row.runs === 1 ? "" : "s"}
+              {t(plural(locale, row.runs, "instruments.quantlab.runs.one", "instruments.quantlab.runs.other"), { n: row.runs })}
             </div>
           </button>
         ))}
@@ -52,7 +56,7 @@ export default function ResultsTab({
       <div className="min-w-0 flex-1 overflow-y-auto">
         {!report && (
           <div className="px-6 py-5 text-[12px] text-[#9CA3AF]">
-            No backtest has been run for this strategy yet. Run one from the Builder tab.
+            {t("instruments.quantlab.noBacktest")}
           </div>
         )}
         {report && (
@@ -60,8 +64,12 @@ export default function ResultsTab({
             <div className="flex items-baseline gap-3">
               <h2 className="font-baskerville text-[20px] text-[#1d1b1b]">{report.strategy_name}</h2>
               <span className="text-[11px] text-[#9CA3AF] tabular-nums">
-                v{report.strategy_version} · variant {report.variant_number} · {report.window.from} →{" "}
-                {report.window.to}
+                {t("instruments.quantlab.reportMeta", {
+                  version: report.strategy_version,
+                  variant: report.variant_number,
+                  from: report.window.from,
+                  to: report.window.to,
+                })}
               </span>
               {reports.length > 1 && (
                 <select
@@ -71,7 +79,7 @@ export default function ResultsTab({
                 >
                   {reports.map((r, i) => (
                     <option key={r.report_id} value={i}>
-                      variant {r.variant_number} · {r.created_at.slice(0, 10)}
+                      {t("instruments.quantlab.variantOption", { variant: r.variant_number, date: r.created_at.slice(0, 10) })}
                     </option>
                   ))}
                 </select>
@@ -79,7 +87,7 @@ export default function ResultsTab({
             </div>
 
             <div className="mt-3 rounded-lg border border-[#e0e0da] bg-white px-4 py-3">
-              <div className="text-[10px] font-medium tracking-[0.08em] text-[#9CA3AF]">VERDICT</div>
+              <div className="text-[10px] font-medium tracking-[0.08em] text-[#9CA3AF]">{t("instruments.quantlab.verdict")}</div>
               <p className="mt-1 font-baskerville text-[15px] leading-relaxed text-[#1d1b1b]">{report.verdict}</p>
             </div>
 
@@ -95,7 +103,7 @@ export default function ResultsTab({
               ))}
             {report.created_after_oos_view && (
               <div className="mt-2 rounded-lg border border-[#e0d9c8] bg-[#faf6ec] px-4 py-2 text-[12px] text-[#8a7a55]">
-                This version was created after an out-of-sample result had been viewed.
+                {t("instruments.quantlab.createdAfterOos")}
               </div>
             )}
 
@@ -112,7 +120,7 @@ export default function ResultsTab({
               className="mt-5 flex items-center gap-1.5 text-[10px] font-medium tracking-[0.08em] text-[#9CA3AF] hover:text-[#6b7280]"
             >
               {showDetail ? <ChevronDown className="h-3 w-3" /> : <ChevronRight className="h-3 w-3" />}
-              DETAILED STATISTICS
+              {t("instruments.quantlab.detailed")}
             </button>
 
             {showDetail && (
@@ -134,7 +142,7 @@ export default function ResultsTab({
 
             {report.excluded.length > 0 && (
               <div className="mt-5">
-                <div className="text-[10px] font-medium tracking-[0.08em] text-[#9CA3AF]">EXCLUDED</div>
+                <div className="text-[10px] font-medium tracking-[0.08em] text-[#9CA3AF]">{t("instruments.quantlab.excluded")}</div>
                 <div className="mt-1 text-[12px] text-[#6b7280]">
                   {Object.entries(
                     report.excluded.reduce<Record<string, string[]>>((acc, e) => {
@@ -151,7 +159,7 @@ export default function ResultsTab({
             )}
 
             <div className="mt-5">
-              <div className="text-[10px] font-medium tracking-[0.08em] text-[#9CA3AF]">CAVEATS</div>
+              <div className="text-[10px] font-medium tracking-[0.08em] text-[#9CA3AF]">{t("instruments.quantlab.caveats")}</div>
               <ul className="mt-1 space-y-1">
                 {report.caveats.map((c) => (
                   <li key={c} className="flex gap-2 text-[12px] text-[#6b7280]">
@@ -179,8 +187,16 @@ function oosEdge(report: BacktestReport): boolean | null {
   return beatsBaseRate(chosen);
 }
 
+const SAMPLE_LABEL: Record<SampleStats["label"], MessageKey> = {
+  in_sample: "instruments.quantlab.sample.inSample",
+  out_of_sample: "instruments.quantlab.sample.outOfSample",
+  full: "instruments.quantlab.sample.full",
+};
+
 function SampleBlock({ sample, highlight }: { sample: SampleStats; highlight?: boolean }) {
-  const label = sample.label.replace(/_/g, "-").toUpperCase();
+  const t = useT();
+  const key = SAMPLE_LABEL[sample.label];
+  const label = key ? t(key) : String(sample.label).replace(/_/g, "-").toUpperCase();
   return (
     <div
       className={`rounded-lg border px-4 py-3 ${
@@ -196,11 +212,11 @@ function SampleBlock({ sample, highlight }: { sample: SampleStats; highlight?: b
       <table className="mt-2 w-full text-[11px] tabular-nums">
         <thead>
           <tr className="text-[#9CA3AF]">
-            <th className="text-left font-normal">hold</th>
+            <th className="text-left font-normal">{t("instruments.quantlab.col.hold")}</th>
             <th className="text-right font-normal">n</th>
-            <th className="text-right font-normal">median</th>
-            <th className="text-right font-normal">base</th>
-            <th className="text-right font-normal">hit</th>
+            <th className="text-right font-normal">{t("instruments.quantlab.col.median")}</th>
+            <th className="text-right font-normal">{t("instruments.quantlab.col.base")}</th>
+            <th className="text-right font-normal">{t("instruments.quantlab.col.hit")}</th>
             <th className="text-right font-normal">Sharpe</th>
             <th className="text-right font-normal">Sortino</th>
             <th className="text-right font-normal">maxDD</th>
@@ -218,13 +234,14 @@ function SampleBlock({ sample, highlight }: { sample: SampleStats; highlight?: b
 }
 
 function HorizonRow({ horizon: h }: { horizon: HorizonStats }) {
+  const t = useT();
   if (h.insufficient) {
     return (
       <tr className="border-t border-[#eeeee8] text-[#9CA3AF]">
-        <td className="py-1 text-left">{h.sessions}d</td>
+        <td className="py-1 text-left">{t("instruments.quantlab.days", { n: h.sessions })}</td>
         <td className="text-right">{h.n}</td>
         <td colSpan={7} className="py-1 pl-3 text-left italic">
-          insufficient signals — no point estimate
+          {t("instruments.quantlab.insufficient")}
         </td>
       </tr>
     );
@@ -233,11 +250,11 @@ function HorizonRow({ horizon: h }: { horizon: HorizonStats }) {
   const edge = edgeOf(h);
   return (
     <tr className="border-t border-[#eeeee8] text-[#4b5563]">
-      <td className="py-1 text-left">{h.sessions}d</td>
+      <td className="py-1 text-left">{t("instruments.quantlab.days", { n: h.sessions })}</td>
       <td className="text-right">{h.n}</td>
       <td
         className={`text-right ${beats === true ? "text-[#1d7a55]" : beats === false ? "text-[#9CA3AF]" : ""}`}
-        title={edge != null ? `edge over base rate: ${pct(edge)}` : undefined}
+        title={edge != null ? t("instruments.quantlab.edgeHint", { value: pct(edge) }) : undefined}
       >
         {pct(h.median)}
       </td>
@@ -247,7 +264,7 @@ function HorizonRow({ horizon: h }: { horizon: HorizonStats }) {
       <td className="text-right">{ratio(h.sortino)}</td>
       <td className="text-right">{pct(h.max_drawdown)}</td>
       <td className="text-right text-[#9CA3AF]">
-        {h.ci_low == null ? DASH : `${pct(h.ci_low)} … ${pct(h.ci_high)}`}
+        {h.ci_low == null ? na() : `${pct(h.ci_low)} … ${pct(h.ci_high)}`}
       </td>
     </tr>
   );
@@ -255,11 +272,12 @@ function HorizonRow({ horizon: h }: { horizon: HorizonStats }) {
 
 /** The distribution as a bar row — central tendency alone hides the tails. */
 function Deciles({ horizon }: { horizon: HorizonStats }) {
+  const t = useT();
   const max = Math.max(...horizon.deciles.map((d) => Math.abs(d)), 1e-9);
   return (
     <div className="mt-5">
       <div className="text-[10px] font-medium tracking-[0.08em] text-[#9CA3AF]">
-        DISTRIBUTION · {horizon.sessions}d · p10 → p90
+        {t("instruments.quantlab.distribution", { horizon: t("instruments.quantlab.days", { n: horizon.sessions }) })}
       </div>
       <div className="mt-2 flex items-end gap-1">
         {horizon.deciles.map((d, i) => (

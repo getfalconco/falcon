@@ -1,4 +1,5 @@
 import type { GaugeDecisionState, GaugeReadout } from "../../../shared/gauge-types";
+import { useT, type MessageKey } from "../../lib/i18n";
 
 /**
  * The v2 hero (§1, §5): the recognized structure, the decision frame, and —
@@ -18,38 +19,43 @@ export const GAUGE_STATE_COLOR: Record<GaugeDecisionState, string> = {
   contradicted_setup: "#DC2626",
 };
 
-export const GAUGE_STATE_LABEL: Record<GaugeDecisionState, string> = {
-  actionable: "actionable",
-  wait: "wait",
-  nothing_here: "nothing here",
-  unreadable: "unreadable",
-  contradicted_setup: "contradicted",
+export const GAUGE_STATE_LABEL_KEY: Record<GaugeDecisionState, MessageKey> = {
+  actionable: "panels.gauge.state.actionable",
+  wait: "panels.gauge.state.wait",
+  nothing_here: "panels.gauge.state.nothing_here",
+  unreadable: "panels.gauge.state.unreadable",
+  contradicted_setup: "panels.gauge.state.contradicted_setup",
 };
 
-/** §6: the fixed definitions, mirrored for the tooltip (the engine owns the wording). */
-export const GAUGE_STATE_TOOLTIP: Record<GaugeDecisionState, string> = {
-  actionable: "conditions are consistent enough to test a thesis",
-  wait: "a structure is present but one condition is still missing",
-  nothing_here: "no structure, or the move has already happened",
-  unreadable: "the measurement itself is unreliable here",
-  contradicted_setup: "the tape is set up against the thesis",
+/**
+ * §6: the fixed definitions, mirrored for the tooltip (the engine owns the
+ * English wording; panels.ts carries it into each language).
+ */
+export const GAUGE_STATE_TOOLTIP_KEY: Record<GaugeDecisionState, MessageKey> = {
+  actionable: "panels.gauge.stateTip.actionable",
+  wait: "panels.gauge.stateTip.wait",
+  nothing_here: "panels.gauge.stateTip.nothing_here",
+  unreadable: "panels.gauge.stateTip.unreadable",
+  contradicted_setup: "panels.gauge.stateTip.contradicted_setup",
 };
 
 export function StateBadge({ state, small, forceTooltip }: { state: GaugeDecisionState; small?: boolean; forceTooltip?: boolean }) {
+  const t = useT();
+  const tooltip = t(GAUGE_STATE_TOOLTIP_KEY[state]);
   return (
     <span className="group relative inline-flex shrink-0">
       <span
         className={`cursor-help rounded-full font-semibold uppercase tracking-[0.08em] text-white ${small ? "px-1.5 py-[1px] text-[9px]" : "px-2 py-[3px] text-[10px]"}`}
         style={{ background: GAUGE_STATE_COLOR[state] }}
-        aria-label={GAUGE_STATE_TOOLTIP[state]}
+        aria-label={tooltip}
       >
-        {GAUGE_STATE_LABEL[state]}
+        {t(GAUGE_STATE_LABEL_KEY[state])}
       </span>
       <span
         role="tooltip"
         className={`pointer-events-none absolute left-0 top-full z-50 mt-1.5 w-max max-w-[280px] rounded-md bg-[#1d1b1b] px-2 py-1 text-[10.5px] font-normal normal-case leading-snug tracking-normal text-white shadow-lg ${forceTooltip ? "block" : "hidden group-hover:block"}`}
       >
-        {GAUGE_STATE_TOOLTIP[state]}
+        {tooltip}
       </span>
     </span>
   );
@@ -63,6 +69,7 @@ type Props = {
 };
 
 export default function GaugeSetupBlock({ readout, compact = false, forceTooltip = false }: Props) {
+  const t = useT();
   const { setup, state, missing } = readout;
   if (!readout.tracked) {
     return <p className={`${compact ? "text-[11.5px]" : "text-[13px]"} text-[#6b7280]`}>{setup.read}</p>;
@@ -89,7 +96,7 @@ export default function GaugeSetupBlock({ readout, compact = false, forceTooltip
         >
           {missing ? (
             <>
-              <span className="font-medium">missing: </span>
+              <span className="font-medium">{t("panels.gauge.missing")}</span>
               {missing.detail}
             </>
           ) : (
@@ -101,7 +108,11 @@ export default function GaugeSetupBlock({ readout, compact = false, forceTooltip
       {/* Provenance + the readability caveat */}
       {setup.screen.length > 0 && (
         <p className={`mt-1.5 ${compact ? "text-[10px]" : "text-[11px]"} text-[#9CA3AF]`}>
-          from screen: {setup.screen.map((f) => `${f.pattern.replace(/_/g, " ")} · ${f.day_count}d`).join(" · ")}
+          {t("panels.gauge.fromScreen", {
+            findings: setup.screen
+              .map((f) => t("panels.gauge.screenFinding", { pattern: f.pattern.replace(/_/g, " "), days: f.day_count }))
+              .join(" · "),
+          })}
         </p>
       )}
       {readout.readability_note && (

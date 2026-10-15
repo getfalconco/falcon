@@ -1,4 +1,6 @@
+import { useI18n } from "@/lib/i18n";
 import type { StrategyRow } from "../../../shared/quantlab-types";
+import { plural } from "../base/plural";
 import { directionLine, entryLine, filterLine, triggerLines } from "./quantlab-format";
 
 /**
@@ -22,11 +24,12 @@ export default function BuilderTab({
   onRunBacktest: (id: string) => void;
   busy: string | null;
 }) {
+  const { t, tNodes, locale } = useI18n();
   return (
     <>
       <div className="w-[340px] shrink-0 overflow-y-auto border-r border-[#e0e0da]">
         {strategies.length === 0 && (
-          <div className="px-5 py-4 text-[12px] text-[#9CA3AF]">No strategies yet.</div>
+          <div className="px-5 py-4 text-[12px] text-[#9CA3AF]">{t("instruments.quantlab.noStrategies")}</div>
         )}
         {strategies.map((row) => {
           const active = selected?.strategy.strategy_id === row.strategy.strategy_id;
@@ -42,18 +45,20 @@ export default function BuilderTab({
                 <span className="text-[13px] text-[#1d1b1b]">{row.strategy.name}</span>
                 {row.strategy.live_enabled && (
                   <span className="rounded bg-[#189E9A] px-1.5 py-0.5 text-[9px] font-medium tracking-wide text-white">
-                    LIVE
+                    {t("instruments.quantlab.liveBadge")}
                   </span>
                 )}
               </div>
               <div className="mt-1 flex items-center gap-2 text-[10px] text-[#9CA3AF] tabular-nums">
                 <span>v{row.strategy.version}</span>
                 <span>·</span>
-                <span>{row.runs} run{row.runs === 1 ? "" : "s"}</span>
+                <span>
+                  {t(plural(locale, row.runs, "instruments.quantlab.runs.one", "instruments.quantlab.runs.other"), { n: row.runs })}
+                </span>
                 {!row.backtestable && (
                   <>
                     <span>·</span>
-                    <span className="text-[#b23b3b]">not backtestable</span>
+                    <span className="text-[#b23b3b]">{t("instruments.quantlab.notBacktestable")}</span>
                   </>
                 )}
               </div>
@@ -63,17 +68,29 @@ export default function BuilderTab({
       </div>
 
       <div className="min-w-0 flex-1 overflow-y-auto">
-        {!selected && <div className="px-6 py-5 text-[12px] text-[#9CA3AF]">Select a strategy.</div>}
+        {!selected && <div className="px-6 py-5 text-[12px] text-[#9CA3AF]">{t("instruments.quantlab.selectStrategy")}</div>}
         {selected && (
           <div className="px-6 py-5">
             <div className="flex items-start gap-4">
               <div className="min-w-0">
                 <h2 className="font-baskerville text-[20px] text-[#1d1b1b]">{selected.strategy.name}</h2>
                 <div className="mt-1 text-[11px] text-[#9CA3AF] tabular-nums">
-                  {selected.strategy.strategy_id} · version {selected.strategy.version}
-                  {selected.strategy.parent_version != null && ` (from v${selected.strategy.parent_version})`}
+                  {t("instruments.quantlab.versionMeta", {
+                    id: selected.strategy.strategy_id,
+                    version: selected.strategy.version,
+                  })}
+                  {selected.strategy.parent_version != null &&
+                    ` ${t("instruments.quantlab.fromVersion", { version: selected.strategy.parent_version })}`}
                   {" · "}
-                  {selected.runs} backtest run{selected.runs === 1 ? "" : "s"}
+                  {t(
+                    plural(
+                      locale,
+                      selected.runs,
+                      "instruments.quantlab.backtestRuns.one",
+                      "instruments.quantlab.backtestRuns.other",
+                    ),
+                    { n: selected.runs },
+                  )}
                 </div>
               </div>
               <button
@@ -81,68 +98,68 @@ export default function BuilderTab({
                 disabled={!selected.backtestable || busy === selected.strategy.strategy_id}
                 className="ml-auto shrink-0 rounded-md bg-[#1d1b1b] px-3 py-1.5 text-[12px] text-white disabled:cursor-not-allowed disabled:bg-[#c8c8c2]"
               >
-                {busy === selected.strategy.strategy_id ? "Running…" : "Run backtest"}
+                {busy === selected.strategy.strategy_id ? t("instruments.quantlab.running") : t("instruments.quantlab.runBacktest")}
               </button>
             </div>
 
             {selected.unavailable.length > 0 && (
               <div className="mt-4 rounded-lg border border-[#e0d9c8] bg-[#faf6ec] px-4 py-3">
                 <div className="text-[11px] font-medium tracking-[0.06em] text-[#8a7a55]">
-                  UNAVAILABLE HISTORICALLY
+                  {t("instruments.quantlab.unavailable")}
                 </div>
                 {selected.unavailable.map((u) => (
                   <div key={u.component} className="mt-2 text-[12px] text-[#6b7280]">
-                    <span className="text-[#4b5563]">{u.component}</span> — {u.reason}
+                    {tNodes("instruments.quantlab.unavailableItem", {
+                      component: <span className="text-[#4b5563]">{u.component}</span>,
+                      reason: u.reason,
+                    })}
                   </div>
                 ))}
                 {!selected.backtestable && (
                   <div className="mt-2 text-[12px] text-[#b23b3b]">
-                    This strategy cannot be backtested. It can still be enabled for the live ledger once it has an
-                    out-of-sample result — which, for this rule, means waiting for forward data.
+                    {t("instruments.quantlab.cannotBacktest")}
                   </div>
                 )}
               </div>
             )}
 
-            <Section title="TRIGGER — all of these must hold">
-              {triggerLines(selected.strategy.trigger).map((line, i) => (
+            <Section title={t("instruments.quantlab.triggerSection")}>
+              {triggerLines(selected.strategy.trigger, t, locale).map((line, i) => (
                 <Clause key={i}>{line}</Clause>
               ))}
             </Section>
 
             {selected.strategy.filters.length > 0 && (
-              <Section title="FILTERS — all of these must also hold">
+              <Section title={t("instruments.quantlab.filtersSection")}>
                 {selected.strategy.filters.map((f) => (
-                  <Clause key={f.kind}>{filterLine(f)}</Clause>
+                  <Clause key={f.kind}>{filterLine(f, t)}</Clause>
                 ))}
               </Section>
             )}
 
-            <Section title="EXECUTION">
-              <Clause>{entryLine(selected.strategy)}</Clause>
+            <Section title={t("instruments.quantlab.executionSection")}>
+              <Clause>{entryLine(selected.strategy, t)}</Clause>
+              <Clause>{t("instruments.quantlab.hold", { sessions: selected.strategy.hold.sessions.join(" / ") })}</Clause>
+              <Clause>{directionLine(selected.strategy, t)}</Clause>
               <Clause>
-                hold {selected.strategy.hold.sessions.join(" / ")} sessions, exit on time only (no stops, no targets —
-                each is an extra knob and the classic overfitting surface)
-              </Clause>
-              <Clause>{directionLine(selected.strategy)}</Clause>
-              <Clause>
-                universe:{" "}
                 {selected.strategy.universe.tickers === "tracked"
-                  ? "the tracked universe"
-                  : (selected.strategy.universe.tickers as string[]).join(" ")}
-                , at least {selected.strategy.universe.min_history_sessions} sessions of history
+                  ? t("instruments.quantlab.universeTracked", { n: selected.strategy.universe.min_history_sessions })
+                  : t("instruments.quantlab.universeList", {
+                      tickers: (selected.strategy.universe.tickers as string[]).join(" "),
+                      n: selected.strategy.universe.min_history_sessions,
+                    })}
               </Clause>
             </Section>
 
             {selected.strategy.notes && (
-              <Section title="WHAT THIS TESTS">
+              <Section title={t("instruments.quantlab.whatThisTests")}>
                 <p className="font-baskerville text-[14px] leading-relaxed text-[#4b5563]">
                   {selected.strategy.notes}
                 </p>
               </Section>
             )}
 
-            <Section title="VERSION HISTORY">
+            <Section title={t("instruments.quantlab.versionHistory")}>
               <div className="flex flex-wrap gap-1.5">
                 {selected.versions.map((v) => (
                   <span
@@ -156,19 +173,20 @@ export default function BuilderTab({
                 ))}
               </div>
               <p className="mt-2 text-[11px] text-[#9CA3AF]">
-                Every edit mints a new version rather than changing this one. The number of versions is the record of
-                how much searching happened, and it is what the variant warning reads.
+                {t("instruments.quantlab.versionNote")}
               </p>
               {selected.strategy.created_after_oos_view && (
                 <p className="mt-2 text-[11px] text-[#b23b3b]">
-                  This version was created after an out-of-sample result had been viewed.
+                  {t("instruments.quantlab.createdAfterOos")}
                 </p>
               )}
             </Section>
 
             {selected.enable_blocked_reason && (
-              <Section title="LIVE EVALUATION">
-                <p className="text-[12px] text-[#6b7280]">Blocked: {selected.enable_blocked_reason}</p>
+              <Section title={t("instruments.quantlab.liveEvaluation")}>
+                <p className="text-[12px] text-[#6b7280]">
+                  {t("instruments.quantlab.blocked", { reason: selected.enable_blocked_reason })}
+                </p>
               </Section>
             )}
           </div>

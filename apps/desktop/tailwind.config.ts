@@ -7,6 +7,53 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        /*
+         * The semantic tokens from globals.css, right in either theme with no
+         * dark-mode rule of their own: `bg-surface-2`, `text-content-secondary`,
+         * `border-edge-subtle`, `text-tone-positive`, `bg-tone-negative-soft`.
+         */
+        surface: {
+          0: "var(--surface-0)",
+          1: "var(--surface-1)",
+          2: "var(--surface-2)",
+          3: "var(--surface-3)",
+          4: "var(--surface-4)",
+          sunken: "var(--surface-sunken)",
+        },
+        fill: {
+          hover: "var(--fill-hover)",
+          press: "var(--fill-press)",
+          selected: "var(--fill-selected)",
+          strong: "var(--fill-strong)",
+        },
+        edge: {
+          subtle: "var(--border-subtle)",
+          DEFAULT: "var(--border-default)",
+          strong: "var(--border-strong)",
+          focus: "var(--focus-ring)",
+        },
+        content: {
+          primary: "var(--text-primary)",
+          body: "var(--text-body)",
+          secondary: "var(--text-secondary)",
+          tertiary: "var(--text-tertiary)",
+          disabled: "var(--text-disabled)",
+        },
+        tone: {
+          positive: { DEFAULT: "var(--positive)", muted: "var(--positive-muted)", soft: "var(--positive-soft)", line: "var(--positive-line)" },
+          negative: { DEFAULT: "var(--negative)", muted: "var(--negative-muted)", soft: "var(--negative-soft)", line: "var(--negative-line)" },
+          warning: { DEFAULT: "var(--warning)", muted: "var(--warning-muted)", soft: "var(--warning-soft)", line: "var(--warning-line)" },
+          info: { DEFAULT: "var(--info)", muted: "var(--info-muted)", soft: "var(--info-soft)", line: "var(--info-line)" },
+          teal: { DEFAULT: "var(--teal)", muted: "var(--teal-muted)", soft: "var(--teal-soft)", line: "var(--teal-line)" },
+          violet: { DEFAULT: "var(--violet)", muted: "var(--violet-muted)", soft: "var(--violet-soft)", line: "var(--violet-line)" },
+          pink: { DEFAULT: "var(--pink)", muted: "var(--pink-muted)", soft: "var(--pink-soft)", line: "var(--pink-line)" },
+        },
+        switch: {
+          on: "var(--switch-on)",
+          off: "var(--switch-off)",
+          "knob-on": "var(--switch-knob-on)",
+          "knob-off": "var(--switch-knob-off)",
+        },
         ink: {
           DEFAULT: "var(--ink-default)",
           soft: "var(--ink-soft)",

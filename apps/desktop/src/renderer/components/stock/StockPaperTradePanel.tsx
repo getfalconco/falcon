@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
+import { useI18n, type MessageKey } from "@/lib/i18n";
 import {
   executePaperTrade,
+  paperTradeErrorText,
   paperBuyingPower,
   positionFor,
   positionSide,
@@ -22,18 +24,19 @@ function formatShares(shares: number): string {
   return shares.toLocaleString("en-US", { maximumFractionDigits: 4 });
 }
 
-const LABEL: Record<PaperTradeSide, string> = {
-  buy: "Buy",
-  sell: "Sell",
-  short: "Short",
-  cover: "Cover",
+const LABEL: Record<PaperTradeSide, MessageKey> = {
+  buy: "stock.paper.side.buy",
+  sell: "stock.paper.side.sell",
+  short: "stock.paper.side.short",
+  cover: "stock.paper.side.cover",
 };
 
-const VERB: Record<PaperTradeSide, string> = {
-  buy: "Bought",
-  sell: "Sold",
-  short: "Shorted",
-  cover: "Covered",
+/** The confirmation after a fill, one whole sentence per side. */
+const DONE: Record<PaperTradeSide, MessageKey> = {
+  buy: "stock.paper.done.buy",
+  sell: "stock.paper.done.sell",
+  short: "stock.paper.done.short",
+  cover: "stock.paper.done.cover",
 };
 
 /**
@@ -55,6 +58,7 @@ export default function StockPaperTradePanel({
   className?: string;
 }) {
   const bar = variant === "bar";
+  const { t, locale } = useI18n();
   const [account, setAccount] = useState<PaperAccount>(readPaperAccount);
   const [amount, setAmount] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -77,14 +81,20 @@ export default function StockPaperTradePanel({
   const locked = account.cash - buyingPower;
   const buyingPowerTitle =
     locked > 0.005
-      ? `${USD.format(account.cash)} cash · ${USD.format(locked)} held as short collateral`
-      : `${USD.format(account.cash)} cash`;
+      ? t("stock.paper.cashCollateralTitle", { cash: USD.format(account.cash), locked: USD.format(locked) })
+      : t("stock.paper.cashTitle", { cash: USD.format(account.cash) });
 
   const amountUsd = Number(amount);
   const amountValid = Number.isFinite(amountUsd) && amountUsd > 0;
   const canTrade = amountValid && price != null && price > 0;
   const estimatedShares = canTrade ? amountUsd / price : 0;
-
+  const estimateText = t(
+    new Intl.PluralRules(locale).select(estimatedShares) === "one"
+      ? "stock.paper.estimate.one"
+      : "stock.paper.estimate.other",
+    { shares: formatShares(estimatedShares) },
+  );
+  const amountLabel = t("stock.paper.amountLabel", { symbol });
   // The blue button always buys (opening a long, or covering a short); the red
   // one always sells (closing a long, or opening a short).
   const buySide: PaperTradeSide = side === "short" ? "cover" : "buy";
@@ -92,27 +102,30 @@ export default function StockPaperTradePanel({
 
   function submit(tradeSide: PaperTradeSide) {
     if (price == null) {
-      setError("Waiting for a live price…");
+      setError(t("stock.paper.waitingPrice"));
       return;
     }
     const result = executePaperTrade({ side: tradeSide, symbol, amountUsd, price });
     if (!result.ok) {
       setConfirmation(null);
-      setError(result.error);
+      setError(paperTradeErrorText(result, t));
       return;
     }
     setError(null);
     setConfirmation(
-      `${VERB[tradeSide]} ${formatShares(result.shares)} ${symbol} at ${USD.format(
-        price,
-      )} · ${USD.format(result.amountUsd)}`,
+      t(DONE[tradeSide], {
+        shares: formatShares(result.shares),
+        symbol,
+        price: USD.format(price),
+        total: USD.format(result.amountUsd),
+      }),
     );
     setAmount("");
   }
 
   const amountField = (
     <label className={cn("block", bar && "min-w-0 flex-1")}>
-      <span className="sr-only">Amount to invest in {symbol}</span>
+      <span className="sr-only">{amountLabel}</span>
       <div
         className={cn(
           "flex items-center gap-1 rounded-md border-[0.5px] border-white/[0.12] bg-black/20 focus-within:border-white/[0.28]",
@@ -135,7 +148,7 @@ export default function StockPaperTradePanel({
             if (e.key === "Enter" && canTrade) submit(buySide);
           }}
           placeholder="0.00"
-          aria-label={`Amount to invest in ${symbol}`}
+          aria-label={amountLabel}
           className={cn(
             "w-full bg-transparent tabular-nums text-foreground outline-none placeholder:text-fg-faint",
             bar ? "text-sm" : "text-lg",
@@ -154,7 +167,7 @@ export default function StockPaperTradePanel({
           disabled={(side === "flat" ? buyingPower : positionValue) <= 0}
           className="app-no-drag shrink-0 text-[11px] uppercase tracking-wide text-fg-faint transition-colors hover:text-foreground disabled:opacity-40"
         >
-          Max
+          {t("stock.paper.max")}
         </button>
       </div>
     </label>
@@ -166,25 +179,25 @@ export default function StockPaperTradePanel({
         type="button"
         onClick={() => submit(buySide)}
         disabled={!canTrade}
-        title={buySide === "cover" ? `Buy back your ${symbol} short` : undefined}
+        title={buySide === "cover" ? t("stock.paper.coverTitle", { symbol }) : undefined}
         className={cn(
           "app-no-drag rounded-md bg-blue-600 font-semibold text-white transition-colors hover:bg-blue-500 disabled:cursor-not-allowed disabled:opacity-40",
-          bar ? "px-4 py-1.5 text-xs" : "py-2 text-sm",
+          bar ? "whitespace-nowrap px-4 py-1.5 text-xs" : "px-2 py-2 text-sm leading-tight",
         )}
       >
-        {LABEL[buySide]}
+        {t(LABEL[buySide])}
       </button>
       <button
         type="button"
         onClick={() => submit(sellSide)}
         disabled={!canTrade}
-        title={sellSide === "short" ? `Sell ${symbol} short — profits when it falls` : undefined}
+        title={sellSide === "short" ? t("stock.paper.shortTitle", { symbol }) : undefined}
         className={cn(
           "app-no-drag rounded-md bg-red-600 font-semibold text-white transition-colors hover:bg-red-500 disabled:cursor-not-allowed disabled:opacity-40",
-          bar ? "px-4 py-1.5 text-xs" : "py-2 text-sm",
+          bar ? "whitespace-nowrap px-4 py-1.5 text-xs" : "px-2 py-2 text-sm leading-tight",
         )}
       >
-        {LABEL[sellSide]}
+        {t(LABEL[sellSide])}
       </button>
     </>
   );
@@ -197,14 +210,22 @@ export default function StockPaperTradePanel({
     <span className="tabular-nums text-fg-muted">
       {side === "short" ? (
         <span className="mr-1 rounded bg-red-500/15 px-1 py-0.5 text-[10px] font-medium uppercase tracking-wide text-red-300">
-          short
+          {t("stock.paper.shortChip")}
         </span>
       ) : null}
-      {side === "short" ? "Short" : "Holding"} {formatShares(openShares)} {symbol}
-      {price != null ? ` · ${USD.format(positionValue)}` : ""}
+      {price != null
+        ? t(side === "short" ? "stock.paper.shortPositionValue" : "stock.paper.holdingValue", {
+            shares: formatShares(openShares),
+            symbol,
+            value: USD.format(positionValue),
+          })
+        : t(side === "short" ? "stock.paper.shortPosition" : "stock.paper.holding", {
+            shares: formatShares(openShares),
+            symbol,
+          })}
     </span>
   ) : (
-    <span className="text-fg-faint">No {symbol} position yet</span>
+    <span className="text-fg-faint">{t("stock.paper.noPosition", { symbol })}</span>
   );
 
   if (bar) {
@@ -215,9 +236,9 @@ export default function StockPaperTradePanel({
           className,
         )}
       >
-        <span className="text-[11px] uppercase tracking-[0.06em] text-fg-faint">Falcon paper</span>
+        <span className="text-[11px] uppercase tracking-[0.06em] text-fg-faint">{t("stock.paper.title")}</span>
         <span className="text-[11px] tabular-nums text-fg-muted" title={buyingPowerTitle}>
-          {USD.format(buyingPower)} buying power
+          {t("stock.paper.buyingPower", { amount: USD.format(buyingPower) })}
         </span>
         <div className="flex min-w-[220px] flex-1 items-center gap-2">
           {amountField}
@@ -225,9 +246,7 @@ export default function StockPaperTradePanel({
         </div>
         <p className="min-w-0 flex-1 truncate text-right text-[11px] leading-tight">
           {canTrade ? (
-            <span className="tabular-nums text-fg-faint">
-              ≈ {formatShares(estimatedShares)} shares ·{" "}
-            </span>
+            <span className="tabular-nums text-fg-faint">{estimateText} · </span>
           ) : null}
           {status}
         </p>
@@ -242,17 +261,17 @@ export default function StockPaperTradePanel({
         className,
       )}
     >
-      <div className="flex items-baseline justify-between text-[11px]">
-        <span className="uppercase tracking-[0.06em] text-fg-faint">Falcon paper</span>
+      <div className="flex flex-wrap items-baseline justify-between gap-x-2 text-[11px]">
+        <span className="uppercase tracking-[0.06em] text-fg-faint">{t("stock.paper.title")}</span>
         <span className="tabular-nums text-fg-muted" title={buyingPowerTitle}>
-          {USD.format(buyingPower)} buying power
+          {t("stock.paper.buyingPower", { amount: USD.format(buyingPower) })}
         </span>
       </div>
 
       <div className="mt-3">{amountField}</div>
 
       <p className="mt-1.5 h-4 text-[11px] tabular-nums text-fg-faint">
-        {canTrade ? `≈ ${formatShares(estimatedShares)} shares` : ""}
+        {canTrade ? estimateText : ""}
       </p>
 
       <div className="mt-2 grid grid-cols-2 gap-2">{actions}</div>

@@ -4,8 +4,10 @@ import WindowControls from "@/components/WindowControls";
 import WaitlistStatusCard from "@/components/WaitlistStatusCard";
 import { readWaitlistEmail } from "@/lib/auth";
 import { getMembership, type Membership } from "@/lib/waitlist-api";
+import { useT } from "@/lib/i18n";
 
 export default function WaitlistView() {
+  const t = useT();
   const [membership, setMembership] = useState<Membership | null>(null);
   const [loading, setLoading] = useState(true);
   const email = readWaitlistEmail();
@@ -16,7 +18,8 @@ export default function WaitlistView() {
       setLoading(false);
       return;
     }
-    void getMembership(email).then((result) => {
+    // The ticket main read with the session just before sign-out.
+    void getMembership().then((result) => {
       if (cancelled) return;
       setMembership(result);
       setLoading(false);
@@ -33,7 +36,9 @@ export default function WaitlistView() {
 
       <div className="flex flex-1 flex-col items-center justify-center overflow-y-auto px-8 py-10">
         {loading ? (
-          <Loader2 className="h-5 w-5 animate-spin text-black/30" aria-hidden />
+          <div role="status" aria-label={t("auth.waitlist.loading")}>
+            <Loader2 className="h-5 w-5 animate-spin text-black/30" aria-hidden />
+          </div>
         ) : (
           <WaitlistStatusCard
             fullName={membership?.name ?? ""}

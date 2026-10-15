@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { useT, type MessageKey } from "@/lib/i18n";
 
 /**
  * The Hour/Day/Week/Month/Quarter/Year selector — active option dark with a
@@ -14,6 +15,17 @@ import { cn } from "@/lib/utils";
 export const TIMEFRAMES = ["Hour", "Day", "Week", "Month", "Quarter", "Year"] as const;
 export type Timeframe = (typeof TIMEFRAMES)[number];
 
+/** The word each timeframe shows as. The value itself stays English: it is
+ *  what the chart switches on and what is kept in storage. */
+export const TIMEFRAME_KEY: Record<Timeframe, MessageKey> = {
+  Hour: "dashboard.timeframe.hour",
+  Day: "dashboard.timeframe.day",
+  Week: "dashboard.timeframe.week",
+  Month: "dashboard.timeframe.month",
+  Quarter: "dashboard.timeframe.quarter",
+  Year: "dashboard.timeframe.year",
+};
+
 export default function TimeframeControls({
   value,
   onChange,
@@ -26,6 +38,7 @@ export default function TimeframeControls({
   compact?: boolean;
   className?: string;
 }) {
+  const t = useT();
   return (
     <div className={cn("flex items-center", compact ? "gap-3.5" : "gap-6", className)}>
       {TIMEFRAMES.map((tf) => {
@@ -43,7 +56,7 @@ export default function TimeframeControls({
                 : "text-[rgb(156,163,175)] hover:text-[rgb(107,114,128)]",
             )}
           >
-            {tf}
+            {t(TIMEFRAME_KEY[tf])}
             {isActive ? (
               // Flat, square-edged rule — no border rounding artifacts
               <span aria-hidden className="absolute inset-x-0 bottom-0 h-px bg-[#1d1b1b]" />

@@ -3,7 +3,9 @@ import type { Session } from "@supabase/supabase-js";
 import { isWaitlistUser, readWaitlistFlag, setWaitlistEmail, setWaitlistFlag } from "@/lib/auth";
 import { displayNameFromUser } from "@/lib/greeting";
 import { setActivePaperUser } from "@/lib/paper-account";
+import { ONBOARDING_REPLAY_EVENT } from "@/lib/onboarding-replay";
 import { isSupabaseConfigured, supabase } from "@/lib/supabase";
+import { primeWaitlistMembership } from "@/lib/waitlist-api";
 import { needsOnboarding, readCallName } from "@/lib/user-preferences";
 import HomePage from "@/pages/HomePage";
 import LoginPage, { type LoginPageMode } from "@/pages/LoginPage";
@@ -24,7 +26,9 @@ function resolveSession(nextSession: Session | null): {
   if (nextSession && isWaitlistUser(nextSession.user)) {
     setWaitlistFlag(true);
     if (nextSession.user.email) setWaitlistEmail(nextSession.user.email);
-    void supabase?.auth.signOut();
+    // Read their ticket while the session is still live (the site answers
+    // only for a valid token), then sign out.
+    void primeWaitlistMembership().finally(() => supabase?.auth.signOut());
     setActivePaperUser(null);
     return { session: null, showWaitlist: true };
   }
@@ -45,6 +49,15 @@ export default function App() {
   const [session, setSession] = useState<Session | null>(null);
   const [showWaitlist, setShowWaitlist] = useState(readWaitlistFlag);
   const [ready, setReady] = useState(!isSupabaseConfigured);
+  // TEMPORARY (lib/onboarding-replay): Settings, Developer can ask to see
+  // account setup again without touching the account.
+  const [replayingOnboarding, setReplayingOnboarding] = useState(false);
+
+  useEffect(() => {
+    const onReplay = () => setReplayingOnboarding(true);
+    window.addEventListener(ONBOARDING_REPLAY_EVENT, onReplay);
+    return () => window.removeEventListener(ONBOARDING_REPLAY_EVENT, onReplay);
+  }, []);
 
   const handleSignOut = useCallback(async () => {
     if (supabase) {
@@ -89,6 +102,21 @@ export default function App() {
 
   if (!ready) {
     return <div className="flex h-full items-center justify-center rounded-lg bg-background" />;
+  }
+
+  if (session && !showWaitlist && replayingOnboarding) {
+    return (
+      <LoginPage
+        mode="onboarding"
+        user={session.user}
+        onSuccess={refreshSession}
+        onWaitlist={() => setReplayingOnboarding(false)}
+        onProfileComplete={() => {
+          setReplayingOnboarding(false);
+          refreshSession();
+        }}
+      />
+    );
   }
 
   if (session && !showWaitlist && !needsOnboarding(session.user)) {

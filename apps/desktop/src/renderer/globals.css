@@ -140,6 +140,177 @@
   --cta-hover: #171717;
 }
 
+/* ==========================================================================
+ * Semantic tokens.
+ *
+ * One name per role, defined for both themes. New components can use them
+ * directly (`bg-surface-2`, `text-content-secondary`, `border-edge-subtle`,
+ * see tailwind.config.ts), and the dark translation layer at the end of this
+ * file maps the light palette's literal classes onto the same names, so a
+ * colour is tuned here once and every surface that plays that role follows.
+ *
+ * Surfaces climb in light: canvas 0 < card 1 < raised inside a card 2 <
+ * popover, menu, selected segment 3 < the highest control 4. In light they
+ * are the cream canvas and the white glass the dashboard was drawn in.
+ * ========================================================================== */
+:root,
+[data-theme="light"] {
+  --surface-0: #eaeae6;
+  --surface-1: rgba(255, 255, 255, 0.4);
+  --surface-2: rgba(255, 255, 255, 0.55);
+  --surface-3: rgba(255, 255, 255, 0.75);
+  --surface-4: #ffffff;
+  --surface-sunken: rgba(0, 0, 0, 0.022);
+  --fill-hover: rgba(0, 0, 0, 0.04);
+  --fill-press: rgba(0, 0, 0, 0.05);
+  --fill-selected: rgba(0, 0, 0, 0.06);
+  --fill-strong: #d1d1c9;
+  --border-subtle: rgba(0, 0, 0, 0.06);
+  --border-default: #e0e0da;
+  --border-strong: #d6d6cf;
+  --highlight: rgba(255, 255, 255, 0.7);
+  --text-primary: #1d1b1b;
+  --text-body: #4b5563;
+  --text-secondary: #6b7280;
+  --text-tertiary: #9ca3af;
+  --text-disabled: #b4b4ae;
+  /* The ink as channels, for marks drawn in it at an alpha. */
+  --ink-rgb: 29 27 27;
+  --positive: #16a34a;
+  --negative: #dc2626;
+  --warning: #b45309;
+  --info: #2563eb;
+  --teal: #189e9a;
+  --violet: #6d28d9;
+  --pink: #be185d;
+  --backdrop: rgba(0, 0, 0, 0.1);
+  --focus-ring: #9ca3af;
+  --shadow-card: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  --shadow-popover: inset 0 1px 0 rgba(255, 255, 255, 0.7), 0 18px 44px rgba(0, 0, 0, 0.14);
+  --shadow-modal: inset 0 1px 0 rgba(255, 255, 255, 0.7), 0 40px 100px rgba(0, 0, 0, 0.22);
+  /* The card call to action (`.glass-cta`) and a solid primary button. */
+  --cta-bg: #1d1b1b;
+  --cta-bg-hover: #2a2727;
+  --cta-bg-press: #000000;
+  --cta-fg: #ffffff;
+  --cta-border: rgba(255, 255, 255, 0.16);
+  --primary-bg: #1d1b1b;
+  --primary-bg-hover: #2a2727;
+  --primary-fg: #ffffff;
+  --switch-on: #1d1b1b;
+  --switch-off: rgba(0, 0, 0, 0.12);
+  --switch-knob-on: #ffffff;
+  --switch-knob-off: #ffffff;
+  /* A line or an area drawn in ink on a chart. */
+  --chart-ink: #1d1b1b;
+}
+
+/* Derived once for both themes: a tone's quiet text, its chip fill, its edge. */
+:root,
+[data-theme="light"],
+[data-theme="dark"] {
+  --positive-muted: color-mix(in srgb, var(--positive) 65%, var(--text-secondary));
+  --negative-muted: color-mix(in srgb, var(--negative) 65%, var(--text-secondary));
+  --warning-muted: color-mix(in srgb, var(--warning) 65%, var(--text-secondary));
+  --info-muted: color-mix(in srgb, var(--info) 65%, var(--text-secondary));
+  --teal-muted: color-mix(in srgb, var(--teal) 65%, var(--text-secondary));
+  --violet-muted: color-mix(in srgb, var(--violet) 65%, var(--text-secondary));
+  --pink-muted: color-mix(in srgb, var(--pink) 65%, var(--text-secondary));
+  --positive-soft: color-mix(in srgb, var(--positive) 14%, transparent);
+  --negative-soft: color-mix(in srgb, var(--negative) 14%, transparent);
+  --warning-soft: color-mix(in srgb, var(--warning) 14%, transparent);
+  --info-soft: color-mix(in srgb, var(--info) 14%, transparent);
+  --teal-soft: color-mix(in srgb, var(--teal) 14%, transparent);
+  --violet-soft: color-mix(in srgb, var(--violet) 14%, transparent);
+  --pink-soft: color-mix(in srgb, var(--pink) 14%, transparent);
+  --positive-line: color-mix(in srgb, var(--positive) 32%, transparent);
+  --negative-line: color-mix(in srgb, var(--negative) 32%, transparent);
+  --warning-line: color-mix(in srgb, var(--warning) 32%, transparent);
+  --info-line: color-mix(in srgb, var(--info) 32%, transparent);
+  --teal-line: color-mix(in srgb, var(--teal) 32%, transparent);
+  --violet-line: color-mix(in srgb, var(--violet) 32%, transparent);
+  --pink-line: color-mix(in srgb, var(--pink) 32%, transparent);
+}
+
+/*
+ * Dark. A warm near-black canvas (the light theme is cream, not white, and
+ * its dark should not turn blue-grey) with surfaces lifted in small, even
+ * steps: elevation reads from the fill getting lighter, not from brighter
+ * edges. Text is off-white, never #fff, so long copy does not glare; the
+ * tones are desaturated and lifted so a green figure or a red label sits on
+ * black without vibrating.
+ */
+[data-theme="dark"] {
+  --surface-0: #0b0b0a;
+  /* A card is the canvas colour: it reads as a card by its hairline
+   * (--border-default) and its shadow, not by a lighter fill. */
+  --surface-1: #0b0b0a;
+  --surface-2: #1a1a19;
+  --surface-3: #222221;
+  --surface-4: #2b2b29;
+  --surface-sunken: rgba(0, 0, 0, 0.22);
+  --fill-hover: rgba(255, 255, 255, 0.04);
+  --fill-press: rgba(255, 255, 255, 0.06);
+  --fill-selected: rgba(255, 255, 255, 0.08);
+  --fill-strong: rgba(255, 255, 255, 0.14);
+  --border-subtle: rgba(255, 255, 255, 0.055);
+  --border-default: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.13);
+  --highlight: rgba(255, 255, 255, 0.045);
+  --text-primary: #e8e7e3;
+  --text-body: #c2c1bc;
+  --text-secondary: #9a9994;
+  --text-tertiary: #807f79;
+  --text-disabled: #5b5a56;
+  --ink-rgb: 232 231 227;
+  --positive: #4fbf87;
+  --negative: #ec6a67;
+  --warning: #dfa24a;
+  --info: #7aa5ee;
+  --teal: #3db8b2;
+  --violet: #a68ff0;
+  --pink: #e27fb8;
+  --backdrop: rgba(0, 0, 0, 0.6);
+  --focus-ring: rgba(255, 255, 255, 0.32);
+  /* No inset top highlight on dark: stacked on the 1px border it drew the
+   * top edge twice as heavy as the sides. One even hairline all round. */
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.35), 0 14px 32px -20px rgba(0, 0, 0, 0.7);
+  --shadow-popover: 0 18px 44px rgba(0, 0, 0, 0.55);
+  --shadow-modal: 0 40px 100px rgba(0, 0, 0, 0.7);
+  /* The quiet button (`.glass-cta`, `.btn-quiet`): a faint lift of whatever
+   * surface it sits on, a thin light edge, light grey type. Translucent so
+   * it is one step up on a card, a modal and a popover alike. */
+  --cta-bg: rgba(255, 255, 255, 0.06);
+  --cta-bg-hover: rgba(255, 255, 255, 0.09);
+  --cta-bg-press: rgba(255, 255, 255, 0.045);
+  --cta-fg: #d1d0cc;
+  --cta-border: rgba(255, 255, 255, 0.09);
+  /* The primary action (`.cta-primary`, the auth button, a solid ink
+   * button, the open tab): inverted, the strongest mark on its surface. */
+  --primary-bg: #e8e7e3;
+  --primary-bg-hover: #f4f3ef;
+  --primary-fg: #151514;
+  --switch-on: #e8e7e3;
+  --switch-off: rgba(255, 255, 255, 0.14);
+  --switch-knob-on: #151514;
+  --switch-knob-off: #c2c1bc;
+  --chart-ink: #d9d8d4;
+
+  /* The older tokens the shadcn-style utilities read, kept in step. */
+  --background: 60 5% 4%;
+  --foreground: 50 6% 90%;
+  --border: 60 2% 16%;
+  --market-gain: #4fbf87;
+  --market-gain-bright: #5fd398;
+  --market-loss: #ec6a67;
+  --chart-grid: rgba(255, 255, 255, 0.05);
+  --chart-crosshair: rgba(255, 255, 255, 0.14);
+  --chart-tooltip-background: #222221;
+  --chart-label: #807f79;
+  --scrollbar-thumb: rgba(255, 255, 255, 0.12);
+  --scrollbar-thumb-hover: rgba(255, 255, 255, 0.22);
+}
+
 html,
 body,
 #root {
@@ -678,385 +849,643 @@ body::-webkit-scrollbar-button,
 }
 
 /* ==========================================================================
- * Dark mode.
+ * Dark mode: the translation layer.
  *
- * The page, the body copy and the scrollbars follow the tokens at the head of
- * this file, so they turn on their own. The dashboard, though, was written
- * light: its colours are literals — the ink is #1d1b1b, a card is white at
- * 40%, a hairline is #e0e0da — repeated across every component.
+ * The dashboard is drawn light, and its colours are literal classes repeated
+ * across every component: ink is `text-[#1d1b1b]`, a card is `bg-white/40`,
+ * a hairline is `border-black/[0.06]`. Rather than rewrite fifty files, this
+ * layer reads that vocabulary back and points each entry at a semantic token
+ * from the head of this file. No colour is written below the tokens except
+ * where a chart or an inline style needs one; tune a token, not a rule.
  *
- * Rather than rewrite fifty files, this block reads that vocabulary back and
- * gives each entry its dark counterpart. One word of the palette per rule, so
- * a colour changed here changes everywhere it is used, and a component
- * written in the same vocabulary is dark the day it is added.
+ * The tokens, by role (light value -> dark value lives in the token blocks):
+ *   surfaces   --surface-0 canvas, -1 card, -2 raised inside a card (input,
+ *              chip, track, tile), -3 popover / menu / selected segment,
+ *              -4 the highest control and tooltips; --surface-sunken a rail
+ *   fills      --fill-hover, --fill-press, --fill-selected (overlays on any
+ *              surface), --fill-strong (a mark: a bar track, an off toggle)
+ *   edges      --border-subtle, --border-default, --border-strong, --highlight
+ *              (the lit top edge of glass), --focus-ring
+ *   text       --text-primary, -body, -secondary, -tertiary, -disabled
+ *   tones      --positive, --negative, --warning, --info, --teal (the
+ *              app's measuring colour), --violet, --pink; each with -muted,
+ *              -soft (chip fill) and -line (chip edge)
+ *   actions    --cta-* (the quiet button: `.glass-cta`, `.btn-quiet`),
+ *              --primary-* (the inverted primary: `.cta-primary`, a solid ink
+ *              button, the auth button),
+ *              --switch-*; --backdrop (a panel's scrim); --shadow-card,
+ *              --shadow-popover, --shadow-modal; --chart-ink
  *
- * Two things to know before adding to it:
- *  - Property matters more than colour. #e0e0da is a hairline as a border and
- *    a fill as a background, and the two want different answers, so the rules
- *    are grouped by what the colour is doing.
- *  - Roles invert. A grey that is faint on cream has to become a DARKER grey
- *    to stay faint on black, not a lighter one — with a floor, below which a
- *    label stops being legible at all.
+ * How the light vocabulary lands:
+ *   text-[#1d1b1b] -> primary; #374151 #4b5563 -> body; #6b7280 -> secondary;
+ *   #9CA3AF -> tertiary; #b4b4ae and lighter -> disabled; a coloured text ->
+ *   its tone. bg-white/40 -> surface-1 (a card); /45 to /60 -> surface-2;
+ *   /70 and up, and bg-white -> surface-3; a hover on glass goes one step
+ *   up. border-white/60 -> border-default. border-black/[0.06] -> subtle,
+ *   [0.1] -> default, /20 -> strong. ring-black/[0.04] -> none (one hairline
+ *   per surface), [0.06] -> subtle. bg-black/[0.04] hovers -> fill-hover,
+ *   [0.05] -> fill-press, [0.06] -> fill-selected; bg-black/10 -> backdrop.
  *
- * The selectors match the class NAME rather than the class, case-insensitively
- * and anchored to a word start: the app spells the same colour both #9CA3AF
- * and #9ca3af, and `hover:text-…` must not be mistaken for the resting
- * colour. Base colours come first and their alpha variants after, because a
- * substring match catches both and the later rule wins.
+ * The rule for new components: write them light, in that vocabulary (the
+ * AccountPane FIELD and BUTTON recipes, SettingsRow, `.glass-cta`; a
+ * button also carries `.btn-quiet`, or `.cta-primary` beside `.glass-cta`
+ * when it is the action its form commits), or use
+ * the token utilities directly, and they are dark the day they land. A
+ * colour outside the vocabulary needs `python scripts/gen-dark-theme.py`
+ * run once, which reads the source and rewrites the generated block below;
+ * an SVG fill or an inline style colour needs a rule in the charts section
+ * or, better, a token (`var(--chart-ink)`) in the component.
+ *
+ * Selectors match the class NAME as a whole word (`[class~="..." i]`), case-
+ * insensitively because the app spells #9CA3AF both ways. A variant
+ * (`hover:`, `focus:`, `group-hover:`) gets its own rule with its own state,
+ * so a hover is never shadowed by the resting colour above it.
  * ========================================================================== */
 
 [data-theme="dark"] {
   color-scheme: dark;
 }
 
-/* --- The palette, colour by colour -------------------------------------- */
-[data-theme="dark"] [class^="text-[#1d1b1b]" i],
-[data-theme="dark"] [class*=" text-[#1d1b1b]" i] { color: #e4e2e2; }
-[data-theme="dark"] [class^="text-[#9ca3af]" i],
-[data-theme="dark"] [class*=" text-[#9ca3af]" i] { color: #697282; }
-[data-theme="dark"] [class^="text-[#6b7280]" i],
-[data-theme="dark"] [class*=" text-[#6b7280]" i] { color: #7f8694; }
-[data-theme="dark"] [class^="text-[#b4b4ae]" i],
-[data-theme="dark"] [class*=" text-[#b4b4ae]" i] { color: #7a7a71; }
-[data-theme="dark"] [class^="border-[#e0e0da]" i],
-[data-theme="dark"] [class*=" border-[#e0e0da]" i] { border-color: rgba(255, 255, 255, 0.09); }
-[data-theme="dark"] [class^="text-[#4b5563]" i],
-[data-theme="dark"] [class*=" text-[#4b5563]" i] { color: #9ca6b4; }
-[data-theme="dark"] [class^="bg-[#1d1b1b]" i],
-[data-theme="dark"] [class*=" bg-[#1d1b1b]" i] { background-color: #ededed; }
-[data-theme="dark"] [class^="text-[#a3a39c]" i],
-[data-theme="dark"] [class*=" text-[#a3a39c]" i] { color: #7a7a71; }
-[data-theme="dark"] [class^="text-[#8b8b86]" i],
-[data-theme="dark"] [class*=" text-[#8b8b86]" i] { color: #797974; }
-[data-theme="dark"] [class^="border-[#eeeee8]" i],
-[data-theme="dark"] [class*=" border-[#eeeee8]" i] { border-color: rgba(255, 255, 255, 0.09); }
-[data-theme="dark"] [class^="text-[#b45309]" i],
-[data-theme="dark"] [class*=" text-[#b45309]" i] { color: #ec9655; }
-[data-theme="dark"] [class^="text-[#888888]" i],
-[data-theme="dark"] [class*=" text-[#888888]" i] { color: #777777; }
-[data-theme="dark"] [class^="text-[#374151]" i],
-[data-theme="dark"] [class*=" text-[#374151]" i] { color: #aeb8c8; }
-[data-theme="dark"] [class^="border-[#e6e6e0]" i],
-[data-theme="dark"] [class*=" border-[#e6e6e0]" i] { border-color: rgba(255, 255, 255, 0.09); }
-[data-theme="dark"] [class^="text-[#dc2626]" i],
-[data-theme="dark"] [class*=" text-[#dc2626]" i] { color: #e14747; }
-[data-theme="dark"] [class^="text-[#666666]" i],
-[data-theme="dark"] [class*=" text-[#666666]" i] { color: #999999; }
-[data-theme="dark"] [class^="bg-[#f1f1ec]" i],
-[data-theme="dark"] [class*=" bg-[#f1f1ec]" i] { background-color: #101010; }
-[data-theme="dark"] [class^="border-[#ebebe5]" i],
-[data-theme="dark"] [class*=" border-[#ebebe5]" i] { border-color: rgba(255, 255, 255, 0.09); }
-[data-theme="dark"] [class^="text-[#991b1b]" i],
-[data-theme="dark"] [class*=" text-[#991b1b]" i] { color: #e46666; }
-[data-theme="dark"] [class^="text-[#16a34a]" i],
-[data-theme="dark"] [class*=" text-[#16a34a]" i] { color: #5ce990; }
-[data-theme="dark"] [class^="bg-[#ecece6]" i],
-[data-theme="dark"] [class*=" bg-[#ecece6]" i] { background-color: #101010; }
-[data-theme="dark"] [class^="bg-[#fef3c7]" i],
-[data-theme="dark"] [class*=" bg-[#fef3c7]" i] { background-color: rgba(207, 170, 23, 0.2); }
-[data-theme="dark"] [class^="text-[#92400e]" i],
-[data-theme="dark"] [class*=" text-[#92400e]" i] { color: #ef9f6f; }
-[data-theme="dark"] [class^="bg-[#f4f4f0]" i],
-[data-theme="dark"] [class*=" bg-[#f4f4f0]" i] { background-color: #101010; }
-[data-theme="dark"] [class^="bg-[#e8e8e2]" i],
-[data-theme="dark"] [class*=" bg-[#e8e8e2]" i] { background-color: #161614; }
-[data-theme="dark"] [class^="bg-[#dcfce7]" i],
-[data-theme="dark"] [class*=" bg-[#dcfce7]" i] { background-color: rgba(23, 207, 86, 0.2); }
-[data-theme="dark"] [class^="text-[#166534]" i],
-[data-theme="dark"] [class*=" text-[#166534]" i] { color: #8ae5ad; }
-[data-theme="dark"] [class^="text-[#b23b3b]" i],
-[data-theme="dark"] [class*=" text-[#b23b3b]" i] { color: #ca5e5e; }
-[data-theme="dark"] [class^="bg-[#ede9fe]" i],
-[data-theme="dark"] [class*=" bg-[#ede9fe]" i] { background-color: rgba(58, 23, 207, 0.2); }
-[data-theme="dark"] [class^="text-[#5b21b6]" i],
-[data-theme="dark"] [class*=" text-[#5b21b6]" i] { color: #834ade; }
-[data-theme="dark"] [class^="bg-[#fee2e2]" i],
-[data-theme="dark"] [class*=" bg-[#fee2e2]" i] { background-color: rgba(207, 23, 23, 0.2); }
-[data-theme="dark"] [class^="text-[#c9c9c1]" i],
-[data-theme="dark"] [class*=" text-[#c9c9c1]" i] { color: #7d7d6d; }
-[data-theme="dark"] [class^="text-[#d6d6cf]" i],
-[data-theme="dark"] [class*=" text-[#d6d6cf]" i] { color: #7f7f6c; }
-[data-theme="dark"] [class^="bg-[#e0e7ff]" i],
-[data-theme="dark"] [class*=" bg-[#e0e7ff]" i] { background-color: rgba(23, 64, 207, 0.2); }
-[data-theme="dark"] [class^="text-[#3730a3]" i],
-[data-theme="dark"] [class*=" text-[#3730a3]" i] { color: #635ccf; }
-[data-theme="dark"] [class*="divide-[#eeeee8]" i] > :not([hidden]) ~ :not([hidden]) { border-color: rgba(255, 255, 255, 0.09); }
-[data-theme="dark"] [class^="bg-[#f7f7f4]" i],
-[data-theme="dark"] [class*=" bg-[#f7f7f4]" i] { background-color: #101010; }
-[data-theme="dark"] [class^="border-[#1d1b1b]" i],
-[data-theme="dark"] [class*=" border-[#1d1b1b]" i] { border-color: #ededed; }
-[data-theme="dark"] [class^="bg-[#fbfbf9]" i],
-[data-theme="dark"] [class*=" bg-[#fbfbf9]" i] { background-color: #101010; }
-[data-theme="dark"] [class^="bg-[#eeeee8]" i],
-[data-theme="dark"] [class*=" bg-[#eeeee8]" i] { background-color: #101010; }
-[data-theme="dark"] [class^="border-[#e0d9c8]" i],
-[data-theme="dark"] [class*=" border-[#e0d9c8]" i] { border-color: rgba(255, 255, 255, 0.09); }
-[data-theme="dark"] [class^="bg-[#faf6ec]" i],
-[data-theme="dark"] [class*=" bg-[#faf6ec]" i] { background-color: #101010; }
-[data-theme="dark"] [class^="text-[#8a7a55]" i],
-[data-theme="dark"] [class*=" text-[#8a7a55]" i] { color: #ad9e7a; }
-[data-theme="dark"] [class^="bg-[#ffedd5]" i],
-[data-theme="dark"] [class*=" bg-[#ffedd5]" i] { background-color: rgba(207, 128, 23, 0.2); }
-[data-theme="dark"] [class^="text-[#9a3412]" i],
-[data-theme="dark"] [class*=" text-[#9a3412]" i] { color: #ed8765; }
-[data-theme="dark"] [class^="text-[#3f3f46]" i],
-[data-theme="dark"] [class*=" text-[#3f3f46]" i] { color: #b9b9c0; }
-[data-theme="dark"] [class^="text-[#d97706]" i],
-[data-theme="dark"] [class*=" text-[#d97706]" i] { color: #ea9a3e; }
-[data-theme="dark"] [class^="bg-[#e3e3e0]" i],
-[data-theme="dark"] [class*=" bg-[#e3e3e0]" i] { background-color: #161614; }
-[data-theme="dark"] [class^="border-[#e8e8e2]" i],
-[data-theme="dark"] [class*=" border-[#e8e8e2]" i] { border-color: rgba(255, 255, 255, 0.09); }
-[data-theme="dark"] [class^="text-[#c0c0ba]" i],
-[data-theme="dark"] [class*=" text-[#c0c0ba]" i] { color: #7b7b70; }
-[data-theme="dark"] [class^="bg-[#e0f2fe]" i],
-[data-theme="dark"] [class*=" bg-[#e0f2fe]" i] { background-color: rgba(23, 133, 207, 0.2); }
-[data-theme="dark"] [class^="text-[#075985]" i],
-[data-theme="dark"] [class*=" text-[#075985]" i] { color: #7ec9f1; }
-[data-theme="dark"] [class^="bg-[#d1d1c9]" i],
-[data-theme="dark"] [class*=" bg-[#d1d1c9]" i] { background-color: #161614; }
-[data-theme="dark"] [class^="text-[#475569]" i],
-[data-theme="dark"] [class*=" text-[#475569]" i] { color: #96a4b8; }
-[data-theme="dark"] [class^="border-[#e7d9a8]" i],
-[data-theme="dark"] [class*=" border-[#e7d9a8]" i] { border-color: rgba(255, 255, 255, 0.09); }
-[data-theme="dark"] [class^="bg-[#fbf6e3]" i],
-[data-theme="dark"] [class*=" bg-[#fbf6e3]" i] { background-color: rgba(201, 165, 29, 0.2); }
-[data-theme="dark"] [class^="text-[#8a6d1d]" i],
-[data-theme="dark"] [class*=" text-[#8a6d1d]" i] { color: #e2c575; }
-[data-theme="dark"] [class^="bg-[#fafaf7]" i],
-[data-theme="dark"] [class*=" bg-[#fafaf7]" i] { background-color: #101010; }
-[data-theme="dark"] [class^="bg-[#e9e9e3]" i],
-[data-theme="dark"] [class*=" bg-[#e9e9e3]" i] { background-color: #101010; }
-[data-theme="dark"] [class^="bg-[#c8c8c2]" i],
-[data-theme="dark"] [class*=" bg-[#c8c8c2]" i] { background-color: #1c1c1a; }
-[data-theme="dark"] [class^="text-[#c8c8c2]" i],
-[data-theme="dark"] [class*=" text-[#c8c8c2]" i] { color: #7b7b6f; }
-[data-theme="dark"] [class^="text-[#1d7a55]" i],
-[data-theme="dark"] [class*=" text-[#1d7a55]" i] { color: #85e2bd; }
-[data-theme="dark"] [class^="text-[#767676]" i],
-[data-theme="dark"] [class*=" text-[#767676]" i] { color: #898989; }
-[data-theme="dark"] [class^="text-[#9a9a9a]" i],
-[data-theme="dark"] [class*=" text-[#9a9a9a]" i] { color: #757575; }
-[data-theme="dark"] [class^="bg-[#ccfbf1]" i],
-[data-theme="dark"] [class*=" bg-[#ccfbf1]" i] { background-color: rgba(23, 207, 167, 0.2); }
-[data-theme="dark"] [class^="text-[#0f766e]" i],
-[data-theme="dark"] [class*=" text-[#0f766e]" i] { color: #80efe6; }
-[data-theme="dark"] [class^="bg-[#fae8ff]" i],
-[data-theme="dark"] [class*=" bg-[#fae8ff]" i] { background-color: rgba(167, 23, 207, 0.2); }
-[data-theme="dark"] [class^="text-[#86198f]" i],
-[data-theme="dark"] [class*=" text-[#86198f]" i] { color: #dd70e6; }
-[data-theme="dark"] [class*="divide-[#f4f4ef]" i] > :not([hidden]) ~ :not([hidden]) { border-color: rgba(255, 255, 255, 0.09); }
-[data-theme="dark"] [class^="border-[#f4f4ef]" i],
-[data-theme="dark"] [class*=" border-[#f4f4ef]" i] { border-color: rgba(255, 255, 255, 0.09); }
-[data-theme="dark"] [class^="text-[#b0b4ba]" i],
-[data-theme="dark"] [class*=" text-[#b0b4ba]" i] { color: #6d747d; }
-[data-theme="dark"] [class^="text-[#c9ccd1]" i],
-[data-theme="dark"] [class*=" text-[#c9ccd1]" i] { color: #6c737f; }
-[data-theme="dark"] [class^="bg-[#c9ccd1]" i],
-[data-theme="dark"] [class*=" bg-[#c9ccd1]" i] { background-color: #161614; }
-[data-theme="dark"] [class^="bg-[#f2f2ef]" i],
-[data-theme="dark"] [class*=" bg-[#f2f2ef]" i] { background-color: #101010; }
-[data-theme="dark"] [class^="text-[#a5aab3]" i],
-[data-theme="dark"] [class*=" text-[#a5aab3]" i] { color: #6b727f; }
-[data-theme="dark"] [class^="text-[#189e9a]" i],
-[data-theme="dark"] [class*=" text-[#189e9a]" i] { color: #61e7e3; }
-[data-theme="dark"] [class^="text-[#373b42]" i],
-[data-theme="dark"] [class*=" text-[#373b42]" i] { color: #bdc1c8; }
-[data-theme="dark"] [class^="text-[#15803d]" i],
-[data-theme="dark"] [class*=" text-[#15803d]" i] { color: #7feaa7; }
-[data-theme="dark"] [class^="bg-[#d1d5db]" i],
-[data-theme="dark"] [class*=" bg-[#d1d5db]" i] { background-color: #161614; }
-[data-theme="dark"] [class^="bg-[#e6e6e0]" i],
-[data-theme="dark"] [class*=" bg-[#e6e6e0]" i] { background-color: #161614; }
-[data-theme="dark"] [class^="bg-[#f3f3ef]" i],
-[data-theme="dark"] [class*=" bg-[#f3f3ef]" i] { background-color: #101010; }
-[data-theme="dark"] [class^="text-[#6b6b64]" i],
-[data-theme="dark"] [class*=" text-[#6b6b64]" i] { color: #9b9b94; }
-[data-theme="dark"] [class^="text-[#3b3b3b]" i],
-[data-theme="dark"] [class*=" text-[#3b3b3b]" i] { color: #c4c4c4; }
-[data-theme="dark"] [class^="border-[#d6d6cf]" i],
-[data-theme="dark"] [class*=" border-[#d6d6cf]" i] { border-color: rgba(255, 255, 255, 0.09); }
-[data-theme="dark"] [class^="text-[#e0e0da]" i],
-[data-theme="dark"] [class*=" text-[#e0e0da]" i] { color: #80806b; }
-[data-theme="dark"] [class^="bg-[#fdf3f3]" i],
-[data-theme="dark"] [class*=" bg-[#fdf3f3]" i] { background-color: #101010; }
-[data-theme="dark"] [class^="bg-[#c98b8b]" i],
-[data-theme="dark"] [class*=" bg-[#c98b8b]" i] { background-color: #1c1c1a; }
-[data-theme="dark"] [class^="bg-[#e9e9e4]" i],
-[data-theme="dark"] [class*=" bg-[#e9e9e4]" i] { background-color: #101010; }
-[data-theme="dark"] [class^="text-[#0f5f5d]" i],
-[data-theme="dark"] [class*=" text-[#0f5f5d]" i] { color: #84ece9; }
-[data-theme="dark"] [class^="bg-[#efefe9]" i],
-[data-theme="dark"] [class*=" bg-[#efefe9]" i] { background-color: #101010; }
-[data-theme="dark"] [class^="border-[#c9c9c1]" i],
-[data-theme="dark"] [class*=" border-[#c9c9c1]" i] { border-color: rgba(255, 255, 255, 0.09); }
-[data-theme="dark"] [class^="bg-[#eef2f6]" i],
-[data-theme="dark"] [class*=" bg-[#eef2f6]" i] { background-color: #101010; }
-[data-theme="dark"] [class^="bg-[#f1f1ec]/70" i],
-[data-theme="dark"] [class*=" bg-[#f1f1ec]/70" i] { background-color: rgba(22, 22, 21, 0.70); }
-[data-theme="dark"] [class^="border-[#1d1b1b]/20" i],
-[data-theme="dark"] [class*=" border-[#1d1b1b]/20" i] { border-color: rgba(237, 237, 237, 0.20); }
-[data-theme="dark"] [class^="text-[#1d1b1b]/90" i],
-[data-theme="dark"] [class*=" text-[#1d1b1b]/90" i] { color: rgba(228, 226, 226, 0.90); }
+[data-theme="dark"] ::selection {
+  background-color: rgba(122, 165, 238, 0.3);
+  color: inherit;
+}
 
-/* --- The glass itself ----------------------------------------------------
- * A card is a white veil over cream. Over black it has to be the faintest of
- * white veils, or it reads as fog. The very low alphas the app already uses
- * (/[0.02] to /[0.12]) are dark-mode values to begin with and are left alone.
- *
- * These are written as attribute selectors rather than class selectors on
- * purpose: Tailwind refuses to `@apply` a utility whose class also appears as
- * a selector in the same stylesheet, and `.glass-cta` above applies several
- * of them.
+/* --- The palette, generated -------------------------------------------- */
+/* @generated dark-palette:start (scripts/gen-dark-theme.py) */
+[data-theme="dark"] .bg-\[\#16A34A\]\/10, [data-theme="dark"] .bg-\[\#16a34a\]\/10 { background-color: color-mix(in srgb, var(--positive) 10%, transparent); }
+[data-theme="dark"] .bg-\[\#189E9A\]\/10, [data-theme="dark"] .bg-\[\#189e9a\]\/10 { background-color: color-mix(in srgb, var(--teal) 10%, transparent); }
+[data-theme="dark"] .bg-\[\#189E9A\]\/35, [data-theme="dark"] .bg-\[\#189e9a\]\/35 { background-color: color-mix(in srgb, var(--teal) 35%, transparent); }
+[data-theme="dark"] .bg-\[\#189E9A\]\/5, [data-theme="dark"] .bg-\[\#189e9a\]\/5 { background-color: color-mix(in srgb, var(--teal) 5%, transparent); }
+[data-theme="dark"] .bg-\[\#2563EB\]\/25, [data-theme="dark"] .bg-\[\#2563eb\]\/25 { background-color: color-mix(in srgb, var(--info) 25%, transparent); }
+[data-theme="dark"] .bg-\[\#A86448\]\/30, [data-theme="dark"] .bg-\[\#a86448\]\/30 { background-color: color-mix(in srgb, var(--warning) 30%, transparent); }
+[data-theme="dark"] .bg-\[\#C9CCD1\], [data-theme="dark"] .bg-\[\#c9ccd1\] { background-color: var(--fill-strong); }
+[data-theme="dark"] .bg-\[\#CCFBF1\], [data-theme="dark"] .bg-\[\#ccfbf1\] { background-color: var(--teal-soft); }
+[data-theme="dark"] .bg-\[\#D1D1C9\], [data-theme="dark"] .bg-\[\#d1d1c9\] { background-color: var(--fill-strong); }
+[data-theme="dark"] .bg-\[\#D1D5DB\], [data-theme="dark"] .bg-\[\#d1d5db\] { background-color: var(--fill-strong); }
+[data-theme="dark"] .bg-\[\#D9D6D0\], [data-theme="dark"] .bg-\[\#d9d6d0\] { background-color: var(--fill-strong); }
+[data-theme="dark"] .bg-\[\#DCFCE7\], [data-theme="dark"] .bg-\[\#dcfce7\] { background-color: var(--positive-soft); }
+[data-theme="dark"] .bg-\[\#E0E7FF\], [data-theme="dark"] .bg-\[\#e0e7ff\] { background-color: var(--info-soft); }
+[data-theme="dark"] .bg-\[\#E0F2FE\], [data-theme="dark"] .bg-\[\#e0f2fe\] { background-color: var(--info-soft); }
+[data-theme="dark"] .bg-\[\#E3E3E0\], [data-theme="dark"] .bg-\[\#e3e3e0\] { background-color: var(--surface-3); }
+[data-theme="dark"] .bg-\[\#E6E6E0\], [data-theme="dark"] .bg-\[\#e6e6e0\] { background-color: var(--surface-3); }
+[data-theme="dark"] .bg-\[\#E8E8E2\], [data-theme="dark"] .bg-\[\#e8e8e2\] { background-color: var(--surface-3); }
+[data-theme="dark"] .bg-\[\#E9E9E3\], [data-theme="dark"] .bg-\[\#e9e9e3\] { background-color: var(--surface-3); }
+[data-theme="dark"] .bg-\[\#E9E9E4\], [data-theme="dark"] .bg-\[\#e9e9e4\] { background-color: var(--surface-3); }
+[data-theme="dark"] .bg-\[\#EAEAE6\], [data-theme="dark"] .bg-\[\#eaeae6\] { background-color: var(--surface-0); }
+[data-theme="dark"] .bg-\[\#ECECE6\], [data-theme="dark"] .bg-\[\#ececE6\], [data-theme="dark"] .bg-\[\#ecece6\] { background-color: var(--surface-3); }
+[data-theme="dark"] .bg-\[\#EDE9FE\], [data-theme="dark"] .bg-\[\#ede9fe\] { background-color: var(--violet-soft); }
+[data-theme="dark"] .bg-\[\#EEEEE8\], [data-theme="dark"] .bg-\[\#eeeee8\] { background-color: var(--surface-3); }
+[data-theme="dark"] .bg-\[\#EEF2F6\], [data-theme="dark"] .bg-\[\#eef2f6\] { background-color: var(--surface-2); }
+[data-theme="dark"] .bg-\[\#F1F1EC\], [data-theme="dark"] .bg-\[\#f1f1ec\] { background-color: var(--surface-2); }
+[data-theme="dark"] .bg-\[\#F1F1EC\]\/70, [data-theme="dark"] .bg-\[\#f1f1ec\]\/70 { background-color: var(--surface-2); }
+[data-theme="dark"] .bg-\[\#F2F2EF\], [data-theme="dark"] .bg-\[\#f2f2ef\] { background-color: var(--surface-2); }
+[data-theme="dark"] .bg-\[\#F3F3EF\], [data-theme="dark"] .bg-\[\#f3f3ef\] { background-color: var(--surface-2); }
+[data-theme="dark"] .bg-\[\#F4F4F0\], [data-theme="dark"] .bg-\[\#f4f4f0\] { background-color: var(--surface-1); }
+[data-theme="dark"] .bg-\[\#F7F7F4\], [data-theme="dark"] .bg-\[\#f7f7f4\] { background-color: var(--surface-2); }
+[data-theme="dark"] .bg-\[\#FAE8FF\], [data-theme="dark"] .bg-\[\#fae8ff\] { background-color: var(--violet-soft); }
+[data-theme="dark"] .bg-\[\#FAF6EC\], [data-theme="dark"] .bg-\[\#faf6ec\] { background-color: var(--surface-2); }
+[data-theme="dark"] .bg-\[\#FAFAF7\], [data-theme="dark"] .bg-\[\#fafaf7\] { background-color: var(--surface-2); }
+[data-theme="dark"] .bg-\[\#FBF6E3\], [data-theme="dark"] .bg-\[\#fbf6e3\] { background-color: var(--warning-soft); }
+[data-theme="dark"] .bg-\[\#FBFBF9\], [data-theme="dark"] .bg-\[\#fbfbf9\] { background-color: var(--surface-2); }
+[data-theme="dark"] .bg-\[\#FDF3F3\], [data-theme="dark"] .bg-\[\#fdf3f3\] { background-color: var(--surface-2); }
+[data-theme="dark"] .bg-\[\#FEE2E2\], [data-theme="dark"] .bg-\[\#fee2e2\] { background-color: var(--negative-soft); }
+[data-theme="dark"] .bg-\[\#FEF3C7\], [data-theme="dark"] .bg-\[\#fef3c7\] { background-color: var(--warning-soft); }
+[data-theme="dark"] .bg-\[\#FFEDD5\], [data-theme="dark"] .bg-\[\#ffedd5\] { background-color: var(--warning-soft); }
+[data-theme="dark"] .bg-black\/10 { background-color: var(--backdrop); }
+[data-theme="dark"] .bg-black\/20 { background-color: var(--backdrop); }
+[data-theme="dark"] .bg-black\/25 { background-color: var(--backdrop); }
+[data-theme="dark"] .bg-black\/\[0\.022\] { background-color: var(--surface-sunken); }
+[data-theme="dark"] .bg-black\/\[0\.03\] { background-color: var(--fill-hover); }
+[data-theme="dark"] .bg-black\/\[0\.04\] { background-color: var(--fill-hover); }
+[data-theme="dark"] .bg-black\/\[0\.05\] { background-color: var(--fill-press); }
+[data-theme="dark"] .bg-black\/\[0\.06\] { background-color: var(--fill-selected); }
+[data-theme="dark"] .bg-black\/\[0\.08\] { background-color: var(--fill-selected); }
+[data-theme="dark"] .bg-black\/\[0\.12\] { background-color: var(--backdrop); }
+[data-theme="dark"] .bg-emerald-500\/10 { background-color: color-mix(in srgb, var(--positive) 10%, transparent); }
+[data-theme="dark"] .bg-emerald-500\/70 { background-color: color-mix(in srgb, var(--positive) 70%, transparent); }
+[data-theme="dark"] .bg-red-50 { background-color: var(--surface-2); }
+[data-theme="dark"] .bg-white { background-color: var(--surface-3); }
+[data-theme="dark"] .bg-white\/40 { background-color: var(--surface-1); }
+[data-theme="dark"] .bg-white\/45 { background-color: var(--surface-2); }
+[data-theme="dark"] .bg-white\/50 { background-color: var(--surface-2); }
+[data-theme="dark"] .bg-white\/55 { background-color: var(--surface-2); }
+[data-theme="dark"] .bg-white\/60 { background-color: var(--surface-2); }
+[data-theme="dark"] .bg-white\/70 { background-color: var(--surface-3); }
+[data-theme="dark"] .bg-white\/75 { background-color: var(--surface-3); }
+[data-theme="dark"] .bg-white\/80 { background-color: var(--surface-3); }
+[data-theme="dark"] .bg-white\/85 { background-color: var(--surface-3); }
+[data-theme="dark"] .bg-white\/90 { background-color: var(--surface-3); }
+[data-theme="dark"] .bg-white\/\[0\.55\] { background-color: var(--surface-2); }
+[data-theme="dark"] .border-\[\#189E9A\]\/30, [data-theme="dark"] .border-\[\#189e9a\]\/30 { border-color: color-mix(in srgb, var(--teal) 30%, transparent); }
+[data-theme="dark"] .border-\[\#189E9A\]\/50, [data-theme="dark"] .border-\[\#189e9a\]\/50 { border-color: color-mix(in srgb, var(--teal) 50%, transparent); }
+[data-theme="dark"] .border-\[\#189E9A\]\/60, [data-theme="dark"] .border-\[\#189e9a\]\/60 { border-color: color-mix(in srgb, var(--teal) 60%, transparent); }
+[data-theme="dark"] .border-\[\#1D1B1B\], [data-theme="dark"] .border-\[\#1d1b1b\] { border-color: var(--text-primary); }
+[data-theme="dark"] .border-\[\#1D1B1B\]\/20, [data-theme="dark"] .border-\[\#1d1b1b\]\/20 { border-color: color-mix(in srgb, var(--text-primary) 20%, transparent); }
+[data-theme="dark"] .border-\[\#5B21B6\]\/30, [data-theme="dark"] .border-\[\#5b21b6\]\/30 { border-color: color-mix(in srgb, var(--violet) 30%, transparent); }
+[data-theme="dark"] .border-\[\#D6D6CF\], [data-theme="dark"] .border-\[\#d6d6cf\] { border-color: var(--border-strong); }
+[data-theme="dark"] .border-\[\#E0D9C8\], [data-theme="dark"] .border-\[\#e0d9c8\] { border-color: var(--border-strong); }
+[data-theme="dark"] .border-\[\#E0E0DA\], [data-theme="dark"] .border-\[\#e0e0da\] { border-color: var(--border-default); }
+[data-theme="dark"] .border-\[\#E6E6E0\], [data-theme="dark"] .border-\[\#e6e6e0\] { border-color: var(--border-default); }
+[data-theme="dark"] .border-\[\#E7D9A8\], [data-theme="dark"] .border-\[\#e7d9a8\] { border-color: var(--warning-line); }
+[data-theme="dark"] .border-\[\#E8E8E2\], [data-theme="dark"] .border-\[\#e8e8e2\] { border-color: var(--border-default); }
+[data-theme="dark"] .border-\[\#EBEBE5\], [data-theme="dark"] .border-\[\#ebebe5\] { border-color: var(--border-default); }
+[data-theme="dark"] .border-\[\#EEEEE8\], [data-theme="dark"] .border-\[\#eeeee8\] { border-color: var(--border-subtle); }
+[data-theme="dark"] .border-\[\#F4F4EF\], [data-theme="dark"] .border-\[\#f4f4ef\] { border-color: var(--border-subtle); }
+[data-theme="dark"] .border-black\/15 { border-color: var(--border-default); }
+[data-theme="dark"] .border-black\/20 { border-color: var(--border-strong); }
+[data-theme="dark"] .border-black\/\[0\.05\] { border-color: var(--border-subtle); }
+[data-theme="dark"] .border-black\/\[0\.06\] { border-color: var(--border-subtle); }
+[data-theme="dark"] .border-black\/\[0\.08\] { border-color: var(--border-default); }
+[data-theme="dark"] .border-black\/\[0\.10\] { border-color: var(--border-default); }
+[data-theme="dark"] .border-black\/\[0\.12\] { border-color: var(--border-default); }
+[data-theme="dark"] .border-black\/\[0\.1\] { border-color: var(--border-default); }
+[data-theme="dark"] .border-emerald-500 { border-color: var(--positive-line); }
+[data-theme="dark"] .border-emerald-500\/60 { border-color: color-mix(in srgb, var(--positive) 60%, transparent); }
+[data-theme="dark"] .border-red-200 { border-color: var(--border-default); }
+[data-theme="dark"] .border-white\/40 { border-color: var(--border-default); }
+[data-theme="dark"] .border-white\/60 { border-color: var(--border-default); }
+[data-theme="dark"] .border-white\/70 { border-color: var(--border-default); }
+[data-theme="dark"] .decoration-\[\#CFCFC8\], [data-theme="dark"] .decoration-\[\#cfcfc8\] { text-decoration-color: var(--text-disabled); }
+[data-theme="dark"] .decoration-black\/20 { text-decoration-color: rgb(var(--ink-rgb) / 0.2); }
+[data-theme="dark"] .decoration-black\/\[0\.2\] { text-decoration-color: rgb(var(--ink-rgb) / 0.2); }
+[data-theme="dark"] .divide-\[\#EEEEE8\] > :not([hidden]) ~ :not([hidden]), [data-theme="dark"] .divide-\[\#eeeee8\] > :not([hidden]) ~ :not([hidden]) { border-color: var(--border-subtle); }
+[data-theme="dark"] .divide-\[\#F4F4EF\] > :not([hidden]) ~ :not([hidden]), [data-theme="dark"] .divide-\[\#f4f4ef\] > :not([hidden]) ~ :not([hidden]) { border-color: var(--border-subtle); }
+[data-theme="dark"] .divide-black\/\[0\.05\] > :not([hidden]) ~ :not([hidden]) { border-color: var(--border-subtle); }
+[data-theme="dark"] .divide-black\/\[0\.06\] > :not([hidden]) ~ :not([hidden]) { border-color: var(--border-subtle); }
+[data-theme="dark"] .ring-black\/\[0\.02\] { --tw-ring-color: transparent; }
+[data-theme="dark"] .ring-black\/\[0\.04\] { --tw-ring-color: transparent; }
+[data-theme="dark"] [class~="ring-black/[0.06]" i] { --tw-ring-color: var(--border-subtle); }
+[data-theme="dark"] .ring-black\/\[0\.07\] { --tw-ring-color: var(--border-subtle); }
+[data-theme="dark"] .ring-black\/\[0\.08\] { --tw-ring-color: var(--border-subtle); }
+[data-theme="dark"] .ring-black\/\[0\.12\] { --tw-ring-color: var(--border-default); }
+[data-theme="dark"] .ring-black\/\[0\.1\] { --tw-ring-color: var(--border-default); }
+[data-theme="dark"] .text-\[\#075985\] { color: var(--info); }
+[data-theme="dark"] .text-\[\#0F5F5D\], [data-theme="dark"] .text-\[\#0f5f5d\] { color: var(--teal); }
+[data-theme="dark"] .text-\[\#0F766E\], [data-theme="dark"] .text-\[\#0f766e\] { color: var(--teal); }
+[data-theme="dark"] .text-\[\#15803D\], [data-theme="dark"] .text-\[\#15803d\] { color: var(--positive); }
+[data-theme="dark"] .text-\[\#166534\] { color: var(--positive); }
+[data-theme="dark"] .text-\[\#16A34A\], [data-theme="dark"] .text-\[\#16a34a\] { color: var(--positive); }
+[data-theme="dark"] .text-\[\#189E9A\], [data-theme="dark"] .text-\[\#189e9a\] { color: var(--teal); }
+[data-theme="dark"] .text-\[\#1D1B1B\], [data-theme="dark"] .text-\[\#1d1b1b\] { color: var(--text-primary); }
+[data-theme="dark"] .text-\[\#1D1B1B\]\/90, [data-theme="dark"] .text-\[\#1d1b1b\]\/90 { color: color-mix(in srgb, var(--text-primary) 90%, transparent); }
+[data-theme="dark"] .text-\[\#1D7A55\], [data-theme="dark"] .text-\[\#1d7a55\] { color: var(--positive); }
+[data-theme="dark"] .text-\[\#3730A3\], [data-theme="dark"] .text-\[\#3730a3\] { color: var(--violet); }
+[data-theme="dark"] .text-\[\#373B42\], [data-theme="dark"] .text-\[\#373b42\] { color: var(--text-body); }
+[data-theme="dark"] .text-\[\#374151\] { color: var(--text-body); }
+[data-theme="dark"] .text-\[\#3B3B3B\], [data-theme="dark"] .text-\[\#3b3b3b\] { color: var(--text-body); }
+[data-theme="dark"] .text-\[\#3F3F46\], [data-theme="dark"] .text-\[\#3f3f46\] { color: var(--text-body); }
+[data-theme="dark"] .text-\[\#475569\] { color: var(--info-muted); }
+[data-theme="dark"] .text-\[\#4B5563\], [data-theme="dark"] .text-\[\#4b5563\] { color: var(--text-body); }
+[data-theme="dark"] .text-\[\#5B21B6\], [data-theme="dark"] .text-\[\#5b21b6\] { color: var(--violet); }
+[data-theme="dark"] .text-\[\#666666\] { color: var(--text-secondary); }
+[data-theme="dark"] .text-\[\#6B7280\], [data-theme="dark"] .text-\[\#6b7280\] { color: var(--text-secondary); }
+[data-theme="dark"] .text-\[\#767676\] { color: var(--text-secondary); }
+[data-theme="dark"] .text-\[\#86198F\], [data-theme="dark"] .text-\[\#86198f\] { color: var(--violet); }
+[data-theme="dark"] .text-\[\#888888\] { color: var(--text-tertiary); }
+[data-theme="dark"] .text-\[\#8A6D1D\], [data-theme="dark"] .text-\[\#8a6d1d\] { color: var(--warning); }
+[data-theme="dark"] .text-\[\#8A7A55\], [data-theme="dark"] .text-\[\#8a7a55\] { color: var(--warning-muted); }
+[data-theme="dark"] .text-\[\#8B8B86\], [data-theme="dark"] .text-\[\#8b8b86\] { color: var(--text-tertiary); }
+[data-theme="dark"] .text-\[\#92400E\], [data-theme="dark"] .text-\[\#92400e\] { color: var(--warning); }
+[data-theme="dark"] .text-\[\#991B1B\], [data-theme="dark"] .text-\[\#991b1b\] { color: var(--negative); }
+[data-theme="dark"] .text-\[\#9A3412\], [data-theme="dark"] .text-\[\#9a3412\] { color: var(--warning); }
+[data-theme="dark"] .text-\[\#9A9A9A\], [data-theme="dark"] .text-\[\#9a9a9a\] { color: var(--text-tertiary); }
+[data-theme="dark"] .text-\[\#9CA3AF\], [data-theme="dark"] .text-\[\#9ca3af\] { color: var(--text-tertiary); }
+[data-theme="dark"] .text-\[\#A3A39C\], [data-theme="dark"] .text-\[\#a3a39c\] { color: var(--text-tertiary); }
+[data-theme="dark"] .text-\[\#A5AAB3\], [data-theme="dark"] .text-\[\#a5aab3\] { color: var(--text-disabled); }
+[data-theme="dark"] .text-\[\#B0B4BA\], [data-theme="dark"] .text-\[\#b0b4ba\] { color: var(--text-disabled); }
+[data-theme="dark"] .text-\[\#B23B3B\], [data-theme="dark"] .text-\[\#b23b3b\] { color: var(--negative); }
+[data-theme="dark"] .text-\[\#B45309\], [data-theme="dark"] .text-\[\#b45309\] { color: var(--warning); }
+[data-theme="dark"] .text-\[\#B4B4AE\], [data-theme="dark"] .text-\[\#b4b4ae\] { color: var(--text-disabled); }
+[data-theme="dark"] .text-\[\#C0C0BA\], [data-theme="dark"] .text-\[\#c0c0ba\] { color: var(--text-disabled); }
+[data-theme="dark"] .text-\[\#C8C8C2\], [data-theme="dark"] .text-\[\#c8c8c2\] { color: var(--text-disabled); }
+[data-theme="dark"] .text-\[\#C9C9C1\], [data-theme="dark"] .text-\[\#c9c9c1\] { color: var(--text-disabled); }
+[data-theme="dark"] .text-\[\#C9CCD1\], [data-theme="dark"] .text-\[\#c9ccd1\] { color: var(--text-disabled); }
+[data-theme="dark"] .text-\[\#D6D6CF\], [data-theme="dark"] .text-\[\#d6d6cf\] { color: var(--text-disabled); }
+[data-theme="dark"] .text-\[\#D97706\], [data-theme="dark"] .text-\[\#d97706\] { color: var(--warning); }
+[data-theme="dark"] .text-\[\#DC2626\], [data-theme="dark"] .text-\[\#dc2626\] { color: var(--negative); }
+[data-theme="dark"] .text-\[\#E0E0DA\], [data-theme="dark"] .text-\[\#e0e0da\] { color: var(--text-disabled); }
+[data-theme="dark"] .text-amber-600 { color: var(--warning); }
+[data-theme="dark"] .text-black { color: var(--text-primary); }
+[data-theme="dark"] .text-black\/30 { color: rgb(var(--ink-rgb) / 0.3); }
+[data-theme="dark"] .text-emerald-500 { color: var(--positive); }
+[data-theme="dark"] .text-red-600 { color: var(--negative); }
+[data-theme="dark"] .text-red-700 { color: var(--negative); }
+[data-theme="dark"] .placeholder\:text-\[\#666666\]::placeholder { color: var(--text-secondary); }
+[data-theme="dark"] .placeholder\:text-\[\#9CA3AF\]::placeholder, [data-theme="dark"] .placeholder\:text-\[\#9ca3af\]::placeholder { color: var(--text-tertiary); }
+[data-theme="dark"] .disabled\:bg-\[\#C8C8C2\]:disabled, [data-theme="dark"] .disabled\:bg-\[\#c8c8c2\]:disabled { background-color: var(--fill-strong); }
+[data-theme="dark"] .focus-within\:bg-white\/70:focus-within { background-color: var(--surface-4); }
+[data-theme="dark"] .focus\:bg-white\/75:focus { background-color: var(--surface-4); }
+[data-theme="dark"] .focus\:border-\[\#189E9A\]:focus, [data-theme="dark"] .focus\:border-\[\#189e9a\]:focus { border-color: var(--teal-line); }
+[data-theme="dark"] .focus\:border-white\/40:focus { border-color: var(--border-default); }
+[data-theme="dark"] .focus-visible\:bg-black\/\[0\.05\]:focus-visible { background-color: var(--fill-press); }
+[data-theme="dark"] .focus-visible\:outline-\[\#9CA3AF\]:focus-visible, [data-theme="dark"] .focus-visible\:outline-\[\#9ca3af\]:focus-visible { outline-color: var(--focus-ring); }
+[data-theme="dark"] .focus-visible\:ring-black\/20:focus-visible { --tw-ring-color: var(--border-default); }
+[data-theme="dark"] .focus-visible\:ring-black\/\[0\.06\]:focus-visible { --tw-ring-color: var(--border-subtle); }
+[data-theme="dark"] .focus-visible\:text-\[\#1D1B1B\]:focus-visible, [data-theme="dark"] .focus-visible\:text-\[\#1d1b1b\]:focus-visible { color: var(--text-primary); }
+[data-theme="dark"] .hover\:bg-\[\#DC2626\]\/\[0\.06\]:hover, [data-theme="dark"] .hover\:bg-\[\#dc2626\]\/\[0\.06\]:hover { background-color: color-mix(in srgb, var(--negative) 6%, transparent); }
+[data-theme="dark"] .hover\:bg-\[\#DC2626\]\/\[0\.10\]:hover, [data-theme="dark"] .hover\:bg-\[\#dc2626\]\/\[0\.10\]:hover { background-color: color-mix(in srgb, var(--negative) 10%, transparent); }
+[data-theme="dark"] .hover\:bg-\[\#E8E8E2\]:hover, [data-theme="dark"] .hover\:bg-\[\#e8e8e2\]:hover { background-color: var(--surface-3); }
+[data-theme="dark"] .hover\:bg-\[\#ECECE6\]:hover, [data-theme="dark"] .hover\:bg-\[\#ececE6\]:hover, [data-theme="dark"] .hover\:bg-\[\#ecece6\]:hover { background-color: var(--surface-3); }
+[data-theme="dark"] .hover\:bg-\[\#EEEEE8\]:hover, [data-theme="dark"] .hover\:bg-\[\#eeeee8\]:hover { background-color: var(--surface-3); }
+[data-theme="dark"] .hover\:bg-\[\#EFEFE9\]:hover, [data-theme="dark"] .hover\:bg-\[\#efefe9\]:hover { background-color: var(--surface-2); }
+[data-theme="dark"] .hover\:bg-\[\#FAFAF7\]:hover, [data-theme="dark"] .hover\:bg-\[\#fafaf7\]:hover { background-color: var(--surface-2); }
+[data-theme="dark"] .hover\:bg-\[\#FBFBF9\]:hover, [data-theme="dark"] .hover\:bg-\[\#fbfbf9\]:hover { background-color: var(--surface-2); }
+[data-theme="dark"] .hover\:bg-black\/\[0\.03\]:hover { background-color: var(--fill-press); }
+[data-theme="dark"] .hover\:bg-black\/\[0\.04\]:hover { background-color: var(--fill-press); }
+[data-theme="dark"] .hover\:bg-black\/\[0\.05\]:hover { background-color: var(--fill-selected); }
+[data-theme="dark"] .hover\:bg-black\/\[0\.06\]:hover { background-color: var(--fill-selected); }
+[data-theme="dark"] .hover\:bg-black\/\[0\.08\]:hover { background-color: var(--fill-selected); }
+[data-theme="dark"] .hover\:bg-white:hover { background-color: var(--surface-4); }
+[data-theme="dark"] .hover\:bg-white\/55:hover { background-color: var(--surface-3); }
+[data-theme="dark"] .hover\:bg-white\/60:hover { background-color: var(--surface-3); }
+[data-theme="dark"] .hover\:bg-white\/70:hover { background-color: var(--surface-4); }
+[data-theme="dark"] .hover\:bg-white\/75:hover { background-color: var(--surface-4); }
+[data-theme="dark"] .hover\:bg-white\/80:hover { background-color: var(--surface-4); }
+[data-theme="dark"] .hover\:bg-white\/90:hover { background-color: var(--surface-4); }
+[data-theme="dark"] .hover\:border-\[\#C9C9C1\]:hover, [data-theme="dark"] .hover\:border-\[\#c9c9c1\]:hover { border-color: var(--border-strong); }
+[data-theme="dark"] .hover\:decoration-\[\#1D1B1B\]:hover, [data-theme="dark"] .hover\:decoration-\[\#1d1b1b\]:hover { text-decoration-color: var(--text-primary); }
+[data-theme="dark"] .hover\:decoration-black\/\[0\.5\]:hover { text-decoration-color: rgb(var(--ink-rgb) / 0.5); }
+[data-theme="dark"] .hover\:text-\[\#1D1B1B\]:hover, [data-theme="dark"] .hover\:text-\[\#1d1b1b\]:hover { color: var(--text-primary); }
+[data-theme="dark"] .hover\:text-\[\#374151\]:hover { color: var(--text-body); }
+[data-theme="dark"] .hover\:text-\[\#4B5563\]:hover, [data-theme="dark"] .hover\:text-\[\#4b5563\]:hover { color: var(--text-body); }
+[data-theme="dark"] .hover\:text-\[\#6B6B64\]:hover, [data-theme="dark"] .hover\:text-\[\#6b6b64\]:hover { color: var(--text-secondary); }
+[data-theme="dark"] .hover\:text-\[\#6B7280\]:hover, [data-theme="dark"] .hover\:text-\[\#6b7280\]:hover { color: var(--text-secondary); }
+[data-theme="dark"] .hover\:text-\[\#888888\]:hover { color: var(--text-tertiary); }
+[data-theme="dark"] .group:hover .group-hover\:bg-black\/\[0\.05\] { background-color: var(--fill-press); }
+[data-theme="dark"] .group:hover .group-hover\:text-\[\#1D1B1B\], [data-theme="dark"] .group:hover .group-hover\:text-\[\#1d1b1b\] { color: var(--text-primary); }
+[data-theme="dark"] .group:hover .group-hover\:text-\[\#4B5563\], [data-theme="dark"] .group:hover .group-hover\:text-\[\#4b5563\] { color: var(--text-body); }
+/* @generated dark-palette:end */
+
+/* --- The glass ----------------------------------------------------------
+ * Hand-written from here down. A utility that `.glass-cta` or
+ * `.markdown-body` `@apply`s (`bg-[#1d1b1b]`, `backdrop-saturate-150`,
+ * `ring-black/[0.06]`) is matched as an attribute (`[class~="..."]`): Tailwind
+ * folds every rule naming an applied class into the rule that applies it.
+ * Everything else is a class selector where it can be. Blink indexes rules by
+ * class but tests every `[class...]` rule against every element on each
+ * style recalc, and with two hundred of them a full recalc (a dialog
+ * opening, a theme switch) ran five times slower. A substring or prefix
+ * match (`[class*=...]`) is kept only where it stands for a family of
+ * classes; gate it behind a class when one is always there.
  */
-[data-theme="dark"] [class~="bg-white"] { background-color: #0e0e0d; }
-/* The card fill sits a clear step above the page. At two percent it matched
- * the page and the card was only its outline: a box drawn on black rather
- * than a surface lying on it. Elevation on dark comes from the fill being
- * lighter, not from a brighter edge. */
-[data-theme="dark"] [class~="bg-white/40"] { background-color: rgba(255, 255, 255, 0.045); }
-[data-theme="dark"] [class~="bg-white/45"] { background-color: rgba(255, 255, 255, 0.048); }
-[data-theme="dark"] [class~="bg-white/55"] { background-color: rgba(255, 255, 255, 0.055); }
-[data-theme="dark"] [class~="bg-white/60"] { background-color: rgba(255, 255, 255, 0.06); }
-[data-theme="dark"] [class~="bg-white/70"] { background-color: rgba(255, 255, 255, 0.038); }
-[data-theme="dark"] [class~="bg-white/75"] { background-color: rgba(255, 255, 255, 0.042); }
-[data-theme="dark"] [class~="bg-white/80"] { background-color: rgba(255, 255, 255, 0.045); }
-[data-theme="dark"] [class~="bg-white/90"] { background-color: rgba(255, 255, 255, 0.05); }
-[data-theme="dark"] [class~="hover:bg-white"]:hover { background-color: #151514; }
-[data-theme="dark"] [class~="hover:bg-white/70"]:hover { background-color: rgba(255, 255, 255, 0.1); }
-[data-theme="dark"] [class~="hover:bg-white/75"]:hover { background-color: rgba(255, 255, 255, 0.11); }
-[data-theme="dark"] [class~="hover:bg-white/80"]:hover { background-color: rgba(255, 255, 255, 0.12); }
-[data-theme="dark"] [class~="hover:bg-white/90"]:hover { background-color: rgba(255, 255, 255, 0.13); }
-[data-theme="dark"] [class~="focus-within:bg-white/70"]:focus-within { background-color: rgba(255, 255, 255, 0.1); }
-[data-theme="dark"] [class~="focus:bg-white/75"]:focus { background-color: rgba(255, 255, 255, 0.11); }
 
-/* The border and the ring that give a glass surface its edge. Black on cream
- * reads as a shadow; on black it has to be light or the card has no edge. */
-[data-theme="dark"] [class~="border-white/40"],
-[data-theme="dark"] [class~="border-white/60"],
-[data-theme="dark"] [class~="border-white/70"] { border-color: rgba(255, 255, 255, 0.09); }
-[data-theme="dark"] [class~="border-black/[0.06]"],
-[data-theme="dark"] [class~="border-black/[0.1]"],
-[data-theme="dark"] [class~="border-black/[0.12]"],
-[data-theme="dark"] [class~="border-black/20"] { border-color: rgba(255, 255, 255, 0.08); }
-/* The card frame's ring goes out on dark. On cream it is a faint shadow a hair
- * outside the border; turned light and laid beside a light border it made a
- * two-pixel grey contour, and the cards read as wireframes. One hairline. */
-[data-theme="dark"] [class~="ring-black/[0.04]"] { --tw-ring-color: rgba(255, 255, 255, 0); }
-[data-theme="dark"] [class~="ring-black/[0.06]"] { --tw-ring-color: rgba(255, 255, 255, 0.08); }
-[data-theme="dark"] [class~="ring-black/[0.1]"],
-[data-theme="dark"] [class~="ring-black/[0.12]"] { --tw-ring-color: rgba(255, 255, 255, 0.1); }
-
-/* A press or a hover that tints the surface: ink on light, light on dark. */
-[data-theme="dark"] [class~="bg-black/[0.04]"],
-[data-theme="dark"] [class~="bg-black/[0.05]"],
-[data-theme="dark"] [class~="bg-black/[0.06]"] { background-color: rgba(255, 255, 255, 0.06); }
-[data-theme="dark"] [class~="hover:bg-black/[0.04]"]:hover,
-[data-theme="dark"] [class~="hover:bg-black/[0.05]"]:hover,
-[data-theme="dark"] [class~="hover:bg-black/[0.06]"]:hover { background-color: rgba(255, 255, 255, 0.08); }
-[data-theme="dark"] [class^="bg-[#1d1b1b]/[0." i],
-[data-theme="dark"] [class*=" bg-[#1d1b1b]/[0." i] { background-color: rgba(255, 255, 255, 0.07); }
-[data-theme="dark"] [class*="hover:bg-[#1d1b1b]/[0." i]:hover { background-color: rgba(255, 255, 255, 0.09); }
-
-/* Marks drawn in ink — dots, rules, scroll thumbs — are drawn in light. */
-[data-theme="dark"] [class^="bg-[#1d1b1b]/20" i],
-[data-theme="dark"] [class*=" bg-[#1d1b1b]/20" i] { background-color: rgba(237, 237, 237, 0.2); }
-[data-theme="dark"] [class^="bg-[#1d1b1b]/25" i],
-[data-theme="dark"] [class*=" bg-[#1d1b1b]/25" i] { background-color: rgba(237, 237, 237, 0.25); }
-[data-theme="dark"] [class^="bg-[#1d1b1b]/30" i],
-[data-theme="dark"] [class*=" bg-[#1d1b1b]/30" i] { background-color: rgba(237, 237, 237, 0.3); }
-[data-theme="dark"] [class^="bg-[#1d1b1b]/40" i],
-[data-theme="dark"] [class*=" bg-[#1d1b1b]/40" i] { background-color: rgba(237, 237, 237, 0.4); }
-
-/* Ink used as a surface rather than a mark: the small tile a logo or an icon
- * sits in. Flipping it to solid light would take whatever is drawn on it —
- * made light for a dark tile — with it, so it becomes a faint light surface
- * instead and its contents stay where they are. A mark has nothing inside it,
- * which is how the two are told apart; buttons are dealt with below. */
-[data-theme="dark"] [class^="bg-[#1d1b1b]" i]:not(:empty):not(button):not(a):not([role="button"]),
-[data-theme="dark"] [class*=" bg-[#1d1b1b]" i]:not(:empty):not(button):not(a):not([role="button"]) {
-  background-color: rgba(255, 255, 255, 0.08);
-}
-
-/* The call to action. Solid ink on cream, solid white on black: it is the
- * page's strongest mark either way, and glass would take that away from it.
- * Surface and label invert together, which is why the label is matched on the
- * button itself as well as under it. */
-[data-theme="dark"] .glass-cta,
-[data-theme="dark"] button[class^="bg-[#1d1b1b]" i],
-[data-theme="dark"] button[class*=" bg-[#1d1b1b]" i],
-[data-theme="dark"] a[class^="bg-[#1d1b1b]" i],
-[data-theme="dark"] a[class*=" bg-[#1d1b1b]" i],
-[data-theme="dark"] [role="button"][class^="bg-[#1d1b1b]" i],
-[data-theme="dark"] [role="button"][class*=" bg-[#1d1b1b]" i] {
-  background-color: #ffffff;
-  color: #17161a;
-  border-color: rgba(255, 255, 255, 0.5);
-  --tw-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 2px 10px rgba(0, 0, 0, 0.5);
-  --tw-ring-color: rgba(0, 0, 0, 0.14);
-}
-[data-theme="dark"] .glass-cta [class~="text-white"],
-[data-theme="dark"] .glass-cta [class^="text-[#" i],
-[data-theme="dark"] .glass-cta [class*=" text-[#" i],
-[data-theme="dark"] button[class^="bg-[#1d1b1b]" i] [class~="text-white"],
-[data-theme="dark"] button[class*=" bg-[#1d1b1b]" i] [class~="text-white"],
-[data-theme="dark"] button[class^="bg-[#1d1b1b]" i][class~="text-white"],
-[data-theme="dark"] button[class*=" bg-[#1d1b1b]" i][class~="text-white"] { color: #17161a; }
-[data-theme="dark"] .glass-cta:hover,
-[data-theme="dark"] button[class^="bg-[#1d1b1b]" i]:hover,
-[data-theme="dark"] button[class*=" bg-[#1d1b1b]" i]:hover,
-[data-theme="dark"] [class~="hover:bg-[#1d1b1b]"]:hover { background-color: #f0f0ec; }
-[data-theme="dark"] .glass-cta:active,
-[data-theme="dark"] button[class^="bg-[#1d1b1b]" i]:active,
-[data-theme="dark"] button[class*=" bg-[#1d1b1b]" i]:active { background-color: #dedad2; }
-
-/* Everything else that is pressed is glass too: the search bar, the account
- * pill, menu items. They take the same flat veil as the cards, a shade
- * lighter because they are the chrome the hand touches, with one hairline
- * edge. A top-to-bottom gradient was tried here and read as a bevelled
- * button, which is not what the light theme's glass is. */
-[data-theme="dark"] button[class*="bg-white/" i],
-[data-theme="dark"] a[class*="bg-white/" i],
-[data-theme="dark"] [role="button"][class*="bg-white/" i],
-[data-theme="dark"] [role="menuitem"][class*="bg-white/" i] {
-  background-color: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 255, 255, 0.1);
-  --tw-ring-color: rgba(255, 255, 255, 0);
-  --tw-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
-}
-[data-theme="dark"] button[class*="bg-white/" i]:hover,
-[data-theme="dark"] a[class*="bg-white/" i]:hover,
-[data-theme="dark"] [role="button"][class*="bg-white/" i]:hover,
-[data-theme="dark"] [role="menuitem"][class*="bg-white/" i]:hover {
-  background-color: rgba(255, 255, 255, 0.09);
-  border-color: rgba(255, 255, 255, 0.14);
-}
-
-/* The highlight along the top edge of a glass card, and the drop shadows the
- * panels cast. A bright line on cream is barely there on black; a shadow on
- * black has to be deeper to be seen at all. */
+/* Glass loses its lit top edge on black: over the border it read as a
+ * thicker top stroke. The frame is the border alone, the same on all sides. */
 [data-theme="dark"] [class*="shadow-[inset_0_1px_0_rgba(255,255,255,0.7)]" i],
 [data-theme="dark"] [class*="shadow-[inset_0_1px_0_rgba(255,255,255,0.8)]" i] {
-  /* The top highlight a touch stronger than the border, so the card reads as
-   * lit from above, and a soft fall of shadow under it so it lifts off the
-   * page instead of lying flush with it. */
-  --tw-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 18px 40px -22px rgba(0, 0, 0, 0.7);
+  --tw-shadow: 0 0 #0000;
 }
-[data-theme="dark"] [class*="shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_18px_44px_rgba(0,0,0,0.14)]" i] {
-  --tw-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 18px 44px rgba(0, 0, 0, 0.55);
+/* A card (the 40% veil) also lifts off the canvas with a soft fall of shadow. */
+[data-theme="dark"] .bg-white\/40[class*="shadow-[inset_0_1px_0_rgba(255,255,255,0.7)]" i] {
+  --tw-shadow: var(--shadow-card);
 }
-[data-theme="dark"] [class*="shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_40px_100px_rgba(0,0,0,0.22)]" i] {
-  --tw-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 40px 100px rgba(0, 0, 0, 0.65);
+/* Popovers and hover cards float: the third surface, a deeper shadow. */
+[data-theme="dark"] [class*="0_18px_44px_rgba(0,0,0," i],
+[data-theme="dark"] [class*="0_24px_64px_rgba(0,0,0," i] {
+  background-color: var(--surface-3);
+  border-color: var(--border-strong);
+  --tw-shadow: var(--shadow-popover);
+}
+/* A modal: a card's surface over a darkened page, with the deepest shadow. */
+[data-theme="dark"] [class*="0_40px_100px_rgba(0,0,0," i] {
+  border-color: var(--border-default);
+  --tw-shadow: var(--shadow-modal);
+}
+[data-theme="dark"] .shadow-2xl.border-white\/70 {
+  --tw-shadow: var(--shadow-modal);
+}
+/* Glass drawn over glass loses its blur's saturation boost: on black it
+ * only muddies the colour of whatever sits behind it. */
+[data-theme="dark"] [class~="backdrop-saturate-150"] {
+  --tw-backdrop-saturate: saturate(1);
 }
 
-/* A panel's backdrop darkens the page; on dark it must darken it further,
- * never lighten it. */
-[data-theme="dark"] [class~="bg-black/10"] { background-color: rgba(0, 0, 0, 0.5); }
-[data-theme="dark"] [class~="bg-black/25"] { background-color: rgba(0, 0, 0, 0.62); }
+/* A dashboard card at rest sits on the flat canvas, so its frosted glass
+ * blurs one flat colour: the same picture as no blur, at the price of a
+ * full-card render pass that is drawn again on every frame anything on the
+ * page moves (a modal fading in, the news ticker, a chart hover). The blur
+ * comes back the moment a card is held (`cursor-grabbing` on the
+ * LiftableCard around it), when it can pass over another card. */
+:not(.cursor-grabbing) > .group\/card > * {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
 
-/* Hover states that reach for the ink have to reach for the light instead. */
-[data-theme="dark"] [class*="hover:text-[#1d1b1b]" i]:hover { color: #ededed; }
-[data-theme="dark"] [class*="hover:text-[#374151]" i]:hover { color: #d4d4ce; }
-[data-theme="dark"] [class*="hover:text-[#4b5563]" i]:hover { color: #c9c9c3; }
-[data-theme="dark"] [class*="hover:text-[#6b7280]" i]:hover { color: #bdbdb7; }
-[data-theme="dark"] .group:hover [class*="group-hover:text-[#1d1b1b]" i] { color: #ededed; }
+/* An input settles on its surface and takes a firmer edge when focused,
+ * instead of brightening. */
+[data-theme="dark"] input.focus\:bg-white\/75:focus,
+[data-theme="dark"] textarea.focus\:bg-white\/75:focus,
+[data-theme="dark"] .focus-within\:bg-white\/70:focus-within {
+  background-color: var(--surface-2);
+  border-color: var(--border-strong);
+}
+
+/* --- Ink used as a surface or a mark ------------------------------------
+ * `bg-[#1d1b1b]` is three things in the light theme: the solid button, the
+ * small tile a logo or a tooltip sits in, and a mark (a dot, a bar). A mark
+ * has nothing inside it, which is how the last two are told apart; buttons
+ * are dealt with in the next section.
+ */
+[data-theme="dark"] [class~="bg-[#1d1b1b]" i] {
+  background-color: var(--surface-4);
+}
+[data-theme="dark"] [class~="bg-[#1d1b1b]" i]:empty {
+  background-color: var(--text-body);
+}
+[data-theme="dark"] :is([class^="bg-[#1d1b1b]/[0.0" i], [class*=" bg-[#1d1b1b]/[0.0" i]) { background-color: var(--fill-press); }
+[data-theme="dark"] :is([class^="bg-[#1d1b1b]/[0.1" i], [class*=" bg-[#1d1b1b]/[0.1" i]) { background-color: var(--fill-selected); }
+[data-theme="dark"] [class*="hover:bg-[#1d1b1b]/[0." i]:hover { background-color: var(--fill-selected); }
+[data-theme="dark"] .bg-\[\#1d1b1b\]\/10, [data-theme="dark"] .bg-\[\#1D1B1B\]\/10 { background-color: var(--fill-selected); }
+[data-theme="dark"] .bg-\[\#1d1b1b\]\/20, [data-theme="dark"] .bg-\[\#1D1B1B\]\/20 { background-color: rgb(var(--ink-rgb) / 0.18); }
+[data-theme="dark"] .bg-\[\#1d1b1b\]\/25, [data-theme="dark"] .bg-\[\#1D1B1B\]\/25 { background-color: rgb(var(--ink-rgb) / 0.22); }
+[data-theme="dark"] .bg-\[\#1d1b1b\]\/30, [data-theme="dark"] .bg-\[\#1D1B1B\]\/30 { background-color: rgb(var(--ink-rgb) / 0.26); }
+[data-theme="dark"] .bg-\[\#1d1b1b\]\/40, [data-theme="dark"] .bg-\[\#1D1B1B\]\/40 { background-color: rgb(var(--ink-rgb) / 0.34); }
+[data-theme="dark"] .bg-\[\#1d1b1b\]\/60, [data-theme="dark"] .bg-\[\#1D1B1B\]\/60 { background-color: rgb(var(--ink-rgb) / 0.5); }
+[data-theme="dark"] .bg-\[\#1d1b1b\]\/80, [data-theme="dark"] .bg-\[\#1D1B1B\]\/80 { background-color: rgb(var(--ink-rgb) / 0.66); }
+
+/* --- The buttons ----------------------------------------------------------
+ * Two kinds on dark, told apart at a glance:
+ *
+ * The quiet button, every ordinary action: the card CTAs (`.glass-cta`:
+ * View Calendar, View Agents, Add Module), the settings and modal buttons
+ * (the BUTTON recipes, marked `.btn-quiet`), the closed home tabs. A faint
+ * lift of its surface (--cta-bg), a thin light edge, light grey type at
+ * medium weight. Flat: no glow, no shadow, and no backdrop blur (it would
+ * blur one flat colour behind an opaque-looking fill, at the cost of a
+ * render pass). Hover lifts fill and edge a step; focus is a ring.
+ *
+ * The primary button, the one action a form or step commits (Create, Save,
+ * Continue, Send: `.glass-cta.cta-primary`), the open tab, the auth screens'
+ * button and a solid ink button: inverted, off-white with ink on it.
+ *
+ * Disabled is neither: no lift, a subtle edge, tertiary type (call sites add
+ * their own opacity on top).
+ */
+[data-theme="dark"] .glass-cta,
+[data-theme="dark"] .btn-quiet {
+  background-color: var(--cta-bg);
+  color: var(--cta-fg);
+  border-color: var(--cta-border);
+  font-weight: 500;
+  --tw-ring-color: transparent;
+  --tw-shadow: 0 0 #0000;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+/* A compact rounded rectangle; a pill (`rounded-full`: Add Module, the
+ * home tabs, among the top bar's pills) keeps its shape. */
+[data-theme="dark"] .glass-cta:not(.rounded-full),
+[data-theme="dark"] .btn-quiet:not(.rounded-full) {
+  border-radius: 10px;
+}
+[data-theme="dark"] .glass-cta :is([class~="text-white"], [class*="text-[#" i], svg) {
+  color: var(--cta-fg);
+}
+[data-theme="dark"] .glass-cta:hover,
+[data-theme="dark"] .btn-quiet:not(:disabled):hover {
+  background-color: var(--cta-bg-hover);
+  border-color: var(--border-strong);
+  color: var(--text-primary);
+}
+[data-theme="dark"] .glass-cta:hover :is([class~="text-white"], [class*="text-[#" i], svg) {
+  color: var(--text-primary);
+}
+[data-theme="dark"] .glass-cta:active,
+[data-theme="dark"] .btn-quiet:not(:disabled):active {
+  background-color: var(--cta-bg-press);
+}
+[data-theme="dark"] .glass-cta:focus-visible,
+[data-theme="dark"] .btn-quiet:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+[data-theme="dark"] .glass-cta:disabled,
+[data-theme="dark"] .btn-quiet:disabled {
+  background-color: var(--fill-hover);
+  color: var(--text-tertiary);
+  border-color: var(--border-subtle);
+}
+[data-theme="dark"] .glass-cta:disabled :is([class~="text-white"], [class*="text-[#" i], svg) {
+  color: var(--text-tertiary);
+}
+
+/* The primary: inverted. */
+[data-theme="dark"] .glass-cta.cta-primary {
+  background-color: var(--primary-bg);
+  color: var(--primary-fg);
+  border-color: transparent;
+}
+[data-theme="dark"] .glass-cta.cta-primary :is([class~="text-white"], [class*="text-[#" i], svg) {
+  color: var(--primary-fg);
+}
+[data-theme="dark"] .glass-cta.cta-primary:hover {
+  background-color: var(--primary-bg-hover);
+}
+[data-theme="dark"] .glass-cta.cta-primary:active {
+  background-color: color-mix(in srgb, var(--primary-bg) 94%, #000);
+}
+[data-theme="dark"] .glass-cta.cta-primary:disabled {
+  background-color: var(--fill-hover);
+  color: var(--text-tertiary);
+  border-color: var(--border-subtle);
+}
+[data-theme="dark"] .glass-cta.cta-primary:disabled :is([class~="text-white"], [class*="text-[#" i], svg) {
+  color: var(--text-tertiary);
+}
+
+/* The sign-in and setup screens' one primary button (`authCtaClass`,
+ * components/auth-cta.ts: Continue, Save password, Open your desk). Those
+ * screens are written dark-native, live as `bg-white text-black` and off as
+ * `bg-[#2a2a2a] text-[#666666]`; read through the palette above, `bg-white`
+ * became a raised surface (#222221) a step below the disabled slab. Live, it
+ * is the solid ink button inverted, the strongest mark on the page; off, it
+ * sinks to a quiet raised surface with disabled text. */
+[data-theme="dark"] .auth-cta:not(:disabled) {
+  background-color: var(--primary-bg);
+  color: var(--primary-fg);
+  border-color: transparent;
+}
+[data-theme="dark"] .auth-cta:not(:disabled):hover {
+  background-color: var(--primary-bg-hover);
+}
+[data-theme="dark"] .auth-cta:not(:disabled):active {
+  background-color: color-mix(in srgb, var(--primary-bg) 94%, #000);
+}
+[data-theme="dark"] .auth-cta:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+[data-theme="dark"] .auth-cta:disabled {
+  background-color: var(--surface-2);
+  color: var(--text-disabled);
+  border-color: var(--border-subtle);
+}
+
+/* The pinned column heads of the Positions table sit on the card's own
+ * surface, not a step above it, or the strip shows as a seam. */
+[data-theme="dark"] .sticky.bg-\[\#F2F2EF\], [data-theme="dark"] .sticky.bg-\[\#f2f2ef\] {
+  background-color: var(--surface-1);
+}
+
+/* A solid ink button (Upgrade, Run, a chosen segment): the one place dark
+ * mode does invert, to a soft off-white with ink on it, because a button
+ * that small and that rare should be unmistakable. */
+[data-theme="dark"] button[class~="bg-[#1d1b1b]" i],
+[data-theme="dark"] a[class~="bg-[#1d1b1b]" i],
+[data-theme="dark"] [role="button"][class~="bg-[#1d1b1b]" i],
+[data-theme="dark"] [role="radio"][class~="bg-[#1d1b1b]" i],
+[data-theme="dark"] [role="tab"][class~="bg-[#1d1b1b]" i] {
+  background-color: var(--primary-bg);
+  color: var(--primary-fg);
+  border-color: transparent;
+}
+[data-theme="dark"] button[class~="bg-[#1d1b1b]" i]:not(:disabled):hover,
+[data-theme="dark"] a[class~="bg-[#1d1b1b]" i]:hover,
+[data-theme="dark"] .hover\:bg-\[\#1d1b1b\]:hover, [data-theme="dark"] .hover\:bg-\[\#1D1B1B\]:hover,
+[data-theme="dark"] .hover\:bg-black:not(.glass-cta):hover {
+  background-color: var(--primary-bg-hover);
+  color: var(--primary-fg);
+}
+[data-theme="dark"] button[class~="bg-[#1d1b1b]" i] :is([class~="text-white"], [class*="text-[#" i], svg),
+[data-theme="dark"] button[class~="bg-[#1d1b1b]" i][class~="text-white"],
+[data-theme="dark"] a[class~="bg-[#1d1b1b]" i][class~="text-white"] {
+  color: var(--primary-fg);
+}
+
+/* --- Charts, SVG and inline colours -------------------------------------
+ * SVG presentation attributes lose to any CSS rule, so a chart drawn with
+ * `fill="#1d1b1b"` is re-inked here without touching its component. Inline
+ * styles need `!important`; they are matched on the browser's own spelling
+ * of the style (`rgb(r, g, b)`), and kept to the few the dashboard uses.
+ */
+[data-theme="dark"] [stroke="#1d1b1b" i] { stroke: var(--chart-ink); }
+[data-theme="dark"] [fill="#1d1b1b" i] { fill: var(--text-primary); }
+[data-theme="dark"] [stop-color="#1d1b1b" i] { stop-color: var(--chart-ink); }
+/* An area under a line: light on black carries further than ink on cream. */
+[data-theme="dark"] [stop-color="#1d1b1b" i][stop-opacity="0.13"] { stop-opacity: 0.07; }
+[data-theme="dark"] [fill="#6b7280" i] { fill: var(--text-secondary); }
+[data-theme="dark"] [fill="#9ca3af" i] { fill: var(--text-tertiary); }
+[data-theme="dark"] [stroke="#9ca3af" i] { stroke: var(--text-tertiary); }
+[data-theme="dark"] [fill="#b4b4ae" i] { fill: var(--text-disabled); }
+[data-theme="dark"] :is([stroke="#e0e0da" i], [stroke="#eeeee8" i], [stroke="#ebebe5" i]) { stroke: var(--border-strong); }
+[data-theme="dark"] :is([stroke="#d6d6cf" i], [stroke="#c4c4c4" i]) { stroke: rgba(255, 255, 255, 0.16); }
+[data-theme="dark"] :is([stroke="#c0c0ba" i], [stroke="#a6a6a6" i]) { stroke: var(--text-tertiary); }
+[data-theme="dark"] :is([stroke="#16a34a" i], [stroke="#1d7a55" i]) { stroke: var(--positive); }
+[data-theme="dark"] :is([stroke="#dc2626" i], [stroke="#b23b3b" i]) { stroke: var(--negative); }
+[data-theme="dark"] [stroke="#189e9a" i] { stroke: var(--teal); }
+[data-theme="dark"] [stroke="#b45309" i] { stroke: var(--warning); }
+[data-theme="dark"] [fill="#16a34a" i] { fill: var(--positive); }
+[data-theme="dark"] [fill="#dc2626" i] { fill: var(--negative); }
+[data-theme="dark"] [fill="#189e9a" i] { fill: var(--teal); }
+[data-theme="dark"] [fill="#b45309" i] { fill: var(--warning); }
+
+/* The portfolio's volume bars: grey on cream, a quieter grey on black. */
+[data-theme="dark"] [fill="#b4b4b4" i] { fill: rgba(255, 255, 255, 0.2); }
+[data-theme="dark"] [fill="#d5d5d5" i] { fill: rgba(255, 255, 255, 0.1); }
+
+/* The ripple map: chips are raised surfaces, the root a dark disc. */
+[data-theme="dark"] svg:has(#ripple-halo) rect[fill="#ffffff" i] { fill: var(--surface-3); }
+[data-theme="dark"] svg:has(#ripple-halo) :is(rect[fill="#fbfbf9" i], rect[fill="#f7f7f4" i]) { fill: var(--surface-2); }
+[data-theme="dark"] svg:has(#ripple-halo) circle[fill="#1d1b1b" i] { fill: var(--surface-4); stroke: var(--border-strong); }
+[data-theme="dark"] [fill="#eef6f5" i] { fill: var(--teal-soft); }
+[data-theme="dark"] [fill="#11706d" i] { fill: var(--teal); }
+[data-theme="dark"] [stroke="#bfe0de" i] { stroke: var(--teal-line); }
+[data-theme="dark"] [fill="#fef3c7" i] { fill: var(--warning-soft); }
+[data-theme="dark"] [stroke="#e7c08a" i] { stroke: var(--warning-line); }
+
+/* The insight calendar. On cream a quiet day is a pale tile and a strong
+ * one a deep colour; on black that order turns over, so each ramp runs from
+ * a tone held low to the tone at full strength, and an empty day is just a
+ * step above the card. */
+[data-theme="dark"] svg[aria-label="Propagation days"] {
+  --day-empty: #232322;
+}
+[data-theme="dark"] svg[aria-label="Propagation days"] [fill="#d8dbd4" i] { fill: var(--day-empty); }
+[data-theme="dark"] svg[aria-label="Propagation days"] [fill="#ffffff" i] { fill: #4a4a47; }
+[data-theme="dark"] svg[aria-label="Propagation days"] [fill="#a9aea6" i] { fill: #686a64; }
+[data-theme="dark"] [fill="#f6dada" i] { fill: #3b2423; }
+[data-theme="dark"] [fill="#e9afaf" i] { fill: #5c2d2c; }
+[data-theme="dark"] [fill="#d97f7f" i] { fill: #8c3b39; }
+[data-theme="dark"] [fill="#c64f4f" i] { fill: #c04c4a; }
+[data-theme="dark"] [fill="#a81c1c" i] { fill: #ea6b68; }
+[data-theme="dark"] [fill="#d6e3f7" i] { fill: #1f2a3c; }
+[data-theme="dark"] [fill="#aac6ee" i] { fill: #283f66; }
+[data-theme="dark"] [fill="#7ba2df" i] { fill: #355893; }
+[data-theme="dark"] [fill="#4b79c9" i] { fill: #4b7acc; }
+[data-theme="dark"] [fill="#22509e" i] { fill: #7ea6ee; }
+[data-theme="dark"] [style*="background-color: rgb(246, 218, 218)"] { background-color: #3b2423 !important; }
+[data-theme="dark"] [style*="background-color: rgb(233, 175, 175)"] { background-color: #5c2d2c !important; }
+[data-theme="dark"] [style*="background-color: rgb(217, 127, 127)"] { background-color: #8c3b39 !important; }
+[data-theme="dark"] [style*="background-color: rgb(198, 79, 79)"] { background-color: #c04c4a !important; }
+[data-theme="dark"] [style*="background-color: rgb(168, 28, 28)"] { background-color: #ea6b68 !important; }
+[data-theme="dark"] [style*="background-color: rgb(214, 227, 247)"] { background-color: #1f2a3c !important; }
+[data-theme="dark"] [style*="background-color: rgb(170, 198, 238)"] { background-color: #283f66 !important; }
+[data-theme="dark"] [style*="background-color: rgb(123, 162, 223)"] { background-color: #355893 !important; }
+[data-theme="dark"] [style*="background-color: rgb(75, 121, 201)"] { background-color: #4b7acc !important; }
+[data-theme="dark"] [style*="background-color: rgb(34, 80, 158)"] { background-color: #7ea6ee !important; }
+[data-theme="dark"] .ring-black\/\[0\.07\][style*="background-color: rgb(255, 255, 255)"] { background-color: #4a4a47 !important; }
+
+/* Inline ink and greys the propagation views set from data. */
+[data-theme="dark"] :is([style^="color: rgb(29, 27, 27)"], [style*="; color: rgb(29, 27, 27)"]) { color: var(--text-primary) !important; }
+[data-theme="dark"] :is([style^="color: rgb(156, 163, 175)"], [style*="; color: rgb(156, 163, 175)"]) { color: var(--text-tertiary) !important; }
+[data-theme="dark"] :is([style^="color: rgb(107, 114, 128)"], [style*="; color: rgb(107, 114, 128)"]) { color: var(--text-secondary) !important; }
+[data-theme="dark"] :is([style^="color: rgb(220, 38, 38)"], [style*="; color: rgb(220, 38, 38)"]) { color: var(--negative) !important; }
+[data-theme="dark"] :is([style^="color: rgb(22, 163, 74)"], [style*="; color: rgb(22, 163, 74)"]) { color: var(--positive) !important; }
+[data-theme="dark"] :is([style^="color: rgb(180, 83, 9)"], [style*="; color: rgb(180, 83, 9)"],
+  [style^="color: rgb(202, 138, 4)"], [style*="; color: rgb(202, 138, 4)"]) { color: var(--warning) !important; }
+[data-theme="dark"] :is([style^="color: rgb(24, 158, 154)"], [style*="; color: rgb(24, 158, 154)"]) { color: var(--teal) !important; }
+[data-theme="dark"] :is([style^="color: rgb(124, 58, 237)"], [style*="; color: rgb(124, 58, 237)"]) { color: var(--violet) !important; }
+[data-theme="dark"] [style*="border-color: rgb(29, 27, 27)"] { border-color: var(--text-secondary) !important; }
+[data-theme="dark"] [style*="background: rgb(201, 201, 194)"] { background: var(--fill-strong) !important; }
+[data-theme="dark"] [style*="background: rgba(255, 255, 255, 0.9)"] { background: var(--fill-selected) !important; }
+
+/* A panel's backdrop darkens the page; on dark it darkens it further, never
+ * lifts it to grey fog. The developer panels lay an ink wash over the page
+ * (`bg-[#1d1b1b]/30`), which as a mark would turn light. */
+[data-theme="dark"] .fixed.inset-0:is([class*="bg-[#1d1b1b]/" i], .bg-black\/40, .bg-black\/50) {
+  background-color: var(--backdrop);
+}
+
+/* ==========================================================================
+ * Theme crossfade (lib/theme.ts, `applyTheme(..., { animate: true })`).
+ *
+ * A theme switch runs inside a view transition: the page in the old theme
+ * and the page in the new one are two compositor textures faded into each
+ * other (the UA's own crossfade, which sums to full opacity throughout, so
+ * nothing shows through at the midpoint). Only the timing is set here. No
+ * element transitions its colours: that would restyle and repaint the whole
+ * page on every frame. Reduced motion never starts the transition at all.
+ * ========================================================================== */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 300ms;
+  animation-timing-function: cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+/* ==========================================================================
+ * Reduced motion — Settings, Appearance, Motion (lib/motion.ts).
+ *
+ * `data-motion="reduce"` is set on <html> when the reader asks for less
+ * motion, or leaves it to a machine that does. framer-motion is stopped from
+ * lib/motion.ts; this takes out what CSS animates: transitions land at once,
+ * keyframe animations play a single instant frame, smooth scrolling jumps.
+ * The marquee is stopped outright rather than left on its last frame, and a
+ * spinner keeps turning, since a still one no longer says "working".
+ * ========================================================================== */
+[data-motion="reduce"] *,
+[data-motion="reduce"] *::before,
+[data-motion="reduce"] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  transition-delay: 0s !important;
+  scroll-behavior: auto !important;
+}
+[data-motion="reduce"] .animate-news-marquee {
+  animation: none !important;
+}
+[data-motion="reduce"] .animate-spin {
+  animation-duration: 1s !important;
+  animation-iteration-count: infinite !important;
+}

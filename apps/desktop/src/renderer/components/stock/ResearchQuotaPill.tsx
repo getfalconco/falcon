@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { useI18n } from "@/lib/i18n";
 
 /**
  * How much research this account has left, and when the next one unlocks.
@@ -40,6 +41,7 @@ export default function ResearchQuotaPill({
     [quota?.resetAt],
   );
   const [now, setNow] = useState(() => Date.now());
+  const { t, locale } = useI18n();
 
   useEffect(() => {
     // Only tick while there is something counting down — a timer running behind
@@ -54,13 +56,19 @@ export default function ResearchQuotaPill({
   const remainingMs = resetMs != null ? resetMs - now : 0;
   const counting = resetMs != null && remainingMs > 0;
   const exhausted = quota.remaining <= 0;
+  const countdown = formatCountdown(remainingMs);
+  // The noun follows the limit: "0 of 1 research run used".
+  const one = new Intl.PluralRules(locale).select(quota.limit) === "one";
+  const counts = { used: quota.used, remaining: quota.remaining, limit: quota.limit };
 
   return (
     <div
       className={`flex items-center gap-2 text-[11px] tabular-nums text-fg-faint ${className}`}
-      title={`${quota.used} of ${quota.limit} research runs used${
-        counting ? ` · next unlocks in ${formatCountdown(remainingMs)}` : ""
-      }`}
+      title={
+        counting
+          ? t(one ? "stock.quota.usedNext.one" : "stock.quota.usedNext.other", { ...counts, time: countdown })
+          : t(one ? "stock.quota.used.one" : "stock.quota.used.other", counts)
+      }
     >
       <span className="flex items-center gap-1" aria-hidden>
         {Array.from({ length: quota.limit }, (_, i) => (
@@ -78,13 +86,14 @@ export default function ResearchQuotaPill({
       {counting ? (
         <>
           <span className="text-fg-faint/50">·</span>
-          <span className={exhausted ? "text-amber-600" : ""}>{formatCountdown(remainingMs)}</span>
+          <span className={exhausted ? "text-amber-600" : ""}>{countdown}</span>
         </>
       ) : null}
       {/* The pill is decorative to a screen reader; the sentence lives here. */}
       <span className="sr-only">
-        {quota.remaining} of {quota.limit} research runs remaining
-        {counting ? `, next available in ${formatCountdown(remainingMs)}` : ""}
+        {counting
+          ? t(one ? "stock.quota.remainingNext.one" : "stock.quota.remainingNext.other", { ...counts, time: countdown })
+          : t(one ? "stock.quota.remaining.one" : "stock.quota.remaining.other", counts)}
       </span>
     </div>
   );

@@ -7,11 +7,13 @@ import {
   NON_COPY_LITERALS,
   RISK_SENTENCE_WORDS,
   bannedWordHits,
+  brandWordHits,
   copyProblems,
   jsxText,
   literals,
   looksLikeClassList,
   looksLikeCopy,
+  plainDashes,
   textProblems,
   withoutComments,
 } from "./copy-rules.js";
@@ -247,5 +249,74 @@ describe("textProblems", () => {
     assert.deepEqual(textProblems("demo-dividend-2026-09-25"), []);
     assert.deepEqual(textProblems("Rates may ease.", { riskWords: true }), ['banned word "may": Rates may ease.']);
     assert.equal(textProblems(`Up ${EM_DASH} a lot`).length, 1);
+  });
+});
+
+describe("plainDashes", () => {
+  it("reads a numeric range as words", () => {
+    assert.equal(plainDashes(`2025${EN_DASH}2026`), "2025 to 2026");
+    assert.equal(plainDashes(`up 3 ${EM_DASH} 5%`), "up 3 to 5%");
+  });
+
+  it("turns a long dash between clauses into a comma, and drops a comma it doubled", () => {
+    assert.equal(plainDashes(`Margins held ${EM_DASH} for now.`), "Margins held, for now.");
+    assert.equal(plainDashes(`Revenue rose${EM_DASH}guidance did not`), "Revenue rose, guidance did not");
+    assert.equal(plainDashes(`Supply tightened, ${EM_DASH} prices rose`), "Supply tightened, prices rose");
+    assert.equal(plainDashes(`It moved ${EM_DASH}.`), "It moved.");
+  });
+
+  it("makes any other dash a hyphen and leaves clean text alone", () => {
+    assert.equal(plainDashes(`U.S.${EN_DASH}China trade`), "U.S.-China trade");
+    const clean = "Nothing to change here: a colon, a comma; a hyphen-ated word.";
+    assert.equal(plainDashes(clean), clean);
+  });
+
+  it("leaves no em or en dash behind", () => {
+    const messy = `A ${EM_DASH} B ${EN_DASH} C${EM_DASH}D 1${EN_DASH}2 —`;
+    const out = plainDashes(messy);
+    assert.ok(!out.includes(EM_DASH) && !out.includes(EN_DASH), out);
+  });
+});
+
+describe("brand words", () => {
+  it("finds edge and its forms, case aside", () => {
+    assert.deepEqual(brandWordHits("No edge across the network."), ["edge"]);
+    assert.deepEqual(brandWordHits("Nodes 3 · Edges 4"), ["edge"]);
+    assert.deepEqual(brandWordHits("Gold edged higher"), ["edge"]);
+    assert.deepEqual(brandWordHits("a cutting-edge view"), ["edge"]);
+  });
+
+  it("leaves words that merely contain edge alone", () => {
+    for (const text of ["no hedging filler", "a hedge fund", "common knowledge", "the ledger", "pledged shares", "edgy"]) {
+      assert.deepEqual(brandWordHits(text), [], text);
+    }
+  });
+
+  it("finds the AI acronym in any case but all lower-case", () => {
+    assert.deepEqual(brandWordHits("Powered by AI"), ["AI"]);
+    assert.deepEqual(brandWordHits("an Ai assistant"), ["AI"]);
+    assert.deepEqual(brandWordHits("A.I. read"), ["AI"]);
+    assert.deepEqual(brandWordHits("AI-written summary"), ["AI"]);
+  });
+
+  it("leaves said, aim, Haiku, Thai and the Italian and French ai alone", () => {
+    for (const text of ["He said so", "We aim to", "Claude Haiku", "Thai baht", "ai trader che preferiscono", "je n'ai pas le temps", "MAIN street"]) {
+      assert.deepEqual(brandWordHits(text), [], text);
+    }
+  });
+
+  it("leaves a company's AI line of business alone", () => {
+    for (const text of ["Broadcom reported AI semiconductor revenue of $5.2B", "next-quarter AI revenue", "spend toward AI infrastructure", "downgraded AI accelerators"]) {
+      assert.deepEqual(brandWordHits(text), [], text);
+    }
+    assert.deepEqual(brandWordHits("an AI summary of AI revenue"), ["AI"]);
+  });
+
+  it("is reported by copyProblems in literals and JSX text", () => {
+    assert.equal(textProblems("The rule has no edge.").length, 1);
+    assert.equal(textProblems("AI summary").length, 1);
+    assert.deepEqual(textProblems("AI"), [], "the bare acronym is code (a list of non-tickers)");
+    assert.equal(copyProblems("const label = <span>Edge</span>;", { jsxText: true }).length, 1);
+    assert.deepEqual(textProblems("Links {count}"), []);
   });
 });

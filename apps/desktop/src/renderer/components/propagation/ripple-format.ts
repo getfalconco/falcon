@@ -1,9 +1,15 @@
+import { withClock } from "../../lib/clock";
+import type { MessageKey } from "../../lib/i18n";
+import { formatDuration, plural, type Translate } from "../../lib/panels-format";
 import type {
   PricingStatus,
   PropagationDirection,
+  PropagationMateriality,
   PropagationRole,
+  PropagationStrengthTier,
   PropagationTarget,
   PropagationTier,
+  Stage2Verdict,
 } from "../../../shared/propagation-run-types";
 
 /** The product's money state: OPEN is the only accent on the screen. */
@@ -19,6 +25,12 @@ export const AMBER_LINE = "#E7C08A";
 export const GAIN = "#16A34A";
 export const LOSS = "#DC2626";
 
+/**
+ * The mark for a value that is not there. Never a dash (shared/copy-rules.ts);
+ * views pass their language's own `common.na`, this is the fallback.
+ */
+export const NOT_AVAILABLE = "n/a";
+
 export function directionColor(direction: PropagationDirection): string {
   if (direction === "positive") return GAIN;
   if (direction === "negative") return LOSS;
@@ -32,11 +44,11 @@ export function directionGlyph(direction: PropagationDirection): string {
   return "◇";
 }
 
-export function directionWord(direction: PropagationDirection): string {
-  if (direction === "positive") return "positive";
-  if (direction === "negative") return "negative";
-  if (direction === "mixed") return "mixed";
-  return "unclear";
+const DIRECTIONS: readonly PropagationDirection[] = ["positive", "negative", "mixed", "unclear"];
+
+export function directionWord(direction: PropagationDirection, t: Translate): string {
+  const d = DIRECTIONS.includes(direction) ? direction : "unclear";
+  return t(`panels.ripple.direction.${d}`);
 }
 
 export function tierStroke(tier: PropagationTier): number {
@@ -45,113 +57,152 @@ export function tierStroke(tier: PropagationTier): number {
   return 1.25;
 }
 
-export const ROLE_WORD: Record<PropagationRole, string> = {
-  supplier: "supplier",
-  customer: "customer",
-  competitor: "competitor",
-  partner: "partner",
-  dependency: "dependency",
-  depended_on_by: "dependent",
-};
+const ROLES: readonly PropagationRole[] = ["supplier", "customer", "competitor", "partner", "dependency", "depended_on_by"];
 
-export const PRICING_WORD: Record<PricingStatus, string> = {
-  open: "OPEN",
-  partial: "PARTIAL",
-  priced: "PRICED",
-  contradicted: "AGAINST",
-  stale: "STALE",
-  unknown: "UNTRACKED",
-};
-
-export function pricingWord(t: PropagationTarget): string {
-  if (t.stage2?.verdict === "vetoed") return "VETOED";
-  if (!t.tracked) return "UNTRACKED";
-  return PRICING_WORD[t.pricing.status];
+export function roleWord(role: PropagationRole, t: Translate): string {
+  return ROLES.includes(role) ? t(`panels.ripple.role.${role}`) : humanize(role);
 }
 
-export function fmtPct(value: number | null | undefined, digits = 2): string {
-  if (value == null || !Number.isFinite(value)) return "—";
+/** A relationship's strength (critical / important / marginal), or the raw value when it is new. */
+export function strengthWord(tier: PropagationStrengthTier | string, t: Translate): string {
+  return tier === "critical" || tier === "important" || tier === "marginal" ? t(`panels.ripple.strength.${tier}`) : humanize(tier);
+}
+
+/** A transmission tier (strong / moderate / weak). */
+export function tierWord(tier: PropagationTier | string, t: Translate): string {
+  return tier === "strong" || tier === "moderate" || tier === "weak" ? t(`panels.ripple.tier.${tier}`) : humanize(tier);
+}
+
+export function verdictWord(verdict: Stage2Verdict | string, t: Translate): string {
+  return verdict === "confirmed" || verdict === "vetoed" || verdict === "adjusted" ? t(`panels.ripple.verdict.${verdict}`) : humanize(verdict);
+}
+
+export function materialityWord(materiality: PropagationMateriality | string, t: Translate): string {
+  return materiality === "high" || materiality === "standard" || materiality === "low"
+    ? t(`panels.ripple.materiality.${materiality}`)
+    : humanize(materiality);
+}
+
+export const PRICING_KEY: Record<PricingStatus, MessageKey> = {
+  open: "panels.ripple.pricing.open",
+  partial: "panels.ripple.pricing.partial",
+  priced: "panels.ripple.pricing.priced",
+  contradicted: "panels.ripple.pricing.contradicted",
+  stale: "panels.ripple.pricing.stale",
+  unknown: "panels.ripple.pricing.unknown",
+};
+
+export function pricingWord(target: PropagationTarget, t: Translate): string {
+  if (target.stage2?.verdict === "vetoed") return t("panels.ripple.pricing.vetoed");
+  if (!target.tracked) return t("panels.ripple.pricing.unknown");
+  return t(PRICING_KEY[target.pricing.status] ?? "panels.ripple.pricing.unknown");
+}
+
+/*
+ * Figures stay in en-US notation whatever the language: a percentage, a price
+ * or a ratio reads the same on every desk.
+ */
+
+export function fmtPct(value: number | null | undefined, digits = 2, na = NOT_AVAILABLE): string {
+  if (value == null || !Number.isFinite(value)) return na;
   const sign = value > 0 ? "+" : "";
   return `${sign}${(value * 100).toFixed(digits)}%`;
 }
 
-export function fmtAbsPct(value: number | null | undefined, digits = 2): string {
-  if (value == null || !Number.isFinite(value)) return "—";
+export function fmtAbsPct(value: number | null | undefined, digits = 2, na = NOT_AVAILABLE): string {
+  if (value == null || !Number.isFinite(value)) return na;
   return `${(value * 100).toFixed(digits)}%`;
 }
 
-export function fmtNum(value: number | null | undefined, digits = 2): string {
-  return value == null || !Number.isFinite(value) ? "—" : value.toFixed(digits);
+export function fmtNum(value: number | null | undefined, digits = 2, na = NOT_AVAILABLE): string {
+  return value == null || !Number.isFinite(value) ? na : value.toFixed(digits);
 }
 
-export function fmtMoney(value: number | null | undefined): string {
-  return value == null || !Number.isFinite(value) ? "—" : value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+export function fmtMoney(value: number | null | undefined, na = NOT_AVAILABLE): string {
+  return value == null || !Number.isFinite(value) ? na : value.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
 
-export function fmtWhen(iso: string | null | undefined): string {
-  if (!iso) return "—";
+/** A date and time of day in the reader's language, on the reader's clock. */
+export function fmtWhen(iso: string | null | undefined, locale?: string, na = NOT_AVAILABLE): string {
+  if (!iso) return na;
   const d = new Date(iso);
   if (Number.isNaN(d.getTime())) return iso;
-  return d.toLocaleString([], { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" });
+  return d.toLocaleString(locale ?? [], withClock({ month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" }));
 }
 
-export function fmtDay(iso: string | null | undefined): string {
-  if (!iso) return "—";
+export function fmtDay(iso: string | null | undefined, locale?: string, na = NOT_AVAILABLE): string {
+  if (!iso) return na;
   const d = new Date(iso);
   if (Number.isNaN(d.getTime())) return iso;
-  return d.toLocaleDateString([], { month: "short", day: "numeric" });
+  return d.toLocaleDateString(locale ?? [], { month: "short", day: "numeric" });
 }
 
 export function humanize(text: string): string {
   return text.replace(/_/g, " ");
 }
 
-export function eventTypeWord(type: string): string {
-  const map: Record<string, string> = {
-    earnings_results: "Earnings",
-    guidance: "Guidance",
-    supply_chain_ops: "Supply chain",
-    regulatory_decision: "Regulatory",
-    product_clinical: "Product / clinical",
-    ma_activity: "M&A",
-    contract_partnership: "Contract / partnership",
-    legal: "Legal",
-    management_governance: "Management",
-    financing_credit: "Financing",
-    analyst_action: "Analyst action",
-    ownership_flows: "Ownership flows",
-    macro_sector: "Macro / sector",
-    capital_allocation: "Capital allocation",
-    other: "Other",
-  };
-  return map[type] ?? humanize(type);
+const EVENT_TYPES = [
+  "earnings_results",
+  "guidance",
+  "supply_chain_ops",
+  "regulatory_decision",
+  "product_clinical",
+  "ma_activity",
+  "contract_partnership",
+  "legal",
+  "management_governance",
+  "financing_credit",
+  "analyst_action",
+  "ownership_flows",
+  "macro_sector",
+  "capital_allocation",
+  "other",
+] as const;
+
+export function eventTypeWord(type: string, t: Translate): string {
+  return (EVENT_TYPES as readonly string[]).includes(type)
+    ? t(`panels.ripple.eventType.${type as (typeof EVENT_TYPES)[number]}`)
+    : humanize(type);
 }
 
-export function summaryLine(s: { targets: number; open: number; partial: number; priced: number; contradicted?: number; untracked: number; stale: number; vetoed: number }): string {
-  const parts = [`${s.targets} target${s.targets === 1 ? "" : "s"}`];
-  if (s.open) parts.push(`${s.open} open`);
-  if (s.partial) parts.push(`${s.partial} partial`);
-  if (s.priced) parts.push(`${s.priced} priced`);
-  if (s.contradicted) parts.push(`${s.contradicted} against`);
-  if (s.stale) parts.push(`${s.stale} stale`);
-  if (s.untracked) parts.push(`${s.untracked} untracked`);
-  if (s.vetoed) parts.push(`${s.vetoed} vetoed`);
+export type SummaryCounts = {
+  targets: number;
+  open: number;
+  partial: number;
+  priced: number;
+  contradicted?: number;
+  untracked: number;
+  stale: number;
+  vetoed: number;
+};
+
+/** "12 names · 2 open · 1 priced in": the count, then each pricing state present. */
+export function summaryLine(s: SummaryCounts, t: Translate, locale: string): string {
+  const parts = [plural(t, locale, "panels.ripple.summary.names", s.targets)];
+  if (s.open) parts.push(t("panels.ripple.summary.open", { n: s.open }));
+  if (s.partial) parts.push(t("panels.ripple.summary.partial", { n: s.partial }));
+  if (s.priced) parts.push(t("panels.ripple.summary.priced", { n: s.priced }));
+  if (s.contradicted) parts.push(t("panels.ripple.summary.against", { n: s.contradicted }));
+  if (s.stale) parts.push(t("panels.ripple.summary.stale", { n: s.stale }));
+  if (s.untracked) parts.push(t("panels.ripple.summary.untracked", { n: s.untracked }));
+  if (s.vetoed) parts.push(t("panels.ripple.summary.vetoed", { n: s.vetoed }));
   return parts.join(" · ");
 }
 
 /**
- * How long the engine took to see an event — the number that decides whether
- * a second-order move was still catchable. Sub-hour is the target; days mean
+ * How long the engine took to see an event: the number that decides whether
+ * a second-order move was still catchable. Sub-hour is the goal; days mean
  * the tape had already absorbed it before the run existed.
  */
-export function fmtLag(eventTs: string | null | undefined, producedAt: string | null | undefined): string | null {
+export function fmtLag(
+  eventTs: string | null | undefined,
+  producedAt: string | null | undefined,
+  t: Translate,
+  locale: string,
+): string | null {
   if (!eventTs || !producedAt) return null;
   const ms = Date.parse(producedAt) - Date.parse(eventTs);
   if (!Number.isFinite(ms) || ms < 0) return null;
-  const min = Math.round(ms / 60000);
-  if (min < 1) return "<1m after the event";
-  if (min < 60) return `${min}m after the event`;
-  const h = ms / 3600000;
-  if (h < 48) return `${h.toFixed(1)}h after the event`;
-  return `${Math.round(h / 24)}d after the event`;
+  if (Math.round(ms / 60000) < 1) return t("panels.ripple.lagUnderMinute");
+  return t("panels.ripple.lag", { duration: formatDuration(ms, locale) });
 }

@@ -1,5 +1,7 @@
+import { na } from "@/lib/i18n/na";
 import { useEffect, useMemo, useState } from "react";
 import { ExcelTable } from "@/components/ui/excel-style-table";
+import { useT, type MessageKey } from "@/lib/i18n";
 import type {
   TrackerDailyBar,
   TrackerQuantContext,
@@ -21,23 +23,26 @@ type Section =
   | "detectors"
   | "raw";
 
-const SECTIONS: Array<{ key: Section; label: string }> = [
-  { key: "quant", label: "Quant state" },
-  { key: "bars", label: "Price bars" },
-  { key: "news", label: "News" },
-  { key: "filings", label: "Filings" },
-  { key: "insiders", label: "Insiders" },
-  { key: "earnings", label: "Earnings" },
-  { key: "detectors", label: "Detectors" },
-  { key: "raw", label: "Raw JSON" },
+const SECTIONS: Array<{ key: Section; label: MessageKey }> = [
+  { key: "quant", label: "instruments.tracker.section.quant" },
+  { key: "bars", label: "instruments.tracker.section.bars" },
+  { key: "news", label: "instruments.tracker.section.news" },
+  { key: "filings", label: "instruments.tracker.section.filings" },
+  { key: "insiders", label: "instruments.tracker.section.insiders" },
+  { key: "earnings", label: "instruments.tracker.section.earnings" },
+  { key: "detectors", label: "instruments.tracker.section.detectors" },
+  { key: "raw", label: "instruments.tracker.section.raw" },
 ];
 
 const num = (v: number | null | undefined, d = 4) =>
-  v == null ? "—" : Number(v).toFixed(d);
+  v == null ? na() : Number(v).toFixed(d);
 const pct = (v: number | null | undefined, d = 2) =>
-  v == null ? "—" : `${(v * 100).toFixed(d)}%`;
+  v == null ? na() : `${(v * 100).toFixed(d)}%`;
 const int = (v: number | null | undefined) =>
-  v == null ? "—" : Math.round(v).toLocaleString();
+  v == null ? na() : Math.round(v).toLocaleString("en-US");
+
+/** Error value for "the preload has no Tracker bridge"; rendered through t(). */
+const BRIDGE_MISSING = "\u0000bridge-missing";
 
 function Table({
   headers,
@@ -76,51 +81,58 @@ function QuantSection({
   quant: TrackerQuantContext | null;
   state: TrackerTickerState;
 }) {
+  const t = useT();
   if (!quant) {
     return (
       <div className="py-6 text-center font-mono text-[11px] text-[#a3a39c]">
-        computing live quant state…
+        {t("instruments.tracker.computing")}
       </div>
     );
   }
+  // Field names are the stored identifiers and stay as they are; formulas
+  // (vol_30d ÷ vol_90d) read the same in every language.
   const rows: Array<[string, string, string]> = [
-    ["beta_90d", num(quant.beta_90d, 3), "OLS slope vs benchmark, 90 trading days"],
-    ["r_squared", num(quant.r_squared, 3), "fit of the beta regression"],
-    ["daily_vol_30d", num(quant.daily_vol_30d, 5), "1.4826 × MAD of 30d returns"],
+    ["beta_90d", num(quant.beta_90d, 3), t("instruments.tracker.def.beta")],
+    ["r_squared", num(quant.r_squared, 3), t("instruments.tracker.def.r2")],
+    ["daily_vol_30d", num(quant.daily_vol_30d, 5), t("instruments.tracker.def.vol30")],
     ["vol_regime", num(quant.vol_regime, 3), "vol_30d ÷ vol_90d"],
-    ["move_today", pct(quant.move_today), "vs previous session close"],
+    ["move_today", pct(quant.move_today), t("instruments.tracker.def.moveToday")],
     ["move_zscore", num(quant.move_zscore, 3), "move ÷ daily_vol_30d"],
     ["residual_move", pct(quant.residual_move), "move − beta × benchmark move"],
-    ["residual_zscore", num(quant.residual_zscore, 3), "residual ÷ robust σ of residuals"],
+    ["residual_zscore", num(quant.residual_zscore, 3), t("instruments.tracker.def.residualZ")],
     [
       "volume_ratio",
       quant.volume_ratio == null
-        ? "—"
-        : `${num(quant.volume_ratio, 2)}${quant.volume_ratio_partial ? " (partial)" : ""}`,
-      "vs median 20-day volume",
+        ? na()
+        : `${num(quant.volume_ratio, 2)}${quant.volume_ratio_partial ? ` ${t("instruments.tracker.partial")}` : ""}`,
+      t("instruments.tracker.def.volumeRatio"),
     ],
-    ["momentum_5d", pct(quant.momentum_5d), "trailing 5 trading days"],
-    ["momentum_20d", pct(quant.momentum_20d), "trailing 20 trading days"],
-    ["momentum_60d", pct(quant.momentum_60d), "trailing 60 trading days"],
-    ["pct_from_52w_high", pct(quant.pct_from_52w_high), "252-day window"],
-    ["pct_from_52w_low", pct(quant.pct_from_52w_low), "252-day window"],
-    ["earnings_rhythm", pct(quant.earnings_rhythm), "mean |1-day move| over last 4 earnings"],
-    ["prev_close", num(quant.prev_close, 2), "baseline for move_today"],
-    ["last_price", num(quant.last_price, 2), "live quote or latest bar close"],
-    ["price_asof", quant.price_asof ?? "—", "timestamp of last_price"],
-    ["session", quant.session, "NY session at price_asof"],
+    ["momentum_5d", pct(quant.momentum_5d), t("instruments.tracker.def.trailing", { n: 5 })],
+    ["momentum_20d", pct(quant.momentum_20d), t("instruments.tracker.def.trailing", { n: 20 })],
+    ["momentum_60d", pct(quant.momentum_60d), t("instruments.tracker.def.trailing", { n: 60 })],
+    ["pct_from_52w_high", pct(quant.pct_from_52w_high), t("instruments.tracker.def.window252")],
+    ["pct_from_52w_low", pct(quant.pct_from_52w_low), t("instruments.tracker.def.window252")],
+    ["earnings_rhythm", pct(quant.earnings_rhythm), t("instruments.tracker.def.rhythm")],
+    ["prev_close", num(quant.prev_close, 2), t("instruments.tracker.def.prevClose")],
+    ["last_price", num(quant.last_price, 2), t("instruments.tracker.def.lastPrice")],
+    ["price_asof", quant.price_asof ?? na(), t("instruments.tracker.def.priceAsof")],
+    ["session", quant.session, t("instruments.tracker.def.session")],
   ];
   return (
     <>
       <div className="mb-2 font-mono text-[10px] text-[#a3a39c]">
-        cik {state.cik ?? "—"} · backfilled {state.backfilledAt ?? "not yet"} · bars through{" "}
-        {state.barsAsOf ?? "—"} · stored quant as of {state.quantAsOf ?? "not computed"} · “—”
-        means not computable, never zero
+        {t("instruments.tracker.stateLine", {
+          cik: state.cik ?? na(),
+          backfilled: state.backfilledAt ?? t("instruments.tracker.notYet"),
+          bars: state.barsAsOf ?? na(),
+          quant: state.quantAsOf ?? t("instruments.tracker.notComputed"),
+          dash: na(),
+        })}
       </div>
       <Table
-        title="Quant state"
+        title={t("instruments.tracker.section.quant")}
             exportName={`${state.ticker}-quant`}
-            headers={["field", "value", "definition"]}
+            headers={[t("instruments.tracker.col.field"), t("instruments.tracker.col.value"), t("instruments.tracker.col.definition")]}
         rows={rows.map(([a, b, c]) => [a, b, c])}
         empty=""
       />
@@ -129,6 +141,7 @@ function QuantSection({
 }
 
 export default function TrackerDataView({ ticker }: { ticker: string }) {
+  const t = useT();
   const [state, setState] = useState<TrackerTickerState | null>(null);
   const [quant, setQuant] = useState<TrackerQuantContext | null>(null);
   const [dataDir, setDataDir] = useState<string>("");
@@ -147,7 +160,7 @@ export default function TrackerDataView({ ticker }: { ticker: string }) {
         setState(res.state);
         setDataDir(res.dataDir);
       } else {
-        setError(res?.error ?? "tracker bridge unavailable");
+        setError(res?.error ?? BRIDGE_MISSING);
       }
     });
     void window.meridian?.getTrackerQuant(ticker).then((res) => {
@@ -166,12 +179,14 @@ export default function TrackerDataView({ ticker }: { ticker: string }) {
 
   if (error) {
     return (
-      <div className="py-8 text-center font-mono text-[11px] text-[#b45309]">{error}</div>
+      <div className="py-8 text-center font-mono text-[11px] text-[#b45309]">
+        {error === BRIDGE_MISSING ? t("instruments.common.bridgeUnavailable", { name: "Tracker" }) : error}
+      </div>
     );
   }
   if (!state) {
     return (
-      <div className="py-8 text-center font-mono text-[11px] text-[#a3a39c]">loading {ticker}…</div>
+      <div className="py-8 text-center font-mono text-[11px] text-[#a3a39c]">{t("instruments.tracker.loadingTicker", { ticker })}</div>
     );
   }
 
@@ -204,7 +219,7 @@ export default function TrackerDataView({ ticker }: { ticker: string }) {
                   : "text-[#6b7280] hover:bg-[#efefe9] hover:text-[#1d1b1b]"
               }`}
             >
-              {s.label}
+              {t(s.label)}
               {count != null && (
                 <span className={section === s.key ? "text-white/60" : "text-[#a3a39c]"}>
                   {" "}
@@ -221,9 +236,16 @@ export default function TrackerDataView({ ticker }: { ticker: string }) {
 
         {section === "bars" && (
           <Table
-            title="Price bars (adjusted)"
+            title={t("instruments.tracker.barsTitle")}
             exportName={`${state.ticker}-bars`}
-            headers={["date", "open", "high", "low", "close", "volume"]}
+            headers={[
+              t("instruments.tracker.col.date"),
+              t("instruments.tracker.col.open"),
+              t("instruments.tracker.col.high"),
+              t("instruments.tracker.col.low"),
+              t("instruments.tracker.col.close"),
+              t("instruments.tracker.col.volume"),
+            ]}
             rows={recentBars.map((b) => [
               b.d,
               num(b.o, 2),
@@ -232,88 +254,108 @@ export default function TrackerDataView({ ticker }: { ticker: string }) {
               num(b.c, 2),
               int(b.v),
             ])}
-            empty="no bars"
+            empty={t("instruments.tracker.noBars")}
           />
         )}
 
         {section === "news" && (
           <>
             <div className="mb-2 font-mono text-[10px] text-[#a3a39c]">
-              {state.seenArticleIds.length} article ids seen · {state.newsTimestamps.length}{" "}
-              timestamps retained · baseline window covers {newsDays.length} trading days
+              {t("instruments.tracker.newsMeta", {
+                ids: state.seenArticleIds.length,
+                timestamps: state.newsTimestamps.length,
+                days: newsDays.length,
+              })}
             </div>
             <Table
-              title="News counts per trading day"
+              title={t("instruments.tracker.newsTitle")}
             exportName={`${state.ticker}-news-counts`}
-            headers={["trading day", "articles"]}
+            headers={[t("instruments.tracker.col.tradingDay"), t("instruments.tracker.col.articles")]}
               rows={newsDays.map(([day, count]) => [day, count])}
-              empty="no news counts"
+              empty={t("instruments.tracker.noNews")}
             />
           </>
         )}
 
         {section === "filings" && (
           <Table
-            title="Filings"
+            title={t("instruments.tracker.section.filings")}
             exportName={`${state.ticker}-filings`}
-            headers={["filed", "form", "items", "period", "accepted", "accession"]}
+            headers={[
+              t("instruments.tracker.col.filed"),
+              t("instruments.tracker.col.form"),
+              t("instruments.tracker.col.items"),
+              t("instruments.tracker.col.period"),
+              t("instruments.tracker.col.accepted"),
+              t("instruments.tracker.col.accession"),
+            ]}
             rows={[...state.filings]
               .sort((a, b) => b.filedAt.localeCompare(a.filedAt))
               .map((f) => [
                 f.filedAt,
                 f.form,
-                f.items.join(", ") || "—",
-                f.reportDate ?? "—",
-                f.acceptedAt ?? "—",
+                f.items.join(", ") || na(),
+                f.reportDate ?? na(),
+                f.acceptedAt ?? na(),
                 f.accessionNumber,
               ])}
-            empty="no filings"
+            empty={t("instruments.tracker.noFilings")}
           />
         )}
 
         {section === "insiders" && (
           <Table
-            title="Insider transactions"
+            title={t("instruments.tracker.insidersTitle")}
             exportName={`${state.ticker}-insiders`}
-            headers={["txn date", "filed", "insider", "role", "code", "10b5-1", "shares", "value", "dir"]}
+            headers={[
+              t("instruments.tracker.col.txnDate"),
+              t("instruments.tracker.col.filed"),
+              t("instruments.tracker.col.insider"),
+              t("instruments.tracker.col.role"),
+              t("instruments.tracker.col.code"),
+              "10b5-1",
+              t("instruments.tracker.col.shares"),
+              t("instruments.tracker.col.value"),
+              t("instruments.tracker.col.dir"),
+            ]}
             rows={[...state.insiderTxns]
               .sort((a, b) => b.filedAt.localeCompare(a.filedAt))
-              .map((t) => [
-                t.transactionDate ?? "—",
-                t.filedAt.slice(0, 10),
-                t.insiderName,
-                t.role,
-                t.transactionCode || "—",
-                t.is10b51Plan ? "yes" : "no",
-                int(t.shares),
-                t.value == null ? "—" : `$${int(t.value)}`,
-                t.direction ?? "—",
+              .map((txn) => [
+                txn.transactionDate ?? na(),
+                txn.filedAt.slice(0, 10),
+                txn.insiderName,
+                txn.role,
+                txn.transactionCode || na(),
+                txn.is10b51Plan ? t("instruments.tracker.yes") : t("instruments.tracker.no"),
+                int(txn.shares),
+                txn.value == null ? na() : `$${int(txn.value)}`,
+                txn.direction ?? na(),
               ])}
-            empty="no Form 4 transactions in the tracked window"
+            empty={t("instruments.tracker.noInsiders")}
           />
         )}
 
         {section === "earnings" && (
           <>
             <div className="mb-1 font-mono text-[10px] text-[#8b8b86]">
-              Reported (from 8-K item 2.02 acceptance times)
+              {t("instruments.tracker.reportedNote")}
             </div>
             <Table
-              title="Reported earnings"
+              title={t("instruments.tracker.reportedTitle")}
             exportName={`${state.ticker}-earnings-reported`}
-            headers={["date", "fiscal period", "timing"]}
-              rows={state.earnings.map((e) => [e.date, e.fiscalPeriod, e.hour ?? "—"])}
-              empty="no reported earnings recorded"
+            headers={[t("instruments.tracker.col.date"), t("instruments.tracker.col.fiscalPeriod"), t("instruments.tracker.col.timing")]}
+              rows={state.earnings.map((e) => [e.date, e.fiscalPeriod, e.hour ?? na()])}
+              empty={t("instruments.tracker.noReported")}
             />
             <div className="mb-1 mt-4 font-mono text-[10px] text-[#8b8b86]">
-              Scheduled (earnings calendar)
+              {t("instruments.tracker.scheduledNote")}
             </div>
             <Table
-              title="Scheduled earnings"
+              title={t("instruments.tracker.scheduledTitle")}
             exportName={`${state.ticker}-earnings-scheduled`}
-            headers={["due at", "fiscal period"]}
+            headers={[t("instruments.tracker.col.dueAt"), t("instruments.tracker.col.fiscalPeriod")]}
               rows={state.scheduledEarnings.map((e) => [e.dueAt, e.fiscalPeriod])}
-              empty="none announced"
+              empty={t("instruments.tracker.noneAnnounced")}
             />
           </>
         )}
@@ -321,28 +363,34 @@ export default function TrackerDataView({ ticker }: { ticker: string }) {
         {section === "detectors" && (
           <>
             <div className="mb-1 font-mono text-[10px] text-[#8b8b86]">
-              Snapshot detectors — fire once per trading day unless escalated
+              {t("instruments.tracker.snapshotNote")}
             </div>
             <Table
-              title="Snapshot detectors"
+              title={t("instruments.tracker.snapshotTitle")}
             exportName={`${state.ticker}-detectors-snapshot`}
-            headers={["detector", "last fired day", "last value"]}
+            headers={[t("instruments.tracker.col.detector"), t("instruments.tracker.col.lastFiredDay"), t("instruments.tracker.col.lastValue")]}
               rows={(
                 [
                   ["gap", state.detectors.gap],
                   ["volume", state.detectors.volume],
                   ["unexplained_move", state.detectors.unexplained],
                 ] as const
-              ).map(([name, d]) => [name, d.lastFiredDay ?? "never", num(d.lastFiredValue, 3)])}
+              ).map(([name, d]) => [name, d.lastFiredDay ?? t("instruments.tracker.never"), num(d.lastFiredValue, 3)])}
               empty=""
             />
             <div className="mb-1 mt-4 font-mono text-[10px] text-[#8b8b86]">
-              Edge-triggered detectors — fire on the false→true transition
+              {t("instruments.tracker.edgeNote")}
             </div>
             <Table
-              title="Edge-triggered detectors"
+              title={t("instruments.tracker.edgeTitle")}
             exportName={`${state.ticker}-detectors-edge`}
-            headers={["detector", "active", "last fired", "last value", "false since"]}
+            headers={[
+              t("instruments.tracker.col.detector"),
+              t("instruments.tracker.col.active"),
+              t("instruments.tracker.col.lastFired"),
+              t("instruments.tracker.col.lastValue"),
+              t("instruments.tracker.col.falseSince"),
+            ]}
               rows={(
                 [
                   ["silence", state.detectors.silence],
@@ -353,23 +401,23 @@ export default function TrackerDataView({ ticker }: { ticker: string }) {
                 ] as const
               ).map(([name, d]) => [
                 name,
-                d.active ? "yes" : "no",
-                d.lastFiredAt ?? "never",
+                d.active ? t("instruments.tracker.yes") : t("instruments.tracker.no"),
+                d.lastFiredAt ?? t("instruments.tracker.never"),
                 num(d.lastFiredValue, 3),
-                d.falseSinceDay ?? "—",
+                d.falseSinceDay ?? na(),
               ])}
               empty=""
             />
             <div className="mb-1 mt-4 font-mono text-[10px] text-[#8b8b86]">
-              Evaluation bookkeeping
+              {t("instruments.tracker.bookkeeping")}
             </div>
             <Table
-              title="Evaluation bookkeeping"
+              title={t("instruments.tracker.bookkeeping")}
             exportName={`${state.ticker}-bookkeeping`}
-            headers={["field", "value"]}
+            headers={[t("instruments.tracker.col.field"), t("instruments.tracker.col.value")]}
               rows={[
-                ["lastGapCheckedFor", state.lastGapCheckedFor ?? "—"],
-                ["lastCloseComputedFor", state.lastCloseComputedFor ?? "—"],
+                ["lastGapCheckedFor", state.lastGapCheckedFor ?? na()],
+                ["lastCloseComputedFor", state.lastCloseComputedFor ?? na()],
               ]}
               empty=""
             />
@@ -379,7 +427,7 @@ export default function TrackerDataView({ ticker }: { ticker: string }) {
         {section === "raw" && (
           <>
             <div className="mb-2 font-mono text-[10px] text-[#a3a39c]">
-              on disk: {dataDir}\state\{state.ticker}.json
+              {t("instruments.tracker.onDisk", { path: `${dataDir}\\state\\${state.ticker}.json` })}
             </div>
             <pre className="overflow-x-auto whitespace-pre-wrap break-all rounded border border-[#eeeee8] bg-white p-2 font-mono text-[10px] leading-relaxed text-[#3f3f46]">
               {JSON.stringify(state, null, 1)}

@@ -1,6 +1,10 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { LayoutList, Play, RefreshCw, Waves, X } from "lucide-react";
 import { isLiveRun, runBadge } from "@/lib/second-order-card";
+import { useI18n, type TFunction } from "@/lib/i18n";
+import { plural } from "@/lib/panels-format";
+import { shortcutText } from "@/lib/shortcuts";
+import { useIsStaff } from "@/lib/staff";
 import type {
   PropagationRun,
   PropagationRunListItem,
@@ -10,6 +14,7 @@ import RippleMap from "./RippleMap";
 import RippleTable from "./RippleTable";
 import TargetDrawer from "./TargetDrawer";
 import { targetKey } from "./ripple-layout";
+import { repairRun, repairRunList, repairRunListItem } from "../../../shared/display-text";
 import {
   ACCENT,
   AMBER,
@@ -22,6 +27,7 @@ import {
   fmtDay,
   fmtLag,
   fmtWhen,
+  materialityWord,
   summaryLine,
 } from "./ripple-format";
 
@@ -38,7 +44,21 @@ type Props = {
   focus?: { runId: string; targetKey?: string } | null;
 };
 
+/**
+ * The rail badge in the reader's language. Which badge a run gets is
+ * `runBadge`'s call (shared with the dashboard card); only its tone is read
+ * here, and the words are this panel's own.
+ */
+function badgeWord(summary: PropagationRunListItem["summary"], tone: string, t: TFunction): string {
+  if (tone === "open") return t("panels.ripple.badge.open", { n: summary.open });
+  if (tone === "against") return t("panels.ripple.badge.against", { n: summary.contradicted ?? 0 });
+  if (tone === "partial") return t("panels.ripple.badge.partial", { n: summary.partial });
+  if (tone === "priced") return t("panels.ripple.badge.priced", { n: summary.priced });
+  return t("panels.ripple.badge.none");
+}
+
 function RunRow({ item, active, onClick }: { item: PropagationRunListItem; active: boolean; onClick: () => void }) {
+  const { t, locale } = useI18n();
   const badge = runBadge(item.summary);
   return (
     <button
@@ -52,7 +72,7 @@ function RunRow({ item, active, onClick }: { item: PropagationRunListItem; activ
         <span className="text-[10px]" style={{ color: directionColor(item.event_direction) }}>
           {directionGlyph(item.event_direction)}
         </span>
-        <span className="ml-auto text-[10px] tabular-nums text-[#b4b4ae]">{fmtDay(item.event_ts)}</span>
+        <span className="ml-auto text-[10px] tabular-nums text-[#b4b4ae]">{fmtDay(item.event_ts, locale, t("common.na"))}</span>
       </div>
       <div className="mt-1 line-clamp-2 text-[11px] leading-snug text-[#6b7280]">{item.event_label}</div>
       <div className="mt-1.5 flex items-center gap-1.5">
@@ -66,12 +86,12 @@ function RunRow({ item, active, onClick }: { item: PropagationRunListItem; activ
                 : { color: "#9CA3AF", border: "1px solid #e0e0da" }
           }
         >
-          {badge.word}
+          {badgeWord(item.summary, badge.tone, t)}
         </span>
         <span className="text-[10px] text-[#b4b4ae]">
-          {item.summary.targets} target{item.summary.targets === 1 ? "" : "s"}
-          {item.status === "stage1_only" ? " · stage-1" : ""}
-          {item.superseded ? " · superseded" : ""}
+          {plural(t, locale, "panels.ripple.summary.names", item.summary.targets)}
+          {item.status === "stage1_only" ? ` · ${t("panels.ripple.stage1")}` : ""}
+          {item.superseded ? ` · ${t("panels.ripple.superseded")}` : ""}
         </span>
       </div>
     </button>
@@ -96,23 +116,24 @@ function Skeleton() {
 }
 
 function NoEdge({ run }: { run: PropagationRun }) {
+  const { t, locale } = useI18n();
   const reason =
     run.reachable === 0
-      ? `${run.root_ticker} has no relationships in the graph yet.`
+      ? t("panels.ripple.noEdge.noRelationships", { ticker: run.root_ticker })
       : run.targets.length === 0
-        ? `${run.reachable} reachable counterpart${run.reachable === 1 ? "y" : "ies"} — none transmit a ${eventTypeWord(run.event.type).toLowerCase()} event.`
-        : "All reachable targets priced or non-transmitting.";
+        ? plural(t, locale, "panels.ripple.noEdge.noneTransmit", run.reachable, { type: eventTypeWord(run.event.type, t) })
+        : t("panels.ripple.noEdge.allPriced");
   return (
     <div className="flex h-full w-full flex-col items-center justify-center px-12 text-center">
       <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-full border border-[#e0e0da]">
         <div className="h-3 w-3 rounded-full bg-[#1d1b1b]" />
       </div>
-      <h2 className="font-baskerville text-[28px] leading-tight text-[#1d1b1b]">No edge across the network.</h2>
+      <h2 className="font-baskerville text-[28px] leading-tight text-[#1d1b1b]">{t("panels.ripple.noEdge.title")}</h2>
       <p className="mt-3 max-w-[440px] text-[13px] leading-relaxed text-[#6b7280]">{reason}</p>
       {run.targets.length > 0 && (
         <p className="mt-2 text-[11px] text-[#9CA3AF]">
-          {summaryLine(run.summary)}
-          {run.non_transmitting ? ` · ${run.non_transmitting} non-transmitting` : ""}
+          {summaryLine(run.summary, t, locale)}
+          {run.non_transmitting ? ` · ${t("panels.ripple.summary.nonTransmitting", { n: run.non_transmitting })}` : ""}
         </p>
       )}
     </div>
@@ -120,6 +141,14 @@ function NoEdge({ run }: { run: PropagationRun }) {
 }
 
 export default function RipplePanel({ onClose, focus }: Props) {
+  const { t, locale } = useI18n();
+  // "Run now" and the surfacing switch change propagation for every account:
+  // the engine takes them from staff only.
+  const staff = useIsStaff();
+  const na = t("common.na");
+  /** For fallback wording inside callbacks that must not re-run when the language changes. */
+  const tRef = useRef(t);
+  tRef.current = t;
   const [runs, setRuns] = useState<PropagationRunListItem[] | null>(null);
   /** Fixture / synthetic runs — listed apart, never mixed into the live stream. */
   const [fixtures, setFixtures] = useState<PropagationRunListItem[]>([]);
@@ -148,13 +177,13 @@ export default function RipplePanel({ onClose, focus }: Props) {
         window.meridian?.getPropagationStatus(),
       ]);
       if (r?.ok) {
-        setRuns(r.runs);
+        setRuns(repairRunList(r.runs));
         setError(null);
       } else {
         setRuns([]);
-        setError(r?.error ?? "propagation unavailable");
+        setError(r?.error ?? tRef.current("panels.ripple.error.unavailable"));
       }
-      setFixtures(f?.ok ? f.runs.filter((r) => isLiveRun(r.summary)) : []);
+      setFixtures(f?.ok ? repairRunList(f.runs).filter((r) => isLiveRun(r.summary)) : []);
       if (s?.ok) setStatus(s.status);
     } catch (err) {
       // A main process without the handlers (stale dev build) must not leave the
@@ -171,12 +200,13 @@ export default function RipplePanel({ onClose, focus }: Props) {
   // The fast lane pushes a run the moment it exists — prepend it rather than
   // waiting for the next manual refresh, and select it when nothing is open.
   useEffect(() => {
-    const off = window.meridian?.onPropagationEvent?.((incoming) => {
+    const off = window.meridian?.onPropagationEvent?.((pushed) => {
+      const incoming = repairRunListItem(pushed);
       setRuns((prev) => {
         const rest = (prev ?? []).filter((r) => r.run_id !== incoming.run_id);
         return [incoming, ...rest];
       });
-      setNote(`${incoming.root_ticker}: ${incoming.summary.open} open · ${incoming.summary.targets} targets (fast path)`);
+      setNote(tRef.current("panels.ripple.note.fastPath", { ticker: incoming.root_ticker, open: incoming.summary.open, n: incoming.summary.targets }));
     });
     return () => off?.();
   }, []);
@@ -224,12 +254,12 @@ export default function RipplePanel({ onClose, focus }: Props) {
         if (cancelled) return;
         setLoadingRun(false);
         if (res?.ok) {
-          setRun(res.run);
+          setRun(repairRun(res.run));
           if (pendingKey.current) {
             setSelectedKey(pendingKey.current);
             pendingKey.current = null;
           }
-        } else setError(res?.error ?? "run unavailable");
+        } else setError(res?.error ?? tRef.current("panels.ripple.error.run"));
       })
       .catch((err) => {
         if (cancelled) return;
@@ -268,19 +298,18 @@ export default function RipplePanel({ onClose, focus }: Props) {
         const made = r.ok + r.stage1_only;
         if (r.errors.length > 0) setNote(r.errors[0]);
         else if (made > 0) {
-          setNote(
-            `${made} new run${made === 1 ? "" : "s"}` +
-              (r.stage2_calls > 0 ? ` · ${r.stage2_calls} refined` : "") +
-              (r.failed > 0 ? ` · ${r.failed} failed` : ""),
-          );
+          const parts = [plural(t, locale, "panels.ripple.note.newRuns", made)];
+          if (r.stage2_calls > 0) parts.push(t("panels.ripple.note.refined", { n: r.stage2_calls }));
+          if (r.failed > 0) parts.push(t("panels.ripple.note.failed", { n: r.failed }));
+          setNote(parts.join(" · "));
         } else {
           setNote(
-            `Nothing new — ${r.already_produced} incident${r.already_produced === 1 ? "" : "s"} already have a run` +
-              (r.below_band > 0 ? `, ${r.below_band} below the dispatch band` : "") +
-              ".",
+            r.below_band > 0
+              ? plural(t, locale, "panels.ripple.note.nothingNewBelow", r.already_produced, { below: r.below_band })
+              : plural(t, locale, "panels.ripple.note.nothingNew", r.already_produced),
           );
         }
-      } else setError(res?.error ?? "cycle failed");
+      } else setError(res?.error ?? t("panels.ripple.error.cycle"));
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));
     } finally {
@@ -294,7 +323,10 @@ export default function RipplePanel({ onClose, focus }: Props) {
   );
 
   const stale = run ? run.targets.some((t) => t.pricing.status === "stale") && run.summary.open === 0 && run.summary.partial === 0 : false;
-  const graphStamp = run ? `graph pv${run.graph_version.pipelineVersion} · ${fmtDay(run.graph_version.generatedAt)}` : null;
+  const graphStamp = run
+    ? t("panels.ripple.graphStamp", { version: run.graph_version.pipelineVersion, date: fmtDay(run.graph_version.generatedAt, locale, na) })
+    : null;
+  const lag = run ? fmtLag(run.event.event_ts, run.produced_at, t, locale) : null;
 
   return (
     <div className="app-no-drag fixed inset-0 z-[200] flex items-center justify-center bg-[#1d1b1b]/30 backdrop-blur-[3px]">
@@ -303,10 +335,12 @@ export default function RipplePanel({ onClose, focus }: Props) {
         <aside className="flex w-[250px] shrink-0 flex-col border-r border-[#e6e6e0] bg-[#f3f3ef]">
           <div className="flex items-center gap-2 px-4 pb-2 pt-4">
             <Waves className="h-4 w-4 text-[#1d1b1b]" strokeWidth={1.75} aria-hidden />
-            <span className="font-baskerville text-[15px] text-[#1d1b1b]">Propagation</span>
+            <span className="font-baskerville text-[15px] text-[#1d1b1b]">{t("panels.ripple.title")}</span>
             <span className="ml-auto text-[10px] text-[#b4b4ae]">
-              {liveCount} live
-              {hiddenNoEdge > 0 ? ` · ${hiddenNoEdge} ${showResolved ? "resolved" : "hidden"}` : ""}
+              {t("panels.ripple.live", { n: liveCount })}
+              {hiddenNoEdge > 0
+                ? ` · ${t(showResolved ? "panels.ripple.resolved" : "panels.ripple.hidden", { n: hiddenNoEdge })}`
+                : ""}
             </span>
           </div>
           <div className="scrollbar-meridian min-h-0 flex-1 space-y-0.5 overflow-y-auto px-2 pb-2">
@@ -320,8 +354,8 @@ export default function RipplePanel({ onClose, focus }: Props) {
             {runs !== null && visibleRuns.length === 0 && (
               <div className="px-3 py-6 text-[11.5px] leading-relaxed text-[#9CA3AF]">
                 {hiddenNoEdge > 0 && !showResolved
-                  ? `No open edge right now — ${hiddenNoEdge} run${hiddenNoEdge === 1 ? "" : "s"} with nothing left to absorb are hidden.`
-                  : "No runs yet. A run is produced when Base routes a mapped 8-K or event gap, or when a P2+ incident carries a network-relevant verdict."}
+                  ? plural(t, locale, "panels.ripple.empty.hidden", hiddenNoEdge)
+                  : t("panels.ripple.empty.none")}
               </div>
             )}
             {visibleRuns.map((item) => (
@@ -330,8 +364,8 @@ export default function RipplePanel({ onClose, focus }: Props) {
             {fixtures.length > 0 && (
               <div className="mt-3 border-t border-dashed border-[#e0e0da] pt-2">
                 <div className="flex items-center justify-between px-3 pb-1">
-                  <span className="text-[9.5px] uppercase tracking-[0.14em] text-[#b4b4ae]">Fixtures</span>
-                  <span className="text-[9.5px] text-[#b4b4ae]">synthetic · not in the rubric</span>
+                  <span className="text-[9.5px] uppercase tracking-[0.14em] text-[#b4b4ae]">{t("panels.ripple.fixtures")}</span>
+                  <span className="text-[9.5px] text-[#b4b4ae]">{t("panels.ripple.fixturesNote")}</span>
                 </div>
                 {fixtures.map((item) => (
                   <RunRow key={item.run_id} item={item} active={item.run_id === selectedRunId} onClick={() => setSelectedRunId(item.run_id)} />
@@ -340,55 +374,70 @@ export default function RipplePanel({ onClose, focus }: Props) {
             )}
           </div>
           <div className="border-t border-[#e6e6e0] px-3 py-2.5">
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
               <button
                 type="button"
-                disabled={busy}
+                disabled={!staff || busy}
                 onClick={() => void runCycle()}
                 className="app-no-drag inline-flex items-center gap-1.5 rounded-md border border-[#e0e0da] bg-white px-2 py-1 text-[10.5px] text-[#1d1b1b] transition-colors hover:bg-[#fbfbf9] disabled:opacity-50"
-                title="Replay Base over the Tracker stream and run every qualifying incident"
+                title={staff ? t("panels.ripple.runNowTitle") : t("access.staffOnly.action")}
               >
                 {busy ? <RefreshCw className="h-3 w-3 animate-spin" strokeWidth={1.75} /> : <Play className="h-3 w-3" strokeWidth={1.75} />}
-                Run now
+                {t("panels.ripple.runNow")}
               </button>
               <button
                 type="button"
                 onClick={() => setShowSuperseded((v) => !v)}
                 className="app-no-drag text-[10px] text-[#9CA3AF] transition-colors hover:text-[#1d1b1b]"
               >
-                {showSuperseded ? "hide superseded" : "show superseded"}
+                {showSuperseded ? t("panels.ripple.hideSuperseded") : t("panels.ripple.showSuperseded")}
               </button>
               {hiddenNoEdge > 0 && (
                 <button
                   type="button"
                   onClick={() => setShowResolved((v) => !v)}
                   className="app-no-drag text-[10px] text-[#9CA3AF] transition-colors hover:text-[#1d1b1b]"
-                  title="Runs with nothing left open. Their absorption curves are how we learn when a second-order move actually arrives."
+                  title={t("panels.ripple.resolvedTitle")}
                 >
-                  {showResolved ? "hide" : "show"} {hiddenNoEdge} resolved
+                  {t(showResolved ? "panels.ripple.hideResolved" : "panels.ripple.showResolved", { n: hiddenNoEdge })}
                 </button>
               )}
             </div>
             {status && (
               <div className="mt-2 space-y-0.5 font-mono text-[9.5px] text-[#b4b4ae]">
                 <div>
-                  loop {status.enabled ? "on" : "off"} · stage-2 {status.configured ? status.model : "no key"} · budget {status.budget.used}/{status.budget.daily}
+                  {t("panels.ripple.status.loop", {
+                    loop: t(status.enabled ? "panels.ripple.status.on" : "panels.ripple.status.off"),
+                    model: status.configured ? status.model : t("panels.ripple.status.noKey"),
+                    used: status.budget.used,
+                    daily: status.budget.daily,
+                  })}
                 </div>
                 <div>
-                  open-rate {status.metrics.targets_total ? Math.round((100 * status.metrics.open_total) / status.metrics.targets_total) : 0}% · untracked{" "}
-                  {status.metrics.targets_total ? Math.round((100 * status.metrics.untracked_total) / status.metrics.targets_total) : 0}% · vetoes {status.metrics.vetoes} · unclear resolved{" "}
-                  {status.metrics.unclear_resolved}/{status.metrics.unclear_total}
+                  {t("panels.ripple.status.rates", {
+                    open: status.metrics.targets_total ? Math.round((100 * status.metrics.open_total) / status.metrics.targets_total) : 0,
+                    untracked: status.metrics.targets_total ? Math.round((100 * status.metrics.untracked_total) / status.metrics.targets_total) : 0,
+                    vetoes: status.metrics.vetoes,
+                    resolved: status.metrics.unclear_resolved,
+                    total: status.metrics.unclear_total,
+                  })}
                 </div>
                 <div style={{ color: status.metrics.contradicted_total > 0 ? AMBER : undefined }}>
-                  contradicted-rate{" "}
-                  {status.metrics.targets_total
-                    ? Math.round((100 * status.metrics.contradicted_total) / status.metrics.targets_total)
-                    : 0}
-                  % ({status.metrics.contradicted_total}) — matrix calibration signal
+                  {t("panels.ripple.status.contradicted", {
+                    pct: status.metrics.targets_total
+                      ? Math.round((100 * status.metrics.contradicted_total) / status.metrics.targets_total)
+                      : 0,
+                    n: status.metrics.contradicted_total,
+                  })}
                 </div>
                 {status.last_run && (
                   <div>
-                    last cycle {fmtWhen(status.last_run.finished_at)} · {status.last_run.requests_built} req · {status.last_run.ok} ok · {status.last_run.stage1_only} stage-1
+                    {t("panels.ripple.status.lastCycle", {
+                      when: fmtWhen(status.last_run.finished_at, locale, na),
+                      requests: status.last_run.requests_built,
+                      ok: status.last_run.ok,
+                      stage1: status.last_run.stage1_only,
+                    })}
                   </div>
                 )}
                 {/* Phase B in one click: the dashboard card is dark until this
@@ -396,7 +445,9 @@ export default function RipplePanel({ onClose, focus }: Props) {
                     file plus a restart. */}
                 <button
                   type="button"
-                  className="app-no-drag text-left font-mono text-[9.5px] text-[#b4b4ae] underline decoration-dotted underline-offset-2 hover:text-[#6b6b64]"
+                  disabled={!staff}
+                  title={staff ? undefined : t("access.staffOnly.setting")}
+                  className="app-no-drag text-left font-mono text-[9.5px] text-[#b4b4ae] underline decoration-dotted underline-offset-2 hover:text-[#6b6b64] disabled:pointer-events-none disabled:no-underline"
                   onClick={() => {
                     void (async () => {
                       await window.meridian?.setPropagationSurfacing(!status.surfacing_enabled);
@@ -405,8 +456,8 @@ export default function RipplePanel({ onClose, focus }: Props) {
                   }}
                 >
                   {status.surfacing_enabled
-                    ? "surfacing on · dashboard may show runs"
-                    : "Phase A · Shift+P only — turn surfacing on"}
+                    ? t("panels.ripple.status.surfacingOn")
+                    : t("panels.ripple.status.surfacingOff", { shortcut: shortcutText("propagation") })}
                 </button>
               </div>
             )}
@@ -427,37 +478,37 @@ export default function RipplePanel({ onClose, focus }: Props) {
                     <span className="text-[#3b3b3b]">{run.event.label}</span>
                   </h1>
                   <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11.5px] text-[#6b7280]">
-                    <span>{eventTypeWord(run.event.type)}</span>
+                    <span>{eventTypeWord(run.event.type, t)}</span>
                     <span className="text-[#d6d6cf]">·</span>
-                    <span>{run.event.materiality} materiality</span>
+                    <span>{materialityWord(run.event.materiality, t)}</span>
                     <span className="text-[#d6d6cf]">·</span>
                     <span style={{ color: directionColor(run.event.direction) }}>
-                      {directionGlyph(run.event.direction)} {directionWord(run.event.direction)}
+                      {directionGlyph(run.event.direction)} {directionWord(run.event.direction, t)}
                     </span>
                     <span className="text-[#d6d6cf]">·</span>
-                    <span>{fmtWhen(run.event.event_ts)}</span>
-                    {fmtLag(run.event.event_ts, run.produced_at) && (
+                    <span>{fmtWhen(run.event.event_ts, locale, na)}</span>
+                    {lag && (
                       <>
                         <span className="text-[#d6d6cf]">·</span>
                         <span
-                          title="Event instant → run produced. Under an hour is a move that may still be open; days mean the tape had it first."
+                          title={t("panels.ripple.lagTitle")}
                           style={{ color: Date.parse(run.produced_at) - Date.parse(run.event.event_ts) > 6 * 3600_000 ? AMBER : undefined }}
                         >
-                          {fmtLag(run.event.event_ts, run.produced_at)}
+                          {lag}
                         </span>
                       </>
                     )}
                     <span className="text-[#d6d6cf]">·</span>
-                    <span className="text-[#1d1b1b]">{summaryLine(run.summary)}</span>
-                    {run.overflow > 0 && <span className="text-[#b4b4ae]">+{run.overflow} beyond cap</span>}
+                    <span className="text-[#1d1b1b]">{summaryLine(run.summary, t, locale)}</span>
+                    {run.overflow > 0 && <span className="text-[#b4b4ae]">{t("panels.ripple.beyondCap", { n: run.overflow })}</span>}
                     {run.synthetic && (
-                      <span className="rounded-full border border-dashed border-[#d6d6cf] px-1.5 py-[1px] text-[9.5px] tracking-[0.06em] text-[#9CA3AF]">fixture · synthetic</span>
+                      <span className="rounded-full border border-dashed border-[#d6d6cf] px-1.5 py-[1px] text-[9.5px] tracking-[0.06em] text-[#9CA3AF]">{t("panels.ripple.fixtureBadge")}</span>
                     )}
                     {run.status === "stage1_only" && (
-                      <span className="rounded-full border border-[#e0e0da] px-1.5 py-[1px] text-[9.5px] tracking-[0.06em] text-[#9CA3AF]">refinement unavailable</span>
+                      <span className="rounded-full border border-[#e0e0da] px-1.5 py-[1px] text-[9.5px] tracking-[0.06em] text-[#9CA3AF]">{t("panels.ripple.refinementUnavailable")}</span>
                     )}
-                    {stale && <span className="rounded-full border border-[#e0e0da] px-1.5 py-[1px] text-[9.5px] tracking-[0.06em] text-[#9CA3AF]">stale</span>}
-                    {run.superseded_by && <span className="rounded-full border border-[#e0e0da] px-1.5 py-[1px] text-[9.5px] tracking-[0.06em] text-[#9CA3AF]">superseded</span>}
+                    {stale && <span className="rounded-full border border-[#e0e0da] px-1.5 py-[1px] text-[9.5px] tracking-[0.06em] text-[#9CA3AF]">{t("panels.ripple.stale")}</span>}
+                    {run.superseded_by && <span className="rounded-full border border-[#e0e0da] px-1.5 py-[1px] text-[9.5px] tracking-[0.06em] text-[#9CA3AF]">{t("panels.ripple.superseded")}</span>}
                   </div>
                 </>
               ) : (
@@ -474,8 +525,8 @@ export default function RipplePanel({ onClose, focus }: Props) {
                   type="button"
                   onClick={() => setMode("map")}
                   className={`app-no-drag rounded p-1 transition-colors ${mode === "map" ? "bg-[#1d1b1b] text-white" : "text-[#9CA3AF] hover:text-[#1d1b1b]"}`}
-                  aria-label="Map"
-                  title="Ripple map"
+                  aria-label={t("panels.ripple.mode.map")}
+                  title={t("panels.ripple.mode.mapTitle")}
                 >
                   <Waves className="h-3.5 w-3.5" strokeWidth={1.75} />
                 </button>
@@ -483,8 +534,8 @@ export default function RipplePanel({ onClose, focus }: Props) {
                   type="button"
                   onClick={() => setMode("list")}
                   className={`app-no-drag rounded p-1 transition-colors ${mode === "list" ? "bg-[#1d1b1b] text-white" : "text-[#9CA3AF] hover:text-[#1d1b1b]"}`}
-                  aria-label="List"
-                  title="Ranked table"
+                  aria-label={t("panels.ripple.mode.list")}
+                  title={t("panels.ripple.mode.listTitle")}
                 >
                   <LayoutList className="h-3.5 w-3.5" strokeWidth={1.75} />
                 </button>
@@ -493,7 +544,7 @@ export default function RipplePanel({ onClose, focus }: Props) {
                 type="button"
                 onClick={onClose}
                 className="app-no-drag rounded-md p-1 text-[#9CA3AF] transition-colors hover:bg-black/[0.04] hover:text-[#1d1b1b]"
-                aria-label="Close"
+                aria-label={t("common.close")}
               >
                 <X className="h-4 w-4" strokeWidth={1.75} />
               </button>
@@ -507,7 +558,7 @@ export default function RipplePanel({ onClose, focus }: Props) {
                 <Skeleton />
               ) : !run ? (
                 <div className="flex h-full items-center justify-center px-12 text-center">
-                  <p className="max-w-[420px] font-baskerville text-[22px] leading-snug text-[#6b7280]">Select a run — or press Run now to replay Base over the Tracker stream.</p>
+                  <p className="max-w-[420px] font-baskerville text-[22px] leading-snug text-[#6b7280]">{t("panels.ripple.pick", { action: t("panels.ripple.runNow") })}</p>
                 </div>
               ) : run.targets.length === 0 ? (
                 <NoEdge run={run} />
@@ -527,8 +578,8 @@ export default function RipplePanel({ onClose, focus }: Props) {
                 <div className="pointer-events-none absolute inset-x-0 bottom-5 flex justify-center">
                   <div className="rounded-full border border-[#e0e0da] bg-white/85 px-4 py-1.5 font-baskerville text-[13px] text-[#1d1b1b] shadow-sm backdrop-blur-sm">
                     {run.summary.untracked > 0 && run.summary.untracked === run.summary.targets
-                      ? `No edge across the tracked network — ${run.summary.untracked} reachable counterpart${run.summary.untracked === 1 ? "y is" : "ies are"} untracked.`
-                      : "No edge across the network — all reachable targets priced or non-transmitting."}
+                      ? plural(t, locale, "panels.ripple.noEdge.bannerUntracked", run.summary.untracked)
+                      : t("panels.ripple.noEdge.bannerAll")}
                   </div>
                 </div>
               )}
@@ -538,7 +589,7 @@ export default function RipplePanel({ onClose, focus }: Props) {
                     className="rounded-full px-4 py-1.5 font-baskerville text-[13px] shadow-sm backdrop-blur-sm"
                     style={{ background: AMBER_SOFT, color: AMBER, border: `1px solid ${AMBER_LINE}` }}
                   >
-                    {run.summary.contradicted} target{run.summary.contradicted === 1 ? "" : "s"} moved against the transmitted direction.
+                    {plural(t, locale, "panels.ripple.againstBanner", run.summary.contradicted ?? 0)}
                   </div>
                 </div>
               )}

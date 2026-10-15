@@ -9,15 +9,21 @@ import {
   dayLabel,
   monthTicks,
   roleLabel,
-  WEEKDAY_TICKS,
+  weekdayTicks,
+  type Translate,
 } from "../../lib/second-order-card";
 import { cn } from "../../lib/utils";
+import { useI18n, type MessageKey } from "@/lib/i18n";
+import { na } from "@/lib/i18n/na";
+import { monthDayYear } from "@/lib/dashboard-dates";
+import { eventTypeLabel } from "@/lib/event-type-labels";
 import type {
   PairExplanation,
   PairExplanationRequest,
   PairOutlook,
 } from "../../../shared/pair-explanation";
 import type { PropagationDirection } from "../../../shared/propagation-run-types";
+import { repairPairHistory } from "../../../shared/display-text";
 import type {
   PairHistoryEvent,
   PairOutcome,
@@ -42,21 +48,33 @@ import type {
 const SECTION_LABEL =
   "select-none font-sans text-[10.5px] font-medium tracking-[0.08em] text-[#9CA3AF]";
 
-const OUTCOME_LABEL: Record<PairOutcome, string> = {
-  hit: "called right",
-  partial: "right, short",
-  miss: "called wrong",
-  open: "open",
-  expired: "expired",
+const OUTCOME_LABEL: Record<PairOutcome, MessageKey> = {
+  hit: "dashboard.pair.outcome.hit",
+  partial: "dashboard.pair.outcome.partial",
+  miss: "dashboard.pair.outcome.miss",
+  open: "dashboard.pair.outcome.open",
+  expired: "dashboard.pair.outcome.expired",
 };
 
 /** What each verdict actually means, for the row that carries it. */
-const OUTCOME_HINT: Record<PairOutcome, string> = {
-  hit: "Moved the way the engine called it, at or past the size it called.",
-  partial: "Moved the way it was called, but short of the size.",
-  miss: "Moved against the direction the engine called.",
-  open: "Has not moved far enough either way to say.",
-  expired: "The horizon passed before the move resolved.",
+const OUTCOME_HINT: Record<PairOutcome, MessageKey> = {
+  hit: "dashboard.pair.hint.hit",
+  partial: "dashboard.pair.hint.partial",
+  miss: "dashboard.pair.hint.miss",
+  open: "dashboard.pair.hint.open",
+  expired: "dashboard.pair.hint.expired",
+};
+
+const CONVICTION_KEY: Record<PairOutlook["conviction"], MessageKey> = {
+  low: "dashboard.pair.conviction.low",
+  medium: "dashboard.pair.conviction.medium",
+  high: "dashboard.pair.conviction.high",
+};
+
+const DIRECTION_KEY: Record<PairOutlook["direction"], MessageKey> = {
+  up: "dashboard.pair.direction.up",
+  down: "dashboard.pair.direction.down",
+  unclear: "dashboard.pair.direction.unclear",
 };
 
 /** Green for a call that landed, red for one that went the other way, grey
@@ -88,17 +106,19 @@ const OUTLOOK_ICON: Record<PairOutlook["direction"], typeof ArrowUpRight> = {
  * which way, how big, by when, and how much weight it carries.
  */
 function Outlook({ outlook, ticker }: { outlook: PairOutlook; ticker: string }) {
+  const { t } = useI18n();
   const color = OUTLOOK_COLOR[outlook.direction];
   const Icon = OUTLOOK_ICON[outlook.direction];
+  // Size and horizon are the model's own words; the frame only labels them.
   const facts = [
-    outlook.magnitude ? `Size ${outlook.magnitude}` : null,
-    outlook.horizon ? `Over ${outlook.horizon}` : null,
-    `${outlook.conviction.charAt(0).toUpperCase() + outlook.conviction.slice(1)} conviction`,
+    outlook.magnitude ? t("dashboard.pair.size", { size: outlook.magnitude }) : null,
+    outlook.horizon ? t("dashboard.pair.horizon", { horizon: outlook.horizon }) : null,
+    CONVICTION_KEY[outlook.conviction] ? t(CONVICTION_KEY[outlook.conviction]) : null,
   ].filter((x): x is string => x !== null);
 
   return (
     <div className="mt-5 rounded-2xl border border-white/60 bg-white/45 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-black/[0.04]">
-      <div className={SECTION_LABEL}>THE EXPECTATION</div>
+      <div className={SECTION_LABEL}>{t("dashboard.pair.section.expectation")}</div>
       <div className="mt-2.5 flex items-start gap-2.5">
         <span
           aria-hidden
@@ -108,7 +128,11 @@ function Outlook({ outlook, ticker }: { outlook: PairOutlook; ticker: string }) 
           <Icon className="h-4 w-4" strokeWidth={2.25} />
         </span>
         <p className="text-[15px] font-medium leading-[1.45] text-[#1d1b1b]">
-          {outlook.call || `${ticker}: ${outlook.direction}`}
+          {outlook.call ||
+            t("dashboard.pair.fallbackCall", {
+              ticker,
+              direction: DIRECTION_KEY[outlook.direction] ? t(DIRECTION_KEY[outlook.direction]) : outlook.direction,
+            })}
         </p>
       </div>
       <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1.5 text-[11.5px] text-[#6b7280]">
@@ -121,11 +145,11 @@ function Outlook({ outlook, ticker }: { outlook: PairOutlook; ticker: string }) 
 }
 
 function pct(v: number | null | undefined, digits = 1): string {
-  return v == null || !Number.isFinite(v) ? "—" : `${(v * 100).toFixed(digits)}%`;
+  return v == null || !Number.isFinite(v) ? na() : `${(v * 100).toFixed(digits)}%`;
 }
 
 function signedPct(v: number | null | undefined): string {
-  if (v == null || !Number.isFinite(v)) return "—";
+  if (v == null || !Number.isFinite(v)) return na();
   const p = v * 100;
   return `${p > 0 ? "+" : p < 0 ? "−" : ""}${Math.abs(p).toFixed(1)}%`;
 }
@@ -140,29 +164,20 @@ function signedPct(v: number | null | undefined): string {
  * ± says so.
  */
 function calledPct(v: number | null | undefined, direction: PropagationDirection): string {
-  if (v == null || !Number.isFinite(v)) return "—";
+  if (v == null || !Number.isFinite(v)) return na();
   const sign = direction === "positive" ? "+" : direction === "negative" ? "−" : "±";
   return `${sign}${(Math.abs(v) * 100).toFixed(1)}%`;
 }
 
-function roleWord(role: string): string {
-  const word = roleLabel(role as Parameters<typeof roleLabel>[0]);
-  return word.charAt(0).toUpperCase() + word.slice(1);
+function roleWord(role: string, t: Translate, locale: string): string {
+  const word = roleLabel(role as Parameters<typeof roleLabel>[0], t);
+  return word.charAt(0).toLocaleUpperCase(locale) + word.slice(1);
 }
 
-function day(iso: string): string {
+function day(iso: string, locale: string): string {
   const d = new Date(iso);
   if (!Number.isFinite(d.getTime())) return iso.slice(0, 10);
-  return d.toLocaleString("en-US", { month: "short", day: "numeric", year: "numeric" });
-}
-
-function plural(n: number, one: string, many: string): string {
-  return `${n} ${n === 1 ? one : many}`;
-}
-
-/** `regulatory_decision` is the engine's word for it, not the reader's. */
-function eventType(type: string): string {
-  return type.replace(/_/g, " ");
+  return monthDayYear(d, locale);
 }
 
 /**
@@ -171,61 +186,72 @@ function eventType(type: string): string {
  * a sentence, and only shows the outcomes that actually happened.
  */
 function RecordSummary({ history, root }: { history: PropagationPairHistory; root: string }) {
+  const { t } = useI18n();
   const right = history.hits + history.partials;
   const resolved = right + history.misses;
   const waiting = history.open + history.expired;
 
   const sentence = (() => {
     if (history.events.length === 0) {
-      return `This is the first event the engine has carried from ${root} to ${history.target}.`;
+      return t("dashboard.pair.record.first", { root, target: history.target });
     }
     if (resolved === 0) {
-      return `${plural(history.events.length, "call", "calls")} so far and none has resolved, so there is nothing to score yet.`;
+      const count = history.events.length;
+      return t(count === 1 ? "dashboard.pair.record.noneResolvedOne" : "dashboard.pair.record.noneResolvedMany", { count });
     }
     const parts = [
-      `Of ${plural(resolved, "resolved call", "resolved calls")}, ${right} moved the way the engine said and ${history.misses} moved against it.`,
+      t(resolved === 1 ? "dashboard.pair.record.ofResolvedOne" : "dashboard.pair.record.ofResolvedMany", {
+        count: resolved,
+        right,
+        misses: history.misses,
+      }),
     ];
     if (history.partials > 0) {
-      parts.push(
-        `${history.partials} of the right ones got the direction but fell short of the size called.`,
-      );
+      parts.push(t("dashboard.pair.record.partials", { count: history.partials }));
     }
     if (waiting > 0) {
-      parts.push(`${plural(waiting, "call is", "calls are")} still waiting on the market.`);
+      parts.push(t(waiting === 1 ? "dashboard.pair.record.waitingOne" : "dashboard.pair.record.waitingMany", { count: waiting }));
     }
     return parts.join(" ");
   })();
 
   const size =
     history.avg_expected_pct != null && history.avg_realized_pct != null
-      ? `The engine usually calls a ${pct(history.avg_expected_pct)} move on this link. ${
-          history.target
-        } has actually moved ${pct(history.avg_realized_pct)}${
-          history.avg_ratio == null
-            ? ""
-            : ` — about ${history.avg_ratio.toFixed(1)}× the size called`
-        }.`
+      ? history.avg_ratio == null
+        ? t("dashboard.pair.record.size", {
+            expected: pct(history.avg_expected_pct),
+            target: history.target,
+            realized: pct(history.avg_realized_pct),
+          })
+        : t("dashboard.pair.record.sizeRatio", {
+            expected: pct(history.avg_expected_pct),
+            target: history.target,
+            realized: pct(history.avg_realized_pct),
+            ratio: history.avg_ratio.toFixed(1),
+          })
       : null;
 
   // Only what happened: a row of zeroes teaches nothing.
   const chips = (
     [
-      { label: `${history.hits} right`, tone: "hit" },
-      { label: `${history.partials} right but short`, tone: "partial" },
-      { label: `${history.misses} wrong`, tone: "miss" },
-      { label: `${history.open} still open`, tone: "open" },
-      { label: `${history.expired} expired`, tone: "expired" },
-    ] satisfies Array<{ label: string; tone: PairOutcome }>
-  ).filter((c) => !c.label.startsWith("0 "));
+      { count: history.hits, key: "dashboard.pair.chip.hit", tone: "hit" },
+      { count: history.partials, key: "dashboard.pair.chip.partial", tone: "partial" },
+      { count: history.misses, key: "dashboard.pair.chip.miss", tone: "miss" },
+      { count: history.open, key: "dashboard.pair.chip.open", tone: "open" },
+      { count: history.expired, key: "dashboard.pair.chip.expired", tone: "expired" },
+    ] satisfies Array<{ count: number; key: MessageKey; tone: PairOutcome }>
+  )
+    .filter((c) => c.count !== 0)
+    .map((c) => ({ label: t(c.key, { count: c.count }), tone: c.tone }));
 
   return (
     <div className="rounded-2xl border border-white/60 bg-white/45 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-black/[0.04]">
       <div className="flex items-baseline gap-2">
         <span className="text-[34px] font-medium leading-none tabular-nums text-[#1d1b1b]">
-          {resolved === 0 ? "—" : `${right} of ${resolved}`}
+          {resolved === 0 ? t("common.na") : t("dashboard.pair.record.score", { right, resolved })}
         </span>
         <span className="text-[13px] text-[#6b7280]">
-          {resolved === 0 ? "nothing scored yet" : "calls right"}
+          {resolved === 0 ? t("dashboard.pair.record.nothingScored") : t("dashboard.pair.record.callsRight")}
         </span>
       </div>
 
@@ -236,7 +262,7 @@ function RecordSummary({ history, root }: { history: PropagationPairHistory; roo
           {chips.map((chip) => (
             <span
               key={chip.label}
-              title={OUTCOME_HINT[chip.tone]}
+              title={t(OUTCOME_HINT[chip.tone])}
               className="rounded-full px-2.5 py-[4px] text-[11px] font-medium leading-none"
               style={{
                 color: OUTCOME_COLOR[chip.tone],
@@ -259,30 +285,33 @@ function RecordSummary({ history, root }: { history: PropagationPairHistory; roo
 }
 
 function EventRow({ event }: { event: PairHistoryEvent }) {
+  const { t, locale } = useI18n();
   return (
     <li className="flex items-start gap-3 border-b border-black/[0.05] py-2.5 last:border-b-0">
       <span className="w-[92px] shrink-0 font-['Geist_Mono'] text-[11px] leading-[1.5] tabular-nums text-[#9CA3AF]">
-        {day(event.event_ts)}
+        {day(event.event_ts, locale)}
       </span>
       <span className="min-w-0 flex-1">
         <span className="block text-[12.5px] leading-[1.45] text-[#1d1b1b]">
           {event.event_label}
         </span>
         <span className="mt-0.5 block text-[11px] leading-[1.4] text-[#9CA3AF]">
-          {eventType(event.event_type)} · called{" "}
-          {calledPct(event.expected_pct, event.expected_direction)} · moved{" "}
-          {signedPct(event.realized_pct)}
+          {t("dashboard.pair.eventMeta", {
+            type: eventTypeLabel(event.event_type, t),
+            called: calledPct(event.expected_pct, event.expected_direction),
+            moved: signedPct(event.realized_pct),
+          })}
         </span>
       </span>
       <span
-        title={OUTCOME_HINT[event.outcome]}
+        title={t(OUTCOME_HINT[event.outcome])}
         className="shrink-0 rounded-full px-2 py-[3px] text-[10.5px] font-medium leading-none"
         style={{
           color: OUTCOME_COLOR[event.outcome],
           backgroundColor: `${OUTCOME_COLOR[event.outcome]}14`,
         }}
       >
-        {OUTCOME_LABEL[event.outcome]}
+        {t(OUTCOME_LABEL[event.outcome])}
       </span>
     </li>
   );
@@ -305,6 +334,7 @@ const LABEL_FONT = "Geist Mono, ui-monospace, monospace";
 /** The card's calendar, without the hover card: the pair's days, coloured by
  *  how far each day's call travelled. */
 function PairCalendar({ events, root }: { events: PairHistoryEvent[]; root: string }) {
+  const { t, locale } = useI18n();
   const [width, setWidth] = useState(0);
   const observer = useRef<ResizeObserver | null>(null);
   const ref = useCallback((el: HTMLDivElement | null) => {
@@ -332,7 +362,7 @@ function PairCalendar({ events, root }: { events: PairHistoryEvent[]; root: stri
 
   const svgW = GUTTER + columns.length * pitch;
   const svgH = BAND + 7 * pitch;
-  const months = monthTicks(columns);
+  const months = monthTicks(columns, locale);
 
   return (
     <div ref={ref} className="flex justify-center">
@@ -342,7 +372,7 @@ function PairCalendar({ events, root }: { events: PairHistoryEvent[]; root: stri
         height={svgH}
         className="block h-auto max-w-full"
         role="img"
-        aria-label="Days this pair has been called"
+        aria-label={t("dashboard.pair.calendarLabel")}
       >
         {months.map((tick) => (
           <text
@@ -356,7 +386,7 @@ function PairCalendar({ events, root }: { events: PairHistoryEvent[]; root: stri
             {tick.label}
           </text>
         ))}
-        {WEEKDAY_TICKS.map((tick) => (
+        {weekdayTicks(locale).map((tick) => (
           <text
             key={tick.label}
             x={GUTTER - 5}
@@ -380,7 +410,7 @@ function PairCalendar({ events, root }: { events: PairHistoryEvent[]; root: stri
               rx={RADIUS}
               fill={dayColor(cell)}
             >
-              {cell.items.length > 0 ? <title>{dayLabel(cell)}</title> : null}
+              {cell.items.length > 0 ? <title>{dayLabel(cell, t, locale)}</title> : null}
             </rect>
           )),
         )}
@@ -424,6 +454,7 @@ export default function InsightPairFrame({
   request: Omit<PairExplanationRequest, "record" | "precedents"> | null;
   onBack: () => void;
 }) {
+  const { t, locale } = useI18n();
   const ticker = subject.ticker.toUpperCase();
   const [history, setHistory] = useState<PropagationPairHistory | null>(null);
   const [explanation, setExplanation] = useState<PairExplanation | null>(null);
@@ -446,7 +477,7 @@ export default function InsightPairFrame({
     void Promise.resolve(pending)
       .then(async (res) => {
         if (cancelled) return;
-        const record = res?.ok ? res.history : null;
+        const record = res?.ok && res.history ? repairPairHistory(res.history) : null;
         if (record) setHistory(record);
         if (!request) {
           setLoading(false);
@@ -479,25 +510,27 @@ export default function InsightPairFrame({
             : undefined,
         });
         if (!explain) {
-          setError("No explanation service available.");
+          setError(t("dashboard.insight.explain.noService"));
           setLoading(false);
           return;
         }
         const written = await explain;
         if (cancelled) return;
         if (written?.ok) setExplanation(written.explanation);
-        else setError(written?.error ?? "No explanation available.");
+        else setError(written?.error ?? t("dashboard.insight.explain.none"));
         setLoading(false);
       })
       .catch(() => {
         if (cancelled) return;
-        setError("Couldn't reach the propagation store.");
+        setError(t("dashboard.pair.storeUnreachable"));
         setLoading(false);
       });
 
     return () => {
       cancelled = true;
     };
+    // `t` is left out on purpose: a language change must not ask for the write-up again.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rootTicker, ticker, request?.run_id, request?.headline]);
 
   const name = subject.label ?? history?.label ?? null;
@@ -512,7 +545,7 @@ export default function InsightPairFrame({
         className="mb-4 flex shrink-0 items-center gap-1.5 self-start rounded-full border border-white/60 bg-white/55 py-1.5 pl-2 pr-3 text-[11.5px] font-medium text-[#4b5563] shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-black/[0.04] backdrop-blur-xl transition-colors hover:bg-white/75 hover:text-[#1d1b1b]"
       >
         <ArrowLeft className="h-3.5 w-3.5" strokeWidth={2} aria-hidden />
-        All names
+        {t("dashboard.pair.back")}
       </button>
 
       <div className="min-h-0 flex-1 overflow-y-auto pr-1">
@@ -529,13 +562,13 @@ export default function InsightPairFrame({
               {ticker}
             </div>
             <div className="mt-1.5 truncate text-[13px] leading-none text-[#6b7280]">
-              {name ?? "—"}
+              {name ?? t("common.na")}
             </div>
           </div>
         </div>
 
         {role ? (
-          <p className="mt-3 text-[12px] leading-[1.5] text-[#6b7280]">{roleWord(role)}</p>
+          <p className="mt-3 text-[12px] leading-[1.5] text-[#6b7280]">{roleWord(role, t, locale)}</p>
         ) : null}
 
         {/* The write-up. */}
@@ -549,7 +582,7 @@ export default function InsightPairFrame({
               className="mt-6 flex items-center gap-2 text-[13px] text-[#9CA3AF]"
             >
               <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden />
-              Reading the record…
+              {t("dashboard.pair.readingRecord")}
             </motion.div>
           ) : explanation ? (
             <motion.div
@@ -563,14 +596,14 @@ export default function InsightPairFrame({
                 <Outlook outlook={explanation.outlook} ticker={ticker} />
               ) : null}
 
-              <Section label="WHY IT REACHES THIS NAME">
+              <Section label={t("dashboard.pair.section.why")}>
                 <SelectionGloss context={explanation.why} ticker={ticker}>
                   <p className="text-[14px] leading-[1.62] text-[#374151]">{explanation.why}</p>
                 </SelectionGloss>
               </Section>
 
               {explanation.precedent ? (
-                <Section label="WHAT EVENTS LIKE THIS HAVE DONE">
+                <Section label={t("dashboard.pair.section.precedent")}>
                   <SelectionGloss context={explanation.precedent} ticker={ticker}>
                     <p className="text-[14px] leading-[1.62] text-[#374151]">
                       {explanation.precedent}
@@ -580,7 +613,7 @@ export default function InsightPairFrame({
               ) : null}
 
               {explanation.this_time ? (
-                <Section label="THIS TIME">
+                <Section label={t("dashboard.pair.section.thisTime")}>
                   <SelectionGloss context={explanation.this_time} ticker={ticker}>
                     <p className="text-[14px] leading-[1.62] text-[#374151]">
                       {explanation.this_time}
@@ -590,7 +623,7 @@ export default function InsightPairFrame({
               ) : null}
 
               {explanation.watch.length > 0 ? (
-                <Section label="WHAT WOULD CONFIRM OR KILL IT">
+                <Section label={t("dashboard.pair.section.watch")}>
                   <ul className="space-y-2.5">
                     {explanation.watch.map((line) => (
                       <li
@@ -621,7 +654,7 @@ export default function InsightPairFrame({
         </AnimatePresence>
 
         {/* The record: the number, then every call behind it. */}
-        <Section label="THE ENGINE'S RECORD ON THIS PAIR">
+        <Section label={t("dashboard.pair.section.record")}>
           {history ? (
             <>
               <RecordSummary history={history} root={rootTicker.toUpperCase()} />
@@ -633,22 +666,20 @@ export default function InsightPairFrame({
                 </ul>
               ) : (
                 <p className="mt-3 text-[13px] text-[#9CA3AF]">
-                  This is the first event the engine has propagated from{" "}
-                  {rootTicker.toUpperCase()} to {ticker}.
+                  {t("dashboard.pair.firstPropagated", { root: rootTicker.toUpperCase(), ticker })}
                 </p>
               )}
             </>
           ) : (
-            <p className="text-[13px] text-[#9CA3AF]">Reading the run store…</p>
+            <p className="text-[13px] text-[#9CA3AF]">{t("dashboard.pair.readingStore")}</p>
           )}
         </Section>
 
         {/* And the whole span of it, as days. */}
-        <Section label="EVERY DAY THIS PAIR HAS BEEN CALLED">
+        <Section label={t("dashboard.pair.section.everyDay")}>
           <PairCalendar events={events} root={rootTicker.toUpperCase()} />
           <p className="mt-3 text-[11.5px] leading-[1.5] text-[#9CA3AF]">
-            Blank while the market has not answered the call, red where the name went the other
-            way, blue as the called move lands — the same reading as the card's own field.
+            {t("dashboard.pair.legend")}
           </p>
         </Section>
       </div>

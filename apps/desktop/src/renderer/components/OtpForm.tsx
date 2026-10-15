@@ -4,6 +4,8 @@ import type { EmailOtpType } from "@supabase/supabase-js";
 import { OTPInput, type OTPStatus } from "@/components/ui/be-ui-otp-input";
 import { resendOtpForType, verifyEmailOtp } from "@/lib/auth";
 import { requireSupabase } from "@/lib/supabase";
+import { authErrorKey } from "@/lib/auth-errors";
+import { useT, type MessageKey } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 const OTP_LENGTH = 8;
@@ -30,11 +32,6 @@ type Props = {
   dragSafe?: boolean;
 };
 
-function authMessage(error: unknown): string {
-  if (error instanceof Error) return error.message;
-  return "Something went wrong. Please try again.";
-}
-
 export default function OtpForm({
   email,
   otpType,
@@ -45,9 +42,11 @@ export default function OtpForm({
   onBack,
   dragSafe = true,
 }: Props) {
+  const t = useT();
   const [value, setValue] = useState("");
   const [status, setStatus] = useState<OTPStatus>("idle");
-  const [errorMessage, setErrorMessage] = useState<string | undefined>();
+  // A key, so the line follows a language change while it shows.
+  const [errorKey, setErrorKey] = useState<MessageKey | undefined>();
   const [loading, setLoading] = useState(false);
   const [resending, setResending] = useState(false);
   const [resent, setResent] = useState(false);
@@ -58,7 +57,7 @@ export default function OtpForm({
   async function handleVerify(code: string) {
     if (code.length !== OTP_LENGTH || loading || verifyingRef.current) return;
     verifyingRef.current = true;
-    setErrorMessage(undefined);
+    setErrorKey(undefined);
     setStatus("idle");
     setLoading(true);
     try {
@@ -72,7 +71,7 @@ export default function OtpForm({
       onVerified(result);
     } catch (err) {
       setStatus("error");
-      setErrorMessage(authMessage(err));
+      setErrorKey(authErrorKey(err));
       setValue("");
     } finally {
       setLoading(false);
@@ -82,7 +81,7 @@ export default function OtpForm({
 
   async function handleResend() {
     if (resending || loading) return;
-    setErrorMessage(undefined);
+    setErrorKey(undefined);
     setStatus("idle");
     setResent(false);
     setResending(true);
@@ -93,14 +92,14 @@ export default function OtpForm({
       setResent(true);
     } catch (err) {
       setStatus("error");
-      setErrorMessage(authMessage(err));
+      setErrorKey(authErrorKey(err));
     } finally {
       setResending(false);
     }
   }
 
   const hint =
-    resent && status !== "error" && !loading ? "Code sent again." : undefined;
+    resent && status !== "error" && !loading ? t("auth.otp.resent") : undefined;
 
   return (
     <div className="relative flex min-h-0 flex-1 flex-col">
@@ -108,7 +107,7 @@ export default function OtpForm({
         type="button"
         onClick={onBack}
         disabled={loading}
-        aria-label="Back"
+        aria-label={t("auth.back")}
         className={cn(
           prefix +
             "absolute left-8 top-14 z-50 flex h-8 w-8 items-center justify-center text-white/40 transition hover:bg-white/[0.06] hover:text-white/70 disabled:opacity-50",
@@ -123,7 +122,7 @@ export default function OtpForm({
             <h1 className="font-serif text-[2rem] font-normal leading-[1.25] tracking-[0.01em] text-white">
               {title}
             </h1>
-            <p className="mt-3 text-sm text-[#888888]">{subtitle}</p>
+            <p className="mt-3 text-balance text-sm text-[#888888] [word-break:auto-phrase]">{subtitle}</p>
             <p className="mt-1 text-sm text-white/80">{maskEmail(email)}</p>
           </header>
 
@@ -134,15 +133,15 @@ export default function OtpForm({
               status={status}
               disabled={loading}
               autoFocus
-              aria-label="8-digit verification code"
-              errorMessage={errorMessage}
+              aria-label={t("auth.otp.codeLabel")}
+              errorMessage={errorKey ? t(errorKey) : undefined}
               hint={hint}
-              successMessage="Verified."
+              successMessage={t("auth.otp.verified")}
               onChange={(next) => {
                 setValue(next);
                 if (status !== "idle") {
                   setStatus("idle");
-                  setErrorMessage(undefined);
+                  setErrorKey(undefined);
                 }
                 if (resent) setResent(false);
               }}
@@ -152,7 +151,7 @@ export default function OtpForm({
             {loading ? (
               <p className="mt-3 flex items-center gap-2 text-xs text-[#888888]">
                 <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden />
-                Verifying…
+                {t("auth.otp.verifying")}
               </p>
             ) : null}
           </div>
@@ -164,7 +163,7 @@ export default function OtpForm({
               disabled={resending || loading}
               className="text-[#888888] underline underline-offset-2 transition hover:text-white disabled:opacity-50"
             >
-              {resending ? "Sending…" : "Resend code"}
+              {resending ? t("auth.otp.sending") : t("auth.otp.resend")}
             </button>
           </div>
         </div>

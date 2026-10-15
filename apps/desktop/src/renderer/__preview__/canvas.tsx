@@ -3,6 +3,8 @@ import "../globals.css";
 import HomePage from "../pages/HomePage";
 import { toggleDemoMode } from "../lib/demo-mode";
 import { applyTheme, getStoredTheme } from "../lib/theme";
+import { setLanguage } from "../lib/i18n";
+import { isLanguageCode } from "../lib/i18n/languages";
 
 /**
  * Scratch harness: the real dashboard canvas with nothing behind it, so the
@@ -47,6 +49,9 @@ if (new URLSearchParams(location.search).get("seed") !== "keep") {
 
 applyTheme(getStoredTheme());
 toggleDemoMode();
+// ?lang=tr-TR shows the canvas in that language (kept, as a pick would be).
+const langParam = new URLSearchParams(location.search).get("lang");
+if (isLanguageCode(langParam)) setLanguage(langParam);
 
 createRoot(document.getElementById("root")!).render(
   <div style={{ height: "100vh" }}>

@@ -8,6 +8,7 @@ import type {
   PropagationTarget,
 } from "../../../shared/propagation-run-types";
 import InsightDetailModal from "./InsightDetailModal";
+import { useHomeTabActivity } from "@/lib/home-tab-activity";
 import SelectionGloss from "./SelectionGloss";
 import {
   buildCalendar,
@@ -23,10 +24,12 @@ import {
   orderRuns,
   stamp,
   targetExplain,
-  WEEKDAY_TICKS,
+  weekdayTicks,
   type DayCell,
 } from "../../lib/second-order-card";
+import { useI18n } from "@/lib/i18n";
 import { livePricedIn, targetPricedIn } from "../../../shared/propagation-progress";
+import { repairRun, repairRunList } from "../../../shared/display-text";
 import { mulberry32, useDemoMode } from "../../lib/demo-mode";
 import StockIcon from "../stock/StockIcon";
 import { getLiveQuote, getStockQuote } from "../../lib/stock-api";
@@ -62,6 +65,7 @@ const POPUP_MAX = 260;
 const POPUP_ROWS = 6;
 
 function Calendar({ columns, pitch }: { columns: DayCell[][]; pitch: number }) {
+  const { t, locale } = useI18n();
   // Pixel offsets inside the wrapper, measured from the hovered cell itself —
   // the SVG renders at its natural size, so viewBox percentages no longer map
   // onto the wrapper and would drift the popup sideways.
@@ -71,7 +75,7 @@ function Calendar({ columns, pitch }: { columns: DayCell[][]; pitch: number }) {
   const gridH = 7 * pitch;
   const width = GUTTER + gridW;
   const height = BAND + gridH;
-  const months = monthTicks(columns);
+  const months = monthTicks(columns, locale);
 
   return (
     <div ref={wrapRef} className="relative">
@@ -84,7 +88,7 @@ function Calendar({ columns, pitch }: { columns: DayCell[][]; pitch: number }) {
         height={height}
         className="block h-auto max-w-full"
         role="img"
-        aria-label="Propagation days"
+        aria-label={t("dashboard.insight.calendarLabel")}
       >
         {/* Months across the top, weekdays down the left — the two axes that
             make a heatmap readable as a calendar. */}
@@ -100,7 +104,7 @@ function Calendar({ columns, pitch }: { columns: DayCell[][]; pitch: number }) {
             {tick.label}
           </text>
         ))}
-        {WEEKDAY_TICKS.map((tick) => (
+        {weekdayTicks(locale).map((tick) => (
           <text
             key={tick.label}
             x={GUTTER - 5}
@@ -177,9 +181,9 @@ function Calendar({ columns, pitch }: { columns: DayCell[][]; pitch: number }) {
             style={{ maxWidth: POPUP_MAX }}
           >
             <div className="pb-1.5 text-[10.5px] leading-none text-[#6b7280]">
-              {dayLabel(hover.cell)}
+              {dayLabel(hover.cell, t, locale)}
             </div>
-            <ul className="flex flex-col gap-1.5" aria-label={dayLabel(hover.cell)}>
+            <ul className="flex flex-col gap-1.5" aria-label={dayLabel(hover.cell, t, locale)}>
               {hover.cell.items.slice(0, POPUP_ROWS).map((item, i) => (
                 <motion.li
                   key={item.run_id}
@@ -205,7 +209,7 @@ function Calendar({ columns, pitch }: { columns: DayCell[][]; pitch: number }) {
               ))}
               {hover.cell.items.length > POPUP_ROWS ? (
                 <li className="pl-[15px] text-[10.5px] leading-none text-[#9CA3AF]">
-                  +{hover.cell.items.length - POPUP_ROWS} more
+                  {t("dashboard.insight.more", { count: hover.cell.items.length - POPUP_ROWS })}
                 </li>
               ) : null}
             </ul>
@@ -227,6 +231,8 @@ type RelatedQuote = { price: number; changePercent: number | null };
  *  print the rest of the dashboard values the book at. */
 function useRelatedQuotes(symbolsKey: string): Record<string, RelatedQuote> {
   const [quotes, setQuotes] = useState<Record<string, RelatedQuote>>({});
+  // Behind another home tab the beat stops, and picks up again on the way back.
+  const activity = useHomeTabActivity();
   useEffect(() => {
     const list = symbolsKey ? symbolsKey.split(",").filter(Boolean) : [];
     if (list.length === 0) {
@@ -269,12 +275,16 @@ function useRelatedQuotes(symbolsKey: string): Record<string, RelatedQuote> {
     // price that sits still for a minute beside one that moves every few
     // seconds reads as a broken feed, and the priced-in share below is
     // computed off this price, so it would lag too.
-    const id = window.setInterval(load, 5_000);
+    const id = window.setInterval(() => {
+      if (activity.isActive()) load();
+    }, 5_000);
+    const offShown = activity.onChange((active) => active && load());
     return () => {
       cancelled = true;
       window.clearInterval(id);
+      offShown();
     };
-  }, [symbolsKey]);
+  }, [symbolsKey, activity]);
   return quotes;
 }
 
@@ -298,6 +308,7 @@ const EXPECTED_COLOR: Record<PropagationDirection, string> = {
 };
 
 function RelatedNames({ targets, run }: { targets: PropagationTarget[]; run: PropagationRun }) {
+  const { t: tr } = useI18n();
   const symbolsKey = useMemo(
     () =>
       targets
@@ -321,7 +332,7 @@ function RelatedNames({ targets, run }: { targets: PropagationTarget[]; run: Pro
   if (targets.length === 0) return null;
   return (
     <div ref={listRef} className="relative mt-4">
-      <ul className="flex flex-col gap-[6px]" aria-label="Related names">
+      <ul className="flex flex-col gap-[6px]" aria-label={tr("dashboard.insight.relatedNames")}>
         {targets.map((t) => {
           const ticker = (t.ticker ?? "").toUpperCase();
           const q = quotes[ticker];
@@ -343,7 +354,7 @@ function RelatedNames({ targets, run }: { targets: PropagationTarget[]; run: Pro
               <StockIcon symbol={ticker} companyName={t.label} size="sm" className="h-[18px] w-[18px] shrink-0" />
               <span className="text-[12.5px] font-semibold leading-none text-[#1d1b1b]">{ticker}</span>
               <span className="ml-1 text-[12px] leading-none tabular-nums text-[#374151]">
-                {q ? fmtPrice(q.price) : "—"}
+                {q ? fmtPrice(q.price) : tr("common.na")}
               </span>
               {chg != null && (
                 <span
@@ -363,12 +374,12 @@ function RelatedNames({ targets, run }: { targets: PropagationTarget[]; run: Pro
               <span className="ml-auto flex items-center gap-2">
                 <span
                   role="img"
-                  aria-label={`${ticker} ${formatPricedIn(pricedIn)} of the called move`}
+                  aria-label={tr("dashboard.insight.calledMoveAria", { ticker, share: formatPricedIn(pricedIn, tr) })}
                   className="block h-[10px] w-[10px] rounded-[2px]"
                   style={{ backgroundColor: pricedInColor(pricedIn) }}
                 />
                 <span className="w-[42px] text-right font-['Geist_Mono'] text-[10.5px] tabular-nums text-[#6b7280]">
-                  {formatPricedIn(pricedIn)}
+                  {formatPricedIn(pricedIn, tr)}
                 </span>
               </span>
             </li>
@@ -396,7 +407,7 @@ function RelatedNames({ targets, run }: { targets: PropagationTarget[]; run: Pro
               className="origin-bottom rounded-2xl border border-white/60 bg-white/40 p-3.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_24px_64px_rgba(0,0,0,0.12)] ring-1 ring-black/[0.04] backdrop-blur-xl backdrop-saturate-150"
             >
               {(() => {
-                const x = targetExplain(hover.target, run, hover.pricedIn);
+                const x = targetExplain(hover.target, run, hover.pricedIn, tr);
                 return (
                   <>
                     <p className="line-clamp-6 text-[12px] font-medium leading-relaxed text-[#1d1b1b]">
@@ -410,7 +421,7 @@ function RelatedNames({ targets, run }: { targets: PropagationTarget[]; run: Pro
                     </p>
                     <p className="mt-1 text-[11.5px] leading-relaxed text-[#6b7280]">{x.tape}</p>
                     <p className="mt-1.5 line-clamp-3 font-['Geist_Mono'] text-[10px] leading-relaxed text-[#9CA3AF]">
-                      {pricedInDetail(hover.target)}
+                      {pricedInDetail(hover.target, tr)}
                     </p>
                   </>
                 );
@@ -424,6 +435,7 @@ function RelatedNames({ targets, run }: { targets: PropagationTarget[]; run: Pro
 }
 
 export default function InsightCard() {
+  const { t, locale } = useI18n();
   const [runs, setRuns] = useState<PropagationRunListItem[]>([]);
   const [run, setRun] = useState<PropagationRun | null>(null);
   /** Which run the arrow has walked to; null means the best one. */
@@ -447,7 +459,7 @@ export default function InsightCard() {
             window.meridian?.getPropagationStatus?.(),
           ]);
           if (cancelled) return;
-          if (list.status === "fulfilled" && list.value?.ok) setRuns(list.value.runs);
+          if (list.status === "fulfilled" && list.value?.ok) setRuns(repairRunList(list.value.runs));
           setSurfacing(
             status.status === "fulfilled" && status.value?.ok
               ? status.value.status.surfacing_enabled
@@ -517,7 +529,7 @@ export default function InsightCard() {
     void window.meridian
       ?.getPropagationRun?.(headline.run_id)
       .then((res) => {
-        if (!cancelled && res?.ok) setRun(res.run);
+        if (!cancelled && res?.ok) setRun(repairRun(res.run));
       })
       .catch(() => {
         /* keep the last good run */
@@ -613,7 +625,7 @@ export default function InsightCard() {
   const headlineText =
     live && run
       ? `${run.root_ticker.toUpperCase()} ${run.event.label}`
-      : "Nothing has moved through the network";
+      : t("dashboard.insight.resting");
 
   // The names under the calendar follow the live run, demo or not.
   const related = useMemo(() => (live && run ? cardTargets(run, NAME_ROWS) : []), [live, run]);
@@ -647,8 +659,8 @@ export default function InsightCard() {
       {/* Masthead — the label is set like every other card heading here,
           not as a filled pill. */}
       <div className="flex items-center justify-between">
-        <span className="select-none font-sans text-[11px] font-medium tracking-[0.08em] text-[#9CA3AF]">
-          INSIGHT
+        <span className="select-none font-sans text-[11px] font-medium tracking-[0.04em] text-[#9CA3AF]">
+          {t("dashboard.insight.label")}
         </span>
         <AnimatePresence mode="wait" initial={false}>
           <motion.span
@@ -659,7 +671,7 @@ export default function InsightCard() {
             transition={{ duration: 0.14, ease: "easeOut" }}
             className="select-none font-['Geist_Mono'] text-[11px] tracking-[0.06em] text-[#9CA3AF]"
           >
-            {live && run ? stamp(run.produced_at) : ""}
+            {live && run ? stamp(run.produced_at, locale) : ""}
           </motion.span>
         </AnimatePresence>
       </div>
@@ -695,7 +707,7 @@ export default function InsightCard() {
             {/* Centred legend: red = going the other way, blank = nothing yet,
                 blue = the called move is in the price. */}
             <div className="mt-3 flex items-center justify-center gap-2 text-[11px] text-[#6b7280]">
-              <span>Wrong way</span>
+              <span>{t("dashboard.insight.legendWrongWay")}</span>
               <span className="flex items-center gap-1">
                 {LEGEND_COLORS.map((color) => (
                   <span
@@ -705,7 +717,7 @@ export default function InsightCard() {
                   />
                 ))}
               </span>
-              <span>Priced in</span>
+              <span>{t("dashboard.insight.legendPricedIn")}</span>
             </div>
           </div>
         )}
@@ -717,7 +729,7 @@ export default function InsightCard() {
           <RelatedNames targets={related} run={run} />
         ) : live ? (
           <p className="mt-4 text-[12px] leading-[1.5] text-[#9CA3AF]">
-            No tracked counterparty carries this one.
+            {t("dashboard.insight.noCounterparty")}
           </p>
         ) : null}
 
@@ -729,8 +741,8 @@ export default function InsightCard() {
             type="button"
             onClick={prevRun}
             disabled={!live || ordered.length < 2}
-            aria-label="Previous propagation"
-            title="Previous propagation"
+            aria-label={t("dashboard.insight.previous")}
+            title={t("dashboard.insight.previous")}
             className="glass-cta app-no-drag flex w-[42px] shrink-0 items-center justify-center disabled:pointer-events-none disabled:border-white/10 disabled:bg-[#1d1b1b]/40 disabled:text-white/75 disabled:shadow-none"
           >
             <ArrowLeft size={15} strokeWidth={2} />
@@ -742,7 +754,7 @@ export default function InsightCard() {
             onClick={() => setDetailOpen(true)}
             className="glass-cta app-no-drag flex-1 py-2 text-center font-sans text-[12.5px] font-medium"
           >
-            View Details
+            {t("dashboard.insight.viewDetails")}
           </button>
           {/* Not a dashboard CTA: this opens nothing, it steps the card to the
               next event. It stays live while the doors to the detail views are
@@ -751,8 +763,8 @@ export default function InsightCard() {
             type="button"
             onClick={nextRun}
             disabled={!live || ordered.length < 2}
-            aria-label="Next propagation"
-            title="Next propagation"
+            aria-label={t("dashboard.insight.next")}
+            title={t("dashboard.insight.next")}
             className="glass-cta app-no-drag flex w-[42px] shrink-0 items-center justify-center disabled:pointer-events-none disabled:border-white/10 disabled:bg-[#1d1b1b]/40 disabled:text-white/75 disabled:shadow-none"
           >
             <ArrowRight size={15} strokeWidth={2} />

@@ -2,6 +2,21 @@
   "version": "0.0.1",
   "configurations": [
     {
+      "name": "desktop-hometabs-preview",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "--filter",
+        "falcon",
+        "exec",
+        "vite",
+        "--config",
+        ".claude-preview.vite.config.mts",
+        "--port",
+        "5251"
+      ],
+      "port": 5251
+    },
+    {
       "name": "web",
       "runtimeExecutable": "pnpm",
       "runtimeArgs": [
@@ -98,6 +113,244 @@
         "5192"
       ],
       "port": 5192
+    },
+    {
+      "name": "desktop-plans-preview",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "--filter",
+        "falcon",
+        "exec",
+        "vite",
+        "--config",
+        ".claude-preview.vite.config.mts",
+        "--port",
+        "5217"
+      ],
+      "port": 5217
+    },
+    {
+      "name": "desktop-agents-preview",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "--filter",
+        "falcon",
+        "exec",
+        "vite",
+        "--config",
+        ".claude-preview.vite.config.mts",
+        "--port",
+        "5207",
+        "--strictPort"
+      ],
+      "port": 5207
+    },
+    {
+      "name": "desktop-calendar-preview",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "--filter",
+        "falcon",
+        "exec",
+        "vite",
+        "--config",
+        ".claude-preview.vite.config.mts",
+        "--port",
+        "5261",
+        "--strictPort"
+      ],
+      "port": 5261
+    },
+    {
+      "name": "desktop-auth-preview",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "--filter",
+        "falcon",
+        "exec",
+        "vite",
+        "--config",
+        ".claude-preview.vite.config.mts",
+        "--port",
+        "5273",
+        "--strictPort"
+      ],
+      "port": 5273
+    },
+    {
+      "name": "desktop-panels-preview",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "--filter",
+        "falcon",
+        "exec",
+        "vite",
+        "--config",
+        ".claude-preview.vite.config.mts",
+        "--port",
+        "5287",
+        "--strictPort"
+      ],
+      "port": 5287
+    },
+    {
+      "name": "desktop-onboarding-preview",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "--filter",
+        "falcon",
+        "exec",
+        "vite",
+        "--config",
+        ".claude-preview.vite.config.mts",
+        "--port",
+        "5291",
+        "--strictPort"
+      ],
+      "port": 5291
+    },
+    {
+      "name": "desktop-agentwizard-preview",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "--filter",
+        "falcon",
+        "exec",
+        "vite",
+        "--config",
+        ".claude-preview.vite.config.mts",
+        "--port",
+        "5313",
+        "--strictPort"
+      ],
+      "port": 5313
+    },
+    {
+      "name": "desktop-news-preview",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "--filter",
+        "falcon",
+        "exec",
+        "vite",
+        "--config",
+        ".claude-preview.vite.config.mts",
+        "--port",
+        "5341",
+        "--strictPort"
+      ],
+      "port": 5341
+    },
+    {
+      "name": "desktop-billing-preview",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "--filter",
+        "falcon",
+        "exec",
+        "vite",
+        "--config",
+        ".claude-preview.vite.config.mts",
+        "--port",
+        "5367",
+        "--strictPort"
+      ],
+      "port": 5367
+    },
+    {
+      "name": "desktop-privacy-preview",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "--filter",
+        "falcon",
+        "exec",
+        "vite",
+        "--config",
+        ".claude-preview.vite.config.mts",
+        "--port",
+        "5359",
+        "--strictPort"
+      ],
+      "port": 5359
+    },
+    {
+      "name": "desktop-system-preview",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "--filter",
+        "falcon",
+        "exec",
+        "vite",
+        "--config",
+        ".claude-preview.vite.config.mts",
+        "--port",
+        "5437",
+        "--strictPort"
+      ],
+      "port": 5437
+    },
+    {
+      "name": "desktop-startup-preview",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "--filter",
+        "falcon",
+        "exec",
+        "vite",
+        "--config",
+        ".claude-preview.vite.config.mts",
+        "--port",
+        "5463"
+      ],
+      "port": 5463
+    },
+    {
+      "name": "desktop-earnings-preview",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "--filter",
+        "falcon",
+        "exec",
+        "vite",
+        "--config",
+        ".claude-preview.vite.config.mts",
+        "--port",
+        "5449",
+        "--strictPort"
+      ],
+      "port": 5449
+    },
+    {
+      "name": "desktop-theme-editor-preview",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "--filter",
+        "falcon",
+        "exec",
+        "vite",
+        "--config",
+        ".claude-preview.vite.config.mts",
+        "--port",
+        "5463",
+        "--strictPort"
+      ],
+      "port": 5463
+    },
+    {
+      "name": "desktop-cardopen-preview",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "--filter",
+        "falcon",
+        "exec",
+        "vite",
+        "--config",
+        ".claude-preview.vite.config.mts",
+        "--port",
+        "5487",
+        "--strictPort"
+      ],
+      "port": 5487
     }
   ]
 }

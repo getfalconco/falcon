@@ -1,17 +1,29 @@
 import { useEffect, useRef, useState } from "react";
 import type { User } from "@supabase/supabase-js";
-import { Check, Copy } from "lucide-react";
+import { Camera, Check, Copy } from "lucide-react";
 import { Avatar } from "@/components/dashboard/ProfilePill";
 import { cn } from "@/lib/utils";
 import { displayNameFromUser } from "@/lib/greeting";
 import {
+  PROFILE_PHOTO_INPUT_ACCEPT,
+  ProfilePhotoError,
+  type ProfilePhotoProblem,
+  clearProfilePhoto,
+  prepareProfilePhoto,
+  saveProfilePhoto,
+  useProfilePhoto,
+} from "@/lib/profile-photo";
+import {
   INSTRUCTIONS_MAX,
   readCallName,
   readInstructions,
+  deleteAccount,
   saveAccountFields,
   signOutEverywhere,
   type AccountFields,
 } from "@/lib/user-preferences";
+import { useT, type MessageKey } from "@/lib/i18n";
+import { PROFILE_PHOTO_SOURCE_MAX_BYTES } from "../../../shared/profile-photo";
 import { SettingsRow, SettingsSection } from "./SettingsRow";
 
 /**
@@ -23,29 +35,34 @@ import { SettingsRow, SettingsSection } from "./SettingsRow";
  *
  * Every field saves itself when the reader leaves it, into the user's
  * metadata, the way onboarding writes the name; the auth listener in App
- * picks the change up and the greeting and the account pill follow.
+ * picks the change up and the greeting and the account pill follow. The
+ * photo is the exception: it is kept on this machine (lib/profile-photo),
+ * since metadata rides inside every access token, and saves as soon as one
+ * is picked.
  */
 
 export type AccountActions = {
   save: (fields: AccountFields) => Promise<void>;
   signOutEverywhere: () => Promise<void>;
+  /** Optional so previews that stub the pane keep compiling; the app passes the real one. */
+  deleteAccount?: () => Promise<void>;
 };
 
-const DEFAULT_ACTIONS: AccountActions = { save: saveAccountFields, signOutEverywhere };
+const DEFAULT_ACTIONS: AccountActions = { save: saveAccountFields, signOutEverywhere, deleteAccount };
 
 const FIELD =
   "app-no-drag rounded-xl border border-white/60 bg-white/55 px-3 text-[13px] font-normal text-[#1d1b1b] shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] outline-none ring-1 ring-black/[0.04] transition-colors placeholder:text-[#9CA3AF] focus:bg-white/75 disabled:opacity-60";
 
 const BUTTON =
-  "app-no-drag rounded-lg border border-white/60 bg-white/55 px-3 py-1.5 text-[13px] font-normal text-[#1d1b1b] shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-black/[0.04] transition-colors hover:bg-white/75 disabled:pointer-events-none";
+  "app-no-drag btn-quiet rounded-lg border border-white/60 bg-white/55 px-3 py-1.5 text-[13px] font-normal text-[#1d1b1b] shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-black/[0.04] transition-colors hover:bg-white/75 disabled:pointer-events-none";
 
 type SaveState = "idle" | "saving" | "saved" | "error" | "invalid";
 
-const STATUS_TEXT: Record<Exclude<SaveState, "idle">, string> = {
-  saving: "Saving",
-  saved: "Saved",
-  error: "Could not save",
-  invalid: "A name is needed",
+const STATUS_TEXT: Record<Exclude<SaveState, "idle">, MessageKey> = {
+  saving: "settings.account.saving",
+  saved: "settings.account.saved",
+  error: "settings.account.saveFailed",
+  invalid: "settings.account.nameRequired",
 };
 
 /**
@@ -102,13 +119,14 @@ function useSavedField(stored: string, commit: (value: string) => Promise<void>,
 }
 
 function Status({ state }: { state: SaveState }) {
+  const t = useT();
   if (state === "idle") return null;
   return (
     <span
       role="status"
       className={cn("text-[12px] font-normal", state === "error" || state === "invalid" ? "text-[#DC2626]" : "text-[#9CA3AF]")}
     >
-      {STATUS_TEXT[state]}
+      {t(STATUS_TEXT[state])}
     </span>
   );
 }
@@ -119,6 +137,7 @@ function blurOnEnter(e: React.KeyboardEvent<HTMLInputElement>) {
 }
 
 function AccountId({ id }: { id: string }) {
+  const t = useT();
   const [copied, setCopied] = useState(false);
   useEffect(() => {
     if (!copied) return;
@@ -128,7 +147,7 @@ function AccountId({ id }: { id: string }) {
   return (
     <button
       type="button"
-      title="Copy"
+      title={t("common.copy")}
       onClick={() => {
         void navigator.clipboard?.writeText(id).then(() => setCopied(true), () => undefined);
       }}
@@ -140,8 +159,133 @@ function AccountId({ id }: { id: string }) {
       ) : (
         <Copy className="h-3.5 w-3.5 text-[#9CA3AF] group-hover:text-[#4b5563]" strokeWidth={1.75} aria-hidden />
       )}
-      <span className="sr-only">{copied ? "Copied" : "Copy account ID"}</span>
+      <span className="sr-only">{copied ? t("common.copied") : t("settings.account.copyId")}</span>
     </button>
+  );
+}
+
+const PHOTO_STATUS: Record<"saving" | "saved" | "removed", MessageKey> = {
+  saving: "settings.account.saving",
+  saved: "settings.account.saved",
+  removed: "settings.account.photoRemoved",
+};
+
+/** Why a picked file was refused, as the pane words it. */
+const PHOTO_PROBLEM: Record<ProfilePhotoProblem, MessageKey> = {
+  type: "settings.account.photoWrongType",
+  size: "settings.account.photoTooBig",
+  unreadable: "settings.account.photoUnreadable",
+  empty: "settings.account.photoEmpty",
+  "too-large": "settings.account.photoTooLarge",
+};
+
+/**
+ * The avatar, and the photo that can stand in for the generated mark. Clicking
+ * the avatar or Upload opens the picker; the picked image is cropped to a
+ * centred square and scaled down before it is stored, and the avatar shows
+ * the result at once, here and in the account pill.
+ */
+function AvatarControl({ userId, name }: { userId: string | null; name: string }) {
+  const t = useT();
+  const photo = useProfilePhoto(userId);
+  const input = useRef<HTMLInputElement>(null);
+  const [busy, setBusy] = useState(false);
+  const [status, setStatus] = useState<{ kind: "saving" | "saved" | "removed" } | { kind: "error"; text: string } | null>(
+    null,
+  );
+
+  useEffect(() => {
+    if (!status || status.kind === "saving") return;
+    const t = setTimeout(() => setStatus(null), status.kind === "error" ? 4000 : 2200);
+    return () => clearTimeout(t);
+  }, [status]);
+
+  const pick = () => {
+    if (userId && !busy) input.current?.click();
+  };
+
+  const onFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    // Cleared at once, so picking the same file again still fires a change.
+    e.target.value = "";
+    if (!file || !userId) return;
+    setBusy(true);
+    setStatus({ kind: "saving" });
+    try {
+      await saveProfilePhoto(userId, await prepareProfilePhoto(file));
+      setStatus({ kind: "saved" });
+    } catch (err) {
+      setStatus({
+        kind: "error",
+        text:
+          err instanceof ProfilePhotoError
+            ? t(PHOTO_PROBLEM[err.reason], { size: Math.round(PROFILE_PHOTO_SOURCE_MAX_BYTES / (1024 * 1024)) })
+            : t("settings.account.photoSaveFailed"),
+      });
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const remove = async () => {
+    if (!userId) return;
+    setBusy(true);
+    try {
+      await clearProfilePhoto(userId);
+      setStatus({ kind: "removed" });
+    } catch {
+      setStatus({ kind: "error", text: t("settings.account.photoRemoveFailed") });
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <div className="flex items-center gap-3">
+      {status ? (
+        <span
+          role="status"
+          className={cn("text-[12px] font-normal", status.kind === "error" ? "text-[#DC2626]" : "text-[#9CA3AF]")}
+        >
+          {status.kind === "error" ? status.text : t(PHOTO_STATUS[status.kind])}
+        </span>
+      ) : null}
+      {photo ? (
+        <button type="button" onClick={() => void remove()} disabled={busy} className={cn(BUTTON, "disabled:opacity-60")}>
+          {t("settings.account.photoRemove")}
+        </button>
+      ) : null}
+      <button type="button" onClick={pick} disabled={!userId || busy} className={cn(BUTTON, "disabled:opacity-60")}>
+        {photo ? t("settings.account.photoReplace") : t("settings.account.photoUpload")}
+      </button>
+      <button
+        type="button"
+        onClick={pick}
+        disabled={!userId || busy}
+        title={photo ? t("settings.account.photoReplaceLabel") : t("settings.account.photoUpload")}
+        className="app-no-drag group relative shrink-0 rounded-full disabled:pointer-events-none"
+      >
+        <Avatar name={name} size={40} photo={photo} />
+        <span
+          aria-hidden
+          className="absolute inset-0 flex items-center justify-center rounded-full bg-black/40 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+        >
+          <Camera className="h-4 w-4 text-white" strokeWidth={1.75} />
+        </span>
+        <span className="sr-only">
+          {photo ? t("settings.account.photoReplaceLabel") : t("settings.account.photoUpload")}
+        </span>
+      </button>
+      <input
+        ref={input}
+        type="file"
+        accept={PROFILE_PHOTO_INPUT_ACCEPT}
+        className="hidden"
+        tabIndex={-1}
+        aria-hidden
+        onChange={(e) => void onFile(e)}
+      />
+    </div>
   );
 }
 
@@ -151,6 +295,7 @@ function AccountId({ id }: { id: string }) {
  * the reader looks away.
  */
 function SignOutEverywhere({ run }: { run: () => Promise<void> }) {
+  const t = useT();
   const [phase, setPhase] = useState<"idle" | "confirm" | "working" | "error">("idle");
   useEffect(() => {
     if (phase !== "confirm" && phase !== "error") return;
@@ -161,15 +306,15 @@ function SignOutEverywhere({ run }: { run: () => Promise<void> }) {
   if (phase === "idle") {
     return (
       <button type="button" onClick={() => setPhase("confirm")} className={BUTTON}>
-        Log out
+        {t("settings.account.logOut")}
       </button>
     );
   }
   return (
     <div className="flex items-center gap-2">
-      {phase === "error" ? <span className="text-[12px] text-[#DC2626]">Could not log out</span> : null}
+      {phase === "error" ? <span className="text-[12px] text-[#DC2626]">{t("settings.account.logOutFailed")}</span> : null}
       <button type="button" onClick={() => setPhase("idle")} disabled={phase === "working"} className={BUTTON}>
-        Cancel
+        {t("common.cancel")}
       </button>
       <button
         type="button"
@@ -180,13 +325,66 @@ function SignOutEverywhere({ run }: { run: () => Promise<void> }) {
         }}
         className="app-no-drag rounded-lg bg-[#DC2626] px-3 py-1.5 text-[13px] font-medium text-white transition-colors hover:bg-[#B91C1C] disabled:opacity-60"
       >
-        {phase === "working" ? "Logging out" : "Log out everywhere"}
+        {phase === "working" ? t("settings.account.loggingOut") : t("settings.account.logOutEverywhere")}
+      </button>
+    </div>
+  );
+}
+
+/**
+ * Deleting is the one thing here that cannot be taken back, so it asks the
+ * way signing out everywhere does (a second press), and the confirming press
+ * names what it does. It does not time out while working: the site is
+ * deleting the user, and a button that reset mid-way would invite a retry.
+ */
+function DeleteAccount({ run }: { run: () => Promise<void> }) {
+  const t = useT();
+  const [phase, setPhase] = useState<"idle" | "confirm" | "working" | "error">("idle");
+  const [error, setError] = useState<string | null>(null);
+  useEffect(() => {
+    if (phase !== "confirm") return;
+    const timer = setTimeout(() => setPhase("idle"), 8000);
+    return () => clearTimeout(timer);
+  }, [phase]);
+
+  if (phase === "idle") {
+    return (
+      <button type="button" onClick={() => setPhase("confirm")} className={cn(BUTTON, "text-[#DC2626]")}>
+        {t("settings.account.delete")}
+      </button>
+    );
+  }
+  return (
+    <div className="flex items-center gap-2">
+      {phase === "error" ? (
+        <span className="max-w-[220px] truncate text-[12px] text-[#DC2626]" title={error ?? undefined}>
+          {error ?? t("settings.account.deleteFailed")}
+        </span>
+      ) : null}
+      <button type="button" onClick={() => setPhase("idle")} disabled={phase === "working"} className={BUTTON}>
+        {t("common.cancel")}
+      </button>
+      <button
+        type="button"
+        disabled={phase === "working"}
+        onClick={() => {
+          setPhase("working");
+          setError(null);
+          run().catch((err: unknown) => {
+            setError(err instanceof Error && err.message ? err.message : null);
+            setPhase("error");
+          });
+        }}
+        className="app-no-drag rounded-lg bg-[#DC2626] px-3 py-1.5 text-[13px] font-medium text-white transition-colors hover:bg-[#B91C1C] disabled:opacity-60"
+      >
+        {phase === "working" ? t("settings.account.deleting") : t("settings.account.deleteConfirm")}
       </button>
     </div>
   );
 }
 
 export default function AccountPane({ user, actions = DEFAULT_ACTIONS }: { user: User | null; actions?: AccountActions }) {
+  const t = useT();
   const email = user?.email ?? "";
   const fullName = displayNameFromUser(user?.user_metadata, email);
   const storedFullName = typeof user?.user_metadata?.full_name === "string" ? (user.user_metadata.full_name as string) : "";
@@ -201,17 +399,18 @@ export default function AccountPane({ user, actions = DEFAULT_ACTIONS }: { user:
 
   return (
     <>
-      <SettingsSection title="Profile">
-        <SettingsRow label="Avatar" description="Drawn from your name.">
-          <Avatar name={nameField.draft.trim() || fullName} size={36} />
+      <SettingsSection title={t("settings.account.profile")}>
+        {/* Said before a photo is picked too: where it is kept is worth knowing first. */}
+        <SettingsRow label={t("settings.account.avatar")} description={t("settings.account.avatarPhoto")}>
+          <AvatarControl userId={user?.id ?? null} name={nameField.draft.trim() || fullName} />
         </SettingsRow>
 
-        <SettingsRow label="Full name">
+        <SettingsRow label={t("settings.account.fullName")}>
           <div className="flex items-center gap-3">
             <Status state={nameField.state} />
             <input
               type="text"
-              aria-label="Full name"
+              aria-label={t("settings.account.fullName")}
               value={nameField.draft}
               disabled={!signedIn}
               onChange={(e) => nameField.setDraft(e.target.value)}
@@ -223,12 +422,12 @@ export default function AccountPane({ user, actions = DEFAULT_ACTIONS }: { user:
           </div>
         </SettingsRow>
 
-        <SettingsRow label="What should Falcon call you?">
+        <SettingsRow label={t("settings.account.callName")}>
           <div className="flex items-center gap-3">
             <Status state={callField.state} />
             <input
               type="text"
-              aria-label="What should Falcon call you?"
+              aria-label={t("settings.account.callName")}
               value={callField.draft}
               placeholder={firstWord}
               disabled={!signedIn}
@@ -243,17 +442,14 @@ export default function AccountPane({ user, actions = DEFAULT_ACTIONS }: { user:
 
         {/* A stacked row: the note needs the pane's width, not a control's. */}
         <div className="border-b border-black/[0.06] py-4">
-          <div className="text-[13.5px] font-normal text-[#1d1b1b]">Instructions for Falcon</div>
-          <p className="mt-1 text-[12.5px] font-normal leading-snug text-[#6b7280]">
-            How you like Falcon to write for you: length, tone, what to flag first.
-          </p>
+          <div className="text-[13.5px] font-normal text-[#1d1b1b]">{t("settings.account.instructions")}</div>
           <textarea
-            aria-label="Instructions for Falcon"
+            aria-label={t("settings.account.instructions")}
             value={notesField.draft}
             maxLength={INSTRUCTIONS_MAX}
             rows={4}
             disabled={!signedIn}
-            placeholder="e.g. keep summaries short, flag earnings a week ahead"
+            placeholder={t("settings.account.instructionsPlaceholder")}
             onChange={(e) => notesField.setDraft(e.target.value)}
             onFocus={notesField.onFocus}
             onBlur={() => void notesField.onBlur()}
@@ -268,19 +464,23 @@ export default function AccountPane({ user, actions = DEFAULT_ACTIONS }: { user:
         </div>
       </SettingsSection>
 
-      <SettingsSection title="Account">
-        <SettingsRow label="Log out of all devices" description="Ends every session this account has, this one included.">
+      <SettingsSection title={t("settings.account.section")}>
+        <SettingsRow label={t("settings.account.logOutAll")} description={t("settings.account.logOutAllDescription")}>
           <SignOutEverywhere run={actions.signOutEverywhere} />
         </SettingsRow>
 
-        <SettingsRow label="Deleting an account is not available in the app yet.">
-          <button type="button" disabled className={cn(BUTTON, "text-[#9CA3AF] opacity-70")}>
-            Delete account
-          </button>
+        <SettingsRow label={t("settings.account.delete")} description={t("settings.account.deleteDescription")}>
+          {signedIn ? (
+            <DeleteAccount run={actions.deleteAccount ?? deleteAccount} />
+          ) : (
+            <button type="button" disabled className={cn(BUTTON, "text-[#9CA3AF] opacity-70")}>
+              {t("settings.account.delete")}
+            </button>
+          )}
         </SettingsRow>
 
-        <SettingsRow label="Account ID" className="border-b-0">
-          {user ? <AccountId id={user.id} /> : <span className="text-[12.5px] text-[#9CA3AF]">Not signed in</span>}
+        <SettingsRow label={t("settings.account.id")} className="border-b-0">
+          {user ? <AccountId id={user.id} /> : <span className="text-[12.5px] text-[#9CA3AF]">{t("settings.account.notSignedIn")}</span>}
         </SettingsRow>
       </SettingsSection>
     </>

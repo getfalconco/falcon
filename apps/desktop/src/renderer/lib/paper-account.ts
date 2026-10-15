@@ -5,6 +5,9 @@
  */
 
 import { getDemoSnapshot, isDemoMode } from "@/lib/demo-mode";
+import { shortcutText } from "@/lib/shortcuts";
+import { translate } from "@/lib/i18n/translate";
+import type { MessageKey } from "@/lib/i18n/messages";
 
 // Legacy (pre-multi-account) global keys — migrated to per-user keys on login.
 const LEGACY_CASH_KEY = "falcon.paperBalance";
@@ -110,9 +113,55 @@ export type PaperAccount = {
  */
 export type PaperTradeSide = "buy" | "sell" | "short" | "cover";
 
+/** Why a trade did not go through; each has its sentence under `stock.paper.error.*`. */
+export type PaperTradeErrorCode =
+  | "demoMode"
+  | "noAccount"
+  | "noPrice"
+  | "noAmount"
+  | "coverFirst"
+  | "sellFirst"
+  | "noLong"
+  | "noShort"
+  | "buyingPower"
+  | "cashToCover";
+
+/** The values a refusal's sentence is filled with: the symbol, a shortcut, an amount. */
+export type PaperTradeErrorParams = Readonly<Record<string, string | number>>;
+
+export type PaperTradeFailure = {
+  ok: false;
+  code: PaperTradeErrorCode;
+  params: PaperTradeErrorParams;
+  /** The sentence in English, for a caller that has no `t` (logs, tests). */
+  error: string;
+};
+
 export type PaperTradeResult =
   | { ok: true; account: PaperAccount; side: PaperTradeSide; shares: number; amountUsd: number }
-  | { ok: false; error: string };
+  | PaperTradeFailure;
+
+/** The message key a refusal reads from, in every language. */
+export function paperTradeErrorKey(code: PaperTradeErrorCode): MessageKey {
+  return `stock.paper.error.${code}`;
+}
+
+/** A refusal's sentence in the reader's language (`t` from useT), English by default. */
+export function paperTradeErrorText(
+  failure: Pick<PaperTradeFailure, "code" | "params">,
+  t: (key: MessageKey, vars?: PaperTradeErrorParams) => string = (key, vars) => translate("en-US", key, vars),
+): string {
+  return t(paperTradeErrorKey(failure.code), failure.params);
+}
+
+/** Dollars as the refusals print them: `$1,234.56`. */
+function usdText(amount: number): string {
+  return `$${amount.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+}
+
+function refuse(code: PaperTradeErrorCode, params: PaperTradeErrorParams = {}): PaperTradeFailure {
+  return { ok: false, code, params, error: paperTradeErrorText({ code, params }) };
+}
 
 function readCash(): number {
   try {
@@ -262,14 +311,14 @@ export function executePaperTrade(input: {
   const symbol = input.symbol.trim().toUpperCase();
 
   if (isDemoMode()) {
-    return { ok: false, error: "Demo mode is on — press Ctrl+P to leave it before trading." };
+    return refuse("demoMode", { key: shortcutText("demo-mode") });
   }
-  if (!hasPaperAccount()) return { ok: false, error: "No Falcon paper account yet." };
+  if (!hasPaperAccount()) return refuse("noAccount");
   if (!Number.isFinite(price) || price <= 0) {
-    return { ok: false, error: "No live price — try again in a moment." };
+    return refuse("noPrice");
   }
   if (!Number.isFinite(amountUsd) || amountUsd <= 0) {
-    return { ok: false, error: "Enter an amount first." };
+    return refuse("noAmount");
   }
 
   const account = readPaperAccount();
@@ -279,26 +328,23 @@ export function executePaperTrade(input: {
 
   // One direction per symbol — flipping means closing what's open first.
   if (side === "buy" && openSide === "short") {
-    return { ok: false, error: `Cover your ${symbol} short before going long.` };
+    return refuse("coverFirst", { symbol });
   }
   if (side === "short" && openSide === "long") {
-    return { ok: false, error: `Sell your ${symbol} position before shorting it.` };
+    return refuse("sellFirst", { symbol });
   }
   if (side === "sell" && openSide !== "long") {
-    return { ok: false, error: `No ${symbol} position to sell.` };
+    return refuse("noLong", { symbol });
   }
   if (side === "cover" && openSide !== "short") {
-    return { ok: false, error: `No ${symbol} short to cover.` };
+    return refuse("noShort", { symbol });
   }
 
   // ---- opening / adding -------------------------------------------------
   if (side === "buy" || side === "short") {
     const buyingPower = paperBuyingPower(account);
     if (amountUsd > buyingPower) {
-      return {
-        ok: false,
-        error: `Not enough buying power — $${Math.max(0, buyingPower).toFixed(2)} available.`,
-      };
+      return refuse("buyingPower", { amount: usdText(Math.max(0, buyingPower)) });
     }
 
     const direction = side === "buy" ? 1 : -1;
@@ -338,10 +384,7 @@ export function executePaperTrade(input: {
   // Covering costs cash; a short that moved against you can cost more than the
   // proceeds it was opened with.
   if (side === "cover" && traded > account.cash) {
-    return {
-      ok: false,
-      error: `Not enough cash to cover — $${account.cash.toFixed(2)} available.`,
-    };
+    return refuse("cashToCover", { amount: usdText(Math.max(0, account.cash)) });
   }
 
   const positions = { ...account.positions };

@@ -1,14 +1,17 @@
+import { withClock } from "@/lib/clock";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import ForceGraph2D, { type ForceGraphMethods } from "react-force-graph-2d";
 import { Search } from "lucide-react";
 import useMeasure from "react-use-measure";
 import type { GraphFile, GraphNode } from "../../../shared/graph-types";
+import { useI18n } from "@/lib/i18n";
 import {
   CATEGORY_LABELS,
   COUNTERPARTY_NODE_COLOR,
   SEEDED_NODE_COLOR,
   categoryColor,
   linkOpacity,
+  categoryLabel,
   withAlpha,
 } from "@/lib/graph-colors";
 import {
@@ -19,26 +22,28 @@ import {
   edgesForNode,
   matchNodes,
 } from "@/lib/graph-data";
+import { plural } from "@/lib/panels-format";
 import { cn } from "@/lib/utils";
 
 type Props = {
   graph: GraphFile;
 };
 
-function formatGeneratedAt(iso: string): string {
+function formatGeneratedAt(iso: string, locale: string): string {
   try {
-    return new Date(iso).toLocaleString(undefined, {
+    return new Date(iso).toLocaleString(locale, withClock({
       month: "short",
       day: "numeric",
       hour: "2-digit",
       minute: "2-digit",
-    });
+    }));
   } catch {
     return iso;
   }
 }
 
 function EdgeRow({ row }: { row: NodeEdgeRow }) {
+  const { t } = useI18n();
   return (
     <article className="space-y-1 rounded-md border border-dashed border-black/[0.12] bg-white/[0.55] px-3 py-2">
       <div className="flex flex-wrap items-center gap-2">
@@ -50,7 +55,7 @@ function EdgeRow({ row }: { row: NodeEdgeRow }) {
               : "bg-white/[0.05] text-muted-foreground",
           )}
         >
-          {row.direction === "outbound" ? "→ out" : "← in"}
+          {row.direction === "outbound" ? `→ ${t("panels.graph.outbound")}` : `← ${t("panels.graph.inbound")}`}
         </span>
         <span
           className="rounded px-1.5 py-0.5 text-[10px] font-medium"
@@ -59,7 +64,7 @@ function EdgeRow({ row }: { row: NodeEdgeRow }) {
             color: categoryColor(row.category),
           }}
         >
-          {row.category}
+          {categoryLabel(row.category, t)}
           {row.subtype ? ` · ${row.subtype.replace(/_/g, " ")}` : ""}
         </span>
         <span className="text-[10px] text-muted-foreground">
@@ -68,12 +73,13 @@ function EdgeRow({ row }: { row: NodeEdgeRow }) {
       </div>
       <p className="text-[11px] leading-relaxed text-foreground/85">{row.peerLabel}</p>
       <p className="text-[11px] leading-relaxed text-muted-foreground">{row.evidence_quote}</p>
-      <p className="text-[10px] text-muted-foreground/80">Source: {row.source_ticker}</p>
+      <p className="text-[10px] text-muted-foreground/80">{t("panels.graph.source", { ticker: row.source_ticker })}</p>
     </article>
   );
 }
 
 export default function GraphView({ graph }: Props) {
+  const { t, locale } = useI18n();
   const fgRef = useRef<ForceGraphMethods<ForceGraphNode, ForceGraphLink> | undefined>(undefined);
   const [containerRef, bounds] = useMeasure();
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -129,31 +135,29 @@ export default function GraphView({ graph }: Props) {
               type="search"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search nodes…"
+              placeholder={t("panels.graph.searchPlaceholder")}
               className="w-full bg-transparent text-sm text-foreground outline-none placeholder:text-muted-foreground"
-              aria-label="Search graph nodes"
+              aria-label={t("panels.graph.searchLabel")}
             />
           </form>
           <div className="pointer-events-none hidden text-right text-[11px] leading-relaxed text-muted-foreground sm:block">
-            <div>
-              {graph.nodeCount} nodes · {graph.edgeCount} edges
-            </div>
-            <div>Updated {formatGeneratedAt(graph.generatedAt)}</div>
+            <div>{t("panels.graph.counts", { nodes: graph.nodeCount, edges: graph.edgeCount })}</div>
+            <div>{t("panels.graph.updated", { time: formatGeneratedAt(graph.generatedAt, locale) })}</div>
           </div>
         </div>
 
         <div className="pointer-events-none absolute bottom-4 left-4 z-10 rounded-md border border-white/[0.08] bg-background/90 px-3 py-2 backdrop-blur-sm">
           <p className="mb-1.5 text-[10px] font-medium uppercase tracking-wide text-muted-foreground">
-            Categories
+            {t("panels.graph.categories")}
           </p>
           <div className="flex flex-col gap-1">
-            {CATEGORY_LABELS.map(({ id, label }) => (
+            {CATEGORY_LABELS.map(({ id, labelKey }) => (
               <div key={id} className="flex items-center gap-2 text-[11px] text-foreground/80">
                 <span
                   className="h-2 w-2 shrink-0 rounded-full"
                   style={{ backgroundColor: categoryColor(id) }}
                 />
-                {label}
+                {t(labelKey)}
               </div>
             ))}
           </div>
@@ -253,17 +257,17 @@ export default function GraphView({ graph }: Props) {
           <>
             <div className="border-b border-dashed border-black/[0.12] px-4 py-3">
               <p className="text-[10px] font-medium uppercase tracking-wide text-muted-foreground">
-                {selectedNode.kind === "ticker" ? "Ticker" : "Counterparty"}
+                {selectedNode.kind === "ticker" ? t("panels.graph.kind.ticker") : t("panels.graph.kind.name")}
               </p>
               <h2 className="mt-1 text-base font-medium text-foreground">{selectedNode.label}</h2>
               <p className="mt-0.5 text-xs text-muted-foreground">{selectedNode.id}</p>
               <p className="mt-2 text-[11px] text-muted-foreground">
-                {selectedEdges.length} edge{selectedEdges.length === 1 ? "" : "s"}
+                {plural(t, locale, "panels.graph.edgeCount", selectedEdges.length)}
               </p>
             </div>
             <div className="min-h-0 flex-1 space-y-1.5 overflow-y-auto px-4 py-2.5">
               {selectedEdges.length === 0 ? (
-                <p className="text-sm text-muted-foreground">No edges for this node.</p>
+                <p className="text-sm text-muted-foreground">{t("panels.graph.noEdges")}</p>
               ) : (
                 selectedEdges.map((row, index) => (
                   <EdgeRow key={`${row.source_ticker}-${row.category}-${index}`} row={row} />

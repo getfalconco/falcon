@@ -1,7 +1,7 @@
 import { app } from "electron";
 import fs from "node:fs";
 import path from "node:path";
-import { anthropicGlossCaller, glossSelection } from "@meridian/research/gloss";
+import { CLAUDE_WRITING_MODEL, anthropicGlossCaller, glossSelection } from "@meridian/research/gloss";
 import { resolveDataRoot } from "../data-root";
 import { isProviderProxyActive } from "../provider-routing";
 import { getRendererSession, onRendererSession } from "../session-bridge";
@@ -55,7 +55,7 @@ async function bare(withOutputConfig: boolean): Promise<Probe> {
         "anthropic-version": "2023-06-01",
       },
       body: JSON.stringify({
-        model: "claude-opus-5",
+        model: CLAUDE_WRITING_MODEL,
         max_tokens: 400,
         messages: [{ role: "user", content: 'Reply with {"ok":true}.' }],
         ...(withOutputConfig

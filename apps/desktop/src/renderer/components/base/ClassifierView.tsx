@@ -1,3 +1,7 @@
+import { na } from "@/lib/i18n/na";
+import { withClock } from "@/lib/clock";
+import { useI18n } from "@/lib/i18n";
+import { useIsStaff } from "@/lib/staff";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Play, RefreshCw } from "lucide-react";
 import type {
@@ -34,13 +38,13 @@ const DIRECTION_GLYPH: Record<string, string> = {
   unclear: "·",
 };
 
-function fmtTime(iso: string): string {
-  return new Date(iso).toLocaleString([], {
+function fmtTime(iso: string, locale: string): string {
+  return new Date(iso).toLocaleString(locale, withClock({
     month: "short",
     day: "2-digit",
     hour: "2-digit",
     minute: "2-digit",
-  });
+  }));
 }
 
 function entryLabel(t: ClassifierTickerVerdict): string {
@@ -70,6 +74,7 @@ function Switch({
   disabled?: boolean;
   hint?: string;
 }) {
+  const { t } = useI18n();
   return (
     <button
       type="button"
@@ -84,13 +89,17 @@ function Switch({
           checked ? "bg-[#dcfce7] text-[#166534]" : "bg-[#f1f1ec] text-[#8b8b86]"
         }`}
       >
-        {checked ? "on" : "off"}
+        {checked ? t("instruments.common.on") : t("instruments.common.off")}
       </span>
     </button>
   );
 }
 
 export default function ClassifierView() {
+  const { t, locale } = useI18n();
+  // The phase switches and the run buttons change the shared classifier for
+  // every account; the engine takes them from staff only.
+  const staff = useIsStaff();
   const [status, setStatus] = useState<ClassifierStatus | null>(null);
   const [verdicts, setVerdicts] = useState<ClassifierVerdict[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -172,94 +181,120 @@ export default function ClassifierView() {
     <div className="flex min-h-0 flex-1">
       {/* Sidebar: counters + controls */}
       <aside className="w-[264px] shrink-0 overflow-y-auto border-r border-[#eeeee8] px-3 py-3">
-        <div className="font-mono text-[10px] uppercase tracking-wide text-[#b4b4ae]">phase</div>
+        <div className="font-mono text-[10px] uppercase tracking-wide text-[#b4b4ae]">{t("instruments.common.phase")}</div>
         <div className="mt-1.5 space-y-1">
           <Switch
-            label={`A · live loop (${status?.model ?? "—"})`}
+            label={t("instruments.common.liveLoop", { model: status?.model ?? na() })}
             checked={Boolean(status?.enabled)}
             onChange={(v) => void setEnabled(v)}
-            disabled={!status?.configured}
+            disabled={!staff || !status?.configured}
             hint={
-              status?.configured
-                ? "Classify live Tracker flow every 15 min, log-only. Spends Anthropic quota."
-                : "ANTHROPIC_API_KEY is not set in apps/desktop/.env"
+              !staff
+                ? t("access.staffOnly.setting")
+                : status?.configured
+                  ? t("instruments.classifier.liveLoopHint")
+                  : t("instruments.common.apiKeyUnset")
             }
           />
           <Switch
-            label="B · re-score in Base"
+            label={t("instruments.classifier.rescoreLabel")}
             checked={Boolean(status?.rescore_enabled)}
             onChange={(v) => void setRescore(v)}
-            hint="Apply the §10b severity mapping in Base scoring. Only after the eval gate passes."
+            disabled={!staff}
+            hint={staff ? t("instruments.classifier.rescoreHint") : t("access.staffOnly.setting")}
           />
+          {!staff && <div className="font-mono text-[10px] text-[#8b8b86]">{t("access.staffOnly.setting")}</div>}
           {!status?.configured && (
-            <div className="font-mono text-[10px] text-[#b45309]">no ANTHROPIC_API_KEY in main process</div>
+            <div className="font-mono text-[10px] text-[#b45309]">{t("instruments.common.noApiKey")}</div>
           )}
         </div>
 
         <div className="mt-3 flex gap-1">
           <button
             type="button"
-            disabled={busy || !status?.configured || breakerOpen}
+            disabled={!staff || busy || !status?.configured || breakerOpen}
             onClick={() => void runCycle(false)}
             className="flex flex-1 items-center justify-center gap-1 rounded border border-[#e0e0da] bg-white py-1 font-mono text-[10px] text-[#6b7280] transition-colors hover:text-[#1d1b1b] disabled:opacity-50"
-            title="Build requests from the Tracker log and classify them now (within budget)"
+            title={staff ? t("instruments.classifier.runCycleHint") : t("access.staffOnly.action")}
           >
-            <Play className="h-3 w-3" strokeWidth={2} aria-hidden /> run cycle
+            <Play className="h-3 w-3 shrink-0" strokeWidth={2} aria-hidden /> {t("instruments.common.runCycle")}
           </button>
           <button
             type="button"
-            disabled={busy}
+            disabled={!staff || busy}
             onClick={() => void runCycle(true)}
             className="flex-1 rounded border border-[#e0e0da] bg-white py-1 font-mono text-[10px] text-[#6b7280] transition-colors hover:text-[#1d1b1b] disabled:opacity-50"
-            title="Build requests only — nothing is sent"
+            title={staff ? t("instruments.classifier.dryRunHint") : t("access.staffOnly.action")}
           >
-            dry run
+            {t("instruments.common.dryRun")}
           </button>
         </div>
 
-        <div className="mt-4 font-mono text-[10px] uppercase tracking-wide text-[#b4b4ae]">budget · breaker</div>
+        <div className="mt-4 font-mono text-[10px] uppercase tracking-wide text-[#b4b4ae]">{t("instruments.common.budgetBreaker")}</div>
         <div className="mt-1.5 space-y-0.5">
           <Counter
-            label={`budget ${status?.budget.day ?? ""}`}
-            value={status ? `${status.budget.used}/${status.budget.daily} · ${status.budget.remaining} left` : "—"}
+            label={t("instruments.common.budget", { day: status?.budget.day ?? "" })}
+            value={
+              status
+                ? t("instruments.common.budgetValue", {
+                    used: status.budget.used,
+                    daily: status.budget.daily,
+                    remaining: status.budget.remaining,
+                  })
+                : na()
+            }
           />
           <Counter
-            label="breaker"
+            label={t("instruments.common.breaker")}
             value={
               status
                 ? status.breaker.status === "open"
-                  ? `open until ${status.breaker.open_until ? fmtTime(status.breaker.open_until) : "?"}`
-                  : `closed · ${status.breaker.consecutive_failures} consec · ${status.breaker.trips} trips`
-                : "—"
+                  ? t("instruments.common.breakerOpen", {
+                      time: status.breaker.open_until ? fmtTime(status.breaker.open_until, locale) : "?",
+                    })
+                  : t("instruments.common.breakerClosed", {
+                      failures: status.breaker.consecutive_failures,
+                      trips: status.breaker.trips,
+                    })
+                : na()
             }
             tone={breakerOpen ? "text-[#991b1b]" : undefined}
           />
-          <Counter label="next cycle" value={status?.next_cycle_at ? fmtTime(status.next_cycle_at) : status?.enabled ? "pending" : "loop off"} />
+          <Counter
+            label={t("instruments.common.nextCycle")}
+            value={
+              status?.next_cycle_at
+                ? fmtTime(status.next_cycle_at, locale)
+                : status?.enabled
+                  ? t("instruments.common.pending")
+                  : t("instruments.common.loopOff")
+            }
+          />
         </div>
 
-        <div className="mt-4 font-mono text-[10px] uppercase tracking-wide text-[#b4b4ae]">counters</div>
+        <div className="mt-4 font-mono text-[10px] uppercase tracking-wide text-[#b4b4ae]">{t("instruments.common.counters")}</div>
         <div className="mt-1.5 space-y-0.5">
-          <Counter label="verdicts ok / failed" value={m ? `${m.verdicts_ok} / ${m.verdicts_failed}` : "—"} />
-          <Counter label="in store · permanent-failed" value={status ? `${status.verdict_count} · ${status.permanent_failures}` : "—"} />
-          <Counter label="validation / transport fails" value={m ? `${m.validation_failures} / ${m.transport_failures}` : "—"} />
-          <Counter label="retries · cache hits" value={m ? `${m.retries} · ${m.cache_hits}` : "—"} />
-          <Counter label="addenda · disagreements" value={m ? `${m.addenda} · ${m.verdict_disagreements}` : "—"} />
-          <Counter label="overflow (>8 tickers)" value={m?.overflows ?? "—"} />
+          <Counter label={t("instruments.classifier.verdictsOkFailed")} value={m ? `${m.verdicts_ok} / ${m.verdicts_failed}` : na()} />
+          <Counter label={t("instruments.classifier.inStore")} value={status ? `${status.verdict_count} · ${status.permanent_failures}` : na()} />
+          <Counter label={t("instruments.common.validationTransport")} value={m ? `${m.validation_failures} / ${m.transport_failures}` : na()} />
+          <Counter label={t("instruments.classifier.retries")} value={m ? `${m.retries} · ${m.cache_hits}` : na()} />
+          <Counter label={t("instruments.classifier.addenda")} value={m ? `${m.addenda} · ${m.verdict_disagreements}` : na()} />
+          <Counter label={t("instruments.classifier.overflow")} value={m?.overflows ?? na()} />
           <Counter
-            label="latency p50 / p95"
-            value={status ? `${status.latency_p50_ms ?? "—"} / ${status.latency_p95_ms ?? "—"} ms` : "—"}
+            label={t("instruments.common.latency")}
+            value={status ? `${status.latency_p50_ms ?? na()} / ${status.latency_p95_ms ?? na()} ms` : na()}
           />
           <Counter
-            label="tokens in / out"
-            value={m ? `${(m.input_tokens / 1000).toFixed(1)}k / ${(m.output_tokens / 1000).toFixed(1)}k` : "—"}
+            label={t("instruments.common.tokens")}
+            value={m ? `${(m.input_tokens / 1000).toFixed(1)}k / ${(m.output_tokens / 1000).toFixed(1)}k` : na()}
           />
-          <Counter label="est. spend" value={status ? `$${status.estimated_spend_usd.toFixed(3)}` : "—"} />
-          <Counter label="metadata rows" value={status?.metadata_rows ?? "—"} />
+          <Counter label={t("instruments.common.estSpend")} value={status ? `$${status.estimated_spend_usd.toFixed(3)}` : na()} />
+          <Counter label={t("instruments.classifier.metadataRows")} value={status?.metadata_rows ?? na()} />
         </div>
 
-        <div className="mt-4 font-mono text-[10px] uppercase tracking-wide text-[#b4b4ae]">event types</div>
+        <div className="mt-4 font-mono text-[10px] uppercase tracking-wide text-[#b4b4ae]">{t("instruments.classifier.eventTypes")}</div>
         <div className="mt-1.5 space-y-1">
-          {byType.length === 0 && <div className="font-mono text-[10px] text-[#c9c9c1]">no verdicts yet</div>}
+          {byType.length === 0 && <div className="font-mono text-[10px] text-[#c9c9c1]">{t("instruments.classifier.noVerdictsYet")}</div>}
           {byType.map(([type, count]) => (
             <div key={type} className="flex items-center gap-2">
               <span className="min-w-0 flex-1 truncate font-mono text-[10px] text-[#6b7280]">{type}</span>
@@ -274,19 +309,19 @@ export default function ClassifierView() {
         {status?.last_run && (
           <div className="mt-4 space-y-0.5 border-t border-[#eeeee8] pt-2 font-mono text-[10px] text-[#8b8b86]">
             <div>
-              <span className="text-[#b4b4ae]">last run</span> {fmtTime(status.last_run.finished_at)}
-              {status.last_run.dry_run ? " (dry)" : ""}
+              <span className="text-[#b4b4ae]">{t("instruments.common.lastRun")}</span> {fmtTime(status.last_run.finished_at, locale)}
+              {status.last_run.dry_run ? ` ${t("instruments.common.dryTag")}` : ""}
             </div>
             <div>
-              <span className="text-[#b4b4ae]">scanned</span> {status.last_run.messages_scanned} ·{" "}
-              <span className="text-[#b4b4ae]">requests</span> {status.last_run.requests_built} ·{" "}
-              <span className="text-[#b4b4ae]">covered</span> {status.last_run.covered}
+              <span className="text-[#b4b4ae]">{t("instruments.common.scanned")}</span> {status.last_run.messages_scanned} ·{" "}
+              <span className="text-[#b4b4ae]">{t("instruments.common.requests")}</span> {status.last_run.requests_built} ·{" "}
+              <span className="text-[#b4b4ae]">{t("instruments.classifier.covered")}</span> {status.last_run.covered}
             </div>
             <div>
-              <span className="text-[#b4b4ae]">dispatched</span> {status.last_run.dispatched} ·{" "}
-              <span className="text-[#b4b4ae]">deferred</span> {status.last_run.deferred_by_budget} ·{" "}
-              <span className="text-[#b4b4ae]">ok</span> {status.last_run.ok} ·{" "}
-              <span className="text-[#b45309]">failed {status.last_run.failed}</span>
+              <span className="text-[#b4b4ae]">{t("instruments.common.dispatched")}</span> {status.last_run.dispatched} ·{" "}
+              <span className="text-[#b4b4ae]">{t("instruments.common.deferred")}</span> {status.last_run.deferred_by_budget} ·{" "}
+              <span className="text-[#b4b4ae]">{t("instruments.common.ok")}</span> {status.last_run.ok} ·{" "}
+              <span className="text-[#b45309]">{t("instruments.common.failedCount", { n: status.last_run.failed })}</span>
             </div>
             {status.last_run.errors.map((e) => (
               <div key={e} className="truncate text-[#b45309]" title={e}>
@@ -310,7 +345,7 @@ export default function ClassifierView() {
                   statusFilter === s ? "bg-[#1d1b1b] text-white" : "text-[#6b7280] hover:text-[#1d1b1b]"
                 }`}
               >
-                {s}
+                {s === "all" ? t("instruments.common.all") : s === "ok" ? t("instruments.common.ok") : t("instruments.common.failed")}
               </button>
             ))}
           </div>
@@ -319,7 +354,7 @@ export default function ClassifierView() {
             onChange={(e) => setTypeFilter(e.target.value as ClassifierEventType | "all")}
             className="rounded-md border border-[#e0e0da] bg-white px-2 py-1 text-[11px] text-[#1d1b1b]"
           >
-            <option value="all">all event types</option>
+            <option value="all">{t("instruments.classifier.allEventTypes")}</option>
             {byType.map(([type]) => (
               <option key={type} value={type}>
                 {type}
@@ -331,10 +366,10 @@ export default function ClassifierView() {
             onClick={() => void load()}
             className="flex items-center gap-1.5 rounded-md border border-[#e0e0da] bg-white px-2 py-1 text-[11px] text-[#6b7280] transition-colors hover:text-[#1d1b1b]"
           >
-            <RefreshCw className="h-3 w-3" strokeWidth={2} aria-hidden /> refresh
+            <RefreshCw className="h-3 w-3" strokeWidth={2} aria-hidden /> {t("instruments.common.refresh")}
           </button>
           <span className="ml-auto font-mono text-[10px] text-[#a3a39c]">
-            {visible.length} verdicts · prompt {status?.prompt_version ?? "—"}
+            {t("instruments.classifier.count", { n: visible.length, version: status?.prompt_version ?? na() })}
           </span>
         </div>
 
@@ -342,50 +377,50 @@ export default function ClassifierView() {
           {error ? (
             <div className="flex h-full items-center justify-center font-mono text-[12px] text-[#b45309]">{error}</div>
           ) : visible.length === 0 ? (
-            <div className="flex h-full items-center justify-center font-mono text-[12px] text-[#a3a39c]">
-              no verdicts — run a cycle or enable the Phase A loop
+            <div className="flex h-full items-center justify-center text-center font-mono text-[12px] text-[#a3a39c]">
+              {t("instruments.classifier.empty")}
             </div>
           ) : (
             <ul className="divide-y divide-[#eeeee8]">
               {visible.map((v) => (
                 <li key={`${v.article_key}|${v.prompt_version}|${v.model}`} className="py-1.5">
                   <div className="flex items-baseline gap-2">
-                    <span className="w-[82px] shrink-0 font-mono text-[10px] text-[#a3a39c]">{fmtTime(v.classified_at)}</span>
+                    <span className="w-[82px] shrink-0 font-mono text-[10px] text-[#a3a39c]">{fmtTime(v.classified_at, locale)}</span>
                     <span className="shrink-0 rounded bg-[#e0e7ff] px-1.5 py-0.5 font-mono text-[10px] text-[#3730a3]">
                       {v.event_type}
                     </span>
                     {v.status === "failed" && (
-                      <span className="shrink-0 rounded bg-[#fee2e2] px-1.5 py-0.5 font-mono text-[10px] text-[#991b1b]">failed</span>
+                      <span className="shrink-0 rounded bg-[#fee2e2] px-1.5 py-0.5 font-mono text-[10px] text-[#991b1b]">{t("instruments.common.failed")}</span>
                     )}
                     <span className="min-w-0 flex-1 truncate text-[12px] text-[#1d1b1b]" title={v.failure_reason ?? v.event_label}>
-                      {v.status === "failed" ? v.failure_reason : v.event_label || "—"}
+                      {v.status === "failed" ? v.failure_reason : v.event_label || na()}
                     </span>
                     <span className="shrink-0 font-mono text-[10px] text-[#b4b4ae]">
-                      {v.kind} · scope {v.syndication_scope}
-                      {v.metadata_missing ? " · no-meta" : ""}
+                      {t("instruments.classifier.scope", { kind: v.kind, scope: v.syndication_scope })}
+                      {v.metadata_missing ? ` · ${t("instruments.classifier.noMeta")}` : ""}
                     </span>
                   </div>
                   <div className="mt-0.5 flex flex-wrap gap-1 pl-[90px]">
-                    {v.tickers.map((t) => (
+                    {v.tickers.map((tv) => (
                       <span
-                        key={t.ticker}
-                        className={`rounded px-1.5 py-0.5 font-mono text-[10px] ${RELEVANCE_STYLE[t.relevance]}`}
-                        title={entryLabel(t)}
+                        key={tv.ticker}
+                        className={`rounded px-1.5 py-0.5 font-mono text-[10px] ${RELEVANCE_STYLE[tv.relevance]}`}
+                        title={entryLabel(tv)}
                       >
-                        {t.ticker}
-                        {t.relevance !== "none" && (
+                        {tv.ticker}
+                        {tv.relevance !== "none" && (
                           <>
                             {" "}
-                            <span className={MATERIALITY_STYLE[t.materiality]}>{t.materiality}</span>{" "}
-                            {DIRECTION_GLYPH[t.direction]}
+                            <span className={MATERIALITY_STYLE[tv.materiality]}>{tv.materiality}</span>{" "}
+                            {DIRECTION_GLYPH[tv.direction]}
                           </>
                         )}
-                        {t.relevance === "none" && <span className="text-[#b4b4ae]"> none</span>}
+                        {tv.relevance === "none" && <span className="text-[#b4b4ae]"> none</span>}
                       </span>
                     ))}
-                    {v.unassessed_tickers.map((t) => (
-                      <span key={`u-${t}`} className="rounded border border-dashed border-[#e0e0da] px-1.5 py-0.5 font-mono text-[10px] text-[#b4b4ae]" title="unassessed">
-                        {t}
+                    {v.unassessed_tickers.map((u) => (
+                      <span key={`u-${u}`} className="rounded border border-dashed border-[#e0e0da] px-1.5 py-0.5 font-mono text-[10px] text-[#b4b4ae]" title={t("instruments.classifier.unassessed")}>
+                        {u}
                       </span>
                     ))}
                   </div>

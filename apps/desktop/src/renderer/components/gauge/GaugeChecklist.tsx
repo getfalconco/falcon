@@ -1,5 +1,7 @@
 import { useState } from "react";
 import type { GaugeCheck, GaugeOverall, GaugeReadout, GaugeStatus } from "../../../shared/gauge-types";
+import { useI18n, useT, type TFunction } from "../../lib/i18n";
+import { plural } from "../../lib/panels-format";
 
 /**
  * The checklist itself (spec §4/§8): binding line on top, then one row per
@@ -22,11 +24,26 @@ export const GAUGE_OVERALL_COLOR: Record<GaugeOverall, string> = {
   blocked: "#DC2626",
 };
 
+/** A check's status word (pass / caution / fail / n/a) in the reader's language. */
+export function gaugeStatusWord(status: GaugeStatus, t: TFunction): string {
+  return status in GAUGE_STATUS_COLOR ? t(`panels.gauge.status.${status}`) : status;
+}
+
+/** One line of counts under the checks: "5 of 7 aligned · 1 caution · 1 fail". */
+function countsLine(s: GaugeReadout["summary"], t: TFunction): string {
+  const parts = [t("panels.gauge.aligned", { aligned: s.aligned, evaluable: s.evaluable })];
+  if (s.cautions) parts.push(t("panels.gauge.cautions", { n: s.cautions }));
+  if (s.fails) parts.push(t("panels.gauge.fails", { n: s.fails }));
+  if (s.unavailable) parts.push(t("panels.gauge.unavailable", { n: s.unavailable }));
+  return parts.join(" · ");
+}
+
 export function StatusDot({ status, size = 8 }: { status: GaugeStatus; size?: number }) {
+  const t = useT();
   const color = GAUGE_STATUS_COLOR[status];
   return (
     <span
-      aria-label={status}
+      aria-label={gaugeStatusWord(status, t)}
       className="inline-block shrink-0 rounded-full"
       style={{
         width: size,
@@ -39,9 +56,12 @@ export function StatusDot({ status, size = 8 }: { status: GaugeStatus; size?: nu
   );
 }
 
-export function fmtGaugeValue(v: GaugeCheck["values"][string]): string {
-  if (v == null) return "—";
-  if (typeof v === "boolean") return v ? "yes" : "no";
+export function fmtGaugeValue(
+  v: GaugeCheck["values"][string],
+  words: { na: string; yes: string; no: string } = { na: "n/a", yes: "yes", no: "no" },
+): string {
+  if (v == null) return words.na;
+  if (typeof v === "boolean") return v ? words.yes : words.no;
   if (typeof v === "number") {
     if (Number.isInteger(v)) return String(v);
     return Math.abs(v) < 1 ? v.toFixed(4) : v.toFixed(2);
@@ -55,6 +75,7 @@ export function fmtGaugeValue(v: GaugeCheck["values"][string]): string {
  * every surface; `forceTooltip` pins it open (preview / screenshots).
  */
 export function OverallBadge({ overall, small, tooltip, forceTooltip }: { overall: GaugeOverall | null; small?: boolean; tooltip?: string | null; forceTooltip?: boolean }) {
+  const t = useT();
   const color = overall ? GAUGE_OVERALL_COLOR[overall] : "#b4b4ae";
   return (
     <span className="group relative inline-flex shrink-0">
@@ -62,8 +83,9 @@ export function OverallBadge({ overall, small, tooltip, forceTooltip }: { overal
         className={`rounded-full font-semibold uppercase tracking-[0.08em] text-white ${small ? "px-1.5 py-[1px] text-[9px]" : "px-2 py-[2px] text-[10px]"} ${tooltip ? "cursor-help" : ""}`}
         style={{ background: color }}
         aria-label={tooltip ?? undefined}
+        lang={overall && !(overall in GAUGE_OVERALL_COLOR) ? "en" : undefined}
       >
-        {overall ?? "no gauge"}
+        {overall && overall in GAUGE_OVERALL_COLOR ? t(`panels.gauge.overall.${overall}`) : overall ?? t("panels.gauge.noGauge")}
       </span>
       {tooltip && (
         <span
@@ -97,6 +119,7 @@ type Props = {
  * unchanged, raw values included.
  */
 export function GaugeEvidence({ readout, showValues = false, defaultOpen = false }: { readout: GaugeReadout; showValues?: boolean; defaultOpen?: boolean }) {
+  const { t, locale } = useI18n();
   const [open, setOpen] = useState(defaultOpen);
   const s = readout.summary;
   if (!readout.tracked || readout.checks.length === 0) return null;
@@ -108,13 +131,8 @@ export function GaugeEvidence({ readout, showValues = false, defaultOpen = false
         className="app-no-drag flex w-full items-center gap-1.5 text-left text-[11px] text-[#6b7280] transition-colors hover:text-[#1d1b1b]"
       >
         <span className="text-[9px] leading-none">{open ? "▾" : "▸"}</span>
-        {readout.checks.length} conditions checked
-        <span className="text-[#b4b4ae]">
-          · {s.aligned} of {s.evaluable} aligned
-          {s.cautions ? ` · ${s.cautions} caution` : ""}
-          {s.fails ? ` · ${s.fails} fail` : ""}
-          {s.unavailable ? ` · ${s.unavailable} unavailable` : ""}
-        </span>
+        {plural(t, locale, "panels.gauge.conditionsChecked", readout.checks.length)}
+        <span className="text-[#b4b4ae]">· {countsLine(s, t)}</span>
       </button>
       {open && (
         <div className="mt-2">
@@ -126,6 +144,8 @@ export function GaugeEvidence({ readout, showValues = false, defaultOpen = false
 }
 
 export default function GaugeChecklist({ readout, compact = false, showValues = false, forceTooltip = false, collapsible = false, defaultOpen = false }: Props) {
+  const t = useT();
+  const valueWords = { na: t("common.na"), yes: t("panels.gauge.yes"), no: t("panels.gauge.no") };
   const s = readout.summary;
   if (!readout.tracked) {
     return <p className={`${compact ? "text-[11.5px]" : "text-[13px]"} text-[#6b7280]`}>{s.sentence}</p>;
@@ -140,14 +160,11 @@ export default function GaugeChecklist({ readout, compact = false, showValues = 
         <p className={`${compact ? "text-[11.5px]" : "text-[13px]"} leading-snug text-[#1d1b1b]`}>{s.binding_check ? s.binding_line : s.sentence}</p>
       </div>
       <p className={`mt-1 ${compact ? "text-[10px]" : "text-[11px]"} text-[#9CA3AF]`}>
-        {s.aligned} of {s.evaluable} aligned
-        {s.cautions ? ` · ${s.cautions} caution` : ""}
-        {s.fails ? ` · ${s.fails} fail` : ""}
-        {s.unavailable ? ` · ${s.unavailable} unavailable` : ""}
-        {readout.quant_as_of ? ` · quant as of ${readout.quant_as_of}` : ""}
+        {countsLine(s, t)}
+        {readout.quant_as_of ? ` · ${t("panels.gauge.quantAsOf", { date: readout.quant_as_of })}` : ""}
       </p>
       {s.calibrating && (
-        <div className="mt-2 rounded-md border border-[#e7d9a8] bg-[#fbf6e3] px-2 py-1 text-[10.5px] text-[#8a6d1d]">calibrating — limited history</div>
+        <div className="mt-2 rounded-md border border-[#e7d9a8] bg-[#fbf6e3] px-2 py-1 text-[10.5px] text-[#8a6d1d]">{t("panels.gauge.calibrating")}</div>
       )}
 
       {/* Rows */}
@@ -162,7 +179,7 @@ export default function GaugeChecklist({ readout, compact = false, showValues = 
                 <span className="shrink-0 tabular-nums text-[#b4b4ae]">{c.number}.</span>
                 <span className="shrink-0 font-medium text-[#1d1b1b]">{c.label}</span>
                 <span className="shrink-0 text-[10px] uppercase tracking-[0.06em]" style={{ color: GAUGE_STATUS_COLOR[c.status] }}>
-                  {c.status === "n_a" ? "n/a" : c.status}
+                  {gaugeStatusWord(c.status, t)}
                 </span>
               </div>
               <p className={`${rowText} leading-snug text-[#4b5563]`}>{c.reason}</p>
@@ -170,7 +187,7 @@ export default function GaugeChecklist({ readout, compact = false, showValues = 
               {showValues && Object.keys(c.values).length > 0 && (
                 <p className="mt-0.5 font-mono text-[10px] leading-relaxed text-[#9CA3AF]">
                   {Object.entries(c.values)
-                    .map(([k, v]) => `${k}=${fmtGaugeValue(v)}`)
+                    .map(([k, v]) => `${k}=${fmtGaugeValue(v, valueWords)}`)
                     .join("  ")}
                 </p>
               )}

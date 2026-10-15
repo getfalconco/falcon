@@ -9,6 +9,7 @@ import { formatPricedIn, pricedInColor } from "../../lib/second-order-card";
 import { livePricedIn, targetPricedIn } from "../../../shared/propagation-progress";
 import { useLivePrices } from "@/hooks/useLivePrices";
 import { cn } from "../../lib/utils";
+import { useT } from "@/lib/i18n";
 import type { PropagationTarget } from "../../../shared/propagation-run-types";
 import type {
   InsightExplanation,
@@ -77,7 +78,8 @@ function TickerButton({
   onOpen?: (ticker: string) => void;
   prominent?: boolean;
 }) {
-  const share = pricedIn === undefined ? null : formatPricedIn(pricedIn);
+  const t = useT();
+  const share = pricedIn === undefined ? null : formatPricedIn(pricedIn, t);
   const glass =
     "border border-white/60 bg-white/55 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-black/[0.04] backdrop-blur-xl backdrop-saturate-150 transition-colors hover:bg-white/75 disabled:pointer-events-none";
   return (
@@ -86,7 +88,7 @@ function TickerButton({
         type="button"
         onClick={() => onPick?.(symbol)}
         disabled={!onPick}
-        title={companyName ? `${symbol} — ${companyName}` : symbol}
+        title={companyName ? `${symbol} · ${companyName}` : symbol}
         className={cn(
           "flex min-w-0 flex-1 items-center gap-2.5 rounded-2xl px-3 text-left",
           glass,
@@ -110,7 +112,7 @@ function TickerButton({
         {share != null ? (
           <span
             className="flex shrink-0 items-center gap-1.5"
-            title={`${share} of the called move`}
+            title={t("dashboard.insight.share.ofCalled", { share })}
           >
             <span
               aria-hidden
@@ -128,8 +130,8 @@ function TickerButton({
         <button
           type="button"
           onClick={() => onOpen(symbol)}
-          aria-label={`Why ${symbol} is affected`}
-          title={`Why ${symbol} is affected`}
+          aria-label={t("dashboard.insight.whyAffected", { ticker: symbol })}
+          title={t("dashboard.insight.whyAffected", { ticker: symbol })}
           className={cn(
             "flex w-9 shrink-0 items-center justify-center rounded-2xl text-[#4b5563] hover:text-[#1d1b1b]",
             glass,
@@ -169,6 +171,7 @@ export default function InsightDetailModal({
   onPickTicker?: (ticker: string) => void;
   children?: ReactNode;
 }) {
+  const t = useT();
   const [explanation, setExplanation] = useState<InsightExplanation | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -299,15 +302,15 @@ export default function InsightDetailModal({
     });
     if (!pending) {
       setAsking(false);
-      setChatError("No chat service available.");
+      setChatError(t("dashboard.insight.chat.noService"));
       return;
     }
     void pending
       .then((res) => {
         if (res?.ok) setTurns((prev) => [...prev, { role: "assistant", text: res.reply }]);
-        else setChatError(res?.error ?? "Couldn't answer that one.");
+        else setChatError(res?.error ?? t("dashboard.insight.chat.failed"));
       })
-      .catch(() => setChatError("Couldn't reach the chat service."))
+      .catch(() => setChatError(t("dashboard.insight.chat.unreachable")))
       .finally(() => setAsking(false));
   };
 
@@ -338,17 +341,17 @@ export default function InsightDetailModal({
     const pending = window.meridian?.getInsightExplanation?.(request);
     if (!pending) {
       setLoading(false);
-      setError("No explanation service available.");
+      setError(t("dashboard.insight.explain.noService"));
       return;
     }
     void pending
       .then((res) => {
         if (cancelled) return;
         if (res?.ok) setExplanation(res.explanation);
-        else setError(res?.error ?? "No explanation available.");
+        else setError(res?.error ?? t("dashboard.insight.explain.none"));
       })
       .catch(() => {
-        if (!cancelled) setError("Couldn't reach the explanation service.");
+        if (!cancelled) setError(t("dashboard.insight.explain.unreachable"));
       })
       .finally(() => {
         if (!cancelled) setLoading(false);
@@ -356,6 +359,8 @@ export default function InsightDetailModal({
     return () => {
       cancelled = true;
     };
+    // `t` is left out on purpose: a language change must not ask for the brief again.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, request?.run_id, request?.headline]);
 
   // Esc steps back out of a name first, and only then closes the panel. The
@@ -403,7 +408,7 @@ export default function InsightDetailModal({
           <motion.div
             role="dialog"
             aria-modal="true"
-            aria-label={title ?? "Insight details"}
+            aria-label={title ?? t("dashboard.insight.detailsLabel")}
             className="app-no-drag relative flex h-[70vh] w-[70vw] flex-col overflow-hidden rounded-3xl border border-white/60 bg-white/40 p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_40px_100px_rgba(0,0,0,0.22)] ring-1 ring-black/[0.04] backdrop-blur-xl backdrop-saturate-150"
             initial={{ opacity: 0, scale: 0.94, y: 18 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -419,13 +424,13 @@ export default function InsightDetailModal({
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.08, duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
             >
-              <span className="select-none font-sans text-[11px] font-medium tracking-[0.08em] text-[#9CA3AF]">
-                {title ?? "INSIGHT"}
+              <span className="select-none font-sans text-[11px] font-medium tracking-[0.04em] text-[#9CA3AF]">
+                {title ?? t("dashboard.insight.label")}
               </span>
               <button
                 type="button"
                 onClick={onClose}
-                aria-label="Close"
+                aria-label={t("common.close")}
                 className="app-no-drag rounded-lg p-1.5 text-[#6b7280] transition-colors hover:bg-black/[0.04] hover:text-[#1d1b1b]"
               >
                 <X className="h-4 w-4" strokeWidth={1.75} aria-hidden />
@@ -465,7 +470,7 @@ export default function InsightDetailModal({
                           className="flex items-center gap-2 text-[13px] text-[#9CA3AF]"
                         >
                           <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden />
-                          Writing the brief…
+                          {t("dashboard.insight.writing")}
                         </motion.div>
                       ) : explanation ? (
                         <motion.div
@@ -546,7 +551,7 @@ export default function InsightDetailModal({
                       {asking ? (
                         <div className="mt-3 flex items-center gap-2 text-[13px] text-[#9CA3AF]">
                           <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden />
-                          Thinking…
+                          {t("dashboard.insight.thinking")}
                         </div>
                       ) : null}
 
@@ -580,8 +585,8 @@ export default function InsightDetailModal({
                     <input
                       value={draft}
                       onChange={(e) => setDraft(e.target.value)}
-                      placeholder={asking ? "Thinking…" : "Ask about this insight"}
-                      aria-label="Ask about this insight"
+                      placeholder={asking ? t("dashboard.insight.thinking") : t("dashboard.insight.ask")}
+                      aria-label={t("dashboard.insight.ask")}
                       disabled={asking}
                       className="min-w-0 flex-1 bg-transparent text-[13.5px] font-normal text-[#1d1b1b] outline-none placeholder:text-[#9CA3AF]"
                     />
@@ -589,8 +594,8 @@ export default function InsightDetailModal({
                   <button
                     type="submit"
                     disabled={draft.trim().length === 0 || asking}
-                    aria-label="Send"
-                    title="Send"
+                    aria-label={t("dashboard.insight.send")}
+                    title={t("dashboard.insight.send")}
                     className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/60 bg-white/55 text-[#1d1b1b] shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-black/[0.04] backdrop-blur-xl backdrop-saturate-150 transition-colors hover:bg-white/75 disabled:pointer-events-none disabled:opacity-40"
                   >
                     <ArrowUp className="h-4 w-4" strokeWidth={2} aria-hidden />
@@ -636,7 +641,7 @@ export default function InsightDetailModal({
                       ) : (
                         <motion.aside
                           key="rail"
-                          aria-label="Companies in this event"
+                          aria-label={t("dashboard.insight.companies")}
                           className="flex h-full flex-col gap-2 overflow-y-auto"
                           initial={{ opacity: 0 }}
                           animate={{ opacity: 1 }}
@@ -645,7 +650,7 @@ export default function InsightDetailModal({
                         >
                           {rootTicker ? (
                             <>
-                              <span className={RAIL_LABEL}>EVENT CENTRE</span>
+                              <span className={RAIL_LABEL}>{t("dashboard.insight.eventCentre")}</span>
                               <TickerButton
                                 symbol={rootTicker.toUpperCase()}
                                 onPick={onPickTicker}
@@ -656,7 +661,7 @@ export default function InsightDetailModal({
 
                           {rail.length > 0 ? (
                             <>
-                              <span className={cn(RAIL_LABEL, rootTicker && "mt-3")}>AFFECTED</span>
+                              <span className={cn(RAIL_LABEL, rootTicker && "mt-3")}>{t("dashboard.insight.affected")}</span>
                               {rail.map((t) => (
                                 <TickerButton
                                   key={t.target}

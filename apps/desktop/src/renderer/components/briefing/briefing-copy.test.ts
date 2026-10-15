@@ -4,6 +4,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, it } from "node:test";
 import { copyProblems } from "../../../shared/copy-rules";
+import { en as briefingEn } from "../../lib/i18n/messages/areas/briefing";
 import { etClock } from "./briefing-clock";
 
 /**
@@ -22,6 +23,16 @@ const HERE = path.dirname(fileURLToPath(import.meta.url));
 const VIEW = path.join(HERE, "..", "..", "..", "shared", "briefing-view.ts");
 const HANDOVER_VIEW = path.join(HERE, "..", "..", "..", "shared", "handover-view.ts");
 
+/**
+ * The words the panel prints now live in the briefing area's English table,
+ * the source every other language is translated from. It is scanned as one
+ * more "file": each value as a quoted literal, so the same rules apply.
+ */
+const TABLE_NAME = "messages/areas/briefing.ts (en)";
+const TABLE = Object.values(briefingEn)
+  .map((text) => JSON.stringify(text))
+  .join("\n");
+
 function sources(): Array<{ name: string; src: string }> {
   const own = fs
     .readdirSync(HERE)
@@ -32,6 +43,7 @@ function sources(): Array<{ name: string; src: string }> {
     ...own,
     { name: "shared/briefing-view.ts", src: fs.readFileSync(VIEW, "utf8") },
     { name: "shared/handover-view.ts", src: fs.readFileSync(HANDOVER_VIEW, "utf8") },
+    { name: TABLE_NAME, src: TABLE },
   ];
 }
 
@@ -45,6 +57,7 @@ describe("handover panel copy", () => {
       "ReactionChip.tsx",
       "shared/briefing-view.ts",
       "shared/handover-view.ts",
+      TABLE_NAME,
     ]) {
       assert.ok(names.includes(expected), `${expected} is not being scanned`);
     }

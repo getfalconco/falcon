@@ -1,16 +1,10 @@
 import { motion } from "framer-motion";
 import WaitlistTicket, { WAITLIST_TICKET_WIDTH } from "@/components/WaitlistTicket";
+import { useT } from "@/lib/i18n";
 
 const GEIST = "var(--font-geist-sans), sans-serif";
 const SERIF = "var(--font-libre-baskerville), Georgia, serif";
 const EASE_OUT = [0.16, 1, 0.3, 1] as const;
-
-const WAITLIST_COPY = {
-  title: "You're on the waitlist",
-  body: "We're not open to everyone yet. Access is going out slowly, to traders who want depth over noise.",
-  approved:
-    "Once you're approved, we'll let you know by email and phone, and walk you through setting up your desk.",
-};
 
 /** "You're on the waitlist" card with the founding-member ticket. */
 export default function WaitlistStatusCard({
@@ -28,6 +22,7 @@ export default function WaitlistStatusCard({
   animate?: boolean;
   children?: React.ReactNode;
 }) {
+  const t = useT();
   const rise = (delay: number) =>
     animate
       ? {
@@ -44,7 +39,7 @@ export default function WaitlistStatusCard({
         className="font-serif text-[1.5rem] font-normal leading-[1.25] tracking-[0.01em] text-[#1d1b1b]"
         style={{ fontFamily: SERIF }}
       >
-        {WAITLIST_COPY.title}
+        {t("auth.waitlist.title")}
       </motion.h1>
 
       <motion.div
@@ -66,11 +61,11 @@ export default function WaitlistStatusCard({
       </motion.div>
 
       <motion.div {...rise(0.85)}>
-        <p className="mt-6 text-[13px] leading-relaxed text-[#767676]" style={{ fontFamily: GEIST }}>
-          {WAITLIST_COPY.body}
+        <p className="mt-6 text-balance text-[13px] leading-relaxed text-[#767676] [word-break:auto-phrase]" style={{ fontFamily: GEIST }}>
+          {t("auth.waitlist.body")}
         </p>
-        <p className="mt-2.5 text-[13px] leading-relaxed text-[#9a9a9a]" style={{ fontFamily: GEIST }}>
-          {WAITLIST_COPY.approved}
+        <p className="mt-2.5 text-balance text-[13px] leading-relaxed text-[#9a9a9a] [word-break:auto-phrase]" style={{ fontFamily: GEIST }}>
+          {t("auth.waitlist.approved")}
         </p>
         {children}
       </motion.div>

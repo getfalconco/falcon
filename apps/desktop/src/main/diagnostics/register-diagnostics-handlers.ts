@@ -1,4 +1,5 @@
 import { app } from "electron";
+import { CLAUDE_FAST_MODEL } from "@meridian/research/gloss";
 import { registerIpcHandler } from "../ipc-register";
 import { resolveDataRoot } from "../data-root";
 import { isProviderProxyActive } from "../provider-routing";
@@ -118,7 +119,8 @@ function checkAnthropic(): Promise<ProviderCheckResult> {
         "content-type": "application/json",
       },
       body: JSON.stringify({
-        model: "claude-haiku-4-5",
+        // count_tokens is free; any model the key can reach will do.
+        model: CLAUDE_FAST_MODEL,
         messages: [{ role: "user", content: "ping" }],
       }),
     });

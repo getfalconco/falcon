@@ -1,8 +1,10 @@
+import { withClock } from "@/lib/clock";
 import { useEffect, useState } from "react";
 import { AnimateNumber } from "@/components/ui/animated-blur-number";
 import { cn } from "@/lib/utils";
+import { useI18n } from "@/lib/i18n";
+import { marketSessionLabel } from "@/hooks/useMarketSession";
 import type { LiveQuoteState } from "@/hooks/useLiveQuote";
-import type { LiveQuoteSession } from "../../../shared/stock-types";
 
 const PRICE_FORMAT = {
   minimumFractionDigits: 2,
@@ -23,20 +25,21 @@ const SIGNED_PERCENT_FORMAT = {
   signDisplay: "exceptZero",
 } as const satisfies Intl.NumberFormatOptions;
 
-const SESSION_LABEL: Record<LiveQuoteSession, string> = {
-  regular: "Live",
-  pre: "Pre-market",
-  post: "After hours",
-  closed: "Market closed",
-};
-
-const TIME_FORMAT = new Intl.DateTimeFormat("en-US", {
-  hour: "numeric",
-  minute: "2-digit",
-  second: "2-digit",
-  hour12: true,
-  timeZone: "America/New_York",
-});
+/** Built per render so the clock picked in Settings, General applies on the next tick. */
+function formatQuoteTime(date: Date, locale: string): string {
+  return new Intl.DateTimeFormat(
+    locale,
+    withClock({
+      hour: "numeric",
+      minute: "2-digit",
+      second: "2-digit",
+      // On "auto" English keeps the 12-hour clock it was drawn in; every other
+      // language reads its own habit.
+      ...(locale === "en-US" ? { hour12: true } : {}),
+      timeZone: "America/New_York",
+    }),
+  ).format(date);
+}
 
 /**
  * Live price for the stock screen: price, session change, and a freshness dot.
@@ -53,6 +56,7 @@ export default function StockLivePrice({
   className?: string;
 }) {
   const { quote, tick, error, loading } = state;
+  const { t, locale } = useI18n();
   const [flash, setFlash] = useState<"up" | "down" | null>(null);
   const inline = variant === "inline";
 
@@ -68,7 +72,7 @@ export default function StockLivePrice({
   if (!quote) {
     return (
       <p className={cn("text-sm text-fg-faint", inline ? "text-xs" : "h-9", className)}>
-        {loading ? "Loading price…" : (error ?? "Price unavailable")}
+        {loading ? t("stock.price.loading") : (error ?? t("stock.price.unavailable"))}
       </p>
     );
   }
@@ -87,7 +91,7 @@ export default function StockLivePrice({
         aria-hidden
       />
       <span className="text-[11px] uppercase tracking-[0.12em] text-fg-faint">
-        {SESSION_LABEL[quote.session]}
+        {t(marketSessionLabel(quote.session))}
       </span>
     </span>
   );
@@ -129,7 +133,7 @@ export default function StockLivePrice({
 
   const timestamp = (
     <span className="text-[11px] tabular-nums text-fg-faint">
-      {TIME_FORMAT.format(new Date(quote.asOf))} ET
+      {t("stock.price.asOf", { time: formatQuoteTime(new Date(quote.asOf), locale) })}
     </span>
   );
 
