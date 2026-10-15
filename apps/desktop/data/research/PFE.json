@@ -9,6 +9,8 @@
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.98,
     "evidence": [
@@ -29,13 +31,15 @@
   {
     "root_ticker": "PFE",
     "counterparty_name": "BMS",
-    "counterparty_ticker": null,
+    "counterparty_ticker": "BMY",
     "counterparty_type": "public_company",
     "category": "partner",
     "subtype": "joint_development_commercialization",
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
@@ -63,6 +67,8 @@
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
@@ -90,6 +96,8 @@
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
@@ -105,13 +113,15 @@
   {
     "root_ticker": "PFE",
     "counterparty_name": "Genmab",
-    "counterparty_ticker": null,
+    "counterparty_ticker": "GMAB",
     "counterparty_type": "public_company",
     "category": "partner",
     "subtype": "joint_commercialization",
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
@@ -139,6 +149,8 @@
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
@@ -166,6 +178,8 @@
     "strength": 1,
     "strength_tier": "critical",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.93,
     "evidence": [
@@ -188,6 +202,8 @@
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.9,
     "evidence": [
@@ -210,6 +226,8 @@
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.9,
     "evidence": [
@@ -225,13 +243,15 @@
   {
     "root_ticker": "PFE",
     "counterparty_name": "Takeda",
-    "counterparty_ticker": null,
+    "counterparty_ticker": "TAK",
     "counterparty_type": "public_company",
     "category": "partner",
     "subtype": "commercialization collaboration",
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
@@ -254,6 +274,8 @@
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.92,
     "evidence": [
@@ -276,6 +298,8 @@
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
@@ -298,6 +322,8 @@
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.92,
     "evidence": [
@@ -330,6 +356,8 @@
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
@@ -362,6 +390,8 @@
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
@@ -384,6 +414,8 @@
     "strength": 1,
     "strength_tier": "critical",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
@@ -406,6 +438,8 @@
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.92,
     "evidence": [

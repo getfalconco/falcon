@@ -9,6 +9,8 @@
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.88,
     "evidence": [
@@ -24,13 +26,15 @@
   {
     "root_ticker": "COP",
     "counterparty_name": "Equinor",
-    "counterparty_ticker": null,
+    "counterparty_ticker": "EQNR",
     "counterparty_type": "public_company",
     "category": "partner",
     "subtype": "joint venture operator",
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
@@ -53,6 +57,8 @@
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.92,
     "evidence": [
@@ -80,6 +86,8 @@
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.92,
     "evidence": [
@@ -102,6 +110,8 @@
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
@@ -124,6 +134,8 @@
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
@@ -146,6 +158,8 @@
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
@@ -168,6 +182,8 @@
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.98,
     "evidence": [
@@ -195,6 +211,8 @@
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
@@ -217,6 +235,8 @@
     "strength": 1,
     "strength_tier": "critical",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
@@ -239,6 +259,8 @@
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
@@ -261,6 +283,8 @@
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.93,
     "evidence": [
@@ -283,6 +307,8 @@
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.92,
     "evidence": [
@@ -305,6 +331,8 @@
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.92,
     "evidence": [
@@ -327,6 +355,8 @@
     "strength": 1,
     "strength_tier": "critical",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
@@ -349,6 +379,8 @@
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.92,
     "evidence": [
@@ -371,6 +403,8 @@
     "strength": 1,
     "strength_tier": "critical",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.98,
     "evidence": [
@@ -393,6 +427,8 @@
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
@@ -415,6 +451,8 @@
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
@@ -430,13 +468,15 @@
   {
     "root_ticker": "COP",
     "counterparty_name": "Devon Energy",
-    "counterparty_ticker": null,
+    "counterparty_ticker": "DVN",
     "counterparty_type": "public_company",
     "category": "competitor",
     "subtype": "performance_peer",
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
@@ -459,6 +499,8 @@
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
@@ -481,6 +523,8 @@
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
@@ -503,6 +547,8 @@
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
@@ -518,13 +564,15 @@
   {
     "root_ticker": "COP",
     "counterparty_name": "Occidental Petroleum",
-    "counterparty_ticker": null,
+    "counterparty_ticker": "OXY",
     "counterparty_type": "public_company",
     "category": "competitor",
     "subtype": "performance_peer",
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
@@ -547,6 +595,8 @@
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.87,
     "evidence": [
@@ -562,13 +612,15 @@
   {
     "root_ticker": "COP",
     "counterparty_name": "TotalEnergies EP Canada Ltd.",
-    "counterparty_ticker": null,
+    "counterparty_ticker": "TTE",
     "counterparty_type": "public_company",
     "category": "supplier",
     "subtype": "asset_seller",
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
@@ -589,13 +641,15 @@
   {
     "root_ticker": "COP",
     "counterparty_name": "Chevron U.S.A. Inc.",
-    "counterparty_ticker": null,
+    "counterparty_ticker": "CVX",
     "counterparty_type": "private_company",
     "category": "supplier",
     "subtype": "asset_seller",
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.92,
     "evidence": [
@@ -623,6 +677,8 @@
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
@@ -650,6 +706,8 @@
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.88,
     "evidence": [
@@ -672,6 +730,8 @@
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.82,
     "evidence": [
@@ -694,6 +754,8 @@
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
@@ -716,6 +778,8 @@
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
@@ -738,6 +802,8 @@
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
@@ -760,6 +826,8 @@
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.88,
     "evidence": [

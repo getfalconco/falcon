@@ -9,6 +9,8 @@
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
@@ -41,6 +43,8 @@
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.15,
     "evidence": [
@@ -63,6 +67,8 @@
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.92,
     "evidence": [
@@ -85,6 +91,8 @@
     "strength": 0.17,
     "strength_tier": "critical",
     "strength_basis": "disclosed",
+    "disclosed_share_pct": 17,
+    "disclosed_share_quote": "OptumRx — — 17 % — —",
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
@@ -112,6 +120,8 @@
     "strength": 0.28,
     "strength_tier": "critical",
     "strength_basis": "disclosed",
+    "disclosed_share_pct": 28,
+    "disclosed_share_quote": "Our largest customer, CVS Health, accounted for 28 percent of our fiscal 2026 revenue.",
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
@@ -144,6 +154,8 @@
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
@@ -166,6 +178,8 @@
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
@@ -188,6 +202,8 @@
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
@@ -210,6 +226,8 @@
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
@@ -232,6 +250,8 @@
     "strength": 1,
     "strength_tier": "critical",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.9,
     "evidence": [
@@ -254,6 +274,8 @@
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.92,
     "evidence": [

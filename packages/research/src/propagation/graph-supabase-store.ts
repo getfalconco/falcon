@@ -18,11 +18,16 @@ export type GraphEdgeLike = {
   counterparty_id: string;
   counterparty_name: string;
   counterparty_ticker: string | null;
+  /** The federal body behind a "U.S. government" edge (step1 GraphEdge). Local graph only, like the share. */
+  counterparty_detail?: string | null;
   category: string;
   subtype?: string;
   confidence?: number;
   strength?: number;
   strength_tier?: string;
+  /** Disclosed share in percent (step1 GraphEdge). Local graph only: graph_edges has no column for it. */
+  disclosed_share_pct?: number | null;
+  disclosed_share_quote?: string | null;
   evidence_quote?: string;
   source_url?: string;
   valid_from?: string;
@@ -60,6 +65,11 @@ export function isGraphBackendConfigured(): boolean {
   return supabaseConfig() !== null;
 }
 
+/**
+ * The row the `graph_edges` table takes. Fields the table has no column for
+ * (counterparty_detail, disclosed_share_pct, disclosed_share_quote) stay out: PostgREST rejects
+ * an upsert that names an unknown column, so adding them needs a migration first.
+ */
 function toRow(edge: GraphEdgeLike): StoredRow {
   return {
     id: edge.id,

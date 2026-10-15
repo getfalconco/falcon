@@ -89,7 +89,6 @@ export const COUNTERPARTY_TICKER_ALIASES: Readonly<Record<string, string>> = {
   "ge vernova": "GEV",
   "ge healthcare": "GEHC",
   jd: "JD",
-  "jd technology": "JD",
   "jd com": "JD",
   msd: "MRK",
   merck: "MRK",
@@ -138,9 +137,7 @@ export const COUNTERPARTY_TICKER_ALIASES: Readonly<Record<string, string>> = {
   "mitsubishi heavy industries": "MHVYF",
   "mitsubishi electric": "MIELY",
   "mitsubishi ufj financial": "MUFG",
-  "sinopec": "SHI",
   "petrochina": "PCCYF",
-  "china national petroleum": "PCCYF",
   vestas: "VWSYF",
   "vestas wind systems": "VWSYF",
   woodside: "WDS",
@@ -176,6 +173,45 @@ export const COUNTERPARTY_TICKER_ALIASES: Readonly<Record<string, string>> = {
   centerpoint: "CNP",
   "eli lilly": "LLY",
   "eli lilly and": "LLY",
+  // Segments and wholly owned subsidiaries whose names no title match reaches.
+  "google cloud": "GOOGL",
+  "google cloud platform": "GOOGL",
+  "evernorth health services": "CI",
+  "vertex pharmaceuticals": "VRTX",
+  "circle internet group": "CRCL",
+  "circle internet financial": "CRCL",
+};
+
+/**
+ * Names of a parent, joint venture or affiliate that sits next to a listed
+ * company without being it, keyed by normalized name, with the listing it must
+ * never take. Two shapes of the same mistake:
+ *
+ *   - a state-owned or group parent read as its listed subsidiary: CNPC owns
+ *     most of PetroChina, but an edge to CNPC is not an edge to PetroChina's
+ *     minority shareholders. "Sinopec" names the group as often as the listed
+ *     China Petroleum & Chemical; CNOOC the parent as often as CNOOC Ltd.
+ *   - an affiliate or JV the subsidiary rule would fold onto a listed parent:
+ *     JD Technology (Jingdong Technology) is controlled outside JD.com,
+ *     Chevron Phillips Chemical is a 50/50 Chevron / Phillips 66 venture, and
+ *     Hitachi Construction Machinery has been separately controlled and listed
+ *     in Tokyo since Hitachi sold down in 2022.
+ *
+ * A wholly owned subsidiary mapping onto its listed parent ("Chevron U.S.A.
+ * Inc." to CVX) stays allowed; that is the policy the subsidiary rule encodes.
+ * Every name here resolves to nothing and stays a name node in the graph.
+ */
+export const NOT_THE_LISTED_ENTITY: Readonly<Record<string, string>> = {
+  "china national petroleum": "PCCYF",
+  cnpc: "PCCYF",
+  sinopec: "SNPMF",
+  "china petrochemical": "SNPMF",
+  "china national offshore oil": "CEOHF",
+  cnooc: "CEOHF",
+  "jd technology": "JD",
+  "jingdong technology": "JD",
+  "chevron phillips chemical": "CVX",
+  "hitachi construction machinery": "HTHIY",
 };
 
 /**
@@ -204,6 +240,25 @@ export const BLOCKED_NAMES: ReadonlySet<string> = new Set([
   // "Tron Inc." is unrelated to the TRON the extractor meant; a product row
   // mis-typed as a public company should resolve to nothing, not to a shell.
   "tron",
+  // "Vertex" is the drug maker (VRTX) in a pharma filing and the tax-software
+  // company (VERX, whose SEC title is exactly "Vertex, Inc.") elsewhere. The
+  // exact match picked VERX for two cystic-fibrosis partner edges.
+  "vertex",
+  // Circle Internet Group (CRCL) vs the prefix match "Circle Energy" (CRCE).
+  "circle",
+  // Evernorth Health Services is Cigna's (CI); "Evernorth Holdings" is an
+  // unrelated XRP treasury company. Only the qualified form above resolves.
+  "evernorth",
+  // A CCS joint venture (Shell / Equinor / TotalEnergies), not a bank.
+  "northern lights",
+  // Private railcar-axle maker vs AXIS Capital.
+  "axis",
+  // Countries. "Taiwan" + generic continuations reached TSMC, "China" a pharma shell.
+  "china",
+  "taiwan",
+  "japan",
+  "korea",
+  "india",
   // Generic single words that prefix half the SEC list.
   "apollo",
   "arrow",
@@ -273,6 +328,40 @@ const GENERIC_CONTINUATIONS: ReadonlySet<string> = new Set([
   "sciences",
 ]);
 
+function isRefusedKey(key: string): boolean {
+  return BLOCKED_NAMES.has(key) || Object.prototype.hasOwnProperty.call(NOT_THE_LISTED_ENTITY, key);
+}
+
+/**
+ * True when a counterparty name must never carry a ticker or be folded onto a
+ * ticker node: a blocked name, or a parent / JV / affiliate listed in
+ * `NOT_THE_LISTED_ENTITY`. The graph builder reads this so a stored result or
+ * an alias cannot bring back what the resolver refuses.
+ */
+export function isRefusedCounterpartyName(name: string): boolean {
+  const query = counterpartyKey(name);
+  if (!query) return false;
+  if (COUNTERPARTY_TICKER_ALIASES[query]) return false;
+  const canonical = COUNTERPARTY_ALIASES[query] ?? query;
+  if (COUNTERPARTY_TICKER_ALIASES[canonical]) return false;
+  return isRefusedKey(query) || isRefusedKey(canonical);
+}
+
+/**
+ * True when the name is a parent / JV / affiliate in `NOT_THE_LISTED_ENTITY`:
+ * any ticker stored for it is the listed neighbour's, so the builder clears it.
+ * (A blocked name only refuses automatic matching; a ticker stored for it was
+ * chosen with the filing's context and is kept.)
+ */
+export function isNotTheListedEntity(name: string): boolean {
+  const query = counterpartyKey(name);
+  if (!query || COUNTERPARTY_TICKER_ALIASES[query]) return false;
+  const canonical = COUNTERPARTY_ALIASES[query] ?? query;
+  if (COUNTERPARTY_TICKER_ALIASES[canonical]) return false;
+  const has = (key: string) => Object.prototype.hasOwnProperty.call(NOT_THE_LISTED_ENTITY, key);
+  return has(query) || has(canonical);
+}
+
 /** Counterparty kinds that can, in principle, carry a tradable ticker. */
 export function isTradableKind(kind: CounterpartyType | string | null | undefined): boolean {
   return kind === "public_company";
@@ -285,6 +374,7 @@ export function isTradableKind(kind: CounterpartyType | string | null | undefine
  * perfectly ordinary name misses its own exact match.
  */
 const EXTRA_LEGAL_FORMS: ReadonlySet<string> = new Set([
+  "incorporated",
   "asa",
   "oyj",
   "ab",
@@ -429,7 +519,7 @@ export function resolveCounterparty(name: string, entries: SecTickerLookup[]): R
     const alias = COUNTERPARTY_TICKER_ALIASES[key];
     if (alias) return { ticker: alias, method: "alias", rejected: null };
   }
-  if (BLOCKED_NAMES.has(query) || BLOCKED_NAMES.has(canonical)) {
+  if (isRefusedKey(query) || isRefusedKey(canonical)) {
     return { ticker: null, method: null, rejected: "blocked" };
   }
 
@@ -476,6 +566,8 @@ export function resolveCounterparty(name: string, entries: SecTickerLookup[]): R
     let bestTickers: Set<string> | null = null;
     for (const [title, tickers] of index) {
       if (!key.startsWith(`${title} `)) continue;
+      // A refused stem is no parent: "Vertex Aerospace" is not Vertex, Inc.
+      if (isRefusedKey(title)) continue;
       if (title.length > bestParent.length) {
         bestParent = title;
         bestTickers = tickers;

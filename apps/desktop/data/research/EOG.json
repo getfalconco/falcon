@@ -9,6 +9,8 @@
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
@@ -31,6 +33,8 @@
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
@@ -46,13 +50,15 @@
   {
     "root_ticker": "EOG",
     "counterparty_name": "BP Trinidad and Tobago LLC",
-    "counterparty_ticker": null,
+    "counterparty_ticker": "BP",
     "counterparty_type": "private_company",
     "category": "customer",
     "subtype": "crude_oil_purchaser",
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.92,
     "evidence": [
@@ -68,13 +74,15 @@
   {
     "root_ticker": "EOG",
     "counterparty_name": "BP Trinidad and Tobago LLC",
-    "counterparty_ticker": null,
+    "counterparty_ticker": "BP",
     "counterparty_type": "public_company",
     "category": "partner",
     "subtype": "farmout_partner",
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
@@ -97,6 +105,8 @@
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
@@ -119,6 +129,8 @@
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
@@ -141,6 +153,8 @@
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.88,
     "evidence": [
@@ -168,6 +182,8 @@
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.92,
     "evidence": [
@@ -190,6 +206,8 @@
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.92,
     "evidence": [

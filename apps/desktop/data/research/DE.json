@@ -2,13 +2,15 @@
   {
     "root_ticker": "DE",
     "counterparty_name": "AGCO Corporation",
-    "counterparty_ticker": null,
+    "counterparty_ticker": "AGCO",
     "counterparty_type": "public_company",
     "category": "competitor",
     "subtype": "agricultural_equipment_competitor",
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.97,
     "evidence": [
@@ -31,6 +33,8 @@
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
@@ -53,6 +57,8 @@
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.97,
     "evidence": [
@@ -68,13 +74,15 @@
   {
     "root_ticker": "DE",
     "counterparty_name": "Kubota Tractor Corporation",
-    "counterparty_ticker": null,
+    "counterparty_ticker": "KUBTY",
     "counterparty_type": "public_company",
     "category": "competitor",
     "subtype": "agricultural_equipment_competitor",
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.97,
     "evidence": [
@@ -90,13 +98,15 @@
   {
     "root_ticker": "DE",
     "counterparty_name": "The Toro Company",
-    "counterparty_ticker": null,
+    "counterparty_ticker": "TTC",
     "counterparty_type": "public_company",
     "category": "competitor",
     "subtype": "agricultural_equipment_competitor",
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
@@ -119,6 +129,8 @@
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.97,
     "evidence": [
@@ -141,6 +153,8 @@
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
@@ -163,6 +177,8 @@
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.9,
     "evidence": [
@@ -185,6 +201,8 @@
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
@@ -207,6 +225,8 @@
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
@@ -229,6 +249,8 @@
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.97,
     "evidence": [
@@ -244,13 +266,15 @@
   {
     "root_ticker": "DE",
     "counterparty_name": "Komatsu Ltd.",
-    "counterparty_ticker": null,
+    "counterparty_ticker": "KMTUY",
     "counterparty_type": "public_company",
     "category": "competitor",
     "subtype": "construction_forestry_competitor",
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.97,
     "evidence": [
@@ -273,6 +297,8 @@
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.85,
     "evidence": [
@@ -295,6 +321,8 @@
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
@@ -317,6 +345,8 @@
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.88,
     "evidence": [
@@ -339,6 +369,8 @@
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.9,
     "evidence": [
@@ -361,6 +393,8 @@
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.93,
     "evidence": [
@@ -383,6 +417,8 @@
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
@@ -405,6 +441,8 @@
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
@@ -427,6 +465,8 @@
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.93,
     "evidence": [
@@ -442,13 +482,15 @@
   {
     "root_ticker": "DE",
     "counterparty_name": "The Home Depot",
-    "counterparty_ticker": null,
+    "counterparty_ticker": "HD",
     "counterparty_type": "public_company",
     "category": "customer",
     "subtype": "retail_distribution_channel",
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.9,
     "evidence": [
@@ -471,6 +513,8 @@
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.7,
     "evidence": [
@@ -493,6 +537,8 @@
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
@@ -515,6 +561,8 @@
     "strength": 1,
     "strength_tier": "critical",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.72,
     "evidence": [
@@ -537,6 +585,8 @@
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.75,
     "evidence": [

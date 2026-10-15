@@ -25,7 +25,7 @@ import {
 import { preAuditCandidates } from "./preAudit.js";
 import { saveStep1Result, tryLoadCachedResult } from "./persist.js";
 import { fractionAllCapsQuotes, sectionLooksUnusable, shouldRetry20FWithItem4 } from "./sectionSanity.js";
-import { classifyEdgesStrength } from "./strength.js";
+import { classifyEdgesStrength, disclosedShareFromEvidence } from "./strength.js";
 import { matchCounterpartyTicker } from "./tickerMatch.js";
 import { createTokenUsage, estimateCostUsd } from "./tokenUsage.js";
 import type {
@@ -66,6 +66,11 @@ function toValidated(
   sectionMethod: SectionMethod,
   strength: { strength: number; strength_tier: StrengthTier; strength_basis: "disclosed" | "classified" },
 ): ValidatedEdge {
+  const quotes = edge.evidence_quotes?.length ? edge.evidence_quotes : [edge.evidence_quote];
+  const share = disclosedShareFromEvidence(edge.disclosed_revenue_dependency_pct, [
+    ...(edge.disclosed_pct_quote ? [edge.disclosed_pct_quote] : []),
+    ...quotes,
+  ]);
   return {
     root_ticker: ticker,
     counterparty_name: edge.counterparty_name,
@@ -76,9 +81,11 @@ function toValidated(
     strength: strength.strength,
     strength_tier: strength.strength_tier,
     strength_basis: strength.strength_basis,
+    disclosed_share_pct: share.disclosed_share_pct,
+    disclosed_share_quote: share.disclosed_share_quote,
     epistemic_label: "VERIFIED",
     confidence: edge.confidence,
-    evidence: (edge.evidence_quotes?.length ? edge.evidence_quotes : [edge.evidence_quote]).map(
+    evidence: quotes.map(
       (quote) => ({
         quote,
         source_url: sourceUrl,
@@ -418,6 +425,9 @@ export async function runStep1Pipeline(
     let counterpartyTicker: string | null = null;
     if (edge.counterparty_type === "public_company") {
       counterpartyTicker = await matchCounterpartyTicker(edge.counterparty_name);
+      // A name that resolves to the filer's own ticker is an affiliate (or the
+      // filer itself): never store an edge from a company to itself.
+      if (counterpartyTicker?.toUpperCase() === filing.ticker.toUpperCase()) counterpartyTicker = null;
     }
     validatedRaw.push(
       toValidated(

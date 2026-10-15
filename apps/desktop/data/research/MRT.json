@@ -2,13 +2,15 @@
   {
     "root_ticker": "MRT",
     "counterparty_name": "Apple Inc.",
-    "counterparty_ticker": null,
+    "counterparty_ticker": "AAPL",
     "counterparty_type": "company",
     "category": "supplier",
     "subtype": "mobile_application_marketplace",
     "strength": 1,
     "strength_tier": "critical",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.92,
     "evidence": [
@@ -31,6 +33,8 @@
     "strength": 1,
     "strength_tier": "critical",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.92,
     "evidence": [
@@ -53,6 +57,8 @@
     "strength": 1,
     "strength_tier": "critical",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.88,
     "evidence": [
@@ -68,13 +74,15 @@
   {
     "root_ticker": "MRT",
     "counterparty_name": "Apple Inc.",
-    "counterparty_ticker": null,
+    "counterparty_ticker": "AAPL",
     "counterparty_type": "company",
     "category": "dependency",
     "subtype": "mobile operating system infrastructure",
     "strength": 1,
     "strength_tier": "critical",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.88,
     "evidence": [
@@ -97,6 +105,8 @@
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.92,
     "evidence": [
@@ -119,6 +129,8 @@
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
@@ -146,6 +158,8 @@
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.88,
     "evidence": [
@@ -168,6 +182,8 @@
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
@@ -190,6 +206,8 @@
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
@@ -212,6 +230,8 @@
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
@@ -234,6 +254,8 @@
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [

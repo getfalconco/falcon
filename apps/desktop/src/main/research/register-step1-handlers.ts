@@ -1,14 +1,19 @@
+import { readFile } from "node:fs/promises";
+import path from "node:path";
 import {
   startResearchJob,
   getJobStatus,
   getResearchResult,
   resolveResearchDataDir,
+  saveStep1Result,
   type Step1Result,
 } from "@meridian/research/step1";
 import { persistGraphToSupabase } from "@meridian/research/propagation";
 import { classifyEngineError, parseFalconError } from "../../shared/falcon-errors";
 import { registerIpcHandler } from "../ipc-register";
+import { forgetFilingForms } from "./graph-edges";
 import { refreshGraphFile } from "./graph-refresh";
+import { createRemoteStep1Merger } from "./remote-step1-merge";
 import { resolveStep1DataDir } from "./research-paths";
 import { edgesFromStep1Result } from "./step1-graph";
 import {
@@ -32,6 +37,28 @@ async function persistShared(result: Step1Result): Promise<void> {
     console.warn("[step1] graph persist failed:", err instanceof Error ? err.message : err);
   }
 }
+
+/**
+ * Research the worker ran, written into the local research dir and graph the
+ * same way a local job's result is (remote-step1-merge.ts).
+ */
+const remoteMerger = createRemoteStep1Merger({
+  dataDir: step1DataDir,
+  localStamp: async (ticker, dir) => {
+    const raw = await readFile(path.join(dir, `${ticker}.meta.json`), "utf8").catch(() => null);
+    if (!raw) return null;
+    const meta = JSON.parse(raw) as { generatedAt?: unknown; validatedCount?: unknown };
+    return {
+      generatedAt: typeof meta.generatedAt === "string" ? meta.generatedAt : null,
+      validatedCount: typeof meta.validatedCount === "number" ? meta.validatedCount : -1,
+    };
+  },
+  save: (result, dir) => saveStep1Result(result, dir),
+  rebuildGraph: (dir) => refreshGraphFile(dir),
+  afterMerge: () => forgetFilingForms(),
+  getJob: workerGetJob,
+  getResult: workerGetResult,
+});
 
 export type Step1CoverageOutcome =
   | { status: "cached" }
@@ -84,6 +111,7 @@ export function registerStep1ResearchHandlers(): void {
       if (isResearchWorkerConfigured() && token) {
         try {
           const started = await workerStartStep1(token, trimmed, options?.force);
+          remoteMerger.watch(started.jobId, trimmed.toUpperCase(), token);
           return { ok: true as const, jobId: started.jobId, fromCache: false, via: "worker" as const };
         } catch (err) {
           if (!isWorkerUnavailable(err)) {
@@ -137,6 +165,8 @@ export function registerStep1ResearchHandlers(): void {
         try {
           const job = await workerGetJob(token, jobId.trim());
           if (job) {
+            // A finished remote job lands in the local graph before "done" reaches the screen.
+            if (job.status === "done" || job.status === "error") await remoteMerger.noteJob(job, token);
             const error = job.status === "error" ? job.error : null;
             const code = job.error_code ?? (error ? classifyEngineError(error).code : null);
             return {
@@ -184,7 +214,13 @@ export function registerStep1ResearchHandlers(): void {
       if (isResearchWorkerConfigured() && token) {
         try {
           const remote = await workerGetResult(token, trimmed);
-          if (remote) return { ok: true as const, result: remote };
+          if (remote) {
+            // Idempotent: written only when the disk has no result for it or an older one.
+            void remoteMerger.mergeResult(remote, trimmed).catch((err) => {
+              console.warn("[step1] remote result merge failed:", err instanceof Error ? err.message : err);
+            });
+            return { ok: true as const, result: remote };
+          }
         } catch (err) {
           if (!isWorkerUnavailable(err)) {
             const mapped = falconFromUnknown(err);

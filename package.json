@@ -25,6 +25,7 @@
     "seed": "pnpm --filter @meridian/research exec node --import tsx ../../scripts/seed-research.ts",
     "graph": "pnpm --filter @meridian/research exec node --import tsx ../../scripts/build-graph.ts",
     "backfill-filing-dates": "pnpm --filter @meridian/research exec node --import tsx ../../scripts/backfill-filing-dates.ts",
+    "backfill-disclosed-share": "pnpm --filter @meridian/research exec node --import tsx ../../scripts/backfill-disclosed-share.ts",
     "propagate": "pnpm --filter @meridian/research exec node --import tsx ../../scripts/run-propagation.ts",
     "backfill-entity-resolution": "pnpm --filter @meridian/research exec node --import tsx ../../scripts/backfill-entity-resolution.ts",
     "expand-universe": "pnpm --filter @meridian/research exec node --import tsx ../../scripts/expand-universe-from-graph.ts",

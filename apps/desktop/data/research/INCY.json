@@ -9,6 +9,8 @@
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
@@ -41,6 +43,8 @@
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.82,
     "evidence": [
@@ -63,6 +67,8 @@
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.75,
     "evidence": [
@@ -83,13 +89,15 @@
   {
     "root_ticker": "INCY",
     "counterparty_name": "Syndax",
-    "counterparty_ticker": null,
+    "counterparty_ticker": "SNDX",
     "counterparty_type": "public_company",
     "category": "partner",
     "subtype": "exclusive_worldwide_collaboration_and_license",
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.97,
     "evidence": [
@@ -117,6 +125,8 @@
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.9,
     "evidence": [
@@ -139,6 +149,8 @@
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.97,
     "evidence": [
@@ -159,13 +171,15 @@
   {
     "root_ticker": "INCY",
     "counterparty_name": "Merus",
-    "counterparty_ticker": null,
+    "counterparty_ticker": "MRUS",
     "counterparty_type": "public_company",
     "category": "partner",
     "subtype": "licensed_technology_platform",
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.85,
     "evidence": [
@@ -188,6 +202,8 @@
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.92,
     "evidence": [
@@ -215,6 +231,8 @@
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.85,
     "evidence": [
@@ -235,13 +253,15 @@
   {
     "root_ticker": "INCY",
     "counterparty_name": "Syndax Therapeutics, Inc.",
-    "counterparty_ticker": null,
+    "counterparty_ticker": "SNDX",
     "counterparty_type": "public_company",
     "category": "partner",
     "subtype": "licensor",
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.85,
     "evidence": [
@@ -264,6 +284,8 @@
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.92,
     "evidence": [
@@ -284,13 +306,15 @@
   {
     "root_ticker": "INCY",
     "counterparty_name": "Takeda",
-    "counterparty_ticker": null,
+    "counterparty_ticker": "TAK",
     "counterparty_type": "public_company",
     "category": "partner",
     "subtype": "licensor",
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.85,
     "evidence": [
@@ -318,6 +342,8 @@
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.85,
     "evidence": [
@@ -338,13 +364,15 @@
   {
     "root_ticker": "INCY",
     "counterparty_name": "Merus",
-    "counterparty_ticker": null,
+    "counterparty_ticker": "MRUS",
     "counterparty_type": "public_company",
     "category": "partner",
     "subtype": "licensor",
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.85,
     "evidence": [
@@ -365,13 +393,15 @@
   {
     "root_ticker": "INCY",
     "counterparty_name": "Syndax",
-    "counterparty_ticker": null,
+    "counterparty_ticker": "SNDX",
     "counterparty_type": "public_company",
     "category": "partner",
     "subtype": "licensor",
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.75,
     "evidence": [
@@ -387,13 +417,15 @@
   {
     "root_ticker": "INCY",
     "counterparty_name": "Novartis Pharmaceutical International Ltd.",
-    "counterparty_ticker": null,
+    "counterparty_ticker": "NVS",
     "counterparty_type": "public_company",
     "category": "partner",
     "subtype": "licensing/royalty collaboration",
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.92,
     "evidence": [
@@ -409,13 +441,15 @@
   {
     "root_ticker": "INCY",
     "counterparty_name": "Eli Lilly and Company",
-    "counterparty_ticker": null,
+    "counterparty_ticker": "LLY",
     "counterparty_type": "public_company",
     "category": "partner",
     "subtype": "licensing/royalty collaboration",
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.93,
     "evidence": [
@@ -438,6 +472,8 @@
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.75,
     "evidence": [
@@ -460,6 +496,8 @@
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.8,
     "evidence": [
@@ -482,6 +520,8 @@
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.92,
     "evidence": [
@@ -504,6 +544,8 @@
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.92,
     "evidence": [
@@ -526,6 +568,8 @@
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.85,
     "evidence": [
@@ -548,6 +592,8 @@
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.93,
     "evidence": [
@@ -570,6 +616,8 @@
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.85,
     "evidence": [
@@ -585,13 +633,15 @@
   {
     "root_ticker": "INCY",
     "counterparty_name": "Eli Lilly and Company",
-    "counterparty_ticker": null,
+    "counterparty_ticker": "LLY",
     "counterparty_type": "public_company",
     "category": "partner",
     "subtype": "licensee",
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.85,
     "evidence": [
@@ -614,6 +664,8 @@
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.75,
     "evidence": [

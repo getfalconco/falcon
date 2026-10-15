@@ -80,6 +80,68 @@ export function resolveEdgeStrength(input: {
   };
 }
 
+/** A percentage written in a quote: "29.8%", "17 %", "28 percent", "84 per cent". */
+const PCT_IN_TEXT = /(?<![\d.,])(\d{1,3}(?:\.\d+)?)\s*(?:%|percent\b|per cent\b)/gi;
+
+/** True when `quote` writes `pct` as a percentage (to within rounding of one decimal). */
+export function quoteStatesPct(quote: string, pct: number): boolean {
+  for (const m of quote.matchAll(PCT_IN_TEXT)) {
+    if (Math.abs(Number(m[1]) - pct) < 0.051) return true;
+  }
+  return false;
+}
+
+/** The share a filing states for one relationship, apart from the strength weight. */
+export type DisclosedShare = {
+  /** Percent, 0 to 100; null when the filing states none. */
+  disclosed_share_pct: number | null;
+  /** The evidence quote that states it; null with it. */
+  disclosed_share_quote: string | null;
+};
+
+const NO_SHARE: DisclosedShare = { disclosed_share_pct: null, disclosed_share_quote: null };
+
+/**
+ * The disclosed share for an edge, from the extractor's percentage and the
+ * edge's evidence quotes. Set only when a quote (each one checked against the
+ * filing text before it gets here) states the number, so a percentage the
+ * model inferred, or one that is really a tier weight, never reads as disclosed.
+ */
+export function disclosedShareFromEvidence(
+  pct: number | null | undefined,
+  quotes: readonly string[],
+): DisclosedShare {
+  if (pct == null || !Number.isFinite(pct) || pct <= 0 || pct > 100) return NO_SHARE;
+  const value = Math.round(pct * 100) / 100;
+  const quote = quotes.find((q) => typeof q === "string" && quoteStatesPct(q, value));
+  return quote ? { disclosed_share_pct: value, disclosed_share_quote: quote } : NO_SHARE;
+}
+
+/**
+ * The disclosed share of a validated edge: its own field when the result
+ * recorded one; otherwise, for results written before the field existed,
+ * recovered from a strength whose basis is "disclosed" (strength = pct / 100
+ * there), still only when a quote states the number.
+ */
+export function disclosedShareOfEdge(edge: {
+  strength?: number;
+  strength_basis?: StrengthBasis;
+  disclosed_share_pct?: number | null;
+  disclosed_share_quote?: string | null;
+  evidence?: ReadonlyArray<{ quote: string }>;
+}): DisclosedShare {
+  if (edge.disclosed_share_pct !== undefined) {
+    const pct = edge.disclosed_share_pct;
+    if (pct == null || !Number.isFinite(pct)) return NO_SHARE;
+    return { disclosed_share_pct: pct, disclosed_share_quote: edge.disclosed_share_quote ?? null };
+  }
+  if (edge.strength_basis !== "disclosed" || typeof edge.strength !== "number") return NO_SHARE;
+  return disclosedShareFromEvidence(
+    edge.strength * 100,
+    (edge.evidence ?? []).map((e) => e.quote),
+  );
+}
+
 /** Bottleneck tier along a path (lowest numeric strength wins). */
 export function minStrengthTier(tiers: StrengthTier[]): StrengthTier {
   if (tiers.length === 0) return "important";

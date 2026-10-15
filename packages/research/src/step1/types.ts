@@ -26,6 +26,11 @@ export type CandidateEdge = {
   category: RelationshipCategory;
   subtype: string;
   disclosed_revenue_dependency_pct: number | null;
+  /**
+   * The quote the percentage was read from, when dedupe carried the
+   * percentage over from a merged duplicate whose quote may not be kept.
+   */
+  disclosed_pct_quote?: string;
   evidence_quote: string;
   evidence_quotes: string[];
   confidence: number;
@@ -47,6 +52,16 @@ export type ValidatedEdge = {
   strength: number;
   strength_tier: StrengthTier;
   strength_basis: StrengthBasis;
+  /**
+   * The share the filing states for this relationship, in percent (revenue
+   * share, purchase share, concentration), or null when it states none. Set
+   * only when one of the evidence quotes states the number, so it never
+   * echoes a tier default. Absent on results written before it was recorded
+   * (`disclosedShareOfEdge` recovers it from a disclosed strength).
+   */
+  disclosed_share_pct?: number | null;
+  /** The evidence quote that states `disclosed_share_pct`; null with it. */
+  disclosed_share_quote?: string | null;
   epistemic_label: "VERIFIED";
   confidence: number;
   evidence: Array<{

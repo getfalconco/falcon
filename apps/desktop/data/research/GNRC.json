@@ -9,6 +9,8 @@
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.75,
     "evidence": [
@@ -24,13 +26,15 @@
   {
     "root_ticker": "GNRC",
     "counterparty_name": "Wallbox",
-    "counterparty_ticker": null,
+    "counterparty_ticker": "WBX",
     "counterparty_type": "public_company",
     "category": "partner",
     "subtype": "equity investment and warrant agreement",
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.72,
     "evidence": [
@@ -53,6 +57,8 @@
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.72,
     "evidence": [
@@ -75,6 +81,8 @@
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.9,
     "evidence": [
@@ -97,6 +105,8 @@
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.9,
     "evidence": [

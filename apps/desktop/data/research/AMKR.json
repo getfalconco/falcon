@@ -9,6 +9,8 @@
     "strength": 0.298,
     "strength_tier": "critical",
     "strength_basis": "disclosed",
+    "disclosed_share_pct": 29.8,
+    "disclosed_share_quote": "Direct sales to Apple and Qualcomm accounted for 29.8% and 11.1% of our net sales, respectively, for the year ended December 31, 2025.",
     "epistemic_label": "VERIFIED",
     "confidence": 0.98,
     "evidence": [
@@ -24,13 +26,15 @@
   {
     "root_ticker": "AMKR",
     "counterparty_name": "Qualcomm",
-    "counterparty_ticker": null,
+    "counterparty_ticker": "QCOM",
     "counterparty_type": "public_company",
     "category": "customer",
     "subtype": "semiconductor_packaging_customer",
     "strength": 0.111,
     "strength_tier": "critical",
     "strength_basis": "disclosed",
+    "disclosed_share_pct": 11.1,
+    "disclosed_share_quote": "Direct sales to Apple and Qualcomm accounted for 29.8% and 11.1% of our net sales, respectively, for the year ended December 31, 2025.",
     "epistemic_label": "VERIFIED",
     "confidence": 0.98,
     "evidence": [
@@ -46,13 +50,15 @@
   {
     "root_ticker": "AMKR",
     "counterparty_name": "ASE Technology",
-    "counterparty_ticker": null,
+    "counterparty_ticker": "ASX",
     "counterparty_type": "public_company",
     "category": "competitor",
     "subtype": "packaging_and_test_service_provider",
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
@@ -75,6 +81,8 @@
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
@@ -97,6 +105,8 @@
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [

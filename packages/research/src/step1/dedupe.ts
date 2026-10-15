@@ -23,6 +23,18 @@ function appendEvidenceQuote(kept: CandidateEdge, quote: string): void {
   kept.evidence_quotes = quotes;
 }
 
+/**
+ * Keep a disclosed percentage through a merge: when the surviving duplicate
+ * has none and the merged one states one, the survivor takes it along with
+ * the quote it came from (the evidence list may already be full).
+ */
+function carryDisclosedPct(kept: CandidateEdge, from: CandidateEdge): void {
+  const pct = from.disclosed_revenue_dependency_pct;
+  if (kept.disclosed_revenue_dependency_pct != null || pct == null || !Number.isFinite(pct)) return;
+  kept.disclosed_revenue_dependency_pct = pct;
+  kept.disclosed_pct_quote = from.disclosed_pct_quote ?? from.evidence_quote;
+}
+
 function toMerged(c: CandidateEdge, keptName: string): MergedCandidate {
   return {
     counterparty_name: c.counterparty_name,
@@ -66,11 +78,13 @@ export function dedupeCandidates(candidates: CandidateEdge[]): {
         for (const q of existing.evidence_quotes ?? [existing.evidence_quote]) {
           appendEvidenceQuote(next, q);
         }
+        carryDisclosedPct(next, existing);
       }
       byKey.set(key, next);
     } else {
       merged.push(toMerged(c, existing.counterparty_name));
       appendEvidenceQuote(existing, c.evidence_quote);
+      carryDisclosedPct(existing, c);
     }
   }
 

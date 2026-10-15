@@ -9,6 +9,8 @@
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
@@ -24,13 +26,15 @@
   {
     "root_ticker": "LMT",
     "counterparty_name": "The Boeing Company",
-    "counterparty_ticker": null,
+    "counterparty_ticker": "BA",
     "counterparty_type": "public_company",
     "category": "competitor",
     "subtype": "primary_competitor",
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.98,
     "evidence": [
@@ -53,6 +57,8 @@
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.98,
     "evidence": [
@@ -68,13 +74,15 @@
   {
     "root_ticker": "LMT",
     "counterparty_name": "L3Harris Technologies",
-    "counterparty_ticker": null,
+    "counterparty_ticker": "LHX",
     "counterparty_type": "public_company",
     "category": "competitor",
     "subtype": "primary_competitor",
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
@@ -90,13 +98,15 @@
   {
     "root_ticker": "LMT",
     "counterparty_name": "Northrop Grumman",
-    "counterparty_ticker": null,
+    "counterparty_ticker": "NOC",
     "counterparty_type": "public_company",
     "category": "competitor",
     "subtype": "primary_competitor",
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.98,
     "evidence": [
@@ -119,6 +129,8 @@
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
@@ -141,6 +153,8 @@
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
@@ -163,6 +177,8 @@
     "strength": 0.63,
     "strength_tier": "critical",
     "strength_basis": "disclosed",
+    "disclosed_share_pct": 63,
+    "disclosed_share_quote": "We derived 72% of our total consolidated sales from the U.S. Government in 2025, including 63% from the Department of War (DoW), also known as the Department of Defense",
     "epistemic_label": "VERIFIED",
     "confidence": 0.97,
     "evidence": [
@@ -185,6 +201,8 @@
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.92,
     "evidence": [
@@ -207,6 +225,8 @@
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [

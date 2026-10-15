@@ -3,10 +3,14 @@ import path from "node:path";
 import {
   canonicalCounterpartyKey,
   sanitizeCounterpartyTicker,
+  usGovernmentBody,
+  US_GOVERNMENT_KEY,
+  US_GOVERNMENT_LABEL,
   type TickerSanitizeOptions,
 } from "./canonical.js";
+import { isNotTheListedEntity, isRefusedCounterpartyName } from "./entityResolution.js";
 import { normalizeCompanyName } from "./normalize.js";
-import { resolveEdgeStrength } from "./strength.js";
+import { disclosedShareOfEdge, resolveEdgeStrength } from "./strength.js";
 import { TICKER_ALIASES } from "./tickerMatch.js";
 import type { AnnualFilingForm, ValidatedEdge } from "./types.js";
 import { PIPELINE_VERSION } from "./version.js";
@@ -24,6 +28,12 @@ export type GraphEdge = {
   counterparty_name: string;
   counterparty_ticker: string | null;
   /**
+   * The specific body behind a counterparty folded onto a broader node: a US
+   * federal agency or branch ("U.S. Department of Defense", "U.S. Navy") on the
+   * single "U.S. government" node. Null otherwise (and for the government itself).
+   */
+  counterparty_detail: string | null;
+  /**
    * What kind of thing the counterparty is, carried straight from the
    * extractor. Only `public_company` can ever be priced, so propagation reads
    * this to keep regulators, agencies, products and private names out of the
@@ -36,6 +46,14 @@ export type GraphEdge = {
   confidence: number;
   strength: number;
   strength_tier: "critical" | "important" | "marginal";
+  /**
+   * The share the filing states for this relationship, in percent (revenue
+   * share, purchase share, concentration); null when it states none. Read
+   * this, not `strength`, to tell a disclosed share from a tier default.
+   */
+  disclosed_share_pct: number | null;
+  /** The filing quote that states `disclosed_share_pct`; null with it. */
+  disclosed_share_quote: string | null;
   evidence_quote: string;
   source_url: string;
   valid_from: string;
@@ -75,11 +93,17 @@ export type GraphHygieneDiagnostics = {
     ticker: string;
     counterparty_name: string;
     root_ticker: string;
-    reason: "blocklist" | "not_in_catalog";
+    /**
+     * `refused_name`: the name is a parent / JV / affiliate next to a listed
+     * company (`isNotTheListedEntity`); `self`: the ticker is the filer's own.
+     */
+    reason: "blocklist" | "not_in_catalog" | "refused_name" | "self";
     nodeId: string;
   }>;
   /** Name-form counterparties folded onto an existing ticker node. */
   foldedIntoTicker: Array<{ ticker: string; counterparty_name: string; root_ticker: string }>;
+  /** Edges dropped because the counterparty is the filer itself under another name. */
+  droppedSelfEdges: Array<{ root_ticker: string; counterparty_name: string }>;
 };
 
 export type BuildGraphOptions = TickerSanitizeOptions & {
@@ -121,7 +145,11 @@ type PreparedEdge = {
   /** Sanitised ticker (null when absent, blocklisted or outside the catalog). */
   ticker: string | null;
   key: string;
-  cleared: "blocklist" | "not_in_catalog" | null;
+  cleared: GraphHygieneDiagnostics["clearedTickers"][number]["reason"] | null;
+  /** The resolver refuses the name: it is never folded onto a ticker node by name alone. */
+  refused: boolean;
+  /** Set when the counterparty is a US federal body folded onto the "U.S. government" node. */
+  government: { detail: string | null } | null;
 };
 
 async function readRootResults(researchDir: string): Promise<RawRootResult[]> {
@@ -177,8 +205,14 @@ async function readRootResults(researchDir: string): Promise<RawRootResult[]> {
  *   in the graph (root SEC title, a tickered counterparty's name, a ticker alias)
  *   is folded onto that ticker node and its
  *   `counterparty_ticker` is set accordingly, so propagation's reverse index sees it;
- * - the label of a collapsed name node is the longest (then lexically first) variant.
- * No edge is dropped: every validated edge keeps its own evidence.
+ * - the label of a collapsed name node is the longest (then lexically first) variant;
+ * - a parent / JV / affiliate next to a listed company (`isNotTheListedEntity`)
+ *   never carries a ticker, and no name the resolver refuses
+ *   (`isRefusedCounterpartyName`) is folded onto a ticker node by name alone;
+ * - no edge points at its own root: a stored ticker equal to the filer's is
+ *   cleared (the affiliate keeps a name node), and a name that folds back onto
+ *   the filer is the filer itself, so that edge is dropped.
+ * Apart from those self-references every validated edge keeps its own evidence.
  */
 export async function buildGraphFromResearchDir(
   researchDir: string,
@@ -208,9 +242,24 @@ export async function buildGraphFromResearchDir(
   }
   for (const root of roots) {
     for (const edge of root.validated) {
-      const { ticker, clearedReason } = sanitizeCounterpartyTicker(edge.counterparty_ticker, options);
-      const key = canonicalCounterpartyKey(edge.counterparty_name);
-      prepared.push({ root, edge, ticker, key, cleared: clearedReason });
+      const sanitized = sanitizeCounterpartyTicker(edge.counterparty_ticker, options);
+      let ticker = sanitized.ticker;
+      let cleared: PreparedEdge["cleared"] = sanitized.clearedReason;
+      const refused = isRefusedCounterpartyName(edge.counterparty_name);
+      if (ticker && isNotTheListedEntity(edge.counterparty_name)) {
+        ticker = null;
+        cleared = "refused_name";
+      }
+      // Never an edge from a company to itself. A distinctly named affiliate
+      // the filing resolved to its own ticker keeps a name node (Pass 2 drops
+      // it only when the name folds back onto the filer).
+      if (ticker && (ticker === root.ticker || ticker === edge.root_ticker.trim().toUpperCase())) {
+        ticker = null;
+        cleared = "self";
+      }
+      const government = ticker ? null : usGovernmentBody(edge.counterparty_name, edge.counterparty_type);
+      const key = government ? US_GOVERNMENT_KEY : canonicalCounterpartyKey(edge.counterparty_name);
+      prepared.push({ root, edge, ticker, key, cleared, refused, government });
       if (ticker) {
         addNode(ticker, edge.counterparty_name, "ticker");
         claimKey(key, ticker);
@@ -226,6 +275,7 @@ export async function buildGraphFromResearchDir(
   const resolved: Array<PreparedEdge & { cpId: string; foldedTicker: string | null }> = [];
   /** name node id → candidate labels. */
   const nameLabels = new Map<string, Set<string>>();
+  const droppedSelfEdges: GraphHygieneDiagnostics["droppedSelfEdges"] = [];
   for (const p of prepared) {
     if (p.ticker) {
       resolved.push({ ...p, cpId: p.ticker, foldedTicker: null });
@@ -233,7 +283,12 @@ export async function buildGraphFromResearchDir(
     }
     // Deliberately no "bare symbol == ticker node" rule: e.g. BNTX's licensor "MRT" is not
     // Marti Technologies (MRT). Acronyms fold only through COUNTERPARTY_ALIASES.
-    const folded = tickerByKey.get(p.key) ?? null;
+    const folded = p.refused ? null : (tickerByKey.get(p.key) ?? null);
+    if (folded && (folded === p.root.ticker || folded === p.edge.root_ticker.trim().toUpperCase())) {
+      // The name folds onto the filer itself ("JD.com" in JD's own 10-K): no edge.
+      droppedSelfEdges.push({ root_ticker: p.edge.root_ticker, counterparty_name: p.edge.counterparty_name });
+      continue;
+    }
     if (folded) {
       resolved.push({ ...p, cpId: folded, foldedTicker: folded });
       continue;
@@ -244,7 +299,9 @@ export async function buildGraphFromResearchDir(
     resolved.push({ ...p, cpId, foldedTicker: null });
   }
   for (const [cpId, labels] of nameLabels) {
-    addNode(cpId, pickNameLabel(cpId.slice("name:".length), labels), "name");
+    const label =
+      cpId === `name:${US_GOVERNMENT_KEY}` ? US_GOVERNMENT_LABEL : pickNameLabel(cpId.slice("name:".length), labels);
+    addNode(cpId, label, "name");
   }
 
   // Pass 3: emit edges.
@@ -254,6 +311,7 @@ export async function buildGraphFromResearchDir(
     collapsedClusters: [],
     clearedTickers: [],
     foldedIntoTicker: [],
+    droppedSelfEdges,
   };
   const clusterAcc = new Map<
     string,
@@ -268,6 +326,7 @@ export async function buildGraphFromResearchDir(
       typeof edge.strength === "number" && Number.isFinite(edge.strength) && edge.strength_tier
         ? { strength: edge.strength, strength_tier: edge.strength_tier }
         : resolveEdgeStrength({ strength_tier: edge.strength_tier ?? "important" });
+    const share = disclosedShareOfEdge(edge);
 
     const graphEdge: GraphEdge = {
       id: `${edge.root_ticker}:${cpId}:${edge.category}:${edge.subtype}:${edges.length}`,
@@ -275,12 +334,15 @@ export async function buildGraphFromResearchDir(
       counterparty_id: cpId,
       counterparty_name: edge.counterparty_name,
       counterparty_ticker: counterpartyTicker,
+      counterparty_detail: r.government?.detail ?? null,
       counterparty_type: edge.counterparty_type ?? null,
       category: edge.category,
       subtype: edge.subtype,
       confidence: edge.confidence,
       strength: strength.strength,
       strength_tier: strength.strength_tier,
+      disclosed_share_pct: share.disclosed_share_pct,
+      disclosed_share_quote: share.disclosed_share_quote,
       evidence_quote: edge.evidence[0]?.quote ?? "",
       source_url: edge.evidence[0]?.source_url ?? "",
       valid_from: edge.valid_from,

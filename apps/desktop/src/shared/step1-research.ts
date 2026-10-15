@@ -9,6 +9,10 @@ export type ValidatedEdge = {
   strength?: number;
   strength_tier?: "critical" | "important" | "marginal";
   strength_basis?: "disclosed" | "classified";
+  /** The share the filing states, in percent; null when none; absent on older results. */
+  disclosed_share_pct?: number | null;
+  /** The quote that states `disclosed_share_pct`. */
+  disclosed_share_quote?: string | null;
   epistemic_label: "VERIFIED";
   confidence: number;
   evidence: Array<{

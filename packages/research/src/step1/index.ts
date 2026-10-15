@@ -47,6 +47,11 @@ export {
   IMPLAUSIBLE_COUNTERPARTY_TICKERS,
   canonicalCounterpartyKey,
   canonicalCounterparty,
+  foldGovernmentCounterparty,
+  isSelfEdge,
+  usGovernmentBody,
+  US_GOVERNMENT_KEY,
+  US_GOVERNMENT_LABEL,
   sanitizeCounterpartyTicker,
   looksLikeTickerSymbol,
   type TickerSanitizeOptions,
@@ -61,6 +66,15 @@ export {
   type ResearchJob,
 } from "./jobs.js";
 export { saveStep1Result, loadStep1Result, tryLoadCachedResult, resolveResearchDataDir } from "./persist.js";
+export {
+  backfillRootEdges,
+  backfillGraph,
+  edgeMatchKey,
+  stringifyLike,
+  type CachedCandidateLike,
+  type RootBackfill,
+  type GraphBackfill,
+} from "./disclosedShareBackfill.js";
 export {
   buildGraphFromResearchDir,
   nodeDegree,
@@ -91,6 +105,10 @@ export {
   resolveEdgeStrength,
   strengthChipLabel,
   tierFromDisclosedPct,
+  quoteStatesPct,
+  disclosedShareFromEvidence,
+  disclosedShareOfEdge,
+  type DisclosedShare,
 } from "./strength.js";
 export {
   applyCompetSanity,

@@ -3,7 +3,10 @@ import { describe, it } from "node:test";
 import {
   BLOCKED_NAMES,
   counterpartyKey,
+  isNotTheListedEntity,
+  isRefusedCounterpartyName,
   isTradableKind,
+  NOT_THE_LISTED_ENTITY,
   ordinaryListings,
   preferredListing,
   resolveCounterparty,
@@ -185,6 +188,74 @@ describe("BLOCKED_NAMES", () => {
     for (const name of BLOCKED_NAMES) {
       assert.equal(name, name.toLowerCase(), `${name} must be lowercase`);
       assert.ok(!/[^\w\s]/.test(name), `${name} must be punctuation-free`);
+    }
+  });
+});
+
+describe("parents, affiliates and listed subsidiaries", () => {
+  /** Real SEC rows each refusal below exists for. */
+  const ROWS: SecTickerLookup[] = [
+    ...SEC,
+    { ticker: "PCCYF", title: "PETROCHINA CO LTD" },
+    { ticker: "PTCCY", title: "PETROCHINA CO LTD" },
+    { ticker: "SNPMF", title: "CHINA PETROLEUM & CHEMICAL CORP" },
+    { ticker: "JD", title: "JD.com, Inc." },
+    { ticker: "HTHIY", title: "HITACHI LTD" },
+    { ticker: "VERX", title: "Vertex, Inc." },
+    { ticker: "VRTX", title: "VERTEX PHARMACEUTICALS INC / MA" },
+    { ticker: "CRCE", title: "Circle Energy, Inc./NV" },
+    { ticker: "XRPN", title: "Evernorth Holdings Inc." },
+    { ticker: "TSM", title: "TAIWAN SEMICONDUCTOR MANUFACTURING CO LTD" },
+  ];
+
+  it("keeps a state-owned parent off its listed subsidiary's ticker", () => {
+    for (const name of ["China National Petroleum Corporation", "CNPC", "Sinopec", "China National Offshore Oil Corporation"]) {
+      const r = resolveCounterparty(name, ROWS);
+      assert.equal(r.ticker, null, name);
+      assert.equal(r.rejected, "blocked", name);
+    }
+    // The listed company itself still resolves.
+    assert.equal(resolveCounterparty("PetroChina", ROWS).ticker, "PCCYF");
+  });
+
+  it("keeps an affiliate or JV off the listed parent the subsidiary rule would pick", () => {
+    assert.equal(resolveCounterparty("JD Technology", ROWS).ticker, null);
+    assert.equal(resolveCounterparty("Chevron Phillips Chemical Company LLC", ROWS).ticker, null);
+    assert.equal(resolveCounterparty("Hitachi Construction Machinery Co., Ltd.", ROWS).ticker, null);
+    // Wholly owned subsidiaries keep mapping onto the parent.
+    assert.equal(resolveCounterparty("Chevron U.S.A. Inc.", ROWS).ticker, "CVX");
+    assert.equal(resolveCounterparty("Hitachi Energy", ROWS).ticker, "HTHIY");
+    assert.equal(resolveCounterparty("JD.com", ROWS).ticker, "JD");
+  });
+
+  it("refuses names whose obvious match is a different company", () => {
+    // Vertex the drug maker vs Vertex, Inc. (tax software); Circle vs Circle Energy;
+    // Evernorth (Cigna) vs Evernorth Holdings; a country vs a company named after it.
+    for (const name of ["Vertex", "Circle", "Evernorth", "Taiwan", "China"]) {
+      assert.equal(resolveCounterparty(name, ROWS).ticker, null, name);
+    }
+    assert.equal(resolveCounterparty("Vertex Pharmaceuticals Incorporated", ROWS).ticker, "VRTX");
+    assert.equal(resolveCounterparty("Evernorth Health Services", ROWS).ticker, "CI");
+  });
+
+  it("isRefusedCounterpartyName agrees with the resolver and lets aliases through", () => {
+    assert.equal(isRefusedCounterpartyName("China National Petroleum Corporation"), true);
+    assert.equal(isRefusedCounterpartyName("CNPC"), true);
+    assert.equal(isRefusedCounterpartyName("JD Technology"), true);
+    assert.equal(isRefusedCounterpartyName("Mitsubishi"), true);
+    assert.equal(isRefusedCounterpartyName("Mitsubishi Electric"), false);
+    assert.equal(isRefusedCounterpartyName("PetroChina"), false);
+    assert.equal(isRefusedCounterpartyName(""), false);
+    // Only the parent / affiliate table clears a stored ticker; a blocked name keeps one.
+    assert.equal(isNotTheListedEntity("CNPC"), true);
+    assert.equal(isNotTheListedEntity("Sinopec"), true);
+    assert.equal(isNotTheListedEntity("Vertex"), false);
+    assert.equal(isNotTheListedEntity("PetroChina"), false);
+  });
+
+  it("stores the table in normalized form", () => {
+    for (const name of Object.keys(NOT_THE_LISTED_ENTITY)) {
+      assert.equal(counterpartyKey(name), name, `${name} must be a counterpartyKey`);
     }
   });
 });

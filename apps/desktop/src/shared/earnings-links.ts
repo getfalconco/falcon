@@ -23,6 +23,12 @@ export type LinkEdge = {
   counterparty_ticker?: string | null;
   category?: string;
   strength_tier?: string;
+  /**
+   * The share the filing states, in percent (null: none; absent: graph built
+   * before it was carried). Links here rank by tier, which step1 already
+   * derives from a disclosed share; read a share from this field, never from `strength`.
+   */
+  disclosed_share_pct?: number | null;
   confidence?: number;
   evidence_quote?: string;
   source_url?: string;

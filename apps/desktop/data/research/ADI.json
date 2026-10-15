@@ -9,6 +9,8 @@
     "strength": 1,
     "strength_tier": "critical",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
@@ -29,13 +31,15 @@
   {
     "root_ticker": "ADI",
     "counterparty_name": "TSMC",
-    "counterparty_ticker": null,
+    "counterparty_ticker": "TSM",
     "counterparty_type": "public_company",
     "category": "supplier",
     "subtype": "wafer fabrication foundry",
     "strength": 1,
     "strength_tier": "critical",
     "strength_basis": "classified",
+    "disclosed_share_pct": null,
+    "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.98,
     "evidence": [

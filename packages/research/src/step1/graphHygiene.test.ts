@@ -7,6 +7,7 @@ import { buildGraphFromResearchDir, type GraphHygieneDiagnostics } from "./build
 import {
   canonicalCounterparty,
   canonicalCounterpartyKey,
+  isSelfEdge,
   sanitizeCounterpartyTicker,
 } from "./canonical.js";
 import type { ValidatedEdge } from "./types.js";
@@ -72,15 +73,16 @@ describe("graph hygiene: sanitizeCounterpartyTicker", () => {
   it("canonicalCounterparty gives the per-edge node id", () => {
     assert.deepEqual(
       canonicalCounterparty({ counterparty_name: "SK Hynix Inc.", counterparty_ticker: "SKHY" }),
-      { id: "name:sk hynix", ticker: null },
+      { id: "name:sk hynix", ticker: null, detail: null },
     );
     assert.deepEqual(canonicalCounterparty({ counterparty_name: "Samsung", counterparty_ticker: null }), {
       id: "name:samsung electronics",
       ticker: null,
+      detail: null,
     });
     assert.deepEqual(
       canonicalCounterparty({ counterparty_name: "Intel Corp.", counterparty_ticker: "intc" }),
-      { id: "INTC", ticker: "INTC" },
+      { id: "INTC", ticker: "INTC", detail: null },
     );
   });
 });
@@ -250,5 +252,117 @@ describe("graph hygiene: buildGraphFromResearchDir", () => {
     } finally {
       await rm(dir, { recursive: true, force: true });
     }
+  });
+});
+
+describe("graph hygiene: self-edges and parent / subsidiary identity", () => {
+  const edge = (
+    root: string,
+    name: string,
+    ticker: string | null,
+    subtype: string,
+    type: string = ticker ? "public_company" : "private_company",
+  ): ValidatedEdge => ({
+    root_ticker: root,
+    counterparty_name: name,
+    counterparty_ticker: ticker,
+    counterparty_type: type,
+    category: "partner",
+    subtype,
+    strength: 0.6,
+    strength_tier: "important",
+    strength_basis: "classified",
+    epistemic_label: "VERIFIED",
+    confidence: 0.9,
+    evidence: [{ quote: `${name} ${subtype}`, source_url: "https://sec.gov/x", located_at: "10-K Item 1/1A" }],
+    valid_from: "2026-02-25",
+    shared_evidence_group: "ev_test",
+  });
+
+  it("never links a company to itself and keeps a distinct affiliate as a name node", async () => {
+    const dir = await mkdtemp(path.join(os.tmpdir(), "meridian-graph-self-"));
+    try {
+      const jd = [
+        edge("JD", "JD Technology", null, "payment services"),
+        edge("JD", "JD.com, Inc.", null, "self reference"),
+        edge("JD", "Jingdong Industrials", "JD", "affiliate stored with the filer ticker"),
+        edge("JD", "Tencent", null, "shareholder", "public_company"),
+      ];
+      const wmt = [edge("WMT", "JD.com", "JD", "investment")];
+      await writeFile(path.join(dir, "JD.json"), JSON.stringify(jd));
+      await writeFile(path.join(dir, "JD.meta.json"), JSON.stringify({ companyName: "JD.com, Inc." }));
+      await writeFile(path.join(dir, "WMT.json"), JSON.stringify(wmt));
+      let diag: GraphHygieneDiagnostics | undefined;
+      const graph = await buildGraphFromResearchDir(dir, { onDiagnostics: (d) => (diag = d) });
+
+      assert.equal(graph.edges.filter(isSelfEdge).length, 0);
+      const ids = graph.edges.filter((e) => e.root_ticker === "JD").map((e) => e.counterparty_id);
+      assert.deepEqual(ids, ["name:jd technology", "name:jingdong industrials", "name:tencent"]);
+      assert.equal(graph.edgeCount, 4);
+      assert.deepEqual(diag!.droppedSelfEdges, [{ root_ticker: "JD", counterparty_name: "JD.com, Inc." }]);
+      assert.deepEqual(
+        diag!.clearedTickers.map((c) => `${c.root_ticker}:${c.ticker}:${c.reason}`),
+        ["JD:JD:self"],
+      );
+      // Another filer's edge to JD is untouched.
+      assert.equal(graph.edges.find((e) => e.root_ticker === "WMT")!.counterparty_id, "JD");
+    } finally {
+      await rm(dir, { recursive: true, force: true });
+    }
+  });
+
+  it("keeps CNPC off PetroChina's node and collapses its acronym onto one name node", async () => {
+    const dir = await mkdtemp(path.join(os.tmpdir(), "meridian-graph-parent-"));
+    try {
+      const shel = [
+        edge("SHEL", "PetroChina", "PCCYF", "LNG Canada partner"),
+        edge("SHEL", "China National Petroleum Corporation", null, "Arrow JV", "public_company"),
+        edge("SHEL", "CNPC", null, "Mero partner", "public_company"),
+      ];
+      // An older result that stored the parent under the subsidiary's ticker.
+      const cop = [edge("COP", "China National Petroleum Corporation", "PCCYF", "NFE4 partner")];
+      await writeFile(path.join(dir, "SHEL.json"), JSON.stringify(shel));
+      await writeFile(path.join(dir, "COP.json"), JSON.stringify(cop));
+      let diag: GraphHygieneDiagnostics | undefined;
+      const graph = await buildGraphFromResearchDir(dir, { onDiagnostics: (d) => (diag = d) });
+
+      assert.equal(graph.reverseIndex["PCCYF"]!.length, 1);
+      const cnpc = graph.reverseIndex["name:china national petroleum"]!;
+      assert.equal(cnpc.length, 3);
+      assert.ok(cnpc.every((e) => e.counterparty_ticker === null));
+      assert.deepEqual(
+        diag!.clearedTickers.map((c) => `${c.root_ticker}:${c.ticker}:${c.reason}`),
+        ["COP:PCCYF:refused_name"],
+      );
+    } finally {
+      await rm(dir, { recursive: true, force: true });
+    }
+  });
+
+  it("keeps a ticker stored for a blocked name but never folds the bare name onto it", async () => {
+    const dir = await mkdtemp(path.join(os.tmpdir(), "meridian-graph-blocked-"));
+    try {
+      // "Vertex" is blocked for automatic matching (VRTX vs VERX); the stored VRTX was chosen in context.
+      const mrna = [edge("MRNA", "Vertex", "VRTX", "CF collaboration"), edge("MRNA", "Vertex", null, "other mention")];
+      await writeFile(path.join(dir, "MRNA.json"), JSON.stringify(mrna));
+      const graph = await buildGraphFromResearchDir(dir);
+      assert.deepEqual(
+        graph.edges.map((e) => e.counterparty_id),
+        ["VRTX", "name:vertex"],
+      );
+    } finally {
+      await rm(dir, { recursive: true, force: true });
+    }
+  });
+
+  it("canonicalCounterparty and isSelfEdge treat the filer's own ticker as no ticker", () => {
+    assert.deepEqual(
+      canonicalCounterparty({ root_ticker: "JD", counterparty_name: "JD Technology", counterparty_ticker: "JD" }),
+      { id: "name:jd technology", ticker: null, detail: null },
+    );
+    assert.equal(isSelfEdge({ root_ticker: "JD", counterparty_id: "JD", counterparty_ticker: "JD" }), true);
+    assert.equal(isSelfEdge({ root_ticker: "jd", counterparty_id: "name:jd technology", counterparty_ticker: "jd" }), true);
+    assert.equal(isSelfEdge({ root_ticker: "WMT", counterparty_id: "JD", counterparty_ticker: "JD" }), false);
+    assert.equal(isSelfEdge({ counterparty_id: "JD" }), false);
   });
 });
