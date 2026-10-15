@@ -4,7 +4,7 @@ import { anthropicGlossCaller, glossConfigured } from "@meridian/research/gloss"
 import { resolveDataRoot } from "../data-root";
 import { invokeChannel, registerIpcHandler } from "../ipc-register";
 import { getMainLanguage } from "../i18n";
-import { filingHistory, form4Xml } from "../agents/edgar";
+import { daysBefore, filingHistory, form4Xml, releaseCount } from "../agents/edgar";
 import { sectorCache } from "../calendar/register-calendar-handlers";
 import { earningsReaders } from "../earnings/register-earnings-handlers";
 import { SOURCE_TIMEOUT_MS, withTimeout } from "../earnings/earnings-service";
@@ -16,7 +16,7 @@ import { normalizeTicker } from "../../shared/calendar-events";
 import type { EarningsResult, EarningsRow } from "../../shared/earnings-types";
 import type { StockThesisResult } from "../../shared/stock-thesis";
 import type { ChangeTagsResult, StockChangesResult, StockEarningsResult, StockPeersResult } from "../../shared/stock-tab-data";
-import { createStockTabService, type StockTabService } from "./service";
+import { REPORT_HISTORY_DAYS, REPORT_HISTORY_ROWS, createStockTabService, type StockTabService } from "./service";
 
 /**
  * Stock tab data IPC (the changes, earnings and competitor sections):
@@ -82,7 +82,9 @@ function stockTab(): StockTabService {
       fetchYahoo: (symbol, modules) => withTimeout(fetchQuoteSummaryModules(symbol, modules), SOURCE_TIMEOUT_MS, "quote summary"),
       // Daily candles whatever the span: the report history reaches past the three years where the chart path turns weekly.
       fetchDaily: (symbol, startSec, endSec) => withTimeout(fetchDailyRange(symbol, startSec, endSec), SOURCE_TIMEOUT_MS, "daily closes"),
-      filings: filingHistory,
+      // The report history's 8-K releases: a heavy filer (a bank's structured notes) keeps only a year in the index's newest page.
+      filings: (ticker) =>
+        filingHistory(ticker, { since: daysBefore(REPORT_HISTORY_DAYS), enough: (list) => releaseCount(list) >= REPORT_HISTORY_ROWS }),
       form4Xml,
       graphEdges,
       graphBuiltAt: async () => {

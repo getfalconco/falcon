@@ -62,6 +62,8 @@ export const CUSTOMERS_PER_ROW = 3;
 const RELATIONS: ReadonlySet<string> = new Set<ExposureRelation>(["supplier", "customer", "partner", "dependency"]);
 const SKIPPED_TYPES: ReadonlySet<string> = new Set(["product", "commodity"]);
 const TICKER_SHAPE = /^[A-Z0-9][A-Z0-9.\-]{0,9}$/;
+/** The one node every US federal body is folded into (step1 canonical.ts). */
+const GOVERNMENT_KEY = "name:us government";
 
 /** A graph edge as the file stores it (main/research/graph-edges.ts), every field optional. */
 export type ExposureEdge = {
@@ -69,6 +71,8 @@ export type ExposureEdge = {
   counterparty_ticker?: string | null;
   counterparty_id?: string | null;
   counterparty_name?: string;
+  /** The federal body behind a "U.S. government" edge (counterparty_id `name:us government`); null otherwise. */
+  counterparty_detail?: string | null;
   counterparty_type?: string | null;
   category?: string;
   strength?: number;
@@ -328,7 +332,7 @@ export function computeExposure(
   };
   const nameOf = (key: string): string => {
     // US federal bodies share one node (step1 canonical.ts); its agencies stay on each edge.
-    if (key === "name:us government") return "U.S. government";
+    if (key === GOVERNMENT_KEY) return "U.S. government";
     const votes = nameVotes.get(key);
     if (votes && votes.size > 0) {
       return [...votes.entries()].sort((a, b) => b[1] - a[1] || a[0].length - b[0].length || a[0].localeCompare(b[0]))[0]![0];
@@ -390,7 +394,10 @@ export function computeExposure(
       const entry = disclosed.get(root) ?? { source: sourceOf(e, root), byKey: new Map<string, ConcentratedCustomer>() };
       const known = entry.byKey.get(key);
       if (!known || share > known.share) {
-        entry.byKey.set(key, { key, name: "", ticker: key.startsWith("name:") ? null : key, share });
+        // A share on the government node is the named body's (Lockheed Martin: 63% from the Department of
+        // Defense, 72% from the U.S. Government in all), so it keeps that body's name.
+        const name = key === GOVERNMENT_KEY ? (e.counterparty_detail?.trim() || e.counterparty_name?.trim() || "") : "";
+        entry.byKey.set(key, { key, name, ticker: key.startsWith("name:") ? null : key, share });
       }
       disclosed.set(root, entry);
     }
@@ -445,7 +452,7 @@ export function computeExposure(
   const customers: CustomerConcentration[] = [...disclosed.entries()]
     .map(([ticker, entry]) => {
       const list = [...entry.byKey.values()]
-        .map((c) => ({ ...c, name: nameOf(c.key) }))
+        .map((c) => ({ ...c, name: c.name || nameOf(c.key) }))
         .sort((a, b) => b.share - a.share || a.name.localeCompare(b.name))
         .slice(0, CUSTOMERS_PER_ROW);
       return { ticker, weight: holdings.get(ticker)!.weight, customers: list, topShare: list[0]!.share, source: entry.source };

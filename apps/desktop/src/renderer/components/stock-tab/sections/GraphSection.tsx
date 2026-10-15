@@ -68,12 +68,17 @@ function formatPct(pct: number, locale: string): string {
   return new Intl.NumberFormat(locale, { style: "percent", maximumFractionDigits: 1 }).format(pct / 100);
 }
 
-/** "19% of revenue" for the stock's own filing, "19% of TSM revenue" for the neighbour's. */
+/**
+ * "19% of revenue" for the stock's own filing, "19% of TSM revenue" for the
+ * neighbour's; "DoD: 63% of revenue" when the share is one agency's on the
+ * folded U.S. government node, not the government's in all.
+ */
 function shareText(row: NeighbourRow, t: TFunction, locale: string): string | null {
-  const { share, filer } = row.link;
+  const { share, filer, shareOf } = row.link;
   if (share === null) return null;
   const pct = formatPct(share, locale);
-  return row.inbound ? t("stocktab.graph.share.filer", { pct, ticker: filer }) : t("stocktab.graph.share.own", { pct });
+  const text = row.inbound ? t("stocktab.graph.share.filer", { pct, ticker: filer }) : t("stocktab.graph.share.own", { pct });
+  return shareOf ? t("stocktab.graph.share.agency", { body: shareOf, share: text }) : text;
 }
 
 /** "per 10-K, filed Feb 4"; "per TSM 20-F, filed Apr 17" when the link is from the neighbour's filing. */

@@ -101,7 +101,7 @@ describe("insider activity copy", () => {
     assert.equal(eventTitle(event({ kind: "unplanned_sale", insiders: 1, value: 3_100_000, roles: ["cfo"] }), say, lang), "CFO sale outside a 10b5-1 plan, $3.1M");
     assert.equal(
       eventTitle(
-        event({ kind: "large_unplanned_sale", insiders: 1, value: 946_000_000, roles: ["director"], trades: [trade({ role: "director", code: "S", shares: 4_236_740, sharesBefore: 31_769_633 })] }),
+        event({ kind: "large_unplanned_sale", insiders: 1, value: 946_000_000, roles: ["director"], trades: [trade({ role: "director", code: "S", shares: 4_236_740, sharesBefore: 31_769_633, sharesAfter: 27_532_893 })] }),
         say,
         lang,
       ),

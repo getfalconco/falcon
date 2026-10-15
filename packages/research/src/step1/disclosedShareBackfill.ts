@@ -13,8 +13,8 @@
  * and an edge that already carries the field is left as it is.
  */
 import { normalizeCompanyName, normalizeWhitespace } from "./normalize.js";
-import { disclosedShareFromEvidence, disclosedShareOfEdge, type DisclosedShare } from "./strength.js";
-import type { ValidatedEdge } from "./types.js";
+import { disclosedShareFromEvidence, disclosedShareOfEdge, resolveEdgeStrength, type DisclosedShare } from "./strength.js";
+import type { StrengthBasis, StrengthTier, ValidatedEdge } from "./types.js";
 
 /** The fields of a cached extraction candidate the backfill reads. */
 export type CachedCandidateLike = {
@@ -97,6 +97,43 @@ export function backfillRootEdges(
     return insertAfter(edge, "strength_basis", { ...share });
   });
   return { edges: out, stamped, fromStrength, fromCandidates, unverified };
+}
+
+export type EdgeStrength = { strength: number; strength_tier: StrengthTier; strength_basis: StrengthBasis };
+
+/**
+ * Edges whose strength does not follow the rule that a percentage sets the
+ * tier only when a quote states it as the current share (`disclosed_share_pct`):
+ *   fromShare   a verified share whose strength or tier is not the share's:
+ *               resolved here, from the share;
+ *   reclassify  a "disclosed" strength with no verified share (the tier came
+ *               from a percentage no quote states, CAH to OptumRx at 17%):
+ *               the classifier has to judge it from the words, with no pct.
+ * Indexes into `edges`. Pure.
+ */
+export function tierRecomputePlan(edges: readonly ValidatedEdge[]): {
+  fromShare: Array<{ index: number; resolved: EdgeStrength }>;
+  reclassify: number[];
+} {
+  const fromShare: Array<{ index: number; resolved: EdgeStrength }> = [];
+  const reclassify: number[] = [];
+  edges.forEach((edge, index) => {
+    const pct = disclosedShareOfEdge(edge).disclosed_share_pct;
+    if (pct != null) {
+      const resolved = resolveEdgeStrength({ disclosed_revenue_dependency_pct: pct });
+      if (edge.strength_tier !== resolved.strength_tier || edge.strength !== resolved.strength || edge.strength_basis !== resolved.strength_basis) {
+        fromShare.push({ index, resolved });
+      }
+    } else if (edge.strength_basis === "disclosed") {
+      reclassify.push(index);
+    }
+  });
+  return { fromShare, reclassify };
+}
+
+/** `edge` with a new strength, tier and basis, in place in the key order (a readable diff). */
+export function withStrength(edge: ValidatedEdge, s: EdgeStrength): ValidatedEdge {
+  return { ...edge, strength: s.strength, strength_tier: s.strength_tier, strength_basis: s.strength_basis };
 }
 
 /** The key a graph edge and the validated edge it was built from share. */

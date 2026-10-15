@@ -189,6 +189,82 @@ describe("guidance service: track", () => {
   });
 });
 
+describe("guidance service: a result the reading passed over", () => {
+  it("reads the reporting release once more, keeps what it adds, and never a third time", async () => {
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), "guidance-"));
+    const filings = [filing("0001-26-000002", "2026-08-26"), filing("0001-26-000001", "2026-05-20")];
+    const html: Record<string, string> = {
+      "0001-26-000001": RELEASES["0001-26-000001"]!.html,
+      "0001-26-000002": "<p>Second quarter revenue was $11.5 billion.</p><p>Diluted earnings per share | 32.87</p>",
+    };
+    const q2 = RELEASES["0001-26-000002"]!.raw;
+    const eps = { metric: "eps", basis: "gaap", period: "quarter", value: 32.87, scale: "one", currency: "USD", quote: "Diluted earnings per share | 32.87" };
+    const q1 = {
+      ...RELEASES["0001-26-000001"]!.raw,
+      guides: [
+        ...RELEASES["0001-26-000001"]!.raw.guides,
+        { metric: "eps", basis: "gaap", fiscal_year: 2026, fiscal_quarter: 2, low: 30.73, high: 30.73, plus_minus: 1, plus_minus_kind: "amount", plus_minus_scale: "one", scale: "one", currency: "USD", quote: "EPS is expected to be $30.73 ± $1.00." },
+      ],
+    };
+    html["0001-26-000001"] += "<p>EPS is expected to be $30.73 ± $1.00.</p>";
+    const reads: Record<string, number> = {};
+    const caller: GlossModelCaller = async (input) => {
+      const accession = input.user.includes("Second quarter") ? "0001-26-000002" : "0001-26-000001";
+      reads[accession] = (reads[accession] ?? 0) + 1;
+      // The first two readings of the second release pass over the EPS line; the third has it.
+      const raw = accession === "0001-26-000001" ? q1 : reads[accession]! <= 2 ? q2 : { ...q2, actuals: [...q2.actuals, eps] };
+      return { text: JSON.stringify(raw), input_tokens: 1, output_tokens: 1 };
+    };
+    const make = () =>
+      createGuidanceService({
+        filings: async () => filings,
+        file: async (f, name) => (name === `${f.accession}-index.htm` ? INDEX : html[f.accession]!),
+        caller,
+        configured: () => true,
+        dir,
+        model: "test-model",
+      });
+    const r = await make().track("TEST");
+    assert.ok(r.ok);
+    assert.equal(reads["0001-26-000002"], 3);
+    assert.equal(reads["0001-26-000001"], 2, "a release with every result read is not read again");
+    const row = r.track.rows.find((x) => x.metric === "eps")!;
+    assert.deepEqual([row.state, row.actual, row.position], ["resolved", 32.87, "above"]);
+
+    // Kept on disk: a later visit reads nothing again.
+    const later = await make().track("TEST");
+    assert.ok(later.ok);
+    assert.equal(reads["0001-26-000002"], 3);
+    assert.deepEqual(later.track.rows, r.track.rows);
+  });
+
+  it("does not read a release again once it was, even when the result is still not there", async () => {
+    const { service, dir } = setup();
+    await service.track("TEST");
+    // Give the first release a guide the second does not report, then mark nothing.
+    const file = path.join(dir, "0001-26-000001.json");
+    const stored = JSON.parse(fs.readFileSync(file, "utf8"));
+    stored.release.guides.push({ ...stored.release.guides[0], metric: "eps", unit: "per_share", low: 1, high: 1, step: 0.01 });
+    fs.writeFileSync(file, JSON.stringify(stored));
+    let calls = 0;
+    const visit = () =>
+      createGuidanceService({
+        filings: async () => [filing("0001-26-000002", "2026-08-26"), filing("0001-26-000001", "2026-05-20")],
+        file: async (f, name) => (name === `${f.accession}-index.htm` ? INDEX : RELEASES[f.accession]!.html),
+        caller: async () => {
+          calls++;
+          return { text: JSON.stringify(RELEASES["0001-26-000002"]!.raw), input_tokens: 1, output_tokens: 1 };
+        },
+        configured: () => true,
+        dir,
+      }).track("TEST");
+    await visit();
+    assert.equal(calls, 1);
+    await visit();
+    assert.equal(calls, 1);
+  });
+});
+
 describe("guidance service: peek", () => {
   it("rebuilds the track record from disk alone after a visit, and never reads EDGAR or calls the model", async () => {
     const { service, dir, calls } = setup();

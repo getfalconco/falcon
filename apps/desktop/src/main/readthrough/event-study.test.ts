@@ -274,4 +274,38 @@ describe("report dates", () => {
       ],
     );
   });
+
+  it("leaves out item 2.02 filings that are not a quarter's report", () => {
+    // HPE: reports early in the third month of its quarters; its analyst day outlook (Oct 15, 2025) went out under item 2.02 too.
+    const hpe = [
+      { reportedAt: "2025-12-04T21:05:00.000Z", reportedYmd: "2025-12-04", epsActual: 0.62, epsEstimate: 0.58 },
+      { reportedAt: "2026-03-09T20:05:00.000Z", reportedYmd: "2026-03-09", epsActual: 0.65, epsEstimate: 0.59 },
+      { reportedAt: "2026-06-01T20:05:00.000Z", reportedYmd: "2026-06-01", epsActual: 0.79, epsEstimate: 0.53 },
+      { reportedAt: "2026-09-02T20:05:00.000Z", reportedYmd: "2026-09-02", epsActual: 1.11, epsEstimate: 0.94 },
+    ];
+    const hpeFilings = [
+      { filedAt: "2025-09-03", acceptedAt: "2025-09-03T20:08:08.000Z", acceptedAtUtc: true },
+      { filedAt: "2025-10-15", acceptedAt: "2025-10-15T20:47:46.000Z", acceptedAtUtc: true },
+      { filedAt: "2025-12-04", acceptedAt: "2025-12-04T21:07:19.000Z", acceptedAtUtc: true },
+    ];
+    assert.deepEqual(
+      reportEvents(hpe, hpeFilings).map((e) => e.date),
+      ["2025-09-03", "2025-12-04", "2026-03-09", "2026-06-01", "2026-09-02"],
+    );
+    // Tesla: delivery figures two days into each quarter, the report about three weeks later.
+    const tsla = [
+      { reportedAt: "2026-04-22T20:05:00.000Z", reportedYmd: "2026-04-22", epsActual: 0.41, epsEstimate: 0.35 },
+      { reportedAt: "2026-07-22T20:30:00.000Z", reportedYmd: "2026-07-22", epsActual: 0.33, epsEstimate: 0.54 },
+    ];
+    const tslaFilings = [
+      { filedAt: "2026-01-02", acceptedAt: "2026-01-02T14:20:13.000Z", acceptedAtUtc: true },
+      { filedAt: "2026-01-28", acceptedAt: "2026-01-28T21:11:04.000Z", acceptedAtUtc: true },
+      { filedAt: "2026-04-02", acceptedAt: "2026-04-02T13:07:13.000Z", acceptedAtUtc: true },
+      { filedAt: "2026-07-02", acceptedAt: "2026-07-02T13:01:26.000Z", acceptedAtUtc: true },
+    ];
+    assert.deepEqual(
+      reportEvents(tsla, tslaFilings).map((e) => e.date),
+      ["2026-01-28", "2026-04-22", "2026-07-22"],
+    );
+  });
 });

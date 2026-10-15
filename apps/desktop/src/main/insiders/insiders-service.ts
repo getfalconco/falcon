@@ -91,7 +91,8 @@ type DocsFile = { v: number; form4: Record<string, TradeRecord[]>; schedules: Re
 
 const COMPANIES_VERSION = 1;
 const TIER: Readonly<Record<InsiderScope, number>> = { focus: 0, held: 1, watchlist: 2, linked: 3 };
-const DOCS_VERSION = 3;
+/** 4: a trade's `sharesAfter` is what the form says was left (exercises included), not the holding before less the trade. */
+const DOCS_VERSION = 4;
 
 export type InsidersService = {
   activity(request: ParsedInsiderRequest): Promise<InsiderActivityAnswer>;

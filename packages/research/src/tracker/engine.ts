@@ -537,7 +537,8 @@ export class TrackerEngine {
       state.cik = cik;
       if (cik) {
         await sleep(EDGAR_REQUEST_SPACING_MS);
-        const { filings } = await fetchSubmissions(cik);
+        // Two years: the filing-lag series' eight periodic reports, for a heavy filer too (older index pages).
+        const { filings } = await fetchSubmissions(cik, { since: shiftYear(nyYmd(new Date()), -2) });
         state.filings = filings;
       }
       this.recordHealth(state, "filings", null);

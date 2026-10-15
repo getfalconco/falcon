@@ -116,6 +116,19 @@ describe("implied move: the figure", () => {
   it("gives nothing for a raw straddle that runs far past the report", () => {
     assert.equal(impliedFigure({ spot: 100, first, next: null, sessionsToFirst: 9, sessionsToNext: null, extraSessions: 7, freshSinceMs: 0 }), null);
   });
+
+  it("gives nothing for a raw straddle that also prices many sessions before the report", () => {
+    // A report ten sessions out, the expiry the day after it, no next expiry: the raw figure
+    // carries ten ordinary sessions besides the report's.
+    assert.equal(impliedFigure({ spot: 100, first, next: null, sessionsToFirst: 11, sessionsToNext: null, extraSessions: 1, freshSinceMs: 0 }), null);
+    // An expiry three months out with the report the day before it (a quarter's report asked far ahead).
+    assert.equal(impliedFigure({ spot: 100, first, next: null, sessionsToFirst: 63, sessionsToNext: null, extraSessions: 1, freshSinceMs: 0 }), null);
+    // Inverted term structure ten sessions out: the raw move would stand for the report alone.
+    const inverted = chain("2026-10-30", [95, 100, 105], () => 5);
+    assert.equal(impliedFigure({ spot: 100, first, next: inverted, sessionsToFirst: 11, sessionsToNext: 16, extraSessions: 1, freshSinceMs: 0 }), null);
+    // A few ordinary sessions are fine.
+    assert.equal(impliedFigure({ spot: 100, first, next: null, sessionsToFirst: 5, sessionsToNext: null, extraSessions: 1, freshSinceMs: 0 })?.move, 0.06);
+  });
 });
 
 describe("implied move: sessions and expiries", () => {

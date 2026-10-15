@@ -78,9 +78,9 @@ const ANSWER_TTL_MS = 20 * MIN;
 const SESSION_WINDOW_MS = 12 * 60 * MIN;
 const STOCK_HISTORY_DAYS = 800;
 /** Closes for the longer report history (twelve reports reach back about three years). */
-const REPORT_HISTORY_DAYS = 1300;
+export const REPORT_HISTORY_DAYS = 1300;
 /** Reports the history read carries at most. */
-const REPORT_HISTORY_ROWS = 12;
+export const REPORT_HISTORY_ROWS = 12;
 const PEER_HISTORY_DAYS = 400;
 const MAX_FORM4_READS = 24;
 const FORM4_CACHE_CAP = 4000;

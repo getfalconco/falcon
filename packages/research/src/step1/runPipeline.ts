@@ -25,7 +25,7 @@ import {
 import { preAuditCandidates } from "./preAudit.js";
 import { saveStep1Result, tryLoadCachedResult } from "./persist.js";
 import { fractionAllCapsQuotes, sectionLooksUnusable, shouldRetry20FWithItem4 } from "./sectionSanity.js";
-import { classifyEdgesStrength, disclosedShareFromEvidence } from "./strength.js";
+import { candidateShare, classifyEdgesStrength } from "./strength.js";
 import { matchCounterpartyTicker } from "./tickerMatch.js";
 import { createTokenUsage, estimateCostUsd } from "./tokenUsage.js";
 import type {
@@ -67,10 +67,7 @@ function toValidated(
   strength: { strength: number; strength_tier: StrengthTier; strength_basis: "disclosed" | "classified" },
 ): ValidatedEdge {
   const quotes = edge.evidence_quotes?.length ? edge.evidence_quotes : [edge.evidence_quote];
-  const share = disclosedShareFromEvidence(edge.disclosed_revenue_dependency_pct, [
-    ...(edge.disclosed_pct_quote ? [edge.disclosed_pct_quote] : []),
-    ...quotes,
-  ]);
+  const share = candidateShare(edge);
   return {
     root_ticker: ticker,
     counterparty_name: edge.counterparty_name,
@@ -409,7 +406,8 @@ export async function runStep1Pipeline(
       counterparty_name: edge.counterparty_name,
       category: edge.category,
       subtype: edge.subtype,
-      disclosed_revenue_dependency_pct: edge.disclosed_revenue_dependency_pct,
+      // Unverified percentages go to the classifier as none: the tier comes from the words.
+      disclosed_revenue_dependency_pct: candidateShare(edge).disclosed_share_pct,
       evidence_quote: edge.evidence_quote,
     })),
     (current, total) => {

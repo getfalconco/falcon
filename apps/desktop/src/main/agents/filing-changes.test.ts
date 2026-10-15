@@ -9,7 +9,7 @@ import { en } from "../../renderer/lib/i18n/messages/areas/agents";
 import { copyIssues } from "./copy";
 import { AgentEngine } from "./engine";
 import { STANDING_EARNINGS_DAYS, endReached, proposeEnds } from "./ends";
-import { changesLead, changesTitle, itemFires, kindsOf, watchesFiling, type ChangesHit } from "./filing-changes";
+import { changesFacts, changesLead, changesTitle, itemFires, kindsOf, watchesFiling, type ChangesHit } from "./filing-changes";
 import { draftFromBriefWithModel, heuristicDraft, withChangesWatch, type AgentModelCaller } from "./llm";
 import type { FilingRef } from "./sources";
 import { EMPTY_STATE, type AgentEngineState } from "./store";
@@ -229,6 +229,24 @@ describe("the filing changes check", () => {
     const sources = fakeSources({ filings: async () => [TENQ] });
     const agent = agentFixture({ ticker: "SMCI", triggers: [CHANGES], createdAt: CREATED });
     await assert.rejects(checkTrigger(CHANGES, { agent, state: state(), sources, now: NOW }), /could not be read/);
+  });
+
+  it("says nothing about risk factors the service could not read, and fires on nothing from them", async () => {
+    const base = answer();
+    const unreadable = answer({ quarterRisk: null, riskCount: null, missing: ["risk_unreadable"], items: base.items.filter((i) => !/risk/.test(i.kind)) });
+    const { ctx } = ctxFor([CHANGES], { answer: unreadable });
+    const event = fired(await checkTrigger(CHANGES, ctx));
+    const hits = event.changes!.hits;
+    assert.deepEqual(
+      hits[0]!.firing.map((i) => i.kind),
+      ["material_weakness"],
+    );
+    const facts = changesFacts(hits, unreadable);
+    assert.ok(!facts.some((f) => /risk factor/i.test(f)), facts.join(" | "));
+    // Watching risk factors alone: the filing is let go quietly.
+    const onlyRisks: AgentTrigger = { kind: "filing_changes", ticker: "SMCI", kinds: ["risk_factors"] };
+    const quiet = ctxFor([onlyRisks], { answer: unreadable });
+    assert.equal(waiting(await checkTrigger(onlyRisks, quiet.ctx)).noteLines[0]!.code, "changes.noneWatched");
   });
 
   it("has a stable signature per company and kinds", () => {

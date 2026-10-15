@@ -59,8 +59,9 @@ export function releasesFromSubmissions(cik: string, recent: Recent | undefined,
  * cache and the process-wide SEC queue as every other EDGAR reader, the same
  * acceptance instants as `releasesFromSubmissions`.
  */
-export async function fetchReleaseFilings(ticker: string): Promise<ReleaseFiling[]> {
-  const filings = await filingHistory(ticker);
+export async function fetchReleaseFilings(ticker: string, since?: string): Promise<ReleaseFiling[]> {
+  // `since`: a heavy filer keeps only a year in the index's newest page; older pages are read back to it.
+  const filings = await filingHistory(ticker, since ? { since } : undefined);
   const out: ReleaseFiling[] = [];
   for (const f of filings) {
     if (f.form !== "8-K" || !f.items.includes("2.02") || !/^\d{4}-\d{2}-\d{2}$/.test(f.filedAt)) continue;

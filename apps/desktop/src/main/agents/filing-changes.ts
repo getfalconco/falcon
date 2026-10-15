@@ -287,7 +287,8 @@ export function changesFacts(hits: readonly ChangesHit[], answer: FilingChanges)
     }
   }
   if (answer.latest && answer.previous) out.push(`Compared: ${answer.latest.form} filed ${answer.latest.filedAt} against ${answer.previous.form} filed ${answer.previous.filedAt}.`);
-  if (answer.quarter) {
+  // No reading (no section, or one that did not read as risk factors: `risk_unreadable`): nothing is said about it.
+  if (answer.quarter && answer.quarterRisk) {
     const status =
       answer.quarterRisk === "no_material_changes"
         ? "says there are no material changes to the risk factors"

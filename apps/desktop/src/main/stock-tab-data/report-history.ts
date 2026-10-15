@@ -24,6 +24,7 @@ import { earningsReactionMoves } from "@meridian/research/tracker";
 import type { EarningsTime } from "../../shared/earnings-types";
 import type { LeadReport, ReportRow } from "../../shared/stock-tab-data";
 import { nyYmdOf, timeOfRelease } from "../../shared/earnings-time";
+import { nearReportAnchor } from "../../shared/report-anchors";
 import { fiscalLabel, type YahooQuarter } from "../earnings/earnings-sources";
 
 export const REPORT_ROWS = 8;
@@ -33,13 +34,6 @@ export const STORED_QUARTERS = 12;
 const MATCH_DAYS = 3;
 /** Two item 2.02 filings closer than this are one report (an amendment, a re-filed exhibit). */
 const SAME_REPORT_DAYS = 20;
-/**
- * A filing-only release this far (days into its calendar quarter) from every
- * day Yahoo's confirmed reports fell on is not an earnings report: Tesla files
- * its delivery figures under item 2.02 two days into the quarter and reports
- * about three weeks later. Companies report in the same week year after year.
- */
-const ANCHOR_DAYS = 14;
 
 export type Bar = { d: string; c: number };
 
@@ -86,14 +80,8 @@ function releaseOf(f: ReleaseFiling): { date: string; hour: EarningsTime | null 
 
 /** One report per release: Yahoo's quarters, matched to their filing where there is one, then the filings left over. */
 export function collectReports(quarters: readonly YahooQuarter[], filings: readonly ReleaseFiling[]): Report[] {
-  // The days into the calendar quarter the confirmed reports fell on; a release far from all of them is not earnings.
-  const anchors = quarters.flatMap((q) => {
-    if (q.epsActual === null) return [];
-    const ms = q.reportedAt ? Date.parse(q.reportedAt) : NaN;
-    const date = Number.isFinite(ms) ? nyYmdOf(ms) : q.reportedYmd;
-    return date ? [quarterDay(date)] : [];
-  });
-  const nearAnchor = (date: string) => anchors.length < 2 || anchors.some((a) => quarterDistance(a, quarterDay(date)) <= ANCHOR_DAYS);
+  // A filing-only release far from every day the confirmed reports fell on is not earnings (shared/report-anchors.ts).
+  const nearAnchor = nearReportAnchor(quarters);
   const releases = filings
     .filter((f) => /^\d{4}-\d{2}-\d{2}$/.test(f.filedAt))
     .map((f) => ({ ...releaseOf(f), url: f.url }))
@@ -124,20 +112,6 @@ export function collectReports(quarters: readonly YahooQuarter[], filings: reado
     out.push({ date: r.date, hour: r.hour, quarter: null, url: r.url });
   });
   return out.sort((a, b) => a.date.localeCompare(b.date));
-}
-
-/** Days from the start of the date's calendar quarter. */
-function quarterDay(ymd: string): number {
-  const y = Number(ymd.slice(0, 4));
-  const m = Number(ymd.slice(5, 7));
-  const start = Date.UTC(y, Math.floor((m - 1) / 3) * 3, 1, 12);
-  return Math.round((dayMs(ymd) - start) / 86_400_000);
-}
-
-/** Distance between two quarter days, around the quarter (a report on Mar 30 and one on Apr 2 are close). */
-function quarterDistance(a: number, b: number): number {
-  const d = Math.abs(a - b);
-  return Math.min(d, 91 - d);
 }
 
 function surprise(actual: number | null, estimate: number | null): number | null {

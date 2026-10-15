@@ -346,18 +346,63 @@ export type SubmissionsResult = { filings: FilingRecord[] };
 
 const TRACKED_FORMS = new Set(["8-K", "10-Q", "10-K", "4"]);
 
+/** One older page of the submissions index as `filings.files[]` lists it. */
+export type SubmissionsPageRef = { name?: string; filingCount?: number; filingFrom?: string; filingTo?: string };
+
+/** Older pages read for one history at most (JPM's run about a month each). */
+const SUBMISSIONS_PAGES_MAX = 36;
+const SUBMISSIONS_PAGE_NAME = /^CIK\d{10}-submissions-\d{3,}\.json$/;
+
+/**
+ * The older pages of a submissions index that may hold filings on or after
+ * `since` ("YYYY-MM-DD"), newest first. Pure.
+ */
+export function olderSubmissionPages(files: readonly SubmissionsPageRef[] | undefined, since: string): string[] {
+  return (files ?? [])
+    .filter((f) => typeof f.name === "string" && SUBMISSIONS_PAGE_NAME.test(f.name) && (!f.filingTo || f.filingTo >= since))
+    .sort((a, b) => (b.filingTo ?? "9999").localeCompare(a.filingTo ?? "9999"))
+    .map((f) => f.name!)
+    .slice(0, SUBMISSIONS_PAGES_MAX);
+}
+
 /**
  * Full filing history in one call (§1) — including 8-K item codes and the
  * acceptance timestamp, both carried by the submissions index itself, so no
  * per-filing follow-up request is needed.
+ *
+ * `filings.recent` covers at least a year; a heavy filer (a bank issuing
+ * structured notes: JPM files some twenty-five thousand 424B2s a year) keeps
+ * its earlier filings in older pages (`filings.files[]`). With `since`, the
+ * pages reaching back to it are read too, newest first; one that cannot be
+ * read ends the read (a later one would leave a gap).
  */
-export async function fetchSubmissions(cik: string): Promise<SubmissionsResult> {
-  const data = await secJson<{ filings?: { recent?: SubmissionsRecent } }>(`https://data.sec.gov/submissions/CIK${cik}.json`);
+export async function fetchSubmissions(cik: string, opts: { since?: string } = {}): Promise<SubmissionsResult> {
+  const data = await secJson<{ filings?: { recent?: SubmissionsRecent; files?: SubmissionsPageRef[] } }>(
+    `https://data.sec.gov/submissions/CIK${cik}.json`,
+  );
   // The stamp's clock depends on this read of the file (research/edgar-time.ts).
-  return { filings: filingsFromSubmissions(data.filings?.recent, Date.now()) };
+  const filings = filingsFromSubmissions(data.filings?.recent, Date.now());
+  if (!opts.since) return { filings };
+  const seen = new Set(filings.map((f) => f.accessionNumber));
+  for (const name of olderSubmissionPages(data.filings?.files, opts.since)) {
+    let page: SubmissionsRecent;
+    try {
+      page = await secJson<SubmissionsRecent>(`https://data.sec.gov/submissions/${name}`);
+    } catch (err) {
+      console.warn(`[tracker] ${name} not read: ${err instanceof Error ? err.message : String(err)}`);
+      break;
+    }
+    // Each page is a file of its own, with its own clock for the stamps.
+    for (const f of filingsFromSubmissions(page, Date.now())) {
+      if (f.accessionNumber && seen.has(f.accessionNumber)) continue;
+      seen.add(f.accessionNumber);
+      filings.push(f);
+    }
+  }
+  return { filings };
 }
 
-/** The submissions index's `filings.recent` columns. */
+/** The submissions index's `filings.recent` columns (an older page carries the same at its top level). */
 export type SubmissionsRecent = {
   form?: string[];
   filingDate?: string[];

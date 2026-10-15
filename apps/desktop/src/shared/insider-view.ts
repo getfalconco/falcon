@@ -7,7 +7,7 @@
  */
 
 import { formatUsd, shortDate, type Say } from "./earnings-view";
-import type { InsiderEvent, InsiderRole, InsiderTrade } from "./insider-types";
+import { saleShare, type InsiderEvent, type InsiderRole, type InsiderTrade } from "./insider-types";
 
 const ROLE_KEY: Readonly<Record<InsiderRole, string>> = {
   ceo: "insiders.role.ceo",
@@ -62,10 +62,9 @@ export function eventTitle(e: InsiderEvent, say: Say, lang: string): string {
       return say("insiders.kind.unplannedSale", { role, value: value ?? say("insiders.value.unpriced") });
     case "large_unplanned_sale": {
       const v = value ?? say("insiders.value.unpriced");
-      const first = e.trades[0];
-      const sold = e.trades.reduce((s, t) => s + t.shares, 0);
-      if (first && first.sharesBefore !== null && first.sharesBefore > 0 && sold / first.sharesBefore >= 0.1) {
-        return say("insiders.kind.largeUnplannedSaleShare", { role, value: v, pct: percent(Math.min(1, sold / first.sharesBefore), lang) });
+      const share = saleShare(e.trades);
+      if (share !== null && share >= 0.1) {
+        return say("insiders.kind.largeUnplannedSaleShare", { role, value: v, pct: percent(Math.min(1, share), lang) });
       }
       return say("insiders.kind.largeUnplannedSale", { role, value: v });
     }

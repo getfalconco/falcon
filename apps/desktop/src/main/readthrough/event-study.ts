@@ -41,6 +41,7 @@ import {
 import type { EarningsTime } from "../../shared/earnings-types";
 import { filingAcceptedMs } from "@meridian/research/edgar-time";
 import { nyYmdOf, timeOfRelease } from "../../shared/earnings-time";
+import { nearReportAnchor } from "../../shared/report-anchors";
 
 export type Bar = { d: string; c: number };
 
@@ -96,9 +97,12 @@ function surpriseOf(actual: number | null, estimate: number | null): number | nu
  * release instant and the surprise), then EDGAR's item 2.02 filings for the
  * reports the provider no longer lists. A filing within twenty days of a
  * listed report is that report, and gives it its hour when the provider has
- * only the date.
+ * only the date. A filing far into its quarter from every day the provider's
+ * reports fell on (Tesla's delivery figures, an analyst day outlook) is not a
+ * report and is left out (shared/report-anchors.ts).
  */
 export function reportEvents(quarters: readonly QuarterLike[], filings: readonly ReleaseFilingLike[]): ReportEvent[] {
+  const nearAnchor = nearReportAnchor(quarters);
   const releases = filings
     .filter((f) => /^\d{4}-\d{2}-\d{2}$/.test(f.filedAt))
     .map((f): ReportEvent => {
@@ -109,6 +113,7 @@ export function reportEvents(quarters: readonly QuarterLike[], filings: readonly
       if (day > f.filedAt) return { date: f.filedAt, hour: "amc", surprisePct: null };
       return { date: day, hour: timeOfRelease(ms), surprisePct: null };
     })
+    .filter((r) => nearAnchor(r.date))
     .sort((a, b) => a.date.localeCompare(b.date));
   const out: ReportEvent[] = [];
   for (const q of quarters) {

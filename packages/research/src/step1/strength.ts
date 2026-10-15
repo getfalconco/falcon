@@ -13,6 +13,15 @@ export const STRENGTH_BY_TIER: Record<StrengthTier, number> = {
   marginal: 0.3,
 };
 
+/**
+ * A percentage the quote prints but the pipeline could not verify as the
+ * current share (an earlier year's table column, a figure about something
+ * else) reaches the classifier as a null pct: the tier then comes from the
+ * words, not the number.
+ */
+const NO_VERIFIED_PCT =
+  "If disclosed_revenue_dependency_pct is null, no percentage is verified as the current share: do not use a number in the quote (it may be an earlier year's column or another measure); judge from the words alone (sole/single source, primarily, substantial majority, a named material relationship, or a name in a list).";
+
 export const STRENGTH_CLASSIFY_SYSTEM = [
   "You classify the materiality strength of ONE business relationship edge from SEC filing evidence.",
   "Use ONLY the evidence quote and disclosed fields. No outside knowledge.",
@@ -21,6 +30,7 @@ export const STRENGTH_CLASSIFY_SYSTEM = [
   '- "important": named material relationship, no dominance language.',
   '- "marginal": named only in a list (e.g. one of many competitors), no materiality signal.',
   "If disclosed_revenue_dependency_pct is set, still output the matching tier from that pct (>=10 critical, >=5 important, else marginal).",
+  NO_VERIFIED_PCT,
   'Output JSON only: {"strength_tier": "critical"|"important"|"marginal"}',
 ].join(" ");
 
@@ -34,6 +44,7 @@ export const STRENGTH_CLASSIFY_BATCH_SYSTEM = [
   '- "important": named material relationship, no dominance language.',
   '- "marginal": named only in a list (e.g. one of many competitors), no materiality signal.',
   "If disclosed_revenue_dependency_pct is set, still output the matching tier from that pct (>=10 critical, >=5 important, else marginal).",
+  NO_VERIFIED_PCT,
   "Do not balance tiers across the batch — each edge stands alone.",
   'Output JSON only, one entry per edge, echoing its index: {"tiers": [{"index": number, "strength_tier": "critical"|"important"|"marginal"}]}',
   "Return an entry for EVERY index you were given.",
@@ -42,6 +53,15 @@ export const STRENGTH_CLASSIFY_BATCH_SYSTEM = [
 const TIERS = new Set<StrengthTier>(["critical", "important", "marginal"]);
 
 const CLASSIFY_CONCURRENCY = 4;
+
+/**
+ * Output room for a model that thinks before it answers. Sonnet 5 (the
+ * configured strength model) thinks by default, a couple of hundred tokens on
+ * a single edge: with only the answer's room (80 tokens for one edge) the
+ * response stopped at max_tokens inside the thinking block, the text came back
+ * empty, and the edge silently defaulted to "important". Billed only as used.
+ */
+export const THINKING_HEADROOM_TOKENS = 2000;
 
 export function parseStrengthTier(raw: unknown): StrengthTier | null {
   if (typeof raw !== "string") return null;
@@ -91,6 +111,29 @@ export function quoteStatesPct(quote: string, pct: number): boolean {
   return false;
 }
 
+/** Three lowercase words in a row: prose, not a table row. */
+const PROSE = /\b[a-z]{2,}\s+[a-z]{2,}\s+[a-z]{2,}\b/;
+/** A table cell holding a value or a blank: "—", "-", "28 %", "1,234". A year is a label, not a value. */
+const VALUE_CELL = /(?:^|\s)(?:[—–-]|(?!(?:19|20)\d\d(?:\s|$))\d[\d,.]*\s*(?:%|percent\b)?)(?=\s|$)/i;
+
+/**
+ * True when `quote` states `pct` as the current share. A table row
+ * ("OptumRx — — 17 % — —", "CVS Health 28 % 30 % 24 %") gives one share per
+ * year, the latest first, so only its first value cell is the current one: a
+ * percentage after another value or a blank cell ("—", the year the customer
+ * fell under the disclosure line) is an earlier year's. Prose is read as
+ * `quoteStatesPct` reads it.
+ */
+export function quoteStatesCurrentPct(quote: string, pct: number): boolean {
+  const table = !PROSE.test(quote);
+  for (const m of quote.matchAll(PCT_IN_TEXT)) {
+    if (Math.abs(Number(m[1]) - pct) >= 0.051) continue;
+    if (table && VALUE_CELL.test(quote.slice(0, m.index))) continue;
+    return true;
+  }
+  return false;
+}
+
 /** The share a filing states for one relationship, apart from the strength weight. */
 export type DisclosedShare = {
   /** Percent, 0 to 100; null when the filing states none. */
@@ -104,8 +147,9 @@ const NO_SHARE: DisclosedShare = { disclosed_share_pct: null, disclosed_share_qu
 /**
  * The disclosed share for an edge, from the extractor's percentage and the
  * edge's evidence quotes. Set only when a quote (each one checked against the
- * filing text before it gets here) states the number, so a percentage the
- * model inferred, or one that is really a tier weight, never reads as disclosed.
+ * filing text before it gets here) states the number as the current share, so
+ * a percentage the model inferred, one that is really a tier weight, or an
+ * earlier year's column of a table never reads as disclosed.
  */
 export function disclosedShareFromEvidence(
   pct: number | null | undefined,
@@ -113,8 +157,29 @@ export function disclosedShareFromEvidence(
 ): DisclosedShare {
   if (pct == null || !Number.isFinite(pct) || pct <= 0 || pct > 100) return NO_SHARE;
   const value = Math.round(pct * 100) / 100;
-  const quote = quotes.find((q) => typeof q === "string" && quoteStatesPct(q, value));
+  const quote = quotes.find((q) => typeof q === "string" && quoteStatesCurrentPct(q, value));
   return quote ? { disclosed_share_pct: value, disclosed_share_quote: quote } : NO_SHARE;
+}
+
+/**
+ * The share the filing states for an extracted edge: the extractor's
+ * percentage, kept only when one of the edge's quotes states it as the
+ * current share. The strength tier is taken from this, never from the bare
+ * percentage: a percentage the model read from an earlier year's column, or
+ * inferred, would otherwise make the link "critical" (CAH to OptumRx: "OptumRx
+ * — — 17 % — —", 17% two years back).
+ */
+export function candidateShare(edge: {
+  disclosed_revenue_dependency_pct?: number | null;
+  disclosed_pct_quote?: string | null;
+  evidence_quote: string;
+  evidence_quotes?: string[];
+}): DisclosedShare {
+  const quotes = edge.evidence_quotes?.length ? edge.evidence_quotes : [edge.evidence_quote];
+  return disclosedShareFromEvidence(edge.disclosed_revenue_dependency_pct, [
+    ...(edge.disclosed_pct_quote ? [edge.disclosed_pct_quote] : []),
+    ...quotes,
+  ]);
 }
 
 /**
@@ -133,7 +198,10 @@ export function disclosedShareOfEdge(edge: {
   if (edge.disclosed_share_pct !== undefined) {
     const pct = edge.disclosed_share_pct;
     if (pct == null || !Number.isFinite(pct)) return NO_SHARE;
-    return { disclosed_share_pct: pct, disclosed_share_quote: edge.disclosed_share_quote ?? null };
+    const quote = edge.disclosed_share_quote ?? null;
+    // A share recorded before the latest-year rule: its quote has to state it as the current share.
+    if (quote !== null && !quoteStatesCurrentPct(quote, pct)) return NO_SHARE;
+    return { disclosed_share_pct: pct, disclosed_share_quote: quote };
   }
   if (edge.strength_basis !== "disclosed" || typeof edge.strength !== "number") return NO_SHARE;
   return disclosedShareFromEvidence(
@@ -204,7 +272,7 @@ export async function classifyEdgeStrength(
     const raw = await callClaudeJson({
       system: STRENGTH_CLASSIFY_SYSTEM,
       user,
-      maxTokens: 80,
+      maxTokens: THINKING_HEADROOM_TOKENS + 80,
       usage,
     });
     const tier = parseClassifyResponse(raw);
@@ -285,7 +353,7 @@ async function classifyBatch(
     system: STRENGTH_CLASSIFY_BATCH_SYSTEM,
     model: getConfig().step1StrengthModel,
     user,
-    maxTokens: 40 * batch.length + 80,
+    maxTokens: THINKING_HEADROOM_TOKENS + 40 * batch.length + 80,
     usage,
   });
   const tiers = parseBatchTiers(raw, batch.length);

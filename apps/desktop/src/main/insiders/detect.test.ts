@@ -2,9 +2,10 @@ import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import { parseOwnershipXml } from "../edgar/form4";
 import { form4Xml, type FixtureForm } from "../edgar/form4-fixtures";
-import type { InsiderEvent } from "../../shared/insider-types";
+import { saleShare, type InsiderEvent } from "../../shared/insider-types";
 import {
   findClusters,
+  holdingsAfter,
   holdingsBefore,
   rankEvents,
   scheduleEvents,
@@ -78,6 +79,29 @@ describe("trades from a Form 4", () => {
     assert.equal(first[0]!.increase, null);
     const unknown = trades({ lines: [{ code: "P", date: "2026-10-01", shares: 400, after: null }] });
     assert.equal(unknown[0]!.sharesBefore, null);
+  });
+
+  it("reads what was left from the form, exercises included (Coca-Cola, August 2026)", () => {
+    // Form 4 0000021344-26-000161: sells 19,772, exercises three option grants, sells 35,983.
+    const xml = form4Xml({
+      title: "Europe OU President",
+      lines: [
+        { code: "S", date: "2026-08-06", shares: 19_772, price: 86.6721, after: 26_209 },
+        { code: "M", date: "2026-08-06", shares: 7_628, price: 48.075, after: 33_837 },
+        { code: "M", date: "2026-08-06", shares: 10_684, price: 59.485, after: 44_521 },
+        { code: "M", date: "2026-08-06", shares: 21_848, price: 50.4383, after: 66_369 },
+        { code: "S", date: "2026-08-06", shares: 35_983, price: 86.5468, after: 30_386 },
+      ],
+    });
+    const doc = parseOwnershipXml(xml)!;
+    assert.equal(holdingsBefore(doc), 45_981);
+    assert.equal(holdingsAfter(doc), 30_386);
+    const t = tradesOf(doc, { accession: "0000021344-26-000161", filedAt: "2026-08-07", url: "https://www.sec.gov/x" });
+    assert.deepEqual([t[0]!.code, t[0]!.shares, t[0]!.value, t[0]!.sharesBefore, t[0]!.sharesAfter], ["S", 55_755, 4_827_894, 45_981, 30_386]);
+    // 55,755 of the 86,141 shares held at most: never "more than all of it".
+    assert.equal(saleShare(t)!.toFixed(4), (55_755 / 86_141).toFixed(4));
+    // No holding on record after the form: back to the holding before.
+    assert.equal(holdingsAfter(parseOwnershipXml(form4Xml({ lines: [{ code: "S", date: "2026-08-06", shares: 10, after: null }] }))!), null);
   });
 
   it("keeps plan trades apart from the rest", () => {
@@ -190,6 +214,31 @@ describe("rules", () => {
     assert.deepEqual(tradeEvents(dir(120_000, 5_880_000), ctx).map((e) => e.kind), []);
     // $8M: under the floor.
     assert.deepEqual(tradeEvents(dir(80_000, 20_000), ctx).map((e) => e.kind), []);
+    // $12M of exercised options sold out of 3.02M shares held at most: 4%, not flagged.
+    const exercised = trades({
+      ownerCik: "78",
+      ownerName: "Officer C",
+      title: "EVP",
+      lines: [
+        { code: "M", date: "2026-10-01", shares: 120_000, price: 40, after: 3_020_000 },
+        { code: "S", date: "2026-10-01", shares: 120_000, price: 100, after: 2_900_000 },
+      ],
+    });
+    assert.deepEqual(tradeEvents(exercised, ctx).map((e) => e.kind), []);
+    // $12M sold after exercising 200,000 options on a 50,000 share holding: 80% of the 250,000 held at most
+    // (against the 50,000 held before alone it read as 400%, shown as all of it).
+    const small = trades({
+      ownerCik: "79",
+      ownerName: "Officer D",
+      title: "EVP",
+      lines: [
+        { code: "M", date: "2026-10-01", shares: 200_000, price: 40, after: 250_000 },
+        { code: "S", date: "2026-10-01", shares: 200_000, price: 60, after: 50_000 },
+      ],
+    });
+    const flagged = tradeEvents(small, ctx);
+    assert.deepEqual(flagged.map((e) => e.kind), ["large_unplanned_sale"]);
+    assert.equal(saleShare(flagged[0]!.trades), 0.8);
     // Under a plan: not flagged.
     assert.deepEqual(tradeEvents(dir(600_000, 100_000, { aff10b5One: true }), ctx).map((e) => e.kind), []);
     // The CEO's large sale stays an unplanned_sale, once.

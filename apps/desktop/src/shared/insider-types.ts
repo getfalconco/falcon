@@ -56,6 +56,7 @@ export type InsiderTrade = {
   url: string;
   /** Shares owned before the first counted line, every holding on the form summed; null when the form does not say. */
   sharesBefore: number | null;
+  /** Shares owned once the form's last line was done (exercises and awards on it included), every holding summed; null when the form does not say. */
   sharesAfter: number | null;
   /** Purchased shares over `sharesBefore` (0.25 = 25%); null when unknown or nothing was held before. */
   increase: number | null;
@@ -76,6 +77,24 @@ export type OwnershipFiling = {
   /** Percent of the class the cover page states (7.2 = 7.2%); null when it cannot be read. */
   percent: number | null;
 };
+
+/**
+ * The share of their holding an insider sold over a run of sales (oldest
+ * first): the shares sold against those sold plus what the last form says was
+ * still owned. Options exercised and sold on the same form are in both, so an
+ * exercise-and-sell never reads as more than they held. Falls back to the
+ * holding before the first sale when the last form does not say what was left;
+ * null when neither is known.
+ */
+export function saleShare(trades: readonly Pick<InsiderTrade, "shares" | "sharesBefore" | "sharesAfter" | "lastDate">[]): number | null {
+  if (trades.length === 0) return null;
+  const sold = trades.reduce((s, t) => s + t.shares, 0);
+  if (!(sold > 0)) return null;
+  const last = trades.reduce((a, t) => (t.lastDate >= a.lastDate ? t : a), trades[0]!);
+  if (last.sharesAfter !== null && last.sharesAfter >= 0) return sold / (sold + last.sharesAfter);
+  const before = trades[0]!.sharesBefore;
+  return before !== null && before > 0 ? Math.min(1, sold / before) : null;
+}
 
 export type InsiderRelation = "supplier" | "customer" | "competitor";
 

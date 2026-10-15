@@ -5,7 +5,15 @@
  * extraction candidates of the same filing. No model calls, no rebuild: the
  * graph is patched in place, so the only change is the two added fields.
  *
- * Usage: pnpm backfill-disclosed-share [--dry-run]
+ * With --recompute-tiers it also puts every edge's strength tier back on the
+ * rule that a percentage sets the tier only when a quote states it as the
+ * current share (`disclosed_share_pct`): a verified share gives its tier, and
+ * a "disclosed" strength with no verified share (the tier came from a
+ * percentage no quote states) is classified again from its words, the one
+ * model call this makes (the step1 strength classifier, Anthropic key from
+ * apps/desktop/.env). Rebuild the graph afterwards: pnpm graph.
+ *
+ * Usage: pnpm backfill-disclosed-share [--dry-run] [--recompute-tiers]
  *   FALCON_RESEARCH_DATA_DIR  research dir (default apps/desktop/data/research)
  *   FALCON_RESEARCH_CACHE_DIR cache dir    (default apps/desktop/data/cache)
  *   FALCON_GRAPH_PATH         graph file   (default apps/desktop/data/graph.json)
@@ -17,8 +25,12 @@ import {
   backfillGraph,
   backfillRootEdges,
   candidatesCachePath,
+  classifyEdgesStrength,
   stringifyLike,
+  tierRecomputePlan,
+  withStrength,
   type CachedCandidateLike,
+  type EdgeStrength,
   type ValidatedEdge,
 } from "../packages/research/src/step1/index.js";
 
@@ -34,6 +46,80 @@ async function readJson(file: string): Promise<{ raw: string; value: unknown } |
   }
 }
 
+async function loadDesktopEnv(): Promise<void> {
+  try {
+    const raw = await readFile(path.join(repoRoot, "apps/desktop/.env"), "utf8");
+    for (const line of raw.split(/\r?\n/)) {
+      const trimmed = line.trim();
+      if (!trimmed || trimmed.startsWith("#")) continue;
+      const eq = trimmed.indexOf("=");
+      if (eq <= 0) continue;
+      const key = trimmed.slice(0, eq).trim();
+      const value = trimmed.slice(eq + 1).trim();
+      if (!process.env[key]) process.env[key] = value;
+    }
+  } catch {
+    // optional
+  }
+}
+
+const strengthText = (s: EdgeStrength) => `${s.strength_tier} ${s.strength} (${s.strength_basis})`;
+
+/**
+ * --recompute-tiers: every root's tiers back on the verified-share rule.
+ * Returns the edges by root, changed or not, and writes the files that changed.
+ */
+async function recomputeTiers(
+  roots: Array<{ file: string; raw: string; edges: ValidatedEdge[] }>,
+  researchDir: string,
+  dryRun: boolean,
+): Promise<void> {
+  const changes: string[] = [];
+  const pending: Array<{ root: number; index: number }> = [];
+  const next = roots.map((r) => [...r.edges]);
+  roots.forEach((r, root) => {
+    const plan = tierRecomputePlan(r.edges);
+    for (const { index, resolved } of plan.fromShare) {
+      const e = r.edges[index]!;
+      changes.push(`  ${e.root_ticker} -> ${e.counterparty_name} (${e.category}): ${strengthText(e)} => ${strengthText(resolved)} (share stated)`);
+      next[root]![index] = withStrength(e, resolved);
+    }
+    for (const index of plan.reclassify) pending.push({ root, index });
+  });
+  if (pending.length > 0) {
+    await loadDesktopEnv();
+    const inputs = pending.map(({ root, index }) => {
+      const e = roots[root]!.edges[index]!;
+      return {
+        counterparty_name: e.counterparty_name,
+        category: e.category,
+        subtype: e.subtype,
+        disclosed_revenue_dependency_pct: null,
+        evidence_quote: e.evidence[0]?.quote ?? "",
+      };
+    });
+    const resolved = await classifyEdgesStrength(inputs);
+    pending.forEach(({ root, index }, i) => {
+      const e = roots[root]!.edges[index]!;
+      const s = resolved[i]!;
+      changes.push(`  ${e.root_ticker} -> ${e.counterparty_name} (${e.category}): ${strengthText(e)} => ${strengthText(s)} (no stated share; classified from the words)`);
+      next[root]![index] = withStrength(e, s);
+    });
+  }
+  const tierChanges = changes.length;
+  let written = 0;
+  for (let i = 0; i < roots.length; i++) {
+    if (next[i]!.every((e, j) => e === roots[i]!.edges[j])) continue;
+    roots[i]!.edges = next[i]!;
+    if (!dryRun) {
+      await writeFile(path.join(researchDir, roots[i]!.file), stringifyLike(roots[i]!.raw, next[i]), "utf8");
+      written++;
+    }
+  }
+  console.info(`[backfill-disclosed-share] tiers: ${tierChanges} edges recomputed (${pending.length} classified from the words), ${written} files written`);
+  if (changes.length) console.info(changes.join(String.fromCharCode(10)));
+}
+
 async function cachedCandidates(ticker: string, researchDir: string, cacheDir: string): Promise<CachedCandidateLike[] | null> {
   const meta = await readJson(path.join(researchDir, `${ticker}.meta.json`));
   const accession = (meta?.value as { accessionNumber?: unknown } | undefined)?.accessionNumber;
@@ -45,6 +131,7 @@ async function cachedCandidates(ticker: string, researchDir: string, cacheDir: s
 
 async function main(): Promise<void> {
   const dryRun = process.argv.includes("--dry-run");
+  const recompute = process.argv.includes("--recompute-tiers");
   const researchDir = process.env.FALCON_RESEARCH_DATA_DIR?.trim() || path.join(dataRoot, "research");
   const cacheDir = process.env.FALCON_RESEARCH_CACHE_DIR?.trim() || path.join(dataRoot, "cache");
   const graphFile = process.env.FALCON_GRAPH_PATH?.trim() || path.join(dataRoot, "graph.json");
@@ -55,6 +142,7 @@ async function main(): Promise<void> {
     .sort();
 
   const all: ValidatedEdge[] = [];
+  const roots: Array<{ file: string; raw: string; edges: ValidatedEdge[] }> = [];
   const totals = { roots: 0, rootsWritten: 0, edges: 0, stamped: 0, fromStrength: 0, fromCandidates: 0, unverified: 0, withShare: 0 };
   const shares: string[] = [];
   for (const file of files) {
@@ -74,12 +162,14 @@ async function main(): Promise<void> {
         shares.push(`  ${e.root_ticker} -> ${e.counterparty_name} (${e.category}): ${e.disclosed_share_pct}%`);
       }
     }
-    all.push(...result.edges);
+    roots.push({ file, raw: parsed.raw, edges: result.edges });
     if (result.stamped > 0 && !dryRun) {
       await writeFile(path.join(researchDir, file), stringifyLike(parsed.raw, result.edges), "utf8");
       totals.rootsWritten++;
     }
   }
+  if (recompute) await recomputeTiers(roots, researchDir, dryRun);
+  for (const r of roots) all.push(...r.edges);
   console.info(
     `[backfill-disclosed-share] research: ${totals.roots} roots, ${totals.edges} edges; stamped ${totals.stamped} ` +
       `(share from disclosed strength ${totals.fromStrength}, from cached candidates ${totals.fromCandidates}, ` +

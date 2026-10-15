@@ -170,6 +170,24 @@ function sameFigures(a: GuidanceRow, b: GuidanceRow): boolean {
   );
 }
 
+/**
+ * The releases a guided figure's result should have been read from but was
+ * not: each reports a period an earlier release guided, and its reading holds
+ * no figure for that guide (a row left "missing"). Either the reading passed
+ * over a line the release prints, or the release does not print it. Accessions,
+ * oldest first, each once.
+ */
+export function unreadResults(releases: readonly GuidanceRelease[]): string[] {
+  const out: string[] = [];
+  for (const row of guidanceRows(releases)) {
+    if (row.state !== "missing") continue;
+    const reporting = reportingRelease(row.period, releases);
+    if (reporting && !out.includes(reporting.accession)) out.push(reporting.accession);
+  }
+  const at = new Map(releases.map((r) => [r.accession, r.filedAt] as const));
+  return out.sort((a, b) => (at.get(a) ?? "").localeCompare(at.get(b) ?? "") || a.localeCompare(b));
+}
+
 /** GAAP and non-GAAP rows of one period with the same guide and the same result, as one "both" row. */
 export function foldTwins(rows: readonly GuidanceRow[]): GuidanceRow[] {
   const out: GuidanceRow[] = [];

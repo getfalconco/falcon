@@ -29,6 +29,8 @@ export type RawGraphEdge = {
   counterparty_id?: string | null;
   counterparty_ticker?: string | null;
   counterparty_name?: string | null;
+  /** The federal body behind a "U.S. government" edge (counterparty_id `name:us government`); null otherwise. */
+  counterparty_detail?: string | null;
   counterparty_type?: string | null;
   category?: string | null;
   subtype?: string | null;
@@ -60,6 +62,14 @@ export type StockGraphLink = {
   strength: number;
   /** The share the filing discloses, in percent; null when it gives none. */
   share: number | null;
+  /**
+   * Whose share it is when that is not the node drawn: a link folded onto the
+   * "U.S. government" node carries one agency's share (Lockheed Martin: 63%
+   * from the Department of Defense, not the 72% from the government in all),
+   * so the share is said with the agency ("DoD"). Null when the share is the
+   * node's own (the filing's government total, or any other party).
+   */
+  shareOf: string | null;
   confidence: number;
   sourceUrl: string;
   quote: string;
@@ -138,6 +148,24 @@ export function edgeShare(e: Pick<RawGraphEdge, "disclosed_share_pct" | "strengt
   return disclosedShare(e.strength);
 }
 
+/** The one node every US federal body is folded into (step1 canonical.ts). */
+export const GOVERNMENT_NODE = "name:us government";
+
+/** The government as a whole, as filings write it: "the U.S. Government", "United States federal government". */
+const WHOLE_GOVERNMENT = /^(?:the\s+)?(?:u\.?\s?s\.?(?:\s+federal)?|united\s+states(?:\s+federal)?|federal)\s+government$/i;
+
+/**
+ * The agency a share on the government node belongs to, as a reader says it:
+ * "U.S. Department of Defense" is "DoD", "NASA" stays. Null when the edge
+ * names the government as a whole, so its share is the government's total.
+ */
+export function governmentShareOf(e: Pick<RawGraphEdge, "counterparty_detail" | "counterparty_name">): string | null {
+  const body = (e.counterparty_detail ?? "").trim() || (e.counterparty_name ?? "").trim();
+  if (!body || WHOLE_GOVERNMENT.test(body)) return null;
+  if (/^(?:the\s+)?(?:u\.?\s?s\.?\s+|united\s+states\s+)?(?:department\s+of\s+defen[cs]e|dod)$/i.test(body)) return "DoD";
+  return body.replace(/^(?:the\s+)?(?:u\.?\s?s\.?|united\s+states)\s+(?=[A-Z])/i, "").trim() || null;
+}
+
 /** A party's node id: its ticker when it has one, else the graph's canonical name key. */
 export function nodeIdOf(ticker: string | null | undefined, id: string | null | undefined, name: string | null | undefined): string {
   const symbol = upper(ticker);
@@ -178,9 +206,8 @@ export function normalizeLinks(
   for (const e of edges) {
     const filer = upper(e.root_ticker);
     const named = nodeIdOf(e.counterparty_ticker, e.counterparty_id, e.counterparty_name);
-    // US federal bodies share one node (step1 canonical.ts); the agency stays in the edge's quote.
-    const name =
-      named === "name:us government" ? "U.S. government" : typeof e.counterparty_name === "string" ? e.counterparty_name.trim() : "";
+    // US federal bodies share one node (step1 canonical.ts); the agency stays on the edge (counterparty_detail).
+    const name = named === GOVERNMENT_NODE ? "U.S. government" : typeof e.counterparty_name === "string" ? e.counterparty_name.trim() : "";
     if (named && name && !names.has(named)) names.set(named, name);
 
     const url = typeof e.source_url === "string" ? e.source_url.trim() : "";
@@ -203,6 +230,7 @@ export function normalizeLinks(
       tier,
       strength,
       share,
+      shareOf: share !== null && named === GOVERNMENT_NODE ? governmentShareOf(e) : null,
       confidence,
       sourceUrl: url,
       quote,

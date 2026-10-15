@@ -6,7 +6,7 @@ import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import { foldGovernmentCounterparty } from "@meridian/research/step1";
 import { computeExposure, disclosedShare as exposureShare, type ExposureEdge } from "./exposure";
-import { edgeShare, normalizeLinks, type RawGraphEdge } from "./stock-graph";
+import { edgeShare, governmentShareOf, normalizeLinks, type RawGraphEdge } from "./stock-graph";
 
 const URL = "https://www.sec.gov/Archives/edgar/data/1/000000000026000001/x.htm";
 
@@ -78,6 +78,29 @@ describe("U.S. government fold: consumers see one counterparty", () => {
     assert.equal(after.shared[0]!.key, "name:us government");
     assert.equal(after.shared[0]!.name, "U.S. government");
     assert.deepEqual(after.shared[0]!.via.map((v) => v.ticker).sort(), ["LMT", "NOC"]);
+  });
+
+  it("the Stock tab says a folded share with its agency, the government's total without one", () => {
+    const dod = foldGovernmentCounterparty({ ...gov("LMT", "Department of Defense", "name:us department of defense"), disclosed_share_pct: 63 }) as RawGraphEdge;
+    const total = { ...gov("LMT", "U.S. Government", "name:us government"), counterparty_detail: "U.S. Government", disclosed_share_pct: 72 } as RawGraphEdge;
+    const { links } = normalizeLinks([dod, total]);
+    assert.deepEqual(
+      links.map((l) => [l.named, l.share, l.shareOf]),
+      [
+        ["name:us government", 63, "DoD"],
+        ["name:us government", 72, null],
+      ],
+    );
+    // No share, nothing to say it with; another party's share is its own.
+    const { links: plain } = normalizeLinks([
+      { ...gov("LMT", "NASA", "name:us government"), counterparty_detail: "NASA" } as RawGraphEdge,
+      { ...gov("AMKR", "Apple Inc.", "name:apple"), counterparty_ticker: "AAPL", disclosed_share_pct: 29.8 } as RawGraphEdge,
+    ]);
+    assert.deepEqual(plain.map((l) => [l.share, l.shareOf]), [[null, null], [29.8, null]]);
+    assert.equal(governmentShareOf({ counterparty_detail: "U.S. Department of Defense" }), "DoD");
+    assert.equal(governmentShareOf({ counterparty_detail: "the United States federal government" }), null);
+    assert.equal(governmentShareOf({ counterparty_detail: "U.S. Navy" }), "Navy");
+    assert.equal(governmentShareOf({ counterparty_detail: null, counterparty_name: "NASA" }), "NASA");
   });
 
   it("the Stock tab labels the shared node U.S. government", () => {

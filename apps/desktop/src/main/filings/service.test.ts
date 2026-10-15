@@ -64,7 +64,8 @@ function setup(opts: { index?: FilingLike[]; edges?: EdgeLike[]; failDocs?: bool
       if (opts.failDocs) throw new Error("503");
       const name = DOCS[f.accession];
       if (!name) throw new Error(`no fixture for ${f.accession}`);
-      return fixture(name);
+      // A document given inline, or a fixture's name.
+      return name.startsWith("<") ? name : fixture(name);
     },
     graphEdges: async () => opts.edges ?? EDGES,
     backgroundStartAt: opts.backgroundStartAt?.(clock),
@@ -161,6 +162,36 @@ describe("filing changes", () => {
     const c = await service.changes("ACME");
     assert.equal(c.quarterRisk, "no_material_changes");
     assert.ok(!c.items.some((i) => i.form === "10-Q"));
+  });
+
+  it("says nothing about risk factors from a section that does not read as one", async () => {
+    // An integrated report without its contents' links: the heading search runs into the financial statements.
+    DOCS["k-int"] = fixture("tenk-integrated.html").replace(/<a href="#[^"]*">([\s\S]*?)<\/a>/g, "$1");
+    const index = [filing("10-Q", "q-2026", "2026-08-05"), filing("10-K", "k-int", "2026-02-20"), filing("10-K", "k-2025", "2025-02-21")];
+    const { service } = setup({ index });
+    const c = await service.changes("ACME");
+    assert.ok(c.missing.includes("risk_unreadable"));
+    assert.ok(!c.missing.includes("risk_section"), "not said to be missing either: nothing is said");
+    assert.ok(!c.items.some((i) => /risk/.test(i.kind)), c.items.map((i) => i.kind).join());
+    assert.equal(c.riskCount, null);
+    assert.equal(c.quarterRisk, null, "the 10-Q is not compared against headings that could not be read");
+    assert.equal(c.latest?.sectionUrl, null, "no link into a section that was not read");
+    // The same report with its links reads, and compares.
+    DOCS["k-int"] = "tenk-integrated.html";
+    const again = await setup({ index }).service.changes("ACME");
+    assert.ok(!again.missing.includes("risk_unreadable"));
+    assert.deepEqual(again.riskCount, { latest: 3, previous: 6 });
+    assert.equal(again.latest?.sectionUrl, `${index[1]!.url}#c_rf`);
+  });
+
+  it("does not call every 10-Q heading new when the annual report gave none", async () => {
+    DOCS["k-plain"] = `<html><body><p><b>Item 1A. Risk Factors</b></p><p>Our business is subject to many risks, described in plain paragraphs without headings.</p><p><b>Item 1B. Unresolved Staff Comments</b></p><p>None.</p><p><b>Item 7. Management's Discussion and Analysis</b></p><p>${"Revenue grew in every segment. ".repeat(20)}</p></body></html>`;
+    const index = [filing("10-Q", "q-2026", "2026-08-05"), filing("10-K", "k-plain", "2026-02-20"), filing("10-K", "k-2025", "2025-02-21")];
+    const { service } = setup({ index });
+    const c = await service.changes("ACME");
+    assert.ok(c.missing.includes("risk_section"));
+    assert.ok(!c.items.some((i) => i.kind === "quarter_risk_new" || i.kind === "quarter_risk_reworded"));
+    assert.notEqual(c.quarterRisk, "updated");
   });
 
   it("answers for a ticker EDGAR does not know", async () => {

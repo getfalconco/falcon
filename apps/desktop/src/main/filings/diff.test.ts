@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import { diffConcentration, diffHeadings, headingSimilarity, MATCH_MIN, namedIn, newSentences, REWORD_BELOW, searchableText } from "./diff";
-import type { RiskHeading } from "./parse";
+import { LARGEST_CUSTOMER, type RiskHeading } from "./parse";
 
 const h = (text: string): RiskHeading => ({ text, group: null });
 
@@ -63,6 +63,34 @@ describe("diffHeadings", () => {
     assert.deepEqual([d.kept, d.added.length, d.removed.length, d.reworded.length], [5, 0, 0, 0]);
   });
 
+  it("pairs a heading rewritten on the same subject, for the best pairing in all", () => {
+    const d = diffHeadings(
+      [
+        h("Competition in the financial services industry could lead to negative effects on our results of operations."),
+        h("Differences in the supervision and regulation of financial services firms could require us to modify our operations."),
+        h("Our liquidity and cost of funding could be adversely affected by downgrades in our credit ratings."),
+        h("Our operating results may be adversely impacted by additional tax liabilities and changes in tax laws."),
+      ],
+      [
+        h("We face significant and increasing competition in the rapidly evolving financial services industry."),
+        h("Differences and inconsistencies in financial services regulation and supervision can negatively impact our businesses."),
+        h("Reductions in our credit ratings may adversely affect our liquidity and cost of funding."),
+        h("Changes in foreign policies, geopolitical conditions and other factors may adversely impact our business and operating results."),
+      ],
+    );
+    assert.deepEqual(
+      d.reworded.map((r) => [r.now.text.slice(0, 20), r.before.text.slice(0, 20)]),
+      [
+        ["Competition in the f", "We face significant "],
+        ["Differences in the s", "Differences and inco"],
+        ["Our liquidity and co", "Reductions in our cr"],
+      ],
+    );
+    // Sharing only how bad ("adversely impact our business and operating results") is no shared subject.
+    assert.deepEqual(d.added.map((x) => x.text.slice(0, 20)), ["Our operating result"]);
+    assert.deepEqual(d.removed.map((x) => x.text.slice(0, 20)), ["Changes in foreign p"]);
+  });
+
   it("pairs a reworded heading with its closest predecessor only once", () => {
     const d = diffHeadings([h("Our operating results fluctuate a lot from quarter to quarter and year to year.")], [h("Our operating results fluctuate from quarter to quarter."), h("Our operating results fluctuate.")]);
     assert.equal(d.reworded.length + d.kept, 1);
@@ -83,6 +111,38 @@ describe("diffConcentration", () => {
         ["dropped", "Vandelay"],
       ],
     );
+  });
+});
+
+describe("diffConcentration, unnamed customers", () => {
+  const fact = (label: string, pct: number, basis: "revenue" | "receivables" = "revenue") => ({ label, pct, basis, quote: `${label} ${pct}%` });
+
+  it("compares the largest unnamed share with the largest the year before, never letter with letter", () => {
+    const changes = diffConcentration(
+      [fact("One customer", 28.1), fact(LARGEST_CUSTOMER, 23, "receivables")],
+      [fact("Customer A", 20.9), fact("Customer B", 11.5), fact("Customer A", 33.4, "receivables"), fact("Customer B", 13.6, "receivables")],
+    );
+    assert.deepEqual(
+      changes.map((c) => [c.kind, c.label, c.basis, c.kind === "share" ? [c.pct, c.previousPct, c.previousQuote] : null]),
+      [
+        ["share", LARGEST_CUSTOMER, "revenue", [28.1, 20.9, "Customer A 20.9%"]],
+        ["share", LARGEST_CUSTOMER, "receivables", [23, 33.4, "Customer A 33.4%"]],
+      ],
+    );
+    // "Customer B" last year and "Customer B" now need not be one customer: nothing said of B.
+    assert.deepEqual(diffConcentration([fact("Customer A", 30), fact("Customer B", 25)], [fact("Customer A", 30.4), fact("Customer B", 12)]), []);
+  });
+
+  it("an unnamed share is new only when the year before states no share of that basis", () => {
+    assert.deepEqual(
+      diffConcentration([fact("One customer", 28.1)], [fact("Customer A", 33.4, "receivables")]).map((c) => [c.kind, c.label, c.basis]),
+      [
+        ["new", "One customer", "revenue"],
+        ["dropped", "Customer A", "receivables"],
+      ],
+    );
+    // A named customer the year before may be today's unnamed one.
+    assert.deepEqual(diffConcentration([fact("One customer", 28.1)], [fact("Globex", 20)]).map((c) => [c.kind, c.label]), [["dropped", "Globex"]]);
   });
 });
 

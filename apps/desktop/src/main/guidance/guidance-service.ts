@@ -12,7 +12,10 @@
  *      by accession: a filed release
  *      never changes, so each is read once. A failed call is not kept and is
  *      asked again on a later visit
- *   4. the comparison (shared/guidance-track.ts)
+ *   4. a kept release that holds no result for a figure an earlier release
+ *      guided is read once more and the readings merged (a single pass can
+ *      skip a table line); marked on disk, so never more than once
+ *   5. the comparison (shared/guidance-track.ts)
  *
  * Beside the readings, one small index per company (`tickers/<TICKER>.json`)
  * lists the accessions its last visit found, so `peek` can rebuild the track
@@ -30,7 +33,7 @@ import { readJson, writeJsonAtomic } from "../briefing/json-file";
 import { htmlToText, type FilingRef } from "../agents/sources";
 import type { GuidanceRelease, GuidanceTrack, GuidanceTrackResult } from "../../shared/guidance-types";
 import { mergeReadings, verifyExtraction } from "../../shared/guidance-verify";
-import { buildTrack } from "../../shared/guidance-track";
+import { buildTrack, unreadResults } from "../../shared/guidance-track";
 import { extractRelease, GUIDANCE_EXTRACT_VERSION, guidanceModel } from "./guidance-extract";
 import { exhibitFromIndex } from "../edgar/exhibit-index";
 
@@ -46,7 +49,8 @@ const PARTIAL_TTL_MS = 5 * 60_000;
 /** Model calls in flight at once for one company. */
 const PARALLEL = 3;
 
-type Stored = { version: string; model: string; release: GuidanceRelease };
+/** `rechecked`: read once more because a guided figure's result was missing from it (see `compute`). */
+type Stored = { version: string; model: string; release: GuidanceRelease; rechecked?: boolean };
 /** Which releases a company's last visit found, newest first. */
 type TickerIndex = { ticker: string; at: string; accessions: string[] };
 
@@ -120,10 +124,48 @@ export function createGuidanceService(deps: GuidanceDeps): GuidanceService {
   const fileFor = (accession: string) => path.join(deps.dir, `${accession.replace(/[^0-9A-Za-z-]/g, "")}.json`);
   const indexFor = (ticker: string) => path.join(deps.dir, "tickers", `${ticker.toUpperCase().replace(/[^0-9A-Z.-]/g, "")}.json`);
 
+  /** What is kept on disk for a release under the current extraction version, or null. */
+  function storedEntry(accession: string): Stored | null {
+    const stored = readJson<Stored>(fileFor(accession));
+    return stored && stored.version === GUIDANCE_EXTRACT_VERSION && stored.release ? stored : null;
+  }
+
   /** A reading kept on disk under the current extraction version, or null. */
   function storedRelease(accession: string): GuidanceRelease | null {
-    const stored = readJson<Stored>(fileFor(accession));
-    return stored && stored.version === GUIDANCE_EXTRACT_VERSION && stored.release ? stored.release : null;
+    return storedEntry(accession)?.release ?? null;
+  }
+
+  /** The release's press release text and address; null when it cannot be read this time. */
+  async function exhibitText(filing: FilingRef): Promise<{ text: string; url: string } | null> {
+    const index = await deps.file(filing, `${filing.accession}-index.htm`);
+    if (index === null) return null;
+    const name = exhibitFromIndex(index);
+    if (!name) return null;
+    const html = await deps.file(filing, name);
+    if (html === null) return null;
+    return { text: htmlToText(html), url: `${archiveBase(filing)}/${name}` };
+  }
+
+  /**
+   * One more reading of a kept release whose reading holds no result for a
+   * figure an earlier release guided (MU's fiscal fourth quarter of 2026: both
+   * readings passed over the EPS the release prints in its table). Merged
+   * into what is kept and marked, so a release is read this way at most once;
+   * a failed call marks nothing and is asked again on a later visit.
+   */
+  async function recheck(ticker: string, filing: FilingRef, stored: Stored): Promise<GuidanceRelease | null> {
+    const exhibit = await exhibitText(filing);
+    if (!exhibit) return null;
+    const meta = { accession: filing.accession, filedAt: filing.filedAt, url: exhibit.url };
+    try {
+      const again = verifyExtraction(await extractRelease(deps.caller, { ticker, filedAt: filing.filedAt, text: exhibit.text, model: model() }), exhibit.text, meta);
+      const merged = mergeReadings(stored.release, again);
+      writeJsonAtomic(fileFor(filing.accession), { ...stored, release: merged, rechecked: true } satisfies Stored);
+      return merged;
+    } catch (err) {
+      console.warn(`[guidance] ${ticker} ${filing.accession} not read again: ${err instanceof Error ? err.message : String(err)}`);
+      return null;
+    }
   }
 
   /** One release, from disk or read now; null when it could not be read this time. */
@@ -186,8 +228,21 @@ export function createGuidanceService(deps: GuidanceDeps): GuidanceService {
       console.warn(`[guidance] ${ticker} index not kept: ${err instanceof Error ? err.message : String(err)}`);
     }
     const read = await pooled(filings, PARALLEL, (f) => release(ticker, f).catch(() => null));
-    const releases = read.filter((r): r is GuidanceRelease => r !== null);
+    let releases = read.filter((r): r is GuidanceRelease => r !== null);
     const complete = releases.length === filings.length;
+    // A guided figure whose result the period's release was read without: that release once more.
+    if (deps.configured()) {
+      const again = unreadResults(releases).flatMap((accession) => {
+        const filing = filings.find((f) => f.accession === accession);
+        const stored = storedEntry(accession);
+        return filing && stored && !stored.rechecked ? [{ filing, stored }] : [];
+      });
+      if (again.length > 0) {
+        const reread = await pooled(again, PARALLEL, ({ filing, stored }) => recheck(ticker, filing, stored).catch(() => null));
+        const byAccession = new Map(reread.flatMap((r) => (r ? [[r.accession, r] as const] : [])));
+        releases = releases.map((r) => byAccession.get(r.accession) ?? r);
+      }
+    }
     if (filings.length > 0 && releases.length === 0) return { result: { ok: false, error: "unavailable" }, complete: false };
     return { result: { ok: true, track: buildTrack(ticker, releases) }, complete };
   }

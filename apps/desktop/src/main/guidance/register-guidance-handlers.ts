@@ -2,12 +2,12 @@ import path from "node:path";
 import { anthropicGlossCaller, glossConfigured } from "@meridian/research/gloss";
 import { resolveDataRoot } from "../data-root";
 import { registerIpcHandler } from "../ipc-register";
-import { cachedFilingHistory, filingFile, filingHistory } from "../agents/edgar";
+import { cachedFilingHistory, daysBefore, filingFile, filingHistory } from "../agents/edgar";
 import { normalizeTicker } from "../../shared/calendar-events";
 import type { GuidanceTrackResult } from "../../shared/guidance-types";
 import { guidancePeekAnswer } from "./guidance-peek";
 import { createGuidancePrefetch, type GuidancePrefetch } from "./guidance-prefetch";
-import { createGuidanceService, type GuidanceService } from "./guidance-service";
+import { RELEASES, createGuidanceService, earningsReleases, type GuidanceService } from "./guidance-service";
 
 /**
  * Guidance track record IPC (the Stock tab's guidance section, the Earnings
@@ -40,7 +40,9 @@ let prefetch: GuidancePrefetch | null = null;
 export function guidance(): GuidanceService {
   if (!service) {
     service = createGuidanceService({
-      filings: filingHistory,
+      // A heavy filer (a bank's structured notes) keeps only a year of filings in the index's newest page.
+      filings: (ticker) =>
+        filingHistory(ticker, { since: daysBefore(RELEASES * 92 + 60), enough: (list) => earningsReleases(list).length >= RELEASES }),
       file: filingFile,
       caller: anthropicGlossCaller,
       configured: glossConfigured,

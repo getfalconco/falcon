@@ -102,6 +102,7 @@ function Notes({ changes, say }: { changes: FilingChanges; say: Say }) {
   const notes: string[] = [];
   if (changes.missing.includes("previous")) notes.push(say("filings.section.onlyOne"));
   if (changes.missing.includes("risk_section")) notes.push(say("filings.section.noRisk"));
+  // "risk_unreadable": a section that did not read as risk factors gets no items, count, quarter line or note.
   if (changes.missing.includes("documents")) notes.push(say("filings.section.documents"));
   if (changes.relationships === "graph_older") notes.push(say("filings.section.graphOlder"));
   if (notes.length === 0) return null;

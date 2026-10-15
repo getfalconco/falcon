@@ -31,8 +31,10 @@
  *   large_unplanned_sale  one officer's, director's or 10% owner's sales
  *                      inside 30 days, not part of a cluster and not already a
  *                      CEO or CFO unplanned_sale, worth $10,000,000 or more,
- *                      and either 10% or more of what they held before the
- *                      first sale or $50,000,000 or more (so a founder
+ *                      and either 10% or more of their holding (shares sold
+ *                      against those sold plus what the last form left them,
+ *                      `saleShare`, so options exercised and sold count on
+ *                      both sides) or $50,000,000 or more (so a founder
  *                      trimming a mega cap stake is not a row every week).
  *   unplanned_sale     one CEO's or CFO's sales inside 30 days, not part of a
  *                      cluster, worth $1,000,000 or more.
@@ -70,6 +72,7 @@ import type {
   InsiderVia,
   OwnershipFiling,
 } from "../../shared/insider-types";
+import { saleShare } from "../../shared/insider-types";
 
 export const CLUSTER_WINDOW_DAYS = 30;
 export const LOOKBACK_DAYS = 90;
@@ -125,12 +128,36 @@ export function holdingsBefore(doc: Form4Document): number | null {
   return Math.max(0, Math.round(total));
 }
 
+/**
+ * Shares held once the form's last transaction was done, over every
+ * non-derivative ownership line (exercises and awards on the form included),
+ * plus the holdings rows; null when a transacted line does not say.
+ */
+export function holdingsAfter(doc: Form4Document): number | null {
+  const last = new Map<string, Form4Line>();
+  for (const line of doc.lines) {
+    if (line.derivative) continue;
+    last.set(`${line.ownership ?? "D"}|${(line.nature ?? "").toLowerCase()}`, line);
+  }
+  let total = 0;
+  for (const line of last.values()) {
+    if (line.sharesAfter === null) return null;
+    total += line.sharesAfter;
+  }
+  for (const h of doc.holdings) {
+    if (h.derivative) continue;
+    if (h.shares !== null) total += h.shares;
+  }
+  return Math.max(0, Math.round(total));
+}
+
 /** The P and S trades of one Form 4, one per code and plan flag. */
 export function tradesOf(doc: Form4Document, source: Form4Source): TradeRecord[] {
   const reporter = doc.reporters[0];
   const role = roleOf(reporter);
   const insiderKey = reporter?.cik?.replace(/^0+/, "") || (reporter?.name ?? "unknown").toLowerCase();
   const before = holdingsBefore(doc);
+  const after = holdingsAfter(doc);
   const out: TradeRecord[] = [];
   for (const code of ["P", "S"] as const) {
     for (const plan of [false, true]) {
@@ -140,7 +167,6 @@ export function tradesOf(doc: Form4Document, source: Form4Source): TradeRecord[]
       const shares = lines.reduce((s, l) => s + l.shares!, 0);
       const priced = lines.filter((l) => l.price !== null && l.price > 0);
       const value = priced.length === 0 ? null : Math.round(priced.reduce((s, l) => s + l.shares! * l.price!, 0));
-      const signed = code === "P" ? shares : -shares;
       out.push({
         insiderKey,
         name: reporter?.name ?? "unknown",
@@ -155,7 +181,7 @@ export function tradesOf(doc: Form4Document, source: Form4Source): TradeRecord[]
         accession: source.accession,
         url: source.url,
         sharesBefore: before,
-        sharesAfter: before === null ? null : Math.max(0, Math.round(before + signed)),
+        sharesAfter: after,
         increase: code === "P" && before !== null && before > 0 ? shares / before : null,
         firstPosition: code === "P" && before === 0,
         plan,
@@ -293,9 +319,7 @@ export function tradeEvents(trades: readonly TradeRecord[], ctx: EventContext): 
   for (const run of perInsider(sales.filter((t) => !inSCluster.has(t) && large(t.role)))) {
     const value = sumValue(run) ?? 0;
     if (value < LARGE_UNPLANNED_SALE_MIN_VALUE) continue;
-    const before = run[0]!.sharesBefore;
-    const sold = run.reduce((s, t) => s + t.shares, 0);
-    const share = before !== null && before > 0 ? sold / before : null;
+    const share = saleShare(run);
     if (value >= LARGE_UNPLANNED_SALE_ANY_SHARE_VALUE || (share !== null && share >= LARGE_UNPLANNED_SALE_SHARE)) {
       out.push(eventOf(ctx, "large_unplanned_sale", run));
     }

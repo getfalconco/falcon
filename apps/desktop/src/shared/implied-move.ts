@@ -32,7 +32,8 @@
  *      n counts sessions from now through expiry, the report session included.
  *      When the next expiry is missing, the term structure is inverted (w <= 0)
  *      or the subtraction leaves nothing, the raw move stands, and only when
- *      the expiry sits at most MAX_UNADJUSTED_EXTRA sessions past the report.
+ *      it carries at most MAX_UNADJUSTED_EXTRA ordinary sessions (n1 - 1),
+ *      which also keeps the expiry that close past the report.
  *
  * History
  * -------
@@ -208,7 +209,9 @@ export function impliedFigure(input: ImpliedFigureInput): ImpliedFigure | null {
       }
     }
   }
-  if (!adjusted && input.extraSessions > MAX_UNADJUSTED_EXTRA) return null;
+  // Unadjusted, the figure prices every ordinary session to expiry besides the report's: it
+  // stands only when there are few of them, before the report as well as after it.
+  if (!adjusted && (input.extraSessions > MAX_UNADJUSTED_EXTRA || n1 - 1 > MAX_UNADJUSTED_EXTRA)) return null;
   if (adjusted && input.extraSessions > MAX_ADJUSTED_EXTRA) return null;
   return { strike: first.strike, straddle: round(first.price, 4), raw: round(m1, 6), move: round(move, 6), adjusted, basis };
 }

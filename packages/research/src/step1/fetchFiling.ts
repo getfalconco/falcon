@@ -458,10 +458,14 @@ async function fetchSubmissions(cik10: string): Promise<SubmissionsPayload> {
 
 /**
  * Search filings.recent, then paginated filings.files archives, for the latest 10-K/20-F.
+ * The archives are older than `recent` and listed newest first, so they are read only
+ * when `recent` has none, and the first one with an annual report ends the search
+ * (JPM lists some seventy).
  */
 export async function findLatestAnnualForCik(cik10: string): Promise<AnnualFilingHit | null> {
   const data = await fetchSubmissions(cik10);
-  let best = findLatestAnnualInFilings(data.filings?.recent);
+  const best = findLatestAnnualInFilings(data.filings?.recent);
+  if (best) return best;
 
   const files = data.filings?.files ?? [];
   for (const file of files) {
@@ -475,12 +479,10 @@ export async function findLatestAnnualForCik(cik10: string): Promise<AnnualFilin
     }
     const page = (await pageRes.json()) as FilingsArrays;
     const hit = findLatestAnnualInFilings(page);
-    if (hit && (!best || hit.filingDate > best.filingDate)) {
-      best = hit;
-    }
+    if (hit) return hit;
   }
 
-  return best;
+  return null;
 }
 
 /**

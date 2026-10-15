@@ -8,8 +8,9 @@ import { asBulk } from "../stock/request-gate";
 import { filingForm, graphEdges } from "../research/graph-edges";
 import type { EarningsResult } from "../../shared/earnings-types";
 import { parseReadthroughRequest, type ReadthroughResult } from "../../shared/readthrough-types";
+import { daysBefore } from "../agents/edgar";
 import { fetchReleaseFilings } from "./releases";
-import { createReadthroughService, type ReadthroughService } from "./readthrough-service";
+import { HISTORY_DAYS, createReadthroughService, type ReadthroughService } from "./readthrough-service";
 
 /**
  * Read-through radar IPC surface.
@@ -44,7 +45,7 @@ export function readthrough(): ReadthroughService {
         return answer.rows;
       },
       quarters: async (symbol) => (await earningsReaders().read(symbol))?.quarters ?? null,
-      releases: (symbol) => withTimeout(fetchReleaseFilings(symbol), SOURCE_TIMEOUT_MS, "release filings"),
+      releases: (symbol) => withTimeout(fetchReleaseFilings(symbol, daysBefore(HISTORY_DAYS)), SOURCE_TIMEOUT_MS, "release filings"),
       fetchDaily,
     });
   }

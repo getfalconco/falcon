@@ -14,9 +14,10 @@ import {
   concentrationFacts,
   findSection,
   goingConcernSentence,
-  htmlBlocks,
   materialWeaknessSentence,
+  readDocument,
   riskHeadings,
+  riskReadability,
   saysNoMaterialChanges,
   sectionText,
   soleSourceSentences,
@@ -24,8 +25,22 @@ import {
   type RiskHeading,
 } from "./parse";
 
-/** Bumped when the parser changes what a digest holds: older digests are read again. */
-export const DIGEST_VERSION = 2;
+/**
+ * Bumped when the parser changes what a digest holds: older digests are read again.
+ * 3: risk factors located through the table of contents, and guarded (`riskStatus`).
+ * 4: customer concentration read from tables too, latest year only, unnamed shares compared by size.
+ */
+export const DIGEST_VERSION = 4;
+
+/**
+ * What the risk factors reader made of a filing:
+ *   found       a section and its headings (none for a 10-Q that only refers back)
+ *   missing     no risk factors section was found
+ *   unreadable  a section was found but what it holds does not read as risk
+ *               factors (parse.ts riskReadability): no heading, no section
+ *               link and no "no material changes" reading is kept from it
+ */
+export type RiskStatus = "found" | "missing" | "unreadable";
 
 /** The submissions index's entry for one filing (agents/sources.ts FilingRef). */
 export type FilingLike = {
@@ -46,7 +61,9 @@ export type FilingDigest = {
   filedAt: string;
   url: string;
   anchor: string | null;
+  /** `riskStatus === "found"`. */
   riskFound: boolean;
+  riskStatus: RiskStatus;
   headings: RiskHeading[];
   noMaterialChanges: boolean;
   goingConcern: string | null;
@@ -64,12 +81,18 @@ export function isAnnual(form: string): boolean {
 
 /** Reads one filing's HTML into a digest and its plain text. Pure. */
 export function digestOf(filing: FilingLike, html: string): { digest: FilingDigest; text: string } {
-  const blocks = htmlBlocks(html);
+  const doc = readDocument(html);
+  const { blocks } = doc;
   const text = blocks.map((b) => b.text).join("\n");
-  const risk = findSection(blocks, "risk");
-  const controls = findSection(blocks, "controls");
-  const riskText = sectionText(blocks, risk);
   const annual = isAnnual(filing.form);
+  const located = findSection(doc, "risk");
+  const headings = located ? riskHeadings(blocks, located) : [];
+  // Characters of block text, counted as Section.chars counts them (no line breaks).
+  const totalChars = text.length - Math.max(0, blocks.length - 1);
+  const riskStatus: RiskStatus = !located ? "missing" : riskReadability(located, headings, totalChars, annual).readable ? "found" : "unreadable";
+  const risk = riskStatus === "found" ? located : null;
+  const controls = findSection(doc, "controls");
+  const riskText = sectionText(blocks, risk);
   return {
     text,
     digest: {
@@ -79,13 +102,14 @@ export function digestOf(filing: FilingLike, html: string): { digest: FilingDige
       filedAt: filing.filedAt,
       url: filing.url,
       anchor: risk?.anchor ?? null,
-      riskFound: risk !== null,
-      headings: risk ? riskHeadings(blocks, risk) : [],
+      riskFound: riskStatus === "found",
+      riskStatus,
+      headings: risk ? headings : [],
       noMaterialChanges: saysNoMaterialChanges(riskText),
       goingConcern: goingConcernSentence(text),
       materialWeakness: materialWeaknessSentence(sectionText(blocks, controls)),
       auditor: annual ? auditorName(html, text) : null,
-      concentration: annual ? concentrationFacts(text) : [],
+      concentration: annual ? concentrationFacts(text, blocks) : [],
       soleSource: annual ? soleSourceSentences(text) : [],
     },
   };

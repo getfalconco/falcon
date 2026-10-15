@@ -44,6 +44,7 @@ export const en = {
   "filings.kind.customer_share_new.receivables": "{name}: {pct} of receivables, not stated the year before",
   "filings.kind.customer_share_dropped.revenue": "{name}: {previous} of revenue the year before, not stated now",
   "filings.kind.customer_share_dropped.receivables": "{name}: {previous} of receivables the year before, not stated now",
+  "filings.name.largestCustomer": "Largest customer",
   "filings.kind.sole_source_new": "New sole or single source passage",
 
   "filings.many.risk_new": "{count} new risk factors",
@@ -116,6 +117,7 @@ export const tr: Table = {
   "filings.kind.customer_share_new.receivables": "{name}: alacakların {pct} kadarı, bir önceki yıl belirtilmemişti",
   "filings.kind.customer_share_dropped.revenue": "{name}: bir önceki yıl gelirin {previous} kadarı, şimdi belirtilmiyor",
   "filings.kind.customer_share_dropped.receivables": "{name}: bir önceki yıl alacakların {previous} kadarı, şimdi belirtilmiyor",
+  "filings.name.largestCustomer": "En büyük müşteri",
   "filings.kind.sole_source_new": "Tek kaynaklı tedarik hakkında yeni paragraf",
 
   "filings.many.risk_new": "{count} yeni risk faktörü",
@@ -186,6 +188,7 @@ export const de: Table = {
   "filings.kind.customer_share_new.receivables": "{name}: {pct} der Forderungen, im Vorjahr nicht angegeben",
   "filings.kind.customer_share_dropped.revenue": "{name}: im Vorjahr {previous} des Umsatzes, jetzt nicht angegeben",
   "filings.kind.customer_share_dropped.receivables": "{name}: im Vorjahr {previous} der Forderungen, jetzt nicht angegeben",
+  "filings.name.largestCustomer": "Größter Kunde",
   "filings.kind.sole_source_new": "Neuer Abschnitt zu einzigen Bezugsquellen",
 
   "filings.many.risk_new": "{count} neue Risikofaktoren",
@@ -256,6 +259,7 @@ export const fr: Table = {
   "filings.kind.customer_share_new.receivables": "{name} : {pct} des créances, non indiqué l'année précédente",
   "filings.kind.customer_share_dropped.revenue": "{name} : {previous} du chiffre d'affaires l'année précédente, non indiqué désormais",
   "filings.kind.customer_share_dropped.receivables": "{name} : {previous} des créances l'année précédente, non indiqué désormais",
+  "filings.name.largestCustomer": "Plus grand client",
   "filings.kind.sole_source_new": "Nouveau passage sur une source unique d'approvisionnement",
 
   "filings.many.risk_new": "{count} nouveaux facteurs de risque",
@@ -326,6 +330,7 @@ export const es: Table = {
   "filings.kind.customer_share_new.receivables": "{name}: {pct} de las cuentas por cobrar, no indicado el año anterior",
   "filings.kind.customer_share_dropped.revenue": "{name}: {previous} de los ingresos el año anterior, ya no indicado",
   "filings.kind.customer_share_dropped.receivables": "{name}: {previous} de las cuentas por cobrar el año anterior, ya no indicado",
+  "filings.name.largestCustomer": "Mayor cliente",
   "filings.kind.sole_source_new": "Nuevo pasaje sobre proveedor único",
 
   "filings.many.risk_new": "{count} nuevos factores de riesgo",
@@ -396,6 +401,7 @@ export const it: Table = {
   "filings.kind.customer_share_new.receivables": "{name}: {pct} dei crediti, non indicato l'anno prima",
   "filings.kind.customer_share_dropped.revenue": "{name}: {previous} dei ricavi l'anno prima, ora non indicato",
   "filings.kind.customer_share_dropped.receivables": "{name}: {previous} dei crediti l'anno prima, ora non indicato",
+  "filings.name.largestCustomer": "Cliente principale",
   "filings.kind.sole_source_new": "Nuovo passaggio su un fornitore unico",
 
   "filings.many.risk_new": "{count} nuovi fattori di rischio",
@@ -466,6 +472,7 @@ export const ptBR: Table = {
   "filings.kind.customer_share_new.receivables": "{name}: {pct} das contas a receber, não informado no ano anterior",
   "filings.kind.customer_share_dropped.revenue": "{name}: {previous} da receita no ano anterior, não informado agora",
   "filings.kind.customer_share_dropped.receivables": "{name}: {previous} das contas a receber no ano anterior, não informado agora",
+  "filings.name.largestCustomer": "Maior cliente",
   "filings.kind.sole_source_new": "Novo trecho sobre fornecedor único",
 
   "filings.many.risk_new": "{count} novos fatores de risco",
@@ -536,6 +543,7 @@ export const ja: Table = {
   "filings.kind.customer_share_new.receivables": "{name}: 売掛金の {pct}、前年は記載なし",
   "filings.kind.customer_share_dropped.revenue": "{name}: 前年は売上高の {previous}、今回は記載なし",
   "filings.kind.customer_share_dropped.receivables": "{name}: 前年は売掛金の {previous}、今回は記載なし",
+  "filings.name.largestCustomer": "最大顧客",
   "filings.kind.sole_source_new": "単一の調達先に関する新しい記述",
 
   "filings.many.risk_new": "新しいリスク要因 {count} 件",
@@ -606,6 +614,7 @@ export const zhCN: Table = {
   "filings.kind.customer_share_new.receivables": "{name}：占应收账款 {pct}，上一年未披露",
   "filings.kind.customer_share_dropped.revenue": "{name}：上一年占收入 {previous}，本次未披露",
   "filings.kind.customer_share_dropped.receivables": "{name}：上一年占应收账款 {previous}，本次未披露",
+  "filings.name.largestCustomer": "最大客户",
   "filings.kind.sole_source_new": "关于单一供应来源的新段落",
 
   "filings.many.risk_new": "{count} 项新的风险因素",
@@ -676,6 +685,7 @@ export const ko: Table = {
   "filings.kind.customer_share_new.receivables": "{name}: 매출채권의 {pct}, 전년에는 기재 없음",
   "filings.kind.customer_share_dropped.revenue": "{name}: 전년 매출의 {previous}, 이번에는 기재 없음",
   "filings.kind.customer_share_dropped.receivables": "{name}: 전년 매출채권의 {previous}, 이번에는 기재 없음",
+  "filings.name.largestCustomer": "최대 고객",
   "filings.kind.sole_source_new": "단일 공급원에 관한 새 문단",
 
   "filings.many.risk_new": "새 위험 요인 {count}개",

@@ -7,7 +7,7 @@ import { copyProblems, textProblems } from "../../../shared/copy-rules";
 import * as area from "../../lib/i18n/messages/areas/filings";
 import { interpolate } from "../../lib/i18n/translate";
 import { changeLabel, filingDate, groupOf, safeSecUrl, sharePct } from "../../../shared/filing-changes-view";
-import { FILING_CHANGE_KINDS, overviewRows, parseOverviewRequest, type FilingChangeItem, type FilingChanges } from "../../../shared/filing-changes";
+import { FILING_CHANGE_KINDS, LARGEST_CUSTOMER, overviewRows, parseOverviewRequest, type FilingChangeItem, type FilingChanges } from "../../../shared/filing-changes";
 
 /**
  * The house copy rules over Filing changes (no advice words, no
@@ -89,6 +89,13 @@ describe("filings copy", () => {
       changeLabel(item({ kind: "customer_share", name: "Apple", pct: 29.8, previousPct: 30.8, detail: "revenue" }), say, "en-US"),
       "Apple: 29.8% of revenue, 30.8% the year before",
     );
+    // Unnamed customers compared by size read in the reader's language.
+    const sayTr = (key: string, params?: Record<string, string | number>) => interpolate((area.tr as Record<string, string>)[key] ?? key, params ?? {});
+    assert.equal(
+      changeLabel(item({ kind: "customer_share", name: LARGEST_CUSTOMER, pct: 28.1, previousPct: 20.9, detail: "revenue" }), say, "en-US"),
+      "Largest customer: 28.1% of revenue, 20.9% the year before",
+    );
+    assert.match(changeLabel(item({ kind: "customer_share", name: LARGEST_CUSTOMER, pct: 28.1, previousPct: 20.9, detail: "revenue" }), sayTr, "tr-TR"), /^En büyük müşteri: /);
     assert.equal(changeLabel(item({ kind: "late_filing", form: "NT 10-Q", detail: "NT 10-Q" }), say, "en-US"), "Late filing notice, NT 10-Q");
     assert.equal(changeLabel(item({ kind: "restatement", form: "8-K" }), say, "en-US", 2), "Past financial statements no longer to be relied on, 8-K Item 4.02");
     assert.equal(filingDate("2026-02-20", "en-US"), "Feb 20, 2026");

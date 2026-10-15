@@ -1,7 +1,7 @@
 import path from "node:path";
 import { resolveDataRoot } from "../data-root";
 import { registerIpcHandler } from "../ipc-register";
-import { filingDocument, filingHistory } from "../agents/edgar";
+import { daysBefore, filingDocument, filingHistory } from "../agents/edgar";
 import { graphEdges } from "../research/graph-edges";
 import { noteHeldNames } from "../guidance/register-guidance-handlers";
 import {
@@ -10,6 +10,7 @@ import {
   type FilingChangesResult,
   type FilingOverviewResult,
 } from "../../shared/filing-changes";
+import { isAnnual } from "./digest";
 import { createFilingParser } from "./parse-pool";
 import { spawnParseWorker } from "./parse-worker-spawn";
 import { createFilingsService, type FilingsService } from "./service";
@@ -40,6 +41,8 @@ const BACKGROUND_GAP_MS = 2_000;
 /** The watchlist comes after every held name, this far apart (three 10-K/10-Q documents a name, up to 15 MB each). */
 const WATCHLIST_GAP_MS = 30_000;
 const PRUNE_EVERY_MS = 24 * 60 * 60_000;
+/** The annual report before the latest is at most this far back (a late filer's included). */
+const ANNUALS_DAYS = 3 * 366;
 const startedAt = Date.now();
 let lastPruneAt = 0;
 
@@ -50,7 +53,12 @@ export function filings(): FilingsService {
   if (!service) {
     service = createFilingsService({
       dir: path.join(resolveDataRoot(), "filings"),
-      filings: filingHistory,
+      // A heavy filer (a bank's structured notes) has its annual report before the latest only in an older page of the index.
+      filings: (ticker) =>
+        filingHistory(ticker, {
+          since: daysBefore(ANNUALS_DAYS),
+          enough: (list) => list.filter((f) => isAnnual(f.form) && f.primaryDocument).length >= 2,
+        }),
       document: (f) => filingDocument({ ...f, acceptedAt: null }),
       graphEdges,
       backgroundStartAt: startedAt + BACKGROUND_HOLD_MS,

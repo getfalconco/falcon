@@ -1,4 +1,4 @@
-import { edgarAcceptanceIso, edgarIndexConvention } from "@meridian/research/edgar-time";
+import { edgarAcceptanceIso, edgarIndexConvention, inEdgarRebuildWindow } from "@meridian/research/edgar-time";
 import { secFetch as sharedSecFetch } from "@meridian/research/sec-fetch";
 import { exhibitFromIndex } from "../edgar/exhibit-index";
 import { htmlToText, parseForm4, type FilingRef, type FilingText, type InsiderTxn } from "./sources";
@@ -23,7 +23,24 @@ const TICKERS_TTL_MS = 24 * 60 * 60_000;
 const SUBMISSIONS_TTL_MS = 4 * 60_000;
 const TEXT_MAX_CHARS = 120_000;
 const RECENT_COUNT = 60;
+/**
+ * The newest entries kept whatever their form. Past them an index keeps all
+ * but the offering paperwork (`BULK_FORMS`): a bank's `filings.recent` holds
+ * a year of filings, some twenty-five thousand for JPM, nearly all 424B2
+ * pricing supplements for structured notes, with its 10-K some eighteen
+ * thousand entries down.
+ */
 const HISTORY_COUNT = 1000;
+/** Prospectus supplements and free writing prospectuses: nothing past the newest HISTORY_COUNT reads them. */
+const BULK_FORMS = /^(424[A-Z0-9]*|FWP)(\/A)?$/i;
+/** An older page of the index (`filings.files[]`) is kept a day: SEC only adds to the newest. */
+const PAGE_TTL_MS = 24 * 60 * 60_000;
+/** Older pages kept at most (with BULK_FORMS left out, a few dozen to a few hundred filings each). */
+const PAGE_KEEP_MAX = 240;
+/** Older pages read for one need at most: JPM's run about a month each, so this is four years. */
+const PAGES_MAX = 48;
+/** Older pages asked for at once (the SEC queue still spaces them). */
+const PAGES_PARALLEL = 4;
 
 /**
  * Through the process-wide SEC queue (@meridian/research/sec-fetch), shared
@@ -61,12 +78,18 @@ export async function resolveCik(ticker: string): Promise<string | null> {
   return map.get(t) ?? map.get(t.replace(".", "-")) ?? map.get(t.replace("-", ".")) ?? null;
 }
 
-const submissions = new Map<string, { at: number; filings: FilingRef[] }>();
+/** One older page of the index as `filings.files[]` lists it, newest first. */
+export type SubmissionsPageRef = { name?: string; filingCount?: number; filingFrom?: string; filingTo?: string };
+
+type KeptIndex = { at: number; filings: FilingRef[]; files: SubmissionsPageRef[] };
+
+const submissions = new Map<string, KeptIndex>();
 /**
- * A kept index (up to a thousand filings, about half a megabyte) is dropped
- * after a day, and no more than SUBMISSIONS_KEEP_MAX are kept: the
- * insiders card alone reads some sixty companies. A day still covers
- * `cachedFilingHistory`'s readers, which follow names read every few hours.
+ * A kept index (the newest thousand filings and the rest of its year but the
+ * offering paperwork) is dropped after a day, and no more than
+ * SUBMISSIONS_KEEP_MAX are kept: the insiders card alone reads some sixty
+ * companies. A day still covers `cachedFilingHistory`'s readers, which
+ * follow names read every few hours.
  */
 export const SUBMISSIONS_KEEP_MS = 24 * 60 * 60_000;
 export const SUBMISSIONS_KEEP_MAX = 120;
@@ -80,7 +103,11 @@ export function pruneKept<T extends { at: number }>(map: Map<string, T>, nowMs: 
     map.delete(oldest);
   }
 }
-const submissionsInflight = new Map<string, Promise<FilingRef[]>>();
+const submissionsInflight = new Map<string, Promise<KeptIndex>>();
+
+/** Older pages by file name; `ttl` is short for a page read while SEC may not have rebuilt it yet. */
+const pages = new Map<string, { at: number; ttl: number; filings: FilingRef[] }>();
+const pagesInflight = new Map<string, Promise<FilingRef[]>>();
 
 function archiveBase(cik: string, accession: string): string {
   return `https://www.sec.gov/Archives/edgar/data/${cik.replace(/^0+/, "")}/${accession.replace(/-/g, "")}`;
@@ -92,30 +119,148 @@ export async function recentFilings(ticker: string): Promise<FilingRef[]> {
 }
 
 /**
- * Every filing the submissions index lists (up to its last thousand), any
- * form, newest first. Same request and cache as `recentFilings`: the Stock
- * tab reads two years of 8-K releases and the window's Form 4s from it.
+ * What a reader needs from the older pages of the index. `filings.recent`
+ * covers at least a year, and for most companies many more; a heavy filer
+ * (a bank issuing structured notes) has only a year there and its earlier
+ * filings in `filings.files[]`, about a month to a page for JPM.
  */
-export async function filingHistory(ticker: string): Promise<FilingRef[]> {
+export type HistoryNeed = {
+  /** The oldest filing day the reader looks at ("YYYY-MM-DD"): a page wholly before it is never read. */
+  since: string;
+  /** Whether the filings so far (newest first) already answer: no older page is read once it holds. */
+  enough?: (filings: readonly FilingRef[]) => boolean;
+};
+
+/**
+ * Every filing the submissions index lists in `filings.recent` (the newest
+ * thousand of any form, and past them all but the offering paperwork), newest
+ * first. Same request and cache as `recentFilings`.
+ *
+ * With `need`, the older pages the reader still needs are read too (newest
+ * first, only those reaching `need.since`, stopping once `need.enough`
+ * holds) and their filings follow: the Stock tab's years of 8-K releases,
+ * Filing changes' annual report before the latest.
+ */
+export async function filingHistory(ticker: string, need?: HistoryNeed): Promise<FilingRef[]> {
   const cik = await resolveCik(ticker);
   if (!cik) return [];
+  const index = await submissionsIndex(cik);
+  return need ? withOlderPages(cik, index, need) : index.filings;
+}
+
+async function submissionsIndex(cik: string): Promise<KeptIndex> {
   const cached = submissions.get(cik);
-  if (cached && Date.now() - cached.at < SUBMISSIONS_TTL_MS) return cached.filings;
+  if (cached && Date.now() - cached.at < SUBMISSIONS_TTL_MS) return cached;
   const inflight = submissionsInflight.get(cik);
   if (inflight) return inflight;
   const request = (async () => {
     const res = await secFetch(`https://data.sec.gov/submissions/CIK${cik}.json`);
     if (!res.ok) throw new Error(`SEC filings request failed (${res.status})`);
-    const data = (await res.json()) as { filings?: { recent?: SubmissionsRecent } };
+    const data = (await res.json()) as { filings?: { recent?: SubmissionsRecent; files?: SubmissionsPageRef[] } };
     // The acceptance stamp's clock depends on this read of the file (research/edgar-time.ts).
     const filings = filingsFromSubmissions(cik, data.filings?.recent, Date.now());
+    const files = data.filings?.files;
+    const kept: KeptIndex = { at: Date.now(), filings, files: Array.isArray(files) ? files : [] };
     submissions.delete(cik);
-    submissions.set(cik, { at: Date.now(), filings });
+    submissions.set(cik, kept);
     pruneKept(submissions, Date.now());
-    return filings;
+    return kept;
   })().finally(() => submissionsInflight.delete(cik));
   submissionsInflight.set(cik, request);
   return request;
+}
+
+const PAGE_NAME = /^CIK\d{10}-submissions-\d{3,}\.json$/;
+
+/**
+ * The older pages that may hold filings on or after `since`, newest first:
+ * a page whose last filing day is before it is left out. Pure.
+ */
+export function olderPagesFor(files: readonly SubmissionsPageRef[] | undefined, since: string): string[] {
+  return (files ?? [])
+    .filter((f) => typeof f.name === "string" && PAGE_NAME.test(f.name) && (!f.filingTo || f.filingTo >= since))
+    .sort((a, b) => (b.filingTo ?? "9999").localeCompare(a.filingTo ?? "9999"))
+    .map((f) => f.name!);
+}
+
+/**
+ * The index's filings followed by those of the older pages `need` asks for,
+ * newest first, read a few at a time (so up to PAGES_PARALLEL - 1 past the
+ * one that satisfies `need.enough`). A page that cannot be read ends the
+ * read (what follows would leave a gap); what came before is still answered.
+ */
+async function withOlderPages(cik: string, index: KeptIndex, need: HistoryNeed): Promise<FilingRef[]> {
+  if (need.enough?.(index.filings)) return index.filings;
+  const names = olderPagesFor(index.files, need.since).slice(0, PAGES_MAX);
+  if (names.length === 0) return index.filings;
+  const out = [...index.filings];
+  const seen = new Set(out.map((f) => f.accession));
+  // One page first (an annual report is most often in it), then two, then PAGES_PARALLEL at a time.
+  for (let i = 0, size = 1; i < names.length; i += size, size = Math.min(size * 2, PAGES_PARALLEL)) {
+    const read = await Promise.all(
+      names.slice(i, i + size).map((name) =>
+        submissionsPage(cik, name).catch((err) => {
+          console.warn(`[edgar] ${name} not read:`, err instanceof Error ? err.message : String(err));
+          return null;
+        }),
+      ),
+    );
+    const gap = read.indexOf(null);
+    for (const page of gap === -1 ? read : read.slice(0, gap)) {
+      for (const f of page!) {
+        if (seen.has(f.accession)) continue;
+        seen.add(f.accession);
+        out.push(f);
+      }
+    }
+    if (gap !== -1 || need.enough?.(out)) break;
+  }
+  return out;
+}
+
+/** One older page of the index, its filings newest first, BULK_FORMS left out. */
+async function submissionsPage(cik: string, name: string): Promise<FilingRef[]> {
+  const cached = pages.get(name);
+  if (cached && Date.now() - cached.at < cached.ttl) return cached.filings;
+  const inflight = pagesInflight.get(name);
+  if (inflight) return inflight;
+  const request = (async () => {
+    const res = await secFetch(`https://data.sec.gov/submissions/${name}`);
+    if (!res.ok) throw new Error(`SEC filings page request failed (${res.status})`);
+    const fetchedAt = Date.now();
+    // Each page is a file of its own, with its own clock for the stamps (research/edgar-time.ts).
+    const filings = filingsFromSubmissions(cik, (await res.json()) as SubmissionsRecent, fetchedAt, 0);
+    pages.delete(name);
+    pages.set(name, { at: fetchedAt, ttl: inEdgarRebuildWindow(fetchedAt) ? SUBMISSIONS_TTL_MS : PAGE_TTL_MS, filings });
+    pruneKept(pages, Date.now(), PAGE_TTL_MS, PAGE_KEEP_MAX);
+    return filings;
+  })().finally(() => pagesInflight.delete(name));
+  pagesInflight.set(name, request);
+  return request;
+}
+
+/** Two item 2.02 filings closer than this are one report (a preliminary release, a re-filed exhibit). */
+const SAME_REPORT_DAYS = 20;
+
+/** How many earnings reports (8-K item 2.02; two within SAME_REPORT_DAYS count once) `filings` hold. Pure. */
+export function releaseCount(filings: readonly FilingRef[]): number {
+  const days = filings
+    .filter((f) => f.form === "8-K" && f.items.includes("2.02") && /^\d{4}-\d{2}-\d{2}$/.test(f.filedAt))
+    .map((f) => Date.parse(`${f.filedAt}T12:00:00Z`))
+    .sort((a, b) => b - a);
+  let count = 0;
+  let last: number | null = null;
+  for (const d of days) {
+    if (last !== null && (last - d) / 86_400_000 < SAME_REPORT_DAYS) continue;
+    count++;
+    last = d;
+  }
+  return count;
+}
+
+/** The day `days` before `nowMs` as "YYYY-MM-DD" (UTC: a need's bound, where a day either way does not matter). */
+export function daysBefore(days: number, nowMs = Date.now()): string {
+  return new Date(nowMs - days * 86_400_000).toISOString().slice(0, 10);
 }
 
 /**
@@ -132,7 +277,7 @@ export function cachedFilingHistory(ticker: string): FilingRef[] | null {
   return cik ? (submissions.get(cik)?.filings ?? null) : null;
 }
 
-/** The submissions index's `filings.recent` columns. */
+/** The submissions index's `filings.recent` columns (an older page carries the same at its top level). */
 export type SubmissionsRecent = {
   form?: string[];
   filingDate?: string[];
@@ -143,21 +288,25 @@ export type SubmissionsRecent = {
 };
 
 /**
- * The filings of a submissions index read at `fetchedAtMs`, newest first, each
- * with its true acceptance instant (`acceptedAtUtc`): SEC's stamp of an older
- * entry is shifted by New York's offset in a file rebuilt since 2026-10-03
- * (research/edgar-time.ts).
+ * The filings of a submissions file (the index's `filings.recent`, or an
+ * older page) read at `fetchedAtMs`, newest first, each with its true
+ * acceptance instant (`acceptedAtUtc`): SEC's stamp of an older entry is
+ * shifted by New York's offset in a file rebuilt since 2026-10-03
+ * (research/edgar-time.ts), so the clock is read from this file's own
+ * entries, all of them. The newest `keepAll` entries are kept whatever their
+ * form, the rest unless BULK_FORMS (an older page passes 0).
  * Pure.
  */
-export function filingsFromSubmissions(cik: string, r: SubmissionsRecent | undefined, fetchedAtMs: number): FilingRef[] {
+export function filingsFromSubmissions(cik: string, r: SubmissionsRecent | undefined, fetchedAtMs: number, keepAll = HISTORY_COUNT): FilingRef[] {
   const filings: FilingRef[] = [];
-  const count = Math.min(r?.form?.length ?? 0, HISTORY_COUNT);
+  const count = r?.form?.length ?? 0;
   // Some files write older entries as the true instant, most shifted: the file's own entries say which.
   const convention = edgarIndexConvention(r, fetchedAtMs);
   for (let i = 0; i < count; i++) {
     const form = r!.form![i];
     const accession = r!.accessionNumber?.[i];
     if (!form || !accession) continue;
+    if (i >= keepAll && BULK_FORMS.test(form.trim())) continue;
     const primary = r!.primaryDocument?.[i] || null;
     const filedAt = r!.filingDate?.[i] ?? "";
     const acceptedAt = edgarAcceptanceIso(r!.acceptanceDateTime?.[i], { filingDate: filedAt, fetchedAtMs, convention });

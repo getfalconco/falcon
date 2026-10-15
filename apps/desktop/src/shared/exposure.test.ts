@@ -168,6 +168,28 @@ describe("computeExposure: customers, overlaps, gaps", () => {
     assert.equal(s.customers[0]!.source.filer, "AMKR");
   });
 
+  it("names a share on the government node after the body the filing gives it for", () => {
+    // Lockheed Martin 10-K for 2025: 72% from the U.S. Government, "including 63% from the Department of War".
+    const gov = (name: string, detail: string | null, share: number | null, tier = "critical") =>
+      edge("LMT", null, {
+        counterparty_id: "name:us government",
+        counterparty_name: name,
+        counterparty_detail: detail,
+        counterparty_type: "government",
+        category: "customer",
+        strength_tier: tier,
+        disclosed_share_pct: share,
+      });
+    const lmt = computeExposure([gov("NASA", "NASA", null, "marginal"), gov("Department of Defense", "U.S. Department of Defense", 63)], {
+      scope: "account",
+      holdings: book(["LMT", 0.1]),
+    });
+    assert.deepEqual(lmt.customers[0]!.customers.map((c) => [c.name, c.share]), [["U.S. Department of Defense", 63]]);
+    // A share the filing gives for the government as a whole keeps that name.
+    const noc = computeExposure([gov("U.S. government", null, 84)], { scope: "account", holdings: book(["LMT", 0.1]) });
+    assert.deepEqual(noc.customers[0]!.customers.map((c) => [c.name, c.share]), [["U.S. government", 84]]);
+  });
+
   it("pairs the holdings that share the most names, not counting each other", () => {
     // QCOM is held too: its filing names both as suppliers, so it is a customer they share.
     assert.deepEqual(s.overlaps[0]!.shared.map((x) => x.key).sort(), ["GFS", "QCOM", "TSM", "UMC"]);

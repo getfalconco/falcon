@@ -18,6 +18,7 @@ import { maskDollarAmounts } from "./briefing-view";
 import { ENGLISH, formatterFor, weekdayDateLabel, ymdNoonUtc, type BriefingKey, type BriefingText } from "./briefing-text";
 import { MAX_BRIEFING_FACTS, type BriefingFact, type BriefingReport, type HeldFiling, type MarketHeadline, type Story } from "./briefing-types";
 import { isTradingDay } from "./calendar-days";
+import { LARGEST_CUSTOMER } from "./filing-changes";
 import { figureText } from "./guidance-view";
 
 export type HandoverKind = "news" | "earnings" | "filings" | "other";
@@ -371,7 +372,8 @@ export function factTitle(fact: BriefingFact, text: BriefingText = ENGLISH, toda
       return text.t(fact.role === "customer" ? "briefing.facts.customerNamed" : "briefing.facts.supplierNamed", { name: fact.name, form });
     case "share_change": {
       const vars = {
-        name: fact.name,
+        // Unnamed customers compared by size (main/filings/diff.ts) read in the reader's language.
+        name: fact.name === LARGEST_CUSTOMER ? text.t("briefing.facts.largestCustomer") : fact.name,
         pct: percentText(fact.pct, text),
         previous: fact.previous_pct === null ? "" : percentText(fact.previous_pct, text),
       };

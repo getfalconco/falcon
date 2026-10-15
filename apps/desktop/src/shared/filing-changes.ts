@@ -42,6 +42,14 @@ export const FILING_CHANGE_KINDS = [
 
 export type FilingChangeKind = (typeof FILING_CHANGE_KINDS)[number];
 
+/**
+ * The name a customer share item carries when it compares unnamed customers
+ * by size: the largest unnamed customer's share against the previous annual
+ * report's largest (a filing's "Customer A" need not be the same customer
+ * from one year to the next). The renderer says it in the reader's language.
+ */
+export const LARGEST_CUSTOMER = "Largest customer";
+
 export type FilingChangeItem = {
   id: string;
   kind: FilingChangeKind;
@@ -89,7 +97,16 @@ export type QuarterRiskStatus = "no_material_changes" | "updated" | "unclear";
  */
 export type RelationshipCoverage = "compared" | "graph_older" | "none";
 
-export type FilingChangesMissing = "annual" | "previous" | "risk_section" | "documents";
+/**
+ * What the comparison could not do:
+ *   annual / previous  no annual report, or only one, in the EDGAR index
+ *   risk_section       a report's risk factors section, or its headings, was not found
+ *   risk_unreadable    a report's risk factors section was found but did not read as
+ *                      risk factors (an integrated report's layout): no risk factor item,
+ *                      count or quarter line is given, and nothing is said about it
+ *   documents          a filing could not be read from EDGAR
+ */
+export type FilingChangesMissing = "annual" | "previous" | "risk_section" | "risk_unreadable" | "documents";
 
 export type FilingChanges = {
   ticker: string;

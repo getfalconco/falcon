@@ -5,8 +5,16 @@ import path from "node:path";
 import { describe, it } from "node:test";
 import { buildGraphFromResearchDir } from "./buildGraph.js";
 import { dedupeCandidates } from "./dedupe.js";
-import { backfillGraph, backfillRootEdges, stringifyLike } from "./disclosedShareBackfill.js";
-import { disclosedShareFromEvidence, disclosedShareOfEdge, quoteStatesPct } from "./strength.js";
+import { backfillGraph, backfillRootEdges, stringifyLike, tierRecomputePlan, withStrength } from "./disclosedShareBackfill.js";
+import {
+  candidateShare,
+  disclosedShareFromEvidence,
+  disclosedShareOfEdge,
+  quoteStatesCurrentPct,
+  quoteStatesPct,
+  STRENGTH_CLASSIFY_BATCH_SYSTEM,
+  STRENGTH_CLASSIFY_SYSTEM,
+} from "./strength.js";
 import type { CandidateEdge, ValidatedEdge } from "./types.js";
 
 const AMKR_QUOTE =
@@ -50,6 +58,26 @@ describe("disclosed share: reading a percentage from the evidence", () => {
     // A percentage the model inferred, with no quote stating it, is not a disclosure.
     assert.deepEqual(disclosedShareFromEvidence(30, [AMKR_QUOTE]), { disclosed_share_pct: null, disclosed_share_quote: null });
     assert.deepEqual(disclosedShareFromEvidence(null, [AMKR_QUOTE]), { disclosed_share_pct: null, disclosed_share_quote: null });
+  });
+
+  it("reads only the latest year's column of a table row as the share", () => {
+    // Cardinal Health 10-K for fiscal 2026: OptumRx was 17% of revenue in fiscal 2024 only.
+    const optum = "OptumRx — — 17 % — —";
+    assert.equal(quoteStatesCurrentPct(optum, 17), false);
+    assert.deepEqual(disclosedShareFromEvidence(17, [optum]), { disclosed_share_pct: null, disclosed_share_quote: null });
+    const cvs = "CVS Health 28 % 30 % 24 % 22 % 26 %";
+    assert.equal(quoteStatesCurrentPct(cvs, 28), true);
+    assert.equal(quoteStatesCurrentPct(cvs, 30), false);
+    assert.equal(quoteStatesCurrentPct("Customer A 20.9 % 20.0 % *", 20.9), true);
+    assert.equal(quoteStatesCurrentPct("Fiscal 2026 Customer A 15 %", 15), true);
+    // Prose is read whole: the second share of a sentence is as current as the first.
+    assert.equal(quoteStatesCurrentPct(AMKR_QUOTE, 11.1), true);
+    assert.equal(quoteStatesCurrentPct("Our largest customer, CVS Health, accounted for 28 percent of our fiscal 2026 revenue.", 28), true);
+    // A share recorded before the rule is read again through it.
+    const recorded = validated({ counterparty_name: "OptumRx", strength: 0.17, strength_tier: "critical", strength_basis: "disclosed", disclosed_share_pct: 17, disclosed_share_quote: optum });
+    assert.deepEqual(disclosedShareOfEdge(recorded), { disclosed_share_pct: null, disclosed_share_quote: null });
+    const kept = validated({ counterparty_name: "CVS Health", strength: 0.28, strength_tier: "critical", strength_basis: "disclosed", disclosed_share_pct: 28, disclosed_share_quote: cvs });
+    assert.deepEqual(disclosedShareOfEdge(kept), { disclosed_share_pct: 28, disclosed_share_quote: cvs });
   });
 
   it("tells a disclosed 30% from the marginal tier weight", () => {
@@ -184,5 +212,55 @@ describe("disclosed share: graph build and backfill", () => {
   it("writes a file back in its own format", () => {
     assert.equal(stringifyLike('{\r\n "a": 1\r\n}\r\n', { a: 1, b: 2 }), '{\r\n "a": 1,\r\n "b": 2\r\n}\r\n');
     assert.equal(stringifyLike('[\n  {\n    "a": 1\n  }\n]', [{ a: 1 }]), '[\n  {\n    "a": 1\n  }\n]');
+  });
+});
+
+describe("strength tier: a percentage counts only when a quote states it", () => {
+  const OPTUM = "OptumRx — — 17 % — —";
+
+  it("the pipeline hands the classifier the verified share, not the model's percentage", () => {
+    // 17% two years back (an earlier column): no share, so the tier is judged from the words.
+    assert.equal(candidateShare({ disclosed_revenue_dependency_pct: 17, evidence_quote: OPTUM, evidence_quotes: [OPTUM] }).disclosed_share_pct, null);
+    assert.equal(candidateShare({ disclosed_revenue_dependency_pct: 29.8, evidence_quote: AMKR_QUOTE, evidence_quotes: [AMKR_QUOTE] }).disclosed_share_pct, 29.8);
+    // A percentage no quote writes at all.
+    assert.equal(candidateShare({ disclosed_revenue_dependency_pct: 40, evidence_quote: "Apple is our largest customer." }).disclosed_share_pct, null);
+    for (const prompt of [STRENGTH_CLASSIFY_SYSTEM, STRENGTH_CLASSIFY_BATCH_SYSTEM]) assert.match(prompt, /disclosed_revenue_dependency_pct is null/);
+  });
+
+  it("plans the recompute: a stated share gives its tier, an unstated one goes back to the classifier", () => {
+    const optum = validated({
+      root_ticker: "CAH",
+      counterparty_name: "OptumRx",
+      strength: 0.17,
+      strength_tier: "critical",
+      strength_basis: "disclosed",
+      disclosed_share_pct: null,
+      disclosed_share_quote: null,
+      evidence: [{ quote: OPTUM, source_url: "https://www.sec.gov/x", located_at: "10-K Item 1/1A" }],
+    });
+    const apple = validated({
+      counterparty_name: "Apple",
+      strength: 0.298,
+      strength_tier: "critical",
+      strength_basis: "disclosed",
+      disclosed_share_pct: 29.8,
+      disclosed_share_quote: AMKR_QUOTE,
+      evidence: [{ quote: AMKR_QUOTE, source_url: "https://www.sec.gov/x", located_at: "10-K Item 1/1A" }],
+    });
+    // A stated share whose tier was classified instead.
+    const qualcomm = validated({
+      counterparty_name: "Qualcomm",
+      disclosed_share_pct: 11.1,
+      disclosed_share_quote: AMKR_QUOTE,
+      evidence: [{ quote: AMKR_QUOTE, source_url: "https://www.sec.gov/x", located_at: "10-K Item 1/1A" }],
+    });
+    const plain = validated({ counterparty_name: "Globex", disclosed_share_pct: null, disclosed_share_quote: null });
+    const plan = tierRecomputePlan([optum, apple, qualcomm, plain]);
+    assert.deepEqual(plan.reclassify, [0]);
+    assert.deepEqual(plan.fromShare, [{ index: 2, resolved: { strength: 0.111, strength_tier: "critical", strength_basis: "disclosed" } }]);
+
+    const fixed = withStrength(optum, { strength: 0.6, strength_tier: "important", strength_basis: "classified" });
+    assert.deepEqual(Object.keys(fixed), Object.keys(optum));
+    assert.deepEqual(tierRecomputePlan([fixed]), { fromShare: [], reclassify: [] });
   });
 });

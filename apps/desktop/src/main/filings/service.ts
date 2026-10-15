@@ -61,8 +61,14 @@ export { DIGEST_VERSION, digestOf, isAnnual, type FilingDigest, type FilingLike 
 const gunzip = promisify(zlib.gunzip);
 const gzip = promisify(zlib.gzip);
 
-/** 2: items carry `carried`. 3: built from v2 digests (auditor names read whole). */
-const CHANGES_VERSION = 3;
+/**
+ * 2: items carry `carried`. 3: built from v2 digests (auditor names read whole).
+ * 4: built from v3 digests (risk factors through the table of contents; an
+ * unreadable section gives no risk factor items). 5: built from v4 digests
+ * (customer shares from tables; unnamed customers compared as the largest),
+ * and a heading rewritten on the same subject is reworded, not new.
+ */
+const CHANGES_VERSION = 5;
 /** A kept answer that does not cover a filing asked about is read again, but not more often than this. */
 export const COVERING_RETRY_MS = 10 * 60_000;
 export const FAILURE_RETRY_MS = 30 * 60_000;
@@ -207,9 +213,14 @@ export function buildChanges(input: Inputs): FilingChanges {
   const latestRef = latest ? refOf(dLatest, latest) : null;
   const linkOf = (ref: FilingDocRef) => ref.sectionUrl ?? ref.url;
 
+  // A risk factors section that does not read as one (digest.ts RiskStatus): nothing about risk factors is said from it.
+  const unreadable = (d: FilingDigest | null) => d?.riskStatus === "unreadable";
+  const riskUnreadable = unreadable(dLatest) || unreadable(dPrev) || unreadable(dQuarter);
+  if (riskUnreadable) missing.push("risk_unreadable");
+
   // Risk factors: latest annual against the previous one.
   let riskCount: FilingChanges["riskCount"] = null;
-  if (latest && dLatest && previous && dPrev && latestRef) {
+  if (latest && dLatest && previous && dPrev && latestRef && !unreadable(dLatest) && !unreadable(dPrev)) {
     if (dLatest.headings.length === 0 || dPrev.headings.length === 0) missing.push("risk_section");
     else {
       riskCount = { latest: dLatest.headings.length, previous: dPrev.headings.length };
@@ -228,9 +239,11 @@ export function buildChanges(input: Inputs): FilingChanges {
 
   // The latest 10-Q's Item 1A against the annual report it updates.
   let quarterRisk: QuarterRiskStatus | null = null;
-  if (quarter && dQuarter && dLatest) {
+  if (quarter && dQuarter && dLatest && !unreadable(dQuarter) && !unreadable(dLatest)) {
     const qRef = refOf(dQuarter, quarter);
-    if (dQuarter.headings.length > 0) {
+    // Against an annual report with no headings read, every quarter heading would read as new.
+    if (dQuarter.headings.length > 0 && dLatest.headings.length === 0) quarterRisk = dQuarter.noMaterialChanges ? "no_material_changes" : "unclear";
+    else if (dQuarter.headings.length > 0) {
       quarterRisk = "updated";
       const diff = diffHeadings(dQuarter.headings, dLatest.headings);
       const base = { form: quarter.form, date: quarter.filedAt, url: linkOf(qRef) };
@@ -329,7 +342,18 @@ export function buildChanges(input: Inputs): FilingChanges {
       const base = { form: latest.form, date: latest.filedAt, url: latestRef.url, name: c.label, text: c.quote };
       const id = `${c.basis}:${companyKey(c.label)}`;
       if (c.kind === "share") {
-        items.push(item({ ...base, id: `customer_share:${latest.accession}:${id}`, kind: "customer_share", pct: c.pct, previousPct: c.previousPct, detail: c.basis, notable: Math.abs(c.pct - c.previousPct) >= SHARE_NOTABLE_POINTS }));
+        items.push(
+          item({
+            ...base,
+            id: `customer_share:${latest.accession}:${id}`,
+            kind: "customer_share",
+            pct: c.pct,
+            previousPct: c.previousPct,
+            previous: c.previousQuote,
+            detail: c.basis,
+            notable: Math.abs(c.pct - c.previousPct) >= SHARE_NOTABLE_POINTS,
+          }),
+        );
       } else if (c.kind === "new") {
         items.push(item({ ...base, id: `customer_share_new:${latest.accession}:${id}`, kind: "customer_share_new", pct: c.pct, detail: c.basis, notable: true }));
       } else if (!(input.latestText && namedIn(c.label, input.latestText))) {
@@ -347,8 +371,10 @@ export function buildChanges(input: Inputs): FilingChanges {
   if (newest && dPrior) {
     for (const it of items) {
       if (it.id.split(":")[1] !== newest.accession) continue;
-      if (it.kind === "risk_new" || it.kind === "quarter_risk_new") it.carried = headingIn(it.text ?? "", dPrior.headings);
-      else if (it.kind === "going_concern") it.carried = dPrior.goingConcern !== null;
+      if (it.kind === "risk_new" || it.kind === "quarter_risk_new") {
+        // Not known when that report's risk factors could not be read.
+        if (!unreadable(dPrior)) it.carried = headingIn(it.text ?? "", dPrior.headings);
+      } else if (it.kind === "going_concern") it.carried = dPrior.goingConcern !== null;
       else if (it.kind === "material_weakness") it.carried = dPrior.materialWeakness !== null;
     }
   }

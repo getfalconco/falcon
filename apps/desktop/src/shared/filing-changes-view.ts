@@ -8,7 +8,7 @@
  */
 
 import type { Say } from "./earnings-view";
-import type { FilingChangeItem, FilingChangeKind, FilingDocRef } from "./filing-changes";
+import { LARGEST_CUSTOMER, type FilingChangeItem, type FilingChangeKind, type FilingDocRef } from "./filing-changes";
 
 function formatter(lang: string, options: Intl.DateTimeFormatOptions): Intl.DateTimeFormat {
   try {
@@ -46,6 +46,7 @@ const COUNTED: ReadonlySet<FilingChangeKind> = new Set(["risk_new", "quarter_ris
 export function changeLabel(item: FilingChangeItem, say: Say, lang: string, count = 1): string {
   if (count > 1 && COUNTED.has(item.kind)) return say(`filings.many.${item.kind}`, { count });
   const basis = item.detail === "receivables" ? "receivables" : "revenue";
+  const customer = item.name === LARGEST_CUSTOMER ? say("filings.name.largestCustomer") : (item.name ?? "");
   switch (item.kind) {
     case "auditor_name":
       return say("filings.kind.auditor_name", { previous: item.previous ?? "", name: item.name ?? "" });
@@ -55,11 +56,11 @@ export function changeLabel(item: FilingChangeItem, say: Say, lang: string, coun
     case "supplier_named":
       return say(`filings.kind.${item.kind}`, { name: item.name ?? "" });
     case "customer_share":
-      return say(`filings.kind.customer_share.${basis}`, { name: item.name ?? "", pct: sharePct(item.pct, lang), previous: sharePct(item.previousPct, lang) });
+      return say(`filings.kind.customer_share.${basis}`, { name: customer, pct: sharePct(item.pct, lang), previous: sharePct(item.previousPct, lang) });
     case "customer_share_new":
-      return say(`filings.kind.customer_share_new.${basis}`, { name: item.name ?? "", pct: sharePct(item.pct, lang) });
+      return say(`filings.kind.customer_share_new.${basis}`, { name: customer, pct: sharePct(item.pct, lang) });
     case "customer_share_dropped":
-      return say(`filings.kind.customer_share_dropped.${basis}`, { name: item.name ?? "", previous: sharePct(item.previousPct, lang) });
+      return say(`filings.kind.customer_share_dropped.${basis}`, { name: customer, previous: sharePct(item.previousPct, lang) });
     default:
       return say(`filings.kind.${item.kind}`);
   }
