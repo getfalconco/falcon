@@ -54,7 +54,7 @@ const ITEMS: FaqItem[] = [
   {
     question: "Can I track my own portfolio?",
     answer:
-      "Yes. Connect your brokerage and your positions come in automatically, then Falcon watches each one against the news it is already reading. Holdings refresh in the background, so the book you see is the book you hold.",
+      "Yes. Add the names you hold to your paper account in Falcon, or list them when you set up your desk, and Falcon watches each one against the news it is already reading. You can also link a brokerage through SnapTrade with read-only access. Today that brings in your account balances, not the individual positions, so the names you want watched still go in by hand.",
   },
   {
     question: "How often does Falcon check the news?",
@@ -94,7 +94,7 @@ const ITEMS: FaqItem[] = [
   {
     question: "Can I cancel or change my plan later?",
     answer:
-      "Yes. You can move up a tier, move down, or cancel from your account whenever you want. The founding-member discount is tied to the account, so it carries across whichever plan you land on.",
+      "There is nothing to cancel yet. Early access has no billing: no card on file, nothing that renews, nothing to switch off. When paid plans open, the founding-member discount stays tied to your account, so it carries across whichever plan you pick.",
   },
 ];
 

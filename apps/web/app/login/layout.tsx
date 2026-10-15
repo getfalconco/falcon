@@ -1,12 +1,7 @@
-import { Playfair_Display } from "next/font/google";
+import { playfair } from "../fonts";
 import FullscreenLock from "../components/FullscreenLock";
 import "../auth-theme.css";
 
-const playfair = Playfair_Display({
-  subsets: ["latin"],
-  variable: "--font-serif",
-  display: "swap",
-});
 
 export default function LoginLayout({ children }: { children: React.ReactNode }) {
   return (

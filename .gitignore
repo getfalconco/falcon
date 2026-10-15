@@ -67,6 +67,11 @@ apps/desktop/data/gauge/
 # The handover briefing caches one report per user and session here. It holds
 # a reader's positions, so unlike data/insight it must never be tracked.
 apps/desktop/data/briefing/
+# Profile photos (main/profile) — a reader's own picture, never tracked.
+apps/desktop/data/profile/
+# Settings → System / Notifications (main/system, main/notifications) — this machine's own choices.
+apps/desktop/data/system/
+apps/desktop/data/notifications/
 # Development diagnostics (main/diagnostics/model-selftest.ts) write here; per run, never shared.
 apps/desktop/data/logs/
 # stale artifact of the old double-path bug — never commit this
@@ -97,3 +102,13 @@ packages/research/.tmp-prop.json
 # Extraction eval dataset — rebuilt from the step1 cache with 'pnpm dataset:build'.
 # ~11MB of filing text that already lives in the cache; derived, not source.
 data/dataset/
+
+# Desktop runtime data (dev data root is apps/desktop/data): per-user or cache files, never committed.
+apps/desktop/data/agents/
+apps/desktop/data/calendar/
+apps/desktop/data/earnings/
+apps/desktop/data/news/
+apps/desktop/data/snaptrade/
+apps/desktop/data/account-cleanup.json
+apps/desktop/data/ui-language.json
+apps/desktop/data/data-location.json

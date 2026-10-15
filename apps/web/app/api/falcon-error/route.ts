@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getSupabaseAdmin } from "@/lib/supabase-admin";
 import { clientIp, rateLimit } from "@/lib/rate-limit";
+import { logIdentity, scrubLogText, scrubLogUrl } from "@/lib/log-identity";
 
 /**
  * Client-side Falcon errors (especially FAL-NET-01 / FAL-JOB-03) never reach
@@ -11,6 +12,13 @@ import { clientIp, rateLimit } from "@/lib/rate-limit";
  *   FALCON_ERROR_LOG_WEBHOOK_URL   — alias if Netlify isn't using the worker name yet
  *
  * Never DISCORD_WEBHOOK_URL (that's git push/pull).
+ *
+ * Optional, server-only:
+ *   ERROR_LOG_ID_SALT  secret used to turn the reporter's user id into a stable
+ *                      pseudonym (lib/log-identity hashedUserId). Without it the
+ *                      line falls back to a masked email (k***@yahoo.com).
+ *
+ * The line never carries a name, a full email, a token or an IP address.
  */
 
 export const dynamic = "force-dynamic";
@@ -38,17 +46,8 @@ function json(body: unknown, status = 200): NextResponse {
   return NextResponse.json(body, { status, headers: CORS });
 }
 
-function redact(text: string): string {
-  return text
-    .replace(/Bearer\s+\S+/gi, "Bearer [redacted]")
-    .replace(/\bsk-[A-Za-z0-9_-]+/g, "[redacted]")
-    .replace(/https:\/\/discord(?:app)?\.com\/api\/webhooks\/\S+/gi, "[webhook]")
-    .replace(/\n+/g, " ")
-    .trim();
-}
-
-function looksLikeSecretUrl(value: string): boolean {
-  return /discord(?:app)?\.com\/api\/webhooks/i.test(value) || /sk-[A-Za-z0-9_-]{8,}/.test(value);
+function errorLogSalt(): string | null {
+  return process.env.ERROR_LOG_ID_SALT?.trim() || null;
 }
 
 function looksLikeRealEmail(value: string | null | undefined): value is string {
@@ -65,57 +64,21 @@ function isPlaceholderEmail(value: string): boolean {
   return false;
 }
 
-function displayNameFromMetadata(
-  meta: Record<string, unknown> | undefined,
-  email: string | null,
-): string | null {
-  if (meta) {
-    for (const key of ["full_name", "name", "display_name"]) {
-      const value = meta[key];
-      if (typeof value === "string" && value.trim() && !value.trim().startsWith("(")) {
-        return value.trim();
-      }
-    }
-  }
-  const local = email?.split("@")[0]?.trim();
-  return local && !local.startsWith("(") ? local : null;
-}
-
-function emailFromIdentities(identities: unknown, fromJwt = false): string | null {
-  if (!Array.isArray(identities)) return null;
-  for (const identity of identities) {
-    if (!identity || typeof identity !== "object") continue;
-    const data = (identity as { identity_data?: unknown }).identity_data;
-    if (!data || typeof data !== "object") continue;
-    const nested = (data as { email?: unknown }).email;
-    if (typeof nested !== "string" || !looksLikeRealEmail(nested)) continue;
-    // Sample placeholder is only rejected on client-supplied body, not JWT lookup.
-    if (!fromJwt && isPlaceholderEmail(nested)) continue;
-    return nested.trim();
-  }
-  return null;
-}
-
 function formatLine(input: {
   code: string;
   message: string;
   ticker: string | null;
   client: string;
   apiUrl: string | null;
-  name: string | null;
-  email: string | null;
+  who: string;
 }): string {
-  const parts = [
-    input.code,
-    `user: ${input.name || "(unknown)"}`,
-    `email: ${input.email || "(unknown)"}`,
-  ];
-  if (input.ticker) parts.push(`ticker: ${input.ticker}`);
-  if (input.client) parts.push(`client: ${input.client}`);
-  if (input.apiUrl && !looksLikeSecretUrl(input.apiUrl)) {
-    parts.push(`api: ${input.apiUrl.slice(0, 180)}`);
-  }
-  const message = redact(input.message).slice(0, 400);
+  const parts = [input.code, `user: ${input.who}`];
+  const ticker = scrubLogText(input.ticker);
+  if (ticker) parts.push(`ticker: ${ticker}`);
+  if (input.client) parts.push(`client: ${scrubLogText(input.client)}`);
+  const api = scrubLogUrl(input.apiUrl);
+  if (api) parts.push(`api: ${api}`);
+  const message = scrubLogText(input.message).slice(0, 400);
   if (message) parts.push(message);
   return parts.join(" · ").slice(0, 1800);
 }
@@ -126,27 +89,21 @@ function bearerToken(request: Request): string | null {
   return token.length > 0 ? token : null;
 }
 
-function identityFromBody(user: Record<string, unknown>): {
-  name: string | null;
-  email: string | null;
-} {
+/**
+ * Unverified email a client put in the body. Only ever logged masked, and
+ * names in the body are ignored outright.
+ */
+function emailFromBody(user: Record<string, unknown>): string | null {
   const rawEmail = typeof user.email === "string" ? user.email.trim() : "";
-  const email =
-    looksLikeRealEmail(rawEmail) && !isPlaceholderEmail(rawEmail) ? rawEmail.slice(0, 120) : null;
-  const rawName =
-    typeof user.name === "string"
-      ? user.name.trim()
-      : typeof user.displayName === "string"
-        ? user.displayName.trim()
-        : "";
-  const name = rawName && !rawName.startsWith("(") ? rawName.slice(0, 80) : null;
-  return { name, email };
+  return looksLikeRealEmail(rawEmail) && !isPlaceholderEmail(rawEmail)
+    ? rawEmail.slice(0, 120)
+    : null;
 }
 
 /** JWT identity wins. Missing admin config must not block Discord. */
 async function identityFromJwt(
   request: Request,
-): Promise<{ name: string | null; email: string | null } | null> {
+): Promise<{ userId: string; email: string | null } | null> {
   const token = bearerToken(request);
   if (!token) return null;
 
@@ -154,15 +111,8 @@ async function identityFromJwt(
     const admin = getSupabaseAdmin();
     const { data, error } = await admin.auth.getUser(token);
     if (error || !data.user) return null;
-
-    const rawEmail =
-      data.user.email?.trim() || emailFromIdentities(data.user.identities, true);
-    const email = looksLikeRealEmail(rawEmail) ? rawEmail.trim().slice(0, 120) : null;
-    const name = displayNameFromMetadata(
-      data.user.user_metadata as Record<string, unknown> | undefined,
-      email,
-    );
-    return { name, email };
+    const email = data.user.email?.trim() || null;
+    return { userId: data.user.id, email: looksLikeRealEmail(email) ? email : null };
   } catch {
     return null;
   }
@@ -201,15 +151,18 @@ export async function POST(request: Request) {
   const user =
     row.user && typeof row.user === "object" ? (row.user as Record<string, unknown>) : {};
   const fromJwt = await identityFromJwt(request);
-  const fromBody = identityFromBody(user);
+  // A verified session gets the salted id tag (or its masked email without a
+  // salt). An unverified body email is only ever shown masked.
+  const who = fromJwt
+    ? logIdentity({ userId: fromJwt.userId, email: fromJwt.email }, errorLogSalt())
+    : logIdentity({ email: emailFromBody(user) }, null);
   const line = formatLine({
     code,
     message: typeof row.message === "string" ? row.message : "",
     ticker: typeof row.ticker === "string" ? row.ticker.trim().slice(0, 16) : null,
     client: typeof row.client === "string" ? row.client.trim().slice(0, 32) : "mobile",
     apiUrl: typeof row.apiUrl === "string" ? row.apiUrl.trim() : null,
-    name: fromJwt?.name || fromBody.name,
-    email: fromJwt?.email || fromBody.email,
+    who,
   });
 
   const hook = webhookUrl();
@@ -224,7 +177,8 @@ export async function POST(request: Request) {
     const res = await fetch(hook, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ content: line }),
+      // No pings: client text must never reach @everyone or a role.
+      body: JSON.stringify({ content: line, allowed_mentions: { parse: [] } }),
     });
     if (!res.ok) {
       const text = await res.text().catch(() => "");

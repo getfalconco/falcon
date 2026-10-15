@@ -2,7 +2,12 @@
 
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
-import { isWaitlistUser, setWaitlistFlag, updatePassword } from "@/lib/auth";
+import {
+  isWaitlistUser,
+  setWaitlistFlag,
+  signOutWaitlistMember,
+  updatePassword,
+} from "@/lib/auth";
 import { requireSupabase } from "@/lib/supabase";
 import { cn } from "@/lib/utils";
 
@@ -36,8 +41,10 @@ export default function SetPasswordForm({ onSuccess, onWaitlist }: Props) {
       await updatePassword(client, password);
       const { data } = await client.auth.getUser();
       if (isWaitlistUser(data.user)) {
-        await client.auth.signOut();
-        setWaitlistFlag(true);
+        const {
+          data: { session },
+        } = await client.auth.getSession();
+        await signOutWaitlistMember(client, session, data.user);
         onWaitlist();
         return;
       }

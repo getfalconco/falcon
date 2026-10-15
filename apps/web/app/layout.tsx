@@ -1,28 +1,9 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display, Libre_Baskerville } from "next/font/google";
+import { inter, playfair, libreBaskerville } from "./fonts";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import "./globals.css";
 import { SEO } from "@/lib/marketing-copy";
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-  display: "swap",
-});
-
-const playfair = Playfair_Display({
-  subsets: ["latin"],
-  variable: "--font-serif",
-  display: "swap",
-});
-
-const libreBaskerville = Libre_Baskerville({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-  variable: "--font-libre-baskerville",
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   // Browser tabs get the bare name; the full line still goes to search and

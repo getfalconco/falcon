@@ -10,11 +10,15 @@ import AuthSplitShell from "../components/AuthSplitShell";
 import LoginForm from "../components/LoginForm";
 import WaitlistView from "../components/WaitlistView";
 import {
+  hasSavedName,
+  ownSessionFor,
   readWaitlistEmail as readStoredWaitlistEmail,
   readWaitlistFlag,
+  saveWaitlistName,
   setWaitlistEmail as storeWaitlistEmail,
   setWaitlistFlag,
 } from "@/lib/auth";
+import { isSupabaseConfigured, requireSupabase } from "@/lib/supabase";
 
 type WaitlistStep = "login" | "name" | "waitlist";
 
@@ -33,16 +37,15 @@ function safeInternalPath(path: string | null | undefined, fallback: string): st
 const inputClass =
   "w-full border border-black/10 bg-transparent px-4 py-3 text-sm text-[#1d1b1b] outline-none transition placeholder:text-[#9a9a9a] focus:border-black/30";
 
-/** True when the waitlist account already has a saved name. */
-async function hasSavedName(email: string): Promise<boolean> {
-  try {
-    const res = await fetch(`/api/waitlist?email=${encodeURIComponent(email)}`);
-    if (!res.ok) return false;
-    const data = (await res.json()) as { found?: boolean; name?: string | null };
-    return Boolean(data.found && data.name);
-  } catch {
-    return false;
-  }
+/**
+ * The name step runs only when the saved ticket (read with the member's own
+ * session at sign-in, never looked up by email) has no name, and while that
+ * session still exists: saving the name needs it. Without one the member goes
+ * straight to the waitlist screen.
+ */
+async function needsNameStep(email: string): Promise<boolean> {
+  if (hasSavedName(email) || !isSupabaseConfigured) return false;
+  return (await ownSessionFor(requireSupabase(), email)) !== null;
 }
 
 /** Asked once right after account creation, before the waitlist screen. */
@@ -57,13 +60,9 @@ function NameCaptureView({ email, onDone }: { email: string; onDone: () => void 
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch("/api/waitlist", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: name.trim(), email }),
-      });
-      const data = (await res.json()) as { ok?: boolean; error?: string };
-      if (!res.ok) throw new Error(data.error ?? "Something went wrong.");
+      // Saved with the member's own session, which the sign-in kept for this
+      // step; it signs them out afterwards (lib/auth saveWaitlistName).
+      await saveWaitlistName(requireSupabase(), email, name.trim());
       onDone();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong.");
@@ -144,7 +143,7 @@ function LoginPageContent() {
     (async () => {
       // Ask for the name first if the account doesn't have one yet.
       const next: WaitlistStep =
-        stored && !(await hasSavedName(stored)) ? "name" : "waitlist";
+        stored && (await needsNameStep(stored)) ? "name" : "waitlist";
       if (!stale) setStep(next);
     })();
     return () => {
@@ -164,7 +163,7 @@ function LoginPageContent() {
       return;
     }
     void (async () => {
-      setStep((await hasSavedName(effective)) ? "waitlist" : "name");
+      setStep((await needsNameStep(effective)) ? "name" : "waitlist");
     })();
   }
 

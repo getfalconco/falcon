@@ -20,6 +20,9 @@ const WAITLIST_STORAGE_KEY = "meridian-waitlist";
 // this is the only trace of who they are — the login screen and
 // /early-access both read it to recognise them.
 const WAITLIST_EMAIL_KEY = "meridian-waitlist-email";
+// The member's own ticket (name, number, join date), read with their session
+// before sign-out. Only ever their own: the server answers for the token.
+const WAITLIST_CARD_KEY = "meridian-waitlist-card";
 
 /**
  * Approval is authoritative ONLY from app_metadata, which is service-role-only.
@@ -78,6 +81,288 @@ export function readWaitlistEmail(): string | null {
 
 export function setWaitlistEmail(email: string | null): void {
   writeStored(WAITLIST_EMAIL_KEY, email);
+  // The ticket belongs to that email; forgetting the email forgets the ticket.
+  if (email === null) writeStored(WAITLIST_CARD_KEY, null);
+}
+
+/** The member's own ticket, as GET /api/waitlist/me returns it. */
+export type WaitlistCard = {
+  name: string | null;
+  memberNumber: number | null;
+  grantedAt: string | null;
+  approved: boolean;
+};
+
+type StoredCard = WaitlistCard & { email: string };
+
+/**
+ * The ticket saved for `email`, or null. Waitlist members are signed out right
+ * after auth, so the status screens cannot ask the server again later: the
+ * ticket is read once with the session (captureWaitlistCard) and kept here.
+ */
+export function readWaitlistCard(email: string | null | undefined): WaitlistCard | null {
+  const raw = readStored(WAITLIST_CARD_KEY);
+  if (!raw || !email) return null;
+  try {
+    const card = JSON.parse(raw) as Partial<StoredCard>;
+    if (card.email !== email.trim().toLowerCase()) return null;
+    return {
+      name: typeof card.name === "string" ? card.name : null,
+      memberNumber: typeof card.memberNumber === "number" ? card.memberNumber : null,
+      grantedAt: typeof card.grantedAt === "string" ? card.grantedAt : null,
+      approved: card.approved === true,
+    };
+  } catch {
+    return null;
+  }
+}
+
+export function setWaitlistCard(email: string, card: WaitlistCard): void {
+  const stored: StoredCard = { ...card, email: email.trim().toLowerCase() };
+  writeStored(WAITLIST_CARD_KEY, JSON.stringify(stored));
+}
+
+/**
+ * The signed-in user's own ticket from GET /api/waitlist/me, authenticated by
+ * their access token. Null when they are not a member or the call fails.
+ */
+export async function fetchOwnMembership(accessToken: string): Promise<WaitlistCard | null> {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 6000);
+  try {
+    const res = await fetch("/api/waitlist/me", {
+      headers: { Authorization: `Bearer ${accessToken}` },
+      cache: "no-store",
+      signal: controller.signal,
+    });
+    if (!res.ok) return null;
+    const data = (await res.json()) as { found?: boolean } & Partial<WaitlistCard>;
+    if (data.found !== true) return null;
+    return {
+      name: data.name ?? null,
+      memberNumber: data.memberNumber ?? null,
+      grantedAt: data.grantedAt ?? null,
+      approved: data.approved === true,
+    };
+  } catch {
+    return null;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+/**
+ * Reads the member's ticket while the session still exists and saves it with
+ * their email, so the waitlist screens can show it after sign-out.
+ */
+async function captureWaitlistCard(session: Session, user: User | null): Promise<void> {
+  const email = (user?.email ?? session.user?.email ?? "").trim().toLowerCase();
+  if (!email) return;
+  setWaitlistEmail(email);
+  const card = await fetchOwnMembership(session.access_token);
+  if (card) setWaitlistCard(email, card);
+}
+
+/** True when the ticket saved for `email` carries a name. */
+export function hasSavedName(email: string | null | undefined): boolean {
+  return Boolean(readWaitlistCard(email)?.name?.trim());
+}
+
+/**
+ * Waitlisted accounts don't stay signed in. Save their ticket first (it needs
+ * the session), then sign out and leave the waitlist flag.
+ *
+ * One exception: a member whose ticket has no name yet keeps the session
+ * through the name step on the login screen, because saving the name needs
+ * it (POST /api/waitlist only updates an existing account for its own token).
+ * saveWaitlistName finishes the sign-out.
+ */
+export async function signOutWaitlistMember(
+  client: SupabaseClient,
+  session: Session | null,
+  user: User | null,
+): Promise<void> {
+  if (session) {
+    await captureWaitlistCard(session, user);
+    const email = (user?.email ?? session.user?.email ?? "").trim().toLowerCase();
+    if (email && !hasSavedName(email)) {
+      setWaitlistFlag(true);
+      return;
+    }
+  }
+  await client.auth.signOut();
+  setWaitlistFlag(true);
+}
+
+/**
+ * The live session for `email`, or null. Used by the name step, which may
+ * only run while the member's own session still exists.
+ */
+export async function ownSessionFor(
+  client: SupabaseClient,
+  email: string | null | undefined,
+): Promise<Session | null> {
+  const wanted = email?.trim().toLowerCase();
+  if (!wanted) return null;
+  try {
+    const {
+      data: { session },
+    } = await client.auth.getSession();
+    return session?.user?.email?.trim().toLowerCase() === wanted ? session : null;
+  } catch {
+    return null;
+  }
+}
+
+type WaitlistPayload = {
+  name?: string;
+  email: string;
+  password?: string;
+  phone?: string;
+  application?: Record<string, string>;
+};
+
+/**
+ * POST /api/waitlist. Without a token it can only create a new account; an
+ * existing account is updated only for its own access token.
+ */
+async function postWaitlist(
+  payload: WaitlistPayload,
+  accessToken?: string,
+): Promise<{ ok: boolean; error?: string; memberNumber?: number | null }> {
+  const res = await fetch("/api/waitlist", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
+    },
+    body: JSON.stringify(payload),
+  });
+  const data = (await res.json().catch(() => ({}))) as {
+    ok?: boolean;
+    error?: string;
+    memberNumber?: number | null;
+  };
+  return { ...data, ok: res.ok && data.ok === true };
+}
+
+/**
+ * The name step on the login screen. Saves the name on the member's own
+ * account with their session, then signs them out like any waitlist member
+ * (the ticket is read again on the way out, now with the name).
+ */
+export async function saveWaitlistName(
+  client: SupabaseClient,
+  email: string,
+  name: string,
+): Promise<void> {
+  const session = await ownSessionFor(client, email);
+  if (!session) throw new Error("Your session has ended. Sign in again to add your name.");
+
+  const result = await postWaitlist({ name, email }, session.access_token);
+  if (!result.ok) throw new Error(result.error ?? "Something went wrong.");
+
+  // Put the name on the saved ticket right away, so the waitlist screen
+  // shows it even if reading the ticket again fails.
+  const card = readWaitlistCard(email);
+  setWaitlistCard(email, {
+    name,
+    memberNumber: result.memberNumber ?? card?.memberNumber ?? null,
+    grantedAt: card?.grantedAt ?? null,
+    approved: card?.approved === true,
+  });
+  await signOutWaitlistMember(client, session, session.user);
+}
+
+export type ApplicationSubmission = {
+  fullName: string;
+  email: string;
+  phone: string;
+  password: string;
+  application: Record<string, string>;
+};
+
+/**
+ * The early-access application. The unauthenticated POST creates the account
+ * when the email is new (for a taken email the server changes nothing). Then
+ * the applicant is signed in with the password they just chose: that applies
+ * the answers to an account they already own, and reads their member number
+ * with their own session. Waitlist members are signed out again right after.
+ *
+ * A new account starts with an unconfirmed email, so the password sign-in is
+ * refused until the applicant proves the address is theirs. In that case a
+ * code is emailed and the answer carries `verifyEmail`: the flow shows the
+ * code step, and finishApplicationWithSession completes the same work once
+ * the code is verified.
+ */
+export async function submitApplication(
+  client: SupabaseClient | null,
+  submission: ApplicationSubmission,
+): Promise<{ memberNumber: number | null; verifyEmail?: string }> {
+  const email = submission.email.trim().toLowerCase();
+  const payload = applicationPayload(submission);
+
+  const created = await postWaitlist(payload);
+  if (!created.ok) throw new Error(created.error ?? "Something went wrong. Please try again.");
+  if (!client) return { memberNumber: null };
+
+  try {
+    const { data, error } = await client.auth.signInWithPassword({
+      email,
+      password: submission.password,
+    });
+    if (error) {
+      // Only reached with the right password (Supabase checks it first), so
+      // the code goes to someone who already knows this account's password.
+      if (isEmailNotConfirmed(error)) {
+        await client.auth.resend({ type: "signup", email });
+        return { memberNumber: null, verifyEmail: email };
+      }
+      return { memberNumber: null };
+    }
+    if (!data.session) return { memberNumber: null };
+
+    const memberNumber = await finishApplicationWithSession(data.session, submission);
+    await resolveSessionUser(client, data.session, data.user);
+    return { memberNumber };
+  } catch {
+    // The application itself went through; only the number is missing.
+    return { memberNumber: null };
+  }
+}
+
+function applicationPayload(submission: ApplicationSubmission): WaitlistPayload {
+  return {
+    name: submission.fullName,
+    email: submission.email.trim().toLowerCase(),
+    password: submission.password,
+    phone: submission.phone,
+    application: submission.application,
+  };
+}
+
+/**
+ * Applies the answers to the applicant's own account with their session and
+ * reads their member number. Never throws: the application already exists.
+ */
+export async function finishApplicationWithSession(
+  session: Session,
+  submission: ApplicationSubmission,
+): Promise<number | null> {
+  try {
+    const own = await postWaitlist(applicationPayload(submission), session.access_token);
+    const card = await fetchOwnMembership(session.access_token);
+    return card?.memberNumber ?? own.memberNumber ?? null;
+  } catch {
+    return null;
+  }
+}
+
+function isEmailNotConfirmed(error: { message?: string; code?: string } | null): boolean {
+  if (!error) return false;
+  if (error.code === "email_not_confirmed") return true;
+  const msg = (error.message ?? "").toLowerCase();
+  return msg.includes("email not confirmed") || msg.includes("not confirmed");
 }
 
 async function resolveSessionUser(
@@ -86,38 +371,11 @@ async function resolveSessionUser(
   user: User | null,
 ): Promise<Exclude<ContinueResult, { type: "confirm_email" }>> {
   if (isWaitlistUser(user)) {
-    await client.auth.signOut();
-    setWaitlistFlag(true);
+    await signOutWaitlistMember(client, session, user);
     return { type: "waitlist" };
   }
   setWaitlistFlag(false);
   return { type: "signed_in", session };
-}
-
-async function ensureEmailConfirmed(email: string): Promise<boolean> {
-  const endpoints = [
-    typeof window !== "undefined" ? `${window.location.origin}/api/auth/ensure-email` : null,
-    process.env.NEXT_PUBLIC_SITE_URL
-      ? `${process.env.NEXT_PUBLIC_SITE_URL.replace(/\/$/, "")}/api/auth/ensure-email`
-      : null,
-    "https://getfalcon.co/api/auth/ensure-email",
-  ].filter(Boolean) as string[];
-
-  for (const url of endpoints) {
-    try {
-      const res = await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
-      if (!res.ok) continue;
-      const data = (await res.json()) as { confirmed?: boolean };
-      if (data.confirmed) return true;
-    } catch {
-      // try next endpoint
-    }
-  }
-  return false;
 }
 
 /**
@@ -127,12 +385,7 @@ async function ensureEmailConfirmed(email: string): Promise<boolean> {
  */
 async function joinWaitlistServerSide(email: string, password: string): Promise<boolean> {
   try {
-    const res = await fetch("/api/waitlist", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    });
-    return res.ok;
+    return (await postWaitlist({ email, password })).ok;
   } catch {
     return false;
   }
@@ -145,9 +398,6 @@ export async function continueWithEmailPassword(
 ): Promise<ContinueResult> {
   const trimmedEmail = email.trim();
 
-  // Known accounts: make sure the email is confirmed before password auth.
-  await ensureEmailConfirmed(trimmedEmail);
-
   const { data: signInData, error: signInError } = await client.auth.signInWithPassword({
     email: trimmedEmail,
     password,
@@ -157,25 +407,12 @@ export async function continueWithEmailPassword(
     return resolveSessionUser(client, signInData.session, signInData.user);
   }
 
-  if (signInError) {
-    const msg = signInError.message.toLowerCase();
-    if (msg.includes("email not confirmed") || msg.includes("not confirmed")) {
-      const fixed = await ensureEmailConfirmed(trimmedEmail);
-      if (fixed) {
-        const retry = await client.auth.signInWithPassword({
-          email: trimmedEmail,
-          password,
-        });
-        if (!retry.error && retry.data.session) {
-          return resolveSessionUser(client, retry.data.session, retry.data.user);
-        }
-        throw new Error("Invalid email or password.");
-      }
-
-      await client.auth.resend({ type: "signup", email: trimmedEmail });
-      setWaitlistFlag(false);
-      return { type: "confirm_email", email: trimmedEmail };
-    }
+  // Right password, unconfirmed email: the owner proves the address with the
+  // emailed code (the OTP step). Nothing confirms an email without that.
+  if (signInError && isEmailNotConfirmed(signInError)) {
+    await client.auth.resend({ type: "signup", email: trimmedEmail });
+    setWaitlistFlag(false);
+    return { type: "confirm_email", email: trimmedEmail };
   }
 
   const { data: signUpData, error: signUpError } = await client.auth.signUp({
@@ -202,6 +439,19 @@ export async function continueWithEmailPassword(
     // so fall back to creating the entry server-side instead of dead-ending.
     if (message.includes("sending") && message.includes("email")) {
       if (await joinWaitlistServerSide(trimmedEmail, password)) {
+        // Sign in with the new credentials: the name step that follows saves
+        // the name with this session (the server only updates an existing
+        // account for its own token). The new account's email is unconfirmed,
+        // so this only succeeds where the project does not require it; the
+        // member confirms with a code on a later sign-in.
+        try {
+          const joined = await client.auth.signInWithPassword({ email: trimmedEmail, password });
+          if (!joined.error && joined.data.session) {
+            return resolveSessionUser(client, joined.data.session, joined.data.user);
+          }
+        } catch {
+          // Still on the waitlist, just without the name step.
+        }
         setWaitlistFlag(true);
         return { type: "waitlist" };
       }
@@ -256,18 +506,15 @@ export async function resendSignupOtp(client: SupabaseClient, email: string): Pr
   if (error) throw error;
 }
 
-export async function verifyEmailOtp(
+/**
+ * Verifies an emailed code, trying the plausible OTP types in turn, and
+ * returns the session it creates. Verifying a signup or email code is what
+ * confirms the address. Does not decide where the user goes next.
+ */
+export async function verifyEmailCode(
   client: SupabaseClient,
-  {
-    email,
-    token,
-    type,
-  }: {
-    email: string;
-    token: string;
-    type: EmailOtpType;
-  },
-): Promise<VerifyOtpResult> {
+  { email, token, type }: { email: string; token: string; type: EmailOtpType },
+): Promise<{ session: Session; user: User | null; recovery: boolean }> {
   const trimmedEmail = email.trim();
   const trimmedToken = token.trim();
   const typesToTry: EmailOtpType[] =
@@ -276,7 +523,6 @@ export async function verifyEmailOtp(
       : [type, "signup", "email"].filter((t, i, arr) => arr.indexOf(t) === i);
 
   let lastError: unknown = null;
-  let data: { session: Session | null; user: User | null } | null = null;
 
   for (const tryType of typesToTry) {
     const result = await client.auth.verifyOtp({
@@ -285,26 +531,46 @@ export async function verifyEmailOtp(
       type: tryType,
     });
     if (!result.error && result.data.session) {
-      data = result.data;
-      if (tryType === "recovery") {
-        return { type: "set_password", session: result.data.session };
-      }
-      break;
+      return {
+        session: result.data.session,
+        user: result.data.user,
+        recovery: tryType === "recovery",
+      };
     }
     lastError = result.error;
   }
 
-  if (!data?.session) {
-    const message =
-      lastError instanceof Error ? lastError.message.toLowerCase() : String(lastError ?? "");
-    if (message.includes("token") && (message.includes("expired") || message.includes("invalid"))) {
-      throw new Error("Provided verification code is invalid");
-    }
-    if (lastError instanceof Error) throw lastError;
-    throw new Error("Verification succeeded but no session was created.");
+  const message =
+    lastError instanceof Error ? lastError.message.toLowerCase() : String(lastError ?? "");
+  if (message.includes("token") && (message.includes("expired") || message.includes("invalid"))) {
+    throw new Error("Provided verification code is invalid");
   }
+  if (lastError instanceof Error) throw lastError;
+  throw new Error("Verification succeeded but no session was created.");
+}
 
-  return resolveSessionUser(client, data.session, data.user);
+export async function verifyEmailOtp(
+  client: SupabaseClient,
+  {
+    email,
+    token,
+    type,
+    onSession,
+  }: {
+    email: string;
+    token: string;
+    type: EmailOtpType;
+    /**
+     * Runs with the fresh session before the usual routing, which signs
+     * waitlist members out (e.g. the application flow saves answers here).
+     */
+    onSession?: (session: Session) => Promise<void>;
+  },
+): Promise<VerifyOtpResult> {
+  const verified = await verifyEmailCode(client, { email, token, type });
+  if (verified.recovery) return { type: "set_password", session: verified.session };
+  if (onSession) await onSession(verified.session);
+  return resolveSessionUser(client, verified.session, verified.user);
 }
 
 export async function updatePassword(client: SupabaseClient, password: string): Promise<void> {

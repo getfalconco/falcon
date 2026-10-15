@@ -646,6 +646,16 @@ export default function CareersOpenings({
                         >
                           {submitting ? "Submitting…" : "Submit application"}
                         </button>
+                        <p
+                          className="max-w-[340px] text-center text-[12px] leading-[18px] text-[#8a8a8a]"
+                          style={{ fontFamily: GEIST }}
+                        >
+                          The{" "}
+                          <a href="/privacy#applicants" target="_blank" className="text-[#6f6f6f] underline underline-offset-2">
+                            Privacy Policy
+                          </a>{" "}
+                          explains how we handle your application and CV.
+                        </p>
                         <button
                           type="button"
                           onClick={() => setStep("details")}

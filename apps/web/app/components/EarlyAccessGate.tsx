@@ -3,10 +3,13 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import {
+  fetchOwnMembership,
+  readWaitlistCard,
   readWaitlistEmail,
   readWaitlistFlag,
   setWaitlistEmail,
   setWaitlistFlag,
+  type WaitlistCard,
 } from "@/lib/auth";
 import { createBrowserSupabase } from "@/lib/supabase";
 import EarlyAccessApply from "./EarlyAccessApply";
@@ -16,12 +19,7 @@ import WaitlistStatusCard from "./WaitlistStatusCard";
 
 const GEIST = "var(--font-geist-sans), sans-serif";
 
-type Membership = {
-  name: string | null;
-  memberNumber: number | null;
-  grantedAt: string | null;
-  approved: boolean;
-};
+type Membership = WaitlistCard;
 
 /**
  * Early-access entry point. If the visitor is signed in and already a member,
@@ -76,42 +74,41 @@ export default function EarlyAccessGate(props: {
     (async () => {
       try {
         // Two ways to be "signed in" here. Approved members keep a Supabase
-        // session; waitlist members don't — auth signs them straight back out
-        // and leaves only the flag + email the login screen stored. Without
-        // the second branch this would never fire for the people it's for.
+        // session, so their ticket is asked for with their own token.
+        // Waitlist members don't: auth signs them straight back out and
+        // leaves the flag, the email and the ticket it read with their
+        // session just before. Nothing is ever looked up by email.
         let em: string | null = null;
+        let card: Membership | null = null;
         try {
           const supabase = createBrowserSupabase();
           const {
             data: { session },
           } = await supabase.auth.getSession();
-          em = session?.user?.email ?? null;
+          if (session) {
+            em = session.user?.email ?? null;
+            card = await fetchOwnMembership(session.access_token);
+          }
         } catch {
-          // Supabase not configured — fall through to the stored email.
+          // Supabase not configured: fall through to the stored ticket.
         }
-        if (!em && readWaitlistFlag()) em = readWaitlistEmail();
-
-        if (!em) {
-          if (!stale) setState("guest");
-          return;
+        if (!card && readWaitlistFlag()) {
+          const stored = readWaitlistEmail();
+          const storedCard = readWaitlistCard(stored);
+          if (stored && storedCard) {
+            em = stored;
+            card = storedCard;
+          }
         }
-        const res = await fetch(`/api/waitlist?email=${encodeURIComponent(em)}`);
-        const data = (await res.json()) as { found?: boolean } & Membership;
         if (stale) return;
-        if (res.ok && data.found) {
-          setMembership({
-            name: data.name ?? null,
-            memberNumber: data.memberNumber ?? null,
-            grantedAt: data.grantedAt ?? null,
-            approved: data.approved === true,
-          });
+
+        if (em && card) {
+          setMembership(card);
           setEmail(em);
           setState("member");
         } else {
-          // The stored identity points at nobody (entry removed, or a stale
-          // flag from another account) — drop it instead of re-checking on
-          // every visit.
-          setWaitlistFlag(false);
+          // No ticket we can vouch for: show the application, with the
+          // "Check your status" link into sign-in.
           setState("guest");
         }
       } catch {

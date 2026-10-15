@@ -412,14 +412,15 @@ export default function LoginForm({ onSuccess, onAdminSuccess, onTalentSuccess, 
       </div>
 
       <footer className="shrink-0 px-6 pb-8 text-center text-xs leading-relaxed text-[#8a8a8a]">
-        By signing in you agree to our{" "}
+        By continuing you agree to the{" "}
         <a href="/terms" className="text-[#6f6f6f] underline underline-offset-2">
-          Terms of service
+          Terms of Service
         </a>{" "}
-        &{" "}
+        and acknowledge the{" "}
         <a href="/privacy" className="text-[#6f6f6f] underline underline-offset-2">
-          Privacy policy
+          Privacy Policy
         </a>
+        .
       </footer>
     </div>
   );

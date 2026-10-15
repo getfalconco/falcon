@@ -246,8 +246,9 @@ export const FOOTER_PRODUCT_LINKS = [
 ] as const;
 
 export const FOOTER_LEGAL_LINKS = [
-  { label: "Terms of service", href: "/terms" },
-  { label: "Privacy policy", href: "/privacy" },
+  { label: "Terms of Service", href: "/terms" },
+  { label: "Privacy Policy", href: "/privacy" },
+  { label: "Usage Policy", href: "/terms#acceptable-use" },
 ] as const;
 
 export const FOOTER = {
@@ -278,105 +279,5 @@ export const HOW_IT_WORKS = {
   ],
 } as const;
 
-export type LegalSection = {
-  title: string;
-  paragraphs: readonly string[];
-};
-
-export const LEGAL = {
-  disclaimer: "Falcon provides research intelligence, not investment advice.",
-  terms: {
-    title: "Terms of service",
-    updated: "Last updated: June 2026",
-    sections: [
-      {
-        title: "Agreement",
-        paragraphs: [
-          "By accessing Falcon's website, desktop application, or waitlist, you agree to these terms. If you do not agree, do not use our services.",
-          "Falcon is in early access. Features, availability, and pricing may change as we develop the product.",
-        ],
-      },
-      {
-        title: "What Falcon provides",
-        paragraphs: [
-          "Falcon is an institutional-grade market research platform. We provide research intelligence, analysis, and data visualization—not investment advice, trade recommendations, or portfolio management.",
-          "You are solely responsible for your investment decisions. Nothing on Falcon constitutes a solicitation to buy or sell any security.",
-        ],
-      },
-      {
-        title: "Accounts and access",
-        paragraphs: [
-          "Access to Falcon may require approval during early access. You are responsible for maintaining the confidentiality of your account credentials.",
-          "We may suspend or revoke access if you violate these terms or misuse the service.",
-        ],
-      },
-      {
-        title: "Acceptable use",
-        paragraphs: [
-          "You may not scrape, reverse engineer, or resell Falcon's research output without written permission.",
-          "You may not use Falcon to violate applicable securities laws or regulations.",
-        ],
-      },
-      {
-        title: "Limitation of liability",
-        paragraphs: [
-          "Falcon is provided as-is during early access. We do not guarantee the accuracy, completeness, or timeliness of research output.",
-          "To the fullest extent permitted by law, Falcon and its operators are not liable for any losses arising from your use of the service or reliance on its content.",
-        ],
-      },
-      {
-        title: "Contact",
-        paragraphs: ["Questions about these terms: legal@getfalcon.co"],
-      },
-    ] satisfies LegalSection[],
-  },
-  privacy: {
-    title: "Privacy policy",
-    updated: "Last updated: June 2026",
-    sections: [
-      {
-        title: "Overview",
-        paragraphs: [
-          "This policy describes how Falcon collects, uses, and protects information when you use our website, waitlist, and desktop application.",
-        ],
-      },
-      {
-        title: "Information we collect",
-        paragraphs: [
-          "Account information: email address and authentication credentials when you sign in or join the waitlist.",
-          "Usage data: how you interact with the app and website, including feature usage and session metadata, to improve the product.",
-          "Device information: operating system and app version for support and compatibility.",
-        ],
-      },
-      {
-        title: "How we use information",
-        paragraphs: [
-          "We use your information to provide access to Falcon, manage the waitlist, improve research quality, and communicate about your account.",
-          "We do not sell your personal information to third parties.",
-        ],
-      },
-      {
-        title: "Data retention",
-        paragraphs: [
-          "We retain account and usage data for as long as your account is active or as needed to provide the service. You may request deletion by contacting us.",
-        ],
-      },
-      {
-        title: "Security",
-        paragraphs: [
-          "We implement reasonable technical and organizational measures to protect your data. No system is completely secure; use Falcon at your own risk.",
-        ],
-      },
-      {
-        title: "Your rights",
-        paragraphs: [
-          "Depending on your jurisdiction, you may have rights to access, correct, or delete your personal data. Contact us to exercise these rights.",
-        ],
-      },
-      {
-        title: "Contact",
-        paragraphs: ["Privacy questions: privacy@getfalcon.co"],
-      },
-    ] satisfies LegalSection[],
-  },
-} as const;
+// The Privacy Policy and Terms of Service live in app/privacy/content.tsx and
+// app/terms/content.tsx; the facts they depend on in lib/legal-config.ts.

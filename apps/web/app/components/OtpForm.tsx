@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 import { ArrowLeft, Loader2 } from "lucide-react";
-import type { EmailOtpType } from "@supabase/supabase-js";
+import type { EmailOtpType, Session } from "@supabase/supabase-js";
 import { OTPInput, type OTPStatus } from "@/components/ui/be-ui-otp-input";
 import { resendOtpForType, verifyEmailOtp } from "@/lib/auth";
 import { requireSupabase } from "@/lib/supabase";
@@ -28,6 +28,8 @@ type Props = {
   subtitle: string;
   onVerified: (result: Awaited<ReturnType<typeof verifyEmailOtp>>) => void;
   onBack: () => void;
+  /** Runs with the new session before waitlist members are signed out. */
+  onSession?: (session: Session) => Promise<void>;
 };
 
 function authMessage(error: unknown): string {
@@ -43,6 +45,7 @@ export default function OtpForm({
   subtitle,
   onVerified,
   onBack,
+  onSession,
 }: Props) {
   const [value, setValue] = useState("");
   const [status, setStatus] = useState<OTPStatus>("idle");
@@ -64,6 +67,7 @@ export default function OtpForm({
         email,
         token: code,
         type: otpType,
+        onSession,
       });
       setStatus("success");
       onVerified(result);

@@ -3,6 +3,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { AUTH } from "@/lib/marketing-copy";
+import { readWaitlistCard, type WaitlistCard } from "@/lib/auth";
 import Navbar from "./Navbar";
 import GetStartedButton from "./GetStartedButton";
 import AnimatedGradientPanel from "./AnimatedGradientPanel";
@@ -32,12 +33,7 @@ const C_CHROME = 2.7;
 const PANEL_LEFT = "41%";
 
 
-type Membership = {
-  name: string | null;
-  memberNumber: number | null;
-  grantedAt: string | null;
-  approved: boolean;
-};
+type Membership = WaitlistCard;
 
 export default function WaitlistView({
   email,
@@ -51,28 +47,9 @@ export default function WaitlistView({
   const [torn, setTorn] = useState(false);
 
   useEffect(() => {
-    if (!email) return;
-    let stale = false;
-    (async () => {
-      try {
-        const res = await fetch(`/api/waitlist?email=${encodeURIComponent(email)}`);
-        if (!res.ok) return;
-        const data = (await res.json()) as { found?: boolean } & Membership;
-        if (!stale && data.found) {
-          setMembership({
-            name: data.name ?? null,
-            memberNumber: data.memberNumber ?? null,
-            grantedAt: data.grantedAt ?? null,
-            approved: data.approved === true,
-          });
-        }
-      } catch {
-        // Ticket falls back to placeholders — never block the screen.
-      }
-    })();
-    return () => {
-      stale = true;
-    };
+    // The ticket was read with the member's own session just before auth
+    // signed them out (lib/auth captureWaitlistCard). Missing: placeholders.
+    setMembership(readWaitlistCard(email));
   }, [email]);
 
   const fullName = membership?.name ?? (email ? email.split("@")[0] : "Member");

@@ -9,6 +9,13 @@ import {
 } from "@/lib/application-questions";
 import { WAITLIST_TICKET_WIDTH } from "./WaitlistTicket";
 import WaitlistStatusCard from "./WaitlistStatusCard";
+import {
+  finishApplicationWithSession,
+  submitApplication,
+  type ApplicationSubmission,
+} from "@/lib/auth";
+import OtpForm from "./OtpForm";
+import { isSupabaseConfigured, requireSupabase } from "@/lib/supabase";
 
 const GEIST = "var(--font-geist-sans), sans-serif";
 const MONO = "var(--font-geist-mono), monospace";
@@ -41,6 +48,10 @@ export default function ApplicationFlow({
   const [error, setError] = useState<string | null>(null);
   const [done, setDone] = useState(false);
   const [memberNumber, setMemberNumber] = useState<number | null>(null);
+  // Set when the new account's email still needs its code (see submit).
+  const [verify, setVerify] = useState<{ email: string; submission: ApplicationSubmission } | null>(
+    null,
+  );
   const textRef = useRef<HTMLTextAreaElement>(null);
 
   // The ticket is a fixed-width canvas, so shrink it on narrow phones.
@@ -87,26 +98,26 @@ export default function ApplicationFlow({
     setSubmitting(true);
     setError(null);
     try {
-      const res = await fetch("/api/waitlist", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: credentials.fullName,
-          email: credentials.email,
-          password: credentials.password,
-          phone: credentials.phone,
-          application: { ...answers, submittedAt: new Date().toISOString() },
-        }),
-      });
-      const data = (await res.json()) as {
-        ok?: boolean;
-        error?: string;
-        memberNumber?: number | null;
+      // Creates the account for a new email, then reads the member number
+      // with the applicant's own session (lib/auth submitApplication). A new
+      // email has to be confirmed with a code first: the code step below
+      // finishes the same work once it is verified.
+      const submission: ApplicationSubmission = {
+        fullName: credentials.fullName,
+        email: credentials.email,
+        password: credentials.password,
+        phone: credentials.phone,
+        application: { ...answers, submittedAt: new Date().toISOString() },
       };
-      if (!res.ok || !data.ok) {
-        throw new Error(data.error ?? "Something went wrong. Please try again.");
+      const { memberNumber: number, verifyEmail } = await submitApplication(
+        isSupabaseConfigured ? requireSupabase() : null,
+        submission,
+      );
+      if (verifyEmail) {
+        setVerify({ email: verifyEmail, submission });
+        return;
       }
-      setMemberNumber(data.memberNumber ?? null);
+      setMemberNumber(number);
       setDone(true);
     } catch (err) {
       setError(
@@ -125,7 +136,7 @@ export default function ApplicationFlow({
 
   // Enter moves on — except in the textarea, where it types a newline.
   useEffect(() => {
-    if (done) return;
+    if (done || verify) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key !== "Enter") return;
       const inTextarea = (e.target as HTMLElement)?.tagName === "TEXTAREA";
@@ -135,7 +146,7 @@ export default function ApplicationFlow({
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [advance, done]);
+  }, [advance, done, verify]);
 
   return (
     <motion.div
@@ -171,6 +182,20 @@ export default function ApplicationFlow({
               Done
             </button>
           </WaitlistStatusCard>
+        ) : verify ? (
+          <OtpForm
+            email={verify.email}
+            otpType="signup"
+            title="Confirm your email"
+            subtitle="Enter the 8-digit code we sent to finish your application."
+            onSession={async (session) => {
+              setMemberNumber(await finishApplicationWithSession(session, verify.submission));
+            }}
+            onVerified={() => setDone(true)}
+            // The application is already saved; the code can wait until the
+            // next sign-in, which asks for it again.
+            onBack={() => setDone(true)}
+          />
         ) : (
           <>
             {/* Progress: a hairline that fills as the questions go by. */}
@@ -286,6 +311,20 @@ export default function ApplicationFlow({
                     ? "Submit application"
                     : "Continue"}
               </button>
+
+              {last ? (
+                <p className="max-w-[340px] text-[12px] leading-[18px] text-[#8a8a8a]" style={{ fontFamily: GEIST }}>
+                  By submitting you agree to the{" "}
+                  <a href="/terms" target="_blank" className="text-[#6f6f6f] underline underline-offset-2">
+                    Terms of Service
+                  </a>{" "}
+                  and acknowledge the{" "}
+                  <a href="/privacy" target="_blank" className="text-[#6f6f6f] underline underline-offset-2">
+                    Privacy Policy
+                  </a>
+                  .
+                </p>
+              ) : null}
 
               <button
                 type="button"
