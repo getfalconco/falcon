@@ -212,20 +212,33 @@ export async function fetchCloudSnapshots(days: number): Promise<CloudSnapshot[]
     const cutoff = new Date();
     cutoff.setDate(cutoff.getDate() - days);
 
-    const { data, error } = await client
-      .from("portfolio_snapshots")
-      .select("ts,value")
-      .gte("ts", cutoff.toISOString())
-      .order("ts", { ascending: true })
-      .limit(5000);
-    if (error || !data) return [];
-
-    return data
-      .filter(
-        (row): row is CloudSnapshot =>
-          typeof row.ts === "string" && Number.isFinite(Number(row.value)),
-      )
-      .map((row) => ({ ts: row.ts, value: Number(row.value) }));
+    // Newest first, paged, then reversed — the same walk as the desktop's
+    // portfolio-sync. PostgREST caps a response at 1000 rows whatever
+    // `.limit()` asks for, so one ascending request returned only the OLDEST
+    // rows of the window and dropped everything recent. The engine now
+    // downsamples old rows (per minute / hour / day), so a full year is a few
+    // thousand rows and fits well inside the page ceiling.
+    const PAGE = 1000;
+    const MAX_PAGES = 12;
+    const rows: CloudSnapshot[] = [];
+    for (let page = 0; page < MAX_PAGES; page++) {
+      const from = page * PAGE;
+      const { data, error } = await client
+        .from("portfolio_snapshots")
+        .select("ts,value")
+        .gte("ts", cutoff.toISOString())
+        .order("ts", { ascending: false })
+        .range(from, from + PAGE - 1);
+      if (error || !data || data.length === 0) break;
+      for (const row of data) {
+        if (typeof row.ts === "string" && Number.isFinite(Number(row.value))) {
+          rows.push({ ts: row.ts, value: Number(row.value) });
+        }
+      }
+      if (data.length < PAGE) break;
+    }
+    rows.reverse();
+    return rows;
   } catch {
     return [];
   }

@@ -1,5 +1,6 @@
 import type { EmailOtpType, Session, User } from "@supabase/supabase-js";
 import { requireSupabase } from "@/lib/supabase";
+import { captureMembership, clearCapturedMembership } from "@/lib/waitlist";
 
 /**
  * Mirrors apps/web/lib/auth.ts. Same decision tree, same user-facing messages —
@@ -40,26 +41,13 @@ async function resolveSessionUser(
 ): Promise<Exclude<ContinueResult, { type: "confirm_email" }>> {
   // Waitlisted-but-not-approved accounts don't get into the product.
   if (isWaitlistUser(user)) {
+    // The site answers only for a live session: keep the ticket first.
+    const email = user?.email ?? session.user?.email ?? "";
+    if (email) await captureMembership(session.access_token, email);
     await requireSupabase().auth.signOut();
     return { type: "waitlist" };
   }
   return { type: "signed_in", session };
-}
-
-/** Confirms a known approved account's email so password auth isn't blocked. */
-async function ensureEmailConfirmed(email: string): Promise<boolean> {
-  try {
-    const res = await fetch(`${SITE_URL}/api/auth/ensure-email`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email }),
-    });
-    if (!res.ok) return false;
-    const data = (await res.json()) as { confirmed?: boolean };
-    return data.confirmed === true;
-  } catch {
-    return false;
-  }
 }
 
 /** Existing account → sign in. New email → sign up; may require OTP confirm. */
@@ -69,8 +57,6 @@ export async function continueWithEmailPassword(
 ): Promise<ContinueResult> {
   const client = requireSupabase();
   const trimmed = email.trim();
-
-  await ensureEmailConfirmed(trimmed);
 
   const { data: signInData, error: signInError } = await client.auth.signInWithPassword({
     email: trimmed,
@@ -83,14 +69,13 @@ export async function continueWithEmailPassword(
 
   if (signInError) {
     const msg = signInError.message.toLowerCase();
-    if (msg.includes("email not confirmed") || msg.includes("not confirmed")) {
-      if (await ensureEmailConfirmed(trimmed)) {
-        const retry = await client.auth.signInWithPassword({ email: trimmed, password });
-        if (!retry.error && retry.data.session) {
-          return resolveSessionUser(retry.data.session, retry.data.user);
-        }
-        throw new Error("Invalid email or password.");
-      }
+    if (
+      signInError.code === "email_not_confirmed" ||
+      msg.includes("email not confirmed") ||
+      msg.includes("not confirmed")
+    ) {
+      // Right password, unconfirmed email: the owner proves the address with
+      // the emailed code. The site no longer confirms emails on request.
       await client.auth.resend({ type: "signup", email: trimmed });
       return { type: "confirm_email", email: trimmed };
     }
@@ -225,5 +210,6 @@ export async function deleteAccount(): Promise<void> {
 }
 
 export async function signOut(): Promise<void> {
+  clearCapturedMembership();
   await requireSupabase().auth.signOut();
 }

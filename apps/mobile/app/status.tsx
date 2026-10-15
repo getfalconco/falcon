@@ -1,8 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import {
   ActivityIndicator,
-  KeyboardAvoidingView,
-  Platform,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -18,16 +16,12 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-import Field from "@/components/Field";
 import GlassIconButton from "@/components/GlassIconButton";
 import PrimaryButton from "@/components/PrimaryButton";
 import Ticket from "@/components/Ticket";
 import { signOut } from "@/lib/auth";
-import { fetchMembership, type Membership } from "@/lib/waitlist";
-import { supabase } from "@/lib/supabase";
+import { SignInRequiredError, fetchMembership, type Membership } from "@/lib/waitlist";
 import { COLORS, EASE_OUT_BEZIER, FONTS, SPACING, TYPE } from "@/theme";
-
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 /** Copy mirrored from AUTH.waitlist in apps/web/lib/marketing-copy.ts. */
 const WAITLIST_COPY = {
@@ -51,53 +45,33 @@ export default function StatusScreen() {
   const [membership, setMembership] = useState<Membership | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  /** True when we have no email at all and must ask for one. */
-  const [needsEmail, setNeedsEmail] = useState(false);
-  const [emailInput, setEmailInput] = useState("");
+  /** True when there is no session and no saved ticket: ask them to sign in. */
+  const [needsSignIn, setNeedsSignIn] = useState(false);
 
   const enter = useSharedValue(0);
 
-  const load = useCallback(
-    async (emailOverride?: string) => {
-      setLoading(true);
-      setError(null);
-      try {
-        // Prefer an explicitly entered address, then the one we were routed
-        // with, then the signed-in user's.
-        let email = emailOverride ?? params.email ?? "";
-        if (!email && supabase) {
-          const { data } = await supabase.auth.getUser();
-          email = data.user?.email ?? "";
-        }
-        if (!email) {
-          // Reached from "Already applied?" with no session — ask which
-          // account to look up rather than dead-ending on an error.
-          setNeedsEmail(true);
-          return;
-        }
-        setNeedsEmail(false);
-        setMembership(await fetchMembership(email));
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "Could not load your status.");
-      } finally {
-        setLoading(false);
+  const load = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      // Only ever the signed-in user's own ticket (or the one kept from the
+      // sign-in that just happened). Nothing is looked up by email.
+      setNeedsSignIn(false);
+      setMembership(await fetchMembership(params.email));
+    } catch (err) {
+      if (err instanceof SignInRequiredError) {
+        setNeedsSignIn(true);
+        return;
       }
-    },
-    [params.email],
-  );
+      setError(err instanceof Error ? err.message : "Could not load your status.");
+    } finally {
+      setLoading(false);
+    }
+  }, [params.email]);
 
   useEffect(() => {
     void load();
   }, [load]);
-
-  async function lookUpEntered() {
-    const trimmed = emailInput.trim();
-    if (!EMAIL_RE.test(trimmed)) {
-      setError("Enter the email address you applied with.");
-      return;
-    }
-    await load(trimmed);
-  }
 
   useEffect(() => {
     if (loading) return;
@@ -143,51 +117,23 @@ export default function StatusScreen() {
     );
   }
 
-  // No email and no session — ask which account to check.
-  if (needsEmail) {
+  // No session and no ticket from this sign-in: the status is only shown to
+  // the account it belongs to, so ask them to sign in.
+  if (needsSignIn) {
     return (
       <SafeAreaView style={styles.root} edges={["top", "bottom"]}>
-        <KeyboardAvoidingView
-          style={styles.flex}
-          behavior={Platform.OS === "ios" ? "padding" : undefined}
-        >
+        <View style={styles.flex}>
           <View style={styles.lookupBody}>
             <Text style={styles.title}>Check your status</Text>
             <Text style={styles.lookupBlurb}>
-              Enter the email you applied with and we&apos;ll pull up your ticket.
+              Sign in with the email you applied with and we&apos;ll pull up your ticket.
             </Text>
-
-            <View style={styles.lookupField}>
-              <Field
-                label="Email"
-                placeholder="jane@example.com"
-                autoComplete="email"
-                keyboardType="email-address"
-                autoCapitalize="none"
-                autoFocus
-                value={emailInput}
-                onChangeText={(t) => {
-                  setEmailInput(t);
-                  setError(null);
-                }}
-                onSubmitEditing={() => void lookUpEntered()}
-              />
-            </View>
-
-            {error ? <Text style={styles.lookupError}>{error}</Text> : null}
           </View>
 
           <View style={styles.lookupFooter}>
-            <PrimaryButton
-              label="Check status"
-              onPress={() => void lookUpEntered()}
-              disabled={!emailInput.trim()}
-            />
-            <Pressable onPress={() => router.replace("/login")} hitSlop={10}>
-              <Text style={styles.backLink}>← Sign in instead</Text>
-            </Pressable>
+            <PrimaryButton label="Sign in" onPress={() => router.replace("/login")} />
           </View>
-        </KeyboardAvoidingView>
+        </View>
       </SafeAreaView>
     );
   }
@@ -214,23 +160,16 @@ export default function StatusScreen() {
         <View style={styles.errorBox}>
           <Text style={styles.title}>No application found</Text>
           <Text style={styles.notFoundBody}>
-            We couldn&apos;t find an early-access application for that email.
-            Check the address, or apply now.
+            We couldn&apos;t find an early-access application for this account.
+            Sign in with the email you applied with, or apply now.
           </Text>
           <View style={styles.notFoundActions}>
             <PrimaryButton
               label="Apply for early access"
               onPress={() => router.replace("/signup")}
             />
-            <Pressable
-              onPress={() => {
-                setMembership(null);
-                setEmailInput("");
-                setNeedsEmail(true);
-              }}
-              hitSlop={10}
-            >
-              <Text style={styles.retry}>Try a different email</Text>
+            <Pressable onPress={() => void handleSignOut()} hitSlop={10}>
+              <Text style={styles.retry}>Use a different account</Text>
             </Pressable>
           </View>
         </View>
@@ -310,16 +249,7 @@ const styles = StyleSheet.create({
     gap: SPACING.sm,
   },
   lookupBlurb: { ...TYPE.bodySmall },
-  lookupField: { marginTop: SPACING.lg },
-  lookupError: { fontFamily: FONTS.sans, fontSize: 13, color: COLORS.error, marginTop: SPACING.sm },
   lookupFooter: { paddingHorizontal: SPACING.lg, paddingBottom: SPACING.md, gap: SPACING.md },
-  backLink: {
-    fontFamily: FONTS.mono,
-    fontSize: 11,
-    letterSpacing: 1.4,
-    color: COLORS.faint,
-    textAlign: "center",
-  },
   topBar: {
     paddingHorizontal: SPACING.lg,
     paddingTop: SPACING.sm,
