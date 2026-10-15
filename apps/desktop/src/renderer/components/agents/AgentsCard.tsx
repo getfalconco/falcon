@@ -147,7 +147,7 @@ export default function AgentsCard({ onDuplicate, onRemove, onOpenAgents }: Prop
             <ul className="-mx-2">
               {soon.map((agent) => {
                 const first = agent.triggers[0];
-                // The chip carries the ticker, so the row names the event without it.
+                // The ticker leads the row, so the row names the event without it.
                 const chipped = first && "ticker" in first && first.ticker === agent.ticker;
                 const short =
                   !first || first.kind === "news" || first.kind === "schedule"

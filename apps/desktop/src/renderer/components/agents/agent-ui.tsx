@@ -39,11 +39,12 @@ export function StatusDot({ status, className }: { status: AgentStatus; classNam
   );
 }
 
+/** The agent's company, set as plain text in the row (no pill). */
 export function TickerChip({ ticker, className }: { ticker: string; className?: string }) {
   return (
     <span
       className={cn(
-        "inline-flex h-[18px] shrink-0 items-center rounded-md bg-black/[0.05] px-1.5 font-['Geist_Mono'] text-[10.5px] font-medium tracking-[0.02em] text-[#4b5563]",
+        "inline-flex h-[18px] shrink-0 items-center text-[12px] font-medium text-[#4b5563]",
         className,
       )}
     >

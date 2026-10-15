@@ -11,7 +11,7 @@ import { shortDate, type Say } from "../../../shared/earnings-view";
 /**
  * The small pieces the Earnings tab and the Earnings card share, written in
  * the app's own class vocabulary (the card glass, the settings panes'
- * buttons and fields, the agents' ticker chip), so the dark theme's
+ * buttons and fields, the agents' plain ticker), so the dark theme's
  * translation in globals.css covers them without new rules.
  */
 
@@ -35,7 +35,7 @@ export function useSay(): { say: Say; lang: string; t: ReturnType<typeof useI18n
   return { say, lang: language, t };
 }
 
-/** The ticker, as the chip every agent row carries; a press opens the stock view. */
+/** The ticker, set as plain text (no pill) the way the agent rows set it; a press opens the stock view. */
 export function TickerButton({ row, className }: { row: Pick<EarningsRow, "ticker" | "company">; className?: string }) {
   const { t } = useI18n();
   return (
@@ -44,7 +44,7 @@ export function TickerButton({ row, className }: { row: Pick<EarningsRow, "ticke
       onClick={() => openStock(row.ticker, row.company ?? undefined)}
       aria-label={t("earnings.row.open", { ticker: row.ticker })}
       className={cn(
-        "app-no-drag inline-flex h-[18px] shrink-0 items-center rounded-md bg-black/[0.05] px-1.5 font-['Geist_Mono'] text-[10.5px] font-medium tracking-[0.02em] text-[#4b5563] transition-colors hover:bg-black/[0.08] hover:text-[#1d1b1b]",
+        "app-no-drag inline-flex h-[18px] shrink-0 cursor-pointer items-center text-[12px] font-medium text-[#1d1b1b] underline-offset-2 outline-none hover:underline focus-visible:underline",
         className,
       )}
     >
@@ -92,19 +92,19 @@ export function linkSentence(t: (key: MessageKey, params?: Record<string, string
     : t("earnings.link.namedInFiling", { filer: link.namedBy, named: link.named, category });
 }
 
-/** The reader's names a report reads through to, as small ticker chips. */
+/** The reader's names a report reads through to, as plain tickers (held ones in ink). */
 export function LinkChips({ links, className }: { links: readonly EarningsLink[]; className?: string }) {
   const { t } = useI18n();
   if (links.length === 0) return null;
   return (
-    <span className={cn("flex min-w-0 items-center gap-1", className)}>
+    <span className={cn("flex min-w-0 items-center gap-2", className)}>
       {links.map((l) => (
         <span
           key={l.ticker}
           title={linkSentence(t, l)}
           className={cn(
-            "inline-flex h-[18px] shrink-0 items-center gap-1 rounded-md px-1.5 font-['Geist_Mono'] text-[10.5px] font-medium tracking-[0.02em]",
-            l.held ? "bg-black/[0.06] text-[#1d1b1b]" : "bg-black/[0.04] text-[#4b5563]",
+            "inline-flex h-[18px] shrink-0 items-center text-[12px] font-medium",
+            l.held ? "text-[#1d1b1b]" : "text-[#4b5563]",
           )}
         >
           {l.ticker}
