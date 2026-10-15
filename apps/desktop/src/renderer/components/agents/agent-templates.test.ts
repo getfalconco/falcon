@@ -10,11 +10,32 @@ import { EXAMPLE_TICKERS, buildStarterTemplates, starterBrief, starterTitle } fr
 const NONE = { held: [], watchlist: [], reporting: [], tracked: [] };
 
 describe("starters from what the reader holds", () => {
-  it("offers the three the engine can watch: results, filings, insider purchases", () => {
+  it("offers what the engine can watch: results, filings, insider purchases, linked companies, filing changes", () => {
     assert.deepEqual(
       buildStarterTemplates(NONE).map((t) => t.id),
-      ["earnings", "filings", "insider"],
+      ["earnings", "filings", "insider", "linked", "changes"],
     );
+  });
+
+  it("puts a holding not used above in the filing changes starter, as a title only, and its words read as the trigger", () => {
+    const list = buildStarterTemplates({ held: ["NVDA", "AMD", "MSFT", "SMCI"], watchlist: [], reporting: [], tracked: [] });
+    const changes = list.find((t) => t.id === "changes")!;
+    assert.deepEqual(changes, { id: "changes", ticker: "SMCI", example: false });
+    assert.equal(starterTitle(changes, "en-US"), "Filing changes at SMCI");
+    const { text, select } = starterBrief(changes, "en-US");
+    assert.equal(text, "Tell me when SMCI's next 10-K or 10-Q has a new risk factor, a material weakness, an auditor change or a newly named customer.");
+    assert.equal(text.slice(select![0], select![1]), "SMCI");
+    assert.equal(starterTitle(buildStarterTemplates(NONE).find((t) => t.id === "changes")!, "en-US"), "Filing changes, e.g. SMCI");
+  });
+
+  it("puts a holding's suppliers and customers in the linked starter, as a title only", () => {
+    const list = buildStarterTemplates({ held: ["AMKR"], watchlist: ["TSM"], reporting: [], tracked: [] });
+    const linked = list.find((t) => t.id === "linked")!;
+    assert.deepEqual(linked, { id: "linked", ticker: "AMKR", example: false });
+    assert.equal(starterTitle(linked, "en-US"), "Suppliers and customers of AMKR");
+    const { text, select } = starterBrief(linked, "en-US");
+    assert.equal(text, "Tell me when any of AMKR's critical suppliers or customers files an 8-K or reports results.");
+    assert.equal(text.slice(select![0], select![1]), "AMKR");
   });
 
   it("builds on held names: results of the held name that reports soonest", () => {
@@ -60,6 +81,8 @@ describe("starters from what the reader holds", () => {
         ["earnings", "ORCL", true],
         ["filings", "JPM", true],
         ["insider", "AVGO", true],
+        ["linked", EXAMPLE_TICKERS.linked, true],
+        ["changes", EXAMPLE_TICKERS.changes, true],
       ],
     );
   });
@@ -71,6 +94,8 @@ describe("starters from what the reader holds", () => {
         [EXAMPLE_TICKERS.earnings, true],
         [EXAMPLE_TICKERS.filings, true],
         [EXAMPLE_TICKERS.insider, true],
+        [EXAMPLE_TICKERS.linked, true],
+        [EXAMPLE_TICKERS.changes, true],
       ],
     );
   });

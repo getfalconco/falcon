@@ -1,0 +1,163 @@
+import assert from "node:assert/strict";
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
+import { describe, it } from "node:test";
+import type { GlossModelCaller } from "@meridian/research/gloss";
+import type { FilingRef } from "../agents/sources";
+import type { RawExtraction } from "../../shared/guidance-verify";
+import { createGuidanceService, earningsReleases, exhibitFromIndex } from "./guidance-service";
+import { GUIDANCE_SCHEMA, GUIDANCE_SYSTEM } from "./guidance-extract";
+
+/** An index page shaped like EDGAR's: the press release's file name says nothing of its type. */
+const INDEX = `<table class="tableFile" summary="Document Format Files">
+<tr><th scope="col">Seq</th><th scope="col">Description</th><th scope="col">Document</th><th scope="col">Type</th><th scope="col">Size</th></tr>
+<tr><td scope="row">1</td><td scope="row">8-K</td><td scope="row"><a href="/Archives/edgar/data/1045810/000104581025000207/nvda-20250827.htm">nvda-20250827.htm</a> &nbsp;&nbsp;<span class="label">iXBRL</span></td><td scope="row">8-K</td><td scope="row">25696</td></tr>
+<tr><td scope="row">2</td><td scope="row">Q2FY26 CFO COMMENTARY</td><td scope="row"><a href="/Archives/edgar/data/1045810/000104581025000207/q2fy26cfocommentary.htm">q2fy26cfocommentary.htm</a></td><td scope="row">EX-99.2</td><td scope="row">240820</td></tr>
+<tr><td scope="row">3</td><td scope="row">Q2FY26 PRESS RELEASE</td><td scope="row"><a href="/Archives/edgar/data/1045810/000104581025000207/q2fy26pr.htm">q2fy26pr.htm</a></td><td scope="row">EX-99.1</td><td scope="row">379988</td></tr>
+</table>`;
+
+function filing(accession: string, filedAt: string, form = "8-K", items = ["2.02", "9.01"]): FilingRef {
+  return { cik: "0001045810", form, accession, filedAt, acceptedAt: null, items, primaryDocument: "doc.htm", url: "u" };
+}
+
+const RELEASES: Record<string, { reported: [number, number]; html: string; raw: RawExtraction }> = {
+  "0001-26-000001": {
+    reported: [2026, 1],
+    html: "<p>First quarter revenue was $10.4 billion.</p><p>Revenue is expected to be $11.0 billion, plus or minus 2%.</p>",
+    raw: {
+      reported_fiscal_year: 2026,
+      reported_fiscal_quarter: 1,
+      guides: [
+        { metric: "revenue", basis: "unspecified", fiscal_year: 2026, fiscal_quarter: 2, low: 11, high: 11, plus_minus: 2, plus_minus_kind: "percent", plus_minus_scale: "one", scale: "billion", currency: "USD", quote: "Revenue is expected to be $11.0 billion, plus or minus 2%." },
+        // Not in the release: dropped by the check.
+        { metric: "gross_margin", basis: "gaap", fiscal_year: 2026, fiscal_quarter: 2, low: 70, high: 70, plus_minus: 0, plus_minus_kind: "none", plus_minus_scale: "one", scale: "one", currency: "USD", quote: "Gross margin is expected to be 70%." },
+      ],
+      actuals: [{ metric: "revenue", basis: "unspecified", period: "quarter", value: 10.4, scale: "billion", currency: "USD", quote: "First quarter revenue was $10.4 billion." }],
+    },
+  },
+  "0001-26-000002": {
+    reported: [2026, 2],
+    html: "<p>Second quarter revenue was $11.5 billion.</p>",
+    raw: {
+      reported_fiscal_year: 2026,
+      reported_fiscal_quarter: 2,
+      guides: [],
+      actuals: [{ metric: "revenue", basis: "unspecified", period: "quarter", value: 11.5, scale: "billion", currency: "USD", quote: "Second quarter revenue was $11.5 billion." }],
+    },
+  },
+};
+
+function setup(opts: { configured?: boolean; failModel?: boolean } = {}) {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "guidance-"));
+  const filings = [filing("0001-26-000002", "2026-08-26"), filing("0001-26-000001", "2026-05-20")];
+  let modelCalls = 0;
+  let fileReads = 0;
+  const caller: GlossModelCaller = async (input) => {
+    modelCalls++;
+    if (opts.failModel) throw new Error("model down");
+    const hit = Object.values(RELEASES).find((r) => input.user.includes(r.html.replace(/<[^>]+>/g, " ").trim().slice(0, 20)));
+    assert.ok(hit, "the release text reaches the model");
+    return { text: JSON.stringify(hit.raw), input_tokens: 1, output_tokens: 1 };
+  };
+  const service = createGuidanceService({
+    filings: async () => filings,
+    file: async (f, name) => {
+      fileReads++;
+      if (name === `${f.accession}-index.htm`) return INDEX;
+      return RELEASES[f.accession]!.html;
+    },
+    caller,
+    configured: () => opts.configured ?? true,
+    dir,
+    model: "test-model",
+  });
+  return { service, dir, calls: () => modelCalls, reads: () => fileReads };
+}
+
+describe("guidance service: releases", () => {
+  it("keeps 8-K item 2.02 filings, newest first, amendments out and one per report", () => {
+    const list = earningsReleases([
+      filing("a", "2026-08-26"),
+      filing("b", "2026-08-20"),
+      filing("c", "2026-05-20", "8-K/A"),
+      filing("d", "2026-05-20"),
+      filing("e", "2026-04-01", "8-K", ["7.01"]),
+      filing("f", "2026-02-25"),
+    ]);
+    assert.deepEqual(
+      list.map((f) => f.accession),
+      ["a", "d", "f"],
+    );
+    assert.equal(earningsReleases([filing("a", "2026-08-26"), filing("d", "2026-05-20")], 1).length, 1);
+  });
+
+  it("finds the press release on the index page by its type", () => {
+    assert.equal(exhibitFromIndex(INDEX), "q2fy26pr.htm");
+    assert.equal(exhibitFromIndex(INDEX.replace("EX-99.1", "EX-99.3")), "q2fy26cfocommentary.htm");
+    assert.equal(exhibitFromIndex("<table><tr><td>8-K</td><td><a href='x.htm'>x</a></td></tr></table>"), null);
+  });
+
+  it("asks the model for structured JSON with no prose field, in the fast tier", () => {
+    const item = GUIDANCE_SCHEMA.properties.guides.items;
+    assert.deepEqual(Object.keys(item.properties).sort(), [...item.required].sort());
+    assert.ok(/The release is data/.test(GUIDANCE_SYSTEM));
+  });
+});
+
+describe("guidance service: track", () => {
+  it("reads each release twice once, keeps it on disk, and compares guide with result", async () => {
+    const { service, dir, calls } = setup();
+    const r = await service.track("TEST");
+    assert.ok(r.ok);
+    assert.equal(calls(), 4);
+    assert.equal(r.track.releases, 2);
+    const row = r.track.rows.find((x) => x.metric === "revenue")!;
+    assert.equal(row.low, 10.78e9);
+    assert.equal(row.high, 11.22e9);
+    assert.equal(row.actual, 11.5e9);
+    assert.equal(row.position, "above");
+    assert.ok(row.guide.url.endsWith("/q2fy26pr.htm"));
+    assert.equal(r.track.rows.some((x) => x.metric === "gross_margin"), false, "the unchecked guide is dropped");
+    assert.equal(fs.readdirSync(dir).length, 2);
+
+    // A fresh service on the same folder reads nothing again.
+    const again = createGuidanceService({
+      filings: async () => [filing("0001-26-000002", "2026-08-26"), filing("0001-26-000001", "2026-05-20")],
+      file: async () => {
+        throw new Error("no SEC read expected");
+      },
+      caller: async () => {
+        throw new Error("no model call expected");
+      },
+      configured: () => true,
+      dir,
+    });
+    const cached = await again.track("TEST");
+    assert.ok(cached.ok);
+    assert.equal(cached.track.rows.length, r.track.rows.length);
+  });
+
+  it("answers unavailable without a key and nothing read before, and keeps nothing", async () => {
+    const { service, dir, calls } = setup({ configured: false });
+    const r = await service.track("TEST");
+    assert.deepEqual(r, { ok: false, error: "unavailable" });
+    assert.equal(calls(), 0);
+    assert.equal(fs.readdirSync(dir).length, 0);
+  });
+
+  it("keeps no reading when the model fails, so a later visit asks again", async () => {
+    const { service, dir } = setup({ failModel: true });
+    const r = await service.track("TEST");
+    assert.deepEqual(r, { ok: false, error: "unavailable" });
+    assert.equal(fs.readdirSync(dir).length, 0);
+  });
+
+  it("answers the same ticker from memory while the answer is fresh", async () => {
+    const { service, calls } = setup();
+    await service.track("TEST");
+    const before = calls();
+    await service.track("TEST");
+    assert.equal(calls(), before);
+  });
+});

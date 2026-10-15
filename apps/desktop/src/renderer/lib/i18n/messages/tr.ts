@@ -32,7 +32,7 @@ export const tr: Partial<Messages> = {
   "search.group.trending": "Gündemdekiler",
   "search.group.navigate": "Git",
   "search.nav.dashboard": "Pano",
-  "search.nav.dashboardHint": "Portföy, varlıklar, içgörü, risk",
+  "search.nav.dashboardHint": "Portföy, varlıklar, yayılım, risk",
   "search.noResults": "“{query}” için sonuç yok",
   "search.noResultsOpen": "“{query}” için sonuç yok. {symbol} sembolünü yine de açmak için {key} tuşuna basın.",
 
@@ -47,7 +47,7 @@ export const tr: Partial<Messages> = {
   "modules.earnings": "Bilançolar",
   "modules.news": "Haberler",
   "modules.risk": "Risk Skoru",
-  "modules.insight": "İçgörü",
+  "modules.insight": "Yayılım",
 
   "menu.label": "Hesap",
   "menu.settings": "Ayarlar",

@@ -56,7 +56,7 @@ export const tr: Table = {
   "settings.engines.usedFor.finnhub": "Bilanço takvimi ve şirket haberleri",
   "settings.engines.usedFor.edgar": "Burada çalışan step-1 grafikleri için başvurular",
   "settings.engines.usedFor.yahoo": "Grafikler, fiyatlar ve temel istatistikler",
-  "settings.engines.usedFor.supabase": "Oturum açma ve paylaşılan sinyal önbelleği",
+  "settings.engines.usedFor.supabase": "Oturum açma ve paylaşılan önbellek",
   "settings.engines.unused.description":
     "Yalnızca araştırma paketinin rapor hattında kullanılır; bu uygulama o hattı çalıştırmaz.",
   "settings.engines.unused.value": "Burada kullanılmıyor",
@@ -79,7 +79,7 @@ export const tr: Table = {
   "settings.engines.model.analyst": "Analist",
   "settings.engines.model.propagation": "Yayılım değerlendiricisi",
   "settings.engines.model.step1": "Step-1 ilişki grafikleri",
-  "settings.engines.model.insight": "Insight açıklamaları ve sohbet",
+  "settings.engines.model.insight": "Olay açıklamaları ve sohbet",
   "settings.engines.model.gloss": "Açıklamak için vurgula",
   "settings.engines.model.briefing": "Devir brifingi",
   "settings.engines.model.agents": "Ajanlar",

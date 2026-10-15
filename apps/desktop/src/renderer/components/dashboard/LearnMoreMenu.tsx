@@ -1,7 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion, useIsPresent } from "framer-motion";
-import { ChevronRight, ExternalLink, type LucideIcon } from "lucide-react";
+import { ChevronRight, type LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { DROPDOWN_FADE } from "@/lib/dropdown-motion";
 import { formatKeys } from "@/lib/shortcuts";
@@ -245,11 +245,6 @@ export default function LearnMoreMenu({
                         className={rowClassName}
                       >
                         {t(labelKey)}
-                        <ExternalLink
-                          className="ml-auto h-3.5 w-3.5 shrink-0 text-[#9CA3AF]"
-                          strokeWidth={1.75}
-                          aria-hidden
-                        />
                       </button>
                       {dividerAfter ? <div aria-hidden className="mx-2 my-1 h-px bg-black/[0.06]" /> : null}
                     </div>

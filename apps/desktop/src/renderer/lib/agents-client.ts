@@ -2,6 +2,7 @@ import type {
   Agent,
   AgentDetail,
   AgentDraft,
+  AgentDraftContext,
   AgentMessage,
   AgentPatch,
   AgentPushEvent,
@@ -34,7 +35,7 @@ export type AgentsEvent = AgentPushEvent;
 export type AgentsBridge = {
   list: () => Promise<AgentResult<Agent[]>>;
   get: (id: string) => Promise<AgentResult<AgentDetail>>;
-  draftFromBrief: (brief: string) => Promise<AgentResult<AgentDraft>>;
+  draftFromBrief: (brief: string, context?: AgentDraftContext) => Promise<AgentResult<AgentDraft>>;
   create: (draft: AgentDraft) => Promise<AgentResult<Agent>>;
   update: (id: string, patch: AgentPatch) => Promise<AgentResult<Agent>>;
   setStatus: (id: string, status: "active" | "paused") => Promise<AgentResult<Agent>>;

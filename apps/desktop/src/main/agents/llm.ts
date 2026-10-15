@@ -1,6 +1,7 @@
 import type {
   Agent,
   AgentDraft,
+  AgentFilingChangeKind,
   AgentMessage,
   AgentMetric,
   AgentMetricReading,
@@ -126,9 +127,26 @@ export const DRAFT_SCHEMA = {
       items: {
         type: "object",
         additionalProperties: false,
-        required: ["kind", "ticker", "moment", "forms", "insiderBuysOnly", "thresholdPct", "window", "keywords", "event", "cadence", "time", "weekday"],
+        required: [
+          "kind",
+          "ticker",
+          "moment",
+          "forms",
+          "insiderBuysOnly",
+          "thresholdPct",
+          "window",
+          "keywords",
+          "event",
+          "cadence",
+          "time",
+          "weekday",
+          "relations",
+          "minTier",
+          "events",
+          "kinds",
+        ],
         properties: {
-          kind: { type: "string", enum: ["earnings", "filing", "price_move", "news", "macro", "schedule"] },
+          kind: { type: "string", enum: ["earnings", "filing", "price_move", "news", "macro", "schedule", "linked", "filing_changes"] },
           ticker: nullable("string"),
           moment: nullableEnum(["release", "call"]),
           forms: { type: ["array", "null"], items: { type: "string" } },
@@ -140,6 +158,14 @@ export const DRAFT_SCHEMA = {
           cadence: nullableEnum(["daily", "weekdays", "weekly"]),
           time: nullable("string"),
           weekday: nullable("integer"),
+          // The linked kind's fields, as plain (not nullable) types: the
+          // schema is at its cap of union-typed parameters (see `ends`).
+          // Other kinds write [], "none" and [].
+          relations: { type: "array", items: { type: "string", enum: ["supplier", "customer", "competitor"] } },
+          minTier: { type: "string", enum: ["none", "critical", "important", "marginal"] },
+          events: { type: "array", items: { type: "string", enum: ["earnings", "filing", "news"] } },
+          // The filing_changes kind's, plain for the same reason; others write [].
+          kinds: { type: "array", items: { type: "string", enum: ["risk_factors", "red_flags", "customers", "suppliers"] } },
         },
       },
     },
@@ -163,7 +189,13 @@ export const DRAFT_SCHEMA = {
   },
 } as const;
 
-export type DraftDeps = { caller: AgentModelCaller | null; sources: Pick<AgentDataSources, "lookupTicker" | "searchCompany">; today: string };
+export type DraftDeps = {
+  caller: AgentModelCaller | null;
+  sources: Pick<AgentDataSources, "lookupTicker" | "searchCompany">;
+  today: string;
+  /** The reader's held tickers, when the create flow passed them ("companies linked to my holdings"). */
+  held?: readonly string[];
+};
 
 type RawTrigger = Record<string, unknown>;
 
@@ -289,7 +321,7 @@ export async function draftFromBriefWithModel(briefRaw: string, deps: DraftDeps)
     {
       purpose: "draft",
       system: draftSystem(deps.today),
-      user: `THE READER'S REQUEST, VERBATIM:\n${brief}`,
+      user: draftUser(brief, deps.held ?? []),
       schema: DRAFT_SCHEMA as unknown as Record<string, unknown>,
       maxTokens: 2000,
       timeoutMs: 45_000,
@@ -317,6 +349,12 @@ export async function draftFromBriefWithModel(briefRaw: string, deps: DraftDeps)
     notes.push(err instanceof Error ? err.message : String(err));
   }
 
+  // "Companies linked to my holdings": one linked trigger per holding, when the model wrote none.
+  if (!triggers.some((t) => t.kind === "linked")) {
+    triggers.push(...holdingsLinked(brief, deps.held ?? [], LIMITS.triggers - triggers.length, notes));
+  }
+  // "When SMCI's next 10-Q adds a risk factor": the filing changes watch, not a plain filing one.
+  triggers.splice(0, triggers.length, ...withChangesWatch(triggers, primary, brief));
   const resolved = await resolveDraftTickers(
     { ticker: primary, companyName: reply.companyName ? cleanLine(reply.companyName, 120) : undefined, triggers },
     deps.sources,
@@ -352,6 +390,118 @@ export async function draftFromBriefWithModel(briefRaw: string, deps: DraftDeps)
   return draft;
 }
 
+/** The draft call's user message: the reader's words, and their holdings when the create flow passed them. */
+export function draftUser(brief: string, held: readonly string[]): string {
+  const lines = [`THE READER'S REQUEST, VERBATIM:\n${brief}`];
+  if (held.length > 0) lines.push("", `THE READER'S HOLDINGS (tickers they hold now): ${held.slice(0, 50).join(", ")}`);
+  return lines.join("\n");
+}
+
+/** "Companies linked to my holdings", "my positions' suppliers": the reader's own holdings, by reference. */
+const HOLDINGS_WORDS = /\b(?:my|our) (?:holdings|positions|portfolio|stocks|names|book)\b|\b(?:what|names|stocks|companies) (?:i|we) (?:hold|own)\b/i;
+/** Words that ask for a company's filing links rather than the company itself. */
+const LINK_WORDS = /\b(?:suppliers?|vendors?|customers?|clients?|competitors?|rivals?|linked|links|counterpart(?:y|ies)|supply chain|read-?through)\b/i;
+
+type LinkedShape = Omit<Extract<AgentTrigger, { kind: "linked" }>, "kind" | "ticker">;
+
+/**
+ * The relations, tier and events a reader's words ask of a linked watch.
+ * Relations absent: all three; tier absent: the default (critical and
+ * important); events absent: results and filings.
+ */
+export function linkedFromWords(brief: string): LinkedShape {
+  const lower = brief.toLowerCase();
+  const relations: Array<"supplier" | "customer" | "competitor"> = [];
+  if (/\bsuppl(?:ier|iers|y chain)\b|\bvendors?\b/.test(lower)) relations.push("supplier");
+  if (/\bcustomers?\b|\bclients?\b|\bsupply chain\b/.test(lower)) relations.push("customer");
+  if (/\bcompetitors?\b|\brivals?\b|\bpeers?\b/.test(lower)) relations.push("competitor");
+  let minTier: LinkedShape["minTier"];
+  if (/\b(?:critical|key|biggest|largest|major|main|most important)\b/.test(lower)) minTier = "critical";
+  else if (/\b(?:all|every)\s+(?:of\s+)?(?:[a-z$.]+'s\s+|its\s+|their\s+|the\s+)?(?:linked|suppliers?|customers?|competitors?|links?|companies)\b/.test(lower)) {
+    minTier = "marginal";
+  }
+  const events: Array<"earnings" | "filing" | "news"> = [];
+  if (/\b(?:reports?|reporting|results|earnings)\b/.test(lower)) events.push("earnings");
+  if (/\b(?:files?|filed|filings?|8-k|6-k|10-q|10-k)\b/.test(lower)) events.push("filing");
+  if (/\b(?:news|headlines?|stories)\b/.test(lower)) events.push("news");
+  const forms = ["8-K", "6-K", "10-Q", "10-K"].filter((f) => lower.includes(f.toLowerCase()));
+  const out: LinkedShape = { events: events.length > 0 ? events : ["earnings", "filing"] };
+  if (relations.length > 0 && relations.length < 3) out.relations = relations;
+  if (minTier) out.minTier = minTier;
+  if (forms.length > 0 && out.events.includes("filing")) out.forms = forms;
+  return out;
+}
+
+/**
+ * One linked trigger per holding for words that ask about the companies
+ * linked to the reader's holdings, at most `room`; a note when holdings were
+ * left out or none were passed. [] when the words do not ask for it.
+ */
+export function holdingsLinked(brief: string, held: readonly string[], room: number, notes: string[]): AgentTrigger[] {
+  if (!HOLDINGS_WORDS.test(brief) || !LINK_WORDS.test(brief)) return [];
+  if (held.length === 0) {
+    notes.push("No holdings were found, so the companies linked to them could not be set. Name a company instead.");
+    return [];
+  }
+  const shape = linkedFromWords(brief);
+  const picked = held.slice(0, Math.max(0, room));
+  if (picked.length < held.length) {
+    notes.push(`Set for the first ${picked.length} of ${held.length} holdings; an agent has at most ${LIMITS.triggers} triggers.`);
+  }
+  return picked.map((ticker): AgentTrigger => ({ kind: "linked", ticker, ...shape }));
+}
+
+/**
+ * Words that ask what a company's own report changed: its risk factors, its
+ * red flags, a customer or supplier it names for the first time. These read
+ * as a `filing_changes` watch, ahead of a plain filing or a linked watch.
+ */
+const CHANGE_WORDS =
+  /\brisk[- ]factors?\b|\bmaterial weakness(?:es)?\b|\bgoing[- ]concern\b|\brestate(?:s|d|ment|ments)?\b|\bnon-?reliance\b|\bauditors?\b|\blate (?:filing|10-?[kq])\b|\bnt 10-?[kq]\b|\bnew (?:customers?|clients?|suppliers?|vendors?)\b|\bnames? (?:a |any )?new (?:customers?|clients?|suppliers?|vendors?)\b|\bcustomer concentration\b|\bsole[- ]source|\bsingle[- ]source/i;
+/** A customer or supplier named in the report: the company's own counterparty, not its filing links. */
+const NEW_PARTY_WORDS = /\bnew (?:customers?|clients?|suppliers?|vendors?)\b|\bnames? (?:a |any )?new\b|\bcustomer concentration\b|\bsole[- ]source|\bsingle[- ]source/i;
+const PERIODIC_FORMS: ReadonlySet<string> = new Set(["10-K", "10-Q", "20-F"]);
+
+/** Whether the words ask what a company's report changed. */
+export function asksFilingChanges(brief: string): boolean {
+  return CHANGE_WORDS.test(brief);
+}
+
+/** The kinds of change the words name; every kind when they name none in particular. */
+export function changeKindsFromWords(brief: string): AgentFilingChangeKind[] {
+  const lower = brief.toLowerCase();
+  const kinds: AgentFilingChangeKind[] = [];
+  if (/\brisk[- ]factors?\b/.test(lower)) kinds.push("risk_factors");
+  if (/material weakness|going[- ]concern|\brestate|non-?reliance|\bauditors?\b|\blate (?:filing|10-?[kq])\b|\bnt 10-?[kq]\b|\bred flags?\b/.test(lower)) kinds.push("red_flags");
+  if (/\bcustomers?\b|\bclients?\b|\bconcentration\b/.test(lower)) kinds.push("customers");
+  if (/\bsuppliers?\b|\bvendors?\b|sole[- ]source|single[- ]source/.test(lower)) kinds.push("suppliers");
+  return kinds.length > 0 ? kinds : ["risk_factors", "red_flags", "customers", "suppliers"];
+}
+
+/** A filing changes trigger from the words: all four kinds are written as none. */
+export function changesTriggerFromWords(ticker: string, brief: string): AgentTrigger {
+  const kinds = changeKindsFromWords(brief);
+  return kinds.length < 4 ? { kind: "filing_changes", ticker, kinds } : { kind: "filing_changes", ticker };
+}
+
+/**
+ * The draft's triggers with words about a report's changes read as a
+ * filing changes watch: one is put first for the primary company when the
+ * model wrote none (and a linked watch on that company that came only from
+ * "a new customer" goes), and a plain 10-K, 10-Q or 20-F watch on a company
+ * a changes watch covers goes, since the changes watch reports those filings.
+ */
+export function withChangesWatch(triggers: readonly AgentTrigger[], primary: string | undefined, brief: string): AgentTrigger[] {
+  let out = [...triggers];
+  if (primary && asksFilingChanges(brief) && !out.some((t) => t.kind === "filing_changes")) {
+    out.unshift(changesTriggerFromWords(primary, brief));
+    if (NEW_PARTY_WORDS.test(brief)) out = out.filter((t) => !(t.kind === "linked" && t.ticker === primary));
+  }
+  const watched = new Set(out.flatMap((t) => (t.kind === "filing_changes" ? [t.ticker] : [])));
+  out = out.filter((t) => !(t.kind === "filing" && watched.has(t.ticker) && !t.insiderBuysOnly && t.forms.every((f) => PERIODIC_FORMS.has(f))));
+  return out.slice(0, LIMITS.triggers);
+}
+
 /** Words that carry no topic: verbs of asking, time words, filler. */
 const NOT_TOPIC = new Set(
   ("a an the and or of for to in on at about with from by me my i you it its their them us our any all every each " +
@@ -382,7 +532,7 @@ export function topicKeywords(brief: string): string[] {
  * reader typed (checked against the catalog), and the trigger kind their words
  * name. Plainly marked as such in the notes.
  */
-export async function heuristicDraft(brief: string, deps: Pick<DraftDeps, "sources">): Promise<AgentDraft> {
+export async function heuristicDraft(brief: string, deps: Pick<DraftDeps, "sources" | "held">): Promise<AgentDraft> {
   const notes = ["Drafted without the model, which was not reachable. Check every field."];
   const lower = brief.toLowerCase();
   const candidates = [...new Set((brief.match(/\$?\b[A-Z]{1,5}(?:\.[A-Z])?\b/g) ?? []).map((t) => t.replace(/^\$/, "")))].filter(
@@ -409,10 +559,19 @@ export async function heuristicDraft(brief: string, deps: Pick<DraftDeps, "sourc
   if (/\bcpi\b|inflation/.test(lower)) triggers.push({ kind: "macro", event: "CPI" });
   else if (/\bfomc\b|\bfed\b|rate decision/.test(lower)) triggers.push({ kind: "macro", event: "FOMC" });
   else if (/payroll|jobs report/.test(lower)) triggers.push({ kind: "macro", event: "NFP" });
-  if (ticker) {
-    if (/earnings|results|report(s|ing)?\b|quarter/.test(lower)) triggers.push({ kind: "earnings", ticker, moment: /\bcall\b/.test(lower) ? "call" : "release" });
+  // "SMCI's next 10-Q adds a risk factor or names a new customer": what the
+  // company's own report changed, ahead of its links and its plain filings.
+  const changesWatch = ticker !== undefined && asksFilingChanges(brief);
+  if (ticker && changesWatch) triggers.push(changesTriggerFromWords(ticker, brief));
+  // "NVDA's suppliers", "customers of AAPL": the companies linked to the name, not the name itself.
+  const holdingsWatch = changesWatch ? [] : holdingsLinked(brief, deps.held ?? [], LIMITS.triggers, notes);
+  const linkedWatch = holdingsWatch.length > 0 || (!changesWatch && ticker !== undefined && LINK_WORDS.test(brief));
+  if (holdingsWatch.length > 0) triggers.push(...holdingsWatch);
+  else if (ticker && linkedWatch) triggers.push({ kind: "linked", ticker, ...linkedFromWords(brief) });
+  if (ticker && !linkedWatch) {
+    if (!changesWatch && /earnings|results|report(s|ing)?\b|quarter/.test(lower)) triggers.push({ kind: "earnings", ticker, moment: /\bcall\b/.test(lower) ? "call" : "release" });
     if (/insider|form 4/.test(lower)) triggers.push({ kind: "filing", ticker, forms: ["4"], insiderBuysOnly: /buy|purchas/.test(lower) });
-    else if (/8-k|10-q|10-k|filing|files/.test(lower)) {
+    else if (!changesWatch && /8-k|10-q|10-k|filing|files/.test(lower)) {
       const forms = ["8-K", "10-Q", "10-K"].filter((f) => lower.includes(f.toLowerCase()));
       triggers.push({ kind: "filing", ticker, forms: forms.length > 0 ? forms : ["8-K"] });
     }
@@ -422,7 +581,7 @@ export async function heuristicDraft(brief: string, deps: Pick<DraftDeps, "sourc
     if (/\bnews\b|headline/.test(lower)) triggers.push({ kind: "news", ticker, keywords: [] });
   }
   // No company: a topic in the words becomes keywords on the market's headlines.
-  const topic = ticker || triggers.some((t) => t.kind === "macro") ? [] : topicKeywords(brief);
+  const topic = ticker || linkedWatch || triggers.some((t) => t.kind === "macro") ? [] : topicKeywords(brief);
   const scheduled = /every (day|morning|weekday|week)|each (day|morning|weekday)|daily|weekly/.test(lower);
   if (scheduled) {
     const weekly = /every week(?!day)|weekly/.test(lower);
@@ -509,7 +668,13 @@ function reportUser(agent: Agent, event: TriggerEvent, material: ReportMaterial)
   lines.push("", "METRICS");
   if (agent.metrics.length === 0) lines.push("(none: readings is an empty array)");
   for (const m of agent.metrics) lines.push(`- ${m.id}: ${m.label}${m.expectation ? `; the reader's bar: ${m.expectation}` : ""}`);
-  lines.push("", "WHAT HAPPENED", event.title, "", "FACTS", ...material.facts.map((f) => `- ${f}`));
+  lines.push("", "WHAT HAPPENED", event.title);
+  if (material.lead && event.kind === "filing_changes") {
+    lines.push("", "THE CHANGES (printed above your summary as it stands; do not repeat it, write what the changes are about)", material.lead);
+  } else if (material.lead) {
+    lines.push("", "THE LINK (printed above your summary as it stands; do not repeat it, write about what the filing or story says)", material.lead);
+  }
+  lines.push("", "FACTS", ...material.facts.map((f) => `- ${f}`));
   for (const d of material.documents) lines.push("", `DOCUMENT: ${d.title}${d.url ? ` (${d.url})` : ""}`, d.text);
   lines.push("", "SOURCES");
   material.sources.forEach((s, i) => lines.push(`${i + 1}. ${s.title}${s.publishedAt ? ` (${s.publishedAt.slice(0, 10)})` : ""}`));
@@ -584,9 +749,11 @@ export function finalizeReport(
     unsourced(cleanModelText(reply.headline)) ? event.title : reply.headline,
     enforceLine(event.title, `${agent.name} update`),
   ).slice(0, 140);
-  const summary =
+  const written =
     enforceCopy(reply.summary, unsourced) ||
-    "The material for this event did not support a written summary. The sources are listed below.";
+    (material.lead ? "" : "The material for this event did not support a written summary. The sources are listed below.");
+  // A linked report opens with the link and its evidence, written from the graph and the filings.
+  const summary = [material.lead, written].filter(Boolean).join("\n\n");
   const byId = new Map(reply.readings.map((r) => [r.metricId, r]));
   const readings: AgentMetricReading[] = agent.metrics.map((m) => {
     const r = byId.get(m.id);
@@ -620,8 +787,11 @@ export function finalizeReport(
 
 /** A report from the facts alone, for when the model cannot be reached after retries. */
 export function factsOnlyReport(agent: Agent, event: TriggerEvent, material: ReportMaterial, deps: Pick<ReportDeps, "newId" | "now">): AgentReport {
-  const facts = material.facts.filter((f) => !f.startsWith("Checked at") && !f.startsWith("Event:")).slice(0, 6);
+  const facts = material.facts
+    .filter((f) => !f.startsWith("Checked at") && !f.startsWith("Event:") && !(material.lead ?? "").includes(f))
+    .slice(0, 6);
   const summary = [
+    ...(material.lead ? [material.lead] : []),
     enforceCopy(facts.join(" ")) || enforceLine(event.title, "The event this agent watches happened."),
     "The write-up could not be generated because the model was not reachable. The facts above are as read from the sources.",
   ].join("\n\n");

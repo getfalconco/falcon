@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import { MAX_HOLDINGS, parseBriefingRequest, parseNarrativeRequest } from "./request";
+import { MAX_HOLDINGS, MAX_WATCHLIST, parseBriefingRequest, parseNarrativeRequest } from "./request";
 import { ANONYMOUS_USER_KEY, userKeyFromAccessToken } from "./user-key";
 
 const holding = (symbol: unknown, shares: unknown = 10, cost: unknown = 1000) => ({ symbol, shares, cost_usd: cost });
@@ -13,9 +13,17 @@ describe("parseBriefingRequest", () => {
         { symbol: "BRK-B", shares: -2, cost_usd: -900 },
       ],
       cash: 2500.5,
+      watchlist: [],
       demo: false,
       force: false,
     });
+  });
+
+  it("reads the watchlist leniently: bad entries are dropped, never the request", () => {
+    const parsed = parseBriefingRequest({ holdings: [], cash: 0, watchlist: [" nvda ", "NVDA", 7, "A B", "msft"] });
+    assert.deepEqual(parsed?.watchlist, ["NVDA", "MSFT"]);
+    assert.deepEqual(parseBriefingRequest({ holdings: [], cash: 0, watchlist: "NVDA" })?.watchlist, []);
+    assert.deepEqual(parseBriefingRequest({ holdings: [], cash: 0, watchlist: Array.from({ length: MAX_WATCHLIST + 1 }, () => "A") })?.watchlist, []);
   });
 
   it("accepts every symbol shape the provider uses", () => {
@@ -65,7 +73,7 @@ describe("parseBriefingRequest", () => {
 
   it("drops fields it does not know instead of passing them on", () => {
     const parsed = parseBriefingRequest({ holdings: [{ ...holding("AAPL"), note: "x" }], cash: 0, extra: true });
-    assert.deepEqual(Object.keys(parsed ?? {}).sort(), ["cash", "demo", "force", "holdings"]);
+    assert.deepEqual(Object.keys(parsed ?? {}).sort(), ["cash", "demo", "force", "holdings", "watchlist"]);
     assert.deepEqual(Object.keys(parsed?.holdings[0] ?? {}).sort(), ["cost_usd", "shares", "symbol"]);
   });
 });

@@ -1,7 +1,10 @@
 import { na } from "@/lib/i18n/na";
 import { useEffect, useMemo, useState } from "react";
+import { filingAcceptedMs } from "@meridian/research/edgar-time";
 import { ExcelTable } from "@/components/ui/excel-style-table";
-import { useT, type MessageKey } from "@/lib/i18n";
+import { withClock } from "@/lib/clock";
+import { useLanguage, useT, type MessageKey, type TFunction } from "@/lib/i18n";
+import { formatterFor } from "../../../shared/briefing-text";
 import type {
   TrackerDailyBar,
   TrackerQuantContext,
@@ -40,6 +43,30 @@ const pct = (v: number | null | undefined, d = 2) =>
   v == null ? na() : `${(v * 100).toFixed(d)}%`;
 const int = (v: number | null | undefined) =>
   v == null ? na() : Math.round(v).toLocaleString("en-US");
+
+/**
+ * A filing's acceptance as New York time, in the reader's language and clock.
+ * The record holds either the true instant or SEC's raw stamp (not always
+ * UTC); `filingAcceptedMs` reads both.
+ */
+function acceptedText(
+  f: { acceptedAt: string | null; acceptedAtUtc?: boolean; filedAt: string },
+  locale: string,
+  t: TFunction,
+): string {
+  const ms = filingAcceptedMs(f);
+  if (ms === null) return na();
+  const options = withClock({
+    timeZone: "America/New_York",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  });
+  return t("briefing.time.et", { time: formatterFor(locale, options).format(new Date(ms)) });
+}
 
 /** Error value for "the preload has no Tracker bridge"; rendered through t(). */
 const BRIDGE_MISSING = "\u0000bridge-missing";
@@ -142,6 +169,7 @@ function QuantSection({
 
 export default function TrackerDataView({ ticker }: { ticker: string }) {
   const t = useT();
+  const language = useLanguage();
   const [state, setState] = useState<TrackerTickerState | null>(null);
   const [quant, setQuant] = useState<TrackerQuantContext | null>(null);
   const [dataDir, setDataDir] = useState<string>("");
@@ -296,7 +324,7 @@ export default function TrackerDataView({ ticker }: { ticker: string }) {
                 f.form,
                 f.items.join(", ") || na(),
                 f.reportDate ?? na(),
-                f.acceptedAt ?? na(),
+                acceptedText(f, language, t),
                 f.accessionNumber,
               ])}
             empty={t("instruments.tracker.noFilings")}

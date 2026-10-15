@@ -32,7 +32,7 @@ export const de: Partial<Messages> = {
   "search.group.trending": "Im Trend",
   "search.group.navigate": "Navigation",
   "search.nav.dashboard": "Dashboard",
-  "search.nav.dashboardHint": "Portfolio, Vermögenswerte, Einblicke, Risiko",
+  "search.nav.dashboardHint": "Portfolio, Vermögenswerte, Ausbreitung, Risiko",
   "search.noResults": "Keine Ergebnisse für „{query}“",
   "search.noResultsOpen": "Keine Ergebnisse für „{query}“. Drücken Sie {key}, um {symbol} trotzdem zu öffnen.",
 
@@ -47,7 +47,7 @@ export const de: Partial<Messages> = {
   "modules.earnings": "Quartalszahlen",
   "modules.news": "Nachrichten",
   "modules.risk": "Risikoscore",
-  "modules.insight": "Einblicke",
+  "modules.insight": "Ausbreitung",
 
   "menu.label": "Konto",
   "menu.settings": "Einstellungen",

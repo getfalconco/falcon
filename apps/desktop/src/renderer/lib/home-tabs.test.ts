@@ -12,29 +12,29 @@ function memory(initial: Record<string, string> = {}) {
 
 describe("home tabs", () => {
   it("starts from the default order when nothing is saved", () => {
-    assert.deepEqual(readHomeTabOrder(memory()), ["dashboard", "calendar", "agents", "earnings"]);
-    assert.deepEqual(readHomeTabOrder(null), ["dashboard", "calendar", "agents", "earnings"]);
+    assert.deepEqual(readHomeTabOrder(memory()), ["dashboard", "calendar", "agents", "earnings", "stock", "exposure"]);
+    assert.deepEqual(readHomeTabOrder(null), ["dashboard", "calendar", "agents", "earnings", "stock", "exposure"]);
   });
 
   it("adds a tab a later build introduced at the end of a saved order", () => {
     const store = memory();
     writeHomeTabOrder(store, ["agents", "calendar", "dashboard"]);
-    assert.deepEqual(readHomeTabOrder(store), ["agents", "calendar", "dashboard", "earnings"]);
+    assert.deepEqual(readHomeTabOrder(store), ["agents", "calendar", "dashboard", "earnings", "stock", "exposure"]);
   });
 
   it("keeps a dragged order across a launch", () => {
     const store = memory();
     writeHomeTabOrder(store, ["agents", "earnings", "calendar", "dashboard"]);
-    assert.deepEqual(readHomeTabOrder(store), ["agents", "earnings", "calendar", "dashboard"]);
+    assert.deepEqual(readHomeTabOrder(store), ["agents", "earnings", "calendar", "dashboard", "stock", "exposure"]);
   });
 
   it("drops unknown ids and repeats, and appends tabs the saved order lacks", () => {
     const store = memory({ [HOME_TAB_ORDER_KEY]: JSON.stringify(["calendar", "gone", "calendar", 4]) });
-    assert.deepEqual(readHomeTabOrder(store), ["calendar", "dashboard", "agents", "earnings"]);
+    assert.deepEqual(readHomeTabOrder(store), ["calendar", "dashboard", "agents", "earnings", "stock", "exposure"]);
   });
 
   it("survives junk and a store that throws", () => {
-    assert.deepEqual(readHomeTabOrder(memory({ [HOME_TAB_ORDER_KEY]: "{not json" })), ["dashboard", "calendar", "agents", "earnings"]);
+    assert.deepEqual(readHomeTabOrder(memory({ [HOME_TAB_ORDER_KEY]: "{not json" })), ["dashboard", "calendar", "agents", "earnings", "stock", "exposure"]);
     const broken = {
       getItem: () => {
         throw new Error("blocked");
@@ -43,7 +43,7 @@ describe("home tabs", () => {
         throw new Error("blocked");
       },
     };
-    assert.deepEqual(readHomeTabOrder(broken), ["dashboard", "calendar", "agents", "earnings"]);
+    assert.deepEqual(readHomeTabOrder(broken), ["dashboard", "calendar", "agents", "earnings", "stock", "exposure"]);
     assert.doesNotThrow(() => writeHomeTabOrder(broken, ["calendar", "dashboard"]));
   });
 });

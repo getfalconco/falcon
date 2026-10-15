@@ -96,6 +96,9 @@ contextBridge.exposeInMainWorld("meridian", {
       | { ok: true; result: import("../shared/step1-research").Step1Result }
       | { ok: false; error: string; code?: string }
     >,
+  /** The Stock tab's filing graph around one ticker, two hops deep. */
+  getStockGraph: (ticker: string, options?: import("../shared/stock-graph").StockGraphOptions) =>
+    ipcRenderer.invoke("stock:graph", ticker, options) as Promise<import("../shared/stock-graph").StockGraphResult>,
   getGraphData: () =>
     ipcRenderer.invoke("graph:load") as Promise<
       | { ok: true; graph: import("../shared/graph-types").GraphFile; path: string }
@@ -461,6 +464,42 @@ contextBridge.exposeInMainWorld("meridian", {
     ipcRenderer.invoke("earnings:reactions", tickers) as Promise<import("../shared/earnings-types").EarningsReactionsResult>,
   getEarningsDetail: (ticker: string) =>
     ipcRenderer.invoke("earnings:detail", ticker) as Promise<import("../shared/earnings-types").EarningsDetailResult>,
+  // Options-implied report move against the stock's own report-day record (main/options).
+  getImpliedMoves: (reports: import("../shared/implied-move").ImpliedRequestItem[]) =>
+    ipcRenderer.invoke("earnings:implied", reports) as Promise<import("../shared/implied-move").ImpliedMovesResult>,
+  // Read-through radar: linked companies' reports and how the reader's names moved on past ones (main/readthrough).
+  getReadthroughRadar: (request: import("../shared/readthrough-types").ReadthroughRequest) =>
+    ipcRenderer.invoke("readthrough:radar", request) as Promise<import("../shared/readthrough-types").ReadthroughResult>,
+  // Filing changes: latest annual report against the one before, read from EDGAR (main/filings).
+  getFilingChanges: (ticker: string) =>
+    ipcRenderer.invoke("filings:changes", ticker) as Promise<import("../shared/filing-changes").FilingChangesResult>,
+  getFilingOverview: (request: import("../shared/filing-changes").FilingOverviewRequest) =>
+    ipcRenderer.invoke("filings:overview", request) as Promise<import("../shared/filing-changes").FilingOverviewResult>,
+  // Insider activity: Form 4 clusters and 13D / 13G filings of the reader's names and their linked companies (main/insiders).
+  getInsiderActivity: (request?: import("../shared/insider-types").InsiderActivityRequest) =>
+    ipcRenderer.invoke("insiders:activity", request) as Promise<import("../shared/insider-types").InsiderActivityResult>,
+  // Exposure tab and card: what the holdings depend on together, from the filing graph (main/exposure).
+  getExposureSummary: (request: import("../shared/exposure").ExposureRequest) =>
+    ipcRenderer.invoke("exposure:summary", request) as Promise<import("../shared/exposure").ExposureResult>,
+  // Stock tab: the header's one-hop holdings and the reader's thesis per ticker (main/stock-tab).
+  getStockContext: (request: import("../shared/stock-context").StockContextRequest) =>
+    ipcRenderer.invoke("stock:context", request) as Promise<import("../shared/stock-context").StockContextResult>,
+  getStockThesis: (ticker: string) =>
+    ipcRenderer.invoke("stock:thesis:get", ticker) as Promise<import("../shared/stock-thesis").StockThesisResult>,
+  setStockThesis: (ticker: string, text: string) =>
+    ipcRenderer.invoke("stock:thesis:set", ticker, text) as Promise<import("../shared/stock-thesis").StockThesisResult>,
+  // Stock tab: the changes, earnings and competitor sections (main/stock-tab-data).
+  getStockTabChanges: (ticker: string) =>
+    ipcRenderer.invoke("stocktab:changes", ticker) as Promise<import("../shared/stock-tab-data").StockChangesResult>,
+  getStockTabChangeTags: (ticker: string) =>
+    ipcRenderer.invoke("stocktab:change-tags", ticker) as Promise<import("../shared/stock-tab-data").ChangeTagsResult>,
+  getStockTabEarnings: (ticker: string) =>
+    ipcRenderer.invoke("stocktab:earnings", ticker) as Promise<import("../shared/stock-tab-data").StockEarningsResult>,
+  getStockTabPeers: (ticker: string) =>
+    ipcRenderer.invoke("stocktab:peers", ticker) as Promise<import("../shared/stock-tab-data").StockPeersResult>,
+  // Stock tab: guidance track record from the earnings releases on EDGAR (main/guidance).
+  getStockTabGuidance: (ticker: string) =>
+    ipcRenderer.invoke("stocktab:guidance", ticker) as Promise<import("../shared/guidance-types").GuidanceTrackResult>,
   // Gauge (spec §8: Shift+F panel, Propagation drawer block, stock page block). Compute-on-read.
   getGaugeReadout: (req: import("../shared/gauge-types").GaugeReadoutRequest) =>
     ipcRenderer.invoke("gauge:readout", req) as Promise<
@@ -773,8 +812,8 @@ contextBridge.exposeInMainWorld("meridian", {
       ipcRenderer.invoke("agents:get", id) as Promise<
         import("../shared/agent-types").AgentResult<import("../shared/agent-types").AgentDetail>
       >,
-    draftFromBrief: (brief: string) =>
-      ipcRenderer.invoke("agents:draftFromBrief", brief) as Promise<
+    draftFromBrief: (brief: string, context?: import("../shared/agent-types").AgentDraftContext) =>
+      ipcRenderer.invoke("agents:draftFromBrief", brief, context) as Promise<
         import("../shared/agent-types").AgentResult<import("../shared/agent-types").AgentDraft>
       >,
     create: (draft: import("../shared/agent-types").AgentDraft) =>

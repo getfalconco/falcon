@@ -25,6 +25,9 @@ export function triggerProblem(t: AgentTrigger, lang: LanguageCode = "en-US"): s
   if ((t.kind === "earnings" || t.kind === "filing" || t.kind === "price_move") && !t.ticker.trim()) {
     return say(lang, `agents.problem.ticker.${t.kind}`);
   }
+  if (t.kind === "linked" && !t.ticker.trim()) return say(lang, "agents.problem.ticker.linked");
+  if (t.kind === "filing_changes" && !t.ticker.trim()) return say(lang, "agents.problem.ticker.changes");
+  if (t.kind === "linked" && t.events.length === 0) return say(lang, "agents.problem.linkedEvents");
   if (t.kind === "filing" && t.forms.length === 0) return say(lang, "agents.problem.forms");
   if (t.kind === "price_move" && !(t.thresholdPct > 0)) return say(lang, "agents.problem.size");
   if (t.kind === "macro" && !t.event.trim()) return say(lang, "agents.problem.release");

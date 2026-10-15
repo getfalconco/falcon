@@ -1,12 +1,15 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import type { BriefingReport, HeldFiling, MarketHeadline, Story, StoryScope } from "./briefing-types";
+import type { BriefingFact, BriefingReport, HeldFiling, MarketHeadline, Story, StoryScope } from "./briefing-types";
 import { MASKED_USD } from "./briefing-view";
+import { copyProblems } from "./copy-rules";
 import {
   HANDOVER_INTRO,
   ITEMS_PER_SECTION,
   etDateLabel,
   etTimeLabel,
+  factHint,
+  factTitle,
   handoverView,
   isEarningsFiling,
   sessionDateLabel,
@@ -396,5 +399,101 @@ describe("handover view: time and date labels", () => {
     assert.equal(sessionDateLabel("2026-01-05"), "Mon Jan 5");
     assert.equal(sessionDateLabel("2026-13-01"), "2026-13-01");
     assert.equal(sessionDateLabel("soon"), "soon");
+  });
+});
+
+describe("handover view: filings and insiders", () => {
+  const SEC = "https://www.sec.gov/Archives/edgar/data/1/000000000126000001/doc.htm";
+  const facts: BriefingFact[] = [
+    { id: "f1", kind: "red_flag", flag: "restatement", ticker: "ACME", scope: "held", date: "2026-09-23", url: SEC, form: "8-K", name: null, previous: null },
+    { id: "f2", kind: "insider", event: "purchase_cluster", ticker: "NVDA", scope: "held", date: "2026-09-23", url: SEC, form: "Form 4", insiders: 3, value_usd: 2_500_000, role: "ceo", filer: null, score: 72 },
+    {
+      id: "f3",
+      kind: "linked_report",
+      ticker: "NVDA",
+      scope: "held",
+      date: "2026-09-24",
+      url: SEC,
+      form: "10-K",
+      counterparty: "TSM",
+      relation: "supplier",
+      time: "bmo",
+      on_session: true,
+      sample: 8,
+      with_it: 6,
+      avg_abs_move_pct: 2.1,
+    },
+    { id: "f4", kind: "risk_factor", ticker: "AMD", scope: "watchlist", date: "2026-09-22", url: SEC, form: "10-Q", count: 2, heading: "We depend on one foundry" },
+    { id: "f5", kind: "red_flag", flag: "restatement", ticker: "BETA", scope: "held", date: "2026-09-23", url: SEC, form: "8-K", name: null, previous: null },
+  ];
+
+  it("adds a section between earnings and the rest, in the engine's order, one title per record", () => {
+    const view = handoverView(
+      makeReport({
+        research_facts: { facts, unavailable: [] },
+        stories: [story("m", "market", "Futures moved little.")],
+        overnight: { markets: [], held_movers: [], held_news: [], filings: [filing("AAPL", "8-K 2.02 Results")], measurements: [] },
+      }),
+      MORNING,
+      false,
+    );
+    assert.deepEqual(view.sections.map((s) => s.kind), ["earnings", "filings", "other"]);
+    const section = view.sections.find((s) => s.kind === "filings")!;
+    assert.equal(section.title, "Filings and insiders");
+    assert.deepEqual(section.items.map((i) => i.ticker), ["ACME", "NVDA", "NVDA", "AMD", "BETA"]);
+    assert.deepEqual(
+      section.items.map((i) => i.summary),
+      [
+        "Past financial statements no longer to be relied on, 8-K Item 4.02",
+        "3 insiders made open market purchases, $2.5M",
+        "TSM, a supplier to NVDA, reports today, before the open · NVDA moved with it 6 of the last 8 times · average 2.1% on the day",
+        "2 new risk factors in the 10-Q",
+        "Past financial statements no longer to be relied on, 8-K Item 4.02",
+      ],
+    );
+    for (const item of section.items) {
+      assert.equal(item.url, SEC);
+      assert.equal(item.detail, null);
+      assert.equal(item.meaning, null);
+    }
+    assert.equal(section.items[3]!.hint, "“We depend on one foundry”\n10-Q filed Tue Sep 22\nOpen on SEC.gov");
+    assert.equal(section.items[2]!.hint, "NVDA moved with it 6 of the last 8 times · average 2.1% on the day\nOpen the filing that links TSM and NVDA on SEC.gov");
+  });
+
+  it("gives the count and no figure for a pair measured fewer than three times, and says tomorrow for the next day", () => {
+    const fact: BriefingFact = { ...(facts[2] as Extract<BriefingFact, { kind: "linked_report" }>), date: "2026-09-25", time: "amc", on_session: false, sample: 2, with_it: null, avg_abs_move_pct: null };
+    const view = handoverView(makeReport({ research_facts: { facts: [fact], unavailable: [] } }), MORNING, false);
+    assert.equal(view.sections[0]!.items[0]!.summary, "TSM, a supplier to NVDA, reports tomorrow, after the close · 2 past reports measured, too few for figures");
+  });
+
+  it("draws nothing for a report without them, and the popup is not empty with them alone", () => {
+    assert.equal(handoverView(makeReport(), MORNING, false).empty, true);
+    const view = handoverView(makeReport({ research_facts: { facts: [facts[0]!], unavailable: [] } }), MORNING, false);
+    assert.equal(view.empty, false);
+    assert.equal(handoverView(makeReport({ research_facts: { facts: [], unavailable: ["insiders"] } }), MORNING, false).empty, true);
+  });
+
+  it("words every kind without an empty placeholder", () => {
+    const all: BriefingFact[] = [
+      { id: "a", kind: "red_flag", flag: "auditor_name", ticker: "A", scope: "held", date: "2026-09-23", url: null, form: "10-K", name: "New LLP", previous: "Old LLP" },
+      { id: "b", kind: "insider", event: "activist_13d", ticker: "B", scope: "held", date: "2026-09-23", url: null, form: "SC 13D", insiders: 0, value_usd: null, role: null, filer: "Holder LP", score: 60 },
+      { id: "c", kind: "counterparty_named", role: "supplier", name: "Foundry Co", pct: null, ticker: "C", scope: "held", date: "2026-09-23", url: null, form: "10-K" },
+      { id: "d", kind: "share_change", name: "Big Co", basis: "revenue", pct: 18, previous_pct: 11, ticker: "D", scope: "held", date: "2026-09-23", url: null, form: "10-K" },
+      { id: "e", kind: "insider", event: "unplanned_sale", ticker: "E", scope: "held", date: "2026-09-23", url: null, form: "Form 4", insiders: 1, value_usd: null, role: "cfo", filer: null, score: 50 },
+    ];
+    const titles = all.map((f) => factTitle(f));
+    assert.deepEqual(titles, [
+      "Auditor changed from Old LLP to New LLP",
+      "Holder LP filed a 13D",
+      "Foundry Co named as a supplier for the first time in the 10-K",
+      "Big Co: 18% of revenue, 11% the year before",
+      "CFO sale outside a 10b5-1 plan",
+    ]);
+    for (const title of titles) assert.equal(/\{\w+\}/.test(title), false, title);
+  });
+
+  it("keeps every line and hover to the house copy rules: a record restated, no advice, nothing ahead", () => {
+    const lines = [...facts.map((f) => factTitle(f, undefined, "2026-09-24")), ...facts.map((f) => factHint(f))];
+    for (const line of lines) assert.deepEqual(copyProblems(JSON.stringify(line), { riskWords: true }), [], line);
   });
 });

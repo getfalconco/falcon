@@ -52,9 +52,9 @@ export const ja: Table = {
   "settings.privacy.cat.portfolio": "ポートフォリオのカバレッジ",
   "settings.privacy.cat.portfolioDescription": "保有銘柄のうち、Falconが調査済みまたは調査待ちのもの。",
   "settings.privacy.cat.research": "企業グラフとSEC提出書類",
-  "settings.privacy.cat.insight": "シグナルの解説",
-  "settings.privacy.cat.insightDescription": "シグナルの解説文。すべてのアカウントで共有されます。",
-  "settings.privacy.cat.news": "ニュースイベントとシグナル",
+  "settings.privacy.cat.insight": "イベントの解説",
+  "settings.privacy.cat.insightDescription": "イベントの解説文。すべてのアカウントで共有されます。",
+  "settings.privacy.cat.news": "ニュースイベントと伝播の実行",
   "settings.privacy.cat.risk": "リスクエンジン",
   "settings.privacy.cat.riskDescription": "リスクの測定値。エンジンがここで動く場合はペーパー口座のコピーを含みます。",
   "settings.privacy.cat.logs": "診断",
@@ -82,9 +82,9 @@ export const ja: Table = {
     "このインストールのマーケットエンジンパネルに応答します。リスクを算出するため、ペーパー口座がそこへ送信されます。保有・ウォッチ中のティッカーも、エンジンが追跡できるよう送信されます。",
   "settings.privacy.to.model": "Claude API（{host}）",
   "settings.privacy.to.modelDescription":
-    "ティッカー、SEC提出書類の公開テキスト、ニュースの見出し、Falcon の読み解き用に開いた記事の本文。ブリーフィング用には、保有比率の高いティッカーを大・中・小の区分だけで示したものと変動率。金額、株数、現金は送信しません。Insightチャットに入力した質問、エージェントへの依頼内容、説明を求めて選択したテキスト。お名前、メールアドレス、プロフィールの指示は送信しません。",
+    "ティッカー、SEC提出書類の公開テキスト、ニュースの見出し、Falcon の読み解き用に開いた記事の本文。ブリーフィング用には、保有比率の高いティッカーを大・中・小の区分だけで示したものと変動率。金額、株数、現金は送信しません。イベントのチャットに入力した質問、エージェントへの依頼内容、説明を求めて選択したテキスト。お名前、メールアドレス、プロフィールの指示は送信しません。",
   "settings.privacy.to.modelDescriptionWorker":
-    "ティッカー、SEC提出書類の公開テキスト、ニュースの見出し、Falcon の読み解き用に開いた記事の本文。ブリーフィング用には、保有比率の高いティッカーを大・中・小の区分だけで示したものと変動率。金額、株数、現金は送信しません。Insightチャットに入力した質問、エージェントへの依頼内容、説明を求めて選択したテキスト。お名前、メールアドレス、プロフィールの指示は送信しません。これらのリクエストはFalconのリサーチワーカーを経由し、セッションを確認してから転送されます。",
+    "ティッカー、SEC提出書類の公開テキスト、ニュースの見出し、Falcon の読み解き用に開いた記事の本文。ブリーフィング用には、保有比率の高いティッカーを大・中・小の区分だけで示したものと変動率。金額、株数、現金は送信しません。イベントのチャットに入力した質問、エージェントへの依頼内容、説明を求めて選択したテキスト。お名前、メールアドレス、プロフィールの指示は送信しません。これらのリクエストはFalconのリサーチワーカーを経由し、セッションを確認してから転送されます。",
   "settings.privacy.to.market": "市場データ（{hosts}）",
   "settings.privacy.to.marketDescription":
     "ニュース、株価、提出書類、銘柄一覧を取得するためのティッカーと企業識別子。あなたに関する情報は含みません。",
@@ -192,7 +192,7 @@ export const ja: Table = {
   "settings.notifications.unsupported": "このシステムにはFalconが使える通知サービスがないため、通知を送信できません。",
   "settings.notifications.allow": "通知を許可",
   "settings.notifications.sound": "サウンド",
-  "settings.notifications.cat.secondOrder": "二次シグナル",
+  "settings.notifications.cat.secondOrder": "二次的な影響",
   "settings.notifications.cat.marketEvents": "市場イベント",
   "settings.notifications.cat.appUpdates": "アプリのアップデート",
   "settings.notifications.cat.agents": "エージェント",

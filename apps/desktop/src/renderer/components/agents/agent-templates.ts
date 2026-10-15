@@ -4,18 +4,22 @@ import { fillTemplateTicker, say } from "./agent-format";
 /**
  * The create flow's starting points, made from what the reader holds and
  * follows rather than a fixed list: the results of the held name that reports
- * soonest, the filings of a holding, and insider purchases at a holding
- * (open-market only, 10b5-1 plan trades left out).
+ * soonest, the filings of a holding, insider purchases at a holding
+ * (open-market only, 10b5-1 plan trades left out), the results and
+ * filings of a holding's suppliers and customers, and what a holding's next
+ * 10-K or 10-Q changes (new risk factors, red flags, customers).
  *
  * Only what the engine can watch today is offered. A reader with no holdings
- * and no watchlist gets the same three about the tracked names that report
+ * and no watchlist gets the first three about the tracked names that report
  * soonest, marked as examples ("e.g. NVDA"), and failing those about NVDA,
- * AAPL and MSFT.
+ * AAPL and MSFT; the linked starter's example is AMD, whose filings link it
+ * to several listed suppliers and customers; the filing changes starter's is
+ * SMCI.
  *
  * Pure, so the choice of names is tested without React.
  */
 
-export type StarterId = "earnings" | "filings" | "insider";
+export type StarterId = "earnings" | "filings" | "insider" | "linked" | "changes";
 
 /** One upcoming report, as the earnings calendar gives it. */
 export type ReportingRow = { ticker: string; date: string; held?: boolean; watchlist?: boolean };
@@ -41,7 +45,7 @@ export type StarterTemplate = {
 };
 
 /** The names a reader with nothing of their own and no calendar gets. */
-export const EXAMPLE_TICKERS: Readonly<Record<StarterId, string>> = { earnings: "NVDA", filings: "AAPL", insider: "MSFT" };
+export const EXAMPLE_TICKERS: Readonly<Record<StarterId, string>> = { earnings: "NVDA", filings: "AAPL", insider: "MSFT", linked: "AMD", changes: "SMCI" };
 
 const upper = (list: readonly string[]) => [...new Set(list.map((t) => t.trim().toUpperCase()).filter(Boolean))];
 const byDate = (rows: readonly ReportingRow[]) => [...rows].sort((a, b) => a.date.localeCompare(b.date) || a.ticker.localeCompare(b.ticker));
@@ -78,17 +82,22 @@ export function buildStarterTemplates(input: StarterInputs): StarterTemplate[] {
     else out.push({ id, ticker: pick(fallback.filter((t) => !used.has(t)), used) ?? EXAMPLE_TICKERS[id], example: true });
     used.add(out[out.length - 1]!.ticker);
   }
+
+  // The filings and results of a holding's suppliers and customers: a held name first.
+  const linkedPick = held[0] ?? watchlist[0];
+  if (linkedPick) out.push({ id: "linked", ticker: linkedPick, example: false });
+  else out.push({ id: "linked", ticker: EXAMPLE_TICKERS.linked, example: true });
+
+  // What a holding's next periodic report changes: a holding not used above, else the first.
+  const changesPick = pick(held, used) ?? pick(watchlist, used);
+  if (changesPick) out.push({ id: "changes", ticker: changesPick, example: false });
+  else out.push({ id: "changes", ticker: EXAMPLE_TICKERS.changes, example: true });
   return out;
 }
 
 /** The chip's label: "Earnings of NVDA", or "Earnings watch, e.g. NVDA" for an example. */
 export function starterTitle(t: StarterTemplate, lang: LanguageCode): string {
   return say(lang, t.example ? `agents.starter.${t.id}.example` : `agents.starter.${t.id}.title`, { ticker: t.ticker });
-}
-
-/** What the starter does, for the chip's tooltip. */
-export function starterDescription(t: StarterTemplate, lang: LanguageCode): string {
-  return say(lang, `agents.starter.${t.id}.description`);
 }
 
 /** The brief the starter puts in, with its ticker located so typing replaces it. */

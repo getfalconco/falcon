@@ -67,6 +67,7 @@ const CATEGORY_KEYS: Readonly<Record<string, { label: MessageKey; description?: 
   "briefing-cache": { label: "settings.privacy.cat.briefingCache" },
   agents: { label: "settings.privacy.cat.agents", description: "settings.privacy.cat.agentsDescription" },
   calendar: { label: "settings.privacy.cat.calendar", description: "settings.privacy.cat.calendarDescription" },
+  theses: { label: "stocktab.thesis.privacyLabel", description: "stocktab.thesis.privacyDescription" },
   "calendar-cache": { label: "settings.privacy.cat.calendarCache", description: "settings.privacy.cat.calendarCacheDescription" },
   earnings: { label: "settings.privacy.cat.earnings", description: "settings.privacy.cat.earningsDescription" },
   preferences: { label: "settings.privacy.cat.preferences", description: "settings.privacy.cat.preferencesDescription" },

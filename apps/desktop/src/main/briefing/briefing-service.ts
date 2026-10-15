@@ -43,7 +43,12 @@ import { createCorporateActions } from "./corporate-actions";
 import { createMarketNews } from "./market-news";
 import { createNarrativeService } from "./narrative-service";
 import { toHeldQuote, toMarketSnapshot } from "./ports-map";
+import { filings as filingsService } from "../filings/register-filings-handlers";
+import { insiders as insidersService } from "../insiders/register-insiders-handlers";
+import { readthrough as readthroughService } from "../readthrough/register-readthrough-handlers";
+import { mergeHoldings } from "../../shared/briefing-types";
 import { parseBriefingRequest } from "./request";
+import { collectResearchFacts } from "./research-facts";
 import { userKeyFromAccessToken } from "./user-key";
 
 const CORPORATE_ACTIONS_FILE = "corporate-actions.json";
@@ -171,6 +176,20 @@ function getHost(): Host {
       realNowMs: Date.now,
       userKey: currentUserKey,
       modelConfigured: glossConfigured,
+      // Read from what the filing, insider and read-through modules keep, under
+      // the same offline switch as every other port.
+      researchFacts: (req, window) => {
+        if (offline()) return Promise.reject(new Error("briefing offline switch is on"));
+        // A borrowed position is still a name the reader holds; only a bought one has a weight to read through.
+        const positions = mergeHoldings(req.holdings)
+          .filter((h) => h.shares !== 0)
+          .map((h) => ({ ticker: h.symbol, shares: h.shares > 0 ? h.shares : null }));
+        return collectResearchFacts(
+          { filings: filingsService, insiders: insidersService, readthrough: readthroughService, now: Date.now },
+          { held: positions.map((p) => p.ticker), watchlist: req.watchlist ?? [], positions },
+          window.target_session_ymd,
+        );
+      },
     }),
     narratives: createNarrativeService({
       store,

@@ -3,6 +3,7 @@ import path from "node:path";
 import { DEV_DIR, REPORT_FILE } from "../briefing/briefing-store";
 import { AgentStore, userDirName } from "../agents/store";
 import { createUserEventsStore } from "../calendar/user-events-store";
+import { readTheses } from "../stock-tab/thesis-store";
 import type { EngineUsage, LocalDataCategory, LocalDataKind, UsageSummary } from "../../shared/privacy-types";
 
 /**
@@ -41,7 +42,7 @@ export const SNAPTRADE_RULE: Rule = {
 
 const NEWS_RULE: Rule = {
   key: "news",
-  label: "News events and signals",
+  label: "News events and propagation runs",
   description: "Market news and the signals derived from it.",
   kind: "cache",
 };
@@ -97,7 +98,14 @@ const RULES: Readonly<Record<string, Rule>> = {
     description: "Relationship graphs and the public filings they were read from.",
     kind: "cache",
   },
-  insight: { key: "insight", label: "Signal explanations", description: "Written explanations of signals, shared by every account.", kind: "cache" },
+  // Readings of public SEC filings for Filing changes (main/filings): risk factor headings, flags, plain text.
+  filings: {
+    key: "research",
+    label: "Company graphs and SEC filings",
+    description: "Relationship graphs and the public filings they were read from.",
+    kind: "cache",
+  },
+  insight: { key: "insight", label: "Event explanations", description: "Written explanations of events, shared by every account.", kind: "cache" },
   events: NEWS_RULE,
   signals: NEWS_RULE,
   // Article text the news reader fetched (main/news).
@@ -128,6 +136,27 @@ const RULES: Readonly<Record<string, Rule>> = {
     label: "Agents",
     description: "Your agents with their reports and chats, and the notifications waiting to go out.",
     kind: "personal",
+  },
+  // `<data root>/theses/<user id>.json`: the Stock tab's thesis per ticker (main/stock-tab).
+  theses: {
+    key: "theses",
+    label: "Stock theses",
+    description: "What you wrote on why you hold or watch each stock, for each account used on this device.",
+    kind: "personal",
+  },
+  // `<data root>/insiders/`: Form 4, 13D and 13G filings read from EDGAR for the Insider activity card (main/insiders).
+  insiders: {
+    key: "insiders",
+    label: "Insider filings",
+    description: "Form 4, 13D and 13G filings read from SEC EDGAR for the companies you hold, watch and their linked companies.",
+    kind: "cache",
+  },
+  // `<data root>/guidance/`: earnings release figures read from EDGAR for the Stock tab's guidance record (main/guidance).
+  guidance: {
+    key: "guidance",
+    label: "Earnings guidance",
+    description: "Guided and reported figures read from earnings releases on SEC EDGAR, shared by every account.",
+    kind: "cache",
   },
 };
 
@@ -339,6 +368,8 @@ export function collectLocalExport(root: string, userKey: string): Record<string
   if (agents) out.agents = agents;
   const calendar = collectCalendarExport(root, userKey);
   if (calendar) out.calendar_events = calendar;
+  const theses = collectThesesExport(root, userKey);
+  if (theses) out.stock_theses = theses;
   return out;
 }
 
@@ -346,6 +377,7 @@ export function collectLocalExport(root: string, userKey: string): Record<string
 /** Agents v2: `digest` added; agents may carry `ends` and `nextCheckAt`, and `channels` may be empty or hold "digest". */
 export const AGENTS_EXPORT_SCHEMA = { schema: "falcon-agents", schema_version: 2 } as const;
 export const CALENDAR_EXPORT_SCHEMA = { schema: "falcon-calendar-events", schema_version: 1 } as const;
+export const THESES_EXPORT_SCHEMA = { schema: "falcon-stock-theses", schema_version: 1 } as const;
 
 /** A field name that holds a credential, compared with case, `_` and `-` ignored. */
 const SECRET_FIELD = /^(token|.*(secret|password|passwd|apikey|privatekey|authorization|accesstoken|refreshtoken|pushtoken|bearer|credential)s?)$/;
@@ -408,6 +440,13 @@ export function collectCalendarExport(root: string, userKey: string): Record<str
   if (!key) return null;
   const store = createUserEventsStore({ file: path.join(root, "calendar", CALENDAR_EVENTS_FILE), userKey: () => key });
   return withoutSecrets({ ...CALENDAR_EXPORT_SCHEMA, events: store.list() }) as Record<string, unknown>;
+}
+
+/** The account's Stock tab theses, from `<data root>/theses/<user id>.json` only. */
+export function collectThesesExport(root: string, userKey: string): Record<string, unknown> | null {
+  const key = signedInKey(userKey);
+  if (!key) return null;
+  return withoutSecrets({ ...THESES_EXPORT_SCHEMA, theses: readTheses(root, key) }) as Record<string, unknown>;
 }
 
 // ---------------------------------------------------------------------------

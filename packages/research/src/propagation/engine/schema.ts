@@ -8,6 +8,7 @@
  * propagation is impossible by construction, not by prompt.
  */
 
+import { plainDashes } from "../../copy-rules.js";
 import type { Direction } from "../../classifier/types.js";
 import { DIRECTIONS } from "../../classifier/types.js";
 import { extractJson } from "../../classifier/schema.js";
@@ -174,8 +175,10 @@ export function validateParsedStage2(parsed: unknown, ctx: Stage2ValidationConte
       target: candidate.target,
       verdict: verdict as Stage2Verdict,
       direction,
-      mechanism: mechanism && mechanism.length > 0 ? mechanism : null,
-      rationale: rationale && rationale.length > 0 ? rationale : null,
+      // Both lines reach the reader, so the house dash rule holds on them
+      // whether or not the model kept to the prompt.
+      mechanism: mechanism && mechanism.length > 0 ? plainDashes(mechanism) : null,
+      rationale: rationale && rationale.length > 0 ? plainDashes(rationale) : null,
     });
   });
   if (errors.length) return { ok: false, errors, added_target: addedTarget };

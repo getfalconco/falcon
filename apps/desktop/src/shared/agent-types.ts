@@ -12,7 +12,7 @@
  * `AgentResult<T>`):
  *   list()                          -> Agent[]
  *   get(id)                         -> AgentDetail
- *   draftFromBrief(brief)           -> AgentDraft     (the model parses the reader's own words)
+ *   draftFromBrief(brief, context?) -> AgentDraft     (the model parses the reader's own words)
  *   create(draft)                   -> Agent
  *   update(id, patch: AgentPatch)   -> Agent
  *   setStatus(id, status)           -> Agent          ("active" | "paused")
@@ -56,6 +56,23 @@
  *   - `AgentChannel` member `"digest"`: the report waits for one summary
  *     notification a day (08:00 local) instead of its own. Every report is in
  *     the app either way; an agent with no channel is in-app only.
+ *   - `AgentTrigger` member `linked` (with `AgentLinkRelation`,
+ *     `AgentLinkTier`, `AgentLinkedEvent`): a standing watch on the companies
+ *     the filing graph links to a ticker (its suppliers, customers,
+ *     competitors), firing on their results, filings or material news.
+ *     `AgentReport.trigger` and `AgentTriggerKind` gain "linked" with it.
+ *   - `draftFromBrief(brief, context?: AgentDraftContext)`: the create flow
+ *     may pass the reader's held tickers, so "companies linked to my
+ *     holdings" becomes one `linked` trigger per holding. Without it the
+ *     words are read as before.
+ *   - `AgentTrigger` member `filing_changes` (with `AgentFilingChangeKind`):
+ *     a watch on what a company's next 10-K, 10-Q or 20-F changes against
+ *     the report before it (new risk factors, red flags, customers and
+ *     suppliers, as the Filing changes service reads them), and on the red
+ *     flag filings in its EDGAR index (8-K items 4.01 and 4.02, late filing
+ *     notices). `AgentReport.trigger` and `AgentTriggerKind` gain
+ *     "filing_changes" with it. A filing it reports is consumed under the
+ *     same key as the plain `filing` trigger's, so one filing is one report.
  */
 
 /**
@@ -104,6 +121,33 @@ export type AgentTrigger =
   /** A macro release from the calendar (CPI, FOMC, payrolls, ...). */
   | { kind: "macro"; event: string }
   /**
+   * The companies a filing links to `ticker`: its suppliers, customers and
+   * competitors in the local filing graph, read from `ticker`'s side (a
+   * customer that names `ticker` as its supplier is `ticker`'s customer). Fires
+   * when one of them reports results, files one of `forms`, or has material
+   * news. The set is read again at every check, so a rebuilt graph counts.
+   *   relations  absent: all three
+   *   minTier    absent: "important" (critical and important links)
+   *   forms      for "filing" events; absent: 8-K and 6-K
+   */
+  | {
+      kind: "linked";
+      ticker: string;
+      relations?: AgentLinkRelation[];
+      minTier?: AgentLinkTier;
+      events: AgentLinkedEvent[];
+      forms?: string[];
+    }
+  /**
+   * What `ticker`'s next periodic report changes against the one before it,
+   * read mechanically from EDGAR (main/filings): fires when a new 10-K, 10-Q
+   * or 20-F has a change of one of `kinds` that the report right before it
+   * did not already carry, or when a red flag filing lands (8-K item 4.01 or
+   * 4.02, a late filing notice) and `kinds` has "red_flags".
+   *   kinds  absent: all four
+   */
+  | { kind: "filing_changes"; ticker: string; kinds?: AgentFilingChangeKind[] }
+  /**
    * No event at all: a write-up on a fixed cadence. `time` is HH:mm local.
    * With no ticker on the agent, it covers the market's headlines, narrowed
    * to `keywords` when given (a topic: "semiconductor", "supplier").
@@ -111,6 +155,31 @@ export type AgentTrigger =
   | { kind: "schedule"; cadence: "daily" | "weekdays" | "weekly"; time: string; weekday?: number; keywords?: string[] };
 
 export type AgentTriggerKind = AgentTrigger["kind"];
+
+/** What a linked company is to the watched one, read from the watched one's side. */
+export type AgentLinkRelation = "supplier" | "customer" | "competitor";
+/** How much the filing says the link matters (step1's strength tier), strongest first. */
+export type AgentLinkTier = "critical" | "important" | "marginal";
+/** What a `linked` trigger fires on: results releases, SEC filings, material news. */
+export type AgentLinkedEvent = "earnings" | "filing" | "news";
+
+/**
+ * The changes a `filing_changes` trigger watches:
+ *   risk_factors  a new risk factor heading
+ *   red_flags     a material weakness, going concern language, an auditor
+ *                 change, a restatement notice (8-K 4.02), a late filing notice
+ *   customers     a customer named for the first time, a customer's share
+ *                 of revenue that moved, appeared or is no longer stated
+ *   suppliers     a supplier named for the first time, a new sole or single
+ *                 source passage
+ */
+export type AgentFilingChangeKind = "risk_factors" | "red_flags" | "customers" | "suppliers";
+
+/**
+ * What the create flow knows that the words do not: the reader's open
+ * positions, so "companies linked to my holdings" can name them.
+ */
+export type AgentDraftContext = { held?: string[] };
 
 /** One number the reader cares about, with what they expect if they said. */
 export type AgentMetric = {

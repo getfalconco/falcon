@@ -32,7 +32,7 @@ export const ja: Partial<Messages> = {
   "search.group.trending": "注目",
   "search.group.navigate": "移動",
   "search.nav.dashboard": "ダッシュボード",
-  "search.nav.dashboardHint": "ポートフォリオ、資産、インサイト、リスク",
+  "search.nav.dashboardHint": "ポートフォリオ、資産、伝播、リスク",
   "search.noResults": "「{query}」に一致する結果はありません",
   "search.noResultsOpen": "「{query}」に一致する結果はありません。{key} を押すと {symbol} をそのまま開きます。",
 
@@ -47,7 +47,7 @@ export const ja: Partial<Messages> = {
   "modules.earnings": "決算",
   "modules.news": "ニュース",
   "modules.risk": "リスクスコア",
-  "modules.insight": "インサイト",
+  "modules.insight": "伝播",
 
   "menu.label": "アカウント",
   "menu.settings": "設定",

@@ -315,6 +315,15 @@ export async function fetchStockChartRange(
   return seriesFromChartSafe(fallback);
 }
 
+/**
+ * Daily candles over any range. `fetchStockChartRange` picks the interval by
+ * span and turns weekly past three years, which a reader of report-day moves
+ * cannot use: those need one close per session however far back they reach.
+ */
+export async function fetchDailyRange(symbol: string, startSec: number, endSec: number): Promise<PricePoint[]> {
+  return seriesFromChartSafe(await fetchYahooChartRange(symbol, startSec, endSec, "1d"));
+}
+
 /** Short-lived cache so fan-out signals sharing a (symbol, event) don't each hit Yahoo. */
 const moveSinceCache = new Map<string, { at: number; value: PriceMoveSince | null }>();
 const MOVE_SINCE_TTL_MS = 60_000;
@@ -1629,4 +1638,118 @@ export async function fetchMarketCaps(symbols: readonly string[]): Promise<Recor
     }
     return out;
   });
+}
+
+/* ------------------------------------------------------------------ */
+/* Option chains                                                       */
+/* ------------------------------------------------------------------ */
+
+const YAHOO_OPTIONS_BASE = "https://query2.finance.yahoo.com/v7/finance/options";
+
+export type OptionContractRead = {
+  strike: number;
+  bid: number | null;
+  ask: number | null;
+  last: number | null;
+  /** Epoch seconds of the last trade; null when none is on record. */
+  lastTradeSec: number | null;
+};
+
+export type OptionChainRead = {
+  symbol: string;
+  /** The regular session's last price, the price the option quotes stand against. */
+  spot: number | null;
+  /** Every listed expiry, YYYY-MM-DD, nearest first. */
+  expirations: string[];
+  /** The expiry these contracts are for; null when the provider sent none. */
+  expiry: string | null;
+  calls: OptionContractRead[];
+  puts: OptionContractRead[];
+};
+
+type YahooOptionContract = {
+  strike?: number;
+  bid?: number;
+  ask?: number;
+  lastPrice?: number;
+  lastTradeDate?: number;
+};
+
+function expiryYmd(sec: number): string {
+  // Yahoo stamps an expiry at 00:00 UTC of its calendar date.
+  return new Date(sec * 1000).toISOString().slice(0, 10);
+}
+
+function positiveOrNull(v: unknown): number | null {
+  return typeof v === "number" && Number.isFinite(v) && v > 0 ? v : null;
+}
+
+function contractsFrom(list: unknown): OptionContractRead[] {
+  if (!Array.isArray(list)) return [];
+  const out: OptionContractRead[] = [];
+  for (const c of list as YahooOptionContract[]) {
+    const strike = positiveOrNull(c?.strike);
+    if (strike === null) continue;
+    out.push({
+      strike,
+      bid: positiveOrNull(c.bid),
+      ask: positiveOrNull(c.ask),
+      last: positiveOrNull(c.lastPrice),
+      lastTradeSec: positiveOrNull(c.lastTradeDate),
+    });
+  }
+  return out.sort((a, b) => a.strike - b.strike);
+}
+
+/**
+ * One expiry of a symbol's listed options (the nearest when `expiry` is not
+ * given), with the expiries on offer, through the same crumb handshake, the
+ * single re-auth and the deadline as the quote summary. Throws when no answer
+ * was obtained; null when the provider has no options for the symbol.
+ */
+export async function fetchOptionChain(symbol: string, expiry?: string): Promise<OptionChainRead | null> {
+  const normalized = normalizeSymbol(symbol);
+  if (!/^[A-Z0-9.^=-]{1,12}$/.test(normalized)) return null;
+  const dateSec = expiry && /^\d{4}-\d{2}-\d{2}$/.test(expiry) ? Math.floor(Date.parse(`${expiry}T00:00:00Z`) / 1000) : null;
+  const attempt = (auth: YahooAuth, signal: AbortSignal) =>
+    fetch(
+      `${YAHOO_OPTIONS_BASE}/${encodeURIComponent(normalized)}?${dateSec !== null ? `date=${dateSec}&` : ""}crumb=${encodeURIComponent(auth.crumb)}`,
+      { headers: { ...YAHOO_HEADERS, Cookie: auth.cookie }, signal },
+    );
+  return withRequestTimeout(async (signal) => {
+    let auth = await getYahooAuth();
+    if (!auth) throw new Error("Market data auth unavailable");
+    let response = await attempt(auth, signal);
+    if (response.status === 401 || response.status === 403) {
+      auth = await getYahooAuth(true);
+      if (!auth) throw new Error("Market data auth unavailable");
+      response = await attempt(auth, signal);
+    }
+    if (response.status === 404) return null;
+    if (!response.ok) throw new Error(`Option chain request failed (${response.status})`);
+    const payload = (await response.json()) as {
+      optionChain?: {
+        result?: Array<{
+          expirationDates?: number[];
+          quote?: { regularMarketPrice?: number };
+          options?: Array<{ expirationDate?: number; calls?: unknown; puts?: unknown }>;
+        }>;
+      };
+    };
+    const result = payload.optionChain?.result?.[0];
+    if (!result) return null;
+    const expirations = (result.expirationDates ?? [])
+      .filter((s): s is number => typeof s === "number" && Number.isFinite(s))
+      .sort((a, b) => a - b)
+      .map(expiryYmd);
+    const block = result.options?.[0];
+    return {
+      symbol: normalized,
+      spot: positiveOrNull(result.quote?.regularMarketPrice),
+      expirations,
+      expiry: typeof block?.expirationDate === "number" ? expiryYmd(block.expirationDate) : null,
+      calls: contractsFrom(block?.calls),
+      puts: contractsFrom(block?.puts),
+    };
+  }, MARKET_DATA_REQUEST_TIMEOUT_MS);
 }

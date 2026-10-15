@@ -107,6 +107,7 @@ data/dataset/
 apps/desktop/data/agents/
 apps/desktop/data/calendar/
 apps/desktop/data/earnings/
+apps/desktop/data/guidance/
 apps/desktop/data/news/
 apps/desktop/data/snaptrade/
 apps/desktop/data/account-cleanup.json

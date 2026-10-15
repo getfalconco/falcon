@@ -12,13 +12,14 @@ import type { SessionKind } from "./calendar.js";
 import type { DailyBar, EarningsRecord, FilingRecord } from "./types.js";
 import { finnhubApiBase } from "../finnhub.js";
 import { repairArticleText } from "../news/mojibake.js";
+import { edgarAcceptanceIso, edgarIndexConvention } from "../research/edgar-time.js";
 
 const YAHOO_BASE = "https://query1.finance.yahoo.com/v8/finance/chart";
 const BROWSER_UA =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36";
 const SEC_UA =
   process.env.SEC_EDGAR_USER_AGENT?.trim() ||
-  "Meridian Falcon Tracker research@getfalcon.co";
+  "Falcon Tracker research@getfalcon.co";
 const FETCH_TIMEOUT_MS = 15_000;
 
 /** Every outbound request goes through an abort timer — an unbounded fetch
@@ -346,35 +347,46 @@ const TRACKED_FORMS = new Set(["8-K", "10-Q", "10-K", "4"]);
  * per-filing follow-up request is needed.
  */
 export async function fetchSubmissions(cik: string): Promise<SubmissionsResult> {
-  const data = await fetchJson<{
-    filings?: {
-      recent?: {
-        form?: string[];
-        filingDate?: string[];
-        reportDate?: string[];
-        acceptanceDateTime?: string[];
-        items?: string[];
-        accessionNumber?: string[];
-        primaryDocument?: string[];
-      };
-    };
-  }>(`https://data.sec.gov/submissions/CIK${cik}.json`, {
+  const data = await fetchJson<{ filings?: { recent?: SubmissionsRecent } }>(`https://data.sec.gov/submissions/CIK${cik}.json`, {
     "User-Agent": SEC_UA,
     Accept: "application/json",
   });
+  // The stamp's clock depends on this read of the file (research/edgar-time.ts).
+  return { filings: filingsFromSubmissions(data.filings?.recent, Date.now()) };
+}
 
-  const recent = data.filings?.recent;
+/** The submissions index's `filings.recent` columns. */
+export type SubmissionsRecent = {
+  form?: string[];
+  filingDate?: string[];
+  reportDate?: string[];
+  acceptanceDateTime?: string[];
+  items?: string[];
+  accessionNumber?: string[];
+  primaryDocument?: string[];
+};
+
+/**
+ * The tracked forms of a submissions index read at `fetchedAtMs`, each with
+ * its true acceptance instant (`acceptedAtUtc`). Pure.
+ */
+export function filingsFromSubmissions(recent: SubmissionsRecent | undefined, fetchedAtMs: number): FilingRecord[] {
   const filings: FilingRecord[] = [];
   if (recent?.form) {
+    // Some files write older entries as the true instant, most shifted: the file's own entries say which.
+    const convention = edgarIndexConvention(recent, fetchedAtMs);
     for (let i = 0; i < recent.form.length; i++) {
       const form = recent.form[i];
       if (!form || !TRACKED_FORMS.has(form)) continue;
       const rawItems = recent.items?.[i] ?? "";
+      const filedAt = recent.filingDate?.[i] ?? "";
+      const acceptedAt = edgarAcceptanceIso(recent.acceptanceDateTime?.[i], { filingDate: filedAt, fetchedAtMs, convention });
       filings.push({
         form,
         accessionNumber: recent.accessionNumber?.[i] ?? "",
-        filedAt: recent.filingDate?.[i] ?? "",
-        acceptedAt: recent.acceptanceDateTime?.[i] || null,
+        filedAt,
+        acceptedAt,
+        ...(acceptedAt ? { acceptedAtUtc: true } : {}),
         reportDate: recent.reportDate?.[i] || null,
         items: rawItems
           .split(",")
@@ -384,7 +396,7 @@ export async function fetchSubmissions(cik: string): Promise<SubmissionsResult> 
       });
     }
   }
-  return { filings };
+  return filings;
 }
 
 /** 8-K item code for "Results of Operations and Financial Condition". */
@@ -479,7 +491,7 @@ export async function fetchForm4Details(
   };
   const txnDateRaw = inTxn("transactionDate");
   const transactionDate =
-    txnDateRaw != null && /^d{4}-d{2}-d{2}/.test(txnDateRaw)
+    txnDateRaw != null && /^\d{4}-\d{2}-\d{2}/.test(txnDateRaw)
       ? txnDateRaw.slice(0, 10)
       : null;
   const sharesRaw = inTxn("transactionShares");

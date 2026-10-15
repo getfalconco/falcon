@@ -875,6 +875,14 @@ export function createEarningsService(deps: EarningsServiceDeps) {
       return task;
     },
     flush,
+    /** The whole Yahoo read for a name (next date, consensus, quarters), from the same cache; null when none can be read. */
+    async read(symbol: string): Promise<YahooEarningsRead | null> {
+      try {
+        return await detail(symbol);
+      } catch {
+        return null;
+      }
+    },
     /** The quarters on record for a name, for the reaction figures; null when none can be read. */
     async quarters(symbol: string): Promise<YahooQuarter[] | null> {
       try {

@@ -5,14 +5,17 @@ import { Segmented } from "@/components/settings/controls";
 import { DROPDOWN_FADE } from "@/lib/dropdown-motion";
 import { useI18n, useLanguage } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
-import type { AgentTrigger, AgentTriggerKind } from "../../../shared/agent-types";
+import type { AgentFilingChangeKind, AgentLinkRelation, AgentLinkedEvent, AgentTrigger, AgentTriggerKind } from "../../../shared/agent-types";
 import { triggerProblem } from "./agent-draft";
-import { TRIGGER_KINDS, macroLabel, triggerKindLabel, triggerSentence, weekdayName } from "./agent-format";
+import { CHANGE_KINDS, LINKED_DEFAULT_FORMS, TRIGGER_KINDS, macroLabel, triggerKindLabel, triggerSentence, weekdayName } from "./agent-format";
 import { FIELD } from "./agent-ui";
 import TickerField from "./TickerField";
 
 const FORMS = ["8-K", "10-Q", "10-K", "4", "13D", "S-1"] as const;
 const MACRO_EVENTS = ["CPI", "Payrolls", "FOMC rate decision", "PCE", "GDP"] as const;
+const LINK_RELATIONS: readonly AgentLinkRelation[] = ["supplier", "customer", "competitor"];
+const LINKED_EVENTS: readonly AgentLinkedEvent[] = ["earnings", "filing", "news"];
+const LINKED_FORMS = ["8-K", "6-K", "10-Q", "10-K"] as const;
 
 /** A fresh trigger of a kind, filled from the agent's ticker where it needs one. */
 export function defaultTrigger(kind: AgentTriggerKind, ticker: string): AgentTrigger {
@@ -27,6 +30,10 @@ export function defaultTrigger(kind: AgentTriggerKind, ticker: string): AgentTri
       return { kind, ticker: ticker || undefined, keywords: [] };
     case "macro":
       return { kind, event: "CPI" };
+    case "linked":
+      return { kind, ticker, relations: ["supplier", "customer"], events: ["earnings", "filing"] };
+    case "filing_changes":
+      return { kind, ticker };
     case "schedule":
       return { kind, cadence: "weekdays", time: "08:00" };
   }
@@ -139,7 +146,7 @@ export default function TriggerEditor({
   const [customMacro, setCustomMacro] = useState(t.kind === "macro" && !(MACRO_EVENTS as readonly string[]).includes(t.event));
 
   const tickerRow =
-    t.kind === "earnings" || t.kind === "filing" || t.kind === "price_move" || t.kind === "news" ? (
+    t.kind === "earnings" || t.kind === "filing" || t.kind === "price_move" || t.kind === "news" || t.kind === "linked" || t.kind === "filing_changes" ? (
       <div className="flex items-center gap-3">
         <span className={SMALL_LABEL}>{tr("agents.trig.ticker")}</span>
         <TickerField
@@ -270,6 +277,115 @@ export default function TriggerEditor({
               aria-label={tr("agents.trig.keywordsAria")}
               className={cn(FIELD, "h-9 flex-1")}
             />
+          </div>
+        ) : null}
+
+        {t.kind === "linked" ? (
+          <>
+            <div className="flex items-start gap-3">
+              <span className={cn(SMALL_LABEL, "pt-1.5")}>{tr("agents.trig.relations")}</span>
+              <div className="flex flex-wrap gap-1.5">
+                {LINK_RELATIONS.map((r) => {
+                  const current = t.relations && t.relations.length > 0 ? t.relations : LINK_RELATIONS;
+                  const on = current.includes(r);
+                  return (
+                    <Chip
+                      key={r}
+                      on={on}
+                      onClick={() => {
+                        const next = on ? current.filter((x) => x !== r) : LINK_RELATIONS.filter((x) => x === r || current.includes(x));
+                        // None picked reads as all three, so the last one stays on.
+                        if (next.length === 0) return;
+                        onChange({ ...t, relations: next.length === LINK_RELATIONS.length ? undefined : [...next] });
+                      }}
+                    >
+                      {tr(`agents.trig.rel.${r}`)}
+                    </Chip>
+                  );
+                })}
+              </div>
+            </div>
+            <div className="flex items-center gap-3">
+              <span className={SMALL_LABEL}>{tr("agents.trig.strength")}</span>
+              <Segmented
+                label={tr("agents.trig.strength")}
+                value={t.minTier ?? "important"}
+                options={[
+                  { value: "critical", label: tr("agents.trig.tier.critical") },
+                  { value: "important", label: tr("agents.trig.tier.important") },
+                  { value: "marginal", label: tr("agents.trig.tier.marginal") },
+                ]}
+                onChange={(minTier) => onChange({ ...t, minTier: minTier === "important" ? undefined : minTier })}
+              />
+            </div>
+            <div className="flex items-start gap-3">
+              <span className={cn(SMALL_LABEL, "pt-1.5")}>{tr("agents.trig.firesOn")}</span>
+              <div className="flex flex-wrap gap-1.5">
+                {LINKED_EVENTS.map((e) => {
+                  const on = t.events.includes(e);
+                  return (
+                    <Chip
+                      key={e}
+                      on={on}
+                      onClick={() => onChange({ ...t, events: on ? t.events.filter((x) => x !== e) : LINKED_EVENTS.filter((x) => x === e || t.events.includes(x)) })}
+                    >
+                      {tr(`agents.trig.ev.${e}`)}
+                    </Chip>
+                  );
+                })}
+              </div>
+            </div>
+            {t.events.includes("filing") ? (
+              <div className="flex items-start gap-3">
+                <span className={cn(SMALL_LABEL, "pt-1.5")}>{tr("agents.trig.forms")}</span>
+                <div className="flex flex-wrap gap-1.5">
+                  {LINKED_FORMS.map((f) => {
+                    const current = t.forms && t.forms.length > 0 ? t.forms : LINKED_DEFAULT_FORMS;
+                    const on = current.includes(f);
+                    return (
+                      <Chip
+                        key={f}
+                        on={on}
+                        onClick={() => {
+                          const next = on ? current.filter((x) => x !== f) : [...current, f];
+                          if (next.length === 0) return;
+                          const same = next.length === LINKED_DEFAULT_FORMS.length && LINKED_DEFAULT_FORMS.every((x) => next.includes(x));
+                          onChange({ ...t, forms: same ? undefined : next });
+                        }}
+                      >
+                        {f}
+                      </Chip>
+                    );
+                  })}
+                </div>
+              </div>
+            ) : null}
+          </>
+        ) : null}
+
+        {t.kind === "filing_changes" ? (
+          <div className="flex items-start gap-3">
+            <span className={cn(SMALL_LABEL, "pt-1.5")}>{tr("agents.trig.changes")}</span>
+            <div className="flex flex-wrap gap-1.5">
+              {CHANGE_KINDS.map((k: AgentFilingChangeKind) => {
+                const current = t.kinds && t.kinds.length > 0 ? t.kinds : CHANGE_KINDS;
+                const on = current.includes(k);
+                return (
+                  <Chip
+                    key={k}
+                    on={on}
+                    onClick={() => {
+                      const next = on ? current.filter((x) => x !== k) : CHANGE_KINDS.filter((x) => x === k || current.includes(x));
+                      // None picked reads as all four, so the last one stays on.
+                      if (next.length === 0) return;
+                      onChange({ ...t, kinds: next.length === CHANGE_KINDS.length ? undefined : [...next] });
+                    }}
+                  >
+                    {tr(`agents.trig.change.${k}`)}
+                  </Chip>
+                );
+              })}
+            </div>
           </div>
         ) : null}
 

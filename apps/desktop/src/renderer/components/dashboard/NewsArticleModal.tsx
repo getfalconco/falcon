@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowUpRight, RotateCw, X } from "lucide-react";
+import { X } from "lucide-react";
 import StockIcon from "@/components/stock/StockIcon";
 import { cn } from "@/lib/utils";
 import { useI18n, type TFunction } from "@/lib/i18n";
@@ -247,7 +247,6 @@ function FalconRead({
         <p className="text-[12.5px] leading-snug text-[#6b7280]">{message}</p>
         {retry ? (
           <button type="button" onClick={onRetry} className={PILL}>
-            <RotateCw className="h-3.5 w-3.5 text-[#4b5563]" strokeWidth={1.75} aria-hidden />
             {t("dashboard.newsArticle.read.retry")}
           </button>
         ) : null}
@@ -341,7 +340,6 @@ function ArticleText({ body, source, onRead }: { body: BodyState; source: string
       ) : null}
       <button type="button" onClick={onRead} className={cn(PILL, "mt-5")}>
         {source ? t("dashboard.newsArticle.readAt", { source }) : t("dashboard.newsArticle.readOriginal")}
-        <ArrowUpRight className="h-3.5 w-3.5 text-[#4b5563]" strokeWidth={1.75} aria-hidden />
       </button>
     </div>
   );

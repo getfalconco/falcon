@@ -67,9 +67,6 @@ function EdgeRow({ row }: { row: NodeEdgeRow }) {
           {categoryLabel(row.category, t)}
           {row.subtype ? ` · ${row.subtype.replace(/_/g, " ")}` : ""}
         </span>
-        <span className="text-[10px] text-muted-foreground">
-          {Math.round(row.confidence * 100)}%
-        </span>
       </div>
       <p className="text-[11px] leading-relaxed text-foreground/85">{row.peerLabel}</p>
       <p className="text-[11px] leading-relaxed text-muted-foreground">{row.evidence_quote}</p>

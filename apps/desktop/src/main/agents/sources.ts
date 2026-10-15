@@ -12,14 +12,25 @@
  * The parsers at the bottom are pure and tested.
  */
 
+import { parseOwnershipXml, roleText } from "../edgar/form4";
+import type { NewsFeedResult } from "../../shared/news-feed";
+import type { FilingChanges } from "../../shared/filing-changes";
+
 export type FilingRef = {
   cik: string;
   form: string;
   accession: string;
   /** "YYYY-MM-DD" */
   filedAt: string;
-  /** ISO instant EDGAR accepted it, when the index carries one. */
+  /**
+   * ISO instant EDGAR accepted it, when the index carries one. With
+   * `acceptedAtUtc` it is the true instant (read at fetch time); without, SEC's
+   * raw stamp, not always UTC. Read it through
+   * `filingAcceptedMs` (@meridian/research/edgar-time).
+   */
   acceptedAt: string | null;
+  /** True when `acceptedAt` is the true UTC instant rather than SEC's raw stamp. */
+  acceptedAtUtc?: boolean;
   /** 8-K item codes ("2.02", "7.01"). */
   items: string[];
   primaryDocument: string | null;
@@ -75,6 +86,53 @@ export type MacroEventRead = {
 
 export type CatalogLookup = { symbol: string; companyName: string } | null;
 
+/**
+ * One edge of the local filing graph, as `main/research/graph-edges.ts` reads
+ * it: every field optional, since older graphs carry fewer.
+ */
+export type LinkGraphEdge = {
+  root_ticker?: string;
+  counterparty_ticker?: string | null;
+  counterparty_id?: string;
+  counterparty_name?: string;
+  counterparty_type?: string | null;
+  category?: string;
+  subtype?: string;
+  strength_tier?: string;
+  disclosed_share_pct?: number | null;
+  disclosed_share_quote?: string | null;
+  confidence?: number;
+  evidence_quote?: string;
+  source_url?: string;
+  filing_date?: string;
+  accession_number?: string | null;
+  form?: "10-K" | "20-F" | null;
+};
+
+/** A story the news feed's classifier cleared as material, with the names it is material for. */
+export type MaterialNewsItem = NewsItem & { tickers: string[] };
+
+/**
+ * The read-through radar's measured history of one linked pair (see
+ * shared/readthrough-types `ReadthroughStats`): how `holding` closed on
+ * `counterparty`'s past report days. Moves are signed fractions.
+ */
+export type ReadthroughRead = {
+  counterparty: string;
+  holding: string;
+  /** Reports measured, also when fewer than three. */
+  sample: number;
+  stats: {
+    events: number;
+    withIt: number;
+    avgAbsMove: number;
+    avgAbsAbnormal: number;
+    sensitivity: number | null;
+    from: string;
+    to: string;
+  } | null;
+};
+
 export interface AgentDataSources {
   /** Upcoming and recent earnings dates (YYYY-MM-DD), soonest first. */
   earningsDates(ticker: string): Promise<{ dates: string[]; estimated: boolean | null }>;
@@ -97,6 +155,21 @@ export interface AgentDataSources {
   lookupTicker(ticker: string): Promise<CatalogLookup>;
   /** Best catalog matches for a company name. */
   searchCompany(query: string): Promise<CatalogLookup[]>;
+  /** The local filing graph's edges; empty when there is no graph. Read again when the file changes. */
+  linkEdges(): Promise<LinkGraphEdge[]>;
+  /** The form of the filing step1 read for a filer ("10-K" or "20-F"), when the edge does not carry it. */
+  filingFormOf(filer: string): "10-K" | "20-F" | null;
+  /** Stories since `sinceIso` the news feed shows (cleared as material), newest first. Throws when the feed cannot be read. */
+  materialNews(sinceIso: string): Promise<MaterialNewsItem[]>;
+  /** The read-through radar's measured pairs for one name (every filing link of it); empty when it has none. */
+  readthrough(holding: string): Promise<ReadthroughRead[]>;
+  /**
+   * What the company's latest periodic reports changed (main/filings, the
+   * Stock tab's Filing changes). `covering`: an accession just seen in the
+   * index, so a kept answer that predates it is read again. Throws when
+   * EDGAR cannot be read and nothing is kept.
+   */
+  filingChanges(ticker: string, covering?: string): Promise<FilingChanges>;
 }
 
 /* ------------------------------------------------------------------ */
@@ -223,37 +296,48 @@ export function parseConsensus(modules: Record<string, unknown> | null, readAt: 
   return lines.length > 0 ? { lines, readAt } : null;
 }
 
-/** The first non-derivative transaction of a Form 4 ownership document. */
+/**
+ * The first non-derivative transaction of a Form 4 ownership document, read
+ * through the shared Form 4 reader (main/edgar/form4.ts). `plan10b51` is the
+ * form's Rule 10b5-1 box or a plan footnote on that line.
+ */
 export function parseForm4(xml: string): InsiderTxn | null {
-  if (!/<ownershipDocument/i.test(xml)) return null;
-  const tag = (name: string, scope = xml): string | null => {
-    const m = scope.match(new RegExp(`<${name}>\\s*([^<]*?)\\s*</${name}>`, "i"));
-    return m ? m[1]!.trim() : null;
-  };
-  const valueOf = (name: string, scope: string): string | null => {
-    const m = scope.match(new RegExp(`<${name}>[\\s\\S]*?<value>\\s*([^<]*?)\\s*</value>[\\s\\S]*?</${name}>`, "i"));
-    return m ? m[1]!.trim() : null;
-  };
-  const yes = (v: string | null) => v === "1" || v?.toLowerCase() === "true";
-  const role =
-    tag("officerTitle") ||
-    (yes(tag("isOfficer")) ? "officer" : yes(tag("isDirector")) ? "director" : yes(tag("isTenPercentOwner")) ? "10% owner" : "insider");
-  const txn = xml.match(/<nonDerivativeTransaction>[\s\S]*?<\/nonDerivativeTransaction>/i)?.[0];
-  if (!txn) return null;
-  const num = (v: string | null) => (v != null && v !== "" && Number.isFinite(Number(v)) ? Number(v) : null);
-  const shares = num(valueOf("transactionShares", txn));
-  const price = num(valueOf("transactionPricePerShare", txn));
-  const ad = valueOf("transactionAcquiredDisposedCode", txn);
-  const date = valueOf("transactionDate", txn);
+  const doc = parseOwnershipXml(xml);
+  const line = doc?.lines.find((l) => !l.derivative);
+  if (!doc || !line) return null;
+  const { shares, price } = line;
   return {
-    insiderName: tag("rptOwnerName") ?? "unknown",
-    role,
-    code: (tag("transactionCode", txn) ?? "").toUpperCase(),
+    insiderName: doc.reporters[0]?.name ?? "unknown",
+    role: roleText(doc.reporters[0]),
+    code: line.code,
     shares,
     price,
     value: shares !== null && price !== null ? Math.round(shares * price) : null,
-    direction: ad === "A" ? "acquired" : ad === "D" ? "disposed" : null,
-    date: date && /^\d{4}-\d{2}-\d{2}/.test(date) ? date.slice(0, 10) : null,
-    plan10b51: yes(tag("aff10b5One")),
+    direction: line.acquiredDisposed === "A" ? "acquired" : line.acquiredDisposed === "D" ? "disposed" : null,
+    date: line.date,
+    plan10b51: line.plan,
   };
+}
+
+/** The feed's stories the engine decided to show (material, a title written), newest first. */
+export function materialFromFeed(result: NewsFeedResult, sinceMs: number): MaterialNewsItem[] {
+  if (!result || result.ok !== true) throw new Error("the news feed is unavailable");
+  const out: MaterialNewsItem[] = [];
+  for (const a of result.articles) {
+    const f = a.falcon;
+    if (!f || f.decision !== "show" || !f.headline || !f.headline.trim()) continue;
+    const at = a.datetime * 1000;
+    if (!Number.isFinite(at) || at < sinceMs) continue;
+    const tickers = (f.tickers.length > 0 ? f.tickers : a.tickers).map((t) => t.trim().toUpperCase()).filter(Boolean);
+    out.push({
+      id: String(a.id),
+      // Falcon's own line, never the publisher's headline (the News card's rule).
+      title: f.headline.trim(),
+      url: a.url,
+      source: a.source,
+      publishedAt: new Date(at).toISOString(),
+      tickers,
+    });
+  }
+  return out.sort((a, b) => Date.parse(b.publishedAt!) - Date.parse(a.publishedAt!));
 }

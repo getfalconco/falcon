@@ -1,0 +1,3953 @@
+{
+ "NVDA": {
+  "ticker": "NVDA",
+  "releases": 8,
+  "latest": "2026-08-26",
+  "rows": [
+   {
+    "period": {
+     "fy": 2027,
+     "fq": null
+    },
+    "metric": "tax_rate",
+    "basis": "both",
+    "unit": "percent",
+    "currency": "USD",
+    "low": 16,
+    "high": 18,
+    "mid": 17,
+    "point": false,
+    "state": "open",
+    "actual": null,
+    "position": null,
+    "gap": null,
+    "revision": "kept",
+    "prior": {
+     "low": 16,
+     "high": 18,
+     "filedAt": "2026-05-20"
+    },
+    "guide": {
+     "quote": "For the full year fiscal 2027, NVIDIA expects GAAP and non-GAAP tax rates to be between 16.0% and 18.0%",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000073/q2fy27pr.htm",
+     "filedAt": "2026-08-26"
+    },
+    "reported": null
+   },
+   {
+    "period": {
+     "fy": 2027,
+     "fq": 3
+    },
+    "metric": "revenue",
+    "basis": "unspecified",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 105840000000,
+    "high": 110160000000,
+    "mid": 108000000000,
+    "point": false,
+    "state": "open",
+    "actual": null,
+    "position": null,
+    "gap": null,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "Revenue is expected to be $108.0 billion, plus or minus 2%",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000073/q2fy27pr.htm",
+     "filedAt": "2026-08-26"
+    },
+    "reported": null
+   },
+   {
+    "period": {
+     "fy": 2027,
+     "fq": 3
+    },
+    "metric": "gross_margin",
+    "basis": "both",
+    "unit": "percent",
+    "currency": "USD",
+    "low": 73.5,
+    "high": 74.5,
+    "mid": 74,
+    "point": false,
+    "state": "open",
+    "actual": null,
+    "position": null,
+    "gap": null,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "GAAP and non-GAAP gross margins are expected to be 74.0%, plus or minus 50 basis points.",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000073/q2fy27pr.htm",
+     "filedAt": "2026-08-26"
+    },
+    "reported": null
+   },
+   {
+    "period": {
+     "fy": 2027,
+     "fq": 3
+    },
+    "metric": "operating_expenses",
+    "basis": "gaap",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 9200000000,
+    "high": 9200000000,
+    "mid": 9200000000,
+    "point": true,
+    "state": "open",
+    "actual": null,
+    "position": null,
+    "gap": null,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "GAAP and non-GAAP operating expenses are expected to be approximately $9.2 billion and $9.0 billion, respectively.",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000073/q2fy27pr.htm",
+     "filedAt": "2026-08-26"
+    },
+    "reported": null
+   },
+   {
+    "period": {
+     "fy": 2027,
+     "fq": 3
+    },
+    "metric": "operating_expenses",
+    "basis": "non_gaap",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 9000000000,
+    "high": 9000000000,
+    "mid": 9000000000,
+    "point": true,
+    "state": "open",
+    "actual": null,
+    "position": null,
+    "gap": null,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "GAAP and non-GAAP operating expenses are expected to be approximately $9.2 billion and $9.0 billion, respectively.",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000073/q2fy27pr.htm",
+     "filedAt": "2026-08-26"
+    },
+    "reported": null
+   },
+   {
+    "period": {
+     "fy": 2027,
+     "fq": 2
+    },
+    "metric": "revenue",
+    "basis": "unspecified",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 89180000000,
+    "high": 92820000000,
+    "mid": 91000000000,
+    "point": false,
+    "state": "resolved",
+    "actual": 96221000000,
+    "position": "above",
+    "gap": 0.057374,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "Revenue is expected to be $91.0 billion, plus or minus 2%.",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000051/q1fy27pr.htm",
+     "filedAt": "2026-05-20"
+    },
+    "reported": {
+     "quote": "| Revenue | $96,221 | $81,615 | $46,743 | 18 | % | 106 | % |",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000073/q2fy27pr.htm",
+     "filedAt": "2026-08-26"
+    }
+   },
+   {
+    "period": {
+     "fy": 2027,
+     "fq": 2
+    },
+    "metric": "gross_margin",
+    "basis": "gaap",
+    "unit": "percent",
+    "currency": "USD",
+    "low": 74.4,
+    "high": 75.4,
+    "mid": 74.9,
+    "point": false,
+    "state": "resolved",
+    "actual": 75,
+    "position": "inside",
+    "gap": 0.1,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "GAAP and non-GAAP gross margins are expected to be 74.9% and 75.0%, respectively, plus or minus 50 basis points.",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000051/q1fy27pr.htm",
+     "filedAt": "2026-05-20"
+    },
+    "reported": {
+     "quote": "GAAP and non-GAAP gross margins were both 75.0%.",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000073/q2fy27pr.htm",
+     "filedAt": "2026-08-26"
+    }
+   },
+   {
+    "period": {
+     "fy": 2027,
+     "fq": 2
+    },
+    "metric": "gross_margin",
+    "basis": "non_gaap",
+    "unit": "percent",
+    "currency": "USD",
+    "low": 74.5,
+    "high": 75.5,
+    "mid": 75,
+    "point": false,
+    "state": "resolved",
+    "actual": 75,
+    "position": "inside",
+    "gap": 0,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "GAAP and non-GAAP gross margins are expected to be 74.9% and 75.0%, respectively, plus or minus 50 basis points.",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000051/q1fy27pr.htm",
+     "filedAt": "2026-05-20"
+    },
+    "reported": {
+     "quote": "GAAP and non-GAAP gross margins were both 75.0%.",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000073/q2fy27pr.htm",
+     "filedAt": "2026-08-26"
+    }
+   },
+   {
+    "period": {
+     "fy": 2027,
+     "fq": 2
+    },
+    "metric": "operating_expenses",
+    "basis": "gaap",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 8500000000,
+    "high": 8500000000,
+    "mid": 8500000000,
+    "point": true,
+    "state": "resolved",
+    "actual": 8408000000,
+    "position": "below",
+    "gap": -0.010824,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "GAAP and non-GAAP operating expenses are expected to be approximately $8.5 billion and $8.3 billion, respectively.",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000051/q1fy27pr.htm",
+     "filedAt": "2026-05-20"
+    },
+    "reported": {
+     "quote": "| Operating expenses | $8,408 | $7,621 | $5,413 | 10 | % | 55 | % |",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000073/q2fy27pr.htm",
+     "filedAt": "2026-08-26"
+    }
+   },
+   {
+    "period": {
+     "fy": 2027,
+     "fq": 2
+    },
+    "metric": "operating_expenses",
+    "basis": "non_gaap",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 8300000000,
+    "high": 8300000000,
+    "mid": 8300000000,
+    "point": true,
+    "state": "resolved",
+    "actual": 8232000000,
+    "position": "below",
+    "gap": -0.008193,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "GAAP and non-GAAP operating expenses are expected to be approximately $8.5 billion and $8.3 billion, respectively.",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000051/q1fy27pr.htm",
+     "filedAt": "2026-05-20"
+    },
+    "reported": {
+     "quote": "| Operating expenses | $8,232 | $7,449 | $5,361 | 11 | % | 54 | % |",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000073/q2fy27pr.htm",
+     "filedAt": "2026-08-26"
+    }
+   },
+   {
+    "period": {
+     "fy": 2027,
+     "fq": 1
+    },
+    "metric": "revenue",
+    "basis": "unspecified",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 76440000000,
+    "high": 79560000000,
+    "mid": 78000000000,
+    "point": false,
+    "state": "resolved",
+    "actual": 81600000000,
+    "position": "above",
+    "gap": 0.046154,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "Revenue is expected to be $78.0 billion, plus or minus 2%.",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000019/q4fy26pr.htm",
+     "filedAt": "2026-02-25"
+    },
+    "reported": {
+     "quote": "record revenue for the first quarter ended April 26, 2026, of $81.6 billion",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000051/q1fy27pr.htm",
+     "filedAt": "2026-05-20"
+    }
+   },
+   {
+    "period": {
+     "fy": 2027,
+     "fq": 1
+    },
+    "metric": "gross_margin",
+    "basis": "gaap",
+    "unit": "percent",
+    "currency": "USD",
+    "low": 74.4,
+    "high": 75.4,
+    "mid": 74.9,
+    "point": false,
+    "state": "resolved",
+    "actual": 74.9,
+    "position": "inside",
+    "gap": 0,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "GAAP and non-GAAP gross margins are expected to be 74.9% and 75.0%, respectively, plus or minus 50 basis points",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000019/q4fy26pr.htm",
+     "filedAt": "2026-02-25"
+    },
+    "reported": {
+     "quote": "GAAP and non-GAAP gross margins were 74.9% and 75.0%, respectively.",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000051/q1fy27pr.htm",
+     "filedAt": "2026-05-20"
+    }
+   },
+   {
+    "period": {
+     "fy": 2027,
+     "fq": 1
+    },
+    "metric": "gross_margin",
+    "basis": "non_gaap",
+    "unit": "percent",
+    "currency": "USD",
+    "low": 74.5,
+    "high": 75.5,
+    "mid": 75,
+    "point": false,
+    "state": "resolved",
+    "actual": 75,
+    "position": "inside",
+    "gap": 0,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "GAAP and non-GAAP gross margins are expected to be 74.9% and 75.0%, respectively, plus or minus 50 basis points",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000019/q4fy26pr.htm",
+     "filedAt": "2026-02-25"
+    },
+    "reported": {
+     "quote": "GAAP and non-GAAP gross margins were 74.9% and 75.0%, respectively.",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000051/q1fy27pr.htm",
+     "filedAt": "2026-05-20"
+    }
+   },
+   {
+    "period": {
+     "fy": 2027,
+     "fq": 1
+    },
+    "metric": "operating_expenses",
+    "basis": "gaap",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 7700000000,
+    "high": 7700000000,
+    "mid": 7700000000,
+    "point": true,
+    "state": "resolved",
+    "actual": 7621000000,
+    "position": "below",
+    "gap": -0.01026,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "GAAP and non-GAAP operating expenses are expected to be approximately $7.7 billion and $7.5 billion, respectively, inclusive of $1.9 billion of stock-based compensation expense.",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000019/q4fy26pr.htm",
+     "filedAt": "2026-02-25"
+    },
+    "reported": {
+     "quote": "$7,621",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000051/q1fy27pr.htm",
+     "filedAt": "2026-05-20"
+    }
+   },
+   {
+    "period": {
+     "fy": 2027,
+     "fq": 1
+    },
+    "metric": "operating_expenses",
+    "basis": "non_gaap",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 7500000000,
+    "high": 7500000000,
+    "mid": 7500000000,
+    "point": true,
+    "state": "resolved",
+    "actual": 7449000000,
+    "position": "below",
+    "gap": -0.0068,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "GAAP and non-GAAP operating expenses are expected to be approximately $7.7 billion and $7.5 billion, respectively, inclusive of $1.9 billion of stock-based compensation expense.",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000019/q4fy26pr.htm",
+     "filedAt": "2026-02-25"
+    },
+    "reported": {
+     "quote": "$7,449",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000051/q1fy27pr.htm",
+     "filedAt": "2026-05-20"
+    }
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 4
+    },
+    "metric": "revenue",
+    "basis": "unspecified",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 63700000000,
+    "high": 66300000000,
+    "mid": 65000000000,
+    "point": false,
+    "state": "resolved",
+    "actual": 68100000000,
+    "position": "above",
+    "gap": 0.047692,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "Revenue is expected to be $65.0 billion, plus or minus 2%.",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000228/q3fy26pr.htm",
+     "filedAt": "2025-11-19"
+    },
+    "reported": {
+     "quote": "of $68.1 billion",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000019/q4fy26pr.htm",
+     "filedAt": "2026-02-25"
+    }
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 4
+    },
+    "metric": "gross_margin",
+    "basis": "gaap",
+    "unit": "percent",
+    "currency": "USD",
+    "low": 74.3,
+    "high": 75.3,
+    "mid": 74.8,
+    "point": false,
+    "state": "resolved",
+    "actual": 75,
+    "position": "inside",
+    "gap": 0.2,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "GAAP and non-GAAP gross margins are expected to be 74.8% and 75.0%, respectively, plus or minus 50 basis points.",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000228/q3fy26pr.htm",
+     "filedAt": "2025-11-19"
+    },
+    "reported": {
+     "quote": "GAAP and non-GAAP gross margins were 75.0% and 75.2%, respectively.",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000019/q4fy26pr.htm",
+     "filedAt": "2026-02-25"
+    }
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 4
+    },
+    "metric": "gross_margin",
+    "basis": "non_gaap",
+    "unit": "percent",
+    "currency": "USD",
+    "low": 74.5,
+    "high": 75.5,
+    "mid": 75,
+    "point": false,
+    "state": "resolved",
+    "actual": 75.2,
+    "position": "inside",
+    "gap": 0.2,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "GAAP and non-GAAP gross margins are expected to be 74.8% and 75.0%, respectively, plus or minus 50 basis points.",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000228/q3fy26pr.htm",
+     "filedAt": "2025-11-19"
+    },
+    "reported": {
+     "quote": "GAAP and non-GAAP gross margins were 75.0% and 75.2%, respectively.",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000019/q4fy26pr.htm",
+     "filedAt": "2026-02-25"
+    }
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 4
+    },
+    "metric": "operating_expenses",
+    "basis": "gaap",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 6700000000,
+    "high": 6700000000,
+    "mid": 6700000000,
+    "point": true,
+    "state": "resolved",
+    "actual": 6794000000,
+    "position": "above",
+    "gap": 0.01403,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "GAAP and non-GAAP operating expenses are expected to be approximately $6.7 billion and $5.0 billion, respectively.",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000228/q3fy26pr.htm",
+     "filedAt": "2025-11-19"
+    },
+    "reported": {
+     "quote": "$6,794",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000019/q4fy26pr.htm",
+     "filedAt": "2026-02-25"
+    }
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 4
+    },
+    "metric": "operating_expenses",
+    "basis": "non_gaap",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 5000000000,
+    "high": 5000000000,
+    "mid": 5000000000,
+    "point": true,
+    "state": "resolved",
+    "actual": 5102000000,
+    "position": "above",
+    "gap": 0.0204,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "GAAP and non-GAAP operating expenses are expected to be approximately $6.7 billion and $5.0 billion, respectively.",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000228/q3fy26pr.htm",
+     "filedAt": "2025-11-19"
+    },
+    "reported": {
+     "quote": "$5,102",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000019/q4fy26pr.htm",
+     "filedAt": "2026-02-25"
+    }
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 4
+    },
+    "metric": "tax_rate",
+    "basis": "both",
+    "unit": "percent",
+    "currency": "USD",
+    "low": 16,
+    "high": 18,
+    "mid": 17,
+    "point": false,
+    "state": "missing",
+    "actual": null,
+    "position": null,
+    "gap": null,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "GAAP and non-GAAP tax rates are expected to be 17.0%, plus or minus 1%, excluding any discrete items.",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000228/q3fy26pr.htm",
+     "filedAt": "2025-11-19"
+    },
+    "reported": null
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 4
+    },
+    "metric": "other_income",
+    "basis": "gaap",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 500000000,
+    "high": 500000000,
+    "mid": 500000000,
+    "point": true,
+    "state": "resolved",
+    "actual": 6098000000,
+    "position": "above",
+    "gap": 11.196,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "GAAP and non-GAAP other income and expense are expected to be an income of approximately $500 million, excluding gains and losses from non-marketable and publicly-held equity securities.",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000228/q3fy26pr.htm",
+     "filedAt": "2025-11-19"
+    },
+    "reported": {
+     "quote": "Total other income, net | 6,098",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000019/q4fy26pr.htm",
+     "filedAt": "2026-02-25"
+    }
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 4
+    },
+    "metric": "other_income",
+    "basis": "non_gaap",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 500000000,
+    "high": 500000000,
+    "mid": 500000000,
+    "point": true,
+    "state": "resolved",
+    "actual": 620000000,
+    "position": "above",
+    "gap": 0.24,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "GAAP and non-GAAP other income and expense are expected to be an income of approximately $500 million, excluding gains and losses from non-marketable and publicly-held equity securities.",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000228/q3fy26pr.htm",
+     "filedAt": "2025-11-19"
+    },
+    "reported": {
+     "quote": "Non-GAAP total other income, net | $ | 620",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000019/q4fy26pr.htm",
+     "filedAt": "2026-02-25"
+    }
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 3
+    },
+    "metric": "revenue",
+    "basis": "unspecified",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 52920000000,
+    "high": 55080000000,
+    "mid": 54000000000,
+    "point": false,
+    "state": "resolved",
+    "actual": 57006000000,
+    "position": "above",
+    "gap": 0.055667,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "Revenue is expected to be $54.0 billion, plus or minus 2%.",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000207/q2fy26pr.htm",
+     "filedAt": "2025-08-27"
+    },
+    "reported": {
+     "quote": "| Revenue | $57,006 | $46,743 | $35,082 | 22 | % | 62 | % |",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000228/q3fy26pr.htm",
+     "filedAt": "2025-11-19"
+    }
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 3
+    },
+    "metric": "gross_margin",
+    "basis": "gaap",
+    "unit": "percent",
+    "currency": "USD",
+    "low": 72.8,
+    "high": 73.8,
+    "mid": 73.3,
+    "point": false,
+    "state": "resolved",
+    "actual": 73.4,
+    "position": "inside",
+    "gap": 0.1,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "GAAP and non-GAAP gross margins are expected to be 73.3% and 73.5%, respectively, plus or minus 50 basis points.",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000207/q2fy26pr.htm",
+     "filedAt": "2025-08-27"
+    },
+    "reported": {
+     "quote": "GAAP and non-GAAP gross margins were 73.4% and 73.6%, respectively.",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000228/q3fy26pr.htm",
+     "filedAt": "2025-11-19"
+    }
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 3
+    },
+    "metric": "gross_margin",
+    "basis": "non_gaap",
+    "unit": "percent",
+    "currency": "USD",
+    "low": 73,
+    "high": 74,
+    "mid": 73.5,
+    "point": false,
+    "state": "resolved",
+    "actual": 73.6,
+    "position": "inside",
+    "gap": 0.1,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "GAAP and non-GAAP gross margins are expected to be 73.3% and 73.5%, respectively, plus or minus 50 basis points.",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000207/q2fy26pr.htm",
+     "filedAt": "2025-08-27"
+    },
+    "reported": {
+     "quote": "GAAP and non-GAAP gross margins were 73.4% and 73.6%, respectively.",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000228/q3fy26pr.htm",
+     "filedAt": "2025-11-19"
+    }
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 3
+    },
+    "metric": "operating_expenses",
+    "basis": "gaap",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 5900000000,
+    "high": 5900000000,
+    "mid": 5900000000,
+    "point": true,
+    "state": "resolved",
+    "actual": 5839000000,
+    "position": "below",
+    "gap": -0.010339,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "GAAP and non-GAAP operating expenses are expected to be approximately $5.9 billion and $4.2 billion, respectively.",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000207/q2fy26pr.htm",
+     "filedAt": "2025-08-27"
+    },
+    "reported": {
+     "quote": "| Operating expenses | $5,839 | $5,413 | $4,287 | 8 | % | 36 | % |",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000228/q3fy26pr.htm",
+     "filedAt": "2025-11-19"
+    }
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 3
+    },
+    "metric": "operating_expenses",
+    "basis": "non_gaap",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 4200000000,
+    "high": 4200000000,
+    "mid": 4200000000,
+    "point": true,
+    "state": "resolved",
+    "actual": 4215000000,
+    "position": "inside",
+    "gap": 0.003571,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "GAAP and non-GAAP operating expenses are expected to be approximately $5.9 billion and $4.2 billion, respectively.",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000207/q2fy26pr.htm",
+     "filedAt": "2025-08-27"
+    },
+    "reported": {
+     "quote": "| Operating expenses | $4,215 | $3,795 | $3,046 | 11 | % | 38 | % |",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000228/q3fy26pr.htm",
+     "filedAt": "2025-11-19"
+    }
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 3
+    },
+    "metric": "tax_rate",
+    "basis": "both",
+    "unit": "percent",
+    "currency": "USD",
+    "low": 15.5,
+    "high": 17.5,
+    "mid": 16.5,
+    "point": false,
+    "state": "missing",
+    "actual": null,
+    "position": null,
+    "gap": null,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "GAAP and non-GAAP tax rates are expected to be 16.5%, plus or minus 1%, excluding any discrete items.",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000207/q2fy26pr.htm",
+     "filedAt": "2025-08-27"
+    },
+    "reported": null
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 3
+    },
+    "metric": "other_income",
+    "basis": "gaap",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 500000000,
+    "high": 500000000,
+    "mid": 500000000,
+    "point": true,
+    "state": "resolved",
+    "actual": 1926000000,
+    "position": "above",
+    "gap": 2.852,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "GAAP and non-GAAP other income and expense are expected to be an income of approximately $500 million, excluding gains and losses from non-marketable and publicly-held equity securities.",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000207/q2fy26pr.htm",
+     "filedAt": "2025-08-27"
+    },
+    "reported": {
+     "quote": "| | Total other income, net | 1,926 | | | 447 |",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000228/q3fy26pr.htm",
+     "filedAt": "2025-11-19"
+    }
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 3
+    },
+    "metric": "other_income",
+    "basis": "non_gaap",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 500000000,
+    "high": 500000000,
+    "mid": 500000000,
+    "point": true,
+    "state": "resolved",
+    "actual": 573000000,
+    "position": "above",
+    "gap": 0.146,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "GAAP and non-GAAP other income and expense are expected to be an income of approximately $500 million, excluding gains and losses from non-marketable and publicly-held equity securities.",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000207/q2fy26pr.htm",
+     "filedAt": "2025-08-27"
+    },
+    "reported": {
+     "quote": "Non-GAAP total other income, net | $ | 573 |",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000228/q3fy26pr.htm",
+     "filedAt": "2025-11-19"
+    }
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 2
+    },
+    "metric": "revenue",
+    "basis": "unspecified",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 44100000000,
+    "high": 45900000000,
+    "mid": 45000000000,
+    "point": false,
+    "state": "resolved",
+    "actual": 46743000000,
+    "position": "above",
+    "gap": 0.038733,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "Revenue is expected to be $45.0 billion, plus or minus 2%",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000115/q1fy26pr.htm",
+     "filedAt": "2025-05-28"
+    },
+    "reported": {
+     "quote": "$46,743",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000207/q2fy26pr.htm",
+     "filedAt": "2025-08-27"
+    }
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 2
+    },
+    "metric": "gross_margin",
+    "basis": "gaap",
+    "unit": "percent",
+    "currency": "USD",
+    "low": 71.3,
+    "high": 72.3,
+    "mid": 71.8,
+    "point": false,
+    "state": "resolved",
+    "actual": 72.4,
+    "position": "above",
+    "gap": 0.6,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "GAAP and non-GAAP gross margins are expected to be 71.8% and 72.0%, respectively, plus or minus 50 basis points",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000115/q1fy26pr.htm",
+     "filedAt": "2025-05-28"
+    },
+    "reported": {
+     "quote": "GAAP and non-GAAP gross margins were 72.4% and 72.7%, respectively.",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000207/q2fy26pr.htm",
+     "filedAt": "2025-08-27"
+    }
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 2
+    },
+    "metric": "gross_margin",
+    "basis": "non_gaap",
+    "unit": "percent",
+    "currency": "USD",
+    "low": 71.5,
+    "high": 72.5,
+    "mid": 72,
+    "point": false,
+    "state": "resolved",
+    "actual": 72.7,
+    "position": "above",
+    "gap": 0.7,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "GAAP and non-GAAP gross margins are expected to be 71.8% and 72.0%, respectively, plus or minus 50 basis points",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000115/q1fy26pr.htm",
+     "filedAt": "2025-05-28"
+    },
+    "reported": {
+     "quote": "GAAP and non-GAAP gross margins were 72.4% and 72.7%, respectively.",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000207/q2fy26pr.htm",
+     "filedAt": "2025-08-27"
+    }
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 2
+    },
+    "metric": "operating_expenses",
+    "basis": "gaap",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 5700000000,
+    "high": 5700000000,
+    "mid": 5700000000,
+    "point": true,
+    "state": "resolved",
+    "actual": 5413000000,
+    "position": "below",
+    "gap": -0.050351,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "GAAP and non-GAAP operating expenses are expected to be approximately $5.7 billion and $4.0 billion, respectively",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000115/q1fy26pr.htm",
+     "filedAt": "2025-05-28"
+    },
+    "reported": {
+     "quote": "$5,413",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000207/q2fy26pr.htm",
+     "filedAt": "2025-08-27"
+    }
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 2
+    },
+    "metric": "operating_expenses",
+    "basis": "non_gaap",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 4000000000,
+    "high": 4000000000,
+    "mid": 4000000000,
+    "point": true,
+    "state": "resolved",
+    "actual": 3795000000,
+    "position": "below",
+    "gap": -0.05125,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "GAAP and non-GAAP operating expenses are expected to be approximately $5.7 billion and $4.0 billion, respectively",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000115/q1fy26pr.htm",
+     "filedAt": "2025-05-28"
+    },
+    "reported": {
+     "quote": "$3,795",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000207/q2fy26pr.htm",
+     "filedAt": "2025-08-27"
+    }
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 2
+    },
+    "metric": "tax_rate",
+    "basis": "both",
+    "unit": "percent",
+    "currency": "USD",
+    "low": 15.5,
+    "high": 17.5,
+    "mid": 16.5,
+    "point": false,
+    "state": "missing",
+    "actual": null,
+    "position": null,
+    "gap": null,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "GAAP and non-GAAP tax rates are expected to be 16.5%, plus or minus 1%",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000115/q1fy26pr.htm",
+     "filedAt": "2025-05-28"
+    },
+    "reported": null
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 2
+    },
+    "metric": "other_income",
+    "basis": "gaap",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 450000000,
+    "high": 450000000,
+    "mid": 450000000,
+    "point": true,
+    "state": "resolved",
+    "actual": 2766000000,
+    "position": "above",
+    "gap": 5.146667,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "GAAP and non-GAAP other income and expense are expected to be an income of approximately $450 million",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000115/q1fy26pr.htm",
+     "filedAt": "2025-05-28"
+    },
+    "reported": {
+     "quote": "GAAP total other income (expense), net | | $ | 2,766",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000207/q2fy26pr.htm",
+     "filedAt": "2025-08-27"
+    }
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 2
+    },
+    "metric": "other_income",
+    "basis": "non_gaap",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 450000000,
+    "high": 450000000,
+    "mid": 450000000,
+    "point": true,
+    "state": "resolved",
+    "actual": 520000000,
+    "position": "above",
+    "gap": 0.155556,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "GAAP and non-GAAP other income and expense are expected to be an income of approximately $450 million",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000115/q1fy26pr.htm",
+     "filedAt": "2025-05-28"
+    },
+    "reported": {
+     "quote": "Non-GAAP total other income (expense), net | | $ | 520",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000207/q2fy26pr.htm",
+     "filedAt": "2025-08-27"
+    }
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 1
+    },
+    "metric": "revenue",
+    "basis": "unspecified",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 42140000000,
+    "high": 43860000000,
+    "mid": 43000000000,
+    "point": false,
+    "state": "resolved",
+    "actual": 44100000000,
+    "position": "above",
+    "gap": 0.025581,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "Revenue is expected to be $43.0 billion, plus or minus 2%.",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000021/q4fy25pr.htm",
+     "filedAt": "2025-02-26"
+    },
+    "reported": {
+     "quote": "of $44.1 billion",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000115/q1fy26pr.htm",
+     "filedAt": "2025-05-28"
+    }
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 1
+    },
+    "metric": "gross_margin",
+    "basis": "gaap",
+    "unit": "percent",
+    "currency": "USD",
+    "low": 70.1,
+    "high": 71.1,
+    "mid": 70.6,
+    "point": false,
+    "state": "resolved",
+    "actual": 60.5,
+    "position": "below",
+    "gap": -10.1,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "GAAP and non-GAAP gross margins are expected to be 70.6% and 71.0%, respectively, plus or minus 50 basis points.",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000021/q4fy25pr.htm",
+     "filedAt": "2025-02-26"
+    },
+    "reported": {
+     "quote": "GAAP and non-GAAP gross margins were 60.5% and 61.0%, respectively",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000115/q1fy26pr.htm",
+     "filedAt": "2025-05-28"
+    }
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 1
+    },
+    "metric": "gross_margin",
+    "basis": "non_gaap",
+    "unit": "percent",
+    "currency": "USD",
+    "low": 70.5,
+    "high": 71.5,
+    "mid": 71,
+    "point": false,
+    "state": "resolved",
+    "actual": 61,
+    "position": "below",
+    "gap": -10,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "GAAP and non-GAAP gross margins are expected to be 70.6% and 71.0%, respectively, plus or minus 50 basis points.",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000021/q4fy25pr.htm",
+     "filedAt": "2025-02-26"
+    },
+    "reported": {
+     "quote": "GAAP and non-GAAP gross margins were 60.5% and 61.0%, respectively",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000115/q1fy26pr.htm",
+     "filedAt": "2025-05-28"
+    }
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 1
+    },
+    "metric": "operating_expenses",
+    "basis": "gaap",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 5200000000,
+    "high": 5200000000,
+    "mid": 5200000000,
+    "point": true,
+    "state": "resolved",
+    "actual": 5030000000,
+    "position": "below",
+    "gap": -0.032692,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "GAAP and non-GAAP operating expenses are expected to be approximately $5.2 billion and $3.6 billion, respectively.",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000021/q4fy25pr.htm",
+     "filedAt": "2025-02-26"
+    },
+    "reported": {
+     "quote": "$5,030",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000115/q1fy26pr.htm",
+     "filedAt": "2025-05-28"
+    }
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 1
+    },
+    "metric": "operating_expenses",
+    "basis": "non_gaap",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 3600000000,
+    "high": 3600000000,
+    "mid": 3600000000,
+    "point": true,
+    "state": "resolved",
+    "actual": 3583000000,
+    "position": "inside",
+    "gap": -0.004722,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "GAAP and non-GAAP operating expenses are expected to be approximately $5.2 billion and $3.6 billion, respectively.",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000021/q4fy25pr.htm",
+     "filedAt": "2025-02-26"
+    },
+    "reported": {
+     "quote": "$3,583",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000115/q1fy26pr.htm",
+     "filedAt": "2025-05-28"
+    }
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 1
+    },
+    "metric": "tax_rate",
+    "basis": "both",
+    "unit": "percent",
+    "currency": "USD",
+    "low": 16,
+    "high": 18,
+    "mid": 17,
+    "point": false,
+    "state": "missing",
+    "actual": null,
+    "position": null,
+    "gap": null,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "GAAP and non-GAAP tax rates are expected to be 17.0%, plus or minus 1%, excluding any discrete items.",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000021/q4fy25pr.htm",
+     "filedAt": "2025-02-26"
+    },
+    "reported": null
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 1
+    },
+    "metric": "other_income",
+    "basis": "gaap",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 400000000,
+    "high": 400000000,
+    "mid": 400000000,
+    "point": true,
+    "state": "resolved",
+    "actual": 272000000,
+    "position": "below",
+    "gap": -0.32,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "GAAP and non-GAAP other income and expense are expected to be an income of approximately $400 million, excluding gains and losses from non-marketable and publicly-held equity securities.",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000021/q4fy25pr.htm",
+     "filedAt": "2025-02-26"
+    },
+    "reported": {
+     "quote": "GAAP total other income (expense), net | $ | 272",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000115/q1fy26pr.htm",
+     "filedAt": "2025-05-28"
+    }
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 1
+    },
+    "metric": "other_income",
+    "basis": "non_gaap",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 400000000,
+    "high": 400000000,
+    "mid": 400000000,
+    "point": true,
+    "state": "resolved",
+    "actual": 448000000,
+    "position": "above",
+    "gap": 0.12,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "GAAP and non-GAAP other income and expense are expected to be an income of approximately $400 million, excluding gains and losses from non-marketable and publicly-held equity securities.",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000021/q4fy25pr.htm",
+     "filedAt": "2025-02-26"
+    },
+    "reported": {
+     "quote": "Non-GAAP total other income (expense), net | $ | 448",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000115/q1fy26pr.htm",
+     "filedAt": "2025-05-28"
+    }
+   },
+   {
+    "period": {
+     "fy": 2025,
+     "fq": 4
+    },
+    "metric": "revenue",
+    "basis": "unspecified",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 36750000000,
+    "high": 38250000000,
+    "mid": 37500000000,
+    "point": false,
+    "state": "resolved",
+    "actual": 39300000000,
+    "position": "above",
+    "gap": 0.048,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "Revenue is expected to be $37.5 billion, plus or minus 2%.",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581024000315/q3fy25pr.htm",
+     "filedAt": "2024-11-20"
+    },
+    "reported": {
+     "quote": "revenue for the fourth quarter ended January 26, 2025, of $39.3 billion",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000021/q4fy25pr.htm",
+     "filedAt": "2025-02-26"
+    }
+   },
+   {
+    "period": {
+     "fy": 2025,
+     "fq": 4
+    },
+    "metric": "gross_margin",
+    "basis": "gaap",
+    "unit": "percent",
+    "currency": "USD",
+    "low": 72.5,
+    "high": 73.5,
+    "mid": 73,
+    "point": false,
+    "state": "resolved",
+    "actual": 73,
+    "position": "inside",
+    "gap": 0,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "GAAP and non-GAAP gross margins are expected to be 73.0% and 73.5%, respectively, plus or minus 50 basis points.",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581024000315/q3fy25pr.htm",
+     "filedAt": "2024-11-20"
+    },
+    "reported": {
+     "quote": "Gross margin | 73.0",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000021/q4fy25pr.htm",
+     "filedAt": "2025-02-26"
+    }
+   },
+   {
+    "period": {
+     "fy": 2025,
+     "fq": 4
+    },
+    "metric": "gross_margin",
+    "basis": "non_gaap",
+    "unit": "percent",
+    "currency": "USD",
+    "low": 73,
+    "high": 74,
+    "mid": 73.5,
+    "point": false,
+    "state": "resolved",
+    "actual": 73.5,
+    "position": "inside",
+    "gap": 0,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "GAAP and non-GAAP gross margins are expected to be 73.0% and 73.5%, respectively, plus or minus 50 basis points.",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581024000315/q3fy25pr.htm",
+     "filedAt": "2024-11-20"
+    },
+    "reported": {
+     "quote": "Gross margin | 73.5",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000021/q4fy25pr.htm",
+     "filedAt": "2025-02-26"
+    }
+   },
+   {
+    "period": {
+     "fy": 2025,
+     "fq": 4
+    },
+    "metric": "operating_expenses",
+    "basis": "gaap",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 4800000000,
+    "high": 4800000000,
+    "mid": 4800000000,
+    "point": true,
+    "state": "resolved",
+    "actual": 4689000000,
+    "position": "below",
+    "gap": -0.023125,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "GAAP and non-GAAP operating expenses are expected to be approximately $4.8 billion and $3.4 billion, respectively.",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581024000315/q3fy25pr.htm",
+     "filedAt": "2024-11-20"
+    },
+    "reported": {
+     "quote": "Operating expenses | $4,689",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000021/q4fy25pr.htm",
+     "filedAt": "2025-02-26"
+    }
+   },
+   {
+    "period": {
+     "fy": 2025,
+     "fq": 4
+    },
+    "metric": "operating_expenses",
+    "basis": "non_gaap",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 3400000000,
+    "high": 3400000000,
+    "mid": 3400000000,
+    "point": true,
+    "state": "resolved",
+    "actual": 3378000000,
+    "position": "inside",
+    "gap": -0.006471,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "GAAP and non-GAAP operating expenses are expected to be approximately $4.8 billion and $3.4 billion, respectively.",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581024000315/q3fy25pr.htm",
+     "filedAt": "2024-11-20"
+    },
+    "reported": {
+     "quote": "Operating expenses | $3,378",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000021/q4fy25pr.htm",
+     "filedAt": "2025-02-26"
+    }
+   },
+   {
+    "period": {
+     "fy": 2025,
+     "fq": 4
+    },
+    "metric": "tax_rate",
+    "basis": "both",
+    "unit": "percent",
+    "currency": "USD",
+    "low": 15.5,
+    "high": 17.5,
+    "mid": 16.5,
+    "point": false,
+    "state": "missing",
+    "actual": null,
+    "position": null,
+    "gap": null,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "GAAP and non-GAAP tax rates are expected to be 16.5%, plus or minus 1%, excluding any discrete items.",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581024000315/q3fy25pr.htm",
+     "filedAt": "2024-11-20"
+    },
+    "reported": null
+   },
+   {
+    "period": {
+     "fy": 2025,
+     "fq": 4
+    },
+    "metric": "other_income",
+    "basis": "gaap",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 400000000,
+    "high": 400000000,
+    "mid": 400000000,
+    "point": true,
+    "state": "resolved",
+    "actual": 1183000000,
+    "position": "above",
+    "gap": 1.9575,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "GAAP and non-GAAP other income and expense are expected to be an income of approximately $400 million, excluding gains and losses from non-affiliated investments and publicly-held equity securities.",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581024000315/q3fy25pr.htm",
+     "filedAt": "2024-11-20"
+    },
+    "reported": {
+     "quote": "Other income (expense), net | 1,183",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000021/q4fy25pr.htm",
+     "filedAt": "2025-02-26"
+    }
+   },
+   {
+    "period": {
+     "fy": 2025,
+     "fq": 4
+    },
+    "metric": "other_income",
+    "basis": "non_gaap",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 400000000,
+    "high": 400000000,
+    "mid": 400000000,
+    "point": true,
+    "state": "resolved",
+    "actual": 457000000,
+    "position": "above",
+    "gap": 0.1425,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "GAAP and non-GAAP other income and expense are expected to be an income of approximately $400 million, excluding gains and losses from non-affiliated investments and publicly-held equity securities.",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581024000315/q3fy25pr.htm",
+     "filedAt": "2024-11-20"
+    },
+    "reported": {
+     "quote": "Non-GAAP other income (expense), net | $ | 457",
+     "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000021/q4fy25pr.htm",
+     "filedAt": "2025-02-26"
+    }
+   }
+  ],
+  "patterns": [
+   {
+    "metric": "revenue",
+    "basis": "unspecified",
+    "n": 7,
+    "above": 7,
+    "inside": 0,
+    "below": 0,
+    "atOrAboveMid": 7,
+    "medianGap": 0.047692,
+    "gapKind": "relative",
+    "point": false
+   },
+   {
+    "metric": "gross_margin",
+    "basis": "gaap",
+    "n": 7,
+    "above": 1,
+    "inside": 5,
+    "below": 1,
+    "atOrAboveMid": 6,
+    "medianGap": 0.1,
+    "gapKind": "points",
+    "point": false
+   },
+   {
+    "metric": "gross_margin",
+    "basis": "non_gaap",
+    "n": 7,
+    "above": 1,
+    "inside": 5,
+    "below": 1,
+    "atOrAboveMid": 6,
+    "medianGap": 0,
+    "gapKind": "points",
+    "point": false
+   },
+   {
+    "metric": "operating_expenses",
+    "basis": "gaap",
+    "n": 7,
+    "above": 1,
+    "inside": 0,
+    "below": 6,
+    "atOrAboveMid": 1,
+    "medianGap": -0.010824,
+    "gapKind": "relative",
+    "point": true
+   },
+   {
+    "metric": "operating_expenses",
+    "basis": "non_gaap",
+    "n": 7,
+    "above": 1,
+    "inside": 3,
+    "below": 3,
+    "atOrAboveMid": 4,
+    "medianGap": -0.006471,
+    "gapKind": "relative",
+    "point": true
+   },
+   {
+    "metric": "other_income",
+    "basis": "gaap",
+    "n": 5,
+    "above": 4,
+    "inside": 0,
+    "below": 1,
+    "atOrAboveMid": 4,
+    "medianGap": 2.852,
+    "gapKind": "relative",
+    "point": true
+   },
+   {
+    "metric": "other_income",
+    "basis": "non_gaap",
+    "n": 5,
+    "above": 5,
+    "inside": 0,
+    "below": 0,
+    "atOrAboveMid": 5,
+    "medianGap": 0.146,
+    "gapKind": "relative",
+    "point": true
+   }
+  ]
+ },
+ "AMD": {
+  "ticker": "AMD",
+  "releases": 8,
+  "latest": "2026-08-04",
+  "rows": [
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 3
+    },
+    "metric": "revenue",
+    "basis": "unspecified",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 12700000000,
+    "high": 13300000000,
+    "mid": 13000000000,
+    "point": false,
+    "state": "open",
+    "actual": null,
+    "position": null,
+    "gap": null,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "expects revenue to be approximately $13 billion, plus or minus $300 million",
+     "url": "https://www.sec.gov/Archives/edgar/data/2488/000000248826000121/q22026991.htm",
+     "filedAt": "2026-08-04"
+    },
+    "reported": null
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 3
+    },
+    "metric": "gross_margin",
+    "basis": "non_gaap",
+    "unit": "percent",
+    "currency": "USD",
+    "low": 56,
+    "high": 56,
+    "mid": 56,
+    "point": true,
+    "state": "open",
+    "actual": null,
+    "position": null,
+    "gap": null,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "Non-GAAP gross margin is expected to be approximately 56%",
+     "url": "https://www.sec.gov/Archives/edgar/data/2488/000000248826000121/q22026991.htm",
+     "filedAt": "2026-08-04"
+    },
+    "reported": null
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 2
+    },
+    "metric": "revenue",
+    "basis": "unspecified",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 10900000000,
+    "high": 11500000000,
+    "mid": 11200000000,
+    "point": false,
+    "state": "resolved",
+    "actual": 11536000000,
+    "position": "above",
+    "gap": 0.03,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "revenue to be approximately $11.2 billion, plus or minus $300 million",
+     "url": "https://www.sec.gov/Archives/edgar/data/2488/000000248826000072/q12026991.htm",
+     "filedAt": "2026-05-05"
+    },
+    "reported": {
+     "quote": "$11,536",
+     "url": "https://www.sec.gov/Archives/edgar/data/2488/000000248826000121/q22026991.htm",
+     "filedAt": "2026-08-04"
+    }
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 2
+    },
+    "metric": "gross_margin",
+    "basis": "non_gaap",
+    "unit": "percent",
+    "currency": "USD",
+    "low": 56,
+    "high": 56,
+    "mid": 56,
+    "point": true,
+    "state": "resolved",
+    "actual": 56,
+    "position": "inside",
+    "gap": 0,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "Non-GAAP gross margin is expected to be approximately 56%.",
+     "url": "https://www.sec.gov/Archives/edgar/data/2488/000000248826000072/q12026991.htm",
+     "filedAt": "2026-05-05"
+    },
+    "reported": {
+     "quote": "gross margin was 56%",
+     "url": "https://www.sec.gov/Archives/edgar/data/2488/000000248826000121/q22026991.htm",
+     "filedAt": "2026-08-04"
+    }
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 1
+    },
+    "metric": "revenue",
+    "basis": "unspecified",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 9500000000,
+    "high": 10100000000,
+    "mid": 9800000000,
+    "point": false,
+    "state": "resolved",
+    "actual": 10253000000,
+    "position": "above",
+    "gap": 0.046224,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "AMD expects revenue to be approximately $9.8 billion, plus or minus $300 million",
+     "url": "https://www.sec.gov/Archives/edgar/data/2488/000000248826000014/q42025991.htm",
+     "filedAt": "2026-02-03"
+    },
+    "reported": {
+     "quote": "$10,253",
+     "url": "https://www.sec.gov/Archives/edgar/data/2488/000000248826000072/q12026991.htm",
+     "filedAt": "2026-05-05"
+    }
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 1
+    },
+    "metric": "gross_margin",
+    "basis": "non_gaap",
+    "unit": "percent",
+    "currency": "USD",
+    "low": 55,
+    "high": 55,
+    "mid": 55,
+    "point": true,
+    "state": "resolved",
+    "actual": 55,
+    "position": "inside",
+    "gap": 0,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "Non-GAAP gross margin is expected to be approximately 55%.",
+     "url": "https://www.sec.gov/Archives/edgar/data/2488/000000248826000014/q42025991.htm",
+     "filedAt": "2026-02-03"
+    },
+    "reported": {
+     "quote": "On a non-GAAP(*) basis, gross margin was 55%",
+     "url": "https://www.sec.gov/Archives/edgar/data/2488/000000248826000072/q12026991.htm",
+     "filedAt": "2026-05-05"
+    }
+   },
+   {
+    "period": {
+     "fy": 2025,
+     "fq": 4
+    },
+    "metric": "revenue",
+    "basis": "unspecified",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 9300000000,
+    "high": 9900000000,
+    "mid": 9600000000,
+    "point": false,
+    "state": "resolved",
+    "actual": 10300000000,
+    "position": "above",
+    "gap": 0.072917,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "AMD expects revenue to be approximately $9.6 billion, plus or minus $300 million.",
+     "url": "https://www.sec.gov/Archives/edgar/data/2488/000000248825000163/q32025991.htm",
+     "filedAt": "2025-11-04"
+    },
+    "reported": {
+     "quote": "Fourth quarter revenue was a record $10.3 billion",
+     "url": "https://www.sec.gov/Archives/edgar/data/2488/000000248826000014/q42025991.htm",
+     "filedAt": "2026-02-03"
+    }
+   },
+   {
+    "period": {
+     "fy": 2025,
+     "fq": 4
+    },
+    "metric": "gross_margin",
+    "basis": "non_gaap",
+    "unit": "percent",
+    "currency": "USD",
+    "low": 54.5,
+    "high": 54.5,
+    "mid": 54.5,
+    "point": true,
+    "state": "resolved",
+    "actual": 57,
+    "position": "above",
+    "gap": 2.5,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "Non-GAAP gross margin is expected to be approximately 54.5%.",
+     "url": "https://www.sec.gov/Archives/edgar/data/2488/000000248825000163/q32025991.htm",
+     "filedAt": "2025-11-04"
+    },
+    "reported": {
+     "quote": "On a non-GAAP (*) basis, gross margin was 57%",
+     "url": "https://www.sec.gov/Archives/edgar/data/2488/000000248826000014/q42025991.htm",
+     "filedAt": "2026-02-03"
+    }
+   },
+   {
+    "period": {
+     "fy": 2025,
+     "fq": 3
+    },
+    "metric": "revenue",
+    "basis": "unspecified",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 8400000000,
+    "high": 9000000000,
+    "mid": 8700000000,
+    "point": false,
+    "state": "resolved",
+    "actual": 9246000000,
+    "position": "above",
+    "gap": 0.062759,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "approximately $8.7 billion, plus or minus $300 million",
+     "url": "https://www.sec.gov/Archives/edgar/data/2488/000000248825000106/q22025991.htm",
+     "filedAt": "2025-08-05"
+    },
+    "reported": {
+     "quote": "Revenue ($M) | $9,246",
+     "url": "https://www.sec.gov/Archives/edgar/data/2488/000000248825000163/q32025991.htm",
+     "filedAt": "2025-11-04"
+    }
+   },
+   {
+    "period": {
+     "fy": 2025,
+     "fq": 3
+    },
+    "metric": "gross_margin",
+    "basis": "non_gaap",
+    "unit": "percent",
+    "currency": "USD",
+    "low": 54,
+    "high": 54,
+    "mid": 54,
+    "point": true,
+    "state": "resolved",
+    "actual": 54,
+    "position": "inside",
+    "gap": 0,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "Non-GAAP gross margin is expected to be approximately 54%",
+     "url": "https://www.sec.gov/Archives/edgar/data/2488/000000248825000106/q22025991.htm",
+     "filedAt": "2025-08-05"
+    },
+    "reported": {
+     "quote": "Gross margin | 54%",
+     "url": "https://www.sec.gov/Archives/edgar/data/2488/000000248825000163/q32025991.htm",
+     "filedAt": "2025-11-04"
+    }
+   },
+   {
+    "period": {
+     "fy": 2025,
+     "fq": 2
+    },
+    "metric": "revenue",
+    "basis": "unspecified",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 7100000000,
+    "high": 7700000000,
+    "mid": 7400000000,
+    "point": false,
+    "state": "resolved",
+    "actual": 7685000000,
+    "position": "inside",
+    "gap": 0.038514,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "revenue to be approximately $7.4 billion, plus or minus $300 million",
+     "url": "https://www.sec.gov/Archives/edgar/data/2488/000000248825000045/q12025991.htm",
+     "filedAt": "2025-05-06"
+    },
+    "reported": {
+     "quote": "Revenue ($M) | $7,685",
+     "url": "https://www.sec.gov/Archives/edgar/data/2488/000000248825000106/q22025991.htm",
+     "filedAt": "2025-08-05"
+    }
+   },
+   {
+    "period": {
+     "fy": 2025,
+     "fq": 2
+    },
+    "metric": "gross_margin",
+    "basis": "non_gaap",
+    "unit": "percent",
+    "currency": "USD",
+    "low": 43,
+    "high": 43,
+    "mid": 43,
+    "point": true,
+    "state": "resolved",
+    "actual": 43,
+    "position": "inside",
+    "gap": 0,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "Non-GAAP gross margin is estimated to be 43%",
+     "url": "https://www.sec.gov/Archives/edgar/data/2488/000000248825000045/q12025991.htm",
+     "filedAt": "2025-05-06"
+    },
+    "reported": {
+     "quote": "gross margin was 43%",
+     "url": "https://www.sec.gov/Archives/edgar/data/2488/000000248825000106/q22025991.htm",
+     "filedAt": "2025-08-05"
+    }
+   },
+   {
+    "period": {
+     "fy": 2025,
+     "fq": 1
+    },
+    "metric": "revenue",
+    "basis": "unspecified",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 6800000000,
+    "high": 7400000000,
+    "mid": 7100000000,
+    "point": false,
+    "state": "resolved",
+    "actual": 7438000000,
+    "position": "above",
+    "gap": 0.047606,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "AMD expects revenue to be approximately $7.1 billion, plus or minus $300 million",
+     "url": "https://www.sec.gov/Archives/edgar/data/2488/000000248825000009/q42024991.htm",
+     "filedAt": "2025-02-04"
+    },
+    "reported": {
+     "quote": "Revenue ($M) | $7,438",
+     "url": "https://www.sec.gov/Archives/edgar/data/2488/000000248825000045/q12025991.htm",
+     "filedAt": "2025-05-06"
+    }
+   },
+   {
+    "period": {
+     "fy": 2025,
+     "fq": 1
+    },
+    "metric": "gross_margin",
+    "basis": "non_gaap",
+    "unit": "percent",
+    "currency": "USD",
+    "low": 54,
+    "high": 54,
+    "mid": 54,
+    "point": true,
+    "state": "resolved",
+    "actual": 54,
+    "position": "inside",
+    "gap": 0,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "Non-GAAP gross margin is expected to be approximately 54%.",
+     "url": "https://www.sec.gov/Archives/edgar/data/2488/000000248825000009/q42024991.htm",
+     "filedAt": "2025-02-04"
+    },
+    "reported": {
+     "quote": "On a non-GAAP(*) basis, gross margin was 54%",
+     "url": "https://www.sec.gov/Archives/edgar/data/2488/000000248825000045/q12025991.htm",
+     "filedAt": "2025-05-06"
+    }
+   },
+   {
+    "period": {
+     "fy": 2024,
+     "fq": null
+    },
+    "metric": "tax_rate",
+    "basis": "non_gaap",
+    "unit": "percent",
+    "currency": "USD",
+    "low": 13,
+    "high": 13,
+    "mid": 13,
+    "point": true,
+    "state": "missing",
+    "actual": null,
+    "position": null,
+    "gap": null,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "For fiscal 2024, AMD uses a projected non-GAAP tax rate of 13%",
+     "url": "https://www.sec.gov/Archives/edgar/data/2488/000000248824000161/q32024991.htm",
+     "filedAt": "2024-10-29"
+    },
+    "reported": null
+   },
+   {
+    "period": {
+     "fy": 2024,
+     "fq": 4
+    },
+    "metric": "revenue",
+    "basis": "unspecified",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 7200000000,
+    "high": 7800000000,
+    "mid": 7500000000,
+    "point": false,
+    "state": "resolved",
+    "actual": 7658000000,
+    "position": "inside",
+    "gap": 0.021067,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "approximately $7.5 billion, plus or minus $300 million",
+     "url": "https://www.sec.gov/Archives/edgar/data/2488/000000248824000161/q32024991.htm",
+     "filedAt": "2024-10-29"
+    },
+    "reported": {
+     "quote": "Revenue ($M) | $7,658 | $6,168 | Up 24% | $6,819 | Up 12%",
+     "url": "https://www.sec.gov/Archives/edgar/data/2488/000000248825000009/q42024991.htm",
+     "filedAt": "2025-02-04"
+    }
+   },
+   {
+    "period": {
+     "fy": 2024,
+     "fq": 4
+    },
+    "metric": "gross_margin",
+    "basis": "non_gaap",
+    "unit": "percent",
+    "currency": "USD",
+    "low": 54,
+    "high": 54,
+    "mid": 54,
+    "point": true,
+    "state": "resolved",
+    "actual": 54,
+    "position": "inside",
+    "gap": 0,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "Non-GAAP gross margin is expected to be approximately 54%.",
+     "url": "https://www.sec.gov/Archives/edgar/data/2488/000000248824000161/q32024991.htm",
+     "filedAt": "2024-10-29"
+    },
+    "reported": {
+     "quote": "Gross margin | 54% | 51% | Up 3 ppts | 54% | Flat",
+     "url": "https://www.sec.gov/Archives/edgar/data/2488/000000248825000009/q42024991.htm",
+     "filedAt": "2025-02-04"
+    }
+   }
+  ],
+  "patterns": [
+   {
+    "metric": "revenue",
+    "basis": "unspecified",
+    "n": 7,
+    "above": 5,
+    "inside": 2,
+    "below": 0,
+    "atOrAboveMid": 7,
+    "medianGap": 0.046224,
+    "gapKind": "relative",
+    "point": false
+   },
+   {
+    "metric": "gross_margin",
+    "basis": "non_gaap",
+    "n": 7,
+    "above": 1,
+    "inside": 6,
+    "below": 0,
+    "atOrAboveMid": 7,
+    "medianGap": 0,
+    "gapKind": "points",
+    "point": true
+   }
+  ]
+ },
+ "MU": {
+  "ticker": "MU",
+  "releases": 8,
+  "latest": "2026-09-30",
+  "rows": [
+   {
+    "period": {
+     "fy": 2027,
+     "fq": 1
+    },
+    "metric": "revenue",
+    "basis": "unspecified",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 60000000000,
+    "high": 63000000000,
+    "mid": 61500000000,
+    "point": false,
+    "state": "open",
+    "actual": null,
+    "position": null,
+    "gap": null,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "$61.5 billion Â± $1.5 billion",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312526000018/a2026q4ex991-pressrelease.htm",
+     "filedAt": "2026-09-30"
+    },
+    "reported": null
+   },
+   {
+    "period": {
+     "fy": 2027,
+     "fq": 1
+    },
+    "metric": "gross_margin",
+    "basis": "gaap",
+    "unit": "percent",
+    "currency": "USD",
+    "low": 85.95,
+    "high": 85.95,
+    "mid": 85.95,
+    "point": true,
+    "state": "open",
+    "actual": null,
+    "position": null,
+    "gap": null,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "Approximately 85.95%",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312526000018/a2026q4ex991-pressrelease.htm",
+     "filedAt": "2026-09-30"
+    },
+    "reported": null
+   },
+   {
+    "period": {
+     "fy": 2027,
+     "fq": 1
+    },
+    "metric": "gross_margin",
+    "basis": "non_gaap",
+    "unit": "percent",
+    "currency": "USD",
+    "low": 86.25,
+    "high": 86.25,
+    "mid": 86.25,
+    "point": true,
+    "state": "open",
+    "actual": null,
+    "position": null,
+    "gap": null,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "Approximately 86.25%",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312526000018/a2026q4ex991-pressrelease.htm",
+     "filedAt": "2026-09-30"
+    },
+    "reported": null
+   },
+   {
+    "period": {
+     "fy": 2027,
+     "fq": 1
+    },
+    "metric": "operating_expenses",
+    "basis": "gaap",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 2310000000,
+    "high": 2310000000,
+    "mid": 2310000000,
+    "point": true,
+    "state": "open",
+    "actual": null,
+    "position": null,
+    "gap": null,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "Approximately $2.31 billion",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312526000018/a2026q4ex991-pressrelease.htm",
+     "filedAt": "2026-09-30"
+    },
+    "reported": null
+   },
+   {
+    "period": {
+     "fy": 2027,
+     "fq": 1
+    },
+    "metric": "operating_expenses",
+    "basis": "non_gaap",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 2060000000,
+    "high": 2060000000,
+    "mid": 2060000000,
+    "point": true,
+    "state": "open",
+    "actual": null,
+    "position": null,
+    "gap": null,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "Approximately $2.06 billion",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312526000018/a2026q4ex991-pressrelease.htm",
+     "filedAt": "2026-09-30"
+    },
+    "reported": null
+   },
+   {
+    "period": {
+     "fy": 2027,
+     "fq": 1
+    },
+    "metric": "eps",
+    "basis": "gaap",
+    "unit": "per_share",
+    "currency": "USD",
+    "low": 36.84,
+    "high": 38.84,
+    "mid": 37.84,
+    "point": false,
+    "state": "open",
+    "actual": null,
+    "position": null,
+    "gap": null,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "$37.84 Â± $1.00",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312526000018/a2026q4ex991-pressrelease.htm",
+     "filedAt": "2026-09-30"
+    },
+    "reported": null
+   },
+   {
+    "period": {
+     "fy": 2027,
+     "fq": 1
+    },
+    "metric": "eps",
+    "basis": "non_gaap",
+    "unit": "per_share",
+    "currency": "USD",
+    "low": 37.15,
+    "high": 39.15,
+    "mid": 38.15,
+    "point": false,
+    "state": "open",
+    "actual": null,
+    "position": null,
+    "gap": null,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "$38.15 Â± $1.00",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312526000018/a2026q4ex991-pressrelease.htm",
+     "filedAt": "2026-09-30"
+    },
+    "reported": null
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 4
+    },
+    "metric": "revenue",
+    "basis": "unspecified",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 49000000000,
+    "high": 51000000000,
+    "mid": 50000000000,
+    "point": false,
+    "state": "resolved",
+    "actual": 54230000000,
+    "position": "above",
+    "gap": 0.0846,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "$50.0 billion Â± $1.0 billion",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312526000013/a2026q3ex991-pressrelease.htm",
+     "filedAt": "2026-06-24"
+    },
+    "reported": {
+     "quote": "Revenue of $54.23 billion",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312526000018/a2026q4ex991-pressrelease.htm",
+     "filedAt": "2026-09-30"
+    }
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 4
+    },
+    "metric": "gross_margin",
+    "basis": "gaap",
+    "unit": "percent",
+    "currency": "USD",
+    "low": 86,
+    "high": 86,
+    "mid": 86,
+    "point": true,
+    "state": "resolved",
+    "actual": 86.8,
+    "position": "above",
+    "gap": 0.8,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "Approximately 86%",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312526000013/a2026q3ex991-pressrelease.htm",
+     "filedAt": "2026-06-24"
+    },
+    "reported": {
+     "quote": "86.8 %",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312526000018/a2026q4ex991-pressrelease.htm",
+     "filedAt": "2026-09-30"
+    }
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 4
+    },
+    "metric": "gross_margin",
+    "basis": "non_gaap",
+    "unit": "percent",
+    "currency": "USD",
+    "low": 86,
+    "high": 86,
+    "mid": 86,
+    "point": true,
+    "state": "resolved",
+    "actual": 87,
+    "position": "above",
+    "gap": 1,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "Approximately 86%",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312526000013/a2026q3ex991-pressrelease.htm",
+     "filedAt": "2026-06-24"
+    },
+    "reported": {
+     "quote": "87.0 %",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312526000018/a2026q4ex991-pressrelease.htm",
+     "filedAt": "2026-09-30"
+    }
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 4
+    },
+    "metric": "operating_expenses",
+    "basis": "gaap",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 1860000000,
+    "high": 1860000000,
+    "mid": 1860000000,
+    "point": true,
+    "state": "missing",
+    "actual": null,
+    "position": null,
+    "gap": null,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "Approximately $1.86 billion",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312526000013/a2026q3ex991-pressrelease.htm",
+     "filedAt": "2026-06-24"
+    },
+    "reported": null
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 4
+    },
+    "metric": "operating_expenses",
+    "basis": "non_gaap",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 1650000000,
+    "high": 1650000000,
+    "mid": 1650000000,
+    "point": true,
+    "state": "missing",
+    "actual": null,
+    "position": null,
+    "gap": null,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "Approximately $1.65 billion",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312526000013/a2026q3ex991-pressrelease.htm",
+     "filedAt": "2026-06-24"
+    },
+    "reported": null
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 4
+    },
+    "metric": "eps",
+    "basis": "gaap",
+    "unit": "per_share",
+    "currency": "USD",
+    "low": 29.73,
+    "high": 31.73,
+    "mid": 30.73,
+    "point": false,
+    "state": "missing",
+    "actual": null,
+    "position": null,
+    "gap": null,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "$30.73 Â± $1.00",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312526000013/a2026q3ex991-pressrelease.htm",
+     "filedAt": "2026-06-24"
+    },
+    "reported": null
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 4
+    },
+    "metric": "eps",
+    "basis": "non_gaap",
+    "unit": "per_share",
+    "currency": "USD",
+    "low": 30,
+    "high": 32,
+    "mid": 31,
+    "point": false,
+    "state": "missing",
+    "actual": null,
+    "position": null,
+    "gap": null,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "$31.00 Â± $1.00",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312526000013/a2026q3ex991-pressrelease.htm",
+     "filedAt": "2026-06-24"
+    },
+    "reported": null
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 3
+    },
+    "metric": "revenue",
+    "basis": "unspecified",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 32750000000,
+    "high": 34250000000,
+    "mid": 33500000000,
+    "point": false,
+    "state": "resolved",
+    "actual": 41460000000,
+    "position": "above",
+    "gap": 0.237612,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "$33.5 billion Â± $750 million",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312526000004/a2026q2ex991-pressrelease.htm",
+     "filedAt": "2026-03-18"
+    },
+    "reported": {
+     "quote": "Revenue of $41.46 billion",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312526000013/a2026q3ex991-pressrelease.htm",
+     "filedAt": "2026-06-24"
+    }
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 3
+    },
+    "metric": "gross_margin",
+    "basis": "gaap",
+    "unit": "percent",
+    "currency": "USD",
+    "low": 81,
+    "high": 81,
+    "mid": 81,
+    "point": true,
+    "state": "resolved",
+    "actual": 84.6,
+    "position": "above",
+    "gap": 3.6,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "Approximately 81%",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312526000004/a2026q2ex991-pressrelease.htm",
+     "filedAt": "2026-03-18"
+    },
+    "reported": {
+     "quote": "Percent of revenue | 84.6 | %",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312526000013/a2026q3ex991-pressrelease.htm",
+     "filedAt": "2026-06-24"
+    }
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 3
+    },
+    "metric": "gross_margin",
+    "basis": "non_gaap",
+    "unit": "percent",
+    "currency": "USD",
+    "low": 81,
+    "high": 81,
+    "mid": 81,
+    "point": true,
+    "state": "resolved",
+    "actual": 84.9,
+    "position": "above",
+    "gap": 3.9,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "Approximately 81%",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312526000004/a2026q2ex991-pressrelease.htm",
+     "filedAt": "2026-03-18"
+    },
+    "reported": {
+     "quote": "Percent of revenue | 84.6 | % | 74.4 | % | 37.7 | % | | 84.9 | %",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312526000013/a2026q3ex991-pressrelease.htm",
+     "filedAt": "2026-06-24"
+    }
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 3
+    },
+    "metric": "operating_expenses",
+    "basis": "gaap",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 1600000000,
+    "high": 1600000000,
+    "mid": 1600000000,
+    "point": true,
+    "state": "missing",
+    "actual": null,
+    "position": null,
+    "gap": null,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "Approximately $1.60 billion",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312526000004/a2026q2ex991-pressrelease.htm",
+     "filedAt": "2026-03-18"
+    },
+    "reported": null
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 3
+    },
+    "metric": "operating_expenses",
+    "basis": "non_gaap",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 1400000000,
+    "high": 1400000000,
+    "mid": 1400000000,
+    "point": true,
+    "state": "missing",
+    "actual": null,
+    "position": null,
+    "gap": null,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "Approximately $1.40 billion",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312526000004/a2026q2ex991-pressrelease.htm",
+     "filedAt": "2026-03-18"
+    },
+    "reported": null
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 3
+    },
+    "metric": "eps",
+    "basis": "gaap",
+    "unit": "per_share",
+    "currency": "USD",
+    "low": 18.5,
+    "high": 19.3,
+    "mid": 18.9,
+    "point": false,
+    "state": "resolved",
+    "actual": 24.67,
+    "position": "above",
+    "gap": 0.305291,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "$18.90 Â± $0.40",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312526000004/a2026q2ex991-pressrelease.htm",
+     "filedAt": "2026-03-18"
+    },
+    "reported": {
+     "quote": "$24.67 per diluted share",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312526000013/a2026q3ex991-pressrelease.htm",
+     "filedAt": "2026-06-24"
+    }
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 3
+    },
+    "metric": "eps",
+    "basis": "non_gaap",
+    "unit": "per_share",
+    "currency": "USD",
+    "low": 18.75,
+    "high": 19.55,
+    "mid": 19.15,
+    "point": false,
+    "state": "resolved",
+    "actual": 25.11,
+    "position": "above",
+    "gap": 0.311227,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "$19.15 Â± $0.40",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312526000004/a2026q2ex991-pressrelease.htm",
+     "filedAt": "2026-03-18"
+    },
+    "reported": {
+     "quote": "$25.11 per diluted share",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312526000013/a2026q3ex991-pressrelease.htm",
+     "filedAt": "2026-06-24"
+    }
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 2
+    },
+    "metric": "revenue",
+    "basis": "unspecified",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 18300000000,
+    "high": 19100000000,
+    "mid": 18700000000,
+    "point": false,
+    "state": "resolved",
+    "actual": 23860000000,
+    "position": "above",
+    "gap": 0.275936,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "$18.70 billion Â± $400 million",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312525000044/a2026q1ex991-pressrelease.htm",
+     "filedAt": "2025-12-17"
+    },
+    "reported": {
+     "quote": "Revenue of $23.86 billion",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312526000004/a2026q2ex991-pressrelease.htm",
+     "filedAt": "2026-03-18"
+    }
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 2
+    },
+    "metric": "gross_margin",
+    "basis": "gaap",
+    "unit": "percent",
+    "currency": "USD",
+    "low": 66,
+    "high": 68,
+    "mid": 67,
+    "point": false,
+    "state": "resolved",
+    "actual": 74.4,
+    "position": "above",
+    "gap": 7.4,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "67.0% Â± 1.0%",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312525000044/a2026q1ex991-pressrelease.htm",
+     "filedAt": "2025-12-17"
+    },
+    "reported": {
+     "quote": "74.4 %",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312526000004/a2026q2ex991-pressrelease.htm",
+     "filedAt": "2026-03-18"
+    }
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 2
+    },
+    "metric": "gross_margin",
+    "basis": "non_gaap",
+    "unit": "percent",
+    "currency": "USD",
+    "low": 67,
+    "high": 69,
+    "mid": 68,
+    "point": false,
+    "state": "resolved",
+    "actual": 74.9,
+    "position": "above",
+    "gap": 6.9,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "68.0% Â± 1.0%",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312525000044/a2026q1ex991-pressrelease.htm",
+     "filedAt": "2025-12-17"
+    },
+    "reported": {
+     "quote": "74.9 %",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312526000004/a2026q2ex991-pressrelease.htm",
+     "filedAt": "2026-03-18"
+    }
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 2
+    },
+    "metric": "operating_expenses",
+    "basis": "gaap",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 1540000000,
+    "high": 1580000000,
+    "mid": 1560000000,
+    "point": false,
+    "state": "resolved",
+    "actual": 1620000000,
+    "position": "above",
+    "gap": 0.038462,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "$1.56 billion Â± $20 million",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312525000044/a2026q1ex991-pressrelease.htm",
+     "filedAt": "2025-12-17"
+    },
+    "reported": {
+     "quote": "Operating expenses | 1,620",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312526000004/a2026q2ex991-pressrelease.htm",
+     "filedAt": "2026-03-18"
+    }
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 2
+    },
+    "metric": "operating_expenses",
+    "basis": "non_gaap",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 1360000000,
+    "high": 1400000000,
+    "mid": 1380000000,
+    "point": false,
+    "state": "resolved",
+    "actual": 1421000000,
+    "position": "above",
+    "gap": 0.02971,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "$1.38 billion Â± $20 million",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312525000044/a2026q1ex991-pressrelease.htm",
+     "filedAt": "2025-12-17"
+    },
+    "reported": {
+     "quote": "Operating expenses | 1,620 | | 1,510 | | 1,190 | | | 1,421",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312526000004/a2026q2ex991-pressrelease.htm",
+     "filedAt": "2026-03-18"
+    }
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 2
+    },
+    "metric": "eps",
+    "basis": "gaap",
+    "unit": "per_share",
+    "currency": "USD",
+    "low": 7.99,
+    "high": 8.39,
+    "mid": 8.190000000000001,
+    "point": false,
+    "state": "resolved",
+    "actual": 12.07,
+    "position": "above",
+    "gap": 0.473748,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "$8.19 Â± $0.20",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312525000044/a2026q1ex991-pressrelease.htm",
+     "filedAt": "2025-12-17"
+    },
+    "reported": {
+     "quote": "$12.07 per diluted share",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312526000004/a2026q2ex991-pressrelease.htm",
+     "filedAt": "2026-03-18"
+    }
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 2
+    },
+    "metric": "eps",
+    "basis": "non_gaap",
+    "unit": "per_share",
+    "currency": "USD",
+    "low": 8.22,
+    "high": 8.62,
+    "mid": 8.42,
+    "point": false,
+    "state": "resolved",
+    "actual": 12.2,
+    "position": "above",
+    "gap": 0.448931,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "$8.42 Â± $0.20",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312525000044/a2026q1ex991-pressrelease.htm",
+     "filedAt": "2025-12-17"
+    },
+    "reported": {
+     "quote": "$12.20 per diluted share",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312526000004/a2026q2ex991-pressrelease.htm",
+     "filedAt": "2026-03-18"
+    }
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 1
+    },
+    "metric": "revenue",
+    "basis": "unspecified",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 12200000000,
+    "high": 12800000000,
+    "mid": 12500000000,
+    "point": false,
+    "state": "resolved",
+    "actual": 13640000000,
+    "position": "above",
+    "gap": 0.0912,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "$12.50 billion Â± $300 million",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312525000024/a2025q4ex991-pressrelease.htm",
+     "filedAt": "2025-09-23"
+    },
+    "reported": {
+     "quote": "Revenue of $13.64 billion",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312525000044/a2026q1ex991-pressrelease.htm",
+     "filedAt": "2025-12-17"
+    }
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 1
+    },
+    "metric": "gross_margin",
+    "basis": "gaap",
+    "unit": "percent",
+    "currency": "USD",
+    "low": 49.5,
+    "high": 51.5,
+    "mid": 50.5,
+    "point": false,
+    "state": "resolved",
+    "actual": 56,
+    "position": "above",
+    "gap": 5.5,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "50.5% Â± 1.0%",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312525000024/a2025q4ex991-pressrelease.htm",
+     "filedAt": "2025-09-23"
+    },
+    "reported": {
+     "quote": "56.0 | % |",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312525000044/a2026q1ex991-pressrelease.htm",
+     "filedAt": "2025-12-17"
+    }
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 1
+    },
+    "metric": "gross_margin",
+    "basis": "non_gaap",
+    "unit": "percent",
+    "currency": "USD",
+    "low": 50.5,
+    "high": 52.5,
+    "mid": 51.5,
+    "point": false,
+    "state": "resolved",
+    "actual": 56.8,
+    "position": "above",
+    "gap": 5.3,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "51.5% Â± 1.0%",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312525000024/a2025q4ex991-pressrelease.htm",
+     "filedAt": "2025-09-23"
+    },
+    "reported": {
+     "quote": "56.8 | % |",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312525000044/a2026q1ex991-pressrelease.htm",
+     "filedAt": "2025-12-17"
+    }
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 1
+    },
+    "metric": "operating_expenses",
+    "basis": "gaap",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 1470000000,
+    "high": 1510000000,
+    "mid": 1490000000,
+    "point": false,
+    "state": "resolved",
+    "actual": 1510000000,
+    "position": "inside",
+    "gap": 0.013423,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "$1.49 billion Â± $20 million",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312525000024/a2025q4ex991-pressrelease.htm",
+     "filedAt": "2025-09-23"
+    },
+    "reported": {
+     "quote": "Operating expenses | 1,510",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312525000044/a2026q1ex991-pressrelease.htm",
+     "filedAt": "2025-12-17"
+    }
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 1
+    },
+    "metric": "operating_expenses",
+    "basis": "non_gaap",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 1320000000,
+    "high": 1360000000,
+    "mid": 1340000000,
+    "point": false,
+    "state": "resolved",
+    "actual": 1334000000,
+    "position": "inside",
+    "gap": -0.004478,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "$1.34 billion Â± $20 million",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312525000024/a2025q4ex991-pressrelease.htm",
+     "filedAt": "2025-09-23"
+    },
+    "reported": {
+     "quote": "Operating expenses | 1,510 | | 1,400 | | 1,174 | | | 1,334",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312525000044/a2026q1ex991-pressrelease.htm",
+     "filedAt": "2025-12-17"
+    }
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 1
+    },
+    "metric": "eps",
+    "basis": "gaap",
+    "unit": "per_share",
+    "currency": "USD",
+    "low": 3.41,
+    "high": 3.71,
+    "mid": 3.56,
+    "point": false,
+    "state": "resolved",
+    "actual": 4.6,
+    "position": "above",
+    "gap": 0.292135,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "$3.56 Â± $0.15",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312525000024/a2025q4ex991-pressrelease.htm",
+     "filedAt": "2025-09-23"
+    },
+    "reported": {
+     "quote": "GAAP net income of $5.24 billion, or $4.60 per diluted share",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312525000044/a2026q1ex991-pressrelease.htm",
+     "filedAt": "2025-12-17"
+    }
+   },
+   {
+    "period": {
+     "fy": 2026,
+     "fq": 1
+    },
+    "metric": "eps",
+    "basis": "non_gaap",
+    "unit": "per_share",
+    "currency": "USD",
+    "low": 3.6,
+    "high": 3.9,
+    "mid": 3.75,
+    "point": false,
+    "state": "resolved",
+    "actual": 4.78,
+    "position": "above",
+    "gap": 0.274667,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "$3.75 Â± $0.15",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312525000024/a2025q4ex991-pressrelease.htm",
+     "filedAt": "2025-09-23"
+    },
+    "reported": {
+     "quote": "Non-GAAP net income of $5.48 billion, or $4.78 per diluted share",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312525000044/a2026q1ex991-pressrelease.htm",
+     "filedAt": "2025-12-17"
+    }
+   },
+   {
+    "period": {
+     "fy": 2025,
+     "fq": 4
+    },
+    "metric": "revenue",
+    "basis": "unspecified",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 10400000000,
+    "high": 11000000000,
+    "mid": 10700000000,
+    "point": false,
+    "state": "resolved",
+    "actual": 11315000000,
+    "position": "above",
+    "gap": 0.057477,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "$10.7 billion Â± $300 million",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312525000019/a2025q3ex991-pressrelease.htm",
+     "filedAt": "2025-06-25"
+    },
+    "reported": {
+     "quote": "Revenue | $ | 11,315",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312525000024/a2025q4ex991-pressrelease.htm",
+     "filedAt": "2025-09-23"
+    }
+   },
+   {
+    "period": {
+     "fy": 2025,
+     "fq": 4
+    },
+    "metric": "gross_margin",
+    "basis": "gaap",
+    "unit": "percent",
+    "currency": "USD",
+    "low": 40,
+    "high": 42,
+    "mid": 41,
+    "point": false,
+    "state": "resolved",
+    "actual": 44.7,
+    "position": "above",
+    "gap": 3.7,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "41.0% Â± 1.0%",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312525000019/a2025q3ex991-pressrelease.htm",
+     "filedAt": "2025-06-25"
+    },
+    "reported": {
+     "quote": "percent of revenue | 44.7 | %",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312525000024/a2025q4ex991-pressrelease.htm",
+     "filedAt": "2025-09-23"
+    }
+   },
+   {
+    "period": {
+     "fy": 2025,
+     "fq": 4
+    },
+    "metric": "gross_margin",
+    "basis": "non_gaap",
+    "unit": "percent",
+    "currency": "USD",
+    "low": 41,
+    "high": 43,
+    "mid": 42,
+    "point": false,
+    "state": "resolved",
+    "actual": 45.7,
+    "position": "above",
+    "gap": 3.7,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "42.0% Â± 1.0%",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312525000019/a2025q3ex991-pressrelease.htm",
+     "filedAt": "2025-06-25"
+    },
+    "reported": {
+     "quote": "45.7 | %",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312525000024/a2025q4ex991-pressrelease.htm",
+     "filedAt": "2025-09-23"
+    }
+   },
+   {
+    "period": {
+     "fy": 2025,
+     "fq": 4
+    },
+    "metric": "operating_expenses",
+    "basis": "gaap",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 1330000000,
+    "high": 1370000000,
+    "mid": 1350000000,
+    "point": false,
+    "state": "resolved",
+    "actual": 1400000000,
+    "position": "above",
+    "gap": 0.037037,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "$1.35 billion Â± $20 million",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312525000019/a2025q3ex991-pressrelease.htm",
+     "filedAt": "2025-06-25"
+    },
+    "reported": {
+     "quote": "Operating expenses | 1,400",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312525000024/a2025q4ex991-pressrelease.htm",
+     "filedAt": "2025-09-23"
+    }
+   },
+   {
+    "period": {
+     "fy": 2025,
+     "fq": 4
+    },
+    "metric": "operating_expenses",
+    "basis": "non_gaap",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 1180000000,
+    "high": 1220000000,
+    "mid": 1200000000,
+    "point": false,
+    "state": "missing",
+    "actual": null,
+    "position": null,
+    "gap": null,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "$1.20 billion Â± $20 million",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312525000019/a2025q3ex991-pressrelease.htm",
+     "filedAt": "2025-06-25"
+    },
+    "reported": null
+   },
+   {
+    "period": {
+     "fy": 2025,
+     "fq": 4
+    },
+    "metric": "eps",
+    "basis": "gaap",
+    "unit": "per_share",
+    "currency": "USD",
+    "low": 2.14,
+    "high": 2.44,
+    "mid": 2.29,
+    "point": false,
+    "state": "resolved",
+    "actual": 2.83,
+    "position": "above",
+    "gap": 0.235808,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "$2.29 Â± $0.15",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312525000019/a2025q3ex991-pressrelease.htm",
+     "filedAt": "2025-06-25"
+    },
+    "reported": {
+     "quote": "Diluted earnings per share | 2.83",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312525000024/a2025q4ex991-pressrelease.htm",
+     "filedAt": "2025-09-23"
+    }
+   },
+   {
+    "period": {
+     "fy": 2025,
+     "fq": 4
+    },
+    "metric": "eps",
+    "basis": "non_gaap",
+    "unit": "per_share",
+    "currency": "USD",
+    "low": 2.35,
+    "high": 2.65,
+    "mid": 2.5,
+    "point": false,
+    "state": "resolved",
+    "actual": 3.03,
+    "position": "above",
+    "gap": 0.212,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "$2.50 Â± $0.15",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312525000019/a2025q3ex991-pressrelease.htm",
+     "filedAt": "2025-06-25"
+    },
+    "reported": {
+     "quote": "$3.03 per diluted share",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312525000024/a2025q4ex991-pressrelease.htm",
+     "filedAt": "2025-09-23"
+    }
+   },
+   {
+    "period": {
+     "fy": 2025,
+     "fq": 3
+    },
+    "metric": "revenue",
+    "basis": "unspecified",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 8600000000,
+    "high": 9000000000,
+    "mid": 8800000000,
+    "point": false,
+    "state": "resolved",
+    "actual": 9301000000,
+    "position": "above",
+    "gap": 0.056932,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "$8.80 billion Â± $200 million",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312525000006/a2025q2ex991-pressrelease.htm",
+     "filedAt": "2025-03-20"
+    },
+    "reported": {
+     "quote": "Revenue | $ | 9,301",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312525000019/a2025q3ex991-pressrelease.htm",
+     "filedAt": "2025-06-25"
+    }
+   },
+   {
+    "period": {
+     "fy": 2025,
+     "fq": 3
+    },
+    "metric": "gross_margin",
+    "basis": "gaap",
+    "unit": "percent",
+    "currency": "USD",
+    "low": 34.5,
+    "high": 36.5,
+    "mid": 35.5,
+    "point": false,
+    "state": "resolved",
+    "actual": 37.7,
+    "position": "above",
+    "gap": 2.2,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "35.5% Â± 1.0%",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312525000006/a2025q2ex991-pressrelease.htm",
+     "filedAt": "2025-03-20"
+    },
+    "reported": {
+     "quote": "37.7 %",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312525000019/a2025q3ex991-pressrelease.htm",
+     "filedAt": "2025-06-25"
+    }
+   },
+   {
+    "period": {
+     "fy": 2025,
+     "fq": 3
+    },
+    "metric": "gross_margin",
+    "basis": "non_gaap",
+    "unit": "percent",
+    "currency": "USD",
+    "low": 35.5,
+    "high": 37.5,
+    "mid": 36.5,
+    "point": false,
+    "state": "resolved",
+    "actual": 39,
+    "position": "above",
+    "gap": 2.5,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "36.5% Â± 1.0%",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312525000006/a2025q2ex991-pressrelease.htm",
+     "filedAt": "2025-03-20"
+    },
+    "reported": {
+     "quote": "39.0 %",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312525000019/a2025q3ex991-pressrelease.htm",
+     "filedAt": "2025-06-25"
+    }
+   },
+   {
+    "period": {
+     "fy": 2025,
+     "fq": 3
+    },
+    "metric": "operating_expenses",
+    "basis": "gaap",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 1255000000,
+    "high": 1285000000,
+    "mid": 1270000000,
+    "point": false,
+    "state": "resolved",
+    "actual": 1339000000,
+    "position": "above",
+    "gap": 0.054331,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "$1.27 billion Â± $15 million",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312525000006/a2025q2ex991-pressrelease.htm",
+     "filedAt": "2025-03-20"
+    },
+    "reported": {
+     "quote": "Operating expenses | 1,339",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312525000019/a2025q3ex991-pressrelease.htm",
+     "filedAt": "2025-06-25"
+    }
+   },
+   {
+    "period": {
+     "fy": 2025,
+     "fq": 3
+    },
+    "metric": "operating_expenses",
+    "basis": "non_gaap",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 1115000000,
+    "high": 1145000000,
+    "mid": 1130000000,
+    "point": false,
+    "state": "resolved",
+    "actual": 1133000000,
+    "position": "inside",
+    "gap": 0.002655,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "$1.13 billion Â± $15 million",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312525000006/a2025q2ex991-pressrelease.htm",
+     "filedAt": "2025-03-20"
+    },
+    "reported": {
+     "quote": "Operating expenses | 1,339 | 1,190 | 1,113 | | | 1,133",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312525000019/a2025q3ex991-pressrelease.htm",
+     "filedAt": "2025-06-25"
+    }
+   },
+   {
+    "period": {
+     "fy": 2025,
+     "fq": 3
+    },
+    "metric": "eps",
+    "basis": "gaap",
+    "unit": "per_share",
+    "currency": "USD",
+    "low": 1.27,
+    "high": 1.47,
+    "mid": 1.37,
+    "point": false,
+    "state": "resolved",
+    "actual": 1.68,
+    "position": "above",
+    "gap": 0.226277,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "$1.37 Â± $0.10",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312525000006/a2025q2ex991-pressrelease.htm",
+     "filedAt": "2025-03-20"
+    },
+    "reported": {
+     "quote": "GAAP net income of $1.89 billion, or $1.68 per diluted share",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312525000019/a2025q3ex991-pressrelease.htm",
+     "filedAt": "2025-06-25"
+    }
+   },
+   {
+    "period": {
+     "fy": 2025,
+     "fq": 3
+    },
+    "metric": "eps",
+    "basis": "non_gaap",
+    "unit": "per_share",
+    "currency": "USD",
+    "low": 1.47,
+    "high": 1.67,
+    "mid": 1.5699999999999998,
+    "point": false,
+    "state": "resolved",
+    "actual": 1.91,
+    "position": "above",
+    "gap": 0.216561,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "$1.57 Â± $0.10",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312525000006/a2025q2ex991-pressrelease.htm",
+     "filedAt": "2025-03-20"
+    },
+    "reported": {
+     "quote": "Non-GAAP net income of $2.18 billion, or $1.91 per diluted share",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312525000019/a2025q3ex991-pressrelease.htm",
+     "filedAt": "2025-06-25"
+    }
+   },
+   {
+    "period": {
+     "fy": 2025,
+     "fq": 2
+    },
+    "metric": "revenue",
+    "basis": "unspecified",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 7700000000,
+    "high": 8100000000,
+    "mid": 7900000000,
+    "point": false,
+    "state": "resolved",
+    "actual": 8050000000,
+    "position": "inside",
+    "gap": 0.018987,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "$7.90 billion Â± $200 million",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312524000046/a2025q1ex991-pressrelease.htm",
+     "filedAt": "2024-12-18"
+    },
+    "reported": {
+     "quote": "Revenue of $8.05 billion",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312525000006/a2025q2ex991-pressrelease.htm",
+     "filedAt": "2025-03-20"
+    }
+   },
+   {
+    "period": {
+     "fy": 2025,
+     "fq": 2
+    },
+    "metric": "gross_margin",
+    "basis": "gaap",
+    "unit": "percent",
+    "currency": "USD",
+    "low": 36.5,
+    "high": 38.5,
+    "mid": 37.5,
+    "point": false,
+    "state": "resolved",
+    "actual": 36.8,
+    "position": "inside",
+    "gap": -0.7,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "37.5% Â± 1.0%",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312524000046/a2025q1ex991-pressrelease.htm",
+     "filedAt": "2024-12-18"
+    },
+    "reported": {
+     "quote": "percent of revenue | 36.8 | %",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312525000006/a2025q2ex991-pressrelease.htm",
+     "filedAt": "2025-03-20"
+    }
+   },
+   {
+    "period": {
+     "fy": 2025,
+     "fq": 2
+    },
+    "metric": "gross_margin",
+    "basis": "non_gaap",
+    "unit": "percent",
+    "currency": "USD",
+    "low": 37.5,
+    "high": 39.5,
+    "mid": 38.5,
+    "point": false,
+    "state": "resolved",
+    "actual": 37.9,
+    "position": "inside",
+    "gap": -0.6,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "38.5% Â± 1.0%",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312524000046/a2025q1ex991-pressrelease.htm",
+     "filedAt": "2024-12-18"
+    },
+    "reported": {
+     "quote": "37.9 %",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312525000006/a2025q2ex991-pressrelease.htm",
+     "filedAt": "2025-03-20"
+    }
+   },
+   {
+    "period": {
+     "fy": 2025,
+     "fq": 2
+    },
+    "metric": "operating_expenses",
+    "basis": "gaap",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 1225000000,
+    "high": 1255000000,
+    "mid": 1240000000,
+    "point": false,
+    "state": "resolved",
+    "actual": 1190000000,
+    "position": "below",
+    "gap": -0.040323,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "$1.24 billion Â± $15 million",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312524000046/a2025q1ex991-pressrelease.htm",
+     "filedAt": "2024-12-18"
+    },
+    "reported": {
+     "quote": "Operating expenses | 1,190",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312525000006/a2025q2ex991-pressrelease.htm",
+     "filedAt": "2025-03-20"
+    }
+   },
+   {
+    "period": {
+     "fy": 2025,
+     "fq": 2
+    },
+    "metric": "operating_expenses",
+    "basis": "non_gaap",
+    "unit": "currency",
+    "currency": "USD",
+    "low": 1085000000,
+    "high": 1115000000,
+    "mid": 1100000000,
+    "point": false,
+    "state": "missing",
+    "actual": null,
+    "position": null,
+    "gap": null,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "$1.10 billion Â± $15 million",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312524000046/a2025q1ex991-pressrelease.htm",
+     "filedAt": "2024-12-18"
+    },
+    "reported": null
+   },
+   {
+    "period": {
+     "fy": 2025,
+     "fq": 2
+    },
+    "metric": "eps",
+    "basis": "gaap",
+    "unit": "per_share",
+    "currency": "USD",
+    "low": 1.16,
+    "high": 1.36,
+    "mid": 1.26,
+    "point": false,
+    "state": "resolved",
+    "actual": 1.41,
+    "position": "above",
+    "gap": 0.119048,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "$1.26 Â± $0.10",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312524000046/a2025q1ex991-pressrelease.htm",
+     "filedAt": "2024-12-18"
+    },
+    "reported": {
+     "quote": "$1.41 per diluted share",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312525000006/a2025q2ex991-pressrelease.htm",
+     "filedAt": "2025-03-20"
+    }
+   },
+   {
+    "period": {
+     "fy": 2025,
+     "fq": 2
+    },
+    "metric": "eps",
+    "basis": "non_gaap",
+    "unit": "per_share",
+    "currency": "USD",
+    "low": 1.33,
+    "high": 1.53,
+    "mid": 1.4300000000000002,
+    "point": false,
+    "state": "resolved",
+    "actual": 1.56,
+    "position": "above",
+    "gap": 0.090909,
+    "revision": null,
+    "prior": null,
+    "guide": {
+     "quote": "$1.43 Â± $0.10",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312524000046/a2025q1ex991-pressrelease.htm",
+     "filedAt": "2024-12-18"
+    },
+    "reported": {
+     "quote": "$1.56 per diluted share",
+     "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312525000006/a2025q2ex991-pressrelease.htm",
+     "filedAt": "2025-03-20"
+    }
+   }
+  ],
+  "patterns": [
+   {
+    "metric": "revenue",
+    "basis": "unspecified",
+    "n": 7,
+    "above": 6,
+    "inside": 1,
+    "below": 0,
+    "atOrAboveMid": 7,
+    "medianGap": 0.0846,
+    "gapKind": "relative",
+    "point": false
+   },
+   {
+    "metric": "gross_margin",
+    "basis": "gaap",
+    "n": 7,
+    "above": 6,
+    "inside": 1,
+    "below": 0,
+    "atOrAboveMid": 6,
+    "medianGap": 3.6,
+    "gapKind": "points",
+    "point": false
+   },
+   {
+    "metric": "gross_margin",
+    "basis": "non_gaap",
+    "n": 7,
+    "above": 6,
+    "inside": 1,
+    "below": 0,
+    "atOrAboveMid": 6,
+    "medianGap": 3.7,
+    "gapKind": "points",
+    "point": false
+   },
+   {
+    "metric": "operating_expenses",
+    "basis": "gaap",
+    "n": 5,
+    "above": 3,
+    "inside": 1,
+    "below": 1,
+    "atOrAboveMid": 4,
+    "medianGap": 0.037037,
+    "gapKind": "relative",
+    "point": false
+   },
+   {
+    "metric": "operating_expenses",
+    "basis": "non_gaap",
+    "n": 3,
+    "above": 1,
+    "inside": 2,
+    "below": 0,
+    "atOrAboveMid": 2,
+    "medianGap": 0.002655,
+    "gapKind": "relative",
+    "point": false
+   },
+   {
+    "metric": "eps",
+    "basis": "gaap",
+    "n": 6,
+    "above": 6,
+    "inside": 0,
+    "below": 0,
+    "atOrAboveMid": 6,
+    "medianGap": 0.263971,
+    "gapKind": "relative",
+    "point": false
+   },
+   {
+    "metric": "eps",
+    "basis": "non_gaap",
+    "n": 6,
+    "above": 6,
+    "inside": 0,
+    "below": 0,
+    "atOrAboveMid": 6,
+    "medianGap": 0.245614,
+    "gapKind": "relative",
+    "point": false
+   }
+  ]
+ }
+}

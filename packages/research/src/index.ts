@@ -33,3 +33,16 @@ export {
   acceptsSamplingParams,
 } from "./anthropicModels.js";
 export { withProviderSlot, providerGateStats, RateLimitWaitError } from "./providerGate.js";
+export { PROMPT_COPY_RULE } from "./copy-rules.js";
+export {
+  edgarAcceptanceIso,
+  edgarAcceptanceMs,
+  edgarIndexConvention,
+  edgarStampIsCurrent,
+  edgarStampState,
+  filingAcceptedMs,
+  inEdgarRebuildWindow,
+  nyOffsetMs,
+  type EdgarIndexConvention,
+  type EdgarStampContext,
+} from "./research/edgar-time.js";

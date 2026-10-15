@@ -7,12 +7,16 @@ import {
   joinOr,
   paragraphs,
   sayLines,
+  secLinkParts,
   sortAgents,
   suggestedQuestions,
+  triggerKindLabel,
+  triggerNoun,
   triggerSentence,
   upcoming,
   waitingLine,
 } from "./agent-format";
+import { triggerProblem } from "./agent-draft";
 import { parseBrief } from "./agent-fixtures";
 
 const NOW = Date.parse("2026-10-10T12:00:00Z");
@@ -142,5 +146,49 @@ describe("fillTemplateTicker", () => {
     assert.deepEqual(fillTemplateTicker("No ticker here", "AMD").select, null);
     // Not inside another word.
     assert.equal(fillTemplateTicker("AMDX moved", "AMD").select, null);
+  });
+});
+
+describe("a filing changes trigger, as the reader reads it", () => {
+  it("says whose report and which changes, in English and in another language", () => {
+    const all = { kind: "filing_changes" as const, ticker: "SMCI" };
+    assert.equal(
+      triggerSentence(all, "en-US"),
+      "When SMCI's next 10-K, 10-Q or 20-F has a new risk factor, a red flag, a customer change, or a supplier change",
+    );
+    assert.equal(triggerSentence({ ...all, kinds: ["risk_factors", "red_flags"] }, "en-US"), "When SMCI's next 10-K, 10-Q or 20-F has a new risk factor or a red flag");
+    assert.equal(triggerNoun(all, "en-US"), "SMCI filing changes");
+    assert.equal(triggerKindLabel("filing_changes", "en-US"), "Filing changes");
+    assert.ok(triggerSentence(all, "tr-TR").includes("SMCI"));
+    assert.equal(
+      sayLines([{ code: "changes.noneWatched", params: { ticker: "SMCI", form: "10-Q", date: "2026-11-05" } }], "en-US", "x").startsWith("Read the SMCI 10-Q filed "),
+      true,
+    );
+    assert.equal(triggerProblem({ kind: "filing_changes", ticker: " " }, "en-US"), "Pick the company whose filings to watch.");
+  });
+
+  it("makes the sec.gov addresses in a report's text into links named by their file", () => {
+    const url = "https://www.sec.gov/Archives/edgar/data/1375365/000137536526000050/smci-20260930.htm#item_1a";
+    assert.deepEqual(secLinkParts(`SMCI filed a 10-Q. SEC EDGAR: ${url}.`), [
+      { text: "SMCI filed a 10-Q. SEC EDGAR: " },
+      { text: "smci-20260930.htm", url },
+      { text: "." },
+    ]);
+    assert.deepEqual(secLinkParts("No links at https://example.com/x here."), [{ text: "No links at https://example.com/x here." }]);
+  });
+});
+
+describe("a linked trigger, as the reader reads it", () => {
+  it("says whose links, which ones and what fires it, in English and in another language", () => {
+    const t = { kind: "linked" as const, ticker: "NVDA", relations: ["supplier" as const, "customer" as const], minTier: "critical" as const, events: ["earnings" as const, "filing" as const] };
+    assert.equal(triggerSentence(t, "en-US"), "When a company linked to NVDA (suppliers or customers; critical links) has results or a filing (8-K, 6-K)");
+    assert.equal(
+      triggerSentence({ kind: "linked", ticker: "AMD", events: ["news"] }, "en-US"),
+      "When a company linked to AMD (suppliers, customers, and competitors; critical and important links) has material news",
+    );
+    assert.equal(triggerNoun(t, "en-US"), "Companies linked to NVDA");
+    assert.ok(triggerSentence(t, "de-DE").includes("NVDA"));
+    assert.equal(sayLines([{ code: "linked.watching", params: { count: 3, ticker: "NVDA" } }], "en-US", "x"), "Watching 3 companies linked to NVDA.");
+    assert.equal(sayLines([{ code: "linked.watching", params: { count: 1, ticker: "NVDA" } }], "en-US", "x"), "Watching 1 company linked to NVDA.");
   });
 });

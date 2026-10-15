@@ -57,7 +57,7 @@ export const de: Table = {
   "settings.engines.usedFor.finnhub": "Termine für Quartalszahlen und Unternehmensnachrichten",
   "settings.engines.usedFor.edgar": "Einreichungen für hier ausgeführte Step-1-Graphen",
   "settings.engines.usedFor.yahoo": "Charts, Kurse und Kennzahlen",
-  "settings.engines.usedFor.supabase": "Anmeldung und der gemeinsame Signalcache",
+  "settings.engines.usedFor.supabase": "Anmeldung und der gemeinsame Cache",
   "settings.engines.unused.description":
     "Nur von der Berichtspipeline des Research-Pakets genutzt, die diese App nicht ausführt.",
   "settings.engines.unused.value": "Hier nicht genutzt",
@@ -81,7 +81,7 @@ export const de: Table = {
   "settings.engines.model.analyst": "Analyst",
   "settings.engines.model.propagation": "Propagation-Bewertung",
   "settings.engines.model.step1": "Step-1-Beziehungsgraphen",
-  "settings.engines.model.insight": "Insight-Erklärungen und Chat",
+  "settings.engines.model.insight": "Ereigniserklärungen und Chat",
   "settings.engines.model.gloss": "Markieren zum Erklären",
   "settings.engines.model.briefing": "Übergabe-Briefing",
   "settings.engines.model.agents": "Agenten",

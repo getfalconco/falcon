@@ -160,8 +160,8 @@ export const PLAN_FEATURES: ReadonlyArray<{
   values: Readonly<Record<PlanKey, string | boolean>>;
 }> = [
   { key: "trackedCompanies", label: "Tracked companies", values: { early: "3", silver: "5", gold: "25", platinum: "Unlimited" } },
-  { key: "dailySignal", label: "Daily top signal", values: { early: true, silver: true, gold: true, platinum: true } },
-  { key: "secondOrder", label: "Second-order signals", values: { early: false, silver: false, gold: true, platinum: true } },
+  { key: "dailySignal", label: "Daily top event", values: { early: true, silver: true, gold: true, platinum: true } },
+  { key: "secondOrder", label: "Second-order effects", values: { early: false, silver: false, gold: true, platinum: true } },
   {
     key: "reports",
     label: "Company reports",

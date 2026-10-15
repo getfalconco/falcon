@@ -2,6 +2,9 @@ import type {
   AgentChannel,
   AgentDraft,
   AgentEnds,
+  AgentFilingChangeKind,
+  AgentLinkRelation,
+  AgentLinkedEvent,
   AgentMetric,
   AgentPatch,
   AgentTrigger,
@@ -114,6 +117,12 @@ export function normalizeForm(raw: unknown): string | null {
 
 const CLOCK = /^([01]\d|2[0-3]):([0-5]\d)$/;
 
+const LINK_RELATION_ORDER: readonly AgentLinkRelation[] = ["supplier", "customer", "competitor"];
+const LINK_RELATION_SET: ReadonlySet<AgentLinkRelation> = new Set(LINK_RELATION_ORDER);
+const LINKED_EVENT_ORDER: readonly AgentLinkedEvent[] = ["earnings", "filing", "news"];
+const LINKED_EVENT_SET: ReadonlySet<AgentLinkedEvent> = new Set(LINKED_EVENT_ORDER);
+const CHANGE_KIND_ORDER: readonly AgentFilingChangeKind[] = ["risk_factors", "red_flags", "customers", "suppliers"];
+
 function bool(v: unknown, fallback: boolean): boolean {
   return typeof v === "boolean" ? v : fallback;
 }
@@ -172,6 +181,29 @@ export function validateTrigger(raw: unknown, fallbackTicker?: string): AgentTri
       const event = cleanLine(t.event, 40);
       if (event.length < 2) throw new Error("Macro trigger needs an event, such as CPI or FOMC");
       return { kind: "macro", event };
+    }
+    case "linked": {
+      const ticker = requireTicker(t.ticker, fallbackTicker, "Linked companies trigger");
+      const events = [...new Set((Array.isArray(t.events) ? t.events : []).filter((e): e is AgentLinkedEvent => LINKED_EVENT_SET.has(e as AgentLinkedEvent)))];
+      if (events.length === 0) throw new Error("Linked companies trigger needs an event: results, filings or news");
+      const out: Extract<AgentTrigger, { kind: "linked" }> = { kind: "linked", ticker, events: LINKED_EVENT_ORDER.filter((e) => events.includes(e)) };
+      const relations = (Array.isArray(t.relations) ? t.relations : []).filter((r): r is AgentLinkRelation => LINK_RELATION_SET.has(r as AgentLinkRelation));
+      // All three is the same as none named.
+      if (relations.length > 0 && new Set(relations).size < LINK_RELATION_SET.size) {
+        out.relations = LINK_RELATION_ORDER.filter((r) => relations.includes(r));
+      }
+      if (t.minTier === "critical" || t.minTier === "important" || t.minTier === "marginal") out.minTier = t.minTier;
+      if (events.includes("filing") && Array.isArray(t.forms)) {
+        const forms = [...new Set(t.forms.map(normalizeForm).filter((f): f is string => f !== null))].slice(0, LIMITS.forms);
+        if (forms.length > 0) out.forms = forms;
+      }
+      return out;
+    }
+    case "filing_changes": {
+      const ticker = requireTicker(t.ticker, fallbackTicker, "Filing changes trigger");
+      const picked = Array.isArray(t.kinds) ? CHANGE_KIND_ORDER.filter((k) => (t.kinds as unknown[]).includes(k)) : [];
+      // None named, or all four, is the same watch: absent.
+      return picked.length > 0 && picked.length < CHANGE_KIND_ORDER.length ? { kind: "filing_changes", ticker, kinds: picked } : { kind: "filing_changes", ticker };
     }
     case "schedule": {
       const cadence = t.cadence === "daily" || t.cadence === "weekly" ? t.cadence : "weekdays";
@@ -355,6 +387,8 @@ const KIND_NAME: Record<AgentTrigger["kind"], string> = {
   price_move: "price moves",
   news: "news",
   macro: "macro",
+  linked: "linked companies",
+  filing_changes: "filing changes",
   schedule: "digest",
 };
 
@@ -362,6 +396,7 @@ export function defaultName(ticker: string | undefined, triggers: AgentTrigger[]
   const first = triggers[0];
   const what = first ? KIND_NAME[first.kind] : "watch";
   if (first?.kind === "macro") return `${first.event} release`;
+  if (first?.kind === "filing_changes") return `Filing changes at ${first.ticker}`;
   return ticker ? `${ticker} ${what}` : `Market ${what}`;
 }
 

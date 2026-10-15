@@ -32,7 +32,7 @@ export const ko: Partial<Messages> = {
   "search.group.trending": "인기",
   "search.group.navigate": "이동",
   "search.nav.dashboard": "대시보드",
-  "search.nav.dashboardHint": "포트폴리오, 자산, 인사이트, 리스크",
+  "search.nav.dashboardHint": "포트폴리오, 자산, 전파, 리스크",
   "search.noResults": "‘{query}’에 대한 결과가 없어요",
   "search.noResultsOpen": "‘{query}’에 대한 결과가 없어요. {key} 키를 누르면 {symbol} 종목을 바로 열어요.",
 
@@ -47,7 +47,7 @@ export const ko: Partial<Messages> = {
   "modules.earnings": "실적",
   "modules.news": "뉴스",
   "modules.risk": "리스크 점수",
-  "modules.insight": "인사이트",
+  "modules.insight": "전파",
 
   "menu.label": "계정",
   "menu.settings": "설정",

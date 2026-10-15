@@ -15,6 +15,7 @@
  */
 
 import { sessionTimes } from "../tracker/calendar.js";
+import { filingAcceptedMs } from "../research/edgar-time.js";
 import type { FilingRecord, TickerState } from "../tracker/types.js";
 import type { TradingCalendar } from "./calendar.js";
 
@@ -40,15 +41,15 @@ export type FilingEvent = {
 
 /** How a filing's acceptance instant sits against its own session. */
 function acceptanceHour(filing: FilingRecord): "bmo" | "dmh" | "amc" | null {
-  if (!filing.acceptedAt) return null;
-  const accepted = new Date(filing.acceptedAt);
-  if (Number.isNaN(accepted.getTime())) return null;
+  // The instant, not the raw stamp: SEC's is not always UTC (research/edgar-time.ts).
+  const accepted = filingAcceptedMs(filing);
+  if (accepted === null) return null;
   const times = sessionTimes(filing.filedAt);
   // Not a trading day by the algorithmic calendar (weekend, holiday, or an
   // ad-hoc closure): treat as after the close, the conservative direction.
   if (!times) return "amc";
-  if (accepted.getTime() < times.openUtc.getTime()) return "bmo";
-  if (accepted.getTime() >= times.closeUtc.getTime()) return "amc";
+  if (accepted < times.openUtc.getTime()) return "bmo";
+  if (accepted >= times.closeUtc.getTime()) return "amc";
   return "dmh";
 }
 
@@ -78,6 +79,12 @@ export type FilingEventOptions = {
   items?: string[];
 };
 
+/** The acceptance instant as ISO (true UTC), or null. */
+function acceptedIso(filing: FilingRecord): string | null {
+  const ms = filingAcceptedMs(filing);
+  return ms === null ? null : new Date(ms).toISOString();
+}
+
 /** Every filing event for a ticker, oldest first. */
 export function buildFilingEvents(
   state: TickerState,
@@ -99,7 +106,7 @@ export function buildFilingEvents(
       form: filing.form,
       accession: filing.accessionNumber,
       filed_at: filing.filedAt,
-      accepted_at: filing.acceptedAt ?? null,
+      accepted_at: acceptedIso(filing),
       items,
       session: attributed.session,
       after_close: attributed.after_close,

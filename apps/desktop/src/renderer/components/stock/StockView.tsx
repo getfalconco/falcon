@@ -21,6 +21,12 @@ type Props = {
   symbol: string;
   companyName?: string;
   exchange?: string;
+  /**
+   * The filing research alone, for a page that already shows the price, the
+   * tape state and the paper account (the Stock tab's Financials section):
+   * no price is polled here, and the blocks lose their full-screen spacing.
+   */
+  researchOnly?: boolean;
 };
 
 type UiState =
@@ -129,7 +135,7 @@ function CompactCounterparties({ edges }: { edges: ValidatedEdge[] }) {
           ) : null}
           <span className="text-fg-muted">
             · {e.category}
-            {e.subtype ? ` · ${e.subtype}` : ""} · {e.confidence.toFixed(2)}
+            {e.subtype ? ` · ${e.subtype}` : ""}
           </span>
           <StrengthChip tier={e.strength_tier} strength={e.strength} />
         </div>
@@ -154,7 +160,6 @@ function EdgeRow({
       <td className="px-2 py-2 tabular-nums text-fg-muted">{edge.counterparty_ticker ?? t("common.na")}</td>
       <td className="px-2 py-2 text-fg-muted">{edge.category}</td>
       <td className="px-2 py-2 text-fg-muted">{edge.subtype || t("common.na")}</td>
-      <td className="px-2 py-2 tabular-nums text-fg-muted">{edge.confidence.toFixed(2)}</td>
       <td className="px-2 py-2">
         <StrengthChip tier={edge.strength_tier} strength={edge.strength} />
       </td>
@@ -180,7 +185,7 @@ function EvidenceGroupBlock({ group }: { group: { groupId: string; edges: Valida
   if (!open) {
     return (
       <tr className="border-b border-white/[0.06]">
-        <td className="px-2 py-2 align-top" colSpan={6}>
+        <td className="px-2 py-2 align-top" colSpan={5}>
           <button
             type="button"
             className="mb-1.5 text-xs text-fg-muted hover:text-foreground"
@@ -205,7 +210,6 @@ function EvidenceGroupBlock({ group }: { group: { groupId: string; edges: Valida
           <td className="px-2 py-2 tabular-nums text-fg-muted">{edge.counterparty_ticker ?? t("common.na")}</td>
           <td className="px-2 py-2 text-fg-muted">{edge.category}</td>
           <td className="px-2 py-2 text-fg-muted">{edge.subtype || t("common.na")}</td>
-          <td className="px-2 py-2 tabular-nums text-fg-muted">{edge.confidence.toFixed(2)}</td>
           <td className="px-2 py-2">
             <StrengthChip tier={edge.strength_tier} strength={edge.strength} />
           </td>
@@ -239,7 +243,6 @@ function EdgesTable({ edges }: { edges: ValidatedEdge[] }) {
             <th className="px-2 py-2 font-medium">{t("stock.edges.ticker")}</th>
             <th className="px-2 py-2 font-medium">{t("stock.edges.category")}</th>
             <th className="px-2 py-2 font-medium">{t("stock.edges.subtype")}</th>
-            <th className="px-2 py-2 font-medium">{t("stock.edges.confidence")}</th>
             <th className="px-2 py-2 font-medium">{t("stock.edges.strength")}</th>
             <th className="px-2 py-2 font-medium">{t("stock.edges.evidence")}</th>
           </tr>
@@ -357,13 +360,13 @@ function RejectedSection({ rejected }: { rejected: RejectedCandidate[] }) {
   );
 }
 
-export default function StockView({ symbol }: Props) {
+export default function StockView({ symbol, researchOnly = false }: Props) {
   const [ui, setUi] = useState<UiState>({ kind: "idle" });
   const [paperAccount, setPaperAccount] = useState(hasPaperAccount);
   const { t, locale } = useI18n();
 
   // Shown on every screen except the analysis progress view.
-  const live = useLiveQuote(symbol, { enabled: ui.kind !== "running" });
+  const live = useLiveQuote(symbol, { enabled: !researchOnly && ui.kind !== "running" });
 
   useEffect(() => subscribePaperAccount(() => setPaperAccount(hasPaperAccount())), []);
 
@@ -508,6 +511,22 @@ export default function StockView({ symbol }: Props) {
     };
   }, [symbol, ui.kind]);
 
+  if (ui.kind === "idle" && researchOnly) {
+    return (
+      <div className="flex flex-wrap items-center gap-3">
+        <button
+          type="button"
+          onClick={() => void run(false)}
+          disabled={quota ? !quota.allowed : false}
+          className="glass-cta btn-quiet rounded-full px-4 py-1.5 text-[12.5px] font-medium disabled:cursor-not-allowed disabled:opacity-40"
+        >
+          {t("stock.begin")}
+        </button>
+        <ResearchQuotaPill quota={quota} />
+      </div>
+    );
+  }
+
   if (ui.kind === "idle") {
     return (
       <div className="flex min-h-0 min-w-0 flex-1 flex-col items-center justify-center gap-5 overflow-y-auto py-6">
@@ -540,8 +559,13 @@ export default function StockView({ symbol }: Props) {
   if (ui.kind === "running") {
     const stageLower = ui.stage.toLowerCase();
     return (
-      <div className="flex min-h-0 min-w-0 flex-1 flex-col items-center justify-center gap-3 px-8">
-        <p lang="en" className="text-xs uppercase tracking-[0.12em] text-fg-faint">{symbol}</p>
+      <div
+        className={cn(
+          "flex min-h-0 min-w-0 flex-col gap-3",
+          researchOnly ? "items-start" : "flex-1 items-center justify-center px-8",
+        )}
+      >
+        {researchOnly ? null : <p lang="en" className="text-xs uppercase tracking-[0.12em] text-fg-faint">{symbol}</p>}
         <ul className="w-full max-w-md space-y-2 text-sm">
           <li
             className={
@@ -568,9 +592,14 @@ export default function StockView({ symbol }: Props) {
 
   if (ui.kind === "error") {
     return (
-      <div className="flex min-h-0 min-w-0 flex-1 flex-col items-center justify-center gap-4 px-8">
-        <p lang="en" className="text-xs uppercase tracking-[0.12em] text-fg-faint">{symbol}</p>
-        <p className="max-w-md text-center text-sm text-red-300">{ui.message}</p>
+      <div
+        className={cn(
+          "flex min-h-0 min-w-0 flex-col gap-4",
+          researchOnly ? "items-start" : "flex-1 items-center justify-center px-8",
+        )}
+      >
+        {researchOnly ? null : <p lang="en" className="text-xs uppercase tracking-[0.12em] text-fg-faint">{symbol}</p>}
+        <p className={cn("max-w-md text-sm text-red-300", !researchOnly && "text-center")}>{ui.message}</p>
         {ui.code ? (
           <p className="text-[11px] uppercase tracking-[0.12em] text-fg-faint">{t("stock.errorRef", { code: upperEnglish(ui.code) })}</p>
         ) : null}
@@ -595,10 +624,10 @@ export default function StockView({ symbol }: Props) {
     ui.result.stats != null && isContentSuspect(ui.result.stats);
 
   return (
-    <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-auto px-8 py-6">
+    <div className={cn("flex min-h-0 min-w-0 flex-col", researchOnly ? "" : "flex-1 overflow-auto px-8 py-6")}>
       <div className="mb-4 flex items-start justify-between gap-4">
         <div>
-          <p lang="en" className="text-xs uppercase tracking-[0.12em] text-fg-faint">{symbol}</p>
+          {researchOnly ? null : <p lang="en" className="text-xs uppercase tracking-[0.12em] text-fg-faint">{symbol}</p>}
           <p className="mt-1 text-sm text-fg-muted">
             {t(
               plural(locale, ui.result.validated.length, "stock.result.validated.one", "stock.result.validated.other"),
@@ -627,7 +656,7 @@ export default function StockView({ symbol }: Props) {
           ) : null}
         </div>
         <div className="flex shrink-0 flex-col items-end gap-2">
-          <StockLivePrice state={live} variant="inline" />
+          {researchOnly ? null : <StockLivePrice state={live} variant="inline" />}
           <button
             type="button"
             onClick={() => void run(true)}
@@ -637,7 +666,7 @@ export default function StockView({ symbol }: Props) {
           </button>
         </div>
       </div>
-      {paperAccount ? (
+      {paperAccount && !researchOnly ? (
         <StockPaperTradePanel
           symbol={symbol}
           price={live.quote?.price ?? null}

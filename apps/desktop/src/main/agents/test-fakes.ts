@@ -30,6 +30,13 @@ export function fakeSources(overrides: Partial<AgentDataSources> = {}): AgentDat
     macroCoverageUntil: () => "2026-12-31",
     lookupTicker: async (t) => (["NVDA", "AAPL", "MSFT", "TSLA", "AMZN"].includes(t) ? { symbol: t, companyName: `${t} Corp` } : null),
     searchCompany: async () => [],
+    linkEdges: async () => [],
+    filingFormOf: () => null,
+    materialNews: async () => [],
+    readthrough: async () => [],
+    filingChanges: async () => {
+      throw new Error("no filing changes in this fake");
+    },
     ...overrides,
   };
 }
@@ -41,6 +48,7 @@ export function filing(over: Partial<FilingRef> = {}): FilingRef {
     accession: "0001045810-26-000101",
     filedAt: "2026-11-19",
     acceptedAt: "2026-11-19T21:20:00.000Z",
+    acceptedAtUtc: true,
     items: ["2.02", "9.01"],
     primaryDocument: "nvda-8k.htm",
     url: "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000101/nvda-8k.htm",

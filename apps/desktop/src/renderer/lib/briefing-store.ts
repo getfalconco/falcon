@@ -21,6 +21,7 @@
 import { getDemoSnapshot, mulberry32, subscribeDemoMode } from "@/lib/demo-mode";
 import { readPaperAccount, subscribePaperAccount, type PaperAccount } from "@/lib/paper-account";
 import { buildRiskAccountPush } from "@/lib/risk-account-bridge";
+import { getWatchlist } from "@/lib/watchlist";
 import { buildDemoBriefing } from "../../shared/briefing-demo";
 import {
   resolveBriefingWindow,
@@ -344,6 +345,15 @@ function buildDemo(seed: number, holdings: BriefingHolding[], cash: number, key:
  * cover (another book, a round that skips the cache), one more request follows
  * it.
  */
+/** The watchlist's tickers; an unreadable store is an empty list, never a failed request. */
+function watchedTickers(): string[] {
+  try {
+    return getWatchlist().map((entry) => entry.ticker.trim().toUpperCase()).filter(Boolean);
+  } catch {
+    return [];
+  }
+}
+
 function requestReport(force: boolean): Promise<void> {
   const { holdings, cash } = requestFromAccount(readPaperAccount());
   const key = holdingsKey(holdings, cash);
@@ -373,7 +383,8 @@ function requestReport(force: boolean): Promise<void> {
   setState(state.report ? { status: "ready", refreshing: true } : { status: "loading", error: null, refreshing: false });
 
   const pending: Promise<void> = Promise.resolve()
-    .then(() => get({ holdings, cash, demo: false, ...(force ? { force: true } : {}) }))
+    // The watchlist feeds only the filings and insiders lines; the report and its cache key stay the book's.
+    .then(() => get({ holdings, cash, watchlist: watchedTickers(), demo: false, ...(force ? { force: true } : {}) }))
     .then(
       (result: BriefingGetResult) => result,
       // A rejected invoke carries the main process's own message. It is

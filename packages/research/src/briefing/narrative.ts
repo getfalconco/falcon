@@ -19,6 +19,7 @@
  */
 
 import { CLAUDE_WRITING_MODEL } from "../anthropicModels.js";
+import { PROMPT_COPY_RULE } from "../copy-rules.js";
 import { looksLikeAdviceOrLink } from "../gloss/service.js";
 import type { GlossModelCaller } from "../gloss/types.js";
 import { DEFAULT_SCREEN_CONFIG } from "../screen/config.js";
@@ -524,6 +525,8 @@ Rules for everything you write:
 - "calendar_this_session" is the calendar of the US session being handed over to. The reader is often reading the evening before, so say "this session" rather than "today". Times are US Eastern, written like "14:00 ET".
 - When "market_groups" marks a region "stale" or "unavailable", do not describe a move for that region. When "calendar_covers_this_session" is false, say the macro calendar file does not reach this session instead of saying nothing is scheduled.
 - Mention risk only when "risk" is present. Keep the meaning and the figures of its driver sentence, and reword it only where it contains a forbidden word.
+
+${PROMPT_COPY_RULE}
 
 Return JSON only: {"lead": "...", "stories": [{"id": "...", "what": "...", "reaction": "...", "meaning": "..." or null}]}.`;
 

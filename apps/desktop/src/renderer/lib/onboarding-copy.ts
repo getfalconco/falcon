@@ -1,7 +1,6 @@
 import type {
   ExperienceLevel,
   SectorId,
-  SignalFormat,
 } from "../../shared/user-preferences";
 import type { UpdateFrequency } from "../../shared/onboarding-survey";
 import type { DashboardCard, HoldingPeriod } from "../../shared/onboarding-desk";
@@ -13,7 +12,7 @@ import type { MessageKey } from "@/lib/i18n";
  * survey row), so they stay stable English ids whatever language the
  * questions were read in; what the reader sees comes from the `*Key` message
  * keys (lib/i18n/messages/areas/auth.ts). The plain English labels left here
- * (SECTOR_LABELS, depthLabel, FORMAT_OPTIONS) are the summaries
+ * (SECTOR_LABELS) are the summaries
  * lib/user-preferences.ts builds.
  */
 
@@ -43,32 +42,22 @@ export const SECTOR_LABEL_KEYS: Record<SectorId, MessageKey> = {
 export const EXPERIENCE_OPTIONS: {
   id: ExperienceLevel;
   labelKey: MessageKey;
-  acknowledgmentKey: MessageKey;
-  depthLabel: string;
 }[] = [
   {
     id: "new",
     labelKey: "auth.onboarding.tenure.new",
-    acknowledgmentKey: "auth.onboarding.tenure.newNote",
-    depthLabel: "We'll explain as we go",
   },
   {
     id: "one_to_three_years",
     labelKey: "auth.onboarding.tenure.oneToThree",
-    acknowledgmentKey: "auth.onboarding.tenure.oneToThreeNote",
-    depthLabel: "Sharp, context when it matters",
   },
   {
     id: "three_to_ten_years",
     labelKey: "auth.onboarding.tenure.threeToTen",
-    acknowledgmentKey: "auth.onboarding.tenure.threeToTenNote",
-    depthLabel: "Straight to the substance",
   },
   {
     id: "ten_plus_pro",
     labelKey: "auth.onboarding.tenure.tenPlus",
-    acknowledgmentKey: "auth.onboarding.tenure.tenPlusNote",
-    depthLabel: "Full precision, no simplification",
   },
 ];
 
@@ -89,6 +78,10 @@ export const DESK_CARD_LABEL_KEYS: Record<DashboardCard, MessageKey> = {
   risk: "modules.risk",
   agents: "modules.agents",
   earnings: "modules.earnings",
+  exposure: "modules.exposure",
+  readthrough: "modules.readthrough",
+  insiders: "modules.insiders",
+  filings: "modules.filings",
 };
 
 /** The one-tap answers to "How did you hear about Falcon?". */
@@ -105,22 +98,4 @@ export const UPDATE_FREQUENCY_OPTIONS: { id: UpdateFrequency; label: string }[] 
   { id: "daily_brief", label: "Daily brief" },
   { id: "real_time", label: "Real-time on major events" },
   { id: "weekly_summary", label: "Weekly summary only" },
-];
-
-export const FORMAT_OPTIONS: {
-  id: SignalFormat;
-  label: string;
-  acknowledgment: string;
-}[] = [
-  {
-    id: "takeaway",
-    label: "Just the takeaway",
-    acknowledgment:
-      "Short and direct. The move, the mechanism, whether it's priced in. Nothing more.",
-  },
-  {
-    id: "full",
-    label: "The full reasoning",
-    acknowledgment: "The full trace. Every step from the event to the companies it touches.",
-  },
 ];

@@ -153,7 +153,6 @@ export default function TargetDrawer({ run, target: t, onClose }: Props) {
             {r.subtype ? <span className="text-[#6b7280]"> · {humanize(r.subtype)}</span> : null}
           </p>
           <p className="mt-0.5 text-[11px] text-[#9CA3AF]">
-            {tr("panels.drawer.confidence", { pct: Math.round(r.confidence * 100) })} ·{" "}
             {r.via === "both" ? tr("panels.drawer.assertedBoth") : tr("panels.drawer.assertedOne", { filer })}
             {r.filing_date ? ` · ${fmtDay(r.filing_date, locale, na)}` : ""}
           </p>

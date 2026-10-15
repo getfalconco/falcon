@@ -13,6 +13,7 @@ import type {
   BriefingPorts,
   BriefingReport,
   BriefingRequest,
+  BriefingResearchFacts,
   BriefingWindow,
 } from "../../shared/briefing-types";
 import { BriefingStore, bookHash, cacheUsable, narrativeBudget, type ReportKey } from "./briefing-store";
@@ -43,6 +44,14 @@ export type BriefingBuildDeps = {
   realNowMs: () => number;
   userKey: () => string;
   modelConfigured: () => boolean;
+  /**
+   * Filings and insiders for the reader's names, read from what the SEC
+   * modules keep. Optional and fail-soft: attached to every report served
+   * (cached or fresh) and never stored with it, since the modules' own
+   * caches move on their own clock and the watchlist is not part of the
+   * report's key.
+   */
+  researchFacts?: (req: BriefingRequest, window: BriefingWindow) => Promise<BriefingResearchFacts>;
 };
 
 export type BriefingBuildResult = { report: BriefingReport; source: "cache" | "fresh" };
@@ -94,6 +103,24 @@ export function createBriefingBuilder(deps: BriefingBuildDeps): {
     return { report, source: "fresh" };
   };
 
+  /**
+   * The facts laid over a report on its way out. A demo or developer-clock
+   * report gets none (the first never leaves the renderer's book, the second
+   * describes a made-up morning), and a source that throws costs the facts,
+   * never the report.
+   */
+  const withFacts = async (result: BriefingBuildResult, req: BriefingRequest, clock: BriefingClock, window: BriefingWindow | null): Promise<BriefingBuildResult> => {
+    if (!deps.researchFacts || req.demo || clock.synthetic || window === null) return result;
+    try {
+      // The report's own window: an ad-hoc close in the calendar overlay can move it off the scheduled one.
+      const research = await deps.researchFacts(req, result.report.window ?? window);
+      return { ...result, report: { ...result.report, research_facts: research } };
+    } catch (err) {
+      console.warn("[briefing] filings and insiders not attached:", err instanceof Error ? err.message : String(err));
+      return result;
+    }
+  };
+
   return {
     async build(req) {
       const clock = deps.clock();
@@ -128,7 +155,7 @@ export function createBriefingBuilder(deps: BriefingBuildDeps): {
         const stored = deps.store.readReport(key);
         if (cacheUsable(stored, deps.realNowMs(), window.phase)) {
           const report = clock.synthetic ? stored.report : withStoredNarrative(stored.report, key.userKey);
-          return { report, source: "cache" };
+          return withFacts({ report, source: "cache" }, req, clock, window);
         }
       }
 
@@ -137,11 +164,11 @@ export function createBriefingBuilder(deps: BriefingBuildDeps): {
           ? `unkeyed:${req.demo ? "demo" : "live"}:${book}`
           : `${key.synthetic ? "dev" : "live"}:${key.userKey}:${key.targetYmd}:${key.bookHash}`;
       const pending = inFlight.get(flightKey);
-      if (pending) return pending;
+      if (pending) return withFacts(await pending, req, clock, window);
 
       const task = run(req, clock, window, key).finally(() => inFlight.delete(flightKey));
       inFlight.set(flightKey, task);
-      return task;
+      return withFacts(await task, req, clock, window);
     },
   };
 }

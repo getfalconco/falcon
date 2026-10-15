@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { ArrowLeft, Check, Feather, Star, X, type LucideIcon } from "lucide-react";
+import { Check, Feather, Star, X, type LucideIcon } from "lucide-react";
 import { getAccessToken } from "@/lib/broker-links";
 import { cn } from "@/lib/utils";
 import { useT } from "@/lib/i18n";
@@ -365,9 +365,8 @@ export default function AddAssetModal({
             <button
               type="button"
               onClick={() => setStep("select")}
-              className="app-no-drag flex items-center gap-1 self-start text-xs text-fg-faint transition-colors hover:text-foreground"
+              className="app-no-drag self-start text-xs text-fg-faint transition-colors hover:text-foreground"
             >
-              <ArrowLeft className="h-4 w-4" strokeWidth={1.75} aria-hidden />
               {t("dashboard.addAsset.back")}
             </button>
 

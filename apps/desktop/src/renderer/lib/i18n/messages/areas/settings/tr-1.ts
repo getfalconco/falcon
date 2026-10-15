@@ -54,9 +54,9 @@ export const tr: Table = {
   "settings.privacy.cat.portfolio": "Portföy kapsamı",
   "settings.privacy.cat.portfolioDescription": "Varlıklarınızdan hangilerinin Falcon tarafından araştırıldığı veya sıraya alındığı.",
   "settings.privacy.cat.research": "Şirket grafikleri ve SEC başvuruları",
-  "settings.privacy.cat.insight": "Sinyal açıklamaları",
-  "settings.privacy.cat.insightDescription": "Sinyallerin yazılı açıklamaları, tüm hesaplarca paylaşılır.",
-  "settings.privacy.cat.news": "Haber olayları ve sinyaller",
+  "settings.privacy.cat.insight": "Olay açıklamaları",
+  "settings.privacy.cat.insightDescription": "Olayların yazılı açıklamaları, tüm hesaplarca paylaşılır.",
+  "settings.privacy.cat.news": "Haber olayları ve yayılım çalıştırmaları",
   "settings.privacy.cat.risk": "Risk motoru",
   "settings.privacy.cat.riskDescription": "Risk ölçümleri; motor burada çalıştığında sanal hesabınızın bir kopyasıyla birlikte.",
   "settings.privacy.cat.logs": "Tanılama",
@@ -84,9 +84,9 @@ export const tr: Table = {
     "Bu kurulum için piyasa motoru panellerini yanıtlar. Risk ölçümü hesaplanabilsin diye sanal hesabınız oraya gönderilir. Motorların takip edebilmesi için tuttuğunuz ve izlediğiniz semboller de gönderilir.",
   "settings.privacy.to.model": "Claude API ({host})",
   "settings.privacy.to.modelDescription":
-    "Semboller, kamuya açık SEC başvuru metinleri, haber başlıkları ve Falcon'un okuması için açtığınız haberin metni. Brifinginiz için: en çok tuttuğunuz semboller, yalnızca büyük, orta veya küçük olarak boyutlandırılmış halde, ve yüzde değişimler; asla dolar tutarları, pay adetleri veya nakit değil. Insight sohbetine yazdığınız sorular, ajanlarınızdan istedikleriniz ve açıklanması için seçtiğiniz metin. Asla adınız, e-postanız veya profilinizdeki talimatlar değil.",
+    "Semboller, kamuya açık SEC başvuru metinleri, haber başlıkları ve Falcon'un okuması için açtığınız haberin metni. Brifinginiz için: en çok tuttuğunuz semboller, yalnızca büyük, orta veya küçük olarak boyutlandırılmış halde, ve yüzde değişimler; asla dolar tutarları, pay adetleri veya nakit değil. Bir olayın sohbetine yazdığınız sorular, ajanlarınızdan istedikleriniz ve açıklanması için seçtiğiniz metin. Asla adınız, e-postanız veya profilinizdeki talimatlar değil.",
   "settings.privacy.to.modelDescriptionWorker":
-    "Semboller, kamuya açık SEC başvuru metinleri, haber başlıkları ve Falcon'un okuması için açtığınız haberin metni. Brifinginiz için: en çok tuttuğunuz semboller, yalnızca büyük, orta veya küçük olarak boyutlandırılmış halde, ve yüzde değişimler; asla dolar tutarları, pay adetleri veya nakit değil. Insight sohbetine yazdığınız sorular, ajanlarınızdan istedikleriniz ve açıklanması için seçtiğiniz metin. Asla adınız, e-postanız veya profilinizdeki talimatlar değil. Bu istekler, oturumunuzu doğrulayıp ileten Falcon araştırma sunucusu üzerinden aktarılır.",
+    "Semboller, kamuya açık SEC başvuru metinleri, haber başlıkları ve Falcon'un okuması için açtığınız haberin metni. Brifinginiz için: en çok tuttuğunuz semboller, yalnızca büyük, orta veya küçük olarak boyutlandırılmış halde, ve yüzde değişimler; asla dolar tutarları, pay adetleri veya nakit değil. Bir olayın sohbetine yazdığınız sorular, ajanlarınızdan istedikleriniz ve açıklanması için seçtiğiniz metin. Asla adınız, e-postanız veya profilinizdeki talimatlar değil. Bu istekler, oturumunuzu doğrulayıp ileten Falcon araştırma sunucusu üzerinden aktarılır.",
   "settings.privacy.to.market": "Piyasa verileri ({hosts})",
   "settings.privacy.to.marketDescription":
     "Haber, fiyat, başvuru ve sembol listesini almak için semboller ve şirket tanımlayıcıları. Sizinle ilgili hiçbir şey değil.",
@@ -195,7 +195,7 @@ export const tr: Table = {
     "Bu sistemde Falcon'un kullanabileceği bir bildirim hizmeti yok, bu yüzden hiçbir şey gönderilemez.",
   "settings.notifications.allow": "Bildirimlere izin ver",
   "settings.notifications.sound": "Ses",
-  "settings.notifications.cat.secondOrder": "İkinci derece sinyaller",
+  "settings.notifications.cat.secondOrder": "İkinci derece etkiler",
   "settings.notifications.cat.marketEvents": "Piyasa olayları",
   "settings.notifications.cat.appUpdates": "Uygulama güncellemeleri",
   "settings.notifications.cat.agents": "Ajanlar",

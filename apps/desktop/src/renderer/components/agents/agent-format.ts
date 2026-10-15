@@ -3,6 +3,7 @@ import type {
   AgentChannel,
   AgentDraft,
   AgentEnds,
+  AgentFilingChangeKind,
   AgentLine,
   AgentMetricReading,
   AgentReport,
@@ -100,7 +101,19 @@ export function lowerFirst(text: string, lang: Lang): string {
   return text.charAt(0).toLocaleLowerCase(lang) + text.slice(1);
 }
 
-export const TRIGGER_KINDS: readonly AgentTriggerKind[] = ["earnings", "filing", "price_move", "news", "macro", "schedule"];
+export const TRIGGER_KINDS: readonly AgentTriggerKind[] = ["earnings", "filing", "filing_changes", "linked", "price_move", "news", "macro", "schedule"];
+
+/** The changes a filing changes watch can look for, in the order the editor shows them. */
+export const CHANGE_KINDS: readonly AgentFilingChangeKind[] = ["risk_factors", "red_flags", "customers", "suppliers"];
+
+/** What a filing changes watch looks for, as a phrase: "new risk factors or red flags"; every kind when none are picked. */
+export function changesWhat(t: Extract<AgentTrigger, { kind: "filing_changes" }>, lang: Lang): string {
+  const kinds = t.kinds && t.kinds.length > 0 ? CHANGE_KINDS.filter((k) => t.kinds!.includes(k)) : CHANGE_KINDS;
+  return joinOr(
+    kinds.map((k) => say(lang, `agents.changes.kind.${k}` as MessageKey)),
+    lang,
+  );
+}
 
 export function triggerKindLabel(kind: AgentTriggerKind, lang: Lang): string {
   return say(lang, `agents.kind.${kind}` as MessageKey);
@@ -173,6 +186,29 @@ export function timeOfDay(hhmm: string, lang: Lang): string {
   return new Intl.DateTimeFormat(lang, withClock({ hour: "2-digit", minute: "2-digit", hourCycle: "h23", timeZone: "UTC" })).format(at);
 }
 
+/** Forms a linked watch reads when the trigger names none (main/agents/linked.ts). */
+export const LINKED_DEFAULT_FORMS: readonly string[] = ["8-K", "6-K"];
+
+/**
+ * Who a linked watch covers, as a phrase: "suppliers or customers; critical
+ * links". All three relations read as the three nouns joined with "and".
+ */
+export function linkedWho(t: Extract<AgentTrigger, { kind: "linked" }>, lang: Lang): string {
+  const rels = t.relations && t.relations.length > 0 ? t.relations : (["supplier", "customer", "competitor"] as const);
+  const nouns = rels.map((r) => say(lang, `agents.linked.rel.${r}` as MessageKey));
+  const relations = t.relations && t.relations.length > 0 && t.relations.length < 3 ? joinOr(nouns, lang) : joinAnd(nouns, lang);
+  return say(lang, "agents.linked.who", { relations, tier: say(lang, `agents.linked.tier.${t.minTier ?? "important"}` as MessageKey) });
+}
+
+/** What a linked watch fires on, as a phrase: "results or a filing (8-K, 6-K)". */
+export function linkedWhat(t: Extract<AgentTrigger, { kind: "linked" }>, lang: Lang): string {
+  const forms = (t.forms && t.forms.length > 0 ? t.forms : LINKED_DEFAULT_FORMS).map((f) => formName(f, lang)).join(", ");
+  return joinOr(
+    t.events.map((e) => say(lang, `agents.linked.ev.${e}` as MessageKey, { forms })),
+    lang,
+  );
+}
+
 /** A trigger as one readable sentence, the way the reader might have said it. */
 export function triggerSentence(t: AgentTrigger, lang: Lang): string {
   switch (t.kind) {
@@ -194,6 +230,10 @@ export function triggerSentence(t: AgentTrigger, lang: Lang): string {
     }
     case "macro":
       return t.event ? say(lang, "agents.trigger.macro.event", { event: macroLabel(t.event, lang) }) : say(lang, "agents.trigger.macro.any");
+    case "linked":
+      return say(lang, "agents.trigger.linked", { ticker: t.ticker, who: linkedWho(t, lang), what: linkedWhat(t, lang) });
+    case "filing_changes":
+      return say(lang, "agents.trigger.changes", { ticker: t.ticker, what: changesWhat(t, lang) });
     case "schedule": {
       const time = timeOfDay(t.time || "08:00", lang);
       if (t.cadence === "daily") return say(lang, "agents.trigger.schedule.daily", { time });
@@ -221,6 +261,10 @@ export function triggerNoun(t: AgentTrigger, lang: Lang): string {
       return t.keywords.length > 0 ? say(lang, "agents.noun.keywordNews", { keywords: joinOr(t.keywords, lang) }) : say(lang, "agents.noun.marketNews");
     case "macro":
       return t.event ? macroLabel(t.event, lang) : say(lang, "agents.noun.macro");
+    case "linked":
+      return say(lang, "agents.noun.linked", { ticker: t.ticker });
+    case "filing_changes":
+      return say(lang, "agents.noun.changes", { ticker: t.ticker });
     case "schedule":
       return say(lang, "agents.noun.schedule");
   }
@@ -243,6 +287,10 @@ export function triggerNounShort(t: AgentTrigger, lang: Lang): string | null {
       return say(lang, "agents.short.price");
     case "macro":
       return t.event ? macroLabel(t.event, lang) : say(lang, "agents.noun.macro");
+    case "linked":
+      return say(lang, "agents.short.linked");
+    case "filing_changes":
+      return say(lang, "agents.short.changes");
     case "news":
     case "schedule":
       return null;
@@ -406,7 +454,7 @@ export function suggestedQuestions(agent: Agent, reports: readonly AgentReport[]
     const t = agent.triggers[0];
     if (t?.kind === "earnings") out.push(say(lang, "agents.ask.nextEarnings", { ticker: t.ticker }));
     else if (t?.kind === "macro") out.push(say(lang, "agents.ask.nextMacro", { event: macroLabel(t.event, lang) }));
-    else if (t?.kind === "filing") out.push(say(lang, "agents.ask.lastFiling", { ticker: t.ticker }));
+    else if (t?.kind === "filing" || t?.kind === "filing_changes") out.push(say(lang, "agents.ask.lastFiling", { ticker: t.ticker }));
     out.push(say(lang, "agents.ask.cadence"));
   }
   return Array.from(new Set(out)).slice(0, 3);
@@ -470,6 +518,28 @@ export function sayLines(lines: readonly AgentLine[] | undefined, lang: Lang, fa
 }
 
 /** Plain-text paragraphs: blank lines split them, single newlines stay as line breaks. */
+/** A sec.gov address in a report's text (a filing changes report names its filings). */
+const SEC_URL = /https:\/\/(?:www\.)?sec\.gov\/[^\s"'<>]+/g;
+
+/**
+ * A paragraph split around the sec.gov addresses in it, so they can be links:
+ * each address comes with a short label, the document's file name ("smci-20250630.htm").
+ */
+export function secLinkParts(text: string): Array<{ text: string; url?: string }> {
+  const out: Array<{ text: string; url?: string }> = [];
+  let at = 0;
+  for (const m of text.matchAll(SEC_URL)) {
+    const url = m[0].replace(/[.,;:)]+$/, "");
+    const start = m.index ?? 0;
+    if (start > at) out.push({ text: text.slice(at, start) });
+    const file = url.split("#")[0]!.split("/").filter(Boolean).pop() ?? "sec.gov";
+    out.push({ text: file, url });
+    at = start + url.length;
+  }
+  if (at < text.length) out.push({ text: text.slice(at) });
+  return out;
+}
+
 export function paragraphs(text: string): string[] {
   return text
     .replace(/\r\n/g, "\n")

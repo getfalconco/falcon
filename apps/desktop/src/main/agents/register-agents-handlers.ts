@@ -83,7 +83,7 @@ function getEngine(): AgentEngine {
 export function registerAgentsHandlers(): void {
   registerIpcHandler("agents:list", () => getEngine().list());
   registerIpcHandler("agents:get", (_event, id: string) => getEngine().get(id));
-  registerIpcHandler("agents:draftFromBrief", (_event, brief: string) => getEngine().draftFromBrief(brief));
+  registerIpcHandler("agents:draftFromBrief", (_event, brief: string, context?: unknown) => getEngine().draftFromBrief(brief, context));
   registerIpcHandler("agents:create", (_event, draft: AgentDraft) => getEngine().create(draft));
   registerIpcHandler("agents:update", (_event, id: string, patch: AgentPatch) => getEngine().update(id, patch));
   registerIpcHandler("agents:setStatus", (_event, id: string, status: "active" | "paused") => getEngine().setStatus(id, status));

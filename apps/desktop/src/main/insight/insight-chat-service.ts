@@ -2,6 +2,7 @@ import { repairMojibake } from "@meridian/research/news";
 import { anthropicGlossCaller, glossConfigured } from "@meridian/research/gloss";
 import { insightModel } from "./insight-explanation-service";
 import { decodeEscapes } from "./explanation-cache";
+import { PROMPT_COPY_RULE } from "../../shared/copy-rules";
 import type { InsightChatRequest } from "../../shared/insight-chat";
 
 /**
@@ -42,11 +43,15 @@ said, negative means it is moving against it, and past 100% means it has
 overshot.
 
 If the answer is not in what you were given, say so in one line and say what
-would settle it. Never invent numbers, dates, filings or quotes. Never give
-personalised investment advice — describe the mechanism and the evidence, and
-leave the decision to the reader.
+would settle it. Never invent numbers, dates, filings or quotes. Describe the
+mechanism and the evidence, and leave every decision to the reader. When the
+question asks what a price does next or what to do about it, say in one line
+that the brief covers the link and its record, not the price ahead, then give
+what the record shows.
 
-Return JSON only, with your answer in "reply".`;
+Return JSON only, with your answer in "reply".
+
+${PROMPT_COPY_RULE}`;
 
 function pricedIn(value: number | null | undefined): string {
   if (value == null || !Number.isFinite(value)) return "nothing to measure it by yet";
@@ -72,7 +77,7 @@ function buildUser(req: InsightChatRequest): string {
     lines.push("", "THE NAMES IT REACHES");
     for (const n of names) {
       lines.push(
-        `- ${n.ticker}${n.label ? ` (${n.label})` : ""}${n.mechanism ? ` — ${n.mechanism}` : ""}` +
+        `- ${n.ticker}${n.label ? ` (${n.label})` : ""}${n.mechanism ? `: ${n.mechanism}` : ""}` +
           `; ${pricedIn(n.priced_in)}`,
       );
     }
@@ -81,7 +86,7 @@ function buildUser(req: InsightChatRequest): string {
   const turns = req.turns.slice(-MAX_TURNS);
   lines.push("", "THE CONVERSATION SO FAR");
   if (turns.length <= 1) {
-    lines.push("(nothing yet — this is the first question)");
+    lines.push("(nothing yet, this is the first question)");
   } else {
     for (const turn of turns.slice(0, -1)) {
       lines.push(`${turn.role === "user" ? "Reader" : "You"}: ${turn.text}`);
@@ -104,7 +109,7 @@ export async function askInsightChat(rawReq: InsightChatRequest): Promise<string
     throw new Error("Nothing to answer.");
   }
   if (last.text.length > MAX_QUESTION_CHARS) {
-    throw new Error("That question is too long. Trim it and ask again.");
+    throw new Error("That question is over 1,000 characters.");
   }
   if (!glossConfigured()) throw new Error("ANTHROPIC_API_KEY is not configured");
 

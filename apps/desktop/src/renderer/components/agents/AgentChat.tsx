@@ -155,16 +155,7 @@ export default function AgentChat({
               ),
             )}
             {pending ? (
-              <li className="flex items-center gap-2 text-[12px] text-[#9CA3AF]" aria-live="polite">
-                <span className="flex gap-1" aria-hidden>
-                  {[0, 1, 2].map((i) => (
-                    <span
-                      key={i}
-                      className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#1d1b1b]/30 motion-reduce:animate-none"
-                      style={{ animationDelay: `${i * 160}ms` }}
-                    />
-                  ))}
-                </span>
+              <li className="text-[12px] text-[#9CA3AF]" aria-live="polite">
                 {t("agents.chat.reading")}
               </li>
             ) : null}

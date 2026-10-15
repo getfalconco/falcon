@@ -17,6 +17,7 @@
 import { CLAUDE_WRITING_MODEL, anthropicGlossCaller, glossConfigured } from "@meridian/research/gloss";
 import { targetProgress } from "@meridian/research/propagation/contracts";
 import type { PropagationRun, PropagationTarget } from "@meridian/research/propagation/engine";
+import { PROMPT_COPY_RULE, plainDashes } from "@meridian/research/copy-rules";
 import { supabaseFetch } from "./supabase.js";
 
 /**
@@ -64,9 +65,12 @@ Return JSON only:
 - "summary": 2-3 sentences. What actually happened, and why it matters to the
   companies connected to it. Never restate the headline verbatim.
 - "points": 2-4 lines, each under 110 characters. How the effect travels to the
-  related names, and what would confirm or kill the read. No bullet characters.
+  related names, and which facts in the input the read rests on. No bullet
+  characters.
 
-Never invent numbers, dates, filings or quotes that are not in the input.`;
+Never invent numbers, dates, filings or quotes that are not in the input.
+
+${PROMPT_COPY_RULE}`;
 
 /** FNV-1a — the desktop's `hash`, so both sides land on the same cache key. */
 function hash(text: string): string {
@@ -81,16 +85,20 @@ function hash(text: string): string {
 /**
  * A model sometimes escapes a character twice on the way into JSON, so an em
  * dash arrives as a literal backslash, a "u" and four hex digits. Decode
- * whatever survived.
+ * whatever survived, then hold the house dash rule as the desktop's
+ * `decodeEscapes` does: the prompt asks for no dashes, and this keeps that
+ * true when the model forgets.
  */
 function decodeEscapes(text: string): string {
-  return text
-    .replace(/\\u([0-9a-fA-F]{4})/g, (_, hex: string) =>
-      String.fromCharCode(Number.parseInt(hex, 16)),
-    )
-    .replace(/\\n/g, "\n")
-    .replace(/\\t/g, " ")
-    .replace(/\\"/g, '"');
+  return plainDashes(
+    text
+      .replace(/\\u([0-9a-fA-F]{4})/g, (_, hex: string) =>
+        String.fromCharCode(Number.parseInt(hex, 16)),
+      )
+      .replace(/\\n/g, "\n")
+      .replace(/\\t/g, " ")
+      .replace(/\\"/g, '"'),
+  );
 }
 
 /** The headline the card shows, which is the headline this explains. */
@@ -149,7 +157,7 @@ function buildUser(run: PropagationRun, headline: string): string {
     for (const t of targets) {
       lines.push(
         `- ${(t.ticker ?? "").toUpperCase()}${t.label ? ` (${t.label})` : ""}${
-          t.mechanism ? ` — ${t.mechanism}` : ""
+          t.mechanism ? `: ${t.mechanism}` : ""
         }`,
       );
     }

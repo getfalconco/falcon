@@ -1,6 +1,8 @@
 import type { Agent, AgentSource } from "../../shared/agent-types";
 import type { AgentEngineState } from "./store";
 import { focusText, type AgentDataSources, type NewsItem, type QuoteRead } from "./sources";
+import { linkedLead, tierRelation } from "./linked";
+import { changesFacts, changesLead, readUrl } from "./filing-changes";
 import { matchesKeywords, type TriggerEvent } from "./triggers";
 import { DAY_MS, nyYmd } from "./time";
 
@@ -17,6 +19,12 @@ import { DAY_MS, nyYmd } from "./time";
  */
 
 export type ReportMaterial = {
+  /**
+   * Paragraphs written here from the graph and the filings, printed above the
+   * model's summary as they are (a linked report's link and evidence). The
+   * model is shown them and told not to repeat them.
+   */
+  lead?: string;
   facts: string[];
   documents: Array<{ title: string; url?: string; text: string }>;
   sources: AgentSource[];
@@ -53,6 +61,7 @@ export async function gatherMaterial(
   now: Date,
 ): Promise<ReportMaterial> {
   const facts: string[] = [`Event: ${event.title}`, `Checked at ${now.toISOString()}.`];
+  let lead: string | undefined;
   const documents: ReportMaterial["documents"] = [];
   const out: AgentSource[] = [];
   const ticker = event.ticker ?? agent.ticker;
@@ -153,6 +162,62 @@ export async function gatherMaterial(
       await addQuote("TLT");
       break;
     }
+    case "linked": {
+      const hits = event.linked ?? [];
+      const holding = event.ticker ?? agent.ticker ?? "";
+      // The measured reaction only matters for a results release, and costs a radar read.
+      const rt = hits.some((h) => h.kind === "earnings") && holding
+        ? ((await tryRead("The read-through history", () => sources.readthrough(holding))) ?? [])
+        : [];
+      lead = linkedLead(hits, holding, rt);
+      for (const p of lead.split(/\n{2,}/)) facts.push(p);
+      for (const h of hits) {
+        const c = h.company;
+        facts.push(
+          `Link: ${c.ticker} is ${tierRelation(c, holding)} (graph tier ${c.tier}${c.sharePct !== null ? `, disclosed share ${c.sharePct}%` : ", no share disclosed"}), from ${c.namedBy}'s ${c.form ?? "annual report"}${c.filingDate ? ` filed ${c.filingDate}` : ""}.`,
+        );
+        if (c.sourceUrl) out.push({ title: `${c.namedBy} ${c.form ?? "annual report"}${c.filingDate ? ` filed ${c.filingDate}` : ""}`, url: c.sourceUrl, publishedAt: c.filingDate ?? undefined });
+      }
+      const filingHits = hits.filter((h) => h.filing);
+      for (const h of filingHits.slice(0, 3)) {
+        const f = h.filing!;
+        const doc = await tryRead(`The ${h.company.ticker} ${f.form} filed ${f.filedAt}`, () => sources.filingText(f));
+        out.push({ title: `${h.company.ticker} ${f.form} filed ${f.filedAt}`, url: doc?.url ?? f.url, publishedAt: f.acceptedAt ?? f.filedAt });
+        if (doc && doc.text) {
+          documents.push({ title: `${h.company.ticker} ${f.form} filed ${f.filedAt}`, url: doc.url, text: focusText(doc.text, terms, filingHits.length > 1 ? 8_000 : 16_000) });
+        }
+      }
+      addNews(hits.flatMap((h) => (h.news ? [h.news] : [])), "Material stories on the linked companies");
+      for (const t of [...new Set(hits.map((h) => h.company.ticker))].slice(0, 3)) await addQuote(t);
+      if (holding) await addQuote(holding);
+      break;
+    }
+    case "filing_changes": {
+      const fc = event.changes;
+      if (fc && ticker) {
+        lead = changesLead(fc.hits, ticker, fc.answer);
+        for (const p of lead.split(/\n{2,}/)) facts.push(p);
+        facts.push(...changesFacts(fc.hits, fc.answer));
+        for (const h of fc.hits) {
+          const f = h.filing;
+          out.push({ title: `${ticker} ${f.form} filed ${f.filedAt}`, url: readUrl(h), publishedAt: f.acceptedAt ?? f.filedAt });
+        }
+        // The report each change is measured against.
+        const bases = [fc.answer.previous, fc.hits.some((h) => h.firing.some((i) => i.kind === "quarter_risk_new")) ? fc.answer.latest : null];
+        for (const b of bases) if (b) out.push({ title: `${ticker} ${b.form} filed ${b.filedAt}`, url: b.sectionUrl ?? b.url, publishedAt: b.filedAt });
+        // The periodic report's own text around the changes, for what they are about.
+        const periodic = fc.hits.filter((h) => /^(10-K|10-Q|20-F)/i.test(h.filing.form)).slice(0, 2);
+        for (const h of periodic) {
+          const f = h.filing;
+          const doc = await tryRead(`The ${f.form} filed ${f.filedAt}`, () => sources.filingText(f));
+          const words = h.firing.flatMap((i) => [i.text ?? "", i.name ?? ""]).filter((w) => w.length >= 6).map((w) => w.slice(0, 60));
+          const changeTerms = [...words, "material weakness", "going concern", "independent registered public accounting firm", "sole source", "single source", "% of"];
+          if (doc && doc.text) documents.push({ title: `${f.form} filed ${f.filedAt}`, url: doc.url, text: focusText(doc.text, changeTerms, periodic.length > 1 ? 7_000 : 12_000) });
+        }
+      }
+      if (ticker) await addQuote(ticker);
+      break;
+    }
     case "schedule": {
       if (ticker) {
         await addQuote(ticker);
@@ -201,5 +266,5 @@ export async function gatherMaterial(
     seen.add(key);
     return true;
   });
-  return { facts, documents, sources: unique.slice(0, 20), corpus };
+  return { ...(lead ? { lead } : {}), facts, documents, sources: unique.slice(0, 20), corpus };
 }

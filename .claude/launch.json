@@ -351,6 +351,193 @@
         "--strictPort"
       ],
       "port": 5487
+    },
+    {
+      "name": "desktop-stockgraph-preview",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "--filter",
+        "falcon",
+        "exec",
+        "vite",
+        "--config",
+        ".claude-preview.vite.config.mts",
+        "--port",
+        "5531",
+        "--strictPort"
+      ],
+      "port": 5531
+    },
+    {
+      "name": "desktop-stocktab-preview",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "--filter",
+        "falcon",
+        "exec",
+        "vite",
+        "--config",
+        ".claude-preview.vite.config.mts",
+        "--port",
+        "5523"
+      ],
+      "port": 5523
+    },
+    {
+      "name": "desktop-exposure-preview",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "--filter",
+        "falcon",
+        "exec",
+        "vite",
+        "--config",
+        ".claude-preview.vite.config.mts",
+        "--port",
+        "5521",
+        "--strictPort"
+      ],
+      "port": 5521
+    },
+    {
+      "name": "desktop-stocksections-preview",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "--filter",
+        "falcon",
+        "exec",
+        "vite",
+        "--config",
+        ".claude-preview.vite.config.mts",
+        "--port",
+        "5557"
+      ],
+      "port": 5557
+    },
+    {
+      "name": "desktop-readthrough-preview",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "--filter",
+        "falcon",
+        "exec",
+        "vite",
+        "--config",
+        ".claude-preview.vite.config.mts",
+        "--port",
+        "5571"
+      ],
+      "port": 5571
+    },
+    {
+      "name": "desktop-stocktab-readthrough-preview",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "--filter",
+        "falcon",
+        "exec",
+        "vite",
+        "--config",
+        ".claude-preview.vite.config.mts",
+        "--port",
+        "5593"
+      ],
+      "port": 5593
+    },
+    {
+      "name": "desktop-insiders-preview",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "--filter",
+        "falcon",
+        "exec",
+        "vite",
+        "--config",
+        ".claude-preview.vite.config.mts",
+        "--port",
+        "5617"
+      ],
+      "port": 5617
+    },
+    {
+      "name": "desktop-filings-preview",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "--filter",
+        "falcon",
+        "exec",
+        "vite",
+        "--config",
+        ".claude-preview.vite.config.mts",
+        "--port",
+        "5583",
+        "--strictPort"
+      ],
+      "port": 5583
+    },
+    {
+      "name": "desktop-copy-preview",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "--filter",
+        "falcon",
+        "exec",
+        "vite",
+        "--config",
+        ".claude-preview.vite.config.mts",
+        "--port",
+        "5643",
+        "--strictPort"
+      ],
+      "port": 5643
+    },
+    {
+      "name": "desktop-guidance-preview",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "--filter",
+        "falcon",
+        "exec",
+        "vite",
+        "--config",
+        ".claude-preview.vite.config.mts",
+        "--port",
+        "5613",
+        "--strictPort"
+      ],
+      "port": 5613
+    },
+    {
+      "name": "desktop-implied-preview",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "--filter",
+        "falcon",
+        "exec",
+        "vite",
+        "--config",
+        ".claude-preview.vite.config.mts",
+        "--port",
+        "5673",
+        "--strictPort"
+      ],
+      "port": 5673
+    },
+    {
+      "name": "desktop-starterdraft-preview",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "--filter",
+        "falcon",
+        "exec",
+        "vite",
+        "--config",
+        ".claude-preview.vite.config.mts",
+        "--port",
+        "5719",
+        "--strictPort"
+      ],
+      "port": 5719
     }
   ]
 }

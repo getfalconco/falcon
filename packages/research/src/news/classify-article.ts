@@ -2,6 +2,7 @@ import { callClaudeJson, stripJsonFences } from "../step1/index.js";
 import { EVENT_TYPES, type EventDirection, type EventType } from "../propagation/event-types.js";
 import type { FinnhubNewsArticle } from "./finnhub-news.js";
 import { withTimeout } from "./with-timeout.js";
+import { PROMPT_COPY_RULE, plainDashes } from "../copy-rules.js";
 
 const CLASSIFY_TIMEOUT_MS = 25_000;
 
@@ -27,13 +28,16 @@ Fields:
 
 NOT material: routine price-movement commentary, analyst opinion/ratings, listicles, vague outlook without a new fact, rehashed old news.
 
-An article whose core content is the stock's OWN price action is NEVER a material event, no matter how large the move — price action is the market's reaction, not a corporate occurrence. Rallies, sell-offs, market-cap milestones, win streaks, chart levels, "buy points", and index moves all fall under this rule.
+An article whose core content is the stock's OWN price action is NEVER a material event, no matter how large the move: price action is the market's reaction, not a corporate occurrence. Rallies, sell-offs, market-cap milestones, win streaks, chart levels, "buy points", and index moves all fall under this rule.
 
 Examples (correct is_material_event for these headline shapes):
 - "XYZ stock rallied 21% this month, breaking past a new buy point" → false (price action only)
 - "XYZ's market cap gain tops $30B as shares extend win streak" → false (price action only)
 - "XYZ hits all-time high after analysts hike price targets" → false (price action + analyst opinion)
-- "XYZ recalls 40,000 vehicles after regulator probe" → true (concrete corporate occurrence)`;
+- "XYZ recalls 40,000 vehicles after regulator probe" → true (concrete corporate occurrence)
+
+The summary is shown to readers, so it follows these rules:
+${PROMPT_COPY_RULE}`;
 
 function parseClassification(raw: string): ArticleClassification | null {
   const line = stripJsonFences(raw)
@@ -53,8 +57,9 @@ function parseClassification(raw: string): ArticleClassification | null {
     const confidence = Number(parsed.confidence);
     if (!Number.isFinite(confidence)) return null;
 
-    const words = parsed.summary.trim().split(/\s+/);
-    const summary = words.length > 30 ? `${words.slice(0, 30).join(" ")}…` : parsed.summary.trim();
+    const text = plainDashes(parsed.summary.trim());
+    const words = text.split(/\s+/);
+    const summary = words.length > 30 ? `${words.slice(0, 30).join(" ")}…` : text;
 
     return {
       is_material_event: parsed.is_material_event,

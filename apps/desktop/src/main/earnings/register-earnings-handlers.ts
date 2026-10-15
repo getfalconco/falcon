@@ -129,6 +129,19 @@ function reactionService(): ReactionService {
   return reactions;
 }
 
+/**
+ * The earnings reads other main-process features build on (the Stock tab's
+ * earnings section), through the same caches as the tab, so a name read for
+ * one is not read again for the other.
+ */
+export function earningsReaders() {
+  return {
+    read: (symbol: string) => earnings().read(symbol),
+    reaction: (symbol: string) => reactionService().one(symbol),
+    fxRate: fx.rate,
+  };
+}
+
 export function registerEarningsHandlers(): void {
   registerIpcHandler("earnings:upcoming", async (_event, request: unknown): Promise<EarningsResult> => {
     const parsed = parseEarningsRequest(request);

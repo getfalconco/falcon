@@ -20,6 +20,7 @@ import {
   type TickerVerdict,
   type Verdict,
 } from "./types.js";
+import { plainDashes } from "../copy-rules.js";
 
 export const EVENT_LABEL_MAX_LENGTH = 80;
 
@@ -31,13 +32,13 @@ const CONTROL_CHARS = new RegExp(
 
 /**
  * §4: `event_label` ≤ 80 chars, control characters stripped, whitespace
- * collapsed. Display/context only — never parsed for logic.
+ * collapsed. Display/context only — never parsed for logic. The label is
+ * the headline an Insight card shows, so the house dash rule holds on it.
  */
 export function sanitizeEventLabel(raw: unknown): string {
   if (typeof raw !== "string") return "";
   // eslint-disable-next-line no-control-regex
-  const stripped = raw
-    .replace(CONTROL_CHARS, " ")
+  const stripped = plainDashes(raw.replace(CONTROL_CHARS, " "))
     .replace(/\s+/g, " ")
     .trim();
   return stripped.length > EVENT_LABEL_MAX_LENGTH

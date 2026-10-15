@@ -1,7 +1,11 @@
+import { filingAcceptedMs } from "@meridian/research/edgar-time";
 import type { Agent, AgentLine, AgentTrigger, AgentTriggerKind } from "../../shared/agent-types";
 import type { AgentEngineState } from "./store";
 import type { AgentDataSources, FilingRef, InsiderTxn, MacroEventRead, NewsItem } from "./sources";
 import { DAY_MS, HOUR_MS, MINUTE_MS, addDaysYmd, daysBetween, isEdgarOpen, isRegularSession, nyInstant, nyParts, nyYmd } from "./time";
+import { checkLinked, type LinkedHit } from "./linked";
+import { checkFilingChanges, deferredToChanges, type ChangesHit } from "./filing-changes";
+import type { FilingChanges } from "../../shared/filing-changes";
 
 /**
  * When does a trigger fire? One function per trigger kind, each answering
@@ -34,6 +38,10 @@ export type TriggerEvent = {
   insiderTxns?: Array<{ filing: FilingRef; txn: InsiderTxn }>;
   news?: NewsItem[];
   macro?: MacroEventRead;
+  /** A `linked` event: each filing or story with the company and the link that put it in the set. */
+  linked?: LinkedHit[];
+  /** A `filing_changes` event: the service's answer and each filing with its items. */
+  changes?: { answer: FilingChanges; hits: ChangesHit[] };
   /** Schedule occurrence, for a digest. */
   occurrence?: string;
 };
@@ -78,6 +86,10 @@ export function triggerSignature(t: AgentTrigger): string {
       return `news:${t.ticker ?? "*"}:${[...t.keywords].sort().join(",")}`;
     case "macro":
       return `macro:${t.event.toLowerCase()}`;
+    case "linked":
+      return `linked:${t.ticker}:${[...(t.relations ?? [])].sort().join(",")}:${t.minTier ?? ""}:${[...t.events].sort().join(",")}:${[...(t.forms ?? [])].sort().join(",")}`;
+    case "filing_changes":
+      return `changes:${t.ticker}:${[...(t.kinds ?? [])].sort().join(",")}`;
     case "schedule":
       return `schedule:${t.cadence}:${t.time}:${t.weekday ?? ""}${t.keywords && t.keywords.length > 0 ? `:${[...t.keywords].sort().join(",")}` : ""}`;
   }
@@ -96,10 +108,14 @@ function publishedMs(item: { publishedAt?: string }): number {
   return Number.isFinite(ms) ? ms : NaN;
 }
 
-/** When EDGAR took a filing. The index carries the instant; the date alone reads as midday New York. */
+/**
+ * When EDGAR took a filing. The index carries the instant (read through
+ * `filingAcceptedMs`: SEC's raw stamp is not always UTC); the date alone
+ * reads as midday New York.
+ */
 export function filingMs(f: FilingRef): number {
-  const accepted = f.acceptedAt ? Date.parse(f.acceptedAt) : NaN;
-  if (Number.isFinite(accepted)) return accepted;
+  const accepted = filingAcceptedMs(f);
+  if (accepted !== null) return accepted;
   return f.filedAt ? nyInstant(f.filedAt, "12:00").getTime() : NaN;
 }
 
@@ -287,8 +303,14 @@ async function checkFiling(t: Extract<AgentTrigger, { kind: "filing" }>, ctx: Tr
   const { now, sources, agent } = ctx;
   const cadence = isEdgarOpen(now) ? 15 * MINUTE_MS : 2 * HOUR_MS;
   const created = Date.parse(agent.createdAt);
+  // A filing a filing changes trigger on this agent is still reading waits for
+  // it (up to six hours), so the richer report is the one the reader gets.
   const fresh = (await sources.filings(t.ticker)).filter(
-    (f) => formMatches(f.form, t.forms) && filingMs(f) >= created && !fired(ctx, `filing:${f.accession}`),
+    (f) =>
+      formMatches(f.form, t.forms) &&
+      filingMs(f) >= created &&
+      !fired(ctx, `filing:${f.accession}`) &&
+      !deferredToChanges(f, t.ticker, agent.triggers, ctx.state.firedKeys, now.getTime()),
   );
   const forms = t.forms.join(", ");
   let picked = fresh.slice(0, 5);
@@ -709,6 +731,10 @@ export function checkTrigger(t: AgentTrigger, ctx: TriggerContext): Promise<Trig
       return checkNews(t, ctx);
     case "macro":
       return checkMacro(t, ctx);
+    case "linked":
+      return checkLinked(t, ctx);
+    case "filing_changes":
+      return checkFilingChanges(t, ctx);
     case "schedule":
       return checkSchedule(t, ctx);
   }

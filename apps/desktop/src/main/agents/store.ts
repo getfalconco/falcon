@@ -40,6 +40,12 @@ export type AgentEngineState = {
   earnings?: Record<string, { date: string; estimated: boolean | null; readAt: string }>;
   /** Consensus read before a release, per ticker: the provider rolls estimates forward once results are out. */
   consensus?: Record<string, { lines: string[]; readAt: string }>;
+  /**
+   * Per `linked` trigger (by signature), the companies in its set and when
+   * each joined it (ISO): a company that comes with a rebuilt graph counts
+   * from then, not from the agent's start.
+   */
+  linked?: Record<string, Record<string, string>>;
 };
 
 export const EMPTY_STATE: AgentEngineState = { failures: 0, firedKeys: [], lastFiredByTrigger: {} };

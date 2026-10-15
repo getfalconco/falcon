@@ -49,7 +49,7 @@ export const en = {
   "search.group.trending": "Trending",
   "search.group.navigate": "Navigate",
   "search.nav.dashboard": "Dashboard",
-  "search.nav.dashboardHint": "Portfolio, assets, insight, risk",
+  "search.nav.dashboardHint": "Portfolio, assets, propagation, risk",
   "search.noResults": "No results for “{query}”",
   "search.noResultsOpen": "No results for “{query}”. Press {key} to open {symbol} anyway.",
 
@@ -63,7 +63,7 @@ export const en = {
   "modules.calendar": "Calendar",
   "modules.news": "News",
   "modules.risk": "Risk Score",
-  "modules.insight": "Insight",
+  "modules.insight": "Propagation",
   "modules.agents": "Agents",
   "modules.earnings": "Earnings",
 

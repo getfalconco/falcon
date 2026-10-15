@@ -1,9 +1,13 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import * as research from "@meridian/research/news/headline-rules";
+import * as researchCopy from "@meridian/research/copy-rules";
 import {
   ADVICE_WORDS,
+  BRAND_WORDS,
   MARKET_AI_NOUNS,
+  PROMPT_COPY_RULE,
+  PROMPT_STYLE_WORDS,
   RISK_SENTENCE_WORDS,
   bannedWordHits,
   brandWordHits,
@@ -43,6 +47,15 @@ describe("news headline rules mirror the house copy rules", () => {
       assert.deepEqual(research.bannedWordHits(text, research.RISK_SENTENCE_WORDS), bannedWordHits(text, RISK_SENTENCE_WORDS), text);
       assert.deepEqual(research.brandWordHits(text), brandWordHits(text), text);
       assert.equal(research.plainDashes(text), plainDashes(text), text);
+    }
+  });
+
+  it("gives research prompts the same copy rule block as the app's prompts", () => {
+    assert.deepEqual([...researchCopy.BRAND_WORDS], [...BRAND_WORDS]);
+    assert.deepEqual([...researchCopy.PROMPT_STYLE_WORDS], [...PROMPT_STYLE_WORDS]);
+    assert.equal(researchCopy.PROMPT_COPY_RULE, PROMPT_COPY_RULE);
+    for (const word of [...ADVICE_WORDS, ...RISK_SENTENCE_WORDS, ...PROMPT_STYLE_WORDS, "edge"]) {
+      assert.ok(PROMPT_COPY_RULE.includes(word), word);
     }
   });
 

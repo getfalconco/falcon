@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { Plus } from "lucide-react";
 import AddAssetModal from "@/components/dashboard/AddAssetModal";
 import { useDemoMode } from "@/lib/demo-mode";
 import { createPaperAccount, hasPaperAccount, subscribePaperAccount } from "@/lib/paper-account";
@@ -54,9 +53,8 @@ export default function ConnectPortfolioEmpty({ line }: { line: string }) {
         type="button"
         data-no-lift
         onClick={() => setOpen(true)}
-        className="app-no-drag relative mt-4 flex items-center gap-1.5 rounded-lg bg-[#1d1b1b] px-[18px] py-[9px] text-[13px] font-normal not-italic leading-[20px] text-[rgb(231,231,231)] transition-colors duration-150 hover:bg-black active:bg-black"
+        className="app-no-drag relative mt-4 flex items-center rounded-lg bg-[#1d1b1b] px-[18px] py-[9px] text-[13px] font-normal not-italic leading-[20px] text-[rgb(231,231,231)] transition-colors duration-150 hover:bg-black active:bg-black"
       >
-        <Plus className="h-3.5 w-3.5" strokeWidth={2} aria-hidden />
         {t("dashboard.connect.button")}
       </button>
 

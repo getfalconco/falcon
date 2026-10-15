@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { MoreHorizontal, Pause, Pencil, Play, RefreshCw, Trash2 } from "lucide-react";
+import { MoreHorizontal, Pencil, Trash2 } from "lucide-react";
 import { DROPDOWN_FADE } from "@/lib/dropdown-motion";
 import { useI18n, useT, type MessageKey } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
@@ -255,16 +255,10 @@ export default function AgentDetail({
               className={BUTTON}
               title={t("agents.detail.runTitle")}
             >
-              <RefreshCw className={cn("h-3.5 w-3.5", busy === "run" && "animate-spin")} strokeWidth={2} aria-hidden />
               {busy === "run" ? t("agents.detail.checking") : t("agents.detail.runNow")}
             </button>
             {canToggle ? (
               <button type="button" onClick={() => void toggleStatus()} disabled={busy !== null} className={BUTTON}>
-                {agent.status === "paused" ? (
-                  <Play className="h-3.5 w-3.5" strokeWidth={2} aria-hidden />
-                ) : (
-                  <Pause className="h-3.5 w-3.5" strokeWidth={2} aria-hidden />
-                )}
                 {agent.status === "paused" ? t("agents.detail.resume") : t("agents.detail.pause")}
               </button>
             ) : null}

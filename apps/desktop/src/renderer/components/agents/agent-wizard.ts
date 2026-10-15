@@ -16,11 +16,20 @@ import { briefReady, draftIssues, type DraftIssue } from "./agent-draft";
  * the words give nothing to act on, the draft carries one question
  * (`clarify`) and the flow stays on the first step to ask it; the answer is
  * added to the instruction and read again. Going back keeps the draft and
- * the reader's edits for as long as the instruction is unchanged.
+ * the reader's edits for as long as the instruction is unchanged. A starter
+ * brings the draft its words stand for, so Next moves on without a reading
+ * until the reader edits them.
  */
 
 export const WIZARD_STEPS = ["describe", "confirm"] as const;
 export type WizardStep = (typeof WIZARD_STEPS)[number];
+
+/**
+ * What another screen hands the flow to start from: words (an instruction and
+ * maybe a name), or a draft it built (`agent-prefill.ts`), which opens on the
+ * confirm step with nothing to read. Applied once per `seq`.
+ */
+export type WizardStart = { text: string; name?: string; draft?: AgentDraft; seq: number };
 
 export const DESCRIBE = 0;
 export const CONFIRM = 1;
@@ -51,7 +60,8 @@ export type WizardState = {
 export type WizardAction =
   | { type: "name"; text: string }
   | { type: "brief"; text: string }
-  | { type: "template"; id: string; text: string }
+  /** A starter picked: its words, and the draft they stand for (`starterDraft`) when there is one. */
+  | { type: "template"; id: string; text: string; draft?: AgentDraft }
   | { type: "answer"; text: string }
   | { type: "draft-start"; text: string }
   | { type: "draft-done"; text: string; draft: AgentDraft }
@@ -62,6 +72,7 @@ export type WizardAction =
   | { type: "tried" }
   | { type: "create-start" }
   | { type: "create-failed"; error: string }
+  | { type: "prefill"; draft: AgentDraft; name?: string }
   | { type: "reset" };
 
 export function initialWizard(): WizardState {
@@ -149,8 +160,17 @@ export function wizardReducer(s: WizardState, a: WizardAction): WizardState {
       return { ...s, name: a.text, draft: s.draft ? { ...s.draft, name: a.text.trim() || s.draft.name } : s.draft };
     case "brief":
       return { ...s, brief: a.text, templateId: a.text.trim() ? s.templateId : null, draftError: null };
-    case "template":
-      return { ...s, brief: a.text, templateId: a.id, answer: "", draftError: null };
+    case "template": {
+      // The starter's own draft, keyed to its words: while they stay as put
+      // in, Next goes straight to the confirm step with nothing to read (so
+      // it works in any language and with the model unreachable). Edited
+      // words are read as usual. Without a usable draft, the words alone.
+      const brief = a.text.trim();
+      const usable = a.draft && brief && !a.draft.clarify && a.draft.triggers.length > 0;
+      const base = { ...s, brief: a.text, templateId: a.id, answer: "", draftError: null, tried: false, createError: null };
+      if (!usable) return { ...base, draft: null, draftedFrom: null };
+      return { ...base, draft: { ...a.draft!, name: s.name.trim() || a.draft!.name, brief }, draftedFrom: brief };
+    }
     case "answer":
       return { ...s, answer: a.text };
     case "draft-start":
@@ -192,6 +212,23 @@ export function wizardReducer(s: WizardState, a: WizardAction): WizardState {
       return { ...s, creating: true, createError: null };
     case "create-failed":
       return { ...s, creating: false, createError: a.error };
+    case "prefill": {
+      // A draft built by the screen that opened the flow (an earnings
+      // drawer, the Filing changes card): nothing to read, so it starts on
+      // the confirm step, keyed to its brief so Change and Next come back to
+      // it without a reading. Words edited after Change are read as usual.
+      const name = a.name?.trim() || a.draft.name;
+      const brief = a.draft.brief.trim();
+      if (!brief) return s;
+      const asked = Boolean(a.draft.clarify) || a.draft.triggers.length === 0;
+      return {
+        ...initialWizard(),
+        name,
+        brief,
+        // A draft that cannot run as it is: the words alone, read as usual.
+        ...(asked ? {} : { draft: { ...a.draft, name, brief }, draftedFrom: brief, step: CONFIRM }),
+      };
+    }
     case "reset":
       return initialWizard();
   }

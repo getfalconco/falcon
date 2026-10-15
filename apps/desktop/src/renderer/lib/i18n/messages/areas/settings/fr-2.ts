@@ -58,7 +58,7 @@ export const fr: Table = {
   "settings.engines.usedFor.finnhub": "Calendrier des résultats et actualités des entreprises",
   "settings.engines.usedFor.edgar": "Dépôts pour les graphes step-1 exécutés ici",
   "settings.engines.usedFor.yahoo": "Graphiques, cours et statistiques clés",
-  "settings.engines.usedFor.supabase": "Connexion et cache partagé des signaux",
+  "settings.engines.usedFor.supabase": "Connexion et cache partagé",
   "settings.engines.unused.description":
     "Utilisés uniquement par la chaîne de rapports du paquet de recherche, que cette application n'exécute pas.",
   "settings.engines.unused.value": "Non utilisés ici",
@@ -82,7 +82,7 @@ export const fr: Table = {
   "settings.engines.model.analyst": "Analyste",
   "settings.engines.model.propagation": "Juge de propagation",
   "settings.engines.model.step1": "Graphes de relations step-1",
-  "settings.engines.model.insight": "Explications et chat Insight",
+  "settings.engines.model.insight": "Explications et chat des événements",
   "settings.engines.model.gloss": "Surligner pour expliquer",
   "settings.engines.model.briefing": "Briefing de passation",
   "settings.engines.model.agents": "Agents",

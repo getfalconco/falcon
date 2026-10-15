@@ -8,8 +8,21 @@ import {
   fetchStockNews,
 } from "../stock/market-data-service";
 import { getUsStockCatalog, searchUsStocks } from "../stock/us-stock-catalog";
+import { invokeChannel } from "../ipc-register";
+import { filingForm, graphEdges } from "../research/graph-edges";
+import type { NewsFeedResult } from "../../shared/news-feed";
+import type { ReadthroughResult } from "../../shared/readthrough-types";
 import { filingText, insiderTxn, recentFilings } from "./edgar";
-import { parseConsensus, type AgentDataSources, type DailyClose, type NewsItem, type QuoteRead } from "./sources";
+import { filings as filingChangesService } from "../filings/register-filings-handlers";
+import {
+  materialFromFeed,
+  parseConsensus,
+  type AgentDataSources,
+  type DailyClose,
+  type NewsItem,
+  type QuoteRead,
+  type ReadthroughRead,
+} from "./sources";
 import { nyYmd } from "./time";
 
 /**
@@ -43,6 +56,11 @@ const newsCache = cached<NewsItem[]>(5 * MIN);
 const marketNewsCache = cached<NewsItem[]>(5 * MIN);
 const quoteCache = cached<QuoteRead>(MIN);
 const closesCache = cached<DailyClose[]>(30 * MIN);
+const readthroughCache = cached<ReadthroughRead[]>(30 * MIN);
+
+/** The News card's own request, so an agent's read shares the feed cache with it. */
+const NEWS_FEED_REQUEST = { days: 3, limit: 300 };
+
 
 export function createLiveSources(): AgentDataSources {
   return {
@@ -140,5 +158,38 @@ export function createLiveSources(): AgentDataSources {
       (await searchUsStocks(query, 5))
         .filter((e) => e.exchange !== "INDEX")
         .map((e) => ({ symbol: e.symbol, companyName: e.companyName })),
+
+    // graph-edges.ts keeps the file in memory until it changes on disk.
+    linkEdges: () => graphEdges(),
+    filingFormOf: (filer) => filingForm(filer),
+
+    materialNews: async (sinceIso) =>
+      materialFromFeed(await invokeChannel<NewsFeedResult>("news:feed", NEWS_FEED_REQUEST), Date.parse(sinceIso)),
+
+    // The Stock tab's service: one EDGAR read a day per company, documents kept for good.
+    filingChanges: (ticker, covering) => filingChangesService().changes(ticker, covering ? { covering } : undefined),
+
+    readthrough: (holding) =>
+      readthroughCache(holding, async () => {
+        // The Stock tab's request: every filing link of one name, measured.
+        const answer = await invokeChannel<ReadthroughResult>("readthrough:radar", { focus: holding });
+        if (!answer || answer.ok !== true) throw new Error("the read-through radar is unavailable");
+        return answer.rows.map((r) => ({
+          counterparty: r.counterparty,
+          holding: r.holding,
+          sample: r.sample,
+          stats: r.stats
+            ? {
+                events: r.stats.events,
+                withIt: r.stats.withIt,
+                avgAbsMove: r.stats.avgAbsMove,
+                avgAbsAbnormal: r.stats.avgAbsAbnormal,
+                sensitivity: r.stats.sensitivity,
+                from: r.stats.from,
+                to: r.stats.to,
+              }
+            : null,
+        }));
+      }),
   };
 }

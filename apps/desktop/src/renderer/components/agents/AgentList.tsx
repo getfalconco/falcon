@@ -1,5 +1,5 @@
 import { forwardRef, useEffect, useRef, type KeyboardEvent } from "react";
-import { Plus, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 import type { Agent, AgentStatus } from "../../../shared/agent-types";
@@ -74,7 +74,6 @@ const AgentList = forwardRef<HTMLDivElement, Props>(function AgentList(
           aria-pressed={creating}
           className="glass-cta app-no-drag flex h-9 w-full items-center justify-center gap-1.5 text-[12.5px] font-medium"
         >
-          <Plus className="h-3.5 w-3.5" strokeWidth={2.25} aria-hidden />
           {t("agents.newAgent")}
           <span className="ml-1 rounded bg-white/15 px-1 font-sans text-[10.5px] font-medium opacity-70">N</span>
         </button>

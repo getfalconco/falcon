@@ -37,6 +37,8 @@ describe("wipeLocalAccountData", () => {
     );
     write(path.join(root, "profile", "avatars", `${ID}.webp`), Buffer.from([1, 2, 3]));
     write(path.join(root, "profile", "avatars", `${OTHER}.webp`), Buffer.from([1]));
+    write(path.join(root, "theses", `${ID}.json`), "{}");
+    write(path.join(root, "theses", `${OTHER}.json`), "{}");
     write(path.join(root, "research", "AAPL.meta.json"), "{}"); // shared cache: stays
 
     let snaptradeRemoved = false;
@@ -55,6 +57,8 @@ describe("wipeLocalAccountData", () => {
     assert.deepEqual(Object.keys(nar.sessions), [`${OTHER}:2026-10-14`]);
     assert.ok(!fs.existsSync(path.join(root, "profile", "avatars", `${ID}.webp`)));
     assert.ok(fs.existsSync(path.join(root, "profile", "avatars", `${OTHER}.webp`)));
+    assert.ok(!fs.existsSync(path.join(root, "theses", `${ID}.json`)));
+    assert.ok(fs.existsSync(path.join(root, "theses", `${OTHER}.json`)));
     assert.ok(fs.existsSync(path.join(root, "research", "AAPL.meta.json")));
   });
 

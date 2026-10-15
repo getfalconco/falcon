@@ -3,7 +3,8 @@ import { describe, it } from "node:test";
 import type { AgentTrigger } from "../../shared/agent-types";
 import { EMPTY_STATE, type AgentEngineState } from "./store";
 import { agentFixture, fakeSources, filing } from "./test-fakes";
-import { checkTrigger, formMatches, resolveMacro, triggerSignature, type TriggerCheck, type TriggerContext } from "./triggers";
+import { checkTrigger, filingMs, formMatches, resolveMacro, triggerSignature, type TriggerCheck, type TriggerContext } from "./triggers";
+import { filingsFromSubmissions } from "./edgar";
 import { HOUR_MS, MINUTE_MS, nyInstant, nyParts } from "./time";
 import type { AgentDataSources } from "./sources";
 
@@ -224,5 +225,68 @@ describe("schedule trigger", () => {
     const w = waiting(await checkTrigger(t, ctx(saturday)));
     assert.equal(w.nextExpectedAt, new Date(2026, 10, 23, 8, 0).toISOString());
     waiting(await checkTrigger(t, ctx(new Date(2026, 10, 19, 8, 30).toISOString(), {}, {}, { createdAt: new Date(2026, 10, 19, 8, 15).toISOString() })));
+  });
+});
+
+/**
+ * EDGAR's submissions index stamps an older entry of a file SEC rebuilt since
+ * 2026-10-03 with the true instant plus New York's offset, and an entry of the
+ * current filing day (or of a file not rebuilt since) with the true UTC
+ * instant (research/edgar-time.ts). The reader stores the true instant, so the
+ * trigger's timing (after the agent was made, the call three hours on) holds.
+ * Morning, midday and evening filings in daylight time and in winter; an
+ * evening filing is dated the next business day.
+ */
+describe("EDGAR acceptance stamps", () => {
+  const CASES = [
+    { name: "summer 06:30", filedAt: "2026-07-14", old: "2026-07-14T14:30:38.000Z", current: "2026-07-14T10:30:38.000Z" },
+    { name: "summer 13:00", filedAt: "2026-07-14", old: "2026-07-14T21:00:00.000Z", current: "2026-07-14T17:00:00.000Z" },
+    { name: "summer 20:30", filedAt: "2026-07-15", old: "2026-07-15T04:30:00.000Z", current: "2026-07-15T00:30:00.000Z" },
+    { name: "winter 06:30", filedAt: "2026-01-13", old: "2026-01-13T16:30:38.000Z", current: "2026-01-13T11:30:38.000Z" },
+    { name: "winter 13:00", filedAt: "2026-01-13", old: "2026-01-13T23:00:00.000Z", current: "2026-01-13T18:00:00.000Z" },
+    { name: "winter 20:30", filedAt: "2026-01-14", old: "2026-01-14T06:30:00.000Z", current: "2026-01-14T01:30:00.000Z" },
+  ];
+  const read = (stamp: string, filedAt: string, fetchedAtMs: number) =>
+    filingsFromSubmissions("0001045810", { form: ["8-K"], filingDate: [filedAt], acceptanceDateTime: [stamp], items: ["2.02,9.01"], accessionNumber: ["a-1"], primaryDocument: ["d.htm"] }, fetchedAtMs)[0]!;
+  /** The same entry read on 2026-10-15 from a file rebuilt since SEC's change (a Form 4 dated 10-13). */
+  const readRebuilt = (stamp: string, filedAt: string) =>
+    filingsFromSubmissions(
+      "0001045810",
+      {
+        form: ["4", "8-K"],
+        filingDate: ["2026-10-13", filedAt],
+        acceptanceDateTime: ["2026-10-14T01:09:29.000Z", stamp],
+        items: ["", "2.02,9.01"],
+        accessionNumber: ["a-0", "a-1"],
+        primaryDocument: ["f4.xml", "d.htm"],
+      },
+      Date.parse("2026-10-15T21:15:00Z"),
+    )[1]!;
+
+  for (const c of CASES) {
+    it(`${c.name}: the true instant, read the same day or a week later`, () => {
+      const trueMs = Date.parse(c.current);
+      assert.equal(filingMs(read(c.current, c.filedAt, trueMs + 20 * MINUTE_MS)), trueMs);
+      assert.equal(filingMs(read(c.current, c.filedAt, trueMs + 7 * 24 * HOUR_MS)), trueMs);
+      assert.equal(filingMs(readRebuilt(c.old, c.filedAt)), trueMs);
+      // A raw stamp without the mark (kept from a read before the change) is the true instant.
+      assert.equal(filingMs(filing({ filedAt: c.filedAt, acceptedAt: c.current, acceptedAtUtc: undefined })), trueMs);
+    });
+  }
+
+  it("a filing accepted before the agent was made does not fire it", async () => {
+    // 06:30 New York; read as UTC the old stamp (14:30Z) is 10:30, after an agent made at 08:00.
+    const t: AgentTrigger = { kind: "filing", ticker: "NVDA", forms: ["8-K"] };
+    const before = readRebuilt("2026-07-14T14:30:38.000Z", "2026-07-14");
+    waiting(await checkTrigger(t, ctx("2026-07-21T14:00:00Z", { filings: async () => [before] }, {}, { createdAt: "2026-07-14T12:00:00.000Z" })));
+  });
+
+  it("the call write-up waits three hours from a same-day 16:05 release", async () => {
+    const call: AgentTrigger = { kind: "earnings", ticker: "NVDA", moment: "call" };
+    // 16:05 New York on 2026-11-19 (EST) is 21:05Z; read 21:10Z the stamp is the true instant.
+    const release = { ...read("2026-11-19T21:05:00.000Z", "2026-11-19", Date.parse("2026-11-19T21:10:00Z")), accession: "0001045810-26-000101" };
+    const src = { earningsDates: async () => ({ dates: ["2026-11-19"], estimated: false }), filings: async () => [release] };
+    const w = waiting(await checkTrigger(call, ctx("2026-11-19T21:10:00Z", src)));
+    assert.equal(w.nextExpectedAt, "2026-11-20T00:05:00.000Z");
   });
 });

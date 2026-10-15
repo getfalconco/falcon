@@ -1,23 +1,23 @@
 /**
  * The write-up behind one line of an Insight card: why *this* name is exposed
- * to the event, what events like it have done to the name before, and what to
- * expect this time. Generated once per (run, name) and then shared, exactly
+ * to the event, what happened to the name after events like it before, and
+ * how this event differs. Generated once per (run, name) and then shared, exactly
  * as the card's own explanation is — disk, then Supabase, then the model.
  */
 
 /**
- * The expectation, stated rather than buried in prose. The panel leads with
- * this: what the write-up thinks the name does from here, how big, by when,
- * and how much weight to put on it.
+ * What the link implies, stated rather than buried in prose. Never a view on
+ * the price: the sign the relationship carries, the size of past moves on the
+ * link, the window they resolved in, and the weight of that record.
  */
 export type PairOutlook = {
   direction: "up" | "down" | "unclear";
-  /** The size in the write-up's own words, e.g. "1-2%". */
+  /** The size of past moves on this link, from the record, e.g. "1-2%". */
   magnitude: string;
-  /** When, e.g. "the next 2-3 sessions". */
+  /** The window those past moves resolved in, e.g. "3 to 5 sessions". */
   horizon: string;
   conviction: "low" | "medium" | "high";
-  /** One line: the expectation, said plainly. */
+  /** One line describing the link and its record. */
   call: string;
 };
 
@@ -26,15 +26,15 @@ export type PairExplanation = {
   target: string;
   /** The headline it explains — a re-worded event regenerates. */
   headline: string;
-  /** The stated expectation. Optional: rows written before it existed. */
+  /** What the link implies. Optional: rows written before it existed. */
   outlook?: PairOutlook | null;
   /** 2–3 sentences: how the event reaches this name. */
   why: string;
   /** 2–3 sentences: what this kind of event has done to it before. */
   precedent: string;
-  /** 2–3 sentences: how it may go this time, and how big. */
+  /** 2 to 3 sentences: how this event differs from the precedents. */
   this_time: string;
-  /** Short lines: what would confirm or kill the read. */
+  /** Short lines: the facts in the input the read rests on. */
   watch: string[];
   model: string;
   generated_at: string;
@@ -77,6 +77,12 @@ export type PairExplanationRequest = {
   };
   /** The most recent past calls, newest first. */
   precedents?: PairExplanationPrecedent[];
+  /**
+   * Sessions after an event inside which the record measures a move (the
+   * propagation engine's pricing horizon). Main fills it from the live engine
+   * config when the renderer leaves it out.
+   */
+  horizon_sessions?: number | null;
 };
 
 export type PairExplanationResult =

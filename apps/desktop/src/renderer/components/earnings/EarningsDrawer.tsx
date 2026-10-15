@@ -1,14 +1,19 @@
-import { useEffect, type ReactNode } from "react";
+import { useEffect, useMemo, type ReactNode } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { ExternalLink, Radar, X } from "lucide-react";
+import { X } from "lucide-react";
 import { useNa } from "@/lib/i18n/na";
 import { useEarningsDetail } from "@/lib/earnings-store";
 import { useLiveQuotes } from "@/hooks/useLivePrices";
 import { openCreateAgent } from "@/components/agents/agents-store";
+import { earningsWatchDraft } from "@/components/agents/agent-prefill";
+import { useI18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 import type { EarningsReaction, EarningsRow } from "../../../shared/earnings-types";
 import { reactionSession } from "../../../shared/earnings-time";
+import { IMPLIED_WITHIN_DAYS, formatImpliedPct, impliedHint, type ImpliedMove, type ImpliedRequestItem } from "../../../shared/implied-move";
+import { useImpliedMoves } from "@/lib/implied-move-store";
 import {
+  addDaysYmd,
   agentBrief,
   consensusText,
   dayDate,
@@ -25,6 +30,7 @@ import {
   shortDate,
 } from "../../../shared/earnings-view";
 import EarningsLogo from "./EarningsLogo";
+import GuidanceLines from "./GuidanceLines";
 import { BUTTON, RowBadges, SKELETON, TickerButton, linkSentence, useSay } from "./earnings-ui";
 
 /**
@@ -35,6 +41,8 @@ import { BUTTON, RowBadges, SKELETON, TickerButton, linkSentence, useSay } from 
  *   Consensus        (before) EPS and revenue, how many estimates, their range
  *   Last four        EPS actual against consensus, and reported revenue
  *   quarters         (the providers keep no revenue consensus for the past)
+ *   Guidance record  (three quarters or more on record) how reported figures
+ *                    landed against the company's own guidance (GuidanceLines)
  *   Moves on report  the last report-day moves, the usual and the normal
  *   days             daily move
  *   Reads through    the reader's names a filing links to this company, the
@@ -57,6 +65,30 @@ function Line({ label, children, hint }: { label: string; children: ReactNode; h
       <span className="text-[12px] text-[#6b7280]">{label}</span>
       <span className={cn(NUM, "text-right text-[12px] text-[#1d1b1b]")}>{children}</span>
     </div>
+  );
+}
+
+/** What the options price for the report, and the stock's own record against it. */
+function ImpliedBlock({ v }: { v: ImpliedMove }) {
+  const { say, lang, t } = useSay();
+  const h = v.history;
+  return (
+    <section className={SECTION}>
+      <p className={HEAD}>{t("implied.drawer.title")}</p>
+      <div className="mt-1.5">
+        <Line label={t("implied.drawer.move")} hint={impliedHint(v, say, lang)}>
+          {formatImpliedPct(v.move, lang)}
+        </Line>
+        {h.above !== null && h.median !== null ? (
+          <>
+            <Line label={t("implied.drawer.above")}>{t("implied.drawer.aboveValue", { count: h.above, n: h.n })}</Line>
+            <Line label={t("implied.drawer.median")}>{formatImpliedPct(h.median, lang)}</Line>
+          </>
+        ) : (
+          <Line label={t("implied.drawer.sample")}>{h.n}</Line>
+        )}
+      </div>
+    </section>
   );
 }
 
@@ -112,6 +144,7 @@ export default function EarningsDrawer({ row, today, live, onClose }: Props) {
 
 function DrawerBody({ row, today, live, onClose }: { row: EarningsRow; today: string; live: number | null; onClose: () => void }) {
   const { say, lang, t } = useSay();
+  const { language } = useI18n();
   const na = useNa();
   const state = useEarningsDetail(row.ticker);
   const detail = state.status === "ready" ? state.detail : null;
@@ -119,6 +152,11 @@ function DrawerBody({ row, today, live, onClose }: { row: EarningsRow; today: st
   const out = isOut(row);
   const linkKey = out ? row.readsThrough.map((l) => l.ticker).sort().join(",") : "";
   const linkQuotes = useLiveQuotes(linkKey);
+  const impliedAsk = useMemo<ImpliedRequestItem[]>(
+    () => (!out && row.date >= today && row.date <= addDaysYmd(today, IMPLIED_WITHIN_DAYS) ? [{ ticker: row.ticker, date: row.date, time: row.time }] : []),
+    [out, row.ticker, row.date, row.time, today],
+  );
+  const implied = useImpliedMoves(impliedAsk)[row.ticker] ?? null;
 
   const exact = releaseTimeText(row.releasedAt, say);
   const when = out
@@ -217,6 +255,8 @@ function DrawerBody({ row, today, live, onClose }: { row: EarningsRow; today: st
           </section>
         )}
 
+        {implied ? <ImpliedBlock v={implied} /> : null}
+
         <section className={SECTION}>
           <p className={HEAD}>{t("earnings.drawer.quarters")}</p>
           {state.status === "loading" ? (
@@ -252,6 +292,8 @@ function DrawerBody({ row, today, live, onClose }: { row: EarningsRow; today: st
             <p className="mt-1.5 text-[12px] text-[#9CA3AF]">{na}</p>
           )}
         </section>
+
+        <GuidanceLines ticker={row.ticker} className={SECTION} />
 
         <section className={SECTION}>
           <p className={HEAD}>{t("earnings.drawer.reactions")}</p>
@@ -306,7 +348,6 @@ function DrawerBody({ row, today, live, onClose }: { row: EarningsRow; today: st
                           className="app-no-drag inline-flex items-center gap-1 text-[#4b5563] underline decoration-[#cfcfc8] underline-offset-[3px] transition-colors hover:text-[#1d1b1b] hover:decoration-[#1d1b1b]"
                         >
                           {t("earnings.drawer.openFiling")}
-                          <ExternalLink className="h-3 w-3" strokeWidth={1.75} aria-hidden />
                         </button>
                       ) : null}
                     </p>
@@ -320,8 +361,7 @@ function DrawerBody({ row, today, live, onClose }: { row: EarningsRow; today: st
 
       <div className="flex items-center justify-between gap-3 border-t-[0.5px] border-black/[0.06] px-5 py-3">
         <span className="text-[11px] text-[#9CA3AF]">{row.source === "finnhub" ? t("earnings.drawer.source.finnhub") : t("earnings.drawer.source.yahoo")}</span>
-        <button type="button" onClick={() => openCreateAgent(agentBrief(row, say, lang))} className={BUTTON}>
-          <Radar className="h-3.5 w-3.5" strokeWidth={1.75} aria-hidden />
+        <button type="button" onClick={() => openCreateAgent(earningsWatchDraft({ ticker: row.ticker, date: row.date, today, brief: agentBrief(row, say, lang) }, language))} className={BUTTON}>
           {t("earnings.row.createAgent")}
         </button>
       </div>

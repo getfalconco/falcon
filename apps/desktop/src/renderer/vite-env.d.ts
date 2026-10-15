@@ -113,6 +113,10 @@ interface MeridianBridge {
     | { ok: true; result: import("../shared/step1-research").Step1Result }
     | { ok: false; error: string; code?: string }
   >;
+  getStockGraph?: (
+    ticker: string,
+    options?: import("../shared/stock-graph").StockGraphOptions,
+  ) => Promise<import("../shared/stock-graph").StockGraphResult>;
   getGraphData: () => Promise<
     | { ok: true; graph: import("../shared/graph-types").GraphFile; path: string }
     | { ok: false; error: string }
@@ -317,6 +321,44 @@ interface MeridianBridge {
   getEarningsReactions?: (tickers: string[]) => Promise<import("../shared/earnings-types").EarningsReactionsResult>;
   /** The Earnings drawer's quarters and reaction figures for one name. */
   getEarningsDetail?: (ticker: string) => Promise<import("../shared/earnings-types").EarningsDetailResult>;
+  /** The move the options price for each upcoming report, against the stock's own record (main/options). Absent on an older main process. */
+  getImpliedMoves?: (
+    reports: import("../shared/implied-move").ImpliedRequestItem[],
+  ) => Promise<import("../shared/implied-move").ImpliedMovesResult>;
+  /** Read-through radar (main/readthrough). With `focus`, every filing link of one name (the Stock tab). */
+  getReadthroughRadar?: (
+    request: import("../shared/readthrough-types").ReadthroughRequest,
+  ) => Promise<import("../shared/readthrough-types").ReadthroughResult>;
+  /** Filing changes (main/filings): one company compared with its previous annual report (the Stock tab). */
+  getFilingChanges?: (ticker: string) => Promise<import("../shared/filing-changes").FilingChangesResult>;
+  /** Filing changes across the reader's names (the dashboard card); `pending` names are still being read. */
+  getFilingOverview?: (
+    request: import("../shared/filing-changes").FilingOverviewRequest,
+  ) => Promise<import("../shared/filing-changes").FilingOverviewResult>;
+  /**
+   * Insider activity (main/insiders): "NVDA" or { ticker } for one company's
+   * events (the Stock tab), { held, watchlist } for the reader's names and
+   * their filing-linked companies (the dashboard card).
+   */
+  getInsiderActivity?: (
+    request?: import("../shared/insider-types").InsiderActivityRequest,
+  ) => Promise<import("../shared/insider-types").InsiderActivityResult>;
+  /** Exposure tab and card (main/exposure). Absent on a main process older than the tab. */
+  getExposureSummary?: (request: import("../shared/exposure").ExposureRequest) => Promise<import("../shared/exposure").ExposureResult>;
+  /** Stock tab header: which holdings stand one filing hop from a ticker (main/stock-tab). */
+  getStockContext?: (
+    request: import("../shared/stock-context").StockContextRequest,
+  ) => Promise<import("../shared/stock-context").StockContextResult>;
+  /** Stock tab thesis: the reader's own words per ticker, kept per account by main. */
+  getStockThesis?: (ticker: string) => Promise<import("../shared/stock-thesis").StockThesisResult>;
+  setStockThesis?: (ticker: string, text: string) => Promise<import("../shared/stock-thesis").StockThesisResult>;
+  /** Stock tab changes, earnings and competitor sections (main/stock-tab-data). Absent on an older main process. */
+  getStockTabChanges?: (ticker: string) => Promise<import("../shared/stock-tab-data").StockChangesResult>;
+  getStockTabChangeTags?: (ticker: string) => Promise<import("../shared/stock-tab-data").ChangeTagsResult>;
+  getStockTabEarnings?: (ticker: string) => Promise<import("../shared/stock-tab-data").StockEarningsResult>;
+  getStockTabPeers?: (ticker: string) => Promise<import("../shared/stock-tab-data").StockPeersResult>;
+  /** Stock tab guidance track record (main/guidance). Absent on an older main process. */
+  getStockTabGuidance?: (ticker: string) => Promise<import("../shared/guidance-types").GuidanceTrackResult>;
   // Gauge
   getGaugeReadout: (req: import("../shared/gauge-types").GaugeReadoutRequest) => Promise<
     | ({ ok: true } & import("../shared/gauge-types").GaugeReadoutResponse)
@@ -645,7 +687,10 @@ type AgentApiResult<T> = import("../shared/agent-types").AgentResult<T>;
 interface AgentsBridgeApi {
   list: () => Promise<AgentApiResult<import("../shared/agent-types").Agent[]>>;
   get: (id: string) => Promise<AgentApiResult<import("../shared/agent-types").AgentDetail>>;
-  draftFromBrief: (brief: string) => Promise<AgentApiResult<import("../shared/agent-types").AgentDraft>>;
+  draftFromBrief: (
+    brief: string,
+    context?: import("../shared/agent-types").AgentDraftContext,
+  ) => Promise<AgentApiResult<import("../shared/agent-types").AgentDraft>>;
   create: (draft: import("../shared/agent-types").AgentDraft) => Promise<AgentApiResult<import("../shared/agent-types").Agent>>;
   update: (
     id: string,

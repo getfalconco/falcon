@@ -12,6 +12,7 @@ import {
   type FilingEvent,
 } from "./filings.js";
 import { barsFrom, tradingDays } from "../screen/test-fixtures.js";
+import { filingsFromSubmissions } from "../tracker/sources.js";
 
 const days = tradingDays(60);
 const calendar = TradingCalendar.fromBars(barsFrom({ days, returns: new Array(59).fill(0), startPrice: 100 }));
@@ -21,6 +22,8 @@ function filing(over: Partial<FilingRecord> & { filedAt: string }): FilingRecord
     form: "8-K",
     accessionNumber: `acc-${over.filedAt}`,
     acceptedAt: null,
+    // Fixture instants are true UTC, as the fetch stores them.
+    acceptedAtUtc: true,
     reportDate: over.filedAt,
     items: ["2.02"],
     primaryDocument: null,
@@ -70,6 +73,59 @@ describe("quantlab/filings — acceptance-time attribution (§6)", () => {
   it("a filing after the last known session cannot be attributed", () => {
     assert.equal(attributeFiling(filing({ filedAt: "2099-01-01" }), calendar), null);
   });
+});
+
+/**
+ * EDGAR's submissions index stamps an older entry of a file SEC rebuilt since
+ * 2026-10-03 with the true instant plus New York's offset; a file not rebuilt
+ * since keeps the true instant (research/edgar-time.ts). Read as UTC, a
+ * shifted 13:00 release lands after the close and its session's close is
+ * wrongly withheld; a morning one reads mid-session. Morning, midday and
+ * evening filings in daylight time and in winter; the evening one is dated
+ * the next business day.
+ */
+describe("quantlab/filings — EDGAR stamps are not UTC", () => {
+  const stampCalendar = TradingCalendar.fromBars(
+    barsFrom({ days: ["2026-01-13", "2026-01-14", "2026-07-14", "2026-07-15"], returns: [0, 0, 0], startPrice: 100 }),
+  );
+  const CASES = [
+    { name: "summer 06:30", filedAt: "2026-07-14", shifted: "2026-07-14T14:30:38.000Z", utc: "2026-07-14T10:30:38.000Z", session: "2026-07-14", afterClose: false },
+    { name: "summer 13:00", filedAt: "2026-07-14", shifted: "2026-07-14T21:00:00.000Z", utc: "2026-07-14T17:00:00.000Z", session: "2026-07-14", afterClose: false },
+    { name: "summer 16:05", filedAt: "2026-07-14", shifted: "2026-07-15T00:05:00.000Z", utc: "2026-07-14T20:05:00.000Z", session: "2026-07-14", afterClose: true },
+    { name: "summer 20:30", filedAt: "2026-07-15", shifted: "2026-07-15T04:30:00.000Z", utc: "2026-07-15T00:30:00.000Z", session: "2026-07-15", afterClose: false },
+    { name: "winter 06:30", filedAt: "2026-01-13", shifted: "2026-01-13T16:30:38.000Z", utc: "2026-01-13T11:30:38.000Z", session: "2026-01-13", afterClose: false },
+    { name: "winter 13:00", filedAt: "2026-01-13", shifted: "2026-01-13T23:00:00.000Z", utc: "2026-01-13T18:00:00.000Z", session: "2026-01-13", afterClose: false },
+    { name: "winter 20:30", filedAt: "2026-01-14", shifted: "2026-01-14T06:30:00.000Z", utc: "2026-01-14T01:30:00.000Z", session: "2026-01-14", afterClose: false },
+  ];
+  /** Read on the evening of 2026-10-15 (New York). */
+  const FETCHED = Date.parse("2026-10-15T21:15:00Z");
+  /** The release, with (rebuilt) or without a Form 4 dated after SEC's change. */
+  const index = (stamp: string, filedAt: string, rebuilt: boolean) => ({
+    form: rebuilt ? ["8-K", "4"] : ["8-K"],
+    filingDate: rebuilt ? [filedAt, "2026-10-13"] : [filedAt],
+    acceptanceDateTime: rebuilt ? [stamp, "2026-10-14T01:09:29.000Z"] : [stamp],
+    items: rebuilt ? ["2.02", ""] : ["2.02"],
+    accessionNumber: rebuilt ? ["a-1", "a-2"] : ["a-1"],
+  });
+  for (const c of CASES) {
+    it(`${c.name}: a stored raw stamp (kept from a read before the change) is the true instant`, () => {
+      const result = attributeFiling(filing({ filedAt: c.filedAt, acceptedAt: c.utc, acceptedAtUtc: undefined }), stampCalendar)!;
+      assert.equal(result.session, c.session);
+      assert.equal(result.after_close, c.afterClose);
+    });
+    for (const rebuilt of [true, false]) {
+      it(`${c.name}: the fetch stores the true instant (${rebuilt ? "rebuilt, shifted" : "not rebuilt, true"} file)`, () => {
+        const [read] = filingsFromSubmissions(index(rebuilt ? c.shifted : c.utc, c.filedAt, rebuilt), FETCHED);
+        assert.equal(read!.acceptedAtUtc, true);
+        assert.equal(read!.acceptedAt, c.utc);
+        const result = attributeFiling(read!, stampCalendar)!;
+        assert.equal(result.session, c.session);
+        assert.equal(result.after_close, c.afterClose);
+        const [event] = buildFilingEvents(stateWith([read!]), stampCalendar);
+        assert.equal(event!.accepted_at, read!.acceptedAt);
+      });
+    }
+  }
 });
 
 describe("quantlab/filings — event history", () => {

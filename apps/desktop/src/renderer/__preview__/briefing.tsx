@@ -10,6 +10,7 @@ import { seedPaperAccount, type PaperPosition } from "../lib/paper-account";
 import { buildDemoBriefing } from "../../shared/briefing-demo";
 import {
   resolveBriefingWindow,
+  type BriefingFact,
   type BriefingHolding,
   type BriefingNarrative,
   type BriefingReport,
@@ -39,6 +40,8 @@ import { narrativeView } from "../../shared/briefing-view";
  *   ?state=narrative-pending   the template ships with pending: true; the model lead AND model-written stories arrive 1.5 s later
  *   ?state=old-main            a bridge with no briefing handlers at all: the "unsupported" state
  *
+ *   ?facts=1                   adds the filings and insiders section: one record read from EDGAR (MU's 10-K, 2026-10-09)
+ *                              and four fixtures, one per kind, with a source the main process could not reach
  *   ?masked=1                  the dashboard's privacy switch
  *   ?auto=1                    clears the launch mark first, so the host's own open-by-itself path runs
  *   ?open=1                    dispatches openBriefing("shortcut") once the host is up
@@ -394,7 +397,33 @@ const VARIANTS: Record<string, (report: BriefingReport) => BriefingReport> = {
 
 // Built once: every poll has to answer with the same facts_hash, or the store
 // would treat each one as a new set of facts and ask for the narrative again.
-const report = (VARIANTS[state] ?? ((r: BriefingReport) => r))(baseReport());
+const SEC_DOC = "https://www.sec.gov/Archives/edgar/data/723125/000072312526000023/mu-20260903.htm";
+
+/** The filings and insiders section: the first record as the main process read it from EDGAR, the rest fixtures. */
+function withFacts(r: BriefingReport): BriefingReport {
+  const today = r.window.target_session_ymd;
+  const facts: BriefingFact[] = [
+    { id: "fx:red", kind: "red_flag", flag: "auditor_change", ticker: "AMD", scope: "held", date: today, url: SEC_DOC, form: "8-K", name: null, previous: null },
+    { id: "fx:ins", kind: "insider", event: "purchase_cluster", ticker: "NVDA", scope: "held", date: today, url: SEC_DOC, form: "Form 4", insiders: 3, value_usd: 2_480_000, role: "director", filer: null, score: 71 },
+    { id: "fx:link", kind: "linked_report", ticker: "NVDA", scope: "held", date: today, url: SEC_DOC, form: "10-K", counterparty: "TSM", relation: "supplier", time: "bmo", on_session: true, sample: 8, with_it: 6, avg_abs_move_pct: 2.1 },
+    {
+      id: "filing:MU:risk:10-K:2026-10-09",
+      kind: "risk_factor",
+      ticker: "MU",
+      scope: "held",
+      date: "2026-10-09",
+      url: `${SEC_DOC}#i040712e026c64f58aeafc73ff3d78e99_52`,
+      form: "10-K",
+      count: 1,
+      heading:
+        "Labor disputes, union activity, work stoppages, or other disruptions at our manufacturing facilities could cause significant business interruption and materially adversely affect our business, results of operations, or financial condition.",
+    },
+    { id: "fx:named", kind: "counterparty_named", ticker: "AAPL", scope: "watchlist", date: today, url: SEC_DOC, form: "10-K", role: "supplier", name: "Foundry Co", pct: null },
+  ];
+  return { ...r, research_facts: { facts, unavailable: ["readthrough"] } };
+}
+
+const report = (params.get("facts") === "1" ? withFacts : (r: BriefingReport) => r)((VARIANTS[state] ?? ((r: BriefingReport) => r))(baseReport()));
 
 // ---------------------------------------------------------------------------
 // The bridge, the account and the launch mark: all in place BEFORE createRoot

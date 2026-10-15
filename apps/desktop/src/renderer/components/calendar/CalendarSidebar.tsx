@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Check, ChevronLeft, ChevronRight, Plus } from "lucide-react";
+import { Check, ChevronLeft, ChevronRight } from "lucide-react";
 import { upperIn, useI18n, type MessageKey } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 import type { Theme } from "@/lib/theme";
@@ -264,7 +264,6 @@ export default function CalendarSidebar(props: SidebarProps) {
         onClick={(e) => props.onNewEvent(e.currentTarget.getBoundingClientRect())}
         className="glass-cta app-no-drag flex w-full items-center justify-center gap-1.5 py-2 text-[12.5px] font-medium"
       >
-        <Plus className="h-3.5 w-3.5" strokeWidth={2.25} aria-hidden />
         {t("calendar.newEvent")}
       </button>
 

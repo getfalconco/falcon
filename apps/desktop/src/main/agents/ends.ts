@@ -3,6 +3,7 @@ import type { AgentEngineState } from "./store";
 import type { AgentDataSources } from "./sources";
 import { filingMs, formMatches, isResultsFiling, line } from "./triggers";
 import { addDaysYmd, nyInstant } from "./time";
+import { kindsOf, watchesFiling } from "./filing-changes";
 
 /**
  * When an agent stops on its own, and the one question the create flow asks
@@ -13,7 +14,8 @@ import { addDaysYmd, nyInstant } from "./time";
  *   - a one-report watch on results ends after that release;
  *   - a one-report watch on a filing ends after that filing;
  *   - a standing watch ends on a date, two quarters out when it follows
- *     results (so it sees two reports), 90 days out otherwise.
+ *     results, its own or its linked companies' (so it sees two reports),
+ *     90 days out otherwise.
  */
 
 /** Days a standing watch runs when the reader named no end. */
@@ -27,7 +29,11 @@ export function proposeEnds(draft: Pick<AgentDraft, "ticker" | "triggers" | "one
   const filing = draft.triggers.find((t): t is Extract<AgentTrigger, { kind: "filing" }> => t.kind === "filing");
   if (draft.oneShot && earnings) return { kind: "earnings", ticker: earnings.ticker };
   if (draft.oneShot && filing && filing.forms[0]) return { kind: "filing", ticker: filing.ticker, form: filing.forms[0] };
-  return { kind: "date", date: addDaysYmd(today, earnings ? STANDING_EARNINGS_DAYS : STANDING_DAYS) };
+  // Results of the linked companies, and the next periodic reports, are a
+  // reporting season's worth of events too.
+  const seasonal =
+    earnings || draft.triggers.some((t) => (t.kind === "linked" && t.events.includes("earnings")) || t.kind === "filing_changes");
+  return { kind: "date", date: addDaysYmd(today, seasonal ? STANDING_EARNINGS_DAYS : STANDING_DAYS) };
 }
 
 /** "Until 2026-12-31", "through 2026-12-31" or "until the 10-K": an end date the reader wrote. */
@@ -97,10 +103,16 @@ export async function endReached(
       return false;
     }
   }
-  const watched = agent.triggers.some((t) => t.kind === "filing" && t.ticker === ends.ticker && formMatches(ends.form, t.forms));
+  const watched = agent.triggers.some(
+    (t) =>
+      (t.kind === "filing" && t.ticker === ends.ticker && formMatches(ends.form, t.forms)) ||
+      (t.kind === "filing_changes" && t.ticker === ends.ticker && watchesFiling({ form: ends.form, items: [] }, kindsOf(t))),
+  );
   try {
     const filed = (await sources.filings(ends.ticker)).filter((f) => formMatches(f.form, [ends.form]) && filingMs(f) >= created);
-    return watched ? filed.some((f) => state.firedKeys.includes(`filing:${f.accession}`)) : filed.length > 0;
+    // A filing changes watch is done with a filing once it reported it or read it and found nothing watched.
+    const done = (acc: string) => state.firedKeys.includes(`filing:${acc}`) || state.firedKeys.includes(`filing_changes:${acc}`);
+    return watched ? filed.some((f) => done(f.accession)) : filed.length > 0;
   } catch {
     return false;
   }

@@ -65,7 +65,7 @@ type ChartSession = "pre" | "reg" | "post";
  * market runs draw faded — the after-hours move is on the chart, and reads as
  * what it is.
  */
-function MiniChart({ series }: { series: PricePoint[] }) {
+export function MiniChart({ series }: { series: PricePoint[] }) {
   const t = useT();
   const points = series.filter((p) => Number.isFinite(p.v));
   if (points.length < 2) {

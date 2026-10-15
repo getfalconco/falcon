@@ -41,6 +41,9 @@ import {
   type EarningsSection,
 } from "../../../shared/earnings-view";
 import EarningsDrawer from "./EarningsDrawer";
+import { useImpliedMoves } from "@/lib/implied-move-store";
+import { IMPLIED_REQUEST_CAP, IMPLIED_WITHIN_DAYS, impliedHint, impliedLine, type ImpliedMove, type ImpliedRequestItem } from "../../../shared/implied-move";
+import ReadthroughSection from "@/components/readthrough/ReadthroughSection";
 import EarningsLogo from "./EarningsLogo";
 import {
   BUTTON,
@@ -218,11 +221,13 @@ type RowProps = {
   reaction: EarningsReaction | null | undefined;
   live: number | null;
   today: string;
+  /** The options line's figure: absent when not asked or not read yet, null when no quotes support one. */
+  implied?: ImpliedMove | null;
   onOpen: (row: EarningsRow) => void;
 };
 
-function Row({ row, reaction, live, today, onOpen }: RowProps) {
-  const { lang, t } = useSay();
+function Row({ row, reaction, live, today, implied, onOpen }: RowProps) {
+  const { say, lang, t } = useSay();
   const na = useNa();
   const out = isOut(row);
   let fifth: ReactNode;
@@ -286,6 +291,11 @@ function Row({ row, reaction, live, today, onOpen }: RowProps) {
         {reaction === undefined ? "" : (usual ?? na)}
       </span>
       <LinkChips links={row.readsThrough} className="justify-start" />
+      {implied && !out ? (
+        <span className="col-[3/-1] truncate pt-0.5 text-[11.5px] leading-[1.4] text-[#6b7280]" title={impliedHint(implied, say, lang)}>
+          {impliedLine(implied, say, lang)}
+        </span>
+      ) : null}
     </li>
   );
 }
@@ -348,6 +358,17 @@ export default function EarningsTab() {
     [shown, prefs.scope],
   );
   const reactions = useEarningsReactions(reactionTickers);
+  // The options line: upcoming reports in the next two weeks among the names the reaction figures are read for.
+  const impliedItems = useMemo<ImpliedRequestItem[]>(() => {
+    const asked = new Set(reactionTickers);
+    const until = addDaysYmd(today, IMPLIED_WITHIN_DAYS);
+    return shown
+      .filter((r) => !isOut(r) && r.date >= today && r.date <= until && asked.has(r.ticker))
+      .sort((a, b) => a.date.localeCompare(b.date))
+      .slice(0, IMPLIED_REQUEST_CAP)
+      .map((r) => ({ ticker: r.ticker, date: r.date, time: r.time }));
+  }, [shown, reactionTickers, today]);
+  const implied = useImpliedMoves(impliedItems);
   const liveKey = useMemo(
     () =>
       [...new Set(shown.filter((r) => r.phase === "reported" && r.date >= addDaysYmd(today, -4)).map((r) => r.ticker))]
@@ -387,7 +408,7 @@ export default function EarningsTab() {
   const renderRows = (list: EarningsRow[]) => (
     <ul className="pb-2">
       {list.map((row) => (
-        <Row key={row.ticker} row={row} reaction={reactions[row.ticker]} live={liveOf(row.ticker)} today={today} onOpen={setOpen} />
+        <Row key={row.ticker} row={row} reaction={reactions[row.ticker]} live={liveOf(row.ticker)} today={today} implied={implied[row.ticker]} onOpen={setOpen} />
       ))}
     </ul>
   );
@@ -500,6 +521,7 @@ export default function EarningsTab() {
 
   return (
     <div className="app-no-drag px-8 pb-10 pt-5">
+      <ReadthroughSection />
       <div className={cn(SURFACE, "overflow-visible")}>
         <div className="flex flex-wrap items-center gap-2 border-b border-black/[0.06] px-4 py-3">
           <Segmented value={prefs.scope} label={t("earnings.scope.label")} onChange={setScope} options={scopeOptions} />

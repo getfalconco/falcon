@@ -32,7 +32,7 @@ export const ptBR: Partial<Messages> = {
   "search.group.trending": "Em alta",
   "search.group.navigate": "Navegar",
   "search.nav.dashboard": "Painel",
-  "search.nav.dashboardHint": "Carteira, ativos, insights, risco",
+  "search.nav.dashboardHint": "Carteira, ativos, propagação, risco",
   "search.noResults": "Nenhum resultado para “{query}”",
   "search.noResultsOpen": "Nenhum resultado para “{query}”. Pressione {key} para abrir {symbol} mesmo assim.",
 
@@ -47,7 +47,7 @@ export const ptBR: Partial<Messages> = {
   "modules.earnings": "Resultados",
   "modules.news": "Notícias",
   "modules.risk": "Pontuação de risco",
-  "modules.insight": "Insights",
+  "modules.insight": "Propagação",
 
   "menu.label": "Conta",
   "menu.settings": "Configurações",

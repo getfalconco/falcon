@@ -33,3 +33,8 @@ export { MAX_IMPLICATIONS, deriveImplications, type ImplicationInput, type Impli
 // The stories the report leads with. Types only in its import graph, so the
 // demo book tells its night the way a real report does, in the same words.
 export { MAX_STORIES, deriveStories, type StoryInput } from "./stories.js";
+
+// The order the filings and insiders facts are listed in. Types only in its
+// import graph; the desktop host ranks with it, and a test of the panel can
+// build a ranked list the same way.
+export { MAX_BRIEFING_FACTS, factTier, rankBriefingFacts, secUrl } from "./facts.js";

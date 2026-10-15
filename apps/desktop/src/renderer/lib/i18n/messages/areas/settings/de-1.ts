@@ -55,9 +55,9 @@ export const de: Table = {
   "settings.privacy.cat.portfolio": "Portfolioabdeckung",
   "settings.privacy.cat.portfolioDescription": "Welche Ihrer Positionen Falcon recherchiert oder vorgemerkt hat.",
   "settings.privacy.cat.research": "Unternehmensgraphen und SEC-Einreichungen",
-  "settings.privacy.cat.insight": "Signalerklärungen",
-  "settings.privacy.cat.insightDescription": "Schriftliche Erklärungen zu Signalen, von allen Konten gemeinsam genutzt.",
-  "settings.privacy.cat.news": "Nachrichtenereignisse und Signale",
+  "settings.privacy.cat.insight": "Ereigniserklärungen",
+  "settings.privacy.cat.insightDescription": "Schriftliche Erklärungen zu Ereignissen, von allen Konten gemeinsam genutzt.",
+  "settings.privacy.cat.news": "Nachrichtenereignisse und Ausbreitungsläufe",
   "settings.privacy.cat.risk": "Risiko-Engine",
   "settings.privacy.cat.riskDescription": "Risikowerte, mit einer Kopie Ihres Papierkontos, wenn die Engine hier läuft.",
   "settings.privacy.cat.logs": "Diagnose",
@@ -85,9 +85,9 @@ export const de: Table = {
     "Beantwortet die Markt-Engine-Panels für diese Installation. Ihr Papierkonto wird dorthin gesendet, damit der Risikowert berechnet werden kann. Auch die Ticker, die Sie halten und beobachten, werden gesendet, damit die Engines sie verfolgen.",
   "settings.privacy.to.model": "Claude API ({host})",
   "settings.privacy.to.modelDescription":
-    "Ticker, öffentlicher Text aus SEC-Einreichungen, Schlagzeilen und für Falcons Einordnung der Text der Meldung, die Sie öffnen. Für Ihr Briefing: die Ticker mit Ihren größten Positionen, nur als groß, mittel oder klein eingestuft, und prozentuale Bewegungen, nie Dollarbeträge, Stückzahlen oder Bargeld. Fragen, die Sie im Insight-Chat eingeben, was Sie Ihre Agenten fragen, und Text, den Sie zum Erklären markieren. Nie Ihr Name, Ihre E-Mail oder die Anweisungen in Ihrem Profil.",
+    "Ticker, öffentlicher Text aus SEC-Einreichungen, Schlagzeilen und für Falcons Einordnung der Text der Meldung, die Sie öffnen. Für Ihr Briefing: die Ticker mit Ihren größten Positionen, nur als groß, mittel oder klein eingestuft, und prozentuale Bewegungen, nie Dollarbeträge, Stückzahlen oder Bargeld. Fragen, die Sie im Chat eines Ereignisses eingeben, was Sie Ihre Agenten fragen, und Text, den Sie zum Erklären markieren. Nie Ihr Name, Ihre E-Mail oder die Anweisungen in Ihrem Profil.",
   "settings.privacy.to.modelDescriptionWorker":
-    "Ticker, öffentlicher Text aus SEC-Einreichungen, Schlagzeilen und für Falcons Einordnung der Text der Meldung, die Sie öffnen. Für Ihr Briefing: die Ticker mit Ihren größten Positionen, nur als groß, mittel oder klein eingestuft, und prozentuale Bewegungen, nie Dollarbeträge, Stückzahlen oder Bargeld. Fragen, die Sie im Insight-Chat eingeben, was Sie Ihre Agenten fragen, und Text, den Sie zum Erklären markieren. Nie Ihr Name, Ihre E-Mail oder die Anweisungen in Ihrem Profil. Diese Anfragen laufen über den Research-Worker von Falcon, der Ihre Sitzung prüft und sie dann weiterleitet.",
+    "Ticker, öffentlicher Text aus SEC-Einreichungen, Schlagzeilen und für Falcons Einordnung der Text der Meldung, die Sie öffnen. Für Ihr Briefing: die Ticker mit Ihren größten Positionen, nur als groß, mittel oder klein eingestuft, und prozentuale Bewegungen, nie Dollarbeträge, Stückzahlen oder Bargeld. Fragen, die Sie im Chat eines Ereignisses eingeben, was Sie Ihre Agenten fragen, und Text, den Sie zum Erklären markieren. Nie Ihr Name, Ihre E-Mail oder die Anweisungen in Ihrem Profil. Diese Anfragen laufen über den Research-Worker von Falcon, der Ihre Sitzung prüft und sie dann weiterleitet.",
   "settings.privacy.to.market": "Marktdaten ({hosts})",
   "settings.privacy.to.marketDescription":
     "Tickersymbole und Unternehmenskennungen, um Nachrichten, Kurse, Einreichungen und die Symbolliste abzurufen. Nichts über Sie.",
@@ -201,7 +201,7 @@ export const de: Table = {
     "Dieses System hat keinen Mitteilungsdienst, den Falcon nutzen kann, daher kann nichts gesendet werden.",
   "settings.notifications.allow": "Mitteilungen erlauben",
   "settings.notifications.sound": "Ton",
-  "settings.notifications.cat.secondOrder": "Signale zweiter Ordnung",
+  "settings.notifications.cat.secondOrder": "Effekte zweiter Ordnung",
   "settings.notifications.cat.marketEvents": "Marktereignisse",
   "settings.notifications.cat.appUpdates": "App-Updates",
   "settings.notifications.cat.agents": "Agenten",

@@ -1,0 +1,387 @@
+/**
+ * Insider activity, put together: which companies to read (scope.ts), their
+ * Form 4s and Schedule 13D / 13G filings from EDGAR, read once and kept on
+ * disk, and the events found in them (detect.ts).
+ *
+ * What it asks EDGAR for and how often (every request goes through the
+ * agents engine's spaced queue in agents/edgar.ts: a descriptive User-Agent,
+ * at most four requests a second for the whole app):
+ *
+ *   filing list   a company's submissions index, read again at most every
+ *                 three hours on business days (freshness.ts). Only Form 4s
+ *                 and new 13D / 13D amendments / new 13G filed in the last
+ *                 95 days are kept from it.
+ *   Form 4        the ownership XML, once per accession, forever: a filed
+ *                 form does not change. Kept as the trades it holds.
+ *   13D / 13G     the primary document and the SEC header, once per
+ *                 accession, forever. Kept as filer, percent and whether an
+ *                 amendment restates its purpose.
+ *
+ * A read session reads at most `budget` documents (default 200) and the
+ * next one starts no sooner than half a minute after, so a first look at
+ * eighty companies fills in over a few minutes instead of holding the queue
+ * the agents share. Companies are read in the order asked: a Stock tab
+ * request goes to the front. A list or document that cannot be read is not
+ * tried again for half an hour.
+ *
+ * On disk, under `<data root>/insiders/`:
+ *   companies.json      per ticker: when the list was read, the CIK, the kept filings
+ *   docs/<cik>.json     per issuer: trades per Form 4, the read of each 13D / 13G
+ *                       (null for a schedule this company filed about another one)
+ *
+ * Electron-free: the readers, the folder and the clock are injected.
+ */
+
+import fs from "node:fs";
+import path from "node:path";
+import { readJson, writeJsonAtomic } from "../briefing/json-file";
+import { parseOwnershipXml } from "../edgar/form4";
+import type { FilingRef } from "../agents/sources";
+import type { LinkEdge } from "../../shared/earnings-links";
+import { nyYmdOf } from "../../shared/earnings-time";
+import type { InsiderActivityAnswer, InsiderEvent, ParsedInsiderRequest } from "../../shared/insider-types";
+import { companyEvents, daysBetween, rankEvents, scheduleKind, tradesOf, type ScheduleRecord, type TradeRecord } from "./detect";
+import { isStale } from "./freshness";
+import { filerFromHeader, percentOfClass, purposeAmended, subjectCikFromHeader } from "./schedule13";
+import { buildScope, type ScopeEntry } from "./scope";
+
+export const KEEP_FILINGS_DAYS = 95;
+export const DEFAULT_BUDGET = 200;
+export const SESSION_GAP_MS = 30_000;
+export const LIST_RETRY_MS = 30 * 60_000;
+export const FOCUS_WAIT_MS = 30_000;
+export const MAX_EVENTS = 60;
+
+export type InsidersDeps = {
+  dir: string;
+  /** The company's filings, newest first (agents/edgar `filingHistory`). */
+  filings: (ticker: string) => Promise<FilingRef[]>;
+  /** One file of a filing: the primary document when `name` is null (agents/edgar `filingFile`). */
+  file: (filing: FilingRef, name: string | null) => Promise<string | null>;
+  graphEdges: () => Promise<readonly LinkEdge[]>;
+  now?: () => number;
+  budget?: number;
+  sessionGapMs?: number;
+};
+
+type StoredFiling = Pick<FilingRef, "cik" | "form" | "accession" | "filedAt" | "primaryDocument" | "url">;
+type CompanyRecord = { checkedAt: number; cik: string | null; form4: StoredFiling[]; schedules: StoredFiling[] };
+type CompaniesFile = { v: number; companies: Record<string, CompanyRecord> };
+type DocsFile = { v: number; form4: Record<string, TradeRecord[]>; schedules: Record<string, ScheduleRecord | null> };
+
+const COMPANIES_VERSION = 1;
+const DOCS_VERSION = 3;
+
+export type InsidersService = {
+  activity(request: ParsedInsiderRequest): Promise<InsiderActivityAnswer>;
+  /**
+   * The events already read for the reader's own names (held and watched,
+   * no linked companies), from what is kept: nothing is queued and no
+   * filing is fetched. For the handover briefing, which only restates.
+   */
+  peek(request: { held: readonly string[]; watchlist: readonly string[] }): InsiderActivityAnswer;
+  /** Resolves when the current read session (if any) has finished: tests. */
+  idle(): Promise<void>;
+};
+
+function stored(f: FilingRef): StoredFiling {
+  return { cik: f.cik, form: f.form, accession: f.accession, filedAt: f.filedAt, primaryDocument: f.primaryDocument, url: f.url };
+}
+
+function sameCik(a: string, b: string): boolean {
+  return a.replace(/^0+/, "") === b.replace(/^0+/, "");
+}
+
+function asRef(f: StoredFiling): FilingRef {
+  return { ...f, acceptedAt: null, items: [] };
+}
+
+export function createInsidersService(deps: InsidersDeps): InsidersService {
+  const now = deps.now ?? (() => Date.now());
+  const budgetPerSession = deps.budget ?? DEFAULT_BUDGET;
+  const gap = deps.sessionGapMs ?? SESSION_GAP_MS;
+  const companiesFile = path.join(deps.dir, "companies.json");
+
+  let companies: Record<string, CompanyRecord> | null = null;
+  const docs = new Map<string, DocsFile>();
+  const dirtyDocs = new Set<string>();
+  const listFailedAt = new Map<string, number>();
+  /** Documents that could not be read, by accession: tried again after LIST_RETRY_MS. */
+  const docFailedAt = new Map<string, number>();
+  const docDue = (accession: string) => {
+    const at = docFailedAt.get(accession);
+    return at === undefined || now() - at >= LIST_RETRY_MS;
+  };
+
+  function loadCompanies(): Record<string, CompanyRecord> {
+    if (companies) return companies;
+    const file = readJson<CompaniesFile>(companiesFile);
+    companies = file && file.v === COMPANIES_VERSION && file.companies && typeof file.companies === "object" ? file.companies : {};
+    return companies;
+  }
+
+  function saveCompanies(): void {
+    try {
+      writeJsonAtomic(companiesFile, { v: COMPANIES_VERSION, companies: loadCompanies() } satisfies CompaniesFile);
+    } catch (err) {
+      console.warn("[insiders] could not save the filing lists:", err instanceof Error ? err.message : String(err));
+    }
+  }
+
+  function docsFor(cik: string): DocsFile {
+    let d = docs.get(cik);
+    if (d) return d;
+    const file = readJson<DocsFile>(path.join(deps.dir, "docs", `${cik}.json`));
+    d = file && file.v === DOCS_VERSION && file.form4 && file.schedules ? file : { v: DOCS_VERSION, form4: {}, schedules: {} };
+    docs.set(cik, d);
+    return d;
+  }
+
+  function saveDocs(): void {
+    for (const cik of dirtyDocs) {
+      try {
+        writeJsonAtomic(path.join(deps.dir, "docs", `${cik}.json`), docsFor(cik));
+      } catch (err) {
+        console.warn("[insiders] could not save filings read:", err instanceof Error ? err.message : String(err));
+      }
+    }
+    dirtyDocs.clear();
+  }
+
+  /** Does this company still have something to read? */
+  function pendingFor(ticker: string): boolean {
+    const rec = loadCompanies()[ticker];
+    const failed = listFailedAt.get(ticker);
+    const listable = failed === undefined || now() - failed >= LIST_RETRY_MS;
+    if (!rec) return listable;
+    if (isStale(rec.checkedAt, now()) && listable) return true;
+    if (!rec.cik) return false;
+    const d = docsFor(rec.cik);
+    return rec.form4.some((f) => !(f.accession in d.form4) && docDue(f.accession)) || rec.schedules.some((f) => !(f.accession in d.schedules) && docDue(f.accession));
+  }
+
+  // ---- the read queue ---------------------------------------------------
+
+  const work: string[] = [];
+  const waiters = new Map<string, Array<() => void>>();
+  let worker: Promise<void> | null = null;
+  let lastSessionEnd = 0;
+  let budget = 0;
+  /** Ends the pause between sessions early: a Stock tab request does not wait it out. */
+  let wake: (() => void) | null = null;
+  /** A Stock tab request is waiting: the next session starts without the pause. */
+  let urgent = false;
+
+  function settle(ticker: string): void {
+    for (const resolve of waiters.get(ticker) ?? []) resolve();
+    waiters.delete(ticker);
+  }
+
+  async function readList(ticker: string): Promise<void> {
+    const recs = loadCompanies();
+    const rec = recs[ticker];
+    const failed = listFailedAt.get(ticker);
+    if (rec && !isStale(rec.checkedAt, now())) return;
+    if (failed !== undefined && now() - failed < LIST_RETRY_MS) return;
+    if (budget <= 0) return;
+    budget--;
+    try {
+      const list = await deps.filings(ticker);
+      const today = nyYmdOf(now());
+      const recent = list.filter((f) => f.filedAt && daysBetween(f.filedAt, today) <= KEEP_FILINGS_DAYS);
+      recs[ticker] = {
+        checkedAt: now(),
+        cik: list[0]?.cik ?? rec?.cik ?? null,
+        form4: recent.filter((f) => f.form === "4").map(stored),
+        schedules: recent.filter((f) => {
+          const k = scheduleKind(f.form);
+          return k === "13d" || k === "13d_a" || k === "13g";
+        }).map(stored),
+      };
+      listFailedAt.delete(ticker);
+      saveCompanies();
+    } catch (err) {
+      listFailedAt.set(ticker, now());
+      console.warn(`[insiders] ${ticker} filing list failed:`, err instanceof Error ? err.message : String(err));
+    }
+  }
+
+  async function readDocs(ticker: string): Promise<void> {
+    const rec = loadCompanies()[ticker];
+    if (!rec?.cik) return;
+    const d = docsFor(rec.cik);
+    for (const f of rec.form4) {
+      if (f.accession in d.form4 || !docDue(f.accession)) continue;
+      if (budget <= 0) break;
+      budget--;
+      const xml = await deps.file(asRef(f), null);
+      if (xml === null) {
+        docFailedAt.set(f.accession, now());
+        continue;
+      }
+      const doc = parseOwnershipXml(xml);
+      // The submissions index also lists forms this company filed as an
+      // owner of another company's shares: those are not its insiders' trades.
+      const about = doc !== null && (!doc.issuerCik || sameCik(doc.issuerCik, rec.cik));
+      d.form4[f.accession] = doc && about ? tradesOf(doc, { accession: f.accession, filedAt: f.filedAt, url: f.url }) : [];
+      dirtyDocs.add(rec.cik);
+    }
+    for (const f of rec.schedules) {
+      if (f.accession in d.schedules || !docDue(f.accession)) continue;
+      if (budget <= 1) break;
+      budget--;
+      const header = await deps.file(asRef(f), `${f.accession}-index-headers.html`);
+      if (header === null) {
+        docFailedAt.set(f.accession, now());
+        continue;
+      }
+      // Listed because this company filed it about another one: not about this company.
+      const subject = subjectCikFromHeader(header);
+      if (subject && !sameCik(subject, rec.cik)) {
+        d.schedules[f.accession] = null;
+        dirtyDocs.add(rec.cik);
+        continue;
+      }
+      budget--;
+      const body = await deps.file(asRef(f), null);
+      if (body === null) {
+        docFailedAt.set(f.accession, now());
+        continue;
+      }
+      d.schedules[f.accession] = {
+        form: f.form,
+        filer: filerFromHeader(header),
+        filedAt: f.filedAt,
+        accession: f.accession,
+        url: f.url,
+        percent: percentOfClass(body),
+        purposeAmended: scheduleKind(f.form) === "13d_a" ? purposeAmended(body) : false,
+      };
+      dirtyDocs.add(rec.cik);
+    }
+    saveDocs();
+  }
+
+  async function session(): Promise<void> {
+    const wait = lastSessionEnd + gap - now();
+    if (wait > 0 && !urgent) {
+      await new Promise<void>((resolve) => {
+        const timer = setTimeout(resolve, wait);
+        wake = () => {
+          clearTimeout(timer);
+          resolve();
+        };
+      });
+      wake = null;
+    }
+    urgent = false;
+    budget = budgetPerSession;
+    try {
+      while (work.length > 0) {
+        const ticker = work.shift()!;
+        try {
+          await readList(ticker);
+          await readDocs(ticker);
+        } catch (err) {
+          console.warn(`[insiders] ${ticker} read failed:`, err instanceof Error ? err.message : String(err));
+        }
+        settle(ticker);
+      }
+    } finally {
+      lastSessionEnd = now();
+      for (const t of [...waiters.keys()]) settle(t);
+      worker = null;
+    }
+  }
+
+  /** Queue the companies with something to read; resolves when they have been looked at. */
+  function enqueue(tickers: readonly string[], front: boolean): Promise<void> {
+    const todo = tickers.filter((t) => pendingFor(t));
+    if (todo.length === 0) return Promise.resolve();
+    const promises = todo.map(
+      (t) =>
+        new Promise<void>((resolve) => {
+          const list = waiters.get(t);
+          if (list) list.push(resolve);
+          else waiters.set(t, [resolve]);
+        }),
+    );
+    for (const t of todo) {
+      const at = work.indexOf(t);
+      if (at >= 0) work.splice(at, 1);
+    }
+    if (front) {
+      work.unshift(...todo);
+      urgent = true;
+      wake?.();
+    } else work.push(...todo);
+    if (!worker) worker = session();
+    return Promise.all(promises).then(() => undefined);
+  }
+
+  // ---- the answer -------------------------------------------------------
+
+  function eventsFor(entries: readonly ScopeEntry[], today: string): InsiderEvent[] {
+    const recs = loadCompanies();
+    const all: InsiderEvent[] = [];
+    for (const entry of entries) {
+      const rec = recs[entry.ticker];
+      if (!rec?.cik) continue;
+      const d = docsFor(rec.cik);
+      const trades = rec.form4.flatMap((f) => d.form4[f.accession] ?? []);
+      const schedules = rec.schedules.flatMap((f) => {
+        const read = d.schedules[f.accession];
+        return read ? [read] : [];
+      });
+      all.push(...companyEvents(trades, schedules, { ticker: entry.ticker, today, scope: entry.scope, via: entry.via }));
+    }
+    return rankEvents(all).slice(0, MAX_EVENTS);
+  }
+
+  function answer(entries: readonly ScopeEntry[]): InsiderActivityAnswer {
+    const today = nyYmdOf(now());
+    const recs = loadCompanies();
+    const checked = entries.map((e) => recs[e.ticker]?.checkedAt).filter((n): n is number => typeof n === "number");
+    return {
+      ok: true,
+      today,
+      events: eventsFor(entries, today),
+      companies: entries.length,
+      pending: entries.filter((e) => pendingFor(e.ticker)).length,
+      checkedAt: checked.length > 0 ? new Date(Math.min(...checked)).toISOString() : null,
+    };
+  }
+
+  return {
+    async activity(request) {
+      fs.mkdirSync(deps.dir, { recursive: true });
+      if (request.focus) {
+        const t = request.focus;
+        const scope = request.held.includes(t) ? "held" : request.watchlist.includes(t) ? "watchlist" : "focus";
+        const entries: ScopeEntry[] = [{ ticker: t, scope, via: null }];
+        let timer: ReturnType<typeof setTimeout> | null = null;
+        await Promise.race([
+          enqueue([t], true),
+          new Promise<void>((resolve) => {
+            timer = setTimeout(resolve, FOCUS_WAIT_MS);
+          }),
+        ]);
+        if (timer) clearTimeout(timer);
+        return answer(entries);
+      }
+      const edges = await deps.graphEdges().catch(() => [] as LinkEdge[]);
+      const entries = buildScope(request.held, request.watchlist, edges);
+      void enqueue(
+        entries.map((e) => e.ticker),
+        false,
+      );
+      return answer(entries);
+    },
+    peek(request) {
+      return answer(buildScope(request.held, request.watchlist, []));
+    },
+    idle() {
+      return worker ?? Promise.resolve();
+    },
+  };
+}

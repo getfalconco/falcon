@@ -23,3 +23,4 @@ export * from "./stories.js";
 export * from "./narrative.js";
 export * from "./chain-slice.js";
 export * from "./gather.js";
+export * from "./facts.js";

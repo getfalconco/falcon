@@ -12,6 +12,7 @@ import {
   collectAgentsExport,
   collectCalendarExport,
   collectLocalExport,
+  collectThesesExport,
   inventoryLocalData,
   monthStartYmd,
   summarizeLocalUsage,
@@ -156,6 +157,16 @@ describe("inventoryLocalData", () => {
     assert.equal(byKey.preferences?.kind, "personal");
     assert.equal(byKey.engines?.files, 3);
     // Only the fixture's mystery.bin.
+    assert.equal(byKey.other?.files, 1);
+  });
+
+  it("counts the Stock tab theses as the reader's own", () => {
+    const root = fixture();
+    write(root, `theses/${ME}.json`, { schema_version: 1, theses: { NVDA: { text: "Mine", updated_at: "2026-10-10T00:00:00.000Z" } } });
+    write(root, `theses/${OTHER}.json`, { schema_version: 1, theses: {} });
+    const byKey = Object.fromEntries(inventoryLocalData(root).map((c) => [c.key, c]));
+    assert.equal(byKey.theses?.files, 2);
+    assert.equal(byKey.theses?.kind, "personal");
     assert.equal(byKey.other?.files, 1);
   });
 
@@ -380,6 +391,29 @@ describe("agents and calendar in the export", () => {
       digest: { version: 1, entries: [] },
     });
     assert.deepEqual(collectCalendarExport(root, ME), { schema: "falcon-calendar-events", schema_version: 1, events: [] });
+  });
+});
+
+describe("theses in the export", () => {
+  it("carries only the signed-in account's theses, and none without a session", () => {
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), "falcon-privacy-theses-"));
+    write(root, `theses/${ME}.json`, {
+      schema_version: 1,
+      theses: { NVDA: { text: "Data center demand", updated_at: "2026-10-10T00:00:00.000Z" }, "../X": { text: "junk" } },
+    });
+    write(root, `theses/${OTHER}.json`, { schema_version: 1, theses: { AAPL: { text: "THEIR THESIS", updated_at: "2026-10-10T00:00:00.000Z" } } });
+    const out = collectThesesExport(root, ME) as { schema: string; schema_version: number; theses: Array<{ ticker: string; text: string }> };
+    assert.equal(out.schema, "falcon-stock-theses");
+    assert.equal(out.schema_version, 1);
+    assert.deepEqual(
+      out.theses.map((t) => [t.ticker, t.text]),
+      [["NVDA", "Data center demand"]],
+    );
+    const device = collectLocalExport(root, ME);
+    assert.ok(device.stock_theses);
+    assert.equal(JSON.stringify(device).includes("THEIR THESIS"), false);
+    assert.equal(collectThesesExport(root, "anon"), null);
+    assert.equal(collectLocalExport(root, "anon").stock_theses, undefined);
   });
 });
 

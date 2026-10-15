@@ -60,9 +60,9 @@ export const en = {
   "settings.privacy.cat.portfolio": "Portfolio coverage",
   "settings.privacy.cat.portfolioDescription": "Which of your holdings Falcon has researched or queued.",
   "settings.privacy.cat.research": "Company graphs and SEC filings",
-  "settings.privacy.cat.insight": "Signal explanations",
-  "settings.privacy.cat.insightDescription": "Written explanations of signals, shared by every account.",
-  "settings.privacy.cat.news": "News events and signals",
+  "settings.privacy.cat.insight": "Event explanations",
+  "settings.privacy.cat.insightDescription": "Written explanations of events, shared by every account.",
+  "settings.privacy.cat.news": "News events and propagation runs",
   "settings.privacy.cat.risk": "Risk engine",
   "settings.privacy.cat.riskDescription": "Risk readings, with a copy of your paper account when the engine runs here.",
   "settings.privacy.cat.logs": "Diagnostics",
@@ -90,9 +90,9 @@ export const en = {
     "Answers the market-engine panels for this install. Your paper account is sent there so the risk reading can be worked out. The tickers you hold and watch are sent too, so the engines follow them.",
   "settings.privacy.to.model": "Claude API ({host})",
   "settings.privacy.to.modelDescription":
-    "Tickers, public SEC filing text, news headlines and, for Falcon's read on news, the text of the story you open. For your briefing: the tickers you hold most of, sized only as large, medium or small, and percentage moves, never dollar amounts, share counts or cash. Questions you type into Insight chat, what you ask your agents, and text you select to have explained. Never your name, email or the instructions in your profile.",
+    "Tickers, public SEC filing text, news headlines and, for Falcon's read on news, the text of the story you open. For your briefing: the tickers you hold most of, sized only as large, medium or small, and percentage moves, never dollar amounts, share counts or cash. Questions you type into an event's chat, what you ask your agents, and text you select to have explained. Never your name, email or the instructions in your profile.",
   "settings.privacy.to.modelDescriptionWorker":
-    "Tickers, public SEC filing text, news headlines and, for Falcon's read on news, the text of the story you open. For your briefing: the tickers you hold most of, sized only as large, medium or small, and percentage moves, never dollar amounts, share counts or cash. Questions you type into Insight chat, what you ask your agents, and text you select to have explained. Never your name, email or the instructions in your profile. These requests are relayed through Falcon's research worker, which checks your session and then forwards them.",
+    "Tickers, public SEC filing text, news headlines and, for Falcon's read on news, the text of the story you open. For your briefing: the tickers you hold most of, sized only as large, medium or small, and percentage moves, never dollar amounts, share counts or cash. Questions you type into an event's chat, what you ask your agents, and text you select to have explained. Never your name, email or the instructions in your profile. These requests are relayed through Falcon's research worker, which checks your session and then forwards them.",
   "settings.privacy.to.market": "Market data ({hosts})",
   "settings.privacy.to.marketDescription":
     "Ticker symbols and company identifiers, to fetch news, quotes, filings and the symbol list. Nothing about you.",
@@ -202,7 +202,7 @@ export const en = {
   "settings.notifications.unsupported": "This system has no notification service Falcon can use, so nothing can be sent.",
   "settings.notifications.allow": "Allow notifications",
   "settings.notifications.sound": "Sound",
-  "settings.notifications.cat.secondOrder": "Second-order signals",
+  "settings.notifications.cat.secondOrder": "Second-order effects",
   "settings.notifications.cat.marketEvents": "Market events",
   "settings.notifications.cat.appUpdates": "App updates",
   "settings.notifications.cat.agents": "Agents",

@@ -9,7 +9,8 @@ import { cn } from "@/lib/utils";
 import type { Agent } from "../../../shared/agent-types";
 import { cleanDraft } from "./agent-draft";
 import { suggestedName, understanding } from "./agent-format";
-import { buildStarterTemplates, starterBrief, starterDescription, starterTitle, type StarterTemplate } from "./agent-templates";
+import { starterDraft } from "./agent-prefill";
+import { buildStarterTemplates, starterBrief, starterTitle, type StarterTemplate } from "./agent-templates";
 import { BUTTON, FIELD } from "./agent-ui";
 import {
   CONFIRM,
@@ -22,6 +23,7 @@ import {
   pendingQuestion,
   textToRead,
   wizardReducer,
+  type WizardStart,
   type WizardState,
 } from "./agent-wizard";
 import AgentConfirmCard from "./AgentConfirmCard";
@@ -34,7 +36,8 @@ import { createAgent, draftFromBrief } from "./agents-store";
  *           the reader's words. It need not be about a company: a topic, a
  *           macro release, the market's headlines or a schedule all work.
  *           Starters made from what the reader holds fill in the instruction
- *           as examples. When the words give nothing to act on, one question
+ *           as examples, each with the draft it stands for: kept as put in,
+ *           Next goes to step 2 without reading the words. When the words give nothing to act on, one question
  *           about what is missing is asked right there.
  *   2 of 2  "Did we understand you?": Falcon's reading as a few plain
  *           sentences, built from what will actually run. Start agent, or
@@ -42,8 +45,10 @@ import { createAgent, draftFromBrief } from "./agents-store";
  *           parts one by one, for whoever wants them.
  *
  * Both ways into creating an agent open this modal: the empty Agents tab
- * (by itself) and New agent (the list's button, N, an earnings row's
- * "Create agent" with its instruction and a suggested name). Closing it (the
+ * (by itself) and New agent (the list's button, N). A screen that already
+ * knows what to watch (an earnings drawer's "Create agent", the Filing
+ * changes card's "Watch filings") hands in a draft it built, and the modal
+ * opens on step 2 with its trigger set and nothing to read. Closing it (the
  * X, Esc, a click outside) keeps what was typed: it stays mounted with the
  * tab, and opening it again picks up where the reader was.
  */
@@ -92,7 +97,6 @@ function Starters({ activeId, onPick }: { activeId: string | null; onPick: (t: S
               key={id}
               type="button"
               aria-pressed={activeId === id}
-              title={starterDescription(tpl, lang)}
               onClick={() => onPick(tpl)}
               className={cn(CHIP, activeId === id && CHIP_ON)}
             >
@@ -117,8 +121,10 @@ export default function AgentWizard({
   /**
    * An instruction handed in from elsewhere (an earnings row), with a name
    * when one came with it: the wizard starts over from it, once per `seq`.
+   * With a draft (an earnings drawer, the Filing changes card) it starts on
+   * the confirm step instead, and nothing is sent to be read.
    */
-  initialBrief?: { text: string; name?: string; seq: number } | null;
+  initialBrief?: WizardStart | null;
 }) {
   const { language: lang, t } = useI18n();
   const [s, dispatch] = useReducer(wizardReducer, undefined, initialWizard);
@@ -135,6 +141,11 @@ export default function AgentWizard({
   useEffect(() => {
     if (!initialBrief || initialBrief.seq === appliedBrief.current) return;
     appliedBrief.current = initialBrief.seq;
+    setDetails(false);
+    if (initialBrief.draft) {
+      dispatch({ type: "prefill", draft: initialBrief.draft, name: initialBrief.name });
+      return;
+    }
     dispatch({ type: "reset" });
     dispatch({ type: "brief", text: initialBrief.text });
     dispatch({ type: "name", text: initialBrief.name?.trim() || suggestedName(initialBrief.text, lang) });
@@ -240,7 +251,8 @@ export default function AgentWizard({
 
   const pickStarter = (tpl: StarterTemplate) => {
     const { text, select } = starterBrief(tpl, lang);
-    dispatch({ type: "template", id: `${tpl.id}:${tpl.ticker}`, text });
+    // The starter brings its draft: unedited, its words need no reading.
+    dispatch({ type: "template", id: `${tpl.id}:${tpl.ticker}`, text, draft: starterDraft(tpl, lang) });
     requestAnimationFrame(() => {
       const el = area.current;
       if (!el) return;
@@ -320,7 +332,6 @@ export default function AgentWizard({
     body = (
       <div className="space-y-4">
         <div className="space-y-1.5 text-[13.5px] leading-[1.6] text-[#1d1b1b]">
-          <p className="text-[#6b7280]">{t("agents.understand.intro", { name: s.name.trim() || s.draft!.name })}</p>
           {summary.lines.map((l) => (
             <p key={l}>{l}</p>
           ))}

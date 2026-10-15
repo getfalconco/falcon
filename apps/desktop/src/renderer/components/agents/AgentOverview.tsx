@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { Activity, AlertCircle, BarChart3, Bell, CalendarClock, CalendarX2, FileText, Globe2, Inbox, Newspaper, Smartphone, type LucideIcon } from "lucide-react";
+import { Activity, AlertCircle, BarChart3, Bell, CalendarClock, CalendarX2, FileDiff, FileText, Globe2, Inbox, Network, Newspaper, Smartphone, type LucideIcon } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 import type { Agent, AgentTriggerKind } from "../../../shared/agent-types";
@@ -25,6 +25,8 @@ const KIND_ICON: Readonly<Record<AgentTriggerKind, LucideIcon>> = {
   price_move: Activity,
   news: Newspaper,
   macro: Globe2,
+  linked: Network,
+  filing_changes: FileDiff,
   schedule: CalendarClock,
 };
 

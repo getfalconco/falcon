@@ -291,7 +291,7 @@ describe("briefing store", () => {
     assert.equal(first, second);
     await settle();
     assert.equal(seen.length, 1);
-    assert.deepEqual(seen[0], { holdings: [{ symbol: "NVDA", shares: 10, cost_usd: 1500 }], cash: 2500, demo: false });
+    assert.deepEqual(seen[0], { holdings: [{ symbol: "NVDA", shares: 10, cost_usd: 1500 }], cash: 2500, watchlist: [], demo: false });
     assert.equal(getBriefingState().status, "loading");
 
     gate.resolve({ ok: true, report: liveReport(), source: "fresh" });

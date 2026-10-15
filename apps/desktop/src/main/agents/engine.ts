@@ -4,6 +4,7 @@ import type {
   AgentActivity,
   AgentDetail,
   AgentDraft,
+  AgentDraftContext,
   AgentLine,
   AgentMessage,
   AgentPushEvent,
@@ -22,7 +23,7 @@ import type { AgentDataSources } from "./sources";
 import { AgentStore, type AgentEngineState } from "./store";
 import { checkTrigger, line, triggerSignature, type TriggerCheck, type TriggerEvent } from "./triggers";
 import { DAY_MS, HOUR_MS, MINUTE_MS, nyInstant, nyYmd } from "./time";
-import { LIMITS, cleanBlock, requireId, validateDraft, validatePatch } from "./validate";
+import { LIMITS, cleanBlock, normalizeTicker, requireId, validateDraft, validatePatch } from "./validate";
 
 /**
  * The agent engine: the IPC surface in `shared/agent-types.ts`, the scheduler
@@ -90,6 +91,13 @@ function fail(err: unknown): AgentResult<never> {
   return { ok: false, error: err instanceof Error ? err.message : String(err) };
 }
 
+/** The held tickers the create flow passed with a brief, cleaned; [] when none or not a list. */
+export function heldFromContext(context: unknown): string[] {
+  const raw = context && typeof context === "object" ? (context as AgentDraftContext).held : undefined;
+  if (!Array.isArray(raw)) return [];
+  return [...new Set(raw.map(normalizeTicker).filter((t): t is string => t !== null))].slice(0, 50);
+}
+
 function describeTrigger(t: AgentTrigger): string {
   switch (t.kind) {
     case "earnings":
@@ -102,6 +110,10 @@ function describeTrigger(t: AgentTrigger): string {
       return `news about ${t.ticker ?? t.keywords.join(", ")}${t.ticker && t.keywords.length > 0 ? ` (${t.keywords.join(", ")})` : ""}`;
     case "macro":
       return `${t.event} releases`;
+    case "linked":
+      return `${t.ticker} ${t.relations && t.relations.length > 0 ? t.relations.map((r) => `${r}s`).join(" and ") : "linked companies"} (${t.events.join(", ")})`;
+    case "filing_changes":
+      return `${t.ticker} filing changes${t.kinds && t.kinds.length > 0 ? ` (${t.kinds.map((k) => k.replace("_", " ")).join(", ")})` : ""}`;
     case "schedule":
       return `a ${t.cadence} digest at ${t.time}`;
   }
@@ -212,17 +224,18 @@ export class AgentEngine {
     }
   }
 
-  async draftFromBrief(brief: unknown): Promise<AgentResult<AgentDraft>> {
+  async draftFromBrief(brief: unknown, context?: unknown): Promise<AgentResult<AgentDraft>> {
     try {
       if (typeof brief !== "string" || !brief.trim()) throw new Error("Describe what the agent watches for.");
       const today = nyYmd(this.now());
+      const held = heldFromContext(context);
       let draft: AgentDraft;
       try {
-        draft = await draftFromBriefWithModel(brief, { caller: this.deps.caller(), sources: this.deps.sources, today });
+        draft = await draftFromBriefWithModel(brief, { caller: this.deps.caller(), sources: this.deps.sources, today, held });
       } catch (err) {
         // The model is down or unreadable: a heuristic draft beats an error the reader cannot act on.
         this.log(`draft fell back to the heuristic parser: ${err instanceof Error ? err.message : String(err)}`);
-        draft = await heuristicDraft(cleanBlock(brief, LIMITS.briefChars), { sources: this.deps.sources });
+        draft = await heuristicDraft(cleanBlock(brief, LIMITS.briefChars), { sources: this.deps.sources, held });
       }
       return ok(await this.finishDraft(draft, today));
     } catch (err) {

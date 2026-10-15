@@ -1,7 +1,7 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowUpRight, Check, Minus, X } from "lucide-react";
+import { Check, Minus, X } from "lucide-react";
 import type { User as AuthUser } from "@supabase/supabase-js";
 import { cn } from "@/lib/utils";
 import { displayNameFromUser } from "@/lib/greeting";
@@ -457,7 +457,6 @@ export default function PlansModal({
                               className={cn(BUTTON, "bg-[#1d1b1b] text-white shadow-[0_2px_10px_rgba(0,0,0,0.12)] hover:bg-black")}
                             >
                               {t("plans.upgrade")}
-                              <ArrowUpRight className="h-3.5 w-3.5 text-white" strokeWidth={1.75} aria-hidden />
                             </button>
                           ) : (
                             <button
@@ -469,7 +468,6 @@ export default function PlansModal({
                               )}
                             >
                               {change === "downgrade" ? t("plans.downgrade") : t("plans.view")}
-                              <ArrowUpRight className="h-3.5 w-3.5 text-[#6b7280]" strokeWidth={1.75} aria-hidden />
                             </button>
                           )}
                         </div>

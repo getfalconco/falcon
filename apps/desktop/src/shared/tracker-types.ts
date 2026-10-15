@@ -97,7 +97,9 @@ export type TrackerFilingRecord = {
   form: string;
   accessionNumber: string;
   filedAt: string;
+  /** The true instant with `acceptedAtUtc`, else SEC's raw stamp (not always UTC). */
   acceptedAt: string | null;
+  acceptedAtUtc?: boolean;
   reportDate: string | null;
   items: string[];
   primaryDocument: string | null;

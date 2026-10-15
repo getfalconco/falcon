@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { Info, Plus, X } from "lucide-react";
+import { Info, X } from "lucide-react";
 import { Segmented, Switch } from "@/components/settings/controls";
 import { useI18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
@@ -125,7 +125,6 @@ export function TriggersField({ draft, onChange }: PartProps) {
           onClick={() => set({ triggers: [...draft.triggers, defaultTrigger(ticker ? "filing" : "news", ticker)] })}
           className={BUTTON}
         >
-          <Plus className="h-3.5 w-3.5" strokeWidth={2} aria-hidden />
           {t("agents.form.anotherTrigger")}
         </button>
       </div>
@@ -181,7 +180,6 @@ export function MetricsField({ draft, onChange }: PartProps) {
           onClick={() => set({ metrics: [...draft.metrics, { id: newMetricId(), label: "" }] })}
           className={BUTTON}
         >
-          <Plus className="h-3.5 w-3.5" strokeWidth={2} aria-hidden />
           {t("agents.form.anotherMetric")}
         </button>
       </div>

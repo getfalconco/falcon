@@ -98,6 +98,39 @@ export const RISK_SENTENCE_WORDS: readonly string[] = [
  */
 export const BRAND_WORDS: readonly string[] = ["edge", "AI"];
 
+/**
+ * Words that make a line read as machine-written. Prompt-only: no source
+ * check runs on them, they are named to the model in PROMPT_COPY_RULE.
+ */
+export const PROMPT_STYLE_WORDS: readonly string[] = ["insight", "smart", "seamless", "leverage", "robust", "unlock", "delve"];
+
+/**
+ * The rules above as a block a system prompt carries. Built from the word
+ * lists so a word added to a list reaches every prompt. The research package
+ * builds the same block from its mirror (packages/research/src/copy-rules.ts);
+ * news-headline-rules-parity.test.ts holds the two equal.
+ */
+export function buildPromptCopyRule(
+  advice: readonly string[],
+  forward: readonly string[],
+  brand: readonly string[],
+  style: readonly string[],
+): string {
+  const plainBanned = [...brand.filter((w) => w !== "AI"), ...style];
+  return [
+    "WRITING RULES (they hold for every word the reader sees):",
+    "- Describe what happened and what the record shows. Never say what a price will do next, never give a price level or a forecast, and never tell the reader what to do.",
+    `- Never use these words, in any sense or form: ${advice.join(", ")}.`,
+    `- Never use these forward-looking words, in any sense or form: ${forward.join(", ")}.`,
+    `- Never use these words: ${plainBanned.join(", ")}. Write "AI" only where it names a line of business a company reports, such as AI chips or AI revenue.`,
+    "- Never mention AI models, assistants or yourself. Never open with \"Here's\" or \"Let me\".",
+    "- No em dash and no en dash: use commas, colons, or \"to\" for ranges. No exclamation marks. No emoji.",
+  ].join("\n");
+}
+
+/** Append to the system prompt of any model call whose output a reader sees. */
+export const PROMPT_COPY_RULE = buildPromptCopyRule(ADVICE_WORDS, RISK_SENTENCE_WORDS, BRAND_WORDS, PROMPT_STYLE_WORDS);
+
 /** Nouns after "AI" that make it a line of business a company reports, not a label for the product. */
 export const MARKET_AI_NOUNS: readonly string[] = [
   "semiconductor",

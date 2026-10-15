@@ -15,11 +15,11 @@
  */
 
 import { maskDollarAmounts } from "./briefing-view";
-import { ENGLISH, formatterFor, weekdayDateLabel, type BriefingKey, type BriefingText } from "./briefing-text";
-import type { BriefingReport, HeldFiling, MarketHeadline, Story } from "./briefing-types";
+import { ENGLISH, formatterFor, weekdayDateLabel, ymdNoonUtc, type BriefingKey, type BriefingText } from "./briefing-text";
+import { MAX_BRIEFING_FACTS, type BriefingFact, type BriefingReport, type HeldFiling, type MarketHeadline, type Story } from "./briefing-types";
 import { isTradingDay } from "./calendar-days";
 
-export type HandoverKind = "news" | "earnings" | "other";
+export type HandoverKind = "news" | "earnings" | "filings" | "other";
 
 export type HandoverItem = {
   id: string;
@@ -34,6 +34,8 @@ export type HandoverItem = {
   /** Also after "See more": what it means for the reader's own book. */
   meaning: string | null;
   url: string | null;
+  /** Shown on hover over a line that opens its source directly: the form, the date, where it opens. */
+  hint?: string | null;
 };
 
 export type HandoverSection = {
@@ -70,10 +72,11 @@ export const HANDOVER_INTRO = ENGLISH.t("briefing.handover.intro");
 const SECTION_TITLES: Record<HandoverKind, BriefingKey> = {
   news: "briefing.handover.section.news",
   earnings: "briefing.handover.section.earnings",
+  filings: "briefing.handover.section.filings",
   other: "briefing.handover.section.other",
 };
 
-const SECTION_ORDER: HandoverKind[] = ["news", "earnings", "other"];
+const SECTION_ORDER: HandoverKind[] = ["news", "earnings", "filings", "other"];
 
 /**
  * A story's scope, read as the popup's kind. The engine's "release" scope is a
@@ -167,6 +170,191 @@ function fromFiling(f: HeldFiling, text: BriefingText): HandoverItem | null {
   };
 }
 
+// ---------------------------------------------------------------------------
+// Filings and insiders
+// ---------------------------------------------------------------------------
+
+type RedFlagFact = Extract<BriefingFact, { kind: "red_flag" }>;
+type InsiderFact = Extract<BriefingFact, { kind: "insider" }>;
+type LinkedFact = Extract<BriefingFact, { kind: "linked_report" }>;
+
+const RED_FLAG_KEYS: Record<RedFlagFact["flag"], BriefingKey> = {
+  restatement: "briefing.facts.restatement",
+  auditor_change: "briefing.facts.auditorChange",
+  auditor_name: "briefing.facts.auditorName",
+  going_concern: "briefing.facts.goingConcern",
+  material_weakness: "briefing.facts.materialWeakness",
+  late_filing: "briefing.facts.lateFiling",
+};
+
+const INSIDER_KEYS: Record<InsiderFact["event"], BriefingKey> = {
+  purchase_cluster: "briefing.facts.insider.purchaseCluster",
+  sale_cluster: "briefing.facts.insider.saleCluster",
+  large_purchase: "briefing.facts.insider.largePurchase",
+  unplanned_sale: "briefing.facts.insider.unplannedSale",
+  large_unplanned_sale: "briefing.facts.insider.largeUnplannedSale",
+  activist_13d: "briefing.facts.insider.activist13d",
+  activist_13d_amendment: "briefing.facts.insider.activist13dAmendment",
+  new_holder_13g: "briefing.facts.insider.newHolder13g",
+};
+
+const ROLE_KEYS: Record<NonNullable<InsiderFact["role"]>, BriefingKey> = {
+  ceo: "briefing.facts.role.ceo",
+  cfo: "briefing.facts.role.cfo",
+  officer: "briefing.facts.role.officer",
+  director: "briefing.facts.role.director",
+  owner10: "briefing.facts.role.owner10",
+  other: "briefing.facts.role.other",
+};
+
+const RELATION_KEYS: Record<LinkedFact["relation"], BriefingKey> = {
+  supplier: "briefing.facts.linked.supplier",
+  customer: "briefing.facts.linked.customer",
+  competitor: "briefing.facts.linked.competitor",
+};
+
+const TIME_KEYS: Partial<Record<LinkedFact["time"], BriefingKey>> = {
+  bmo: "briefing.facts.time.bmo",
+  amc: "briefing.facts.time.amc",
+  dmh: "briefing.facts.time.dmh",
+};
+
+/** The read-through module's minimum: under it a pair carries its count and no figure. */
+const MIN_MEASURED = 3;
+
+const numberFormats = new Map<string, Intl.NumberFormat>();
+
+function numberFormat(locale: string, options: Intl.NumberFormatOptions): Intl.NumberFormat {
+  const key = `${locale}|${JSON.stringify(options)}`;
+  let format = numberFormats.get(key);
+  if (!format) {
+    try {
+      format = new Intl.NumberFormat(locale, options);
+    } catch {
+      format = new Intl.NumberFormat("en-US", options);
+    }
+    numberFormats.set(key, format);
+  }
+  return format;
+}
+
+/** A figure stated in percent ("18" is 18%), in the reader's language. */
+function percentText(value: number, text: BriefingText): string {
+  return numberFormat(text.locale, { style: "percent", maximumFractionDigits: 1 }).format(value / 100);
+}
+
+/** An insider trade total as filed: "$2.5M". */
+function usdText(value: number, text: BriefingText): string {
+  return numberFormat(text.locale, { style: "currency", currency: "USD", notation: "compact", maximumFractionDigits: 1 }).format(value);
+}
+
+function nextDay(ymd: string): string | null {
+  const at = ymdNoonUtc(ymd);
+  return at ? new Date(at.getTime() + 86_400_000).toISOString().slice(0, 10) : null;
+}
+
+/** "today", "tomorrow", or the weekday and date, on New York's calendar. */
+function whenText(date: string, today: string | null, text: BriefingText): string {
+  if (today !== null && date === today) return text.t("briefing.facts.when.today");
+  if (today !== null && date === nextDay(today)) return text.t("briefing.facts.when.tomorrow");
+  return weekdayDateLabel(date, text);
+}
+
+function measuredText(fact: LinkedFact, text: BriefingText): string {
+  if (fact.sample >= MIN_MEASURED && fact.with_it !== null && fact.avg_abs_move_pct !== null) {
+    return text.t("briefing.facts.measured", {
+      holding: fact.ticker,
+      with: fact.with_it,
+      count: fact.sample,
+      avg: percentText(fact.avg_abs_move_pct, text),
+    });
+  }
+  if (fact.sample <= 0) return text.t("briefing.facts.measuredNone");
+  if (fact.sample === 1) return text.t("briefing.facts.measuredOne");
+  return text.t("briefing.facts.measuredFew", { count: fact.sample });
+}
+
+/**
+ * The one line a fact is shown as: what the record says, in the reader's
+ * language. `today` is New York's calendar day, for "reports today".
+ */
+export function factTitle(fact: BriefingFact, text: BriefingText = ENGLISH, today: string | null = null): string {
+  const form = fact.form ?? "";
+  switch (fact.kind) {
+    case "red_flag":
+      return text.t(RED_FLAG_KEYS[fact.flag], { form, name: fact.name ?? "", previous: fact.previous ?? "" });
+    case "insider": {
+      const role = text.t(ROLE_KEYS[fact.role ?? "other"]);
+      const filer = clean(fact.filer) ?? text.t("briefing.facts.insider.filerUnknown");
+      const line = text.t(INSIDER_KEYS[fact.event], { count: fact.insiders, role, filer });
+      // A 13D or 13G states a stake, not a trade: no value goes beside it.
+      const traded = !fact.event.startsWith("activist") && fact.event !== "new_holder_13g";
+      return traded && fact.value_usd !== null && fact.value_usd > 0
+        ? text.t("briefing.facts.insider.withValue", { text: line, value: usdText(fact.value_usd, text) })
+        : line;
+    }
+    case "linked_report": {
+      const time = TIME_KEYS[fact.time];
+      const day = whenText(fact.date, today, text);
+      const when = time ? text.t("briefing.facts.whenAt", { when: day, time: text.t(time) }) : day;
+      const head = text.t(RELATION_KEYS[fact.relation], { counterparty: fact.counterparty, holding: fact.ticker, when });
+      return `${head} · ${measuredText(fact, text)}`;
+    }
+    case "risk_factor":
+      return fact.count > 1 ? text.t("briefing.facts.riskNewMany", { count: fact.count, form }) : text.t("briefing.facts.riskNew", { form });
+    case "counterparty_named":
+      return text.t(fact.role === "customer" ? "briefing.facts.customerNamed" : "briefing.facts.supplierNamed", { name: fact.name, form });
+    case "share_change": {
+      const vars = {
+        name: fact.name,
+        pct: percentText(fact.pct, text),
+        previous: fact.previous_pct === null ? "" : percentText(fact.previous_pct, text),
+      };
+      const receivables = fact.basis === "receivables";
+      if (fact.previous_pct === null) return text.t(receivables ? "briefing.facts.shareNew.receivables" : "briefing.facts.shareNew.revenue", vars);
+      return text.t(receivables ? "briefing.facts.share.receivables" : "briefing.facts.share.revenue", vars);
+    }
+    default:
+      return "";
+  }
+}
+
+/**
+ * What hovering a fact line says: the filing it rests on and where a click
+ * takes the reader. A new risk factor also shows its first heading, verbatim,
+ * so the line itself stays one title.
+ */
+export function factHint(fact: BriefingFact, text: BriefingText = ENGLISH): string {
+  const parts: string[] = [];
+  const heading = fact.kind === "risk_factor" ? clean(fact.heading) : null;
+  if (heading) parts.push(`“${heading}”`);
+  if (fact.kind === "linked_report") {
+    // The measured line again: the end of the title is what a narrow popup cuts.
+    parts.push(measuredText(fact, text));
+    if (fact.url) parts.push(text.t("briefing.facts.openLink", { counterparty: fact.counterparty, holding: fact.ticker }));
+    return parts.join("\n");
+  }
+  if (fact.form) parts.push(text.t("briefing.facts.filed", { form: fact.form, date: weekdayDateLabel(fact.date, text) }));
+  if (fact.url) parts.push(text.t("briefing.facts.open"));
+  return parts.join("\n");
+}
+
+function fromFact(fact: BriefingFact, text: BriefingText, today: string | null): HandoverItem | null {
+  const ticker = clean(fact.ticker)?.toUpperCase();
+  const summary = clean(factTitle(fact, text, today));
+  if (!ticker || !summary) return null;
+  return {
+    id: `fact:${fact.id}`,
+    subject: ticker,
+    ticker,
+    summary,
+    detail: null,
+    meaning: null,
+    url: clean(fact.url),
+    hint: factHint(fact, text) || null,
+  };
+}
+
 function dedupe(items: HandoverItem[]): HandoverItem[] {
   const seen = new Set<string>();
   const out: HandoverItem[] = [];
@@ -238,7 +426,7 @@ function masking(item: HandoverItem, masked: boolean): HandoverItem {
  * that slipped into the prose never reaches a masked screen.
  */
 export function handoverView(report: BriefingReport, now: Date, masked: boolean, text: BriefingText = ENGLISH): HandoverView {
-  const buckets: Record<HandoverKind, HandoverItem[]> = { news: [], earnings: [], other: [] };
+  const buckets: Record<HandoverKind, HandoverItem[]> = { news: [], earnings: [], filings: [], other: [] };
   const results = (report.overnight?.filings ?? []).filter(isEarningsFiling);
   const reported = new Set(results.map((f) => clean(f.ticker)?.toUpperCase()).filter((t): t is string => !!t));
   const told = new Set<string>();
@@ -267,12 +455,20 @@ export function handoverView(report: BriefingReport, now: Date, masked: boolean,
     buckets.earnings.push(item);
   }
 
+  // Filings and insiders arrive ranked and capped by the engine; their order
+  // is kept as it is, and two names with the same record are two lines.
+  const today = nyDateOf(now);
+  for (const fact of report.research_facts?.facts ?? []) {
+    const item = fromFact(fact, text, today);
+    if (item) buckets.filings.push(item);
+  }
+
   const lead = clean(report.narrative?.text);
   const sections: HandoverSection[] = [];
   for (const kind of SECTION_ORDER) {
-    const items = dedupe(buckets[kind])
-      .slice(0, ITEMS_PER_SECTION)
-      .map((item) => masking(item, masked));
+    const items = (kind === "filings" ? buckets.filings.slice(0, MAX_BRIEFING_FACTS) : dedupe(buckets[kind]).slice(0, ITEMS_PER_SECTION)).map((item) =>
+      masking(item, masked),
+    );
     if (items.length > 0) sections.push({ kind, title: text.t(SECTION_TITLES[kind]), items });
   }
 

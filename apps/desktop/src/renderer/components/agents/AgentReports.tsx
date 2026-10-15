@@ -3,7 +3,7 @@ import { ArrowUpRight, FileText } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 import type { AgentReport } from "../../../shared/agent-types";
-import { dateTime, paragraphs, relativeTime, triggerKindLabel, verdictLabel, VERDICT_PILL } from "./agent-format";
+import { dateTime, paragraphs, relativeTime, secLinkParts, triggerKindLabel, verdictLabel, VERDICT_PILL } from "./agent-format";
 import { LABEL, SKELETON, openLink } from "./agent-ui";
 
 const TH = "px-3 py-2 font-['Geist_Mono'] text-[9.5px] font-normal uppercase tracking-[0.06em] text-[#9CA3AF]";
@@ -71,7 +71,22 @@ function ReportCard({ report, now, focused, fresh }: { report: AgentReport; now:
       <div className="mt-4 space-y-2.5">
         {paragraphs(report.summary).map((p, i) => (
           <p key={i} className="whitespace-pre-line text-[13.5px] leading-[1.65] text-[#374151]">
-            {p}
+            {secLinkParts(p).map((part, j) =>
+              part.url ? (
+                <button
+                  key={j}
+                  type="button"
+                  onClick={() => openLink(part.url)}
+                  title={part.url}
+                  className="app-no-drag inline-flex items-baseline gap-0.5 text-[#4b5563] underline decoration-[#cfcfc8] underline-offset-[3px] transition-colors hover:text-[#1d1b1b] hover:decoration-[#1d1b1b]"
+                >
+                  {part.text}
+                  <ArrowUpRight className="h-3 w-3 shrink-0 self-center" strokeWidth={2} aria-hidden />
+                </button>
+              ) : (
+                part.text
+              ),
+            )}
           </p>
         ))}
       </div>

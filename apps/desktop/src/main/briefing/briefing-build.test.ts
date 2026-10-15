@@ -297,3 +297,58 @@ function fileHash(): string {
   const name = reportFiles()[0] ?? "";
   return name.split(".")[3] ?? "";
 }
+
+describe("briefing builder: filings and insiders", () => {
+  const research = { facts: [], unavailable: [] as Array<"filings"> };
+
+  function withFacts(fn: (req: BriefingRequest) => Promise<typeof research>) {
+    return createBriefingBuilder({
+      store,
+      ports: () => ports,
+      clock: () => clock,
+      realNowMs: () => realNow,
+      userKey: () => user,
+      modelConfigured: () => configured,
+      researchFacts: fn,
+    });
+  }
+
+  it("lays the facts over a fresh report and over the cached one, and never stores them", async () => {
+    let asked = 0;
+    const b = withFacts(async (req) => {
+      asked += 1;
+      assert.deepEqual(req.watchlist, ["MSFT"]);
+      return { facts: [], unavailable: ["filings"] };
+    });
+    const fresh = await b.build({ ...REQUEST, watchlist: ["MSFT"] });
+    assert.deepEqual(fresh.report.research_facts, { facts: [], unavailable: ["filings"] });
+    const cached = await b.build({ ...REQUEST, watchlist: ["MSFT"] });
+    assert.equal(cached.source, "cache");
+    assert.deepEqual(cached.report.research_facts?.unavailable, ["filings"]);
+    assert.equal(asked, 2);
+    const stored = fs.readFileSync(path.join(dir, reportFiles()[0]!), "utf8");
+    assert.equal(stored.includes("research_facts"), false);
+  });
+
+  it("serves the report without them when the facts throw", async () => {
+    const b = withFacts(async () => {
+      throw new Error("filings folder unreadable");
+    });
+    const built = await b.build(REQUEST);
+    assert.equal(built.source, "fresh");
+    assert.equal(built.report.research_facts, undefined);
+    assert.equal(built.report.book.position_count, 2);
+  });
+
+  it("asks nothing for a demo book or a developer clock", async () => {
+    let asked = 0;
+    const b = withFacts(async () => {
+      asked += 1;
+      return research;
+    });
+    await b.build({ ...REQUEST, demo: true });
+    clock = { now: PRE_OPEN, synthetic: true };
+    await b.build(REQUEST);
+    assert.equal(asked, 0);
+  });
+});

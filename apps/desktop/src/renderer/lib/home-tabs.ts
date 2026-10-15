@@ -9,7 +9,7 @@
  */
 
 /** Every tab this build knows. A new tab is a new id here and an entry in HomePage's registry. */
-export const HOME_TAB_IDS = ["dashboard", "calendar", "agents", "earnings"] as const;
+export const HOME_TAB_IDS = ["dashboard", "calendar", "agents", "earnings", "stock", "exposure"] as const;
 export type HomeTabId = (typeof HOME_TAB_IDS)[number];
 
 /** The tab every launch opens on. */

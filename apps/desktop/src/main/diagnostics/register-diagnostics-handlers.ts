@@ -182,7 +182,7 @@ function checkWorker(): Promise<ProviderCheckResult> {
 
 function checkSupabase(): Promise<ProviderCheckResult> {
   const id = "supabase";
-  const label = "Supabase (auth + shared signal cache)";
+  const label = "Supabase (auth + shared cache)";
   return runCheck(id, label, async () => {
     const session = getRendererSession();
     const url = (session.supabaseUrl || env("SUPABASE_URL") || env("VITE_SUPABASE_URL")).replace(/\/+$/, "");

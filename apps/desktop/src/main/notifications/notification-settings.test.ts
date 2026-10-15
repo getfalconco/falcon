@@ -130,11 +130,11 @@ describe("second-order signal selection", () => {
 
   it("describes one run or a batch", () => {
     const one = describeSignalRuns([run({ incident_id: "a" })]);
-    assert.equal(one.title, "Second-order signal: NVDA");
+    assert.equal(one.title, "Second-order effect: NVDA");
     assert.match(one.body, /Export curbs widened/);
     assert.match(one.body, /2 names not priced in/);
     const many = describeSignalRuns(["a", "b", "c", "d"].map((id) => run({ incident_id: id })));
-    assert.equal(many.title, "4 new second-order signals");
+    assert.equal(many.title, "4 new second-order effects");
     assert.match(many.body, /\+1 more$/);
   });
 });

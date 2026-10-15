@@ -67,6 +67,7 @@ import {
 } from "./sources.js";
 import { emptyTickerState, TrackerStore } from "./store.js";
 import { discoverCachedTickers } from "./universe.js";
+import { filingAcceptedMs } from "../research/edgar-time.js";
 import type {
   ContextFlag,
   DailyBar,
@@ -982,6 +983,9 @@ export class TrackerEngine {
         const fresh = filings
           .filter((f) => f.accessionNumber && !known.has(f.accessionNumber))
           .sort((a, b) => a.filedAt.localeCompare(b.filedAt));
+        // Filings kept from before acceptance stamps were read as instants
+        // carry SEC's raw stamp: this read's true instant replaces it.
+        const reread = refreshAcceptance(state.filings, filings);
 
         let insiderTxnsAdded = false;
         for (const filing of fresh) {
@@ -991,7 +995,8 @@ export class TrackerEngine {
           // read as ~20 hours old: Base's freshness scored it at zero and the
           // incident could fall below the propagation dispatch band, and
           // propagation anchored its pricing reference on the wrong session.
-          const filedAtIso = filing.acceptedAt ?? `${filing.filedAt}T00:00:00.000Z`;
+          const acceptedMs = filingAcceptedMs(filing);
+          const filedAtIso = acceptedMs !== null ? new Date(acceptedMs).toISOString() : `${filing.filedAt}T00:00:00.000Z`;
 
           if (filing.form === "4") {
             await sleep(EDGAR_REQUEST_SPACING_MS);
@@ -1046,8 +1051,9 @@ export class TrackerEngine {
         // Evaluating per arrival assessed an incomplete set N times over.
         if (insiderTxnsAdded) await this.evaluateInsiderClusterFor(state, now);
 
-        // A new earnings release (8-K item 2.02) extends the rhythm history.
-        if (fresh.some(isEarningsRelease)) {
+        // A new earnings release (8-K item 2.02) extends the rhythm history;
+        // a re-read release time can move its hour.
+        if (fresh.some(isEarningsRelease) || reread.some(isEarningsRelease)) {
           state.earnings = earningsHistoryFromFilings(
             state.filings,
             this.config.windows.earningsHistoryCount,
@@ -1865,16 +1871,37 @@ export function earningsHistoryFromFilings(
     }));
 }
 
-/** "bmo" | "amc" | "dmh" from the EDGAR acceptance timestamp. */
+/**
+ * "bmo" | "amc" | "dmh" from the EDGAR acceptance timestamp, read as an
+ * instant (`filingAcceptedMs`: SEC's raw stamp is not always UTC). A release after 17:30 is dated the next business day, so
+ * against that day's session it reads "bmo": the same reaction session.
+ */
 function acceptanceHour(filing: FilingRecord): string | null {
-  if (!filing.acceptedAt) return null;
-  const accepted = new Date(filing.acceptedAt);
-  if (Number.isNaN(accepted.getTime())) return null;
+  const accepted = filingAcceptedMs(filing);
+  if (accepted === null) return null;
   const times = sessionTimes(filing.filedAt);
   if (!times) return "amc";
-  if (accepted.getTime() < times.openUtc.getTime()) return "bmo";
-  if (accepted.getTime() >= times.closeUtc.getTime()) return "amc";
+  if (accepted < times.openUtc.getTime()) return "bmo";
+  if (accepted >= times.closeUtc.getTime()) return "amc";
   return "dmh";
+}
+
+/**
+ * Lays a fresh read's acceptance instants over stored filings whose
+ * `acceptedAt` is still SEC's raw stamp (or differs from the read), by
+ * accession. Returns the filings it changed. Mutates `stored`.
+ */
+export function refreshAcceptance(stored: FilingRecord[], read: readonly FilingRecord[]): FilingRecord[] {
+  const byAccession = new Map(read.filter((f) => f.accessionNumber && f.acceptedAtUtc).map((f) => [f.accessionNumber, f]));
+  const changed: FilingRecord[] = [];
+  for (const f of stored) {
+    const r = byAccession.get(f.accessionNumber);
+    if (!r || (f.acceptedAtUtc === true && f.acceptedAt === r.acceptedAt)) continue;
+    f.acceptedAt = r.acceptedAt;
+    f.acceptedAtUtc = true;
+    changed.push(f);
+  }
+  return changed;
 }
 
 function shiftYear(ymdStr: string, years: number): string {

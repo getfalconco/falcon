@@ -32,7 +32,7 @@ export const zhCN: Partial<Messages> = {
   "search.group.trending": "热门",
   "search.group.navigate": "跳转",
   "search.nav.dashboard": "仪表盘",
-  "search.nav.dashboardHint": "投资组合、资产、洞察、风险",
+  "search.nav.dashboardHint": "投资组合、资产、传导、风险",
   "search.noResults": "未找到与“{query}”相关的结果",
   "search.noResultsOpen": "未找到与“{query}”相关的结果。按 {key} 仍然打开 {symbol}。",
 
@@ -47,7 +47,7 @@ export const zhCN: Partial<Messages> = {
   "modules.earnings": "财报",
   "modules.news": "新闻",
   "modules.risk": "风险评分",
-  "modules.insight": "洞察",
+  "modules.insight": "传导",
 
   "menu.label": "账户",
   "menu.settings": "设置",

@@ -370,7 +370,6 @@ export default function OnboardingFlow({
     }
   }
 
-  const experienceAckKey = EXPERIENCE_OPTIONS.find((o) => o.id === experience)?.acknowledgmentKey;
   const showChrome = step !== "name";
   const counted = step === "sectors" ? "holdings" : step;
   const progressIndex = COUNTED.indexOf(counted) + 1;
@@ -599,24 +598,7 @@ export default function OnboardingFlow({
                 ))}
               </div>
 
-              <div className="mt-5 flex min-h-[2.75rem] items-start justify-center">
-                <AnimatePresence mode="wait" initial={false}>
-                  {experienceAckKey ? (
-                    <motion.p
-                      key={experience}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.3, ease: EASE }}
-                      className="text-balance text-center text-sm leading-relaxed text-white/30 [word-break:auto-phrase]"
-                    >
-                      {t(experienceAckKey)}
-                    </motion.p>
-                  ) : null}
-                </AnimatePresence>
-              </div>
-
-              <OnboardingContinueButton disabled={!experience} onClick={enterDesk} className="mt-3">
+              <OnboardingContinueButton disabled={!experience} onClick={enterDesk} className="mt-6">
                 {t("auth.continue")}
               </OnboardingContinueButton>
             </OnboardingShell>

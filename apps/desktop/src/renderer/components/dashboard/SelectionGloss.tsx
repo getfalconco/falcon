@@ -324,9 +324,6 @@ export default function SelectionGloss({
                       }`}
                     >
                       {option.label}
-                      {option.showing && turkish.showing && !turkish.text && !turkish.error && (
-                        <span className="ml-1 inline-block h-1 w-1 animate-pulse rounded-full bg-[#1d1b1b]" />
-                      )}
                     </button>
                   ))}
                 </div>

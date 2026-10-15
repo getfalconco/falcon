@@ -1,11 +1,9 @@
 import type { User } from "@supabase/supabase-js";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { ArrowLeft, CalendarClock, CalendarDays, Gauge, LineChart, List, Newspaper, Radar, Sparkles, type LucideIcon } from "lucide-react";
+import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { ArrowLeft, CalendarClock, CalendarDays, Gauge, LineChart, List, Network, Newspaper, FileDiff, Radar, Route, Users, Waypoints, type LucideIcon } from "lucide-react";
 import BrandLogo from "@/components/BrandLogo";
 import GraphScreen from "@/components/graph/GraphScreen";
-import StockView from "@/components/stock/StockView";
 import DashboardSearchBar from "@/components/dashboard/DashboardSearchBar";
-import StockPeekModal from "@/components/dashboard/StockPeekModal";
 import ProfilePill from "@/components/dashboard/ProfilePill";
 import AddModuleButton from "@/components/dashboard/AddModuleButton";
 import UpdatePill from "@/components/UpdatePill";
@@ -23,6 +21,13 @@ import AgentsTab from "@/components/agents/AgentsTab";
 import AgentsCard from "@/components/agents/AgentsCard";
 import EarningsTab from "@/components/earnings/EarningsTab";
 import EarningsCard from "@/components/dashboard/EarningsCard";
+import ExposureTab from "@/components/exposure/ExposureTab";
+import ExposureCard from "@/components/exposure/ExposureCard";
+import ReadthroughCard from "@/components/readthrough/ReadthroughCard";
+import InsidersCard from "@/components/insiders/InsidersCard";
+import FilingChangesCard from "@/components/filings/FilingChangesCard";
+import { requestReadthroughView } from "@/lib/readthrough-store";
+import StockTab from "@/components/stock-tab/StockTab";
 import { onAgentsOpenRequest } from "@/components/agents/agents-store";
 import BriefingHost from "@/components/briefing/BriefingHost";
 import SettingsModal, { type SettingsSection } from "@/components/settings/SettingsModal";
@@ -70,9 +75,9 @@ import { startPortfolioCoverageSync } from "@/lib/portfolio-coverage";
 import { startRiskAccountBridge } from "@/lib/risk-account-bridge";
 import WindowControls from "@/components/WindowControls";
 import { cn } from "@/lib/utils";
-import { STOCK_OPEN_EVENT, type StockOpenDetail } from "@/lib/stock-open";
+import { stockTabStore } from "@/lib/stock-tab-store";
+import { listenForStockOpens, showStock } from "@/lib/stock-tab-nav";
 import { forgetStartScreen } from "@/lib/general-prefs";
-import type { StockCatalogEntry } from "../../shared/stock-catalog";
 import { DASHBOARD_CARD_ORDER } from "../../shared/onboarding-desk";
 import HeardAboutPrompt from "@/components/onboarding/HeardAboutPrompt";
 
@@ -98,7 +103,7 @@ const CHART_H_KEY = "falcon.ui.chartCardH";
 
 /** Cards, in the order they sit — remembered across sessions. Every card
  *  lifts, drags, and drops onto a slot or onto another card to take its place. */
-type CardBase = "portfolio" | "assets" | "calendar" | "news" | "insight" | "risk" | "agents" | "earnings";
+type CardBase = "portfolio" | "assets" | "calendar" | "news" | "insight" | "risk" | "agents" | "earnings" | "exposure" | "readthrough" | "insiders" | "filings";
 /** A card, or a copy of one made from its menu — `assets#1725...` reads as
  *  "an assets card", so everything keyed by base keeps working on copies. */
 type CardId = CardBase | `${CardBase}#${number}`;
@@ -111,9 +116,13 @@ const MODULES: ReadonlyArray<{ id: CardBase; labelKey: MessageKey; icon: LucideI
   { id: "calendar", labelKey: "modules.calendar", icon: CalendarDays },
   { id: "news", labelKey: "modules.news", icon: Newspaper },
   { id: "risk", labelKey: "modules.risk", icon: Gauge },
-  { id: "insight", labelKey: "modules.insight", icon: Sparkles },
+  { id: "insight", labelKey: "modules.insight", icon: Route },
   { id: "agents", labelKey: "modules.agents", icon: Radar },
   { id: "earnings", labelKey: "modules.earnings", icon: CalendarClock },
+  { id: "exposure", labelKey: "modules.exposure", icon: Network },
+  { id: "readthrough", labelKey: "modules.readthrough", icon: Waypoints },
+  { id: "insiders", labelKey: "modules.insiders", icon: Users },
+  { id: "filings", labelKey: "modules.filings", icon: FileDiff },
 ];
 
 /**
@@ -128,6 +137,8 @@ const HOME_TABS: Readonly<Record<HomeTabId, HomeTab>> = {
   calendar: { labelKey: "home.tab.calendar", Component: CalendarTab },
   agents: { labelKey: "home.tab.agents", Component: AgentsTab },
   earnings: { labelKey: "home.tab.earnings", Component: EarningsTab },
+  stock: { labelKey: "stocktab.tab.label", Component: StockTab },
+  exposure: { labelKey: "home.tab.exposure", Component: ExposureTab },
 };
 /**
  * Each registry tab's body, made once: the panels keep every opened tab
@@ -261,16 +272,16 @@ export default function HomePage({ userName, user, callName, userEmail, onSignOu
   // Every launch opens on the Dashboard; the start-screen choice is retired
   // and what it kept is dropped once (lib/general-prefs).
   useEffect(() => forgetStartScreen(), []);
-  const [view, setView] = useState<"dashboard" | "stock" | "graph">("dashboard");
-  // Ticker picked from the top search bar — opens the stock screen in place.
-  const [stock, setStock] = useState<StockCatalogEntry | null>(null);
-  // ⌘K's pick opens as a glass peek over the dashboard, not the stock view.
-  const [peek, setPeek] = useState<StockCatalogEntry | null>(null);
+  const [view, setView] = useState<"dashboard" | "graph">("dashboard");
+  // The stock the Stock tab shows; its strip pill reads the ticker.
+  const stocks = stockTabStore();
+  const openSymbol = useSyncExternalStore(stocks.subscribe, () => stocks.get().current?.symbol ?? null);
 
   /**
-   * The tab beside the greeting, under the screens above: a stock or the
-   * graph opens over whichever tab is in front, and their back button returns
-   * to it. The Dashboard on every launch. The order is the reader's, dragged.
+   * The tab beside the greeting, under the graph: the graph opens over
+   * whichever tab is in front, and its back button returns to it. A stock is
+   * a tab of its own (Stock). The Dashboard on every launch. The order is the
+   * reader's, dragged.
    */
   // Kept in a store, not in this page's state: a switch then redraws the
   // strip, the heading and the panels (components/dashboard/HomeTabPanels),
@@ -281,11 +292,11 @@ export default function HomePage({ userName, user, callName, userEmail, onSignOu
   const mainRef = useRef<HTMLElement | null>(null);
   const viewRef = useRef(view);
   viewRef.current = view;
-  /** A stock or the graph stands where the tabs do. */
-  const tabsHidden = view === "graph" || (view === "stock" && stock !== null);
+  /** The graph stands where the tabs do. */
+  const tabsHidden = view === "graph";
   /** One of this page's own dialogs is up (they close themselves before opening a tab). */
   const ownDialogRef = useRef(false);
-  ownDialogRef.current = settingsOpen || plansOpen || changelogOpen || languageOpen || peek !== null;
+  ownDialogRef.current = settingsOpen || plansOpen || changelogOpen || languageOpen;
   /**
    * The tab in front, when a dialog it opened is showing. Opened tabs are
    * kept mounted behind the front one, but a tab left with a dialog up (a
@@ -316,7 +327,7 @@ export default function HomePage({ userName, user, callName, userEmail, onSignOu
     },
     [tabStore, tabWithDialog],
   );
-  /** A stock or the graph opens over the tabs, which are kept behind it, unless a dialog is up in the front one. */
+  /** The graph opens over the tabs, which are kept behind it, unless a dialog is up in the front one. */
   const leaveTabs = useCallback(() => {
     const evict = tabWithDialog();
     if (evict) tabStore.evict(evict);
@@ -804,6 +815,29 @@ export default function HomePage({ userName, user, callName, userEmail, onSignOu
             onOpenEarnings={() => openTab("earnings")}
           />
         );
+      case "exposure":
+        return (
+          <ExposureCard
+            onDuplicate={() => duplicateCard(id)}
+            onRemove={() => removeCard(id)}
+            onOpenExposure={() => openTab("exposure")}
+          />
+        );
+      case "readthrough":
+        return (
+          <ReadthroughCard
+            onDuplicate={() => duplicateCard(id)}
+            onRemove={() => removeCard(id)}
+            onOpenReadthrough={() => {
+              openTab("earnings");
+              requestReadthroughView();
+            }}
+          />
+        );
+      case "insiders":
+        return <InsidersCard onDuplicate={() => duplicateCard(id)} onRemove={() => removeCard(id)} />;
+      case "filings":
+        return <FilingChangesCard onDuplicate={() => duplicateCard(id)} onRemove={() => removeCard(id)} />;
     }
   };
 
@@ -870,20 +904,10 @@ export default function HomePage({ userName, user, callName, userEmail, onSignOu
   // positions + cash to the main-process host on every change (it debounces).
   useEffect(() => startRiskAccountBridge(), []);
 
-  // A name picked anywhere in the dashboard — the Insight panel's rail today —
-  // opens the stock view, exactly as choosing it in the search bar does.
-  useEffect(() => {
-    const onOpen = (event: Event) => {
-      const detail = (event as CustomEvent<StockOpenDetail>).detail;
-      const symbol = detail?.ticker?.trim().toUpperCase();
-      if (!symbol) return;
-      leaveTabs();
-      setStock({ symbol, companyName: detail.companyName ?? symbol });
-      setView("stock");
-    };
-    window.addEventListener(STOCK_OPEN_EVENT, onOpen);
-    return () => window.removeEventListener(STOCK_OPEN_EVENT, onOpen);
-  }, [leaveTabs]);
+  // A name picked anywhere in the app (a ticker in Positions, Earnings,
+  // Calendar, News, Agents, the Insight rail) opens it in the Stock tab,
+  // exactly as choosing it in the search bar does.
+  useEffect(() => listenForStockOpens(window, stocks, openTab), [stocks, openTab]);
 
   // Coverage: any symbol the user holds that the system does not yet know is
   // auto-added to the Tracker universe and gets a relationship-graph (step1)
@@ -923,7 +947,7 @@ export default function HomePage({ userName, user, callName, userEmail, onSignOu
       {/* Stock search — centred in the top bar between brand and controls */}
       <DashboardSearchBar
         className="absolute left-1/2 top-4 z-50 w-[min(26rem,calc(100vw-28rem))] -translate-x-1/2"
-        onSelect={(entry) => setPeek(entry)}
+        onSelect={(entry) => showStock(stocks, openTab, entry)}
         onNavigate={() => setView("dashboard")}
       />
 
@@ -980,9 +1004,7 @@ export default function HomePage({ userName, user, callName, userEmail, onSignOu
         ref={mainRef}
         store={tabStore}
         className="h-full overflow-x-hidden overflow-y-auto pt-16"
-        label={(tab) =>
-          view === "stock" ? t("home.view.stock") : view === "graph" ? t("home.view.graph") : t(HOME_TABS[tab].labelKey)
-        }
+        label={(tab) => (view === "graph" ? t("home.view.graph") : t(HOME_TABS[tab].labelKey))}
       >
         {view === "graph" ? (
           <div className="app-no-drag flex h-full min-h-0 flex-col px-8 pb-6 pt-6">
@@ -1001,28 +1023,8 @@ export default function HomePage({ userName, user, callName, userEmail, onSignOu
               <GraphScreen />
             </div>
           </div>
-        ) : view === "stock" && stock ? (
-          <div className="app-no-drag flex h-full min-h-0 flex-col px-8 pb-6 pt-6">
-            <button
-              type="button"
-              onClick={() => setView("dashboard")}
-              className="mb-4 flex w-fit items-center gap-1.5 text-[13px] text-[#6b7280] transition-colors hover:text-[#1d1b1b]"
-            >
-              <ArrowLeft className="h-3.5 w-3.5" strokeWidth={2} aria-hidden />
-              {/* Back to the tab the stock opened over — Calendar, when it was picked there. */}
-              <OnHomeTab store={tabStore}>{(tab) => t(HOME_TABS[tab].labelKey)}</OnHomeTab>
-            </button>
-            <div className="min-h-0 flex-1">
-              <StockView
-                key={stock.symbol}
-                symbol={stock.symbol}
-                companyName={stock.companyName}
-                exchange={stock.exchange}
-              />
-            </div>
-          </div>
         ) : null}
-        {/* The tabs: under a stock or the graph they are kept, not unmounted,
+        {/* The tabs: under the graph they are kept, not unmounted,
             so the way back is a switch and not a fresh mount. */}
         <div style={tabsHidden ? KEPT : undefined} aria-hidden={tabsHidden || undefined}>
             {/* Greeting — it stays put while the page scrolls: it sticks at
@@ -1030,9 +1032,9 @@ export default function HomePage({ userName, user, callName, userEmail, onSignOu
                 clears the top bar, and sticky offsets are measured inside the
                 padding), on the page's own background,
                 with a short fade below so cards slide under it softly. The tab
-                strip stands on its row, centred on the type; a stock or the
-                graph has neither. On a tab other than the dashboard the
-                heading names that tab. */}
+                strip stands on its row, centred on the type; the graph has
+                neither. On a tab other than the dashboard the heading names
+                that tab, and the Stock tab's pill names the open stock. */}
             <div className="sticky top-0 z-20 flex select-none flex-wrap items-center gap-x-6 gap-y-2 bg-background pb-2 pl-9 pr-8 pt-1">
               {/* Fills the strip between the top bar's solid band and this row,
                   where the bar only fades out, so nothing scrolls through it. */}
@@ -1045,7 +1047,11 @@ export default function HomePage({ userName, user, callName, userEmail, onSignOu
                       {tab === "dashboard" ? t(greetingKey, { name: firstName }) : t(HOME_TABS[tab].labelKey)}
                     </span>
                     <HomeTabStrip
-                      tabs={tabOrder.map((id) => ({ id, label: t(HOME_TABS[id].labelKey), icon: HOME_TABS[id].icon }))}
+                      tabs={tabOrder.map((id) => ({
+                        id,
+                        label: id === "stock" && openSymbol ? openSymbol : t(HOME_TABS[id].labelKey),
+                        icon: HOME_TABS[id].icon,
+                      }))}
                       active={tab}
                       onSelect={openTab}
                       onReorder={setTabOrder}
@@ -1134,8 +1140,6 @@ export default function HomePage({ userName, user, callName, userEmail, onSignOu
             />
         </div>
       </HomeTabMain>
-
-      <StockPeekModal entry={peek} onClose={() => setPeek(null)} />
 
       {/* The handover briefing: opens by itself once per session before the
           US open, and from Shift+M or its card at any other time. One host,

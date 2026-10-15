@@ -92,14 +92,55 @@ function HandoverLine({ item, onOpenStock }: { item: HandoverItem; onOpenStock: 
   );
 }
 
+/**
+ * One filings and insiders record: the ticker as plain text (it opens the
+ * Stock tab) and the record's title, which opens the filing on SEC.gov. The
+ * hover names the form, the date and where the click goes. One line, no
+ * "See more": the filing is the more.
+ */
+function FactLine({ item, onOpenStock }: { item: HandoverItem; onOpenStock: (ticker: string) => void }) {
+  const hint = item.hint ?? undefined;
+  return (
+    <li className="flex items-baseline gap-2 py-2">
+      {item.ticker !== null && (
+        <button
+          type="button"
+          onClick={() => onOpenStock(item.ticker!)}
+          className="app-no-drag shrink-0 text-[12px] font-medium text-[#4b5563] hover:text-[#1d1b1b] hover:underline focus-visible:underline focus-visible:outline-none"
+        >
+          {item.subject}
+        </button>
+      )}
+      {item.url !== null ? (
+        <button
+          type="button"
+          onClick={() => openArticle(item.url!)}
+          title={hint}
+          className="app-no-drag min-w-0 flex-1 truncate text-left text-[13.5px] leading-[1.5] text-[#1d1b1b] underline-offset-2 hover:underline focus-visible:underline focus-visible:outline-none"
+        >
+          {item.summary}
+        </button>
+      ) : (
+        <p title={hint} className="min-w-0 flex-1 truncate text-[13.5px] leading-[1.5] text-[#1d1b1b]">
+          {item.summary}
+        </p>
+      )}
+    </li>
+  );
+}
+
 function Section({ section, onOpenStock }: { section: HandoverSection; onOpenStock: (ticker: string) => void }) {
   return (
     <section className="mt-5 first:mt-0">
       <h3 className={cn(HEAD_CLASS, "select-none")}>{section.title}</h3>
       <ul className="mt-1 divide-y divide-black/[0.05]">
-        {section.items.map((item) => (
-          <HandoverLine key={item.id} item={item} onOpenStock={onOpenStock} />
-        ))}
+        {section.items.map((item) =>
+          section.kind === "filings" ? (
+            <FactLine key={item.id} item={item} onOpenStock={onOpenStock} />
+          ) : (
+            <HandoverLine key={item.id} item={item} onOpenStock={onOpenStock} />
+          ),
+        )}
       </ul>
     </section>
   );
@@ -179,7 +220,7 @@ function HandoverContent({ titleId, masked, onClose }: { titleId: string; masked
     );
   }
 
-  const partial = report !== null && report.degraded.length > 0;
+  const partial = report !== null && (report.degraded.length > 0 || (report.research_facts?.unavailable.length ?? 0) > 0);
 
   return (
     <>

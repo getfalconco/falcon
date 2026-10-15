@@ -125,6 +125,15 @@ export function createSectorCache(deps: SectorCacheDeps) {
       if (!entry || typeof entry.at !== "number" || entry.sector === undefined) return undefined;
       return now() - entry.at < SECTOR_TTL_MS ? entry.sector : undefined;
     },
+    /** Every symbol with a fresh sector on record, without asking the provider (the Stock tab's sector peers). */
+    known(): Array<{ symbol: string; sector: CalendarSector }> {
+      const nowMs = now();
+      const out: Array<{ symbol: string; sector: CalendarSector }> = [];
+      for (const [symbol, entry] of Object.entries(load().symbols)) {
+        if (entry && typeof entry.at === "number" && entry.sector && nowMs - entry.at < SECTOR_TTL_MS) out.push({ symbol, sector: entry.sector });
+      }
+      return out;
+    },
     flush,
   };
 }

@@ -69,7 +69,7 @@ export async function getLiveQuote(
   if (!bridge?.getLiveQuote) {
     return {
       ok: false,
-      error: "Live quotes unavailable — quit the app completely and run pnpm dev:desktop again.",
+      error: "Live quotes unavailable. Quit the app completely and run pnpm dev:desktop again.",
     };
   }
   return bridge.getLiveQuote(symbol);

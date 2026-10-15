@@ -215,8 +215,15 @@ export type FilingRecord = {
   form: string;
   accessionNumber: string;
   filedAt: string; // "YYYY-MM-DD"
-  /** EDGAR acceptance timestamp (ISO) — resolves bmo/amc for earnings 8-Ks. */
+  /**
+   * EDGAR acceptance timestamp (ISO) — resolves bmo/amc for earnings 8-Ks.
+   * The true instant when `acceptedAtUtc` is set (read at fetch time, see
+   * research/edgar-time.ts); SEC's raw stamp on records kept from before.
+   * Read it through `filingAcceptedMs`, never `Date.parse`.
+   */
   acceptedAt: string | null;
+  /** True when `acceptedAt` is the true UTC instant rather than SEC's raw stamp. */
+  acceptedAtUtc?: boolean;
   reportDate: string | null; // period end "YYYY-MM-DD"
   /** 8-K item codes, straight from the submissions index (e.g. ["2.02","9.01"]). */
   items: string[];

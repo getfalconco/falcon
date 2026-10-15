@@ -55,9 +55,9 @@ export const fr: Table = {
   "settings.privacy.cat.portfolio": "Couverture du portefeuille",
   "settings.privacy.cat.portfolioDescription": "Les positions que Falcon a étudiées ou mises en file d'attente.",
   "settings.privacy.cat.research": "Graphes d'entreprises et dépôts SEC",
-  "settings.privacy.cat.insight": "Explications des signaux",
-  "settings.privacy.cat.insightDescription": "Explications écrites des signaux, partagées par tous les comptes.",
-  "settings.privacy.cat.news": "Événements d'actualité et signaux",
+  "settings.privacy.cat.insight": "Explications des événements",
+  "settings.privacy.cat.insightDescription": "Explications écrites des événements, partagées par tous les comptes.",
+  "settings.privacy.cat.news": "Événements d'actualité et exécutions de propagation",
   "settings.privacy.cat.risk": "Moteur de risque",
   "settings.privacy.cat.riskDescription":
     "Mesures de risque, avec une copie de votre compte fictif lorsque le moteur tourne ici.",
@@ -86,9 +86,9 @@ export const fr: Table = {
     "Alimente les panneaux des moteurs de marché pour cette installation. Votre compte fictif y est envoyé pour calculer la mesure de risque. Les tickers que vous détenez et suivez y sont aussi envoyés, pour que les moteurs les surveillent.",
   "settings.privacy.to.model": "Claude API ({host})",
   "settings.privacy.to.modelDescription":
-    "Tickers, texte public des dépôts SEC, titres d'actualité et, pour la lecture de Falcon, le texte de l'article que vous ouvrez. Pour votre briefing : les tickers de vos plus grosses positions, classés seulement comme grandes, moyennes ou petites, et les variations en pourcentage, jamais de montants en dollars, de nombres d'actions ni de liquidités. Les questions saisies dans le chat Insight, ce que vous demandez à vos agents et le texte que vous sélectionnez pour une explication. Jamais votre nom, votre e-mail ni les instructions de votre profil.",
+    "Tickers, texte public des dépôts SEC, titres d'actualité et, pour la lecture de Falcon, le texte de l'article que vous ouvrez. Pour votre briefing : les tickers de vos plus grosses positions, classés seulement comme grandes, moyennes ou petites, et les variations en pourcentage, jamais de montants en dollars, de nombres d'actions ni de liquidités. Les questions saisies dans le chat d'un événement, ce que vous demandez à vos agents et le texte que vous sélectionnez pour une explication. Jamais votre nom, votre e-mail ni les instructions de votre profil.",
   "settings.privacy.to.modelDescriptionWorker":
-    "Tickers, texte public des dépôts SEC, titres d'actualité et, pour la lecture de Falcon, le texte de l'article que vous ouvrez. Pour votre briefing : les tickers de vos plus grosses positions, classés seulement comme grandes, moyennes ou petites, et les variations en pourcentage, jamais de montants en dollars, de nombres d'actions ni de liquidités. Les questions saisies dans le chat Insight, ce que vous demandez à vos agents et le texte que vous sélectionnez pour une explication. Jamais votre nom, votre e-mail ni les instructions de votre profil. Ces requêtes passent par le serveur de recherche de Falcon, qui vérifie votre session puis les transmet.",
+    "Tickers, texte public des dépôts SEC, titres d'actualité et, pour la lecture de Falcon, le texte de l'article que vous ouvrez. Pour votre briefing : les tickers de vos plus grosses positions, classés seulement comme grandes, moyennes ou petites, et les variations en pourcentage, jamais de montants en dollars, de nombres d'actions ni de liquidités. Les questions saisies dans le chat d'un événement, ce que vous demandez à vos agents et le texte que vous sélectionnez pour une explication. Jamais votre nom, votre e-mail ni les instructions de votre profil. Ces requêtes passent par le serveur de recherche de Falcon, qui vérifie votre session puis les transmet.",
   "settings.privacy.to.market": "Données de marché ({hosts})",
   "settings.privacy.to.marketDescription":
     "Symboles et identifiants d'entreprises, pour obtenir actualités, cours, dépôts et la liste des symboles. Rien sur vous.",
@@ -203,7 +203,7 @@ export const fr: Table = {
     "Ce système n'a aucun service de notification utilisable par Falcon, rien ne peut donc être envoyé.",
   "settings.notifications.allow": "Autoriser les notifications",
   "settings.notifications.sound": "Son",
-  "settings.notifications.cat.secondOrder": "Signaux de second ordre",
+  "settings.notifications.cat.secondOrder": "Effets de second ordre",
   "settings.notifications.cat.marketEvents": "Événements de marché",
   "settings.notifications.cat.appUpdates": "Mises à jour de l'application",
   "settings.notifications.cat.agents": "Agents",

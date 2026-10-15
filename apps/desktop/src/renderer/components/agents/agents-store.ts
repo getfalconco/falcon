@@ -2,6 +2,8 @@ import { useSyncExternalStore } from "react";
 import { agentsClient, agentsSource, subscribeAgentsSource, type AgentsEvent, type AgentsSource } from "@/lib/agents-client";
 import { getLanguage } from "@/lib/i18n";
 import { translate } from "@/lib/i18n/translate";
+import { readPaperAccount } from "@/lib/paper-account";
+import { createFocus, filingChangesWatchDraft } from "./agent-prefill";
 import type {
   Agent,
   AgentDetail,
@@ -41,6 +43,12 @@ export type AgentsFocus =
       brief?: string;
       /** A name to start with; when absent the create flow suggests one from the words. */
       name?: string;
+      /**
+       * A draft built by the screen that asked (`agent-prefill.ts`): the flow
+       * opens on its confirm step and nothing is sent to be read. `brief` and
+       * `name` are the draft's, in the reader's language.
+       */
+      draft?: AgentDraft;
     };
 
 export type AgentsSnapshot = {
@@ -260,8 +268,19 @@ function applyAgent(agent: Agent): void {
   set((s) => ({ agents: upsertAgent(s.agents, agent), ...withDetail(agent.id, (d) => ({ ...d, agent })) }));
 }
 
+/** The open positions, so "companies linked to my holdings" can name them (the starters read the same account). */
+function heldTickers(): string[] {
+  try {
+    return Object.values(readPaperAccount().positions)
+      .filter((p) => p && Number.isFinite(p.shares) && p.shares !== 0)
+      .map((p) => p.symbol.toUpperCase());
+  } catch {
+    return [];
+  }
+}
+
 export function draftFromBrief(brief: string): Promise<AgentResult<AgentDraft>> {
-  return call((c) => c.draftFromBrief(brief));
+  return call((c) => c.draftFromBrief(brief, { held: heldTickers() }));
 }
 
 export async function createAgent(draft: AgentDraft): Promise<AgentResult<Agent>> {
@@ -339,16 +358,35 @@ export function openAgent(id: string, view?: AgentSubview, reportId?: string): v
 }
 
 /**
- * Ask the app to open the Agents tab on the create flow, with the instruction
- * already written when one is given, and the name when one is (else the flow
- * suggests one from the words, "NVDA earnings").
+ * Ask the app to open the Agents tab on the create flow.
+ *
+ *   openCreateAgent(words, name?)  the instruction already written, and the
+ *                                  name when one is given (else the flow
+ *                                  suggests one, "NVDA earnings"); Next sends
+ *                                  the words to be read as usual
+ *   openCreateAgent(draft)         a draft built by the screen that knows
+ *                                  what to watch (`agent-prefill.ts`): the
+ *                                  flow opens on "Did we understand you?"
+ *                                  with the trigger set, and nothing is read,
+ *                                  so it works in any language with the model
+ *                                  unreachable
  */
-export function openCreateAgent(brief?: string, name?: string): void {
-  const text = brief?.trim();
-  const named = name?.trim();
-  const focus: AgentsFocus = { kind: "create", seq: ++focusSeq, ...(text ? { brief: text } : {}), ...(named ? { name: named } : {}) };
+export function openCreateAgent(briefOrDraft?: string | AgentDraft, name?: string): void {
+  const focus = createFocus(briefOrDraft, name, ++focusSeq);
   set({ focus });
   for (const fn of openListeners) fn(focus);
+}
+
+/**
+ * The create flow, started on a filing changes watch for one company, every
+ * kind of change, with the starter's words and name in the reader's language
+ * (the Filing changes card and Stock tab section). The trigger is set here,
+ * not read from the words.
+ */
+export function openFilingChangesAgent(ticker: string): void {
+  const t = ticker.trim().toUpperCase();
+  if (!t) return;
+  openCreateAgent(filingChangesWatchDraft({ ticker: t }, getLanguage()));
 }
 
 /** Told whenever something asks for the Agents tab: HomePage switches to it. */

@@ -37,6 +37,11 @@ export type BriefingHolding = {
 export type BriefingRequest = {
   holdings: BriefingHolding[];
   cash: number;
+  /**
+   * The reader's watchlist. Only the filings and insiders facts read it; the
+   * report itself, and the key it is stored under, are the book's alone.
+   */
+  watchlist?: string[];
   /** A demo book is never sent to a model and never persisted. */
   demo?: boolean;
   /** Skip the report cache (the manual refresh). */
@@ -465,6 +470,143 @@ export type Story = {
 };
 
 // ---------------------------------------------------------------------------
+// Filings and insiders — facts from the desktop's own SEC readers
+// ---------------------------------------------------------------------------
+
+/**
+ * One fact about a name the reader holds or watches, read from what the
+ * filing changes, insider activity and read-through modules already keep. A
+ * fact is a record, never a reading of it: the form, the date, the link on
+ * sec.gov and the figures the filing or the measurement states. The panel
+ * words it; no model sees it and none writes about it.
+ *
+ * red_flag            a restatement (8-K 4.02), auditor change (4.01 or a new
+ *                     name), going concern, material weakness or late filing
+ *                     notice that the filing before did not carry
+ * insider             a Form 4 cluster, a large purchase or unplanned sale, a
+ *                     13D or 13G, above the insider module's significance bar
+ * linked_report       a supplier, customer or competitor of a held name
+ *                     reporting this session or the next, with how the held
+ *                     name has measured on its past report days
+ * risk_factor         new risk factor headings in the latest 10-K or 10-Q
+ * counterparty_named  a customer or supplier named for the first time
+ * share_change        a customer's stated share of revenue or receivables moved
+ */
+export type BriefingFactKind =
+  | "red_flag"
+  | "insider"
+  | "linked_report"
+  | "risk_factor"
+  | "counterparty_named"
+  | "share_change";
+
+export type BriefingFactSource = "filings" | "insiders" | "readthrough" | "guidance";
+
+export type BriefingRedFlag =
+  | "restatement"
+  | "going_concern"
+  | "material_weakness"
+  | "auditor_change"
+  | "auditor_name"
+  | "late_filing";
+
+export type BriefingInsiderKind =
+  | "purchase_cluster"
+  | "large_purchase"
+  | "sale_cluster"
+  | "unplanned_sale"
+  | "large_unplanned_sale"
+  | "activist_13d"
+  | "activist_13d_amendment"
+  | "new_holder_13g";
+
+export type BriefingInsiderRole = "ceo" | "cfo" | "officer" | "director" | "owner10" | "other";
+
+type BriefingFactBase = {
+  /** Stable for the same record: kind, name and filing. */
+  id: string;
+  /** The reader's name the fact is about. */
+  ticker: string;
+  scope: "held" | "watchlist";
+  /** NY calendar date: the filing date, or the linked company's report date. */
+  date: string;
+  /** The filing on sec.gov; null when the record carries no SEC address. */
+  url: string | null;
+  /** The form as EDGAR lists it ("10-K", "8-K", "4", "SC 13D"); null when there is none. */
+  form: string | null;
+};
+
+export type BriefingFact =
+  | (BriefingFactBase & {
+      kind: "red_flag";
+      flag: BriefingRedFlag;
+      /** The new auditor's name (auditor_name). */
+      name: string | null;
+      /** The earlier auditor (auditor_name). */
+      previous: string | null;
+    })
+  | (BriefingFactBase & {
+      kind: "insider";
+      event: BriefingInsiderKind;
+      /** Distinct insiders (0 for a 13D or 13G). */
+      insiders: number;
+      /** Total value of the trades as filed, USD; null when no line had a price. */
+      value_usd: number | null;
+      /** The most senior role among them, CEO and CFO first. */
+      role: BriefingInsiderRole | null;
+      /** The holder that filed a 13D or 13G. */
+      filer: string | null;
+      /** The insider module's significance, 0 to 100. */
+      score: number;
+    })
+  | (BriefingFactBase & {
+      kind: "linked_report";
+      /** The company that reports. */
+      counterparty: string;
+      /** What it is to `ticker`, as the filing puts it. */
+      relation: "supplier" | "customer" | "competitor";
+      time: "bmo" | "amc" | "dmh" | "unknown";
+      /** True when it reports on the session this report hands over to. */
+      on_session: boolean;
+      /** Past reports measured; no figure below is set under three. */
+      sample: number;
+      /** Of the measured reports, how many the held name's move beyond the market had the reporter's sign. */
+      with_it: number | null;
+      /** Mean size of the held name's move on those sessions, in percent. */
+      avg_abs_move_pct: number | null;
+    })
+  | (BriefingFactBase & {
+      kind: "risk_factor";
+      /** New headings in this filing. */
+      count: number;
+      /** The first new heading, verbatim. */
+      heading: string | null;
+    })
+  | (BriefingFactBase & {
+      kind: "counterparty_named";
+      role: "customer" | "supplier";
+      name: string;
+      /** Share of revenue the filing states, percent; null when none. */
+      pct: number | null;
+    })
+  | (BriefingFactBase & {
+      kind: "share_change";
+      name: string;
+      /** "revenue" or "receivables", as the filing states the share. */
+      basis: "revenue" | "receivables";
+      pct: number;
+      /** Null when the filing before stated no share for this customer. */
+      previous_pct: number | null;
+    });
+
+export type BriefingResearchFacts = {
+  /** Ranked (red flags, insider clusters, linked reports this session, new risk factors, the rest) and capped. */
+  facts: BriefingFact[];
+  /** Sources that were asked and failed or timed out; the facts stand without them. */
+  unavailable: BriefingFactSource[];
+};
+
+// ---------------------------------------------------------------------------
 // Narrative
 // ---------------------------------------------------------------------------
 
@@ -534,6 +676,12 @@ export type BriefingReport = {
   implications: Implication[];
   /** The one- or two-sentence lead over the stories. */
   narrative: BriefingNarrative;
+  /**
+   * Filing changes, insider activity and linked reports on the reader's
+   * names, attached by the desktop host when the report is served (not part
+   * of the narrative's facts, and absent from a stored or demo report).
+   */
+  research_facts?: BriefingResearchFacts;
   facts_hash: string;
   degraded: BriefingDegraded[];
 };

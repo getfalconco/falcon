@@ -138,7 +138,7 @@ function providers(env: OverviewEnv, ctx: OverviewContext): EngineProviderStatus
   list.push({
     id: "supabase",
     label: "Supabase",
-    usedFor: "Sign-in and the shared signal cache",
+    usedFor: "Sign-in and the shared cache",
     configured: Boolean(supabaseUrl),
     keyless: false,
     host: supabaseUrl ? hostOf(supabaseUrl) : "not set",
@@ -157,7 +157,7 @@ function localModels(env: OverviewEnv, ctx: OverviewContext, workerUrl: string |
         where: "this app",
       };
   return [
-    { id: "insight", label: "Insight explanations and chat", model: ctx.models.insight, where: "this app" },
+    { id: "insight", label: "Event explanations and chat", model: ctx.models.insight, where: "this app" },
     { id: "gloss", label: "Highlight to explain", model: ctx.models.gloss, where: "this app" },
     {
       id: "briefing",

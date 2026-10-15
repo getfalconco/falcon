@@ -8,6 +8,7 @@ import AgentDetail from "./AgentDetail";
 import AgentList from "./AgentList";
 import AgentWizard from "./AgentWizard";
 import { matchesQuery, sortAgents, type StatusFilter } from "./agent-format";
+import type { WizardStart } from "./agent-wizard";
 import { BUTTON, SKELETON, SURFACE, useNow } from "./agent-ui";
 import { refreshAgents, useAgents, type AgentSubview } from "./agents-store";
 
@@ -76,7 +77,7 @@ export default function AgentsTab() {
   const [mode, setMode] = useState<Mode>({ kind: "agent", view: "overview" });
   const [wizardOpen, setWizardOpen] = useState(false);
   /** A brief handed in from elsewhere (an earnings row), for the wizard to start from. */
-  const [wizardBrief, setWizardBrief] = useState<{ text: string; name?: string; seq: number } | null>(null);
+  const [wizardBrief, setWizardBrief] = useState<WizardStart | null>(null);
   const listRef = useRef<HTMLDivElement>(null);
 
   const sorted = useMemo(() => sortAgents(snap.agents), [snap.agents]);
@@ -104,7 +105,7 @@ export default function AgentsTab() {
     if (f.kind === "agent" && snap.phase !== "ready" && !snap.agents.some((a) => a.id === f.id)) return;
     appliedSeq.current = f.seq;
     if (f.kind === "create") {
-      if (f.brief) setWizardBrief({ text: f.brief, ...(f.name ? { name: f.name } : {}), seq: f.seq });
+      if (f.brief) setWizardBrief({ text: f.brief, ...(f.name ? { name: f.name } : {}), ...(f.draft ? { draft: f.draft } : {}), seq: f.seq });
       setWizardOpen(true);
       return;
     }

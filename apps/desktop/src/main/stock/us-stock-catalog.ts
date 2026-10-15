@@ -6,7 +6,7 @@ export type StockCatalogEntry = {
 
 const NASDAQ_LISTED_URL = "https://www.nasdaqtrader.com/dynamic/SymDir/nasdaqlisted.txt";
 const OTHER_LISTED_URL = "https://www.nasdaqtrader.com/dynamic/SymDir/otherlisted.txt";
-const FETCH_HEADERS = { "User-Agent": "Mozilla/5.0 (compatible; Meridian Desktop/0.1)" };
+const FETCH_HEADERS = { "User-Agent": "Mozilla/5.0 (compatible; Falcon Desktop/0.1)" };
 
 let catalogPromise: Promise<StockCatalogEntry[]> | null = null;
 

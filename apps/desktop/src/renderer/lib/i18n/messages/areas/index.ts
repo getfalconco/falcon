@@ -15,6 +15,13 @@ import * as developer from "./developer";
 import * as instruments from "./instruments";
 import * as earnings from "./earnings";
 import * as access from "./access";
+import * as stocktab from "./stocktab";
+import * as exposure from "./exposure";
+import * as readthrough from "./readthrough";
+import * as insiders from "./insiders";
+import * as filings from "./filings";
+import * as guidance from "./guidance";
+import * as implied from "./implied";
 
 /**
  * Per-area message files, merged onto the core tables in `../index.ts`. One
@@ -22,7 +29,7 @@ import * as access from "./access";
  * edits the same file. A new area: add a file shaped like the others and list
  * it here.
  */
-const AREAS = [settings, plans, changelog, shell, dashboard, stock, briefing, agents, calendar, panels, instruments, auth, system, developer, earnings, access] as const;
+const AREAS = [settings, plans, changelog, shell, dashboard, stock, briefing, agents, calendar, panels, instruments, auth, system, developer, earnings, access, stocktab, exposure, readthrough, insiders, filings, guidance, implied] as const;
 
 export const AREA_EN = {
   ...settings.en,
@@ -41,6 +48,13 @@ export const AREA_EN = {
   ...developer.en,
   ...earnings.en,
   ...access.en,
+  ...stocktab.en,
+  ...exposure.en,
+  ...readthrough.en,
+  ...insiders.en,
+  ...filings.en,
+  ...guidance.en,
+  ...implied.en,
 };
 
 type AreaTable = Partial<Record<keyof typeof AREA_EN, string>>;

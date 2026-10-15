@@ -1,6 +1,7 @@
 import { repairMojibake } from "@meridian/research/news";
 import { CLAUDE_WRITING_MODEL, anthropicGlossCaller, glossConfigured } from "@meridian/research/gloss";
 import { createFileStore, decodeEscapes, hash, readCloudRow, writeCloudRow } from "./explanation-cache";
+import { PROMPT_COPY_RULE } from "../../shared/copy-rules";
 import type {
   InsightExplanation,
   InsightExplanationRequest,
@@ -50,9 +51,12 @@ Return JSON only:
 - "summary": 2-3 sentences. What actually happened, and why it matters to the
   companies connected to it. Never restate the headline verbatim.
 - "points": 2-4 lines, each under 110 characters. How the effect travels to the
-  related names, and what would confirm or kill the read. No bullet characters.
+  related names, and which facts in the input the read rests on. No bullet
+  characters.
 
-Never invent numbers, dates, filings or quotes that are not in the input.`;
+Never invent numbers, dates, filings or quotes that are not in the input.
+
+${PROMPT_COPY_RULE}`;
 
 const store = createFileStore<InsightExplanation>("explanations.json");
 
@@ -78,7 +82,7 @@ function buildUser(req: InsightExplanationRequest): string {
     lines.push("Related names the event reaches:");
     for (const t of targets) {
       lines.push(
-        `- ${t.ticker}${t.label ? ` (${t.label})` : ""}${t.mechanism ? ` — ${t.mechanism}` : ""}`,
+        `- ${t.ticker}${t.label ? ` (${t.label})` : ""}${t.mechanism ? `: ${t.mechanism}` : ""}`,
       );
     }
   }

@@ -14,7 +14,7 @@
  */
 
 /** Every dashboard card kind, in the order a fresh dashboard lays them out. HomePage reads this list. */
-export const DASHBOARD_CARD_ORDER = ["portfolio", "assets", "calendar", "news", "insight", "risk", "agents", "earnings"] as const;
+export const DASHBOARD_CARD_ORDER = ["portfolio", "assets", "calendar", "news", "insight", "risk", "agents", "earnings", "exposure", "readthrough", "insiders", "filings"] as const;
 export type DashboardCard = (typeof DASHBOARD_CARD_ORDER)[number];
 
 export function isDashboardCard(value: unknown): value is DashboardCard {

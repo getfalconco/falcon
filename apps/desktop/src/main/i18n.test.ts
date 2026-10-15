@@ -69,6 +69,6 @@ describe("main language", () => {
     assert.equal(mt("notify.update.readyBody", { version: "0.3.0" }, "en-US"), "Version 0.3.0 is downloaded. Restart Falcon to install it.");
     assert.equal(mtCount("notify.signals.openOne", "notify.signals.openOther", 1, {}, "en-US"), "1 open name");
     assert.equal(mtCount("notify.signals.openOne", "notify.signals.openOther", 3, {}, "de-DE"), "3 offene Namen");
-    assert.equal(mt("notify.signals.title", { ticker: "NVDA" }, "ja-JP"), "二次シグナル：NVDA");
+    assert.equal(mt("notify.signals.title", { ticker: "NVDA" }, "ja-JP"), "二次的な影響：NVDA");
   });
 });

@@ -3,6 +3,7 @@ import path from "node:path";
 import { accountBriefingFiles } from "../privacy/local-data";
 import { readJson, writeJsonAtomic } from "../briefing/json-file";
 import { removeProfilePhoto } from "../profile/profile-photo-store";
+import { removeTheses } from "../stock-tab/thesis-store";
 
 /**
  * After an account is deleted, what this machine kept for it goes too:
@@ -12,6 +13,7 @@ import { removeProfilePhoto } from "../profile/profile-photo-store";
  *   - its saved briefing reports                `<root>/briefing/report.<id>.*.json` (and `_dev/`)
  *   - its briefing narratives                   its sessions in `<root>/briefing/narratives.json`
  *   - its profile photo                         `<root>/profile/avatars/<id>.*`
+ *   - its Stock tab theses                      `<root>/theses/<id>.json`
  *   - its SnapTrade identity                    `<root>/snaptrade/<id>.bin` (passed in, see below)
  *
  * Shared caches of public data (filings, graphs, news) and device settings
@@ -84,6 +86,8 @@ export async function wipeLocalAccountData(
   });
 
   await step("profile-photo", () => removeProfilePhoto(root, key));
+
+  await step("theses", () => removeTheses(root, key));
 
   if (extra.removeSnaptradeIdentity) await step("snaptrade", extra.removeSnaptradeIdentity);
 

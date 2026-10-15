@@ -52,9 +52,9 @@ export const ko: Table = {
   "settings.privacy.cat.portfolio": "포트폴리오 커버리지",
   "settings.privacy.cat.portfolioDescription": "보유 종목 중 Falcon이 조사했거나 대기열에 올린 종목.",
   "settings.privacy.cat.research": "기업 그래프와 SEC 공시",
-  "settings.privacy.cat.insight": "시그널 설명",
-  "settings.privacy.cat.insightDescription": "시그널에 대한 글 설명으로, 모든 계정이 공유합니다.",
-  "settings.privacy.cat.news": "뉴스 이벤트와 시그널",
+  "settings.privacy.cat.insight": "이벤트 설명",
+  "settings.privacy.cat.insightDescription": "이벤트에 대한 글 설명으로, 모든 계정이 공유합니다.",
+  "settings.privacy.cat.news": "뉴스 이벤트와 전파 실행",
   "settings.privacy.cat.risk": "리스크 엔진",
   "settings.privacy.cat.riskDescription": "리스크 수치. 엔진이 여기서 실행될 때는 모의 계좌 사본을 포함합니다.",
   "settings.privacy.cat.logs": "진단",
@@ -81,9 +81,9 @@ export const ko: Table = {
     "이 설치의 마켓 엔진 패널에 응답합니다. 리스크 수치를 계산하기 위해 모의 계좌가 그곳으로 전송됩니다. 엔진이 추적할 수 있도록 보유 중이거나 지켜보는 티커도 전송됩니다.",
   "settings.privacy.to.model": "Claude API({host})",
   "settings.privacy.to.modelDescription":
-    "티커, SEC 공시의 공개 텍스트, 뉴스 헤드라인, Falcon의 해석을 위해 연 기사의 본문. 브리핑에는 비중이 가장 큰 티커를 대형, 중형, 소형으로만 구분해 보내고 변동률을 보내며, 금액, 주식 수, 현금은 보내지 않습니다. Insight 채팅에 입력한 질문, 에이전트에게 요청한 내용, 설명을 위해 선택한 텍스트. 이름, 이메일, 프로필의 지침은 보내지 않습니다.",
+    "티커, SEC 공시의 공개 텍스트, 뉴스 헤드라인, Falcon의 해석을 위해 연 기사의 본문. 브리핑에는 비중이 가장 큰 티커를 대형, 중형, 소형으로만 구분해 보내고 변동률을 보내며, 금액, 주식 수, 현금은 보내지 않습니다. 이벤트 채팅에 입력한 질문, 에이전트에게 요청한 내용, 설명을 위해 선택한 텍스트. 이름, 이메일, 프로필의 지침은 보내지 않습니다.",
   "settings.privacy.to.modelDescriptionWorker":
-    "티커, SEC 공시의 공개 텍스트, 뉴스 헤드라인, Falcon의 해석을 위해 연 기사의 본문. 브리핑에는 비중이 가장 큰 티커를 대형, 중형, 소형으로만 구분해 보내고 변동률을 보내며, 금액, 주식 수, 현금은 보내지 않습니다. Insight 채팅에 입력한 질문, 에이전트에게 요청한 내용, 설명을 위해 선택한 텍스트. 이름, 이메일, 프로필의 지침은 보내지 않습니다. 이 요청은 Falcon 리서치 워커를 거치며, 워커가 세션을 확인한 뒤 전달합니다.",
+    "티커, SEC 공시의 공개 텍스트, 뉴스 헤드라인, Falcon의 해석을 위해 연 기사의 본문. 브리핑에는 비중이 가장 큰 티커를 대형, 중형, 소형으로만 구분해 보내고 변동률을 보내며, 금액, 주식 수, 현금은 보내지 않습니다. 이벤트 채팅에 입력한 질문, 에이전트에게 요청한 내용, 설명을 위해 선택한 텍스트. 이름, 이메일, 프로필의 지침은 보내지 않습니다. 이 요청은 Falcon 리서치 워커를 거치며, 워커가 세션을 확인한 뒤 전달합니다.",
   "settings.privacy.to.market": "시장 데이터({hosts})",
   "settings.privacy.to.marketDescription":
     "뉴스, 시세, 공시, 종목 목록을 가져오기 위한 티커와 기업 식별자. 사용자에 관한 정보는 없습니다.",
@@ -187,7 +187,7 @@ export const ko: Table = {
   "settings.notifications.unsupported": "이 시스템에는 Falcon이 사용할 수 있는 알림 서비스가 없어 알림을 보낼 수 없습니다.",
   "settings.notifications.allow": "알림 허용",
   "settings.notifications.sound": "소리",
-  "settings.notifications.cat.secondOrder": "2차 시그널",
+  "settings.notifications.cat.secondOrder": "2차 영향",
   "settings.notifications.cat.marketEvents": "시장 이벤트",
   "settings.notifications.cat.appUpdates": "앱 업데이트",
   "settings.notifications.cat.agents": "에이전트",

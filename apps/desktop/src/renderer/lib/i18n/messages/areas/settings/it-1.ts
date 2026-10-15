@@ -55,9 +55,9 @@ export const it: Table = {
   "settings.privacy.cat.portfolio": "Copertura del portafoglio",
   "settings.privacy.cat.portfolioDescription": "Quali delle tue posizioni Falcon ha analizzato o messo in coda.",
   "settings.privacy.cat.research": "Grafi aziendali e documenti SEC",
-  "settings.privacy.cat.insight": "Spiegazioni dei segnali",
-  "settings.privacy.cat.insightDescription": "Spiegazioni scritte dei segnali, condivise da tutti gli account.",
-  "settings.privacy.cat.news": "Notizie e segnali",
+  "settings.privacy.cat.insight": "Spiegazioni degli eventi",
+  "settings.privacy.cat.insightDescription": "Spiegazioni scritte degli eventi, condivise da tutti gli account.",
+  "settings.privacy.cat.news": "Notizie ed esecuzioni di propagazione",
   "settings.privacy.cat.risk": "Motore di rischio",
   "settings.privacy.cat.riskDescription":
     "Letture di rischio, con una copia del tuo conto simulato quando il motore gira qui.",
@@ -86,9 +86,9 @@ export const it: Table = {
     "Risponde ai pannelli dei motori di mercato per questa installazione. Il tuo conto simulato viene inviato lì per calcolare la lettura di rischio. Vengono inviati anche i ticker che possiedi e segui, perché i motori li monitorino.",
   "settings.privacy.to.model": "Claude API ({host})",
   "settings.privacy.to.modelDescription":
-    "Ticker, testo pubblico dei documenti SEC, titoli delle notizie e, per la lettura di Falcon, il testo della notizia che apri. Per il tuo briefing: i ticker delle tue posizioni maggiori, indicati solo come grandi, medie o piccole, e le variazioni percentuali, mai importi in dollari, numero di azioni o liquidità. Le domande che scrivi nella chat di Insight, ciò che chiedi ai tuoi agenti e il testo che selezioni per fartelo spiegare. Mai il tuo nome, la tua email o le istruzioni del tuo profilo.",
+    "Ticker, testo pubblico dei documenti SEC, titoli delle notizie e, per la lettura di Falcon, il testo della notizia che apri. Per il tuo briefing: i ticker delle tue posizioni maggiori, indicati solo come grandi, medie o piccole, e le variazioni percentuali, mai importi in dollari, numero di azioni o liquidità. Le domande che scrivi nella chat di un evento, ciò che chiedi ai tuoi agenti e il testo che selezioni per fartelo spiegare. Mai il tuo nome, la tua email o le istruzioni del tuo profilo.",
   "settings.privacy.to.modelDescriptionWorker":
-    "Ticker, testo pubblico dei documenti SEC, titoli delle notizie e, per la lettura di Falcon, il testo della notizia che apri. Per il tuo briefing: i ticker delle tue posizioni maggiori, indicati solo come grandi, medie o piccole, e le variazioni percentuali, mai importi in dollari, numero di azioni o liquidità. Le domande che scrivi nella chat di Insight, ciò che chiedi ai tuoi agenti e il testo che selezioni per fartelo spiegare. Mai il tuo nome, la tua email o le istruzioni del tuo profilo. Queste richieste passano dal server di ricerca di Falcon, che verifica la tua sessione e poi le inoltra.",
+    "Ticker, testo pubblico dei documenti SEC, titoli delle notizie e, per la lettura di Falcon, il testo della notizia che apri. Per il tuo briefing: i ticker delle tue posizioni maggiori, indicati solo come grandi, medie o piccole, e le variazioni percentuali, mai importi in dollari, numero di azioni o liquidità. Le domande che scrivi nella chat di un evento, ciò che chiedi ai tuoi agenti e il testo che selezioni per fartelo spiegare. Mai il tuo nome, la tua email o le istruzioni del tuo profilo. Queste richieste passano dal server di ricerca di Falcon, che verifica la tua sessione e poi le inoltra.",
   "settings.privacy.to.market": "Dati di mercato ({hosts})",
   "settings.privacy.to.marketDescription":
     "Simboli e identificativi delle società, per ottenere notizie, quotazioni, documenti e l'elenco dei simboli. Niente su di te.",
@@ -203,7 +203,7 @@ export const it: Table = {
     "Questo sistema non ha un servizio di notifiche utilizzabile da Falcon, quindi non è possibile inviare nulla.",
   "settings.notifications.allow": "Consenti notifiche",
   "settings.notifications.sound": "Suono",
-  "settings.notifications.cat.secondOrder": "Segnali di secondo ordine",
+  "settings.notifications.cat.secondOrder": "Effetti di secondo ordine",
   "settings.notifications.cat.marketEvents": "Eventi di mercato",
   "settings.notifications.cat.appUpdates": "Aggiornamenti dell'app",
   "settings.notifications.cat.agents": "Agenti",

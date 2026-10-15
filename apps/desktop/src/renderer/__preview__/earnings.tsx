@@ -18,6 +18,7 @@ import type {
 } from "../../shared/earnings-types";
 import { nyWallMs, weekStartOf } from "../../shared/earnings-time";
 import { addDaysYmd, nyToday } from "../../shared/earnings-view";
+import type { ImpliedMove, ImpliedMovesResult, ImpliedRequestItem } from "../../shared/implied-move";
 
 /**
  * Scratch harness for the Earnings tab and the Earnings card against a
@@ -274,10 +275,28 @@ async function liveQuote(symbol: string) {
   return { ok: true as const, quote: { symbol, companyName: symbol, price: 100, change: pct, changePercent: pct, session: "regular" as const, asOf: Date.now() } };
 }
 
+/** Implied moves as main read them on 2026-10-15 after the close (Yahoo option chains, Stock tab report history). */
+const IMPLIED: Record<string, Omit<ImpliedMove, "ticker" | "reportDate" | "reactionDay">> = {
+  NFLX: { spot: 72.61, expiry: d(8), nextExpiry: d(15), strike: 73, straddle: 6.44, raw: 0.088679, move: 0.07952, adjusted: true, sessions: 6, basis: "mid", quotedAt: new Date().toISOString(), history: { n: 12, above: 7, median: 0.094, from: "2023-10-18", to: "2026-07-16" } },
+  IBM: { spot: 234.12, expiry: d(8), nextExpiry: d(15), strike: 235, straddle: 17.71, raw: 0.075665, move: 0.068512, adjusted: true, sessions: 6, basis: "mid", quotedAt: new Date().toISOString(), history: { n: 12, above: 5, median: 0.064, from: "2023-10-25", to: "2026-07-22" } },
+  TSLA: { spot: 362.44, expiry: d(8), nextExpiry: d(11), strike: 362.5, straddle: 27.05, raw: 0.074641, move: 0.054342, adjusted: true, sessions: 6, basis: "mid", quotedAt: new Date().toISOString(), history: { n: 12, above: 7, median: 0.087, from: "2023-10-18", to: "2026-07-22" } },
+  AMD: { spot: 214.3, expiry: d(15), nextExpiry: null, strike: 215, straddle: 16.1, raw: 0.0751, move: 0.0751, adjusted: false, sessions: 3, basis: "last", quotedAt: new Date().toISOString(), history: { n: 3, above: null, median: null, from: "2025-11-04", to: "2026-08-04" } },
+};
+
+async function impliedMoves(reports: ImpliedRequestItem[]): Promise<ImpliedMovesResult> {
+  await wait(300);
+  const moves: Record<string, ImpliedMove | null> = {};
+  for (const r of reports) {
+    const v = IMPLIED[r.ticker];
+    moves[r.ticker] = v ? { ...v, ticker: r.ticker, reportDate: r.date, reactionDay: r.date } : null;
+  }
+  return { ok: true, moves };
+}
+
 (window as unknown as { meridian: unknown }).meridian =
   state === "restart"
     ? {}
-    : { getEarningsUpcoming: upcoming, getEarningsReactions: reactions, getEarningsDetail: detail, getLiveQuote: liveQuote, openExternal: async () => undefined };
+    : { getEarningsUpcoming: upcoming, getEarningsReactions: reactions, getEarningsDetail: detail, getImpliedMoves: impliedMoves, getLiveQuote: liveQuote, openExternal: async () => undefined };
 
 // The Agents tab is not in this harness; a create request is recorded instead.
 onAgentsOpenRequest((focus) => {

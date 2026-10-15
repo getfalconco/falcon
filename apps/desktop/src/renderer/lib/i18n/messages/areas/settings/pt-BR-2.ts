@@ -58,7 +58,7 @@ export const ptBR: Table = {
   "settings.engines.usedFor.finnhub": "Calendário de resultados e notícias de empresas",
   "settings.engines.usedFor.edgar": "Documentos para os grafos step-1 rodados aqui",
   "settings.engines.usedFor.yahoo": "Gráficos, cotações e indicadores principais",
-  "settings.engines.usedFor.supabase": "Login e o cache compartilhado de sinais",
+  "settings.engines.usedFor.supabase": "Login e o cache compartilhado",
   "settings.engines.unused.description":
     "Usados apenas pelo pipeline de relatórios do pacote de pesquisa, que este app não roda.",
   "settings.engines.unused.value": "Não usados aqui",
@@ -82,7 +82,7 @@ export const ptBR: Table = {
   "settings.engines.model.analyst": "Analista",
   "settings.engines.model.propagation": "Juiz de propagação",
   "settings.engines.model.step1": "Grafos de relações step-1",
-  "settings.engines.model.insight": "Explicações e chat do Insight",
+  "settings.engines.model.insight": "Explicações e chat de eventos",
   "settings.engines.model.gloss": "Destacar para explicar",
   "settings.engines.model.briefing": "Resumo de passagem",
   "settings.engines.model.agents": "Agentes",

@@ -133,3 +133,38 @@ describe("message tables", () => {
     });
   }
 });
+
+/**
+ * Words that make the app read as a chatbot or as a forecaster, in every
+ * language. The propagation module is "Propagation", never "Insight"; the
+ * pair view states what a link implies and how the record has gone, never a
+ * "conviction" or a "called move"; and a wait reads "Reading…", never
+ * "Thinking…". The changelog keeps its history as written, so it is skipped.
+ */
+const HOUSE_WORDS: Readonly<Record<string, readonly RegExp[]>> = {
+  all: [/\binsights?\b/i, /\bconviction\b/i, /Thinking…/, /\bcalled move\b/i],
+  "tr-TR": [/içgörü/i, /Düşünülüyor/, /öngörülen hareket/i],
+  "de-DE": [/Einblick/i, /Überzeugung/i, /Denkt nach/i, /prognostizierte Bewegung/i],
+  "fr-FR": [/Réflexion…/, /mouvement annoncé/i],
+  "es-ES": [/Convicción/i, /Pensando…/, /movimiento previsto/i],
+  "it-IT": [/Convinzione/i, /movimento previsto/i],
+  "pt-BR": [/Convicção/i, /Pensando…/, /movimento previsto/i],
+  "ja-JP": [/インサイト/, /確信度/, /考えています/],
+  "zh-CN": [/洞察/, /把握度/, /思考中/, /预判走势/],
+  "ko-KR": [/인사이트/, /확신도/, /생각하는 중/],
+};
+
+describe("house words", () => {
+  for (const { code } of LANGUAGES) {
+    it(`${code} never says Insight, conviction or Thinking`, () => {
+      const table = MESSAGES[code] as Record<string, string | undefined>;
+      const banned = [...HOUSE_WORDS.all, ...(HOUSE_WORDS[code] ?? [])];
+      const hits: string[] = [];
+      for (const [key, text] of Object.entries(table)) {
+        if (!text || key.startsWith("changelog.")) continue;
+        for (const re of banned) if (re.test(text)) hits.push(`${key}: ${re}`);
+      }
+      assert.deepEqual(hits, []);
+    });
+  }
+});

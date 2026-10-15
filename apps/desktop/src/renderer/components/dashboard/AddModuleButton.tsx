@@ -68,9 +68,9 @@ export default function AddModuleButton({
         aria-expanded={open}
         aria-label={t("modules.addLabel")}
         onClick={() => setOpen((v) => !v)}
-        className="glass-cta app-no-drag flex h-9 items-center gap-1.5 rounded-full pl-3 pr-3.5 text-[13px] font-medium max-[980px]:px-2.5"
+        className="glass-cta app-no-drag flex h-9 items-center rounded-full px-3.5 text-[13px] font-medium max-[980px]:px-2.5"
       >
-        <Plus className="h-3.5 w-3.5 shrink-0" strokeWidth={2.25} aria-hidden />
+        <Plus className="hidden h-3.5 w-3.5 shrink-0 max-[980px]:block" strokeWidth={2.25} aria-hidden />
         <span className="max-[980px]:sr-only">{t("modules.addButton")}</span>
       </button>
 

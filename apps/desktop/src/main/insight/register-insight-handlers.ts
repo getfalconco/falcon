@@ -2,6 +2,7 @@ import { registerIpcHandler } from "../ipc-register";
 import { getInsightExplanation } from "./insight-explanation-service";
 import { getPairExplanation } from "./pair-explanation-service";
 import { askInsightChat } from "./insight-chat-service";
+import { getPropagationHost } from "../propagation/propagation-host";
 import type {
   InsightExplanationRequest,
   InsightExplanationResult,
@@ -35,7 +36,10 @@ export function registerInsightHandlers(): void {
     "insight:pair-explanation",
     async (_event, request: PairExplanationRequest): Promise<PairExplanationResult> => {
       try {
-        const { explanation, source } = await getPairExplanation(request);
+        // The record's resolution window is the live engine's pricing horizon.
+        const { explanation, source } = await getPairExplanation(request, {
+          horizonSessions: () => getPropagationHost().config.pricing.horizonSessions,
+        });
         return { ok: true, explanation, source };
       } catch (error) {
         const message = error instanceof Error ? error.message : String(error);

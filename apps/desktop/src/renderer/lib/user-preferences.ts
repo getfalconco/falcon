@@ -16,11 +16,7 @@ import {
 } from "../../shared/onboarding-desk";
 import { requireSupabase } from "@/lib/supabase";
 import { ACCOUNT_OWNED_SESSION_KEYS, clearAccountStorage } from "@/lib/account-local-cleanup";
-import {
-  EXPERIENCE_OPTIONS,
-  FORMAT_OPTIONS,
-  SECTOR_LABELS,
-} from "@/lib/onboarding-copy";
+import { SECTOR_LABELS } from "@/lib/onboarding-copy";
 
 function isExperienceLevel(value: unknown): value is ExperienceLevel {
   return typeof value === "string" && (EXPERIENCE_LEVELS as string[]).includes(value);
@@ -189,14 +185,6 @@ export async function savePreferences(input: {
   signalFormat: SignalFormat;
 }): Promise<void> {
   await saveOnboardingProfile(input);
-}
-
-export function experienceDepthLabel(level: ExperienceLevel): string {
-  return EXPERIENCE_OPTIONS.find((o) => o.id === level)?.depthLabel ?? level;
-}
-
-export function formatLabel(format: SignalFormat): string {
-  return FORMAT_OPTIONS.find((o) => o.id === format)?.label ?? format;
 }
 
 export function sectorsFollowingLabel(sectors: SectorId[]): string {

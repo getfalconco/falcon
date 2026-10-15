@@ -33,6 +33,9 @@ import type { StockCatalogEntry } from "../../shared/stock-catalog";
  *   ?theme=dark       the dark theme (default light)
  *   ?motion=reduce    reduced motion
  *   ?latency=ms       how long each fixture call takes (default 350)
+ *   ?draft=fail       reading words into a draft always fails, as with the
+ *                     model and the fallback both unavailable (a starter's
+ *                     own draft still opens the confirm step)
  *   ?lang=tr-TR       show the screens in that language (kept, as a pick would be)
  *   ?holdings=AMD,NVDA  seed the paper account with these positions, so the
  *                     create flow's starters are built from them (and the
@@ -121,6 +124,12 @@ if (state !== "none") {
     failing: state === "error",
     hanging: state === "loading",
   }) as ReturnType<typeof createFixtureAgents> & { __fire: (id: string) => void; __open: (id: string) => void };
+  if (params.get("draft") === "fail") {
+    adapter.draftFromBrief = async () => {
+      console.info("[preview] draftFromBrief called, failing");
+      return { ok: false, error: "The brief could not be read right now." };
+    };
+  }
   installAgentsAdapter(adapter);
   (window as unknown as { __agents: unknown }).__agents = { fire: adapter.__fire, open: adapter.__open };
 }
