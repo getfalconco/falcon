@@ -5,6 +5,7 @@ import path from "node:path";
 import { after, describe, it } from "node:test";
 import type { CalendarSector } from "../../shared/calendar-events";
 import { parseEarningsRequest, type EarningsResult } from "../../shared/earnings-types";
+import { degradedNoticeable } from "../../shared/earnings-view";
 import { CAPS_TTL_MS, DETAILS_NEAR_TTL_MS, MARKET_RETRY_MS, MARKET_TTL_MS, addDays, createEarningsService, nyToday, type EarningsServiceDeps } from "./earnings-service";
 
 const NOW = Date.parse("2026-10-15T14:00:00Z");
@@ -528,6 +529,8 @@ describe("for you", () => {
       ],
     );
     assert.deepEqual(res.degraded, ["caps", "links", "names", "sectors"]);
+    assert.deepEqual(Object.keys(res.degradedCounts ?? {}), ["caps", "links", "names", "sectors"]);
+    assert.equal(degradedNoticeable(res), true, "names and links missing is worth the note");
     assert.equal(res.marketCalendar, "fresh");
   });
 });
@@ -542,6 +545,25 @@ describe("one source failing", () => {
     assert.deepEqual(res.unavailable, ["HANG"]);
     assert.deepEqual(res.rows.map((r) => r.ticker), ["IBM", "NVDA"]);
     assert.deepEqual(res.degraded, []);
+  });
+
+  it("one failed sector lookup is kept in the answer but is not worth the footnote", async () => {
+    const { service } = setup({
+      sector: async (symbol) => (symbol === "IBM" ? Promise.reject(new Error("profile down")) : null),
+    });
+    const res = ok(await service.upcoming(ask({ scope: "mine", held: ["NVDA", "XOM"], watchlist: ["IBM"] })));
+    assert.ok(res.rows.some((r) => r.ticker === "NVDA"));
+    assert.deepEqual(res.degraded, ["sectors"]);
+    assert.deepEqual(res.degradedCounts, { sectors: 1 });
+    assert.equal(degradedNoticeable(res), false);
+  });
+
+  it("sector lookups failing on several rows are worth the footnote", async () => {
+    const { service } = setup({ sector: async () => Promise.reject(new Error("profile down")) });
+    const res = ok(await service.upcoming(ask({ scope: "mine", held: ["NVDA", "XOM"], watchlist: ["IBM"] })));
+    assert.deepEqual(res.degraded, ["sectors"]);
+    assert.ok((res.degradedCounts?.sectors ?? 0) >= 3, JSON.stringify(res.degradedCounts));
+    assert.equal(degradedNoticeable(res), true);
   });
 
   it("a market calendar that fails leaves the Yahoo rows, with the calendar marked missing", async () => {

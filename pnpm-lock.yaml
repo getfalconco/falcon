@@ -491,6 +491,9 @@ importers:
       autoprefixer:
         specifier: ^10.4.19
         version: 10.5.0(postcss@8.5.15)
+      eslint:
+        specifier: ^8.57.1
+        version: 8.57.1
       eslint-config-next:
         specifier: ^14.2.35
         version: 14.2.35(eslint@8.57.1)(typescript@5.9.3)

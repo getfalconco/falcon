@@ -12,7 +12,7 @@
  */
 
 import type { CalendarSector } from "./calendar-events";
-import type { EarningsReaction, EarningsRow, EarningsTime } from "./earnings-types";
+import type { EarningsDegradedSource, EarningsReaction, EarningsRow, EarningsTime } from "./earnings-types";
 import { reasonRank } from "./earnings-foryou";
 
 export type Say = (key: string, params?: Record<string, string | number>) => string;
@@ -402,4 +402,38 @@ export function dayMoveOf(
 export function fiscalText(label: string, say: Say): string {
   const m = /^([1-4])Q(\d{4})$/.exec(label.trim());
   return say("earnings.fiscal", { period: m ? "Q" + m[1] + " " + m[2] : label });
+}
+
+/**
+ * How many rows a per-row read (sector labels, US-dollar revenue, market
+ * values) has to leave short before the reader is told. One missing sector
+ * (a cached lookup that failed once) is not worth a footnote.
+ */
+export const DEGRADED_ROWS_NOTICEABLE = 3;
+
+/** Reads that fail as a whole and change what the list shows: always worth the note. */
+const WHOLE_READS: ReadonlySet<EarningsDegradedSource> = new Set(["names", "links", "foryou"]);
+
+/**
+ * Whether the "some details could not be read" footnote is worth showing:
+ * company names, filing links or the "For you" selection went missing, or
+ * sectors, dollar revenue or market values are missing on several rows. The
+ * full `degraded` list stays in the answer either way; a missing market
+ * calendar has a note of its own.
+ *
+ * Without counts (a main process older than `degradedCounts`) a failed market
+ * value batch still counts, a sector or currency failure alone does not.
+ */
+export function degradedNoticeable(answer: {
+  degraded?: readonly EarningsDegradedSource[] | null;
+  degradedCounts?: Partial<Record<EarningsDegradedSource, number>> | null;
+}): boolean {
+  const sources: readonly EarningsDegradedSource[] = Array.isArray(answer.degraded) ? answer.degraded : [];
+  const counts = answer.degradedCounts && typeof answer.degradedCounts === "object" ? answer.degradedCounts : null;
+  return sources.some((source) => {
+    if (WHOLE_READS.has(source)) return true;
+    const count = counts?.[source];
+    if (typeof count === "number" && Number.isFinite(count)) return count >= DEGRADED_ROWS_NOTICEABLE;
+    return source === "caps";
+  });
 }

@@ -17,6 +17,7 @@ import {
   countText,
   countdownLine,
   dayMoveOf,
+  degradedNoticeable,
   daysUntil,
   filterRows,
   filtersActive,
@@ -348,5 +349,29 @@ describe("the card, filled from For you", () => {
     ];
     assert.deepEqual(cardRows(rows, TODAY, 4).map((r) => r.ticker), ["AMD", "MSFT", "QCOM", "IBM"]);
     assert.deepEqual(cardRows(rows.filter((r) => !r.held && !r.watchlist), TODAY, 6).map((r) => r.ticker), ["QCOM", "IBM", "KO"]);
+  });
+});
+
+describe("degraded footnote", () => {
+  it("stays quiet for one missing sector, speaks for what the reader would notice", () => {
+    assert.equal(degradedNoticeable({ degraded: [], degradedCounts: {} }), false);
+    assert.equal(degradedNoticeable({ degraded: ["sectors"], degradedCounts: { sectors: 1 } }), false);
+    assert.equal(degradedNoticeable({ degraded: ["sectors", "fx"], degradedCounts: { sectors: 2, fx: 1 } }), false);
+    assert.equal(degradedNoticeable({ degraded: ["sectors"], degradedCounts: { sectors: 3 } }), true);
+    assert.equal(degradedNoticeable({ degraded: ["fx"], degradedCounts: { fx: 4 } }), true);
+    assert.equal(degradedNoticeable({ degraded: ["caps"], degradedCounts: { caps: 120 } }), true);
+    assert.equal(degradedNoticeable({ degraded: ["caps"], degradedCounts: { caps: 1 } }), false);
+    for (const whole of ["names", "links", "foryou"] as const) {
+      assert.equal(degradedNoticeable({ degraded: [whole], degradedCounts: { [whole]: 1 } }), true, whole);
+    }
+  });
+
+  it("reads an answer from an older main process without counts", () => {
+    assert.equal(degradedNoticeable({ degraded: ["sectors"] }), false);
+    assert.equal(degradedNoticeable({ degraded: ["fx"] }), false);
+    assert.equal(degradedNoticeable({ degraded: ["caps"] }), true);
+    assert.equal(degradedNoticeable({ degraded: ["names"] }), true);
+    assert.equal(degradedNoticeable({}), false);
+    assert.equal(degradedNoticeable({ degraded: null, degradedCounts: null }), false);
   });
 });

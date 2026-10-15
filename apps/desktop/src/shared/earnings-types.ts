@@ -208,6 +208,13 @@ export type EarningsResult =
        * process older than this field.
        */
       degraded?: EarningsDegradedSource[];
+      /**
+       * For each source in `degraded`, how many rows or names went without it
+       * (a read that fails as a whole, such as the listing directory, counts
+       * once). Lets the view keep quiet about one missing sector. Absent from
+       * a main process older than this field.
+       */
+      degradedCounts?: Partial<Record<EarningsDegradedSource, number>>;
     }
   | { ok: false; error: "invalid_request" | "scope_unavailable" | "unavailable" };
 

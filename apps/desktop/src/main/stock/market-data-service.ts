@@ -32,34 +32,93 @@ type YahooAuth = { cookie: string; crumb: string };
 let cachedAuth: YahooAuth | null = null;
 let cachedAuthAt = 0;
 const AUTH_TTL_MS = 30 * 60 * 1000;
+/** One handshake in flight at a time: every reader that needs a crumb meanwhile waits on it. */
+let authInFlight: Promise<YahooAuth | null> | null = null;
+
+/**
+ * The cookie + crumb handshake, both requests and both bodies, under one
+ * deadline. A hung handshake would otherwise stall every reader that needs a
+ * crumb (earnings, the stock view, the briefing, agents); timing out resolves
+ * to null, which those readers already treat as "auth unavailable".
+ */
+async function requestYahooAuth(): Promise<YahooAuth | null> {
+  try {
+    return await withRequestTimeout(async (signal) => {
+      const cookieResponse = await fetch(YAHOO_COOKIE_URL, {
+        headers: YAHOO_HEADERS,
+        redirect: "manual",
+        signal,
+      });
+      const setCookie = cookieResponse.headers.get("set-cookie");
+      const cookie = setCookie?.split(";")[0] ?? "";
+      if (!cookie) return null;
+
+      const crumbResponse = await fetch(YAHOO_CRUMB_URL, {
+        headers: { ...YAHOO_HEADERS, Cookie: cookie },
+        signal,
+      });
+      if (!crumbResponse.ok) return null;
+      const crumb = (await crumbResponse.text()).trim();
+      if (!crumb || crumb.includes("<")) return null;
+
+      cachedAuth = { cookie, crumb };
+      cachedAuthAt = Date.now();
+      return cachedAuth;
+    }, YAHOO_AUTH_TIMEOUT_MS);
+  } catch {
+    return null;
+  }
+}
 
 async function getYahooAuth(forceRefresh = false): Promise<YahooAuth | null> {
   const now = Date.now();
   if (!forceRefresh && cachedAuth && now - cachedAuthAt < AUTH_TTL_MS) {
     return cachedAuth;
   }
+  // A handshake already under way is as fresh as a forced one would be.
+  if (!authInFlight) {
+    authInFlight = requestYahooAuth().finally(() => {
+      authInFlight = null;
+    });
+  }
+  return authInFlight;
+}
 
+/* ------------------------------------------------------------------ */
+/* Request deadlines                                                   */
+/* ------------------------------------------------------------------ */
+
+/** The whole cookie + crumb handshake (two requests). */
+const YAHOO_AUTH_TIMEOUT_MS = 10_000;
+/** One chart, live-quote, quote-summary or news read outside the briefing. */
+const MARKET_DATA_REQUEST_TIMEOUT_MS = 12_000;
+/**
+ * The briefing fans out over seventeen market symbols and every held name at
+ * once, under a deadline of its own. A request that outlives that deadline only
+ * holds a socket open against a provider that is already slow, so each read
+ * there gives up by itself and is never retried on a 429.
+ */
+const BRIEFING_REQUEST_TIMEOUT_MS = 6_000;
+
+/**
+ * Runs one read (request and body) under a deadline. When the deadline passes
+ * the signal aborts and the read rejects with a plain `Error` ("Market data
+ * request timed out"), the same kind of failure callers already handle for a
+ * bad status, rather than a DOMException AbortError.
+ */
+async function withRequestTimeout<T>(
+  run: (signal: AbortSignal) => Promise<T>,
+  timeoutMs: number = BRIEFING_REQUEST_TIMEOUT_MS,
+): Promise<T> {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
   try {
-    const cookieResponse = await fetch(YAHOO_COOKIE_URL, {
-      headers: YAHOO_HEADERS,
-      redirect: "manual",
-    });
-    const setCookie = cookieResponse.headers.get("set-cookie");
-    const cookie = setCookie?.split(";")[0] ?? "";
-    if (!cookie) return null;
-
-    const crumbResponse = await fetch(YAHOO_CRUMB_URL, {
-      headers: { ...YAHOO_HEADERS, Cookie: cookie },
-    });
-    if (!crumbResponse.ok) return null;
-    const crumb = (await crumbResponse.text()).trim();
-    if (!crumb || crumb.includes("<")) return null;
-
-    cachedAuth = { cookie, crumb };
-    cachedAuthAt = now;
-    return cachedAuth;
-  } catch {
-    return null;
+    return await run(controller.signal);
+  } catch (error) {
+    if (controller.signal.aborted) throw new Error("Market data request timed out");
+    throw error;
+  } finally {
+    clearTimeout(timer);
   }
 }
 
@@ -197,6 +256,26 @@ function intervalForRange(startSec: number, endSec: number): string {
   return "1d";
 }
 
+/** One chart read (request and body) under the market data deadline. */
+function readYahooChart(url: string): Promise<YahooChartResult> {
+  return withRequestTimeout(async (signal) => {
+    const response = await fetch(url, { headers: YAHOO_HEADERS, signal });
+    if (!response.ok) {
+      throw new Error(`Market data request failed (${response.status})`);
+    }
+
+    const payload = (await response.json()) as YahooChartResponse;
+    const result = payload.chart?.result?.[0];
+
+    if (!result?.meta) {
+      const message = payload.chart?.error?.description ?? "No market data returned";
+      throw new Error(message);
+    }
+
+    return result;
+  }, MARKET_DATA_REQUEST_TIMEOUT_MS);
+}
+
 async function fetchYahooChartRange(
   symbol: string,
   startSec: number,
@@ -210,20 +289,7 @@ async function fetchYahooChartRange(
     startSec,
   )}&period2=${Math.floor(endSec)}&interval=${interval}${prePost}`;
 
-  const response = await fetch(url, { headers: YAHOO_HEADERS });
-  if (!response.ok) {
-    throw new Error(`Market data request failed (${response.status})`);
-  }
-
-  const payload = (await response.json()) as YahooChartResponse;
-  const result = payload.chart?.result?.[0];
-
-  if (!result?.meta) {
-    const message = payload.chart?.error?.description ?? "No market data returned";
-    throw new Error(message);
-  }
-
-  return result;
+  return readYahooChart(url);
 }
 
 function seriesFromChartSafe(result: YahooChartResult): PricePoint[] {
@@ -342,20 +408,7 @@ async function fetchYahooChart(
   const prePost = isIntradayInterval(interval) ? "&includePrePost=true" : "";
   const url = `${YAHOO_CHART_BASE}/${encodeURIComponent(normalized)}?range=${range}&interval=${interval}${prePost}`;
 
-  const response = await fetch(url, { headers: YAHOO_HEADERS });
-  if (!response.ok) {
-    throw new Error(`Market data request failed (${response.status})`);
-  }
-
-  const payload = (await response.json()) as YahooChartResponse;
-  const result = payload.chart?.result?.[0];
-
-  if (!result?.meta) {
-    const message = payload.chart?.error?.description ?? "No market data returned";
-    throw new Error(message);
-  }
-
-  return result;
+  return readYahooChart(url);
 }
 
 function quoteFromMeta(meta: YahooChartMeta, symbol: string): StockQuote {
@@ -568,11 +621,13 @@ async function fetchLastExtendedPrint(
     const url = `${YAHOO_CHART_BASE}/${encodeURIComponent(
       symbol,
     )}?range=1d&interval=1m&includePrePost=true`;
-    const response = await fetch(url, { headers: YAHOO_HEADERS });
-    if (!response.ok) return null;
-    const payload = (await response.json()) as YahooChartResponse;
-    const result = payload.chart?.result?.[0];
-    return result ? lastClosePoint(result) : null;
+    return await withRequestTimeout(async (signal) => {
+      const response = await fetch(url, { headers: YAHOO_HEADERS, signal });
+      if (!response.ok) return null;
+      const payload = (await response.json()) as YahooChartResponse;
+      const result = payload.chart?.result?.[0];
+      return result ? lastClosePoint(result) : null;
+    }, MARKET_DATA_REQUEST_TIMEOUT_MS);
   } catch {
     return null;
   }
@@ -584,12 +639,13 @@ async function requestLiveQuote(symbol: string): Promise<LiveQuote> {
     nowSec - LIVE_QUOTE_WINDOW_SEC
   }&period2=${nowSec}&interval=1m&includePrePost=true`;
 
-  const response = await fetch(url, { headers: YAHOO_HEADERS });
-  if (!response.ok) {
-    throw new Error(`Live quote request failed (${response.status})`);
-  }
-
-  const payload = (await response.json()) as YahooChartResponse;
+  const payload = await withRequestTimeout(async (signal) => {
+    const response = await fetch(url, { headers: YAHOO_HEADERS, signal });
+    if (!response.ok) {
+      throw new Error(`Live quote request failed (${response.status})`);
+    }
+    return (await response.json()) as YahooChartResponse;
+  }, MARKET_DATA_REQUEST_TIMEOUT_MS);
   const result = payload.chart?.result?.[0];
   const meta = result?.meta;
   if (!meta) {
@@ -887,7 +943,10 @@ async function fetchQuoteSummary(symbol: string): Promise<YahooQuoteSummaryResul
   ].join(",");
 
   try {
-    return await requestQuoteSummary(normalized, modules);
+    return await withRequestTimeout(
+      (signal) => requestQuoteSummary(normalized, modules, signal),
+      MARKET_DATA_REQUEST_TIMEOUT_MS,
+    );
   } catch {
     return null;
   }
@@ -1129,10 +1188,12 @@ export async function fetchStockNews(symbol: string, count = 12): Promise<StockN
   const url = `${YAHOO_SEARCH_BASE}?q=${encodeURIComponent(normalized)}&quotesCount=0&newsCount=${count}`;
 
   try {
-    const response = await fetch(url, { headers: YAHOO_HEADERS });
-    if (!response.ok) return [];
-
-    const json = (await response.json()) as { news?: YahooNewsItem[] };
+    const json = await withRequestTimeout(async (signal) => {
+      const response = await fetch(url, { headers: YAHOO_HEADERS, signal });
+      if (!response.ok) return null;
+      return (await response.json()) as { news?: YahooNewsItem[] };
+    }, MARKET_DATA_REQUEST_TIMEOUT_MS);
+    if (!json) return [];
 
     return (json.news ?? [])
       .filter((item): item is YahooNewsItem & { title: string; link: string } =>
@@ -1158,24 +1219,6 @@ export async function fetchStockNews(symbol: string, count = 12): Promise<StockN
 /* ------------------------------------------------------------------ */
 /* Handover briefing reads                                             */
 /* ------------------------------------------------------------------ */
-
-/**
- * The briefing fans out over seventeen market symbols and every held name at
- * once, under a deadline of its own. A request that outlives that deadline only
- * holds a socket open against a provider that is already slow, so each read
- * here gives up by itself and is never retried on a 429.
- */
-const BRIEFING_REQUEST_TIMEOUT_MS = 6_000;
-
-async function withRequestTimeout<T>(run: (signal: AbortSignal) => Promise<T>): Promise<T> {
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), BRIEFING_REQUEST_TIMEOUT_MS);
-  try {
-    return await run(controller.signal);
-  } finally {
-    clearTimeout(timer);
-  }
-}
 
 function finiteOrNull(value: number | undefined): number | null {
   return typeof value === "number" && Number.isFinite(value) ? value : null;

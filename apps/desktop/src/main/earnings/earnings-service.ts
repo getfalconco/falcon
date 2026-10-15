@@ -156,6 +156,8 @@ type DetailsFile = { schema_version: number; symbols: Record<string, DetailEntry
 type SnapshotsFile = { schema_version: number; symbols: Record<string, ConsensusSnapshot[]> };
 type CapsFile = { schema_version: number; symbols: Record<string, { at: number; cap: number | null }> };
 type TrackedFile = { schema_version: number; at: number; tickers: string[] };
+/** Records a read that failed; `count` is how many rows or names went without it (default one). */
+type NoteDegraded = (source: EarningsDegradedSource, count?: number) => void;
 
 const NY_DATE = new Intl.DateTimeFormat("en-CA", { timeZone: "America/New_York", year: "numeric", month: "2-digit", day: "2-digit" });
 
@@ -527,7 +529,7 @@ export function createEarningsService(deps: EarningsServiceDeps) {
   };
 
   /** Market values for these names: kept ones a week old or less, the rest read in batches (a failed batch is asked again next time). */
-  const capsFor = async (symbols: readonly string[], note: (s: EarningsDegradedSource) => void): Promise<Map<string, number | null>> => {
+  const capsFor = async (symbols: readonly string[], note: NoteDegraded): Promise<Map<string, number | null>> => {
     const store = loadCaps();
     const nowMs = now();
     const out = new Map<string, number | null>();
@@ -551,7 +553,8 @@ export function createEarningsService(deps: EarningsServiceDeps) {
         wrote = true;
       } catch (err) {
         console.warn("[earnings] market values read failed:", err instanceof Error ? err.message : String(err));
-        note("caps");
+        // Every name not yet read in this build goes without a value.
+        note("caps", Math.min(missing.length, CAP_BATCHES_PER_BUILD * CAP_BATCH) - i);
         break;
       }
     }
@@ -603,7 +606,7 @@ export function createEarningsService(deps: EarningsServiceDeps) {
     req: ParsedEarningsRequest,
     held: ReadonlySet<string>,
     watch: ReadonlySet<string>,
-    note: (s: EarningsDegradedSource) => void,
+    note: NoteDegraded,
   ): Promise<EarningsRow[]> => {
     const userSectors = new Set<CalendarSector>(req.sectors);
     await pool(req.held, concurrency, async (t) => {
@@ -663,9 +666,11 @@ export function createEarningsService(deps: EarningsServiceDeps) {
     const watch = new Set(req.watchlist);
     const mine = [...new Set([...req.held, ...req.watchlist])];
     // Each read below can fail on its own; the answer goes on without it and says so.
-    const degraded = new Set<EarningsDegradedSource>();
-    const note = (s: EarningsDegradedSource): void => {
-      degraded.add(s);
+    // Counted per source (rows or names affected) so the view can tell one
+    // missing sector from a read that left many rows short.
+    const degraded = new Map<EarningsDegradedSource, number>();
+    const note: NoteDegraded = (s, count = 1) => {
+      if (count > 0) degraded.set(s, (degraded.get(s) ?? 0) + count);
     };
 
     const [trackedTickers, cal, recentCal, names, graph] = await Promise.all([
@@ -842,7 +847,8 @@ export function createEarningsService(deps: EarningsServiceDeps) {
       scopes,
       unavailable: unavailable.sort(),
       marketCalendar: cal === null ? "missing" : cal.fresh ? "fresh" : "stale",
-      degraded: [...degraded].sort(),
+      degraded: [...degraded.keys()].sort(),
+      degradedCounts: Object.fromEntries([...degraded].sort(([a], [b]) => a.localeCompare(b))),
     };
   };
 

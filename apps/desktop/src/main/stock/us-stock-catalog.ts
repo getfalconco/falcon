@@ -124,20 +124,38 @@ function parseOtherListed(text: string): StockCatalogEntry[] {
     });
 }
 
-async function loadCatalog(): Promise<StockCatalogEntry[]> {
-  const [nasdaqResponse, otherResponse] = await Promise.all([
-    fetch(NASDAQ_LISTED_URL, { headers: FETCH_HEADERS }),
-    fetch(OTHER_LISTED_URL, { headers: FETCH_HEADERS }),
-  ]);
+/**
+ * Both listing files (requests and bodies) under one deadline. The directory
+ * backs symbol search and the random pick; a hung read would otherwise leave
+ * every search waiting on `catalogPromise` forever. A timeout rejects with a
+ * plain Error, which clears the cached promise so the next search retries.
+ */
+export const CATALOG_TIMEOUT_MS = 15_000;
 
-  if (!nasdaqResponse.ok || !otherResponse.ok) {
-    throw new Error("Failed to load US stock symbol directory");
+async function readListings(): Promise<[string, string]> {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), CATALOG_TIMEOUT_MS);
+  try {
+    const [nasdaqResponse, otherResponse] = await Promise.all([
+      fetch(NASDAQ_LISTED_URL, { headers: FETCH_HEADERS, signal: controller.signal }),
+      fetch(OTHER_LISTED_URL, { headers: FETCH_HEADERS, signal: controller.signal }),
+    ]);
+
+    if (!nasdaqResponse.ok || !otherResponse.ok) {
+      throw new Error("Failed to load US stock symbol directory");
+    }
+
+    return await Promise.all([nasdaqResponse.text(), otherResponse.text()]);
+  } catch (error) {
+    if (controller.signal.aborted) throw new Error("US stock symbol directory request timed out");
+    throw error;
+  } finally {
+    clearTimeout(timer);
   }
+}
 
-  const [nasdaqText, otherText] = await Promise.all([
-    nasdaqResponse.text(),
-    otherResponse.text(),
-  ]);
+async function loadCatalog(): Promise<StockCatalogEntry[]> {
+  const [nasdaqText, otherText] = await readListings();
 
   const bySymbol = new Map<string, StockCatalogEntry>();
   for (const entry of [...parseNasdaqListed(nasdaqText), ...parseOtherListed(otherText)]) {

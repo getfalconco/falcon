@@ -20,6 +20,7 @@ import {
   consensusText,
   countText,
   dayMoveOf,
+  degradedNoticeable,
   filterRows,
   filtersActive,
   formatEps,
@@ -491,7 +492,8 @@ export default function EarningsTab() {
     if (answer.marketCalendar === "missing") notes.push(t("earnings.note.noMarket"));
     if (shown.some((r) => r.status === "unknown")) notes.push(t("earnings.note.unmarked"));
     if (answer.unavailable.length > 0) notes.push(t("earnings.note.unavailable", { names: answer.unavailable.join(", ") }));
-    if ((answer.degraded?.length ?? 0) > 0) notes.push(t("earnings.note.degraded"));
+    // Only when something the reader would notice is missing, not for one failed sector lookup.
+    if (degradedNoticeable(answer)) notes.push(t("earnings.note.degraded"));
   }
   // Main runs older code than this view (earnings-load.ts): the reader's own names stand in for "For you".
   if (answer?.outdatedMain) notes.unshift(t("earnings.note.restart"));
