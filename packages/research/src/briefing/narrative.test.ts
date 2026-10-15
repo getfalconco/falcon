@@ -668,7 +668,7 @@ describe("narrativeFactsHash", () => {
 
 describe("prompt", () => {
   it("uses the house model and a lead-plus-stories schema with no array bounds", () => {
-    assert.equal(BRIEFING_NARRATIVE_MODEL_DEFAULT, "claude-opus-5");
+    assert.equal(BRIEFING_NARRATIVE_MODEL_DEFAULT, "claude-opus-5-5");
     assert.deepEqual(BRIEFING_NARRATIVE_SCHEMA, {
       type: "object",
       properties: {
@@ -1179,7 +1179,7 @@ describe("generateNarrative", () => {
     assert.deepEqual(result.narrative, {
       text: GOOD,
       source: "model",
-      model: "claude-opus-5",
+      model: BRIEFING_NARRATIVE_MODEL_DEFAULT,
       generated_at: NOW,
       facts_hash: factsHash,
       pending: false,

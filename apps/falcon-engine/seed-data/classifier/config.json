@@ -1,8 +1,8 @@
 {
  "enabled": true,
- "model": "claude-haiku-4-5",
+ "model": "claude-haiku-5-5",
  "temperature": 0,
- "maxTokens": 1024,
+ "maxTokens": 2048,
  "timeoutMs": 30000,
  "transportRetries": 2,
  "validationRetries": 2,

@@ -18,6 +18,7 @@
  */
 
 import Anthropic from "@anthropic-ai/sdk";
+import { ANTHROPIC_API_BASE_URL } from "../anthropicModels.js";
 
 /** How far from 1.0 a ratio may sit before it is called a discrepancy. */
 export const RATIO_TOLERANCE = 0.05;
@@ -86,7 +87,10 @@ function client(options: ProbeOptions): Anthropic {
   return new Anthropic({
     apiKey: options.apiKey,
     maxRetries: 0,
-    ...(options.baseUrl ? { baseURL: options.baseUrl } : {}),
+    // Explicit, so "omitted" means the official API and not whatever the
+    // SDK's own ANTHROPIC_BASE_URL fallback would pick; the host reported
+    // below has to be the host that was measured.
+    baseURL: options.baseUrl || ANTHROPIC_API_BASE_URL,
   });
 }
 

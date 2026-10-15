@@ -2,6 +2,7 @@ import { mkdir, readdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import type { ArticleClassification } from "./classify-article.js";
 import type { FinnhubNewsArticle } from "./finnhub-news.js";
+import { repairArticleText } from "./mojibake.js";
 import type { EventDirection, EventType } from "./types.js";
 
 /**
@@ -195,5 +196,6 @@ export async function listNewsArticles(
   const all: NewsArticle[] = [];
   for (const file of await dayFiles(dir, days)) all.push(...(await readDay(dir, file)));
   all.sort((a, b) => b.datetime - a.datetime);
-  return all.slice(0, limit);
+  // Rows filed before ingestion repaired provider mojibake are fixed on the way out.
+  return all.slice(0, limit).map(repairArticleText);
 }

@@ -10,6 +10,7 @@
     "./step1": "./src/step1/index.ts",
     "./propagation": "./src/propagation/index.ts",
     "./news": "./src/news/index.ts",
+    "./news/mojibake": "./src/news/mojibake.ts",
     "./tracker": "./src/tracker/index.ts",
     "./competition": "./src/competition/index.ts",
     "./base": "./src/base/index.ts",
@@ -28,7 +29,8 @@
     "./calendar": "./src/calendar/index.ts",
     "./calendar/contracts": "./src/calendar/contracts.ts",
     "./briefing": "./src/briefing/index.ts",
-    "./briefing/contracts": "./src/briefing/contracts.ts"
+    "./briefing/contracts": "./src/briefing/contracts.ts",
+    "./portfolio": "./src/portfolio/index.ts"
   },
   "scripts": {
     "lint": "tsc --noEmit",

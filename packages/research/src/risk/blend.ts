@@ -5,6 +5,7 @@
  * with values injected from the component payloads — descriptive voice only.
  */
 
+import { weightPercent } from "../portfolio/weights.js";
 import { round, roundScore } from "./anchors.js";
 import type { RiskConfig } from "./config.js";
 import { RISK_COMPONENT_KEYS, type RiskBand, type RiskComponentKey, type RiskComponents, type RiskDriver } from "./types.js";
@@ -80,9 +81,14 @@ export function componentSentence(key: RiskComponentKey, components: RiskCompone
   switch (key) {
     case "concentration": {
       const top = components.concentration.top[0];
-      return top
-        ? fill(t.concentration, { pct: Math.round(top.weight * 100), ticker: top.ticker })
-        : "The portfolio holds no positions.";
+      if (!top) return "The portfolio holds no positions.";
+      // The share of the whole account, cash included, exactly as the
+      // Positions card prints it (one decimal). A short is quoted by its
+      // size. Older payloads without the field fall back to the invested
+      // share; an account worth nothing has no share to quote.
+      const share = top.account_weight === undefined ? top.weight : top.account_weight;
+      if (share == null) return `${top.ticker} is the largest position.`;
+      return fill(t.concentration, { pct: weightPercent(Math.abs(share)), ticker: top.ticker });
     }
     case "market":
       return fill(t.market, { beta_eff: round(components.market.beta_eff, 2).toFixed(2) });

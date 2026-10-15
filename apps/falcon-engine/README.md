@@ -45,6 +45,32 @@ provider keys and every cycle spends real money.
 | `POST /set-enabled` `{enabled}` | the Phase A loop switch |
 | `GET /channels` | the implemented channel names |
 | `POST /channel` `{channel, args}` | one allowlisted desktop channel |
+| `POST /me/delete-data` | erase the caller's engine-held data (risk state); valid session required, approval not |
+| `POST /service/delete-user-data` `{userId}` | the same, for the research worker's account-deletion queue; `Authorization: Bearer $FALCON_ENGINE_SERVICE_TOKEN` (off when unset) |
+
+### Per-user state
+
+Risk channels (`risk:*`) are answered for the user the bearer token belongs
+to, never for an id in `args`. Each user's paper-account copy and snapshot
+history live in `$FALCON_RISK_DATA_DIR/users/<userId>/`; only `config.json`
+(calibration and the card flag) is shared. The pre-split shared
+`account.json`/`snapshots.json` mixed whichever users pushed last, so on boot
+they are moved to `legacy-shared-archive/<timestamp>/` (never read, never
+deleted automatically). Account deletion calls `risk:delete-user-data` (or
+`POST /me/delete-data`) with the user's token before the auth user is removed,
+or `POST /service/delete-user-data` with the service credential when the
+user's token is already gone; in code, `deleteUserRiskData(userId)` from
+`@meridian/research/risk`.
+
+### Portfolio snapshots
+
+`portfolio_snapshots` rows are written only when the value moved (or hourly as
+a heartbeat), at most once a minute in the regular session, every 5 minutes in
+extended hours and hourly otherwise (`src/snapshot-policy.ts`). A retention
+pass every 6 hours downsamples older rows to one per minute after a day, one
+per hour after 7 days and one per day after 90 days, in batches of 200 ids
+(`src/portfolio-retention.ts`, counters under `portfolio.retention` on
+`/health`).
 
 `/channel` is how the desktop panels keep the contract they already had: the
 renderer asks for `propagation:runs` exactly as before, and the main process
@@ -67,9 +93,13 @@ a config file; a service has no panel and its config file arrives baked into
 the image, so the deployment says it instead. Boot only — the panel can still
 turn the loop on at runtime and nothing here undoes that until a restart.
 
-Env: `FINNHUB_API_KEY`, `ANTHROPIC_API_KEY`, `SUPABASE_URL`,
+Env: `FINNHUB_API_KEY`, `ANTHROPIC_API_KEY` (a Claude API key; calls go to
+`https://api.anthropic.com` unless the optional `ANTHROPIC_BASE_URL` override
+names a gateway), `SUPABASE_URL`,
 `SUPABASE_ANON_KEY` (verifies user tokens), `SUPABASE_SERVICE_ROLE_KEY`
-(privileged writes). Data dirs and `FALCON_GRAPH_PATH` are set by the Dockerfile.
+(privileged writes), and optionally `FALCON_ENGINE_SERVICE_TOKEN` (32+ random
+characters, the same value on the research worker) to enable
+`/service/delete-user-data`. Data dirs and `FALCON_GRAPH_PATH` are set by the Dockerfile.
 
 Then point the desktop at it with `FALCON_ENGINE_URL=https://…`. Without that
 var the app runs the chain locally exactly as before, which is also the fallback

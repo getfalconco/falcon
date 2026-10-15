@@ -89,7 +89,25 @@ describe("risk/compute — snapshot", () => {
     assert.equal(c.network.score, 5);
     assert.equal(s.invested_fraction, 1);
     assert.equal(s.driver?.component, "concentration");
-    assert.equal(s.driver?.sentence, "100% of the portfolio sits in NVDA.");
+    assert.equal(s.driver?.sentence, "100.0% of the portfolio sits in NVDA.");
+  });
+
+  it("the concentration sentence quotes the share of the account, cash included", () => {
+    // LLY 2,480 + 520 elsewhere priced, 7,000 cash: 24.8% of a 10,000 account,
+    // 82.7% of the invested 3,000 (the figure the sentence used to quote).
+    const s = computeRiskSnapshot(
+      inputs({
+        account: account([position("LLY", 4, 2000), position("XOM", 4, 400)], 7000),
+        quant: { LLY: quant({ last_price: 620 }), XOM: quant({ last_price: 130 }) },
+      }),
+      config,
+    );
+    const top = s.components!.concentration.top[0];
+    assert.equal(top.ticker, "LLY");
+    assert.equal(top.account_weight, 0.248);
+    assert.equal(s.components!.concentration.account_value, 10_000);
+    assert.equal(s.driver?.component, "concentration");
+    assert.equal(s.driver?.sentence, "24.8% of the portfolio sits in LLY.");
   });
 
   it("degraded: null β and null vol substitute and are recorded; an unknown ticker is priced at cost basis and excluded from the graph", () => {

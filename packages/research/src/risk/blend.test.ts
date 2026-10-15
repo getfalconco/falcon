@@ -9,7 +9,7 @@ const round3 = (v: number) => Math.round(v * 1000) / 1000;
 
 function components(scores: Partial<Record<keyof RiskComponents, number | null>>, extra: Partial<RiskComponents> = {}): RiskComponents {
   return {
-    concentration: { score: scores.concentration ?? 0, hhi: 0.21, top: [{ ticker: "NVDA", weight: 0.62 }] },
+    concentration: { score: scores.concentration ?? 0, hhi: 0.21, top: [{ ticker: "NVDA", weight: 0.62, account_weight: 0.62 }] },
     market: { score: scores.market ?? 0, beta_eff: 1.48, beta_port: 1.6 },
     volatility: { score: scores.volatility ?? 0, port_vol_daily_pct: 2.14, spy_vol_daily_pct: 0.9, systematic_share: 0.4 },
     network: {
@@ -100,7 +100,7 @@ describe("risk/blend", () => {
 
   it("sentences are descriptive templates filled from the payloads", () => {
     const c = components({ network: 72 });
-    assert.equal(componentSentence("concentration", c, config), "62% of the portfolio sits in NVDA.");
+    assert.equal(componentSentence("concentration", c, config), "62.0% of the portfolio sits in NVDA.");
     assert.equal(componentSentence("market", c, config), "The book moves about 1.48× the market.");
     assert.equal(componentSentence("volatility", c, config), "A typical day swings the book about 2.1%.");
     assert.equal(componentSentence("network", c, config), "NVDA and TSM share critical supply-chain exposure.");

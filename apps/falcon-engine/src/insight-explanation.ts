@@ -14,7 +14,7 @@
  * only be caching for itself.
  */
 
-import { anthropicGlossCaller, glossConfigured } from "@meridian/research/gloss";
+import { CLAUDE_WRITING_MODEL, anthropicGlossCaller, glossConfigured } from "@meridian/research/gloss";
 import { targetProgress } from "@meridian/research/propagation/contracts";
 import type { PropagationRun, PropagationTarget } from "@meridian/research/propagation/engine";
 import { supabaseFetch } from "./supabase.js";
@@ -26,7 +26,7 @@ import { supabaseFetch } from "./supabase.js";
  * swapping it is a quality decision someone should be able to make and reverse
  * from a deployment, without a release.
  */
-const MODEL = process.env.FALCON_INSIGHT_MODEL?.trim() || "claude-opus-5";
+const MODEL = process.env.FALCON_INSIGHT_MODEL?.trim() || CLAUDE_WRITING_MODEL;
 const MAX_TOKENS = 1600;
 const TIMEOUT_MS = 45_000;
 const TABLE = "insight_explanations";

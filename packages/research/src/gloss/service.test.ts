@@ -6,6 +6,7 @@ import {
   glossSelection,
   looksLikeAdviceOrLink,
   parseGloss,
+  plainDashes,
   translateGloss,
 } from "./service.js";
 import { DEFAULT_GLOSS_CONFIG, type GlossModelCaller, type GlossModelInput } from "./types.js";
@@ -169,5 +170,33 @@ describe("translateGloss", () => {
     const caller = recorder("{}");
     await assert.rejects(() => translateGloss("guidance", "  ", caller), GlossError);
     assert.equal(caller.calls.length, 0);
+  });
+});
+
+describe("dashes in what the model wrote", () => {
+  const EM = "—";
+  const EN = "–";
+
+  it("never reach the card, in the explanation, the context line or the translation", async () => {
+    const result = parseGloss(
+      JSON.stringify({
+        kind: "term",
+        term: "guidance",
+        english: `What management expects ${EM} revenue, margins, the next quarter.`,
+        in_context: `A 3${EN}5% cut to the range.`,
+        finance_specific: true,
+      }),
+      "guidance",
+    );
+    assert.equal(result.english, "What management expects, revenue, margins, the next quarter.");
+    assert.equal(result.in_context, "A 3 to 5% cut to the range.");
+    const tr = await translateGloss("guidance", "x", recorder(JSON.stringify({ turkish: `Beklenti ${EM} gelir.` })));
+    assert.equal(tr.turkish, "Beklenti, gelir.");
+  });
+
+  it("mirror the desktop rule", () => {
+    assert.equal(plainDashes(`U.S.${EN}China`), "U.S.-China");
+    assert.equal(plainDashes(`held ${EM}.`), "held.");
+    assert.equal(plainDashes("no dash here"), "no dash here");
   });
 });

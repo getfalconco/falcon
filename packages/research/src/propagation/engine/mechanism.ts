@@ -65,7 +65,7 @@ export function templateMechanism(
   const alsoClause = also.length
     ? ` Also ${also.map((r) => ROLE_PHRASE[r]).join(" and ")}${
         input.transmission.role_conflict
-          ? " — the two roles point opposite ways, so no direction is called"
+          ? "; the two roles point opposite ways, so no direction is called"
           : ""
       }.`
     : "";

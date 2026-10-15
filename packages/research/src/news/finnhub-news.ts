@@ -1,4 +1,5 @@
 import { finnhubApiBase } from "../finnhub.js";
+import { repairArticleText } from "./mojibake.js";
 
 export type FinnhubNewsArticle = {
   id: number;
@@ -45,10 +46,10 @@ export async function fetchFinnhubCompanyNews(
     console.info(`[events] Finnhub ${symbol}: HTTP ${res.status}`);
 
     if (res.status === 401) {
-      return { ok: false, error: "Finnhub 401 — invalid FINNHUB_API_KEY", status: 401 };
+      return { ok: false, error: "Finnhub 401: invalid FINNHUB_API_KEY", status: 401 };
     }
     if (res.status === 429) {
-      return { ok: false, error: "Finnhub 429 — rate limit exceeded", status: 429 };
+      return { ok: false, error: "Finnhub 429: rate limit exceeded", status: 429 };
     }
     if (!res.ok) {
       const body = await res.text().catch(() => "");
@@ -60,7 +61,9 @@ export async function fetchFinnhubCompanyNews(
     }
 
     const data = (await res.json()) as FinnhubNewsArticle[];
-    const articles = Array.isArray(data) ? data : [];
+    // Some providers' text arrives as mojibake ("weekâ€™s"): repaired here,
+    // once, so the feed, the classifier and the event store all read it fixed.
+    const articles = Array.isArray(data) ? data.map(repairArticleText) : [];
     return { ok: true, articles };
   } catch (err) {
     const message =

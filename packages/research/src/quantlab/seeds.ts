@@ -70,7 +70,7 @@ export const QUIET_ACCUMULATION: Strategy = newStrategy({
   direction: { kind: "long_only" },
   notes:
     "Tests Screen's premise that volume without price is accumulation that later resolves upward. " +
-    "Kill condition: no edge over base rate at either horizon. Note the veto handicap runs in this strategy's FAVOUR — the news-burst gate is disabled historically, so more signals fire here than would fire live. Failing under those conditions is conclusive.",
+    "Kill condition: no edge over base rate at either horizon. Note the veto handicap runs in this strategy's FAVOUR: the news-burst gate is disabled historically, so more signals fire here than would fire live. Failing under those conditions is conclusive.",
 });
 
 /**
@@ -136,7 +136,7 @@ export const INSIDER_DIVERGENCE: Strategy = newStrategy({
   direction: { kind: "pattern_direction" },
   notes:
     "Tests the insider-cluster detector that produced Falcon's first P1 incidents: insiders buying while momentum falls (or selling while it rises). " +
-    "NOT BACKTESTABLE — Tracker keeps only a 10-business-day insider window, so no history exists. Live-ledger only until the Form 4 archive is backfilled. " +
+    "NOT BACKTESTABLE: Tracker keeps only a 10-business-day insider window, so no history exists. Live-ledger only until the Form 4 archive is backfilled. " +
     "Kill condition (forward): after 30 live signals, no edge over base rate at 10 sessions.",
 });
 

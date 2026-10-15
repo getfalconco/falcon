@@ -6,6 +6,7 @@
  */
 
 import type { GraphIndex } from "../propagation/engine/graph.js";
+import { accountWeight, accountValue } from "../portfolio/weights.js";
 import { interpolateAnchors, round } from "./anchors.js";
 import type { RiskConfig } from "./config.js";
 import { linkedFraction } from "./network.js";
@@ -80,12 +81,26 @@ export function buildWeights(account: RiskAccountInput, quant: Record<string, Ri
 // 3.1 Concentration
 // ---------------------------------------------------------------------------
 
-export function concentrationComponent(weights: RiskWeight[], config: RiskConfig): ConcentrationPayload {
+/**
+ * The HHI runs on invested-only weights: concentration is how the holdings are
+ * spread among themselves, and cash is not a holding. The payload also carries
+ * each top holding's share of the whole account (`cash` is the account's
+ * signed cash), so the sentence can quote the same figure the Positions card
+ * prints instead of an invested-only share it would call "of the portfolio".
+ */
+export function concentrationComponent(weights: RiskWeight[], config: RiskConfig, cash = 0): ConcentrationPayload {
   const hhi = weights.reduce((s, w) => s + w.weight * w.weight, 0);
+  const signed = (w: RiskWeight) => (w.side === "short" ? -w.market_value : w.market_value);
+  const total = accountValue(cash, weights.map(signed));
+  const accountShare = (w: RiskWeight): number | null => {
+    const share = accountWeight(signed(w), total);
+    return share == null ? null : round(share, 5);
+  };
   return {
     score: weights.length === 0 ? 0 : interpolateAnchors(config.anchors.concentration, hhi),
     hhi: round(hhi, 4),
-    top: weights.slice(0, config.payloadTop).map((w) => ({ ticker: w.ticker, weight: round(w.weight, 4) })),
+    top: weights.slice(0, config.payloadTop).map((w) => ({ ticker: w.ticker, weight: round(w.weight, 4), account_weight: accountShare(w) })),
+    account_value: round(total, 2),
   };
 }
 

@@ -8,7 +8,7 @@ import {
   TRANSLATE_SYSTEM,
 } from "./prompt.js";
 import {
-  DEFAULT_GLOSS_CONFIG,
+  resolveGlossConfig,
   type GlossConfig,
   type GlossModelCaller,
   type GlossRequest,
@@ -25,8 +25,25 @@ import {
 
 export class GlossError extends Error {}
 
+/**
+ * The house dash rule on what the model wrote, mirroring the desktop's
+ * `plainDashes` (apps/desktop/src/shared/copy-rules.ts; research cannot
+ * import from an app): a numeric range reads "2 to 3", a long dash between
+ * clauses becomes a comma, any other dash a hyphen. The prompt asks for no
+ * dashes; this keeps the card clean when the model forgets.
+ */
+export function plainDashes(text: string): string {
+  return text
+    .replace(/(\d)\s*[–—]\s*(\d)/g, "$1 to $2")
+    .replace(/\s*[—―]\s*/g, ", ")
+    .replace(/[‒–―−]/g, "-")
+    .replace(/,\s*,/g, ",")
+    .replace(/,\s*([.?;:])/g, "$1")
+    .replace(/^,\s*/gm, "");
+}
+
 function clean(value: unknown): string {
-  return typeof value === "string" ? value.trim() : "";
+  return typeof value === "string" ? plainDashes(value.trim()).trim() : "";
 }
 
 function parseObject(text: string): Record<string, unknown> {
@@ -95,7 +112,7 @@ function assertSelection(selection: string, config: GlossConfig): string {
   if (trimmed.length > config.maxSelectionChars) {
     // Refused rather than truncated: half a sentence explained confidently is
     // worse than saying no.
-    throw new GlossError("selection is too long — highlight a sentence or less");
+    throw new GlossError("selection is too long: highlight a sentence or less");
   }
   return trimmed;
 }
@@ -103,7 +120,7 @@ function assertSelection(selection: string, config: GlossConfig): string {
 export async function glossSelection(
   request: GlossRequest,
   caller: GlossModelCaller,
-  config: GlossConfig = DEFAULT_GLOSS_CONFIG,
+  config: GlossConfig = resolveGlossConfig(),
   signal?: AbortSignal,
 ): Promise<GlossResult> {
   const selection = assertSelection(request.selection, config);
@@ -131,7 +148,7 @@ export async function translateGloss(
   term: string,
   english: string,
   caller: GlossModelCaller,
-  config: GlossConfig = DEFAULT_GLOSS_CONFIG,
+  config: GlossConfig = resolveGlossConfig(),
   signal?: AbortSignal,
 ): Promise<GlossTranslation> {
   const source = english.trim();

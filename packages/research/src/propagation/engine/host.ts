@@ -316,7 +316,7 @@ export class PropagationHost {
 
     const outcome = await this.fastService.run(request, {
       stage2: false,
-      stage2SkipReason: "fast path — stage-1 only, refined on the next cycle",
+      stage2SkipReason: "fast path: stage-1 only, refined on the next cycle",
     });
     if (outcome.source === "cache" || outcome.source === "dropped" || outcome.source === "skipped") return outcome.run;
     const run = outcome.run;

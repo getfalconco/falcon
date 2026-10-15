@@ -59,7 +59,7 @@ export function computeRiskSnapshot(inputs: RiskInputs, config: RiskConfig, opti
 
   const degraded: RiskDegraded[] = [...weightDegraded];
   const betas = resolveBetas(weights, quant, config, degraded);
-  const concentration = concentrationComponent(weights, config);
+  const concentration = concentrationComponent(weights, config, inputs.account.cash);
   const market = marketComponent(weights, betas, invested_fraction, config);
   const volatility = volatilityComponent(weights, betas, quant, { spyVol: inputs.spy_daily_vol, universeMedianVol: inputs.universe_median_vol }, config, degraded);
   const network = networkComponent(weights, inputs.graph, config, degraded);

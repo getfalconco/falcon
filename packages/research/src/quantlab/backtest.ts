@@ -87,7 +87,7 @@ export function loadEnvironment(options: LoadEnvironmentOptions = {}): BacktestE
   const bench = seriesByTicker.get(config.data.benchmark);
   if (!bench) {
     throw new Error(
-      `no ${config.data.benchmark} series in ${seriesStore.seriesDir} — run \`quantlab-backfill.ts series\` first`,
+      `no ${config.data.benchmark} series in ${seriesStore.seriesDir}: run \`quantlab-backfill.ts series\` first`,
     );
   }
   const calendar = TradingCalendar.fromBars(
@@ -225,7 +225,7 @@ export function runBacktest(
     const earliest = earliestEdgeDisclosure(env.graph);
     extraCaveats.push(
       earliest
-        ? `Graph coverage: the earliest edge disclosure is ${earliest}. Sessions before it have no edges by construction, so this rule is only testable from ${earliest} onward — ${env.graph.edges.length} edges total.`
+        ? `Graph coverage: the earliest edge disclosure is ${earliest}. Sessions before it have no edges by construction, so this rule is only testable from ${earliest} onward; ${env.graph.edges.length} edges total.`
         : "Graph coverage: no dated edges are available, so no graph-triggered signal can fire.",
     );
   }
@@ -253,7 +253,7 @@ export function runBacktest(
     .sort((a, b) => b[1] - a[1])
     .map(([kind, n]) => `${kind} ${n}`)
     .join(", ");
-  if (rejectionSummary) extraCaveats.push(`Filter rejections — ${rejectionSummary}.`);
+  if (rejectionSummary) extraCaveats.push(`Filter rejections: ${rejectionSummary}.`);
   if (SCREEN_ASOF_APPROXIMATIONS.news_burst === "inactive" && strategy.trigger.pattern?.names.includes("quiet_accumulation")) {
     extraCaveats.push(
       "quiet_accumulation ran with its news-burst veto disabled, so this signal count is an upper bound on what would have fired live.",

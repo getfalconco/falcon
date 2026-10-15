@@ -42,18 +42,18 @@ export function canEnable(
   if (own.length === 0) {
     return {
       ok: false,
-      reason: `no backtest has been run for ${strategy.strategy_id} v${strategy.version} — an out-of-sample result is required before live evaluation`,
+      reason: `no backtest has been run for ${strategy.strategy_id} v${strategy.version}; an out-of-sample result is required before live evaluation`,
     };
   }
   const best = own.reduce((a, r) => (bestOosN(r) > bestOosN(a) ? r : a));
   const n = bestOosN(best);
   if (n === 0) {
-    return { ok: false, reason: "the backtest produced no out-of-sample signals — nothing has been tested forward" };
+    return { ok: false, reason: "the backtest produced no out-of-sample signals; nothing has been tested forward" };
   }
   if (n < config.backtest.minSignals) {
     return {
       ok: false,
-      reason: `out-of-sample n=${n}, below the ${config.backtest.minSignals}-signal floor — not enough evidence to justify tracking it live`,
+      reason: `out-of-sample n=${n}, below the ${config.backtest.minSignals}-signal floor; not enough evidence to justify tracking it live`,
     };
   }
   return { ok: true };

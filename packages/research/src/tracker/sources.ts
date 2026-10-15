@@ -11,6 +11,7 @@ import { classifySession, nyYmd } from "./calendar.js";
 import type { SessionKind } from "./calendar.js";
 import type { DailyBar, EarningsRecord, FilingRecord } from "./types.js";
 import { finnhubApiBase } from "../finnhub.js";
+import { repairArticleText } from "../news/mojibake.js";
 
 const YAHOO_BASE = "https://query1.finance.yahoo.com/v8/finance/chart";
 const BROWSER_UA =
@@ -231,7 +232,7 @@ export type FinnhubArticle = {
 
 export class FinnhubRateLimitError extends Error {
   constructor() {
-    super("Finnhub 429 — rate limit exceeded");
+    super("Finnhub 429: rate limit exceeded");
   }
 }
 
@@ -256,7 +257,8 @@ export async function fetchCompanyNews(
     if (res.status === 429) throw new FinnhubRateLimitError();
     if (!res.ok) throw new Error(`Finnhub HTTP ${res.status}`);
     const data = (await res.json()) as FinnhubArticle[];
-    return Array.isArray(data) ? data : [];
+    // Provider mojibake ("weekâ€™s") is repaired before a headline becomes a message.
+    return Array.isArray(data) ? data.map(repairArticleText) : [];
   } finally {
     clearTimeout(timer);
   }

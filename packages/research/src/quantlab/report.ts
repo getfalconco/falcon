@@ -231,7 +231,7 @@ export function verdictLine(oos: SampleStats, config: QuantLabConfig): string {
   const scored = oos.horizons.filter((h) => !h.insufficient);
   if (scored.length === 0) {
     const best = oos.horizons.reduce<HorizonStats | null>((a, h) => (a == null || h.n > a.n ? h : a), null);
-    return `Insufficient out-of-sample signals (n=${best?.n ?? 0}) — below the ${config.backtest.minSignals}-signal floor, no point estimate.`;
+    return `Insufficient out-of-sample signals (n=${best?.n ?? 0}): below the ${config.backtest.minSignals}-signal floor, no point estimate.`;
   }
   // The horizon with the most evidence, not the most flattering one.
   const chosen = scored.reduce((a, h) => (h.n > a.n ? h : a));
@@ -246,11 +246,11 @@ export function verdictLine(oos: SampleStats, config: QuantLabConfig): string {
     chosen.ci_low <= chosen.base_rate_median &&
     chosen.base_rate_median <= chosen.ci_high;
 
-  if (edge == null) return `${head} — base rate unavailable, no comparison possible.`;
-  if (straddles) return `${head} — the confidence interval contains the base rate, indistinguishable from it: no edge.`;
-  if (edge < 0) return `${head} — below its own base rate: negative edge.`;
+  if (edge == null) return `${head}: base rate unavailable, no comparison possible.`;
+  if (straddles) return `${head}: the confidence interval contains the base rate, indistinguishable from it: no edge.`;
+  if (edge < 0) return `${head}: below its own base rate: negative edge.`;
   const magnitude = Math.abs(edge) < 0.005 ? "marginal edge" : Math.abs(edge) < 0.015 ? "modest edge" : "material edge";
-  return `${head} — ${magnitude} of ${pct(edge)} over base rate.`;
+  return `${head}: ${magnitude} of ${pct(edge)} over base rate.`;
 }
 
 /**
@@ -272,10 +272,10 @@ export function overfitWarning(
     if (!oos || is.sharpe == null || oos.sharpe == null) continue;
     const gap = is.sharpe - oos.sharpe;
     if (gap >= config.backtest.overfitSharpeGap) {
-      return `IS Sharpe ${num2(is.sharpe)} vs OOS ${num2(oos.sharpe)} at ${is.sessions}d — likely overfit.`;
+      return `IS Sharpe ${num2(is.sharpe)} vs OOS ${num2(oos.sharpe)} at ${is.sessions}d: likely overfit.`;
     }
     if (-gap >= config.backtest.overfitSharpeGap) {
-      return `IS Sharpe ${num2(is.sharpe)} vs OOS ${num2(oos.sharpe)} at ${is.sessions}d — the edge exists only in the recent period, so it is regime-dependent, not established.`;
+      return `IS Sharpe ${num2(is.sharpe)} vs OOS ${num2(oos.sharpe)} at ${is.sessions}d: the edge exists only in the recent period, so it is regime-dependent, not established.`;
     }
   }
   return null;
@@ -302,7 +302,7 @@ export function splitWarning(
   const last = signals[signals.length - 1].session;
   const empty = isN === 0 ? "in-sample" : "out-of-sample";
   return (
-    `IS/OOS split is degenerate — the ${empty} period holds no signals. ` +
+    `IS/OOS split is degenerate: the ${empty} period holds no signals. ` +
     `All ${signals.length} signals fall between ${first} and ${last}. ` +
     `Re-run with the window narrowed to that span to get a split that separates anything.`
   );

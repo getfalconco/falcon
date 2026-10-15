@@ -2,12 +2,17 @@
  * 24/7 portfolio tracker.
  *
  * Every tick: read every synced paper portfolio from Supabase, price the held
- * symbols via Finnhub, and append one net-worth snapshot per user. This is
- * what keeps the desktop's portfolio chart moving while the app is closed.
+ * symbols via Finnhub, and append a net-worth snapshot for each user whose
+ * value moved enough to be worth a row (snapshot-policy.ts: at most one per
+ * minute in the regular session, one per 5 minutes in extended hours, one per
+ * hour otherwise, plus an hourly heartbeat). This is what keeps the desktop's
+ * portfolio chart moving while the app is closed.
  *
  * Mirrors the engine-health pattern: service-role REST, best-effort (never
  * throws into the run loop), no-op when Supabase isn't configured.
  */
+
+import { marketSession, shouldWriteSnapshot, type LastWrite } from "./snapshot-policy.js";
 
 type PortfolioRow = {
   user_id: string;
@@ -167,6 +172,23 @@ async function pricedSymbol(symbol: string, token: string): Promise<number | nul
   return price;
 }
 
+/**
+ * The last row written per user, so a tick can tell whether a new one is
+ * warranted. In memory: after a restart the first tick writes one row per
+ * user, which costs one row and needs no read.
+ */
+const lastWritten = new Map<string, LastWrite>();
+
+/** The snapshots from one valuation pass that deserve a row. */
+export function selectSnapshotsToWrite<T extends { user_id: string; value: number }>(
+  snapshots: T[],
+  nowMs: number,
+  last: ReadonlyMap<string, LastWrite> = lastWritten,
+): T[] {
+  const session = marketSession(new Date(nowMs));
+  return snapshots.filter((s) => shouldWriteSnapshot(last.get(s.user_id), nowMs, s.value, session));
+}
+
 /** One tracking pass. Returns a short summary line for logging. */
 export async function runPortfolioTrack(): Promise<string> {
   const config = supabaseConfig();
@@ -196,8 +218,9 @@ export async function runPortfolioTrack(): Promise<string> {
     if (!fresh) await sleep(QUOTE_DELAY_MS);
   }
 
-  const now = new Date().toISOString();
-  const snapshots = portfolios.map((p) => {
+  const nowMs = Date.now();
+  const now = new Date(nowMs).toISOString();
+  const valued = portfolios.map((p) => {
     const cash = Number.isFinite(p.cash) ? p.cash : 0;
     const positionsValue = Object.entries(p.positions ?? {}).reduce(
       (sum, [symbol, pos]) => {
@@ -215,6 +238,12 @@ export async function runPortfolioTrack(): Promise<string> {
     return { user_id: p.user_id, ts: now, value: cash + positionsValue };
   });
 
+  const snapshots = selectSnapshotsToWrite(valued, nowMs);
+  const priced = `${prices.size}/${symbols.length} symbols priced`;
+  if (snapshots.length === 0) {
+    return `${valued.length} portfolio(s) valued, none moved enough to record · ${priced}`;
+  }
+
   const res = await fetch(`${config.url}/rest/v1/portfolio_snapshots`, {
     method: "POST",
     headers: {
@@ -231,7 +260,12 @@ export async function runPortfolioTrack(): Promise<string> {
     );
   }
 
-  return `${snapshots.length} portfolio(s) snapshotted, ${prices.size}/${symbols.length} symbols priced`;
+  for (const s of snapshots) lastWritten.set(s.user_id, { at: nowMs, value: s.value });
+  // Users who are gone (account deleted, portfolio removed) drop out of the map.
+  const live = new Set(valued.map((v) => v.user_id));
+  for (const id of lastWritten.keys()) if (!live.has(id)) lastWritten.delete(id);
+
+  return `${snapshots.length}/${valued.length} portfolio(s) snapshotted · ${priced}`;
 }
 
 /** "fetch failed" hides the real network error in err.cause — surface it. */
@@ -271,13 +305,15 @@ export function portfolioTrackerHealth(): {
 }
 
 export function startPortfolioTracker(): void {
-  // 5s, matching the desktop's own recorder: a chart that jumps five minutes
-  // at a time between snapshots reads as a step function, not a trajectory.
-  // The floor is the same 5s — the price fetch below is what actually paces a
-  // tick, and a tick that overruns simply starts the next one late.
+  // The tick only values the books; whether a row is written is the snapshot
+  // policy's call (at most one per minute per user in the regular session).
+  // 15s keeps a regular-session row within ~15s of its minute without
+  // re-reading every portfolio every 5s for rows that would not be written.
+  // The floor stays 5s: the price fetch is what actually paces a tick, and a
+  // tick that overruns simply starts the next one late.
   const intervalMs = Math.max(
     5_000,
-    Number.parseInt(process.env.PORTFOLIO_TRACK_INTERVAL_MS ?? "5000", 10) || 5_000,
+    Number.parseInt(process.env.PORTFOLIO_TRACK_INTERVAL_MS ?? "15000", 10) || 15_000,
   );
 
   // Fail loudly on a malformed SUPABASE_URL — the #1 cause of "fetch failed".

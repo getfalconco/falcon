@@ -46,11 +46,11 @@ export type SkipReason =
 export const SKIP_REASON_LABEL: Record<SkipReason, string> = {
   run_inactive: "Run is not active",
   generated_before_lookback: "Signal predates the 24h lookback around run start",
-  stale_for_ui_window: "Older than 24h — would not show as an open window to users",
+  stale_for_ui_window: "Older than 24h, would not show as an open window to users",
   below_min_confidence: "path_confidence below 0.55",
   window_closed: "Already priced in (window closed)",
-  low_magnitude: "Magnitude is low — hidden from open-signal cards",
-  unclear_direction: "Direction unclear — no side to take",
+  low_magnitude: "Magnitude is low, hidden from open-signal cards",
+  unclear_direction: "Direction unclear, no side to take",
   long_only_skip_short: "Policy is long-only",
   duplicate_ticker: "Already holding this ticker",
   max_positions: "Max concurrent positions reached",
@@ -91,5 +91,5 @@ export function competitionHeadline(input: {
   mechanism: string;
 }): string {
   const arrow = input.direction === "positive" ? "↑" : input.direction === "negative" ? "↓" : "→";
-  return `${input.ticker} ${arrow} — ${shortMechanismLine(input.reasoning, input.eventSummary, input.mechanism)}`;
+  return `${input.ticker} ${arrow} · ${shortMechanismLine(input.reasoning, input.eventSummary, input.mechanism)}`;
 }

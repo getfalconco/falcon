@@ -27,7 +27,7 @@ describe("gauge/setups — 1 COILED", () => {
     assert.equal(r.state, "actionable");
     assert.equal(r.missing, null);
     assert.equal(r.setup.direction, null);
-    assert.equal(r.setup.read, "Compressed range, quiet volume, no event wall for — sessions");
+    assert.equal(r.setup.read, "Compressed range, quiet volume, no event wall for n/a sessions");
   });
   it("an expanded regime declines it", () => {
     assert.notEqual(keyOf(inputs({ quant: quant({ vol_regime: 0.9, volume_ratio: 0.6 }) })), "coiled");
@@ -35,7 +35,7 @@ describe("gauge/setups — 1 COILED", () => {
   it("a Screen compression finding upgrades the reading with its own numbers", () => {
     const r = setupOf(inputs({ quant: coiledQuant(), next_earnings: due(8), screen: [finding("compression", { day_count: 2 })] }));
     assert.equal(r.setup.key, "coiled");
-    assert.equal(r.setup.read, "Compressed for 2 sessions — vol 0.70× its 90d norm, quiet volume, no event wall for 8 sessions");
+    assert.equal(r.setup.read, "Compressed for 2 sessions: vol 0.70× its 90d norm, quiet volume, no event wall for 8 sessions");
     assert.deepEqual(r.setup.screen.map((s) => s.pattern), ["compression"]);
   });
 });
@@ -45,9 +45,9 @@ describe("gauge/setups — 2 COILED · EVENT AHEAD", () => {
     const r = setupOf(inputs({ quant: coiledQuant(), next_earnings: due(2) }));
     assert.equal(r.setup.key, "coiled_event_ahead");
     assert.equal(r.state, "wait");
-    assert.equal(r.setup.read, "Compressed, but earnings in 2 sessions — the event resolves it, not the tape");
+    assert.equal(r.setup.read, "Compressed, but earnings in 2 sessions: the event resolves it, not the tape");
     assert.equal(r.missing?.label, "earnings in 2 sessions");
-    assert.equal(r.missing?.detail, "earnings in 2 sessions on 2026-08-26 — the tape reads through until it prints");
+    assert.equal(r.missing?.detail, "earnings in 2 sessions on 2026-08-26: the tape reads through until it prints");
   });
   it("the same structure with the event outside the wall stays COILED", () => {
     assert.equal(keyOf(inputs({ quant: coiledQuant(), next_earnings: due(4) })), "coiled");
@@ -62,7 +62,7 @@ describe("gauge/setups — 3 QUIET DRIFT", () => {
     assert.equal(r.setup.direction, "up");
     assert.equal(r.setup.read, "Pushing on its own for 4 sessions, market-independent");
     assert.equal(r.missing?.label, "volume confirmation");
-    assert.equal(r.missing?.detail, "volume 0.60× average, needs 1.20× — no participation yet");
+    assert.equal(r.missing?.detail, "volume 0.60× average, needs 1.20×: no participation yet");
   });
   it("a down tape reads as sliding", () => {
     const r = setupOf(inputs({ quant: quant({ volume_ratio: 0.6 }), screen: [finding("independent_tape", { direction: "down", values: { direction: "down", sessions_qualifying: 3 } })] }));
@@ -85,7 +85,7 @@ describe("gauge/setups — 4 CONFIRMED DRIFT", () => {
     assert.equal(r.setup.key, "confirmed_drift");
     assert.equal(r.state, "actionable");
     assert.equal(r.missing, null);
-    assert.equal(r.setup.read, "Independent move higher with volume building — 4 sessions, 1.50× average");
+    assert.equal(r.setup.read, "Independent move higher with volume building: 4 sessions, 1.50× average");
   });
   it("volume past the crowded bound declines it", () => {
     assert.notEqual(keyOf(inputs({ quant: quant({ volume_ratio: 3.5 }), screen: [finding("independent_tape")] })), "confirmed_drift");
@@ -97,7 +97,7 @@ describe("gauge/setups — 5 ACCUMULATION", () => {
     const r = setupOf(inputs({ quant: quant({ momentum_5d: 0.005 }), screen: [finding("quiet_accumulation")] }));
     assert.equal(r.setup.key, "accumulation");
     assert.equal(r.state, "actionable");
-    assert.equal(r.setup.read, "Volume arriving for 4 sessions, price flat — someone is building");
+    assert.equal(r.setup.read, "Volume arriving for 4 sessions, price flat: someone is building");
     assert.equal(r.setup.direction, null);
   });
   it("a moving price declines it", () => {
@@ -147,7 +147,7 @@ describe("gauge/setups — 8 REGIME BREAK", () => {
     const r = setupOf(inputs({ quant: quant({ vol_regime: 1.7 }) }));
     assert.equal(r.setup.key, "regime_break");
     assert.equal(r.state, "unreadable");
-    assert.equal(r.setup.read, "Volatility 1.70× its own norm — structure unreliable");
+    assert.equal(r.setup.read, "Volatility 1.70× its own norm: structure unreliable");
     assert.equal(r.readable, false);
     // The reading already says it; no second caveat.
     assert.equal(r.readability_note, null);
@@ -162,7 +162,7 @@ describe("gauge/setups — 9 UNREADABLE", () => {
     const r = setupOf(inputs({ quant: quant({ r2: 0.03, beta: 1.1 }) }));
     assert.equal(r.setup.key, "unreadable");
     assert.equal(r.state, "unreadable");
-    assert.equal(r.setup.read, "The market model explains little of the movement (β 1.10, r² 0.03) — residual reads no cleaner than the raw move");
+    assert.equal(r.setup.read, "The market model explains little of the movement (β 1.10, r² 0.03): residual reads no cleaner than the raw move");
     assert.equal(r.readable, false);
   });
   it("a fittable market model declines it", () => {
@@ -186,7 +186,7 @@ describe("gauge/setups — 9 UNREADABLE", () => {
   it("null r² names the gap instead of pretending", () => {
     const r = setupOf(inputs({ quant: quant({ r2: null, beta: null }) }));
     assert.equal(r.setup.key, "unreadable");
-    assert.equal(r.setup.read, "Not enough history to fit the market model — residual reads unavailable");
+    assert.equal(r.setup.read, "Not enough history to fit the market model: residual reads unavailable");
   });
 });
 
@@ -195,7 +195,7 @@ describe("gauge/setups — 10 EVENT WALL", () => {
     const r = setupOf(inputs({ next_earnings: due(1) }));
     assert.equal(r.setup.key, "event_wall");
     assert.equal(r.state, "wait");
-    assert.equal(r.setup.read, "Earnings in 1 session, typical move 4.9% — everything else is noise until then");
+    assert.equal(r.setup.read, "Earnings in 1 session, typical move 4.9%: everything else is noise until then");
     assert.equal(r.missing?.label, "earnings in 1 session");
   });
   it("fires at the wait horizon, not only when imminent (the v1.0 table left 2 sessions homeless)", () => {
@@ -213,7 +213,7 @@ describe("gauge/setups — 11 NO SETUP", () => {
     const r = setupOf(inputs());
     assert.equal(r.setup.key, "no_setup");
     assert.equal(r.state, "nothing_here");
-    assert.equal(r.setup.read, "No recognizable structure — normal tape");
+    assert.equal(r.setup.read, "No recognizable structure: normal tape");
     assert.equal(r.missing, null);
   });
   it("a recognized structure never lands here", () => {
@@ -254,7 +254,7 @@ describe("gauge/setups — evaluation order", () => {
     assert.equal(r.readable, false);
     assert.equal(
       r.readability_note,
-      "residual reads weak — the market model explains little (β 2.30, r² 0.03); the structure is measured on price and volume, not residuals",
+      "residual reads weak: the market model explains little (β 2.30, r² 0.03); the structure is measured on price and volume, not residuals",
     );
   });
   it("the order is config — moving unreadable back to the top restores the v1.0 behaviour", () => {
@@ -336,7 +336,7 @@ describe("gauge/setups — context mode", () => {
     assert.equal(r.setup.key, "confirmed_drift");
     assert.equal(r.state, "contradicted_setup");
     assert.equal(r.missing, null);
-    assert.equal(r.state_line, "The tape is set up in the opposite direction of the thesis — CONFIRMED DRIFT reads up, the thesis expects down");
+    assert.equal(r.state_line, "The tape is set up in the opposite direction of the thesis: CONFIRMED DRIFT reads up, the thesis expects down");
   });
   it("a directional setup aligned with the thesis keeps its own state", () => {
     const i = inputs({ quant: quant({ volume_ratio: 1.5 }), screen: [finding("independent_tape")] });
@@ -381,7 +381,7 @@ describe("gauge/setups — degraded and evidence", () => {
   it("the untracked readout still carries a setup shape", () => {
     const r = gauge(inputs({ tracked: false, quant: null }), config);
     assert.equal(r.setup.key, "no_setup");
-    assert.equal(r.setup.read, "Not tracked — no gauge.");
+    assert.equal(r.setup.read, "Not tracked: no gauge.");
     assert.equal(r.state, "nothing_here");
     assert.equal(r.readable, false);
   });
@@ -389,7 +389,7 @@ describe("gauge/setups — degraded and evidence", () => {
     const i = inputs({ quant: coiledQuant() });
     const r = gauge(i, config);
     assert.deepEqual(r.checks.map((c) => c.key), ["trend", "regime", "residual", "volume", "stretch", "event_wall"]);
-    assert.equal(r.checks[1].reason, "vol regime 0.70× its 90d norm — contracting, quieter than usual");
+    assert.equal(r.checks[1].reason, "vol regime 0.70× its 90d norm: contracting, quieter than usual");
     assert.equal(r.checks[4].values.stretch_z, 0.03 / (0.02 * Math.sqrt(20)));
     assert.equal(r.summary.overall, "clear");
     // …and the hero is now the setup, not the checks.

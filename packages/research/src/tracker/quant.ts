@@ -194,23 +194,45 @@ export function computeQuantContext(inputs: QuantInputs): QuantContext {
 
 /** §3.8 — mean |1-day move| over the last N earnings dates. */
 export function computeEarningsRhythm(state: TickerState, config: TrackerConfig): number | null {
-  const byDay = new Map(state.bars.map((b) => [b.d, b]));
-  const days = state.bars.map((b) => b.d);
-  const moves: number[] = [];
   const recent = state.earnings.slice(-config.windows.earningsHistoryCount);
-  for (const earning of recent) {
+  const moves = earningsReactionMoves(state.bars, recent).map((m) => Math.abs(m.move));
+  return earningsRhythm(moves);
+}
+
+/** One report's reaction: the session the market first traded on it, and that session's close-to-close move (signed fraction). */
+export type EarningsReactionMove = { date: string; reactionDay: string; move: number };
+
+/**
+ * The reaction move of each report, in the order given (§3.8). An "amc"
+ * report (after the close) is first traded the NEXT session; any other hour
+ * (before the open, during the session, or unknown) the same session, or the
+ * next one when the report day had no session. The move is that session's
+ * close against the close before it. A report whose reaction session or the
+ * session before it is missing from `bars` is left out.
+ *
+ * Shared by the Tracker's earnings_rhythm and the desktop Earnings tab's
+ * "usual move", so both mean the same thing by it.
+ */
+export function earningsReactionMoves(
+  bars: ReadonlyArray<Pick<DailyBar, "d" | "c">>,
+  earnings: ReadonlyArray<{ date: string; hour: string | null }>,
+): EarningsReactionMove[] {
+  const byDay = new Map(bars.map((b) => [b.d, b]));
+  const days = bars.map((b) => b.d);
+  const out: EarningsReactionMove[] = [];
+  for (const earning of earnings) {
+    const date = earning.date.slice(0, 10);
     // "amc" (after market close) prints move the NEXT session.
-    const reactionDay =
-      earning.hour === "amc" ? nextAvailableDay(days, earning.date) : nearestDay(days, earning.date);
+    const reactionDay = earning.hour === "amc" ? nextAvailableDay(days, date) : nearestDay(days, date);
     if (!reactionDay) continue;
     const idx = days.indexOf(reactionDay);
     if (idx <= 0) continue;
     const bar = byDay.get(reactionDay);
     const prev = byDay.get(days[idx - 1]);
     if (!bar || !prev || prev.c === 0) continue;
-    moves.push(Math.abs(bar.c / prev.c - 1));
+    out.push({ date, reactionDay, move: bar.c / prev.c - 1 });
   }
-  return earningsRhythm(moves);
+  return out;
 }
 
 function nearestDay(days: string[], target: string): string | null {

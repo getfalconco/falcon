@@ -1,11 +1,13 @@
 /**
  * The real `ModelCaller`: one Anthropic Messages call with structured JSON
- * output, temperature 0, bounded max_tokens and a per-call timeout/abort.
+ * output, temperature 0 where the model takes it (low effort where it does
+ * not), bounded max_tokens and a per-call timeout/abort.
  * Never imported by tests — they inject fixture callers.
  */
 
 import Anthropic from "@anthropic-ai/sdk";
-import { providerRouteFor } from "../providerRoute.js";
+import { acceptsEffort, acceptsSamplingParams } from "../anthropicModels.js";
+import { keyBrokenForRoute, providerRouteFor } from "../providerRoute.js";
 import { withProviderSlot } from "../providerGate.js";
 import { jsonFromModelText, withJsonInstruction } from "../model-json.js";
 import type { ModelCaller } from "./types.js";
@@ -14,22 +16,20 @@ let client: Anthropic | null = null;
 let clientKey: string | null = null;
 let clientBaseUrl: string | null = null;
 
-/** Where calls go: a gateway/proxy when configured, else the Anthropic API. */
-
 /**
  * A key that is not an `sk-ant-…` key only works against a gateway: the
  * research-worker proxy takes the user's Supabase JWT, and a third-party
- * gateway takes its own key. Sent to api.anthropic.com such a key is a
+ * gateway may take its own key. Sent to the official API such a key is a
  * guaranteed 401, and the error it comes back with ("API key is invalid")
- * describes the key rather than the missing base URL — which is what makes
+ * describes the key rather than the missing base URL, which is what makes
  * this misconfiguration expensive to diagnose. Refuse before calling.
  */
 function assertKeyMatchesRoute(apiKey: string, baseUrl: string): void {
-  if (baseUrl || apiKey.startsWith("sk-ant-")) return;
+  if (!keyBrokenForRoute(apiKey, baseUrl)) return;
   throw new Error(
-    "ANTHROPIC_API_KEY is not an Anthropic key (no sk-ant- prefix) and ANTHROPIC_BASE_URL is unset, " +
-      "so the call would go to api.anthropic.com and be rejected. Set ANTHROPIC_BASE_URL to the gateway " +
-      "this key belongs to, or supply an Anthropic key.",
+    "ANTHROPIC_API_KEY is not a Claude API key (no sk-ant- prefix) and calls go to api.anthropic.com, " +
+      "where it would be rejected. Supply a Claude API key, or set ANTHROPIC_BASE_URL to the gateway " +
+      "this key belongs to.",
   );
 }
 
@@ -46,12 +46,28 @@ function getClient(): Anthropic {
   assertKeyMatchesRoute(currentKey, baseURL);
   // SDK retries are disabled here: the service owns retry/backoff/breaker so
   // the metrics see every attempt.
-  client = new Anthropic({ apiKey: currentKey, maxRetries: 0, ...(baseURL ? { baseURL } : {}) });
+  client = new Anthropic({ apiKey: currentKey, maxRetries: 0, baseURL });
   clientKey = currentKey;
   clientBaseUrl = baseURL;
   return client;
 }
 
+/**
+ * The request fields that depend on the model. The spec asks for temperature
+ * 0, which Haiku 4.5 takes and every 4.7+ model rejects with a 400 (Haiku 5.5
+ * included), so it is sent only where accepted. A model that takes effort
+ * classifies at "low": a verdict is a short structured answer, and a higher
+ * setting spends reasoning tokens inside the same max_tokens ceiling.
+ */
+export function modelParams(model: string, temperature: number): {
+  temperature?: number;
+  effort?: "low";
+} {
+  return {
+    ...(acceptsSamplingParams(model) ? { temperature } : {}),
+    ...(acceptsEffort(model) ? { effort: "low" as const } : {}),
+  };
+}
 
 /**
  * How long to wait after a 429 before the caller retries.
@@ -89,12 +105,13 @@ async function createWithRateLimitRetry(input: Parameters<ModelCaller>[0]) {
 }
 
 async function rawCreate(input: Parameters<ModelCaller>[0]) {
+  const { temperature, effort } = modelParams(input.model, input.temperature);
   const response = await withProviderSlot("classifier", () =>
     getClient().messages.create(
     {
       model: input.model,
       max_tokens: input.max_tokens,
-      temperature: input.temperature,
+      ...(temperature === undefined ? {} : { temperature }),
       // The schema is sent twice on purpose: `output_config` is the real
       // guarantee, but a gateway that does not implement it returns 200 and
       // silently ignores it, and the reply arrives as prose. Restating the
@@ -111,9 +128,14 @@ async function rawCreate(input: Parameters<ModelCaller>[0]) {
       // reads it, so caching here is a pure surcharge on every call. Not
       // caching is the cheapest correct option until the gateway serves reads
       // — worth re-testing if we move off it, or if it gains support.
+      // (Measured on the old gateway. The default route is now the official
+      // API, which does serve cache reads, so this is due a re-measure.)
       system: withJsonInstruction(input.system, input.output_schema),
       messages: [{ role: "user", content: input.user }],
-      output_config: { format: { type: "json_schema", schema: input.output_schema } },
+      output_config: {
+        format: { type: "json_schema", schema: input.output_schema },
+        ...(effort ? { effort } : {}),
+      },
     },
     { timeout: input.timeout_ms, signal: input.signal },
     ),

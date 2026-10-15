@@ -152,7 +152,7 @@ export function checkResidual(inputs: GaugeInputs, config: GaugeConfig): GaugeCh
   const beta = inputs.quant?.beta ?? null;
   const values: Record<string, GaugeValue> = { r2, beta, r2_floor: inputs.r2_floor };
   if (!finite(r2)) return make("residual", config, { status: "n_a", reason: naReason(config, inputs, "r²"), values });
-  const vars = { r2: fmtRatio(r2), beta: finite(beta) ? fmtRatio(beta) : "—" };
+  const vars = { r2: fmtRatio(r2), beta: finite(beta) ? fmtRatio(beta) : "n/a" };
   if (r2 >= inputs.r2_floor) return make("residual", config, { status: "pass", reason: fill(T, "residual_pass", vars), values });
   return make("residual", config, { status: "caution", reason: fill(T, "residual_caution", vars), values, tpl: "residual_caution" });
 }

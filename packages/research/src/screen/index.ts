@@ -31,4 +31,20 @@ export {
  * always-on engine service run the same one; what differs is injected.
  */
 export * from "./host-types.js";
-export { ScreenHost, getScreenHost, setScreenNotifier, type ScreenNotifier } from "./host.js";
+export {
+  ScreenHost,
+  getScreenHost,
+  setScreenNotifier,
+  setScreenProximitySource,
+  type ScreenNotifier,
+  type ScreenProximitySource,
+} from "./host.js";
+/** The engine service keeps one watchlist per verified user (user-watchlists.ts). */
+export {
+  ScreenUserWatchlists,
+  getScreenUserWatchlists,
+  deleteUserScreenData,
+  isValidScreenUserId,
+  normalizeWatchlist,
+  type ScreenUserDeletion,
+} from "./user-watchlists.js";

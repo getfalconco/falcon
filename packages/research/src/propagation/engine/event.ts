@@ -139,7 +139,7 @@ export function selectBestEvent(
             : "positive"
           : shape.direction;
       const lines = [
-        oneLine(`${p.form_type} items ${p.item_codes.join(", ")} filed ${String(p.filed_at).slice(0, 10)} — ${p.item_codes.map(describeItemCode).join("; ")}`),
+        oneLine(`${p.form_type} items ${p.item_codes.join(", ")} filed ${String(p.filed_at).slice(0, 10)}: ${p.item_codes.map(describeItemCode).join("; ")}`),
       ];
       if (gapPayload && gap) {
         lines.push(

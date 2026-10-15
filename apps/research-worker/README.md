@@ -26,6 +26,7 @@ under RLS. What needs a server is anything that spends money or time:
 | `/api/brokerage/connect` | POST | JWT | Connection Portal URL (`{ broker?, redirectUrl? }`) |
 | `/api/brokerage/status` | GET | JWT | Live accounts + persist `broker_links` snapshot |
 | `/api/brokerage/disconnect` | POST | JWT | Drop a SnapTrade connection (`{ authorizationId }`) |
+| `/api/account/delete` | POST | JWT (approval not required) | Delete the caller's account: SnapTrade user, stored secret, engine risk data, then the auth user. Failed cleanups are queued in `account_deletion_tasks` and retried every 5 minutes (`src/account-deletion.ts`) |
 
 ## Auth
 
@@ -55,9 +56,18 @@ PORT=8787                     # Railway injects this
 SUPABASE_URL=
 SUPABASE_ANON_KEY=            # used to verify caller tokens
 SUPABASE_SERVICE_ROLE_KEY=    # used to write job rows + signals + broker secrets
-ANTHROPIC_API_KEY=            # step1 extraction
+ANTHROPIC_API_KEY=            # Claude API key (sk-ant-…): step1 extraction, and the
+                              # /api/anthropic proxy packaged desktops call through
+# ANTHROPIC_BASE_URL=         # optional override; unset means https://api.anthropic.com
+# FALCON_MODEL=               # step1 model (default claude-sonnet-4-5)
 SNAPTRADE_CLIENT_ID=          # brokerage connect (same keys as desktop)
 SNAPTRADE_CONSUMER_KEY=
+SNAPTRADE_SECRET_KEY=         # 32 bytes (hex or base64): AES-256-GCM key for the SnapTrade
+                              # user secret in snaptrade_secrets. Unset: plaintext + warning
+ERROR_LOG_ID_SALT=            # same value as the website: hashes account ids on error-log lines.
+                              # Unset: lines carry a masked email instead
+FALCON_ENGINE_URL=             # e.g. https://engine.getfalcon.co: account deletion erases engine risk data
+FALCON_ENGINE_SERVICE_TOKEN=   # 32+ chars, same value as on falcon-engine (/service/delete-user-data)
 DATA_DIR=/data                # mount a volume; propagation reads/writes here
 ```
 

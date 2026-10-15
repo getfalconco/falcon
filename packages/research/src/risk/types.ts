@@ -131,8 +131,19 @@ export type RiskDegraded = {
 
 export type ConcentrationPayload = {
   score: number;
+  /** Over invested-only weights (`top[].weight`): the holdings' own spread. */
   hhi: number;
-  top: Array<{ ticker: string; weight: number }>;
+  /**
+   * Largest holdings first. `weight` is the share of invested (absolute)
+   * market value the HHI runs on; `account_weight` is the share of the whole
+   * account, cash included and signed (`@meridian/research/portfolio`), the
+   * figure the Positions card prints and the only one a sentence may quote.
+   * Null when the account is worth nothing or less; absent on snapshots
+   * computed before it existed.
+   */
+  top: Array<{ ticker: string; weight: number; account_weight?: number | null }>;
+  /** Cash + Σ signed market value the account weights are over. */
+  account_value?: number;
 };
 
 export type MarketPayload = {

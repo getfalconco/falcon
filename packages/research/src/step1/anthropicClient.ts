@@ -6,15 +6,14 @@ import type { TokenUsage } from "./tokenUsage.js";
 export function createAnthropicClient(): Anthropic {
   const route = providerRouteFor("step1");
   if (!route.apiKey) {
-    throw new Error("No API key for step1 — set FALCON_OPENROUTER_KEY or ANTHROPIC_API_KEY");
+    throw new Error("No API key for step1: set FALCON_OPENROUTER_KEY or ANTHROPIC_API_KEY");
   }
-  // Honour ANTHROPIC_BASE_URL so the whole engine can be pointed at a gateway
-  // instead of api.anthropic.com. Without this the SDK silently ignored the
-  // configured base URL and sent gateway keys straight to Anthropic, which
-  // rejects them as invalid (401).
+  // The route's URL, always explicit: the official API by default, or the
+  // gateway / worker proxy ANTHROPIC_BASE_URL names. Sending a gateway key to
+  // the wrong host comes back as a misleading "invalid key" 401.
   return new Anthropic({
     apiKey: route.apiKey,
-    ...(route.baseUrl ? { baseURL: route.baseUrl } : {}),
+    baseURL: route.baseUrl,
   });
 }
 

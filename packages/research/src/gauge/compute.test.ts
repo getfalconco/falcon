@@ -18,7 +18,7 @@ describe("gauge/compute — modes", () => {
       ["trend", "regime", "residual", "volume", "stretch", "event_wall"],
     );
     assert.equal(r.summary.overall, "clear");
-    assert.equal(r.summary.sentence, "clear — 6 of 6 aligned");
+    assert.equal(r.summary.sentence, "clear: 6 of 6 aligned");
     assert.equal(r.quant_as_of, "2026-08-21");
     assert.equal(r.computed_at, NOW);
   });
@@ -27,20 +27,20 @@ describe("gauge/compute — modes", () => {
     assert.equal(r.mode, "context");
     assert.equal(r.checks.length, 8);
     assert.deepEqual(r.checks.slice(6).map((c) => c.key), ["conflict", "freshness"]);
-    assert.equal(r.summary.sentence, "clear — 8 of 8 aligned");
+    assert.equal(r.summary.sentence, "clear: 8 of 8 aligned");
   });
   it("untracked ticker → the single honest state", () => {
     const r = gauge(inputs({ tracked: false, quant: null }), config, ctx());
     assert.equal(r.tracked, false);
     assert.deepEqual(r.checks, []);
     assert.equal(r.summary.overall, null);
-    assert.equal(r.summary.sentence, "Not tracked — no gauge.");
+    assert.equal(r.summary.sentence, "Not tracked: no gauge.");
     assert.equal(r.ticker, "NVDA");
   });
   it("spec example: blocked — earnings in 1 session binds the sentence over a caution", () => {
     const r = gauge(inputs({ quant: quant({ volume_ratio: 2.5 }), next_earnings: { due_at: "2026-08-24T20:00:00.000Z", sessions_until: 1, fiscal_period: "Q2" } }), config);
     assert.equal(r.summary.overall, "blocked");
-    assert.equal(r.summary.sentence, "blocked — earnings in 1 session — typical move 4.9%");
+    assert.equal(r.summary.sentence, "blocked: earnings in 1 session: typical move 4.9%");
   });
   it("spec example: clear except volume — market not yet looking", () => {
     const r = gauge(inputs({ quant: quant({ volume_ratio: 2.5 }) }), config, ctx());
@@ -48,7 +48,7 @@ describe("gauge/compute — modes", () => {
     assert.equal(r.summary.binding_check, "volume");
     const early = gauge(inputs({ quant: quant({ volume_ratio: 0.5 }) }), config, ctx());
     assert.equal(early.summary.overall, "clear");
-    assert.equal(early.checks[3].reason, "volume 0.50× its average — early, market not yet looking");
+    assert.equal(early.checks[3].reason, "volume 0.50× its average: early, market not yet looking");
   });
   it("context normalisation: bad direction/source fall back, flag coerced", () => {
     const r = gauge(inputs(), config, { expected_direction: "sideways" as never, event_ts: "2026-08-21T21:00:00.000Z", source: "weird" as never });
@@ -64,7 +64,7 @@ describe("gauge/compute — degraded fixtures (§6)", () => {
     const r = gauge(inputs({ ticker: "NEWCO", quant: fresh, history_sessions: 14 }), config);
     const statuses = Object.fromEntries(r.checks.map((c) => [c.key, c.status]));
     assert.deepEqual(statuses, { trend: "n_a", regime: "n_a", residual: "n_a", volume: "pass", stretch: "n_a", event_wall: "pass" });
-    assert.equal(r.checks[0].reason, "momentum unavailable — fresh listing, history window not yet full (14 sessions on file)");
+    assert.equal(r.checks[0].reason, "momentum unavailable: fresh listing, history window not yet full (14 sessions on file)");
     assert.equal(r.summary.unavailable, 4);
     assert.equal(r.summary.evaluable, 2);
     assert.equal(r.summary.aligned, 2);
@@ -76,7 +76,7 @@ describe("gauge/compute — degraded fixtures (§6)", () => {
     const na = r.checks.filter((c) => c.status === "n_a").map((c) => c.key);
     assert.deepEqual(na, ["trend", "regime", "residual", "volume", "stretch"]);
     assert.equal(r.checks.find((c) => c.key === "event_wall")?.status, "caution");
-    assert.equal(r.checks.find((c) => c.key === "event_wall")?.reason, "earnings in 2 sessions — typical move unavailable");
+    assert.equal(r.checks.find((c) => c.key === "event_wall")?.reason, "earnings in 2 sessions: typical move unavailable");
     assert.equal(r.summary.calibrating, true);
     assert.equal(r.summary.overall, "clear");
   });

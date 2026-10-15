@@ -21,4 +21,15 @@ export { RiskConfigStore, RiskAccountStore, RiskSnapshotStore, resolveRiskDataDi
  * is injected.
  */
 export * from "./host-types.js";
-export { RiskHost, getRiskHost, setRiskNotifier, type RiskNotifier } from "./host.js";
+export { RiskHost, getRiskHost, setRiskNotifier, type RiskNotifier, type RiskHostOptions } from "./host.js";
+/**
+ * The engine service serves every user from one process, so it keeps one host
+ * per verified user instead of the single shared one (see user-hosts.ts).
+ */
+export {
+  RiskUserHosts,
+  getRiskUserHosts,
+  deleteUserRiskData,
+  isValidRiskUserId,
+  type RiskUserDeletion,
+} from "./user-hosts.js";

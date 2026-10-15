@@ -125,7 +125,7 @@ export function validateParsedStage2(parsed: unknown, ctx: Stage2ValidationConte
       // The subtract-only rule: a target not in the stage-1 list is rejected,
       // whatever the model called it.
       addedTarget = true;
-      errors.push(`targets[${i}]: ref "${refRaw || "(missing)"}" is not a stage-1 candidate — targets cannot be added`);
+      errors.push(`targets[${i}]: ref "${refRaw || "(missing)"}" is not a stage-1 candidate; targets cannot be added`);
       return;
     }
     if (seen.has(candidate.ref)) {
@@ -166,7 +166,7 @@ export function validateParsedStage2(parsed: unknown, ctx: Stage2ValidationConte
       return;
     }
     if (verdict === "confirmed" && direction !== null && candidate.direction !== "unclear" && direction !== candidate.direction) {
-      errors.push(`${candidate.ref}: confirmed cannot change the direction — use adjusted with a rationale`);
+      errors.push(`${candidate.ref}: confirmed cannot change the direction; use adjusted with a rationale`);
       return;
     }
     items.push({

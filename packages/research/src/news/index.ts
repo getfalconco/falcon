@@ -27,6 +27,7 @@ export {
   type FinnhubFetchResult,
 } from "./finnhub-news.js";
 export { withTimeout } from "./with-timeout.js";
+export { repairMojibake, repairArticleText } from "./mojibake.js";
 export { SEEDED_TICKERS, loadSeededTickers, type SeededTicker } from "./seeded-tickers.js";
 export {
   EVENT_TYPES,

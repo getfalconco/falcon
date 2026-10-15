@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { afterEach, describe, it } from "node:test";
-import { OPENROUTER_BASE_URL, providerRouteFor, providerRouteSummary } from "./providerRoute.js";
+import { ANTHROPIC_API_BASE_URL } from "./anthropicModels.js";
+import { OPENROUTER_BASE_URL, keyBrokenForRoute, providerRouteFor, providerRouteSummary } from "./providerRoute.js";
 
 const KEYS = [
   "ANTHROPIC_API_KEY",
@@ -23,6 +24,20 @@ describe("providerRouteFor", () => {
     assert.equal(r.apiKey, "sk-ant-global");
     assert.equal(r.baseUrl, "https://gw.example.com");
     assert.equal(r.source, "global");
+  });
+
+  it("goes to the official Claude API when ANTHROPIC_BASE_URL is unset", () => {
+    process.env.ANTHROPIC_API_KEY = "sk-ant-global";
+    const r = providerRouteFor("insight");
+    assert.equal(r.baseUrl, ANTHROPIC_API_BASE_URL);
+    assert.equal(r.source, "global");
+  });
+
+  it("gives a per-engine key without its own URL the global URL", () => {
+    process.env.FALCON_CLASSIFIER_API_KEY = "sk-ant-specific";
+    assert.equal(providerRouteFor("classifier").baseUrl, ANTHROPIC_API_BASE_URL);
+    process.env.ANTHROPIC_BASE_URL = "https://gw.example.com/";
+    assert.equal(providerRouteFor("classifier").baseUrl, "https://gw.example.com");
   });
 
   it("routes only the engines named in the list", () => {
@@ -83,5 +98,16 @@ describe("providerRouteSummary", () => {
     assert.equal(s.propagation!.host, "api.anthropic.com");
     const dumped = JSON.stringify(s);
     assert.ok(!dumped.includes("secret-value"), "summary must not leak keys");
+  });
+});
+
+describe("keyBrokenForRoute", () => {
+  it("flags only a non sk-ant- key sent to the official API", () => {
+    assert.equal(keyBrokenForRoute("eyJhbGciOi.session", ANTHROPIC_API_BASE_URL), true);
+    assert.equal(keyBrokenForRoute("sk-ant-api03-x", ANTHROPIC_API_BASE_URL), false);
+    // A gateway or the worker proxy takes keys of any shape.
+    assert.equal(keyBrokenForRoute("eyJhbGciOi.session", "https://worker.example.com/api/anthropic"), false);
+    assert.equal(keyBrokenForRoute("sk-ant-gateway", "https://gw.example.com"), false);
+    assert.equal(keyBrokenForRoute("", ANTHROPIC_API_BASE_URL), false);
   });
 });

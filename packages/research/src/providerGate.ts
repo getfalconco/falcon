@@ -21,7 +21,7 @@
  * Anthropic key should not throttle each other.
  */
 
-import { providerRouteFor, type EngineName } from "./providerRoute.js";
+import { hostOfUrl, providerRouteFor, type EngineName } from "./providerRoute.js";
 
 /**
  * Calls in flight at once, across every host in this process.
@@ -70,7 +70,7 @@ function configuredRate(host: string): number {
 export class RateLimitWaitError extends Error {
   constructor(host: string, waitedMs: number) {
     super(
-      `Gave up waiting ${Math.round(waitedMs / 1000)}s for a ${host} rate slot — ` +
+      `Gave up waiting ${Math.round(waitedMs / 1000)}s for a ${host} rate slot: ` +
         `the queue is longer than the limit can drain.`,
     );
     this.name = "RateLimitWaitError";
@@ -202,15 +202,9 @@ function get(): Gate {
   return gate;
 }
 
-/** Destination host for an engine, or "" when it resolves to the SDK default. */
+/** Destination host for an engine: the gateway's, or api.anthropic.com. */
 function hostFor(engine: EngineName): string {
-  const { baseUrl } = providerRouteFor(engine);
-  if (!baseUrl) return "api.anthropic.com";
-  try {
-    return new URL(baseUrl).host;
-  } catch {
-    return baseUrl;
-  }
+  return hostOfUrl(providerRouteFor(engine).baseUrl);
 }
 
 /**

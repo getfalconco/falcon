@@ -8,7 +8,7 @@ import {
 import { normalizeCompanyName } from "./normalize.js";
 import { resolveEdgeStrength } from "./strength.js";
 import { TICKER_ALIASES } from "./tickerMatch.js";
-import type { ValidatedEdge } from "./types.js";
+import type { AnnualFilingForm, ValidatedEdge } from "./types.js";
 import { PIPELINE_VERSION } from "./version.js";
 
 export type GraphNode = {
@@ -43,6 +43,8 @@ export type GraphEdge = {
   filing_date: string;
   /** SEC accession number of the source filing, dashed form (e.g. 0001193125-26-106120). */
   accession_number: string | null;
+  /** The source filing's form (10-K or 20-F), from the root's meta file; null when it was not recorded. */
+  form: AnnualFilingForm | null;
 };
 
 export type GraphFile = {
@@ -109,6 +111,7 @@ type RawRootResult = {
   companyName: string;
   filingDate: string;
   accessionNumber: string | null;
+  form: AnnualFilingForm | null;
   validated: ValidatedEdge[];
 };
 
@@ -134,6 +137,7 @@ async function readRootResults(researchDir: string): Promise<RawRootResult[]> {
     let companyName = ticker;
     let filingDate = "";
     let accessionNumber: string | null = null;
+    let form: AnnualFilingForm | null = null;
     try {
       const raw = await readFile(path.join(researchDir, file), "utf8");
       validated = JSON.parse(raw) as ValidatedEdge[];
@@ -145,16 +149,18 @@ async function readRootResults(researchDir: string): Promise<RawRootResult[]> {
           companyName?: string;
           filingDate?: string;
           accessionNumber?: string;
+          form?: string;
         };
         if (meta.companyName) companyName = meta.companyName;
         if (meta.filingDate) filingDate = meta.filingDate;
         if (meta.accessionNumber) accessionNumber = meta.accessionNumber;
+        if (meta.form === "10-K" || meta.form === "20-F") form = meta.form;
       }
     } catch {
       continue;
     }
     if (!Array.isArray(validated) || validated.length === 0) continue;
-    results.push({ ticker, companyName, filingDate, accessionNumber, validated });
+    results.push({ ticker, companyName, filingDate, accessionNumber, form, validated });
   }
   return results;
 }
@@ -280,6 +286,7 @@ export async function buildGraphFromResearchDir(
       valid_from: edge.valid_from,
       filing_date: root.filingDate || edge.valid_from,
       accession_number: root.accessionNumber,
+      form: root.form,
     };
     edges.push(graphEdge);
     if (!reverseIndex[cpId]) reverseIndex[cpId] = [];

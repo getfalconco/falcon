@@ -9,9 +9,22 @@
  * project's JWT secret off this box.
  */
 
+import { createHash, timingSafeEqual } from "node:crypto";
 import type { IncomingMessage, ServerResponse } from "node:http";
+import { isEngineStaff } from "@meridian/research/engine-channels";
 
-export type AuthedUser = { id: string; email: string | null; approved: boolean };
+export type AuthedUser = {
+  id: string;
+  email: string | null;
+  approved: boolean;
+  /**
+   * An invited internal role that counts as engine staff
+   * (`app_metadata.role`: staff, deputy, leader; not talent_manager, which
+   * runs internships only). Only staff may call the channels that change the
+   * shared chain for everyone (STAFF_ENGINE_CHANNELS).
+   */
+  staff: boolean;
+};
 
 const CACHE_TTL_MS = 60_000;
 const cache = new Map<string, { user: AuthedUser; at: number }>();
@@ -57,6 +70,8 @@ async function resolveUser(token: string): Promise<AuthedUser | null> {
       // user_metadata is client-writable, so trusting it would let a waitlisted
       // account promote itself into paid compute.
       approved: data.app_metadata?.approved === true,
+      // Same rule: the role is app_metadata only, never user_metadata.
+      staff: isEngineStaff(data.app_metadata),
     };
     cache.set(token, { user, at: Date.now() });
     return user;
@@ -72,15 +87,80 @@ function deny(res: ServerResponse, status: number, message: string): null {
   return null;
 }
 
+export type AuthOutcome =
+  | { ok: true; user: AuthedUser }
+  | { ok: false; status: 401 | 403; error: string };
+
+/**
+ * Decide who a request is. The identity is whatever Supabase says the bearer
+ * token belongs to; nothing the caller puts in the body or a header other
+ * than Authorization can change it. `approved: false` accepts a signed-in
+ * user who is not approved (used only for deleting one's own data).
+ */
+export async function authenticate(
+  req: Pick<IncomingMessage, "headers">,
+  options: { approved?: boolean } = {},
+): Promise<AuthOutcome> {
+  const token = bearerFrom(req as IncomingMessage);
+  if (!token) return { ok: false, status: 401, error: "Sign in required." };
+  const user = await resolveUser(token);
+  if (!user) return { ok: false, status: 401, error: "Session expired or invalid." };
+  if (options.approved !== false && !user.approved) {
+    return { ok: false, status: 403, error: "This account is not approved yet." };
+  }
+  return { ok: true, user };
+}
+
 /** Gate a request. Returns the user, or writes the error and returns null. */
 export async function requireApprovedUser(
   req: IncomingMessage,
   res: ServerResponse,
 ): Promise<AuthedUser | null> {
-  const token = bearerFrom(req);
-  if (!token) return deny(res, 401, "Sign in required.");
-  const user = await resolveUser(token);
-  if (!user) return deny(res, 401, "Session expired or invalid.");
-  if (!user.approved) return deny(res, 403, "This account is not approved yet.");
-  return user;
+  const outcome = await authenticate(req);
+  return outcome.ok ? outcome.user : deny(res, outcome.status, outcome.error);
+}
+
+/**
+ * Gate a request on a valid session only, approved or not. For the one route
+ * where refusing an unapproved user would be wrong: erasing their own data.
+ */
+export async function requireSignedInUser(
+  req: IncomingMessage,
+  res: ServerResponse,
+): Promise<AuthedUser | null> {
+  const outcome = await authenticate(req, { approved: false });
+  return outcome.ok ? outcome.user : deny(res, outcome.status, outcome.error);
+}
+
+/**
+ * Service-to-service credential, for the one call that must work after the
+ * user's own token is gone: the research worker's account-deletion queue
+ * retrying "delete this user's engine data" once the auth user no longer
+ * exists. Set the same random value as FALCON_ENGINE_SERVICE_TOKEN on both
+ * services. Unset here means the service routes are off (503), never open.
+ */
+export type ServiceAuthOutcome = { ok: true } | { ok: false; status: 401 | 503; error: string };
+
+export function checkServiceToken(req: Pick<IncomingMessage, "headers">): ServiceAuthOutcome {
+  const expected = process.env.FALCON_ENGINE_SERVICE_TOKEN?.trim() ?? "";
+  if (expected.length < 32) {
+    return { ok: false, status: 503, error: "Service access is not configured." };
+  }
+  const given = bearerFrom(req as IncomingMessage) ?? "";
+  // Compare digests so the comparison is constant-time and length-blind.
+  const a = createHash("sha256").update(given).digest();
+  const b = createHash("sha256").update(expected).digest();
+  if (!given || !timingSafeEqual(a, b)) return { ok: false, status: 401, error: "Invalid service credential." };
+  return { ok: true };
+}
+
+export function requireServiceToken(req: IncomingMessage, res: ServerResponse): boolean {
+  const outcome = checkServiceToken(req);
+  if (!outcome.ok) deny(res, outcome.status, outcome.error);
+  return outcome.ok;
+}
+
+/** Tests only: forget cached token lookups. */
+export function clearAuthCache(): void {
+  cache.clear();
 }

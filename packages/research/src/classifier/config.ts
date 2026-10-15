@@ -8,6 +8,7 @@
  * re-score — and the §9 daily budget is Base's too.
  */
 
+import { CLAUDE_FAST_MODEL } from "../anthropicModels.js";
 import type { CapBucket } from "./types.js";
 
 const MINUTE = 60_000;
@@ -69,9 +70,12 @@ export type ClassifierConfig = {
 
 export const DEFAULT_CLASSIFIER_CONFIG: ClassifierConfig = {
   enabled: false,
-  model: "claude-haiku-4-5",
+  model: CLAUDE_FAST_MODEL,
+  // Sent only to models that take it; see modelParams in anthropic.ts.
   temperature: 0,
-  maxTokens: 1024,
+  // Covers the model's reasoning as well as the verdict's JSON. Billing is by
+  // tokens used, so the headroom costs nothing unless it is needed.
+  maxTokens: 2048,
   timeoutMs: 30_000,
   transportRetries: 2,
   validationRetries: 2,

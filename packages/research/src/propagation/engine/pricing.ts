@@ -237,11 +237,11 @@ export function computePricing(inputs: PricingInputs): Pricing {
       notes.push("benchmark leg measured close-to-close");
     }
   } else if (beta == null || r2 == null) {
-    notes.push("no beta — raw move");
+    notes.push("no beta, raw move");
   } else if (!residualTrusted) {
-    notes.push(`low R² (${r2.toFixed(2)}) — raw move`);
+    notes.push(`low R² (${r2.toFixed(2)}), raw move`);
   } else {
-    notes.push("no benchmark history — raw move");
+    notes.push("no benchmark history, raw move");
   }
 
   const vol = snapshot.vol30;
@@ -269,7 +269,7 @@ export function computePricing(inputs: PricingInputs): Pricing {
   };
 
   if (expected == null) {
-    notes.push("no 30d volatility — expected scale incomputable");
+    notes.push("no 30d volatility, expected scale incomputable");
     return { ...base, note: notes.join("; ") };
   }
 
@@ -327,7 +327,7 @@ export function classifyPricing(inputs: PricingVerdictInputs): {
   if (sign === 0) {
     // Direction unclear/mixed: magnitudes only (§6) — no sign to contradict.
     return ratio >= config.pricedAtOrAbove
-      ? { status: "priced", note: "direction unclear — magnitude comparison only" }
+      ? { status: "priced", note: "direction unclear, magnitude comparison only" }
       : { status: "partial", note: null };
   }
   if (Math.sign(realized) !== sign) {

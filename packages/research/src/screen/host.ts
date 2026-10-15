@@ -41,6 +41,19 @@ export function setScreenNotifier(notify: ScreenNotifier): void {
   screenNotifier = notify;
 }
 
+/**
+ * Who counts as "the user" for the emit gate. The desktop has one person, so
+ * the host's own watchlist and the local paper account answer it. The engine
+ * service serves every user from one process: it injects a source built from
+ * every user's own watchlist and paper book (per-user files), so the gate
+ * never reads a single shared list that the last caller overwrote.
+ */
+export type ScreenProximitySource = () => { held: string[]; watchlist: string[] };
+let proximitySource: ScreenProximitySource | null = null;
+export function setScreenProximitySource(source: ScreenProximitySource | null): void {
+  proximitySource = source;
+}
+
 export class ScreenHost {
   readonly configStore = new ScreenConfigStore();
   readonly findingsStore: ScreenFindingsStore;
@@ -98,6 +111,7 @@ export class ScreenHost {
 
   /** Tickers the emit gate treats as proximate: paper positions + watchlist. */
   private proximity(): { held: string[]; watchlist: string[] } {
+    if (proximitySource) return proximitySource();
     let held: string[] = [];
     try {
       held = new RiskAccountStore().load()?.positions.filter((p) => Math.abs(p.shares) > 1e-9).map((p) => p.ticker.toUpperCase()) ?? [];

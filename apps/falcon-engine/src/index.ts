@@ -24,6 +24,7 @@ import http from "node:http";
 import os from "node:os";
 import v8 from "node:v8";
 import { portfolioTrackerHealth, startPortfolioTracker } from "./portfolio-tracker.js";
+import { snapshotRetentionHealth, startSnapshotRetention } from "./portfolio-retention.js";
 import { newsCycleHealth, startNewsCycle } from "./news-cycle.js";
 import { startPaperCompetition } from "./paper-competition.js";
 import type { IncomingMessage, ServerResponse } from "node:http";
@@ -35,13 +36,14 @@ import {
   configurePropagationHost,
   getPropagationHost,
 } from "@meridian/research/propagation/engine";
-import { getRiskHost } from "@meridian/research/risk";
+import { getRiskUserHosts, isValidRiskUserId } from "@meridian/research/risk";
 import { getScreenHost } from "@meridian/research/screen";
 import { getAnalystHost } from "@meridian/research/analyst";
-import { requireApprovedUser } from "./auth.js";
+import { requireApprovedUser, requireServiceToken, requireSignedInUser } from "./auth.js";
 import { getInsightExplanation } from "./insight-explanation.js";
-import { isEngineChannel } from "@meridian/research/engine-channels";
-import { CHANNELS, channelNames } from "./channels.js";
+import { channelNames, dispatchChannel } from "./channels.js";
+import { configureScreenForUsers, deleteUserEngineData } from "./user-data.js";
+import { STAFF_ONLY_ERROR } from "@meridian/research/engine-channels";
 import { loadEnvFile } from "./loadEnv.js";
 import { remoteRuns } from "./remote-runs.js";
 import { applySeedUniverse, seedAllDataDirs } from "./seed.js";
@@ -60,8 +62,9 @@ const VERSION =
  * a silent half-running engine is worse than one that refuses to start.
  */
 /**
- * Which provider this service's Anthropic traffic goes to, and whether the key
- * it holds belongs to that route. A gateway key (no `sk-ant-` prefix) sent to
+ * Which provider this service's Anthropic traffic goes to (the official Claude
+ * API unless ANTHROPIC_BASE_URL names an override), and whether the key it
+ * holds belongs to that route. A gateway key (no `sk-ant-` prefix) sent to
  * api.anthropic.com is a guaranteed 401 whose message blames the key rather
  * than the missing route — worth naming up front instead of discovering it
  * through a failed cycle. Host and key *shape* only, never the key itself.
@@ -104,7 +107,7 @@ function reportEnv(): void {
   } else {
     console.error(
       `[engine] ANTHROPIC_API_KEY is a ${route.keyKind} key but calls go to ${route.upstreamHost} — ` +
-        "set ANTHROPIC_BASE_URL to the gateway this key belongs to, or supply an Anthropic key.",
+        "supply a Claude API key, or set ANTHROPIC_BASE_URL to the gateway this key belongs to.",
     );
   }
 }
@@ -244,7 +247,7 @@ async function handle(req: IncomingMessage, res: ServerResponse): Promise<void> 
       tracker: chainConfigured ? getTrackerEngine().getStatus().tickers.length : null,
       propagation_runs: propagation?.run_count ?? null,
       loop: propagation?.enabled ?? null,
-      portfolio: portfolioTrackerHealth(),
+      portfolio: { ...portfolioTrackerHealth(), retention: snapshotRetentionHealth() },
       news: newsCycleHealth(),
       anthropic: anthropicRoute(),
       // Which provider each engine resolves to. The chain is split now — the
@@ -276,6 +279,46 @@ async function handle(req: IncomingMessage, res: ServerResponse): Promise<void> 
     });
   }
 
+  // Erase the caller's own engine-held data (risk state and the Screen
+  // watchlist, see user-data.ts). Only a
+  // valid session is required, not approval: a user whose approval lapsed
+  // still owns their data and must be able to delete it. The user is the one
+  // the token belongs to; the body is ignored. Answered before the boot gate
+  // because it touches only that user's files.
+  if (route === "POST /me/delete-data") {
+    const self = await requireSignedInUser(req, res);
+    if (!self) return;
+    try {
+      const deleted = deleteUserEngineData(self.id);
+      console.info(
+        `[engine] deleted engine data for user ${self.id.slice(0, 8)} · risk ${deleted.risk ? "removed" : "none stored"} · screen ${deleted.screen ? "removed" : "none stored"}`,
+      );
+      return send(res, 200, { ok: true, deleted });
+    } catch (err) {
+      return send(res, 500, { ok: false, error: err instanceof Error ? err.message : String(err) });
+    }
+  }
+
+  // The same erasure, called by the research worker's account-deletion queue
+  // with the shared service credential (FALCON_ENGINE_SERVICE_TOKEN). This is
+  // the only route that takes a user id from the body: the caller is the
+  // worker, which verified the user before deleting the account, and the
+  // retry runs after the user's own token has stopped working.
+  if (route === "POST /service/delete-user-data") {
+    if (!requireServiceToken(req, res)) return;
+    const body = await readJson<{ userId?: unknown }>(req);
+    if (!body || !isValidRiskUserId(body.userId)) return send(res, 400, { ok: false, error: "userId required" });
+    try {
+      const deleted = deleteUserEngineData(body.userId);
+      console.info(
+        `[engine] service deleted engine data for user ${body.userId.slice(0, 8)} · risk ${deleted.risk ? "removed" : "none stored"} · screen ${deleted.screen ? "removed" : "none stored"}`,
+      );
+      return send(res, 200, { ok: true, deleted });
+    } catch (err) {
+      return send(res, 500, { ok: false, error: err instanceof Error ? err.message : String(err) });
+    }
+  }
+
   const user = await requireApprovedUser(req, res);
   if (!user) return;
 
@@ -283,6 +326,13 @@ async function handle(req: IncomingMessage, res: ServerResponse): Promise<void> 
   // seams builds it wrong (a propagation host with no run mirror). Until then
   // the answer is an honest "not yet", never a half-built host.
   if (!chainConfigured) return send(res, 503, { ok: false, error: "engine booting" });
+
+  // The direct propagation routes below that change the shared chain (run a
+  // cycle, force the fast lane, switch the loop) are staff-only, like their
+  // channel twins in STAFF_ENGINE_CHANNELS.
+  if ((route === "POST /run-cycle" || route === "POST /fast-path" || route === "POST /set-enabled") && !user.staff) {
+    return send(res, 403, { ok: false, error: STAFF_ONLY_ERROR, code: "staff_only" });
+  }
 
   const host = getPropagationHost();
   switch (route) {
@@ -382,12 +432,14 @@ async function handle(req: IncomingMessage, res: ServerResponse): Promise<void> 
     case "POST /channel": {
       const body = await readJson<{ channel?: string; args?: unknown[] }>(req);
       if (!body) return send(res, 400, { ok: false, error: "bad JSON" });
-      const name = String(body.channel ?? "");
-      // The allowlist is the type: anything not in it is not a channel.
-      if (!isEngineChannel(name)) return send(res, 404, { ok: false, error: `unknown channel ${name}` });
-      const handler = CHANNELS[name];
-      const result = await handler(Array.isArray(body.args) ? body.args : []);
-      return send(res, 200, result);
+      // The allowlist is the type: anything not in it is not a channel. The
+      // user is the verified one, so per-user channels (risk) are scoped to
+      // the caller whatever `args` says.
+      const { status, body: result } = await dispatchChannel(String(body.channel ?? ""), body.args, {
+        userId: user.id,
+        staff: user.staff,
+      });
+      return send(res, status, result);
     }
 
     default:
@@ -646,6 +698,9 @@ async function boot(): Promise<void> {
     remote: remoteRuns,
     classifier: getClassifierHost(),
   });
+  // Screen's watchlist is per user here (screen/users/<id>/); the old shared
+  // file is archived and the emit gate reads every user's own list instead.
+  configureScreenForUsers();
   chainConfigured = true;
 
   // The socket is bound BEFORE the chain starts, not after it. The old order
@@ -704,14 +759,14 @@ async function boot(): Promise<void> {
     console.info(`[engine] propagation ${propagation.status().enabled ? "on" : "off"} · fast path armed`);
   });
 
-  // Risk follows the Tracker it reads. Without this the host exists only as
-  // whatever a `risk:account-update` happens to build: no startup snapshot and
-  // none of the §5 triggers (close-run, incident band, earnings horizon), so
-  // the panel sits on "No snapshot yet" until the reader trades.
+  // Risk follows the Tracker it reads. One host per user (risk/users/<id>/),
+  // each with its own startup snapshot and §5 triggers (close-run, incident
+  // band, earnings horizon). The pre-split shared account/snapshot files are
+  // archived here once and never read again: they mix whichever users pushed
+  // last and cannot be attributed to anyone.
   await stage("risk", () => {
-    const risk = getRiskHost();
-    risk.start();
-    console.info(`[engine] risk started · ${risk.status().snapshotCount} snapshot(s)`);
+    const { users, archived } = getRiskUserHosts().start();
+    console.info(`[engine] risk started · ${users} user(s) with risk state${archived ? " · legacy shared state archived" : ""}`);
   });
 
   // Screen and Analyst read the Tracker too, and answer engine channels — so
@@ -736,7 +791,13 @@ async function boot(): Promise<void> {
   // the service the desktop actually talks to. It is what keeps a chart
   // moving overnight, so a stalled tracker is a silent, invisible failure —
   // hence the counters in /health.
-  await stage("portfolio", () => startPortfolioTracker());
+  // Plus the retention pass that downsamples old rows (one per minute after a
+  // day, per hour after a week, per day after 90 days), so the series stays
+  // bounded instead of growing by every tick forever.
+  await stage("portfolio", () => {
+    startPortfolioTracker();
+    startSnapshotRetention();
+  });
 
   // The last two duties of the retired news-worker service, adopted whole:
   // the classified-events feed mobile renders (plus the graph sync riding on

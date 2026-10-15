@@ -130,10 +130,10 @@ export const DEFAULT_QUANTLAB_CONFIG: QuantLabConfig = {
     propagation_run: "Propagation runs only exist from Aug 2026 forward.",
   },
   reportCaveats: [
-    "Returns are gross — no transaction costs, no slippage, no market impact.",
+    "Returns are gross: no transaction costs, no slippage, no market impact.",
     "The news-burst veto is inactive in backtest (it cannot be rebuilt historically). This is permissive: more signals fire here than would fire live.",
     "Earnings dates are treated as known only within the configured horizon; before that the event is invisible to the rule.",
-    "Sector membership is today's mapping applied to past sessions — it is not point-in-time.",
+    "Sector membership is today's mapping applied to past sessions; it is not point-in-time.",
   ],
 };
 

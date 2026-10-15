@@ -1,3 +1,4 @@
+import fs from "node:fs";
 import { BaseConfigStore } from "../base/index.js";
 import { stableIncidentId } from "../analyst/index.js";
 import { getTrackerEngine } from "../tracker/index.js";
@@ -43,12 +44,33 @@ export function setRiskNotifier(notify: RiskNotifier): void {
   riskNotifier = notify;
 }
 
+/**
+ * Where one host keeps its state.
+ *
+ * The desktop runs one host for the one person signed in on that machine, so
+ * the defaults put everything in the shared risk dir exactly as before. The
+ * engine service serves every user from one process, so it gives each user
+ * their own host whose account and snapshot history live in a per-user
+ * directory (see `user-hosts.ts`), while the calibration config stays shared.
+ */
+export type RiskHostOptions = {
+  /** account.json + snapshots.json. Defaults to the config store's dir. */
+  stateDir?: string;
+  /** Calibration config (shared across users). Defaults to the risk data dir. */
+  configStore?: RiskConfigStore;
+  /** Prefix for log lines, so per-user hosts are distinguishable. */
+  label?: string;
+};
+
 export class RiskHost {
-  readonly configStore = new RiskConfigStore();
+  readonly configStore: RiskConfigStore;
   readonly accountStore: RiskAccountStore;
   readonly snapshotStore: RiskSnapshotStore;
   readonly baseConfigStore = new BaseConfigStore();
+  /** Where this host's account and snapshot history live. */
+  readonly stateDir: string;
   config: RiskConfig;
+  private readonly label: string;
 
   private account: RiskAccountInput | null;
   private scheduler: RiskRecomputeScheduler;
@@ -58,10 +80,13 @@ export class RiskHost {
   private lastError: string | null = null;
   private started = false;
 
-  constructor() {
+  constructor(options: RiskHostOptions = {}) {
+    this.configStore = options.configStore ?? new RiskConfigStore();
+    this.stateDir = options.stateDir ?? this.configStore.dataDir;
+    this.label = options.label ? `[risk ${options.label}]` : "[risk]";
     this.config = this.configStore.load();
-    this.accountStore = new RiskAccountStore(this.configStore.dataDir);
-    this.snapshotStore = new RiskSnapshotStore(this.configStore.dataDir, this.config.historyRetentionDays);
+    this.accountStore = new RiskAccountStore(this.stateDir);
+    this.snapshotStore = new RiskSnapshotStore(this.stateDir, this.config.historyRetentionDays);
     this.account = this.accountStore.load();
     this.scheduler = new RiskRecomputeScheduler({
       debounceMs: this.config.debounceMs,
@@ -139,10 +164,10 @@ export class RiskHost {
       });
       this.demoSnapshot = computeRiskSnapshot(gathered.inputs, this.config, { trigger: ["demo"] });
       this.broadcast(this.demoSnapshot, true);
-      console.info(`[risk] demo: ${this.demoSnapshot.empty ? "empty" : `${this.demoSnapshot.score} ${this.demoSnapshot.band}`} · ${this.demoSnapshot.position_count} positions · degraded ${this.demoSnapshot.degraded.length}`);
+      console.info(`${this.label} demo: ${this.demoSnapshot.empty ? "empty" : `${this.demoSnapshot.score} ${this.demoSnapshot.band}`} · ${this.demoSnapshot.position_count} positions · degraded ${this.demoSnapshot.degraded.length}`);
     } catch (err) {
       this.lastError = err instanceof Error ? err.message : String(err);
-      console.error("[risk] demo compute failed:", err);
+      console.error(`${this.label} demo compute failed:`, err);
     }
   }
 
@@ -216,11 +241,11 @@ export class RiskHost {
       this.lastError = gathered.errors.length > 0 ? gathered.errors.join(" · ") : null;
       this.broadcast(snapshot);
       console.info(
-        `[risk] ${reasons.join("+")}: ${snapshot.empty ? "empty" : `${snapshot.score} ${snapshot.band} · driver ${snapshot.driver?.component}`} · ${snapshot.position_count} positions · degraded ${snapshot.degraded.length}${gathered.errors.length ? ` · errors ${gathered.errors.length}` : ""}`,
+        `${this.label} ${reasons.join("+")}: ${snapshot.empty ? "empty" : `${snapshot.score} ${snapshot.band} · driver ${snapshot.driver?.component}`} · ${snapshot.position_count} positions · degraded ${snapshot.degraded.length}${gathered.errors.length ? ` · errors ${gathered.errors.length}` : ""}`,
       );
     } catch (err) {
       this.lastError = err instanceof Error ? err.message : String(err);
-      console.error("[risk] recompute failed:", err);
+      console.error(`${this.label} recompute failed:`, err);
     }
   }
 
@@ -250,6 +275,22 @@ export class RiskHost {
     return this.snapshotStore.history(limit);
   }
 
+  /**
+   * Forget this host's account and snapshot history, in memory and on disk.
+   * The desktop's account-deletion path (one host, one signed-in user); the
+   * engine deletes a user's whole directory instead (user-hosts.ts).
+   */
+  clearState(): { cleared: boolean } {
+    this.scheduler.dispose();
+    const files = [this.accountStore.file, this.snapshotStore.file];
+    const had = this.account !== null || files.some((f) => fs.existsSync(f));
+    for (const f of files) fs.rmSync(f, { force: true });
+    this.account = null;
+    this.demoSnapshot = null;
+    this.snapshotStore.reload();
+    return { cleared: had };
+  }
+
   setCardEnabled(enabled: boolean): void {
     this.config = { ...this.configStore.load(), riskCardEnabled: enabled };
     this.configStore.save(this.config);
@@ -260,7 +301,7 @@ export class RiskHost {
   status(): RiskStatus {
     this.config = this.configStore.load();
     return {
-      dataDir: this.configStore.dataDir,
+      dataDir: this.stateDir,
       configFile: this.configStore.configFile,
       riskCardEnabled: this.config.riskCardEnabled,
       weights: { ...this.config.weights },

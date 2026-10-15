@@ -18,6 +18,8 @@
  * `request_id` and all), so pointing the existing SDK at it is enough.
  */
 
+import { ANTHROPIC_API_BASE_URL } from "./anthropicModels.js";
+
 export const OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1";
 
 /** Engines that resolve their own route. */
@@ -25,7 +27,12 @@ export type EngineName = "classifier" | "step1" | "analyst" | "propagation" | "i
 
 export type ProviderRoute = {
   apiKey: string;
-  /** Empty means api.anthropic.com — the SDK's own default. */
+  /**
+   * Always a full URL, never empty: `ANTHROPIC_BASE_URL` when one is set (a
+   * gateway, or the research-worker proxy in a packaged build), else the
+   * official Claude API. Explicit so every caller sends its traffic to the
+   * same place whatever the SDK's own env fallback would pick.
+   */
   baseUrl: string;
   /** Where this came from, for the diagnostics line on /health. */
   source: "engine-override" | "openrouter" | "global";
@@ -38,6 +45,15 @@ function envFor(engine: EngineName, suffix: "API_KEY" | "BASE_URL"): string {
 
 function read(name: string): string {
   return process.env[name]?.trim() ?? "";
+}
+
+function trimSlash(url: string): string {
+  return url.replace(/\/+$/, "");
+}
+
+/** `ANTHROPIC_BASE_URL` when set, else the official Claude API. */
+export function anthropicBaseUrl(): string {
+  return trimSlash(read("ANTHROPIC_BASE_URL")) || ANTHROPIC_API_BASE_URL;
 }
 
 /**
@@ -69,7 +85,8 @@ export function providerRouteFor(engine: EngineName): ProviderRoute {
   if (ownKey) {
     return {
       apiKey: ownKey,
-      baseUrl: read(envFor(engine, "BASE_URL")).replace(/\/+$/, ""),
+      // No engine-specific URL: the global one, as the SDK would have picked.
+      baseUrl: trimSlash(read(envFor(engine, "BASE_URL"))) || anthropicBaseUrl(),
       source: "engine-override",
     };
   }
@@ -79,7 +96,7 @@ export function providerRouteFor(engine: EngineName): ProviderRoute {
     if (key) {
       return {
         apiKey: key,
-        baseUrl: (read("FALCON_OPENROUTER_BASE_URL") || OPENROUTER_BASE_URL).replace(/\/+$/, ""),
+        baseUrl: trimSlash(read("FALCON_OPENROUTER_BASE_URL") || OPENROUTER_BASE_URL),
         source: "openrouter",
       };
     }
@@ -93,7 +110,7 @@ export function providerRouteFor(engine: EngineName): ProviderRoute {
 
   return {
     apiKey: read("ANTHROPIC_API_KEY"),
-    baseUrl: read("ANTHROPIC_BASE_URL").replace(/\/+$/, ""),
+    baseUrl: anthropicBaseUrl(),
     source: "global",
   };
 }
@@ -104,15 +121,27 @@ export function providerRouteSummary(): Record<string, { host: string; source: s
   const out: Record<string, { host: string; source: string }> = {};
   for (const e of engines) {
     const r = providerRouteFor(e);
-    let host = "api.anthropic.com";
-    if (r.baseUrl) {
-      try {
-        host = new URL(r.baseUrl).host;
-      } catch {
-        host = r.baseUrl;
-      }
-    }
-    out[e] = { host, source: r.source };
+    out[e] = { host: hostOfUrl(r.baseUrl), source: r.source };
   }
   return out;
+}
+
+/** Host of a route's URL, for logs and health lines. Never a path or a key. */
+export function hostOfUrl(url: string): string {
+  try {
+    return new URL(url).host || url;
+  } catch {
+    return url;
+  }
+}
+
+/**
+ * True when a key cannot work on this route: a key without the `sk-ant-`
+ * prefix sent to the official API is a certain 401 (a gateway key, or the
+ * reader's session token without the worker's URL). Any other pairing may
+ * work: official keys start with `sk-ant-`, and some gateways issue keys of
+ * that shape too, so an `sk-ant-` key going elsewhere is not flagged.
+ */
+export function keyBrokenForRoute(apiKey: string, baseUrl: string): boolean {
+  return Boolean(apiKey) && !apiKey.startsWith("sk-ant-") && hostOfUrl(baseUrl) === hostOfUrl(ANTHROPIC_API_BASE_URL);
 }

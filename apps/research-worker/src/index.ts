@@ -7,10 +7,10 @@ import {
   startResearchJob,
 } from "@meridian/research/step1";
 import { persistGraphToSupabase } from "@meridian/research/propagation";
-import { applyCors, lookupUserById, requireApprovedUser, resolveUserFromReq, type AuthedUser } from "./auth.js";
+import { applyCors, bearerFrom, lookupUserById, requireApprovedUser, resolveUser, resolveUserFromReq, type AuthedUser } from "./auth.js";
 import { formatRetryAfter, researchQuotaFor } from "./research-quota.js";
 import { clientIp, rateLimit } from "./rate-limit.js";
-import { reportFalconError } from "./discord-error-log.js";
+import { errorLogSalt, reportFalconError } from "./discord-error-log.js";
 import {
   createJob,
   getJob,
@@ -36,7 +36,17 @@ import {
   getConnectionUrl,
   isSnaptradeConfigured,
   listBrokerages,
+  deleteSnapTradeUser,
 } from "./brokerage.js";
+import { deleteAccountEverywhere, drainDeletionQueue, type AccountDeletionDeps } from "./account-deletion.js";
+import {
+  createDeletionQueue,
+  deleteAuthUser,
+  signOutEverywhere,
+  supabaseAdminConfig,
+} from "./account-deletion-store.js";
+import { engineRiskDeleter } from "./engine-risk-cleanup.js";
+import { snaptradeSecrets } from "./snaptrade-secrets.js";
 
 loadEnvFile();
 
@@ -68,24 +78,31 @@ function notifyFalconError(
   error: FalconError,
   ctx?: { user?: AuthedUser | null; ticker?: string | null },
 ): void {
+  // Id and email only: the log line hashes the id (or masks the email when no
+  // salt is set) and never carries the reader's name. See discord-error-log.ts.
   reportFalconError({
     code: error.code,
     message: error.message,
-    user: ctx?.user
-      ? { email: ctx.user.email, displayName: ctx.user.displayName }
-      : null,
+    user: ctx?.user ? { id: ctx.user.id, email: ctx.user.email } : null,
     ticker: ctx?.ticker,
   });
 }
 
-/** Prefer the authed JWT user; fall back to a service-role lookup by job `user_id`. */
+/**
+ * Prefer the authed JWT user; a job error that only has `user_id` is logged by
+ * that id. The service-role lookup is only needed for the masked-email
+ * fallback, when no ERROR_LOG_ID_SALT is configured to hash the id with.
+ */
 async function notifyJobError(
   error: FalconError,
   ctx: { user?: AuthedUser | null; userId?: string | null; ticker?: string | null },
 ): Promise<void> {
   let user = ctx.user ?? null;
-  if ((!user?.email || !user.displayName) && (user?.id || ctx.userId)) {
-    user = (await lookupUserById(user?.id ?? ctx.userId ?? "")) ?? user;
+  const id = user?.id ?? ctx.userId ?? null;
+  if (!user && id) {
+    user = errorLogSalt()
+      ? { id, email: null, displayName: null, approved: false }
+      : ((await lookupUserById(id)) ?? null);
   }
   notifyFalconError(error, { user, ticker: ctx.ticker });
 }
@@ -186,8 +203,9 @@ async function handleHealth(_req: IncomingMessage, res: ServerResponse): Promise
       upstreamHost: host,
       keyKind,
       // Same rule as the engine's anthropicRoute(): only a non-`sk-ant-` key sent
-      // to api.anthropic.com is certainly broken. Moodly issues `sk-ant-` keys of
-      // its own, so an `sk-ant-` key going elsewhere is a working route.
+      // to api.anthropic.com is certainly broken. Claude API keys start with
+      // `sk-ant-`, and some gateways issue keys of that shape too, so an
+      // `sk-ant-` key going to an override URL is not flagged either.
       routeOk: !(keyKind === "gateway" && host === "api.anthropic.com") && host !== "invalid",
     },
   });
@@ -566,6 +584,83 @@ async function handleBrokerageDisconnect(req: IncomingMessage, res: ServerRespon
   }
 }
 
+/* ---------------------------- account deletion --------------------------- */
+
+const deletionQueue = createDeletionQueue(supabaseAdminConfig);
+
+/** Everything account deletion touches, for one request (or the retry loop, with no token). */
+function accountDeletionDeps(accessToken: string | null): AccountDeletionDeps {
+  return {
+    snaptradeUserIdFor: (userId) => snaptradeSecrets.snaptradeUserIdFor(userId),
+    deleteSnaptradeUser: (snaptradeUserId) => deleteSnapTradeUser(snaptradeUserId),
+    removeSnaptradeRows: (userId) => snaptradeSecrets.remove(userId),
+    deleteEngineRiskData: engineRiskDeleter(),
+    queue: deletionQueue,
+    signOutEverywhere: async () => {
+      const c = supabaseAdminConfig();
+      if (c && accessToken) await signOutEverywhere(c, accessToken);
+    },
+    deleteAuthUser: async (userId) => {
+      const c = supabaseAdminConfig();
+      if (!c) throw new Error("Supabase is not configured.");
+      await deleteAuthUser(c, userId);
+    },
+  };
+}
+
+/**
+ * Deletes the caller's account and what Falcon holds for it elsewhere
+ * (SnapTrade user, stored secret, engine risk data), see account-deletion.ts.
+ * Any signed-in account may delete itself, approved or not, so this checks
+ * the token only, not the approval gate.
+ */
+async function handleAccountDelete(req: IncomingMessage, res: ServerResponse): Promise<void> {
+  const token = bearerFrom(req);
+  const user = token ? await resolveUser(token) : null;
+  if (!user) {
+    sendJson(res, 401, { ok: false, error: "Your session expired. Sign in again." });
+    return;
+  }
+  if (!supabaseAdminConfig()) {
+    sendJson(res, 503, { ok: false, error: "Account deletion isn't available right now." });
+    return;
+  }
+  const rl = rateLimit(`account-delete:${user.id}`, { limit: 3, windowMs: 60_000 });
+  if (!rl.ok) {
+    sendJson(res, 429, { ok: false, error: "Please wait a moment and try again." });
+    return;
+  }
+
+  const result = await deleteAccountEverywhere(user.id, accountDeletionDeps(token));
+  if (!result.ok) {
+    sendJson(res, result.stage === "auth" ? 500 : 503, { ok: false, error: result.error });
+    return;
+  }
+  sendJson(res, 200, { ok: true, userId: user.id, cleanup: result.cleanup });
+}
+
+const DELETION_RETRY_MS = 5 * 60_000;
+
+/** Retries cleanups that failed during a deletion (SnapTrade down, engine unreachable). */
+function startDeletionRetryLoop(): void {
+  if (!supabaseAdminConfig()) return;
+  let running = false;
+  const tick = async () => {
+    if (running) return;
+    running = true;
+    try {
+      const { ran, done } = await drainDeletionQueue(accountDeletionDeps(null));
+      if (ran > 0) console.info(`[account-delete] retried ${ran} cleanup task(s), ${done} done`);
+    } catch (err) {
+      console.warn("[account-delete] retry loop:", err instanceof Error ? err.message : err);
+    } finally {
+      running = false;
+    }
+  };
+  setTimeout(() => void tick(), 30_000).unref();
+  setInterval(() => void tick(), DELETION_RETRY_MS).unref();
+}
+
 /* -------------------------------- router --------------------------------- */
 
 const server = createServer(async (req, res) => {
@@ -621,6 +716,9 @@ const server = createServer(async (req, res) => {
       case "POST /api/brokerage/disconnect":
         return await handleBrokerageDisconnect(req, res);
 
+      case "POST /api/account/delete":
+        return await handleAccountDelete(req, res);
+
       default:
         return sendJson(res, 404, { error: falconError("FAL-JOB-01", "That endpoint does not exist.") });
     }
@@ -637,4 +735,8 @@ server.listen(PORT, HOST, () => {
   console.info(
     `[api] discord error-log: ${process.env.DISCORD_ERROR_LOG_WEBHOOK_URL?.trim() ? "on" : "off"}`,
   );
+  if (!process.env.ERROR_LOG_ID_SALT?.trim()) {
+    console.warn("[api] ERROR_LOG_ID_SALT not set: error-log lines name accounts by masked email");
+  }
+  startDeletionRetryLoop();
 });

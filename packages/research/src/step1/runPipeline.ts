@@ -215,7 +215,7 @@ export async function runStep1Pipeline(
       console.info(
         `[step1] 20-F ${filing.ticker}: unusable section detected before extraction — using Item 4–8 (saved one full pass)`,
       );
-      emit("20-F section corrected before extraction (Item 4–8)");
+      emit("20-F section corrected before extraction (Items 4 to 8)");
       filing = {
         ...filing,
         itemSpan: upfront.text,
@@ -282,7 +282,7 @@ export async function runStep1Pipeline(
     if (chunkList.length > 0 && extraction.apiErrors === chunkList.length) {
       throw new Error(
         extraction.lastApiError ??
-          `All ${chunkList.length} extraction API calls failed — check Anthropic API key, billing, and rate limits`,
+          `All ${chunkList.length} extraction API calls failed: check Anthropic API key, billing, and rate limits`,
       );
     }
 
@@ -334,7 +334,7 @@ export async function runStep1Pipeline(
     }
     const alt = extractItem4Through8For20F(filing.plainText);
     if (alt.sectionMethod === "item4_span_20f" && alt.text.length > SECTION_MIN_CHARS) {
-      emit("20-F section retry (Item 4–8)");
+      emit("20-F section retry (Items 4 to 8)");
       filing = {
         ...filing,
         itemSpan: alt.text,

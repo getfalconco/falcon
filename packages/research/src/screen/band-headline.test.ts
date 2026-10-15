@@ -36,7 +36,7 @@ describe("band headline / compression", () => {
   it("rule 2 — a sector majority of three or more names", () => {
     const out = compression(SEMI_CLUSTER);
     assert.equal(out.rule, "cluster");
-    assert.equal(out.text, "Semis are coiling — AVGO, TSM and 3 more below 0.9×");
+    assert.equal(out.text, "Semis are coiling: AVGO, TSM and 3 more below 0.9×");
   });
 
   it("rule 3 — one name well past the threshold, no cluster", () => {
@@ -55,7 +55,7 @@ describe("band headline / compression", () => {
       { ticker: "META", value: 0.88 },
     ]);
     assert.equal(out.rule, "broad");
-    assert.equal(out.text, "3 names compressing — COST leads at 0.85×");
+    assert.equal(out.text, "3 names compressing: COST leads at 0.85×");
   });
 
   it("rule 5 — nothing cleared the threshold", () => {
@@ -79,7 +79,7 @@ describe("band headline / volume", () => {
   it("rule 1 — heavy volume with the price going nowhere", () => {
     const out = volume([{ ticker: "AMKR", value: 2.1, sessions: 4, momentumZ: 0.3 }]);
     assert.equal(out.rule, "flat_price");
-    assert.equal(out.text, "AMKR — 4 days of heavy volume, price flat");
+    assert.equal(out.text, "AMKR: 4 days of heavy volume, price flat");
   });
 
   it("rule 2 — a sector cluster once the price is moving", () => {
@@ -87,7 +87,7 @@ describe("band headline / volume", () => {
       SEMI_CLUSTER.map((c) => ({ ...c, value: 1.8, momentumZ: 2.2, sessions: 3 })),
     );
     assert.equal(out.rule, "cluster");
-    assert.equal(out.text, "Volume building across Semis — AVGO, TSM and 3 more");
+    assert.equal(out.text, "Volume building across Semis: AVGO, TSM and 3 more");
   });
 
   it("rule 3 — a single name, one decimal on the ratio", () => {
@@ -111,10 +111,10 @@ describe("band headline / residual", () => {
   it("rule 1 — a run, with the word taken from the sign", () => {
     const up = residual([{ ticker: "CEG", value: 0.06, runSessions: 4, direction: 1 }]);
     assert.equal(up.rule, "run");
-    assert.equal(up.text, "CEG pushing higher on its own — 4 sessions running");
+    assert.equal(up.text, "CEG pushing higher on its own: 4 sessions running");
 
     const down = residual([{ ticker: "CEG", value: -0.06, runSessions: 3, direction: -1 }]);
-    assert.equal(down.text, "CEG sliding lower on its own — 3 sessions running");
+    assert.equal(down.text, "CEG sliding lower on its own: 3 sessions running");
   });
 
   it("a run shorter than three sessions is not a run", () => {
@@ -122,7 +122,7 @@ describe("band headline / residual", () => {
       SEMI_CLUSTER.map((c) => ({ ...c, runSessions: 2, direction: 1 as const })),
     );
     assert.equal(out.rule, "cluster");
-    assert.equal(out.text, "Independent pressure in Semis — AVGO, TSM and 3 more");
+    assert.equal(out.text, "Independent pressure in Semis: AVGO, TSM and 3 more");
   });
 
   it("rule 3 — empty", () => {

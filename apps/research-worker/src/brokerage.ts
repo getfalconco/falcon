@@ -3,7 +3,8 @@
  *
  * Secrets (SNAPTRADE_CLIENT_ID, SNAPTRADE_CONSUMER_KEY, userSecret) stay in
  * this process. The renderer-readable snapshot is public.broker_links;
- * userSecret lives in public.snaptrade_secrets (service_role only).
+ * userSecret lives in public.snaptrade_secrets (service_role only), sealed
+ * with AES-256-GCM under SNAPTRADE_SECRET_KEY (see snaptrade-secrets.ts).
  */
 
 import {
@@ -11,6 +12,8 @@ import {
   SnaptradeAuth,
   type CommercialApiKeyAuth,
 } from "snaptrade-typescript-sdk";
+import { SecretKeyError } from "./secret-box.js";
+import { snaptradeSecrets } from "./snaptrade-secrets.js";
 
 type SnaptradeClient = Snaptrade<CommercialApiKeyAuth>;
 
@@ -37,6 +40,26 @@ export type BrokerageNetWorth = {
 };
 
 type StoredUser = { userId: string; userSecret: string };
+
+/**
+ * Account deletion: removes the SnapTrade user and every brokerage
+ * connection under it. SnapTrade only needs the user id for this call (it is
+ * signed with this service's consumer key). "absent" when SnapTrade has no
+ * such user any more, which is the outcome deletion wants anyway.
+ */
+export async function deleteSnapTradeUser(snaptradeUserId: string): Promise<"deleted" | "absent"> {
+  const client = getClient();
+  if (!client) throw new Error("SnapTrade is not configured.");
+  try {
+    await client.authentication.deleteSnapTradeUser({ userId: snaptradeUserId });
+    return "deleted";
+  } catch (err) {
+    const status = (err as { status?: number; response?: { status?: number } }).response?.status ??
+      (err as { status?: number }).status;
+    if (status === 404) return "absent";
+    throw err;
+  }
+}
 
 function snaptradeConfig(): { clientId: string; consumerKey: string } | null {
   const clientId = process.env.SNAPTRADE_CLIENT_ID?.trim();
@@ -79,39 +102,27 @@ function headers(serviceKey: string): Record<string, string> {
   };
 }
 
+/**
+ * The account's SnapTrade identity. The user secret is encrypted at rest
+ * (snaptrade-secrets.ts, SNAPTRADE_SECRET_KEY); a read failure other than
+ * "no row" is thrown so a sealed row the process cannot open is never
+ * mistaken for an account that has no SnapTrade user.
+ */
 async function loadCloudUser(supabaseUserId: string): Promise<StoredUser | null> {
-  const c = supabaseConfig();
-  if (!c) return null;
   try {
-    const res = await fetch(
-      `${c.url}/rest/v1/snaptrade_secrets?user_id=eq.${encodeURIComponent(supabaseUserId)}&select=snaptrade_user_id,user_secret`,
-      { headers: headers(c.serviceKey) },
-    );
-    if (!res.ok) return null;
-    const rows = (await res.json()) as Array<{ snaptrade_user_id?: string; user_secret?: string }>;
-    const row = rows[0];
-    if (!row?.snaptrade_user_id || !row.user_secret) return null;
-    return { userId: row.snaptrade_user_id, userSecret: row.user_secret };
-  } catch {
+    return await snaptradeSecrets.load(supabaseUserId);
+  } catch (err) {
+    if (err instanceof SecretKeyError) throw err;
+    console.warn("[brokerage] load secrets failed:", err instanceof Error ? err.message : err);
     return null;
   }
 }
 
 async function saveCloudUser(supabaseUserId: string, user: StoredUser): Promise<void> {
-  const c = supabaseConfig();
-  if (!c) return;
-  const res = await fetch(`${c.url}/rest/v1/snaptrade_secrets?on_conflict=user_id`, {
-    method: "POST",
-    headers: { ...headers(c.serviceKey), Prefer: "resolution=merge-duplicates" },
-    body: JSON.stringify({
-      user_id: supabaseUserId,
-      snaptrade_user_id: user.userId,
-      user_secret: user.userSecret,
-      updated_at: new Date().toISOString(),
-    }),
-  });
-  if (!res.ok) {
-    console.warn("[brokerage] save secrets failed:", res.status, (await res.text()).slice(0, 200));
+  try {
+    await snaptradeSecrets.save(supabaseUserId, user);
+  } catch (err) {
+    console.warn("[brokerage] save secrets failed:", err instanceof Error ? err.message : err);
   }
 }
 

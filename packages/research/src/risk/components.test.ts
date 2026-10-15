@@ -56,7 +56,36 @@ describe("risk/components — 3.1 concentration", () => {
     const c = concentrationComponent(weightsOf([["NVDA", 1]]), config);
     assert.equal(c.hhi, 1);
     assert.equal(c.score, 95);
-    assert.deepEqual(c.top, [{ ticker: "NVDA", weight: 1 }]);
+    assert.deepEqual(c.top, [{ ticker: "NVDA", weight: 1, account_weight: 1 }]);
+  });
+
+  it("HHI runs on invested-only weights; top carries the share of the account, cash included", () => {
+    // LLY 3,000 · AAA 6,000 · BBB 3,100 long + 2,000 cash = 14,100 account.
+    const w = buildWeights(
+      account([position("LLY", 3, 0, 3000), position("AAA", 1, 0, 6000), position("BBB", 1, 0, 3100)], 2000),
+      {},
+    ).weights;
+    const c = concentrationComponent(w, config, 2000);
+    assert.equal(c.account_value, 14_100);
+    const lly = c.top.find((t) => t.ticker === "LLY")!;
+    assert.equal(lly.weight, Math.round((3000 / 12_100) * 1e4) / 1e4);
+    assert.equal(lly.account_weight, Math.round((3000 / 14_100) * 1e5) / 1e5);
+    // The HHI itself is unchanged by the cash beside the holdings.
+    assert.equal(c.hhi, concentrationComponent(w, config, 0).hhi);
+  });
+
+  it("a short is a negative share of the account; the proceeds sit in cash", () => {
+    // Short 1,000 of TSLA: proceeds lift cash to 11,000, the account stays 10,000.
+    const w = buildWeights(account([position("TSLA", -10, -1000, -1000)], 11_000), {}).weights;
+    const c = concentrationComponent(w, config, 11_000);
+    assert.equal(c.account_value, 10_000);
+    assert.deepEqual(c.top, [{ ticker: "TSLA", weight: 1, account_weight: -0.1 }]);
+  });
+
+  it("an account worth nothing or less has no account share", () => {
+    const w = buildWeights(account([position("AAA", 1, 0, 1000)], -1500), {}).weights;
+    const c = concentrationComponent(w, config, -1500);
+    assert.equal(c.top[0].account_weight, null);
   });
 
   it("four equal → HHI 0.25 → 62.7 (between 0.2→55 and 0.33→75)", () => {

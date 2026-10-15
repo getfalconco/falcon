@@ -8,7 +8,7 @@ export const EIGHT_K_ITEM_DESCRIPTIONS: Record<string, string> = {
   "1.01": "Entry into a Material Definitive Agreement",
   "1.02": "Termination of a Material Definitive Agreement",
   "1.03": "Bankruptcy or Receivership",
-  "1.04": "Mine Safety — Reporting of Shutdowns and Patterns of Violations",
+  "1.04": "Mine Safety: Reporting of Shutdowns and Patterns of Violations",
   "1.05": "Material Cybersecurity Incidents",
   "2.01": "Completion of Acquisition or Disposition of Assets",
   "2.02": "Results of Operations and Financial Condition",

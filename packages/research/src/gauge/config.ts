@@ -212,24 +212,24 @@ export const DEFAULT_GAUGE_CONFIG: GaugeConfig = {
   },
   templates: {
     // --- generic n_a ---------------------------------------------------------
-    na_history: "{what} unavailable — fresh listing, history window not yet full ({sessions} sessions on file)",
-    na_not_computed: "{what} unavailable — close-run not yet computed",
-    na_no_detectors: "detector state unavailable — Tracker state not yet built",
+    na_history: "{what} unavailable: fresh listing, history window not yet full ({sessions} sessions on file)",
+    na_not_computed: "{what} unavailable: close-run not yet computed",
+    na_no_detectors: "detector state unavailable: Tracker state not yet built",
 
     // --- 1 trend coherence -----------------------------------------------------
-    trend_pass_standalone: "5d and 20d momentum agree ({m5} / {m20}) — price action coherent",
-    trend_caution_standalone: "5d and 20d momentum disagree ({m5} / {m20}) — mixed tape",
+    trend_pass_standalone: "5d and 20d momentum agree ({m5} / {m20}): price action coherent",
+    trend_caution_standalone: "5d and 20d momentum disagree ({m5} / {m20}): mixed tape",
     trend_pass_context: "5d momentum {m5} (z {z}) aligned with the expected {dir} move",
-    trend_flat_context: "5d momentum flat (z {z}) — neither aligned nor contradicting the expected {dir} move",
+    trend_flat_context: "5d momentum flat (z {z}): neither aligned nor contradicting the expected {dir} move",
     trend_caution_context: "5d momentum {m5} (z {z}) mildly against the expected {dir} move",
-    trend_fail_context: "tape is fighting the thesis — 5d momentum {m5} (z {z}) against the expected {dir} move",
-    trend_note_undirected: "thesis direction unresolved — read as standalone",
+    trend_fail_context: "tape is fighting the thesis: 5d momentum {m5} (z {z}) against the expected {dir} move",
+    trend_note_undirected: "thesis direction unresolved: read as standalone",
 
     // --- 2 volatility regime ---------------------------------------------------
-    regime_pass_stable: "vol regime {ratio}× its 90d norm — stable",
-    regime_pass_contracting: "vol regime {ratio}× its 90d norm — contracting, quieter than usual",
-    regime_caution_expanding: "vol regime {ratio}× its 90d norm — expanding",
-    regime_fail_unstable: "regime unstable — vol {ratio}× its 90d norm; reads unreliable",
+    regime_pass_stable: "vol regime {ratio}× its 90d norm: stable",
+    regime_pass_contracting: "vol regime {ratio}× its 90d norm: contracting, quieter than usual",
+    regime_caution_expanding: "vol regime {ratio}× its 90d norm: expanding",
+    regime_fail_unstable: "regime unstable: vol {ratio}× its 90d norm; reads unreliable",
 
     // --- 3 residual readability --------------------------------------------------
     // A low r² means the market model explains LITTLE of this name's movement,
@@ -237,63 +237,63 @@ export const DEFAULT_GAUGE_CONFIG: GaugeConfig = {
     // reason Tracker falls back from residual_zscore to move_zscore under its
     // floor. (v1 shipped this line inverted, as "most daily movement is
     // market"; the numbers said the opposite.)
-    residual_pass: "r² {r2}, β {beta} — residual reads usable",
-    residual_caution: "β {beta}, r² {r2} — the market model explains little of the daily movement; residual reads no cleaner than the raw move",
+    residual_pass: "r² {r2}, β {beta}: residual reads usable",
+    residual_caution: "β {beta}, r² {r2}: the market model explains little of the daily movement; residual reads no cleaner than the raw move",
 
     // --- 4 volume state ----------------------------------------------------------
-    volume_quiet: "volume {ratio}× its average — quiet",
-    volume_normal: "volume {ratio}× its average — normal",
-    volume_elevated: "volume {ratio}× its average — elevated",
-    volume_anomaly: "volume {ratio}× its average — event-driven tape",
-    volume_ctx_early: "volume {ratio}× its average — early, market not yet looking",
-    volume_ctx_confirming: "volume {ratio}× its average — confirming",
-    volume_ctx_crowded: "volume {ratio}× its average — crowded, late",
-    volume_note_partial: "intraday-partial — session volume still accumulating",
+    volume_quiet: "volume {ratio}× its average: quiet",
+    volume_normal: "volume {ratio}× its average: normal",
+    volume_elevated: "volume {ratio}× its average: elevated",
+    volume_anomaly: "volume {ratio}× its average: event-driven tape",
+    volume_ctx_early: "volume {ratio}× its average: early, market not yet looking",
+    volume_ctx_confirming: "volume {ratio}× its average: confirming",
+    volume_ctx_crowded: "volume {ratio}× its average: crowded, late",
+    volume_note_partial: "intraday-partial: session volume still accumulating",
 
     // --- 5 stretch ---------------------------------------------------------------
-    stretch_pass: "20d move {m20} is {z}σ — not stretched",
-    stretch_caution: "20d move {m20} is {z}σ — stretched",
-    stretch_caution_heavy: "20d move {m20} is {z}σ — heavily stretched",
-    stretch_fail_spent: "move may be spent — 20d move {m20} already {z}σ in the expected {dir} direction",
-    stretch_caution_washout: "20d move {m20} is {z}σ against the expected {dir} direction — potential washout",
+    stretch_pass: "20d move {m20} is {z}σ: not stretched",
+    stretch_caution: "20d move {m20} is {z}σ: stretched",
+    stretch_caution_heavy: "20d move {m20} is {z}σ: heavily stretched",
+    stretch_fail_spent: "move may be spent: 20d move {m20} already {z}σ in the expected {dir} direction",
+    stretch_caution_washout: "20d move {m20} is {z}σ against the expected {dir} direction: potential washout",
     stretch_note_near_high: "within {pct} of the 52w high",
     stretch_note_near_low: "within {pct} of the 52w low",
 
     // --- 6 event wall ------------------------------------------------------------
     event_pass_none: "no scheduled event within {horizon} sessions",
-    event_pass_far: "earnings in {n} sessions — outside the {horizon}-session wall",
-    event_caution: "earnings in {n} session{s} — typical move {rhythm}",
-    event_fail: "earnings in {n} session{s} — typical move {rhythm}",
+    event_pass_far: "earnings in {n} sessions: outside the {horizon}-session wall",
+    event_caution: "earnings in {n} session{s}: typical move {rhythm}",
+    event_fail: "earnings in {n} session{s}: typical move {rhythm}",
     event_na_thesis: "event is the thesis",
-    event_note_sizeable: "earnings in {n} sessions, typical move {rhythm} — sizeable event on the horizon",
+    event_note_sizeable: "earnings in {n} sessions, typical move {rhythm}; sizeable event on the horizon",
     event_rhythm_unavailable: "unavailable",
 
     // --- 7 conflict scan (context only) ------------------------------------------
-    conflict_fail_insider: "insider cluster {side} — contradicting the expected {dir} move",
+    conflict_fail_insider: "insider cluster {side}: contradicting the expected {dir} move",
     conflict_caution_unexplained: "unexplained move {move_dir} against the expected {dir} move",
     conflict_caution_drift: "drift {move_dir} against the expected {dir} move",
     conflict_caution_disclosure: "disclosure risk open on the name",
     conflict_caution_filing_overdue: "filing overdue on the name",
     conflict_pass: "nothing live contradicting the thesis",
-    conflict_pass_undirected: "nothing live contradicting the thesis — direction unresolved, only disclosure conflicts scanned",
+    conflict_pass_undirected: "nothing live contradicting the thesis: direction unresolved, only disclosure conflicts scanned",
     conflict_side_sell: "distributing",
     conflict_side_buy: "accumulating",
 
     // --- 8 window freshness (context only) ---------------------------------------
-    freshness_pass: "{n} session{s} since the event — fresh",
-    freshness_caution: "{n} session{s} since the event — aging",
-    freshness_fail_closed: "window closed — {n} sessions since the event; pricing status frozen",
-    freshness_fail_priced: "window closed — already priced at the source",
+    freshness_pass: "{n} session{s} since the event: fresh",
+    freshness_caution: "{n} session{s} since the event: aging",
+    freshness_fail_closed: "window closed: {n} sessions since the event; pricing status frozen",
+    freshness_fail_priced: "window closed: already priced at the source",
     freshness_na: "event timestamp unavailable",
 
     // --- summary -----------------------------------------------------------------
-    summary_clear_all: "clear — {aligned} of {evaluable} aligned",
+    summary_clear_all: "clear: {aligned} of {evaluable} aligned",
     summary_clear_except: "clear except {check}: {reason}",
-    summary_mixed: "mixed — {n} cautions: {labels}",
-    summary_blocked: "blocked — {reason}",
-    summary_untracked: "Not tracked — no gauge.",
+    summary_mixed: "mixed, {n} cautions: {labels}",
+    summary_blocked: "blocked: {reason}",
+    summary_untracked: "Not tracked: no gauge.",
     summary_unavailable: "{n} unavailable",
-    banner_calibrating: "calibrating — limited history",
+    banner_calibrating: "calibrating: limited history",
 
     // --- v2 §1–§3 setup names, readings, missing lines ------------------------------
     // Names are descriptive, never judgements (§6): COILED / MOVE SPENT, not
@@ -311,37 +311,37 @@ export const DEFAULT_GAUGE_CONFIG: GaugeConfig = {
     setup_name_no_setup: "NO SETUP",
 
     setup_read_coiled: "Compressed range, quiet volume, no event wall for {evt} sessions",
-    setup_read_coiled_confirmed: "Compressed for {n} sessions — vol {regime}× its 90d norm, quiet volume, no event wall for {evt} sessions",
-    setup_read_coiled_event_ahead: "Compressed, but earnings in {evt} session{s} — the event resolves it, not the tape",
+    setup_read_coiled_confirmed: "Compressed for {n} sessions: vol {regime}× its 90d norm, quiet volume, no event wall for {evt} sessions",
+    setup_read_coiled_event_ahead: "Compressed, but earnings in {evt} session{s}: the event resolves it, not the tape",
     setup_read_quiet_drift_up: "Pushing on its own for {n} sessions, market-independent",
     setup_read_quiet_drift_down: "Sliding on its own for {n} sessions, market-independent",
-    setup_read_confirmed_drift_up: "Independent move higher with volume building — {n} sessions, {vr}× average",
-    setup_read_confirmed_drift_down: "Independent move lower with volume building — {n} sessions, {vr}× average",
-    setup_read_accumulation: "Volume arriving for {n} sessions, price flat — someone is building",
+    setup_read_confirmed_drift_up: "Independent move higher with volume building: {n} sessions, {vr}× average",
+    setup_read_confirmed_drift_down: "Independent move lower with volume building: {n} sessions, {vr}× average",
+    setup_read_accumulation: "Volume arriving for {n} sessions, price flat: someone is building",
     setup_read_move_spent: "{z}σ move already delivered on {vr}× volume",
     setup_read_divergence_buy: "Insiders accumulating against a falling tape ({m20} over 20 sessions)",
     setup_read_divergence_sell: "Insiders distributing against a rising tape ({m20} over 20 sessions)",
-    setup_read_regime_break: "Volatility {ratio}× its own norm — structure unreliable",
-    setup_read_unreadable: "The market model explains little of the movement (β {beta}, r² {r2}) — residual reads no cleaner than the raw move",
-    setup_read_unreadable_na: "Not enough history to fit the market model — residual reads unavailable",
-    setup_read_event_wall: "Earnings in {evt} session{s}, typical move {rhythm} — everything else is noise until then",
-    setup_read_no_setup: "No recognizable structure — normal tape",
-    setup_read_untracked: "Not tracked — no gauge.",
+    setup_read_regime_break: "Volatility {ratio}× its own norm: structure unreliable",
+    setup_read_unreadable: "The market model explains little of the movement (β {beta}, r² {r2}): residual reads no cleaner than the raw move",
+    setup_read_unreadable_na: "Not enough history to fit the market model: residual reads unavailable",
+    setup_read_event_wall: "Earnings in {evt} session{s}, typical move {rhythm}: everything else is noise until then",
+    setup_read_no_setup: "No recognizable structure: normal tape",
+    setup_read_untracked: "Not tracked: no gauge.",
 
     // Missing lines (§3): every one names a measured threshold and where the value stands now.
     setup_missing_volume_label: "volume confirmation",
-    setup_missing_volume: "volume {vr}× average, needs {min}× — no participation yet",
+    setup_missing_volume: "volume {vr}× average, needs {min}×: no participation yet",
     setup_missing_event_label: "earnings in {evt} session{s}",
-    setup_missing_event: "earnings in {evt} session{s} on {due} — the tape reads through until it prints",
+    setup_missing_event: "earnings in {evt} session{s} on {due}: the tape reads through until it prints",
     setup_missing_regime_label: "regime to settle",
     setup_missing_regime: "vol {ratio}× its 90d norm, needs {max}× or below",
 
     // Readability caveat carried alongside a structural setup (§B4b).
-    setup_readability_low_r2: "residual reads weak — the market model explains little (β {beta}, r² {r2}); the structure is measured on price and volume, not residuals",
-    setup_readability_regime: "vol regime {ratio}× its 90d norm — measurements are unstable",
+    setup_readability_low_r2: "residual reads weak: the market model explains little (β {beta}, r² {r2}); the structure is measured on price and volume, not residuals",
+    setup_readability_regime: "vol regime {ratio}× its 90d norm: measurements are unstable",
 
     // Context-mode contradiction (§2).
-    setup_contradicted: "The tape is set up in the opposite direction of the thesis — {setup} reads {dir}, the thesis expects {expected}",
+    setup_contradicted: "The tape is set up in the opposite direction of the thesis: {setup} reads {dir}, the thesis expects {expected}",
 
     // --- G3 state tooltips (one sentence each) -------------------------------------
     tooltip_state_actionable: "conditions are consistent enough to test a thesis",
@@ -350,9 +350,9 @@ export const DEFAULT_GAUGE_CONFIG: GaugeConfig = {
     tooltip_state_unreadable: "the measurement itself is unreliable here",
     tooltip_state_contradicted_setup: "the tape is set up against the thesis",
     tooltip_clear: "conditions are consistent and readable",
-    tooltip_mixed: "conditions disagree — no clean read",
+    tooltip_mixed: "conditions disagree: no clean read",
     tooltip_blocked: "at least one condition rules out a clean read",
-    tooltip_untracked: "not in the Tracker universe — nothing to read",
+    tooltip_untracked: "not in the Tracker universe: nothing to read",
 
     // --- G2 short labels (2–3 words) keyed by the reason template they describe ------
     short_trend_caution_standalone: "momentum split",

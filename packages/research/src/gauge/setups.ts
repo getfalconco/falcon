@@ -205,7 +205,7 @@ const RECOGNISERS: Record<GaugeSetupKey, Recogniser> = {
     if (!side) return null;
     const m20 = num(f.values.momentum_20d) ?? v.momentum20;
     return {
-      read: fill(v.config.templates, side === "buy" ? "setup_read_divergence_buy" : "setup_read_divergence_sell", { m20: finite(m20) ? fmtSignedPct(m20) : "—" }),
+      read: fill(v.config.templates, side === "buy" ? "setup_read_divergence_buy" : "setup_read_divergence_sell", { m20: finite(m20) ? fmtSignedPct(m20) : "n/a" }),
       direction: side === "buy" ? "up" : "down",
       values: {
         insider_direction: side,
@@ -297,8 +297,8 @@ const RECOGNISERS: Record<GaugeSetupKey, Recogniser> = {
         // in the raw values.
         read: fill(v.config.templates, "setup_read_coiled_confirmed", {
           n: compression.day_count,
-          regime: finite(v.regime) ? fmtRatio(v.regime) : "—",
-          evt: evt ?? "—",
+          regime: finite(v.regime) ? fmtRatio(v.regime) : "n/a",
+          evt: evt ?? "n/a",
         }),
         direction: null,
         values,
@@ -306,7 +306,7 @@ const RECOGNISERS: Record<GaugeSetupKey, Recogniser> = {
       };
     }
     return {
-      read: fill(v.config.templates, "setup_read_coiled", { evt: evt ?? "—" }),
+      read: fill(v.config.templates, "setup_read_coiled", { evt: evt ?? "n/a" }),
       direction: null,
       values,
       patterns: [],
@@ -321,7 +321,7 @@ const RECOGNISERS: Record<GaugeSetupKey, Recogniser> = {
       return { read: fill(v.config.templates, "setup_read_unreadable_na"), direction: null, values, patterns: [] };
     }
     return {
-      read: fill(v.config.templates, "setup_read_unreadable", { beta: finite(v.beta) ? fmtRatio(v.beta) : "—", r2: fmtRatio(v.r2) }),
+      read: fill(v.config.templates, "setup_read_unreadable", { beta: finite(v.beta) ? fmtRatio(v.beta) : "n/a", r2: fmtRatio(v.r2) }),
       direction: null,
       values,
       patterns: [],
@@ -348,7 +348,7 @@ function missingFor(key: GaugeSetupKey, v: SetupView): GaugeMissing {
       return {
         label: fill(T, "setup_missing_volume_label"),
         detail: fill(T, "setup_missing_volume", {
-          vr: finite(v.volumeRatio) ? fmtRatio(v.volumeRatio) : "—",
+          vr: finite(v.volumeRatio) ? fmtRatio(v.volumeRatio) : "n/a",
           min: fmtRatio(v.config.setups.confirmedDrift.volumeRatioMin),
         }),
       };
@@ -357,7 +357,7 @@ function missingFor(key: GaugeSetupKey, v: SetupView): GaugeMissing {
       const evt = v.eventSessions ?? 0;
       return {
         label: fill(T, "setup_missing_event_label", { evt, s: plural(evt) }),
-        detail: fill(T, "setup_missing_event", { evt, s: plural(evt), due: v.earningsDueDay ?? "—" }),
+        detail: fill(T, "setup_missing_event", { evt, s: plural(evt), due: v.earningsDueDay ?? "n/a" }),
       };
     }
     default:
@@ -432,7 +432,7 @@ export function recognizeSetup(inputs: GaugeInputs, config: GaugeConfig, context
   if (!readable && key !== "unreadable" && key !== "regime_break") {
     readability_note = finite(v.regime) && v.regime > config.setups.regimeBreak.regimeMin
       ? fill(T, "setup_readability_regime", { ratio: fmtRatio(v.regime) })
-      : fill(T, "setup_readability_low_r2", { beta: finite(v.beta) ? fmtRatio(v.beta) : "—", r2: finite(v.r2) ? fmtRatio(v.r2) : "—" });
+      : fill(T, "setup_readability_low_r2", { beta: finite(v.beta) ? fmtRatio(v.beta) : "n/a", r2: finite(v.r2) ? fmtRatio(v.r2) : "n/a" });
   }
 
   // §2 context mode: a directional setup running against the thesis is the most

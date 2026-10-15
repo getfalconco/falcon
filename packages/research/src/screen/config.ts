@@ -159,11 +159,11 @@ export const DEFAULT_SCREEN_CONFIG: ScreenConfig = {
   templates: {
     // --- reads (one line per present finding; condition language only) ---------
     quiet_accumulation:
-      "volume arriving for {n} of the last {window} sessions (avg {ratio}× its {baseline}d median) while price sits {z}σ from flat — no news burst in the window",
+      "volume arriving for {n} of the last {window} sessions (avg {ratio}× its {baseline}d median) while price sits {z}σ from flat: no news burst in the window",
     compression:
-      "vol regime {regime}× its 90d norm; {window}-session range {range} inside the {bound} band vol implies — coiled, no direction claimed",
+      "vol regime {regime}× its 90d norm; {window}-session range {range} inside the {bound} band vol implies: coiled, no direction claimed",
     independent_tape:
-      "{n} of the last {window} sessions moved {dir} on their own (|residual z| ≥ {zmin}); net residual {net} against {implied} vol-implied — market-independent pressure",
+      "{n} of the last {window} sessions moved {dir} on their own (|residual z| ≥ {zmin}); net residual {net} against {implied} vol-implied: market-independent pressure",
     independent_tape_dir_up: "upward",
     independent_tape_dir_down: "downward",
     insider_divergence_buy:
@@ -177,10 +177,10 @@ export const DEFAULT_SCREEN_CONFIG: ScreenConfig = {
 
     // --- n_a reasons (degraded entries, never silent skips) ---------------------
     na_history: "history window not yet full ({sessions} sessions on file, {needed} needed)",
-    na_benchmark: "benchmark series unavailable — residual reads not computable",
-    na_r2: "r² {r2} below the {floor} floor — residual reads unusable",
+    na_benchmark: "benchmark series unavailable: residual reads not computable",
+    na_r2: "r² {r2} below the {floor} floor: residual reads unusable",
     na_cluster_direction: "insider cluster direction unavailable",
-    na_detectors: "detector state unavailable — Tracker state not yet built",
+    na_detectors: "detector state unavailable: Tracker state not yet built",
     na_bars_lag: "latest bar {as_of} is behind the scan session {session}",
     na_no_bars: "no daily bars on file",
 
@@ -190,20 +190,20 @@ export const DEFAULT_SCREEN_CONFIG: ScreenConfig = {
     // than the picture under it shows.
     band_compression_quietest: "{TICKER} is at its quietest in 90 days",
     band_compression_cluster:
-      "{SECTOR} are coiling — {T1}, {T2} and {MORE} more below {THRESHOLD}",
+      "{SECTOR} are coiling: {T1}, {T2} and {MORE} more below {THRESHOLD}",
     band_compression_single: "{TICKER} trading at {X} its normal volatility",
-    band_compression_broad: "{N} names compressing — {TICKER} leads at {X}",
+    band_compression_broad: "{N} names compressing: {TICKER} leads at {X}",
     band_compression_empty: "No unusual compression today",
 
-    band_volume_flat: "{TICKER} — {N} days of heavy volume, price flat",
-    band_volume_cluster: "Volume building across {SECTOR} — {T1}, {T2} and {MORE} more",
+    band_volume_flat: "{TICKER}: {N} days of heavy volume, price flat",
+    band_volume_cluster: "Volume building across {SECTOR}: {T1}, {T2} and {MORE} more",
     band_volume_single: "{TICKER} turning {X} its usual volume",
     band_volume_empty: "No unusual volume today",
 
-    band_residual_run: "{TICKER} {MOVE} on its own — {N} sessions running",
+    band_residual_run: "{TICKER} {MOVE} on its own: {N} sessions running",
     band_residual_word_up: "pushing higher",
     band_residual_word_down: "sliding lower",
-    band_residual_cluster: "Independent pressure in {SECTOR} — {T1}, {T2} and {MORE} more",
+    band_residual_cluster: "Independent pressure in {SECTOR}: {T1}, {T2} and {MORE} more",
     band_residual_empty: "Nothing moving independently today",
   },
 

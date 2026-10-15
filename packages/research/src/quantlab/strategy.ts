@@ -96,7 +96,7 @@ function validateTrigger(trigger: StrategyTrigger | undefined, errors: Validatio
     if (trigger.graph.max_hops > 1) {
       errors.push({
         field: "trigger.graph.max_hops",
-        message: "multi-hop is v2 — the transmission matrix has to be validated before hop 2 means anything",
+        message: "multi-hop is v2: the transmission matrix has to be validated before hop 2 means anything",
       });
     }
   }
@@ -200,7 +200,7 @@ export function validateStrategy(strategy: Partial<Strategy>): ValidationResult 
   if (strategy.exit && strategy.exit.kind !== "time_only") {
     errors.push({
       field: "exit.kind",
-      message: "exit is time-only in v1 — stops and targets are extra knobs and the classic overfitting surface",
+      message: "exit is time-only in v1: stops and targets are extra knobs and the classic overfitting surface",
     });
   }
 

@@ -18,6 +18,7 @@
  * third-party text and travel as data to summarise, never as instructions.
  */
 
+import { CLAUDE_WRITING_MODEL } from "../anthropicModels.js";
 import { looksLikeAdviceOrLink } from "../gloss/service.js";
 import type { GlossModelCaller } from "../gloss/types.js";
 import { DEFAULT_SCREEN_CONFIG } from "../screen/config.js";
@@ -467,7 +468,7 @@ export function narrativeFactsHash(facts: NarrativeFacts): string {
 // ---------------------------------------------------------------------------
 
 /** The model the Insight write-ups use; one id to change when the house model moves. */
-export const BRIEFING_NARRATIVE_MODEL_DEFAULT = "claude-opus-5";
+export const BRIEFING_NARRATIVE_MODEL_DEFAULT = CLAUDE_WRITING_MODEL;
 
 /**
  * One call answers the lead and the stories. No array bounds here: a cap in the

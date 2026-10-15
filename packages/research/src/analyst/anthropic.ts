@@ -17,6 +17,7 @@
  */
 
 import Anthropic from "@anthropic-ai/sdk";
+import { acceptsEffort } from "../anthropicModels.js";
 import { providerRouteFor } from "../providerRoute.js";
 import { withProviderSlot } from "../providerGate.js";
 import { jsonFromModelText, withJsonInstruction } from "../model-json.js";
@@ -24,19 +25,20 @@ import type { ModelCaller } from "./types.js";
 
 let client: Anthropic | null = null;
 let clientKey: string | null = null;
+let clientBaseUrl: string | null = null;
 
 function getClient(): Anthropic {
-  // Re-create when the key changes: a packaged desktop build routes through the
-  // research-worker proxy with the user's rotating Supabase JWT as the key.
+  // Re-create when the key or the route changes: a packaged desktop build
+  // routes through the research-worker proxy with the user's rotating Supabase
+  // JWT as the key. Unset, ANTHROPIC_BASE_URL means the official API.
   const route = providerRouteFor("analyst");
-  const currentKey = route.apiKey;
-  if (client && clientKey === currentKey) return client;
-  const apiKey = route.apiKey;
-  if (!apiKey) throw new Error("ANTHROPIC_API_KEY is not configured");
-  // SDK retries are disabled here: the service owns retry/backoff/breaker so
-  // the metrics see every attempt.
-  client = new Anthropic({ apiKey, maxRetries: 0 });
-  clientKey = apiKey;
+  if (client && clientKey === route.apiKey && clientBaseUrl === route.baseUrl) return client;
+  if (!route.apiKey) throw new Error("ANTHROPIC_API_KEY is not configured");
+  // SDK retries are disabled: the service owns retry/backoff/breaker so the
+  // metrics see every attempt.
+  client = new Anthropic({ apiKey: route.apiKey, baseURL: route.baseUrl, maxRetries: 0 });
+  clientKey = route.apiKey;
+  clientBaseUrl = route.baseUrl;
   return client;
 }
 
@@ -66,7 +68,10 @@ export const anthropicModelCaller: ModelCaller = async (input) => {
       messages: [{ role: "user", content: input.user }],
       output_config: {
         format: { type: "json_schema", schema: input.output_schema },
-        effort: input.effort as "low" | "medium" | "high" | "xhigh" | "max",
+        // Left out for a model that rejects it (an older override).
+        ...(acceptsEffort(input.model)
+          ? { effort: input.effort as "low" | "medium" | "high" | "xhigh" | "max" }
+          : {}),
       },
     },
     { timeout: input.timeout_ms, signal: input.signal },

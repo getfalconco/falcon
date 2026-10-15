@@ -80,7 +80,7 @@ export function evaluateQuietAccumulation(view: ScreenSeriesView, ctx: PatternCo
   if (view.sessions.length < w.sessions || view.sessions.some((s) => s.volume_ratio == null)) return naHistory(view, pattern, ctx, needed);
   if (view.momentum_5d == null || view.daily_vol == null) return naHistory(view, pattern, ctx, Math.max(needed, w.volShortSessions + 1));
   if (!ctx.news_burst) return na(view, pattern, ctx, fill(templates, "na_detectors"));
-  if (view.daily_vol <= 0) return na(view, pattern, ctx, "daily vol is zero — momentum not scalable");
+  if (view.daily_vol <= 0) return na(view, pattern, ctx, "daily vol is zero, momentum not scalable");
 
   const qualifying = view.sessions.filter((s) => (s.volume_ratio ?? 0) >= t.volumeRatioMin);
   const momentumZ = Math.abs(view.momentum_5d) / (view.daily_vol * Math.sqrt(w.momentumShort));
@@ -127,7 +127,7 @@ export function evaluateCompression(view: ScreenSeriesView, ctx: PatternContext)
   const t = thresholds.compression;
   if (view.vol_regime == null || view.daily_vol == null) return naHistory(view, pattern, ctx, w.volLongSessions + 1);
   if (view.range_10s == null) return naHistory(view, pattern, ctx, w.compressionRangeSessions);
-  if (view.daily_vol <= 0) return na(view, pattern, ctx, "daily vol is zero — range not scalable");
+  if (view.daily_vol <= 0) return na(view, pattern, ctx, "daily vol is zero, range not scalable");
 
   const implied = view.daily_vol * Math.sqrt(w.compressionRangeSessions);
   const bound = t.rangeVolMultiple * implied;
@@ -180,7 +180,7 @@ export function evaluateIndependentTape(view: ScreenSeriesView, ctx: PatternCont
   if (view.r2 < ctx.r2Floor) {
     return na(view, pattern, ctx, fill(templates, "na_r2", { r2: fmtRatio(view.r2), floor: fmtRatio(ctx.r2Floor) }), { r2: round4(view.r2), r2_floor: ctx.r2Floor });
   }
-  if (view.daily_vol <= 0) return na(view, pattern, ctx, "daily vol is zero — residuals not scalable");
+  if (view.daily_vol <= 0) return na(view, pattern, ctx, "daily vol is zero, residuals not scalable");
 
   const ups = view.sessions.filter((s) => (s.residual_z ?? 0) >= t.residualZMin);
   const downs = view.sessions.filter((s) => (s.residual_z ?? 0) <= -t.residualZMin);
@@ -234,7 +234,7 @@ export function evaluateInsiderDivergence(view: ScreenSeriesView, ctx: PatternCo
   const t = thresholds.insiderDivergence;
   if (view.momentum_20d == null || view.daily_vol == null) return naHistory(view, pattern, ctx, Math.max(w.momentumLong + 1, w.volShortSessions + 1));
   if (!ctx.insider_cluster) return na(view, pattern, ctx, fill(templates, "na_detectors"));
-  if (view.daily_vol <= 0) return na(view, pattern, ctx, "daily vol is zero — momentum not scalable");
+  if (view.daily_vol <= 0) return na(view, pattern, ctx, "daily vol is zero, momentum not scalable");
   const cluster = ctx.insider_cluster;
   const momentumZ = Math.abs(view.momentum_20d) / (view.daily_vol * Math.sqrt(w.momentumLong));
   const values: Record<string, ScreenValue> = {

@@ -123,7 +123,7 @@ describe("gauge/gather", () => {
     assert.equal(g.inputs.tracked, false);
     assert.equal(g.inputs.ticker, "AMZN");
     assert.equal(g.inputs.r2_floor, DEFAULT_TRACKER_CONFIG.thresholds.lowR2Fallback);
-    assert.equal(gauge(g.inputs, cfg()).summary.sentence, "Not tracked — no gauge.");
+    assert.equal(gauge(g.inputs, cfg()).summary.sentence, "Not tracked: no gauge.");
   });
 
   it("gatherGaugeInputs: tracked ticker — r² floor comes from the Tracker config passed in, history from bars, no replay in standalone", () => {

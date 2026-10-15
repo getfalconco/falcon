@@ -8,19 +8,26 @@
  * sends. Arguments are read positionally and coerced at the edge for the same
  * reason — nothing here trusts its input's shape.
  *
- * Read channels are safe to call at any time. The write channels (`set-*`,
- * `run-cycle`, `add/remove-ticker`) change what the always-on chain does for
- * everyone, which is exactly why they sit behind the approved-user gate in
- * `auth.ts` rather than behind a shared secret.
+ * Read channels are safe to call at any time for any approved user. The
+ * channels that change what the always-on chain does for everyone (`set-*`
+ * switches, manual `run-cycle`s, removing a name from the universe: the list
+ * is STAFF_ENGINE_CHANNELS in @meridian/research/engine-channels) are
+ * answered for staff only. Per-user writes (risk account, screen watchlist)
+ * touch only the verified caller's own files.
  */
 
-import type { EngineChannel } from "@meridian/research/engine-channels";
+import {
+  STAFF_ONLY_ERROR,
+  isEngineChannel,
+  isStaffEngineChannel,
+  type EngineChannel,
+} from "@meridian/research/engine-channels";
 import { getTrackerEngine } from "@meridian/research/tracker";
 import { bandHeadline, DEFAULT_SCREEN_CONFIG } from "@meridian/research/screen";
 import { getClassifierHost } from "@meridian/research/classifier";
 import { getPropagationHost } from "@meridian/research/propagation/engine";
-import { getRiskHost } from "@meridian/research/risk";
-import { getScreenHost } from "@meridian/research/screen";
+import { getRiskUserHosts } from "@meridian/research/risk";
+import { getScreenHost, getScreenUserWatchlists } from "@meridian/research/screen";
 import { getGaugeHost } from "@meridian/research/gauge";
 import { getAnalystHost } from "@meridian/research/analyst";
 import {
@@ -31,8 +38,18 @@ import {
 } from "@meridian/research/base";
 import { getEventsPollStatus, listNewsArticles } from "@meridian/research/news";
 import { eventsDir } from "./news-cycle.js";
+import { deleteUserEngineData } from "./user-data.js";
 
-type Handler = (args: unknown[]) => Promise<unknown> | unknown;
+/**
+ * Who is asking. `userId` is the id Supabase returned for the caller's bearer
+ * token (auth.ts), never a value from the request body, so a channel that
+ * reads or writes per-user state (risk, screen watchlist) cannot be pointed at
+ * someone else's. `staff` comes from the same verified token's app_metadata
+ * role; absent means not staff.
+ */
+export type ChannelContext = { userId: string; staff?: boolean };
+
+type Handler = (args: unknown[], ctx: ChannelContext) => Promise<unknown> | unknown;
 
 
 const str = (v: unknown): string => (typeof v === "string" ? v : "");
@@ -45,8 +62,10 @@ const num = (v: unknown): number | undefined => (typeof v === "number" && Number
 export const CHANNELS: Record<EngineChannel, Handler> = {
   // --- tracker -------------------------------------------------------------
   "tracker:messages": (a) => {
-    const o = (a ?? {}) as { limit?: number; ticker?: string };
-    return { ok: true, messages: getTrackerEngine().listMessages(o) };
+    // The options are the first argument. Reading `a` itself (the argument
+    // array) dropped them, so every caller got the default 200 across all names.
+    const o = (a[0] ?? {}) as { limit?: number; ticker?: string };
+    return { ok: true, messages: getTrackerEngine().listMessages({ limit: num(o.limit), ticker: o.ticker ? str(o.ticker) : undefined }) };
   },
   "tracker:status": () => ({ ok: true, status: getTrackerEngine().getStatus() }),
   "tracker:config": () => ({ ok: true, config: getTrackerEngine().getConfig() }),
@@ -214,50 +233,86 @@ export const CHANNELS: Record<EngineChannel, Handler> = {
   }),
 
   // --- risk ----------------------------------------------------------------
-  "risk:status": () => ({ ok: true, status: getRiskHost().status() }),
-  "risk:latest": () => ({ ok: true, ...getRiskHost().latest() }),
-  "risk:history": (a) => {
+  // Per user. The paper account and its snapshot history belong to the
+  // caller, so every risk channel is answered from the caller's own host
+  // (risk/users/<userId>/). There used to be one shared host here: the last
+  // user to push an account overwrote everyone else's, and every user read
+  // back snapshots computed from that book.
+  "risk:status": (_a, ctx) => ({ ok: true, status: getRiskUserHosts().status(ctx.userId) }),
+  "risk:latest": (_a, ctx) => ({ ok: true, ...getRiskUserHosts().latest(ctx.userId) }),
+  "risk:history": (a, ctx) => {
     const options = (a[0] ?? {}) as { limit?: number };
-    return { ok: true, history: getRiskHost().history(num(options.limit) ?? 200) };
+    return { ok: true, history: getRiskUserHosts().history(ctx.userId, num(options.limit) ?? 200) };
   },
-  "risk:recompute": async () => {
-    const host = getRiskHost();
+  "risk:recompute": async (_a, ctx) => {
+    const host = getRiskUserHosts().get(ctx.userId);
     await host.recomputeNow();
     return { ok: true, ...host.latest(), status: host.status() };
   },
-  "risk:account-update": (a) => {
+  "risk:account-update": (a, ctx) => {
     // The reader's paper book. Guarded exactly as the desktop guarded it: a
     // payload that is not the paper account is refused, not coerced.
     const push = a[0] as { account?: string; positions?: unknown } | null;
     if (!push || push.account !== "paper" || !Array.isArray(push.positions)) {
       return { ok: false, error: "invalid account payload" };
     }
-    getRiskHost().setAccount(push as never);
+    getRiskUserHosts().get(ctx.userId).setAccount(push as never);
     return { ok: true };
   },
-  "risk:set-card-enabled": (a) => {
-    const host = getRiskHost();
-    host.setCardEnabled(bool(a[0]));
-    return { ok: true, status: host.status() };
+  "risk:set-card-enabled": (a, ctx) => {
+    // The card flag is calibration config, shared by every user (it holds no
+    // user data), so it is staff-only (see dispatchChannel); the status that
+    // comes back is still the caller's own.
+    const hosts = getRiskUserHosts();
+    hosts.get(ctx.userId).setCardEnabled(bool(a[0]));
+    return { ok: true, status: hosts.status(ctx.userId) };
+  },
+  // Account deletion. Named for risk because that was the first per-user
+  // state; it erases everything the engine keeps for the caller (risk and the
+  // screen watchlist, see user-data.ts) so desktops already shipped get the
+  // full erasure without a client change. `deleted` stays a boolean.
+  "risk:delete-user-data": (_a, ctx) => {
+    const removed = deleteUserEngineData(ctx.userId);
+    console.info(
+      `[engine] deleted engine data for user ${ctx.userId.slice(0, 8)} · risk ${removed.risk ? "removed" : "none"} · screen ${removed.screen ? "removed" : "none"}`,
+    );
+    return { ok: true, deleted: removed.risk || removed.screen, removed };
   },
 
   // --- screen --------------------------------------------------------------
-  "screen:status": () => ({ ok: true, status: getScreenHost().status() }),
-  "screen:findings": () => ({ ok: true, ...getScreenHost().findings() }),
-  "screen:set-watchlist": (a) => {
-    const tickers = Array.isArray(a[0]) ? (a[0] as unknown[]).map(str).filter(Boolean) : [];
-    getScreenHost().setWatchlist(tickers);
-    return { ok: true };
-  },
-  "screen:emitted": (a) => {
-    const options = (a[0] ?? {}) as { limit?: number; ticker?: string };
+  // The scan and its findings are market-wide and shared. The watchlist is
+  // per user (screen/users/<userId>/watchlist.json): there used to be one
+  // file here, so the last user to push a watchlist overwrote everyone's.
+  "screen:status": (_a, ctx) => {
+    const status = getScreenHost().status();
     return {
       ok: true,
-      messages: getScreenHost().messageStore.read({
-        limit: num(options.limit) ?? 200,
-        ticker: options.ticker ? str(options.ticker) : undefined,
-      }),
+      status: { ...status, emit: { ...status.emit, watchlistSize: getScreenUserWatchlists().get(ctx.userId).length } },
     };
+  },
+  "screen:findings": () => ({ ok: true, ...getScreenHost().findings() }),
+  "screen:set-watchlist": (a, ctx) => {
+    const tickers = Array.isArray(a[0]) ? (a[0] as unknown[]).map(str).filter(Boolean) : [];
+    getScreenUserWatchlists().set(ctx.userId, tickers);
+    return { ok: true };
+  },
+  "screen:emitted": (a, ctx) => {
+    const options = (a[0] ?? {}) as { limit?: number; ticker?: string };
+    const all = getScreenHost().messageStore.read({ ticker: options.ticker ? str(options.ticker) : undefined });
+    // The emit gate runs over every member's names, so the log mixes them.
+    // A member sees the emits on their own watchlist and holdings; staff see
+    // the whole pipeline (this is also the debugging view).
+    const mine = ctx.staff
+      ? all
+      : (() => {
+          const own = new Set([
+            ...getScreenUserWatchlists().get(ctx.userId),
+            ...getRiskUserHosts().heldTickers(ctx.userId),
+          ]);
+          return all.filter((m) => own.has(m.ticker.toUpperCase()));
+        })();
+    const limit = num(options.limit) ?? 200;
+    return { ok: true, messages: limit > 0 ? mine.slice(-limit) : mine };
   },
   "screen:rescan": async () => {
     const host = getScreenHost();
@@ -329,6 +384,25 @@ export const CHANNELS: Record<EngineChannel, Handler> = {
     };
   },
 };
+
+/**
+ * Answer one channel for one verified user. The caller (index.ts) has already
+ * authenticated the bearer token; `ctx.userId` is that user's id.
+ */
+export async function dispatchChannel(
+  name: string,
+  args: unknown,
+  ctx: ChannelContext,
+): Promise<{ status: number; body: unknown }> {
+  if (!isEngineChannel(name)) return { status: 404, body: { ok: false, error: `unknown channel ${name}` } };
+  if (!ctx.userId) return { status: 401, body: { ok: false, error: "Sign in required." } };
+  // Shared switches and spend: staff only, decided from the verified token.
+  if (isStaffEngineChannel(name) && ctx.staff !== true) {
+    return { status: 403, body: { ok: false, error: STAFF_ONLY_ERROR, code: "staff_only" } };
+  }
+  const handler = CHANNELS[name];
+  return { status: 200, body: await handler(Array.isArray(args) ? args : [], ctx) };
+}
 
 export function channelNames(): string[] {
   return Object.keys(CHANNELS).sort();

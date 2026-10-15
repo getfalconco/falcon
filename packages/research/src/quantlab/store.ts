@@ -212,7 +212,7 @@ export class StrategyStore {
   append(strategy: Strategy): void {
     const state = this.read();
     if (state.strategies.some((s) => s.strategy_id === strategy.strategy_id && s.version === strategy.version)) {
-      throw new Error(`${strategy.strategy_id} v${strategy.version} already exists — versions are immutable`);
+      throw new Error(`${strategy.strategy_id} v${strategy.version} already exists; versions are immutable`);
     }
     state.strategies.push(strategy);
     this.cache = state;
