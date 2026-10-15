@@ -160,6 +160,21 @@ export type Verdict = {
   classified_at: string;
   /** Validation/transport detail for `status: "failed"`; null when ok. */
   failure_reason: string | null;
+  /**
+   * Falcon's headline for the story (classifier/headline.ts), written after
+   * the verdict and only for stories the feed shows. Absent until written;
+   * never part of the model's verdict output.
+   */
+  headline?: FalconHeadline;
+};
+
+/** The neutral row title Falcon writes for a news story, stored on its verdict. */
+export type FalconHeadline = {
+  text: string;
+  /** The headline prompt's version (`hl-…`), not the classifier's. */
+  prompt_version: string;
+  model: string;
+  written_at: string;
 };
 
 /** What the model is asked to produce: the verdict minus the envelope Classifier fills in. */
@@ -209,6 +224,10 @@ export type ClassifierMetrics = {
   cache_read_tokens: number;
   /** Counts by "event_type|relevance|materiality" — materiality "-" for none. */
   by_cell: Record<string, number>;
+  /** Falcon headlines written and stored (classifier/headline.ts). */
+  headlines_ok: number;
+  /** Headline attempts that ended without a usable line (after retries). */
+  headlines_failed: number;
 };
 
 export type ModelCallResult = {

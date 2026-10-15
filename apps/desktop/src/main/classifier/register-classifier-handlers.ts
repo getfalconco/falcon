@@ -1,4 +1,5 @@
 import { registerIpcHandler } from "../ipc-register";
+import { listNewsArticles, resolveEventsDataDir } from "@meridian/research/news";
 import { getClassifierHost } from "./classifier-host";
 
 /**
@@ -74,7 +75,13 @@ export function registerClassifierHandlers(): void {
   });
 }
 
-/** Start the Phase A loop if the config enables it. */
+/**
+ * Start the Phase A loop if the config enables it. Only a checkout that runs
+ * the chain itself gets here; like the engine, its cycle also covers the
+ * News card's feed and writes Falcon headlines (classifier/feed-lane.ts).
+ */
 export function bootstrapClassifier(): void {
-  getClassifierHost().start();
+  const host = getClassifierHost();
+  host.setNewsFeedSource(() => listNewsArticles(resolveEventsDataDir(), { days: 3, limit: 300 }));
+  host.start();
 }

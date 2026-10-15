@@ -41,3 +41,30 @@ export {
   persistEventsToSupabase,
   isNewsEventBackendConfigured,
 } from "./supabase-store.js";
+export {
+  curateNewsFeed,
+  curateArticle,
+  materialEntries,
+  isMaterialVerdict,
+  minimumMateriality,
+  junkReason,
+  primarySource,
+  primaryHeadline,
+  articleKeyFor,
+  verdictIndex,
+  HIGH_BAR_EVENT_TYPES,
+  DUPLICATE_WINDOW_SEC,
+  type CuratedNewsArticle,
+  type CurationDecision,
+  type CurationReason,
+  type CurationOptions,
+  type HeadlineSource,
+  type NewsCuration,
+  type PrimaryKind,
+} from "./curation.js";
+export {
+  cleanHeadline,
+  headlineIssues,
+  vetHeadline,
+  HEADLINE_MAX_LENGTH,
+} from "./headline-rules.js";

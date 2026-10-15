@@ -14,6 +14,7 @@ export * from "./prompt.js";
 export * from "./filing-items.js";
 export * from "./service.js";
 export * from "./eval.js";
+export * from "./headline.js";
 export {
   ClassifierConfigStore,
   FileBackend,
@@ -34,4 +35,4 @@ export { anthropicConfigured, anthropicModelCaller } from "./anthropic.js";
  * both the desktop panel and the always-on engine service run it.
  */
 export * from "./host-types.js";
-export { ClassifierHost, getClassifierHost } from "./host.js";
+export { ClassifierHost, classifierEnabledFromEnv, getClassifierHost } from "./host.js";

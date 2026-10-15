@@ -24,6 +24,11 @@ export type ClassifierRunSummary = {
   skipped: number;
   errors: string[];
   dry_run: boolean;
+  /** Of `dispatched`, the News card's uncovered stories sent first (feed-lane.ts). */
+  feed_requests: number;
+  /** Falcon headlines written this cycle, and attempts that ended without one. */
+  headlines_written: number;
+  headlines_failed: number;
 };
 
 export type ClassifierStatus = {

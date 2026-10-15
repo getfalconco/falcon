@@ -14,6 +14,7 @@ import {
   RELEVANCES,
   type ClassificationRequest,
   type Direction,
+  type FalconHeadline,
   type Materiality,
   type ModelOutput,
   type TickerVerdict,
@@ -350,6 +351,7 @@ export function coerceStoredVerdict(raw: unknown): Verdict | null {
       direction: item.direction as Direction,
     });
   }
+  const headline = coerceHeadline(raw.headline);
   return {
     schema_version: CLASSIFIER_SCHEMA_VERSION,
     prompt_version: raw.prompt_version,
@@ -365,5 +367,17 @@ export function coerceStoredVerdict(raw: unknown): Verdict | null {
     metadata_missing: raw.metadata_missing === true,
     classified_at: raw.classified_at,
     failure_reason: typeof raw.failure_reason === "string" ? raw.failure_reason : null,
+    // Only when present: a verdict without one stays byte-identical to before.
+    ...(headline ? { headline } : {}),
   };
+}
+
+/** A stored headline read back from disk; null when the row is not usable. */
+export function coerceHeadline(raw: unknown): FalconHeadline | null {
+  if (!isRecord(raw)) return null;
+  if (typeof raw.text !== "string" || !raw.text.trim()) return null;
+  if (typeof raw.prompt_version !== "string" || typeof raw.model !== "string" || typeof raw.written_at !== "string") {
+    return null;
+  }
+  return { text: raw.text, prompt_version: raw.prompt_version, model: raw.model, written_at: raw.written_at };
 }

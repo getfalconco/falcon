@@ -36,7 +36,7 @@ import {
   replayBase,
   type EarningsCalendar,
 } from "@meridian/research/base";
-import { getEventsPollStatus, listNewsArticles } from "@meridian/research/news";
+import { curateNewsFeed, getEventsPollStatus, listNewsArticles, verdictIndex } from "@meridian/research/news";
 import { eventsDir } from "./news-cycle.js";
 import { deleteUserEngineData } from "./user-data.js";
 
@@ -362,13 +362,23 @@ export const CHANNELS: Record<EngineChannel, Handler> = {
   // company table, which is the one place this service already knows a
   // sector. The poll's own status rides along so the card can say how fresh
   // the feed is.
+  //
+  // Each story also carries `falcon`: whether the card shows it and under
+  // which title (Falcon's headline, never the publisher's), decided from the
+  // classifier's verdicts (news/curation.ts). Every story is still sent, so
+  // an older desktop that ignores the field keeps working; the card filters.
   "news:feed": async (a) => {
     const o = (a[0] ?? {}) as { days?: number; limit?: number };
-    const articles = await listNewsArticles(eventsDir(), {
+    const raw = await listNewsArticles(eventsDir(), {
       days: num(o.days) ?? 3,
       limit: num(o.limit) ?? 300,
     });
-    const metadata = getClassifierHost().metadata;
+    const host = getClassifierHost();
+    const metadata = host.metadata;
+    const articles = curateNewsFeed(raw, {
+      verdictFor: verdictIndex(host.verdictStore.list()),
+      companyName: (t) => metadata.context(t).official_name,
+    });
     const sectorOf = new Map<string, string | null>();
     const sector = (t: string): string | null => {
       if (!sectorOf.has(t)) sectorOf.set(t, metadata.context(t).sector);

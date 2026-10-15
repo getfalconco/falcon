@@ -25,7 +25,8 @@ import os from "node:os";
 import v8 from "node:v8";
 import { portfolioTrackerHealth, startPortfolioTracker } from "./portfolio-tracker.js";
 import { snapshotRetentionHealth, startSnapshotRetention } from "./portfolio-retention.js";
-import { newsCycleHealth, startNewsCycle } from "./news-cycle.js";
+import { eventsDir, newsCycleHealth, startNewsCycle } from "./news-cycle.js";
+import { listNewsArticles } from "@meridian/research/news";
 import { startPaperCompetition } from "./paper-competition.js";
 import type { IncomingMessage, ServerResponse } from "node:http";
 import { getTrackerEngine } from "@meridian/research/tracker";
@@ -203,6 +204,10 @@ function classifierHealth(): Record<string, unknown> {
       cache_hits: m.cache_hits ?? null,
       verdicts_ok: m.verdicts_ok ?? null,
       verdicts_failed: m.verdicts_failed ?? null,
+      // Falcon headlines for the News card (classifier/headline.ts): written,
+      // and attempts that ended without a line that passes the rules.
+      headlines_ok: m.headlines_ok ?? null,
+      headlines_failed: m.headlines_failed ?? null,
       /** Articles with a stored answer — the dedupe surface. */
       verdict_count: st.verdict_count ?? null,
       next_cycle_at: st.next_cycle_at ?? null,
@@ -742,6 +747,10 @@ async function boot(): Promise<void> {
 
   await stage("classifier", () => {
     const classifier = getClassifierHost();
+    // The News card shows only stories with a verdict and a Falcon headline,
+    // so the cycle classifies the feed's uncovered stories first and writes
+    // headlines for the material ones (classifier/feed-lane.ts).
+    classifier.setNewsFeedSource(() => listNewsArticles(eventsDir(), { days: 3, limit: 300 }));
     classifier.start();
     console.info(`[engine] classifier ${classifier.status().enabled ? "on" : "off"}`);
   });

@@ -21,6 +21,14 @@ import {
   validateModelOutput,
 } from "./schema.js";
 import { VerdictStore } from "./store.js";
+import {
+  HEADLINE_JSON_SCHEMA,
+  HEADLINE_PROMPT_VERSION,
+  headlineSystemPrompt,
+  headlineUserPrompt,
+  validateHeadlineOutput,
+  type HeadlineInput,
+} from "./headline.js";
 import type { ClassifierConfig } from "./config.js";
 import {
   ClassifierBreakerOpenError,
@@ -28,6 +36,7 @@ import {
   type BreakerState,
   type ClassificationRequest,
   type ClassifierMetrics,
+  type FalconHeadline,
   type ModelCaller,
   type ModelOutput,
   type TickerVerdict,
@@ -57,6 +66,18 @@ export type ClassifierServiceOptions = {
   sleep?: (ms: number) => Promise<void>;
   onVerdict?: (outcome: ClassifyOutcome, request: ClassificationRequest) => void;
 };
+
+export type HeadlineOutcome =
+  | { ok: true; headline: FalconHeadline; attempts: number; latency_ms: number }
+  | { ok: false; reason: string; attempts: number; latency_ms: number };
+
+/**
+ * The attempt-ledger row for an article's headline, apart from its
+ * classification row so a failed headline never marks the verdict failed.
+ */
+export function headlineAttemptKey(articleKey: string): string {
+  return `headline|${articleKey}`;
+}
 
 type MergeResult = { verdict: Verdict; disagreement: boolean; added: string[] };
 
@@ -397,23 +418,114 @@ export class ClassifierService {
   }
 
   // ---------------------------------------------------------------------------
+  // Falcon headline (classifier/headline.ts)
+  // ---------------------------------------------------------------------------
+
+  /**
+   * Write and store Falcon's headline for a story that already has a verdict.
+   * Same breaker, concurrency cap, retries and metrics as a classification;
+   * a line that still breaks a headline rule after the retries is not stored
+   * (the feed falls back conservatively). Throws `ClassifierBreakerOpenError`
+   * when the breaker is open, exactly like `classify`.
+   */
+  async writeHeadline(input: HeadlineInput): Promise<HeadlineOutcome> {
+    const cfg = this.config;
+    const key = input.article.article_key;
+    this.tickBreaker();
+    if (this.breaker.status === "open" && this.breaker.open_until) {
+      throw new ClassifierBreakerOpenError(this.breaker.open_until);
+    }
+    const release = await this.semaphore.acquire();
+    this.tickBreaker();
+    if (this.breaker.status === "open" && this.breaker.open_until) {
+      release();
+      throw new ClassifierBreakerOpenError(this.breaker.open_until);
+    }
+    const started = Date.now();
+    try {
+      const user = headlineUserPrompt(input);
+      const result = await this.runCalls<string>({
+        system: headlineSystemPrompt(),
+        // Every retry shows the model what was wrong: a headline has one field
+        // and the rejection reason is the whole fix.
+        user: (_v, lastErrors) =>
+          lastErrors.length
+            ? `${user}\n\nYour previous headline was rejected: ${lastErrors.join("; ")}. Write a corrected one.`
+            : user,
+        schema: HEADLINE_JSON_SCHEMA,
+        validate: (text) => {
+          const v = validateHeadlineOutput(text, input.article);
+          return v.ok ? { ok: true, value: v.headline } : v;
+        },
+      });
+      const at = this.now();
+      if (result.ok) {
+        const headline: FalconHeadline = {
+          text: result.output,
+          prompt_version: HEADLINE_PROMPT_VERSION,
+          model: cfg.model,
+          written_at: at,
+        };
+        this.store.setHeadline(key, headline);
+        this.store.recordAttempt(headlineAttemptKey(key), null, at, cfg.maxAttemptsPerArticle);
+        this.store.updateMetrics((m) => {
+          m.headlines_ok += 1;
+        });
+        return { ok: true, headline, attempts: result.attempts, latency_ms: Date.now() - started };
+      }
+      // Same rule as a verdict: a rejected credential is not the article's fault.
+      if (!result.reason.startsWith("auth:")) {
+        this.store.recordAttempt(headlineAttemptKey(key), result.reason, at, cfg.maxAttemptsPerArticle);
+      }
+      this.store.updateMetrics((m) => {
+        m.headlines_failed += 1;
+      });
+      return { ok: false, reason: result.reason, attempts: result.attempts, latency_ms: Date.now() - started };
+    } finally {
+      release();
+    }
+  }
+
+  // ---------------------------------------------------------------------------
   // Call loop: validation retries × transport retries
   // ---------------------------------------------------------------------------
 
   private async callLoop(
     request: ClassificationRequest,
   ): Promise<{ ok: true; output: ModelOutput; attempts: number } | { ok: false; reason: string; attempts: number }> {
+    const prompt = buildClassifierPrompt(request, this.config.promptVersion);
+    return this.runCalls<ModelOutput>({
+      system: prompt.system,
+      // §7: the second retry appends the validator error to the request.
+      user: (v, lastErrors) =>
+        v >= 2 && lastErrors.length
+          ? `${prompt.user}\n\nYour previous response failed validation: ${lastErrors.join("; ")}. Return a corrected JSON verdict.`
+          : prompt.user,
+      schema: MODEL_OUTPUT_JSON_SCHEMA,
+      validate: (text) => {
+        const validated = validateModelOutput(text, request);
+        return validated.ok ? { ok: true, value: validated.output } : validated;
+      },
+    });
+  }
+
+  /**
+   * The one loop every model call goes through: validation retries around
+   * transport retries, the per-call timeout, token and latency metrics, and
+   * the breaker. What differs per call (prompt, schema, validator) is passed in.
+   */
+  private async runCalls<T>(spec: {
+    system: string;
+    user: (validationAttempt: number, lastErrors: string[]) => string;
+    schema: Record<string, unknown>;
+    validate: (text: string) => { ok: true; value: T } | { ok: false; errors: string[] };
+  }): Promise<{ ok: true; output: T; attempts: number } | { ok: false; reason: string; attempts: number }> {
     const cfg = this.config;
     let attempts = 0;
     let lastErrors: string[] = [];
 
     for (let v = 0; v <= cfg.validationRetries; v++) {
-      const prompt = buildClassifierPrompt(request, cfg.promptVersion);
-      // §7: the second retry appends the validator error to the request.
-      const user =
-        v >= 2 && lastErrors.length
-          ? `${prompt.user}\n\nYour previous response failed validation: ${lastErrors.join("; ")}. Return a corrected JSON verdict.`
-          : prompt.user;
+      const user = spec.user(v, lastErrors);
 
       let text: string | null = null;
       for (let t = 0; t <= cfg.transportRetries; t++) {
@@ -428,13 +540,13 @@ export class ClassifierService {
         const callStart = Date.now();
         try {
           const res = await this.callModel({
-            system: prompt.system,
+            system: spec.system,
             user,
             model: cfg.model,
             temperature: cfg.temperature,
             max_tokens: cfg.maxTokens,
             timeout_ms: cfg.timeoutMs,
-            output_schema: MODEL_OUTPUT_JSON_SCHEMA,
+            output_schema: spec.schema,
             signal: controller.signal,
           });
           const latency = Date.now() - callStart;
@@ -485,8 +597,8 @@ export class ClassifierService {
         return { ok: false, reason: new ClassifierTransportError("no response").message, attempts };
       }
 
-      const validated = validateModelOutput(text, request);
-      if (validated.ok) return { ok: true, output: validated.output, attempts };
+      const validated = spec.validate(text);
+      if (validated.ok) return { ok: true, output: validated.value, attempts };
       lastErrors = validated.errors;
       this.store.updateMetrics((m) => {
         m.validation_failures += 1;

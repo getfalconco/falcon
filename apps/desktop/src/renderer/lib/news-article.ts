@@ -7,16 +7,34 @@ import type { ClassifierTickerVerdict, ClassifierVerdict } from "../../shared/cl
  * apart so they read (and test) on their own.
  */
 
-/** Names on a story, the one the classifier says it moves first. */
-export function storyNames(a: Pick<NewsFeedArticle, "event" | "tickers">): string[] {
+/**
+ * Names on a story: the ones Falcon found it material for first (strongest
+ * first), then the one the feed's reading says it moves, then the rest.
+ */
+export function storyNames(a: Pick<NewsFeedArticle, "event" | "tickers" | "falcon">): string[] {
   const out: string[] = [];
-  const affected = a.event?.affected_ticker?.trim().toUpperCase();
-  if (affected) out.push(affected);
-  for (const t of a.tickers) {
-    const name = t.trim().toUpperCase();
+  const push = (raw: string | undefined | null) => {
+    const name = raw?.trim().toUpperCase();
     if (name && !out.includes(name)) out.push(name);
-  }
+  };
+  for (const t of a.falcon?.tickers ?? []) push(t);
+  push(a.event?.affected_ticker);
+  for (const t of a.tickers) push(t);
   return out;
+}
+
+/**
+ * The panel's title and the publisher's line under it. The title is Falcon's
+ * headline whenever the card listed the story under one; the publisher's
+ * headline then appears only as the quiet source line (null when it would
+ * repeat the title, or when there is no Falcon headline and it is the title).
+ */
+export function panelTitles(a: Pick<NewsFeedArticle, "headline" | "falcon">): { title: string; sourceTitle: string | null } {
+  const publisher = a.headline.trim();
+  const falcon = a.falcon?.decision === "show" ? a.falcon.headline?.trim() : "";
+  if (!falcon) return { title: publisher, sourceTitle: null };
+  const same = falcon.toLowerCase() === publisher.toLowerCase();
+  return { title: falcon, sourceTitle: same || !publisher ? null : publisher };
 }
 
 /** What the main process is asked with: the feed row, names in reading order. */

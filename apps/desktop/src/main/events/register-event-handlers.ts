@@ -1,7 +1,9 @@
 import { registerIpcHandler } from "../ipc-register";
 import {
+  curateNewsFeed,
   getEventsPollStatus,
   listNewsArticles,
+  verdictIndex,
   listStoredEvents,
   resolveEventsDataDir,
   runNewsEventPoll,
@@ -13,6 +15,7 @@ import { setNotificationSource } from "../notifications/notifier";
 import { NewsFeedCache } from "./news-feed-cache.js";
 import { repairEventsText, repairFeedText } from "./feed-text.js";
 import type { NewsFeedOptions } from "../../shared/news-feed";
+import { getClassifierHost } from "../classifier/classifier-host";
 
 /**
  * The feed's last good answers, beside the events store (FALCON_EVENTS_DATA_DIR,
@@ -35,7 +38,9 @@ export function registerEventHandlers(): void {
 
   // An engine channel: with a service configured (the normal case) this is
   // answered there, from the poll that actually runs. This local body only
-  // serves a checkout that runs the chain itself, and knows no sectors.
+  // serves a checkout that runs the chain itself, and knows no sectors. It
+  // decides what the card shows the same way the engine does, from this
+  // process's own classifier verdicts (news/curation.ts).
   //
   // Either way the answer goes through the feed cache: a repeat inside its
   // freshness window is served from memory, identical requests share one
@@ -44,7 +49,12 @@ export function registerEventHandlers(): void {
     "news:feed",
     async (_event, options?: { days?: number; limit?: number }) => {
       try {
-        const articles = await listNewsArticles(resolveEventsDataDir(), options);
+        const raw = await listNewsArticles(resolveEventsDataDir(), options);
+        const host = getClassifierHost();
+        const articles = curateNewsFeed(raw, {
+          verdictFor: verdictIndex(host.verdictStore.list()),
+          companyName: (t) => host.metadata.context(t).official_name,
+        });
         return {
           ok: true as const,
           articles: articles.map((a) => ({ ...a, sectors: [] as string[] })),

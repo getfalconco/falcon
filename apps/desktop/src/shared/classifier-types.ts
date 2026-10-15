@@ -67,6 +67,16 @@ export type ClassifierVerdict = {
   metadata_missing: boolean;
   classified_at: string;
   failure_reason: string | null;
+  /** Falcon's headline for the story, once written (never the publisher's). */
+  headline?: ClassifierHeadline;
+};
+
+/** Mirrors `FalconHeadline` in packages/research/src/classifier/types.ts. */
+export type ClassifierHeadline = {
+  text: string;
+  prompt_version: string;
+  model: string;
+  written_at: string;
 };
 
 export type ClassifierBreakerState = {
@@ -91,6 +101,9 @@ export type ClassifierMetrics = {
   input_tokens: number;
   output_tokens: number;
   by_cell: Record<string, number>;
+  /** Falcon headlines written / attempts that ended without one (absent from an older engine). */
+  headlines_ok?: number;
+  headlines_failed?: number;
 };
 
 /**

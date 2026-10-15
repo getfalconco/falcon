@@ -148,7 +148,14 @@ describe("news feed cache (main)", () => {
     await cache.get({ days: 3 }, async () => ok(1));
     await cache.flush();
     const raw = JSON.parse(fs.readFileSync(path.join(dir, NEWS_FEED_CACHE_FILE), "utf8"));
-    assert.equal(raw.version, 1);
+    assert.equal(raw.version, 2);
+  });
+
+  it("drops a version-1 file: its stories predate the engine's show/hide decision", () => {
+    const dir = tempDir();
+    const entry = { fetchedAt: 1, result: { ok: true, articles: [], status: {} } };
+    fs.writeFileSync(path.join(dir, NEWS_FEED_CACHE_FILE), JSON.stringify({ version: 1, entries: { "d=3|l=": entry } }), "utf8");
+    assert.equal(new NewsFeedCache({ dir: () => dir }).peek({ days: 3 }).ok, false);
   });
 
   it("does not store a failure or a malformed answer", async () => {

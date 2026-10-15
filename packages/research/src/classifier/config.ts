@@ -66,6 +66,22 @@ export type ClassifierConfig = {
    * to this many total attempts, then marked permanent-failed.
    */
   maxAttemptsPerArticle: number;
+  /**
+   * Feed lane: stories in the News card's feed that no verdict covers yet
+   * (the Tracker may not carry every one) are classified first, newest first,
+   * at most this many per cycle and always inside the daily budget.
+   */
+  feedRequestsPerCycle: number;
+  /** Falcon headlines written per cycle at most, newest material story first. */
+  headlineBatchPerCycle: number;
+  /** Only stories published inside this window get a feed request or a headline. */
+  feedWindowHours: number;
+  /**
+   * Units of the daily budget Base's own queue may not spend, held for the
+   * News card's feed and headline lanes so they keep running all day (only
+   * when the host has a feed source). Same daily cap; a partition of it.
+   */
+  feedDailyReserve: number;
 };
 
 export const DEFAULT_CLASSIFIER_CONFIG: ClassifierConfig = {
@@ -96,6 +112,13 @@ export const DEFAULT_CLASSIFIER_CONFIG: ClassifierConfig = {
   },
   latencyWindow: 500,
   maxAttemptsPerArticle: 3,
+  feedRequestsPerCycle: 30,
+  headlineBatchPerCycle: 40,
+  // The card reads three days; a headline for anything older is never seen.
+  feedWindowHours: 72,
+  // Measured feed: ~170 of 300 stories over three days survive the junk
+  // filter, about 60 a day to classify, plus a headline for each material one.
+  feedDailyReserve: 150,
 };
 
 /** Deep-merge a persisted partial config over the defaults. */

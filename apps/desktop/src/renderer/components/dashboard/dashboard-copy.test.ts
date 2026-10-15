@@ -35,6 +35,7 @@ const CARDS = [
   "PortfolioValueHeadline.tsx",
   "PortfolioChart.tsx",
   "NewsCard.tsx",
+  "NewsStoryList.tsx",
   "OpportunitiesPanel.tsx",
   "InsightCard.tsx",
   "InsightDetailModal.tsx",

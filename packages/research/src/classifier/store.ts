@@ -12,7 +12,7 @@ import path from "node:path";
 import { resolveDesktopDataDir } from "../tracker/store.js";
 import { DEFAULT_CLASSIFIER_CONFIG, mergeClassifierConfig, type ClassifierConfig } from "./config.js";
 import { coerceStoredVerdict } from "./schema.js";
-import type { ClassifierMetrics, Verdict } from "./types.js";
+import type { ClassifierMetrics, FalconHeadline, Verdict } from "./types.js";
 
 export function resolveClassifierDataDir(): string {
   const fromEnv = process.env.FALCON_CLASSIFIER_DATA_DIR?.trim();
@@ -57,6 +57,8 @@ export function emptyMetrics(): ClassifierMetrics {
     cache_creation_tokens: 0,
     cache_read_tokens: 0,
     by_cell: {},
+    headlines_ok: 0,
+    headlines_failed: 0,
   };
 }
 
@@ -246,6 +248,22 @@ export class VerdictStore {
     if (verdict.failure_reason != null) verdict = { ...verdict, failure_reason: clipReason(verdict.failure_reason) };
     this.verdicts[verdictKey(verdict.article_key, verdict.prompt_version, verdict.model)] = verdict;
     this.backend.writeVerdicts(this.verdicts);
+  }
+
+  /**
+   * Attach Falcon's headline to every stored verdict for the article (one per
+   * prompt version and model), so whichever row a reader resolves carries it.
+   * Returns how many rows took it; 0 when the article has no verdict.
+   */
+  setHeadline(articleKey: string, headline: FalconHeadline): number {
+    let n = 0;
+    for (const v of Object.values(this.verdicts)) {
+      if (v.article_key !== articleKey) continue;
+      v.headline = { ...headline };
+      n += 1;
+    }
+    if (n) this.backend.writeVerdicts(this.verdicts);
+    return n;
   }
 
   list(options?: { limit?: number; status?: Verdict["status"] }): Verdict[] {

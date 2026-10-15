@@ -1,16 +1,14 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Check, ChevronDown, Copy, MoreVertical, Search, X } from "lucide-react";
-import StockIcon from "@/components/stock/StockIcon";
 import { readPaperAccount, subscribePaperAccount } from "@/lib/paper-account";
 import { cn } from "@/lib/utils";
 import { DROPDOWN_FADE } from "@/lib/dropdown-motion";
 import { useI18n, type MessageKey } from "@/lib/i18n";
-import { agoLabel } from "@/lib/dashboard-dates";
-import { eventTypeLabel } from "@/lib/event-type-labels";
 import { useNewsFeed } from "@/lib/news-feed-store";
+import { curatedStories, storiesInView, type CuratedStory, type StoryScope } from "@/lib/news-curation";
 import NewsArticleModal from "./NewsArticleModal";
-import type { NewsFeedArticle } from "../../../shared/news-feed";
+import NewsStoryList from "./NewsStoryList";
 
 /**
  * The news card: what the engine's poll has read, newest first — headline,
@@ -23,31 +21,26 @@ import type { NewsFeedArticle } from "../../../shared/news-feed";
  * keeps itself fresh while the app is open (news-feed-store.ts), so coming
  * back to the dashboard shows the list at once instead of loading it again.
  *
+ * Only material stories are listed, each under a headline Falcon wrote: the
+ * engine decides both (`falcon` on each story; news-curation.ts), so a
+ * roundup, a price recap or a repeat of an event never reaches the list and
+ * a publisher's clickbait title never becomes a row. The publisher's own
+ * headline is still there, inside the article panel, labelled as the
+ * source's title.
+ *
  * Three scopes, one at a time: the whole market, one sector (the sectors are
- * whatever the feed's names belong to — the engine's company table, not a
- * list kept here), or the reader's own positions. A search runs across
- * whichever scope is on.
+ * whatever the listed stories' names belong to — the engine's company table,
+ * not a list kept here), or the reader's own positions. A search runs across
+ * whichever scope is on. All of them work on the curated set.
  */
 
-type Scope = "market" | "sector" | "positions";
+type Scope = StoryScope;
 
 const SCOPES: Array<{ key: Scope; label: MessageKey }> = [
   { key: "market", label: "dashboard.news.scope.market" },
   { key: "sector", label: "dashboard.news.scope.sector" },
   { key: "positions", label: "dashboard.news.scope.positions" },
 ];
-
-/** Names shown per story before the rest fold into "+n". */
-const TICKERS_SHOWN = 4;
-
-/** Names on a story, the one the classifier says it moves first. */
-function namesOf(a: NewsFeedArticle): string[] {
-  const out: string[] = [];
-  const affected = a.event?.affected_ticker?.trim().toUpperCase();
-  if (affected) out.push(affected);
-  for (const t of a.tickers) if (!out.includes(t)) out.push(t);
-  return out;
-}
 
 export default function NewsCard({
   onDuplicate,
@@ -58,7 +51,7 @@ export default function NewsCard({
   /** Three-dot menu: take this card off the dashboard. */
   onRemove?: () => void;
 }) {
-  const { t, locale } = useI18n();
+  const { t } = useI18n();
   // The feed lives in a module-level store, not in this component: the
   // dashboard unmounts on every tab switch and every trip into a stock, and
   // the card used to come back to "loading" and a fresh request each time.
@@ -67,9 +60,12 @@ export default function NewsCard({
   // failed read keeps the last good list and says so quietly underneath.
   const feed = useNewsFeed();
   // The story open in the article panel, if any.
-  const [openArticle, setOpenArticle] = useState<NewsFeedArticle | null>(null);
+  const [openArticle, setOpenArticle] = useState<CuratedStory | null>(null);
   const closeArticle = useCallback(() => setOpenArticle(null), []);
   const articles = useMemo(() => feed.value ?? [], [feed.value]);
+  // The card's whole world: material stories with Falcon's title. Every view
+  // and the search below run over this, never over the raw feed.
+  const stories = useMemo(() => curatedStories(articles), [articles]);
   const error = feed.error;
   const loaded = feed.settled;
   const [now, setNow] = useState(() => Date.now());
@@ -96,9 +92,9 @@ export default function NewsCard({
 
   const sectors = useMemo(() => {
     const seen = new Set<string>();
-    for (const a of articles) for (const s of a.sectors) seen.add(s);
+    for (const a of stories) for (const s of a.sectors) seen.add(s);
     return [...seen].sort((a, b) => a.localeCompare(b));
-  }, [articles]);
+  }, [stories]);
 
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState("");
@@ -130,21 +126,10 @@ export default function NewsCard({
     };
   }, [menuOpen, sectorOpen]);
 
-  const shown = useMemo(() => {
-    const heldSet = new Set(held.map((t) => t.toUpperCase()));
-    const needle = query.trim().toLowerCase();
-    return articles.filter((a) => {
-      if (scope === "positions" && !namesOf(a).some((t) => heldSet.has(t))) return false;
-      if (scope === "sector" && sector && !a.sectors.includes(sector)) return false;
-      if (!needle) return true;
-      return (
-        a.headline.toLowerCase().includes(needle) ||
-        a.source.toLowerCase().includes(needle) ||
-        a.summary.toLowerCase().includes(needle) ||
-        namesOf(a).some((t) => t.toLowerCase().includes(needle))
-      );
-    });
-  }, [articles, scope, sector, held, query]);
+  const shown = useMemo(
+    () => storiesInView(stories, { scope, sector, held, query }),
+    [stories, scope, sector, held, query],
+  );
 
   // A failed read with no reason of its own is kept as "", and said here.
   const errorText = error === "" ? t("dashboard.news.noAnswer") : error;
@@ -158,7 +143,8 @@ export default function NewsCard({
       return held.length === 0 ? t("dashboard.news.noPositions") : t("dashboard.news.nothingOnNames");
     }
     if (scope === "sector") return sector ? t("dashboard.news.nothingInSector", { sector }) : t("dashboard.news.pickSector");
-    return null;
+    // The feed has stories, none of them material (or none written up yet).
+    return t("dashboard.news.nothingMaterial");
   })();
 
   return (
@@ -380,62 +366,7 @@ export default function NewsCard({
         {empty ? (
           <p className="py-2 text-[12.5px] leading-relaxed text-[#9CA3AF]">{empty}</p>
         ) : (
-          <ul className="flex flex-col">
-            {shown.map((a) => {
-              const names = namesOf(a);
-              const extra = names.length - TICKERS_SHOWN;
-              const dir = a.event?.material ? a.event.direction : null;
-              return (
-                <li key={a.id} className="border-b-[0.5px] border-black/[0.06] last:border-b-0">
-                  <button
-                    type="button"
-                    onClick={() => setOpenArticle(a)}
-                    className="app-no-drag group block w-full py-2.5 text-left"
-                  >
-                  <p className="line-clamp-2 text-[13px] font-medium leading-snug text-[#1d1b1b] underline-offset-[3px] group-hover:underline">
-                    {a.headline}
-                  </p>
-                  <div className="mt-1 flex items-center gap-1.5 text-[11px] text-[#9CA3AF]">
-                    {a.source ? <span className="truncate">{a.source}</span> : null}
-                    {a.source ? <span aria-hidden>·</span> : null}
-                    <span className="shrink-0 tabular-nums">{agoLabel(a.datetime, now, locale, t("dashboard.news.justNow"))}</span>
-                    {dir === "positive" || dir === "negative" ? (
-                      <>
-                        <span aria-hidden>·</span>
-                        <span
-                          className={cn(
-                            "shrink-0 font-medium",
-                            dir === "positive" ? "text-[#16A34A]" : "text-[#DC2626]",
-                          )}
-                        >
-                          {a.event ? eventTypeLabel(a.event.event_type, t) : null}
-                        </span>
-                      </>
-                    ) : null}
-                  </div>
-                  {names.length > 0 ? (
-                    <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
-                      {names.slice(0, TICKERS_SHOWN).map((t) => (
-                        <span
-                          key={t}
-                          className="flex items-center gap-1 rounded-full bg-black/[0.04] py-0.5 pl-0.5 pr-2 text-[11px] font-semibold text-[#1d1b1b]"
-                        >
-                          <span className="flex h-4 w-4 items-center justify-center overflow-hidden rounded-full bg-white">
-                            <StockIcon symbol={t} size="sm" className="h-3 w-3 object-contain" />
-                          </span>
-                          {t}
-                        </span>
-                      ))}
-                      {extra > 0 ? (
-                        <span className="text-[11px] text-[#9CA3AF]">+{extra}</span>
-                      ) : null}
-                    </div>
-                  ) : null}
-                  </button>
-                </li>
-              );
-            })}
-          </ul>
+          <NewsStoryList stories={shown} now={now} onOpen={setOpenArticle} />
         )}
       </div>
 

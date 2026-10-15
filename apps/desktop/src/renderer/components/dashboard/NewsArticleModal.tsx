@@ -9,14 +9,23 @@ import { agoLabel } from "@/lib/dashboard-dates";
 import { eventTypeLabel } from "@/lib/event-type-labels";
 import { openStock } from "@/lib/stock-open";
 import { readNewsRead } from "@/lib/privacy-prefs";
-import { articleRequest, panelRead, sourceName, storyNames, type ReadingLookup, type ServerReading } from "@/lib/news-article";
+import {
+  articleRequest,
+  panelRead,
+  panelTitles,
+  sourceName,
+  storyNames,
+  type ReadingLookup,
+  type ServerReading,
+} from "@/lib/news-article";
 import type { NewsFeedArticle } from "../../../shared/news-feed";
 import type { NewsAnalysis, NewsAnalysisResult, NewsArticleBody } from "../../../shared/news-article";
 import type { ClassifierDirection, ClassifierMateriality } from "../../../shared/classifier-types";
 
 /**
- * A news story, opened from the News card: the headline, where and when it
- * ran, the names it touches, the article itself, and what Falcon makes of it.
+ * A news story, opened from the News card: Falcon's headline (with the
+ * publisher's own title under it, labelled as the source's), where and when
+ * it ran, the names it touches, the article itself, and what Falcon makes of it.
  *
  * Built like the settings and plans panels (portal, blurred backdrop, a
  * rounded glass panel that fades in, Esc / X / backdrop to close), sized to
@@ -341,6 +350,9 @@ function ArticleText({ body, source, onRead }: { body: BodyState; source: string
 function ArticlePanel({ article, onClose }: { article: NewsFeedArticle; onClose: () => void }) {
   const { t, locale, language } = useI18n();
   const request = useMemo(() => articleRequest(article), [article]);
+  // Falcon's headline is the title; what the publisher called it sits under
+  // it, quietly, so the reader can still see what the source said.
+  const { title, sourceTitle } = useMemo(() => panelTitles(article), [article]);
   const names = useMemo(() => storyNames(article), [article]);
   const closeRef = useRef<HTMLButtonElement>(null);
 
@@ -481,8 +493,13 @@ function ArticlePanel({ article, onClose }: { article: NewsFeedArticle; onClose:
         </div>
 
         <h2 className="mt-2 select-text pr-6 text-[21px] font-medium leading-[1.3] tracking-[-0.01em] text-[#1d1b1b]">
-          {article.headline}
+          {title}
         </h2>
+        {sourceTitle ? (
+          <p className="mt-1.5 select-text pr-6 text-[12px] leading-snug text-[#9CA3AF]">
+            {t("dashboard.newsArticle.sourceTitle", { title: sourceTitle })}
+          </p>
+        ) : null}
 
         {names.length > 0 ? (
           <div className="mt-3 flex flex-wrap items-center gap-1.5">

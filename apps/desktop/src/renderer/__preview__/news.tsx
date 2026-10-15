@@ -44,7 +44,37 @@ const story = (
   sectors,
 });
 
-const FEED: NewsFeedArticle[] = [
+/** The engine's decision, as the card receives it (news/curation.ts on the engine). */
+const shown = (
+  headline: string,
+  tickers: string[],
+  event_type: NonNullable<NewsFeedArticle["falcon"]>["event_type"],
+  direction: NonNullable<NewsFeedArticle["falcon"]>["direction"],
+  primary: NonNullable<NewsFeedArticle["falcon"]>["primary"] = null,
+): NewsFeedArticle["falcon"] => ({
+  decision: "show",
+  reason: primary ? "primary_source" : "material",
+  headline,
+  headline_source: primary ? "primary" : "falcon",
+  article_key: "",
+  event_type,
+  materiality: event_type ? "standard" : null,
+  direction,
+  tickers,
+  primary,
+  duplicate_of: null,
+});
+
+/** Falcon's title per story; story 5 has no verdict yet and stays off the card. */
+const FALCON: Record<number, NewsFeedArticle["falcon"]> = {
+  1: shown("Nvidia guides third-quarter revenue to $32.5 billion, above consensus", ["NVDA"], "guidance", "positive"),
+  2: shown("Microsoft cuts 3% of its workforce", ["MSFT"], "management_governance", "negative"),
+  3: shown("US export licence review widens to older accelerators", ["NVDA", "AMD", "INTC"], "regulatory_decision", "negative"),
+  4: shown("Oracle signs a multi-year cloud agreement with a European bank", ["ORCL"], "contract_partnership", "positive"),
+  6: shown("Snowflake Inc issues a press release via Business Wire", ["SNOW"], null, null, "press_release"),
+};
+
+const FEED_RAW: NewsFeedArticle[] = [
   story(1, 4, "Nvidia guides above consensus on data-center demand; shares rise after hours", "Reuters", ["NVDA", "AMD", "TSM"], ["Semiconductors"], {
     material: true, event_type: "guidance", affected_ticker: "NVDA", direction: "positive", summary: "", confidence: 0.92,
   }),
@@ -58,6 +88,7 @@ const FEED: NewsFeedArticle[] = [
   story(5, 60 * 26, "Dell raises full-year outlook on AI server backlog", "MarketWatch", ["DELL", "HPQ"], ["Technology Hardware"]),
   story(6, 60 * 50, "Snowflake names new CFO", "Business Wire", ["SNOW"], ["Software"]),
 ];
+const FEED: NewsFeedArticle[] = FEED_RAW.map((a) => (FALCON[a.id] ? { ...a, falcon: FALCON[a.id] } : a));
 
 /**
  * The stubbed bridge counts its calls on `window.__newsCalls`, so a check can

@@ -93,6 +93,18 @@ a config file; a service has no panel and its config file arrives baked into
 the image, so the deployment says it instead. Boot only — the panel can still
 turn the loop on at runtime and nothing here undoes that until a restart.
 
+The **Classifier** loop has the same kind of switch: `enabled` in
+`/data/classifier/config.json` (seeded `true`), overridable at boot with
+`FALCON_CLASSIFIER_ENABLED=true|false`; `FALCON_CLASSIFIER_MODEL` overrides the
+stored model. The desktop News card depends on it: `news:feed` shows only
+stories with a verdict that clears the materiality bar, under a headline
+Falcon wrote (`packages/research/src/news/curation.ts`), and each cycle
+classifies the feed's uncovered stories first and writes those headlines
+(`classifier/feed-lane.ts`, inside the same daily budget). With the loop off,
+the card shows only filings and press releases. `/health` reports
+`classifier.enabled`, `headlines_ok` and the last cycle's `feed_requests` and
+`headlines_written`.
+
 Env: `FINNHUB_API_KEY`, `ANTHROPIC_API_KEY` (a Claude API key; calls go to
 `https://api.anthropic.com` unless the optional `ANTHROPIC_BASE_URL` override
 names a gateway), `SUPABASE_URL`,

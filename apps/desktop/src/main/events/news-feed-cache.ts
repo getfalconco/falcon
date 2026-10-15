@@ -30,7 +30,12 @@ import type {
 export const MAIN_FRESH_MS = 30_000;
 /** Distinct requests kept on disk. The card makes one; the rest is headroom. */
 const MAX_ENTRIES = 4;
-const FILE_VERSION = 1;
+/**
+ * 2: stories carry the engine's `falcon` decision. A version-1 file predates
+ * it, and shown now it would read as "no material news" until the first
+ * answer, so it is dropped instead.
+ */
+const FILE_VERSION = 2;
 export const NEWS_FEED_CACHE_FILE = "news-feed-cache.json";
 
 type OkResult = Extract<NewsFeedResult, { ok: true }>;

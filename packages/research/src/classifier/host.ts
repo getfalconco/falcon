@@ -21,7 +21,11 @@ import { CompanyMetadataStore } from "./metadata.js";
 import { anthropicConfigured, anthropicModelCaller } from "./anthropic.js";
 import { evaluateClassifier, loadLabeledSet, type EvalReport } from "./eval.js";
 import type { ClassifierConfig } from "./config.js";
-import type { Verdict } from "./types.js";
+import type { ArticleInput, Verdict } from "./types.js";
+import { ClassifierBreakerOpenError } from "./types.js";
+import { cycleBudget, feedArticleInput, planFeedLane, planHeadlines, type FeedStory } from "./feed-lane.js";
+import { headlineAttemptKey } from "./service.js";
+import type { NewsItemPayload } from "../tracker/types.js";
 import { getTrackerEngine } from "../tracker/index.js";
 import type { ClassifierRunSummary, ClassifierStatus } from "./host-types.js";
 
@@ -39,6 +43,22 @@ import type { ClassifierRunSummary, ClassifierStatus } from "./host-types.js";
  * The loop is OFF by default (`ClassifierConfig.enabled`): it spends the
  * user's Anthropic quota, so it is opted into from the panel.
  */
+/**
+ * Deployment-level switch for the Phase A loop, same shape as
+ * FALCON_PROPAGATION_ENABLED: a headless service has no panel and its config
+ * file lives on a volume nobody can edit, so the deployment can say it. Read
+ * at boot and it wins over the stored value; `setEnabled()` still works at
+ * runtime until the next restart. Unset leaves the stored value alone.
+ */
+export function classifierEnabledFromEnv(): boolean | null {
+  const raw = process.env.FALCON_CLASSIFIER_ENABLED?.trim().toLowerCase();
+  if (!raw) return null;
+  if (raw === "true" || raw === "1" || raw === "on") return true;
+  if (raw === "false" || raw === "0" || raw === "off") return false;
+  console.warn(`[classifier] FALCON_CLASSIFIER_ENABLED="${raw}" is not a boolean, ignoring`);
+  return null;
+}
+
 export class ClassifierHost {
   readonly configStore = new ClassifierConfigStore();
   readonly baseConfigStore = new BaseConfigStore();
@@ -54,9 +74,15 @@ export class ClassifierHost {
   private running = false;
   private lastRun: ClassifierRunSummary | null = null;
   private metadataRefreshedAt = 0;
+  private newsFeedSource: (() => Promise<FeedStory[]>) | null = null;
 
   constructor() {
     this.config = this.configStore.load();
+    const fromEnv = classifierEnabledFromEnv();
+    if (fromEnv !== null && fromEnv !== this.config.enabled) {
+      console.info(`[classifier] loop ${fromEnv ? "on" : "off"} by FALCON_CLASSIFIER_ENABLED (stored: ${this.config.enabled})`);
+      this.config = { ...this.config, enabled: fromEnv };
+    }
     this.verdictStore = new VerdictStore(new FileBackend(this.configStore.dataDir));
     this.metadata = new CompanyMetadataStore(this.configStore.metadataFile);
     this.service = new ClassifierService({
@@ -146,6 +172,16 @@ export class ClassifierHost {
     this.baseConfigStore.save({ ...base, classifier: { ...base.classifier, rescoreEnabled: enabled } });
   }
 
+  /**
+   * Where the News card's feed lives, so a cycle can classify the feed's
+   * uncovered stories and write Falcon headlines for the material ones (see
+   * feed-lane.ts). The engine points it at its article store; without it the
+   * cycle classifies the Tracker's stream only, as before.
+   */
+  setNewsFeedSource(source: (() => Promise<FeedStory[]>) | null): void {
+    this.newsFeedSource = source;
+  }
+
   reloadConfig(): void {
     this.config = this.configStore.load();
     this.service.setConfig(this.config);
@@ -227,11 +263,46 @@ export class ClassifierHost {
         budgetRemaining(this.budget, now, baseConfig),
         options.maxRequests ?? Number.POSITIVE_INFINITY,
       );
-      const { dispatch, deferred } = applyBudget(
-        eligible,
-        (r) => keyPriority.get(r.article?.article_key ?? r.filing?.article_key ?? "") ?? 0,
+
+      // The News card's feed: its uncovered stories go first (feed lane),
+      // and a slice of the budget is held back for Falcon headlines.
+      let feed: FeedStory[] = [];
+      if (this.newsFeedSource) {
+        try {
+          feed = await this.newsFeedSource();
+        } catch (err) {
+          errors.push(`feed: ${err instanceof Error ? err.message : String(err)}`);
+        }
+      }
+      const { lane, rest } = planFeedLane({
+        feed,
+        requests: eligible,
+        covered: (key) => {
+          const v = this.verdictStore.latestFor(key);
+          return v?.status === "ok" || Boolean(this.verdictStore.attemptsFor(key)?.permanent_failed);
+        },
+        tickerContext: (t) => this.metadata.context(t),
+        config: this.config,
+        now,
+        budget: remaining,
+      });
+      // Base's queue may not spend the day's last `feedDailyReserve` units:
+      // they are kept for the card's lanes, so stories published late in the
+      // day still get a verdict and a headline after a backlog has eaten the
+      // rest of the budget in the first cycle after midnight.
+      const { baseQueue } = cycleBudget({
         remaining,
+        laneSize: lane.length,
+        headlineBatchPerCycle: this.newsFeedSource ? this.config.headlineBatchPerCycle : 0,
+        floor: this.newsFeedSource ? Math.min(this.config.feedDailyReserve, baseConfig.classifier.dailyBudget) : 0,
+      });
+      const queued = applyBudget(
+        rest,
+        (r) => keyPriority.get(r.article?.article_key ?? r.filing?.article_key ?? "") ?? 0,
+        baseQueue,
       );
+      const dispatch = [...lane, ...queued.dispatch];
+      const deferred = queued.deferred;
 
       let ok = 0;
       let failed = 0;
@@ -276,6 +347,15 @@ export class ClassifierHost {
         this.verdictStore.prune(now, this.config.verdictTtlDays);
       }
 
+      let headlines = { written: 0, failed: 0 };
+      if (!options.dryRun) {
+        const left = Math.min(
+          budgetRemaining(this.budget, now, baseConfig),
+          options.maxRequests === undefined ? Number.POSITIVE_INFINITY : Math.max(0, options.maxRequests - dispatch.length),
+        );
+        headlines = await this.writeHeadlines({ messages, feed, now, limit: Math.min(this.config.headlineBatchPerCycle, left), errors });
+      }
+
       this.lastRun = {
         started_at: started,
         finished_at: new Date().toISOString(),
@@ -292,9 +372,12 @@ export class ClassifierHost {
         skipped,
         errors: [...new Set(errors)].slice(0, 10),
         dry_run: Boolean(options.dryRun),
+        feed_requests: options.dryRun ? 0 : lane.length,
+        headlines_written: headlines.written,
+        headlines_failed: headlines.failed,
       };
       console.info(
-        `[classifier] cycle: ${messages.length} msgs → ${built.requests.length} req (${built.covered} covered) · dispatched ${this.lastRun.dispatched} · ok ${ok} · failed ${failed}` +
+        `[classifier] cycle: ${messages.length} msgs → ${built.requests.length} req (${built.covered} covered) · dispatched ${this.lastRun.dispatched} (feed ${this.lastRun.feed_requests}) · ok ${ok} · failed ${failed} · headlines ${headlines.written}/${headlines.written + headlines.failed}` +
           (errors.length ? ` · errors ${errors.length}` : ""),
       );
       // On the desktop a failed cycle is one click from the panel that shows
@@ -316,6 +399,83 @@ export class ClassifierHost {
     }
   }
 
+  /**
+   * Falcon headlines for material stories that have none (feed-lane.ts
+   * `planHeadlines`), newest first, at most `limit`, each one charged to the
+   * daily budget like a classification. A breaker-open refusal stops the lane
+   * and is not charged: nothing was sent.
+   */
+  private async writeHeadlines(input: {
+    messages: Array<{ type: string; payload: unknown; timestamp: string }>;
+    feed: FeedStory[];
+    now: string;
+    limit: number;
+    errors: string[];
+  }): Promise<{ written: number; failed: number }> {
+    if (input.limit <= 0) return { written: 0, failed: 0 };
+    const texts = new Map<string, ArticleInput>();
+    for (const story of input.feed) texts.set(`id:${story.id}`, feedArticleInput(story));
+    for (const m of input.messages) {
+      if (m.type !== "news_item") continue;
+      const p = m.payload as NewsItemPayload;
+      const id = p.article_id?.trim();
+      if (!id || texts.has(`id:${id}`)) continue;
+      texts.set(`id:${id}`, {
+        article_key: `id:${id}`,
+        headline: p.headline ?? "",
+        summary: p.summary ?? "",
+        source: p.source ?? "",
+        published_at: p.published_at ?? m.timestamp,
+        article_id: id,
+      });
+    }
+    const jobs = planHeadlines({
+      verdicts: this.verdictStore.list({ status: "ok" }),
+      articleText: (key) => texts.get(key) ?? null,
+      givenUp: (key) => Boolean(this.verdictStore.attemptsFor(headlineAttemptKey(key))?.permanent_failed),
+      config: this.config,
+      now: input.now,
+      limit: input.limit,
+    });
+    if (jobs.length === 0) return { written: 0, failed: 0 };
+
+    let written = 0;
+    let failed = 0;
+    let charged = 0;
+    let halted = false;
+    await Promise.all(
+      jobs.map(async (job) => {
+        if (halted) return;
+        try {
+          const outcome = await this.service.writeHeadline({
+            article: job.article,
+            tickers: job.tickers.map((t) => this.metadata.context(t)),
+          });
+          charged += 1;
+          if (outcome.ok) written += 1;
+          else {
+            failed += 1;
+            input.errors.push(`headline: ${outcome.reason}`);
+          }
+        } catch (err) {
+          if (err instanceof ClassifierBreakerOpenError) {
+            halted = true;
+            input.errors.push(err.message);
+            return;
+          }
+          charged += 1;
+          failed += 1;
+          input.errors.push(`headline: ${err instanceof Error ? err.message : String(err)}`);
+        }
+      }),
+    );
+    if (charged > 0) {
+      this.budget = consumeBudget(this.budget, input.now, charged);
+      this.writeBudget();
+    }
+    return { written, failed };
+  }
+
   private emptyRun(error: string, started = new Date().toISOString()): ClassifierRunSummary {
     return {
       started_at: started,
@@ -333,6 +493,9 @@ export class ClassifierHost {
       skipped: 0,
       errors: [error],
       dry_run: false,
+      feed_requests: 0,
+      headlines_written: 0,
+      headlines_failed: 0,
     };
   }
 
