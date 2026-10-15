@@ -1369,6 +1369,8 @@ body::-webkit-scrollbar-button,
 [data-theme="dark"] [stroke="#9ca3af" i] { stroke: var(--text-tertiary); }
 [data-theme="dark"] [fill="#b4b4ae" i] { fill: var(--text-disabled); }
 [data-theme="dark"] :is([stroke="#e0e0da" i], [stroke="#eeeee8" i], [stroke="#ebebe5" i]) { stroke: var(--border-strong); }
+/* The risk dial's unfilled arc: a track, so it reads as one beside the ink of a hovered name's share. */
+[data-theme="dark"] [stroke="#e4e5e1" i] { stroke: var(--fill-strong); }
 [data-theme="dark"] :is([stroke="#d6d6cf" i], [stroke="#c4c4c4" i]) { stroke: rgba(255, 255, 255, 0.16); }
 [data-theme="dark"] :is([stroke="#c0c0ba" i], [stroke="#a6a6a6" i]) { stroke: var(--text-tertiary); }
 [data-theme="dark"] :is([stroke="#16a34a" i], [stroke="#1d7a55" i]) { stroke: var(--positive); }

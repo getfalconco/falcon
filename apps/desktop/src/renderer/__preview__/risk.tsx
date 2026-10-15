@@ -28,13 +28,31 @@ import fixture from "./risk-fixture.json";
  *   ?view=panel&state=boom      a corrupt payload → the error boundary holds, the app does not go white
  *   ?view=panel&state=legacy    a stored five-component snapshot (pre-Sharpe) → the row reads "not in this snapshot"
  *   ?view=both                  Positions card beside the risk card over the fixture's book
- *                               (its holdings + 5,000 cash): one weight for JPM on both
+ *                               (its holdings + 5,000 cash): one weight for JPM on both.
+ *                               Hover a row: the card reads that name (per-position metrics
+ *                               below, preview values; JPM untracked, so no beta or vol)
+ *   ?view=both&state=legacy     the same with a snapshot from before per-position metrics:
+ *                               hovering shows the weight line alone
  */
 const params = new URLSearchParams(location.search);
 const view = params.get("view") ?? "panel";
 const state = params.get("state") ?? "on";
 
-const real = (fixture as any).snapshot;
+const recorded = (fixture as any).snapshot;
+/**
+ * Per-position metrics in the engine's shape (risk/positions.ts). The recorded
+ * fixture predates them, so these are preview values; the shares sum to 1 and
+ * the earnings date sits two days out so the line shows whatever day it is.
+ */
+const PREVIEW_POSITIONS = [
+  { ticker: "JPM", side: "long", account_weight: 0.32179, beta: null, daily_vol_pct: null, risk_share: 0.3102, earnings: null, correlation: null },
+  { ticker: "NVDA", side: "long", account_weight: 0.20676, beta: 1.87, daily_vol_pct: 2.94, risk_share: 0.4417, earnings: { due_at: new Date(Date.now() + 2 * 86_400_000).toISOString(), sessions_until: 2 }, correlation: { ticker: "JPM", value: 0.31, sessions: 89 } },
+  { ticker: "CEG", side: "long", account_weight: 0.05688, beta: 1.42, daily_vol_pct: 3.12, risk_share: 0.0921, earnings: null, correlation: { ticker: "JPM", value: 0.27, sessions: 89 } },
+  { ticker: "ZLAB", side: "long", account_weight: 0.05347, beta: 0.88, daily_vol_pct: 3.41, risk_share: 0.0684, earnings: null, correlation: { ticker: "JPM", value: 0.12, sessions: 89 } },
+  { ticker: "OPK", side: "long", account_weight: 0.05327, beta: 0.64, daily_vol_pct: 2.6, risk_share: 0.0412, earnings: null, correlation: null },
+  { ticker: "BNTX", side: "long", account_weight: 0.0526, beta: 0.41, daily_vol_pct: 2.05, risk_share: 0.0464, earnings: null, correlation: { ticker: "JPM", value: 0.08, sessions: 89 } },
+];
+const real = view === "both" && state !== "legacy" ? { ...recorded, positions: PREVIEW_POSITIONS } : recorded;
 const emptySnapshot = { ...real, empty: true, score: null, band: null, components: null, driver: null, weights: [], position_count: 0, invested_fraction: 0 };
 /** Too little history for §3.6: the component drops out and the rest renormalise. */
 const thinSnapshot = {

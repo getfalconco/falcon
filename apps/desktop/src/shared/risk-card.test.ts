@@ -3,7 +3,8 @@ import { describe, it } from "node:test";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { riskCardModel, riskCardView, riskSnapshotStale, type RiskCardViewInput } from "./risk-card.js";
+import { formatRiskShare, riskCardModel, riskCardView, riskHoverView, riskSnapshotStale, type RiskCardViewInput } from "./risk-card.js";
+import { paperAccountWeights } from "./portfolio-weights.js";
 import type { RiskSnapshot } from "./risk-types.js";
 
 const FIXTURE: RiskSnapshot = {
@@ -153,5 +154,120 @@ describe("the dashboard risk card source", () => {
   it("prints a number only from the score view", () => {
     assert.match(card, /const score = view\.score;/);
     assert.match(card, /if \(view\.kind !== "score"\)/);
+  });
+});
+
+describe("risk card: a hovered position (riskHoverView)", () => {
+  // 3,000 NVDA + 2,000 TSM + 5,000 cash: NVDA is 30% of the account, TSM 20%.
+  const book = paperAccountWeights(
+    {
+      cash: 5000,
+      positions: {
+        NVDA: { symbol: "NVDA", shares: 15, costUsd: 2500 },
+        TSM: { symbol: "TSM", shares: 20, costUsd: 1800 },
+      },
+    },
+    { NVDA: 200, TSM: 100 },
+  );
+  const NOW = Date.parse("2026-08-24T20:30:00.000Z");
+  const scored: RiskSnapshot = {
+    ...FIXTURE,
+    weights: [
+      { ticker: "NVDA", weight: 0.6, market_value: 3000, side: "long" },
+      { ticker: "TSM", weight: 0.4, market_value: 2000, side: "long" },
+    ],
+    components: { volatility: { score: 59, port_vol_daily_pct: 2.062, spy_vol_daily_pct: 1, systematic_share: 0.5 } } as RiskSnapshot["components"],
+    positions: [
+      {
+        ticker: "NVDA",
+        side: "long",
+        account_weight: 0.3,
+        beta: 2,
+        daily_vol_pct: 3,
+        risk_share: 0.6471,
+        earnings: { due_at: "2026-08-26T20:00:00.000Z", sessions_until: 2 },
+        correlation: null,
+      },
+      {
+        ticker: "TSM",
+        side: "long",
+        account_weight: 0.2,
+        beta: 1.05,
+        daily_vol_pct: 2,
+        risk_share: 0.0529,
+        earnings: null,
+        correlation: { ticker: "NVDA", value: 0.614, sessions: 89 },
+      },
+    ],
+  };
+
+  it("nothing hovered, or no scored snapshot: the card stays on the portfolio", () => {
+    assert.equal(riskHoverView(scored, null, book, NOW), null);
+    assert.equal(riskHoverView(null, "NVDA", book, NOW), null);
+    assert.equal(riskHoverView({ ...scored, empty: true, score: null }, "NVDA", book, NOW), null);
+    assert.equal(riskHoverView(scored, "AAPL", book, NOW), null, "neither held nor in the snapshot");
+  });
+
+  it("with per-position metrics: the share of risk and the factual lines, in order", () => {
+    const v = riskHoverView(scored, "nvda", book, NOW)!;
+    assert.equal(v.ticker, "NVDA");
+    assert.equal(v.share, "65%");
+    assert.equal(v.shareFrac, 0.6471);
+    assert.deepEqual(v.lines, [
+      { kind: "weight", value: "30.0%" },
+      { kind: "beta", value: "2.00" },
+      { kind: "volatility", value: "3.0%", portfolio: "2.1%" },
+      { kind: "earnings", due_at: "2026-08-26T20:00:00.000Z" },
+    ]);
+  });
+
+  it("at most four lines: the correlation follows when there is room", () => {
+    const v = riskHoverView(scored, "TSM", book, NOW)!;
+    assert.equal(v.share, "5.3%");
+    assert.deepEqual(
+      v.lines.map((l) => l.kind),
+      ["weight", "beta", "volatility", "correlation"],
+    );
+    assert.deepEqual(v.lines[3], { kind: "correlation", ticker: "NVDA", value: "0.61" });
+  });
+
+  it("the weight is the Positions card's own, on the live prints, not the snapshot's", () => {
+    const moved = paperAccountWeights(
+      { cash: 5000, positions: { NVDA: { symbol: "NVDA", shares: 15, costUsd: 2500 }, TSM: { symbol: "TSM", shares: 20, costUsd: 1800 } } },
+      { NVDA: 300, TSM: 100 },
+    );
+    assert.deepEqual(riskHoverView(scored, "NVDA", moved, NOW)!.lines[0], { kind: "weight", value: "39.1%" });
+  });
+
+  it("an older snapshot without per-position metrics: the weight line alone, no share, no made-up figures", () => {
+    const legacy = { ...scored, positions: undefined };
+    const v = riskHoverView(legacy, "NVDA", book, NOW)!;
+    assert.equal(v.share, null);
+    assert.equal(v.shareFrac, null);
+    assert.deepEqual(v.lines, [{ kind: "weight", value: "30.0%" }]);
+  });
+
+  it("nulls in the metrics drop their lines; an earnings date since passed is dropped too", () => {
+    const sparse: RiskSnapshot = {
+      ...scored,
+      positions: [{ ...scored.positions![0], beta: null, daily_vol_pct: null, risk_share: null }],
+    };
+    const later = Date.parse("2026-08-28T12:00:00.000Z");
+    assert.deepEqual(riskHoverView(sparse, "NVDA", book, later)!.lines, [{ kind: "weight", value: "30.0%" }]);
+    assert.equal(riskHoverView(sparse, "NVDA", book, later)!.share, null);
+  });
+
+  it("a hedging short reads as a negative share, and the arc stays at zero", () => {
+    const hedged: RiskSnapshot = { ...scored, positions: [{ ...scored.positions![1], risk_share: -0.042 }] };
+    const v = riskHoverView(hedged, "TSM", book, NOW)!;
+    assert.equal(v.share, "-4.2%");
+    assert.equal(v.shareFrac, 0);
+  });
+
+  it("formatRiskShare: a tenth under 10%, whole percent above, never a negative zero", () => {
+    assert.equal(formatRiskShare(0.38), "38%");
+    assert.equal(formatRiskShare(0.0849), "8.5%");
+    assert.equal(formatRiskShare(-0.0001), "0.0%");
+    assert.equal(formatRiskShare(1), "100%");
   });
 });

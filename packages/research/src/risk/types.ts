@@ -260,6 +260,41 @@ export const RISK_TRIGGER_REASONS = [
 ] as const;
 export type RiskTriggerReason = (typeof RISK_TRIGGER_REASONS)[number];
 
+/**
+ * One held name's own risk read, computed in the same recompute as the score
+ * from the same inputs (the card shows it while the Positions row is hovered).
+ * Every figure is a measurement or null: a substitute the blend used for a
+ * missing input is never reported here as the name's own value.
+ */
+export type RiskPositionMetrics = {
+  ticker: string;
+  side: "long" | "short";
+  /**
+   * Share of the whole account, cash included and signed
+   * (`@meridian/research/portfolio`), at the recompute's prices. Null when the
+   * account is worth nothing or less.
+   */
+  account_weight: number | null;
+  /** Tracker 90-day beta to the benchmark; null when the Tracker has none. */
+  beta: number | null;
+  /** Tracker robust 30-session daily vol in percent (2.1 = 2.1%); null when unknown. */
+  daily_vol_pct: number | null;
+  /**
+   * Euler share of the portfolio variance in the §3.3 single-factor model
+   * (w_i · cov(i, p) / σ_p²). The shares sum to 1 over the book; a short that
+   * offsets the rest is negative. Null when σ_p is zero.
+   */
+  risk_share: number | null;
+  /** Nearest confirmed earnings inside the event horizon, else null. */
+  earnings: { due_at: string; sessions_until: number } | null;
+  /**
+   * Realised daily-return correlation with the largest holding over the
+   * aligned sessions both traded; null for the largest holding itself and
+   * when too few sessions line up.
+   */
+  correlation: { ticker: string; value: number; sessions: number } | null;
+};
+
 export type RiskSnapshot = {
   schema_version: number;
   computed_at: string;
@@ -283,6 +318,11 @@ export type RiskSnapshot = {
   degraded: RiskDegraded[];
   graph_version: { generatedAt: string; pipelineVersion: number } | null;
   empty: boolean;
+  /**
+   * Per held name, largest first (same order as `weights`). Absent on
+   * snapshots computed before it existed and on empty ones.
+   */
+  positions?: RiskPositionMetrics[];
 };
 
 /** Trimmed row for the history list / trend sparkline. */

@@ -1,14 +1,16 @@
 import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
+import { motion, useReducedMotion } from "framer-motion";
 import { SlidersHorizontal } from "lucide-react";
 import ChartCardHeader from "@/components/dashboard/ChartCardHeader";
 import SelectionGloss from "@/components/dashboard/SelectionGloss";
 import { useRiskSnapshot } from "@/hooks/useRiskSnapshot";
 import { useLiveQuotes } from "@/hooks/useLivePrices";
-import { concentrationShare, riskCardView } from "../../../shared/risk-card";
+import { concentrationShare, riskCardView, riskHoverView, type RiskHoverLine } from "../../../shared/risk-card";
 import { paperAccountWeights } from "../../../shared/portfolio-weights";
 import type { RiskBand } from "../../../shared/risk-types";
-import { useT, type MessageKey } from "@/lib/i18n";
+import { useI18n, type MessageKey } from "@/lib/i18n";
 import { readPaperAccount, subscribePaperAccount } from "@/lib/paper-account";
+import { useHoveredPosition } from "@/lib/position-hover";
 
 /**
  * Right-hand card of the bottom row: the portfolio risk score over a big
@@ -24,6 +26,13 @@ import { readPaperAccount, subscribePaperAccount } from "@/lib/paper-account";
  * there is nothing to score, or that the score could not be loaded (with Try
  * again). It used to print a hard-coded placeholder whenever no snapshot came back,
  * which read as a real score for anyone the engine had not scored yet.
+ *
+ * Hovering or focusing a Positions row (lib/position-hover.ts) swaps the card
+ * to that name for as long as the row is held: the masthead names it, the big
+ * number is its share of the portfolio risk, and up to four lines carry its
+ * weight, beta, 30-day vol against the book's, an earnings date inside the
+ * event window and its correlation with the largest holding, each only when
+ * the snapshot has it (`riskHoverView`). Leaving the row brings the score back.
  */
 
 /**
@@ -39,6 +48,8 @@ const BAND_COLOR: Record<RiskBand, string> = {
   high: "#DC2626",
 };
 const REST_COLOR = "#E4E5E1";
+/** The hovered name's share of the risk: ink, not a band colour, since a share has no band. */
+const SHARE_COLOR = "#1d1b1b";
 
 /** The band's word on this card. The Risk Engine's own label table
  *  (`RISK_BAND_LABEL`) stays English for the surfaces that read it. */
@@ -99,8 +110,45 @@ type Props = {
   onRemove?: () => void;
 };
 
+/** A hovered position's line: its label in the reader's language, its value as computed. */
+function HoverLine({ line, locale }: { line: RiskHoverLine; locale: string }) {
+  const { t } = useI18n();
+  let label: string;
+  let value: string;
+  switch (line.kind) {
+    case "weight":
+      label = t("dashboard.risk.hover.weight");
+      value = line.value;
+      break;
+    case "beta":
+      label = t("dashboard.risk.hover.beta");
+      value = line.value;
+      break;
+    case "volatility":
+      label = t("dashboard.risk.hover.vol");
+      value = line.portfolio ? t("dashboard.risk.hover.volValue", { vol: line.value, port: line.portfolio }) : line.value;
+      break;
+    case "earnings":
+      label = t("dashboard.risk.hover.earnings");
+      value = new Intl.DateTimeFormat(locale, { month: "short", day: "numeric" }).format(new Date(line.due_at));
+      break;
+    case "correlation":
+      label = t("dashboard.risk.hover.correlation", { ticker: line.ticker });
+      value = line.value;
+      break;
+  }
+  return (
+    <div className="flex items-baseline justify-between gap-3 py-[3px]">
+      <dt className="truncate text-[#6b7280]">{label}</dt>
+      <dd className="shrink-0 tabular-nums text-[#1d1b1b]">{value}</dd>
+    </div>
+  );
+}
+
 export default function OpportunitiesPanel({ onDuplicate, onRemove }: Props = {}) {
-  const t = useT();
+  const { t, locale } = useI18n();
+  const reduceMotion = useReducedMotion();
+  const hovered = useHoveredPosition();
   const { latest, pending, status, syncFailed, retry } = useRiskSnapshot();
   const holdsPositions = useSyncExternalStore(subscribePaperAccount, readHoldsPositions, () => false);
   const view = riskCardView({ latest, status, syncFailed, pending, holdsPositions });
@@ -117,13 +165,17 @@ export default function OpportunitiesPanel({ onDuplicate, onRemove }: Props = {}
     for (const [symbol, q] of Object.entries(quotes)) prices[symbol] = q.price;
     return paperAccountWeights(account, prices);
   }, [account, quotes]);
+  // While a Positions row is hovered or focused, the card reads that name
+  // from the same snapshot; a demo score in flight keeps the portfolio view.
+  const hover =
+    view.kind === "score" && !view.pending ? riskHoverView(latest?.snapshot, hovered, weights) : null;
 
   // The masthead every card carries: the label, and the three-dot menu with
   // Duplicate and Delete module. The card's settings glyph rides beside the
   // dots; it opens nothing yet, as before.
   const header = (
     <ChartCardHeader
-      label={t("dashboard.risk.label")}
+      label={hover ? t("dashboard.risk.hover.label", { ticker: hover.ticker }) : t("dashboard.risk.label")}
       onDuplicate={onDuplicate}
       onRemove={onRemove}
       actions={
@@ -190,42 +242,82 @@ export default function OpportunitiesPanel({ onDuplicate, onRemove }: Props = {}
   const loading = view.pending;
   const scoreColor = loading ? REST_COLOR : BAND_COLOR[view.band];
 
+  // The swap between the portfolio and a hovered name: a short fade of the
+  // incoming read, nothing that moves, and none at all under reduced motion.
+  const fade = reduceMotion
+    ? { initial: false as const }
+    : { initial: { opacity: 0 }, animate: { opacity: 1 }, transition: { duration: 0.18, ease: "easeOut" as const } };
+  // A hovered name with no share to draw leaves the dial empty (all rest).
+  const shareFrac = hover?.shareFrac == null ? 0 : hover.shareFrac;
+  const segments = hover
+    ? [
+        { frac: shareFrac, color: SHARE_COLOR },
+        { frac: 1 - shareFrac, color: REST_COLOR },
+      ]
+    : [
+        { frac, color: scoreColor },
+        { frac: 1 - frac, color: REST_COLOR },
+      ];
+
   return (
-    <div className={shell} data-risk-state="score">
+    <div className={shell} data-risk-state="score" data-risk-hover={hover?.ticker}>
       {header}
 
-      {/* Headline: the risk score, big */}
-      <div className="relative z-10 mt-4 flex items-baseline gap-1">
-        <span className={`text-[52px] font-medium leading-none tabular-nums tracking-[-0.01em] ${loading ? "animate-pulse text-[#9CA3AF]" : "text-[#1d1b1b]"}`}>
-          {loading ? "··" : score}
-        </span>
-        <span className="text-[22px] font-normal leading-none tabular-nums text-[#9CA3AF]">/100</span>
+      <div className="relative z-10" aria-live="polite">
+        {hover ? (
+          <motion.div key={`hover:${hover.ticker}`} {...fade}>
+            {hover.share != null ? (
+              <div className="mt-4 flex items-baseline gap-2">
+                <span className="text-[52px] font-medium leading-none tabular-nums tracking-[-0.01em] text-[#1d1b1b]">
+                  {hover.share}
+                </span>
+                <span className="text-[13px] font-normal leading-none text-[#9CA3AF]">{t("dashboard.risk.hover.shareOf")}</span>
+              </div>
+            ) : null}
+            {hover.lines.length > 0 ? (
+              <dl className={`${hover.share != null ? "mt-3" : "mt-4"} text-[12px] leading-snug`}>
+                {hover.lines.map((line) => (
+                  <HoverLine key={line.kind} line={line} locale={locale} />
+                ))}
+              </dl>
+            ) : null}
+          </motion.div>
+        ) : (
+          <motion.div key="portfolio" {...fade}>
+            {/* Headline: the risk score, big */}
+            <div className="relative z-10 mt-4 flex items-baseline gap-1">
+              <span className={`text-[52px] font-medium leading-none tabular-nums tracking-[-0.01em] ${loading ? "animate-pulse text-[#9CA3AF]" : "text-[#1d1b1b]"}`}>
+                {loading ? "··" : score}
+              </span>
+              <span className="text-[22px] font-normal leading-none tabular-nums text-[#9CA3AF]">/100</span>
+            </div>
+            {loading ? (
+              <p className="relative z-10 mt-2 animate-pulse text-[12px] leading-snug text-[#9CA3AF]">{t("dashboard.risk.computing")}</p>
+            ) : (
+              // Same select-a-word gloss as the Insight headline: highlight a term
+              // in the driver sentence to get its meaning.
+              <SelectionGloss context={`${view.band} risk · ${sentence}`}>
+                <p className="relative z-10 mt-2 text-[12px] leading-snug text-[#6b7280]">
+                  <span className="font-medium" style={{ color: scoreColor }}>{t(BAND_KEY[view.band])}</span>
+                  {" · "}
+                  {sentence}
+                </p>
+              </SelectionGloss>
+            )}
+          </motion.div>
+        )}
       </div>
-      {loading ? (
-        <p className="relative z-10 mt-2 animate-pulse text-[12px] leading-snug text-[#9CA3AF]">{t("dashboard.risk.computing")}</p>
-      ) : (
-        // Same select-a-word gloss as the Insight headline: highlight a term
-        // in the driver sentence to get its meaning.
-        <SelectionGloss context={`${view.band} risk · ${sentence}`}>
-          <p className="relative z-10 mt-2 text-[12px] leading-snug text-[#6b7280]">
-            <span className="font-medium" style={{ color: scoreColor }}>{t(BAND_KEY[view.band])}</span>
-            {" · "}
-            {sentence}
-          </p>
-        </SelectionGloss>
-      )}
 
       {/* Gauge — oversized on purpose: it runs past the card's edges and the
           card clips it, so the arc reads as one big sweep. */}
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[62%] overflow-hidden rounded-b-3xl">
-        <div className="absolute bottom-[-14%] left-1/2 w-[150%] -translate-x-1/2">
-          <GaugeArc
-            segments={[
-              { frac, color: scoreColor },
-              { frac: 1 - frac, color: REST_COLOR },
-            ]}
-          />
-        </div>
+        <motion.div
+          key={hover ? `gauge:${hover.ticker}` : "gauge"}
+          {...fade}
+          className="absolute bottom-[-14%] left-1/2 w-[150%] -translate-x-1/2"
+        >
+          <GaugeArc segments={segments} />
+        </motion.div>
       </div>
     </div>
   );

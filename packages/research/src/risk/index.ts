@@ -9,6 +9,7 @@ export * from "./config.js";
 export * from "./anchors.js";
 export * from "./network.js";
 export * from "./components.js";
+export * from "./positions.js";
 export * from "./blend.js";
 export * from "./compute.js";
 export * from "./triggers.js";

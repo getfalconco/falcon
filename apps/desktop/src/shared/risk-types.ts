@@ -78,6 +78,23 @@ export type RiskComponents = {
 
 export type RiskDriver = { component: RiskComponentKey; sentence: string; contribution: number };
 
+/**
+ * One held name's own read (packages/research/src/risk/positions.ts). Every
+ * figure is a measurement or null; absent fields mean an older snapshot.
+ */
+export type RiskPositionMetrics = {
+  ticker: string;
+  side: "long" | "short";
+  account_weight: number | null;
+  beta: number | null;
+  /** Robust 30-session daily vol in percent (2.1 = 2.1%). */
+  daily_vol_pct: number | null;
+  /** Euler share of the portfolio variance; sums to 1 over the book, a hedging short is negative. */
+  risk_share: number | null;
+  earnings: { due_at: string; sessions_until: number } | null;
+  correlation: { ticker: string; value: number; sessions: number } | null;
+};
+
 export type RiskSnapshot = {
   schema_version: number;
   computed_at: string;
@@ -94,6 +111,8 @@ export type RiskSnapshot = {
   degraded: RiskDegraded[];
   graph_version: { generatedAt: string; pipelineVersion: number } | null;
   empty: boolean;
+  /** Per held name, largest first; absent on snapshots computed before it existed. */
+  positions?: RiskPositionMetrics[];
 };
 
 // RiskHistoryItem moved to @meridian/research/risk with the host; re-exported below.

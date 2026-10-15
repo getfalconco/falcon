@@ -148,6 +148,29 @@ export type VolInputs = {
   universeMedianVol: number | null;
 };
 
+/** The benchmark vol §3.3 runs on: the measured one, else the config substitute. */
+export function resolveSpyVol(spyVol: number | null, config: RiskConfig): { spy: number; substituted: boolean } {
+  if (spyVol == null || !Number.isFinite(spyVol) || spyVol < 0) return { spy: config.substitutes.spyVol, substituted: true };
+  return { spy: spyVol, substituted: false };
+}
+
+/**
+ * A name's daily vol as §3.3 uses it: the Tracker's, else the universe median
+ * vol, else (no universe either) the systematic leg alone.
+ */
+export function resolveSigma(
+  ticker: string,
+  beta: number,
+  quant: Record<string, RiskQuantInput | null>,
+  universeMedianVol: number | null,
+  spy: number,
+): { sigma: number; substituted: boolean } {
+  const own = quant[ticker]?.daily_vol ?? null;
+  if (own != null && Number.isFinite(own)) return { sigma: own, substituted: false };
+  const fallbackVol = universeMedianVol != null && Number.isFinite(universeMedianVol) ? universeMedianVol : null;
+  return { sigma: fallbackVol ?? Math.abs(beta) * spy, substituted: true };
+}
+
 export function volatilityComponent(
   weights: RiskWeight[],
   betas: Map<string, number>,
@@ -156,24 +179,17 @@ export function volatilityComponent(
   config: RiskConfig,
   degraded: RiskDegraded[],
 ): VolatilityPayload {
-  let spy = vols.spyVol;
-  if (spy == null || !Number.isFinite(spy) || spy < 0) {
-    spy = config.substitutes.spyVol;
-    degraded.push({ ticker: "SPY", field: "spy_vol", substitute: spy });
-  }
-  const fallbackVol = vols.universeMedianVol != null && Number.isFinite(vols.universeMedianVol) ? vols.universeMedianVol : null;
+  const { spy, substituted: spySubstituted } = resolveSpyVol(vols.spyVol, config);
+  if (spySubstituted) degraded.push({ ticker: "SPY", field: "spy_vol", substitute: spy });
   let betaPort = 0;
   let idio = 0;
   for (const w of weights) {
     const beta = betas.get(w.ticker) ?? config.substitutes.beta;
     betaPort += w.weight * beta * (w.side === "short" ? -1 : 1);
-    let sigma = quant[w.ticker]?.daily_vol ?? null;
-    if (sigma == null || !Number.isFinite(sigma)) {
-      // Vol null → universe median vol; with no universe either, the
-      // systematic leg alone carries the name (recorded the same way).
-      sigma = fallbackVol ?? Math.abs(beta) * spy;
-      degraded.push({ ticker: w.ticker, field: "vol", substitute: round(sigma, 5) });
-    }
+    // Vol null → universe median vol; with no universe either, the
+    // systematic leg alone carries the name (recorded the same way).
+    const { sigma, substituted } = resolveSigma(w.ticker, beta, quant, vols.universeMedianVol, spy);
+    if (substituted) degraded.push({ ticker: w.ticker, field: "vol", substitute: round(sigma, 5) });
     const idioVar = Math.max(sigma * sigma - beta * beta * spy * spy, 0);
     idio += w.weight * w.weight * idioVar;
   }

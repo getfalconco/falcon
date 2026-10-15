@@ -30,6 +30,7 @@ import { useLiveQuotes } from "@/hooks/useLivePrices";
 import { usePositionQuant } from "@/hooks/usePositionQuant";
 import { usePositionReach } from "@/hooks/usePositionReach";
 import { openStock } from "@/lib/stock-open";
+import { positionHover } from "@/lib/position-hover";
 import CurrencyFlag from "@/components/dashboard/CurrencyFlag";
 import ConnectPortfolioEmpty, { usePortfolioConnected } from "@/components/dashboard/ConnectPortfolioEmpty";
 import SelectionGloss, { type GlossScope } from "@/components/dashboard/SelectionGloss";
@@ -368,6 +369,8 @@ const TABLE_CONTEXT =
 const NAME_MIN = 116;
 /** The gap between columns (Tailwind's gap-3), counted when they are measured. */
 const COL_GAP = 12;
+/** How far a hovered row's highlight reaches past its text (`-mx-1.5 px-1.5`). */
+const HOVER_INSET = 6;
 
 /** The position groups, in the order the card lists them. */
 const GROUPS = [
@@ -393,6 +396,9 @@ export default function PortfolioCard({
 }) {
   const { t, tNodes } = useI18n();
   const [account, setAccount] = useState<PaperAccount>(readPaperAccount);
+  // A card taken off the dashboard mid-hover must not leave the Risk Score
+  // card showing a name nobody is pointing at.
+  useEffect(() => () => positionHover.reset(), []);
   const [brokerAccounts, setBrokerAccounts] = useState<BrokerageAccount[]>([]);
   /** The book reads by what a holding is, not by which account it sits in. */
   const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({
@@ -770,6 +776,15 @@ export default function PortfolioCard({
   };
   /** The heads and the holdings rows: set in by the rail already. */
   const railRowStyle = rowStyle(0);
+  /**
+   * A holdings row as it hovers: its highlight reaches a few pixels past the
+   * text on either side, by a negative margin and the same padding back, so
+   * the columns inside stay exactly where the heads put them.
+   */
+  const hoverRowStyle: CSSProperties = {
+    ...railRowStyle,
+    minWidth: (railRowStyle.minWidth as number) + 2 * HOVER_INSET,
+  };
   /** The group rows: from the scroller's own edge, so wider by the rail. */
   const groupRowStyle = rowStyle(railOffset);
   /** A company or a fund — the only split the book can make from a ticker. */
@@ -1510,10 +1525,18 @@ export default function PortfolioCard({
                 <div className="ml-[21px] border-l-[0.5px] border-black/[0.1] pl-3.5">
                   {list.map((row) => (
                     <div key={row.symbol}>
+                    {/* Hovering or focusing a row hands its ticker to the Risk
+                        Score card, which shows that name's risk until the row
+                        is left. Focusable so the keyboard reaches it too. */}
                     <div
                       data-symbol={row.symbol}
-                      className="grid items-center gap-3 py-1.5 text-right text-[12.5px]"
-                      style={railRowStyle}
+                      tabIndex={0}
+                      onMouseEnter={() => positionHover.enter(row.symbol)}
+                      onMouseLeave={() => positionHover.leave(row.symbol)}
+                      onFocus={() => positionHover.enter(row.symbol)}
+                      onBlur={() => positionHover.leave(row.symbol)}
+                      className="-mx-1.5 grid items-center gap-3 rounded-md px-1.5 py-1.5 text-right text-[12.5px] outline-none transition-colors duration-150 hover:bg-black/[0.04] focus-visible:bg-black/[0.05] motion-reduce:transition-none"
+                      style={hoverRowStyle}
                     >
                       <span className="flex min-w-0 items-center gap-2.5 text-left">
                         <span className="flex h-5 w-5 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#E3E3E0]">

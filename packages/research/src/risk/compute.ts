@@ -16,6 +16,7 @@ import {
   sharpeComponent,
   volatilityComponent,
 } from "./components.js";
+import { positionMetrics } from "./positions.js";
 import { RISK_SCHEMA_VERSION, type RiskComponents, type RiskDegraded, type RiskInputs, type RiskSnapshot, type RiskTriggerReason } from "./types.js";
 
 export type ComputeOptions = {
@@ -73,6 +74,7 @@ export function computeRiskSnapshot(inputs: RiskInputs, config: RiskConfig, opti
     const raw = components[key].score;
     if (raw != null) components[key].score = roundScore(raw);
   }
+  const positions = positionMetrics(weights, betas, quant, inputs, config);
   const score = blendScore(components, config.weights);
   const driver = pickDriver(components, config);
   return {
@@ -86,5 +88,6 @@ export function computeRiskSnapshot(inputs: RiskInputs, config: RiskConfig, opti
     driver,
     degraded: dedupeDegraded(degraded),
     empty: false,
+    positions,
   };
 }
