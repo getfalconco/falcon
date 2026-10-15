@@ -3,6 +3,7 @@ import { resolveDataRoot } from "../data-root";
 import { registerIpcHandler } from "../ipc-register";
 import { filingDocument, filingHistory } from "../agents/edgar";
 import { graphEdges } from "../research/graph-edges";
+import { noteHeldNames } from "../guidance/register-guidance-handlers";
 import {
   parseChangesRequest,
   parseOverviewRequest,
@@ -30,6 +31,13 @@ import { createFilingsService, type FilingsService } from "./service";
 
 const REFRESH_EVERY_MS = 6 * 60 * 60_000;
 const FIRST_REFRESH_MS = 3 * 60_000;
+/** The dashboard's background reads (10-Ks of ten megabytes and more) wait this long after launch. */
+const BACKGROUND_HOLD_MS = 60_000;
+/** And pause this long between two names, so a first look at forty names does not hold the SEC queue. */
+const BACKGROUND_GAP_MS = 2_000;
+const PRUNE_EVERY_MS = 24 * 60 * 60_000;
+const startedAt = Date.now();
+let lastPruneAt = 0;
 
 let service: FilingsService | null = null;
 
@@ -41,6 +49,8 @@ export function filings(): FilingsService {
       filings: filingHistory,
       document: (f) => filingDocument({ ...f, acceptedAt: null }),
       graphEdges,
+      backgroundStartAt: startedAt + BACKGROUND_HOLD_MS,
+      backgroundGapMs: BACKGROUND_GAP_MS,
     });
   }
   return service;
@@ -61,6 +71,8 @@ export function registerFilingsHandlers(): void {
   registerIpcHandler("filings:overview", async (_event, request: unknown): Promise<FilingOverviewResult> => {
     const parsed = parseOverviewRequest(request);
     if (!parsed) return { ok: false, error: "invalid_request" };
+    // The guidance pre-read follows the held names the dashboard last showed (never the watchlist).
+    noteHeldNames(parsed.held);
     try {
       return filings().overview(parsed);
     } catch (err) {
@@ -72,6 +84,14 @@ export function registerFilingsHandlers(): void {
   const refresh = () => {
     try {
       filings().refreshDue();
+      if (Date.now() - lastPruneAt >= PRUNE_EVERY_MS) {
+        lastPruneAt = Date.now();
+        void filings()
+          .prune()
+          .then((n) => {
+            if (n.changes + n.texts + n.digests > 0) console.info(`[filings] pruned ${n.changes} answers, ${n.texts} texts, ${n.digests} digests`);
+          });
+      }
     } catch (err) {
       console.warn("[filings] refresh failed:", err instanceof Error ? err.message : String(err));
     }

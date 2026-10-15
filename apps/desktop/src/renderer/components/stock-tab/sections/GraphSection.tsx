@@ -16,7 +16,7 @@ import {
   type StrengthTier,
 } from "../../../../shared/stock-graph";
 import EgoGraph, { TAB_COLOR } from "../graph/EgoGraph";
-import { egoLayout } from "../graph/ego-layout";
+import { egoLayout, nodeLabel } from "../graph/ego-layout";
 import { useReaderTickers, useResearchCompany, useStockGraph } from "../graph/use-stock-graph";
 import type { StockSectionProps } from "./types";
 
@@ -63,8 +63,9 @@ function roleText(row: NeighbourRow, center: string, t: TFunction): string {
   return row.role === "dependent" ? t("stocktab.graph.role.dependent", { ticker: center }) : t(ROLE_KEY[row.role]);
 }
 
+/** A disclosed share, the percent sign where the language puts it ("19%", "%19", "19 %"). */
 function formatPct(pct: number, locale: string): string {
-  return new Intl.NumberFormat(locale, { maximumFractionDigits: 1 }).format(pct);
+  return new Intl.NumberFormat(locale, { style: "percent", maximumFractionDigits: 1 }).format(pct / 100);
 }
 
 /** "19% of revenue" for the stock's own filing, "19% of TSM revenue" for the neighbour's. */
@@ -128,7 +129,11 @@ function MostAffecting({ graph }: { graph: StockGraph }) {
     <>
       <div className="flex min-w-0 items-baseline gap-2">
         <Name ticker={top.ticker} name={top.name} />
-        {top.ticker && top.name !== top.ticker ? <span className="truncate text-[12px] text-[#6b7280]">{top.name}</span> : null}
+        {top.ticker && top.name !== top.ticker ? (
+          <span className="truncate text-[12px] text-[#6b7280]" title={top.name}>
+            {top.name}
+          </span>
+        ) : null}
       </div>
       <p className="mt-0.5 text-[12px] leading-snug text-[#6b7280]" title={top.link.quote}>
         {parts.join(", ")}
@@ -147,7 +152,8 @@ function SharedWithHoldings({ graph, held }: { graph: StockGraph; held: string[]
   return (
     <ul className="space-y-0.5">
       {shared.slice(0, 3).map((h) => {
-        const names = h.shared.slice(0, 4).map((s) => s.ticker ?? s.name);
+        // The graph's own short labels: a full legal name ("OpenAI OpCo, LLC") would read as two entries in the list.
+        const names = h.shared.slice(0, 4).map((s) => nodeLabel(s.ticker, s.name));
         const more = h.shared.length - names.length;
         return (
           <li key={h.ticker} className="flex min-w-0 items-baseline gap-2">

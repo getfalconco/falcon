@@ -9,7 +9,7 @@
 export const en = {
   "modules.insiders": "Insider activity",
 
-  "insiders.card.label": "Insider activity",
+  "insiders.card.label": "INSIDER ACTIVITY",
   "insiders.card.view": "Open {ticker} in the Stock tab",
   "insiders.card.noNames": "Hold or watch a stock to see insider purchases, unplanned sales and 13D or 13G filings at it and at the companies its filings link it to.",
   "insiders.card.empty": "No insider purchase clusters, unplanned sales or new 13D and 13G filings in the last 90 days.",
@@ -64,7 +64,7 @@ type Table = Partial<Record<keyof typeof en, string>>;
 export const tr: Table = {
   "modules.insiders": "İçeriden işlemler",
 
-  "insiders.card.label": "İçeriden işlemler",
+  "insiders.card.label": "İÇERİDEN İŞLEMLER",
   "insiders.card.view": "{ticker} hissesini Hisse sekmesinde aç",
   "insiders.card.noNames": "Bir hissede ve başvurularının bağladığı şirketlerde içeriden alımları, plansız satışları ve 13D ya da 13G başvurularını görmek için o hisseyi tutun ya da izleyin.",
   "insiders.card.empty": "Son 90 günde içeriden alım kümesi, plansız satış ya da yeni 13D ve 13G başvurusu yok.",
@@ -117,7 +117,7 @@ export const tr: Table = {
 export const de: Table = {
   "modules.insiders": "Insider-Transaktionen",
 
-  "insiders.card.label": "Insider-Transaktionen",
+  "insiders.card.label": "INSIDER-TRANSAKTIONEN",
   "insiders.card.view": "{ticker} im Aktien-Tab öffnen",
   "insiders.card.noNames": "Halten oder beobachten Sie eine Aktie, um Insiderkäufe, ungeplante Verkäufe und 13D- oder 13G-Meldungen bei ihr und bei den Unternehmen zu sehen, mit denen ihre Berichte sie verbinden.",
   "insiders.card.empty": "Keine gehäuften Insiderkäufe, ungeplanten Verkäufe oder neuen 13D- und 13G-Meldungen in den letzten 90 Tagen.",
@@ -170,7 +170,7 @@ export const de: Table = {
 export const fr: Table = {
   "modules.insiders": "Opérations d'initiés",
 
-  "insiders.card.label": "Opérations d'initiés",
+  "insiders.card.label": "OPÉRATIONS D'INITIÉS",
   "insiders.card.view": "Ouvrir {ticker} dans l'onglet Action",
   "insiders.card.noNames": "Détenez ou suivez une action pour voir les achats d'initiés, les cessions hors plan et les déclarations 13D ou 13G la concernant, ainsi que les sociétés auxquelles ses rapports la relient.",
   "insiders.card.empty": "Aucun achat groupé d'initiés, aucune cession hors plan ni nouvelle déclaration 13D ou 13G sur les 90 derniers jours.",
@@ -223,7 +223,7 @@ export const fr: Table = {
 export const es: Table = {
   "modules.insiders": "Operaciones de directivos",
 
-  "insiders.card.label": "Operaciones de directivos",
+  "insiders.card.label": "OPERACIONES DE DIRECTIVOS",
   "insiders.card.view": "Abrir {ticker} en la pestaña Acción",
   "insiders.card.noNames": "Mantén o sigue una acción para ver compras de directivos, ventas fuera de plan y presentaciones 13D o 13G de ella y de las empresas con las que la vinculan sus informes.",
   "insiders.card.empty": "Sin compras agrupadas de directivos, ventas fuera de plan ni nuevas 13D o 13G en los últimos 90 días.",
@@ -276,7 +276,7 @@ export const es: Table = {
 export const it: Table = {
   "modules.insiders": "Operazioni degli insider",
 
-  "insiders.card.label": "Operazioni degli insider",
+  "insiders.card.label": "OPERAZIONI DEGLI INSIDER",
   "insiders.card.view": "Apri {ticker} nella scheda Titolo",
   "insiders.card.noNames": "Detieni o segui un titolo per vedere acquisti degli insider, vendite fuori piano e depositi 13D o 13G che lo riguardano, anche per le società a cui i suoi documenti lo collegano.",
   "insiders.card.empty": "Nessun gruppo di acquisti di insider, vendita fuori piano o nuovo 13D e 13G negli ultimi 90 giorni.",
@@ -329,7 +329,7 @@ export const it: Table = {
 export const ptBR: Table = {
   "modules.insiders": "Operações de insiders",
 
-  "insiders.card.label": "Operações de insiders",
+  "insiders.card.label": "OPERAÇÕES DE INSIDERS",
   "insiders.card.view": "Abrir {ticker} na aba Ação",
   "insiders.card.noNames": "Tenha ou acompanhe uma ação para ver compras de insiders, vendas fora de plano e registros 13D ou 13G dela e das empresas às quais seus relatórios a ligam.",
   "insiders.card.empty": "Nenhum grupo de compras de insiders, venda fora de plano ou novo 13D e 13G nos últimos 90 dias.",

@@ -154,9 +154,9 @@ describe("a filing changes trigger, as the reader reads it", () => {
     const all = { kind: "filing_changes" as const, ticker: "SMCI" };
     assert.equal(
       triggerSentence(all, "en-US"),
-      "When SMCI's next 10-K, 10-Q or 20-F has a new risk factor, a red flag, a customer change, or a supplier change",
+      "When SMCI's next 10-K, 10-Q, or 20-F has a new risk factor, a red flag, a customer change, or a supplier change",
     );
-    assert.equal(triggerSentence({ ...all, kinds: ["risk_factors", "red_flags"] }, "en-US"), "When SMCI's next 10-K, 10-Q or 20-F has a new risk factor or a red flag");
+    assert.equal(triggerSentence({ ...all, kinds: ["risk_factors", "red_flags"] }, "en-US"), "When SMCI's next 10-K, 10-Q, or 20-F has a new risk factor or a red flag");
     assert.equal(triggerNoun(all, "en-US"), "SMCI filing changes");
     assert.equal(triggerKindLabel("filing_changes", "en-US"), "Filing changes");
     assert.ok(triggerSentence(all, "tr-TR").includes("SMCI"));

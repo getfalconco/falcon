@@ -114,7 +114,7 @@ export default function ChainNewsSection({ ticker }: StockSectionProps) {
                 {row.title}
               </span>
               {graph ? <Path row={row} graph={graph} /> : null}
-              <span className="w-12 shrink-0 text-right text-[11.5px] tabular-nums text-[#9CA3AF]">
+              <span className="min-w-12 shrink-0 whitespace-nowrap text-right text-[11.5px] tabular-nums text-[#9CA3AF]">
                 {agoLabel(row.article.datetime, now, locale, t("stocktab.chain.justNow"))}
               </span>
             </button>

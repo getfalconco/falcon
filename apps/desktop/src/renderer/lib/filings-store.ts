@@ -11,6 +11,7 @@
 
 import { useEffect, useMemo, useSyncExternalStore } from "react";
 import { createSwrResource, type SwrResource, type SwrState } from "@/lib/swr-resource";
+import { useShownPoll } from "@/lib/use-shown-poll";
 import type { FilingChanges, FilingChangesResult, FilingOverviewRequest, FilingOverviewResult } from "../../shared/filing-changes";
 
 export const FILINGS_STALE_AFTER_MS = 30 * 60_000;
@@ -131,12 +132,8 @@ export function useFilingOverview(held: readonly string[], watchlist: readonly s
   const resource = useMemo(() => (request ? filingOverviewResource(request) : null), [key]);
   const state = useResource(resource);
   const pending = state.value?.pending.length ?? 0;
-  // Names still being read in main: ask again shortly, until none are left.
-  useEffect(() => {
-    if (!resource || pending === 0) return;
-    const timer = setTimeout(() => void resource.revalidate(), FILINGS_PENDING_POLL_MS);
-    return () => clearTimeout(timer);
-  }, [resource, pending, state.fetchedAt]);
+  // Names still being read in main: ask again shortly, until none are left; not while the card is out of sight.
+  useShownPoll(resource && pending > 0 ? key : "", () => void resource?.revalidate(), FILINGS_PENDING_POLL_MS, { immediate: false });
   return state;
 }
 

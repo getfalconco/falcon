@@ -6,7 +6,7 @@ const projectRoot = resolve(__dirname);
 
 export default defineConfig({
   main: {
-    plugins: [externalizeDepsPlugin({ exclude: ["@meridian/research", "@meridian/research/step1", "@meridian/research/propagation", "@meridian/research/gloss", "@meridian/research/screen", "@meridian/research/quantlab", "@meridian/research/edgar-time"] })],
+    plugins: [externalizeDepsPlugin({ exclude: ["@meridian/research", "@meridian/research/step1", "@meridian/research/propagation", "@meridian/research/gloss", "@meridian/research/screen", "@meridian/research/quantlab", "@meridian/research/edgar-time", "@meridian/research/sec-fetch"] })],
   },
   preload: {
     plugins: [externalizeDepsPlugin()],

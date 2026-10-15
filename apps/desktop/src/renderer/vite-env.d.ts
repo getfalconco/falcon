@@ -325,6 +325,8 @@ interface MeridianBridge {
   getImpliedMoves?: (
     reports: import("../shared/implied-move").ImpliedRequestItem[],
   ) => Promise<import("../shared/implied-move").ImpliedMovesResult>;
+  /** Analyst estimate revisions per name (main/estimates). Absent on an older main process. */
+  getEstimateRevisions?: (tickers: string[]) => Promise<import("../shared/estimate-revisions").EstimatesResult>;
   /** Read-through radar (main/readthrough). With `focus`, every filing link of one name (the Stock tab). */
   getReadthroughRadar?: (
     request: import("../shared/readthrough-types").ReadthroughRequest,

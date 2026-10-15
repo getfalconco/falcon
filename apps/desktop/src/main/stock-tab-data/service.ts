@@ -574,7 +574,11 @@ export function createStockTabService(deps: StockTabDeps) {
         .map((f) => ({ acceptedAt: f.acceptedAt, acceptedAtUtc: f.acceptedAtUtc, filedAt: f.filedAt, url: f.url }));
       const rows = assembleReports(quarters, releases, bars, day, REPORT_HISTORY_ROWS);
       // A failed closes read leaves every move empty: not worth keeping for the day.
-      if (bars.length > 0) historyAnswers.set(ticker, { day, rows });
+      if (bars.length > 0) {
+        // Yesterday's answers are never read again (the implied move asks for forty names a day).
+        for (const [t, kept] of historyAnswers) if (kept.day !== day) historyAnswers.delete(t);
+        historyAnswers.set(ticker, { day, rows });
+      }
       return rows;
     });
 

@@ -42,6 +42,16 @@ import {
 } from "../../../shared/earnings-view";
 import EarningsDrawer from "./EarningsDrawer";
 import { useImpliedMoves } from "@/lib/implied-move-store";
+import { useEstimateRevisions } from "@/lib/estimates-store";
+import {
+  ESTIMATES_REQUEST_CAP,
+  ESTIMATES_WITHIN_DAYS,
+  estimateHint,
+  estimateLine,
+  isNotable,
+  reportPeriod,
+  type PeriodEstimates,
+} from "../../../shared/estimate-revisions";
 import { IMPLIED_REQUEST_CAP, IMPLIED_WITHIN_DAYS, impliedHint, impliedLine, type ImpliedMove, type ImpliedRequestItem } from "../../../shared/implied-move";
 import ReadthroughSection from "@/components/readthrough/ReadthroughSection";
 import EarningsLogo from "./EarningsLogo";
@@ -223,10 +233,12 @@ type RowProps = {
   today: string;
   /** The options line's figure: absent when not asked or not read yet, null when no quotes support one. */
   implied?: ImpliedMove | null;
+  /** The reported quarter's estimate revisions, passed only when they are notable. */
+  estimate?: PeriodEstimates | null;
   onOpen: (row: EarningsRow) => void;
 };
 
-function Row({ row, reaction, live, today, implied, onOpen }: RowProps) {
+function Row({ row, reaction, live, today, implied, estimate, onOpen }: RowProps) {
   const { say, lang, t } = useSay();
   const na = useNa();
   const out = isOut(row);
@@ -294,6 +306,11 @@ function Row({ row, reaction, live, today, implied, onOpen }: RowProps) {
       {implied && !out ? (
         <span className="col-[3/-1] truncate pt-0.5 text-[11.5px] leading-[1.4] text-[#6b7280]" title={impliedHint(implied, say, lang)}>
           {impliedLine(implied, say, lang)}
+        </span>
+      ) : null}
+      {estimate && !out ? (
+        <span className="col-[3/-1] truncate pt-0.5 text-[11.5px] leading-[1.4] text-[#6b7280]" title={estimateHint(estimate, say, lang)}>
+          {estimateLine(estimate, say, lang)}
         </span>
       ) : null}
     </li>
@@ -369,6 +386,21 @@ export default function EarningsTab() {
       .map((r) => ({ ticker: r.ticker, date: r.date, time: r.time }));
   }, [shown, reactionTickers, today]);
   const implied = useImpliedMoves(impliedItems);
+  // The estimates line: the same upcoming reports, shown only where the last 30 days moved the consensus notably.
+  const estimateTickers = useMemo(() => {
+    const asked = new Set(reactionTickers);
+    const until = addDaysYmd(today, ESTIMATES_WITHIN_DAYS);
+    return shown
+      .filter((r) => !isOut(r) && r.date >= today && r.date <= until && asked.has(r.ticker))
+      .sort((a, b) => a.date.localeCompare(b.date))
+      .slice(0, ESTIMATES_REQUEST_CAP)
+      .map((r) => r.ticker);
+  }, [shown, reactionTickers, today]);
+  const estimates = useEstimateRevisions(estimateTickers);
+  const notableEstimate = (row: EarningsRow): PeriodEstimates | null => {
+    const p = reportPeriod(estimates[row.ticker] ?? null, row.date);
+    return p && isNotable(p) && estimateLine(p, say, lang) !== null ? p : null;
+  };
   const liveKey = useMemo(
     () =>
       [...new Set(shown.filter((r) => r.phase === "reported" && r.date >= addDaysYmd(today, -4)).map((r) => r.ticker))]
@@ -408,7 +440,7 @@ export default function EarningsTab() {
   const renderRows = (list: EarningsRow[]) => (
     <ul className="pb-2">
       {list.map((row) => (
-        <Row key={row.ticker} row={row} reaction={reactions[row.ticker]} live={liveOf(row.ticker)} today={today} implied={implied[row.ticker]} onOpen={setOpen} />
+        <Row key={row.ticker} row={row} reaction={reactions[row.ticker]} live={liveOf(row.ticker)} today={today} implied={implied[row.ticker]} estimate={notableEstimate(row)} onOpen={setOpen} />
       ))}
     </ul>
   );

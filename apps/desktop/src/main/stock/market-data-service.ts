@@ -16,6 +16,7 @@ import type {
 } from "../../shared/stock-types";
 import type { MarketHeadline } from "../../shared/briefing-types";
 import { repairMojibake } from "@meridian/research/news";
+import { createRequestGate } from "./request-gate";
 
 const YAHOO_CHART_BASE = "https://query1.finance.yahoo.com/v8/finance/chart";
 const YAHOO_SEARCH_BASE = "https://query2.finance.yahoo.com/v1/finance/search";
@@ -64,7 +65,7 @@ async function requestYahooAuth(): Promise<YahooAuth | null> {
       cachedAuth = { cookie, crumb };
       cachedAuthAt = Date.now();
       return cachedAuth;
-    }, YAHOO_AUTH_TIMEOUT_MS);
+    }, YAHOO_AUTH_TIMEOUT_MS, false);
   } catch {
     return null;
   }
@@ -88,6 +89,17 @@ async function getYahooAuth(forceRefresh = false): Promise<YahooAuth | null> {
 /* Request deadlines                                                   */
 /* ------------------------------------------------------------------ */
 
+/**
+ * Every Yahoo read below goes through one gate (request-gate.ts): at most
+ * YAHOO_MAX_IN_FLIGHT at once, of which at most YAHOO_BULK_IN_FLIGHT from the
+ * Earnings tab's fan-outs (`asBulk`), which also wait behind any interactive
+ * read. The crumb handshake is not gated: readers holding a slot wait on it.
+ */
+const YAHOO_MAX_IN_FLIGHT = 6;
+const YAHOO_BULK_IN_FLIGHT = 4;
+const YAHOO_GATE_WAIT_MS = 20_000;
+const yahooGate = createRequestGate({ max: YAHOO_MAX_IN_FLIGHT, bulkMax: YAHOO_BULK_IN_FLIGHT, maxWaitMs: YAHOO_GATE_WAIT_MS });
+
 /** The whole cookie + crumb handshake (two requests). */
 const YAHOO_AUTH_TIMEOUT_MS = 10_000;
 /** One chart, live-quote, quote-summary or news read outside the briefing. */
@@ -109,7 +121,10 @@ const BRIEFING_REQUEST_TIMEOUT_MS = 6_000;
 async function withRequestTimeout<T>(
   run: (signal: AbortSignal) => Promise<T>,
   timeoutMs: number = BRIEFING_REQUEST_TIMEOUT_MS,
+  gated = true,
 ): Promise<T> {
+  // The deadline starts with the read itself, once the gate lets it go.
+  if (gated) return yahooGate.run(() => withRequestTimeout(run, timeoutMs, false));
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeoutMs);
   try {

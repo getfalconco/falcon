@@ -44,6 +44,7 @@ import { createMarketNews } from "./market-news";
 import { createNarrativeService } from "./narrative-service";
 import { toHeldQuote, toMarketSnapshot } from "./ports-map";
 import { filings as filingsService } from "../filings/register-filings-handlers";
+import { guidance as guidanceService, noteHeldNames } from "../guidance/register-guidance-handlers";
 import { insiders as insidersService } from "../insiders/register-insiders-handlers";
 import { readthrough as readthroughService } from "../readthrough/register-readthrough-handlers";
 import { mergeHoldings } from "../../shared/briefing-types";
@@ -176,16 +177,19 @@ function getHost(): Host {
       realNowMs: Date.now,
       userKey: currentUserKey,
       modelConfigured: glossConfigured,
-      // Read from what the filing, insider and read-through modules keep, under
-      // the same offline switch as every other port.
+      // Read from what the filing, insider, guidance and read-through modules
+      // keep, under the same offline switch as every other port. Guidance is
+      // `peek` only: disk, never EDGAR, never the model.
       researchFacts: (req, window) => {
         if (offline()) return Promise.reject(new Error("briefing offline switch is on"));
         // A borrowed position is still a name the reader holds; only a bought one has a weight to read through.
         const positions = mergeHoldings(req.holdings)
           .filter((h) => h.shares !== 0)
           .map((h) => ({ ticker: h.symbol, shares: h.shares > 0 ? h.shares : null }));
+        // The guidance pre-read reads new releases of held names only.
+        noteHeldNames(positions.map((p) => p.ticker));
         return collectResearchFacts(
-          { filings: filingsService, insiders: insidersService, readthrough: readthroughService, now: Date.now },
+          { filings: filingsService, insiders: insidersService, guidance: guidanceService, readthrough: readthroughService, now: Date.now },
           { held: positions.map((p) => p.ticker), watchlist: req.watchlist ?? [], positions },
           window.target_session_ymd,
         );

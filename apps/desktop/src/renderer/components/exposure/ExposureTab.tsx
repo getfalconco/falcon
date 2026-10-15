@@ -78,7 +78,7 @@ function Heads({ grid, cells }: { grid: string; cells: Array<{ text: string; rig
 }
 
 function SharedSection({ summary }: { summary: ExposureSummary }) {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const [all, setAll] = useState(false);
   const rows = all ? summary.shared : summary.shared.slice(0, SHARED_ROWS);
   const more = summary.shared.length - rows.length;
@@ -97,8 +97,8 @@ function SharedSection({ summary }: { summary: ExposureSummary }) {
         {rows.map((row) => (
           <li key={row.key} className={cn(SHARED_GRID, ROW)}>
             <CompanyCell row={row} />
-            <span className={cn(NUM, "text-[#1d1b1b]")} title={t("exposure.row.linked", { pct: exposurePct(row.linkedWeight) })}>
-              {exposurePct(row.exposure)}
+            <span className={cn(NUM, "text-[#1d1b1b]")} title={t("exposure.row.linked", { pct: exposurePct(row.linkedWeight, locale) })}>
+              {exposurePct(row.exposure, locale)}
             </span>
             <ViaTickers row={row} max={4} />
             <SourceLink source={row.source} />
@@ -115,7 +115,7 @@ function SharedSection({ summary }: { summary: ExposureSummary }) {
 }
 
 function CustomerSection({ summary }: { summary: ExposureSummary }) {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   return (
     <Section title={t("exposure.customers.title")} count={summary.customers.length}>
       <Heads grid={CUSTOMER_GRID} cells={[{ text: t("exposure.col.holding") }, { text: t("exposure.col.share") }, { text: t("exposure.col.source") }]} />
@@ -129,7 +129,7 @@ function CustomerSection({ summary }: { summary: ExposureSummary }) {
               {row.customers.map((c) => (
                 <span key={c.key} className="flex min-w-0 shrink items-baseline gap-1.5" title={c.name}>
                   <span className="truncate text-[12.5px] text-[#1d1b1b]">{displayName(c.name)}</span>
-                  <span className={cn(NUM, "shrink-0 text-[#4b5563]")}>{sharePct(c.share)}</span>
+                  <span className={cn(NUM, "shrink-0 text-[#4b5563]")}>{sharePct(c.share, locale)}</span>
                 </span>
               ))}
             </span>
@@ -184,7 +184,7 @@ function OverlapSection({ summary }: { summary: ExposureSummary }) {
 }
 
 function GapLine({ summary, canResearch }: { summary: ExposureSummary; canResearch: boolean }) {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const [queued, setQueued] = useState<ReadonlySet<string>>(new Set());
   const [busy, setBusy] = useState(false);
   if (summary.gaps.length === 0) return null;
@@ -193,7 +193,7 @@ function GapLine({ summary, canResearch }: { summary: ExposureSummary; canResear
   const text =
     summary.scope === "watchlist"
       ? t("exposure.gaps.lineWatch", { names })
-      : t("exposure.gaps.line", { names, pct: exposurePct(summary.gapWeight) });
+      : t("exposure.gaps.line", { names, pct: exposurePct(summary.gapWeight, locale) });
   return (
     <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 border-t-[0.5px] border-black/[0.06] px-5 py-2.5">
       <p className="min-w-0 text-[12px] leading-[1.5] text-[#6b7280]">{text}</p>
@@ -222,13 +222,13 @@ function GapLine({ summary, canResearch }: { summary: ExposureSummary; canResear
 }
 
 export default function ExposureTab() {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const view = useExposure();
   const { summary, scope } = view;
 
   const noNames = view.positions === 0 && view.watched === 0;
   const empty = summary !== null && summary.shared.length === 0 && summary.customers.length === 0 && summary.overlaps.length === 0;
-  const header = summary ? headlineText(t, summary.headline, scope) : null;
+  const header = summary ? headlineText(t, summary.headline, scope, locale) : null;
 
   let body: ReactNode;
   if (noNames) {

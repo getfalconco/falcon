@@ -1,4 +1,5 @@
 import { createRoot } from "react-dom/client";
+import "./fonts";
 import "../globals.css";
 import StockTab from "../components/stock-tab/StockTab";
 import { createFixtureAgents } from "../components/agents/agent-fixtures";

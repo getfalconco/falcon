@@ -1,4 +1,5 @@
 import { createRoot } from "react-dom/client";
+import "./fonts";
 import "../globals.css";
 import EarningsTab from "../components/earnings/EarningsTab";
 import EarningsCard from "../components/dashboard/EarningsCard";
@@ -19,6 +20,8 @@ import type {
 import { nyWallMs, weekStartOf } from "../../shared/earnings-time";
 import { addDaysYmd, nyToday } from "../../shared/earnings-view";
 import type { ImpliedMove, ImpliedMovesResult, ImpliedRequestItem } from "../../shared/implied-move";
+import type { EstimateRevisions, EstimatesResult } from "../../shared/estimate-revisions";
+import ESTIMATES_FIXTURE from "./estimates-fixture.json";
 
 /**
  * Scratch harness for the Earnings tab and the Earnings card against a
@@ -192,6 +195,7 @@ const FOR_YOU: EarningsRow[] = [
   r({ ticker: "IBM", date: d(6), company: "International Business Machines Corporation", time: "amc", status: "unknown", source: "finnhub", epsEstimate: 2.87, revenueEstimate: 16.8e9, sector: "Technology", reason: "sector", marketCap: 236e9, lastSurprise: { quarterEnd: "2026-06-30", epsActual: 2.93, epsEstimate: 2.93, surprisePct: -0.1 } }),
   r({ ticker: "NFLX", date: d(5), company: "Netflix, Inc.", time: "amc", status: "unknown", source: "finnhub", epsEstimate: 6.98, revenueEstimate: 11.5e9, sector: "Communication Services", reason: "large", marketCap: 512e9 }),
   r({ ticker: "KO", date: d(12), company: "The Coca-Cola Company", time: "bmo", status: "unknown", source: "finnhub", epsEstimate: 0.91, revenueEstimate: 13.3e9, sector: "Consumer Staples", reason: "large", marketCap: 397e9 }),
+  r({ ticker: "MU", date: d(10), company: "Micron Technology, Inc.", time: "amc", status: "unknown", source: "finnhub", epsEstimate: 38.21, revenueEstimate: 61.67e9, sector: "Technology", reason: "large", marketCap: 1040e9 }),
   r({ ticker: "JNJ", date: d(5), company: "Johnson & Johnson", time: "bmo", status: "unknown", source: "finnhub", epsEstimate: 2.71, revenueEstimate: 23.8e9, sector: "Healthcare", reason: "large", marketCap: 402e9 }),
 ];
 const ALL: EarningsRow[] = [
@@ -212,6 +216,9 @@ const REACTIONS: Record<string, EarningsReaction> = {
   AMD: { usualMove: 0.067, normalDailyMove: 0.0241, asOf: d(-1), moves: [] },
   MSFT: { usualMove: 0.039, normalDailyMove: 0.0113, asOf: d(-1), moves: [] },
   XOM: { usualMove: 0.016, normalDailyMove: 0.0119, asOf: d(-1), moves: [] },
+  // As main computed it on 2026-10-16 (Yahoo's last four quarters, daily closes).
+  NFLX: { usualMove: 0.073078, normalDailyMove: null, asOf: d(-1), moves: [] },
+  MU: { usualMove: 0.081914, normalDailyMove: null, asOf: d(-1), moves: [] },
   NVDA: { usualMove: 0.062, normalDailyMove: 0.0236, asOf: d(-1), moves: [] },
   IBM: { usualMove: 0.071, normalDailyMove: 0.0135, asOf: d(-1), moves: [] },
 };
@@ -293,10 +300,24 @@ async function impliedMoves(reports: ImpliedRequestItem[]): Promise<ImpliedMoves
   return { ok: true, moves };
 }
 
+/**
+ * Estimate revisions as main read them on 2026-10-16 (Yahoo earningsTrend).
+ * MU's quarter dates are moved so its December report sits inside the
+ * harness's two week window: the one row whose line shows.
+ */
+const ESTIMATES = ESTIMATES_FIXTURE as unknown as Record<string, EstimateRevisions>;
+
+async function estimateRevisions(tickers: string[]): Promise<EstimatesResult> {
+  await wait(250);
+  const estimates: Record<string, EstimateRevisions | null> = {};
+  for (const t of tickers) estimates[t] = ESTIMATES[t] ?? null;
+  return { ok: true, estimates };
+}
+
 (window as unknown as { meridian: unknown }).meridian =
   state === "restart"
     ? {}
-    : { getEarningsUpcoming: upcoming, getEarningsReactions: reactions, getEarningsDetail: detail, getImpliedMoves: impliedMoves, getLiveQuote: liveQuote, openExternal: async () => undefined };
+    : { getEarningsUpcoming: upcoming, getEarningsReactions: reactions, getEarningsDetail: detail, getImpliedMoves: impliedMoves, getEstimateRevisions: estimateRevisions, getLiveQuote: liveQuote, openExternal: async () => undefined };
 
 // The Agents tab is not in this harness; a create request is recorded instead.
 onAgentsOpenRequest((focus) => {

@@ -22,6 +22,7 @@ import * as insiders from "./insiders";
 import * as filings from "./filings";
 import * as guidance from "./guidance";
 import * as implied from "./implied";
+import * as estimates from "./estimates";
 
 /**
  * Per-area message files, merged onto the core tables in `../index.ts`. One
@@ -29,7 +30,7 @@ import * as implied from "./implied";
  * edits the same file. A new area: add a file shaped like the others and list
  * it here.
  */
-const AREAS = [settings, plans, changelog, shell, dashboard, stock, briefing, agents, calendar, panels, instruments, auth, system, developer, earnings, access, stocktab, exposure, readthrough, insiders, filings, guidance, implied] as const;
+const AREAS = [settings, plans, changelog, shell, dashboard, stock, briefing, agents, calendar, panels, instruments, auth, system, developer, earnings, access, stocktab, exposure, readthrough, insiders, filings, guidance, implied, estimates] as const;
 
 export const AREA_EN = {
   ...settings.en,
@@ -55,6 +56,7 @@ export const AREA_EN = {
   ...filings.en,
   ...guidance.en,
   ...implied.en,
+  ...estimates.en,
 };
 
 type AreaTable = Partial<Record<keyof typeof AREA_EN, string>>;

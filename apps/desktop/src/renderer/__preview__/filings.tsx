@@ -1,4 +1,5 @@
 import { createRoot } from "react-dom/client";
+import "./fonts";
 import "../globals.css";
 import FilingChangesCard from "../components/filings/FilingChangesCard";
 import FilingChangesSection from "../components/stock-tab/sections/FilingChangesSection";
@@ -6,7 +7,7 @@ import { applyTheme, getStoredTheme } from "../lib/theme";
 import { applyLanguage, setLanguage } from "../lib/i18n";
 import { isLanguageCode } from "../lib/i18n/languages";
 import { seedPaperAccount, type PaperPosition } from "../lib/paper-account";
-import { overviewRows, type FilingChangeItem, type FilingChanges, type FilingChangesResult, type FilingOverviewRequest, type FilingOverviewResult } from "../../shared/filing-changes";
+import { overviewRows, parseOverviewRequest, type FilingChangeItem, type FilingChanges, type FilingChangesResult, type FilingOverviewRequest, type FilingOverviewResult } from "../../shared/filing-changes";
 
 /**
  * Scratch harness for the Filing changes card and the Stock tab section
@@ -140,6 +141,8 @@ async function overview(request: FilingOverviewRequest): Promise<FilingOverviewR
   if (state === "loading") return never;
   if (state === "error") return { ok: false, error: "unavailable" };
   overviewAsks++;
+  // As main does (main/filings): a name both held and watched is asked for once.
+  request = parseOverviewRequest(request) ?? request;
   const names = [...request.held, ...request.watchlist];
   const answers = names
     .filter((t) => FIXTURES[t])

@@ -24,6 +24,7 @@
 
 import fs from "node:fs";
 import path from "node:path";
+import { promisify } from "node:util";
 import zlib from "node:zlib";
 import { readJson, writeJsonAtomic } from "../briefing/json-file";
 import { nyYmdOf } from "../../shared/earnings-time";
@@ -59,6 +60,11 @@ import {
   type RiskHeading,
 } from "./parse";
 import { REWORD_BELOW, diffConcentration, diffHeadings, headingSimilarity, namedIn, newSentences, searchableText } from "./diff";
+
+const gunzip = promisify(zlib.gunzip);
+const gzip = promisify(zlib.gzip);
+/** Lets the event loop answer IPC between two heavy steps (a 10-K parses in about a second). */
+const breathe = () => new Promise<void>((resolve) => setImmediate(resolve));
 
 /** Bumped when the parser changes what a digest holds: older digests are read again. */
 export const DIGEST_VERSION = 1;
@@ -104,6 +110,14 @@ export type FilingsDeps = {
   /** A filing's primary document, whole. */
   document: (filing: FilingLike) => Promise<string>;
   graphEdges: () => Promise<readonly EdgeLike[]>;
+  /**
+   * The background queue (the dashboard's names) starts no sooner than this
+   * instant (epoch ms), so the first minute after launch is left to the
+   * window and the first render; a Stock tab ask is answered at once.
+   */
+  backgroundStartAt?: number;
+  /** A pause between two names the background queue reads. */
+  backgroundGapMs?: number;
 };
 
 /** What one filing says, read once and kept. */
@@ -439,7 +453,20 @@ export type FilingsService = {
   refreshDue(): void;
   /** Resolves when the background queue is empty (tests). */
   idle(): Promise<void>;
+  /**
+   * Drops what is no longer worth keeping on disk (PRUNE_* below): answers
+   * for names not read in months, the plain text of annual reports no kept
+   * answer compares, and digests no kept answer names. Never throws.
+   */
+  prune(): Promise<{ changes: number; texts: number; digests: number }>;
 };
+
+/** An answer for a name not read in this long is dropped (the name left the dashboard). */
+export const PRUNE_CHANGES_DAYS = 90;
+/** An annual report's plain text no kept answer compares is dropped after this long. */
+export const PRUNE_TEXT_DAYS = 30;
+/** A digest no kept answer names is dropped after this long (a 10-Q digest is needed for a year at most). */
+export const PRUNE_DIGEST_DAYS = 400;
 
 export function createFilingsService(deps: FilingsDeps): FilingsService {
   const now = deps.now ?? Date.now;
@@ -470,9 +497,9 @@ export function createFilingsService(deps: FilingsDeps): FilingsService {
     return d && d.v === DIGEST_VERSION ? d : null;
   };
 
-  const readText = (acc: string): string | null => {
+  const readText = async (acc: string): Promise<string | null> => {
     try {
-      return zlib.gunzipSync(fs.readFileSync(textFile(acc))).toString("utf8");
+      return (await gunzip(await fs.promises.readFile(textFile(acc)))).toString("utf8");
     } catch {
       return null;
     }
@@ -484,12 +511,15 @@ export function createFilingsService(deps: FilingsDeps): FilingsService {
     if (have && (!keepText || fs.existsSync(textFile(f.accession)))) return have;
     try {
       const html = await deps.document(f);
+      await breathe();
       const { digest: d, text } = digestOf(f, html);
       writeJsonAtomic(digestFile(f.accession), d);
       if (keepText) {
-        fs.mkdirSync(path.dirname(textFile(f.accession)), { recursive: true });
-        fs.writeFileSync(textFile(f.accession), zlib.gzipSync(Buffer.from(searchableText(text), "utf8")));
+        const packed = await gzip(Buffer.from(searchableText(text), "utf8"));
+        await fs.promises.mkdir(path.dirname(textFile(f.accession)), { recursive: true });
+        await fs.promises.writeFile(textFile(f.accession), packed);
       }
+      await breathe();
       return d;
     } catch (err) {
       console.warn("[filings] document read failed:", f.form, f.accession, err instanceof Error ? err.message : String(err));
@@ -525,8 +555,8 @@ export function createFilingsService(deps: FilingsDeps): FilingsService {
       checkedAt: new Date(nowMs).toISOString(),
       filings,
       digests,
-      previousText: previous ? readText(previous.accession) : null,
-      latestText: latest ? readText(latest.accession) : null,
+      previousText: previous ? await readText(previous.accession) : null,
+      latestText: latest ? await readText(latest.accession) : null,
       edges,
     });
     const file: ChangesFile = { v: CHANGES_VERSION, day: nyYmdOf(nowMs), changes };
@@ -572,12 +602,30 @@ export function createFilingsService(deps: FilingsDeps): FilingsService {
     return task;
   };
 
+  let holdTimer: ReturnType<typeof setTimeout> | null = null;
+  let released = false;
   const pump = () => {
-    if (running) return;
+    if (running || holdTimer) return;
+    if (!released) {
+      const hold = (deps.backgroundStartAt ?? 0) - now();
+      if (hold > 0 && queue.length > 0) {
+        holdTimer = setTimeout(() => {
+          holdTimer = null;
+          released = true;
+          pump();
+        }, hold);
+        holdTimer.unref?.();
+        return;
+      }
+      released = true;
+    }
     running = (async () => {
+      let first = true;
       while (queue.length > 0) {
         const t = queue.shift()!;
         if (isFresh(t) || isPaused(t)) continue;
+        if (!first && deps.backgroundGapMs) await new Promise((r) => setTimeout(r, deps.backgroundGapMs));
+        first = false;
         try {
           await changes(t);
         } catch {
@@ -613,6 +661,69 @@ export function createFilingsService(deps: FilingsDeps): FilingsService {
     refreshDue: () => enqueue(lastNames),
     idle: async () => {
       while (running) await running;
+    },
+    prune: async () => {
+      const removed = { changes: 0, texts: 0, digests: 0 };
+      const dayMs = 86_400_000;
+      const list = async (sub: string): Promise<{ name: string; file: string; ageMs: number }[]> => {
+        const dir = path.join(deps.dir, sub);
+        let names: string[];
+        try {
+          names = await fs.promises.readdir(dir);
+        } catch {
+          return [];
+        }
+        const out: { name: string; file: string; ageMs: number }[] = [];
+        for (const name of names) {
+          const file = path.join(dir, name);
+          try {
+            const st = await fs.promises.stat(file);
+            if (st.isFile()) out.push({ name, file, ageMs: now() - st.mtimeMs });
+          } catch {
+            // Gone meanwhile.
+          }
+        }
+        return out;
+      };
+      const drop = async (file: string): Promise<boolean> => {
+        try {
+          await fs.promises.unlink(file);
+          return true;
+        } catch {
+          return false;
+        }
+      };
+      try {
+        // What the kept answers still compare or name.
+        const compared = new Set<string>();
+        const named = new Set<string>();
+        for (const c of await list("changes")) {
+          const ticker = c.name.replace(/\.json$/, "");
+          if (c.ageMs > PRUNE_CHANGES_DAYS * dayMs && !inflight.has(ticker)) {
+            if (await drop(c.file)) {
+              removed.changes++;
+              memory.delete(ticker);
+            }
+            continue;
+          }
+          const kept = readJson<ChangesFile>(c.file)?.changes;
+          if (!kept) continue;
+          for (const ref of [kept.latest, kept.previous]) if (ref) compared.add(ref.accession);
+          for (const ref of [kept.latest, kept.previous, kept.quarter]) if (ref) named.add(ref.accession);
+          for (const it of kept.items ?? []) named.add(it.id.split(":")[1] ?? "");
+        }
+        for (const t of await list("text")) {
+          const acc = t.name.replace(/\.txt\.gz$/, "");
+          if (!compared.has(acc) && t.ageMs > PRUNE_TEXT_DAYS * dayMs && (await drop(t.file))) removed.texts++;
+        }
+        for (const d of await list("digests")) {
+          const acc = d.name.replace(/\.json$/, "");
+          if (!named.has(acc) && d.ageMs > PRUNE_DIGEST_DAYS * dayMs && (await drop(d.file))) removed.digests++;
+        }
+      } catch (err) {
+        console.warn("[filings] prune failed:", err instanceof Error ? err.message : String(err));
+      }
+      return removed;
     },
   };
 }

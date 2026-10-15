@@ -2,9 +2,10 @@ import path from "node:path";
 import { anthropicGlossCaller, glossConfigured } from "@meridian/research/gloss";
 import { resolveDataRoot } from "../data-root";
 import { registerIpcHandler } from "../ipc-register";
-import { filingFile, filingHistory } from "../agents/edgar";
+import { cachedFilingHistory, filingFile, filingHistory } from "../agents/edgar";
 import { normalizeTicker } from "../../shared/calendar-events";
 import type { GuidanceTrackResult } from "../../shared/guidance-types";
+import { createGuidancePrefetch, type GuidancePrefetch } from "./guidance-prefetch";
 import { createGuidanceService, type GuidanceService } from "./guidance-service";
 
 /**
@@ -17,12 +18,22 @@ import { createGuidanceService, type GuidanceService } from "./guidance-service"
  * The model call and every SEC read happen here; the key never leaves this
  * process. Readings are kept under `<data root>/guidance/`, one file per
  * release accession.
+ *
+ * While Falcon runs, a held name's new earnings release is also read in the
+ * background (guidance-prefetch.ts): noticed from the EDGAR index the other
+ * modules already read, at most ten reads a day, so the morning handover
+ * finds it on disk.
  */
 
-let service: GuidanceService | null = null;
+/** The first pre-read pass waits for the other modules' first EDGAR reads. */
+const FIRST_PREFETCH_MS = 5 * 60_000;
+const PREFETCH_EVERY_MS = 30 * 60_000;
 
-/** Built on first use: the data root moves early in a packaged build's startup. */
-function guidance(): GuidanceService {
+let service: GuidanceService | null = null;
+let prefetch: GuidancePrefetch | null = null;
+
+/** Built on first use: the data root moves early in a packaged build's startup. Also read by the briefing (`peek` only). */
+export function guidance(): GuidanceService {
   if (!service) {
     service = createGuidanceService({
       filings: filingHistory,
@@ -33,6 +44,27 @@ function guidance(): GuidanceService {
     });
   }
   return service;
+}
+
+function prefetcher(): GuidancePrefetch {
+  if (!prefetch) {
+    prefetch = createGuidancePrefetch({
+      guidance: guidance(),
+      cachedFilings: cachedFilingHistory,
+      configured: glossConfigured,
+      file: path.join(resolveDataRoot(), "guidance", "prefetch.json"),
+    });
+  }
+  return prefetch;
+}
+
+/** The reader's held names (never the watchlist), from a module the renderer hands them to. */
+export function noteHeldNames(tickers: readonly string[]): void {
+  try {
+    prefetcher().noteHeld(tickers);
+  } catch (err) {
+    console.warn(`[guidance] held names not noted: ${err instanceof Error ? err.message : String(err)}`);
+  }
 }
 
 export function registerGuidanceHandlers(): void {
@@ -46,4 +78,7 @@ export function registerGuidanceHandlers(): void {
       return { ok: false, error: "unavailable" };
     }
   });
+  const sweep = () => void prefetcher().sweep();
+  setTimeout(sweep, FIRST_PREFETCH_MS).unref?.();
+  setInterval(sweep, PREFETCH_EVERY_MS).unref?.();
 }

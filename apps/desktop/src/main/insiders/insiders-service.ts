@@ -51,6 +51,8 @@ export const SESSION_GAP_MS = 30_000;
 export const LIST_RETRY_MS = 30 * 60_000;
 export const FOCUS_WAIT_MS = 30_000;
 export const MAX_EVENTS = 60;
+/** A company not read in this long (it left the reader's names and their links) is forgotten, with its reads. */
+export const FORGET_COMPANY_MS = 30 * 24 * 60 * 60_000;
 
 export type InsidersDeps = {
   dir: string;
@@ -120,7 +122,50 @@ export function createInsidersService(deps: InsidersDeps): InsidersService {
     return companies;
   }
 
+  /** Forgets companies not read in FORGET_COMPANY_MS, and the reads of an issuer no kept company has. */
+  function forgetOld(recs: Record<string, CompanyRecord>): void {
+    const gone = new Set<string>();
+    for (const [ticker, rec] of Object.entries(recs)) {
+      if (now() - rec.checkedAt <= FORGET_COMPANY_MS) continue;
+      delete recs[ticker];
+      if (rec.cik) gone.add(rec.cik);
+    }
+    for (const rec of Object.values(recs)) if (rec.cik) gone.delete(rec.cik);
+    for (const cik of gone) {
+      docs.delete(cik);
+      dirtyDocs.delete(cik);
+      fs.promises.unlink(path.join(deps.dir, "docs", `${cik}.json`)).catch(() => undefined);
+    }
+  }
+
+  /**
+   * Drops an issuer's reads of filings no kept list names any more: a list
+   * keeps the last KEEP_FILINGS_DAYS, so older reads are never shown again.
+   */
+  function trimDocs(cik: string): boolean {
+    const d = docsFor(cik);
+    let changed = false;
+    const listed = new Set<string>();
+    for (const rec of Object.values(loadCompanies())) {
+      if (rec.cik !== cik) continue;
+      for (const f of rec.form4) listed.add(f.accession);
+      for (const f of rec.schedules) listed.add(f.accession);
+    }
+    for (const acc of Object.keys(d.form4)) {
+      if (listed.has(acc)) continue;
+      delete d.form4[acc];
+      changed = true;
+    }
+    for (const acc of Object.keys(d.schedules)) {
+      if (listed.has(acc)) continue;
+      delete d.schedules[acc];
+      changed = true;
+    }
+    return changed;
+  }
+
   function saveCompanies(): void {
+    forgetOld(loadCompanies());
     try {
       writeJsonAtomic(companiesFile, { v: COMPANIES_VERSION, companies: loadCompanies() } satisfies CompaniesFile);
     } catch (err) {
@@ -210,6 +255,7 @@ export function createInsidersService(deps: InsidersDeps): InsidersService {
     const rec = loadCompanies()[ticker];
     if (!rec?.cik) return;
     const d = docsFor(rec.cik);
+    if (trimDocs(rec.cik)) dirtyDocs.add(rec.cik);
     for (const f of rec.form4) {
       if (f.accession in d.form4 || !docDue(f.accession)) continue;
       if (budget <= 0) break;

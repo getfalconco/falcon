@@ -15,6 +15,7 @@
     "./news/headline-rules": "./src/news/headline-rules.ts",
     "./tracker": "./src/tracker/index.ts",
     "./edgar-time": "./src/research/edgar-time.ts",
+    "./sec-fetch": "./src/research/sec-fetch.ts",
     "./competition": "./src/competition/index.ts",
     "./base": "./src/base/index.ts",
     "./classifier": "./src/classifier/index.ts",

@@ -4,7 +4,7 @@ import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, it } from "node:test";
-import { createFilingsService, pickFilings, type EdgeLike, type FilingLike } from "./service";
+import { PRUNE_CHANGES_DAYS, PRUNE_TEXT_DAYS, createFilingsService, pickFilings, type EdgeLike, type FilingLike } from "./service";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const fixture = (name: string) => fs.readFileSync(path.join(HERE, "fixtures", name), "utf8");
@@ -47,7 +47,7 @@ const EDGES: EdgeLike[] = [
   { root_ticker: "OTHER", counterparty_name: "Vandelay", category: "customer", accession_number: "x" },
 ];
 
-function setup(opts: { index?: FilingLike[]; edges?: EdgeLike[]; failDocs?: boolean } = {}) {
+function setup(opts: { index?: FilingLike[]; edges?: EdgeLike[]; failDocs?: boolean; backgroundStartAt?: (clock: number) => number } = {}) {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), "falcon-filings-"));
   let clock = Date.parse("2026-10-15T15:00:00Z");
   const calls = { index: 0, docs: [] as string[] };
@@ -66,6 +66,7 @@ function setup(opts: { index?: FilingLike[]; edges?: EdgeLike[]; failDocs?: bool
       return fixture(name);
     },
     graphEdges: async () => opts.edges ?? EDGES,
+    backgroundStartAt: opts.backgroundStartAt?.(clock),
   });
   return { service, calls, dir, advance: (ms: number) => (clock += ms) };
 }
@@ -294,5 +295,61 @@ describe("overview", () => {
     assert.equal(riskRow?.held, true);
     // Newest first.
     assert.equal(second.rows[0]!.item.form, "10-Q");
+  });
+});
+
+describe("background reads after launch", () => {
+  it("holds the dashboard's queue until the start instant, while a direct ask is answered at once", async () => {
+    // Fake clock: the hold is real time measured against it (40 ms here).
+    const { service, calls } = setup({ backgroundStartAt: (clock) => clock + 40 });
+    service.overview({ held: ["ACME"], watchlist: [] });
+    await new Promise((r) => setTimeout(r, 10));
+    assert.equal(calls.index, 0);
+    await service.changes("ZZZZ");
+    assert.equal(calls.index, 1);
+    await new Promise((r) => setTimeout(r, 60));
+    await service.idle();
+    assert.equal(calls.index, 2);
+    assert.ok(calls.docs.includes("k-2026"));
+  });
+});
+
+describe("prune", () => {
+  const DAY = 86_400_000;
+  /** Ages a file against the service's own clock (`clock`). */
+  let clock = 0;
+  const age = (file: string, days: number) => {
+    const t = new Date(clock - days * DAY);
+    fs.utimesSync(file, t, t);
+  };
+
+  it("keeps what a kept answer compares and drops the rest once old", async () => {
+    const { service, dir, advance } = setup();
+    clock = advance(0);
+    await service.changes("ACME");
+    // A text and a digest no answer names, and an answer for a name long gone.
+    fs.writeFileSync(path.join(dir, "text", "gone-k.txt.gz"), "x");
+    fs.writeFileSync(path.join(dir, "digests", "gone-k.json"), "{}");
+    fs.writeFileSync(path.join(dir, "changes", "GONE.json"), "{}");
+    age(path.join(dir, "text", "gone-k.txt.gz"), PRUNE_TEXT_DAYS + 1);
+    age(path.join(dir, "digests", "gone-k.json"), 500);
+    age(path.join(dir, "changes", "GONE.json"), PRUNE_CHANGES_DAYS + 1);
+    // What ACME's answer compares is old too, but still needed.
+    for (const sub of ["text", "digests"]) for (const name of fs.readdirSync(path.join(dir, sub))) if (!name.startsWith("gone")) age(path.join(dir, sub, name), 500);
+
+    const removed = await service.prune();
+    assert.deepEqual(removed, { changes: 1, texts: 1, digests: 1 });
+    assert.deepEqual(fs.readdirSync(path.join(dir, "text")).sort(), ["k-2025.txt.gz", "k-2026.txt.gz"]);
+    assert.ok(fs.existsSync(path.join(dir, "digests", "q-2026.json")));
+    assert.ok(fs.existsSync(path.join(dir, "changes", "ACME.json")));
+  });
+
+  it("leaves recent files alone", async () => {
+    const { service, dir, advance } = setup();
+    clock = advance(0);
+    await service.changes("ACME");
+    fs.writeFileSync(path.join(dir, "text", "new-k.txt.gz"), "x");
+    for (const sub of ["text", "digests", "changes"]) for (const name of fs.readdirSync(path.join(dir, sub))) age(path.join(dir, sub, name), 1);
+    assert.deepEqual(await service.prune(), { changes: 0, texts: 0, digests: 0 });
   });
 });

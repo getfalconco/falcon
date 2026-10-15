@@ -40,7 +40,7 @@ export async function ensureTrackerUniverseSchema(): Promise<boolean> {
     return false;
   }
 
-  const client = new Client({ connectionString: databaseUrl });
+  const client = new Client({ connectionString: databaseUrl, connectionTimeoutMillis: 5_000 });
   try {
     await client.connect();
     await client.query(readFileSync(sqlPath, "utf8"));

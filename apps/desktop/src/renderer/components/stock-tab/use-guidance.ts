@@ -71,3 +71,13 @@ export function useGuidanceTrack(ticker: string | null): GuidanceState {
   }, [ticker]);
   return state;
 }
+
+/**
+ * The track this run has already read, whatever its age, without asking
+ * main: for a view that must never start a first read (the Calendar tab's
+ * event card). Null when it has not been read or gives no figures.
+ */
+export function peekGuidanceTrack(ticker: string): GuidanceTrack | null {
+  const track = cache.get(ticker.toUpperCase())?.track ?? null;
+  return track && track.rows.length > 0 ? track : null;
+}

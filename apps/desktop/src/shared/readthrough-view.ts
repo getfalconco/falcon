@@ -55,7 +55,9 @@ export function headLine(row: Pick<ReadthroughRow, "counterparty" | "kind" | "da
 
 /**
  * The measured line: "NVDA moved with it 6 of the last 8 times · average
- * 2.1% on the day", or the count of reports when there are too few.
+ * 2.1% on the day, market included" (the close to close move, which the
+ * Earnings section sets beside the move beyond the market), or the count of
+ * reports when there are too few.
  */
 export function statsLine(row: Pick<ReadthroughRow, "holding" | "counterparty" | "sample" | "stats">, say: Say, lang: string): string {
   const s = row.stats;
@@ -136,9 +138,11 @@ export function focusRows(rows: readonly ReadthroughRow[]): ReadthroughRow[] {
 
 /**
  * The measured sentence, with the sample size always in it: "Moves with TSM
- * reports 6 of last 8 times · 2.4% on the day vs 1.1% on a normal day". The
- * day and the normal day are both the move beyond the market, the figures the
- * sensitivity is taken over. Below the minimum, only the count of reports.
+ * reports 6 of the last 8 times · 2.4% beyond the market on the day vs 1.1% on
+ * a normal day". The day and the normal day are both the move beyond the
+ * market, the figures the sensitivity is taken over, and the sentence says so
+ * because the Earnings tab's own line prints the close to close move. Below
+ * the minimum, only the count of reports.
  */
 export function focusLine(row: Pick<ReadthroughRow, "counterparty" | "sample" | "stats">, say: Say, lang: string): string {
   const s = row.stats;

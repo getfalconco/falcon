@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { getLiveQuote, getStockQuote } from "@/lib/stock-api";
+import { useHomeTabActivity } from "@/lib/home-tab-activity";
 
 /**
  * One price source for every surface that values the book.
@@ -27,8 +28,57 @@ function sameQuotes(a: Record<string, LiveQuoteRow>, b: Record<string, LiveQuote
   return keys.every((k) => b[k] !== undefined && a[k].price === b[k].price && a[k].changePercent === b[k].changePercent);
 }
 
+/**
+ * Every surface on the book (five cards, the Exposure tab) polls the same
+ * symbols: one read per symbol per SHARED_TTL_MS serves them all.
+ */
+const SHARED_TTL_MS = 4_000;
+const sharedReads = new Map<string, { at: number; read: Promise<readonly [string, LiveQuoteRow] | null> }>();
+
+async function readPrice(s: string): Promise<readonly [string, LiveQuoteRow] | null> {
+  try {
+    const live = await getLiveQuote(s);
+    if (live.ok && Number.isFinite(live.quote.price) && live.quote.price > 0) {
+      return [
+        s,
+        {
+          price: live.quote.price,
+          changePercent: Number.isFinite(live.quote.changePercent)
+            ? live.quote.changePercent
+            : null,
+        },
+      ] as const;
+    }
+  } catch {
+    /* fall through to the regular-session quote */
+  }
+  try {
+    const q = await getStockQuote(s);
+    return [
+      s,
+      {
+        price: q.price,
+        changePercent: Number.isFinite(q.changePercent) ? q.changePercent : null,
+      },
+    ] as const;
+  } catch {
+    return null;
+  }
+}
+
+function priceOf(s: string): Promise<readonly [string, LiveQuoteRow] | null> {
+  const now = Date.now();
+  const hit = sharedReads.get(s);
+  if (hit && now - hit.at < SHARED_TTL_MS) return hit.read;
+  for (const [k, v] of sharedReads) if (now - v.at >= SHARED_TTL_MS) sharedReads.delete(k);
+  const read = readPrice(s);
+  sharedReads.set(s, { at: now, read });
+  return read;
+}
+
 export function useLiveQuotes(symbolsKey: string): Record<string, LiveQuoteRow> {
   const [prices, setPrices] = useState<Record<string, LiveQuoteRow>>({});
+  const activity = useHomeTabActivity();
 
   useEffect(() => {
     const list = symbolsKey ? symbolsKey.split(",").filter(Boolean) : [];
@@ -37,37 +87,6 @@ export function useLiveQuotes(symbolsKey: string): Record<string, LiveQuoteRow> 
       return;
     }
     let cancelled = false;
-
-    const priceOf = async (s: string): Promise<readonly [string, LiveQuoteRow] | null> => {
-      try {
-        const live = await getLiveQuote(s);
-        if (live.ok && Number.isFinite(live.quote.price) && live.quote.price > 0) {
-          return [
-            s,
-            {
-              price: live.quote.price,
-              changePercent: Number.isFinite(live.quote.changePercent)
-                ? live.quote.changePercent
-                : null,
-            },
-          ] as const;
-        }
-      } catch {
-        /* fall through to the regular-session quote */
-      }
-      try {
-        const q = await getStockQuote(s);
-        return [
-          s,
-          {
-            price: q.price,
-            changePercent: Number.isFinite(q.changePercent) ? q.changePercent : null,
-          },
-        ] as const;
-      } catch {
-        return null;
-      }
-    };
 
     const load = () => {
       void Promise.all(list.map(priceOf)).then((entries) => {
@@ -94,13 +113,23 @@ export function useLiveQuotes(symbolsKey: string): Record<string, LiveQuoteRow> 
       });
     };
 
-    load();
-    const id = window.setInterval(load, 5_000);
+    // Not from a tab kept hidden behind another, nor while the window is hidden; caught up on return.
+    const tick = () => {
+      if (activity.isActive() && document.visibilityState !== "hidden") load();
+    };
+    tick();
+    const id = window.setInterval(tick, 5_000);
+    const off = activity.onChange((active) => {
+      if (active) tick();
+    });
+    document.addEventListener("visibilitychange", tick);
     return () => {
       cancelled = true;
       window.clearInterval(id);
+      off();
+      document.removeEventListener("visibilitychange", tick);
     };
-  }, [symbolsKey]);
+  }, [symbolsKey, activity]);
 
   return prices;
 }

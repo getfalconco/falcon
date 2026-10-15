@@ -141,7 +141,8 @@ export function dayCache<T>(
         if (until !== null) kept.expires = { ...kept.expires, [symbol]: until };
         else if (kept.expires && symbol in kept.expires) delete kept.expires[symbol];
         if (!flushTimer) {
-          flushTimer = setTimeout(flush, 250);
+          // The closes file runs to megabytes: written once a burst of reads settles, not after each.
+          flushTimer = setTimeout(flush, 1500);
           flushTimer.unref?.();
         }
         return value;

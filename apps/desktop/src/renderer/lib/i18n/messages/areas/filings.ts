@@ -10,7 +10,7 @@ export const en = {
   "modules.filings": "Filing changes",
   "stocktab.tab.section.filings": "Filing changes",
 
-  "filings.card.label": "Filing changes",
+  "filings.card.label": "FILING CHANGES",
   "filings.card.view": "Open {ticker} in the Stock tab",
   "filings.card.openRow": "Open {ticker}",
   "filings.watch": "Watch filings",
@@ -82,7 +82,7 @@ export const tr: Table = {
   "modules.filings": "Dosyalama değişiklikleri",
   "stocktab.tab.section.filings": "Dosyalama değişiklikleri",
 
-  "filings.card.label": "Dosyalama değişiklikleri",
+  "filings.card.label": "DOSYALAMA DEĞİŞİKLİKLERİ",
   "filings.card.view": "{ticker} hissesini Hisse sekmesinde aç",
   "filings.card.openRow": "{ticker} aç",
   "filings.watch": "Bildirimleri izle",
@@ -152,7 +152,7 @@ export const de: Table = {
   "modules.filings": "Änderungen in Berichten",
   "stocktab.tab.section.filings": "Änderungen in Berichten",
 
-  "filings.card.label": "Änderungen in Berichten",
+  "filings.card.label": "ÄNDERUNGEN IN BERICHTEN",
   "filings.card.view": "{ticker} im Aktien-Tab öffnen",
   "filings.card.openRow": "{ticker} öffnen",
   "filings.watch": "Meldungen beobachten",
@@ -222,7 +222,7 @@ export const fr: Table = {
   "modules.filings": "Changements dans les dépôts",
   "stocktab.tab.section.filings": "Changements dans les dépôts",
 
-  "filings.card.label": "Changements dans les dépôts",
+  "filings.card.label": "CHANGEMENTS DANS LES DÉPÔTS",
   "filings.card.view": "Ouvrir {ticker} dans l'onglet Action",
   "filings.card.openRow": "Ouvrir {ticker}",
   "filings.watch": "Suivre les dépôts",
@@ -292,7 +292,7 @@ export const es: Table = {
   "modules.filings": "Cambios en presentaciones",
   "stocktab.tab.section.filings": "Cambios en presentaciones",
 
-  "filings.card.label": "Cambios en presentaciones",
+  "filings.card.label": "CAMBIOS EN PRESENTACIONES",
   "filings.card.view": "Abrir {ticker} en la pestaña Acción",
   "filings.card.openRow": "Abrir {ticker}",
   "filings.watch": "Seguir presentaciones",
@@ -362,7 +362,7 @@ export const it: Table = {
   "modules.filings": "Modifiche nei documenti SEC",
   "stocktab.tab.section.filings": "Modifiche nei documenti SEC",
 
-  "filings.card.label": "Modifiche nei documenti SEC",
+  "filings.card.label": "MODIFICHE NEI DOCUMENTI SEC",
   "filings.card.view": "Apri {ticker} nella scheda Titolo",
   "filings.card.openRow": "Apri {ticker}",
   "filings.watch": "Segui i depositi",
@@ -432,7 +432,7 @@ export const ptBR: Table = {
   "modules.filings": "Mudanças nos relatórios",
   "stocktab.tab.section.filings": "Mudanças nos relatórios",
 
-  "filings.card.label": "Mudanças nos relatórios",
+  "filings.card.label": "MUDANÇAS NOS RELATÓRIOS",
   "filings.card.view": "Abrir {ticker} na aba Ação",
   "filings.card.openRow": "Abrir {ticker}",
   "filings.watch": "Acompanhar documentos",
@@ -562,7 +562,7 @@ export const ja: Table = {
   "filings.section.noRisk": "いずれかの報告書からリスク要因の見出しを読み取れませんでした。",
   "filings.section.documents": "開示書類の一部を SEC EDGAR から読み込めませんでした。Falcon が 1 時間以内に再試行します。",
   "filings.section.graphOlder": "登録済みの顧客と仕入先は以前の報告書によるものなので、比較していません。",
-  "filings.section.source": "{date} に SEC EDGAR から読み込み",
+  "filings.section.source": "{date}に SEC EDGAR から読み込み",
   "filings.section.open": "SEC.gov で {form} を開く",
   "filings.section.showAll": "{count} 件すべて表示",
   "filings.section.showFewer": "表示を減らす",

@@ -23,7 +23,7 @@ describe("starters from what the reader holds", () => {
     assert.deepEqual(changes, { id: "changes", ticker: "SMCI", example: false });
     assert.equal(starterTitle(changes, "en-US"), "Filing changes at SMCI");
     const { text, select } = starterBrief(changes, "en-US");
-    assert.equal(text, "Tell me when SMCI's next 10-K or 10-Q has a new risk factor, a material weakness, an auditor change or a newly named customer.");
+    assert.equal(text, "Tell me when SMCI's next 10-K or 10-Q has a new risk factor, a material weakness, an auditor change, or a newly named customer.");
     assert.equal(text.slice(select![0], select![1]), "SMCI");
     assert.equal(starterTitle(buildStarterTemplates(NONE).find((t) => t.id === "changes")!, "en-US"), "Filing changes, e.g. SMCI");
   });

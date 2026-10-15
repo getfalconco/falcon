@@ -1,4 +1,5 @@
 import { app } from "electron";
+import { sharedSecLimiter } from "@meridian/research/sec-fetch";
 import { CLAUDE_FAST_MODEL } from "@meridian/research/gloss";
 import { registerIpcHandler } from "../ipc-register";
 import { resolveDataRoot } from "../data-root";
@@ -158,7 +159,8 @@ function checkEdgar(): Promise<ProviderCheckResult> {
     const ua = env("SEC_USER_AGENT") || "Falcon Research dev@joinfalcon.ai";
     const url =
       "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0000320193&type=10-K&count=1&output=atom";
-    const { res, body, latencyMs } = await timedFetch(url, { headers: { "User-Agent": ua } });
+    // In the process-wide SEC queue like every other EDGAR read; latency is timed from the turn.
+    const { res, body, latencyMs } = await sharedSecLimiter().schedule(() => timedFetch(url, { headers: { "User-Agent": ua } }));
     return res.ok
       ? { id, label, status: "ok", httpStatus: res.status, latencyMs }
       : { id, label, status: "fail", httpStatus: res.status, latencyMs, detail: snippet(body) };

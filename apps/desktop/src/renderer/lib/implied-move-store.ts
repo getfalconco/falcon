@@ -10,6 +10,7 @@
 
 import { useEffect, useState } from "react";
 import type { ImpliedMove, ImpliedRequestItem } from "../../shared/implied-move";
+import { useShownPoll } from "./use-shown-poll";
 
 const TTL_MS = 5 * 60_000;
 const RETRY_MS = 60_000;
@@ -67,20 +68,24 @@ export function useImpliedMoves(items: readonly ImpliedRequestItem[]): Record<st
   useEffect(() => {
     const listener = () => bump((n) => n + 1);
     listeners.add(listener);
-    const list: ImpliedRequestItem[] = key
-      ? key.split(",").map((k) => {
-          const [ticker, date, time] = k.split("|");
-          return { ticker: ticker!, date: date!, time: time as ImpliedRequestItem["time"] };
-        })
-      : [];
-    void loadAll(list);
-    // A long sitting re-reads once the answers go stale.
-    const timer = setInterval(() => void loadAll(list), TTL_MS);
     return () => {
       listeners.delete(listener);
-      clearInterval(timer);
     };
-  }, [key]);
+  }, []);
+  // Read while the tab is in front, again once the answers go stale; nothing from a tab kept hidden.
+  useShownPoll(
+    key,
+    () => {
+      const list: ImpliedRequestItem[] = key
+        ? key.split(",").map((k) => {
+            const [ticker, date, time] = k.split("|");
+            return { ticker: ticker!, date: date!, time: time as ImpliedRequestItem["time"] };
+          })
+        : [];
+      void loadAll(list);
+    },
+    TTL_MS,
+  );
   const out: Record<string, ImpliedMove | null> = {};
   for (const k of key ? key.split(",") : []) {
     const kept = cache.get(k);

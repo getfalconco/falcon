@@ -3,6 +3,8 @@ import { describe, it } from "node:test";
 import type { BriefingFact, BriefingReport, HeldFiling, MarketHeadline, Story, StoryScope } from "./briefing-types";
 import { MASKED_USD } from "./briefing-view";
 import { copyProblems } from "./copy-rules";
+import type { BriefingKey, BriefingText } from "./briefing-text";
+import { en as briefingEn, tr as briefingTr } from "../renderer/lib/i18n/messages/areas/briefing";
 import {
   HANDOVER_INTRO,
   ITEMS_PER_SECTION,
@@ -446,7 +448,7 @@ describe("handover view: filings and insiders", () => {
       [
         "Past financial statements no longer to be relied on, 8-K Item 4.02",
         "3 insiders made open market purchases, $2.5M",
-        "TSM, a supplier to NVDA, reports today, before the open · NVDA moved with it 6 of the last 8 times · average 2.1% on the day",
+        "TSM, a supplier to NVDA, reports today, before the open · NVDA moved with it 6 of the last 8 times · average 2.1% on the day, market included",
         "2 new risk factors in the 10-Q",
         "Past financial statements no longer to be relied on, 8-K Item 4.02",
       ],
@@ -457,7 +459,7 @@ describe("handover view: filings and insiders", () => {
       assert.equal(item.meaning, null);
     }
     assert.equal(section.items[3]!.hint, "“We depend on one foundry”\n10-Q filed Tue Sep 22\nOpen on SEC.gov");
-    assert.equal(section.items[2]!.hint, "NVDA moved with it 6 of the last 8 times · average 2.1% on the day\nOpen the filing that links TSM and NVDA on SEC.gov");
+    assert.equal(section.items[2]!.hint, "NVDA moved with it 6 of the last 8 times · average 2.1% on the day, market included\nOpen the filing that links TSM and NVDA on SEC.gov");
   });
 
   it("gives the count and no figure for a pair measured fewer than three times, and says tomorrow for the next day", () => {
@@ -494,6 +496,102 @@ describe("handover view: filings and insiders", () => {
 
   it("keeps every line and hover to the house copy rules: a record restated, no advice, nothing ahead", () => {
     const lines = [...facts.map((f) => factTitle(f, undefined, "2026-09-24")), ...facts.map((f) => factHint(f))];
+    for (const line of lines) assert.deepEqual(copyProblems(JSON.stringify(line), { riskWords: true }), [], line);
+  });
+});
+
+describe("handover view: an earnings release against its guidance", () => {
+  const PR = "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000100/q2fy27pr.htm";
+  const base = { ticker: "NVDA", scope: "held" as const, date: "2026-10-14", url: PR, form: "8-K", currency: "USD" };
+  const result = (over: Partial<Extract<BriefingFact, { kind: "guidance_result" }>> = {}): BriefingFact => ({
+    ...base,
+    id: "g1",
+    kind: "guidance_result",
+    metric: "revenue",
+    basis: "unspecified",
+    unit: "currency",
+    fiscal_year: 2027,
+    fiscal_quarter: 2,
+    low: 45e9,
+    high: 47e9,
+    actual: 48e9,
+    position: "above",
+    ...over,
+  });
+  const revision = (over: Partial<Extract<BriefingFact, { kind: "guidance_revision" }>> = {}): BriefingFact => ({
+    ...base,
+    id: "g2",
+    kind: "guidance_revision",
+    metric: "revenue",
+    basis: "unspecified",
+    unit: "currency",
+    fiscal_year: 2027,
+    fiscal_quarter: null,
+    low: 190e9,
+    high: 195e9,
+    revision: "raised",
+    prior_low: 180e9,
+    prior_high: 185e9,
+    ...over,
+  });
+
+  const all: BriefingFact[] = [
+    result(),
+    result({ id: "g3", position: "inside", actual: 46e9 }),
+    result({ id: "g4", position: "below", actual: 44e9 }),
+    result({ id: "g5", metric: "gross_margin", basis: "non_gaap", unit: "percent", low: 73.5, high: 73.5, actual: 73.6, position: "above" }),
+    result({ id: "g6", metric: "eps", basis: "gaap", unit: "per_share", low: 1.5, high: 1.5, actual: 1.5, position: "inside" }),
+    result({ id: "g7", metric: "eps", basis: "both", unit: "per_share", low: 1.5, high: 1.5, actual: 1.4, position: "below" }),
+    revision(),
+    revision({ id: "g8", revision: "cut", fiscal_quarter: 3, low: 50e9, high: 50e9, prior_low: 52e9, prior_high: 52e9 }),
+  ];
+
+  it("states where the figure landed, the result and the guide, and a raised or cut guide with the one before", () => {
+    assert.deepEqual(
+      all.map((f) => factTitle(f)),
+      [
+        "Revenue for Q2 FY2027 came in above the top of its guidance, $48.0B vs $45.0B to $47.0B",
+        "Revenue for Q2 FY2027 came in within its guidance, $46.0B vs $45.0B to $47.0B",
+        "Revenue for Q2 FY2027 came in below the bottom of its guidance, $44.0B vs $45.0B to $47.0B",
+        "Gross margin (non-GAAP) for Q2 FY2027 came in above its guided figure, 73.6% vs 73.5%",
+        "EPS (GAAP) for Q2 FY2027 matched its guided figure, $1.50 vs $1.50",
+        "EPS (GAAP and non-GAAP) for Q2 FY2027 came in below its guided figure, $1.40 vs $1.50",
+        "Revenue guidance for FY2027 raised: $190.0B to $195.0B, previously $180.0B to $185.0B",
+        "Revenue guidance for Q3 FY2027 cut: $50.0B, previously $52.0B",
+      ],
+    );
+    assert.equal(factHint(all[0]!), "8-K filed Wed Oct 14\nOpen on SEC.gov");
+  });
+
+  it("lists them in the filings section, linked to the release on SEC.gov, and masks the dollars under the privacy switch", () => {
+    const view = handoverView(makeReport({ research_facts: { facts: [all[0]!, all[6]!], unavailable: [] } }), MORNING, true);
+    const section = view.sections.find((s) => s.kind === "filings")!;
+    assert.deepEqual(section.items.map((i) => i.ticker), ["NVDA", "NVDA"]);
+    for (const item of section.items) {
+      assert.equal(item.url, PR);
+      assert.equal(/\$\d/.test(item.summary), false, item.summary);
+    }
+  });
+
+  it("words them in the reader's language with no empty placeholder", () => {
+    const table: Record<string, string> = { ...briefingEn, ...briefingTr };
+    const turkish: BriefingText = {
+      t: (key: BriefingKey, vars) => (table[key] ?? key).replace(/\{(\w+)\}/g, (whole, name: string) => (vars && name in vars ? String(vars[name]) : whole)),
+      locale: "tr-TR",
+    };
+    const titles = all.map((f) => factTitle(f, turkish));
+    // The figures come from Intl in the reader's locale; the words from the Turkish table.
+    assert.ok(titles[0]!.startsWith("Ç2 MY2027 Gelir öngörü aralığının üstünde geldi: ") && titles[0]!.includes("48,0"), titles[0]);
+    assert.ok(titles[0]!.endsWith(" arası"), titles[0]);
+    assert.ok(titles[6]!.startsWith("MY2027 Gelir öngörüsü yükseltildi: ") && titles[6]!.includes("190,0"), titles[6]);
+    for (const title of titles) {
+      assert.equal(/\{\w+\}/.test(title), false, title);
+      assert.equal(/guidance|came in/.test(title), false, title);
+    }
+  });
+
+  it("keeps every line and hover to the house copy rules", () => {
+    const lines = [...all.map((f) => factTitle(f)), ...all.map((f) => factHint(f))];
     for (const line of lines) assert.deepEqual(copyProblems(JSON.stringify(line), { riskWords: true }), [], line);
   });
 });

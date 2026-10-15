@@ -113,3 +113,10 @@ apps/desktop/data/snaptrade/
 apps/desktop/data/account-cleanup.json
 apps/desktop/data/ui-language.json
 apps/desktop/data/data-location.json
+apps/desktop/data/filings/
+apps/desktop/data/insiders/
+apps/desktop/data/estimates/
+apps/desktop/data/readthrough/
+apps/desktop/data/options/
+apps/desktop/data/exposure/
+apps/desktop/data/stock-tab/

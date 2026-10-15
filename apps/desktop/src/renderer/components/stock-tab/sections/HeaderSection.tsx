@@ -137,11 +137,21 @@ export default function HeaderSection({ ticker }: StockSectionProps) {
       }),
     [locale],
   );
-  const signedPct = useMemo(
-    () => new Intl.NumberFormat(locale, { minimumFractionDigits: 1, maximumFractionDigits: 1, signDisplay: "exceptZero" }),
-    [locale],
-  );
   const shares = useMemo(() => new Intl.NumberFormat(locale, { maximumFractionDigits: 4 }), [locale]);
+  // Percents through Intl, so the sign sits where the language puts it ("23.3%", "%23,3"), at the shared rules' decimals.
+  const pct = useMemo(() => {
+    const make = (digits: number, signed = false) =>
+      new Intl.NumberFormat(locale, { style: "percent", minimumFractionDigits: digits, maximumFractionDigits: digits, signDisplay: signed ? "exceptZero" : "auto" });
+    const one = make(1);
+    const whole = make(0);
+    const signed = make(1, true);
+    return {
+      weight: (fraction: number) => one.format(fraction),
+      // As formatRiskShare: one decimal under 10%, whole points from there.
+      share: (fraction: number) => (Math.abs(fraction) < 0.1 ? one : whole).format(fraction),
+      signed: (points: number) => signed.format(points / 100),
+    };
+  }, [locale]);
 
   const linkTitle = (l: StockContextLink) => {
     const category = t(CATEGORY_KEY[l.category] ?? "earnings.category.related");
@@ -157,7 +167,9 @@ export default function HeaderSection({ ticker }: StockSectionProps) {
           <StockIcon symbol={ticker} size="md" className="h-7 w-7 object-contain" />
         </span>
         <div className="min-w-0 flex-1">
-          <h2 className="truncate font-baskerville text-[26px] leading-tight text-content-primary">{name}</h2>
+          <h2 className="truncate font-baskerville text-[26px] leading-tight text-content-primary" title={name}>
+            {name}
+          </h2>
           <p className="mt-1 flex items-center gap-2 text-[12.5px] text-content-secondary">
             <span lang="en" className="font-medium text-content-body">
               {ticker}
@@ -170,7 +182,7 @@ export default function HeaderSection({ ticker }: StockSectionProps) {
 
       {context ? (
         <dl className="grid grid-cols-2 gap-x-8 gap-y-4 sm:grid-cols-3 lg:grid-cols-5">
-          {context.weight ? <Figure label={t("stocktab.header.weight")} value={context.weight} /> : null}
+          {context.weightValue != null ? <Figure label={t("stocktab.header.weight")} value={pct.weight(context.weightValue)} /> : null}
           <Figure label={t("stocktab.header.shares")} value={shares.format(context.shares)} />
           <Figure
             label={t("stocktab.header.cost")}
@@ -182,13 +194,13 @@ export default function HeaderSection({ ticker }: StockSectionProps) {
               label={t("stocktab.header.pnl")}
               value={
                 context.pnlPct != null
-                  ? `${signedUsd.format(context.pnlUsd)}  ${signedPct.format(context.pnlPct)}%`
+                  ? `${signedUsd.format(context.pnlUsd)}  ${pct.signed(context.pnlPct)}`
                   : signedUsd.format(context.pnlUsd)
               }
               tone={context.pnlUsd > 0 ? "up" : context.pnlUsd < 0 ? "down" : null}
             />
           ) : null}
-          {context.riskShare ? <Figure label={t("stocktab.header.riskShare")} value={context.riskShare} /> : null}
+          {context.riskShareValue != null ? <Figure label={t("stocktab.header.riskShare")} value={pct.share(context.riskShareValue)} /> : null}
         </dl>
       ) : nearby.length > 0 ? (
         <p className="flex flex-wrap items-baseline gap-x-2 gap-y-1 text-[13px] text-content-secondary">

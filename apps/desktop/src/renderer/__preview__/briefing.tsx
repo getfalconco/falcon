@@ -1,4 +1,5 @@
 import { createRoot } from "react-dom/client";
+import "./fonts";
 import "../globals.css";
 import { applyLanguage, setLanguage } from "../lib/i18n";
 import { isLanguageCode } from "../lib/i18n/languages";

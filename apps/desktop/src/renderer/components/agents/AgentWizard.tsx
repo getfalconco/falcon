@@ -293,8 +293,15 @@ export default function AgentWizard({
             onChange={(e) => dispatch({ type: "name", text: e.target.value })}
             placeholder={t("agents.wizard.namePlaceholder")}
             maxLength={80}
+            aria-describedby={reason === "name" ? "agent-wizard-name-hint" : undefined}
             className={cn(FIELD, "h-9", SOFT_PLACEHOLDER)}
           />
+          {/* The words are in (typed, or a starter's) and only the name holds Next back: said here, not only in Next's tooltip. */}
+          {reason === "name" ? (
+            <span id="agent-wizard-name-hint" className="block text-[11.5px] text-[#6b7280]">
+              {t("agents.wizard.blocked.name")}
+            </span>
+          ) : null}
         </label>
         <label className="block space-y-1.5">
           <span className="text-[12px] text-[#6b7280]">{t("agents.wizard.instructionLabel")}</span>

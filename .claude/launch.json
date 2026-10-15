@@ -538,6 +538,22 @@
         "--strictPort"
       ],
       "port": 5719
+    },
+    {
+      "name": "desktop-estimates-preview",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "--filter",
+        "falcon",
+        "exec",
+        "vite",
+        "--config",
+        ".claude-preview.vite.config.mts",
+        "--port",
+        "5741",
+        "--strictPort"
+      ],
+      "port": 5741
     }
   ]
 }

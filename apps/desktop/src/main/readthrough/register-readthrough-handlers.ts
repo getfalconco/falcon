@@ -4,6 +4,7 @@ import { invokeChannel, registerIpcHandler } from "../ipc-register";
 import { earningsReaders } from "../earnings/register-earnings-handlers";
 import { SOURCE_TIMEOUT_MS, withTimeout } from "../earnings/earnings-service";
 import { fetchStockChartRange } from "../stock/market-data-service";
+import { asBulk } from "../stock/request-gate";
 import { filingForm, graphEdges } from "../research/graph-edges";
 import type { EarningsResult } from "../../shared/earnings-types";
 import { parseReadthroughRequest, type ReadthroughResult } from "../../shared/readthrough-types";
@@ -55,7 +56,8 @@ export function registerReadthroughHandlers(): void {
     const parsed = parseReadthroughRequest(request);
     if (!parsed) return { ok: false, error: "invalid_request" };
     try {
-      return await readthrough().radar(parsed);
+      // The radar reads dates, quarters and closes for up to sixty linked companies: the bulk lane, focus or not.
+      return await asBulk(() => readthrough().radar(parsed));
     } catch (err) {
       console.warn("[readthrough] radar failed:", err instanceof Error ? err.message : String(err));
       return { ok: false, error: "unavailable" };

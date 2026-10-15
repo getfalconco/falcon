@@ -115,17 +115,19 @@ export default function InsidersCard({ onDuplicate, onRemove }: Props) {
         {events.map((event) => {
           const open = event.id === openId;
           const path = pathText(event, say);
+          const title = eventTitle(event, say, lang);
           return (
             <li key={event.id} className={cn("rounded-xl transition-colors", open ? "bg-black/[0.04]" : "hover:bg-black/[0.04]")}>
               <button
                 type="button"
                 aria-expanded={open}
                 onClick={() => setOpenId(open ? null : event.id)}
-                title={path ?? undefined}
+                // The whole line on hover too, since a closed row truncates it.
+                title={path ? `${title}\n${path}` : title}
                 className="app-no-drag flex w-full min-w-0 items-baseline gap-3 rounded-xl px-2 py-2 text-left outline-none focus-visible:bg-black/[0.05]"
               >
                 <span className="w-12 shrink-0 truncate text-[12.5px] font-medium text-[#1d1b1b]">{event.ticker}</span>
-                <span className={cn("min-w-0 flex-1 text-[12.5px] leading-[1.4] text-[#1d1b1b]", !open && "truncate")}>{eventTitle(event, say, lang)}</span>
+                <span className={cn("min-w-0 flex-1 text-[12.5px] leading-[1.4] text-[#1d1b1b]", !open && "truncate")}>{title}</span>
                 <span className="shrink-0 text-[12px] tabular-nums text-[#9CA3AF]">{eventDate(event, lang)}</span>
               </button>
               {open ? <Detail event={event} /> : null}

@@ -1,18 +1,14 @@
 import { getConfig } from "../config.js";
+import { secFetch as sharedSecFetch } from "./sec-fetch.js";
 import type { EdgarResearch } from "../types.js";
 
 const TICKERS_URL = "https://www.sec.gov/files/company_tickers.json";
 
 type TickerEntry = { cik_str: number; ticker: string; title: string };
 
-async function secFetch(url: string): Promise<Response> {
-  const config = getConfig();
-  return fetch(url, {
-    headers: {
-      "User-Agent": config.secUserAgent,
-      Accept: "application/json",
-    },
-  });
+/** Through the process-wide SEC queue (sec-fetch.ts). */
+function secFetch(url: string): Promise<Response> {
+  return sharedSecFetch(url, { userAgent: getConfig().secUserAgent });
 }
 
 export async function resolveCik(symbol: string): Promise<{ cik: string; name: string } | null> {

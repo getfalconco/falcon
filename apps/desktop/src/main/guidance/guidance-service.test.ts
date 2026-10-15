@@ -48,6 +48,33 @@ const RELEASES: Record<string, { reported: [number, number]; html: string; raw: 
   },
 };
 
+/** The readings kept at the top of the folder, one per accession (the per-company index sits in `tickers/`). */
+function readings(dir: string): string[] {
+  return fs.readdirSync(dir).filter((name) => name.endsWith(".json"));
+}
+
+/** A service on `dir` that fails on any EDGAR read or model call. */
+function offline(dir: string) {
+  let asked = 0;
+  const service = createGuidanceService({
+    filings: async () => {
+      asked++;
+      throw new Error("no EDGAR read expected");
+    },
+    file: async () => {
+      asked++;
+      throw new Error("no SEC read expected");
+    },
+    caller: async () => {
+      asked++;
+      throw new Error("no model call expected");
+    },
+    configured: () => true,
+    dir,
+  });
+  return { service, asked: () => asked };
+}
+
 function setup(opts: { configured?: boolean; failModel?: boolean } = {}) {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), "guidance-"));
   const filings = [filing("0001-26-000002", "2026-08-26"), filing("0001-26-000001", "2026-05-20")];
@@ -119,7 +146,7 @@ describe("guidance service: track", () => {
     assert.equal(row.position, "above");
     assert.ok(row.guide.url.endsWith("/q2fy26pr.htm"));
     assert.equal(r.track.rows.some((x) => x.metric === "gross_margin"), false, "the unchecked guide is dropped");
-    assert.equal(fs.readdirSync(dir).length, 2);
+    assert.equal(readings(dir).length, 2);
 
     // A fresh service on the same folder reads nothing again.
     const again = createGuidanceService({
@@ -143,14 +170,14 @@ describe("guidance service: track", () => {
     const r = await service.track("TEST");
     assert.deepEqual(r, { ok: false, error: "unavailable" });
     assert.equal(calls(), 0);
-    assert.equal(fs.readdirSync(dir).length, 0);
+    assert.equal(readings(dir).length, 0);
   });
 
   it("keeps no reading when the model fails, so a later visit asks again", async () => {
     const { service, dir } = setup({ failModel: true });
     const r = await service.track("TEST");
     assert.deepEqual(r, { ok: false, error: "unavailable" });
-    assert.equal(fs.readdirSync(dir).length, 0);
+    assert.equal(readings(dir).length, 0);
   });
 
   it("answers the same ticker from memory while the answer is fresh", async () => {
@@ -159,5 +186,50 @@ describe("guidance service: track", () => {
     const before = calls();
     await service.track("TEST");
     assert.equal(calls(), before);
+  });
+});
+
+describe("guidance service: peek", () => {
+  it("rebuilds the track record from disk alone after a visit, and never reads EDGAR or calls the model", async () => {
+    const { service, dir, calls } = setup();
+    const visited = await service.track("TEST");
+    assert.ok(visited.ok);
+    const before = calls();
+
+    const { service: cold, asked } = offline(dir);
+    const peeked = cold.peek("TEST");
+    assert.ok(peeked);
+    assert.equal(asked(), 0);
+    assert.equal(calls(), before);
+    assert.deepEqual(peeked, visited.track);
+    // The visiting service peeks the same way.
+    assert.deepEqual(service.peek("TEST"), visited.track);
+  });
+
+  it("answers null for a company no visit has read, without asking anyone and without writing", () => {
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), "guidance-"));
+    const { service, asked } = offline(dir);
+    assert.equal(service.peek("NVDA"), null);
+    assert.equal(asked(), 0);
+    assert.deepEqual(fs.readdirSync(dir), []);
+  });
+
+  it("leaves out a release that was never kept: a failed reading is not on disk to peek at", async () => {
+    const { service, dir } = setup({ failModel: true });
+    await service.track("TEST");
+    const { service: cold, asked } = offline(dir);
+    assert.equal(cold.peek("TEST"), null);
+    assert.equal(asked(), 0);
+  });
+
+  it("skips a reading kept under an older extraction version", async () => {
+    const { service, dir } = setup();
+    await service.track("TEST");
+    for (const name of readings(dir)) {
+      const file = path.join(dir, name);
+      const stored = JSON.parse(fs.readFileSync(file, "utf8"));
+      fs.writeFileSync(file, JSON.stringify({ ...stored, version: "guidance-v0" }));
+    }
+    assert.equal(offline(dir).service.peek("TEST"), null);
   });
 });

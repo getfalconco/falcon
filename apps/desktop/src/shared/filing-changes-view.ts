@@ -29,9 +29,9 @@ export function filingDate(ymd: string, lang: string): string {
 export function sharePct(pct: number | null, lang: string): string {
   if (pct === null || !Number.isFinite(pct)) return "";
   try {
-    return new Intl.NumberFormat(lang, { maximumFractionDigits: 1 }).format(pct) + "%";
+    return new Intl.NumberFormat(lang, { style: "percent", maximumFractionDigits: 1 }).format(pct / 100);
   } catch {
-    return `${pct}%`;
+    return new Intl.NumberFormat("en-US", { style: "percent", maximumFractionDigits: 1 }).format(pct / 100);
   }
 }
 

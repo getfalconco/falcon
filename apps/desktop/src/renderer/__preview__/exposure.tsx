@@ -1,4 +1,5 @@
 import { createRoot } from "react-dom/client";
+import "./fonts";
 import "../globals.css";
 import ExposureTab from "../components/exposure/ExposureTab";
 import ExposureCard from "../components/exposure/ExposureCard";

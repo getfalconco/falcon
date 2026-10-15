@@ -13,6 +13,7 @@ import type { DailyBar, EarningsRecord, FilingRecord } from "./types.js";
 import { finnhubApiBase } from "../finnhub.js";
 import { repairArticleText } from "../news/mojibake.js";
 import { edgarAcceptanceIso, edgarIndexConvention } from "../research/edgar-time.js";
+import { secFetch } from "../research/sec-fetch.js";
 
 const YAHOO_BASE = "https://query1.finance.yahoo.com/v8/finance/chart";
 const BROWSER_UA =
@@ -39,6 +40,13 @@ async function fetchWithTimeout(
 
 async function fetchJson<T>(url: string, headers: Record<string, string>): Promise<T> {
   const res = await fetchWithTimeout(url, headers);
+  if (!res.ok) throw new Error(`HTTP ${res.status} for ${url.split("?")[0]}`);
+  return (await res.json()) as T;
+}
+
+/** An EDGAR JSON read through the process-wide SEC queue (research/sec-fetch.ts). */
+async function secJson<T>(url: string): Promise<T> {
+  const res = await secFetch(url, { userAgent: SEC_UA, timeoutMs: FETCH_TIMEOUT_MS });
   if (!res.ok) throw new Error(`HTTP ${res.status} for ${url.split("?")[0]}`);
   return (await res.json()) as T;
 }
@@ -325,10 +333,7 @@ let cikCache: Record<string, string> | null = null;
 
 export async function resolveCikCached(symbol: string): Promise<string | null> {
   if (!cikCache) {
-    const data = await fetchJson<Record<string, { cik_str: number; ticker: string }>>(
-      TICKERS_URL,
-      { "User-Agent": SEC_UA, Accept: "application/json" },
-    );
+    const data = await secJson<Record<string, { cik_str: number; ticker: string }>>(TICKERS_URL);
     cikCache = {};
     for (const entry of Object.values(data)) {
       cikCache[entry.ticker.toUpperCase()] = String(entry.cik_str).padStart(10, "0");
@@ -347,10 +352,7 @@ const TRACKED_FORMS = new Set(["8-K", "10-Q", "10-K", "4"]);
  * per-filing follow-up request is needed.
  */
 export async function fetchSubmissions(cik: string): Promise<SubmissionsResult> {
-  const data = await fetchJson<{ filings?: { recent?: SubmissionsRecent } }>(`https://data.sec.gov/submissions/CIK${cik}.json`, {
-    "User-Agent": SEC_UA,
-    Accept: "application/json",
-  });
+  const data = await secJson<{ filings?: { recent?: SubmissionsRecent } }>(`https://data.sec.gov/submissions/CIK${cik}.json`);
   // The stamp's clock depends on this read of the file (research/edgar-time.ts).
   return { filings: filingsFromSubmissions(data.filings?.recent, Date.now()) };
 }
@@ -448,7 +450,7 @@ export async function fetchForm4Details(
 
   let xml: string;
   try {
-    const res = await fetchWithTimeout(url, { "User-Agent": SEC_UA });
+    const res = await secFetch(url, { userAgent: SEC_UA, accept: "application/xml, text/xml, */*", timeoutMs: FETCH_TIMEOUT_MS });
     if (!res.ok) return null;
     xml = await res.text();
   } catch {

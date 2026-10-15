@@ -7,7 +7,7 @@ import { useNa } from "@/lib/i18n/na";
 import { useReducedMotionPref } from "@/lib/motion";
 import { onReadthroughViewRequest, useHeldPositions, useReadthroughRadar } from "@/lib/readthrough-store";
 import { cn } from "@/lib/utils";
-import { formatMove, nyToday, shortDate } from "../../../shared/earnings-view";
+import { formatMove, formatSurprise, nyToday, shortDate } from "../../../shared/earnings-view";
 import { READTHROUGH_BENCHMARK, READTHROUGH_MAX_EVENTS, READTHROUGH_MIN_EVENTS, type ReadthroughRow } from "../../../shared/readthrough-types";
 import { formatRatio, formatSize, headLine, sinceLine, statsLine } from "../../../shared/readthrough-view";
 import { LinkLine, NamePill, toneOf } from "./readthrough-ui";
@@ -95,7 +95,7 @@ function Events({ row }: { row: ReadthroughRow }) {
             {cell(e.holdingAbnormal)}
             {cell(e.holdingNextAbnormal)}
             <span className={cn(NUM, e.surprisePct === null ? QUIET : toneOf(e.surprisePct))}>
-              {e.surprisePct === null ? na : `${e.surprisePct > 0 ? "+" : ""}${formatRatio(e.surprisePct, lang)}%`}
+              {formatSurprise(e.surprisePct, lang) ?? na}
             </span>
           </li>
         ))}

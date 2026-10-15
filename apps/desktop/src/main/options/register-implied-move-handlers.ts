@@ -1,5 +1,7 @@
 import { registerIpcHandler } from "../ipc-register";
 import { fetchOptionChain } from "../stock/market-data-service";
+import { bulkFor } from "../stock/request-gate";
+import { SOURCE_TIMEOUT_MS, withTimeout } from "../earnings/earnings-service";
 import { stockReportHistory } from "../stock-tab-data/register-stock-tab-data-handlers";
 import { parseImpliedRequest, type ImpliedMovesResult } from "../../shared/implied-move";
 import { createImpliedMoveService, type ImpliedMoveService } from "./implied-move-service";
@@ -24,8 +26,11 @@ function implied(): ImpliedMoveService {
   if (!service) {
     service = createImpliedMoveService({
       fetchChain: fetchOptionChain,
+      // Under the earnings reads' deadline: the history is a footnote to the figure, never worth holding it.
       reportMoves: async (symbol) =>
-        (await stockReportHistory(symbol)).flatMap((r) => (r.move !== null ? [{ date: r.date, move: r.move }] : [])),
+        (await withTimeout(stockReportHistory(symbol), SOURCE_TIMEOUT_MS, "report history")).flatMap((r) =>
+          r.move !== null ? [{ date: r.date, move: r.move }] : [],
+        ),
     });
   }
   return service;
@@ -36,7 +41,7 @@ export function registerImpliedMoveHandlers(): void {
     const reqs = parseImpliedRequest(request);
     if (!reqs) return { ok: false, error: "invalid_request" };
     try {
-      return { ok: true, moves: await implied().many(reqs) };
+      return { ok: true, moves: await bulkFor(reqs.length, () => implied().many(reqs)) };
     } catch (err) {
       console.warn("[options] implied moves failed:", err instanceof Error ? err.message : String(err));
       return { ok: false, error: "unavailable" };

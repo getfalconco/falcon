@@ -530,19 +530,27 @@ export function headlineOf(rows: readonly SharedDependency[]): ExposureHeadline 
   return null;
 }
 
-/** "58%", "4.2%", "<0.1%": whole points from ten up, one decimal under. */
-export function exposurePct(value: number): string {
+function percentFormat(lang: string, digits: number): Intl.NumberFormat {
+  try {
+    return new Intl.NumberFormat(lang, { style: "percent", minimumFractionDigits: digits, maximumFractionDigits: digits });
+  } catch {
+    return new Intl.NumberFormat("en-US", { style: "percent", minimumFractionDigits: digits, maximumFractionDigits: digits });
+  }
+}
+
+/** "58%", "4.2%", "<0.1%": whole points from ten up, one decimal under; the sign where `lang` puts it ("%58"). */
+export function exposurePct(value: number, lang = "en-US"): string {
   const pct = value * 100;
-  if (!Number.isFinite(pct) || pct <= 0) return "0%";
-  if (pct < 0.05) return "<0.1%";
-  if (pct >= 9.95) return `${Math.round(pct)}%`;
-  return `${(Math.round(pct * 10) / 10).toFixed(1)}%`;
+  if (!Number.isFinite(pct) || pct <= 0) return percentFormat(lang, 0).format(0);
+  if (pct < 0.05) return `<${percentFormat(lang, 1).format(0.001)}`;
+  if (pct >= 9.95) return percentFormat(lang, 0).format(Math.round(pct) / 100);
+  return percentFormat(lang, 1).format(Math.round(pct * 10) / 1000);
 }
 
 /** A disclosed share as the filing put it: "29.8%", "17%". */
-export function sharePct(pct: number): string {
+export function sharePct(pct: number, lang = "en-US"): string {
   const r = Math.round(pct * 10) / 10;
-  return `${Number.isInteger(r) ? r.toFixed(0) : r.toFixed(1)}%`;
+  return percentFormat(lang, Number.isInteger(r) ? 0 : 1).format(r / 100);
 }
 
 /**

@@ -78,7 +78,7 @@ export default function EarningsCard({ onDuplicate, onRemove, onOpenEarnings }: 
                   {row.phase === "reported" ? reportedLine(row, today, say, lang) : countdownLine(row, today, say, lang)}
                 </span>
                 <span className="mt-0.5 flex min-w-0 items-center gap-1.5">
-                  <span className="truncate text-[11.5px] text-[#9CA3AF]">
+                  <span className="truncate text-[11.5px] text-[#9CA3AF]" title={row.company ?? undefined}>
                     {dayDate(row.date, lang)}
                     {row.company ? ` · ${shortCompanyName(row.company)}` : ""}
                   </span>

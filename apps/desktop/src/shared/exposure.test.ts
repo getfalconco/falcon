@@ -201,6 +201,9 @@ describe("formatting and the request", () => {
     assert.equal(exposurePct(0), "0%");
     assert.equal(sharePct(29.8), "29.8%");
     assert.equal(sharePct(17), "17%");
+    assert.equal(exposurePct(0.582, "tr-TR"), "%58");
+    assert.equal(exposurePct(0.0421, "tr-TR"), "%4,2");
+    assert.equal(sharePct(29.8, "tr-TR"), "%29,8");
   });
 
   it("accepts a well formed request and nothing else", () => {

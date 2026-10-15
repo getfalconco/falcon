@@ -2,9 +2,11 @@ import { createRoot } from "react-dom/client";
 import { applyLanguage, setLanguage } from "../lib/i18n";
 import { applyTheme } from "../lib/theme";
 import { isLanguageCode } from "../lib/i18n/languages";
+import "./fonts";
 import "../globals.css";
 import ChangesSection from "../components/stock-tab/sections/ChangesSection";
 import EarningsSection from "../components/stock-tab/sections/EarningsSection";
+import estimatesFixture from "./estimates-fixture.json";
 import CompetitorsSection from "../components/stock-tab/sections/CompetitorsSection";
 import type { ChangeItem, ChangeTag, StockChanges, StockEarnings, StockPeers } from "../../shared/stock-tab-data";
 import fixture from "./stock-sections-fixture.json";
@@ -95,6 +97,11 @@ window.meridian = {
   getStockTabChangeTags: async () => ({ ok: true, itemsHash: changes.itemsHash, tags: [...base.tags, ...EXTRA_TAGS] }),
   getStockTabEarnings: async () => ({ ok: true, earnings: base.earnings }),
   getStockTabPeers: async () => ({ ok: true, peers }),
+  // Estimate revisions as main read them on 2026-10-16 (Yahoo earningsTrend), shared with the Earnings harness.
+  getEstimateRevisions: async (tickers: string[]) => ({
+    ok: true,
+    estimates: Object.fromEntries(tickers.map((t) => [t, (estimatesFixture as Record<string, unknown>)[t] ?? null])),
+  }),
 } as unknown as Window["meridian"];
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {

@@ -1,13 +1,17 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import type { FilingChangeItem, FilingChanges } from "../../shared/filing-changes";
+import { buildTrack } from "../../shared/guidance-track";
+import type { ActualFigure, GuidanceRelease, GuidanceTrack, GuideFigure } from "../../shared/guidance-types";
 import type { InsiderActivityAnswer, InsiderEvent } from "../../shared/insider-types";
 import type { ReadthroughResult, ReadthroughRow } from "../../shared/readthrough-types";
 import {
+  GUIDANCE_LOOKBACK_DAYS,
   INSIDER_MIN_SCORE,
   MAX_NAMED_PER_FILING,
   collectResearchFacts,
   factsFromFilings,
+  factsFromGuidance,
   factsFromInsiders,
   factsFromReadthrough,
   type ResearchFactsDeps,
@@ -103,6 +107,86 @@ function row(over: Partial<ReadthroughRow> & Pick<ReadthroughRow, "counterparty"
     ...over,
   };
 }
+
+const PR_JUL = "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000050/q1fy27pr.htm";
+const PR_OCT = "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000100/q2fy27pr.htm";
+
+function guide(metric: GuideFigure["metric"], fq: 1 | 2 | 3 | 4 | null, low: number, high: number, unit: GuideFigure["unit"] = "currency"): GuideFigure {
+  return { metric, basis: "unspecified", period: { fy: 2027, fq }, low, high, unit, currency: "USD", step: unit === "currency" ? 1e8 : 0.01, quote: `${metric} guide` };
+}
+
+function actual(metric: ActualFigure["metric"], fq: 1 | 2 | 3 | 4, value: number, unit: ActualFigure["unit"] = "currency"): ActualFigure {
+  return { metric, basis: "unspecified", period: { fy: 2027, fq }, value, unit, currency: "USD", quote: `${metric} actual` };
+}
+
+/**
+ * Two releases: July's guided Q2 revenue at $45B to $47B, EPS at $1.00 to
+ * $1.10 and the year at $180B to $185B; October's reports Q2 revenue of $48B
+ * (above) and EPS of $0.95 (below), and guides the year at $190B to $195B.
+ */
+function guidanceTrack(ticker = "NVDA", octoberFiled = "2026-10-14"): GuidanceTrack {
+  const july: GuidanceRelease = {
+    accession: "0001045810-26-000050",
+    filedAt: "2026-07-20",
+    url: PR_JUL,
+    reported: { fy: 2027, fq: 1 },
+    guides: [guide("revenue", 2, 45e9, 47e9), guide("eps", 2, 1.0, 1.1, "per_share"), guide("revenue", null, 180e9, 185e9)],
+    actuals: [actual("revenue", 1, 44e9)],
+  };
+  const october: GuidanceRelease = {
+    accession: "0001045810-26-000100",
+    filedAt: octoberFiled,
+    url: PR_OCT,
+    reported: { fy: 2027, fq: 2 },
+    guides: [guide("revenue", 3, 50e9, 52e9), guide("revenue", null, 190e9, 195e9)],
+    actuals: [actual("revenue", 2, 48e9), actual("eps", 2, 0.95, "per_share")],
+  };
+  return buildTrack(ticker, [october, july]);
+}
+
+describe("factsFromGuidance", () => {
+  it("lists a release filed in the last three days: its lead figure against the guide, and a guide raised against the earlier one", () => {
+    const facts = factsFromGuidance(guidanceTrack(), "held", TODAY);
+    assert.deepEqual(facts.map((f) => f.kind), ["guidance_result", "guidance_revision"]);
+    const [result, revision] = facts;
+    assert.ok(result && result.kind === "guidance_result");
+    // Revenue leads, though EPS missed: the table's order, not the most dramatic line.
+    assert.equal(result.metric, "revenue");
+    assert.equal(result.position, "above");
+    assert.equal(result.actual, 48e9);
+    assert.equal(result.low, 45e9);
+    assert.equal(result.high, 47e9);
+    assert.equal(result.fiscal_quarter, 2);
+    assert.equal(result.date, "2026-10-14");
+    assert.equal(result.url, PR_OCT);
+    assert.equal(result.form, "8-K");
+    assert.ok(revision && revision.kind === "guidance_revision");
+    assert.equal(revision.revision, "raised");
+    assert.equal(revision.fiscal_quarter, null);
+    assert.equal(revision.low, 190e9);
+    assert.equal(revision.prior_low, 180e9);
+    assert.equal(revision.prior_high, 185e9);
+    assert.equal(revision.url, PR_OCT);
+  });
+
+  it(`says nothing of a release older than ${GUIDANCE_LOOKBACK_DAYS} days, or of a guide kept or given for the first time`, () => {
+    assert.deepEqual(factsFromGuidance(guidanceTrack("NVDA", "2026-10-09"), "held", TODAY), []);
+    const kept = guidanceTrack();
+    const rows = kept.rows.map((r) => (r.revision === "raised" ? { ...r, revision: "kept" as const } : r));
+    assert.deepEqual(factsFromGuidance({ ...kept, rows }, "held", TODAY).map((f) => f.kind), ["guidance_result"]);
+  });
+
+  it("names a cut guide and a quarter that came in below", () => {
+    const track = guidanceTrack();
+    const rows = track.rows.map((r) =>
+      r.revision === "raised" ? { ...r, revision: "cut" as const } : r.metric === "revenue" && r.state === "resolved" ? { ...r, position: "below" as const, actual: 44e9 } : r,
+    );
+    const facts = factsFromGuidance({ ...track, rows }, "watchlist", TODAY);
+    assert.equal(facts[0]!.kind === "guidance_result" && facts[0]!.position, "below");
+    assert.equal(facts[1]!.kind === "guidance_revision" && facts[1]!.revision, "cut");
+    assert.ok(facts.every((f) => f.scope === "watchlist"));
+  });
+});
 
 describe("factsFromFilings", () => {
   it("keeps a new red flag and leaves out one the filing before already carried", () => {
@@ -282,6 +366,38 @@ describe("collectResearchFacts", () => {
     assert.deepEqual(await collectResearchFacts({ readthrough: counting, now: () => NOW }, { held: [], watchlist: [], positions: [] }, TARGET), { facts: [], unavailable: [] });
     await collectResearchFacts({ readthrough: counting, now: () => NOW }, { held: [], watchlist: ["ACME"], positions: [] }, TARGET);
     assert.equal(asked, 0);
+  });
+
+  it("reads guidance with peek alone, ranks it after red flags and clusters beside linked reports, and keeps the cap", async () => {
+    let peeked: string[] = [];
+    let tracked = 0;
+    const guidance = () => ({
+      peek: (t: string) => {
+        peeked.push(t);
+        return t === "NVDA" ? guidanceTrack() : null;
+      },
+      track: async () => {
+        tracked += 1;
+        throw new Error("the briefing never fetches guidance");
+      },
+    });
+    const out = await collectResearchFacts({ filings, insiders, readthrough, guidance, now: () => NOW }, names, TARGET);
+    assert.equal(tracked, 0);
+    assert.deepEqual(peeked.sort(), ["ACME", "NVDA"]);
+    assert.deepEqual(out.facts.map((f) => f.kind), ["red_flag", "insider", "linked_report", "guidance_result", "guidance_revision"]);
+    assert.equal(out.facts.length, 5, "the new risk factor falls under the cap");
+    assert.deepEqual(out.unavailable, []);
+    for (const f of out.facts) assert.ok(f.url === null || f.url.startsWith("https://www.sec.gov/"), f.url ?? "");
+
+    peeked = [];
+    const failing = () => ({
+      peek: () => {
+        throw new Error("disk gone");
+      },
+    });
+    const without = await collectResearchFacts({ filings, guidance: failing, now: () => NOW }, names, TARGET);
+    assert.deepEqual(without.unavailable, ["guidance"]);
+    assert.deepEqual(without.facts.map((f) => f.kind), ["red_flag", "risk_factor"]);
   });
 
   it("caps the list", async () => {

@@ -1,0 +1,1298 @@
+{
+ "NFLX": {
+  "ticker": "NFLX",
+  "readAt": "2026-10-15T21:57:02.103Z",
+  "periods": [
+   {
+    "period": "0q",
+    "periodEnd": "2026-09-30",
+    "currency": "USD",
+    "analysts": 35,
+    "now": 0.82297,
+    "ago30": 0.82233,
+    "change7": {
+     "kind": "pct",
+     "value": 0.000353,
+     "from": 0.82268,
+     "to": 0.82297
+    },
+    "change30": {
+     "kind": "pct",
+     "value": 0.000778,
+     "from": 0.82233,
+     "to": 0.82297
+    },
+    "change90": {
+     "kind": "pct",
+     "value": 0.001192,
+     "from": 0.82199,
+     "to": 0.82297
+    },
+    "up7": 1,
+    "down7": 2,
+    "up30": 2,
+    "down30": 1,
+    "revenue": {
+     "now": 12878896490,
+     "analysts": 38,
+     "currency": "USD",
+     "change30": null
+    }
+   },
+   {
+    "period": "+1q",
+    "periodEnd": "2026-12-31",
+    "currency": "USD",
+    "analysts": 33,
+    "now": 0.72812,
+    "ago30": 0.72954,
+    "change7": {
+     "kind": "pct",
+     "value": 0.000825,
+     "from": 0.72752,
+     "to": 0.72812
+    },
+    "change30": {
+     "kind": "pct",
+     "value": -0.001946,
+     "from": 0.72954,
+     "to": 0.72812
+    },
+    "change90": {
+     "kind": "pct",
+     "value": -0.012812,
+     "from": 0.73757,
+     "to": 0.72812
+    },
+    "up7": 2,
+    "down7": 1,
+    "up30": 3,
+    "down30": 2,
+    "revenue": {
+     "now": 13528084200,
+     "analysts": 37,
+     "currency": "USD",
+     "change30": null
+    }
+   },
+   {
+    "period": "0y",
+    "periodEnd": "2026-12-31",
+    "currency": "USD",
+    "analysts": 41,
+    "now": 3.58427,
+    "ago30": 3.58437,
+    "change7": {
+     "kind": "pct",
+     "value": 0.000271,
+     "from": 3.5833,
+     "to": 3.58427
+    },
+    "change30": {
+     "kind": "pct",
+     "value": -0.000028,
+     "from": 3.58437,
+     "to": 3.58427
+    },
+    "change90": {
+     "kind": "pct",
+     "value": 0.004563,
+     "from": 3.56799,
+     "to": 3.58427
+    },
+    "up7": 1,
+    "down7": 2,
+    "up30": 2,
+    "down30": 3,
+    "revenue": {
+     "now": 51218258300,
+     "analysts": 46,
+     "currency": "USD",
+     "change30": null
+    }
+   }
+  ]
+ },
+ "IBM": {
+  "ticker": "IBM",
+  "readAt": "2026-10-15T21:57:02.133Z",
+  "periods": [
+   {
+    "period": "0q",
+    "periodEnd": "2026-09-30",
+    "currency": "USD",
+    "analysts": 20,
+    "now": 2.87011,
+    "ago30": 2.88811,
+    "change7": {
+     "kind": "pct",
+     "value": 0.002018,
+     "from": 2.86433,
+     "to": 2.87011
+    },
+    "change30": {
+     "kind": "pct",
+     "value": -0.006232,
+     "from": 2.88811,
+     "to": 2.87011
+    },
+    "change90": {
+     "kind": "pct",
+     "value": 0.00404,
+     "from": 2.85856,
+     "to": 2.87011
+    },
+    "up7": 0,
+    "down7": 2,
+    "up30": 0,
+    "down30": 3,
+    "revenue": {
+     "now": 16833801490,
+     "analysts": 19,
+     "currency": "USD",
+     "change30": null
+    }
+   },
+   {
+    "period": "+1q",
+    "periodEnd": "2026-12-31",
+    "currency": "USD",
+    "analysts": 19,
+    "now": 4.61538,
+    "ago30": 4.60169,
+    "change7": {
+     "kind": "pct",
+     "value": -0.001866,
+     "from": 4.62401,
+     "to": 4.61538
+    },
+    "change30": {
+     "kind": "pct",
+     "value": 0.002975,
+     "from": 4.60169,
+     "to": 4.61538
+    },
+    "change90": {
+     "kind": "pct",
+     "value": 0.043083,
+     "from": 4.42475,
+     "to": 4.61538
+    },
+    "up7": 2,
+    "down7": 0,
+    "up30": 2,
+    "down30": 0,
+    "revenue": {
+     "now": 20480357840,
+     "analysts": 17,
+     "currency": "USD",
+     "change30": null
+    }
+   },
+   {
+    "period": "0y",
+    "periodEnd": "2026-12-31",
+    "currency": "USD",
+    "analysts": 24,
+    "now": 12.31243,
+    "ago30": 12.32077,
+    "change7": {
+     "kind": "pct",
+     "value": 0.000027,
+     "from": 12.3121,
+     "to": 12.31243
+    },
+    "change30": {
+     "kind": "pct",
+     "value": -0.000677,
+     "from": 12.32077,
+     "to": 12.31243
+    },
+    "change90": {
+     "kind": "pct",
+     "value": 0.017615,
+     "from": 12.0993,
+     "to": 12.31243
+    },
+    "up7": 1,
+    "down7": 0,
+    "up30": 1,
+    "down30": 1,
+    "revenue": {
+     "now": 70386466810,
+     "analysts": 23,
+     "currency": "USD",
+     "change30": null
+    }
+   }
+  ]
+ },
+ "TSLA": {
+  "ticker": "TSLA",
+  "readAt": "2026-10-15T21:57:02.133Z",
+  "periods": [
+   {
+    "period": "0q",
+    "periodEnd": "2026-09-30",
+    "currency": "USD",
+    "analysts": 24,
+    "now": 0.45223,
+    "ago30": 0.4532,
+    "change7": {
+     "kind": "pct",
+     "value": -0.000243,
+     "from": 0.45234,
+     "to": 0.45223
+    },
+    "change30": {
+     "kind": "pct",
+     "value": -0.00214,
+     "from": 0.4532,
+     "to": 0.45223
+    },
+    "change90": {
+     "kind": "pct",
+     "value": -0.17736,
+     "from": 0.54973,
+     "to": 0.45223
+    },
+    "up7": 4,
+    "down7": 3,
+    "up30": 4,
+    "down30": 7,
+    "revenue": {
+     "now": 28111085380,
+     "analysts": 28,
+     "currency": "USD",
+     "change30": null
+    }
+   },
+   {
+    "period": "+1q",
+    "periodEnd": "2026-12-31",
+    "currency": "USD",
+    "analysts": 22,
+    "now": 0.48631,
+    "ago30": 0.48896,
+    "change7": {
+     "kind": "pct",
+     "value": 0.014625,
+     "from": 0.4793,
+     "to": 0.48631
+    },
+    "change30": {
+     "kind": "pct",
+     "value": -0.00542,
+     "from": 0.48896,
+     "to": 0.48631
+    },
+    "change90": {
+     "kind": "pct",
+     "value": -0.217686,
+     "from": 0.62163,
+     "to": 0.48631
+    },
+    "up7": 1,
+    "down7": 3,
+    "up30": 2,
+    "down30": 4,
+    "revenue": {
+     "now": 28930512750,
+     "analysts": 27,
+     "currency": "USD",
+     "change30": null
+    }
+   },
+   {
+    "period": "0y",
+    "periodEnd": "2026-12-31",
+    "currency": "USD",
+    "analysts": 31,
+    "now": 1.74386,
+    "ago30": 1.76564,
+    "change7": {
+     "kind": "pct",
+     "value": 0.004105,
+     "from": 1.73673,
+     "to": 1.74386
+    },
+    "change30": {
+     "kind": "pct",
+     "value": -0.012335,
+     "from": 1.76564,
+     "to": 1.74386
+    },
+    "change90": {
+     "kind": "pct",
+     "value": -0.181578,
+     "from": 2.13076,
+     "to": 1.74386
+    },
+    "up7": 2,
+    "down7": 4,
+    "up30": 4,
+    "down30": 9,
+    "revenue": {
+     "now": 107181476780,
+     "analysts": 41,
+     "currency": "USD",
+     "change30": null
+    }
+   }
+  ]
+ },
+ "AMD": {
+  "ticker": "AMD",
+  "readAt": "2026-10-15T21:57:03.308Z",
+  "periods": [
+   {
+    "period": "0q",
+    "periodEnd": "2026-09-30",
+    "currency": "USD",
+    "analysts": 40,
+    "now": 1.93339,
+    "ago30": 1.92579,
+    "change7": {
+     "kind": "pct",
+     "value": 0.002073,
+     "from": 1.92939,
+     "to": 1.93339
+    },
+    "change30": {
+     "kind": "pct",
+     "value": 0.003946,
+     "from": 1.92579,
+     "to": 1.93339
+    },
+    "change90": {
+     "kind": "pct",
+     "value": 0.052179,
+     "from": 1.83751,
+     "to": 1.93339
+    },
+    "up7": 1,
+    "down7": 0,
+    "up30": 1,
+    "down30": 0,
+    "revenue": {
+     "now": 13072358150,
+     "analysts": 38,
+     "currency": "USD",
+     "change30": null
+    }
+   },
+   {
+    "period": "+1q",
+    "periodEnd": "2026-12-31",
+    "currency": "USD",
+    "analysts": 40,
+    "now": 2.64704,
+    "ago30": 2.65183,
+    "change7": {
+     "kind": "pct",
+     "value": -0.001509,
+     "from": 2.65104,
+     "to": 2.64704
+    },
+    "change30": {
+     "kind": "pct",
+     "value": -0.001806,
+     "from": 2.65183,
+     "to": 2.64704
+    },
+    "change90": {
+     "kind": "pct",
+     "value": 0.015514,
+     "from": 2.6066,
+     "to": 2.64704
+    },
+    "up7": 0,
+    "down7": 1,
+    "up30": 1,
+    "down30": 2,
+    "revenue": {
+     "now": 16110943650,
+     "analysts": 38,
+     "currency": "USD",
+     "change30": null
+    }
+   },
+   {
+    "period": "0y",
+    "periodEnd": "2026-12-31",
+    "currency": "USD",
+    "analysts": 49,
+    "now": 7.5868,
+    "ago30": 7.57578,
+    "change7": {
+     "kind": "pct",
+     "value": 0,
+     "from": 7.5868,
+     "to": 7.5868
+    },
+    "change30": {
+     "kind": "pct",
+     "value": 0.001455,
+     "from": 7.57578,
+     "to": 7.5868
+    },
+    "change90": {
+     "kind": "pct",
+     "value": 0.020661,
+     "from": 7.43322,
+     "to": 7.5868
+    },
+    "up7": 2,
+    "down7": 0,
+    "up30": 4,
+    "down30": 1,
+    "revenue": {
+     "now": 50948325430,
+     "analysts": 48,
+     "currency": "USD",
+     "change30": null
+    }
+   }
+  ]
+ },
+ "MSFT": {
+  "ticker": "MSFT",
+  "readAt": "2026-10-15T21:57:03.334Z",
+  "periods": [
+   {
+    "period": "0q",
+    "periodEnd": "2026-09-30",
+    "currency": "USD",
+    "analysts": 26,
+    "now": 4.71876,
+    "ago30": 4.72455,
+    "change7": {
+     "kind": "pct",
+     "value": -0.000974,
+     "from": 4.72336,
+     "to": 4.71876
+    },
+    "change30": {
+     "kind": "pct",
+     "value": -0.001226,
+     "from": 4.72455,
+     "to": 4.71876
+    },
+    "change90": {
+     "kind": "pct",
+     "value": 0.021458,
+     "from": 4.61963,
+     "to": 4.71876
+    },
+    "up7": 1,
+    "down7": 1,
+    "up30": 1,
+    "down30": 1,
+    "revenue": {
+     "now": 90706177540,
+     "analysts": 38,
+     "currency": "USD",
+     "change30": null
+    }
+   },
+   {
+    "period": "+1q",
+    "periodEnd": "2026-12-31",
+    "currency": "USD",
+    "analysts": 26,
+    "now": 4.82447,
+    "ago30": 4.82158,
+    "change7": {
+     "kind": "pct",
+     "value": -0.000946,
+     "from": 4.82904,
+     "to": 4.82447
+    },
+    "change30": {
+     "kind": "pct",
+     "value": 0.000599,
+     "from": 4.82158,
+     "to": 4.82447
+    },
+    "change90": {
+     "kind": "pct",
+     "value": 0.007152,
+     "from": 4.79021,
+     "to": 4.82447
+    },
+    "up7": 1,
+    "down7": 1,
+    "up30": 2,
+    "down30": 3,
+    "revenue": {
+     "now": 95626057770,
+     "analysts": 37,
+     "currency": "USD",
+     "change30": null
+    }
+   },
+   {
+    "period": "0y",
+    "periodEnd": "2027-06-30",
+    "currency": "USD",
+    "analysts": 34,
+    "now": 19.78192,
+    "ago30": 19.75972,
+    "change7": {
+     "kind": "pct",
+     "value": 0.00067,
+     "from": 19.76867,
+     "to": 19.78192
+    },
+    "change30": {
+     "kind": "pct",
+     "value": 0.001123,
+     "from": 19.75972,
+     "to": 19.78192
+    },
+    "change90": {
+     "kind": "pct",
+     "value": 0.019977,
+     "from": 19.39448,
+     "to": 19.78192
+    },
+    "up7": 2,
+    "down7": 0,
+    "up30": 4,
+    "down30": 0,
+    "revenue": {
+     "now": 391330689770,
+     "analysts": 50,
+     "currency": "USD",
+     "change30": null
+    }
+   }
+  ]
+ },
+ "AAPL": {
+  "ticker": "AAPL",
+  "readAt": "2026-10-15T21:57:03.413Z",
+  "periods": [
+   {
+    "period": "0q",
+    "periodEnd": "2026-09-30",
+    "currency": "USD",
+    "analysts": 27,
+    "now": 1.97842,
+    "ago30": 1.97754,
+    "change7": {
+     "kind": "pct",
+     "value": -0.000116,
+     "from": 1.97865,
+     "to": 1.97842
+    },
+    "change30": {
+     "kind": "pct",
+     "value": 0.000445,
+     "from": 1.97754,
+     "to": 1.97842
+    },
+    "change90": {
+     "kind": "pct",
+     "value": -0.019395,
+     "from": 2.01755,
+     "to": 1.97842
+    },
+    "up7": 0,
+    "down7": 1,
+    "up30": 1,
+    "down30": 0,
+    "revenue": {
+     "now": 113626875100,
+     "analysts": 27,
+     "currency": "USD",
+     "change30": null
+    }
+   },
+   {
+    "period": "+1q",
+    "periodEnd": "2026-12-31",
+    "currency": "USD",
+    "analysts": 22,
+    "now": 2.90188,
+    "ago30": 2.90471,
+    "change7": {
+     "kind": "pct",
+     "value": -0.00137,
+     "from": 2.90586,
+     "to": 2.90188
+    },
+    "change30": {
+     "kind": "pct",
+     "value": -0.000974,
+     "from": 2.90471,
+     "to": 2.90188
+    },
+    "change90": {
+     "kind": "pct",
+     "value": -0.021176,
+     "from": 2.96466,
+     "to": 2.90188
+    },
+    "up7": 1,
+    "down7": 0,
+    "up30": 2,
+    "down30": 1,
+    "revenue": {
+     "now": 153661490070,
+     "analysts": 18,
+     "currency": "USD",
+     "change30": null
+    }
+   },
+   {
+    "period": "0y",
+    "periodEnd": "2026-09-30",
+    "currency": "USD",
+    "analysts": 39,
+    "now": 8.82006,
+    "ago30": 8.81483,
+    "change7": {
+     "kind": "pct",
+     "value": -0.000018,
+     "from": 8.82022,
+     "to": 8.82006
+    },
+    "change30": {
+     "kind": "pct",
+     "value": 0.000593,
+     "from": 8.81483,
+     "to": 8.82006
+    },
+    "change90": {
+     "kind": "pct",
+     "value": 0.005983,
+     "from": 8.7676,
+     "to": 8.82006
+    },
+    "up7": 0,
+    "down7": 1,
+    "up30": 2,
+    "down30": 1,
+    "revenue": {
+     "now": 478224124500,
+     "analysts": 40,
+     "currency": "USD",
+     "change30": null
+    }
+   }
+  ]
+ },
+ "ARGX": {
+  "ticker": "ARGX",
+  "readAt": "2026-10-15T21:57:03.441Z",
+  "periods": [
+   {
+    "period": "0y",
+    "periodEnd": "2026-12-31",
+    "currency": "USD",
+    "analysts": 4,
+    "now": 18.6775,
+    "ago30": 18.475,
+    "change7": {
+     "kind": "pct",
+     "value": 0,
+     "from": 18.6775,
+     "to": 18.6775
+    },
+    "change30": {
+     "kind": "pct",
+     "value": 0.010961,
+     "from": 18.475,
+     "to": 18.6775
+    },
+    "change90": {
+     "kind": "pct",
+     "value": -0.283766,
+     "from": 26.07737,
+     "to": 18.6775
+    },
+    "up7": 0,
+    "down7": 0,
+    "up30": 1,
+    "down30": 1,
+    "revenue": {
+     "now": 6300522250,
+     "analysts": 4,
+     "currency": "USD",
+     "change30": null
+    }
+   }
+  ]
+ },
+ "QCOM": {
+  "ticker": "QCOM",
+  "readAt": "2026-10-15T21:57:03.522Z",
+  "periods": [
+   {
+    "period": "0q",
+    "periodEnd": "2026-09-30",
+    "currency": "USD",
+    "analysts": 26,
+    "now": 2.15531,
+    "ago30": 2.15685,
+    "change7": {
+     "kind": "pct",
+     "value": -0.000714,
+     "from": 2.15685,
+     "to": 2.15531
+    },
+    "change30": {
+     "kind": "pct",
+     "value": -0.000714,
+     "from": 2.15685,
+     "to": 2.15531
+    },
+    "change90": {
+     "kind": "pct",
+     "value": -0.091928,
+     "from": 2.3735,
+     "to": 2.15531
+    },
+    "up7": 0,
+    "down7": 0,
+    "up30": 0,
+    "down30": 0,
+    "revenue": {
+     "now": 10129778290,
+     "analysts": 25,
+     "currency": "USD",
+     "change30": null
+    }
+   },
+   {
+    "period": "+1q",
+    "periodEnd": "2026-12-31",
+    "currency": "USD",
+    "analysts": 26,
+    "now": 2.29607,
+    "ago30": 2.29838,
+    "change7": {
+     "kind": "pct",
+     "value": -0.000501,
+     "from": 2.29722,
+     "to": 2.29607
+    },
+    "change30": {
+     "kind": "pct",
+     "value": -0.001005,
+     "from": 2.29838,
+     "to": 2.29607
+    },
+    "change90": {
+     "kind": "pct",
+     "value": -0.149881,
+     "from": 2.70088,
+     "to": 2.29607
+    },
+    "up7": 0,
+    "down7": 0,
+    "up30": 0,
+    "down30": 1,
+    "revenue": {
+     "now": 10577068600,
+     "analysts": 23,
+     "currency": "USD",
+     "change30": null
+    }
+   },
+   {
+    "period": "0y",
+    "periodEnd": "2026-09-30",
+    "currency": "USD",
+    "analysts": 31,
+    "now": 10.48293,
+    "ago30": 10.48422,
+    "change7": {
+     "kind": "pct",
+     "value": -0.000123,
+     "from": 10.48422,
+     "to": 10.48293
+    },
+    "change30": {
+     "kind": "pct",
+     "value": -0.000123,
+     "from": 10.48422,
+     "to": 10.48293
+    },
+    "change90": {
+     "kind": "pct",
+     "value": -0.030568,
+     "from": 10.81348,
+     "to": 10.48293
+    },
+    "up7": 0,
+    "down7": 0,
+    "up30": 0,
+    "down30": 1,
+    "revenue": {
+     "now": 42869377650,
+     "analysts": 31,
+     "currency": "USD",
+     "change30": null
+    }
+   }
+  ]
+ },
+ "KO": {
+  "ticker": "KO",
+  "readAt": "2026-10-15T21:57:03.549Z",
+  "periods": [
+   {
+    "period": "0q",
+    "periodEnd": "2026-09-30",
+    "currency": "USD",
+    "analysts": 18,
+    "now": 0.88097,
+    "ago30": 0.87893,
+    "change7": {
+     "kind": "pct",
+     "value": 0.001045,
+     "from": 0.88005,
+     "to": 0.88097
+    },
+    "change30": {
+     "kind": "pct",
+     "value": 0.002321,
+     "from": 0.87893,
+     "to": 0.88097
+    },
+    "change90": {
+     "kind": "pct",
+     "value": 0.005237,
+     "from": 0.87638,
+     "to": 0.88097
+    },
+    "up7": 3,
+    "down7": 0,
+    "up30": 1,
+    "down30": 0,
+    "revenue": {
+     "now": 12925421630,
+     "analysts": 15,
+     "currency": "USD",
+     "change30": null
+    }
+   },
+   {
+    "period": "+1q",
+    "periodEnd": "2026-12-31",
+    "currency": "USD",
+    "analysts": 18,
+    "now": 0.5953,
+    "ago30": 0.59561,
+    "change7": {
+     "kind": "pct",
+     "value": 0.002273,
+     "from": 0.59395,
+     "to": 0.5953
+    },
+    "change30": {
+     "kind": "pct",
+     "value": -0.00052,
+     "from": 0.59561,
+     "to": 0.5953
+    },
+    "change90": {
+     "kind": "pct",
+     "value": -0.001459,
+     "from": 0.59617,
+     "to": 0.5953
+    },
+    "up7": 1,
+    "down7": 3,
+    "up30": 7,
+    "down30": 8,
+    "revenue": {
+     "now": 11084231610,
+     "analysts": 14,
+     "currency": "USD",
+     "change30": null
+    }
+   },
+   {
+    "period": "0y",
+    "periodEnd": "2026-12-31",
+    "currency": "USD",
+    "analysts": 24,
+    "now": 3.30319,
+    "ago30": 3.30148,
+    "change7": {
+     "kind": "pct",
+     "value": 0.000515,
+     "from": 3.30149,
+     "to": 3.30319
+    },
+    "change30": {
+     "kind": "pct",
+     "value": 0.000518,
+     "from": 3.30148,
+     "to": 3.30319
+    },
+    "change90": {
+     "kind": "pct",
+     "value": 0.011266,
+     "from": 3.26639,
+     "to": 3.30319
+    },
+    "up7": 1,
+    "down7": 0,
+    "up30": 1,
+    "down30": 0,
+    "revenue": {
+     "now": 49828684280,
+     "analysts": 18,
+     "currency": "USD",
+     "change30": null
+    }
+   }
+  ]
+ },
+ "JNJ": {
+  "ticker": "JNJ",
+  "readAt": "2026-10-15T21:57:03.556Z",
+  "periods": [
+   {
+    "period": "0q",
+    "periodEnd": "2026-12-31",
+    "currency": "USD",
+    "analysts": 15,
+    "now": 2.92305,
+    "ago30": 2.968,
+    "change7": {
+     "kind": "pct",
+     "value": -0.003953,
+     "from": 2.93465,
+     "to": 2.92305
+    },
+    "change30": {
+     "kind": "pct",
+     "value": -0.015145,
+     "from": 2.968,
+     "to": 2.92305
+    },
+    "change90": {
+     "kind": "pct",
+     "value": -0.028929,
+     "from": 3.01013,
+     "to": 2.92305
+    },
+    "up7": 0,
+    "down7": 2,
+    "up30": 0,
+    "down30": 2,
+    "revenue": {
+     "now": 26462484990,
+     "analysts": 14,
+     "currency": "USD",
+     "change30": null
+    }
+   },
+   {
+    "period": "+1q",
+    "periodEnd": "2027-03-31",
+    "currency": "USD",
+    "analysts": 6,
+    "now": 2.70984,
+    "ago30": 2.775,
+    "change7": {
+     "kind": "pct",
+     "value": -0.047263,
+     "from": 2.84427,
+     "to": 2.70984
+    },
+    "change30": {
+     "kind": "pct",
+     "value": -0.023481,
+     "from": 2.775,
+     "to": 2.70984
+    },
+    "change90": {
+     "kind": "pct",
+     "value": -0.077508,
+     "from": 2.93752,
+     "to": 2.70984
+    },
+    "up7": 0,
+    "down7": 0,
+    "up30": 0,
+    "down30": 1,
+    "revenue": {
+     "now": 25557002350,
+     "analysts": 5,
+     "currency": "USD",
+     "change30": null
+    }
+   },
+   {
+    "period": "0y",
+    "periodEnd": "2026-12-31",
+    "currency": "USD",
+    "analysts": 18,
+    "now": 11.11679,
+    "ago30": 11.065,
+    "change7": {
+     "kind": "pct",
+     "value": 0.00408,
+     "from": 11.07162,
+     "to": 11.11679
+    },
+    "change30": {
+     "kind": "pct",
+     "value": 0.004681,
+     "from": 11.065,
+     "to": 11.11679
+    },
+    "change90": {
+     "kind": "pct",
+     "value": -0.046435,
+     "from": 11.65814,
+     "to": 11.11679
+    },
+    "up7": 0,
+    "down7": 2,
+    "up30": 0,
+    "down30": 2,
+    "revenue": {
+     "now": 101234180110,
+     "analysts": 19,
+     "currency": "USD",
+     "change30": null
+    }
+   }
+  ]
+ },
+ "NVDA": {
+  "ticker": "NVDA",
+  "readAt": "2026-10-15T21:57:03.658Z",
+  "periods": [
+   {
+    "period": "0q",
+    "periodEnd": "2026-10-31",
+    "currency": "USD",
+    "analysts": 44,
+    "now": 2.47325,
+    "ago30": 2.47269,
+    "change7": {
+     "kind": "pct",
+     "value": 0,
+     "from": 2.47325,
+     "to": 2.47325
+    },
+    "change30": {
+     "kind": "pct",
+     "value": 0.000226,
+     "from": 2.47269,
+     "to": 2.47325
+    },
+    "change90": {
+     "kind": "pct",
+     "value": 0.057112,
+     "from": 2.33963,
+     "to": 2.47325
+    },
+    "up7": 0,
+    "down7": 1,
+    "up30": 0,
+    "down30": 1,
+    "revenue": {
+     "now": 108976837760,
+     "analysts": 45,
+     "currency": "USD",
+     "change30": null
+    }
+   },
+   {
+    "period": "+1q",
+    "periodEnd": "2027-01-31",
+    "currency": "USD",
+    "analysts": 42,
+    "now": 2.74622,
+    "ago30": 2.74328,
+    "change7": {
+     "kind": "pct",
+     "value": 0,
+     "from": 2.74622,
+     "to": 2.74622
+    },
+    "change30": {
+     "kind": "pct",
+     "value": 0.001072,
+     "from": 2.74328,
+     "to": 2.74622
+    },
+    "change90": {
+     "kind": "pct",
+     "value": 0.036137,
+     "from": 2.65044,
+     "to": 2.74622
+    },
+    "up7": 0,
+    "down7": 1,
+    "up30": 0,
+    "down30": 1,
+    "revenue": {
+     "now": 124482697730,
+     "analysts": 42,
+     "currency": "USD",
+     "change30": null
+    }
+   },
+   {
+    "period": "0y",
+    "periodEnd": "2027-01-31",
+    "currency": "USD",
+    "analysts": 51,
+    "now": 9.31242,
+    "ago30": 9.30456,
+    "change7": {
+     "kind": "pct",
+     "value": 0,
+     "from": 9.31242,
+     "to": 9.31242
+    },
+    "change30": {
+     "kind": "pct",
+     "value": 0.000845,
+     "from": 9.30456,
+     "to": 9.31242
+    },
+    "change90": {
+     "kind": "pct",
+     "value": 0.040817,
+     "from": 8.94722,
+     "to": 9.31242
+    },
+    "up7": 2,
+    "down7": 0,
+    "up30": 2,
+    "down30": 0,
+    "revenue": {
+     "now": 411653409840,
+     "analysts": 54,
+     "currency": "USD",
+     "change30": null
+    }
+   }
+  ]
+ },
+ "MU": {
+  "ticker": "MU",
+  "readAt": "2026-10-15T21:57:03.629Z",
+  "periods": [
+   {
+    "period": "0q",
+    "periodEnd": "2026-09-30",
+    "currency": "USD",
+    "analysts": 29,
+    "now": 38.21235,
+    "ago30": 34.92566,
+    "change7": {
+     "kind": "pct",
+     "value": 0.000046,
+     "from": 38.21061,
+     "to": 38.21235
+    },
+    "change30": {
+     "kind": "pct",
+     "value": 0.094105,
+     "from": 34.92566,
+     "to": 38.21235
+    },
+    "change90": {
+     "kind": "pct",
+     "value": 0.095543,
+     "from": 34.87982,
+     "to": 38.21235
+    },
+    "up7": 26,
+    "down7": 1,
+    "up30": 26,
+    "down30": 2,
+    "revenue": {
+     "now": 61666930780,
+     "analysts": 33,
+     "currency": "USD",
+     "change30": null
+    }
+   },
+   {
+    "period": "+1q",
+    "periodEnd": "2026-12-31",
+    "currency": "USD",
+    "analysts": 28,
+    "now": 41.97086,
+    "ago30": 37.8308,
+    "change7": {
+     "kind": "pct",
+     "value": -0.003544,
+     "from": 42.12014,
+     "to": 41.97086
+    },
+    "change30": {
+     "kind": "pct",
+     "value": 0.109436,
+     "from": 37.8308,
+     "to": 41.97086
+    },
+    "change90": {
+     "kind": "pct",
+     "value": 0.113438,
+     "from": 37.69482,
+     "to": 41.97086
+    },
+    "up7": 23,
+    "down7": 4,
+    "up30": 25,
+    "down30": 3,
+    "revenue": {
+     "now": 66772649650,
+     "analysts": 31,
+     "currency": "USD",
+     "change30": null
+    }
+   },
+   {
+    "period": "0y",
+    "periodEnd": "2027-08-31",
+    "currency": "USD",
+    "analysts": 35,
+    "now": 176.54659,
+    "ago30": 156.51823,
+    "change7": {
+     "kind": "pct",
+     "value": 0.002245,
+     "from": 176.15115,
+     "to": 176.54659
+    },
+    "change30": {
+     "kind": "pct",
+     "value": 0.127962,
+     "from": 156.51823,
+     "to": 176.54659
+    },
+    "change90": {
+     "kind": "pct",
+     "value": 0.170287,
+     "from": 150.85753,
+     "to": 176.54659
+    },
+    "up7": 28,
+    "down7": 2,
+    "up30": 28,
+    "down30": 2,
+    "revenue": {
+     "now": 274543261260,
+     "analysts": 40,
+     "currency": "USD",
+     "change30": null
+    }
+   }
+  ]
+ }
+}

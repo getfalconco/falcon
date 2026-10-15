@@ -11,7 +11,7 @@ import { categoryKey, changePct, compactCount, compactUsd, fullDate, periodKey, 
 import { useInsiderActivity } from "@/lib/insiders-store";
 import type { Say } from "../../../../shared/earnings-view";
 import type { InsiderEvent } from "../../../../shared/insider-types";
-import { changesInsiderEvents, eventSource, eventSpan, eventTitle, insidersLine } from "../../../../shared/insider-view";
+import { changesInsiderEvents, displayName, eventSource, eventSpan, eventTitle, insidersLine } from "../../../../shared/insider-view";
 
 /**
  * Stock tab: what changed on the stock since the reader last opened it, or
@@ -102,7 +102,8 @@ function lines(item: ChangeItem, ticker: string, t: T, lang: string): { main: st
     case "insider":
       return {
         main: t(item.code === "P" ? "stocktab.changes.insider.P" : "stocktab.changes.insider.S", {
-          name: item.name,
+          // EDGAR often spells reporters in capitals; title case as the Insiders card does.
+          name: displayName(item.name),
           role: item.role,
           shares: wholeCount(item.shares, lang),
         }),
@@ -142,8 +143,8 @@ function InsiderEventRow({ event, t, say, lang }: { event: InsiderEvent; t: T; s
   const source = eventSource(event);
   const who = insidersLine(event, say);
   return (
-    <li className="grid grid-cols-[88px_minmax(0,1fr)_auto] items-start gap-x-4 py-3">
-      <span className="pt-px font-['Geist_Mono'] text-[11.5px] tabular-nums text-content-tertiary">{fullDate(event.date, lang)}</span>
+    <li className="grid grid-cols-[96px_minmax(0,1fr)_auto] items-start gap-x-4 py-3">
+      <span className="whitespace-nowrap pt-px font-['Geist_Mono'] text-[11.5px] tabular-nums text-content-tertiary">{fullDate(event.date, lang)}</span>
       <div className="min-w-0">
         <p className="text-[13px] leading-5 text-content-primary">{eventTitle(event, say, lang)}</p>
         <p className="mt-0.5 flex flex-wrap items-center gap-x-2 text-[11.5px] leading-4 text-content-secondary">
@@ -190,8 +191,8 @@ export default function ChangesSection({ ticker }: StockSectionProps) {
           const { main, detail, badge } = lines(item, ticker, t, language);
           const tag = tags?.get(item.id) ?? null;
           return (
-            <li key={item.id} className="grid grid-cols-[88px_minmax(0,1fr)_auto] items-start gap-x-4 py-3">
-              <span className="pt-px font-['Geist_Mono'] text-[11.5px] tabular-nums text-content-tertiary">{fullDate(item.date, language)}</span>
+            <li key={item.id} className="grid grid-cols-[96px_minmax(0,1fr)_auto] items-start gap-x-4 py-3">
+              <span className="whitespace-nowrap pt-px font-['Geist_Mono'] text-[11.5px] tabular-nums text-content-tertiary">{fullDate(item.date, language)}</span>
               <div className="min-w-0">
                 <p className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[13px] leading-5 text-content-primary">
                   <span className="min-w-0">{main}</span>

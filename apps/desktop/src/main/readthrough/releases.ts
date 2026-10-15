@@ -5,41 +5,16 @@
  * for a US filer. A foreign filer (6-K) has none, and its figures rest on
  * Yahoo's quarters alone.
  *
- * One request per company, spaced like the agents' reader (SEC asks for no
- * more than ten a second; this sends at most four), and the caller keeps
- * the answer for the New York day.
+ * One request per company, through the agents reader's submissions cache
+ * and the process-wide SEC queue, and the caller keeps the answer for the
+ * New York day.
  */
 
 import { edgarAcceptanceIso, edgarIndexConvention } from "@meridian/research/edgar-time";
-import { resolveCik } from "../agents/edgar";
-
-const SEC_UA = process.env.SEC_EDGAR_USER_AGENT?.trim() || "Meridian Falcon Research research@getfalcon.co";
-const TIMEOUT_MS = 15_000;
-const MIN_GAP_MS = 250;
+import { filingHistory } from "../agents/edgar";
 
 /** `acceptedAt` is the true instant when `acceptedAtUtc` is set (see @meridian/research/edgar-time). */
 export type ReleaseFiling = { filedAt: string; acceptedAt: string | null; acceptedAtUtc?: boolean; url: string | null };
-
-let lastRequestAt = 0;
-let queue: Promise<unknown> = Promise.resolve();
-
-function secFetch(url: string): Promise<Response> {
-  const run = async () => {
-    const wait = lastRequestAt + MIN_GAP_MS - Date.now();
-    if (wait > 0) await new Promise((r) => setTimeout(r, wait));
-    lastRequestAt = Date.now();
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
-    try {
-      return await fetch(url, { headers: { "User-Agent": SEC_UA, Accept: "application/json" }, signal: controller.signal });
-    } finally {
-      clearTimeout(timer);
-    }
-  };
-  const next = queue.then(run, run);
-  queue = next.catch(() => undefined);
-  return next;
-}
 
 type Recent = {
   form?: string[];
@@ -77,12 +52,19 @@ export function releasesFromSubmissions(cik: string, recent: Recent | undefined,
   return out.sort((a, b) => a.filedAt.localeCompare(b.filedAt));
 }
 
-/** The company's item 2.02 filings; empty when EDGAR lists no such ticker. */
+/**
+ * The company's item 2.02 filings, oldest first; empty when EDGAR lists no
+ * such ticker. Read from the agents reader's submissions index
+ * (agents/edgar.ts `filingHistory`): the same request, the same four-minute
+ * cache and the process-wide SEC queue as every other EDGAR reader, the same
+ * acceptance instants as `releasesFromSubmissions`.
+ */
 export async function fetchReleaseFilings(ticker: string): Promise<ReleaseFiling[]> {
-  const cik = await resolveCik(ticker);
-  if (!cik) return [];
-  const res = await secFetch(`https://data.sec.gov/submissions/CIK${cik}.json`);
-  if (!res.ok) throw new Error(`SEC filings request failed (${res.status})`);
-  const data = (await res.json()) as { filings?: { recent?: Recent } };
-  return releasesFromSubmissions(cik, data.filings?.recent, Date.now());
+  const filings = await filingHistory(ticker);
+  const out: ReleaseFiling[] = [];
+  for (const f of filings) {
+    if (f.form !== "8-K" || !f.items.includes("2.02") || !/^\d{4}-\d{2}-\d{2}$/.test(f.filedAt)) continue;
+    out.push({ filedAt: f.filedAt, acceptedAt: f.acceptedAt, ...(f.acceptedAtUtc ? { acceptedAtUtc: true } : {}), url: f.url });
+  }
+  return out.sort((a, b) => a.filedAt.localeCompare(b.filedAt));
 }

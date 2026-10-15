@@ -6,7 +6,7 @@ import { afterEach, describe, it } from "node:test";
 import type { FilingRef } from "../agents/sources";
 import { nyWallMs } from "../../shared/earnings-time";
 import { form4Xml } from "../edgar/form4-fixtures";
-import { createInsidersService } from "./insiders-service";
+import { FORGET_COMPANY_MS, KEEP_FILINGS_DAYS, createInsidersService } from "./insiders-service";
 
 const NOW = nyWallMs("2026-10-15", 12, 0);
 const dirs: string[] = [];
@@ -161,5 +161,50 @@ describe("insiders service", () => {
     await service.activity({ focus: null, held: ["NVDA"], watchlist: [] });
     await service.idle();
     assert.equal(reads.filter((r) => r === "list:NVDA").length, 1);
+  });
+});
+
+describe("insiders disk pruning", () => {
+  it("drops an issuer's reads of filings its list no longer keeps", async () => {
+    const dir = tmp();
+    const { deps } = fakes();
+    const service = createInsidersService({ dir, ...deps });
+    await service.activity({ focus: "NVDA", held: ["NVDA"], watchlist: [] });
+    const docsFile = path.join(dir, "docs", "0001045810.json");
+    const before = JSON.parse(fs.readFileSync(docsFile, "utf8")) as { form4: Record<string, unknown> };
+    assert.ok("a1" in before.form4);
+
+    // Months later the October Form 4s have left the list; a new one came in.
+    const later = NOW + (KEEP_FILINGS_DAYS + 10) * 86_400_000;
+    const next = fakes();
+    const reread = createInsidersService({
+      dir,
+      ...next.deps,
+      now: () => later,
+      filings: async (ticker: string) => (ticker === "NVDA" ? [ref("0001045810", "4", "a1", "2027-01-20")] : []),
+    });
+    await reread.activity({ focus: "NVDA", held: ["NVDA"], watchlist: [] });
+    const after = JSON.parse(fs.readFileSync(docsFile, "utf8")) as { form4: Record<string, unknown> };
+    assert.deepEqual(Object.keys(after.form4), ["a1"]);
+  });
+
+  it("forgets companies not read in a month, and their reads", async () => {
+    const dir = tmp();
+    const { deps } = fakes();
+    const service = createInsidersService({ dir, ...deps });
+    await service.activity({ focus: null, held: ["NVDA"], watchlist: [] });
+    await service.idle();
+    assert.ok(fs.existsSync(path.join(dir, "docs", "0001046179.json")));
+
+    // The reader dropped NVDA (and so its supplier TSM); a month on, another name is read.
+    const later = NOW + FORGET_COMPANY_MS + 86_400_000;
+    const next = fakes();
+    const other = createInsidersService({ dir, ...next.deps, now: () => later });
+    await other.activity({ focus: "AAPL", held: ["AAPL"], watchlist: [] });
+    await new Promise((r) => setTimeout(r, 20));
+    const companies = JSON.parse(fs.readFileSync(path.join(dir, "companies.json"), "utf8")) as { companies: Record<string, unknown> };
+    assert.deepEqual(Object.keys(companies.companies), ["AAPL"]);
+    assert.ok(!fs.existsSync(path.join(dir, "docs", "0001046179.json")));
+    assert.ok(!fs.existsSync(path.join(dir, "docs", "0001045810.json")));
   });
 });

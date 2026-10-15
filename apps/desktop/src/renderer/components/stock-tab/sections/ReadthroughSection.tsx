@@ -55,7 +55,7 @@ function Row({ row, ticker, today }: { row: ReadthroughRow; ticker: string; toda
       })
     : undefined;
   return (
-    <li className="flex min-w-0 items-center gap-3 px-1 py-2">
+    <li className="flex min-w-0 items-baseline gap-3 px-1 py-2">
       <button
         type="button"
         onClick={() => openStock(row.counterparty, row.counterpartyName ?? undefined)}
@@ -69,11 +69,12 @@ function Row({ row, ticker, today }: { row: ReadthroughRow; ticker: string; toda
       <span className="w-[92px] shrink-0 truncate text-[12px] text-content-tertiary" title={sourceHint(row, say, lang)}>
         {t(RELATION_KEY[row.relation])}
       </span>
-      <span className={cn("min-w-0 flex-1 truncate text-[13px] tabular-nums", s ? "text-content-primary" : "text-content-tertiary")} title={hint}>
+      {/* Wraps rather than truncates: the figures sit at the end of the sentence, and a narrow window or a longer language would cut them off. */}
+      <span className={cn("min-w-0 flex-1 text-[13px] leading-snug tabular-nums", s ? "text-content-primary" : "text-content-tertiary")} title={hint}>
         {focusLine(row, say, lang)}
       </span>
       {when ? (
-        <span className="shrink-0 text-[12px] tabular-nums text-content-secondary" title={row.time !== "unknown" ? say(`readthrough.time.${row.time}`) : undefined}>
+        <span className="shrink-0 whitespace-nowrap text-[12px] tabular-nums text-content-secondary" title={row.time !== "unknown" ? say(`readthrough.time.${row.time}`) : undefined}>
           {when}
         </span>
       ) : null}

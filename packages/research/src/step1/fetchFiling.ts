@@ -1,4 +1,5 @@
 import { getConfig } from "../config.js";
+import { secFetch as sharedSecFetch } from "../research/sec-fetch.js";
 import { applyCompetSanity, fractionAllCapsLines, isTocLikeSection } from "./sectionSanity.js";
 import type { AnnualFilingForm, EvidenceLocatedAt } from "./types.js";
 
@@ -154,14 +155,9 @@ export type SecTickerEntry = { cik_str: number; ticker: string; title: string };
 
 let tickersCache: SecTickerEntry[] | null = null;
 
-async function secFetch(url: string, accept = "application/json"): Promise<Response> {
-  const config = getConfig();
-  return fetch(url, {
-    headers: {
-      "User-Agent": config.secUserAgent,
-      Accept: accept,
-    },
-  });
+/** Through the process-wide SEC queue (research/sec-fetch.ts). A whole 10-K can take a while to start. */
+function secFetch(url: string, accept = "application/json"): Promise<Response> {
+  return sharedSecFetch(url, { userAgent: getConfig().secUserAgent, accept, timeoutMs: 60_000 });
 }
 
 export async function loadCompanyTickers(): Promise<SecTickerEntry[]> {

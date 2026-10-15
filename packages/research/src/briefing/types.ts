@@ -491,6 +491,11 @@ export type Story = {
  * risk_factor         new risk factor headings in the latest 10-K or 10-Q
  * counterparty_named  a customer or supplier named for the first time
  * share_change        a customer's stated share of revenue or receivables moved
+ * guidance_result     an earnings release filed in the last three days: where
+ *                     a reported figure landed against the company's own
+ *                     guide for that period
+ * guidance_revision   the same release guiding a period above or below what
+ *                     an earlier release guided for it
  */
 export type BriefingFactKind =
   | "red_flag"
@@ -498,7 +503,9 @@ export type BriefingFactKind =
   | "linked_report"
   | "risk_factor"
   | "counterparty_named"
-  | "share_change";
+  | "share_change"
+  | "guidance_result"
+  | "guidance_revision";
 
 export type BriefingFactSource = "filings" | "insiders" | "readthrough" | "guidance";
 
@@ -521,6 +528,39 @@ export type BriefingInsiderKind =
   | "new_holder_13g";
 
 export type BriefingInsiderRole = "ceo" | "cfo" | "officer" | "director" | "owner10" | "other";
+
+/** The guided figures the desktop's guidance reader knows (its `GuidanceMetric`), in its table order. */
+export type BriefingGuidanceMetric =
+  | "revenue"
+  | "gross_margin"
+  | "operating_expenses"
+  | "operating_income"
+  | "operating_margin"
+  | "eps"
+  | "net_income"
+  | "tax_rate"
+  | "other_income"
+  | "ebitda"
+  | "capex"
+  | "free_cash_flow";
+
+/**
+ * One guided figure as the release states it. Money in whole units of
+ * `currency`, percent figures in percent (74.5 is 74.5%), per share in
+ * currency per share. A single-figure guide has low equal to high.
+ */
+type BriefingGuidanceFigure = {
+  metric: BriefingGuidanceMetric;
+  /** As the release labels it; "both" when the GAAP and non-GAAP figures are the same. */
+  basis: "gaap" | "non_gaap" | "unspecified" | "both";
+  unit: "currency" | "percent" | "per_share";
+  currency: string;
+  /** The fiscal period guided, as the company numbers it; `fq` null for the whole year. */
+  fiscal_year: number;
+  fiscal_quarter: 1 | 2 | 3 | 4 | null;
+  low: number;
+  high: number;
+};
 
 type BriefingFactBase = {
   /** Stable for the same record: kind, name and filing. */
@@ -597,10 +637,26 @@ export type BriefingFact =
       pct: number;
       /** Null when the filing before stated no share for this customer. */
       previous_pct: number | null;
-    });
+    })
+  | (BriefingFactBase &
+      BriefingGuidanceFigure & {
+        kind: "guidance_result";
+        /** What the release reported for the period. */
+        actual: number;
+        /** Above the top of the guide, inside it, below the bottom (a single figure: at its printed precision). */
+        position: "above" | "inside" | "below";
+      })
+  | (BriefingFactBase &
+      BriefingGuidanceFigure & {
+        kind: "guidance_revision";
+        revision: "raised" | "cut";
+        /** The earlier release's guide for the same period. */
+        prior_low: number;
+        prior_high: number;
+      });
 
 export type BriefingResearchFacts = {
-  /** Ranked (red flags, insider clusters, linked reports this session, new risk factors, the rest) and capped. */
+  /** Ranked (red flags, insider clusters, linked reports this session and releases off their guide, new risk factors, the rest) and capped. */
   facts: BriefingFact[];
   /** Sources that were asked and failed or timed out; the facts stand without them. */
   unavailable: BriefingFactSource[];

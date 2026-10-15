@@ -152,17 +152,17 @@ export function ViaTickers({ row, max, className }: { row: SharedDependency; max
 }
 
 /** The line over the tab and the card, or null when no company passes a fifth of the book. */
-export function headlineText(t: TFunction, headline: ExposureHeadline | null, scope: ExposureScope): string | null {
+export function headlineText(t: TFunction, headline: ExposureHeadline | null, scope: ExposureScope, locale: string): string | null {
   if (!headline) return null;
   const watch = scope === "watchlist";
   if (headline.count === 1 && headline.name && headline.exposure !== null) {
     return t(watch ? "exposure.headline.oneWatch" : "exposure.headline.one", {
       name: displayName(headline.name),
-      pct: exposurePct(headline.exposure),
+      pct: exposurePct(headline.exposure, locale),
     });
   }
   return t(watch ? "exposure.headline.manyWatch" : "exposure.headline.many", {
     count: headline.count,
-    pct: exposurePct(headline.threshold),
+    pct: exposurePct(headline.threshold, locale),
   });
 }

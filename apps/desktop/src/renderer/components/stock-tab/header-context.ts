@@ -28,6 +28,9 @@ export type HeldContext = {
   weight: string | null;
   /** Formatted, "31%". */
   riskShare: string | null;
+  /** The same two as fractions, for a caller that formats in the reader's language. */
+  weightValue: number | null;
+  riskShareValue: number | null;
 };
 
 export function heldContext(
@@ -68,5 +71,7 @@ export function heldContext(
     pnlPct,
     weight: formatWeightPct(weight == null ? null : Math.abs(weight)),
     riskShare: share == null ? null : formatRiskShare(share),
+    weightValue: weight == null ? null : Math.abs(weight),
+    riskShareValue: share,
   };
 }

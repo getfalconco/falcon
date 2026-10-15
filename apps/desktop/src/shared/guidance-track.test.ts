@@ -193,8 +193,8 @@ describe("guidance view", () => {
       "en-US",
       say,
     );
-    assert.equal(text, "Gross margin, non-GAAP matched the guided figure in 6 of the last 7 quarters. Median gap to the guided figure 0.0 pts.");
-    assert.equal(gapText(0.6, "points", "en-US", say), "+0.6 pts");
+    assert.equal(text, "Gross margin, non-GAAP matched the guided figure in 6 of the last 7 quarters. Median gap to the guided figure 0.0\u00a0pts.");
+    assert.equal(gapText(0.6, "points", "en-US", say), "+0.6\u00a0pts");
     assert.equal(gapText(-0.0108, "relative", "en-US", say), "-1.1%");
   });
 

@@ -1,4 +1,5 @@
 import { createRoot } from "react-dom/client";
+import "./fonts";
 import "../globals.css";
 import InsidersCard from "../components/insiders/InsidersCard";
 import { applyTheme, getStoredTheme } from "../lib/theme";

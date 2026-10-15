@@ -10,10 +10,13 @@
  *   0  red flags (restatement, auditor change, going concern, material
  *      weakness, late filing notice)
  *   1  insider clusters (2+ insiders' purchases, 3+ insiders' sales)
- *   2  a linked company reporting on the session this report hands over to
+ *   2  a linked company reporting on the session this report hands over to;
+ *      a reader's own name's earnings release with a figure outside its
+ *      guide, or a guide raised or cut against the earlier one
  *   3  new risk factors in the latest 10-K or 10-Q
  *   4  the rest: other insider events, a linked report on the session
- *      after, a customer or supplier named for the first time, a share moved
+ *      after, a release with its figure inside the guide, a customer or
+ *      supplier named for the first time, a share moved
  *
  * Inside a rank: held names before watched ones, the later date first, then
  * the kind, the ticker and the id. At most MAX_BRIEFING_FACTS are kept.
@@ -33,9 +36,11 @@ const KIND_ORDER: Record<BriefingFactKind, number> = {
   red_flag: 0,
   insider: 1,
   linked_report: 2,
-  risk_factor: 3,
-  counterparty_named: 4,
-  share_change: 5,
+  guidance_result: 3,
+  guidance_revision: 4,
+  risk_factor: 5,
+  counterparty_named: 6,
+  share_change: 7,
 };
 
 /** The fixed rank above; lower is listed first. */
@@ -47,6 +52,10 @@ export function factTier(fact: BriefingFact): number {
       return fact.event === "purchase_cluster" || fact.event === "sale_cluster" ? 1 : 4;
     case "linked_report":
       return fact.on_session ? 2 : 4;
+    case "guidance_result":
+      return fact.position === "inside" ? 4 : 2;
+    case "guidance_revision":
+      return 2;
     case "risk_factor":
       return 3;
     default:

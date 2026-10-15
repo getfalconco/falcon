@@ -26,6 +26,7 @@ import {
   formatMove,
   formatRevenue,
   formatRevenueIn,
+  formatRevenueMoney,
   formatSurprise,
   formatUsd,
   formatUsualMove,
@@ -233,6 +234,8 @@ describe("short company names", () => {
     assert.equal(shortCompanyName("Apple Inc."), "Apple");
     assert.equal(shortCompanyName("JPMorgan Chase & Co."), "JPMorgan Chase");
     assert.equal(shortCompanyName("Eli Lilly and Company"), "Eli Lilly");
+    assert.equal(shortCompanyName("The Coca-Cola Company"), "Coca-Cola");
+    assert.equal(shortCompanyName("The Trade Desk"), "The Trade Desk", "an article with no tail stays");
     assert.equal(shortCompanyName("argenx SE American Depositary Shares"), "argenx");
     assert.equal(shortCompanyName("Tesla, Inc."), "Tesla");
     assert.equal(shortCompanyName("NVIDIA Corporation - Common Stock"), "NVIDIA");
@@ -309,6 +312,10 @@ describe("figures", () => {
     assert.equal(formatRevenueIn(16.8e9, "USD", "en-US"), "16.8B");
     assert.equal(formatEpsIn(4.6, "USD", "en-US"), "4.60");
     assert.equal(formatUsd(46_132_854_936, "en-US"), "$46.1B");
+    assert.equal(formatRevenueMoney(57e9, "USD", "en-US"), "$57.0B");
+    assert.equal(formatRevenueMoney(96.2e9, null, "en-US"), "$96.2B");
+    assert.equal(formatRevenueMoney(1_494_243_000_000, "TWD", "en-US"), "NT$1.5T");
+    assert.equal(formatRevenueMoney(0, "USD", "en-US"), null);
   });
 
   it("prints moves signed and the usual move either way", () => {

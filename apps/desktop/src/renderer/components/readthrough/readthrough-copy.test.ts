@@ -82,7 +82,7 @@ describe("readthrough copy", () => {
     const today = "2026-10-15";
     assert.equal(headLine(row({}), today, say, "en-US"), "TSM reports tomorrow, before the open");
     assert.equal(headLine(row({ date: "2026-10-22", time: "unknown" }), today, say, "en-US"), "TSM reports Thu, Oct 22");
-    assert.equal(statsLine(row({}), say, "en-US"), "NVDA moved with it 6 of the last 8 times · average 2.1% on the day");
+    assert.equal(statsLine(row({}), say, "en-US"), "NVDA moved with it 6 of the last 8 times · average 2.1% on the day, market included");
     assert.equal(statsLine(row({ stats: null, sample: 2 }), say, "en-US"), "NVDA: 2 past reports measured, 3 needed for figures");
     const recent = row({
       kind: "recent",

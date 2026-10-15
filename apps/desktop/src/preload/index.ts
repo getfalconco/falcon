@@ -467,6 +467,9 @@ contextBridge.exposeInMainWorld("meridian", {
   // Options-implied report move against the stock's own report-day record (main/options).
   getImpliedMoves: (reports: import("../shared/implied-move").ImpliedRequestItem[]) =>
     ipcRenderer.invoke("earnings:implied", reports) as Promise<import("../shared/implied-move").ImpliedMovesResult>,
+  // Analyst estimate revisions per name: the consensus EPS then and now, and who raised or lowered it (main/estimates).
+  getEstimateRevisions: (tickers: string[]) =>
+    ipcRenderer.invoke("earnings:estimates", tickers) as Promise<import("../shared/estimate-revisions").EstimatesResult>,
   // Read-through radar: linked companies' reports and how the reader's names moved on past ones (main/readthrough).
   getReadthroughRadar: (request: import("../shared/readthrough-types").ReadthroughRequest) =>
     ipcRenderer.invoke("readthrough:radar", request) as Promise<import("../shared/readthrough-types").ReadthroughResult>,

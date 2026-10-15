@@ -12,6 +12,7 @@
 
 import { useEffect, useMemo, useSyncExternalStore } from "react";
 import { createSwrResource, type SwrResource, type SwrState } from "@/lib/swr-resource";
+import { useShownPoll } from "@/lib/use-shown-poll";
 import type { InsiderActivityAnswer, InsiderActivityRequest, InsiderActivityResult } from "../../shared/insider-types";
 
 export const INSIDERS_STALE_AFTER_MS = 15 * 60_000;
@@ -90,12 +91,15 @@ export function useInsiderActivity(request: InsiderActivityRequest | null): SwrS
   const idle = useMemo(() => ({ value: null, fetchedAt: null, error: null, loading: false, settled: true }) as SwrState<InsiderActivityAnswer>, []);
   const state = useSyncExternalStore(resource ? resource.subscribe : noopSubscribe, resource ? resource.getState : () => idle, resource ? resource.getState : () => idle);
   useEffect(() => (resource ? resource.retain() : undefined), [resource]);
-  // Main is still reading: ask again shortly so the list fills in.
+  // Main is still reading: ask again shortly so the list fills in; not while the card is out of sight.
   const pending = state.value?.pending ?? 0;
-  useEffect(() => {
-    if (!resource || pending === 0 || state.loading) return;
-    const timer = setTimeout(() => void resource.revalidate(), INSIDERS_PENDING_POLL_MS);
-    return () => clearTimeout(timer);
-  }, [resource, pending, state.fetchedAt, state.loading]);
+  useShownPoll(
+    resource && pending > 0 ? key : "",
+    () => {
+      if (resource && !resource.getState().loading) void resource.revalidate();
+    },
+    INSIDERS_PENDING_POLL_MS,
+    { immediate: false },
+  );
   return { ...state, retry: () => void resource?.revalidate() };
 }

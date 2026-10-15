@@ -128,8 +128,8 @@ describe("stock tab read-through: copy", () => {
 
 describe("stock tab read-through: sentences and order", () => {
   it("says what was measured, the sample always in it", () => {
-    assert.equal(focusLine(row("TSM"), say, "en-US"), "Moves with TSM reports 6 of last 8 times · 2.4% on the day vs 1.1% on a normal day");
-    assert.equal(focusLine(row("AMD", { stats: stats(5, 7, 0.02, null), sample: 7 }), say, "en-US"), "Moves with AMD reports 5 of last 7 times · 2.0% on the day");
+    assert.equal(focusLine(row("TSM"), say, "en-US"), "Moves with TSM reports 6 of the last 8 times · 2.4% beyond the market on the day vs 1.1% on a normal day");
+    assert.equal(focusLine(row("AMD", { stats: stats(5, 7, 0.02, null), sample: 7 }), say, "en-US"), "Moves with AMD reports 5 of the last 7 times · 2.0% beyond the market on the day");
   });
 
   it("gives only the count below three reports", () => {
@@ -161,7 +161,7 @@ describe("stock tab read-through: rendering", () => {
     const order = ["TSM", "AVGO", "AMD", "MU", "SMCI"].map((t) => html.indexOf(`>${t}</button>`));
     assert.ok(order.every((i) => i >= 0), "every ticker is a button");
     assert.deepEqual([...order].sort((a, b) => a - b), order);
-    assert.match(html, /Moves with TSM reports 6 of last 8 times · 2\.4% on the day vs 1\.1% on a normal day/);
+    assert.match(html, /Moves with TSM reports 6 of the last 8 times · 2\.4% beyond the market on the day vs 1\.1% on a normal day/);
     assert.match(html, /2 past reports measured, too few for figures/);
     assert.match(html, /No past reports measured/);
     assert.match(html, />Reports tomorrow</);

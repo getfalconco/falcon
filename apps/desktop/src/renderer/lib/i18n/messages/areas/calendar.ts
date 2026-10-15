@@ -80,6 +80,7 @@ export const en = {
   "calendar.store.full": "The calendar is full. Delete some old events first.",
   "calendar.store.missing": "That event no longer exists.",
   "calendar.store.restart": "Restart Falcon to save your own events.",
+  "calendar.detail.openInStockTab": "Open in Stock tab",
 } satisfies Record<string, string>;
 
 type Table = Partial<Record<keyof typeof en, string>>;
@@ -149,6 +150,7 @@ export const tr: Table = {
   "calendar.store.full": "Takvim dolu. Önce bazı eski etkinlikleri silin.",
   "calendar.store.missing": "Bu etkinlik artık mevcut değil.",
   "calendar.store.restart": "Kendi etkinliklerinizi kaydetmek için Falcon'u yeniden başlatın.",
+  "calendar.detail.openInStockTab": "Hisse sekmesinde aç",
 };
 export const de: Table = {
   "calendar.sector.technology": "Technologie",
@@ -215,6 +217,7 @@ export const de: Table = {
   "calendar.store.full": "Der Kalender ist voll. Löschen Sie zuerst einige alte Termine.",
   "calendar.store.missing": "Diesen Termin gibt es nicht mehr.",
   "calendar.store.restart": "Starten Sie Falcon neu, um eigene Termine zu speichern.",
+  "calendar.detail.openInStockTab": "Im Aktien-Tab öffnen",
 };
 export const fr: Table = {
   "calendar.sector.technology": "Technologie",
@@ -281,6 +284,7 @@ export const fr: Table = {
   "calendar.store.full": "Le calendrier est plein. Supprimez d'abord d'anciens événements.",
   "calendar.store.missing": "Cet événement n'existe plus.",
   "calendar.store.restart": "Redémarrez Falcon pour enregistrer vos propres événements.",
+  "calendar.detail.openInStockTab": "Ouvrir dans l'onglet Action",
 };
 export const es: Table = {
   "calendar.sector.technology": "Tecnología",
@@ -347,6 +351,7 @@ export const es: Table = {
   "calendar.store.full": "El calendario está lleno. Elimina antes algunos eventos antiguos.",
   "calendar.store.missing": "Ese evento ya no existe.",
   "calendar.store.restart": "Reinicia Falcon para guardar tus propios eventos.",
+  "calendar.detail.openInStockTab": "Abrir en la pestaña Acción",
 };
 export const it: Table = {
   "calendar.sector.technology": "Tecnologia",
@@ -413,6 +418,7 @@ export const it: Table = {
   "calendar.store.full": "Il calendario è pieno. Elimina prima alcuni eventi vecchi.",
   "calendar.store.missing": "Quell'evento non esiste più.",
   "calendar.store.restart": "Riavvia Falcon per salvare i tuoi eventi.",
+  "calendar.detail.openInStockTab": "Apri nella scheda Titolo",
 };
 export const ptBR: Table = {
   "calendar.sector.technology": "Tecnologia",
@@ -479,6 +485,7 @@ export const ptBR: Table = {
   "calendar.store.full": "O calendário está cheio. Exclua alguns eventos antigos primeiro.",
   "calendar.store.missing": "Esse evento não existe mais.",
   "calendar.store.restart": "Reinicie o Falcon para salvar seus próprios eventos.",
+  "calendar.detail.openInStockTab": "Abrir na aba Ação",
 };
 export const ja: Table = {
   "calendar.sector.technology": "情報技術",
@@ -545,6 +552,7 @@ export const ja: Table = {
   "calendar.store.full": "カレンダーがいっぱいです。先に古い予定をいくつか削除してください。",
   "calendar.store.missing": "その予定はもう存在しません。",
   "calendar.store.restart": "自分の予定を保存するには Falcon を再起動してください。",
+  "calendar.detail.openInStockTab": "銘柄タブで開く",
 };
 export const zhCN: Table = {
   "calendar.sector.technology": "信息技术",
@@ -611,6 +619,7 @@ export const zhCN: Table = {
   "calendar.store.full": "日历已满。请先删除一些旧日程。",
   "calendar.store.missing": "该日程已不存在。",
   "calendar.store.restart": "请重启 Falcon 以保存您自己的日程。",
+  "calendar.detail.openInStockTab": "在个股标签页中打开",
 };
 export const ko: Table = {
   "calendar.sector.technology": "정보기술",
@@ -677,4 +686,5 @@ export const ko: Table = {
   "calendar.store.full": "캘린더가 가득 찼습니다. 먼저 오래된 일정을 삭제하세요.",
   "calendar.store.missing": "해당 일정은 더 이상 존재하지 않습니다.",
   "calendar.store.restart": "내 일정을 저장하려면 Falcon을 다시 시작하세요.",
+  "calendar.detail.openInStockTab": "종목 탭에서 열기",
 };

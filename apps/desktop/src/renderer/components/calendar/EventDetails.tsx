@@ -12,12 +12,15 @@ import { CATEGORY_COLOR } from "../../../shared/calendar-events";
 import { colorAccent, eventShade } from "./calendar-colors";
 import { addDays, hhmm, longDay as dayName, zonedParts } from "./calendar-dates";
 import type { CalEvent } from "./calendar-model";
+import EarningsFacts from "./EarningsFacts";
 import { BUTTON, ICON_BUTTON, MONO_HEAD } from "./calendar-styles";
 
 /**
  * An event's card. Market events are read-only and say where their date
  * comes from; the reader's own can be edited or deleted (two presses, so a
- * stray click cannot lose one). A ticker opens its stock page.
+ * stray click cannot lose one). A ticker opens its stock page. A company's
+ * earnings date also carries the figures the other tabs hold for it
+ * (EarningsFacts).
  */
 
 /** "Mon, Oct 12 · 08:30 - 09:30 GMT+3", "Mon, Oct 12 - Wed, Oct 14", "Mon, Oct 12 · All day". */
@@ -158,6 +161,8 @@ export default function EventDetails({
           </p>
         </div>
       ) : null}
+
+      <EarningsFacts event={event} today={today} onClose={onClose} />
 
       {event.origin === "market" ? (
         <p className="mt-3 border-t border-black/[0.06] pl-[20px] pt-2.5 text-[11px] leading-[1.45] text-[#9CA3AF]">

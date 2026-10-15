@@ -233,7 +233,7 @@ export function triggerSentence(t: AgentTrigger, lang: Lang): string {
     case "linked":
       return say(lang, "agents.trigger.linked", { ticker: t.ticker, who: linkedWho(t, lang), what: linkedWhat(t, lang) });
     case "filing_changes":
-      return say(lang, "agents.trigger.changes", { ticker: t.ticker, what: changesWhat(t, lang) });
+      return say(lang, "agents.trigger.changes", { ticker: t.ticker, forms: joinOr(["10-K", "10-Q", "20-F"], lang), what: changesWhat(t, lang) });
     case "schedule": {
       const time = timeOfDay(t.time || "08:00", lang);
       if (t.cadence === "daily") return say(lang, "agents.trigger.schedule.daily", { time });

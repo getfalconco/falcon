@@ -6,6 +6,7 @@ import { sectorCache } from "../calendar/register-calendar-handlers";
 import { fetchMarketCaps, fetchQuoteSummaryModules, fetchStockChartRange } from "../stock/market-data-service";
 import { filingForm, graphEdges } from "../research/graph-edges";
 import { getUsStockCatalog } from "../stock/us-stock-catalog";
+import { bulkFor } from "../stock/request-gate";
 import {
   parseEarningsRequest,
   parseReactionTickers,
@@ -147,7 +148,9 @@ export function registerEarningsHandlers(): void {
     const parsed = parseEarningsRequest(request);
     if (!parsed) return { ok: false, error: "invalid_request" };
     try {
-      return await earnings().upcoming(parsed);
+      // "Mine" for many names, "for you" and the market scopes fan out over many reads: the bulk lane (stock/request-gate.ts).
+      const names = parsed.scope === "mine" ? parsed.held.length + parsed.watchlist.length : Number.POSITIVE_INFINITY;
+      return await bulkFor(names, () => earnings().upcoming(parsed));
     } catch (err) {
       console.warn("[earnings] upcoming failed:", err instanceof Error ? err.message : String(err));
       return { ok: false, error: "unavailable" };
@@ -158,7 +161,7 @@ export function registerEarningsHandlers(): void {
     const tickers = parseReactionTickers(request);
     if (!tickers) return { ok: false, error: "invalid_request" };
     try {
-      return { ok: true, reactions: await reactionService().many(tickers) };
+      return { ok: true, reactions: await bulkFor(tickers.length, () => reactionService().many(tickers)) };
     } catch (err) {
       console.warn("[earnings] reactions failed:", err instanceof Error ? err.message : String(err));
       return { ok: false, error: "unavailable" };

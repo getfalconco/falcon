@@ -13,6 +13,7 @@
 
 import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
 import { createSwrResource, type SwrResource, type SwrState } from "@/lib/swr-resource";
+import { useShownPoll } from "@/lib/use-shown-poll";
 import type { EarningsDetail, EarningsReaction, EarningsScope } from "../../shared/earnings-types";
 import { calendarSectorsFor } from "../../shared/earnings-foryou";
 import { loadEarnings, type EarningsAnswer } from "./earnings-load";
@@ -132,13 +133,22 @@ export function useEarningsReactions(tickers: readonly string[]): Record<string,
   useEffect(() => {
     const listener = () => bump((n) => n + 1);
     reactionListeners.add(listener);
-    const list = key ? key.split(",") : [];
-    // Asked in pieces so the first rows fill in without waiting on the last.
-    for (let i = 0; i < list.length; i += 20) void loadReactions(list.slice(i, i + 20));
     return () => {
       reactionListeners.delete(listener);
     };
-  }, [key]);
+  }, []);
+  // Once the tab is in front (not while it is mounted ahead of time behind another), and again once stale.
+  useShownPoll(
+    key,
+    () => {
+      const list = key ? key.split(",") : [];
+      // Asked in pieces, one after another, so the first rows fill in without waiting on the last.
+      void (async () => {
+        for (let i = 0; i < list.length; i += 20) await loadReactions(list.slice(i, i + 20));
+      })();
+    },
+    REACTION_TTL_MS,
+  );
   const out: Record<string, EarningsReaction | null> = {};
   for (const t of key ? key.split(",") : []) {
     const k = reactionCache.get(t);

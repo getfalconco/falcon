@@ -1,4 +1,5 @@
 import { createRoot } from "react-dom/client";
+import "./fonts";
 import "../globals.css";
 import ReadthroughCard from "../components/readthrough/ReadthroughCard";
 import ReadthroughSection from "../components/readthrough/ReadthroughSection";

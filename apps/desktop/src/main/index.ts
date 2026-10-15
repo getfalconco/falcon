@@ -33,6 +33,7 @@ import { registerBriefingHandlers } from "./briefing/register-briefing-handlers"
 import { registerCalendarHandlers } from "./calendar/register-calendar-handlers";
 import { registerEarningsHandlers } from "./earnings/register-earnings-handlers";
 import { registerImpliedMoveHandlers } from "./options/register-implied-move-handlers";
+import { registerEstimatesHandlers } from "./estimates/register-estimates-handlers";
 import { registerReadthroughHandlers } from "./readthrough/register-readthrough-handlers";
 import { registerInsidersHandlers } from "./insiders/register-insiders-handlers";
 import { registerFilingsHandlers } from "./filings/register-filings-handlers";
@@ -134,6 +135,7 @@ registerBriefingHandlers();
 registerCalendarHandlers();
 registerEarningsHandlers();
 registerImpliedMoveHandlers();
+registerEstimatesHandlers();
 registerReadthroughHandlers();
 registerInsidersHandlers();
 registerFilingsHandlers();
@@ -240,14 +242,14 @@ function createWindow(): void {
   }
 }
 
-app.whenReady().then(async () => {
-  if (process.platform === "win32") {
-    app.setAppUserModelId("com.falcon.desktop");
-  }
-  if (process.platform === "darwin") {
-    app.dock?.setIcon(resolveAppIcon());
-  }
-
+/**
+ * The schema checks and the engine's health read are network calls (a pg
+ * connection, an 8 s health probe): they run after the window is created, so
+ * a slow or unreachable database or engine never holds the first paint. Every
+ * IPC handler is registered before the window loads, so nothing the renderer
+ * asks for waits on this.
+ */
+async function startChain(): Promise<void> {
   await ensureBrokerLinksSchema();
   // Server-side tracker universe (dev machines create the table via
   // DATABASE_URL; packaged installs rely on it already existing).
@@ -311,8 +313,15 @@ app.whenReady().then(async () => {
     bootstrapAnalyst();
     bootstrapScreen();
   }
-  // Local either way: a developer surface, on demand, no provider calls.
-  bootstrapQuantLab();
+}
+
+app.whenReady().then(async () => {
+  if (process.platform === "win32") {
+    app.setAppUserModelId("com.falcon.desktop");
+  }
+  if (process.platform === "darwin") {
+    app.dock?.setIcon(resolveAppIcon());
+  }
 
   ipcMain.handle("open-external", (_event, url: string) => {
     // The renderer forwards URLs straight from backend data (news items, event
@@ -346,6 +355,9 @@ app.whenReady().then(async () => {
 
   registerUpdateHandlers();
   createWindow();
+  void startChain().catch((err) => console.error("[engine] start failed:", err instanceof Error ? err.message : String(err)));
+  // Local either way: a developer surface, on demand, no provider calls.
+  bootstrapQuantLab();
   // Settings → System: the quick open shortcut, the tray, keeping the machine awake.
   bootstrapSystemPresence({ getWindow: () => mainWindow, createWindow });
   startUpdateService(() => mainWindow);

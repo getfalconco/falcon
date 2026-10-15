@@ -14,6 +14,11 @@
  *      asked again on a later visit
  *   4. the comparison (shared/guidance-track.ts)
  *
+ * Beside the readings, one small index per company (`tickers/<TICKER>.json`)
+ * lists the accessions its last visit found, so `peek` can rebuild the track
+ * record from disk alone: no EDGAR read, no model call. The morning handover
+ * reads it that way (main/briefing/research-facts.ts).
+ *
  * Every SEC request goes through the agents engine's EDGAR reader (its
  * User-Agent, its spacing, its submissions cache). Electron-free: the
  * readers, the model caller, the folder and the clock are injected.
@@ -23,7 +28,7 @@ import path from "node:path";
 import type { GlossModelCaller } from "@meridian/research/gloss";
 import { readJson, writeJsonAtomic } from "../briefing/json-file";
 import { htmlToText, type FilingRef } from "../agents/sources";
-import type { GuidanceRelease, GuidanceTrackResult } from "../../shared/guidance-types";
+import type { GuidanceRelease, GuidanceTrack, GuidanceTrackResult } from "../../shared/guidance-types";
 import { mergeReadings, verifyExtraction } from "../../shared/guidance-verify";
 import { buildTrack } from "../../shared/guidance-track";
 import { extractRelease, GUIDANCE_EXTRACT_VERSION, guidanceModel } from "./guidance-extract";
@@ -42,6 +47,8 @@ const PARTIAL_TTL_MS = 5 * 60_000;
 const PARALLEL = 3;
 
 type Stored = { version: string; model: string; release: GuidanceRelease };
+/** Which releases a company's last visit found, newest first. */
+type TickerIndex = { ticker: string; at: string; accessions: string[] };
 
 export type GuidanceDeps = {
   /** The submissions index, any form, newest first (agents/edgar `filingHistory`). */
@@ -56,7 +63,16 @@ export type GuidanceDeps = {
   now?: () => number;
 };
 
-export type GuidanceService = { track(ticker: string): Promise<GuidanceTrackResult> };
+export type GuidanceService = {
+  /** `fresh` skips the answer kept in memory, so a release filed since the last visit is read (the pre-read). */
+  track(ticker: string, options?: { fresh?: boolean }): Promise<GuidanceTrackResult>;
+  /**
+   * The track record from what is already on disk: the releases the last
+   * visit listed for this company and read in full. Never reads EDGAR, never
+   * calls the model, never writes; null when nothing for it is kept.
+   */
+  peek(ticker: string): GuidanceTrack | null;
+};
 
 function dayMs(ymd: string): number {
   return Date.parse(`${ymd}T12:00:00Z`);
@@ -102,12 +118,19 @@ export function createGuidanceService(deps: GuidanceDeps): GuidanceService {
   const model = () => deps.model ?? guidanceModel();
 
   const fileFor = (accession: string) => path.join(deps.dir, `${accession.replace(/[^0-9A-Za-z-]/g, "")}.json`);
+  const indexFor = (ticker: string) => path.join(deps.dir, "tickers", `${ticker.toUpperCase().replace(/[^0-9A-Z.-]/g, "")}.json`);
+
+  /** A reading kept on disk under the current extraction version, or null. */
+  function storedRelease(accession: string): GuidanceRelease | null {
+    const stored = readJson<Stored>(fileFor(accession));
+    return stored && stored.version === GUIDANCE_EXTRACT_VERSION && stored.release ? stored.release : null;
+  }
 
   /** One release, from disk or read now; null when it could not be read this time. */
   async function release(ticker: string, filing: FilingRef): Promise<GuidanceRelease | null> {
     const file = fileFor(filing.accession);
-    const stored = readJson<Stored>(file);
-    if (stored && stored.version === GUIDANCE_EXTRACT_VERSION && stored.release) return stored.release;
+    const stored = storedRelease(filing.accession);
+    if (stored) return stored;
 
     const index = await deps.file(filing, `${filing.accession}-index.htm`);
     if (index === null) return null;
@@ -156,6 +179,12 @@ export function createGuidanceService(deps: GuidanceDeps): GuidanceService {
       console.warn(`[guidance] ${ticker} filings not read: ${err instanceof Error ? err.message : String(err)}`);
       return { result: { ok: false, error: "unavailable" }, complete: false };
     }
+    try {
+      writeJsonAtomic(indexFor(ticker), { ticker, at: new Date(now()).toISOString(), accessions: filings.map((f) => f.accession) } satisfies TickerIndex);
+    } catch (err) {
+      // Only `peek` reads the index; the visit itself goes on without it.
+      console.warn(`[guidance] ${ticker} index not kept: ${err instanceof Error ? err.message : String(err)}`);
+    }
     const read = await pooled(filings, PARALLEL, (f) => release(ticker, f).catch(() => null));
     const releases = read.filter((r): r is GuidanceRelease => r !== null);
     const complete = releases.length === filings.length;
@@ -164,9 +193,9 @@ export function createGuidanceService(deps: GuidanceDeps): GuidanceService {
   }
 
   return {
-    async track(ticker) {
+    async track(ticker, options) {
       const hit = answers.get(ticker);
-      if (hit && now() - hit.at < hit.ttl) return hit.result;
+      if (hit && !options?.fresh && now() - hit.at < hit.ttl) return hit.result;
       const running = inflight.get(ticker);
       if (running) return running;
       const task = compute(ticker)
@@ -177,6 +206,16 @@ export function createGuidanceService(deps: GuidanceDeps): GuidanceService {
         .finally(() => inflight.delete(ticker));
       inflight.set(ticker, task);
       return task;
+    },
+
+    peek(ticker) {
+      const index = readJson<TickerIndex>(indexFor(ticker));
+      if (!index || !Array.isArray(index.accessions)) return null;
+      const releases = index.accessions
+        .filter((a): a is string => typeof a === "string" && a !== "")
+        .map(storedRelease)
+        .filter((r): r is GuidanceRelease => r !== null);
+      return releases.length > 0 ? buildTrack(ticker, releases) : null;
     },
   };
 }

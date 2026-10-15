@@ -12,6 +12,15 @@ import type { EarningsReaction, EarningsRow } from "../../../shared/earnings-typ
 import { reactionSession } from "../../../shared/earnings-time";
 import { IMPLIED_WITHIN_DAYS, formatImpliedPct, impliedHint, type ImpliedMove, type ImpliedRequestItem } from "../../../shared/implied-move";
 import { useImpliedMoves } from "@/lib/implied-move-store";
+import { useEstimateRevisions } from "@/lib/estimates-store";
+import {
+  changeCell,
+  changeSign,
+  estimateHint,
+  periodLabel,
+  reportPeriod,
+  type EstimateRevisions,
+} from "../../../shared/estimate-revisions";
 import {
   addDaysYmd,
   agentBrief,
@@ -39,6 +48,9 @@ import { BUTTON, RowBadges, SKELETON, TickerButton, linkSentence, useSay } from 
  *   This report      (once out) the actual against the consensus as it stood
  *                    before, and the session's move against the usual one
  *   Consensus        (before) EPS and revenue, how many estimates, their range
+ *   Estimate         (before) the mean EPS estimate's change over 7, 30 and 90
+ *   revisions        days per period, and how many analysts raised or lowered
+ *                    it in the last 30 days (shared/estimate-revisions.ts)
  *   Last four        EPS actual against consensus, and reported revenue
  *   quarters         (the providers keep no revenue consensus for the past)
  *   Guidance record  (three quarters or more on record) how reported figures
@@ -88,6 +100,58 @@ function ImpliedBlock({ v }: { v: ImpliedMove }) {
           <Line label={t("implied.drawer.sample")}>{h.n}</Line>
         )}
       </div>
+    </section>
+  );
+}
+
+const EST_GRID = "grid grid-cols-[minmax(0,1fr)_48px_48px_48px_48px] items-baseline gap-x-1.5";
+
+/** How the mean EPS estimate has moved per period, and how many analysts revised it. */
+function EstimatesBlock({ v, reportDate }: { v: EstimateRevisions; reportDate: string }) {
+  const { say, lang, t } = useSay();
+  const na = useNa();
+  const report = reportPeriod(v, reportDate);
+  const rev = report?.revenue?.change30 ? report.revenue : null;
+  const cell = (c: EstimateRevisions["periods"][number]["change7"], currency: string | null) => {
+    const text = changeCell(c, currency, lang);
+    return <span className={cn(NUM, "whitespace-nowrap text-right text-[11.5px]", text === null ? "text-[#9CA3AF]" : tone(changeSign(c)))}>{text ?? na}</span>;
+  };
+  return (
+    <section className={SECTION}>
+      <p className={HEAD}>{t("estimates.drawer.title")}</p>
+      <div className={cn(EST_GRID, "mt-1.5 text-[11px] text-[#9CA3AF]")}>
+        <span className="truncate">{t("estimates.col.eps")}</span>
+        <span className="text-right">{t("estimates.col.d7")}</span>
+        <span className="text-right">{t("estimates.col.d30")}</span>
+        <span className="text-right">{t("estimates.col.d90")}</span>
+        <span className="truncate text-right" title={t("estimates.col.revisionsHint")}>
+          {t("estimates.col.revisions")}
+        </span>
+      </div>
+      {v.periods.map((p) => (
+        <div key={p.period} className={cn(EST_GRID, "py-[3px] text-[12px]")} title={`${periodLabel(p, say, lang)}
+${estimateHint(p, say, lang)}`}>
+          <span className="min-w-0 break-words leading-[1.35] text-[#4b5563]">{periodLabel(p, say, lang)}</span>
+          {cell(p.change7, p.currency)}
+          {cell(p.change30, p.currency)}
+          {cell(p.change90, p.currency)}
+          <span className={cn(NUM, "whitespace-nowrap text-right text-[11.5px] text-[#1d1b1b]")}>{p.up30 !== null && p.down30 !== null ? `${p.up30} / ${p.down30}` : na}</span>
+        </div>
+      ))}
+      {rev && rev.change30 ? (
+        <Line
+          label={t("estimates.drawer.revenue")}
+          hint={t("estimates.drawer.revenueHint", {
+            now: formatRevenueIn(rev.now, rev.currency, lang) ?? na,
+            count: rev.analysts,
+            then: formatRevenueIn(rev.change30.from, rev.currency, lang) ?? na,
+            date: shortDate(rev.change30.fromDate, lang),
+          })}
+        >
+          <span className={tone(Math.abs(rev.change30.pct) < 0.0005 ? 0 : rev.change30.pct)}>{formatMove(rev.change30.pct, lang) ?? na}</span>
+        </Line>
+      ) : null}
+      <p className="mt-1.5 text-[11px] leading-[1.45] text-[#9CA3AF]">{t("estimates.drawer.note")}</p>
     </section>
   );
 }
@@ -157,6 +221,7 @@ function DrawerBody({ row, today, live, onClose }: { row: EarningsRow; today: st
     [out, row.ticker, row.date, row.time, today],
   );
   const implied = useImpliedMoves(impliedAsk)[row.ticker] ?? null;
+  const estimates = useEstimateRevisions(out ? [] : [row.ticker])[row.ticker] ?? null;
 
   const exact = releaseTimeText(row.releasedAt, say);
   const when = out
@@ -255,43 +320,48 @@ function DrawerBody({ row, today, live, onClose }: { row: EarningsRow; today: st
           </section>
         )}
 
+        {estimates && !out ? <EstimatesBlock v={estimates} reportDate={row.date} /> : null}
+
         {implied ? <ImpliedBlock v={implied} /> : null}
 
-        <section className={SECTION}>
-          <p className={HEAD}>{t("earnings.drawer.quarters")}</p>
-          {state.status === "loading" ? (
-            <div className="mt-2 space-y-2" aria-hidden>
-              {[0, 1, 2].map((i) => (
-                <div key={i} className={cn(SKELETON, "h-3 w-full")} />
-              ))}
-            </div>
-          ) : state.status === "failed" ? (
-            <p className="mt-1.5 text-[12px] text-[#9CA3AF]">{t("earnings.drawer.failed")}</p>
-          ) : detail && detail.quarters.length > 0 ? (
-            <>
-              <div className="mt-1.5 grid grid-cols-[minmax(0,1fr)_64px_72px_84px] gap-x-2 text-[11px] text-[#9CA3AF]">
-                <span>{t("earnings.drawer.quarter")}</span>
-                <span className="text-right">{t("earnings.drawer.actual")}</span>
-                <span className="text-right">{t("earnings.drawer.estimate")}</span>
-                <span className="text-right">{t("earnings.drawer.revenue")}</span>
+        {/* No quarters on record: the section is left out rather than shown as a bare "n/a". */}
+        {state.status === "ready" && !(detail && detail.quarters.length > 0) ? null : (
+          <section className={SECTION}>
+            <p className={HEAD}>{t("earnings.drawer.quarters")}</p>
+            {state.status === "loading" ? (
+              <div className="mt-2 space-y-2" aria-hidden>
+                {[0, 1, 2].map((i) => (
+                  <div key={i} className={cn(SKELETON, "h-3 w-full")} />
+                ))}
               </div>
-              {[...detail.quarters].reverse().map((q) => {
-                const diff = q.epsActual !== null && q.epsEstimate !== null ? q.epsActual - q.epsEstimate : null;
-                return (
-                  <div key={q.periodEnd ?? q.fiscalQuarter ?? ""} className="grid grid-cols-[minmax(0,1fr)_64px_72px_84px] gap-x-2 py-[3px] text-[12px]">
-                    <span className="truncate text-[#4b5563]">{q.fiscalQuarter ? fiscalText(q.fiscalQuarter, say) : q.periodEnd ? shortDate(q.periodEnd, lang) : na}</span>
-                    <span className={cn(NUM, "text-right", tone(diff))}>{formatEps(q.epsActual, lang) ?? na}</span>
-                    <span className={cn(NUM, "text-right text-[#4b5563]")}>{formatEps(q.epsEstimate, lang) ?? na}</span>
-                    <span className={cn(NUM, "text-right text-[#1d1b1b]")}>{formatRevenueIn(q.revenueActual, detail.revenueCurrency, lang) ?? na}</span>
-                  </div>
-                );
-              })}
-              <p className="mt-1.5 text-[11px] leading-[1.45] text-[#9CA3AF]">{t("earnings.drawer.revenueNote")}</p>
-            </>
-          ) : (
-            <p className="mt-1.5 text-[12px] text-[#9CA3AF]">{na}</p>
-          )}
-        </section>
+            ) : state.status === "failed" ? (
+              <p className="mt-1.5 text-[12px] text-[#9CA3AF]">{t("earnings.drawer.failed")}</p>
+            ) : detail && detail.quarters.length > 0 ? (
+              <>
+                <div className="mt-1.5 grid grid-cols-[minmax(0,1fr)_64px_72px_84px] gap-x-2 text-[11px] text-[#9CA3AF]">
+                  <span>{t("earnings.drawer.quarter")}</span>
+                  <span className="text-right">{t("earnings.drawer.actual")}</span>
+                  <span className="text-right">{t("earnings.drawer.estimate")}</span>
+                  <span className="text-right">{t("earnings.drawer.revenue")}</span>
+                </div>
+                {[...detail.quarters].reverse().map((q) => {
+                  const diff = q.epsActual !== null && q.epsEstimate !== null ? q.epsActual - q.epsEstimate : null;
+                  return (
+                    <div key={q.periodEnd ?? q.fiscalQuarter ?? ""} className="grid grid-cols-[minmax(0,1fr)_64px_72px_84px] gap-x-2 py-[3px] text-[12px]">
+                      <span className="truncate text-[#4b5563]" title={q.fiscalQuarter ? fiscalText(q.fiscalQuarter, say) : undefined}>
+                        {q.fiscalQuarter ? fiscalText(q.fiscalQuarter, say) : q.periodEnd ? shortDate(q.periodEnd, lang) : na}
+                      </span>
+                      <span className={cn(NUM, "text-right", tone(diff))}>{formatEps(q.epsActual, lang) ?? na}</span>
+                      <span className={cn(NUM, "text-right text-[#4b5563]")}>{formatEps(q.epsEstimate, lang) ?? na}</span>
+                      <span className={cn(NUM, "text-right text-[#1d1b1b]")}>{formatRevenueIn(q.revenueActual, detail.revenueCurrency, lang) ?? na}</span>
+                    </div>
+                  );
+                })}
+                <p className="mt-1.5 text-[11px] leading-[1.45] text-[#9CA3AF]">{t("earnings.drawer.revenueNote")}</p>
+              </>
+            ) : null}
+          </section>
+        )}
 
         <GuidanceLines ticker={row.ticker} className={SECTION} />
 

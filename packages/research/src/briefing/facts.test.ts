@@ -55,6 +55,51 @@ function named(ticker: string, date: string): BriefingFact {
   return { id: `named:${ticker}:${date}`, kind: "counterparty_named", ticker, scope: "held", date, url: SEC, form: "10-K", role: "customer", name: "Acme Corp", pct: null };
 }
 
+function guidanceResult(ticker: string, position: "above" | "inside" | "below", date: string, scope: "held" | "watchlist" = "held"): BriefingFact {
+  return {
+    id: `guidance:${ticker}:${date}:result`,
+    kind: "guidance_result",
+    ticker,
+    scope,
+    date,
+    url: SEC,
+    form: "8-K",
+    metric: "revenue",
+    basis: "unspecified",
+    unit: "currency",
+    currency: "USD",
+    fiscal_year: 2027,
+    fiscal_quarter: 2,
+    low: 45e9,
+    high: 47e9,
+    actual: position === "above" ? 48e9 : position === "inside" ? 46e9 : 44e9,
+    position,
+  };
+}
+
+function guidanceRevision(ticker: string, revision: "raised" | "cut", date: string): BriefingFact {
+  return {
+    id: `guidance:${ticker}:${date}:revision`,
+    kind: "guidance_revision",
+    ticker,
+    scope: "held",
+    date,
+    url: SEC,
+    form: "8-K",
+    metric: "revenue",
+    basis: "unspecified",
+    unit: "currency",
+    currency: "USD",
+    fiscal_year: 2027,
+    fiscal_quarter: null,
+    low: 190e9,
+    high: 195e9,
+    revision,
+    prior_low: 180e9,
+    prior_high: 185e9,
+  };
+}
+
 describe("rankBriefingFacts: the fixed order", () => {
   it("lists red flags, then insider clusters, then linked reports on the session, then new risk factors, then the rest", () => {
     const input = [
@@ -86,6 +131,39 @@ describe("rankBriefingFacts: the fixed order", () => {
       risk("NEW", "2026-10-14"),
     ]);
     assert.deepEqual(ranked.map((f) => f.ticker), ["NEW", "OLD", "WAT"]);
+  });
+
+  it("puts a release outside its guide and a raised or cut guide after red flags and clusters, beside linked reports", () => {
+    assert.equal(factTier(guidanceResult("A", "above", "2026-10-14")), 2);
+    assert.equal(factTier(guidanceResult("A", "below", "2026-10-14")), 2);
+    assert.equal(factTier(guidanceRevision("A", "raised", "2026-10-14")), 2);
+    assert.equal(factTier(guidanceRevision("A", "cut", "2026-10-14")), 2);
+    // A figure that landed inside its guide is a record, not news: with the rest.
+    assert.equal(factTier(guidanceResult("A", "inside", "2026-10-14")), 4);
+    const ranked = rankBriefingFacts([
+      named("NAM", "2026-10-15"),
+      guidanceResult("INS", "inside", "2026-10-15"),
+      risk("RSK", "2026-10-15"),
+      guidanceRevision("REV", "raised", "2026-10-14"),
+      guidanceResult("WAT", "below", "2026-10-15", "watchlist"),
+      linked("LNK", "TSM", true, "2026-10-16"),
+      guidanceResult("OUT", "above", "2026-10-14"),
+      insider("CLU", "purchase_cluster", "2026-10-14"),
+      redFlag("RED", "2026-10-10"),
+    ]);
+    assert.deepEqual(ranked.map((f) => f.ticker), ["RED", "CLU", "LNK", "OUT", "REV"]);
+    const all = rankBriefingFacts(
+      [
+        named("NAM", "2026-10-15"),
+        guidanceResult("INS", "inside", "2026-10-15"),
+        risk("RSK", "2026-10-15"),
+        guidanceResult("WAT", "below", "2026-10-15", "watchlist"),
+        guidanceRevision("REV", "raised", "2026-10-14"),
+        guidanceResult("OUT", "above", "2026-10-14"),
+      ],
+      10,
+    );
+    assert.deepEqual(all.map((f) => f.ticker), ["OUT", "REV", "WAT", "RSK", "INS", "NAM"]);
   });
 
   it("orders insider clusters on the same day by the insider module's score", () => {

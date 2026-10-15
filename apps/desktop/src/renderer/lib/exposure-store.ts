@@ -17,7 +17,7 @@ import { isEtfTicker } from "@/lib/etf-tickers";
 import { isDemoMode, subscribeDemoMode } from "@/lib/demo-mode";
 import { readPaperAccount, subscribePaperAccount, type PaperAccount } from "@/lib/paper-account";
 import { getWatchlist, subscribeWatchlist } from "@/lib/watchlist";
-import { useOnHomeTabShown } from "@/lib/home-tab-activity";
+import { useHomeTabActivity, useOnHomeTabShown } from "@/lib/home-tab-activity";
 import { paperAccountWeights } from "../../shared/portfolio-weights";
 import {
   exposureRequestKey,
@@ -171,6 +171,7 @@ export function useExposure(): ExposureView {
     return { key: known ? key : null, summary: known?.summary ?? null, error: null, loading: !known };
   });
   const [nonce, setNonce] = useState(0);
+  const activity = useHomeTabActivity();
 
   useEffect(() => {
     const known = answers.get(key);
@@ -178,6 +179,8 @@ export function useExposure(): ExposureView {
       setState({ key, summary: known.summary, error: null, loading: false });
       return;
     }
+    // A tab kept hidden behind another keeps the answer it has; a price tick there asks nothing (caught up when shown).
+    if (state.summary !== null && !activity.isActive()) return;
     let live = true;
     setState((s) => ({ ...s, loading: true }));
     // The first ask goes at once; one that follows a price tick waits for the prints to settle.

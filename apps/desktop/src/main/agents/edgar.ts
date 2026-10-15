@@ -1,4 +1,5 @@
 import { edgarAcceptanceIso, edgarIndexConvention } from "@meridian/research/edgar-time";
+import { secFetch as sharedSecFetch } from "@meridian/research/sec-fetch";
 import { exhibitFromIndex } from "../edgar/exhibit-index";
 import { htmlToText, parseForm4, type FilingRef, type FilingText, type InsiderTxn } from "./sources";
 
@@ -10,40 +11,27 @@ import { htmlToText, parseForm4, type FilingRef, type FilingText, type InsiderTx
  * sources.ts`), but it keeps only four forms and is not exported from the
  * package; an agent may watch any form (13D, S-1, DEF 14A) and needs the
  * press release exhibit of an 8-K, so this is a small reader of its own with
- * the same manners: a descriptive User-Agent, requests spaced out (SEC asks
- * for no more than ten a second; this sends at most four), and caches so ten
- * agents on one company make one request.
+ * the same manners: a descriptive User-Agent, requests spaced out through
+ * the one SEC queue the whole process shares (SEC asks for no more than ten a
+ * second; the queue starts at most four), and caches so ten agents on one
+ * company make one request.
  */
 
 const SEC_UA = process.env.SEC_EDGAR_USER_AGENT?.trim() || "Meridian Falcon Agents research@getfalcon.co";
 const TIMEOUT_MS = 15_000;
-const MIN_GAP_MS = 250;
 const TICKERS_TTL_MS = 24 * 60 * 60_000;
 const SUBMISSIONS_TTL_MS = 4 * 60_000;
 const TEXT_MAX_CHARS = 120_000;
 const RECENT_COUNT = 60;
 const HISTORY_COUNT = 1000;
 
-let lastRequestAt = 0;
-let queue: Promise<unknown> = Promise.resolve();
-
-/** One request at a time, spaced; the queue survives a failed request. */
+/**
+ * Through the process-wide SEC queue (@meridian/research/sec-fetch), shared
+ * with the Tracker, step1 and every other EDGAR reader in this process: at
+ * most four request starts a second in all. The queue survives a failed request.
+ */
 function secFetch(url: string, accept = "application/json"): Promise<Response> {
-  const run = async () => {
-    const wait = lastRequestAt + MIN_GAP_MS - Date.now();
-    if (wait > 0) await new Promise((r) => setTimeout(r, wait));
-    lastRequestAt = Date.now();
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
-    try {
-      return await fetch(url, { headers: { "User-Agent": SEC_UA, Accept: accept }, signal: controller.signal });
-    } finally {
-      clearTimeout(timer);
-    }
-  };
-  const next = queue.then(run, run);
-  queue = next.catch(() => undefined);
-  return next;
+  return sharedSecFetch(url, { userAgent: SEC_UA, accept, timeoutMs: TIMEOUT_MS });
 }
 
 let tickers: { at: number; map: Map<string, string> } | null = null;
@@ -74,6 +62,24 @@ export async function resolveCik(ticker: string): Promise<string | null> {
 }
 
 const submissions = new Map<string, { at: number; filings: FilingRef[] }>();
+/**
+ * A kept index (up to a thousand filings, about half a megabyte) is dropped
+ * after a day, and no more than SUBMISSIONS_KEEP_MAX are kept: the
+ * insiders card alone reads some sixty companies. A day still covers
+ * `cachedFilingHistory`'s readers, which follow names read every few hours.
+ */
+export const SUBMISSIONS_KEEP_MS = 24 * 60 * 60_000;
+export const SUBMISSIONS_KEEP_MAX = 120;
+
+/** Drops kept indexes older than `keepMs`, then the oldest beyond `max`. Insertion order is age order. */
+export function pruneKept<T extends { at: number }>(map: Map<string, T>, nowMs: number, keepMs = SUBMISSIONS_KEEP_MS, max = SUBMISSIONS_KEEP_MAX): void {
+  for (const [key, entry] of map) if (nowMs - entry.at > keepMs) map.delete(key);
+  while (map.size > max) {
+    const oldest = map.keys().next().value;
+    if (oldest === undefined) break;
+    map.delete(oldest);
+  }
+}
 const submissionsInflight = new Map<string, Promise<FilingRef[]>>();
 
 function archiveBase(cik: string, accession: string): string {
@@ -103,11 +109,27 @@ export async function filingHistory(ticker: string): Promise<FilingRef[]> {
     const data = (await res.json()) as { filings?: { recent?: SubmissionsRecent } };
     // The acceptance stamp's clock depends on this read of the file (research/edgar-time.ts).
     const filings = filingsFromSubmissions(cik, data.filings?.recent, Date.now());
+    submissions.delete(cik);
     submissions.set(cik, { at: Date.now(), filings });
+    pruneKept(submissions, Date.now());
     return filings;
   })().finally(() => submissionsInflight.delete(cik));
   submissionsInflight.set(cik, request);
   return request;
+}
+
+/**
+ * What the last submissions read this run kept for a company, however old,
+ * or null when none was read (or the ticker list is not loaded). Never
+ * fetches: it lets a background job notice a new filing from the reads the
+ * other modules already make, without polling EDGAR itself.
+ */
+export function cachedFilingHistory(ticker: string): FilingRef[] | null {
+  const map = tickers?.map;
+  if (!map) return null;
+  const t = ticker.toUpperCase();
+  const cik = map.get(t) ?? map.get(t.replace(".", "-")) ?? map.get(t.replace("-", "."));
+  return cik ? (submissions.get(cik)?.filings ?? null) : null;
 }
 
 /** The submissions index's `filings.recent` columns. */

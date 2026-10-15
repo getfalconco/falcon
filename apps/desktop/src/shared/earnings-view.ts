@@ -212,6 +212,8 @@ export function shortCompanyName(name: string | null): string | null {
     if (!next || next === s) break;
     s = next;
   }
+  // "The Coca-Cola Company" reads "Coca-Cola", not "The Coca-Cola": the article goes with the tail it belonged to.
+  if (NAME_TAIL.test(name.trim()) && /^the\s+\S+\s*\S/i.test(s)) s = s.replace(/^the\s+/i, "");
   return s || name.trim();
 }
 
@@ -318,6 +320,26 @@ export function formatRevenueIn(value: number | null, currency: string | null, l
   const v = formatRevenue(value, lang);
   if (v === null) return null;
   return currency && currency !== "USD" ? v + " " + currency : v;
+}
+
+/**
+ * Revenue as money, compact, always to one decimal so a column reads evenly:
+ * "$57.0B", "$96.2B", "NT$1.5T", in the reader's locale. Falls back to the
+ * plain figure with its currency code when the code is not one Intl knows.
+ */
+export function formatRevenueMoney(value: number | null, currency: string | null, lang: string): string | null {
+  if (value === null || !Number.isFinite(value) || value <= 0) return null;
+  try {
+    return new Intl.NumberFormat(lang, {
+      style: "currency",
+      currency: currency ?? "USD",
+      notation: "compact",
+      minimumFractionDigits: 1,
+      maximumFractionDigits: 1,
+    }).format(value);
+  } catch {
+    return formatRevenueIn(value, currency, lang);
+  }
 }
 
 /** Dollars, compact: "$52.5B". */

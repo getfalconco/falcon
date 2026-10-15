@@ -4,7 +4,8 @@
  * What the desktop's own SEC readers already know about the reader's names,
  * put in the briefing as records: a red flag a filing did not carry before,
  * an insider cluster, a linked company reporting this session, new risk
- * factor headings, a customer named for the first time, a share that moved.
+ * factor headings, a customer named for the first time, a share that moved,
+ * an earnings release's figure against its guide and a guide raised or cut.
  * Each fact keeps its form, its date and its link on sec.gov; the panel words
  * it and no model sees it.
  *
@@ -14,6 +15,11 @@
  *   insiders     `peek(...)`: the events read so far, nothing queued
  *   readthrough  `radar(...)`: the radar's own answer, which sits behind a
  *                ten-minute answer cache and per-day caches for every read
+ *   guidance     `peek(ticker)`: the releases already read and kept on disk;
+ *                never `track`, which reads EDGAR and asks the model on a miss.
+ *                A held name's new release is read in the background while
+ *                Falcon runs (main/guidance/guidance-prefetch.ts); one no
+ *                read reached is not in the briefing
  *
  * Every source is optional and fails on its own: one that throws or does not
  * answer in time is listed in `unavailable`, and the facts from the others
@@ -26,6 +32,7 @@ import { rankBriefingFacts } from "@meridian/research/briefing";
 import type { BriefingFact, BriefingFactSource, BriefingResearchFacts } from "../../shared/briefing-types";
 import type { FilingChangeItem, FilingChanges } from "../../shared/filing-changes";
 import { nextSession, nyYmdOf } from "../../shared/earnings-time";
+import { GUIDANCE_METRICS, type GuidanceRow, type GuidanceTrack } from "../../shared/guidance-types";
 import type { InsiderActivityAnswer, InsiderEvent } from "../../shared/insider-types";
 import type { ParsedReadthroughRequest, ReadthroughResult, ReadthroughRow } from "../../shared/readthrough-types";
 
@@ -33,6 +40,8 @@ import type { ParsedReadthroughRequest, ReadthroughResult, ReadthroughRow } from
 export const FILING_LOOKBACK_DAYS = 7;
 /** An insider event is in the briefing for this many days after its latest filing. */
 export const INSIDER_LOOKBACK_DAYS = 3;
+/** An earnings release is in the briefing for this many days after it was filed. */
+export const GUIDANCE_LOOKBACK_DAYS = 3;
 /** The insider module's significance (0 to 100) an event needs to be listed here. */
 export const INSIDER_MIN_SCORE = 40;
 /** Customers or suppliers named for the first time, per filing: a long list is one company's story, not five. */
@@ -53,12 +62,8 @@ export type ResearchFactsDeps = {
   filings?: () => { cached(ticker: string): FilingChanges | null };
   insiders?: () => { peek(request: { held: readonly string[]; watchlist: readonly string[] }): InsiderActivityAnswer };
   readthrough?: () => { radar(request: ParsedReadthroughRequest): Promise<ReadthroughResult> };
-  // TODO(guidance): the guidance track record (main/guidance) has no read of
-  // what it keeps without fetching: `track(ticker)` reads EDGAR and asks the
-  // model on a miss, which the briefing must not set off. When the service
-  // gains a cache-only read, add a "guidance" source here (a missed or met
-  // guide in a release filed in the lookback window, as a record with its
-  // 8-K link) and give it a rank in packages/research/src/briefing/facts.ts.
+  /** Cache-only: `peek` reads what is on disk and never fetches or calls the model. */
+  guidance?: () => { peek(ticker: string): GuidanceTrack | null };
   now: () => number;
   timeoutMs?: number;
 };
@@ -224,6 +229,98 @@ export function factsFromReadthrough(rows: readonly ReadthroughRow[], today: str
   return out;
 }
 
+const METRIC_ORDER = new Map<string, number>(GUIDANCE_METRICS.map((m, i) => [m, i]));
+const BASIS_ORDER: Record<GuidanceRow["basis"], number> = { unspecified: 0, both: 1, gaap: 2, non_gaap: 3 };
+
+/** The row a release leads with: the first figure in the table's order (revenue first), a quarter before a year. */
+function leadRow(rows: readonly GuidanceRow[]): GuidanceRow | null {
+  const sorted = [...rows].sort(
+    (a, b) =>
+      (METRIC_ORDER.get(a.metric) ?? 99) - (METRIC_ORDER.get(b.metric) ?? 99) ||
+      (a.period.fq === null ? 1 : 0) - (b.period.fq === null ? 1 : 0) ||
+      BASIS_ORDER[a.basis] - BASIS_ORDER[b.basis],
+  );
+  return sorted[0] ?? null;
+}
+
+function figureOf(row: GuidanceRow) {
+  return {
+    metric: row.metric,
+    basis: row.basis,
+    unit: row.unit,
+    currency: row.currency,
+    fiscal_year: row.period.fy,
+    fiscal_quarter: row.period.fq,
+    low: row.low,
+    high: row.high,
+  };
+}
+
+function finite(...values: Array<number | null | undefined>): boolean {
+  return values.every((v) => typeof v === "number" && Number.isFinite(v));
+}
+
+/**
+ * One name's newest earnings release, when it was filed in the last three
+ * days, as at most two facts: where its lead reported figure landed against
+ * the company's last guide for that period, and its lead guide that sits
+ * above or below what an earlier release guided for the same period. Both
+ * dated and linked by the release's own exhibit on sec.gov.
+ */
+export function factsFromGuidance(track: GuidanceTrack, scope: Scope, today: string): BriefingFact[] {
+  const latest = track.latest;
+  if (!latest || !within(latest, today, GUIDANCE_LOOKBACK_DAYS)) return [];
+  const ticker = track.ticker;
+  const out: BriefingFact[] = [];
+
+  const result = leadRow(
+    track.rows.filter(
+      (r) => r.state === "resolved" && r.position !== null && r.reported?.filedAt === latest && finite(r.actual, r.low, r.high),
+    ),
+  );
+  if (result && result.actual !== null && result.position !== null && result.reported) {
+    out.push({
+      id: `guidance:${ticker}:${latest}:result:${result.metric}:${result.basis}:${result.period.fy}:${result.period.fq ?? "fy"}`,
+      kind: "guidance_result",
+      ticker,
+      scope,
+      date: latest,
+      url: result.reported.url,
+      form: "8-K",
+      ...figureOf(result),
+      actual: result.actual,
+      position: result.position,
+    });
+  }
+
+  const revised = leadRow(
+    track.rows.filter(
+      (r) =>
+        r.state === "open" &&
+        r.guide.filedAt === latest &&
+        (r.revision === "raised" || r.revision === "cut") &&
+        r.prior !== null &&
+        finite(r.low, r.high, r.prior.low, r.prior.high),
+    ),
+  );
+  if (revised && revised.prior && (revised.revision === "raised" || revised.revision === "cut")) {
+    out.push({
+      id: `guidance:${ticker}:${latest}:revision:${revised.metric}:${revised.basis}:${revised.period.fy}:${revised.period.fq ?? "fy"}`,
+      kind: "guidance_revision",
+      ticker,
+      scope,
+      date: latest,
+      url: revised.guide.url,
+      form: "8-K",
+      ...figureOf(revised),
+      revision: revised.revision,
+      prior_low: revised.prior.low,
+      prior_high: revised.prior.high,
+    });
+  }
+  return out;
+}
+
 /** Settles with the source's facts, or null when it threw or ran past the timeout. */
 async function settle(run: () => Promise<BriefingFact[]> | BriefingFact[], timeoutMs: number): Promise<BriefingFact[] | null> {
   let timer: ReturnType<typeof setTimeout> | undefined;
@@ -273,6 +370,19 @@ export async function collectResearchFacts(deps: ResearchFactsDeps, names: FactN
       run: () => {
         const answer = insidersOf().peek({ held, watchlist });
         return factsFromInsiders(answer.events, today);
+      },
+    });
+  }
+  const guidanceOf = deps.guidance;
+  if (guidanceOf) {
+    jobs.push({
+      source: "guidance",
+      run: () => {
+        const service = guidanceOf();
+        return [...held, ...watchlist].slice(0, MAX_NAMES).flatMap((t) => {
+          const track = service.peek(t);
+          return track ? factsFromGuidance({ ...track, ticker: t }, scopeOf(t), today) : [];
+        });
       },
     });
   }

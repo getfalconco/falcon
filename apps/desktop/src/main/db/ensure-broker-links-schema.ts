@@ -36,7 +36,7 @@ export async function ensureBrokerLinksSchema(): Promise<boolean> {
   }
 
   const sql = readFileSync(migrationSqlPath(), "utf8");
-  const client = new Client({ connectionString: databaseUrl });
+  const client = new Client({ connectionString: databaseUrl, connectionTimeoutMillis: 5_000 });
 
   try {
     await client.connect();

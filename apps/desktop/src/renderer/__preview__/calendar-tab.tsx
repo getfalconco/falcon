@@ -1,6 +1,7 @@
 import { createRoot } from "react-dom/client";
 import "../globals.css";
 import CalendarTab from "../components/calendar/CalendarTab";
+import { useGuidanceTrack } from "../components/stock-tab/use-guidance";
 import { applyTheme, getStoredTheme } from "../lib/theme";
 import { applyLanguage, setLanguage } from "../lib/i18n";
 import { isLanguageCode } from "../lib/i18n/languages";
@@ -8,6 +9,11 @@ import { mulberry32 } from "../lib/demo-mode";
 import { seedPaperAccount, type PaperPosition } from "../lib/paper-account";
 import { buildDemoBriefing } from "../../shared/briefing-demo";
 import { resolveBriefingWindow, type BriefingHolding } from "../../shared/briefing-types";
+import type { EstimateRevisions } from "../../shared/estimate-revisions";
+import type { GuidanceTrack } from "../../shared/guidance-types";
+import type { ImpliedMove, ImpliedRequestItem } from "../../shared/implied-move";
+import type { ReadthroughRequest, ReadthroughResult, ReadthroughRow } from "../../shared/readthrough-types";
+import guidanceFixture from "./guidance-fixture.json";
 import {
   validateUserEventInput,
   type CalendarCorporateEvent,
@@ -29,6 +35,14 @@ import {
  *   ?state=old-main    a bridge without the calendar handlers: the restart notes
  *   ?corp=error        the corporate read fails
  *   ?empty=1           no holdings, no watchlist, no own events
+ *   ?facts=none        the earnings card's figures all come back empty
+ *                      (options, estimates, read-through; no guidance read)
+ *
+ * The earnings card's figures are fixtures too: TSM (watchlist) reports in
+ * four days with options, estimates and two held names' read-through; NVDA
+ * in 33 days (past the report's reach, outside the options window) with its
+ * guidance track already read this run (as if the Stock tab had opened it),
+ * so its estimates and pattern lines show. XOM's report row has no figures.
  *
  * Probes: `window.__calendarTab.writes` lists the user-event writes.
  */
@@ -67,7 +81,16 @@ for (const h of HOLDINGS) positions[h.symbol] = { symbol: h.symbol, shares: h.sh
 seedPaperAccount({ cash: CASH, positions });
 localStorage.setItem(
   "meridian-watchlist",
-  JSON.stringify(empty ? [] : [{ ticker: "LLY", companyName: "Eli Lilly" }, { ticker: "MSFT", companyName: "Microsoft" }, { ticker: "JPM", companyName: "JPMorgan Chase" }]),
+  JSON.stringify(
+    empty
+      ? []
+      : [
+          { ticker: "LLY", companyName: "Eli Lilly" },
+          { ticker: "MSFT", companyName: "Microsoft" },
+          { ticker: "JPM", companyName: "JPMorgan Chase" },
+          { ticker: "TSM", companyName: "Taiwan Semiconductor" },
+        ],
+  ),
 );
 
 const now = new Date();
@@ -80,9 +103,11 @@ function day(offset: number): string {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 }
 
-const SECTORS: Record<string, CalendarSector | null> = { NVDA: "Technology", AAPL: "Technology", MSFT: "Technology", JPM: "Financials", XOM: "Energy", LLY: "Healthcare", SPY: "Funds & ETFs" };
+const SECTORS: Record<string, CalendarSector | null> = { TSM: "Technology", NVDA: "Technology", AAPL: "Technology", MSFT: "Technology", JPM: "Financials", XOM: "Energy", LLY: "Healthcare", SPY: "Funds & ETFs" };
 const CORPORATE: CalendarCorporateEvent[] = [
   { id: `earn:JPM:${day(3)}`, kind: "earnings", ticker: "JPM", date: day(3), title: "JPM earnings report", detail: "Date from the data provider. The hour is not given.", estimated: false, words: { title: { code: "earnings", params: { ticker: "JPM" } }, detail: [{ code: "earningsDated" }] } },
+  { id: `earn:TSM:${day(4)}`, kind: "earnings", ticker: "TSM", date: day(4), title: "TSM earnings report", detail: "Date from the data provider. The hour is not given.", estimated: false, words: { title: { code: "earnings", params: { ticker: "TSM" } }, detail: [{ code: "earningsDated" }] } },
+  { id: `earn:NVDA:${day(33)}`, kind: "earnings", ticker: "NVDA", date: day(33), title: "NVDA earnings report", detail: null, estimated: true },
   { id: `earn:MSFT:${day(16)}`, kind: "earnings", ticker: "MSFT", date: day(16), title: "MSFT earnings report", detail: "Date estimated by the data provider; the company has not confirmed it.", estimated: true, words: { title: { code: "earnings", params: { ticker: "MSFT" } }, detail: [{ code: "earningsEstimated" }] } },
   { id: `earn:LLY:${day(20)}`, kind: "earnings", ticker: "LLY", date: day(20), title: "LLY earnings report", detail: null, estimated: true },
   { id: `earn:XOM:${day(21)}`, kind: "earnings", ticker: "XOM", date: day(21), title: "XOM earnings report", detail: null, estimated: true },
@@ -155,8 +180,93 @@ const calendarBridge =
         },
       };
 
+// --- The earnings card's figures ---------------------------------------------
+const noFacts = params.get("facts") === "none";
+
+const IMPLIED: Record<string, Omit<ImpliedMove, "ticker" | "reportDate" | "reactionDay">> = {
+  TSM: { spot: 302.4, expiry: day(8), nextExpiry: day(15), strike: 300, straddle: 19.1, raw: 0.0632, move: 0.0548, adjusted: true, sessions: 6, basis: "mid", quotedAt: new Date().toISOString(), history: { n: 12, above: 4, median: 0.041, from: "2023-10-19", to: "2026-07-17" } },
+  NVDA: { spot: 181.2, expiry: day(10), nextExpiry: day(17), strike: 180, straddle: 13.9, raw: 0.0767, move: 0.0712, adjusted: true, sessions: 8, basis: "mid", quotedAt: new Date().toISOString(), history: { n: 12, above: 6, median: 0.069, from: "2023-08-23", to: "2026-08-26" } },
+};
+const ESTIMATE_MOVES: Record<string, [number, number, number]> = { TSM: [0.052, 14, 1], NVDA: [0.018, 22, 6], JPM: [-0.004, 3, 4] };
+
+function estimatesFor(ticker: string): EstimateRevisions | null {
+  const move = ESTIMATE_MOVES[ticker];
+  if (!move) return null;
+  const [pct, up, down] = move;
+  const now = 1.84;
+  const then = now / (1 + pct);
+  const change = { kind: "pct" as const, value: pct, from: then, to: now };
+  return {
+    ticker,
+    readAt: new Date().toISOString(),
+    periods: [
+      { period: "0q", periodEnd: day(-16), currency: "USD", analysts: 24, now, ago30: then, change7: change, change30: change, change90: change, up7: 2, down7: 0, up30: up, down30: down, revenue: null },
+    ],
+  };
+}
+
+function radarRow(counterparty: string, holding: string, withIt: number, events: number): ReadthroughRow {
+  return {
+    id: `${counterparty}>${holding}`,
+    counterparty,
+    counterpartyName: null,
+    holding,
+    held: true,
+    watchlist: false,
+    relation: "supplier",
+    tier: "critical",
+    namedBy: holding,
+    form: "10-K",
+    filingDate: "2026-02-25",
+    sourceUrl: null,
+    kind: "upcoming",
+    date: day(4),
+    time: "unknown",
+    status: "confirmed",
+    report: null,
+    sample: events,
+    stats: { events, withIt, avgAbsMove: 0.024, avgAbsAbnormal: 0.017, avgFollow: 0.006, avgNextFollow: 0.001, nextEvents: events, normalAbsAbnormal: 0.011, sensitivity: 1.5, surpriseEvents: 0, withSurprise: 0, beta: 1.3, betaFallback: false, from: day(-730), to: day(-90) },
+    events: [],
+    weight: 1,
+    score: 1.5,
+  };
+}
+
+const factsBridge = {
+  getImpliedMoves: async (reports: ImpliedRequestItem[]) => {
+    await wait(350);
+    const moves: Record<string, ImpliedMove | null> = {};
+    for (const r of reports) {
+      const v = noFacts ? undefined : IMPLIED[r.ticker];
+      moves[r.ticker] = v ? { ...v, ticker: r.ticker, reportDate: r.date, reactionDay: r.date } : null;
+    }
+    return { ok: true as const, moves };
+  },
+  getEstimateRevisions: async (tickers: string[]) => {
+    await wait(250);
+    return { ok: true as const, estimates: Object.fromEntries(tickers.map((t) => [t, noFacts ? null : estimatesFor(t)])) };
+  },
+  getReadthroughRadar: async (_request: ReadthroughRequest): Promise<ReadthroughResult> => {
+    await wait(300);
+    const rows = noFacts ? [] : [radarRow("TSM", "NVDA", 6, 8), radarRow("TSM", "AAPL", 5, 8)];
+    return { ok: true, today: day(0), builtAt: new Date().toISOString(), rows, links: rows.length, truncated: false, degraded: [] };
+  },
+  getStockTabGuidance: async (ticker: string) => {
+    await wait(200);
+    const track = noFacts ? undefined : (guidanceFixture as unknown as Record<string, GuidanceTrack>)[ticker.toUpperCase()];
+    return { ok: true as const, track: track ?? { ticker, releases: 8, latest: null, rows: [], patterns: [] } };
+  },
+};
+
+/** NVDA's guidance track, read once the way the Stock tab would have: the calendar itself never asks. */
+function GuidanceAlreadyRead() {
+  useGuidanceTrack(empty ? null : "NVDA");
+  return null;
+}
+
 (window as unknown as { meridian: unknown }).meridian = {
   ...calendarBridge,
+  ...factsBridge,
   getBriefingWindow: async () => ({ ok: true, window: report.window, calendar_coverage: report.calendar_coverage }),
   getBriefing: async () => {
     await wait(300);
@@ -182,6 +292,7 @@ createRoot(document.getElementById("root")!).render(
     <div className="select-none pl-9">
       <span className="font-baskerville text-[30px] text-[#1d1b1b]">Afternoon, Kuzey</span>
     </div>
+    <GuidanceAlreadyRead />
     <CalendarTab />
   </div>,
 );

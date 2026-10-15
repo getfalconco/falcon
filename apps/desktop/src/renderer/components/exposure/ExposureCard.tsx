@@ -36,7 +36,7 @@ function Skeleton() {
  * (lib/exposure-store), so neither asks twice.
  */
 export default function ExposureCard({ onDuplicate, onRemove, onOpenExposure }: Props) {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const view = useExposure();
   const { summary } = view;
   const noNames = view.positions === 0 && view.watched === 0;
@@ -52,7 +52,7 @@ export default function ExposureCard({ onDuplicate, onRemove, onOpenExposure }: 
   } else if (summary.shared.length === 0) {
     body = <p className={cn(quiet, "text-[#9CA3AF]")}>{summary.companies === 0 ? t("exposure.empty.funds") : t("exposure.card.empty")}</p>;
   } else {
-    const header = headlineText(t, summary.headline, view.scope);
+    const header = headlineText(t, summary.headline, view.scope, locale);
     body = (
       <>
         {header ? <p className="pb-3 text-[14px] leading-[1.45] text-[#1d1b1b]">{header}</p> : null}
@@ -61,8 +61,8 @@ export default function ExposureCard({ onDuplicate, onRemove, onOpenExposure }: 
             <li key={row.key} className="flex items-center gap-2.5 rounded-xl px-2 py-2 transition-colors hover:bg-[#1d1b1b]/[0.04]">
               <CompanyCell row={row} compact className="flex-1" />
               <ViaTickers row={row} max={2} className="shrink-0" />
-              <span className={cn(NUM, "w-11 shrink-0 text-[#1d1b1b]")} title={t("exposure.row.linked", { pct: exposurePct(row.linkedWeight) })}>
-                {exposurePct(row.exposure)}
+              <span className={cn(NUM, "w-11 shrink-0 text-[#1d1b1b]")} title={t("exposure.row.linked", { pct: exposurePct(row.linkedWeight, locale) })}>
+                {exposurePct(row.exposure, locale)}
               </span>
             </li>
           ))}

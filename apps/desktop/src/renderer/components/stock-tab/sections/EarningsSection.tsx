@@ -11,7 +11,7 @@ import {
   fiscalText,
   formatEps,
   formatMove,
-  formatRevenueIn,
+  formatRevenueMoney,
   formatSurprise,
   formatUsd,
   shortDate,
@@ -21,6 +21,8 @@ import {
 import { useStockEarnings } from "../use-stock-tab-data";
 import { useImpliedMoves } from "@/lib/implied-move-store";
 import { IMPLIED_WITHIN_DAYS, impliedHint, impliedLine, type ImpliedRequestItem } from "../../../../shared/implied-move";
+import { useEstimateRevisions } from "@/lib/estimates-store";
+import { estimateHint, estimateLine, reportPeriod } from "../../../../shared/estimate-revisions";
 import type { StockSectionProps } from "./types";
 import { categoryKey, fullDate } from "./stock-data-format";
 
@@ -37,6 +39,9 @@ import { categoryKey, fullDate } from "./stock-data-format";
  *   Options line    for a report two weeks out or less: the move the listed
  *                   options price for it, and how many of the stock's last
  *                   reports moved more (main/options, shared/implied-move.ts)
+ *   Estimates line  how the mean EPS estimate for the quarter being reported
+ *                   moved over the last 30 days, and how many analysts raised
+ *                   or lowered it (main/estimates, shared/estimate-revisions.ts)
  *   Reported first  companies a filing links to this one that reported this
  *                   season, before its own report: their EPS against the
  *                   consensus and their move, as plain lines
@@ -67,7 +72,7 @@ function NextBlock({ next, today, t, say, lang, na }: { next: NextReport; today:
   const date = next.windowEnd ? t("stocktab.earnings.window", { from: shortDate(next.date, lang), to: shortDate(next.windowEnd, lang) }) : dayDate(next.date, lang);
   const hour = next.time !== "unknown" ? say(`earnings.timePhrase.${next.time}`) : null;
   const consensus = consensusText(next, say, lang);
-  const revenue = formatRevenueIn(next.revenueEstimate, next.revenueCurrency, lang);
+  const revenue = formatRevenueMoney(next.revenueEstimate, next.revenueCurrency, lang);
   const usd = next.revenueEstimateUsd !== null ? formatUsd(next.revenueEstimateUsd, lang) : null;
   const fxTitle = next.fx ? say("earnings.fx.rate", { currency: next.fx.currency, rate: String(next.fx.rate.toPrecision(4)), date: shortDate(next.fx.asOf, lang) }) : undefined;
   return (
@@ -141,7 +146,7 @@ function ReportsTable({ rows, currency, t, say, lang, na }: { rows: ReportRow[];
                 <td className={cn(cell, "text-right")}>{formatEps(r.epsActual, lang) ?? blank}</td>
                 <td className={cn(cell, "text-right text-content-secondary")}>{formatEps(r.epsEstimate, lang) ?? blank}</td>
                 <td className={cn(cell, "text-right", tone(r.surprisePct))}>{formatSurprise(r.surprisePct, lang) ?? blank}</td>
-                {hasRevenue ? <td className={cn(cell, "text-right text-content-secondary")}>{formatRevenueIn(r.revenueActual, currency, lang) ?? blank}</td> : null}
+                {hasRevenue ? <td className={cn(cell, "text-right text-content-secondary")}>{formatRevenueMoney(r.revenueActual, currency, lang) ?? blank}</td> : null}
                 <td className={cn(cell, "text-right", tone(r.move))}>{formatMove(r.move, lang) ?? na}</td>
               </tr>
             );
@@ -182,8 +187,9 @@ function Leads({ earnings, t, lang }: { earnings: StockEarnings; t: T; lang: str
               ) : null}
               {move ? (
                 <span className="text-content-secondary">
-                  {", "}
-                  <span className={cn(NUM, tone(l.move))}>{t("stocktab.earnings.leadMove", { move })}</span>
+                  {","}
+                  {/* A margin, not a space: a space between the sans comma and the mono figure reads as none. */}
+                  <span className={cn(NUM, "ml-1.5", tone(l.move))}>{t("stocktab.earnings.leadMove", { move })}</span>
                 </span>
               ) : null}
             </li>
@@ -206,6 +212,9 @@ export default function EarningsSection({ ticker }: StockSectionProps) {
     [ticker, next, today],
   );
   const implied = useImpliedMoves(impliedAsk)[ticker] ?? null;
+  const revisions = useEstimateRevisions(next ? [ticker] : [])[ticker.toUpperCase()] ?? null;
+  const estimate = next ? reportPeriod(revisions, next.date) : null;
+  const estimateText = estimate ? estimateLine(estimate, say, language) : null;
   if (!earnings || (!earnings.next && earnings.reports.length === 0 && earnings.leads.length === 0)) return null;
   return (
     <div>
@@ -213,6 +222,11 @@ export default function EarningsSection({ ticker }: StockSectionProps) {
       {earnings.next && implied ? (
         <p className="mt-4 text-[12.5px] leading-5 text-content-secondary" title={impliedHint(implied, say, language)}>
           {impliedLine(implied, say, language)}
+        </p>
+      ) : null}
+      {earnings.next && estimate && estimateText ? (
+        <p className={cn(implied ? "mt-1" : "mt-4", "text-[12.5px] leading-5 text-content-secondary")} title={estimateHint(estimate, say, language)}>
+          {estimateText}
         </p>
       ) : null}
       {earnings.reports.length > 0 ? <ReportsTable rows={earnings.reports} currency={earnings.revenueCurrency} t={t} say={say} lang={language} na={na} /> : null}

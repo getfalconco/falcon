@@ -18,6 +18,7 @@ import { maskDollarAmounts } from "./briefing-view";
 import { ENGLISH, formatterFor, weekdayDateLabel, ymdNoonUtc, type BriefingKey, type BriefingText } from "./briefing-text";
 import { MAX_BRIEFING_FACTS, type BriefingFact, type BriefingReport, type HeldFiling, type MarketHeadline, type Story } from "./briefing-types";
 import { isTradingDay } from "./calendar-days";
+import { figureText } from "./guidance-view";
 
 export type HandoverKind = "news" | "earnings" | "filings" | "other";
 
@@ -177,6 +178,8 @@ function fromFiling(f: HeldFiling, text: BriefingText): HandoverItem | null {
 type RedFlagFact = Extract<BriefingFact, { kind: "red_flag" }>;
 type InsiderFact = Extract<BriefingFact, { kind: "insider" }>;
 type LinkedFact = Extract<BriefingFact, { kind: "linked_report" }>;
+type GuidanceResultFact = Extract<BriefingFact, { kind: "guidance_result" }>;
+type GuidanceFact = GuidanceResultFact | Extract<BriefingFact, { kind: "guidance_revision" }>;
 
 const RED_FLAG_KEYS: Record<RedFlagFact["flag"], BriefingKey> = {
   restatement: "briefing.facts.restatement",
@@ -218,6 +221,68 @@ const TIME_KEYS: Partial<Record<LinkedFact["time"], BriefingKey>> = {
   amc: "briefing.facts.time.amc",
   dmh: "briefing.facts.time.dmh",
 };
+
+const GUIDANCE_METRIC_KEYS: Record<GuidanceFact["metric"], BriefingKey> = {
+  revenue: "briefing.facts.guidance.metric.revenue",
+  gross_margin: "briefing.facts.guidance.metric.gross_margin",
+  operating_expenses: "briefing.facts.guidance.metric.operating_expenses",
+  operating_income: "briefing.facts.guidance.metric.operating_income",
+  operating_margin: "briefing.facts.guidance.metric.operating_margin",
+  eps: "briefing.facts.guidance.metric.eps",
+  net_income: "briefing.facts.guidance.metric.net_income",
+  tax_rate: "briefing.facts.guidance.metric.tax_rate",
+  other_income: "briefing.facts.guidance.metric.other_income",
+  ebitda: "briefing.facts.guidance.metric.ebitda",
+  capex: "briefing.facts.guidance.metric.capex",
+  free_cash_flow: "briefing.facts.guidance.metric.free_cash_flow",
+};
+
+const GUIDANCE_BASIS_KEYS: Partial<Record<GuidanceFact["basis"], BriefingKey>> = {
+  gaap: "briefing.facts.guidance.basis.gaap",
+  non_gaap: "briefing.facts.guidance.basis.non_gaap",
+  both: "briefing.facts.guidance.basis.both",
+};
+
+const GUIDANCE_RESULT_KEYS: Record<GuidanceResultFact["position"], { range: BriefingKey; point: BriefingKey }> = {
+  above: { range: "briefing.facts.guidance.above", point: "briefing.facts.guidance.pointAbove" },
+  inside: { range: "briefing.facts.guidance.inside", point: "briefing.facts.guidance.pointInside" },
+  below: { range: "briefing.facts.guidance.below", point: "briefing.facts.guidance.pointBelow" },
+};
+
+/** "Revenue", "EPS (non-GAAP)": the figure and, when the release labels it, its basis. */
+function guidanceMetricText(fact: GuidanceFact, text: BriefingText): string {
+  const name = text.t(GUIDANCE_METRIC_KEYS[fact.metric] ?? "briefing.facts.guidance.metric.revenue");
+  const basis = GUIDANCE_BASIS_KEYS[fact.basis];
+  return basis ? text.t(basis, { metric: name }) : name;
+}
+
+/** "Q3 FY2027", "FY2027": the period as the company numbers it. */
+function guidancePeriodText(fact: GuidanceFact, text: BriefingText): string {
+  return fact.fiscal_quarter === null
+    ? text.t("briefing.facts.guidance.period.year", { fy: fact.fiscal_year })
+    : text.t("briefing.facts.guidance.period.quarter", { q: fact.fiscal_quarter, fy: fact.fiscal_year });
+}
+
+/** A guide as printed: one figure, or "$45.0B to $47.0B". */
+function guidanceRangeText(fact: GuidanceFact, low: number, high: number, text: BriefingText): string {
+  const lowText = figureText(low, fact.unit, fact.currency, text.locale);
+  return low === high ? lowText : text.t("briefing.facts.guidance.range", { low: lowText, high: figureText(high, fact.unit, fact.currency, text.locale) });
+}
+
+function guidanceTitle(fact: GuidanceFact, text: BriefingText): string {
+  const vars = {
+    metric: guidanceMetricText(fact, text),
+    period: guidancePeriodText(fact, text),
+    guide: guidanceRangeText(fact, fact.low, fact.high, text),
+  };
+  if (fact.kind === "guidance_result") {
+    const keys = GUIDANCE_RESULT_KEYS[fact.position];
+    if (!keys) return "";
+    return text.t(fact.low === fact.high ? keys.point : keys.range, { ...vars, actual: figureText(fact.actual, fact.unit, fact.currency, text.locale) });
+  }
+  const prior = guidanceRangeText(fact, fact.prior_low, fact.prior_high, text);
+  return text.t(fact.revision === "raised" ? "briefing.facts.guidance.raised" : "briefing.facts.guidance.cut", { ...vars, prior });
+}
 
 /** The read-through module's minimum: under it a pair carries its count and no figure. */
 const MIN_MEASURED = 3;
@@ -314,6 +379,9 @@ export function factTitle(fact: BriefingFact, text: BriefingText = ENGLISH, toda
       if (fact.previous_pct === null) return text.t(receivables ? "briefing.facts.shareNew.receivables" : "briefing.facts.shareNew.revenue", vars);
       return text.t(receivables ? "briefing.facts.share.receivables" : "briefing.facts.share.revenue", vars);
     }
+    case "guidance_result":
+    case "guidance_revision":
+      return guidanceTitle(fact, text);
     default:
       return "";
   }
