@@ -8,12 +8,21 @@
  *   index      the company's submissions JSON (the agents engine's reader,
  *              which spaces every SEC request and keeps the answer four
  *              minutes), at most once per company per New York day
- *   documents  the primary document of each filing compared, read once ever:
- *              a filing never changes, so its reading (digest) is kept on
- *              disk for good, with the plain text of annual reports beside
- *              it (gzip) for name searches; plus the 10-Q filed right before
- *              the newest report, so what that report already carried is
- *              not called new (`carried`)
+ *   documents  the primary document of each filing compared (the newest
+ *              10-K or 20-F, the one before it, the latest 10-Q since),
+ *              never an exhibit, read once ever: a filing never changes, so
+ *              its reading (digest) is kept on disk for good, with the plain
+ *              text of annual reports beside it (gzip) for name searches.
+ *              The 10-Q filed right before the newest report, which says
+ *              what that report already carried (`carried`), is read only
+ *              for a caller that asks for it (the agents' filing changes
+ *              watch), not for the dashboard or the Stock tab.
+ *
+ * Parsing (a 10-K of ten megabytes takes about half a second) runs in a
+ * worker thread (parse-pool.ts), or on the calling thread when none starts.
+ *
+ * The dashboard's queue reads the held names first, a short pause apart,
+ * then the watchlist, `watchlistGapMs` apart.
  *
  * A read that fails is not tried again for half an hour; the last answer
  * stands meanwhile. The filing graph (step1) supplies the customer and
@@ -42,32 +51,16 @@ import {
   type QuarterRiskStatus,
   type RelationshipCoverage,
 } from "../../shared/filing-changes";
-import {
-  auditorName,
-  companyKey,
-  concentrationFacts,
-  findSection,
-  goingConcernSentence,
-  htmlBlocks,
-  materialWeaknessSentence,
-  normalizeHeading,
-  riskHeadings,
-  sameAuditor,
-  saysNoMaterialChanges,
-  sectionText,
-  soleSourceSentences,
-  type ConcentrationFact,
-  type RiskHeading,
-} from "./parse";
-import { REWORD_BELOW, diffConcentration, diffHeadings, headingSimilarity, namedIn, newSentences, searchableText } from "./diff";
+import { companyKey, normalizeHeading, sameAuditor, type RiskHeading } from "./parse";
+import { REWORD_BELOW, diffConcentration, diffHeadings, headingSimilarity, namedIn, newSentences } from "./diff";
+import { DIGEST_VERSION, isAnnual, type FilingDigest, type FilingLike, type ReadFiling } from "./digest";
+import { parseInThread } from "./parse-pool";
+
+export { DIGEST_VERSION, digestOf, isAnnual, type FilingDigest, type FilingLike } from "./digest";
 
 const gunzip = promisify(zlib.gunzip);
 const gzip = promisify(zlib.gzip);
-/** Lets the event loop answer IPC between two heavy steps (a 10-K parses in about a second). */
-const breathe = () => new Promise<void>((resolve) => setImmediate(resolve));
 
-/** Bumped when the parser changes what a digest holds: older digests are read again. */
-export const DIGEST_VERSION = 1;
 /** 2: items carry `carried`. */
 const CHANGES_VERSION = 2;
 /** A kept answer that does not cover a filing asked about is read again, but not more often than this. */
@@ -78,17 +71,6 @@ const FLAG_WINDOW_DAYS = 730;
 const MAX_NAMED = 8;
 const MAX_SOLE_SOURCE = 2;
 const SHARE_NOTABLE_POINTS = 5;
-
-/** The submissions index's entry for one filing (agents/sources.ts FilingRef). */
-export type FilingLike = {
-  cik: string;
-  form: string;
-  accession: string;
-  filedAt: string;
-  items: string[];
-  primaryDocument: string | null;
-  url: string;
-};
 
 /** A filing graph edge, as main/research/graph-edges.ts reads it. */
 export type EdgeLike = {
@@ -116,71 +98,18 @@ export type FilingsDeps = {
    * window and the first render; a Stock tab ask is answered at once.
    */
   backgroundStartAt?: number;
-  /** A pause between two names the background queue reads. */
+  /** A pause between two held names the background queue reads. */
   backgroundGapMs?: number;
+  /** A pause before each watchlist name the background queue reads (they come after every held name). */
+  watchlistGapMs?: number;
+  /** Reads a filing's HTML into its digest (parse-pool.ts); the calling thread when not given. */
+  parse?: (filing: FilingLike, html: string, keepText: boolean) => Promise<ReadFiling>;
 };
 
-/** What one filing says, read once and kept. */
-export type FilingDigest = {
-  v: number;
-  accession: string;
-  form: string;
-  filedAt: string;
-  url: string;
-  anchor: string | null;
-  riskFound: boolean;
-  headings: RiskHeading[];
-  noMaterialChanges: boolean;
-  goingConcern: string | null;
-  materialWeakness: string | null;
-  auditor: string | null;
-  concentration: ConcentrationFact[];
-  soleSource: string[];
-};
-
-const ANNUAL_FORMS = new Set(["10-K", "10-KT", "10-K405", "20-F"]);
 const QUARTER_FORMS = new Set(["10-Q", "10-QT"]);
 
-export function isAnnual(form: string): boolean {
-  return ANNUAL_FORMS.has(form);
-}
-
-/** The filing's folder on sec.gov, for filings without a primary document. */
-function docUrl(f: FilingLike): string {
-  return f.url;
-}
-
-/** Reads one filing's HTML into a digest and its plain text. Pure. */
-export function digestOf(filing: FilingLike, html: string): { digest: FilingDigest; text: string } {
-  const blocks = htmlBlocks(html);
-  const text = blocks.map((b) => b.text).join("\n");
-  const risk = findSection(blocks, "risk");
-  const controls = findSection(blocks, "controls");
-  const riskText = sectionText(blocks, risk);
-  const annual = isAnnual(filing.form);
-  return {
-    text,
-    digest: {
-      v: DIGEST_VERSION,
-      accession: filing.accession,
-      form: filing.form,
-      filedAt: filing.filedAt,
-      url: docUrl(filing),
-      anchor: risk?.anchor ?? null,
-      riskFound: risk !== null,
-      headings: risk ? riskHeadings(blocks, risk) : [],
-      noMaterialChanges: saysNoMaterialChanges(riskText),
-      goingConcern: goingConcernSentence(text),
-      materialWeakness: materialWeaknessSentence(sectionText(blocks, controls)),
-      auditor: annual ? auditorName(html, text) : null,
-      concentration: annual ? concentrationFacts(text) : [],
-      soleSource: annual ? soleSourceSentences(text) : [],
-    },
-  };
-}
-
 function refOf(d: FilingDigest | null, f: FilingLike): FilingDocRef {
-  const url = d?.url ?? docUrl(f);
+  const url = d?.url ?? f.url;
   return {
     form: f.form,
     accession: f.accession,
@@ -242,6 +171,12 @@ type Inputs = {
   /** The latest annual report's searchable text, when kept: a share no longer stated in a sentence may still sit in a table. */
   latestText?: string | null;
   edges: readonly EdgeLike[];
+  /**
+   * The 10-Q before the newest report was asked for (default): without its
+   * digest the answer misses a document. False: it is left out unless kept,
+   * and nothing is marked `carried`.
+   */
+  withPrior?: boolean;
 };
 
 function item(base: Omit<FilingChangeItem, "text" | "previous" | "name" | "pct" | "previousPct" | "detail" | "repeat"> & Partial<FilingChangeItem>): FilingChangeItem {
@@ -266,7 +201,8 @@ export function buildChanges(input: Inputs): FilingChanges {
 
   if (!latest) missing.push("annual");
   else if (!previous) missing.push("previous");
-  if ((latest && !dLatest) || (previous && !dPrev) || (quarter && !dQuarter) || (prior && !dPrior)) missing.push("documents");
+  const priorMissing = prior !== null && !dPrior && input.withPrior !== false;
+  if ((latest && !dLatest) || (previous && !dPrev) || (quarter && !dQuarter) || priorMissing) missing.push("documents");
 
   const latestRef = latest ? refOf(dLatest, latest) : null;
   const linkOf = (ref: FilingDocRef) => ref.sectionUrl ?? ref.url;
@@ -432,7 +368,18 @@ export function buildChanges(input: Inputs): FilingChanges {
   };
 }
 
-type ChangesFile = { v: number; day: string; changes: FilingChanges };
+/** `carried`: false when the 10-Q before the newest report was not read (absent on older files: it was). */
+type ChangesFile = { v: number; day: string; changes: FilingChanges; carried?: boolean };
+
+export type ChangesOptions = {
+  covering?: string;
+  /**
+   * Read the 10-Q filed right before the newest report too, so items it
+   * already held are marked `carried` (the agents' watch). A kept answer
+   * without it is read again; only that one document is fetched.
+   */
+  carried?: boolean;
+};
 
 export type FilingsService = {
   /**
@@ -441,7 +388,7 @@ export type FilingsService = {
    * 8-K): a kept answer that neither compares it nor lists an item from it is
    * read again, at most every ten minutes (the agents' filing changes watch).
    */
-  changes(ticker: string, opts?: { covering?: string }): Promise<FilingChanges>;
+  changes(ticker: string, opts?: ChangesOptions): Promise<FilingChanges>;
   /** What is kept for the company, whatever its day; null when nothing is. */
   cached(ticker: string): FilingChanges | null;
   /**
@@ -473,9 +420,11 @@ export function createFilingsService(deps: FilingsDeps): FilingsService {
   const memory = new Map<string, ChangesFile>();
   const failedAt = new Map<string, number>();
   const inflight = new Map<string, Promise<FilingChanges>>();
-  const queue: string[] = [];
+  /** The dashboard's names to read, held ones first. */
+  const queue: { ticker: string; held: boolean }[] = [];
   let running: Promise<void> | null = null;
-  let lastNames: string[] = [];
+  let lastNames: { ticker: string; held: boolean }[] = [];
+  const parse = deps.parse ?? parseInThread;
 
   const changesFile = (t: string) => path.join(deps.dir, "changes", `${t}.json`);
   const digestFile = (acc: string) => path.join(deps.dir, "digests", `${acc}.json`);
@@ -511,15 +460,13 @@ export function createFilingsService(deps: FilingsDeps): FilingsService {
     if (have && (!keepText || fs.existsSync(textFile(f.accession)))) return have;
     try {
       const html = await deps.document(f);
-      await breathe();
-      const { digest: d, text } = digestOf(f, html);
+      const { digest: d, searchable } = await parse(f, html, keepText);
       writeJsonAtomic(digestFile(f.accession), d);
-      if (keepText) {
-        const packed = await gzip(Buffer.from(searchableText(text), "utf8"));
+      if (keepText && searchable !== null) {
+        const packed = await gzip(Buffer.from(searchable, "utf8"));
         await fs.promises.mkdir(path.dirname(textFile(f.accession)), { recursive: true });
         await fs.promises.writeFile(textFile(f.accession), packed);
       }
-      await breathe();
       return d;
     } catch (err) {
       console.warn("[filings] document read failed:", f.form, f.accession, err instanceof Error ? err.message : String(err));
@@ -527,7 +474,7 @@ export function createFilingsService(deps: FilingsDeps): FilingsService {
     }
   };
 
-  const compute = async (ticker: string): Promise<FilingChanges> => {
+  const compute = async (ticker: string, withPrior: boolean): Promise<FilingChanges> => {
     const filings = await deps.filings(ticker);
     const { latest, previous, quarter, prior } = pickFilings(filings);
     const digests = new Map<string, FilingDigest>();
@@ -536,11 +483,15 @@ export function createFilingsService(deps: FilingsDeps): FilingsService {
       [latest, true],
       [previous, true],
       [quarter, false],
-      [prior, false],
     ] as const) {
       if (!f) continue;
       const d = await digest(f, keepText);
       if (d) digests.set(f.accession, d);
+    }
+    // The 10-Q before the newest report: fetched only when asked for, used whenever kept.
+    if (prior) {
+      const d = withPrior ? await digest(prior, false) : readDigest(prior.accession);
+      if (d) digests.set(prior.accession, d);
     }
     let edges: readonly EdgeLike[] = [];
     try {
@@ -558,8 +509,9 @@ export function createFilingsService(deps: FilingsDeps): FilingsService {
       previousText: previous ? await readText(previous.accession) : null,
       latestText: latest ? await readText(latest.accession) : null,
       edges,
+      withPrior,
     });
-    const file: ChangesFile = { v: CHANGES_VERSION, day: nyYmdOf(nowMs), changes };
+    const file: ChangesFile = { v: CHANGES_VERSION, day: nyYmdOf(nowMs), changes, carried: !prior || digests.has(prior.accession) };
     // An answer missing a document is shown but read again on the next ask.
     if (!changes.missing.includes("documents")) {
       memory.set(ticker, file);
@@ -581,23 +533,40 @@ export function createFilingsService(deps: FilingsDeps): FilingsService {
     return at !== undefined && now() - at < FAILURE_RETRY_MS;
   };
 
-  const changes = (ticker: string, opts?: { covering?: string }): Promise<FilingChanges> => {
+  /** Reads under way, and whether each reads the 10-Q before the newest report. */
+  const inflightPrior = new Map<string, boolean>();
+
+  const changes = (ticker: string, opts?: ChangesOptions): Promise<FilingChanges> => {
     const have = kept(ticker);
     const covering = opts?.covering;
+    const withPrior = opts?.carried === true;
     const covered = !covering || (have !== null && coversFiling(have.changes, covering));
+    // A kept answer read without that 10-Q does not do for a caller that asks for it.
+    const complete = !withPrior || have?.carried !== false;
     if (have && isPaused(ticker)) return Promise.resolve(have.changes);
-    if (have && have.day === nyYmdOf(now()) && covered) return Promise.resolve(have.changes);
+    if (have && have.day === nyYmdOf(now()) && covered && complete) return Promise.resolve(have.changes);
     if (have && !covered && now() - Date.parse(have.changes.checkedAt) < COVERING_RETRY_MS) return Promise.resolve(have.changes);
     const pending = inflight.get(ticker);
-    if (pending) return pending;
-    const task = compute(ticker)
+    if (pending) {
+      if (!withPrior || inflightPrior.get(ticker)) return pending;
+      // A read without it is under way: this one follows it (the documents it read are kept by then).
+      return pending.then(
+        () => changes(ticker, opts),
+        () => changes(ticker, opts),
+      );
+    }
+    inflightPrior.set(ticker, withPrior);
+    const task = compute(ticker, withPrior)
       .catch((err) => {
         failedAt.set(ticker, now());
         console.warn("[filings] read failed:", ticker, err instanceof Error ? err.message : String(err));
         if (have) return have.changes;
         throw err;
       })
-      .finally(() => inflight.delete(ticker));
+      .finally(() => {
+        inflight.delete(ticker);
+        inflightPrior.delete(ticker);
+      });
     inflight.set(ticker, task);
     return task;
   };
@@ -622,9 +591,10 @@ export function createFilingsService(deps: FilingsDeps): FilingsService {
     running = (async () => {
       let first = true;
       while (queue.length > 0) {
-        const t = queue.shift()!;
+        const { ticker: t, held } = queue.shift()!;
         if (isFresh(t) || isPaused(t)) continue;
-        if (!first && deps.backgroundGapMs) await new Promise((r) => setTimeout(r, deps.backgroundGapMs));
+        const gap = held ? deps.backgroundGapMs : (deps.watchlistGapMs ?? deps.backgroundGapMs);
+        if (!first && gap) await new Promise((r) => setTimeout(r, gap));
         first = false;
         try {
           await changes(t);
@@ -637,8 +607,19 @@ export function createFilingsService(deps: FilingsDeps): FilingsService {
     });
   };
 
-  const enqueue = (tickers: readonly string[]) => {
-    for (const t of tickers) if (!queue.includes(t) && !isFresh(t) && !isPaused(t) && !inflight.has(t)) queue.push(t);
+  const enqueue = (names: readonly { ticker: string; held: boolean }[]) => {
+    for (const n of names) {
+      if (isFresh(n.ticker) || isPaused(n.ticker) || inflight.has(n.ticker)) continue;
+      const at = queue.findIndex((q) => q.ticker === n.ticker);
+      if (at >= 0) {
+        if (queue[at]!.held === n.held) continue;
+        queue.splice(at, 1);
+      }
+      // A held name goes before every watchlist name already waiting.
+      const firstWatch = queue.findIndex((q) => !q.held);
+      if (n.held && firstWatch >= 0) queue.splice(firstWatch, 0, n);
+      else queue.push(n);
+    }
     pump();
   };
 
@@ -646,9 +627,9 @@ export function createFilingsService(deps: FilingsDeps): FilingsService {
     changes: (ticker, opts) => changes(ticker, opts),
     cached: (ticker) => kept(ticker)?.changes ?? null,
     overview(request) {
-      const names = [...request.held, ...request.watchlist].slice(0, FILINGS_MAX_NAMES);
-      lastNames = names;
-      enqueue(names);
+      const names = [...new Set([...request.held, ...request.watchlist])].slice(0, FILINGS_MAX_NAMES);
+      lastNames = names.map((t) => ({ ticker: t, held: request.held.includes(t) }));
+      enqueue(lastNames);
       const answers: { changes: FilingChanges; held: boolean; watchlist: boolean }[] = [];
       for (const t of names) {
         const have = kept(t);

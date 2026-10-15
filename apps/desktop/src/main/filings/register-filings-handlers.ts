@@ -10,6 +10,8 @@ import {
   type FilingChangesResult,
   type FilingOverviewResult,
 } from "../../shared/filing-changes";
+import { createFilingParser } from "./parse-pool";
+import { spawnParseWorker } from "./parse-worker-spawn";
 import { createFilingsService, type FilingsService } from "./service";
 
 /**
@@ -33,8 +35,10 @@ const REFRESH_EVERY_MS = 6 * 60 * 60_000;
 const FIRST_REFRESH_MS = 3 * 60_000;
 /** The dashboard's background reads (10-Ks of ten megabytes and more) wait this long after launch. */
 const BACKGROUND_HOLD_MS = 60_000;
-/** And pause this long between two names, so a first look at forty names does not hold the SEC queue. */
+/** And pause this long between two held names, so a first look at forty names does not hold the SEC queue. */
 const BACKGROUND_GAP_MS = 2_000;
+/** The watchlist comes after every held name, this far apart (three 10-K/10-Q documents a name, up to 15 MB each). */
+const WATCHLIST_GAP_MS = 30_000;
 const PRUNE_EVERY_MS = 24 * 60 * 60_000;
 const startedAt = Date.now();
 let lastPruneAt = 0;
@@ -51,6 +55,9 @@ export function filings(): FilingsService {
       graphEdges,
       backgroundStartAt: startedAt + BACKGROUND_HOLD_MS,
       backgroundGapMs: BACKGROUND_GAP_MS,
+      watchlistGapMs: WATCHLIST_GAP_MS,
+      // Parsing runs in a worker thread; on the main thread only if the worker cannot start.
+      parse: createFilingParser({ spawn: spawnParseWorker }).parse,
     });
   }
   return service;

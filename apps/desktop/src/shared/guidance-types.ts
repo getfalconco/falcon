@@ -9,7 +9,8 @@
  * exhibit's address. The comparison itself is deterministic
  * (shared/guidance-track.ts).
  *
- *   stocktab:guidance   ticker   the track record for one company
+ *   stocktab:guidance        ticker   the track record for one company
+ *   stocktab:guidancePeek    ticker   the same from disk only (no EDGAR read, no model call)
  */
 
 /** What a company guides, in the order the table lists them. */
@@ -143,4 +144,13 @@ export type GuidanceTrack = {
 
 export type GuidanceTrackResult =
   | { ok: true; track: GuidanceTrack }
+  | { ok: false; error: "invalid_request" | "unavailable" };
+
+/**
+ * stocktab:guidancePeek: the track record from what main already keeps on
+ * disk, never a fresh read (for views that must not start one, the Calendar
+ * tab's event card). `track` is null when nothing for the company is kept.
+ */
+export type GuidancePeekResult =
+  | { ok: true; track: GuidanceTrack | null }
   | { ok: false; error: "invalid_request" | "unavailable" };

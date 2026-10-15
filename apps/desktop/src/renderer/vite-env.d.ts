@@ -361,6 +361,8 @@ interface MeridianBridge {
   getStockTabPeers?: (ticker: string) => Promise<import("../shared/stock-tab-data").StockPeersResult>;
   /** Stock tab guidance track record (main/guidance). Absent on an older main process. */
   getStockTabGuidance?: (ticker: string) => Promise<import("../shared/guidance-types").GuidanceTrackResult>;
+  /** The same from what main keeps on disk only; track null when nothing is kept. Absent on an older main process. */
+  getStockTabGuidancePeek?: (ticker: string) => Promise<import("../shared/guidance-types").GuidancePeekResult>;
   // Gauge
   getGaugeReadout: (req: import("../shared/gauge-types").GaugeReadoutRequest) => Promise<
     | ({ ok: true } & import("../shared/gauge-types").GaugeReadoutResponse)

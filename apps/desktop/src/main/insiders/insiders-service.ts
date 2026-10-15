@@ -9,20 +9,30 @@
  *
  *   filing list   a company's submissions index, read again at most every
  *                 three hours on business days (freshness.ts). Only Form 4s
- *                 and new 13D / 13D amendments / new 13G filed in the last
- *                 95 days are kept from it.
+ *                 and new 13D / 13D amendments / new 13G filed inside the
+ *                 card's 90-day window are kept from it: an older filing
+ *                 holds no event the card shows, so it is never fetched.
  *   Form 4        the ownership XML, once per accession, forever: a filed
  *                 form does not change. Kept as the trades it holds.
  *   13D / 13G     the primary document and the SEC header, once per
  *                 accession, forever. Kept as filer, percent and whether an
  *                 amendment restates its purpose.
  *
- * A read session reads at most `budget` documents (default 200) and the
- * next one starts no sooner than half a minute after, so a first look at
- * eighty companies fills in over a few minutes instead of holding the queue
- * the agents share. Companies are read in the order asked: a Stock tab
- * request goes to the front. A list or document that cannot be read is not
- * tried again for half an hour.
+ * Read order. A company's filings are read newest first, at most
+ * FIRST_LOOK_DOCS requests per company per session. Its "first look" is
+ * its list and its newest FIRST_LOOK_DOCS filings; what is left of its
+ * window is read after every other own name's first look. A Stock tab
+ * request goes first, then the held names, then the watchlist; the linked
+ * companies only once the reader's own names have nothing left to read.
+ *
+ * Pace. A read session makes at most `budget` requests (default 200) and
+ * the next one starts no sooner than half a minute after. Once every held
+ * and watched name has had its first look, the rest (older filings, linked
+ * companies) goes in sessions of BACKGROUND_BUDGET requests a minute apart,
+ * so a first look at sixty companies does not hold the queue the agents
+ * share for ten minutes. Sessions go on by themselves until nothing queued
+ * is left. A list or document that cannot be read is not tried again for
+ * half an hour.
  *
  * On disk, under `<data root>/insiders/`:
  *   companies.json      per ticker: when the list was read, the CIK, the kept filings
@@ -39,15 +49,21 @@ import { parseOwnershipXml } from "../edgar/form4";
 import type { FilingRef } from "../agents/sources";
 import type { LinkEdge } from "../../shared/earnings-links";
 import { nyYmdOf } from "../../shared/earnings-time";
-import type { InsiderActivityAnswer, InsiderEvent, ParsedInsiderRequest } from "../../shared/insider-types";
-import { companyEvents, daysBetween, rankEvents, scheduleKind, tradesOf, type ScheduleRecord, type TradeRecord } from "./detect";
+import type { InsiderActivityAnswer, InsiderEvent, InsiderScope, ParsedInsiderRequest } from "../../shared/insider-types";
+import { LOOKBACK_DAYS, companyEvents, rankEvents, scheduleKind, tradesOf, type ScheduleRecord, type TradeRecord } from "./detect";
 import { isStale } from "./freshness";
 import { filerFromHeader, percentOfClass, purposeAmended, subjectCikFromHeader } from "./schedule13";
 import { buildScope, type ScopeEntry } from "./scope";
 
-export const KEEP_FILINGS_DAYS = 95;
+/** The card's window (detect.ts LOOKBACK_DAYS): a filing filed earlier has no trade or schedule inside it. */
+export const KEEP_FILINGS_DAYS = LOOKBACK_DAYS;
 export const DEFAULT_BUDGET = 200;
 export const SESSION_GAP_MS = 30_000;
+/** Requests per company per session: its newest filings first, the rest later. */
+export const FIRST_LOOK_DOCS = 40;
+/** Sessions after every own name's first look: this many requests, this far apart. */
+export const BACKGROUND_BUDGET = 60;
+export const BACKGROUND_GAP_MS = 60_000;
 export const LIST_RETRY_MS = 30 * 60_000;
 export const FOCUS_WAIT_MS = 30_000;
 export const MAX_EVENTS = 60;
@@ -64,6 +80,8 @@ export type InsidersDeps = {
   now?: () => number;
   budget?: number;
   sessionGapMs?: number;
+  backgroundBudget?: number;
+  backgroundGapMs?: number;
 };
 
 type StoredFiling = Pick<FilingRef, "cik" | "form" | "accession" | "filedAt" | "primaryDocument" | "url">;
@@ -72,6 +90,7 @@ type CompaniesFile = { v: number; companies: Record<string, CompanyRecord> };
 type DocsFile = { v: number; form4: Record<string, TradeRecord[]>; schedules: Record<string, ScheduleRecord | null> };
 
 const COMPANIES_VERSION = 1;
+const TIER: Readonly<Record<InsiderScope, number>> = { focus: 0, held: 1, watchlist: 2, linked: 3 };
 const DOCS_VERSION = 3;
 
 export type InsidersService = {
@@ -102,6 +121,8 @@ export function createInsidersService(deps: InsidersDeps): InsidersService {
   const now = deps.now ?? (() => Date.now());
   const budgetPerSession = deps.budget ?? DEFAULT_BUDGET;
   const gap = deps.sessionGapMs ?? SESSION_GAP_MS;
+  const backgroundBudget = deps.backgroundBudget ?? BACKGROUND_BUDGET;
+  const backgroundGap = deps.backgroundGapMs ?? BACKGROUND_GAP_MS;
   const companiesFile = path.join(deps.dir, "companies.json");
 
   let companies: Record<string, CompanyRecord> | null = null;
@@ -193,21 +214,59 @@ export function createInsidersService(deps: InsidersDeps): InsidersService {
     dirtyDocs.clear();
   }
 
-  /** Does this company still have something to read? */
-  function pendingFor(ticker: string): boolean {
+  /**
+   * The first New York day inside the window the card shows: a filing filed
+   * earlier holds no trade or schedule inside it, so it is never fetched.
+   */
+  function windowStart(): string {
+    const today = nyYmdOf(now());
+    return new Date(Date.parse(`${today}T00:00:00Z`) - KEEP_FILINGS_DAYS * 86_400_000).toISOString().slice(0, 10);
+  }
+
+  /** A company's kept Form 4s and schedules inside the window, newest first. */
+  function windowFilings(rec: CompanyRecord): StoredFiling[] {
+    const start = windowStart();
+    return [...rec.form4, ...rec.schedules].filter((f) => !!f.filedAt && f.filedAt >= start).sort((a, b) => b.filedAt.localeCompare(a.filedAt));
+  }
+
+  function isRead(d: DocsFile, f: StoredFiling): boolean {
+    return f.form === "4" ? f.accession in d.form4 : f.accession in d.schedules;
+  }
+
+  /** Still to fetch: inside the window, not read, not waiting out a failure. Newest first. */
+  function unread(rec: CompanyRecord, newestOnly: boolean): StoredFiling[] {
+    if (!rec.cik) return [];
+    const d = docsFor(rec.cik);
+    const list = windowFilings(rec);
+    return (newestOnly ? list.slice(0, FIRST_LOOK_DOCS) : list).filter((f) => !isRead(d, f) && docDue(f.accession));
+  }
+
+  function listDue(ticker: string): boolean {
     const rec = loadCompanies()[ticker];
     const failed = listFailedAt.get(ticker);
     const listable = failed === undefined || now() - failed >= LIST_RETRY_MS;
-    if (!rec) return listable;
-    if (isStale(rec.checkedAt, now()) && listable) return true;
-    if (!rec.cik) return false;
-    const d = docsFor(rec.cik);
-    return rec.form4.some((f) => !(f.accession in d.form4) && docDue(f.accession)) || rec.schedules.some((f) => !(f.accession in d.schedules) && docDue(f.accession));
+    return listable && (!rec || isStale(rec.checkedAt, now()));
+  }
+
+  /** The first look is not done: the list is due, or one of the newest FIRST_LOOK_DOCS filings is unread. */
+  function firstLookPending(ticker: string): boolean {
+    if (listDue(ticker)) return true;
+    const rec = loadCompanies()[ticker];
+    return !!rec && unread(rec, true).length > 0;
+  }
+
+  /** Does this company still have something to read? */
+  function pendingFor(ticker: string): boolean {
+    if (listDue(ticker)) return true;
+    const rec = loadCompanies()[ticker];
+    return !!rec && unread(rec, false).length > 0;
   }
 
   // ---- the read queue ---------------------------------------------------
 
-  const work: string[] = [];
+  /** Read order: a Stock tab ask, then held, watched, linked names. */
+  type Job = { ticker: string; tier: number };
+  const work: Job[] = [];
   const waiters = new Map<string, Array<() => void>>();
   let worker: Promise<void> | null = null;
   let lastSessionEnd = 0;
@@ -225,15 +284,14 @@ export function createInsidersService(deps: InsidersDeps): InsidersService {
   async function readList(ticker: string): Promise<void> {
     const recs = loadCompanies();
     const rec = recs[ticker];
-    const failed = listFailedAt.get(ticker);
-    if (rec && !isStale(rec.checkedAt, now())) return;
-    if (failed !== undefined && now() - failed < LIST_RETRY_MS) return;
+    if (!listDue(ticker)) return;
     if (budget <= 0) return;
     budget--;
     try {
       const list = await deps.filings(ticker);
-      const today = nyYmdOf(now());
-      const recent = list.filter((f) => f.filedAt && daysBetween(f.filedAt, today) <= KEEP_FILINGS_DAYS);
+      const start = windowStart();
+      // EDGAR lists newest first; only what the window can show is kept.
+      const recent = list.filter((f) => !!f.filedAt && f.filedAt >= start).sort((a, b) => b.filedAt.localeCompare(a.filedAt));
       recs[ticker] = {
         checkedAt: now(),
         cik: list[0]?.cik ?? rec?.cik ?? null,
@@ -251,65 +309,106 @@ export function createInsidersService(deps: InsidersDeps): InsidersService {
     }
   }
 
-  async function readDocs(ticker: string): Promise<void> {
-    const rec = loadCompanies()[ticker];
-    if (!rec?.cik) return;
-    const d = docsFor(rec.cik);
-    if (trimDocs(rec.cik)) dirtyDocs.add(rec.cik);
-    for (const f of rec.form4) {
-      if (f.accession in d.form4 || !docDue(f.accession)) continue;
-      if (budget <= 0) break;
-      budget--;
-      const xml = await deps.file(asRef(f), null);
-      if (xml === null) {
-        docFailedAt.set(f.accession, now());
-        continue;
-      }
-      const doc = parseOwnershipXml(xml);
-      // The submissions index also lists forms this company filed as an
-      // owner of another company's shares: those are not its insiders' trades.
-      const about = doc !== null && (!doc.issuerCik || sameCik(doc.issuerCik, rec.cik));
-      d.form4[f.accession] = doc && about ? tradesOf(doc, { accession: f.accession, filedAt: f.filedAt, url: f.url }) : [];
-      dirtyDocs.add(rec.cik);
+  async function readForm4(cik: string, d: DocsFile, f: StoredFiling): Promise<void> {
+    budget--;
+    const xml = await deps.file(asRef(f), null);
+    if (xml === null) {
+      docFailedAt.set(f.accession, now());
+      return;
     }
-    for (const f of rec.schedules) {
-      if (f.accession in d.schedules || !docDue(f.accession)) continue;
-      if (budget <= 1) break;
-      budget--;
-      const header = await deps.file(asRef(f), `${f.accession}-index-headers.html`);
-      if (header === null) {
-        docFailedAt.set(f.accession, now());
-        continue;
-      }
-      // Listed because this company filed it about another one: not about this company.
-      const subject = subjectCikFromHeader(header);
-      if (subject && !sameCik(subject, rec.cik)) {
-        d.schedules[f.accession] = null;
-        dirtyDocs.add(rec.cik);
-        continue;
-      }
-      budget--;
-      const body = await deps.file(asRef(f), null);
-      if (body === null) {
-        docFailedAt.set(f.accession, now());
-        continue;
-      }
-      d.schedules[f.accession] = {
-        form: f.form,
-        filer: filerFromHeader(header),
-        filedAt: f.filedAt,
-        accession: f.accession,
-        url: f.url,
-        percent: percentOfClass(body),
-        purposeAmended: scheduleKind(f.form) === "13d_a" ? purposeAmended(body) : false,
-      };
-      dirtyDocs.add(rec.cik);
-    }
-    saveDocs();
+    const doc = parseOwnershipXml(xml);
+    // The submissions index also lists forms this company filed as an
+    // owner of another company's shares: those are not its insiders' trades.
+    const about = doc !== null && (!doc.issuerCik || sameCik(doc.issuerCik, cik));
+    d.form4[f.accession] = doc && about ? tradesOf(doc, { accession: f.accession, filedAt: f.filedAt, url: f.url }) : [];
+    dirtyDocs.add(cik);
   }
 
-  async function session(): Promise<void> {
-    const wait = lastSessionEnd + gap - now();
+  async function readSchedule(cik: string, d: DocsFile, f: StoredFiling): Promise<void> {
+    budget--;
+    const header = await deps.file(asRef(f), `${f.accession}-index-headers.html`);
+    if (header === null) {
+      docFailedAt.set(f.accession, now());
+      return;
+    }
+    // Listed because this company filed it about another one: not about this company.
+    const subject = subjectCikFromHeader(header);
+    if (subject && !sameCik(subject, cik)) {
+      d.schedules[f.accession] = null;
+      dirtyDocs.add(cik);
+      return;
+    }
+    budget--;
+    const body = await deps.file(asRef(f), null);
+    if (body === null) {
+      docFailedAt.set(f.accession, now());
+      return;
+    }
+    d.schedules[f.accession] = {
+      form: f.form,
+      filer: filerFromHeader(header),
+      filedAt: f.filedAt,
+      accession: f.accession,
+      url: f.url,
+      percent: percentOfClass(body),
+      purposeAmended: scheduleKind(f.form) === "13d_a" ? purposeAmended(body) : false,
+    };
+    dirtyDocs.add(cik);
+  }
+
+  /**
+   * Reads a company's unread filings newest first, at most `cap` requests:
+   * the newest FIRST_LOOK_DOCS only (`newestOnly`), or everything left in
+   * the window. Returns the requests made.
+   */
+  async function readDocs(ticker: string, newestOnly: boolean, cap: number): Promise<number> {
+    const rec = loadCompanies()[ticker];
+    if (!rec?.cik) return 0;
+    const cik = rec.cik;
+    const d = docsFor(cik);
+    if (trimDocs(cik)) dirtyDocs.add(cik);
+    const start = budget;
+    for (const f of cap > 0 ? unread(rec, newestOnly) : []) {
+      const spent = start - budget;
+      // A Form 4 is one request; a schedule two (its SEC header, then the document).
+      const cost = f.form === "4" ? 1 : 2;
+      if (spent >= cap || budget <= 0) break;
+      if (budget < cost) continue;
+      if (f.form === "4") await readForm4(cik, d, f);
+      else await readSchedule(cik, d, f);
+    }
+    saveDocs();
+    return start - budget;
+  }
+
+  /**
+   * The next read of this session. Own names (a Stock tab ask, held, then
+   * watched) before linked companies, and linked companies only once the
+   * own names have nothing left to read. Within each: every company's first
+   * look (its list and newest filings) in tier order, then the rest of each
+   * company's window, at most FIRST_LOOK_DOCS requests per company per
+   * session. Reads left for a later session end this one.
+   */
+  function nextRead(looked: ReadonlySet<string>, spent: ReadonlyMap<string, number>, filled: ReadonlySet<string>): { ticker: string; first: boolean } | null {
+    const own = work.filter((j) => j.tier < TIER.linked).sort((a, b) => a.tier - b.tier);
+    const linked = work.filter((j) => j.tier >= TIER.linked);
+    for (const group of [own, linked]) {
+      const first = group.find((j) => !looked.has(j.ticker));
+      if (first) return { ticker: first.ticker, first: true };
+      const rest = group.find((j) => !filled.has(j.ticker) && (spent.get(j.ticker) ?? 0) < FIRST_LOOK_DOCS && pendingFor(j.ticker));
+      if (rest) return { ticker: rest.ticker, first: false };
+      if (group.some((j) => pendingFor(j.ticker))) return null;
+    }
+    return null;
+  }
+
+  /** One read session; returns whether it asked EDGAR for anything. */
+  async function session(): Promise<boolean> {
+    // Once every own name has had its first look, the rest (older filings,
+    // linked companies) is read in smaller sessions further apart.
+    const background = !urgent && !work.some((j) => j.tier < TIER.linked && firstLookPending(j.ticker));
+    const pause = background ? Math.max(gap, backgroundGap) : gap;
+    const wait = lastSessionEnd + pause - now();
     if (wait > 0 && !urgent) {
       await new Promise<void>((resolve) => {
         const timer = setTimeout(resolve, wait);
@@ -320,48 +419,82 @@ export function createInsidersService(deps: InsidersDeps): InsidersService {
       });
       wake = null;
     }
+    budget = urgent || !background ? budgetPerSession : Math.min(budgetPerSession, backgroundBudget);
     urgent = false;
-    budget = budgetPerSession;
+    const startBudget = budget;
+    const looked = new Set<string>();
+    const filled = new Set<string>();
+    const spent = new Map<string, number>();
     try {
-      while (work.length > 0) {
-        const ticker = work.shift()!;
+      while (budget > 0) {
+        const next = nextRead(looked, spent, filled);
+        if (!next) break;
+        const t = next.ticker;
         try {
-          await readList(ticker);
-          await readDocs(ticker);
+          if (next.first) {
+            await readList(t);
+            spent.set(t, (spent.get(t) ?? 0) + (await readDocs(t, true, FIRST_LOOK_DOCS)));
+          } else {
+            spent.set(t, (spent.get(t) ?? 0) + (await readDocs(t, false, FIRST_LOOK_DOCS - (spent.get(t) ?? 0))));
+          }
         } catch (err) {
-          console.warn(`[insiders] ${ticker} read failed:`, err instanceof Error ? err.message : String(err));
+          console.warn(`[insiders] ${t} read failed:`, err instanceof Error ? err.message : String(err));
         }
-        settle(ticker);
+        if (next.first) {
+          looked.add(t);
+          settle(t);
+        } else filled.add(t);
       }
     } finally {
       lastSessionEnd = now();
+      for (const t of [...waiters.keys()]) settle(t);
+      // Kept: the companies with reads left, for the next session.
+      for (let i = work.length - 1; i >= 0; i--) if (!pendingFor(work[i]!.ticker)) work.splice(i, 1);
+    }
+    return budget < startBudget;
+  }
+
+  /** Sessions until nothing queued is left to read (or a session gets nowhere: the next ask starts again). */
+  async function run(): Promise<void> {
+    try {
+      while (work.length > 0) {
+        if (!(await session())) break;
+      }
+    } finally {
+      work.length = 0;
       for (const t of [...waiters.keys()]) settle(t);
       worker = null;
     }
   }
 
-  /** Queue the companies with something to read; resolves when they have been looked at. */
-  function enqueue(tickers: readonly string[], front: boolean): Promise<void> {
-    const todo = tickers.filter((t) => pendingFor(t));
+  /** Queue the companies with something to read; resolves when each has had its first look. */
+  function enqueue(jobs: readonly Job[], front: boolean): Promise<void> {
+    const todo = jobs.filter((j) => pendingFor(j.ticker));
     if (todo.length === 0) return Promise.resolve();
     const promises = todo.map(
-      (t) =>
+      (j) =>
         new Promise<void>((resolve) => {
-          const list = waiters.get(t);
+          const list = waiters.get(j.ticker);
           if (list) list.push(resolve);
-          else waiters.set(t, [resolve]);
+          else waiters.set(j.ticker, [resolve]);
         }),
     );
-    for (const t of todo) {
-      const at = work.indexOf(t);
-      if (at >= 0) work.splice(at, 1);
+    for (const j of todo) {
+      const at = work.findIndex((w) => w.ticker === j.ticker);
+      if (at >= 0) {
+        // A Stock tab ask keeps its place in front until read; a name changing scope moves.
+        if (work[at]!.tier === TIER.focus && !front) continue;
+        work.splice(at, 1);
+      }
+      work.push(j);
     }
     if (front) {
-      work.unshift(...todo);
       urgent = true;
+      // A background session gets a full budget for the Stock tab's company.
+      if (worker) budget = Math.max(budget, budgetPerSession);
       wake?.();
-    } else work.push(...todo);
-    if (!worker) worker = session();
+    }
+    if (!worker) worker = run();
     return Promise.all(promises).then(() => undefined);
   }
 
@@ -407,7 +540,7 @@ export function createInsidersService(deps: InsidersDeps): InsidersService {
         const entries: ScopeEntry[] = [{ ticker: t, scope, via: null }];
         let timer: ReturnType<typeof setTimeout> | null = null;
         await Promise.race([
-          enqueue([t], true),
+          enqueue([{ ticker: t, tier: TIER.focus }], true),
           new Promise<void>((resolve) => {
             timer = setTimeout(resolve, FOCUS_WAIT_MS);
           }),
@@ -418,7 +551,7 @@ export function createInsidersService(deps: InsidersDeps): InsidersService {
       const edges = await deps.graphEdges().catch(() => [] as LinkEdge[]);
       const entries = buildScope(request.held, request.watchlist, edges);
       void enqueue(
-        entries.map((e) => e.ticker),
+        entries.map((e) => ({ ticker: e.ticker, tier: TIER[e.scope] })),
         false,
       );
       return answer(entries);

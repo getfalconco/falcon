@@ -11,8 +11,18 @@ import { useHomeTabActivity } from "./home-tab-activity";
  * `key` restarts the cycle (the names asked for changed); an empty key runs
  * nothing. With `immediate: false` the first run waits one interval (the
  * caller has just read).
+ *
+ * `freshForMs`: for a `run` that reads whatever it is asked, a run less
+ * than this long after the last one is skipped, so flipping tabs or showing
+ * the window again does not read again what was just read. Half the
+ * interval is the usual choice: the interval's own ticks always pass it.
  */
-export function useShownPoll(key: string, run: () => void, intervalMs: number, { immediate = true }: { immediate?: boolean } = {}): void {
+export function useShownPoll(
+  key: string,
+  run: () => void,
+  intervalMs: number,
+  { immediate = true, freshForMs = 0 }: { immediate?: boolean; freshForMs?: number } = {},
+): void {
   const activity = useHomeTabActivity();
   const latest = useRef(run);
   latest.current = run;
@@ -20,8 +30,12 @@ export function useShownPoll(key: string, run: () => void, intervalMs: number, {
     if (!key) return;
     const hasDocument = typeof document !== "undefined";
     const shown = () => activity.isActive() && (!hasDocument || document.visibilityState !== "hidden");
+    let lastRunAt = immediate ? Number.NEGATIVE_INFINITY : Date.now();
     const tick = () => {
-      if (shown()) latest.current();
+      if (!shown()) return;
+      if (freshForMs > 0 && Date.now() - lastRunAt < freshForMs) return;
+      lastRunAt = Date.now();
+      latest.current();
     };
     if (immediate) tick();
     const timer = setInterval(tick, intervalMs);
@@ -35,5 +49,5 @@ export function useShownPoll(key: string, run: () => void, intervalMs: number, {
       off();
       if (hasDocument) document.removeEventListener("visibilitychange", onVisibility);
     };
-  }, [key, activity, intervalMs, immediate]);
+  }, [key, activity, intervalMs, immediate, freshForMs]);
 }

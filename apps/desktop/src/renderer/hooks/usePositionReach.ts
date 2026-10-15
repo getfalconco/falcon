@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type {
   PropagationRun,
   PropagationRunListItem,
 } from "../../shared/propagation-run-types";
 import { isLiveRun } from "@/lib/second-order-card";
+import { useShownPoll } from "@/lib/use-shown-poll";
 
 /**
  * Which live propagation events reach each held name — the Positions card's
@@ -46,71 +47,79 @@ function phrase(item: PropagationRunListItem): string {
   return type || "event";
 }
 
+/** Which live runs reach each of `held`, from the current run list. */
+async function readReach(held: ReadonlySet<string>): Promise<Record<string, Reach[]>> {
+  let items: PropagationRunListItem[] = [];
+  try {
+    const res = await window.meridian?.listPropagationRuns?.({
+      currentOnly: true,
+      synthetic: "exclude",
+      limit: 200,
+    });
+    if (res?.ok) items = res.runs.filter((r) => isLiveRun(r.summary) && !r.superseded);
+  } catch {
+    items = [];
+  }
+  const runs = await Promise.all(items.map((i) => loadRun(i.run_id)));
+
+  const next: Record<string, Reach[]> = {};
+  items.forEach((item, i) => {
+    const run = runs[i];
+    if (!run) return;
+    for (const t of run.targets) {
+      const ticker = (t.ticker ?? "").toUpperCase();
+      if (!ticker || !held.has(ticker)) continue;
+      if (t.stage2?.verdict === "vetoed") continue;
+      const status: Reach["status"] =
+        t.pricing.status === "open"
+          ? "open"
+          : t.pricing.status === "partial"
+            ? "partial"
+            : "priced";
+      (next[ticker] ??= []).push({
+        run_id: run.run_id,
+        root: run.root_ticker.toUpperCase(),
+        what: phrase(item),
+        status,
+      });
+    }
+  });
+  // Open first, then partial, then priced — the line under a row reads
+  // the first one.
+  const rank = { open: 0, partial: 1, priced: 2 } as const;
+  for (const list of Object.values(next)) list.sort((a, b) => rank[a.status] - rank[b.status]);
+  return next;
+}
+
 /**
  * @param symbolsKey comma-joined, sorted symbols — a stable effect dependency.
  */
 export function usePositionReach(symbolsKey: string): Record<string, Reach[]> {
   const [reach, setReach] = useState<Record<string, Reach[]>>({});
-
+  /** The names asked for now (empty once unmounted): a read for other names is dropped. */
+  const current = useRef(symbolsKey);
   useEffect(() => {
-    const held = new Set(symbolsKey ? symbolsKey.split(",").filter(Boolean) : []);
-    if (held.size === 0) {
-      setReach({});
-      return;
-    }
-    let cancelled = false;
-
-    const load = async () => {
-      let items: PropagationRunListItem[] = [];
-      try {
-        const res = await window.meridian?.listPropagationRuns?.({
-          currentOnly: true,
-          synthetic: "exclude",
-          limit: 200,
-        });
-        if (res?.ok) items = res.runs.filter((r) => isLiveRun(r.summary) && !r.superseded);
-      } catch {
-        items = [];
-      }
-      const runs = await Promise.all(items.map((i) => loadRun(i.run_id)));
-      if (cancelled) return;
-
-      const next: Record<string, Reach[]> = {};
-      items.forEach((item, i) => {
-        const run = runs[i];
-        if (!run) return;
-        for (const t of run.targets) {
-          const ticker = (t.ticker ?? "").toUpperCase();
-          if (!ticker || !held.has(ticker)) continue;
-          if (t.stage2?.verdict === "vetoed") continue;
-          const status: Reach["status"] =
-            t.pricing.status === "open"
-              ? "open"
-              : t.pricing.status === "partial"
-                ? "partial"
-                : "priced";
-          (next[ticker] ??= []).push({
-            run_id: run.run_id,
-            root: run.root_ticker.toUpperCase(),
-            what: phrase(item),
-            status,
-          });
-        }
-      });
-      // Open first, then partial, then priced — the line under a row reads
-      // the first one.
-      const rank = { open: 0, partial: 1, priced: 2 } as const;
-      for (const list of Object.values(next)) list.sort((a, b) => rank[a.status] - rank[b.status]);
-      setReach(next);
-    };
-
-    void load();
-    const id = window.setInterval(() => void load(), POLL_MS);
+    current.current = symbolsKey;
+    if (!symbolsKey) setReach({});
     return () => {
-      cancelled = true;
-      window.clearInterval(id);
+      current.current = "";
     };
   }, [symbolsKey]);
+
+  // Polled while the tab it is drawn in is in front and the window is shown.
+  useShownPoll(
+    symbolsKey,
+    () => {
+      const key = symbolsKey;
+      const held = new Set(key.split(",").filter(Boolean));
+      if (held.size === 0) return;
+      void readReach(held).then((next) => {
+        if (current.current === key) setReach(next);
+      });
+    },
+    POLL_MS,
+    { freshForMs: POLL_MS / 2 },
+  );
 
   return reach;
 }

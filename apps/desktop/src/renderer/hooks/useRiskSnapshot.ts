@@ -8,6 +8,7 @@ import {
   readRiskSyncState,
   retryRiskSync,
 } from "@/lib/risk-account-bridge";
+import { useHomeTabActivity } from "@/lib/home-tab-activity";
 
 export type RiskSnapshotState = {
   latest: RiskLatest | null;
@@ -41,6 +42,11 @@ const PENDING_TIMEOUT_MS = 15_000;
  * by the session token). A failed read keeps whatever was last read; with
  * nothing read yet it reports `error`, and the card says so rather than
  * printing any number.
+ *
+ * The poll (first read included) runs only while the tab it is drawn in is
+ * in front and the window is shown; a tick missed meanwhile is made up as
+ * soon as it is shown again. Broadcasts, account pushes and Try again are
+ * read whenever they come.
  */
 export function useRiskSnapshot(): RiskSnapshotState {
   const [latest, setLatest] = useState<RiskLatest | null>(null);
@@ -49,6 +55,7 @@ export function useRiskSnapshot(): RiskSnapshotState {
   const [syncFailed, setSyncFailed] = useState(() => readRiskSyncState().failed);
   const timeout = useRef<number | null>(null);
   const refreshRef = useRef<() => void>(() => {});
+  const activity = useHomeTabActivity();
 
   const clearPending = useCallback(() => {
     if (timeout.current != null) window.clearTimeout(timeout.current);
@@ -66,9 +73,22 @@ export function useRiskSnapshot(): RiskSnapshotState {
 
     let pollTimer: number | null = null;
     let hasSnapshot = false;
+    /** A poll came due while out of sight: read as soon as shown again. */
+    let missed = false;
+    const shown = () => activity.isActive() && document.visibilityState !== "hidden";
+    const poll = () => {
+      pollTimer = null;
+      if (shown()) refresh();
+      else missed = true;
+    };
     const schedule = () => {
       if (pollTimer != null) window.clearTimeout(pollTimer);
-      pollTimer = window.setTimeout(refresh, hasSnapshot ? POLL_MS : POLL_WAITING_MS);
+      pollTimer = window.setTimeout(poll, hasSnapshot ? POLL_MS : POLL_WAITING_MS);
+    };
+    const onShown = () => {
+      if (!missed || !shown()) return;
+      missed = false;
+      refresh();
     };
 
     const refresh = () => {
@@ -94,7 +114,11 @@ export function useRiskSnapshot(): RiskSnapshotState {
     };
     refreshRef.current = refresh;
 
-    refresh();
+    poll();
+    const offActivity = activity.onChange((active) => {
+      if (active) onShown();
+    });
+    document.addEventListener("visibilitychange", onShown);
     const unsubscribe =
       bridge.onRiskSnapshot?.((payload) => {
         hasSnapshot = payload.snapshot != null;
@@ -116,6 +140,8 @@ export function useRiskSnapshot(): RiskSnapshotState {
     return () => {
       cancelled = true;
       if (pollTimer != null) window.clearTimeout(pollTimer);
+      offActivity();
+      document.removeEventListener("visibilitychange", onShown);
       unsubscribe();
       window.removeEventListener(RISK_PENDING_EVENT, onPending);
       window.removeEventListener(RISK_PUSHED_EVENT, refresh);
@@ -123,7 +149,7 @@ export function useRiskSnapshot(): RiskSnapshotState {
       if (timeout.current != null) window.clearTimeout(timeout.current);
       refreshRef.current = () => {};
     };
-  }, [clearPending]);
+  }, [clearPending, activity]);
 
   const retry = useCallback(() => {
     setStatus((s) => (s === "error" ? "loading" : s));

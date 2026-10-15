@@ -5,6 +5,7 @@ import { registerIpcHandler } from "../ipc-register";
 import { cachedFilingHistory, filingFile, filingHistory } from "../agents/edgar";
 import { normalizeTicker } from "../../shared/calendar-events";
 import type { GuidanceTrackResult } from "../../shared/guidance-types";
+import { guidancePeekAnswer } from "./guidance-peek";
 import { createGuidancePrefetch, type GuidancePrefetch } from "./guidance-prefetch";
 import { createGuidanceService, type GuidanceService } from "./guidance-service";
 
@@ -12,8 +13,11 @@ import { createGuidanceService, type GuidanceService } from "./guidance-service"
  * Guidance track record IPC (the Stock tab's guidance section, the Earnings
  * drawer's pattern lines):
  *
- *   stocktab:guidance   ticker   what the company's last earnings releases
- *                                guided against what it then reported
+ *   stocktab:guidance        ticker   what the company's last earnings releases
+ *                                     guided against what it then reported
+ *   stocktab:guidancePeek    ticker   the same from what is already on disk:
+ *                                     never an EDGAR read, never a model call
+ *                                     (the Calendar tab's event card)
  *
  * The model call and every SEC read happen here; the key never leaves this
  * process. Readings are kept under `<data root>/guidance/`, one file per
@@ -78,6 +82,7 @@ export function registerGuidanceHandlers(): void {
       return { ok: false, error: "unavailable" };
     }
   });
+  registerIpcHandler("stocktab:guidancePeek", (_event, request: unknown) => guidancePeekAnswer(request, guidance()));
   const sweep = () => void prefetcher().sweep();
   setTimeout(sweep, FIRST_PREFETCH_MS).unref?.();
   setInterval(sweep, PREFETCH_EVERY_MS).unref?.();

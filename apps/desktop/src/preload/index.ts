@@ -503,6 +503,9 @@ contextBridge.exposeInMainWorld("meridian", {
   // Stock tab: guidance track record from the earnings releases on EDGAR (main/guidance).
   getStockTabGuidance: (ticker: string) =>
     ipcRenderer.invoke("stocktab:guidance", ticker) as Promise<import("../shared/guidance-types").GuidanceTrackResult>,
+  // The same from disk only: never an EDGAR read or a model call (the Calendar tab's event card).
+  getStockTabGuidancePeek: (ticker: string) =>
+    ipcRenderer.invoke("stocktab:guidancePeek", ticker) as Promise<import("../shared/guidance-types").GuidancePeekResult>,
   // Gauge (spec §8: Shift+F panel, Propagation drawer block, stock page block). Compute-on-read.
   getGaugeReadout: (req: import("../shared/gauge-types").GaugeReadoutRequest) =>
     ipcRenderer.invoke("gauge:readout", req) as Promise<

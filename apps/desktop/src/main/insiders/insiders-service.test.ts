@@ -6,7 +6,7 @@ import { afterEach, describe, it } from "node:test";
 import type { FilingRef } from "../agents/sources";
 import { nyWallMs } from "../../shared/earnings-time";
 import { form4Xml } from "../edgar/form4-fixtures";
-import { FORGET_COMPANY_MS, KEEP_FILINGS_DAYS, createInsidersService } from "./insiders-service";
+import { FIRST_LOOK_DOCS, FORGET_COMPANY_MS, KEEP_FILINGS_DAYS, createInsidersService } from "./insiders-service";
 
 const NOW = nyWallMs("2026-10-15", 12, 0);
 const dirs: string[] = [];
@@ -78,6 +78,7 @@ function fakes() {
       ],
       now: () => NOW,
       sessionGapMs: 0,
+      backgroundGapMs: 0,
     },
   };
 }
@@ -123,16 +124,54 @@ describe("insiders service", () => {
     assert.deepEqual(answer.events.map((e) => [e.kind, e.scope, e.insiders]), [["purchase_cluster", "focus", 2]]);
   });
 
-  it("stops at its read budget and carries on in the next session", async () => {
+  it("stops at its read budget and carries on in the next session by itself", async () => {
     const { deps, reads } = fakes();
     const service = createInsidersService({ dir: tmp(), ...deps, budget: 2 });
-    await service.activity({ focus: null, held: ["NVDA"], watchlist: [] });
+    const first = await service.activity({ focus: null, held: ["NVDA"], watchlist: [] });
+    assert.ok(first.pending > 0);
     await service.idle();
-    assert.equal(reads.length, 2);
-    const mid = await service.activity({ focus: null, held: ["NVDA"], watchlist: [] });
-    assert.ok(mid.pending > 0);
+    const done = await service.activity({ focus: null, held: ["NVDA"], watchlist: [] });
+    assert.equal(done.pending, 0);
+    for (const key of ["file:a1", "file:a2", "file:a3", "file:d1"]) assert.ok(reads.includes(key), key);
+  });
+
+  it("reads newest first, own names before linked ones, and older filings after every first look", async () => {
+    const dir = tmp();
+    const reads: string[] = [];
+    const day = (n: number) => new Date(Date.parse("2026-10-14T00:00:00Z") - n * 86_400_000).toISOString().slice(0, 10);
+    const many = Array.from({ length: FIRST_LOOK_DOCS + 5 }, (_, i) => ref("0000000001", "4", `big${i}`, day(i)));
+    // A Form 4 just outside the window, listed last: never fetched.
+    many.push(ref("0000000001", "4", "big-old", day(KEEP_FILINGS_DAYS + 1)));
+    const lists: Record<string, FilingRef[]> = {
+      BIG: [...many].reverse(),
+      WAT: [ref("0000000002", "4", "w1", day(3))],
+      LNK: [ref("0000000003", "4", "l1", day(2))],
+    };
+    const service = createInsidersService({
+      dir,
+      filings: async (t) => {
+        reads.push(`list:${t}`);
+        return lists[t] ?? [];
+      },
+      file: async (f) => {
+        reads.push(f.accession);
+        return null;
+      },
+      graphEdges: async () => [
+        { root_ticker: "BIG", counterparty_ticker: "LNK", category: "supplier", strength_tier: "critical", confidence: 0.95, evidence_quote: "q", source_url: "https://www.sec.gov/x", accession_number: "0000000001-26-000001" },
+      ],
+      now: () => NOW,
+      sessionGapMs: 0,
+      backgroundGapMs: 0,
+    });
+    await service.activity({ focus: null, held: ["BIG"], watchlist: ["WAT"] });
     await service.idle();
-    assert.ok(reads.length > 2);
+    const docs = reads.filter((r) => !r.startsWith("list:"));
+    // BIG's newest FIRST_LOOK_DOCS, newest first; then the watchlist; then BIG's older ones; then the linked company.
+    assert.deepEqual(docs.slice(0, FIRST_LOOK_DOCS), Array.from({ length: FIRST_LOOK_DOCS }, (_, i) => `big${i}`));
+    assert.deepEqual(docs.slice(FIRST_LOOK_DOCS), ["w1", "big40", "big41", "big42", "big43", "big44", "l1"]);
+    assert.ok(reads.indexOf("list:LNK") > reads.indexOf("big44"));
+    assert.ok(!reads.includes("big-old"));
   });
 
   it("does not keep a company pending on a document that cannot be read", async () => {

@@ -166,8 +166,9 @@ export function createLiveSources(): AgentDataSources {
     materialNews: async (sinceIso) =>
       materialFromFeed(await invokeChannel<NewsFeedResult>("news:feed", NEWS_FEED_REQUEST), Date.parse(sinceIso)),
 
-    // The Stock tab's service: one EDGAR read a day per company, documents kept for good.
-    filingChanges: (ticker, covering) => filingChangesService().changes(ticker, covering ? { covering } : undefined),
+    // The Stock tab's service: one EDGAR read a day per company, documents kept for good. The
+    // watch asks for the 10-Q before the newest report too (`carried`), which the views leave out.
+    filingChanges: (ticker, covering) => filingChangesService().changes(ticker, covering ? { covering, carried: true } : { carried: true }),
 
     readthrough: (holding) =>
       readthroughCache(holding, async () => {

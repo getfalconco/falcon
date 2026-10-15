@@ -1,11 +1,12 @@
 import { clockLabel } from "@/lib/clock";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { PricePoint } from "../../../shared/stock-types";
 import { paperScopeKey, readPaperAccount } from "@/lib/paper-account";
 import { demoValueSeries, useDemoMode } from "@/lib/demo-mode";
 import { getStockChartRange } from "@/lib/stock-api";
 import { fetchCloudSnapshots, type CloudSnapshot } from "@/lib/portfolio-sync";
 import { usePortfolioValuation } from "@/hooks/usePortfolioBalance";
+import { useShownPoll } from "@/lib/use-shown-poll";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n";
 import { monthDay, monthShort, weekdayShort } from "@/lib/dashboard-dates";
@@ -36,6 +37,8 @@ const DAY_MS = 24 * 60 * 60 * 1000;
  *  the last value, so this may never be coarser than that poll. Note the cost:
  *  a full day at 5s is ~17k points re-parsed and re-stringified every tick. */
 const RECORD_MS = 5_000;
+/** Cloud snapshots are read again this often while the chart is in sight. */
+const CLOUD_POLL_MS = 60_000;
 
 /** Sampling resolution per window — fine enough to show real intraday shape,
  *  coarse enough that a year isn't ten thousand points. */
@@ -396,21 +399,25 @@ export default function PortfolioChart({
   const [cloudSnaps, setCloudSnaps] = useState<CloudSnapshot[]>([]);
 
   // Cloud snapshots fill the hours the app was closed — refreshed every
-  // minute so the chart keeps riding the worker's series while open.
+  // minute so the chart keeps riding the worker's series while open, and
+  // only while its tab is in front and the window is shown.
+  const chartAlive = useRef(true);
   useEffect(() => {
-    let cancelled = false;
-    const load = () => {
-      void fetchCloudSnapshots(366).then((snaps) => {
-        if (!cancelled) setCloudSnaps(snaps);
-      });
-    };
-    load();
-    const id = window.setInterval(load, 60_000);
+    chartAlive.current = true;
     return () => {
-      cancelled = true;
-      window.clearInterval(id);
+      chartAlive.current = false;
     };
   }, []);
+  useShownPoll(
+    "cloud-snapshots",
+    () => {
+      void fetchCloudSnapshots(366).then((snaps) => {
+        if (chartAlive.current) setCloudSnaps(snaps);
+      });
+    },
+    CLOUD_POLL_MS,
+    { freshForMs: CLOUD_POLL_MS / 2 },
+  );
 
   // Local recorder — the old dashboard wrote the intraday buffer + daily close;
   // the rebuilt shell must too, or open-app hours leave no trace between

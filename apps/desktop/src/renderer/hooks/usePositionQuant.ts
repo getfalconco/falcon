@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useShownPoll } from "@/lib/use-shown-poll";
 
 /**
  * The tracker's quant read of each held name — beta, volatility, momentum,
@@ -90,17 +91,25 @@ async function quantOf(symbol: string): Promise<PositionQuant> {
  */
 export function usePositionQuant(symbolsKey: string): Record<string, PositionQuant> {
   const [quant, setQuant] = useState<Record<string, PositionQuant>>({});
-
+  /** The names asked for now (empty once unmounted): a read for other names is dropped. */
+  const current = useRef(symbolsKey);
   useEffect(() => {
-    const list = symbolsKey ? symbolsKey.split(",").filter(Boolean) : [];
-    if (list.length === 0) {
-      setQuant({});
-      return;
-    }
-    let cancelled = false;
-    const load = () => {
+    current.current = symbolsKey;
+    if (!symbolsKey) setQuant({});
+    return () => {
+      current.current = "";
+    };
+  }, [symbolsKey]);
+
+  // Polled while the tab it is drawn in is in front and the window is shown.
+  useShownPoll(
+    symbolsKey,
+    () => {
+      const key = symbolsKey;
+      const list = key.split(",").filter(Boolean);
+      if (list.length === 0) return;
       void Promise.all(list.map(async (s) => [s, await quantOf(s)] as const)).then((entries) => {
-        if (cancelled) return;
+        if (current.current !== key) return;
         setQuant((prev) => {
           // Merge, and drop what is no longer held.
           const next: Record<string, PositionQuant> = {};
@@ -109,14 +118,10 @@ export function usePositionQuant(symbolsKey: string): Record<string, PositionQua
           return next;
         });
       });
-    };
-    load();
-    const id = window.setInterval(load, POLL_MS);
-    return () => {
-      cancelled = true;
-      window.clearInterval(id);
-    };
-  }, [symbolsKey]);
+    },
+    POLL_MS,
+    { freshForMs: POLL_MS / 2 },
+  );
 
   return quant;
 }

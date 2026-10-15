@@ -8,8 +8,9 @@
  *                over the last 30 days (shared/estimate-revisions.ts)
  *   guidance     how reported figures have landed against the company's
  *                own guidance (shared/guidance-view.ts), only when this run
- *                has the track already: a first read calls the model, and
- *                the calendar never starts one
+ *                holds the track or main keeps it on disk from an earlier
+ *                visit: a first read calls the model, and the calendar
+ *                never starts one
  *   read-through how a held name has moved on this company's past report
  *                days (shared/readthrough-view.ts)
  *

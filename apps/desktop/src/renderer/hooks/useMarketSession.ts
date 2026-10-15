@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getLiveQuote } from "@/lib/stock-api";
+import { useShownPoll } from "@/lib/use-shown-poll";
 import type { MessageKey } from "@/lib/i18n";
 
 /**
@@ -29,27 +30,33 @@ export function marketSessionLabel(session: MarketSession | null): MessageKey | 
   return session ? SESSION_LABEL[session] : null;
 }
 
+const POLL_MS = 60_000;
+
+/** Read every minute while the tab it is drawn in is in front and the window is shown. */
 export function useMarketSession(): MarketSession | null {
   const [session, setSession] = useState<MarketSession | null>(null);
-
+  const alive = useRef(true);
   useEffect(() => {
-    let cancelled = false;
-    const load = () => {
+    alive.current = true;
+    return () => {
+      alive.current = false;
+    };
+  }, []);
+
+  useShownPoll(
+    "SPY",
+    () => {
       void getLiveQuote("SPY")
         .then((res) => {
-          if (!cancelled && res.ok) setSession(res.quote.session);
+          if (alive.current && res.ok) setSession(res.quote.session);
         })
         .catch(() => {
           /* badge just stays hidden */
         });
-    };
-    load();
-    const id = window.setInterval(load, 60_000);
-    return () => {
-      cancelled = true;
-      window.clearInterval(id);
-    };
-  }, []);
+    },
+    POLL_MS,
+    { freshForMs: POLL_MS / 2 },
+  );
 
   return session;
 }

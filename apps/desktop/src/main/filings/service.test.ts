@@ -50,12 +50,13 @@ const EDGES: EdgeLike[] = [
 function setup(opts: { index?: FilingLike[]; edges?: EdgeLike[]; failDocs?: boolean; backgroundStartAt?: (clock: number) => number } = {}) {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), "falcon-filings-"));
   let clock = Date.parse("2026-10-15T15:00:00Z");
-  const calls = { index: 0, docs: [] as string[] };
+  const calls = { index: 0, docs: [] as string[], tickers: [] as string[] };
   const service = createFilingsService({
     dir,
     now: () => clock,
     filings: async (ticker) => {
       calls.index++;
+      calls.tickers.push(ticker);
       return ticker === "ACME" ? (opts.index ?? INDEX) : [];
     },
     document: async (f) => {
@@ -221,7 +222,7 @@ describe("what the report before the newest one already carried", () => {
     const index = [filing("10-Q", "q-new", "2026-08-05"), filing("10-Q", "q-old", "2026-05-06"), filing("10-K", "k-2026", "2026-02-20"), filing("10-K", "k-2025", "2025-02-21")];
     assert.equal(pickFilings(index).prior?.accession, "q-old");
     const { service, calls } = setup({ index });
-    const c = await service.changes("ACME");
+    const c = await service.changes("ACME", { carried: true });
     assert.ok(calls.docs.includes("q-old"));
     const q = c.items.filter((i) => i.kind === "quarter_risk_new");
     assert.deepEqual(q.map((i) => [i.id.split(":")[1], i.carried]), [["q-new", true]]);
@@ -234,7 +235,7 @@ describe("what the report before the newest one already carried", () => {
     DOCS["q-old"] = "tenq-unchanged.html";
     const index = [filing("10-Q", "q-new", "2026-08-05"), filing("10-Q", "q-old", "2026-05-06"), filing("10-K", "k-2026", "2026-02-20"), filing("10-K", "k-2025", "2025-02-21")];
     const { service } = setup({ index });
-    const c = await service.changes("ACME");
+    const c = await service.changes("ACME", { carried: true });
     assert.deepEqual(c.items.filter((i) => i.kind === "quarter_risk_new").map((i) => i.carried), [false]);
   });
 
@@ -243,10 +244,31 @@ describe("what the report before the newest one already carried", () => {
     const index = [filing("10-K", "k-2026", "2026-02-20"), filing("10-Q", "q-before", "2025-11-05"), filing("10-K", "k-2025", "2025-02-21")];
     assert.equal(pickFilings(index).prior?.accession, "q-before");
     const { service } = setup({ index });
-    const c = await service.changes("ACME");
+    const c = await service.changes("ACME", { carried: true });
     const risk = c.items.filter((i) => i.kind === "risk_new");
     assert.ok(risk.length > 0 && risk.every((i) => i.carried === false), "none of the new headings were in that 10-Q");
     assert.equal(c.items.find((i) => i.kind === "material_weakness")?.carried, false);
+  });
+
+  it("leaves that 10-Q out for the views, and reads only it when the watch asks", async () => {
+    DOCS["q-new"] = "tenq-2026.html";
+    DOCS["q-old"] = "tenq-2026.html";
+    const index = [filing("10-Q", "q-new", "2026-08-05"), filing("10-Q", "q-old", "2026-05-06"), filing("10-K", "k-2026", "2026-02-20"), filing("10-K", "k-2025", "2025-02-21")];
+    const { service, calls } = setup({ index });
+    const view = await service.changes("ACME");
+    assert.deepEqual([...calls.docs].sort(), ["k-2025", "k-2026", "q-new"]);
+    assert.deepEqual(view.missing, []);
+    assert.ok(view.items.every((i) => i.carried === undefined));
+    // The same day: the views' kept answer stands for them.
+    await service.changes("ACME");
+    assert.equal(calls.docs.length, 3);
+    const watch = await service.changes("ACME", { carried: true });
+    assert.deepEqual(calls.docs.slice(3), ["q-old"]);
+    assert.deepEqual(watch.items.filter((i) => i.kind === "quarter_risk_new").map((i) => i.carried), [true]);
+    // Kept with it now, for both.
+    await service.changes("ACME", { carried: true });
+    await service.changes("ACME");
+    assert.equal(calls.docs.length, 4);
   });
 });
 
@@ -311,6 +333,17 @@ describe("background reads after launch", () => {
     await service.idle();
     assert.equal(calls.index, 2);
     assert.ok(calls.docs.includes("k-2026"));
+  });
+});
+
+describe("held names first", () => {
+  it("reads every held name before the watchlist, whatever order they were asked in", async () => {
+    const { service, calls } = setup({ backgroundStartAt: (clock) => clock + 20 });
+    service.overview({ held: [], watchlist: ["WAT1", "WAT2"] });
+    service.overview({ held: ["HLD1"], watchlist: ["WAT1", "WAT2"] });
+    await new Promise((r) => setTimeout(r, 40));
+    await service.idle();
+    assert.deepEqual(calls.tickers, ["HLD1", "WAT1", "WAT2"]);
   });
 });
 

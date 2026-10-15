@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { useSay } from "@/components/earnings/earnings-ui";
-import { peekGuidanceTrack } from "@/components/stock-tab/use-guidance";
+import { useGuidancePeek } from "@/components/stock-tab/use-guidance";
 import { useTabActive } from "@/components/stock-tab/use-tab-active";
 import { useEstimateRevisions } from "@/lib/estimates-store";
 import { useImpliedMoves } from "@/lib/implied-move-store";
@@ -34,7 +34,8 @@ function Facts({ target, onClose }: { target: EarningsTarget; onClose: () => voi
   const held = useHeldPositions();
   const watchlist = useWatchlistTickers();
   const radar = useReadthroughRadar(active && held.length > 0 ? held : NONE, active && held.length > 0 ? watchlist : NONE);
-  const guidance = peekGuidanceTrack(target.ticker);
+  // What this run holds, else main's disk: never a full read from here.
+  const guidance = useGuidancePeek(active ? target.ticker : null);
 
   const lines = earningsFacts(target, { implied, estimates, guidance, readthrough: radar.value?.rows ?? null }, say, lang);
   if (lines.length === 0) return null;
