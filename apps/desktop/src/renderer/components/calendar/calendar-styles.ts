@@ -19,8 +19,8 @@ export const ICON_BUTTON =
 /** The card label: "FILTERS", "EVENT TYPES". */
 export const SECTION_LABEL = "select-none font-sans text-[11px] font-medium tracking-[0.04em] text-[#9CA3AF]";
 
-/** The mono head: weekday names, hour labels, the week number. */
-export const MONO_HEAD = "font-['Geist_Mono'] text-[10px] uppercase tracking-[0.06em] text-[#9CA3AF]";
+/** The small head: weekday names, hour labels, the week number. In the app's sans, like everything on the calendar. */
+export const MONO_HEAD = "font-sans text-[10px] uppercase tracking-[0.06em] text-[#9CA3AF]";
 
 /** The dashboard card frame. */
 export const CARD =

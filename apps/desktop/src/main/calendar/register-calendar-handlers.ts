@@ -13,7 +13,9 @@ import {
   type UserEventWriteResult,
   type UserEventsListResult,
 } from "../../shared/calendar-events";
+import { parseEconomicRequest, type EconomicCalendarResult } from "../../shared/economic-calendar";
 import { buildCorporateCalendar } from "./corporate-calendar";
+import { createEconomicCalendar, type EconomicCalendar } from "./economic-calendar";
 import { createSectorCache, type SectorCache } from "./sector-cache";
 import { createUserEventsStore, type UserEventsStore } from "./user-events-store";
 
@@ -28,6 +30,9 @@ import { createUserEventsStore, type UserEventsStore } from "./user-events-store
  *       Earnings, dividend and split dates of the names asked about, with each
  *       name's sector, read through the briefing's corporate-actions cache and
  *       a month-long sector cache.
+ *   calendar:economic
+ *       Releases, decisions and speeches of the countries asked about, with
+ *       their figures (main/calendar/economic-calendar.ts, cached on disk).
  *
  * Validation and store errors are our own codes (with the English sentence
  * beside them) and are passed through; anything else is logged here and
@@ -37,6 +42,12 @@ import { createUserEventsStore, type UserEventsStore } from "./user-events-store
 
 let store: UserEventsStore | null = null;
 let sectors: SectorCache | null = null;
+let economic: EconomicCalendar | null = null;
+
+function economicCalendar(): EconomicCalendar {
+  if (!economic) economic = createEconomicCalendar({ file: path.join(resolveDataRoot(), "calendar", "economic.json") });
+  return economic;
+}
 
 /** Built on first use: the data root moves early in a packaged build's startup. */
 function userEvents(): UserEventsStore {
@@ -114,6 +125,17 @@ export function registerCalendarHandlers(): void {
       return { ok: true, ...outcome, skipped: parsed.skipped };
     } catch (err) {
       console.warn("[calendar] corporate failed:", err instanceof Error ? err.message : String(err));
+      return { ok: false, error: "unavailable" };
+    }
+  });
+
+  registerIpcHandler("calendar:economic", async (_event, request: unknown): Promise<EconomicCalendarResult> => {
+    const parsed = parseEconomicRequest(request);
+    if (!parsed) return { ok: false, error: "invalid_request" };
+    try {
+      return await economicCalendar().get(parsed);
+    } catch (err) {
+      console.warn("[calendar] economic failed:", err instanceof Error ? err.message : String(err));
       return { ok: false, error: "unavailable" };
     }
   });

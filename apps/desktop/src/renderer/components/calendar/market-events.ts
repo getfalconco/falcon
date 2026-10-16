@@ -38,7 +38,8 @@ import { ENGLISH, type BriefingText } from "../../../shared/briefing-text";
 import { calendarView, degradedNotes } from "../../../shared/calendar-view";
 import { CATEGORY_COLOR, MARKET_WIDE, type CalendarCorporateEvent } from "../../../shared/calendar-events";
 import { addDays, daysFrom, weekday } from "./calendar-dates";
-import { corporateToCal, itemViewToCal, type CalEvent, type CalendarWords, type SectorLookup } from "./calendar-model";
+import { CURATED_SPEECH_CODES, curatedCode, figuresOf, matchCurated, type EconomicEvent } from "../../../shared/economic-calendar";
+import { corporateToCal, economicToCal, itemViewToCal, type CalEvent, type CalendarWords, type SectorLookup } from "./calendar-model";
 
 export type MarketEventsInput = {
   /** First and last New York date to build, both included. */
@@ -55,6 +56,12 @@ export type MarketEventsInput = {
   text?: BriefingText;
   /** The same language for the Calendar tab's own lines (the holiday row); English when left out. */
   t?: TFunction;
+  /**
+   * The economic calendar's rows (`calendar:economic`): the curated US rows
+   * take their figures from them, and the rest are listed beside them.
+   * Null or left out: the curated schedule alone, as before.
+   */
+  economic?: readonly EconomicEvent[] | null;
 };
 
 export type MarketEventsResult = {
@@ -133,6 +140,7 @@ function holidayEvent(ymd: string, text: BriefingText, t: TFunction | undefined)
     estimated: false,
     notes: "",
     user: null,
+    country: "US",
   };
 }
 
@@ -213,7 +221,39 @@ export function buildMarketEvents(input: MarketEventsInput): MarketEventsResult 
     for (const e of briefingCorporateFallback(briefing, sectorOf, words)) if (e.startDate >= input.from && e.startDate <= input.to) push(e);
   }
 
+  mergeEconomic(events, input.economic ?? null, input.t, push);
   return { events, notes: [...notes] };
+}
+
+/**
+ * The economic calendar laid over the curated schedule. A curated US release
+ * takes the figures of the live row that is the same release (CPI's are
+ * "Inflation Rate YoY"), and that row is not listed again; the other live
+ * rows of the same release in the same slot (core CPI, the m/m change) are
+ * listed, marked with the curated row they belong beside, so "Important"
+ * can leave them out. Every other live row is listed as it is.
+ */
+export function mergeEconomic(events: CalEvent[], economic: readonly EconomicEvent[] | null, t: TFunction | undefined, push: (e: CalEvent) => void): void {
+  if (!economic || economic.length === 0) return;
+  const shown = new Set<string>();
+  const slotOf = new Map<string, string>();
+  for (let i = 0; i < events.length; i++) {
+    const ev = events[i]!;
+    const code = curatedCode(ev.id);
+    if (!code || ev.startMs === null) continue;
+    const match = matchCurated(code, ev.startMs, economic);
+    for (const id of match.family) slotOf.set(id, ev.id);
+    if (match.headline) {
+      shown.add(match.headline.id);
+      events[i] = { ...ev, figures: CURATED_SPEECH_CODES.has(code) ? null : figuresOf(match.headline) };
+    }
+  }
+  for (const e of economic) {
+    if (shown.has(e.id)) continue;
+    const row = economicToCal(e, t);
+    const slot = slotOf.get(e.id);
+    push(slot ? { ...row, slotOf: slot } : row);
+  }
 }
 
 /** The New York dates whose rows can land on any of `days` in the viewing zone: one either side covers every offset. */

@@ -1,5 +1,5 @@
 import { CALENDAR_EVENT_TYPES, CALENDAR_SECTORS, MARKET_WIDE } from "../../../shared/calendar-events";
-import { DEFAULT_FILTERS, readFilters, type CalendarFilters } from "./calendar-model";
+import { DEFAULT_FILTERS, readFilters, type CalendarFilters, type CalendarScope } from "./calendar-model";
 import type { CalendarViewMode, WeekStart } from "./calendar-dates";
 
 /**
@@ -23,6 +23,8 @@ export type CalendarPrefs = {
   filters: CalendarFilters;
   /** Held names' dates drawn emphasised and listed first. On unless the reader turns it off. */
   highlightPositions: boolean;
+  /** "Important" (the default) or "All" of the economic calendar, the choice under the small month. */
+  scope: CalendarScope;
 };
 
 export const DEFAULT_PREFS: CalendarPrefs = {
@@ -32,6 +34,7 @@ export const DEFAULT_PREFS: CalendarPrefs = {
   showWeekends: true,
   filters: DEFAULT_FILTERS,
   highlightPositions: true,
+  scope: "important",
 };
 
 const CATEGORIES: readonly string[] = [MARKET_WIDE, ...CALENDAR_SECTORS];
@@ -46,6 +49,7 @@ export function parsePrefs(raw: unknown): CalendarPrefs {
     showWeekends: r.showWeekends !== false,
     filters: readFilters(r.filters, CALENDAR_EVENT_TYPES, CATEGORIES),
     highlightPositions: r.highlightPositions !== false,
+    scope: r.scope === "all" ? "all" : "important",
   };
 }
 

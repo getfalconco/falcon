@@ -6,6 +6,9 @@ import { briefingEnabled } from "@/lib/dashboard-config";
 import { useI18n } from "@/lib/i18n";
 import { paperScopeKey } from "@/lib/paper-account";
 import { isTypingTarget } from "@/lib/shortcuts";
+import { useRegion } from "@/lib/region";
+import { useTimeZone } from "@/lib/time-zone";
+import { economicCountries } from "../../../shared/economic-calendar";
 import { personalAgenda } from "../../../shared/calendar-agenda";
 import { MACRO_CALENDAR, sessionWindowFor } from "../../../shared/calendar-types";
 import { nyYmd } from "../../../shared/calendar-view";
@@ -18,10 +21,10 @@ import {
 import { useTheme } from "./calendar-colors";
 import {
   NY_ZONE,
+  addDays,
   fullDay,
   isoWeek,
   longDay,
-  localIsNewYork,
   monthGrid,
   rangeTitle,
   shortDay,
@@ -33,7 +36,7 @@ import {
   zonedWallToMs,
   type CalendarViewMode,
 } from "./calendar-dates";
-import { categoriesToList, eventOnDay, filterEvents, userEventToCal, withHoldings, type CalEvent, type CalendarFilters } from "./calendar-model";
+import { categoriesToList, compareEvents, eventOnDay, filterEvents, scopeEvents, userEventToCal, withHoldings, type CalEvent, type CalendarFilters } from "./calendar-model";
 import { readPrefs, writePrefs, type CalendarPrefs } from "./calendar-prefs";
 import { failureMessage } from "./sector-labels";
 import { CARD } from "./calendar-styles";
@@ -50,6 +53,7 @@ import {
   deleteUserEvent,
   updateUserEvent,
   useCorporateCalendar,
+  useEconomicCalendar,
   useHeldTickers,
   useMinute,
   useUserEvents,
@@ -121,8 +125,11 @@ function CalendarTabInner({ briefingReport }: { briefingReport: ReturnType<typeo
       return next;
     });
   }, []);
-  const nyLocal = useMemo(localIsNewYork, []);
-  const zone = prefs.zoneMode === "et" || nyLocal ? NY_ZONE : undefined;
+  // The reader's zone from Settings, General (this machine's unless they picked one): every time and every day on the grid is in it.
+  const readerZone = useTimeZone();
+  const region = useRegion();
+  const nyLocal = readerZone === NY_ZONE;
+  const zone = prefs.zoneMode === "et" || nyLocal ? NY_ZONE : readerZone;
   // The zones in words: "NY time" and "Local time", never a raw offset.
   const zoneWords = useMemo(() => ({ ny: t("calendar.zone.nyShort"), local: t("calendar.zone.localShort") }), [t]);
   const zoneText = zoneLabel(zone, zoneWords);
@@ -152,6 +159,11 @@ function CalendarTabInner({ briefingReport }: { briefingReport: ReturnType<typeo
   // Built for the six weeks around the anchor, which holds every view's days
   // and the small month's: one build serves the grid and the dots.
   const gridDays = useMemo(() => monthGrid(anchor, prefs.weekStart), [anchor, prefs.weekStart]);
+
+  // The economic calendar over the same six weeks, a day either side for the zones that see a release on another date.
+  const countries = useMemo(() => economicCountries(region), [region]);
+  const economic = useEconomicCalendar(addDays(gridDays[0]!, -1), addDays(gridDays[gridDays.length - 1]!, 1), countries, Math.floor(minute / 10));
+  const economicEvents = economic.status === "ready" ? economic.events : null;
   // The hour, not the minute: rows only change which are past, and the views judge that themselves.
   const hour = Math.floor(minute / 60);
   const market = useMemo(() => {
@@ -166,12 +178,15 @@ function CalendarTabInner({ briefingReport }: { briefingReport: ReturnType<typeo
         now: new Date(hour * 3_600_000),
         text,
         t,
+        economic: economicEvents,
+        // The detail card's "your time" is the zone from Settings, not the machine's.
+        zone: readerZone,
       });
     } catch (error) {
       console.error("[calendar] market events failed:", error);
       return { events: [], notes: [] };
     }
-  }, [gridDays, briefingReport, corporate.status, corporate.events, sectorOf, hour, text, t]);
+  }, [gridDays, briefingReport, corporate.status, corporate.events, sectorOf, hour, text, t, economicEvents, readerZone]);
 
   // Every event marked with the reader's tie to it, so held names' dates sort
   // first in a day and are drawn emphasised while the highlight is on.
@@ -203,10 +218,12 @@ function CalendarTabInner({ briefingReport }: { briefingReport: ReturnType<typeo
       }),
     [nyToday, held, watchlist, corporate.status, corporate.events, briefingReport, text],
   );
-  const shown = useMemo(() => filterEvents(allEvents, prefs.filters, watchSet), [allEvents, prefs.filters, watchSet]);
+  // "Important" or "All" first; the type and sector filters then work within it.
+  const scoped = useMemo(() => scopeEvents(allEvents, prefs.scope, region), [allEvents, prefs.scope, region]);
+  const shown = useMemo(() => filterEvents(scoped, prefs.filters, watchSet), [scoped, prefs.filters, watchSet]);
 
-  // Counts over the days in view, before the filters, for the sidebar.
-  const inView = useMemo(() => allEvents.filter((e) => days.some((d) => eventOnDay(e, d, zone))), [allEvents, days, zone]);
+  // Counts over the days in view, before the type and sector filters, for the sidebar.
+  const inView = useMemo(() => scoped.filter((e) => days.some((d) => eventOnDay(e, d, zone))), [scoped, days, zone]);
   const typeCounts = useMemo(() => {
     const out: Partial<Record<CalendarEventType, number>> = {};
     for (const e of inView) out[e.type] = (out[e.type] ?? 0) + 1;
@@ -217,7 +234,7 @@ function CalendarTabInner({ briefingReport }: { briefingReport: ReturnType<typeo
     for (const e of inView) if (e.category) out[e.category] = (out[e.category] ?? 0) + 1;
     return out;
   }, [inView]);
-  const categories = useMemo(() => categoriesToList(allEvents, prefs.filters.hiddenCategories), [allEvents, prefs.filters.hiddenCategories]);
+  const categories = useMemo(() => categoriesToList(scoped, prefs.filters.hiddenCategories), [scoped, prefs.filters.hiddenCategories]);
   const marked = useMemo(() => new Set(gridDays.filter((d) => shown.some((e) => e.importance >= 2 && eventOnDay(e, d, zone)))), [gridDays, shown, zone]);
 
   // The US regular session per day shown, in the viewing zone, for the band on the grid.
@@ -263,11 +280,16 @@ function CalendarTabInner({ briefingReport }: { briefingReport: ReturnType<typeo
     }
     if (corporate.skipped.length > 0) out.push({ text: t("calendar.note.skipped", { count: corporate.skipped.length }), tone: "quiet" });
     for (const n of market.notes) out.push({ text: n, tone: "warn" });
+    if (economic.status === "unsupported") out.push({ text: t("calendar.econ.note.restart"), tone: "quiet" });
+    else if (economic.status === "error") out.push({ text: t("calendar.econ.note.error"), tone: "warn" });
+    else if (economic.status === "loading") out.push({ text: t("calendar.econ.note.loading"), tone: "quiet" });
+    else if (economic.status === "ready" && economic.partial) out.push({ text: t("calendar.econ.note.partial"), tone: "warn" });
+    else if (economic.status === "ready" && economic.stale) out.push({ text: t("calendar.econ.note.stale"), tone: "quiet" });
     if (userEvents.status === "unsupported") out.push({ text: t("calendar.note.userRestart"), tone: "quiet" });
     else if (userEvents.status === "error" && userEvents.error) out.push({ text: failureMessage(t, userEvents.error), tone: "warn" });
     if (view !== "month") out.push({ text: t("calendar.note.sessionBand"), tone: "quiet" });
     return out;
-  }, [days, corporate.status, corporate.unavailable, corporate.skipped, symbols.length, market.notes, userEvents.status, userEvents.error, view, t, locale]);
+  }, [days, corporate.status, corporate.unavailable, corporate.skipped, symbols.length, market.notes, economic.status, economic.partial, economic.stale, userEvents.status, userEvents.error, view, t, locale]);
 
   // --- Navigation ----------------------------------------------------------
   const [popover, setPopover] = useState<Popover | null>(null);
@@ -351,7 +373,7 @@ function CalendarTabInner({ briefingReport }: { briefingReport: ReturnType<typeo
     onCreate(request, { left: rect.left, right: rect.right, top: rect.top, bottom: rect.bottom });
   };
 
-  const listForDay = popover?.kind === "day" ? shown.filter((e) => eventOnDay(e, popover.ymd, zone)) : [];
+  const listForDay = popover?.kind === "day" ? shown.filter((e) => eventOnDay(e, popover.ymd, zone)).sort(compareEvents) : [];
 
   const viewProps = {
     today,
@@ -385,6 +407,8 @@ function CalendarTabInner({ briefingReport }: { briefingReport: ReturnType<typeo
         holdsAny={held.length > 0}
         highlightPositions={prefs.highlightPositions}
         onHighlightPositions={(highlightPositions) => updatePrefs({ highlightPositions })}
+        scope={prefs.scope}
+        onScope={(scope) => updatePrefs({ scope })}
         notes={notes}
         onPick={(ymd) => setAnchor(ymd)}
         onNewEvent={newEventAt}
@@ -430,6 +454,7 @@ function CalendarTabInner({ briefingReport }: { briefingReport: ReturnType<typeo
             zone={zone}
             zoneText={zoneText}
             today={nyToday}
+            nowMs={nowMs}
             theme={theme}
             onClose={closePopover}
             onEdit={() => selected.user && setPopover({ kind: "editor", source: { event: selected.user }, anchor: popover.anchor })}
@@ -475,6 +500,8 @@ function CalendarTabInner({ briefingReport }: { briefingReport: ReturnType<typeo
                   event={e}
                   theme={theme}
                   zoneMinutes={!e.allDay && e.startMs !== null ? zonedParts(e.startMs, zone).minutes : null}
+                  nowMs={nowMs}
+                  detailed
                   className="w-full"
                   onClick={(ev) => onSelect(e, (ev.currentTarget as HTMLElement).getBoundingClientRect())}
                 />

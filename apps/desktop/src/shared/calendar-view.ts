@@ -98,6 +98,32 @@ export function etClock(at: Date | string): string | null {
   return nyClock(at)?.hm ?? null;
 }
 
+const zoneClocks = new Map<string, Intl.DateTimeFormat | null>();
+
+/**
+ * "15:30": the wall-clock time of an instant in a zone (the reader's, from
+ * Settings), or null when either cannot be read. New York's own when the zone
+ * is left out.
+ */
+export function zonedClock(at: Date | string, zone?: string): string | null {
+  if (!zone) return etClock(at);
+  const date = typeof at === "string" ? new Date(at) : at;
+  if (!Number.isFinite(date.getTime())) return null;
+  let format = zoneClocks.get(zone);
+  if (format === undefined) {
+    try {
+      format = new Intl.DateTimeFormat("en-US", { timeZone: zone, hourCycle: "h23", hour: "2-digit", minute: "2-digit" });
+    } catch {
+      format = null;
+    }
+    zoneClocks.set(zone, format);
+  }
+  if (!format) return null;
+  const parts: Record<string, string> = {};
+  for (const part of format.formatToParts(date)) parts[part.type] = part.value;
+  return `${parts.hour === "24" ? "00" : parts.hour}:${parts.minute}`;
+}
+
 // ---------------------------------------------------------------------------
 // Phase and masthead
 // ---------------------------------------------------------------------------
@@ -327,7 +353,7 @@ function isPast(item: CalendarItem, now: Date, targetYmd: string): boolean {
   return item.time_et <= clock.hm;
 }
 
-function calendarItemView(item: CalendarItem, past: boolean, zone: string | undefined, text: BriefingText): CalendarItemView {
+function calendarItemView(item: CalendarItem, past: boolean, zone: string | undefined, text: BriefingText, clockZone?: string): CalendarItemView {
   const kindKey: BriefingKey | undefined = KIND_KEY[item.kind];
   return {
     id: item.id,
@@ -337,7 +363,7 @@ function calendarItemView(item: CalendarItem, past: boolean, zone: string | unde
     detail: localizeCalendarDetail(item.detail ?? null, text),
     importance: item.importance,
     tickers: [...list(item.tickers)],
-    timeLabel: item.time_et ?? null,
+    timeLabel: item.time_et ? (clockZone && item.at ? (zonedClock(item.at, clockZone) ?? item.time_et) : item.time_et) : null,
     past,
     timeLine: timeLine(item, zone, text),
     sourceLabel: sourceLabel(item, text),
@@ -357,6 +383,11 @@ export type CalendarViewOptions = {
   zone?: string;
   /** The reader's language; English when left out. */
   text?: BriefingText;
+  /**
+   * Print each row's time in this zone (the reader's, from Settings) rather
+   * than New York's. The rows stay the New York session's, in their order.
+   */
+  clockZone?: string;
 };
 
 export function calendarView(report: CalendarReport, now: Date, options: CalendarViewOptions = {}): CalendarView {
@@ -371,7 +402,7 @@ export function calendarView(report: CalendarReport, now: Date, options: Calenda
     .map((i, index) => ({ i, index }))
     .sort((a, b) => (a.i.time_et as string).localeCompare(b.i.time_et as string) || b.i.importance - a.i.importance || a.index - b.index);
 
-  const timed = timedItems.map(({ i }) => calendarItemView(i, isPast(i, now, targetYmd), zone, text) as TimedCalendarItemView);
+  const timed = timedItems.map(({ i }) => calendarItemView(i, isPast(i, now, targetYmd), zone, text, options.clockZone) as TimedCalendarItemView);
   const firstAhead = timed.findIndex((t) => !t.past);
 
   // An all-day item is behind us once the session it belongs to has closed.

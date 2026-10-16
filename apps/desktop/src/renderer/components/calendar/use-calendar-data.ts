@@ -11,6 +11,7 @@ import {
   type UserCalendarEventInput,
   type UserEventFailure,
 } from "../../../shared/calendar-events";
+import type { EconomicEvent } from "../../../shared/economic-calendar";
 
 /**
  * Calendar tab: the data the views draw, held outside React.
@@ -200,6 +201,69 @@ export function useCorporateCalendar(symbols: readonly string[]): CorporateState
       live = false;
     };
   }, [key]);
+
+  return state;
+}
+
+// ---------------------------------------------------------------------------
+// The economic calendar
+// ---------------------------------------------------------------------------
+
+export type EconomicState = {
+  status: "idle" | "loading" | "ready" | "unsupported" | "error";
+  events: EconomicEvent[];
+  /** Some rows are from an earlier read: the source did not answer now. */
+  stale: boolean;
+  /** Only this week could be read, from the fallback source. */
+  partial: boolean;
+};
+
+const EMPTY_ECONOMIC: EconomicState = { status: "idle", events: [], stale: false, partial: false };
+/** Answers by range and countries. Main keeps the provider reads too; this spares the IPC between redraws. */
+const economicCache = new Map<string, { at: number; state: EconomicState }>();
+/** Actual figures come out through the day: the tab asks main again after this long. */
+export const ECONOMIC_TTL_MS = 10 * 60_000;
+
+/**
+ * Releases, decisions and speeches between two UTC dates for the countries
+ * named, from main (`calendar:economic`). `refresh` is any value that changes
+ * when the tab wants a fresh look (a ten minute tick); a cached answer younger
+ * than the TTL is reused whatever it is.
+ */
+export function useEconomicCalendar(from: string, to: string, countries: readonly string[], refresh = 0): EconomicState {
+  const key = `${from}|${to}|${[...countries].sort().join(",")}`;
+  const [state, setState] = useState<EconomicState>(() => economicCache.get(key)?.state ?? EMPTY_ECONOMIC);
+
+  useEffect(() => {
+    const ask = bridge()?.getEconomicCalendar;
+    if (!ask) {
+      setState({ ...EMPTY_ECONOMIC, status: "unsupported" });
+      return;
+    }
+    const hit = economicCache.get(key);
+    if (hit) setState(hit.state);
+    if (hit && Date.now() - hit.at < ECONOMIC_TTL_MS) return;
+    let live = true;
+    if (!hit) setState((s) => ({ ...s, status: s.status === "ready" ? "ready" : "loading" }));
+    const [f, t, list] = key.split("|");
+    ask({ from: f!, to: t!, countries: list ? list.split(",") : [] })
+      .then((result) => {
+        if (result.ok) {
+          const next: EconomicState = { status: "ready", events: result.events, stale: result.stale, partial: result.partial };
+          economicCache.set(key, { at: Date.now(), state: next });
+          if (live) setState(next);
+        } else if (live) {
+          // A failed refresh keeps what was already drawn.
+          setState((s) => (s.status === "ready" ? { ...s, stale: true } : { ...EMPTY_ECONOMIC, status: "error" }));
+        }
+      })
+      .catch(() => {
+        if (live) setState((s) => (s.status === "ready" ? { ...s, stale: true } : { ...EMPTY_ECONOMIC, status: "error" }));
+      });
+    return () => {
+      live = false;
+    };
+  }, [key, refresh]);
 
   return state;
 }

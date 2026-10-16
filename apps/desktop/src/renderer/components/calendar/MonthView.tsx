@@ -229,6 +229,7 @@ export default function MonthView(props: Props) {
                         theme={theme}
                         selected={selectedId === event.id}
                         past={past}
+                        nowMs={nowMs}
                         zoneMinutes={minutes}
                         clippedStart={event.allDay && event.startDate < week[p.startIndex]}
                         clippedEnd={event.allDay && event.endDate > week[p.startIndex + p.span - 1]}

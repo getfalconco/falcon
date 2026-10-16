@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Monitor, Moon, Sun, type LucideIcon } from "lucide-react";
 import { SettingsRow, SettingsSection } from "./SettingsRow";
 import LanguageRow from "./LanguageRow";
+import { RegionRow, TimeZoneRow } from "./RegionZoneRows";
 import { NotificationsSection } from "./NotificationsSection";
 import { useT, type MessageKey, type TFunction } from "@/lib/i18n";
 import { Segmented, Switch, type SegmentOption } from "./controls";
@@ -24,8 +25,10 @@ import { capabilityReason } from "./capability-reason";
  *     through the preload, so every pixel scales together. Motion
  *     (lib/motion): `data-motion` on <html> for CSS, and framer-motion's
  *     global skip switch for everything it animates.
- *  - Language and region: the app's language (LanguageRow) and the clock
- *     every time of day is printed in (lib/clock withClock/clockLabel).
+ *  - Language and region: the app's language (LanguageRow), the region whose
+ *     releases the calendar adds and the time zone it places every time in
+ *     (RegionZoneRows: lib/region, lib/time-zone), and the clock every time
+ *     of day is printed in (lib/clock withClock/clockLabel).
  *  - Startup: the OS login item (OpenAtLoginRow, through main/system: read
  *    from the OS when the pane opens, applied at once; installed app only)
  *    and `briefingAutoOpen()` in lib/dashboard-config, the gate every
@@ -228,6 +231,8 @@ export default function GeneralPane({ anchor }: { anchor?: GeneralAnchor }) {
       <SettingsSection title={t("shell.settings.languageRegion")}>
         {/* The language comes first: a reader who cannot read the rest finds it here. */}
         <LanguageRow />
+        <RegionRow />
+        <TimeZoneRow />
         <SettingsRow label={t("settings.general.clock")} className="border-b-0">
           <Segmented
             label={t("settings.general.clock")}

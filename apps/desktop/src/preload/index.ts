@@ -457,6 +457,8 @@ contextBridge.exposeInMainWorld("meridian", {
     ipcRenderer.invoke("calendar:user-events:delete", id) as Promise<import("../shared/calendar-events").UserEventDeleteResult>,
   getCalendarCorporate: (request: import("../shared/calendar-events").CalendarCorporateRequest) =>
     ipcRenderer.invoke("calendar:corporate", request) as Promise<import("../shared/calendar-events").CalendarCorporateResult>,
+  getEconomicCalendar: (request: import("../shared/economic-calendar").EconomicCalendarRequest) =>
+    ipcRenderer.invoke("calendar:economic", request) as Promise<import("../shared/economic-calendar").EconomicCalendarResult>,
   // Earnings tab and card: the next reports of the reader's names, the covered universe, or the market (main/earnings).
   getEarningsUpcoming: (request: import("../shared/earnings-types").EarningsRequest) =>
     ipcRenderer.invoke("earnings:upcoming", request) as Promise<import("../shared/earnings-types").EarningsResult>,

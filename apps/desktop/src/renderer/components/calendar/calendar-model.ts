@@ -26,6 +26,15 @@ import {
   type UserCalendarEvent,
 } from "../../../shared/calendar-events";
 import type { CalendarItemView } from "../../../shared/calendar-view";
+import {
+  CURATED_SPEECH_CODES,
+  IMPORTANT_COUNTRIES,
+  curatedCode,
+  figuresOf,
+  type EconomicEvent,
+  type EconomicFigures,
+  type EconomicSource,
+} from "../../../shared/economic-calendar";
 import type { MessageKey, TFunction } from "@/lib/i18n";
 import { addDays, shortDay, zonedParts, MINUTES_PER_DAY } from "./calendar-dates";
 
@@ -63,6 +72,16 @@ export type CalEvent = {
   holding?: Holding | null;
   /** Drawn emphasised: a held name's date while "Highlight your positions" is on. */
   emphasis?: boolean;
+  /** The country a release or a decision is for (ISO alpha-2, "EU"): the round flag beside the row. */
+  country?: string | null;
+  /** Forecast, previous and, once out, actual (the economic calendar). */
+  figures?: EconomicFigures | null;
+  /** Someone speaking: no figures, and "Completed" once its time has passed. */
+  speech?: boolean;
+  /** Read from the economic calendar rather than the curated schedule. */
+  live?: EconomicSource;
+  /** A live row printed in the same slot as a curated release (core CPI beside CPI): the curated row's id. */
+  slotOf?: string;
 };
 
 export type Holding = "held" | "watchlist";
@@ -92,6 +111,7 @@ const TYPE_OF_KIND: Record<CalendarItemView["kind"], CalendarEventType> = {
 /** One of the session calendar's rows on its New York date. */
 export function itemViewToCal(view: CalendarItemView, ymd: string, at: string | null, sectorOf: SectorLookup): CalEvent {
   const type = TYPE_OF_KIND[view.kind] ?? "macro";
+  const code = curatedCode(view.id);
   const category: CalendarCategory = type === "earnings" ? categoryOfTickers(view.tickers, sectorOf) : MARKET_WIDE;
   const startMs = view.timeLabel && at ? Date.parse(at) : Number.NaN;
   const timed = Number.isFinite(startMs);
@@ -117,8 +137,64 @@ export function itemViewToCal(view: CalendarItemView, ymd: string, at: string | 
     estimated: false,
     notes: "",
     user: null,
+    // The curated schedule, the expiries, the index reviews and the session are all the US market's own.
+    country: view.kind === "earnings" ? null : "US",
+    ...(code && CURATED_SPEECH_CODES.has(code) ? { speech: true } : {}),
     ...(view.kind === "earnings" ? { corporateKind: "earnings" as const } : {}),
   };
+}
+
+/** A US rate decision is a Fed decision; every other live row is a release. */
+const FED_DECISION = /^(Fed Interest Rate Decision|FOMC\b)/i;
+
+const SOURCE_KEY: Record<EconomicSource, MessageKey> = {
+  tradingview: "calendar.econ.source.tradingview",
+  forexfactory: "calendar.econ.source.forexfactory",
+};
+
+const SOURCE_ENGLISH: Record<EconomicSource, string> = {
+  tradingview: "From TradingView's economic calendar.",
+  forexfactory: "From the Forex Factory calendar.",
+};
+
+/** One row of the economic calendar. Timed at its instant (a half hour block); a row with no hour is all-day on its UTC date. */
+export function economicToCal(e: EconomicEvent, t?: TFunction): CalEvent {
+  const startMs = Date.parse(e.at);
+  const timed = !e.allDay && Number.isFinite(startMs);
+  const ymd = e.at.slice(0, 10);
+  const type: CalendarEventType = e.country === "US" && FED_DECISION.test(e.title) ? "fed" : "macro";
+  return {
+    id: `e:${e.id}`,
+    origin: "market",
+    type,
+    category: MARKET_WIDE,
+    color: CATEGORY_COLOR[MARKET_WIDE],
+    title: e.title,
+    detail: null,
+    importance: e.importance,
+    kindLabel: t ? t(e.speech ? "calendar.econ.kind.speech" : "calendar.econ.kind.release") : e.speech ? "Speech" : "Release",
+    allDay: !timed,
+    startDate: timed ? "" : ymd,
+    endDate: timed ? "" : ymd,
+    startMs: timed ? startMs : null,
+    endMs: timed ? startMs + RELEASE_BLOCK_MINUTES * 60_000 : null,
+    timeEt: null,
+    timeLine: null,
+    tickers: [],
+    sourceLabel: t ? t(SOURCE_KEY[e.source]) : SOURCE_ENGLISH[e.source],
+    estimated: false,
+    notes: "",
+    user: null,
+    country: e.country,
+    figures: e.speech ? null : figuresOf(e),
+    speech: e.speech,
+    live: e.source,
+  };
+}
+
+/** Whether a speech's time is behind the clock: it then reads "Completed". */
+export function speechDone(event: CalEvent, nowMs: number): boolean {
+  return Boolean(event.speech) && event.startMs !== null && event.startMs <= nowMs;
 }
 
 /**
@@ -364,6 +440,32 @@ export function withHoldings(events: readonly CalEvent[], held: ReadonlySet<stri
 // ---------------------------------------------------------------------------
 // Filters
 // ---------------------------------------------------------------------------
+
+/** "Important" or "All", the choice under the small month. */
+export type CalendarScope = "important" | "all";
+
+/**
+ * Whether an event belongs to "Important": the reader's own events; the
+ * dates of names they hold or follow; the curated US schedule's weightier
+ * rows and the session's exceptions; the economic calendar's high-impact
+ * rows for the US and the major European economies; and the reader's
+ * region's rows of medium impact and up. A live row printed in the slot of a
+ * curated release is that release over again, and is left to "All".
+ */
+export function isImportant(e: CalEvent, region: string | null): boolean {
+  if (e.origin === "user") return true;
+  if (e.live) {
+    if (e.slotOf) return false;
+    if (region && e.country === region && e.importance >= 2) return true;
+    return e.importance === 3 && Boolean(e.country && IMPORTANT_COUNTRIES.has(e.country));
+  }
+  if (e.type === "earnings" || e.type === "corporate") return Boolean(e.holding);
+  return e.importance >= 2 || e.type === "session";
+}
+
+export function scopeEvents(events: readonly CalEvent[], scope: CalendarScope, region: string | null): CalEvent[] {
+  return scope === "all" ? [...events] : events.filter((e) => isImportant(e, region));
+}
 
 export type CalendarFilters = {
   hiddenTypes: CalendarEventType[];

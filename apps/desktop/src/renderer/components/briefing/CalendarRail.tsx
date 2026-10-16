@@ -1,10 +1,22 @@
 import { Fragment, useEffect, useId, useLayoutEffect, useRef, useState, type FocusEvent, type MouseEvent, type Ref } from "react";
 import { createPortal } from "react-dom";
-import { useT } from "@/lib/i18n";
+import { useI18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 import { ENGLISH, type BriefingText } from "../../../shared/briefing-text";
-import { etClock, type CalendarItemView, type CalendarView } from "../../../shared/calendar-view";
-import { HEAD_CLASS, MONO_CLASS } from "./briefing-styles";
+import { zonedClock, type CalendarItemView, type CalendarView } from "../../../shared/calendar-view";
+import type { EconomicFigures } from "../../../shared/economic-calendar";
+import { RowMark } from "@/components/calendar/Flag";
+import { besideTitle, countryName, econLines, underTitle } from "@/components/calendar/econ-lines";
+
+/**
+ * The rail's small labels and its clock, in the app's sans like the rest of
+ * the calendar: the all-day word, the kind line, the "now" line, the times.
+ */
+const HEAD_CLASS = "font-sans text-[10px] font-medium uppercase tracking-[0.04em] text-[#9CA3AF]";
+const MONO_CLASS = "font-sans tabular-nums";
+
+/** What the economic calendar adds to a curated row: its figures, or that it is someone speaking. */
+export type RowExtra = { figures?: EconomicFigures | null; speech?: boolean; startMs: number | null };
 
 /**
  * The day's calendar drawn as a rail: a time column, a hairline with a node
@@ -32,18 +44,31 @@ function Node({ importance }: { importance: 1 | 2 | 3 }) {
   return <span className="h-1 w-1 rounded-full bg-[#9CA3AF]" />;
 }
 
-function ItemText({ item }: { item: CalendarItemView }) {
+function ItemText({ item, extra, nowMs }: { item: CalendarItemView; extra?: RowExtra; nowMs: number }) {
+  const { t, locale } = useI18n();
+  // Right of the dot: the company's logo for its earnings, the US flag for the market's own rows.
+  const ticker = item.kind === "earnings" ? (item.tickers[0] ?? null) : null;
+  const lines = extra ? econLines(extra, nowMs, (key, params) => t(key, params), locale) : null;
+  const beside = lines ? besideTitle(lines) : null;
+  const under = lines ? underTitle(lines) : null;
   return (
     <span className="min-w-0 pb-3">
-      <span
-        className={cn(
-          "block text-[12.5px] leading-[1.4]",
-          item.importance === 3 ? "font-medium text-[#1d1b1b]" : item.importance === 2 ? "text-[#1d1b1b]" : "text-[#6b7280]",
-        )}
-      >
-        {item.title}
+      <span className="flex min-w-0 items-start gap-1.5">
+        <span className="mt-[2px] flex shrink-0">
+          <RowMark ticker={ticker} country={ticker ? null : "US"} size={14} label={ticker ? undefined : countryName("US", locale, t("calendar.econ.euroArea"))} />
+        </span>
+        <span
+          className={cn(
+            "min-w-0 text-[12.5px] leading-[1.4]",
+            item.importance === 3 ? "font-medium text-[#1d1b1b]" : item.importance === 2 ? "text-[#1d1b1b]" : "text-[#6b7280]",
+          )}
+        >
+          {item.title}
+          {beside ? <span className="ml-1.5 whitespace-nowrap font-normal tabular-nums text-[#6b7280]">{beside}</span> : null}
+        </span>
       </span>
-      {/* Title only on the rail. The detail, kind and tickers live in the hover card. */}
+      {under ? <span className="block pl-[20px] text-[11.5px] leading-[1.4] tabular-nums text-[#9CA3AF]">{under}</span> : null}
+      {/* Title and figures only on the rail. The detail, kind and tickers live in the hover card. */}
     </span>
   );
 }
@@ -86,10 +111,10 @@ export function sessionStanding(view: CalendarView, now: Date, closeAtIso: strin
  * whole grammar is chronological, and "BEFORE THE OPEN" under rows that are
  * all dimmed as past would call an ended session a coming one.
  */
-export function nowMarkerLabel(standing: SessionStanding, now: Date, text: BriefingText = ENGLISH): string {
+export function nowMarkerLabel(standing: SessionStanding, now: Date, text: BriefingText = ENGLISH, zone?: string): string {
   if (standing === "before") return text.t("briefing.rail.beforeOpen");
   if (standing === "after") return text.t("briefing.rail.sessionEnded");
-  const clock = etClock(now);
+  const clock = zonedClock(now, zone);
   return clock ? text.t("briefing.rail.nowAt", { time: clock }) : text.t("briefing.rail.now");
 }
 
@@ -205,12 +230,18 @@ export function CalendarRows({
   view,
   markerLabel,
   markerRef,
+  extras,
+  nowMs = Date.now(),
 }: {
   view: CalendarView;
   markerLabel: string | null;
   markerRef?: Ref<HTMLDivElement>;
+  /** Per row id: the economic calendar's figures for a curated release, or that it is a speech. */
+  extras?: ReadonlyMap<string, RowExtra>;
+  /** The clock, for a speech's "Completed". */
+  nowMs?: number;
 }) {
-  const t = useT();
+  const { t } = useI18n();
   const tooltipId = useId();
   // The row by id and element, never a copy of its item: the card gets a new
   // view every minute (the clock is part of it), and the item is read from
@@ -272,7 +303,7 @@ export function CalendarRows({
           {/* The time column is 44px: a longer word ("Ganztägig") hyphenates, and one that cannot breaks rather than running into the rail. */}
           <span className={cn(HEAD_CLASS, "pt-[3px] leading-[1.25] [hyphens:auto] [overflow-wrap:anywhere]")}>{t("briefing.rail.allDay")}</span>
           <Rail importance={item.importance} />
-          <ItemText item={item} />
+          <ItemText item={item} extra={extras?.get(item.id)} nowMs={nowMs} />
         </div>
       ))}
 
@@ -282,7 +313,7 @@ export function CalendarRows({
           <div {...rowProps(item)}>
             <span className={cn(MONO_CLASS, "pt-px text-[11.5px] text-[#4b5563]")}>{item.timeLabel}</span>
             <Rail importance={item.importance} />
-            <ItemText item={item} />
+            <ItemText item={item} extra={extras?.get(item.id)} nowMs={nowMs} />
           </div>
         </Fragment>
       ))}

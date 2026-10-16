@@ -12,7 +12,7 @@ import {
 } from "../../../shared/calendar-events";
 import { colorAccent, nowLineColor } from "./calendar-colors";
 import { addMonths, fullDay, monthGrid, monthTitle, sameMonth, startOfMonth, weekday, weekdayInitials, type WeekStart } from "./calendar-dates";
-import type { CalendarFilters } from "./calendar-model";
+import type { CalendarFilters, CalendarScope } from "./calendar-model";
 import { ICON_BUTTON, SECTION_LABEL } from "./calendar-styles";
 import { sectorLabel } from "./sector-labels";
 
@@ -89,7 +89,7 @@ function MiniMonth({
       </div>
       <div className="grid grid-cols-7 text-center">
         {grid.slice(0, 7).map((d) => (
-          <span key={d} className="pb-1 font-['Geist_Mono'] text-[9.5px] uppercase text-[#9CA3AF]">
+          <span key={d} className="pb-1 text-[9.5px] uppercase text-[#9CA3AF]">
             {weekdayInitials(locale)[weekday(d)]}
           </span>
         ))}
@@ -125,6 +125,40 @@ function MiniMonth({
   );
 }
 
+const SCOPES: ReadonlyArray<{ id: CalendarScope; key: MessageKey }> = [
+  { id: "important", key: "calendar.scope.important" },
+  { id: "all", key: "calendar.scope.all" },
+];
+
+/**
+ * The choice under the small month: "Important" keeps the reader's own names
+ * and the high-impact releases of the US, the major European economies and
+ * their region; "All" is the whole economic calendar. Remembered with the
+ * tab's other choices.
+ */
+function ScopeSwitch({ value, onChange }: { value: CalendarScope; onChange: (scope: CalendarScope) => void }) {
+  const { t } = useI18n();
+  return (
+    <div role="radiogroup" aria-label={t("calendar.scope.label")} className="flex items-center rounded-[10px] bg-black/[0.04] p-[2px]">
+      {SCOPES.map((s) => (
+        <button
+          key={s.id}
+          type="button"
+          role="radio"
+          aria-checked={value === s.id}
+          onClick={() => onChange(s.id)}
+          className={cn(
+            "app-no-drag flex-1 rounded-[8px] px-2.5 py-1 text-[12px] transition-colors",
+            value === s.id ? "bg-white/90 text-[#1d1b1b] shadow-[0_1px_2px_rgba(0,0,0,0.08)]" : "text-[#6b7280] hover:text-[#1d1b1b]",
+          )}
+        >
+          {t(s.key)}
+        </button>
+      ))}
+    </div>
+  );
+}
+
 function CheckRow({ label, color, checked, count, onToggle, onOnly }: { label: string; color: string; checked: boolean; count?: number; onToggle: () => void; onOnly?: () => void }) {
   return (
     <div className="group flex items-center">
@@ -144,7 +178,7 @@ function CheckRow({ label, color, checked, count, onToggle, onOnly }: { label: s
           {checked ? <Check className="h-2.5 w-2.5 text-white" strokeWidth={3} /> : null}
         </span>
         <span className={cn("min-w-0 flex-1 truncate text-[12.5px]", checked ? "text-[#1d1b1b]" : "text-[#9CA3AF]")}>{label}</span>
-        {count !== undefined && count > 0 ? <span className="shrink-0 font-['Geist_Mono'] text-[10px] tabular-nums text-[#9CA3AF]">{count}</span> : null}
+        {count !== undefined && count > 0 ? <span className="shrink-0 text-[10px] tabular-nums text-[#9CA3AF]">{count}</span> : null}
       </button>
     </div>
   );
@@ -166,7 +200,7 @@ function AgendaButton({ row, onPick }: { row: AgendaRow; onPick: (ymd: string) =
         <span className={cn("block text-[12px] leading-[1.35]", row.tier === "held" ? "font-medium text-[#1d1b1b]" : "text-[#4b5563]")}>{row.text}</span>
         {row.estimated && row.detail ? <span className="block text-[10.5px] leading-[1.35] text-[#9CA3AF]">{row.detail}</span> : null}
       </span>
-      <span className={cn("shrink-0 font-['Geist_Mono'] text-[10px] uppercase tabular-nums", row.daysUntil === 0 ? "text-[#189e9a]" : "text-[#9CA3AF]")}>{row.dateLabel}</span>
+      <span className={cn("shrink-0 text-[10px] uppercase tabular-nums", row.daysUntil === 0 ? "text-[#189e9a]" : "text-[#9CA3AF]")}>{row.dateLabel}</span>
     </button>
   );
 }
@@ -242,6 +276,9 @@ export type SidebarProps = {
   holdsAny: boolean;
   highlightPositions: boolean;
   onHighlightPositions: (on: boolean) => void;
+  /** "Important" or "All", under the small month. */
+  scope: CalendarScope;
+  onScope: (scope: CalendarScope) => void;
   notes: Array<{ text: string; tone: "quiet" | "warn" }>;
   onPick: (ymd: string) => void;
   onNewEvent: (anchor: DOMRect) => void;
@@ -276,6 +313,10 @@ export default function CalendarSidebar(props: SidebarProps) {
         theme={props.theme}
         onPick={props.onPick}
       />
+
+      <div className="-mt-2">
+        <ScopeSwitch value={props.scope} onChange={props.onScope} />
+      </div>
 
       <PositionsSection
         agenda={props.agenda}

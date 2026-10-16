@@ -14,6 +14,7 @@ import type { GuidanceTrack } from "../../shared/guidance-types";
 import type { ImpliedMove, ImpliedRequestItem } from "../../shared/implied-move";
 import type { ReadthroughRequest, ReadthroughResult, ReadthroughRow } from "../../shared/readthrough-types";
 import guidanceFixture from "./guidance-fixture.json";
+import { applyReaderParams, economicBridge } from "./economic-fixture";
 import {
   validateUserEventInput,
   type CalendarCorporateEvent,
@@ -35,6 +36,7 @@ import {
  *   ?state=old-main    a bridge without the calendar handlers: the restart notes
  *   ?corp=error        the corporate read fails
  *   ?empty=1           no holdings, no watchlist, no own events
+ *   ?region=TR ?tz=Europe/Istanbul ?econ=error|partial   the economic calendar (economic-fixture.ts)
  *   ?facts=none        the earnings card's figures all come back empty
  *                      (options, estimates, read-through; no guidance read)
  *
@@ -55,6 +57,7 @@ if (isLanguageCode(langParam)) setLanguage(langParam);
 applyLanguage();
 const state = params.get("state");
 const empty = params.get("empty") === "1";
+applyReaderParams(params);
 
 const viewParam = params.get("view");
 if (viewParam === "day" || viewParam === "week" || viewParam === "month") {
@@ -166,6 +169,7 @@ const calendarBridge =
           userEvents = userEvents.filter((e) => e.id !== id);
           return { ok: true as const };
         },
+        getEconomicCalendar: economicBridge(() => Date.now(), params.get("econ")),
         getCalendarCorporate: async ({ symbols }: { symbols: string[] }) => {
           await wait(400);
           if (params.get("corp") === "error") return { ok: false as const, error: "unavailable" as const };

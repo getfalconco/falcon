@@ -108,7 +108,7 @@ function TimeField({ value, onChange, label }: { value: string; onChange: (v: st
       aria-label={label}
       onChange={(e) => onChange(e.target.value)}
       onBlur={(e) => onChange(tidy(e.target.value))}
-      className={cn(FIELD, "h-8 w-[64px] px-2 text-center font-['Geist_Mono'] text-[12.5px] tabular-nums")}
+      className={cn(FIELD, "h-8 w-[64px] px-2 text-center text-[12.5px] tabular-nums")}
     />
   );
 }
@@ -287,7 +287,7 @@ export default function EventEditor({
               <TimeField value={form.start} onChange={(v) => set("start", v)} label={t("calendar.editor.start")} />
               <span className="text-[12px] text-[#9CA3AF]">-</span>
               <TimeField value={form.end} onChange={(v) => set("end", v)} label={t("calendar.editor.end")} />
-              <span className="ml-auto font-['Geist_Mono'] text-[10px] text-[#9CA3AF]">{zoneText}</span>
+              <span className="ml-auto text-[10px] text-[#9CA3AF]">{zoneText}</span>
             </div>
           </>
         )}
@@ -307,7 +307,7 @@ export default function EventEditor({
             aria-label={t("calendar.editor.ticker")}
             aria-autocomplete="list"
             aria-expanded={suggestOpen && suggestions.length > 0}
-            className={cn(FIELD, "h-8 flex-1 font-['Geist_Mono'] text-[12.5px]")}
+            className={cn(FIELD, "h-8 flex-1 text-[12.5px]")}
           />
           {suggestOpen && suggestions.length > 0 ? (
             <ul role="listbox" className="absolute left-[72px] right-0 top-full z-10 mt-1 overflow-hidden rounded-xl border border-white/60 bg-[#fbfbf9] p-1 shadow-[0_12px_32px_rgba(0,0,0,0.14)] ring-1 ring-black/[0.06]">
@@ -320,7 +320,7 @@ export default function EventEditor({
                     onMouseEnter={() => setActive(i)}
                     className={cn("app-no-drag flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-left", i === active && "bg-black/[0.05]")}
                   >
-                    <span className="w-[52px] shrink-0 font-['Geist_Mono'] text-[11.5px] text-[#1d1b1b]">{s.symbol}</span>
+                    <span className="w-[52px] shrink-0 text-[11.5px] text-[#1d1b1b]">{s.symbol}</span>
                     <span className="truncate text-[12px] text-[#6b7280]">{s.companyName}</span>
                   </button>
                 </li>

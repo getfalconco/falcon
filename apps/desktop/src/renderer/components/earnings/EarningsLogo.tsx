@@ -16,7 +16,9 @@ import { getStockLogoUrl } from "../../../shared/stock-catalog";
  * arbitrary values on purpose, so the dark theme's translation of the app's
  * named greys does not turn the tile dark again.
  */
-export default function EarningsLogo({ ticker, className }: { ticker: string; className?: string }) {
+export default function EarningsLogo({ ticker, className, size }: { ticker: string; className?: string; /** Pixels across; the 20px tile when left out. */ size?: number }) {
+  const box = size ? { width: size, height: size } : undefined;
+  const mark = size ? { width: Math.round(size * 0.7), height: Math.round(size * 0.7) } : undefined;
   const [failed, setFailed] = useState(false);
   return (
     <span
@@ -25,9 +27,10 @@ export default function EarningsLogo({ ticker, className }: { ticker: string; cl
         "relative flex h-5 w-5 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[rgb(227,227,224)] [[data-theme=dark]_&]:bg-[rgb(214,214,210)]",
         className,
       )}
+      style={box}
     >
       {failed ? (
-        <span className="font-['Geist_Mono'] text-[9.5px] font-semibold leading-none text-[rgb(75,85,99)]">{ticker.slice(0, 1)}</span>
+        <span className={cn(size ? "font-sans" : "font-['Geist_Mono']", "font-semibold leading-none text-[rgb(75,85,99)]")} style={{ fontSize: size ? Math.max(7, size * 0.48) : 9.5 }}>{ticker.slice(0, 1)}</span>
       ) : (
         <img
           src={getStockLogoUrl(ticker)}
@@ -37,6 +40,7 @@ export default function EarningsLogo({ ticker, className }: { ticker: string; cl
           draggable={false}
           onError={() => setFailed(true)}
           className="h-3.5 w-3.5 object-contain"
+          style={mark}
         />
       )}
     </span>

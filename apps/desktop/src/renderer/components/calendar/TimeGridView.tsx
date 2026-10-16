@@ -400,6 +400,7 @@ export default function TimeGridView(props: Props) {
                     theme={theme}
                     selected={selectedId === event.id}
                     past={event.endDate < today}
+                    nowMs={nowMs}
                     clippedStart={event.startDate < days[p.startIndex]}
                     clippedEnd={event.endDate > days[p.startIndex + p.span - 1]}
                     className="w-full"
@@ -442,7 +443,7 @@ export default function TimeGridView(props: Props) {
             ))}
             {todayIndex >= 0 ? (
               <span
-                className="absolute right-1 z-[3] -translate-y-1/2 rounded-[5px] px-1 py-px font-['Geist_Mono'] text-[10px] font-medium tabular-nums text-white"
+                className="absolute right-1 z-[3] -translate-y-1/2 rounded-[5px] px-1 py-px text-[10px] font-medium tabular-nums text-white"
                 style={{ top: now.minutes * PX_PER_MIN, backgroundColor: lineColor }}
               >
                 {hhmm(now.minutes)}
@@ -502,6 +503,7 @@ export default function TimeGridView(props: Props) {
                       continuesAfter={seg.continuesAfter}
                       selected={selectedId === seg.event.id || Boolean(dragging)}
                       past={past}
+                      nowMs={nowMs}
                       resizable={Boolean(seg.event.user) && !seg.continuesAfter}
                       onResizeDown={(e) => onResizeDown(e, seg)}
                       onPointerDown={(e) => onEventDown(e, seg, dayIndex)}
@@ -522,7 +524,7 @@ export default function TimeGridView(props: Props) {
 
               {createGhost ? (
                 <div
-                  className="absolute z-[2] rounded-[7px] border border-dashed border-black/20 bg-black/[0.04] px-2 py-1 font-['Geist_Mono'] text-[10px] tabular-nums text-[#4b5563]"
+                  className="absolute z-[2] rounded-[7px] border border-dashed border-black/20 bg-black/[0.04] px-2 py-1 text-[10px] tabular-nums text-[#4b5563]"
                   style={{
                     top: createGhost.start * PX_PER_MIN + 1,
                     height: Math.max(15, createGhost.end - createGhost.start) * PX_PER_MIN - 2,

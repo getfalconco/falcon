@@ -13,6 +13,8 @@ import { colorAccent, eventShade } from "./calendar-colors";
 import { addDays, hhmm, longDay as dayName, zonedParts } from "./calendar-dates";
 import type { CalEvent } from "./calendar-model";
 import EarningsFacts from "./EarningsFacts";
+import { Mark } from "./EventBlocks";
+import { econLines } from "./econ-lines";
 import { BUTTON, ICON_BUTTON, MONO_HEAD } from "./calendar-styles";
 
 /**
@@ -59,6 +61,7 @@ export default function EventDetails({
   zone,
   zoneText,
   today,
+  nowMs,
   theme,
   onClose,
   onEdit,
@@ -69,6 +72,8 @@ export default function EventDetails({
   zoneText: string;
   /** Today's New York calendar date, for the countdown line. */
   today: string;
+  /** The clock, for a speech's "Completed". */
+  nowMs: number;
   theme: Theme;
   onClose: () => void;
   onEdit: () => void;
@@ -81,6 +86,8 @@ export default function EventDetails({
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const shade = eventShade(event.color, theme);
+  const lines = econLines(event, nowMs, (key, params) => t(key, params), locale);
+  const figures = [lines.actual, lines.forecast, lines.previous].filter((l): l is string => Boolean(l));
 
   const remove = async () => {
     setBusy(true);
@@ -93,6 +100,9 @@ export default function EventDetails({
     <div className="p-4">
       <div className="flex items-start gap-2.5">
         <span className="mt-[5px] h-[10px] w-[10px] shrink-0 rounded-[3px]" style={{ backgroundColor: shade.accent }} aria-hidden />
+        <span className="-ml-1 mt-[3px] flex shrink-0 empty:hidden">
+          <Mark event={event} size={14} />
+        </span>
         <div className="min-w-0 flex-1">
           <h3 data-selectable className="select-text text-[15px] font-medium leading-[1.3] text-[#1d1b1b]">
             {event.title}
@@ -102,6 +112,16 @@ export default function EventDetails({
             <p className="text-[11.5px] leading-[1.45] text-[#9CA3AF]">{event.timeLine}</p>
           ) : null}
           {countdown ? <p className="mt-1 text-[12.5px] font-medium leading-[1.45] text-[#1d1b1b]">{countdown}</p> : null}
+          {lines.completed ? <p className="mt-1 text-[12.5px] leading-[1.45] text-[#4b5563]">{lines.completed}</p> : null}
+          {figures.length > 0 ? (
+            <div className="mt-1.5 space-y-0.5">
+              {figures.map((line, i) => (
+                <p key={line} className={cn("text-[12.5px] leading-[1.45] tabular-nums", i === 0 ? "font-medium text-[#1d1b1b]" : "text-[#6b7280]")}>
+                  {line}
+                </p>
+              ))}
+            </div>
+          ) : null}
         </div>
         <div className="-mr-1.5 -mt-1 flex items-center">
           {event.user ? (
@@ -142,7 +162,7 @@ export default function EventDetails({
               openStock(ticker);
               onClose();
             }}
-            className="app-no-drag flex items-center gap-0.5 rounded-full bg-black/[0.04] px-2 py-[2px] font-['Geist_Mono'] text-[11px] text-[#1d1b1b] transition-colors hover:bg-black/[0.06]"
+            className="app-no-drag flex items-center gap-0.5 rounded-full bg-black/[0.04] px-2 py-[2px] text-[11px] text-[#1d1b1b] transition-colors hover:bg-black/[0.06]"
             aria-label={t("calendar.detail.openStock", { ticker })}
           >
             {ticker}

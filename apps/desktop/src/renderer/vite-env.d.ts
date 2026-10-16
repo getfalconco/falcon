@@ -313,6 +313,10 @@ interface MeridianBridge {
   getCalendarCorporate?: (
     request: import("../shared/calendar-events").CalendarCorporateRequest,
   ) => Promise<import("../shared/calendar-events").CalendarCorporateResult>;
+  /** The economic calendar (main/calendar/economic-calendar.ts). Absent on a main process older than it. */
+  getEconomicCalendar?: (
+    request: import("../shared/economic-calendar").EconomicCalendarRequest,
+  ) => Promise<import("../shared/economic-calendar").EconomicCalendarResult>;
   /** Earnings tab and card (main/earnings). Absent on a main process older than the tab. */
   getEarningsUpcoming?: (
     request: import("../shared/earnings-types").EarningsRequest,

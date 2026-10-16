@@ -8,6 +8,7 @@ import { mulberry32 } from "../lib/demo-mode";
 import { seedPaperAccount, type PaperPosition } from "../lib/paper-account";
 import { buildDemoBriefing } from "../../shared/briefing-demo";
 import { resolveBriefingWindow, type BriefingHolding, type BriefingReport, type BriefingWindow } from "../../shared/briefing-types";
+import { applyReaderParams, economicBridge } from "./economic-fixture";
 
 /**
  * Scratch harness for the dashboard's calendar card, against a stubbed main
@@ -34,6 +35,8 @@ import { resolveBriefingWindow, type BriefingHolding, type BriefingReport, type 
  *                          Sunday, 2026-09-07 Labor Day, 2026-10-09 with ?at=18:30 a Friday after the close)
  *   ?at=HH:MM              the New York time on the scene day, or on ?date
  *
+ *   ?region=TR ?tz=Europe/Istanbul ?econ=error   the reader's region and zone, the economic calendar (economic-fixture.ts)
+ *
  *   ?theme=dark            draw in that theme
  *
  *   ?w=px ?h=px            the card's box (default 420 by 560), the way the canvas sizes it
@@ -52,6 +55,7 @@ const state = params.get("state") ?? "pre";
 const width = Math.max(200, Number(params.get("w") ?? 420) || 420);
 const height = Math.max(200, Number(params.get("h") ?? 560) || 560);
 const delayMs = Math.max(0, Number(params.get("delay") ?? 400) || 0);
+applyReaderParams(params);
 
 /** The scene: Monday 2026-09-28. The demo builder stamps 2 h 14 min before the open. */
 const SCENE_DAY_OPEN_MS = Date.parse("2026-09-28T13:30:00Z");
@@ -197,6 +201,7 @@ const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
           return { ok: true, report, source: "cache" };
         },
         getBriefingNarrative: async () => ({ ok: false, error: "not_found" }),
+        getEconomicCalendar: economicBridge(() => sceneNowMs + shiftMs, params.get("econ")),
       };
 
 const positions: Record<string, PaperPosition> = {};

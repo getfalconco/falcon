@@ -1,6 +1,11 @@
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
-import { CalendarRows, NowMarker, ROW_GRID, nowMarkerLabel, sessionStanding, type SessionStanding } from "@/components/briefing/CalendarRail";
-import { HEAD_CLASS, QUIET_NOTE_CLASS } from "@/components/briefing/briefing-styles";
+import { CalendarRows, NowMarker, ROW_GRID, nowMarkerLabel, sessionStanding, type RowExtra, type SessionStanding } from "@/components/briefing/CalendarRail";
+import { QUIET_NOTE_CLASS } from "@/components/briefing/briefing-styles";
+import { useEconomicCalendar } from "@/components/calendar/use-calendar-data";
+import { addDays, todayIn } from "@/components/calendar/calendar-dates";
+import { useI18n } from "@/lib/i18n";
+import { useRegion } from "@/lib/region";
+import { useTimeZone } from "@/lib/time-zone";
 import { useBriefingText } from "@/components/briefing/use-briefing-text";
 import ChartCardHeader from "@/components/dashboard/ChartCardHeader";
 import { useBriefing } from "@/hooks/useBriefing";
@@ -12,6 +17,7 @@ import { viewNow } from "../../../shared/briefing-view";
 import { calendarForDay, openingDay, stepDay } from "../../../shared/calendar-days";
 import { MACRO_CALENDAR } from "../../../shared/calendar-types";
 import { calendarView, closedDayNote, dayLabel, degradedNotes, earningsReachNote, mastheadDate, type CalendarView } from "../../../shared/calendar-view";
+import { CURATED_SPEECH_CODES, curatedCode, curatedFigures, economicCountries, type EconomicEvent } from "../../../shared/economic-calendar";
 
 type Props = {
   onDuplicate?: () => void;
@@ -22,24 +28,20 @@ type Props = {
 
 const SKELETON_BAR = "animate-pulse rounded bg-black/[0.06] motion-reduce:animate-none";
 
+/** The head's small line, in the app's sans like the rest of the calendar. */
+const META_CLASS = "font-sans text-[10.5px] font-medium tracking-[0.02em] text-[#9CA3AF]";
+
 /**
- * The meta names New York's offset from UTC as it stands right now — "UTC−4"
- * through the summer, "UTC−5" in winter — so a reader anywhere can place the
- * times without knowing what "ET" means today. Read from the clock, never
- * hard-coded: the switch happens twice a year and nobody would remember to
- * edit a string on those two nights.
+ * "16 October", "16 Ekim", "10月16日": the day the rail lists, in the
+ * reader's language. No zone and no offset: every time on the rail is
+ * already in the reader's own zone.
  */
-function nyUtcOffset(now: Date): string {
+function headDate(ymd: string, locale: string): string {
+  const at = new Date(`${ymd}T12:00:00Z`);
   try {
-    const part = new Intl.DateTimeFormat("en-US", { timeZone: "America/New_York", timeZoneName: "shortOffset" })
-      .formatToParts(now)
-      .find((p) => p.type === "timeZoneName")?.value;
-    const m = part ? /([+-])(\d{1,2})(?::(\d{2}))?/.exec(part) : null;
-    if (!m) return "UTC−4";
-    const sign = m[1] === "-" ? "−" : "+";
-    return `UTC${sign}${Number(m[2])}${m[3] && m[3] !== "00" ? `:${m[3]}` : ""}`;
+    return new Intl.DateTimeFormat(locale, { day: "numeric", month: "long", timeZone: "UTC" }).format(at);
   } catch {
-    return "UTC−4";
+    return new Intl.DateTimeFormat("en-US", { day: "numeric", month: "long", timeZone: "UTC" }).format(at);
   }
 }
 
@@ -62,7 +64,23 @@ type CardView = {
   notes: string[];
   /** Set when the curated calendar does not reach this session: an empty rail then means "unknown", not "quiet". */
   warning: string | null;
+  /** The economic calendar's figures for the curated releases, and which rows are speeches. */
+  extras: Map<string, RowExtra>;
 };
+
+/** Each curated row's figures (from the economic calendar) and whether it is someone speaking. */
+function rowExtras(items: ReadonlyArray<{ id: string; at: string | null }>, economic: readonly EconomicEvent[]): Map<string, RowExtra> {
+  const figures = curatedFigures(items, economic);
+  const out = new Map<string, RowExtra>();
+  for (const item of items) {
+    const startMs = item.at ? Date.parse(item.at) : Number.NaN;
+    const code = curatedCode(item.id);
+    const speech = Boolean(code && CURATED_SPEECH_CODES.has(code));
+    const f = figures.get(item.id);
+    if (speech || f) out.set(item.id, { figures: speech ? null : (f ?? null), speech, startMs: Number.isFinite(startMs) ? startMs : null });
+  }
+  return out;
+}
 
 /**
  * A report can come out of the on-disk cache written by another build. The
@@ -70,10 +88,11 @@ type CardView = {
  * no boundary above it, so one field of the wrong shape would unmount the
  * whole page. A report the view cannot read is shown as one that failed.
  */
-function buildCardView(report: BriefingReport, ymd: string, now: Date, text: BriefingText): CardView | null {
+function buildCardView(report: BriefingReport, ymd: string, now: Date, text: BriefingText, zone: string, economic: readonly EconomicEvent[]): CardView | null {
   try {
     const day = calendarForDay(report, ymd, now);
-    const calendar = calendarView(day.report, now, { text });
+    const calendar = calendarView(day.report, now, { text, zone, clockZone: zone });
+    const extras = rowExtras(Array.isArray(day.report.items) ? day.report.items : [], economic);
     if (day.closed) {
       return {
         calendar,
@@ -84,6 +103,7 @@ function buildCardView(report: BriefingReport, ymd: string, now: Date, text: Bri
         closedNote: closedDayNote(day.reason, day.holiday, text),
         notes: [],
         warning: calendar.footnote.tone === "warn" ? calendar.footnote.text : null,
+        extras,
       };
     }
     const degraded = degradedNotes(day.report, text);
@@ -98,6 +118,7 @@ function buildCardView(report: BriefingReport, ymd: string, now: Date, text: Bri
       closedNote: null,
       notes,
       warning: calendar.footnote.tone === "warn" ? calendar.footnote.text : null,
+      extras,
     };
   } catch (error) {
     console.error("[calendar] card view failed:", error);
@@ -186,6 +207,8 @@ const STEP_BUTTON =
  *
  * The head names the day whenever the rail is not listing today.
  */
+const NO_ECONOMIC: readonly EconomicEvent[] = [];
+
 function CalendarCardInner({ onDuplicate, onRemove, onOpenCalendar }: Props) {
   const { status, report } = useBriefing();
   const text = useBriefingText();
@@ -211,9 +234,19 @@ function CalendarCardInner({ onDuplicate, onRemove, onOpenCalendar }: Props) {
     if (ymd) setPicked(ymd === openYmd ? null : ymd);
   };
 
+  // The reader's zone (Settings, General) for every time on the rail, and the
+  // economic calendar for the curated releases' figures.
+  const zone = useTimeZone();
+  const region = useRegion();
+  const { locale, t: say } = useI18n();
+  const countries = useMemo(() => economicCountries(region), [region]);
+  const around = shownYmd ?? todayIn(zone, now);
+  const economic = useEconomicCalendar(addDays(around, -1), addDays(around, 1), countries, Math.floor(minute / 10));
+  const economicEvents = economic.status === "ready" ? economic.events : NO_ECONOMIC;
+
   const view = useMemo(
-    () => (report && shownYmd ? buildCardView(report, shownYmd, now, text) : null),
-    [report, shownYmd, now, text],
+    () => (report && shownYmd ? buildCardView(report, shownYmd, now, text, zone, economicEvents) : null),
+    [report, shownYmd, now, text, zone, economicEvents],
   );
 
   // Once per day shown, the list is scrolled so the "now" line sits mid-card:
@@ -251,7 +284,7 @@ function CalendarCardInner({ onDuplicate, onRemove, onOpenCalendar }: Props) {
     const nothing = view.calendar.allDay.length === 0 && view.calendar.timed.length === 0;
     // The session carries its line wherever the clock stands against it; a
     // day stepped to carries one only while the clock is on it.
-    const markerLabel = view.isSession || standing === "on" ? nowMarkerLabel(standing, now, text) : null;
+    const markerLabel = view.isSession || standing === "on" ? nowMarkerLabel(standing, now, text, zone) : null;
     body = (
       <div ref={listRef} className="scrollbar-meridian relative -mx-2 min-h-0 flex-1 overflow-y-auto px-2">
         {view.earlyClose ? (
@@ -259,7 +292,7 @@ function CalendarCardInner({ onDuplicate, onRemove, onOpenCalendar }: Props) {
         ) : null}
         {view.closedNote ? <p className="pb-3 text-[12px] leading-[1.45] text-[#6b7280]">{view.closedNote}</p> : null}
 
-        <CalendarRows view={view.calendar} markerLabel={markerLabel} markerRef={markerRef} />
+        <CalendarRows view={view.calendar} markerLabel={markerLabel} markerRef={markerRef} extras={view.extras} nowMs={now.getTime()} />
         {/* A closed today with no timed row still gets its "now" line, under
             whatever all-day rows it has: the rail draws the line only among
             timed rows, and without it a Sunday would not read as today. */}
@@ -290,16 +323,13 @@ function CalendarCardInner({ onDuplicate, onRemove, onOpenCalendar }: Props) {
       <ChartCardHeader
         label={t("briefing.card.label")}
         meta={
-          <span className={cn(HEAD_CLASS, "select-none truncate")}>
-            {/* The offset of the listed day, not of this instant: a day across
-                the November change is on UTC−5 while the clock is still on
-                UTC−4, and every time on its rows is that day's New York time.
-                Noon there is clear of the 02:00 change either way. */}
-            {!view || !shownYmd
-              ? nyUtcOffset(now)
-              : standing === "on"
-                ? nyUtcOffset(new Date(`${shownYmd}T16:00:00Z`))
-                : `${view.sessionDate} · ${nyUtcOffset(new Date(`${shownYmd}T16:00:00Z`))}`}
+          <span className={cn(META_CLASS, "select-none truncate")}>
+            {/* The day the rail lists, and "(Today)" while it is today where the reader is. */}
+            {(() => {
+              const ymd = shownYmd ?? todayIn(zone, now);
+              const date = headDate(ymd, locale);
+              return ymd === todayIn(zone, now) ? say("calendar.heading.today", { date }) : date;
+            })()}
           </span>
         }
         actions={
