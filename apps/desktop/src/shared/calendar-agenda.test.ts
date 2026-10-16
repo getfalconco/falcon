@@ -46,7 +46,7 @@ describe("countdown wording", () => {
 
   it("is translated, with the language's plural rule", () => {
     const trText = textFor(tr, "tr-TR");
-    assert.equal(countdownSentence("earnings", "NVDA", 12, trText), "NVDA bilançosu 12 gün sonra");
+    assert.equal(countdownSentence("earnings", "NVDA", 12, trText), "NVDA 12 gün sonra bilanço açıklıyor");
     assert.equal(whenWords(0, trText), "bugün");
     const jaText = textFor(ja, "ja-JP");
     assert.equal(countdownSentence("ex_dividend", "XOM", 2, jaText), "XOM の配当落ち日は2日後");

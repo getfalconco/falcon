@@ -217,7 +217,7 @@ describe("earningsFacts", () => {
   it("speaks the reader's language", () => {
     const lines = earningsFacts(target, { implied: IMPLIED, estimates: ESTIMATES, guidance: TRACK, readthrough: [row("TSM", "NVDA")] }, sayIn("tr-TR"), "tr-TR");
     assert.equal(lines.length, 5);
-    assert.match(lines[0]!.text, /^Opsiyonlar bu rapor için/);
+    assert.match(lines[0]!.text, /^Opsiyonlar bu bilanço için/);
     for (const l of lines) assert.doesNotMatch(l.text, /\{|\}/, l.text);
   });
 });

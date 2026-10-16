@@ -111,7 +111,7 @@ describe("countdown", () => {
   });
 
   it("reads in other languages", () => {
-    assert.equal(countdownLine(row({ time: "amc" }), TODAY, sayIn("tr-TR"), "tr-TR"), "NVDA 12 gün sonra, kapanıştan sonra bilanço açıklıyor");
+    assert.equal(countdownLine(row({ time: "amc" }), TODAY, sayIn("tr-TR"), "tr-TR"), "NVDA 12 gün sonra kapanış sonrası bilanço açıklıyor");
     assert.equal(countdownLine(row({}), TODAY, sayIn("de-DE"), "de-DE"), "NVDA berichtet in 12 Tagen");
     assert.equal(countdownLine(row({}), TODAY, sayIn("ja-JP"), "ja-JP"), "NVDAの決算は12日後");
   });

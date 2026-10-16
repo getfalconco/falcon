@@ -53,9 +53,15 @@ describe("agent format", () => {
   });
 
   it("says triggers in the reader's language, tickers and forms as they are", () => {
-    assert.equal(triggerSentence({ kind: "earnings", ticker: "NVDA", moment: "release" }, "tr-TR"), "NVDA çeyreklik sonuçlarını açıkladığında");
+    assert.equal(triggerSentence({ kind: "earnings", ticker: "NVDA", moment: "release" }, "tr-TR"), "NVDA çeyreklik bilançosunu açıkladığında");
     assert.match(triggerSentence({ kind: "schedule", cadence: "weekly", time: "07:30", weekday: 1 }, "de-DE"), /Montag/);
     assert.match(triggerSentence({ kind: "filing", ticker: "MSFT", forms: ["8-K"] }, "ja-JP"), /MSFT.*8-K/);
+    // Percentages the way Turkish writes them, before the number.
+    assert.equal(triggerSentence({ kind: "price_move", ticker: "AMD", thresholdPct: 6, window: "1d" }, "tr-TR"), "AMD bir günde %6 eşiğini aşan bir hareket yaptığında");
+    assert.equal(
+      sayLines([{ code: "price.dayStatus", params: { ticker: "AMD", move: "+7.2%", threshold: "6%" } }], "tr-TR", "fallback"),
+      "AMD gün içinde +%7,2; çıta %6.",
+    );
   });
 
   it("reads engine lines in the reader's language, and falls back to the engine's English", () => {

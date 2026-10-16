@@ -162,9 +162,14 @@ export function joinAnd(items: readonly string[], lang: Lang): string {
   }
 }
 
-function formatPct(n: number): string {
+/** A threshold the way the reader's language writes a percentage: "6%" in English, "%6" in Turkish. */
+function formatPct(n: number, lang: Lang): string {
   const v = Math.abs(Number.isFinite(n) ? n : 0);
-  return `${Number.isInteger(v) ? v : v.toFixed(1)}%`;
+  try {
+    return new Intl.NumberFormat(lang, { style: "percent", maximumFractionDigits: 1 }).format(v / 100);
+  } catch {
+    return `${Number.isInteger(v) ? v : v.toFixed(1)}%`;
+  }
 }
 
 function formName(form: string, lang: Lang): string {
@@ -220,7 +225,7 @@ export function triggerSentence(t: AgentTrigger, lang: Lang): string {
         ? say(lang, "agents.trigger.filing.forms", { ticker: t.ticker, forms: joinOr(t.forms.map((f) => formName(f, lang)), lang) })
         : say(lang, "agents.trigger.filing.any", { ticker: t.ticker });
     case "price_move":
-      return say(lang, `agents.trigger.price.${t.window}` as MessageKey, { ticker: t.ticker, pct: formatPct(t.thresholdPct) });
+      return say(lang, `agents.trigger.price.${t.window}` as MessageKey, { ticker: t.ticker, pct: formatPct(t.thresholdPct, lang) });
     case "news": {
       const keywords = joinOr(t.keywords.map((k) => `"${k}"`), lang);
       if (t.ticker && t.keywords.length > 0) return say(lang, "agents.trigger.news.tickerKeywords", { ticker: t.ticker, keywords });
@@ -466,12 +471,35 @@ export function suggestedQuestions(agent: Agent, reports: readonly AgentReport[]
 
 const FIELD_KEYS = new Set(["name", "brief", "ticker", "companyName", "triggers", "metrics", "instructions", "channels", "oneShot", "ends"]);
 
+/**
+ * A percentage the engine wrote the English way ("6%", "+7.2%"), rewritten the
+ * way the reader's language writes one ("%6", "+%7,2" in Turkish). Anything
+ * else is passed through as written.
+ */
+function enginePct(value: string, lang: Lang): string {
+  const m = /^([+-]?)(\d+(?:\.\d+)?)%$/.exec(value.trim());
+  if (!m) return value;
+  const n = Number(m[2]) * (m[1] === "-" ? -1 : 1);
+  const digits = m[2].includes(".") ? m[2].split(".")[1]!.length : 0;
+  try {
+    return new Intl.NumberFormat(lang, {
+      style: "percent",
+      minimumFractionDigits: digits,
+      maximumFractionDigits: digits,
+      signDisplay: m[1] === "+" ? "always" : "auto",
+    }).format(n / 100);
+  } catch {
+    return value;
+  }
+}
+
 function lineVars(line: AgentLine, lang: Lang): MessageVars {
   const vars: Record<string, string | number> = {};
   for (const [name, value] of Object.entries(line.params ?? {})) {
     if (typeof value !== "string" && typeof value !== "number") continue;
     if (name === "date" && typeof value === "string") vars[name] = calendarDate(value, lang);
     else if (name === "at" && typeof value === "string") vars[name] = dateTime(value, lang);
+    else if ((name === "threshold" || name === "move") && typeof value === "string") vars[name] = enginePct(value, lang);
     else if (name === "fields" && typeof value === "string") {
       vars[name] = joinAnd(
         value

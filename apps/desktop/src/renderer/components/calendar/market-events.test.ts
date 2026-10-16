@@ -184,7 +184,7 @@ describe("corporate rows in the reader's language", () => {
   it("words titles, details, labels and amounts in Turkish", () => {
     const e = corporateToCal(exDiv, sectorOf, { t: tIn("tr-TR"), locale: "tr-TR" });
     assert.equal(e.title, "JPM temettü hak kesim tarihi");
-    assert.match(e.detail ?? "", /^Hisse başına \$0,26\. Belirtilen yıllık oran hisse başına \$1,04\./);
+    assert.match(e.detail ?? "", /^Hisse başına \$0,26\. Hisse başına yıllık gösterge temettü: \$1,04\./);
     assert.equal(e.kindLabel, "Temettü");
     assert.equal(e.timeLine, "Tüm gün");
     assert.equal(e.sourceLabel, "Tarih veri sağlayıcıdan.");
@@ -226,7 +226,7 @@ describe("corporate rows in the reader's language", () => {
     const tr = { t: tIn("tr-TR"), locale: "tr-TR" };
     const earn = corporateToCal(corporate("earn:JPM:2026-10-13", { detail: "Date estimated by the data provider; the company has not confirmed it." }), sectorOf, tr);
     assert.equal(earn.title, "JPM bilanço açıklaması");
-    assert.equal(earn.detail, "Tarih veri sağlayıcının tahmini; şirket henüz doğrulamadı.");
+    assert.equal(earn.detail, "Tarih veri sağlayıcının tahmini; şirket henüz onaylamadı.");
     const split = corporateToCal(corporate("split:JPM:2026-09-02", { kind: "split", title: "JPM 4-for-1 split", detail: "Something the engine says." }), sectorOf, tr);
     assert.equal(split.title, "JPM hisse bölünmesi (4:1)");
     assert.equal(split.detail, "Something the engine says.", "an unknown detail stays as written");
@@ -262,7 +262,7 @@ describe("store failures in the reader's language", () => {
     assert.equal(storeFailure("saveFailed").error, "The event could not be saved right now.");
     assert.equal(
       failureMessage(tr, { error: "Keep the title under 120 characters.", code: "titleTooLong", params: { max: 120 } }),
-      "Başlığı 120 karakterin altında tutun.",
+      "Başlık en fazla 120 karakter olabilir.",
     );
     assert.equal(failureMessage(tr, { error: "Something else went wrong." }), "Something else went wrong.");
   });

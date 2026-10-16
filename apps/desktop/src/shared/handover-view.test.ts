@@ -581,7 +581,7 @@ describe("handover view: an earnings release against its guidance", () => {
     };
     const titles = all.map((f) => factTitle(f, turkish));
     // The figures come from Intl in the reader's locale; the words from the Turkish table.
-    assert.ok(titles[0]!.startsWith("Ç2 MY2027 Gelir öngörü aralığının üstünde geldi: ") && titles[0]!.includes("48,0"), titles[0]);
+    assert.ok(titles[0]!.startsWith("2Ç MY2027 Gelir öngörü aralığının üst sınırını aştı: ") && titles[0]!.includes("48,0"), titles[0]);
     assert.ok(titles[0]!.endsWith(" arası"), titles[0]);
     assert.ok(titles[6]!.startsWith("MY2027 Gelir öngörüsü yükseltildi: ") && titles[6]!.includes("190,0"), titles[6]);
     for (const title of titles) {

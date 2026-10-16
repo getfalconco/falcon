@@ -26,20 +26,20 @@ export const en = {
 type Table = Partial<Record<keyof typeof en, string>>;
 
 export const tr: Table = {
-  "implied.line.compare": "Opsiyonlar bu rapor için {pct} hareket fiyatlıyor; {ticker} son {n} raporunun {count} tanesinde bundan fazla hareket etti (medyan {median}).",
-  "implied.line.few": "Opsiyonlar bu rapor için {pct} hareket fiyatlıyor. Kayıtlı geçmiş rapor hareketi: {n}, karşılaştırma için az.",
-  "implied.line.alone": "Opsiyonlar bu rapor için {pct} hareket fiyatlıyor.",
-  "implied.hint.straddle": "{expiry} vadeli, {strike} kullanım fiyatlı başa baş straddle, {basis}, {spot} hisse fiyatına karşı. Okunma: {time}.",
-  "implied.hint.mid": "orta fiyatlar",
+  "implied.line.compare": "Opsiyonlar bu bilanço için {pct} hareket fiyatlıyor; {ticker}, son {n} bilançosunun {count} tanesinde bundan fazla hareket etti (medyan {median}).",
+  "implied.line.few": "Opsiyonlar bu bilanço için {pct} hareket fiyatlıyor. Kayıtlı geçmiş bilanço hareketi: {n}, karşılaştırma için yetersiz.",
+  "implied.line.alone": "Opsiyonlar bu bilanço için {pct} hareket fiyatlıyor.",
+  "implied.hint.straddle": "{expiry} vadeli, {strike} kullanım fiyatlı başa baş straddle, {basis}; hisse fiyatı {spot}. Veri zamanı: {time}.",
+  "implied.hint.mid": "alış satış ortası fiyatlar",
   "implied.hint.last": "son seansın son işlemleri",
   "implied.hint.adjusted": "Straddle tek başına vadeye kadar {raw} fiyatlıyor; diğer {sessions} seansın olağan hareketi, {next} vadesinden okunarak çıkarıldı.",
-  "implied.hint.history": "Geçmiş hareketler: son {n} raporun her birini ilk işleyen seans, kapanıştan kapanışa, {from} ile {to} arası.",
-  "implied.drawer.title": "Rapor öncesi opsiyonlar",
+  "implied.hint.history": "Geçmiş hareketler: son {n} bilançonun her birini ilk fiyatlayan seans, kapanıştan kapanışa, {from} ile {to} arası.",
+  "implied.drawer.title": "Bilanço öncesi opsiyonlar",
   "implied.drawer.move": "Fiyatlanan hareket",
-  "implied.drawer.above": "Daha fazla hareket eden geçmiş raporlar",
-  "implied.drawer.aboveValue": "{n} raporun {count} tanesi",
-  "implied.drawer.median": "Medyan geçmiş hareket",
-  "implied.drawer.sample": "Kayıtlı geçmiş raporlar",
+  "implied.drawer.above": "Daha büyük hareketli geçmiş bilançolar",
+  "implied.drawer.aboveValue": "{count} / {n}",
+  "implied.drawer.median": "Geçmiş hareketlerin medyanı",
+  "implied.drawer.sample": "Kayıtlı geçmiş bilançolar",
 };
 
 export const de: Table = {
