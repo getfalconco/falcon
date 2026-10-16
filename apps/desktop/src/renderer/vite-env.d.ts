@@ -359,6 +359,10 @@ interface MeridianBridge {
   getStockTabChangeTags?: (ticker: string) => Promise<import("../shared/stock-tab-data").ChangeTagsResult>;
   getStockTabEarnings?: (ticker: string) => Promise<import("../shared/stock-tab-data").StockEarningsResult>;
   getStockTabPeers?: (ticker: string) => Promise<import("../shared/stock-tab-data").StockPeersResult>;
+  /** Stock tab: the session's move against the stock's usual day and, when unusual, what is on record since the previous close (main/stock-tab-data/today.ts). */
+  getStockToday?: (ticker: string) => Promise<import("../shared/today-move").StockTodayResult>;
+  /** The same for held names: those moving unusually (the Positions card). */
+  getStockTodayMoves?: (tickers: string[]) => Promise<import("../shared/today-move").TodayMovesResult>;
   /** Stock tab guidance track record (main/guidance). Absent on an older main process. */
   getStockTabGuidance?: (ticker: string) => Promise<import("../shared/guidance-types").GuidanceTrackResult>;
   /** The same from what main keeps on disk only; track null when nothing is kept. Absent on an older main process. */

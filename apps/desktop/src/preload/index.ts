@@ -500,6 +500,11 @@ contextBridge.exposeInMainWorld("meridian", {
     ipcRenderer.invoke("stocktab:earnings", ticker) as Promise<import("../shared/stock-tab-data").StockEarningsResult>,
   getStockTabPeers: (ticker: string) =>
     ipcRenderer.invoke("stocktab:peers", ticker) as Promise<import("../shared/stock-tab-data").StockPeersResult>,
+  // Stock tab and Positions: an unusual session's move and what is on record since the previous close.
+  getStockToday: (ticker: string) =>
+    ipcRenderer.invoke("stocktab:today", ticker) as Promise<import("../shared/today-move").StockTodayResult>,
+  getStockTodayMoves: (tickers: string[]) =>
+    ipcRenderer.invoke("stocktab:today-moves", tickers) as Promise<import("../shared/today-move").TodayMovesResult>,
   // Stock tab: guidance track record from the earnings releases on EDGAR (main/guidance).
   getStockTabGuidance: (ticker: string) =>
     ipcRenderer.invoke("stocktab:guidance", ticker) as Promise<import("../shared/guidance-types").GuidanceTrackResult>,

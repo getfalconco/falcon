@@ -700,6 +700,18 @@ export function createStockTabService(deps: StockTabDeps) {
         return { ok: false, error: "unavailable" };
       }
     },
+    /** Daily closes through the day cache (the Today line's usual day). Empty when none can be read. */
+    closes(symbol: string, days: number): Promise<Bar[]> {
+      return closes(symbol, days).catch(() => [] as Bar[]);
+    },
+    /** A Form 4's open market totals as already read (null: no such trade); undefined when not read. Never fetches. */
+    form4Kept(accession: string): Form4Totals | null | undefined {
+      return form4Store().forms[accession];
+    },
+    /** The Competitors section's tickers (its day answer, built when not yet). */
+    async peerTickers(ticker: string): Promise<string[]> {
+      return (await peers(ticker)).peers.map((p) => p.ticker);
+    },
     flush,
   };
 }

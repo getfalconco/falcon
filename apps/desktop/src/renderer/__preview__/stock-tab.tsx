@@ -22,6 +22,7 @@ import { addDaysYmd, nyToday } from "../../shared/earnings-view";
 import graphUrl from "../../../data/graph.json?url";
 import guidanceFixture from "./guidance-fixture.json";
 import type { GuidanceTrack } from "../../shared/guidance-types";
+import type { StockToday, StockTodayResult } from "../../shared/today-move";
 
 /**
  * Scratch harness for the Stock tab against a stubbed main process, laid out
@@ -36,6 +37,8 @@ import type { GuidanceTrack } from "../../shared/guidance-types";
  *   ?thesis=written    a thesis already saved for the stock
  *   ?thesis=fail       every save fails
  *   ?guidance=slow     the guidance section stays loading for a minute
+ *   ?today=empty       the session is unusual and nothing is on record
+ *   ?today=calm        an ordinary session: no Today block at all
  *
  * The Graph and Chain news sections read the checked-in filing graph
  * (data/graph.json) and a short made-up news feed, as their own harness
@@ -55,6 +58,7 @@ applyLanguage();
 const stockParam = (params.get("stock") ?? "NVDA").toUpperCase();
 const thesisParam = params.get("thesis");
 const guidanceParam = params.get("guidance");
+const todayParam = params.get("today");
 
 const wait = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
@@ -294,6 +298,52 @@ function readthroughFixture(request: ReadthroughRequest): ReadthroughResult {
   return { ok: true, today, builtAt: new Date().toISOString(), rows, links: rows.length, truncated: false, degraded: [] };
 }
 
+/** The open stock's session: an unusual one with a record of every kind, unless `?today=` says otherwise. */
+function todayFixture(ticker: string): StockTodayResult {
+  const day = nyToday();
+  const at = (hoursAfterPreviousClose: number) => new Date(Date.now() - (14 - hoursAfterPreviousClose) * 3_600_000).toISOString();
+  const d: StockToday = {
+    ticker,
+    day,
+    previousDay: addDaysYmd(day, -1),
+    since: at(0),
+    asOf: new Date().toISOString(),
+    move: -0.0612,
+    market: { symbol: "SPY", move: 0.0031 },
+    sector: { symbol: "XLK", move: -0.0084 },
+    beta: 1.62,
+    sigma: 0.0181,
+    sessions: 60,
+    abnormal: -0.0662,
+    ratio: 3.66,
+    unusual: todayParam !== "calm",
+    filings:
+      todayParam === "empty"
+        ? []
+        : [
+            { kind: "current", form: "8-K", items: ["5.02"], at: at(1.2), url: SEC },
+            { kind: "insider", name: "Colette Kress", role: "EVP and CFO", code: "S", value: 18_420_000, plan: true, at: at(2.5), url: SEC },
+            { kind: "insider_other", count: 2, at: at(3), url: SEC },
+            { kind: "schedule", schedule: "13G", amendment: true, at: at(12), url: SEC },
+          ],
+    linked:
+      todayParam === "empty"
+        ? []
+        : [
+            { ticker: "TSM", name: "Taiwan Semiconductor", category: "supplier", namedBy: ticker, linkUrl: SEC, event: "report", items: [], at: null, url: null },
+            { ticker: "AMD", name: null, category: "competitor", namedBy: "AMD", linkUrl: SEC, event: "filing", items: ["1.01"], at: at(11), url: SEC },
+          ],
+    news: todayParam === "empty" ? [] : [{ title: "Commerce Department widens export license review to advanced accelerators", url: "https://example.com/7", source: "Reuters", at: at(13.5) }],
+    peers: todayParam === "empty" ? [] : [
+      { ticker: "AMD", move: -0.041 },
+      { ticker: "AVGO", move: -0.032 },
+    ],
+    peersRead: 5,
+    degraded: [],
+  };
+  return { ok: true, today: d };
+}
+
 const probe = { theses, agent: null as string | null, readthroughAsks: [] as ReadthroughRequest[] };
 (window as unknown as { __stockTab: unknown }).__stockTab = probe;
 
@@ -341,6 +391,10 @@ const probe = { theses, agent: null as string | null, readthroughAsks: [] as Rea
     await wait(guidanceParam === "slow" ? 60_000 : 700);
     const track = (guidanceFixture as unknown as Record<string, GuidanceTrack>)[ticker.toUpperCase()];
     return { ok: true as const, track: track ?? { ticker, releases: 8, latest: null, rows: [], patterns: [] } };
+  },
+  getStockToday: async (ticker: string): Promise<StockTodayResult> => {
+    await wait(350);
+    return todayFixture(ticker.toUpperCase());
   },
   getReadthroughRadar: async (request: ReadthroughRequest): Promise<ReadthroughResult> => {
     probe.readthroughAsks.push(request);

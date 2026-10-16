@@ -554,6 +554,22 @@
         "--strictPort"
       ],
       "port": 5741
+    },
+    {
+      "name": "desktop-today-preview",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "--filter",
+        "falcon",
+        "exec",
+        "vite",
+        "--config",
+        ".claude-preview.vite.config.mts",
+        "--port",
+        "5763",
+        "--strictPort"
+      ],
+      "port": 5763
     }
   ]
 }

@@ -29,6 +29,8 @@ import { isEtfTicker } from "@/lib/etf-tickers";
 import { useLiveQuotes } from "@/hooks/useLivePrices";
 import { usePositionQuant } from "@/hooks/usePositionQuant";
 import { usePositionReach } from "@/hooks/usePositionReach";
+import { nyToday, useTodayFormat, useUnusualHoldings } from "@/components/stock-tab/use-stock-today";
+import { todaySummary } from "../../../shared/today-move";
 import { openStock } from "@/lib/stock-open";
 import { positionHover } from "@/lib/position-hover";
 import CurrencyFlag from "@/components/dashboard/CurrencyFlag";
@@ -527,6 +529,9 @@ export default function PortfolioCard({
   const quotes = useLiveQuotes(symbolsKey);
   const quant = usePositionQuant(symbolsKey);
   const reach = usePositionReach(symbolsKey);
+  // Held names whose session is unusual for them: a mark by the ticker, the record since the previous close on hover.
+  const unusual = useUnusualHoldings(symbolsKey);
+  const todayFormat = useTodayFormat();
   const prices = useMemo(() => {
     const out: Record<string, number> = {};
     for (const [symbol, q] of Object.entries(quotes)) out[symbol] = q.price;
@@ -1556,6 +1561,14 @@ export default function PortfolioCard({
                             aria-label={t("dashboard.positions.shortLabel", { symbol: row.symbol })}
                           />
                         )}
+                        {unusual[row.symbol] ? (
+                          <span
+                            role="img"
+                            className="h-[7px] w-[7px] shrink-0 rounded-full border-[1.5px] border-[#6b7280]"
+                            title={todaySummary(unusual[row.symbol]!, nyToday(), todayFormat)}
+                            aria-label={todaySummary(unusual[row.symbol]!, nyToday(), todayFormat)}
+                          />
+                        ) : null}
                       </span>
                       {visibleColumns.map((c) => (
                         <span key={c.key} data-col={c.key} className="whitespace-nowrap">

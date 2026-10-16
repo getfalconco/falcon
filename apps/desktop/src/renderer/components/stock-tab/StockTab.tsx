@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { stockTabStore, useStockTab, type OpenStock } from "@/lib/stock-tab-store";
 import type { StockSectionProps } from "./sections/types";
 import HeaderSection from "./sections/HeaderSection";
+import TodaySection from "./sections/TodaySection";
 import ThesisSection from "./sections/ThesisSection";
 import ChangesSection from "./sections/ChangesSection";
 import FilingChangesSection from "./sections/FilingChangesSection";
@@ -22,7 +23,8 @@ import ClassicSection from "./sections/ClassicSection";
 
 /**
  * The Stock tab: the opened company, top to bottom. The header (your
- * context) first, then the reader's thesis, what changed, the graph and its
+ * context) first, and under it, only on a session that is unusual for the
+ * stock, what is on record since the previous close; then the reader's thesis, what changed, the graph and its
  * news, how the stock moved on its linked companies' report days, earnings, competitors, agent reports, and the classic financials
  * last: there, not hidden, not leading.
  *
@@ -129,6 +131,7 @@ function StockBody({ stock, recent }: { stock: OpenStock; recent: readonly OpenS
     <div>
       <RecentStocks recent={recent} current={stock.symbol} className="mb-5" />
       <HeaderSection ticker={stock.symbol} />
+      <TodaySection ticker={stock.symbol} />
       {SECTIONS.map(({ id, titleKey, Component }) => (
         <Section key={id} title={t(titleKey)}>
           <Component ticker={stock.symbol} />

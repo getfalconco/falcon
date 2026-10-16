@@ -58,6 +58,35 @@ export const ADVICE_WORDS: readonly string[] = [
 ];
 
 /**
+ * Words that tie a price move to a cause. Lines that set a move beside what
+ * is on record (the Stock tab's "Today", shared/today-move.ts) list the
+ * records and the move side by side and leave the link to the reader; these
+ * words would claim it. Applied by those lines' copy tests, not by
+ * `textProblems`: elsewhere a filing's own text may say "due to".
+ */
+export const CAUSAL_WORDS: readonly string[] = [
+  "because",
+  "due to",
+  "driven by",
+  "cause",
+  "owing to",
+  "thanks to",
+  "on the back of",
+  "as a result",
+  "led by",
+  "spark",
+  "trigger",
+  "fuel",
+  "fuelled",
+  "amid",
+  "on news",
+  "in response to",
+  "reaction to",
+  "explain",
+  "behind the move",
+];
+
+/**
  * Words that turn a measurement into a claim about the future or into a nudge.
  *
  * "may" collides with the month. Briefing copy never spells that month out in
