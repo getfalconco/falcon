@@ -17,7 +17,11 @@ import { viewNow } from "../../../shared/briefing-view";
 import { calendarForDay, openingDay, stepDay } from "../../../shared/calendar-days";
 import { MACRO_CALENDAR } from "../../../shared/calendar-types";
 import { calendarView, closedDayNote, dayLabel, degradedNotes, earningsReachNote, mastheadDate, type CalendarView } from "../../../shared/calendar-view";
-import { CURATED_SPEECH_CODES, curatedCode, curatedFigures, economicCountries, type EconomicEvent } from "../../../shared/economic-calendar";
+import { economicCountries, type EconomicEvent } from "../../../shared/economic-calendar";
+import { useCalendarScope, type CalendarScope } from "@/lib/calendar-scope";
+import type { TFunction } from "@/lib/i18n";
+import ScopeSwitch from "@/components/calendar/ScopeSwitch";
+import { cardDay } from "./card-economic";
 
 type Props = {
   onDuplicate?: () => void;
@@ -68,19 +72,8 @@ type CardView = {
   extras: Map<string, RowExtra>;
 };
 
-/** Each curated row's figures (from the economic calendar) and whether it is someone speaking. */
-function rowExtras(items: ReadonlyArray<{ id: string; at: string | null }>, economic: readonly EconomicEvent[]): Map<string, RowExtra> {
-  const figures = curatedFigures(items, economic);
-  const out = new Map<string, RowExtra>();
-  for (const item of items) {
-    const startMs = item.at ? Date.parse(item.at) : Number.NaN;
-    const code = curatedCode(item.id);
-    const speech = Boolean(code && CURATED_SPEECH_CODES.has(code));
-    const f = figures.get(item.id);
-    if (speech || f) out.set(item.id, { figures: speech ? null : (f ?? null), speech, startMs: Number.isFinite(startMs) ? startMs : null });
-  }
-  return out;
-}
+/** How the card reads the shared choices and the words its live rows need. */
+type CardContext = { economic: readonly EconomicEvent[]; zone: string; region: string | null; scope: CalendarScope; t: TFunction };
 
 /**
  * A report can come out of the on-disk cache written by another build. The
@@ -88,11 +81,21 @@ function rowExtras(items: ReadonlyArray<{ id: string; at: string | null }>, econ
  * no boundary above it, so one field of the wrong shape would unmount the
  * whole page. A report the view cannot read is shown as one that failed.
  */
-function buildCardView(report: BriefingReport, ymd: string, now: Date, text: BriefingText, zone: string, economic: readonly EconomicEvent[]): CardView | null {
+function buildCardView(report: BriefingReport, ymd: string, now: Date, text: BriefingText, ctx: CardContext): CardView | null {
   try {
     const day = calendarForDay(report, ymd, now);
-    const calendar = calendarView(day.report, now, { text, zone, clockZone: zone });
-    const extras = rowExtras(Array.isArray(day.report.items) ? day.report.items : [], economic);
+    // The session calendar's day, with the economic calendar laid over it and "Important / All" applied.
+    const { view: calendar, extras } = cardDay({
+      view: calendarView(day.report, now, { text, zone: ctx.zone, clockZone: ctx.zone }),
+      items: Array.isArray(day.report.items) ? day.report.items : [],
+      economic: ctx.economic,
+      ymd,
+      now,
+      zone: ctx.zone,
+      region: ctx.region,
+      scope: ctx.scope,
+      t: ctx.t,
+    });
     if (day.closed) {
       return {
         calendar,
@@ -239,14 +242,15 @@ function CalendarCardInner({ onDuplicate, onRemove, onOpenCalendar }: Props) {
   const zone = useTimeZone();
   const region = useRegion();
   const { locale, t: say } = useI18n();
+  const scope = useCalendarScope();
   const countries = useMemo(() => economicCountries(region), [region]);
   const around = shownYmd ?? todayIn(zone, now);
   const economic = useEconomicCalendar(addDays(around, -1), addDays(around, 1), countries, Math.floor(minute / 10));
   const economicEvents = economic.status === "ready" ? economic.events : NO_ECONOMIC;
 
   const view = useMemo(
-    () => (report && shownYmd ? buildCardView(report, shownYmd, now, text, zone, economicEvents) : null),
-    [report, shownYmd, now, text, zone, economicEvents],
+    () => (report && shownYmd ? buildCardView(report, shownYmd, now, text, { economic: economicEvents, zone, region, scope, t: say }) : null),
+    [report, shownYmd, now, text, zone, economicEvents, region, scope, say],
   );
 
   // Once per day shown, the list is scrolled so the "now" line sits mid-card:
@@ -367,6 +371,11 @@ function CalendarCardInner({ onDuplicate, onRemove, onOpenCalendar }: Props) {
             {view.warning ? <p className="text-[11px] leading-[1.45] text-[#D97706]">{view.warning}</p> : null}
           </div>
         ) : null}
+
+        {/* Important or All, shared with the Calendar tab (lib/calendar-scope), always at the foot of the card. */}
+        <div className="mt-3 flex shrink-0 justify-center border-t-[0.5px] border-black/[0.06] pt-3">
+          <ScopeSwitch className="w-full max-w-[240px]" />
+        </div>
 
       </div>
     </div>

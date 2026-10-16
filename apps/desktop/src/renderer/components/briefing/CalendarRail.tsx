@@ -4,7 +4,7 @@ import { useI18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 import { ENGLISH, type BriefingText } from "../../../shared/briefing-text";
 import { zonedClock, type CalendarItemView, type CalendarView } from "../../../shared/calendar-view";
-import type { EconomicFigures } from "../../../shared/economic-calendar";
+import type { RowExtra } from "@/components/dashboard/card-economic";
 import { RowMark } from "@/components/calendar/Flag";
 import { besideTitle, countryName, econLines, underTitle } from "@/components/calendar/econ-lines";
 
@@ -15,8 +15,7 @@ import { besideTitle, countryName, econLines, underTitle } from "@/components/ca
 const HEAD_CLASS = "font-sans text-[10px] font-medium uppercase tracking-[0.04em] text-[#9CA3AF]";
 const MONO_CLASS = "font-sans tabular-nums";
 
-/** What the economic calendar adds to a curated row: its figures, or that it is someone speaking. */
-export type RowExtra = { figures?: EconomicFigures | null; speech?: boolean; startMs: number | null };
+export type { RowExtra };
 
 /**
  * The day's calendar drawn as a rail: a time column, a hairline with a node
@@ -46,8 +45,9 @@ function Node({ importance }: { importance: 1 | 2 | 3 }) {
 
 function ItemText({ item, extra, nowMs }: { item: CalendarItemView; extra?: RowExtra; nowMs: number }) {
   const { t, locale } = useI18n();
-  // Right of the dot: the company's logo for its earnings, the US flag for the market's own rows.
+  // Right of the dot: the company's logo for its earnings, the row's country flag (the US for the curated schedule) for the rest.
   const ticker = item.kind === "earnings" ? (item.tickers[0] ?? null) : null;
+  const country = ticker ? null : (extra?.country ?? "US");
   const lines = extra ? econLines(extra, nowMs, (key, params) => t(key, params), locale) : null;
   const beside = lines ? besideTitle(lines) : null;
   const under = lines ? underTitle(lines) : null;
@@ -55,7 +55,7 @@ function ItemText({ item, extra, nowMs }: { item: CalendarItemView; extra?: RowE
     <span className="min-w-0 pb-3">
       <span className="flex min-w-0 items-start gap-1.5">
         <span className="mt-[2px] flex shrink-0">
-          <RowMark ticker={ticker} country={ticker ? null : "US"} size={14} label={ticker ? undefined : countryName("US", locale, t("calendar.econ.euroArea"))} />
+          <RowMark ticker={ticker} country={country} size={14} label={country ? countryName(country, locale, t("calendar.econ.euroArea")) : undefined} />
         </span>
         <span
           className={cn(

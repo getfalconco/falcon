@@ -12,7 +12,7 @@ import {
 } from "../../../shared/calendar-events";
 import { colorAccent, nowLineColor } from "./calendar-colors";
 import { addMonths, fullDay, monthGrid, monthTitle, sameMonth, startOfMonth, weekday, weekdayInitials, type WeekStart } from "./calendar-dates";
-import type { CalendarFilters, CalendarScope } from "./calendar-model";
+import type { CalendarFilters } from "./calendar-model";
 import { ICON_BUTTON, SECTION_LABEL } from "./calendar-styles";
 import { sectorLabel } from "./sector-labels";
 
@@ -121,40 +121,6 @@ function MiniMonth({
           );
         })}
       </div>
-    </div>
-  );
-}
-
-const SCOPES: ReadonlyArray<{ id: CalendarScope; key: MessageKey }> = [
-  { id: "important", key: "calendar.scope.important" },
-  { id: "all", key: "calendar.scope.all" },
-];
-
-/**
- * The choice under the small month: "Important" keeps the reader's own names
- * and the high-impact releases of the US, the major European economies and
- * their region; "All" is the whole economic calendar. Remembered with the
- * tab's other choices.
- */
-function ScopeSwitch({ value, onChange }: { value: CalendarScope; onChange: (scope: CalendarScope) => void }) {
-  const { t } = useI18n();
-  return (
-    <div role="radiogroup" aria-label={t("calendar.scope.label")} className="flex items-center rounded-[10px] bg-black/[0.04] p-[2px]">
-      {SCOPES.map((s) => (
-        <button
-          key={s.id}
-          type="button"
-          role="radio"
-          aria-checked={value === s.id}
-          onClick={() => onChange(s.id)}
-          className={cn(
-            "app-no-drag flex-1 rounded-[8px] px-2.5 py-1 text-[12px] transition-colors",
-            value === s.id ? "bg-white/90 text-[#1d1b1b] shadow-[0_1px_2px_rgba(0,0,0,0.08)]" : "text-[#6b7280] hover:text-[#1d1b1b]",
-          )}
-        >
-          {t(s.key)}
-        </button>
-      ))}
     </div>
   );
 }
@@ -276,9 +242,6 @@ export type SidebarProps = {
   holdsAny: boolean;
   highlightPositions: boolean;
   onHighlightPositions: (on: boolean) => void;
-  /** "Important" or "All", under the small month. */
-  scope: CalendarScope;
-  onScope: (scope: CalendarScope) => void;
   notes: Array<{ text: string; tone: "quiet" | "warn" }>;
   onPick: (ymd: string) => void;
   onNewEvent: (anchor: DOMRect) => void;
@@ -313,10 +276,6 @@ export default function CalendarSidebar(props: SidebarProps) {
         theme={props.theme}
         onPick={props.onPick}
       />
-
-      <div className="-mt-2">
-        <ScopeSwitch value={props.scope} onChange={props.onScope} />
-      </div>
 
       <PositionsSection
         agenda={props.agenda}

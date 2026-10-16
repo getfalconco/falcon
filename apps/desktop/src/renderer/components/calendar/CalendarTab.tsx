@@ -7,6 +7,7 @@ import { useI18n } from "@/lib/i18n";
 import { paperScopeKey } from "@/lib/paper-account";
 import { isTypingTarget } from "@/lib/shortcuts";
 import { useRegion } from "@/lib/region";
+import { useCalendarScope } from "@/lib/calendar-scope";
 import { useTimeZone } from "@/lib/time-zone";
 import { economicCountries } from "../../../shared/economic-calendar";
 import { personalAgenda } from "../../../shared/calendar-agenda";
@@ -60,6 +61,7 @@ import {
   useWatchlistTickers,
 } from "./use-calendar-data";
 import { EventBar } from "./EventBlocks";
+import ScopeSwitch from "./ScopeSwitch";
 
 /**
  * The Calendar tab, after Notion Calendar: week view by default with the
@@ -219,7 +221,8 @@ function CalendarTabInner({ briefingReport }: { briefingReport: ReturnType<typeo
     [nyToday, held, watchlist, corporate.status, corporate.events, briefingReport, text],
   );
   // "Important" or "All" first; the type and sector filters then work within it.
-  const scoped = useMemo(() => scopeEvents(allEvents, prefs.scope, region), [allEvents, prefs.scope, region]);
+  const scope = useCalendarScope();
+  const scoped = useMemo(() => scopeEvents(allEvents, scope, region), [allEvents, scope, region]);
   const shown = useMemo(() => filterEvents(scoped, prefs.filters, watchSet), [scoped, prefs.filters, watchSet]);
 
   // Counts over the days in view, before the type and sector filters, for the sidebar.
@@ -407,8 +410,6 @@ function CalendarTabInner({ briefingReport }: { briefingReport: ReturnType<typeo
         holdsAny={held.length > 0}
         highlightPositions={prefs.highlightPositions}
         onHighlightPositions={(highlightPositions) => updatePrefs({ highlightPositions })}
-        scope={prefs.scope}
-        onScope={(scope) => updatePrefs({ scope })}
         notes={notes}
         onPick={(ymd) => setAnchor(ymd)}
         onNewEvent={newEventAt}
@@ -444,6 +445,10 @@ function CalendarTabInner({ briefingReport }: { briefingReport: ReturnType<typeo
           ) : (
             <TimeGridView {...viewProps} days={days} zoneText={zoneText} sessions={sessions} />
           )}
+        </div>
+        {/* Important or All, under the grid where it is always in sight; the dashboard card shares the choice. */}
+        <div className="flex shrink-0 items-center justify-center border-t border-black/[0.06] px-4 py-2">
+          <ScopeSwitch className="w-[220px]" />
         </div>
       </section>
 

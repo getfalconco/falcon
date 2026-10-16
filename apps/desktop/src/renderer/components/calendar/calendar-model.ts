@@ -454,13 +454,21 @@ export type CalendarScope = "important" | "all";
  */
 export function isImportant(e: CalEvent, region: string | null): boolean {
   if (e.origin === "user") return true;
-  if (e.live) {
-    if (e.slotOf) return false;
-    if (region && e.country === region && e.importance >= 2) return true;
-    return e.importance === 3 && Boolean(e.country && IMPORTANT_COUNTRIES.has(e.country));
-  }
+  if (e.live) return liveRowImportant(e.country ?? null, e.importance, Boolean(e.slotOf), region);
   if (e.type === "earnings" || e.type === "corporate") return Boolean(e.holding);
-  return e.importance >= 2 || e.type === "session";
+  return curatedRowImportant(e.importance, e.type === "session");
+}
+
+/** The economic calendar's half of "Important", shared with the dashboard card. */
+export function liveRowImportant(country: string | null, importance: 1 | 2 | 3, sharesCuratedSlot: boolean, region: string | null): boolean {
+  if (sharesCuratedSlot) return false;
+  if (region && country === region && importance >= 2) return true;
+  return importance === 3 && Boolean(country && IMPORTANT_COUNTRIES.has(country));
+}
+
+/** The curated US schedule's half: its weightier rows and the session's exceptions. */
+export function curatedRowImportant(importance: 1 | 2 | 3, session: boolean): boolean {
+  return importance >= 2 || session;
 }
 
 export function scopeEvents(events: readonly CalEvent[], scope: CalendarScope, region: string | null): CalEvent[] {

@@ -11,7 +11,10 @@ import { translate } from "../../lib/i18n/translate";
 import { eventOnDay, economicToCal, isImportant, scopeEvents, speechDone, userEventToCal, withHoldings, corporateToCal, type CalEvent } from "./calendar-model";
 import { besideTitle, countryName, econLines, markOf, underTitle, type Say } from "./econ-lines";
 import { buildMarketEvents } from "./market-events";
-import { parsePrefs } from "./calendar-prefs";
+import { CALENDAR_SCOPE_KEY, readCalendarScope } from "../../lib/calendar-scope";
+import { calendarView } from "../../../shared/calendar-view";
+import { cardDay } from "../dashboard/card-economic";
+import type { CalendarReport } from "../../../shared/calendar-types";
 
 const tIn = (language: LanguageCode): TFunction => ((key: MessageKey, params?: Record<string, string | number>) => translate(language, key, params)) as TFunction;
 const sayIn = (language: LanguageCode): Say => (key, params) => translate(language, key as MessageKey, params);
@@ -159,10 +162,14 @@ describe("Important and All", () => {
     assert.equal(isImportant(mine, null), true);
   });
 
-  it("remembers the choice, Important by default", () => {
-    assert.equal(parsePrefs({}).scope, "important");
-    assert.equal(parsePrefs({ scope: "all" }).scope, "all");
-    assert.equal(parsePrefs({ scope: "everything" }).scope, "important");
+  it("remembers the choice for both calendars, Important by default", () => {
+    const store = (values: Record<string, string>) => ({ getItem: (k: string) => values[k] ?? null });
+    assert.equal(readCalendarScope(store({})), "important");
+    assert.equal(readCalendarScope(store({ [CALENDAR_SCOPE_KEY]: "all" })), "all");
+    assert.equal(readCalendarScope(store({ [CALENDAR_SCOPE_KEY]: "everything" })), "important");
+    // The Calendar tab kept it among its own preferences before it was shared.
+    assert.equal(readCalendarScope(store({ "falcon.ui.calendar.v1": JSON.stringify({ scope: "all" }) })), "all");
+    assert.equal(readCalendarScope(null), "important");
   });
 });
 
@@ -191,9 +198,66 @@ describe("the economic calendar's copy", () => {
   const HERE = path.dirname(fileURLToPath(import.meta.url));
   it("follows the house copy rules", () => {
     // "Forecast" names the provider's published consensus, as the reader asked; the risk-word list is not applied to these labels.
-    for (const file of ["econ-lines.ts", "Flag.tsx", "EventBlocks.tsx", "EventDetails.tsx", "CalendarSidebar.tsx", "../briefing/CalendarRail.tsx", "../dashboard/CalendarCard.tsx", "../settings/RegionZoneRows.tsx", "../settings/PickerModal.tsx"]) {
+    for (const file of ["econ-lines.ts", "Flag.tsx", "EventBlocks.tsx", "EventDetails.tsx", "CalendarSidebar.tsx", "ScopeSwitch.tsx", "../briefing/CalendarRail.tsx", "../dashboard/CalendarCard.tsx", "../dashboard/card-economic.ts", "../settings/RegionZoneRows.tsx", "../settings/PickerModal.tsx"]) {
       const src = fs.readFileSync(path.join(HERE, file), "utf8");
       assert.deepEqual(copyProblems(src, { jsxText: true }), [], file);
     }
+  });
+});
+
+describe("the dashboard card with the economic calendar", () => {
+  const report = {
+    schema_version: 1,
+    generated_at: "2026-10-15T11:00:00.000Z",
+    demo: false,
+    window: {
+      target_session_ymd: "2026-10-15",
+      prev_session_ymd: "2026-10-14",
+      overnight_since: "2026-10-14T20:00:00.000Z",
+      window_opens_at: "2026-10-15T00:00:00.000Z",
+      target_open_at: "2026-10-15T13:30:00.000Z",
+      target_close_at: "2026-10-15T20:00:00.000Z",
+      phase: "pre_open",
+      gap: "overnight",
+      early_close: false,
+    },
+    items: [
+      { id: "macro:2026-10-15:PPI", kind: "data", time_et: "08:30", at: "2026-10-15T12:30:00.000Z", title: "Producer Price Index", detail: null, importance: 2, tickers: [], source: "bls" },
+      { id: "macro:2026-10-15:NEW_HOME_SALES", kind: "data", time_et: "10:00", at: "2026-10-15T14:00:00.000Z", title: "New Home Sales", detail: null, importance: 1, tickers: [], source: "census" },
+      { id: "earn:NVDA:2026-10-15", kind: "earnings", time_et: null, at: null, title: "NVDA earnings report", detail: null, importance: 3, tickers: ["NVDA"], source: "yahoo" },
+    ],
+    coverage: { from: "2026-09-01", until: "2026-12-31", compiled_at: "2026-08-30", covers_target: true, days_left: 77 },
+    degraded: [],
+  } as unknown as CalendarReport;
+  const now = new Date("2026-10-15T11:00:00.000Z");
+  const GB_HIGH = tv({ id: "gb", title: "BoE Gov Bailey Speech", country: "GB", currency: "GBP", date: "2026-10-15T16:00:00.000Z" });
+  const TR_MED = tv({ id: "tr", title: "Capacity Utilization", country: "TR", previous: 74.2, unit: "%", currency: "TRY", importance: 0, date: "2026-10-15T07:00:00.000Z" });
+  const JP_LATE = tv({ id: "jp-late", title: "Machinery Orders MoM", country: "JP", previous: 1, unit: "%", currency: "JPY", importance: -1, date: "2026-10-15T23:50:00.000Z" });
+  const economic = [PPI, CORE_PPI, GB_HIGH, TR_MED, JP_LATE];
+  const day = (scope: "important" | "all", region: string | null) =>
+    cardDay({ view: calendarView(report, now, { zone: "Europe/Istanbul", clockZone: "Europe/Istanbul" }), items: report.items, economic, ymd: "2026-10-15", now, zone: "Europe/Istanbul", region, scope, t: tIn("en-US") });
+
+  it("under All lists the whole New York day in time order, in the reader's zone, with flags and figures", () => {
+    const { view, extras } = day("all", "TR");
+    assert.deepEqual(view.timed.map((r) => [r.id, r.timeLabel]), [
+      ["e:tv:tr", "10:00"],
+      ["macro:2026-10-15:PPI", "15:30"],
+      ["e:tv:core-ppi", "15:30"],
+      ["macro:2026-10-15:NEW_HOME_SALES", "17:00"],
+      ["e:tv:gb", "19:00"],
+      ["e:tv:jp-late", "02:50"],
+    ]);
+    assert.equal(view.nowIndex, 1, "the Turkish row at 07:00Z is behind the clock");
+    assert.equal(extras.get("macro:2026-10-15:PPI")?.figures?.forecast, 0.5);
+    assert.equal(extras.get("e:tv:gb")?.speech, true);
+    assert.equal(extras.get("e:tv:tr")?.country, "TR");
+    assert.equal(view.allDay.length, 1);
+  });
+
+  it("under Important keeps what the Calendar tab keeps", () => {
+    const { view } = day("important", "TR");
+    assert.deepEqual(view.timed.map((r) => r.id), ["e:tv:tr", "macro:2026-10-15:PPI", "e:tv:gb"]);
+    assert.deepEqual(view.allDay.map((r) => r.id), ["earn:NVDA:2026-10-15"]);
+    assert.deepEqual(day("important", null).view.timed.map((r) => r.id), ["macro:2026-10-15:PPI", "e:tv:gb"]);
   });
 });
