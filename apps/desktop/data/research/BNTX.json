@@ -6,8 +6,8 @@
     "counterparty_type": "public_company",
     "category": "partner",
     "subtype": "commercialization_partner",
-    "strength": 0.6,
-    "strength_tier": "important",
+    "strength": 1,
+    "strength_tier": "critical",
     "strength_basis": "classified",
     "disclosed_share_pct": null,
     "disclosed_share_quote": null,
@@ -98,8 +98,8 @@
     "counterparty_type": "government",
     "category": "dependency",
     "subtype": "regulatory_authority",
-    "strength": 0.3,
-    "strength_tier": "marginal",
+    "strength": 0.6,
+    "strength_tier": "important",
     "strength_basis": "classified",
     "disclosed_share_pct": null,
     "disclosed_share_quote": null,
@@ -300,7 +300,7 @@
     "counterparty_ticker": "ABUS",
     "counterparty_type": "public_company",
     "category": "competitor",
-    "subtype": "patent_litigation_opponent",
+    "subtype": "patent_litigation_opponent; patent_litigation_plaintiff",
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
@@ -311,6 +311,11 @@
     "evidence": [
       {
         "quote": "Arbutus Biopharma Corp., or Arbutus, and Genevant Sciences GmbH, or Genevant, have brought litigation against us and Pfizer in the United States",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "BioNTech SE and certain of our wholly owned subsidiaries are defendants in litigations initiated by CureVac, Moderna, Arbutus, Genevant, GSK, and Promosome regarding Comirnaty",
         "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
         "located_at": "20-F Item 3-5"
       }
@@ -368,19 +373,24 @@
   },
   {
     "root_ticker": "BNTX",
-    "counterparty_name": "GlaxoSmithKline LLC",
+    "counterparty_name": "GSK",
     "counterparty_ticker": "GSK",
     "counterparty_type": "public_company",
     "category": "competitor",
-    "subtype": "patent_litigation_opponent",
+    "subtype": "patent_litigation_plaintiff; patent_litigation_opponent",
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
     "disclosed_share_pct": null,
     "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
-    "confidence": 0.15,
+    "confidence": 0.88,
     "evidence": [
+      {
+        "quote": "BioNTech SE and certain of our wholly owned subsidiaries are defendants in litigations initiated by CureVac, Moderna, Arbutus, Genevant, GSK, and Promosome regarding Comirnaty",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
       {
         "quote": "GlaxoSmithKline Biologicals SA and GlaxoSmithKline LLC, or collectively, GSK, have brought litigation against us and Pfizer in the United States",
         "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
@@ -388,7 +398,7 @@
       }
     ],
     "valid_from": "2026-03-10",
-    "shared_evidence_group": "ev_b8190c8edb07"
+    "shared_evidence_group": "ev_6e928fdfe396"
   },
   {
     "root_ticker": "BNTX",
@@ -502,9 +512,9 @@
     "counterparty_ticker": null,
     "counterparty_type": "private_company",
     "category": "supplier",
-    "subtype": "intellectual property licensor",
-    "strength": 0.3,
-    "strength_tier": "marginal",
+    "subtype": "intellectual property licensor; patent_litigation_plaintiff",
+    "strength": 0.6,
+    "strength_tier": "important",
     "strength_basis": "classified",
     "disclosed_share_pct": null,
     "disclosed_share_quote": null,
@@ -518,6 +528,11 @@
       },
       {
         "quote": "certain patent filings we have licensed from Acuitas and Genevant relating to lipid or non-liposomal formulations.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "BioNTech SE and certain of our wholly owned subsidiaries are defendants in litigations initiated by CureVac, Moderna, Arbutus, Genevant, GSK, and Promosome regarding Comirnaty",
         "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
         "located_at": "20-F Item 3-5"
       }
@@ -585,78 +600,6 @@
   },
   {
     "root_ticker": "BNTX",
-    "counterparty_name": "Arbutus",
-    "counterparty_ticker": null,
-    "counterparty_type": "company",
-    "category": "competitor",
-    "subtype": "patent_litigation_plaintiff",
-    "strength": 0.3,
-    "strength_tier": "marginal",
-    "strength_basis": "classified",
-    "disclosed_share_pct": null,
-    "disclosed_share_quote": null,
-    "epistemic_label": "VERIFIED",
-    "confidence": 0.72,
-    "evidence": [
-      {
-        "quote": "BioNTech SE and certain of our wholly owned subsidiaries are defendants in litigations initiated by CureVac, Moderna, Arbutus, Genevant, GSK, and Promosome regarding Comirnaty",
-        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
-        "located_at": "20-F Item 3-5"
-      }
-    ],
-    "valid_from": "2026-03-10",
-    "shared_evidence_group": "ev_6e928fdfe396"
-  },
-  {
-    "root_ticker": "BNTX",
-    "counterparty_name": "Genevant",
-    "counterparty_ticker": null,
-    "counterparty_type": "private_company",
-    "category": "supplier",
-    "subtype": "patent_litigation_plaintiff",
-    "strength": 0.3,
-    "strength_tier": "marginal",
-    "strength_basis": "classified",
-    "disclosed_share_pct": null,
-    "disclosed_share_quote": null,
-    "epistemic_label": "VERIFIED",
-    "confidence": 0.72,
-    "evidence": [
-      {
-        "quote": "BioNTech SE and certain of our wholly owned subsidiaries are defendants in litigations initiated by CureVac, Moderna, Arbutus, Genevant, GSK, and Promosome regarding Comirnaty",
-        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
-        "located_at": "20-F Item 3-5"
-      }
-    ],
-    "valid_from": "2026-03-10",
-    "shared_evidence_group": "ev_6e928fdfe396"
-  },
-  {
-    "root_ticker": "BNTX",
-    "counterparty_name": "GSK",
-    "counterparty_ticker": "GSK",
-    "counterparty_type": "public_company",
-    "category": "competitor",
-    "subtype": "patent_litigation_plaintiff",
-    "strength": 0.3,
-    "strength_tier": "marginal",
-    "strength_basis": "classified",
-    "disclosed_share_pct": null,
-    "disclosed_share_quote": null,
-    "epistemic_label": "VERIFIED",
-    "confidence": 0.88,
-    "evidence": [
-      {
-        "quote": "BioNTech SE and certain of our wholly owned subsidiaries are defendants in litigations initiated by CureVac, Moderna, Arbutus, Genevant, GSK, and Promosome regarding Comirnaty",
-        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
-        "located_at": "20-F Item 3-5"
-      }
-    ],
-    "valid_from": "2026-03-10",
-    "shared_evidence_group": "ev_6e928fdfe396"
-  },
-  {
-    "root_ticker": "BNTX",
     "counterparty_name": "European Commission",
     "counterparty_ticker": null,
     "counterparty_type": "government",
@@ -695,7 +638,7 @@
     "counterparty_ticker": "BMY",
     "counterparty_type": "public_company",
     "category": "partner",
-    "subtype": "co-exclusive rights partnership",
+    "subtype": "co-exclusive rights partnership; co-development and co-commercialization alliance",
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
@@ -711,6 +654,16 @@
       },
       {
         "quote": "Bristol Myers Squibb to jointly develop, manufacture and commercialize pumitamig",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "we and BMS announced a global strategic partnership to co-develop and co-commercialize our next-generation bispecific antibody candidate, pumitamig",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "On August 15, 2025, we and BMS entered into an amended and restated agreement that replaced the original agreement. The new agreement governs the collaboration",
         "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
         "located_at": "20-F Item 3-5"
       }
@@ -883,7 +836,7 @@
     "counterparty_ticker": null,
     "counterparty_type": "private_company",
     "category": "partner",
-    "subtype": "co-development partner",
+    "subtype": "co-development partner; license and collaboration",
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
@@ -899,6 +852,11 @@
       },
       {
         "quote": "DualityBio for the research and development of certain antibody drug conjugates",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "DualityBio granted us the exclusive, royalty-bearing and sublicensable right to exploit certain patents and know-how",
         "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
         "located_at": "20-F Item 3-5"
       }
@@ -1069,30 +1027,6 @@
     ],
     "valid_from": "2026-03-10",
     "shared_evidence_group": "ev_044fdc27043c"
-  },
-  {
-    "root_ticker": "BNTX",
-    "counterparty_name": "DualityBio",
-    "counterparty_ticker": null,
-    "counterparty_type": "private_company",
-    "category": "partner",
-    "subtype": "license and collaboration",
-    "strength": 0.6,
-    "strength_tier": "important",
-    "strength_basis": "classified",
-    "disclosed_share_pct": null,
-    "disclosed_share_quote": null,
-    "epistemic_label": "VERIFIED",
-    "confidence": 0.95,
-    "evidence": [
-      {
-        "quote": "DualityBio granted us the exclusive, royalty-bearing and sublicensable right to exploit certain patents and know-how",
-        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
-        "located_at": "20-F Item 3-5"
-      }
-    ],
-    "valid_from": "2026-03-10",
-    "shared_evidence_group": "ev_667920e55ef1"
   },
   {
     "root_ticker": "BNTX",
@@ -1290,35 +1224,6 @@
     ],
     "valid_from": "2026-03-10",
     "shared_evidence_group": "ev_8502da76456a"
-  },
-  {
-    "root_ticker": "BNTX",
-    "counterparty_name": "BMS",
-    "counterparty_ticker": "BMY",
-    "counterparty_type": "public_company",
-    "category": "partner",
-    "subtype": "co-development and co-commercialization alliance",
-    "strength": 0.6,
-    "strength_tier": "important",
-    "strength_basis": "classified",
-    "disclosed_share_pct": null,
-    "disclosed_share_quote": null,
-    "epistemic_label": "VERIFIED",
-    "confidence": 0.95,
-    "evidence": [
-      {
-        "quote": "we and BMS announced a global strategic partnership to co-develop and co-commercialize our next-generation bispecific antibody candidate, pumitamig",
-        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
-        "located_at": "20-F Item 3-5"
-      },
-      {
-        "quote": "On August 15, 2025, we and BMS entered into an amended and restated agreement that replaced the original agreement. The new agreement governs the collaboration",
-        "source_url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm",
-        "located_at": "20-F Item 3-5"
-      }
-    ],
-    "valid_from": "2026-03-10",
-    "shared_evidence_group": "ev_86890c99191b"
   },
   {
     "root_ticker": "BNTX",

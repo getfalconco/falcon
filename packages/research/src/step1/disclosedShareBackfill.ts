@@ -164,6 +164,30 @@ export function defaultedStrengthPlan(
   return { unclassified, legacy };
 }
 
+/**
+ * Edges the classifier judged from their first quote alone that now have
+ * more to read (`--full-evidence`): a classified or unclassified tier (never
+ * one a verified share sets) whose classifier input carries more than one
+ * quote, or a category dependence sentence. `inputs[i]` is the input built
+ * for `edges[i]` (`strengthInputForEdge`). Indexes into `edges`. Pure.
+ */
+export function fullEvidencePlan(
+  edges: readonly ValidatedEdge[],
+  inputs: ReadonlyArray<{ evidence_quotes?: readonly string[]; category_dependence?: readonly string[] }>,
+): { multiQuote: number[]; dependence: number[] } {
+  const multiQuote: number[] = [];
+  const dependence: number[] = [];
+  edges.forEach((edge, index) => {
+    if (edge.strength_basis === "disclosed") return;
+    if (disclosedShareOfEdge(edge).disclosed_share_pct != null) return;
+    const input = inputs[index];
+    if (!input) return;
+    if (input.category_dependence?.length) dependence.push(index);
+    else if ((input.evidence_quotes?.length ?? 0) > 1) multiQuote.push(index);
+  });
+  return { multiQuote, dependence };
+}
+
 /** `edge` with a new strength, tier and basis, in place in the key order (a readable diff). */
 export function withStrength(edge: ValidatedEdge, s: EdgeStrength): ValidatedEdge {
   return { ...edge, strength: s.strength, strength_tier: s.strength_tier, strength_basis: s.strength_basis };

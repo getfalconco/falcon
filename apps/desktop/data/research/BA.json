@@ -179,8 +179,8 @@
     "counterparty_type": "government",
     "category": "customer",
     "subtype": "government_contracts",
-    "strength": 1,
-    "strength_tier": "critical",
+    "strength": 0.6,
+    "strength_tier": "important",
     "strength_basis": "classified",
     "disclosed_share_pct": null,
     "disclosed_share_quote": null,
@@ -255,33 +255,9 @@
     "counterparty_ticker": null,
     "counterparty_type": "public_company",
     "category": "supplier",
-    "subtype": "aerostructures manufacturer",
+    "subtype": "acquisition_target; aerostructures manufacturer",
     "strength": 0.6,
     "strength_tier": "important",
-    "strength_basis": "classified",
-    "disclosed_share_pct": null,
-    "disclosed_share_quote": null,
-    "epistemic_label": "VERIFIED",
-    "confidence": 0.95,
-    "evidence": [
-      {
-        "quote": "the FAA investigated the 737 quality control system, including Spirit AeroSystems Holdings, Inc. (Spirit), and increased its oversight of our production and quality and safety management systems.",
-        "source_url": "https://www.sec.gov/Archives/edgar/data/12927/000162828026004357/ba-20251231.htm",
-        "located_at": "10-K Item 1/1A"
-      }
-    ],
-    "valid_from": "2026-01-30",
-    "shared_evidence_group": "ev_6f96ffd3e4de"
-  },
-  {
-    "root_ticker": "BA",
-    "counterparty_name": "Spirit AeroSystems",
-    "counterparty_ticker": null,
-    "counterparty_type": "public_company",
-    "category": "supplier",
-    "subtype": "acquisition_target",
-    "strength": 1,
-    "strength_tier": "critical",
     "strength_basis": "classified",
     "disclosed_share_pct": null,
     "disclosed_share_quote": null,
@@ -300,6 +276,11 @@
       },
       {
         "quote": "the $230 million of 3.250% Exchangeable Notes, maturing November 1, 2028 (the Spirit Exchangeable Notes), that we assumed in connection with the Spirit Acquisition.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/12927/000162828026004357/ba-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "the FAA investigated the 737 quality control system, including Spirit AeroSystems Holdings, Inc. (Spirit), and increased its oversight of our production and quality and safety management systems.",
         "source_url": "https://www.sec.gov/Archives/edgar/data/12927/000162828026004357/ba-20251231.htm",
         "located_at": "10-K Item 1/1A"
       }

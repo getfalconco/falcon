@@ -2,6 +2,7 @@ import { getConfig } from "../config.js";
 import { callClaudeJson } from "./anthropicClient.js";
 import { mapPool } from "./asyncPool.js";
 import { stripJsonFences } from "./normalize.js";
+import { strengthQuotes } from "./strengthEvidence.js";
 import type { TokenUsage } from "./tokenUsage.js";
 import type { StrengthBasis, StrengthTier } from "./types.js";
 
@@ -22,13 +23,31 @@ export const STRENGTH_BY_TIER: Record<StrengthTier, number> = {
 const NO_VERIFIED_PCT =
   "If disclosed_revenue_dependency_pct is null, no percentage is verified as the current share: do not use a number in the quote (it may be an earlier year's column or another measure); judge from the words alone (sole/single source, primarily, substantial majority, a named material relationship, or a name in a list).";
 
+/**
+ * What the evidence fields are. Every quote is checked against the filing
+ * text before it gets here; category_dependence sentences are cut verbatim
+ * from the same filing section and name no other counterparty of the filer.
+ */
+const EVIDENCE_FIELDS =
+  "evidence_quotes are all the filing quotes that name the counterparty. category_dependence (may be absent) holds sentences from the same filing section stating the company depends on the category of supplier, partner or channel the quotes put the counterparty in; they do not name the counterparty, so they count only through a quote that places the counterparty in that category.";
+
+const TIER_RULES = [
+  "Tiers:",
+  '- "critical": filing discloses high dependency (revenue % >= 10, "substantial majority", "primarily", sole/single-source supplier, or the company relies on the counterparty for all of a key input). Also critical: the counterparty is named as one of at most three examples of a category the company says it depends on or relies on (in a quote or a category_dependence sentence), and either the filing names no other source of that category besides those examples, or it uses sole, single-source or limited-number language for that category.',
+  '- "important": named material relationship, no dominance or dependence language; or named in a category the company depends on alongside more than three other named sources.',
+  '- "marginal": named only in a list (e.g. one of many competitors or peers), no materiality signal. A list of many peers stays marginal even when a category_dependence sentence exists.',
+  'Dependence means the filing says "depend", "rely", "reliance", "dependent", sole or single source, or limited number. Using, utilizing, sourcing from, working, partnering, licensing or collaborating with a counterparty, or developing or commercializing a product with it, is not by itself dependence: without such words or a disclosed share it is at most important.',
+  "A competitor is never critical through a category_dependence sentence. Judge from all evidence_quotes together, not only the first; the number of quotes is not itself a materiality signal.",
+  "Dependence counts toward critical only at the level of the company or a whole product line: a supply or agreement for one facility, project, trial or one-time transaction is at most important, even when it covers a significant proportion of that facility's needs.",
+  'Critical needs a present, stated dependence. Conditional or prospective language ("if approved", "may", "could", "potential", "product candidates", "expect to", "plan to") never makes an edge critical: it describes a possible future, not a current dependence.',
+  'A country or region named as a supply origin or as where suppliers are located ("China-based suppliers for portions of our supply chain") is at most important, unless the filing says it is the sole or primary source.',
+];
+
 export const STRENGTH_CLASSIFY_SYSTEM = [
   "You classify the materiality strength of ONE business relationship edge from SEC filing evidence.",
-  "Use ONLY the evidence quote and disclosed fields. No outside knowledge.",
-  "Tiers:",
-  '- "critical": filing discloses high dependency (revenue % >= 10, "substantial majority", "primarily", sole/single-source supplier).',
-  '- "important": named material relationship, no dominance language.',
-  '- "marginal": named only in a list (e.g. one of many competitors), no materiality signal.',
+  "Use ONLY the evidence quotes, the category_dependence sentences and the disclosed fields. No outside knowledge.",
+  EVIDENCE_FIELDS,
+  ...TIER_RULES,
   "If disclosed_revenue_dependency_pct is set, still output the matching tier from that pct (>=10 critical, >=5 important, else marginal).",
   NO_VERIFIED_PCT,
   'Output JSON only: {"strength_tier": "critical"|"important"|"marginal"}',
@@ -38,11 +57,9 @@ export const STRENGTH_CLASSIFY_SYSTEM = [
 /** Batched form of STRENGTH_CLASSIFY_SYSTEM — same tiers, several edges per call. */
 export const STRENGTH_CLASSIFY_BATCH_SYSTEM = [
   "You classify the materiality strength of business relationship edges from SEC filing evidence.",
-  "You receive SEVERAL edges. Judge EACH independently, using ONLY its own evidence quote and disclosed fields. No outside knowledge.",
-  "Tiers:",
-  '- "critical": filing discloses high dependency (revenue % >= 10, "substantial majority", "primarily", sole/single-source supplier).',
-  '- "important": named material relationship, no dominance language.',
-  '- "marginal": named only in a list (e.g. one of many competitors), no materiality signal.',
+  "You receive SEVERAL edges. Judge EACH independently, using ONLY its own evidence quotes, category_dependence sentences and disclosed fields. No outside knowledge.",
+  EVIDENCE_FIELDS,
+  ...TIER_RULES,
   "If disclosed_revenue_dependency_pct is set, still output the matching tier from that pct (>=10 critical, >=5 important, else marginal).",
   NO_VERIFIED_PCT,
   "Do not balance tiers across the batch — each edge stands alone.",
@@ -62,6 +79,14 @@ const CLASSIFY_CONCURRENCY = 4;
  * empty, and the edge silently defaulted to "important". Billed only as used.
  */
 export const THINKING_HEADROOM_TOKENS = 2000;
+
+/**
+ * More room to think per edge of a batch. With every quote of an edge and its
+ * category dependence sentences in the prompt, a batch of 20 thought past the
+ * flat headroom: in the 2026-10-16 full-evidence run 3 of 13 batches stopped
+ * at max_tokens with no text and all their edges came back unclassified.
+ */
+export const THINKING_PER_EDGE_TOKENS = 200;
 
 export function parseStrengthTier(raw: unknown): StrengthTier | null {
   if (typeof raw !== "string") return null;
@@ -277,8 +302,26 @@ export type StrengthClassifyInput = {
   category: string;
   subtype: string;
   disclosed_revenue_dependency_pct: number | null;
+  /** The first quote; the classifier reads it alone when `evidence_quotes` is absent. */
   evidence_quote: string;
+  /** Every quote of the edge found in the filing text (see `strengthQuotes`). */
+  evidence_quotes?: string[];
+  /** Filing sentences stating dependence on the edge's category (see `dependenceSentences`). */
+  category_dependence?: string[];
 };
+
+/** The edge as the classifier reads it: all its quotes (capped), and the category dependence when there is any. */
+export function strengthPromptFields(edge: StrengthClassifyInput): Record<string, unknown> {
+  const quotes = strengthQuotes(edge.evidence_quotes?.length ? edge.evidence_quotes : [edge.evidence_quote]);
+  return {
+    counterparty_name: edge.counterparty_name,
+    category: edge.category,
+    subtype: edge.subtype,
+    disclosed_revenue_dependency_pct: edge.disclosed_revenue_dependency_pct,
+    evidence_quotes: quotes.length ? quotes : [edge.evidence_quote],
+    ...(edge.category_dependence?.length ? { category_dependence: edge.category_dependence } : {}),
+  };
+}
 
 /** One LLM classification per edge. Disclosed % skips the LLM. */
 export async function classifyEdgeStrength(
@@ -292,13 +335,7 @@ export async function classifyEdgeStrength(
 
   const user = [
     "Edge:",
-    JSON.stringify({
-      counterparty_name: edge.counterparty_name,
-      category: edge.category,
-      subtype: edge.subtype,
-      disclosed_revenue_dependency_pct: edge.disclosed_revenue_dependency_pct,
-      evidence_quote: edge.evidence_quote,
-    }),
+    JSON.stringify(strengthPromptFields(edge)),
   ].join("\n");
 
   try {
@@ -306,7 +343,7 @@ export async function classifyEdgeStrength(
       system: STRENGTH_CLASSIFY_SYSTEM,
       model: getConfig().step1StrengthModel,
       user,
-      maxTokens: THINKING_HEADROOM_TOKENS + 80,
+      maxTokens: THINKING_HEADROOM_TOKENS + THINKING_PER_EDGE_TOKENS + 80,
       usage,
     });
     const tier = parseClassifyResponse(raw);
@@ -372,14 +409,7 @@ async function classifyBatch(
   const user = [
     `Edges (${batch.length}). Return one tier per index.`,
     ...batch.map(({ edge }, i) =>
-      JSON.stringify({
-        index: i,
-        counterparty_name: edge.counterparty_name,
-        category: edge.category,
-        subtype: edge.subtype,
-        disclosed_revenue_dependency_pct: edge.disclosed_revenue_dependency_pct,
-        evidence_quote: edge.evidence_quote,
-      }),
+      JSON.stringify({ index: i, ...strengthPromptFields(edge) }),
     ),
   ].join("\n");
 
@@ -387,7 +417,7 @@ async function classifyBatch(
     system: STRENGTH_CLASSIFY_BATCH_SYSTEM,
     model: getConfig().step1StrengthModel,
     user,
-    maxTokens: THINKING_HEADROOM_TOKENS + 40 * batch.length + 80,
+    maxTokens: THINKING_HEADROOM_TOKENS + (40 + THINKING_PER_EDGE_TOKENS) * batch.length + 80,
     usage,
   });
   const tiers = parseBatchTiers(raw, batch.length);

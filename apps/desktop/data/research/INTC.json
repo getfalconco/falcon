@@ -30,8 +30,8 @@
     "counterparty_type": "public_company",
     "category": "supplier",
     "subtype": "foundry manufacturing",
-    "strength": 0.6,
-    "strength_tier": "important",
+    "strength": 1,
+    "strength_tier": "critical",
     "strength_basis": "classified",
     "disclosed_share_pct": null,
     "disclosed_share_quote": null,
@@ -391,7 +391,7 @@
     "counterparty_ticker": "GFS",
     "counterparty_type": "public_company",
     "category": "competitor",
-    "subtype": "mature foundry technologies",
+    "subtype": "mature foundry technologies; foundry",
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
@@ -402,6 +402,11 @@
     "evidence": [
       {
         "quote": "Other Intel Foundry competitors include GlobalFoundries, UMC and SMIC, which primarily focus on mature process technologies.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/50863/000005086326000011/intc-20251227.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "we face intense competition from well-established competitors such as TSMC, Samsung, Global Foundries, UMC and SMIC.",
         "source_url": "https://www.sec.gov/Archives/edgar/data/50863/000005086326000011/intc-20251227.htm",
         "located_at": "10-K Item 1/1A"
       }
@@ -498,19 +503,24 @@
   },
   {
     "root_ticker": "INTC",
-    "counterparty_name": "ASML",
+    "counterparty_name": "ASML Holding N.V.",
     "counterparty_ticker": "ASML",
     "counterparty_type": "public_company",
     "category": "supplier",
-    "subtype": "semiconductor_manufacturing_equipment",
+    "subtype": "manufacturing_equipment; semiconductor_manufacturing_equipment",
     "strength": 1,
     "strength_tier": "critical",
     "strength_basis": "classified",
     "disclosed_share_pct": null,
     "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
-    "confidence": 0.95,
+    "confidence": 0.98,
     "evidence": [
+      {
+        "quote": "ASML Holding N.V. (ASML) is currently the sole supplier of EUV lithography tools that we are deploying in our Intel 4, Intel 3, Intel 18A and planned future leading-edge manufacturing process nodes.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/50863/000005086326000011/intc-20251227.htm",
+        "located_at": "10-K Item 1/1A"
+      },
       {
         "quote": "we are reliant upon sole-source providers, such as with the EUV lithography tools manufactured by ASML that are required for leading-edge process technologies",
         "source_url": "https://www.sec.gov/Archives/edgar/data/50863/000005086326000011/intc-20251227.htm",
@@ -518,7 +528,7 @@
       }
     ],
     "valid_from": "2026-01-23",
-    "shared_evidence_group": "ev_82674f88fb0a"
+    "shared_evidence_group": "ev_bf25d1759f0e"
   },
   {
     "root_ticker": "INTC",
@@ -570,30 +580,6 @@
   },
   {
     "root_ticker": "INTC",
-    "counterparty_name": "Global Foundries",
-    "counterparty_ticker": "GFS",
-    "counterparty_type": "public_company",
-    "category": "competitor",
-    "subtype": "foundry",
-    "strength": 0.3,
-    "strength_tier": "marginal",
-    "strength_basis": "classified",
-    "disclosed_share_pct": null,
-    "disclosed_share_quote": null,
-    "epistemic_label": "VERIFIED",
-    "confidence": 0.95,
-    "evidence": [
-      {
-        "quote": "we face intense competition from well-established competitors such as TSMC, Samsung, Global Foundries, UMC and SMIC.",
-        "source_url": "https://www.sec.gov/Archives/edgar/data/50863/000005086326000011/intc-20251227.htm",
-        "located_at": "10-K Item 1/1A"
-      }
-    ],
-    "valid_from": "2026-01-23",
-    "shared_evidence_group": "ev_fb59e8422124"
-  },
-  {
-    "root_ticker": "INTC",
     "counterparty_name": "Brookfield",
     "counterparty_ticker": null,
     "counterparty_type": "public_company",
@@ -639,29 +625,5 @@
     ],
     "valid_from": "2026-01-23",
     "shared_evidence_group": "ev_9e963bb8262d"
-  },
-  {
-    "root_ticker": "INTC",
-    "counterparty_name": "ASML Holding N.V.",
-    "counterparty_ticker": "ASML",
-    "counterparty_type": "public_company",
-    "category": "supplier",
-    "subtype": "manufacturing_equipment",
-    "strength": 1,
-    "strength_tier": "critical",
-    "strength_basis": "classified",
-    "disclosed_share_pct": null,
-    "disclosed_share_quote": null,
-    "epistemic_label": "VERIFIED",
-    "confidence": 0.98,
-    "evidence": [
-      {
-        "quote": "ASML Holding N.V. (ASML) is currently the sole supplier of EUV lithography tools that we are deploying in our Intel 4, Intel 3, Intel 18A and planned future leading-edge manufacturing process nodes.",
-        "source_url": "https://www.sec.gov/Archives/edgar/data/50863/000005086326000011/intc-20251227.htm",
-        "located_at": "10-K Item 1/1A"
-      }
-    ],
-    "valid_from": "2026-01-23",
-    "shared_evidence_group": "ev_bf25d1759f0e"
   }
 ]

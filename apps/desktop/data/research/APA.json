@@ -30,11 +30,11 @@
   },
   {
     "root_ticker": "APA",
-    "counterparty_name": "EGPC (Egyptian General Petroleum Corporation)",
+    "counterparty_name": "Egyptian General Petroleum Corporation",
     "counterparty_ticker": null,
     "counterparty_type": "state-owned enterprise",
     "category": "customer",
-    "subtype": "natural gas sales agreement",
+    "subtype": "natural gas sales agreement; production-sharing contract payment risk",
     "strength": 1,
     "strength_tier": "critical",
     "strength_basis": "classified",
@@ -45,6 +45,11 @@
     "evidence": [
       {
         "quote": "substantially all of the Company’s 2025 natural gas production is sold to EGPC pursuant to a gas sales agreement that establishes pricing based on a minimum realized price of $2.65 per MMBtu",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1841666/000184166626000015/apa-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "forced renegotiation or modification of the Company’s existing contracts with Egyptian General Petroleum Corporation (EGPC), or threats or acts of terrorism could materially and adversely affect the Company’s business and operations",
         "source_url": "https://www.sec.gov/Archives/edgar/data/1841666/000184166626000015/apa-20251231.htm",
         "located_at": "10-K Item 1/1A"
       }
@@ -200,29 +205,5 @@
     ],
     "valid_from": "2026-02-26",
     "shared_evidence_group": "ev_82930bde713f"
-  },
-  {
-    "root_ticker": "APA",
-    "counterparty_name": "Egyptian General Petroleum Corporation",
-    "counterparty_ticker": null,
-    "counterparty_type": "government",
-    "category": "customer",
-    "subtype": "production-sharing contract payment risk",
-    "strength": 0.6,
-    "strength_tier": "important",
-    "strength_basis": "classified",
-    "disclosed_share_pct": null,
-    "disclosed_share_quote": null,
-    "epistemic_label": "VERIFIED",
-    "confidence": 0.72,
-    "evidence": [
-      {
-        "quote": "forced renegotiation or modification of the Company’s existing contracts with Egyptian General Petroleum Corporation (EGPC), or threats or acts of terrorism could materially and adversely affect the Company’s business and operations",
-        "source_url": "https://www.sec.gov/Archives/edgar/data/1841666/000184166626000015/apa-20251231.htm",
-        "located_at": "10-K Item 1/1A"
-      }
-    ],
-    "valid_from": "2026-02-26",
-    "shared_evidence_group": "ev_6bf31b36f3ae"
   }
 ]

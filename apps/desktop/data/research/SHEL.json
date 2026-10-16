@@ -58,7 +58,7 @@
     "counterparty_ticker": "XOM",
     "counterparty_type": "public_company",
     "category": "partner",
-    "subtype": "joint_venture",
+    "subtype": "joint_venture_operator; joint_venture",
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
@@ -67,6 +67,11 @@
     "epistemic_label": "VERIFIED",
     "confidence": 0.95,
     "evidence": [
+      {
+        "quote": "ExxonMobil Production Deutschland GmbH has a service contract with BEB, under which it provides operating services to BEB for most of the concessions.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
       {
         "quote": "Shell and ExxonMobil are 50:50 shareholders in Nederlandse Aardolie Maatschappij B.V. (NAM).",
         "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
@@ -84,7 +89,7 @@
       }
     ],
     "valid_from": "2026-03-12",
-    "shared_evidence_group": "ev_68ffedd91ebf"
+    "shared_evidence_group": "ev_e149090f4af4"
   },
   {
     "root_ticker": "SHEL",
@@ -127,6 +132,11 @@
     "evidence": [
       {
         "quote": "we have a 50% interest in the Arrow joint venture with China National Petroleum Corporation (CNPC)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "The unitised Mero field is operated by Petrobras (38.6%), in partnership with Shell, TotalEnergies (19.3%), CNPC (9.65%), China National Offshore Oil Corporation (CNOOC) (9.65%)",
         "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
         "located_at": "20-F Item 3-5"
       }
@@ -175,6 +185,11 @@
     "evidence": [
       {
         "quote": "We have a 25% interest in the Chevron-operated Gorgon LNG joint venture",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "Shell has a 60% interest in the Whale development, and Chevron U.S.A. Inc. has a 40% interest.",
         "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
         "located_at": "20-F Item 3-5"
       }
@@ -271,8 +286,8 @@
     "counterparty_type": "public_company",
     "category": "partner",
     "subtype": "joint venture",
-    "strength": 0.3,
-    "strength_tier": "marginal",
+    "strength": 0.6,
+    "strength_tier": "important",
     "strength_basis": "classified",
     "disclosed_share_pct": null,
     "disclosed_share_quote": null,
@@ -497,30 +512,6 @@
   },
   {
     "root_ticker": "SHEL",
-    "counterparty_name": "Chevron U.S.A. Inc.",
-    "counterparty_ticker": "CVX",
-    "counterparty_type": "public_company",
-    "category": "partner",
-    "subtype": "joint_venture",
-    "strength": 0.6,
-    "strength_tier": "important",
-    "strength_basis": "classified",
-    "disclosed_share_pct": null,
-    "disclosed_share_quote": null,
-    "epistemic_label": "VERIFIED",
-    "confidence": 0.93,
-    "evidence": [
-      {
-        "quote": "Shell has a 60% interest in the Whale development, and Chevron U.S.A. Inc. has a 40% interest.",
-        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
-        "located_at": "20-F Item 3-5"
-      }
-    ],
-    "valid_from": "2026-03-12",
-    "shared_evidence_group": "ev_3a0a62b3c056"
-  },
-  {
-    "root_ticker": "SHEL",
     "counterparty_name": "NEO Energy",
     "counterparty_ticker": null,
     "counterparty_type": "private_company",
@@ -549,7 +540,7 @@
     "counterparty_ticker": "COP",
     "counterparty_type": "public_company",
     "category": "partner",
-    "subtype": "asset_seller",
+    "subtype": "asset_seller; joint conservation monitoring programme",
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
@@ -560,6 +551,11 @@
     "evidence": [
       {
         "quote": "we signed an agreement to acquire a 15.96% working interest from ConocoPhillips Company (COP) in the Shell-operated Ursa platform in the GoA.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "Together with ConocoPhillips, Santos and Eco Logical Australia, we completed a decade-long monitoring programme under the Gladstone Long-term Turtle Management Plan",
         "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
         "located_at": "20-F Item 3-5"
       }
@@ -602,7 +598,7 @@
     "counterparty_ticker": "TTE",
     "counterparty_type": "public_company",
     "category": "partner",
-    "subtype": "joint_venture",
+    "subtype": "joint_venture; joint_venture_operator",
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
@@ -625,6 +621,11 @@
         "quote": "the Northern Lights joint venture (Shell interest 33.3%) with Equinor and TotalEnergies completed the world's first cross-border commercial carbon transport and storage service",
         "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
         "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "a 25% interest in the Tempa Rossa producing concession, operated by TotalEnergies EP Italia S.p.A.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
       }
     ],
     "valid_from": "2026-03-12",
@@ -632,21 +633,26 @@
   },
   {
     "root_ticker": "SHEL",
-    "counterparty_name": "Kuwait Petroleum Exploration Company (KUFPEC)",
+    "counterparty_name": "Kuwait Petroleum Exploration Company",
     "counterparty_ticker": null,
     "counterparty_type": "state_owned_enterprise",
     "category": "partner",
-    "subtype": "joint_venture_partner",
+    "subtype": "joint_venture_partner; asset sale / joint interest holder",
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
     "disclosed_share_pct": null,
     "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
-    "confidence": 0.85,
+    "confidence": 0.9,
     "evidence": [
       {
         "quote": "In February 2026, we agreed to sell a 20% interest to Kuwait Petroleum Exploration Company (KUFPEC).",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "In February 2026, Shell agreed to sell a 20% interest to Kuwait Petroleum Exploration Company.",
         "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
         "located_at": "20-F Item 3-5"
       }
@@ -676,30 +682,6 @@
       },
       {
         "quote": "the Sapinhoá field (Shell interest 30%, operated by Petrobras and straddling the BM-S-9 and Entorno de Sapinhoá blocks already unitised and redetermined)",
-        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
-        "located_at": "20-F Item 3-5"
-      }
-    ],
-    "valid_from": "2026-03-12",
-    "shared_evidence_group": "ev_913df4c56a1c"
-  },
-  {
-    "root_ticker": "SHEL",
-    "counterparty_name": "CNPC",
-    "counterparty_ticker": null,
-    "counterparty_type": "public_company",
-    "category": "partner",
-    "subtype": "joint_venture",
-    "strength": 0.6,
-    "strength_tier": "important",
-    "strength_basis": "classified",
-    "disclosed_share_pct": null,
-    "disclosed_share_quote": null,
-    "epistemic_label": "VERIFIED",
-    "confidence": 0.93,
-    "evidence": [
-      {
-        "quote": "The unitised Mero field is operated by Petrobras (38.6%), in partnership with Shell, TotalEnergies (19.3%), CNPC (9.65%), China National Offshore Oil Corporation (CNOOC) (9.65%)",
         "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
         "located_at": "20-F Item 3-5"
       }
@@ -785,7 +767,7 @@
     "counterparty_ticker": "EQNR",
     "counterparty_type": "public_company",
     "category": "partner",
-    "subtype": "joint_venture",
+    "subtype": "carbon capture and storage joint venture; joint_venture",
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
@@ -795,37 +777,28 @@
     "confidence": 0.97,
     "evidence": [
       {
+        "quote": "the Northern Lights joint venture (Shell interest 33.3%) with Equinor and TotalEnergies completed the world's first cross-border commercial carbon transport and storage service",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "the combination of Shell and Equinor's UK offshore oil and gas assets into the Adura joint venture on December 1, 2025",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
+        "quote": "a $500 million joint investment commitment with Shell, bp, Equinor and TotalEnergies announced in November 2024",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
+        "located_at": "20-F Item 3-5"
+      },
+      {
         "quote": "In December 2025, we and Equinor ASA completed a deal to combine our UK offshore oil and gas operations to form a new company Adura, which is a 50:50 joint venture.",
         "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
         "located_at": "20-F Item 3-5"
       }
     ],
     "valid_from": "2026-03-12",
-    "shared_evidence_group": "ev_224c012282ee"
-  },
-  {
-    "root_ticker": "SHEL",
-    "counterparty_name": "ExxonMobil",
-    "counterparty_ticker": "XOM",
-    "counterparty_type": "public_company",
-    "category": "partner",
-    "subtype": "joint_venture_operator",
-    "strength": 1,
-    "strength_tier": "critical",
-    "strength_basis": "classified",
-    "disclosed_share_pct": null,
-    "disclosed_share_quote": null,
-    "epistemic_label": "VERIFIED",
-    "confidence": 0.72,
-    "evidence": [
-      {
-        "quote": "ExxonMobil Production Deutschland GmbH has a service contract with BEB, under which it provides operating services to BEB for most of the concessions.",
-        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
-        "located_at": "20-F Item 3-5"
-      }
-    ],
-    "valid_from": "2026-03-12",
-    "shared_evidence_group": "ev_e149090f4af4"
+    "shared_evidence_group": "ev_ca35971da952"
   },
   {
     "root_ticker": "SHEL",
@@ -850,30 +823,6 @@
     ],
     "valid_from": "2026-03-12",
     "shared_evidence_group": "ev_0ea097c2c895"
-  },
-  {
-    "root_ticker": "SHEL",
-    "counterparty_name": "TotalEnergies EP Italia S.p.A.",
-    "counterparty_ticker": "TTE",
-    "counterparty_type": "public_company",
-    "category": "partner",
-    "subtype": "joint_venture_operator",
-    "strength": 0.6,
-    "strength_tier": "important",
-    "strength_basis": "classified",
-    "disclosed_share_pct": null,
-    "disclosed_share_quote": null,
-    "epistemic_label": "VERIFIED",
-    "confidence": 0.95,
-    "evidence": [
-      {
-        "quote": "a 25% interest in the Tempa Rossa producing concession, operated by TotalEnergies EP Italia S.p.A.",
-        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
-        "located_at": "20-F Item 3-5"
-      }
-    ],
-    "valid_from": "2026-03-12",
-    "shared_evidence_group": "ev_dd155e173372"
   },
   {
     "root_ticker": "SHEL",
@@ -946,64 +895,6 @@
     ],
     "valid_from": "2026-03-12",
     "shared_evidence_group": "ev_7cbb22156d58"
-  },
-  {
-    "root_ticker": "SHEL",
-    "counterparty_name": "Kuwait Petroleum Exploration Company",
-    "counterparty_ticker": null,
-    "counterparty_type": "government",
-    "category": "partner",
-    "subtype": "asset sale / joint interest holder",
-    "strength": 0.3,
-    "strength_tier": "marginal",
-    "strength_basis": "classified",
-    "disclosed_share_pct": null,
-    "disclosed_share_quote": null,
-    "epistemic_label": "VERIFIED",
-    "confidence": 0.9,
-    "evidence": [
-      {
-        "quote": "In February 2026, Shell agreed to sell a 20% interest to Kuwait Petroleum Exploration Company.",
-        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
-        "located_at": "20-F Item 3-5"
-      }
-    ],
-    "valid_from": "2026-03-12",
-    "shared_evidence_group": "ev_e4b1da515424"
-  },
-  {
-    "root_ticker": "SHEL",
-    "counterparty_name": "Equinor",
-    "counterparty_ticker": "EQNR",
-    "counterparty_type": "public_company",
-    "category": "partner",
-    "subtype": "carbon capture and storage joint venture",
-    "strength": 0.6,
-    "strength_tier": "important",
-    "strength_basis": "classified",
-    "disclosed_share_pct": null,
-    "disclosed_share_quote": null,
-    "epistemic_label": "VERIFIED",
-    "confidence": 0.97,
-    "evidence": [
-      {
-        "quote": "the Northern Lights joint venture (Shell interest 33.3%) with Equinor and TotalEnergies completed the world's first cross-border commercial carbon transport and storage service",
-        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
-        "located_at": "20-F Item 3-5"
-      },
-      {
-        "quote": "the combination of Shell and Equinor's UK offshore oil and gas assets into the Adura joint venture on December 1, 2025",
-        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
-        "located_at": "20-F Item 3-5"
-      },
-      {
-        "quote": "a $500 million joint investment commitment with Shell, bp, Equinor and TotalEnergies announced in November 2024",
-        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
-        "located_at": "20-F Item 3-5"
-      }
-    ],
-    "valid_from": "2026-03-12",
-    "shared_evidence_group": "ev_ca35971da952"
   },
   {
     "root_ticker": "SHEL",
@@ -1683,30 +1574,6 @@
     ],
     "valid_from": "2026-03-12",
     "shared_evidence_group": "ev_949acf7c41c4"
-  },
-  {
-    "root_ticker": "SHEL",
-    "counterparty_name": "ConocoPhillips",
-    "counterparty_ticker": "COP",
-    "counterparty_type": "public_company",
-    "category": "partner",
-    "subtype": "joint conservation monitoring programme",
-    "strength": 0.6,
-    "strength_tier": "important",
-    "strength_basis": "classified",
-    "disclosed_share_pct": null,
-    "disclosed_share_quote": null,
-    "epistemic_label": "VERIFIED",
-    "confidence": 0.78,
-    "evidence": [
-      {
-        "quote": "Together with ConocoPhillips, Santos and Eco Logical Australia, we completed a decade-long monitoring programme under the Gladstone Long-term Turtle Management Plan",
-        "source_url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm",
-        "located_at": "20-F Item 3-5"
-      }
-    ],
-    "valid_from": "2026-03-12",
-    "shared_evidence_group": "ev_429a59ff014b"
   },
   {
     "root_ticker": "SHEL",

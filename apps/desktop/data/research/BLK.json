@@ -29,9 +29,9 @@
     "counterparty_ticker": null,
     "counterparty_type": "private_company",
     "category": "partner",
-    "subtype": "acquired_entity",
-    "strength": 1,
-    "strength_tier": "critical",
+    "subtype": "acquired_entity; acquisition_target",
+    "strength": 0.6,
+    "strength_tier": "important",
     "strength_basis": "classified",
     "disclosed_share_pct": null,
     "disclosed_share_quote": null,
@@ -40,6 +40,16 @@
     "evidence": [
       {
         "quote": "On July 1, 2025, BlackRock completed the acquisition of 100% of the business and assets of HPS Investment Partners",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/2012383/000119312526071966/blk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "The closing of the HPS Transaction added $165 billion of client AUM and $118 billion of fee-paying AUM in July.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/2012383/000119312526071966/blk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "BlackRock is subject to risks associated with its recent acquisitions, including the GIP and HPS Acquisitions.",
         "source_url": "https://www.sec.gov/Archives/edgar/data/2012383/000119312526071966/blk-20251231.htm",
         "located_at": "10-K Item 1/1A"
       }
@@ -53,7 +63,7 @@
     "counterparty_ticker": null,
     "counterparty_type": "private_company",
     "category": "supplier",
-    "subtype": "acquired_entity",
+    "subtype": "acquired_entity; acquisition_target",
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
@@ -64,6 +74,11 @@
     "evidence": [
       {
         "quote": "net AUM from the acquisition of ElmTree Funds (the \"ElmTree Transaction\") in September 2025",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/2012383/000119312526071966/blk-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "In 2025, the HPS and ElmTree transactions added $118 billion and $3 billion to AUM, respectively.",
         "source_url": "https://www.sec.gov/Archives/edgar/data/2012383/000119312526071966/blk-20251231.htm",
         "located_at": "10-K Item 1/1A"
       }
@@ -421,42 +436,13 @@
   },
   {
     "root_ticker": "BLK",
-    "counterparty_name": "HPS",
-    "counterparty_ticker": null,
-    "counterparty_type": "private_company",
-    "category": "partner",
-    "subtype": "acquisition_target",
-    "strength": 1,
-    "strength_tier": "critical",
-    "strength_basis": "classified",
-    "disclosed_share_pct": null,
-    "disclosed_share_quote": null,
-    "epistemic_label": "VERIFIED",
-    "confidence": 0.92,
-    "evidence": [
-      {
-        "quote": "The closing of the HPS Transaction added $165 billion of client AUM and $118 billion of fee-paying AUM in July.",
-        "source_url": "https://www.sec.gov/Archives/edgar/data/2012383/000119312526071966/blk-20251231.htm",
-        "located_at": "10-K Item 1/1A"
-      },
-      {
-        "quote": "BlackRock is subject to risks associated with its recent acquisitions, including the GIP and HPS Acquisitions.",
-        "source_url": "https://www.sec.gov/Archives/edgar/data/2012383/000119312526071966/blk-20251231.htm",
-        "located_at": "10-K Item 1/1A"
-      }
-    ],
-    "valid_from": "2026-02-25",
-    "shared_evidence_group": "ev_26faab7c50f4"
-  },
-  {
-    "root_ticker": "BLK",
     "counterparty_name": "GIP",
     "counterparty_ticker": null,
     "counterparty_type": "private_company",
     "category": "supplier",
     "subtype": "acquisition_target",
-    "strength": 0.3,
-    "strength_tier": "marginal",
+    "strength": 0.6,
+    "strength_tier": "important",
     "strength_basis": "classified",
     "disclosed_share_pct": null,
     "disclosed_share_quote": null,
@@ -500,30 +486,6 @@
     ],
     "valid_from": "2026-02-25",
     "shared_evidence_group": "ev_532e6b39d261"
-  },
-  {
-    "root_ticker": "BLK",
-    "counterparty_name": "ElmTree",
-    "counterparty_ticker": null,
-    "counterparty_type": "private_company",
-    "category": "supplier",
-    "subtype": "acquisition_target",
-    "strength": 0.3,
-    "strength_tier": "marginal",
-    "strength_basis": "classified",
-    "disclosed_share_pct": null,
-    "disclosed_share_quote": null,
-    "epistemic_label": "VERIFIED",
-    "confidence": 0.9,
-    "evidence": [
-      {
-        "quote": "In 2025, the HPS and ElmTree transactions added $118 billion and $3 billion to AUM, respectively.",
-        "source_url": "https://www.sec.gov/Archives/edgar/data/2012383/000119312526071966/blk-20251231.htm",
-        "located_at": "10-K Item 1/1A"
-      }
-    ],
-    "valid_from": "2026-02-25",
-    "shared_evidence_group": "ev_61d6d56a1635"
   },
   {
     "root_ticker": "BLK",

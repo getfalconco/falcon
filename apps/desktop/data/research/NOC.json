@@ -411,17 +411,22 @@
     "root_ticker": "NOC",
     "counterparty_name": "Defense Contract Audit Agency",
     "counterparty_ticker": null,
-    "counterparty_type": "government",
+    "counterparty_type": "government_agency",
     "category": "dependency",
-    "subtype": "government_oversight",
+    "subtype": "regulatory_oversight; government_oversight",
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
     "disclosed_share_pct": null,
     "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
-    "confidence": 0.15,
+    "confidence": 0.72,
     "evidence": [
+      {
+        "quote": "We operate in a highly regulated environment and are routinely audited and reviewed by the U.S. government and its agencies, such as the DCAA",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1133421/000113342126000003/noc-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
       {
         "quote": "In addition, costs incurred and allocated to contracts with the U.S. government are routinely audited by the Defense Contract Audit Agency (DCAA).",
         "source_url": "https://www.sec.gov/Archives/edgar/data/1133421/000113342126000003/noc-20251231.htm",
@@ -429,7 +434,7 @@
       }
     ],
     "valid_from": "2026-01-27",
-    "shared_evidence_group": "ev_15d5fe23dee3"
+    "shared_evidence_group": "ev_acd736d0727e"
   },
   {
     "root_ticker": "NOC",
@@ -459,30 +464,6 @@
     ],
     "valid_from": "2026-01-27",
     "shared_evidence_group": "ev_2fae8f4986f4"
-  },
-  {
-    "root_ticker": "NOC",
-    "counterparty_name": "DCAA",
-    "counterparty_ticker": null,
-    "counterparty_type": "government_agency",
-    "category": "dependency",
-    "subtype": "regulatory_oversight",
-    "strength": 0.3,
-    "strength_tier": "marginal",
-    "strength_basis": "classified",
-    "disclosed_share_pct": null,
-    "disclosed_share_quote": null,
-    "epistemic_label": "VERIFIED",
-    "confidence": 0.72,
-    "evidence": [
-      {
-        "quote": "We operate in a highly regulated environment and are routinely audited and reviewed by the U.S. government and its agencies, such as the DCAA",
-        "source_url": "https://www.sec.gov/Archives/edgar/data/1133421/000113342126000003/noc-20251231.htm",
-        "located_at": "10-K Item 1/1A"
-      }
-    ],
-    "valid_from": "2026-01-27",
-    "shared_evidence_group": "ev_acd736d0727e"
   },
   {
     "root_ticker": "NOC",

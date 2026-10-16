@@ -6,8 +6,8 @@
     "counterparty_type": "public_company",
     "category": "supplier",
     "subtype": "wafer_fabrication",
-    "strength": 0.6,
-    "strength_tier": "important",
+    "strength": 1,
+    "strength_tier": "critical",
     "strength_basis": "classified",
     "disclosed_share_pct": null,
     "disclosed_share_quote": null,
@@ -29,9 +29,9 @@
     "counterparty_ticker": null,
     "counterparty_type": "public_company",
     "category": "supplier",
-    "subtype": "wafer_fabrication",
-    "strength": 0.6,
-    "strength_tier": "important",
+    "subtype": "wafer_fabrication; memory",
+    "strength": 1,
+    "strength_tier": "critical",
     "strength_basis": "classified",
     "disclosed_share_pct": null,
     "disclosed_share_quote": null,
@@ -40,6 +40,11 @@
     "evidence": [
       {
         "quote": "We utilize foundries, such as Taiwan Semiconductor Manufacturing Company Limited, or TSMC, and Samsung Electronics Co., Ltd., or Samsung, to produce our semiconductor wafers.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "We purchase memory from SK Hynix Inc., Micron Technology, Inc., and Samsung.",
         "source_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm",
         "located_at": "10-K Item 1/1A"
       }
@@ -85,30 +90,6 @@
     "disclosed_share_quote": null,
     "epistemic_label": "VERIFIED",
     "confidence": 0.98,
-    "evidence": [
-      {
-        "quote": "We purchase memory from SK Hynix Inc., Micron Technology, Inc., and Samsung.",
-        "source_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm",
-        "located_at": "10-K Item 1/1A"
-      }
-    ],
-    "valid_from": "2026-02-25",
-    "shared_evidence_group": "ev_c250d3ac4ec6"
-  },
-  {
-    "root_ticker": "NVDA",
-    "counterparty_name": "Samsung",
-    "counterparty_ticker": null,
-    "counterparty_type": "public_company",
-    "category": "supplier",
-    "subtype": "memory",
-    "strength": 0.3,
-    "strength_tier": "marginal",
-    "strength_basis": "classified",
-    "disclosed_share_pct": null,
-    "disclosed_share_quote": null,
-    "epistemic_label": "VERIFIED",
-    "confidence": 0.95,
     "evidence": [
       {
         "quote": "We purchase memory from SK Hynix Inc., Micron Technology, Inc., and Samsung.",
@@ -197,7 +178,7 @@
     "counterparty_ticker": "AMD",
     "counterparty_type": "public_company",
     "category": "competitor",
-    "subtype": "GPUs_accelerated_computing_AI",
+    "subtype": "GPUs_accelerated_computing_AI; SoC_products",
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
@@ -208,6 +189,11 @@
     "evidence": [
       {
         "quote": "suppliers and licensors of hardware and software for discrete and integrated GPUs, custom chips and other accelerated computing solutions, including solutions offered for AI, such as Advanced Micro Devices, Inc., or AMD, Huawei Technologies Co. Ltd., or Huawei, and Intel",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "suppliers of hardware and software for SoC products that are used in servers or embedded into automobiles, autonomous machines, and gaming devices, such as Ambarella, Inc., AMD, Broadcom, Intel, Qualcomm Incorporated, Renesas Electronics Corporation, and Samsung",
         "source_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm",
         "located_at": "10-K Item 1/1A"
       }
@@ -221,7 +207,7 @@
     "counterparty_ticker": null,
     "counterparty_type": "private_company",
     "category": "competitor",
-    "subtype": "GPUs_accelerated_computing_AI",
+    "subtype": "GPUs_accelerated_computing_AI; Arm_CPUs_internal_solutions",
     "strength": 0.3,
     "strength_tier": "marginal",
     "strength_basis": "classified",
@@ -232,6 +218,11 @@
     "evidence": [
       {
         "quote": "suppliers and licensors of hardware and software for discrete and integrated GPUs, custom chips and other accelerated computing solutions, including solutions offered for AI, such as Advanced Micro Devices, Inc., or AMD, Huawei Technologies Co. Ltd., or Huawei, and Intel",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "suppliers of Arm-based CPUs and companies that incorporate hardware and software for CPUs as part of their internal solutions or platforms, such as Amazon, Huawei, and Microsoft",
         "source_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm",
         "located_at": "10-K Item 1/1A"
       }
@@ -347,30 +338,6 @@
   },
   {
     "root_ticker": "NVDA",
-    "counterparty_name": "Huawei",
-    "counterparty_ticker": null,
-    "counterparty_type": "private_company",
-    "category": "competitor",
-    "subtype": "Arm_CPUs_internal_solutions",
-    "strength": 0.3,
-    "strength_tier": "marginal",
-    "strength_basis": "classified",
-    "disclosed_share_pct": null,
-    "disclosed_share_quote": null,
-    "epistemic_label": "VERIFIED",
-    "confidence": 0.95,
-    "evidence": [
-      {
-        "quote": "suppliers of Arm-based CPUs and companies that incorporate hardware and software for CPUs as part of their internal solutions or platforms, such as Amazon, Huawei, and Microsoft",
-        "source_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm",
-        "located_at": "10-K Item 1/1A"
-      }
-    ],
-    "valid_from": "2026-02-25",
-    "shared_evidence_group": "ev_fb57c30ecca8"
-  },
-  {
-    "root_ticker": "NVDA",
     "counterparty_name": "Microsoft",
     "counterparty_ticker": "MSFT",
     "counterparty_type": "public_company",
@@ -397,30 +364,6 @@
     "root_ticker": "NVDA",
     "counterparty_name": "Ambarella, Inc.",
     "counterparty_ticker": "AMBA",
-    "counterparty_type": "public_company",
-    "category": "competitor",
-    "subtype": "SoC_products",
-    "strength": 0.3,
-    "strength_tier": "marginal",
-    "strength_basis": "classified",
-    "disclosed_share_pct": null,
-    "disclosed_share_quote": null,
-    "epistemic_label": "VERIFIED",
-    "confidence": 0.95,
-    "evidence": [
-      {
-        "quote": "suppliers of hardware and software for SoC products that are used in servers or embedded into automobiles, autonomous machines, and gaming devices, such as Ambarella, Inc., AMD, Broadcom, Intel, Qualcomm Incorporated, Renesas Electronics Corporation, and Samsung",
-        "source_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm",
-        "located_at": "10-K Item 1/1A"
-      }
-    ],
-    "valid_from": "2026-02-25",
-    "shared_evidence_group": "ev_299fc0770c5a"
-  },
-  {
-    "root_ticker": "NVDA",
-    "counterparty_name": "AMD",
-    "counterparty_ticker": "AMD",
     "counterparty_type": "public_company",
     "category": "competitor",
     "subtype": "SoC_products",

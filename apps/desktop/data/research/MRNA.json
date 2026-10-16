@@ -338,7 +338,7 @@
     "counterparty_ticker": null,
     "counterparty_type": "government",
     "category": "partner",
-    "subtype": "government development funding award",
+    "subtype": "government development funding award; government-funded joint development agreement",
     "strength": 0.6,
     "strength_tier": "important",
     "strength_basis": "classified",
@@ -349,6 +349,11 @@
     "evidence": [
       {
         "quote": "In April 2020, we entered into an agreement with BARDA for an award of up to $483 million to accelerate development of mRNA-1273, our original COVID vaccine.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1682852/000168285226000033/mrna-20251231.htm",
+        "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "our agreements funded by BARDA and DARPA and our collaboration with NIAID, and with foreign governments and agencies, including in the United Kingdom, Canada and Australia",
         "source_url": "https://www.sec.gov/Archives/edgar/data/1682852/000168285226000033/mrna-20251231.htm",
         "located_at": "10-K Item 1/1A"
       }
@@ -616,6 +621,11 @@
         "quote": "we compete against Pfizer and GlaxoSmithKline, who entered the U.S. market prior to us",
         "source_url": "https://www.sec.gov/Archives/edgar/data/1682852/000168285226000033/mrna-20251231.htm",
         "located_at": "10-K Item 1/1A"
+      },
+      {
+        "quote": "and Pfizer and GSK for our RSV vaccine",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1682852/000168285226000033/mrna-20251231.htm",
+        "located_at": "10-K Item 1/1A"
       }
     ],
     "valid_from": "2026-02-20",
@@ -644,54 +654,6 @@
     ],
     "valid_from": "2026-02-20",
     "shared_evidence_group": "ev_f8dca0c83f37"
-  },
-  {
-    "root_ticker": "MRNA",
-    "counterparty_name": "GSK",
-    "counterparty_ticker": "GSK",
-    "counterparty_type": "public_company",
-    "category": "competitor",
-    "subtype": "RSV vaccine competitor",
-    "strength": 0.3,
-    "strength_tier": "marginal",
-    "strength_basis": "classified",
-    "disclosed_share_pct": null,
-    "disclosed_share_quote": null,
-    "epistemic_label": "VERIFIED",
-    "confidence": 0.97,
-    "evidence": [
-      {
-        "quote": "and Pfizer and GSK for our RSV vaccine",
-        "source_url": "https://www.sec.gov/Archives/edgar/data/1682852/000168285226000033/mrna-20251231.htm",
-        "located_at": "10-K Item 1/1A"
-      }
-    ],
-    "valid_from": "2026-02-20",
-    "shared_evidence_group": "ev_968418182177"
-  },
-  {
-    "root_ticker": "MRNA",
-    "counterparty_name": "BARDA",
-    "counterparty_ticker": null,
-    "counterparty_type": "government",
-    "category": "partner",
-    "subtype": "government-funded joint development agreement",
-    "strength": 0.6,
-    "strength_tier": "important",
-    "strength_basis": "classified",
-    "disclosed_share_pct": null,
-    "disclosed_share_quote": null,
-    "epistemic_label": "VERIFIED",
-    "confidence": 0.7,
-    "evidence": [
-      {
-        "quote": "our agreements funded by BARDA and DARPA and our collaboration with NIAID, and with foreign governments and agencies, including in the United Kingdom, Canada and Australia",
-        "source_url": "https://www.sec.gov/Archives/edgar/data/1682852/000168285226000033/mrna-20251231.htm",
-        "located_at": "10-K Item 1/1A"
-      }
-    ],
-    "valid_from": "2026-02-20",
-    "shared_evidence_group": "ev_63ce85591403"
   },
   {
     "root_ticker": "MRNA",

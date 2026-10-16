@@ -73,6 +73,7 @@ export {
   stringifyLike,
   tierRecomputePlan,
   defaultedStrengthPlan,
+  fullEvidencePlan,
   withStrength,
   type EdgeStrength,
   type CachedCandidateLike,
@@ -117,8 +118,24 @@ export {
   candidateShare,
   disclosedShareFromEvidence,
   disclosedShareOfEdge,
+  strengthPromptFields,
   type DisclosedShare,
+  type StrengthClassifyInput,
 } from "./strength.js";
+export {
+  dependenceSentences,
+  strengthInputForEdge,
+  strengthQuotes,
+  MAX_DEPENDENCE_SENTENCES,
+  MAX_STRENGTH_QUOTE_CHARS,
+} from "./strengthEvidence.js";
+export {
+  counterpartyIdentityKeys,
+  mergeEdgeGroup,
+  mergeSameCounterpartyEdges,
+  sameCounterpartyGroups,
+  type SameCounterpartyMerge,
+} from "./sameCounterparty.js";
 export {
   applyCompetSanity,
   countCompetMentions,

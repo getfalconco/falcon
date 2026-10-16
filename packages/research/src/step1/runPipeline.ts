@@ -25,7 +25,10 @@ import {
 import { preAuditCandidates } from "./preAudit.js";
 import { saveStep1Result, tryLoadCachedResult } from "./persist.js";
 import { fractionAllCapsQuotes, sectionLooksUnusable, shouldRetry20FWithItem4 } from "./sectionSanity.js";
-import { candidateShare, classifyEdgesStrength } from "./strength.js";
+import { candidateShare, classifyEdgesStrength, unclassifiedStrength } from "./strength.js";
+import { mergeSameCounterpartyEdges } from "./sameCounterparty.js";
+import { withStrength } from "./disclosedShareBackfill.js";
+import { strengthInputForEdge } from "./strengthEvidence.js";
 import { matchCounterpartyTicker } from "./tickerMatch.js";
 import { createTokenUsage, estimateCostUsd } from "./tokenUsage.js";
 import type {
@@ -401,26 +404,13 @@ export async function runStep1Pipeline(
   const allRejected = [...preAuditRejected, ...dedupeRejected, ...auditRejected];
   const rejectedQuoteNotFound = allRejected.filter((r) => r.stage === "quote_check").length;
 
-  emit("Classifying edge strength", 0, approved.length);
-  const strengthResults = await classifyEdgesStrength(
-    approved.map((edge) => ({
-      counterparty_name: edge.counterparty_name,
-      category: edge.category,
-      subtype: edge.subtype,
-      // Unverified percentages go to the classifier as none: the tier comes from the words.
-      disclosed_revenue_dependency_pct: candidateShare(edge).disclosed_share_pct,
-      evidence_quote: edge.evidence_quote,
-    })),
-    (current, total) => {
-      emit(`Classifying edge strength (${current}/${total})`, current, total);
-    },
-    tokenUsage,
-  );
-
-  const validatedRaw: ValidatedEdge[] = [];
-  for (let i = 0; i < approved.length; i++) {
-    const edge = approved[i]!;
-    const strength = strengthResults[i]!;
+  // Tickers first: two spellings of one company ("Taiwan Semiconductor
+  // Manufacturing Company" and "TSMC") are one counterparty only once the
+  // resolver or the alias table says so, and they have to be one edge before
+  // the strength classifier judges it, on all of its quotes.
+  const unrated = unclassifiedStrength();
+  const resolvedEdges: ValidatedEdge[] = [];
+  for (const edge of approved) {
     let counterpartyTicker: string | null = null;
     if (edge.counterparty_type === "public_company") {
       counterpartyTicker = await matchCounterpartyTicker(edge.counterparty_name);
@@ -428,7 +418,7 @@ export async function runStep1Pipeline(
       // filer itself): never store an edge from a company to itself.
       if (counterpartyTicker?.toUpperCase() === filing.ticker.toUpperCase()) counterpartyTicker = null;
     }
-    validatedRaw.push(
+    resolvedEdges.push(
       toValidated(
         edge,
         filing.ticker,
@@ -437,10 +427,39 @@ export async function runStep1Pipeline(
         filing.form,
         counterpartyTicker,
         sectionMethod,
-        strength,
+        unrated,
       ),
     );
   }
+  const { edges: mergedEdges, merges } = mergeSameCounterpartyEdges(resolvedEdges);
+  if (merges.length > 0) {
+    console.info(
+      `[step1] ${filing.ticker}: merged ${merges.length} same-counterparty groups: ` +
+        merges.map((m) => `${m.from.map((e) => e.counterparty_name).join(" + ")} (${m.merged.category})`).join("; "),
+    );
+  }
+
+  emit("Classifying edge strength", 0, mergedEdges.length);
+  // The classifier reads every quote of an edge found in the section, and the
+  // section's sentences stating dependence on the edge's category ("We depend
+  // on foundries ...") that name no other counterparty of the filer.
+  const counterpartyNames = mergedEdges.map((edge) => edge.counterparty_name);
+  const strengthResults = await classifyEdgesStrength(
+    mergedEdges.map((edge) =>
+      strengthInputForEdge(
+        edge,
+        filing.itemSpan,
+        counterpartyNames,
+        // Only a share a quote states as the current one reaches the classifier: otherwise the tier comes from the words.
+        edge.disclosed_share_pct ?? null,
+      ),
+    ),
+    (current, total) => {
+      emit(`Classifying edge strength (${current}/${total})`, current, total);
+    },
+    tokenUsage,
+  );
+  const validatedRaw = mergedEdges.map((edge, i) => withStrength(edge, strengthResults[i]!));
 
   const validated = assignEvidenceGroups(validatedRaw);
   const estimatedCost = estimateCostUsd(tokenUsage);
