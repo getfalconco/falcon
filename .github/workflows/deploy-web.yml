@@ -1,0 +1,53 @@
+# Builds the marketing site (apps/web) on Linux and publishes it to Netlify.
+# A Windows build crashes on Netlify's Linux functions (backslash paths and
+# absolute symlinks in the server handler), and Netlify cannot clone this repo
+# itself, so the build runs here and the CLI uploads the result.
+name: Deploy web
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "apps/web/**"
+      - "packages/ui/**"
+      - "packages/tailwind-config/**"
+      - "netlify.toml"
+      - "pnpm-lock.yaml"
+      - ".github/workflows/deploy-web.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-web
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+      NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+      ELECTRON_SKIP_BINARY_DOWNLOAD: "1"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install site dependencies
+        run: pnpm install --frozen-lockfile --filter web...
+
+      - name: Build and deploy to production
+        run: npx -y netlify-cli@26.2.0 deploy --build --prod --filter web --message "GitHub Actions ${{ github.sha }}"
+
+      - name: Check the live site
+        run: |
+          for p in / /faq /login /privacy /terms; do
+            code=$(curl -s -o /dev/null -w "%{http_code}" "https://getfalcon.co$p")
+            echo "$p $code"
+            test "$code" = "200"
+          done
