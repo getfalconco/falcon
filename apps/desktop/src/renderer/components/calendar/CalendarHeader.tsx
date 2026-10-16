@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import type { CalendarViewMode, WeekStart } from "./calendar-dates";
 import type { ZoneMode } from "./calendar-prefs";
 import { BUTTON, ICON_BUTTON, MONO_HEAD } from "./calendar-styles";
+import ScopeSwitch from "./ScopeSwitch";
 
 /**
  * The head of the calendar card: the range shown, Today and the arrows, the
@@ -101,6 +102,8 @@ export default function CalendarHeader({
         {title}
       </h2>
       {weekNumber !== null ? <span className={cn(MONO_HEAD, "mt-[3px] shrink-0")}>{t("calendar.weekNumber", { n: weekNumber })}</span> : null}
+      {/* Important or All, beside the date: shared with the dashboard card (lib/calendar-scope). */}
+      <ScopeSwitch compact className="ml-1 shrink-0" />
 
       <div className="ml-2 flex items-center gap-0.5">
         <button type="button" className={ICON_BUTTON} onClick={() => onStep(-1)} aria-label={t("calendar.previous")} title={`${t("calendar.previous")} (←)`}>

@@ -61,7 +61,6 @@ import {
   useWatchlistTickers,
 } from "./use-calendar-data";
 import { EventBar } from "./EventBlocks";
-import ScopeSwitch from "./ScopeSwitch";
 
 /**
  * The Calendar tab, after Notion Calendar: week view by default with the
@@ -446,10 +445,6 @@ function CalendarTabInner({ briefingReport }: { briefingReport: ReturnType<typeo
             <TimeGridView {...viewProps} days={days} zoneText={zoneText} sessions={sessions} />
           )}
         </div>
-        {/* Important or All, under the grid where it is always in sight; the dashboard card shares the choice. */}
-        <div className="flex shrink-0 items-center justify-center border-t border-black/[0.06] px-4 py-2">
-          <ScopeSwitch className="w-[220px]" />
-        </div>
       </section>
 
       {popover?.kind === "details" && selected ? (
@@ -494,10 +489,10 @@ function CalendarTabInner({ briefingReport }: { briefingReport: ReturnType<typeo
       ) : null}
 
       {popover?.kind === "day" ? (
-        <CalendarPopover anchor={popover.anchor} width={280} onClose={closePopover} label={t("calendar.dayList", { date: longDay(popover.ymd, locale) })}>
+        <CalendarPopover anchor={popover.anchor} width={320} onClose={closePopover} label={t("calendar.dayList", { date: longDay(popover.ymd, locale) })}>
           <div className="p-3">
             <div className="mb-2 px-1 text-[13px] font-medium text-[#1d1b1b]">{longDay(popover.ymd, locale)}</div>
-            <div className="scrollbar-meridian max-h-[320px] space-y-[2px] overflow-y-auto">
+            <div className="scrollbar-meridian max-h-[360px] space-y-1 overflow-y-auto">
               {listForDay.length === 0 ? <p className="px-1 text-[12px] text-[#9CA3AF]">{t("calendar.empty.day")}</p> : null}
               {listForDay.map((e) => (
                 <EventBar

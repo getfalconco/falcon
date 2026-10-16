@@ -43,7 +43,7 @@ function Node({ importance }: { importance: 1 | 2 | 3 }) {
   return <span className="h-1 w-1 rounded-full bg-[#9CA3AF]" />;
 }
 
-function ItemText({ item, extra, nowMs }: { item: CalendarItemView; extra?: RowExtra; nowMs: number }) {
+function ItemText({ item, extra, nowMs, dense }: { item: CalendarItemView; extra?: RowExtra; nowMs: number; dense?: boolean }) {
   const { t, locale } = useI18n();
   // Right of the dot: the company's logo for its earnings, the row's country flag (the US for the curated schedule) for the rest.
   const ticker = item.kind === "earnings" ? (item.tickers[0] ?? null) : null;
@@ -52,22 +52,23 @@ function ItemText({ item, extra, nowMs }: { item: CalendarItemView; extra?: RowE
   const beside = lines ? besideTitle(lines) : null;
   const under = lines ? underTitle(lines) : null;
   return (
-    <span className="min-w-0 pb-3">
-      <span className="flex min-w-0 items-start gap-1.5">
-        <span className="mt-[2px] flex shrink-0">
-          <RowMark ticker={ticker} country={country} size={14} label={country ? countryName(country, locale, t("calendar.econ.euroArea")) : undefined} />
+    <span className="min-w-0 pb-[18px]">
+      <span className="flex min-w-0 items-start gap-2">
+        <span className="mt-[0.5px] flex shrink-0">
+          <RowMark ticker={ticker} country={country} size={dense ? 16 : 18} label={country ? countryName(country, locale, t("calendar.econ.euroArea")) : undefined} />
         </span>
         <span
           className={cn(
-            "min-w-0 text-[12.5px] leading-[1.4]",
+            "min-w-0 leading-[1.4]",
+            dense ? "text-[12.5px]" : "text-[13.5px]",
             item.importance === 3 ? "font-medium text-[#1d1b1b]" : item.importance === 2 ? "text-[#1d1b1b]" : "text-[#6b7280]",
           )}
         >
           {item.title}
-          {beside ? <span className="ml-1.5 whitespace-nowrap font-normal tabular-nums text-[#6b7280]">{beside}</span> : null}
+          {beside ? <>{" "}<span className="ml-0.5 whitespace-nowrap font-normal tabular-nums text-[#6b7280]">{beside}</span></> : null}
         </span>
       </span>
-      {under ? <span className="block pl-[20px] text-[11.5px] leading-[1.4] tabular-nums text-[#9CA3AF]">{under}</span> : null}
+      {under ? <span className={cn("mt-0.5 block leading-[1.4] tabular-nums text-[#9CA3AF]", dense ? "pl-[24px] text-[11.5px]" : "pl-[26px] text-[12px]")}>{under}</span> : null}
       {/* Title and figures only on the rail. The detail, kind and tickers live in the hover card. */}
     </span>
   );
@@ -78,7 +79,7 @@ function Rail({ importance }: { importance: 1 | 2 | 3 }) {
   return (
     <span className="relative flex justify-center" aria-hidden>
       <span className="absolute inset-y-0 w-px bg-black/[0.06]" />
-      <span className="relative mt-[5px] flex h-[7px] items-center">
+      <span className="relative mt-[6px] flex h-[7px] items-center">
         <Node importance={importance} />
       </span>
     </span>
@@ -120,7 +121,7 @@ export function nowMarkerLabel(standing: SessionStanding, now: Date, text: Brief
 
 export function NowMarker({ label, markerRef }: { label: string; markerRef?: Ref<HTMLDivElement> }) {
   return (
-    <div ref={markerRef} className="flex items-center gap-2 pb-3">
+    <div ref={markerRef} className="flex items-center gap-2 pb-[18px]">
       <span className={cn(MONO_CLASS, "text-[9.5px] tracking-[0.06em]")} style={{ color: NOW_ACCENT }}>
         {label}
       </span>
@@ -232,6 +233,7 @@ export function CalendarRows({
   markerRef,
   extras,
   nowMs = Date.now(),
+  dense = false,
 }: {
   view: CalendarView;
   markerLabel: string | null;
@@ -240,6 +242,8 @@ export function CalendarRows({
   extras?: ReadonlyMap<string, RowExtra>;
   /** The clock, for a speech's "Completed". */
   nowMs?: number;
+  /** A narrow card: a size smaller, so a title wraps less. */
+  dense?: boolean;
 }) {
   const { t } = useI18n();
   const tooltipId = useId();
@@ -301,9 +305,9 @@ export function CalendarRows({
       {view.allDay.map((item) => (
         <div key={item.id} {...rowProps(item)}>
           {/* The time column is 44px: a longer word ("Ganztägig") hyphenates, and one that cannot breaks rather than running into the rail. */}
-          <span className={cn(HEAD_CLASS, "pt-[3px] leading-[1.25] [hyphens:auto] [overflow-wrap:anywhere]")}>{t("briefing.rail.allDay")}</span>
+          <span className={cn(HEAD_CLASS, "pt-[4px] leading-[1.25] [hyphens:auto] [overflow-wrap:anywhere]")}>{t("briefing.rail.allDay")}</span>
           <Rail importance={item.importance} />
-          <ItemText item={item} extra={extras?.get(item.id)} nowMs={nowMs} />
+          <ItemText item={item} extra={extras?.get(item.id)} nowMs={nowMs} dense={dense} />
         </div>
       ))}
 
@@ -311,9 +315,9 @@ export function CalendarRows({
         <Fragment key={item.id}>
           {i === view.nowIndex ? marker : null}
           <div {...rowProps(item)}>
-            <span className={cn(MONO_CLASS, "pt-px text-[11.5px] text-[#4b5563]")}>{item.timeLabel}</span>
+            <span className={cn(MONO_CLASS, "pt-[1px] text-[12.5px] text-[#4b5563]")}>{item.timeLabel}</span>
             <Rail importance={item.importance} />
-            <ItemText item={item} extra={extras?.get(item.id)} nowMs={nowMs} />
+            <ItemText item={item} extra={extras?.get(item.id)} nowMs={nowMs} dense={dense} />
           </div>
         </Fragment>
       ))}

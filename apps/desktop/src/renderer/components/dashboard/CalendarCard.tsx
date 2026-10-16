@@ -212,6 +212,9 @@ const STEP_BUTTON =
  */
 const NO_ECONOMIC: readonly EconomicEvent[] = [];
 
+/** Below this card width the switch takes its own line under the date. */
+const SIDE_BY_SIDE_MIN_PX = 400;
+
 function CalendarCardInner({ onDuplicate, onRemove, onOpenCalendar }: Props) {
   const { status, report } = useBriefing();
   const text = useBriefingText();
@@ -263,6 +266,19 @@ function CalendarCardInner({ onDuplicate, onRemove, onOpenCalendar }: Props) {
   // at the top: there is no reader position to protect then.
   const listRef = useRef<HTMLDivElement>(null);
   const markerRef = useRef<HTMLDivElement>(null);
+
+  // The card's own width: the Important / All switch sits beside the date
+  // while the head has room for both, and on its own line just under it in a
+  // narrow card (a quarter of the canvas at the default window).
+  const cardRef = useRef<HTMLDivElement>(null);
+  const [narrow, setNarrow] = useState(false);
+  useEffect(() => {
+    const el = cardRef.current;
+    if (!el || typeof ResizeObserver === "undefined") return;
+    const ro = new ResizeObserver(() => setNarrow(el.clientWidth < SIDE_BY_SIDE_MIN_PX));
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
   const placedFor = useRef<string | null>(null);
   const ready = view !== null;
   useEffect(() => {
@@ -296,7 +312,7 @@ function CalendarCardInner({ onDuplicate, onRemove, onOpenCalendar }: Props) {
         ) : null}
         {view.closedNote ? <p className="pb-3 text-[12px] leading-[1.45] text-[#6b7280]">{view.closedNote}</p> : null}
 
-        <CalendarRows view={view.calendar} markerLabel={markerLabel} markerRef={markerRef} extras={view.extras} nowMs={now.getTime()} />
+        <CalendarRows view={view.calendar} markerLabel={markerLabel} markerRef={markerRef} extras={view.extras} nowMs={now.getTime()} dense={narrow} />
         {/* A closed today with no timed row still gets its "now" line, under
             whatever all-day rows it has: the rail draws the line only among
             timed rows, and without it a Sunday would not read as today. */}
@@ -322,20 +338,16 @@ function CalendarCardInner({ onDuplicate, onRemove, onOpenCalendar }: Props) {
     body = <Skeleton />;
   }
 
+  // The day the rail lists, and "(Today)" while it is today where the reader is.
+  const headYmd = shownYmd ?? todayIn(zone, now);
+  const headText = headYmd === todayIn(zone, now) ? say("calendar.heading.today", { date: headDate(headYmd, locale) }) : headDate(headYmd, locale);
+  const dayLine = <span className={cn(META_CLASS, "min-w-0 select-none truncate")}>{headText}</span>;
+
   return (
-    <div className="flex h-full min-h-[560px] w-full flex-col rounded-3xl border border-white/60 bg-white/40 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-black/[0.04] backdrop-blur-xl backdrop-saturate-150">
+    <div ref={cardRef} className="flex h-full min-h-[560px] w-full flex-col rounded-3xl border border-white/60 bg-white/40 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-black/[0.04] backdrop-blur-xl backdrop-saturate-150">
       <ChartCardHeader
         label={t("briefing.card.label")}
-        meta={
-          <span className={cn(META_CLASS, "select-none truncate")}>
-            {/* The day the rail lists, and "(Today)" while it is today where the reader is. */}
-            {(() => {
-              const ymd = shownYmd ?? todayIn(zone, now);
-              const date = headDate(ymd, locale);
-              return ymd === todayIn(zone, now) ? say("calendar.heading.today", { date }) : date;
-            })()}
-          </span>
-        }
+        meta={narrow ? undefined : <span className="flex min-w-0 items-center gap-2 self-center">{dayLine}<ScopeSwitch compact className="shrink-0" /></span>}
         actions={
           report ? (
             <div className="flex items-center gap-0.5">
@@ -358,6 +370,14 @@ function CalendarCardInner({ onDuplicate, onRemove, onOpenCalendar }: Props) {
         openLabel={t("briefing.card.viewCalendar")}
       />
 
+      {/* A narrow card puts the day and the switch on their own line under the label, the switch right after the date. */}
+      {narrow ? (
+        <div className="mt-1.5 flex min-w-0 items-center gap-2">
+          {dayLine}
+          <ScopeSwitch compact className="shrink-0" />
+        </div>
+      ) : null}
+
       <div className="flex min-h-0 flex-1 flex-col pt-4">
         {body}
 
@@ -371,11 +391,6 @@ function CalendarCardInner({ onDuplicate, onRemove, onOpenCalendar }: Props) {
             {view.warning ? <p className="text-[11px] leading-[1.45] text-[#D97706]">{view.warning}</p> : null}
           </div>
         ) : null}
-
-        {/* Important or All, shared with the Calendar tab (lib/calendar-scope), always at the foot of the card. */}
-        <div className="mt-3 flex shrink-0 justify-center border-t-[0.5px] border-black/[0.06] pt-3">
-          <ScopeSwitch className="w-full max-w-[240px]" />
-        </div>
 
       </div>
     </div>
