@@ -9,8 +9,9 @@
  *
  * Option snapshots are held in memory: a few minutes while the regular
  * session is open, and until the next open otherwise, so a closed market is
- * asked once. A failed read is held the same way. Every chain read is time
- * limited in the market data service.
+ * asked once. A failed read is held a few minutes at most (FAILED_TTL_MS),
+ * so one timeout on a closed market does not blank the figure until the next
+ * open. Every chain read is time limited in the market data service.
  *
  * Electron-free: the readers and the clock are injected.
  */
@@ -43,6 +44,8 @@ type Snapshot = { at: number; until: number; value: OptionChainRead | null; fail
 
 /** Snapshots kept at most; the oldest go first. */
 const SNAPSHOT_CAP = 400;
+/** A failed chain read is held this long at most before the name is asked again. */
+export const FAILED_TTL_MS = 5 * 60_000;
 
 export function createImpliedMoveService(deps: ImpliedMoveDeps) {
   const now = deps.now ?? Date.now;
@@ -63,7 +66,7 @@ export function createImpliedMoveService(deps: ImpliedMoveDeps) {
         snap = { at, until: snapshotFreshUntil(at), value: await deps.fetchChain(symbol, expiry), failed: false };
       } catch (err) {
         console.warn("[options] chain read failed:", symbol, expiry ?? "", err instanceof Error ? err.message : String(err));
-        snap = { at, until: snapshotFreshUntil(at), value: null, failed: true };
+        snap = { at, until: Math.min(snapshotFreshUntil(at), at + FAILED_TTL_MS), value: null, failed: true };
       }
       snapshots.delete(key);
       snapshots.set(key, snap);

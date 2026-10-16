@@ -82,12 +82,15 @@ export type ResearchState = "idle" | "running" | "failed";
  */
 export function useResearchCompany(ticker: string, onDone: () => void): { state: ResearchState; start: () => void } {
   const [state, setState] = useState<ResearchState>("idle");
-  const alive = useRef(true);
+  // Bumped on every ticker change and on unmount: a poll started for an
+  // earlier ticker sees a different generation and stops, so it can never
+  // mark the current ticker failed or done.
+  const generation = useRef(0);
   useEffect(() => {
-    alive.current = true;
+    generation.current += 1;
     setState("idle");
     return () => {
-      alive.current = false;
+      generation.current += 1;
     };
   }, [ticker]);
 
@@ -98,11 +101,13 @@ export function useResearchCompany(ticker: string, onDone: () => void): { state:
       return;
     }
     setState("running");
+    const mine = generation.current;
+    const alive = () => generation.current === mine;
     void (async () => {
       const token = await getAccessToken().catch(() => undefined);
       try {
         const started = await api.startStep1Research(ticker, { accessToken: token });
-        if (!alive.current) return;
+        if (!alive()) return;
         if (!started.ok) return setState("failed");
         if (started.fromCache) {
           setState("idle");
@@ -110,10 +115,11 @@ export function useResearchCompany(ticker: string, onDone: () => void): { state:
         }
         const deadline = Date.now() + 15 * 60_000;
         let misses = 0;
-        while (alive.current && Date.now() < deadline) {
+        while (alive() && Date.now() < deadline) {
           await new Promise((r) => window.setTimeout(r, 3000));
-          if (!alive.current) return;
+          if (!alive()) return;
           const status = await api.getStep1ResearchStatus(started.jobId, token);
+          if (!alive()) return;
           if (!status.ok) {
             if (++misses > 2) return setState("failed");
             continue;
@@ -123,14 +129,14 @@ export function useResearchCompany(ticker: string, onDone: () => void): { state:
           if (status.done) {
             // The graph file is rebuilt right after the job finishes; give it a moment.
             await new Promise((r) => window.setTimeout(r, 1500));
-            if (!alive.current) return;
+            if (!alive()) return;
             setState("idle");
             return onDone();
           }
         }
-        if (alive.current) setState("failed");
+        if (alive()) setState("failed");
       } catch {
-        if (alive.current) setState("failed");
+        if (alive()) setState("failed");
       }
     })();
   }, [ticker, onDone]);

@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import type { OptionChainRead, OptionContractRead } from "../stock/market-data-service";
-import { createImpliedMoveService } from "./implied-move-service";
+import { FAILED_TTL_MS, createImpliedMoveService } from "./implied-move-service";
 
 const EXPIRIES = ["2026-10-16", "2026-10-19", "2026-10-21", "2026-10-23", "2026-10-26"];
 
@@ -76,19 +76,23 @@ describe("implied move service", () => {
     assert.ok(calls.length > first);
   });
 
-  it("holds a failed read the same way, and answers null", async () => {
+  it("holds a failed read a few minutes, not until the next open, and answers null", async () => {
     let n = 0;
+    let now = Date.parse("2026-10-17T15:00:00Z"); // Saturday: a good read would be held until Monday
     const svc = createImpliedMoveService({
       fetchChain: async () => {
         n++;
         throw new Error("down");
       },
       reportMoves: async () => PAST,
-      now: () => Date.parse("2026-10-17T15:00:00Z"),
+      now: () => now,
     });
     assert.equal(await svc.one({ ticker: "MU", date: "2026-10-22", time: "amc" }), null);
     assert.equal(await svc.one({ ticker: "MU", date: "2026-10-22", time: "amc" }), null);
     assert.equal(n, 1);
+    now += FAILED_TTL_MS + 1;
+    assert.equal(await svc.one({ ticker: "MU", date: "2026-10-22", time: "amc" }), null);
+    assert.equal(n, 2);
   });
 
   it("answers null for a name without options and for a past report", async () => {
