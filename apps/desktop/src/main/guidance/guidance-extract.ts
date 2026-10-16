@@ -129,7 +129,17 @@ export function guidanceUser(ticker: string, filedAt: string, text: string): str
   return `Earnings release of ${ticker}, filed ${filedAt}.\n\n<release>\n${text.slice(0, TEXT_LIMIT)}\n</release>`;
 }
 
-/** One release read by the model; throws when the call fails or the answer is not the JSON asked for. */
+/**
+ * The model answered, but not with the JSON asked for. Told apart from a
+ * failed call (the route down, a timeout), which says nothing about the
+ * release: the service sets a release aside on disk only for this one.
+ */
+export class UnusableReading extends Error {}
+
+/**
+ * One release read by the model; throws when the call fails, and an
+ * `UnusableReading` when the answer is not the JSON asked for.
+ */
 export async function extractRelease(
   caller: GlossModelCaller,
   input: { ticker: string; filedAt: string; text: string; model?: string },
@@ -143,9 +153,14 @@ export async function extractRelease(
     output_schema: GUIDANCE_SCHEMA as unknown as Record<string, unknown>,
     timeout_ms: TIMEOUT_MS,
   });
-  const parsed = JSON.parse(out.text) as RawExtraction;
+  let parsed: RawExtraction;
+  try {
+    parsed = JSON.parse(out.text) as RawExtraction;
+  } catch {
+    throw new UnusableReading("guidance reading did not come back as JSON");
+  }
   if (!parsed || typeof parsed !== "object" || !Array.isArray(parsed.guides) || !Array.isArray(parsed.actuals)) {
-    throw new Error("guidance reading came back in an unexpected shape");
+    throw new UnusableReading("guidance reading came back in an unexpected shape");
   }
   return parsed;
 }

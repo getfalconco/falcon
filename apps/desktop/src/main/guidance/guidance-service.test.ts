@@ -309,3 +309,239 @@ describe("guidance service: peek", () => {
     assert.equal(offline(dir).service.peek("TEST"), null);
   });
 });
+
+describe("guidance service: a read that failed", () => {
+  type Answer = "ok" | "down" | "garbage";
+  const START = Date.parse("2026-09-01T12:00:00Z");
+  const DAY = 24 * 60 * 60_000;
+
+  /** The fixture release a model input carries. */
+  function releaseOf(user: string): string {
+    return user.includes("Second quarter") ? "0001-26-000002" : "0001-26-000001";
+  }
+
+  /**
+   * Services on `dir` sharing one clock and one model, which answers each call
+   * by `answer(n, accession)` (n counts every call). A new `make()` is a new launch.
+   */
+  function world(dir: string, answer: (n: number, accession: string) => Answer, model = "test-model") {
+    let clock = START;
+    let calls = 0;
+    let files = 0;
+    const filings = [filing("0001-26-000002", "2026-08-26"), filing("0001-26-000001", "2026-05-20")];
+    const make = () =>
+      createGuidanceService({
+        filings: async () => filings,
+        file: async (f, name) => {
+          files++;
+          return name === `${f.accession}-index.htm` ? INDEX : RELEASES[f.accession]!.html;
+        },
+        caller: async (input) => {
+          const accession = releaseOf(input.user);
+          const kind = answer(calls++, accession);
+          if (kind === "down") throw new Error("connection reset");
+          if (kind === "garbage") return { text: "Sorry, I cannot read this release.", input_tokens: 1, output_tokens: 1 };
+          return { text: JSON.stringify(RELEASES[accession]!.raw), input_tokens: 1, output_tokens: 1 };
+        },
+        configured: () => true,
+        dir,
+        model,
+        now: () => clock,
+      });
+    return {
+      make,
+      calls: () => calls,
+      files: () => files,
+      advance: (ms: number) => {
+        clock += ms;
+      },
+      at: (ms: number) => {
+        clock = START + ms;
+      },
+    };
+  }
+
+  function tmp(): string {
+    return fs.mkdtempSync(path.join(os.tmpdir(), "guidance-"));
+  }
+
+  function kept(dir: string, accession: string) {
+    return JSON.parse(fs.readFileSync(path.join(dir, `${accession}.json`), "utf8"));
+  }
+
+  it("does not call the model again for half an hour after an outage, and marks nothing on disk", async () => {
+    const dir = tmp();
+    const w = world(dir, () => "down");
+    const service = w.make();
+    assert.deepEqual(await service.track("TEST"), { ok: false, error: "unavailable" });
+    assert.equal(w.calls(), 4);
+    const files = w.files();
+
+    // The Stock tab opened again, then the Earnings drawer: no model call, no SEC file read.
+    await service.track("TEST");
+    w.advance(29 * 60_000);
+    await service.track("TEST");
+    assert.equal(w.calls(), 4);
+    assert.equal(w.files(), files);
+
+    // An outage is never kept on disk: the next launch asks again.
+    assert.equal(readings(dir).length, 0);
+    await w.make().track("TEST");
+    assert.equal(w.calls(), 8);
+
+    // And this service asks again once the half hour is over.
+    w.advance(60_000);
+    await service.track("TEST");
+    assert.equal(w.calls(), 12);
+  });
+
+  it("reads again at once when asked fresh, whatever failed last", async () => {
+    const dir = tmp();
+    let down = true;
+    const w = world(dir, () => (down ? "down" : "ok"));
+    const service = w.make();
+    await service.track("TEST");
+    assert.equal(w.calls(), 4);
+    down = false;
+    await service.track("TEST");
+    assert.equal(w.calls(), 4, "a plain visit waits out the half hour");
+    const r = await service.track("TEST", { fresh: true });
+    assert.ok(r.ok);
+    assert.equal(r.track.releases, 2);
+    assert.equal(w.calls(), 8);
+    assert.equal(readings(dir).length, 2);
+  });
+
+  it("serves the one reading of two that came back for half an hour, then reads the release again", async () => {
+    const dir = tmp();
+    // The first release: one reading of two comes back. The second: the route is down for it.
+    let firstReads = 0;
+    const w = world(dir, (_n, accession) => (accession === "0001-26-000001" ? (firstReads++ % 2 === 0 ? "ok" : "down") : "down"));
+    const service = w.make();
+    const first = await service.track("TEST");
+    assert.ok(first.ok);
+    assert.equal(first.track.releases, 1);
+    assert.equal(w.calls(), 4);
+    assert.equal(readings(dir).length, 0, "one reading of two is not kept on disk");
+
+    // Past the short answer kept for a track record with a release missing, within the half hour.
+    w.advance(10 * 60_000);
+    const again = await service.track("TEST");
+    assert.ok(again.ok);
+    assert.deepEqual(again.track, first.track);
+    assert.equal(w.calls(), 4);
+
+    w.advance(21 * 60_000);
+    await service.track("TEST");
+    assert.equal(w.calls(), 8);
+  });
+
+  it("sets a release aside on disk for a week after two visits of unusable answers, and a fresh read still tries", async () => {
+    const dir = tmp();
+    const w = world(dir, () => "garbage");
+    await w.make().track("TEST");
+    assert.equal(w.calls(), 4);
+    assert.equal(kept(dir, "0001-26-000001").unreadable.failures, 1);
+    assert.equal(kept(dir, "0001-26-000001").unreadable.until, undefined, "one visit sets nothing aside");
+
+    // The next launch reads it once more (no memory carried over), and the second miss sets it aside.
+    await w.make().track("TEST");
+    assert.equal(w.calls(), 8);
+    assert.equal(kept(dir, "0001-26-000001").unreadable.failures, 2);
+    assert.equal(kept(dir, "0001-26-000001").unreadable.until, START + 7 * DAY);
+
+    // Every later launch within the week: no model call.
+    w.at(6 * DAY);
+    await w.make().track("TEST");
+    assert.equal(w.calls(), 8);
+    // Nothing is peeked from a release set aside.
+    assert.equal(offline(dir).service.peek("TEST"), null);
+
+    // The manual path: a fresh read tries again.
+    await w.make().track("TEST", { fresh: true });
+    assert.equal(w.calls(), 12);
+    assert.equal(kept(dir, "0001-26-000001").unreadable.until, 13 * DAY + START, "missed again: set aside a week from now");
+
+    // Past the week, a plain visit reads again, and the count starts over.
+    w.at(14 * DAY);
+    await w.make().track("TEST");
+    assert.equal(w.calls(), 16);
+    assert.equal(kept(dir, "0001-26-000001").unreadable.failures, 1);
+    assert.equal(kept(dir, "0001-26-000001").unreadable.until, undefined);
+  });
+
+  it("a reading that comes back later replaces the mark, and another model is not held to the old one's misses", async () => {
+    const dir = tmp();
+    const w = world(dir, () => "garbage");
+    await w.make().track("TEST");
+    await w.make().track("TEST");
+    assert.equal(w.calls(), 8);
+
+    const other = world(dir, () => "ok", "another-model");
+    const read = await other.make().track("TEST");
+    assert.ok(read.ok);
+    assert.equal(read.track.releases, 2);
+    assert.equal(other.calls(), 4);
+    assert.equal(kept(dir, "0001-26-000001").unreadable, undefined);
+    assert.ok(kept(dir, "0001-26-000001").release);
+
+    // Kept now: the first model's service reads it from disk.
+    const later = await w.make().track("TEST");
+    assert.ok(later.ok);
+    assert.equal(w.calls(), 8);
+  });
+
+  it("never sets a release aside when an outage was part of the miss", async () => {
+    const dir = tmp();
+    // One reading of each release answers garbage, the other finds the route down.
+    const counts: Record<string, number> = {};
+    const w = world(dir, (_n, accession) => ((counts[accession] = (counts[accession] ?? 0) + 1) % 2 === 0 ? "garbage" : "down"));
+    for (let i = 0; i < 3; i++) await w.make().track("TEST");
+    assert.equal(w.calls(), 12, "every launch asks again");
+    assert.equal(readings(dir).length, 0);
+  });
+
+  it("does not read a release once more again for half an hour after that call failed", async () => {
+    const { service, dir } = setup();
+    await service.track("TEST");
+    const file = path.join(dir, "0001-26-000001.json");
+    const stored = JSON.parse(fs.readFileSync(file, "utf8"));
+    stored.release.guides.push({ ...stored.release.guides[0], metric: "eps", unit: "per_share", low: 1, high: 1, step: 0.01 });
+    fs.writeFileSync(file, JSON.stringify(stored));
+    let clock = START;
+    let calls = 0;
+    // An older release not read yet keeps the answer short-lived (five minutes), so visits reach the reads.
+    const older = filing("0001-26-000000", "2026-02-25");
+    const visiting = createGuidanceService({
+      filings: async () => [filing("0001-26-000002", "2026-08-26"), filing("0001-26-000001", "2026-05-20"), older],
+      file: async (f, name) =>
+        name === `${f.accession}-index.htm` ? INDEX : f.accession === older.accession ? "<p>Fourth quarter revenue was $9.9 billion.</p>" : RELEASES[f.accession]!.html,
+      caller: async () => {
+        calls++;
+        throw new Error("model down");
+      },
+      configured: () => true,
+      dir,
+      now: () => clock,
+    });
+    // The older release twice, the second release once more: all three calls fail.
+    const first = await visiting.track("TEST");
+    assert.ok(first.ok);
+    assert.equal(calls, 3);
+
+    // Past the five minute answer, within the half hour: neither is asked again.
+    clock += 10 * 60_000;
+    await visiting.track("TEST");
+    assert.equal(calls, 3);
+
+    // Past the half hour: both are.
+    clock += 21 * 60_000;
+    await visiting.track("TEST");
+    assert.equal(calls, 6);
+
+    // A fresh visit asks at once (the pre-read's retry).
+    await visiting.track("TEST", { fresh: true });
+    assert.equal(calls, 9);
+    assert.equal(JSON.parse(fs.readFileSync(file, "utf8")).rechecked, undefined, "a failed call marks nothing");
+  });
+});

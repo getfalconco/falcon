@@ -10,11 +10,17 @@
  *   3. the exhibit read twice by the model, each reading checked and the two
  *      merged (guidance-extract.ts, shared/guidance-verify.ts), kept on disk
  *      by accession: a filed release
- *      never changes, so each is read once. A failed call is not kept and is
- *      asked again on a later visit
+ *      never changes, so each is read once. A failed read is not kept, but
+ *      remembered in memory for FAILED_READ_MEMORY_MS, so a Stock tab or an
+ *      Earnings drawer opened again meanwhile costs no model call. A release
+ *      the model answered for UNREADABLE_AFTER visits running with nothing
+ *      usable (not JSON, not the shape asked for) is set aside on disk for
+ *      UNREADABLE_FOR_MS; a failed call (the route down, a timeout) never
+ *      counts toward that. `fresh` (the pre-read) looks past both
  *   4. a kept release that holds no result for a figure an earlier release
  *      guided is read once more and the readings merged (a single pass can
- *      skip a table line); marked on disk, so never more than once
+ *      skip a table line); marked on disk, so never more than once. A failed
+ *      call is remembered in memory the same way and asked again after that
  *   5. the comparison (shared/guidance-track.ts)
  *
  * Beside the readings, one small index per company (`tickers/<TICKER>.json`)
@@ -34,7 +40,7 @@ import { htmlToText, type FilingRef } from "../agents/sources";
 import type { GuidanceRelease, GuidanceTrack, GuidanceTrackResult } from "../../shared/guidance-types";
 import { mergeReadings, verifyExtraction } from "../../shared/guidance-verify";
 import { buildTrack, unreadResults } from "../../shared/guidance-track";
-import { extractRelease, GUIDANCE_EXTRACT_VERSION, guidanceModel } from "./guidance-extract";
+import { extractRelease, GUIDANCE_EXTRACT_VERSION, guidanceModel, UnusableReading } from "./guidance-extract";
 import { exhibitFromIndex } from "../edgar/exhibit-index";
 
 export { exhibitFromIndex };
@@ -48,9 +54,21 @@ const TRACK_TTL_MS = 6 * 60 * 60_000;
 const PARTIAL_TTL_MS = 5 * 60_000;
 /** Model calls in flight at once for one company. */
 const PARALLEL = 3;
+/** A release whose reading failed (or came back as one reading of two) is not read again for this long. */
+export const FAILED_READ_MEMORY_MS = 30 * 60_000;
+/** Visits whose readings all came back unusable before the release is set aside on disk ... */
+export const UNREADABLE_AFTER = 2;
+/** ... for this long. */
+export const UNREADABLE_FOR_MS = 7 * 24 * 60 * 60_000;
 
 /** `rechecked`: read once more because a guided figure's result was missing from it (see `compute`). */
 type Stored = { version: string; model: string; release: GuidanceRelease; rechecked?: boolean };
+/**
+ * A release the model answered for without a usable reading, in place of its
+ * reading. `until` is set once `failures` reaches UNREADABLE_AFTER. Read under
+ * the same extraction version and model only: a new prompt or model tries again.
+ */
+type Unreadable = { version: string; model: string; unreadable: { failures: number; lastAt: number; until?: number } };
 /** Which releases a company's last visit found, newest first. */
 type TickerIndex = { ticker: string; at: string; accessions: string[] };
 
@@ -68,7 +86,11 @@ export type GuidanceDeps = {
 };
 
 export type GuidanceService = {
-  /** `fresh` skips the answer kept in memory, so a release filed since the last visit is read (the pre-read). */
+  /**
+   * `fresh` skips the answer kept in memory, so a release filed since the last
+   * visit is read (the pre-read), and reads a release again whatever its last
+   * failure was: the one in memory and the setting aside on disk.
+   */
   track(ticker: string, options?: { fresh?: boolean }): Promise<GuidanceTrackResult>;
   /**
    * The track record from what is already on disk: the releases the last
@@ -119,7 +141,17 @@ export function createGuidanceService(deps: GuidanceDeps): GuidanceService {
   const now = deps.now ?? Date.now;
   const answers = new Map<string, { at: number; ttl: number; result: GuidanceTrackResult }>();
   const inflight = new Map<string, Promise<GuidanceTrackResult>>();
+  /** Accession to its last failed read: when, and the one reading of two that came back, if any. */
+  const failedReads = new Map<string, { at: number; release: GuidanceRelease | null }>();
+  /** Accession to when its last read once more failed. */
+  const failedRechecks = new Map<string, number>();
   const model = () => deps.model ?? guidanceModel();
+
+  /** Keep a failure in `map`, dropping the ones older than FAILED_READ_MEMORY_MS. */
+  function remember<V>(map: Map<string, V>, accession: string, value: V, at: (v: V) => number): void {
+    for (const [key, v] of map) if (now() - at(v) >= FAILED_READ_MEMORY_MS) map.delete(key);
+    map.set(accession, value);
+  }
 
   const fileFor = (accession: string) => path.join(deps.dir, `${accession.replace(/[^0-9A-Za-z-]/g, "")}.json`);
   const indexFor = (ticker: string) => path.join(deps.dir, "tickers", `${ticker.toUpperCase().replace(/[^0-9A-Z.-]/g, "")}.json`);
@@ -128,6 +160,36 @@ export function createGuidanceService(deps: GuidanceDeps): GuidanceService {
   function storedEntry(accession: string): Stored | null {
     const stored = readJson<Stored>(fileFor(accession));
     return stored && stored.version === GUIDANCE_EXTRACT_VERSION && stored.release ? stored : null;
+  }
+
+  /** What is kept of a release the model gave nothing usable for, under the current version and model, or null. */
+  function unreadableEntry(accession: string): Unreadable["unreadable"] | null {
+    const kept = readJson<Unreadable>(fileFor(accession));
+    if (!kept || kept.version !== GUIDANCE_EXTRACT_VERSION || kept.model !== model()) return null;
+    const u = kept.unreadable;
+    return u && typeof u.failures === "number" && typeof u.lastAt === "number" ? u : null;
+  }
+
+  /** The release is set aside: read unusable UNREADABLE_AFTER visits running, not long ago. */
+  function setAside(accession: string): boolean {
+    const until = unreadableEntry(accession)?.until;
+    return typeof until === "number" && until > now();
+  }
+
+  /** One more visit the model answered for with nothing usable; the release is set aside at UNREADABLE_AFTER. */
+  function noteUnusable(ticker: string, accession: string): void {
+    const prior = unreadableEntry(accession);
+    // A setting aside that ran out starts the count again.
+    const before = prior && !(typeof prior.until === "number" && prior.until <= now()) ? prior.failures : 0;
+    const failures = before + 1;
+    const unreadable: Unreadable["unreadable"] = { failures, lastAt: now() };
+    if (failures >= UNREADABLE_AFTER) unreadable.until = now() + UNREADABLE_FOR_MS;
+    try {
+      writeJsonAtomic(fileFor(accession), { version: GUIDANCE_EXTRACT_VERSION, model: model(), unreadable } satisfies Unreadable);
+      if (unreadable.until) console.warn(`[guidance] ${ticker} ${accession} set aside: no usable reading ${failures} visits running`);
+    } catch (err) {
+      console.warn(`[guidance] ${ticker} ${accession} failure not kept: ${err instanceof Error ? err.message : String(err)}`);
+    }
   }
 
   /** A reading kept on disk under the current extraction version, or null. */
@@ -151,9 +213,12 @@ export function createGuidanceService(deps: GuidanceDeps): GuidanceService {
    * figure an earlier release guided (MU's fiscal fourth quarter of 2026: both
    * readings passed over the EPS the release prints in its table). Merged
    * into what is kept and marked, so a release is read this way at most once;
-   * a failed call marks nothing and is asked again on a later visit.
+   * a failed call marks nothing and is asked again on a visit after
+   * FAILED_READ_MEMORY_MS (or a `fresh` one).
    */
-  async function recheck(ticker: string, filing: FilingRef, stored: Stored): Promise<GuidanceRelease | null> {
+  async function recheck(ticker: string, filing: FilingRef, stored: Stored, fresh: boolean): Promise<GuidanceRelease | null> {
+    const failedAt = failedRechecks.get(filing.accession);
+    if (!fresh && failedAt !== undefined && now() - failedAt < FAILED_READ_MEMORY_MS) return null;
     const exhibit = await exhibitText(filing);
     if (!exhibit) return null;
     const meta = { accession: filing.accession, filedAt: filing.filedAt, url: exhibit.url };
@@ -161,18 +226,29 @@ export function createGuidanceService(deps: GuidanceDeps): GuidanceService {
       const again = verifyExtraction(await extractRelease(deps.caller, { ticker, filedAt: filing.filedAt, text: exhibit.text, model: model() }), exhibit.text, meta);
       const merged = mergeReadings(stored.release, again);
       writeJsonAtomic(fileFor(filing.accession), { ...stored, release: merged, rechecked: true } satisfies Stored);
+      failedRechecks.delete(filing.accession);
       return merged;
     } catch (err) {
+      remember(failedRechecks, filing.accession, now(), (at) => at);
       console.warn(`[guidance] ${ticker} ${filing.accession} not read again: ${err instanceof Error ? err.message : String(err)}`);
       return null;
     }
   }
 
-  /** One release, from disk or read now; null when it could not be read this time. */
-  async function release(ticker: string, filing: FilingRef): Promise<GuidanceRelease | null> {
+  /**
+   * One release, from disk or read now; null when it could not be read this
+   * time. A read that failed lately is not tried again unless `fresh`: what
+   * it gave (one reading of two, or nothing) stands in.
+   */
+  async function release(ticker: string, filing: FilingRef, fresh: boolean): Promise<GuidanceRelease | null> {
     const file = fileFor(filing.accession);
     const stored = storedRelease(filing.accession);
     if (stored) return stored;
+    if (!fresh) {
+      const failed = failedReads.get(filing.accession);
+      if (failed && now() - failed.at < FAILED_READ_MEMORY_MS) return failed.release;
+      if (setAside(filing.accession)) return null;
+    }
 
     const index = await deps.file(filing, `${filing.accession}-index.htm`);
     if (index === null) return null;
@@ -195,7 +271,12 @@ export function createGuidanceService(deps: GuidanceDeps): GuidanceService {
       // A reading is kept for good and a single pass can pass over a line, so
       // the release is read twice and the checked figures of both are kept.
       const [first, second] = await Promise.allSettled([read(), read()]);
-      if (first.status === "rejected" && second.status === "rejected") throw first.reason;
+      if (first.status === "rejected" && second.status === "rejected") {
+        remember(failedReads, filing.accession, { at: now(), release: null }, (v) => v.at);
+        // Both answered and neither was usable: the release, not the route. A failed call never counts.
+        if (first.reason instanceof UnusableReading && second.reason instanceof UnusableReading) noteUnusable(ticker, filing.accession);
+        throw first.reason;
+      }
       const checked =
         first.status === "fulfilled" && second.status === "fulfilled"
           ? mergeReadings(first.value, second.value)
@@ -205,6 +286,9 @@ export function createGuidanceService(deps: GuidanceDeps): GuidanceService {
       // Kept only when both readings came back; with one, it serves this visit and is read again on the next.
       if (first.status === "fulfilled" && second.status === "fulfilled") {
         writeJsonAtomic(file, { version: GUIDANCE_EXTRACT_VERSION, model: model(), release: checked } satisfies Stored);
+        failedReads.delete(filing.accession);
+      } else {
+        remember(failedReads, filing.accession, { at: now(), release: checked }, (v) => v.at);
       }
       return checked;
     } catch (err) {
@@ -213,7 +297,7 @@ export function createGuidanceService(deps: GuidanceDeps): GuidanceService {
     }
   }
 
-  async function compute(ticker: string): Promise<{ result: GuidanceTrackResult; complete: boolean }> {
+  async function compute(ticker: string, fresh: boolean): Promise<{ result: GuidanceTrackResult; complete: boolean }> {
     let filings: FilingRef[];
     try {
       filings = earningsReleases(await deps.filings(ticker));
@@ -227,7 +311,7 @@ export function createGuidanceService(deps: GuidanceDeps): GuidanceService {
       // Only `peek` reads the index; the visit itself goes on without it.
       console.warn(`[guidance] ${ticker} index not kept: ${err instanceof Error ? err.message : String(err)}`);
     }
-    const read = await pooled(filings, PARALLEL, (f) => release(ticker, f).catch(() => null));
+    const read = await pooled(filings, PARALLEL, (f) => release(ticker, f, fresh).catch(() => null));
     let releases = read.filter((r): r is GuidanceRelease => r !== null);
     const complete = releases.length === filings.length;
     // A guided figure whose result the period's release was read without: that release once more.
@@ -238,7 +322,7 @@ export function createGuidanceService(deps: GuidanceDeps): GuidanceService {
         return filing && stored && !stored.rechecked ? [{ filing, stored }] : [];
       });
       if (again.length > 0) {
-        const reread = await pooled(again, PARALLEL, ({ filing, stored }) => recheck(ticker, filing, stored).catch(() => null));
+        const reread = await pooled(again, PARALLEL, ({ filing, stored }) => recheck(ticker, filing, stored, fresh).catch(() => null));
         const byAccession = new Map(reread.flatMap((r) => (r ? [[r.accession, r] as const] : [])));
         releases = releases.map((r) => byAccession.get(r.accession) ?? r);
       }
@@ -253,7 +337,7 @@ export function createGuidanceService(deps: GuidanceDeps): GuidanceService {
       if (hit && !options?.fresh && now() - hit.at < hit.ttl) return hit.result;
       const running = inflight.get(ticker);
       if (running) return running;
-      const task = compute(ticker)
+      const task = compute(ticker, options?.fresh === true)
         .then(({ result, complete }) => {
           if (result.ok) answers.set(ticker, { at: now(), ttl: complete ? TRACK_TTL_MS : PARTIAL_TTL_MS, result });
           return result;
