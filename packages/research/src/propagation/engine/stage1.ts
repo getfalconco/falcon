@@ -221,6 +221,7 @@ export async function runStage1(options: Stage1Options): Promise<PropagationRun>
         target: candidate.ticker ?? candidate.label,
         role: candidate.relationship.role,
         tier: candidate.relationship.tier,
+        tier_measured: candidate.relationship.tier_measured,
         subtype: candidate.relationship.subtype,
         evidence_via: candidate.relationship.evidence_via,
         transmission,

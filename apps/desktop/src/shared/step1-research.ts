@@ -8,7 +8,8 @@ export type ValidatedEdge = {
   /** 0–1; disclosed pct/100 or tier default. Set during step1 validation. */
   strength?: number;
   strength_tier?: "critical" | "important" | "marginal";
-  strength_basis?: "disclosed" | "classified";
+  /** "unclassified": the classifier gave no tier; `strength_tier` is only the rank ("important"). */
+  strength_basis?: "disclosed" | "classified" | "unclassified";
   /** The share the filing states, in percent; null when none; absent on older results. */
   disclosed_share_pct?: number | null;
   /** The quote that states `disclosed_share_pct`. */

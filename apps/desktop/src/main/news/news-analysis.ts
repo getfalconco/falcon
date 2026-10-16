@@ -382,6 +382,8 @@ export type GraphEdgeLike = {
   category?: string;
   subtype?: string;
   strength_tier?: string;
+  /** "unclassified": ranks as `strength_tier` but was never measured, so the tier is not stated. */
+  strength_basis?: string;
 };
 
 const TIER_RANK: Readonly<Record<string, number>> = { critical: 0, important: 1, marginal: 2 };
@@ -420,7 +422,7 @@ export function relationshipLines(edges: readonly GraphEdgeLike[], tickers: read
     const who = e.counterparty_ticker ? `${e.counterparty_name ?? e.counterparty_ticker} (${e.counterparty_ticker.toUpperCase()})` : e.counterparty_name ?? "an unnamed party";
     const what = (e.category ?? "related party").replace(/_/g, " ");
     const detail = e.subtype ? `, ${e.subtype.replace(/_/g, " ")}` : "";
-    const tier = e.strength_tier ? `; strength ${e.strength_tier}` : "";
+    const tier = e.strength_tier && e.strength_basis !== "unclassified" ? `; strength ${e.strength_tier}` : "";
     const line = `${root}'s filing names ${who} as a ${what}${detail}${tier}`;
     if (seen.has(line)) continue;
     seen.add(line);

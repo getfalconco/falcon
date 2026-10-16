@@ -25,6 +25,8 @@ export type GraphEdgeLike = {
   confidence?: number;
   strength?: number;
   strength_tier?: string;
+  /** "unclassified": ranks as `strength_tier` but was never measured (step1 GraphEdge). Local graph only. */
+  strength_basis?: string;
   /** Disclosed share in percent (step1 GraphEdge). Local graph only: graph_edges has no column for it. */
   disclosed_share_pct?: number | null;
   disclosed_share_quote?: string | null;

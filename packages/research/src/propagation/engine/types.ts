@@ -105,6 +105,12 @@ export type TargetRelationship = {
   role: PropagationRole;
   subtype: string;
   tier: StrengthTier;
+  /**
+   * False when the edge's tier was never measured (the strength classifier
+   * gave none): `tier` is then only the rank it sorts by ("important") and is
+   * never shown as a tier. Absent on runs stored before it was carried (measured).
+   */
+  tier_measured?: boolean;
   confidence: number;
   evidence_quote: string;
   source_url: string;

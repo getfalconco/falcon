@@ -146,7 +146,7 @@ export default function TargetDrawer({ run, target: t, onClose }: Props) {
           <p className="text-[10px] uppercase tracking-[0.14em] text-[#b4b4ae]">{tr("panels.drawer.relationship")}</p>
           <p className="mt-1.5 text-[13px] leading-snug text-[#1d1b1b]">
             {tNodes("panels.drawer.relationOf", {
-              tier: <span className="font-medium">{strengthWord(r.tier, tr)}</span>,
+              tier: <span className="font-medium">{strengthWord(r.tier, tr, r.tier_measured !== false)}</span>,
               role: roleWord(r.role, tr),
               root: run.root_ticker,
             })}

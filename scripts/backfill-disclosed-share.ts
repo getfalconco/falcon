@@ -13,7 +13,23 @@
  * model call this makes (the step1 strength classifier, Anthropic key from
  * apps/desktop/.env). Rebuild the graph afterwards: pnpm graph.
  *
+ * With --only-defaulted it classifies again, from the words, the edges whose
+ * tier may be a silent default rather than a judgement: every edge stored as
+ * `strength_basis: "unclassified"` (the classifier gave no tier), and with
+ * --legacy-important also every edge written before that marker existed that
+ * carries exactly what the old silent default wrote ("classified",
+ * "important", strength 0.6, no stated share): stored data keeps no rationale,
+ * so a default and a real "important" look the same there. A new tier is
+ * written only when the classifier returns one and a second, independent pass
+ * over the changed edges returns the same tier (the classifier is not
+ * deterministic on borderline quotes: in the 2026-10-16 run 22 of 55 first-pass
+ * changes flipped back on a second pass); an edge it still cannot judge, or
+ * whose two passes disagree, keeps what it had. --single-pass skips the check. --max-edges N (default 600) refuses a larger selection,
+ * the cost cap (one model call per 20 edges); --limit N takes only the first N
+ * (a probe); --report <file> writes every judged edge, before and after, as JSON.
+ *
  * Usage: pnpm backfill-disclosed-share [--dry-run] [--recompute-tiers]
+ *          [--only-defaulted [--legacy-important] [--max-edges N] [--limit N] [--report file]]
  *   FALCON_RESEARCH_DATA_DIR  research dir (default apps/desktop/data/research)
  *   FALCON_RESEARCH_CACHE_DIR cache dir    (default apps/desktop/data/cache)
  *   FALCON_GRAPH_PATH         graph file   (default apps/desktop/data/graph.json)
@@ -22,10 +38,13 @@ import { readFile, readdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import {
+  STRENGTH_BATCH_SIZE,
   backfillGraph,
   backfillRootEdges,
   candidatesCachePath,
   classifyEdgesStrength,
+  createTokenUsage,
+  defaultedStrengthPlan,
   stringifyLike,
   tierRecomputePlan,
   withStrength,
@@ -120,6 +139,140 @@ async function recomputeTiers(
   if (changes.length) console.info(changes.join(String.fromCharCode(10)));
 }
 
+function flagValue(name: string): string | null {
+  const i = process.argv.indexOf(name);
+  return i >= 0 && i + 1 < process.argv.length ? process.argv[i + 1]! : null;
+}
+
+/**
+ * --only-defaulted: classify again the edges whose tier may be a silent
+ * default (see the header). Writes the files that changed.
+ */
+async function reclassifyDefaulted(
+  roots: Array<{ file: string; raw: string; edges: ValidatedEdge[] }>,
+  researchDir: string,
+  dryRun: boolean,
+): Promise<void> {
+  const legacy = process.argv.includes("--legacy-important");
+  const maxEdges = Number(flagValue("--max-edges") ?? 600);
+  const limit = flagValue("--limit") === null ? Infinity : Number(flagValue("--limit"));
+  const reportFile = flagValue("--report");
+
+  let pending: Array<{ root: number; index: number; was: "unclassified" | "legacy" }> = [];
+  roots.forEach((r, root) => {
+    const plan = defaultedStrengthPlan(r.edges, { legacy });
+    for (const index of plan.unclassified) pending.push({ root, index, was: "unclassified" });
+    for (const index of plan.legacy) pending.push({ root, index, was: "legacy" });
+  });
+  const selected = pending.length;
+  pending = pending.slice(0, limit);
+  const calls = Math.ceil(pending.length / STRENGTH_BATCH_SIZE);
+  console.info(
+    `[backfill-disclosed-share] only-defaulted: ${selected} edges selected ` +
+      `(${pending.filter((p) => p.was === "unclassified").length} unclassified, ${pending.filter((p) => p.was === "legacy").length} legacy "important" defaults), ` +
+      `${pending.length} to classify in ${calls} model calls${dryRun ? " (dry run: nothing is written)" : ""}`,
+  );
+  if (pending.length > maxEdges) {
+    throw new Error(`only-defaulted: ${pending.length} edges is over --max-edges ${maxEdges}; raise it to go on`);
+  }
+  if (pending.length === 0) return;
+
+  await loadDesktopEnv();
+  const usage = createTokenUsage();
+  const resolved = await classifyEdgesStrength(
+    pending.map(({ root, index }) => {
+      const e = roots[root]!.edges[index]!;
+      return {
+        counterparty_name: e.counterparty_name,
+        category: e.category,
+        subtype: e.subtype,
+        disclosed_revenue_dependency_pct: null,
+        evidence_quote: e.evidence[0]?.quote ?? "",
+      };
+    }),
+    undefined,
+    usage,
+  );
+
+  const outcomeOf = (e: ValidatedEdge, s: EdgeStrength) =>
+    s.strength_basis === "unclassified" ? "still unclassified" : s.strength_tier === e.strength_tier && e.strength_basis === "classified" ? "same" : "changed";
+
+  // Second pass over the first pass's changes: a change stands only when both agree.
+  let callsTotal = calls;
+  const second = new Map<number, EdgeStrength>();
+  if (!process.argv.includes("--single-pass")) {
+    const recheck = pending.map((p, i) => i).filter((i) => outcomeOf(roots[pending[i]!.root]!.edges[pending[i]!.index]!, resolved[i]!) === "changed");
+    if (recheck.length > 0) {
+      const again = await classifyEdgesStrength(
+        recheck.map((i) => {
+          const e = roots[pending[i]!.root]!.edges[pending[i]!.index]!;
+          return { counterparty_name: e.counterparty_name, category: e.category, subtype: e.subtype, disclosed_revenue_dependency_pct: null, evidence_quote: e.evidence[0]?.quote ?? "" };
+        }),
+        undefined,
+        usage,
+      );
+      recheck.forEach((i, j) => second.set(i, again[j]!));
+      callsTotal += Math.ceil(recheck.length / STRENGTH_BATCH_SIZE);
+    }
+  }
+
+  const next = roots.map((r) => [...r.edges]);
+  const changes: string[] = [];
+  const report: Array<Record<string, unknown>> = [];
+  const tally = { changed: 0, same: 0, stillUnclassified: 0, unconfirmed: 0 };
+  pending.forEach(({ root, index, was }, i) => {
+    const e = roots[root]!.edges[index]!;
+    const s = resolved[i]!;
+    const check = second.get(i);
+    let outcome = outcomeOf(e, s);
+    if (outcome === "changed" && check && check.strength_tier !== s.strength_tier) outcome = "unconfirmed";
+    report.push({
+      root_ticker: e.root_ticker,
+      counterparty_name: e.counterparty_name,
+      category: e.category,
+      subtype: e.subtype,
+      selected_as: was,
+      before: { strength: e.strength, strength_tier: e.strength_tier, strength_basis: e.strength_basis },
+      after: { strength: s.strength, strength_tier: s.strength_tier, strength_basis: s.strength_basis },
+      ...(check ? { second_pass: check.strength_tier } : {}),
+      outcome,
+      quote: e.evidence[0]?.quote ?? "",
+    });
+    if (outcome === "still unclassified") {
+      tally.stillUnclassified++;
+      return;
+    }
+    if (outcome === "same") {
+      tally.same++;
+      return;
+    }
+    if (outcome === "unconfirmed") {
+      tally.unconfirmed++;
+      return;
+    }
+    tally.changed++;
+    changes.push(`  ${e.root_ticker} -> ${e.counterparty_name} (${e.category}): ${strengthText(e)} => ${strengthText(s)}`);
+    next[root]![index] = withStrength(e, s);
+  });
+
+  let written = 0;
+  for (let i = 0; i < roots.length; i++) {
+    if (next[i]!.every((e, j) => e === roots[i]!.edges[j])) continue;
+    roots[i]!.edges = next[i]!;
+    if (!dryRun) {
+      await writeFile(path.join(researchDir, roots[i]!.file), stringifyLike(roots[i]!.raw, next[i]), "utf8");
+      written++;
+    }
+  }
+  if (reportFile) await writeFile(reportFile, JSON.stringify({ calls: callsTotal, usage, tally, edges: report }, null, 2), "utf8");
+  console.info(
+    `[backfill-disclosed-share] only-defaulted: ${tally.changed} changed, ${tally.same} confirmed, ` +
+      `${tally.unconfirmed} changed on one pass only (kept as they were), ${tally.stillUnclassified} still unclassified (kept as they were); ` +
+      `${callsTotal} model calls, ${usage.inputTokens} input / ${usage.outputTokens} output tokens; ${written} files written`,
+  );
+  if (changes.length) console.info(changes.join(String.fromCharCode(10)));
+}
+
 async function cachedCandidates(ticker: string, researchDir: string, cacheDir: string): Promise<CachedCandidateLike[] | null> {
   const meta = await readJson(path.join(researchDir, `${ticker}.meta.json`));
   const accession = (meta?.value as { accessionNumber?: unknown } | undefined)?.accessionNumber;
@@ -169,6 +322,7 @@ async function main(): Promise<void> {
     }
   }
   if (recompute) await recomputeTiers(roots, researchDir, dryRun);
+  if (process.argv.includes("--only-defaulted")) await reclassifyDefaulted(roots, researchDir, dryRun);
   for (const r of roots) all.push(...r.edges);
   console.info(
     `[backfill-disclosed-share] research: ${totals.roots} roots, ${totals.edges} edges; stamped ${totals.stamped} ` +

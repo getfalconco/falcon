@@ -18,6 +18,7 @@ export function edgesFromStep1Result(result: Step1Result): GraphEdgeLike[] {
       confidence: edge.confidence,
       strength: edge.strength,
       strength_tier: edge.strength_tier,
+      strength_basis: edge.strength_basis,
       disclosed_share_pct: share.disclosed_share_pct,
       disclosed_share_quote: share.disclosed_share_quote,
       evidence_quote: edge.evidence[0]?.quote ?? "",

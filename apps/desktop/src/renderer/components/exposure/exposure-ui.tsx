@@ -124,7 +124,7 @@ const TIER_KEY: Record<ExposureVia["tier"], MessageKey> = {
 export function viaTitle(t: TFunction, via: ExposureVia, filer: string): string {
   const relation = t(RELATION_KEY[via.relation]);
   return via.own
-    ? t("exposure.via.own", { ticker: via.ticker, relation, tier: t(TIER_KEY[via.tier]) })
+    ? t("exposure.via.own", { ticker: via.ticker, relation, tier: t(via.tierMeasured === false ? "exposure.tier.unrated" : TIER_KEY[via.tier]) })
     : t("exposure.via.theirs", { ticker: via.ticker, relation, filer });
 }
 

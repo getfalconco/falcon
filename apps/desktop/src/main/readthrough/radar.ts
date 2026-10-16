@@ -68,7 +68,8 @@ export function pairsFor(
         counterparty,
         holding,
         relation,
-        tier: e.strength_tier === "critical" ? "critical" : "important",
+        // An unclassified edge (no tier measured) reads through as important, never critical.
+        tier: e.strength_tier === "critical" && e.strength_basis !== "unclassified" ? "critical" : "important",
         confidence: typeof e.confidence === "number" ? e.confidence : 0,
         namedBy: root,
         form: e.form === "10-K" || e.form === "20-F" ? e.form : formOf(root),

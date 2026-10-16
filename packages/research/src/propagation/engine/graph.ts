@@ -35,9 +35,19 @@ export type GraphIndex = {
 
 export const STRENGTH_RANK: Record<StrengthTier, number> = { critical: 3, important: 2, marginal: 1 };
 
-/** `strength_tier` is optional on pre-strength edges; treat missing as marginal. */
-export function edgeTier(edge: Pick<GraphEdge, "strength_tier">): StrengthTier {
+/**
+ * The tier an edge ranks as. `strength_tier` is optional on pre-strength
+ * edges; treat missing as marginal. An unclassified edge (the classifier gave
+ * no tier) ranks as important, whatever tier it carries.
+ */
+export function edgeTier(edge: Pick<GraphEdge, "strength_tier" | "strength_basis">): StrengthTier {
+  if (edge.strength_basis === "unclassified") return "important";
   return edge.strength_tier ?? "marginal";
+}
+
+/** False when the edge's tier was never measured (unclassified): rank by it, never show it as a tier. */
+export function edgeTierMeasured(edge: Pick<GraphEdge, "strength_basis">): boolean {
+  return edge.strength_basis !== "unclassified";
 }
 
 /** Identity for a counterparty: the ticker when known, else the graph's name id. */

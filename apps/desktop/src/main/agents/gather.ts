@@ -174,7 +174,7 @@ export async function gatherMaterial(
       for (const h of hits) {
         const c = h.company;
         facts.push(
-          `Link: ${c.ticker} is ${tierRelation(c, holding)} (graph tier ${c.tier}${c.sharePct !== null ? `, disclosed share ${c.sharePct}%` : ", no share disclosed"}), from ${c.namedBy}'s ${c.form ?? "annual report"}${c.filingDate ? ` filed ${c.filingDate}` : ""}.`,
+          `Link: ${c.ticker} is ${tierRelation(c, holding)} (graph tier ${c.tierMeasured === false ? "unrated, ranked as important" : c.tier}${c.sharePct !== null ? `, disclosed share ${c.sharePct}%` : ", no share disclosed"}), from ${c.namedBy}'s ${c.form ?? "annual report"}${c.filingDate ? ` filed ${c.filingDate}` : ""}.`,
         );
         if (c.sourceUrl) out.push({ title: `${c.namedBy} ${c.form ?? "annual report"}${c.filingDate ? ` filed ${c.filingDate}` : ""}`, url: c.sourceUrl, publishedAt: c.filingDate ?? undefined });
       }

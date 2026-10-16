@@ -32,6 +32,8 @@ export type GraphFileEdge = {
   category?: string;
   subtype?: string;
   strength_tier?: string;
+  /** "unclassified": ranks as `strength_tier` but was never measured; never shown as a tier. */
+  strength_basis?: string;
   strength?: number;
   /** The share the filing states, in percent; null when none; absent on graphs built before it was carried. */
   disclosed_share_pct?: number | null;

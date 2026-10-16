@@ -246,3 +246,21 @@ describe("formatting and the request", () => {
     assert.notEqual(a, exposureRequestKey({ scope: "watchlist", holdings: book(["AMD", 0.1], ["NVDA", 0.2]) }));
   });
 });
+
+describe("unclassified strength (the classifier gave no tier)", () => {
+  it("counts at the important factor, reads no share, and marks the via unmeasured", () => {
+    const unrated = edge("NVDA", "TSM", { strength_basis: "unclassified" });
+    assert.equal(disclosedShare(unrated), null);
+    const s = computeExposure([unrated, edge("AMD", "TSM", { strength_basis: "classified" })], {
+      scope: "account",
+      holdings: book(["NVDA", 0.5], ["AMD", 0.5]),
+    });
+    const tsm = s.shared[0]!;
+    assert.ok(Math.abs(tsm.exposure - 0.6) < 1e-9);
+    const nvda = tsm.via.find((v) => v.ticker === "NVDA")!;
+    const amd = tsm.via.find((v) => v.ticker === "AMD")!;
+    assert.equal(nvda.tier, "important");
+    assert.equal(nvda.tierMeasured, false);
+    assert.equal("tierMeasured" in amd, false);
+  });
+});

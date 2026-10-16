@@ -64,11 +64,17 @@ function formatFiledDate(raw: string, locale: string): string {
 function StrengthChip({
   tier,
   strength,
+  basis,
 }: {
   tier?: StrengthTier | null;
   strength?: number | null;
+  basis?: string | null;
 }) {
   const t = useT();
+  if (basis === "unclassified") {
+    // The classifier gave no tier: the edge ranks as important, but no tier was measured.
+    return <span className="inline-block rounded bg-white/[0.05] px-1.5 py-0.5 text-[10px] font-medium leading-none text-fg-muted">{t("stock.strength.unrated")}</span>;
+  }
   if (tier !== "critical" && tier !== "important" && tier !== "marginal") {
     return <span className="text-fg-faint">{t("common.na")}</span>;
   }
@@ -137,7 +143,7 @@ function CompactCounterparties({ edges }: { edges: ValidatedEdge[] }) {
             · {e.category}
             {e.subtype ? ` · ${e.subtype}` : ""}
           </span>
-          <StrengthChip tier={e.strength_tier} strength={e.strength} />
+          <StrengthChip tier={e.strength_tier} strength={e.strength} basis={e.strength_basis} />
         </div>
       ))}
     </div>
@@ -161,7 +167,7 @@ function EdgeRow({
       <td className="px-2 py-2 text-fg-muted">{edge.category}</td>
       <td className="px-2 py-2 text-fg-muted">{edge.subtype || t("common.na")}</td>
       <td className="px-2 py-2">
-        <StrengthChip tier={edge.strength_tier} strength={edge.strength} />
+        <StrengthChip tier={edge.strength_tier} strength={edge.strength} basis={edge.strength_basis} />
       </td>
       {showEvidence ? (
         <td className="px-2 py-2 align-top" rowSpan={evidenceRowSpan}>
@@ -211,7 +217,7 @@ function EvidenceGroupBlock({ group }: { group: { groupId: string; edges: Valida
           <td className="px-2 py-2 text-fg-muted">{edge.category}</td>
           <td className="px-2 py-2 text-fg-muted">{edge.subtype || t("common.na")}</td>
           <td className="px-2 py-2">
-            <StrengthChip tier={edge.strength_tier} strength={edge.strength} />
+            <StrengthChip tier={edge.strength_tier} strength={edge.strength} basis={edge.strength_basis} />
           </td>
           {i === 0 ? (
             <td className="px-2 py-2 align-top" rowSpan={group.edges.length}>

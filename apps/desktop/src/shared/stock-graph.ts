@@ -16,6 +16,8 @@
  * the node on the other end of the link.
  */
 
+import { tierMeasured } from "./strength-basis";
+
 export type StrengthTier = "critical" | "important" | "marginal";
 
 /** The numeric weight of a tier, as step1 assigns it when no share is disclosed. */
@@ -36,6 +38,8 @@ export type RawGraphEdge = {
   subtype?: string | null;
   strength?: number | null;
   strength_tier?: string | null;
+  /** "unclassified": ranks as `strength_tier` but was never measured; absent on older graphs. */
+  strength_basis?: string | null;
   /** The share the filing states, in percent; null when none; absent on graphs built before it was carried. */
   disclosed_share_pct?: number | null;
   confidence?: number | null;
@@ -58,6 +62,11 @@ export type StockGraphLink = {
   category: string;
   subtype: string;
   tier: StrengthTier;
+  /**
+   * False when the tier was never measured (an unclassified edge): `tier` is
+   * then only its rank ("important"); show it as unrated. Absent when measured.
+   */
+  tierMeasured?: false;
   /** 0 to 1: the disclosed share over 100, or the tier's weight. */
   strength: number;
   /** The share the filing discloses, in percent; null when it gives none. */
@@ -228,6 +237,7 @@ export function normalizeLinks(
       category: (e.category ?? "").trim().toLowerCase() || "partner",
       subtype: (e.subtype ?? "").replace(/_/g, " ").trim(),
       tier,
+      ...(tierMeasured(e) ? {} : { tierMeasured: false as const }),
       strength,
       share,
       shareOf: share !== null && named === GOVERNMENT_NODE ? governmentShareOf(e) : null,
@@ -250,6 +260,8 @@ export function linkScore(link: StockGraphLink): number {
 export function compareLinks(a: StockGraphLink, b: StockGraphLink): number {
   return (
     TIER_RANK[b.tier] - TIER_RANK[a.tier] ||
+    // At the same rank, a measured tier before an unclassified one.
+    Number(a.tierMeasured === false) - Number(b.tierMeasured === false) ||
     (b.share ?? -1) - (a.share ?? -1) ||
     b.confidence - a.confidence ||
     a.filer.localeCompare(b.filer) ||

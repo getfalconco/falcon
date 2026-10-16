@@ -9,7 +9,7 @@ import { AgentEngine } from "./engine";
 import { STANDING_EARNINGS_DAYS, proposeEnds } from "./ends";
 import { gatherMaterial } from "./gather";
 import { DRAFT_SCHEMA, draftFromBriefWithModel, draftUser, finalizeReport, heuristicDraft, linkedFromWords, type AgentModelCall, type AgentModelCaller } from "./llm";
-import { linkedCapFor, linkedLead, reactionSentence, resolveLinkedSet, type LinkedCompany } from "./linked";
+import { linkedCapFor, linkedLead, reactionSentence, resolveLinkedSet, tierRelation, type LinkedCompany } from "./linked";
 import { materialFromFeed, type AgentDataSources, type FilingRef, type LinkGraphEdge, type MaterialNewsItem } from "./sources";
 import { EMPTY_STATE, type AgentEngineState } from "./store";
 import { agentFixture, fakeSources, filing } from "./test-fakes";
@@ -529,5 +529,34 @@ describe("the material news the linked watch reads", () => {
     );
     assert.deepEqual(out.map((n) => [n.title, n.tickers]), [["TSMC lifts capex plan", ["TSM"]]]);
     assert.throws(() => materialFromFeed({ ok: false, error: "x" }, since), /unavailable/);
+  });
+});
+
+describe("the linked set: unclassified strength (the classifier gave no tier)", () => {
+  const edges = [
+    edge("NVDA", "TSM", "supplier", "important", { strength_basis: "unclassified", confidence: 0.99 }),
+    edge("NVDA", "UMC", "supplier", "important", { strength_basis: "classified", confidence: 0.9 }),
+    // An unclassified edge ranks as important whatever tier it carries.
+    edge("NVDA", "GFS", "supplier", "marginal", { strength_basis: "unclassified" }),
+  ];
+
+  it("passes the important filter, never the critical one, and sorts after a measured important link", () => {
+    const important = resolveLinkedSet(edges, { ticker: "NVDA", minTier: "important" }).companies;
+    assert.deepEqual(
+      important.map((c) => [c.ticker, c.tier, c.tierMeasured ?? true]),
+      [
+        ["UMC", "important", true],
+        ["TSM", "important", false],
+        ["GFS", "important", false],
+      ],
+    );
+    assert.deepEqual(resolveLinkedSet(edges, { ticker: "NVDA", minTier: "critical" }).companies, []);
+  });
+
+  it("never states the unmeasured tier in the write-up", () => {
+    const tsm = resolveLinkedSet(edges, { ticker: "NVDA", minTier: "important" }).companies.find((c) => c.ticker === "TSM")!;
+    assert.equal(tierRelation(tsm, "NVDA"), "a supplier to NVDA");
+    const umc = resolveLinkedSet(edges, { ticker: "NVDA", minTier: "important" }).companies.find((c) => c.ticker === "UMC")!;
+    assert.equal(tierRelation(umc, "NVDA"), "an important supplier to NVDA");
   });
 });

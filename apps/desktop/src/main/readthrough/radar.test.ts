@@ -185,3 +185,20 @@ describe("rankRows", () => {
     assert.equal(ranked[2]!.score, 1.8);
   });
 });
+
+describe("pairsFor: unclassified strength (the classifier gave no tier)", () => {
+  it("reads an unclassified link through as important, whatever tier it carries", () => {
+    const pairs = pairsFor(
+      [
+        edge("NVDA", "TSM", "supplier", { strength_tier: "important", strength_basis: "unclassified" }),
+        edge("NVDA", "UMC", "supplier", { strength_tier: "marginal", strength_basis: "unclassified" }),
+        edge("NVDA", "INTC", "supplier", { strength_tier: "marginal" }),
+      ],
+      names,
+    );
+    const by = new Map(pairs.map((p) => [p.counterparty, p.tier]));
+    assert.equal(by.get("TSM"), "important");
+    assert.equal(by.get("UMC"), "important");
+    assert.ok(!by.has("INTC"), "a measured marginal link does not read through");
+  });
+});

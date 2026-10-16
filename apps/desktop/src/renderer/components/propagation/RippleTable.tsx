@@ -99,7 +99,7 @@ export default function RippleTable({ run, selectedKey, onSelect }: Props) {
                 </td>
                 <td className="whitespace-nowrap border-b border-[#ebebe5] py-2.5 pr-5 text-[11.5px] text-[#6b7280]">
                   {tNodes("panels.ripple.tierRole", {
-                    tier: <span className="text-[#1d1b1b]">{strengthWord(t.relationship.tier, tr)}</span>,
+                    tier: <span className="text-[#1d1b1b]">{strengthWord(t.relationship.tier, tr, t.relationship.tier_measured !== false)}</span>,
                     role: roleWord(t.relationship.role, tr),
                   })}
                   {t.relationship.subtype && <div className="max-w-[180px] truncate text-[10.5px] text-[#9CA3AF]">{humanize(t.relationship.subtype)}</div>}

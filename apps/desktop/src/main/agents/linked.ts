@@ -1,5 +1,6 @@
 import type { Agent, AgentLine, AgentLinkRelation, AgentLinkTier, AgentLinkedEvent, AgentTrigger } from "../../shared/agent-types";
 import { plainDashes } from "../../shared/copy-rules";
+import { tierMeasured } from "../../shared/strength-basis";
 import { LINK_MIN_CONFIDENCE, isFilingBacked } from "../../shared/earnings-links";
 import { copyIssues } from "./copy";
 import type { FilingRef, LinkGraphEdge, MaterialNewsItem, ReadthroughRead } from "./sources";
@@ -74,7 +75,10 @@ export type LinkedCompany = {
   ticker: string;
   /** What it is to the watched name. */
   relation: AgentLinkRelation;
+  /** The tier it ranks and filters by; for an unclassified edge "important", never measured (`tierMeasured`). */
   tier: AgentLinkTier;
+  /** False when the classifier never measured the tier: rank and filter by `tier`, never state it. */
+  tierMeasured?: false;
   /** The ticker whose filing states the link. */
   namedBy: string;
   form: "10-K" | "20-F" | null;
@@ -100,7 +104,9 @@ function relationOf(category: unknown): AgentLinkRelation | null {
   return category === "supplier" || category === "customer" || category === "competitor" ? category : null;
 }
 
-function tierOf(raw: unknown): AgentLinkTier | null {
+function tierOf(raw: unknown, basis?: unknown): AgentLinkTier | null {
+  // An unclassified edge ranks (and passes the tier filter) as important.
+  if (basis === "unclassified") return "important";
   return raw === "critical" || raw === "important" || raw === "marginal" ? raw : null;
 }
 
@@ -109,9 +115,11 @@ function isGovernment(e: LinkGraphEdge): boolean {
   return e.counterparty_id === "name:us government" || /government/i.test(e.counterparty_type ?? "");
 }
 
-/** Stronger tier, then the larger stated share (none last), then the more confident, then the ticker. */
+/** Stronger tier (a measured one first), then the larger stated share (none last), then the more confident, then the ticker. */
 export function compareLinked(a: LinkedCompany, b: LinkedCompany): number {
   if (a.tier !== b.tier) return TIER_RANK[a.tier] - TIER_RANK[b.tier];
+  // At the same rank, a measured tier before an unclassified one.
+  if ((a.tierMeasured === false) !== (b.tierMeasured === false)) return a.tierMeasured === false ? 1 : -1;
   const sa = a.sharePct ?? -1;
   const sb = b.sharePct ?? -1;
   if (sa !== sb) return sb - sa;
@@ -146,7 +154,7 @@ export function resolveLinkedSet(
     if (root !== holding && named !== holding) continue;
     if (root === holding && isGovernment(e)) continue;
     const category = relationOf(e.category);
-    const tier = tierOf(e.strength_tier);
+    const tier = tierOf(e.strength_tier, e.strength_basis);
     if (!category || !tier || TIER_RANK[tier] > floor) continue;
     if (!isFilingBacked(e) || typeof e.confidence !== "number" || !(e.confidence >= LINK_MIN_CONFIDENCE)) continue;
     const relation = root === holding ? category : INVERSE[category];
@@ -157,6 +165,7 @@ export function resolveLinkedSet(
       ticker,
       relation,
       tier,
+      ...(tierMeasured(e) ? {} : { tierMeasured: false as const }),
       namedBy: root,
       form: e.form === "10-K" || e.form === "20-F" ? e.form : formOf(root),
       filingDate: typeof e.filing_date === "string" && e.filing_date ? e.filing_date : null,
@@ -182,8 +191,9 @@ export function relationPhrase(relation: AgentLinkRelation, holding: string): st
   return relation === "supplier" ? `supplier to ${holding}` : `${relation} of ${holding}`;
 }
 
-/** "a critical supplier to NVDA", "an important customer of NVDA". */
-export function tierRelation(c: Pick<LinkedCompany, "tier" | "relation">, holding: string): string {
+/** "a critical supplier to NVDA", "an important customer of NVDA"; "a supplier to NVDA" when the tier was never measured. */
+export function tierRelation(c: Pick<LinkedCompany, "tier" | "relation" | "tierMeasured">, holding: string): string {
+  if (c.tierMeasured === false) return `a ${relationPhrase(c.relation, holding)}`;
   return `${c.tier === "important" ? "an" : "a"} ${c.tier} ${relationPhrase(c.relation, holding)}`;
 }
 

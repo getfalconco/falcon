@@ -1,6 +1,8 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import { counterpartyKey, indexGraph, loadGraphIndexSync } from "./graph.js";
+import { counterpartyKey, edgeTier, edgeTierMeasured, indexGraph, loadGraphIndexSync } from "./graph.js";
+import { templateMechanism } from "./mechanism.js";
+import type { Transmission } from "./types.js";
 import { REVERSE_ROLES, capCandidates, compareCandidates, forwardRole, isTradableCounterparty, reverseRole, traverse } from "./traverse.js";
 import { edge, realGraphPath, syntheticGraph } from "./test-fixtures.js";
 
@@ -219,5 +221,61 @@ describe("traverse — non-tradable counterparties", () => {
     const result = traverse(syntheticGraph(), "NVDA");
     assert.equal(result.non_tradable, 0);
     assert.ok(result.candidates.length > 0);
+  });
+});
+
+describe("unclassified strength (the classifier gave no tier)", () => {
+  const unrated = edge("ACME:TSM:supplier", "ACME", { ticker: "TSM", name: "TSMC" }, "supplier", {
+    strength_tier: "important",
+    strength_basis: "unclassified",
+    confidence: 0.99,
+  });
+  const marginalNoBasis = edge("ACME:UMC:supplier", "ACME", { ticker: "UMC", name: "UMC" }, "supplier", {
+    strength_tier: "marginal",
+    confidence: 0.99,
+  });
+
+  it("ranks as important but is never carried as a measured tier", () => {
+    assert.equal(edgeTier({ strength_tier: "marginal", strength_basis: "unclassified" }), "important");
+    assert.equal(edgeTierMeasured({ strength_basis: "unclassified" }), false);
+    assert.equal(edgeTierMeasured({}), true);
+    const r = traverse(indexGraph({ edges: [marginalNoBasis, unrated] }), "ACME");
+    assert.deepEqual(
+      r.candidates.map((c) => [c.target, c.relationship.tier, c.relationship.tier_measured]),
+      [
+        ["TSM", "important", false],
+        ["UMC", "marginal", true],
+      ],
+    );
+  });
+
+  it("a measured important edge outranks an unclassified one for the same pair", () => {
+    const rated = edge("TSM:ACME:customer", "TSM", { ticker: "ACME", name: "Acme" }, "customer", {
+      strength_tier: "important",
+      strength_basis: "classified",
+      confidence: 0.7,
+    });
+    const r = traverse(indexGraph({ edges: [unrated, rated] }), "ACME");
+    const tsm = r.candidates.find((c) => c.target === "TSM")!;
+    assert.equal(tsm.relationship.tier_measured, true);
+    assert.equal(tsm.relationship.evidence_via, "reverse");
+    assert.equal(tsm.relationship.via, "both");
+  });
+
+  it("the mechanism sentence names no tier for an unclassified edge", () => {
+    const base = {
+      root: "ACME",
+      eventLabel: "cut guidance",
+      target: "TSM",
+      role: "supplier" as const,
+      tier: "important" as const,
+      subtype: "foundry",
+      evidence_via: "forward" as const,
+      transmission: { tier: "moderate", direction: "down", matrix_cell: "x", transmits: "yes", rule: "same" } as unknown as Transmission,
+    };
+    assert.match(templateMechanism(base, 400), /TSM is an important supplier of ACME/);
+    const unmeasured = templateMechanism({ ...base, tier_measured: false }, 400);
+    assert.match(unmeasured, /TSM is a supplier of ACME/);
+    assert.doesNotMatch(unmeasured, /important/);
   });
 });

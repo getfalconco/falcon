@@ -63,8 +63,13 @@ export function roleWord(role: PropagationRole, t: Translate): string {
   return ROLES.includes(role) ? t(`panels.ripple.role.${role}`) : humanize(role);
 }
 
-/** A relationship's strength (critical / important / marginal), or the raw value when it is new. */
-export function strengthWord(tier: PropagationStrengthTier | string, t: Translate): string {
+/**
+ * A relationship's strength (critical / important / marginal), or the raw
+ * value when it is new; "unrated" when the tier was never measured (it still
+ * ranks as `tier`).
+ */
+export function strengthWord(tier: PropagationStrengthTier | string, t: Translate, measured = true): string {
+  if (!measured) return t("panels.ripple.strength.unrated");
   return tier === "critical" || tier === "important" || tier === "marginal" ? t(`panels.ripple.strength.${tier}`) : humanize(tier);
 }
 

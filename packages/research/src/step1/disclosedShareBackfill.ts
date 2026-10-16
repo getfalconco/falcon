@@ -13,7 +13,7 @@
  * and an edge that already carries the field is left as it is.
  */
 import { normalizeCompanyName, normalizeWhitespace } from "./normalize.js";
-import { disclosedShareFromEvidence, disclosedShareOfEdge, resolveEdgeStrength, type DisclosedShare } from "./strength.js";
+import { STRENGTH_BY_TIER, disclosedShareFromEvidence, disclosedShareOfEdge, resolveEdgeStrength, type DisclosedShare } from "./strength.js";
 import type { StrengthBasis, StrengthTier, ValidatedEdge } from "./types.js";
 
 /** The fields of a cached extraction candidate the backfill reads. */
@@ -129,6 +129,39 @@ export function tierRecomputePlan(edges: readonly ValidatedEdge[]): {
     }
   });
   return { fromShare, reclassify };
+}
+
+/**
+ * Edges whose tier may be a silent default rather than a judgement, to be
+ * classified again (`--only-defaulted`):
+ *   unclassified  `strength_basis: "unclassified"`: the classifier gave no tier
+ *                 (always selected);
+ *   legacy        with `legacy`, edges written before that marker existed that
+ *                 carry exactly what the old silent default wrote: basis
+ *                 "classified", tier "important", strength 0.6, no verified
+ *                 share. A real "important" judgement looks the same in stored
+ *                 data (no rationale is kept), so this is the whole pool a
+ *                 default can hide in, not only defaulted edges.
+ * Indexes into `edges`. Pure.
+ */
+export function defaultedStrengthPlan(
+  edges: readonly ValidatedEdge[],
+  opts: { legacy?: boolean } = {},
+): { unclassified: number[]; legacy: number[] } {
+  const unclassified: number[] = [];
+  const legacy: number[] = [];
+  edges.forEach((edge, index) => {
+    if (edge.strength_basis === "unclassified") {
+      unclassified.push(index);
+      return;
+    }
+    if (!opts.legacy) return;
+    if (edge.strength_basis !== "classified" || edge.strength_tier !== "important") return;
+    if (typeof edge.strength !== "number" || Math.abs(edge.strength - STRENGTH_BY_TIER.important) > 1e-9) return;
+    if (disclosedShareOfEdge(edge).disclosed_share_pct != null) return;
+    legacy.push(index);
+  });
+  return { unclassified, legacy };
 }
 
 /** `edge` with a new strength, tier and basis, in place in the key order (a readable diff). */

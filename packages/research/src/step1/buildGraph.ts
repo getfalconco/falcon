@@ -12,7 +12,7 @@ import { isNotTheListedEntity, isRefusedCounterpartyName } from "./entityResolut
 import { normalizeCompanyName } from "./normalize.js";
 import { disclosedShareOfEdge, resolveEdgeStrength } from "./strength.js";
 import { TICKER_ALIASES } from "./tickerMatch.js";
-import type { AnnualFilingForm, ValidatedEdge } from "./types.js";
+import type { AnnualFilingForm, StrengthBasis, ValidatedEdge } from "./types.js";
 import { PIPELINE_VERSION } from "./version.js";
 
 export type GraphNode = {
@@ -46,6 +46,12 @@ export type GraphEdge = {
   confidence: number;
   strength: number;
   strength_tier: "critical" | "important" | "marginal";
+  /**
+   * Where the tier came from: a stated share, the classifier, or neither
+   * ("unclassified": ranks as `strength_tier` but was never measured, so it is
+   * never shown as a tier label).
+   */
+  strength_basis: StrengthBasis;
   /**
    * The share the filing states for this relationship, in percent (revenue
    * share, purchase share, concentration); null when it states none. Read
@@ -322,10 +328,11 @@ export async function buildGraphFromResearchDir(
     const { edge, root, cpId } = r;
     const counterpartyTicker = r.ticker ?? r.foldedTicker;
 
+    // An edge with no recorded strength, or no tier, has none measured: unclassified, never a silent "important".
     const strength =
       typeof edge.strength === "number" && Number.isFinite(edge.strength) && edge.strength_tier
-        ? { strength: edge.strength, strength_tier: edge.strength_tier }
-        : resolveEdgeStrength({ strength_tier: edge.strength_tier ?? "important" });
+        ? { strength: edge.strength, strength_tier: edge.strength_tier, strength_basis: edge.strength_basis ?? "classified" }
+        : resolveEdgeStrength({ strength_tier: edge.strength_tier ?? null });
     const share = disclosedShareOfEdge(edge);
 
     const graphEdge: GraphEdge = {
@@ -341,6 +348,7 @@ export async function buildGraphFromResearchDir(
       confidence: edge.confidence,
       strength: strength.strength,
       strength_tier: strength.strength_tier,
+      strength_basis: strength.strength_basis,
       disclosed_share_pct: share.disclosed_share_pct,
       disclosed_share_quote: share.disclosed_share_quote,
       evidence_quote: edge.evidence[0]?.quote ?? "",

@@ -79,7 +79,7 @@ function candidateLine(ref: CandidateRef, t: PropagationTarget): string {
   const via = r.via === "reverse" ? `${t.ticker ?? t.label} filing` : r.via === "both" ? "both filings" : "root filing";
   return [
     `[${ref.ref}] ${name}`,
-    `role: ${r.role} · subtype: ${oneLine(r.subtype || "-")} · strength: ${r.tier} · confidence: ${r.confidence.toFixed(2)} · asserted in: ${via}${r.filing_date ? ` (${r.filing_date})` : ""}`,
+    `role: ${r.role} · subtype: ${oneLine(r.subtype || "-")} · strength: ${r.tier_measured === false ? "unrated (ranked as important)" : r.tier} · confidence: ${r.confidence.toFixed(2)} · asserted in: ${via}${r.filing_date ? ` (${r.filing_date})` : ""}`,
     `stage-1: transmits ${t.transmission.transmits} · direction ${t.transmission.direction} · tier ${t.transmission.tier} · cell ${t.transmission.matrix_cell}`,
     `evidence: "${oneLine(r.evidence_quote)}"`,
   ].join("\n");

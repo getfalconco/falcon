@@ -23,6 +23,8 @@ export type LinkEdge = {
   counterparty_ticker?: string | null;
   category?: string;
   strength_tier?: string;
+  /** "unclassified": the classifier gave no tier; the link reads through as important, never critical. */
+  strength_basis?: string;
   /**
    * The share the filing states, in percent (null: none; absent: graph built
    * before it was carried). Links here rank by tier, which step1 already
@@ -53,6 +55,7 @@ export function isFilingBacked(e: LinkEdge): boolean {
 }
 
 function tierOf(e: LinkEdge): "critical" | "important" | null {
+  if (e.strength_basis === "unclassified") return "important";
   return e.strength_tier === "critical" || e.strength_tier === "important" ? e.strength_tier : null;
 }
 

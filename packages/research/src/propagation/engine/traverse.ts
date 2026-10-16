@@ -10,7 +10,7 @@
  */
 
 import type { GraphEdge } from "../types.js";
-import { STRENGTH_RANK, counterpartyKey, edgeTier, type GraphIndex } from "./graph.js";
+import { STRENGTH_RANK, counterpartyKey, edgeTier, edgeTierMeasured, type GraphIndex } from "./graph.js";
 import type { PropagationRole, TargetRelationship, TraversalCandidate, TraversalResult } from "./types.js";
 
 const FORWARD_ROLES: Record<string, PropagationRole> = {
@@ -71,6 +71,7 @@ function relationshipFrom(seed: Seed): TargetRelationship {
     role: seed.role,
     subtype: e.subtype ?? "",
     tier: edgeTier(e),
+    tier_measured: edgeTierMeasured(e),
     confidence: typeof e.confidence === "number" ? e.confidence : 0,
     evidence_quote: e.evidence_quote ?? "",
     source_url: e.source_url ?? "",
@@ -82,11 +83,14 @@ function relationshipFrom(seed: Seed): TargetRelationship {
   };
 }
 
-/** Higher tier wins; ties by confidence; then forward over reverse (the root's own filing). */
+/** Higher tier wins; a measured tier over an unclassified one; ties by confidence; then forward over reverse (the root's own filing). */
 function outranks(a: Seed, b: Seed): boolean {
   const ta = STRENGTH_RANK[edgeTier(a.edge)];
   const tb = STRENGTH_RANK[edgeTier(b.edge)];
   if (ta !== tb) return ta > tb;
+  const ma = edgeTierMeasured(a.edge);
+  const mb = edgeTierMeasured(b.edge);
+  if (ma !== mb) return ma;
   const ca = a.edge.confidence ?? 0;
   const cb = b.edge.confidence ?? 0;
   if (ca !== cb) return ca > cb;

@@ -39,7 +39,15 @@ export type CandidateEdge = {
 
 export type StrengthTier = "critical" | "important" | "marginal";
 
-export type StrengthBasis = "disclosed" | "classified";
+/**
+ * Where an edge's strength came from: a share the filing states
+ * ("disclosed"), the classifier's reading of the quote ("classified"), or
+ * neither ("unclassified": the classifier returned no tier it could parse, or
+ * the call failed). An unclassified edge carries the "important" tier and
+ * weight so it ranks like one, but its tier was never measured: never show it
+ * as a tier label.
+ */
+export type StrengthBasis = "disclosed" | "classified" | "unclassified";
 
 export type ValidatedEdge = {
   root_ticker: string;
@@ -48,7 +56,7 @@ export type ValidatedEdge = {
   counterparty_type: string;
   category: RelationshipCategory;
   subtype: string;
-  /** 0–1 transmission weight; disclosed pct/100 or tier default. */
+  /** 0–1 transmission weight; disclosed pct/100 or tier default (the "important" weight when unclassified). */
   strength: number;
   strength_tier: StrengthTier;
   strength_basis: StrengthBasis;

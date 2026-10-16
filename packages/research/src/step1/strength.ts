@@ -76,6 +76,37 @@ export function tierFromDisclosedPct(pct: number): StrengthTier {
   return "marginal";
 }
 
+/** The tier an unclassified edge ranks as: the middle one, as the silent default used to. */
+export const UNCLASSIFIED_RANK_TIER: StrengthTier = "important";
+
+/**
+ * The strength of an edge the classifier could not judge (no parsable tier, or
+ * the call failed). It ranks like an "important" edge so traversal and
+ * filters keep working, but `strength_basis: "unclassified"` says the tier was
+ * never measured: consumers must not show it as a tier label.
+ */
+export function unclassifiedStrength(): {
+  strength: number;
+  strength_tier: StrengthTier;
+  strength_basis: StrengthBasis;
+} {
+  return {
+    strength: STRENGTH_BY_TIER[UNCLASSIFIED_RANK_TIER],
+    strength_tier: UNCLASSIFIED_RANK_TIER,
+    strength_basis: "unclassified",
+  };
+}
+
+/** True when the edge's tier was measured (disclosed or classified), false when it only ranks as one. */
+export function isMeasuredStrength(edge: { strength_basis?: string | null }): boolean {
+  return edge.strength_basis !== "unclassified";
+}
+
+/**
+ * Strength from a disclosed share (the share sets the tier) or a classified
+ * tier. With neither, the edge is unclassified (`unclassifiedStrength`), never
+ * a silent "important".
+ */
 export function resolveEdgeStrength(input: {
   disclosed_revenue_dependency_pct?: number | null;
   strength_tier?: StrengthTier | null;
@@ -92,7 +123,8 @@ export function resolveEdgeStrength(input: {
       strength_basis: "disclosed",
     };
   }
-  const tier = input.strength_tier ?? "important";
+  const tier = input.strength_tier;
+  if (!tier) return unclassifiedStrength();
   return {
     strength: STRENGTH_BY_TIER[tier],
     strength_tier: tier,
@@ -210,9 +242,9 @@ export function disclosedShareOfEdge(edge: {
   );
 }
 
-/** Bottleneck tier along a path (lowest numeric strength wins). */
+/** Bottleneck tier along a path (lowest numeric strength wins). An empty path ranks as unclassified does. */
 export function minStrengthTier(tiers: StrengthTier[]): StrengthTier {
-  if (tiers.length === 0) return "important";
+  if (tiers.length === 0) return UNCLASSIFIED_RANK_TIER;
   let best: StrengthTier = tiers[0]!;
   for (const t of tiers) {
     if (STRENGTH_BY_TIER[t] < STRENGTH_BY_TIER[best]) best = t;
@@ -220,7 +252,8 @@ export function minStrengthTier(tiers: StrengthTier[]): StrengthTier {
   return best;
 }
 
-export function strengthChipLabel(tier: StrengthTier): string {
+export function strengthChipLabel(tier: StrengthTier, basis?: StrengthBasis | null): string {
+  if (basis === "unclassified") return "unrated link";
   if (tier === "critical") return "critical link";
   if (tier === "important") return "important link";
   return "marginal link";
@@ -271,6 +304,7 @@ export async function classifyEdgeStrength(
   try {
     const raw = await callClaudeJson({
       system: STRENGTH_CLASSIFY_SYSTEM,
+      model: getConfig().step1StrengthModel,
       user,
       maxTokens: THINKING_HEADROOM_TOKENS + 80,
       usage,
@@ -278,9 +312,9 @@ export async function classifyEdgeStrength(
     const tier = parseClassifyResponse(raw);
     if (!tier) {
       console.warn(
-        `[strength] unparseable tier for ${edge.counterparty_name}; defaulting to important`,
+        `[strength] UNCLASSIFIED: no parsable tier for ${edge.counterparty_name} (${raw ? `${raw.length} chars of text` : "empty text: the response likely stopped at max_tokens"}); stored as unclassified, ranked as important`,
       );
-      return resolveEdgeStrength({ strength_tier: "important" });
+      return unclassifiedStrength();
     }
     return resolveEdgeStrength({ strength_tier: tier });
   } catch (err) {
@@ -357,15 +391,23 @@ async function classifyBatch(
     usage,
   });
   const tiers = parseBatchTiers(raw, batch.length);
+  const missing: string[] = [];
   batch.forEach(({ edge, slot }, i) => {
     const tier = tiers.get(i);
     if (!tier) {
-      console.warn(
-        `[strength] unparseable tier for ${edge.counterparty_name}; defaulting to important`,
-      );
+      missing.push(edge.counterparty_name);
+      out.set(slot, unclassifiedStrength());
+    } else {
+      out.set(slot, resolveEdgeStrength({ strength_tier: tier }));
     }
-    out.set(slot, resolveEdgeStrength({ strength_tier: tier ?? "important" }));
   });
+  if (missing.length > 0) {
+    console.warn(
+      `[strength] UNCLASSIFIED: ${missing.length} of ${batch.length} edges got no parsable tier ` +
+        `(${raw ? `${raw.length} chars of text` : "empty text: the response likely stopped at max_tokens"}); ` +
+        `stored as unclassified, ranked as important: ${missing.join("; ")}`,
+    );
+  }
   return out;
 }
 
@@ -408,14 +450,14 @@ export async function classifyEdgesStrength(
       onProgress?.(done, edges.length);
       return map;
     } catch (err) {
-      // A failed batch must not sink the run: every edge in it falls back to
-      // the same default a single unparseable response would have produced.
+      // A failed batch must not sink the run: every edge in it is stored as
+      // unclassified, the same as a response with no parsable tier.
       console.warn(
-        `[strength] batch of ${batch.length} failed (${err instanceof Error ? err.message : String(err)}); defaulting to important`,
+        `[strength] UNCLASSIFIED: batch of ${batch.length} failed (${err instanceof Error ? err.message : String(err)}); stored as unclassified, ranked as important`,
       );
       const map = new Map<number, Resolved>();
       for (const { slot } of batch) {
-        map.set(slot, resolveEdgeStrength({ strength_tier: "important" }));
+        map.set(slot, unclassifiedStrength());
       }
       done += batch.length;
       onProgress?.(done, edges.length);
@@ -426,5 +468,5 @@ export async function classifyEdgesStrength(
   for (const map of maps) {
     for (const [slot, resolved] of map) results[slot] = resolved;
   }
-  return results.map((r) => r ?? resolveEdgeStrength({ strength_tier: "important" }));
+  return results.map((r) => r ?? unclassifiedStrength());
 }

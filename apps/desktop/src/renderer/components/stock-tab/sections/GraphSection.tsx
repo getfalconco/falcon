@@ -12,6 +12,7 @@ import {
   type LinkRole,
   type NeighbourRow,
   type StockGraph,
+  type StockGraphLink,
   type StockGraphTab,
   type StrengthTier,
 } from "../../../../shared/stock-graph";
@@ -53,6 +54,15 @@ const TIER_TONE: Record<StrengthTier, string> = {
   important: "text-[#4b5563]",
   marginal: "text-[#9CA3AF]",
 };
+
+/** The tier's label, or "unrated" when the classifier never measured it (it still ranks as its tier). */
+function tierKey(link: StockGraphLink): MessageKey {
+  return link.tierMeasured === false ? "stocktab.graph.tier.unrated" : TIER_KEY[link.tier];
+}
+
+function tierTone(link: StockGraphLink): string {
+  return link.tierMeasured === false ? TIER_TONE.marginal : TIER_TONE[link.tier];
+}
 
 const LIST_LIMIT = 6;
 const TILE = "rounded-2xl border border-white/60 bg-white/40 px-4 py-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-black/[0.04]";
@@ -126,7 +136,7 @@ function MostAffecting({ graph }: { graph: StockGraph }) {
   const top = useMemo(() => strongestInfluence(graph), [graph]);
   if (!top) return <p className="text-[#9CA3AF]">{t("stocktab.graph.q.mostNone")}</p>;
   const parts = [
-    t("stocktab.graph.reason", { role: roleText(top, graph.ticker, t), tier: t(TIER_KEY[top.link.tier]) }),
+    t("stocktab.graph.reason", { role: roleText(top, graph.ticker, t), tier: t(tierKey(top.link)) }),
     shareText(top, t, locale),
     sourceText(top, t, locale),
   ].filter(Boolean);
@@ -208,10 +218,10 @@ function NeighbourList({
               </span>
               {share ? <span className="shrink-0 text-[11.5px] tabular-nums text-[#4b5563]">{share}</span> : null}
               <span
-                className={cn("w-[84px] shrink-0 truncate text-right text-[11.5px]", TIER_TONE[row.link.tier])}
+                className={cn("w-[84px] shrink-0 truncate text-right text-[11.5px]", tierTone(row.link))}
                 title={roleText(row, center, t)}
               >
-                {t(TIER_KEY[row.link.tier])}
+                {t(tierKey(row.link))}
               </span>
               <button
                 type="button"

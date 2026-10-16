@@ -23,6 +23,8 @@ export type GraphEdge = {
   confidence: number;
   strength?: number;
   strength_tier?: "critical" | "important" | "marginal";
+  /** "unclassified": ranks as `strength_tier` but was never measured; never shown as a tier. Absent on older graphs. */
+  strength_basis?: "disclosed" | "classified" | "unclassified";
   /**
    * The share the filing states for this relationship, in percent (revenue
    * share, purchase share, concentration); null when it states none; absent

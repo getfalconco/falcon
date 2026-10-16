@@ -35,6 +35,7 @@ import type {
   Step1Progress,
   Step1Result,
   Step1Stats,
+  StrengthBasis,
   StrengthTier,
   ValidatedEdge,
 } from "./types.js";
@@ -64,7 +65,7 @@ function toValidated(
   form: AnnualFilingForm,
   counterpartyTicker: string | null,
   sectionMethod: SectionMethod,
-  strength: { strength: number; strength_tier: StrengthTier; strength_basis: "disclosed" | "classified" },
+  strength: { strength: number; strength_tier: StrengthTier; strength_basis: StrengthBasis },
 ): ValidatedEdge {
   const quotes = edge.evidence_quotes?.length ? edge.evidence_quotes : [edge.evidence_quote];
   const share = candidateShare(edge);

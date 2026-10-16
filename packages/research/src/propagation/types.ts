@@ -122,6 +122,12 @@ export type GraphEdge = {
   confidence: number;
   strength?: number;
   strength_tier?: "critical" | "important" | "marginal";
+  /**
+   * Where the tier came from. "unclassified": the classifier gave none, so the
+   * edge ranks as `strength_tier` ("important") but its tier was never measured.
+   * Absent on graphs built before it was carried (read as measured).
+   */
+  strength_basis?: "disclosed" | "classified" | "unclassified";
   evidence_quote: string;
   source_url: string;
   valid_from: string;

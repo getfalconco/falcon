@@ -48,6 +48,8 @@ export function templateMechanism(
     target: string;
     role: PropagationRole;
     tier: StrengthTier;
+    /** False when the tier was never measured (unclassified edge): the sentence names no tier. */
+    tier_measured?: boolean;
     subtype: string;
     evidence_via: "forward" | "reverse";
     transmission: Transmission;
@@ -71,7 +73,7 @@ export function templateMechanism(
     : "";
   const sentence =
     `${input.root} ${input.eventLabel.replace(/\.$/, "")}. ` +
-    `${input.target} is ${article(tier)} ${tier} ${role} of ${input.root} (${subtype}, per ${filer} filing). ` +
+    `${input.target} is ${input.tier_measured === false ? `${article(role)} ${role}` : `${article(tier)} ${tier} ${role}`} of ${input.root} (${subtype}, per ${filer} filing). ` +
     `${transmits} ${directionPhrase(input.transmission.direction)}.${alsoClause}`;
   return capText(sentence, cap);
 }

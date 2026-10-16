@@ -72,6 +72,7 @@ export {
   edgeMatchKey,
   stringifyLike,
   tierRecomputePlan,
+  defaultedStrengthPlan,
   withStrength,
   type EdgeStrength,
   type CachedCandidateLike,
@@ -102,10 +103,14 @@ export type {
 export { RELATIONSHIP_CATEGORIES } from "./types.js";
 export {
   STRENGTH_BY_TIER,
+  STRENGTH_BATCH_SIZE,
   classifyEdgeStrength,
   classifyEdgesStrength,
   minStrengthTier,
   resolveEdgeStrength,
+  unclassifiedStrength,
+  isMeasuredStrength,
+  UNCLASSIFIED_RANK_TIER,
   strengthChipLabel,
   tierFromDisclosedPct,
   quoteStatesPct,

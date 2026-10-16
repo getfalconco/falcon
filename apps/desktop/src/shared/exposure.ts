@@ -41,6 +41,7 @@
  */
 
 import { LINK_MIN_CONFIDENCE, isFilingBacked } from "./earnings-links";
+import { tierMeasured } from "./strength-basis";
 
 export type ExposureScope = "account" | "watchlist";
 export type ExposureTier = "critical" | "important" | "marginal";
@@ -112,6 +113,8 @@ export type ExposureVia = {
   weight: number;
   relation: ExposureRelation;
   tier: ExposureTier;
+  /** False when the link's tier was never measured (unclassified edge): `tier` is only its rank; show it as unrated. */
+  tierMeasured?: false;
   /** True when the holding's own filing carries the link. */
   own: boolean;
   /** Disclosed revenue share, percent; null when the filing gives none. */
@@ -225,7 +228,7 @@ export function disclosedShare(e: ExposureEdge): number | null {
   }
   const pct = e.disclosed_revenue_dependency_pct;
   if (typeof pct === "number" && Number.isFinite(pct) && pct > 0) return Math.min(100, pct);
-  if (e.strength_basis === "classified") return null;
+  if (e.strength_basis === "classified" || e.strength_basis === "unclassified") return null;
   const tier = tierOf(e.strength_tier);
   const s = e.strength;
   if (!tier || typeof s !== "number" || !Number.isFinite(s) || s <= 0 || s > 1) return null;
@@ -252,6 +255,7 @@ type Link = {
   key: string;
   relation: ExposureRelation;
   tier: ExposureTier;
+  tierMeasured?: false;
   factor: number;
   own: boolean;
   share: number | null;
@@ -371,7 +375,8 @@ export function computeExposure(
     const share = disclosedShare(e);
 
     if (linked.has(root)) {
-      put({ holding: root, key, relation, tier, factor: TIER_FACTOR[tier], own: true, share, confidence: e.confidence, source: sourceOf(e, root) });
+      const unrated = tierMeasured(e) ? {} : { tierMeasured: false as const };
+      put({ holding: root, key, relation, tier, ...unrated, factor: TIER_FACTOR[tier], own: true, share, confidence: e.confidence, source: sourceOf(e, root) });
     }
     if (linked.has(key)) {
       const theirs = flip(relation);
@@ -418,7 +423,8 @@ export function computeExposure(
     const via: ExposureVia[] = links
       .map((l) => {
         const weight = linked.get(l.holding)!;
-        return { ticker: l.holding, weight, relation: l.relation, tier: l.tier, own: l.own, share: l.share, contribution: weight * l.factor };
+        const unrated = l.tierMeasured === false ? { tierMeasured: false as const } : {};
+        return { ticker: l.holding, weight, relation: l.relation, tier: l.tier, ...unrated, own: l.own, share: l.share, contribution: weight * l.factor };
       })
       .sort((a, b) => b.contribution - a.contribution || Number(b.own) - Number(a.own) || a.ticker.localeCompare(b.ticker));
     const strongest = [...links].sort((a, b) => {

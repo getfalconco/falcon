@@ -31,6 +31,8 @@ export type TargetRelationship = {
   role: PropagationRole;
   subtype: string;
   tier: PropagationStrengthTier;
+  /** False when the edge's tier was never measured (unclassified): `tier` is only its rank; show it as unrated. Absent on older runs. */
+  tier_measured?: boolean;
   confidence: number;
   evidence_quote: string;
   source_url: string;

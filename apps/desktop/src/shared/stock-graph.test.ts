@@ -6,6 +6,7 @@ import {
   neighbourRows,
   normalizeLinks,
   roleOf,
+  compareLinks,
   sharedHoldings,
   strongestInfluence,
   tabOf,
@@ -191,5 +192,20 @@ describe("the two questions", () => {
     const g = graphFor("NVDA", ["AAPL", "MSFT"]);
     const shared = sharedHoldings(g, ["AAPL", "NVDA", "MSFT", "ORCL"]);
     assert.deepEqual(shared, [{ ticker: "AAPL", shared: [{ id: "TSM", ticker: "TSM", name: "TSM Inc." }] }]);
+  });
+});
+
+describe("unclassified strength (the classifier gave no tier)", () => {
+  it("ranks as important but is marked unmeasured; a measured link sorts first at the same rank", () => {
+    const { links } = normalizeLinks([
+      edge("NVDA", "TSM", "supplier", { strength_basis: "unclassified", confidence: 0.99 }),
+      edge("NVDA", "UMC", "supplier", { strength_basis: "classified", confidence: 0.81 }),
+    ]);
+    const tsm = links.find((l) => l.named === "TSM")!;
+    const umc = links.find((l) => l.named === "UMC")!;
+    assert.equal(tsm.tier, "important");
+    assert.equal(tsm.tierMeasured, false);
+    assert.equal("tierMeasured" in umc, false);
+    assert.deepEqual([...links].sort(compareLinks).map((l) => l.named), ["UMC", "TSM"]);
   });
 });

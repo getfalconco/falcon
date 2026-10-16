@@ -99,6 +99,8 @@ export type LinkGraphEdge = {
   category?: string;
   subtype?: string;
   strength_tier?: string;
+  /** "unclassified": ranks as `strength_tier` ("important") but was never measured. */
+  strength_basis?: string;
   disclosed_share_pct?: number | null;
   disclosed_share_quote?: string | null;
   confidence?: number;
