@@ -83,6 +83,7 @@ export const DESK_CARD_LABEL_KEYS: Record<DashboardCard, MessageKey> = {
   insiders: "modules.insiders",
   filings: "modules.filings",
   allocation: "modules.allocation",
+  returns: "modules.returns",
 };
 
 /** The one-tap answers to "How did you hear about Falcon?". */

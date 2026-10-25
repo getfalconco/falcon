@@ -1,6 +1,6 @@
 import type { User } from "@supabase/supabase-js";
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
-import { ArrowLeft, CalendarClock, CalendarDays, ChartPie, Gauge, LineChart, List, Network, Newspaper, FileDiff, Radar, Route, Users, Waypoints, type LucideIcon } from "lucide-react";
+import { ArrowLeft, CalendarClock, CalendarDays, ChartPie, Gauge, LineChart, List, Network, Newspaper, FileDiff, Radar, Route, TrendingUp, Users, Waypoints, type LucideIcon } from "lucide-react";
 import BrandLogo from "@/components/BrandLogo";
 import GraphScreen from "@/components/graph/GraphScreen";
 import DashboardSearchBar from "@/components/dashboard/DashboardSearchBar";
@@ -10,6 +10,7 @@ import UpdatePill from "@/components/UpdatePill";
 import LiftableCard, { type DragPoint } from "@/components/dashboard/LiftableCard";
 import PortfolioCard from "@/components/dashboard/PortfolioCard";
 import PortfolioValueCard from "@/components/dashboard/PortfolioValueCard";
+import PortfolioReturnCard from "@/components/dashboard/PortfolioReturnCard";
 import InsightCard from "@/components/dashboard/InsightCard";
 import OpportunitiesPanel from "@/components/dashboard/OpportunitiesPanel";
 import NewsCard from "@/components/dashboard/NewsCard";
@@ -104,7 +105,7 @@ const CHART_H_KEY = "falcon.ui.chartCardH";
 
 /** Cards, in the order they sit — remembered across sessions. Every card
  *  lifts, drags, and drops onto a slot or onto another card to take its place. */
-type CardBase = "portfolio" | "assets" | "calendar" | "news" | "insight" | "risk" | "agents" | "earnings" | "exposure" | "readthrough" | "insiders" | "filings" | "allocation";
+type CardBase = "portfolio" | "assets" | "calendar" | "news" | "insight" | "risk" | "agents" | "earnings" | "exposure" | "readthrough" | "insiders" | "filings" | "allocation" | "returns";
 /** A card, or a copy of one made from its menu — `assets#1725...` reads as
  *  "an assets card", so everything keyed by base keeps working on copies. */
 type CardId = CardBase | `${CardBase}#${number}`;
@@ -125,6 +126,7 @@ const MODULES: ReadonlyArray<{ id: CardBase; labelKey: MessageKey; icon: LucideI
   { id: "insiders", labelKey: "modules.insiders", icon: Users },
   { id: "filings", labelKey: "modules.filings", icon: FileDiff },
   { id: "allocation", labelKey: "modules.allocation", icon: ChartPie },
+  { id: "returns", labelKey: "modules.returns", icon: TrendingUp },
 ];
 
 /**
@@ -184,6 +186,8 @@ const clampH = (h: number): number => Math.min(CARD_MAX_H, Math.max(CARD_MIN_H, 
 /** The size a card stands at until the reader drags it: the balance card
  *  takes the whole row, everything else a quarter of it. */
 function defaultSize(id: CardId): CardSize {
+  // A single figure: it stands at the shortest height a card may have.
+  if (baseOf(id) === "returns") return { w: 0.25, h: CARD_MIN_H };
   if (baseOf(id) !== "portfolio") return { w: 0.25, h: CARD_DEFAULT_H };
   let h = CARD_H;
   try {
@@ -843,6 +847,10 @@ export default function HomePage({ userName, user, callName, userEmail, onSignOu
       case "allocation":
         return (
           <AllocationCard masked={privacyMode} onDuplicate={() => duplicateCard(id)} onRemove={() => removeCard(id)} />
+        );
+      case "returns":
+        return (
+          <PortfolioReturnCard masked={privacyMode} onDuplicate={() => duplicateCard(id)} onRemove={() => removeCard(id)} />
         );
     }
   };
