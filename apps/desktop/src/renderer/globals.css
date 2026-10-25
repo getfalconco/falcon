@@ -27,7 +27,7 @@
 
 :root,
 [data-theme="dark"] {
-  --font-sans: "Geist Sans", "Segoe UI", system-ui, sans-serif;
+  --font-sans: "Urbanist Variable", "Segoe UI", system-ui, sans-serif;
   --font-serif: "Libre Baskerville", Georgia, "Times New Roman", serif;
   /* Aliases used by components ported from the marketing site. */
   --font-geist-sans: var(--font-sans);
@@ -323,6 +323,62 @@ body {
   color: hsl(var(--foreground));
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+}
+
+/*
+ * Urbanist is drawn light, so sans text sits a step above the weight its
+ * class names: --fw-l is the written weight (400 by default, `font-medium`
+ * sets 500), --fw-boost is added on top. Small text (13.5px and under, which
+ * is most of the app) gets the full step, larger text half of it. Mono and
+ * serif faces add nothing, so Geist Mono and the serifs keep their weights.
+ * Both rules are class-strength so they beat Preflight's `font-weight:
+ * inherit` on buttons and inputs; the mono rule comes last and wins ties.
+ */
+@layer base {
+  :root {
+    --fw-l: 400;
+    --fw-boost: 50;
+  }
+
+  body {
+    font-weight: calc(var(--fw-l) + var(--fw-boost));
+  }
+
+  :is(
+      .text-xs,
+      .text-sm,
+      [class*="text-[7"],
+      [class*="text-[8"],
+      [class*="text-[9"],
+      [class*="text-[10"],
+      [class*="text-[11"],
+      [class*="text-[12"],
+      [class*="text-[13"]
+    ) {
+    --fw-boost: 100;
+    font-weight: calc(var(--fw-l) + var(--fw-boost));
+  }
+
+  :is(
+      .font-mono,
+      .font-serif,
+      .font-baskerville,
+      [class*="font-['Geist_Mono']"],
+      [class*="Libre_Baskerville"],
+      [class*="Playfair"],
+      [style*="Geist Mono"],
+      [style*="geist-mono"],
+      [style*="monospace"],
+      [style*="Baskerville"],
+      [style*="baskerville"],
+      [style*="Playfair"],
+      [style*="--font-serif"],
+      [font-family*="Mono"],
+      [font-family*="Baskerville"]
+    ) {
+    --fw-boost: 0;
+    font-weight: calc(var(--fw-l) + var(--fw-boost));
+  }
 }
 
 /*
@@ -1227,7 +1283,8 @@ body::-webkit-scrollbar-button,
   background-color: var(--cta-bg);
   color: var(--cta-fg);
   border-color: var(--cta-border);
-  font-weight: 500;
+  --fw-l: 500;
+  font-weight: calc(var(--fw-l) + var(--fw-boost));
   --tw-ring-color: transparent;
   --tw-shadow: 0 0 #0000;
   -webkit-backdrop-filter: none;

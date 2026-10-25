@@ -115,7 +115,7 @@ export default function RippleMap({ run, selectedKey, onSelect }: Props) {
             fill={FAINT}
             fontSize={10}
             letterSpacing={1.2}
-            fontFamily="Geist Sans, system-ui, sans-serif"
+            fontFamily="Urbanist Variable, system-ui, sans-serif"
             style={{ textTransform: "uppercase" }}
           >
             {tr("panels.ripple.groupLabel", { group: tr(GROUP_LABEL_KEY[g.group]).toLocaleUpperCase(locale), n: g.count })}
@@ -220,7 +220,7 @@ export default function RippleMap({ run, selectedKey, onSelect }: Props) {
                 fill={tone.text}
                 fontSize={t.ticker ? 13 : 10.5}
                 fontWeight={500}
-                fontFamily="Geist Sans, system-ui, sans-serif"
+                fontFamily="Urbanist Variable, system-ui, sans-serif"
                 style={{ textDecoration: t.stage2?.verdict === "vetoed" ? "line-through" : undefined }}
               >
                 {shortLabel(t)}
@@ -235,7 +235,7 @@ export default function RippleMap({ run, selectedKey, onSelect }: Props) {
                 fontSize={8}
                 fontWeight={600}
                 letterSpacing={0.8}
-                fontFamily="Geist Sans, system-ui, sans-serif"
+                fontFamily="Urbanist Variable, system-ui, sans-serif"
               >
                 {badge}
               </text>

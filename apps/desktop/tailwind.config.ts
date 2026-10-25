@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import plugin from "tailwindcss/plugin";
 import preset from "@meridian/tailwind-config";
 
 const config: Config = {
@@ -157,6 +158,23 @@ const config: Config = {
       },
     },
   },
+  // `font-normal`, `font-medium`... carry the weight as written (--fw-l) and
+  // add the sans boost from globals.css (--fw-boost), so Urbanist reads a
+  // step heavier while Geist Mono and the serifs keep their own weights.
+  corePlugins: { fontWeight: false },
+  plugins: [
+    plugin(({ matchUtilities, theme }) => {
+      matchUtilities(
+        {
+          font: (value: string) => ({
+            "--fw-l": value,
+            "font-weight": "calc(var(--fw-l) + var(--fw-boost, 0))",
+          }),
+        },
+        { values: theme("fontWeight"), type: ["number"] },
+      );
+    }),
+  ],
 };
 
 export default config;

@@ -201,7 +201,7 @@ export default function GraphView({ graph }: Props) {
               const showLabel = n.isSeeded || globalScale > 1.1 || isSelected;
               if (showLabel) {
                 const fontSize = Math.max(10 / globalScale, 3);
-                ctx.font = `${n.isSeeded ? 600 : 500} ${fontSize}px Inter, system-ui, sans-serif`;
+                ctx.font = `${n.isSeeded ? 600 : 500} ${fontSize}px "Urbanist Variable", system-ui, sans-serif`;
                 ctx.textAlign = "center";
                 ctx.textBaseline = "top";
                 // A soft halo keeps a label legible where it crosses an edge

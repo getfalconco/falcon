@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "@fontsource/geist-sans/400.css";
-import "@fontsource/geist-sans/500.css";
+import "@fontsource-variable/urbanist";
 import "@fontsource/geist-mono/400.css";
 import "./globals.css";
 // The stylesheet's source, read for its dark token blocks (lib/theme-editor/tokens.ts),

@@ -24,7 +24,7 @@ describe("parseDarkTokens on a small sheet", () => {
     @tailwind base;
     @layer base { :root, [data-theme="dark"] { --ds-gray-100: hsla(0, 0%, 14%, 1); } }
     :root, [data-theme="dark"] {
-      --font-sans: "Geist Sans", system-ui; /* not a colour */
+      --font-sans: "Urbanist Variable", system-ui; /* not a colour */
       --font-alias: var(--font-sans);
       --radius: 0.375rem;
       --background: 0 0% 3.5%;
@@ -138,6 +138,6 @@ describe("helpers", () => {
   it("classifies", () => {
     assert.equal(classifyValue("transparent"), "color");
     assert.equal(classifyValue("2px"), null);
-    assert.equal(classifyValue('"Geist Sans", sans-serif'), null);
+    assert.equal(classifyValue('"Urbanist Variable", sans-serif'), null);
   });
 });
