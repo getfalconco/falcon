@@ -1,6 +1,6 @@
 import type { User } from "@supabase/supabase-js";
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
-import { ArrowLeft, CalendarClock, CalendarDays, Gauge, LineChart, List, Network, Newspaper, FileDiff, Radar, Route, Users, Waypoints, type LucideIcon } from "lucide-react";
+import { ArrowLeft, CalendarClock, CalendarDays, ChartPie, Gauge, LineChart, List, Network, Newspaper, FileDiff, Radar, Route, Users, Waypoints, type LucideIcon } from "lucide-react";
 import BrandLogo from "@/components/BrandLogo";
 import GraphScreen from "@/components/graph/GraphScreen";
 import DashboardSearchBar from "@/components/dashboard/DashboardSearchBar";
@@ -26,6 +26,7 @@ import ExposureCard from "@/components/exposure/ExposureCard";
 import ReadthroughCard from "@/components/readthrough/ReadthroughCard";
 import InsidersCard from "@/components/insiders/InsidersCard";
 import FilingChangesCard from "@/components/filings/FilingChangesCard";
+import AllocationCard from "@/components/dashboard/AllocationCard";
 import { requestReadthroughView } from "@/lib/readthrough-store";
 import StockTab from "@/components/stock-tab/StockTab";
 import { onAgentsOpenRequest } from "@/components/agents/agents-store";
@@ -103,7 +104,7 @@ const CHART_H_KEY = "falcon.ui.chartCardH";
 
 /** Cards, in the order they sit — remembered across sessions. Every card
  *  lifts, drags, and drops onto a slot or onto another card to take its place. */
-type CardBase = "portfolio" | "assets" | "calendar" | "news" | "insight" | "risk" | "agents" | "earnings" | "exposure" | "readthrough" | "insiders" | "filings";
+type CardBase = "portfolio" | "assets" | "calendar" | "news" | "insight" | "risk" | "agents" | "earnings" | "exposure" | "readthrough" | "insiders" | "filings" | "allocation";
 /** A card, or a copy of one made from its menu — `assets#1725...` reads as
  *  "an assets card", so everything keyed by base keeps working on copies. */
 type CardId = CardBase | `${CardBase}#${number}`;
@@ -123,6 +124,7 @@ const MODULES: ReadonlyArray<{ id: CardBase; labelKey: MessageKey; icon: LucideI
   { id: "readthrough", labelKey: "modules.readthrough", icon: Waypoints },
   { id: "insiders", labelKey: "modules.insiders", icon: Users },
   { id: "filings", labelKey: "modules.filings", icon: FileDiff },
+  { id: "allocation", labelKey: "modules.allocation", icon: ChartPie },
 ];
 
 /**
@@ -838,6 +840,10 @@ export default function HomePage({ userName, user, callName, userEmail, onSignOu
         return <InsidersCard onDuplicate={() => duplicateCard(id)} onRemove={() => removeCard(id)} />;
       case "filings":
         return <FilingChangesCard onDuplicate={() => duplicateCard(id)} onRemove={() => removeCard(id)} />;
+      case "allocation":
+        return (
+          <AllocationCard masked={privacyMode} onDuplicate={() => duplicateCard(id)} onRemove={() => removeCard(id)} />
+        );
     }
   };
 

@@ -5,7 +5,7 @@
  * as messages/en.ts: `{name}` placeholders kept in every language, and no
  * em dash or en dash anywhere (shared/copy-rules.ts).
  *
- * The dashboard cards: Portfolio Value, Positions, News, Risk Score, Insight
+ * The dashboard cards: Net Worth, Positions, News, Risk Score, Insight
  * (and its detail panel and pair frame), the stock peek, the add-asset flow,
  * and the masthead and menu every card shares. Tickers, company names, news
  * headlines, sectors from the feed and anything a model wrote are shown as
@@ -30,11 +30,18 @@ export const en = {
   "dashboard.timeframe.quarter": "Quarter",
   "dashboard.timeframe.year": "Year",
 
-  // Portfolio Value.
-  "dashboard.portfolioValue.label": "PORTFOLIO VALUE",
+  // Net Worth (the card's id and keys are still "portfolio").
+  // The change line under the balance, over the chart's window: {amount} is "+$34,586".
+  "dashboard.portfolioValue.label": "Net worth",
   "dashboard.portfolioValue.empty":
     "No account linked yet. Connect a brokerage or open a Falcon paper account to track your portfolio's value.",
-  "dashboard.portfolioValue.chartLabel": "Portfolio value chart",
+  "dashboard.portfolioValue.chartLabel": "Net worth chart",
+  "dashboard.portfolioValue.change.hour": "{amount} in 1 hour",
+  "dashboard.portfolioValue.change.day": "{amount} in 24 hours",
+  "dashboard.portfolioValue.change.week": "{amount} in 1 week",
+  "dashboard.portfolioValue.change.month": "{amount} in 1 month",
+  "dashboard.portfolioValue.change.quarter": "{amount} in 3 months",
+  "dashboard.portfolioValue.change.year": "{amount} in 1 year",
   "dashboard.connect.button": "Connect your portfolio",
 
   // Positions.
@@ -414,10 +421,16 @@ export const tr: Table = {
   "dashboard.timeframe.quarter": "Çeyrek",
   "dashboard.timeframe.year": "Yıl",
 
-  "dashboard.portfolioValue.label": "PORTFÖY DEĞERİ",
+  "dashboard.portfolioValue.label": "Net varlık",
   "dashboard.portfolioValue.empty":
     "Henüz bağlı bir hesap yok. Portföyünüzün değerini izlemek için bir aracı kurum bağlayın ya da bir Falcon sanal hesabı açın.",
-  "dashboard.portfolioValue.chartLabel": "Portföy değeri grafiği",
+  "dashboard.portfolioValue.chartLabel": "Net varlık grafiği",
+  "dashboard.portfolioValue.change.hour": "1 saatte {amount}",
+  "dashboard.portfolioValue.change.day": "24 saatte {amount}",
+  "dashboard.portfolioValue.change.week": "1 haftada {amount}",
+  "dashboard.portfolioValue.change.month": "1 ayda {amount}",
+  "dashboard.portfolioValue.change.quarter": "3 ayda {amount}",
+  "dashboard.portfolioValue.change.year": "1 yılda {amount}",
   "dashboard.connect.button": "Portföyünüzü bağlayın",
 
   "dashboard.positions.label": "POZİSYONLAR",
@@ -783,10 +796,16 @@ export const de: Table = {
   "dashboard.timeframe.quarter": "Quartal",
   "dashboard.timeframe.year": "Jahr",
 
-  "dashboard.portfolioValue.label": "PORTFOLIOWERT",
+  "dashboard.portfolioValue.label": "Nettovermögen",
   "dashboard.portfolioValue.empty":
     "Noch kein Konto verknüpft. Verbinden Sie einen Broker oder eröffnen Sie ein Falcon-Papierkonto, um den Wert Ihres Portfolios zu verfolgen.",
-  "dashboard.portfolioValue.chartLabel": "Diagramm des Portfoliowerts",
+  "dashboard.portfolioValue.chartLabel": "Diagramm des Nettovermögens",
+  "dashboard.portfolioValue.change.hour": "{amount} in 1 Stunde",
+  "dashboard.portfolioValue.change.day": "{amount} in 24 Stunden",
+  "dashboard.portfolioValue.change.week": "{amount} in 1 Woche",
+  "dashboard.portfolioValue.change.month": "{amount} in 1 Monat",
+  "dashboard.portfolioValue.change.quarter": "{amount} in 3 Monaten",
+  "dashboard.portfolioValue.change.year": "{amount} in 1 Jahr",
   "dashboard.connect.button": "Portfolio verbinden",
 
   "dashboard.positions.label": "POSITIONEN",
@@ -1152,10 +1171,16 @@ export const fr: Table = {
   "dashboard.timeframe.quarter": "Trimestre",
   "dashboard.timeframe.year": "Année",
 
-  "dashboard.portfolioValue.label": "VALEUR DU PORTEFEUILLE",
+  "dashboard.portfolioValue.label": "Patrimoine net",
   "dashboard.portfolioValue.empty":
     "Aucun compte lié pour l'instant. Connectez un courtier ou ouvrez un compte fictif Falcon pour suivre la valeur de votre portefeuille.",
-  "dashboard.portfolioValue.chartLabel": "Graphique de la valeur du portefeuille",
+  "dashboard.portfolioValue.chartLabel": "Graphique du patrimoine net",
+  "dashboard.portfolioValue.change.hour": "{amount} en 1 heure",
+  "dashboard.portfolioValue.change.day": "{amount} en 24 heures",
+  "dashboard.portfolioValue.change.week": "{amount} en 1 semaine",
+  "dashboard.portfolioValue.change.month": "{amount} en 1 mois",
+  "dashboard.portfolioValue.change.quarter": "{amount} en 3 mois",
+  "dashboard.portfolioValue.change.year": "{amount} en 1 an",
   "dashboard.connect.button": "Connecter votre portefeuille",
 
   "dashboard.positions.label": "POSITIONS",
@@ -1521,10 +1546,16 @@ export const es: Table = {
   "dashboard.timeframe.quarter": "Trimestre",
   "dashboard.timeframe.year": "Año",
 
-  "dashboard.portfolioValue.label": "VALOR DE LA CARTERA",
+  "dashboard.portfolioValue.label": "Patrimonio neto",
   "dashboard.portfolioValue.empty":
     "Aún no hay ninguna cuenta vinculada. Conecte un bróker o abra una cuenta simulada de Falcon para seguir el valor de su cartera.",
-  "dashboard.portfolioValue.chartLabel": "Gráfico del valor de la cartera",
+  "dashboard.portfolioValue.chartLabel": "Gráfico del patrimonio neto",
+  "dashboard.portfolioValue.change.hour": "{amount} en 1 hora",
+  "dashboard.portfolioValue.change.day": "{amount} en 24 horas",
+  "dashboard.portfolioValue.change.week": "{amount} en 1 semana",
+  "dashboard.portfolioValue.change.month": "{amount} en 1 mes",
+  "dashboard.portfolioValue.change.quarter": "{amount} en 3 meses",
+  "dashboard.portfolioValue.change.year": "{amount} en 1 año",
   "dashboard.connect.button": "Conectar su cartera",
 
   "dashboard.positions.label": "POSICIONES",
@@ -1890,10 +1921,16 @@ export const it: Table = {
   "dashboard.timeframe.quarter": "Trimestre",
   "dashboard.timeframe.year": "Anno",
 
-  "dashboard.portfolioValue.label": "VALORE DEL PORTAFOGLIO",
+  "dashboard.portfolioValue.label": "Patrimonio netto",
   "dashboard.portfolioValue.empty":
     "Nessun conto collegato. Collegate un broker o aprite un conto simulato Falcon per seguire il valore del vostro portafoglio.",
-  "dashboard.portfolioValue.chartLabel": "Grafico del valore del portafoglio",
+  "dashboard.portfolioValue.chartLabel": "Grafico del patrimonio netto",
+  "dashboard.portfolioValue.change.hour": "{amount} in 1 ora",
+  "dashboard.portfolioValue.change.day": "{amount} in 24 ore",
+  "dashboard.portfolioValue.change.week": "{amount} in 1 settimana",
+  "dashboard.portfolioValue.change.month": "{amount} in 1 mese",
+  "dashboard.portfolioValue.change.quarter": "{amount} in 3 mesi",
+  "dashboard.portfolioValue.change.year": "{amount} in 1 anno",
   "dashboard.connect.button": "Collega il portafoglio",
 
   "dashboard.positions.label": "POSIZIONI",
@@ -2259,10 +2296,16 @@ export const ptBR: Table = {
   "dashboard.timeframe.quarter": "Trimestre",
   "dashboard.timeframe.year": "Ano",
 
-  "dashboard.portfolioValue.label": "VALOR DA CARTEIRA",
+  "dashboard.portfolioValue.label": "Patrimônio líquido",
   "dashboard.portfolioValue.empty":
     "Nenhuma conta vinculada ainda. Conecte uma corretora ou abra uma conta simulada Falcon para acompanhar o valor da sua carteira.",
-  "dashboard.portfolioValue.chartLabel": "Gráfico do valor da carteira",
+  "dashboard.portfolioValue.chartLabel": "Gráfico do patrimônio líquido",
+  "dashboard.portfolioValue.change.hour": "{amount} em 1 hora",
+  "dashboard.portfolioValue.change.day": "{amount} em 24 horas",
+  "dashboard.portfolioValue.change.week": "{amount} em 1 semana",
+  "dashboard.portfolioValue.change.month": "{amount} em 1 mês",
+  "dashboard.portfolioValue.change.quarter": "{amount} em 3 meses",
+  "dashboard.portfolioValue.change.year": "{amount} em 1 ano",
   "dashboard.connect.button": "Conectar sua carteira",
 
   "dashboard.positions.label": "POSIÇÕES",
@@ -2628,10 +2671,16 @@ export const ja: Table = {
   "dashboard.timeframe.quarter": "四半期",
   "dashboard.timeframe.year": "1年",
 
-  "dashboard.portfolioValue.label": "ポートフォリオ評価額",
+  "dashboard.portfolioValue.label": "純資産",
   "dashboard.portfolioValue.empty":
     "まだ口座が連携されていません。証券会社を接続するか、Falcon の仮想口座を開設すると、ポートフォリオの評価額を追跡できます。",
-  "dashboard.portfolioValue.chartLabel": "ポートフォリオ評価額のチャート",
+  "dashboard.portfolioValue.chartLabel": "純資産のチャート",
+  "dashboard.portfolioValue.change.hour": "1時間で{amount}",
+  "dashboard.portfolioValue.change.day": "24時間で{amount}",
+  "dashboard.portfolioValue.change.week": "1週間で{amount}",
+  "dashboard.portfolioValue.change.month": "1か月で{amount}",
+  "dashboard.portfolioValue.change.quarter": "3か月で{amount}",
+  "dashboard.portfolioValue.change.year": "1年で{amount}",
   "dashboard.connect.button": "ポートフォリオを接続",
 
   "dashboard.positions.label": "保有銘柄",
@@ -2997,9 +3046,15 @@ export const zhCN: Table = {
   "dashboard.timeframe.quarter": "季度",
   "dashboard.timeframe.year": "年",
 
-  "dashboard.portfolioValue.label": "投资组合价值",
+  "dashboard.portfolioValue.label": "净资产",
   "dashboard.portfolioValue.empty": "尚未关联任何账户。连接券商或开设 Falcon 模拟账户，即可跟踪投资组合的价值。",
-  "dashboard.portfolioValue.chartLabel": "投资组合价值图表",
+  "dashboard.portfolioValue.chartLabel": "净资产图表",
+  "dashboard.portfolioValue.change.hour": "1小时内{amount}",
+  "dashboard.portfolioValue.change.day": "24小时内{amount}",
+  "dashboard.portfolioValue.change.week": "1周内{amount}",
+  "dashboard.portfolioValue.change.month": "1个月内{amount}",
+  "dashboard.portfolioValue.change.quarter": "3个月内{amount}",
+  "dashboard.portfolioValue.change.year": "1年内{amount}",
   "dashboard.connect.button": "连接您的投资组合",
 
   "dashboard.positions.label": "持仓",
@@ -3359,10 +3414,16 @@ export const ko: Table = {
   "dashboard.timeframe.quarter": "분기",
   "dashboard.timeframe.year": "1년",
 
-  "dashboard.portfolioValue.label": "포트폴리오 가치",
+  "dashboard.portfolioValue.label": "순자산",
   "dashboard.portfolioValue.empty":
     "아직 연결된 계좌가 없습니다. 증권사를 연결하거나 Falcon 모의 계좌를 개설하면 포트폴리오 가치를 추적할 수 있습니다.",
-  "dashboard.portfolioValue.chartLabel": "포트폴리오 가치 차트",
+  "dashboard.portfolioValue.chartLabel": "순자산 차트",
+  "dashboard.portfolioValue.change.hour": "1시간 동안 {amount}",
+  "dashboard.portfolioValue.change.day": "24시간 동안 {amount}",
+  "dashboard.portfolioValue.change.week": "1주 동안 {amount}",
+  "dashboard.portfolioValue.change.month": "1개월 동안 {amount}",
+  "dashboard.portfolioValue.change.quarter": "3개월 동안 {amount}",
+  "dashboard.portfolioValue.change.year": "1년 동안 {amount}",
   "dashboard.connect.button": "포트폴리오 연결",
 
   "dashboard.positions.label": "보유 종목",

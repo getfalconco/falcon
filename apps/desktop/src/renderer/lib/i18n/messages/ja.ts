@@ -40,7 +40,7 @@ export const ja: Partial<Messages> = {
   "modules.addLabel": "モジュールを追加",
   "modules.heading": "モジュール",
   "modules.addCopy": "コピーを追加",
-  "modules.portfolio": "ポートフォリオ評価額",
+  "modules.portfolio": "純資産",
   "modules.assets": "保有銘柄",
   "modules.calendar": "カレンダー",
   "modules.agents": "エージェント",

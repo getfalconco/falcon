@@ -13,8 +13,9 @@ import { monthDay, monthShort, weekdayShort } from "@/lib/dashboard-dates";
 import type { Timeframe } from "./TimeframeControls";
 
 /**
- * Minimal borderless net-worth chart under the headline: a smooth dark
- * line with a soft fade, drawn straight on the page background. Series is
+ * Minimal borderless net-worth chart under the headline: a smooth line
+ * with a soft violet fade, drawn straight on the Net Worth card's lit
+ * surface in its `--chart-glow-*` colours. Series is
  * real — recorded daily history + cloud snapshots + a live "now" point.
  */
 
@@ -328,6 +329,7 @@ export default function PortfolioChart({
   expanded = false,
   fill = false,
   onScrub,
+  onBaseline,
 }: {
   timeframe: Timeframe;
   showGrowth?: boolean;
@@ -345,6 +347,8 @@ export default function PortfolioChart({
   fill?: boolean;
   /** Fires with the hovered point's value while scrubbing, null on leave. */
   onScrub?: (value: number | null) => void;
+  /** Fires with the value the window starts from, so a headline can say how far it has come. */
+  onBaseline?: (value: number | null) => void;
 }) {
   const { locale, t } = useI18n();
   const [hover, setHover] = useState<HoverPoint | null>(null);
@@ -527,6 +531,11 @@ export default function PortfolioChart({
     }
     return out;
   }, [balance, timeframe, cloudSnaps, demo]);
+
+  const startValue = series.length > 0 ? series[0].value : null;
+  useEffect(() => {
+    onBaseline?.(startValue);
+  }, [startValue, onBaseline]);
 
   // S&P 500 benchmark, rebased to the portfolio's starting value. Demo-only
   // for now — real wiring needs an index quote source (Yahoo v8 ^GSPC).
@@ -736,8 +745,8 @@ export default function PortfolioChart({
           >
             <defs>
               <linearGradient id="pv-fade" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#1d1b1b" stopOpacity="0.13" />
-                <stop offset="100%" stopColor="#1d1b1b" stopOpacity="0" />
+                <stop offset="0%" style={{ stopColor: "var(--chart-glow-area)", stopOpacity: 0.2 }} />
+                <stop offset="100%" style={{ stopColor: "var(--chart-glow-area)", stopOpacity: 0 }} />
               </linearGradient>
             </defs>
 
@@ -768,7 +777,7 @@ export default function PortfolioChart({
             <path
               d={chart.line}
               fill="none"
-              stroke="#1d1b1b"
+              style={{ stroke: "var(--chart-glow-line)" }}
               strokeWidth="2.25"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -787,8 +796,7 @@ export default function PortfolioChart({
                   y={COL_BASE - h}
                   width={bw * 0.6}
                   height={h}
-                  fill={d >= 0 ? "#B4B4B4" : "#D5D5D5"}
-                  fillOpacity="0.5"
+                  style={{ fill: d >= 0 ? "var(--chart-glow-bar)" : "var(--chart-glow-bar-down)" }}
                 />
               );
             })}
@@ -799,13 +807,18 @@ export default function PortfolioChart({
             <>
               <div
                 aria-hidden
-                className="pointer-events-none absolute inset-y-0 border-l border-dashed border-black/15"
-                style={{ left: `${hover.xPct}%` }}
+                className="pointer-events-none absolute inset-y-0 border-l border-dashed"
+                style={{ left: `${hover.xPct}%`, borderColor: "var(--chart-glow-cross)" }}
               />
               <div
                 aria-hidden
-                className="pointer-events-none absolute h-[9px] w-[9px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#1d1b1b] ring-2 ring-white"
-                style={{ left: `${hover.xPct}%`, top: `${hover.yPct}%` }}
+                className="pointer-events-none absolute h-[9px] w-[9px] -translate-x-1/2 -translate-y-1/2 rounded-full"
+                style={{
+                  left: `${hover.xPct}%`,
+                  top: `${hover.yPct}%`,
+                  background: "var(--chart-glow-line)",
+                  boxShadow: "0 0 0 2px var(--glow-ring), 0 0 10px var(--glow-dot-halo)",
+                }}
               />
               {/* When the hovered point is. The value is already in the
                   headline, which scrubs with the cursor, so repeating it here
@@ -815,8 +828,13 @@ export default function PortfolioChart({
                   one. Clamped so it cannot leave the plot at either edge. */}
               <div
                 aria-hidden
-                className="pointer-events-none absolute top-1 z-10 -translate-x-1/2 whitespace-nowrap rounded-lg border border-white/60 bg-white/40 px-1.5 py-0.5 font-['Geist_Mono'] text-[10px] tabular-nums text-[#1d1b1b] shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_8px_24px_rgba(0,0,0,0.10)] ring-1 ring-black/[0.04] backdrop-blur-xl backdrop-saturate-150"
-                style={{ left: `${Math.min(Math.max(hover.xPct, 7), 93)}%` }}
+                className="pointer-events-none absolute top-1 z-10 -translate-x-1/2 whitespace-nowrap rounded-lg border px-1.5 py-0.5 font-['Geist_Mono'] text-[10px] tabular-nums shadow-[0_8px_24px_rgba(0,0,0,0.10)] backdrop-blur-xl"
+                style={{
+                  left: `${Math.min(Math.max(hover.xPct, 7), 93)}%`,
+                  background: "var(--glow-tag-bg)",
+                  borderColor: "var(--glow-tag-edge)",
+                  color: "var(--glow-ink)",
+                }}
               >
                 {hoverStamp(timeframe, hover.t, locale)}
               </div>
@@ -831,8 +849,8 @@ export default function PortfolioChart({
         {chart.xTicks.map((tick) => (
           <span
             key={`${tick.label}-${tick.leftPct}`}
-            className="absolute -translate-x-1/2 whitespace-nowrap text-[10px] text-[#A5AAB3]"
-            style={{ left: `${tick.leftPct}%` }}
+            className="absolute -translate-x-1/2 whitespace-nowrap text-[10px]"
+            style={{ left: `${tick.leftPct}%`, color: "var(--chart-glow-label)" }}
           >
             {tick.label}
           </span>

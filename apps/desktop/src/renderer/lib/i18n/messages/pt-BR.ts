@@ -40,7 +40,7 @@ export const ptBR: Partial<Messages> = {
   "modules.addLabel": "Adicionar módulo",
   "modules.heading": "MÓDULOS",
   "modules.addCopy": "Adicionar uma cópia",
-  "modules.portfolio": "Valor da carteira",
+  "modules.portfolio": "Patrimônio líquido",
   "modules.assets": "Posições",
   "modules.calendar": "Calendário",
   "modules.agents": "Agentes",

@@ -4,6 +4,7 @@ import AddAssetModal from "@/components/dashboard/AddAssetModal";
 import { useDemoMode } from "@/lib/demo-mode";
 import { createPaperAccount, hasPaperAccount, subscribePaperAccount } from "@/lib/paper-account";
 import { useT } from "@/lib/i18n";
+import { cn } from "@/lib/utils";
 
 /**
  * Is there anything to show? A Falcon paper account (or demo mode standing in
@@ -40,20 +41,37 @@ export function usePortfolioConnected(): boolean {
  * button that fixes it. The button opens the same add-asset flow the app has always had
  * — a Falcon paper account, or a brokerage.
  */
-export default function ConnectPortfolioEmpty({ line }: { line: string }) {
+export default function ConnectPortfolioEmpty({
+  line,
+  onColor = false,
+}: {
+  line: string;
+  /** Drawn on a card with a colour of its own (the Net Worth card's blue): white type, a white button. */
+  onColor?: boolean;
+}) {
   const t = useT();
   const [open, setOpen] = useState(false);
 
   return (
     <div className="relative flex h-full min-h-0 w-full flex-col items-center justify-center overflow-hidden">
-      <p className="relative max-w-[280px] text-center text-[13px] font-normal leading-snug text-[rgb(161,161,161)]">
+      <p
+        className={cn(
+          "relative max-w-[280px] text-center text-[13px] font-normal leading-snug",
+          onColor ? "text-[rgba(255,255,255,0.7)]" : "text-[rgb(161,161,161)]",
+        )}
+      >
         {line}
       </p>
       <button
         type="button"
         data-no-lift
         onClick={() => setOpen(true)}
-        className="app-no-drag relative mt-4 flex items-center rounded-lg bg-[#1d1b1b] px-[18px] py-[9px] text-[13px] font-normal not-italic leading-[20px] text-[rgb(231,231,231)] transition-colors duration-150 hover:bg-black active:bg-black"
+        className={cn(
+          "app-no-drag relative mt-4 flex items-center rounded-lg px-[18px] py-[9px] text-[13px] font-normal not-italic leading-[20px] transition-colors duration-150",
+          onColor
+            ? "bg-[rgb(255,255,255)] text-[rgb(10,12,48)] hover:bg-[rgba(255,255,255,0.88)]"
+            : "bg-[#1d1b1b] text-[rgb(231,231,231)] hover:bg-black active:bg-black",
+        )}
       >
         {t("dashboard.connect.button")}
       </button>

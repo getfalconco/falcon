@@ -40,7 +40,7 @@ export const zhCN: Partial<Messages> = {
   "modules.addLabel": "添加模块",
   "modules.heading": "模块",
   "modules.addCopy": "添加副本",
-  "modules.portfolio": "投资组合价值",
+  "modules.portfolio": "净资产",
   "modules.assets": "持仓",
   "modules.calendar": "日历",
   "modules.agents": "智能体",

@@ -25,6 +25,7 @@ import * as implied from "./implied";
 import * as estimates from "./estimates";
 import * as today from "./today";
 import * as econ from "./econ";
+import * as allocation from "./allocation";
 
 /**
  * Per-area message files, merged onto the core tables in `../index.ts`. One
@@ -32,7 +33,7 @@ import * as econ from "./econ";
  * edits the same file. A new area: add a file shaped like the others and list
  * it here.
  */
-const AREAS = [settings, plans, changelog, shell, dashboard, stock, briefing, agents, calendar, panels, instruments, auth, system, developer, earnings, access, stocktab, exposure, readthrough, insiders, filings, guidance, implied, estimates, today, econ] as const;
+const AREAS = [settings, plans, changelog, shell, dashboard, stock, briefing, agents, calendar, panels, instruments, auth, system, developer, earnings, access, stocktab, exposure, readthrough, insiders, filings, guidance, implied, estimates, today, econ, allocation] as const;
 
 export const AREA_EN = {
   ...settings.en,
@@ -61,6 +62,7 @@ export const AREA_EN = {
   ...estimates.en,
   ...today.en,
   ...econ.en,
+  ...allocation.en,
 };
 
 type AreaTable = Partial<Record<keyof typeof AREA_EN, string>>;

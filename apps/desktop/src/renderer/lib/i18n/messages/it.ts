@@ -40,7 +40,7 @@ export const it: Partial<Messages> = {
   "modules.addLabel": "Aggiungi modulo",
   "modules.heading": "MODULI",
   "modules.addCopy": "Aggiungi una copia",
-  "modules.portfolio": "Valore del portafoglio",
+  "modules.portfolio": "Patrimonio netto",
   "modules.assets": "Posizioni",
   "modules.calendar": "Calendario",
   "modules.agents": "Agenti",

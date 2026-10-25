@@ -58,7 +58,7 @@ export const en = {
   "modules.addLabel": "Add module",
   "modules.heading": "MODULES",
   "modules.addCopy": "Add a copy",
-  "modules.portfolio": "Portfolio Value",
+  "modules.portfolio": "Net Worth",
   "modules.assets": "Positions",
   "modules.calendar": "Calendar",
   "modules.news": "News",

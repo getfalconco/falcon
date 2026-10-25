@@ -570,6 +570,21 @@
         "--strictPort"
       ],
       "port": 5763
+    },
+    {
+      "name": "desktop-networth-preview",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "--filter",
+        "falcon",
+        "exec",
+        "vite",
+        "--config",
+        ".claude-preview.vite.config.mts",
+        "--port",
+        "5829"
+      ],
+      "port": 5829
     }
   ]
 }

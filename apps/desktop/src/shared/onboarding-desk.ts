@@ -52,7 +52,7 @@ export type DeskModule = (typeof DESK_MODULES)[number];
 /**
  * The cards each part is drawn by.
  *
- * - Positions: the Portfolio Value card and the Positions list.
+ * - Positions: the Net Worth card and the Positions list.
  * - Tape: the News card (id "news"), the feed of stories on the reader's names.
  * - Earnings, upcoming or not: the Earnings card, the next reports of held
  *   and watched names with a countdown to each.

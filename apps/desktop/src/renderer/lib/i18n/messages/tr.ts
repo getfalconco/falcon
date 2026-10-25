@@ -40,7 +40,7 @@ export const tr: Partial<Messages> = {
   "modules.addLabel": "Modül ekle",
   "modules.heading": "MODÜLLER",
   "modules.addCopy": "Kopya ekle",
-  "modules.portfolio": "Portföy Değeri",
+  "modules.portfolio": "Net Varlık",
   "modules.assets": "Pozisyonlar",
   "modules.calendar": "Takvim",
   "modules.agents": "Ajanlar",

@@ -40,7 +40,7 @@ export const ko: Partial<Messages> = {
   "modules.addLabel": "모듈 추가",
   "modules.heading": "모듈",
   "modules.addCopy": "사본 추가",
-  "modules.portfolio": "포트폴리오 가치",
+  "modules.portfolio": "순자산",
   "modules.assets": "보유 종목",
   "modules.calendar": "캘린더",
   "modules.agents": "에이전트",
