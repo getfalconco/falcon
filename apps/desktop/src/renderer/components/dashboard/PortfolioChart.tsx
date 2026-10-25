@@ -210,6 +210,8 @@ const TOP = 12;
  *  below it, so the texture never grows up through the portfolio line. */
 const BOTTOM = H - 60;
 const AREA_FLOOR = H - 52;
+/** With no column lane, the plot runs down to the axis. */
+const BOTTOM_NO_BARS = H - 6;
 const COL_BASE = H - 2;
 const COL_MAX = 46;
 
@@ -327,7 +329,9 @@ export default function PortfolioChart({
   comparisonLines = true,
   expanded = false,
   fill = false,
+  bars = true,
   onScrub,
+  onBaseline,
 }: {
   timeframe: Timeframe;
   showGrowth?: boolean;
@@ -343,8 +347,12 @@ export default function PortfolioChart({
   expanded?: boolean;
   /** Stretch to the container height without the full-screen layout (dock mode). */
   fill?: boolean;
+  /** The relative-performance columns under the plot. Off, the plot takes their lane. */
+  bars?: boolean;
   /** Fires with the hovered point's value while scrubbing, null on leave. */
   onScrub?: (value: number | null) => void;
+  /** Fires with the value the window starts from, so a headline can say how far it has come. */
+  onBaseline?: (value: number | null) => void;
 }) {
   const { locale, t } = useI18n();
   const [hover, setHover] = useState<HoverPoint | null>(null);
@@ -528,6 +536,11 @@ export default function PortfolioChart({
     return out;
   }, [balance, timeframe, cloudSnaps, demo]);
 
+  const startValue = series.length > 0 ? series[0].value : null;
+  useEffect(() => {
+    onBaseline?.(startValue);
+  }, [startValue, onBaseline]);
+
   // S&P 500 benchmark, rebased to the portfolio's starting value. Demo-only
   // for now — real wiring needs an index quote source (Yahoo v8 ^GSPC).
   const benchmark = useMemo<SeriesPoint[]>(() => {
@@ -594,6 +607,7 @@ export default function PortfolioChart({
   // Percentage-point lead over the S&P 500 per bucket (always on — the
   // strip doesn't depend on which overlay lines are toggled visible).
   const relPerf = useMemo<number[]>(() => {
+    if (!bars) return [];
     if (DEMO_SERIES) {
       const gs = demoGrowthSeries(timeframe, 100, demo?.seed ?? 0);
       const sp = demoSp500Series(timeframe, 100, demo?.seed ?? 0);
@@ -627,7 +641,7 @@ export default function PortfolioChart({
       dense.push(out[lo] + (out[hi] - out[lo]) * (pos - lo));
     }
     return dense;
-  }, [timeframe, benchmark, growth, bornAt, demo]);
+  }, [bars, timeframe, benchmark, growth, bornAt, demo]);
 
   const chart = useMemo(() => {
     if (series.length === 0) return null;
@@ -658,13 +672,15 @@ export default function PortfolioChart({
       min = mid - minSpan / 2;
       max = mid + minSpan / 2;
     }
-    const yAt = (v: number) => BOTTOM - ((v - min) / (max - min)) * (BOTTOM - TOP);
+    const bottom = bars ? BOTTOM : BOTTOM_NO_BARS;
+    const areaFloor = bars ? AREA_FLOOR : H;
+    const yAt = (v: number) => bottom - ((v - min) / (max - min)) * (bottom - TOP);
 
     let pts: Array<[number, number]> = series.map((p) => [xAt(p.t), yAt(p.value)]);
     if (pts.length === 1) pts = [pts[0], [W, pts[0][1]]];
 
     const line = smoothPath(pts);
-    const area = `${line} L${pts[pts.length - 1][0]},${AREA_FLOOR} L${pts[0][0]},${AREA_FLOOR} Z`;
+    const area = `${line} L${pts[pts.length - 1][0]},${areaFloor} L${pts[0][0]},${areaFloor} Z`;
 
     const benchLine =
       comparisonLines && benchmark.length >= 2
@@ -690,7 +706,7 @@ export default function PortfolioChart({
     }));
 
     return { line, area, benchLine, growthLine, xTicks, hoverPts };
-  }, [series, benchmark, growth, timeframe, comparisonLines, locale]);
+  }, [series, benchmark, growth, timeframe, comparisonLines, bars, locale]);
 
   if (!chart) return null;
 

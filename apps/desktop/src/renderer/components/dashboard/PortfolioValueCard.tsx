@@ -17,7 +17,7 @@ import { useT } from "@/lib/i18n";
  * as one set in either theme.
  *
  * Everything inside is sized from the card's own width: the number holds its
- * 76px while there is room and steps down from there; the selector sits
+ * 76px while there is room and steps down from there; the change sits
  * beside it until the two would touch, then drops under it. One measurement
  * feeds both, so they can never disagree about how much room there is.
  */
@@ -53,6 +53,8 @@ export default function PortfolioValueCard({
     }
   };
   const [scrubValue, setScrubValue] = useState<number | null>(null);
+  /** Where the chart's window starts, for the change beside the balance. */
+  const [startValue, setStartValue] = useState<number | null>(null);
   /** Nothing linked yet — a balance of zero over a flat line says nothing. */
   const connected = usePortfolioConnected();
 
@@ -68,9 +70,11 @@ export default function PortfolioValueCard({
     return () => ro.disconnect();
   }, []);
 
-  // The width the balance actually has: the card less its padding.
+  // The width the balance actually has: the card less its padding, and less
+  // the change beside it while the two fit on one line.
   const inner = Math.max(0, width - 40);
-  const headlineSize = inner > 0 ? Math.round(Math.min(76, Math.max(34, (76 * inner) / 1100))) : 76;
+  const room = inner >= 460 ? inner - 190 : inner;
+  const headlineSize = inner > 0 ? Math.round(Math.min(76, Math.max(34, (76 * room) / 900))) : 76;
 
   return (
     <div
@@ -92,10 +96,17 @@ export default function PortfolioValueCard({
         </div>
       ) : (
       <>
-      {/* The band: the balance, centred on the card. The window the chart
-          draws is chosen from the settings glyph in the masthead. */}
-      <div className="mt-4 flex w-full shrink-0 flex-col items-center">
-        <PortfolioValueHeadline overrideValue={scrubValue} masked={masked} size={headlineSize} />
+      {/* The band: the balance, left aligned, and its change over the
+          window the chart draws (chosen from the settings glyph in the
+          masthead) beside it. */}
+      <div className="mt-4 w-full shrink-0">
+        <PortfolioValueHeadline
+          overrideValue={scrubValue}
+          masked={masked}
+          size={headlineSize}
+          start={startValue}
+          timeframe={timeframe}
+        />
       </div>
 
       {/* The plot takes whatever height the card has left — drag the card
@@ -103,12 +114,16 @@ export default function PortfolioValueCard({
       <div className="mt-2 flex min-h-0 min-w-0 flex-col">
         <PortfolioChart
           timeframe={timeframe}
-          showGrowth
-          showSp500
-          // The balance on its own: no benchmark or hold line drawn behind it.
+          // The balance on its own: no benchmark or hold line drawn behind
+          // it, and no relative-performance columns under it, so the
+          // comparison series are not fetched at all.
+          showGrowth={false}
+          showSp500={false}
           comparisonLines={false}
+          bars={false}
           fill
           onScrub={setScrubValue}
+          onBaseline={setStartValue}
         />
       </div>
       </>
