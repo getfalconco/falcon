@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import ChartCardHeader from "@/components/dashboard/ChartCardHeader";
 import ConnectPortfolioEmpty, { usePortfolioConnected } from "@/components/dashboard/ConnectPortfolioEmpty";
 import PortfolioChart from "@/components/dashboard/PortfolioChart";
-import PortfolioValueHeadline, { MarketSessionTag } from "@/components/dashboard/PortfolioValueHeadline";
+import PortfolioValueHeadline from "@/components/dashboard/PortfolioValueHeadline";
 import { TIMEFRAMES, type Timeframe } from "@/components/dashboard/TimeframeControls";
 import { useT } from "@/lib/i18n";
 
@@ -13,12 +13,13 @@ import { useT } from "@/lib/i18n";
  * a full-screen mode — every one of those made it a different kind of thing
  * from the cards under it, and none of them survives here.
  *
- * Drawn on a surface of its own, the same in both themes: the blue
- * `.glow-card`, lit from inside along its edges (globals.css), with the balance as a dot-matrix figure
- * left aligned under the label and the change over the chart's window
- * beside it. Everything inside is sized from the card's own width: the
- * figure holds its size while there is room and steps down from there, and
- * the change sits beside it until the two would touch, then drops under it.
+ * The surface, masthead and inks are the Allocation card's, so the two read
+ * as one set in either theme.
+ *
+ * Everything inside is sized from the card's own width: the number holds its
+ * 76px while there is room and steps down from there; the selector sits
+ * beside it until the two would touch, then drops under it. One measurement
+ * feeds both, so they can never disagree about how much room there is.
  */
 const TIMEFRAME_KEY = "falcon.ui.chartTimeframe";
 
@@ -52,8 +53,6 @@ export default function PortfolioValueCard({
     }
   };
   const [scrubValue, setScrubValue] = useState<number | null>(null);
-  /** Where the chart's window starts, for the change beside the balance. */
-  const [startValue, setStartValue] = useState<number | null>(null);
   /** Nothing linked yet — a balance of zero over a flat line says nothing. */
   const connected = usePortfolioConnected();
 
@@ -71,16 +70,14 @@ export default function PortfolioValueCard({
 
   // The width the balance actually has: the card less its padding.
   const inner = Math.max(0, width - 40);
+  const headlineSize = inner > 0 ? Math.round(Math.min(76, Math.max(34, (76 * inner) / 1100))) : 76;
 
   return (
     <div
       ref={rootRef}
-      className="glow-card grid h-full w-full grid-rows-[auto_auto_minmax(0,1fr)] overflow-hidden rounded-3xl p-5"
+      className="grid h-full w-full grid-rows-[auto_auto_minmax(0,1fr)] overflow-hidden rounded-3xl border border-white/60 bg-white/40 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-black/[0.04] backdrop-blur-xl backdrop-saturate-150"
     >
       <ChartCardHeader
-        labelClassName="text-[13px] font-semibold text-[rgb(255,255,255)]"
-        onColor
-        meta={connected ? <MarketSessionTag /> : undefined}
         timeframe={connected ? timeframe : undefined}
         onTimeframe={setTimeframe}
         onDuplicate={onDuplicate}
@@ -89,26 +86,21 @@ export default function PortfolioValueCard({
 
       {!connected ? (
         <div className="row-span-2 min-h-0">
-          <ConnectPortfolioEmpty line={t("dashboard.portfolioValue.empty")} onColor />
+          <ConnectPortfolioEmpty
+            line={t("dashboard.portfolioValue.empty")}
+          />
         </div>
       ) : (
       <>
-      {/* The band: the balance, left aligned under the label, and its change
-          over the window the chart draws (chosen from the settings glyph in
-          the masthead). */}
-      <div className="mt-3 w-full shrink-0">
-        <PortfolioValueHeadline
-          overrideValue={scrubValue}
-          masked={masked}
-          width={inner}
-          start={startValue}
-          timeframe={timeframe}
-        />
+      {/* The band: the balance, centred on the card. The window the chart
+          draws is chosen from the settings glyph in the masthead. */}
+      <div className="mt-4 flex w-full shrink-0 flex-col items-center">
+        <PortfolioValueHeadline overrideValue={scrubValue} masked={masked} size={headlineSize} />
       </div>
 
       {/* The plot takes whatever height the card has left — drag the card
           taller and the chart grows, not a band of white above it. */}
-      <div className="mt-3 flex min-h-0 min-w-0 flex-col">
+      <div className="mt-2 flex min-h-0 min-w-0 flex-col">
         <PortfolioChart
           timeframe={timeframe}
           showGrowth
@@ -117,7 +109,6 @@ export default function PortfolioValueCard({
           comparisonLines={false}
           fill
           onScrub={setScrubValue}
-          onBaseline={setStartValue}
         />
       </div>
       </>

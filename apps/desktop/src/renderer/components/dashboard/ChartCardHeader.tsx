@@ -26,8 +26,6 @@ const OPEN_BUTTON =
  */
 export default function ChartCardHeader({
   label,
-  labelClassName,
-  onColor = false,
   meta,
   actions,
   timeframe,
@@ -39,10 +37,6 @@ export default function ChartCardHeader({
   className,
 }: {
   label?: string;
-  /** The label's size, weight and colour, for a card that sets its own title (the Net Worth card). */
-  labelClassName?: string;
-  /** The card is drawn on a colour of its own (the Net Worth card's blue): the glyphs are white. */
-  onColor?: boolean;
   /** Sits beside the label, on its baseline: a date, a count. The caller styles it. */
   meta?: ReactNode;
   /** The card's own controls, drawn left of the settings glyph and the dots, in the same row and gap. */
@@ -83,7 +77,7 @@ export default function ChartCardHeader({
   }, [menuOpen, settingsOpen]);
 
   const labelEl = (
-    <span className={cn("select-none font-sans", labelClassName ?? "text-[11px] font-medium tracking-[0.04em] text-[#9CA3AF]")}>
+    <span className="select-none font-sans text-[11px] font-medium tracking-[0.04em] text-[#9CA3AF]">
       {label ?? t("dashboard.portfolioValue.label")}
     </span>
   );
@@ -107,10 +101,8 @@ export default function ChartCardHeader({
             aria-expanded={settingsOpen}
             onClick={() => setSettingsOpen((v) => !v)}
             className={cn(
-              "app-no-drag transition-colors",
-              onColor
-                ? cn("hover:text-[rgb(255,255,255)]", settingsOpen ? "text-[rgb(255,255,255)]" : "text-[rgba(255,255,255,0.7)]")
-                : cn("hover:text-[#1d1b1b]", settingsOpen ? "text-[#1d1b1b]" : "text-[#4b5563]"),
+              "app-no-drag transition-colors hover:text-[#1d1b1b]",
+              settingsOpen ? "text-[#1d1b1b]" : "text-[#4b5563]",
             )}
           >
             <SlidersHorizontal className="h-4 w-4" strokeWidth={1.75} aria-hidden />
@@ -191,10 +183,8 @@ export default function ChartCardHeader({
           aria-expanded={menuOpen}
           onClick={() => setMenuOpen((v) => !v)}
           className={cn(
-            "app-no-drag transition-colors",
-            onColor
-              ? cn("hover:text-[rgb(255,255,255)]", menuOpen ? "text-[rgb(255,255,255)]" : "text-[rgba(255,255,255,0.7)]")
-              : cn("hover:text-[#1d1b1b]", menuOpen ? "text-[#1d1b1b]" : "text-[#4b5563]"),
+            "app-no-drag transition-colors hover:text-[#1d1b1b]",
+            menuOpen ? "text-[#1d1b1b]" : "text-[#4b5563]",
           )}
         >
           <MoreVertical className="h-4 w-4" strokeWidth={1.75} aria-hidden />
