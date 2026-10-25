@@ -8,7 +8,7 @@ import { useT } from "@/lib/i18n";
 
 /** The round arrow that opens a card's fuller view, beside the dots. */
 const OPEN_BUTTON =
-  "app-no-drag btn-quiet -my-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-white/60 bg-white/55 text-[#1d1b1b] shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-black/[0.06] transition-colors hover:bg-white/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#9CA3AF]";
+  "app-no-drag btn-quiet -my-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-white/60 bg-white/55 text-content-primary shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-black/[0.06] transition-colors hover:bg-white/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-edge-focus";
 
 /**
  * A card's masthead: the same small label and three-dot menu every other card
@@ -77,7 +77,7 @@ export default function ChartCardHeader({
   }, [menuOpen, settingsOpen]);
 
   const labelEl = (
-    <span className="select-none font-sans text-[11px] font-medium tracking-[0.04em] text-[#9CA3AF]">
+    <span className="select-none font-sans text-[11px] font-medium tracking-[0.04em] text-content-tertiary">
       {label ?? t("dashboard.portfolioValue.label")}
     </span>
   );
@@ -101,8 +101,8 @@ export default function ChartCardHeader({
             aria-expanded={settingsOpen}
             onClick={() => setSettingsOpen((v) => !v)}
             className={cn(
-              "app-no-drag transition-colors hover:text-[#1d1b1b]",
-              settingsOpen ? "text-[#1d1b1b]" : "text-[#4b5563]",
+              "app-no-drag transition-colors hover:text-content-primary",
+              settingsOpen ? "text-content-primary" : "text-content-body",
             )}
           >
             <SlidersHorizontal className="h-4 w-4" strokeWidth={1.75} aria-hidden />
@@ -116,7 +116,7 @@ export default function ChartCardHeader({
                 className="app-no-drag absolute right-0 top-full z-50 mt-2 w-48 rounded-2xl border border-white/60 bg-white p-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_18px_44px_rgba(0,0,0,0.14)] ring-1 ring-black/[0.06]"
               >
                 <div className="px-1 pb-1.5">
-                  <span className="select-none font-sans text-[11px] font-normal tracking-[0.04em] text-[#9CA3AF]">
+                  <span className="select-none font-sans text-[11px] font-normal tracking-[0.04em] text-content-tertiary">
                     {t("dashboard.card.timeframeHeading")}
                   </span>
                 </div>
@@ -133,7 +133,7 @@ export default function ChartCardHeader({
                           onTimeframe(tf);
                           setSettingsOpen(false);
                         }}
-                        className="flex w-full items-center justify-between rounded-lg px-2 py-1.5 text-left text-[12.5px] font-normal text-[#1d1b1b] transition-colors hover:bg-[#1d1b1b]/[0.06]"
+                        className="flex w-full items-center justify-between rounded-lg px-2 py-1.5 text-left text-[12.5px] font-normal text-content-primary transition-colors hover:bg-ink/[0.06]"
                       >
                         {t(TIMEFRAME_KEY[tf])}
                         <span
@@ -141,8 +141,8 @@ export default function ChartCardHeader({
                           className={cn(
                             // The same box the Positions column list ticks: a rounded square,
                             // not a radio dot, so the two panels read as one kind of control.
-                            "flex h-[15px] w-[15px] shrink-0 items-center justify-center rounded-[4px] border transition-colors",
-                            active ? "border-[#1d1b1b] bg-[#1d1b1b] text-white" : "border-black/20 bg-white/60",
+                            "flex h-[15px] w-[15px] shrink-0 items-center justify-center rounded-sm border transition-colors",
+                            active ? "border-content-primary bg-ink text-white" : "border-black/20 bg-white/60",
                           )}
                         >
                           {active ? <Check className="h-[10px] w-[10px]" strokeWidth={3} /> : null}
@@ -183,8 +183,8 @@ export default function ChartCardHeader({
           aria-expanded={menuOpen}
           onClick={() => setMenuOpen((v) => !v)}
           className={cn(
-            "app-no-drag transition-colors hover:text-[#1d1b1b]",
-            menuOpen ? "text-[#1d1b1b]" : "text-[#4b5563]",
+            "app-no-drag transition-colors hover:text-content-primary",
+            menuOpen ? "text-content-primary" : "text-content-body",
           )}
         >
           <MoreVertical className="h-4 w-4" strokeWidth={1.75} aria-hidden />
@@ -204,10 +204,10 @@ export default function ChartCardHeader({
                   setMenuOpen(false);
                   onDuplicate?.();
                 }}
-                className="group/mi flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-left text-[13px] font-normal text-[#1d1b1b] transition-all duration-150 hover:translate-x-0.5 hover:bg-[#1d1b1b]/[0.07] active:scale-[0.97]"
+                className="group/mi flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-left text-[13px] font-normal text-content-primary transition-all duration-150 hover:translate-x-0.5 hover:bg-ink/[0.07] active:scale-[0.97]"
               >
                 <Copy
-                  className="h-[15px] w-[15px] text-[#4b5563] transition-colors duration-150 group-hover/mi:text-[#1d1b1b]"
+                  className="h-[15px] w-[15px] text-content-body transition-colors duration-150 group-hover/mi:text-content-primary"
                   strokeWidth={1.75}
                   aria-hidden
                 />
@@ -221,7 +221,7 @@ export default function ChartCardHeader({
                   setMenuOpen(false);
                   onRemove?.();
                 }}
-                className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-left text-[13px] font-normal text-[#DC2626] transition-all duration-150 hover:translate-x-0.5 hover:bg-[#DC2626]/[0.10] active:scale-[0.97]"
+                className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-left text-[13px] font-normal text-tone-negative transition-all duration-150 hover:translate-x-0.5 hover:bg-tone-negative-fill/[0.10] active:scale-[0.97]"
               >
                 <X className="h-[15px] w-[15px]" strokeWidth={2} aria-hidden />
                 {t("dashboard.card.delete")}

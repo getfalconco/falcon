@@ -1189,7 +1189,6 @@ body::-webkit-scrollbar-button,
 [data-theme="dark"] .bg-white\/85 { background-color: var(--surface-3); }
 [data-theme="dark"] .bg-white\/90 { background-color: var(--surface-3); }
 [data-theme="dark"] .bg-white\/\[0\.55\] { background-color: var(--surface-2); }
-[data-theme="dark"] .border-\[\#1D1B1B\], [data-theme="dark"] .border-\[\#1d1b1b\] { border-color: var(--text-primary); }
 [data-theme="dark"] .border-black\/15 { border-color: var(--border-default); }
 [data-theme="dark"] .border-black\/20 { border-color: var(--border-strong); }
 [data-theme="dark"] .border-black\/\[0\.05\] { border-color: var(--border-subtle); }
@@ -1215,11 +1214,7 @@ body::-webkit-scrollbar-button,
 [data-theme="dark"] .ring-black\/\[0\.08\] { --tw-ring-color: var(--border-subtle); }
 [data-theme="dark"] .ring-black\/\[0\.12\] { --tw-ring-color: var(--border-default); }
 [data-theme="dark"] .ring-black\/\[0\.1\] { --tw-ring-color: var(--border-default); }
-[data-theme="dark"] .text-\[\#1D1B1B\], [data-theme="dark"] .text-\[\#1d1b1b\] { color: var(--text-primary); }
-[data-theme="dark"] .text-\[\#4B5563\], [data-theme="dark"] .text-\[\#4b5563\] { color: var(--text-body); }
 [data-theme="dark"] .text-\[\#6B7280\], [data-theme="dark"] .text-\[\#6b7280\] { color: var(--text-secondary); }
-[data-theme="dark"] .text-\[\#9CA3AF\], [data-theme="dark"] .text-\[\#9ca3af\] { color: var(--text-tertiary); }
-[data-theme="dark"] .text-\[\#DC2626\], [data-theme="dark"] .text-\[\#dc2626\] { color: var(--negative); }
 [data-theme="dark"] .text-amber-600 { color: var(--warning); }
 [data-theme="dark"] .text-black { color: var(--text-primary); }
 [data-theme="dark"] .text-black\/30 { color: rgb(var(--ink-rgb) / 0.3); }
@@ -1232,10 +1227,8 @@ body::-webkit-scrollbar-button,
 [data-theme="dark"] .focus\:border-white\/40:focus { border-color: var(--border-default); }
 [data-theme="dark"] .focus-visible\:bg-black\/\[0\.04\]:focus-visible { background-color: var(--fill-hover); }
 [data-theme="dark"] .focus-visible\:bg-black\/\[0\.05\]:focus-visible { background-color: var(--fill-press); }
-[data-theme="dark"] .focus-visible\:outline-\[\#9CA3AF\]:focus-visible, [data-theme="dark"] .focus-visible\:outline-\[\#9ca3af\]:focus-visible { outline-color: var(--focus-ring); }
 [data-theme="dark"] .focus-visible\:ring-black\/20:focus-visible { --tw-ring-color: var(--border-default); }
 [data-theme="dark"] .focus-visible\:ring-black\/\[0\.06\]:focus-visible { --tw-ring-color: var(--border-subtle); }
-[data-theme="dark"] .hover\:bg-\[\#DC2626\]\/\[0\.10\]:hover, [data-theme="dark"] .hover\:bg-\[\#dc2626\]\/\[0\.10\]:hover { background-color: color-mix(in srgb, var(--negative) 10%, transparent); }
 [data-theme="dark"] .hover\:bg-black\/\[0\.03\]:hover { background-color: var(--fill-press); }
 [data-theme="dark"] .hover\:bg-black\/\[0\.04\]:hover { background-color: var(--fill-press); }
 [data-theme="dark"] .hover\:bg-black\/\[0\.05\]:hover { background-color: var(--fill-selected); }
@@ -1249,7 +1242,6 @@ body::-webkit-scrollbar-button,
 [data-theme="dark"] .hover\:bg-white\/80:hover { background-color: var(--surface-4); }
 [data-theme="dark"] .hover\:bg-white\/90:hover { background-color: var(--surface-4); }
 [data-theme="dark"] .hover\:decoration-black\/\[0\.5\]:hover { text-decoration-color: rgb(var(--ink-rgb) / 0.5); }
-[data-theme="dark"] .hover\:text-\[\#1D1B1B\]:hover, [data-theme="dark"] .hover\:text-\[\#1d1b1b\]:hover { color: var(--text-primary); }
 [data-theme="dark"] .group:hover .group-hover\:bg-black\/\[0\.05\] { background-color: var(--fill-press); }
 /* @generated dark-palette:end */
 
@@ -1501,6 +1493,7 @@ body::-webkit-scrollbar-button,
 [data-theme="dark"] [stop-color="#1d1b1b" i] { stop-color: var(--chart-ink); }
 /* An area under a line: light on black carries further than ink on cream. */
 [data-theme="dark"] [stop-color="#1d1b1b" i][stop-opacity="0.13"] { stop-opacity: 0.07; }
+[data-theme="dark"] [stop-color="var(--chart-ink)"][stop-opacity="0.13"] { stop-opacity: 0.07; }
 [data-theme="dark"] [fill="#6b7280" i] { fill: var(--text-secondary); }
 [data-theme="dark"] [fill="#9ca3af" i] { fill: var(--text-tertiary); }
 [data-theme="dark"] [stroke="#9ca3af" i] { stroke: var(--text-tertiary); }
