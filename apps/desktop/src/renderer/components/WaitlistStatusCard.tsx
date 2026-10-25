@@ -36,7 +36,7 @@ export default function WaitlistStatusCard({
     <div className="mx-auto w-full max-w-[460px] text-center">
       <motion.h1
         {...rise(0.15)}
-        className="font-serif text-[1.5rem] font-normal leading-[1.25] tracking-[0.01em] text-[#1d1b1b]"
+        className="font-serif text-[1.5rem] font-normal leading-[1.25] tracking-[0.01em] text-content-primary"
         style={{ fontFamily: SERIF }}
       >
         {t("auth.waitlist.title")}
@@ -61,10 +61,10 @@ export default function WaitlistStatusCard({
       </motion.div>
 
       <motion.div {...rise(0.85)}>
-        <p className="mt-6 text-balance text-[13px] leading-relaxed text-[#767676] [word-break:auto-phrase]" style={{ fontFamily: GEIST }}>
+        <p className="mt-6 text-balance text-[13px] leading-relaxed text-content-secondary [word-break:auto-phrase]" style={{ fontFamily: GEIST }}>
           {t("auth.waitlist.body")}
         </p>
-        <p className="mt-2.5 text-balance text-[13px] leading-relaxed text-[#9a9a9a] [word-break:auto-phrase]" style={{ fontFamily: GEIST }}>
+        <p className="mt-2.5 text-balance text-[13px] leading-relaxed text-content-tertiary [word-break:auto-phrase]" style={{ fontFamily: GEIST }}>
           {t("auth.waitlist.approved")}
         </p>
         {children}

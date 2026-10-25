@@ -382,17 +382,18 @@ export function buildCalendar(
   return columns;
 }
 
-/** Going the other way, deepening as it goes. */
-const AGAINST_RAMP = ["#F6DADA", "#E9AFAF", "#D97F7F", "#C64F4F", "#A81C1C"];
-/** Going the way it was called, deepening as the move lands and overshoots. */
-const WITH_RAMP = ["#D6E3F7", "#AAC6EE", "#7BA2DF", "#4B79C9", "#22509E"];
+/** Going the other way, deepening as it goes: white to systemRed. */
+const AGAINST_RAMP = ["#FFDCDA", "#FFB8B4", "#FF8983", "#FF584F", "#D70015"];
+/** Going the way it was called, deepening as the move lands and overshoots:
+ *  white to systemBlue. */
+const WITH_RAMP = ["#D6EAFF", "#A8D2FF", "#70B5FF", "#2E92FF", "#0040DD"];
 /** Nothing has happened to it yet — the blank middle of the scale, and the
  *  one cell that is lighter than the empty grey around it. */
 const OPEN_WHITE = "#FFFFFF";
 /** Something ran, but there is nothing to measure it with. */
-const BALANCED = "#A9AEA6";
+const BALANCED = "#AEAEB2";
 /** Nothing ran at all. */
-const EMPTY = "#D8DBD4";
+const EMPTY = "#E5E5EA";
 
 /**
  * The one scale, read from the share of the called move that has been

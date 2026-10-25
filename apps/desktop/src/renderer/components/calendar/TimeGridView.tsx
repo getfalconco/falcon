@@ -329,7 +329,7 @@ export default function TimeGridView(props: Props) {
               <span
                 className={cn(
                   "flex h-6 min-w-6 items-center justify-center rounded-full px-1 text-[13px] tabular-nums transition-colors",
-                  isToday ? "font-medium text-white" : "text-[#1d1b1b] group-hover:bg-black/[0.05]",
+                  isToday ? "font-medium text-white" : "text-content-primary group-hover:bg-black/[0.05]",
                 )}
                 style={isToday ? { backgroundColor: lineColor } : undefined}
               >
@@ -347,7 +347,7 @@ export default function TimeGridView(props: Props) {
             <button
               type="button"
               onClick={() => setLaneOpen((v) => !v)}
-              className="app-no-drag flex h-5 w-5 items-center justify-center rounded-md text-[#9CA3AF] hover:bg-black/[0.05] hover:text-[#1d1b1b]"
+              className="app-no-drag flex h-5 w-5 items-center justify-center rounded-md text-content-tertiary hover:bg-black/[0.05] hover:text-content-primary"
               aria-label={laneOpen ? t("calendar.lane.collapse") : t("calendar.lane.expand")}
               aria-expanded={laneOpen}
             >
@@ -386,7 +386,7 @@ export default function TimeGridView(props: Props) {
                 return (
                   <div
                     key="__draft"
-                    className="pointer-events-none z-[1] mx-0.5 rounded-[6px] border border-dashed border-black/20 bg-black/[0.04]"
+                    className="pointer-events-none z-[1] mx-0.5 rounded-md border border-dashed border-black/20 bg-black/[0.04]"
                     style={{ gridColumn: `${p.startIndex + 1} / span ${p.span}`, gridRow: p.row + 1 }}
                   />
                 );
@@ -419,7 +419,7 @@ export default function TimeGridView(props: Props) {
                       key={`more-${days[i]}`}
                       type="button"
                       onClick={() => setLaneOpen(true)}
-                      className="app-no-drag z-[1] mx-0.5 truncate rounded-[6px] px-1.5 text-left text-[11px] text-[#6b7280] hover:bg-black/[0.05]"
+                      className="app-no-drag z-[1] mx-0.5 truncate rounded-md px-1.5 text-left text-[11px] text-content-secondary hover:bg-black/[0.05]"
                       style={{ gridColumn: `${i + 1} / span 1`, gridRow: ALL_DAY_COLLAPSED_ROWS }}
                     >
                       {t("calendar.more", { n })}
@@ -443,7 +443,7 @@ export default function TimeGridView(props: Props) {
             ))}
             {todayIndex >= 0 ? (
               <span
-                className="absolute right-1 z-[3] -translate-y-1/2 rounded-[5px] px-1 py-px text-[10px] font-medium tabular-nums text-white"
+                className="absolute right-1 z-[3] -translate-y-1/2 rounded-md px-1 py-px text-[10px] font-medium tabular-nums text-white"
                 style={{ top: now.minutes * PX_PER_MIN, backgroundColor: lineColor }}
               >
                 {hhmm(now.minutes)}
@@ -524,7 +524,7 @@ export default function TimeGridView(props: Props) {
 
               {createGhost ? (
                 <div
-                  className="absolute z-[2] rounded-[7px] border border-dashed border-black/20 bg-black/[0.04] px-2 py-1 text-[10px] tabular-nums text-[#4b5563]"
+                  className="absolute z-[2] rounded-md border border-dashed border-black/20 bg-black/[0.04] px-2 py-1 text-[10px] tabular-nums text-content-body"
                   style={{
                     top: createGhost.start * PX_PER_MIN + 1,
                     height: Math.max(15, createGhost.end - createGhost.start) * PX_PER_MIN - 2,

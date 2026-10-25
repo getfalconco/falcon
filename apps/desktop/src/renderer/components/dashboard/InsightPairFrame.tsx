@@ -46,7 +46,7 @@ import type {
 /* ------------------------------------------------------------------ */
 
 const SECTION_LABEL =
-  "select-none font-sans text-[10.5px] font-medium tracking-[0.08em] text-[#9CA3AF]";
+  "select-none font-sans text-[10.5px] font-medium tracking-[0.08em] text-content-tertiary";
 
 const OUTCOME_LABEL: Record<PairOutcome, MessageKey> = {
   hit: "dashboard.pair.outcome.hit",
@@ -80,19 +80,19 @@ const DIRECTION_KEY: Record<PairOutlook["direction"], MessageKey> = {
 /** Green for a call that landed, red for one that went the other way, grey
  *  for the ones the market hasn't answered. */
 const OUTCOME_COLOR: Record<PairOutcome, string> = {
-  hit: "#16A34A",
-  partial: "#63A059",
-  miss: "#DC2626",
-  open: "#9CA3AF",
-  expired: "#9CA3AF",
+  hit: "var(--positive)",
+  partial: "color-mix(in srgb, var(--positive) 70%, var(--text-tertiary))",
+  miss: "var(--negative)",
+  open: "var(--text-tertiary)",
+  expired: "var(--text-tertiary)",
 };
 
 /** Up is blue and down is red on this surface, the same as the field: the
  *  colour says which way, never whether it is good news. */
 const OUTLOOK_COLOR: Record<PairOutlook["direction"], string> = {
-  up: "#22509E",
-  down: "#A81C1C",
-  unclear: "#6b7280",
+  up: "var(--info)",
+  down: "var(--negative)",
+  unclear: "var(--text-secondary)",
 };
 
 const OUTLOOK_ICON: Record<PairOutlook["direction"], typeof ArrowUpRight> = {
@@ -123,11 +123,11 @@ function Outlook({ outlook, ticker }: { outlook: PairOutlook; ticker: string }) 
         <span
           aria-hidden
           className="mt-[2px] flex h-6 w-6 shrink-0 items-center justify-center rounded-full"
-          style={{ color, backgroundColor: `${color}14` }}
+          style={{ color, backgroundColor: `color-mix(in srgb, ${color} 8%, transparent)` }}
         >
           <Icon className="h-4 w-4" strokeWidth={2.25} />
         </span>
-        <p className="text-[15px] font-medium leading-[1.45] text-[#1d1b1b]">
+        <p className="text-[15px] font-medium leading-[1.45] text-content-primary">
           {outlook.call ||
             t("dashboard.pair.fallbackCall", {
               ticker,
@@ -135,7 +135,7 @@ function Outlook({ outlook, ticker }: { outlook: PairOutlook; ticker: string }) 
             })}
         </p>
       </div>
-      <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1.5 text-[11.5px] text-[#6b7280]">
+      <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1.5 text-[11.5px] text-content-secondary">
         {facts.map((fact) => (
           <span key={fact}>{fact}</span>
         ))}
@@ -247,15 +247,15 @@ function RecordSummary({ history, root }: { history: PropagationPairHistory; roo
   return (
     <div className="rounded-2xl border border-white/60 bg-white/45 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-black/[0.04]">
       <div className="flex items-baseline gap-2">
-        <span className="text-[34px] font-medium leading-none tabular-nums text-[#1d1b1b]">
+        <span className="text-[34px] font-medium leading-none tabular-nums text-content-primary">
           {resolved === 0 ? t("common.na") : t("dashboard.pair.record.score", { right, resolved })}
         </span>
-        <span className="text-[13px] text-[#6b7280]">
+        <span className="text-[13px] text-content-secondary">
           {resolved === 0 ? t("dashboard.pair.record.nothingScored") : t("dashboard.pair.record.callsRight")}
         </span>
       </div>
 
-      <p className="mt-3 text-[13px] leading-[1.55] text-[#4b5563]">{sentence}</p>
+      <p className="mt-3 text-[13px] leading-[1.55] text-content-body">{sentence}</p>
 
       {chips.length > 0 ? (
         <div className="mt-3.5 flex flex-wrap gap-1.5">
@@ -266,7 +266,7 @@ function RecordSummary({ history, root }: { history: PropagationPairHistory; roo
               className="rounded-full px-2.5 py-[4px] text-[11px] font-medium leading-none"
               style={{
                 color: OUTCOME_COLOR[chip.tone],
-                backgroundColor: `${OUTCOME_COLOR[chip.tone]}14`,
+                backgroundColor: `color-mix(in srgb, ${OUTCOME_COLOR[chip.tone]} 8%, transparent)`,
               }}
             >
               {chip.label}
@@ -276,7 +276,7 @@ function RecordSummary({ history, root }: { history: PropagationPairHistory; roo
       ) : null}
 
       {size ? (
-        <p className="mt-3.5 border-t border-black/[0.06] pt-3 text-[12.5px] leading-[1.55] text-[#6b7280]">
+        <p className="mt-3.5 border-t border-black/[0.06] pt-3 text-[12.5px] leading-[1.55] text-content-secondary">
           {size}
         </p>
       ) : null}
@@ -288,14 +288,14 @@ function EventRow({ event }: { event: PairHistoryEvent }) {
   const { t, locale } = useI18n();
   return (
     <li className="flex items-start gap-3 border-b border-black/[0.05] py-2.5 last:border-b-0">
-      <span className="w-[92px] shrink-0 font-['Geist_Mono'] text-[11px] leading-[1.5] tabular-nums text-[#9CA3AF]">
+      <span className="w-[92px] shrink-0 font-['Geist_Mono'] text-[11px] leading-[1.5] tabular-nums text-content-tertiary">
         {day(event.event_ts, locale)}
       </span>
       <span className="min-w-0 flex-1">
-        <span className="block text-[12.5px] leading-[1.45] text-[#1d1b1b]">
+        <span className="block text-[12.5px] leading-[1.45] text-content-primary">
           {event.event_label}
         </span>
-        <span className="mt-0.5 block text-[11px] leading-[1.4] text-[#9CA3AF]">
+        <span className="mt-0.5 block text-[11px] leading-[1.4] text-content-tertiary">
           {t("dashboard.pair.eventMeta", {
             type: eventTypeLabel(event.event_type, t),
             called: calledPct(event.expected_pct, event.expected_direction),
@@ -308,7 +308,7 @@ function EventRow({ event }: { event: PairHistoryEvent }) {
         className="shrink-0 rounded-full px-2 py-[3px] text-[10.5px] font-medium leading-none"
         style={{
           color: OUTCOME_COLOR[event.outcome],
-          backgroundColor: `${OUTCOME_COLOR[event.outcome]}14`,
+          backgroundColor: `color-mix(in srgb, ${OUTCOME_COLOR[event.outcome]} 8%, transparent)`,
         }}
       >
         {t(OUTCOME_LABEL[event.outcome])}
@@ -328,7 +328,7 @@ const GUTTER = 20;
 const BAND = 13;
 const MIN_WEEKS = 19;
 const MAX_WEEKS = 52;
-const LABEL = "#9CA3AF";
+const LABEL = "var(--text-tertiary)";
 const LABEL_FONT = "Geist Mono, ui-monospace, monospace";
 
 /** The card's calendar, without the hover card: the pair's days, coloured by
@@ -542,7 +542,7 @@ export default function InsightPairFrame({
       <button
         type="button"
         onClick={onBack}
-        className="mb-4 flex shrink-0 items-center gap-1.5 self-start rounded-full border border-white/60 bg-white/55 py-1.5 pl-2 pr-3 text-[11.5px] font-medium text-[#4b5563] shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-black/[0.04] backdrop-blur-xl transition-colors hover:bg-white/75 hover:text-[#1d1b1b]"
+        className="mb-4 flex shrink-0 items-center gap-1.5 self-start rounded-full border border-white/60 bg-white/55 py-1.5 pl-2 pr-3 text-[11.5px] font-medium text-content-body shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-black/[0.04] backdrop-blur-xl transition-colors hover:bg-white/75 hover:text-content-primary"
       >
         <ArrowLeft className="h-3.5 w-3.5" strokeWidth={2} aria-hidden />
         {t("dashboard.pair.back")}
@@ -558,17 +558,17 @@ export default function InsightPairFrame({
             className="h-11 w-11 shrink-0"
           />
           <div className="min-w-0">
-            <div className="text-[26px] font-medium leading-none tracking-[-0.01em] text-[#1d1b1b]">
+            <div className="text-[26px] font-medium leading-none tracking-[-0.01em] text-content-primary">
               {ticker}
             </div>
-            <div className="mt-1.5 truncate text-[13px] leading-none text-[#6b7280]">
+            <div className="mt-1.5 truncate text-[13px] leading-none text-content-secondary">
               {name ?? t("common.na")}
             </div>
           </div>
         </div>
 
         {role ? (
-          <p className="mt-3 text-[12px] leading-[1.5] text-[#6b7280]">{roleWord(role, t, locale)}</p>
+          <p className="mt-3 text-[12px] leading-[1.5] text-content-secondary">{roleWord(role, t, locale)}</p>
         ) : null}
 
         {/* The write-up. */}
@@ -579,7 +579,7 @@ export default function InsightPairFrame({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="mt-6 flex items-center gap-2 text-[13px] text-[#9CA3AF]"
+              className="mt-6 flex items-center gap-2 text-[13px] text-content-tertiary"
             >
               <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden />
               {t("dashboard.pair.readingRecord")}
@@ -598,14 +598,14 @@ export default function InsightPairFrame({
 
               <Section label={t("dashboard.pair.section.why")}>
                 <SelectionGloss context={explanation.why} ticker={ticker}>
-                  <p className="text-[14px] leading-[1.62] text-[#374151]">{explanation.why}</p>
+                  <p className="text-[14px] leading-[1.62] text-content-body">{explanation.why}</p>
                 </SelectionGloss>
               </Section>
 
               {explanation.precedent ? (
                 <Section label={t("dashboard.pair.section.precedent")}>
                   <SelectionGloss context={explanation.precedent} ticker={ticker}>
-                    <p className="text-[14px] leading-[1.62] text-[#374151]">
+                    <p className="text-[14px] leading-[1.62] text-content-body">
                       {explanation.precedent}
                     </p>
                   </SelectionGloss>
@@ -615,7 +615,7 @@ export default function InsightPairFrame({
               {explanation.this_time ? (
                 <Section label={t("dashboard.pair.section.thisTime")}>
                   <SelectionGloss context={explanation.this_time} ticker={ticker}>
-                    <p className="text-[14px] leading-[1.62] text-[#374151]">
+                    <p className="text-[14px] leading-[1.62] text-content-body">
                       {explanation.this_time}
                     </p>
                   </SelectionGloss>
@@ -628,11 +628,11 @@ export default function InsightPairFrame({
                     {explanation.watch.map((line) => (
                       <li
                         key={line}
-                        className="flex gap-2.5 text-[13px] leading-[1.55] text-[#4b5563]"
+                        className="flex gap-2.5 text-[13px] leading-[1.55] text-content-body"
                       >
                         <span
                           aria-hidden
-                          className="mt-[7px] h-[5px] w-[5px] shrink-0 rounded-full bg-[#9CA3AF]"
+                          className="mt-[7px] h-[5px] w-[5px] shrink-0 rounded-full bg-content-tertiary"
                         />
                         <span>{line}</span>
                       </li>
@@ -646,7 +646,7 @@ export default function InsightPairFrame({
               key="error"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="mt-6 text-[13px] text-[#9CA3AF]"
+              className="mt-6 text-[13px] text-content-tertiary"
             >
               {error}
             </motion.p>
@@ -665,20 +665,20 @@ export default function InsightPairFrame({
                   ))}
                 </ul>
               ) : (
-                <p className="mt-3 text-[13px] text-[#9CA3AF]">
+                <p className="mt-3 text-[13px] text-content-tertiary">
                   {t("dashboard.pair.firstPropagated", { root: rootTicker.toUpperCase(), ticker })}
                 </p>
               )}
             </>
           ) : (
-            <p className="text-[13px] text-[#9CA3AF]">{t("dashboard.pair.readingStore")}</p>
+            <p className="text-[13px] text-content-tertiary">{t("dashboard.pair.readingStore")}</p>
           )}
         </Section>
 
         {/* And the whole span of it, as days. */}
         <Section label={t("dashboard.pair.section.everyDay")}>
           <PairCalendar events={events} root={rootTicker.toUpperCase()} />
-          <p className="mt-3 text-[11.5px] leading-[1.5] text-[#9CA3AF]">
+          <p className="mt-3 text-[11.5px] leading-[1.5] text-content-tertiary">
             {t("dashboard.pair.legend")}
           </p>
         </Section>

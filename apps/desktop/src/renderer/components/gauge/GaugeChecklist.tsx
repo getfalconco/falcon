@@ -12,16 +12,16 @@ import { plural } from "../../lib/panels-format";
  */
 
 export const GAUGE_STATUS_COLOR: Record<GaugeStatus, string> = {
-  pass: "#16A34A",
-  caution: "#CA8A04",
-  fail: "#DC2626",
-  n_a: "#b4b4ae",
+  pass: "var(--positive)",
+  caution: "var(--yellow)",
+  fail: "var(--negative)",
+  n_a: "var(--text-disabled)",
 };
 
 export const GAUGE_OVERALL_COLOR: Record<GaugeOverall, string> = {
-  clear: "#16A34A",
-  mixed: "#CA8A04",
-  blocked: "#DC2626",
+  clear: "var(--positive)",
+  mixed: "var(--yellow)",
+  blocked: "var(--negative)",
 };
 
 /** A check's status word (pass / caution / fail / n/a) in the reader's language. */
@@ -76,7 +76,7 @@ export function fmtGaugeValue(
  */
 export function OverallBadge({ overall, small, tooltip, forceTooltip }: { overall: GaugeOverall | null; small?: boolean; tooltip?: string | null; forceTooltip?: boolean }) {
   const t = useT();
-  const color = overall ? GAUGE_OVERALL_COLOR[overall] : "#b4b4ae";
+  const color = overall ? GAUGE_OVERALL_COLOR[overall] : "var(--text-disabled)";
   return (
     <span className="group relative inline-flex shrink-0">
       <span
@@ -90,7 +90,7 @@ export function OverallBadge({ overall, small, tooltip, forceTooltip }: { overal
       {tooltip && (
         <span
           role="tooltip"
-          className={`pointer-events-none absolute left-0 top-full z-50 mt-1.5 w-max max-w-[260px] rounded-md bg-[#1d1b1b] px-2 py-1 text-[10.5px] font-normal normal-case leading-snug tracking-normal text-white shadow-lg ${forceTooltip ? "block" : "hidden group-hover:block"}`}
+          className={`pointer-events-none absolute left-0 top-full z-50 mt-1.5 w-max max-w-[260px] rounded-md bg-ink px-2 py-1 text-[10.5px] font-normal normal-case leading-snug tracking-normal text-white shadow-lg ${forceTooltip ? "block" : "hidden group-hover:block"}`}
         >
           {tooltip}
         </span>
@@ -124,15 +124,15 @@ export function GaugeEvidence({ readout, showValues = false, defaultOpen = false
   const s = readout.summary;
   if (!readout.tracked || readout.checks.length === 0) return null;
   return (
-    <div className="mt-3 border-t border-[#ebebe5] pt-2">
+    <div className="mt-3 border-t border-edge pt-2">
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="app-no-drag flex w-full items-center gap-1.5 text-left text-[11px] text-[#6b7280] transition-colors hover:text-[#1d1b1b]"
+        className="app-no-drag flex w-full items-center gap-1.5 text-left text-[11px] text-content-secondary transition-colors hover:text-content-primary"
       >
         <span className="text-[9px] leading-none">{open ? "▾" : "▸"}</span>
         {plural(t, locale, "panels.gauge.conditionsChecked", readout.checks.length)}
-        <span className="text-[#b4b4ae]">· {countsLine(s, t)}</span>
+        <span className="text-content-disabled">· {countsLine(s, t)}</span>
       </button>
       {open && (
         <div className="mt-2">
@@ -148,7 +148,7 @@ export default function GaugeChecklist({ readout, compact = false, showValues = 
   const valueWords = { na: t("common.na"), yes: t("panels.gauge.yes"), no: t("panels.gauge.no") };
   const s = readout.summary;
   if (!readout.tracked) {
-    return <p className={`${compact ? "text-[11.5px]" : "text-[13px]"} text-[#6b7280]`}>{s.sentence}</p>;
+    return <p className={`${compact ? "text-[11.5px]" : "text-[13px]"} text-content-secondary`}>{s.sentence}</p>;
   }
   if (collapsible) return <GaugeEvidence readout={readout} showValues={showValues} defaultOpen={defaultOpen} />;
   const rowText = compact ? "text-[11px]" : "text-[12px]";
@@ -157,14 +157,14 @@ export default function GaugeChecklist({ readout, compact = false, showValues = 
       {/* Binding line */}
       <div className="flex items-start gap-2">
         <OverallBadge overall={s.overall} small={compact} tooltip={s.tooltip} forceTooltip={forceTooltip} />
-        <p className={`${compact ? "text-[11.5px]" : "text-[13px]"} leading-snug text-[#1d1b1b]`}>{s.binding_check ? s.binding_line : s.sentence}</p>
+        <p className={`${compact ? "text-[11.5px]" : "text-[13px]"} leading-snug text-content-primary`}>{s.binding_check ? s.binding_line : s.sentence}</p>
       </div>
-      <p className={`mt-1 ${compact ? "text-[10px]" : "text-[11px]"} text-[#9CA3AF]`}>
+      <p className={`mt-1 ${compact ? "text-[10px]" : "text-[11px]"} text-content-tertiary`}>
         {countsLine(s, t)}
         {readout.quant_as_of ? ` · ${t("panels.gauge.quantAsOf", { date: readout.quant_as_of })}` : ""}
       </p>
       {s.calibrating && (
-        <div className="mt-2 rounded-md border border-[#e7d9a8] bg-[#fbf6e3] px-2 py-1 text-[10.5px] text-[#8a6d1d]">{t("panels.gauge.calibrating")}</div>
+        <div className="mt-2 rounded-md border border-tone-warning-line bg-tone-warning-soft px-2 py-1 text-[10.5px] text-tone-warning">{t("panels.gauge.calibrating")}</div>
       )}
 
       {/* Rows */}
@@ -176,16 +176,16 @@ export default function GaugeChecklist({ readout, compact = false, showValues = 
             </span>
             <div className="min-w-0 flex-1">
               <div className={`flex items-baseline gap-1.5 ${rowText}`}>
-                <span className="shrink-0 tabular-nums text-[#b4b4ae]">{c.number}.</span>
-                <span className="shrink-0 font-medium text-[#1d1b1b]">{c.label}</span>
+                <span className="shrink-0 tabular-nums text-content-disabled">{c.number}.</span>
+                <span className="shrink-0 font-medium text-content-primary">{c.label}</span>
                 <span className="shrink-0 text-[10px] uppercase tracking-[0.06em]" style={{ color: GAUGE_STATUS_COLOR[c.status] }}>
                   {gaugeStatusWord(c.status, t)}
                 </span>
               </div>
-              <p className={`${rowText} leading-snug text-[#4b5563]`}>{c.reason}</p>
-              {c.note && <p className={`${compact ? "text-[10px]" : "text-[11px]"} leading-snug text-[#9CA3AF]`}>{c.note}</p>}
+              <p className={`${rowText} leading-snug text-content-body`}>{c.reason}</p>
+              {c.note && <p className={`${compact ? "text-[10px]" : "text-[11px]"} leading-snug text-content-tertiary`}>{c.note}</p>}
               {showValues && Object.keys(c.values).length > 0 && (
-                <p className="mt-0.5 font-mono text-[10px] leading-relaxed text-[#9CA3AF]">
+                <p className="mt-0.5 font-mono text-[10px] leading-relaxed text-content-tertiary">
                   {Object.entries(c.values)
                     .map(([k, v]) => `${k}=${fmtGaugeValue(v, valueWords)}`)
                     .join("  ")}

@@ -12,11 +12,11 @@ import { useT, type MessageKey } from "../../lib/i18n";
  */
 
 export const GAUGE_STATE_COLOR: Record<GaugeDecisionState, string> = {
-  actionable: "#16A34A",
-  wait: "#CA8A04",
-  nothing_here: "#9CA3AF",
-  unreadable: "#64748B",
-  contradicted_setup: "#DC2626",
+  actionable: "var(--positive)",
+  wait: "var(--yellow)",
+  nothing_here: "var(--text-tertiary)",
+  unreadable: "var(--text-secondary)",
+  contradicted_setup: "var(--negative)",
 };
 
 export const GAUGE_STATE_LABEL_KEY: Record<GaugeDecisionState, MessageKey> = {
@@ -53,7 +53,7 @@ export function StateBadge({ state, small, forceTooltip }: { state: GaugeDecisio
       </span>
       <span
         role="tooltip"
-        className={`pointer-events-none absolute left-0 top-full z-50 mt-1.5 w-max max-w-[280px] rounded-md bg-[#1d1b1b] px-2 py-1 text-[10.5px] font-normal normal-case leading-snug tracking-normal text-white shadow-lg ${forceTooltip ? "block" : "hidden group-hover:block"}`}
+        className={`pointer-events-none absolute left-0 top-full z-50 mt-1.5 w-max max-w-[280px] rounded-md bg-ink px-2 py-1 text-[10.5px] font-normal normal-case leading-snug tracking-normal text-white shadow-lg ${forceTooltip ? "block" : "hidden group-hover:block"}`}
       >
         {tooltip}
       </span>
@@ -72,17 +72,17 @@ export default function GaugeSetupBlock({ readout, compact = false, forceTooltip
   const t = useT();
   const { setup, state, missing } = readout;
   if (!readout.tracked) {
-    return <p className={`${compact ? "text-[11.5px]" : "text-[13px]"} text-[#6b7280]`}>{setup.read}</p>;
+    return <p className={`${compact ? "text-[11.5px]" : "text-[13px]"} text-content-secondary`}>{setup.read}</p>;
   }
   const actionLine = missing?.detail ?? readout.state_line;
   return (
     <div>
       {/* Hero — the structure */}
       <div className="flex flex-wrap items-baseline gap-x-2.5 gap-y-1">
-        <h4 className={`font-baskerville leading-none text-[#1d1b1b] ${compact ? "text-[16px]" : "text-[22px]"}`}>{setup.name}</h4>
+        <h4 className={`font-baskerville leading-none text-content-primary ${compact ? "text-[16px]" : "text-[22px]"}`}>{setup.name}</h4>
         <StateBadge state={state} small={compact} forceTooltip={forceTooltip} />
       </div>
-      <p className={`mt-1.5 leading-snug text-[#4b5563] ${compact ? "text-[11.5px]" : "text-[13.5px]"}`}>{setup.read}</p>
+      <p className={`mt-1.5 leading-snug text-content-body ${compact ? "text-[11.5px]" : "text-[13.5px]"}`}>{setup.read}</p>
 
       {/* Action line — what is missing, or why the state is what it is */}
       {actionLine && (
@@ -91,7 +91,7 @@ export default function GaugeSetupBlock({ readout, compact = false, forceTooltip
           style={{
             borderColor: GAUGE_STATE_COLOR[state],
             background: state === "contradicted_setup" ? "rgba(220,38,38,0.06)" : "rgba(202,138,4,0.07)",
-            color: "#1d1b1b",
+            color: "var(--text-primary)",
           }}
         >
           {missing ? (
@@ -107,7 +107,7 @@ export default function GaugeSetupBlock({ readout, compact = false, forceTooltip
 
       {/* Provenance + the readability caveat */}
       {setup.screen.length > 0 && (
-        <p className={`mt-1.5 ${compact ? "text-[10px]" : "text-[11px]"} text-[#9CA3AF]`}>
+        <p className={`mt-1.5 ${compact ? "text-[10px]" : "text-[11px]"} text-content-tertiary`}>
           {t("panels.gauge.fromScreen", {
             findings: setup.screen
               .map((f) => t("panels.gauge.screenFinding", { pattern: f.pattern.replace(/_/g, " "), days: f.day_count }))
@@ -116,7 +116,7 @@ export default function GaugeSetupBlock({ readout, compact = false, forceTooltip
         </p>
       )}
       {readout.readability_note && (
-        <p className={`mt-1 ${compact ? "text-[10px]" : "text-[11px]"} leading-snug text-[#9CA3AF]`}>{readout.readability_note}</p>
+        <p className={`mt-1 ${compact ? "text-[10px]" : "text-[11px]"} leading-snug text-content-tertiary`}>{readout.readability_note}</p>
       )}
     </div>
   );

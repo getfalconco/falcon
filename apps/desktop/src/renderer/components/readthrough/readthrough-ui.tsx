@@ -15,7 +15,7 @@ export function LinkLine({ row, className }: { row: ReadthroughRow; className?: 
   const url = safeSourceUrl(row.sourceUrl);
   const form = row.form ?? t("readthrough.source.filing");
   return (
-    <span className={cn("flex min-w-0 items-center gap-1.5 text-[11.5px] text-[#9CA3AF]", className)}>
+    <span className={cn("flex min-w-0 items-center gap-1.5 text-[11.5px] text-content-tertiary", className)}>
       <span className="truncate">{relationText(row, say)}</span>
       <span aria-hidden>·</span>
       {url ? (
@@ -27,7 +27,7 @@ export function LinkLine({ row, className }: { row: ReadthroughRow; className?: 
           }}
           title={sourceHint(row, say, lang)}
           aria-label={t("readthrough.source.open", { filer: row.namedBy, form })}
-          className="app-no-drag shrink-0 underline-offset-2 outline-none hover:text-[#4b5563] hover:underline focus-visible:underline"
+          className="app-no-drag shrink-0 underline-offset-2 outline-none hover:text-content-body hover:underline focus-visible:underline"
         >
           {form}
         </button>
@@ -44,12 +44,12 @@ export function LinkLine({ row, className }: { row: ReadthroughRow; className?: 
 export function NamePill({ row }: { row: Pick<ReadthroughRow, "held" | "watchlist"> }) {
   const { t } = useSay();
   const pill = "inline-flex h-[17px] shrink-0 items-center rounded-full px-1.5 text-[10.5px] leading-none";
-  if (row.held) return <span className={cn(pill, "bg-black/[0.06] text-[#4b5563]")}>{t("readthrough.mark.held")}</span>;
-  if (row.watchlist) return <span className={cn(pill, "bg-black/[0.04] text-[#6b7280]")}>{t("readthrough.mark.watch")}</span>;
+  if (row.held) return <span className={cn(pill, "bg-black/[0.06] text-content-body")}>{t("readthrough.mark.held")}</span>;
+  if (row.watchlist) return <span className={cn(pill, "bg-black/[0.04] text-content-secondary")}>{t("readthrough.mark.watch")}</span>;
   return null;
 }
 
 /** Green up, red down, grey flat or missing. */
 export function toneOf(v: number | null | undefined): string {
-  return v === null || v === undefined ? "text-[#9CA3AF]" : v > 0 ? "text-[#16a34a]" : v < 0 ? "text-[#dc2626]" : "text-[#4b5563]";
+  return v === null || v === undefined ? "text-content-tertiary" : v > 0 ? "text-tone-positive" : v < 0 ? "text-tone-negative" : "text-content-body";
 }

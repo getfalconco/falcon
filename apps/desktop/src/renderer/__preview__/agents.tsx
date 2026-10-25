@@ -152,9 +152,9 @@ function Harness() {
       >
         <main className="h-full overflow-y-auto pt-16">
           <div className="flex items-center gap-6 pl-9 pr-8">
-            <span className="font-baskerville text-[30px] text-[#1d1b1b]">Afternoon, Kuzey</span>
+            <span className="font-baskerville text-[30px] text-content-primary">Afternoon, Kuzey</span>
             {view === "both" ? (
-              <button type="button" onClick={() => setTab("dashboard")} className="text-[13px] text-[#6b7280] underline">
+              <button type="button" onClick={() => setTab("dashboard")} className="text-[13px] text-content-secondary underline">
                 Back to the card
               </button>
             ) : null}

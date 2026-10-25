@@ -42,11 +42,11 @@ function Spinner() {
   return (
     <span className="pointer-events-none absolute z-40 flex h-4 w-4 items-center justify-center rounded-full border border-white/70 bg-white/80 shadow-[0_2px_8px_rgba(0,0,0,0.10)] backdrop-blur-md">
       <svg viewBox="0 0 16 16" className="h-2.5 w-2.5 animate-spin" aria-hidden>
-        <circle cx="8" cy="8" r="6" fill="none" stroke="#1d1b1b" strokeOpacity={0.15} strokeWidth={2} />
+        <circle cx="8" cy="8" r="6" fill="none" stroke="var(--text-primary)" strokeOpacity={0.15} strokeWidth={2} />
         <path
           d="M8 2 a6 6 0 0 1 6 6"
           fill="none"
-          stroke="#1d1b1b"
+          stroke="var(--text-primary)"
           strokeOpacity={0.7}
           strokeWidth={2}
           strokeLinecap="round"
@@ -280,28 +280,28 @@ export default function SelectionGloss({
           {state.phase === "ready" ? (
             <>
               <div className="flex items-baseline justify-between gap-2">
-                <span className="line-clamp-2 font-sans text-[13px] font-medium leading-snug text-[#1d1b1b]">
+                <span className="line-clamp-2 font-sans text-[13px] font-medium leading-snug text-content-primary">
                   {state.gloss.term}
                 </span>
-                <span className="shrink-0 font-['Geist_Mono'] text-[9px] uppercase tracking-[0.08em] text-[#9CA3AF]">
+                <span className="shrink-0 font-['Geist_Mono'] text-[9px] uppercase tracking-[0.08em] text-content-tertiary">
                   {t(state.gloss.kind === "passage" ? "dashboard.gloss.passage" : "dashboard.gloss.term")}
                 </span>
               </div>
 
-              <p className="mt-2 font-sans text-[12px] leading-[1.5] text-[#373B42]">
+              <p className="mt-2 font-sans text-[12px] leading-[1.5] text-content-body">
                 {turkish.showing
                   ? (turkish.text ?? turkish.error ?? t("dashboard.gloss.translating"))
                   : state.gloss.english}
               </p>
 
               {state.gloss.kind === "term" && state.gloss.in_context && !turkish.showing && (
-                <p className="mt-2 border-l border-black/[0.10] pl-2 font-sans text-[11.5px] leading-[1.45] text-[#6B7280]">
+                <p className="mt-2 border-l border-black/[0.10] pl-2 font-sans text-[11.5px] leading-[1.45] text-content-secondary">
                   {state.gloss.in_context}
                 </p>
               )}
 
               <div className="mt-3 flex items-center justify-between">
-                <span className="font-['Geist_Mono'] text-[9px] uppercase tracking-[0.08em] text-[#9CA3AF]">
+                <span className="font-['Geist_Mono'] text-[9px] uppercase tracking-[0.08em] text-content-tertiary">
                   {state.gloss.kind === "term" && state.gloss.finance_specific ? t("dashboard.gloss.marketSense") : ""}
                 </span>
                 <div className="flex items-center gap-0.5 rounded-lg bg-black/[0.04] p-0.5">
@@ -317,10 +317,10 @@ export default function SelectionGloss({
                           ? showTurkish(state.gloss)
                           : setTurkish((prev) => ({ ...prev, showing: false }))
                       }
-                      className={`app-no-drag rounded-[6px] px-2 py-0.5 font-['Geist_Mono'] text-[9.5px] tracking-[0.06em] transition-colors ${
+                      className={`app-no-drag rounded-md px-2 py-0.5 font-['Geist_Mono'] text-[9.5px] tracking-[0.06em] transition-colors ${
                         turkish.showing === option.showing
-                          ? "bg-white text-[#1d1b1b] shadow-[0_1px_2px_rgba(0,0,0,0.06)]"
-                          : "text-[#6B7280] hover:text-[#1d1b1b]"
+                          ? "bg-white text-content-primary shadow-[0_1px_2px_rgba(0,0,0,0.06)]"
+                          : "text-content-secondary hover:text-content-primary"
                       }`}
                     >
                       {option.label}
@@ -330,7 +330,7 @@ export default function SelectionGloss({
               </div>
             </>
           ) : (
-            <p className="font-sans text-[12px] leading-[1.5] text-[#6B7280]">{state.error}</p>
+            <p className="font-sans text-[12px] leading-[1.5] text-content-secondary">{state.error}</p>
           )}
         </div>
       )}

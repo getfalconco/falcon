@@ -128,7 +128,7 @@ window.addEventListener(STOCK_OPEN_EVENT, (event) => {
 
 function Heading() {
   const t = useT();
-  return <span className="font-baskerville text-[30px] text-[#1d1b1b]">{t("home.tab.exposure")}</span>;
+  return <span className="font-baskerville text-[30px] text-content-primary">{t("home.tab.exposure")}</span>;
 }
 
 createRoot(document.getElementById("root")!).render(

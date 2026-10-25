@@ -50,9 +50,9 @@ const TIER_KEY: Record<StrengthTier, MessageKey> = {
 };
 
 const TIER_TONE: Record<StrengthTier, string> = {
-  critical: "text-[#1d1b1b] font-medium",
-  important: "text-[#4b5563]",
-  marginal: "text-[#9CA3AF]",
+  critical: "text-content-primary font-medium",
+  important: "text-content-body",
+  marginal: "text-content-tertiary",
 };
 
 /** The tier's label, or "unrated" when the classifier never measured it (it still ranks as its tier). */
@@ -67,7 +67,7 @@ function tierTone(link: StockGraphLink): string {
 const LIST_LIMIT = 6;
 const TILE = "rounded-2xl border border-white/60 bg-white/40 px-4 py-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-black/[0.04]";
 const PLAIN_TICKER =
-  "app-no-drag cursor-pointer font-medium text-[#1d1b1b] underline-offset-2 outline-none hover:underline focus-visible:underline";
+  "app-no-drag cursor-pointer font-medium text-content-primary underline-offset-2 outline-none hover:underline focus-visible:underline";
 
 function roleText(row: NeighbourRow, center: string, t: TFunction): string {
   return row.role === "dependent" ? t("stocktab.graph.role.dependent", { ticker: center }) : t(ROLE_KEY[row.role]);
@@ -108,7 +108,7 @@ function openSource(url: string): void {
 
 function Name({ ticker, name }: { ticker: string | null; name: string }) {
   const { t } = useI18n();
-  if (!ticker) return <span className="truncate text-[#1d1b1b]">{name}</span>;
+  if (!ticker) return <span className="truncate text-content-primary">{name}</span>;
   return (
     <button
       type="button"
@@ -134,7 +134,7 @@ function Question({ label, children }: { label: string; children: ReactNode }) {
 function MostAffecting({ graph }: { graph: StockGraph }) {
   const { t, locale } = useI18n();
   const top = useMemo(() => strongestInfluence(graph), [graph]);
-  if (!top) return <p className="text-[#9CA3AF]">{t("stocktab.graph.q.mostNone")}</p>;
+  if (!top) return <p className="text-content-tertiary">{t("stocktab.graph.q.mostNone")}</p>;
   const parts = [
     t("stocktab.graph.reason", { role: roleText(top, graph.ticker, t), tier: t(tierKey(top.link)) }),
     shareText(top, t, locale),
@@ -145,12 +145,12 @@ function MostAffecting({ graph }: { graph: StockGraph }) {
       <div className="flex min-w-0 items-baseline gap-2">
         <Name ticker={top.ticker} name={top.name} />
         {top.ticker && top.name !== top.ticker ? (
-          <span className="truncate text-[12px] text-[#6b7280]" title={top.name}>
+          <span className="truncate text-[12px] text-content-secondary" title={top.name}>
             {top.name}
           </span>
         ) : null}
       </div>
-      <p className="mt-0.5 text-[12px] leading-snug text-[#6b7280]" title={top.link.quote}>
+      <p className="mt-0.5 text-[12px] leading-snug text-content-secondary" title={top.link.quote}>
         {parts.join(", ")}
       </p>
     </>
@@ -161,8 +161,8 @@ function SharedWithHoldings({ graph, held }: { graph: StockGraph; held: string[]
   const { t, locale } = useI18n();
   const others = useMemo(() => held.filter((h) => h !== graph.ticker), [held, graph.ticker]);
   const shared = useMemo(() => sharedHoldings(graph, others), [graph, others]);
-  if (others.length === 0) return <p className="text-[#9CA3AF]">{t("stocktab.graph.q.sharedNoHoldings")}</p>;
-  if (shared.length === 0) return <p className="text-[#9CA3AF]">{t("stocktab.graph.q.sharedNone")}</p>;
+  if (others.length === 0) return <p className="text-content-tertiary">{t("stocktab.graph.q.sharedNoHoldings")}</p>;
+  if (shared.length === 0) return <p className="text-content-tertiary">{t("stocktab.graph.q.sharedNone")}</p>;
   const list = new Intl.ListFormat(locale, { style: "narrow", type: "conjunction" });
   return (
     <ul className="space-y-0.5">
@@ -173,7 +173,7 @@ function SharedWithHoldings({ graph, held }: { graph: StockGraph; held: string[]
         return (
           <li key={h.ticker} className="flex min-w-0 items-baseline gap-2">
             <Name ticker={h.ticker} name={h.ticker} />
-            <span className="truncate text-[12px] text-[#6b7280]" title={h.shared.map((s) => s.name).join(", ")}>
+            <span className="truncate text-[12px] text-content-secondary" title={h.shared.map((s) => s.name).join(", ")}>
               {more > 0 ? `${list.format(names)} +${more}` : list.format(names)}
             </span>
           </li>
@@ -213,10 +213,10 @@ function NeighbourList({
               <span className="flex min-w-0 flex-1 items-baseline gap-2">
                 <Name ticker={row.ticker} name={row.name} />
                 {row.ticker && row.name !== row.ticker ? (
-                  <span className="truncate text-[12px] text-[#9CA3AF]">{row.name}</span>
+                  <span className="truncate text-[12px] text-content-tertiary">{row.name}</span>
                 ) : null}
               </span>
-              {share ? <span className="shrink-0 text-[11.5px] tabular-nums text-[#4b5563]">{share}</span> : null}
+              {share ? <span className="shrink-0 text-[11.5px] tabular-nums text-content-body">{share}</span> : null}
               <span
                 className={cn("w-[84px] shrink-0 truncate text-right text-[11.5px]", tierTone(row.link))}
                 title={roleText(row, center, t)}
@@ -228,7 +228,7 @@ function NeighbourList({
                 onClick={() => openSource(row.link.sourceUrl)}
                 title={row.link.quote}
                 aria-label={t("stocktab.graph.openSource")}
-                className="app-no-drag w-[220px] shrink-0 cursor-pointer truncate text-right text-[11.5px] text-[#6b7280] underline-offset-2 outline-none hover:text-[#1d1b1b] hover:underline focus-visible:underline"
+                className="app-no-drag w-[220px] shrink-0 cursor-pointer truncate text-right text-[11.5px] text-content-secondary underline-offset-2 outline-none hover:text-content-primary hover:underline focus-visible:underline"
               >
                 {sourceText(row, t, locale)}
               </button>
@@ -240,7 +240,7 @@ function NeighbourList({
         <button
           type="button"
           onClick={() => setAll((v) => !v)}
-          className="app-no-drag mt-1 cursor-pointer text-[12px] text-[#6b7280] outline-none hover:text-[#1d1b1b] focus-visible:underline"
+          className="app-no-drag mt-1 cursor-pointer text-[12px] text-content-secondary outline-none hover:text-content-primary focus-visible:underline"
         >
           {all ? t("stocktab.graph.showFewer") : t("stocktab.graph.showAll", { count: rows.length })}
         </button>
@@ -257,7 +257,7 @@ function ResearchButton({ ticker, onDone }: { ticker: string; onDone: () => void
       <button type="button" onClick={research.start} disabled={research.state === "running"} className={BUTTON}>
         {research.state === "running" ? t("stocktab.graph.researching") : t("stocktab.graph.research")}
       </button>
-      {research.state === "failed" ? <span className="text-[12px] text-[#9CA3AF]">{t("stocktab.graph.researchFailed")}</span> : null}
+      {research.state === "failed" ? <span className="text-[12px] text-content-tertiary">{t("stocktab.graph.researchFailed")}</span> : null}
     </span>
   );
 }
@@ -294,7 +294,7 @@ export default function GraphSection({ ticker }: StockSectionProps) {
   if (!graph || !rows || !layout || tabs.length === 0) {
     return (
       <div className="flex flex-wrap items-center justify-between gap-3 py-1">
-        <p className="text-[13px] text-[#6b7280]">{t("stocktab.graph.empty", { ticker: symbol })}</p>
+        <p className="text-[13px] text-content-secondary">{t("stocktab.graph.empty", { ticker: symbol })}</p>
         <ResearchButton ticker={symbol} onDone={state.reload} />
       </div>
     );
@@ -324,12 +324,12 @@ export default function GraphSection({ ticker }: StockSectionProps) {
               onClick={() => setTab(id)}
               className={cn(
                 "app-no-drag flex cursor-pointer items-center gap-1.5 rounded-full px-2.5 py-1 text-[12px] outline-none transition-colors focus-visible:bg-black/[0.04]",
-                active === id ? "bg-black/[0.06] text-[#1d1b1b]" : "text-[#6b7280] hover:bg-black/[0.04] hover:text-[#1d1b1b]",
+                active === id ? "bg-black/[0.06] text-content-primary" : "text-content-secondary hover:bg-black/[0.04] hover:text-content-primary",
               )}
             >
               <span aria-hidden className="block h-[6px] w-[6px] rounded-full" style={{ backgroundColor: TAB_COLOR[id] }} />
               {t(TAB_KEY[id])}
-              <span className="tabular-nums text-[#9CA3AF]">{rows[id].length}</span>
+              <span className="tabular-nums text-content-tertiary">{rows[id].length}</span>
             </button>
           ))}
         </div>

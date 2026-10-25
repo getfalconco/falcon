@@ -202,7 +202,7 @@ function Harness() {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="rounded-full border border-white/60 bg-white/55 px-4 py-2 text-[13px] text-[#1d1b1b]"
+        className="rounded-full border border-white/60 bg-white/55 px-4 py-2 text-[13px] text-content-primary"
       >
         Open settings
       </button>

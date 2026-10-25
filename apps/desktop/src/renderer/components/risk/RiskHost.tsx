@@ -36,22 +36,22 @@ class PanelBoundary extends Component<{ onClose: () => void; children: ReactNode
   render() {
     if (!this.state.error) return this.props.children;
     return (
-      <div className="app-no-drag fixed inset-0 z-[200] flex items-center justify-center bg-[#1d1b1b]/30 backdrop-blur-[3px]">
+      <div className="app-no-drag fixed inset-0 z-[200] flex items-center justify-center bg-ink/30 backdrop-blur-[3px]">
         <div className="w-[560px] max-w-[92vw] rounded-2xl border border-red-200 bg-white p-5 shadow-2xl">
-          <div className="font-sans text-[11px] font-medium tracking-[0.04em] text-[#9CA3AF]">{tr("panels.risk.header", { shortcut: shortcutText("risk") })}</div>
-          <div className="mt-2 font-baskerville text-[15px] text-[#1d1b1b]">{tr("panels.risk.boundary.title")}</div>
-          <pre className="mt-2 max-h-40 overflow-auto whitespace-pre-wrap rounded-lg bg-[#F4F4F0] p-2 font-mono text-[10px] text-red-700">
+          <div className="font-sans text-[11px] font-medium tracking-[0.04em] text-content-tertiary">{tr("panels.risk.header", { shortcut: shortcutText("risk") })}</div>
+          <div className="mt-2 font-baskerville text-[15px] text-content-primary">{tr("panels.risk.boundary.title")}</div>
+          <pre className="mt-2 max-h-40 overflow-auto whitespace-pre-wrap rounded-lg bg-surface-1 p-2 font-mono text-[10px] text-red-700">
             {this.state.error.message}
           </pre>
           <div className="mt-3 flex justify-end gap-2">
             <button
               type="button"
               onClick={() => this.setState({ error: null })}
-              className="rounded-lg border border-[#e0e0da] px-3 py-1.5 text-[11px] text-[#1d1b1b]"
+              className="rounded-lg border border-edge px-3 py-1.5 text-[11px] text-content-primary"
             >
               {tr("panels.risk.boundary.retry")}
             </button>
-            <button type="button" onClick={this.props.onClose} className="rounded-lg bg-[#1d1b1b] px-3 py-1.5 text-[11px] text-white">
+            <button type="button" onClick={this.props.onClose} className="rounded-lg bg-ink px-3 py-1.5 text-[11px] text-white">
               {tr("panels.risk.boundary.close")}
             </button>
           </div>

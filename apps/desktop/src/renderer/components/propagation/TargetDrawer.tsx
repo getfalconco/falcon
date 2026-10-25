@@ -46,8 +46,8 @@ type Props = {
 function Row({ label, value, tone }: { label: string; value: string; tone?: string }) {
   return (
     <div className="flex items-baseline justify-between gap-3 py-[3px]">
-      <span className="text-[11px] text-[#9CA3AF]">{label}</span>
-      <span className="font-mono text-[11px] tabular-nums" style={{ color: tone ?? "#1d1b1b" }}>
+      <span className="text-[11px] text-content-tertiary">{label}</span>
+      <span className="font-mono text-[11px] tabular-nums" style={{ color: tone ?? "var(--text-primary)" }}>
         {value}
       </span>
     </div>
@@ -61,7 +61,7 @@ function Badge({ word, open, vetoed, against }: { word: string; open: boolean; v
       style={{
         background: open ? ACCENT : against ? AMBER_SOFT : "transparent",
         color: open ? "#fff" : against ? AMBER : vetoed ? FAINT : MUTED,
-        border: `1px solid ${open ? ACCENT : against ? AMBER_LINE : "#e0e0da"}`,
+        border: `1px solid ${open ? ACCENT : against ? AMBER_LINE : "var(--border-default)"}`,
         textDecoration: vetoed ? "line-through" : undefined,
       }}
     >
@@ -121,19 +121,19 @@ export default function TargetDrawer({ run, target: t, onClose }: Props) {
   };
 
   return (
-    <aside className="flex h-full w-[340px] shrink-0 flex-col overflow-hidden border-l border-[#e6e6e0] bg-white/70 backdrop-blur-sm">
+    <aside className="flex h-full w-[340px] shrink-0 flex-col overflow-hidden border-l border-edge bg-white/70 backdrop-blur-sm">
       <div className="flex items-start justify-between gap-3 px-5 pt-5">
         <div className="min-w-0">
           <div className="flex items-center gap-2">
-            <h3 className="font-baskerville text-[22px] leading-none text-[#1d1b1b]">{t.ticker ?? t.label}</h3>
+            <h3 className="font-baskerville text-[22px] leading-none text-content-primary">{t.ticker ?? t.label}</h3>
             <Badge word={pricingWord(t, tr)} open={open} vetoed={vetoed} against={against} />
           </div>
-          {t.ticker && t.label !== t.ticker && <p className="mt-1 truncate text-[11px] text-[#9CA3AF]">{t.label}</p>}
+          {t.ticker && t.label !== t.ticker && <p className="mt-1 truncate text-[11px] text-content-tertiary">{t.label}</p>}
         </div>
         <button
           type="button"
           onClick={onClose}
-          className="app-no-drag -mr-1 rounded-md p-1 text-[#9CA3AF] transition-colors hover:bg-black/[0.04] hover:text-[#1d1b1b]"
+          className="app-no-drag -mr-1 rounded-md p-1 text-content-tertiary transition-colors hover:bg-black/[0.04] hover:text-content-primary"
           aria-label={tr("panels.drawer.close")}
         >
           <X className="h-4 w-4" strokeWidth={1.75} />
@@ -143,16 +143,16 @@ export default function TargetDrawer({ run, target: t, onClose }: Props) {
       <div className="scrollbar-meridian min-h-0 flex-1 overflow-y-auto px-5 pb-6 pt-4">
         {/* Relationship */}
         <section>
-          <p className="text-[10px] uppercase tracking-[0.14em] text-[#b4b4ae]">{tr("panels.drawer.relationship")}</p>
-          <p className="mt-1.5 text-[13px] leading-snug text-[#1d1b1b]">
+          <p className="text-[10px] uppercase tracking-[0.14em] text-content-disabled">{tr("panels.drawer.relationship")}</p>
+          <p className="mt-1.5 text-[13px] leading-snug text-content-primary">
             {tNodes("panels.drawer.relationOf", {
               tier: <span className="font-medium">{strengthWord(r.tier, tr, r.tier_measured !== false)}</span>,
               role: roleWord(r.role, tr),
               root: run.root_ticker,
             })}
-            {r.subtype ? <span className="text-[#6b7280]"> · {humanize(r.subtype)}</span> : null}
+            {r.subtype ? <span className="text-content-secondary"> · {humanize(r.subtype)}</span> : null}
           </p>
-          <p className="mt-0.5 text-[11px] text-[#9CA3AF]">
+          <p className="mt-0.5 text-[11px] text-content-tertiary">
             {r.via === "both" ? tr("panels.drawer.assertedBoth") : tr("panels.drawer.assertedOne", { filer })}
             {r.filing_date ? ` · ${fmtDay(r.filing_date, locale, na)}` : ""}
           </p>
@@ -163,7 +163,7 @@ export default function TargetDrawer({ run, target: t, onClose }: Props) {
           {(t.transmission.also_roles?.length ?? 0) > 0 && (
             <p
               className="mt-1 text-[11px] leading-snug"
-              style={{ color: t.transmission.role_conflict ? AMBER : "#9CA3AF" }}
+              style={{ color: t.transmission.role_conflict ? AMBER : "var(--text-tertiary)" }}
             >
               {tr(t.transmission.role_conflict ? "panels.drawer.alsoRolesConflict" : "panels.drawer.alsoRoles", {
                 roles: formatList(t.transmission.also_roles!.map((role) => roleWord(role, tr)), locale),
@@ -175,29 +175,29 @@ export default function TargetDrawer({ run, target: t, onClose }: Props) {
 
         {/* Evidence — the trust moment */}
         <section className="mt-5">
-          <p className="text-[10px] uppercase tracking-[0.14em] text-[#b4b4ae]">{tr("panels.drawer.fromFiling")}</p>
-          <blockquote className="mt-2 border-l-2 pl-3" style={{ borderColor: open ? ACCENT : "#1d1b1b" }}>
-            <p className="font-baskerville text-[14px] leading-[1.6] text-[#1d1b1b]">“{r.evidence_quote}”</p>
+          <p className="text-[10px] uppercase tracking-[0.14em] text-content-disabled">{tr("panels.drawer.fromFiling")}</p>
+          <blockquote className="mt-2 border-l-2 pl-3" style={{ borderColor: open ? ACCENT : "var(--text-primary)" }}>
+            <p className="font-baskerville text-[14px] leading-[1.6] text-content-primary">“{r.evidence_quote}”</p>
           </blockquote>
           <div className="mt-2 flex items-center gap-3">
             {r.source_url ? (
               <button
                 type="button"
                 onClick={() => openSource(r.source_url)}
-                className="app-no-drag inline-flex items-center gap-1 text-[11px] text-[#1d1b1b] underline decoration-[#cfcfc8] underline-offset-[3px] transition-colors hover:decoration-[#1d1b1b]"
+                className="app-no-drag inline-flex items-center gap-1 text-[11px] text-content-primary underline decoration-content-disabled underline-offset-[3px] transition-colors hover:decoration-content-primary"
               >
                 {tr("panels.drawer.filingLink", { filer })}
                 <ExternalLink className="h-3 w-3" strokeWidth={1.75} />
               </button>
             ) : (
-              <span className="text-[11px] text-[#b4b4ae]">{tr("panels.drawer.sourceUnavailable")}</span>
+              <span className="text-[11px] text-content-disabled">{tr("panels.drawer.sourceUnavailable")}</span>
             )}
             {r.merged_evidence.length > 0 && (
-              <span className="text-[11px] text-[#b4b4ae]">{plural(tr, locale, "panels.drawer.moreEdges", r.merged_evidence.length)}</span>
+              <span className="text-[11px] text-content-disabled">{plural(tr, locale, "panels.drawer.moreEdges", r.merged_evidence.length)}</span>
             )}
           </div>
           {r.merged_evidence.slice(0, 2).map((m) => (
-            <p key={m.edge_id} className="mt-2 text-[11.5px] leading-relaxed text-[#6b7280]">
+            <p key={m.edge_id} className="mt-2 text-[11.5px] leading-relaxed text-content-secondary">
               “{m.quote}”
             </p>
           ))}
@@ -205,20 +205,20 @@ export default function TargetDrawer({ run, target: t, onClose }: Props) {
 
         {/* Mechanism */}
         <section className="mt-5">
-          <p className="text-[10px] uppercase tracking-[0.14em] text-[#b4b4ae]">{tr("panels.drawer.mechanism")}</p>
-          <p className="mt-1.5 text-[13px] leading-relaxed text-[#1d1b1b]">{t.mechanism}</p>
+          <p className="text-[10px] uppercase tracking-[0.14em] text-content-disabled">{tr("panels.drawer.mechanism")}</p>
+          <p className="mt-1.5 text-[13px] leading-relaxed text-content-primary">{t.mechanism}</p>
           <p className="mt-1.5 text-[11px]" style={{ color: dirColor }}>
             {directionGlyph(t.transmission.direction)} {directionWord(t.transmission.direction, tr)} · {tierWord(t.transmission.tier, tr)}
             {t.transmission.transmits === "weak" ? ` · ${tr("panels.drawer.weakTransmission")}` : ""}
-            <span className="text-[#b4b4ae]"> · {t.transmission.matrix_cell}</span>
+            <span className="text-content-disabled"> · {t.transmission.matrix_cell}</span>
           </p>
         </section>
 
         {/* Pricing math */}
-        <section className="mt-5 rounded-xl border border-[#e6e6e0] bg-[#fbfbf9] px-3.5 py-3">
+        <section className="mt-5 rounded-xl border border-edge bg-surface-2 px-3.5 py-3">
           <div className="flex items-center justify-between">
-            <p className="text-[10px] uppercase tracking-[0.14em] text-[#b4b4ae]">{tr("panels.drawer.pricingCheck")}</p>
-            <span className="text-[10px] text-[#9CA3AF]">
+            <p className="text-[10px] uppercase tracking-[0.14em] text-content-disabled">{tr("panels.drawer.pricingCheck")}</p>
+            <span className="text-[10px] text-content-tertiary">
               {t.tracked
                 ? p.basis === "residual"
                   ? tr("panels.drawer.basis.residual")
@@ -248,8 +248,8 @@ export default function TargetDrawer({ run, target: t, onClose }: Props) {
               <Row label={tr("panels.drawer.expectedScale")} value={p.expected_pct == null ? na : `±${fmtAbsPct(p.expected_pct, 2, na)}`} />
               <Row label={tr("panels.drawer.ratio")} value={p.ratio == null ? na : `${fmtNum(p.ratio, 2, na)}×`} />
               <Row label={tr("panels.drawer.sessionsSince")} value={p.sessions_elapsed == null ? na : String(p.sessions_elapsed)} />
-              <div className="mt-1.5 flex items-center justify-between border-t border-[#ebebe5] pt-2">
-                <span className="text-[11px] text-[#6b7280]">{tr("panels.drawer.status")}</span>
+              <div className="mt-1.5 flex items-center justify-between border-t border-edge pt-2">
+                <span className="text-[11px] text-content-secondary">{tr("panels.drawer.status")}</span>
                 <Badge word={pricingWord(t, tr)} open={open} vetoed={vetoed} against={against} />
               </div>
               {against && (
@@ -264,10 +264,10 @@ export default function TargetDrawer({ run, target: t, onClose }: Props) {
                   })}
                 </p>
               )}
-              {p.note && <p className="mt-2 text-[10.5px] leading-relaxed text-[#9CA3AF]">{p.note}</p>}
+              {p.note && <p className="mt-2 text-[10.5px] leading-relaxed text-content-tertiary">{p.note}</p>}
             </div>
           ) : (
-            <p className="mt-1.5 text-[11.5px] leading-relaxed text-[#6b7280]">
+            <p className="mt-1.5 text-[11.5px] leading-relaxed text-content-secondary">
               {t.ticker ? tr("panels.drawer.untrackedTicker", { ticker: t.ticker }) : tr("panels.drawer.nameOnly")}
             </p>
           )}
@@ -280,8 +280,8 @@ export default function TargetDrawer({ run, target: t, onClose }: Props) {
         {curve.length > 0 && (
           <section className="mt-5">
             <div className="flex items-baseline justify-between">
-              <p className="text-[10px] uppercase tracking-[0.14em] text-[#b4b4ae]">{tr("panels.drawer.howItArrived")}</p>
-              <span className="text-[10px] text-[#9CA3AF]">{tr("panels.drawer.curveLegend")}</span>
+              <p className="text-[10px] uppercase tracking-[0.14em] text-content-disabled">{tr("panels.drawer.howItArrived")}</p>
+              <span className="text-[10px] text-content-tertiary">{tr("panels.drawer.curveLegend")}</span>
             </div>
             <div className="mt-2 space-y-[3px]">
               {curve.map((p) => {
@@ -293,26 +293,26 @@ export default function TargetDrawer({ run, target: t, onClose }: Props) {
                 const against = (m ?? 0) < 0;
                 return (
                   <div key={p.date} className="flex items-center gap-2">
-                    <span className="w-[46px] shrink-0 text-[10px] text-[#9CA3AF]">
+                    <span className="w-[46px] shrink-0 text-[10px] text-content-tertiary">
                       {tr("panels.drawer.day", { n: p.session })}
                     </span>
                     <span className="w-[54px] shrink-0 font-mono text-[10.5px] tabular-nums" style={{ color: p.residual_pct >= 0 ? GAIN : LOSS }}>
                       {fmtPct(p.residual_pct, 2, na)}
                     </span>
-                    <div className="h-[6px] flex-1 overflow-hidden rounded-full bg-[#f1f1ec]">
+                    <div className="h-[6px] flex-1 overflow-hidden rounded-full bg-surface-2">
                       <div
                         className="h-full rounded-full"
-                        style={{ width: `${width}%`, background: against ? AMBER : open ? ACCENT : "#c9c9c2" }}
+                        style={{ width: `${width}%`, background: against ? AMBER : open ? ACCENT : "var(--fill-strong)" }}
                       />
                     </div>
-                    <span className="w-[46px] shrink-0 text-right font-mono text-[10.5px] tabular-nums text-[#6b7280]">
+                    <span className="w-[46px] shrink-0 text-right font-mono text-[10.5px] tabular-nums text-content-secondary">
                       {m == null ? na : `${m.toFixed(1)}×`}
                     </span>
                   </div>
                 );
               })}
             </div>
-            <p className="mt-2 text-[10.5px] leading-relaxed text-[#9CA3AF]">
+            <p className="mt-2 text-[10.5px] leading-relaxed text-content-tertiary">
               {curve.length > 1 && Math.abs(curve[curve.length - 1].residual_pct) > Math.abs(curve[0].residual_pct) * 1.2
                 ? tr("panels.drawer.keptGoing")
                 : tr("panels.drawer.mostlyIn")}
@@ -322,19 +322,19 @@ export default function TargetDrawer({ run, target: t, onClose }: Props) {
 
         {/* Stage-2 */}
         <section className="mt-5">
-          <p className="text-[10px] uppercase tracking-[0.14em] text-[#b4b4ae]">{tr("panels.drawer.refinement")}</p>
+          <p className="text-[10px] uppercase tracking-[0.14em] text-content-disabled">{tr("panels.drawer.refinement")}</p>
           {t.stage2 ? (
             <div className="mt-1.5">
-              <p className="text-[12px] text-[#1d1b1b]">
+              <p className="text-[12px] text-content-primary">
                 <span className="font-medium">{verdictWord(t.stage2.verdict, tr)}</span>
                 {t.stage2.direction ? (
-                  <span className="text-[#6b7280]"> · {tr("panels.drawer.resolvedDirection", { direction: directionWord(t.stage2.direction, tr) })}</span>
+                  <span className="text-content-secondary"> · {tr("panels.drawer.resolvedDirection", { direction: directionWord(t.stage2.direction, tr) })}</span>
                 ) : null}
               </p>
-              {t.stage2.rationale && <p className="mt-1 text-[12px] leading-relaxed text-[#6b7280]">{t.stage2.rationale}</p>}
+              {t.stage2.rationale && <p className="mt-1 text-[12px] leading-relaxed text-content-secondary">{t.stage2.rationale}</p>}
             </div>
           ) : (
-            <p className="mt-1.5 text-[11.5px] text-[#9CA3AF]">{run.status === "ok" ? tr("panels.drawer.confirmedStage1") : tr("panels.drawer.stage1Template")}</p>
+            <p className="mt-1.5 text-[11.5px] text-content-tertiary">{run.status === "ok" ? tr("panels.drawer.confirmedStage1") : tr("panels.drawer.stage1Template")}</p>
           )}
         </section>
       </div>

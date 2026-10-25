@@ -208,13 +208,13 @@ export default function LearnMoreMenu({
           }
         }}
         // Lit while its flyout is open. Not the row's own ink-tint hover class:
-        // the dark theme reads a button carrying `bg-[#1d1b1b]…` as a solid
+        // the dark theme reads a button carrying `bg-ink…` as a solid
         // ink button and inverts it; black at 6% translates to a light tint.
         className={cn(rowClassName, open && "bg-black/[0.06]")}
       >
-        <Icon className="h-[15px] w-[15px] text-[#4b5563]" strokeWidth={1.75} aria-hidden />
+        <Icon className="h-[15px] w-[15px] text-content-body" strokeWidth={1.75} aria-hidden />
         {label}
-        <ChevronRight className="ml-auto h-3.5 w-3.5 shrink-0 text-[#9CA3AF]" strokeWidth={1.75} aria-hidden />
+        <ChevronRight className="ml-auto h-3.5 w-3.5 shrink-0 text-content-tertiary" strokeWidth={1.75} aria-hidden />
       </button>
 
       {pos
@@ -260,7 +260,7 @@ export default function LearnMoreMenu({
                     className={rowClassName}
                   >
                     {t("menu.learn.shortcuts")}
-                    <span className="ml-auto shrink-0 text-[12px] text-[#9CA3AF]">{formatKeys(shortcutKeys)}</span>
+                    <span className="ml-auto shrink-0 text-[12px] text-content-tertiary">{formatKeys(shortcutKeys)}</span>
                   </button>
                 </motion.div>
               ) : null}

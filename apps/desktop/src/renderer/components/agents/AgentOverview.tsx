@@ -43,8 +43,8 @@ function Stat({ label, value, sub }: { label: string; value: ReactNode; sub?: Re
   return (
     <div className="min-w-0 rounded-2xl border border-white/60 bg-white/55 px-4 py-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-black/[0.04]">
       <div className={cn(LABEL, "text-[10.5px]")}>{label}</div>
-      <div className="mt-1 truncate text-[17px] font-medium tabular-nums text-[#1d1b1b]">{value}</div>
-      {sub ? <div className="mt-0.5 truncate text-[11.5px] text-[#9CA3AF]">{sub}</div> : null}
+      <div className="mt-1 truncate text-[17px] font-medium tabular-nums text-content-primary">{value}</div>
+      {sub ? <div className="mt-0.5 truncate text-[11.5px] text-content-tertiary">{sub}</div> : null}
     </div>
   );
 }
@@ -65,13 +65,13 @@ export default function AgentOverview({ agent, reportCount, now }: { agent: Agen
   return (
     <div className="space-y-7">
       {first ? (
-        <p role="status" className="text-[13.5px] leading-[1.55] text-[#1d1b1b]">
+        <p role="status" className="text-[13.5px] leading-[1.55] text-content-primary">
           {first}
         </p>
       ) : null}
 
       {agent.status === "error" ? (
-        <div className="flex items-start gap-2.5 rounded-2xl bg-[#FEE2E2] px-4 py-3 text-[12.5px] leading-[1.5] text-[#991B1B]">
+        <div className="flex items-start gap-2.5 rounded-2xl bg-tone-negative-soft px-4 py-3 text-[12.5px] leading-[1.5] text-tone-negative">
           <AlertCircle className="mt-px h-4 w-4 shrink-0" strokeWidth={1.75} aria-hidden />
           <div>
             <div className="font-medium">{t("agents.overview.errorTitle")}</div>
@@ -82,7 +82,7 @@ export default function AgentOverview({ agent, reportCount, now }: { agent: Agen
       ) : null}
 
       <Block label={t("agents.yourBrief")}>
-        <blockquote className="border-l-2 border-black/[0.1] pl-4 font-baskerville text-[15px] leading-[1.65] text-[#1d1b1b]">
+        <blockquote className="border-l-2 border-black/[0.1] pl-4 font-baskerville text-[15px] leading-[1.65] text-content-primary">
           {agent.brief}
         </blockquote>
       </Block>
@@ -122,7 +122,7 @@ export default function AgentOverview({ agent, reportCount, now }: { agent: Agen
       </div>
 
       {!first && agent.nextAction && agent.status === "active" ? (
-        <p className="-mt-3 text-[12.5px] leading-[1.5] text-[#6b7280]">{sayLines(agent.nextActionLines, lang, agent.nextAction)}</p>
+        <p className="-mt-3 text-[12.5px] leading-[1.5] text-content-secondary">{sayLines(agent.nextActionLines, lang, agent.nextAction)}</p>
       ) : null}
 
       <Block label={t("agents.wakesUp")}>
@@ -130,35 +130,35 @@ export default function AgentOverview({ agent, reportCount, now }: { agent: Agen
           {agent.triggers.map((trigger, i) => {
             const Icon = KIND_ICON[trigger.kind];
             return (
-              <li key={i} className="flex items-center gap-2.5 text-[13.5px] text-[#1d1b1b]">
-                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-black/[0.04] text-[#4b5563]">
+              <li key={i} className="flex items-center gap-2.5 text-[13.5px] text-content-primary">
+                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-black/[0.04] text-content-body">
                   <Icon className="h-3.5 w-3.5" strokeWidth={1.75} aria-hidden />
                 </span>
                 {triggerSentence(trigger, lang)}
               </li>
             );
           })}
-          {agent.triggers.length === 0 ? <li className="text-[12.5px] text-[#9CA3AF]">{t("agents.overview.noTrigger")}</li> : null}
+          {agent.triggers.length === 0 ? <li className="text-[12.5px] text-content-tertiary">{t("agents.overview.noTrigger")}</li> : null}
         </ul>
       </Block>
 
       <Block label={t("agents.overview.reportsOn")}>
         {agent.metrics.length === 0 ? (
-          <p className="text-[12.5px] text-[#9CA3AF]">{t("agents.overview.noMetrics")}</p>
+          <p className="text-[12.5px] text-content-tertiary">{t("agents.overview.noMetrics")}</p>
         ) : (
           <div className="overflow-hidden rounded-2xl border border-black/[0.06]">
             <table className="w-full text-left text-[13px]">
               <thead>
                 <tr className="border-b border-black/[0.06] bg-black/[0.04]">
-                  <th className="px-4 py-2 font-['Geist_Mono'] text-[9.5px] font-normal uppercase tracking-[0.06em] text-[#9CA3AF]">{t("agents.metric")}</th>
-                  <th className="px-4 py-2 font-['Geist_Mono'] text-[9.5px] font-normal uppercase tracking-[0.06em] text-[#9CA3AF]">{t("agents.yourBar")}</th>
+                  <th className="px-4 py-2 font-['Geist_Mono'] text-[9.5px] font-normal uppercase tracking-[0.06em] text-content-tertiary">{t("agents.metric")}</th>
+                  <th className="px-4 py-2 font-['Geist_Mono'] text-[9.5px] font-normal uppercase tracking-[0.06em] text-content-tertiary">{t("agents.yourBar")}</th>
                 </tr>
               </thead>
               <tbody>
                 {agent.metrics.map((m, i) => (
                   <tr key={m.id} className={cn(i > 0 && "border-t border-black/[0.06]")}>
-                    <td className="px-4 py-2.5 text-[#1d1b1b]">{m.label}</td>
-                    <td className="px-4 py-2.5 text-[#4b5563]">{m.expectation || <span className="text-[#9CA3AF]">{t("agents.overview.againstConsensus")}</span>}</td>
+                    <td className="px-4 py-2.5 text-content-primary">{m.label}</td>
+                    <td className="px-4 py-2.5 text-content-body">{m.expectation || <span className="text-content-tertiary">{t("agents.overview.againstConsensus")}</span>}</td>
                   </tr>
                 ))}
               </tbody>
@@ -169,42 +169,42 @@ export default function AgentOverview({ agent, reportCount, now }: { agent: Agen
 
       {agent.instructions ? (
         <Block label={t("agents.writeup")}>
-          <p className="text-[13px] leading-[1.6] text-[#4b5563]">{agent.instructions}</p>
+          <p className="text-[13px] leading-[1.6] text-content-body">{agent.instructions}</p>
         </Block>
       ) : null}
 
       <Block label={t("agents.delivery")}>
         <ul className="space-y-2 text-[13px]">
           <li className="flex items-center gap-2.5">
-            <Inbox className="h-3.5 w-3.5 shrink-0 text-[#4b5563]" strokeWidth={1.75} aria-hidden />
-            <span className="text-[#1d1b1b]">{t("agents.dailyDigest")}</span>
-            <span className="text-[#9CA3AF]">{agent.channels.includes("digest") ? t("agents.on") : t("agents.off")}</span>
+            <Inbox className="h-3.5 w-3.5 shrink-0 text-content-body" strokeWidth={1.75} aria-hidden />
+            <span className="text-content-primary">{t("agents.dailyDigest")}</span>
+            <span className="text-content-tertiary">{agent.channels.includes("digest") ? t("agents.on") : t("agents.off")}</span>
           </li>
           <li className="flex items-center gap-2.5">
-            <Bell className="h-3.5 w-3.5 shrink-0 text-[#4b5563]" strokeWidth={1.75} aria-hidden />
-            <span className="text-[#1d1b1b]">{t("agents.desktopNotification")}</span>
-            <span className="text-[#9CA3AF]">{agent.channels.includes("desktop") ? t("agents.on") : t("agents.off")}</span>
+            <Bell className="h-3.5 w-3.5 shrink-0 text-content-body" strokeWidth={1.75} aria-hidden />
+            <span className="text-content-primary">{t("agents.desktopNotification")}</span>
+            <span className="text-content-tertiary">{agent.channels.includes("desktop") ? t("agents.on") : t("agents.off")}</span>
           </li>
           <li className="flex items-center gap-2.5">
-            <Smartphone className="h-3.5 w-3.5 shrink-0 text-[#4b5563]" strokeWidth={1.75} aria-hidden />
-            <span className="shrink-0 text-[#1d1b1b]">{t("agents.mobilePush")}</span>
-            <span className="min-w-0 text-[#9CA3AF]">
+            <Smartphone className="h-3.5 w-3.5 shrink-0 text-content-body" strokeWidth={1.75} aria-hidden />
+            <span className="shrink-0 text-content-primary">{t("agents.mobilePush")}</span>
+            <span className="min-w-0 text-content-tertiary">
               {agent.channels.includes("mobile_push") ? t("agents.overview.mobileOn") : t("agents.off")}
             </span>
           </li>
           <li className="flex items-center gap-2.5">
-            <CalendarClock className="h-3.5 w-3.5 shrink-0 text-[#4b5563]" strokeWidth={1.75} aria-hidden />
-            <span className="text-[#1d1b1b]">{agent.oneShot ? t("agents.oneShot") : t("agents.overview.keepsAfter")}</span>
+            <CalendarClock className="h-3.5 w-3.5 shrink-0 text-content-body" strokeWidth={1.75} aria-hidden />
+            <span className="text-content-primary">{agent.oneShot ? t("agents.oneShot") : t("agents.overview.keepsAfter")}</span>
           </li>
           <li className="flex items-center gap-2.5">
-            <CalendarX2 className="h-3.5 w-3.5 shrink-0 text-[#4b5563]" strokeWidth={1.75} aria-hidden />
-            <span className="text-[#6b7280]">{t("agents.confirm.ends")}</span>
-            <span className="text-[#1d1b1b]">{endsSentence(agent.ends, lang)}</span>
+            <CalendarX2 className="h-3.5 w-3.5 shrink-0 text-content-body" strokeWidth={1.75} aria-hidden />
+            <span className="text-content-secondary">{t("agents.confirm.ends")}</span>
+            <span className="text-content-primary">{endsSentence(agent.ends, lang)}</span>
           </li>
         </ul>
       </Block>
 
-      <p className="text-[11.5px] text-[#9CA3AF]">
+      <p className="text-[11.5px] text-content-tertiary">
         {t("agents.overview.created", { date: shortDate(agent.createdAt, lang) })}
         {agent.updatedAt && agent.updatedAt !== agent.createdAt
           ? ` · ${edited.kind === "on" ? t("agents.overview.editedOn", { date: edited.text }) : t("agents.overview.editedAgo", { when: edited.text })}`

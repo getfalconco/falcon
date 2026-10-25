@@ -522,7 +522,7 @@ export default function HomePage({ userName, user, callName, userEmail, onSignOu
     const lit = (edges: Edge[]) => resizing?.id === id && edges.includes(resizing.edge);
     const bar = (on: boolean, vertical: boolean, group: string) =>
       cn(
-        "rounded-full bg-[#1d1b1b]/30 transition-opacity duration-150",
+        "rounded-full bg-ink/30 transition-opacity duration-150",
         vertical ? "h-16 w-[3px]" : "h-[3px] w-16",
         on ? "opacity-100" : `opacity-0 ${group}`,
       );
@@ -591,7 +591,7 @@ export default function HomePage({ userName, user, callName, userEmail, onSignOu
           title={t("shell.resize.hint")}
           onPointerDown={(e) => startResize(id, e, "br")}
           className={cn(
-            "app-no-drag absolute bottom-1.5 right-1.5 z-20 flex h-6 w-6 cursor-nwse-resize items-center justify-center rounded-lg text-[#9CA3AF] transition-opacity hover:text-[#4b5563]",
+            "app-no-drag absolute bottom-1.5 right-1.5 z-20 flex h-6 w-6 cursor-nwse-resize items-center justify-center rounded-lg text-content-tertiary transition-opacity hover:text-content-body",
             resizing?.id === id ? "opacity-100" : "opacity-0 group-hover/card:opacity-100",
           )}
         >
@@ -1025,7 +1025,7 @@ export default function HomePage({ userName, user, callName, userEmail, onSignOu
             <button
               type="button"
               onClick={() => setView("dashboard")}
-              className="mb-4 flex w-fit items-center gap-1.5 text-[13px] text-[#6b7280] transition-colors hover:text-[#1d1b1b]"
+              className="mb-4 flex w-fit items-center gap-1.5 text-[13px] text-content-secondary transition-colors hover:text-content-primary"
             >
               <ArrowLeft className="h-3.5 w-3.5" strokeWidth={2} aria-hidden />
               {/* Back to the tab the graph opened over. */}
@@ -1057,7 +1057,7 @@ export default function HomePage({ userName, user, callName, userEmail, onSignOu
               <OnHomeTab store={tabStore}>
                 {(tab) => (
                   <>
-                    <span className="font-baskerville text-[30px] text-[#1d1b1b]">
+                    <span className="font-baskerville text-[30px] text-content-primary">
                       {tab === "dashboard" ? t(greetingKey, { name: firstName }) : t(HOME_TABS[tab].labelKey)}
                     </span>
                     <HomeTabStrip
@@ -1137,7 +1137,7 @@ export default function HomePage({ userName, user, callName, userEmail, onSignOu
                           <span
                             aria-hidden
                             className={cn(
-                              "rounded-full bg-[#1d1b1b]/30 transition-opacity duration-150",
+                              "rounded-full bg-ink/30 transition-opacity duration-150",
                               v ? "h-16 w-[3px]" : "h-[3px] w-16",
                               lit ? "opacity-100" : "opacity-0 group-hover/seam:opacity-100",
                             )}

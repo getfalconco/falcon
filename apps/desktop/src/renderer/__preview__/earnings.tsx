@@ -326,7 +326,7 @@ onAgentsOpenRequest((focus) => {
 
 function Heading() {
   const t = useT();
-  return <span className="font-baskerville text-[30px] text-[#1d1b1b]">{t("home.tab.earnings")}</span>;
+  return <span className="font-baskerville text-[30px] text-content-primary">{t("home.tab.earnings")}</span>;
 }
 
 // `#open=TSM` opens that row's drawer once the list is drawn, for screenshots.

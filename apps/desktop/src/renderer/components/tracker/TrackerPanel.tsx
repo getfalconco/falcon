@@ -145,10 +145,10 @@ function QuantStrip({ quant }: { quant: TrackerQuantContext }) {
     ["rhythm", fmtPct(quant.earnings_rhythm)],
   ];
   return (
-    <div className="mt-1.5 flex flex-wrap gap-x-3 gap-y-1 font-mono text-[10px] text-[#8b8b86]">
+    <div className="mt-1.5 flex flex-wrap gap-x-3 gap-y-1 font-mono text-[10px] text-content-tertiary">
       {cells.map(([label, value]) => (
         <span key={label}>
-          <span className="text-[#b4b4ae]">{label}</span> {value}
+          <span className="text-content-disabled">{label}</span> {value}
         </span>
       ))}
     </div>
@@ -253,16 +253,16 @@ export default function TrackerPanel({ onClose }: { onClose: () => void }) {
   return (
     <div className="app-no-drag fixed inset-0 z-[200] flex items-center justify-center bg-black/25 backdrop-blur-[2px]">
       <Toaster position="bottom-right" style={{ zIndex: 300 }} />
-      <div className="flex h-[86%] w-[92%] flex-col overflow-hidden rounded-xl border border-[#e0e0da] bg-[#f7f7f4] shadow-2xl">
+      <div className="flex h-[86%] w-[92%] flex-col overflow-hidden rounded-xl border border-edge bg-surface-2 shadow-2xl">
         {/* Header */}
-        <div className="flex items-center gap-3 border-b border-[#e6e6e0] px-4 py-3">
-          <Activity className="h-4 w-4 shrink-0 text-[#1d1b1b]" strokeWidth={2} aria-hidden />
-          <span className="font-baskerville text-[15px] text-[#1d1b1b]">Tracker</span>
-          <span className="min-w-0 truncate font-mono text-[11px] text-[#8b8b86]">
+        <div className="flex items-center gap-3 border-b border-edge px-4 py-3">
+          <Activity className="h-4 w-4 shrink-0 text-content-primary" strokeWidth={2} aria-hidden />
+          <span className="font-baskerville text-[15px] text-content-primary">Tracker</span>
+          <span className="min-w-0 truncate font-mono text-[11px] text-content-tertiary">
             {status?.running ? t("instruments.tracker.running") : t("instruments.tracker.notRunning")} ·{" "}
             {t("instruments.tracker.emitted", { n: status?.messagesEmitted ?? 0 })}
             {progress.pending > 0 && (
-              <span className="text-[#b45309]">
+              <span className="text-tone-warning">
                 {" "}
                 · {t("instruments.tracker.backfilling", { done: progress.done, total: progress.total })}
               </span>
@@ -274,7 +274,7 @@ export default function TrackerPanel({ onClose }: { onClose: () => void }) {
                 status.rateLimits.price >
                 0 && (
                 <span
-                  className="text-[#b45309]"
+                  className="text-tone-warning"
                   title={t("instruments.tracker.rateLimitHint", { day: status.rateLimits.day })}
                 >
                   {" "}
@@ -287,7 +287,7 @@ export default function TrackerPanel({ onClose }: { onClose: () => void }) {
                 </span>
               )}
             {progress.pending === 0 && progress.insiderPending > 0 && (
-              <span className="text-[#b45309]">
+              <span className="text-tone-warning">
                 {" "}
                 · {t("instruments.tracker.seeding", { done: progress.insiderDone, total: progress.total })}
               </span>
@@ -295,14 +295,14 @@ export default function TrackerPanel({ onClose }: { onClose: () => void }) {
           </span>
 
           <div className="ml-auto flex shrink-0 items-center gap-2">
-            <div className="flex rounded-md border border-[#e0e0da] bg-white p-0.5">
+            <div className="flex rounded-md border border-edge bg-white p-0.5">
               {(["stream", "data"] as const).map((m) => (
                 <button
                   key={m}
                   type="button"
                   onClick={() => setMode(m)}
                   className={`rounded px-2 py-1 text-[11px] transition-colors ${
-                    mode === m ? "bg-[#1d1b1b] text-white" : "text-[#6b7280] hover:text-[#1d1b1b]"
+                    mode === m ? "bg-ink text-white" : "text-content-secondary hover:text-content-primary"
                   }`}
                 >
                   {t(MODE_LABEL[m])}
@@ -311,7 +311,7 @@ export default function TrackerPanel({ onClose }: { onClose: () => void }) {
             </div>
 
             {mode === "stream" && (
-              <div className="flex rounded-md border border-[#e0e0da] bg-white p-0.5">
+              <div className="flex rounded-md border border-edge bg-white p-0.5">
                 {(["all", "anomalies", "channels"] as Filter[]).map((f) => (
                   <button
                     key={f}
@@ -319,8 +319,8 @@ export default function TrackerPanel({ onClose }: { onClose: () => void }) {
                     onClick={() => setFilter(f)}
                     className={`rounded px-2 py-1 text-[11px] transition-colors ${
                       filter === f
-                        ? "bg-[#1d1b1b] text-white"
-                        : "text-[#6b7280] hover:text-[#1d1b1b]"
+                        ? "bg-ink text-white"
+                        : "text-content-secondary hover:text-content-primary"
                     }`}
                   >
                     {t(FILTER_LABEL[f])}
@@ -333,7 +333,7 @@ export default function TrackerPanel({ onClose }: { onClose: () => void }) {
               <select
                 value={tickerFilter}
                 onChange={(e) => setTickerFilter(e.target.value)}
-                className="rounded-md border border-[#e0e0da] bg-white px-2 py-1 text-[11px] text-[#1d1b1b]"
+                className="rounded-md border border-edge bg-white px-2 py-1 text-[11px] text-content-primary"
               >
                 <option value="all">{t("instruments.common.allTickers")}</option>
                 {tickers.map((tk) => (
@@ -346,7 +346,7 @@ export default function TrackerPanel({ onClose }: { onClose: () => void }) {
               <select
                 value={activeDataTicker ?? ""}
                 onChange={(e) => setDataTicker(e.target.value)}
-                className="rounded-md border border-[#e0e0da] bg-white px-2 py-1 text-[11px] text-[#1d1b1b]"
+                className="rounded-md border border-edge bg-white px-2 py-1 text-[11px] text-content-primary"
               >
                 {tickers.map((tk) => (
                   <option key={tk} value={tk}>
@@ -361,7 +361,7 @@ export default function TrackerPanel({ onClose }: { onClose: () => void }) {
               onClick={() => void runCycle()}
               disabled={!staff || cycling}
               title={staff ? undefined : t("access.staffOnly.action")}
-              className="flex items-center gap-1.5 rounded-md border border-[#e0e0da] bg-white px-2 py-1 text-[11px] text-[#6b7280] transition-colors hover:text-[#1d1b1b] disabled:opacity-50"
+              className="flex items-center gap-1.5 rounded-md border border-edge bg-white px-2 py-1 text-[11px] text-content-secondary transition-colors hover:text-content-primary disabled:opacity-50"
             >
               <RefreshCw
                 className={`h-3 w-3 ${cycling ? "animate-spin" : ""}`}
@@ -376,7 +376,7 @@ export default function TrackerPanel({ onClose }: { onClose: () => void }) {
               onClick={onClose}
               aria-label={t("instruments.tracker.closeLabel")}
               title={t("instruments.tracker.closeLabel")}
-              className="rounded-md p-1 text-[#6b7280] transition-colors hover:bg-[#ececE6] hover:text-[#1d1b1b]"
+              className="rounded-md p-1 text-content-secondary transition-colors hover:bg-surface-3 hover:text-content-primary"
             >
               <X className="h-4 w-4" strokeWidth={2} aria-hidden />
             </button>
@@ -384,7 +384,7 @@ export default function TrackerPanel({ onClose }: { onClose: () => void }) {
         </div>
 
         {/* Ticker health row — click a ticker to inspect its raw data */}
-        <div className="max-h-[76px] overflow-y-auto border-b border-[#eeeee8] px-4 py-2">
+        <div className="max-h-[76px] overflow-y-auto border-b border-edge-subtle px-4 py-2">
           <div className="flex flex-wrap gap-1.5">
             {(status?.tickers ?? []).map((tk) => {
               const errors = Object.entries(tk.health).filter(([, h]) => h.last_error);
@@ -407,22 +407,22 @@ export default function TrackerPanel({ onClose }: { onClose: () => void }) {
                     .join("\n")}
                   className={`flex items-center gap-1.5 rounded-md border px-1.5 py-0.5 transition-colors ${
                     selected
-                      ? "border-[#1d1b1b] bg-[#1d1b1b]"
-                      : "border-[#e6e6e0] bg-white hover:border-[#c9c9c1]"
+                      ? "border-content-primary bg-ink"
+                      : "border-edge bg-white hover:border-edge-strong"
                   }`}
                 >
                   <span
                     className={`h-1.5 w-1.5 rounded-full ${
                       !tk.backfilled
-                        ? "bg-[#d1d1c9]"
+                        ? "bg-fill-strong"
                         : errors.length > 0
-                          ? "bg-[#d97706]"
-                          : "bg-[#16a34a]"
+                          ? "bg-tone-warning-fill"
+                          : "bg-tone-positive-fill"
                     }`}
                     aria-hidden
                   />
                   <span
-                    className={`font-mono text-[11px] ${selected ? "text-white" : "text-[#1d1b1b]"}`}
+                    className={`font-mono text-[11px] ${selected ? "text-white" : "text-content-primary"}`}
                   >
                     {tk.ticker}
                   </span>
@@ -430,7 +430,7 @@ export default function TrackerPanel({ onClose }: { onClose: () => void }) {
               );
             })}
             {(status?.tickers.length ?? 0) === 0 && (
-              <span className="font-mono text-[11px] text-[#a3a39c]">{t("instruments.tracker.noTickers")}</span>
+              <span className="font-mono text-[11px] text-content-tertiary">{t("instruments.tracker.noTickers")}</span>
             )}
           </div>
         </div>
@@ -441,7 +441,7 @@ export default function TrackerPanel({ onClose }: { onClose: () => void }) {
             {activeDataTicker ? (
               <TrackerDataView ticker={activeDataTicker} />
             ) : (
-              <div className="flex h-full items-center justify-center font-mono text-[12px] text-[#a3a39c]">
+              <div className="flex h-full items-center justify-center font-mono text-[12px] text-content-tertiary">
                 {t("instruments.tracker.noTickerSelected")}
               </div>
             )}
@@ -452,25 +452,25 @@ export default function TrackerPanel({ onClose }: { onClose: () => void }) {
         {mode === "stream" && (
         <div ref={scrollRef} className="min-h-0 flex-1 overflow-y-auto px-4 py-2">
           {visible.length === 0 ? (
-            <div className="flex h-full items-center justify-center text-center font-mono text-[12px] text-[#a3a39c]">
+            <div className="flex h-full items-center justify-center text-center font-mono text-[12px] text-content-tertiary">
               {t("instruments.tracker.empty")}
             </div>
           ) : (
-            <ul className="divide-y divide-[#eeeee8]">
+            <ul className="divide-y divide-edge-subtle">
               {visible.map((message) => (
                 <li key={message.id} className="py-2">
                   <div className="flex items-baseline gap-2">
-                    <span className="font-mono text-[10px] text-[#a3a39c]">
+                    <span className="font-mono text-[10px] text-content-tertiary">
                       {fmtTime(message.timestamp, locale)}
                     </span>
-                    <span className="font-mono text-[11px] font-medium text-[#1d1b1b]">
+                    <span className="font-mono text-[11px] font-medium text-content-primary">
                       {message.ticker}
                     </span>
                     <span
                       className={`rounded px-1.5 py-0.5 font-mono text-[10px] ${
                         ANOMALY_SET.has(message.type)
-                          ? "bg-[#fef3c7] text-[#92400e]"
-                          : "bg-[#eef2f6] text-[#475569]"
+                          ? "bg-tone-warning-soft text-tone-warning"
+                          : "bg-surface-2 text-content-body"
                       }`}
                     >
                       {trackerTypeLabel(t, message.type)}
@@ -478,13 +478,13 @@ export default function TrackerPanel({ onClose }: { onClose: () => void }) {
                     {message.context_flags.map((flag) => (
                       <span
                         key={flag}
-                        className="rounded bg-[#e0e7ff] px-1.5 py-0.5 font-mono text-[10px] text-[#3730a3]"
+                        className="rounded bg-tone-info-soft px-1.5 py-0.5 font-mono text-[10px] text-tone-violet"
                       >
                         {flag}
                       </span>
                     ))}
                   </div>
-                  <div className="mt-0.5 text-[12px] leading-snug text-[#3f3f46]">
+                  <div className="mt-0.5 text-[12px] leading-snug text-content-body">
                     {headlineFor(message, t)}
                   </div>
                   <QuantStrip quant={message.quant_context} />
@@ -495,7 +495,7 @@ export default function TrackerPanel({ onClose }: { onClose: () => void }) {
         </div>
         )}
 
-        <div className="border-t border-[#eeeee8] px-4 py-1.5 font-mono text-[10px] text-[#a3a39c]">
+        <div className="border-t border-edge-subtle px-4 py-1.5 font-mono text-[10px] text-content-tertiary">
           {t("instruments.tracker.footer", { key: shortcutText("tracker"), n: status?.tickers.length ?? 0, dash: na() })}
         </div>
       </div>

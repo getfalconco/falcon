@@ -28,10 +28,10 @@ import {
 type Props = { onClose: () => void };
 
 const PATTERN_COLOR: Record<ScreenPattern, string> = {
-  quiet_accumulation: "#189E9A",
-  compression: "#6B7280",
-  independent_tape: "#7C3AED",
-  insider_divergence: "#CA8A04",
+  quiet_accumulation: "var(--teal)",
+  compression: "var(--text-secondary)",
+  independent_tape: "var(--violet)",
+  insider_divergence: "var(--yellow)",
 };
 
 /** Error value for "the preload has no bridge for this"; rendered through t() so it follows the language. */
@@ -116,23 +116,23 @@ function Row({ f, label, selected, onSelect }: { f: ScreenFinding; label: string
     <button
       type="button"
       onClick={onSelect}
-      className={`flex w-full items-center gap-3 rounded-lg border px-3 py-2 text-left ${selected ? "border-[#189E9A]/60 bg-[#189E9A]/5" : "border-[#e0e0da] bg-white/60 hover:bg-white"}`}
+      className={`flex w-full items-center gap-3 rounded-lg border px-3 py-2 text-left ${selected ? "border-tone-teal/60 bg-tone-teal-fill/5" : "border-edge bg-white/60 hover:bg-white"}`}
     >
-      <span className="w-12 shrink-0 text-[13px] font-semibold text-[#1d1b1b]">{f.ticker}</span>
+      <span className="w-12 shrink-0 text-[13px] font-semibold text-content-primary">{f.ticker}</span>
       <span className="w-28 shrink-0 truncate text-[11px] font-medium" style={{ color: PATTERN_COLOR[f.pattern] }}>
         {label}
       </span>
-      <span className="w-16 shrink-0 whitespace-nowrap text-[11px] tabular-nums text-[#1d1b1b]">
+      <span className="w-16 shrink-0 whitespace-nowrap text-[11px] tabular-nums text-content-primary">
         {t("instruments.screen.day", { n: f.day_count })}
         {f.state === "new" ? (
-          <span className="ml-1 rounded-full bg-[#189E9A] px-1.5 py-[1px] text-[9px] font-semibold tracking-[0.08em] text-white">
+          <span className="ml-1 rounded-full bg-tone-teal-solid px-1.5 py-[1px] text-[9px] font-semibold tracking-[0.08em] text-white">
             {t("instruments.screen.new")}
           </span>
         ) : null}
       </span>
       {f.emitted_at ? (
         <span
-          className="shrink-0 rounded-full border border-[#5b21b6]/30 bg-[#ede9fe] px-1.5 py-[1px] text-[9px] font-semibold tracking-[0.08em] text-[#5b21b6]"
+          className="shrink-0 rounded-full border border-tone-violet/30 bg-tone-violet-soft px-1.5 py-[1px] text-[9px] font-semibold tracking-[0.08em] text-tone-violet"
           title={t("instruments.screen.emittedHint", {
             when: new Date(f.emitted_at).toLocaleString(locale, withClock()),
             key: shortcutText("analyst"),
@@ -141,9 +141,9 @@ function Row({ f, label, selected, onSelect }: { f: ScreenFinding; label: string
           {t("instruments.screen.emitted")}
         </span>
       ) : null}
-      <span className="min-w-0 flex-1 text-[10.5px] leading-tight tabular-nums text-[#4b5563]">{keyValues(f, t)}</span>
+      <span className="min-w-0 flex-1 text-[10.5px] leading-tight tabular-nums text-content-body">{keyValues(f, t)}</span>
       {f.modifiers.length || f.ended_at ? (
-        <span className="w-24 shrink-0 text-right text-[10px] leading-tight text-[#9CA3AF]">
+        <span className="w-24 shrink-0 text-right text-[10px] leading-tight text-content-tertiary">
           {[
             ...f.modifiers.map((m) => modifierText(m, t)),
             ...(f.ended_at
@@ -192,20 +192,20 @@ function GaugeBlock({ ticker }: { ticker: string }) {
   };
 
   return (
-    <div className="mt-3 rounded-xl border border-[#e0e0da] bg-white px-3 py-2">
+    <div className="mt-3 rounded-xl border border-edge bg-white px-3 py-2">
       <div className="flex items-center gap-2">
-        <span className="text-[10px] font-medium tracking-[0.08em] text-[#9CA3AF]">{t("instruments.screen.gaugeTitle")}</span>
-        <button type="button" onClick={() => void open()} className="ml-auto shrink-0 rounded-lg bg-[#1d1b1b] px-3 py-1 text-[11px] font-medium text-white" data-testid="open-in-gauge">
+        <span className="text-[10px] font-medium tracking-[0.08em] text-content-tertiary">{t("instruments.screen.gaugeTitle")}</span>
+        <button type="button" onClick={() => void open()} className="ml-auto shrink-0 rounded-lg bg-ink px-3 py-1 text-[11px] font-medium text-white" data-testid="open-in-gauge">
           {t("instruments.screen.openInGauge")}
         </button>
       </div>
-      {!opened ? <div className="mt-1 text-[11px] text-[#9CA3AF]">{t("instruments.screen.chain", { ticker })}</div> : null}
-      {loading ? <div className="mt-1 text-[11px] text-[#6b7280]">{t("instruments.screen.reading")}</div> : null}
+      {!opened ? <div className="mt-1 text-[11px] text-content-tertiary">{t("instruments.screen.chain", { ticker })}</div> : null}
+      {loading ? <div className="mt-1 text-[11px] text-content-secondary">{t("instruments.screen.reading")}</div> : null}
       {error ? <div className="mt-1 text-[11px] text-red-700">{errorText(error, t)}</div> : null}
       {readout ? (
         <div className="mt-2">
-          <div className="font-baskerville text-[14px] text-[#1d1b1b]">{readout.summary.sentence}</div>
-          <div className="mt-1 text-[10px] text-[#9CA3AF]">
+          <div className="font-baskerville text-[14px] text-content-primary">{readout.summary.sentence}</div>
+          <div className="mt-1 text-[10px] text-content-tertiary">
             {t("instruments.screen.readoutMeta", {
               mode: readout.mode,
               asOf: readout.quant_as_of ?? na(),
@@ -217,15 +217,15 @@ function GaugeBlock({ ticker }: { ticker: string }) {
           </div>
           <div className="mt-1 space-y-0.5">
             {readout.checks.map((c) => (
-              <div key={c.key} className="flex items-baseline gap-2 text-[11px] text-[#4b5563]">
-                <span className="w-4 text-[#9CA3AF]">{c.number}</span>
-                <span className="w-32 font-medium text-[#1d1b1b]">{c.label}</span>
-                <span className="w-14 font-semibold" style={{ color: c.status === "fail" ? "#DC2626" : c.status === "caution" ? "#CA8A04" : c.status === "pass" ? "#16A34A" : "#9CA3AF" }}>
+              <div key={c.key} className="flex items-baseline gap-2 text-[11px] text-content-body">
+                <span className="w-4 text-content-tertiary">{c.number}</span>
+                <span className="w-32 font-medium text-content-primary">{c.label}</span>
+                <span className="w-14 font-semibold" style={{ color: c.status === "fail" ? "var(--negative)" : c.status === "caution" ? "var(--yellow)" : c.status === "pass" ? "var(--positive)" : "var(--text-tertiary)" }}>
                   {c.status}
                 </span>
                 <span className="min-w-0 flex-1">
                   {c.reason}
-                  {c.note ? <span className="text-[#9CA3AF]"> · {c.note}</span> : null}
+                  {c.note ? <span className="text-content-tertiary"> · {c.note}</span> : null}
                 </span>
               </div>
             ))}
@@ -241,60 +241,60 @@ function Detail({ f, label }: { f: ScreenFinding; label: string }) {
   return (
     <div>
       <div className="flex items-baseline gap-3">
-        <span className="text-[22px] font-semibold text-[#1d1b1b]">{f.ticker}</span>
+        <span className="text-[22px] font-semibold text-content-primary">{f.ticker}</span>
         <span className="text-[13px] font-medium" style={{ color: PATTERN_COLOR[f.pattern] }}>
           {label}
         </span>
-        <span className="text-[11px] tabular-nums text-[#6b7280]">
+        <span className="text-[11px] tabular-nums text-content-secondary">
           {t("instruments.screen.detailMeta", { state: f.state, n: f.day_count, first: f.first_session, last: f.last_evaluated })}
           {f.ended_at
             ? ` · ${t("instruments.screen.endedDetail", { date: f.ended_at, reason: f.ended_reason?.replace(/_/g, " ") ?? "" })}`
             : ""}
         </span>
       </div>
-      <div className="mt-2 rounded-xl border border-[#e0e0da] bg-white px-3 py-2">
-        <div className="text-[10px] font-medium tracking-[0.08em] text-[#9CA3AF]">{t("instruments.screen.read")}</div>
-        <div className="font-baskerville text-[15px] text-[#1d1b1b]">{f.read}</div>
+      <div className="mt-2 rounded-xl border border-edge bg-white px-3 py-2">
+        <div className="text-[10px] font-medium tracking-[0.08em] text-content-tertiary">{t("instruments.screen.read")}</div>
+        <div className="font-baskerville text-[15px] text-content-primary">{f.read}</div>
         {f.modifiers.length ? (
-          <div className="mt-1 text-[11px] text-[#6b7280]">
+          <div className="mt-1 text-[11px] text-content-secondary">
             {t("instruments.screen.modifiers", { list: f.modifiers.map((m) => modifierText(m, t)).join(" · ") })}
           </div>
         ) : null}
       </div>
 
       <div className="mt-3 grid grid-cols-2 gap-3">
-        <div className="rounded-xl border border-[#e0e0da] bg-white/60 px-3 py-2">
-          <div className="text-[10px] font-medium tracking-[0.08em] text-[#9CA3AF]">{t("instruments.screen.values")}</div>
+        <div className="rounded-xl border border-edge bg-white/60 px-3 py-2">
+          <div className="text-[10px] font-medium tracking-[0.08em] text-content-tertiary">{t("instruments.screen.values")}</div>
           <div className="mt-1 space-y-0.5">
             {Object.entries(f.values).map(([k, v]) => (
-              <div key={k} className="flex items-baseline gap-2 text-[11px] text-[#4b5563]">
-                <span className="w-40 truncate font-mono text-[10px] text-[#6b7280]">{k}</span>
-                <span className="tabular-nums text-[#1d1b1b]">{v == null ? "null" : typeof v === "number" ? (Math.abs(v) < 1 && v !== 0 ? v.toFixed(4) : String(v)) : String(v)}</span>
+              <div key={k} className="flex items-baseline gap-2 text-[11px] text-content-body">
+                <span className="w-40 truncate font-mono text-[10px] text-content-secondary">{k}</span>
+                <span className="tabular-nums text-content-primary">{v == null ? "null" : typeof v === "number" ? (Math.abs(v) < 1 && v !== 0 ? v.toFixed(4) : String(v)) : String(v)}</span>
               </div>
             ))}
           </div>
         </div>
-        <div className="rounded-xl border border-[#e0e0da] bg-white/60 px-3 py-2">
-          <div className="text-[10px] font-medium tracking-[0.08em] text-[#9CA3AF]">
+        <div className="rounded-xl border border-edge bg-white/60 px-3 py-2">
+          <div className="text-[10px] font-medium tracking-[0.08em] text-content-tertiary">
             {t("instruments.screen.qualifying", { n: f.qualifying_sessions.length })}
           </div>
-          <div className="mt-1 text-[11px] tabular-nums text-[#1d1b1b]">{f.qualifying_sessions.length ? f.qualifying_sessions.join(" · ") : na()}</div>
-          <div className="mt-2 text-[10px] font-medium tracking-[0.08em] text-[#9CA3AF]">
+          <div className="mt-1 text-[11px] tabular-nums text-content-primary">{f.qualifying_sessions.length ? f.qualifying_sessions.join(" · ") : na()}</div>
+          <div className="mt-2 text-[10px] font-medium tracking-[0.08em] text-content-tertiary">
             {t("instruments.screen.heldOn", { n: f.sessions.length })}
           </div>
-          <div className="mt-1 text-[11px] tabular-nums text-[#4b5563]">{f.sessions.join(" · ")}</div>
+          <div className="mt-1 text-[11px] tabular-nums text-content-body">{f.sessions.join(" · ")}</div>
         </div>
       </div>
 
-      <div className="mt-3 rounded-xl border border-[#e0e0da] bg-white/60 px-3 py-2">
-        <div className="text-[10px] font-medium tracking-[0.08em] text-[#9CA3AF]">
+      <div className="mt-3 rounded-xl border border-edge bg-white/60 px-3 py-2">
+        <div className="text-[10px] font-medium tracking-[0.08em] text-content-tertiary">
           {t("instruments.screen.sessionViews", { n: f.sessions_view.length })}
         </div>
         {/* Nowrap and its own scroll: longer column names (de, fr) must not squeeze the dates apart. */}
         <div className="overflow-x-auto">
-        <table className="mt-1 w-full whitespace-nowrap text-[11px] tabular-nums text-[#4b5563] [&_td]:pr-3 [&_th]:pr-3">
+        <table className="mt-1 w-full whitespace-nowrap text-[11px] tabular-nums text-content-body [&_td]:pr-3 [&_th]:pr-3">
           <thead>
-            <tr className="text-left text-[10px] text-[#9CA3AF]">
+            <tr className="text-left text-[10px] text-content-tertiary">
               <th className="font-medium">{t("instruments.screen.col.session")}</th>
               <th className="font-medium">{t("instruments.screen.col.close")}</th>
               <th className="font-medium">{t("instruments.screen.col.ret")}</th>
@@ -308,7 +308,7 @@ function Detail({ f, label }: { f: ScreenFinding; label: string }) {
             {f.sessions_view.map((s) => {
               const q = f.qualifying_sessions.includes(s.d);
               return (
-                <tr key={s.d} className={q ? "font-semibold text-[#1d1b1b]" : ""}>
+                <tr key={s.d} className={q ? "font-semibold text-content-primary" : ""}>
                   <td>
                     {s.d}
                     {q ? " ✓" : ""}
@@ -439,28 +439,28 @@ export default function ScreenPanel({ onClose }: Props) {
   })();
 
   return (
-    <div className="app-no-drag fixed inset-0 z-[200] flex items-center justify-center bg-[#1d1b1b]/30 backdrop-blur-[3px]">
-      <div className="flex h-[92vh] w-[1180px] max-w-[96vw] flex-col overflow-hidden rounded-2xl border border-white/70 bg-[#F4F4F0] shadow-2xl">
+    <div className="app-no-drag fixed inset-0 z-[200] flex items-center justify-center bg-ink/30 backdrop-blur-[3px]">
+      <div className="flex h-[92vh] w-[1180px] max-w-[96vw] flex-col overflow-hidden rounded-2xl border border-white/70 bg-surface-1 shadow-2xl">
         {/* Header */}
-        <div className="flex items-center gap-4 border-b border-[#e0e0da] px-5 py-3">
-          <span className="shrink-0 font-sans text-[11px] font-medium tracking-[0.04em] text-[#9CA3AF]">
+        <div className="flex items-center gap-4 border-b border-edge px-5 py-3">
+          <span className="shrink-0 font-sans text-[11px] font-medium tracking-[0.04em] text-content-tertiary">
             {t("instruments.screen.title", { key: shortcutText("screen") })}
           </span>
-          <span className="shrink-0 text-[13px] text-[#1d1b1b]">
+          <span className="shrink-0 text-[13px] text-content-primary">
             {lastScan ? (
               <>
                 {tNodes("instruments.screen.lastScan", {
                   session: <span className="font-semibold tabular-nums">{lastScan.session}</span>,
                 })}
-                <span className="text-[11px] text-[#9CA3AF]"> · {fmtWhen(lastScan.scanned_at, locale)} · {lastScan.trigger}</span>
+                <span className="text-[11px] text-content-tertiary"> · {fmtWhen(lastScan.scanned_at, locale)} · {lastScan.trigger}</span>
               </>
             ) : (
-              <span className="text-[#6b7280]">{t("instruments.screen.noScan")}</span>
+              <span className="text-content-secondary">{t("instruments.screen.noScan")}</span>
             )}
           </span>
-          <span className="min-w-0 text-[11px] tabular-nums text-[#6b7280]">
+          <span className="min-w-0 text-[11px] tabular-nums text-content-secondary">
             {tNodes("instruments.screen.findings", {
-              active: <span className="font-semibold text-[#1d1b1b]">{payload?.active.length ?? 0}</span>,
+              active: <span className="font-semibold text-content-primary">{payload?.active.length ?? 0}</span>,
               ended: payload?.ended.length ?? 0,
             })}
             {lastScan
@@ -473,7 +473,7 @@ export default function ScreenPanel({ onClose }: Props) {
               : ""}
           </span>
           <div className="ml-auto flex shrink-0 items-center gap-2">
-            <select className="rounded-md border border-[#e0e0da] bg-white px-2 py-1 text-[11px] text-[#1d1b1b]" value={patternFilter} onChange={(e) => setPatternFilter(e.target.value as ScreenPattern | "all")}>
+            <select className="rounded-md border border-edge bg-white px-2 py-1 text-[11px] text-content-primary" value={patternFilter} onChange={(e) => setPatternFilter(e.target.value as ScreenPattern | "all")}>
               <option value="all">{t("instruments.screen.allPatterns")}</option>
               {SCREEN_PATTERNS.map((p) => (
                 <option key={p} value={p}>
@@ -483,7 +483,7 @@ export default function ScreenPanel({ onClose }: Props) {
             </select>
             <input
               lang="en"
-              className="w-24 rounded-md border border-[#e0e0da] bg-white px-2 py-1 text-[11px] uppercase text-[#1d1b1b] outline-none focus:border-[#189E9A]"
+              className="w-24 rounded-md border border-edge bg-white px-2 py-1 text-[11px] uppercase text-content-primary outline-none focus:border-tone-teal"
               placeholder={t("instruments.screen.tickerPlaceholder")}
               value={tickerFilter}
               onChange={(e) => setTickerFilter(e.target.value)}
@@ -494,7 +494,7 @@ export default function ScreenPanel({ onClose }: Props) {
               disabled={!staff || busy}
               title={staff ? undefined : t("access.staffOnly.action")}
               data-testid="screen-rescan"
-              className="whitespace-nowrap rounded-lg bg-[#1d1b1b] px-3 py-1.5 text-[11px] font-medium text-white disabled:opacity-50"
+              className="whitespace-nowrap rounded-lg bg-ink px-3 py-1.5 text-[11px] font-medium text-white disabled:opacity-50"
             >
               {busy ? t("instruments.screen.scanning") : t("instruments.screen.rescan")}
             </button>
@@ -503,7 +503,7 @@ export default function ScreenPanel({ onClose }: Props) {
               onClick={onClose}
               aria-label={t("common.close")}
               title={t("common.close")}
-              className="rounded-lg p-1.5 text-[#6b7280] hover:bg-white"
+              className="rounded-lg p-1.5 text-content-secondary hover:bg-white"
             >
               <X className="h-4 w-4" />
             </button>
@@ -512,15 +512,15 @@ export default function ScreenPanel({ onClose }: Props) {
 
         {error ? <div className="border-b border-red-200 bg-red-50 px-5 py-2 text-[11px] text-red-700">{errorText(error, t)}</div> : null}
         {flashText ? (
-          <div className="border-b border-[#189E9A]/30 bg-[#189E9A]/10 px-5 py-2 text-[11px] tabular-nums text-[#0f5f5d]">{flashText}</div>
+          <div className="border-b border-tone-teal/30 bg-tone-teal-fill/10 px-5 py-2 text-[11px] tabular-nums text-tone-teal">{flashText}</div>
         ) : null}
 
         <div className="flex min-h-0 flex-1">
           {/* List */}
-          <div className="w-[600px] shrink-0 overflow-y-auto border-r border-[#e0e0da] px-4 py-3">
-            <div className="mb-2 text-[10px] font-medium tracking-[0.08em] text-[#9CA3AF]">{t("instruments.screen.active", { n: active.length })}</div>
+          <div className="w-[600px] shrink-0 overflow-y-auto border-r border-edge px-4 py-3">
+            <div className="mb-2 text-[10px] font-medium tracking-[0.08em] text-content-tertiary">{t("instruments.screen.active", { n: active.length })}</div>
             {active.length === 0 ? (
-              <div className="text-[12px] text-[#6b7280]">{payload ? t("instruments.screen.noActive") : t("instruments.screen.loading")}</div>
+              <div className="text-[12px] text-content-secondary">{payload ? t("instruments.screen.noActive") : t("instruments.screen.loading")}</div>
             ) : (
               <div className="space-y-1">
                 {active.map((f) => (
@@ -532,14 +532,14 @@ export default function ScreenPanel({ onClose }: Props) {
               type="button"
               onClick={() => setShowEnded((v) => !v)}
               data-testid="screen-ended-toggle"
-              className="mt-4 flex items-center gap-1 text-[10px] font-medium tracking-[0.08em] text-[#9CA3AF]"
+              className="mt-4 flex items-center gap-1 text-[10px] font-medium tracking-[0.08em] text-content-tertiary"
             >
               {showEnded ? <ChevronDown className="h-3 w-3" /> : <ChevronRight className="h-3 w-3" />}
               {t("instruments.screen.ended", { n: ended.length })}
             </button>
             {showEnded ? (
               <div className="mt-2 space-y-1 opacity-80">
-                {ended.length === 0 ? <div className="text-[12px] text-[#6b7280]">{t("instruments.screen.noEnded")}</div> : null}
+                {ended.length === 0 ? <div className="text-[12px] text-content-secondary">{t("instruments.screen.noEnded")}</div> : null}
                 {ended.map((f) => (
                   <Row key={f.id} f={f} label={labelOf(f.pattern)} selected={f.id === selectedId} onSelect={() => setSelectedId(f.id)} />
                 ))}
@@ -548,15 +548,15 @@ export default function ScreenPanel({ onClose }: Props) {
 
             {lastScan && lastScan.degraded.length > 0 ? (
               <>
-                <button type="button" onClick={() => setShowDegraded((v) => !v)} className="mt-4 flex items-center gap-1 text-[10px] font-medium tracking-[0.08em] text-[#9CA3AF]">
+                <button type="button" onClick={() => setShowDegraded((v) => !v)} className="mt-4 flex items-center gap-1 text-[10px] font-medium tracking-[0.08em] text-content-tertiary">
                   {showDegraded ? <ChevronDown className="h-3 w-3" /> : <ChevronRight className="h-3 w-3" />}
                   {t("instruments.screen.degraded", { n: lastScan.degraded.length })}
                 </button>
                 {showDegraded ? (
                   <div className="mt-2 space-y-0.5">
                     {lastScan.degraded.map((d, i) => (
-                      <div key={`${d.ticker}-${d.pattern}-${i}`} className="flex items-baseline gap-2 text-[11px] text-[#4b5563]">
-                        <span className="w-14 font-semibold text-[#1d1b1b]">{d.ticker}</span>
+                      <div key={`${d.ticker}-${d.pattern}-${i}`} className="flex items-baseline gap-2 text-[11px] text-content-body">
+                        <span className="w-14 font-semibold text-content-primary">{d.ticker}</span>
                         <span className="w-32">{d.pattern === "all" ? t("instruments.screen.allPatterns") : labelOf(d.pattern)}</span>
                         <span className="min-w-0 flex-1 truncate">{d.reason}</span>
                       </div>
@@ -572,11 +572,11 @@ export default function ScreenPanel({ onClose }: Props) {
             {selected ? (
               <Detail f={selected} label={labelOf(selected.pattern)} />
             ) : (
-              <div className="text-[12px] text-[#6b7280]">{t("instruments.screen.clickHint")}</div>
+              <div className="text-[12px] text-content-secondary">{t("instruments.screen.clickHint")}</div>
             )}
 
             {status ? (
-              <div className="mt-4 rounded-xl border border-[#e0e0da] bg-white/40 px-3 py-2 text-[10px] text-[#6b7280]">
+              <div className="mt-4 rounded-xl border border-edge bg-white/40 px-3 py-2 text-[10px] text-content-secondary">
                 <div>
                   {t("instruments.screen.statusLine", {
                     dir: status.dataDir,
@@ -611,7 +611,7 @@ export default function ScreenPanel({ onClose }: Props) {
           </div>
         </div>
 
-        <div className="border-t border-[#e0e0da] px-5 py-2 text-[10px] text-[#9CA3AF]">
+        <div className="border-t border-edge px-5 py-2 text-[10px] text-content-tertiary">
           {t("instruments.screen.footer", { key: shortcutText("screen"), emitted: t("instruments.screen.emitted") })}
         </div>
       </div>

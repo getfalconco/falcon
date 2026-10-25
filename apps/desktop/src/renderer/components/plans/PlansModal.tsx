@@ -148,7 +148,7 @@ function BillingToggle({ billing, onChange }: { billing: Billing; onChange: (nex
             onClick={() => onChange(o.key)}
             className={cn(
               "app-no-drag relative rounded-full px-3.5 py-1 text-[12.5px] font-normal transition-colors",
-              on ? "text-[#1d1b1b]" : "text-[#6b7280] hover:text-[#1d1b1b]",
+              on ? "text-content-primary" : "text-content-secondary hover:text-content-primary",
             )}
           >
             {on ? (
@@ -162,7 +162,7 @@ function BillingToggle({ billing, onChange }: { billing: Billing; onChange: (nex
             <span className="relative flex items-center gap-1.5">
               {o.label}
               {o.key === "annual" ? (
-                <span className="text-[10px] font-medium uppercase tracking-[0.08em] text-[#9CA3AF]">
+                <span className="text-[10px] font-medium uppercase tracking-[0.08em] text-content-tertiary">
                   {t("plans.save", { percent: Math.round(ANNUAL_DISCOUNT * 100) })}
                 </span>
               ) : null}
@@ -184,7 +184,7 @@ const BUTTON = "app-no-drag flex h-9 w-full items-center justify-center gap-1.5 
 function CurrentBadge() {
   const t = useT();
   return (
-    <span className="shrink-0 whitespace-nowrap rounded-full bg-[#1d1b1b]/[0.07] px-2 py-0.5 text-[10.5px] font-medium tracking-[0.02em] text-[#1d1b1b]">
+    <span className="shrink-0 whitespace-nowrap rounded-full bg-ink/[0.07] px-2 py-0.5 text-[10.5px] font-medium tracking-[0.02em] text-content-primary">
       {t("plans.current")}
     </span>
   );
@@ -199,21 +199,21 @@ function FeatureList({ planKey }: { planKey: PlanKey }) {
         const off = v === false;
         return (
           <li key={f.key} className="flex items-baseline justify-between gap-2 text-[12px] leading-[17px]">
-            <span className={cn("min-w-0", off ? "text-[#b4b4ae]" : "text-[#4b5563]")}>{featureLabel(f, t)}</span>
+            <span className={cn("min-w-0", off ? "text-content-disabled" : "text-content-body")}>{featureLabel(f, t)}</span>
             {v === true ? (
               <Check
-                className="h-3.5 w-3.5 shrink-0 self-center text-[#1d1b1b]"
+                className="h-3.5 w-3.5 shrink-0 self-center text-content-primary"
                 strokeWidth={2}
                 aria-label={t("plans.included")}
               />
             ) : off ? (
               <Minus
-                className="h-3.5 w-3.5 shrink-0 self-center text-[#b4b4ae]"
+                className="h-3.5 w-3.5 shrink-0 self-center text-content-disabled"
                 strokeWidth={2}
                 aria-label={t("plans.notIncluded")}
               />
             ) : (
-              <span className="whitespace-nowrap text-right font-medium text-[#1d1b1b]">{featureValueText(v, t)}</span>
+              <span className="whitespace-nowrap text-right font-medium text-content-primary">{featureValueText(v, t)}</span>
             )}
           </li>
         );
@@ -227,11 +227,11 @@ function PriceLine({ plan, billing }: { plan: Plan; billing: Billing }) {
   const t = useT();
   return (
     <div className="mt-1.5 flex items-baseline gap-1">
-      <span className="text-[22px] font-medium tabular-nums leading-none tracking-[-0.01em] text-[#1d1b1b]">
+      <span className="text-[22px] font-medium tabular-nums leading-none tracking-[-0.01em] text-content-primary">
         ${planPrice(plan, billing)}
       </span>
-      <span className="text-[12px] text-[#6b7280]">{t("plans.perMonth")}</span>
-      <span className="ml-auto truncate text-[11px] text-[#9CA3AF]">
+      <span className="text-[12px] text-content-secondary">{t("plans.perMonth")}</span>
+      <span className="ml-auto truncate text-[11px] text-content-tertiary">
         {billing === "annual" ? t("plans.billedAnnually") : t("plans.billedMonthly")}
       </span>
     </div>
@@ -371,12 +371,12 @@ export default function PlansModal({
               <div className="my-auto">
                 <header className="flex items-end justify-between gap-6 pr-8">
                   <div className="min-w-0">
-                    <h2 className="font-baskerville text-[22px] font-normal leading-[1.25] text-[#1d1b1b]">
+                    <h2 className="font-baskerville text-[22px] font-normal leading-[1.25] text-content-primary">
                       {t("plans.title")}
                     </h2>
-                    <p className="mt-1.5 text-[13px] font-normal text-[#6b7280]">
+                    <p className="mt-1.5 text-[13px] font-normal text-content-secondary">
                       {tNodes(current.kind === "staff" ? "plans.youreOnStaff" : "plans.youreOn", {
-                        plan: <span className="text-[#1d1b1b]">{currentLabel}</span>,
+                        plan: <span className="text-content-primary">{currentLabel}</span>,
                       })}
                     </p>
                   </div>
@@ -406,13 +406,13 @@ export default function PlansModal({
                       <div className="mt-3 flex items-center justify-between gap-2">
                         <span
                           title={roleLabel(current.role, t)}
-                          className="truncate font-baskerville text-[16px] text-[#1d1b1b]"
+                          className="truncate font-baskerville text-[16px] text-content-primary"
                         >
                           {roleLabel(current.role, t)}
                         </span>
                         <CurrentBadge />
                       </div>
-                      <p className="mt-2 text-[12px] leading-[17px] text-[#6b7280]">
+                      <p className="mt-2 text-[12px] leading-[17px] text-content-secondary">
                         {t("plans.granted", { role: roleLabel(current.role, t) })}
                       </p>
                     </motion.div>
@@ -440,21 +440,21 @@ export default function PlansModal({
                         ) : null}
 
                         <div className="mt-3 flex items-center justify-between gap-2">
-                          <span className="truncate font-baskerville text-[16px] text-[#1d1b1b]">{plan.label}</span>
+                          <span className="truncate font-baskerville text-[16px] text-content-primary">{plan.label}</span>
                           {isCurrent ? <CurrentBadge /> : null}
                         </div>
                         <PriceLine plan={plan} billing={billing} />
 
                         <div className="mt-3.5">
                           {isCurrent ? (
-                            <button type="button" disabled className={cn(BUTTON, "cursor-default bg-black/[0.04] text-[#9CA3AF]")}>
+                            <button type="button" disabled className={cn(BUTTON, "cursor-default bg-black/[0.04] text-content-tertiary")}>
                               {t("plans.current")}
                             </button>
                           ) : change === "upgrade" ? (
                             <button
                               type="button"
                               onClick={() => openPlan(plan.key)}
-                              className={cn(BUTTON, "bg-[#1d1b1b] text-white shadow-[0_2px_10px_rgba(0,0,0,0.12)] hover:bg-black")}
+                              className={cn(BUTTON, "bg-ink text-white shadow-[0_2px_10px_rgba(0,0,0,0.12)] hover:bg-black")}
                             >
                               {t("plans.upgrade")}
                             </button>
@@ -464,7 +464,7 @@ export default function PlansModal({
                               onClick={() => openPlan(plan.key)}
                               className={cn(
                                 BUTTON,
-                                "btn-quiet border border-white/60 bg-white/55 text-[#1d1b1b] shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-black/[0.04] hover:bg-white/80",
+                                "btn-quiet border border-white/60 bg-white/55 text-content-primary shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-black/[0.04] hover:bg-white/80",
                               )}
                             >
                               {change === "downgrade" ? t("plans.downgrade") : t("plans.view")}
@@ -485,7 +485,7 @@ export default function PlansModal({
               type="button"
               onClick={onClose}
               aria-label={t("plans.close")}
-              className="app-no-drag absolute right-4 top-4 rounded-lg p-1.5 text-[#6b7280] transition-colors hover:bg-black/[0.04] hover:text-[#1d1b1b]"
+              className="app-no-drag absolute right-4 top-4 rounded-lg p-1.5 text-content-secondary transition-colors hover:bg-black/[0.04] hover:text-content-primary"
             >
               <X className="h-4 w-4" strokeWidth={1.75} aria-hidden />
             </button>

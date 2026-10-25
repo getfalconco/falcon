@@ -37,17 +37,17 @@ export default function NewsStoryList({
               onClick={() => onOpen(a)}
               className="app-no-drag group block w-full py-2.5 text-left"
             >
-              <p className="line-clamp-2 text-[13px] font-medium leading-snug text-[#1d1b1b] underline-offset-[3px] group-hover:underline">
+              <p className="line-clamp-2 text-[13px] font-medium leading-snug text-content-primary underline-offset-[3px] group-hover:underline">
                 {storyTitle(a)}
               </p>
-              <div className="mt-1 flex items-center gap-1.5 text-[11px] text-[#9CA3AF]">
+              <div className="mt-1 flex items-center gap-1.5 text-[11px] text-content-tertiary">
                 {a.source ? <span className="truncate">{a.source}</span> : null}
                 {a.source ? <span aria-hidden>·</span> : null}
                 <span className="shrink-0 tabular-nums">{agoLabel(a.datetime, now, locale, t("dashboard.news.justNow"))}</span>
                 {a.falcon.event_type && (dir === "positive" || dir === "negative") ? (
                   <>
                     <span aria-hidden>·</span>
-                    <span className={cn("shrink-0 font-medium", dir === "positive" ? "text-[#16A34A]" : "text-[#DC2626]")}>
+                    <span className={cn("shrink-0 font-medium", dir === "positive" ? "text-tone-positive" : "text-tone-negative")}>
                       {eventTypeLabel(a.falcon.event_type, t)}
                     </span>
                   </>
@@ -58,7 +58,7 @@ export default function NewsStoryList({
                   {names.slice(0, TICKERS_SHOWN).map((name) => (
                     <span
                       key={name}
-                      className="flex items-center gap-1 rounded-full bg-black/[0.04] py-0.5 pl-0.5 pr-2 text-[11px] font-semibold text-[#1d1b1b]"
+                      className="flex items-center gap-1 rounded-full bg-black/[0.04] py-0.5 pl-0.5 pr-2 text-[11px] font-semibold text-content-primary"
                     >
                       <span className="flex h-4 w-4 items-center justify-center overflow-hidden rounded-full bg-white">
                         <StockIcon symbol={name} size="sm" className="h-3 w-3 object-contain" />
@@ -66,7 +66,7 @@ export default function NewsStoryList({
                       {name}
                     </span>
                   ))}
-                  {extra > 0 ? <span className="text-[11px] text-[#9CA3AF]">+{extra}</span> : null}
+                  {extra > 0 ? <span className="text-[11px] text-content-tertiary">+{extra}</span> : null}
                 </div>
               ) : null}
             </button>

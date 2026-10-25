@@ -14,7 +14,7 @@ export type ModuleChoice = {
 };
 
 const ITEM_CLASS =
-  "flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-left text-[13px] font-normal text-[#1d1b1b] transition-colors duration-150 hover:bg-[#1d1b1b]/[0.07]";
+  "flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-left text-[13px] font-normal text-content-primary transition-colors duration-150 hover:bg-ink/[0.07]";
 
 /**
  * The way a module gets onto the dashboard: a card that was removed from its
@@ -82,7 +82,7 @@ export default function AddModuleButton({
             {...DROPDOWN_FADE}
             className="app-no-drag absolute right-0 top-full mt-2 w-56 rounded-2xl border border-white/60 bg-white/70 p-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_18px_44px_rgba(0,0,0,0.14)] ring-1 ring-black/[0.04] backdrop-blur-xl backdrop-saturate-150"
           >
-            <div className="px-3 pb-1.5 pt-2 font-sans text-[11px] font-medium tracking-[0.04em] text-[#9CA3AF]">{t("modules.heading")}</div>
+            <div className="px-3 pb-1.5 pt-2 font-sans text-[11px] font-medium tracking-[0.04em] text-content-tertiary">{t("modules.heading")}</div>
             {modules.map(({ id, label, icon: Icon, onCanvas }) => (
               <button
                 key={id}
@@ -94,9 +94,9 @@ export default function AddModuleButton({
                 }}
                 className={ITEM_CLASS}
               >
-                <Icon className="h-[15px] w-[15px] shrink-0 text-[#4b5563]" strokeWidth={1.75} aria-hidden />
+                <Icon className="h-[15px] w-[15px] shrink-0 text-content-body" strokeWidth={1.75} aria-hidden />
                 {label}
-                {onCanvas ? <span className="ml-auto shrink-0 text-[11.5px] text-[#9CA3AF]">{t("modules.addCopy")}</span> : null}
+                {onCanvas ? <span className="ml-auto shrink-0 text-[11.5px] text-content-tertiary">{t("modules.addCopy")}</span> : null}
               </button>
             ))}
           </motion.div>

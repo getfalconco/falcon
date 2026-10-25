@@ -20,15 +20,15 @@ import type {
  */
 
 const RELEVANCE_STYLE: Record<string, string> = {
-  direct: "bg-[#dcfce7] text-[#166534]",
-  indirect: "bg-[#fef3c7] text-[#92400e]",
-  none: "bg-[#f1f1ec] text-[#8b8b86]",
+  direct: "bg-tone-positive-soft text-tone-positive",
+  indirect: "bg-tone-warning-soft text-tone-warning",
+  none: "bg-surface-2 text-content-tertiary",
 };
 
 const MATERIALITY_STYLE: Record<string, string> = {
-  high: "text-[#991b1b]",
-  standard: "text-[#1d1b1b]",
-  low: "text-[#8b8b86]",
+  high: "text-tone-negative",
+  standard: "text-content-primary",
+  low: "text-content-tertiary",
 };
 
 const DIRECTION_GLYPH: Record<string, string> = {
@@ -55,8 +55,8 @@ function entryLabel(t: ClassifierTickerVerdict): string {
 function Counter({ label, value, tone }: { label: string; value: string | number; tone?: string }) {
   return (
     <div className="flex items-baseline justify-between gap-2 font-mono text-[10px]">
-      <span className="text-[#b4b4ae]">{label}</span>
-      <span className={tone ?? "text-[#1d1b1b]"}>{value}</span>
+      <span className="text-content-disabled">{label}</span>
+      <span className={tone ?? "text-content-primary"}>{value}</span>
     </div>
   );
 }
@@ -81,12 +81,12 @@ function Switch({
       disabled={disabled}
       onClick={() => onChange(!checked)}
       title={hint}
-      className="flex w-full items-center justify-between rounded border border-[#e0e0da] bg-white px-2 py-1 text-left font-mono text-[10px] text-[#6b7280] transition-colors hover:text-[#1d1b1b] disabled:opacity-50"
+      className="flex w-full items-center justify-between rounded border border-edge bg-white px-2 py-1 text-left font-mono text-[10px] text-content-secondary transition-colors hover:text-content-primary disabled:opacity-50"
     >
       <span>{label}</span>
       <span
         className={`rounded px-1.5 py-0.5 text-[9px] uppercase ${
-          checked ? "bg-[#dcfce7] text-[#166534]" : "bg-[#f1f1ec] text-[#8b8b86]"
+          checked ? "bg-tone-positive-soft text-tone-positive" : "bg-surface-2 text-content-tertiary"
         }`}
       >
         {checked ? t("instruments.common.on") : t("instruments.common.off")}
@@ -180,8 +180,8 @@ export default function ClassifierView() {
   return (
     <div className="flex min-h-0 flex-1">
       {/* Sidebar: counters + controls */}
-      <aside className="w-[264px] shrink-0 overflow-y-auto border-r border-[#eeeee8] px-3 py-3">
-        <div className="font-mono text-[10px] uppercase tracking-wide text-[#b4b4ae]">{t("instruments.common.phase")}</div>
+      <aside className="w-[264px] shrink-0 overflow-y-auto border-r border-edge-subtle px-3 py-3">
+        <div className="font-mono text-[10px] uppercase tracking-wide text-content-disabled">{t("instruments.common.phase")}</div>
         <div className="mt-1.5 space-y-1">
           <Switch
             label={t("instruments.common.liveLoop", { model: status?.model ?? na() })}
@@ -203,9 +203,9 @@ export default function ClassifierView() {
             disabled={!staff}
             hint={staff ? t("instruments.classifier.rescoreHint") : t("access.staffOnly.setting")}
           />
-          {!staff && <div className="font-mono text-[10px] text-[#8b8b86]">{t("access.staffOnly.setting")}</div>}
+          {!staff && <div className="font-mono text-[10px] text-content-tertiary">{t("access.staffOnly.setting")}</div>}
           {!status?.configured && (
-            <div className="font-mono text-[10px] text-[#b45309]">{t("instruments.common.noApiKey")}</div>
+            <div className="font-mono text-[10px] text-tone-warning">{t("instruments.common.noApiKey")}</div>
           )}
         </div>
 
@@ -214,7 +214,7 @@ export default function ClassifierView() {
             type="button"
             disabled={!staff || busy || !status?.configured || breakerOpen}
             onClick={() => void runCycle(false)}
-            className="flex flex-1 items-center justify-center gap-1 rounded border border-[#e0e0da] bg-white py-1 font-mono text-[10px] text-[#6b7280] transition-colors hover:text-[#1d1b1b] disabled:opacity-50"
+            className="flex flex-1 items-center justify-center gap-1 rounded border border-edge bg-white py-1 font-mono text-[10px] text-content-secondary transition-colors hover:text-content-primary disabled:opacity-50"
             title={staff ? t("instruments.classifier.runCycleHint") : t("access.staffOnly.action")}
           >
             <Play className="h-3 w-3 shrink-0" strokeWidth={2} aria-hidden /> {t("instruments.common.runCycle")}
@@ -223,14 +223,14 @@ export default function ClassifierView() {
             type="button"
             disabled={!staff || busy}
             onClick={() => void runCycle(true)}
-            className="flex-1 rounded border border-[#e0e0da] bg-white py-1 font-mono text-[10px] text-[#6b7280] transition-colors hover:text-[#1d1b1b] disabled:opacity-50"
+            className="flex-1 rounded border border-edge bg-white py-1 font-mono text-[10px] text-content-secondary transition-colors hover:text-content-primary disabled:opacity-50"
             title={staff ? t("instruments.classifier.dryRunHint") : t("access.staffOnly.action")}
           >
             {t("instruments.common.dryRun")}
           </button>
         </div>
 
-        <div className="mt-4 font-mono text-[10px] uppercase tracking-wide text-[#b4b4ae]">{t("instruments.common.budgetBreaker")}</div>
+        <div className="mt-4 font-mono text-[10px] uppercase tracking-wide text-content-disabled">{t("instruments.common.budgetBreaker")}</div>
         <div className="mt-1.5 space-y-0.5">
           <Counter
             label={t("instruments.common.budget", { day: status?.budget.day ?? "" })}
@@ -258,7 +258,7 @@ export default function ClassifierView() {
                     })
                 : na()
             }
-            tone={breakerOpen ? "text-[#991b1b]" : undefined}
+            tone={breakerOpen ? "text-tone-negative" : undefined}
           />
           <Counter
             label={t("instruments.common.nextCycle")}
@@ -272,7 +272,7 @@ export default function ClassifierView() {
           />
         </div>
 
-        <div className="mt-4 font-mono text-[10px] uppercase tracking-wide text-[#b4b4ae]">{t("instruments.common.counters")}</div>
+        <div className="mt-4 font-mono text-[10px] uppercase tracking-wide text-content-disabled">{t("instruments.common.counters")}</div>
         <div className="mt-1.5 space-y-0.5">
           <Counter label={t("instruments.classifier.verdictsOkFailed")} value={m ? `${m.verdicts_ok} / ${m.verdicts_failed}` : na()} />
           <Counter label={t("instruments.classifier.inStore")} value={status ? `${status.verdict_count} · ${status.permanent_failures}` : na()} />
@@ -292,39 +292,39 @@ export default function ClassifierView() {
           <Counter label={t("instruments.classifier.metadataRows")} value={status?.metadata_rows ?? na()} />
         </div>
 
-        <div className="mt-4 font-mono text-[10px] uppercase tracking-wide text-[#b4b4ae]">{t("instruments.classifier.eventTypes")}</div>
+        <div className="mt-4 font-mono text-[10px] uppercase tracking-wide text-content-disabled">{t("instruments.classifier.eventTypes")}</div>
         <div className="mt-1.5 space-y-1">
-          {byType.length === 0 && <div className="font-mono text-[10px] text-[#c9c9c1]">{t("instruments.classifier.noVerdictsYet")}</div>}
+          {byType.length === 0 && <div className="font-mono text-[10px] text-content-disabled">{t("instruments.classifier.noVerdictsYet")}</div>}
           {byType.map(([type, count]) => (
             <div key={type} className="flex items-center gap-2">
-              <span className="min-w-0 flex-1 truncate font-mono text-[10px] text-[#6b7280]">{type}</span>
-              <div className="h-1.5 w-14 overflow-hidden rounded-full bg-[#ececE6]">
-                <div className="h-full rounded-full bg-[#1d1b1b]/25" style={{ width: `${Math.round((count / maxType) * 100)}%` }} />
+              <span className="min-w-0 flex-1 truncate font-mono text-[10px] text-content-secondary">{type}</span>
+              <div className="h-1.5 w-14 overflow-hidden rounded-full bg-surface-3">
+                <div className="h-full rounded-full bg-ink/25" style={{ width: `${Math.round((count / maxType) * 100)}%` }} />
               </div>
-              <span className="w-5 text-right font-mono text-[10px] text-[#6b7280]">{count}</span>
+              <span className="w-5 text-right font-mono text-[10px] text-content-secondary">{count}</span>
             </div>
           ))}
         </div>
 
         {status?.last_run && (
-          <div className="mt-4 space-y-0.5 border-t border-[#eeeee8] pt-2 font-mono text-[10px] text-[#8b8b86]">
+          <div className="mt-4 space-y-0.5 border-t border-edge-subtle pt-2 font-mono text-[10px] text-content-tertiary">
             <div>
-              <span className="text-[#b4b4ae]">{t("instruments.common.lastRun")}</span> {fmtTime(status.last_run.finished_at, locale)}
+              <span className="text-content-disabled">{t("instruments.common.lastRun")}</span> {fmtTime(status.last_run.finished_at, locale)}
               {status.last_run.dry_run ? ` ${t("instruments.common.dryTag")}` : ""}
             </div>
             <div>
-              <span className="text-[#b4b4ae]">{t("instruments.common.scanned")}</span> {status.last_run.messages_scanned} ·{" "}
-              <span className="text-[#b4b4ae]">{t("instruments.common.requests")}</span> {status.last_run.requests_built} ·{" "}
-              <span className="text-[#b4b4ae]">{t("instruments.classifier.covered")}</span> {status.last_run.covered}
+              <span className="text-content-disabled">{t("instruments.common.scanned")}</span> {status.last_run.messages_scanned} ·{" "}
+              <span className="text-content-disabled">{t("instruments.common.requests")}</span> {status.last_run.requests_built} ·{" "}
+              <span className="text-content-disabled">{t("instruments.classifier.covered")}</span> {status.last_run.covered}
             </div>
             <div>
-              <span className="text-[#b4b4ae]">{t("instruments.common.dispatched")}</span> {status.last_run.dispatched} ·{" "}
-              <span className="text-[#b4b4ae]">{t("instruments.common.deferred")}</span> {status.last_run.deferred_by_budget} ·{" "}
-              <span className="text-[#b4b4ae]">{t("instruments.common.ok")}</span> {status.last_run.ok} ·{" "}
-              <span className="text-[#b45309]">{t("instruments.common.failedCount", { n: status.last_run.failed })}</span>
+              <span className="text-content-disabled">{t("instruments.common.dispatched")}</span> {status.last_run.dispatched} ·{" "}
+              <span className="text-content-disabled">{t("instruments.common.deferred")}</span> {status.last_run.deferred_by_budget} ·{" "}
+              <span className="text-content-disabled">{t("instruments.common.ok")}</span> {status.last_run.ok} ·{" "}
+              <span className="text-tone-warning">{t("instruments.common.failedCount", { n: status.last_run.failed })}</span>
             </div>
             {status.last_run.errors.map((e) => (
-              <div key={e} className="truncate text-[#b45309]" title={e}>
+              <div key={e} className="truncate text-tone-warning" title={e}>
                 {e}
               </div>
             ))}
@@ -334,15 +334,15 @@ export default function ClassifierView() {
 
       {/* Verdict stream */}
       <div className="flex min-h-0 flex-1 flex-col">
-        <div className="flex flex-wrap items-center gap-2 border-b border-[#eeeee8] px-4 py-2">
-          <div className="flex rounded-md border border-[#e0e0da] bg-white p-0.5">
+        <div className="flex flex-wrap items-center gap-2 border-b border-edge-subtle px-4 py-2">
+          <div className="flex rounded-md border border-edge bg-white p-0.5">
             {(["all", "ok", "failed"] as const).map((s) => (
               <button
                 key={s}
                 type="button"
                 onClick={() => setStatusFilter(s)}
                 className={`rounded px-2 py-1 text-[11px] transition-colors ${
-                  statusFilter === s ? "bg-[#1d1b1b] text-white" : "text-[#6b7280] hover:text-[#1d1b1b]"
+                  statusFilter === s ? "bg-ink text-white" : "text-content-secondary hover:text-content-primary"
                 }`}
               >
                 {s === "all" ? t("instruments.common.all") : s === "ok" ? t("instruments.common.ok") : t("instruments.common.failed")}
@@ -352,7 +352,7 @@ export default function ClassifierView() {
           <select
             value={typeFilter}
             onChange={(e) => setTypeFilter(e.target.value as ClassifierEventType | "all")}
-            className="rounded-md border border-[#e0e0da] bg-white px-2 py-1 text-[11px] text-[#1d1b1b]"
+            className="rounded-md border border-edge bg-white px-2 py-1 text-[11px] text-content-primary"
           >
             <option value="all">{t("instruments.classifier.allEventTypes")}</option>
             {byType.map(([type]) => (
@@ -364,38 +364,38 @@ export default function ClassifierView() {
           <button
             type="button"
             onClick={() => void load()}
-            className="flex items-center gap-1.5 rounded-md border border-[#e0e0da] bg-white px-2 py-1 text-[11px] text-[#6b7280] transition-colors hover:text-[#1d1b1b]"
+            className="flex items-center gap-1.5 rounded-md border border-edge bg-white px-2 py-1 text-[11px] text-content-secondary transition-colors hover:text-content-primary"
           >
             <RefreshCw className="h-3 w-3" strokeWidth={2} aria-hidden /> {t("instruments.common.refresh")}
           </button>
-          <span className="ml-auto font-mono text-[10px] text-[#a3a39c]">
+          <span className="ml-auto font-mono text-[10px] text-content-tertiary">
             {t("instruments.classifier.count", { n: visible.length, version: status?.prompt_version ?? na() })}
           </span>
         </div>
 
         <div className="min-h-0 flex-1 overflow-y-auto px-4 py-2">
           {error ? (
-            <div className="flex h-full items-center justify-center font-mono text-[12px] text-[#b45309]">{error}</div>
+            <div className="flex h-full items-center justify-center font-mono text-[12px] text-tone-warning">{error}</div>
           ) : visible.length === 0 ? (
-            <div className="flex h-full items-center justify-center text-center font-mono text-[12px] text-[#a3a39c]">
+            <div className="flex h-full items-center justify-center text-center font-mono text-[12px] text-content-tertiary">
               {t("instruments.classifier.empty")}
             </div>
           ) : (
-            <ul className="divide-y divide-[#eeeee8]">
+            <ul className="divide-y divide-edge-subtle">
               {visible.map((v) => (
                 <li key={`${v.article_key}|${v.prompt_version}|${v.model}`} className="py-1.5">
                   <div className="flex items-baseline gap-2">
-                    <span className="w-[82px] shrink-0 font-mono text-[10px] text-[#a3a39c]">{fmtTime(v.classified_at, locale)}</span>
-                    <span className="shrink-0 rounded bg-[#e0e7ff] px-1.5 py-0.5 font-mono text-[10px] text-[#3730a3]">
+                    <span className="w-[82px] shrink-0 font-mono text-[10px] text-content-tertiary">{fmtTime(v.classified_at, locale)}</span>
+                    <span className="shrink-0 rounded bg-tone-info-soft px-1.5 py-0.5 font-mono text-[10px] text-tone-violet">
                       {v.event_type}
                     </span>
                     {v.status === "failed" && (
-                      <span className="shrink-0 rounded bg-[#fee2e2] px-1.5 py-0.5 font-mono text-[10px] text-[#991b1b]">{t("instruments.common.failed")}</span>
+                      <span className="shrink-0 rounded bg-tone-negative-soft px-1.5 py-0.5 font-mono text-[10px] text-tone-negative">{t("instruments.common.failed")}</span>
                     )}
-                    <span className="min-w-0 flex-1 truncate text-[12px] text-[#1d1b1b]" title={v.failure_reason ?? v.event_label}>
+                    <span className="min-w-0 flex-1 truncate text-[12px] text-content-primary" title={v.failure_reason ?? v.event_label}>
                       {v.status === "failed" ? v.failure_reason : v.event_label || na()}
                     </span>
-                    <span className="shrink-0 font-mono text-[10px] text-[#b4b4ae]">
+                    <span className="shrink-0 font-mono text-[10px] text-content-disabled">
                       {t("instruments.classifier.scope", { kind: v.kind, scope: v.syndication_scope })}
                       {v.metadata_missing ? ` · ${t("instruments.classifier.noMeta")}` : ""}
                     </span>
@@ -415,11 +415,11 @@ export default function ClassifierView() {
                             {DIRECTION_GLYPH[tv.direction]}
                           </>
                         )}
-                        {tv.relevance === "none" && <span className="text-[#b4b4ae]"> none</span>}
+                        {tv.relevance === "none" && <span className="text-content-disabled"> none</span>}
                       </span>
                     ))}
                     {v.unassessed_tickers.map((u) => (
-                      <span key={`u-${u}`} className="rounded border border-dashed border-[#e0e0da] px-1.5 py-0.5 font-mono text-[10px] text-[#b4b4ae]" title={t("instruments.classifier.unassessed")}>
+                      <span key={`u-${u}`} className="rounded border border-dashed border-edge px-1.5 py-0.5 font-mono text-[10px] text-content-disabled" title={t("instruments.classifier.unassessed")}>
                         {u}
                       </span>
                     ))}

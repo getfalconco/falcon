@@ -67,10 +67,10 @@ function KindMenu({ kind, onPick }: { kind: AgentTriggerKind; onPick: (k: AgentT
         aria-haspopup="menu"
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
-        className="app-no-drag inline-flex h-7 items-center gap-1 rounded-lg px-2 text-[12.5px] font-medium text-[#1d1b1b] transition-colors hover:bg-black/[0.04]"
+        className="app-no-drag inline-flex h-7 items-center gap-1 rounded-lg px-2 text-[12.5px] font-medium text-content-primary transition-colors hover:bg-black/[0.04]"
       >
         {triggerKindLabel(kind, lang)}
-        <ChevronDown className="h-3.5 w-3.5 text-[#6b7280]" strokeWidth={2} aria-hidden />
+        <ChevronDown className="h-3.5 w-3.5 text-content-secondary" strokeWidth={2} aria-hidden />
       </button>
       <AnimatePresence>
         {open ? (
@@ -90,7 +90,7 @@ function KindMenu({ kind, onPick }: { kind: AgentTriggerKind; onPick: (k: AgentT
                   if (k !== kind) onPick(k);
                 }}
                 className={cn(
-                  "flex w-full items-center rounded-xl px-3 py-1.5 text-left text-[12.5px] text-[#1d1b1b] transition-colors hover:bg-[#1d1b1b]/[0.07]",
+                  "flex w-full items-center rounded-xl px-3 py-1.5 text-left text-[12.5px] text-content-primary transition-colors hover:bg-ink/[0.07]",
                   k === kind && "font-medium",
                 )}
               >
@@ -113,7 +113,7 @@ function Chip({ on, onClick, children }: { on: boolean; onClick: () => void; chi
       onClick={onClick}
       className={cn(
         "app-no-drag h-7 rounded-lg px-2.5 text-[12px] transition-colors",
-        on ? "bg-[#1d1b1b]/[0.08] font-medium text-[#1d1b1b] ring-1 ring-black/[0.1]" : "text-[#6b7280] ring-1 ring-black/[0.06] hover:bg-black/[0.04]",
+        on ? "bg-ink/[0.08] font-medium text-content-primary ring-1 ring-black/[0.1]" : "text-content-secondary ring-1 ring-black/[0.06] hover:bg-black/[0.04]",
       )}
     >
       {children}
@@ -121,7 +121,7 @@ function Chip({ on, onClick, children }: { on: boolean; onClick: () => void; chi
   );
 }
 
-const SMALL_LABEL = "w-[84px] shrink-0 text-[12px] leading-[1.3] text-[#6b7280]";
+const SMALL_LABEL = "w-[84px] shrink-0 text-[12px] leading-[1.3] text-content-secondary";
 
 /**
  * One trigger, edited by kind: the kind menu on the left, its fields under
@@ -170,7 +170,7 @@ export default function TriggerEditor({
             type="button"
             aria-label={tr("agents.trig.remove")}
             onClick={onRemove}
-            className="app-no-drag flex h-6 w-6 items-center justify-center rounded-md text-[#9CA3AF] transition-colors hover:bg-black/[0.04] hover:text-[#1d1b1b]"
+            className="app-no-drag flex h-6 w-6 items-center justify-center rounded-md text-content-tertiary transition-colors hover:bg-black/[0.04] hover:text-content-primary"
           >
             <X className="h-3.5 w-3.5" strokeWidth={2} aria-hidden />
           </button>
@@ -225,9 +225,9 @@ export default function TriggerEditor({
               type="checkbox"
               checked={t.insiderBuysOnly === true}
               onChange={(e) => onChange({ ...t, insiderBuysOnly: e.target.checked || undefined })}
-              className="app-no-drag h-[15px] w-[15px] accent-[#1d1b1b]"
+              className="app-no-drag h-[15px] w-[15px] accent-tint"
             />
-            <span className="text-[12.5px] text-[#1d1b1b]">{tr("agents.trig.openMarketOnly")}</span>
+            <span className="text-[12.5px] text-content-primary">{tr("agents.trig.openMarketOnly")}</span>
           </label>
         ) : null}
 
@@ -245,7 +245,7 @@ export default function TriggerEditor({
                   aria-label={tr("agents.trig.moveAria")}
                   className={cn(FIELD, "h-9 pr-7 tabular-nums")}
                 />
-                <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[12px] text-[#9CA3AF]">%</span>
+                <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[12px] text-content-tertiary">%</span>
               </div>
             </div>
             <div className="flex items-center gap-3">
@@ -464,7 +464,7 @@ export default function TriggerEditor({
                 aria-label={tr("agents.trig.timeAria")}
                 className={cn(FIELD, "h-9 w-32 tabular-nums")}
               />
-              <span className="text-[11.5px] text-[#9CA3AF]">{tr("agents.trig.localTime")}</span>
+              <span className="text-[11.5px] text-content-tertiary">{tr("agents.trig.localTime")}</span>
             </div>
             {/* A digest about no one company: the topic its headlines are narrowed to. */}
             <div className="flex items-center gap-3">
@@ -485,7 +485,7 @@ export default function TriggerEditor({
         ) : null}
       </div>
 
-      <p className={cn("mt-3 text-[12px]", problem ? "text-[#B45309]" : "text-[#6b7280]")}>{problem ?? triggerSentence(t, lang)}</p>
+      <p className={cn("mt-3 text-[12px]", problem ? "text-tone-warning" : "text-content-secondary")}>{problem ?? triggerSentence(t, lang)}</p>
     </div>
   );
 }

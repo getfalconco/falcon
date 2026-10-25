@@ -72,14 +72,14 @@ export default function AgentsCard({ onDuplicate, onRemove, onOpenAgents }: Prop
   if (snap.phase === "unavailable") {
     body = (
       <div className="space-y-1">
-        <p className="text-[13px] leading-[1.5] text-[#6b7280]">{t("agents.card.unavailable")}</p>
+        <p className="text-[13px] leading-[1.5] text-content-secondary">{t("agents.card.unavailable")}</p>
         <p className={QUIET_NOTE_CLASS}>{t("agents.card.unavailableHint")}</p>
       </div>
     );
   } else if (snap.phase === "error" && snap.agents.length === 0) {
     body = (
       <div className="space-y-2">
-        <p className="text-[13px] leading-[1.5] text-[#6b7280]">{t("agents.card.loadFailed")}</p>
+        <p className="text-[13px] leading-[1.5] text-content-secondary">{t("agents.card.loadFailed")}</p>
         <button type="button" onClick={() => void refreshAgents()} className={BUTTON}>
           {t("agents.tryAgain")}
         </button>
@@ -92,7 +92,7 @@ export default function AgentsCard({ onDuplicate, onRemove, onOpenAgents }: Prop
     // which every state of this card already has.
     body = (
       <div className="flex min-h-0 flex-1 items-center justify-center">
-        <p className="text-[13px] text-[#9CA3AF]">{t("agents.card.emptyTitle")}</p>
+        <p className="text-[13px] text-content-tertiary">{t("agents.card.emptyTitle")}</p>
       </div>
     );
   } else {
@@ -111,8 +111,8 @@ export default function AgentsCard({ onDuplicate, onRemove, onOpenAgents }: Prop
                       type="button"
                       onClick={() => openAgent(agent.id, "reports", report.id)}
                       className={cn(
-                        "app-no-drag group/row w-full rounded-xl px-2 py-2 text-left transition-colors duration-300 hover:bg-[#1d1b1b]/[0.04]",
-                        fresh && "bg-[#1d1b1b]/[0.04]",
+                        "app-no-drag group/row w-full rounded-xl px-2 py-2 text-left transition-colors duration-300 hover:bg-ink/[0.04]",
+                        fresh && "bg-ink/[0.04]",
                       )}
                     >
                       <span className="flex items-center gap-1.5">
@@ -120,16 +120,16 @@ export default function AgentsCard({ onDuplicate, onRemove, onOpenAgents }: Prop
                           aria-label={report.read ? undefined : t("agents.unread")}
                           className={cn(
                             "h-1.5 w-1.5 shrink-0 rounded-full",
-                            report.read ? "bg-transparent" : "bg-[#1d1b1b]",
+                            report.read ? "bg-transparent" : "bg-ink",
                           )}
                         />
-                        <span className="min-w-0 flex-1 truncate text-[11.5px] text-[#6b7280]">{agent.name}</span>
-                        <span className="shrink-0 text-[11px] tabular-nums text-[#9CA3AF]">{relativeTime(report.at, now, lang)}</span>
+                        <span className="min-w-0 flex-1 truncate text-[11.5px] text-content-secondary">{agent.name}</span>
+                        <span className="shrink-0 text-[11px] tabular-nums text-content-tertiary">{relativeTime(report.at, now, lang)}</span>
                       </span>
                       <span
                         className={cn(
                           "mt-0.5 line-clamp-2 pl-3 text-[12.5px] leading-[1.4]",
-                          report.read ? "text-[#4b5563]" : "font-medium text-[#1d1b1b]",
+                          report.read ? "text-content-body" : "font-medium text-content-primary",
                         )}
                       >
                         {report.headline}
@@ -160,13 +160,13 @@ export default function AgentsCard({ onDuplicate, onRemove, onOpenAgents }: Prop
                     <button
                       type="button"
                       onClick={() => openAgent(agent.id, "overview")}
-                      className="app-no-drag flex w-full items-center gap-2 rounded-xl px-2 py-1.5 text-left transition-colors hover:bg-[#1d1b1b]/[0.04]"
+                      className="app-no-drag flex w-full items-center gap-2 rounded-xl px-2 py-1.5 text-left transition-colors hover:bg-ink/[0.04]"
                     >
                       {agent.ticker ? <TickerChip ticker={agent.ticker} /> : null}
-                      <span className="min-w-0 flex-1 truncate text-[12.5px] text-[#1d1b1b]">
+                      <span className="min-w-0 flex-1 truncate text-[12.5px] text-content-primary">
                         {short ?? agent.name}
                       </span>
-                      <span className="shrink-0 text-[11.5px] tabular-nums text-[#6b7280]">{countdown(agent.nextExpectedAt, now, lang)}</span>
+                      <span className="shrink-0 text-[11.5px] tabular-nums text-content-secondary">{countdown(agent.nextExpectedAt, now, lang)}</span>
                     </button>
                   </li>
                 );

@@ -3,11 +3,15 @@
 Usage:  python scripts/gen-dark-theme.py          (rewrites globals.css in place)
         python scripts/gen-dark-theme.py --print  (prints the block instead)
 
-The dashboard is drawn light, with its colours written as literal utility
-classes (`text-[#6b7280]`, `bg-white/55`, `border-black/[0.06]`). Dark mode
-reads that vocabulary back out of the renderer source and maps every entry
-onto a semantic token defined at the top of src/renderer/globals.css
-(`--surface-1`, `--text-secondary`, `--border-subtle`, `--positive`...).
+Colours in the renderer are the Apple-palette token utilities
+(`text-content-secondary`, `bg-surface-2`, `border-edge-subtle`,
+`text-tone-positive`; tailwind.config.ts), which are right in both themes on
+their own. What is still written as a literal light class is the glass
+(`bg-white/55`, `border-black/[0.06]`) and the odd hex that slips in
+(`text-[#6b7280]`). Dark mode reads that vocabulary back out of the renderer
+source and maps every entry onto a semantic token defined at the top of
+src/renderer/globals.css (`--surface-1`, `--text-secondary`,
+`--border-subtle`, `--positive`...).
 
 Roles, not colours, decide the answer: a near-black text colour is ink and
 becomes `--text-primary`; a cream fill becomes a surface step; any light
@@ -42,12 +46,11 @@ PAT = re.compile(
     r"(" + PROPS + r")-(" + COLOR + r")((?:/\[[0-9.]+\]|/\d+)?)(?![\w\-\[])"
 )
 
-# The shared vocabulary new components are written in. Rules for these are
+# The glass vocabulary components are still written in. Rules for these are
 # emitted even when no file uses them yet, so a component written today in
-# the house classes is dark the moment it lands.
+# the house classes is dark the moment it lands. Colours (text, edges, tones)
+# belong in the token utilities instead and need no rule here.
 CORE = [
-    "text-[#1d1b1b]", "text-[#374151]", "text-[#4b5563]", "text-[#6b7280]", "text-[#9ca3af]",
-    "text-[#b4b4ae]", "text-[#16a34a]", "text-[#dc2626]", "text-[#b45309]", "text-[#189e9a]",
     "bg-white", "bg-white/40", "bg-white/45", "bg-white/50", "bg-white/55", "bg-white/60",
     "bg-white/70", "bg-white/75", "bg-white/80", "bg-white/90",
     "hover:bg-white/55", "hover:bg-white/60", "hover:bg-white/70", "hover:bg-white/75", "hover:bg-white/80",
@@ -57,9 +60,7 @@ CORE = [
     "divide-black/[0.06]", "ring-black/[0.04]", "ring-black/[0.06]", "ring-black/[0.08]", "ring-black/[0.1]",
     "bg-black/[0.03]", "bg-black/[0.04]", "bg-black/[0.05]", "bg-black/[0.06]", "bg-black/[0.08]",
     "hover:bg-black/[0.03]", "hover:bg-black/[0.04]", "hover:bg-black/[0.05]", "hover:bg-black/[0.06]",
-    "hover:bg-black/[0.08]", "hover:text-[#1d1b1b]", "hover:text-[#374151]", "hover:text-[#4b5563]",
-    "hover:text-[#6b7280]", "group-hover:text-[#1d1b1b]", "group-hover:text-[#4b5563]",
-    "placeholder:text-[#9ca3af]", "border-[#e0e0da]", "border-[#eeeee8]", "bg-[#f4f4f0]", "bg-[#eaeae6]",
+    "hover:bg-black/[0.08]",
 ]
 
 # Colours whose answer is not a rule. None = leave it alone (already right

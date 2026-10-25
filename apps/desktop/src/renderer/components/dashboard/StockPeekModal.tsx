@@ -53,8 +53,8 @@ const SIGNED_PERCENT = {
 const PEEK_TIMEFRAMES = ["1D", "1W", "1M"] as const satisfies readonly ChartTimeframe[];
 type PeekTimeframe = (typeof PEEK_TIMEFRAMES)[number];
 
-const UP = "#16A34A";
-const DOWN = "#DC2626";
+const UP = "var(--positive)";
+const DOWN = "var(--negative)";
 
 type ChartSession = "pre" | "reg" | "post";
 
@@ -70,7 +70,7 @@ export function MiniChart({ series }: { series: PricePoint[] }) {
   const points = series.filter((p) => Number.isFinite(p.v));
   if (points.length < 2) {
     return (
-      <div className="flex h-full items-center justify-center text-[13px] text-[#9CA3AF]">
+      <div className="flex h-full items-center justify-center text-[13px] text-content-tertiary">
         {t("dashboard.peek.noChartData")}
       </div>
     );
@@ -135,7 +135,7 @@ export function MiniChart({ series }: { series: PricePoint[] }) {
         y1={y(first)}
         x2="100"
         y2={y(first)}
-        stroke="#9CA3AF"
+        stroke="var(--text-tertiary)"
         strokeOpacity={0.35}
         strokeDasharray="1.5 2.5"
         vectorEffect="non-scaling-stroke"
@@ -316,14 +316,14 @@ export default function StockPeekModal({
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.08, duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
             >
-              <span className="select-none font-sans text-[11px] font-medium tracking-[0.04em] text-[#9CA3AF]">
+              <span className="select-none font-sans text-[11px] font-medium tracking-[0.04em] text-content-tertiary">
                 {t("dashboard.peek.label")}
               </span>
               <button
                 type="button"
                 onClick={onClose}
                 aria-label={t("common.close")}
-                className="app-no-drag rounded-lg p-1.5 text-[#6b7280] transition-colors hover:bg-black/[0.04] hover:text-[#1d1b1b]"
+                className="app-no-drag rounded-lg p-1.5 text-content-secondary transition-colors hover:bg-black/[0.04] hover:text-content-primary"
               >
                 <X className="h-4 w-4" strokeWidth={1.75} aria-hidden />
               </button>
@@ -336,7 +336,7 @@ export default function StockPeekModal({
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.12, duration: 0.34, ease: [0.4, 0, 0.2, 1] }}
             >
-              <span className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#E3E3E0]">
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-full bg-surface-3">
                 <StockIcon
                   symbol={shown.symbol}
                   companyName={shown.companyName}
@@ -347,11 +347,11 @@ export default function StockPeekModal({
 
               <div className="min-w-0">
                 <div className="flex items-center gap-2.5">
-                  <h2 className="font-sans text-[22px] font-medium leading-none tracking-[-0.01em] text-[#1d1b1b]">
+                  <h2 className="font-sans text-[22px] font-medium leading-none tracking-[-0.01em] text-content-primary">
                     {shown.symbol}
                   </h2>
                   {badges.held ? (
-                    <span className="rounded-full bg-[#16A34A]/10 px-2 py-0.5 text-[10.5px] font-medium tracking-[0.02em] text-[#15803D]">
+                    <span className="rounded-full bg-tone-positive-fill/10 px-2 py-0.5 text-[10.5px] font-medium tracking-[0.02em] text-tone-positive">
                       {badges.heldLabel}
                     </span>
                   ) : null}
@@ -362,8 +362,8 @@ export default function StockPeekModal({
                     className={cn(
                       "flex items-center gap-1 rounded-full px-2 py-0.5 text-[10.5px] font-medium tracking-[0.02em] transition-colors",
                       watching
-                        ? "bg-[#1d1b1b]/[0.08] text-[#1d1b1b]"
-                        : "text-[#9CA3AF] hover:bg-black/[0.04] hover:text-[#1d1b1b]",
+                        ? "bg-ink/[0.08] text-content-primary"
+                        : "text-content-tertiary hover:bg-black/[0.04] hover:text-content-primary",
                     )}
                   >
                     <Star
@@ -375,9 +375,9 @@ export default function StockPeekModal({
                     {watching ? t("dashboard.peek.watching") : t("dashboard.peek.watch")}
                   </button>
                 </div>
-                <p className="mt-1 truncate text-[13px] text-[#6b7280]">
+                <p className="mt-1 truncate text-[13px] text-content-secondary">
                   {shown.companyName}
-                  {sector ? <span className="text-[#9CA3AF]"> · {sector}</span> : null}
+                  {sector ? <span className="text-content-tertiary"> · {sector}</span> : null}
                 </p>
               </div>
 
@@ -391,12 +391,12 @@ export default function StockPeekModal({
                       format={PRICE_FORMAT}
                       duration={380}
                       blur={12}
-                      className="font-sans text-[26px] font-medium leading-none tracking-[-0.01em] text-[#1d1b1b]"
+                      className="font-sans text-[26px] font-medium leading-none tracking-[-0.01em] text-content-primary"
                     />
                     <p
                       className={cn(
                         "mt-1 flex items-baseline justify-end gap-1.5 text-[12.5px] font-medium tabular-nums",
-                        dayUp ? "text-[#16A34A]" : "text-[#DC2626]",
+                        dayUp ? "text-tone-positive" : "text-tone-negative",
                       )}
                     >
                       <AnimateNumber value={quote.change} format={SIGNED_USD} duration={380} blur={8} />
@@ -413,17 +413,17 @@ export default function StockPeekModal({
                         aria-hidden
                         className={cn(
                           "h-1.5 w-1.5 rounded-full",
-                          isLive ? "bg-[#16A34A]" : "bg-[#D1D5DB]",
+                          isLive ? "bg-tone-positive-fill" : "bg-fill-strong",
                           quote.session === "regular" && "animate-pulse",
                         )}
                       />
-                      <span className="text-[10.5px] uppercase tracking-[0.1em] text-[#9CA3AF]">
+                      <span className="text-[10.5px] uppercase tracking-[0.1em] text-content-tertiary">
                         {t(marketSessionLabel(quote.session))}
                       </span>
                     </p>
                   </>
                 ) : (
-                  <p className="text-[13px] text-[#9CA3AF]">
+                  <p className="text-[13px] text-content-tertiary">
                     {live.loading ? t("dashboard.peek.loadingPrice") : (live.error ?? t("dashboard.peek.priceUnavailable"))}
                   </p>
                 )}
@@ -447,8 +447,8 @@ export default function StockPeekModal({
                     className={cn(
                       "rounded-full px-2.5 py-1 text-[11px] font-medium transition-colors",
                       timeframe === tf
-                        ? "bg-white/70 text-[#1d1b1b] ring-1 ring-black/[0.06]"
-                        : "text-[#6b7280] hover:text-[#1d1b1b]",
+                        ? "bg-white/70 text-content-primary ring-1 ring-black/[0.06]"
+                        : "text-content-secondary hover:text-content-primary",
                     )}
                   >
                     {tf}
@@ -457,7 +457,7 @@ export default function StockPeekModal({
               </div>
               <div className="mt-2 min-h-0 flex-1">
                 {chartLoading ? (
-                  <div className="flex h-full items-center justify-center gap-2 text-[13px] text-[#9CA3AF]">
+                  <div className="flex h-full items-center justify-center gap-2 text-[13px] text-content-tertiary">
                     <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden />
                     {t("dashboard.peek.loadingChart")}
                   </div>

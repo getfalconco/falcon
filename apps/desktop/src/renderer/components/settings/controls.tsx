@@ -54,11 +54,11 @@ export function Segmented<T extends string | number>({
               if (!on) onChange(key);
             }}
             className={cn(
-              "flex h-7 items-center justify-center rounded-[10px] transition-colors duration-150",
+              "flex h-7 items-center justify-center rounded-xl transition-colors duration-150",
               Icon ? "w-9" : "px-2.5 text-[12.5px] font-normal",
               on
-                ? "bg-white text-[#1d1b1b] shadow-[0_1px_2px_rgba(0,0,0,0.06)] ring-1 ring-black/[0.06]"
-                : "text-[#6b7280] hover:bg-black/[0.04] hover:text-[#1d1b1b]",
+                ? "bg-white text-content-primary shadow-[0_1px_2px_rgba(0,0,0,0.06)] ring-1 ring-black/[0.06]"
+                : "text-content-secondary hover:bg-black/[0.04] hover:text-content-primary",
             )}
           >
             {Icon ? <Icon className="h-[15px] w-[15px]" strokeWidth={1.75} aria-hidden /> : text}

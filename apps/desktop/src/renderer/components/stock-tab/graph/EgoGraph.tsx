@@ -12,15 +12,16 @@ import { VIEW_H, VIEW_W, type EgoLayout, type LayoutNode } from "./ego-layout";
  * only movement is a fade when a group is picked or a node is pointed at, and
  * that goes too when motion is reduced.
  *
- * Colours are the graph screen's category colours (mid tones that sit on the
- * cream and on the dark canvas alike); everything else is a theme token.
+ * Colours are Apple's system hues by category (systemBlue, systemGreen,
+ * systemRed, systemPurple), each the right shade for the theme in force;
+ * everything else is a theme token.
  */
 
 export const TAB_COLOR: Record<StockGraphTab, string> = {
-  suppliers: "#5b8fbf",
-  customers: "#5a9e78",
-  competitors: "#b86b6b",
-  dependencies: "#8b7bb8",
+  suppliers: "var(--system-blue)",
+  customers: "var(--system-green)",
+  competitors: "var(--system-red)",
+  dependencies: "var(--system-purple)",
 };
 
 const NEUTRAL = "var(--text-tertiary)";

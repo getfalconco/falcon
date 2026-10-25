@@ -20,7 +20,7 @@ import SetPasswordForm from "@/components/SetPasswordForm";
 const FAILED_ATTEMPTS_BEFORE_FORGOT = 3;
 
 const inputClass =
-  "app-no-drag w-full rounded-none border-b border-white/15 bg-transparent px-0 py-2.5 text-sm text-white outline-none transition placeholder:text-[#666666] focus:border-white/40";
+  "app-no-drag w-full rounded-none border-b border-white/15 bg-transparent px-0 py-2.5 text-sm text-white outline-none transition placeholder:text-content-secondary focus:border-white/40";
 
 // text-white → auth-surface light remap renders it near-black (#141414); stays
 // white if the app is ever in dark mode.
@@ -43,7 +43,7 @@ function LegalLink({ children, onClick }: { children: ReactNode; onClick: () => 
     <button
       type="button"
       onClick={onClick}
-      className="text-[#888888] underline underline-offset-2 transition hover:text-white"
+      className="text-content-tertiary underline underline-offset-2 transition hover:text-white"
     >
       {children}
     </button>
@@ -180,7 +180,7 @@ export default function LoginForm({ onSuccess, onWaitlist }: Props) {
               <h1 className="font-serif text-[2rem] font-normal leading-[1.25] tracking-[0.01em] text-white">
                 {t("auth.forgot.title")}
               </h1>
-              <p className="mt-3 text-balance text-sm text-[#888888] [word-break:auto-phrase]">{t("auth.forgot.subtitle")}</p>
+              <p className="mt-3 text-balance text-sm text-content-tertiary [word-break:auto-phrase]">{t("auth.forgot.subtitle")}</p>
             </header>
 
             <form
@@ -228,7 +228,7 @@ export default function LoginForm({ onSuccess, onWaitlist }: Props) {
                 setError(null);
                 setStep({ name: "login" });
               }}
-              className="app-no-drag mt-6 w-full text-center text-xs text-[#666666] transition hover:text-[#888888]"
+              className="app-no-drag mt-6 w-full text-center text-xs text-content-secondary transition hover:text-content-tertiary"
             >
               {t("auth.back")}
             </button>
@@ -246,7 +246,7 @@ export default function LoginForm({ onSuccess, onWaitlist }: Props) {
             <h1 className="font-baskerville text-[2rem] font-normal leading-[1.25] tracking-[0.01em] text-white">
               {tNodes("auth.login.title", { br: <br /> })}
             </h1>
-            <p className="mt-3 text-balance text-sm text-[#888888] [word-break:auto-phrase]">{t("auth.login.subtitle")}</p>
+            <p className="mt-3 text-balance text-sm text-content-tertiary [word-break:auto-phrase]">{t("auth.login.subtitle")}</p>
           </header>
 
           <form
@@ -317,7 +317,7 @@ export default function LoginForm({ onSuccess, onWaitlist }: Props) {
             </button>
 
             {/* Continue both signs in and creates an account, so the notice sits right under it. */}
-            <p className="app-no-drag mt-4 text-balance text-center text-xs leading-relaxed text-[#666666]">
+            <p className="app-no-drag mt-4 text-balance text-center text-xs leading-relaxed text-content-secondary">
               {tNodes("auth.login.legal", {
                 terms: <LegalLink onClick={() => openLegal("terms")}>{t("auth.login.legalTerms")}</LegalLink>,
                 privacy: <LegalLink onClick={() => openLegal("privacy")}>{t("auth.login.legalPrivacy")}</LegalLink>,
@@ -333,7 +333,7 @@ export default function LoginForm({ onSuccess, onWaitlist }: Props) {
                   setError(null);
                   setStep({ name: "forgot" });
                 }}
-                className="text-[#888888] underline underline-offset-2 transition hover:text-white"
+                className="text-content-tertiary underline underline-offset-2 transition hover:text-white"
               >
                 {t("auth.login.forgot")}
               </button>

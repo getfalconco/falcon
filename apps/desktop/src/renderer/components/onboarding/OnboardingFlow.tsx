@@ -109,7 +109,7 @@ function Title({ children, size = "md" }: { children: React.ReactNode; size?: "m
 
 function Subtitle({ children }: { children: React.ReactNode }) {
   return (
-    <p className="mt-4 text-balance text-sm leading-relaxed text-[#888888] [word-break:auto-phrase]">{children}</p>
+    <p className="mt-4 text-balance text-sm leading-relaxed text-content-tertiary [word-break:auto-phrase]">{children}</p>
   );
 }
 

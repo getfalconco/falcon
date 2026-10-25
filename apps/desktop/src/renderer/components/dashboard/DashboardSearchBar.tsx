@@ -97,13 +97,13 @@ function QuoteTail({ symbol }: { symbol: string }) {
   const up = (changePercent ?? 0) >= 0;
   return (
     <span className="ml-auto shrink-0 text-right tabular-nums">
-      <span className="block text-[12.5px] font-medium text-[#1d1b1b]">
+      <span className="block text-[12.5px] font-medium text-content-primary">
         {price != null ? formatStockPrice(price) : na}
       </span>
       <span
         className={cn(
           "block text-[11px] font-medium leading-tight",
-          changePercent == null ? "text-[#9CA3AF]" : up ? "text-[#16A34A]" : "text-[#DC2626]",
+          changePercent == null ? "text-content-tertiary" : up ? "text-tone-positive" : "text-tone-negative",
         )}
       >
         {changePercent != null ? formatSignedPercent(changePercent) : ""}
@@ -115,7 +115,7 @@ function QuoteTail({ symbol }: { symbol: string }) {
 function StockRowBody({ entry }: { entry: StockCatalogEntry }) {
   return (
     <span className="flex min-w-0 flex-1 items-center gap-3">
-      <span className="flex h-7 w-7 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#E3E3E0]">
+      <span className="flex h-7 w-7 shrink-0 items-center justify-center overflow-hidden rounded-full bg-surface-3">
         <StockIcon
           symbol={entry.symbol}
           companyName={entry.companyName}
@@ -124,13 +124,13 @@ function StockRowBody({ entry }: { entry: StockCatalogEntry }) {
         />
       </span>
       <span className="min-w-0 flex-1">
-        <span className="block truncate text-[13px] font-semibold text-[#1d1b1b]">
+        <span className="block truncate text-[13px] font-semibold text-content-primary">
           {entry.symbol}
           {entry.exchange ? (
-            <span className="ml-1.5 text-[10.5px] font-medium text-[#9CA3AF]">{entry.exchange}</span>
+            <span className="ml-1.5 text-[10.5px] font-medium text-content-tertiary">{entry.exchange}</span>
           ) : null}
         </span>
-        <span className="block truncate text-[11.5px] text-[#6b7280]">{entry.companyName}</span>
+        <span className="block truncate text-[11.5px] text-content-secondary">{entry.companyName}</span>
       </span>
       <QuoteTail symbol={entry.symbol} />
     </span>
@@ -240,7 +240,7 @@ function SearchBody({
   return (
     <CommandMenuList maxHeight="360px">
       {searching && loading && stockRows.length === 0 ? (
-        <div className="flex items-center justify-center py-6 text-[#9CA3AF]">
+        <div className="flex items-center justify-center py-6 text-content-tertiary">
           <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
         </div>
       ) : null}
@@ -251,7 +251,7 @@ function SearchBody({
             ? tNodes("search.noResultsOpen", {
                 query,
                 key: <Kbd size="xs">↵</Kbd>,
-                symbol: <span className="font-semibold text-[#1d1b1b]">{cleanTicker(query)}</span>,
+                symbol: <span className="font-semibold text-content-primary">{cleanTicker(query)}</span>,
               })
             : t("search.noResults", { query })}
         </CommandMenuEmpty>
@@ -277,7 +277,7 @@ function SearchBody({
             <CommandMenuItem
               key={`r-${entry.symbol}`}
               index={next()}
-              icon={<Clock className="h-4 w-4 text-[#9CA3AF]" strokeWidth={1.75} />}
+              icon={<Clock className="h-4 w-4 text-content-tertiary" strokeWidth={1.75} />}
               onSelect={() => onPickStock(entry)}
             >
               <StockRowBody entry={entry} />
@@ -294,7 +294,7 @@ function SearchBody({
               <CommandMenuItem
                 key={`t-${entry.symbol}`}
                 index={next()}
-                icon={<TrendingUp className="h-4 w-4 text-[#9CA3AF]" strokeWidth={1.75} />}
+                icon={<TrendingUp className="h-4 w-4 text-content-tertiary" strokeWidth={1.75} />}
                 onSelect={() => onPickStock(entry)}
               >
                 <StockRowBody entry={entry} />
@@ -316,8 +316,8 @@ function SearchBody({
                 onSelect={() => onPickNav(action.id)}
               >
                 <span className="flex items-baseline gap-2">
-                  <span className="text-[13px] font-medium text-[#1d1b1b]">{t(action.labelKey)}</span>
-                  <span className="truncate text-[11.5px] text-[#6b7280]">{t(action.hintKey)}</span>
+                  <span className="text-[13px] font-medium text-content-primary">{t(action.labelKey)}</span>
+                  <span className="truncate text-[11.5px] text-content-secondary">{t(action.hintKey)}</span>
                 </span>
               </CommandMenuItem>
             ))}
@@ -424,8 +424,8 @@ export default function DashboardSearchBar({ onSelect, onNavigate, className }: 
             className,
           )}
         >
-          <Search className="h-4 w-4 shrink-0 text-[#6b7280]" strokeWidth={1.75} aria-hidden />
-          <span className="min-w-0 flex-1 truncate text-[13.5px] text-[#9CA3AF]">{t("search.placeholder")}</span>
+          <Search className="h-4 w-4 shrink-0 text-content-secondary" strokeWidth={1.75} aria-hidden />
+          <span className="min-w-0 flex-1 truncate text-[13.5px] text-content-tertiary">{t("search.placeholder")}</span>
         </button>
       </CommandMenuTrigger>
 
@@ -438,7 +438,7 @@ export default function DashboardSearchBar({ onSelect, onNavigate, className }: 
       >
         <CommandMenuInput
           placeholder={t("search.placeholder")}
-          className="text-[14px] text-[#1d1b1b] placeholder:text-[#9CA3AF]"
+          className="text-[14px] text-content-primary placeholder:text-content-tertiary"
         />
         <SearchBody onPickStock={pickStock} onPickNav={pickNav} />
       </CommandMenuContent>

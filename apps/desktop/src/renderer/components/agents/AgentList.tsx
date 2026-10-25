@@ -79,7 +79,7 @@ const AgentList = forwardRef<HTMLDivElement, Props>(function AgentList(
         </button>
         <label className="relative block">
           <span className="sr-only">{t("agents.list.search")}</span>
-          <Search className="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-[#9CA3AF]" strokeWidth={2} aria-hidden />
+          <Search className="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-content-tertiary" strokeWidth={2} aria-hidden />
           <input
             type="search"
             value={query}
@@ -113,11 +113,11 @@ const AgentList = forwardRef<HTMLDivElement, Props>(function AgentList(
                 onClick={() => onFilter(value)}
                 className={cn(
                   "app-no-drag inline-flex h-6 items-center gap-1 rounded-full px-2.5 text-[11.5px] transition-colors duration-150",
-                  on ? "bg-[#1d1b1b]/[0.08] font-medium text-[#1d1b1b]" : "text-[#6b7280] hover:bg-black/[0.04] hover:text-[#1d1b1b]",
+                  on ? "bg-ink/[0.08] font-medium text-content-primary" : "text-content-secondary hover:bg-black/[0.04] hover:text-content-primary",
                 )}
               >
                 {label}
-                <span className="tabular-nums text-[#9CA3AF]">{n}</span>
+                <span className="tabular-nums text-content-tertiary">{n}</span>
               </button>
             );
           })}
@@ -138,7 +138,7 @@ const AgentList = forwardRef<HTMLDivElement, Props>(function AgentList(
         {loading ? (
           <ListSkeleton />
         ) : agents.length === 0 ? (
-          <p className="px-3 py-4 text-[12px] leading-[1.5] text-[#9CA3AF]">
+          <p className="px-3 py-4 text-[12px] leading-[1.5] text-content-tertiary">
             {all.length === 0 ? t("agents.list.emptyAll") : t("agents.list.noMatch")}
           </p>
         ) : (
@@ -158,12 +158,12 @@ const AgentList = forwardRef<HTMLDivElement, Props>(function AgentList(
                 className={cn(
                   "app-no-drag relative cursor-pointer rounded-xl px-2.5 py-2 transition-colors duration-300",
                   on ? "bg-white/70 shadow-[0_1px_2px_rgba(0,0,0,0.05)] ring-1 ring-black/[0.06]" : "hover:bg-black/[0.04]",
-                  !on && isFresh && "bg-[#1d1b1b]/[0.04]",
+                  !on && isFresh && "bg-ink/[0.04]",
                 )}
               >
                 <div className="flex items-center gap-2">
                   <StatusDot status={agent.status} />
-                  <span className={cn("min-w-0 flex-1 truncate text-[13px] text-[#1d1b1b]", agent.unread > 0 && "font-medium")}>
+                  <span className={cn("min-w-0 flex-1 truncate text-[13px] text-content-primary", agent.unread > 0 && "font-medium")}>
                     {agent.name}
                   </span>
                   {agent.ticker ? <TickerChip ticker={agent.ticker} /> : null}
@@ -172,7 +172,7 @@ const AgentList = forwardRef<HTMLDivElement, Props>(function AgentList(
                 <div
                   className={cn(
                     "mt-0.5 truncate pl-[15px] text-[11.5px]",
-                    agent.status === "error" ? "text-[#DC2626]" : "text-[#6b7280]",
+                    agent.status === "error" ? "text-tone-negative" : "text-content-secondary",
                   )}
                 >
                   {waitingLine(agent, now, lang)}
@@ -183,7 +183,7 @@ const AgentList = forwardRef<HTMLDivElement, Props>(function AgentList(
         )}
       </div>
 
-      <div className="flex shrink-0 items-center gap-1.5 px-4 pb-3 pt-2 text-[11px] text-[#9CA3AF]">
+      <div className="flex shrink-0 items-center gap-1.5 px-4 pb-3 pt-2 text-[11px] text-content-tertiary">
         {tNodes("agents.list.move", { up: <Kbd>↑</Kbd>, down: <Kbd>↓</Kbd> })}
       </div>
     </div>

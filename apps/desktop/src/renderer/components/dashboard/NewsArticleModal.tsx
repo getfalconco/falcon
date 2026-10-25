@@ -47,12 +47,12 @@ const PANEL_FADE = {
   transition: { duration: 0.2, ease: [0.33, 1, 0.68, 1] },
 } as const;
 
-const LABEL = "select-none font-sans text-[10.5px] font-medium tracking-[0.08em] text-[#9CA3AF]";
+const LABEL = "select-none font-sans text-[10.5px] font-medium tracking-[0.08em] text-content-tertiary";
 const CARD =
   "rounded-2xl border border-white/60 bg-white/40 px-5 py-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-black/[0.04]";
-const CHIP = "inline-flex items-center rounded-full bg-black/[0.04] px-2 py-0.5 text-[11px] font-medium text-[#4b5563]";
+const CHIP = "inline-flex items-center rounded-full bg-black/[0.04] px-2 py-0.5 text-[11px] font-medium text-content-body";
 const PILL =
-  "app-no-drag btn-quiet inline-flex items-center gap-1.5 rounded-full border border-white/60 bg-white/55 px-3.5 py-1.5 text-[12.5px] font-normal text-[#1d1b1b] shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-black/[0.04] transition-colors hover:bg-white/75";
+  "app-no-drag btn-quiet inline-flex items-center gap-1.5 rounded-full border border-white/60 bg-white/55 px-3.5 py-1.5 text-[12.5px] font-normal text-content-primary shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-black/[0.04] transition-colors hover:bg-white/75";
 
 type BodyState = { state: "loading" } | { state: "ready"; body: NewsArticleBody } | { state: "failed" };
 type ReadState =
@@ -77,7 +77,7 @@ function TickerChip({ ticker, onOpen }: { ticker: string; onOpen: (ticker: strin
       type="button"
       onClick={() => onOpen(ticker)}
       aria-label={t("dashboard.newsArticle.openStock", { ticker })}
-      className="app-no-drag flex shrink-0 items-center gap-1 rounded-full bg-black/[0.04] py-0.5 pl-0.5 pr-2 text-[11.5px] font-semibold text-[#1d1b1b] transition-colors hover:bg-black/[0.08]"
+      className="app-no-drag flex shrink-0 items-center gap-1 rounded-full bg-black/[0.04] py-0.5 pl-0.5 pr-2 text-[11.5px] font-semibold text-content-primary transition-colors hover:bg-black/[0.08]"
     >
       <span className="flex h-[18px] w-[18px] items-center justify-center overflow-hidden rounded-full bg-white">
         <StockIcon symbol={ticker} size="sm" className="h-3 w-3 object-contain" />
@@ -105,8 +105,8 @@ function DirectionChip({ direction, t }: { direction: ClassifierDirection; t: TF
     <span
       className={cn(
         CHIP,
-        direction === "positive" && "text-[#16A34A]",
-        direction === "negative" && "text-[#DC2626]",
+        direction === "positive" && "text-tone-positive",
+        direction === "negative" && "text-tone-negative",
       )}
     >
       {t(DIRECTION_KEY[direction])}
@@ -135,13 +135,13 @@ function ServerRead({ reading, onOpenStock }: { reading: NonNullable<ServerReadi
         {e.affected_ticker ? (
           <div className="flex flex-wrap items-center gap-2">
             <TickerChip ticker={e.affected_ticker.toUpperCase()} onOpen={onOpenStock} />
-            <span className="text-[13px] leading-snug text-[#1d1b1b]">
+            <span className="text-[13px] leading-snug text-content-primary">
               {t("dashboard.newsArticle.relevance.direct", { ticker: e.affected_ticker.toUpperCase() })}
             </span>
             <DirectionChip direction={direction} t={t} />
           </div>
         ) : null}
-        <p className="text-[11px] text-[#9CA3AF]">{t("dashboard.newsArticle.server.foot")}</p>
+        <p className="text-[11px] text-content-tertiary">{t("dashboard.newsArticle.server.foot")}</p>
       </div>
     );
   }
@@ -152,7 +152,7 @@ function ServerRead({ reading, onOpenStock }: { reading: NonNullable<ServerReadi
       <div className="flex flex-wrap items-center gap-x-2 gap-y-1.5">
         <span className={CHIP}>{capitalize(eventTypeLabel(verdict.event_type, t), locale)}</span>
         {english && verdict.event_label ? (
-          <span className="text-[13px] leading-snug text-[#4b5563]">{verdict.event_label}</span>
+          <span className="text-[13px] leading-snug text-content-body">{verdict.event_label}</span>
         ) : null}
       </div>
       {related.length > 0 ? (
@@ -160,7 +160,7 @@ function ServerRead({ reading, onOpenStock }: { reading: NonNullable<ServerReadi
           {related.map((v) => (
             <li key={v.ticker} className="flex flex-wrap items-center gap-x-2 gap-y-1.5">
               <TickerChip ticker={v.ticker} onOpen={onOpenStock} />
-              <span className="text-[13px] leading-snug text-[#1d1b1b]">
+              <span className="text-[13px] leading-snug text-content-primary">
                 {t(v.relevance === "direct" ? "dashboard.newsArticle.relevance.direct" : "dashboard.newsArticle.relevance.indirect", {
                   ticker: v.ticker,
                 })}
@@ -172,11 +172,11 @@ function ServerRead({ reading, onOpenStock }: { reading: NonNullable<ServerReadi
         </ul>
       ) : null}
       {unrelated.length > 0 ? (
-        <p className="text-[12px] leading-snug text-[#6b7280]">
+        <p className="text-[12px] leading-snug text-content-secondary">
           {t("dashboard.newsArticle.relevance.none", { tickers: unrelated.join(", ") })}
         </p>
       ) : null}
-      <p className="text-[11px] text-[#9CA3AF]">{t("dashboard.newsArticle.server.foot")}</p>
+      <p className="text-[11px] text-content-tertiary">{t("dashboard.newsArticle.server.foot")}</p>
     </div>
   );
 }
@@ -188,7 +188,7 @@ function ServerUnavailable({ onRead }: { onRead: () => void }) {
   const allowed = readNewsRead();
   return (
     <div className="flex flex-wrap items-center gap-3">
-      <p className="text-[12.5px] leading-snug text-[#6b7280]">
+      <p className="text-[12.5px] leading-snug text-content-secondary">
         {t("dashboard.newsArticle.read.serverUnavailable")}
         {allowed ? "" : ` ${t("dashboard.newsArticle.read.off")}`}
       </p>
@@ -218,7 +218,7 @@ function FalconRead({
   if (read.state === "idle" || read.state === "loading") {
     return (
       <div aria-busy="true">
-        <p className="text-[12.5px] text-[#9CA3AF]">{t("dashboard.newsArticle.read.loading")}</p>
+        <p className="text-[12.5px] text-content-tertiary">{t("dashboard.newsArticle.read.loading")}</p>
         <div aria-hidden className="mt-3 space-y-2">
           <div className="h-2.5 w-[92%] animate-pulse rounded-full bg-black/[0.05]" />
           <div className="h-2.5 w-[78%] animate-pulse rounded-full bg-black/[0.05]" />
@@ -229,7 +229,7 @@ function FalconRead({
   }
 
   if (read.state === "off") {
-    return <p className="text-[12.5px] leading-snug text-[#6b7280]">{t("dashboard.newsArticle.read.off")}</p>;
+    return <p className="text-[12.5px] leading-snug text-content-secondary">{t("dashboard.newsArticle.read.off")}</p>;
   }
 
   if (read.state === "failed") {
@@ -244,7 +244,7 @@ function FalconRead({
     const retry = read.reason === "failed" || read.reason === "busy";
     return (
       <div className="flex flex-wrap items-center gap-3">
-        <p className="text-[12.5px] leading-snug text-[#6b7280]">{message}</p>
+        <p className="text-[12.5px] leading-snug text-content-secondary">{message}</p>
         {retry ? (
           <button type="button" onClick={onRetry} className={PILL}>
             {t("dashboard.newsArticle.read.retry")}
@@ -264,7 +264,7 @@ function FalconRead({
       : t("dashboard.newsArticle.read.footSummary", { source });
   return (
     <div className="space-y-3">
-      <p className="select-text text-[13.5px] leading-[1.6] text-[#1d1b1b]">
+      <p className="select-text text-[13.5px] leading-[1.6] text-content-primary">
         {analysis.summary.map((l) => l.text).join(" ")}
       </p>
       {analysis.companies.length > 0 ? (
@@ -272,12 +272,12 @@ function FalconRead({
           {analysis.companies.map((c) => (
             <li key={c.ticker} className="flex items-start gap-2.5">
               <TickerChip ticker={c.ticker} onOpen={onOpenStock} />
-              <span className="select-text pt-px text-[13px] leading-[1.55] text-[#1d1b1b]/90">{c.text}</span>
+              <span className="select-text pt-px text-[13px] leading-[1.55] text-content-primary/90">{c.text}</span>
             </li>
           ))}
         </ul>
       ) : null}
-      <p className="text-[11px] leading-snug text-[#9CA3AF]">
+      <p className="text-[11px] leading-snug text-content-tertiary">
         {foot}
         {analysis.graphEdges > 0 ? ` ${t("dashboard.newsArticle.read.footGraph")}` : ""}
         {untranslated ? ` ${t("dashboard.newsArticle.read.englishNote")}` : ""}
@@ -291,7 +291,7 @@ function ArticleText({ body, source, onRead }: { body: BodyState; source: string
   if (body.state === "loading") {
     return (
       <div aria-busy="true">
-        <p className="text-[12.5px] text-[#9CA3AF]">{t("dashboard.newsArticle.loading")}</p>
+        <p className="text-[12.5px] text-content-tertiary">{t("dashboard.newsArticle.loading")}</p>
         <div aria-hidden className="mt-3 space-y-2">
           {[96, 100, 88, 94, 70].map((w, i) => (
             <div key={i} className="h-2.5 animate-pulse rounded-full bg-black/[0.05]" style={{ width: `${w}%` }} />
@@ -321,7 +321,7 @@ function ArticleText({ body, source, onRead }: { body: BodyState; source: string
   return (
     <div>
       {notice ? (
-        <p className="mb-3 text-[12.5px] leading-snug text-[#6b7280]">
+        <p className="mb-3 text-[12.5px] leading-snug text-content-secondary">
           {notice}
           {summaryOnly && status !== "summary" ? ` ${t("dashboard.newsArticle.summaryOnly")}` : ""}
         </p>
@@ -329,14 +329,14 @@ function ArticleText({ body, source, onRead }: { body: BodyState; source: string
       {paragraphs.length > 0 ? (
         <div className="max-w-[64ch] space-y-3.5">
           {paragraphs.map((p, i) => (
-            <p key={i} className="select-text text-[14px] leading-[1.7] text-[#1d1b1b]/90">
+            <p key={i} className="select-text text-[14px] leading-[1.7] text-content-primary/90">
               {p}
             </p>
           ))}
         </div>
       ) : null}
       {b?.truncated ? (
-        <p className="mt-3 text-[12.5px] text-[#6b7280]">{t("dashboard.newsArticle.continues", { source })}</p>
+        <p className="mt-3 text-[12.5px] text-content-secondary">{t("dashboard.newsArticle.continues", { source })}</p>
       ) : null}
       <button type="button" onClick={onRead} className={cn(PILL, "mt-5")}>
         {source ? t("dashboard.newsArticle.readAt", { source }) : t("dashboard.newsArticle.readOriginal")}
@@ -478,8 +478,8 @@ function ArticlePanel({ article, onClose }: { article: NewsFeedArticle; onClose:
       {/* The panel covers the window's own drag strip, so its top edge drags instead. */}
       <div className="app-drag-region absolute inset-x-0 top-0 h-11" aria-hidden />
       <div className="scrollbar-meridian min-h-0 flex-1 overflow-y-auto overscroll-contain px-9 pb-8 pt-11">
-        <div className="flex flex-wrap items-center gap-1.5 pr-8 text-[11.5px] text-[#9CA3AF]">
-          {source ? <span className="truncate font-medium text-[#6b7280]">{source}</span> : null}
+        <div className="flex flex-wrap items-center gap-1.5 pr-8 text-[11.5px] text-content-tertiary">
+          {source ? <span className="truncate font-medium text-content-secondary">{source}</span> : null}
           {source ? <span aria-hidden>·</span> : null}
           <span className="shrink-0 tabular-nums">{agoLabel(article.datetime, Date.now(), locale, t("dashboard.news.justNow"))}</span>
           {published ? (
@@ -490,11 +490,11 @@ function ArticlePanel({ article, onClose }: { article: NewsFeedArticle; onClose:
           ) : null}
         </div>
 
-        <h2 className="mt-2 select-text pr-6 text-[21px] font-medium leading-[1.3] tracking-[-0.01em] text-[#1d1b1b]">
+        <h2 className="mt-2 select-text pr-6 text-[21px] font-medium leading-[1.3] tracking-[-0.01em] text-content-primary">
           {title}
         </h2>
         {sourceTitle ? (
-          <p className="mt-1.5 select-text pr-6 text-[12px] leading-snug text-[#9CA3AF]">
+          <p className="mt-1.5 select-text pr-6 text-[12px] leading-snug text-content-tertiary">
             {t("dashboard.newsArticle.sourceTitle", { title: sourceTitle })}
           </p>
         ) : null}
@@ -533,7 +533,7 @@ function ArticlePanel({ article, onClose }: { article: NewsFeedArticle; onClose:
         type="button"
         onClick={onClose}
         aria-label={t("dashboard.newsArticle.close")}
-        className="app-no-drag absolute right-4 top-4 rounded-lg p-1.5 text-[#6b7280] transition-colors hover:bg-black/[0.04] hover:text-[#1d1b1b]"
+        className="app-no-drag absolute right-4 top-4 rounded-lg p-1.5 text-content-secondary transition-colors hover:bg-black/[0.04] hover:text-content-primary"
       >
         <X className="h-4 w-4" strokeWidth={1.75} aria-hidden />
       </button>

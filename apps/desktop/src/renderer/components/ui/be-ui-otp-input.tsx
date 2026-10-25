@@ -365,7 +365,7 @@ export function OTPInput({
               ? "text-emerald-500"
               : status === "error"
                 ? "text-red-400"
-                : "text-[#888888]",
+                : "text-content-tertiary",
           )}
         >
           {message}

@@ -3,7 +3,11 @@ import { getThemeSnapshot, subscribeTheme, type Theme } from "@/lib/theme";
 import type { CalendarColor } from "../../../shared/calendar-events";
 
 /**
- * Calendar tab: the shades behind each colour name.
+ * Calendar tab: the shades behind each colour name. Accents are Apple's
+ * system colours (systemBlue, systemCyan, systemMint, systemPurple,
+ * systemIndigo, systemPink, systemOrange, systemYellow, systemBrown,
+ * systemGray); the label shades are those hues taken deep for cream and
+ * pale for black.
  *
  * The rest of the app turns dark by `globals.css` rewriting its literal
  * palette classes. Event colours are too many to add to that list one by one,
@@ -27,19 +31,19 @@ export type EventShade = {
 type Base = { accent: string; lightText: string; darkText: string };
 
 const BASE: Record<CalendarColor, Base> = {
-  blue: { accent: "#3b82f6", lightText: "#1e3a8a", darkText: "#bfd4fe" },
-  sky: { accent: "#0ea5e9", lightText: "#0c4a6e", darkText: "#b5e3fb" },
-  teal: { accent: "#14b8a6", lightText: "#134e4a", darkText: "#a7ece2" },
-  violet: { accent: "#8b5cf6", lightText: "#4c1d95", darkText: "#d8cafd" },
-  indigo: { accent: "#6366f1", lightText: "#312e81", darkText: "#c9cafc" },
-  pink: { accent: "#ec4899", lightText: "#831843", darkText: "#f8c4dd" },
-  fuchsia: { accent: "#d946ef", lightText: "#701a75", darkText: "#f1c7f8" },
-  orange: { accent: "#f97316", lightText: "#7c2d12", darkText: "#fdcfae" },
-  amber: { accent: "#d97706", lightText: "#78350f", darkText: "#f9d79a" },
-  yellow: { accent: "#ca8a04", lightText: "#713f12", darkText: "#f3e29b" },
-  brown: { accent: "#a16207", lightText: "#5b3a12", darkText: "#e6cfa8" },
-  slate: { accent: "#64748b", lightText: "#1e293b", darkText: "#d0d7e2" },
-  stone: { accent: "#78716c", lightText: "#292524", darkText: "#dcd8d4" },
+  blue: { accent: "#007aff", lightText: "#003166", darkText: "#add4ff" },
+  sky: { accent: "#32ade6", lightText: "#14455c", darkText: "#bde5f7" },
+  teal: { accent: "#00c7be", lightText: "#00504c", darkText: "#adedea" },
+  violet: { accent: "#af52de", lightText: "#462159", darkText: "#e5c8f4" },
+  indigo: { accent: "#5856d6", lightText: "#232256", darkText: "#cac9f2" },
+  pink: { accent: "#ff2d55", lightText: "#661222", darkText: "#ffbcc9" },
+  fuchsia: { accent: "#d83ad6", lightText: "#561756", darkText: "#f3c0f2" },
+  orange: { accent: "#ff9500", lightText: "#663c00", darkText: "#ffddad" },
+  amber: { accent: "#f5a300", lightText: "#624100", darkText: "#fce2ad" },
+  yellow: { accent: "#ffcc00", lightText: "#665200", darkText: "#ffefad" },
+  brown: { accent: "#a2845e", lightText: "#413526", darkText: "#e1d8cb" },
+  slate: { accent: "#8e8e93", lightText: "#39393b", darkText: "#dbdbdc" },
+  stone: { accent: "#6e6a64", lightText: "#2c2a28", darkText: "#d1cfcd" },
 };
 
 function hexToRgb(hex: string): [number, number, number] {
@@ -79,5 +83,5 @@ export function useTheme(): Theme {
 
 /** The current-time line. Red, as every calendar draws it; slightly lifted on black so it does not sink. */
 export function nowLineColor(theme: Theme): string {
-  return theme === "dark" ? "#f05252" : "#e5484d";
+  return theme === "dark" ? "#ff453a" : "#ff3b30";
 }

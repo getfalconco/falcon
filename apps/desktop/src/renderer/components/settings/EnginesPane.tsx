@@ -35,19 +35,19 @@ import { useIsStaff } from "@/lib/staff";
  */
 
 const BUTTON =
-  "app-no-drag btn-quiet rounded-lg border border-white/60 bg-white/55 px-3 py-1.5 text-[13px] font-normal text-[#1d1b1b] shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-black/[0.04] transition-colors hover:bg-white/75 disabled:pointer-events-none disabled:opacity-60";
+  "app-no-drag btn-quiet rounded-lg border border-white/60 bg-white/55 px-3 py-1.5 text-[13px] font-normal text-content-primary shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-black/[0.04] transition-colors hover:bg-white/75 disabled:pointer-events-none disabled:opacity-60";
 
-const PILL = "rounded-lg bg-black/[0.04] px-2.5 py-1 font-['Geist_Mono'] text-[12px] text-[#4b5563]";
+const PILL = "rounded-lg bg-black/[0.04] px-2.5 py-1 font-['Geist_Mono'] text-[12px] text-content-body";
 
-const MUTED = "text-[12.5px] font-normal text-[#9CA3AF]";
+const MUTED = "text-[12.5px] font-normal text-content-tertiary";
 
 type Tone = "ok" | "fail" | "warn" | "muted";
 
 const TONE_CLASS: Record<Tone, string> = {
-  ok: "text-[#16A34A]",
-  fail: "text-[#DC2626]",
-  warn: "text-[#b45309]",
-  muted: "text-[#9CA3AF]",
+  ok: "text-tone-positive",
+  fail: "text-tone-negative",
+  warn: "text-tone-warning",
+  muted: "text-content-tertiary",
 };
 
 /** A coloured dot and a few words. The dot takes the text colour, so the dark palette follows. */
@@ -281,7 +281,7 @@ function ConnectionSection({
       </SettingsRow>
       {/* A packaged build's rows already say "Built-in address"; only a dev build needs to know where to change them. */}
       {overview.packaged ? null : (
-        <p className="text-[12px] font-normal leading-snug text-[#9CA3AF]">{t("settings.engines.addressesEnv")}</p>
+        <p className="text-[12px] font-normal leading-snug text-content-tertiary">{t("settings.engines.addressesEnv")}</p>
       )}
     </SettingsSection>
   );
@@ -411,7 +411,7 @@ function ClassifierSection({ overview }: { overview: EnginesOverview }) {
           onChange={(v) => void apply("rescore", v)}
         />
       </SettingsRow>
-      <p className={cn("text-[12px] font-normal leading-snug", error ? "text-[#DC2626]" : "text-[#9CA3AF]")}>
+      <p className={cn("text-[12px] font-normal leading-snug", error ? "text-tone-negative" : "text-content-tertiary")}>
         {error
           ? t("settings.engines.classifier.error", { error })
           : !staff
@@ -488,7 +488,7 @@ function ModelsSection({ overview }: { overview: EnginesOverview }) {
           )}
         </SettingsRow>
       ))}
-      <p className="text-[12px] font-normal leading-snug text-[#9CA3AF]">
+      <p className="text-[12px] font-normal leading-snug text-content-tertiary">
         {t("settings.engines.modelsNote")}
       </p>
     </SettingsSection>
@@ -511,7 +511,7 @@ export default function EnginesPane() {
   if (!overview) {
     return (
       <SettingsSection title={t("settings.engines.service")}>
-        <p className={cn("py-4", error ? "text-[12.5px] text-[#DC2626]" : MUTED)}>
+        <p className={cn("py-4", error ? "text-[12.5px] text-tone-negative" : MUTED)}>
           {error ? t("settings.engines.readFailed", { error }) : t("settings.pane.loading")}
         </p>
       </SettingsSection>

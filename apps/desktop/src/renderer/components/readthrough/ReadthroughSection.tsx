@@ -28,7 +28,7 @@ const ROWS = 8;
 
 const GRID = "grid grid-cols-[84px_minmax(0,1fr)_minmax(0,150px)_64px_76px_88px_72px_72px] items-center gap-x-3";
 const NUM = "text-right font-['Geist_Mono'] text-[12px] tabular-nums";
-const QUIET = "text-[#9CA3AF]";
+const QUIET = "text-content-tertiary";
 
 function readOpen(): boolean {
   try {
@@ -88,8 +88,8 @@ function Events({ row }: { row: ReadthroughRow }) {
       <ul>
         {row.events.map((e) => (
           <li key={e.reactionDay} className={cn(EV, "py-0.5")}>
-            <span className="text-[12px] text-[#4b5563]">{shortDate(e.date, lang)}</span>
-            <span className="text-[12px] text-[#9CA3AF]">{shortDate(e.reactionDay, lang)}</span>
+            <span className="text-[12px] text-content-body">{shortDate(e.date, lang)}</span>
+            <span className="text-[12px] text-content-tertiary">{shortDate(e.reactionDay, lang)}</span>
             {cell(e.counterpartyMove)}
             {cell(e.holdingMove)}
             {cell(e.holdingAbnormal)}
@@ -100,7 +100,7 @@ function Events({ row }: { row: ReadthroughRow }) {
           </li>
         ))}
       </ul>
-      <p className="mt-2 text-[11.5px] leading-[1.5] text-[#9CA3AF]">
+      <p className="mt-2 text-[11.5px] leading-[1.5] text-content-tertiary">
         {s
           ? t("readthrough.events.caption", { beta: formatRatio(s.beta, lang) ?? "1.0", benchmark: READTHROUGH_BENCHMARK })
           : t("readthrough.events.captionFew", { min: READTHROUGH_MIN_EVENTS })}
@@ -138,29 +138,29 @@ function Row({ row, today, open, onToggle }: { row: ReadthroughRow; today: strin
           <TickerButton row={{ ticker: row.counterparty, company: row.counterpartyName }} />
         </span>
         <span className="min-w-0">
-          <span className="block truncate text-[13px] text-[#1d1b1b]">{headLine(row, today, say, lang)}</span>
-          {since || s ? <span className="block truncate text-[11.5px] tabular-nums text-[#6b7280]">{since ?? statsLine(row, say, lang)}</span> : null}
+          <span className="block truncate text-[13px] text-content-primary">{headLine(row, today, say, lang)}</span>
+          {since || s ? <span className="block truncate text-[11.5px] tabular-nums text-content-secondary">{since ?? statsLine(row, say, lang)}</span> : null}
         </span>
         <span className="flex min-w-0 flex-col gap-0.5">
           <span className="flex min-w-0 items-center gap-1.5">
-            <span className="text-[12px] font-medium text-[#1d1b1b]">{row.holding}</span>
+            <span className="text-[12px] font-medium text-content-primary">{row.holding}</span>
             <NamePill row={row} />
           </span>
           <LinkLine row={row} />
         </span>
         {s ? (
           <>
-            <span className={cn(NUM, "text-[#1d1b1b]")} title={t("readthrough.hint.withIt", { holding: row.holding, counterparty: row.counterparty })}>
+            <span className={cn(NUM, "text-content-primary")} title={t("readthrough.hint.withIt", { holding: row.holding, counterparty: row.counterparty })}>
               {t("readthrough.cell.of", { with: s.withIt, count: s.events })}
             </span>
-            <span className={cn(NUM, "text-[#1d1b1b]")} title={t("readthrough.hint.avg", { holding: row.holding })}>
+            <span className={cn(NUM, "text-content-primary")} title={t("readthrough.hint.avg", { holding: row.holding })}>
               {formatSize(s.avgAbsMove, lang) ?? na}
             </span>
-            <span className={cn(NUM, "text-[#4b5563]")} title={t("readthrough.hint.beyond", { holding: row.holding, beta: formatRatio(s.beta, lang) ?? "1.0", benchmark: READTHROUGH_BENCHMARK })}>
+            <span className={cn(NUM, "text-content-body")} title={t("readthrough.hint.beyond", { holding: row.holding, beta: formatRatio(s.beta, lang) ?? "1.0", benchmark: READTHROUGH_BENCHMARK })}>
               {formatSize(s.avgAbsAbnormal, lang) ?? na}
             </span>
             <span
-              className={cn(NUM, s.sensitivity === null ? QUIET : "text-[#4b5563]")}
+              className={cn(NUM, s.sensitivity === null ? QUIET : "text-content-body")}
               title={s.normalAbsAbnormal !== null ? t("readthrough.hint.ratio", { counterparty: row.counterparty, usual: formatSize(s.normalAbsAbnormal, lang) ?? na }) : undefined}
             >
               {s.sensitivity === null ? na : t("readthrough.cell.ratio", { ratio: formatRatio(s.sensitivity, lang) ?? "" })}
@@ -170,7 +170,7 @@ function Row({ row, today, open, onToggle }: { row: ReadthroughRow; today: strin
             </span>
           </>
         ) : (
-          <span className="col-span-5 text-right text-[11.5px] text-[#9CA3AF]">{statsLine(row, say, lang)}</span>
+          <span className="col-span-5 text-right text-[11.5px] text-content-tertiary">{statsLine(row, say, lang)}</span>
         )}
       </div>
       {open && canOpen ? <Events row={row} /> : null}
@@ -211,7 +211,7 @@ export default function ReadthroughSection() {
   if (!answer && state.error !== null) {
     body = (
       <div className="flex items-center gap-3 px-5 py-4">
-        <p className="text-[12.5px] text-[#6b7280]">{state.error === "restart" ? t("readthrough.error.restart") : t("readthrough.card.failed")}</p>
+        <p className="text-[12.5px] text-content-secondary">{state.error === "restart" ? t("readthrough.error.restart") : t("readthrough.card.failed")}</p>
         {state.error !== "restart" ? (
           <button type="button" onClick={state.retry} className={BUTTON}>
             {t("readthrough.error.retry")}
@@ -228,7 +228,7 @@ export default function ReadthroughSection() {
       </div>
     );
   } else if (rows.length === 0) {
-    body = <p className="px-5 py-4 text-[12.5px] text-[#6b7280]">{answer.links === 0 ? t("readthrough.card.noLinks") : t("readthrough.card.empty")}</p>;
+    body = <p className="px-5 py-4 text-[12.5px] text-content-secondary">{answer.links === 0 ? t("readthrough.card.noLinks") : t("readthrough.card.empty")}</p>;
   } else {
     body = (
       <div className="px-3 pb-3">
@@ -261,14 +261,14 @@ export default function ReadthroughSection() {
           type="button"
           onClick={() => setOpen((o) => !o)}
           aria-expanded={open}
-          className="app-no-drag flex items-center gap-1.5 rounded-lg px-1 text-[13px] font-medium text-[#1d1b1b] outline-none focus-visible:ring-2 focus-visible:ring-[#9CA3AF]"
+          className="app-no-drag flex items-center gap-1.5 rounded-lg px-1 text-[13px] font-medium text-content-primary outline-none focus-visible:ring-2 focus-visible:ring-edge-strong"
         >
-          <ChevronDown className={cn("h-3.5 w-3.5 text-[#9CA3AF] transition-transform motion-reduce:transition-none", !open && "-rotate-90")} strokeWidth={2} aria-hidden />
+          <ChevronDown className={cn("h-3.5 w-3.5 text-content-tertiary transition-transform motion-reduce:transition-none", !open && "-rotate-90")} strokeWidth={2} aria-hidden />
           {t("readthrough.section.title")}
         </button>
-        <span className="min-w-0 truncate text-[12px] text-[#9CA3AF]">{t("readthrough.section.intro")}</span>
+        <span className="min-w-0 truncate text-[12px] text-content-tertiary">{t("readthrough.section.intro")}</span>
         {answer && rows.length > 0 ? (
-          <span className="ml-auto shrink-0 text-[12px] tabular-nums text-[#9CA3AF]">{rows.length === 1 ? t("readthrough.section.countOne") : t("readthrough.section.count", { count: rows.length })}</span>
+          <span className="ml-auto shrink-0 text-[12px] tabular-nums text-content-tertiary">{rows.length === 1 ? t("readthrough.section.countOne") : t("readthrough.section.count", { count: rows.length })}</span>
         ) : null}
       </div>
       {open ? (
@@ -277,7 +277,7 @@ export default function ReadthroughSection() {
           {notes.length > 0 ? (
             <div className="space-y-1 border-t-[0.5px] border-black/[0.06] px-5 py-2.5">
               {notes.map((n) => (
-                <p key={n} className="text-[11.5px] leading-[1.45] text-[#9CA3AF]">
+                <p key={n} className="text-[11.5px] leading-[1.45] text-content-tertiary">
                   {n}
                 </p>
               ))}

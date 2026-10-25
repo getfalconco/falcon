@@ -43,7 +43,7 @@ function Facts({ target, onClose }: { target: EarningsTarget; onClose: () => voi
     <div className="mt-3 border-t border-black/[0.06] pl-[20px] pt-2.5">
       <ul className="space-y-1">
         {lines.map((line) => (
-          <li key={line.id} data-selectable title={line.hint} className="select-text text-[12px] leading-[1.45] text-[#4b5563]">
+          <li key={line.id} data-selectable title={line.hint} className="select-text text-[12px] leading-[1.45] text-content-body">
             {line.text}
           </li>
         ))}
@@ -54,7 +54,7 @@ function Facts({ target, onClose }: { target: EarningsTarget; onClose: () => voi
           openStock(target.ticker);
           onClose();
         }}
-        className="app-no-drag mt-2 text-[12px] font-medium text-[#1d1b1b] underline-offset-2 transition-colors hover:underline"
+        className="app-no-drag mt-2 text-[12px] font-medium text-content-primary underline-offset-2 transition-colors hover:underline"
       >
         {t("calendar.detail.openInStockTab")}
       </button>

@@ -35,13 +35,13 @@ export const TYPE_LABEL_KEY: Record<CalendarEventType, MessageKey> = {
 
 /** The dot beside an event type: market-wide types wear the market-wide colour, the rest a neutral of their own. */
 const TYPE_DOT: Record<CalendarEventType, string> = {
-  earnings: "#3b82f6",
+  earnings: "var(--system-blue)",
   macro: colorAccent(CATEGORY_COLOR["Market-wide"]),
-  fed: "#6366f1",
-  corporate: "#14b8a6",
-  derivatives: "#64748b",
-  session: "#78716c",
-  mine: "#ec4899",
+  fed: "var(--system-indigo)",
+  corporate: "var(--system-mint)",
+  derivatives: "var(--text-secondary)",
+  session: "var(--system-gray)",
+  mine: "var(--system-pink)",
 };
 
 function MiniMonth({
@@ -75,7 +75,7 @@ function MiniMonth({
   return (
     <div className="select-none">
       <div className="mb-1 flex items-center justify-between pl-1">
-        <span className="text-[12.5px] font-medium text-[#1d1b1b]">
+        <span className="text-[12.5px] font-medium text-content-primary">
           {monthTitle(month, locale)}
         </span>
         <div className="flex items-center">
@@ -89,7 +89,7 @@ function MiniMonth({
       </div>
       <div className="grid grid-cols-7 text-center">
         {grid.slice(0, 7).map((d) => (
-          <span key={d} className="pb-1 text-[9.5px] uppercase text-[#9CA3AF]">
+          <span key={d} className="pb-1 text-[9.5px] uppercase text-content-tertiary">
             {weekdayInitials(locale)[weekday(d)]}
           </span>
         ))}
@@ -107,7 +107,7 @@ function MiniMonth({
               className={cn(
                 "app-no-drag relative mx-auto my-[1px] flex h-[24px] w-full items-center justify-center text-[11.5px] tabular-nums transition-colors",
                 lit ? "bg-black/[0.05]" : "hover:bg-black/[0.04]",
-                isToday ? "font-medium" : inMonth ? "text-[#1d1b1b]" : "text-[#9CA3AF]",
+                isToday ? "font-medium" : inMonth ? "text-content-primary" : "text-content-tertiary",
               )}
             >
               <span
@@ -116,7 +116,7 @@ function MiniMonth({
               >
                 {Number(d.slice(8))}
               </span>
-              {marked.has(d) && !isToday ? <span className="absolute bottom-[1px] h-[3px] w-[3px] rounded-full bg-[#9CA3AF]" aria-hidden /> : null}
+              {marked.has(d) && !isToday ? <span className="absolute bottom-[1px] h-[3px] w-[3px] rounded-full bg-content-tertiary" aria-hidden /> : null}
             </button>
           );
         })}
@@ -137,14 +137,14 @@ function CheckRow({ label, color, checked, count, onToggle, onOnly }: { label: s
         className="app-no-drag flex min-w-0 flex-1 items-center gap-2 rounded-lg px-1.5 py-[5px] text-left transition-colors hover:bg-black/[0.04]"
       >
         <span
-          className="flex h-[14px] w-[14px] shrink-0 items-center justify-center rounded-[4px] border transition-colors"
+          className="flex h-[14px] w-[14px] shrink-0 items-center justify-center rounded-sm border transition-colors"
           style={{ backgroundColor: checked ? color : "transparent", borderColor: color }}
           aria-hidden
         >
           {checked ? <Check className="h-2.5 w-2.5 text-white" strokeWidth={3} /> : null}
         </span>
-        <span className={cn("min-w-0 flex-1 truncate text-[12.5px]", checked ? "text-[#1d1b1b]" : "text-[#9CA3AF]")}>{label}</span>
-        {count !== undefined && count > 0 ? <span className="shrink-0 text-[10px] tabular-nums text-[#9CA3AF]">{count}</span> : null}
+        <span className={cn("min-w-0 flex-1 truncate text-[12.5px]", checked ? "text-content-primary" : "text-content-tertiary")}>{label}</span>
+        {count !== undefined && count > 0 ? <span className="shrink-0 text-[10px] tabular-nums text-content-tertiary">{count}</span> : null}
       </button>
     </div>
   );
@@ -163,10 +163,10 @@ function AgendaButton({ row, onPick }: { row: AgendaRow; onPick: (ymd: string) =
       className="app-no-drag flex w-full items-baseline gap-2 rounded-lg px-1.5 py-[5px] text-left transition-colors hover:bg-black/[0.04]"
     >
       <span className="min-w-0 flex-1">
-        <span className={cn("block text-[12px] leading-[1.35]", row.tier === "held" ? "font-medium text-[#1d1b1b]" : "text-[#4b5563]")}>{row.text}</span>
-        {row.estimated && row.detail ? <span className="block text-[10.5px] leading-[1.35] text-[#9CA3AF]">{row.detail}</span> : null}
+        <span className={cn("block text-[12px] leading-[1.35]", row.tier === "held" ? "font-medium text-content-primary" : "text-content-body")}>{row.text}</span>
+        {row.estimated && row.detail ? <span className="block text-[10.5px] leading-[1.35] text-content-tertiary">{row.detail}</span> : null}
       </span>
-      <span className={cn("shrink-0 text-[10px] uppercase tabular-nums", row.daysUntil === 0 ? "text-[#189e9a]" : "text-[#9CA3AF]")}>{row.dateLabel}</span>
+      <span className={cn("shrink-0 text-[10px] uppercase tabular-nums", row.daysUntil === 0 ? "text-tone-teal" : "text-content-tertiary")}>{row.dateLabel}</span>
     </button>
   );
 }
@@ -204,7 +204,7 @@ function PositionsSection({
           ))}
         </>
       ) : null}
-      {agenda.note ? <p className="px-1.5 pb-1 pt-0.5 text-[11px] leading-[1.45] text-[#9CA3AF]">{agenda.note}</p> : null}
+      {agenda.note ? <p className="px-1.5 pb-1 pt-0.5 text-[11px] leading-[1.45] text-content-tertiary">{agenda.note}</p> : null}
       {watchRows.length > 0 ? (
         <>
           <div className={cn("mb-1 px-1.5", holdsAny && "mt-2")}>
@@ -217,7 +217,7 @@ function PositionsSection({
       ) : null}
       {holdsAny ? (
         <div className="mt-1.5 border-t border-black/[0.06] pt-1.5">
-          <CheckRow label={t("calendar.positions.highlight")} color="#6b7280" checked={highlight} onToggle={() => onHighlight(!highlight)} />
+          <CheckRow label={t("calendar.positions.highlight")} color="var(--text-secondary)" checked={highlight} onToggle={() => onHighlight(!highlight)} />
         </div>
       ) : null}
     </section>
@@ -292,7 +292,7 @@ export default function CalendarSidebar(props: SidebarProps) {
             <button
               type="button"
               onClick={() => props.onFilters({ hiddenTypes: [], hiddenCategories: [], watchlistOnly: false })}
-              className="app-no-drag text-[11px] text-[#6b7280] transition-colors hover:text-[#1d1b1b]"
+              className="app-no-drag text-[11px] text-content-secondary transition-colors hover:text-content-primary"
             >
               {t("calendar.filters.reset")}
             </button>
@@ -331,7 +331,7 @@ export default function CalendarSidebar(props: SidebarProps) {
             <div className="mt-1.5 border-t border-black/[0.06] pt-1.5">
               <CheckRow
                 label={t("calendar.filters.watchlistOnly")}
-                color="#6b7280"
+                color="var(--text-secondary)"
                 checked={filters.watchlistOnly}
                 onToggle={() => props.onFilters({ ...filters, watchlistOnly: !filters.watchlistOnly })}
               />
@@ -343,7 +343,7 @@ export default function CalendarSidebar(props: SidebarProps) {
       {props.notes.length > 0 ? (
         <div className="mt-auto space-y-1.5 border-t border-black/[0.06] px-1.5 pt-3">
           {props.notes.map((n) => (
-            <p key={n.text} className={cn("text-[11px] leading-[1.45]", n.tone === "warn" ? "text-[#D97706]" : "text-[#9CA3AF]")}>
+            <p key={n.text} className={cn("text-[11px] leading-[1.45]", n.tone === "warn" ? "text-tone-warning" : "text-content-tertiary")}>
               {n.text}
             </p>
           ))}

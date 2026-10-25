@@ -64,18 +64,18 @@ import { BUTTON, RowBadges, SKELETON, TickerButton, linkSentence, useSay } from 
  */
 
 const SECTION = "mt-5 first:mt-0";
-const HEAD = "text-[10.5px] font-medium uppercase tracking-[0.04em] text-[#9CA3AF]";
+const HEAD = "text-[10.5px] font-medium uppercase tracking-[0.04em] text-content-tertiary";
 const NUM = "font-['Geist_Mono'] tabular-nums";
 
 function tone(v: number | null): string {
-  return v === null ? "text-[#9CA3AF]" : v > 0 ? "text-[#16a34a]" : v < 0 ? "text-[#dc2626]" : "text-[#4b5563]";
+  return v === null ? "text-content-tertiary" : v > 0 ? "text-tone-positive" : v < 0 ? "text-tone-negative" : "text-content-body";
 }
 
 function Line({ label, children, hint }: { label: string; children: ReactNode; hint?: string }) {
   return (
     <div className="flex items-baseline justify-between gap-3 py-[3px]" title={hint}>
-      <span className="text-[12px] text-[#6b7280]">{label}</span>
-      <span className={cn(NUM, "text-right text-[12px] text-[#1d1b1b]")}>{children}</span>
+      <span className="text-[12px] text-content-secondary">{label}</span>
+      <span className={cn(NUM, "text-right text-[12px] text-content-primary")}>{children}</span>
     </div>
   );
 }
@@ -114,12 +114,12 @@ function EstimatesBlock({ v, reportDate }: { v: EstimateRevisions; reportDate: s
   const rev = report?.revenue?.change30 ? report.revenue : null;
   const cell = (c: EstimateRevisions["periods"][number]["change7"], currency: string | null) => {
     const text = changeCell(c, currency, lang);
-    return <span className={cn(NUM, "whitespace-nowrap text-right text-[11.5px]", text === null ? "text-[#9CA3AF]" : tone(changeSign(c)))}>{text ?? na}</span>;
+    return <span className={cn(NUM, "whitespace-nowrap text-right text-[11.5px]", text === null ? "text-content-tertiary" : tone(changeSign(c)))}>{text ?? na}</span>;
   };
   return (
     <section className={SECTION}>
       <p className={HEAD}>{t("estimates.drawer.title")}</p>
-      <div className={cn(EST_GRID, "mt-1.5 text-[11px] text-[#9CA3AF]")}>
+      <div className={cn(EST_GRID, "mt-1.5 text-[11px] text-content-tertiary")}>
         <span className="truncate">{t("estimates.col.eps")}</span>
         <span className="text-right">{t("estimates.col.d7")}</span>
         <span className="text-right">{t("estimates.col.d30")}</span>
@@ -131,11 +131,11 @@ function EstimatesBlock({ v, reportDate }: { v: EstimateRevisions; reportDate: s
       {v.periods.map((p) => (
         <div key={p.period} className={cn(EST_GRID, "py-[3px] text-[12px]")} title={`${periodLabel(p, say, lang)}
 ${estimateHint(p, say, lang)}`}>
-          <span className="min-w-0 break-words leading-[1.35] text-[#4b5563]">{periodLabel(p, say, lang)}</span>
+          <span className="min-w-0 break-words leading-[1.35] text-content-body">{periodLabel(p, say, lang)}</span>
           {cell(p.change7, p.currency)}
           {cell(p.change30, p.currency)}
           {cell(p.change90, p.currency)}
-          <span className={cn(NUM, "whitespace-nowrap text-right text-[11.5px] text-[#1d1b1b]")}>{p.up30 !== null && p.down30 !== null ? `${p.up30} / ${p.down30}` : na}</span>
+          <span className={cn(NUM, "whitespace-nowrap text-right text-[11.5px] text-content-primary")}>{p.up30 !== null && p.down30 !== null ? `${p.up30} / ${p.down30}` : na}</span>
         </div>
       ))}
       {rev && rev.change30 ? (
@@ -151,7 +151,7 @@ ${estimateHint(p, say, lang)}`}>
           <span className={tone(Math.abs(rev.change30.pct) < 0.0005 ? 0 : rev.change30.pct)}>{formatMove(rev.change30.pct, lang) ?? na}</span>
         </Line>
       ) : null}
-      <p className="mt-1.5 text-[11px] leading-[1.45] text-[#9CA3AF]">{t("estimates.drawer.note")}</p>
+      <p className="mt-1.5 text-[11px] leading-[1.45] text-content-tertiary">{t("estimates.drawer.note")}</p>
     </section>
   );
 }
@@ -251,10 +251,10 @@ function DrawerBody({ row, today, live, onClose }: { row: EarningsRow; today: st
             <TickerButton row={row} />
             <RowBadges row={row} />
           </div>
-          <p className="mt-1.5 truncate text-[14px] text-[#1d1b1b]" title={row.company ?? undefined}>
+          <p className="mt-1.5 truncate text-[14px] text-content-primary" title={row.company ?? undefined}>
             {row.company ?? row.ticker}
           </p>
-          <p className="mt-0.5 text-[12px] text-[#6b7280]">
+          <p className="mt-0.5 text-[12px] text-content-secondary">
             {when}
             {row.fiscalPeriod ? ` · ${fiscalText(row.fiscalPeriod, say)}` : ""}
           </p>
@@ -263,7 +263,7 @@ function DrawerBody({ row, today, live, onClose }: { row: EarningsRow; today: st
           type="button"
           onClick={onClose}
           aria-label={t("earnings.drawer.close")}
-          className="app-no-drag -mr-1 rounded-md p-1 text-[#9CA3AF] transition-colors hover:bg-black/[0.04] hover:text-[#1d1b1b]"
+          className="app-no-drag -mr-1 rounded-md p-1 text-content-tertiary transition-colors hover:bg-black/[0.04] hover:text-content-primary"
         >
           <X className="h-4 w-4" strokeWidth={1.75} aria-hidden />
         </button>
@@ -274,7 +274,7 @@ function DrawerBody({ row, today, live, onClose }: { row: EarningsRow; today: st
           <section className={SECTION}>
             <p className={HEAD}>{t("earnings.drawer.thisReport")}</p>
             <div className="mt-1.5">
-              {row.phase === "pending" ? <p className="py-1 text-[12px] text-[#6b7280]">{t("earnings.cell.pending")}</p> : null}
+              {row.phase === "pending" ? <p className="py-1 text-[12px] text-content-secondary">{t("earnings.cell.pending")}</p> : null}
               <Line label={t("earnings.drawer.eps")}>
                 {row.epsActual !== null
                   ? formatEps(row.epsEstimate, lang)
@@ -291,7 +291,7 @@ function DrawerBody({ row, today, live, onClose }: { row: EarningsRow; today: st
               <Line label={t("earnings.drawer.dayMove")} hint={dayMove.live ? t("earnings.drawer.live") : undefined}>
                 <span className={tone(dayMove.move)}>{formatMove(dayMove.move, lang) ?? na}</span>
                 {usual !== null && dayMove.move !== null ? (
-                  <span className="text-[#6b7280]"> {t("earnings.drawer.againstUsual", { usual: formatUsualMove(usual, lang)! })}</span>
+                  <span className="text-content-secondary"> {t("earnings.drawer.againstUsual", { usual: formatUsualMove(usual, lang)! })}</span>
                 ) : null}
               </Line>
             </div>
@@ -335,10 +335,10 @@ function DrawerBody({ row, today, live, onClose }: { row: EarningsRow; today: st
                 ))}
               </div>
             ) : state.status === "failed" ? (
-              <p className="mt-1.5 text-[12px] text-[#9CA3AF]">{t("earnings.drawer.failed")}</p>
+              <p className="mt-1.5 text-[12px] text-content-tertiary">{t("earnings.drawer.failed")}</p>
             ) : detail && detail.quarters.length > 0 ? (
               <>
-                <div className="mt-1.5 grid grid-cols-[minmax(0,1fr)_64px_72px_84px] gap-x-2 text-[11px] text-[#9CA3AF]">
+                <div className="mt-1.5 grid grid-cols-[minmax(0,1fr)_64px_72px_84px] gap-x-2 text-[11px] text-content-tertiary">
                   <span>{t("earnings.drawer.quarter")}</span>
                   <span className="text-right">{t("earnings.drawer.actual")}</span>
                   <span className="text-right">{t("earnings.drawer.estimate")}</span>
@@ -348,16 +348,16 @@ function DrawerBody({ row, today, live, onClose }: { row: EarningsRow; today: st
                   const diff = q.epsActual !== null && q.epsEstimate !== null ? q.epsActual - q.epsEstimate : null;
                   return (
                     <div key={q.periodEnd ?? q.fiscalQuarter ?? ""} className="grid grid-cols-[minmax(0,1fr)_64px_72px_84px] gap-x-2 py-[3px] text-[12px]">
-                      <span className="truncate text-[#4b5563]" title={q.fiscalQuarter ? fiscalText(q.fiscalQuarter, say) : undefined}>
+                      <span className="truncate text-content-body" title={q.fiscalQuarter ? fiscalText(q.fiscalQuarter, say) : undefined}>
                         {q.fiscalQuarter ? fiscalText(q.fiscalQuarter, say) : q.periodEnd ? shortDate(q.periodEnd, lang) : na}
                       </span>
                       <span className={cn(NUM, "text-right", tone(diff))}>{formatEps(q.epsActual, lang) ?? na}</span>
-                      <span className={cn(NUM, "text-right text-[#4b5563]")}>{formatEps(q.epsEstimate, lang) ?? na}</span>
-                      <span className={cn(NUM, "text-right text-[#1d1b1b]")}>{formatRevenueIn(q.revenueActual, detail.revenueCurrency, lang) ?? na}</span>
+                      <span className={cn(NUM, "text-right text-content-body")}>{formatEps(q.epsEstimate, lang) ?? na}</span>
+                      <span className={cn(NUM, "text-right text-content-primary")}>{formatRevenueIn(q.revenueActual, detail.revenueCurrency, lang) ?? na}</span>
                     </div>
                   );
                 })}
-                <p className="mt-1.5 text-[11px] leading-[1.45] text-[#9CA3AF]">{t("earnings.drawer.revenueNote")}</p>
+                <p className="mt-1.5 text-[11px] leading-[1.45] text-content-tertiary">{t("earnings.drawer.revenueNote")}</p>
               </>
             ) : null}
           </section>
@@ -395,7 +395,7 @@ function DrawerBody({ row, today, live, onClose }: { row: EarningsRow; today: st
         <section className={SECTION}>
           <p className={HEAD}>{t("earnings.drawer.links")}</p>
           {row.readsThrough.length === 0 ? (
-            <p className="mt-1.5 text-[12px] leading-[1.5] text-[#9CA3AF]">{t("earnings.drawer.noLinks")}</p>
+            <p className="mt-1.5 text-[12px] leading-[1.5] text-content-tertiary">{t("earnings.drawer.noLinks")}</p>
           ) : (
             <ul className="mt-1.5 space-y-2.5">
               {row.readsThrough.map((l) => {
@@ -405,17 +405,17 @@ function DrawerBody({ row, today, live, onClose }: { row: EarningsRow; today: st
                   <li key={l.ticker} className="text-[12px] leading-[1.45]">
                     <div className="flex items-center gap-2">
                       <TickerButton row={{ ticker: l.ticker, company: null }} />
-                      <span className="text-[11px] text-[#6b7280]">{l.held ? t("earnings.badge.held") : t("earnings.badge.watchlist")}</span>
+                      <span className="text-[11px] text-content-secondary">{l.held ? t("earnings.badge.held") : t("earnings.badge.watchlist")}</span>
                       {out ? <span className={cn(NUM, "ml-auto text-[12px]", tone(move))}>{formatMove(move, lang) ?? ""}</span> : null}
                     </div>
-                    <p className="mt-1 text-[#1d1b1b]">{linkSentence(t, l)}</p>
-                    <p className="mt-0.5 flex items-center gap-2 text-[11px] text-[#9CA3AF]">
+                    <p className="mt-1 text-content-primary">{linkSentence(t, l)}</p>
+                    <p className="mt-0.5 flex items-center gap-2 text-[11px] text-content-tertiary">
                       {l.filingDate ? <span>{t("earnings.link.filed", { date: shortDate(l.filingDate, lang) })}</span> : null}
                       {l.sourceUrl && /^https?:\/\//i.test(l.sourceUrl) ? (
                         <button
                           type="button"
                           onClick={() => void window.meridian?.openExternal(l.sourceUrl!)}
-                          className="app-no-drag inline-flex items-center gap-1 text-[#4b5563] underline decoration-[#cfcfc8] underline-offset-[3px] transition-colors hover:text-[#1d1b1b] hover:decoration-[#1d1b1b]"
+                          className="app-no-drag inline-flex items-center gap-1 text-content-body underline decoration-content-disabled underline-offset-[3px] transition-colors hover:text-content-primary hover:decoration-content-primary"
                         >
                           {t("earnings.drawer.openFiling")}
                         </button>
@@ -430,7 +430,7 @@ function DrawerBody({ row, today, live, onClose }: { row: EarningsRow; today: st
       </div>
 
       <div className="flex items-center justify-between gap-3 border-t-[0.5px] border-black/[0.06] px-5 py-3">
-        <span className="text-[11px] text-[#9CA3AF]">{row.source === "finnhub" ? t("earnings.drawer.source.finnhub") : t("earnings.drawer.source.yahoo")}</span>
+        <span className="text-[11px] text-content-tertiary">{row.source === "finnhub" ? t("earnings.drawer.source.finnhub") : t("earnings.drawer.source.yahoo")}</span>
         <button type="button" onClick={() => openCreateAgent(earningsWatchDraft({ ticker: row.ticker, date: row.date, today, brief: agentBrief(row, say, lang) }, language))} className={BUTTON}>
           {t("earnings.row.createAgent")}
         </button>

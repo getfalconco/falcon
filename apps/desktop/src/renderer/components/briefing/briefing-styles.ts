@@ -8,14 +8,14 @@ import type { Tone } from "../../../shared/briefing-view";
  */
 
 /** The card label: "STOCK", "INSIGHT", and here "HANDOVER" and the section names. */
-export const LABEL_CLASS = "select-none font-sans text-[11px] font-medium tracking-[0.04em] text-[#9CA3AF]";
+export const LABEL_CLASS = "select-none font-sans text-[11px] font-medium tracking-[0.04em] text-content-tertiary";
 
 /** The Positions card's table head. */
-export const HEAD_CLASS = "font-['Geist_Mono'] text-[9.5px] uppercase tracking-[0.06em] text-[#9CA3AF]";
+export const HEAD_CLASS = "font-['Geist_Mono'] text-[9.5px] uppercase tracking-[0.06em] text-content-tertiary";
 
 export const MONO_CLASS = "font-['Geist_Mono'] tabular-nums";
 
-export const PILL_CLASS = "rounded-full bg-[#1d1b1b]/[0.05] px-1.5 py-px font-['Geist_Mono'] text-[9.5px] text-[#4b5563]";
+export const PILL_CLASS = "rounded-full bg-ink/[0.05] px-1.5 py-px font-['Geist_Mono'] text-[9.5px] text-content-body";
 
 /**
  * A story's figure beside its sentence: label and move in one mono chip. The
@@ -23,15 +23,15 @@ export const PILL_CLASS = "rounded-full bg-[#1d1b1b]/[0.05] px-1.5 py-px font-['
  * them reads as evidence under a sentence, not as a scoreboard.
  */
 export const CHIP_CLASS =
-  "inline-flex items-baseline gap-1 rounded-md bg-[#1d1b1b]/[0.04] px-1.5 py-px font-['Geist_Mono'] text-[11px] tabular-nums text-[#6b7280]";
+  "inline-flex items-baseline gap-1 rounded-md bg-ink/[0.04] px-1.5 py-px font-['Geist_Mono'] text-[11px] tabular-nums text-content-secondary";
 
 /** One quiet line: what a section says when it has nothing, or less than usual, to show. */
-export const QUIET_NOTE_CLASS = "text-[12px] leading-[1.5] text-[#9CA3AF]";
+export const QUIET_NOTE_CLASS = "text-[12px] leading-[1.5] text-content-tertiary";
 
 /** Green and red mean "up" and "down" and nothing else anywhere in the panel. */
 export const TONE_TEXT: Record<Tone, string> = {
-  up: "text-[#16A34A]",
-  down: "text-[#DC2626]",
-  flat: "text-[#6b7280]",
-  none: "text-[#6b7280]",
+  up: "text-tone-positive",
+  down: "text-tone-negative",
+  flat: "text-content-secondary",
+  none: "text-content-secondary",
 };

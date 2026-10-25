@@ -541,7 +541,7 @@ export default function StockView({ symbol, researchOnly = false }: Props) {
         <StockLivePrice state={live} />
 
         {/* Gauge (spec §8 stock page block): standalone tape state — tracked tickers only say more than "not tracked". */}
-        <GaugeContextBlock ticker={symbol} context={null} surface="stock" title={t("stock.gaugeTitle")} className="w-full max-w-md rounded-xl border border-[#e6e6e0] bg-[#fbfbf9] px-3.5 py-3 text-left" />
+        <GaugeContextBlock ticker={symbol} context={null} surface="stock" title={t("stock.gaugeTitle")} className="w-full max-w-md rounded-xl border border-edge bg-surface-2 px-3.5 py-3 text-left" />
 
         {paperAccount ? (
           <StockPaperTradePanel symbol={symbol} price={live.quote?.price ?? null} />

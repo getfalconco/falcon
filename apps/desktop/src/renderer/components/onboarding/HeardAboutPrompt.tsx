@@ -60,12 +60,12 @@ export default function HeardAboutPrompt({ user, className }: { user: User | nul
   return (
     <section aria-label={t("auth.heard.title")} className={cn("app-no-drag w-[19rem] p-4", GLASS, className)}>
       <div className="flex items-start justify-between gap-3">
-        <p className="text-[12.5px] font-medium text-[#1d1b1b]">{t("auth.heard.title")}</p>
+        <p className="text-[12.5px] font-medium text-content-primary">{t("auth.heard.title")}</p>
         <button
           type="button"
           onClick={() => close(null)}
           aria-label={t("common.close")}
-          className="-mr-1 -mt-1 rounded-md p-1 text-[#6b7280] transition-colors hover:bg-black/[0.05] hover:text-[#1d1b1b]"
+          className="-mr-1 -mt-1 rounded-md p-1 text-content-secondary transition-colors hover:bg-black/[0.05] hover:text-content-primary"
         >
           <X className="h-3.5 w-3.5" strokeWidth={1.75} aria-hidden />
         </button>
@@ -76,7 +76,7 @@ export default function HeardAboutPrompt({ user, className }: { user: User | nul
             key={id}
             type="button"
             onClick={() => close(id)}
-            className="rounded-full border border-black/[0.08] px-2.5 py-1 text-[11.5px] text-[#6b7280] transition-colors hover:bg-black/[0.05] hover:text-[#1d1b1b]"
+            className="rounded-full border border-black/[0.08] px-2.5 py-1 text-[11.5px] text-content-secondary transition-colors hover:bg-black/[0.05] hover:text-content-primary"
           >
             {t(HEARD_ABOUT_LABEL_KEYS[id])}
           </button>

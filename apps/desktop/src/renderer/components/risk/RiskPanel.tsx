@@ -81,10 +81,10 @@ function kindWord(kind: string, t: TFunction): string {
 }
 
 const BAND_COLOR: Record<string, string> = {
-  low: "#16A34A",
-  moderate: "#CA8A04",
-  elevated: "#EA580C",
-  high: "#DC2626",
+  low: "var(--positive)",
+  moderate: "var(--yellow)",
+  elevated: "var(--warning)",
+  high: "var(--negative)",
 };
 
 function fmtWhen(iso: string | null | undefined, locale: string, na: string): string {
@@ -170,7 +170,7 @@ function keyValue(key: RiskComponentKey, snapshot: RiskSnapshot, t: TFunction, l
 
 function Details({ keyName, snapshot }: { keyName: RiskComponentKey; snapshot: RiskSnapshot }) {
   const { t } = useI18n();
-  const row = "flex items-baseline gap-2 text-[11px] leading-snug text-[#4b5563]";
+  const row = "flex items-baseline gap-2 text-[11px] leading-snug text-content-body";
   switch (keyName) {
     case "concentration": {
       const c = componentPayload(snapshot, "concentration");
@@ -179,7 +179,7 @@ function Details({ keyName, snapshot }: { keyName: RiskComponentKey; snapshot: R
         <div className="mt-1 space-y-0.5">
           {c.top.map((h) => (
             <div key={h.ticker} className={row}>
-              <span className="w-14 font-semibold text-[#1d1b1b]">{h.ticker}</span>
+              <span className="w-14 font-semibold text-content-primary">{h.ticker}</span>
               <span className="tabular-nums">
                 {h.account_weight === undefined ? pct(h.weight, 1) : (formatWeightPct(h.account_weight) ?? t("common.na"))}
               </span>
@@ -192,12 +192,12 @@ function Details({ keyName, snapshot }: { keyName: RiskComponentKey; snapshot: R
       const c = componentPayload(snapshot, "network");
       if (!c) return null;
       return c.top_links.length === 0 ? (
-        <div className="mt-1 text-[11px] text-[#9CA3AF]">{t("panels.risk.noLinks")}</div>
+        <div className="mt-1 text-[11px] text-content-tertiary">{t("panels.risk.noLinks")}</div>
       ) : (
         <div className="mt-1 space-y-1">
           {c.top_links.map((l) => (
-            <div key={`${l.a}-${l.b}-${l.edge_id}`} className="text-[11px] leading-snug text-[#4b5563]">
-              <span className="font-semibold text-[#1d1b1b]">
+            <div key={`${l.a}-${l.b}-${l.edge_id}`} className="text-[11px] leading-snug text-content-body">
+              <span className="font-semibold text-content-primary">
                 {l.a} ↔ {l.b}
               </span>{" "}
               <span>
@@ -205,11 +205,11 @@ function Details({ keyName, snapshot }: { keyName: RiskComponentKey; snapshot: R
                 {strengthWord(l.tier, t)} · l={l.link.toFixed(2)} · w={l.pair_weight.toFixed(3)}
                 {l.counterparty_label ? ` · ${t("panels.risk.viaLabel", { name: l.counterparty_label })}` : ""}
               </span>
-              <div className="font-mono text-[10px] text-[#9CA3AF]">
+              <div className="font-mono text-[10px] text-content-tertiary">
                 {l.edge_id}
                 {l.edge_id_b ? ` + ${l.edge_id_b}` : ""}
               </div>
-              {l.evidence_quote ? <div className="line-clamp-2 italic text-[#6b7280]">“{l.evidence_quote}”</div> : null}
+              {l.evidence_quote ? <div className="line-clamp-2 italic text-content-secondary">“{l.evidence_quote}”</div> : null}
             </div>
           ))}
         </div>
@@ -219,12 +219,12 @@ function Details({ keyName, snapshot }: { keyName: RiskComponentKey; snapshot: R
       const c = componentPayload(snapshot, "event");
       if (!c) return null;
       return c.contributors.length === 0 ? (
-        <div className="mt-1 text-[11px] text-[#9CA3AF]">{t("panels.risk.noContributors")}</div>
+        <div className="mt-1 text-[11px] text-content-tertiary">{t("panels.risk.noContributors")}</div>
       ) : (
         <div className="mt-1 space-y-0.5">
           {c.contributors.map((e, i) => (
             <div key={`${e.ticker}-${e.kind}-${i}`} className={row}>
-              <span className="w-14 font-semibold text-[#1d1b1b]">{e.ticker}</span>
+              <span className="w-14 font-semibold text-content-primary">{e.ticker}</span>
               <span className="w-32">{kindWord(e.kind, t)}</span>
               <span className="w-24">{e.detail}</span>
               <span className="tabular-nums">
@@ -239,7 +239,7 @@ function Details({ keyName, snapshot }: { keyName: RiskComponentKey; snapshot: R
       const c = componentPayload(snapshot, "sharpe");
       if (!c || c.excluded.length === 0) return null;
       return (
-        <div className="mt-1 text-[11px] text-[#9CA3AF]">
+        <div className="mt-1 text-[11px] text-content-tertiary">
           {t("panels.risk.sharpeExcluded", { list: c.excluded.join(", ") })}
         </div>
       );
@@ -257,37 +257,37 @@ function ComponentRow({ row, snapshot }: { row: RiskPanelRow; snapshot: RiskSnap
   if (score == null) {
     // Shown either way, because a row that just vanishes reads as a zero.
     return (
-      <div className="rounded-xl border border-dashed border-[#e0e0da] bg-white/40 px-3 py-2">
+      <div className="rounded-xl border border-dashed border-edge bg-white/40 px-3 py-2">
         <div className="flex items-center gap-3">
-          <span className="w-44 text-[12px] font-semibold text-[#9CA3AF]">{label}</span>
-          <span className="flex-1 text-[11px] text-[#9CA3AF]">
+          <span className="w-44 text-[12px] font-semibold text-content-tertiary">{label}</span>
+          <span className="flex-1 text-[11px] text-content-tertiary">
             {row.state === "absent" ? t("panels.risk.notInSnapshot") : t("panels.risk.notMeasured")}
           </span>
         </div>
-        <div className="mt-1 text-[11px] text-[#6b7280]">{keyValue(keyName, snapshot, t, locale)}</div>
+        <div className="mt-1 text-[11px] text-content-secondary">{keyValue(keyName, snapshot, t, locale)}</div>
       </div>
     );
   }
   return (
-    <div className={`rounded-xl border px-3 py-2 ${isDriver ? "border-[#189E9A]/50 bg-[#189E9A]/5" : "border-[#e0e0da] bg-white/60"}`}>
+    <div className={`rounded-xl border px-3 py-2 ${isDriver ? "border-tone-teal/50 bg-tone-teal-fill/5" : "border-edge bg-white/60"}`}>
       <div className="flex items-center gap-3">
-        <span className="w-44 text-[12px] font-semibold text-[#1d1b1b]">
+        <span className="w-44 text-[12px] font-semibold text-content-primary">
           {label}
           {isDriver ? (
-            <span className="ml-1 rounded-full bg-[#189E9A] px-1.5 py-[1px] text-[9px] font-semibold tracking-[0.08em] text-white">
+            <span className="ml-1 rounded-full bg-tone-teal-solid px-1.5 py-[1px] text-[9px] font-semibold tracking-[0.08em] text-white">
               {t("panels.risk.driverBadge")}
             </span>
           ) : null}
         </span>
-        <div className="h-2 flex-1 overflow-hidden rounded-full bg-[#e9e9e4]">
-          <div className="h-full rounded-full bg-[#1d1b1b]" style={{ width: `${Math.max(0, Math.min(100, score))}%` }} />
+        <div className="h-2 flex-1 overflow-hidden rounded-full bg-surface-3">
+          <div className="h-full rounded-full bg-ink" style={{ width: `${Math.max(0, Math.min(100, score))}%` }} />
         </div>
-        <span className="w-10 text-right text-[13px] font-semibold tabular-nums text-[#1d1b1b]">{score}</span>
-        <span className="w-20 text-right text-[10px] tabular-nums text-[#9CA3AF]">
+        <span className="w-10 text-right text-[13px] font-semibold tabular-nums text-content-primary">{score}</span>
+        <span className="w-20 text-right text-[10px] tabular-nums text-content-tertiary">
           ×{weight.toFixed(2)} = {(score * weight).toFixed(1)}
         </span>
       </div>
-      <div className="mt-1 text-[11px] text-[#6b7280]">{keyValue(keyName, snapshot, t, locale)}</div>
+      <div className="mt-1 text-[11px] text-content-secondary">{keyValue(keyName, snapshot, t, locale)}</div>
       <Details keyName={keyName} snapshot={snapshot} />
     </div>
   );
@@ -360,34 +360,34 @@ export default function RiskPanel({ onClose }: Props) {
   const band = snapshot?.band ?? null;
 
   return (
-    <div className="app-no-drag fixed inset-0 z-[200] flex items-center justify-center bg-[#1d1b1b]/30 backdrop-blur-[3px]">
-      <div className="flex h-[92vh] w-[1100px] max-w-[96vw] flex-col overflow-hidden rounded-2xl border border-white/70 bg-[#F4F4F0] shadow-2xl">
+    <div className="app-no-drag fixed inset-0 z-[200] flex items-center justify-center bg-ink/30 backdrop-blur-[3px]">
+      <div className="flex h-[92vh] w-[1100px] max-w-[96vw] flex-col overflow-hidden rounded-2xl border border-white/70 bg-surface-1 shadow-2xl">
         {/* Header */}
-        <div className="flex items-center gap-4 border-b border-[#e0e0da] px-5 py-3">
-          <span className="font-sans text-[11px] font-medium tracking-[0.04em] text-[#9CA3AF]">{t("panels.risk.header", { shortcut: shortcutText("risk") })}</span>
+        <div className="flex items-center gap-4 border-b border-edge px-5 py-3">
+          <span className="font-sans text-[11px] font-medium tracking-[0.04em] text-content-tertiary">{t("panels.risk.header", { shortcut: shortcutText("risk") })}</span>
           {snapshot && !snapshot.empty ? (
             <>
-              <span className="text-[28px] font-semibold leading-none tabular-nums text-[#1d1b1b]">{snapshot.score}</span>
+              <span className="text-[28px] font-semibold leading-none tabular-nums text-content-primary">{snapshot.score}</span>
               <span className="rounded-full px-2 py-[2px] text-[10px] font-semibold uppercase tracking-[0.08em] text-white" style={{ background: BAND_COLOR[band ?? "low"] }}>
                 {band ? bandWord(band, t) : null}
               </span>
             </>
           ) : snapshot?.empty ? (
-            <span className="text-[13px] text-[#6b7280]">{t("panels.risk.noPositions")}</span>
+            <span className="text-[13px] text-content-secondary">{t("panels.risk.noPositions")}</span>
           ) : (
-            <span className="text-[13px] text-[#6b7280]">{t("panels.risk.noSnapshot")}</span>
+            <span className="text-[13px] text-content-secondary">{t("panels.risk.noSnapshot")}</span>
           )}
-          <span className="text-[11px] tabular-nums text-[#9CA3AF]">
+          <span className="text-[11px] tabular-nums text-content-tertiary">
             {t("panels.risk.computed", { when: fmtWhen(snapshot?.computed_at, locale, na) })}
           </span>
           {snapshot ? (
-            <span className="text-[10px] text-[#b4b4ae]">
+            <span className="text-[10px] text-content-disabled">
               {t("panels.risk.trigger", { list: snapshot.trigger.map((x) => triggerWord(x, t)).join(", ") })}
             </span>
           ) : null}
           <div className="ml-auto flex items-center gap-2">
             <label
-              className="flex items-center gap-1.5 text-[11px] text-[#6b7280]"
+              className="flex items-center gap-1.5 text-[11px] text-content-secondary"
               title={staff ? undefined : t("access.staffOnly.setting")}
             >
               <input
@@ -402,11 +402,11 @@ export default function RiskPanel({ onClose }: Props) {
               type="button"
               onClick={() => void recompute()}
               disabled={busy}
-              className="rounded-lg bg-[#1d1b1b] px-3 py-1.5 text-[11px] font-medium text-white disabled:opacity-50"
+              className="rounded-lg bg-ink px-3 py-1.5 text-[11px] font-medium text-white disabled:opacity-50"
             >
               {busy ? t("panels.risk.recomputing") : t("panels.risk.recompute")}
             </button>
-            <button type="button" onClick={onClose} aria-label={t("common.close")} className="rounded-lg p-1.5 text-[#6b7280] hover:bg-white">
+            <button type="button" onClick={onClose} aria-label={t("common.close")} className="rounded-lg p-1.5 text-content-secondary hover:bg-white">
               <X className="h-4 w-4" />
             </button>
           </div>
@@ -419,11 +419,11 @@ export default function RiskPanel({ onClose }: Props) {
           <div className="min-w-0 flex-1 overflow-y-auto px-5 py-4">
             {snapshot && !snapshot.empty && snapshot.components ? (
               <>
-                <div className="mb-3 rounded-xl border border-[#e0e0da] bg-white px-3 py-2">
-                  <div className="text-[10px] font-medium tracking-[0.08em] text-[#9CA3AF]">
+                <div className="mb-3 rounded-xl border border-edge bg-white px-3 py-2">
+                  <div className="text-[10px] font-medium tracking-[0.08em] text-content-tertiary">
                     {t("panels.risk.driver", { component: componentLabel(snapshot.driver?.component, t) })}
                   </div>
-                  <div className="font-baskerville text-[15px] text-[#1d1b1b]">{snapshot.driver?.sentence}</div>
+                  <div className="font-baskerville text-[15px] text-content-primary">{snapshot.driver?.sentence}</div>
                 </div>
                 <div className="space-y-2">
                   {riskPanelRows(snapshot).map((row) => (
@@ -431,30 +431,30 @@ export default function RiskPanel({ onClose }: Props) {
                   ))}
                 </div>
                 <div className="mt-3 grid grid-cols-2 gap-3">
-                  <div className="rounded-xl border border-[#e0e0da] bg-white/60 px-3 py-2">
-                    <div className="text-[10px] font-medium tracking-[0.08em] text-[#9CA3AF]">
+                  <div className="rounded-xl border border-edge bg-white/60 px-3 py-2">
+                    <div className="text-[10px] font-medium tracking-[0.08em] text-content-tertiary">
                       {t("panels.risk.positions", { pct: pct(snapshot.invested_fraction), n: snapshot.position_count })}
                     </div>
                     <div className="mt-1 space-y-0.5">
                       {snapshot.weights.map((w) => (
-                        <div key={w.ticker} className="flex items-baseline gap-2 text-[11px] text-[#4b5563]">
-                          <span className="w-14 font-semibold text-[#1d1b1b]">{w.ticker}</span>
+                        <div key={w.ticker} className="flex items-baseline gap-2 text-[11px] text-content-body">
+                          <span className="w-14 font-semibold text-content-primary">{w.ticker}</span>
                           <span className="w-12 tabular-nums">{accountShareText(snapshot, w, t("common.na"))}</span>
                           <span className="tabular-nums">${w.market_value.toLocaleString("en-US", { maximumFractionDigits: 0 })}</span>
-                          {w.side === "short" ? <span className="text-[#DC2626]">{t("panels.risk.short")}</span> : null}
+                          {w.side === "short" ? <span className="text-tone-negative">{t("panels.risk.short")}</span> : null}
                         </div>
                       ))}
                     </div>
                   </div>
-                  <div className="rounded-xl border border-[#e0e0da] bg-white/60 px-3 py-2">
-                    <div className="text-[10px] font-medium tracking-[0.08em] text-[#9CA3AF]">{t("panels.risk.degraded", { n: snapshot.degraded.length })}</div>
+                  <div className="rounded-xl border border-edge bg-white/60 px-3 py-2">
+                    <div className="text-[10px] font-medium tracking-[0.08em] text-content-tertiary">{t("panels.risk.degraded", { n: snapshot.degraded.length })}</div>
                     {snapshot.degraded.length === 0 ? (
-                      <div className="mt-1 text-[11px] text-[#9CA3AF]">{t("panels.risk.noSubstitutions")}</div>
+                      <div className="mt-1 text-[11px] text-content-tertiary">{t("panels.risk.noSubstitutions")}</div>
                     ) : (
                       <div className="mt-1 space-y-0.5">
                         {snapshot.degraded.map((d, i) => (
-                          <div key={`${d.ticker}-${d.field}-${i}`} className="flex items-baseline gap-2 text-[11px] text-[#4b5563]">
-                            <span className="w-14 font-semibold text-[#1d1b1b]">{d.ticker}</span>
+                          <div key={`${d.ticker}-${d.field}-${i}`} className="flex items-baseline gap-2 text-[11px] text-content-body">
+                            <span className="w-14 font-semibold text-content-primary">{d.ticker}</span>
                             <span className="w-16">{d.field}</span>
                             <span className="tabular-nums">→ {String(d.substitute)}</span>
                           </div>
@@ -462,7 +462,7 @@ export default function RiskPanel({ onClose }: Props) {
                       </div>
                     )}
                     {snapshot.graph_version ? (
-                      <div className="mt-2 text-[10px] text-[#b4b4ae]">
+                      <div className="mt-2 text-[10px] text-content-disabled">
                         {t("panels.risk.graphStamp", {
                           version: snapshot.graph_version.pipelineVersion,
                           when: fmtWhen(snapshot.graph_version.generatedAt, locale, na),
@@ -473,13 +473,13 @@ export default function RiskPanel({ onClose }: Props) {
                 </div>
               </>
             ) : (
-              <div className="text-[12px] text-[#6b7280]">
+              <div className="text-[12px] text-content-secondary">
                 {snapshot?.empty ? t("panels.risk.emptyBody") : t("panels.risk.waiting")}
               </div>
             )}
 
             {status ? (
-              <div className="mt-4 rounded-xl border border-[#e0e0da] bg-white/40 px-3 py-2 text-[10px] text-[#6b7280]">
+              <div className="mt-4 rounded-xl border border-edge bg-white/40 px-3 py-2 text-[10px] text-content-secondary">
                 <div>
                   {t("panels.risk.status.data", {
                     dir: status.dataDir,
@@ -514,22 +514,22 @@ export default function RiskPanel({ onClose }: Props) {
           </div>
 
           {/* History */}
-          <div className="w-[300px] shrink-0 overflow-y-auto border-l border-[#e0e0da] px-3 py-3">
-            <div className="mb-2 text-[10px] font-medium tracking-[0.08em] text-[#9CA3AF]">{t("panels.risk.history", { n: history.length })}</div>
+          <div className="w-[300px] shrink-0 overflow-y-auto border-l border-edge px-3 py-3">
+            <div className="mb-2 text-[10px] font-medium tracking-[0.08em] text-content-tertiary">{t("panels.risk.history", { n: history.length })}</div>
             <div className="space-y-1">
               {history.map((h) => (
                 <div key={h.computed_at} className="rounded-lg bg-white/60 px-2 py-1.5">
                   <div className="flex items-center gap-2">
-                    <span className="text-[10px] tabular-nums text-[#9CA3AF]">{fmtWhen(h.computed_at, locale, na)}</span>
-                    <span className="text-[12px] font-semibold tabular-nums text-[#1d1b1b]">{h.empty ? na : h.score}</span>
+                    <span className="text-[10px] tabular-nums text-content-tertiary">{fmtWhen(h.computed_at, locale, na)}</span>
+                    <span className="text-[12px] font-semibold tabular-nums text-content-primary">{h.empty ? na : h.score}</span>
                     {h.band ? (
                       <span className="rounded-full px-1.5 py-[1px] text-[9px] font-semibold uppercase tracking-[0.08em] text-white" style={{ background: BAND_COLOR[h.band] }}>
                         {bandWord(h.band, t)}
                       </span>
                     ) : null}
-                    <span className="ml-auto text-[9px] text-[#b4b4ae]">{h.trigger.map((x) => triggerWord(x, t)).join(" + ")}</span>
+                    <span className="ml-auto text-[9px] text-content-disabled">{h.trigger.map((x) => triggerWord(x, t)).join(" + ")}</span>
                   </div>
-                  <div className="mt-0.5 truncate text-[10px] text-[#6b7280]">
+                  <div className="mt-0.5 truncate text-[10px] text-content-secondary">
                     {h.driver_component
                       ? `${componentLabel(h.driver_component, t)} · ${h.driver_sentence}`
                       : h.empty
@@ -538,7 +538,7 @@ export default function RiskPanel({ onClose }: Props) {
                   </div>
                 </div>
               ))}
-              {history.length === 0 ? <div className="text-[11px] text-[#9CA3AF]">{t("panels.risk.noHistory")}</div> : null}
+              {history.length === 0 ? <div className="text-[11px] text-content-tertiary">{t("panels.risk.noHistory")}</div> : null}
             </div>
           </div>
         </div>

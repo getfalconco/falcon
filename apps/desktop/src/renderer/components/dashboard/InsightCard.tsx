@@ -57,7 +57,7 @@ const RADIUS = 2;
 /** Room for the weekday column on the left and the month row on top. */
 const GUTTER = 20;
 const BAND = 13;
-const LABEL = "#9CA3AF";
+const LABEL = "var(--text-tertiary)";
 const LABEL_FONT = "Geist Mono, ui-monospace, monospace";
 /** The hover card reads as a line of copy now, so it needs room — and the
  *  clamp that keeps it on the card has to know half of that room. */
@@ -180,7 +180,7 @@ function Calendar({ columns, pitch }: { columns: DayCell[][]; pitch: number }) {
             className="w-max origin-bottom rounded-2xl border border-white/60 bg-white/40 px-2.5 py-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_24px_64px_rgba(0,0,0,0.12)] ring-1 ring-black/[0.04] backdrop-blur-xl backdrop-saturate-150"
             style={{ maxWidth: POPUP_MAX }}
           >
-            <div className="pb-1.5 text-[10.5px] leading-none text-[#6b7280]">
+            <div className="pb-1.5 text-[10.5px] leading-none text-content-secondary">
               {dayLabel(hover.cell, t, locale)}
             </div>
             <ul className="flex flex-col gap-1.5" aria-label={dayLabel(hover.cell, t, locale)}>
@@ -194,21 +194,21 @@ function Calendar({ columns, pitch }: { columns: DayCell[][]; pitch: number }) {
                 >
                   <span
                     aria-hidden
-                    className="block h-[9px] w-[9px] shrink-0 rounded-[2px]"
+                    className="block h-[9px] w-[9px] shrink-0 rounded-sm"
                     style={{ backgroundColor: pricedInColor(item.priced_in) }}
                   />
                   {item.root_ticker ? (
-                    <span className="shrink-0 text-[11px] font-semibold leading-none text-[#1d1b1b]">
+                    <span className="shrink-0 text-[11px] font-semibold leading-none text-content-primary">
                       {item.root_ticker}
                     </span>
                   ) : null}
-                  <span className="truncate text-[11px] leading-none text-[#4b5563]">
+                  <span className="truncate text-[11px] leading-none text-content-body">
                     {item.event_label}
                   </span>
                 </motion.li>
               ))}
               {hover.cell.items.length > POPUP_ROWS ? (
-                <li className="pl-[15px] text-[10.5px] leading-none text-[#9CA3AF]">
+                <li className="pl-[15px] text-[10.5px] leading-none text-content-tertiary">
                   {t("dashboard.insight.more", { count: hover.cell.items.length - POPUP_ROWS })}
                 </li>
               ) : null}
@@ -301,10 +301,10 @@ function fmtPrice(v: number): string {
 /** The expected move reads in the dashboard's own gain/loss colours; a call
  *  with no direction stays neutral rather than borrowing one. */
 const EXPECTED_COLOR: Record<PropagationDirection, string> = {
-  positive: "#16A34A",
-  negative: "#DC2626",
-  mixed: "#6b7280",
-  unclear: "#6b7280",
+  positive: "var(--positive)",
+  negative: "var(--negative)",
+  mixed: "var(--text-secondary)",
+  unclear: "var(--text-secondary)",
 };
 
 function RelatedNames({ targets, run }: { targets: PropagationTarget[]; run: PropagationRun }) {
@@ -352,15 +352,15 @@ function RelatedNames({ targets, run }: { targets: PropagationTarget[]; run: Pro
               onMouseLeave={() => setHover(null)}
             >
               <StockIcon symbol={ticker} companyName={t.label} size="sm" className="h-[18px] w-[18px] shrink-0" />
-              <span className="text-[12.5px] font-semibold leading-none text-[#1d1b1b]">{ticker}</span>
-              <span className="ml-1 text-[12px] leading-none tabular-nums text-[#374151]">
+              <span className="text-[12.5px] font-semibold leading-none text-content-primary">{ticker}</span>
+              <span className="ml-1 text-[12px] leading-none tabular-nums text-content-body">
                 {q ? fmtPrice(q.price) : tr("common.na")}
               </span>
               {chg != null && (
                 <span
                   className={cn(
                     "text-[11.5px] font-semibold leading-none tabular-nums",
-                    chg > 0 ? "text-[#16A34A]" : chg < 0 ? "text-[#DC2626]" : "text-[#6b7280]",
+                    chg > 0 ? "text-tone-positive" : chg < 0 ? "text-tone-negative" : "text-content-secondary",
                   )}
                 >
                   {chg >= 0 ? "↑" : "↓"} {Math.abs(chg).toFixed(2)}%
@@ -375,10 +375,10 @@ function RelatedNames({ targets, run }: { targets: PropagationTarget[]; run: Pro
                 <span
                   role="img"
                   aria-label={tr("dashboard.insight.calledMoveAria", { ticker, share: formatPricedIn(pricedIn, tr) })}
-                  className="block h-[10px] w-[10px] rounded-[2px]"
+                  className="block h-[10px] w-[10px] rounded-sm"
                   style={{ backgroundColor: pricedInColor(pricedIn) }}
                 />
-                <span className="w-[42px] text-right font-['Geist_Mono'] text-[10.5px] tabular-nums text-[#6b7280]">
+                <span className="w-[42px] text-right font-['Geist_Mono'] text-[10.5px] tabular-nums text-content-secondary">
                   {formatPricedIn(pricedIn, tr)}
                 </span>
               </span>
@@ -410,7 +410,7 @@ function RelatedNames({ targets, run }: { targets: PropagationTarget[]; run: Pro
                 const x = targetExplain(hover.target, run, hover.pricedIn, tr);
                 return (
                   <>
-                    <p className="line-clamp-6 text-[12px] font-medium leading-relaxed text-[#1d1b1b]">
+                    <p className="line-clamp-6 text-[12px] font-medium leading-relaxed text-content-primary">
                       {x.why}
                     </p>
                     <p
@@ -419,8 +419,8 @@ function RelatedNames({ targets, run }: { targets: PropagationTarget[]; run: Pro
                     >
                       {x.expected}
                     </p>
-                    <p className="mt-1 text-[11.5px] leading-relaxed text-[#6b7280]">{x.tape}</p>
-                    <p className="mt-1.5 line-clamp-3 font-['Geist_Mono'] text-[10px] leading-relaxed text-[#9CA3AF]">
+                    <p className="mt-1 text-[11.5px] leading-relaxed text-content-secondary">{x.tape}</p>
+                    <p className="mt-1.5 line-clamp-3 font-['Geist_Mono'] text-[10px] leading-relaxed text-content-tertiary">
                       {pricedInDetail(hover.target, tr)}
                     </p>
                   </>
@@ -659,7 +659,7 @@ export default function InsightCard() {
       {/* Masthead — the label is set like every other card heading here,
           not as a filled pill. */}
       <div className="flex items-center justify-between">
-        <span className="select-none font-sans text-[11px] font-medium tracking-[0.04em] text-[#9CA3AF]">
+        <span className="select-none font-sans text-[11px] font-medium tracking-[0.04em] text-content-tertiary">
           {t("dashboard.insight.label")}
         </span>
         <AnimatePresence mode="wait" initial={false}>
@@ -669,7 +669,7 @@ export default function InsightCard() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.14, ease: "easeOut" }}
-            className="select-none font-['Geist_Mono'] text-[11px] tracking-[0.06em] text-[#9CA3AF]"
+            className="select-none font-['Geist_Mono'] text-[11px] tracking-[0.06em] text-content-tertiary"
           >
             {live && run ? stamp(run.produced_at, locale) : ""}
           </motion.span>
@@ -691,7 +691,7 @@ export default function InsightCard() {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -16 }}
                 transition={{ type: "spring", stiffness: 460, damping: 38, mass: 0.7 }}
-                className="line-clamp-3 font-sans text-[24px] font-medium leading-[1.28] tracking-[-0.01em] text-[#1d1b1b]"
+                className="line-clamp-3 font-sans text-[24px] font-medium leading-[1.28] tracking-[-0.01em] text-content-primary"
               >
                 {headlineText}
               </motion.h2>
@@ -706,13 +706,13 @@ export default function InsightCard() {
             </div>
             {/* Centred legend: red = going the other way, blank = nothing yet,
                 blue = the called move is in the price. */}
-            <div className="mt-3 flex items-center justify-center gap-2 text-[11px] text-[#6b7280]">
+            <div className="mt-3 flex items-center justify-center gap-2 text-[11px] text-content-secondary">
               <span>{t("dashboard.insight.legendWrongWay")}</span>
               <span className="flex items-center gap-1">
                 {LEGEND_COLORS.map((color) => (
                   <span
                     key={color}
-                    className="h-[8px] w-[8px] rounded-[2px] ring-1 ring-inset ring-black/[0.07]"
+                    className="h-[8px] w-[8px] rounded-sm ring-1 ring-inset ring-black/[0.07]"
                     style={{ backgroundColor: color }}
                   />
                 ))}
@@ -728,7 +728,7 @@ export default function InsightCard() {
         {related.length > 0 && run ? (
           <RelatedNames targets={related} run={run} />
         ) : live ? (
-          <p className="mt-4 text-[12px] leading-[1.5] text-[#9CA3AF]">
+          <p className="mt-4 text-[12px] leading-[1.5] text-content-tertiary">
             {t("dashboard.insight.noCounterparty")}
           </p>
         ) : null}
@@ -743,7 +743,7 @@ export default function InsightCard() {
             disabled={!live || ordered.length < 2}
             aria-label={t("dashboard.insight.previous")}
             title={t("dashboard.insight.previous")}
-            className="glass-cta app-no-drag flex w-[42px] shrink-0 items-center justify-center disabled:pointer-events-none disabled:border-white/10 disabled:bg-[#1d1b1b]/40 disabled:text-white/75 disabled:shadow-none"
+            className="glass-cta app-no-drag flex w-[42px] shrink-0 items-center justify-center disabled:pointer-events-none disabled:border-white/10 disabled:bg-ink/40 disabled:text-white/75 disabled:shadow-none"
           >
             <ArrowLeft size={15} strokeWidth={2} />
           </button>
@@ -765,7 +765,7 @@ export default function InsightCard() {
             disabled={!live || ordered.length < 2}
             aria-label={t("dashboard.insight.next")}
             title={t("dashboard.insight.next")}
-            className="glass-cta app-no-drag flex w-[42px] shrink-0 items-center justify-center disabled:pointer-events-none disabled:border-white/10 disabled:bg-[#1d1b1b]/40 disabled:text-white/75 disabled:shadow-none"
+            className="glass-cta app-no-drag flex w-[42px] shrink-0 items-center justify-center disabled:pointer-events-none disabled:border-white/10 disabled:bg-ink/40 disabled:text-white/75 disabled:shadow-none"
           >
             <ArrowRight size={15} strokeWidth={2} />
           </button>

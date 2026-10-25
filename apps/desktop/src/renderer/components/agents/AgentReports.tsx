@@ -6,7 +6,7 @@ import type { AgentReport } from "../../../shared/agent-types";
 import { dateTime, paragraphs, relativeTime, secLinkParts, triggerKindLabel, verdictLabel, VERDICT_PILL } from "./agent-format";
 import { LABEL, SKELETON, openLink } from "./agent-ui";
 
-const TH = "px-3 py-2 font-['Geist_Mono'] text-[9.5px] font-normal uppercase tracking-[0.06em] text-[#9CA3AF]";
+const TH = "px-3 py-2 font-['Geist_Mono'] text-[9.5px] font-normal uppercase tracking-[0.06em] text-content-tertiary";
 
 function ReportCard({ report, now, focused, fresh }: { report: AgentReport; now: number; focused: boolean; fresh: boolean }) {
   const { language: lang, t } = useI18n();
@@ -18,8 +18,8 @@ function ReportCard({ report, now, focused, fresh }: { report: AgentReport; now:
         focused || fresh ? "ring-black/[0.12]" : "ring-black/[0.04]",
       )}
     >
-      <header className="flex items-center gap-2 text-[11.5px] text-[#9CA3AF]">
-        {!report.read ? <span aria-label={t("agents.unread")} className="h-1.5 w-1.5 rounded-full bg-[#1d1b1b]" /> : null}
+      <header className="flex items-center gap-2 text-[11.5px] text-content-tertiary">
+        {!report.read ? <span aria-label={t("agents.unread")} className="h-1.5 w-1.5 rounded-full bg-ink" /> : null}
         <span>{triggerKindLabel(report.trigger, lang)}</span>
         <span aria-hidden>·</span>
         <time dateTime={report.at} title={dateTime(report.at, lang)}>
@@ -28,7 +28,7 @@ function ReportCard({ report, now, focused, fresh }: { report: AgentReport; now:
         {now - Date.parse(report.at) < 2 * 86_400_000 ? <span className="ml-auto tabular-nums">{relativeTime(report.at, now, lang)}</span> : null}
       </header>
 
-      <h3 className="mt-1.5 text-[16px] font-medium leading-[1.35] text-[#1d1b1b]">{report.headline}</h3>
+      <h3 className="mt-1.5 text-[16px] font-medium leading-[1.35] text-content-primary">{report.headline}</h3>
 
       {report.readings.length > 0 ? (
         <div className="mt-4 overflow-hidden rounded-xl border border-black/[0.06]">
@@ -50,12 +50,12 @@ function ReportCard({ report, now, focused, fresh }: { report: AgentReport; now:
             <tbody>
               {report.readings.map((r, i) => (
                 <tr key={`${r.metricId}-${i}`} className={cn("align-top", i > 0 && "border-t border-black/[0.06]")}>
-                  <td className="px-3 py-2.5 text-[#1d1b1b]">{r.label}</td>
+                  <td className="px-3 py-2.5 text-content-primary">{r.label}</td>
                   <td className="px-3 py-2.5">
-                    <div className="font-medium tabular-nums text-[#1d1b1b]">{r.value}</div>
-                    {r.comparison ? <div className="mt-0.5 text-[11px] leading-[1.35] text-[#9CA3AF]">{r.comparison}</div> : null}
+                    <div className="font-medium tabular-nums text-content-primary">{r.value}</div>
+                    {r.comparison ? <div className="mt-0.5 text-[11px] leading-[1.35] text-content-tertiary">{r.comparison}</div> : null}
                   </td>
-                  <td className="px-3 py-2.5 text-[#4b5563]">{r.expectation || <span className="text-[#9CA3AF]">{t("agents.report.consensus")}</span>}</td>
+                  <td className="px-3 py-2.5 text-content-body">{r.expectation || <span className="text-content-tertiary">{t("agents.report.consensus")}</span>}</td>
                   <td className="px-3 py-2.5 text-right">
                     <span className={cn("inline-flex rounded-full px-2 py-0.5 text-[11px] font-medium", VERDICT_PILL[r.verdict])}>
                       {verdictLabel(r.verdict, lang)}
@@ -70,7 +70,7 @@ function ReportCard({ report, now, focused, fresh }: { report: AgentReport; now:
 
       <div className="mt-4 space-y-2.5">
         {paragraphs(report.summary).map((p, i) => (
-          <p key={i} className="whitespace-pre-line text-[13.5px] leading-[1.65] text-[#374151]">
+          <p key={i} className="whitespace-pre-line text-[13.5px] leading-[1.65] text-content-body">
             {secLinkParts(p).map((part, j) =>
               part.url ? (
                 <button
@@ -78,7 +78,7 @@ function ReportCard({ report, now, focused, fresh }: { report: AgentReport; now:
                   type="button"
                   onClick={() => openLink(part.url)}
                   title={part.url}
-                  className="app-no-drag inline-flex items-baseline gap-0.5 text-[#4b5563] underline decoration-[#cfcfc8] underline-offset-[3px] transition-colors hover:text-[#1d1b1b] hover:decoration-[#1d1b1b]"
+                  className="app-no-drag inline-flex items-baseline gap-0.5 text-content-body underline decoration-content-disabled underline-offset-[3px] transition-colors hover:text-content-primary hover:decoration-content-primary"
                 >
                   {part.text}
                   <ArrowUpRight className="h-3 w-3 shrink-0 self-center" strokeWidth={2} aria-hidden />
@@ -102,14 +102,14 @@ function ReportCard({ report, now, focused, fresh }: { report: AgentReport; now:
                     type="button"
                     onClick={() => openLink(s.url)}
                     title={s.url}
-                    className="app-no-drag inline-flex max-w-[280px] items-center gap-1 rounded-lg bg-black/[0.04] px-2 py-1 text-[11.5px] text-[#4b5563] transition-colors hover:bg-black/[0.06] hover:text-[#1d1b1b]"
+                    className="app-no-drag inline-flex max-w-[280px] items-center gap-1 rounded-lg bg-black/[0.04] px-2 py-1 text-[11.5px] text-content-body transition-colors hover:bg-black/[0.06] hover:text-content-primary"
                   >
                     <span className="truncate">{s.title}</span>
                     <ArrowUpRight className="h-3 w-3 shrink-0" strokeWidth={2} aria-hidden />
                   </button>
                 </li>
               ) : (
-                <li key={i} className="inline-flex max-w-[280px] items-center rounded-lg px-2 py-1 text-[11.5px] text-[#9CA3AF]">
+                <li key={i} className="inline-flex max-w-[280px] items-center rounded-lg px-2 py-1 text-[11.5px] text-content-tertiary">
                   <span className="truncate">{s.title}</span>
                 </li>
               ),
@@ -165,11 +165,11 @@ export default function AgentReports({
   if (reports.length === 0) {
     return (
       <div className="flex flex-col items-center px-6 py-14 text-center">
-        <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-black/[0.04] text-[#4b5563]">
+        <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-black/[0.04] text-content-body">
           <FileText className="h-[18px] w-[18px]" strokeWidth={1.75} aria-hidden />
         </span>
-        <p className="mt-3 text-[14px] font-medium text-[#1d1b1b]">{t("agents.reports.emptyTitle")}</p>
-        <p className="mt-1 max-w-[340px] text-[12.5px] leading-[1.5] text-[#6b7280]">
+        <p className="mt-3 text-[14px] font-medium text-content-primary">{t("agents.reports.emptyTitle")}</p>
+        <p className="mt-1 max-w-[340px] text-[12.5px] leading-[1.5] text-content-secondary">
           {t("agents.reports.emptyBody", { waiting: waitingText })}
         </p>
       </div>

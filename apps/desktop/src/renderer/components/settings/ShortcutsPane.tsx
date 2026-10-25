@@ -40,10 +40,10 @@ import { listParts } from "./i18n-helpers";
 const PLATFORM: Platform = detectPlatform();
 
 const FIELD =
-  "app-no-drag h-9 w-full rounded-xl border border-white/60 bg-white/55 pl-9 pr-3 text-[13px] font-normal text-[#1d1b1b] shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] outline-none ring-1 ring-black/[0.04] transition-colors placeholder:text-[#9CA3AF] focus:bg-white/75 [&::-webkit-search-cancel-button]:hidden";
+  "app-no-drag h-9 w-full rounded-xl border border-white/60 bg-white/55 pl-9 pr-3 text-[13px] font-normal text-content-primary shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] outline-none ring-1 ring-black/[0.04] transition-colors placeholder:text-content-tertiary focus:bg-white/75 [&::-webkit-search-cancel-button]:hidden";
 
 const BUTTON =
-  "app-no-drag btn-quiet rounded-lg border border-white/60 bg-white/55 px-3 py-1.5 text-[13px] font-normal text-[#1d1b1b] shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-black/[0.04] transition-colors hover:bg-white/75 disabled:pointer-events-none disabled:opacity-50";
+  "app-no-drag btn-quiet rounded-lg border border-white/60 bg-white/55 px-3 py-1.5 text-[13px] font-normal text-content-primary shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-black/[0.04] transition-colors hover:bg-white/75 disabled:pointer-events-none disabled:opacity-50";
 
 const REBINDABLE_GROUPS: readonly Exclude<ShortcutGroup, "In context">[] = ["Navigation", "Panels", "Presentation"];
 
@@ -149,7 +149,7 @@ function refusal(result: BindingCheck, t: TFunction): string | null {
 /** One key, drawn as a keycap. */
 function Keycap({ children }: { children: string }) {
   return (
-    <kbd className="inline-flex h-6 min-w-6 items-center justify-center rounded-md border border-black/[0.1] bg-white/70 px-1.5 font-sans text-[11.5px] font-medium text-[#1d1b1b] shadow-[inset_0_-1px_0_rgba(0,0,0,0.08)]">
+    <kbd className="inline-flex h-6 min-w-6 items-center justify-center rounded-md border border-black/[0.1] bg-white/70 px-1.5 font-sans text-[11.5px] font-medium text-content-primary shadow-[inset_0_-1px_0_rgba(0,0,0,0.08)]">
       {children}
     </kbd>
   );
@@ -217,13 +217,13 @@ function ShortcutRow({
   return (
     <div className="flex items-center justify-between gap-6 border-b border-black/[0.06] py-4">
       <div className="min-w-0">
-        <div className="text-[13.5px] font-normal text-[#1d1b1b]">{label}</div>
+        <div className="text-[13.5px] font-normal text-content-primary">{label}</div>
         {error ? (
-          <p role="alert" className="mt-1 text-[12.5px] font-normal leading-snug text-[#dc2626]">
+          <p role="alert" className="mt-1 text-[12.5px] font-normal leading-snug text-tone-negative">
             {error}
           </p>
         ) : description ? (
-          <p className="mt-1 text-[12.5px] font-normal leading-snug text-[#6b7280]">{description}</p>
+          <p className="mt-1 text-[12.5px] font-normal leading-snug text-content-secondary">{description}</p>
         ) : null}
       </div>
       <div className="flex shrink-0 items-center gap-1.5">
@@ -233,7 +233,7 @@ function ShortcutRow({
             onClick={onReset}
             aria-label={t("settings.shortcuts.resetOne", { label, keys: defaultShown })}
             title={t("settings.shortcuts.resetTo", { keys: defaultShown })}
-            className="app-no-drag rounded-lg p-1.5 text-[#6b7280] transition-colors hover:bg-black/[0.04] hover:text-[#1d1b1b]"
+            className="app-no-drag rounded-lg p-1.5 text-content-secondary transition-colors hover:bg-black/[0.04] hover:text-content-primary"
           >
             <RotateCcw className="h-3.5 w-3.5" strokeWidth={1.75} aria-hidden />
           </button>
@@ -256,10 +256,10 @@ function ShortcutRow({
             forming.length > 0 ? (
               <span className="inline-flex items-center gap-1">
                 <Keycaps labels={forming} />
-                <span className="px-0.5 text-[12.5px] text-[#9CA3AF]">…</span>
+                <span className="px-0.5 text-[12.5px] text-content-tertiary">…</span>
               </span>
             ) : (
-              <span className="px-1 text-[12.5px] font-normal text-[#6b7280]">{t("settings.shortcuts.pressKeys")}</span>
+              <span className="px-1 text-[12.5px] font-normal text-content-secondary">{t("settings.shortcuts.pressKeys")}</span>
             )
           ) : (
             <Keycaps labels={comboLabels(keys, PLATFORM)} />
@@ -383,13 +383,13 @@ export default function ShortcutsPane() {
   return (
     <>
       <SettingsSection title={t("settings.section.shortcuts")}>
-        <p className="mt-1 text-[12.5px] font-normal leading-snug text-[#6b7280]">
+        <p className="mt-1 text-[12.5px] font-normal leading-snug text-content-secondary">
           {t("settings.shortcuts.intro", { mod: PLATFORM === "mac" ? "⌘" : "Ctrl" })}
         </p>
         <div className="mt-4 flex items-center gap-3">
           <div className="relative min-w-0 flex-1">
             <Search
-              className="pointer-events-none absolute left-3 top-1/2 h-[15px] w-[15px] -translate-y-1/2 text-[#9CA3AF]"
+              className="pointer-events-none absolute left-3 top-1/2 h-[15px] w-[15px] -translate-y-1/2 text-content-tertiary"
               strokeWidth={1.75}
               aria-hidden
             />
@@ -416,7 +416,7 @@ export default function ShortcutsPane() {
           </button>
         </div>
         {nothingShown ? (
-          <div className="pt-6 text-[12.5px] font-normal text-[#9CA3AF]">{t("settings.shortcuts.empty")}</div>
+          <div className="pt-6 text-[12.5px] font-normal text-content-tertiary">{t("settings.shortcuts.empty")}</div>
         ) : null}
       </SettingsSection>
 
@@ -448,11 +448,11 @@ export default function ShortcutsPane() {
 
       {contextual.length > 0 ? (
         <SettingsSection title={t(GROUP_WORDS["In context"])}>
-          <p className="mt-1 text-[12.5px] font-normal leading-snug text-[#6b7280]">{t("settings.shortcuts.contextIntro")}</p>
+          <p className="mt-1 text-[12.5px] font-normal leading-snug text-content-secondary">{t("settings.shortcuts.contextIntro")}</p>
           {contextual.map((c) => (
             <SettingsRow key={c.id} label={t(CONTEXT_WORDS[c.id])}>
               {c.display ? (
-                <span className="text-[12.5px] font-normal text-[#6b7280]">{t("settings.shortcuts.ctx.shiftClick")}</span>
+                <span className="text-[12.5px] font-normal text-content-secondary">{t("settings.shortcuts.ctx.shiftClick")}</span>
               ) : (
                 // The joining word ("or", "oder", "または") and where it goes are the language's.
                 <span className="inline-flex items-center gap-2">
@@ -460,7 +460,7 @@ export default function ShortcutsPane() {
                     "item" in part ? (
                       <Keycaps key={`k-${i}`} labels={comboLabels(c.keys[part.item]!, PLATFORM)} />
                     ) : joiner(part.literal) ? (
-                      <span key={`l-${i}`} className="text-[12px] text-[#9CA3AF]">
+                      <span key={`l-${i}`} className="text-[12px] text-content-tertiary">
                         {joiner(part.literal)}
                       </span>
                     ) : null,

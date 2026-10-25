@@ -68,7 +68,7 @@ const QUOTES: Record<string, number> = { NVDA: 182.4, INTC: 21.15, AAPL: 244.9 }
 };
 
 createRoot(document.getElementById("root")!).render(
-  <div className="flex min-h-screen items-center justify-center bg-[#EAEAE6] p-10">
+  <div className="flex min-h-screen items-center justify-center bg-surface-0 p-10">
     <div className="w-[380px] shrink-0">
       <PortfolioCard masked={false} onToggleMasked={() => {}} />
     </div>

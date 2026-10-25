@@ -52,14 +52,14 @@ export default function TimeframeControls({
               "app-no-drag relative pb-1 transition-colors",
               compact ? "text-[12px]" : "text-[13.5px]",
               isActive
-                ? "text-[#1d1b1b]"
+                ? "text-content-primary"
                 : "text-[rgb(156,163,175)] hover:text-[rgb(107,114,128)]",
             )}
           >
             {t(TIMEFRAME_KEY[tf])}
             {isActive ? (
               // Flat, square-edged rule — no border rounding artifacts
-              <span aria-hidden className="absolute inset-x-0 bottom-0 h-px bg-[#1d1b1b]" />
+              <span aria-hidden className="absolute inset-x-0 bottom-0 h-px bg-ink" />
             ) : null}
           </button>
         );

@@ -429,7 +429,7 @@ if (stockParam === "NONE") {
 
 function Heading() {
   const t = useT();
-  return <span className="font-baskerville text-[30px] text-[#1d1b1b]">{t("stocktab.tab.label")}</span>;
+  return <span className="font-baskerville text-[30px] text-content-primary">{t("stocktab.tab.label")}</span>;
 }
 
 createRoot(document.getElementById("root")!).render(

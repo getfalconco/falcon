@@ -137,7 +137,7 @@ const PANEL_FADE = {
 
 /** The rail's group headings, set like every other masthead in the app. */
 const GROUP_LABEL =
-  "select-none px-3 pb-1.5 pt-4 font-sans text-[10.5px] font-medium tracking-[0.08em] text-[#9CA3AF]";
+  "select-none px-3 pb-1.5 pt-4 font-sans text-[10.5px] font-medium tracking-[0.08em] text-content-tertiary";
 
 const ROW =
   "app-no-drag flex w-full items-center gap-2.5 rounded-xl px-3 py-[7px] text-left text-[13px] font-normal transition-colors duration-150";
@@ -252,7 +252,7 @@ export default function SettingsModal({
             >
               <div className="relative shrink-0">
                 <Search
-                  className="pointer-events-none absolute left-3 top-1/2 h-[15px] w-[15px] -translate-y-1/2 text-[#9CA3AF]"
+                  className="pointer-events-none absolute left-3 top-1/2 h-[15px] w-[15px] -translate-y-1/2 text-content-tertiary"
                   strokeWidth={1.75}
                   aria-hidden
                 />
@@ -263,7 +263,7 @@ export default function SettingsModal({
                   onChange={(e) => setQuery(e.target.value)}
                   placeholder={t("settings.search")}
                   aria-label={t("settings.searchLabel")}
-                  className="app-no-drag h-9 w-full rounded-xl border border-white/60 bg-white/55 pl-9 pr-3 text-[13px] font-normal text-[#1d1b1b] shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] outline-none ring-1 ring-black/[0.04] transition-colors placeholder:text-[#9CA3AF] focus:bg-white/75 [&::-webkit-search-cancel-button]:hidden"
+                  className="app-no-drag h-9 w-full rounded-xl border border-white/60 bg-white/55 pl-9 pr-3 text-[13px] font-normal text-content-primary shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] outline-none ring-1 ring-black/[0.04] transition-colors placeholder:text-content-tertiary focus:bg-white/75 [&::-webkit-search-cancel-button]:hidden"
                 />
               </div>
 
@@ -281,12 +281,12 @@ export default function SettingsModal({
                         className={cn(
                           ROW,
                           on
-                            ? "bg-white/75 text-[#1d1b1b] shadow-[inset_0_1px_0_rgba(255,255,255,0.8)] ring-1 ring-black/[0.06]"
-                            : "text-[#1d1b1b]/90 hover:bg-[#1d1b1b]/[0.06]",
+                            ? "bg-white/75 text-content-primary shadow-[inset_0_1px_0_rgba(255,255,255,0.8)] ring-1 ring-black/[0.06]"
+                            : "text-content-primary/90 hover:bg-ink/[0.06]",
                         )}
                       >
                         <Icon
-                          className={cn("h-[15px] w-[15px] shrink-0", on ? "text-[#1d1b1b]" : "text-[#6b7280]")}
+                          className={cn("h-[15px] w-[15px] shrink-0", on ? "text-content-primary" : "text-content-secondary")}
                           strokeWidth={1.75}
                           aria-hidden
                         />
@@ -298,7 +298,7 @@ export default function SettingsModal({
               ))}
 
               {shown.length === 0 ? (
-                <div className="px-3 pt-4 text-[12.5px] font-normal text-[#9CA3AF]">{t("settings.searchEmpty")}</div>
+                <div className="px-3 pt-4 text-[12.5px] font-normal text-content-tertiary">{t("settings.searchEmpty")}</div>
               ) : null}
             </nav>
 
@@ -330,7 +330,7 @@ export default function SettingsModal({
                 type="button"
                 onClick={onClose}
                 aria-label={t("settings.close")}
-                className="app-no-drag absolute right-4 top-4 rounded-lg p-1.5 text-[#6b7280] transition-colors hover:bg-black/[0.04] hover:text-[#1d1b1b]"
+                className="app-no-drag absolute right-4 top-4 rounded-lg p-1.5 text-content-secondary transition-colors hover:bg-black/[0.04] hover:text-content-primary"
               >
                 <X className="h-4 w-4" strokeWidth={1.75} aria-hidden />
               </button>

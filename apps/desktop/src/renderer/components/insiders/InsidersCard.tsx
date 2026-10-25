@@ -26,7 +26,7 @@ function Skeleton() {
   );
 }
 
-function Quiet({ children, tone = "text-[#9CA3AF]" }: { children: ReactNode; tone?: string }) {
+function Quiet({ children, tone = "text-content-tertiary" }: { children: ReactNode; tone?: string }) {
   return <p className={cn("flex flex-1 items-center justify-center px-4 text-center text-[13px] leading-[1.5]", tone)}>{children}</p>;
 }
 
@@ -43,7 +43,7 @@ function SecLink({ url, label, title }: { url: string | null; label: string; tit
       }}
       title={title}
       aria-label={title}
-      className="app-no-drag shrink-0 text-[#9CA3AF] underline-offset-2 outline-none hover:text-[#4b5563] hover:underline focus-visible:underline"
+      className="app-no-drag shrink-0 text-content-tertiary underline-offset-2 outline-none hover:text-content-body hover:underline focus-visible:underline"
     >
       {label}
     </button>
@@ -55,7 +55,7 @@ function Detail({ event }: { event: InsiderEvent }) {
   const { say, lang, t } = useSay();
   const path = pathText(event, say);
   return (
-    <div className="space-y-1 pb-1.5 pl-[68px] pr-1 text-[11.5px] leading-[1.45] text-[#6b7280]">
+    <div className="space-y-1 pb-1.5 pl-[68px] pr-1 text-[11.5px] leading-[1.45] text-content-secondary">
       {path && event.via ? (
         <p className="flex min-w-0 items-center gap-1.5">
           <span className="truncate">{path}</span>
@@ -104,7 +104,7 @@ export default function InsidersCard({ onDuplicate, onRemove }: Props) {
   let body: ReactNode;
   if (none) body = <Quiet>{t("insiders.card.noNames")}</Quiet>;
   else if (!answer && state.error !== null) {
-    body = <Quiet tone="text-[#6b7280]">{state.error === "restart" ? t("insiders.error.restart") : t("insiders.card.failed")}</Quiet>;
+    body = <Quiet tone="text-content-secondary">{state.error === "restart" ? t("insiders.error.restart") : t("insiders.card.failed")}</Quiet>;
   } else if (!answer) body = <Skeleton />;
   else if (events.length === 0 && answer.pending > 0) {
     body = <Quiet>{answer.pending === 1 ? t("insiders.card.readingOne") : t("insiders.card.reading", { count: answer.pending })}</Quiet>;
@@ -126,9 +126,9 @@ export default function InsidersCard({ onDuplicate, onRemove }: Props) {
                 title={path ? `${title}\n${path}` : title}
                 className="app-no-drag flex w-full min-w-0 items-baseline gap-3 rounded-xl px-2 py-2 text-left outline-none focus-visible:bg-black/[0.05]"
               >
-                <span className="w-12 shrink-0 truncate text-[12.5px] font-medium text-[#1d1b1b]">{event.ticker}</span>
-                <span className={cn("min-w-0 flex-1 text-[12.5px] leading-[1.4] text-[#1d1b1b]", !open && "truncate")}>{title}</span>
-                <span className="shrink-0 text-[12px] tabular-nums text-[#9CA3AF]">{eventDate(event, lang)}</span>
+                <span className="w-12 shrink-0 truncate text-[12.5px] font-medium text-content-primary">{event.ticker}</span>
+                <span className={cn("min-w-0 flex-1 text-[12.5px] leading-[1.4] text-content-primary", !open && "truncate")}>{title}</span>
+                <span className="shrink-0 text-[12px] tabular-nums text-content-tertiary">{eventDate(event, lang)}</span>
               </button>
               {open ? <Detail event={event} /> : null}
             </li>
@@ -140,7 +140,7 @@ export default function InsidersCard({ onDuplicate, onRemove }: Props) {
 
   const footer =
     answer && !none ? (
-      <p className="shrink-0 pt-3 text-[11px] leading-[1.4] text-[#9CA3AF]">
+      <p className="shrink-0 pt-3 text-[11px] leading-[1.4] text-content-tertiary">
         {t("insiders.card.source")}
         {answer.pending > 0 && events.length > 0 ? ` · ${t("insiders.card.readingMore", { count: answer.pending })}` : ""}
       </p>

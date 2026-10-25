@@ -181,27 +181,27 @@ export default function AgentDetail({
     return (
       <div className="flex h-full min-h-0 flex-col">
         <div className="flex shrink-0 items-center gap-3 border-b border-black/[0.06] px-7 py-4">
-          <h2 className="truncate text-[15px] font-medium text-[#1d1b1b]">{t("agents.detail.editTitle", { name: agent.name })}</h2>
+          <h2 className="truncate text-[15px] font-medium text-content-primary">{t("agents.detail.editTitle", { name: agent.name })}</h2>
         </div>
         <div className="scrollbar-meridian min-h-0 flex-1 overflow-y-auto px-7 py-6">
           <div className="mx-auto max-w-[620px] space-y-6">
             <section className="space-y-2">
-              <h3 className="select-none text-[11px] font-medium tracking-[0.04em] text-[#9CA3AF]">{t("agents.yourBrief")}</h3>
+              <h3 className="select-none text-[11px] font-medium tracking-[0.04em] text-content-tertiary">{t("agents.yourBrief")}</h3>
               <textarea
                 value={editing.brief}
                 onChange={(e) => setEditing({ ...editing, brief: e.target.value })}
                 rows={3}
                 aria-label={t("agents.detail.briefAria")}
-                className="app-no-drag w-full resize-none rounded-xl border border-white/60 bg-white/55 px-3 py-2 text-[13px] leading-[1.55] text-[#1d1b1b] shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] outline-none ring-1 ring-black/[0.04] focus:bg-white/75"
+                className="app-no-drag w-full resize-none rounded-xl border border-white/60 bg-white/55 px-3 py-2 text-[13px] leading-[1.55] text-content-primary shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] outline-none ring-1 ring-black/[0.04] focus:bg-white/75"
               />
-              <p className="text-[11.5px] text-[#9CA3AF]">{t("agents.detail.briefKept")}</p>
+              <p className="text-[11.5px] text-content-tertiary">{t("agents.detail.briefKept")}</p>
             </section>
             <AgentForm draft={editing} onChange={setEditing} />
           </div>
         </div>
         <div className="flex shrink-0 items-center justify-end gap-3 border-t border-black/[0.06] px-7 py-3.5">
-          {problems.length > 0 ? <p className="mr-auto truncate text-[12px] text-[#B45309]">{problems[0]}</p> : null}
-          {note?.tone === "error" ? <p className="mr-auto truncate text-[12px] text-[#DC2626]">{note.text}</p> : null}
+          {problems.length > 0 ? <p className="mr-auto truncate text-[12px] text-tone-warning">{problems[0]}</p> : null}
+          {note?.tone === "error" ? <p className="mr-auto truncate text-[12px] text-tone-negative">{note.text}</p> : null}
           <button type="button" onClick={() => setEditing(null)} className={BUTTON}>
             {t("agents.cancel")}
           </button>
@@ -225,17 +225,17 @@ export default function AgentDetail({
         <div className="flex items-start gap-4">
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-2">
-              <h2 className="truncate text-[19px] font-medium text-[#1d1b1b]">{agent.name}</h2>
+              <h2 className="truncate text-[19px] font-medium text-content-primary">{agent.name}</h2>
               {agent.ticker ? <TickerChip ticker={agent.ticker} /> : null}
             </div>
-            <div className="mt-1 flex items-center gap-2 text-[12.5px] text-[#6b7280]">
+            <div className="mt-1 flex items-center gap-2 text-[12.5px] text-content-secondary">
               <StatusDot status={agent.status} />
               <span className="shrink-0">{statusLabel(agent.status, lang)}</span>
-              <span aria-hidden className="text-[#9CA3AF]">·</span>
+              <span aria-hidden className="text-content-tertiary">·</span>
               {agent.companyName ? (
                 <>
                   <span className="min-w-[32px] shrink-[4] truncate" title={agent.companyName}>{agent.companyName}</span>
-                  <span aria-hidden className="text-[#9CA3AF]">·</span>
+                  <span aria-hidden className="text-content-tertiary">·</span>
                 </>
               ) : null}
               <span className="min-w-0 max-w-[70%] shrink-0 truncate">
@@ -288,9 +288,9 @@ export default function AgentDetail({
                         setTried(false);
                         setEditing(draftOf(agent));
                       }}
-                      className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-left text-[13px] text-[#1d1b1b] transition-colors hover:bg-[#1d1b1b]/[0.07]"
+                      className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-left text-[13px] text-content-primary transition-colors hover:bg-ink/[0.07]"
                     >
-                      <Pencil className="h-[15px] w-[15px] text-[#4b5563]" strokeWidth={1.75} aria-hidden />
+                      <Pencil className="h-[15px] w-[15px] text-content-body" strokeWidth={1.75} aria-hidden />
                       {t("agents.detail.edit")}
                     </button>
                     <div aria-hidden className="mx-2 my-1 h-px bg-black/[0.06]" />
@@ -301,7 +301,7 @@ export default function AgentDetail({
                         setMenuOpen(false);
                         setConfirmDelete(true);
                       }}
-                      className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-left text-[13px] text-[#DC2626] transition-colors hover:bg-[#DC2626]/[0.10]"
+                      className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-left text-[13px] text-tone-negative transition-colors hover:bg-tone-negative-fill/[0.10]"
                     >
                       <Trash2 className="h-[15px] w-[15px]" strokeWidth={1.75} aria-hidden />
                       {t("agents.detail.delete")}
@@ -323,8 +323,8 @@ export default function AgentDetail({
               transition={{ duration: 0.16, ease: "easeOut" }}
               className="overflow-hidden"
             >
-              <div role="alertdialog" aria-label={t("agents.detail.delete")} className="mt-3 flex items-center gap-3 rounded-2xl bg-[#FEE2E2] px-4 py-2.5">
-                <p className="min-w-0 flex-1 text-[12.5px] text-[#991B1B]">{t("agents.detail.confirmDelete", { name: agent.name })}</p>
+              <div role="alertdialog" aria-label={t("agents.detail.delete")} className="mt-3 flex items-center gap-3 rounded-2xl bg-tone-negative-soft px-4 py-2.5">
+                <p className="min-w-0 flex-1 text-[12.5px] text-tone-negative">{t("agents.detail.confirmDelete", { name: agent.name })}</p>
                 <button type="button" autoFocus onClick={() => setConfirmDelete(false)} className={BUTTON}>
                   {t("agents.cancel")}
                 </button>
@@ -332,7 +332,7 @@ export default function AgentDetail({
                   type="button"
                   onClick={() => void doDelete()}
                   disabled={busy === "delete"}
-                  className="app-no-drag rounded-lg bg-[#DC2626] px-3 py-1.5 text-[12.5px] font-medium text-white transition-colors hover:bg-[#B91C1C] disabled:opacity-60"
+                  className="app-no-drag rounded-lg bg-tone-negative-solid px-3 py-1.5 text-[12.5px] font-medium text-white transition-colors hover:bg-tone-negative-solid/90 disabled:opacity-60"
                 >
                   {busy === "delete" ? t("agents.detail.deleting") : t("agents.detail.deleteShort")}
                 </button>
@@ -342,7 +342,7 @@ export default function AgentDetail({
         </AnimatePresence>
 
         {note ? (
-          <p role="status" className={cn("mt-2 text-[12px]", note.tone === "error" ? "text-[#DC2626]" : "text-[#6b7280]")}>
+          <p role="status" className={cn("mt-2 text-[12px]", note.tone === "error" ? "text-tone-negative" : "text-content-secondary")}>
             {note.text}
           </p>
         ) : null}
@@ -361,16 +361,16 @@ export default function AgentDetail({
                 onClick={() => onView(v.id)}
                 className={cn(
                   "app-no-drag relative flex items-center gap-1.5 pb-2.5 text-[13px] transition-colors",
-                  on ? "text-[#1d1b1b]" : "text-[#9CA3AF] hover:text-[#6b7280]",
+                  on ? "text-content-primary" : "text-content-tertiary hover:text-content-secondary",
                 )}
               >
                 {t(v.label)}
                 {v.id === "reports" && agent.unread > 0 ? (
-                  <span aria-label={sayCount(lang, "agents.unreadCount", agent.unread)} className="h-1.5 w-1.5 rounded-full bg-[#1d1b1b]" />
+                  <span aria-label={sayCount(lang, "agents.unreadCount", agent.unread)} className="h-1.5 w-1.5 rounded-full bg-ink" />
                 ) : count > 0 ? (
-                  <span className="text-[11px] tabular-nums text-[#9CA3AF]">{count}</span>
+                  <span className="text-[11px] tabular-nums text-content-tertiary">{count}</span>
                 ) : null}
-                {on ? <motion.span layoutId="agent-view-rule" aria-hidden className="absolute inset-x-0 -bottom-px h-px bg-[#1d1b1b]" /> : null}
+                {on ? <motion.span layoutId="agent-view-rule" aria-hidden className="absolute inset-x-0 -bottom-px h-px bg-ink" /> : null}
               </button>
             );
           })}
@@ -423,8 +423,8 @@ function DetailError({ error, id }: { error: string; id: string }) {
   const t = useT();
   return (
     <div className="space-y-2 py-8 text-center">
-      <p className="text-[13px] text-[#6b7280]">{t("agents.detail.loadFailed")}</p>
-      <p className="text-[12px] text-[#9CA3AF]">{error}</p>
+      <p className="text-[13px] text-content-secondary">{t("agents.detail.loadFailed")}</p>
+      <p className="text-[12px] text-content-tertiary">{error}</p>
       <button type="button" onClick={() => void loadAgentDetail(id)} className={BUTTON}>
         {t("agents.tryAgain")}
       </button>

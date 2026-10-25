@@ -514,8 +514,8 @@ try {
 if (params.get("open") === "1") setTimeout(() => openBriefing("shortcut"), 150);
 
 createRoot(document.getElementById("root")!).render(
-  <div className="min-h-screen bg-[#EAEAE6] p-8">
-    <div className="font-sans text-[12px] text-[#6b7280]">dashboard stays mounted behind the popup (Shift+M, or ?open=1)</div>
+  <div className="min-h-screen bg-surface-0 p-8">
+    <div className="font-sans text-[12px] text-content-secondary">dashboard stays mounted behind the popup (Shift+M, or ?open=1)</div>
     <BriefingHost masked={masked} view="dashboard" />
   </div>,
 );

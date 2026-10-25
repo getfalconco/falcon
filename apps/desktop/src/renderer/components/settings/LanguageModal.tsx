@@ -146,14 +146,14 @@ export default function LanguageModal({ open, onClose }: { open: boolean; onClos
             {...PANEL_FADE}
           >
             <div className="flex shrink-0 items-center justify-between px-6 pb-4 pt-5">
-              <h2 id="language-modal-title" className="text-[17px] font-medium text-[#1d1b1b]">
+              <h2 id="language-modal-title" className="text-[17px] font-medium text-content-primary">
                 {t("language.title")}
               </h2>
               <button
                 type="button"
                 onClick={onClose}
                 aria-label={t("common.close")}
-                className="app-no-drag -mr-1.5 rounded-lg p-1.5 text-[#6b7280] transition-colors hover:bg-black/[0.04] hover:text-[#1d1b1b]"
+                className="app-no-drag -mr-1.5 rounded-lg p-1.5 text-content-secondary transition-colors hover:bg-black/[0.04] hover:text-content-primary"
               >
                 <X className="h-4 w-4" strokeWidth={1.75} aria-hidden />
               </button>
@@ -161,7 +161,7 @@ export default function LanguageModal({ open, onClose }: { open: boolean; onClos
 
             <div className="relative shrink-0 px-6">
               <Search
-                className="pointer-events-none absolute left-9 top-1/2 h-[15px] w-[15px] -translate-y-1/2 text-[#9CA3AF]"
+                className="pointer-events-none absolute left-9 top-1/2 h-[15px] w-[15px] -translate-y-1/2 text-content-tertiary"
                 strokeWidth={1.75}
                 aria-hidden
               />
@@ -175,7 +175,7 @@ export default function LanguageModal({ open, onClose }: { open: boolean; onClos
                 aria-label={t("language.search")}
                 aria-controls="language-modal-list"
                 aria-activedescendant={shown[active] ? `language-option-${shown[active].code}` : undefined}
-                className="app-no-drag h-10 w-full rounded-xl border border-white/60 bg-white/55 pl-9 pr-3 text-[13.5px] font-normal text-[#1d1b1b] shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] outline-none ring-1 ring-black/[0.04] transition-colors placeholder:text-[#9CA3AF] focus:bg-white/75 [&::-webkit-search-cancel-button]:hidden"
+                className="app-no-drag h-10 w-full rounded-xl border border-white/60 bg-white/55 pl-9 pr-3 text-[13.5px] font-normal text-content-primary shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] outline-none ring-1 ring-black/[0.04] transition-colors placeholder:text-content-tertiary focus:bg-white/75 [&::-webkit-search-cancel-button]:hidden"
               />
             </div>
 
@@ -206,7 +206,7 @@ export default function LanguageModal({ open, onClose }: { open: boolean; onClos
                         // The current language is lit like the rail's current row.
                         // The keyboard's place and the hover are black at 6%, not
                         // the ink tint: the dark theme reads a button carrying
-                        // bg-[#1d1b1b] as a solid call to action and inverts it.
+                        // bg-ink as a solid call to action and inverts it.
                         className={cn(
                           "app-no-drag flex min-w-0 flex-col items-start rounded-xl px-3.5 py-2.5 text-left transition-colors duration-150",
                           on
@@ -217,15 +217,15 @@ export default function LanguageModal({ open, onClose }: { open: boolean; onClos
                         )}
                       >
                         <span className="flex w-full min-w-0 items-center gap-1.5">
-                          <span className="truncate text-[13.5px] font-medium text-[#1d1b1b]">{l.nativeName}</span>
+                          <span className="truncate text-[13.5px] font-medium text-content-primary">{l.nativeName}</span>
                           {on ? (
                             <>
-                              <Check className="h-3.5 w-3.5 shrink-0 text-[#1d1b1b]" strokeWidth={2.25} aria-hidden />
+                              <Check className="h-3.5 w-3.5 shrink-0 text-content-primary" strokeWidth={2.25} aria-hidden />
                               <span className="sr-only">{t("language.current")}</span>
                             </>
                           ) : null}
                         </span>
-                        <span lang="en" className="mt-0.5 w-full truncate text-[12px] font-normal text-[#6b7280]">
+                        <span lang="en" className="mt-0.5 w-full truncate text-[12px] font-normal text-content-secondary">
                           {l.englishName}
                         </span>
                       </button>
@@ -233,7 +233,7 @@ export default function LanguageModal({ open, onClose }: { open: boolean; onClos
                   })}
                 </div>
               ) : (
-                <div className="px-2 py-10 text-center text-[13px] font-normal text-[#9CA3AF]">
+                <div className="px-2 py-10 text-center text-[13px] font-normal text-content-tertiary">
                   {t("language.empty", { query: query.trim() })}
                 </div>
               )}

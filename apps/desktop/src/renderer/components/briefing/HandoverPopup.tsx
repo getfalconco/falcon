@@ -36,7 +36,7 @@ const POPUP_SPRING = { type: "spring", stiffness: 260, damping: 28, mass: 0.9 } 
 const SKELETON_BAR = "animate-pulse rounded bg-black/[0.06] motion-reduce:animate-none";
 
 const LINK_CLASS =
-  "app-no-drag shrink-0 font-sans text-[11.5px] font-medium text-[#6b7280] underline-offset-2 transition-colors hover:text-[#1d1b1b] hover:underline focus-visible:text-[#1d1b1b] focus-visible:underline focus-visible:outline-none";
+  "app-no-drag shrink-0 font-sans text-[11.5px] font-medium text-content-secondary underline-offset-2 transition-colors hover:text-content-primary hover:underline focus-visible:text-content-primary focus-visible:underline focus-visible:outline-none";
 
 function openArticle(url: string) {
   if (/^https?:\/\//i.test(url)) void window.meridian?.openExternal(url);
@@ -56,18 +56,18 @@ function HandoverLine({ item, onOpenStock }: { item: HandoverItem; onOpenStock: 
   return (
     <li className="py-2">
       <div className="flex items-baseline gap-3">
-        <p className={cn("min-w-0 flex-1 text-[13.5px] leading-[1.5] text-[#1d1b1b]", !expanded && "truncate")}>
+        <p className={cn("min-w-0 flex-1 text-[13.5px] leading-[1.5] text-content-primary", !expanded && "truncate")}>
           {item.subject !== null &&
             (item.ticker !== null ? (
               <button
                 type="button"
                 onClick={() => onOpenStock(item.ticker!)}
-                className={cn(MONO_CLASS, "app-no-drag mr-2 text-[12px] font-medium text-[#1d1b1b] hover:underline focus-visible:underline focus-visible:outline-none")}
+                className={cn(MONO_CLASS, "app-no-drag mr-2 text-[12px] font-medium text-content-primary hover:underline focus-visible:underline focus-visible:outline-none")}
               >
                 {item.subject}
               </button>
             ) : (
-              <span className={cn(MONO_CLASS, "mr-2 text-[12px] font-medium text-[#4b5563]")}>{item.subject}</span>
+              <span className={cn(MONO_CLASS, "mr-2 text-[12px] font-medium text-content-body")}>{item.subject}</span>
             ))}
           <span>{item.summary}</span>
         </p>
@@ -78,9 +78,9 @@ function HandoverLine({ item, onOpenStock }: { item: HandoverItem; onOpenStock: 
         )}
       </div>
       {expanded && (
-        <div id={detailId} className="mt-1.5 space-y-1 border-l-2 border-black/[0.06] pl-3 text-[12.5px] leading-[1.55] text-[#4b5563]">
+        <div id={detailId} className="mt-1.5 space-y-1 border-l-2 border-black/[0.06] pl-3 text-[12.5px] leading-[1.55] text-content-body">
           {item.detail !== null && <p>{item.detail}</p>}
-          {item.meaning !== null && <p className="text-[#1d1b1b]">{item.meaning}</p>}
+          {item.meaning !== null && <p className="text-content-primary">{item.meaning}</p>}
           {item.url !== null && (
             <button type="button" onClick={() => openArticle(item.url!)} className={LINK_CLASS}>
               {t("briefing.handover.readSource")}
@@ -106,7 +106,7 @@ function FactLine({ item, onOpenStock }: { item: HandoverItem; onOpenStock: (tic
         <button
           type="button"
           onClick={() => onOpenStock(item.ticker!)}
-          className="app-no-drag shrink-0 text-[12px] font-medium text-[#4b5563] hover:text-[#1d1b1b] hover:underline focus-visible:underline focus-visible:outline-none"
+          className="app-no-drag shrink-0 text-[12px] font-medium text-content-body hover:text-content-primary hover:underline focus-visible:underline focus-visible:outline-none"
         >
           {item.subject}
         </button>
@@ -116,12 +116,12 @@ function FactLine({ item, onOpenStock }: { item: HandoverItem; onOpenStock: (tic
           type="button"
           onClick={() => openArticle(item.url!)}
           title={hint}
-          className="app-no-drag min-w-0 flex-1 truncate text-left text-[13.5px] leading-[1.5] text-[#1d1b1b] underline-offset-2 hover:underline focus-visible:underline focus-visible:outline-none"
+          className="app-no-drag min-w-0 flex-1 truncate text-left text-[13.5px] leading-[1.5] text-content-primary underline-offset-2 hover:underline focus-visible:underline focus-visible:outline-none"
         >
           {item.summary}
         </button>
       ) : (
-        <p title={hint} className="min-w-0 flex-1 truncate text-[13.5px] leading-[1.5] text-[#1d1b1b]">
+        <p title={hint} className="min-w-0 flex-1 truncate text-[13.5px] leading-[1.5] text-content-primary">
           {item.summary}
         </p>
       )}
@@ -182,13 +182,13 @@ function HandoverContent({ titleId, masked, onClose }: { titleId: string; masked
   if (view === null && status === "unsupported") {
     body = (
       <Centred>
-        <p className="text-[13px] text-[#6b7280]">{t("briefing.handover.restart")}</p>
+        <p className="text-[13px] text-content-secondary">{t("briefing.handover.restart")}</p>
       </Centred>
     );
   } else if (view === null && status === "error") {
     body = (
       <Centred>
-        <p className="text-[14px] text-[#1d1b1b]">{t("briefing.handover.error")}</p>
+        <p className="text-[14px] text-content-primary">{t("briefing.handover.error")}</p>
         <button type="button" onClick={() => void refreshBriefing()} className="glass-cta app-no-drag mt-1 px-3.5 py-1.5 font-sans text-[12px] font-medium">
           {t("briefing.tryAgain")}
         </button>
@@ -207,7 +207,7 @@ function HandoverContent({ titleId, masked, onClose }: { titleId: string; masked
   } else if (view.empty) {
     body = (
       <Centred>
-        <p className="text-[13.5px] text-[#4b5563]">{t("briefing.handover.quiet")}</p>
+        <p className="text-[13.5px] text-content-body">{t("briefing.handover.quiet")}</p>
       </Centred>
     );
   } else {
@@ -225,21 +225,21 @@ function HandoverContent({ titleId, masked, onClose }: { titleId: string; masked
   return (
     <>
       <header className="flex items-start gap-4">
-        <h2 id={titleId} className="min-w-0 flex-1 font-baskerville text-[21px] leading-[1.25] text-[#1d1b1b]">
+        <h2 id={titleId} className="min-w-0 flex-1 font-baskerville text-[21px] leading-[1.25] text-content-primary">
           {view?.intro ?? t("briefing.handover.intro")}
         </h2>
         <button
           type="button"
           onClick={onClose}
           aria-label={t("common.close")}
-          className="app-no-drag -mr-1 -mt-1 flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[#9CA3AF] transition-colors hover:bg-black/[0.05] hover:text-[#1d1b1b] focus-visible:bg-black/[0.05] focus-visible:outline-none"
+          className="app-no-drag -mr-1 -mt-1 flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-content-tertiary transition-colors hover:bg-black/[0.05] hover:text-content-primary focus-visible:bg-black/[0.05] focus-visible:outline-none"
         >
           <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" aria-hidden>
             <path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
           </svg>
         </button>
       </header>
-      {view?.lead && <p className="mt-2 text-[13px] leading-[1.55] text-[#4b5563]">{view.lead}</p>}
+      {view?.lead && <p className="mt-2 text-[13px] leading-[1.55] text-content-body">{view.lead}</p>}
 
       <div className="scrollbar-meridian mt-5 min-h-0 flex-1 overflow-y-auto pr-1">{body}</div>
 
@@ -251,9 +251,9 @@ function HandoverContent({ titleId, masked, onClose }: { titleId: string; masked
 
       {/* The design's bottom row: the time on the left, the mark in the middle, the date on the right. */}
       <footer className="mt-4 grid grid-cols-[1fr_auto_1fr] items-center border-t border-black/[0.06] pt-3.5">
-        <span className={cn(MONO_CLASS, "justify-self-start text-[12px] text-[#4b5563]")}>{view?.time ?? etTimeLabel(now, text)}</span>
+        <span className={cn(MONO_CLASS, "justify-self-start text-[12px] text-content-body")}>{view?.time ?? etTimeLabel(now, text)}</span>
         <BrandLogo className="h-6 w-6 select-none opacity-30" draggable={false} />
-        <span className={cn(MONO_CLASS, "justify-self-end text-[12px] text-[#4b5563]")}>{view?.date || etDateLabel(now, text)}</span>
+        <span className={cn(MONO_CLASS, "justify-self-end text-[12px] text-content-body")}>{view?.date || etDateLabel(now, text)}</span>
       </footer>
     </>
   );

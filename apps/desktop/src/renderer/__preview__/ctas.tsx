@@ -15,13 +15,13 @@ if (new URLSearchParams(location.search).get("ctas") === "on") {
 const count = () => ((window as any).__clicks += 1);
 
 createRoot(document.getElementById("root")!).render(
-  <div className="flex min-h-screen items-center justify-center bg-[#EAEAE6] p-10">
+  <div className="flex min-h-screen items-center justify-center bg-surface-0 p-10">
     <div className="w-[340px] shrink-0 space-y-3 rounded-3xl border border-white/60 bg-white/40 p-5">
       <div className="flex items-stretch gap-2">
         <DashboardCta
           onClick={count}
           className="glass-cta flex-1 py-2 text-center font-sans text-[12.5px] font-medium"
-          disabledClassName="border-white/10 bg-[#1d1b1b]/40 text-white/75 shadow-none ring-black/[0.02]"
+          disabledClassName="border-white/10 bg-ink/40 text-white/75 shadow-none ring-black/[0.02]"
         >
           View Details
         </DashboardCta>
@@ -29,14 +29,14 @@ createRoot(document.getElementById("root")!).render(
           onClick={count}
           ariaLabel="Next propagation"
           className="glass-cta flex w-[42px] shrink-0 items-center justify-center"
-          disabledClassName="border-white/10 bg-[#1d1b1b]/40 text-white/75 shadow-none ring-black/[0.02]"
+          disabledClassName="border-white/10 bg-ink/40 text-white/75 shadow-none ring-black/[0.02]"
         >
           →
         </DashboardCta>
       </div>
       <DashboardCta
         onClick={count}
-        className="flex items-center gap-0.5 text-[12px] text-[#9CA3AF] transition-colors hover:text-[#1d1b1b]"
+        className="flex items-center gap-0.5 text-[12px] text-content-tertiary transition-colors hover:text-content-primary"
       >
         See all
       </DashboardCta>

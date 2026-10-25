@@ -126,21 +126,21 @@ export default function PickerModal({
             {...PANEL_FADE}
           >
             <div className="flex shrink-0 items-center justify-between px-6 pb-4 pt-5">
-              <h2 id={`${idBase}-title`} className="text-[17px] font-medium text-[#1d1b1b]">
+              <h2 id={`${idBase}-title`} className="text-[17px] font-medium text-content-primary">
                 {title}
               </h2>
               <button
                 type="button"
                 onClick={onClose}
                 aria-label={t("common.close")}
-                className="app-no-drag -mr-1.5 rounded-lg p-1.5 text-[#6b7280] transition-colors hover:bg-black/[0.04] hover:text-[#1d1b1b]"
+                className="app-no-drag -mr-1.5 rounded-lg p-1.5 text-content-secondary transition-colors hover:bg-black/[0.04] hover:text-content-primary"
               >
                 <X className="h-4 w-4" strokeWidth={1.75} aria-hidden />
               </button>
             </div>
 
             <div className="relative shrink-0 px-6">
-              <Search className="pointer-events-none absolute left-9 top-1/2 h-[15px] w-[15px] -translate-y-1/2 text-[#9CA3AF]" strokeWidth={1.75} aria-hidden />
+              <Search className="pointer-events-none absolute left-9 top-1/2 h-[15px] w-[15px] -translate-y-1/2 text-content-tertiary" strokeWidth={1.75} aria-hidden />
               <input
                 ref={searchRef}
                 type="search"
@@ -151,7 +151,7 @@ export default function PickerModal({
                 aria-label={searchLabel}
                 aria-controls={`${idBase}-list`}
                 aria-activedescendant={shown[active] ? `${idBase}-${active}` : undefined}
-                className="app-no-drag h-10 w-full rounded-xl border border-white/60 bg-white/55 pl-9 pr-3 text-[13.5px] font-normal text-[#1d1b1b] shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] outline-none ring-1 ring-black/[0.04] transition-colors placeholder:text-[#9CA3AF] focus:bg-white/75 [&::-webkit-search-cancel-button]:hidden"
+                className="app-no-drag h-10 w-full rounded-xl border border-white/60 bg-white/55 pl-9 pr-3 text-[13.5px] font-normal text-content-primary shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] outline-none ring-1 ring-black/[0.04] transition-colors placeholder:text-content-tertiary focus:bg-white/75 [&::-webkit-search-cancel-button]:hidden"
               />
             </div>
 
@@ -176,17 +176,17 @@ export default function PickerModal({
                           on ? "bg-white/75 shadow-[inset_0_1px_0_rgba(255,255,255,0.8)] ring-1 ring-black/[0.06]" : i === active ? "bg-black/[0.06]" : "hover:bg-black/[0.06]",
                         )}
                       >
-                        <span className="w-full truncate text-[13.5px] font-medium text-[#1d1b1b]">
+                        <span className="w-full truncate text-[13.5px] font-medium text-content-primary">
                           {o.title}
                           {on ? <span className="sr-only">, {t("settings.general.pickerCurrent")}</span> : null}
                         </span>
-                        {o.subtitle ? <span className="mt-0.5 w-full truncate text-[12px] font-normal text-[#6b7280]">{o.subtitle}</span> : null}
+                        {o.subtitle ? <span className="mt-0.5 w-full truncate text-[12px] font-normal text-content-secondary">{o.subtitle}</span> : null}
                       </button>
                     );
                   })}
                 </div>
               ) : (
-                <div className="px-2 py-10 text-center text-[13px] font-normal text-[#9CA3AF]">{t("settings.general.pickerEmpty", { query: query.trim() })}</div>
+                <div className="px-2 py-10 text-center text-[13px] font-normal text-content-tertiary">{t("settings.general.pickerEmpty", { query: query.trim() })}</div>
               )}
             </div>
           </motion.div>

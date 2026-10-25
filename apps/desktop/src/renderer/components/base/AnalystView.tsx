@@ -30,22 +30,22 @@ import {
  */
 
 const CAUSE_STYLE: Record<AnalystCause, string> = {
-  identified: "bg-[#dcfce7] text-[#166534]",
-  partially_identified: "bg-[#fef3c7] text-[#92400e]",
-  unidentified: "bg-[#f1f1ec] text-[#6b7280]",
+  identified: "bg-tone-positive-soft text-tone-positive",
+  partially_identified: "bg-tone-warning-soft text-tone-warning",
+  unidentified: "bg-surface-2 text-content-secondary",
 };
 
 const EDGE_STYLE: Record<AnalystEdgeStatus, string> = {
-  no_edge: "bg-[#f1f1ec] text-[#8b8b86]",
-  potential_edge: "bg-[#ede9fe] text-[#5b21b6]",
-  watch: "bg-[#e0f2fe] text-[#075985]",
+  no_edge: "bg-surface-2 text-content-tertiary",
+  potential_edge: "bg-tone-violet-soft text-tone-violet",
+  watch: "bg-tone-info-soft text-tone-info",
 };
 
 const KIND_STYLE: Record<AnalystRequestKind, string> = {
-  anomaly_review: "bg-[#e0e7ff] text-[#3730a3]",
-  scheduled_brief: "bg-[#ffedd5] text-[#9a3412]",
+  anomaly_review: "bg-tone-info-soft text-tone-violet",
+  scheduled_brief: "bg-tone-warning-soft text-tone-warning",
   // S3: Screen-driven structure reviews read as a distinct channel.
-  structure_review: "bg-[#ccfbf1] text-[#0f766e]",
+  structure_review: "bg-tone-teal-soft text-tone-teal",
 };
 
 function fmtTime(iso: string, locale: string): string {
@@ -69,8 +69,8 @@ function fmtPct(value: number | null | undefined): string {
 function Counter({ label, value, tone }: { label: string; value: string | number; tone?: string }) {
   return (
     <div className="flex items-baseline justify-between gap-2 font-mono text-[10px]">
-      <span className="text-[#b4b4ae]">{label}</span>
-      <span className={tone ?? "text-[#1d1b1b]"}>{value}</span>
+      <span className="text-content-disabled">{label}</span>
+      <span className={tone ?? "text-content-primary"}>{value}</span>
     </div>
   );
 }
@@ -95,12 +95,12 @@ function Switch({
       disabled={disabled}
       onClick={() => onChange?.(!checked)}
       title={hint}
-      className="flex w-full items-center justify-between rounded border border-[#e0e0da] bg-white px-2 py-1 text-left font-mono text-[10px] text-[#6b7280] transition-colors hover:text-[#1d1b1b] disabled:opacity-50"
+      className="flex w-full items-center justify-between rounded border border-edge bg-white px-2 py-1 text-left font-mono text-[10px] text-content-secondary transition-colors hover:text-content-primary disabled:opacity-50"
     >
       <span>{label}</span>
       <span
         className={`rounded px-1.5 py-0.5 text-[9px] uppercase ${
-          checked ? "bg-[#dcfce7] text-[#166534]" : "bg-[#f1f1ec] text-[#8b8b86]"
+          checked ? "bg-tone-positive-soft text-tone-positive" : "bg-surface-2 text-content-tertiary"
         }`}
       >
         {checked ? t("instruments.common.on") : t("instruments.common.off")}
@@ -114,10 +114,10 @@ function Bar({ label, value, max, className }: { label: string; value: number; m
   return (
     <div className="flex items-center gap-2">
       <span className={`w-[118px] shrink-0 truncate rounded px-1.5 py-0.5 font-mono text-[10px] ${className}`}>{label}</span>
-      <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-[#ececE6]">
-        <div className="h-full rounded-full bg-[#1d1b1b]/25" style={{ width: `${pct}%` }} />
+      <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-surface-3">
+        <div className="h-full rounded-full bg-ink/25" style={{ width: `${pct}%` }} />
       </div>
-      <span className="w-5 shrink-0 text-right font-mono text-[10px] text-[#6b7280]">{value}</span>
+      <span className="w-5 shrink-0 text-right font-mono text-[10px] text-content-secondary">{value}</span>
     </div>
   );
 }
@@ -125,26 +125,26 @@ function Bar({ label, value, max, className }: { label: string; value: number; m
 function ReactionBlock({ r }: { r: AnalystReactionState }) {
   const { t } = useI18n();
   return (
-    <div className="rounded border border-[#e0e0da] bg-white px-2 py-1.5 font-mono text-[10px] text-[#1d1b1b]">
-      <div className="mb-1 text-[#b4b4ae]">reaction_state</div>
+    <div className="rounded border border-edge bg-white px-2 py-1.5 font-mono text-[10px] text-content-primary">
+      <div className="mb-1 text-content-disabled">reaction_state</div>
       <div>
-        basis <span className="text-[#6b7280]">{r.basis}</span> · realized_z{" "}
-        <span className={r.realized_z != null && Math.abs(r.realized_z) >= 2 ? "text-[#991b1b]" : undefined}>{fmtNum(r.realized_z)}</span>{" "}
+        basis <span className="text-content-secondary">{r.basis}</span> · realized_z{" "}
+        <span className={r.realized_z != null && Math.abs(r.realized_z) >= 2 ? "text-tone-negative" : undefined}>{fmtNum(r.realized_z)}</span>{" "}
         · realized {fmtPct(r.realized_pct)}
       </div>
       <div>
         best_cause{" "}
         {r.best_cause ? (
-          <span className="text-[#6b7280]" title={r.best_cause.headline}>
+          <span className="text-content-secondary" title={r.best_cause.headline}>
             {r.best_cause.event_type} · {r.best_cause.materiality} · {r.best_cause.direction}
           </span>
         ) : (
-          <span className="text-[#b4b4ae]">{t("instruments.common.none")}</span>
+          <span className="text-content-disabled">{t("instruments.common.none")}</span>
         )}
       </div>
       <div>
-        tier_expectation_z {fmtNum(r.tier_expectation_z, 1)} · comparison <span className="text-[#6b7280]">{r.comparison}</span> · edge_default{" "}
-        <span className="text-[#6b7280]">{r.edge_default}</span>
+        tier_expectation_z {fmtNum(r.tier_expectation_z, 1)} · comparison <span className="text-content-secondary">{r.comparison}</span> · edge_default{" "}
+        <span className="text-content-secondary">{r.edge_default}</span>
       </div>
     </div>
   );
@@ -153,14 +153,14 @@ function ReactionBlock({ r }: { r: AnalystReactionState }) {
 function OutputRow({ o, selected, onSelect }: { o: AnalystOutput; selected: boolean; onSelect: () => void }) {
   const { t, locale } = useI18n();
   return (
-    <li className={`py-1.5 ${selected ? "bg-[#f1f1ec]/70" : ""}`}>
+    <li className={`py-1.5 ${selected ? "bg-surface-2/70" : ""}`}>
       <button type="button" onClick={onSelect} className="w-full px-1 text-left">
         <div className="flex flex-wrap items-baseline gap-2">
-          <span className="w-[82px] shrink-0 font-mono text-[10px] text-[#a3a39c]">{fmtTime(o.produced_at, locale)}</span>
-          <span className="font-mono text-[11px] font-medium text-[#1d1b1b]">{o.ticker}</span>
+          <span className="w-[82px] shrink-0 font-mono text-[10px] text-content-tertiary">{fmtTime(o.produced_at, locale)}</span>
+          <span className="font-mono text-[11px] font-medium text-content-primary">{o.ticker}</span>
           <span className={`rounded px-1.5 py-0.5 font-mono text-[10px] ${KIND_STYLE[o.kind]}`}>{o.kind}</span>
           {o.status === "failed" ? (
-            <span className="rounded bg-[#fee2e2] px-1.5 py-0.5 font-mono text-[10px] text-[#991b1b]">{t("instruments.common.failed")}</span>
+            <span className="rounded bg-tone-negative-soft px-1.5 py-0.5 font-mono text-[10px] text-tone-negative">{t("instruments.common.failed")}</span>
           ) : (
             <>
               <span className={`rounded px-1.5 py-0.5 font-mono text-[10px] ${CAUSE_STYLE[o.cause]}`}>{o.cause}</span>
@@ -168,23 +168,23 @@ function OutputRow({ o, selected, onSelect }: { o: AnalystOutput; selected: bool
             </>
           )}
           {o.grounding_failed && (
-            <span className="rounded bg-[#fef3c7] px-1.5 py-0.5 font-mono text-[10px] text-[#92400e]" title={t("instruments.analyst.groundingHint")}>
+            <span className="rounded bg-tone-warning-soft px-1.5 py-0.5 font-mono text-[10px] text-tone-warning" title={t("instruments.analyst.groundingHint")}>
               grounding_failed
             </span>
           )}
           {o.edge_deviation && (
-            <span className="rounded bg-[#ede9fe] px-1.5 py-0.5 font-mono text-[10px] text-[#5b21b6]" title={t("instruments.analyst.deviationHint", { value: o.reaction_state.edge_default })}>
+            <span className="rounded bg-tone-violet-soft px-1.5 py-0.5 font-mono text-[10px] text-tone-violet" title={t("instruments.analyst.deviationHint", { value: o.reaction_state.edge_default })}>
               {t("instruments.analyst.deviation")}
             </span>
           )}
-          {o.update && <span className="rounded border border-[#e0e0da] px-1.5 py-0.5 font-mono text-[10px] text-[#8b8b86]">{t("instruments.analyst.update")}</span>}
+          {o.update && <span className="rounded border border-edge px-1.5 py-0.5 font-mono text-[10px] text-content-tertiary">{t("instruments.analyst.update")}</span>}
           {o.superseded_by && (
-            <span className="rounded border border-dashed border-[#e0e0da] px-1.5 py-0.5 font-mono text-[10px] text-[#b4b4ae]" title={t("instruments.analyst.supersededBy", { id: o.superseded_by })}>
+            <span className="rounded border border-dashed border-edge px-1.5 py-0.5 font-mono text-[10px] text-content-disabled" title={t("instruments.analyst.supersededBy", { id: o.superseded_by })}>
               {t("instruments.analyst.superseded")}
             </span>
           )}
         </div>
-        <div className="mt-0.5 truncate pl-[90px] text-[12px] text-[#1d1b1b]" title={o.status === "failed" ? o.failure_reason ?? "" : o.watch_trigger ?? o.cause_summary}>
+        <div className="mt-0.5 truncate pl-[90px] text-[12px] text-content-primary" title={o.status === "failed" ? o.failure_reason ?? "" : o.watch_trigger ?? o.cause_summary}>
           {o.status === "failed" ? o.failure_reason : o.watch_trigger ?? o.cause_summary}
         </div>
       </button>
@@ -204,12 +204,12 @@ function Detail({
   return (
     <div className="space-y-2 px-4 py-3">
       <div className="flex flex-wrap items-center gap-2">
-        <span className="font-mono text-[12px] font-medium text-[#1d1b1b]">{o.ticker}</span>
+        <span className="font-mono text-[12px] font-medium text-content-primary">{o.ticker}</span>
         <span className={`rounded px-1.5 py-0.5 font-mono text-[10px] ${KIND_STYLE[o.kind]}`}>{o.kind}</span>
         <span className={`rounded px-1.5 py-0.5 font-mono text-[10px] ${CAUSE_STYLE[o.cause]}`}>{o.cause}</span>
         <span className={`rounded px-1.5 py-0.5 font-mono text-[10px] ${EDGE_STYLE[o.edge_status]}`}>{o.edge_status}</span>
-        {o.status === "failed" && <span className="rounded bg-[#fee2e2] px-1.5 py-0.5 font-mono text-[10px] text-[#991b1b]">{t("instruments.common.failed")}</span>}
-        <span className="ml-auto font-mono text-[10px] text-[#a3a39c]">
+        {o.status === "failed" && <span className="rounded bg-tone-negative-soft px-1.5 py-0.5 font-mono text-[10px] text-tone-negative">{t("instruments.common.failed")}</span>}
+        <span className="ml-auto font-mono text-[10px] text-content-tertiary">
           {o.model} · {o.prompt_version} ·{" "}
           {t(plural(locale, o.attempts, "instruments.analyst.attempts.one", "instruments.analyst.attempts.other"), { n: o.attempts })} ·{" "}
           {(o.latency_ms / 1000).toFixed(1)}s
@@ -217,31 +217,31 @@ function Detail({
       </div>
 
       {o.status === "failed" ? (
-        <div className="font-mono text-[11px] text-[#b45309]">{o.failure_reason}</div>
+        <div className="font-mono text-[11px] text-tone-warning">{o.failure_reason}</div>
       ) : (
         <>
           <div>
-            <div lang="en" className="font-mono text-[10px] uppercase tracking-wide text-[#b4b4ae]">cause_summary</div>
-            <div className="text-[12px] text-[#1d1b1b]">{o.cause_summary}</div>
+            <div lang="en" className="font-mono text-[10px] uppercase tracking-wide text-content-disabled">cause_summary</div>
+            <div className="text-[12px] text-content-primary">{o.cause_summary}</div>
           </div>
           {o.mechanism && (
             <div>
-              <div lang="en" className="font-mono text-[10px] uppercase tracking-wide text-[#b4b4ae]">mechanism</div>
-              <div className="text-[12px] text-[#1d1b1b]">{o.mechanism}</div>
+              <div lang="en" className="font-mono text-[10px] uppercase tracking-wide text-content-disabled">mechanism</div>
+              <div className="text-[12px] text-content-primary">{o.mechanism}</div>
             </div>
           )}
           {o.edge_rationale && (
             <div>
-              <div className="font-mono text-[10px] uppercase tracking-wide text-[#b4b4ae]">
+              <div className="font-mono text-[10px] uppercase tracking-wide text-content-disabled">
                 <span lang="en">edge_rationale</span>
                 {o.edge_deviation ? ` · ${t("instruments.analyst.deviationFrom", { value: o.reaction_state.edge_default })}` : ""}
               </div>
-              <div className="text-[12px] text-[#1d1b1b]">{o.edge_rationale}</div>
+              <div className="text-[12px] text-content-primary">{o.edge_rationale}</div>
             </div>
           )}
           <div>
-            <div lang="en" className="font-mono text-[10px] uppercase tracking-wide text-[#b4b4ae]">watch_trigger</div>
-            <div className="text-[12px] text-[#1d1b1b]">{o.watch_trigger ?? <span className="text-[#b4b4ae]">{na()}</span>}</div>
+            <div lang="en" className="font-mono text-[10px] uppercase tracking-wide text-content-disabled">watch_trigger</div>
+            <div className="text-[12px] text-content-primary">{o.watch_trigger ?? <span className="text-content-disabled">{na()}</span>}</div>
           </div>
         </>
       )}
@@ -250,10 +250,10 @@ function Detail({
 
       {o.retry_errors && o.retry_errors.length > 0 && (
         <div>
-          <div className="font-mono text-[10px] uppercase tracking-wide text-[#b4b4ae]">{t("instruments.analyst.retried", { n: o.retry_errors.length })}</div>
+          <div className="font-mono text-[10px] uppercase tracking-wide text-content-disabled">{t("instruments.analyst.retried", { n: o.retry_errors.length })}</div>
           <ul className="mt-0.5 space-y-0.5">
             {o.retry_errors.map((e, i) => (
-              <li key={i} className="font-mono text-[10px] text-[#b45309]" title={e}>
+              <li key={i} className="font-mono text-[10px] text-tone-warning" title={e}>
                 {e.length > 220 ? e.slice(0, 220) + "…" : e}
               </li>
             ))}
@@ -262,19 +262,19 @@ function Detail({
       )}
 
       <div>
-        <div className="font-mono text-[10px] uppercase tracking-wide text-[#b4b4ae]">
+        <div className="font-mono text-[10px] uppercase tracking-wide text-content-disabled">
           {t("instruments.analyst.evidence", { n: o.evidence.length })}
           {o.grounding_failed ? <> · <span lang="en">grounding_failed</span></> : null}
         </div>
         {detail.evidence.length === 0 ? (
-          <div className="font-mono text-[10px] text-[#b4b4ae]">{t("instruments.analyst.noneCited")}</div>
+          <div className="font-mono text-[10px] text-content-disabled">{t("instruments.analyst.noneCited")}</div>
         ) : (
           <ul className="mt-0.5 space-y-0.5">
             {detail.evidence.map((e) => (
               <li key={e.message_id} className="flex items-baseline gap-2 font-mono text-[10px]">
-                <span className="shrink-0 text-[#a3a39c]">{e.timestamp ? fmtTime(e.timestamp, locale) : na()}</span>
-                <span className="shrink-0 rounded bg-[#f1f1ec] px-1 text-[#6b7280]">{e.type}</span>
-                <span className="min-w-0 truncate text-[#1d1b1b]" title={e.line}>
+                <span className="shrink-0 text-content-tertiary">{e.timestamp ? fmtTime(e.timestamp, locale) : na()}</span>
+                <span className="shrink-0 rounded bg-surface-2 px-1 text-content-secondary">{e.type}</span>
+                <span className="min-w-0 truncate text-content-primary" title={e.line}>
                   {e.line}
                 </span>
               </li>
@@ -283,7 +283,7 @@ function Detail({
         )}
       </div>
 
-      <div className="flex flex-wrap items-center gap-2 border-t border-[#eeeee8] pt-2 font-mono text-[10px] text-[#8b8b86]">
+      <div className="flex flex-wrap items-center gap-2 border-t border-edge-subtle pt-2 font-mono text-[10px] text-content-tertiary">
         <span title={o.incident_id}>{t("instruments.analyst.incidentRef", { id: o.incident_id.slice(0, 8) })}</span>
         <span title={o.request_id}>· {t("instruments.analyst.requestRef", { id: o.request_id.slice(-10) })}</span>
         {o.prior_request_id && (
@@ -298,7 +298,7 @@ function Detail({
           onClick={() => onOpenIncident(o.ticker, o.incident_id)}
           disabled={!detail.incident_found}
           title={detail.incident_found ? t("instruments.analyst.openIncidentHint") : t("instruments.analyst.incidentMissing")}
-          className="ml-auto flex items-center gap-1 rounded border border-[#e0e0da] bg-white px-2 py-0.5 text-[#6b7280] transition-colors hover:text-[#1d1b1b] disabled:opacity-50"
+          className="ml-auto flex items-center gap-1 rounded border border-edge bg-white px-2 py-0.5 text-content-secondary transition-colors hover:text-content-primary disabled:opacity-50"
         >
           <ExternalLink className="h-3 w-3" strokeWidth={2} aria-hidden /> {t("instruments.analyst.sourceIncident")}
         </button>
@@ -424,8 +424,8 @@ export default function AnalystView({ onOpenIncident }: { onOpenIncident: (ticke
   return (
     <div className="flex min-h-0 flex-1">
       {/* Sidebar: phase, budget/breaker, counters, distributions, last run */}
-      <aside className="w-[264px] shrink-0 overflow-y-auto border-r border-[#eeeee8] px-3 py-3">
-        <div className="font-mono text-[10px] uppercase tracking-wide text-[#b4b4ae]">{t("instruments.common.phase")}</div>
+      <aside className="w-[264px] shrink-0 overflow-y-auto border-r border-edge-subtle px-3 py-3">
+        <div className="font-mono text-[10px] uppercase tracking-wide text-content-disabled">{t("instruments.common.phase")}</div>
         <div className="mt-1.5 space-y-1">
           <Switch
             label={t("instruments.common.liveLoop", { model: status?.model ?? na() })}
@@ -446,9 +446,9 @@ export default function AnalystView({ onOpenIncident }: { onOpenIncident: (ticke
             disabled
             hint={t("instruments.analyst.surfacingHint")}
           />
-          {!staff && <div className="font-mono text-[10px] text-[#8b8b86]">{t("access.staffOnly.setting")}</div>}
+          {!staff && <div className="font-mono text-[10px] text-content-tertiary">{t("access.staffOnly.setting")}</div>}
           {!status?.configured && (
-            <div className="font-mono text-[10px] text-[#b45309]">{t("instruments.common.noApiKey")}</div>
+            <div className="font-mono text-[10px] text-tone-warning">{t("instruments.common.noApiKey")}</div>
           )}
         </div>
 
@@ -457,7 +457,7 @@ export default function AnalystView({ onOpenIncident }: { onOpenIncident: (ticke
             type="button"
             disabled={!staff || busy || !status?.configured || breakerOpen}
             onClick={() => void runCycle(false)}
-            className="flex flex-1 items-center justify-center gap-1 rounded border border-[#e0e0da] bg-white py-1 font-mono text-[10px] text-[#6b7280] transition-colors hover:text-[#1d1b1b] disabled:opacity-50"
+            className="flex flex-1 items-center justify-center gap-1 rounded border border-edge bg-white py-1 font-mono text-[10px] text-content-secondary transition-colors hover:text-content-primary disabled:opacity-50"
             title={staff ? t("instruments.analyst.runCycleHint") : t("access.staffOnly.action")}
           >
             <Play className="h-3 w-3 shrink-0" strokeWidth={2} aria-hidden /> {t("instruments.common.runCycle")}
@@ -466,14 +466,14 @@ export default function AnalystView({ onOpenIncident }: { onOpenIncident: (ticke
             type="button"
             disabled={!staff || busy}
             onClick={() => void runCycle(true)}
-            className="flex-1 rounded border border-[#e0e0da] bg-white py-1 font-mono text-[10px] text-[#6b7280] transition-colors hover:text-[#1d1b1b] disabled:opacity-50"
+            className="flex-1 rounded border border-edge bg-white py-1 font-mono text-[10px] text-content-secondary transition-colors hover:text-content-primary disabled:opacity-50"
             title={staff ? t("instruments.analyst.dryRunHint") : t("access.staffOnly.action")}
           >
             {t("instruments.common.dryRun")}
           </button>
         </div>
 
-        <div className="mt-4 font-mono text-[10px] uppercase tracking-wide text-[#b4b4ae]">{t("instruments.common.budgetBreaker")}</div>
+        <div className="mt-4 font-mono text-[10px] uppercase tracking-wide text-content-disabled">{t("instruments.common.budgetBreaker")}</div>
         <div className="mt-1.5 space-y-0.5">
           <Counter
             label={t("instruments.common.budget", { day: status?.budget.day ?? "" })}
@@ -501,7 +501,7 @@ export default function AnalystView({ onOpenIncident }: { onOpenIncident: (ticke
                     })
                 : na()
             }
-            tone={breakerOpen ? "text-[#991b1b]" : undefined}
+            tone={breakerOpen ? "text-tone-negative" : undefined}
           />
           <Counter
             label={t("instruments.common.nextCycle")}
@@ -516,11 +516,11 @@ export default function AnalystView({ onOpenIncident }: { onOpenIncident: (ticke
           <Counter label={t("instruments.analyst.runtime")} value={status ? `${status.timeout_ms / 1000}s · ${status.concurrency} · ${status.effort}` : na()} />
         </div>
 
-        <div className="mt-4 font-mono text-[10px] uppercase tracking-wide text-[#b4b4ae]">{t("instruments.common.counters")}</div>
+        <div className="mt-4 font-mono text-[10px] uppercase tracking-wide text-content-disabled">{t("instruments.common.counters")}</div>
         <div className="mt-1.5 space-y-0.5">
           <Counter label={t("instruments.analyst.outputsOkFailed")} value={m ? `${m.outputs_ok} / ${m.outputs_failed}` : na()} />
           <Counter label={t("instruments.analyst.inStore")} value={status ? `${status.output_count} · ${status.current_count} · ${status.permanent_failures}` : na()} />
-          <Counter label="grounding_failed" value={m?.grounding_failed ?? na()} tone={m && m.grounding_failed > 0 ? "text-[#b45309]" : undefined} />
+          <Counter label="grounding_failed" value={m?.grounding_failed ?? na()} tone={m && m.grounding_failed > 0 ? "text-tone-warning" : undefined} />
           <Counter label="edge_deviations" value={m?.edge_deviations ?? na()} />
           <Counter label={t("instruments.analyst.unidentifiedRate")} value={unidentifiedRate == null ? na() : `${Math.round(unidentifiedRate * 100)}%`} />
           <Counter label={t("instruments.common.validationTransport")} value={m ? `${m.validation_failures} / ${m.transport_failures}` : na()} />
@@ -536,7 +536,7 @@ export default function AnalystView({ onOpenIncident }: { onOpenIncident: (ticke
           <Counter label={t("instruments.common.estSpend")} value={status ? `$${status.estimated_spend_usd.toFixed(3)}` : na()} />
         </div>
 
-        <div className="mt-4 font-mono text-[10px] uppercase tracking-wide text-[#b4b4ae]">{t("instruments.analyst.byKind")}</div>
+        <div className="mt-4 font-mono text-[10px] uppercase tracking-wide text-content-disabled">{t("instruments.analyst.byKind")}</div>
         <div className="mt-1.5 space-y-1">
           {byKind.map((k) => (
             <Bar key={k.kind} label={k.kind.replace("_review", "").replace("_brief", "")} value={k.total} max={maxKind} className={KIND_STYLE[k.kind]} />
@@ -564,13 +564,13 @@ export default function AnalystView({ onOpenIncident }: { onOpenIncident: (ticke
           />
         </div>
 
-        <div className="mt-4 font-mono text-[10px] uppercase tracking-wide text-[#b4b4ae]">{t("instruments.analyst.byCause")}</div>
+        <div className="mt-4 font-mono text-[10px] uppercase tracking-wide text-content-disabled">{t("instruments.analyst.byCause")}</div>
         <div className="mt-1.5 space-y-1">
           {byCause.map(([c, n]) => (
             <Bar key={c} label={c} value={n} max={maxCause} className={CAUSE_STYLE[c]} />
           ))}
         </div>
-        <div className="mt-3 font-mono text-[10px] uppercase tracking-wide text-[#b4b4ae]">{t("instruments.analyst.byEdge")}</div>
+        <div className="mt-3 font-mono text-[10px] uppercase tracking-wide text-content-disabled">{t("instruments.analyst.byEdge")}</div>
         <div className="mt-1.5 space-y-1">
           {byEdge.map(([e, n]) => (
             <Bar key={e} label={e} value={n} max={maxEdge} className={EDGE_STYLE[e]} />
@@ -578,36 +578,36 @@ export default function AnalystView({ onOpenIncident }: { onOpenIncident: (ticke
         </div>
 
         {run && (
-          <div className="mt-4 space-y-0.5 border-t border-[#eeeee8] pt-2 font-mono text-[10px] text-[#8b8b86]">
+          <div className="mt-4 space-y-0.5 border-t border-edge-subtle pt-2 font-mono text-[10px] text-content-tertiary">
             <div>
-              <span className="text-[#b4b4ae]">{t("instruments.common.lastRun")}</span> {fmtTime(run.finished_at, locale)}
+              <span className="text-content-disabled">{t("instruments.common.lastRun")}</span> {fmtTime(run.finished_at, locale)}
               {run.dry_run ? ` ${t("instruments.common.dryTag")}` : ""}
             </div>
             <div>
-              <span className="text-[#b4b4ae]">{t("instruments.common.scanned")}</span> {run.messages_scanned} ·{" "}
-              <span className="text-[#b4b4ae]">{t("instruments.analyst.incidents")}</span> {run.incidents_replayed} ·{" "}
-              <span className="text-[#b4b4ae]">{t("instruments.analyst.analyst")}</span> {run.analyst_incidents}
+              <span className="text-content-disabled">{t("instruments.common.scanned")}</span> {run.messages_scanned} ·{" "}
+              <span className="text-content-disabled">{t("instruments.analyst.incidents")}</span> {run.incidents_replayed} ·{" "}
+              <span className="text-content-disabled">{t("instruments.analyst.analyst")}</span> {run.analyst_incidents}
             </div>
             <div>
-              <span className="text-[#b4b4ae]">{t("instruments.common.requests")}</span> {run.requests_built} ·{" "}
-              <span className="text-[#b4b4ae]">{t("instruments.analyst.produced")}</span> {run.already_produced} ·{" "}
-              <span className="text-[#b4b4ae]">{t("instruments.analyst.updates")}</span> {run.updates}
+              <span className="text-content-disabled">{t("instruments.common.requests")}</span> {run.requests_built} ·{" "}
+              <span className="text-content-disabled">{t("instruments.analyst.produced")}</span> {run.already_produced} ·{" "}
+              <span className="text-content-disabled">{t("instruments.analyst.updates")}</span> {run.updates}
             </div>
             <div>
-              <span className="text-[#b4b4ae]">{t("instruments.common.dispatched")}</span> {run.dispatched} ·{" "}
-              <span className="text-[#b4b4ae]">{t("instruments.common.deferred")}</span> {run.deferred_by_budget} ·{" "}
-              <span className="text-[#b4b4ae]">{t("instruments.common.ok")}</span> {run.ok} ·{" "}
-              <span className="text-[#b4b4ae]">{t("instruments.analyst.downgraded")}</span> {run.downgraded} ·{" "}
-              <span className="text-[#b45309]">{t("instruments.common.failedCount", { n: run.failed })}</span>
+              <span className="text-content-disabled">{t("instruments.common.dispatched")}</span> {run.dispatched} ·{" "}
+              <span className="text-content-disabled">{t("instruments.common.deferred")}</span> {run.deferred_by_budget} ·{" "}
+              <span className="text-content-disabled">{t("instruments.common.ok")}</span> {run.ok} ·{" "}
+              <span className="text-content-disabled">{t("instruments.analyst.downgraded")}</span> {run.downgraded} ·{" "}
+              <span className="text-tone-warning">{t("instruments.common.failedCount", { n: run.failed })}</span>
             </div>
             {run.errors.map((e) => (
-              <div key={e} className="truncate text-[#b45309]" title={e}>
+              <div key={e} className="truncate text-tone-warning" title={e}>
                 {e}
               </div>
             ))}
             {run.preview.length > 0 && (
               <div className="pt-1">
-                <div className="text-[#b4b4ae]">{run.dry_run ? t("instruments.analyst.wouldSend") : t("instruments.analyst.sent")}</div>
+                <div className="text-content-disabled">{run.dry_run ? t("instruments.analyst.wouldSend") : t("instruments.analyst.sent")}</div>
                 {run.preview.map((p) => (
                   <div key={p.request_id} className="truncate" title={t("instruments.analyst.previewHint", {
                       id: p.request_id,
@@ -630,22 +630,22 @@ export default function AnalystView({ onOpenIncident }: { onOpenIncident: (ticke
 
       {/* Output stream + detail */}
       <div className="flex min-h-0 flex-1 flex-col">
-        <div className="flex flex-wrap items-center gap-2 border-b border-[#eeeee8] px-4 py-2">
-          <div className="flex rounded-md border border-[#e0e0da] bg-white p-0.5">
+        <div className="flex flex-wrap items-center gap-2 border-b border-edge-subtle px-4 py-2">
+          <div className="flex rounded-md border border-edge bg-white p-0.5">
             {(["all", "ok", "failed"] as const).map((s) => (
               <button
                 key={s}
                 type="button"
                 onClick={() => setStatusFilter(s)}
                 className={`rounded px-2 py-1 text-[11px] transition-colors ${
-                  statusFilter === s ? "bg-[#1d1b1b] text-white" : "text-[#6b7280] hover:text-[#1d1b1b]"
+                  statusFilter === s ? "bg-ink text-white" : "text-content-secondary hover:text-content-primary"
                 }`}
               >
                 {s === "all" ? t("instruments.common.all") : s === "ok" ? t("instruments.common.ok") : t("instruments.common.failed")}
               </button>
             ))}
           </div>
-          <select value={kindFilter} onChange={(e) => setKindFilter(e.target.value as AnalystRequestKind | "all")} className="rounded-md border border-[#e0e0da] bg-white px-2 py-1 text-[11px] text-[#1d1b1b]">
+          <select value={kindFilter} onChange={(e) => setKindFilter(e.target.value as AnalystRequestKind | "all")} className="rounded-md border border-edge bg-white px-2 py-1 text-[11px] text-content-primary">
             <option value="all">{t("instruments.analyst.allKinds")}</option>
             {ANALYST_REQUEST_KINDS.map((k) => (
               <option key={k} value={k}>
@@ -653,7 +653,7 @@ export default function AnalystView({ onOpenIncident }: { onOpenIncident: (ticke
               </option>
             ))}
           </select>
-          <select value={causeFilter} onChange={(e) => setCauseFilter(e.target.value as AnalystCause | "all")} className="rounded-md border border-[#e0e0da] bg-white px-2 py-1 text-[11px] text-[#1d1b1b]">
+          <select value={causeFilter} onChange={(e) => setCauseFilter(e.target.value as AnalystCause | "all")} className="rounded-md border border-edge bg-white px-2 py-1 text-[11px] text-content-primary">
             <option value="all">{t("instruments.analyst.allCauses")}</option>
             {ANALYST_CAUSES.map((c) => (
               <option key={c} value={c}>
@@ -661,7 +661,7 @@ export default function AnalystView({ onOpenIncident }: { onOpenIncident: (ticke
               </option>
             ))}
           </select>
-          <select value={edgeFilter} onChange={(e) => setEdgeFilter(e.target.value as AnalystEdgeStatus | "all")} className="rounded-md border border-[#e0e0da] bg-white px-2 py-1 text-[11px] text-[#1d1b1b]">
+          <select value={edgeFilter} onChange={(e) => setEdgeFilter(e.target.value as AnalystEdgeStatus | "all")} className="rounded-md border border-edge bg-white px-2 py-1 text-[11px] text-content-primary">
             <option value="all">{t("instruments.analyst.allEdge")}</option>
             {ANALYST_EDGE_STATUSES.map((e) => (
               <option key={e} value={e}>
@@ -669,31 +669,31 @@ export default function AnalystView({ onOpenIncident }: { onOpenIncident: (ticke
               </option>
             ))}
           </select>
-          <label className="flex items-center gap-1 font-mono text-[10px] text-[#6b7280]">
+          <label className="flex items-center gap-1 font-mono text-[10px] text-content-secondary">
             <input type="checkbox" checked={currentOnly} onChange={(e) => setCurrentOnly(e.target.checked)} /> {t("instruments.analyst.currentOnly")}
           </label>
           <button
             type="button"
             onClick={() => void load()}
-            className="flex items-center gap-1.5 rounded-md border border-[#e0e0da] bg-white px-2 py-1 text-[11px] text-[#6b7280] transition-colors hover:text-[#1d1b1b]"
+            className="flex items-center gap-1.5 rounded-md border border-edge bg-white px-2 py-1 text-[11px] text-content-secondary transition-colors hover:text-content-primary"
           >
             <RefreshCw className="h-3 w-3" strokeWidth={2} aria-hidden /> {t("instruments.common.refresh")}
           </button>
-          <span className="ml-auto font-mono text-[10px] text-[#a3a39c]">
+          <span className="ml-auto font-mono text-[10px] text-content-tertiary">
             {t("instruments.analyst.count", { n: visible.length, version: status?.prompt_version ?? na() })}
           </span>
         </div>
 
         <div className="flex min-h-0 flex-1">
-          <div className={`min-h-0 overflow-y-auto px-3 py-2 ${detail ? "w-[46%] border-r border-[#eeeee8]" : "flex-1"}`}>
+          <div className={`min-h-0 overflow-y-auto px-3 py-2 ${detail ? "w-[46%] border-r border-edge-subtle" : "flex-1"}`}>
             {error ? (
-              <div className="flex h-full items-center justify-center font-mono text-[12px] text-[#b45309]">{error}</div>
+              <div className="flex h-full items-center justify-center font-mono text-[12px] text-tone-warning">{error}</div>
             ) : visible.length === 0 ? (
-              <div className="flex h-full items-center justify-center text-center font-mono text-[12px] text-[#a3a39c]">
+              <div className="flex h-full items-center justify-center text-center font-mono text-[12px] text-content-tertiary">
                 {t("instruments.analyst.empty")}
               </div>
             ) : (
-              <ul className="divide-y divide-[#eeeee8]">
+              <ul className="divide-y divide-edge-subtle">
                 {visible.map((o) => (
                   <OutputRow
                     key={`${o.incident_id}|${o.request_id}`}

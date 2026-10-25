@@ -30,9 +30,9 @@ import { BUTTON } from "./pane-kit";
  * opened from "Adjust plan" rather than drawn again.
  */
 
-const TITLE = "text-[15px] font-medium text-[#1d1b1b]";
-const NOTE = "text-[12.5px] font-normal leading-snug text-[#6b7280]";
-const HEAD = "border-b border-black/[0.06] pb-2 text-[12px] font-normal text-[#6b7280]";
+const TITLE = "text-[15px] font-medium text-content-primary";
+const NOTE = "text-[12.5px] font-normal leading-snug text-content-secondary";
+const HEAD = "border-b border-black/[0.06] pb-2 text-[12px] font-normal text-content-secondary";
 
 /**
  * The plan's glyph: a line-drawn admission ticket, the shape the membership
@@ -54,7 +54,7 @@ function PlanGlyph({ current }: { current: CurrentPlan | null }) {
       strokeLinecap="round"
       strokeLinejoin="round"
       aria-hidden
-      className="shrink-0 text-[#1d1b1b]"
+      className="shrink-0 text-content-primary"
     >
       <g transform="rotate(-8 20 20)">
         <path d="M4 13a3 3 0 0 0 3-3h26a3 3 0 0 0 3 3v14a3 3 0 0 0-3 3H7a3 3 0 0 0-3-3Z" />
@@ -134,11 +134,11 @@ export default function BillingPane({ user = null }: { user?: User | null }) {
       >
         <PlanGlyph current={current} />
         <div className="min-w-0 flex-1">
-          <div className={cn("text-[15px] font-medium", current ? "text-[#1d1b1b]" : "text-[#9CA3AF]")}>
+          <div className={cn("text-[15px] font-medium", current ? "text-content-primary" : "text-content-tertiary")}>
             {current ? currentPlanLabel(current, t) : t("settings.account.notSignedIn")}
           </div>
-          {summary ? <p className="mt-1 text-[12.5px] font-normal leading-snug text-[#4b5563]">{summary}</p> : null}
-          {memberSince ? <p className="mt-0.5 text-[12px] font-normal text-[#9CA3AF]">{memberSince}</p> : null}
+          {summary ? <p className="mt-1 text-[12.5px] font-normal leading-snug text-content-body">{summary}</p> : null}
+          {memberSince ? <p className="mt-0.5 text-[12px] font-normal text-content-tertiary">{memberSince}</p> : null}
         </div>
         <button type="button" className={`${BUTTON} shrink-0`} onClick={() => setPlansOpen(true)}>
           {t("plans.billing.adjust")}
@@ -156,7 +156,7 @@ export default function BillingPane({ user = null }: { user?: User | null }) {
           onClick={() => void window.meridian?.openExternal(MEMBERSHIP_URL)}
         >
           {t("plans.billing.membershipPage")}
-          <ArrowUpRight className="h-3.5 w-3.5 text-[#6b7280]" strokeWidth={1.75} aria-hidden />
+          <ArrowUpRight className="h-3.5 w-3.5 text-content-secondary" strokeWidth={1.75} aria-hidden />
         </button>
       </section>
 
@@ -183,7 +183,7 @@ export default function BillingPane({ user = null }: { user?: User | null }) {
           </thead>
           <tbody>
             <tr>
-              <td colSpan={4} className="py-6 text-center text-[12.5px] font-normal text-[#9CA3AF]">
+              <td colSpan={4} className="py-6 text-center text-[12.5px] font-normal text-content-tertiary">
                 {t("plans.billing.noInvoices")}
               </td>
             </tr>

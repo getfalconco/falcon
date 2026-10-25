@@ -214,7 +214,7 @@ export default function PortfolioReturnCard({
                       setMenuOpen(false);
                       onDuplicate?.();
                     }}
-                    className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-left text-[13px] font-normal text-[#1d1b1b] transition-all duration-150 hover:translate-x-0.5 hover:bg-[#1d1b1b]/[0.07] active:scale-[0.97]"
+                    className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-left text-[13px] font-normal text-content-primary transition-all duration-150 hover:translate-x-0.5 hover:bg-ink/[0.07] active:scale-[0.97]"
                   >
                     {t("dashboard.card.duplicate")}
                   </button>
@@ -226,7 +226,7 @@ export default function PortfolioReturnCard({
                       setMenuOpen(false);
                       onRemove?.();
                     }}
-                    className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-left text-[13px] font-normal text-[#DC2626] transition-all duration-150 hover:translate-x-0.5 hover:bg-[#DC2626]/[0.10] active:scale-[0.97]"
+                    className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-left text-[13px] font-normal text-tone-negative transition-all duration-150 hover:translate-x-0.5 hover:bg-tone-negative-fill/[0.10] active:scale-[0.97]"
                   >
                     {t("dashboard.card.delete")}
                   </button>
@@ -269,7 +269,7 @@ export default function PortfolioReturnCard({
               className={cn(PANEL, "bottom-full left-0 right-auto mb-2 p-2")}
             >
               <div className="px-1 pb-1.5">
-                <span className="font-sans text-[11px] font-normal tracking-[0.04em] text-[#9CA3AF]">{t("returns.card.periodHeading")}</span>
+                <span className="font-sans text-[11px] font-normal tracking-[0.04em] text-content-tertiary">{t("returns.card.periodHeading")}</span>
               </div>
               <div role="radiogroup" aria-label={t("returns.card.periodButton")}>
                 {RETURN_PERIODS.map((p) => {
@@ -284,14 +284,14 @@ export default function PortfolioReturnCard({
                         choose(p);
                         setPeriodOpen(false);
                       }}
-                      className="flex w-full items-center justify-between rounded-lg px-2 py-1.5 text-left text-[12.5px] font-normal text-[#1d1b1b] transition-colors hover:bg-[#1d1b1b]/[0.06]"
+                      className="flex w-full items-center justify-between rounded-lg px-2 py-1.5 text-left text-[12.5px] font-normal text-content-primary transition-colors hover:bg-ink/[0.06]"
                     >
                       {t(PERIOD_KEY_LABEL[p])}
                       <span
                         aria-hidden
                         className={cn(
-                          "flex h-[15px] w-[15px] shrink-0 items-center justify-center rounded-[4px] border transition-colors",
-                          active ? "border-[#1d1b1b] bg-[#1d1b1b] text-white" : "border-black/20 bg-white/60",
+                          "flex h-[15px] w-[15px] shrink-0 items-center justify-center rounded-sm border transition-colors",
+                          active ? "border-content-primary bg-ink text-white" : "border-black/20 bg-white/60",
                         )}
                       >
                         {active ? <Check className="h-[10px] w-[10px]" strokeWidth={3} /> : null}

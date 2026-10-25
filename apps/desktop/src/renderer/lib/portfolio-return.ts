@@ -213,15 +213,17 @@ function hex(h: string): Rgb {
   return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
 }
 
-/** Gains to the right, losses to the left; the ends hold beyond ±50%. */
+/** Gains to the right, losses to the left; the ends hold beyond ±50%. The
+ *  anchors are Apple's systemRed, systemOrange, systemGray and systemGreen,
+ *  each taken down to an edge and a core of the same hue. */
 export const RETURN_STOPS: readonly Stop[] = [
-  { at: -0.5, glow: hex("#D2513F"), edge: hex("#9A2A1E"), core: hex("#2E0805") },
-  { at: -0.2, glow: hex("#D06E34"), edge: hex("#984219"), core: hex("#301205") },
-  { at: -0.06, glow: hex("#C29236"), edge: hex("#8A621F"), core: hex("#2C1F07") },
-  { at: 0, glow: hex("#9A9EA3"), edge: hex("#5E6267"), core: hex("#1E2023") },
-  { at: 0.06, glow: hex("#86AE76"), edge: hex("#466A3C"), core: hex("#132511") },
-  { at: 0.2, glow: hex("#8CA938"), edge: hex("#506C19"), core: hex("#253308") },
-  { at: 0.5, glow: hex("#94AD27"), edge: hex("#566A0F"), core: hex("#2A3707") },
+  { at: -0.5, glow: hex("#D44740"), edge: hex("#732623"), core: hex("#250C0B") },
+  { at: -0.2, glow: hex("#D46431"), edge: hex("#73361A"), core: hex("#251108") },
+  { at: -0.06, glow: hex("#D4871D"), edge: hex("#734A10"), core: hex("#251805") },
+  { at: 0, glow: hex("#838387"), edge: hex("#47474A"), core: hex("#171718") },
+  { at: 0.06, glow: hex("#669575"), edge: hex("#385140"), core: hex("#121A14") },
+  { at: 0.2, glow: hex("#50A267"), edge: hex("#2C5838"), core: hex("#0E1C12") },
+  { at: 0.5, glow: hex("#42AB5E"), edge: hex("#245D33"), core: hex("#0C1E10") },
 ];
 
 const toLinear = (c: number) => {

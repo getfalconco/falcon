@@ -123,7 +123,7 @@ let knownScopes: EarningsAnswer["scopes"] | null = null;
 
 const GRID = "grid grid-cols-[10px_84px_minmax(0,1fr)_96px_100px_100px_104px_72px_minmax(0,116px)] items-center gap-x-3";
 const NUM = "text-right font-['Geist_Mono'] text-[12px] tabular-nums";
-const QUIET = "text-[#9CA3AF]";
+const QUIET = "text-content-tertiary";
 
 function Skeleton() {
   return (
@@ -163,7 +163,7 @@ function TimeCell({ row }: { row: EarningsRow }) {
   const exact = releaseTimeText(row.releasedAt, say);
   const text = exact ?? (row.time === "unknown" ? "" : timeLabel(t, row.time));
   return (
-    <span title={timeLabel(t, row.time)} className={cn("truncate text-[11.5px]", exact ? "text-[#4b5563]" : QUIET)}>
+    <span title={timeLabel(t, row.time)} className={cn("truncate text-[11.5px]", exact ? "text-content-body" : QUIET)}>
       {text}
     </span>
   );
@@ -179,7 +179,7 @@ function EpsCell({ row }: { row: EarningsRow }) {
     const diff = row.epsEstimate !== null && row.epsActual !== null ? row.epsActual - row.epsEstimate : null;
     const verdict = diff === null ? undefined : diff > 0 ? t("earnings.drawer.aboveConsensus") : diff < 0 ? t("earnings.drawer.belowConsensus") : t("earnings.drawer.atConsensus");
     return (
-      <span className={cn(NUM, "text-[#1d1b1b]")} title={verdict}>
+      <span className={cn(NUM, "text-content-primary")} title={verdict}>
         {est ? t("earnings.cell.vs", { actual, estimate: est }) : actual}
       </span>
     );
@@ -195,7 +195,7 @@ function EpsCell({ row }: { row: EarningsRow }) {
         ? row.epsCurrency
         : undefined;
   return (
-    <span title={title} className={cn(NUM, text ? (thin ? "text-[#6b7280]" : "text-[#1d1b1b]") : QUIET, thin && "text-[11px]")}>
+    <span title={title} className={cn(NUM, text ? (thin ? "text-content-secondary" : "text-content-primary") : QUIET, thin && "text-[11px]")}>
       {text ?? na}
     </span>
   );
@@ -216,14 +216,14 @@ function RevenueCell({ row }: { row: EarningsRow }) {
         : undefined;
   if (out && text === null && row.phase === "pending") return <span className={cn(NUM, QUIET)}>{t("earnings.cell.pending")}</span>;
   return (
-    <span title={title} className={cn(NUM, text ? "text-[#1d1b1b]" : QUIET)}>
+    <span title={title} className={cn(NUM, text ? "text-content-primary" : QUIET)}>
       {text ?? na}
     </span>
   );
 }
 
 function toneOf(v: number | null): string {
-  return v === null ? QUIET : v > 0 ? "text-[#16a34a]" : v < 0 ? "text-[#dc2626]" : "text-[#4b5563]";
+  return v === null ? QUIET : v > 0 ? "text-tone-positive" : v < 0 ? "text-tone-negative" : "text-content-body";
 }
 
 type RowProps = {
@@ -290,7 +290,7 @@ function Row({ row, reaction, live, today, implied, estimate, onOpen }: RowProps
         <TickerButton row={row} />
       </span>
       <span className="flex min-w-0 items-center gap-2">
-        <span className="min-w-0 truncate text-[13px] text-[#1d1b1b]" title={[row.company, row.fiscalPeriod ? t("earnings.fiscal", { period: row.fiscalPeriod }) : null].filter(Boolean).join(", ") || undefined}>
+        <span className="min-w-0 truncate text-[13px] text-content-primary" title={[row.company, row.fiscalPeriod ? t("earnings.fiscal", { period: row.fiscalPeriod }) : null].filter(Boolean).join(", ") || undefined}>
           {name}
         </span>
         <RowBadges row={row} marks={false} />
@@ -299,17 +299,17 @@ function Row({ row, reaction, live, today, implied, estimate, onOpen }: RowProps
       <EpsCell row={row} />
       <RevenueCell row={row} />
       {fifth}
-      <span className={cn(NUM, usual ? "text-[#4b5563]" : QUIET)} title={usual ? t("earnings.usual.hint") : undefined}>
+      <span className={cn(NUM, usual ? "text-content-body" : QUIET)} title={usual ? t("earnings.usual.hint") : undefined}>
         {reaction === undefined ? "" : (usual ?? na)}
       </span>
       <LinkChips links={row.readsThrough} className="justify-start" />
       {implied && !out ? (
-        <span className="col-[3/-1] truncate pt-0.5 text-[11.5px] leading-[1.4] text-[#6b7280]" title={impliedHint(implied, say, lang)}>
+        <span className="col-[3/-1] truncate pt-0.5 text-[11.5px] leading-[1.4] text-content-secondary" title={impliedHint(implied, say, lang)}>
           {impliedLine(implied, say, lang)}
         </span>
       ) : null}
       {estimate && !out ? (
-        <span className="col-[3/-1] truncate pt-0.5 text-[11.5px] leading-[1.4] text-[#6b7280]" title={estimateHint(estimate, say, lang)}>
+        <span className="col-[3/-1] truncate pt-0.5 text-[11.5px] leading-[1.4] text-content-secondary" title={estimateHint(estimate, say, lang)}>
           {estimateLine(estimate, say, lang)}
         </span>
       ) : null}
@@ -449,8 +449,8 @@ export default function EarningsTab() {
   if (noNames) {
     body = (
       <Centered>
-        <p className="text-[14px] font-medium text-[#1d1b1b]">{t("earnings.empty.noNames")}</p>
-        <p className="mt-1.5 max-w-[420px] text-[13px] leading-[1.55] text-[#6b7280]">{t("earnings.empty.noNamesHint")}</p>
+        <p className="text-[14px] font-medium text-content-primary">{t("earnings.empty.noNames")}</p>
+        <p className="mt-1.5 max-w-[420px] text-[13px] leading-[1.55] text-content-secondary">{t("earnings.empty.noNamesHint")}</p>
         {scopes?.tracked !== false ? (
           <button type="button" onClick={() => setScope("tracked")} className={cn(BUTTON, "mt-4")}>
             {t("earnings.empty.showTracked")}
@@ -469,7 +469,7 @@ export default function EarningsTab() {
           : t("earnings.error.load");
     body = (
       <Centered>
-        <p className="text-[14px] font-medium text-[#1d1b1b]">{message}</p>
+        <p className="text-[14px] font-medium text-content-primary">{message}</p>
         {failure === "restart" ? null : failure === "scope_unavailable" ? (
           <button type="button" onClick={() => setScope("mine")} className={cn(BUTTON, "mt-4")}>
             {t("earnings.scope.mine")}
@@ -486,13 +486,13 @@ export default function EarningsTab() {
   } else if (inRange.length === 0) {
     body = (
       <Centered>
-        <p className="text-[13.5px] text-[#6b7280]">{prefs.scope === "foryou" ? t("earnings.empty.forYou") : t("earnings.empty.none")}</p>
+        <p className="text-[13.5px] text-content-secondary">{prefs.scope === "foryou" ? t("earnings.empty.forYou") : t("earnings.empty.none")}</p>
       </Centered>
     );
   } else if (shown.length === 0) {
     body = (
       <Centered>
-        <p className="text-[13.5px] text-[#6b7280]">{t("earnings.empty.filtered")}</p>
+        <p className="text-[13.5px] text-content-secondary">{t("earnings.empty.filtered")}</p>
         <button type="button" onClick={clearFilters} className={cn(BUTTON, "mt-4")}>
           {t("earnings.empty.clearFilters")}
         </button>
@@ -504,8 +504,8 @@ export default function EarningsTab() {
         {sections.map((s) => (
           <section key={s.key} className="border-t-[0.5px] border-black/[0.06] pt-3 first-of-type:border-t-0" aria-label={s.title}>
             <h3 className="flex items-baseline gap-2 px-2 pb-1">
-              <span className="text-[13px] font-medium text-[#1d1b1b]">{s.title}</span>
-              <span className="ml-auto text-[11.5px] tabular-nums text-[#9CA3AF]">{countText(s.rows.length, say, lang)}</span>
+              <span className="text-[13px] font-medium text-content-primary">{s.title}</span>
+              <span className="ml-auto text-[11.5px] tabular-nums text-content-tertiary">{countText(s.rows.length, say, lang)}</span>
             </h3>
             <ColumnHeads section={s.key} />
             {s.key !== "upcoming"
@@ -516,8 +516,8 @@ export default function EarningsTab() {
                   return (
                     <div key={g.date} className="pt-1">
                       <p className="flex items-baseline gap-2 px-2 pb-0.5 pt-1">
-                        <span className="text-[12px] text-[#4b5563]">{g.title}</span>
-                        {g.subtitle ? <span className="text-[11.5px] text-[#9CA3AF]">{g.subtitle}</span> : null}
+                        <span className="text-[12px] text-content-body">{g.title}</span>
+                        {g.subtitle ? <span className="text-[11.5px] text-content-tertiary">{g.subtitle}</span> : null}
                       </p>
                       {renderRows(list)}
                       {more > 0 ? (
@@ -568,7 +568,7 @@ export default function EarningsTab() {
           />
           <label className="relative ml-1">
             <span className="sr-only">{t("earnings.search.label")}</span>
-            <Search className="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-[#9CA3AF]" strokeWidth={2} aria-hidden />
+            <Search className="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-content-tertiary" strokeWidth={2} aria-hidden />
             <input
               type="search"
               value={query}
@@ -595,25 +595,25 @@ export default function EarningsTab() {
             onChange={setTime}
           />
           {filtersActive(filters) ? (
-            <button type="button" onClick={clearFilters} className="app-no-drag px-1 text-[12px] text-[#6b7280] transition-colors hover:text-[#1d1b1b]">
+            <button type="button" onClick={clearFilters} className="app-no-drag px-1 text-[12px] text-content-secondary transition-colors hover:text-content-primary">
               {t("earnings.empty.clearFilters")}
             </button>
           ) : null}
           {answer && !noNames ? (
-            <span className="ml-auto text-[12px] tabular-nums text-[#9CA3AF]" aria-live="polite">
+            <span className="ml-auto text-[12px] tabular-nums text-content-tertiary" aria-live="polite">
               {countText(shown.length, say, lang)}
             </span>
           ) : null}
         </div>
 
-        {header && !noNames ? <p className="border-b-[0.5px] border-black/[0.06] px-5 py-2.5 text-[12.5px] leading-[1.5] text-[#4b5563]">{header}</p> : null}
+        {header && !noNames ? <p className="border-b-[0.5px] border-black/[0.06] px-5 py-2.5 text-[12.5px] leading-[1.5] text-content-body">{header}</p> : null}
 
         {body}
 
         {notes.length > 0 ? (
           <div className="space-y-1 border-t-[0.5px] border-black/[0.06] px-5 py-3">
             {notes.map((note) => (
-              <p key={note} className="text-[11.5px] leading-[1.45] text-[#9CA3AF]">
+              <p key={note} className="text-[11.5px] leading-[1.45] text-content-tertiary">
                 {note}
               </p>
             ))}

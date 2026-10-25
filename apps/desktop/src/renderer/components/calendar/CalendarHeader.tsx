@@ -21,11 +21,11 @@ const VIEWS: Array<{ id: CalendarViewMode; key: MessageKey; hint: string }> = [
   { id: "month", key: "calendar.view.month", hint: "M" },
 ];
 
-const SEGMENT = "app-no-drag relative rounded-[8px] px-2.5 py-1 text-[12px] transition-colors";
+const SEGMENT = "app-no-drag relative rounded-lg px-2.5 py-1 text-[12px] transition-colors";
 
 function Segmented<T extends string>({ value, options, onChange, label }: { value: T; options: Array<{ id: T; text: string; title?: string }>; onChange: (v: T) => void; label: string }) {
   return (
-    <div role="radiogroup" aria-label={label} className="flex items-center rounded-[10px] bg-black/[0.04] p-[2px]">
+    <div role="radiogroup" aria-label={label} className="flex items-center rounded-xl bg-black/[0.04] p-[2px]">
       {options.map((o) => (
         <button
           key={o.id}
@@ -34,7 +34,7 @@ function Segmented<T extends string>({ value, options, onChange, label }: { valu
           aria-checked={value === o.id}
           title={o.title}
           onClick={() => onChange(o.id)}
-          className={cn(SEGMENT, value === o.id ? "bg-white/90 text-[#1d1b1b] shadow-[0_1px_2px_rgba(0,0,0,0.08)]" : "text-[#6b7280] hover:text-[#1d1b1b]")}
+          className={cn(SEGMENT, value === o.id ? "bg-white/90 text-content-primary shadow-[0_1px_2px_rgba(0,0,0,0.08)]" : "text-content-secondary hover:text-content-primary")}
         >
           {o.text}
         </button>
@@ -98,7 +98,7 @@ export default function CalendarHeader({
 
   return (
     <div className="flex shrink-0 items-center gap-2 border-b border-black/[0.06] px-4 py-3">
-      <h2 className="min-w-0 truncate text-[17px] font-medium text-[#1d1b1b]" aria-live="polite">
+      <h2 className="min-w-0 truncate text-[17px] font-medium text-content-primary" aria-live="polite">
         {title}
       </h2>
       {weekNumber !== null ? <span className={cn(MONO_HEAD, "mt-[3px] shrink-0")}>{t("calendar.weekNumber", { n: weekNumber })}</span> : null}
@@ -154,10 +154,10 @@ export default function CalendarHeader({
                     key={d}
                     type="button"
                     onClick={() => onWeekStart(d)}
-                    className="flex w-full items-center justify-between rounded-lg px-2 py-1.5 text-left text-[12.5px] text-[#1d1b1b] hover:bg-black/[0.05]"
+                    className="flex w-full items-center justify-between rounded-lg px-2 py-1.5 text-left text-[12.5px] text-content-primary hover:bg-black/[0.05]"
                   >
                     {d === 1 ? t("calendar.options.monday") : t("calendar.options.sunday")}
-                    {weekStart === d ? <Check className="h-3.5 w-3.5 text-[#4b5563]" strokeWidth={2} /> : null}
+                    {weekStart === d ? <Check className="h-3.5 w-3.5 text-content-body" strokeWidth={2} /> : null}
                   </button>
                 ))}
                 <div className="my-1 border-t border-black/[0.06]" />
@@ -166,10 +166,10 @@ export default function CalendarHeader({
                   role="switch"
                   aria-checked={showWeekends}
                   onClick={() => onWeekends(!showWeekends)}
-                  className="flex w-full items-center justify-between rounded-lg px-2 py-1.5 text-left text-[12.5px] text-[#1d1b1b] hover:bg-black/[0.05]"
+                  className="flex w-full items-center justify-between rounded-lg px-2 py-1.5 text-left text-[12.5px] text-content-primary hover:bg-black/[0.05]"
                 >
                   {t("calendar.options.weekends")}
-                  {showWeekends ? <Check className="h-3.5 w-3.5 text-[#4b5563]" strokeWidth={2} /> : null}
+                  {showWeekends ? <Check className="h-3.5 w-3.5 text-content-body" strokeWidth={2} /> : null}
                 </button>
               </motion.div>
             ) : null}

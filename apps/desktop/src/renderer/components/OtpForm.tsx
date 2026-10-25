@@ -122,7 +122,7 @@ export default function OtpForm({
             <h1 className="font-serif text-[2rem] font-normal leading-[1.25] tracking-[0.01em] text-white">
               {title}
             </h1>
-            <p className="mt-3 text-balance text-sm text-[#888888] [word-break:auto-phrase]">{subtitle}</p>
+            <p className="mt-3 text-balance text-sm text-content-tertiary [word-break:auto-phrase]">{subtitle}</p>
             <p className="mt-1 text-sm text-white/80">{maskEmail(email)}</p>
           </header>
 
@@ -149,7 +149,7 @@ export default function OtpForm({
             />
 
             {loading ? (
-              <p className="mt-3 flex items-center gap-2 text-xs text-[#888888]">
+              <p className="mt-3 flex items-center gap-2 text-xs text-content-tertiary">
                 <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden />
                 {t("auth.otp.verifying")}
               </p>
@@ -161,7 +161,7 @@ export default function OtpForm({
               type="button"
               onClick={() => void handleResend()}
               disabled={resending || loading}
-              className="text-[#888888] underline underline-offset-2 transition hover:text-white disabled:opacity-50"
+              className="text-content-tertiary underline underline-offset-2 transition hover:text-white disabled:opacity-50"
             >
               {resending ? t("auth.otp.sending") : t("auth.otp.resend")}
             </button>

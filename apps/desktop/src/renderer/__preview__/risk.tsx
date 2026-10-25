@@ -144,7 +144,7 @@ if (view !== "card" && view !== "both") setTimeout(() => window.dispatchEvent(ne
 
 createRoot(document.getElementById("root")!).render(
   view === "both" ? (
-    <div className="flex min-h-screen items-center justify-center gap-6 bg-[#EAEAE6] p-10">
+    <div className="flex min-h-screen items-center justify-center gap-6 bg-surface-0 p-10">
       <div className="w-[380px] shrink-0">
         <PortfolioCard masked={false} onToggleMasked={() => {}} />
       </div>
@@ -153,14 +153,14 @@ createRoot(document.getElementById("root")!).render(
       </div>
     </div>
   ) : view === "card" ? (
-    <div className="flex min-h-screen items-center justify-center bg-[#EAEAE6] p-10">
+    <div className="flex min-h-screen items-center justify-center bg-surface-0 p-10">
       <div className="h-[460px] w-[380px]">
         <OpportunitiesPanel />
       </div>
     </div>
   ) : (
-    <div className="min-h-screen bg-[#EAEAE6]">
-      <div className="p-6 font-sans text-[12px] text-[#6b7280]">dashboard stays mounted behind the panel</div>
+    <div className="min-h-screen bg-surface-0">
+      <div className="p-6 font-sans text-[12px] text-content-secondary">dashboard stays mounted behind the panel</div>
       <RiskHost />
     </div>
   ),

@@ -51,10 +51,10 @@ export type AccountActions = {
 const DEFAULT_ACTIONS: AccountActions = { save: saveAccountFields, signOutEverywhere, deleteAccount };
 
 const FIELD =
-  "app-no-drag rounded-xl border border-white/60 bg-white/55 px-3 text-[13px] font-normal text-[#1d1b1b] shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] outline-none ring-1 ring-black/[0.04] transition-colors placeholder:text-[#9CA3AF] focus:bg-white/75 disabled:opacity-60";
+  "app-no-drag rounded-xl border border-white/60 bg-white/55 px-3 text-[13px] font-normal text-content-primary shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] outline-none ring-1 ring-black/[0.04] transition-colors placeholder:text-content-tertiary focus:bg-white/75 disabled:opacity-60";
 
 const BUTTON =
-  "app-no-drag btn-quiet rounded-lg border border-white/60 bg-white/55 px-3 py-1.5 text-[13px] font-normal text-[#1d1b1b] shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-black/[0.04] transition-colors hover:bg-white/75 disabled:pointer-events-none";
+  "app-no-drag btn-quiet rounded-lg border border-white/60 bg-white/55 px-3 py-1.5 text-[13px] font-normal text-content-primary shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-black/[0.04] transition-colors hover:bg-white/75 disabled:pointer-events-none";
 
 type SaveState = "idle" | "saving" | "saved" | "error" | "invalid";
 
@@ -124,7 +124,7 @@ function Status({ state }: { state: SaveState }) {
   return (
     <span
       role="status"
-      className={cn("text-[12px] font-normal", state === "error" || state === "invalid" ? "text-[#DC2626]" : "text-[#9CA3AF]")}
+      className={cn("text-[12px] font-normal", state === "error" || state === "invalid" ? "text-tone-negative" : "text-content-tertiary")}
     >
       {t(STATUS_TEXT[state])}
     </span>
@@ -151,13 +151,13 @@ function AccountId({ id }: { id: string }) {
       onClick={() => {
         void navigator.clipboard?.writeText(id).then(() => setCopied(true), () => undefined);
       }}
-      className="app-no-drag group flex items-center gap-2 rounded-lg bg-black/[0.04] px-2.5 py-1 font-['Geist_Mono'] text-[12px] text-[#4b5563] transition-colors hover:bg-black/[0.06]"
+      className="app-no-drag group flex items-center gap-2 rounded-lg bg-black/[0.04] px-2.5 py-1 font-['Geist_Mono'] text-[12px] text-content-body transition-colors hover:bg-black/[0.06]"
     >
       <span data-selectable className="select-text">{id}</span>
       {copied ? (
-        <Check className="h-3.5 w-3.5 text-[#16A34A]" strokeWidth={2} aria-hidden />
+        <Check className="h-3.5 w-3.5 text-tone-positive" strokeWidth={2} aria-hidden />
       ) : (
-        <Copy className="h-3.5 w-3.5 text-[#9CA3AF] group-hover:text-[#4b5563]" strokeWidth={1.75} aria-hidden />
+        <Copy className="h-3.5 w-3.5 text-content-tertiary group-hover:text-content-body" strokeWidth={1.75} aria-hidden />
       )}
       <span className="sr-only">{copied ? t("common.copied") : t("settings.account.copyId")}</span>
     </button>
@@ -245,7 +245,7 @@ function AvatarControl({ userId, name }: { userId: string | null; name: string }
       {status ? (
         <span
           role="status"
-          className={cn("text-[12px] font-normal", status.kind === "error" ? "text-[#DC2626]" : "text-[#9CA3AF]")}
+          className={cn("text-[12px] font-normal", status.kind === "error" ? "text-tone-negative" : "text-content-tertiary")}
         >
           {status.kind === "error" ? status.text : t(PHOTO_STATUS[status.kind])}
         </span>
@@ -312,7 +312,7 @@ function SignOutEverywhere({ run }: { run: () => Promise<void> }) {
   }
   return (
     <div className="flex items-center gap-2">
-      {phase === "error" ? <span className="text-[12px] text-[#DC2626]">{t("settings.account.logOutFailed")}</span> : null}
+      {phase === "error" ? <span className="text-[12px] text-tone-negative">{t("settings.account.logOutFailed")}</span> : null}
       <button type="button" onClick={() => setPhase("idle")} disabled={phase === "working"} className={BUTTON}>
         {t("common.cancel")}
       </button>
@@ -323,7 +323,7 @@ function SignOutEverywhere({ run }: { run: () => Promise<void> }) {
           setPhase("working");
           run().catch(() => setPhase("error"));
         }}
-        className="app-no-drag rounded-lg bg-[#DC2626] px-3 py-1.5 text-[13px] font-medium text-white transition-colors hover:bg-[#B91C1C] disabled:opacity-60"
+        className="app-no-drag rounded-lg bg-tone-negative-solid px-3 py-1.5 text-[13px] font-medium text-white transition-colors hover:bg-tone-negative-solid/90 disabled:opacity-60"
       >
         {phase === "working" ? t("settings.account.loggingOut") : t("settings.account.logOutEverywhere")}
       </button>
@@ -349,7 +349,7 @@ function DeleteAccount({ run }: { run: () => Promise<void> }) {
 
   if (phase === "idle") {
     return (
-      <button type="button" onClick={() => setPhase("confirm")} className={cn(BUTTON, "text-[#DC2626]")}>
+      <button type="button" onClick={() => setPhase("confirm")} className={cn(BUTTON, "text-tone-negative")}>
         {t("settings.account.delete")}
       </button>
     );
@@ -357,7 +357,7 @@ function DeleteAccount({ run }: { run: () => Promise<void> }) {
   return (
     <div className="flex items-center gap-2">
       {phase === "error" ? (
-        <span className="max-w-[220px] truncate text-[12px] text-[#DC2626]" title={error ?? undefined}>
+        <span className="max-w-[220px] truncate text-[12px] text-tone-negative" title={error ?? undefined}>
           {error ?? t("settings.account.deleteFailed")}
         </span>
       ) : null}
@@ -375,7 +375,7 @@ function DeleteAccount({ run }: { run: () => Promise<void> }) {
             setPhase("error");
           });
         }}
-        className="app-no-drag rounded-lg bg-[#DC2626] px-3 py-1.5 text-[13px] font-medium text-white transition-colors hover:bg-[#B91C1C] disabled:opacity-60"
+        className="app-no-drag rounded-lg bg-tone-negative-solid px-3 py-1.5 text-[13px] font-medium text-white transition-colors hover:bg-tone-negative-solid/90 disabled:opacity-60"
       >
         {phase === "working" ? t("settings.account.deleting") : t("settings.account.deleteConfirm")}
       </button>
@@ -442,7 +442,7 @@ export default function AccountPane({ user, actions = DEFAULT_ACTIONS }: { user:
 
         {/* A stacked row: the note needs the pane's width, not a control's. */}
         <div className="border-b border-black/[0.06] py-4">
-          <div className="text-[13.5px] font-normal text-[#1d1b1b]">{t("settings.account.instructions")}</div>
+          <div className="text-[13.5px] font-normal text-content-primary">{t("settings.account.instructions")}</div>
           <textarea
             aria-label={t("settings.account.instructions")}
             value={notesField.draft}
@@ -457,7 +457,7 @@ export default function AccountPane({ user, actions = DEFAULT_ACTIONS }: { user:
           />
           <div className="mt-1.5 flex items-center justify-between">
             <Status state={notesField.state} />
-            <span className="ml-auto font-['Geist_Mono'] text-[11px] text-[#9CA3AF]">
+            <span className="ml-auto font-['Geist_Mono'] text-[11px] text-content-tertiary">
               {notesField.draft.length}/{INSTRUCTIONS_MAX}
             </span>
           </div>
@@ -473,14 +473,14 @@ export default function AccountPane({ user, actions = DEFAULT_ACTIONS }: { user:
           {signedIn ? (
             <DeleteAccount run={actions.deleteAccount ?? deleteAccount} />
           ) : (
-            <button type="button" disabled className={cn(BUTTON, "text-[#9CA3AF] opacity-70")}>
+            <button type="button" disabled className={cn(BUTTON, "text-content-tertiary opacity-70")}>
               {t("settings.account.delete")}
             </button>
           )}
         </SettingsRow>
 
         <SettingsRow label={t("settings.account.id")} className="border-b-0">
-          {user ? <AccountId id={user.id} /> : <span className="text-[12.5px] text-[#9CA3AF]">{t("settings.account.notSignedIn")}</span>}
+          {user ? <AccountId id={user.id} /> : <span className="text-[12.5px] text-content-tertiary">{t("settings.account.notSignedIn")}</span>}
         </SettingsRow>
       </SettingsSection>
     </>

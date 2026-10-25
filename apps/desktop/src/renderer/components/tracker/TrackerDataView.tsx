@@ -87,7 +87,7 @@ function Table({
   exportName: string;
 }) {
   if (rows.length === 0) {
-    return <div className="py-6 text-center font-mono text-[11px] text-[#a3a39c]">{empty}</div>;
+    return <div className="py-6 text-center font-mono text-[11px] text-content-tertiary">{empty}</div>;
   }
   // Tracker data is measured, not authored — the grid is read-only on purpose.
   return (
@@ -111,7 +111,7 @@ function QuantSection({
   const t = useT();
   if (!quant) {
     return (
-      <div className="py-6 text-center font-mono text-[11px] text-[#a3a39c]">
+      <div className="py-6 text-center font-mono text-[11px] text-content-tertiary">
         {t("instruments.tracker.computing")}
       </div>
     );
@@ -147,7 +147,7 @@ function QuantSection({
   ];
   return (
     <>
-      <div className="mb-2 font-mono text-[10px] text-[#a3a39c]">
+      <div className="mb-2 font-mono text-[10px] text-content-tertiary">
         {t("instruments.tracker.stateLine", {
           cik: state.cik ?? na(),
           backfilled: state.backfilledAt ?? t("instruments.tracker.notYet"),
@@ -207,14 +207,14 @@ export default function TrackerDataView({ ticker }: { ticker: string }) {
 
   if (error) {
     return (
-      <div className="py-8 text-center font-mono text-[11px] text-[#b45309]">
+      <div className="py-8 text-center font-mono text-[11px] text-tone-warning">
         {error === BRIDGE_MISSING ? t("instruments.common.bridgeUnavailable", { name: "Tracker" }) : error}
       </div>
     );
   }
   if (!state) {
     return (
-      <div className="py-8 text-center font-mono text-[11px] text-[#a3a39c]">{t("instruments.tracker.loadingTicker", { ticker })}</div>
+      <div className="py-8 text-center font-mono text-[11px] text-content-tertiary">{t("instruments.tracker.loadingTicker", { ticker })}</div>
     );
   }
 
@@ -222,7 +222,7 @@ export default function TrackerDataView({ ticker }: { ticker: string }) {
 
   return (
     <div className="flex h-full min-h-0 flex-col">
-      <div className="flex flex-wrap items-center gap-1 border-b border-[#eeeee8] pb-2">
+      <div className="flex flex-wrap items-center gap-1 border-b border-edge-subtle pb-2">
         {SECTIONS.map((s) => {
           const count =
             s.key === "bars"
@@ -243,13 +243,13 @@ export default function TrackerDataView({ ticker }: { ticker: string }) {
               onClick={() => setSection(s.key)}
               className={`rounded px-2 py-1 text-[11px] transition-colors ${
                 section === s.key
-                  ? "bg-[#1d1b1b] text-white"
-                  : "text-[#6b7280] hover:bg-[#efefe9] hover:text-[#1d1b1b]"
+                  ? "bg-ink text-white"
+                  : "text-content-secondary hover:bg-surface-2 hover:text-content-primary"
               }`}
             >
               {t(s.label)}
               {count != null && (
-                <span className={section === s.key ? "text-white/60" : "text-[#a3a39c]"}>
+                <span className={section === s.key ? "text-white/60" : "text-content-tertiary"}>
                   {" "}
                   {count}
                 </span>
@@ -288,7 +288,7 @@ export default function TrackerDataView({ ticker }: { ticker: string }) {
 
         {section === "news" && (
           <>
-            <div className="mb-2 font-mono text-[10px] text-[#a3a39c]">
+            <div className="mb-2 font-mono text-[10px] text-content-tertiary">
               {t("instruments.tracker.newsMeta", {
                 ids: state.seenArticleIds.length,
                 timestamps: state.newsTimestamps.length,
@@ -365,7 +365,7 @@ export default function TrackerDataView({ ticker }: { ticker: string }) {
 
         {section === "earnings" && (
           <>
-            <div className="mb-1 font-mono text-[10px] text-[#8b8b86]">
+            <div className="mb-1 font-mono text-[10px] text-content-tertiary">
               {t("instruments.tracker.reportedNote")}
             </div>
             <Table
@@ -375,7 +375,7 @@ export default function TrackerDataView({ ticker }: { ticker: string }) {
               rows={state.earnings.map((e) => [e.date, e.fiscalPeriod, e.hour ?? na()])}
               empty={t("instruments.tracker.noReported")}
             />
-            <div className="mb-1 mt-4 font-mono text-[10px] text-[#8b8b86]">
+            <div className="mb-1 mt-4 font-mono text-[10px] text-content-tertiary">
               {t("instruments.tracker.scheduledNote")}
             </div>
             <Table
@@ -390,7 +390,7 @@ export default function TrackerDataView({ ticker }: { ticker: string }) {
 
         {section === "detectors" && (
           <>
-            <div className="mb-1 font-mono text-[10px] text-[#8b8b86]">
+            <div className="mb-1 font-mono text-[10px] text-content-tertiary">
               {t("instruments.tracker.snapshotNote")}
             </div>
             <Table
@@ -406,7 +406,7 @@ export default function TrackerDataView({ ticker }: { ticker: string }) {
               ).map(([name, d]) => [name, d.lastFiredDay ?? t("instruments.tracker.never"), num(d.lastFiredValue, 3)])}
               empty=""
             />
-            <div className="mb-1 mt-4 font-mono text-[10px] text-[#8b8b86]">
+            <div className="mb-1 mt-4 font-mono text-[10px] text-content-tertiary">
               {t("instruments.tracker.edgeNote")}
             </div>
             <Table
@@ -436,7 +436,7 @@ export default function TrackerDataView({ ticker }: { ticker: string }) {
               ])}
               empty=""
             />
-            <div className="mb-1 mt-4 font-mono text-[10px] text-[#8b8b86]">
+            <div className="mb-1 mt-4 font-mono text-[10px] text-content-tertiary">
               {t("instruments.tracker.bookkeeping")}
             </div>
             <Table
@@ -454,10 +454,10 @@ export default function TrackerDataView({ ticker }: { ticker: string }) {
 
         {section === "raw" && (
           <>
-            <div className="mb-2 font-mono text-[10px] text-[#a3a39c]">
+            <div className="mb-2 font-mono text-[10px] text-content-tertiary">
               {t("instruments.tracker.onDisk", { path: `${dataDir}\\state\\${state.ticker}.json` })}
             </div>
-            <pre className="overflow-x-auto whitespace-pre-wrap break-all rounded border border-[#eeeee8] bg-white p-2 font-mono text-[10px] leading-relaxed text-[#3f3f46]">
+            <pre className="overflow-x-auto whitespace-pre-wrap break-all rounded border border-edge-subtle bg-white p-2 font-mono text-[10px] leading-relaxed text-content-body">
               {JSON.stringify(state, null, 1)}
             </pre>
           </>

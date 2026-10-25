@@ -223,7 +223,7 @@ function Screen() {
 }
 
 createRoot(document.getElementById("root")!).render(
-  <div className="flex min-h-screen items-start justify-start bg-[#d9d6d0] p-4">
+  <div className="flex min-h-screen items-start justify-start bg-fill-strong p-4">
     <div className="relative overflow-hidden shadow-xl" style={{ width: 1060, height: 680 }}>
       <Screen />
     </div>

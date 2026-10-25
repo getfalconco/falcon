@@ -15,7 +15,7 @@ import { SettingsRow } from "./SettingsRow";
  */
 
 const BUTTON =
-  "app-no-drag btn-quiet rounded-lg border border-white/60 bg-white/55 px-3 py-1.5 text-[13px] font-normal text-[#1d1b1b] shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-black/[0.04] transition-colors hover:bg-white/75";
+  "app-no-drag btn-quiet rounded-lg border border-white/60 bg-white/55 px-3 py-1.5 text-[13px] font-normal text-content-primary shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-black/[0.04] transition-colors hover:bg-white/75";
 
 const AUTO = "auto";
 const SYSTEM = "system";
@@ -40,7 +40,7 @@ export function RegionRow() {
     <>
       <SettingsRow label={t("settings.general.region")} description={t("settings.general.regionNote")}>
         <div className="flex items-center gap-3">
-          <span className="text-[13px] font-normal text-[#6b7280]">{shown}</span>
+          <span className="text-[13px] font-normal text-content-secondary">{shown}</span>
           <button type="button" onClick={() => setOpen(true)} aria-haspopup="dialog" className={BUTTON}>
             {t("settings.general.languageChange")}
           </button>
@@ -83,7 +83,7 @@ export function TimeZoneRow({ className }: { className?: string }) {
     <>
       <SettingsRow label={t("settings.general.timeZone")} description={t("settings.general.timeZoneNote")} className={className}>
         <div className="flex items-center gap-3">
-          <span className="text-[13px] font-normal text-[#6b7280]">{shown}</span>
+          <span className="text-[13px] font-normal text-content-secondary">{shown}</span>
           <button type="button" onClick={() => setOpen(true)} aria-haspopup="dialog" className={BUTTON}>
             {t("settings.general.languageChange")}
           </button>

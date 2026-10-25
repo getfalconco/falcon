@@ -34,7 +34,7 @@ const PANEL_TWEEN = { type: "spring", stiffness: 260, damping: 28, mass: 0.9 } a
 
 /** The rail's group headings, set like the panel's own masthead. */
 const RAIL_LABEL =
-  "select-none px-1 font-sans text-[10.5px] font-medium tracking-[0.08em] text-[#9CA3AF]";
+  "select-none px-1 font-sans text-[10.5px] font-medium tracking-[0.08em] text-content-tertiary";
 
 /** Resting width of the panel's right side. */
 const RAIL_W = 248;
@@ -103,7 +103,7 @@ function TickerButton({
         />
         <span
           className={cn(
-            "min-w-0 flex-1 truncate font-semibold leading-none text-[#1d1b1b]",
+            "min-w-0 flex-1 truncate font-semibold leading-none text-content-primary",
             prominent ? "text-[14px]" : "text-[12.5px]",
           )}
         >
@@ -116,10 +116,10 @@ function TickerButton({
           >
             <span
               aria-hidden
-              className="block h-[10px] w-[10px] rounded-[2px]"
+              className="block h-[10px] w-[10px] rounded-sm"
               style={{ backgroundColor: pricedInColor(pricedIn) }}
             />
-            <span className="w-[42px] text-right font-['Geist_Mono'] text-[10.5px] tabular-nums text-[#6b7280]">
+            <span className="w-[42px] text-right font-['Geist_Mono'] text-[10.5px] tabular-nums text-content-secondary">
               {share}
             </span>
           </span>
@@ -133,7 +133,7 @@ function TickerButton({
           aria-label={t("dashboard.insight.whyAffected", { ticker: symbol })}
           title={t("dashboard.insight.whyAffected", { ticker: symbol })}
           className={cn(
-            "flex w-9 shrink-0 items-center justify-center rounded-2xl text-[#4b5563] hover:text-[#1d1b1b]",
+            "flex w-9 shrink-0 items-center justify-center rounded-2xl text-content-body hover:text-content-primary",
             glass,
           )}
         >
@@ -424,14 +424,14 @@ export default function InsightDetailModal({
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.08, duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
             >
-              <span className="select-none font-sans text-[11px] font-medium tracking-[0.04em] text-[#9CA3AF]">
+              <span className="select-none font-sans text-[11px] font-medium tracking-[0.04em] text-content-tertiary">
                 {title ?? t("dashboard.insight.label")}
               </span>
               <button
                 type="button"
                 onClick={onClose}
                 aria-label={t("common.close")}
-                className="app-no-drag rounded-lg p-1.5 text-[#6b7280] transition-colors hover:bg-black/[0.04] hover:text-[#1d1b1b]"
+                className="app-no-drag rounded-lg p-1.5 text-content-secondary transition-colors hover:bg-black/[0.04] hover:text-content-primary"
               >
                 <X className="h-4 w-4" strokeWidth={1.75} aria-hidden />
               </button>
@@ -452,7 +452,7 @@ export default function InsightDetailModal({
                 >
                   {headline ? (
                     <SelectionGloss context={headline} ticker={request?.root_ticker}>
-                      <h2 className="max-w-[46ch] pt-4 font-sans text-[30px] font-medium leading-[1.24] tracking-[-0.015em] text-[#1d1b1b]">
+                      <h2 className="max-w-[46ch] pt-4 font-sans text-[30px] font-medium leading-[1.24] tracking-[-0.015em] text-content-primary">
                         {headline}
                       </h2>
                     </SelectionGloss>
@@ -467,7 +467,7 @@ export default function InsightDetailModal({
                           animate={{ opacity: 1 }}
                           exit={{ opacity: 0 }}
                           transition={{ duration: 0.2 }}
-                          className="flex items-center gap-2 text-[13px] text-[#9CA3AF]"
+                          className="flex items-center gap-2 text-[13px] text-content-tertiary"
                         >
                           <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden />
                           {t("dashboard.insight.writing")}
@@ -481,7 +481,7 @@ export default function InsightDetailModal({
                           transition={{ duration: 0.34, ease: [0.4, 0, 0.2, 1] }}
                         >
                           <SelectionGloss context={explanation.summary} ticker={request?.root_ticker}>
-                            <p className="text-[15px] leading-[1.65] text-[#374151]">
+                            <p className="text-[15px] leading-[1.65] text-content-body">
                               {explanation.summary}
                             </p>
                           </SelectionGloss>
@@ -493,11 +493,11 @@ export default function InsightDetailModal({
                                   initial={{ opacity: 0, y: 6 }}
                                   animate={{ opacity: 1, y: 0 }}
                                   transition={{ delay: 0.06 * i, duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-                                  className="flex gap-2.5 text-[13.5px] leading-[1.55] text-[#4b5563]"
+                                  className="flex gap-2.5 text-[13.5px] leading-[1.55] text-content-body"
                                 >
                                   <span
                                     aria-hidden
-                                    className="mt-[7px] h-[5px] w-[5px] shrink-0 rounded-full bg-[#9CA3AF]"
+                                    className="mt-[7px] h-[5px] w-[5px] shrink-0 rounded-full bg-content-tertiary"
                                   />
                                   <span>{point}</span>
                                 </motion.li>
@@ -511,7 +511,7 @@ export default function InsightDetailModal({
                           initial={{ opacity: 0 }}
                           animate={{ opacity: 1 }}
                           exit={{ opacity: 0 }}
-                          className="text-[13px] text-[#9CA3AF]"
+                          className="text-[13px] text-content-tertiary"
                         >
                           {error}
                         </motion.p>
@@ -527,7 +527,7 @@ export default function InsightDetailModal({
                         turn.role === "user" ? (
                           <p
                             key={`${i}-q`}
-                            className="mt-6 text-[14px] font-medium leading-[1.55] text-[#1d1b1b] first:mt-0"
+                            className="mt-6 text-[14px] font-medium leading-[1.55] text-content-primary first:mt-0"
                           >
                             {turn.text}
                           </p>
@@ -540,7 +540,7 @@ export default function InsightDetailModal({
                             className="mt-2.5"
                           >
                             <SelectionGloss context={turn.text} ticker={request?.root_ticker}>
-                              <p className="text-[14px] leading-[1.62] text-[#374151]">
+                              <p className="text-[14px] leading-[1.62] text-content-body">
                                 {turn.text}
                               </p>
                             </SelectionGloss>
@@ -549,14 +549,14 @@ export default function InsightDetailModal({
                       )}
 
                       {asking ? (
-                        <div className="mt-3 flex items-center gap-2 text-[13px] text-[#9CA3AF]">
+                        <div className="mt-3 flex items-center gap-2 text-[13px] text-content-tertiary">
                           <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden />
                           {t("dashboard.insight.thinking")}
                         </div>
                       ) : null}
 
                       {chatError ? (
-                        <p className="mt-3 text-[13px] text-[#9CA3AF]">{chatError}</p>
+                        <p className="mt-3 text-[13px] text-content-tertiary">{chatError}</p>
                       ) : null}
                     </div>
                   ) : null}
@@ -588,7 +588,7 @@ export default function InsightDetailModal({
                       placeholder={asking ? t("dashboard.insight.thinking") : t("dashboard.insight.ask")}
                       aria-label={t("dashboard.insight.ask")}
                       disabled={asking}
-                      className="min-w-0 flex-1 bg-transparent text-[13.5px] font-normal text-[#1d1b1b] outline-none placeholder:text-[#9CA3AF]"
+                      className="min-w-0 flex-1 bg-transparent text-[13.5px] font-normal text-content-primary outline-none placeholder:text-content-tertiary"
                     />
                   </div>
                   <button
@@ -596,7 +596,7 @@ export default function InsightDetailModal({
                     disabled={draft.trim().length === 0 || asking}
                     aria-label={t("dashboard.insight.send")}
                     title={t("dashboard.insight.send")}
-                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/60 bg-white/55 text-[#1d1b1b] shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-black/[0.04] backdrop-blur-xl backdrop-saturate-150 transition-colors hover:bg-white/75 disabled:pointer-events-none disabled:opacity-40"
+                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/60 bg-white/55 text-content-primary shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-black/[0.04] backdrop-blur-xl backdrop-saturate-150 transition-colors hover:bg-white/75 disabled:pointer-events-none disabled:opacity-40"
                   >
                     <ArrowUp className="h-4 w-4" strokeWidth={2} aria-hidden />
                   </button>

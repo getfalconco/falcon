@@ -19,10 +19,10 @@ export type HomeTabChoice<Id extends string = string> = {
  * layer's own, as on Add Module.
  */
 const TAB_BASE =
-  "app-no-drag flex h-8 cursor-pointer items-center gap-1.5 whitespace-nowrap rounded-full px-3.5 text-[13px] font-medium outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#9CA3AF]";
+  "app-no-drag flex h-8 cursor-pointer items-center gap-1.5 whitespace-nowrap rounded-full px-3.5 text-[13px] font-medium outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-edge-focus";
 const TAB_ON = "glass-cta cta-primary text-white";
 const TAB_OFF =
-  "btn-quiet border border-white/60 bg-white/70 text-[#1d1b1b] shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-black/[0.04] backdrop-blur-xl transition-colors duration-150 hover:bg-white/90";
+  "btn-quiet border border-white/60 bg-white/70 text-content-primary shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-black/[0.04] backdrop-blur-xl transition-colors duration-150 hover:bg-white/90";
 
 /**
  * The home screen's tab strip, beside the greeting. Pills in a row: press one

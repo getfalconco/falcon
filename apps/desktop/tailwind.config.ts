@@ -1,6 +1,15 @@
 import type { Config } from "tailwindcss";
 import plugin from "tailwindcss/plugin";
-import preset from "@meridian/tailwind-config";
+import preset, { appleRadius, cssVarColor as v } from "@meridian/tailwind-config";
+
+const tone = (name: string) => ({
+  DEFAULT: v(`--${name}`),
+  muted: v(`--${name}-muted`),
+  soft: v(`--${name}-soft`),
+  line: v(`--${name}-line`),
+  fill: v(`--${name}-fill`),
+  solid: v(`--${name}-solid`),
+});
 
 const config: Config = {
   presets: [preset],
@@ -14,41 +23,53 @@ const config: Config = {
          * `border-edge-subtle`, `text-tone-positive`, `bg-tone-negative-soft`.
          */
         surface: {
-          0: "var(--surface-0)",
-          1: "var(--surface-1)",
-          2: "var(--surface-2)",
-          3: "var(--surface-3)",
-          4: "var(--surface-4)",
-          sunken: "var(--surface-sunken)",
+          0: v("--surface-0"),
+          1: v("--surface-1"),
+          2: v("--surface-2"),
+          3: v("--surface-3"),
+          4: v("--surface-4"),
+          sunken: v("--surface-sunken"),
         },
         fill: {
-          hover: "var(--fill-hover)",
-          press: "var(--fill-press)",
-          selected: "var(--fill-selected)",
-          strong: "var(--fill-strong)",
+          hover: v("--fill-hover"),
+          press: v("--fill-press"),
+          selected: v("--fill-selected"),
+          strong: v("--fill-strong"),
         },
         edge: {
-          subtle: "var(--border-subtle)",
-          DEFAULT: "var(--border-default)",
-          strong: "var(--border-strong)",
-          focus: "var(--focus-ring)",
+          subtle: v("--border-subtle"),
+          DEFAULT: v("--border-default"),
+          strong: v("--border-strong"),
+          focus: v("--focus-ring"),
         },
         content: {
-          primary: "var(--text-primary)",
-          body: "var(--text-body)",
-          secondary: "var(--text-secondary)",
-          tertiary: "var(--text-tertiary)",
-          disabled: "var(--text-disabled)",
+          primary: v("--text-primary"),
+          body: v("--text-body"),
+          secondary: v("--text-secondary"),
+          tertiary: v("--text-tertiary"),
+          disabled: v("--text-disabled"),
+          quaternary: v("--text-quaternary"),
         },
+        /*
+         * Apple's system hues by role. DEFAULT is the hue as text (the
+         * Increase Contrast variant in light, AA on a card); `fill` is the
+         * base system colour for a chart line, a bar, a dot or a gauge;
+         * `solid` is the hue deep enough to carry white type (a badge, a
+         * destructive button).
+         */
         tone: {
-          positive: { DEFAULT: "var(--positive)", muted: "var(--positive-muted)", soft: "var(--positive-soft)", line: "var(--positive-line)" },
-          negative: { DEFAULT: "var(--negative)", muted: "var(--negative-muted)", soft: "var(--negative-soft)", line: "var(--negative-line)" },
-          warning: { DEFAULT: "var(--warning)", muted: "var(--warning-muted)", soft: "var(--warning-soft)", line: "var(--warning-line)" },
-          info: { DEFAULT: "var(--info)", muted: "var(--info-muted)", soft: "var(--info-soft)", line: "var(--info-line)" },
-          teal: { DEFAULT: "var(--teal)", muted: "var(--teal-muted)", soft: "var(--teal-soft)", line: "var(--teal-line)" },
-          violet: { DEFAULT: "var(--violet)", muted: "var(--violet-muted)", soft: "var(--violet-soft)", line: "var(--violet-line)" },
-          pink: { DEFAULT: "var(--pink)", muted: "var(--pink-muted)", soft: "var(--pink-soft)", line: "var(--pink-line)" },
+          positive: tone("positive"),
+          negative: tone("negative"),
+          warning: tone("warning"),
+          info: tone("info"),
+          teal: tone("teal"),
+          violet: tone("violet"),
+          pink: tone("pink"),
+          indigo: { DEFAULT: v("--indigo"), fill: v("--indigo-fill") },
+          yellow: { DEFAULT: v("--yellow"), fill: v("--yellow-fill") },
         },
+        /* The accent: systemBlue. `text-tint` is its AA text variant. */
+        tint: { DEFAULT: v("--tint"), text: v("--tint-text") },
         switch: {
           on: "var(--switch-on)",
           off: "var(--switch-off)",
@@ -56,7 +77,8 @@ const config: Config = {
           "knob-off": "var(--switch-knob-off)",
         },
         ink: {
-          DEFAULT: "var(--ink-default)",
+          /* `bg-ink`: the solid near-black (the ink button, a tile, a mark). */
+          DEFAULT: v("--ink"),
           soft: "var(--ink-soft)",
         },
         fg: {
@@ -129,14 +151,7 @@ const config: Config = {
           foreground: "hsl(var(--foreground))",
         },
       },
-      borderRadius: {
-        DEFAULT: "var(--radius)",
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 1px)",
-        sm: "calc(var(--radius) - 2px)",
-        xl: "calc(var(--radius) + 2px)",
-        "2xl": "calc(var(--radius) + 4px)",
-      },
+      borderRadius: appleRadius,
       fontFamily: {
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],
         serif: ['"Libre Baskerville"', "Georgia", '"Times New Roman"', "serif"],

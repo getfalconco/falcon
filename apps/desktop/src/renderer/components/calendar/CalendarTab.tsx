@@ -491,9 +491,9 @@ function CalendarTabInner({ briefingReport }: { briefingReport: ReturnType<typeo
       {popover?.kind === "day" ? (
         <CalendarPopover anchor={popover.anchor} width={320} onClose={closePopover} label={t("calendar.dayList", { date: longDay(popover.ymd, locale) })}>
           <div className="p-3">
-            <div className="mb-2 px-1 text-[13px] font-medium text-[#1d1b1b]">{longDay(popover.ymd, locale)}</div>
+            <div className="mb-2 px-1 text-[13px] font-medium text-content-primary">{longDay(popover.ymd, locale)}</div>
             <div className="scrollbar-meridian max-h-[360px] space-y-1 overflow-y-auto">
-              {listForDay.length === 0 ? <p className="px-1 text-[12px] text-[#9CA3AF]">{t("calendar.empty.day")}</p> : null}
+              {listForDay.length === 0 ? <p className="px-1 text-[12px] text-content-tertiary">{t("calendar.empty.day")}</p> : null}
               {listForDay.map((e) => (
                 <EventBar
                   key={e.id}

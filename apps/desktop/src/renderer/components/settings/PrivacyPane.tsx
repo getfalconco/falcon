@@ -104,7 +104,7 @@ function InlineLink({ children, onClick }: { children: ReactNode; onClick: () =>
     <button
       type="button"
       onClick={onClick}
-      className="app-no-drag rounded-sm text-[#4b5563] underline underline-offset-[3px] transition-colors hover:text-[#1d1b1b]"
+      className="app-no-drag rounded-sm text-content-body underline underline-offset-[3px] transition-colors hover:text-content-primary"
     >
       {children}
     </button>
@@ -133,9 +133,9 @@ function NavRow({
         last ? "" : "border-b border-black/[0.06]",
       )}
     >
-      <span className="text-[13.5px] font-normal text-[#1d1b1b]">{label}</span>
+      <span className="text-[13.5px] font-normal text-content-primary">{label}</span>
       <ChevronRight
-        className="h-4 w-4 shrink-0 text-[#9CA3AF] transition-transform duration-150 group-hover:translate-x-0.5"
+        className="h-4 w-4 shrink-0 text-content-tertiary transition-transform duration-150 group-hover:translate-x-0.5"
         strokeWidth={1.75}
         aria-hidden
       />
@@ -165,13 +165,13 @@ function SubPageHead({
           onClick={onBack}
           aria-label={t("settings.privacy.back")}
           title={t("settings.privacy.back")}
-          className="app-no-drag -ml-1.5 rounded-lg p-1 text-[#6b7280] transition-colors hover:bg-black/[0.04] hover:text-[#1d1b1b]"
+          className="app-no-drag -ml-1.5 rounded-lg p-1 text-content-secondary transition-colors hover:bg-black/[0.04] hover:text-content-primary"
         >
           <ArrowLeft className="h-4 w-4" strokeWidth={1.75} aria-hidden />
         </button>
-        <h2 className="text-[15px] font-medium text-[#1d1b1b]">{title}</h2>
+        <h2 className="text-[15px] font-medium text-content-primary">{title}</h2>
       </div>
-      <p className="mt-2 max-w-[560px] text-[12.5px] font-normal leading-relaxed text-[#6b7280]">{lead}</p>
+      <p className="mt-2 max-w-[560px] text-[12.5px] font-normal leading-relaxed text-content-secondary">{lead}</p>
     </div>
   );
 }
@@ -531,7 +531,7 @@ function DataFolderRow({ last }: { last: boolean }) {
           }}
         >
           {t("settings.pane.open")}
-          <ExternalLink className="h-3.5 w-3.5 text-[#6b7280]" strokeWidth={1.75} aria-hidden />
+          <ExternalLink className="h-3.5 w-3.5 text-content-secondary" strokeWidth={1.75} aria-hidden />
         </button>
       </div>
     </SettingsRow>
@@ -670,7 +670,7 @@ export default function PrivacyPane({
         ) : (
           <>
             <SettingsSection title={t("settings.section.privacy")}>
-              <p className="mt-1 max-w-[580px] text-[13px] font-normal leading-relaxed text-[#6b7280]">
+              <p className="mt-1 max-w-[580px] text-[13px] font-normal leading-relaxed text-content-secondary">
                 {tNodes("settings.privacy.intro", {
                   policy: <InlineLink onClick={() => openLegal("privacy")}>{t("settings.privacy.policyLink")}</InlineLink>,
                   terms: <InlineLink onClick={() => openLegal("terms")}>{t("settings.privacy.termsLink")}</InlineLink>,

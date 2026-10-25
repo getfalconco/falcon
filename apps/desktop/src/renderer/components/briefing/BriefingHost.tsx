@@ -71,14 +71,14 @@ function BoundaryFallback({ onRetry, onClose }: { onRetry: () => void; onClose: 
         aria-label={t("briefing.handover.label")}
         className="w-[420px] max-w-[92vw] rounded-3xl border border-white/60 bg-white/70 p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_40px_100px_rgba(0,0,0,0.22)] ring-1 ring-black/[0.04] backdrop-blur-xl"
       >
-        <div className="select-none font-sans text-[11px] font-medium tracking-[0.04em] text-[#9CA3AF]">{t("briefing.handover.heading")}</div>
-        <p className="mt-2 font-baskerville text-[17px] leading-[1.35] text-[#1d1b1b]">{t("briefing.handover.drawFailed")}</p>
-        <p className="mt-1 text-[12px] leading-[1.5] text-[#9CA3AF]">{t("briefing.handover.unaffected")}</p>
+        <div className="select-none font-sans text-[11px] font-medium tracking-[0.04em] text-content-tertiary">{t("briefing.handover.heading")}</div>
+        <p className="mt-2 font-baskerville text-[17px] leading-[1.35] text-content-primary">{t("briefing.handover.drawFailed")}</p>
+        <p className="mt-1 text-[12px] leading-[1.5] text-content-tertiary">{t("briefing.handover.unaffected")}</p>
         <div className="mt-4 flex justify-end gap-2">
           <button
             type="button"
             onClick={onRetry}
-            className="rounded-xl border-[0.5px] border-black/[0.12] px-3.5 py-1.5 font-sans text-[12px] font-medium text-[#1d1b1b] transition-colors hover:bg-black/[0.04]"
+            className="rounded-xl border-[0.5px] border-black/[0.12] px-3.5 py-1.5 font-sans text-[12px] font-medium text-content-primary transition-colors hover:bg-black/[0.04]"
           >
             {t("briefing.tryAgain")}
           </button>

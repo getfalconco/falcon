@@ -111,11 +111,11 @@ function Harness() {
     <div className="min-h-screen bg-[var(--surface-0)] p-6">
       <div className="mx-auto max-w-[860px] space-y-8">
         <section>
-          <h2 className="mb-3 text-[13px] font-medium text-[#6b7280]">Graph {ticker}</h2>
+          <h2 className="mb-3 text-[13px] font-medium text-content-secondary">Graph {ticker}</h2>
           <GraphSection ticker={ticker} />
         </section>
         <section>
-          <h2 className="mb-3 text-[13px] font-medium text-[#6b7280]">Chain news</h2>
+          <h2 className="mb-3 text-[13px] font-medium text-content-secondary">Chain news</h2>
           <ChainNewsSection ticker={ticker} />
         </section>
       </div>

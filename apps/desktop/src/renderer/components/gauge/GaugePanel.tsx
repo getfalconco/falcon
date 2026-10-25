@@ -39,7 +39,7 @@ const PANEL_LINKS: ReadonlyArray<{ id: ShortcutId; key: MessageKey }> = [
   { id: "graph", key: "panels.gauge.panel.graph" },
 ];
 
-const inputCls = "rounded-md border border-[#e0e0da] bg-white px-2 py-1 text-[11px] text-[#1d1b1b] outline-none focus:border-[#189E9A]";
+const inputCls = "rounded-md border border-edge bg-white px-2 py-1 text-[11px] text-content-primary outline-none focus:border-tone-teal";
 
 export default function GaugePanel({ onClose, initialTicker }: Props) {
   const { t, locale } = useI18n();
@@ -118,11 +118,11 @@ export default function GaugePanel({ onClose, initialTicker }: Props) {
   const r = state.readout;
 
   return (
-    <div className="app-no-drag fixed inset-0 z-[200] flex items-center justify-center bg-[#1d1b1b]/30 backdrop-blur-[3px]">
-      <div className="flex h-[92vh] w-[1100px] max-w-[96vw] flex-col overflow-hidden rounded-2xl border border-white/70 bg-[#F4F4F0] shadow-2xl">
+    <div className="app-no-drag fixed inset-0 z-[200] flex items-center justify-center bg-ink/30 backdrop-blur-[3px]">
+      <div className="flex h-[92vh] w-[1100px] max-w-[96vw] flex-col overflow-hidden rounded-2xl border border-white/70 bg-surface-1 shadow-2xl">
         {/* Header */}
-        <div className="flex items-center gap-3 border-b border-[#e0e0da] px-5 py-3">
-          <span className="shrink-0 font-sans text-[11px] font-medium tracking-[0.04em] text-[#9CA3AF]">{t("panels.gauge.header", { shortcut: shortcutText("gauge") })}</span>
+        <div className="flex items-center gap-3 border-b border-edge px-5 py-3">
+          <span className="shrink-0 font-sans text-[11px] font-medium tracking-[0.04em] text-content-tertiary">{t("panels.gauge.header", { shortcut: shortcutText("gauge") })}</span>
           <select className={inputCls} value={tickers.includes(ticker) ? ticker : ""} onChange={(e) => e.target.value && setTicker(e.target.value)}>
             {!tickers.includes(ticker) && <option value="">{ticker}</option>}
             {tickers.map((t) => (
@@ -142,9 +142,9 @@ export default function GaugePanel({ onClose, initialTicker }: Props) {
           >
             <input className={`${inputCls} w-20`} placeholder={t("panels.gauge.anyTicker")} value={typed} onChange={(e) => setTyped(e.target.value)} />
           </form>
-          <div className="ml-2 flex shrink-0 overflow-hidden rounded-md border border-[#e0e0da] text-[11px]">
+          <div className="ml-2 flex shrink-0 overflow-hidden rounded-md border border-edge text-[11px]">
             {(["standalone", "context"] as const).map((m) => (
-              <button key={m} type="button" onClick={() => setMode(m)} className={`px-2.5 py-1 ${mode === m ? "bg-[#1d1b1b] text-white" : "bg-white text-[#6b7280]"}`}>
+              <button key={m} type="button" onClick={() => setMode(m)} className={`px-2.5 py-1 ${mode === m ? "bg-ink text-white" : "bg-white text-content-secondary"}`}>
                 {t(m === "standalone" ? "panels.gauge.mode.standalone" : "panels.gauge.mode.context")}
               </button>
             ))}
@@ -152,24 +152,24 @@ export default function GaugePanel({ onClose, initialTicker }: Props) {
           {r && r.tracked && (
             <>
               <StateBadge state={r.state} />
-              <span className="min-w-0 truncate text-[13px] text-[#1d1b1b]">
+              <span className="min-w-0 truncate text-[13px] text-content-primary">
                 <span className="font-medium">{r.setup.name}</span>
-                <span className="text-[#6b7280]"> · {r.setup.read}</span>
+                <span className="text-content-secondary"> · {r.setup.read}</span>
               </span>
             </>
           )}
           <div className="ml-auto flex items-center gap-2">
-            <span className="text-[10px] tabular-nums text-[#b4b4ae]">
+            <span className="text-[10px] tabular-nums text-content-disabled">
               {r
                 ? `${t("panels.gauge.computed", { when: fmtWhen(r.computed_at, locale, na) })}${state.memoHit ? ` · ${t("panels.gauge.memo")}` : ""}`
                 : state.loading
                   ? t("panels.gauge.computing")
                   : ""}
             </span>
-            <button type="button" onClick={() => void state.refresh(true)} disabled={state.loading} className="rounded-lg bg-[#1d1b1b] px-3 py-1.5 text-[11px] font-medium text-white disabled:opacity-50">
+            <button type="button" onClick={() => void state.refresh(true)} disabled={state.loading} className="rounded-lg bg-ink px-3 py-1.5 text-[11px] font-medium text-white disabled:opacity-50">
               {state.loading ? t("panels.gauge.computing") : t("panels.gauge.recompute")}
             </button>
-            <button type="button" onClick={onClose} aria-label={t("common.close")} className="rounded-lg p-1.5 text-[#6b7280] hover:bg-white">
+            <button type="button" onClick={onClose} aria-label={t("common.close")} className="rounded-lg p-1.5 text-content-secondary hover:bg-white">
               <X className="h-4 w-4" />
             </button>
           </div>
@@ -177,8 +177,8 @@ export default function GaugePanel({ onClose, initialTicker }: Props) {
 
         {/* Context entry */}
         {mode === "context" && (
-          <div className="flex flex-wrap items-center gap-3 border-b border-[#e0e0da] bg-white/60 px-5 py-2 text-[11px] text-[#4b5563]">
-            <span className="text-[10px] uppercase tracking-[0.1em] text-[#9CA3AF]">{t("panels.gauge.manualContext")}</span>
+          <div className="flex flex-wrap items-center gap-3 border-b border-edge bg-white/60 px-5 py-2 text-[11px] text-content-body">
+            <span className="text-[10px] uppercase tracking-[0.1em] text-content-tertiary">{t("panels.gauge.manualContext")}</span>
             <label className="flex items-center gap-1">
               {t("panels.gauge.expected")}
               <select className={inputCls} value={direction} onChange={(e) => setDirection(e.target.value as GaugeDirection | "unresolved")}>
@@ -219,34 +219,34 @@ export default function GaugePanel({ onClose, initialTicker }: Props) {
           {/* Body */}
           <div className="min-w-0 flex-1 overflow-y-auto px-5 py-4">
             {r ? (
-              <div className="rounded-xl border border-[#e0e0da] bg-white px-4 py-3">
+              <div className="rounded-xl border border-edge bg-white px-4 py-3">
                 <GaugeSetupBlock readout={r} />
                 <GaugeChecklist readout={r} collapsible showValues />
                 {r.summary.calibrating && (
-                  <div className="mt-2 rounded-md border border-[#e7d9a8] bg-[#fbf6e3] px-2 py-1 text-[10.5px] text-[#8a6d1d]">{t("panels.gauge.calibrating")}</div>
+                  <div className="mt-2 rounded-md border border-tone-warning-line bg-tone-warning-soft px-2 py-1 text-[10.5px] text-tone-warning">{t("panels.gauge.calibrating")}</div>
                 )}
-                {state.errors.length > 0 && <p className="mt-3 text-[10.5px] text-[#9CA3AF]">{t("panels.gauge.gather", { errors: state.errors.join(" · ") })}</p>}
+                {state.errors.length > 0 && <p className="mt-3 text-[10.5px] text-content-tertiary">{t("panels.gauge.gather", { errors: state.errors.join(" · ") })}</p>}
               </div>
             ) : (
-              <p className="text-[12px] text-[#9CA3AF]">{state.loading ? t("panels.gauge.computing") : t("panels.gauge.noReadoutPanel")}</p>
+              <p className="text-[12px] text-content-tertiary">{state.loading ? t("panels.gauge.computing") : t("panels.gauge.noReadoutPanel")}</p>
             )}
             {r?.context && (
-              <div className="mt-3 rounded-xl border border-[#e0e0da] bg-white/60 px-3 py-2 font-mono text-[10px] leading-relaxed text-[#6b7280]">
+              <div className="mt-3 rounded-xl border border-edge bg-white/60 px-3 py-2 font-mono text-[10px] leading-relaxed text-content-secondary">
                 {t("panels.gauge.context", { json: JSON.stringify(r.context) })}
               </div>
             )}
           </div>
 
           {/* Status rail */}
-          <div className="w-[300px] shrink-0 overflow-y-auto border-l border-[#e0e0da] bg-white/50 px-4 py-4 text-[11px] text-[#4b5563]">
+          <div className="w-[300px] shrink-0 overflow-y-auto border-l border-edge bg-white/50 px-4 py-4 text-[11px] text-content-body">
             <div className="mb-2 flex items-center justify-between">
-              <span className="text-[10px] uppercase tracking-[0.1em] text-[#9CA3AF]">{t("panels.gauge.host")}</span>
+              <span className="text-[10px] uppercase tracking-[0.1em] text-content-tertiary">{t("panels.gauge.host")}</span>
               <button
                 type="button"
                 onClick={() => void reloadConfig()}
                 disabled={!staff}
                 title={staff ? undefined : t("access.staffOnly.action")}
-                className="rounded-md border border-[#e0e0da] bg-white px-2 py-0.5 text-[10px] text-[#6b7280] hover:bg-[#fafaf7] disabled:pointer-events-none disabled:opacity-50"
+                className="rounded-md border border-edge bg-white px-2 py-0.5 text-[10px] text-content-secondary hover:bg-surface-2 disabled:pointer-events-none disabled:opacity-50"
               >
                 {t("panels.gauge.reloadConfig")}
               </button>
@@ -263,7 +263,7 @@ export default function GaugePanel({ onClose, initialTicker }: Props) {
                   </div>
                   {status.lastError && <div className="text-red-600">{t("panels.gauge.error", { message: status.lastError })}</div>}
                 </div>
-                <div className="mt-3 text-[10px] uppercase tracking-[0.1em] text-[#9CA3AF]">{t("panels.gauge.setups")}</div>
+                <div className="mt-3 text-[10px] uppercase tracking-[0.1em] text-content-tertiary">{t("panels.gauge.setups")}</div>
                 <div className="mt-1 space-y-0.5">
                   <div>
                     {status.screenAvailable
@@ -277,20 +277,20 @@ export default function GaugePanel({ onClose, initialTicker }: Props) {
                         ? t("panels.gauge.ledgerLast", { n: status.snapshots.count, session: status.snapshots.lastSession })
                         : t("panels.gauge.ledger", { n: status.snapshots.count })}
                   </div>
-                  <div className="font-mono text-[10px] leading-relaxed text-[#6b7280]">{status.setupOrder.join(" → ")}</div>
+                  <div className="font-mono text-[10px] leading-relaxed text-content-secondary">{status.setupOrder.join(" → ")}</div>
                 </div>
-                <div className="mt-3 text-[10px] uppercase tracking-[0.1em] text-[#9CA3AF]">{t("panels.gauge.thresholds")}</div>
+                <div className="mt-3 text-[10px] uppercase tracking-[0.1em] text-content-tertiary">{t("panels.gauge.thresholds")}</div>
                 <div className="mt-1 space-y-0.5 font-mono text-[10px]">
                   {Object.entries(status.thresholds).map(([group, vals]) => (
                     <div key={group}>
-                      <span className="text-[#1d1b1b]">{group}</span>{" "}
+                      <span className="text-content-primary">{group}</span>{" "}
                       {Object.entries(vals)
                         .map(([k, v]) => `${k}=${v}`)
                         .join(" ")}
                     </div>
                   ))}
                 </div>
-                <div className="mt-3 text-[10px] uppercase tracking-[0.1em] text-[#9CA3AF]">{t("panels.gauge.today", { day: status.counters.day })}</div>
+                <div className="mt-3 text-[10px] uppercase tracking-[0.1em] text-content-tertiary">{t("panels.gauge.today", { day: status.counters.day })}</div>
                 <div className="mt-1 space-y-0.5">
                   <div>{t("panels.gauge.readouts", { n: status.counters.total, hits: status.counters.memo_hits })}</div>
                   <div>{t("panels.gauge.bySurface", { list: Object.entries(status.counters.by_surface).map(([k, v]) => `${k} ${v}`).join(" · ") || na })}</div>
@@ -303,15 +303,15 @@ export default function GaugePanel({ onClose, initialTicker }: Props) {
                 </div>
               </>
             ) : (
-              <div className="text-[#9CA3AF]">{t("panels.gauge.statusUnavailable")}</div>
+              <div className="text-content-tertiary">{t("panels.gauge.statusUnavailable")}</div>
             )}
-            <p className="mt-4 text-[10px] leading-relaxed text-[#b4b4ae]">
+            <p className="mt-4 text-[10px] leading-relaxed text-content-disabled">
               {t("panels.gauge.about")}
             </p>
           </div>
         </div>
 
-        <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 border-t border-[#e0e0da] px-5 py-2 text-[10px] text-[#b4b4ae]">
+        <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 border-t border-edge px-5 py-2 text-[10px] text-content-disabled">
           <span>{t("panels.gauge.footerKeys", { shortcut: shortcutText("gauge") })}</span>
           <span>
             {t("panels.gauge.footerPanels")} {PANEL_LINKS.map((p) => `${shortcutText(p.id)} ${t(p.key)}`).join(" · ")}

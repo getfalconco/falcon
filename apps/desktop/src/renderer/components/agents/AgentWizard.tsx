@@ -63,11 +63,11 @@ const PANEL_FADE = {
 
 /** A chip the reader picks: the glass of a secondary button. */
 const CHIP =
-  "app-no-drag rounded-xl border border-white/60 bg-white/55 px-3 py-1.5 text-left text-[12.5px] font-normal text-[#1d1b1b] shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-black/[0.04] transition-colors duration-150 hover:bg-white/75";
+  "app-no-drag rounded-xl border border-white/60 bg-white/55 px-3 py-1.5 text-left text-[12.5px] font-normal text-content-primary shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-black/[0.04] transition-colors duration-150 hover:bg-white/75";
 const CHIP_ON = "bg-white/90 ring-black/[0.12]";
 
 /** The lighter placeholder of the two fields: light, and the tertiary tone on dark. */
-const SOFT_PLACEHOLDER = "placeholder:text-[#b4b4ae] [[data-theme=dark]_&]:placeholder:text-[var(--text-tertiary)]";
+const SOFT_PLACEHOLDER = "placeholder:text-content-disabled [[data-theme=dark]_&]:placeholder:text-[var(--text-tertiary)]";
 
 /** An open menu or suggestion list inside the panel takes Esc for itself. */
 const OPEN_POPUP = '[aria-haspopup][aria-expanded="true"], [role="combobox"][aria-expanded="true"]';
@@ -88,7 +88,7 @@ function Starters({ activeId, onPick }: { activeId: string | null; onPick: (t: S
   }, [rows, held, watchlist, own]);
   return (
     <div className="space-y-2">
-      <p className="text-[12px] text-[#6b7280]">{own ? t("agents.wizard.startersOwn") : t("agents.wizard.examples")}</p>
+      <p className="text-[12px] text-content-secondary">{own ? t("agents.wizard.startersOwn") : t("agents.wizard.examples")}</p>
       <div className="flex flex-wrap gap-2">
         {starters.map((tpl) => {
           const id = `${tpl.id}:${tpl.ticker}`;
@@ -286,7 +286,7 @@ export default function AgentWizard({
     body = (
       <div className="space-y-4">
         <label className="block space-y-1.5">
-          <span className="text-[12px] text-[#6b7280]">{t("agents.wizard.nameLabel")}</span>
+          <span className="text-[12px] text-content-secondary">{t("agents.wizard.nameLabel")}</span>
           <input
             ref={nameField}
             value={s.name}
@@ -298,13 +298,13 @@ export default function AgentWizard({
           />
           {/* The words are in (typed, or a starter's) and only the name holds Next back: said here, not only in Next's tooltip. */}
           {reason === "name" ? (
-            <span id="agent-wizard-name-hint" className="block text-[11.5px] text-[#6b7280]">
+            <span id="agent-wizard-name-hint" className="block text-[11.5px] text-content-secondary">
               {t("agents.wizard.blocked.name")}
             </span>
           ) : null}
         </label>
         <label className="block space-y-1.5">
-          <span className="text-[12px] text-[#6b7280]">{t("agents.wizard.instructionLabel")}</span>
+          <span className="text-[12px] text-content-secondary">{t("agents.wizard.instructionLabel")}</span>
           <textarea
             ref={area}
             value={s.brief}
@@ -316,8 +316,8 @@ export default function AgentWizard({
         </label>
         {question ? (
           <div ref={answerBox} className="rounded-2xl bg-black/[0.04] px-4 py-3" role="group" aria-label={t(`agents.clarify.${question.field}`)}>
-            <p className="text-[13px] font-medium text-[#1d1b1b]">{t(`agents.clarify.${question.field}`)}</p>
-            <p className="mt-0.5 text-[12px] text-[#6b7280]">{t(`agents.clarify.${question.field}Hint`)}</p>
+            <p className="text-[13px] font-medium text-content-primary">{t(`agents.clarify.${question.field}`)}</p>
+            <p className="mt-0.5 text-[12px] text-content-secondary">{t(`agents.clarify.${question.field}Hint`)}</p>
             <input
               value={s.answer}
               onChange={(e) => dispatch({ type: "answer", text: e.target.value })}
@@ -327,7 +327,7 @@ export default function AgentWizard({
           </div>
         ) : null}
         {s.draftError ? (
-          <p role="alert" className="text-[12.5px] leading-[1.5] text-[#DC2626]">
+          <p role="alert" className="text-[12.5px] leading-[1.5] text-tone-negative">
             {t("agents.wizard.watch.failed")}: {s.draftError}
           </p>
         ) : null}
@@ -338,22 +338,22 @@ export default function AgentWizard({
     const summary = understanding(s.draft!, lang);
     body = (
       <div className="space-y-4">
-        <div className="space-y-1.5 text-[13.5px] leading-[1.6] text-[#1d1b1b]">
+        <div className="space-y-1.5 text-[13.5px] leading-[1.6] text-content-primary">
           {summary.lines.map((l) => (
             <p key={l}>{l}</p>
           ))}
         </div>
-        {summary.note ? <p className="text-[12.5px] leading-[1.5] text-[#6b7280]">{summary.note}</p> : null}
+        {summary.note ? <p className="text-[12.5px] leading-[1.5] text-content-secondary">{summary.note}</p> : null}
         <section className="rounded-2xl border border-black/[0.06]">
           <button
             type="button"
             aria-expanded={details}
             aria-controls="agent-wizard-details"
             onClick={() => setDetails((v) => !v)}
-            className="app-no-drag flex w-full items-center justify-between gap-3 rounded-2xl px-4 py-2.5 text-left text-[12.5px] text-[#4b5563] transition-colors hover:bg-black/[0.04]"
+            className="app-no-drag flex w-full items-center justify-between gap-3 rounded-2xl px-4 py-2.5 text-left text-[12.5px] text-content-body transition-colors hover:bg-black/[0.04]"
           >
             {t("agents.understand.adjust")}
-            <ChevronDown className={cn("h-4 w-4 shrink-0 text-[#6b7280] transition-transform duration-150", details && "rotate-180")} strokeWidth={1.75} aria-hidden />
+            <ChevronDown className={cn("h-4 w-4 shrink-0 text-content-secondary transition-transform duration-150", details && "rotate-180")} strokeWidth={1.75} aria-hidden />
           </button>
           {details ? (
             <div id="agent-wizard-details" className="px-3 pb-3">
@@ -394,24 +394,24 @@ export default function AgentWizard({
             {...PANEL_FADE}
           >
             <div className="flex shrink-0 items-center gap-3 border-b border-black/[0.06] py-3 pl-6 pr-4">
-              <h2 id="agent-wizard-title" className="min-w-0 flex-1 truncate text-[14px] font-medium text-[#1d1b1b]">
+              <h2 id="agent-wizard-title" className="min-w-0 flex-1 truncate text-[14px] font-medium text-content-primary">
                 {t("agents.wizard.heading")}
               </h2>
-              <span className="shrink-0 text-[12px] tabular-nums text-[#9CA3AF]" aria-live="polite">
+              <span className="shrink-0 text-[12px] tabular-nums text-content-tertiary" aria-live="polite">
                 {t("agents.wizard.stepOf", { step: s.step + 1, total: WIZARD_STEPS.length })}
               </span>
               <button
                 type="button"
                 onClick={onClose}
                 aria-label={t("agents.wizard.close")}
-                className="app-no-drag rounded-lg p-1.5 text-[#6b7280] transition-colors hover:bg-black/[0.04] hover:text-[#1d1b1b]"
+                className="app-no-drag rounded-lg p-1.5 text-content-secondary transition-colors hover:bg-black/[0.04] hover:text-content-primary"
               >
                 <X className="h-4 w-4" strokeWidth={1.75} aria-hidden />
               </button>
             </div>
 
             <div ref={scroller} className="scrollbar-meridian min-h-0 flex-1 overflow-y-auto px-6 pb-5 pt-4">
-              <h3 ref={heading} tabIndex={-1} className="font-baskerville text-[20px] leading-[1.3] text-[#1d1b1b] outline-none">
+              <h3 ref={heading} tabIndex={-1} className="font-baskerville text-[20px] leading-[1.3] text-content-primary outline-none">
                 {isConfirm ? t("agents.understand.title") : t("agents.wizard.describe.title")}
               </h3>
               <div className="mt-4">{body}</div>
@@ -425,7 +425,7 @@ export default function AgentWizard({
               ) : null}
               <div className="min-w-0 flex-1">
                 {footerNote ? (
-                  <p role="alert" className={cn("truncate text-[12px]", footerNote.tone === "error" ? "text-[#DC2626]" : "text-[#B45309]")}>
+                  <p role="alert" className={cn("truncate text-[12px]", footerNote.tone === "error" ? "text-tone-negative" : "text-tone-warning")}>
                     {footerNote.text}
                   </p>
                 ) : null}

@@ -5,16 +5,16 @@ import { capitalize, clockTime, sayLines, shortDate } from "./agent-format";
 
 /** Dot colour per kind: firing and errors stand out, routine checks stay quiet. */
 const DOT: Readonly<Record<Entry["kind"], string>> = {
-  created: "bg-[#1d1b1b]/30",
-  edited: "bg-[#1d1b1b]/30",
-  checked: "bg-[#1d1b1b]/20",
-  waiting: "bg-[#1d1b1b]/20",
-  fired: "bg-[#1d1b1b]",
-  notified: "bg-[#1d1b1b]/40",
-  paused: "bg-[#9CA3AF]",
-  resumed: "bg-[#16A34A]",
-  completed: "bg-[#1d1b1b]/40",
-  error: "bg-[#DC2626]",
+  created: "bg-ink/30",
+  edited: "bg-ink/30",
+  checked: "bg-ink/20",
+  waiting: "bg-ink/20",
+  fired: "bg-ink",
+  notified: "bg-ink/40",
+  paused: "bg-content-tertiary",
+  resumed: "bg-tone-positive-fill",
+  completed: "bg-ink/40",
+  error: "bg-tone-negative-fill",
 };
 
 function dayKey(iso: string): string {
@@ -46,7 +46,7 @@ export default function AgentActivity({
 }) {
   const { language: lang, t } = useI18n();
   if (activity.length === 0) {
-    return <p className="py-10 text-center text-[12.5px] text-[#9CA3AF]">{t("agents.activity.empty")}</p>;
+    return <p className="py-10 text-center text-[12.5px] text-content-tertiary">{t("agents.activity.empty")}</p>;
   }
 
   const groups: Array<{ label: string; items: Entry[] }> = [];
@@ -61,11 +61,11 @@ export default function AgentActivity({
     <div className="space-y-5">
       {groups.map((g) => (
         <section key={g.label}>
-          <h3 className="pb-2 font-['Geist_Mono'] text-[9.5px] uppercase tracking-[0.06em] text-[#9CA3AF]">{g.label}</h3>
+          <h3 className="pb-2 font-['Geist_Mono'] text-[9.5px] uppercase tracking-[0.06em] text-content-tertiary">{g.label}</h3>
           <ol className="relative">
             {g.items.map((e, i) => (
               <li key={e.id} className="relative grid grid-cols-[44px_14px_minmax(0,1fr)] items-start gap-x-2 pb-3 last:pb-0">
-                <time dateTime={e.at} className="pt-px text-right font-['Geist_Mono'] text-[11px] tabular-nums text-[#9CA3AF]">
+                <time dateTime={e.at} className="pt-px text-right font-['Geist_Mono'] text-[11px] tabular-nums text-content-tertiary">
                   {clockTime(e.at, lang)}
                 </time>
                 <span className="relative flex h-full justify-center">
@@ -73,14 +73,14 @@ export default function AgentActivity({
                   <span aria-hidden className={cn("relative mt-[5px] h-[7px] w-[7px] rounded-full", DOT[e.kind])} />
                 </span>
                 <div className="min-w-0 text-[13px] leading-[1.45]">
-                  <span className={cn(e.kind === "error" ? "text-[#DC2626]" : e.kind === "fired" ? "font-medium text-[#1d1b1b]" : "text-[#4b5563]")}>
+                  <span className={cn(e.kind === "error" ? "text-tone-negative" : e.kind === "fired" ? "font-medium text-content-primary" : "text-content-body")}>
                     {sayLines(e.lines, lang, e.text)}
                   </span>
                   {e.reportId ? (
                     <button
                       type="button"
                       onClick={() => onOpenReport(e.reportId!)}
-                      className="app-no-drag ml-2 text-[12px] text-[#6b7280] underline decoration-black/20 underline-offset-2 transition-colors hover:text-[#1d1b1b]"
+                      className="app-no-drag ml-2 text-[12px] text-content-secondary underline decoration-black/20 underline-offset-2 transition-colors hover:text-content-primary"
                     >
                       {t("agents.activity.openReport")}
                     </button>

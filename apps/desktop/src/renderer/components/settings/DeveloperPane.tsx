@@ -16,7 +16,7 @@ import { SettingsRow, SettingsSection } from "./SettingsRow";
 const SITE_URL = "https://getfalcon.co";
 
 const BUTTON =
-  "app-no-drag btn-quiet rounded-lg border border-white/60 bg-white/55 px-3 py-1.5 text-[13px] font-normal text-[#1d1b1b] shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-black/[0.04] transition-colors hover:bg-white/75 disabled:pointer-events-none disabled:opacity-60";
+  "app-no-drag btn-quiet rounded-lg border border-white/60 bg-white/55 px-3 py-1.5 text-[13px] font-normal text-content-primary shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-black/[0.04] transition-colors hover:bg-white/75 disabled:pointer-events-none disabled:opacity-60";
 
 function ApiCard() {
   const t = useT();
@@ -26,19 +26,19 @@ function ApiCard() {
       className="rounded-2xl border border-white/60 bg-white/55 px-5 py-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-black/[0.04]"
     >
       <div className="flex items-center gap-2">
-        <Code className="h-4 w-4 shrink-0 text-[#6b7280]" strokeWidth={1.75} aria-hidden />
-        <h2 id="developer-api-title" className="text-[15px] font-medium text-[#1d1b1b]">
+        <Code className="h-4 w-4 shrink-0 text-content-secondary" strokeWidth={1.75} aria-hidden />
+        <h2 id="developer-api-title" className="text-[15px] font-medium text-content-primary">
           {t("developer.api.title")}
         </h2>
       </div>
-      <p className="mt-1.5 text-[12.5px] font-normal leading-snug text-[#6b7280]">{t("developer.api.body")}</p>
+      <p className="mt-1.5 text-[12.5px] font-normal leading-snug text-content-secondary">{t("developer.api.body")}</p>
       <button
         type="button"
         onClick={() => void window.meridian?.openExternal(SITE_URL)}
         className={`${BUTTON} mt-3 inline-flex items-center gap-1.5`}
       >
         {t("developer.api.button")}
-        <ArrowUpRight className="h-3.5 w-3.5 text-[#6b7280]" strokeWidth={1.75} aria-hidden />
+        <ArrowUpRight className="h-3.5 w-3.5 text-content-secondary" strokeWidth={1.75} aria-hidden />
       </button>
     </section>
   );

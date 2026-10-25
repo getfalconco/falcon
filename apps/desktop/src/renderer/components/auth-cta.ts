@@ -13,6 +13,6 @@ export function authCtaClass(active: boolean): string {
     "auth-cta",
     active
       ? "border-white/10 bg-white text-black"
-      : "cursor-not-allowed border-white/[0.06] bg-[#2a2a2a] text-[#666666]",
+      : "cursor-not-allowed border-white/[0.06] bg-[#2a2a2a] text-content-secondary",
   );
 }

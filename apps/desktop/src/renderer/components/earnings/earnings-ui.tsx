@@ -19,12 +19,12 @@ export const SURFACE =
   "rounded-3xl border border-white/60 bg-white/40 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-black/[0.04] backdrop-blur-xl backdrop-saturate-150";
 
 export const BUTTON =
-  "app-no-drag btn-quiet inline-flex items-center gap-1.5 rounded-lg border border-white/60 bg-white/55 px-3 py-1.5 text-[12.5px] font-normal text-[#1d1b1b] shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-black/[0.04] transition-colors hover:bg-white/75 disabled:pointer-events-none disabled:opacity-50";
+  "app-no-drag btn-quiet inline-flex items-center gap-1.5 rounded-lg border border-white/60 bg-white/55 px-3 py-1.5 text-[12.5px] font-normal text-content-primary shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-black/[0.04] transition-colors hover:bg-white/75 disabled:pointer-events-none disabled:opacity-50";
 
 export const FIELD =
-  "app-no-drag rounded-xl border border-white/60 bg-white/55 px-3 text-[13px] font-normal text-[#1d1b1b] shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] outline-none ring-1 ring-black/[0.04] transition-colors placeholder:text-[#9CA3AF] focus:bg-white/75 disabled:opacity-60";
+  "app-no-drag rounded-xl border border-white/60 bg-white/55 px-3 text-[13px] font-normal text-content-primary shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] outline-none ring-1 ring-black/[0.04] transition-colors placeholder:text-content-tertiary focus:bg-white/75 disabled:opacity-60";
 
-export const LABEL = "select-none font-sans text-[11px] font-medium tracking-[0.04em] text-[#9CA3AF]";
+export const LABEL = "select-none font-sans text-[11px] font-medium tracking-[0.04em] text-content-tertiary";
 
 export const SKELETON = "animate-pulse rounded bg-black/[0.06] motion-reduce:animate-none";
 
@@ -44,7 +44,7 @@ export function TickerButton({ row, className }: { row: Pick<EarningsRow, "ticke
       onClick={() => openStock(row.ticker, row.company ?? undefined)}
       aria-label={t("earnings.row.open", { ticker: row.ticker })}
       className={cn(
-        "app-no-drag inline-flex h-[18px] shrink-0 cursor-pointer items-center text-[12px] font-medium text-[#1d1b1b] underline-offset-2 outline-none hover:underline focus-visible:underline",
+        "app-no-drag inline-flex h-[18px] shrink-0 cursor-pointer items-center text-[12px] font-medium text-content-primary underline-offset-2 outline-none hover:underline focus-visible:underline",
         className,
       )}
     >
@@ -71,7 +71,7 @@ export function HeldMarker({ row }: { row: Pick<EarningsRow, "held" | "watchlist
   const label = row.held ? t("earnings.badge.held") : t("earnings.badge.watchlist");
   return (
     <span title={label} aria-label={label} role="img" className="flex items-center justify-center">
-      <span className={cn("block h-[7px] w-[7px] rounded-full", row.held ? "bg-[#1d1b1b] opacity-70" : "border-[1.25px] border-current text-[#6b7280]")} />
+      <span className={cn("block h-[7px] w-[7px] rounded-full", row.held ? "bg-ink opacity-70" : "border-[1.25px] border-current text-content-secondary")} />
     </span>
   );
 }
@@ -104,7 +104,7 @@ export function LinkChips({ links, className }: { links: readonly EarningsLink[]
           title={linkSentence(t, l)}
           className={cn(
             "inline-flex h-[18px] shrink-0 items-center text-[12px] font-medium",
-            l.held ? "text-[#1d1b1b]" : "text-[#4b5563]",
+            l.held ? "text-content-primary" : "text-content-body",
           )}
         >
           {l.ticker}
@@ -119,13 +119,13 @@ export function RowBadges({ row, className, marks = true }: { row: EarningsRow; 
   const { language, t } = useI18n();
   const pill = "inline-flex h-[17px] shrink-0 items-center rounded-full px-1.5 text-[10.5px] leading-none";
   const items: ReactNode[] = [];
-  if (marks && row.held) items.push(<span key="held" className={cn(pill, "bg-black/[0.06] text-[#4b5563]")}>{t("earnings.badge.held")}</span>);
-  else if (marks && row.watchlist) items.push(<span key="watch" className={cn(pill, "bg-black/[0.04] text-[#6b7280]")}>{t("earnings.badge.watchlist")}</span>);
-  if (row.reason === "sector") items.push(<span key="why" className={cn(pill, "bg-black/[0.04] text-[#6b7280]")}>{t("earnings.badge.sector")}</span>);
-  else if (row.reason === "large") items.push(<span key="why" className={cn(pill, "bg-black/[0.04] text-[#6b7280]")}>{t("earnings.badge.large")}</span>);
+  if (marks && row.held) items.push(<span key="held" className={cn(pill, "bg-black/[0.06] text-content-body")}>{t("earnings.badge.held")}</span>);
+  else if (marks && row.watchlist) items.push(<span key="watch" className={cn(pill, "bg-black/[0.04] text-content-secondary")}>{t("earnings.badge.watchlist")}</span>);
+  if (row.reason === "sector") items.push(<span key="why" className={cn(pill, "bg-black/[0.04] text-content-secondary")}>{t("earnings.badge.sector")}</span>);
+  else if (row.reason === "large") items.push(<span key="why" className={cn(pill, "bg-black/[0.04] text-content-secondary")}>{t("earnings.badge.large")}</span>);
   if (row.status === "estimated") {
     items.push(
-      <span key="est" title={t("earnings.badge.estimatedHint")} className={cn(pill, "border border-dashed border-black/[0.12] text-[#6b7280]")}>
+      <span key="est" title={t("earnings.badge.estimatedHint")} className={cn(pill, "border border-dashed border-black/[0.12] text-content-secondary")}>
         {row.windowEnd ? t("earnings.badge.window", { date: shortDate(row.windowEnd, language) }) : t("earnings.badge.estimated")}
       </span>,
     );
@@ -134,7 +134,7 @@ export function RowBadges({ row, className, marks = true }: { row: EarningsRow; 
   return <span className={cn("flex shrink-0 items-center gap-1", className)}>{items}</span>;
 }
 
-const SEGMENT = "app-no-drag relative rounded-[8px] px-2.5 py-1 text-[12px] transition-colors";
+const SEGMENT = "app-no-drag relative rounded-lg px-2.5 py-1 text-[12px] transition-colors";
 
 /** The Calendar tab's segmented switch, in the same classes. */
 export function Segmented<T extends string>({
@@ -149,7 +149,7 @@ export function Segmented<T extends string>({
   label: string;
 }) {
   return (
-    <div role="radiogroup" aria-label={label} className="flex items-center rounded-[10px] bg-black/[0.04] p-[2px]">
+    <div role="radiogroup" aria-label={label} className="flex items-center rounded-xl bg-black/[0.04] p-[2px]">
       {options.map((o) => (
         <button
           key={o.id}
@@ -157,7 +157,7 @@ export function Segmented<T extends string>({
           role="radio"
           aria-checked={value === o.id}
           onClick={() => onChange(o.id)}
-          className={cn(SEGMENT, value === o.id ? "bg-white/90 text-[#1d1b1b] shadow-[0_1px_2px_rgba(0,0,0,0.08)]" : "text-[#6b7280] hover:text-[#1d1b1b]")}
+          className={cn(SEGMENT, value === o.id ? "bg-white/90 text-content-primary shadow-[0_1px_2px_rgba(0,0,0,0.08)]" : "text-content-secondary hover:text-content-primary")}
         >
           {o.text}
         </button>
@@ -214,10 +214,10 @@ export function FilterMenu<T extends string>({
       role="menuitemradio"
       aria-checked={value === id}
       onClick={() => pick(id)}
-      className="flex w-full items-center justify-between gap-3 rounded-lg px-2 py-1.5 text-left text-[12.5px] font-normal text-[#1d1b1b] transition-colors hover:bg-[#1d1b1b]/[0.06]"
+      className="flex w-full items-center justify-between gap-3 rounded-lg px-2 py-1.5 text-left text-[12.5px] font-normal text-content-primary transition-colors hover:bg-ink/[0.06]"
     >
       <span className="truncate">{text}</span>
-      {value === id ? <Check className="h-3.5 w-3.5 shrink-0 text-[#4b5563]" strokeWidth={2} aria-hidden /> : null}
+      {value === id ? <Check className="h-3.5 w-3.5 shrink-0 text-content-body" strokeWidth={2} aria-hidden /> : null}
     </button>
   );
 
@@ -229,11 +229,11 @@ export function FilterMenu<T extends string>({
         aria-expanded={open}
         aria-label={label}
         onClick={() => setOpen((v) => !v)}
-        className={cn(BUTTON, "h-8 py-0", value !== null && "text-[#1d1b1b]")}
+        className={cn(BUTTON, "h-8 py-0", value !== null && "text-content-primary")}
       >
-        <span className="text-[#6b7280]">{label}</span>
+        <span className="text-content-secondary">{label}</span>
         <span className="max-w-[140px] truncate">{current ? current.text : allText}</span>
-        <ChevronDown className="h-3.5 w-3.5 text-[#9CA3AF]" strokeWidth={2} aria-hidden />
+        <ChevronDown className="h-3.5 w-3.5 text-content-tertiary" strokeWidth={2} aria-hidden />
       </button>
       <AnimatePresence>
         {open ? (

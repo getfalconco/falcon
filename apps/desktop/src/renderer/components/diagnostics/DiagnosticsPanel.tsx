@@ -25,10 +25,10 @@ import type {
 type Props = { onClose: () => void };
 
 const STATUS_COLOR: Record<ProviderCheckStatus, string> = {
-  ok: "#16A34A",
-  fail: "#DC2626",
-  "missing-key": "#EA580C",
-  skipped: "#9CA3AF",
+  ok: "var(--positive)",
+  fail: "var(--negative)",
+  "missing-key": "var(--warning)",
+  skipped: "var(--text-tertiary)",
 };
 
 const STATUS_LABEL: Record<ProviderCheckStatus, MessageKey> = {
@@ -235,31 +235,31 @@ export default function DiagnosticsPanel({ onClose }: Props) {
   const envErrorText =
     envError === BRIDGE_MISSING ? t("instruments.common.bridgeUnavailable", { name: "Diagnostics" }) : envError;
 
-  const sectionTitle = "font-sans text-[11px] font-medium tracking-[0.04em] text-[#9CA3AF]";
+  const sectionTitle = "font-sans text-[11px] font-medium tracking-[0.04em] text-content-tertiary";
 
   return (
-    <div className="app-no-drag fixed inset-0 z-[200] flex items-center justify-center bg-[#1d1b1b]/30 backdrop-blur-[3px]">
-      <div className="flex h-[92vh] w-[1100px] max-w-[96vw] flex-col overflow-hidden rounded-2xl border border-white/70 bg-[#F4F4F0] shadow-2xl">
+    <div className="app-no-drag fixed inset-0 z-[200] flex items-center justify-center bg-ink/30 backdrop-blur-[3px]">
+      <div className="flex h-[92vh] w-[1100px] max-w-[96vw] flex-col overflow-hidden rounded-2xl border border-white/70 bg-surface-1 shadow-2xl">
         {/* Header */}
-        <div className="flex items-center gap-4 border-b border-[#e0e0da] px-5 py-3">
+        <div className="flex items-center gap-4 border-b border-edge px-5 py-3">
           <span className={`${sectionTitle} shrink-0`}>{t("instruments.diagnostics.title", { key: shortcutText("diagnostics") })}</span>
           {env ? (
             <>
-              <span className="rounded-full bg-[#1d1b1b] px-2 py-[2px] text-[10px] font-semibold uppercase tracking-[0.08em] text-white">
+              <span className="rounded-full bg-ink px-2 py-[2px] text-[10px] font-semibold uppercase tracking-[0.08em] text-white">
                 {env.packaged ? t("instruments.diagnostics.packaged") : t("instruments.diagnostics.dev")}
               </span>
               <span
                 className="rounded-full px-2 py-[2px] text-[10px] font-semibold uppercase tracking-[0.08em] text-white"
-                style={{ background: env.providerMode === "proxy" ? "#7C3AED" : "#189E9A" }}
+                style={{ background: env.providerMode === "proxy" ? "var(--violet)" : "var(--teal)" }}
               >
                 {env.providerMode === "proxy" ? t("instruments.diagnostics.proxy") : t("instruments.diagnostics.direct")}
               </span>
-              <span className="text-[11px] tabular-nums text-[#9CA3AF]">
+              <span className="text-[11px] tabular-nums text-content-tertiary">
                 v{env.appVersion} · electron {env.electron} · node {env.node}
               </span>
             </>
           ) : (
-            <span className="text-[13px] text-[#6b7280]">{envErrorText ?? t("instruments.common.loading")}</span>
+            <span className="text-[13px] text-content-secondary">{envErrorText ?? t("instruments.common.loading")}</span>
           )}
           <div className="ml-auto flex items-center gap-2">
             <button
@@ -270,11 +270,11 @@ export default function DiagnosticsPanel({ onClose }: Props) {
                 void runProviders();
               }}
               disabled={providersBusy}
-              className="rounded-lg bg-[#1d1b1b] px-3 py-1.5 text-[11px] font-medium text-white disabled:opacity-50"
+              className="rounded-lg bg-ink px-3 py-1.5 text-[11px] font-medium text-white disabled:opacity-50"
             >
               {providersBusy ? t("instruments.diagnostics.checking") : t("instruments.diagnostics.rerun")}
             </button>
-            <button type="button" onClick={onClose} aria-label={t("common.close")} title={t("common.close")} className="rounded-lg p-1.5 text-[#6b7280] hover:bg-white">
+            <button type="button" onClick={onClose} aria-label={t("common.close")} title={t("common.close")} className="rounded-lg p-1.5 text-content-secondary hover:bg-white">
               <X className="h-4 w-4" />
             </button>
           </div>
@@ -286,49 +286,49 @@ export default function DiagnosticsPanel({ onClose }: Props) {
             <div className={sectionTitle}>{t("instruments.diagnostics.environment")}</div>
             {env ? (
               <div className="mt-2 space-y-3">
-                <div className="rounded-xl border border-[#e0e0da] bg-white/60 px-3 py-2 text-[11px] leading-relaxed text-[#4b5563]">
+                <div className="rounded-xl border border-edge bg-white/60 px-3 py-2 text-[11px] leading-relaxed text-content-body">
                   <div>
-                    <span className="font-semibold text-[#1d1b1b]">{t("instruments.diagnostics.anthropicBase")}</span>{" "}
+                    <span className="font-semibold text-content-primary">{t("instruments.diagnostics.anthropicBase")}</span>{" "}
                     <span className="font-mono">{env.anthropicBaseUrl}</span>
                   </div>
                   <div>
-                    <span className="font-semibold text-[#1d1b1b]">{t("instruments.diagnostics.finnhubBase")}</span>{" "}
+                    <span className="font-semibold text-content-primary">{t("instruments.diagnostics.finnhubBase")}</span>{" "}
                     <span className="font-mono">{env.finnhubBaseUrl}</span>
                   </div>
                   <div>
-                    <span className="font-semibold text-[#1d1b1b]">{t("instruments.diagnostics.workerUrl")}</span>{" "}
+                    <span className="font-semibold text-content-primary">{t("instruments.diagnostics.workerUrl")}</span>{" "}
                     <span className="font-mono">{env.workerUrl ?? t("instruments.diagnostics.notSet")}</span>
                   </div>
                   <div>
-                    <span className="font-semibold text-[#1d1b1b]">{t("instruments.diagnostics.dataRoot")}</span>{" "}
+                    <span className="font-semibold text-content-primary">{t("instruments.diagnostics.dataRoot")}</span>{" "}
                     <span className="font-mono">{env.dataRoot}</span>
                   </div>
                   <div>
-                    <span className="font-semibold text-[#1d1b1b]">{t("instruments.diagnostics.session")}</span>{" "}
+                    <span className="font-semibold text-content-primary">{t("instruments.diagnostics.session")}</span>{" "}
                     {env.session.hasToken
                       ? t("instruments.diagnostics.tokenPresent", { when: env.session.updatedAt ?? "?" })
                       : t("instruments.diagnostics.noToken")}
                     {env.session.hasSupabaseUrl ? "" : ` · ${t("instruments.diagnostics.noSupabaseUrl")}`}
                   </div>
                 </div>
-                <div className="grid grid-cols-2 gap-x-6 gap-y-1 rounded-xl border border-[#e0e0da] bg-white/60 px-3 py-2">
+                <div className="grid grid-cols-2 gap-x-6 gap-y-1 rounded-xl border border-edge bg-white/60 px-3 py-2">
                   {env.keys.map((k) => (
                     <div key={k.name} className="flex items-baseline gap-2 text-[11px]">
                       <span
                         className="inline-block h-2 w-2 shrink-0 self-center rounded-full"
-                        style={{ background: k.present ? "#16A34A" : "#DC2626" }}
+                        style={{ background: k.present ? "var(--positive)" : "var(--negative)" }}
                       />
-                      <span className="font-mono font-semibold text-[#1d1b1b]">{k.name}</span>
-                      <span className="tabular-nums text-[#6b7280]">
+                      <span className="font-mono font-semibold text-content-primary">{k.name}</span>
+                      <span className="tabular-nums text-content-secondary">
                         {k.present ? t("instruments.diagnostics.keySet", { n: k.length }) : t("instruments.diagnostics.keyNotSet")}
                       </span>
-                      {k.note ? <span className="text-[10px] italic text-[#9CA3AF]">{k.note}</span> : null}
+                      {k.note ? <span className="text-[10px] italic text-content-tertiary">{k.note}</span> : null}
                     </div>
                   ))}
                 </div>
               </div>
             ) : envError ? (
-              <div className="mt-2 text-[12px] text-[#DC2626]">{envErrorText}</div>
+              <div className="mt-2 text-[12px] text-tone-negative">{envErrorText}</div>
             ) : null}
           </section>
 
@@ -336,25 +336,25 @@ export default function DiagnosticsPanel({ onClose }: Props) {
           <section>
             <div className="flex items-baseline gap-3">
               <div className={`${sectionTitle} shrink-0`}>{t("instruments.diagnostics.providers")}</div>
-              <span className="text-[10px] text-[#9CA3AF]">{t("instruments.diagnostics.providersHint")}</span>
+              <span className="text-[10px] text-content-tertiary">{t("instruments.diagnostics.providersHint")}</span>
             </div>
-            {providersError ? <div className="mt-2 text-[12px] text-[#DC2626]">{providersError}</div> : null}
+            {providersError ? <div className="mt-2 text-[12px] text-tone-negative">{providersError}</div> : null}
             <div className="mt-2 space-y-1.5">
               {(providers ?? []).map((p) => (
-                <div key={p.id} className="flex items-center gap-3 rounded-xl border border-[#e0e0da] bg-white/60 px-3 py-2">
+                <div key={p.id} className="flex items-center gap-3 rounded-xl border border-edge bg-white/60 px-3 py-2">
                   <StatusPill status={p.status} />
-                  <span className="w-72 text-[12px] font-semibold text-[#1d1b1b]">{p.label}</span>
-                  <span className="w-14 text-[11px] tabular-nums text-[#6b7280]">{p.httpStatus ?? ""}</span>
-                  <span className="w-20 text-[11px] tabular-nums text-[#6b7280]">
+                  <span className="w-72 text-[12px] font-semibold text-content-primary">{p.label}</span>
+                  <span className="w-14 text-[11px] tabular-nums text-content-secondary">{p.httpStatus ?? ""}</span>
+                  <span className="w-20 text-[11px] tabular-nums text-content-secondary">
                     {p.latencyMs != null ? `${p.latencyMs} ms` : ""}
                   </span>
-                  <span className="min-w-0 flex-1 truncate text-[11px] text-[#6b7280]" title={p.detail}>
+                  <span className="min-w-0 flex-1 truncate text-[11px] text-content-secondary" title={p.detail}>
                     {p.detail ?? ""}
                   </span>
                 </div>
               ))}
               {!providers && !providersError ? (
-                <div className="text-[12px] text-[#6b7280]">{providersBusy ? t("instruments.diagnostics.runningChecks") : na()}</div>
+                <div className="text-[12px] text-content-secondary">{providersBusy ? t("instruments.diagnostics.runningChecks") : na()}</div>
               ) : null}
             </div>
           </section>
@@ -363,17 +363,17 @@ export default function DiagnosticsPanel({ onClose }: Props) {
           <section>
             <div className="flex items-baseline gap-3">
               <div className={`${sectionTitle} shrink-0`}>{t("instruments.diagnostics.engines")}</div>
-              <span className="text-[10px] text-[#9CA3AF]">{t("instruments.diagnostics.enginesHint")}</span>
+              <span className="text-[10px] text-content-tertiary">{t("instruments.diagnostics.enginesHint")}</span>
             </div>
             <div className="mt-2 space-y-1.5">
               {engines.map((e) => (
-                <div key={e.id} className="flex items-center gap-3 rounded-xl border border-[#e0e0da] bg-white/60 px-3 py-2">
+                <div key={e.id} className="flex items-center gap-3 rounded-xl border border-edge bg-white/60 px-3 py-2">
                   <span
                     className="inline-block h-2.5 w-2.5 shrink-0 rounded-full"
-                    style={{ background: e.state === "ok" ? "#16A34A" : e.state === "fail" ? "#DC2626" : "#CA8A04" }}
+                    style={{ background: e.state === "ok" ? "var(--positive)" : e.state === "fail" ? "var(--negative)" : "var(--yellow)" }}
                   />
-                  <span className="w-72 text-[12px] font-semibold text-[#1d1b1b]">{t(e.label)}</span>
-                  <span className="min-w-0 flex-1 truncate text-[11px] text-[#6b7280]" title={e.summary}>
+                  <span className="w-72 text-[12px] font-semibold text-content-primary">{t(e.label)}</span>
+                  <span className="min-w-0 flex-1 truncate text-[11px] text-content-secondary" title={e.summary}>
                     {e.summary}
                   </span>
                 </div>

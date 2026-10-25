@@ -105,7 +105,7 @@ export default function TickerField({
         className={cn(FIELD, "h-9 font-['Geist_Mono'] text-[12.5px] tracking-[0.02em]")}
       />
       {companyName && !open ? (
-        <span className="pointer-events-none absolute right-3 top-1/2 max-w-[55%] -translate-y-1/2 truncate text-[11.5px] text-[#9CA3AF]">
+        <span className="pointer-events-none absolute right-3 top-1/2 max-w-[55%] -translate-y-1/2 truncate text-[11.5px] text-content-tertiary">
           {companyName}
         </span>
       ) : null}
@@ -129,11 +129,11 @@ export default function TickerField({
                 onMouseEnter={() => setActive(i)}
                 className={cn(
                   "flex cursor-pointer items-center gap-2.5 rounded-xl px-2.5 py-1.5 text-[12.5px]",
-                  i === active && "bg-[#1d1b1b]/[0.07]",
+                  i === active && "bg-ink/[0.07]",
                 )}
               >
-                <span className="w-14 shrink-0 font-['Geist_Mono'] text-[12px] font-medium text-[#1d1b1b]">{r.symbol}</span>
-                <span className="min-w-0 truncate text-[#6b7280]">{r.companyName}</span>
+                <span className="w-14 shrink-0 font-['Geist_Mono'] text-[12px] font-medium text-content-primary">{r.symbol}</span>
+                <span className="min-w-0 truncate text-content-secondary">{r.companyName}</span>
               </li>
             ))}
           </motion.ul>

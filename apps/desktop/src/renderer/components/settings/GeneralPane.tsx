@@ -128,7 +128,7 @@ function OpenAtLoginRow({ t }: { t: TFunction }) {
     <SettingsRow label={label} description={description}>
       <div className="flex items-center gap-3">
         {error ? (
-          <span role="status" className="text-[12px] font-normal text-[#DC2626]">
+          <span role="status" className="text-[12px] font-normal text-tone-negative">
             {error}
           </span>
         ) : null}

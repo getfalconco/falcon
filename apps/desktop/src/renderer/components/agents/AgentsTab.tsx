@@ -185,11 +185,11 @@ export default function AgentsTab() {
   if (snap.phase === "unavailable") {
     return shell(
       <div className={cn(SURFACE, "flex h-full flex-col items-center justify-center px-8 text-center")}>
-        <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-black/[0.04] text-[#4b5563]">
+        <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-black/[0.04] text-content-body">
           <Radar className="h-5 w-5" strokeWidth={1.75} aria-hidden />
         </span>
-        <p className="mt-4 text-[15px] font-medium text-[#1d1b1b]">{t("agents.tab.unavailableTitle")}</p>
-        <p className="mt-1.5 max-w-[420px] text-[13px] leading-[1.55] text-[#6b7280]">{t("agents.tab.unavailableBody")}</p>
+        <p className="mt-4 text-[15px] font-medium text-content-primary">{t("agents.tab.unavailableTitle")}</p>
+        <p className="mt-1.5 max-w-[420px] text-[13px] leading-[1.55] text-content-secondary">{t("agents.tab.unavailableBody")}</p>
       </div>,
     );
   }
@@ -201,8 +201,8 @@ export default function AgentsTab() {
     return shell(
       // While the modal is open its content is hidden, so nothing of it shows through the panel's glass.
       <div className={cn(SURFACE, "flex h-full flex-col items-center justify-center px-8 text-center", wizardOpen && "[&>*]:invisible")} aria-hidden={wizardOpen || undefined}>
-        <p className="text-[15px] font-medium text-[#1d1b1b]">{t("agents.tab.emptyTitle")}</p>
-        <p className="mt-1.5 max-w-[420px] text-[13px] leading-[1.55] text-[#6b7280]">{t("agents.tab.emptyBody")}</p>
+        <p className="text-[15px] font-medium text-content-primary">{t("agents.tab.emptyTitle")}</p>
+        <p className="mt-1.5 max-w-[420px] text-[13px] leading-[1.55] text-content-secondary">{t("agents.tab.emptyBody")}</p>
         <button type="button" onClick={() => setWizardOpen(true)} className="glass-cta app-no-drag mt-5 h-9 px-5 text-[12.5px] font-medium">
           {t("agents.create.create")}
         </button>
@@ -214,8 +214,8 @@ export default function AgentsTab() {
   if (failed) {
     main = (
       <div className="flex h-full flex-col items-center justify-center px-8 text-center">
-        <p className="text-[14px] font-medium text-[#1d1b1b]">{t("agents.tab.loadFailed")}</p>
-        {snap.error ? <p className="mt-1 text-[12.5px] text-[#9CA3AF]">{snap.error}</p> : null}
+        <p className="text-[14px] font-medium text-content-primary">{t("agents.tab.loadFailed")}</p>
+        {snap.error ? <p className="mt-1 text-[12.5px] text-content-tertiary">{snap.error}</p> : null}
         <button type="button" onClick={() => void refreshAgents()} className={cn(BUTTON, "mt-4")}>
           {t("agents.tryAgain")}
         </button>
@@ -248,7 +248,7 @@ export default function AgentsTab() {
     );
   } else {
     main = (
-      <div className="flex h-full items-center justify-center text-[13px] text-[#9CA3AF]">
+      <div className="flex h-full items-center justify-center text-[13px] text-content-tertiary">
         {visible.length === 0 ? t("agents.tab.noMatchFilter") : t("agents.tab.pick")}
       </div>
     );

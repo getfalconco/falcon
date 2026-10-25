@@ -190,7 +190,7 @@ export default function MonthView(props: Props) {
                         aria-label={t("calendar.openDay", { date: longDay(ymd, locale) })}
                         className={cn(
                           "app-no-drag flex h-[22px] min-w-[22px] items-center justify-center rounded-full px-1 text-[12px] tabular-nums transition-colors",
-                          isToday ? "font-medium text-white" : inMonth ? "text-[#1d1b1b] hover:bg-black/[0.05]" : "text-[#9CA3AF] hover:bg-black/[0.05]",
+                          isToday ? "font-medium text-white" : inMonth ? "text-content-primary hover:bg-black/[0.05]" : "text-content-tertiary hover:bg-black/[0.05]",
                         )}
                         style={isToday ? { backgroundColor: lineColor } : undefined}
                       >
@@ -212,7 +212,7 @@ export default function MonthView(props: Props) {
                     return (
                       <div
                         key={p.id}
-                        className="mx-1 my-[1px] rounded-[6px] border border-dashed border-black/20 bg-black/[0.04]"
+                        className="mx-1 my-[1px] rounded-md border border-dashed border-black/20 bg-black/[0.04]"
                         style={{ gridColumn: `${p.startIndex + 1} / span ${p.span}`, gridRow: p.row + 1 }}
                       />
                     );
@@ -253,7 +253,7 @@ export default function MonthView(props: Props) {
                         const list = events.filter((ev) => eventOnDay(ev, ymd, zone)).sort(compareEvents);
                         props.onShowDay(ymd, list, rectOf(e.currentTarget));
                       }}
-                      className="app-no-drag pointer-events-auto mx-1 truncate rounded-[6px] px-1.5 text-left text-[11px] text-[#6b7280] hover:bg-black/[0.05] hover:text-[#1d1b1b]"
+                      className="app-no-drag pointer-events-auto mx-1 truncate rounded-md px-1.5 text-left text-[11px] text-content-secondary hover:bg-black/[0.05] hover:text-content-primary"
                       style={{ gridColumn: `${i + 1} / span 1`, gridRow: rowsFit }}
                     >
                       {t("calendar.more", { n })}

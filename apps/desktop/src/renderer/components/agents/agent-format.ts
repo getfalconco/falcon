@@ -125,10 +125,10 @@ export function statusLabel(status: AgentStatus, lang: Lang): string {
 
 /** Dot colours per status, in the palette the dark theme already translates. */
 export const STATUS_DOT: Readonly<Record<AgentStatus, string>> = {
-  active: "bg-[#16A34A]",
-  paused: "bg-[#9CA3AF]",
-  completed: "bg-[#1d1b1b]/30",
-  error: "bg-[#DC2626]",
+  active: "bg-tone-positive-fill",
+  paused: "bg-content-tertiary",
+  completed: "bg-ink/30",
+  error: "bg-tone-negative-fill",
 };
 
 /** 2024-01-07 was a Sunday: day 0 of the contract's `weekday`. */
@@ -436,10 +436,10 @@ export function verdictLabel(verdict: AgentMetricReading["verdict"], lang: Lang)
 
 /** Verdict pills: tinted fills the dark theme translates to their own tints. */
 export const VERDICT_PILL: Readonly<Record<AgentMetricReading["verdict"], string>> = {
-  above: "bg-[#DCFCE7] text-[#166534]",
-  below: "bg-[#FEE2E2] text-[#991B1B]",
-  inline: "bg-[#1d1b1b]/[0.06] text-[#4b5563]",
-  unclear: "bg-[#FEF3C7] text-[#92400E]",
+  above: "bg-tone-positive-soft text-tone-positive",
+  below: "bg-tone-negative-soft text-tone-negative",
+  inline: "bg-ink/[0.06] text-content-body",
+  unclear: "bg-tone-warning-soft text-tone-warning",
 };
 
 /**

@@ -201,7 +201,7 @@ const pairTicker = params.get("pair");
 
 if (pairTicker) {
   createRoot(document.getElementById("root")!).render(
-    <div className="min-h-screen bg-[#EAEAE6] p-10">
+    <div className="min-h-screen bg-surface-0 p-10">
       <div className="mx-auto h-[70vh] w-[560px] rounded-3xl border border-white/60 bg-white/40 p-6">
         <InsightPairFrame
           rootTicker="NVDA"
@@ -219,7 +219,7 @@ if (pairTicker) {
   );
 } else {
 createRoot(document.getElementById("root")!).render(
-  <div className="flex min-h-screen items-center justify-center bg-[#EAEAE6] p-10">
+  <div className="flex min-h-screen items-center justify-center bg-surface-0 p-10">
     <div className="w-[380px] shrink-0">
       {/* ?lift=1 mirrors the dashboard, where every card is liftable. */}
       {params.get("lift") === "1" ? (

@@ -66,7 +66,7 @@ export const TimedBlock = forwardRef<HTMLButtonElement, Common & { start: number
         onPointerDown={onPointerDown}
         onClick={onClick}
         className={cn(
-          "group/ev absolute flex min-h-0 select-none flex-col overflow-hidden rounded-[7px] pl-[7px] pr-1.5 text-left outline-none transition-[background-color,box-shadow,opacity] duration-150 focus-visible:ring-2 focus-visible:ring-black/20",
+          "group/ev absolute flex min-h-0 select-none flex-col overflow-hidden rounded-md pl-[7px] pr-1.5 text-left outline-none transition-[background-color,box-shadow,opacity] duration-150 focus-visible:ring-2 focus-visible:ring-black/20",
           compact ? "justify-center py-0" : "py-[3px]",
           continuesBefore && "rounded-t-none",
           continuesAfter && "rounded-b-none",
@@ -143,7 +143,7 @@ export const EventBar = forwardRef<
   const beside = besideTitle(lines);
   const under = detailed ? underTitle(lines) : null;
   // Inside the title's own run, so a narrow cell cuts the figure before the title.
-  const besideText = beside ? <span className={cn("font-normal tabular-nums text-[#6b7280]", detailed ? "text-[11.5px]" : "text-[10.5px]")}> {beside}</span> : null;
+  const besideText = beside ? <span className={cn("font-normal tabular-nums text-content-secondary", detailed ? "text-[11.5px]" : "text-[10.5px]")}> {beside}</span> : null;
   return (
     <button
       ref={ref}
@@ -155,7 +155,7 @@ export const EventBar = forwardRef<
       onClick={onClick}
       title={event.title}
       className={cn(
-        "flex min-w-0 select-none overflow-hidden rounded-[6px] px-1.5 text-left text-[11px] leading-none outline-none transition-[background-color,box-shadow,opacity] duration-150 focus-visible:ring-2 focus-visible:ring-black/20",
+        "flex min-w-0 select-none overflow-hidden rounded-md px-1.5 text-left text-[11px] leading-none outline-none transition-[background-color,box-shadow,opacity] duration-150 focus-visible:ring-2 focus-visible:ring-black/20",
         detailed ? "flex-col items-stretch justify-center gap-[3px] py-[7px] text-[12.5px]" : "h-[20px] items-center",
         clippedStart && "rounded-l-none",
         clippedEnd && "rounded-r-none",
@@ -176,8 +176,8 @@ export const EventBar = forwardRef<
           <>
             <span className="h-[7px] w-[7px] shrink-0 rounded-full" style={{ backgroundColor: shade.accent }} aria-hidden />
             <Mark event={event} size={detailed ? 17 : 15} />
-            <span className={cn("shrink-0 tabular-nums text-[#6b7280]", detailed ? "text-[12px]" : "text-[10.5px]")}>{when}</span>
-            <span className="truncate text-[#1d1b1b]">
+            <span className={cn("shrink-0 tabular-nums text-content-secondary", detailed ? "text-[12px]" : "text-[10.5px]")}>{when}</span>
+            <span className="truncate text-content-primary">
               {event.title}
               {besideText}
             </span>
@@ -194,7 +194,7 @@ export const EventBar = forwardRef<
           </>
         )}
       </span>
-      {under ? <span className={cn("truncate text-[11.5px] tabular-nums text-[#9CA3AF]", timed ? "pl-[36px]" : "pl-[32px]")}>{under}</span> : null}
+      {under ? <span className={cn("truncate text-[11.5px] tabular-nums text-content-tertiary", timed ? "pl-[36px]" : "pl-[32px]")}>{under}</span> : null}
     </button>
   );
 });

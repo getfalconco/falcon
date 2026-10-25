@@ -32,18 +32,18 @@ const PANEL_FADE = {
 
 /** NEW / IMPROVED / FIXED, set like the app's other small mastheads. */
 const SECTION_LABEL =
-  "select-none font-sans text-[10.5px] font-medium uppercase tracking-[0.08em] text-[#9CA3AF]";
+  "select-none font-sans text-[10.5px] font-medium uppercase tracking-[0.08em] text-content-tertiary";
 
 function Release({ release }: { release: ChangelogRelease }) {
   const { t, locale } = useI18n();
   return (
     <section className="border-t border-black/[0.06] py-6 first:border-t-0 first:pt-2">
       <header className="flex items-center justify-between gap-3">
-        <h3 className="text-[14px] font-semibold text-[#1d1b1b]">{formatReleaseDate(release.date, locale)}</h3>
+        <h3 className="text-[14px] font-semibold text-content-primary">{formatReleaseDate(release.date, locale)}</h3>
         {release.version ? (
           <span
             aria-label={t("changelog.version", { version: release.version })}
-            className="shrink-0 rounded-md bg-black/[0.05] px-2 py-0.5 font-mono text-[11.5px] text-[#4b5563]"
+            className="shrink-0 rounded-md bg-black/[0.05] px-2 py-0.5 font-mono text-[11.5px] text-content-body"
           >
             {release.version}
           </span>
@@ -55,7 +55,7 @@ function Release({ release }: { release: ChangelogRelease }) {
         return (
           <div key={key} className="mt-4">
             <div className={SECTION_LABEL}>{t(labelKey)}</div>
-            <ul className="mt-2 list-disc space-y-1.5 pl-[18px] text-[13px] leading-[1.65] text-[#374151]">
+            <ul className="mt-2 list-disc space-y-1.5 pl-[18px] text-[13px] leading-[1.65] text-content-body">
               {lines.map((line) => (
                 <li key={line} className="pl-0.5">
                   {t(line)}
@@ -126,14 +126,14 @@ export default function ChangelogModal({
             {...PANEL_FADE}
           >
             <div className="flex shrink-0 items-center justify-between px-7 pb-3 pt-6">
-              <h2 id="changelog-title" className="text-[17px] font-semibold text-[#1d1b1b]">
+              <h2 id="changelog-title" className="text-[17px] font-semibold text-content-primary">
                 {t("changelog.title")}
               </h2>
               <button
                 type="button"
                 onClick={onClose}
                 aria-label={t("common.close")}
-                className="app-no-drag -mr-2 rounded-lg p-1.5 text-[#6b7280] transition-colors hover:bg-black/[0.04] hover:text-[#1d1b1b]"
+                className="app-no-drag -mr-2 rounded-lg p-1.5 text-content-secondary transition-colors hover:bg-black/[0.04] hover:text-content-primary"
               >
                 <X className="h-4 w-4" strokeWidth={1.75} aria-hidden />
               </button>

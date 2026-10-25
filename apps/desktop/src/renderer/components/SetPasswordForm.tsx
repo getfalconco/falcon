@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 import { authCtaClass } from "@/components/auth-cta";
 
 const inputClass =
-  "app-no-drag w-full border border-white/10 bg-transparent px-4 py-3 text-sm text-white outline-none transition placeholder:text-[#666666] focus:border-white/20";
+  "app-no-drag w-full border border-white/10 bg-transparent px-4 py-3 text-sm text-white outline-none transition placeholder:text-content-secondary focus:border-white/20";
 
 type Props = {
   onSuccess: () => void;
@@ -57,7 +57,7 @@ export default function SetPasswordForm({ onSuccess, onWaitlist }: Props) {
             <h1 className="font-serif text-[2rem] font-normal leading-[1.25] tracking-[0.01em] text-white">
               {t("auth.setPassword.title")}
             </h1>
-            <p className="mt-3 text-balance text-sm text-[#888888] [word-break:auto-phrase]">{t("auth.setPassword.subtitle")}</p>
+            <p className="mt-3 text-balance text-sm text-content-tertiary [word-break:auto-phrase]">{t("auth.setPassword.subtitle")}</p>
           </header>
 
           <form

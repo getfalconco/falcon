@@ -29,10 +29,10 @@ import { SettingsRow, SettingsSection } from "./SettingsRow";
  */
 
 const BUTTON =
-  "app-no-drag btn-quiet rounded-lg border border-white/60 bg-white/55 px-3 py-1.5 text-[13px] font-normal text-[#1d1b1b] shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-black/[0.04] transition-colors hover:bg-white/75 disabled:pointer-events-none disabled:opacity-60";
+  "app-no-drag btn-quiet rounded-lg border border-white/60 bg-white/55 px-3 py-1.5 text-[13px] font-normal text-content-primary shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-black/[0.04] transition-colors hover:bg-white/75 disabled:pointer-events-none disabled:opacity-60";
 
 const FIELD =
-  "app-no-drag h-9 rounded-xl border border-white/60 bg-white/55 px-3 font-['Geist_Mono'] text-[12.5px] font-normal text-[#1d1b1b] shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] outline-none ring-1 ring-black/[0.04] transition-colors focus:bg-white/75 disabled:opacity-50";
+  "app-no-drag h-9 rounded-xl border border-white/60 bg-white/55 px-3 font-['Geist_Mono'] text-[12.5px] font-normal text-content-primary shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] outline-none ring-1 ring-black/[0.04] transition-colors focus:bg-white/75 disabled:opacity-50";
 
 /**
  * One row per category, in the shared list's order; a new category fails to
@@ -48,7 +48,7 @@ const CATEGORY_LABEL: Record<NotificationCategory, MessageKey> = {
 
 function Note({ tone = "muted", children }: { tone?: "muted" | "error"; children: React.ReactNode }) {
   return (
-    <span role="status" className={cn("text-[12px] font-normal", tone === "error" ? "text-[#DC2626]" : "text-[#9CA3AF]")}>
+    <span role="status" className={cn("text-[12px] font-normal", tone === "error" ? "text-tone-negative" : "text-content-tertiary")}>
       {children}
     </span>
   );
@@ -56,7 +56,7 @@ function Note({ tone = "muted", children }: { tone?: "muted" | "error"; children
 
 function Unavailable() {
   const t = useT();
-  return <span className="text-[12.5px] font-normal text-[#9CA3AF]">{t("settings.notifications.unavailable")}</span>;
+  return <span className="text-[12.5px] font-normal text-content-tertiary">{t("settings.notifications.unavailable")}</span>;
 }
 
 /** A time of day; saved as soon as it is a whole time, reverted if left half-typed. */
@@ -213,14 +213,14 @@ export function NotificationsSection({
   if (!available) {
     return (
       <SettingsSection title={t("settings.section.notifications")}>
-        <p className="py-4 text-[12.5px] font-normal text-[#6b7280]">{t("settings.pane.desktopOnly")}</p>
+        <p className="py-4 text-[12.5px] font-normal text-content-secondary">{t("settings.pane.desktopOnly")}</p>
       </SettingsSection>
     );
   }
   if (!state) {
     return (
       <SettingsSection title={t("settings.section.notifications")}>
-        <p className="py-4 text-[12.5px] font-normal text-[#6b7280]">{loadError ?? t("settings.pane.loading")}</p>
+        <p className="py-4 text-[12.5px] font-normal text-content-secondary">{loadError ?? t("settings.pane.loading")}</p>
       </SettingsSection>
     );
   }
@@ -252,7 +252,7 @@ export function NotificationsSection({
   return (
     <SettingsSection title={t("settings.section.notifications")}>
       {!supported ? (
-        <p className="border-b border-black/[0.06] py-4 text-[12.5px] font-normal text-[#DC2626]">
+        <p className="border-b border-black/[0.06] py-4 text-[12.5px] font-normal text-tone-negative">
           {t("settings.notifications.unsupported")}
         </p>
       ) : null}
@@ -308,7 +308,7 @@ export function NotificationsSection({
       >
         <div className="flex items-center gap-4">
           {/* The joining word and its place are the language's: "22:00 to 07:00", "22:00 から 07:00 まで". */}
-          <div className="flex items-center gap-2 text-[12.5px] text-[#9CA3AF]">
+          <div className="flex items-center gap-2 text-[12.5px] text-content-tertiary">
             {tNodes("settings.notifications.range", {
               start: (
                 <TimeField

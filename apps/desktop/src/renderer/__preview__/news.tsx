@@ -253,12 +253,12 @@ localStorage.setItem("falcon.paperBalance", "3000");
 function Harness() {
   const [shown, setShown] = useState(true);
   return (
-    <div className="min-h-screen bg-[#EAEAE6] p-10">
+    <div className="min-h-screen bg-surface-0 p-10">
       <button
         type="button"
         data-testid="remount"
         onClick={() => setShown((v) => !v)}
-        className="mb-4 rounded-full bg-white px-3 py-1 text-[12px] text-[#1d1b1b]"
+        className="mb-4 rounded-full bg-white px-3 py-1 text-[12px] text-content-primary"
       >
         {shown ? "unmount" : "mount"}
       </button>

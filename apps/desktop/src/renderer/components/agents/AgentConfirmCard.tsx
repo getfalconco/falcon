@@ -54,14 +54,14 @@ function Row({
   return (
     <div className="px-4 py-3">
       <div className="flex items-start gap-3">
-        <h3 className="w-[92px] shrink-0 pt-px text-[12px] text-[#6b7280]">{label}</h3>
-        <div className="min-w-0 flex-1 text-[13px] leading-[1.55] text-[#1d1b1b]">{children}</div>
+        <h3 className="w-[92px] shrink-0 pt-px text-[12px] text-content-secondary">{label}</h3>
+        <div className="min-w-0 flex-1 text-[13px] leading-[1.55] text-content-primary">{children}</div>
         <button
           type="button"
           onClick={() => onToggle(part)}
           aria-expanded={open}
           aria-label={t("agents.confirm.changeAria", { part: label })}
-          className="app-no-drag shrink-0 rounded-md px-1.5 text-[12px] text-[#6b7280] underline-offset-2 transition-colors hover:text-[#1d1b1b] hover:underline"
+          className="app-no-drag shrink-0 rounded-md px-1.5 text-[12px] text-content-secondary underline-offset-2 transition-colors hover:text-content-primary hover:underline"
         >
           {open ? t("agents.confirm.done") : t("agents.confirm.change")}
         </button>
@@ -181,7 +181,7 @@ export default function AgentConfirmCard({ draft, onChange }: { draft: AgentDraf
                 {tickers.map((tk) => (
                   <TickerChip key={tk} ticker={tk} />
                 ))}
-                {draft.companyName ? <span className="truncate text-[12.5px] text-[#6b7280]">{draft.companyName}</span> : null}
+                {draft.companyName ? <span className="truncate text-[12.5px] text-content-secondary">{draft.companyName}</span> : null}
               </span>
             ) : (
               // No company: what it watches instead, a topic or the market's headlines.
@@ -202,7 +202,7 @@ export default function AgentConfirmCard({ draft, onChange }: { draft: AgentDraf
                 return (
                   <li key={i}>
                     {triggerSentence(tr, lang)}
-                    {hint ? <span className="text-[#6b7280]">{`, ${hint}`}</span> : null}
+                    {hint ? <span className="text-content-secondary">{`, ${hint}`}</span> : null}
                   </li>
                 );
               })}
@@ -217,13 +217,13 @@ export default function AgentConfirmCard({ draft, onChange }: { draft: AgentDraf
             editor={<MetricsField draft={draft} onChange={onChange} />}
           >
             {metrics.length === 0 ? (
-              <span className="text-[#6b7280]">{t("agents.confirm.noMetrics")}</span>
+              <span className="text-content-secondary">{t("agents.confirm.noMetrics")}</span>
             ) : (
               <span className="flex flex-wrap gap-1.5">
                 {metrics.map((m) => (
                   <span key={m.id} className="inline-flex items-center rounded-lg bg-black/[0.05] px-2 py-0.5 text-[12.5px]">
                     {m.label.trim()}
-                    {m.expectation?.trim() ? <span className="ml-1 text-[#6b7280]">{`(${m.expectation.trim()})`}</span> : null}
+                    {m.expectation?.trim() ? <span className="ml-1 text-content-secondary">{`(${m.expectation.trim()})`}</span> : null}
                   </span>
                 ))}
               </span>
@@ -242,8 +242,8 @@ export default function AgentConfirmCard({ draft, onChange }: { draft: AgentDraf
 
           <Row label={t("agents.confirm.ends")} part="ends" open={open === "ends"} onToggle={toggle} editor={<EndsEditor draft={draft} onChange={onChange} />}>
             <span>{endsSentence(draft.ends, lang, resultsDate(draft))}</span>
-            {draft.endsProposed ? <span className="ml-1.5 text-[11.5px] text-[#9CA3AF]">{t("agents.confirm.proposed")}</span> : null}
-            <span className="block text-[12px] text-[#6b7280]">{draft.oneShot ? t("agents.oneShot") : t("agents.form.keepWatching")}</span>
+            {draft.endsProposed ? <span className="ml-1.5 text-[11.5px] text-content-tertiary">{t("agents.confirm.proposed")}</span> : null}
+            <span className="block text-[12px] text-content-secondary">{draft.oneShot ? t("agents.oneShot") : t("agents.form.keepWatching")}</span>
           </Row>
         </div>
       </div>

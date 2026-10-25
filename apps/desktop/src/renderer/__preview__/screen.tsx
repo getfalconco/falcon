@@ -89,7 +89,7 @@ if (select) {
 }
 
 createRoot(document.getElementById("root")!).render(
-  <div className="min-h-screen bg-[#EAEAE6]">
+  <div className="min-h-screen bg-surface-0">
     <ScreenPanel onClose={() => {}} />
   </div>,
 );

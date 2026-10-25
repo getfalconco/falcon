@@ -81,7 +81,7 @@ function inputFrom(form: Form, zone: string | undefined): UserCalendarEventInput
   return { ...common, all_day: false, date: null, end_date: null, start_at: new Date(startMs).toISOString(), end_at: new Date(endMs).toISOString() };
 }
 
-const LABEL = "w-[64px] shrink-0 text-[12px] text-[#6b7280]";
+const LABEL = "w-[64px] shrink-0 text-[12px] text-content-secondary";
 
 /**
  * A 24-hour "HH:MM" field, the clock the rest of the app prints. A native
@@ -259,7 +259,7 @@ export default function EventEditor({
             role="switch"
             aria-checked={form.allDay}
             onClick={() => set("allDay", !form.allDay)}
-            className={cn("app-no-drag relative h-[18px] w-[30px] rounded-full transition-colors", form.allDay ? "bg-[#1d1b1b]" : "bg-black/[0.12]")}
+            className={cn("app-no-drag relative h-[18px] w-[30px] rounded-full transition-colors", form.allDay ? "bg-ink" : "bg-black/[0.12]")}
           >
             <span className={cn("absolute top-[2px] h-[14px] w-[14px] rounded-full bg-white shadow transition-[left]", form.allDay ? "left-[14px]" : "left-[2px]")} />
           </button>
@@ -285,9 +285,9 @@ export default function EventEditor({
             <div className="flex items-center gap-2">
               <span className={LABEL}>{t("calendar.editor.time")}</span>
               <TimeField value={form.start} onChange={(v) => set("start", v)} label={t("calendar.editor.start")} />
-              <span className="text-[12px] text-[#9CA3AF]">-</span>
+              <span className="text-[12px] text-content-tertiary">-</span>
               <TimeField value={form.end} onChange={(v) => set("end", v)} label={t("calendar.editor.end")} />
-              <span className="ml-auto text-[10px] text-[#9CA3AF]">{zoneText}</span>
+              <span className="ml-auto text-[10px] text-content-tertiary">{zoneText}</span>
             </div>
           </>
         )}
@@ -310,7 +310,7 @@ export default function EventEditor({
             className={cn(FIELD, "h-8 flex-1 text-[12.5px]")}
           />
           {suggestOpen && suggestions.length > 0 ? (
-            <ul role="listbox" className="absolute left-[72px] right-0 top-full z-10 mt-1 overflow-hidden rounded-xl border border-white/60 bg-[#fbfbf9] p-1 shadow-[0_12px_32px_rgba(0,0,0,0.14)] ring-1 ring-black/[0.06]">
+            <ul role="listbox" className="absolute left-[72px] right-0 top-full z-10 mt-1 overflow-hidden rounded-xl border border-white/60 bg-surface-2 p-1 shadow-[0_12px_32px_rgba(0,0,0,0.14)] ring-1 ring-black/[0.06]">
               {suggestions.map((s, i) => (
                 <li key={s.symbol} role="option" aria-selected={i === active}>
                   <button
@@ -320,8 +320,8 @@ export default function EventEditor({
                     onMouseEnter={() => setActive(i)}
                     className={cn("app-no-drag flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-left", i === active && "bg-black/[0.05]")}
                   >
-                    <span className="w-[52px] shrink-0 text-[11.5px] text-[#1d1b1b]">{s.symbol}</span>
-                    <span className="truncate text-[12px] text-[#6b7280]">{s.companyName}</span>
+                    <span className="w-[52px] shrink-0 text-[11.5px] text-content-primary">{s.symbol}</span>
+                    <span className="truncate text-[12px] text-content-secondary">{s.companyName}</span>
                   </button>
                 </li>
               ))}
@@ -378,7 +378,7 @@ export default function EventEditor({
         />
       </div>
 
-      {error ? <p className="mt-2 text-[12px] leading-[1.45] text-[#DC2626]">{error}</p> : null}
+      {error ? <p className="mt-2 text-[12px] leading-[1.45] text-tone-negative">{error}</p> : null}
 
       <div className="mt-3 flex items-center justify-end gap-2">
         <button type="button" className={BUTTON} onClick={onCancel}>

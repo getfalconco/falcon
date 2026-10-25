@@ -44,7 +44,7 @@ function Card({ kind, label }: { kind: UpdateStatus["kind"]; label: string }) {
   (window as any).meridian = bridgeFor(kind);
   return (
     <div className="flex flex-col gap-2">
-      <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#9CA3AF]">
+      <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-content-tertiary">
         {label}
       </span>
       <UpdatePill />
@@ -53,12 +53,12 @@ function Card({ kind, label }: { kind: UpdateStatus["kind"]; label: string }) {
 }
 
 createRoot(document.getElementById("root")!).render(
-  <div className="relative h-screen w-screen overflow-hidden bg-[#EAEAE6]">
+  <div className="relative h-screen w-screen overflow-hidden bg-surface-0">
     {/* Colour behind the glass, so the blur has something to do. */}
     <div aria-hidden className="pointer-events-none absolute inset-0">
-      <div className="absolute left-10 top-40 h-56 w-56 rounded-full bg-[#189E9A]/35 blur-2xl" />
-      <div className="absolute left-56 top-72 h-48 w-72 rounded-full bg-[#a86448]/30 blur-2xl" />
-      <div className="absolute left-24 top-96 h-40 w-40 rounded-full bg-[#2563EB]/25 blur-2xl" />
+      <div className="absolute left-10 top-40 h-56 w-56 rounded-full bg-tone-teal-fill/35 blur-2xl" />
+      <div className="absolute left-56 top-72 h-48 w-72 rounded-full bg-tone-warning-fill/30 blur-2xl" />
+      <div className="absolute left-24 top-96 h-40 w-40 rounded-full bg-tint/25 blur-2xl" />
     </div>
 
     <div className="absolute left-12 top-16 flex flex-col gap-10">
@@ -66,7 +66,7 @@ createRoot(document.getElementById("root")!).render(
       {(asked === "both" || asked === "unsigned") && <Card kind="unsigned" label="macos · unsigned" />}
     </div>
 
-    <p className="absolute bottom-6 left-12 max-w-md text-[11px] leading-relaxed text-[#6b7280]">
+    <p className="absolute bottom-6 left-12 max-w-md text-[11px] leading-relaxed text-content-secondary">
       Live preview. Hover the top card, click it — the click is counted, nothing restarts.
     </p>
   </div>,

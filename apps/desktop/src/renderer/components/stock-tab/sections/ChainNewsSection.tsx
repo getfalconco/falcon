@@ -50,15 +50,15 @@ function Path({ row, graph }: { row: ChainNewsRow; graph: StockGraph }) {
   const roles = row.path.steps.map((s) => t(ROLE_KEY[s.role]));
   const text = parts.flatMap((p, i) => (i < roles.length ? [p, roles[i]!] : [p])).join(" → ");
   return (
-    <span className="flex shrink-0 items-center gap-1 text-[11.5px] text-[#6b7280]" title={t("stocktab.chain.path", { path: text })}>
+    <span className="flex shrink-0 items-center gap-1 text-[11.5px] text-content-secondary" title={t("stocktab.chain.path", { path: text })}>
       {parts.map((p, i) => (
         <Fragment key={i}>
-          <span className={cn(i === 0 ? "font-medium text-[#4b5563]" : "", i === parts.length - 1 && "text-[#9CA3AF]")}>{p}</span>
+          <span className={cn(i === 0 ? "font-medium text-content-body" : "", i === parts.length - 1 && "text-content-tertiary")}>{p}</span>
           {i < roles.length ? (
             <>
-              <span aria-hidden className="text-[#9CA3AF]">→</span>
+              <span aria-hidden className="text-content-tertiary">→</span>
               <span>{roles[i]}</span>
-              <span aria-hidden className="text-[#9CA3AF]">→</span>
+              <span aria-hidden className="text-content-tertiary">→</span>
             </>
           ) : null}
         </Fragment>
@@ -97,7 +97,7 @@ export default function ChainNewsSection({ ticker }: StockSectionProps) {
   }
 
   if (rows.length === 0) {
-    return <p className="py-1 text-[13px] text-[#6b7280]">{t("stocktab.chain.empty")}</p>;
+    return <p className="py-1 text-[13px] text-content-secondary">{t("stocktab.chain.empty")}</p>;
   }
 
   return (
@@ -110,11 +110,11 @@ export default function ChainNewsSection({ ticker }: StockSectionProps) {
               onClick={() => setOpen(row.article)}
               className="app-no-drag flex w-full min-w-0 cursor-pointer items-center gap-3 rounded-lg px-1 py-2 text-left outline-none transition-colors hover:bg-black/[0.03] focus-visible:bg-black/[0.04]"
             >
-              <span className="min-w-0 flex-1 truncate text-[13px] text-[#1d1b1b]" title={row.title}>
+              <span className="min-w-0 flex-1 truncate text-[13px] text-content-primary" title={row.title}>
                 {row.title}
               </span>
               {graph ? <Path row={row} graph={graph} /> : null}
-              <span className="min-w-12 shrink-0 whitespace-nowrap text-right text-[11.5px] tabular-nums text-[#9CA3AF]">
+              <span className="min-w-12 shrink-0 whitespace-nowrap text-right text-[11.5px] tabular-nums text-content-tertiary">
                 {agoLabel(row.article.datetime, now, locale, t("stocktab.chain.justNow"))}
               </span>
             </button>

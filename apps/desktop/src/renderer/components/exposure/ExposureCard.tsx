@@ -44,24 +44,24 @@ export default function ExposureCard({ onDuplicate, onRemove, onOpenExposure }: 
 
   let body: ReactNode;
   if (noNames) {
-    body = <p className={cn(quiet, "text-[#9CA3AF]")}>{t("exposure.card.noNames")}</p>;
+    body = <p className={cn(quiet, "text-content-tertiary")}>{t("exposure.card.noNames")}</p>;
   } else if (!summary && view.error !== null) {
-    body = <p className={cn(quiet, "text-[#6b7280]")}>{view.error === "restart" ? t("exposure.error.restart") : t("exposure.card.failed")}</p>;
+    body = <p className={cn(quiet, "text-content-secondary")}>{view.error === "restart" ? t("exposure.error.restart") : t("exposure.card.failed")}</p>;
   } else if (!summary) {
     body = <Skeleton />;
   } else if (summary.shared.length === 0) {
-    body = <p className={cn(quiet, "text-[#9CA3AF]")}>{summary.companies === 0 ? t("exposure.empty.funds") : t("exposure.card.empty")}</p>;
+    body = <p className={cn(quiet, "text-content-tertiary")}>{summary.companies === 0 ? t("exposure.empty.funds") : t("exposure.card.empty")}</p>;
   } else {
     const header = headlineText(t, summary.headline, view.scope, locale);
     body = (
       <>
-        {header ? <p className="pb-3 text-[14px] leading-[1.45] text-[#1d1b1b]">{header}</p> : null}
+        {header ? <p className="pb-3 text-[14px] leading-[1.45] text-content-primary">{header}</p> : null}
         <ul className="scrollbar-meridian -mx-2 min-h-0 flex-1 space-y-0.5 overflow-y-auto px-2">
           {summary.shared.slice(0, ROWS).map((row) => (
-            <li key={row.key} className="flex items-center gap-2.5 rounded-xl px-2 py-2 transition-colors hover:bg-[#1d1b1b]/[0.04]">
+            <li key={row.key} className="flex items-center gap-2.5 rounded-xl px-2 py-2 transition-colors hover:bg-ink/[0.04]">
               <CompanyCell row={row} compact className="flex-1" />
               <ViaTickers row={row} max={2} className="shrink-0" />
-              <span className={cn(NUM, "w-11 shrink-0 text-[#1d1b1b]")} title={t("exposure.row.linked", { pct: exposurePct(row.linkedWeight, locale) })}>
+              <span className={cn(NUM, "w-11 shrink-0 text-content-primary")} title={t("exposure.row.linked", { pct: exposurePct(row.linkedWeight, locale) })}>
                 {exposurePct(row.exposure, locale)}
               </span>
             </li>

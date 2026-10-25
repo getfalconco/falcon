@@ -18,7 +18,7 @@ export default function ScopeSwitch({ className, compact }: { className?: string
   const { t } = useI18n();
   const value = useCalendarScope();
   return (
-    <div role="radiogroup" aria-label={t("calendar.scope.label")} className={cn("flex items-center bg-black/[0.05] p-[2px]", compact ? "rounded-[8px]" : "rounded-[10px]", className)}>
+    <div role="radiogroup" aria-label={t("calendar.scope.label")} className={cn("flex items-center bg-black/[0.05] p-[2px]", compact ? "rounded-lg" : "rounded-xl", className)}>
       {SCOPES.map((s) => (
         <button
           key={s.id}
@@ -28,8 +28,8 @@ export default function ScopeSwitch({ className, compact }: { className?: string
           onClick={() => writeCalendarScope(s.id)}
           className={cn(
             "app-no-drag flex-1 whitespace-nowrap font-medium transition-colors",
-            compact ? "rounded-[6px] px-2 py-[2px] text-[11px]" : "rounded-[8px] px-3 py-1 text-[12px]",
-            value === s.id ? "bg-white/90 text-[#1d1b1b] shadow-[0_1px_2px_rgba(0,0,0,0.08)]" : "text-[#6b7280] hover:text-[#1d1b1b]",
+            compact ? "rounded-md px-2 py-[2px] text-[11px]" : "rounded-lg px-3 py-1 text-[12px]",
+            value === s.id ? "bg-white/90 text-content-primary shadow-[0_1px_2px_rgba(0,0,0,0.08)]" : "text-content-secondary hover:text-content-primary",
           )}
         >
           {t(s.key)}

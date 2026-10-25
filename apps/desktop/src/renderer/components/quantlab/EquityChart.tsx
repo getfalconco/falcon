@@ -80,9 +80,9 @@ export default function EquityChart({
   const flattering = hasEdge === false && vsIndex != null && vsIndex > 0;
 
   return (
-    <div className="mt-4 rounded-lg border border-[#e0e0da] bg-white px-4 py-3">
+    <div className="mt-4 rounded-lg border border-edge bg-white px-4 py-3">
       <div className="flex flex-wrap items-baseline gap-x-5 gap-y-1">
-        <span className="text-[10px] font-medium tracking-[0.08em] text-[#9CA3AF]">
+        <span className="text-[10px] font-medium tracking-[0.08em] text-content-tertiary">
           {t("instruments.quantlab.growthTitle")}
         </span>
         {curves.length > 1 && (
@@ -92,7 +92,7 @@ export default function EquityChart({
                 key={c.horizon}
                 onClick={() => setHorizon(c.horizon)}
                 className={`rounded px-1.5 py-0.5 text-[10px] tabular-nums transition-colors ${
-                  c.horizon === curve.horizon ? "bg-[#1d1b1b] text-white" : "text-[#9CA3AF] hover:bg-[#eeeee8]"
+                  c.horizon === curve.horizon ? "bg-ink text-white" : "text-content-tertiary hover:bg-surface-3"
                 }`}
               >
                 {t("instruments.quantlab.days", { n: c.horizon })}
@@ -100,20 +100,20 @@ export default function EquityChart({
             ))}
           </div>
         )}
-        <span className="ml-auto text-[10px] text-[#9CA3AF] tabular-nums">
+        <span className="ml-auto text-[10px] text-content-tertiary tabular-nums">
           {geometry.first} → {geometry.last}
         </span>
       </div>
 
       <div className="mt-2 flex flex-wrap items-baseline gap-x-6 gap-y-1">
-        <Figure label={t("instruments.quantlab.strategy")} value={curve.strategy_total} accent="#189E9A" />
-        <Figure label="S&P 500" value={curve.benchmark_total} accent="#9CA3AF" />
+        <Figure label={t("instruments.quantlab.strategy")} value={curve.strategy_total} accent="var(--teal)" />
+        <Figure label="S&P 500" value={curve.benchmark_total} accent="var(--text-tertiary)" />
         <Figure
           label={t("instruments.quantlab.difference")}
           value={vsIndex}
-          accent={vsIndex != null && vsIndex >= 0 ? "#1d7a55" : "#b23b3b"}
+          accent={vsIndex != null && vsIndex >= 0 ? "var(--positive)" : "var(--negative)"}
         />
-        <div className="ml-auto flex items-baseline gap-4 text-[10px] text-[#9CA3AF] tabular-nums">
+        <div className="ml-auto flex items-baseline gap-4 text-[10px] text-content-tertiary tabular-nums">
           <span>
             {t("instruments.quantlab.worstFall", {
               strategy: pct(curve.strategy_max_drawdown),
@@ -125,11 +125,11 @@ export default function EquityChart({
       </div>
 
       {flattering ? (
-        <p className="mt-2 rounded-md border border-[#e0d9c8] bg-[#faf6ec] px-3 py-2 text-[11px] leading-relaxed text-[#8a7a55]">
+        <p className="mt-2 rounded-md border border-edge-strong bg-surface-2 px-3 py-2 text-[11px] leading-relaxed text-tone-warning-muted">
           {tNodes("instruments.quantlab.flattering", { what: <em>{t("instruments.quantlab.flatteringWhat")}</em> })}
         </p>
       ) : (
-        <p className="mt-1 text-[11px] leading-relaxed text-[#6b7280]">
+        <p className="mt-1 text-[11px] leading-relaxed text-content-secondary">
           {t("instruments.quantlab.curveNote", { pct: (curve.exposure * 100).toFixed(0) })}
         </p>
       )}
@@ -141,25 +141,25 @@ export default function EquityChart({
         preserveAspectRatio="none"
       >
         {/* Break-even */}
-        <line x1={0} y1={geometry.baseline} x2={geometry.W} y2={geometry.baseline} stroke="#e0e0da" strokeWidth={1} />
+        <line x1={0} y1={geometry.baseline} x2={geometry.W} y2={geometry.baseline} stroke="var(--border-default)" strokeWidth={1} />
         {geometry.oosX != null && (
           <line
             x1={geometry.oosX}
             y1={0}
             x2={geometry.oosX}
             y2={geometry.H}
-            stroke="#c0c0ba"
+            stroke="var(--text-disabled)"
             strokeWidth={1}
             strokeDasharray="4 4"
           />
         )}
-        <path d={geometry.benchmark} fill="none" stroke="#c0c0ba" strokeWidth={1.5} vectorEffect="non-scaling-stroke" />
-        <path d={geometry.strategy} fill="none" stroke="#189E9A" strokeWidth={2} vectorEffect="non-scaling-stroke" />
+        <path d={geometry.benchmark} fill="none" stroke="var(--text-disabled)" strokeWidth={1.5} vectorEffect="non-scaling-stroke" />
+        <path d={geometry.strategy} fill="none" stroke="var(--teal)" strokeWidth={2} vectorEffect="non-scaling-stroke" />
       </svg>
 
-      <div className="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-[10px] text-[#9CA3AF]">
-        <Swatch color="#189E9A" label={t("instruments.quantlab.strategy")} />
-        <Swatch color="#c0c0ba" label={t("instruments.quantlab.benchmarkLegend")} />
+      <div className="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-[10px] text-content-tertiary">
+        <Swatch color="var(--teal)" label={t("instruments.quantlab.strategy")} />
+        <Swatch color="var(--text-disabled)" label={t("instruments.quantlab.benchmarkLegend")} />
         {geometry.oosX != null && <span>· {t("instruments.quantlab.oosLine")}</span>}
         <span className="w-full">{curve.assumption}</span>
       </div>
@@ -170,7 +170,7 @@ export default function EquityChart({
 function Figure({ label, value, accent, hint }: { label: string; value: number | null; accent: string; hint?: string }) {
   return (
     <div className="flex items-baseline gap-1.5" title={hint}>
-      <span className="text-[11px] text-[#9CA3AF]">{label}</span>
+      <span className="text-[11px] text-content-tertiary">{label}</span>
       <span className="text-[18px] tabular-nums" style={{ color: accent }}>
         {pct(value, 1)}
       </span>

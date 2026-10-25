@@ -17,14 +17,14 @@ export const SURFACE =
 
 /** The settings panes' secondary button. */
 export const BUTTON =
-  "app-no-drag btn-quiet inline-flex items-center gap-1.5 rounded-lg border border-white/60 bg-white/55 px-3 py-1.5 text-[12.5px] font-normal text-[#1d1b1b] shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-black/[0.04] transition-colors hover:bg-white/75 disabled:pointer-events-none disabled:opacity-50";
+  "app-no-drag btn-quiet inline-flex items-center gap-1.5 rounded-lg border border-white/60 bg-white/55 px-3 py-1.5 text-[12.5px] font-normal text-content-primary shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-black/[0.04] transition-colors hover:bg-white/75 disabled:pointer-events-none disabled:opacity-50";
 
 /** The settings panes' text field. */
 export const FIELD =
-  "app-no-drag w-full rounded-xl border border-white/60 bg-white/55 px-3 text-[13px] font-normal text-[#1d1b1b] shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] outline-none ring-1 ring-black/[0.04] transition-colors placeholder:text-[#9CA3AF] focus:bg-white/75 disabled:opacity-60";
+  "app-no-drag w-full rounded-xl border border-white/60 bg-white/55 px-3 text-[13px] font-normal text-content-primary shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] outline-none ring-1 ring-black/[0.04] transition-colors placeholder:text-content-tertiary focus:bg-white/75 disabled:opacity-60";
 
 /** The masthead label every card carries. */
-export const LABEL = "select-none font-sans text-[11px] font-medium tracking-[0.04em] text-[#9CA3AF]";
+export const LABEL = "select-none font-sans text-[11px] font-medium tracking-[0.04em] text-content-tertiary";
 
 export const SKELETON = "animate-pulse rounded bg-black/[0.06] motion-reduce:animate-none";
 
@@ -44,7 +44,7 @@ export function TickerChip({ ticker, className }: { ticker: string; className?: 
   return (
     <span
       className={cn(
-        "inline-flex h-[18px] shrink-0 items-center text-[12px] font-medium text-[#4b5563]",
+        "inline-flex h-[18px] shrink-0 items-center text-[12px] font-medium text-content-body",
         className,
       )}
     >
@@ -61,7 +61,7 @@ export function UnreadBadge({ count, className }: { count: number; className?: s
     <span
       aria-label={sayCount(lang, "agents.unreadCount", count)}
       className={cn(
-        "inline-flex h-[18px] min-w-[18px] shrink-0 items-center justify-center rounded-full bg-[#1d1b1b] px-1.5 text-[10.5px] font-medium tabular-nums text-white",
+        "inline-flex h-[18px] min-w-[18px] shrink-0 items-center justify-center rounded-full bg-ink px-1.5 text-[10.5px] font-medium tabular-nums text-white",
         className,
       )}
     >
@@ -72,7 +72,7 @@ export function UnreadBadge({ count, className }: { count: number; className?: s
 
 export function Kbd({ children }: { children: ReactNode }) {
   return (
-    <kbd className="inline-flex h-[18px] items-center rounded-[5px] border border-black/[0.1] bg-white/60 px-1 font-sans text-[10.5px] font-medium text-[#6b7280]">
+    <kbd className="inline-flex h-[18px] items-center rounded-md border border-black/[0.1] bg-white/60 px-1 font-sans text-[10.5px] font-medium text-content-secondary">
       {children}
     </kbd>
   );

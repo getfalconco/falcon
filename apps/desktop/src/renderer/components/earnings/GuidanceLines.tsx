@@ -14,10 +14,10 @@ export default function GuidanceLines({ ticker, className }: { ticker: string; c
   if (state.status !== "ready" || state.track.patterns.length === 0) return null;
   return (
     <section className={className}>
-      <p className="text-[10.5px] font-medium uppercase tracking-[0.04em] text-[#9CA3AF]">{t("guidance.drawer.title")}</p>
+      <p className="text-[10.5px] font-medium uppercase tracking-[0.04em] text-content-tertiary">{t("guidance.drawer.title")}</p>
       <ul className="mt-1.5 space-y-1">
         {shownPatterns(state.track.patterns).map((p) => (
-          <li key={`${p.metric}|${p.basis}`} className="text-[12px] leading-[1.45] text-[#1d1b1b]">
+          <li key={`${p.metric}|${p.basis}`} className="text-[12px] leading-[1.45] text-content-primary">
             {patternText(p, lang, say)}
           </li>
         ))}

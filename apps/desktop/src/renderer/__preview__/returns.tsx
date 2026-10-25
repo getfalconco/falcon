@@ -64,7 +64,7 @@ const theme = themeParam === "dark" ? "dark" : "light";
 const swatches = Array.from({ length: 25 }, (_, i) => -0.6 + i * 0.05);
 
 createRoot(document.getElementById("root")!).render(
-  <div className="min-h-screen bg-[#EAEAE6] p-8">
+  <div className="min-h-screen bg-surface-0 p-8">
     <div className="flex flex-wrap items-start gap-6">
       <div className="group/card h-[320px] w-[340px]" data-testid="narrow">
         <PortfolioReturnCard masked={masked} />

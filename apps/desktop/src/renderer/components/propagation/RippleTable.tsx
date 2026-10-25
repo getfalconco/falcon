@@ -54,7 +54,7 @@ function StatusPill({ t }: { t: PropagationTarget }) {
       style={{
         background: open ? ACCENT : against ? AMBER_SOFT : "transparent",
         color: open ? "#fff" : against ? AMBER : vetoed || !t.tracked ? FAINT : MUTED,
-        border: `1px solid ${open ? ACCENT : against ? AMBER_LINE : "#e0e0da"}`,
+        border: `1px solid ${open ? ACCENT : against ? AMBER_LINE : "var(--border-default)"}`,
         textDecoration: vetoed ? "line-through" : undefined,
       }}
     >
@@ -70,10 +70,10 @@ export default function RippleTable({ run, selectedKey, onSelect }: Props) {
   return (
     <div className="scrollbar-meridian h-full overflow-auto px-6 pb-6">
       <table className="w-max min-w-full border-separate border-spacing-0 text-left">
-        <thead className="sticky top-0 z-10 bg-[#f7f7f4]">
-          <tr className="text-[10px] uppercase tracking-[0.12em] text-[#b4b4ae]">
+        <thead className="sticky top-0 z-10 bg-surface-2">
+          <tr className="text-[10px] uppercase tracking-[0.12em] text-content-disabled">
             {COLUMNS.map((h) => (
-              <th key={h} className="whitespace-nowrap border-b border-[#e6e6e0] pb-2 pr-5 font-medium first:pl-1">
+              <th key={h} className="whitespace-nowrap border-b border-edge pb-2 pr-5 font-medium first:pl-1">
                 {tr(h)}
               </th>
             ))}
@@ -91,39 +91,39 @@ export default function RippleTable({ run, selectedKey, onSelect }: Props) {
                 className="cursor-pointer align-top transition-colors hover:bg-white/70"
                 style={{ background: selected ? "rgba(255,255,255,0.9)" : undefined, opacity: vetoed ? 0.55 : 1 }}
               >
-                <td className="whitespace-nowrap border-b border-[#ebebe5] py-2.5 pl-1 pr-5">
-                  <div className="text-[13px] font-medium text-[#1d1b1b]" style={{ textDecoration: vetoed ? "line-through" : undefined }}>
+                <td className="whitespace-nowrap border-b border-edge py-2.5 pl-1 pr-5">
+                  <div className="text-[13px] font-medium text-content-primary" style={{ textDecoration: vetoed ? "line-through" : undefined }}>
                     {t.ticker ?? t.label}
                   </div>
-                  {t.ticker && t.label !== t.ticker && <div className="max-w-[160px] truncate text-[10.5px] text-[#9CA3AF]">{t.label}</div>}
+                  {t.ticker && t.label !== t.ticker && <div className="max-w-[160px] truncate text-[10.5px] text-content-tertiary">{t.label}</div>}
                 </td>
-                <td className="whitespace-nowrap border-b border-[#ebebe5] py-2.5 pr-5 text-[11.5px] text-[#6b7280]">
+                <td className="whitespace-nowrap border-b border-edge py-2.5 pr-5 text-[11.5px] text-content-secondary">
                   {tNodes("panels.ripple.tierRole", {
-                    tier: <span className="text-[#1d1b1b]">{strengthWord(t.relationship.tier, tr, t.relationship.tier_measured !== false)}</span>,
+                    tier: <span className="text-content-primary">{strengthWord(t.relationship.tier, tr, t.relationship.tier_measured !== false)}</span>,
                     role: roleWord(t.relationship.role, tr),
                   })}
-                  {t.relationship.subtype && <div className="max-w-[180px] truncate text-[10.5px] text-[#9CA3AF]">{humanize(t.relationship.subtype)}</div>}
+                  {t.relationship.subtype && <div className="max-w-[180px] truncate text-[10.5px] text-content-tertiary">{humanize(t.relationship.subtype)}</div>}
                 </td>
-                <td className="whitespace-nowrap border-b border-[#ebebe5] py-2.5 pr-5 text-[11.5px]" style={{ color: directionColor(t.transmission.direction) }}>
+                <td className="whitespace-nowrap border-b border-edge py-2.5 pr-5 text-[11.5px]" style={{ color: directionColor(t.transmission.direction) }}>
                   {directionGlyph(t.transmission.direction)} {directionWord(t.transmission.direction, tr)}
                 </td>
-                <td className="whitespace-nowrap border-b border-[#ebebe5] py-2.5 pr-5 text-[11.5px] text-[#1d1b1b]">
+                <td className="whitespace-nowrap border-b border-edge py-2.5 pr-5 text-[11.5px] text-content-primary">
                   {tierWord(t.transmission.tier, tr)}
-                  {t.transmission.transmits === "weak" && <span className="text-[#9CA3AF]"> · {tr("panels.ripple.weakShort")}</span>}
+                  {t.transmission.transmits === "weak" && <span className="text-content-tertiary"> · {tr("panels.ripple.weakShort")}</span>}
                 </td>
-                <td className="whitespace-nowrap border-b border-[#ebebe5] py-2.5 pr-5">
+                <td className="whitespace-nowrap border-b border-edge py-2.5 pr-5">
                   <StatusPill t={t} />
                 </td>
-                <td className="whitespace-nowrap border-b border-[#ebebe5] py-2.5 pr-5 font-mono text-[11px] tabular-nums text-[#1d1b1b]">
+                <td className="whitespace-nowrap border-b border-edge py-2.5 pr-5 font-mono text-[11px] tabular-nums text-content-primary">
                   {t.tracked ? fmtPct(t.pricing.realized_resid_pct, 2, na) : na}
                 </td>
-                <td className="whitespace-nowrap border-b border-[#ebebe5] py-2.5 pr-5 font-mono text-[11px] tabular-nums text-[#6b7280]">
+                <td className="whitespace-nowrap border-b border-edge py-2.5 pr-5 font-mono text-[11px] tabular-nums text-content-secondary">
                   {t.tracked && t.pricing.expected_pct != null ? `±${fmtAbsPct(t.pricing.expected_pct, 2, na)}` : na}
                 </td>
-                <td className="min-w-[300px] max-w-[420px] border-b border-[#ebebe5] py-2.5 pr-1 text-[11.5px] leading-relaxed text-[#6b7280]">
+                <td className="min-w-[300px] max-w-[420px] border-b border-edge py-2.5 pr-1 text-[11.5px] leading-relaxed text-content-secondary">
                   {t.mechanism}
                   {t.stage2?.rationale && (
-                    <div className="mt-0.5 text-[10.5px] text-[#9CA3AF]">
+                    <div className="mt-0.5 text-[10.5px] text-content-tertiary">
                       {tr("panels.ripple.verdictLine", { verdict: verdictWord(t.stage2.verdict, tr), rationale: t.stage2.rationale })}
                     </div>
                   )}

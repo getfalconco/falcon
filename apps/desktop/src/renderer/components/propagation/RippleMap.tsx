@@ -26,26 +26,26 @@ const CHIP_H = 44;
 function chipTone(t: PropagationTarget): { fill: string; stroke: string; text: string; badgeFill: string; badgeText: string; badgeStroke: string; ghost: boolean } {
   const vetoed = t.stage2?.verdict === "vetoed";
   if (vetoed) {
-    return { fill: "#f7f7f4", stroke: HAIRLINE, text: FAINT, badgeFill: "transparent", badgeText: FAINT, badgeStroke: HAIRLINE, ghost: true };
+    return { fill: "var(--surface-2)", stroke: HAIRLINE, text: FAINT, badgeFill: "transparent", badgeText: FAINT, badgeStroke: HAIRLINE, ghost: true };
   }
   if (!t.tracked) {
-    return { fill: "#fbfbf9", stroke: HAIRLINE, text: MUTED, badgeFill: "transparent", badgeText: FAINT, badgeStroke: HAIRLINE, ghost: true };
+    return { fill: "var(--surface-2)", stroke: HAIRLINE, text: MUTED, badgeFill: "transparent", badgeText: FAINT, badgeStroke: HAIRLINE, ghost: true };
   }
   switch (t.pricing.status) {
     case "open":
-      return { fill: "#ffffff", stroke: ACCENT, text: INK, badgeFill: ACCENT, badgeText: "#ffffff", badgeStroke: ACCENT, ghost: false };
+      return { fill: "var(--surface-4)", stroke: ACCENT, text: INK, badgeFill: ACCENT, badgeText: "#ffffff", badgeStroke: ACCENT, ghost: false };
     case "partial":
-      return { fill: "#ffffff", stroke: "#d6d6cf", text: INK, badgeFill: "#eef6f5", badgeText: "#11706d", badgeStroke: "#bfe0de", ghost: false };
+      return { fill: "var(--surface-4)", stroke: "var(--border-strong)", text: INK, badgeFill: "var(--teal-soft)", badgeText: "var(--teal)", badgeStroke: "var(--teal-line)", ghost: false };
     case "contradicted":
       // The third neutral: the tape moved the other way — neither an opening
       // nor an absorption.
-      return { fill: "#ffffff", stroke: AMBER_LINE, text: INK, badgeFill: AMBER_SOFT, badgeText: AMBER, badgeStroke: AMBER_LINE, ghost: false };
+      return { fill: "var(--surface-4)", stroke: AMBER_LINE, text: INK, badgeFill: AMBER_SOFT, badgeText: AMBER, badgeStroke: AMBER_LINE, ghost: false };
     case "stale":
-      return { fill: "#fbfbf9", stroke: HAIRLINE, text: MUTED, badgeFill: "transparent", badgeText: FAINT, badgeStroke: HAIRLINE, ghost: false };
+      return { fill: "var(--surface-2)", stroke: HAIRLINE, text: MUTED, badgeFill: "transparent", badgeText: FAINT, badgeStroke: HAIRLINE, ghost: false };
     case "priced":
-      return { fill: "#f7f7f4", stroke: HAIRLINE, text: MUTED, badgeFill: "transparent", badgeText: FAINT, badgeStroke: HAIRLINE, ghost: false };
+      return { fill: "var(--surface-2)", stroke: HAIRLINE, text: MUTED, badgeFill: "transparent", badgeText: FAINT, badgeStroke: HAIRLINE, ghost: false };
     default:
-      return { fill: "#fbfbf9", stroke: HAIRLINE, text: MUTED, badgeFill: "transparent", badgeText: FAINT, badgeStroke: HAIRLINE, ghost: true };
+      return { fill: "var(--surface-2)", stroke: HAIRLINE, text: MUTED, badgeFill: "transparent", badgeText: FAINT, badgeStroke: HAIRLINE, ghost: true };
   }
 }
 
@@ -83,8 +83,8 @@ export default function RippleMap({ run, selectedKey, onSelect }: Props) {
       <svg width={width} height={height} className="absolute inset-0" onClick={() => onSelect(null)}>
         <defs>
           <radialGradient id="ripple-halo" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#1d1b1b" stopOpacity="0.06" />
-            <stop offset="100%" stopColor="#1d1b1b" stopOpacity="0" />
+            <stop offset="0%" stopColor="var(--chart-ink)" stopOpacity="0.06" />
+            <stop offset="100%" stopColor="var(--chart-ink)" stopOpacity="0" />
           </radialGradient>
         </defs>
 
@@ -150,13 +150,13 @@ export default function RippleMap({ run, selectedKey, onSelect }: Props) {
 
         {/* Root. */}
         <g>
-          <circle cx={layout.cx} cy={layout.cy} r={40} fill="#1d1b1b" />
+          <circle cx={layout.cx} cy={layout.cy} r={40} fill="var(--ink)" />
           <text
             x={layout.cx}
             y={layout.cy + 1}
             textAnchor="middle"
             dominantBaseline="middle"
-            fill="#f7f7f4"
+            fill="var(--surface-2)"
             fontSize={run.root_ticker.length > 4 ? 15 : 18}
             fontFamily="Libre Baskerville, Georgia, serif"
           >

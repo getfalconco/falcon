@@ -19,17 +19,18 @@ type Props = {
 const MASKED_MONEY = "$*****";
 
 /**
- * Each class's colour, right in either theme. The two named hues are mixed a
- * little toward the theme's ink, so they deepen on the cream canvas and lift
- * on the dark one; cash is the ink itself at a low alpha, the quiet grey the
- * arc ends in.
+ * Each class's colour, right in either theme: Apple's system hues
+ * (systemIndigo, systemTeal, systemOrange, systemPink, systemYellow), the
+ * warm ones mixed a little toward the theme's ink so they deepen on the light
+ * canvas and lift on the dark one; cash is the ink itself at a low alpha, the
+ * quiet grey the arc ends in.
  */
 const CLASS_COLOR: Readonly<Record<AssetClass, string>> = {
-  stocks: "color-mix(in srgb, #8187ee 86%, var(--text-primary))",
-  funds: "var(--teal)",
-  crypto: "color-mix(in srgb, #f08d4f 90%, var(--text-primary))",
-  options: "var(--pink)",
-  linked: "color-mix(in srgb, #d9b44a 88%, var(--text-primary))",
+  stocks: "var(--system-indigo)",
+  funds: "var(--system-teal)",
+  crypto: "color-mix(in srgb, var(--system-orange) 92%, var(--text-primary))",
+  options: "var(--system-pink)",
+  linked: "color-mix(in srgb, var(--system-yellow) 84%, var(--text-primary))",
   other: "var(--warning-muted)",
   cash: "rgb(var(--ink-rgb) / 0.34)",
 };

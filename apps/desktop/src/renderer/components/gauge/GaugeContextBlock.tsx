@@ -31,10 +31,10 @@ export default function GaugeContextBlock({ ticker, context, surface, title, cla
   const state = useGaugeReadout(ticker, context, surface, 60_000);
   const r = state.readout;
   return (
-    <section className={className ?? "mt-5 rounded-xl border border-[#e6e6e0] bg-[#fbfbf9] px-3.5 py-3"}>
+    <section className={className ?? "mt-5 rounded-xl border border-edge bg-surface-2 px-3.5 py-3"}>
       <div className="flex items-center justify-between">
-        <p className="text-[10px] uppercase tracking-[0.14em] text-[#b4b4ae]">{title ?? t("panels.gauge.title")}</p>
-        <span className="text-[10px] text-[#9CA3AF]">
+        <p className="text-[10px] uppercase tracking-[0.14em] text-content-disabled">{title ?? t("panels.gauge.title")}</p>
+        <span className="text-[10px] text-content-tertiary">
           {context
             ? t("panels.gauge.againstThesis", { direction: t(`panels.gauge.direction.${context.expected_direction ?? "unresolved"}`) })
             : r?.quant_as_of
@@ -48,7 +48,7 @@ export default function GaugeContextBlock({ ticker, context, surface, title, cla
         ) : state.error ? (
           <p className="text-[11px] text-red-700">{state.error}</p>
         ) : (
-          <p className="text-[11px] text-[#9CA3AF]">{state.loading ? t("panels.gauge.reading") : t("panels.gauge.noReadout")}</p>
+          <p className="text-[11px] text-content-tertiary">{state.loading ? t("panels.gauge.reading") : t("panels.gauge.noReadout")}</p>
         )}
       </div>
     </section>

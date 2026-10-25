@@ -31,7 +31,7 @@ const OVERLAP_NAMES = 4;
 const SHARED_GRID = "grid grid-cols-[minmax(0,1fr)_96px_minmax(0,190px)_minmax(0,250px)] items-center gap-x-4";
 const CUSTOMER_GRID = "grid grid-cols-[96px_minmax(0,1fr)_minmax(0,250px)] items-center gap-x-4";
 const OVERLAP_GRID = "grid grid-cols-[150px_minmax(0,1fr)_72px] items-center gap-x-4";
-const ROW = "rounded-xl px-2 py-[7px] transition-colors hover:bg-[#1d1b1b]/[0.04]";
+const ROW = "rounded-xl px-2 py-[7px] transition-colors hover:bg-ink/[0.04]";
 
 function Centered({ children }: { children: ReactNode }) {
   return <div className="flex min-h-[260px] flex-col items-center justify-center px-6 py-12 text-center">{children}</div>;
@@ -57,8 +57,8 @@ function Section({ title, count, children }: { title: string; count: number; chi
   return (
     <section className="border-t-[0.5px] border-black/[0.06] pt-3 first-of-type:border-t-0" aria-label={title}>
       <h3 className="flex items-baseline gap-2 px-2 pb-1">
-        <span className="text-[13px] font-medium text-[#1d1b1b]">{title}</span>
-        <span className="ml-auto text-[11.5px] tabular-nums text-[#9CA3AF]">{count}</span>
+        <span className="text-[13px] font-medium text-content-primary">{title}</span>
+        <span className="ml-auto text-[11.5px] tabular-nums text-content-tertiary">{count}</span>
       </h3>
       {children}
     </section>
@@ -97,7 +97,7 @@ function SharedSection({ summary }: { summary: ExposureSummary }) {
         {rows.map((row) => (
           <li key={row.key} className={cn(SHARED_GRID, ROW)}>
             <CompanyCell row={row} />
-            <span className={cn(NUM, "text-[#1d1b1b]")} title={t("exposure.row.linked", { pct: exposurePct(row.linkedWeight, locale) })}>
+            <span className={cn(NUM, "text-content-primary")} title={t("exposure.row.linked", { pct: exposurePct(row.linkedWeight, locale) })}>
               {exposurePct(row.exposure, locale)}
             </span>
             <ViaTickers row={row} max={4} />
@@ -128,8 +128,8 @@ function CustomerSection({ summary }: { summary: ExposureSummary }) {
             <span className="flex min-w-0 items-baseline gap-4 overflow-hidden">
               {row.customers.map((c) => (
                 <span key={c.key} className="flex min-w-0 shrink items-baseline gap-1.5" title={c.name}>
-                  <span className="truncate text-[12.5px] text-[#1d1b1b]">{displayName(c.name)}</span>
-                  <span className={cn(NUM, "shrink-0 text-[#4b5563]")}>{sharePct(c.share, locale)}</span>
+                  <span className="truncate text-[12.5px] text-content-primary">{displayName(c.name)}</span>
+                  <span className={cn(NUM, "shrink-0 text-content-body")}>{sharePct(c.share, locale)}</span>
                 </span>
               ))}
             </span>
@@ -164,17 +164,17 @@ function OverlapSection({ summary }: { summary: ExposureSummary }) {
               </span>
               <span className="flex min-w-0 items-baseline gap-3 overflow-hidden">
                 {shown.map((s) => (
-                  <span key={s.key} title={s.name} className="shrink-0 truncate text-[12.5px] text-[#4b5563]">
+                  <span key={s.key} title={s.name} className="shrink-0 truncate text-[12.5px] text-content-body">
                     {displayName(s.name)}
                   </span>
                 ))}
                 {rest.length > 0 ? (
-                  <span title={rest.map((s) => s.name).join("\n")} className="shrink-0 text-[11.5px] text-[#9CA3AF]">
+                  <span title={rest.map((s) => s.name).join("\n")} className="shrink-0 text-[11.5px] text-content-tertiary">
                     {t("exposure.more", { count: rest.length })}
                   </span>
                 ) : null}
               </span>
-              <span className={cn(NUM, "text-[#1d1b1b]")}>{row.shared.length}</span>
+              <span className={cn(NUM, "text-content-primary")}>{row.shared.length}</span>
             </li>
           );
         })}
@@ -196,7 +196,7 @@ function GapLine({ summary, canResearch }: { summary: ExposureSummary; canResear
       : t("exposure.gaps.line", { names, pct: exposurePct(summary.gapWeight, locale) });
   return (
     <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 border-t-[0.5px] border-black/[0.06] px-5 py-2.5">
-      <p className="min-w-0 text-[12px] leading-[1.5] text-[#6b7280]">{text}</p>
+      <p className="min-w-0 text-[12px] leading-[1.5] text-content-secondary">{text}</p>
       {canResearch ? (
         waiting.length > 0 ? (
           <button
@@ -214,7 +214,7 @@ function GapLine({ summary, canResearch }: { summary: ExposureSummary; canResear
             {t("exposure.gaps.research")}
           </button>
         ) : (
-          <span className="text-[12px] text-[#9CA3AF]">{t("exposure.gaps.queued")}</span>
+          <span className="text-[12px] text-content-tertiary">{t("exposure.gaps.queued")}</span>
         )
       ) : null}
     </div>
@@ -234,14 +234,14 @@ export default function ExposureTab() {
   if (noNames) {
     body = (
       <Centered>
-        <p className="text-[14px] font-medium text-[#1d1b1b]">{t("exposure.empty.noNames")}</p>
-        <p className="mt-1.5 max-w-[440px] text-[13px] leading-[1.55] text-[#6b7280]">{t("exposure.empty.noNamesHint")}</p>
+        <p className="text-[14px] font-medium text-content-primary">{t("exposure.empty.noNames")}</p>
+        <p className="mt-1.5 max-w-[440px] text-[13px] leading-[1.55] text-content-secondary">{t("exposure.empty.noNamesHint")}</p>
       </Centered>
     );
   } else if (!summary && view.error !== null) {
     body = (
       <Centered>
-        <p className="text-[14px] font-medium text-[#1d1b1b]">{view.error === "restart" ? t("exposure.error.restart") : t("exposure.error.load")}</p>
+        <p className="text-[14px] font-medium text-content-primary">{view.error === "restart" ? t("exposure.error.restart") : t("exposure.error.load")}</p>
         {view.error === "restart" ? null : (
           <button type="button" onClick={view.retry} className={cn(BUTTON, "mt-4")}>
             {t("exposure.error.retry")}
@@ -254,13 +254,13 @@ export default function ExposureTab() {
   } else if (summary.companies === 0) {
     body = (
       <Centered>
-        <p className="text-[13.5px] text-[#6b7280]">{t("exposure.empty.funds")}</p>
+        <p className="text-[13.5px] text-content-secondary">{t("exposure.empty.funds")}</p>
       </Centered>
     );
   } else if (empty) {
     body = (
       <Centered>
-        <p className="text-[13.5px] text-[#6b7280]">{t("exposure.empty.none")}</p>
+        <p className="text-[13.5px] text-content-secondary">{t("exposure.empty.none")}</p>
       </Centered>
     );
   } else {
@@ -291,14 +291,14 @@ export default function ExposureTab() {
             ]}
           />
           {summary && !noNames && summary.companies > 0 ? (
-            <span className="ml-auto text-[12px] tabular-nums text-[#9CA3AF]" aria-live="polite">
+            <span className="ml-auto text-[12px] tabular-nums text-content-tertiary" aria-live="polite">
               {t("exposure.coverage", { covered: summary.covered, companies: summary.companies })}
             </span>
           ) : null}
         </div>
 
         {header && !noNames ? (
-          <p className="border-b-[0.5px] border-black/[0.06] px-5 py-2.5 text-[13px] leading-[1.5] text-[#1d1b1b]">{header}</p>
+          <p className="border-b-[0.5px] border-black/[0.06] px-5 py-2.5 text-[13px] leading-[1.5] text-content-primary">{header}</p>
         ) : null}
 
         {body}
@@ -308,7 +308,7 @@ export default function ExposureTab() {
         {notes.length > 0 ? (
           <div className="space-y-1 border-t-[0.5px] border-black/[0.06] px-5 py-3">
             {notes.map((note) => (
-              <p key={note} className="text-[11.5px] leading-[1.45] text-[#9CA3AF]">
+              <p key={note} className="text-[11.5px] leading-[1.45] text-content-tertiary">
                 {note}
               </p>
             ))}

@@ -12,7 +12,7 @@ import { besideTitle, countryName, econLines, underTitle } from "@/components/ca
  * The rail's small labels and its clock, in the app's sans like the rest of
  * the calendar: the all-day word, the kind line, the "now" line, the times.
  */
-const HEAD_CLASS = "font-sans text-[10px] font-medium uppercase tracking-[0.04em] text-[#9CA3AF]";
+const HEAD_CLASS = "font-sans text-[10px] font-medium uppercase tracking-[0.04em] text-content-tertiary";
 const MONO_CLASS = "font-sans tabular-nums";
 
 export type { RowExtra };
@@ -26,7 +26,7 @@ export type { RowExtra };
  */
 
 /** The one accent on the rail, kept for the line that says where the day stands. */
-export const NOW_ACCENT = "#189E9A";
+export const NOW_ACCENT = "var(--teal)";
 
 /** A row's three tracks: the time, the rail, the text. Exported so a skeleton can stand in the same tracks. */
 export const ROW_GRID = "grid grid-cols-[44px_16px_minmax(0,1fr)] gap-x-2";
@@ -37,10 +37,10 @@ export const ROW_GRID = "grid grid-cols-[44px_16px_minmax(0,1fr)] gap-x-2";
  * red CPI row would read as "down" before it read as "important".
  */
 function Node({ importance }: { importance: 1 | 2 | 3 }) {
-  if (importance === 3) return <span className="h-[7px] w-[7px] rounded-full bg-[#1d1b1b]" />;
+  if (importance === 3) return <span className="h-[7px] w-[7px] rounded-full bg-ink" />;
   // The ring is filled white so the rail does not show through its middle.
-  if (importance === 2) return <span className="h-[7px] w-[7px] rounded-full border border-[#1d1b1b] bg-white" />;
-  return <span className="h-1 w-1 rounded-full bg-[#9CA3AF]" />;
+  if (importance === 2) return <span className="h-[7px] w-[7px] rounded-full border border-content-primary bg-white" />;
+  return <span className="h-1 w-1 rounded-full bg-content-tertiary" />;
 }
 
 function ItemText({ item, extra, nowMs, dense }: { item: CalendarItemView; extra?: RowExtra; nowMs: number; dense?: boolean }) {
@@ -61,14 +61,14 @@ function ItemText({ item, extra, nowMs, dense }: { item: CalendarItemView; extra
           className={cn(
             "min-w-0 leading-[1.4]",
             dense ? "text-[12.5px]" : "text-[13.5px]",
-            item.importance === 3 ? "font-medium text-[#1d1b1b]" : item.importance === 2 ? "text-[#1d1b1b]" : "text-[#6b7280]",
+            item.importance === 3 ? "font-medium text-content-primary" : item.importance === 2 ? "text-content-primary" : "text-content-secondary",
           )}
         >
           {item.title}
-          {beside ? <>{" "}<span className="ml-0.5 whitespace-nowrap font-normal tabular-nums text-[#6b7280]">{beside}</span></> : null}
+          {beside ? <>{" "}<span className="ml-0.5 whitespace-nowrap font-normal tabular-nums text-content-secondary">{beside}</span></> : null}
         </span>
       </span>
-      {under ? <span className={cn("mt-0.5 block leading-[1.4] tabular-nums text-[#9CA3AF]", dense ? "pl-[24px] text-[11.5px]" : "pl-[26px] text-[12px]")}>{under}</span> : null}
+      {under ? <span className={cn("mt-0.5 block leading-[1.4] tabular-nums text-content-tertiary", dense ? "pl-[24px] text-[11.5px]" : "pl-[26px] text-[12px]")}>{under}</span> : null}
       {/* Title and figures only on the rail. The detail, kind and tickers live in the hover card. */}
     </span>
   );
@@ -139,7 +139,7 @@ export function NowMarker({ label, markerRef }: { label: string; markerRef?: Ref
  * it is pointed at, so what the card says about it is read against it.
  */
 const ROW_INTERACTIVE =
-  "relative isolate cursor-default outline-none before:absolute before:-inset-x-2 before:-top-1 before:bottom-1.5 before:-z-10 before:rounded-lg before:transition-colors before:duration-150 hover:before:bg-[#1d1b1b]/[0.045] focus-visible:before:bg-[#1d1b1b]/[0.06]";
+  "relative isolate cursor-default outline-none before:absolute before:-inset-x-2 before:-top-1 before:bottom-1.5 before:-z-10 before:rounded-lg before:transition-colors before:duration-150 hover:before:bg-ink/[0.045] focus-visible:before:bg-ink/[0.06]";
 
 const PAST_ROW = "opacity-[0.45] transition-opacity duration-150 hover:opacity-80 focus-visible:opacity-80";
 
@@ -202,11 +202,11 @@ function RowHoverCard({ id, item, row, placeKey }: { id: string; item: CalendarI
       }}
       className="pointer-events-none rounded-2xl border border-white/60 bg-white/85 p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_18px_44px_rgba(0,0,0,0.14)] ring-1 ring-black/[0.04] backdrop-blur-xl backdrop-saturate-150"
     >
-      <p className={cn("text-[12.5px] leading-[1.4] text-[#1d1b1b]", item.importance === 3 && "font-medium")}>{item.title}</p>
-      <p className={cn(MONO_CLASS, "mt-1 text-[11px] text-[#4b5563]")}>{item.timeLine}</p>
-      {item.detail ? <p className="mt-1 text-[11.5px] leading-[1.45] text-[#6b7280]">{item.detail}</p> : null}
+      <p className={cn("text-[12.5px] leading-[1.4] text-content-primary", item.importance === 3 && "font-medium")}>{item.title}</p>
+      <p className={cn(MONO_CLASS, "mt-1 text-[11px] text-content-body")}>{item.timeLine}</p>
+      {item.detail ? <p className="mt-1 text-[11.5px] leading-[1.45] text-content-secondary">{item.detail}</p> : null}
       <p className={cn(HEAD_CLASS, "mt-1.5")}>{[item.kindLabel, ...item.tickers].join(" · ")}</p>
-      <div className="mt-2 space-y-0.5 border-t-[0.5px] border-black/[0.06] pt-2 text-[11px] leading-[1.45] text-[#9CA3AF]">
+      <div className="mt-2 space-y-0.5 border-t-[0.5px] border-black/[0.06] pt-2 text-[11px] leading-[1.45] text-content-tertiary">
         <p>{item.importanceLabel}</p>
         {item.sourceLabel ? <p>{item.sourceLabel}</p> : null}
       </div>
@@ -315,7 +315,7 @@ export function CalendarRows({
         <Fragment key={item.id}>
           {i === view.nowIndex ? marker : null}
           <div {...rowProps(item)}>
-            <span className={cn(MONO_CLASS, "pt-[1px] text-[12.5px] text-[#4b5563]")}>{item.timeLabel}</span>
+            <span className={cn(MONO_CLASS, "pt-[1px] text-[12.5px] text-content-body")}>{item.timeLabel}</span>
             <Rail importance={item.importance} />
             <ItemText item={item} extra={extras?.get(item.id)} nowMs={nowMs} dense={dense} />
           </div>

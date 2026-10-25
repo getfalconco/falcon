@@ -33,7 +33,7 @@ export default function ResultsTab({
 
   return (
     <>
-      <div className="w-[280px] shrink-0 overflow-y-auto border-r border-[#e0e0da]">
+      <div className="w-[280px] shrink-0 overflow-y-auto border-r border-edge">
         {strategies.map((row) => (
           <button
             key={row.strategy.strategy_id}
@@ -41,12 +41,12 @@ export default function ResultsTab({
               onSelect(row.strategy.strategy_id);
               setIndex(0);
             }}
-            className={`block w-full border-b border-[#e8e8e2] px-4 py-3 text-left text-[12px] transition-colors ${
-              selectedId === row.strategy.strategy_id ? "bg-[#e8e8e2]" : "hover:bg-[#eeeee8]"
+            className={`block w-full border-b border-edge px-4 py-3 text-left text-[12px] transition-colors ${
+              selectedId === row.strategy.strategy_id ? "bg-surface-3" : "hover:bg-surface-3"
             }`}
           >
-            <div className="text-[#1d1b1b]">{row.strategy.name}</div>
-            <div className="mt-0.5 text-[10px] text-[#9CA3AF] tabular-nums">
+            <div className="text-content-primary">{row.strategy.name}</div>
+            <div className="mt-0.5 text-[10px] text-content-tertiary tabular-nums">
               {t(plural(locale, row.runs, "instruments.quantlab.runs.one", "instruments.quantlab.runs.other"), { n: row.runs })}
             </div>
           </button>
@@ -55,15 +55,15 @@ export default function ResultsTab({
 
       <div className="min-w-0 flex-1 overflow-y-auto">
         {!report && (
-          <div className="px-6 py-5 text-[12px] text-[#9CA3AF]">
+          <div className="px-6 py-5 text-[12px] text-content-tertiary">
             {t("instruments.quantlab.noBacktest")}
           </div>
         )}
         {report && (
           <div className="px-6 py-5">
             <div className="flex items-baseline gap-3">
-              <h2 className="font-baskerville text-[20px] text-[#1d1b1b]">{report.strategy_name}</h2>
-              <span className="text-[11px] text-[#9CA3AF] tabular-nums">
+              <h2 className="font-baskerville text-[20px] text-content-primary">{report.strategy_name}</h2>
+              <span className="text-[11px] text-content-tertiary tabular-nums">
                 {t("instruments.quantlab.reportMeta", {
                   version: report.strategy_version,
                   variant: report.variant_number,
@@ -75,7 +75,7 @@ export default function ResultsTab({
                 <select
                   value={index}
                   onChange={(e) => setIndex(Number(e.target.value))}
-                  className="ml-auto rounded border border-[#e0e0da] bg-white px-2 py-1 text-[11px] text-[#4b5563]"
+                  className="ml-auto rounded border border-edge bg-white px-2 py-1 text-[11px] text-content-body"
                 >
                   {reports.map((r, i) => (
                     <option key={r.report_id} value={i}>
@@ -86,9 +86,9 @@ export default function ResultsTab({
               )}
             </div>
 
-            <div className="mt-3 rounded-lg border border-[#e0e0da] bg-white px-4 py-3">
-              <div className="text-[10px] font-medium tracking-[0.08em] text-[#9CA3AF]">{t("instruments.quantlab.verdict")}</div>
-              <p className="mt-1 font-baskerville text-[15px] leading-relaxed text-[#1d1b1b]">{report.verdict}</p>
+            <div className="mt-3 rounded-lg border border-edge bg-white px-4 py-3">
+              <div className="text-[10px] font-medium tracking-[0.08em] text-content-tertiary">{t("instruments.quantlab.verdict")}</div>
+              <p className="mt-1 font-baskerville text-[15px] leading-relaxed text-content-primary">{report.verdict}</p>
             </div>
 
             {[report.variant_warning, report.overfit_warning, report.split_warning]
@@ -96,13 +96,13 @@ export default function ResultsTab({
               .map((warning) => (
                 <div
                   key={warning}
-                  className="mt-2 rounded-lg border border-[#e0d9c8] bg-[#faf6ec] px-4 py-2 text-[12px] text-[#8a7a55]"
+                  className="mt-2 rounded-lg border border-edge-strong bg-surface-2 px-4 py-2 text-[12px] text-tone-warning-muted"
                 >
                   {warning}
                 </div>
               ))}
             {report.created_after_oos_view && (
-              <div className="mt-2 rounded-lg border border-[#e0d9c8] bg-[#faf6ec] px-4 py-2 text-[12px] text-[#8a7a55]">
+              <div className="mt-2 rounded-lg border border-edge-strong bg-surface-2 px-4 py-2 text-[12px] text-tone-warning-muted">
                 {t("instruments.quantlab.createdAfterOos")}
               </div>
             )}
@@ -117,7 +117,7 @@ export default function ResultsTab({
 
             <button
               onClick={() => setShowDetail((v) => !v)}
-              className="mt-5 flex items-center gap-1.5 text-[10px] font-medium tracking-[0.08em] text-[#9CA3AF] hover:text-[#6b7280]"
+              className="mt-5 flex items-center gap-1.5 text-[10px] font-medium tracking-[0.08em] text-content-tertiary hover:text-content-secondary"
             >
               {showDetail ? <ChevronDown className="h-3 w-3" /> : <ChevronRight className="h-3 w-3" />}
               {t("instruments.quantlab.detailed")}
@@ -142,8 +142,8 @@ export default function ResultsTab({
 
             {report.excluded.length > 0 && (
               <div className="mt-5">
-                <div className="text-[10px] font-medium tracking-[0.08em] text-[#9CA3AF]">{t("instruments.quantlab.excluded")}</div>
-                <div className="mt-1 text-[12px] text-[#6b7280]">
+                <div className="text-[10px] font-medium tracking-[0.08em] text-content-tertiary">{t("instruments.quantlab.excluded")}</div>
+                <div className="mt-1 text-[12px] text-content-secondary">
                   {Object.entries(
                     report.excluded.reduce<Record<string, string[]>>((acc, e) => {
                       (acc[e.reason] ??= []).push(e.ticker);
@@ -151,7 +151,7 @@ export default function ResultsTab({
                     }, {}),
                   ).map(([reason, tickers]) => (
                     <div key={reason} className="mt-1">
-                      <span className="text-[#4b5563]">{reason}</span> ({tickers.length}): {tickers.join(" ")}
+                      <span className="text-content-body">{reason}</span> ({tickers.length}): {tickers.join(" ")}
                     </div>
                   ))}
                 </div>
@@ -159,11 +159,11 @@ export default function ResultsTab({
             )}
 
             <div className="mt-5">
-              <div className="text-[10px] font-medium tracking-[0.08em] text-[#9CA3AF]">{t("instruments.quantlab.caveats")}</div>
+              <div className="text-[10px] font-medium tracking-[0.08em] text-content-tertiary">{t("instruments.quantlab.caveats")}</div>
               <ul className="mt-1 space-y-1">
                 {report.caveats.map((c) => (
-                  <li key={c} className="flex gap-2 text-[12px] text-[#6b7280]">
-                    <span className="select-none text-[#c8c8c2]">·</span>
+                  <li key={c} className="flex gap-2 text-[12px] text-content-secondary">
+                    <span className="select-none text-content-disabled">·</span>
                     <span>{c}</span>
                   </li>
                 ))}
@@ -200,18 +200,18 @@ function SampleBlock({ sample, highlight }: { sample: SampleStats; highlight?: b
   return (
     <div
       className={`rounded-lg border px-4 py-3 ${
-        highlight ? "border-[#1d1b1b]/20 bg-white" : "border-[#e0e0da] bg-[#fafaf7]"
+        highlight ? "border-content-primary/20 bg-white" : "border-edge bg-surface-2"
       }`}
     >
       <div className="flex items-baseline gap-2">
-        <span className="text-[10px] font-medium tracking-[0.08em] text-[#9CA3AF]">{label}</span>
-        <span className="text-[10px] text-[#c0c0ba] tabular-nums">
+        <span className="text-[10px] font-medium tracking-[0.08em] text-content-tertiary">{label}</span>
+        <span className="text-[10px] text-content-disabled tabular-nums">
           {sample.from} → {sample.to}
         </span>
       </div>
       <table className="mt-2 w-full text-[11px] tabular-nums">
         <thead>
-          <tr className="text-[#9CA3AF]">
+          <tr className="text-content-tertiary">
             <th className="text-left font-normal">{t("instruments.quantlab.col.hold")}</th>
             <th className="text-right font-normal">n</th>
             <th className="text-right font-normal">{t("instruments.quantlab.col.median")}</th>
@@ -237,7 +237,7 @@ function HorizonRow({ horizon: h }: { horizon: HorizonStats }) {
   const t = useT();
   if (h.insufficient) {
     return (
-      <tr className="border-t border-[#eeeee8] text-[#9CA3AF]">
+      <tr className="border-t border-edge-subtle text-content-tertiary">
         <td className="py-1 text-left">{t("instruments.quantlab.days", { n: h.sessions })}</td>
         <td className="text-right">{h.n}</td>
         <td colSpan={7} className="py-1 pl-3 text-left italic">
@@ -249,21 +249,21 @@ function HorizonRow({ horizon: h }: { horizon: HorizonStats }) {
   const beats = beatsBaseRate(h);
   const edge = edgeOf(h);
   return (
-    <tr className="border-t border-[#eeeee8] text-[#4b5563]">
+    <tr className="border-t border-edge-subtle text-content-body">
       <td className="py-1 text-left">{t("instruments.quantlab.days", { n: h.sessions })}</td>
       <td className="text-right">{h.n}</td>
       <td
-        className={`text-right ${beats === true ? "text-[#1d7a55]" : beats === false ? "text-[#9CA3AF]" : ""}`}
+        className={`text-right ${beats === true ? "text-tone-positive" : beats === false ? "text-content-tertiary" : ""}`}
         title={edge != null ? t("instruments.quantlab.edgeHint", { value: pct(edge) }) : undefined}
       >
         {pct(h.median)}
       </td>
-      <td className="text-right text-[#9CA3AF]">{pct(h.base_rate_median)}</td>
+      <td className="text-right text-content-tertiary">{pct(h.base_rate_median)}</td>
       <td className="text-right">{pctPlain(h.hit_rate)}</td>
       <td className="text-right">{ratio(h.sharpe)}</td>
       <td className="text-right">{ratio(h.sortino)}</td>
       <td className="text-right">{pct(h.max_drawdown)}</td>
-      <td className="text-right text-[#9CA3AF]">
+      <td className="text-right text-content-tertiary">
         {h.ci_low == null ? na() : `${pct(h.ci_low)} … ${pct(h.ci_high)}`}
       </td>
     </tr>
@@ -276,7 +276,7 @@ function Deciles({ horizon }: { horizon: HorizonStats }) {
   const max = Math.max(...horizon.deciles.map((d) => Math.abs(d)), 1e-9);
   return (
     <div className="mt-5">
-      <div className="text-[10px] font-medium tracking-[0.08em] text-[#9CA3AF]">
+      <div className="text-[10px] font-medium tracking-[0.08em] text-content-tertiary">
         {t("instruments.quantlab.distribution", { horizon: t("instruments.quantlab.days", { n: horizon.sessions }) })}
       </div>
       <div className="mt-2 flex items-end gap-1">
@@ -284,11 +284,11 @@ function Deciles({ horizon }: { horizon: HorizonStats }) {
           <div key={i} className="flex flex-1 flex-col items-center gap-1">
             <div className="flex h-16 w-full items-end justify-center">
               <div
-                className={`w-full rounded-sm ${d >= 0 ? "bg-[#189E9A]" : "bg-[#c98b8b]"}`}
+                className={`w-full rounded-sm ${d >= 0 ? "bg-tone-teal-fill" : "bg-tone-negative-fill"}`}
                 style={{ height: `${Math.max(2, (Math.abs(d) / max) * 100)}%` }}
               />
             </div>
-            <span className="text-[9px] text-[#9CA3AF] tabular-nums">{pct(d, 1)}</span>
+            <span className="text-[9px] text-content-tertiary tabular-nums">{pct(d, 1)}</span>
           </div>
         ))}
       </div>

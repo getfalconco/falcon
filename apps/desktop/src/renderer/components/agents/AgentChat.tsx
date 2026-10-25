@@ -96,8 +96,8 @@ export default function AgentChat({
       <div ref={scroller} className="scrollbar-meridian min-h-0 flex-1 overflow-y-auto px-6 py-5">
         {messages.length === 0 ? (
           <div className="mx-auto max-w-[460px] pt-6 text-center">
-            <p className="text-[14px] font-medium text-[#1d1b1b]">{t("agents.chat.emptyTitle")}</p>
-            <p className="mt-1 text-[12.5px] leading-[1.5] text-[#6b7280]">{t("agents.chat.emptyBody")}</p>
+            <p className="text-[14px] font-medium text-content-primary">{t("agents.chat.emptyTitle")}</p>
+            <p className="mt-1 text-[12.5px] leading-[1.5] text-content-secondary">{t("agents.chat.emptyBody")}</p>
             <div className="mt-5 flex flex-col items-center gap-2">
               {suggestions.map((q) => (
                 <button
@@ -105,7 +105,7 @@ export default function AgentChat({
                   type="button"
                   disabled={pending}
                   onClick={() => void send(q)}
-                  className="app-no-drag rounded-xl border border-white/60 bg-white/55 px-3.5 py-2 text-left text-[12.5px] text-[#1d1b1b] shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-black/[0.04] transition-colors hover:bg-white/75 disabled:opacity-50"
+                  className="app-no-drag rounded-xl border border-white/60 bg-white/55 px-3.5 py-2 text-left text-[12.5px] text-content-primary shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-black/[0.04] transition-colors hover:bg-white/75 disabled:opacity-50"
                 >
                   {q}
                 </button>
@@ -117,22 +117,22 @@ export default function AgentChat({
             {messages.map((m) =>
               m.role === "user" ? (
                 <li key={m.id} className="flex flex-col items-end">
-                  <div className="max-w-[78%] space-y-2 rounded-2xl rounded-br-md bg-[#1d1b1b]/[0.06] px-3.5 py-2 text-[13.5px] leading-[1.55] text-[#1d1b1b]">
+                  <div className="max-w-[78%] space-y-2 rounded-2xl rounded-br-md bg-ink/[0.06] px-3.5 py-2 text-[13.5px] leading-[1.55] text-content-primary">
                     <Text text={m.text} />
                   </div>
-                  <time dateTime={m.at} className="mt-1 pr-1 text-[10.5px] tabular-nums text-[#9CA3AF]">
+                  <time dateTime={m.at} className="mt-1 pr-1 text-[10.5px] tabular-nums text-content-tertiary">
                     {m.id.startsWith("local:") && pending ? t("agents.chat.sending") : clockTime(m.at, lang)}
                   </time>
                 </li>
               ) : (
                 <li key={m.id} className="max-w-[88%]">
-                  <div className="mb-1 flex items-center gap-2 text-[11px] text-[#9CA3AF]">
-                    <span className="font-medium text-[#6b7280]">{agent.name}</span>
+                  <div className="mb-1 flex items-center gap-2 text-[11px] text-content-tertiary">
+                    <span className="font-medium text-content-secondary">{agent.name}</span>
                     <time dateTime={m.at} className="tabular-nums">
                       {relativeTime(m.at, now, lang)}
                     </time>
                   </div>
-                  <div className="space-y-2 text-[13.5px] leading-[1.65] text-[#1d1b1b]">
+                  <div className="space-y-2 text-[13.5px] leading-[1.65] text-content-primary">
                     <Text text={m.text} />
                   </div>
                   {m.reportIds && m.reportIds.length > 0 ? (
@@ -143,7 +143,7 @@ export default function AgentChat({
                             key={id}
                             type="button"
                             onClick={() => onOpenReport(id)}
-                            className="app-no-drag max-w-[320px] truncate rounded-lg bg-black/[0.04] px-2 py-1 text-[11px] text-[#6b7280] transition-colors hover:bg-black/[0.06] hover:text-[#1d1b1b]"
+                            className="app-no-drag max-w-[320px] truncate rounded-lg bg-black/[0.04] px-2 py-1 text-[11px] text-content-secondary transition-colors hover:bg-black/[0.06] hover:text-content-primary"
                           >
                             {t("agents.chat.from", { title: titleOf(id) ?? "" })}
                           </button>
@@ -155,7 +155,7 @@ export default function AgentChat({
               ),
             )}
             {pending ? (
-              <li className="text-[12px] text-[#9CA3AF]" aria-live="polite">
+              <li className="text-[12px] text-content-tertiary" aria-live="polite">
                 {t("agents.chat.reading")}
               </li>
             ) : null}
@@ -164,7 +164,7 @@ export default function AgentChat({
       </div>
 
       <div className="shrink-0 border-t border-black/[0.06] px-5 pb-4 pt-3">
-        {error ? <p className="pb-2 text-[12px] text-[#DC2626]">{error}</p> : null}
+        {error ? <p className="pb-2 text-[12px] text-tone-negative">{error}</p> : null}
         <div className="flex items-end gap-2 rounded-2xl border border-white/60 bg-white/55 py-1.5 pl-3.5 pr-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-black/[0.04] focus-within:bg-white/70">
           <textarea
             ref={input}
@@ -174,7 +174,7 @@ export default function AgentChat({
             onKeyDown={onKeyDown}
             aria-label={t("agents.chat.messageAria", { name: agent.name })}
             placeholder={t("agents.chat.placeholder", { name: agent.name })}
-            className="app-no-drag scrollbar-meridian max-h-40 min-h-[28px] flex-1 resize-none bg-transparent py-1 text-[13.5px] leading-[1.5] text-[#1d1b1b] outline-none placeholder:text-[#9CA3AF]"
+            className="app-no-drag scrollbar-meridian max-h-40 min-h-[28px] flex-1 resize-none bg-transparent py-1 text-[13.5px] leading-[1.5] text-content-primary outline-none placeholder:text-content-tertiary"
           />
           <button
             type="button"
@@ -186,7 +186,7 @@ export default function AgentChat({
             <ArrowUp className="h-4 w-4" strokeWidth={2.25} aria-hidden />
           </button>
         </div>
-        <div className={cn("flex items-center gap-1.5 pt-1.5 text-[10.5px] text-[#9CA3AF]")}>
+        <div className={cn("flex items-center gap-1.5 pt-1.5 text-[10.5px] text-content-tertiary")}>
           {tNodes("agents.chat.hint", { enter: <Kbd>{ENTER}</Kbd>, shift: <Kbd>Shift</Kbd> })}
         </div>
       </div>

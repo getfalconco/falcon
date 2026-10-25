@@ -59,7 +59,7 @@ const ITEMS: ReadonlyArray<{
 ];
 
 const ITEM_CLASS =
-  "flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-left text-[13px] font-normal text-[#1d1b1b] transition-colors duration-150 hover:bg-[#1d1b1b]/[0.07]";
+  "flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-left text-[13px] font-normal text-content-primary transition-colors duration-150 hover:bg-ink/[0.07]";
 const DIVIDER = <div aria-hidden className="mx-2 my-1 h-px bg-black/[0.06]" />;
 
 function hashOf(text: string): number {
@@ -125,7 +125,7 @@ export function Avatar({
       }}
     >
       {bars.map((height, i) => (
-        <span key={i} className="rounded-[1px] bg-white/85" style={{ width: 2.5 * k, height: height * k }} />
+        <span key={i} className="rounded-sm bg-white/85" style={{ width: 2.5 * k, height: height * k }} />
       ))}
     </span>
   );
@@ -191,12 +191,12 @@ export default function ProfilePill({
         className="app-no-drag flex h-9 max-w-[240px] items-center gap-2 rounded-full border border-white/60 bg-white/55 pl-2 pr-3 text-left shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-black/[0.04] backdrop-blur-xl transition-colors hover:bg-white/70"
       >
         <Avatar name={name} photo={photo} />
-        <span className="min-w-0 truncate text-[13px] font-normal text-[#1d1b1b]">{name}</span>
-        <span title={planText} className="max-w-[96px] shrink-0 truncate text-[13px] font-normal text-[#9CA3AF]">
+        <span className="min-w-0 truncate text-[13px] font-normal text-content-primary">{name}</span>
+        <span title={planText} className="max-w-[96px] shrink-0 truncate text-[13px] font-normal text-content-tertiary">
           · {planText}
         </span>
         <ChevronDown
-          className={cn("h-3.5 w-3.5 shrink-0 text-[#6b7280] transition-transform", open && "rotate-180")}
+          className={cn("h-3.5 w-3.5 shrink-0 text-content-secondary transition-transform", open && "rotate-180")}
           strokeWidth={1.75}
           aria-hidden
         />
@@ -240,17 +240,17 @@ export default function ProfilePill({
                     }}
                     className={ITEM_CLASS}
                   >
-                    <Icon className="h-[15px] w-[15px] text-[#4b5563]" strokeWidth={1.75} aria-hidden />
+                    <Icon className="h-[15px] w-[15px] text-content-body" strokeWidth={1.75} aria-hidden />
                     {t(labelKey)}
                     {key === "changelog" && changelogUnseen ? (
                       <span
                         aria-label={t("menu.new")}
-                        className="ml-auto h-1.5 w-1.5 shrink-0 rounded-full bg-[#3b82f6]"
+                        className="ml-auto h-1.5 w-1.5 shrink-0 rounded-full bg-tint"
                       />
                     ) : null}
                     {arrow ? (
                       <ChevronRight
-                        className="ml-auto h-3.5 w-3.5 shrink-0 text-[#9CA3AF]"
+                        className="ml-auto h-3.5 w-3.5 shrink-0 text-content-tertiary"
                         strokeWidth={1.75}
                         aria-hidden
                       />
@@ -270,7 +270,7 @@ export default function ProfilePill({
               }}
               className={ITEM_CLASS}
             >
-              <LogOut className="h-[15px] w-[15px] text-[#4b5563]" strokeWidth={1.75} aria-hidden />
+              <LogOut className="h-[15px] w-[15px] text-content-body" strokeWidth={1.75} aria-hidden />
               {t("menu.signOut")}
             </button>
           </motion.div>

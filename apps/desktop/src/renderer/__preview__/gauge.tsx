@@ -83,7 +83,7 @@ const picked = readouts[(params.get("t") ?? "AMD").toUpperCase()] ?? readouts.AM
 };
 
 const root = createRoot(document.getElementById("root")!);
-const card = "w-full max-w-2xl rounded-xl border border-[#e0e0da] bg-white px-4 py-3.5";
+const card = "w-full max-w-2xl rounded-xl border border-edge bg-white px-4 py-3.5";
 
 if (view === "drawer") {
   if (params.get("scroll")) {
@@ -93,21 +93,21 @@ if (view === "drawer") {
     }, 900);
   }
   root.render(
-    <div className="flex h-screen bg-[#F4F4F0]">
+    <div className="flex h-screen bg-surface-1">
       <div className="flex-1" />
       <TargetDrawer run={run} target={target} onClose={() => undefined} />
     </div>,
   );
 } else if (view === "stock") {
   root.render(
-    <div className="flex min-h-screen flex-col items-center justify-center gap-5 bg-[#F4F4F0] py-6">
-      <p className="text-xs uppercase tracking-[0.12em] text-[#9CA3AF]">AMD</p>
-      <GaugeContextBlock ticker="AMD" context={null} surface="stock" title="Tape state" className="w-full max-w-md rounded-xl border border-[#e6e6e0] bg-[#fbfbf9] px-3.5 py-3 text-left" />
+    <div className="flex min-h-screen flex-col items-center justify-center gap-5 bg-surface-1 py-6">
+      <p className="text-xs uppercase tracking-[0.12em] text-content-tertiary">AMD</p>
+      <GaugeContextBlock ticker="AMD" context={null} surface="stock" title="Tape state" className="w-full max-w-md rounded-xl border border-edge bg-surface-2 px-3.5 py-3 text-left" />
     </div>,
   );
 } else if (view === "states") {
   root.render(
-    <div className="flex min-h-screen flex-col items-center gap-4 bg-[#F4F4F0] py-8">
+    <div className="flex min-h-screen flex-col items-center gap-4 bg-surface-1 py-8">
       {[
         ["AMD", "actionable — a structure with nothing missing"],
         ["MSTR", "actionable — Screen's multi-session finding, confirmed by volume"],
@@ -115,10 +115,10 @@ if (view === "drawer") {
         ["AAPL", "unreadable — the measurement itself, stated plainly"],
       ].map(([t, caption]) => (
         <div key={t} className={card}>
-          <p className="mb-2 text-[10px] uppercase tracking-[0.14em] text-[#b4b4ae]">
+          <p className="mb-2 text-[10px] uppercase tracking-[0.14em] text-content-disabled">
             {t} · {caption}
           </p>
-          <GaugeContextBlock ticker={t} context={null} surface="stock" title="Tape state" className="rounded-lg border border-[#e6e6e0] bg-[#fbfbf9] px-3 py-2.5" />
+          <GaugeContextBlock ticker={t} context={null} surface="stock" title="Tape state" className="rounded-lg border border-edge bg-surface-2 px-3 py-2.5" />
         </div>
       ))}
     </div>,

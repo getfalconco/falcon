@@ -43,11 +43,11 @@ import { capabilityReason } from "./capability-reason";
  */
 
 const BUTTON =
-  "app-no-drag btn-quiet rounded-lg border border-white/60 bg-white/55 px-3 py-1.5 text-[13px] font-normal text-[#1d1b1b] shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-black/[0.04] transition-colors hover:bg-white/75 disabled:pointer-events-none disabled:opacity-60";
+  "app-no-drag btn-quiet rounded-lg border border-white/60 bg-white/55 px-3 py-1.5 text-[13px] font-normal text-content-primary shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-black/[0.04] transition-colors hover:bg-white/75 disabled:pointer-events-none disabled:opacity-60";
 
 /** A quiet action beside a value: no chrome until hovered. */
 const TEXT_BUTTON =
-  "app-no-drag rounded-md px-1.5 py-1 text-[12.5px] font-normal text-[#6b7280] transition-colors hover:bg-black/[0.04] hover:text-[#1d1b1b] disabled:pointer-events-none disabled:opacity-60";
+  "app-no-drag rounded-md px-1.5 py-1 text-[12.5px] font-normal text-content-secondary transition-colors hover:bg-black/[0.04] hover:text-content-primary disabled:pointer-events-none disabled:opacity-60";
 
 const PLATFORM: Platform = detectPlatform();
 
@@ -74,7 +74,7 @@ function clock(iso: string, locale: string): string {
 
 function Note({ tone = "muted", title, children }: { tone?: "muted" | "error"; title?: string; children: React.ReactNode }) {
   return (
-    <span role="status" title={title} className={cn("text-[12px] font-normal", tone === "error" ? "text-[#DC2626]" : "text-[#9CA3AF]")}>
+    <span role="status" title={title} className={cn("text-[12px] font-normal", tone === "error" ? "text-tone-negative" : "text-content-tertiary")}>
       {children}
     </span>
   );
@@ -97,13 +97,13 @@ function Row({
   return (
     <div className={cn("flex items-center justify-between gap-6 border-b border-black/[0.06] py-4", className)}>
       <div className="min-w-0">
-        <div className="text-[13.5px] font-normal text-[#1d1b1b]">{label}</div>
+        <div className="text-[13.5px] font-normal text-content-primary">{label}</div>
         {error ? (
-          <p role="alert" className="mt-1 text-[12.5px] font-normal leading-snug text-[#dc2626]">
+          <p role="alert" className="mt-1 text-[12.5px] font-normal leading-snug text-tone-negative">
             {error}
           </p>
         ) : description ? (
-          <div className="mt-1 text-[12.5px] font-normal leading-snug text-[#6b7280]">{description}</div>
+          <div className="mt-1 text-[12.5px] font-normal leading-snug text-content-secondary">{description}</div>
         ) : null}
       </div>
       <div className="flex shrink-0 items-center gap-3">{children}</div>
@@ -201,7 +201,7 @@ function VersionRow({ info, onChecked }: { info: SystemInfo; onChecked: (outcome
   return (
     <Row label={t("settings.system.version")}>
       {update}
-      <span data-selectable className="select-text font-['Geist_Mono'] text-[12.5px] text-[#4b5563]">
+      <span data-selectable className="select-text font-['Geist_Mono'] text-[12.5px] text-content-body">
         {info.version}
       </span>
     </Row>
@@ -232,7 +232,7 @@ function Keycaps({ labels }: { labels: readonly string[] }) {
       {labels.map((label, i) => (
         <kbd
           key={`${label}-${i}`}
-          className="inline-flex h-6 min-w-6 items-center justify-center rounded-md border border-black/[0.1] bg-white/70 px-1.5 font-sans text-[11.5px] font-medium text-[#1d1b1b] shadow-[inset_0_-1px_0_rgba(0,0,0,0.08)]"
+          className="inline-flex h-6 min-w-6 items-center justify-center rounded-md border border-black/[0.1] bg-white/70 px-1.5 font-sans text-[11.5px] font-medium text-content-primary shadow-[inset_0_-1px_0_rgba(0,0,0,0.08)]"
         >
           {label}
         </kbd>
@@ -389,10 +389,10 @@ function QuickOpenRow({ info, onInfo }: { info: SystemInfo; onInfo: (info: Syste
             forming.length > 0 ? (
               <span className="inline-flex items-center gap-1">
                 <Keycaps labels={forming} />
-                <span className="px-0.5 text-[12.5px] text-[#9CA3AF]">…</span>
+                <span className="px-0.5 text-[12.5px] text-content-tertiary">…</span>
               </span>
             ) : (
-              <span className="px-1 text-[12.5px] font-normal text-[#6b7280]">{t("system.quickOpen.pressKeys")}</span>
+              <span className="px-1 text-[12.5px] font-normal text-content-secondary">{t("system.quickOpen.pressKeys")}</span>
             )
           ) : (
             <Keycaps labels={comboLabels(keys!, PLATFORM)} />
@@ -418,7 +418,7 @@ function QuickOpenRow({ info, onInfo }: { info: SystemInfo; onInfo: (info: Syste
           onClick={() => void save(null)}
           aria-label={t("system.quickOpen.clearLabel")}
           title={t("system.quickOpen.clearLabel")}
-          className="app-no-drag -ml-2 rounded-lg p-1.5 text-[#6b7280] transition-colors hover:bg-black/[0.04] hover:text-[#1d1b1b] disabled:pointer-events-none disabled:opacity-60"
+          className="app-no-drag -ml-2 rounded-lg p-1.5 text-content-secondary transition-colors hover:bg-black/[0.04] hover:text-content-primary disabled:pointer-events-none disabled:opacity-60"
         >
           <X className="h-3.5 w-3.5" strokeWidth={1.75} aria-hidden />
         </button>
@@ -448,7 +448,7 @@ function PathLink({ path, onOpen }: { path: string; onOpen: () => void }) {
       type="button"
       onClick={onOpen}
       title={t("system.folder.open", { path })}
-      className="app-no-drag inline max-w-full break-all text-left font-['Geist_Mono'] text-[11.5px] text-[#4b5563] underline decoration-black/[0.2] underline-offset-2 transition-colors hover:text-[#1d1b1b] hover:decoration-black/[0.5]"
+      className="app-no-drag inline max-w-full break-all text-left font-['Geist_Mono'] text-[11.5px] text-content-body underline decoration-black/[0.2] underline-offset-2 transition-colors hover:text-content-primary hover:decoration-black/[0.5]"
     >
       {path}
     </button>
@@ -500,40 +500,40 @@ function FolderRow({
   return (
     <div className="flex items-start justify-between gap-6 py-4">
       <div className="min-w-0">
-        <div className="text-[13.5px] font-normal text-[#1d1b1b]">{t("system.folder.label")}</div>
-        <p data-selectable className="mt-1 select-text text-[12.5px] font-normal leading-snug text-[#6b7280]">
+        <div className="text-[13.5px] font-normal text-content-primary">{t("system.folder.label")}</div>
+        <p data-selectable className="mt-1 select-text text-[12.5px] font-normal leading-snug text-content-secondary">
           {tNodes("system.folder.storedAt", { path: <PathLink path={folder.path} onOpen={() => void open()} /> })}
         </p>
         {folder.missing ? (
-          <p className="mt-1 text-[12.5px] font-normal leading-snug text-[#b45309]">
+          <p className="mt-1 text-[12.5px] font-normal leading-snug text-tone-warning">
             {t("system.folder.missing", { path: folder.missing })}
           </p>
         ) : null}
-        {envReason ? <p className="mt-1 text-[12.5px] font-normal leading-snug text-[#9CA3AF]">{envReason}</p> : null}
+        {envReason ? <p className="mt-1 text-[12.5px] font-normal leading-snug text-content-tertiary">{envReason}</p> : null}
         {folder.pending ? (
-          <div className="mt-2 rounded-lg border border-black/[0.06] bg-white/40 px-3 py-2.5 text-[12.5px] font-normal leading-snug text-[#4b5563]">
+          <div className="mt-2 rounded-lg border border-black/[0.06] bg-white/40 px-3 py-2.5 text-[12.5px] font-normal leading-snug text-content-body">
             <p data-selectable className="select-text">
               {t("system.folder.moved", { path: folder.pending })}
             </p>
-            <p className="mt-1 text-[#6b7280]">{t("system.folder.previous")}</p>
+            <p className="mt-1 text-content-secondary">{t("system.folder.previous")}</p>
             <div className="mt-2">
               {info.restart.supported ? (
                 <RestartButton info={info} label={t("settings.system.restart.now")} />
               ) : (
-                <span className="text-[#9CA3AF]">{t("system.folder.restartManually")}</span>
+                <span className="text-content-tertiary">{t("system.folder.restartManually")}</span>
               )}
             </div>
           </div>
         ) : null}
         {error ? (
-          <p role="alert" className="mt-1 text-[12.5px] font-normal leading-snug text-[#dc2626]">
+          <p role="alert" className="mt-1 text-[12.5px] font-normal leading-snug text-tone-negative">
             {error}
           </p>
         ) : null}
       </div>
       <div className="flex shrink-0 items-center gap-3">
         {storage ? (
-          <span className="font-['Geist_Mono'] text-[12.5px] tabular-nums text-[#4b5563]">
+          <span className="font-['Geist_Mono'] text-[12.5px] tabular-nums text-content-body">
             {formatBytes(storage.dataBytes, t)}
           </span>
         ) : null}
@@ -628,7 +628,7 @@ function ClearCache({ onCleared }: { onCleared: (storage: SystemStorage) => void
             })
             .catch(() => setPhase("error"));
         }}
-        className="app-no-drag rounded-lg bg-[#DC2626] px-3 py-1.5 text-[13px] font-medium text-white transition-colors hover:bg-[#B91C1C] disabled:opacity-60"
+        className="app-no-drag rounded-lg bg-tone-negative-solid px-3 py-1.5 text-[13px] font-medium text-white transition-colors hover:bg-tone-negative-solid/90 disabled:opacity-60"
       >
         {phase === "working" ? t("settings.pane.clearing") : t("settings.system.cache.clear")}
       </button>
@@ -679,14 +679,14 @@ export default function SystemPane() {
   if (!available) {
     return (
       <SettingsSection title={t("settings.section.system")}>
-        <p className="py-4 text-[12.5px] font-normal text-[#6b7280]">{t("settings.pane.desktopOnly")}</p>
+        <p className="py-4 text-[12.5px] font-normal text-content-secondary">{t("settings.pane.desktopOnly")}</p>
       </SettingsSection>
     );
   }
   if (!info) {
     return (
       <SettingsSection title={t("settings.section.system")}>
-        <p className="py-4 text-[12.5px] font-normal text-[#6b7280]">{loadError ?? t("settings.pane.loading")}</p>
+        <p className="py-4 text-[12.5px] font-normal text-content-secondary">{loadError ?? t("settings.pane.loading")}</p>
       </SettingsSection>
     );
   }

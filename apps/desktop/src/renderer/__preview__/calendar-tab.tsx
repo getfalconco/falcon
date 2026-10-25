@@ -294,7 +294,7 @@ createRoot(document.getElementById("root")!).render(
     style={{ minWidth: 1060, background: document.documentElement.dataset.theme === "dark" ? "hsl(0 0% 3.5%)" : "#EAEAE6" }}
   >
     <div className="select-none pl-9">
-      <span className="font-baskerville text-[30px] text-[#1d1b1b]">Afternoon, Kuzey</span>
+      <span className="font-baskerville text-[30px] text-content-primary">Afternoon, Kuzey</span>
     </div>
     <GuidanceAlreadyRead />
     <CalendarTab />

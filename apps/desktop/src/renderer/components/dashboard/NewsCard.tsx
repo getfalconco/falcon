@@ -153,7 +153,7 @@ export default function NewsCard({
           pill and the three-dot menu, in the same places the Positions card
           keeps them. */}
       <div className="flex shrink-0 items-center justify-between">
-        <span className="select-none font-sans text-[11px] font-medium tracking-[0.04em] text-[#9CA3AF]">
+        <span className="select-none font-sans text-[11px] font-medium tracking-[0.04em] text-content-tertiary">
           {t("dashboard.news.label")}
         </span>
         <div className="flex items-center gap-3">
@@ -187,8 +187,8 @@ export default function NewsCard({
                 }
               }}
               className={cn(
-                "app-no-drag flex shrink-0 items-center transition-colors hover:text-[#1d1b1b]",
-                searchOpen ? "text-[#1d1b1b]" : "text-[#4b5563]",
+                "app-no-drag flex shrink-0 items-center transition-colors hover:text-content-primary",
+                searchOpen ? "text-content-primary" : "text-content-body",
               )}
             >
               <Search className="h-4 w-4" strokeWidth={1.75} aria-hidden />
@@ -211,7 +211,7 @@ export default function NewsCard({
               aria-label={t("dashboard.news.search")}
               tabIndex={searchOpen ? 0 : -1}
               className={cn(
-                "app-no-drag ml-2 w-full min-w-0 bg-transparent text-[12.5px] text-[#1d1b1b] outline-none placeholder:text-[#9CA3AF]",
+                "app-no-drag ml-2 w-full min-w-0 bg-transparent text-[12.5px] text-content-primary outline-none placeholder:text-content-tertiary",
                 !searchOpen && "pointer-events-none opacity-0",
               )}
             />
@@ -225,8 +225,8 @@ export default function NewsCard({
               aria-expanded={menuOpen}
               onClick={() => setMenuOpen((v) => !v)}
               className={cn(
-                "app-no-drag transition-colors hover:text-[#1d1b1b]",
-                menuOpen ? "text-[#1d1b1b]" : "text-[#4b5563]",
+                "app-no-drag transition-colors hover:text-content-primary",
+                menuOpen ? "text-content-primary" : "text-content-body",
               )}
             >
               <MoreVertical className="h-4 w-4" strokeWidth={1.75} aria-hidden />
@@ -246,9 +246,9 @@ export default function NewsCard({
                     setMenuOpen(false);
                     onDuplicate?.();
                   }}
-                  className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-left text-[13px] font-medium text-[#1d1b1b] transition-colors hover:bg-black/[0.05]"
+                  className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-left text-[13px] font-medium text-content-primary transition-colors hover:bg-black/[0.05]"
                 >
-                  <Copy className="h-[15px] w-[15px] text-[#4b5563]" strokeWidth={1.75} aria-hidden />
+                  <Copy className="h-[15px] w-[15px] text-content-body" strokeWidth={1.75} aria-hidden />
                   {t("dashboard.card.duplicate")}
                 </button>
                 <div aria-hidden className="mx-2 my-1 h-px bg-black/[0.06]" />
@@ -259,7 +259,7 @@ export default function NewsCard({
                     setMenuOpen(false);
                     onRemove?.();
                   }}
-                  className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-left text-[13px] font-medium text-[#DC2626] transition-colors hover:bg-[#DC2626]/[0.06]"
+                  className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-left text-[13px] font-medium text-tone-negative transition-colors hover:bg-tone-negative-fill/[0.06]"
                 >
                   <X className="h-[15px] w-[15px]" strokeWidth={2} aria-hidden />
                   {t("dashboard.card.delete")}
@@ -289,12 +289,12 @@ export default function NewsCard({
                   }}
                   className={cn(
                     "app-no-drag relative flex items-center gap-1 pb-1 text-[12.5px] transition-colors",
-                    on ? "text-[#1d1b1b]" : "text-[#9CA3AF] hover:text-[#6b7280]",
+                    on ? "text-content-primary" : "text-content-tertiary hover:text-content-secondary",
                   )}
                 >
                   {on && sector ? sector : t(s.label)}
                   <ChevronDown className="h-3 w-3" strokeWidth={2} aria-hidden />
-                  {on ? <span aria-hidden className="absolute inset-x-0 bottom-0 h-px bg-[#1d1b1b]" /> : null}
+                  {on ? <span aria-hidden className="absolute inset-x-0 bottom-0 h-px bg-ink" /> : null}
                 </button>
                 <AnimatePresence>
                   {sectorOpen ? (
@@ -305,7 +305,7 @@ export default function NewsCard({
                       className="scrollbar-meridian app-no-drag absolute left-0 top-full z-50 mt-2 max-h-56 w-52 overflow-y-auto rounded-2xl border border-white/60 bg-white p-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_18px_44px_rgba(0,0,0,0.14)] ring-1 ring-black/[0.06]"
                     >
                       {sectors.length === 0 ? (
-                        <p className="px-3 py-2 text-[12px] text-[#9CA3AF]">{t("dashboard.news.noSectors")}</p>
+                        <p className="px-3 py-2 text-[12px] text-content-tertiary">{t("dashboard.news.noSectors")}</p>
                       ) : (
                         sectors.map((name) => {
                           const picked = sector === name;
@@ -319,7 +319,7 @@ export default function NewsCard({
                                 setSector(name);
                                 setSectorOpen(false);
                               }}
-                              className="flex w-full items-center justify-between gap-2 rounded-xl px-3 py-1.5 text-left text-[12.5px] text-[#1d1b1b] transition-colors hover:bg-black/[0.05]"
+                              className="flex w-full items-center justify-between gap-2 rounded-xl px-3 py-1.5 text-left text-[12.5px] text-content-primary transition-colors hover:bg-black/[0.05]"
                             >
                               <span className="truncate">{name}</span>
                               {picked ? <Check className="h-3.5 w-3.5 shrink-0" strokeWidth={2} aria-hidden /> : null}
@@ -341,16 +341,16 @@ export default function NewsCard({
               onClick={() => setScope(s.key)}
               className={cn(
                 "app-no-drag relative pb-1 text-[12.5px] transition-colors",
-                on ? "text-[#1d1b1b]" : "text-[#9CA3AF] hover:text-[#6b7280]",
+                on ? "text-content-primary" : "text-content-tertiary hover:text-content-secondary",
               )}
             >
               {t(s.label)}
-              {on ? <span aria-hidden className="absolute inset-x-0 bottom-0 h-px bg-[#1d1b1b]" /> : null}
+              {on ? <span aria-hidden className="absolute inset-x-0 bottom-0 h-px bg-ink" /> : null}
             </button>
           );
         })}
         {errorText && articles.length > 0 ? (
-          <span className="ml-auto truncate text-[10.5px] text-[#9CA3AF]" title={errorText}>
+          <span className="ml-auto truncate text-[10.5px] text-content-tertiary" title={errorText}>
             {t("dashboard.news.lastReadFailed")}
           </span>
         ) : null}
@@ -364,7 +364,7 @@ export default function NewsCard({
         className="scrollbar-meridian app-no-drag mt-3 min-h-0 overflow-y-auto overscroll-contain pr-1 will-change-transform"
       >
         {empty ? (
-          <p className="py-2 text-[12.5px] leading-relaxed text-[#9CA3AF]">{empty}</p>
+          <p className="py-2 text-[12.5px] leading-relaxed text-content-tertiary">{empty}</p>
         ) : (
           <NewsStoryList stories={shown} now={now} onOpen={setOpenArticle} />
         )}

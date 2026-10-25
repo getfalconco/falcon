@@ -1,6 +1,37 @@
 import type { Config } from "tailwindcss";
 
 /**
+ * Apple-like corner radii (desktop app). Each step reads a CSS variable the
+ * app defines once (apps/desktop/src/renderer/globals.css, `--radius-*`),
+ * with the same value as a fallback so a surface without the variables still
+ * gets the scale:
+ *   sm 4 (a tick, a bar end) · DEFAULT/md 6 (a small control) · lg 8 (an
+ *   input, a compact button) · xl 10 (a button) · 2xl 12 (a popover, a menu,
+ *   a tile in a card) · 3xl 16 (a card, a panel, a sheet) · full (a pill).
+ * Exported rather than set on the preset so the marketing site keeps its own.
+ */
+export const appleRadius = {
+  none: "0px",
+  sm: "var(--radius-sm, 4px)",
+  DEFAULT: "var(--radius-md, 6px)",
+  md: "var(--radius-md, 6px)",
+  lg: "var(--radius-lg, 8px)",
+  xl: "var(--radius-xl, 10px)",
+  "2xl": "var(--radius-2xl, 12px)",
+  "3xl": "var(--radius-3xl, 16px)",
+  full: "9999px",
+} as const;
+
+/**
+ * A colour utility value that reads a CSS variable and still takes
+ * Tailwind's opacity modifier (`bg-tone-positive/10`): the variable is mixed
+ * toward transparent by the modifier's amount.
+ */
+export function cssVarColor(name: string): string {
+  return `color-mix(in srgb, var(${name}) calc(<alpha-value> * 100%), transparent)`;
+}
+
+/**
  * Shared Meridian design tokens. Every app extends this preset so colors,
  * typography, shadows and motion stay identical across the marketing site
  * and the desktop app.

@@ -33,7 +33,7 @@ type Props = {
 const SKELETON_BAR = "animate-pulse rounded bg-black/[0.06] motion-reduce:animate-none";
 
 /** The head's small line, in the app's sans like the rest of the calendar. */
-const META_CLASS = "font-sans text-[10.5px] font-medium tracking-[0.02em] text-[#9CA3AF]";
+const META_CLASS = "font-sans text-[10.5px] font-medium tracking-[0.02em] text-content-tertiary";
 
 /**
  * "16 October", "16 Ekim", "10月16日": the day the rail lists, in the
@@ -194,7 +194,7 @@ function Triangle({ direction }: { direction: "left" | "right" }) {
 }
 
 const STEP_BUTTON =
-  "app-no-drag flex h-5 w-5 items-center justify-center rounded-md text-[#4b5563] transition-colors hover:bg-[#1d1b1b]/[0.06] hover:text-[#1d1b1b] disabled:pointer-events-none disabled:opacity-30";
+  "app-no-drag flex h-5 w-5 items-center justify-center rounded-md text-content-body transition-colors hover:bg-ink/[0.06] hover:text-content-primary disabled:pointer-events-none disabled:opacity-30";
 
 /**
  * The calendar on the dashboard: what is scheduled for a session, on the
@@ -308,9 +308,9 @@ function CalendarCardInner({ onDuplicate, onRemove, onOpenCalendar }: Props) {
     body = (
       <div ref={listRef} className="scrollbar-meridian relative -mx-2 min-h-0 flex-1 overflow-y-auto px-2">
         {view.earlyClose ? (
-          <p className="pb-3 text-[12px] leading-[1.45] text-[#D97706]">{t("briefing.card.earlyClose")}</p>
+          <p className="pb-3 text-[12px] leading-[1.45] text-tone-warning">{t("briefing.card.earlyClose")}</p>
         ) : null}
-        {view.closedNote ? <p className="pb-3 text-[12px] leading-[1.45] text-[#6b7280]">{view.closedNote}</p> : null}
+        {view.closedNote ? <p className="pb-3 text-[12px] leading-[1.45] text-content-secondary">{view.closedNote}</p> : null}
 
         <CalendarRows view={view.calendar} markerLabel={markerLabel} markerRef={markerRef} extras={view.extras} nowMs={now.getTime()} dense={narrow} />
         {/* A closed today with no timed row still gets its "now" line, under
@@ -326,11 +326,11 @@ function CalendarCardInner({ onDuplicate, onRemove, onOpenCalendar }: Props) {
       </div>
     );
   } else if (unsupported) {
-    body = <p className="text-[13px] leading-[1.5] text-[#6b7280]">{t("briefing.card.restart")}</p>;
+    body = <p className="text-[13px] leading-[1.5] text-content-secondary">{t("briefing.card.restart")}</p>;
   } else if (failed) {
     body = (
       <>
-        <p className="text-[13px] leading-[1.5] text-[#6b7280]">{t("briefing.card.failed")}</p>
+        <p className="text-[13px] leading-[1.5] text-content-secondary">{t("briefing.card.failed")}</p>
         <p className={cn(QUIET_NOTE_CLASS, "mt-1")}>{t("briefing.card.failedNote")}</p>
       </>
     );
@@ -384,11 +384,11 @@ function CalendarCardInner({ onDuplicate, onRemove, onOpenCalendar }: Props) {
         {view && (view.warning || view.notes.length > 0) ? (
           <div className="mt-3 shrink-0 space-y-1 border-t-[0.5px] border-black/[0.06] pt-2">
             {view.notes.map((note) => (
-              <p key={note} className="text-[11px] leading-[1.45] text-[#9CA3AF]">
+              <p key={note} className="text-[11px] leading-[1.45] text-content-tertiary">
                 {note}
               </p>
             ))}
-            {view.warning ? <p className="text-[11px] leading-[1.45] text-[#D97706]">{view.warning}</p> : null}
+            {view.warning ? <p className="text-[11px] leading-[1.45] text-tone-warning">{view.warning}</p> : null}
           </div>
         ) : null}
 

@@ -28,7 +28,7 @@ export function Field({ label, hint, children }: { label: string; hint?: string;
     <section className="space-y-2">
       <div className="flex items-baseline justify-between gap-3">
         <h3 className={LABEL}>{label}</h3>
-        {hint ? <span className="text-[11.5px] text-[#9CA3AF]">{hint}</span> : null}
+        {hint ? <span className="text-[11.5px] text-content-tertiary">{hint}</span> : null}
       </div>
       {children}
     </section>
@@ -39,9 +39,9 @@ export function Field({ label, hint, children }: { label: string; hint?: string;
 export function Callout({ title, children }: { title?: string; children: ReactNode }) {
   return (
     <div className="flex gap-2.5 rounded-2xl bg-black/[0.04] px-4 py-3">
-      <Info className="mt-0.5 h-4 w-4 shrink-0 text-[#6b7280]" strokeWidth={1.75} aria-hidden />
+      <Info className="mt-0.5 h-4 w-4 shrink-0 text-content-secondary" strokeWidth={1.75} aria-hidden />
       <div className="min-w-0 space-y-1">
-        {title ? <div className="text-[12.5px] font-medium text-[#1d1b1b]">{title}</div> : null}
+        {title ? <div className="text-[12.5px] font-medium text-content-primary">{title}</div> : null}
         {children}
       </div>
     </div>
@@ -59,7 +59,7 @@ export function DraftNotes({ draft }: { draft: AgentDraft }) {
     <Callout title={t("agents.form.notesTitle")}>
       <ul className="space-y-0.5">
         {draft.notes.map((n) => (
-          <li key={n} className="text-[12.5px] leading-[1.5] text-[#4b5563]">
+          <li key={n} className="text-[12.5px] leading-[1.5] text-content-body">
             {n}
           </li>
         ))}
@@ -142,7 +142,7 @@ export function MetricsField({ draft, onChange }: PartProps) {
     <Field label={t("agents.form.reportOn")} hint={t("agents.form.reportOnHint")}>
       <div className="space-y-2">
         {draft.metrics.length > 0 ? (
-          <div className="grid grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)_28px] gap-x-2 px-1 font-['Geist_Mono'] text-[9.5px] uppercase tracking-[0.06em] text-[#9CA3AF]">
+          <div className="grid grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)_28px] gap-x-2 px-1 font-['Geist_Mono'] text-[9.5px] uppercase tracking-[0.06em] text-content-tertiary">
             <span>{t("agents.metric")}</span>
             <span>{t("agents.yourBar")}</span>
             <span />
@@ -168,13 +168,13 @@ export function MetricsField({ draft, onChange }: PartProps) {
               type="button"
               aria-label={m.label ? t("agents.form.remove", { metric: m.label }) : t("agents.form.removeMetric")}
               onClick={() => set({ metrics: draft.metrics.filter((_, j) => j !== i) })}
-              className="app-no-drag flex h-7 w-7 items-center justify-center rounded-md text-[#9CA3AF] transition-colors hover:bg-black/[0.04] hover:text-[#1d1b1b]"
+              className="app-no-drag flex h-7 w-7 items-center justify-center rounded-md text-content-tertiary transition-colors hover:bg-black/[0.04] hover:text-content-primary"
             >
               <X className="h-3.5 w-3.5" strokeWidth={2} aria-hidden />
             </button>
           </div>
         ))}
-        {draft.metrics.length === 0 ? <p className="text-[12px] text-[#9CA3AF]">{t("agents.form.noMetrics")}</p> : null}
+        {draft.metrics.length === 0 ? <p className="text-[12px] text-content-tertiary">{t("agents.form.noMetrics")}</p> : null}
         <button
           type="button"
           onClick={() => set({ metrics: [...draft.metrics, { id: newMetricId(), label: "" }] })}
@@ -196,22 +196,22 @@ export function ChannelsField({ draft, onChange, bare = false }: PartProps & { b
     <div className="divide-y divide-black/[0.06] rounded-2xl border border-black/[0.06]">
       <div className="flex items-center justify-between gap-4 px-4 py-3">
         <div>
-          <div className="text-[13px] text-[#1d1b1b]">{t("agents.dailyDigest")}</div>
-          <div className="text-[11.5px] text-[#9CA3AF]">{t("agents.form.digestHint", { time: timeOfDay(DIGEST_TIME, lang) })}</div>
+          <div className="text-[13px] text-content-primary">{t("agents.dailyDigest")}</div>
+          <div className="text-[11.5px] text-content-tertiary">{t("agents.form.digestHint", { time: timeOfDay(DIGEST_TIME, lang) })}</div>
         </div>
         <Switch label={t("agents.dailyDigest")} checked={draft.channels.includes("digest")} onChange={(on) => toggleChannel("digest", on)} />
       </div>
       <div className="flex items-center justify-between gap-4 px-4 py-3">
         <div>
-          <div className="text-[13px] text-[#1d1b1b]">{t("agents.desktopNotification")}</div>
-          <div className="text-[11.5px] text-[#9CA3AF]">{t("agents.form.desktopHint")}</div>
+          <div className="text-[13px] text-content-primary">{t("agents.desktopNotification")}</div>
+          <div className="text-[11.5px] text-content-tertiary">{t("agents.form.desktopHint")}</div>
         </div>
         <Switch label={t("agents.desktopNotification")} checked={draft.channels.includes("desktop")} onChange={(on) => toggleChannel("desktop", on)} />
       </div>
       <div className="flex items-center justify-between gap-4 px-4 py-3">
         <div>
-          <div className="text-[13px] text-[#1d1b1b]">{t("agents.mobilePush")}</div>
-          <div className="text-[11.5px] text-[#9CA3AF]">{t("agents.form.mobileHint")}</div>
+          <div className="text-[13px] text-content-primary">{t("agents.mobilePush")}</div>
+          <div className="text-[11.5px] text-content-tertiary">{t("agents.form.mobileHint")}</div>
         </div>
         <Switch label={t("agents.mobilePush")} checked={draft.channels.includes("mobile_push")} onChange={(on) => toggleChannel("mobile_push", on)} />
       </div>

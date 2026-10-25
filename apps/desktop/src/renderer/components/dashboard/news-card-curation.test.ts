@@ -110,7 +110,7 @@ describe("news card: rendering", () => {
     assert.doesNotMatch(html, /SHOCKS/);
     assert.match(html, /Yahoo/);
     // The lead name's direction colours the event type; only material names get a chip.
-    assert.match(html, /text-\[#16A34A\]/);
+    assert.match(html, /text-tone-positive/);
     assert.match(html, />NVDA</);
     assert.doesNotMatch(html, />AMD</);
   });

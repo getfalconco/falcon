@@ -13,17 +13,17 @@ import type {
 } from "../../../shared/propagation-run-types";
 
 /** The product's money state: OPEN is the only accent on the screen. */
-export const ACCENT = "#189E9A";
-export const INK = "#1d1b1b";
-export const MUTED = "#6b7280";
-export const FAINT = "#b4b4ae";
-export const HAIRLINE = "#e0e0da";
+export const ACCENT = "var(--teal-solid)";
+export const INK = "var(--text-primary)";
+export const MUTED = "var(--text-secondary)";
+export const FAINT = "var(--text-disabled)";
+export const HAIRLINE = "var(--border-default)";
 /** The third neutral: a refuted thesis is neither open (teal) nor priced (grey). */
-export const AMBER = "#B45309";
-export const AMBER_SOFT = "#FEF3C7";
-export const AMBER_LINE = "#E7C08A";
-export const GAIN = "#16A34A";
-export const LOSS = "#DC2626";
+export const AMBER = "var(--warning)";
+export const AMBER_SOFT = "var(--warning-soft)";
+export const AMBER_LINE = "var(--warning-line)";
+export const GAIN = "var(--positive)";
+export const LOSS = "var(--negative)";
 
 /**
  * The mark for a value that is not there. Never a dash (shared/copy-rules.ts);

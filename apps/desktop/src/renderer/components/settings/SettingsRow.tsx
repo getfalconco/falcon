@@ -18,7 +18,7 @@ export function SettingsSection({
 }) {
   return (
     <section className={cn("pb-6", className)}>
-      <h2 className="text-[15px] font-medium text-[#1d1b1b]">{title}</h2>
+      <h2 className="text-[15px] font-medium text-content-primary">{title}</h2>
       <div className="mt-1">{children}</div>
     </section>
   );
@@ -40,9 +40,9 @@ export function SettingsRow({
   return (
     <div className={cn("flex items-center justify-between gap-6 border-b border-black/[0.06] py-4", className)}>
       <div className="min-w-0">
-        <div className="text-[13.5px] font-normal text-[#1d1b1b]">{label}</div>
+        <div className="text-[13.5px] font-normal text-content-primary">{label}</div>
         {description ? (
-          <p className="mt-1 text-[12.5px] font-normal leading-snug text-[#6b7280]">{description}</p>
+          <p className="mt-1 text-[12.5px] font-normal leading-snug text-content-secondary">{description}</p>
         ) : null}
       </div>
       <div className="shrink-0">{children}</div>

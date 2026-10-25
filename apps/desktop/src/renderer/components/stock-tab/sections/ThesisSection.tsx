@@ -100,7 +100,7 @@ export default function ThesisSection({ ticker }: StockSectionProps) {
           }
         }}
         className={cn(
-          "block min-h-[88px] w-full resize-y rounded-2xl border border-white/60 bg-white/40 px-4 py-3 text-[14px] leading-relaxed text-[#1d1b1b] shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] outline-none ring-1 ring-black/[0.04] backdrop-blur-xl transition-colors duration-150 placeholder:text-[#9CA3AF] focus:bg-white/60 focus-visible:ring-2 focus-visible:ring-edge-focus disabled:opacity-60 motion-reduce:transition-none",
+          "block min-h-[88px] w-full resize-y rounded-2xl border border-white/60 bg-white/40 px-4 py-3 text-[14px] leading-relaxed text-content-primary shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] outline-none ring-1 ring-black/[0.04] backdrop-blur-xl transition-colors duration-150 placeholder:text-content-tertiary focus:bg-white/60 focus-visible:ring-2 focus-visible:ring-edge-focus disabled:opacity-60 motion-reduce:transition-none",
         )}
       />
       <div className="mt-1.5 flex h-4 items-center justify-end gap-2 text-[11.5px]" aria-live="polite">

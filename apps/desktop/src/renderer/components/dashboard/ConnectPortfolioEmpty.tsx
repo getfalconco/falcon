@@ -53,7 +53,7 @@ export default function ConnectPortfolioEmpty({ line }: { line: string }) {
         type="button"
         data-no-lift
         onClick={() => setOpen(true)}
-        className="app-no-drag relative mt-4 flex items-center rounded-lg bg-[#1d1b1b] px-[18px] py-[9px] text-[13px] font-normal not-italic leading-[20px] text-[rgb(231,231,231)] transition-colors duration-150 hover:bg-black active:bg-black"
+        className="app-no-drag relative mt-4 flex items-center rounded-lg bg-ink px-[18px] py-[9px] text-[13px] font-normal not-italic leading-[20px] text-[rgb(231,231,231)] transition-colors duration-150 hover:bg-black active:bg-black"
       >
         {t("dashboard.connect.button")}
       </button>

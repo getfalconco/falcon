@@ -212,7 +212,7 @@ export default function ClassicSection({ ticker }: StockSectionProps) {
         context={null}
         surface="stock"
         title={t("stock.gaugeTitle")}
-        className="rounded-xl border border-[#e6e6e0] bg-[#fbfbf9] px-3.5 py-3"
+        className="rounded-xl border border-edge bg-surface-2 px-3.5 py-3"
       />
 
       {profileRows.length > 0 || description ? (

@@ -16,7 +16,7 @@ import { cn } from "@/lib/utils";
  * card over a busy grid has to read whether or not the backdrop blurs.
  */
 export const POPOVER_SURFACE =
-  "rounded-2xl border border-white/60 bg-[#fbfbf9] shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_18px_44px_rgba(0,0,0,0.16)] ring-1 ring-black/[0.06]";
+  "rounded-2xl border border-white/60 bg-surface-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_18px_44px_rgba(0,0,0,0.16)] ring-1 ring-black/[0.06]";
 
 export type AnchorRect = { left: number; top: number; right: number; bottom: number };
 

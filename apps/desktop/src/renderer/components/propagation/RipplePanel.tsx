@@ -68,13 +68,13 @@ function RunRow({ item, active, onClick }: { item: PropagationRunListItem; activ
       style={{ opacity: item.superseded ? 0.55 : 1 }}
     >
       <div className="flex items-center gap-2">
-        <span className="font-baskerville text-[14px] leading-none text-[#1d1b1b]">{item.root_ticker}</span>
+        <span className="font-baskerville text-[14px] leading-none text-content-primary">{item.root_ticker}</span>
         <span className="text-[10px]" style={{ color: directionColor(item.event_direction) }}>
           {directionGlyph(item.event_direction)}
         </span>
-        <span className="ml-auto text-[10px] tabular-nums text-[#b4b4ae]">{fmtDay(item.event_ts, locale, t("common.na"))}</span>
+        <span className="ml-auto text-[10px] tabular-nums text-content-disabled">{fmtDay(item.event_ts, locale, t("common.na"))}</span>
       </div>
-      <div className="mt-1 line-clamp-2 text-[11px] leading-snug text-[#6b7280]">{item.event_label}</div>
+      <div className="mt-1 line-clamp-2 text-[11px] leading-snug text-content-secondary">{item.event_label}</div>
       <div className="mt-1.5 flex items-center gap-1.5">
         <span
           className="rounded-full px-1.5 py-[1px] text-[9px] font-semibold tracking-[0.08em]"
@@ -83,12 +83,12 @@ function RunRow({ item, active, onClick }: { item: PropagationRunListItem; activ
               ? { background: ACCENT, color: "#fff", border: `1px solid ${ACCENT}` }
               : badge.tone === "against"
                 ? { background: AMBER_SOFT, color: AMBER, border: `1px solid ${AMBER_LINE}` }
-                : { color: "#9CA3AF", border: "1px solid #e0e0da" }
+                : { color: "var(--text-tertiary)", border: "1px solid var(--border-default)" }
           }
         >
           {badgeWord(item.summary, badge.tone, t)}
         </span>
-        <span className="text-[10px] text-[#b4b4ae]">
+        <span className="text-[10px] text-content-disabled">
           {plural(t, locale, "panels.ripple.summary.names", item.summary.targets)}
           {item.status === "stage1_only" ? ` · ${t("panels.ripple.stage1")}` : ""}
           {item.superseded ? ` · ${t("panels.ripple.superseded")}` : ""}
@@ -101,13 +101,13 @@ function RunRow({ item, active, onClick }: { item: PropagationRunListItem; activ
 function Skeleton() {
   return (
     <div className="relative flex h-full w-full items-center justify-center">
-      <div className="absolute h-[52%] w-[52%] rounded-full border border-[#e6e6e0]" />
-      <div className="absolute h-[34%] w-[34%] rounded-full border border-[#e6e6e0]" />
-      <div className="h-20 w-20 animate-pulse rounded-full bg-[#e6e6e0]" />
+      <div className="absolute h-[52%] w-[52%] rounded-full border border-edge" />
+      <div className="absolute h-[34%] w-[34%] rounded-full border border-edge" />
+      <div className="h-20 w-20 animate-pulse rounded-full bg-surface-3" />
       {[0, 90, 180, 270].map((deg) => (
         <div
           key={deg}
-          className="absolute h-11 w-[92px] animate-pulse rounded-lg bg-[#ececE6]"
+          className="absolute h-11 w-[92px] animate-pulse rounded-lg bg-surface-3"
           style={{ transform: `rotate(${deg}deg) translate(0, -190px) rotate(${-deg}deg)` }}
         />
       ))}
@@ -125,13 +125,13 @@ function NoEdge({ run }: { run: PropagationRun }) {
         : t("panels.ripple.noEdge.allPriced");
   return (
     <div className="flex h-full w-full flex-col items-center justify-center px-12 text-center">
-      <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-full border border-[#e0e0da]">
-        <div className="h-3 w-3 rounded-full bg-[#1d1b1b]" />
+      <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-full border border-edge">
+        <div className="h-3 w-3 rounded-full bg-ink" />
       </div>
-      <h2 className="font-baskerville text-[28px] leading-tight text-[#1d1b1b]">{t("panels.ripple.noEdge.title")}</h2>
-      <p className="mt-3 max-w-[440px] text-[13px] leading-relaxed text-[#6b7280]">{reason}</p>
+      <h2 className="font-baskerville text-[28px] leading-tight text-content-primary">{t("panels.ripple.noEdge.title")}</h2>
+      <p className="mt-3 max-w-[440px] text-[13px] leading-relaxed text-content-secondary">{reason}</p>
       {run.targets.length > 0 && (
-        <p className="mt-2 text-[11px] text-[#9CA3AF]">
+        <p className="mt-2 text-[11px] text-content-tertiary">
           {summaryLine(run.summary, t, locale)}
           {run.non_transmitting ? ` · ${t("panels.ripple.summary.nonTransmitting", { n: run.non_transmitting })}` : ""}
         </p>
@@ -329,14 +329,14 @@ export default function RipplePanel({ onClose, focus }: Props) {
   const lag = run ? fmtLag(run.event.event_ts, run.produced_at, t, locale) : null;
 
   return (
-    <div className="app-no-drag fixed inset-0 z-[200] flex items-center justify-center bg-[#1d1b1b]/30 backdrop-blur-[3px]">
-      <div className="flex h-[90%] w-[94%] overflow-hidden rounded-2xl border border-[#e6e6e0] bg-[#f7f7f4] shadow-[0_30px_80px_rgba(0,0,0,0.25)]">
+    <div className="app-no-drag fixed inset-0 z-[200] flex items-center justify-center bg-ink/30 backdrop-blur-[3px]">
+      <div className="flex h-[90%] w-[94%] overflow-hidden rounded-2xl border border-edge bg-surface-2 shadow-[0_30px_80px_rgba(0,0,0,0.25)]">
         {/* Left rail — run list */}
-        <aside className="flex w-[250px] shrink-0 flex-col border-r border-[#e6e6e0] bg-[#f3f3ef]">
+        <aside className="flex w-[250px] shrink-0 flex-col border-r border-edge bg-surface-2">
           <div className="flex items-center gap-2 px-4 pb-2 pt-4">
-            <Waves className="h-4 w-4 text-[#1d1b1b]" strokeWidth={1.75} aria-hidden />
-            <span className="font-baskerville text-[15px] text-[#1d1b1b]">{t("panels.ripple.title")}</span>
-            <span className="ml-auto text-[10px] text-[#b4b4ae]">
+            <Waves className="h-4 w-4 text-content-primary" strokeWidth={1.75} aria-hidden />
+            <span className="font-baskerville text-[15px] text-content-primary">{t("panels.ripple.title")}</span>
+            <span className="ml-auto text-[10px] text-content-disabled">
               {t("panels.ripple.live", { n: liveCount })}
               {hiddenNoEdge > 0
                 ? ` · ${t(showResolved ? "panels.ripple.resolved" : "panels.ripple.hidden", { n: hiddenNoEdge })}`
@@ -347,12 +347,12 @@ export default function RipplePanel({ onClose, focus }: Props) {
             {runs === null && (
               <div className="space-y-2 p-2">
                 {[0, 1, 2].map((i) => (
-                  <div key={i} className="h-14 animate-pulse rounded-lg bg-[#e9e9e3]" />
+                  <div key={i} className="h-14 animate-pulse rounded-lg bg-surface-3" />
                 ))}
               </div>
             )}
             {runs !== null && visibleRuns.length === 0 && (
-              <div className="px-3 py-6 text-[11.5px] leading-relaxed text-[#9CA3AF]">
+              <div className="px-3 py-6 text-[11.5px] leading-relaxed text-content-tertiary">
                 {hiddenNoEdge > 0 && !showResolved
                   ? plural(t, locale, "panels.ripple.empty.hidden", hiddenNoEdge)
                   : t("panels.ripple.empty.none")}
@@ -362,10 +362,10 @@ export default function RipplePanel({ onClose, focus }: Props) {
               <RunRow key={item.run_id} item={item} active={item.run_id === selectedRunId} onClick={() => setSelectedRunId(item.run_id)} />
             ))}
             {fixtures.length > 0 && (
-              <div className="mt-3 border-t border-dashed border-[#e0e0da] pt-2">
+              <div className="mt-3 border-t border-dashed border-edge pt-2">
                 <div className="flex items-center justify-between px-3 pb-1">
-                  <span className="text-[9.5px] uppercase tracking-[0.14em] text-[#b4b4ae]">{t("panels.ripple.fixtures")}</span>
-                  <span className="text-[9.5px] text-[#b4b4ae]">{t("panels.ripple.fixturesNote")}</span>
+                  <span className="text-[9.5px] uppercase tracking-[0.14em] text-content-disabled">{t("panels.ripple.fixtures")}</span>
+                  <span className="text-[9.5px] text-content-disabled">{t("panels.ripple.fixturesNote")}</span>
                 </div>
                 {fixtures.map((item) => (
                   <RunRow key={item.run_id} item={item} active={item.run_id === selectedRunId} onClick={() => setSelectedRunId(item.run_id)} />
@@ -373,13 +373,13 @@ export default function RipplePanel({ onClose, focus }: Props) {
               </div>
             )}
           </div>
-          <div className="border-t border-[#e6e6e0] px-3 py-2.5">
+          <div className="border-t border-edge px-3 py-2.5">
             <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
               <button
                 type="button"
                 disabled={!staff || busy}
                 onClick={() => void runCycle()}
-                className="app-no-drag inline-flex items-center gap-1.5 rounded-md border border-[#e0e0da] bg-white px-2 py-1 text-[10.5px] text-[#1d1b1b] transition-colors hover:bg-[#fbfbf9] disabled:opacity-50"
+                className="app-no-drag inline-flex items-center gap-1.5 rounded-md border border-edge bg-white px-2 py-1 text-[10.5px] text-content-primary transition-colors hover:bg-surface-2 disabled:opacity-50"
                 title={staff ? t("panels.ripple.runNowTitle") : t("access.staffOnly.action")}
               >
                 {busy ? <RefreshCw className="h-3 w-3 animate-spin" strokeWidth={1.75} /> : <Play className="h-3 w-3" strokeWidth={1.75} />}
@@ -388,7 +388,7 @@ export default function RipplePanel({ onClose, focus }: Props) {
               <button
                 type="button"
                 onClick={() => setShowSuperseded((v) => !v)}
-                className="app-no-drag text-[10px] text-[#9CA3AF] transition-colors hover:text-[#1d1b1b]"
+                className="app-no-drag text-[10px] text-content-tertiary transition-colors hover:text-content-primary"
               >
                 {showSuperseded ? t("panels.ripple.hideSuperseded") : t("panels.ripple.showSuperseded")}
               </button>
@@ -396,7 +396,7 @@ export default function RipplePanel({ onClose, focus }: Props) {
                 <button
                   type="button"
                   onClick={() => setShowResolved((v) => !v)}
-                  className="app-no-drag text-[10px] text-[#9CA3AF] transition-colors hover:text-[#1d1b1b]"
+                  className="app-no-drag text-[10px] text-content-tertiary transition-colors hover:text-content-primary"
                   title={t("panels.ripple.resolvedTitle")}
                 >
                   {t(showResolved ? "panels.ripple.hideResolved" : "panels.ripple.showResolved", { n: hiddenNoEdge })}
@@ -404,7 +404,7 @@ export default function RipplePanel({ onClose, focus }: Props) {
               )}
             </div>
             {status && (
-              <div className="mt-2 space-y-0.5 font-mono text-[9.5px] text-[#b4b4ae]">
+              <div className="mt-2 space-y-0.5 font-mono text-[9.5px] text-content-disabled">
                 <div>
                   {t("panels.ripple.status.loop", {
                     loop: t(status.enabled ? "panels.ripple.status.on" : "panels.ripple.status.off"),
@@ -447,7 +447,7 @@ export default function RipplePanel({ onClose, focus }: Props) {
                   type="button"
                   disabled={!staff}
                   title={staff ? undefined : t("access.staffOnly.setting")}
-                  className="app-no-drag text-left font-mono text-[9.5px] text-[#b4b4ae] underline decoration-dotted underline-offset-2 hover:text-[#6b6b64] disabled:pointer-events-none disabled:no-underline"
+                  className="app-no-drag text-left font-mono text-[9.5px] text-content-disabled underline decoration-dotted underline-offset-2 hover:text-content-secondary disabled:pointer-events-none disabled:no-underline"
                   onClick={() => {
                     void (async () => {
                       await window.meridian?.setPropagationSurfacing(!status.surfacing_enabled);
@@ -461,35 +461,35 @@ export default function RipplePanel({ onClose, focus }: Props) {
                 </button>
               </div>
             )}
-            {note && <div className="mt-1.5 font-mono text-[9.5px] leading-relaxed text-[#6b7280]">{note}</div>}
-            {error && <div className="mt-1.5 text-[10px] text-[#DC2626]">{error}</div>}
+            {note && <div className="mt-1.5 font-mono text-[9.5px] leading-relaxed text-content-secondary">{note}</div>}
+            {error && <div className="mt-1.5 text-[10px] text-tone-negative">{error}</div>}
           </div>
         </aside>
 
         {/* Main */}
         <div className="flex min-w-0 flex-1 flex-col">
           {/* Header — event card */}
-          <header className="flex items-start gap-4 border-b border-[#e6e6e0] px-6 pb-4 pt-5">
+          <header className="flex items-start gap-4 border-b border-edge px-6 pb-4 pt-5">
             <div className="min-w-0 flex-1">
               {run ? (
                 <>
-                  <h1 className="font-baskerville text-[26px] leading-[1.15] text-[#1d1b1b]">
+                  <h1 className="font-baskerville text-[26px] leading-[1.15] text-content-primary">
                     <span className="mr-3">{run.root_ticker}</span>
-                    <span className="text-[#3b3b3b]">{run.event.label}</span>
+                    <span className="text-content-body">{run.event.label}</span>
                   </h1>
-                  <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11.5px] text-[#6b7280]">
+                  <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11.5px] text-content-secondary">
                     <span>{eventTypeWord(run.event.type, t)}</span>
-                    <span className="text-[#d6d6cf]">·</span>
+                    <span className="text-content-disabled">·</span>
                     <span>{materialityWord(run.event.materiality, t)}</span>
-                    <span className="text-[#d6d6cf]">·</span>
+                    <span className="text-content-disabled">·</span>
                     <span style={{ color: directionColor(run.event.direction) }}>
                       {directionGlyph(run.event.direction)} {directionWord(run.event.direction, t)}
                     </span>
-                    <span className="text-[#d6d6cf]">·</span>
+                    <span className="text-content-disabled">·</span>
                     <span>{fmtWhen(run.event.event_ts, locale, na)}</span>
                     {lag && (
                       <>
-                        <span className="text-[#d6d6cf]">·</span>
+                        <span className="text-content-disabled">·</span>
                         <span
                           title={t("panels.ripple.lagTitle")}
                           style={{ color: Date.parse(run.produced_at) - Date.parse(run.event.event_ts) > 6 * 3600_000 ? AMBER : undefined }}
@@ -498,33 +498,33 @@ export default function RipplePanel({ onClose, focus }: Props) {
                         </span>
                       </>
                     )}
-                    <span className="text-[#d6d6cf]">·</span>
-                    <span className="text-[#1d1b1b]">{summaryLine(run.summary, t, locale)}</span>
-                    {run.overflow > 0 && <span className="text-[#b4b4ae]">{t("panels.ripple.beyondCap", { n: run.overflow })}</span>}
+                    <span className="text-content-disabled">·</span>
+                    <span className="text-content-primary">{summaryLine(run.summary, t, locale)}</span>
+                    {run.overflow > 0 && <span className="text-content-disabled">{t("panels.ripple.beyondCap", { n: run.overflow })}</span>}
                     {run.synthetic && (
-                      <span className="rounded-full border border-dashed border-[#d6d6cf] px-1.5 py-[1px] text-[9.5px] tracking-[0.06em] text-[#9CA3AF]">{t("panels.ripple.fixtureBadge")}</span>
+                      <span className="rounded-full border border-dashed border-edge-strong px-1.5 py-[1px] text-[9.5px] tracking-[0.06em] text-content-tertiary">{t("panels.ripple.fixtureBadge")}</span>
                     )}
                     {run.status === "stage1_only" && (
-                      <span className="rounded-full border border-[#e0e0da] px-1.5 py-[1px] text-[9.5px] tracking-[0.06em] text-[#9CA3AF]">{t("panels.ripple.refinementUnavailable")}</span>
+                      <span className="rounded-full border border-edge px-1.5 py-[1px] text-[9.5px] tracking-[0.06em] text-content-tertiary">{t("panels.ripple.refinementUnavailable")}</span>
                     )}
-                    {stale && <span className="rounded-full border border-[#e0e0da] px-1.5 py-[1px] text-[9.5px] tracking-[0.06em] text-[#9CA3AF]">{t("panels.ripple.stale")}</span>}
-                    {run.superseded_by && <span className="rounded-full border border-[#e0e0da] px-1.5 py-[1px] text-[9.5px] tracking-[0.06em] text-[#9CA3AF]">{t("panels.ripple.superseded")}</span>}
+                    {stale && <span className="rounded-full border border-edge px-1.5 py-[1px] text-[9.5px] tracking-[0.06em] text-content-tertiary">{t("panels.ripple.stale")}</span>}
+                    {run.superseded_by && <span className="rounded-full border border-edge px-1.5 py-[1px] text-[9.5px] tracking-[0.06em] text-content-tertiary">{t("panels.ripple.superseded")}</span>}
                   </div>
                 </>
               ) : (
                 <>
-                  <div className="h-7 w-[60%] animate-pulse rounded bg-[#e9e9e3]" />
-                  <div className="mt-2.5 h-3 w-[40%] animate-pulse rounded bg-[#ececE6]" />
+                  <div className="h-7 w-[60%] animate-pulse rounded bg-surface-3" />
+                  <div className="mt-2.5 h-3 w-[40%] animate-pulse rounded bg-surface-3" />
                 </>
               )}
             </div>
             <div className="flex shrink-0 items-center gap-2">
-              {graphStamp && <span className="font-mono text-[9.5px] text-[#b4b4ae]">{graphStamp}</span>}
-              <div className="flex rounded-md border border-[#e0e0da] bg-white p-0.5">
+              {graphStamp && <span className="font-mono text-[9.5px] text-content-disabled">{graphStamp}</span>}
+              <div className="flex rounded-md border border-edge bg-white p-0.5">
                 <button
                   type="button"
                   onClick={() => setMode("map")}
-                  className={`app-no-drag rounded p-1 transition-colors ${mode === "map" ? "bg-[#1d1b1b] text-white" : "text-[#9CA3AF] hover:text-[#1d1b1b]"}`}
+                  className={`app-no-drag rounded p-1 transition-colors ${mode === "map" ? "bg-ink text-white" : "text-content-tertiary hover:text-content-primary"}`}
                   aria-label={t("panels.ripple.mode.map")}
                   title={t("panels.ripple.mode.mapTitle")}
                 >
@@ -533,7 +533,7 @@ export default function RipplePanel({ onClose, focus }: Props) {
                 <button
                   type="button"
                   onClick={() => setMode("list")}
-                  className={`app-no-drag rounded p-1 transition-colors ${mode === "list" ? "bg-[#1d1b1b] text-white" : "text-[#9CA3AF] hover:text-[#1d1b1b]"}`}
+                  className={`app-no-drag rounded p-1 transition-colors ${mode === "list" ? "bg-ink text-white" : "text-content-tertiary hover:text-content-primary"}`}
                   aria-label={t("panels.ripple.mode.list")}
                   title={t("panels.ripple.mode.listTitle")}
                 >
@@ -543,7 +543,7 @@ export default function RipplePanel({ onClose, focus }: Props) {
               <button
                 type="button"
                 onClick={onClose}
-                className="app-no-drag rounded-md p-1 text-[#9CA3AF] transition-colors hover:bg-black/[0.04] hover:text-[#1d1b1b]"
+                className="app-no-drag rounded-md p-1 text-content-tertiary transition-colors hover:bg-black/[0.04] hover:text-content-primary"
                 aria-label={t("common.close")}
               >
                 <X className="h-4 w-4" strokeWidth={1.75} />
@@ -558,7 +558,7 @@ export default function RipplePanel({ onClose, focus }: Props) {
                 <Skeleton />
               ) : !run ? (
                 <div className="flex h-full items-center justify-center px-12 text-center">
-                  <p className="max-w-[420px] font-baskerville text-[22px] leading-snug text-[#6b7280]">{t("panels.ripple.pick", { action: t("panels.ripple.runNow") })}</p>
+                  <p className="max-w-[420px] font-baskerville text-[22px] leading-snug text-content-secondary">{t("panels.ripple.pick", { action: t("panels.ripple.runNow") })}</p>
                 </div>
               ) : run.targets.length === 0 ? (
                 <NoEdge run={run} />
@@ -576,7 +576,7 @@ export default function RipplePanel({ onClose, focus }: Props) {
                   line below, and its own badge in the rail). */}
               {run && !isLiveRun(run.summary) && run.targets.length > 0 && mode === "map" && (
                 <div className="pointer-events-none absolute inset-x-0 bottom-5 flex justify-center">
-                  <div className="rounded-full border border-[#e0e0da] bg-white/85 px-4 py-1.5 font-baskerville text-[13px] text-[#1d1b1b] shadow-sm backdrop-blur-sm">
+                  <div className="rounded-full border border-edge bg-white/85 px-4 py-1.5 font-baskerville text-[13px] text-content-primary shadow-sm backdrop-blur-sm">
                     {run.summary.untracked > 0 && run.summary.untracked === run.summary.targets
                       ? plural(t, locale, "panels.ripple.noEdge.bannerUntracked", run.summary.untracked)
                       : t("panels.ripple.noEdge.bannerAll")}

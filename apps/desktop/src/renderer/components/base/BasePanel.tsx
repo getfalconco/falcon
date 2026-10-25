@@ -42,19 +42,19 @@ function liveWatchlist(): string[] {
  */
 
 const BAND_STYLE: Record<BasePriorityBand, string> = {
-  P0: "bg-[#fee2e2] text-[#991b1b]",
-  P1: "bg-[#fef3c7] text-[#92400e]",
-  P2: "bg-[#e0f2fe] text-[#075985]",
-  P3: "bg-[#f1f1ec] text-[#6b7280]",
+  P0: "bg-tone-negative-soft text-tone-negative",
+  P1: "bg-tone-warning-soft text-tone-warning",
+  P2: "bg-tone-info-soft text-tone-info",
+  P3: "bg-surface-2 text-content-secondary",
 };
 
 const DESTINATION_STYLE: Record<BaseDestinationKey, string> = {
-  analyst: "bg-[#ede9fe] text-[#5b21b6]",
-  propagation: "bg-[#dcfce7] text-[#166534]",
-  classifier: "bg-[#e0e7ff] text-[#3730a3]",
-  extraction: "bg-[#fae8ff] text-[#86198f]",
-  scheduler: "bg-[#ffedd5] text-[#9a3412]",
-  store_only: "bg-[#f1f1ec] text-[#8b8b86]",
+  analyst: "bg-tone-violet-soft text-tone-violet",
+  propagation: "bg-tone-positive-soft text-tone-positive",
+  classifier: "bg-tone-info-soft text-tone-violet",
+  extraction: "bg-tone-violet-soft text-tone-violet",
+  scheduler: "bg-tone-warning-soft text-tone-warning",
+  store_only: "bg-surface-2 text-content-tertiary",
 };
 
 function fmtTime(iso: string, locale: string): string {
@@ -156,10 +156,10 @@ function StatBar({
       <span className={`w-[92px] shrink-0 rounded px-1.5 py-0.5 font-mono text-[10px] ${className}`}>
         {label}
       </span>
-      <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-[#ececE6]">
-        <div className="h-full rounded-full bg-[#1d1b1b]/25" style={{ width: `${pct}%` }} />
+      <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-surface-3">
+        <div className="h-full rounded-full bg-ink/25" style={{ width: `${pct}%` }} />
       </div>
-      <span className="w-6 shrink-0 text-right font-mono text-[10px] text-[#6b7280]">{value}</span>
+      <span className="w-6 shrink-0 text-right font-mono text-[10px] text-content-secondary">{value}</span>
     </div>
   );
 }
@@ -190,46 +190,46 @@ function IncidentRow({
           >
             {incident.priority_band}
           </span>
-          <span className="w-7 font-mono text-[12px] font-medium text-[#1d1b1b]">
+          <span className="w-7 font-mono text-[12px] font-medium text-content-primary">
             {incident.priority}
           </span>
-          <span className="font-mono text-[11px] font-medium text-[#1d1b1b]">
+          <span className="font-mono text-[11px] font-medium text-content-primary">
             {incident.ticker}
           </span>
-          <span className="font-mono text-[10px] text-[#a3a39c]">
+          <span className="font-mono text-[10px] text-content-tertiary">
             {fmtTime(incident.window_start, locale)} →{" "}
             {incident.window_end ? fmtTime(incident.window_end, locale) : t("instruments.base.open")}
             {end !== null && ` · ${fmtDuration(end - start)}`}
           </span>
           <span
             className={`h-1.5 w-1.5 rounded-full ${
-              incident.window_status === "open" ? "bg-[#16a34a]" : "bg-[#d1d1c9]"
+              incident.window_status === "open" ? "bg-tone-positive-fill" : "bg-fill-strong"
             }`}
             aria-hidden
           />
-          <span className="font-mono text-[10px] text-[#a3a39c]">
+          <span className="font-mono text-[10px] text-content-tertiary">
             {t("instruments.base.msgCount", { n: incident.messages.length })}
           </span>
           {incident.trigger_type === "scheduled" && (
-            <span className="rounded bg-[#ffedd5] px-1.5 py-0.5 font-mono text-[10px] text-[#9a3412]">
+            <span className="rounded bg-tone-warning-soft px-1.5 py-0.5 font-mono text-[10px] text-tone-warning">
               {t("instruments.base.scheduled")}
             </span>
           )}
           {incident.user_proximity !== "tracked" && (
-            <span className="rounded bg-[#dcfce7] px-1.5 py-0.5 font-mono text-[10px] text-[#166534]">
+            <span className="rounded bg-tone-positive-soft px-1.5 py-0.5 font-mono text-[10px] text-tone-positive">
               {incident.user_proximity}
             </span>
           )}
           {incident.discovery_floor_applied && (
             <span
-              className="rounded bg-[#ede9fe] px-1.5 py-0.5 font-mono text-[10px] text-[#5b21b6]"
+              className="rounded bg-tone-violet-soft px-1.5 py-0.5 font-mono text-[10px] text-tone-violet"
               title={t("instruments.base.floorHint")}
             >
               {t("instruments.base.floor")}
             </span>
           )}
           {incident.degraded_context && (
-            <span className="rounded bg-[#fef3c7] px-1.5 py-0.5 font-mono text-[10px] text-[#92400e]">
+            <span className="rounded bg-tone-warning-soft px-1.5 py-0.5 font-mono text-[10px] text-tone-warning">
               {t("instruments.base.degraded")}
             </span>
           )}
@@ -241,19 +241,19 @@ function IncidentRow({
               key={tag}
               className={`rounded px-1.5 py-0.5 font-mono text-[10px] ${
                 tag === "explained_move"
-                  ? "bg-[#fee2e2] text-[#991b1b]"
+                  ? "bg-tone-negative-soft text-tone-negative"
                   : tag === "event_gap"
-                    ? "bg-[#f1f1ec] text-[#6b7280]"
-                    : "bg-[#fef3c7] text-[#92400e]"
+                    ? "bg-surface-2 text-content-secondary"
+                    : "bg-tone-warning-soft text-tone-warning"
               }`}
             >
               {tag}
             </span>
           ))}
           {incident.composite_tags.length === 0 && (
-            <span className="font-mono text-[10px] text-[#c9c9c1]">{t("instruments.base.noTags")}</span>
+            <span className="font-mono text-[10px] text-content-disabled">{t("instruments.base.noTags")}</span>
           )}
-          <span className="font-mono text-[10px] text-[#c9c9c1]">→</span>
+          <span className="font-mono text-[10px] text-content-disabled">→</span>
           {destinations.map((d) => (
             <span
               key={d}
@@ -266,43 +266,43 @@ function IncidentRow({
       </button>
 
       {expanded && (
-        <div className="mt-2 rounded-md border border-[#eeeee8] bg-white px-3 py-2">
-          <div className="flex flex-wrap gap-x-4 gap-y-1 font-mono text-[10px] text-[#8b8b86]">
+        <div className="mt-2 rounded-md border border-edge-subtle bg-white px-3 py-2">
+          <div className="flex flex-wrap gap-x-4 gap-y-1 font-mono text-[10px] text-content-tertiary">
             <span>
-              <span className="text-[#b4b4ae]">{t("instruments.base.incident")}</span> {incident.incident_id.slice(0, 8)}
+              <span className="text-content-disabled">{t("instruments.base.incident")}</span> {incident.incident_id.slice(0, 8)}
             </span>
             <span>
-              <span className="text-[#b4b4ae]">{t("instruments.base.related")}</span>{" "}
+              <span className="text-content-disabled">{t("instruments.base.related")}</span>{" "}
               {incident.related_incident_id ? incident.related_incident_id.slice(0, 8) : na()}
             </span>
             <span>
-              <span className="text-[#b4b4ae]">{t("instruments.base.proximity")}</span> {incident.user_proximity}
+              <span className="text-content-disabled">{t("instruments.base.proximity")}</span> {incident.user_proximity}
             </span>
             <span>
-              <span className="text-[#b4b4ae]">{t("instruments.base.status")}</span> {incident.window_status}
+              <span className="text-content-disabled">{t("instruments.base.status")}</span> {incident.window_status}
             </span>
             {routing.destinations.map((d) => (
               <span key={d.destination}>
-                <span className="text-[#b4b4ae]">{d.destination}</span> {d.rules.join(", ")}
+                <span className="text-content-disabled">{d.destination}</span> {d.rules.join(", ")}
               </span>
             ))}
           </div>
 
-          <ul className="mt-2 divide-y divide-[#f4f4ef]">
+          <ul className="mt-2 divide-y divide-edge-subtle">
             {incident.messages.map((m) => {
               const outcome = routing.per_message.find((r) => r.message_id === m.id)?.outcome;
               return (
                 <li key={m.id} className="flex items-baseline gap-2 py-1">
-                  <span className="w-10 shrink-0 font-mono text-[10px] text-[#a3a39c]">
+                  <span className="w-10 shrink-0 font-mono text-[10px] text-content-tertiary">
                     {fmtTime(m.timestamp, locale)}
                   </span>
-                  <span className="w-[104px] shrink-0 truncate font-mono text-[10px] text-[#475569]">
+                  <span className="w-[104px] shrink-0 truncate font-mono text-[10px] text-content-body">
                     {trackerTypeLabel(t, m.type)}
                   </span>
-                  <span className="min-w-0 flex-1 truncate text-[11px] text-[#3f3f46]">
+                  <span className="min-w-0 flex-1 truncate text-[11px] text-content-body">
                     {messageLine(m, t)}
                   </span>
-                  <span className="shrink-0 font-mono text-[10px] text-[#a3a39c]">
+                  <span className="shrink-0 font-mono text-[10px] text-content-tertiary">
                     {outcome?.action === "route" ? outcome.destination : t("instruments.base.store")}
                   </span>
                 </li>
@@ -311,7 +311,7 @@ function IncidentRow({
           </ul>
 
           {incident.quant_context && (
-            <div className="mt-2 flex flex-wrap gap-x-3 gap-y-1 border-t border-[#f4f4ef] pt-2 font-mono text-[10px] text-[#8b8b86]">
+            <div className="mt-2 flex flex-wrap gap-x-3 gap-y-1 border-t border-edge-subtle pt-2 font-mono text-[10px] text-content-tertiary">
               {(
                 [
                   ["move z", fmtNum(incident.quant_context.move_zscore)],
@@ -322,7 +322,7 @@ function IncidentRow({
                 ] as Array<[string, string]>
               ).map(([label, value]) => (
                 <span key={label}>
-                  <span className="text-[#b4b4ae]">{label}</span> {value}
+                  <span className="text-content-disabled">{label}</span> {value}
                 </span>
               ))}
             </div>
@@ -475,33 +475,33 @@ export default function BasePanel({
 
   return (
     <div className="app-no-drag fixed inset-0 z-[200] flex items-center justify-center bg-black/25 backdrop-blur-[2px]">
-      <div className="flex h-[86%] w-[92%] flex-col overflow-hidden rounded-xl border border-[#e0e0da] bg-[#f7f7f4] shadow-2xl">
+      <div className="flex h-[86%] w-[92%] flex-col overflow-hidden rounded-xl border border-edge bg-surface-2 shadow-2xl">
         {/* Header */}
-        <div className="flex items-center gap-3 border-b border-[#e6e6e0] px-4 py-3">
-          <Layers className="h-4 w-4 shrink-0 text-[#1d1b1b]" strokeWidth={2} aria-hidden />
-          <span className="font-baskerville text-[15px] text-[#1d1b1b]">Base</span>
-          <div className="flex shrink-0 rounded-md border border-[#e0e0da] bg-white p-0.5">
+        <div className="flex items-center gap-3 border-b border-edge px-4 py-3">
+          <Layers className="h-4 w-4 shrink-0 text-content-primary" strokeWidth={2} aria-hidden />
+          <span className="font-baskerville text-[15px] text-content-primary">Base</span>
+          <div className="flex shrink-0 rounded-md border border-edge bg-white p-0.5">
             {(["incidents", "classifier", "analyst"] as const).map((v) => (
               <button
                 key={v}
                 type="button"
                 onClick={() => setView(v)}
                 className={`whitespace-nowrap rounded px-2 py-0.5 text-[11px] transition-colors ${
-                  view === v ? "bg-[#1d1b1b] text-white" : "text-[#6b7280] hover:text-[#1d1b1b]"
+                  view === v ? "bg-ink text-white" : "text-content-secondary hover:text-content-primary"
                 }`}
               >
                 {t(VIEW_LABEL[v])}
               </button>
             ))}
           </div>
-          <span className="min-w-0 truncate font-mono text-[11px] text-[#8b8b86]">
+          <span className="min-w-0 truncate font-mono text-[11px] text-content-tertiary">
             {t("instruments.base.summary", {
               messages: summary?.message_count ?? 0,
               incidents: summary?.incident_count ?? 0,
               tickers: summary?.ticker_count ?? 0,
             })}
             {summary && summary.open_incidents > 0 && (
-              <span className="text-[#16a34a]"> · {t("instruments.base.openCount", { n: summary.open_incidents })}</span>
+              <span className="text-tone-positive"> · {t("instruments.base.openCount", { n: summary.open_incidents })}</span>
             )}
           </span>
 
@@ -509,7 +509,7 @@ export default function BasePanel({
             <select
               value={limit}
               onChange={(e) => setLimit(Number(e.target.value))}
-              className="rounded-md border border-[#e0e0da] bg-white px-2 py-1 text-[11px] text-[#1d1b1b]"
+              className="rounded-md border border-edge bg-white px-2 py-1 text-[11px] text-content-primary"
             >
               {[300, 1000, 3000, 10000].map((n) => (
                 <option key={n} value={n}>
@@ -521,7 +521,7 @@ export default function BasePanel({
               type="button"
               onClick={() => void load()}
               disabled={loading}
-              className="flex items-center gap-1.5 rounded-md border border-[#e0e0da] bg-white px-2 py-1 text-[11px] text-[#6b7280] transition-colors hover:text-[#1d1b1b] disabled:opacity-50"
+              className="flex items-center gap-1.5 rounded-md border border-edge bg-white px-2 py-1 text-[11px] text-content-secondary transition-colors hover:text-content-primary disabled:opacity-50"
             >
               <RefreshCw
                 className={`h-3 w-3 ${loading ? "animate-spin" : ""}`}
@@ -535,7 +535,7 @@ export default function BasePanel({
               onClick={onClose}
               aria-label={t("instruments.base.closeLabel")}
               title={t("instruments.base.closeLabel")}
-              className="rounded-md p-1 text-[#6b7280] transition-colors hover:bg-[#ececE6] hover:text-[#1d1b1b]"
+              className="rounded-md p-1 text-content-secondary transition-colors hover:bg-surface-3 hover:text-content-primary"
             >
               <X className="h-4 w-4" strokeWidth={2} aria-hidden />
             </button>
@@ -555,8 +555,8 @@ export default function BasePanel({
         ) : (
         <div className="flex min-h-0 flex-1">
           {/* Distribution sidebar (§8 observability) */}
-          <aside className="w-[264px] shrink-0 overflow-y-auto border-r border-[#eeeee8] px-3 py-3">
-            <div className="font-mono text-[10px] uppercase tracking-wide text-[#b4b4ae]">
+          <aside className="w-[264px] shrink-0 overflow-y-auto border-r border-edge-subtle px-3 py-3">
+            <div className="font-mono text-[10px] uppercase tracking-wide text-content-disabled">
               {t("instruments.base.priorityBands")}
             </div>
             <div className="mt-1.5 space-y-1">
@@ -575,7 +575,7 @@ export default function BasePanel({
               ))}
             </div>
 
-            <div className="mt-4 font-mono text-[10px] uppercase tracking-wide text-[#b4b4ae]">
+            <div className="mt-4 font-mono text-[10px] uppercase tracking-wide text-content-disabled">
               {t("instruments.base.destinations")}
             </div>
             <div className="mt-1.5 space-y-1">
@@ -590,115 +590,115 @@ export default function BasePanel({
               ))}
             </div>
 
-            <div className="mt-4 font-mono text-[10px] uppercase tracking-wide text-[#b4b4ae]">
+            <div className="mt-4 font-mono text-[10px] uppercase tracking-wide text-content-disabled">
               {t("instruments.base.compositeTags")}
             </div>
             <div className="mt-1.5 space-y-1">
               {tagRows.length === 0 && (
-                <div className="font-mono text-[10px] text-[#c9c9c1]">{t("instruments.base.noneFired")}</div>
+                <div className="font-mono text-[10px] text-content-disabled">{t("instruments.base.noneFired")}</div>
               )}
               {tagRows.map(([tag, count]) => (
                 <div key={tag} className="flex items-center gap-2">
-                  <span className="min-w-0 flex-1 truncate font-mono text-[10px] text-[#6b7280]">
+                  <span className="min-w-0 flex-1 truncate font-mono text-[10px] text-content-secondary">
                     {tag}
                     {config && (
-                      <span className="text-[#c9c9c1]">
+                      <span className="text-content-disabled">
                         {" "}
                         {config.tagWeights[tag] > 0 ? "+" : ""}
                         {config.tagWeights[tag]}
                       </span>
                     )}
                   </span>
-                  <div className="h-1.5 w-14 overflow-hidden rounded-full bg-[#ececE6]">
+                  <div className="h-1.5 w-14 overflow-hidden rounded-full bg-surface-3">
                     <div
-                      className="h-full rounded-full bg-[#1d1b1b]/25"
+                      className="h-full rounded-full bg-ink/25"
                       style={{ width: `${Math.round((count / maxTag) * 100)}%` }}
                     />
                   </div>
-                  <span className="w-5 text-right font-mono text-[10px] text-[#6b7280]">
+                  <span className="w-5 text-right font-mono text-[10px] text-content-secondary">
                     {count}
                   </span>
                 </div>
               ))}
             </div>
 
-            <div className="mt-4 font-mono text-[10px] uppercase tracking-wide text-[#b4b4ae]">
+            <div className="mt-4 font-mono text-[10px] uppercase tracking-wide text-content-disabled">
               {t("instruments.base.userProximity")}
             </div>
             <div className="mt-1.5 space-y-1.5">
               {/* Live sources (B8) — what the scorer actually sees right now. */}
-              <div className="font-mono text-[10px] text-[#8b8b86]">
-                <span className="text-[#b4b4ae]">{t("instruments.base.held")}</span> ×{config?.proximityMultipliers.held ?? 1.5}{" "}
-                <span className="text-[#1d1b1b]">
+              <div className="font-mono text-[10px] text-content-tertiary">
+                <span className="text-content-disabled">{t("instruments.base.held")}</span> ×{config?.proximityMultipliers.held ?? 1.5}{" "}
+                <span className="text-content-primary">
                   {effectiveHeld.length ? effectiveHeld.join(", ") : t("instruments.base.heldNone")}
                 </span>
               </div>
-              <div className="font-mono text-[10px] text-[#8b8b86]">
-                <span className="text-[#b4b4ae]">{t("instruments.base.watchlist")}</span> ×{config?.proximityMultipliers.watchlist ?? 1.25}{" "}
-                <span className="text-[#1d1b1b]">
+              <div className="font-mono text-[10px] text-content-tertiary">
+                <span className="text-content-disabled">{t("instruments.base.watchlist")}</span> ×{config?.proximityMultipliers.watchlist ?? 1.25}{" "}
+                <span className="text-content-primary">
                   {effectiveWatchlist.length ? effectiveWatchlist.join(", ") : t("instruments.base.watchlistNone")}
                 </span>
               </div>
               <label className="block">
-                <span className="font-mono text-[10px] text-[#a3a39c]">{t("instruments.base.whatIfHeld")}</span>
+                <span className="font-mono text-[10px] text-content-tertiary">{t("instruments.base.whatIfHeld")}</span>
                 <input
                   value={heldInput}
                   onChange={(e) => setHeldInput(e.target.value)}
                   placeholder={t("instruments.base.extraTickers")}
-                  className="mt-0.5 w-full rounded border border-[#e0e0da] bg-white px-1.5 py-1 font-mono text-[10px] text-[#1d1b1b]"
+                  className="mt-0.5 w-full rounded border border-edge bg-white px-1.5 py-1 font-mono text-[10px] text-content-primary"
                 />
               </label>
               <label className="block">
-                <span className="font-mono text-[10px] text-[#a3a39c]">{t("instruments.base.whatIfWatchlist")}</span>
+                <span className="font-mono text-[10px] text-content-tertiary">{t("instruments.base.whatIfWatchlist")}</span>
                 <input
                   value={watchlistInput}
                   onChange={(e) => setWatchlistInput(e.target.value)}
                   placeholder={t("instruments.base.extraTickers")}
-                  className="mt-0.5 w-full rounded border border-[#e0e0da] bg-white px-1.5 py-1 font-mono text-[10px] text-[#1d1b1b]"
+                  className="mt-0.5 w-full rounded border border-edge bg-white px-1.5 py-1 font-mono text-[10px] text-content-primary"
                 />
               </label>
               <button
                 type="button"
                 onClick={() => void load()}
-                className="w-full rounded border border-[#e0e0da] bg-white py-1 font-mono text-[10px] text-[#6b7280] transition-colors hover:text-[#1d1b1b]"
+                className="w-full rounded border border-edge bg-white py-1 font-mono text-[10px] text-content-secondary transition-colors hover:text-content-primary"
               >
                 {t("instruments.base.rescore")}
               </button>
             </div>
 
             {summary && (
-              <div className="mt-4 space-y-0.5 border-t border-[#eeeee8] pt-2 font-mono text-[10px] text-[#8b8b86]">
+              <div className="mt-4 space-y-0.5 border-t border-edge-subtle pt-2 font-mono text-[10px] text-content-tertiary">
                 <div>
-                  <span className="text-[#b4b4ae]">{t("instruments.base.span")}</span> {fmtDate(summary.first_message_at, locale)} →{" "}
+                  <span className="text-content-disabled">{t("instruments.base.span")}</span> {fmtDate(summary.first_message_at, locale)} →{" "}
                   {fmtDate(summary.last_message_at, locale)}
                 </div>
                 <div>
-                  <span className="text-[#b4b4ae]">{t("instruments.base.closed")}</span> {summary.closed_incidents} ·{" "}
-                  <span className="text-[#b4b4ae]">{t("instruments.base.open")}</span> {summary.open_incidents}
+                  <span className="text-content-disabled">{t("instruments.base.closed")}</span> {summary.closed_incidents} ·{" "}
+                  <span className="text-content-disabled">{t("instruments.base.open")}</span> {summary.open_incidents}
                 </div>
                 <div>
-                  <span className="text-[#b4b4ae]">{t("instruments.base.degraded")}</span> {summary.degraded_incidents} ·{" "}
-                  <span className="text-[#b4b4ae]">{t("instruments.base.floor")}</span>{" "}
+                  <span className="text-content-disabled">{t("instruments.base.degraded")}</span> {summary.degraded_incidents} ·{" "}
+                  <span className="text-content-disabled">{t("instruments.base.floor")}</span>{" "}
                   {summary.discovery_floor_promotions}
                 </div>
                 <div title={t("instruments.base.dedupeHint")}>
-                  <span className="text-[#b4b4ae]">{t("instruments.base.classifier")}</span>{" "}
+                  <span className="text-content-disabled">{t("instruments.base.classifier")}</span>{" "}
                   {t("instruments.base.dedupeValue", {
                     requests: summary.dedupe.classifier_requests,
                     news: summary.dedupe.news_messages,
                   })}{" "}
-                  · <span className="text-[#16a34a]">-{summary.dedupe.requests_saved}</span> ·{" "}
-                  <span className="text-[#b4b4ae]">{t("instruments.base.syndicated")}</span> {summary.dedupe.syndicated_articles}
+                  · <span className="text-tone-positive">-{summary.dedupe.requests_saved}</span> ·{" "}
+                  <span className="text-content-disabled">{t("instruments.base.syndicated")}</span> {summary.dedupe.syndicated_articles}
                 </div>
                 <div title={t("instruments.base.verdictsHint")}>
-                  <span className="text-[#b4b4ae]">{t("instruments.base.verdicts")}</span>{" "}
+                  <span className="text-content-disabled">{t("instruments.base.verdicts")}</span>{" "}
                   {t("instruments.base.verdictsValue", {
                     applied: summary.classification.messages_with_verdict,
                     bound: summary.classification.classifier_bound_messages,
                   })}{" "}
-                  · <span className="text-[#b4b4ae]">{t("instruments.base.rescore")}</span>{" "}
+                  · <span className="text-content-disabled">{t("instruments.base.rescore")}</span>{" "}
                   {summary.classification.rescore_applied ? (
-                    <span className="text-[#16a34a]">
+                    <span className="text-tone-positive">
                       {t("instruments.base.rescoreOn", {
                         promoted: summary.classification.incidents_promoted,
                         demoted: summary.classification.incidents_demoted,
@@ -707,11 +707,11 @@ export default function BasePanel({
                   ) : (
                     t("instruments.common.off")
                   )}{" "}
-                  · <span className="text-[#b4b4ae]">{t("instruments.base.propCandidates")}</span> {summary.classification.propagation_candidates}
+                  · <span className="text-content-disabled">{t("instruments.base.propCandidates")}</span> {summary.classification.propagation_candidates}
                 </div>
                 {config && (
                   <div>
-                    <span className="text-[#b4b4ae]">{t("instruments.base.window")}</span>{" "}
+                    <span className="text-content-disabled">{t("instruments.base.window")}</span>{" "}
                     {t("instruments.base.windowValue", {
                       silence: fmtDuration(config.measurementSilenceMs),
                       cap: fmtDuration(config.hardCapMs),
@@ -724,8 +724,8 @@ export default function BasePanel({
 
           {/* Incident list */}
           <div className="flex min-h-0 flex-1 flex-col">
-            <div className="flex flex-wrap items-center gap-2 border-b border-[#eeeee8] px-4 py-2">
-              <div className="flex rounded-md border border-[#e0e0da] bg-white p-0.5">
+            <div className="flex flex-wrap items-center gap-2 border-b border-edge-subtle px-4 py-2">
+              <div className="flex rounded-md border border-edge bg-white p-0.5">
                 {(["all", ...BASE_PRIORITY_BANDS] as Array<BasePriorityBand | "all">).map((b) => (
                   <button
                     key={b}
@@ -733,8 +733,8 @@ export default function BasePanel({
                     onClick={() => setBandFilter(b)}
                     className={`rounded px-2 py-1 text-[11px] transition-colors ${
                       bandFilter === b
-                        ? "bg-[#1d1b1b] text-white"
-                        : "text-[#6b7280] hover:text-[#1d1b1b]"
+                        ? "bg-ink text-white"
+                        : "text-content-secondary hover:text-content-primary"
                     }`}
                   >
                     {b === "all" ? t("instruments.common.all") : b}
@@ -744,7 +744,7 @@ export default function BasePanel({
               <select
                 value={destinationFilter}
                 onChange={(e) => setDestinationFilter(e.target.value as BaseDestinationKey | "all")}
-                className="rounded-md border border-[#e0e0da] bg-white px-2 py-1 text-[11px] text-[#1d1b1b]"
+                className="rounded-md border border-edge bg-white px-2 py-1 text-[11px] text-content-primary"
               >
                 <option value="all">{t("instruments.base.allDestinations")}</option>
                 {BASE_DESTINATIONS.map((d) => (
@@ -756,7 +756,7 @@ export default function BasePanel({
               <select
                 value={tickerFilter}
                 onChange={(e) => setTickerFilter(e.target.value)}
-                className="rounded-md border border-[#e0e0da] bg-white px-2 py-1 text-[11px] text-[#1d1b1b]"
+                className="rounded-md border border-edge bg-white px-2 py-1 text-[11px] text-content-primary"
               >
                 <option value="all">{t("instruments.common.allTickers")}</option>
                 {(summary?.by_ticker ?? []).map((row) => (
@@ -765,22 +765,22 @@ export default function BasePanel({
                   </option>
                 ))}
               </select>
-              <span className="ml-auto font-mono text-[10px] text-[#a3a39c]">
+              <span className="ml-auto font-mono text-[10px] text-content-tertiary">
                 {t("instruments.base.shown", { n: visible.length })}
               </span>
             </div>
 
             <div className="min-h-0 flex-1 overflow-y-auto px-4 py-2">
               {error ? (
-                <div className="flex h-full items-center justify-center font-mono text-[12px] text-[#b45309]">
+                <div className="flex h-full items-center justify-center font-mono text-[12px] text-tone-warning">
                   {error}
                 </div>
               ) : visible.length === 0 ? (
-                <div className="flex h-full items-center justify-center text-center font-mono text-[12px] text-[#a3a39c]">
+                <div className="flex h-full items-center justify-center text-center font-mono text-[12px] text-content-tertiary">
                   {loading ? t("instruments.base.replaying") : t("instruments.base.empty")}
                 </div>
               ) : (
-                <ul className="divide-y divide-[#eeeee8]">
+                <ul className="divide-y divide-edge-subtle">
                   {visible.map((entry) => (
                     <IncidentRow
                       key={entry.incident.incident_id}
@@ -796,7 +796,7 @@ export default function BasePanel({
         </div>
         )}
 
-        <div className="border-t border-[#eeeee8] px-4 py-1.5 font-mono text-[10px] text-[#a3a39c]">
+        <div className="border-t border-edge-subtle px-4 py-1.5 font-mono text-[10px] text-content-tertiary">
           {t("instruments.base.footer", { baseKey: shortcutText("base"), analystKey: shortcutText("analyst") })}
           {config ? ` · ${t("instruments.base.configFile", { file: config.configFile })}` : ""}
         </div>

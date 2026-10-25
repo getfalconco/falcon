@@ -20,12 +20,12 @@ const GLASS =
 function Mark({ dot }: { dot: boolean }) {
   return (
     <span className="relative shrink-0">
-      <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#1d1b1b]">
+      <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-ink">
         <img src={logoWhite} alt="" className="h-[18px] w-[18px]" draggable={false} />
       </span>
       {/* Quiet "this is new" marker — a filled dot, no glow. */}
       {dot ? (
-        <span className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full border-2 border-white bg-[#189E9A]" />
+        <span className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full border-2 border-white bg-tone-teal-fill" />
       ) : null}
     </span>
   );
@@ -45,8 +45,8 @@ export default function UpdatePill({ className = "" }: { className?: string }) {
       >
         <Mark dot />
         <span className="flex flex-col leading-tight">
-          <span className="text-[12.5px] font-medium text-[#1d1b1b]">{t("shell.update.ready")}</span>
-          <span className="mt-0.5 text-[11px] text-[#6b7280]">
+          <span className="text-[12.5px] font-medium text-content-primary">{t("shell.update.ready")}</span>
+          <span className="mt-0.5 text-[11px] text-content-secondary">
             {status.version} · {t("shell.update.restart")}
           </span>
         </span>
@@ -58,8 +58,8 @@ export default function UpdatePill({ className = "" }: { className?: string }) {
     <div className={`app-no-drag select-none ${GLASS} ${className}`}>
       <Mark dot={false} />
       <span className="flex flex-col leading-tight">
-        <span className="text-[12.5px] font-medium text-[#1d1b1b]">{t("shell.update.unavailable")}</span>
-        <span className="mt-0.5 text-[11px] text-[#6b7280]">
+        <span className="text-[12.5px] font-medium text-content-primary">{t("shell.update.unavailable")}</span>
+        <span className="mt-0.5 text-[11px] text-content-secondary">
           {status.version} · {t("shell.update.contact")}
         </span>
       </span>

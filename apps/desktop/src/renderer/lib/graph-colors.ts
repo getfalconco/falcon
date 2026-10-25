@@ -3,11 +3,13 @@ import type { MessageKey } from "./i18n";
 import type { Translate } from "./panels-format";
 
 export const CATEGORY_COLORS: Record<RelationshipCategory, string> = {
-  supplier: "#5b8fbf",
-  customer: "#5a9e78",
-  partner: "#a68b5b",
-  competitor: "#b86b6b",
-  dependency: "#8b7bb8",
+  // Apple system hues (the graph is drawn on a canvas, so literal hex):
+  // systemBlue, systemGreen, systemBrown, systemRed, systemPurple.
+  supplier: "#007aff",
+  customer: "#34c759",
+  partner: "#a2845e",
+  competitor: "#ff3b30",
+  dependency: "#af52de",
 };
 
 /** The legend, in order; each label is a message the view puts in the reader's language. */
@@ -26,7 +28,7 @@ export function categoryLabel(category: string, t: Translate): string {
 }
 
 export function categoryColor(category: string): string {
-  return CATEGORY_COLORS[category as RelationshipCategory] ?? "#6b7280";
+  return CATEGORY_COLORS[category as RelationshipCategory] ?? "#8e8e93";
 }
 
 export function linkOpacity(confidence: number): number {
@@ -43,5 +45,5 @@ export function withAlpha(hex: string, alpha: number): string {
   return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }
 
-export const SEEDED_NODE_COLOR = "#2f7fa6";
-export const COUNTERPARTY_NODE_COLOR = "#5b616b";
+export const SEEDED_NODE_COLOR = "#30b0c7";
+export const COUNTERPARTY_NODE_COLOR = "#8e8e93";

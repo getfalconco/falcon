@@ -33,7 +33,7 @@ function Skeleton() {
   );
 }
 
-function Quiet({ children, tone = "text-[#9CA3AF]" }: { children: ReactNode; tone?: string }) {
+function Quiet({ children, tone = "text-content-tertiary" }: { children: ReactNode; tone?: string }) {
   return <p className={cn("flex flex-1 items-center justify-center px-4 text-center text-[13px] leading-[1.5]", tone)}>{children}</p>;
 }
 
@@ -58,7 +58,7 @@ export default function ReadthroughCard({ onDuplicate, onRemove, onOpenReadthrou
   let body: ReactNode;
   if (none) body = <Quiet>{t("readthrough.card.noNames")}</Quiet>;
   else if (!answer && state.error !== null) {
-    body = <Quiet tone="text-[#6b7280]">{state.error === "restart" ? t("readthrough.error.restart") : t("readthrough.card.failed")}</Quiet>;
+    body = <Quiet tone="text-content-secondary">{state.error === "restart" ? t("readthrough.error.restart") : t("readthrough.card.failed")}</Quiet>;
   } else if (!answer) body = <Skeleton />;
   else if (rows.length === 0) body = <Quiet>{answer.links === 0 ? t("readthrough.card.noLinks") : t("readthrough.card.empty")}</Quiet>;
   else {
@@ -67,14 +67,14 @@ export default function ReadthroughCard({ onDuplicate, onRemove, onOpenReadthrou
         {rows.map((row) => {
           const since = sinceLine(row, say, lang);
           return (
-            <li key={row.id} className="flex items-start gap-2.5 rounded-xl px-2 py-2 transition-colors hover:bg-[#1d1b1b]/[0.04]">
+            <li key={row.id} className="flex items-start gap-2.5 rounded-xl px-2 py-2 transition-colors hover:bg-ink/[0.04]">
               <span className="shrink-0 pt-px">
                 <EarningsLogo ticker={row.counterparty} />
               </span>
               <span className="min-w-0 flex-1">
-                <span className="block text-[12.5px] leading-[1.4] text-[#1d1b1b]">{headLine(row, today, say, lang)}</span>
-                <span className={cn("mt-0.5 block text-[12px] leading-[1.4] tabular-nums", row.stats ? "text-[#4b5563]" : "text-[#9CA3AF]")}>{statsLine(row, say, lang)}</span>
-                {since ? <span className="block text-[12px] leading-[1.4] tabular-nums text-[#4b5563]">{since}</span> : null}
+                <span className="block text-[12.5px] leading-[1.4] text-content-primary">{headLine(row, today, say, lang)}</span>
+                <span className={cn("mt-0.5 block text-[12px] leading-[1.4] tabular-nums", row.stats ? "text-content-body" : "text-content-tertiary")}>{statsLine(row, say, lang)}</span>
+                {since ? <span className="block text-[12px] leading-[1.4] tabular-nums text-content-body">{since}</span> : null}
                 <span className="mt-0.5 flex min-w-0 items-center gap-1.5">
                   <LinkLine row={row} />
                   <NamePill row={row} />

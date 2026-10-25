@@ -52,10 +52,10 @@ export default function EarningsCard({ onDuplicate, onRemove, onOpenEarnings }: 
 
   let body: ReactNode;
   if (none) {
-    body = <p className="flex flex-1 items-center justify-center px-4 text-center text-[13px] leading-[1.5] text-[#9CA3AF]">{t("earnings.card.noNames")}</p>;
+    body = <p className="flex flex-1 items-center justify-center px-4 text-center text-[13px] leading-[1.5] text-content-tertiary">{t("earnings.card.noNames")}</p>;
   } else if (!answer && state.error !== null) {
     body = (
-      <p className="flex flex-1 items-center justify-center px-4 text-center text-[13px] leading-[1.5] text-[#6b7280]">
+      <p className="flex flex-1 items-center justify-center px-4 text-center text-[13px] leading-[1.5] text-content-secondary">
         {state.error === "restart" ? t("earnings.error.restart") : t("earnings.card.failed")}
       </p>
     );
@@ -64,21 +64,21 @@ export default function EarningsCard({ onDuplicate, onRemove, onOpenEarnings }: 
   } else {
     body =
       rows.length === 0 ? (
-        <p className="flex flex-1 items-center justify-center px-4 text-center text-[13px] leading-[1.5] text-[#9CA3AF]">{t("earnings.card.empty", { count: EARNINGS_DAYS })}</p>
+        <p className="flex flex-1 items-center justify-center px-4 text-center text-[13px] leading-[1.5] text-content-tertiary">{t("earnings.card.empty", { count: EARNINGS_DAYS })}</p>
       ) : (
         <ul className="scrollbar-meridian -mx-2 min-h-0 flex-1 space-y-0.5 overflow-y-auto px-2">
           {rows.map((row) => (
-            <li key={row.ticker} className="flex items-center gap-2.5 rounded-xl px-2 py-2 transition-colors hover:bg-[#1d1b1b]/[0.04]">
+            <li key={row.ticker} className="flex items-center gap-2.5 rounded-xl px-2 py-2 transition-colors hover:bg-ink/[0.04]">
               <span className="flex w-[86px] shrink-0 items-center gap-1.5">
                 <EarningsLogo ticker={row.ticker} />
                 <TickerButton row={row} />
               </span>
               <span className="min-w-0 flex-1">
-                <span className="block text-[12.5px] leading-[1.4] text-[#1d1b1b]">
+                <span className="block text-[12.5px] leading-[1.4] text-content-primary">
                   {row.phase === "reported" ? reportedLine(row, today, say, lang) : countdownLine(row, today, say, lang)}
                 </span>
                 <span className="mt-0.5 flex min-w-0 items-center gap-1.5">
-                  <span className="truncate text-[11.5px] text-[#9CA3AF]" title={row.company ?? undefined}>
+                  <span className="truncate text-[11.5px] text-content-tertiary" title={row.company ?? undefined}>
                     {dayDate(row.date, lang)}
                     {row.company ? ` · ${shortCompanyName(row.company)}` : ""}
                   </span>

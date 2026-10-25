@@ -8,15 +8,15 @@ import { cn } from "@/lib/utils";
  */
 
 export const BUTTON =
-  "app-no-drag btn-quiet rounded-lg border border-white/60 bg-white/55 px-3 py-1.5 text-[13px] font-normal text-[#1d1b1b] shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-black/[0.04] transition-colors hover:bg-white/75 disabled:pointer-events-none disabled:opacity-60";
+  "app-no-drag btn-quiet rounded-lg border border-white/60 bg-white/55 px-3 py-1.5 text-[13px] font-normal text-content-primary shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-black/[0.04] transition-colors hover:bg-white/75 disabled:pointer-events-none disabled:opacity-60";
 
 export const DANGER_BUTTON =
-  "app-no-drag rounded-lg bg-[#DC2626] px-3 py-1.5 text-[13px] font-medium text-white transition-colors hover:bg-[#B91C1C] disabled:opacity-60";
+  "app-no-drag rounded-lg bg-tone-negative-solid px-3 py-1.5 text-[13px] font-medium text-white transition-colors hover:bg-tone-negative-solid/90 disabled:opacity-60";
 
 /** A counted figure at the right of a row. */
 export function Value({ children, muted = false }: { children: ReactNode; muted?: boolean }) {
   return (
-    <span className={cn("font-['Geist_Mono'] text-[12.5px] tabular-nums", muted ? "text-[#9CA3AF]" : "text-[#4b5563]")}>
+    <span className={cn("font-['Geist_Mono'] text-[12.5px] tabular-nums", muted ? "text-content-tertiary" : "text-content-body")}>
       {children}
     </span>
   );
@@ -36,8 +36,8 @@ export function StackedRow({
 }) {
   return (
     <div className={cn("py-4", last ? "" : "border-b border-black/[0.06]")}>
-      <div className="text-[13.5px] font-normal text-[#1d1b1b]">{label}</div>
-      {description ? <p className="mt-1 text-[12.5px] font-normal leading-snug text-[#6b7280]">{description}</p> : null}
+      <div className="text-[13.5px] font-normal text-content-primary">{label}</div>
+      {description ? <p className="mt-1 text-[12.5px] font-normal leading-snug text-content-secondary">{description}</p> : null}
       {children}
     </div>
   );
@@ -46,7 +46,7 @@ export function StackedRow({
 /** One line of status beside a control: grey while it is fine, red when it is not. */
 export function StatusLine({ text, error = false }: { text: string; error?: boolean }) {
   return (
-    <span role="status" className={cn("text-[12px] font-normal", error ? "text-[#DC2626]" : "text-[#9CA3AF]")}>
+    <span role="status" className={cn("text-[12px] font-normal", error ? "text-tone-negative" : "text-content-tertiary")}>
       {text}
     </span>
   );

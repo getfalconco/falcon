@@ -42,14 +42,14 @@ import { useHoveredPosition } from "@/lib/position-hover";
  * high risk = short red arc.
  */
 const BAND_COLOR: Record<RiskBand, string> = {
-  low: "#16A34A",
-  moderate: "#CA8A04",
-  elevated: "#EA580C",
-  high: "#DC2626",
+  low: "var(--positive)",
+  moderate: "var(--yellow)",
+  elevated: "var(--warning)",
+  high: "var(--negative)",
 };
-const REST_COLOR = "#E4E5E1";
+const REST_COLOR = "var(--fill-strong)";
 /** The hovered name's share of the risk: ink, not a band colour, since a share has no band. */
-const SHARE_COLOR = "#1d1b1b";
+const SHARE_COLOR = "var(--text-primary)";
 
 /** The band's word on this card. The Risk Engine's own label table
  *  (`RISK_BAND_LABEL`) stays English for the surfaces that read it. */
@@ -139,8 +139,8 @@ function HoverLine({ line, locale }: { line: RiskHoverLine; locale: string }) {
   }
   return (
     <div className="flex items-baseline justify-between gap-3 py-[3px]">
-      <dt className="truncate text-[#6b7280]">{label}</dt>
-      <dd className="shrink-0 tabular-nums text-[#1d1b1b]">{value}</dd>
+      <dt className="truncate text-content-secondary">{label}</dt>
+      <dd className="shrink-0 tabular-nums text-content-primary">{value}</dd>
     </div>
   );
 }
@@ -183,7 +183,7 @@ export default function OpportunitiesPanel({ onDuplicate, onRemove }: Props = {}
           type="button"
           data-no-lift
           aria-label={t("dashboard.risk.settings")}
-          className="app-no-drag text-[#4b5563] transition-colors hover:text-[#1d1b1b]"
+          className="app-no-drag text-content-body transition-colors hover:text-content-primary"
         >
           <SlidersHorizontal className="h-4 w-4" strokeWidth={1.75} aria-hidden />
         </button>
@@ -209,14 +209,14 @@ export default function OpportunitiesPanel({ onDuplicate, onRemove }: Props = {}
     return (
       <div className={shell} data-risk-state={view.kind}>
         {header}
-        <div className="flex flex-1 flex-col items-center justify-center gap-2 text-center text-[13px] text-[#9CA3AF]">
+        <div className="flex flex-1 flex-col items-center justify-center gap-2 text-center text-[13px] text-content-tertiary">
           {line ? <p className={view.kind === "calculating" ? "animate-pulse" : undefined}>{line}</p> : null}
           {view.kind === "error" ? (
             <button
               type="button"
               data-no-lift
               onClick={retry}
-              className="app-no-drag text-[12px] font-medium text-[#4b5563] underline-offset-2 transition-colors hover:text-[#1d1b1b] hover:underline"
+              className="app-no-drag text-[12px] font-medium text-content-body underline-offset-2 transition-colors hover:text-content-primary hover:underline"
             >
               {t("dashboard.risk.retry")}
             </button>
@@ -268,10 +268,10 @@ export default function OpportunitiesPanel({ onDuplicate, onRemove }: Props = {}
           <motion.div key={`hover:${hover.ticker}`} {...fade}>
             {hover.share != null ? (
               <div className="mt-4 flex items-baseline gap-2">
-                <span className="text-[52px] font-medium leading-none tabular-nums tracking-[-0.01em] text-[#1d1b1b]">
+                <span className="text-[52px] font-medium leading-none tabular-nums tracking-[-0.01em] text-content-primary">
                   {hover.share}
                 </span>
-                <span className="text-[13px] font-normal leading-none text-[#9CA3AF]">{t("dashboard.risk.hover.shareOf")}</span>
+                <span className="text-[13px] font-normal leading-none text-content-tertiary">{t("dashboard.risk.hover.shareOf")}</span>
               </div>
             ) : null}
             {hover.lines.length > 0 ? (
@@ -286,18 +286,18 @@ export default function OpportunitiesPanel({ onDuplicate, onRemove }: Props = {}
           <motion.div key="portfolio" {...fade}>
             {/* Headline: the risk score, big */}
             <div className="relative z-10 mt-4 flex items-baseline gap-1">
-              <span className={`text-[52px] font-medium leading-none tabular-nums tracking-[-0.01em] ${loading ? "animate-pulse text-[#9CA3AF]" : "text-[#1d1b1b]"}`}>
+              <span className={`text-[52px] font-medium leading-none tabular-nums tracking-[-0.01em] ${loading ? "animate-pulse text-content-tertiary" : "text-content-primary"}`}>
                 {loading ? "··" : score}
               </span>
-              <span className="text-[22px] font-normal leading-none tabular-nums text-[#9CA3AF]">/100</span>
+              <span className="text-[22px] font-normal leading-none tabular-nums text-content-tertiary">/100</span>
             </div>
             {loading ? (
-              <p className="relative z-10 mt-2 animate-pulse text-[12px] leading-snug text-[#9CA3AF]">{t("dashboard.risk.computing")}</p>
+              <p className="relative z-10 mt-2 animate-pulse text-[12px] leading-snug text-content-tertiary">{t("dashboard.risk.computing")}</p>
             ) : (
               // Same select-a-word gloss as the Insight headline: highlight a term
               // in the driver sentence to get its meaning.
               <SelectionGloss context={`${view.band} risk · ${sentence}`}>
-                <p className="relative z-10 mt-2 text-[12px] leading-snug text-[#6b7280]">
+                <p className="relative z-10 mt-2 text-[12px] leading-snug text-content-secondary">
                   <span className="font-medium" style={{ color: scoreColor }}>{t(BAND_KEY[view.band])}</span>
                   {" · "}
                   {sentence}

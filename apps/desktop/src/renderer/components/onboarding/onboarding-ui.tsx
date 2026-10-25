@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import { authCtaClass } from "@/components/auth-cta";
 
 export const onboardingInputClass =
-  "app-no-drag w-full border-b border-white/15 bg-transparent px-0 py-2.5 text-sm text-white outline-none transition placeholder:text-[#666666] focus:border-white/40";
+  "app-no-drag w-full border-b border-white/15 bg-transparent px-0 py-2.5 text-sm text-white outline-none transition placeholder:text-content-secondary focus:border-white/40";
 
 export const onboardingTextareaClass = cn(onboardingInputClass, "min-h-[4.5rem] resize-none");
 

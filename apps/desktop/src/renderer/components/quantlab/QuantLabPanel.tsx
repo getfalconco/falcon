@@ -139,10 +139,10 @@ export default function QuantLabPanel({ onClose }: { onClose: () => void }) {
   }, [refresh]);
 
   return (
-    <div className="app-no-drag fixed inset-0 z-[200] flex items-center justify-center bg-[#1d1b1b]/30 backdrop-blur-[3px]">
-      <div className="flex h-[92vh] w-[1240px] max-w-[96vw] flex-col overflow-hidden rounded-2xl border border-white/70 bg-[#F4F4F0] shadow-2xl">
-        <div className="flex items-center gap-4 border-b border-[#e0e0da] px-5 py-3">
-          <span className="shrink-0 font-sans text-[11px] font-medium tracking-[0.04em] text-[#9CA3AF]">
+    <div className="app-no-drag fixed inset-0 z-[200] flex items-center justify-center bg-ink/30 backdrop-blur-[3px]">
+      <div className="flex h-[92vh] w-[1240px] max-w-[96vw] flex-col overflow-hidden rounded-2xl border border-white/70 bg-surface-1 shadow-2xl">
+        <div className="flex items-center gap-4 border-b border-edge px-5 py-3">
+          <span className="shrink-0 font-sans text-[11px] font-medium tracking-[0.04em] text-content-tertiary">
             {t("instruments.quantlab.title", { key: shortcutText("quantlab") })}
           </span>
           <div className="flex shrink-0 items-center gap-1">
@@ -152,14 +152,14 @@ export default function QuantLabPanel({ onClose }: { onClose: () => void }) {
                 data-tab={tabDef.key}
                 onClick={() => setTab(tabDef.key)}
                 className={`whitespace-nowrap rounded-md px-3 py-1 text-[12px] transition-colors ${
-                  tab === tabDef.key ? "bg-[#1d1b1b] text-white" : "text-[#6b7280] hover:bg-[#e8e8e2]"
+                  tab === tabDef.key ? "bg-ink text-white" : "text-content-secondary hover:bg-surface-3"
                 }`}
               >
                 {t(tabDef.label)}
               </button>
             ))}
           </div>
-          <span className="min-w-0 truncate text-[11px] text-[#9CA3AF] tabular-nums">
+          <span className="min-w-0 truncate text-[11px] text-content-tertiary tabular-nums">
             {status
               ? t("instruments.quantlab.status", {
                   series: status.seriesCount,
@@ -173,7 +173,7 @@ export default function QuantLabPanel({ onClose }: { onClose: () => void }) {
           <div className="ml-auto flex shrink-0 items-center gap-2">
             <button
               onClick={() => void refresh()}
-              className="rounded-md px-2 py-1 text-[11px] text-[#6b7280] hover:bg-[#e8e8e2]"
+              className="rounded-md px-2 py-1 text-[11px] text-content-secondary hover:bg-surface-3"
             >
               {t("instruments.quantlab.refresh")}
             </button>
@@ -181,7 +181,7 @@ export default function QuantLabPanel({ onClose }: { onClose: () => void }) {
               onClick={onClose}
               aria-label={t("common.close")}
               title={t("common.close")}
-              className="rounded-md p-1 text-[#6b7280] hover:bg-[#e8e8e2]"
+              className="rounded-md p-1 text-content-secondary hover:bg-surface-3"
             >
               <X className="h-4 w-4" />
             </button>
@@ -189,7 +189,7 @@ export default function QuantLabPanel({ onClose }: { onClose: () => void }) {
         </div>
 
         {error && (
-          <div className="border-b border-[#e0e0da] bg-[#fdf3f3] px-5 py-2 text-[12px] text-[#b23b3b]">{explain(error, t)}</div>
+          <div className="border-b border-edge bg-surface-2 px-5 py-2 text-[12px] text-tone-negative">{explain(error, t)}</div>
         )}
 
         <div className="flex min-h-0 flex-1">
@@ -214,7 +214,7 @@ export default function QuantLabPanel({ onClose }: { onClose: () => void }) {
           )}
         </div>
 
-        <div className="border-t border-[#e0e0da] px-5 py-2 text-[10px] text-[#9CA3AF]">
+        <div className="border-t border-edge px-5 py-2 text-[10px] text-content-tertiary">
           {t("instruments.quantlab.footer", { key: shortcutText("quantlab") })}
         </div>
       </div>
