@@ -4,11 +4,14 @@ import { isWaitlistUser, readWaitlistFlag, setWaitlistEmail, setWaitlistFlag } f
 import { displayNameFromUser } from "@/lib/greeting";
 import { setActivePaperUser } from "@/lib/paper-account";
 import { ONBOARDING_REPLAY_EVENT } from "@/lib/onboarding-replay";
-import { isSupabaseConfigured, supabase } from "@/lib/supabase";
+import { isSupabaseConfigured, readStoredSession, supabase } from "@/lib/supabase";
 import { primeWaitlistMembership } from "@/lib/waitlist-api";
 import { needsOnboarding, readCallName } from "@/lib/user-preferences";
 import HomePage from "@/pages/HomePage";
 import LoginPage, { type LoginPageMode } from "@/pages/LoginPage";
+
+/** How long the first paint waits on supabase before using the kept session. */
+const SESSION_WAIT_MS = 3000;
 
 function resolveSession(nextSession: Session | null): {
   session: Session | null;
@@ -74,22 +77,51 @@ export default function App() {
       return;
     }
 
-    supabase.auth.getSession().then(({ data }) => {
-      const resolved = resolveSession(data.session);
+    let cancelled = false;
+    let answered = false;
+    const open = (nextSession: Session | null) => {
+      if (cancelled) return;
+      const resolved = resolveSession(nextSession);
       setSession(resolved.session);
       setShowWaitlist(resolved.showWaitlist);
       setReady(true);
-    });
+    };
+
+    // With an expired token and no network, getSession() keeps retrying the
+    // refresh for over a minute and the window sat blank all that time. After
+    // a short wait, open on the session this machine kept; the server's answer
+    // replaces it whenever it comes.
+    const fallback = window.setTimeout(() => {
+      if (!answered) open(readStoredSession());
+    }, SESSION_WAIT_MS);
+
+    // A refresh that failed for want of a network answers null but leaves the
+    // kept session in storage, so fall back to it rather than signing out an
+    // offline reader. A real sign-out or a rejected token clears storage first.
+    supabase.auth
+      .getSession()
+      .then(({ data }) => data.session ?? readStoredSession())
+      .catch(() => readStoredSession())
+      .then((nextSession) => {
+        answered = true;
+        window.clearTimeout(fallback);
+        open(nextSession);
+      });
 
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, nextSession) => {
-      const resolved = resolveSession(nextSession);
+      if (cancelled) return;
+      const resolved = resolveSession(nextSession ?? readStoredSession());
       setSession(resolved.session);
       setShowWaitlist(resolved.showWaitlist);
     });
 
-    return () => subscription.unsubscribe();
+    return () => {
+      cancelled = true;
+      window.clearTimeout(fallback);
+      subscription.unsubscribe();
+    };
   }, []);
 
   function refreshSession() {

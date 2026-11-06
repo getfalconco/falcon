@@ -1,4 +1,4 @@
-import { createClient, type SupabaseClient } from "@supabase/supabase-js";
+import { createClient, type Session, type SupabaseClient } from "@supabase/supabase-js";
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
@@ -40,6 +40,37 @@ function getOrCreateClient(): SupabaseClient | null {
 }
 
 export const supabase: SupabaseClient | null = getOrCreateClient();
+
+/**
+ * The session this machine last kept, read straight from storage with no
+ * network call. supabase-js keeps it there under `sb-<project ref>-auth-token`
+ * and leaves it in place when a refresh fails for want of a network (it only
+ * clears it on sign-out or when the server rejects the token).
+ *
+ * getSession() refreshes an expired token before it answers, retrying for
+ * about 30 s per attempt, so offline (or with DNS down) it can hold for well
+ * over a minute. App paints from this instead of waiting that out.
+ */
+export function readStoredSession(): Session | null {
+  if (!supabaseUrl) return null;
+  try {
+    const ref = new URL(supabaseUrl).hostname.split(".")[0];
+    const raw = window.localStorage.getItem(`sb-${ref}-auth-token`);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as Partial<Session> | null;
+    if (
+      !parsed ||
+      typeof parsed.access_token !== "string" ||
+      typeof parsed.refresh_token !== "string" ||
+      typeof parsed.user?.id !== "string"
+    ) {
+      return null;
+    }
+    return parsed as Session;
+  } catch {
+    return null;
+  }
+}
 
 export function requireSupabase(): SupabaseClient {
   if (!supabase) {
