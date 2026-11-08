@@ -34,7 +34,6 @@ next-env.d.ts
 
 # Environment / secrets — never commit real values. Only *.example files are
 # allowed (they carry placeholders). This covers .env, .env.local, .env.discord,
-# apps/*/.env, apps/mobile/.env, etc.
 .env
 .env.*
 **/.env
@@ -48,76 +47,31 @@ next-env.d.ts
 apps/web/app/fonts/tiempos/
 
 # runtime-generated data (news events + propagation signals). graph.json + the
-# SEC cache under apps/desktop/data stay tracked; only these regenerate per run.
-apps/desktop/data/events/
-apps/desktop/data/signals/
 
-# The deterministic chain runs on apps/falcon-engine, not here, and its
-# cold-start baseline lives in apps/falcon-engine/seed-data. A dev checkout
 # that opts out (FALCON_ENGINE_URL=) still writes these; they are that run's
 # scratch state, never the seed, so they must not come back as repo churn.
-apps/desktop/data/tracker/
-apps/desktop/data/classifier/
-apps/desktop/data/base/
-apps/desktop/data/propagation/
-apps/desktop/data/analyst/
-apps/desktop/data/risk/
-apps/desktop/data/screen/
-apps/desktop/data/gauge/
 # The handover briefing caches one report per user and session here. It holds
 # a reader's positions, so unlike data/insight it must never be tracked.
-apps/desktop/data/briefing/
 # Profile photos (main/profile) — a reader's own picture, never tracked.
-apps/desktop/data/profile/
 # Settings → System / Notifications (main/system, main/notifications) — this machine's own choices.
-apps/desktop/data/system/
-apps/desktop/data/notifications/
 # Development diagnostics (main/diagnostics/model-selftest.ts) write here; per run, never shared.
-apps/desktop/data/logs/
 # stale artifact of the old double-path bug — never commit this
-apps/desktop/apps/
-packages/research/apps/
 
 
-# electron-builder output (apps/desktop `pnpm dist`)
 # Packaged build output. `--config.directories.output=release-new` and the
 # release-t* verification builds land beside the default dir, so match the
 # prefix: these are 100MB-1GB each and must never reach the remote.
-apps/desktop/release*/
-apps/installer/release*/
 
 # Quant Lab backfilled price series — regenerable via
 # `pnpm --filter @meridian/research exec tsx scripts/quantlab-backfill.ts series`
 # (~9 MB, one file per ticker). Config, strategies and the live ledger DO stay in git.
-apps/desktop/data/quantlab/series/
 # Full backtest reports carry every signal (megabytes, and one more per run).
 # The committed index.json keeps the variant history the guards read.
-apps/desktop/data/quantlab/results/*.json
-!apps/desktop/data/quantlab/results/index.json
 
 # stray scratch output
 y.err.txt
-packages/research/.tmp-prop.json
 
 # Extraction eval dataset — rebuilt from the step1 cache with 'pnpm dataset:build'.
 # ~11MB of filing text that already lives in the cache; derived, not source.
 data/dataset/
 
-# Desktop runtime data (dev data root is apps/desktop/data): per-user or cache files, never committed.
-apps/desktop/data/agents/
-apps/desktop/data/calendar/
-apps/desktop/data/earnings/
-apps/desktop/data/guidance/
-apps/desktop/data/news/
-apps/desktop/data/snaptrade/
-apps/desktop/data/account-cleanup.json
-apps/desktop/data/ui-language.json
-apps/desktop/data/data-location.json
-apps/desktop/data/filings/
-apps/desktop/data/insiders/
-apps/desktop/data/estimates/
-apps/desktop/data/readthrough/
-apps/desktop/data/options/
-apps/desktop/data/exposure/
-apps/desktop/data/stock-tab/
-apps/desktop/data/theses/
