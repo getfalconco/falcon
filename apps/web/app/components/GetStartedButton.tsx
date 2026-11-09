@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { APP_URL } from "@/lib/app-host";
 
 function PixelGrid() {
   const COLS = 9;
@@ -73,7 +74,7 @@ function PixelGrid() {
 export default function GetStartedButton({
   className = "h-[45px] w-[260px] pl-4 pr-3.5",
   label = "Get started",
-  href = "/early-access",
+  href = APP_URL,
   onClick,
   type,
 }: {

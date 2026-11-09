@@ -19,6 +19,7 @@ import {
   setWaitlistFlag,
 } from "@/lib/auth";
 import { isSupabaseConfigured, requireSupabase } from "@/lib/supabase";
+import { SITE_URL, isAppHost } from "@/lib/app-host";
 
 type WaitlistStep = "login" | "name" | "waitlist";
 
@@ -216,7 +217,13 @@ function LoginPageContent() {
               }}
               onSuccess={() => {
                 const dest = safeInternalPath(nextPath, "/");
-                router.push(dest.startsWith("/admin") ? "/" : dest);
+                const target = dest.startsWith("/admin") ? "/" : dest;
+                // On the app host `/` is this login screen; members go on to the main site.
+                if (isAppHost(window.location.host)) {
+                  window.location.assign(`${SITE_URL}${target}`);
+                  return;
+                }
+                router.push(target);
               }}
               onWaitlist={handleWaitlist}
             />
