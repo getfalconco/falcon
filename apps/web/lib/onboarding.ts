@@ -1,4 +1,5 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
+import { FUNNEL_TEST_MODE } from "./funnel-test-mode";
 
 /**
  * The welcome flow shown on the app host right after sign-in (/welcome).
@@ -173,7 +174,7 @@ export function readWelcomeDone(userId: string | null): boolean {
 }
 
 export function markWelcomeDone(userId: string | null): void {
-  if (typeof window === "undefined") return;
+  if (typeof window === "undefined" || FUNNEL_TEST_MODE) return;
   try {
     localStorage.setItem(doneKey(userId), new Date().toISOString());
     localStorage.removeItem(PROGRESS_KEY);
@@ -186,7 +187,8 @@ export type WelcomeProgress = { step: string; answers: WelcomeAnswers };
 
 /** Answers and step saved in this browser, cleaned of anything unknown. */
 export function readProgress(): WelcomeProgress | null {
-  if (typeof window === "undefined") return null;
+  // Funnel test mode: every run starts at step 1.
+  if (typeof window === "undefined" || FUNNEL_TEST_MODE) return null;
   try {
     const raw = localStorage.getItem(PROGRESS_KEY);
     if (!raw) return null;
@@ -227,7 +229,7 @@ export function readProgress(): WelcomeProgress | null {
 }
 
 export function writeProgress(progress: WelcomeProgress): void {
-  if (typeof window === "undefined") return;
+  if (typeof window === "undefined" || FUNNEL_TEST_MODE) return;
   try {
     localStorage.setItem(PROGRESS_KEY, JSON.stringify(progress));
   } catch {
@@ -264,6 +266,8 @@ async function currentSession(client: SupabaseClient | null) {
  * counts as "not done yet": the flow never blocks the way on.
  */
 export async function needsWelcome(client: SupabaseClient | null): Promise<boolean> {
+  // Funnel test mode: always run the flow, finished before or not.
+  if (FUNNEL_TEST_MODE) return true;
   const session = await currentSession(client);
   if (!session) return !readWelcomeDone(null);
   if (readWelcomeDone(session.user.id)) return false;
@@ -295,6 +299,8 @@ export async function saveWelcomeAnswers(
   answers: WelcomeAnswers,
   completed = false,
 ): Promise<void> {
+  // Funnel test mode: test runs never reach onboarding_responses.
+  if (FUNNEL_TEST_MODE) return;
   const session = await currentSession(client);
   try {
     if (session) {

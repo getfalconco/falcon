@@ -21,6 +21,7 @@ import {
 } from "@/lib/auth";
 import { isSupabaseConfigured, requireSupabase } from "@/lib/supabase";
 import { SITE_URL, isAppHost } from "@/lib/app-host";
+import { FUNNEL_TEST_MODE } from "@/lib/funnel-test-mode";
 // safeInternalPath keeps `?next=` same-origin (no open redirect via the login).
 import { needsWelcome, safeInternalPath } from "@/lib/onboarding";
 
@@ -125,7 +126,8 @@ function LoginPageContent() {
       setStep("login");
       return;
     }
-    if (!readWaitlistFlag()) return;
+    // Funnel test mode: every visit starts at the login form.
+    if (FUNNEL_TEST_MODE || !readWaitlistFlag()) return;
 
     const stored = readStoredWaitlistEmail() ?? undefined;
     if (stored) setWaitlistEmail(stored);

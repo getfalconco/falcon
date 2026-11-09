@@ -1,4 +1,5 @@
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
+import { FUNNEL_TEST_MODE } from "./funnel-test-mode";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
@@ -17,7 +18,8 @@ export function createBrowserSupabase(): SupabaseClient {
   if (!browserClient) {
     browserClient = createClient(supabaseUrl, supabaseAnonKey, {
       auth: {
-        persistSession: true,
+        // Funnel test mode keeps the session in memory only: a reload signs out.
+        persistSession: !FUNNEL_TEST_MODE,
         autoRefreshToken: true,
         detectSessionInUrl: true,
       },
