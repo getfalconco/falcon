@@ -3,8 +3,7 @@
 import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion, useReducedMotion } from "framer-motion";
-import { BellRing, ChevronLeft, ChevronRight, GraduationCap, Loader2, ShieldCheck, TrendingUp } from "lucide-react";
-import { EASE } from "@meridian/ui";
+import { Loader2 } from "lucide-react";
 import { SITE_URL, isAppHost } from "@/lib/app-host";
 import {
   EMPTY_ANSWERS,
@@ -27,18 +26,21 @@ import {
   writeProgress,
 } from "@/lib/onboarding";
 import { isSupabaseConfigured, requireSupabase } from "@/lib/supabase";
+import AuthSplitShell from "../components/AuthSplitShell";
 import GetStartedButton from "../components/GetStartedButton";
-import MarketOrbit from "./MarketOrbit";
-import { AlertArt, BriefArt, RippleArt } from "./Visuals";
 import {
-  ChoiceCards,
+  ChoiceRows,
   Chips,
-  type ChoiceOption,
   type FilingsResult,
+  GEIST,
   HoldToCommit,
-  MappingAnimation,
+  MONO,
+  MappingList,
+  MonoLabel,
   ResultView,
+  SERIF,
   StockPicker,
+  UNDERLINE_INPUT,
 } from "./Steps";
 
 const STEP_IDS = [
@@ -62,6 +64,7 @@ const STEP_IDS = [
 type StepId = (typeof STEP_IDS)[number];
 
 const LOADING_MS = 3200;
+const EASE_SOFT = [0.4, 0, 0.2, 1] as const;
 
 /** Single choice steps: which answer they fill and with what options. */
 const CHOICE_STEPS = {
@@ -77,13 +80,6 @@ type ChoiceStepId = keyof typeof CHOICE_STEPS;
 function isChoiceStep(step: StepId): step is ChoiceStepId {
   return step in CHOICE_STEPS;
 }
-
-const GOAL_ICONS: Record<string, ChoiceOption["icon"]> = {
-  grow_wealth: TrendingUp,
-  catch_big_moves: BellRing,
-  protect_portfolio: ShieldCheck,
-  smarter_investor: GraduationCap,
-};
 
 function stockCount(n: number) {
   return `${n} ${n === 1 ? "stock" : "stocks"}`;
@@ -153,55 +149,13 @@ function stepDone(step: StepId, answers: WelcomeAnswers): boolean {
   }
 }
 
-function Swirls() {
-  return (
-    <svg
-      className="pointer-events-none absolute inset-0 h-full w-full"
-      viewBox="0 0 1440 900"
-      preserveAspectRatio="xMidYMid slice"
-      aria-hidden
-    >
-      <g className="welcome-swirl" fill="none" strokeLinecap="round">
-        <path
-          d="M -120 640 C 180 380, 420 880, 660 610 S 1000 170, 1200 430 S 1500 780, 1620 520"
-          stroke="#ffffff"
-          strokeOpacity="0.7"
-          strokeWidth="44"
-        />
-        <path
-          d="M -120 640 C 180 380, 420 880, 660 610 S 1000 170, 1200 430 S 1500 780, 1620 520"
-          stroke="#34a8bd"
-          strokeOpacity="0.08"
-          strokeWidth="1.5"
-        />
-      </g>
-      <g className="welcome-swirl welcome-swirl-b" fill="none" strokeLinecap="round">
-        <path
-          d="M 1580 120 C 1300 40, 1120 330, 1300 420 S 1480 220, 1260 140 S 900 160, 820 -60"
-          stroke="#ffffff"
-          strokeOpacity="0.6"
-          strokeWidth="34"
-        />
-        <path
-          d="M -140 210 C 120 60, 330 330, 520 230 S 760 20, 900 -80"
-          stroke="#ffffff"
-          strokeOpacity="0.5"
-          strokeWidth="26"
-        />
-      </g>
-    </svg>
-  );
-}
-
-const ROUND_BUTTON =
-  "flex h-12 w-12 shrink-0 items-center justify-center rounded-full outline-none transition-[background-color,opacity,box-shadow] duration-200 focus-visible:ring-2 focus-visible:ring-[#1a7f95]/40 disabled:cursor-not-allowed";
+const QUIET_BUTTON = "text-xs uppercase tracking-[0.18em] text-[#9a9a9a] outline-none transition-colors hover:text-[#1d1b1b] focus-visible:text-[#1d1b1b]";
 
 function WelcomeContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const reduceMotion = useReducedMotion();
   const [index, setIndex] = useState(0);
-  const [direction, setDirection] = useState(1);
   const [answers, setAnswers] = useState<WelcomeAnswers>(EMPTY_ANSWERS);
   const [restored, setRestored] = useState(false);
   const [finishing, setFinishing] = useState(false);
@@ -239,14 +193,10 @@ function WelcomeContent() {
     [client],
   );
 
-  const goTo = useCallback(
-    (target: number) => {
-      if (target < 0 || target >= STEP_IDS.length) return;
-      setDirection(target > index ? 1 : -1);
-      setIndex(target);
-    },
-    [index],
-  );
+  const goTo = useCallback((target: number) => {
+    if (target < 0 || target >= STEP_IDS.length) return;
+    setIndex(target);
+  }, []);
 
   const finish = useCallback(async () => {
     setFinishing(true);
@@ -279,7 +229,7 @@ function WelcomeContent() {
     if (canGoBack) goTo(index - 1);
   }, [canGoBack, goTo, index]);
 
-  // Loading: fetch real filings for their tickers, move on after the animation.
+  // Loading: fetch real filings for their tickers, move on after the list.
   const tickersKey = answers.stocks.map((s) => s.ticker).join(",");
   const fetchFilings = useCallback(async () => {
     setFilings({ state: "loading" });
@@ -293,14 +243,13 @@ function WelcomeContent() {
     }
   }, [tickersKey]);
 
+  const loadingMs = reduceMotion ? 1500 : LOADING_MS;
+
   useEffect(() => {
     if (step !== "loading") return;
     void fetchFilings();
     void save();
-    const timer = setTimeout(() => {
-      setDirection(1);
-      setIndex(STEP_IDS.indexOf("result"));
-    }, reduceMotion ? 1500 : LOADING_MS);
+    const timer = setTimeout(() => setIndex(STEP_IDS.indexOf("result")), loadingMs);
     return () => clearTimeout(timer);
     // Runs once per visit to the loading step.
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -324,7 +273,7 @@ function WelcomeContent() {
         event.preventDefault();
         back();
       } else if (event.key === "Enter" && !onControl) {
-        // On a button Enter already clicks it (a card selects itself).
+        // On a button Enter already clicks it (an option selects itself).
         event.preventDefault();
         next();
       } else if (isChoiceStep(step) && /^[1-9]$/.test(event.key)) {
@@ -359,38 +308,24 @@ function WelcomeContent() {
     update({ committed: true });
     answersRef.current = { ...answersRef.current, committed: true };
     void save();
-    setTimeout(() => {
-      setDirection(1);
-      setIndex(STEP_IDS.indexOf("loading"));
-    }, reduceMotion ? 300 : 900);
+    setTimeout(() => setIndex(STEP_IDS.indexOf("loading")), reduceMotion ? 300 : 900);
   }, [reduceMotion, save, update]);
 
   const copy = copyFor(step, answers);
-  const offset = reduceMotion ? 0 : 28 * direction;
-  const longTitle = copy.title.length > 32;
-  const visualStep = step === "intro" || step === "alone" || step === "brief" || step === "notify" || step === "loading";
-  const progress = index / (STEP_IDS.length - 1);
 
   function body() {
     if (isChoiceStep(step)) {
       const { field, options } = CHOICE_STEPS[step];
-      const withIcons = step === "goal" ? options.map((o) => ({ ...o, icon: GOAL_ICONS[o.id] })) : options;
       return (
-        <ChoiceCards
+        <ChoiceRows
           label={copy.title}
-          options={withIcons}
+          options={options}
           value={answers[field]}
           onChange={(id) => update({ [field]: id } as Partial<WelcomeAnswers>)}
         />
       );
     }
     switch (step) {
-      case "intro":
-        return <MarketOrbit />;
-      case "alone":
-        return <RippleArt />;
-      case "brief":
-        return <BriefArt />;
       case "sectors":
         return (
           <Chips
@@ -410,7 +345,7 @@ function WelcomeContent() {
         return <StockPicker value={answers.stocks} onChange={(stocks) => update({ stocks })} onDone={next} />;
       case "heard":
         return (
-          <div className="flex w-full max-w-[600px] flex-col items-center gap-4">
+          <div>
             <Chips
               label={copy.title}
               options={HEARD_ABOUT}
@@ -428,132 +363,139 @@ function WelcomeContent() {
                     next();
                   }
                 }}
-                placeholder="Tell us where"
+                placeholder="Tell us in a few words"
                 aria-label="Where did you hear about Falcon?"
                 maxLength={MAX_OTHER_LENGTH}
-                className="h-12 w-full max-w-[360px] rounded-2xl border border-black/[0.08] bg-white/85 px-4 text-[15px] text-[#1d1b1b] outline-none backdrop-blur-sm transition placeholder:text-[#9a9a9a] focus:border-[#1a7f95]/60"
+                className={`mt-6 ${UNDERLINE_INPUT}`}
+                style={{ fontFamily: GEIST }}
               />
             ) : null}
-          </div>
-        );
-      case "notify":
-        return (
-          <div className="flex w-full flex-col items-center gap-8">
-            <AlertArt />
-            <div className="flex flex-col items-center gap-3">
-              <GetStartedButton
-                type="button"
-                onClick={() => void answerNotifications(true)}
-                className="h-11 w-[240px] pl-4 pr-3.5"
-                label="Turn on alerts"
-              />
-              <button
-                type="button"
-                onClick={() => void answerNotifications(false)}
-                className="rounded-md px-2 py-1 text-[13px] text-[#5f6a6d] underline-offset-4 outline-none hover:text-[#1d1b1b] hover:underline focus-visible:ring-2 focus-visible:ring-[#1a7f95]/40"
-              >
-                Not now
-              </button>
-            </div>
           </div>
         );
       case "commit":
         return <HoldToCommit committed={answers.committed === true} onCommit={onCommit} />;
       case "loading":
-        return <MappingAnimation tickers={answers.stocks.map((s) => s.ticker)} durationMs={reduceMotion ? 1500 : LOADING_MS} />;
+        return <MappingList tickers={answers.stocks.map((s) => s.ticker)} durationMs={loadingMs} />;
       case "result":
         return <ResultView score={blindSpotScore(answers)} filings={filings ?? { state: "loading" }} />;
+      default:
+        return null;
     }
   }
 
-  if (!restored) return <div className="welcome-bg absolute inset-0" />;
+  function actions() {
+    if (step === "loading") return null;
+    if (step === "commit" && !answers.committed) return null;
+    if (step === "notify") {
+      return (
+        <>
+          <GetStartedButton
+            type="button"
+            onClick={() => void answerNotifications(true)}
+            className="h-[45px] w-[260px] pl-4 pr-3.5"
+            label="Turn on alerts"
+          />
+          <button
+            type="button"
+            onClick={() => void answerNotifications(false)}
+            className={QUIET_BUTTON}
+            style={{ fontFamily: MONO }}
+          >
+            Not now
+          </button>
+        </>
+      );
+    }
+    return (
+      <GetStartedButton
+        type="button"
+        onClick={next}
+        disabled={!canGoNext}
+        className="h-[45px] w-[260px] pl-4 pr-3.5"
+        label={
+          <>
+            {finishing ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : null}
+            {step === "intro" ? "Get started" : isLast ? "Continue to Falcon" : "Continue"}
+          </>
+        }
+      />
+    );
+  }
+
+  const progress = (index + 1) / STEP_IDS.length;
+  const bodyNode = body();
 
   return (
-    <div className="welcome-bg absolute inset-0 flex flex-col overflow-hidden font-sans text-[#1d1b1b]">
-      <Swirls />
+    <AuthSplitShell>
+      <div className="flex flex-1 flex-col justify-center px-6 py-10 sm:px-12 sm:py-16">
+        <div className="mx-auto w-full max-w-[460px]">
+          {/* Progress: a hairline that fills as the steps go by (as in the application flow). */}
+          <div className="mb-10 sm:mb-12">
+            <div
+              role="progressbar"
+              aria-label="Setup progress"
+              aria-valuemin={1}
+              aria-valuemax={STEP_IDS.length}
+              aria-valuenow={index + 1}
+              className="h-px w-full bg-black/10"
+            >
+              <motion.div
+                className="h-px bg-[#1d1b1b]"
+                initial={false}
+                animate={{ width: `${progress * 100}%` }}
+                transition={{ duration: reduceMotion ? 0 : 0.5, ease: EASE_SOFT }}
+              />
+            </div>
+            <MonoLabel className="mt-3">
+              {index + 1} of {STEP_IDS.length}
+            </MonoLabel>
+          </div>
 
-      <motion.div
-        key={step}
-        initial={{ opacity: 0, x: offset }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: reduceMotion ? 0.15 : 0.45, ease: EASE }}
-        className="relative flex min-h-0 flex-1 flex-col"
-      >
-        <header className="shrink-0 px-6 pt-[max(env(safe-area-inset-top),40px)] text-center sm:pt-14">
-          <h1
-            className={`mx-auto max-w-[720px] font-serif font-normal leading-[1.15] tracking-[0.005em] text-[#1d1b1b] [text-wrap:balance] ${
-              longTitle ? "text-[1.7rem] sm:text-[2.5rem]" : "text-[2.1rem] sm:text-[3.1rem]"
-            }`}
-          >
-            {copy.title}
-          </h1>
-          {copy.subtitle ? (
-            <p className="mx-auto mt-3 max-w-[440px] text-[15px] leading-relaxed text-[#5f6a6d] [text-wrap:balance] sm:mt-4 sm:text-base">
-              {copy.subtitle}
-            </p>
+          {restored ? (
+            <motion.div
+              key={step}
+              initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: reduceMotion ? 0.15 : 0.4, ease: EASE_SOFT }}
+            >
+              <h1
+                className="text-[26px] leading-[34px] text-[#1d1b1b] [text-wrap:balance] sm:text-[30px] sm:leading-[38px]"
+                style={{ fontFamily: SERIF, fontWeight: 400 }}
+              >
+                {copy.title}
+              </h1>
+              {copy.subtitle ? (
+                <p className="mt-3 text-[14px] leading-[22px] text-[#767676]" style={{ fontFamily: GEIST }}>
+                  {copy.subtitle}
+                </p>
+              ) : null}
+
+              {bodyNode ? <div className="mt-8">{bodyNode}</div> : null}
+
+              <div className="mt-10 flex flex-col items-start gap-4">
+                {actions()}
+                <button
+                  type="button"
+                  onClick={back}
+                  aria-hidden={!canGoBack}
+                  tabIndex={canGoBack ? 0 : -1}
+                  className={`${QUIET_BUTTON} ${canGoBack ? "opacity-100" : "pointer-events-none opacity-0"}`}
+                  style={{ fontFamily: MONO }}
+                >
+                  &larr; Back
+                </button>
+              </div>
+            </motion.div>
           ) : null}
-        </header>
-
-        <main
-          className={`flex min-h-0 flex-1 flex-col items-center px-5 py-6 sm:px-6 ${
-            visualStep ? "overflow-hidden" : "overflow-y-auto overflow-x-hidden"
-          }`}
-        >
-          <div className={`flex w-full justify-center ${step === "stocks" ? "mt-2 sm:mt-6" : "my-auto"}`}>{body()}</div>
-        </main>
-      </motion.div>
-
-      <nav
-        aria-label="Welcome steps"
-        className="relative mx-auto flex w-full max-w-[600px] shrink-0 items-center justify-between gap-4 px-5 pb-[max(env(safe-area-inset-bottom),22px)] pt-3 sm:px-6 sm:pb-10"
-      >
-        <button
-          type="button"
-          onClick={back}
-          disabled={!canGoBack}
-          aria-label="Back"
-          className={`${ROUND_BUTTON} border border-black/10 bg-white/85 text-[#1d1b1b] shadow-[0_4px_14px_rgba(0,0,0,0.05)] hover:bg-white disabled:opacity-35 disabled:hover:bg-white/85`}
-        >
-          <ChevronLeft className="h-5 w-5" strokeWidth={1.75} aria-hidden />
-        </button>
-
-        <div
-          role="progressbar"
-          aria-label="Setup progress"
-          aria-valuemin={1}
-          aria-valuemax={STEP_IDS.length}
-          aria-valuenow={index + 1}
-          aria-valuetext={`Step ${index + 1} of ${STEP_IDS.length}`}
-          className="h-1 w-full max-w-[240px] overflow-hidden rounded-full bg-black/[0.08]"
-        >
-          <div
-            className="h-full rounded-full bg-[#1c1917] transition-[width] duration-500 ease-out motion-reduce:transition-none"
-            style={{ width: `${Math.max(4, progress * 100)}%` }}
-          />
         </div>
-
-        <button
-          type="button"
-          onClick={next}
-          disabled={!canGoNext && !finishing}
-          aria-busy={finishing}
-          aria-label={isLast ? "Finish and continue" : "Next"}
-          className={`${ROUND_BUTTON} bg-[#1c1917] text-[#f2f2f2] shadow-[0_8px_20px_rgba(28,25,23,0.22)] hover:bg-[#0f0d0b] disabled:opacity-30 disabled:shadow-none disabled:hover:bg-[#1c1917]`}
-        >
-          {finishing ? (
-            <Loader2 className="h-5 w-5 animate-spin" aria-hidden />
-          ) : (
-            <ChevronRight className="h-5 w-5" strokeWidth={1.75} aria-hidden />
-          )}
-        </button>
-      </nav>
-    </div>
+      </div>
+    </AuthSplitShell>
   );
 }
 
 export default function WelcomeFlow() {
   return (
-    <Suspense fallback={<div className="welcome-bg absolute inset-0" />}>
+    <Suspense fallback={<AuthSplitShell>{null}</AuthSplitShell>}>
       <WelcomeContent />
     </Suspense>
   );
