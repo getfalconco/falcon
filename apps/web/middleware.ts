@@ -4,10 +4,11 @@ import { SITE_URL, isAppHost } from "@/lib/app-host";
 
 /**
  * Paths the app host serves as-is: the login flow (sign in, early access,
- * reset password and email codes all run inside /login), invite claims, the
- * admin area the login hands off to, and the API routes they call.
+ * reset password and email codes all run inside /login), the welcome flow
+ * members see right after signing in, invite claims, the admin area the login
+ * hands off to, and the API routes they call.
  */
-const APP_HOST_PATHS = [/^\/login(\/|$)/, /^\/early-access(\/|$)/, /^\/invite(\/|$)/, /^\/admin(\/|$)/, /^\/api(\/|$)/];
+const APP_HOST_PATHS = [/^\/login(\/|$)/, /^\/welcome(\/|$)/, /^\/early-access(\/|$)/, /^\/invite(\/|$)/, /^\/admin(\/|$)/, /^\/api(\/|$)/];
 
 export function middleware(request: NextRequest) {
   const host = request.headers.get("x-forwarded-host") ?? request.headers.get("host");

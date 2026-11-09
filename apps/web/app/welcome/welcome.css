@@ -1,0 +1,201 @@
+/* Welcome flow (/welcome): background swirls and the market visual. */
+
+.welcome-bg {
+  background:
+    radial-gradient(60% 55% at 50% 52%, rgba(159, 230, 240, 0.42) 0%, rgba(217, 246, 250, 0.38) 38%, rgba(248, 251, 251, 0) 72%),
+    radial-gradient(90% 70% at 50% 110%, rgba(250, 244, 234, 0.9) 0%, rgba(250, 244, 234, 0) 60%),
+    #f8fbfb;
+}
+
+.welcome-swirl {
+  animation: welcome-swirl-drift 26s ease-in-out infinite alternate;
+  transform-origin: 50% 50%;
+}
+
+.welcome-swirl-b {
+  animation-duration: 34s;
+  animation-direction: alternate-reverse;
+}
+
+@keyframes welcome-swirl-drift {
+  from { transform: translate3d(-1.5%, 0, 0) rotate(-1deg); }
+  to { transform: translate3d(1.5%, -1%, 0) rotate(1.5deg); }
+}
+
+/* The chart line draws once (pathLength=1), then the area and tip fade in. */
+.welcome-line {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: welcome-draw 2.6s cubic-bezier(0.65, 0, 0.35, 1) 0.35s forwards;
+}
+
+.welcome-area {
+  opacity: 0;
+  animation: welcome-fade 1.4s ease-out 1.9s forwards;
+}
+
+.welcome-tip {
+  opacity: 0;
+  animation: welcome-fade 0.5s ease-out 2.85s forwards;
+}
+
+.welcome-tip-halo {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: welcome-pulse 2.4s ease-out 3.1s infinite;
+  opacity: 0;
+}
+
+.welcome-orbit {
+  animation: welcome-spin 70s linear infinite;
+}
+
+.welcome-orbit-chip {
+  animation: welcome-spin 70s linear infinite reverse;
+}
+
+.welcome-float {
+  animation: welcome-float 7s ease-in-out infinite alternate;
+}
+
+@keyframes welcome-draw {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes welcome-fade {
+  to { opacity: 1; }
+}
+
+@keyframes welcome-pulse {
+  0% { transform: scale(1); opacity: 0.55; }
+  100% { transform: scale(3.2); opacity: 0; }
+}
+
+@keyframes welcome-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes welcome-float {
+  from { transform: translate3d(0, -4px, 0); }
+  to { transform: translate3d(0, 4px, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .welcome-swirl,
+  .welcome-orbit,
+  .welcome-orbit-chip,
+  .welcome-float,
+  .welcome-tip-halo {
+    animation: none;
+  }
+  .welcome-line {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+  .welcome-area,
+  .welcome-tip {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+/* Interstitials, notifications, loading. */
+.welcome-ripple {
+  transform-box: fill-box;
+  transform-origin: center;
+  opacity: 0;
+  animation: welcome-ripple 3.6s ease-out infinite;
+}
+
+.welcome-node {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: welcome-node 3.6s ease-out infinite;
+}
+
+.welcome-dial {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: welcome-draw 2.2s cubic-bezier(0.65, 0, 0.35, 1) 0.3s forwards;
+}
+
+.welcome-bar {
+  transform-origin: left center;
+  transform: scaleX(0);
+  animation: welcome-grow 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.welcome-alert {
+  animation: welcome-drop 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+}
+
+.welcome-map-line {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: welcome-draw 0.9s ease-out forwards;
+}
+
+.welcome-map-node {
+  opacity: 0;
+  animation: welcome-fade 0.4s ease-out forwards;
+}
+
+.welcome-progress-fill {
+  transform-origin: left center;
+  animation: welcome-grow var(--welcome-load-ms, 3000ms) cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  transform: scaleX(0);
+}
+
+@keyframes welcome-ripple {
+  0% { transform: scale(1); opacity: 0.55; }
+  100% { transform: scale(4.2); opacity: 0; }
+}
+
+@keyframes welcome-node {
+  0%, 30% { transform: scale(1); fill: #ffffff; }
+  42% { transform: scale(1.35); fill: #9fe6f0; }
+  70%, 100% { transform: scale(1); fill: #ffffff; }
+}
+
+@keyframes welcome-grow {
+  to { transform: scaleX(1); }
+}
+
+.welcome-pop {
+  animation: welcome-pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes welcome-pop {
+  0% { transform: scale(0.95); }
+  55% { transform: scale(1.06); }
+  100% { transform: scale(1); }
+}
+
+@keyframes welcome-drop {
+  from { opacity: 0; transform: translate3d(0, -14px, 0) scale(0.98); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .welcome-ripple,
+  .welcome-node,
+  .welcome-alert,
+  .welcome-pop {
+    animation: none;
+  }
+  .welcome-ripple { opacity: 0; }
+  .welcome-dial,
+  .welcome-map-line {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+  .welcome-bar,
+  .welcome-progress-fill {
+    animation: none;
+    transform: none;
+  }
+  .welcome-map-node {
+    animation: none;
+    opacity: 1;
+  }
+}

@@ -21,20 +21,10 @@ import {
 } from "@/lib/auth";
 import { isSupabaseConfigured, requireSupabase } from "@/lib/supabase";
 import { SITE_URL, isAppHost } from "@/lib/app-host";
+// safeInternalPath keeps `?next=` same-origin (no open redirect via the login).
+import { needsWelcome, safeInternalPath } from "@/lib/onboarding";
 
 type WaitlistStep = "login" | "name" | "waitlist";
-
-/**
- * Only allow same-origin, root-relative redirect targets from `?next=`. Rejects
- * absolute URLs (`https://evil.com`), protocol-relative (`//evil.com`), and the
- * backslash trick (`/\evil.com`) that browsers normalise to a host — all of
- * which would turn the login screen into an open-redirect phishing vector.
- */
-function safeInternalPath(path: string | null | undefined, fallback: string): string {
-  if (typeof path !== "string" || !path.startsWith("/")) return fallback;
-  if (path.startsWith("//") || path.startsWith("/\\")) return fallback;
-  return path;
-}
 
 const inputClass =
   "w-full rounded-lg border border-black/10 bg-transparent px-4 py-3 text-sm text-[#1d1b1b] outline-none transition placeholder:text-[#9a9a9a] focus:border-black/30";
@@ -215,9 +205,14 @@ function LoginPageContent() {
                 );
                 router.refresh();
               }}
-              onSuccess={() => {
+              onSuccess={async () => {
                 const dest = safeInternalPath(nextPath, "/");
-                const target = dest.startsWith("/admin") ? "/" : dest;
+                const target = dest.startsWith("/admin") || dest.startsWith("/welcome") ? "/" : dest;
+                // First sign-in: the welcome flow runs first and then goes on to `target`.
+                if (await needsWelcome(isSupabaseConfigured ? requireSupabase() : null)) {
+                  router.push(`/welcome?next=${encodeURIComponent(target)}`);
+                  return;
+                }
                 // On the app host `/` is this login screen; members go on to the main site.
                 if (isAppHost(window.location.host)) {
                   window.location.assign(`${SITE_URL}${target}`);
