@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "../auth-theme.css";
 
 export const metadata: Metadata = {
-  title: "Admin — Falcon",
+  title: "Admin · Falcon",
   robots: { index: false, follow: false },
 };
 

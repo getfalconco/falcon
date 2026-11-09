@@ -81,8 +81,8 @@ export async function POST(request: Request) {
 <p>We received your application for the <strong>${department}</strong> internship track.</p>
 <p>Track your status and complete later stages here (save this link):</p>
 <p><a href="${portal}">${portal}</a></p>
-<p>— Falcon</p>`,
-        text: `Hi ${fullName},\n\nWe received your internship application. Portal: ${portal}\n\n— Falcon`,
+<p>Falcon</p>`,
+        text: `Hi ${fullName},\n\nWe received your internship application. Portal: ${portal}\n\nFalcon`,
       });
     } catch (err) {
       console.warn("[jobs apply] email failed", err);

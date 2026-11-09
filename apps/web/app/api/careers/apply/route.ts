@@ -125,7 +125,7 @@ export async function POST(request: Request) {
     try {
       await sendEmail({
         to: email,
-        subject: `Falcon — application received for ${role}`,
+        subject: `Falcon: application received for ${role}`,
         html: `<p>Hi ${fullName.split(" ")[0]},</p><p>Thanks for applying for the ${role} role at Falcon. We read every application and will get back to you by email.</p><p>Falcon Team</p>`,
       });
     } catch {

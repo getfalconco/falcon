@@ -5,7 +5,7 @@ import InviteClaimView from "@/app/components/InviteClaimView";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Your invitation — Falcon",
+  title: "Your invitation · Falcon",
   robots: { index: false, follow: false },
 };
 

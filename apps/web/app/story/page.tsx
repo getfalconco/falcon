@@ -12,7 +12,7 @@ import {
 import { SEO } from "@/lib/marketing-copy";
 
 export const metadata: Metadata = {
-  title: "Story — Falcon",
+  title: "Story · Falcon",
   description: SEO.description,
 };
 

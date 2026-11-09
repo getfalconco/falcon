@@ -105,7 +105,7 @@ export async function POST(request: Request) {
             html: `<p>Hi ${app.fullName.split(" ")[0]},</p>
 <p>Your ${departmentLabel(app.department)} application moved to the next stage.</p>
 <p><a href="${portal}">Open your portal</a></p>
-<p>— Falcon</p>`,
+<p>Falcon</p>`,
           });
         } catch (err) {
           console.warn("[admin jobs] notify failed", err);
@@ -131,11 +131,11 @@ export async function POST(request: Request) {
       try {
         await sendEmail({
           to: intern.email,
-          subject: "Welcome to Falcon — internship accepted",
+          subject: "Welcome to Falcon: internship accepted",
           html: `<p>Hi ${intern.fullName.split(" ")[0]},</p>
 <p>You're in. Open your intern panel:</p>
 <p><a href="${portal}">${portal}</a></p>
-<p>— Falcon</p>`,
+<p>Falcon</p>`,
         });
       } catch (err) {
         console.warn("[admin jobs] accept email failed", err);
