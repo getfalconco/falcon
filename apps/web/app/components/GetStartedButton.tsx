@@ -71,40 +71,60 @@ function PixelGrid() {
   );
 }
 
+/** Text style shared by the site's buttons (Geist, 13px). */
+export const BUTTON_TEXT_STYLE: React.CSSProperties = {
+  fontFamily: "var(--font-geist-sans), sans-serif",
+  fontWeight: 400,
+  fontStyle: "normal",
+  fontSize: "13px",
+  lineHeight: "20px",
+};
+
+/** The dark primary button: same shape and colors as "Get started". */
+export const PRIMARY_BUTTON_CLASS =
+  "rounded-lg bg-[#1c1917] transition-colors hover:bg-[#0f0d0b] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-[#1c1917]";
+export const PRIMARY_BUTTON_TEXT_COLOR = "rgb(231, 231, 231)";
+
+/** The light secondary button: the navbar menu's rounded grey hover, outlined. */
+export const SECONDARY_BUTTON_CLASS =
+  "rounded-lg border border-black/10 bg-transparent text-[#1d1b1b] transition-colors hover:bg-[#efefec]";
+
 export default function GetStartedButton({
   className = "h-[45px] w-[260px] pl-4 pr-3.5",
   label = "Get started",
   href = APP_URL,
   onClick,
   type,
+  disabled,
 }: {
   className?: string;
-  label?: string;
+  label?: React.ReactNode;
   /** Link target when rendering as a link (the default). */
   href?: string;
   /** When set (or `type` is given), renders a <button> for in-page actions instead of the link. */
   onClick?: () => void;
   type?: "button" | "submit";
+  /** Button mode only. */
+  disabled?: boolean;
 }) {
-  const sharedClassName = `inline-flex items-center justify-between rounded-lg bg-[#1c1917] transition-colors hover:bg-[#0f0d0b] ${className}`;
-  const sharedStyle: React.CSSProperties = {
-    fontFamily: "var(--font-geist-sans), sans-serif",
-    fontWeight: 400,
-    fontStyle: "normal",
-    color: "rgb(231, 231, 231)",
-    fontSize: "13px",
-    lineHeight: "20px",
-  };
+  const sharedClassName = `inline-flex items-center justify-between ${PRIMARY_BUTTON_CLASS} ${className}`;
+  const sharedStyle: React.CSSProperties = { ...BUTTON_TEXT_STYLE, color: PRIMARY_BUTTON_TEXT_COLOR };
   const content = (
     <>
-      <span>{label}</span>
+      <span className="inline-flex items-center gap-2">{label}</span>
       <PixelGrid />
     </>
   );
 
   if (onClick || type) {
     return (
-      <button type={type ?? "button"} onClick={onClick} className={sharedClassName} style={sharedStyle}>
+      <button
+        type={type ?? "button"}
+        onClick={onClick}
+        disabled={disabled}
+        className={sharedClassName}
+        style={sharedStyle}
+      >
         {content}
       </button>
     );

@@ -9,10 +9,10 @@ import {
   updatePassword,
 } from "@/lib/auth";
 import { requireSupabase } from "@/lib/supabase";
-import { cn } from "@/lib/utils";
+import GetStartedButton from "./GetStartedButton";
 
 const inputClass =
-  "w-full border border-black/10 bg-transparent px-4 py-3 text-sm text-[#1d1b1b] outline-none transition placeholder:text-[#9a9a9a] focus:border-black/30";
+  "w-full rounded-lg border border-black/10 bg-transparent px-4 py-3 text-sm text-[#1d1b1b] outline-none transition placeholder:text-[#9a9a9a] focus:border-black/30";
 
 type Props = {
   onSuccess: () => void;
@@ -103,19 +103,17 @@ export default function SetPasswordForm({ onSuccess, onWaitlist }: Props) {
               <p className="text-center text-xs text-red-600">Passwords do not match.</p>
             ) : null}
 
-            <button
+            <GetStartedButton
               type="submit"
               disabled={!canSubmit || loading}
-              className={cn(
-                "flex h-11 w-full items-center justify-center gap-2 border text-sm font-medium transition",
-                canSubmit && !loading
-                  ? "border-black/10 bg-[#1c1917] text-white"
-                  : "cursor-not-allowed border-black/[0.06] bg-[#eceae7] text-[#9a9a9a]",
-              )}
-            >
-              {loading ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : null}
-              Save password
-            </button>
+              className="h-11 w-full pl-4 pr-3.5"
+              label={
+                <>
+                  {loading ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : null}
+                  Save password
+                </>
+              }
+            />
           </form>
         </div>
       </div>

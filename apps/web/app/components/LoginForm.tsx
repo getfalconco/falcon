@@ -12,18 +12,17 @@ import {
 } from "@/lib/auth";
 import { isSupabaseConfigured, requireSupabase } from "@/lib/supabase";
 import { tryOpenTalentAdminSession } from "@/lib/talent-admin";
-import { cn } from "@/lib/utils";
 import { AUTH } from "@/lib/marketing-copy";
+import GetStartedButton, { BUTTON_TEXT_STYLE, SECONDARY_BUTTON_CLASS } from "./GetStartedButton";
 import OtpForm from "./OtpForm";
 import SetPasswordForm from "./SetPasswordForm";
 
 const FAILED_ATTEMPTS_BEFORE_FORGOT = 3;
 
-const oauthButtonClass =
-  "relative flex h-11 w-full items-center justify-center border border-black/10 bg-transparent text-sm text-[#1d1b1b] transition hover:bg-black/[0.03]";
+const oauthButtonClass = `relative flex h-11 w-full items-center justify-center ${SECONDARY_BUTTON_CLASS}`;
 
 const inputClass =
-  "w-full border border-black/10 bg-transparent px-4 py-3 text-sm text-[#1d1b1b] outline-none transition placeholder:text-[#9a9a9a] focus:border-black/30";
+  "w-full rounded-lg border border-black/10 bg-transparent px-4 py-3 text-sm text-[#1d1b1b] outline-none transition placeholder:text-[#9a9a9a] focus:border-black/30";
 
 type Step =
   | { name: "login" }
@@ -264,19 +263,17 @@ export default function LoginForm({ onSuccess, onAdminSuccess, onTalentSuccess, 
 
               {error ? <p className="mt-3 text-center text-xs text-red-600">{error}</p> : null}
 
-              <button
+              <GetStartedButton
                 type="submit"
                 disabled={!email.trim() || loading}
-                className={cn(
-                  "mt-3 flex h-11 w-full items-center justify-center gap-2 border text-sm font-medium transition",
-                  email.trim() && !loading
-                    ? "border-black/10 bg-[#1c1917] text-white"
-                    : "cursor-not-allowed border-black/[0.06] bg-[#eceae7] text-[#9a9a9a]",
-                )}
-              >
-                {loading ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : null}
-                Send code
-              </button>
+                className="mt-3 h-11 w-full pl-4 pr-3.5"
+                label={
+                  <>
+                    {loading ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : null}
+                    Send code
+                  </>
+                }
+              />
             </form>
 
             <button
@@ -309,14 +306,14 @@ export default function LoginForm({ onSuccess, onAdminSuccess, onTalentSuccess, 
           </header>
 
           <div className="mt-8 space-y-3">
-            <button type="button" className={oauthButtonClass}>
+            <button type="button" className={oauthButtonClass} style={BUTTON_TEXT_STYLE}>
               <span className="absolute left-4 top-1/2 -translate-y-1/2">
                 <GoogleIcon />
               </span>
               Continue with Google
             </button>
 
-            <button type="button" className={oauthButtonClass}>
+            <button type="button" className={oauthButtonClass} style={BUTTON_TEXT_STYLE}>
               <span className="absolute left-4 top-1/2 -translate-y-1/2">
                 <AppleIcon />
               </span>
@@ -379,20 +376,18 @@ export default function LoginForm({ onSuccess, onAdminSuccess, onTalentSuccess, 
 
           {error ? <p className="mt-3 text-center text-xs text-red-600">{error}</p> : null}
 
-          <button
+          <GetStartedButton
             type="button"
             disabled={!canContinue || loading}
             onClick={() => void handleContinue()}
-            className={cn(
-              "mt-3 flex h-11 w-full items-center justify-center gap-2 border text-sm font-medium transition",
-              canContinue && !loading
-                ? "border-black/10 bg-[#1c1917] text-white"
-                : "cursor-not-allowed border-black/[0.06] bg-[#eceae7] text-[#9a9a9a]",
-            )}
-          >
-            {loading ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : null}
-            Continue
-          </button>
+            className="mt-3 h-11 w-full pl-4 pr-3.5"
+            label={
+              <>
+                {loading ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : null}
+                Continue
+              </>
+            }
+          />
 
           <div className="mt-4 flex flex-col items-center gap-2 text-xs">
             {showForgotPassword ? (

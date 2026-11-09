@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { Loader2 } from "lucide-react";
 import { EASE } from "@meridian/ui";
 import AuthSplitShell from "../components/AuthSplitShell";
+import GetStartedButton from "../components/GetStartedButton";
 import LoginForm from "../components/LoginForm";
 import WaitlistView from "../components/WaitlistView";
 import {
@@ -36,7 +37,7 @@ function safeInternalPath(path: string | null | undefined, fallback: string): st
 }
 
 const inputClass =
-  "w-full border border-black/10 bg-transparent px-4 py-3 text-sm text-[#1d1b1b] outline-none transition placeholder:text-[#9a9a9a] focus:border-black/30";
+  "w-full rounded-lg border border-black/10 bg-transparent px-4 py-3 text-sm text-[#1d1b1b] outline-none transition placeholder:text-[#9a9a9a] focus:border-black/30";
 
 /**
  * The name step runs only when the saved ticket (read with the member's own
@@ -100,18 +101,17 @@ function NameCaptureView({ email, onDone }: { email: string; onDone: () => void 
 
             {error ? <p className="mt-3 text-center text-xs text-red-600">{error}</p> : null}
 
-            <button
+            <GetStartedButton
               type="submit"
               disabled={!name.trim() || loading}
-              className={`mt-3 flex h-11 w-full items-center justify-center gap-2 border text-sm font-medium transition ${
-                name.trim() && !loading
-                  ? "border-black/10 bg-[#1c1917] text-white"
-                  : "cursor-not-allowed border-black/[0.06] bg-[#eceae7] text-[#9a9a9a]"
-              }`}
-            >
-              {loading ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : null}
-              Continue
-            </button>
+              className="mt-3 h-11 w-full pl-4 pr-3.5"
+              label={
+                <>
+                  {loading ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : null}
+                  Continue
+                </>
+              }
+            />
           </form>
         </div>
       </div>

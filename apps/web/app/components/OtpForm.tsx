@@ -110,7 +110,7 @@ export default function OtpForm({
         onClick={onBack}
         disabled={loading}
         aria-label="Back"
-        className="absolute left-8 top-14 z-50 flex h-8 w-8 items-center justify-center text-black/35 transition hover:bg-black/[0.05] hover:text-black/70 disabled:opacity-50"
+        className="absolute left-8 top-14 z-50 flex h-8 w-8 items-center justify-center rounded-lg text-black/35 transition hover:bg-black/[0.05] hover:text-black/70 disabled:opacity-50"
       >
         <ArrowLeft className="h-4 w-4" strokeWidth={1.75} />
       </button>
