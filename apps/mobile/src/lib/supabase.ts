@@ -21,6 +21,8 @@ export function getSupabase(): SupabaseClient | null {
         persistSession: !FUNNEL_TEST_MODE,
         autoRefreshToken: true,
         detectSessionInUrl: false,
+        // Google and Apple come back with a code (lib/oauth.ts).
+        flowType: "pkce",
       },
     });
     if (Platform.OS !== "web") {

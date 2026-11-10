@@ -10,7 +10,8 @@
     "ios": {
       "bundleIdentifier": "co.getfalcon.app",
       "buildNumber": "1",
-      "supportsTablet": false
+      "supportsTablet": false,
+      "usesAppleSignIn": true
     },
     "android": {
       "package": "co.getfalcon.app"
@@ -47,6 +48,7 @@
         }
       ],
       "expo-notifications",
+      "expo-apple-authentication",
       "expo-dev-client"
     ],
     "experiments": {

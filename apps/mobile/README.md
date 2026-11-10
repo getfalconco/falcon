@@ -13,12 +13,23 @@ It is a development build app (`expo-dev-client`), not an Expo Go project.
   centered). It matches the native launch screen (`expo-splash-screen` in
   `app.json`, same image, 64 pt), which it replaces, then hands off.
 - `src/app/login.tsx`: email, then the emailed code (Supabase OTP on the
-  website's project; the project sends 8-digit codes).
+  website's project, 6-digit codes; `OTP_LENGTH` in login.tsx).
 - `src/app/welcome.tsx`: the website's /welcome funnel, step for step. The
   ticker names, SEC filings count and screenshot reading come from the site's
   API routes (`EXPO_PUBLIC_API_URL`, default https://getfalcon.co). In the
   browser preview those calls go through the Metro dev server's proxy
   (`metro.config.js`) because the site sends no CORS headers.
+
+## Google and Apple sign-in
+
+`src/lib/oauth.ts`. Google (and Apple on web) runs Supabase OAuth in an auth
+session browser and comes back on `falcon://auth/callback` (PKCE code
+exchanged for a session). Apple on iOS uses the native Sign in with Apple
+sheet and `signInWithIdToken`. In Supabase, enable both providers and add
+`falcon://**` (and `http://localhost:8081/**` for the browser preview)
+under Authentication > URL Configuration > Redirect URLs. In Xcode the target
+needs the Sign in with Apple capability (`usesAppleSignIn` in app.json adds
+it on prebuild).
 
 ## Environment
 

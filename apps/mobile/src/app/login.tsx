@@ -21,15 +21,17 @@ import { Reveal } from "@/components/Reveal";
 import { TextField } from "@/components/TextField";
 import { API_URL } from "@/lib/env";
 import { haptics } from "@/lib/haptics";
+import { signInWithApple, signInWithGoogle, type OAuthResult } from "@/lib/oauth";
 import { getSupabase } from "@/lib/supabase";
 import { colors, fonts } from "@/theme";
 
 /**
  * The website's login form (apps/web LoginForm.tsx): same copy, fonts, sizes,
  * spacing, borders and colors (no glass panel in the app). Signing in is by emailed code on the website's
- * Supabase project, which sends 8-digit codes (emails/supabase).
+ * Supabase project, which sends 6-digit codes.
  */
-const OTP_LENGTH = 8;
+/** The emailed code's length (the Supabase project's OTP length setting). */
+const OTP_LENGTH = 6;
 const RESEND_SECONDS = 60;
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -71,7 +73,10 @@ export default function Login() {
     <View style={[styles.screen, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
       <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === "ios" ? "padding" : undefined}>
         {step.name === "email" ? (
-          <EmailStep onSent={(email) => setStep({ name: "code", email })} />
+          <EmailStep
+            onSent={(email) => setStep({ name: "code", email })}
+            onSignedIn={() => router.replace("/welcome")}
+          />
         ) : (
           <CodeStep
             email={step.email}
@@ -89,16 +94,29 @@ export default function Login() {
 /* ------------------------------------------------------------------ */
 
 /** SECONDARY_BUTTON_CLASS + h-11 w-full, icon pinned 16px from the left. */
-function OAuthButton({ icon, label }: { icon: ReactNode; label: string }) {
+function OAuthButton({
+  icon,
+  label,
+  onPress,
+  busy,
+  disabled,
+}: {
+  icon: ReactNode;
+  label: string;
+  onPress: () => void;
+  busy: boolean;
+  disabled: boolean;
+}) {
   return (
     <Pressable
       accessibilityRole="button"
       accessibilityLabel={label}
-      // Not connected to anything yet, exactly like the website's buttons.
-      onPress={() => {}}
+      accessibilityState={{ disabled, busy }}
+      onPress={onPress}
+      disabled={disabled}
       style={({ pressed }) => [styles.oauth, pressed ? styles.oauthPressed : null]}
     >
-      <View style={styles.oauthIcon}>{icon}</View>
+      <View style={styles.oauthIcon}>{busy ? <ActivityIndicator size="small" color={colors.muted} /> : icon}</View>
       <Text style={styles.buttonText}>{label}</Text>
     </Pressable>
   );
@@ -129,10 +147,32 @@ function ContinueButton({ onPress, disabled, loading }: { onPress: () => void; d
 /* Email                                                               */
 /* ------------------------------------------------------------------ */
 
-function EmailStep({ onSent }: { onSent: (email: string) => void }) {
+function EmailStep({ onSent, onSignedIn }: { onSent: (email: string) => void; onSignedIn: () => void }) {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
+  const [provider, setProvider] = useState<"google" | "apple" | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  async function continueWith(which: "google" | "apple") {
+    if (provider || loading) return;
+    haptics.tap();
+    setProvider(which);
+    setError(null);
+    let result: OAuthResult;
+    try {
+      result = await (which === "google" ? signInWithGoogle() : signInWithApple());
+    } catch (err) {
+      result = { ok: false, canceled: false, message: authMessage(err) };
+    }
+    setProvider(null);
+    if (result.ok) {
+      haptics.success();
+      onSignedIn();
+    } else if (!result.canceled) {
+      haptics.error();
+      setError(result.message ?? "Sign in failed. Please try again.");
+    }
+  }
   const trimmed = email.trim();
   const valid = EMAIL_PATTERN.test(trimmed);
 
@@ -178,8 +218,20 @@ function EmailStep({ onSent }: { onSent: (email: string) => void }) {
           <Text style={styles.subtitle}>Sign in or create an account</Text>
 
           <View style={styles.oauthStack}>
-            <OAuthButton icon={<GoogleIcon />} label="Continue with Google" />
-            <OAuthButton icon={<AppleIcon />} label="Continue with Apple" />
+            <OAuthButton
+              icon={<GoogleIcon />}
+              label="Continue with Google"
+              onPress={() => void continueWith("google")}
+              busy={provider === "google"}
+              disabled={provider !== null || loading}
+            />
+            <OAuthButton
+              icon={<AppleIcon />}
+              label="Continue with Apple"
+              onPress={() => void continueWith("apple")}
+              busy={provider === "apple"}
+              disabled={provider !== null || loading}
+            />
           </View>
 
           <View style={styles.divider}>
@@ -203,7 +255,7 @@ function EmailStep({ onSent }: { onSent: (email: string) => void }) {
             autoCorrect={false}
             returnKeyType="go"
             onSubmitEditing={() => void sendCode()}
-            editable={!loading}
+            editable={!loading && provider === null}
             style={styles.input}
           />
 
