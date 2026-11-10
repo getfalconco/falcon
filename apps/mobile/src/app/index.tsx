@@ -16,7 +16,7 @@ const RIPPLE_ASPECT = 1896 / 1170;
 /** Where the visible window starts: the lower part, with the desk and the wave. */
 const RIPPLE_FOCUS = 1;
 /** The image's share of the screen's height, and how much of it fades out. */
-const HERO_SHARE = 0.6;
+const HERO_SHARE = 0.68;
 const FADE_SHARE = 0.18;
 /** The row that holds the language button. */
 const TOP_BAR_H = 52;
