@@ -166,7 +166,7 @@ const styles = StyleSheet.create({
     maxWidth: 320,
   },
   bottom: { paddingHorizontal: 20, paddingTop: 16 },
-  cta: { height: 54, borderRadius: 27 },
+  cta: { height: 54, borderRadius: 12 },
   signInRow: { marginTop: 18, flexDirection: "row", justifyContent: "center", alignItems: "center" },
   quiet: { fontFamily: fonts.sans, fontSize: 14, lineHeight: 20, color: colors.muted },
   signIn: { fontFamily: fonts.sansMedium, fontSize: 14, lineHeight: 20, color: colors.ink },
