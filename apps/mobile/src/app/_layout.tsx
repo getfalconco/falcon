@@ -1,4 +1,5 @@
-import { Stack } from "expo-router";
+import { Platform } from "react-native";
+import { Stack, type NativeStackNavigationOptions } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import { useFonts } from "expo-font";
@@ -6,11 +7,32 @@ import { LibreBaskerville_400Regular } from "@expo-google-fonts/libre-baskervill
 import { PlayfairDisplay_400Regular } from "@expo-google-fonts/playfair-display/400Regular";
 import { Inter_400Regular } from "@expo-google-fonts/inter/400Regular";
 import PhoneFrame from "@/components/PhoneFrame";
+import { SplashOverlay } from "@/components/SplashOverlay";
+import { SHEET_CORNER_RADIUS, SHEET_DETENTS } from "@/lib/sheets";
 import { colors, fonts } from "@/theme";
 
-// The native launch screen stays up until the JS splash (app/index) has drawn
-// the same logo in the same place, so the hand-off is invisible.
+// The native launch screen stays up until the JS splash (SplashOverlay) has
+// drawn the same logo in the same place, so the hand-off is invisible.
 void SplashScreen.preventAutoHideAsync().catch(() => {});
+
+/**
+ * A real iOS form sheet (system grabber, detents, corners, swipe down to
+ * close). The web preview has none, so there the route is a transparent
+ * modal and components/Sheet.web.tsx draws the sheet inside the phone frame.
+ */
+function sheet(detents: readonly number[]): NativeStackNavigationOptions {
+  if (Platform.OS === "web") {
+    return { presentation: "transparentModal", animation: "none", contentStyle: { backgroundColor: "transparent" } };
+  }
+  return {
+    presentation: "formSheet",
+    sheetGrabberVisible: true,
+    sheetAllowedDetents: [...detents],
+    sheetCornerRadius: SHEET_CORNER_RADIUS,
+    gestureEnabled: true,
+    contentStyle: { backgroundColor: "#ffffff" },
+  };
+}
 
 export default function RootLayout() {
   // The website's own fonts: Geist (the `geist` package's TTFs) for text,
@@ -39,10 +61,13 @@ export default function RootLayout() {
           contentStyle: { backgroundColor: colors.background },
         }}
       >
-        <Stack.Screen name="index" options={{ contentStyle: { backgroundColor: colors.splash } }} />
+        <Stack.Screen name="index" />
         <Stack.Screen name="login" options={{ contentStyle: { backgroundColor: "#fbfbf9" } }} />
         <Stack.Screen name="welcome" />
+        <Stack.Screen name="sign-in" options={sheet(SHEET_DETENTS.signIn)} />
+        <Stack.Screen name="language" options={sheet(SHEET_DETENTS.language)} />
       </Stack>
+      <SplashOverlay />
     </PhoneFrame>
   );
 }

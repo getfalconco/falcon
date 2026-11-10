@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   ActivityIndicator,
   Keyboard,
@@ -14,6 +14,7 @@ import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as WebBrowser from "expo-web-browser";
 import { ArrowLeft } from "lucide-react-native";
+import { AuthButton, authMessage } from "@/components/AuthButton";
 import { AppleIcon, GoogleIcon } from "@/components/BrandIcons";
 import { OtpInput, type OtpInputHandle } from "@/components/OtpInput";
 import { PixelArrow } from "@/components/PixelArrow";
@@ -49,34 +50,36 @@ function maskEmail(value: string): string {
   return `${local.slice(0, 2)}***@${domain}`;
 }
 
-function authMessage(error: unknown): string {
-  const message = error instanceof Error ? error.message : "";
-  const lower = message.toLowerCase();
-  if (lower.includes("rate limit") || lower.includes("security purposes")) {
-    return "Too many tries. Wait a minute and try again.";
-  }
-  if (lower.includes("network") || lower.includes("fetch")) {
-    return "We couldn't reach Falcon. Check your connection.";
-  }
-  if (lower.includes("token") && (lower.includes("expired") || lower.includes("invalid"))) {
-    return "Provided verification code is invalid";
-  }
-  return message || "Something went wrong. Please try again.";
-}
-
 export default function Login() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const [step, setStep] = useState<Step>({ name: "email" });
+  // Opened from the landing's sign-in sheet: a back arrow returns there.
+  // Read after mount: the router's focus state is stale during render.
+  const [canGoBack, setCanGoBack] = useState(false);
+  useEffect(() => setCanGoBack(router.canGoBack()), [router]);
 
   return (
     <View style={[styles.screen, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
       <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === "ios" ? "padding" : undefined}>
         {step.name === "email" ? (
-          <EmailStep
-            onSent={(email) => setStep({ name: "code", email })}
-            onSignedIn={() => router.replace("/welcome")}
-          />
+          <View style={styles.flex}>
+            {canGoBack ? (
+              <Pressable
+                accessibilityRole="button"
+                accessibilityLabel="Back"
+                onPress={() => router.back()}
+                hitSlop={8}
+                style={({ pressed }) => [styles.back, pressed ? styles.backPressed : null]}
+              >
+                <ArrowLeft size={16} strokeWidth={1.75} color="rgba(0, 0, 0, 0.35)" />
+              </Pressable>
+            ) : null}
+            <EmailStep
+              onSent={(email) => setStep({ name: "code", email })}
+              onSignedIn={() => router.replace("/welcome")}
+            />
+          </View>
         ) : (
           <CodeStep
             email={step.email}
@@ -92,35 +95,6 @@ export default function Login() {
 /* ------------------------------------------------------------------ */
 /* Buttons                                                             */
 /* ------------------------------------------------------------------ */
-
-/** SECONDARY_BUTTON_CLASS + h-11 w-full, icon pinned 16px from the left. */
-function OAuthButton({
-  icon,
-  label,
-  onPress,
-  busy,
-  disabled,
-}: {
-  icon: ReactNode;
-  label: string;
-  onPress: () => void;
-  busy: boolean;
-  disabled: boolean;
-}) {
-  return (
-    <Pressable
-      accessibilityRole="button"
-      accessibilityLabel={label}
-      accessibilityState={{ disabled, busy }}
-      onPress={onPress}
-      disabled={disabled}
-      style={({ pressed }) => [styles.oauth, pressed ? styles.oauthPressed : null]}
-    >
-      <View style={styles.oauthIcon}>{busy ? <ActivityIndicator size="small" color={colors.muted} /> : icon}</View>
-      <Text style={styles.buttonText}>{label}</Text>
-    </Pressable>
-  );
-}
 
 /** GetStartedButton: dark, label left, the marching pixel arrow right. */
 function ContinueButton({ onPress, disabled, loading }: { onPress: () => void; disabled: boolean; loading: boolean }) {
@@ -218,14 +192,14 @@ function EmailStep({ onSent, onSignedIn }: { onSent: (email: string) => void; on
           <Text style={styles.subtitle}>Sign in or create an account</Text>
 
           <View style={styles.oauthStack}>
-            <OAuthButton
+            <AuthButton
               icon={<GoogleIcon />}
               label="Continue with Google"
               onPress={() => void continueWith("google")}
               busy={provider === "google"}
               disabled={provider !== null || loading}
             />
-            <OAuthButton
+            <AuthButton
               icon={<AppleIcon />}
               label="Continue with Apple"
               onPress={() => void continueWith("apple")}
@@ -453,17 +427,6 @@ const styles = StyleSheet.create({
   },
   // mt-8 space-y-3
   oauthStack: { marginTop: 32, gap: 12 },
-  oauth: {
-    height: 44,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: colors.hairline,
-    backgroundColor: "transparent",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  oauthPressed: { backgroundColor: "#efefec" },
-  oauthIcon: { position: "absolute", left: 16, top: 0, bottom: 0, justifyContent: "center" },
   // BUTTON_TEXT_STYLE: Geist 13px / 20px
   buttonText: { fontFamily: fonts.sans, fontSize: 13, lineHeight: 20, color: colors.ink },
   // my-6, border-t border-black/10, "or" text-xs text-[#9a9a9a] px-3

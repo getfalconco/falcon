@@ -9,9 +9,18 @@ It is a development build app (`expo-dev-client`), not an Expo Go project.
 
 ## What is in it
 
-- `src/app/index.tsx`: the loading screen (white, the Falcon mark small and
-  centered). It matches the native launch screen (`expo-splash-screen` in
-  `app.json`, same image, 64 pt), which it replaces, then hands off.
+- `src/components/SplashOverlay.tsx`: the loading screen (white, the Falcon
+  mark small and centered). It matches the native launch screen
+  (`expo-splash-screen` in `app.json`, same image, 64 pt), which it replaces,
+  then fades out (600 ms) onto the landing.
+- `src/app/index.tsx`: the landing. The phone from the website's "Run it from
+  anywhere" section, the headline, Get Started (the welcome funnel) and Sign
+  in. Top right, the language button: Apple's Liquid Glass
+  (`expo-glass-effect`) on iOS 26, a plain round button elsewhere.
+- `src/app/sign-in.tsx`, `src/app/language.tsx`: native iOS form sheets
+  (`presentation: "formSheet"` in `_layout.tsx`). In the browser preview they
+  are drawn by `src/components/Sheet.web.tsx` inside the phone frame. The
+  language choice is only remembered for now (no translations yet).
 - `src/app/login.tsx`: email, then the emailed code (Supabase OTP on the
   website's project, 6-digit codes; `OTP_LENGTH` in login.tsx).
 - `src/app/welcome.tsx`: the website's /welcome funnel, step for step. The
