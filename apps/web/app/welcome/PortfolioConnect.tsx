@@ -24,7 +24,7 @@ const IMAGE_ACCEPT = "image/png,image/jpeg,image/webp,image/heic,image/heif,.hei
 const CSV_ACCEPT = ".csv,text/csv,text/plain,application/vnd.ms-excel";
 
 const ROW =
-  "flex w-full items-center gap-4 rounded-xl border px-5 py-4 text-left outline-none transition-colors focus-visible:border-black/50";
+  "flex w-full items-center gap-4 rounded-xl border px-5 py-3.5 text-left outline-none transition-colors focus-visible:border-black/50";
 const ROW_ON = "border-black/[0.12] hover:border-black/30";
 const ROW_OFF = "cursor-not-allowed border-black/[0.07] opacity-60";
 const QUIET =
@@ -318,9 +318,6 @@ export function PortfolioConnect({
             );
           })}
         </ul>
-        <p className="mt-3 text-[12px] text-[#8a8a8a]" style={{ fontFamily: GEIST }}>
-          Check the tickers, fix anything that looks off and remove what you don&apos;t want Falcon to watch.
-        </p>
       </div>
     );
   }
@@ -332,28 +329,22 @@ export function PortfolioConnect({
       id: "screenshot" as const,
       icon: ImageUp,
       title: "Upload a screenshot",
-      detail: "Of your positions screen. PNG, JPG, WEBP or HEIC up to 10 MB.",
       enabled: sources?.screenshot === true,
       onClick: () => imageInput.current?.click(),
-      busyLabel: "Reading your screenshot",
     },
     {
       id: "csv" as const,
       icon: FileSpreadsheet,
       title: "Upload a CSV",
-      detail: "The positions export from your broker.",
       enabled: true,
       onClick: () => csvInput.current?.click(),
-      busyLabel: "Reading your file",
     },
     {
       id: "broker" as const,
       icon: Landmark,
       title: "Connect your broker",
-      detail: "A read-only link through SnapTrade.",
       enabled: sources?.broker === true,
       onClick: () => void connectBroker(),
-      busyLabel: "Waiting for your broker",
     },
   ];
 
@@ -383,12 +374,7 @@ export function PortfolioConnect({
               style={{ fontFamily: GEIST }}
             >
               <Icon className="h-5 w-5 shrink-0 text-[#1d1b1b]" strokeWidth={1.5} aria-hidden />
-              <span className="min-w-0 flex-1">
-                <span className="block text-[15px] text-[#1d1b1b]">{option.title}</span>
-                <span className="mt-0.5 block text-[12.5px] leading-[18px] text-[#8a8a8a]">
-                  {isBusy ? option.busyLabel : option.detail}
-                </span>
-              </span>
+              <span className="min-w-0 flex-1 text-[15px] text-[#1d1b1b]">{option.title}</span>
               {isBusy ? (
                 <Loader2 className="h-4 w-4 shrink-0 animate-spin text-[#8a8a8a]" aria-hidden />
               ) : sources && !option.enabled ? (
@@ -408,11 +394,7 @@ export function PortfolioConnect({
         <p role="alert" className="mt-3 text-[13px] text-red-600" style={{ fontFamily: GEIST }}>
           {error}
         </p>
-      ) : (
-        <p className="mt-3 text-[12px] text-[#8a8a8a]" style={{ fontFamily: GEIST }}>
-          Screenshots and files are read once and never stored.
-        </p>
-      )}
+      ) : null}
 
       <input
         ref={imageInput}

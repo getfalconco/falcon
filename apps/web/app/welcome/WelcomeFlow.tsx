@@ -99,53 +99,42 @@ function stockCount(n: number) {
   return `${n} ${n === 1 ? "stock" : "stocks"}`;
 }
 
-function copyFor(step: StepId, answers: WelcomeAnswers): { title: string; subtitle?: string } {
+function titleFor(step: StepId, answers: WelcomeAnswers): string {
   switch (step) {
     case "intro":
-      return { title: "Welcome to Falcon", subtitle: "Let's set up Falcon around what you care about." };
+      return "Welcome to Falcon";
     case "goal":
-      return { title: "What's your main goal?", subtitle: "Pick the one that matters most to you right now." };
+      return "What's your main goal?";
     case "tenure":
-      return { title: "How long have you been investing?" };
+      return "How long have you been investing?";
     case "portfolio":
-      return { title: "How big is your portfolio?", subtitle: "A rough range is fine." };
+      return "How big is your portfolio?";
     case "frustration":
-      return { title: "What frustrates you most?", subtitle: "Pick the closest one." };
+      return "What frustrates you most?";
     case "missed":
-      return { title: "Have you ever missed a big move because you found out too late?" };
+      return "Have you ever missed a big move because you found out too late?";
     case "alone":
-      return { title: "You're not alone.", subtitle: "Falcon spots ripples before they're priced in." };
+      return "You're not alone.";
     case "research":
-      return { title: "How much time do you spend on research daily?" };
+      return "How much time do you spend on research daily?";
     case "brief":
-      return { title: "Falcon gives you what matters in 30 seconds.", subtitle: "Less time reading, more time deciding." };
+      return "Falcon gives you what matters in 30 seconds.";
     case "sectors":
-      return { title: "Which sectors do you follow?", subtitle: "Pick as many as you like." };
+      return "Which sectors do you follow?";
     case "connect":
-      return {
-        title: "Connect your portfolio",
-        subtitle: "So Falcon watches the stocks you actually own. Pick whichever is easiest.",
-      };
+      return "Connect your portfolio";
     case "heard":
-      return { title: "Where did you hear about Falcon?" };
+      return "Where did you hear about Falcon?";
     case "notify":
-      return {
-        title: "Get alerted when a ripple hits your portfolio.",
-        subtitle: "Only for news that touches your stocks.",
-      };
+      return "Get alerted when a ripple hits your portfolio.";
     case "commit":
-      return { title: "I'll check my Exposure every morning", subtitle: "A small habit that keeps you ahead." };
+      return "I'll check my Exposure every morning";
     case "loading":
-      return {
-        title: answers.stocks.length
-          ? `Mapping connections for your ${stockCount(answers.stocks.length)}...`
-          : "Mapping connections for your sectors...",
-      };
+      return answers.stocks.length
+        ? `Mapping connections for your ${stockCount(answers.stocks.length)}...`
+        : "Mapping connections for your sectors...";
     case "result":
-      return {
-        title: "Your blind spot score",
-        subtitle: "Higher means more of your stocks' news is likely to reach you late.",
-      };
+      return "Your blind spot score";
   }
 }
 
@@ -396,7 +385,7 @@ function WelcomeContent() {
     }
   }, [client]);
 
-  const copy = copyFor(step, answers);
+  const title = titleFor(step, answers);
 
   /** Entrance for the `order`th piece of the step (0 is the headline). */
   const enter = (order: number): MotionProps =>
@@ -408,7 +397,7 @@ function WelcomeContent() {
           transition: { duration: ENTER_S, ease: EASE_CALM, delay: order * STAGGER_S },
         };
   const choiceCount = isChoiceStep(step) ? Math.min(CHOICE_STEPS[step].options.length, MAX_STAGGERED_OPTIONS) : 1;
-  const bodyOrder = copy.subtitle ? 2 : 1;
+  const bodyOrder = 1;
   const actionsOrder = bodyOrder + choiceCount;
 
   function body() {
@@ -416,7 +405,7 @@ function WelcomeContent() {
       const { field, options } = CHOICE_STEPS[step];
       return (
         <ChoiceRows
-          label={copy.title}
+          label={title}
           options={options}
           value={answers[field]}
           onChange={(id) => update({ [field]: id } as Partial<WelcomeAnswers>)}
@@ -429,7 +418,7 @@ function WelcomeContent() {
       case "sectors":
         return (
           <Chips
-            label={copy.title}
+            label={title}
             options={SECTORS}
             value={answers.sectors}
             confirming={confirming}
@@ -454,7 +443,7 @@ function WelcomeContent() {
         return (
           <div>
             <Chips
-              label={copy.title}
+              label={title}
               options={HEARD_ABOUT}
               value={answers.heardAbout ? [answers.heardAbout] : []}
               confirming={confirming}
@@ -599,17 +588,8 @@ function WelcomeContent() {
                 className="text-[26px] leading-[34px] text-[#1d1b1b] [text-wrap:balance] sm:text-[30px] sm:leading-[38px]"
                 style={{ fontFamily: SERIF, fontWeight: 400 }}
               >
-                {copy.title}
+                {title}
               </motion.h1>
-              {copy.subtitle ? (
-                <motion.p
-                  {...enter(1)}
-                  className="mt-3 text-[14px] leading-[22px] text-[#767676]"
-                  style={{ fontFamily: GEIST }}
-                >
-                  {copy.subtitle}
-                </motion.p>
-              ) : null}
 
               {bodyNode ? (
                 isChoiceStep(step) ? (

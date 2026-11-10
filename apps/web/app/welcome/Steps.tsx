@@ -182,7 +182,7 @@ export function HoldToCommit({ committed, onCommit }: { committed: boolean; onCo
   const filled = committed || holding;
 
   return (
-    <div className="flex flex-col items-start gap-3">
+    <div className="flex flex-col items-start">
       <button
         type="button"
         aria-label={committed ? "Committed" : "Press and hold to commit"}
@@ -224,9 +224,6 @@ export function HoldToCommit({ committed, onCommit }: { committed: boolean; onCo
           {committed ? "Committed" : "Press and hold"}
         </span>
       </button>
-      <p className="text-[12px] text-[#8a8a8a]" style={{ fontFamily: GEIST }} aria-live="polite">
-        {committed ? "See you tomorrow morning." : "Hold for a moment to commit."}
-      </p>
     </div>
   );
 }
@@ -310,10 +307,6 @@ export function ResultView({ score, filings }: { score: number; filings: Filings
       <div className="mt-5 h-px w-full bg-black/10" aria-hidden>
         <div className="h-px bg-[#1d1b1b]" style={{ width: `${score}%` }} />
       </div>
-      <p className="mt-3 text-[13px] leading-[20px] text-[#8a8a8a]" style={{ fontFamily: GEIST }}>
-        From your answers: how often you miss moves, your research time, what frustrates you and how many stocks you
-        follow.
-      </p>
 
       <div className="mt-8 rounded-2xl border border-black/[0.07] bg-[#fdfdfd] p-5 shadow-[0_24px_60px_-20px_rgba(0,0,0,0.18)]">
         <MonoLabel>Today on your stocks</MonoLabel>
@@ -338,9 +331,6 @@ export function ResultView({ score, filings }: { score: number; filings: Filings
           <>
             <p className="mt-3 text-[18px] leading-[26px] text-[#1d1b1b]" style={{ fontFamily: SERIF }}>
               {filings.count} {filings.count === 1 ? "event" : "events"} hit your portfolio today
-            </p>
-            <p className="mt-1 text-[12px] text-[#8a8a8a]" style={{ fontFamily: GEIST }}>
-              SEC filings on your stocks in the last 24 hours
             </p>
             <div className="relative mt-4">
               <ul className="pointer-events-none select-none divide-y divide-black/[0.06] blur-[5px]" aria-hidden>
