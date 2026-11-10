@@ -184,9 +184,6 @@ export function HoldToCommit({ committed, onCommit }: { committed: boolean; onCo
           </View>
         </Pressable>
       </Animated.View>
-      <Text style={[styles.caption, styles.centered]} accessibilityLiveRegion="polite">
-        {committed ? "See you tomorrow morning." : "Hold for a moment to commit."}
-      </Text>
     </View>
   );
 }
@@ -273,10 +270,6 @@ export function ResultView({ score, filings }: { score: number; filings: Filings
       <View style={styles.track}>
         <Animated.View style={[styles.trackFill, barStyle]} />
       </View>
-      <Text style={styles.captionLong}>
-        From your answers: how often you miss moves, your research time, what frustrates you and how many stocks you
-        follow.
-      </Text>
 
       <View style={styles.card}>
         <MonoLabel>Today on your stocks</MonoLabel>
@@ -298,7 +291,6 @@ export function ResultView({ score, filings }: { score: number; filings: Filings
             <Text style={[styles.cardHeadline, styles.cardTop]}>
               {filings.count} {filings.count === 1 ? "event" : "events"} hit your portfolio today
             </Text>
-            <Text style={styles.cardSmall}>SEC filings on your stocks in the last 24 hours</Text>
             <View style={styles.locked}>
               <View aria-hidden>
                 {filings.items.slice(0, 3).map((item, i) => (
@@ -380,8 +372,6 @@ const styles = StyleSheet.create({
   holdLabel: { flexDirection: "row", alignItems: "center", gap: 8 },
   holdText: { fontFamily: fonts.sans, fontSize: 15, color: colors.primaryText },
   caption: { marginTop: 12, fontFamily: fonts.sans, fontSize: 13, lineHeight: 18, color: colors.faint },
-  centered: { textAlign: "center" },
-  captionLong: { marginTop: 12, fontFamily: fonts.sans, fontSize: 13, lineHeight: 20, color: colors.faint },
   list: { borderTopWidth: 1, borderBottomWidth: 1, borderColor: colors.divider },
   listRow: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingVertical: 14 },
   listDivider: { borderTopWidth: 1, borderTopColor: colors.divider },
@@ -408,7 +398,6 @@ const styles = StyleSheet.create({
   cardMuted: { fontFamily: fonts.sans, fontSize: 14, color: colors.muted },
   cardSerif: { fontFamily: fonts.serif, fontSize: 15, lineHeight: 24, color: colors.ink },
   cardHeadline: { fontFamily: fonts.serif, fontSize: 18, lineHeight: 26, color: colors.ink },
-  cardSmall: { marginTop: 4, fontFamily: fonts.sans, fontSize: 12, color: colors.faint },
   locked: { marginTop: 14, borderRadius: 8, overflow: "hidden" },
   filingRow: { flexDirection: "row", alignItems: "center", gap: 12, paddingVertical: 10 },
   filingTicker: { width: 52, fontFamily: fonts.mono, fontSize: 12, color: colors.ink },

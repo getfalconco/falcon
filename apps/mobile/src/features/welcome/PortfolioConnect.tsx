@@ -269,9 +269,6 @@ export function PortfolioConnect({
             );
           })}
         </View>
-        <Text style={styles.note}>
-          Check the tickers, fix anything that looks off and remove what you don't want Falcon to watch.
-        </Text>
       </View>
     );
   }
@@ -282,37 +279,29 @@ export function PortfolioConnect({
     id: Exclude<Busy, null>;
     icon: LucideIcon;
     title: string;
-    detail: string;
     enabled: boolean;
     onPress: () => void;
-    busyLabel: string;
   }[] = [
     {
       id: "screenshot",
       icon: ImageUp,
       title: "Upload a screenshot",
-      detail: "Of your positions screen, from your photos.",
       enabled: sources?.screenshot === true,
       onPress: () => void uploadScreenshot(),
-      busyLabel: "Reading your screenshot",
     },
     {
       id: "csv",
       icon: FileSpreadsheet,
       title: "Upload a CSV",
-      detail: "The positions export from your broker.",
       enabled: true,
       onPress: () => void uploadCsv(),
-      busyLabel: "Reading your file",
     },
     {
       id: "broker",
       icon: Landmark,
       title: "Connect your broker",
-      detail: "A read-only link through SnapTrade.",
       enabled: sources?.broker === true,
       onPress: () => void connectBroker(),
-      busyLabel: "Waiting for your broker",
     },
   ];
 
@@ -340,10 +329,7 @@ export function PortfolioConnect({
               ]}
             >
               <Icon size={20} strokeWidth={1.5} color={colors.ink} />
-              <View style={styles.optionText}>
-                <Text style={styles.optionTitle}>{option.title}</Text>
-                <Text style={styles.optionDetail}>{isBusy ? option.busyLabel : option.detail}</Text>
-              </View>
+              <Text style={[styles.optionTitle, styles.optionText]}>{option.title}</Text>
               {isBusy ? (
                 <ActivityIndicator size="small" color={colors.faint} />
               ) : sources && !option.enabled ? (
@@ -357,9 +343,7 @@ export function PortfolioConnect({
         <Text accessibilityRole="alert" style={styles.error}>
           {error}
         </Text>
-      ) : (
-        <Text style={styles.note}>Screenshots and files are read once and never stored.</Text>
-      )}
+      ) : null}
     </View>
   );
 }
@@ -374,15 +358,13 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.optionBorder,
     paddingHorizontal: 18,
-    paddingVertical: 16,
+    paddingVertical: 14,
   },
   optionOff: { borderColor: "rgba(0, 0, 0, 0.07)", opacity: 0.6 },
   optionPressed: { backgroundColor: "rgba(0, 0, 0, 0.025)" },
   optionText: { flex: 1, minWidth: 0 },
   optionTitle: { fontFamily: fonts.sans, fontSize: 16, lineHeight: 21, color: colors.ink },
-  optionDetail: { marginTop: 2, fontFamily: fonts.sans, fontSize: 13, lineHeight: 18, color: colors.faint },
   soon: { fontFamily: fonts.mono, fontSize: 10, letterSpacing: 1.8, textTransform: "uppercase", color: colors.placeholder },
-  note: { marginTop: 12, fontFamily: fonts.sans, fontSize: 13, lineHeight: 18, color: colors.faint },
   error: { marginTop: 12, fontFamily: fonts.sans, fontSize: 13, lineHeight: 18, color: colors.error },
   reviewHead: { flexDirection: "row", alignItems: "baseline", justifyContent: "space-between" },
   quiet: { fontFamily: fonts.mono, fontSize: 11, letterSpacing: 2, textTransform: "uppercase", color: colors.placeholder },

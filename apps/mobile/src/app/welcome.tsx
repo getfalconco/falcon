@@ -95,53 +95,42 @@ function stockCount(n: number) {
   return `${n} ${n === 1 ? "stock" : "stocks"}`;
 }
 
-function copyFor(step: StepId, answers: WelcomeAnswers): { title: string; subtitle?: string } {
+function titleFor(step: StepId, answers: WelcomeAnswers): string {
   switch (step) {
     case "intro":
-      return { title: "Welcome to Falcon", subtitle: "Let's set up Falcon around what you care about." };
+      return "Welcome to Falcon";
     case "goal":
-      return { title: "What's your main goal?", subtitle: "Pick the one that matters most to you right now." };
+      return "What's your main goal?";
     case "tenure":
-      return { title: "How long have you been investing?" };
+      return "How long have you been investing?";
     case "portfolio":
-      return { title: "How big is your portfolio?", subtitle: "A rough range is fine." };
+      return "How big is your portfolio?";
     case "frustration":
-      return { title: "What frustrates you most?", subtitle: "Pick the closest one." };
+      return "What frustrates you most?";
     case "missed":
-      return { title: "Have you ever missed a big move because you found out too late?" };
+      return "Have you ever missed a big move because you found out too late?";
     case "alone":
-      return { title: "You're not alone.", subtitle: "Falcon spots ripples before they're priced in." };
+      return "You're not alone.";
     case "research":
-      return { title: "How much time do you spend on research daily?" };
+      return "How much time do you spend on research daily?";
     case "brief":
-      return { title: "Falcon gives you what matters in 30 seconds.", subtitle: "Less time reading, more time deciding." };
+      return "Falcon gives you what matters in 30 seconds.";
     case "sectors":
-      return { title: "Which sectors do you follow?", subtitle: "Pick as many as you like." };
+      return "Which sectors do you follow?";
     case "connect":
-      return {
-        title: "Connect your portfolio",
-        subtitle: "So Falcon watches the stocks you actually own. Pick whichever is easiest.",
-      };
+      return "Connect your portfolio";
     case "heard":
-      return { title: "Where did you hear about Falcon?" };
+      return "Where did you hear about Falcon?";
     case "notify":
-      return {
-        title: "Get alerted when a ripple hits your portfolio.",
-        subtitle: "Only for news that touches your stocks.",
-      };
+      return "Get alerted when a ripple hits your portfolio.";
     case "commit":
-      return { title: "I'll check my Exposure every morning", subtitle: "A small habit that keeps you ahead." };
+      return "I'll check my Exposure every morning";
     case "loading":
-      return {
-        title: answers.stocks.length
-          ? `Mapping connections for your ${stockCount(answers.stocks.length)}...`
-          : "Mapping connections for your sectors...",
-      };
+      return answers.stocks.length
+        ? `Mapping connections for your ${stockCount(answers.stocks.length)}...`
+        : "Mapping connections for your sectors...";
     case "result":
-      return {
-        title: "Your blind spot score",
-        subtitle: "Higher means more of your stocks' news is likely to reach you late.",
-      };
+      return "Your blind spot score";
   }
 }
 
@@ -344,9 +333,9 @@ export default function Welcome() {
     goTo(STEP_IDS.indexOf("connect") + 1);
   }, [busy, goTo, save, update]);
 
-  const copy = copyFor(step, answers);
+  const title = titleFor(step, answers);
   const enterY = ENTER_Y * direction;
-  const bodyOrder = copy.subtitle ? 2 : 1;
+  const bodyOrder = 1;
   const choiceCount = isChoiceStep(step) ? Math.min(CHOICE_STEPS[step].options.length, MAX_STAGGERED_OPTIONS) : 1;
   const actionsOrder = bodyOrder + choiceCount;
 
@@ -495,14 +484,9 @@ export default function Welcome() {
           <Animated.View key={step} style={exitStyle}>
             <Reveal order={0} distance={enterY}>
               <Text style={styles.title} accessibilityRole="header">
-                {copy.title}
+                {title}
               </Text>
             </Reveal>
-            {copy.subtitle ? (
-              <Reveal order={1} distance={enterY}>
-                <Text style={styles.subtitle}>{copy.subtitle}</Text>
-              </Reveal>
-            ) : null}
             {bodyNode ? (
               isChoiceStep(step) ? (
                 <View style={styles.body}>{bodyNode}</View>
@@ -544,7 +528,6 @@ const styles = StyleSheet.create({
   trackFill: { height: 2, borderRadius: 1, backgroundColor: colors.ink },
   content: { flexGrow: 1, paddingHorizontal: GUTTER, paddingTop: 28, paddingBottom: 24 },
   title: { fontFamily: fonts.serif, fontSize: 26, lineHeight: 36, color: colors.ink },
-  subtitle: { marginTop: 12, fontFamily: fonts.sans, fontSize: 15, lineHeight: 22, color: colors.muted },
   body: { marginTop: 28 },
   otherInput: { marginTop: 20 },
   footer: { paddingHorizontal: GUTTER, paddingTop: 12, backgroundColor: colors.background },
