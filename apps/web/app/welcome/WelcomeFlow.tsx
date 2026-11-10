@@ -36,7 +36,6 @@ import {
   HoldToCommit,
   MONO,
   MappingList,
-  MonoLabel,
   ResultView,
   SERIF,
   StockPicker,
@@ -448,9 +447,6 @@ function WelcomeContent() {
                 transition={{ duration: reduceMotion ? 0 : 0.5, ease: EASE_SOFT }}
               />
             </div>
-            <MonoLabel className="mt-3">
-              {index + 1} of {STEP_IDS.length}
-            </MonoLabel>
           </div>
 
           {restored ? (

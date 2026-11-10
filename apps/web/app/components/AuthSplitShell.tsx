@@ -48,7 +48,13 @@ export default function AuthSplitShell({ children, wide = false }: Props) {
             wide && narrowed ? "lg:w-[32%]" : "lg:w-1/2"
           }`}
         >
-          <GlassPanel className="h-24 w-full lg:h-full" />
+          {/* The glass keeps the login slab's size (half the viewport less its
+              16px gutter) pinned to the right; only the rounded frame narrows,
+              so the shader never resizes or stretches mid-animation. */}
+          <GlassPanel
+            className="h-24 w-full lg:h-full"
+            glassClassName={wide ? "inset-0 lg:left-auto lg:w-[calc(50vw-16px)]" : "inset-0"}
+          />
         </div>
       </div>
     </div>

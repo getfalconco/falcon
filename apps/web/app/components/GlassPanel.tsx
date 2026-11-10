@@ -21,20 +21,28 @@ const TURKISH_BLUE: [number, number, number][] = [
  */
 export default function GlassPanel({
   className = "",
+  glassClassName = "inset-0",
   children,
 }: {
   className?: string;
+  /**
+   * Where the glass sits inside the frame. Give it a fixed size to let the
+   * frame resize (animate) around it without the shader ever resizing.
+   */
+  glassClassName?: string;
   children?: React.ReactNode;
 }) {
   return (
     <div
       className={`relative overflow-hidden rounded-xl bg-[#05262f] ${className}`}
     >
-      <ShaderBackground
-        className="absolute inset-0"
-        colors={TURKISH_BLUE}
-        colorCount={4}
-      />
+      <div className={`absolute ${glassClassName}`}>
+        <ShaderBackground
+          className="absolute inset-0"
+          colors={TURKISH_BLUE}
+          colorCount={4}
+        />
+      </div>
       {children ? (
         <div className="absolute inset-0 flex items-center justify-center">
           {children}
