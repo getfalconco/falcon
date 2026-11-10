@@ -10,14 +10,14 @@ import { haptics } from "@/lib/haptics";
 import { useLanguage } from "@/lib/language";
 import { GUTTER, colors, fonts } from "@/theme";
 
-const RIPPLE = require("../../assets/onboarding/ripple.png");
-/** ripple.png is 1080x2340. */
-const RIPPLE_ASPECT = 2340 / 1080;
-/** Where the visible window starts in the render: just above the drop. */
-const RIPPLE_FOCUS = 0.16;
+const RIPPLE = require("../../assets/onboarding/hero.webp");
+/** hero.webp is 1170x1896. */
+const RIPPLE_ASPECT = 1896 / 1170;
+/** Where the visible window starts: the lower part, with the desk and the wave. */
+const RIPPLE_FOCUS = 1;
 /** The image's share of the screen's height, and how much of it fades out. */
 const HERO_SHARE = 0.6;
-const FADE_SHARE = 0.45;
+const FADE_SHARE = 0.18;
 /** The row that holds the language button. */
 const TOP_BAR_H = 52;
 
