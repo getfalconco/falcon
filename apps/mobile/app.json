@@ -1,0 +1,47 @@
+{
+  "expo": {
+    "name": "Falcon",
+    "slug": "falcon",
+    "scheme": "falcon",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "bundleIdentifier": "co.getfalcon.app",
+      "buildNumber": "1",
+      "supportsTablet": false
+    },
+    "android": {
+      "package": "co.getfalcon.app"
+    },
+    "web": {
+      "output": "single",
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "deploymentTarget": "16.4"
+          }
+        }
+      ],
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 96,
+          "resizeMode": "contain",
+          "backgroundColor": "#ffffff"
+        }
+      ],
+      "expo-dev-client"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}

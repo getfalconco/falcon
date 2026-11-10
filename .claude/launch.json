@@ -8,6 +8,14 @@
         "dev:web"
       ],
       "port": 3000
+    },
+    {
+      "name": "mobile-web",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "dev:mobile"
+      ],
+      "port": 8081
     }
   ]
 }

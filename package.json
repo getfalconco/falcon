@@ -16,7 +16,9 @@
     "lint": "turbo run lint",
     "dev:web": "turbo run dev --filter=web",
     "build:web": "turbo run build --filter=web",
-    "start:web": "pnpm --filter web start"
+    "start:web": "pnpm --filter web start",
+    "dev:mobile": "pnpm --filter mobile web",
+    "mobile": "pnpm --filter mobile"
   },
   "devDependencies": {
     "turbo": "^2.9.16"
