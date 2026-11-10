@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import type { KeyboardEvent as ReactKeyboardEvent } from "react";
+import { motion, type MotionProps } from "framer-motion";
 import { Check, Loader2, Lock, X } from "lucide-react";
 import { BUTTON_TEXT_STYLE, PRIMARY_BUTTON_TEXT_COLOR } from "../components/GetStartedButton";
 import { MAX_STOCKS, type PickedStock } from "@/lib/onboarding";
@@ -19,6 +20,8 @@ export const SERIF = "var(--font-libre-baskerville), Georgia, serif";
 const OPTION_BASE = "rounded-xl border text-left transition-colors outline-none focus-visible:border-black/50";
 const OPTION_ON = "border-black/70 bg-black/[0.035] text-[#1d1b1b]";
 const OPTION_OFF = "border-black/[0.12] text-[#4b4b48] hover:border-black/30";
+/** The chosen option's beat of confirmation before the step moves on. */
+const OPTION_CONFIRM = "border-black bg-black/[0.07] text-[#1d1b1b]";
 
 export function MonoLabel({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
@@ -37,11 +40,17 @@ export function ChoiceRows({
   value,
   onChange,
   label,
+  confirming = false,
+  optionMotion,
 }: {
   options: readonly { id: string; label: string }[];
   value: string | undefined;
   onChange: (id: string) => void;
   label: string;
+  /** The step is moving on: the chosen option settles darker. */
+  confirming?: boolean;
+  /** Each option's entrance (the step staggers them in). */
+  optionMotion?: (index: number) => MotionProps;
 }) {
   const refs = useRef<(HTMLButtonElement | null)[]>([]);
 
@@ -61,8 +70,9 @@ export function ChoiceRows({
         const selected = value === option.id;
         const focusable = value ? selected : index === 0;
         return (
-          <button
+          <motion.button
             key={option.id}
+            {...optionMotion?.(index)}
             ref={(el) => {
               refs.current[index] = el;
             }}
@@ -72,13 +82,13 @@ export function ChoiceRows({
             tabIndex={focusable ? 0 : -1}
             onClick={() => onChange(option.id)}
             className={`flex w-full items-center justify-between gap-4 px-5 py-3.5 text-[15px] ${OPTION_BASE} ${
-              selected ? OPTION_ON : OPTION_OFF
+              selected ? (confirming ? OPTION_CONFIRM : OPTION_ON) : OPTION_OFF
             }`}
             style={{ fontFamily: GEIST }}
           >
             {option.label}
             {selected ? <Check className="h-4 w-4 shrink-0 text-[#1d1b1b]" strokeWidth={2} aria-hidden /> : null}
-          </button>
+          </motion.button>
         );
       })}
     </div>
@@ -94,11 +104,14 @@ export function Chips({
   value,
   onToggle,
   label,
+  confirming = false,
 }: {
   options: readonly { id: string; label: string }[];
   value: readonly string[];
   onToggle: (id: string) => void;
   label: string;
+  /** The step is moving on: the chosen chips settle darker. */
+  confirming?: boolean;
 }) {
   return (
     <div role="group" aria-label={label} className="flex flex-wrap gap-2">
@@ -110,7 +123,9 @@ export function Chips({
             type="button"
             aria-pressed={on}
             onClick={() => onToggle(option.id)}
-            className={`inline-flex items-center gap-1.5 px-4 py-2.5 text-[14px] ${OPTION_BASE} ${on ? OPTION_ON : OPTION_OFF}`}
+            className={`inline-flex items-center gap-1.5 px-4 py-2.5 text-[14px] ${OPTION_BASE} ${
+              on ? (confirming ? OPTION_CONFIRM : OPTION_ON) : OPTION_OFF
+            }`}
             style={{ fontFamily: GEIST }}
           >
             {on ? <Check className="h-3.5 w-3.5" strokeWidth={2} aria-hidden /> : null}

@@ -2,7 +2,7 @@
 
 import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion, type MotionProps } from "framer-motion";
 import { Loader2 } from "lucide-react";
 import { SITE_URL, isAppHost } from "@/lib/app-host";
 import {
@@ -64,6 +64,19 @@ type StepId = (typeof STEP_IDS)[number];
 
 const LOADING_MS = 3200;
 const EASE_SOFT = [0.4, 0, 0.2, 1] as const;
+
+/* Step change: the chosen option settles for a beat, the question lifts away
+   softly, then the next one arrives piece by piece (headline first). Back runs
+   the same motion the other way up. */
+const EASE_CALM = [0.22, 1, 0.36, 1] as const;
+const CONFIRM_MS = 160;
+const EXIT_MS = 170;
+const EXIT_Y = 10;
+const ENTER_Y = 12;
+const ENTER_S = 0.3;
+const STAGGER_S = 0.04;
+/** Options after the fourth arrive with it, so long lists never drag. */
+const MAX_STAGGERED_OPTIONS = 4;
 
 /** Single choice steps: which answer they fill and with what options. */
 const CHOICE_STEPS = {
@@ -159,8 +172,17 @@ function WelcomeContent() {
   const [restored, setRestored] = useState(false);
   const [finishing, setFinishing] = useState(false);
   const [filings, setFilings] = useState<FilingsResult | null>(null);
+  const [direction, setDirection] = useState<1 | -1>(1);
+  const [confirming, setConfirming] = useState(false);
+  const [leaving, setLeaving] = useState(false);
   const answersRef = useRef(answers);
   answersRef.current = answers;
+  const indexRef = useRef(index);
+  indexRef.current = index;
+  // Set while a step change plays; blocks a second one from starting.
+  const pendingRef = useRef<number | null>(null);
+  const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const busy = confirming || leaving;
 
   const step = STEP_IDS[index];
   const isLast = index === STEP_IDS.length - 1;
@@ -192,10 +214,40 @@ function WelcomeContent() {
     [client],
   );
 
-  const goTo = useCallback((target: number) => {
-    if (target < 0 || target >= STEP_IDS.length) return;
-    setIndex(target);
+  useEffect(() => {
+    const pending = timers.current;
+    return () => pending.forEach(clearTimeout);
   }, []);
+
+  /** Moves to `target`; `confirm` lets the chosen option settle first. */
+  const goTo = useCallback(
+    (target: number, confirm = false) => {
+      if (target < 0 || target >= STEP_IDS.length || pendingRef.current !== null) return;
+      setDirection(target >= indexRef.current ? 1 : -1);
+      if (reduceMotion) {
+        setIndex(target);
+        return;
+      }
+      pendingRef.current = target;
+      const later = (ms: number, fn: () => void) => timers.current.push(setTimeout(fn, ms));
+      const leave = () => {
+        setLeaving(true);
+        later(EXIT_MS, () => {
+          pendingRef.current = null;
+          setIndex(target);
+          setLeaving(false);
+          setConfirming(false);
+        });
+      };
+      if (confirm) {
+        setConfirming(true);
+        later(CONFIRM_MS, leave);
+      } else {
+        leave();
+      }
+    },
+    [reduceMotion],
+  );
 
   const finish = useCallback(async () => {
     setFinishing(true);
@@ -210,8 +262,8 @@ function WelcomeContent() {
     router.push(target);
   }, [router, save, searchParams]);
 
-  const canGoNext = !finishing && step !== "loading" && stepDone(step, answers);
-  const canGoBack = !finishing && index > 0 && step !== "loading" && step !== "result";
+  const canGoNext = !finishing && !busy && step !== "loading" && stepDone(step, answers);
+  const canGoBack = !finishing && !busy && index > 0 && step !== "loading" && step !== "result";
 
   const next = useCallback(() => {
     if (!canGoNext) return;
@@ -221,7 +273,7 @@ function WelcomeContent() {
     }
     // Keep the server copy current as answers come in; never waits on it.
     if (step !== "intro" && step !== "alone" && step !== "brief") void save();
-    goTo(index + 1);
+    goTo(index + 1, isChoiceStep(step) || step === "sectors" || step === "heard");
   }, [canGoNext, finish, goTo, index, isLast, save, step]);
 
   const back = useCallback(() => {
@@ -248,7 +300,7 @@ function WelcomeContent() {
     if (step !== "loading") return;
     void fetchFilings();
     void save();
-    const timer = setTimeout(() => setIndex(STEP_IDS.indexOf("result")), loadingMs);
+    const timer = setTimeout(() => goTo(STEP_IDS.indexOf("result")), loadingMs);
     return () => clearTimeout(timer);
     // Runs once per visit to the loading step.
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -275,7 +327,7 @@ function WelcomeContent() {
         // On a button Enter already clicks it (an option selects itself).
         event.preventDefault();
         next();
-      } else if (isChoiceStep(step) && /^[1-9]$/.test(event.key)) {
+      } else if (isChoiceStep(step) && !busy && /^[1-9]$/.test(event.key)) {
         const { field, options } = CHOICE_STEPS[step];
         const option = options[Number(event.key) - 1];
         if (option) update({ [field]: option.id } as Partial<WelcomeAnswers>);
@@ -283,7 +335,7 @@ function WelcomeContent() {
     }
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [back, next, step, update]);
+  }, [back, busy, next, step, update]);
 
   async function answerNotifications(ask: boolean) {
     let result: NotificationAnswer = "skipped";
@@ -307,10 +359,23 @@ function WelcomeContent() {
     update({ committed: true });
     answersRef.current = { ...answersRef.current, committed: true };
     void save();
-    setTimeout(() => setIndex(STEP_IDS.indexOf("loading")), reduceMotion ? 300 : 900);
-  }, [reduceMotion, save, update]);
+    setTimeout(() => goTo(STEP_IDS.indexOf("loading")), reduceMotion ? 300 : 900);
+  }, [goTo, reduceMotion, save, update]);
 
   const copy = copyFor(step, answers);
+
+  /** Entrance for the `order`th piece of the step (0 is the headline). */
+  const enter = (order: number): MotionProps =>
+    reduceMotion
+      ? { initial: { opacity: 0 }, animate: { opacity: 1 }, transition: { duration: 0.15 } }
+      : {
+          initial: { opacity: 0, y: ENTER_Y * direction },
+          animate: { opacity: 1, y: 0 },
+          transition: { duration: ENTER_S, ease: EASE_CALM, delay: order * STAGGER_S },
+        };
+  const choiceCount = isChoiceStep(step) ? Math.min(CHOICE_STEPS[step].options.length, MAX_STAGGERED_OPTIONS) : 1;
+  const bodyOrder = copy.subtitle ? 2 : 1;
+  const actionsOrder = bodyOrder + choiceCount;
 
   function body() {
     if (isChoiceStep(step)) {
@@ -321,6 +386,8 @@ function WelcomeContent() {
           options={options}
           value={answers[field]}
           onChange={(id) => update({ [field]: id } as Partial<WelcomeAnswers>)}
+          confirming={confirming}
+          optionMotion={(i) => enter(bodyOrder + Math.min(i, MAX_STAGGERED_OPTIONS - 1))}
         />
       );
     }
@@ -331,6 +398,7 @@ function WelcomeContent() {
             label={copy.title}
             options={SECTORS}
             value={answers.sectors}
+            confirming={confirming}
             onToggle={(id) => {
               const s = id as SectorId;
               setAnswers((prev) => ({
@@ -349,6 +417,7 @@ function WelcomeContent() {
               label={copy.title}
               options={HEARD_ABOUT}
               value={answers.heardAbout ? [answers.heardAbout] : []}
+              confirming={confirming}
               onToggle={(id) => update({ heardAbout: id as WelcomeAnswers["heardAbout"] })}
             />
             {answers.heardAbout === "other" ? (
@@ -452,25 +521,46 @@ function WelcomeContent() {
           {restored ? (
             <motion.div
               key={step}
-              initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: reduceMotion ? 0.15 : 0.4, ease: EASE_SOFT }}
+              initial={false}
+              animate={
+                leaving
+                  ? { opacity: 0, y: -EXIT_Y * direction, filter: "blur(3px)" }
+                  : { opacity: 1, y: 0, filter: "blur(0px)" }
+              }
+              transition={{ duration: EXIT_MS / 1000, ease: EASE_CALM }}
             >
-              <h1
+              <motion.h1
+                {...enter(0)}
                 className="text-[26px] leading-[34px] text-[#1d1b1b] [text-wrap:balance] sm:text-[30px] sm:leading-[38px]"
                 style={{ fontFamily: SERIF, fontWeight: 400 }}
               >
                 {copy.title}
-              </h1>
+              </motion.h1>
               {copy.subtitle ? (
-                <p className="mt-3 text-[14px] leading-[22px] text-[#767676]" style={{ fontFamily: GEIST }}>
+                <motion.p
+                  {...enter(1)}
+                  className="mt-3 text-[14px] leading-[22px] text-[#767676]"
+                  style={{ fontFamily: GEIST }}
+                >
                   {copy.subtitle}
-                </p>
+                </motion.p>
               ) : null}
 
-              {bodyNode ? <div className="mt-8">{bodyNode}</div> : null}
+              {bodyNode ? (
+                isChoiceStep(step) ? (
+                  // The options carry their own staggered entrance.
+                  <div className="mt-8">{bodyNode}</div>
+                ) : (
+                  <motion.div {...enter(bodyOrder)} className="mt-8">
+                    {bodyNode}
+                  </motion.div>
+                )
+              ) : null}
 
-              <div className="mt-10 flex flex-col items-start gap-4">
+              <motion.div
+                {...enter(bodyNode ? actionsOrder : bodyOrder)}
+                className="mt-10 flex flex-col items-start gap-4"
+              >
                 {actions()}
                 <button
                   type="button"
@@ -482,7 +572,7 @@ function WelcomeContent() {
                 >
                   &larr; Back
                 </button>
-              </div>
+              </motion.div>
             </motion.div>
           ) : null}
         </div>
