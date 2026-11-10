@@ -428,7 +428,7 @@ function WelcomeContent() {
   const bodyNode = body();
 
   return (
-    <AuthSplitShell>
+    <>
       <div className="flex flex-1 flex-col justify-center px-6 py-10 sm:px-12 sm:py-16">
         <div className="mx-auto w-full max-w-[460px]">
           {/* Progress: a hairline that fills as the steps go by (as in the application flow). */}
@@ -491,14 +491,18 @@ function WelcomeContent() {
           ) : null}
         </div>
       </div>
-    </AuthSplitShell>
+    </>
   );
 }
 
 export default function WelcomeFlow() {
+  // The shell sits outside Suspense so it mounts once: its widening from the
+  // login's split plays a single time and the glass never restarts.
   return (
-    <Suspense fallback={<AuthSplitShell>{null}</AuthSplitShell>}>
-      <WelcomeContent />
-    </Suspense>
+    <AuthSplitShell wide>
+      <Suspense fallback={null}>
+        <WelcomeContent />
+      </Suspense>
+    </AuthSplitShell>
   );
 }

@@ -314,6 +314,9 @@ const UNIFORMS = {
 }
 
 const pendingContextReleases = new WeakMap<HTMLCanvasElement, number>()
+// One clock for every mount: a glass that remounts on a route change (login
+// into the welcome flow) picks the pattern up where the old one left it.
+let clockStart: number | null = null
 
 export function ShaderBackground({
   className,
@@ -432,7 +435,7 @@ export function ShaderBackground({
     let visible = document.visibilityState === "visible"
     let inView = true
     let disposed = false
-    const start = performance.now()
+    const start = (clockStart ??= performance.now())
     const timeAnimated = Math.abs(UNIFORMS.timeScale) > 0.0001
 
     const resizeCanvas = () => {
