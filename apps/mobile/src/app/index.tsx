@@ -1,42 +1,88 @@
 import { useState } from "react";
-import { Pressable, StyleSheet, Text, View, type LayoutChangeEvent } from "react-native";
-import { useRouter } from "expo-router";
+import { Image, Pressable, StyleSheet, Text, View, type LayoutChangeEvent } from "react-native";
+import { usePathname, useRouter } from "expo-router";
+import { StatusBar } from "expo-status-bar";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import Svg, { Defs, LinearGradient, Rect, Stop } from "react-native-svg";
 import { PrimaryButton } from "@/components/Buttons";
 import { GlassButton } from "@/components/GlassButton";
-import { PHONE_ASPECT, PhoneMockup } from "@/components/PhoneMockup";
 import { haptics } from "@/lib/haptics";
 import { useLanguage } from "@/lib/language";
 import { GUTTER, colors, fonts } from "@/theme";
 
-/** The phone's largest width, and the room kept around it. */
-const PHONE_MAX_WIDTH = 250;
-const PHONE_MARGIN_Y = 20;
+const RIPPLE = require("../../assets/onboarding/ripple.png");
+/** ripple.png is 1080x2340. */
+const RIPPLE_ASPECT = 2340 / 1080;
+/** Where the visible window starts in the render: just above the drop. */
+const RIPPLE_FOCUS = 0.16;
+/** The image's share of the screen's height, and how much of it fades out. */
+const HERO_SHARE = 0.6;
+const FADE_SHARE = 0.45;
+/** The row that holds the language button. */
+const TOP_BAR_H = 52;
+
+/** Routes shown over the landing (its sheets): the image stays behind them. */
+const OVER_LANDING = new Set(["/", "/sign-in", "/language"]);
 
 /**
- * The first screen after the splash: the phone from the website's "Run it
- * from anywhere" section, then the headline, Get Started (the welcome funnel)
+ * The first screen after the splash: the ripple render across the top,
+ * fading into the page, then the headline, Get Started (the welcome funnel)
  * and Sign in (a sheet with Apple, Google and email). Top right: the language
  * button.
  */
 export default function Landing() {
   const router = useRouter();
+  const pathname = usePathname();
   const insets = useSafeAreaInsets();
   const language = useLanguage();
-  const [area, setArea] = useState<{ width: number; height: number } | null>(null);
+  const [size, setSize] = useState<{ width: number; height: number } | null>(null);
 
-  const onArea = (event: LayoutChangeEvent) => {
+  const onLayout = (event: LayoutChangeEvent) => {
     const { width, height } = event.nativeEvent.layout;
-    setArea((prev) => (prev && prev.width === width && prev.height === height ? prev : { width, height }));
+    setSize((prev) => (prev && prev.width === width && prev.height === height ? prev : { width, height }));
   };
 
-  const phoneWidth = area
-    ? Math.floor(Math.min(PHONE_MAX_WIDTH, area.width * 0.66, (area.height - PHONE_MARGIN_Y * 2) * PHONE_ASPECT))
-    : 0;
+  const heroH = size ? Math.round(size.height * HERO_SHARE) : 0;
+  const imageH = size ? size.width * RIPPLE_ASPECT : 0;
+  const imageTop = -Math.max(0, Math.min(imageH - heroH, imageH * RIPPLE_FOCUS));
+  const fadeH = Math.round(heroH * FADE_SHARE);
 
   return (
-    <View style={[styles.screen, { paddingTop: insets.top, paddingBottom: Math.max(insets.bottom, 16) }]}>
-      <View style={styles.topBar}>
+    <View style={styles.screen} onLayout={onLayout}>
+      {/* Light status bar text over the dark render, while it is on screen. */}
+      {OVER_LANDING.has(pathname) ? <StatusBar style="light" /> : null}
+
+      {size ? (
+        <View pointerEvents="none" style={[styles.hero, { height: heroH }]}>
+          {/* Stops a few points above the fade's solid end so no edge shows through. */}
+          <View style={[styles.imageClip, { height: heroH - 4 }]}>
+            <Image
+              source={RIPPLE}
+              resizeMode="cover"
+              style={{ position: "absolute", left: 0, top: imageTop, width: size.width, height: imageH }}
+              accessibilityIgnoresInvertColors
+            />
+          </View>
+          <Svg width={size.width} height={fadeH} style={styles.fade}>
+            <Defs>
+              <LinearGradient id="fade" x1="0" y1="0" x2="0" y2="1">
+                <Stop offset="0" stopColor={colors.background} stopOpacity={0} />
+                <Stop offset="0.15" stopColor={colors.background} stopOpacity={0.04} />
+                <Stop offset="0.3" stopColor={colors.background} stopOpacity={0.14} />
+                <Stop offset="0.45" stopColor={colors.background} stopOpacity={0.32} />
+                <Stop offset="0.6" stopColor={colors.background} stopOpacity={0.56} />
+                <Stop offset="0.75" stopColor={colors.background} stopOpacity={0.8} />
+                <Stop offset="0.88" stopColor={colors.background} stopOpacity={0.95} />
+                <Stop offset="0.95" stopColor={colors.background} stopOpacity={1} />
+                <Stop offset="1" stopColor={colors.background} stopOpacity={1} />
+              </LinearGradient>
+            </Defs>
+            <Rect x="0" y="0" width={size.width} height={fadeH} fill="url(#fade)" />
+          </Svg>
+        </View>
+      ) : null}
+
+      <View style={[styles.topBar, { marginTop: insets.top }]}>
         <GlassButton
           accessibilityLabel={`Language: ${language.label}`}
           onPress={() => {
@@ -48,57 +94,81 @@ export default function Landing() {
         </GlassButton>
       </View>
 
-      <View style={styles.phoneArea} onLayout={onArea}>
-        {phoneWidth > 0 ? <PhoneMockup width={phoneWidth} /> : null}
-      </View>
+      {size ? (
+        <View style={[styles.content, { paddingTop: Math.max(0, heroH - insets.top - TOP_BAR_H - 6) }]}>
+          <View style={styles.copy}>
+            <Text style={styles.headline} accessibilityRole="header">
+              See what moves{"\n"}your stocks
+            </Text>
+            <Text style={styles.description}>Falcon maps how news ripples through your stocks.</Text>
+          </View>
 
-      <View style={styles.bottom}>
-        <Text style={styles.headline} accessibilityRole="header">
-          See what moves{"\n"}your stocks
-        </Text>
-        <PrimaryButton
-          label="Get Started"
-          onPress={() => {
-            haptics.tap();
-            router.push("/welcome");
-          }}
-          style={styles.cta}
-        />
-        <View style={styles.signInRow}>
-          <Text style={styles.quiet}>Already have an account? </Text>
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel="Sign in"
-            hitSlop={{ top: 12, bottom: 12, left: 6, right: 12 }}
-            onPress={() => {
-              haptics.select();
-              router.push("/sign-in");
-            }}
-          >
-            {({ pressed }) => <Text style={[styles.signIn, pressed ? styles.signInPressed : null]}>Sign in</Text>}
-          </Pressable>
+          <View style={[styles.bottom, { paddingBottom: Math.max(insets.bottom, 16) + 4 }]}>
+            <PrimaryButton
+              label="Get Started"
+              onPress={() => {
+                haptics.tap();
+                router.push("/welcome");
+              }}
+              style={styles.cta}
+            />
+            <View style={styles.signInRow}>
+              <Text style={styles.quiet}>Already have an account? </Text>
+              <Pressable
+                accessibilityRole="button"
+                accessibilityLabel="Sign in"
+                hitSlop={{ top: 12, bottom: 12, left: 6, right: 12 }}
+                onPress={() => {
+                  haptics.select();
+                  router.push("/sign-in");
+                }}
+              >
+                {({ pressed }) => <Text style={[styles.signIn, pressed ? styles.signInPressed : null]}>Sign in</Text>}
+              </Pressable>
+            </View>
+          </View>
         </View>
-      </View>
+      ) : null}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: colors.background },
-  topBar: { height: 52, paddingHorizontal: 20, flexDirection: "row", justifyContent: "flex-end", alignItems: "center" },
+  hero: { position: "absolute", left: 0, right: 0, top: 0, overflow: "hidden" },
+  imageClip: { position: "absolute", left: 0, right: 0, top: 0, overflow: "hidden" },
+  fade: { position: "absolute", left: 0, bottom: 0 },
+  topBar: {
+    height: TOP_BAR_H,
+    paddingHorizontal: 20,
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    alignItems: "center",
+  },
   // Apple's emoji on the phone; a bit under the button so it sits centered.
   flag: { fontSize: 22, lineHeight: 28, textAlign: "center" },
-  phoneArea: { flex: 1, alignItems: "center", justifyContent: "center" },
-  bottom: { paddingHorizontal: GUTTER, paddingTop: 8, paddingBottom: 8 },
+  content: { flex: 1, justifyContent: "space-between" },
+  copy: { paddingHorizontal: GUTTER },
   // The site's serif headline (Libre Baskerville, as in "Run it from anywhere.")
   headline: {
     fontFamily: fonts.serif,
-    fontSize: 28,
-    lineHeight: 36,
+    fontSize: 32,
+    lineHeight: 40,
+    letterSpacing: -0.4,
     color: colors.ink,
-    textAlign: "center",
   },
-  cta: { marginTop: 24 },
+  description: {
+    marginTop: 14,
+    fontFamily: fonts.mono,
+    fontSize: 11.5,
+    lineHeight: 18,
+    letterSpacing: 1.2,
+    textTransform: "uppercase",
+    color: colors.muted,
+    maxWidth: 300,
+  },
+  bottom: { paddingHorizontal: 20, paddingTop: 16 },
+  cta: { height: 54, borderRadius: 27 },
   signInRow: { marginTop: 18, flexDirection: "row", justifyContent: "center", alignItems: "center" },
   quiet: { fontFamily: fonts.sans, fontSize: 14, lineHeight: 20, color: colors.muted },
   signIn: { fontFamily: fonts.sansMedium, fontSize: 14, lineHeight: 20, color: colors.ink },
