@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import GlassPanel from "./GlassPanel";
 
 type Props = {
@@ -13,13 +13,27 @@ type Props = {
   wide?: boolean;
 };
 
+// Tailwind's lg breakpoint: the split layout and its glass start here.
+const DESKTOP_QUERY = "(min-width: 1024px)";
+
+function subscribeDesktop(onChange: () => void) {
+  const mq = window.matchMedia(DESKTOP_QUERY);
+  mq.addEventListener("change", onChange);
+  return () => mq.removeEventListener("change", onChange);
+}
+
 /**
  * Full-viewport auth layout: the form on the left, the homepage's fluted glass
- * on the right as an inset, rounded slab. Below lg the glass shrinks to a short
- * band above the form.
+ * on the right as an inset, rounded slab. Below lg there is no glass at all:
+ * the form fills the screen and the WebGL canvas is never mounted.
  */
 export default function AuthSplitShell({ children, wide = false }: Props) {
   const [narrowed, setNarrowed] = useState(false);
+  const isDesktop = useSyncExternalStore(
+    subscribeDesktop,
+    () => window.matchMedia(DESKTOP_QUERY).matches,
+    () => false,
+  );
 
   useEffect(() => {
     if (!wide) return;
@@ -44,7 +58,7 @@ export default function AuthSplitShell({ children, wide = false }: Props) {
           {children}
         </div>
         <div
-          className={`order-first shrink-0 p-3 lg:order-2 lg:h-full lg:min-h-0 lg:p-4 lg:pl-0 lg:motion-safe:[transition:width_750ms_cubic-bezier(0.33,1,0.68,1)] ${
+          className={`hidden shrink-0 lg:order-2 lg:block lg:h-full lg:min-h-0 lg:p-4 lg:pl-0 lg:motion-safe:[transition:width_750ms_cubic-bezier(0.33,1,0.68,1)] ${
             wide && narrowed ? "lg:w-[32%]" : "lg:w-1/2"
           }`}
         >
@@ -52,7 +66,8 @@ export default function AuthSplitShell({ children, wide = false }: Props) {
               16px gutter) pinned to the right; only the rounded frame narrows,
               so the shader never resizes or stretches mid-animation. */}
           <GlassPanel
-            className="h-24 w-full lg:h-full"
+            className="h-full w-full"
+            shader={isDesktop}
             glassClassName={wide ? "inset-0 lg:left-auto lg:w-[calc(50vw-16px)]" : "inset-0"}
           />
         </div>
