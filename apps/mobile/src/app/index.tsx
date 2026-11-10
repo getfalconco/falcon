@@ -100,7 +100,7 @@ export default function Landing() {
             <Text style={styles.headline} accessibilityRole="header">
               See what moves{"\n"}your stocks
             </Text>
-            <Text style={styles.description}>Falcon maps how news ripples through your stocks.</Text>
+            <Text style={styles.description}>Understand your portfolio like never before.</Text>
           </View>
 
           <View style={[styles.bottom, { paddingBottom: Math.max(insets.bottom, 16) + 4 }]}>
