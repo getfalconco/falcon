@@ -7,6 +7,26 @@ It is a development build app (`expo-dev-client`), not an Expo Go project.
 - Bundle id: `co.getfalcon.app`
 - iOS deployment target: 16.4
 
+## What is in it
+
+- `src/app/index.tsx`: the loading screen (white, the Falcon mark small and
+  centered). It matches the native launch screen (`expo-splash-screen` in
+  `app.json`, same image, 64 pt), which it replaces, then hands off.
+- `src/app/login.tsx`: email, then the emailed code (Supabase OTP on the
+  website's project; the project sends 8-digit codes).
+- `src/app/welcome.tsx`: the website's /welcome funnel, step for step. The
+  ticker names, SEC filings count and screenshot reading come from the site's
+  API routes (`EXPO_PUBLIC_API_URL`, default https://getfalcon.co). In the
+  browser preview those calls go through the Metro dev server's proxy
+  (`metro.config.js`) because the site sends no CORS headers.
+
+## Environment
+
+Copy `.env.example` to `.env` (gitignored) and fill in the Supabase URL and
+anon key from `apps/web/.env.local`. `EXPO_PUBLIC_FUNNEL_TEST_MODE` is `1`
+by default, as on the site: no session is kept, the funnel always starts at
+step 1 and answers are not saved. Set it to `0` to turn that off.
+
 ## Test on Windows (browser)
 
 From the repo root:

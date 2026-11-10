@@ -39,3 +39,6 @@ yarn-error.*
 # generated native folders
 /ios
 /android
+
+# local env (Supabase keys); .env.example is the template
+.env

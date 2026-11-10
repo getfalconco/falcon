@@ -33,11 +33,20 @@
         "expo-splash-screen",
         {
           "image": "./assets/splash-icon.png",
-          "imageWidth": 96,
+          "imageWidth": 64,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
       ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Falcon reads a screenshot of your positions to find your holdings.",
+          "cameraPermission": false,
+          "microphonePermission": false
+        }
+      ],
+      "expo-notifications",
       "expo-dev-client"
     ],
     "experiments": {
