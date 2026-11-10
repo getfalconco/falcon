@@ -28,6 +28,8 @@ export const fonts = {
   display: "PlayfairDisplay",
   /** Funnel headlines: Libre Baskerville, as on /welcome. */
   serif: "LibreBaskerville",
+  /** The login form's body text: the site's default `font-sans` (Inter). */
+  inter: "Inter",
   sans: "Geist",
   sansMedium: "GeistMedium",
   mono: "GeistMono",

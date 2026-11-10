@@ -92,8 +92,7 @@ export function BackButton({
     <Pressable
       accessibilityRole="button"
       accessibilityLabel="Back"
-      accessibilityElementsHidden={hidden}
-      importantForAccessibility={hidden ? "no-hide-descendants" : "auto"}
+      aria-hidden={hidden}
       onPress={onPress}
       disabled={disabled || hidden}
       hitSlop={8}

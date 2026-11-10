@@ -300,7 +300,7 @@ export function ResultView({ score, filings }: { score: number; filings: Filings
             </Text>
             <Text style={styles.cardSmall}>SEC filings on your stocks in the last 24 hours</Text>
             <View style={styles.locked}>
-              <View importantForAccessibility="no-hide-descendants" accessibilityElementsHidden>
+              <View aria-hidden>
                 {filings.items.slice(0, 3).map((item, i) => (
                   <View key={`${item.ticker}-${item.filedAt}-${i}`} style={[styles.filingRow, i > 0 ? styles.listDivider : null]}>
                     <Text style={styles.filingTicker}>{item.ticker}</Text>

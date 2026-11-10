@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import {
   ActivityIndicator,
   Keyboard,
@@ -13,23 +13,28 @@ import {
 import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as WebBrowser from "expo-web-browser";
-import { BackButton, PrimaryButton } from "@/components/Buttons";
+import { ArrowLeft } from "lucide-react-native";
+import { AppleIcon, GoogleIcon } from "@/components/BrandIcons";
 import { OtpInput, type OtpInputHandle } from "@/components/OtpInput";
+import { PixelArrow } from "@/components/PixelArrow";
 import { Reveal } from "@/components/Reveal";
 import { TextField } from "@/components/TextField";
 import { API_URL } from "@/lib/env";
 import { haptics } from "@/lib/haptics";
 import { getSupabase } from "@/lib/supabase";
-import { GUTTER, colors, fonts } from "@/theme";
+import { colors, fonts } from "@/theme";
 
 /**
- * Sign in or create an account with an emailed code, on the website's
- * Supabase project. The project sends 8-digit codes (emails/supabase), so the
- * code field takes 8.
+ * The website's login form (apps/web LoginForm.tsx): same copy, fonts, sizes,
+ * spacing, borders and colors (no glass panel in the app). Signing in is by emailed code on the website's
+ * Supabase project, which sends 8-digit codes (emails/supabase).
  */
 const OTP_LENGTH = 8;
 const RESEND_SECONDS = 60;
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+/** The site's light auth theme background: hsl(60 25% 98%). */
+const AUTH_BACKGROUND = "#fbfbf9";
 
 type Step = { name: "email" } | { name: "code"; email: string };
 
@@ -52,7 +57,7 @@ function authMessage(error: unknown): string {
     return "We couldn't reach Falcon. Check your connection.";
   }
   if (lower.includes("token") && (lower.includes("expired") || lower.includes("invalid"))) {
-    return "That code is invalid or has expired.";
+    return "Provided verification code is invalid";
   }
   return message || "Something went wrong. Please try again.";
 }
@@ -62,24 +67,61 @@ export default function Login() {
   const insets = useSafeAreaInsets();
   const [step, setStep] = useState<Step>({ name: "email" });
 
-  const body =
-    step.name === "email" ? (
-      <EmailStep key="email" onSent={(email) => setStep({ name: "code", email })} />
-    ) : (
-      <CodeStep
-        key="code"
-        email={step.email}
-        onBack={() => setStep({ name: "email" })}
-        onVerified={() => router.replace("/welcome")}
-      />
-    );
-
   return (
     <View style={[styles.screen, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
       <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === "ios" ? "padding" : undefined}>
-        {body}
+        {step.name === "email" ? (
+          <EmailStep onSent={(email) => setStep({ name: "code", email })} />
+        ) : (
+          <CodeStep
+            email={step.email}
+            onBack={() => setStep({ name: "email" })}
+            onVerified={() => router.replace("/welcome")}
+          />
+        )}
       </KeyboardAvoidingView>
     </View>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* Buttons                                                             */
+/* ------------------------------------------------------------------ */
+
+/** SECONDARY_BUTTON_CLASS + h-11 w-full, icon pinned 16px from the left. */
+function OAuthButton({ icon, label }: { icon: ReactNode; label: string }) {
+  return (
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel={label}
+      // Not connected to anything yet, exactly like the website's buttons.
+      onPress={() => {}}
+      style={({ pressed }) => [styles.oauth, pressed ? styles.oauthPressed : null]}
+    >
+      <View style={styles.oauthIcon}>{icon}</View>
+      <Text style={styles.buttonText}>{label}</Text>
+    </Pressable>
+  );
+}
+
+/** GetStartedButton: dark, label left, the marching pixel arrow right. */
+function ContinueButton({ onPress, disabled, loading }: { onPress: () => void; disabled: boolean; loading: boolean }) {
+  const off = disabled || loading;
+  return (
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel="Continue"
+      accessibilityState={{ disabled: off, busy: loading }}
+      onPress={onPress}
+      disabled={off}
+      style={({ pressed }) => [styles.primary, pressed && !off ? styles.primaryPressed : null, off ? styles.disabled : null]}
+    >
+      <View style={styles.primaryLabel}>
+        {loading ? <ActivityIndicator size="small" color={colors.primaryText} /> : null}
+        <Text style={[styles.buttonText, { color: colors.primaryText }]}>Continue</Text>
+      </View>
+      <PixelArrow />
+    </Pressable>
   );
 }
 
@@ -98,7 +140,7 @@ function EmailStep({ onSent }: { onSent: (email: string) => void }) {
     if (!valid || loading) return;
     const supabase = getSupabase();
     if (!supabase) {
-      setError("Sign in isn't set up in this build.");
+      setError("Supabase is not configured.");
       return;
     }
     haptics.tap();
@@ -129,16 +171,23 @@ function EmailStep({ onSent }: { onSent: (email: string) => void }) {
         bounces={false}
         showsVerticalScrollIndicator={false}
       >
-        <Reveal order={0}>
+        <View style={styles.column}>
           <Text style={styles.title} accessibilityRole="header">
             Welcome to{"\n"}Falcon
           </Text>
-        </Reveal>
-        <Reveal order={1}>
           <Text style={styles.subtitle}>Sign in or create an account</Text>
-        </Reveal>
 
-        <Reveal order={2} style={styles.form}>
+          <View style={styles.oauthStack}>
+            <OAuthButton icon={<GoogleIcon />} label="Continue with Google" />
+            <OAuthButton icon={<AppleIcon />} label="Continue with Apple" />
+          </View>
+
+          <View style={styles.divider}>
+            <View style={styles.dividerLine} />
+            <Text style={styles.dividerText}>or</Text>
+            <View style={styles.dividerLine} />
+          </View>
+
           <TextField
             value={email}
             onChangeText={(text) => {
@@ -155,38 +204,32 @@ function EmailStep({ onSent }: { onSent: (email: string) => void }) {
             returnKeyType="go"
             onSubmitEditing={() => void sendCode()}
             editable={!loading}
+            style={styles.input}
           />
+
           {error ? <Text style={styles.error}>{error}</Text> : null}
-          <PrimaryButton
-            label="Continue"
-            onPress={() => void sendCode()}
-            disabled={!valid}
-            loading={loading}
-            style={styles.formButton}
-          />
-          <Text style={styles.hint}>We'll email you a code to sign in. No password needed.</Text>
-        </Reveal>
+
+          <ContinueButton onPress={() => void sendCode()} disabled={!valid} loading={loading} />
+        </View>
       </ScrollView>
 
-      <Reveal order={3}>
-        <Text style={styles.legal}>
-          By continuing you agree to the{" "}
-          <Text style={styles.link} onPress={() => void WebBrowser.openBrowserAsync(`${API_URL}/terms`)}>
-            Terms of Service
-          </Text>{" "}
-          and acknowledge the{" "}
-          <Text style={styles.link} onPress={() => void WebBrowser.openBrowserAsync(`${API_URL}/privacy`)}>
-            Privacy Policy
-          </Text>
-          .
+      <Text style={styles.legal}>
+        By continuing you agree to the{" "}
+        <Text style={styles.link} onPress={() => void WebBrowser.openBrowserAsync(`${API_URL}/terms`)}>
+          Terms of Service
+        </Text>{" "}
+        and acknowledge the{" "}
+        <Text style={styles.link} onPress={() => void WebBrowser.openBrowserAsync(`${API_URL}/privacy`)}>
+          Privacy Policy
         </Text>
-      </Reveal>
+        .
+      </Text>
     </View>
   );
 }
 
 /* ------------------------------------------------------------------ */
-/* Code                                                                */
+/* Code (the website's OtpForm)                                        */
 /* ------------------------------------------------------------------ */
 
 function CodeStep({ email, onBack, onVerified }: { email: string; onBack: () => void; onVerified: () => void }) {
@@ -215,7 +258,7 @@ function CodeStep({ email, onBack, onVerified }: { email: string; onBack: () => 
     try {
       const { data, error: verifyError } = await supabase.auth.verifyOtp({ email, token, type: "email" });
       if (verifyError) throw verifyError;
-      if (!data.session) throw new Error("We couldn't sign you in. Try again.");
+      if (!data.session) throw new Error("Verification succeeded but no session was created.");
       haptics.success();
       setVerified(true);
       Keyboard.dismiss();
@@ -252,135 +295,177 @@ function CodeStep({ email, onBack, onVerified }: { email: string; onBack: () => 
 
   return (
     <View style={styles.flex}>
-      <View style={styles.topBar}>
-        <BackButton onPress={onBack} disabled={verifying || verified} />
-      </View>
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel="Back"
+        onPress={onBack}
+        disabled={verifying || verified}
+        hitSlop={8}
+        style={({ pressed }) => [styles.back, pressed ? styles.backPressed : null]}
+      >
+        <ArrowLeft size={16} strokeWidth={1.75} color="rgba(0, 0, 0, 0.35)" />
+      </Pressable>
       <ScrollView
-        contentContainerStyle={styles.codeContent}
+        contentContainerStyle={styles.centered}
         keyboardShouldPersistTaps="handled"
         bounces={false}
         showsVerticalScrollIndicator={false}
       >
-        <Reveal order={0}>
-          <Text style={styles.title} accessibilityRole="header">
-            Check your email
-          </Text>
-        </Reveal>
-        <Reveal order={1}>
-          <Text style={styles.subtitle}>Enter the {OTP_LENGTH}-digit code we sent to</Text>
-          <Text style={styles.email}>{maskEmail(email)}</Text>
-        </Reveal>
-
-        <Reveal order={2} style={styles.form}>
-          <OtpInput
-            ref={otp}
-            length={OTP_LENGTH}
-            value={code}
-            onChange={(next) => {
-              setCode(next);
-              if (error) setError(null);
-            }}
-            onComplete={(full) => void verify(full)}
-            disabled={verifying || verified}
-            error={Boolean(error)}
-            autoFocus
-          />
-          <View style={styles.status}>
-            {verifying ? (
-              <View style={styles.statusRow}>
-                <ActivityIndicator size="small" color={colors.muted} />
-                <Text style={styles.statusText}>Verifying</Text>
-              </View>
-            ) : verified ? (
-              <Text style={styles.statusText}>Verified.</Text>
-            ) : error ? (
-              <Text style={styles.errorCenter}>{error}</Text>
-            ) : notice ? (
-              <Text style={styles.statusText}>{notice}</Text>
-            ) : null}
-          </View>
-        </Reveal>
-
-        <Reveal order={3}>
-          <Pressable
-            accessibilityRole="button"
-            onPress={() => void resend()}
-            disabled={cooldown > 0 || verifying || verified}
-            hitSlop={10}
-            style={styles.resend}
-          >
-            <Text style={[styles.resendText, cooldown > 0 ? styles.resendWaiting : null]}>
-              {cooldown > 0 ? `Resend code in ${cooldown}s` : "Resend code"}
+        <View style={styles.column}>
+          <Reveal order={0}>
+            <Text style={styles.title} accessibilityRole="header">
+              Check your email
             </Text>
-          </Pressable>
-        </Reveal>
+            <Text style={styles.subtitle}>Enter the {OTP_LENGTH}-digit code we sent to</Text>
+            <Text style={styles.email}>{maskEmail(email)}</Text>
+          </Reveal>
+
+          <Reveal order={1} style={styles.codeBlock}>
+            <OtpInput
+              ref={otp}
+              length={OTP_LENGTH}
+              value={code}
+              onChange={(next) => {
+                setCode(next);
+                if (error) setError(null);
+              }}
+              onComplete={(full) => void verify(full)}
+              disabled={verifying || verified}
+              error={Boolean(error)}
+              autoFocus
+            />
+            <View style={styles.status}>
+              {verifying ? (
+                <View style={styles.statusRow}>
+                  <ActivityIndicator size="small" color={colors.muted} />
+                  <Text style={styles.statusText}>Verifying</Text>
+                </View>
+              ) : verified ? (
+                <Text style={styles.statusText}>Verified.</Text>
+              ) : error ? (
+                <Text style={styles.errorCenter}>{error}</Text>
+              ) : notice ? (
+                <Text style={styles.statusText}>{notice}</Text>
+              ) : null}
+            </View>
+            <Pressable
+              accessibilityRole="button"
+              onPress={() => void resend()}
+              disabled={cooldown > 0 || verifying || verified}
+              hitSlop={10}
+              style={styles.resend}
+            >
+              <Text style={[styles.resendText, cooldown > 0 ? styles.resendWaiting : null]}>
+                {cooldown > 0 ? `Resend code in ${cooldown}s` : "Resend code"}
+              </Text>
+            </Pressable>
+          </Reveal>
+        </View>
       </ScrollView>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  screen: { flex: 1, backgroundColor: colors.background },
+  screen: { flex: 1, backgroundColor: AUTH_BACKGROUND },
   flex: { flex: 1 },
-  centered: { flexGrow: 1, justifyContent: "center", paddingHorizontal: GUTTER, paddingVertical: 32 },
-  codeContent: { flexGrow: 1, paddingHorizontal: GUTTER, paddingTop: 28, paddingBottom: 32 },
-  topBar: { paddingHorizontal: GUTTER - 4, paddingTop: 8, height: 52, justifyContent: "center" },
+  // px-8, centered, max-w-[420px]
+  centered: { flexGrow: 1, justifyContent: "center", paddingHorizontal: 32, paddingVertical: 24 },
+  column: { width: "100%", maxWidth: 420, alignSelf: "center" },
+  // font-serif text-[2rem] leading-[1.25] tracking-[0.01em] text-[#1d1b1b]
   title: {
     fontFamily: fonts.display,
     fontSize: 32,
     lineHeight: 40,
-    letterSpacing: 0.3,
+    letterSpacing: 0.32,
     color: colors.ink,
     textAlign: "center",
   },
+  // mt-3 text-sm text-[#767676]
   subtitle: {
     marginTop: 12,
-    fontFamily: fonts.sans,
-    fontSize: 15,
-    lineHeight: 22,
+    fontFamily: fonts.inter,
+    fontSize: 14,
+    lineHeight: 20,
     color: colors.muted,
     textAlign: "center",
   },
+  // mt-1 text-sm text-black/70
   email: {
-    marginTop: 2,
-    fontFamily: fonts.sans,
-    fontSize: 15,
-    lineHeight: 22,
+    marginTop: 4,
+    fontFamily: fonts.inter,
+    fontSize: 14,
+    lineHeight: 20,
     color: "rgba(0, 0, 0, 0.7)",
     textAlign: "center",
   },
-  form: { marginTop: 32 },
-  formButton: { marginTop: 12 },
-  hint: {
-    marginTop: 14,
-    fontFamily: fonts.sans,
-    fontSize: 12,
-    lineHeight: 18,
-    color: colors.placeholder,
-    textAlign: "center",
+  // mt-8 space-y-3
+  oauthStack: { marginTop: 32, gap: 12 },
+  oauth: {
+    height: 44,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: colors.hairline,
+    backgroundColor: "transparent",
+    alignItems: "center",
+    justifyContent: "center",
   },
-  error: { marginTop: 10, fontFamily: fonts.sans, fontSize: 13, lineHeight: 18, color: colors.error, textAlign: "center" },
-  errorCenter: { fontFamily: fonts.sans, fontSize: 13, lineHeight: 18, color: colors.error, textAlign: "center" },
-  status: { minHeight: 40, marginTop: 14, alignItems: "center", justifyContent: "flex-start" },
-  statusRow: { flexDirection: "row", alignItems: "center", gap: 8 },
-  statusText: { fontFamily: fonts.sans, fontSize: 13, lineHeight: 18, color: colors.muted },
-  resend: { alignSelf: "center", paddingVertical: 6 },
-  resendText: {
-    fontFamily: fonts.sans,
-    fontSize: 13,
-    color: colors.muted,
-    textDecorationLine: "underline",
+  oauthPressed: { backgroundColor: "#efefec" },
+  oauthIcon: { position: "absolute", left: 16, top: 0, bottom: 0, justifyContent: "center" },
+  // BUTTON_TEXT_STYLE: Geist 13px / 20px
+  buttonText: { fontFamily: fonts.sans, fontSize: 13, lineHeight: 20, color: colors.ink },
+  // my-6, border-t border-black/10, "or" text-xs text-[#9a9a9a] px-3
+  divider: { marginVertical: 24, flexDirection: "row", alignItems: "center" },
+  dividerLine: { flex: 1, height: 1, backgroundColor: colors.hairline },
+  dividerText: { paddingHorizontal: 12, fontFamily: fonts.inter, fontSize: 12, lineHeight: 16, color: colors.placeholder },
+  // rounded-lg border border-black/10 px-4 py-3 text-sm
+  input: { height: 46, fontFamily: fonts.inter, fontSize: 14 },
+  error: { marginTop: 12, fontFamily: fonts.inter, fontSize: 12, lineHeight: 16, color: colors.error, textAlign: "center" },
+  // mt-3 h-11 w-full pl-4 pr-3.5, justify-between
+  primary: {
+    marginTop: 12,
+    height: 44,
+    borderRadius: 8,
+    backgroundColor: colors.primary,
+    paddingLeft: 16,
+    paddingRight: 14,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
-  resendWaiting: { color: colors.placeholder, textDecorationLine: "none" },
+  primaryPressed: { backgroundColor: "#0f0d0b" },
+  primaryLabel: { flexDirection: "row", alignItems: "center", gap: 8 },
+  disabled: { opacity: 0.4 },
+  // px-6 pb-8 text-center text-xs leading-relaxed text-[#8a8a8a]
   legal: {
-    paddingHorizontal: GUTTER + 8,
-    paddingBottom: 12,
-    fontFamily: fonts.sans,
+    paddingHorizontal: 24,
+    paddingBottom: 32,
+    fontFamily: fonts.inter,
     fontSize: 12,
-    lineHeight: 18,
+    lineHeight: 19.5,
     color: colors.faint,
     textAlign: "center",
   },
   link: { color: "#6f6f6f", textDecorationLine: "underline" },
+  // OtpForm's back: h-8 w-8 rounded-lg text-black/35, top-left of the form side
+  back: {
+    position: "absolute",
+    left: 32,
+    top: 16,
+    zIndex: 2,
+    width: 32,
+    height: 32,
+    borderRadius: 8,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  backPressed: { backgroundColor: "rgba(0, 0, 0, 0.05)" },
+  codeBlock: { marginTop: 32 },
+  status: { minHeight: 32, marginTop: 12, alignItems: "center" },
+  statusRow: { flexDirection: "row", alignItems: "center", gap: 8 },
+  statusText: { fontFamily: fonts.inter, fontSize: 12, lineHeight: 16, color: colors.muted },
+  errorCenter: { fontFamily: fonts.inter, fontSize: 12, lineHeight: 16, color: colors.error, textAlign: "center" },
+  resend: { alignSelf: "center", marginTop: 12, paddingVertical: 4 },
+  resendText: { fontFamily: fonts.inter, fontSize: 12, color: colors.muted, textDecorationLine: "underline" },
+  resendWaiting: { color: colors.placeholder, textDecorationLine: "none" },
 });
-
