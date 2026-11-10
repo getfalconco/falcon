@@ -1,6 +1,7 @@
 "use client";
 
 import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import type { ReactNode } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion, useReducedMotion, type MotionProps } from "framer-motion";
 import { ChevronLeft, Loader2 } from "lucide-react";
@@ -16,6 +17,7 @@ import {
   RESEARCH_TIMES,
   SECTORS,
   TENURES,
+  TICKER_PATTERN,
   type NotificationAnswer,
   type SectorId,
   type WelcomeAnswers,
@@ -27,7 +29,7 @@ import {
 } from "@/lib/onboarding";
 import { isSupabaseConfigured, requireSupabase } from "@/lib/supabase";
 import AuthSplitShell from "../components/AuthSplitShell";
-import GetStartedButton from "../components/GetStartedButton";
+import GetStartedButton, { BUTTON_TEXT_STYLE, SECONDARY_BUTTON_CLASS } from "../components/GetStartedButton";
 import {
   ChoiceRows,
   Chips,
@@ -38,9 +40,9 @@ import {
   MappingList,
   ResultView,
   SERIF,
-  StockPicker,
   UNDERLINE_INPUT,
 } from "./Steps";
+import { PortfolioConnect } from "./PortfolioConnect";
 
 const STEP_IDS = [
   "intro",
@@ -53,7 +55,7 @@ const STEP_IDS = [
   "research",
   "brief",
   "sectors",
-  "stocks",
+  "connect",
   "heard",
   "notify",
   "commit",
@@ -119,8 +121,11 @@ function copyFor(step: StepId, answers: WelcomeAnswers): { title: string; subtit
       return { title: "Falcon gives you what matters in 30 seconds.", subtitle: "Less time reading, more time deciding." };
     case "sectors":
       return { title: "Which sectors do you follow?", subtitle: "Pick as many as you like." };
-    case "stocks":
-      return { title: "Add your stocks", subtitle: "Start with the ones you own or watch most." };
+    case "connect":
+      return {
+        title: "Connect your portfolio",
+        subtitle: "So Falcon watches the stocks you actually own. Pick whichever is easiest.",
+      };
     case "heard":
       return { title: "Where did you hear about Falcon?" };
     case "notify":
@@ -131,7 +136,11 @@ function copyFor(step: StepId, answers: WelcomeAnswers): { title: string; subtit
     case "commit":
       return { title: "I'll check my Exposure every morning", subtitle: "A small habit that keeps you ahead." };
     case "loading":
-      return { title: `Mapping connections for your ${stockCount(answers.stocks.length)}...` };
+      return {
+        title: answers.stocks.length
+          ? `Mapping connections for your ${stockCount(answers.stocks.length)}...`
+          : "Mapping connections for your sectors...",
+      };
     case "result":
       return {
         title: "Your blind spot score",
@@ -146,8 +155,11 @@ function stepDone(step: StepId, answers: WelcomeAnswers): boolean {
   switch (step) {
     case "sectors":
       return answers.sectors.length > 0;
-    case "stocks":
-      return answers.stocks.length > 0;
+    case "connect":
+      return (
+        (answers.stocks.length > 0 && answers.stocks.every((s) => TICKER_PATTERN.test(s.ticker))) ||
+        (answers.stocks.length === 0 && answers.portfolioSkipped === true)
+      );
     case "heard":
       return answers.heardAbout !== undefined;
     case "notify":
@@ -283,6 +295,10 @@ function WelcomeContent() {
   // Loading: fetch real filings for their tickers, move on after the list.
   const tickersKey = answers.stocks.map((s) => s.ticker).join(",");
   const fetchFilings = useCallback(async () => {
+    if (!tickersKey) {
+      setFilings({ state: "none" });
+      return;
+    }
     setFilings({ state: "loading" });
     try {
       const res = await fetch(`/api/filings?tickers=${encodeURIComponent(tickersKey)}`);
@@ -362,6 +378,24 @@ function WelcomeContent() {
     setTimeout(() => goTo(STEP_IDS.indexOf("loading")), reduceMotion ? 300 : 900);
   }, [goTo, reduceMotion, save, update]);
 
+  /** "Skip for now" on the portfolio step: carry on with sectors and answers only. */
+  const skipPortfolio = useCallback(() => {
+    if (busy) return;
+    update({ stocks: [], portfolioSkipped: true });
+    answersRef.current = { ...answersRef.current, stocks: [], portfolioSkipped: true };
+    void save();
+    goTo(STEP_IDS.indexOf("connect") + 1);
+  }, [busy, goTo, save, update]);
+
+  const accessToken = useCallback(async () => {
+    if (!client) return null;
+    try {
+      return (await client.auth.getSession()).data.session?.access_token ?? null;
+    } catch {
+      return null;
+    }
+  }, [client]);
+
   const copy = copyFor(step, answers);
 
   /** Entrance for the `order`th piece of the step (0 is the headline). */
@@ -408,8 +442,14 @@ function WelcomeContent() {
             }}
           />
         );
-      case "stocks":
-        return <StockPicker value={answers.stocks} onChange={(stocks) => update({ stocks })} onDone={next} />;
+      case "connect":
+        return (
+          <PortfolioConnect
+            value={answers.stocks}
+            onChange={(stocks) => update({ stocks, portfolioSkipped: undefined })}
+            getToken={accessToken}
+          />
+        );
       case "heard":
         return (
           <div>
@@ -443,7 +483,16 @@ function WelcomeContent() {
       case "commit":
         return <HoldToCommit committed={answers.committed === true} onCommit={onCommit} />;
       case "loading":
-        return <MappingList tickers={answers.stocks.map((s) => s.ticker)} durationMs={loadingMs} />;
+        return (
+          <MappingList
+            tickers={
+              answers.stocks.length
+                ? answers.stocks.map((s) => s.ticker)
+                : answers.sectors.map((id) => SECTORS.find((o) => o.id === id)?.label ?? id)
+            }
+            durationMs={loadingMs}
+          />
+        );
       case "result":
         return <ResultView score={blindSpotScore(answers)} filings={filings ?? { state: "loading" }} />;
       default:
@@ -451,88 +500,87 @@ function WelcomeContent() {
     }
   }
 
-  function actions() {
+  /**
+   * The step's buttons. With an `alternative` (skip, not now) the row splits
+   * into two equal buttons across the column; otherwise the main button keeps
+   * its fixed width on the left edge.
+   */
+  function actions(): { primary?: ReactNode; alternative?: ReactNode } | null {
     if (step === "loading") return null;
-    if (step === "commit" && !answers.committed) return null;
+    if (step === "commit" && !answers.committed) return {};
+    const split = step === "notify" || step === "connect";
+    const primaryClass = split ? "h-[45px] min-w-0 flex-1 border border-transparent px-4" : "h-[45px] w-[260px] pl-4 pr-3.5";
+    const alternative = (label: string, onClick: () => void) => (
+      <button
+        type="button"
+        onClick={onClick}
+        disabled={busy || finishing}
+        className={`inline-flex h-[45px] min-w-0 flex-1 items-center justify-center px-4 outline-none focus-visible:border-black/40 disabled:cursor-not-allowed disabled:opacity-40 ${SECONDARY_BUTTON_CLASS}`}
+        style={BUTTON_TEXT_STYLE}
+      >
+        {label}
+      </button>
+    );
     if (step === "notify") {
-      return (
-        <>
+      return {
+        primary: (
           <GetStartedButton
             type="button"
             onClick={() => void answerNotifications(true)}
-            className="h-[45px] w-[260px] pl-4 pr-3.5"
+            className={primaryClass}
             label="Turn on alerts"
             showArrow={false}
           />
-          <button
-            type="button"
-            onClick={() => void answerNotifications(false)}
-            className={QUIET_BUTTON}
-            style={{ fontFamily: MONO }}
-          >
-            Not now
-          </button>
-        </>
-      );
+        ),
+        alternative: alternative("Not now", () => void answerNotifications(false)),
+      };
     }
-    return (
-      <GetStartedButton
-        type="button"
-        onClick={next}
-        disabled={!canGoNext}
-        className="h-[45px] w-[260px] pl-4 pr-3.5"
-        showArrow={false}
-        label={
-          <>
-            {finishing ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : null}
-            {step === "intro" ? "Get started" : isLast ? "Continue to Falcon" : "Continue"}
-          </>
-        }
-      />
-    );
+    return {
+      primary: (
+        <GetStartedButton
+          type="button"
+          onClick={next}
+          disabled={!canGoNext}
+          className={primaryClass}
+          showArrow={false}
+          label={
+            <>
+              {finishing ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : null}
+              {step === "intro" ? "Get started" : isLast ? "Continue to Falcon" : "Continue"}
+            </>
+          }
+        />
+      ),
+      alternative: step === "connect" ? alternative("Skip", skipPortfolio) : undefined,
+    };
   }
 
   const progress = (index + 1) / STEP_IDS.length;
   const bodyNode = body();
   const actionsNode = actions();
-  // Shown from the second step on and kept steady while a step change plays;
-  // `back` itself ignores presses mid-change.
+  // From the second step on; `back` itself ignores presses mid-change.
   const showBack = index > 0 && !finishing && step !== "loading" && step !== "result";
+  const hasActions = Boolean(actionsNode && (actionsNode.primary || actionsNode.alternative || showBack));
 
   return (
     <>
       <div className="flex flex-1 flex-col justify-center px-6 py-10 sm:px-12 sm:py-16">
-        <div className="mx-auto w-full max-w-[460px]">
-          {/* Back sits at the head of the progress hairline, in the same spot on
-              every step; the line fills as the steps go by. */}
-          <div className="mb-10 flex items-center gap-4 sm:mb-12">
-            <button
-              type="button"
-              onClick={back}
-              aria-label="Back"
-              aria-hidden={!showBack}
-              tabIndex={showBack ? 0 : -1}
-              className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-black/10 text-[#767676] outline-none transition-[color,border-color,background-color,opacity] duration-200 hover:border-black/30 hover:bg-black/[0.03] hover:text-[#1d1b1b] focus-visible:border-black/40 focus-visible:text-[#1d1b1b] ${
-                showBack ? "opacity-100" : "pointer-events-none opacity-0"
-              }`}
-            >
-              <ChevronLeft className="h-4 w-4" strokeWidth={1.75} aria-hidden />
-            </button>
-            <div
-              role="progressbar"
-              aria-label="Setup progress"
-              aria-valuemin={1}
-              aria-valuemax={STEP_IDS.length}
-              aria-valuenow={index + 1}
-              className="h-px min-w-0 flex-1 bg-black/10"
-            >
-              <motion.div
-                className="h-px bg-[#1d1b1b]"
-                initial={false}
-                animate={{ width: `${progress * 100}%` }}
-                transition={{ duration: reduceMotion ? 0 : 0.5, ease: EASE_SOFT }}
-              />
-            </div>
+        <div className="mx-auto w-full max-w-[520px]">
+          {/* Progress: a hairline across the full column that fills as the steps go by. */}
+          <div
+            role="progressbar"
+            aria-label="Setup progress"
+            aria-valuemin={1}
+            aria-valuemax={STEP_IDS.length}
+            aria-valuenow={index + 1}
+            className="mb-10 h-px w-full bg-black/10 sm:mb-12"
+          >
+            <motion.div
+              className="h-px bg-[#1d1b1b]"
+              initial={false}
+              animate={{ width: `${progress * 100}%` }}
+              transition={{ duration: reduceMotion ? 0 : 0.5, ease: EASE_SOFT }}
+            />
           </div>
 
           {restored ? (
@@ -574,12 +622,26 @@ function WelcomeContent() {
                 )
               ) : null}
 
-              {actionsNode ? (
+              {hasActions ? (
                 <motion.div
                   {...enter(bodyNode ? actionsOrder : bodyOrder)}
                   className="mt-10 flex flex-col items-start gap-4"
                 >
-                  {actionsNode}
+                  {/* Back sits beside the main button, the row starting on the column's left edge. */}
+                  <div className={`flex items-center gap-3 ${actionsNode?.alternative ? "w-full" : ""}`}>
+                    {showBack ? (
+                      <button
+                        type="button"
+                        onClick={back}
+                        aria-label="Back"
+                        className="flex h-[45px] w-[45px] shrink-0 items-center justify-center rounded-full border border-black/10 text-[#767676] outline-none transition-colors duration-200 hover:border-black/30 hover:bg-black/[0.03] hover:text-[#1d1b1b] focus-visible:border-black/40 focus-visible:text-[#1d1b1b]"
+                      >
+                        <ChevronLeft className="h-4 w-4" strokeWidth={1.75} aria-hidden />
+                      </button>
+                    ) : null}
+                    {actionsNode?.primary}
+                    {actionsNode?.alternative}
+                  </div>
                 </motion.div>
               ) : null}
             </motion.div>

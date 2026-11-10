@@ -96,6 +96,18 @@ export async function searchTickers(query: string, limit = 8): Promise<{ ticker:
     .map(({ entry }) => ({ ticker: entry.ticker, name: entry.name }));
 }
 
+/** SEC company names for the given tickers; tickers SEC doesn't list are left out. */
+export async function companyNames(symbols: string[]): Promise<Map<string, string>> {
+  const { byTicker } = await loadTickers();
+  const names = new Map<string, string>();
+  for (const symbol of symbols) {
+    const ticker = symbol.toUpperCase().replace(/-/g, ".");
+    const entry = byTicker.get(ticker);
+    if (entry) names.set(symbol, entry.name);
+  }
+  return names;
+}
+
 /* ------------------------------------------------------------------ */
 
 type Submissions = {

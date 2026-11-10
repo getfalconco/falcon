@@ -87,7 +87,8 @@ export type SectorId = (typeof SECTORS)[number]["id"];
 export type HeardAboutId = (typeof HEARD_ABOUT)[number]["id"];
 export type NotificationAnswer = (typeof NOTIFICATION_ANSWERS)[number];
 
-export type PickedStock = { ticker: string; name: string };
+/** A holding from the portfolio step; shares and value only when the source had them. */
+export type PickedStock = { ticker: string; name: string; shares?: number; value?: number };
 
 export type WelcomeAnswers = {
   goal?: GoalId;
@@ -98,6 +99,8 @@ export type WelcomeAnswers = {
   researchTime?: ResearchTimeId;
   sectors: SectorId[];
   stocks: PickedStock[];
+  /** Chose "Skip for now" on the portfolio step. */
+  portfolioSkipped?: boolean;
   heardAbout?: HeardAboutId;
   heardAboutOther?: string;
   notifications?: NotificationAnswer;
@@ -212,8 +215,15 @@ export function readProgress(): WelcomeProgress | null {
                 TICKER_PATTERN.test((s as PickedStock).ticker) &&
                 typeof (s as PickedStock).name === "string",
             )
+            .map(({ ticker, name, shares, value }) => ({
+              ticker,
+              name,
+              shares: typeof shares === "number" && Number.isFinite(shares) && shares > 0 ? shares : undefined,
+              value: typeof value === "number" && Number.isFinite(value) && value > 0 ? value : undefined,
+            }))
             .slice(0, MAX_STOCKS)
         : [],
+      portfolioSkipped: a.portfolioSkipped === true ? true : undefined,
       heardAbout: isOneOf(HEARD_ABOUT, a.heardAbout) ? a.heardAbout : undefined,
       heardAboutOther:
         typeof a.heardAboutOther === "string" ? a.heardAboutOther.slice(0, MAX_OTHER_LENGTH) : undefined,
