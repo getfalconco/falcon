@@ -8,7 +8,7 @@ import { resendOtpForType, verifyEmailOtp } from "@/lib/auth";
 import { requireSupabase } from "@/lib/supabase";
 import { cn } from "@/lib/utils";
 
-const OTP_LENGTH = 8;
+const OTP_LENGTH = 6;
 
 function maskEmail(value: string): string {
   const at = value.lastIndexOf("@");
@@ -132,7 +132,7 @@ export default function OtpForm({
               status={status}
               disabled={loading}
               autoFocus
-              aria-label="8-digit verification code"
+              aria-label="6-digit verification code"
               errorMessage={errorMessage}
               hint={hint}
               successMessage="Verified."

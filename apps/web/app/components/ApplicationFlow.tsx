@@ -187,7 +187,7 @@ export default function ApplicationFlow({
             email={verify.email}
             otpType="signup"
             title="Confirm your email"
-            subtitle="Enter the 8-digit code we sent to finish your application."
+            subtitle="Enter the 6-digit code we sent to finish your application."
             onSession={async (session) => {
               setMemberNumber(await finishApplicationWithSession(session, verify.submission));
             }}

@@ -191,7 +191,7 @@ export default function InviteClaimView({ token, status, role }: Props) {
               Confirm your email
             </h1>
             <p className="mt-3 text-sm text-[#767676]">
-              Enter the 8-digit code we sent to {email.trim()} to claim your ticket.
+              Enter the 6-digit code we sent to {email.trim()} to claim your ticket.
             </p>
           </div>
 

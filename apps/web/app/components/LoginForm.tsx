@@ -1,15 +1,20 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Loader2 } from "lucide-react";
 import type { AuthError, EmailOtpType } from "@supabase/supabase-js";
 import { EASE } from "@meridian/ui";
 import {
   continueWithEmailPassword,
+  finishOAuthSignIn,
+  isOAuthReturn,
   requestPasswordReset,
+  startOAuthSignIn,
+  type OAuthProvider,
   type VerifyOtpResult,
 } from "@/lib/auth";
+import { APP_URL, isAppHost } from "@/lib/app-host";
 import { isSupabaseConfigured, requireSupabase } from "@/lib/supabase";
 import { tryOpenTalentAdminSession } from "@/lib/talent-admin";
 import { AUTH } from "@/lib/marketing-copy";
@@ -18,6 +23,21 @@ import OtpForm from "./OtpForm";
 import SetPasswordForm from "./SetPasswordForm";
 
 const FAILED_ATTEMPTS_BEFORE_FORGOT = 3;
+
+// The provider's return is finished once per page load (StrictMode runs
+// effects twice in development).
+let oauthReturnHandled = false;
+
+/**
+ * Where Google and Apple send the visitor back: the login screen on the app
+ * host (app.getfalcon.co, or app.localhost in development), which finishes
+ * the sign-in in that same page load.
+ */
+function oauthRedirectUrl(): string {
+  const { origin, host } = window.location;
+  const base = isAppHost(host) || !/^https?:\/\//.test(APP_URL) ? origin : new URL(APP_URL).origin;
+  return `${base}/login`;
+}
 
 const oauthButtonClass = `relative flex h-11 w-full items-center justify-center ${SECONDARY_BUTTON_CLASS}`;
 
@@ -80,6 +100,8 @@ export default function LoginForm({ onSuccess, onAdminSuccess, onTalentSuccess, 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [failedAttempts, setFailedAttempts] = useState(0);
+  const [oauthBusy, setOauthBusy] = useState<OAuthProvider | "return" | null>(null);
+  const [oauthError, setOauthError] = useState<string | null>(null);
 
   const showPasswordField = email.trim().length > 0;
   const canContinue = email.trim().length > 0 && password.trim().length > 0;
@@ -108,6 +130,47 @@ export default function LoginForm({ onSuccess, onAdminSuccess, onTalentSuccess, 
       return;
     }
     void finishProductSignIn();
+  }
+
+  useEffect(() => {
+    if (!isSupabaseConfigured || oauthReturnHandled || !isOAuthReturn()) return;
+    oauthReturnHandled = true;
+    setOauthBusy("return");
+    void (async () => {
+      try {
+        const finished = await finishOAuthSignIn(requireSupabase());
+        if (!finished) return;
+        if (finished.result.type === "waitlist") {
+          onWaitlist(finished.email || undefined);
+          return;
+        }
+        await finishProductSignIn();
+      } catch (err) {
+        setOauthError(authMessage(err));
+      } finally {
+        setOauthBusy(null);
+      }
+    })();
+    // Runs once, on the page load the provider returns to.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  async function handleOAuth(provider: OAuthProvider) {
+    if (oauthBusy || loading) return;
+    setOauthError(null);
+    setError(null);
+    if (!isSupabaseConfigured) {
+      setOauthError("Supabase is not configured.");
+      return;
+    }
+    setOauthBusy(provider);
+    try {
+      await startOAuthSignIn(requireSupabase(), provider, oauthRedirectUrl());
+      // Leaving for the provider: keep the spinner until the page unloads.
+    } catch (err) {
+      setOauthError(authMessage(err));
+      setOauthBusy(null);
+    }
   }
 
   async function handleContinue() {
@@ -149,7 +212,7 @@ export default function LoginForm({ onSuccess, onAdminSuccess, onTalentSuccess, 
           email: result.email,
           otpType: "signup",
           title: "Check your email",
-          subtitle: "Enter the 8-digit code we sent to confirm your account.",
+          subtitle: "Enter the 6-digit code we sent to confirm your account.",
         });
         return;
       }
@@ -192,7 +255,7 @@ export default function LoginForm({ onSuccess, onAdminSuccess, onTalentSuccess, 
         email: trimmed,
         otpType: "recovery",
         title: "Reset your password",
-          subtitle: "Enter the 8-digit code we sent to your email.",
+        subtitle: "Enter the 6-digit code we sent to your email.",
       });
     } catch (err) {
       setError(authMessage(err));
@@ -307,19 +370,53 @@ export default function LoginForm({ onSuccess, onAdminSuccess, onTalentSuccess, 
           </header>
 
           <div className="mt-8 space-y-3">
-            <button type="button" className={oauthButtonClass} style={BUTTON_TEXT_STYLE}>
+            <button
+              type="button"
+              className={oauthButtonClass}
+              style={BUTTON_TEXT_STYLE}
+              disabled={oauthBusy !== null || loading}
+              aria-busy={oauthBusy === "google" || oauthBusy === "return"}
+              onClick={() => void handleOAuth("google")}
+            >
               <span className="absolute left-4 top-1/2 -translate-y-1/2">
-                <GoogleIcon />
+                {oauthBusy === "google" ? (
+                  <Loader2 className="h-[18px] w-[18px] animate-spin" aria-hidden />
+                ) : (
+                  <GoogleIcon />
+                )}
               </span>
               Continue with Google
             </button>
 
-            <button type="button" className={oauthButtonClass} style={BUTTON_TEXT_STYLE}>
+            <button
+              type="button"
+              className={oauthButtonClass}
+              style={BUTTON_TEXT_STYLE}
+              disabled={oauthBusy !== null || loading}
+              aria-busy={oauthBusy === "apple" || oauthBusy === "return"}
+              onClick={() => void handleOAuth("apple")}
+            >
               <span className="absolute left-4 top-1/2 -translate-y-1/2">
-                <AppleIcon />
+                {oauthBusy === "apple" ? (
+                  <Loader2 className="h-[18px] w-[18px] animate-spin" aria-hidden />
+                ) : (
+                  <AppleIcon />
+                )}
               </span>
               Continue with Apple
             </button>
+
+            {oauthBusy === "return" ? (
+              <p className="flex items-center justify-center gap-2 text-center text-xs text-[#767676]">
+                <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden />
+                Signing you in…
+              </p>
+            ) : null}
+            {oauthError ? (
+              <p role="alert" className="text-center text-xs text-red-600">
+                {oauthError}
+              </p>
+            ) : null}
           </div>
 
           <div className="relative my-6">

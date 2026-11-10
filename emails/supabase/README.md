@@ -1,6 +1,6 @@
 # Falcon — Supabase Auth email templates (token-only, dark)
 
-Paste-ready HTML for Authentication → Email Templates. Every template shows an **8-digit OTP** in digit boxes — no confirmation links or Verify buttons.
+Paste-ready HTML for Authentication → Email Templates. Every template shows a **6-digit OTP** in digit boxes. No confirmation links or Verify buttons.
 
 Design: dark canvas (`#090909` / card `#121212`), Falcon mark + Playfair Display wordmark top-left, left-aligned copy.
 
@@ -38,7 +38,7 @@ Logo URL used in templates: `https://getfalcon.co/brand/falcon-icon-on-dark.png`
 
 ## Variables used
 
-- `{{ .Token }}` — 8-digit OTP (split into boxes via `{{ slice .Token n n+1 }}`)
+- `{{ .Token }}`: 6-digit OTP (split into boxes via `{{ slice .Token n n+1 }}`)
 - `{{ .Email }}` / `{{ .NewEmail }}` — address context in copy
 
 Users verify with `supabase.auth.verifyOtp({ email, token, type })` in the app. Do not include `{{ .ConfirmationURL }}`.

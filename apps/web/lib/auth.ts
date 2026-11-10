@@ -617,3 +617,131 @@ export async function resendOtpForType(
   }
 }
 
+
+export type OAuthProvider = "google" | "apple";
+
+const OAUTH_LABEL: Record<OAuthProvider, string> = { google: "Google", apple: "Apple" };
+
+// Set right before leaving for the provider, so the page the provider sends
+// the visitor back to knows to finish the sign-in. Cleared on return.
+const OAUTH_PENDING_KEY = "falcon-oauth-pending";
+
+function setOAuthPending(active: boolean): void {
+  try {
+    if (active) window.sessionStorage.setItem(OAUTH_PENDING_KEY, "1");
+    else window.sessionStorage.removeItem(OAUTH_PENDING_KEY);
+  } catch {
+    // Storage blocked: the tokens in the URL still mark the return.
+  }
+}
+
+function oauthErrorMessage(provider: OAuthProvider | null, raw: string): string {
+  const msg = raw.trim();
+  const lower = msg.toLowerCase();
+  const name = provider ? OAUTH_LABEL[provider] : "This";
+  if (lower.includes("not enabled") || lower.includes("unsupported provider")) {
+    return `${name} sign-in is not enabled yet. Please use your email for now.`;
+  }
+  if (lower.includes("access_denied") || lower.includes("cancel")) {
+    return "Sign-in was cancelled.";
+  }
+  return msg || "Something went wrong. Please try again.";
+}
+
+/**
+ * Sends the visitor to Google or Apple through Supabase. The provider returns
+ * them to `redirectTo` with the session in the URL, which finishOAuthSignIn
+ * picks up in that same page load (funnel test mode keeps sessions in memory
+ * only, so nothing may reload in between).
+ *
+ * Supabase answers a provider that is not switched on with a bare JSON error
+ * page, so the authorize URL is checked first and that error shown here.
+ */
+export async function startOAuthSignIn(
+  client: SupabaseClient,
+  provider: OAuthProvider,
+  redirectTo: string,
+): Promise<void> {
+  const { data, error } = await client.auth.signInWithOAuth({
+    provider,
+    options: { redirectTo, skipBrowserRedirect: true },
+  });
+  if (error) throw new Error(oauthErrorMessage(provider, error.message));
+  if (!data.url) throw new Error("Something went wrong. Please try again.");
+
+  let probeError: string | null = null;
+  try {
+    const res = await fetch(data.url, { redirect: "manual", credentials: "omit" });
+    if (res.type !== "opaqueredirect" && !res.ok) {
+      const body = (await res.json().catch(() => null)) as
+        | { msg?: string; message?: string; error_description?: string; error?: string }
+        | null;
+      probeError = body?.msg ?? body?.message ?? body?.error_description ?? body?.error ?? "";
+    }
+  } catch {
+    // Network or CORS trouble with the check: go ahead, the redirect will tell.
+  }
+  if (probeError !== null) throw new Error(oauthErrorMessage(provider, probeError));
+
+  setOAuthPending(true);
+  window.location.assign(data.url);
+}
+
+/** True when this page load is the provider sending the visitor back. */
+export function isOAuthReturn(): boolean {
+  if (typeof window === "undefined") return false;
+  let pending = false;
+  try {
+    pending = window.sessionStorage.getItem(OAUTH_PENDING_KEY) === "1";
+  } catch {
+    pending = false;
+  }
+  const { hash, search } = window.location;
+  return (
+    pending ||
+    /[#&]access_token=/.test(hash) ||
+    /[#&?]error_description=/.test(hash + search) ||
+    /[?&]code=/.test(search)
+  );
+}
+
+/**
+ * Finishes a Google or Apple sign-in on return and routes the account like an
+ * email sign-in (resolveSessionUser). Null when there is no session to finish.
+ */
+export async function finishOAuthSignIn(
+  client: SupabaseClient,
+): Promise<{ result: Exclude<ContinueResult, { type: "confirm_email" }>; email: string } | null> {
+  setOAuthPending(false);
+  const url = new URL(window.location.href);
+  const hashParams = new URLSearchParams(url.hash.replace(/^#/, ""));
+  const code = url.searchParams.get("code");
+  const urlError =
+    url.searchParams.get("error_description") ??
+    hashParams.get("error_description") ??
+    url.searchParams.get("error") ??
+    hashParams.get("error");
+
+  // The client reads the session (or the error) out of the URL when it starts.
+  const { error: initError } = await client.auth.initialize();
+  let session = (await client.auth.getSession()).data.session;
+
+  // PKCE return (?code=): exchange it here.
+  if (!session && code && !urlError) {
+    const exchanged = await client.auth.exchangeCodeForSession(code);
+    if (exchanged.error) throw new Error(oauthErrorMessage(null, exchanged.error.message));
+    session = exchanged.data.session;
+  }
+
+  if (urlError || code) {
+    window.history.replaceState(window.history.state, "", url.pathname);
+  }
+  if (urlError) throw new Error(oauthErrorMessage(null, urlError));
+  if (!session) {
+    if (initError) throw new Error(oauthErrorMessage(null, initError.message));
+    return null;
+  }
+
+  const result = await resolveSessionUser(client, session, session.user);
+  return { result, email: (session.user.email ?? "").trim() };
+}
