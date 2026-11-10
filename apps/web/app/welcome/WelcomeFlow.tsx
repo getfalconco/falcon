@@ -394,6 +394,7 @@ function WelcomeContent() {
             onClick={() => void answerNotifications(true)}
             className="h-[45px] w-[260px] pl-4 pr-3.5"
             label="Turn on alerts"
+            showArrow={false}
           />
           <button
             type="button"
@@ -412,6 +413,7 @@ function WelcomeContent() {
         onClick={next}
         disabled={!canGoNext}
         className="h-[45px] w-[260px] pl-4 pr-3.5"
+        showArrow={false}
         label={
           <>
             {finishing ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : null}

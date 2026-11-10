@@ -340,6 +340,7 @@ export function TierGrid({
   stageStep2,
   onApply,
   priceOverride,
+  buttonArrows = true,
 }: {
   firstName: string;
   lastName: string;
@@ -375,6 +376,8 @@ export function TierGrid({
   }) => void;
   /** Fixed price label (e.g. an annual-only tier) instead of the computed one. */
   priceOverride?: string;
+  /** The animated arrow on the stage's Continue buttons. Off on the app host. */
+  buttonArrows?: boolean;
 }) {
   const tiers = tierKeys ? TIERS.filter((t) => tierKeys.includes(t.key)) : TIERS;
   const colsClass = GRID_COLS[tiers.length] ?? GRID_COLS[4];
@@ -1082,18 +1085,21 @@ export function TierGrid({
                   <GetStartedButton
                     label="Continue"
                     href="/login"
+                    showArrow={buttonArrows}
                     className="h-[45px] w-[260px] pl-4 pr-3.5"
                   />
                 ) : stageStep === 1 ? (
                   <GetStartedButton
                     label="Continue"
                     onClick={() => setStageStep(2)}
+                    showArrow={buttonArrows}
                     className="h-[45px] w-[260px] pl-4 pr-3.5"
                   />
                 ) : stageStep === 2 ? (
                   <GetStartedButton
                     label="Continue to apply"
                     onClick={() => setStageStep(3)}
+                    showArrow={buttonArrows}
                     className="h-[45px] w-[260px] pl-4 pr-3.5"
                   />
                 ) : (

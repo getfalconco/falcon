@@ -267,6 +267,7 @@ export default function LoginForm({ onSuccess, onAdminSuccess, onTalentSuccess, 
                 type="submit"
                 disabled={!email.trim() || loading}
                 className="mt-3 h-11 w-full pl-4 pr-3.5"
+                showArrow={false}
                 label={
                   <>
                     {loading ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : null}

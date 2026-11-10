@@ -341,6 +341,7 @@ export default function ApprovedTicketReveal({
                       label="Download"
                       onClick={() => setShowPicker(true)}
                       className="h-[45px] w-[220px] pl-4 pr-3.5"
+                      showArrow={false}
                     />
                   </motion.div>
                   </motion.div>

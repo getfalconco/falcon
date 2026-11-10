@@ -40,6 +40,7 @@ export default function EarlyAccessApply({
         stageParagraphs={stageParagraphs}
         stageStep2={stageStep2}
         onApply={setCredentials}
+        buttonArrows={false}
       />
 
       <AnimatePresence>

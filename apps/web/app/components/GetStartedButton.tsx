@@ -96,6 +96,7 @@ export default function GetStartedButton({
   onClick,
   type,
   disabled,
+  showArrow = true,
 }: {
   className?: string;
   label?: React.ReactNode;
@@ -106,13 +107,15 @@ export default function GetStartedButton({
   type?: "button" | "submit";
   /** Button mode only. */
   disabled?: boolean;
+  /** The animated pixel arrow on the right. Off renders a centered label only. */
+  showArrow?: boolean;
 }) {
-  const sharedClassName = `inline-flex items-center justify-between ${PRIMARY_BUTTON_CLASS} ${className}`;
+  const sharedClassName = `inline-flex items-center ${showArrow ? "justify-between" : "justify-center"} ${PRIMARY_BUTTON_CLASS} ${className}`;
   const sharedStyle: React.CSSProperties = { ...BUTTON_TEXT_STYLE, color: PRIMARY_BUTTON_TEXT_COLOR };
   const content = (
     <>
       <span className="inline-flex items-center gap-2">{label}</span>
-      <PixelGrid />
+      {showArrow ? <PixelGrid /> : null}
     </>
   );
 

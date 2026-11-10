@@ -107,6 +107,7 @@ export default function SetPasswordForm({ onSuccess, onWaitlist }: Props) {
               type="submit"
               disabled={!canSubmit || loading}
               className="h-11 w-full pl-4 pr-3.5"
+              showArrow={false}
               label={
                 <>
                   {loading ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : null}
