@@ -100,7 +100,7 @@ export default function Landing() {
             <Text style={styles.headline} accessibilityRole="header">
               See what moves{"\n"}your stocks
             </Text>
-            <Text style={styles.description}>Understand your portfolio like never before.</Text>
+            <Text style={styles.description}>Know where your portfolio stands every day, and what’s coming next.</Text>
           </View>
 
           <View style={[styles.bottom, { paddingBottom: Math.max(insets.bottom, 16) + 4 }]}>
