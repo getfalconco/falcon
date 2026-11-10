@@ -75,3 +75,4 @@ y.err.txt
 # ~11MB of filing text that already lives in the cache; derived, not source.
 data/dataset/
 
+*.blend
