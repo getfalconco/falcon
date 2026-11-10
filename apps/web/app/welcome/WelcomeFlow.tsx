@@ -3,7 +3,7 @@
 import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion, useReducedMotion, type MotionProps } from "framer-motion";
-import { Loader2 } from "lucide-react";
+import { ChevronLeft, Loader2 } from "lucide-react";
 import { SITE_URL, isAppHost } from "@/lib/app-host";
 import {
   EMPTY_ANSWERS,
@@ -494,20 +494,37 @@ function WelcomeContent() {
 
   const progress = (index + 1) / STEP_IDS.length;
   const bodyNode = body();
+  const actionsNode = actions();
+  // Shown from the second step on and kept steady while a step change plays;
+  // `back` itself ignores presses mid-change.
+  const showBack = index > 0 && !finishing && step !== "loading" && step !== "result";
 
   return (
     <>
       <div className="flex flex-1 flex-col justify-center px-6 py-10 sm:px-12 sm:py-16">
         <div className="mx-auto w-full max-w-[460px]">
-          {/* Progress: a hairline that fills as the steps go by (as in the application flow). */}
-          <div className="mb-10 sm:mb-12">
+          {/* Back sits at the head of the progress hairline, in the same spot on
+              every step; the line fills as the steps go by. */}
+          <div className="mb-10 flex items-center gap-4 sm:mb-12">
+            <button
+              type="button"
+              onClick={back}
+              aria-label="Back"
+              aria-hidden={!showBack}
+              tabIndex={showBack ? 0 : -1}
+              className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-black/10 text-[#767676] outline-none transition-[color,border-color,background-color,opacity] duration-200 hover:border-black/30 hover:bg-black/[0.03] hover:text-[#1d1b1b] focus-visible:border-black/40 focus-visible:text-[#1d1b1b] ${
+                showBack ? "opacity-100" : "pointer-events-none opacity-0"
+              }`}
+            >
+              <ChevronLeft className="h-4 w-4" strokeWidth={1.75} aria-hidden />
+            </button>
             <div
               role="progressbar"
               aria-label="Setup progress"
               aria-valuemin={1}
               aria-valuemax={STEP_IDS.length}
               aria-valuenow={index + 1}
-              className="h-px w-full bg-black/10"
+              className="h-px min-w-0 flex-1 bg-black/10"
             >
               <motion.div
                 className="h-px bg-[#1d1b1b]"
@@ -557,22 +574,14 @@ function WelcomeContent() {
                 )
               ) : null}
 
-              <motion.div
-                {...enter(bodyNode ? actionsOrder : bodyOrder)}
-                className="mt-10 flex flex-col items-start gap-4"
-              >
-                {actions()}
-                <button
-                  type="button"
-                  onClick={back}
-                  aria-hidden={!canGoBack}
-                  tabIndex={canGoBack ? 0 : -1}
-                  className={`${QUIET_BUTTON} ${canGoBack ? "opacity-100" : "pointer-events-none opacity-0"}`}
-                  style={{ fontFamily: MONO }}
+              {actionsNode ? (
+                <motion.div
+                  {...enter(bodyNode ? actionsOrder : bodyOrder)}
+                  className="mt-10 flex flex-col items-start gap-4"
                 >
-                  &larr; Back
-                </button>
-              </motion.div>
+                  {actionsNode}
+                </motion.div>
+              ) : null}
             </motion.div>
           ) : null}
         </div>
