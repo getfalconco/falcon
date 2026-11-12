@@ -8,6 +8,7 @@ import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import {
   cardConfidence,
+  cardConfidenceOf,
   cardPricedIn,
   isWeakSignal,
   opportunityCard,
@@ -72,6 +73,14 @@ describe("weak signals (card confidence)", () => {
     assert.equal(topConfidence([hit({ confidence: "low" }), hit({ confidence: "low" })]), "low");
     assert.equal(topConfidence([]), "low");
     assert.equal(cardConfidence(card([hit({ confidence: "low" }), hit({ confidence: "high" })])), "high");
+  });
+
+  it("an unclear hit does not lift a card: no implied way, no record to back it", () => {
+    const hits = [hit({ confidence: "low" }), hit({ ticker: "AMKR", direction: "unclear", confidence: "medium" })];
+    assert.equal(cardConfidenceOf(hits), "low");
+    assert.equal(isWeakSignal(card(hits)), true);
+    assert.equal(cardConfidenceOf([hit({ direction: "unclear", confidence: "high" })]), "low");
+    assert.equal(cardConfidenceOf([hit({ direction: "down", confidence: "medium" }), hit({ ticker: "B", direction: "unclear", confidence: "high" })]), "medium");
   });
 
   it("prefers the engine's card confidence and falls back for older cards", () => {
@@ -239,6 +248,6 @@ describe("Opportunities eligibility", () => {
     assert.equal(bad({ confidence: "low" }), true);
     assert.equal(bad({ history: null }), true);
     const confidence: Confidence = "medium";
-    assert.ok(cardProblems(card([hit({ confidence })], { confidence: "low" })).some((p) => /highest of its hits/.test(p)));
+    assert.ok(cardProblems(card([hit({ confidence })], { confidence: "low" })).some((p) => /highest of its directional hits/.test(p)));
   });
 });

@@ -174,10 +174,12 @@ export type RippleCard = {
   generatedAt: string;
   /**
    * Optional (added by the engine): the card's confidence, the highest
-   * confidence among its hits (after the record's cap). A "low" card is a
-   * weak signal: never on Today or under Opportunities, and listed last in
-   * Sightings under "Weak signals". `cardConfidence` reads it, or derives it
-   * the same way for older cards.
+   * confidence among its hits with an implied way (up or down; after the
+   * record's cap). An "unclear" hit has no implied way, so no record can
+   * back it, and it does not lift a card. "low" with no such hit. A "low"
+   * card is a weak signal: never on Today or under Opportunities, and listed
+   * last in Sightings under "Weak signals". `cardConfidence` reads it, or
+   * derives it the same way for older cards.
    */
   confidence?: Confidence;
   /** Optional (added by the engine): true when every hit with an implied way is priced in (see RippleHit.pricedIn). */
@@ -228,9 +230,14 @@ export function topConfidence(hits: readonly Pick<RippleHit, "confidence">[]): C
   return best;
 }
 
-/** The card's confidence: the engine's, else the highest among its hits. */
+/** A card's confidence from its hits: the highest among those with an implied way; "low" with none. */
+export function cardConfidenceOf(hits: readonly Pick<RippleHit, "confidence" | "direction">[]): Confidence {
+  return topConfidence(hits.filter((h) => h.direction !== "unclear"));
+}
+
+/** The card's confidence: the engine's, else derived from its hits (cardConfidenceOf). */
 export function cardConfidence(card: Pick<RippleCard, "confidence" | "hits">): Confidence {
-  return card.confidence && card.confidence in CONFIDENCE_ORDER ? card.confidence : topConfidence(card.hits);
+  return card.confidence && card.confidence in CONFIDENCE_ORDER ? card.confidence : cardConfidenceOf(card.hits);
 }
 
 /** A weak signal: a card whose confidence is "low" (a coin flip at best). */

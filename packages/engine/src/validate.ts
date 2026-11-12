@@ -6,7 +6,7 @@
  * Pure. Each check returns a list of problems; empty means it passes.
  */
 
-import { topConfidence, type Confidence, type Direction, type LinkEvidence, type Relation, type RippleCard, type RippleEvent, type RippleHistory, type RippleHit, type RippleSinceEvent, type SightingsFeed } from "@falcon/ripple";
+import { cardConfidenceOf, type Confidence, type Direction, type LinkEvidence, type Relation, type RippleCard, type RippleEvent, type RippleHistory, type RippleHit, type RippleSinceEvent, type SightingsFeed } from "@falcon/ripple";
 
 const DIRECTIONS: readonly Direction[] = ["up", "down", "unclear"];
 const CONFIDENCES: readonly Confidence[] = ["low", "medium", "high"];
@@ -176,7 +176,7 @@ export function cardProblems(c: RippleCard, where = "card"): string[] {
     const tickers = c.hits.map((h) => h.ticker);
     if (new Set(tickers).size !== tickers.length) out.push(`${where}: a company appears twice`);
     if (c.event && tickers.includes(c.event.ticker)) out.push(`${where}: the event company is listed as its own hit`);
-    if (c.confidence !== undefined && c.confidence !== topConfidence(c.hits)) out.push(`${where}: confidence must be the highest of its hits'`);
+    if (c.confidence !== undefined && c.confidence !== cardConfidenceOf(c.hits)) out.push(`${where}: confidence must be the highest of its directional hits'`);
   }
   return out;
 }

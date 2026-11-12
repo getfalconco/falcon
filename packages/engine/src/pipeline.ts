@@ -6,7 +6,7 @@
  * src/rank.ts (formula: README.md, "Ranking").
  */
 
-import { cardPricedIn, topConfidence, type Confidence, type RippleCard, type RippleHit, type SightingsFeed } from "@falcon/ripple";
+import { cardConfidenceOf, cardPricedIn, type Confidence, type RippleCard, type RippleHit, type SightingsFeed } from "@falcon/ripple";
 import { detectEvents, type DetectedEvent, type SourceProblem } from "./events.ts";
 import { evidenceOf, loadGraph, nameOf, pathWeight, walk, type Graph, type Path } from "./graph.ts";
 import { cardHistory, memoDeps, type HistoryDeps } from "./history.ts";
@@ -238,8 +238,8 @@ export async function runSightings(opts: RunOptions): Promise<RunResult> {
       hits: kept,
       sector: opts.sector,
       generatedAt,
-      // Card confidence: the highest among its kept hits (README, "Card confidence").
-      confidence: topConfidence(kept),
+      // Card confidence: the highest among its kept hits with an implied way (README, "What reaches the user").
+      confidence: cardConfidenceOf(kept),
       pricedIn: cardPricedIn({ hits: kept }),
     };
     const problems = cardProblems(card);

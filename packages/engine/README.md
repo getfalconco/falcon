@@ -117,10 +117,12 @@ never re-derive them. Tests: `test/trust.test.ts`.
 
 ### Card confidence and weak signals
 
-`card.confidence` is the **highest confidence among the card's kept hits**
-(after the record's cap; equal to the best hit's in practice). A card is a
-**weak signal** when that is "low", i.e. every hit on it is low (a coin-flip
-or contrary record, or the judge's own low call). Weak signals are never on
+`card.confidence` is the **highest confidence among the card's kept hits
+with an implied way** (up or down, after the record's cap). An "unclear"
+hit has no implied way, so no record can back it, and it does not lift a
+card; a card with no directional hit is "low". A card is a **weak signal**
+when its confidence is "low", i.e. every directional hit on it is low (a
+coin-flip or contrary record, or the judge's own low call). Weak signals are never on
 Today or under Opportunities; in Sightings they are listed last, under a
 collapsed "Weak signals" section. Older cards without the field get the same
 value from their hits.
