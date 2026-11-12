@@ -74,6 +74,7 @@ export default function RootLayout() {
         <Stack.Screen name="(tabs)" />
         <Stack.Screen name="sighting/[id]" options={PUSHED} />
         <Stack.Screen name="ticker/[symbol]" options={PUSHED} />
+        <Stack.Screen name="backtest/[id]" options={PUSHED} />
       </Stack>
       <SplashOverlay />
     </PhoneFrame>

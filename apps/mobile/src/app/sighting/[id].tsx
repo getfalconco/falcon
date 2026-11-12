@@ -9,8 +9,9 @@ import {
   type ScrollViewInstance,
 } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { ArrowUpRight as LinkArrow } from "lucide-react-native";
+import { FlaskConical, ArrowUpRight as LinkArrow } from "lucide-react-native";
 import type { RippleHit } from "@falcon/ripple";
+import { SecondaryButton } from "@/components/Buttons";
 import { PushedScreen } from "@/components/PushedScreen";
 import { Reveal } from "@/components/Reveal";
 import { haptics } from "@/lib/haptics";
@@ -144,6 +145,15 @@ export default function SightingDetail() {
                 </View>
               )}
             </Pressable>
+            <SecondaryButton
+              label="Backtest this"
+              icon={<FlaskConical size={15} strokeWidth={1.8} color={colors.ink} />}
+              onPress={() => {
+                haptics.select();
+                router.push({ pathname: "/backtest/[id]", params: { id: card.id } });
+              }}
+              style={styles.backtest}
+            />
           </Reveal>
 
           {hits.length > 0 ? (
@@ -218,6 +228,7 @@ const styles = StyleSheet.create({
     color: colors.faint,
   },
   sourceTitle: { marginTop: 3, fontFamily: fonts.sans, fontSize: 14.5, lineHeight: 20, color: colors.ink },
+  backtest: { marginTop: 16 },
   graphCard: { ...cardStyles.surface, marginTop: 28, paddingVertical: 8, alignItems: "center", overflow: "hidden" },
   hits: { marginTop: 32 },
   hitDivider: { marginTop: 28, paddingTop: 28, borderTopWidth: 1, borderTopColor: colors.divider },
