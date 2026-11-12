@@ -1,0 +1,117 @@
+# Daily Sightings run: the Ripple Engine (packages/engine) reads the last 7
+# days of EDGAR earnings and monthly revenue filings of the watched sector,
+# judges each ripple with the Claude API and upserts the cards into Supabase
+# (public.sightings_cards), where /api/sightings serves them.
+#
+# Runs on weekdays at 11:00 UTC, before the US open (13:30 UTC in summer,
+# 14:30 UTC in winter), and on demand (Actions > Sightings > Run workflow).
+#
+# Repo secrets (Settings > Secrets and variables > Actions):
+#   DATABASE_URL       Postgres connection string of the Supabase project
+#   ANTHROPIC_API_KEY  Claude API key for the judge
+# Without ANTHROPIC_API_KEY the run fails before anything is published: cards
+# are never written without judgments.
+#
+# Idempotent: a card's id is "<sector>-<ticker>-<EDGAR accession>", so a rerun
+# or the next day's overlapping window updates the same rows. Cards whose event
+# is older than 7 days are marked stale (not deleted) and no longer served.
+name: Sightings
+
+on:
+  schedule:
+    - cron: "0 11 * * 1-5"
+  workflow_dispatch:
+    inputs:
+      days:
+        description: "Window: events of the last N days"
+        default: "7"
+        required: false
+      max:
+        description: "Cards to keep from this run"
+        default: "3"
+        required: false
+      dry_run:
+        description: "Dry run: judge and print, write nothing to Supabase"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sightings
+  cancel-in-progress: false
+
+jobs:
+  sightings:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      SECTOR: semis
+      DAYS: ${{ inputs.days || '7' }}
+      MAX_CARDS: ${{ inputs.max || '3' }}
+      DRY_RUN: ${{ inputs.dry_run && '1' || '' }}
+    steps:
+      - name: Check secrets
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          missing=0
+          if [ -z "$ANTHROPIC_API_KEY" ]; then
+            echo "::error title=ANTHROPIC_API_KEY missing::Add the repo secret ANTHROPIC_API_KEY (Settings > Secrets and variables > Actions). Cards are never published without judgments."
+            missing=1
+          fi
+          if [ -z "$DATABASE_URL" ] && [ -z "$DRY_RUN" ]; then
+            echo "::error title=DATABASE_URL missing::Add the repo secret DATABASE_URL (the Supabase Postgres connection string)."
+            missing=1
+          fi
+          exit "$missing"
+
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install engine dependencies
+        run: pnpm install --frozen-lockfile --filter "@falcon/engine..."
+
+      # EDGAR documents never change once filed: keeping them between runs
+      # spares SEC most requests. Submissions indexes expire after 30 minutes
+      # on their own (the engine checks each file's age).
+      - name: Restore the HTTP cache
+        uses: actions/cache@v4
+        with:
+          path: packages/engine/.cache/http
+          key: engine-http-${{ github.run_id }}
+          restore-keys: engine-http-
+
+      - name: Apply migrations
+        if: env.DRY_RUN == ''
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: pnpm --filter @falcon/engine run migrate
+
+      - name: Run the engine
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          args=(--sector "$SECTOR" --days "$DAYS" --max "$MAX_CARDS" --keep-days 7)
+          if [ -n "$DRY_RUN" ]; then args+=(--dry-run --out out/sightings.json); fi
+          pnpm --filter @falcon/engine run sightings -- "${args[@]}"
+
+      - name: Keep the feed
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sightings-${{ github.run_id }}
+          path: |
+            packages/engine/out/sightings.json
+            packages/engine/out/judge-requests.json
+          retention-days: 7
+          if-no-files-found: ignore

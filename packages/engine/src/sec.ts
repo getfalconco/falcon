@@ -42,16 +42,26 @@ export type Filing = {
 };
 
 let tickerMap: Map<string, string> | null = null;
+let tickerMapLoad: Promise<Map<string, string>> | null = null;
 
-/** CIK (10 digits) for a ticker, from SEC's company_tickers.json. */
+async function loadTickerMap(): Promise<Map<string, string>> {
+  // CIKs almost never change, so an older cached copy beats no run at all.
+  const body = await secGet("https://www.sec.gov/files/company_tickers.json", { maxAgeMs: 24 * HOUR_MS, staleOk: true });
+  const json = JSON.parse(body) as Record<string, { cik_str: number; ticker: string }>;
+  const map = new Map<string, string>();
+  for (const row of Object.values(json)) map.set(row.ticker.toUpperCase(), String(row.cik_str).padStart(10, "0"));
+  return map;
+}
+
+/**
+ * CIK (10 digits) for a ticker, from SEC's company_tickers.json. Loaded once
+ * per run; when it cannot be loaded, every call fails with the same error at
+ * once instead of retrying for each ticker.
+ */
 export async function cikForTicker(ticker: string): Promise<string | null> {
   if (!tickerMap) {
-    const json = JSON.parse(await secGet("https://www.sec.gov/files/company_tickers.json", { maxAgeMs: 24 * HOUR_MS })) as Record<
-      string,
-      { cik_str: number; ticker: string }
-    >;
-    tickerMap = new Map();
-    for (const row of Object.values(json)) tickerMap.set(row.ticker.toUpperCase(), String(row.cik_str).padStart(10, "0"));
+    tickerMapLoad ??= loadTickerMap();
+    tickerMap = await tickerMapLoad;
   }
   return tickerMap.get(ticker.toUpperCase().replace(".", "-")) ?? null;
 }

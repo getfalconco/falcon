@@ -5,10 +5,11 @@
  */
 
 import type { Confidence, RippleCard, RippleHit, SightingsFeed } from "@falcon/ripple";
-import { detectEvents, type DetectedEvent } from "./events.ts";
+import { detectEvents, type DetectedEvent, type SourceProblem } from "./events.ts";
 import { evidenceOf, loadGraph, nameOf, pathWeight, walk, type Graph, type Path } from "./graph.ts";
 import { candidateFrom, checkAnswer, type Judge, type JudgeRequest } from "./judge.ts";
 import { sectorTickers } from "./universe.ts";
+import { yahooProblems } from "./yahoo.ts";
 import { cardProblems, feedProblems } from "./validate.ts";
 
 export const ENGINE_VERSION = "ripple-v0";
@@ -35,6 +36,13 @@ export type RunResult = {
   requests: JudgeRequest[];
   /** Answers dropped by validation, with why. */
   rejected: Array<{ eventId: string; key: string; ticker: string; problems: string[] }>;
+  /** Companies watched, and what could not be read (the run went on without it). */
+  tickers: string[];
+  sourceProblems: SourceProblem[];
+  /** Yahoo trouble (EPS surprise figures missing), never fatal. */
+  yahooProblems: string[];
+  /** Events whose judge call failed, with why. */
+  judgeFailures: Array<{ eventId: string; message: string }>;
 };
 
 /**
@@ -91,7 +99,8 @@ export async function runSightings(opts: RunOptions): Promise<RunResult> {
   const generatedAt = new Date().toISOString();
 
   log(`events: ${tickers.length} companies, ${new Date(opts.sinceMs).toISOString()} to ${new Date(opts.untilMs).toISOString()}`);
-  const events = await detectEvents({ tickers, sinceMs: opts.sinceMs, untilMs: opts.untilMs, log });
+  const sourceProblems: SourceProblem[] = [];
+  const events = await detectEvents({ tickers, sinceMs: opts.sinceMs, untilMs: opts.untilMs, log, problems: sourceProblems });
 
   // Rank events by size and by how strongly the graph links them out.
   const ranked = events
@@ -119,6 +128,7 @@ export async function runSightings(opts: RunOptions): Promise<RunResult> {
   }));
 
   const rejected: RunResult["rejected"] = [];
+  const judgeFailures: RunResult["judgeFailures"] = [];
   const cards: Array<{ card: RippleCard; score: number }> = [];
   if (opts.judge) {
     for (let i = 0; i < toJudge.length; i++) {
@@ -128,7 +138,9 @@ export async function runSightings(opts: RunOptions): Promise<RunResult> {
       try {
         raw = await opts.judge.judge(req);
       } catch (err) {
-        log(`  judge failed on ${ev.event.id}: ${err instanceof Error ? err.message : err}`);
+        const message = err instanceof Error ? err.message : String(err);
+        judgeFailures.push({ eventId: ev.event.id, message });
+        log(`  judge failed on ${ev.event.id}: ${message}`);
         continue;
       }
       const answers = Array.isArray((raw as { hits?: unknown })?.hits) ? ((raw as { hits: unknown[] }).hits) : [];
@@ -196,5 +208,5 @@ export async function runSightings(opts: RunOptions): Promise<RunResult> {
   };
   const problems = feedProblems(feed);
   if (problems.length) throw new Error(`feed failed the contract check: ${problems.join("; ")}`);
-  return { feed, events, requests, rejected };
+  return { feed, events, requests, rejected, tickers, sourceProblems, yahooProblems: yahooProblems(), judgeFailures };
 }

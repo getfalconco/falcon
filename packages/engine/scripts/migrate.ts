@@ -1,7 +1,8 @@
 /**
- * Applies the sightings_cards migration to the Supabase database in
- * DATABASE_URL (from the environment or apps/web/.env.local). The SQL is
- * idempotent (create ... if not exists).
+ * Applies the sightings_cards migrations, in order, to the Supabase database
+ * in DATABASE_URL (from the environment or apps/web/.env.local). The SQL is
+ * idempotent (create/add ... if not exists), so the daily workflow runs it
+ * before every run.
  *
  *   pnpm --filter @falcon/engine run migrate
  */
@@ -12,13 +13,16 @@ import { env } from "../src/env.ts";
 import { ENGINE_ROOT } from "../src/http.ts";
 import { runSql } from "../src/supabase.ts";
 
-const FILE = path.resolve(ENGINE_ROOT, "..", "..", "apps", "web", "supabase", "migrations", "20261112_sightings_cards.sql");
+const DIR = path.resolve(ENGINE_ROOT, "..", "..", "apps", "web", "supabase", "migrations");
+const FILES = ["20261112_sightings_cards.sql", "20261113_sightings_cards_stale.sql"];
 
 async function main() {
   const url = env("DATABASE_URL");
   if (!url) throw new Error("DATABASE_URL is not set (environment or apps/web/.env.local)");
-  await runSql(url, fs.readFileSync(FILE, "utf8"));
-  console.log(`applied ${path.basename(FILE)}`);
+  for (const name of FILES) {
+    await runSql(url, fs.readFileSync(path.join(DIR, name), "utf8"));
+    console.log(`applied ${name}`);
+  }
 }
 
 main().catch((err) => {

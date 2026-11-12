@@ -277,14 +277,41 @@ export type DetectOptions = {
   sinceMs: number;
   untilMs: number;
   log?: (line: string) => void;
+  /** Filled with what could not be read (a ticker, a filing); the run goes on without it. */
+  problems?: SourceProblem[];
 };
 
-/** Events of the watched companies accepted by EDGAR inside the window, newest first. */
+export type SourceProblem = {
+  ticker: string;
+  /** "ticker": the company could not be checked at all; "filing": one filing could not be read. */
+  scope: "ticker" | "filing";
+  message: string;
+};
+
+function errText(err: unknown): string {
+  return err instanceof Error ? err.message : String(err);
+}
+
+/**
+ * Events of the watched companies accepted by EDGAR inside the window,
+ * newest first. A company or filing that cannot be read is logged, added to
+ * `problems` and skipped; it never stops the others.
+ */
 export async function detectEvents(opts: DetectOptions): Promise<DetectedEvent[]> {
   const out: DetectedEvent[] = [];
   const log = opts.log ?? (() => undefined);
+  const problem = (p: SourceProblem) => {
+    opts.problems?.push(p);
+    log(`  ${p.ticker}: ${p.message}`);
+  };
   for (const ticker of opts.tickers) {
-    const cik = await cikForTicker(ticker);
+    let cik: string | null;
+    try {
+      cik = await cikForTicker(ticker);
+    } catch (err) {
+      problem({ ticker, scope: "ticker", message: `SEC ticker list unreadable (${errText(err)})` });
+      continue;
+    }
     if (!cik) {
       log(`  ${ticker}: not in SEC's ticker list, skipped`);
       continue;
@@ -293,7 +320,7 @@ export async function detectEvents(opts: DetectOptions): Promise<DetectedEvent[]
     try {
       filings = await recentFilings(cik);
     } catch (err) {
-      log(`  ${ticker}: submissions unreadable (${err instanceof Error ? err.message : err})`);
+      problem({ ticker, scope: "ticker", message: `submissions unreadable (${errText(err)})` });
       continue;
     }
     for (const f of filings) {
@@ -308,7 +335,7 @@ export async function detectEvents(opts: DetectOptions): Promise<DetectedEvent[]
           log(`  ${ticker}: ${ev.event.headline} (${f.form} ${f.filedAt})`);
         }
       } catch (err) {
-        log(`  ${ticker}: ${f.form} ${f.accession} unreadable (${err instanceof Error ? err.message : err})`);
+        problem({ ticker, scope: "filing", message: `${f.form} ${f.accession} unreadable (${errText(err)})` });
       }
     }
   }

@@ -11,7 +11,7 @@
  *   - EPS is in the listing's currency (an ADR: US dollars).
  */
 
-import { BROWSER_USER_AGENT, HOUR_MS } from "./http.ts";
+import { BROWSER_USER_AGENT, fetchResponse, HOUR_MS } from "./http.ts";
 
 export type EarningsQuarterRead = {
   /** Yahoo's label, e.g. "3Q2026" (calendar quarter for most US filers). */
@@ -75,27 +75,37 @@ export function parseEarnings(json: unknown): EarningsQuarterRead[] {
 }
 
 let session: { cookie: string; crumb: string; at: number } | null = null;
+/** Set once Yahoo's session fails for this run, so every later ticker skips it at once. */
+let sessionFailure: string | null = null;
+const failures: string[] = [];
 
 async function yahooSession(): Promise<{ cookie: string; crumb: string }> {
   if (session && Date.now() - session.at < HOUR_MS) return session;
-  const first = await fetch("https://fc.yahoo.com", {
-    headers: { "User-Agent": BROWSER_USER_AGENT },
-    redirect: "manual",
-    signal: AbortSignal.timeout(15_000),
-  });
-  const setCookie = first.headers.getSetCookie?.() ?? [];
-  const cookie = setCookie.map((c) => c.split(";")[0]).join("; ");
-  const crumbRes = await fetch("https://query2.finance.yahoo.com/v1/test/getcrumb", {
-    headers: { "User-Agent": BROWSER_USER_AGENT, Cookie: cookie },
-    signal: AbortSignal.timeout(15_000),
-  });
-  const crumb = (await crumbRes.text()).trim();
-  if (!crumbRes.ok || !crumb || crumb.includes("<")) throw new Error("Yahoo crumb unavailable");
-  session = { cookie, crumb, at: Date.now() };
-  return session;
+  if (sessionFailure) throw new Error(sessionFailure);
+  try {
+    // fc.yahoo.com answers with an error status and the cookie; only network errors are retried.
+    const first = await fetchResponse("https://fc.yahoo.com", { headers: { "User-Agent": BROWSER_USER_AGENT }, redirect: "manual" }, false);
+    const setCookie = first.headers.getSetCookie?.() ?? [];
+    const cookie = setCookie.map((c) => c.split(";")[0]).join("; ");
+    const crumbRes = await fetchResponse("https://query2.finance.yahoo.com/v1/test/getcrumb", {
+      headers: { "User-Agent": BROWSER_USER_AGENT, Cookie: cookie },
+    });
+    const crumb = (await crumbRes.text()).trim();
+    if (!crumbRes.ok || !crumb || crumb.includes("<")) throw new Error(`Yahoo crumb unavailable (HTTP ${crumbRes.status})`);
+    session = { cookie, crumb, at: Date.now() };
+    return session;
+  } catch (err) {
+    sessionFailure = err instanceof Error ? err.message : String(err);
+    throw err;
+  }
 }
 
 const cache = new Map<string, EarningsQuarterRead[]>();
+
+/** What went wrong with Yahoo during this run (empty when it all worked), for the run summary. */
+export function yahooProblems(): string[] {
+  return sessionFailure ? [`session: ${sessionFailure}`, ...failures] : [...failures];
+}
 
 /** The last quarters Yahoo has for a ticker; empty when Yahoo is unreachable or has none. */
 export async function yahooEarnings(ticker: string): Promise<EarningsQuarterRead[]> {
@@ -105,12 +115,12 @@ export async function yahooEarnings(ticker: string): Promise<EarningsQuarterRead
   try {
     const { cookie, crumb } = await yahooSession();
     const url = `https://query2.finance.yahoo.com/v10/finance/quoteSummary/${encodeURIComponent(key)}?modules=earnings&crumb=${encodeURIComponent(crumb)}`;
-    const res = await fetch(url, {
-      headers: { "User-Agent": BROWSER_USER_AGENT, Cookie: cookie },
-      signal: AbortSignal.timeout(15_000),
-    });
+    const res = await fetchResponse(url, { headers: { "User-Agent": BROWSER_USER_AGENT, Cookie: cookie } });
     if (res.ok) out = parseEarnings(await res.json());
-  } catch {
+    // A 404 is a ticker Yahoo has no figures for, not a failure.
+    else if (res.status !== 404) failures.push(`${key}: HTTP ${res.status}`);
+  } catch (err) {
+    if (!sessionFailure) failures.push(`${key}: ${err instanceof Error ? err.message : err}`);
     out = [];
   }
   cache.set(key, out);

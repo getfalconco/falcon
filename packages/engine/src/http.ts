@@ -3,7 +3,8 @@
  *
  * SEC asks automated clients for a descriptive User-Agent and at most 10
  * requests a second; we stay at 4 a second or less through one queue. The UA
- * is a generic app address, never a person's.
+ * is a generic app address, never a person's. Every try, retries included,
+ * goes through the queue, so retries never push the rate above that.
  *
  * Responses are cached on disk under packages/engine/.cache so a rerun on the
  * same day does not hit the sources again (submissions for an hour, archived
@@ -63,24 +64,85 @@ export type FetchOptions = {
   /** How long a cached copy stays good, ms. 0 = always fetch. */
   maxAgeMs?: number;
   headers?: Record<string, string>;
+  /** When every try fails, use a cached copy of any age instead of failing (data that rarely changes). */
+  staleOk?: boolean;
 };
 
-async function fetchWithRetry(url: string, headers: Record<string, string>): Promise<string> {
+/** Statuses worth another try: timeouts, rate limits and server errors. Pure. */
+export function retryableStatus(status: number): boolean {
+  return status === 408 || status === 425 || status === 429 || status >= 500;
+}
+
+/**
+ * Wait before retry `attempt` (0-based): exponential from `baseMs`, capped,
+ * with up to 25% jitter, or the server's Retry-After when it asks for longer
+ * (capped too). `random` is injectable for tests. Pure apart from it.
+ */
+export function backoffMs(attempt: number, retryAfter: string | null = null, baseMs = 1000, capMs = 20_000, random = Math.random): number {
+  const exp = Math.min(capMs, baseMs * 2 ** attempt);
+  const jittered = Math.round(exp * (1 + 0.25 * random()));
+  let asked = 0;
+  if (retryAfter) {
+    const secs = Number(retryAfter);
+    if (Number.isFinite(secs)) asked = secs * 1000;
+    else {
+      const at = Date.parse(retryAfter);
+      if (Number.isFinite(at)) asked = at - Date.now();
+    }
+  }
+  return Math.min(capMs, Math.max(jittered, asked));
+}
+
+export const MAX_ATTEMPTS = 4;
+
+/**
+ * GET with retries: network errors, timeouts and retryable statuses get up
+ * to MAX_ATTEMPTS tries with exponential backoff; other HTTP errors fail at
+ * once. `beforeAttempt` runs before every try (the SEC queue spaces each one).
+ */
+async function fetchWithRetry(url: string, headers: Record<string, string>, beforeAttempt?: () => Promise<void>): Promise<string> {
   let lastError: unknown = null;
-  for (let attempt = 0; attempt < 3; attempt++) {
+  for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
+    if (attempt > 0) await sleep(backoffMs(attempt - 1, (lastError as { retryAfter?: string | null })?.retryAfter ?? null));
+    if (beforeAttempt) await beforeAttempt();
     try {
       const res = await fetch(url, { headers, signal: AbortSignal.timeout(30_000) });
-      if (res.status === 429 || res.status >= 500) {
-        lastError = new Error(`HTTP ${res.status} for ${url}`);
-        await sleep(1500 * (attempt + 1));
+      if (!res.ok) {
+        const err = new HttpError(res.status, url, res.headers.get("retry-after"));
+        if (!retryableStatus(res.status)) throw err;
+        lastError = err;
         continue;
       }
-      if (!res.ok) throw new HttpError(res.status, url);
       return await res.text();
     } catch (err) {
-      if (err instanceof HttpError) throw err;
+      if (err instanceof HttpError && !retryableStatus(err.status)) throw err;
       lastError = err;
-      await sleep(1000 * (attempt + 1));
+    }
+  }
+  const why = lastError instanceof Error ? lastError.message : String(lastError);
+  throw new Error(`gave up after ${MAX_ATTEMPTS} tries: ${why}${why.includes(url) ? "" : ` (${url})`}`);
+}
+
+/**
+ * fetch() with the same retries, returning the Response (for callers that
+ * need headers or cookies, like Yahoo's session). Network errors always get
+ * retried; retryable statuses only when `retryStatuses` is on. The last
+ * Response is returned as is, ok or not.
+ */
+export async function fetchResponse(url: string, init: RequestInit & { timeoutMs?: number } = {}, retryStatuses = true): Promise<Response> {
+  const { timeoutMs = 15_000, ...rest } = init;
+  let lastError: unknown = null;
+  for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
+    if (attempt > 0) await sleep(backoffMs(attempt - 1, (lastError as { retryAfter?: string | null })?.retryAfter ?? null));
+    try {
+      const res = await fetch(url, { ...rest, signal: AbortSignal.timeout(timeoutMs) });
+      if (retryStatuses && retryableStatus(res.status) && attempt < MAX_ATTEMPTS - 1) {
+        lastError = new HttpError(res.status, url, res.headers.get("retry-after"));
+        continue;
+      }
+      return res;
+    } catch (err) {
+      lastError = err;
     }
   }
   throw lastError instanceof Error ? lastError : new Error(`fetch failed for ${url}`);
@@ -90,6 +152,7 @@ export class HttpError extends Error {
   constructor(
     readonly status: number,
     readonly url: string,
+    readonly retryAfter: string | null = null,
   ) {
     super(`HTTP ${status} for ${url}`);
   }
@@ -99,21 +162,28 @@ export class HttpError extends Error {
 export function secGet(url: string, opts: FetchOptions = {}): Promise<string> {
   const cached = readCache(url, opts.maxAgeMs ?? 0);
   if (cached !== null) return Promise.resolve(cached);
-  const run = async () => {
+  const spaced = async () => {
     const wait = lastSecAt + SEC_SPACING_MS - Date.now();
     if (wait > 0) await sleep(wait);
     lastSecAt = Date.now();
-    const body = await fetchWithRetry(url, {
-      "User-Agent": SEC_USER_AGENT,
-      "Accept-Encoding": "gzip, deflate",
-      ...opts.headers,
-    });
+  };
+  const run = async () => {
+    const body = await fetchWithRetry(
+      url,
+      { "User-Agent": SEC_USER_AGENT, "Accept-Encoding": "gzip, deflate", ...opts.headers },
+      spaced,
+    );
     writeCache(url, body);
     return body;
   };
   const next = secChain.then(run, run);
   secChain = next.catch(() => undefined);
-  return next;
+  if (!opts.staleOk) return next;
+  return next.catch((err) => {
+    const stale = readCache(url, FOREVER_MS * 10);
+    if (stale !== null) return stale;
+    throw err;
+  });
 }
 
 /** GET any other URL (no queue), with the same disk cache. */

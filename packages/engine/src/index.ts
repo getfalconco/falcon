@@ -3,5 +3,5 @@ export { detectEvents, readRelease, readMonthlyRevenue, type DetectedEvent } fro
 export { loadGraph, walk, linksOf, relationFrom, type Graph, type GraphEdge, type Path } from "./graph.ts";
 export { claudeJudge, fileJudge, checkAnswer, judgePrompt, JUDGE_MODEL, SYSTEM_PROMPT, type Judge, type JudgeRequest } from "./judge.ts";
 export { cardProblems, feedProblems, hitProblems, framingProblems, inventedNumbers } from "./validate.ts";
-export { upsertCards, cardRow } from "./supabase.ts";
+export { publishCards, upsertCards, cardRow, staleCutoff } from "./supabase.ts";
 export { SECTORS, NAMES, sectorTickers } from "./universe.ts";
