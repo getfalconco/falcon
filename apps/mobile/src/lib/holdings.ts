@@ -1,7 +1,7 @@
 import { useSyncExternalStore } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { FUNNEL_TEST_MODE } from "./env";
-import type { PickedStock, SectorId } from "./onboarding";
+import { MAX_STOCKS, type PickedStock, type SectorId } from "./onboarding";
 
 /**
  * The member's portfolio as the app knows it: the holdings connected or added
@@ -65,6 +65,39 @@ export function saveHoldings(stocks: PickedStock[], sectors: SectorId[], userId?
   };
   emit();
   if (!FUNNEL_TEST_MODE) void AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(current)).catch(() => {});
+}
+
+/** Edits from the Portfolio tab: the same record, new stocks, saved again. */
+function replaceStocks(stocks: PickedStock[], userId?: string | null): void {
+  saveHoldings(stocks, current?.sectors ?? [], current?.userId ?? userId);
+}
+
+/** Adds a ticker at the top of the list; false when it is already there or the list is full. */
+export function addHolding(stock: PickedStock, userId?: string | null): boolean {
+  const stocks = current?.stocks ?? [];
+  const ticker = stock.ticker.toUpperCase();
+  if (stocks.some((s) => s.ticker === ticker) || stocks.length >= MAX_STOCKS) return false;
+  replaceStocks([{ ticker, name: stock.name }, ...stocks], userId);
+  return true;
+}
+
+export function removeHolding(ticker: string): void {
+  if (!current) return;
+  const t = ticker.toUpperCase();
+  replaceStocks(current.stocks.filter((s) => s.ticker !== t));
+}
+
+/** Fills in company names that were missing (tickers that came without one). */
+export function nameHoldings(names: Record<string, string>): void {
+  if (!current) return;
+  let changed = false;
+  const stocks = current.stocks.map((s) => {
+    const name = names[s.ticker];
+    if (s.name || !name) return s;
+    changed = true;
+    return { ...s, name };
+  });
+  if (changed) replaceStocks(stocks);
 }
 
 export function clearHoldings(): void {

@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useSyncExternalStore } from "react";
-import { AppState, Platform } from "react-native";
+import { AppState } from "react-native";
 import type { Confidence, Direction, RippleCard, RippleHit, SightingsFeed, TodaySummary } from "@falcon/ripple";
+import { API_BASE } from "./env";
 import { heldTickers, useHoldings, type Holdings } from "./holdings";
 import { SECTORS, type SectorId } from "./onboarding";
 
@@ -10,19 +11,9 @@ import { SECTORS, type SectorId } from "./onboarding";
  */
 
 /**
- * The app host that serves /api/sightings. The browser preview talks to the
- * local site (http://app.localhost:3000); everything else to app.getfalcon.co.
- * EXPO_PUBLIC_API_BASE overrides both.
- */
-export const API_BASE = (
-  process.env.EXPO_PUBLIC_API_BASE ||
-  (Platform.OS === "web" && __DEV__ ? "http://app.localhost:3000" : "https://app.getfalcon.co")
-).replace(/\/$/, "");
-
-/**
- * Development only: a local fixture shaped like the contract, for designing
- * while the engine API is not up. "1" always uses it, "0" never, anything else
- * only when the API can't be reached. Release builds never load it.
+ * Development only: a local fixture shaped like the contract, shown only when
+ * the engine API can't be reached and nothing real is on screen yet. "0"
+ * turns it off. Release builds never load it.
  */
 const FIXTURE_MODE = (process.env.EXPO_PUBLIC_SIGHTINGS_FIXTURE ?? "").trim();
 
@@ -124,27 +115,23 @@ function load(key: string, refreshing: boolean): Promise<void> {
     // Lets `inflight` be set before any result lands.
     await Promise.resolve();
     let feed: SightingsFeed | null = null;
-    let sample = false;
-    if (__DEV__ && FIXTURE_MODE === "1") {
-      feed = devFixture();
-      sample = feed !== null;
-    } else {
-      try {
-        feed = await requestFeed(key);
-      } catch {
-        feed = devFixture();
-        sample = feed !== null;
-      }
+    let failed = false;
+    try {
+      feed = await requestFeed(key);
+    } catch {
+      failed = true;
     }
     // A newer request (other tickers) took over while this one ran.
     if (request !== requests) return;
     inflight = null;
-    // A failed refresh keeps the cards already on screen.
-    if (!feed && state.key === key && state.feed) {
+    // A failed refresh keeps the real cards already on screen.
+    if (failed && state.key === key && state.feed && !state.sample) {
       set({ refreshing: false, loadedAt: Date.now() });
       return;
     }
-    set({ status: feed ? "ready" : "unavailable", feed, sample, key, refreshing: false, loadedAt: Date.now() });
+    const sample = failed ? devFixture() : null;
+    if (sample) feed = sample;
+    set({ status: feed ? "ready" : "unavailable", feed, sample: sample !== null, key, refreshing: false, loadedAt: Date.now() });
   })();
   inflight = { key, promise };
   return promise;
@@ -340,4 +327,40 @@ export function useSightingCard(id: string | undefined) {
   const sightings = useSightings();
   const card = id ? (sightings.feed?.cards.find((c) => c.id === id) ?? null) : null;
   return { ...sightings, card };
+}
+
+/* ------------------------------------------------------------------ */
+/* One ticker                                                          */
+/* ------------------------------------------------------------------ */
+
+/** Whether the card's event company or any of its hits is the ticker. */
+export function touchesTicker(card: RippleCard, ticker: string): boolean {
+  const t = ticker.toUpperCase();
+  return card.event.ticker.toUpperCase() === t || card.hits.some((hit) => hit.ticker.toUpperCase() === t);
+}
+
+/** The cards that reach one ticker, the newest first. */
+export function cardsForTicker(cards: RippleCard[], ticker: string): RippleCard[] {
+  return cards
+    .filter((card) => touchesTicker(card, ticker))
+    .sort((a, b) => time(b.event.occurredAt) - time(a.event.occurredAt));
+}
+
+/**
+ * Which way the day's hits on one ticker lean, weighted by confidence. Null
+ * when no card names it as a hit (it is only the event company, or not there).
+ */
+export function tickerDirection(cards: RippleCard[], ticker: string): Direction | null {
+  const t = ticker.toUpperCase();
+  let signed = 0;
+  let seen = false;
+  for (const card of cards) {
+    for (const hit of card.hits) {
+      if (hit.ticker.toUpperCase() !== t) continue;
+      seen = true;
+      signed += (SIGN[hit.direction] ?? 0) * (WEIGHT[hit.confidence] ?? 1);
+    }
+  }
+  if (!seen) return null;
+  return signed > 0 ? "up" : signed < 0 ? "down" : "unclear";
 }

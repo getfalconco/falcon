@@ -9,6 +9,17 @@ export const isSupabaseConfigured = Boolean(SUPABASE_URL && SUPABASE_ANON_KEY);
 export const API_URL = (process.env.EXPO_PUBLIC_API_URL || "https://getfalcon.co").replace(/\/$/, "");
 
 /**
+ * The app host that serves the Ripple Engine's routes (/api/sightings,
+ * /api/graph). The browser preview talks to the local site
+ * (http://app.localhost:3000); everything else to app.getfalcon.co.
+ * EXPO_PUBLIC_API_BASE overrides both.
+ */
+export const API_BASE = (
+  process.env.EXPO_PUBLIC_API_BASE ||
+  (Platform.OS === "web" && __DEV__ ? "http://app.localhost:3000" : "https://app.getfalcon.co")
+).replace(/\/$/, "");
+
+/**
  * Funnel test mode, as on the website (NEXT_PUBLIC_FUNNEL_TEST_MODE). While on:
  *   - the Supabase session lives in memory only (a restart shows the login)
  *   - the welcome funnel always starts at step 1
@@ -26,4 +37,14 @@ export const FUNNEL_TEST_MODE = (process.env.EXPO_PUBLIC_FUNNEL_TEST_MODE ?? "0"
 export function apiUrl(path: string): string {
   if (Platform.OS === "web" && __DEV__) return path;
   return `${API_URL}${path}`;
+}
+
+/**
+ * Absolute URL for an app host route that sends no CORS headers (/api/graph).
+ * The browser preview goes through the Metro proxy, which sends these to the
+ * local site (metro.config.js); the phone calls the app host directly.
+ */
+export function appApiUrl(path: string): string {
+  if (Platform.OS === "web" && __DEV__) return path;
+  return `${API_BASE}${path}`;
 }

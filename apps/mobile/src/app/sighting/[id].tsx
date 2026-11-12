@@ -2,7 +2,6 @@ import { useMemo, useRef, useState } from "react";
 import {
   Platform,
   Pressable,
-  ScrollView,
   StyleSheet,
   Text,
   View,
@@ -10,16 +9,15 @@ import {
   type ScrollViewInstance,
 } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import * as WebBrowser from "expo-web-browser";
 import { ArrowUpRight as LinkArrow } from "lucide-react-native";
-import type { LinkEvidence, RippleHit } from "@falcon/ripple";
-import { BackButton } from "@/components/Buttons";
+import type { RippleHit } from "@falcon/ripple";
+import { PushedScreen } from "@/components/PushedScreen";
 import { Reveal } from "@/components/Reveal";
 import { haptics } from "@/lib/haptics";
 import { heldTickers } from "@/lib/holdings";
 import { orderedHits, useSightingCard } from "@/lib/sightings";
 import { ConnectionGraph } from "@/features/sightings/ConnectionGraph";
+import { Quote, openLink } from "@/features/sightings/Evidence";
 import { ConfidenceBars, DirectionIcon, HistoryLine, cardStyles } from "@/features/sightings/SightingCard";
 import {
   CONFIDENCE,
@@ -28,7 +26,6 @@ import {
   RELATION,
   directionColor,
   directionSoft,
-  shortDate,
   timeAgo,
 } from "@/features/sightings/format";
 import { EmptyTitle, SkeletonCard } from "@/features/sightings/parts";
@@ -37,42 +34,18 @@ import { GUTTER, colors, fonts } from "@/theme";
 /** The phone frame's width in the browser preview; the real width on the phone. */
 const PREVIEW_WIDTH = 393;
 
-function openLink(url: string) {
-  if (!/^https?:\/\//i.test(url)) return;
-  haptics.select();
-  void WebBrowser.openBrowserAsync(url, { presentationStyle: WebBrowser.WebBrowserPresentationStyle.PAGE_SHEET }).catch(
-    () => {},
-  );
-}
-
-function Quote({ evidence }: { evidence: LinkEvidence }) {
-  const filed = shortDate(evidence.filedAt);
-  return (
-    <Pressable
-      accessibilityRole="link"
-      accessibilityLabel={`${evidence.form} filing${filed ? `, filed ${filed}` : ""}`}
-      onPress={() => openLink(evidence.url)}
-    >
-      {({ pressed }) => (
-        <View style={[styles.quote, pressed ? styles.pressed : null]}>
-          <Text style={styles.quoteText}>{`“${evidence.quote}”`}</Text>
-          <View style={styles.quoteSource}>
-            <Text style={styles.quoteForm}>{evidence.form}</Text>
-            {filed ? <Text style={styles.quoteMeta}>Filed {filed}</Text> : null}
-            <LinkArrow size={13} strokeWidth={1.8} color={colors.faint} />
-          </View>
-        </View>
-      )}
-    </Pressable>
-  );
-}
-
-function HitBlock({ hit, held }: { hit: RippleHit; held: boolean }) {
+function HitBlock({ hit, held, onOpen }: { hit: RippleHit; held: boolean; onOpen: () => void }) {
   const relation = RELATION[hit.relation] ?? hit.relation;
   return (
     <View>
       <View style={styles.hitTop}>
-        <View style={styles.hitName}>
+        <Pressable
+          accessibilityRole="link"
+          accessibilityLabel={`${hit.ticker}, ${hit.companyName}`}
+          onPress={onOpen}
+          hitSlop={6}
+          style={({ pressed }) => [styles.hitName, pressed ? styles.pressed : null]}
+        >
           <View style={styles.hitTickerRow}>
             <Text style={styles.hitTicker}>{hit.ticker}</Text>
             {held ? <Text style={styles.heldTag}>Held</Text> : null}
@@ -80,7 +53,7 @@ function HitBlock({ hit, held }: { hit: RippleHit; held: boolean }) {
           <Text style={styles.hitCompany} numberOfLines={1}>
             {hit.companyName}
           </Text>
-        </View>
+        </Pressable>
         <View style={[styles.direction, { backgroundColor: directionSoft(hit.direction) }]}>
           <DirectionIcon direction={hit.direction} size={14} />
           <Text style={[styles.directionText, { color: directionColor(hit.direction) }]}>
@@ -114,7 +87,6 @@ function HitBlock({ hit, held }: { hit: RippleHit; held: boolean }) {
 /** One Sighting in full: the event, its source, its connections and the filings behind each link. */
 export default function SightingDetail() {
   const router = useRouter();
-  const insets = useSafeAreaInsets();
   const window = useWindowDimensions();
   const { id } = useLocalSearchParams<{ id: string }>();
   const { card, status, holdings } = useSightingCard(id);
@@ -127,12 +99,6 @@ export default function SightingDetail() {
   const graphW = screenW - GUTTER * 2 - 2;
   const hits = card ? orderedHits(card, held) : [];
 
-  const back = () => {
-    haptics.select();
-    if (router.canGoBack()) router.back();
-    else router.replace("/today");
-  };
-
   const jumpTo = (hit: RippleHit) => {
     const y = offsets[hit.ticker];
     if (y === undefined) return;
@@ -141,94 +107,81 @@ export default function SightingDetail() {
   };
 
   return (
-    <View style={[styles.screen, { paddingTop: insets.top }]}>
-      <View style={styles.header}>
-        <BackButton onPress={back} />
-      </View>
-
-      <ScrollView
-        ref={scroll}
-        style={styles.screen}
-        contentContainerStyle={[styles.content, { paddingBottom: Math.max(insets.bottom, 16) + 32 }]}
-        showsVerticalScrollIndicator={false}
-      >
-        {!card ? (
-          status === "loading" ? (
-            <SkeletonCard />
-          ) : (
-            <EmptyTitle title="Sighting not found" />
-          )
+    <PushedScreen scrollRef={scroll}>
+      {!card ? (
+        status === "loading" ? (
+          <SkeletonCard />
         ) : (
-          <>
-            <Reveal order={0}>
-              <Text style={styles.kicker}>
-                {card.event.ticker} · {EVENT_KIND[card.event.kind] ?? "Event"} · {timeAgo(card.event.occurredAt)}
-              </Text>
-              <Text style={styles.headline} accessibilityRole="header">
-                {card.event.headline}
-              </Text>
-              <Text style={styles.summary}>{card.event.summary}</Text>
-            </Reveal>
+          <EmptyTitle title="Sighting not found" />
+        )
+      ) : (
+        <>
+          <Reveal order={0}>
+            <Text style={styles.kicker}>
+              {card.event.ticker} · {EVENT_KIND[card.event.kind] ?? "Event"} · {timeAgo(card.event.occurredAt)}
+            </Text>
+            <Text style={styles.headline} accessibilityRole="header">
+              {card.event.headline}
+            </Text>
+            <Text style={styles.summary}>{card.event.summary}</Text>
+          </Reveal>
 
-            <Reveal order={1}>
-              <Pressable
-                accessibilityRole="link"
-                accessibilityLabel={`Source: ${card.event.source.title}`}
-                onPress={() => openLink(card.event.source.url)}
-              >
-                {({ pressed }) => (
-                  <View style={[styles.source, pressed ? styles.pressed : null]}>
-                    <View style={styles.sourceText}>
-                      <Text style={styles.sourcePublisher}>{card.event.source.publisher}</Text>
-                      <Text style={styles.sourceTitle} numberOfLines={2}>
-                        {card.event.source.title}
-                      </Text>
-                    </View>
-                    <LinkArrow size={16} strokeWidth={1.8} color={colors.muted} />
+          <Reveal order={1}>
+            <Pressable
+              accessibilityRole="link"
+              accessibilityLabel={`Source: ${card.event.source.title}`}
+              onPress={() => openLink(card.event.source.url)}
+            >
+              {({ pressed }) => (
+                <View style={[styles.source, pressed ? styles.pressed : null]}>
+                  <View style={styles.sourceText}>
+                    <Text style={styles.sourcePublisher}>{card.event.source.publisher}</Text>
+                    <Text style={styles.sourceTitle} numberOfLines={2}>
+                      {card.event.source.title}
+                    </Text>
                   </View>
-                )}
-              </Pressable>
-            </Reveal>
-
-            {hits.length > 0 ? (
-              <Reveal order={2} style={styles.graphCard}>
-                <ConnectionGraph card={card} held={held} width={graphW} onSelect={jumpTo} />
-              </Reveal>
-            ) : null}
-
-            <View style={styles.hits} onLayout={(e) => setHitsTop(e.nativeEvent.layout.y)}>
-              {hits.map((hit, i) => (
-                <View
-                  key={`${hit.ticker}-${hit.relation}`}
-                  style={i > 0 ? styles.hitDivider : null}
-                  onLayout={(e) => {
-                    const y = e.nativeEvent.layout.y;
-                    setOffsets((prev) => (prev[hit.ticker] === y ? prev : { ...prev, [hit.ticker]: y }));
-                  }}
-                >
-                  <Reveal order={3 + Math.min(i, 5)}>
-                    <HitBlock hit={hit} held={held.has(hit.ticker.toUpperCase())} />
-                  </Reveal>
+                  <LinkArrow size={16} strokeWidth={1.8} color={colors.muted} />
                 </View>
-              ))}
-            </View>
-          </>
-        )}
-      </ScrollView>
-    </View>
+              )}
+            </Pressable>
+          </Reveal>
+
+          {hits.length > 0 ? (
+            <Reveal order={2} style={styles.graphCard}>
+              <ConnectionGraph card={card} held={held} width={graphW} onSelect={jumpTo} />
+            </Reveal>
+          ) : null}
+
+          <View style={styles.hits} onLayout={(e) => setHitsTop(e.nativeEvent.layout.y)}>
+            {hits.map((hit, i) => (
+              <View
+                key={`${hit.ticker}-${hit.relation}`}
+                style={i > 0 ? styles.hitDivider : null}
+                onLayout={(e) => {
+                  const y = e.nativeEvent.layout.y;
+                  setOffsets((prev) => (prev[hit.ticker] === y ? prev : { ...prev, [hit.ticker]: y }));
+                }}
+              >
+                <Reveal order={3 + Math.min(i, 5)}>
+                  <HitBlock
+                  hit={hit}
+                  held={held.has(hit.ticker.toUpperCase())}
+                  onOpen={() => {
+                    haptics.select();
+                    router.push({ pathname: "/ticker/[symbol]", params: { symbol: hit.ticker } });
+                  }}
+                />
+                </Reveal>
+              </View>
+            ))}
+          </View>
+        </>
+      )}
+    </PushedScreen>
   );
 }
 
 const styles = StyleSheet.create({
-  screen: { flex: 1, backgroundColor: colors.background },
-  header: {
-    height: 56,
-    justifyContent: "center",
-    paddingHorizontal: GUTTER - 4,
-    backgroundColor: colors.background,
-    zIndex: 1,
-  },
-  content: { paddingHorizontal: GUTTER, paddingTop: 8 },
   pressed: { opacity: 0.6 },
   kicker: {
     fontFamily: fonts.mono,
@@ -300,9 +253,4 @@ const styles = StyleSheet.create({
   metaDot: { fontFamily: fonts.sans, fontSize: 13, color: colors.placeholder },
   mechanism: { marginTop: 12, fontFamily: fonts.sans, fontSize: 15.5, lineHeight: 23, color: colors.ink },
   quotes: { marginTop: 16, gap: 14 },
-  quote: { borderLeftWidth: 2, borderLeftColor: "rgba(0, 0, 0, 0.12)", paddingLeft: 14, paddingVertical: 2 },
-  quoteText: { fontFamily: fonts.serif, fontSize: 14.5, lineHeight: 23, color: colors.body },
-  quoteSource: { marginTop: 8, flexDirection: "row", alignItems: "center", gap: 8 },
-  quoteForm: { fontFamily: fonts.mono, fontSize: 11, letterSpacing: 0.6, color: colors.ink },
-  quoteMeta: { fontFamily: fonts.sans, fontSize: 12.5, color: colors.faint },
 });

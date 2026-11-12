@@ -89,6 +89,23 @@ function initialOf(user: { email?: string | null; user_metadata?: Record<string,
   return /[A-Z0-9]/.test(letter) ? letter : null;
 }
 
+/** A round button with an icon, the same size and look as the avatar. */
+export function RoundButton({
+  label,
+  onPress,
+  children,
+}: {
+  label: string;
+  onPress: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <Pressable accessibilityRole="button" accessibilityLabel={label} onPress={onPress} hitSlop={8}>
+      {({ pressed }) => <View style={[styles.avatar, pressed ? styles.avatarPressed : null]}>{children}</View>}
+    </Pressable>
+  );
+}
+
 /** The member's initial in a circle (a person glyph without a session). */
 export function Avatar({ onPress }: { onPress?: () => void }) {
   const [initial, setInitial] = useState<string | null>(null);

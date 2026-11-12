@@ -6,6 +6,7 @@ import { orderedHits } from "@/lib/sightings";
 import { EASE_CALM, colors, fonts } from "@/theme";
 import { CONFIDENCE, EVENT_KIND, directionColor, signedPct, timeAgo } from "./format";
 
+/** Four chips fit one line; with more, three and a "+N" so it stays one line. */
 const MAX_CHIPS = 4;
 
 export function DirectionIcon({ direction, size = 14 }: { direction: Direction; size?: number }) {
@@ -55,7 +56,7 @@ export function SightingCard({ card, held, onPress }: { card: RippleCard; held: 
 
   const hits = orderedHits(card, held);
   const lead = hits[0];
-  const shown = hits.slice(0, MAX_CHIPS);
+  const shown = hits.slice(0, hits.length > MAX_CHIPS ? MAX_CHIPS - 1 : MAX_CHIPS);
   const more = hits.length - shown.length;
   const kind = EVENT_KIND[card.event.kind] ?? "Event";
 

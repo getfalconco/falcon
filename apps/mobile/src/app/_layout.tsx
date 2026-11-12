@@ -34,6 +34,9 @@ function sheet(detents: readonly number[]): NativeStackNavigationOptions {
   };
 }
 
+/** A page pushed over the tabs: slides in from the right, swipe back to leave. */
+const PUSHED: NativeStackNavigationOptions = { animation: "slide_from_right", animationDuration: 320, gestureEnabled: true };
+
 export default function RootLayout() {
   // The website's own fonts: Geist (the `geist` package's TTFs) for text,
   // Libre Baskerville and Playfair Display (Google Fonts) for headlines, and
@@ -66,12 +69,11 @@ export default function RootLayout() {
         <Stack.Screen name="welcome" />
         <Stack.Screen name="sign-in" options={sheet(SHEET_DETENTS.signIn)} />
         <Stack.Screen name="language" options={sheet(SHEET_DETENTS.language)} />
-        {/* The home tabs after the funnel, and a Sighting pushed over them. */}
+        <Stack.Screen name="add-ticker" options={sheet(SHEET_DETENTS.addTicker)} />
+        {/* The home tabs after the funnel, and a Sighting or a ticker pushed over them. */}
         <Stack.Screen name="(tabs)" />
-        <Stack.Screen
-          name="sighting/[id]"
-          options={{ animation: "slide_from_right", animationDuration: 320, gestureEnabled: true }}
-        />
+        <Stack.Screen name="sighting/[id]" options={PUSHED} />
+        <Stack.Screen name="ticker/[symbol]" options={PUSHED} />
       </Stack>
       <SplashOverlay />
     </PhoneFrame>

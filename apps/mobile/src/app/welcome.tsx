@@ -15,6 +15,7 @@ import { apiUrl } from "@/lib/env";
 import { haptics } from "@/lib/haptics";
 import { saveHoldings } from "@/lib/holdings";
 import { HOME_ROUTE, currentUserId } from "@/lib/home";
+import { enableMorningAlert } from "@/lib/alerts";
 import { requestAlertPermission } from "@/lib/notifications";
 import {
   EMPTY_ANSWERS,
@@ -314,6 +315,8 @@ export default function Welcome() {
     const result: NotificationAnswer = ask ? await requestAlertPermission() : "skipped";
     update({ notifications: result });
     answersRef.current = { ...answersRef.current, notifications: result };
+    // Allowed here turns on the morning alert (the You tab can turn it off).
+    if (result === "granted") void enableMorningAlert();
     void save();
     goTo(STEP_IDS.indexOf("notify") + 1);
   }

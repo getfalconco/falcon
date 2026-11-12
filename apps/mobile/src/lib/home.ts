@@ -10,7 +10,7 @@ export const HOME_ROUTE = "/today" as const satisfies Href;
  * The website's GET /api/onboarding for the signed-in member: whether the
  * welcome funnel is done and the tickers it saved. Null on any failure.
  */
-async function memberOnboarding(): Promise<{ completed: boolean; watchlist: string[] } | null> {
+export async function memberOnboarding(): Promise<{ completed: boolean; watchlist: string[] } | null> {
   const token = await accessToken();
   if (!token) return null;
   const controller = new AbortController();
