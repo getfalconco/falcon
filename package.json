@@ -70,7 +70,8 @@
     "build:web": "turbo run build --filter=web",
     "start:web": "pnpm --filter web start",
     "dev:mobile": "pnpm --filter mobile web",
-    "mobile": "pnpm --filter mobile"
+    "mobile": "pnpm --filter mobile",
+    "sightings": "pnpm --filter @falcon/engine run sightings"
   },
   "devDependencies": {
     "turbo": "^2.9.16"

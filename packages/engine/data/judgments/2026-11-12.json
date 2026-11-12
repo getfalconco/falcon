@@ -1,0 +1,98 @@
+{
+  "judge": "claude-opus-5-5 (Claude Code session, same prompt and schema; ANTHROPIC_API_KEY not set yet)",
+  "note": "Answers to out/judge-requests.json of the 2026-11-12 run (window 2026-11-05T16:00Z to 2026-11-12T16:00Z), written against SYSTEM_PROMPT in src/judge.ts while no API key was available. They pass the same validation as API answers. Once ANTHROPIC_API_KEY is in apps/web/.env.local the CLI calls claude-sonnet-5-5 instead.",
+  "events": {
+    "TSM-0001046179-26-000796": {
+      "hits": [
+        { "ticker": "KLAC", "include": true, "direction": "up", "confidence": "medium", "window": "1 to 3 months",
+          "mechanism": "KLA's annual report lists TSMC as a customer above 10% of its revenue, and TSMC's October revenue rose 59.7% from a year earlier. Growth at that customer is a read on demand for KLA's process control tools." },
+        { "ticker": "LRCX", "include": true, "direction": "up", "confidence": "low", "window": "1 to 3 months",
+          "mechanism": "Lam names TSMC among its most significant customers, and TSMC's October revenue was 59.7% above a year earlier. The report does not say how much of that turns into new equipment orders for Lam." },
+        { "ticker": "NVDA", "include": true, "direction": "up", "confidence": "low", "window": "1 to 4 weeks",
+          "mechanism": "NVIDIA's annual report says TSMC produces its semiconductor wafers, so TSMC's 14.7% month-on-month and 59.7% year-on-year revenue rise is a read on the foundry output behind NVIDIA's chips. TSMC does not break the figure out by customer." },
+        { "ticker": "AMD", "include": true, "direction": "up", "confidence": "low", "window": "1 to 4 weeks",
+          "mechanism": "AMD uses TSMC for the wafers of its HPC, FPGA and adaptive SoC products, so TSMC's 59.7% year-over-year revenue rise is a read on the capacity those products run on. The report does not show AMD's own share of it." },
+        { "ticker": "ALAB", "include": true, "direction": "unclear", "confidence": "low", "window": "1 to 4 weeks",
+          "mechanism": "TSMC is Astera Labs' sole manufacturing partner, so TSMC's October figures describe the one foundry all of Astera's chips depend on. Total foundry revenue up 59.7% does not show whether Astera's own volumes grew." },
+        { "ticker": "CRDO", "include": true, "direction": "unclear", "confidence": "low", "window": "1 to 4 weeks",
+          "mechanism": "Credo used TSMC exclusively for wafer production in fiscal 2026, which ties it closely to the foundry's output and capacity. TSMC's 59.7% year-over-year revenue rise is an industry-wide figure, not a measure of Credo's orders." },
+        { "ticker": "INTC", "include": true, "direction": "unclear", "confidence": "low", "window": "1 to 4 weeks",
+          "mechanism": "Intel buys TSMC capacity for some tiles and products and also names TSMC its primary competitor in leading-edge process technology. A 59.7% year-over-year revenue rise at TSMC reads one way for Intel the customer and the other way for Intel's foundry business." },
+        { "ticker": "CRUS", "include": false, "direction": "unclear", "confidence": "low", "window": "1 to 4 weeks",
+          "mechanism": "Cirrus Logic has most of its wafers made at TSMC, but TSMC's total monthly revenue says little about Cirrus Logic's own volumes." },
+        { "ticker": "SLAB", "include": false, "direction": "unclear", "confidence": "low", "window": "1 to 4 weeks",
+          "mechanism": "Silicon Labs has most of its wafers made at TSMC and SMIC, but TSMC's total monthly revenue says little about Silicon Labs' own volumes." },
+        { "ticker": "ADI", "include": false, "direction": "unclear", "confidence": "low", "window": "1 to 4 weeks",
+          "mechanism": "Analog Devices sources part of its wafers from foundries such as TSMC, too small a link for TSMC's total revenue to describe its business." },
+        { "ticker": "ALGM", "include": false, "direction": "unclear", "confidence": "low", "window": "1 to 4 weeks",
+          "mechanism": "Allegro uses TSMC as one of several fab partners, too small a link for TSMC's total revenue to describe its business." },
+        { "ticker": "AVGO", "include": false, "direction": "unclear", "confidence": "low", "window": "1 to 4 weeks",
+          "mechanism": "The quoted Broadcom link is about assembly and test contractors, which TSMC's monthly revenue figure does not describe." },
+        { "ticker": "ASML", "include": false, "direction": "unclear", "confidence": "low", "window": "1 to 3 months",
+          "mechanism": "The path runs through Intel's own fabs, which TSMC's revenue report does not describe." },
+        { "ticker": "GFS", "include": false, "direction": "unclear", "confidence": "low", "window": "1 to 3 months",
+          "mechanism": "GlobalFoundries supplies AMD at other nodes; TSMC's revenue report does not describe that business." },
+        { "ticker": "HPE", "include": false, "direction": "unclear", "confidence": "low", "window": "1 to 3 months",
+          "mechanism": "The path from TSMC through AMD's processors to Hewlett Packard Enterprise is too long for a monthly foundry revenue figure to carry." }
+      ]
+    },
+    "ASX-0000950103-26-017186": {
+      "hits": [
+        { "ticker": "AMKR", "include": true, "direction": "up", "confidence": "medium", "window": "1 to 5 trading days",
+          "mechanism": "Amkor names ASE Technology among the main packaging and test providers it competes with. ASE's October revenue, up 47.1% from a year earlier, is a read on demand for the outsourced assembly and test services both companies sell." },
+        { "ticker": "LSCC", "include": true, "direction": "unclear", "confidence": "low", "window": "1 to 4 weeks",
+          "mechanism": "ASE performs most of Lattice's wafer sort testing, so ASE's 47.1% year-over-year revenue rise describes a test base Lattice relies on. The figure covers all of ASE's customers, not Lattice's own volumes." },
+        { "ticker": "AMD", "include": false, "direction": "unclear", "confidence": "low", "window": "1 to 4 weeks",
+          "mechanism": "SPIL is one of several assembly and test providers for AMD; ASE's total revenue says little about AMD's business." },
+        { "ticker": "AVGO", "include": false, "direction": "unclear", "confidence": "low", "window": "1 to 4 weeks",
+          "mechanism": "ASE is one of several assembly and test contractors Broadcom names; ASE's total revenue says little about Broadcom's business." },
+        { "ticker": "QCOM", "include": false, "direction": "unclear", "confidence": "low", "window": "1 to 4 weeks",
+          "mechanism": "ASE is one of four assembly and test suppliers Qualcomm names; ASE's total revenue says little about Qualcomm's business." }
+      ]
+    },
+    "MCHP-0000827054-26-000061": {
+      "hits": [
+        { "ticker": "ARW", "include": true, "direction": "up", "confidence": "medium", "window": "1 to 4 weeks",
+          "mechanism": "Arrow is Microchip's largest distributor at 12% of net sales, so Microchip's 42.2% year-over-year sales growth ran partly through Arrow's components business. Microchip guides December-quarter net sales to between down 3% and up 1% sequentially." },
+        { "ticker": "NXPI", "include": true, "direction": "up", "confidence": "low", "window": "1 to 5 trading days",
+          "mechanism": "NXP lists Microchip among its primary public competitors. Microchip's net sales rose 42.2% from a year earlier and 9.2% sequentially, a read on demand in the chip markets the two companies share." },
+        { "ticker": "SLAB", "include": true, "direction": "up", "confidence": "low", "window": "1 to 5 trading days",
+          "mechanism": "Silicon Labs names Microchip as a competitor, and Microchip's 42.2% year-over-year sales growth is a read on demand in the markets the two share." },
+        { "ticker": "MTSI", "include": false, "direction": "unclear", "confidence": "low", "window": "1 to 5 trading days",
+          "mechanism": "MACOM lists Microchip as one of eleven competitors; the release does not speak to the RF and photonic markets MACOM names." },
+        { "ticker": "AMD", "include": false, "direction": "unclear", "confidence": "low", "window": "1 to 5 trading days",
+          "mechanism": "AMD names Microsemi, a Microchip unit, as an FPGA competitor; Microchip's release does not speak to FPGAs." }
+      ]
+    },
+    "SLAB-0001038074-26-000033": {
+      "hits": [
+        { "ticker": "TXN", "include": true, "direction": "up", "confidence": "low", "window": "1 to 4 weeks",
+          "mechanism": "The release says Texas Instruments is acquiring Silicon Labs, whose annual report also names Texas Instruments a competitor. Revenue up 22% from a year earlier and EPS 23.8% above consensus describe the business Texas Instruments is set to acquire." },
+        { "ticker": "MCHP", "include": true, "direction": "up", "confidence": "low", "window": "1 to 5 trading days",
+          "mechanism": "Silicon Labs names Microchip as a competitor, and its revenue rose 22% from a year earlier, a read on demand in the markets the two share." },
+        { "ticker": "NXPI", "include": true, "direction": "up", "confidence": "low", "window": "1 to 5 trading days",
+          "mechanism": "Silicon Labs names NXP as a competitor, and its revenue rose 22% from a year earlier, a read on demand in the markets the two share." },
+        { "ticker": "TSM", "include": false, "direction": "unclear", "confidence": "low", "window": "1 to 4 weeks",
+          "mechanism": "Silicon Labs is a small TSMC customer; its results say little about TSMC's business." },
+        { "ticker": "QCOM", "include": false, "direction": "unclear", "confidence": "low", "window": "1 to 5 trading days",
+          "mechanism": "Qualcomm is one name in a list of twelve competitors; the release does not speak to a market they share." },
+        { "ticker": "STM", "include": false, "direction": "unclear", "confidence": "low", "window": "1 to 5 trading days",
+          "mechanism": "STMicroelectronics is one name in a list of twelve competitors; the release does not speak to a market they share." },
+        { "ticker": "SYNA", "include": false, "direction": "unclear", "confidence": "low", "window": "1 to 5 trading days",
+          "mechanism": "Synaptics is one name in a list of twelve competitors; the release does not speak to a market they share." }
+      ]
+    },
+    "ONTO-0001193125-26-453582": {
+      "hits": [
+        { "ticker": "NVMI", "include": true, "direction": "up", "confidence": "medium", "window": "1 to 5 trading days",
+          "mechanism": "Nova says it competes mainly with Onto Innovation and KLA in metrology and process control. Onto's record quarterly revenue, up 88% from a year earlier and above its own guidance range, is a read on demand in the market Nova sells into." },
+        { "ticker": "CAMT", "include": true, "direction": "up", "confidence": "medium", "window": "1 to 5 trading days",
+          "mechanism": "Onto names Camtek one of its principal competitors in advanced packaging inspection. Onto's revenue rose 88% from a year earlier and it expects 2026 revenue growth above 45%, a read on demand for the inspection tools both sell." },
+        { "ticker": "KLAC", "include": true, "direction": "up", "confidence": "low", "window": "1 to 5 trading days",
+          "mechanism": "Onto names KLA a principal competitor in thin film and critical dimension metrology. Onto's 88% year-over-year revenue growth points to strong process control spending, though KLA's broader business makes the read weaker." },
+        { "ticker": "PDFS", "include": false, "direction": "unclear", "confidence": "low", "window": "1 to 5 trading days",
+          "mechanism": "PDF Solutions competes with Onto only in software; the release does not speak to that business." }
+      ]
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "name": "@falcon/engine",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Ripple Engine v0: today's events in, filing-backed ripple cards out.",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "sightings": "node --import tsx src/cli/sightings.ts",
+    "filing-passages": "node --import tsx scripts/filing-passages.ts",
+    "build-graph": "node --import tsx scripts/build-graph.ts",
+    "migrate": "node --import tsx scripts/migrate.ts",
+    "test": "node --import tsx --test test/*.test.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^1.8.0",
+    "@falcon/ripple": "workspace:*",
+    "pg": "^8.13.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "@types/pg": "^8.11.10",
+    "tsx": "^4.22.4",
+    "typescript": "^5.5.4"
+  }
+}
