@@ -1,5 +1,6 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { jsonSchemaOutputFormat } from "@anthropic-ai/sdk/helpers/json-schema";
+import { createCipheriv, createDecipheriv, createHash, hkdfSync, randomBytes } from "crypto";
 import { Snaptrade, SnaptradeAuth } from "snaptrade-typescript-sdk";
 import type { PickedStock } from "./onboarding";
 import { normalizeHoldings, type RawHolding } from "./portfolio";
@@ -8,17 +9,18 @@ import { companyNames } from "./sec";
 /**
  * Server side of the welcome flow's portfolio step. Nothing here keeps the
  * member's data: screenshots are read in memory and dropped, and a SnapTrade
- * user lives only for one import (deleted once its holdings are read).
+ * OAuth grant lives only for one import (revoked once its holdings are read).
  *
  * Env (server only):
- *   ANTHROPIC_API_KEY                            screenshot reading
- *   SNAPTRADE_CLIENT_ID, SNAPTRADE_CONSUMER_KEY  broker connection
+ *   ANTHROPIC_API_KEY                             screenshot reading
+ *   SNAPTRADE_CLIENT_ID, SNAPTRADE_CLIENT_SECRET  broker connection (SnapTrade OAuth app;
+ *                                                 SNAPTRADE_CONSUMER_KEY is read as an old name for the secret)
  */
 
 export function portfolioSources() {
   return {
     screenshot: Boolean(process.env.ANTHROPIC_API_KEY?.trim()),
-    broker: Boolean(process.env.SNAPTRADE_CLIENT_ID?.trim() && process.env.SNAPTRADE_CONSUMER_KEY?.trim()),
+    broker: Boolean(snaptradeClientId() && snaptradeClientSecret()),
   };
 }
 
@@ -140,52 +142,164 @@ export async function readScreenshot(data: Buffer, mediaType: ScreenshotType): P
 }
 
 /* ------------------------------------------------------------------ */
-/* SnapTrade                                                           */
+/* SnapTrade (OAuth app)                                               */
 /* ------------------------------------------------------------------ */
 
-export type BrokerSession = { userId: string; userSecret: string };
+/*
+ * The member signs in to SnapTrade, approves read access to the brokerage
+ * accounts they manage there, and SnapTrade sends them back to
+ * BROKER_REDIRECT_URI with a one-time code. Authorization code + PKCE (S256);
+ * the code is exchanged here with the client secret (HTTP Basic).
+ *
+ * No server storage: the PKCE verifier and where to send the member back
+ * travel inside `state`, and the access token travels to the caller inside a
+ * "ticket". Both are AES-256-GCM sealed with a key derived from the client
+ * secret, expire quickly and are bound to the Falcon user who started the
+ * flow, so neither is readable or usable by anyone else.
+ *
+ * Docs: https://docs.snaptrade.com/docs/oauth-apps
+ */
 
-function snaptrade() {
-  return new Snaptrade({
-    auth: SnaptradeAuth.commercialApiKey({
-      clientId: process.env.SNAPTRADE_CLIENT_ID?.trim() ?? "",
-      consumerKey: process.env.SNAPTRADE_CONSUMER_KEY?.trim() ?? "",
+/** The one redirect URI registered for the OAuth app; every flow goes through it. */
+export const BROKER_REDIRECT_URI = "https://app.getfalcon.co/api/portfolio/broker/done";
+/** Where the iPhone app's auth session is sent back (apps/mobile app.json scheme). */
+export const BROKER_APP_RETURN = "falcon://broker";
+
+const AUTHORIZE_URL = "https://dashboard.snaptrade.com/oauth/authorize";
+const TOKEN_URL = "https://api.snaptrade.com/oauth/token/";
+const REVOKE_URL = "https://api.snaptrade.com/oauth/revoke_token/";
+const SCOPE = "read";
+const STATE_TTL_MS = 20 * 60_000;
+const TICKET_TTL_MS = 15 * 60_000;
+
+function snaptradeClientId() {
+  return process.env.SNAPTRADE_CLIENT_ID?.trim() ?? "";
+}
+
+function snaptradeClientSecret() {
+  return process.env.SNAPTRADE_CLIENT_SECRET?.trim() || process.env.SNAPTRADE_CONSUMER_KEY?.trim() || "";
+}
+
+/** "app" for the iPhone app's deep link, otherwise the web origin to post the result to. */
+export type BrokerReturn = string;
+
+type StatePayload = { k: "state"; u: string; v: string; r: BrokerReturn; e: number };
+type TicketPayload = { k: "ticket"; u: string; a: string; f?: string; e: number };
+
+function sealKey(): Buffer {
+  return Buffer.from(hkdfSync("sha256", snaptradeClientSecret(), "falcon-broker", "falcon-broker-seal-v1", 32));
+}
+
+function seal(payload: StatePayload | TicketPayload): string {
+  const iv = randomBytes(12);
+  const cipher = createCipheriv("aes-256-gcm", sealKey(), iv);
+  const body = Buffer.concat([cipher.update(JSON.stringify(payload), "utf8"), cipher.final()]);
+  return Buffer.concat([iv, cipher.getAuthTag(), body]).toString("base64url");
+}
+
+function unseal(token: string | null | undefined): Record<string, unknown> | null {
+  if (!token || token.length > 8000) return null;
+  try {
+    const raw = Buffer.from(token, "base64url");
+    if (raw.length < 29) return null;
+    const decipher = createDecipheriv("aes-256-gcm", sealKey(), raw.subarray(0, 12));
+    decipher.setAuthTag(raw.subarray(12, 28));
+    const text = Buffer.concat([decipher.update(raw.subarray(28)), decipher.final()]).toString("utf8");
+    const parsed = JSON.parse(text) as Record<string, unknown>;
+    if (typeof parsed.e !== "number" || parsed.e < Date.now()) return null;
+    return parsed;
+  } catch {
+    return null;
+  }
+}
+
+/** SnapTrade's consent page link for this member. `returnTo` says where the result goes afterwards. */
+export function brokerAuthorizeUrl(userId: string, returnTo: BrokerReturn): string {
+  const verifier = randomBytes(64).toString("base64url");
+  const challenge = createHash("sha256").update(verifier).digest("base64url");
+  const state = seal({ k: "state", u: userId, v: verifier, r: returnTo, e: Date.now() + STATE_TTL_MS });
+  const url = new URL(AUTHORIZE_URL);
+  url.searchParams.set("response_type", "code");
+  url.searchParams.set("client_id", snaptradeClientId());
+  url.searchParams.set("redirect_uri", BROKER_REDIRECT_URI);
+  url.searchParams.set("scope", SCOPE);
+  url.searchParams.set("state", state);
+  url.searchParams.set("code_challenge", challenge);
+  url.searchParams.set("code_challenge_method", "S256");
+  return url.toString();
+}
+
+/** The flow a callback's `state` belongs to, or null when it isn't ours or has expired. */
+export function readBrokerState(
+  state: string | null,
+): { userId: string; verifier: string; returnTo: BrokerReturn } | null {
+  const p = unseal(state);
+  if (!p || p.k !== "state" || typeof p.u !== "string" || typeof p.v !== "string" || typeof p.r !== "string") {
+    return null;
+  }
+  return { userId: p.u, verifier: p.v, returnTo: p.r };
+}
+
+function clientHeaders() {
+  return {
+    Accept: "application/json",
+    Authorization: `Basic ${Buffer.from(`${snaptradeClientId()}:${snaptradeClientSecret()}`).toString("base64")}`,
+    "Content-Type": "application/x-www-form-urlencoded",
+  };
+}
+
+export type BrokerGrant = { accessToken: string; refreshToken?: string };
+
+export type TokenExchange = ({ ok: true } & BrokerGrant) | { ok: false; status: number; error: string };
+
+/** Swaps the one-time code for tokens. A failure carries SnapTrade's OAuth error code only. */
+export async function exchangeBrokerCode(code: string, verifier: string): Promise<TokenExchange> {
+  const res = await fetch(TOKEN_URL, {
+    method: "POST",
+    headers: clientHeaders(),
+    body: new URLSearchParams({
+      grant_type: "authorization_code",
+      code,
+      code_verifier: verifier,
+      redirect_uri: BROKER_REDIRECT_URI,
     }),
+    cache: "no-store",
+    signal: AbortSignal.timeout(15_000),
   });
+  const body = (await res.json().catch(() => ({}))) as {
+    access_token?: unknown;
+    refresh_token?: unknown;
+    error?: unknown;
+  };
+  if (!res.ok || typeof body.access_token !== "string") {
+    return { ok: false, status: res.status, error: typeof body.error === "string" ? body.error : "token_exchange_failed" };
+  }
+  return {
+    ok: true,
+    accessToken: body.access_token,
+    refreshToken: typeof body.refresh_token === "string" ? body.refresh_token : undefined,
+  };
 }
 
-/** Registers a throwaway SnapTrade user and returns its Connection Portal link (read only). */
-export async function startBrokerConnection(
-  userId: string,
-  redirectTo: string,
-): Promise<{ session: BrokerSession; url: string }> {
-  const client = snaptrade();
-  const registered = (await client.authentication.registerSnapTradeUser({ userId })).data;
-  const userSecret = registered.userSecret;
-  if (!userSecret) throw new Error("SnapTrade returned no user secret");
-  const login = (
-    await client.authentication.loginSnapTradeUser({
-      userId,
-      userSecret,
-      customRedirect: redirectTo,
-      connectionType: "read",
-      immediateRedirect: true,
-      showCloseButton: true,
-    })
-  ).data as { redirectURI?: string };
-  if (!login.redirectURI) throw new Error("SnapTrade returned no portal link");
-  return { session: { userId, userSecret }, url: login.redirectURI };
+/** A sealed, short-lived hand-off of the grant to the member who started the flow. */
+export function brokerTicket(userId: string, grant: BrokerGrant): string {
+  return seal({ k: "ticket", u: userId, a: grant.accessToken, f: grant.refreshToken, e: Date.now() + TICKET_TTL_MS });
 }
 
-/** Every security position across the user's connected accounts; options and cash are skipped. */
-export async function brokerHoldings(session: BrokerSession): Promise<PickedStock[]> {
-  const client = snaptrade();
-  const accounts = (await client.accountInformation.listUserAccounts(session)).data ?? [];
+/** The grant in a ticket, only for the member it was issued to. */
+export function readBrokerTicket(ticket: string | null | undefined, userId: string): BrokerGrant | null {
+  const p = unseal(ticket);
+  if (!p || p.k !== "ticket" || p.u !== userId || typeof p.a !== "string") return null;
+  return { accessToken: p.a, refreshToken: typeof p.f === "string" ? p.f : undefined };
+}
+
+/** Every security position across the member's SnapTrade accounts; options and cash are skipped. */
+export async function brokerHoldings(grant: BrokerGrant): Promise<PickedStock[]> {
+  const client = new Snaptrade({ auth: SnaptradeAuth.oauth({ accessToken: grant.accessToken }) });
+  const accounts = (await client.accountInformation.listUserAccounts({})).data ?? [];
   const rows: RawHolding[] = [];
   for (const account of accounts.slice(0, 10)) {
-    const positions = (
-      await client.accountInformation.getAllAccountPositions({ ...session, accountId: account.id })
-    ).data;
+    const positions = (await client.accountInformation.getAllAccountPositions({ accountId: account.id })).data;
     for (const position of positions.results ?? []) {
       if (position.cash_equivalent) continue;
       const instrument = position.instrument as { kind?: string; symbol?: unknown; description?: unknown };
@@ -204,11 +318,22 @@ export async function brokerHoldings(session: BrokerSession): Promise<PickedStoc
   return withCompanyNames(normalizeHoldings(rows));
 }
 
-/** Removes the throwaway SnapTrade user (and its broker link). Never throws. */
-export async function endBrokerConnection(session: BrokerSession): Promise<void> {
+/** Revokes the grant so nothing stays linked to Falcon. Never throws. */
+export async function revokeBrokerGrant(grant: BrokerGrant): Promise<void> {
+  const revoke = async (token: string, hint: string) => {
+    const res = await fetch(REVOKE_URL, {
+      method: "POST",
+      headers: clientHeaders(),
+      body: new URLSearchParams({ token, token_type_hint: hint }),
+      cache: "no-store",
+      signal: AbortSignal.timeout(10_000),
+    });
+    if (!res.ok) console.error("[portfolio broker] revoke failed", res.status);
+  };
   try {
-    await snaptrade().authentication.deleteSnapTradeUser({ userId: session.userId });
+    if (grant.refreshToken) await revoke(grant.refreshToken, "refresh_token");
+    await revoke(grant.accessToken, "access_token");
   } catch (error) {
-    console.error("[portfolio broker] delete user failed", error instanceof Error ? error.message : "");
+    console.error("[portfolio broker] revoke failed", error instanceof Error ? error.message : "");
   }
 }

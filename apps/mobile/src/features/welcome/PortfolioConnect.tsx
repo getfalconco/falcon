@@ -7,6 +7,7 @@ import { ImageManipulator, SaveFormat } from "expo-image-manipulator";
 import * as WebBrowser from "expo-web-browser";
 import { FileSpreadsheet, ImageUp, Landmark, X, type LucideIcon } from "lucide-react-native";
 import { apiUrl } from "@/lib/env";
+import { readParams } from "@/lib/oauth";
 import { haptics } from "@/lib/haptics";
 import { TICKER_PATTERN, tickerNames, type PickedStock } from "@/lib/onboarding";
 import { cleanTicker, parseHoldingsCsv } from "@/lib/portfolio";
@@ -24,6 +25,8 @@ import { MonoLabel } from "./Steps";
 type Sources = { screenshot: boolean; broker: boolean };
 type Busy = "screenshot" | "csv" | "broker" | null;
 
+/** The app scheme (app.json); the website's broker done route redirects here. */
+const BROKER_RETURN = "falcon://broker";
 const MAX_UPLOAD_BYTES = 10 * 1024 * 1024;
 /** Long edge of the image we send: plenty for reading a holdings list. */
 const MAX_IMAGE_EDGE = 2400;
@@ -53,6 +56,38 @@ async function prepareImage(asset: ImagePicker.ImagePickerAsset): Promise<string
 async function readText(asset: DocumentPicker.DocumentPickerAsset): Promise<string> {
   if (Platform.OS === "web" && asset.file) return asset.file.text();
   return new File(asset.uri).text();
+}
+
+/**
+ * SnapTrade's consent page, then the website's done route hands back a sealed
+ * ticket: on the phone as a falcon://broker redirect that ends the auth
+ * session, in the browser preview as a message from the pop-up. Null when the
+ * member closed it first; no ticket when SnapTrade or the member said no.
+ */
+async function authorizeBroker(url: string): Promise<{ ticket?: string } | null> {
+  if (Platform.OS !== "web") {
+    const result = await WebBrowser.openAuthSessionAsync(url, BROKER_RETURN);
+    if (result.type !== "success") return null;
+    return { ticket: readParams(result.url).get("ticket") ?? undefined };
+  }
+  const popup = window.open(url, "falcon-broker", "width=520,height=760");
+  if (!popup) throw new Error("Allow pop-ups for this site to connect your broker.");
+  return new Promise((resolve) => {
+    const finish = (value: { ticket?: string } | null) => {
+      window.removeEventListener("message", onMessage);
+      clearInterval(watch);
+      resolve(value);
+    };
+    const onMessage = (event: MessageEvent) => {
+      const data = event.data as { type?: string; ok?: unknown; ticket?: unknown } | null;
+      if (event.source !== popup || data?.type !== "falcon:broker") return;
+      finish({ ticket: data.ok === true && typeof data.ticket === "string" ? data.ticket : undefined });
+    };
+    const watch = setInterval(() => {
+      if (popup.closed) finish(null);
+    }, 500);
+    window.addEventListener("message", onMessage);
+  });
 }
 
 export function PortfolioConnect({
@@ -171,15 +206,24 @@ export function PortfolioConnect({
     try {
       const headers = await authHeaders();
       if (!headers) throw new Error("Sign in again to connect a broker.");
-      const res = await fetch(apiUrl("/api/portfolio/broker/start"), { method: "POST", headers });
+      const res = await fetch(apiUrl("/api/portfolio/broker/start"), {
+        method: "POST",
+        headers: { ...headers, "Content-Type": "application/json" },
+        body: JSON.stringify({ returnTo: Platform.OS === "web" ? window.location.origin : "app" }),
+      });
       const body = await readJson(res);
       if (!res.ok || !body.url) throw new Error(body.error ?? "We couldn't reach the broker service.");
-      // Resolves when the member closes the in-app browser.
-      await WebBrowser.openBrowserAsync(body.url, {
-        presentationStyle: WebBrowser.WebBrowserPresentationStyle.PAGE_SHEET,
+
+      const result = await authorizeBroker(body.url);
+      if (!result) return; // Closed before finishing.
+      if (!result.ticket) throw new Error("The broker connection didn't go through. Try again or use a CSV.");
+
+      // The route reads the holdings with the ticket, then revokes the SnapTrade grant.
+      const holdingsRes = await fetch(apiUrl("/api/portfolio/broker/holdings"), {
+        method: "POST",
+        headers: { ...headers, "Content-Type": "application/json" },
+        body: JSON.stringify({ ticket: result.ticket }),
       });
-      // Always called: it also removes the temporary SnapTrade link.
-      const holdingsRes = await fetch(apiUrl("/api/portfolio/broker/holdings"), { method: "POST", headers });
       const holdingsBody = await readJson(holdingsRes);
       if (!holdingsRes.ok) throw new Error(holdingsBody.error ?? "We couldn't read your broker holdings.");
       found(holdingsBody.holdings, "No holdings came back from your broker. Try again or use a CSV.");

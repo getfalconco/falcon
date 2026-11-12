@@ -184,7 +184,7 @@ export function PortfolioConnect({
 
   const connectBroker = useCallback(async () => {
     if (!sources?.broker) return;
-    // Opened inside the click so pop-up blockers allow it; pointed at the portal once we have the link.
+    // Opened inside the click so pop-up blockers allow it; pointed at SnapTrade once we have the link.
     const popup = window.open("", "falcon-broker", "width=520,height=760");
     if (!popup) {
       setError("Allow pop-ups for this site to connect your broker.");
@@ -195,32 +195,42 @@ export function PortfolioConnect({
     try {
       const headers = await authHeaders();
       if (!headers) throw new Error("Sign in again to connect a broker.");
-      const res = await fetch("/api/portfolio/broker/start", { method: "POST", headers });
+      const res = await fetch("/api/portfolio/broker/start", {
+        method: "POST",
+        headers: { ...headers, "Content-Type": "application/json" },
+        body: JSON.stringify({ returnTo: window.location.origin }),
+      });
       const body = await readJson(res);
       if (!res.ok || !body.url) throw new Error(body.error ?? "We couldn't reach the broker service.");
       popup.location.href = body.url;
 
-      // Done when the portal sends the member back (a message) or the window closes.
-      await new Promise<void>((resolve) => {
-        const finish = () => {
+      // Done when SnapTrade sends the member back (the done page posts a message) or the window closes.
+      const result = await new Promise<{ ok: boolean; ticket?: string } | null>((resolve) => {
+        const finish = (value: { ok: boolean; ticket?: string } | null) => {
           window.removeEventListener("message", onMessage);
           clearInterval(watch);
-          resolve();
+          resolve(value);
         };
         const onMessage = (event: MessageEvent) => {
-          if (event.origin === window.location.origin && (event.data as { type?: string })?.type === "falcon:broker") {
-            finish();
-          }
+          const data = event.data as { type?: string; ok?: unknown; ticket?: unknown } | null;
+          if (event.source !== popup || data?.type !== "falcon:broker") return;
+          finish({ ok: data.ok === true, ticket: typeof data.ticket === "string" ? data.ticket : undefined });
         };
         const watch = setInterval(() => {
-          if (popup.closed) finish();
+          if (popup.closed) finish(null);
         }, 500);
         window.addEventListener("message", onMessage);
       });
+      if (result && !result.ok) throw new Error("The broker connection didn't go through. Try again or use a CSV.");
 
-      // Always called: it also removes the temporary SnapTrade link.
-      const holdingsRes = await fetch("/api/portfolio/broker/holdings", { method: "POST", headers });
+      // Without a message the ticket may still be in this host's cookie; the route also revokes the grant.
+      const holdingsRes = await fetch("/api/portfolio/broker/holdings", {
+        method: "POST",
+        headers: { ...headers, "Content-Type": "application/json" },
+        body: JSON.stringify({ ticket: result?.ticket }),
+      });
       const holdingsBody = await readJson(holdingsRes);
+      if (!result && holdingsRes.status === 409) return; // Closed before finishing.
       if (!holdingsRes.ok) throw new Error(holdingsBody.error ?? "We couldn't read your broker holdings.");
       found(holdingsBody.holdings, "No holdings came back from your broker. Try again or use a CSV.");
     } catch (err) {
