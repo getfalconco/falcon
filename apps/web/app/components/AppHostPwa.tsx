@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { isAppHost } from "@/lib/app-host";
 import { APPLE_TOUCH_ICON, MANIFEST_PATH, PWA_THEME_COLOR, STARTUP_IMAGES, SW_PATH } from "@/lib/pwa";
 
@@ -16,10 +17,18 @@ function addTag(tag: "link" | "meta", attrs: Record<string, string>) {
 /**
  * Install tags for app-host pages that are shared with the marketing host
  * (login, welcome): static metadata can't tell the hosts apart without making
- * those pages dynamic. `/app` already has them, so nothing is added twice.
+ * those pages dynamic. `/app` has them statically; on a client-side move
+ * between the two the injected copy is added or dropped so there is always
+ * exactly one manifest link.
  */
-function addInstallTags() {
-  if (document.querySelector('link[rel="manifest"]')) return;
+function syncInstallTags() {
+  const ownManifest = document.querySelector(`link[rel="manifest"]:not([${MARK}])`);
+  const injected = document.head.querySelectorAll(`[${MARK}]`);
+  if (ownManifest) {
+    injected.forEach((el) => el.remove());
+    return;
+  }
+  if (injected.length) return;
   addTag("link", { rel: "manifest", href: MANIFEST_PATH });
   addTag("link", { rel: "apple-touch-icon", href: APPLE_TOUCH_ICON, sizes: "180x180" });
   addTag("meta", { name: "theme-color", content: PWA_THEME_COLOR });
@@ -36,9 +45,17 @@ function addInstallTags() {
  * production run and its caches, so dev assets are never served from a cache.
  */
 export default function AppHostPwa() {
+  const pathname = usePathname();
+
   useEffect(() => {
     if (!isAppHost(window.location.host)) return;
-    addInstallTags();
+    // After the new route's metadata has been committed to <head>.
+    const frame = requestAnimationFrame(syncInstallTags);
+    return () => cancelAnimationFrame(frame);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (!isAppHost(window.location.host)) return;
     if (!("serviceWorker" in navigator)) return;
 
     if (process.env.NODE_ENV !== "production") {
