@@ -62,6 +62,13 @@ export async function loadMarketData(
   const conditions = [...strategy.entry.conditions, ...strategy.exit.conditions];
   const usesEarnings = conditions.some((c) => c.type === "earnings_surprise");
   const usesRipple = conditions.some((c) => c.type === "ripple_event");
+  // Releases are read for the traded tickers and for any company an earnings
+  // condition names (trade a supplier after its customer reports).
+  const earningsRefs = conditions.flatMap((c) => (c.type === "earnings_surprise" && c.ticker ? [c.ticker] : []));
+  const earningsTickers = Array.from(new Set([...strategy.universe, ...earningsRefs]));
+  const ownEarnings = conditions.some((c) => c.type === "earnings_surprise" && !c.ticker);
+  // The tickers whose releases can fire a trade: the warnings are about them.
+  const firing = Array.from(new Set([...(ownEarnings ? strategy.universe : []), ...earningsRefs]));
 
   const bars: Record<string, Bar[]> = {};
   const earnings: Record<string, EarningsEvent[]> = {};
@@ -79,7 +86,7 @@ export async function loadMarketData(
   });
   const earningsJobs =
     usesEarnings && sources.earnings
-      ? strategy.universe.map(async (t) => {
+      ? earningsTickers.map(async (t) => {
           try {
             earnings[t] = await sources.earnings!.earnings(t, from, config.end, signal);
           } catch (e) {
@@ -106,11 +113,11 @@ export async function loadMarketData(
   if (failed) throw failed.reason;
 
   if (usesEarnings && !sources.earnings) warnings.push("No earnings source is connected, so earnings conditions never fire.");
-  if (earningsFailures) warnings.push(`Earnings history could not be loaded for ${earningsFailures} of ${strategy.universe.length} tickers.`);
+  if (earningsFailures) warnings.push(`Earnings history could not be loaded for ${earningsFailures} of ${earningsTickers.length} tickers.`);
   if (usesEarnings) {
-    const none = strategy.universe.filter((t) => (earnings[t]?.length ?? 0) === 0 && (bars[t]?.length ?? 0) > 0);
-    if (none.length && none.length < strategy.universe.length) warnings.push(`No earnings history for: ${none.join(", ")}.`);
-    const gaps = strategy.universe.filter((t) => hasQuarterGap(earnings[t] ?? [], config.start, config.end));
+    const none = firing.filter((t) => (earnings[t]?.length ?? 0) === 0 && (bars[t]?.length ?? 0) > 0);
+    if (none.length && (none.length < firing.length || earningsRefs.length)) warnings.push(`No earnings history for: ${none.join(", ")}.`);
+    const gaps = firing.filter((t) => hasQuarterGap(earnings[t] ?? [], config.start, config.end));
     if (gaps.length) warnings.push(`Earnings history skips at least one quarter for: ${gaps.join(", ")}. Those releases cannot trigger trades.`);
   }
 

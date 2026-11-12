@@ -9,6 +9,7 @@ export const runtime = "nodejs";
  * Plain-English strategy -> explicit rules the user can read and edit, with
  * Claude (claude-sonnet-5-5, structured output). See packages/backtest/src/nl.ts.
  *
+ *   GET  /api/backtest/parse  ->  200 { configured }   whether parsing is switched on (no API call)
  *   POST /api/backtest/parse  { text }
  *     ->  200 { strategy, range, summary, assumptions, unsupported, model }
  *     ->  422 { error, reason, errors?, unsupported? }   not a strategy, or rules that do not validate
@@ -24,7 +25,7 @@ const TIMEOUT_MS = Number(process.env.BACKTEST_PARSE_TIMEOUT_MS) || 9_000;
 
 const CORS = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "POST, OPTIONS",
+  "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type",
   "Access-Control-Max-Age": "86400",
 };
@@ -45,6 +46,11 @@ const STATUS = {
 
 export function OPTIONS() {
   return new NextResponse(null, { status: 204, headers: CORS });
+}
+
+/** Lets the Strategy tab say parsing is off without sending text that would fail. */
+export function GET() {
+  return json({ configured: Boolean(process.env.ANTHROPIC_API_KEY?.trim()) });
 }
 
 export async function POST(request: Request) {

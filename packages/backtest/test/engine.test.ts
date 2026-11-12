@@ -106,7 +106,7 @@ test("earnings strategy: enters the open after the first session following a bea
   const dates = weekdays("2024-01-01", 15);
   const aaa = makeBars(dates, flat(15).map((v, i) => v + i));
   const s = strategy({
-    entry: { mode: "all", conditions: [{ type: "earnings_surprise", op: "above", pct: 5, daysAfter: 1 }] },
+    entry: { mode: "all", conditions: [{ type: "earnings_surprise", ticker: null, op: "above", pct: 5, daysAfter: 1 }] },
     exit: { conditions: [], stopLossPct: null, takeProfitPct: null, maxHoldingDays: 3 },
   });
   const data = market(
@@ -222,4 +222,26 @@ test("a market filter reads another ticker's series", () => {
   const r = runBacktest(s, cfg(dates), market({ AAA: aaa, SPY: spy }));
   // Day 3: AAA +10% but SPY -10%, no entry. Day 6: both up, entry at the open of day 7.
   assert.deepEqual(r.trades.map((t) => t.entryDate), [dates[7]]);
+});
+
+test("earnings of another company: trades the universe after the named ticker reports", () => {
+  const dates = weekdays("2024-01-01", 15);
+  const s = strategy({
+    universe: ["BBB"],
+    entry: { mode: "all", conditions: [{ type: "earnings_surprise", ticker: "AAA", op: "above", pct: 0, daysAfter: 1 }] },
+    exit: { conditions: [], stopLossPct: null, takeProfitPct: null, maxHoldingDays: 2 },
+  });
+  const data = market(
+    { BBB: makeBars(dates, flat(15)), AAA: makeBars(dates, flat(15)), SPY: makeBars(dates, flat(15)) },
+    {
+      earnings: {
+        AAA: [{ date: "2024-01-03", time: "after_close", epsActual: 1.1, epsEstimate: 1, surprisePct: 10 }],
+        BBB: [{ date: "2024-01-08", time: "after_close", epsActual: 1.1, epsEstimate: 1, surprisePct: 10 }],
+      },
+    },
+  );
+  const r = runBacktest(s, cfg(dates), data);
+  assert.equal(r.trades.length, 1);
+  assert.equal(r.trades[0]!.ticker, "BBB");
+  assert.equal(r.trades[0]!.entryDate, "2024-01-04");
 });

@@ -6,54 +6,10 @@
  */
 
 import { backtest } from "../src/data/index";
-import { describeStrategy, type BacktestResult, type Strategy } from "../src/index";
+import { TEMPLATES, describeStrategy, type BacktestResult, type Strategy } from "../src/index";
 import { parseStrategy, resolveApiKey } from "../src/nl";
 
-const SEMIS = ["NVDA", "AMD", "AVGO", "QCOM", "TXN", "INTC", "MU", "AMAT", "LRCX", "KLAC", "ADI", "MRVL", "NXPI", "MCHP", "ON"];
-
-const EXAMPLES: { text: string; rules: Strategy }[] = [
-  {
-    text: "Buy SPY when it closes above its 200-day average, sell when below",
-    rules: {
-      version: 1,
-      name: "SPY above 200-day average",
-      universe: ["SPY"],
-      entry: { mode: "all", conditions: [{ type: "price_vs_ma", ticker: null, ma: "sma", period: 200, op: "above" }] },
-      exit: {
-        conditions: [{ type: "price_vs_ma", ticker: null, ma: "sma", period: 200, op: "below" }],
-        stopLossPct: null,
-        takeProfitPct: null,
-        maxHoldingDays: null,
-      },
-      sizing: { maxPositions: 1, positionPct: null },
-      rebalance: "none",
-    },
-  },
-  {
-    text: "Buy semiconductor stocks 1 day after an earnings beat above 5%, hold 10 days",
-    rules: {
-      version: 1,
-      name: "Semis after a 5% EPS beat, 10 days",
-      universe: SEMIS,
-      entry: { mode: "all", conditions: [{ type: "earnings_surprise", op: "above", pct: 5, daysAfter: 1 }] },
-      exit: { conditions: [], stopLossPct: null, takeProfitPct: null, maxHoldingDays: 10 },
-      sizing: { maxPositions: 10, positionPct: null },
-      rebalance: "none",
-    },
-  },
-  {
-    text: "RSI(2) below 10 on QQQ, exit after 5 days",
-    rules: {
-      version: 1,
-      name: "QQQ RSI(2) below 10, 5 days",
-      universe: ["QQQ"],
-      entry: { mode: "all", conditions: [{ type: "rsi", ticker: null, period: 2, op: "below", value: 10 }] },
-      exit: { conditions: [], stopLossPct: null, takeProfitPct: null, maxHoldingDays: 5 },
-      sizing: { maxPositions: 1, positionPct: null },
-      rebalance: "none",
-    },
-  },
-];
+const EXAMPLES = TEMPLATES.map((t) => ({ text: t.text, rules: t.rules }));
 
 const pct = (v: number | null) => (v === null ? "n/a" : `${v >= 0 ? "+" : ""}${v.toFixed(1)}%`);
 const dd = (v: number) => `-${v.toFixed(1)}%`;

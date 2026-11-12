@@ -21,7 +21,7 @@ test("NL: semis after an earnings beat", live, async () => {
   assert.ok(r.ok, JSON.stringify(r));
   if (!r.ok) return;
   assert.ok(r.strategy.universe.length >= 5);
-  assert.deepEqual(r.strategy.entry.conditions[0], { type: "earnings_surprise", op: "above", pct: 5, daysAfter: 1 });
+  assert.deepEqual(r.strategy.entry.conditions[0], { type: "earnings_surprise", ticker: null, op: "above", pct: 5, daysAfter: 1 });
   assert.equal(r.strategy.exit.maxHoldingDays, 10);
 });
 

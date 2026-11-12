@@ -205,7 +205,8 @@ class Evaluator {
     const s = this.series.get(ticker);
     if (!s) set = new Set();
     else if (c.type === "earnings_surprise") {
-      const days = (this.data.earnings[ticker] ?? []).filter((e) => surpriseMatches(e, c.op, c.pct)).map((e) => e.date);
+      // Another company's releases (c.ticker) or the traded ticker's own.
+      const days = (this.data.earnings[c.ticker ?? ticker] ?? []).filter((e) => surpriseMatches(e, c.op, c.pct)).map((e) => e.date);
       set = eventFireDates(s.dates, days, c.daysAfter);
     } else if (c.type === "ripple_event") {
       const days = this.data.ripple.filter((r) => r.ticker === ticker && rippleMatches(r, c)).map((r) => r.date);

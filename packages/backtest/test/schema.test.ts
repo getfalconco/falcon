@@ -74,7 +74,7 @@ test("describeStrategy: the rules in plain words", () => {
   const earn = describeStrategy(
     strategy({
       universe: ["NVDA", "AMD"],
-      entry: { mode: "all", conditions: [{ type: "earnings_surprise", op: "above", pct: 5, daysAfter: 1 }] },
+      entry: { mode: "all", conditions: [{ type: "earnings_surprise", ticker: null, op: "above", pct: 5, daysAfter: 1 }] },
       exit: { conditions: [], stopLossPct: null, takeProfitPct: null, maxHoldingDays: 10 },
       sizing: { maxPositions: 2, positionPct: null },
     }),

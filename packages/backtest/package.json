@@ -9,7 +9,9 @@
   "exports": {
     ".": "./src/index.ts",
     "./data": "./src/data/index.ts",
-    "./nl": "./src/nl.ts"
+    "./nl": "./src/nl.ts",
+    "./sighting": "./src/sighting.ts",
+    "./describe": "./src/describe.ts"
   },
   "scripts": {
     "test": "node --import tsx --test test/*.test.ts",

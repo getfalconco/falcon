@@ -54,7 +54,7 @@ Condition types:
 - n_day_return: percent change of the close over N sessions vs a threshold, e.g. "down 5% in 3 days" is days 3, op below, pct -5.
 - gap: today's open vs yesterday's close in percent.
 - breakout: close above the highest (or below the lowest) close of the prior N sessions. "52-week high" is about 252 sessions, but the maximum is ${LIMITS.maxIndicatorPeriod}.
-- earnings_surprise: EPS surprise percent = (actual - estimate) / |estimate| * 100. "a beat above 5%" is op above, pct 5. "a miss" is op below, pct 0 (or minus the stated size). daysAfter counts trading days after the release: "1 day after" or "the day after" is 1. For "hold 10 days" use exit.maxHoldingDays 10.
+- earnings_surprise: EPS surprise percent = (actual - estimate) / |estimate| * 100. "a beat above 5%" is op above, pct 5. "a miss" is op below, pct 0 (or minus the stated size). daysAfter counts trading days after the release: "1 day after" or "the day after" is 1. For "hold 10 days" use exit.maxHoldingDays 10. ticker null reads the traded ticker's own releases; set ticker to another company (e.g. "buy TSM the day after NVDA beats" is universe TSM, ticker NVDA) to trade after that company reports.
 - ripple_event: Falcon ripple cards. A card says an event at one company reaches a linked company as its customer, supplier, competitor or peer, with an expected direction (up, down, unclear). Use it only when the person asks about ripples, linked companies or card hits.
 
 Writing the rules:

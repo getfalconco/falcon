@@ -12,8 +12,17 @@ pnpm --filter @falcon/backtest examples    # 3 example strategies on real data, 
 pnpm --filter @falcon/backtest examples -- --nl   # same, rules parsed from the English text
 ```
 
-Website routes: `POST /api/backtest/parse` (text to rules and summary) and
-`POST /api/backtest/run` (rules to results; `GET` returns the limits).
+Website routes: `POST /api/backtest/parse` (text to rules and summary; `GET`
+says whether parsing is configured) and `POST /api/backtest/run` (rules to
+results; `GET` returns the limits).
+
+Also here: `TEMPLATES` (the three verified examples, offered as starters in the
+Strategy tab) and `strategyFromSighting(card)` (`@falcon/backtest/sighting`,
+type-only imports so the iPhone app can use it): "Backtest this" on a Sightings
+card. An earnings card becomes "buy the companies it reaches (those it expects
+up) at the open after each past beat (or miss) of the event company, hold for
+the card's window"; other event kinds use `ripple_event`, which has no history
+source yet, so the Strategy tab says so instead of running.
 
 ## Rules
 
@@ -24,7 +33,8 @@ equity per position), rebalancing (none, weekly, monthly).
 Conditions: `price_vs_ma` (SMA/EMA, above/below/crosses), `ma_cross`, `rsi`
 (Wilder), `n_day_return`, `gap`, `breakout` (new N-day high/low),
 `earnings_surprise` (EPS surprise above/below X%, D trading days after the
-release), `ripple_event` (a Ripple card hit with a given relation, direction,
+release; `ticker` set reads another company's releases, e.g. trade TSM the day
+after NVDA beats), `ripple_event` (a Ripple card hit with a given relation, direction,
 confidence; fed by a `RippleSource`, none is connected yet). Technical
 conditions can read another ticker (`ticker: "SPY"` as a market filter).
 

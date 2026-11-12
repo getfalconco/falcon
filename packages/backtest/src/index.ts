@@ -4,6 +4,7 @@
  *
  *   @falcon/backtest/data  Yahoo sources, disk cache, loader, one-call `backtest()` (Node)
  *   @falcon/backtest/nl    plain English -> rules with Claude (Node)
+ *   @falcon/backtest/sighting  a Sightings card -> rules (type-only imports; the iPhone app uses it)
  */
 
 export * from "./schema";
@@ -11,5 +12,7 @@ export * from "./engine";
 export * from "./metrics";
 export * from "./indicators";
 export { describeCondition, describeStrategy } from "./describe";
+export { strategyFromSighting, windowDays, type SightingBacktest } from "./sighting";
+export { SEMIS, TEMPLATES, type StrategyTemplate } from "./templates";
 export { isAdviceLike, neutralize, neutralizeList, plainStyle } from "./neutralize";
 export type { Bar, EarningsEvent, EarningsSource, MarketData, PriceSource, RippleSignal, RippleSource } from "./data/types";

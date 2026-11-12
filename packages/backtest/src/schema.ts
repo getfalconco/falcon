@@ -109,6 +109,9 @@ export const Breakout = z.object({
 
 export const EarningsSurprise = z.object({
   type: z.literal("earnings_surprise"),
+  ticker: Ticker.nullable().describe(
+    "Whose earnings releases: null = the traded ticker's own. Set it (e.g. NVDA) to trade other tickers after that company reports.",
+  ),
   op: SideOp.describe("above: EPS surprise above pct (a beat when pct >= 0). below: under pct (a miss when pct <= 0)."),
   pct: z.number().min(-1000).max(1000).describe("EPS surprise in percent: (actual - estimate) / |estimate| * 100"),
   daysAfter: DaysAfter,
