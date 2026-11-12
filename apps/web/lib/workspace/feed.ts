@@ -108,7 +108,7 @@ export type TickerExposure = {
   events: number;
 };
 
-/** Every focus ticker with what the feed shows about it, most reached first. */
+/** Every focus ticker with what the feed shows about it, most reached first. Weak signals do not count. */
 export function exposureByTicker(
   feed: SightingsFeed | null,
   focus: readonly { ticker: string; name?: string }[],
@@ -118,6 +118,7 @@ export function exposureByTicker(
     let events = 0;
     let companyName = f.name ?? "";
     for (const card of feed?.cards ?? []) {
+      if (isWeakSignal(card)) continue;
       const own = card.hits.filter((h) => h.ticker === f.ticker);
       if (own.length || card.event.ticker === f.ticker) events += 1;
       hits.push(...own);

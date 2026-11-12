@@ -139,6 +139,9 @@ export function Sidebar({ email, onSignOut, activeTicker, activeCardId }: { emai
   const cards = useMemo(() => sortByTime(feed?.cards ?? []), [feed]);
   // Weak signals (card confidence "low") go last, folded away.
   const split = useMemo(() => splitWeakSignals(cards), [cards]);
+  const [weakOpen, setWeakOpen] = useState(false);
+  // Open while one of its cards is the active tab.
+  const weakShown = weakOpen || split.weak.some((c) => c.id === activeCardId);
 
   return (
     <aside className="flex h-full w-[260px] shrink-0 flex-col border-r border-black/[0.08] bg-[#f6f6f3]" aria-label="Sidebar">
@@ -218,22 +221,27 @@ export function Sidebar({ email, onSignOut, activeTicker, activeCardId }: { emai
                 <p className="px-2 py-2 text-[12px] text-[#9a9a9a]">Only weak signals today</p>
               )}
               {split.weak.length ? (
-                <details className="group mt-2" open={split.weak.some((c) => c.id === activeCardId) || undefined}>
-                  <summary
-                    className={`${ROW} h-8 cursor-pointer list-none text-[11px] uppercase tracking-[0.14em] text-[#1d1b1b]/45 [&::-webkit-details-marker]:hidden`}
+                <div className="mt-2">
+                  <button
+                    type="button"
+                    onClick={() => setWeakOpen((v) => !v)}
+                    aria-expanded={weakShown}
+                    className={`${ROW} h-8 text-[11px] uppercase tracking-[0.14em] text-[#1d1b1b]/45`}
                     style={{ fontFamily: MONO }}
                     title="Cards whose best link is low confidence"
                   >
-                    <ChevronRight width={12} height={12} strokeWidth={2} className="shrink-0 transition-transform group-open:rotate-90" aria-hidden />
+                    <ChevronRight width={12} height={12} strokeWidth={2} className={`shrink-0 transition-transform ${weakShown ? "rotate-90" : ""}`} aria-hidden />
                     Weak signals
                     <span className="text-[#1d1b1b]/30">{split.weak.length}</span>
-                  </summary>
-                  <ul className="mt-0.5 flex flex-col opacity-80">
-                    {split.weak.map((card) => (
-                      <SightingRow key={card.id} card={card} active={activeCardId === card.id} mine={touchesFocus(card, focusSet)} onOpen={() => openSighting(card.id)} />
-                    ))}
-                  </ul>
-                </details>
+                  </button>
+                  {weakShown ? (
+                    <ul className="mt-0.5 flex flex-col opacity-80">
+                      {split.weak.map((card) => (
+                        <SightingRow key={card.id} card={card} active={activeCardId === card.id} mine={touchesFocus(card, focusSet)} onOpen={() => openSighting(card.id)} />
+                      ))}
+                    </ul>
+                  ) : null}
+                </div>
               ) : null}
             </>
           ) : (
