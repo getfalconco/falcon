@@ -7,9 +7,9 @@ import { SITE_URL, isAppHost } from "@/lib/app-host";
  * reset password and email codes all run inside /login), the welcome flow
  * members see right after signing in, the Workspace (/app) it hands over to,
  * invite claims, the admin area the login hands off to, and the API routes
- * they call.
+ * they call, plus the offline page the installed app falls back to.
  */
-const APP_HOST_PATHS = [/^\/login(\/|$)/, /^\/welcome(\/|$)/, /^\/app(\/|$)/, /^\/early-access(\/|$)/, /^\/invite(\/|$)/, /^\/admin(\/|$)/, /^\/api(\/|$)/];
+const APP_HOST_PATHS = [/^\/offline$/, /^\/login(\/|$)/, /^\/welcome(\/|$)/, /^\/app(\/|$)/, /^\/early-access(\/|$)/, /^\/invite(\/|$)/, /^\/admin(\/|$)/, /^\/api(\/|$)/];
 
 export function middleware(request: NextRequest) {
   const host = request.headers.get("x-forwarded-host") ?? request.headers.get("host");

@@ -4,6 +4,7 @@ import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import "./globals.css";
 import { SEO } from "@/lib/marketing-copy";
+import AppHostPwa from "./components/AppHostPwa";
 
 export const metadata: Metadata = {
   // Browser tabs get the bare name; the full line still goes to search and
@@ -38,6 +39,7 @@ export default function RootLayout({
     <html lang="en" className={`${inter.variable} ${playfair.variable} ${libreBaskerville.variable} ${GeistSans.variable} ${GeistMono.variable}`}>
       <body className="min-h-screen bg-[#fdfdfd] font-sans text-[#111111] antialiased">
         {children}
+        <AppHostPwa />
       </body>
     </html>
   );
