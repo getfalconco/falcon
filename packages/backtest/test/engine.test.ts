@@ -189,7 +189,7 @@ test("ripple conditions read the ripple feed; with no feed they never fire and s
   });
   const none = runBacktest(s, cfg(dates), market({ AAA: aaa, SPY: aaa }));
   assert.equal(none.trades.length, 0);
-  assert.ok(none.warnings.some((w) => w.includes("ripple")));
+  assert.ok(none.warnings.some((w) => w.includes("Sightings history")));
   const hit = (over: Partial<RippleSignal>): RippleSignal => ({
     ticker: "AAA",
     date: dates[2]!,

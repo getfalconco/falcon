@@ -66,8 +66,8 @@ test("describeStrategy: the rules in plain words", () => {
   );
   assert.deepEqual(lines, [
     "Trades SPY.",
-    "Buys at the next open when, on the close, SPY closes above its 200-day simple moving average.",
-    "Sells at the next open when, on the close, SPY closes below its 200-day simple moving average.",
+    "Enters at the next open when, on the close, SPY closes above its 200-day simple moving average.",
+    "Exits at the next open when, on the close, SPY closes below its 200-day simple moving average.",
     "Stop loss 8% below the entry price.",
     "One position at a time, 100% of equity.",
   ]);
@@ -80,7 +80,7 @@ test("describeStrategy: the rules in plain words", () => {
     }),
   );
   assert.ok(earn[1]!.includes("1 trading day after the stock reports earnings with an EPS surprise above +5%"));
-  assert.ok(earn.includes("Sells at the open after 10 trading days held."));
+  assert.ok(earn.includes("Exits at the open after 10 trading days held."));
   for (const l of [...lines, ...earn]) assert.ok(!/[\u2014\u2013]/.test(l));
 });
 

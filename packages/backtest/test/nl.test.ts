@@ -39,7 +39,7 @@ test("interpretOutput: validated rules, a summary written from them, advice drop
   assert.ok(r.ok);
   if (!r.ok) return;
   assert.equal(r.strategy.universe[0], "SPY");
-  assert.equal(r.summary[1], "Buys at the next open when, on the close, SPY closes above its 200-day simple moving average.");
+  assert.equal(r.summary[1], "Enters at the next open when, on the close, SPY closes above its 200-day simple moving average.");
   assert.deepEqual(r.assumptions, ["The 200-day average is a simple moving average."]);
 });
 

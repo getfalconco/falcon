@@ -116,10 +116,10 @@ export function strategyFromSighting(card: RippleCard): SightingBacktest {
       maxDegree: chosen.some((h) => h.degree === 2) ? 2 : 1,
       daysAfter: 1,
     };
-    basis = "ripple cards like this one";
-    name = `After ripple cards like ${eventTicker}'s, ${holdDays} days`;
+    basis = "Sightings like this one";
+    name = `After Sightings like ${eventTicker}'s, ${holdDays} days`;
     hasHistory = false;
-    notes.push("Past events of this type are read from ripple card history, which is not connected yet, so this run shows no trades.");
+    notes.push("Past events of this type are read from Sightings history, which is not connected yet, so this run shows no trades.");
   }
 
   const strategy: Strategy = {

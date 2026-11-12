@@ -17,7 +17,7 @@ export type StrategyTemplate = {
 export const TEMPLATES: StrategyTemplate[] = [
   {
     id: "spy-200",
-    text: "Buy SPY when it closes above its 200-day average, sell when below",
+    text: "Hold SPY while it closes above its 200-day average, exit when it closes below",
     rules: {
       version: 1,
       name: "SPY above 200-day average",
@@ -35,7 +35,7 @@ export const TEMPLATES: StrategyTemplate[] = [
   },
   {
     id: "semis-beat",
-    text: "Buy semiconductor stocks 1 day after an earnings beat above 5%, hold 10 days",
+    text: "Semiconductor stocks 1 day after an earnings beat above 5%, hold 10 days",
     rules: {
       version: 1,
       name: "Semis after a 5% EPS beat, 10 days",

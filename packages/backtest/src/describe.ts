@@ -52,7 +52,7 @@ export function describeCondition(c: Condition, subject: string): string {
         c.minConfidence ? `confidence ${c.minConfidence} or higher` : null,
         c.maxDegree === 1 ? "direct links only" : null,
       ].filter(Boolean);
-      return `${sessions(c.daysAfter)} after a ripple card reaches ${who}${parts.length ? ` (${parts.join(", ")})` : ""}`;
+      return `${sessions(c.daysAfter)} after a Sighting reaches ${who}${parts.length ? ` (${parts.join(", ")})` : ""}`;
     }
   }
 }
@@ -69,15 +69,15 @@ export function describeStrategy(s: Strategy): string[] {
   lines.push(
     s.universe.length === 1 ? `Trades ${s.universe[0]}.` : `Trades any of ${s.universe.length} tickers: ${s.universe.join(", ")}.`,
   );
-  lines.push(`Buys at the next open when, on the close, ${joinConditions(s.entry.conditions, subject, s.entry.mode)}.`);
+  lines.push(`Enters at the next open when, on the close, ${joinConditions(s.entry.conditions, subject, s.entry.mode)}.`);
 
   const exits: string[] = [];
   if (s.exit.conditions.length) {
-    exits.push(`Sells at the next open when, on the close, ${joinConditions(s.exit.conditions, subject, "any")}.`);
+    exits.push(`Exits at the next open when, on the close, ${joinConditions(s.exit.conditions, subject, "any")}.`);
   }
-  if (s.exit.maxHoldingDays !== null) exits.push(`Sells at the open after ${sessions(s.exit.maxHoldingDays)} held.`);
+  if (s.exit.maxHoldingDays !== null) exits.push(`Exits at the open after ${sessions(s.exit.maxHoldingDays)} held.`);
   if (s.exit.stopLossPct !== null) exits.push(`Stop loss ${num(s.exit.stopLossPct)}% below the entry price.`);
-  if (s.exit.takeProfitPct !== null) exits.push(`Takes profit ${num(s.exit.takeProfitPct)}% above the entry price.`);
+  if (s.exit.takeProfitPct !== null) exits.push(`Take profit ${num(s.exit.takeProfitPct)}% above the entry price.`);
   if (!exits.length) exits.push("No exit rule: positions stay open until the end of the test.");
   lines.push(...exits);
 

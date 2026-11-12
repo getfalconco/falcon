@@ -86,8 +86,8 @@ export const ASSUMPTIONS = [
   "Prices are adjusted for splits and dividends, so dividends are treated as reinvested.",
   "Shares are fractional. Slippage and commission apply to every fill.",
   "Sharpe uses daily returns and a 0% risk-free rate.",
-  "SPY buy-and-hold buys on the first day's close and sells on the last day's close, with the same costs.",
-  "Earnings and ripple events count as known at the end of the day they are published, so the earliest entry is the next open.",
+  "The SPY benchmark is held from the first day's close to the last day's close, with the same costs.",
+  "Earnings releases and Sightings count as known at the end of the day they are published, so the earliest entry is the next open.",
 ];
 
 export const CAVEATS = [
@@ -501,7 +501,7 @@ export function runBacktest(strategy: Strategy, config: RunConfig, data: MarketD
   const usesEarnings = [...strategy.entry.conditions, ...strategy.exit.conditions].some((c) => c.type === "earnings_surprise");
   const usesRipple = [...strategy.entry.conditions, ...strategy.exit.conditions].some((c) => c.type === "ripple_event");
   if (usesRipple && data.ripple.length === 0) {
-    warnings.push("No ripple card history is connected yet, so ripple conditions never fire in this run.");
+    warnings.push("No Sightings history is connected yet, so Sighting conditions never fire in this run.");
   }
   if (usesEarnings && trades.length === 0) warnings.push("No earnings releases matched the rules in this window.");
   if (skippedEntries > 0) {
