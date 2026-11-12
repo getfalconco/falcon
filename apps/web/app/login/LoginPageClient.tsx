@@ -12,6 +12,7 @@ import LoginForm from "../components/LoginForm";
 import WaitlistView from "../components/WaitlistView";
 import {
   hasSavedName,
+  isApproved,
   ownSessionFor,
   readWaitlistEmail as readStoredWaitlistEmail,
   readWaitlistFlag,
@@ -20,10 +21,9 @@ import {
   setWaitlistFlag,
 } from "@/lib/auth";
 import { isSupabaseConfigured, requireSupabase } from "@/lib/supabase";
-import { SITE_URL, isAppHost } from "@/lib/app-host";
 import { FUNNEL_TEST_MODE } from "@/lib/funnel-test-mode";
 // safeInternalPath keeps `?next=` same-origin (no open redirect via the login).
-import { needsWelcome, safeInternalPath } from "@/lib/onboarding";
+import { memberDestination, needsWelcome, safeInternalPath } from "@/lib/onboarding";
 
 type WaitlistStep = "login" | "name" | "waitlist";
 
@@ -118,6 +118,31 @@ function LoginPageContent() {
   const nextPath = nextParam ?? "/";
   const [step, setStep] = useState<WaitlistStep>("login");
   const [waitlistEmail, setWaitlistEmail] = useState<string | undefined>(undefined);
+  // A member with a saved session skips the form (sessions are not kept in funnel test mode).
+  const [resuming, setResuming] = useState(() => isSupabaseConfigured && !FUNNEL_TEST_MODE);
+
+  useEffect(() => {
+    if (!resuming) return;
+    let live = true;
+    (async () => {
+      try {
+        const client = requireSupabase();
+        const session = (await client.auth.getSession()).data.session;
+        if (session && isApproved(session.user) && !nextParam?.startsWith("/admin")) {
+          const target = memberDestination(nextParam);
+          const welcome = await needsWelcome(client);
+          if (live) router.replace(welcome ? `/welcome?next=${encodeURIComponent(target)}` : target);
+          return;
+        }
+      } catch {
+        // No session to resume: show the form.
+      }
+      if (live) setResuming(false);
+    })();
+    return () => {
+      live = false;
+    };
+  }, [nextParam, resuming, router]);
 
   useEffect(() => {
     // A deep-link target (e.g. /admin) means the visitor is trying to sign in,
@@ -166,6 +191,8 @@ function LoginPageContent() {
     setStep("login");
   }
 
+  if (resuming) return <AuthSplitShell>{null}</AuthSplitShell>;
+
   // The waitlist screen owns the whole viewport: it plays the choreographed
   // reveal (panel expand → headline → ticket → navbar) over the shader panel.
   if (step === "waitlist") {
@@ -209,16 +236,12 @@ function LoginPageContent() {
                 router.refresh();
               }}
               onSuccess={async () => {
-                const dest = safeInternalPath(nextPath, "/");
-                const target = dest.startsWith("/admin") || dest.startsWith("/welcome") ? "/" : dest;
+                // Members land in the Workspace (or the member page in `next`);
+                // a client side move keeps the session in memory in funnel test mode.
+                const target = memberDestination(nextParam);
                 // First sign-in: the welcome flow runs first and then goes on to `target`.
                 if (await needsWelcome(isSupabaseConfigured ? requireSupabase() : null)) {
                   router.push(`/welcome?next=${encodeURIComponent(target)}`);
-                  return;
-                }
-                // On the app host `/` is this login screen; members go on to the main site.
-                if (isAppHost(window.location.host)) {
-                  window.location.assign(`${SITE_URL}${target}`);
                   return;
                 }
                 router.push(target);

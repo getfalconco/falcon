@@ -5,16 +5,23 @@ import { SITE_URL, isAppHost } from "@/lib/app-host";
 /**
  * Paths the app host serves as-is: the login flow (sign in, early access,
  * reset password and email codes all run inside /login), the welcome flow
- * members see right after signing in, invite claims, the admin area the login
- * hands off to, and the API routes they call.
+ * members see right after signing in, the Workspace (/app) it hands over to,
+ * invite claims, the admin area the login hands off to, and the API routes
+ * they call.
  */
-const APP_HOST_PATHS = [/^\/login(\/|$)/, /^\/welcome(\/|$)/, /^\/early-access(\/|$)/, /^\/invite(\/|$)/, /^\/admin(\/|$)/, /^\/api(\/|$)/];
+const APP_HOST_PATHS = [/^\/login(\/|$)/, /^\/welcome(\/|$)/, /^\/app(\/|$)/, /^\/early-access(\/|$)/, /^\/invite(\/|$)/, /^\/admin(\/|$)/, /^\/api(\/|$)/];
 
 export function middleware(request: NextRequest) {
   const host = request.headers.get("x-forwarded-host") ?? request.headers.get("host");
-  if (!isAppHost(host)) return NextResponse.next();
-
   const { pathname, search } = request.nextUrl;
+  if (!isAppHost(host)) {
+    // The Workspace lives on the app host; getfalcon.co/app goes there.
+    if (/^\/app(\/|$)/.test(pathname) && /^(www\.)?getfalcon\.co$/i.test((host ?? "").split(":")[0])) {
+      return NextResponse.redirect(`https://app.getfalcon.co${pathname}${search}`, 308);
+    }
+    return NextResponse.next();
+  }
+
   // Static files (fonts, images, icons) are shared by both hosts.
   if (/\.[^/]+$/.test(pathname)) return NextResponse.next();
 

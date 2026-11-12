@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  transpilePackages: ["@meridian/ui"],
+  transpilePackages: ["@meridian/ui", "@falcon/ripple"],
   async redirects() {
     return [
       { source: "/jobs", destination: "/careers", permanent: true },

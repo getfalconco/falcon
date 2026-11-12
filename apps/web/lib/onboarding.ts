@@ -155,6 +155,20 @@ export function safeInternalPath(path: string | null | undefined, fallback: stri
   return path;
 }
 
+/** The member home: the Workspace, after sign-in and the welcome flow. */
+export const WORKSPACE_PATH = "/app";
+
+/**
+ * Where a member goes after signing in or finishing the welcome flow: `next`
+ * when it names another member page, otherwise the Workspace. The site root,
+ * the login, the welcome flow itself and the admin area all mean "home".
+ */
+export function memberDestination(next: string | null | undefined): string {
+  const dest = safeInternalPath(next, WORKSPACE_PATH);
+  if (dest === "/" || /^\/(welcome|login|admin)(\/|\?|$)/.test(dest)) return WORKSPACE_PATH;
+  return dest;
+}
+
 /* ------------------------------------------------------------------ */
 /* Local state: completion flag and resumable progress                 */
 /* ------------------------------------------------------------------ */

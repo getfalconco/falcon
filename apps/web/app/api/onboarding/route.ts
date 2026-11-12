@@ -36,7 +36,7 @@ const NO_STORE = { "Cache-Control": "no-store" };
  * supabase/migrations/20261109_welcome_flow_answers.sql in a second step, so
  * a missing migration loses only those.
  *
- *   GET  /api/onboarding            -> 200 { completed }
+ *   GET  /api/onboarding            -> 200 { completed, watchlist }
  *   POST /api/onboarding {answers}  -> 200 { saved: "all" | "partial" }
  *   401 missing or invalid token, 429 rate limited, 502 save failed
  */
@@ -55,13 +55,17 @@ export async function GET(request: Request) {
 
     const { data, error } = await getSupabaseAdmin()
       .from("onboarding_responses")
-      .select("welcome_completed_at")
+      .select("welcome_completed_at, watchlist")
       .eq("user_id", user.id)
       .maybeSingle();
     if (error) throw error;
 
-    const completedAt = (data as { welcome_completed_at?: string | null } | null)?.welcome_completed_at;
-    return NextResponse.json({ completed: Boolean(completedAt) }, { headers: NO_STORE });
+    const row = data as { welcome_completed_at?: string | null; watchlist?: unknown } | null;
+    // The focus list the Workspace opens with (tickers from the welcome flow).
+    const watchlist = Array.isArray(row?.watchlist)
+      ? row.watchlist.filter((t): t is string => typeof t === "string" && TICKER_PATTERN.test(t)).slice(0, MAX_STOCKS)
+      : [];
+    return NextResponse.json({ completed: Boolean(row?.welcome_completed_at), watchlist }, { headers: NO_STORE });
   } catch (error) {
     console.error("[api/onboarding GET]", error);
     return NextResponse.json({ error: "Failed to load." }, { status: 500, headers: NO_STORE });

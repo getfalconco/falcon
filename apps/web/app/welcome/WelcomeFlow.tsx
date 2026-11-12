@@ -5,7 +5,6 @@ import type { ReactNode } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion, useReducedMotion, type MotionProps } from "framer-motion";
 import { ChevronLeft, Loader2 } from "lucide-react";
-import { SITE_URL, isAppHost } from "@/lib/app-host";
 import {
   EMPTY_ANSWERS,
   FRUSTRATIONS,
@@ -22,13 +21,14 @@ import {
   type SectorId,
   type WelcomeAnswers,
   blindSpotScore,
+  memberDestination,
   needsWelcome,
   readProgress,
-  safeInternalPath,
   saveWelcomeAnswers,
   writeProgress,
 } from "@/lib/onboarding";
 import { isSupabaseConfigured, requireSupabase } from "@/lib/supabase";
+import { handOverFromWelcome } from "@/lib/workspace/focus";
 import AuthSplitShell from "../components/AuthSplitShell";
 import GetStartedButton, { BUTTON_TEXT_STYLE, SECONDARY_BUTTON_CLASS } from "../components/GetStartedButton";
 import {
@@ -251,16 +251,13 @@ function WelcomeContent() {
     [reduceMotion],
   );
 
-  /** Leaves the flow for the same place the login screen sent members before it existed. */
+  /**
+   * Leaves the flow for the Workspace (or the member page in `next`). A client
+   * side move, so the session and the focus list handed over stay in memory.
+   */
   const leaveFlow = useCallback(
     (replace = false) => {
-      const dest = safeInternalPath(searchParams.get("next"), "/");
-      const target = dest.startsWith("/welcome") || dest.startsWith("/admin") ? "/" : dest;
-      if (isAppHost(window.location.host)) {
-        if (replace) window.location.replace(`${SITE_URL}${target}`);
-        else window.location.assign(`${SITE_URL}${target}`);
-        return;
-      }
+      const target = memberDestination(searchParams.get("next"));
       if (replace) router.replace(target);
       else router.push(target);
     },
@@ -283,6 +280,8 @@ function WelcomeContent() {
   const finish = useCallback(async () => {
     setFinishing(true);
     await save(true);
+    // The Workspace opens with these as the focus list (the only copy in funnel test mode).
+    handOverFromWelcome(answersRef.current.stocks);
     leaveFlow();
   }, [leaveFlow, save]);
 
