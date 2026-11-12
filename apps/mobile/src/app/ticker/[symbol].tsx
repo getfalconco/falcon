@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import type { Relation } from "@falcon/ripple";
+import { analystsFor, analystsLabel, type Relation } from "@falcon/ripple";
 import { PushedScreen } from "@/components/PushedScreen";
 import { Reveal } from "@/components/Reveal";
 import { useConnections, type Connection } from "@/lib/connections";
@@ -87,6 +87,7 @@ export default function TickerScreen() {
   const held = useMemo(() => heldTickers(sightings.holdings), [sightings.holdings]);
   const isHeld = held.has(ticker);
   const direction = tickerDirection(allCards, ticker);
+  const analysts = analystsFor(allCards, ticker);
   const graph = useConnections(ticker, allCards);
   const [showAll, setShowAll] = useState(false);
   const [secName, setSecName] = useState<string | null>(null);
@@ -165,6 +166,7 @@ export default function TickerScreen() {
         <Text style={styles.title} accessibilityRole="header">
           {name || ticker}
         </Text>
+        {analysts !== null ? <Text style={styles.analysts}>{analystsLabel(analysts)}</Text> : null}
         {!loading && cards.length > 0 ? (
           <View style={styles.today}>
             {direction ? (
@@ -257,6 +259,7 @@ const styles = StyleSheet.create({
   addPressed: { opacity: 0.85 },
   addText: { fontFamily: fonts.sans, fontSize: 14, color: colors.primaryText },
   kickerRow: { flexDirection: "row", alignItems: "center", gap: 8 },
+  analysts: { marginTop: 4, fontFamily: fonts.sans, fontSize: 13, color: colors.faint },
   kicker: {
     fontFamily: fonts.mono,
     fontSize: 11,

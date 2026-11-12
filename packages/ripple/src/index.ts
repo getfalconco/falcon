@@ -147,6 +147,12 @@ export type RippleHit = {
    * is not priced in. Screens read this flag; they never re-derive it.
    */
   opportunityEligible?: boolean;
+  /**
+   * Optional (added by the engine): how many analysts give an opinion on the
+   * hit company (Yahoo's numberOfAnalystOpinions at the run), null when
+   * unknown. Fewer analysts raise the hit's score (README, "Coverage").
+   */
+  analysts?: number | null;
 };
 
 /** A hit's move since its event (see RippleHit.sinceEvent). */
@@ -281,4 +287,16 @@ export function opportunityCard<T extends RippleCard>(card: T, exclude?: Readonl
   if (isWeakSignal(card)) return null;
   const hits = card.hits.filter((h) => h.opportunityEligible === true && !exclude?.has(h.ticker.toUpperCase()));
   return hits.length ? { ...card, hits } : null;
+}
+
+/** The analyst count the engine recorded for a ticker on any of these cards' hits, or null. */
+export function analystsFor(cards: readonly Pick<RippleCard, "hits">[], ticker: string): number | null {
+  const t = ticker.toUpperCase();
+  for (const c of cards) for (const h of c.hits) if (h.ticker.toUpperCase() === t && typeof h.analysts === "number") return h.analysts;
+  return null;
+}
+
+/** "1 analyst", "8 analysts". */
+export function analystsLabel(n: number): string {
+  return `${n} analyst${n === 1 ? "" : "s"}`;
 }

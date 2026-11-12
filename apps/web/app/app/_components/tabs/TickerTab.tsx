@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { analystsFor, analystsLabel } from "@falcon/ripple";
 import { cardsForTicker, companyNameFor, connectionsFor, netDirection, sectorFor } from "@/lib/workspace/feed";
 import { buildGraph, withSeedConnections } from "@/lib/workspace/graph";
 import { useGraphNeighborhood } from "@/lib/workspace/graph-api";
@@ -61,6 +62,7 @@ export function TickerTab({ ticker }: { ticker: string }) {
   const { feed, feedStatus, openTicker, openSighting } = useWorkspace();
   const name = useCompanyName(ticker);
   const sector = sectorFor(feed, ticker);
+  const analysts = analystsFor(feed?.cards ?? [], ticker);
   const { hitting, at } = useMemo(() => cardsForTicker(feed, ticker), [feed, ticker]);
   const extra = useGraphNeighborhood([ticker], 1);
   const connections = useMemo(() => withSeedConnections(connectionsFor(feed, ticker), extra, ticker), [extra, feed, ticker]);
@@ -76,6 +78,7 @@ export function TickerTab({ ticker }: { ticker: string }) {
               {ticker}
             </span>
             {sector ? <span className="text-[12px] text-[#9a9a9a]">{sector}</span> : null}
+            {analysts !== null ? <span className="text-[12px] text-[#9a9a9a]">{analystsLabel(analysts)}</span> : null}
           </div>
           <h1 className="mt-1 truncate text-[28px] leading-[36px] text-[#1d1b1b]" style={{ fontFamily: SERIF }}>
             {name ?? ticker}

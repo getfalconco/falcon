@@ -11,7 +11,9 @@
  *   - EPS is in the listing's currency (an ADR: US dollars).
  */
 
-import { BROWSER_USER_AGENT, fetchResponse, HOUR_MS } from "./http.ts";
+import fs from "node:fs";
+import path from "node:path";
+import { BROWSER_USER_AGENT, ENGINE_ROOT, fetchResponse, HOUR_MS } from "./http.ts";
 
 export type EarningsQuarterRead = {
   /** Yahoo's label, e.g. "3Q2026" (calendar quarter for most US filers). */
@@ -165,22 +167,83 @@ export function parseCoverage(json: unknown): CoverageRead | null {
   return { analysts: analysts === null ? null : Math.round(analysts), marketCapUsd: cap };
 }
 
-const coverageCache = new Map<string, CoverageRead | null>();
+/**
+ * Coverage source (approved 2026-11-12): Yahoo quoteSummary
+ * `financialData.numberOfAnalystOpinions`, through the same cookie and crumb
+ * session as the EPS reads. Terms: Yahoo's terms forbid automated and
+ * commercial use, so this is a stand-in until the first paying user; then a
+ * licensed source (Finnhub or FMP paid) takes its place behind this function.
+ *
+ * Analyst counts change slowly: each read is kept on disk for
+ * COVERAGE_TTL_MS (packages/engine/.cache/coverage), requests are spaced
+ * COVERAGE_SPACING_MS apart, and when Yahoo cannot be read a cached copy up
+ * to COVERAGE_STALE_MS old is used instead.
+ */
+export const COVERAGE_TTL_MS = 3 * 24 * HOUR_MS;
+export const COVERAGE_STALE_MS = 30 * 24 * HOUR_MS;
+export const COVERAGE_SPACING_MS = 400;
+export const COVERAGE_CACHE_DIR = path.join(ENGINE_ROOT, ".cache", "coverage");
 
-/** A ticker's analyst coverage; null when Yahoo is unreachable or has no figures. Never throws. */
-export async function yahooCoverage(ticker: string): Promise<CoverageRead | null> {
+type CoverageFile = { at: number; value: CoverageRead | null };
+
+function coverageFile(dir: string, ticker: string): string {
+  return path.join(dir, `${ticker.replace(/[^A-Z0-9.-]/g, "_")}.json`);
+}
+
+/** A cached read and its age in ms, or null. */
+export function readCoverageCache(dir: string, ticker: string, nowMs = Date.now()): { value: CoverageRead | null; ageMs: number } | null {
+  try {
+    const body = JSON.parse(fs.readFileSync(coverageFile(dir, ticker), "utf8")) as CoverageFile;
+    if (typeof body?.at !== "number" || !("value" in body)) return null;
+    return { value: body.value, ageMs: nowMs - body.at };
+  } catch {
+    return null;
+  }
+}
+
+export function writeCoverageCache(dir: string, ticker: string, value: CoverageRead | null, nowMs = Date.now()): void {
+  try {
+    fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(coverageFile(dir, ticker), JSON.stringify({ at: nowMs, value } satisfies CoverageFile));
+  } catch {
+    // A cache that cannot be written only costs a refetch.
+  }
+}
+
+const coverageCache = new Map<string, CoverageRead | null>();
+let lastCoverageAt = 0;
+
+/**
+ * A ticker's analyst coverage; null when Yahoo has no figures, or cannot be
+ * read and nothing is cached. Never throws.
+ */
+export async function yahooCoverage(ticker: string, dir: string = COVERAGE_CACHE_DIR): Promise<CoverageRead | null> {
   const key = ticker.toUpperCase();
   if (coverageCache.has(key)) return coverageCache.get(key)!;
+  const cached = readCoverageCache(dir, key);
+  if (cached && cached.ageMs >= 0 && cached.ageMs < COVERAGE_TTL_MS) {
+    coverageCache.set(key, cached.value);
+    return cached.value;
+  }
   let out: CoverageRead | null = null;
+  let read = false;
   try {
     const { cookie, crumb } = await yahooSession();
+    const wait = lastCoverageAt + COVERAGE_SPACING_MS - Date.now();
+    if (wait > 0) await new Promise((r) => setTimeout(r, wait));
+    lastCoverageAt = Date.now();
     const url = `https://query2.finance.yahoo.com/v10/finance/quoteSummary/${encodeURIComponent(key)}?modules=financialData,price&crumb=${encodeURIComponent(crumb)}`;
     const res = await fetchResponse(url, { headers: { "User-Agent": BROWSER_USER_AGENT, Cookie: cookie } });
-    if (res.ok) out = parseCoverage(await res.json());
-    else if (res.status !== 404) failures.push(`${key} coverage: HTTP ${res.status}`);
+    if (res.ok) {
+      out = parseCoverage(await res.json());
+      read = true;
+    } else if (res.status === 404) read = true;
+    else failures.push(`${key} coverage: HTTP ${res.status}`);
   } catch (err) {
     if (!sessionFailure) failures.push(`${key} coverage: ${err instanceof Error ? err.message : err}`);
   }
+  if (read) writeCoverageCache(dir, key, out);
+  else if (cached && cached.ageMs < COVERAGE_STALE_MS) out = cached.value;
   coverageCache.set(key, out);
   return out;
 }

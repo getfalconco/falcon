@@ -7,8 +7,8 @@
  * Why (vault: Ripple Engine, Evidence): many links fail and the edge is in
  * the average, so a hit's record has to earn a high rating; a list mention
  * with a record no better than a coin flip says nothing; the effect is
- * stronger in names few analysts follow, so a card with such a hit, or a
- * degree 2 hit, is preferred.
+ * stronger in names few analysts follow, so such a hit's score is raised
+ * (coverageBoost), and a card with a degree 2 hit is preferred.
  *
  * Pure: nothing here reads a source; coverage figures are passed in.
  */
@@ -173,25 +173,45 @@ export function opportunityEligible(r: Pick<RecordRead, "verdict" | "lower" | "s
 }
 
 // ---------------------------------------------------------------------------
-// Coverage (analyst-coverage proxy)
+// Coverage (analyst count, Yahoo numberOfAnalystOpinions; src/yahoo.ts)
 
 export type Coverage = { analysts: number | null; marketCapUsd: number | null };
 
-/** At or under this many analysts with an opinion (Yahoo's numberOfAnalystOpinions) is low coverage. */
-export const LOW_COVERAGE_ANALYSTS = 10;
-/** Without an analyst count: under this market value is low coverage. */
+/** Full boost at or under this many analysts. */
+export const COVERAGE_FULL_AT = 3;
+/** No boost at or over this many analysts. */
+export const COVERAGE_NONE_AT = 20;
+/** The most a hit's score is raised for low coverage: x1.25. */
+export const COVERAGE_BOOST_MAX = 0.25;
+/** Without an analyst count, a market value under this counts as CAP_FALLBACK_ANALYSTS analysts. */
 export const LOW_COVERAGE_CAP_USD = 10e9;
+export const CAP_FALLBACK_ANALYSTS = 10;
 
-/** Pure. Unknown coverage is not low. */
-export function lowCoverage(c: Coverage | null | undefined): boolean {
-  if (!c) return false;
-  if (c.analysts !== null) return c.analysts <= LOW_COVERAGE_ANALYSTS;
-  return c.marketCapUsd !== null && c.marketCapUsd < LOW_COVERAGE_CAP_USD;
+/**
+ * The analyst count the boost uses: the count, else CAP_FALLBACK_ANALYSTS
+ * for a market value under $10 billion, else null (unknown is not low). Pure.
+ */
+export function effectiveAnalysts(c: Coverage | null | undefined): number | null {
+  if (!c) return null;
+  if (c.analysts !== null && Number.isFinite(c.analysts)) return Math.max(0, c.analysts);
+  return c.marketCapUsd !== null && c.marketCapUsd < LOW_COVERAGE_CAP_USD ? CAP_FALLBACK_ANALYSTS : null;
 }
 
-/** A hit the market is less likely to have priced at once: degree 2, or few analysts. Pure. */
-export function isNonObvious(hit: Pick<RippleHit, "degree">, coverage: Coverage | null | undefined): boolean {
-  return hit.degree === 2 || lowCoverage(coverage);
+/**
+ * The hit score's coverage multiplier, 1 to 1.25:
+ *   1 + 0.25 * clamp((20 - a) / (20 - 3), 0, 1)
+ * a the effective analyst count; 1 when it is unknown. Pure.
+ */
+export function coverageBoost(c: Coverage | null | undefined): number {
+  const a = effectiveAnalysts(c);
+  if (a === null) return 1;
+  const t = Math.min(1, Math.max(0, (COVERAGE_NONE_AT - a) / (COVERAGE_NONE_AT - COVERAGE_FULL_AT)));
+  return 1 + COVERAGE_BOOST_MAX * t;
+}
+
+/** A hit the market is less likely to have priced at once: degree 2 (coverage now raises the hit's own score). Pure. */
+export function isNonObvious(hit: Pick<RippleHit, "degree">): boolean {
+  return hit.degree === 2;
 }
 
 // ---------------------------------------------------------------------------
@@ -208,15 +228,16 @@ export const PENDING_ACQUISITION_FACTOR = 0.3;
 
 /**
  * A hit's score, 0 to 100:
- *   100 * D * (0.25 L + 0.45 R + 0.15 C + 0.15 S)
+ *   min(100, 100 * D * B * (0.25 L + 0.45 R + 0.15 C + 0.15 S))
  * L link strength, R record strength, C the confidence after the record's
  * cap (1/3, 2/3, 1; the judge's call, never raised), S the event's size,
- * D 0.5 for an unclear direction.
+ * D 0.5 for an unclear direction, B the coverage boost (1 to 1.25).
  * Pure.
  */
-export function hitScore(p: { link: LinkTier; record: number; confidence: Confidence; size: number; direction: Direction }): number {
+export function hitScore(p: { link: LinkTier; record: number; confidence: Confidence; size: number; direction: Direction; boost?: number }): number {
   const raw = WEIGHTS.link * LINK_STRENGTH[p.link] + WEIGHTS.record * p.record + WEIGHTS.judge * CONF_WEIGHT[p.confidence] + WEIGHTS.size * p.size;
-  return Math.round(1000 * raw * (p.direction === "unclear" ? UNCLEAR_FACTOR : 1)) / 10;
+  const score = Math.round(1000 * raw * (p.direction === "unclear" ? UNCLEAR_FACTOR : 1) * (p.boost ?? 1)) / 10;
+  return Math.min(100, score);
 }
 
 /** A card's score from its kept hits' scores. Pure. */
@@ -269,7 +290,7 @@ function recordPhrase(r: RecordRead, direction: Direction): string {
 }
 
 function coveragePhrase(c: Coverage | null | undefined): string | null {
-  if (!lowCoverage(c)) return null;
+  if (coverageBoost(c) <= 1) return null;
   if (c!.analysts !== null) return `${c!.analysts} analyst${c!.analysts === 1 ? "" : "s"} cover it`;
   return "market value under $10 billion";
 }
@@ -288,7 +309,7 @@ export type RankedHits = {
   hits: Array<{ hit: RippleHit; path: Path }>;
   dropped: Array<{ ticker: string; why: string }>;
   capped: Array<{ ticker: string; from: Confidence; to: Confidence; why: string }>;
-  /** Whether a kept hit is degree 2 or has low coverage. */
+  /** Whether a kept hit is degree 2. */
   nonObvious: boolean;
   score: number;
 };
@@ -330,8 +351,8 @@ export function rankHits(
       const rec = r.verdict === "none" ? "" : ` (${r.wins} of ${r.sample}, lower bound ${r.lower.toFixed(2)})`;
       capped.push({ ticker: hit.ticker, from: judged, to: confidence, why: `${VERDICT_WHY[r.verdict]}${rec}` });
     }
-    const score = hitScore({ link: strength.tier, record: recordStrength(r, hit.history, hit.direction), confidence, size, direction: hit.direction });
     const cov = coverage(hit.ticker);
+    const score = hitScore({ link: strength.tier, record: recordStrength(r, hit.history, hit.direction), confidence, size, direction: hit.direction, boost: coverageBoost(cov) });
     kept.push({
       path,
       score,
@@ -341,13 +362,14 @@ export function rankHits(
         score,
         scoreReason: scoreReasonOf(strength, path, r, hit.direction, cov),
         opportunityEligible: opportunityEligible(r, confidence, hit.direction, hit.pricedIn),
+        analysts: cov?.analysts ?? null,
       },
     });
   }
   kept.sort((a, b) => b.score - a.score || a.hit.degree - b.hit.degree || a.hit.ticker.localeCompare(b.hit.ticker));
   const top = kept.slice(0, maxHits);
   for (const x of kept.slice(maxHits)) dropped.push({ ticker: x.hit.ticker, why: `past the ${maxHits} best hits (score ${x.score})` });
-  const nonObvious = top.some((x) => isNonObvious(x.hit, coverage(x.hit.ticker)));
+  const nonObvious = top.some((x) => isNonObvious(x.hit));
   const score = top.length ? cardScoreOf(top.map((x) => x.score), { nonObvious, pendingAcquisition: ev.pendingAcquisition }) : 0;
   return { hits: top.map(({ hit, path }) => ({ hit, path })), dropped, capped, nonObvious, score };
 }

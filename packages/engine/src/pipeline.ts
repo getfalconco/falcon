@@ -36,7 +36,7 @@ export type RunOptions = {
   history?: HistoryDeps | null;
   /** Why there are no history sources this run (said in the summary). */
   historyUnavailable?: string;
-  /** Analyst coverage of a hit company (src/rank.ts, low-coverage hits). Without it no hit counts as low coverage. */
+  /** Analyst coverage of a hit company (src/rank.ts, coverageBoost). Without it no hit gets a coverage boost. */
   coverage?: ((ticker: string) => Promise<Coverage | null>) | null;
 };
 

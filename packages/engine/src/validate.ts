@@ -108,6 +108,7 @@ export function hitProblems(h: RippleHit, where: string): string[] {
     }
   }
   if (h.sinceEvent !== undefined && h.sinceEvent !== null) out.push(...sinceEventProblems(h.sinceEvent, `${where}.sinceEvent`));
+  if (h.analysts !== undefined && h.analysts !== null && !(Number.isInteger(h.analysts) && h.analysts >= 0 && h.analysts < 500)) out.push(`${where}: analysts must be a whole number or null`);
   if (h.pricedIn !== undefined && typeof h.pricedIn !== "boolean") out.push(`${where}: pricedIn must be true or false`);
   if (h.pricedIn === true && (!h.sinceEvent || h.sinceEvent.pricedInAtPct === null || !h.history)) out.push(`${where}: priced in without a measured move and record`);
   if (h.opportunityEligible !== undefined) {

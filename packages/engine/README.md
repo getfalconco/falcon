@@ -49,10 +49,29 @@ a 50-event coin flip earns: both say little).
 `min(|surprise %|, 30) / 30`; a monthly revenue change (no consensus to beat)
 counts a third as much per point, `min(|YoY %|, 60) / 180`.
 
-**Coverage** (`src/yahoo.ts`, `yahooCoverage`): Yahoo's
-`numberOfAnalystOpinions` and market value. Low coverage: 10 analysts or
-fewer; without a count, a market value under $10 billion. Unknown is not low.
-A hit is **non-obvious** when it is degree 2 or low coverage.
+**Coverage** (`src/yahoo.ts`, `yahooCoverage`; `coverageBoost` in
+`src/rank.ts`): the analyst count `a` is Yahoo quoteSummary
+`financialData.numberOfAnalystOpinions`, read through the same cookie and
+crumb session as the EPS figures, at most one request per 400 ms, and kept
+on disk for 3 days (`.cache/coverage`; a copy up to 30 days old is used
+when Yahoo cannot be read). Without a count, a market value under $10
+billion counts as `a = 10`; with neither, no boost (unknown is not low).
+
+```
+B = 1 + 0.25 * clamp((20 - a) / (20 - 3), 0, 1)
+```
+
+So 3 or fewer analysts x1.25, 8 x1.18, 10 x1.15, 12 x1.12, 20 or more x1.
+Why: the effect is strongest where few analysts look (vault: Ripple Engine,
+Evidence); the tested semis split at about 20 (large caps 20 to 56, small and
+mid-cap equipment names 8 to 12). Each hit carries its count as `analysts`.
+A hit is **non-obvious** when it is degree 2 (coverage now raises the hit's
+own score, so it no longer lifts the whole card).
+
+Terms: Yahoo's terms forbid automated and commercial use of its data, so
+this source is a stand-in for the build-up. Switch to a licensed source
+(Finnhub or Financial Modeling Prep, paid) before the first paying user;
+only `yahooCoverage` changes.
 
 ### Confidence
 
@@ -82,17 +101,18 @@ or competitor links.)
 Hit score, 0 to 100 (`hitScore`):
 
 ```
-score = 100 * D * (0.25 L + 0.45 R + 0.15 C + 0.15 S)
+score = min(100, 100 * D * B * (0.25 L + 0.45 R + 0.15 C + 0.15 S))
 ```
 
 C is the confidence after the cap (low 1/3, medium 2/3, high 1); D is 0.5 for
-an "unclear" direction (no implied way, so no record can back it), else 1.
+an "unclear" direction (no implied way, so no record can back it), else 1;
+B the coverage boost above.
 Hits on a card are ordered by score, then degree, then ticker.
 
 Card score (`cardScoreOf`):
 
 ```
-card = (h1 + 0.5 h2 + 0.25 h3) * (1.25 if a kept hit is non-obvious) * (0.3 if the company is being acquired)
+card = (h1 + 0.5 h2 + 0.25 h3) * (1.25 if a kept hit is degree 2) * (0.3 if the company is being acquired)
 ```
 
 h1..h3 are the card's best three hit scores. Cards are ordered by score (a
@@ -102,7 +122,7 @@ graph's link weights), with 2 spare events so a card that loses every hit
 can be replaced.
 
 Each hit carries `score` and `scoreReason`: one plain sentence naming the
-link, the record and, for a low-coverage name, the analyst count, e.g. "A
+link, the record and, for a name with a coverage boost, the analyst count, e.g. "A
 filing puts this link above 10% of revenue; went the implied way 27 of 50
 times, no better than a coin flip." The run log lists every cap and drop with
 its reason (`RunResult.ranking`).

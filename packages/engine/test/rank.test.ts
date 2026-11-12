@@ -10,8 +10,9 @@ import {
   edgeStrength,
   eventSize,
   hitScore,
+  coverageBoost,
+  effectiveAnalysts,
   isNonObvious,
-  lowCoverage,
   pathStrength,
   rankHits,
   readRecord,
@@ -155,13 +156,33 @@ describe("confidence caps", () => {
 });
 
 describe("coverage", () => {
-  it("reads few analysts, or a small market value without a count, as low coverage", () => {
-    assert.equal(lowCoverage({ analysts: 8, marketCapUsd: 1e12 }), true);
-    assert.equal(lowCoverage({ analysts: 26, marketCapUsd: 5e9 }), false);
-    assert.equal(lowCoverage({ analysts: null, marketCapUsd: 5e9 }), true);
-    assert.equal(lowCoverage(null), false);
-    assert.equal(isNonObvious({ degree: 2 }, null), true);
-    assert.equal(isNonObvious({ degree: 1 }, { analysts: 30, marketCapUsd: null }), false);
+  it("boosts a hit by 1 + 0.25 * clamp((20 - a) / 17, 0, 1)", () => {
+    const b = (analysts: number | null, marketCapUsd: number | null = null) => Math.round(coverageBoost({ analysts, marketCapUsd }) * 1000) / 1000;
+    assert.equal(b(3), 1.25);
+    assert.equal(b(0), 1.25);
+    assert.equal(b(8), 1.176);
+    assert.equal(b(10), 1.147);
+    assert.equal(b(12), 1.118);
+    assert.equal(b(20), 1);
+    assert.equal(b(56), 1);
+  });
+
+  it("falls back to 10 analysts under a $10 billion market value; unknown is no boost", () => {
+    assert.equal(effectiveAnalysts({ analysts: null, marketCapUsd: 5e9 }), 10);
+    assert.equal(effectiveAnalysts({ analysts: null, marketCapUsd: 2e10 }), null);
+    assert.equal(effectiveAnalysts({ analysts: 8, marketCapUsd: 1e12 }), 8);
+    assert.equal(coverageBoost({ analysts: null, marketCapUsd: 2e10 }), 1);
+    assert.equal(coverageBoost(null), 1);
+  });
+
+  it("raises the hit score, capped at 100; only degree 2 marks a card non-obvious", () => {
+    const base = { link: "disclosed" as const, record: 1, confidence: "high" as const, size: 1, direction: "up" as const };
+    assert.equal(hitScore(base), 100);
+    assert.equal(hitScore({ ...base, boost: 1.25 }), 100);
+    const mid = { ...base, record: 0.5, size: 0.2 };
+    assert.equal(hitScore({ ...mid, boost: 1.25 }), Math.round(hitScore(mid) * 1.25 * 10) / 10);
+    assert.equal(isNonObvious({ degree: 2 }), true);
+    assert.equal(isNonObvious({ degree: 1 }), false);
   });
 
   it("parses Yahoo's analyst count and US dollar market value", () => {
@@ -239,13 +260,14 @@ describe("ranking a card", () => {
     assert.equal(r.dropped.length, 2);
   });
 
-  it("keeps the best maxHits and marks a card with a low-coverage or degree 2 hit", () => {
+  it("keeps the best maxHits, boosts a low-coverage hit and marks a card with a degree 2 hit", () => {
     const cov = (t: string): Coverage | null => (t === "NVMI" ? { analysts: 8, marketCapUsd: 1e10 } : { analysts: 30, marketCapUsd: 1e11 });
     const hits = [pair("A", edge()), pair("B", edge()), pair("NVMI", edge(), { history: hist(9, 14, 3.18) })];
     const r = rankHits(ONTO, hits, cov, 2);
     assert.equal(r.hits.length, 2);
     assert.equal(r.hits[0]!.hit.ticker, "NVMI");
-    assert.equal(r.nonObvious, true);
+    assert.equal(r.hits[0]!.hit.analysts, 8);
+    assert.equal(r.nonObvious, false);
     assert.match(r.hits[0]!.hit.scoreReason!, /8 analysts cover it\.$/);
     assert.deepEqual(r.dropped.map((d) => d.ticker), ["B"]);
     assert.equal(rankHits(ONTO, [pair("A", edge())], cov).nonObvious, false);

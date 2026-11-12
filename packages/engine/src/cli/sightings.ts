@@ -15,7 +15,7 @@
  *                         saved file in data/judgments/.
  *   --no-supabase         do not write to Supabase even when DATABASE_URL is set
  *   --no-history          leave every hit's history null (no price or past-filing reads)
- *   --no-coverage         do not read analyst coverage from Yahoo (no hit counts as low coverage)
+ *   --no-coverage         do not read analyst coverage from Yahoo (no coverage boost)
  *   --out FILE            where to write the feed (default out/sightings.json)
  *
  * Without ANTHROPIC_API_KEY (environment or apps/web/.env.local) and without
@@ -89,7 +89,7 @@ function newestJudgments(): string | null {
 
 function printRanking(r: RunResult["ranking"]): void {
   console.log("\nRanking (src/rank.ts)");
-  for (const c of r.cards) console.log(`  ${c.chosen ? "in feed " : "left out"}  ${c.ticker.padEnd(5)} score ${c.score}${c.nonObvious ? " (has a non-obvious hit)" : ""}  ${c.eventId}`);
+  for (const c of r.cards) console.log(`  ${c.chosen ? "in feed " : "left out"}  ${c.ticker.padEnd(5)} score ${c.score}${c.nonObvious ? " (has a degree 2 hit)" : ""}  ${c.eventId}`);
   for (const c of r.droppedCards) console.log(`  no card   ${c.ticker.padEnd(5)} every hit dropped  ${c.eventId}`);
   for (const x of r.capped) console.log(`  capped    ${x.ticker} on ${x.eventId.split("-")[0]}: ${x.from} to ${x.to}, ${x.why}`);
   for (const x of r.dropped) console.log(`  dropped   ${x.ticker} on ${x.eventId.split("-")[0]}: ${x.why}`);
@@ -106,7 +106,7 @@ function printFeed(feed: SightingsFeed): void {
     console.log(`   Source: ${e.source.url}`);
     for (const h of card.hits) {
       const via = h.degree === 2 ? ` via ${h.via}` : "";
-      console.log(`   - ${h.ticker} ${h.companyName}: ${h.direction}, ${h.confidence} confidence, ${h.window} (${h.relation}, degree ${h.degree}${via})${h.score !== undefined ? `, score ${h.score}` : ""}`);
+      console.log(`   - ${h.ticker} ${h.companyName}: ${h.direction}, ${h.confidence} confidence, ${h.window} (${h.relation}, degree ${h.degree}${via})${h.score !== undefined ? `, score ${h.score}` : ""}${typeof h.analysts === "number" ? `, ${h.analysts} analysts` : ""}`);
       if (h.scoreReason) console.log(`     Why this rank: ${h.scoreReason}`);
       console.log(`     ${h.mechanism}`);
       if (h.history) {
