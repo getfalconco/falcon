@@ -49,13 +49,47 @@ export type LinkEvidence = {
   url: string;
 };
 
-/** What the record says about past events of this kind on this link. */
+/**
+ * What the record says about past events of this kind on this link, as
+ * measured by the engine (packages/engine/src/history.ts), never estimated:
+ *
+ *   - Past events: the event company's own events of the same kind and the
+ *     same sign as the card's event, over the 5 years before it (v0: an 8-K
+ *     item 2.02 earnings release with an EPS beat for a beat, a miss for a
+ *     miss; a Taiwan monthly revenue 6-K up from a year earlier for one up).
+ *   - Reaction day: the first New York session that could trade on the event
+ *     (EDGAR's acceptance time: before the 09:30 open or during the session,
+ *     that day; after the 16:00 close, the next session).
+ *   - Move: the hit company's adjusted close from the session before the
+ *     reaction day to `windowDays` sessions later (the reaction day counted),
+ *     in percent, minus the benchmark's move over the same closes.
+ *
+ * Null when fewer than 6 past events can be measured, when the hit's
+ * direction is "unclear" (no implied way to test), or when the event kind
+ * has no history yet. Survivorship: only companies listed today are measured.
+ */
 export type RippleHistory = {
+  /** Past events measured, at least 6. */
   sample: number;
+  /**
+   * Mean market-adjusted move of the hit company over the window, percent, in
+   * its actual sign: positive means it rose more than the benchmark. Not
+   * flipped for a "down" hit (there a negative value is the implied way).
+   */
   avgMovePct: number;
-  /** Share of past events where the move went the implied way, 0 to 1. */
+  /**
+   * Share of past events where the move went the implied way, 0 to 1:
+   * adjusted move above 0 for an "up" hit, below 0 for a "down" one.
+   * `Math.round(hitRate * sample)` is the count.
+   */
   hitRate: number;
+  /** Trading days measured, the reaction day included (1 = the reaction day close to close). At most 20. */
   windowDays: number;
+  /** Optional (added by the engine): what the move is measured against, e.g. "SPY". */
+  benchmark?: string;
+  /** Optional (added by the engine): reaction days of the first and last past event measured, YYYY-MM-DD. */
+  from?: string;
+  to?: string;
 };
 
 /** One company the event reaches, and how. */
@@ -75,7 +109,7 @@ export type RippleHit = {
   /** Why the event reaches this company, one or two sentences. */
   mechanism: string;
   evidence: LinkEvidence[];
-  /** Null until the backtest exists. Never shown as a number before that. */
+  /** The measured record of past events like this one, or null when there is too little of it (see RippleHistory). */
   history: RippleHistory | null;
 };
 

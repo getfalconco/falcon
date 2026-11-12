@@ -140,6 +140,15 @@ describe("monthly revenue reports", () => {
     assert.match(m?.sentence ?? "", /NT\$88,615 million/);
   });
 
+  it("reads TSMC's older wording", () => {
+    const m = readMonthlyRevenue(
+      "On a consolidated basis, revenues for January 2022 were approximately NT$172.18 billion, an increase of 10.8 percent from December 2021 and an increase of 35.8 percent from January 2021. TSMC January Revenue Report",
+    );
+    assert.equal(m?.month, "January 2022");
+    assert.equal(m?.yoyPct, 35.8);
+    assert.match(m?.sentence ?? "", /^Revenues for January 2022 were/);
+  });
+
   it("returns null for a 6-K that is not a revenue report", () => {
     assert.equal(readMonthlyRevenue("UMC will attend investor conferences on 2026/11/16"), null);
   });

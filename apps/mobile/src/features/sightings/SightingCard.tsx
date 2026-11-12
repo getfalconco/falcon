@@ -28,11 +28,18 @@ export function ConfidenceBars({ confidence }: { confidence: Confidence }) {
   );
 }
 
-export function HistoryLine({ history }: { history: RippleHistory }) {
+/**
+ * "Moved the implied way 7 of 9 times, avg +2.1% vs market, 5 trading days".
+ * The average keeps its own sign (vs SPY); the count is against the hit's direction.
+ * On a list card, `ticker` names which company the line is about.
+ */
+export function HistoryLine({ history, ticker }: { history: RippleHistory; ticker?: string }) {
+  const times = Math.round(history.hitRate * history.sample);
+  const days = history.windowDays === 1 ? "1 trading day" : `${history.windowDays} trading days`;
   return (
     <Text style={styles.history}>
-      Last {history.sample} similar: {signedPct(history.avgMovePct)} on average, {Math.round(history.hitRate * 100)}%
-      went this way, over {history.windowDays} days
+      {ticker ? `${ticker} moved` : "Moved"} the implied way {times} of {history.sample} times, avg{" "}
+      {signedPct(history.avgMovePct)} vs market, {days}
     </Text>
   );
 }
@@ -101,7 +108,7 @@ export function SightingCard({ card, held, onPress }: { card: RippleCard; held: 
               </Text>
             </View>
           ) : null}
-          {lead?.history ? <HistoryLine history={lead.history} /> : null}
+          {lead?.history ? <HistoryLine history={lead.history} ticker={lead.ticker} /> : null}
         </Animated.View>
       )}
     </Pressable>

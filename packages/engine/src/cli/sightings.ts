@@ -14,6 +14,7 @@
  *                         ANTHROPIC_API_KEY and --judgments it judges from the newest
  *                         saved file in data/judgments/.
  *   --no-supabase         do not write to Supabase even when DATABASE_URL is set
+ *   --no-history          leave every hit's history null (no price or past-filing reads)
  *   --out FILE            where to write the feed (default out/sightings.json)
  *
  * Without ANTHROPIC_API_KEY (environment or apps/web/.env.local) and without
@@ -31,7 +32,10 @@ import path from "node:path";
 import type { SightingsFeed } from "@falcon/ripple";
 import { env, WEB_ENV_PATH } from "../env.ts";
 import { ENGINE_ROOT } from "../http.ts";
+import type { HistoryDeps } from "../history.ts";
 import { claudeJudge, fileJudge, type Judge } from "../judge.ts";
+import { backtestMarketData } from "../market.ts";
+import { edgarPastEvents } from "../past-events.ts";
 import { runSightings } from "../pipeline.ts";
 import { EXIT, exitReason, runExitCode, summaryLines, warningLines, type Publish } from "../summary.ts";
 import { publishCards } from "../supabase.ts";
@@ -92,6 +96,11 @@ function printFeed(feed: SightingsFeed): void {
       const via = h.degree === 2 ? ` via ${h.via}` : "";
       console.log(`   - ${h.ticker} ${h.companyName}: ${h.direction}, ${h.confidence} confidence, ${h.window} (${h.relation}, degree ${h.degree}${via})`);
       console.log(`     ${h.mechanism}`);
+      if (h.history) {
+        const x = h.history;
+        const avg = `${x.avgMovePct > 0 ? "+" : ""}${x.avgMovePct.toFixed(1)}%`;
+        console.log(`     History: went the implied way ${Math.round(x.hitRate * x.sample)} of ${x.sample} times, avg ${avg} vs ${x.benchmark ?? "market"}, ${x.windowDays} trading days`);
+      }
       for (const ev of h.evidence) {
         const q = ev.quote.length > 220 ? `${ev.quote.slice(0, 217)}...` : ev.quote;
         console.log(`     "${q}" (${ev.form} ${ev.filedAt})`);
@@ -154,7 +163,16 @@ async function main(): Promise<number> {
   }
   if (dryRun) console.log("dry run: nothing is written to Supabase");
 
-  const run = await runSightings({ sector, sinceMs, untilMs, maxCards, judge, log: (l) => console.log(l) });
+  const log = (l: string) => console.log(l);
+  let history: HistoryDeps | null = null;
+  let historyUnavailable: string | undefined;
+  if (args["no-history"] === true) historyUnavailable = "--no-history";
+  else {
+    const md = await backtestMarketData();
+    if ("market" in md) history = { market: md.market, pastEvents: (t, kind, since) => edgarPastEvents(t, kind, since, log) };
+    else historyUnavailable = md.error;
+  }
+  const run = await runSightings({ sector, sinceMs, untilMs, maxCards, judge, log, history, historyUnavailable });
   const requestsFile = path.join(outDir, "judge-requests.json");
   if (writeFiles) fs.writeFileSync(requestsFile, `${JSON.stringify(run.requests, null, 1)}\n`);
 

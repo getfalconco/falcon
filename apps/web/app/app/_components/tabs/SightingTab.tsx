@@ -26,12 +26,20 @@ export function findCard(cards: readonly RippleCard[] | undefined, cardId: strin
   return cards?.find((c) => c.id === cardId) ?? null;
 }
 
+/**
+ * "Moved the implied way 7 of 9 times, avg +2.1% vs market, 5 trading days".
+ * Null when the engine had too few similar past events (or no implied way) to measure.
+ */
 function HistoryLine({ history }: { history: RippleHistory | null }) {
-  if (!history) return <span className="text-[12px] text-[#9a9a9a]">Past reactions not measured yet</span>;
-  const avg = `${history.avgMovePct > 0 ? "+" : ""}${history.avgMovePct.toFixed(1)}%`;
+  if (!history) return <span className="text-[12px] text-[#9a9a9a]">No measured past reactions</span>;
+  const v = Math.round(history.avgMovePct * 10) / 10;
+  const avg = `${v > 0 ? "+" : v < 0 ? "-" : ""}${Math.abs(v).toFixed(1)}%`;
+  const times = Math.round(history.hitRate * history.sample);
+  const days = history.windowDays === 1 ? "1 trading day" : `${history.windowDays} trading days`;
+  const span = history.from && history.to ? `, ${history.from.slice(0, 4)} to ${history.to.slice(0, 4)}` : "";
   return (
-    <span className="text-[12px] text-[#4b4b48]">
-      Last {history.sample} similar: {avg} average over {history.windowDays} days, {Math.round(history.hitRate * 100)}% moved this way
+    <span className="text-[12px] text-[#4b4b48]" title={`Past events like this one${span}, each measured against ${history.benchmark ?? "the market"}`}>
+      Moved the implied way {times} of {history.sample} times, avg {avg} vs market, {days}
     </span>
   );
 }

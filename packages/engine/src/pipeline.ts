@@ -7,6 +7,7 @@
 import type { Confidence, RippleCard, RippleHit, SightingsFeed } from "@falcon/ripple";
 import { detectEvents, type DetectedEvent, type SourceProblem } from "./events.ts";
 import { evidenceOf, loadGraph, nameOf, pathWeight, walk, type Graph, type Path } from "./graph.ts";
+import { cardHistory, memoDeps, type HistoryDeps } from "./history.ts";
 import { candidateFrom, checkAnswer, type Judge, type JudgeRequest } from "./judge.ts";
 import { sectorTickers } from "./universe.ts";
 import { yahooProblems } from "./yahoo.ts";
@@ -28,6 +29,10 @@ export type RunOptions = {
   maxDegree1?: number;
   maxDegree2?: number;
   maxHitsPerCard?: number;
+  /** Sources for the measured history of each hit (src/history.ts). Without them every history stays null. */
+  history?: HistoryDeps | null;
+  /** Why there are no history sources this run (said in the summary). */
+  historyUnavailable?: string;
 };
 
 export type RunResult = {
@@ -43,6 +48,8 @@ export type RunResult = {
   yahooProblems: string[];
   /** Events whose judge call failed, with why. */
   judgeFailures: Array<{ eventId: string; message: string }>;
+  /** Hits on the chosen cards, how many got a measured history, and what could not be read. */
+  history: { hits: number; measured: number; problems: string[] };
 };
 
 /**
@@ -195,6 +202,30 @@ export async function runSightings(opts: RunOptions): Promise<RunResult> {
   }
 
   const chosen = cards.sort((a, b) => b.score - a.score).slice(0, opts.maxCards).map((c) => c.card);
+
+  // History only for the cards kept: it reads years of filings and prices.
+  const history: RunResult["history"] = { hits: chosen.reduce((n, c) => n + c.hits.length, 0), measured: 0, problems: [] };
+  if (opts.historyUnavailable) history.problems.push(opts.historyUnavailable);
+  if (opts.history && chosen.length) {
+    const deps = memoDeps({ ...opts.history, log: opts.history.log ?? log });
+    log("history: past events like each card's, and how each hit moved after them");
+    for (const card of chosen) {
+      const ev = events.find((e) => e.event.id === card.event.id);
+      try {
+        for (const r of await cardHistory(card, ev?.basis ?? null, deps)) {
+          const hit = card.hits.find((h) => h.ticker === r.ticker);
+          if (hit && r.history) {
+            hit.history = r.history;
+            history.measured++;
+          }
+        }
+      } catch (err) {
+        const message = `${card.event.ticker}: ${err instanceof Error ? err.message : String(err)}`;
+        history.problems.push(message);
+        log(`  history ${message}; its hits keep no history`);
+      }
+    }
+  }
   const feed: SightingsFeed = {
     generatedAt,
     cards: chosen,
@@ -208,5 +239,5 @@ export async function runSightings(opts: RunOptions): Promise<RunResult> {
   };
   const problems = feedProblems(feed);
   if (problems.length) throw new Error(`feed failed the contract check: ${problems.join("; ")}`);
-  return { feed, events, requests, rejected, tickers, sourceProblems, yahooProblems: yahooProblems(), judgeFailures };
+  return { feed, events, requests, rejected, tickers, sourceProblems, yahooProblems: yahooProblems(), judgeFailures, history };
 }

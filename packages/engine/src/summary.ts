@@ -78,6 +78,7 @@ export function summaryLines(s: SummaryInput): string[] {
     `events found: ${run.events.length}${filingProblems ? ` (${filingProblems} filings unreadable)` : ""}`,
     `judged: ${s.judged} events by ${s.judgeName}${run.judgeFailures.length ? `, ${run.judgeFailures.length} failed` : ""}${run.rejected.length ? `, ${run.rejected.length} answers dropped by validation` : ""}`,
     `cards in the feed: ${run.feed.cards.length}`,
+    `history: ${run.history.measured} of ${run.history.hits} hits measured${run.history.problems.length ? ` (${run.history.problems.join("; ")})` : ""}`,
   ];
   if (run.yahooProblems.length) lines.push(`yahoo: ${run.yahooProblems.length} problems, EPS surprise figures may be missing (${run.yahooProblems[0]})`);
   const p = s.publish;
@@ -95,5 +96,6 @@ export function warningLines(run: RunResult): string[] {
     ...run.sourceProblems.map((p) => `${p.ticker}: ${p.message}`),
     ...run.judgeFailures.map((f) => `judge failed on ${f.eventId}: ${f.message}`),
     ...run.yahooProblems.map((y) => `yahoo ${y}`),
+    ...run.history.problems.map((h) => `history ${h}`),
   ];
 }

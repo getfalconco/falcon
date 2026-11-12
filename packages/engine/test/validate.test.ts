@@ -136,12 +136,26 @@ describe("cards", () => {
     assert.deepEqual(cardProblems(card), []);
   });
 
-  it("drops hits without evidence, with history, or degree 2 without via", () => {
+  it("drops hits without evidence, or degree 2 without via", () => {
     const h = card.hits[0]!;
     assert.ok(cardProblems({ ...card, hits: [{ ...h, evidence: [] }] }).some((p) => p.includes("no evidence")));
-    assert.ok(cardProblems({ ...card, hits: [{ ...h, history: { sample: 6, avgMovePct: 3.2, hitRate: 0.6, windowDays: 5 } }] }).some((p) => p.includes("history")));
     assert.ok(cardProblems({ ...card, hits: [{ ...h, degree: 2 }] }).some((p) => p.includes("via")));
     assert.ok(cardProblems({ ...card, hits: [{ ...h, ticker: "MCHP" }] }).some((p) => p.includes("own hit")));
+  });
+
+  it("takes a measured history and drops one that cannot be measured", () => {
+    const h = card.hits[0]!;
+    const good = { sample: 9, avgMovePct: 2.14, hitRate: 0.7778, windowDays: 5, benchmark: "SPY", from: "2022-02-04", to: "2026-08-07" };
+    assert.deepEqual(cardProblems({ ...card, hits: [{ ...h, history: good }] }), []);
+    const bad = (x: object, what: string, hit = h) =>
+      assert.ok(cardProblems({ ...card, hits: [{ ...hit, history: { ...good, ...x } }] }).some((p) => p.includes("history") && p.includes(what)), what);
+    bad({ sample: 5, hitRate: 0.6 }, "sample");
+    bad({ hitRate: 0.6 }, "count");
+    bad({ hitRate: 1.2 }, "0 to 1");
+    bad({ windowDays: 63 }, "windowDays");
+    bad({ avgMovePct: Number.NaN }, "avgMovePct");
+    bad({ from: "May 2022" }, "from");
+    bad({}, "unclear", { ...h, direction: "unclear" });
   });
 
   it("drops evidence that is not an SEC filing", () => {

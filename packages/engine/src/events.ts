@@ -21,7 +21,28 @@ export type DetectedEvent = {
   /** The company is being acquired: its own results move its price little. */
   pendingAcquisition: boolean;
   filing: Filing;
+  /**
+   * What kind of event this is for the history of past ones (src/history.ts),
+   * and which way it went: the sign of the EPS surprise, or of the change in
+   * monthly revenue from a year earlier. Null for kinds history does not cover
+   * yet (a 6-K quarterly release), or a sign the sources do not give.
+   */
+  basis: EventBasis | null;
 };
+
+export type EventBasis = {
+  /** "earnings": an 8-K item 2.02 release; "monthly_revenue": a Taiwan monthly revenue 6-K. */
+  kind: "earnings" | "monthly_revenue";
+  sign: Sign | null;
+};
+
+/** Which way a number went: 1 above (a beat, growth), -1 below, 0 exactly level. */
+export type Sign = 1 | -1 | 0;
+
+export function signOf(n: number | null | undefined): Sign | null {
+  if (n === null || n === undefined || !Number.isFinite(n)) return null;
+  return n > 0 ? 1 : n < 0 ? -1 : 0;
+}
 
 export type ReleaseRead = {
   title: string;
@@ -138,8 +159,9 @@ const MONTHS = "January|February|March|April|May|June|July|August|September|Octo
 export function readMonthlyRevenue(text: string): MonthlyRevenue | null {
   const flat = text.replace(/\s+/g, " ");
   // TSMC: "revenue for October 2026 was approximately NT$586.89 billion, an increase of 14.7 percent from September 2026 and an increase of 59.7 percent from October 2025."
+  // Until early 2022: "revenues for January 2022 were approximately ...".
   const tsmc = new RegExp(
-    `revenue for (${MONTHS}) (\\d{4}) was approximately (NT\\$[\\d,.]+ (?:billion|million)), an? (increase|decrease) of ([\\d.]+) percent from (${MONTHS}) \\d{4} and an? (increase|decrease) of ([\\d.]+) percent from (${MONTHS}) \\d{4}\\.`,
+    `revenues? for (${MONTHS}) (\\d{4}) (?:was|were) approximately (NT\\$[\\d,.]+ (?:billion|million)), an? (increase|decrease) of ([\\d.]+) percent from (${MONTHS}) \\d{4} and an? (increase|decrease) of ([\\d.]+) percent from (${MONTHS}) \\d{4}\\.`,
     "i",
   ).exec(flat);
   if (tsmc) {
@@ -173,6 +195,27 @@ export function readMonthlyRevenue(text: string): MonthlyRevenue | null {
     };
   }
   return null;
+}
+
+const MONTH_ABBR = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
+
+/**
+ * The Taiwan date a monthly revenue release went out, from its own text:
+ * TSMC's and ASE's dateline ("HSINCHU, Taiwan, R.O.C. - Nov. 10, 2023 -",
+ * "Taipei, Taiwan, R.O.C., November 10, 2026 -") or UMC's "Announcement on
+ * 2026/11/05: October Revenue". The 6-K can reach EDGAR a business day or
+ * more later. Null when the text gives none. Pure.
+ */
+export function revenueReleaseDate(text: string): string | null {
+  const flat = text.replace(/\s+/g, " ");
+  const umc = /Announcement on (\d{4})\/(\d{2})\/(\d{2}): [A-Za-z]+ (?:revenue|net sales|sales)/i.exec(flat);
+  if (umc) return `${umc[1]}-${umc[2]}-${umc[3]}`;
+  const dl = /(?:Hsinchu|Taipei|Taiwan),? (?:Taiwan,? )?R\.?O\.?C\.?\s*[,\-–—]\s*(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?\s+(\d{1,2}),?\s+(\d{4})/i.exec(flat);
+  if (!dl) return null;
+  const month = MONTH_ABBR.indexOf(dl[1]!.toLowerCase()) + 1;
+  const day = Number(dl[2]);
+  if (month < 1 || day < 1 || day > 31) return null;
+  return `${dl[3]}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
 }
 
 function fmtUsd(n: number): string {
@@ -245,31 +288,45 @@ async function earningsEvent(ticker: string, f: Filing): Promise<DetectedEvent |
     ...(facts.length ? { facts } : {}),
     ...(sources.length ? { sources } : {}),
   };
-  return { event, magnitudePct: surprise, pendingAcquisition: Boolean(release.pendingAcquisition), filing: f };
+  const basis: EventBasis | null = f.form === "8-K" ? { kind: "earnings", sign: signOf(surprise) } : null;
+  return { event, magnitudePct: surprise, pendingAcquisition: Boolean(release.pendingAcquisition), filing: f, basis };
 }
 
-async function monthlyRevenueEvent(ticker: string, f: Filing): Promise<DetectedEvent | null> {
+/**
+ * The monthly revenue report a 6-K carries, the document it is in, and the
+ * Taiwan date it went out when the text says; null when it is not one.
+ */
+export async function filingMonthlyRevenue(
+  f: Pick<Filing, "indexUrl">,
+): Promise<{ report: MonthlyRevenue; url: string; releasedOn: string | null } | null> {
   const docs = await filingDocuments(f);
   for (const d of docs.filter((x) => /\.html?$/i.test(x.url))) {
     const text = await documentText(d.url);
-    const m = readMonthlyRevenue(text);
-    if (!m || m.yoyPct === null || !m.sentence) continue;
-    const name = NAMES[ticker] ?? f.companyName;
-    const occurredAt = f.acceptedAt ?? `${f.filedAt}T12:00:00.000Z`;
-    const dir = m.yoyPct >= 0 ? "up" : "down";
-    const event: RippleEvent = {
-      id: `${ticker}-${f.accession}`,
-      ticker,
-      companyName: name,
-      kind: "filing",
-      headline: `${name} ${m.month.split(" ")[0]} revenue ${dir} ${fmtPct(m.yoyPct)} from a year earlier`,
-      occurredAt,
-      summary: `${name} filed its monthly revenue report for ${m.month}. ${m.sentence}`,
-      source: { title: `6-K: ${name} ${m.month} revenue report`, url: d.url, publisher: "SEC EDGAR", publishedAt: occurredAt },
-    };
-    return { event, magnitudePct: m.yoyPct, pendingAcquisition: false, filing: f };
+    const report = readMonthlyRevenue(text);
+    if (report && report.yoyPct !== null && report.sentence) return { report, url: d.url, releasedOn: revenueReleaseDate(text) };
   }
   return null;
+}
+
+async function monthlyRevenueEvent(ticker: string, f: Filing): Promise<DetectedEvent | null> {
+  const found = await filingMonthlyRevenue(f);
+  if (!found) return null;
+  const { report: m, url } = found;
+  const name = NAMES[ticker] ?? f.companyName;
+  const occurredAt = f.acceptedAt ?? `${f.filedAt}T12:00:00.000Z`;
+  const yoy = m.yoyPct!;
+  const dir = yoy >= 0 ? "up" : "down";
+  const event: RippleEvent = {
+    id: `${ticker}-${f.accession}`,
+    ticker,
+    companyName: name,
+    kind: "filing",
+    headline: `${name} ${m.month.split(" ")[0]} revenue ${dir} ${fmtPct(yoy)} from a year earlier`,
+    occurredAt,
+    summary: `${name} filed its monthly revenue report for ${m.month}. ${m.sentence}`,
+    source: { title: `6-K: ${name} ${m.month} revenue report`, url, publisher: "SEC EDGAR", publishedAt: occurredAt },
+  };
+  return { event, magnitudePct: yoy, pendingAcquisition: false, filing: f, basis: { kind: "monthly_revenue", sign: signOf(yoy) } };
 }
 
 export type DetectOptions = {

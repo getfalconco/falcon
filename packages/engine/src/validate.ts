@@ -6,7 +6,7 @@
  * Pure. Each check returns a list of problems; empty means it passes.
  */
 
-import type { Confidence, Direction, LinkEvidence, Relation, RippleCard, RippleEvent, RippleHit, SightingsFeed } from "@falcon/ripple";
+import type { Confidence, Direction, LinkEvidence, Relation, RippleCard, RippleEvent, RippleHistory, RippleHit, SightingsFeed } from "@falcon/ripple";
 
 const DIRECTIONS: readonly Direction[] = ["up", "down", "unclear"];
 const CONFIDENCES: readonly Confidence[] = ["low", "medium", "high"];
@@ -97,7 +97,25 @@ export function hitProblems(h: RippleHit, where: string): string[] {
   if (!Array.isArray(h.evidence) || h.evidence.length === 0) out.push(`${where}: no evidence`);
   else h.evidence.forEach((e, i) => out.push(...evidenceProblems(e, `${where}.evidence[${i}]`)));
   if (h.degree === 2 && Array.isArray(h.evidence) && h.evidence.length < 2) out.push(`${where}: degree 2 needs a quote for each link`);
-  if (h.history !== null) out.push(`${where}: history must stay null until the backtest exists`);
+  if (h.history !== null) out.push(...historyProblems(h.history, `${where}.history`, h.direction));
+  return out;
+}
+
+/**
+ * A measured history (src/history.ts) must look like one: at least 6 events,
+ * a whole count behind the hit rate, a window of 1 to 20 days, and no history
+ * for an "unclear" hit. Pure.
+ */
+export function historyProblems(x: RippleHistory | undefined, where: string, direction: RippleHit["direction"]): string[] {
+  if (!x || typeof x !== "object") return [`${where}: must be null or a measured history`];
+  const out: string[] = [];
+  if (direction === "unclear") out.push(`${where}: an unclear hit has no implied way to measure`);
+  if (!Number.isInteger(x.sample) || x.sample < 6) out.push(`${where}: sample must be a whole number of at least 6`);
+  if (typeof x.avgMovePct !== "number" || !Number.isFinite(x.avgMovePct) || Math.abs(x.avgMovePct) > 200) out.push(`${where}: avgMovePct not a plausible percent`);
+  if (typeof x.hitRate !== "number" || !(x.hitRate >= 0 && x.hitRate <= 1)) out.push(`${where}: hitRate must be 0 to 1`);
+  else if (Number.isInteger(x.sample) && Math.abs(x.hitRate * x.sample - Math.round(x.hitRate * x.sample)) > 0.01) out.push(`${where}: hitRate is not a count of the sample`);
+  if (!Number.isInteger(x.windowDays) || x.windowDays < 1 || x.windowDays > 20) out.push(`${where}: windowDays must be 1 to 20`);
+  for (const k of ["from", "to"] as const) if (x[k] !== undefined && !/^\d{4}-\d{2}-\d{2}$/.test(x[k] ?? "")) out.push(`${where}: ${k} not a date`);
   return out;
 }
 
