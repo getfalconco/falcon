@@ -1,0 +1,31 @@
+{
+  "name": "@falcon/backtest",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Daily-bar strategy backtester: explicit JSON rules in, equity curve, trades and metrics vs SPY out.",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./data": "./src/data/index.ts",
+    "./nl": "./src/nl.ts"
+  },
+  "scripts": {
+    "test": "node --import tsx --test test/*.test.ts",
+    "test:live": "node --import tsx --test test/live/*.test.ts",
+    "examples": "node --import tsx scripts/examples.ts",
+    "parse": "node --import tsx scripts/parse.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^1.8.0",
+    "@falcon/ripple": "workspace:*",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "tsx": "^4.22.4",
+    "typescript": "^5.5.4"
+  }
+}

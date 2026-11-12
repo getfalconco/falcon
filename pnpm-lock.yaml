@@ -141,7 +141,10 @@ importers:
     dependencies:
       '@anthropic-ai/sdk':
         specifier: ^1.8.0
-        version: 1.8.0
+        version: 1.8.0(zod@3.25.76)
+      '@falcon/backtest':
+        specifier: workspace:*
+        version: link:../../packages/backtest
       '@falcon/ripple':
         specifier: workspace:*
         version: link:../../packages/ripple
@@ -255,11 +258,33 @@ importers:
         specifier: ^5.5.4
         version: 5.9.3
 
+  packages/backtest:
+    dependencies:
+      '@anthropic-ai/sdk':
+        specifier: ^1.8.0
+        version: 1.8.0(zod@3.25.76)
+      '@falcon/ripple':
+        specifier: workspace:*
+        version: link:../ripple
+      zod:
+        specifier: ^3.25.76
+        version: 3.25.76
+    devDependencies:
+      '@types/node':
+        specifier: ^20.14.0
+        version: 20.19.41
+      tsx:
+        specifier: ^4.22.4
+        version: 4.22.4
+      typescript:
+        specifier: ^5.5.4
+        version: 5.9.3
+
   packages/engine:
     dependencies:
       '@anthropic-ai/sdk':
         specifier: ^1.8.0
-        version: 1.8.0
+        version: 1.8.0(zod@3.25.76)
       '@falcon/ripple':
         specifier: workspace:*
         version: link:../ripple
@@ -5601,6 +5626,9 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
 
+  zod@3.25.76:
+    resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
+
   zustand@3.7.2:
     resolution: {integrity: sha512-PIJDIZKtokhof+9+60cpockVOq05sJzHCriyvaLBmEJixseQ1a5Kdov6fWZfWOu5SK9c+FhH1jU0tntLxRJYMA==}
     engines: {node: '>=12.7.0'}
@@ -5618,11 +5646,13 @@ snapshots:
 
   '@alloc/quick-lru@5.2.0': {}
 
-  '@anthropic-ai/sdk@1.8.0':
+  '@anthropic-ai/sdk@1.8.0(zod@3.25.76)':
     dependencies:
       '@opentelemetry/api': 1.10.0
       json-schema-to-ts: 3.1.1
       standardwebhooks: 1.0.0
+    optionalDependencies:
+      zod: 3.25.76
 
   '@babel/code-frame@7.29.7':
     dependencies:
@@ -11580,6 +11610,8 @@ snapshots:
       yargs-parser: 21.1.1
 
   yocto-queue@0.1.0: {}
+
+  zod@3.25.76: {}
 
   zustand@3.7.2(react@18.3.1):
     optionalDependencies:
