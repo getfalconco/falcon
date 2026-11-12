@@ -129,6 +129,27 @@ export function judgePrompt(req: JudgeRequest): string {
 
 export type ValidatedAnswer = JudgeAnswer & { problems: string[] };
 
+/** SEC form names ("10-K", "6-K", "20-F") are document names, not figures. */
+export const FORM_NAME = /\b(?:10-K|10-Q|8-K|6-K|20-F|40-F|S-1|S-4)(?:\/A)?\b/gi;
+
+/**
+ * Where an answer's numbers may come from: what the prompt shows the judge
+ * about the event (headline, summary, quoted source lines, the event's year)
+ * and about this candidate (each link's filer, quote and filing year). Full
+ * dates are left out on purpose: their day and month would let any small
+ * number through. Pure.
+ */
+export function answerMaterial(req: JudgeRequest, cand: Candidate): string[] {
+  const e = req.event;
+  const year = (d: string) => d.slice(0, 4);
+  return [year(e.occurredAt), e.headline, e.summary, ...(e.facts ?? []), ...cand.links.map((l) => `${l.filer} ${year(l.filedAt)}: ${l.quote}`)];
+}
+
+/** Numbers in a mechanism that the material does not hold, form names aside. Pure. */
+export function inventedInAnswer(mechanism: string, req: JudgeRequest, cand: Candidate): string[] {
+  return inventedNumbers(mechanism.replace(FORM_NAME, " "), answerMaterial(req, cand));
+}
+
 /**
  * Checks one answer against the request: a known key, closed answer sets,
  * length, framing, and no number that the event or the quotes do not hold.
@@ -149,13 +170,7 @@ export function checkAnswer(req: JudgeRequest, a: unknown): ValidatedAnswer | nu
   if (mechanism.length > 420) problems.push("mechanism too long");
   if (mechanism.split(/(?<=[.!?])\s+(?=[A-Z])/).length > 2) problems.push("more than two sentences");
   problems.push(...framingProblems(mechanism, "mechanism"));
-  const material = [
-    req.event.summary,
-    req.event.headline,
-    ...(req.event.facts ?? []),
-    ...cand.links.map((l) => l.quote),
-  ];
-  const invented = inventedNumbers(mechanism, material);
+  const invented = inventedInAnswer(mechanism, req, cand);
   if (invented.length) problems.push(`numbers not in the event or the quotes: ${invented.join(", ")}`);
   // Degree 2 and list competitors cannot be high confidence.
   if (x.confidence === "high" && (cand.degree === 2 || cand.relation === "competitor" || cand.relation === "peer")) {

@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import type { Confidence, Direction } from "@falcon/ripple";
-import type { Judge, JudgeRequest } from "../src/judge.ts";
+import { answerMaterial, checkAnswer, inventedInAnswer, type Judge, type JudgeRequest } from "../src/judge.ts";
 import { agreed, callBudget, included, pickVote, plurality, splitOf, voteJudge } from "../src/vote.ts";
 
 const req: JudgeRequest = {
@@ -65,6 +65,46 @@ describe("vote rules", () => {
     assert.equal(pick.confidence, "low");
     assert.equal(pick.mechanism, "c");
     assert.equal(pickVote([mk("up", "medium", "a"), mk("up", "medium", "b"), mk("up", "low", "c")], "up").mechanism, "a");
+  });
+});
+
+describe("numbers a vote may use", () => {
+  const filing: JudgeRequest = {
+    ...req,
+    candidates: [
+      {
+        ...req.candidates[0]!,
+        key: "C1",
+        links: [{ filer: "KLA", named: "TSMC", says: "names TSMC as a customer", quote: "TSMC accounted for more than 10% of our total revenues in fiscal 2026.", form: "10-K", filedAt: "2026-08-13" }],
+      },
+    ],
+  };
+  const check = (mechanism: string) => checkAnswer(filing, { key: "C1", include: true, direction: "up", confidence: "medium", window: "1 to 4 weeks", mechanism })!.problems;
+
+  it("passes a number quoted from the filing, like 10%", () => {
+    assert.deepEqual(check("KLA's filing puts TSMC above 10% of its total revenues, so a stronger TSMC quarter reaches KLA's largest account."), []);
+  });
+
+  it("passes a form name the prompt showed, like 10-K", () => {
+    assert.deepEqual(check("KLA's 10-K names TSMC as a customer, so Onto's beat on shared inspection demand reaches KLA's business."), []);
+    assert.deepEqual(inventedInAnswer("Its 6-K and 20-F filings name the link.", filing, filing.candidates[0]!), []);
+  });
+
+  it("still rejects a number that appears nowhere in the inputs", () => {
+    assert.ok(check("KLA's filing puts TSMC at 37% of its total revenues, so the beat reaches KLA's largest account.").some((p) => /numbers not in the event or the quotes: 37/.test(p)));
+  });
+
+  it("does not let day or month digits of a filing date through", () => {
+    assert.ok(check("KLA's filing says TSMC is 13% of its revenues, so the beat reaches KLA's largest account.").some((p) => /: 13/.test(p)));
+    assert.ok(answerMaterial(filing, filing.candidates[0]!).every((m) => !m.includes("2026-08-13")));
+  });
+
+  it("counts such a vote instead of discarding it", async () => {
+    const tenK = "Onto names this company in its 10-K list of principal competitors, so the quarter speaks to the same inspection market.";
+    const j = scripted([{ C1: { d: "up", mech: tenK } }, { C1: { d: "up", mech: tenK } }, { C1: { d: "up", mech: tenK } }]);
+    const r = await voteJudge(j, req, callBudget());
+    assert.equal(r.discarded.length, 0);
+    assert.deepEqual(r.hits.find((h) => h.answer.key === "C1")!.votes, { up: 3, down: 0, unclear: 0, excluded: 0 });
   });
 });
 
