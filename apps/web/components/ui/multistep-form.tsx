@@ -150,7 +150,7 @@ export default function MultistepForm() {
           className="mt-4 text-[15px] leading-relaxed text-[#4b4b48]"
           style={{ fontFamily: GEIST }}
         >
-          Save this personal portal link — Stage 2 and Stage 3 happen here. We
+          Save this personal portal link. Stage 2 and Stage 3 happen here. We
           also emailed it to you.
         </p>
         <a
@@ -363,7 +363,7 @@ export default function MultistepForm() {
                       A few written answers
                     </CardTitle>
                     <CardDescription style={{ fontFamily: GEIST }}>
-                      Short responses — be concrete.
+                      Short responses. Be concrete.
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-4">

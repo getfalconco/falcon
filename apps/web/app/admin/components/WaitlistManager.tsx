@@ -170,8 +170,8 @@ export default function WaitlistManager() {
                       ) : null}
                     </td>
                     <td className="px-5 py-4 text-[#1d1b1b]">{user.email}</td>
-                    <td className="px-5 py-4 text-[#6b7280]">{user.name ?? "—"}</td>
-                    <td className="px-5 py-4 text-[#6b7280]">{user.role ?? "—"}</td>
+                    <td className="px-5 py-4 text-[#6b7280]">{user.name ?? "-"}</td>
+                    <td className="px-5 py-4 text-[#6b7280]">{user.role ?? "-"}</td>
                     <td className="px-5 py-4 text-[#6b7280]">
                       {new Date(user.createdAt).toLocaleDateString()}
                     </td>
@@ -249,7 +249,7 @@ export default function WaitlistManager() {
                                 {label}
                               </dt>
                               <dd className="mt-1 whitespace-pre-wrap text-sm text-[#4b4b48]">
-                                {user.application?.[key] ?? "—"}
+                                {user.application?.[key] ?? "-"}
                               </dd>
                             </div>
                           ))}

@@ -77,7 +77,7 @@ export default function InternPortal({ token }: { token: string }) {
           Assignments
         </h2>
         {tasks.length === 0 ? (
-          <p className="mt-3 text-[14px] text-[#6b7280]">No tasks yet — founders will assign work here.</p>
+          <p className="mt-3 text-[14px] text-[#6b7280]">No tasks yet. Founders will assign work here.</p>
         ) : (
           <ul className="mt-4 space-y-3">
             {tasks.map((t) => (

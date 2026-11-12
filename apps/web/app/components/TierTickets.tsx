@@ -685,7 +685,7 @@ export function TierGrid({
                             : "whitespace-nowrap font-medium text-[#1d1b1b]"
                         }
                       >
-                        {v === true ? "✓" : v === false ? "—" : v}
+                        {v === true ? "✓" : v === false ? "-" : v}
                       </span>
                     </li>
                   );
@@ -1060,7 +1060,7 @@ export function TierGrid({
                             : "whitespace-nowrap font-medium text-[#1d1b1b]"
                         }
                       >
-                        {v === true ? "✓" : v === false ? "—" : v}
+                        {v === true ? "✓" : v === false ? "-" : v}
                       </span>
                     </li>
                   );

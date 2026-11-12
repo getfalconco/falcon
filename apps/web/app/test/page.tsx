@@ -11,7 +11,7 @@ export default function TicketTestPage() {
         className="text-center text-[11px] uppercase tracking-[0.28em] text-[#9a9a9a]"
         style={{ fontFamily: MONO }}
       >
-        Ticket variants — test
+        Ticket variants (test)
       </p>
       <div className="mt-12">
         <TierTickets firstName="Kuzey" lastName="Kovalak" />

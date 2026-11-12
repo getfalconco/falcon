@@ -76,7 +76,7 @@ export async function POST(request: Request) {
     try {
       await sendEmail({
         to: email,
-        subject: "Falcon internship — application received",
+        subject: "Falcon internship: application received",
         html: `<p>Hi ${fullName.split(" ")[0]},</p>
 <p>We received your application for the <strong>${department}</strong> internship track.</p>
 <p>Track your status and complete later stages here (save this link):</p>

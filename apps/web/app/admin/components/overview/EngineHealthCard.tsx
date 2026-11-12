@@ -15,7 +15,7 @@ function Row({ label, children }: { label: string; children: React.ReactNode }) 
 function NotTracked() {
   return (
     <span className="text-[11px] text-[#9a9a9a]">
-      <span className="text-[#c4c4c0]">—</span> not tracked yet
+      <span className="text-[#c4c4c0]">-</span> not tracked yet
     </span>
   );
 }

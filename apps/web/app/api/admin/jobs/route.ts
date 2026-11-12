@@ -100,8 +100,8 @@ export async function POST(request: Request) {
             to: app.email,
             subject:
               stage === "task_sent"
-                ? "Falcon internship — Stage 2 task"
-                : "Falcon internship — book your interview",
+                ? "Falcon internship: Stage 2 task"
+                : "Falcon internship: book your interview",
             html: `<p>Hi ${app.fullName.split(" ")[0]},</p>
 <p>Your ${departmentLabel(app.department)} application moved to the next stage.</p>
 <p><a href="${portal}">Open your portal</a></p>

@@ -78,7 +78,7 @@ export function grantedLabel(grantedAt: string | null): string {
 export function memberLabel(memberNumber: number | null): string {
   return memberNumber != null
     ? `#${String(memberNumber).padStart(3, "0")}`
-    : "#———";
+    : "#---";
 }
 
 /** Props for the vendored ticket, filled in for a founding member. */

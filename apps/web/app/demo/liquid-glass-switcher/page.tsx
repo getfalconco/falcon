@@ -14,7 +14,7 @@ export default function LiquidGlassSwitcherDemoPage() {
       <article className="article">
         <h1>Soft UI theme</h1>
         <p>
-          Neumorphic three-way switcher — recessed track, raised thumb, thin
+          Neumorphic three-way switcher: recessed track, raised thumb, thin
           line icons. Cycle light, dark, and dim.
         </p>
         <p className="box">

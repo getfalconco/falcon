@@ -22,7 +22,7 @@ const STATUS_META: Record<
     tone: "text-amber-700",
     ring: "border-amber-200/80 bg-amber-50",
     icon: Clock,
-    blurb: "No recent heartbeat — the worker may be down or stuck.",
+    blurb: "No recent heartbeat. The worker may be down or stuck.",
   },
   error: {
     label: "Error",
@@ -41,21 +41,21 @@ const STATUS_META: Record<
 };
 
 function formatInterval(ms: number | null): string {
-  if (!ms) return "—";
+  if (!ms) return "-";
   if (ms % 60000 === 0) return `${ms / 60000}m`;
   return `${Math.round(ms / 1000)}s`;
 }
 
 function formatDuration(ms: number | null): string {
-  if (ms == null) return "—";
+  if (ms == null) return "-";
   if (ms < 1000) return `${ms}ms`;
   return `${(ms / 1000).toFixed(1)}s`;
 }
 
 function formatUptime(startedAt: string | null): string {
-  if (!startedAt) return "—";
+  if (!startedAt) return "-";
   const start = Date.parse(startedAt);
-  if (!Number.isFinite(start)) return "—";
+  if (!Number.isFinite(start)) return "-";
   let s = Math.max(0, Math.floor((Date.now() - start) / 1000));
   const d = Math.floor(s / 86400);
   s -= d * 86400;
@@ -115,12 +115,12 @@ export default async function EngineHealthTabPage() {
 
       {/* Stats */}
       <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
-        <Stat label="Last poll" value={h.lastPollAt ? formatRelativeTime(h.lastPollAt) : "—"} />
-        <Stat label="Articles checked" value={h.articlesChecked != null ? formatNumber(h.articlesChecked) : "—"} />
-        <Stat label="New events (last)" value={h.newEvents != null ? formatNumber(h.newEvents) : "—"} />
-        <Stat label="Signals saved (last)" value={h.signalsSaved != null ? formatNumber(h.signalsSaved) : "—"} />
-        <Stat label="Cycles" value={h.cycles != null ? formatNumber(h.cycles) : "—"} />
-        <Stat label="Errors" value={h.errors != null ? formatNumber(h.errors) : "—"} />
+        <Stat label="Last poll" value={h.lastPollAt ? formatRelativeTime(h.lastPollAt) : "-"} />
+        <Stat label="Articles checked" value={h.articlesChecked != null ? formatNumber(h.articlesChecked) : "-"} />
+        <Stat label="New events (last)" value={h.newEvents != null ? formatNumber(h.newEvents) : "-"} />
+        <Stat label="Signals saved (last)" value={h.signalsSaved != null ? formatNumber(h.signalsSaved) : "-"} />
+        <Stat label="Cycles" value={h.cycles != null ? formatNumber(h.cycles) : "-"} />
+        <Stat label="Errors" value={h.errors != null ? formatNumber(h.errors) : "-"} />
         <Stat label="Uptime" value={formatUptime(h.startedAt)} />
         <Stat label="Poll interval" value={formatInterval(h.pollIntervalMs)} />
       </div>

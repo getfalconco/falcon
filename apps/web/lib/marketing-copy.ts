@@ -2,7 +2,7 @@ export const HERO = {
   eyebrow: "INSTITUTIONAL RESEARCH · FOR INDIVIDUAL TRADERS",
   headline: "See the market",
   mission:
-    "Institutional-grade market research—built for individual traders, not billion-dollar desks.",
+    "Institutional-grade market research, built for individual traders, not billion-dollar desks.",
   description:
     "Understand a company the way a research team would, in a fraction of the time.",
 } as const;
@@ -15,14 +15,14 @@ export const INSTITUTIONAL_GAP = {
     "Quant developers building signal pipelines and market context",
     "Data engineers ingesting filings, news, and live market feeds",
     "Knowledge graph teams mapping second-order relationships",
-    "24/7 monitoring—not reactive reading when you have time",
+    "24/7 monitoring, not reactive reading when you have time",
   ],
   retailTitle: "What most traders rely on today",
   retailItems: [
     "Generic AI chat with no sources or evidence discipline",
     "Fragmented terminals, Twitter, and headline chasing",
     "Single-prompt stock picks with no relationship context",
-    "No daily curated signal—only what you remember to ask",
+    "No daily curated signal, only what you remember to ask",
     "Browser tabs instead of a native research workflow",
   ],
   closing: "Falcon closes that gap.",
@@ -31,7 +31,7 @@ export const INSTITUTIONAL_GAP = {
 export const FALCON_STACK = {
   title: "Your personal quant research desk",
   subtitle:
-    "The roles a fund staffs with million-dollar salaries—rebuilt as one service for you.",
+    "The roles a fund staffs with million-dollar salaries, rebuilt as one service for you.",
   roles: [
     {
       role: "Senior research analyst",
@@ -124,7 +124,7 @@ export const AUTH_PANEL_LINES: MarketingTestimonial[] = [
 
 export const HOME_CTA = {
   title: "Deploy your research desk",
-  body: "Download Falcon for Mac or Windows—or join the waitlist for early access.",
+  body: "Download Falcon for Mac or Windows, or join the waitlist for early access.",
 } as const;
 
 export const STORY = {
@@ -156,7 +156,7 @@ export const STORY = {
   different: {
     title: "How we're different from AI subscriptions",
     paragraphs: [
-      "A $20/month AI plan gives you tokens and a text box. Falcon gives you a workflow: open the app, read today's signal, drill into sourced briefings, and follow up on real analysis—not a blank prompt.",
+      "A $20/month AI plan gives you tokens and a text box. Falcon gives you a workflow: open the app, read today's signal, drill into sourced briefings, and follow up on real analysis, not a blank prompt.",
       "We built Falcon because advanced research technology shouldn't require a seven-figure salary or a seat at a fund.",
     ],
   },
@@ -166,14 +166,14 @@ export const STORY = {
   },
   cta: {
     title: "Start with your desk",
-    body: "Download the app or join the waitlist. Research intelligence—not buy/sell advice.",
+    body: "Download the app or join the waitlist. Research intelligence, not buy/sell advice.",
   },
 } as const;
 
 export const DOWNLOAD = {
   hero: {
     subtitle:
-      "Run an institutional research stack locally—not a browser tab with ChatGPT.",
+      "Run an institutional research stack locally, not a browser tab with ChatGPT.",
   },
   features: [
     {
@@ -182,7 +182,7 @@ export const DOWNLOAD = {
     },
     {
       title: "Command your research",
-      body: "search signals, tickers, briefings, and analysis from anywhere on your machine—like a quant desk command palette.",
+      body: "search signals, tickers, briefings, and analysis from anywhere on your machine, like a quant desk command palette.",
     },
     {
       title: "Second-order intelligence",
@@ -191,7 +191,7 @@ export const DOWNLOAD = {
   ],
   capabilityGrid: {
     title: "The stack, one app",
-    subtitle: "What funds spread across teams and tools—unified in Falcon.",
+    subtitle: "What funds spread across teams and tools, unified in Falcon.",
     capabilities: [
       { label: "Daily signals", caption: "The morning meeting, automated" },
       { label: "Deep analysis", caption: "Multi-pass institutional briefings" },
@@ -209,7 +209,7 @@ export const DOWNLOAD = {
   },
   testimonials: {
     title: "Built alongside our users",
-    subtitle: "Serious traders who wanted desk-level research—not another AI toy.",
+    subtitle: "Serious traders who wanted desk-level research, not another AI toy.",
   },
 } as const;
 
@@ -224,9 +224,9 @@ export const AUTH = {
 } as const;
 
 export const SEO = {
-  title: "Falcon — Institutional market research for individual traders",
+  title: "Falcon: Institutional market research for individual traders",
   description:
-    "Institutional-grade market research for individual traders. Multi-pass analysis, daily signals, verified sources, and relationship mapping—not a basic AI subscription.",
+    "Institutional-grade market research for individual traders. Multi-pass analysis, daily signals, verified sources, and relationship mapping, not a basic AI subscription.",
   openGraphDescription:
     "Your personal quant research desk. Advanced technology, individual access.",
 } as const;
@@ -259,12 +259,12 @@ export const FOOTER = {
 
 export const HOW_IT_WORKS = {
   title: "How it works",
-  subtitle: "What the product does—not who it replaces on a desk.",
+  subtitle: "What the product does, not who it replaces on a desk.",
   cards: [
     {
       title: "Relationship mapping",
       caption:
-        "Map suppliers, customers, competitors, and dependencies across any company—like a knowledge graph team on call.",
+        "Map suppliers, customers, competitors, and dependencies across any company, like a knowledge graph team on call.",
     },
     {
       title: "Second-order effects",
@@ -274,7 +274,7 @@ export const HOW_IT_WORKS = {
     {
       title: "Always on",
       caption:
-        "A research pipeline running continuously—daily signals, refreshed briefings, and a desktop workflow that doesn't wait for you to ask.",
+        "A research pipeline running continuously: daily signals, refreshed briefings, and a desktop workflow that doesn't wait for you to ask.",
     },
   ],
 } as const;

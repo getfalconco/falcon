@@ -15,7 +15,7 @@ export const dynamic = "force-dynamic";
 const WINDOW_DAYS = 7;
 
 function usd(n: number | null): string {
-  if (n == null || !Number.isFinite(n)) return "—";
+  if (n == null || !Number.isFinite(n)) return "-";
   return `$${n.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 }
 
@@ -28,7 +28,7 @@ function compactTokens(n: number): string {
 }
 
 function formatUptime(seconds: number | null): string {
-  if (seconds == null) return "—";
+  if (seconds == null) return "-";
   const d = Math.floor(seconds / 86400);
   const h = Math.floor((seconds % 86400) / 3600);
   const m = Math.floor((seconds % 3600) / 60);
@@ -98,7 +98,7 @@ function BillingCheck({ probe, label }: { probe: BillingProbe; label: string }) 
       <div className={`${CARD} px-5 py-4`}>
         <p className={MICRO_LABEL}>Billing check · {label}</p>
         <p className="mt-2 text-[13px] text-[#6b7280]">
-          Not configured — no key for {probe.host}.
+          Not configured: no key for {probe.host}.
         </p>
       </div>
     );
@@ -193,11 +193,11 @@ function BillingCheck({ probe, label }: { probe: BillingProbe; label: string }) 
 
       <p className="border-t border-black/[0.07] px-5 py-3 text-[12px] leading-relaxed text-[#6b7280]">
         Identical payload of {formatNumber(probe.requestChars)} characters sent to{" "}
-        <span style={{ fontFamily: ADMIN_MONO }}>{probe.host}</span> twice — once to{" "}
+        <span style={{ fontFamily: ADMIN_MONO }}>{probe.host}</span> twice: once to{" "}
         <span style={{ fontFamily: ADMIN_MONO }}>/v1/messages/count_tokens</span>, once to{" "}
         <span style={{ fontFamily: ADMIN_MONO }}>/v1/messages</span> with{" "}
         <span style={{ fontFamily: ADMIN_MONO }}>max_tokens: 1</span>. Both numbers are the
-        provider&rsquo;s own. Re-measured at most every six hours &mdash; it sends a real billed
+        provider&rsquo;s own. Re-measured at most every six hours, since it sends a real billed
         message, so it runs on a slower clock than the read-only usage figures above.
       </p>
     </div>
@@ -275,7 +275,7 @@ function ProviderCard({ p }: { p: ProviderUsage }) {
               </p>
               {isGateway && !p.moneyCalibrated ? (
                 <p className="mt-1.5 text-[11px] leading-snug text-red-700">
-                  gateway units, not dollars — set FALCON_GATEWAY_TOPUP_USD
+                  gateway units, not dollars. Set FALCON_GATEWAY_TOPUP_USD
                 </p>
               ) : isGateway && p.moneyScale ? (
                 <p className="mt-1.5 text-[11px] leading-snug text-[#9a9a9a]">
@@ -303,7 +303,7 @@ function ProviderCard({ p }: { p: ProviderUsage }) {
             <div className="bg-white px-5 py-4">
               <p className={MICRO_LABEL}>Requests</p>
               <p className="mt-2 text-[20px] font-medium leading-none tabular-nums text-[#1d1b1b]">
-                {p.totalRequests == null ? "—" : formatNumber(p.totalRequests)}
+                {p.totalRequests == null ? "-" : formatNumber(p.totalRequests)}
               </p>
             </div>
             <div className="bg-white px-5 py-4">
@@ -317,7 +317,7 @@ function ProviderCard({ p }: { p: ProviderUsage }) {
                       : "text-red-700"
                 }`}
               >
-                {cache.ratio == null ? "—" : `${cache.ratio.toFixed(2)}×`}
+                {cache.ratio == null ? "-" : `${cache.ratio.toFixed(2)}×`}
               </p>
               {cacheToday.ratio != null ? (
                 <p
@@ -376,7 +376,7 @@ function ProviderCard({ p }: { p: ProviderUsage }) {
                         {m.model}
                       </td>
                       <td className="py-2 text-right tabular-nums text-[#6b7280]">
-                        {m.requests == null ? "—" : formatNumber(m.requests)}
+                        {m.requests == null ? "-" : formatNumber(m.requests)}
                       </td>
                       <td className="py-2 text-right tabular-nums text-[#6b7280]">
                         {compactTokens(m.inputTokens)}
@@ -452,22 +452,22 @@ function EngineStrip({ e }: { e: EngineCounters }) {
           </div>
           <div>
             <dt className="text-[10.5px] uppercase tracking-wider text-[#9a9a9a]">Tracked</dt>
-            <dd className="tabular-nums text-[#1d1b1b]">{e.trackedTickers ?? "—"}</dd>
+            <dd className="tabular-nums text-[#1d1b1b]">{e.trackedTickers ?? "-"}</dd>
           </div>
           <div>
             <dt className="text-[10.5px] uppercase tracking-wider text-[#9a9a9a]">Runs</dt>
-            <dd className="tabular-nums text-[#1d1b1b]">{e.propagationRuns ?? "—"}</dd>
+            <dd className="tabular-nums text-[#1d1b1b]">{e.propagationRuns ?? "-"}</dd>
           </div>
           <div>
             <dt className="text-[10.5px] uppercase tracking-wider text-[#9a9a9a]">Loop</dt>
             <dd className={e.loopRunning ? "text-emerald-700" : "text-amber-700"}>
-              {e.loopRunning == null ? "—" : e.loopRunning ? "running" : "stopped"}
+              {e.loopRunning == null ? "-" : e.loopRunning ? "running" : "stopped"}
             </dd>
           </div>
           <div>
             <dt className="text-[10.5px] uppercase tracking-wider text-[#9a9a9a]">Build</dt>
             <dd className="text-[#1d1b1b]" style={{ fontFamily: ADMIN_MONO }}>
-              {e.version ?? "—"}
+              {e.version ?? "-"}
             </dd>
           </div>
         </dl>
@@ -502,7 +502,7 @@ export default async function ApiUsagePage() {
     <div className={ADMIN_SHELL}>
       <AdminPageHeader
         title="API usage"
-        description="Model spend across both billing accounts. Falcon's production traffic and developer tooling bill separately — they are never summed into one number here. The gateway reports its key's lifetime; Anthropic reports the last 7 days."
+        description="Model spend across both billing accounts. Falcon's production traffic and developer tooling bill separately and are never summed into one number here. The gateway reports its key's lifetime; Anthropic reports the last 7 days."
       />
 
       <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -511,7 +511,7 @@ export default async function ApiUsagePage() {
           value={usd(combinedSpend)}
           hint={
             gateway.moneyCalibrated
-              ? `Real dollars — gateway units ×${gateway.moneyScale?.toFixed(2)} via FALCON_GATEWAY_TOPUP_USD.`
+              ? `Real dollars: gateway units ×${gateway.moneyScale?.toFixed(2)} via FALCON_GATEWAY_TOPUP_USD.`
               : "CAUTION: gateway money fields are internal units, ~7x under real dollars. Set FALCON_GATEWAY_TOPUP_USD to the dashboard lifetime top-ups to calibrate."
           }
         />
@@ -520,7 +520,7 @@ export default async function ApiUsagePage() {
           value={usd(gateway.quotaRemainingUsd)}
           hint={
             gateway.quotaLimitUsd
-              ? `${gateway.moneyCalibrated ? "Real credit left" : "Gateway units, NOT dollars"} — of ${usd(gateway.quotaLimitUsd)} ${gateway.moneyCalibrated ? "topped up" : "(uncalibrated)"}. The key stops at zero.`
+              ? `${gateway.moneyCalibrated ? "Real credit left" : "Gateway units, NOT dollars"}, of${usd(gateway.quotaLimitUsd)} ${gateway.moneyCalibrated ? "topped up" : "(uncalibrated)"}. The key stops at zero.`
               : "Spend cap, not the account balance."
           }
           tone={
@@ -536,7 +536,7 @@ export default async function ApiUsagePage() {
         <Stat
           label="Production spend"
           value={usd(gateway.totalCostUsd)}
-          hint={`${gateway.host} · ${gateway.moneyCalibrated ? "real dollars, calibrated" : "gateway units — not dollars until FALCON_GATEWAY_TOPUP_USD is set"}`}
+          hint={`${gateway.host} · ${gateway.moneyCalibrated ? "real dollars, calibrated" : "gateway units, not dollars until FALCON_GATEWAY_TOPUP_USD is set"}`}
         />
         <Stat label="Dev / tooling spend" value={usd(anthropic.totalCostUsd)} hint={anthropic.host} />
       </div>
@@ -564,7 +564,7 @@ export default async function ApiUsagePage() {
       <div className={`${CARD} mt-4 flex items-start gap-2.5 px-5 py-4`}>
         <Wallet className="mt-0.5 h-4 w-4 shrink-0 text-[#6b7280]" aria-hidden />
         <p className="text-[12.5px] leading-relaxed text-[#6b7280]">
-          Numbers refresh at most every 5 minutes — both providers ask for no more than one poll a
+          Numbers refresh at most every 5 minutes. Both providers ask for no more than one poll a
           minute, and usage can lag a request by a few minutes. A high cache write-to-read ratio
           means prompts are paying the 1.25× write premium and never collecting the 0.1× read
           discount, which is worth chasing before anything else on the bill.

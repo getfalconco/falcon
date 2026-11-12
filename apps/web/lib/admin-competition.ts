@@ -22,11 +22,11 @@ const PAPER_COMPETITION_POLICY = {
 const SKIP_REASON_LABEL: Record<string, string> = {
   run_inactive: "Run is not active",
   generated_before_lookback: "Signal predates the 24h lookback around run start",
-  stale_for_ui_window: "Older than 24h — would not show as an open window to users",
+  stale_for_ui_window: "Older than 24h, so it would not show as an open window to users",
   below_min_confidence: "path_confidence below 0.55",
   window_closed: "Already priced in (window closed)",
-  low_magnitude: "Magnitude is low — hidden from open-signal cards",
-  unclear_direction: "Direction unclear — no side to take",
+  low_magnitude: "Magnitude is low, so it is hidden from open-signal cards",
+  unclear_direction: "Direction unclear, so there is no side to take",
   long_only_skip_short: "Policy is long-only",
   duplicate_ticker: "Already holding this ticker",
   max_positions: "Max concurrent positions reached",
@@ -405,7 +405,7 @@ export async function getCompetitionDashboard(): Promise<CompetitionDashboard> {
 }
 
 export function formatUsd(n: number | null | undefined): string {
-  if (n == null || !Number.isFinite(n)) return "—";
+  if (n == null || !Number.isFinite(n)) return "-";
   return new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
@@ -414,7 +414,7 @@ export function formatUsd(n: number | null | undefined): string {
 }
 
 export function formatPct(n: number | null | undefined, digits = 2): string {
-  if (n == null || !Number.isFinite(n)) return "—";
+  if (n == null || !Number.isFinite(n)) return "-";
   const sign = n > 0 ? "+" : "";
   return `${sign}${n.toFixed(digits)}%`;
 }

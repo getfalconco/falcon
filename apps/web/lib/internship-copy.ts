@@ -31,13 +31,13 @@ export const APPLICATION_QUESTIONS = [
   {
     id: "relevant_work",
     label: "What have you built or led that is relevant?",
-    placeholder: "Projects, clubs, writing, research — be concrete.",
+    placeholder: "Projects, clubs, writing, research. Be concrete.",
     maxLength: 600,
   },
   {
     id: "hours",
     label: "How many hours per week can you commit?",
-    placeholder: "e.g. 8–12 hours after school / between classes",
+    placeholder: "e.g. 8 to 12 hours after school / between classes",
     maxLength: 120,
   },
 ] as const;

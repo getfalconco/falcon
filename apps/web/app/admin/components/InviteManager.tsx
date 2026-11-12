@@ -281,7 +281,7 @@ export default function InviteManager({
                         {expiryLabel(inv)}
                       </td>
                       <td className="whitespace-nowrap px-4 py-3 text-[#9a9a9a]">
-                        {inv.claimedEmail ?? "—"}
+                        {inv.claimedEmail ?? "-"}
                       </td>
                     </tr>
                   );

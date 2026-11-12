@@ -41,7 +41,7 @@ export default function MetricCard({
 
       {notTracked ? (
         <>
-          <span className="mt-3 text-[26px] font-medium leading-none tabular-nums text-[#c4c4c0]">—</span>
+          <span className="mt-3 text-[26px] font-medium leading-none tabular-nums text-[#c4c4c0]">-</span>
           <span className="mt-2 text-[11px] text-[#9a9a9a]">not tracked yet</span>
         </>
       ) : (

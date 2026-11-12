@@ -294,7 +294,7 @@ export const Keypad = () => (
       <Key keyCode="Digit8"><span>*</span><span>8</span></Key>
       <Key keyCode="Digit9"><span>(</span><span>9</span></Key>
       <Key keyCode="Digit0"><span>)</span><span>0</span></Key>
-      <Key keyCode="Minus"><span>—</span><span>_</span></Key>
+      <Key keyCode="Minus"><span>-</span><span>_</span></Key>
       <Key keyCode="Equal"><span>+</span><span>=</span></Key>
       <Key keyCode="Backspace" className="w-10" childrenClassName="items-end justify-end pr-[4px] pb-[2px]"><span>delete</span></Key>
     </Row>

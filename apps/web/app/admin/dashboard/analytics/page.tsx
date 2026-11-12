@@ -33,7 +33,7 @@ export default async function AnalyticsTabPage() {
 
       {data.degraded ? (
         <p className="mt-5 rounded-lg border border-amber-200/80 bg-amber-50 px-4 py-2.5 text-[12px] text-amber-900">
-          Live data is unavailable right now — showing placeholders.
+          Live data is unavailable right now, so placeholders are shown.
         </p>
       ) : null}
 

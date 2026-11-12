@@ -97,7 +97,7 @@ function mapUser(user: User, role: string | null): WaitlistUser {
 
   return {
     id: user.id,
-    email: user.email ?? "—",
+    email: user.email ?? "-",
     name: typeof metadata.full_name === "string" ? metadata.full_name : null,
     createdAt: user.created_at,
     status: approved ? "approved" : "pending",

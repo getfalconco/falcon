@@ -38,7 +38,7 @@ function Stat({
 function Side({ direction }: { direction: string }) {
   if (direction === "positive") return <span className="text-emerald-700">long</span>;
   if (direction === "negative") return <span className="text-red-700">short</span>;
-  return <span className="text-[#9a9a9a]">—</span>;
+  return <span className="text-[#9a9a9a]">-</span>;
 }
 
 function EquityChart({ snapshots }: { snapshots: CompetitionSnapshot[] }) {
@@ -124,7 +124,7 @@ export default async function CompetitionPage() {
               label="Falcon P&L"
               value={formatPct(data.falconReturnPct)}
               tone={toneForPnl(data.falconReturnPct)}
-              hint={`vs $10,000 start · DD ${data.latest ? formatPct(-data.latest.drawdownPct) : "—"}`}
+              hint={`vs $10,000 start · DD ${data.latest ? formatPct(-data.latest.drawdownPct) : "-"}`}
             />
             <Stat
               label="SPY (same $10k)"
@@ -163,7 +163,7 @@ export default async function CompetitionPage() {
               <EquityChart snapshots={data.snapshots} />
             </div>
             <p className="mt-2 text-[11px] text-[#9a9a9a]">
-              Last tick {data.run.lastTickAt ? formatRelativeTime(data.run.lastTickAt) : "—"}
+              Last tick {data.run.lastTickAt ? formatRelativeTime(data.run.lastTickAt) : "-"}
               {data.run.lastTickSummary ? ` · ${data.run.lastTickSummary}` : ""}
             </p>
           </section>
@@ -225,7 +225,7 @@ export default async function CompetitionPage() {
                           {formatUsd(pos.notionalUsd)}
                         </td>
                         <td className="px-4 py-2 text-[#1d1b1b]/60">{formatRelativeTime(pos.plannedExitAt)}</td>
-                        <td className="px-4 py-2 text-[#9a9a9a]">{pos.entrySource ?? "—"}</td>
+                        <td className="px-4 py-2 text-[#9a9a9a]">{pos.entrySource ?? "-"}</td>
                         <td className="max-w-[320px] px-4 py-2 text-[#1d1b1b]/55">
                           <div>{pos.headline}</div>
                           <div className="mt-1 line-clamp-3 text-[11px] text-[#9a9a9a]">
@@ -280,7 +280,7 @@ export default async function CompetitionPage() {
                         <td className={`px-4 py-2 tabular-nums ${toneForPnl(pos.returnPct)}`}>
                           {formatPct(pos.returnPct)}
                         </td>
-                        <td className="px-4 py-2 text-[#6b7280]">{pos.exitReason ?? "—"}</td>
+                        <td className="px-4 py-2 text-[#6b7280]">{pos.exitReason ?? "-"}</td>
                         <td className="max-w-[280px] px-4 py-2 text-[#6b7280]">{pos.headline}</td>
                       </tr>
                     ))}
@@ -310,7 +310,7 @@ export default async function CompetitionPage() {
             <div className="border-b-[0.5px] border-black/[0.08] px-4 py-3">
               <h2 className="text-[13px] font-medium text-[#1d1b1b]">Every signal decision</h2>
               <p className="mt-0.5 text-[11px] text-[#9a9a9a]">
-                Each second-order signal id is judged once — take, skip, or quote fail — with the same
+                Each second-order signal id is judged once (take, skip, or quote fail) with the same
                 fields the user card shows.
               </p>
             </div>
@@ -327,7 +327,7 @@ export default async function CompetitionPage() {
                         {d.ticker} · <Side direction={d.direction} /> ·{" "}
                         <span className="text-[#6b7280]">{d.verdict}</span>
                         {d.skipLabel ? (
-                          <span className="text-amber-300/80"> — {d.skipLabel}</span>
+                          <span className="text-amber-300/80">: {d.skipLabel}</span>
                         ) : null}
                       </p>
                       <p className="text-[11px] text-[#9a9a9a]">
@@ -344,7 +344,7 @@ export default async function CompetitionPage() {
                     <p className="mt-1 font-mono text-[10px] text-[#1d1b1b]/25">
                       signal {d.signalId}
                       {d.expectedMovePct != null
-                        ? ` · expected ${d.expectedMovePct.toFixed(1)}% / ${d.expectedDays ?? "—"}d`
+                        ? ` · expected ${d.expectedMovePct.toFixed(1)}% / ${d.expectedDays ?? "-"}d`
                         : ""}
                     </p>
                   </article>

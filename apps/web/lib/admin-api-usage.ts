@@ -240,10 +240,10 @@ async function fetchAnthropic(
     if (res.status === 401 || res.status === 403) {
       throw new Error(
         "Anthropic rejected the key (401/403). The Usage & Cost endpoints need an Admin key " +
-          "(sk-ant-admin…) or an org-scoped key — a workspace-scoped key will not work.",
+          "(sk-ant-admin…) or an org-scoped key. A workspace-scoped key will not work.",
       );
     }
-    throw new Error(`Anthropic HTTP ${res.status}${body ? ` — ${body.slice(0, 200)}` : ""}`);
+    throw new Error(`Anthropic HTTP ${res.status}${body ? `: ${body.slice(0, 200)}` : ""}`);
   }
   return res.json();
 }
@@ -367,7 +367,7 @@ export async function getAnthropicUsage(windowDays = 7): Promise<ProviderUsage> 
       totalCostUsd = total;
     } catch (err) {
       // Usage without cost is still worth rendering; note it and move on.
-      out.error = `cost report unavailable — ${err instanceof Error ? err.message : String(err)}`;
+      out.error = `cost report unavailable: ${err instanceof Error ? err.message : String(err)}`;
     }
 
     out.byModel = Array.from(perModel.values()).sort(
@@ -456,11 +456,11 @@ export async function getGatewayUsage(windowDays = 7): Promise<ProviderUsage> {
         // Distinct wording on purpose: a blank card beside a bare "429" reads
         // as an empty account, and the two call for opposite reactions.
         throw new Error(
-          "Gateway concurrency/rate cap hit after retries — the figures below are unavailable, " +
+          "Gateway concurrency/rate cap hit after retries. The figures below are unavailable, " +
             "not zero. The engine shares this key; try again shortly.",
         );
       }
-      throw new Error(`gateway HTTP ${res.status}${body ? ` — ${body.slice(0, 200)}` : ""}`);
+      throw new Error(`gateway HTTP ${res.status}${body ? `: ${body.slice(0, 200)}` : ""}`);
     }
     const payload = (await res.json()) as Record<string, unknown>;
     out.raw = payload;

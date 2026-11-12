@@ -103,7 +103,7 @@ export async function POST(request: Request, ctx: Ctx) {
         try {
           await sendEmail({
             to: app.email,
-            subject: "Falcon internship — interview confirmed",
+            subject: "Falcon internship: interview confirmed",
             html: `<p>Hi ${app.fullName.split(" ")[0]},</p>
 <p>Your 15-minute interview is booked. Details are in your portal.</p>
 <p><a href="${candidatePortalUrl(app.accessToken)}">Open portal</a></p>

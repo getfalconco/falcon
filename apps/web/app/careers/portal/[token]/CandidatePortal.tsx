@@ -235,7 +235,7 @@ export default function CandidatePortal({ token }: { token: string }) {
           ) : (
             <ul className="space-y-2">
               {slots.length === 0 ? (
-                <li className="text-[14px] text-[#6b7280]">No open slots yet — check back soon.</li>
+                <li className="text-[14px] text-[#6b7280]">No open slots yet. Check back soon.</li>
               ) : (
                 slots.map((s) => (
                   <li
@@ -271,7 +271,7 @@ export default function CandidatePortal({ token }: { token: string }) {
 
       {app.stage === "accepted" ? (
         <p className="text-[15px] text-[#4b4b48]">
-          Accepted — check your email for the intern panel link.
+          Accepted. Check your email for the intern panel link.
         </p>
       ) : null}
     </div>

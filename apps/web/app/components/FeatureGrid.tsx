@@ -32,7 +32,7 @@ const CELLS = [
   },
   {
     title: "The whole network",
-    body: "See how one company connects to its suppliers, customers, and competitors — mapped as a living graph you can explore.",
+    body: "See how one company connects to its suppliers, customers, and competitors, mapped as a living graph you can explore.",
   },
   {
     title: "It compounds",

@@ -88,7 +88,7 @@ export function formatNumber(n: number): string {
 /** Compact, static relative time (rendered server-side). */
 export function formatRelativeTime(iso: string): string {
   const then = Date.parse(iso);
-  if (!Number.isFinite(then)) return "—";
+  if (!Number.isFinite(then)) return "-";
   const diff = Date.now() - then;
   const min = Math.round(diff / 60000);
   if (min < 1) return "just now";

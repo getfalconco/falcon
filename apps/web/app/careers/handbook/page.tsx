@@ -30,7 +30,7 @@ const SECTIONS = [
   },
   {
     title: "Accounts & ownership",
-    body: "All tooling runs on Falcon’s Netlify + Supabase. Candidate/intern portals use opaque tokens — no candidate root ownership of infra. Contractor access should be collaborator-only on Falcon-owned accounts (Madde 9).",
+    body: "All tooling runs on Falcon’s Netlify + Supabase. Candidate/intern portals use opaque tokens, so candidates never own infra at the root. Contractor access should be collaborator-only on Falcon-owned accounts (Madde 9).",
   },
 ];
 

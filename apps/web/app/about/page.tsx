@@ -17,7 +17,7 @@ const MONO = "var(--font-geist-mono), monospace";
 const PARAGRAPHS = [
   "Most traders we know sit somewhere between ten and thirty tabs deep. A news feed, a screener, two brokers, filings, earnings calls, someone's newsletter, a chart with too many indicators on it. The thing that actually moves your stocks is almost never in the tab you're looking at. It's buried in a supplier's 10-K you've never opened.",
   "AI was supposed to help with this. Instead, we got chat windows. You paste a headline in, get a confident paragraph back, then go check whether any of it is true. The AI hasn't read the filings. It doesn't know what you hold. It can't tell you which of your positions a piece of news actually reaches. So you end up doing the same digging as before, just with an extra tab open.",
-  "Falcon reads the filings themselves and maps who depends on whom — suppliers, customers, partners, the exposure between them. Then it watches the news against that map. Not summaries. Not sentiment scores. Actual tracing: news lands on one company, Falcon walks the graph and tells you which stock it touches next, with the sentence it learned that from.",
+  "Falcon reads the filings themselves and maps who depends on whom: suppliers, customers, partners, the exposure between them. Then it watches the news against that map. Not summaries. Not sentiment scores. Actual tracing: news lands on one company, Falcon walks the graph and tells you which stock it touches next, with the sentence it learned that from.",
   "The direction is simple: the research that billion-dollar desks keep to themselves should be sitting on your desk instead.",
   "We trade with Falcon ourselves every day. We think you'll find it useful too.",
 ];

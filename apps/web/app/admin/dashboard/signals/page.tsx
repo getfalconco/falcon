@@ -62,7 +62,7 @@ export default async function SignalsTabPage() {
         </p>
       ) : data.degraded ? (
         <p className="mt-5 rounded-lg border border-amber-200/80 bg-amber-50 px-4 py-2.5 text-[12px] text-amber-900">
-          Live data is unavailable right now — showing placeholders.
+          Live data is unavailable right now, so placeholders are shown.
         </p>
       ) : null}
 
@@ -143,11 +143,11 @@ export default async function SignalsTabPage() {
                           ) : null}
                         </>
                       ) : (
-                        <span className="text-[#1d1b1b]/25">—</span>
+                        <span className="text-[#1d1b1b]/25">-</span>
                       )}
                     </td>
                     <td className="whitespace-nowrap px-4 py-3 tabular-nums text-[#1d1b1b]/60">
-                      {s.expectedDays != null ? `~${s.expectedDays}d` : "—"}
+                      {s.expectedDays != null ? `~${s.expectedDays}d` : "-"}
                     </td>
                     <td className="whitespace-nowrap px-4 py-3">
                       <span
@@ -161,7 +161,7 @@ export default async function SignalsTabPage() {
                       </span>
                     </td>
                     <td className="whitespace-nowrap px-4 py-3 tabular-nums text-[#1d1b1b]/60">
-                      {s.pricedInPct != null ? `${s.pricedInPct}%` : "—"}
+                      {s.pricedInPct != null ? `${s.pricedInPct}%` : "-"}
                     </td>
                     <td className="whitespace-nowrap px-4 py-3 tabular-nums text-[#9a9a9a]">
                       {formatRelativeTime(s.generatedAt)}

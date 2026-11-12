@@ -54,8 +54,8 @@ export const APPLICATION_QUESTIONS: ApplicationQuestion[] = [
       "Falcon's founding membership is a paid plan built for serious traders. Assuming it's a fit, what best describes the capital you actively trade with?",
     options: [
       { value: "under_25k", label: "Under $25,000" },
-      { value: "25k_100k", label: "$25,000 – $100,000" },
-      { value: "100k_500k", label: "$100,000 – $500,000" },
+      { value: "25k_100k", label: "$25,000 to $100,000" },
+      { value: "100k_500k", label: "$100,000 to $500,000" },
       { value: "500k_plus", label: "$500,000+" },
       { value: "scaling", label: "I'm scaling up quickly" },
       { value: "too_much", label: "It's more than I'd want to commit right now" },
