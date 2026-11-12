@@ -248,7 +248,7 @@ export default function Welcome() {
   }, [router, save]);
 
   const canGoNext = !finishing && !busy && step !== "loading" && stepDone(step, answers);
-  const showBack = index > 0 && !finishing && step !== "loading" && step !== "result";
+  const showBack = !finishing && step !== "loading" && step !== "result";
 
   const next = useCallback(() => {
     if (!canGoNext) return;
@@ -264,8 +264,14 @@ export default function Welcome() {
   const back = useCallback(() => {
     if (!showBack || busy) return;
     haptics.select();
+    // The first step leaves the funnel for the landing screen.
+    if (index === 0) {
+      if (router.canGoBack()) router.back();
+      else router.replace("/");
+      return;
+    }
     goTo(index - 1);
-  }, [busy, goTo, index, showBack]);
+  }, [busy, goTo, index, router, showBack]);
 
   // Loading: fetch real SEC filings for their tickers, move on after the list.
   const tickersKey = answers.stocks.map((s) => s.ticker).join(",");
