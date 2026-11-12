@@ -15,7 +15,7 @@ export type Tab =
   | { id: string; kind: "graph" }
   | { id: string; kind: "ticker"; ticker: string }
   | { id: string; kind: "sighting"; cardId: string; title?: string }
-  | { id: string; kind: "strategy" };
+  | { id: string; kind: "strategy"; strategyId: string };
 
 export type WorkspaceLayout = {
   tabs: Tab[];
@@ -26,9 +26,10 @@ export type WorkspaceLayout = {
 
 export const MAX_TABS = 24;
 
-export function tabId(tab: { kind: TabKind; ticker?: string; cardId?: string }): string {
+export function tabId(tab: { kind: TabKind; ticker?: string; cardId?: string; strategyId?: string }): string {
   if (tab.kind === "ticker") return `ticker:${tab.ticker}`;
   if (tab.kind === "sighting") return `sighting:${tab.cardId}`;
+  if (tab.kind === "strategy") return `strategy:${tab.strategyId}`;
   return tab.kind;
 }
 
@@ -50,8 +51,12 @@ function parseTab(raw: unknown): Tab | null {
   switch (t.kind) {
     case "dashboard":
     case "graph":
-    case "strategy":
       return { id: t.kind, kind: t.kind };
+    case "strategy":
+      // One tab per saved strategy (lib/workspace/strategies.ts).
+      return typeof t.strategyId === "string" && /^[A-Za-z0-9_-]{1,64}$/.test(t.strategyId)
+        ? { id: tabId({ kind: "strategy", strategyId: t.strategyId }), kind: "strategy", strategyId: t.strategyId }
+        : null;
     case "ticker":
       return typeof t.ticker === "string" && TICKER_PATTERN.test(t.ticker)
         ? { id: tabId({ kind: "ticker", ticker: t.ticker }), kind: "ticker", ticker: t.ticker }

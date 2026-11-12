@@ -7,6 +7,7 @@ import { buildGraph } from "@/lib/workspace/graph";
 import { useWorkspace } from "../context";
 import { GraphView } from "../GraphView";
 import {
+  BacktestButton,
   ConfidenceMark,
   DirectionMark,
   EmptyState,
@@ -73,6 +74,9 @@ export function SightingTab({ cardId }: { cardId: string }) {
           <KindLabel kind={event.kind} />
           <span className="text-[12px] text-[#9a9a9a]">{formatDateTime(event.occurredAt)}</span>
           <span className="text-[12px] text-[#9a9a9a]">{card.sector}</span>
+          <span className="ml-auto">
+            <BacktestButton cardId={card.id} variant="outline" />
+          </span>
         </div>
         <h1 className="mt-3 max-w-[860px] text-[26px] leading-[35px] text-[#1d1b1b]" style={{ fontFamily: SERIF }}>
           {event.headline}

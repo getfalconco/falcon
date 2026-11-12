@@ -10,6 +10,7 @@ import { RelationLegend } from "./GraphView";
 import { DirectionMark, ExternalAnchor, MONO, NetValue, SectionTitle, TickerButton, formatDateTime, timeAgo } from "./parts";
 import { useToday } from "./tabs/DashboardTab";
 import { findCard } from "./tabs/SightingTab";
+import { StrategyContext } from "./strategy/StrategyContext";
 
 function Facts({ rows }: { rows: [string, React.ReactNode][] }) {
   return (
@@ -181,6 +182,7 @@ export function ContextPanel({ tab }: { tab: Tab | null }) {
   else if (tab?.kind === "graph") body = <GraphContext />;
   else if (tab?.kind === "ticker") body = <TickerContext ticker={tab.ticker} />;
   else if (tab?.kind === "sighting") body = <SightingContext cardId={tab.cardId} />;
+  else if (tab?.kind === "strategy") body = <StrategyContext strategyId={tab.strategyId} />;
   return (
     <aside className="flex h-full w-[280px] shrink-0 flex-col border-l border-black/[0.08] bg-[#f6f6f3]" aria-label="Details">
       <div className="flex h-10 shrink-0 items-center border-b border-black/[0.08] px-4">

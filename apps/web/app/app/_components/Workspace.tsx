@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import type { SupabaseClient } from "@supabase/supabase-js";
+import { strategyFromSighting } from "@falcon/backtest";
 import { isApproved } from "@/lib/auth";
 import { needsWelcome } from "@/lib/onboarding";
 import { isSupabaseConfigured, requireSupabase } from "@/lib/supabase";
@@ -20,6 +21,7 @@ import {
 } from "@/lib/workspace/focus";
 import { MAX_TABS, readLayout, tabId, writeLayout, type Tab, type WorkspaceLayout } from "@/lib/workspace/layout";
 import { useSightings } from "@/lib/workspace/sightings";
+import { BLANK_RULES, createStrategy, deleteStrategy, useStrategies } from "@/lib/workspace/strategies";
 import BrandMark from "../../components/BrandMark";
 import { CompactToday } from "./CompactToday";
 import { ContextPanel } from "./ContextPanel";
@@ -212,6 +214,7 @@ function WorkspaceReady({ viewer }: { viewer: Viewer }) {
   const focusSet = useMemo(() => new Set(focusTickers), [focusTickers]);
   const sightings = useSightings(focusTickers, { getToken, enabled: focusLoaded });
   const [layout, setLayout] = useLayout(viewer.userId);
+  const strategies = useStrategies(viewer.userId);
   const [clock, setClock] = useState(() => Date.now());
 
   // Keeps "updated 3m ago" honest.
@@ -221,6 +224,14 @@ function WorkspaceReady({ viewer }: { viewer: Viewer }) {
   }, []);
 
   const open = useCallback((tab: Tab) => setLayout((l) => openIn(l, tab)), [setLayout]);
+  const openStrategy = useCallback(
+    (strategyId: string) => open({ id: tabId({ kind: "strategy", strategyId }), kind: "strategy", strategyId }),
+    [open],
+  );
+  const newStrategy = useCallback(
+    (init?: Parameters<typeof createStrategy>[1]) => openStrategy(createStrategy(viewer.userId, init ?? { rules: BLANK_RULES }).id),
+    [openStrategy, viewer.userId],
+  );
 
   const api: WorkspaceApi = useMemo(
     () => ({
@@ -237,7 +248,36 @@ function WorkspaceReady({ viewer }: { viewer: Viewer }) {
         const title = card ? `${card.event.ticker} ${KIND_LABEL[card.event.kind].toLowerCase()}` : undefined;
         open({ id: tabId({ kind: "sighting", cardId }), kind: "sighting", cardId, title });
       },
-      openTab: (kind) => open({ id: kind, kind } as Tab),
+      openTab: (kind) => (kind === "strategy" ? newStrategy() : open({ id: kind, kind } as Tab)),
+      userId: viewer.userId,
+      strategies,
+      openStrategy,
+      newStrategy,
+      deleteStrategy: (strategyId) => {
+        const id = tabId({ kind: "strategy", strategyId });
+        setLayout((l) => {
+          const index = l.tabs.findIndex((t) => t.id === id);
+          if (index === -1) return l;
+          const tabs = l.tabs.filter((t) => t.id !== id);
+          const activeId = l.activeId === id ? (tabs[index] ?? tabs[index - 1])?.id ?? "" : l.activeId;
+          return { ...l, tabs, activeId };
+        });
+        deleteStrategy(viewer.userId, strategyId);
+      },
+      backtestSighting: (cardId) => {
+        // One strategy per card: open the one made before, else build the rules and run them.
+        const made = strategies.find((s) => s.origin.kind === "sighting" && s.origin.cardId === cardId);
+        if (made) return openStrategy(made.id);
+        const card = sightings.feed?.cards.find((c) => c.id === cardId);
+        if (!card) return;
+        const b = strategyFromSighting(card);
+        newStrategy({
+          rules: b.strategy,
+          origin: { kind: "sighting", cardId, eventTicker: card.event.ticker, basis: b.basis, notes: b.notes, hasHistory: b.hasHistory },
+          // Event types without history yet would only show an empty run.
+          autorun: b.hasHistory,
+        });
+      },
       addFocus: (item) => {
         if (!focusSet.has(item.ticker)) setFocusList([...focus, item]);
       },
@@ -245,7 +285,7 @@ function WorkspaceReady({ viewer }: { viewer: Viewer }) {
     }),
     // `sightings.refresh` is rebuilt every render; the rest decides.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [focus, focusSet, open, setFocusList, sightings.feed, sightings.loadedAt, sightings.sample, sightings.status],
+    [focus, focusSet, newStrategy, open, openStrategy, setFocusList, setLayout, sightings.feed, sightings.loadedAt, sightings.sample, sightings.status, strategies, viewer.userId],
   );
 
   const active = layout.tabs.find((t) => t.id === layout.activeId) ?? null;
@@ -258,7 +298,7 @@ function WorkspaceReady({ viewer }: { viewer: Viewer }) {
         case "graph":
           return "Graph";
         case "strategy":
-          return "Strategy";
+          return strategies.find((s) => s.id === tab.strategyId)?.rules.name.trim() || "Strategy";
         case "ticker":
           return tab.ticker;
         case "sighting": {
@@ -267,7 +307,7 @@ function WorkspaceReady({ viewer }: { viewer: Viewer }) {
         }
       }
     },
-    [sightings.feed],
+    [sightings.feed, strategies],
   );
 
   const close = useCallback(
@@ -362,11 +402,11 @@ function TabContent({ tab }: { tab: Tab }) {
     case "sighting":
       return <SightingTab cardId={tab.cardId} />;
     case "strategy":
-      return <StrategyTab />;
+      return <StrategyTab strategyId={tab.strategyId} />;
   }
 }
 
-function NoTabs({ onOpen }: { onOpen: (kind: "dashboard" | "graph") => void }) {
+function NoTabs({ onOpen }: { onOpen: (kind: "dashboard" | "graph" | "strategy") => void }) {
   return (
     <div className="flex h-full items-center justify-center">
       <div className="flex gap-2">
@@ -383,6 +423,13 @@ function NoTabs({ onOpen }: { onOpen: (kind: "dashboard" | "graph") => void }) {
           className="inline-flex h-9 items-center rounded-lg border border-black/10 px-4 text-[13px] text-[#1d1b1b] outline-none transition-colors hover:bg-[#efefec] focus-visible:border-black/40"
         >
           Open graph
+        </button>
+        <button
+          type="button"
+          onClick={() => onOpen("strategy")}
+          className="inline-flex h-9 items-center rounded-lg border border-black/10 px-4 text-[13px] text-[#1d1b1b] outline-none transition-colors hover:bg-[#efefec] focus-visible:border-black/40"
+        >
+          New strategy
         </button>
       </div>
     </div>

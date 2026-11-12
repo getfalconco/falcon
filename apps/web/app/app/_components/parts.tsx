@@ -1,7 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { ArrowDownRight, ArrowUpRight, ExternalLink, Minus } from "lucide-react";
+import { ArrowDownRight, ArrowUpRight, ExternalLink, FlaskConical, Minus } from "lucide-react";
 import type { Confidence, Direction, LinkEvidence, RippleCard, RippleHit } from "@falcon/ripple";
 import { KIND_LABEL, relationPhrase } from "@/lib/workspace/feed";
 import { useWorkspace } from "./context";
@@ -171,6 +171,30 @@ export function HitRow({ hit, eventTicker, wide = false }: { hit: RippleHit; eve
   );
 }
 
+/** Opens a Strategy tab that tests past events like this card's on the companies it reaches, and runs it. */
+export function BacktestButton({ cardId, variant = "quiet" }: { cardId: string; variant?: "quiet" | "outline" }) {
+  const { backtestSighting } = useWorkspace();
+  return (
+    <button
+      type="button"
+      onClick={(e) => {
+        e.stopPropagation();
+        backtestSighting(cardId);
+      }}
+      onKeyDown={(e) => e.stopPropagation()}
+      title="Test past events of this type on the companies it reaches"
+      className={
+        variant === "outline"
+          ? "inline-flex h-8 shrink-0 items-center gap-1.5 rounded-lg border border-black/10 bg-white px-3 text-[12.5px] text-[#1d1b1b] outline-none transition-colors hover:bg-[#efefec] focus-visible:border-black/40"
+          : "inline-flex h-6 shrink-0 items-center gap-1 rounded-md px-1.5 text-[12px] text-[#767676] outline-none transition-colors hover:bg-black/[0.05] hover:text-[#1d1b1b] focus-visible:ring-2 focus-visible:ring-black/20"
+      }
+    >
+      <FlaskConical width={variant === "outline" ? 13 : 12} height={variant === "outline" ? 13 : 12} aria-hidden />
+      Backtest this
+    </button>
+  );
+}
+
 /** A Sightings card: the event and the companies it reaches. Opens its tab on click. */
 export function RippleCardView({ card, highlight, maxHits = 4, wide = false }: { card: RippleCard; highlight?: Set<string>; maxHits?: number; wide?: boolean }) {
   const { openSighting } = useWorkspace();
@@ -207,6 +231,9 @@ export function RippleCardView({ card, highlight, maxHits = 4, wide = false }: {
           ) : null}
         </div>
       ) : null}
+      <div className="-mb-1 mt-2 flex justify-end">
+        <BacktestButton cardId={card.id} />
+      </div>
     </article>
   );
 }
