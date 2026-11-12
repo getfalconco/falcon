@@ -1,7 +1,7 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { ArrowDownRight, ArrowUpRight, Minus } from "lucide-react-native";
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
-import type { Confidence, Direction, RippleCard, RippleHit, RippleHistory } from "@falcon/ripple";
+import { cardPricedIn, recordLabel, type Confidence, type Direction, type RippleCard, type RippleHit, type RippleHistory } from "@falcon/ripple";
 import { orderedHits } from "@/lib/sightings";
 import { EASE_CALM, colors, fonts } from "@/theme";
 import { CONFIDENCE, EVENT_KIND, directionColor, signedPct, timeAgo } from "./format";
@@ -29,18 +29,29 @@ export function ConfidenceBars({ confidence }: { confidence: Confidence }) {
 }
 
 /**
- * "Moved the implied way 7 of 9 times, avg +2.1% vs market, 5 trading days".
- * The average keeps its own sign (vs SPY); the count is against the hit's direction.
- * On a list card, `ticker` names which company the line is about.
+ * "5 of 6 similar events, avg +2.1% vs SPY, 5 trading days": the count of
+ * similar past events that went the hit's implied way, of the sample. Nothing
+ * under 6 events. On a list card, `ticker` names which company it is about.
  */
-export function HistoryLine({ history, ticker }: { history: RippleHistory; ticker?: string }) {
-  const times = Math.round(history.hitRate * history.sample);
+export function HistoryLine({ history, ticker, short = false }: { history: RippleHistory | null; ticker?: string; short?: boolean }) {
+  const label = recordLabel(history);
+  if (!history || !label) return null;
   const days = history.windowDays === 1 ? "1 trading day" : `${history.windowDays} trading days`;
   return (
     <Text style={styles.history}>
-      {ticker ? `${ticker} moved` : "Moved"} the implied way {times} of {history.sample} times, avg{" "}
-      {signedPct(history.avgMovePct)} vs market, {days}
+      {ticker ? `${ticker}: ` : ""}
+      {label}
+      {short ? "" : `, avg ${signedPct(history.avgMovePct)} vs ${history.benchmark ?? "market"}, ${days}`}
     </Text>
+  );
+}
+
+/** The small "Priced in" label: the move since the event already went past half its usual reaction. */
+export function PricedInTag() {
+  return (
+    <View style={styles.priced}>
+      <Text style={styles.pricedText}>Priced in</Text>
+    </View>
   );
 }
 
@@ -81,7 +92,10 @@ export function SightingCard({ card, held, onPress }: { card: RippleCard; held: 
             <Text style={styles.kicker} numberOfLines={1}>
               {card.event.ticker} · {kind}
             </Text>
-            <Text style={styles.time}>{timeAgo(card.event.occurredAt)}</Text>
+            <View style={styles.topRight}>
+              {cardPricedIn(card) ? <PricedInTag /> : null}
+              <Text style={styles.time}>{timeAgo(card.event.occurredAt)}</Text>
+            </View>
           </View>
           <Text style={styles.headline}>{card.event.headline}</Text>
 
@@ -106,9 +120,10 @@ export function SightingCard({ card, held, onPress }: { card: RippleCard; held: 
               <Text style={styles.metaText} numberOfLines={1}>
                 {lead.window}
               </Text>
+              {lead.pricedIn && !cardPricedIn(card) ? <PricedInTag /> : null}
             </View>
           ) : null}
-          {lead?.history ? <HistoryLine history={lead.history} ticker={lead.ticker} /> : null}
+          {lead ? <HistoryLine history={lead.history} ticker={lead.ticker} short /> : null}
         </Animated.View>
       )}
     </Pressable>
@@ -138,6 +153,21 @@ const styles = StyleSheet.create({
     color: "rgba(29, 27, 27, 0.5)",
   },
   time: { fontFamily: fonts.sans, fontSize: 12.5, color: colors.faint },
+  topRight: { flexDirection: "row", alignItems: "center", gap: 8 },
+  priced: {
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: "rgba(0, 0, 0, 0.14)",
+  },
+  pricedText: {
+    fontFamily: fonts.mono,
+    fontSize: 9.5,
+    letterSpacing: 1,
+    textTransform: "uppercase",
+    color: colors.body,
+  },
   headline: { marginTop: 8, fontFamily: fonts.serif, fontSize: 17, lineHeight: 25, color: colors.ink },
   chips: { marginTop: 14, flexDirection: "row", flexWrap: "wrap", gap: 6 },
   chip: {

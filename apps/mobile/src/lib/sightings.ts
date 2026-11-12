@@ -1,6 +1,17 @@
 import { useCallback, useEffect, useSyncExternalStore } from "react";
 import { AppState } from "react-native";
-import type { Confidence, Direction, RippleCard, RippleHit, SightingsFeed, TodaySummary } from "@falcon/ripple";
+import {
+  cardConfidence,
+  isWeakSignal,
+  opportunityCard,
+  splitWeakSignals,
+  type Confidence,
+  type Direction,
+  type RippleCard,
+  type RippleHit,
+  type SightingsFeed,
+  type TodaySummary,
+} from "@falcon/ripple";
 import { API_BASE } from "./env";
 import { heldTickers, useHoldings, type Holdings } from "./holdings";
 import { SECTORS, type SectorId } from "./onboarding";
@@ -227,7 +238,7 @@ function portfolioWeight(card: RippleCard, held: Set<string>): number {
 }
 
 function topConfidence(card: RippleCard): number {
-  return card.hits.reduce((best, hit) => Math.max(best, confidenceRank(hit.confidence)), -1);
+  return confidenceRank(cardConfidence(card));
 }
 
 /** Cards that reach the portfolio, the ones that press hardest first. */
@@ -240,13 +251,20 @@ export function portfolioCards(cards: RippleCard[], held: Set<string>): RippleCa
     );
 }
 
-/** Cards that only reach companies outside the portfolio; followed sectors first. */
+/**
+ * Opportunities: cards that only reach companies outside the portfolio, each
+ * with only the hits the engine marked `opportunityEligible` (a record better
+ * than a coin flip, not low, not priced in); never a weak signal. Followed
+ * sectors first.
+ */
 export function opportunityCards(cards: RippleCard[], held: Set<string>, sectors: SectorId[]): RippleCard[] {
   const followed = new Set<string>(
     sectors.flatMap((id) => [id, sectorKey(SECTORS.find((s) => s.id === id)?.label ?? id)]),
   );
   return cards
-    .filter((card) => card.hits.length > 0 && !hitsPortfolio(card, held))
+    .filter((card) => !hitsPortfolio(card, held))
+    .map((card) => opportunityCard(card, held))
+    .filter((card): card is RippleCard => card !== null)
     .sort(
       (a, b) =>
         Number(followsSector(b, followed)) - Number(followsSector(a, followed)) ||
@@ -308,11 +326,20 @@ function localDate(d: Date): string {
   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
 }
 
-/** Today's top block, built from the feed on the phone. */
+/** Weak signals outside the portfolio (card confidence "low"), newest first. */
+export function weakOutsideCards(cards: RippleCard[], held: Set<string>): RippleCard[] {
+  return cards
+    .filter((card) => !hitsPortfolio(card, held) && isWeakSignal(card))
+    .sort((a, b) => time(b.event.occurredAt) - time(a.event.occurredAt));
+}
+
+export { splitWeakSignals };
+
+/** Today's top block, built from the feed on the phone. Weak signals are on neither list. */
 export function buildToday(feed: SightingsFeed | null, holdings: Holdings | null | undefined): TodaySummary {
   const held = heldTickers(holdings);
   const cards = feed?.cards ?? [];
-  const portfolio = portfolioCards(cards, held);
+  const portfolio = splitWeakSignals(portfolioCards(cards, held)).strong;
   return {
     date: localDate(new Date()),
     metric: { kind: "net_direction", value: netDirection(portfolio, held), label: "Net direction" },

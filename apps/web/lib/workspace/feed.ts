@@ -1,12 +1,14 @@
-import type {
-  Confidence,
-  Direction,
-  LinkEvidence,
-  Relation,
-  RippleCard,
-  RippleHit,
-  SightingsFeed,
-  TodaySummary,
+import {
+  isWeakSignal,
+  opportunityCard,
+  type Confidence,
+  type Direction,
+  type LinkEvidence,
+  type Relation,
+  type RippleCard,
+  type RippleHit,
+  type SightingsFeed,
+  type TodaySummary,
 } from "@falcon/ripple";
 import { SECTORS } from "@/lib/onboarding";
 
@@ -136,7 +138,11 @@ function eventCount(n: number): string {
   return n === 1 ? "1 event is" : `${n} events are`;
 }
 
-/** The Today summary, built from the feed and the member's focus list. */
+/**
+ * The Today summary, built from the feed and the member's focus list. Weak
+ * signals (card confidence "low") are on neither list; Opportunities hold
+ * only the hits the engine marked eligible (@falcon/ripple `opportunityCard`).
+ */
 export function buildTodaySummary(
   feed: SightingsFeed | null,
   focusTickers: readonly string[],
@@ -144,8 +150,11 @@ export function buildTodaySummary(
 ): TodaySummary {
   const focus = toSet(focusTickers);
   const cards = sortByTime(feed?.cards ?? []);
-  const portfolio = cards.filter((c) => touchesFocus(c, focus));
-  const opportunities = cards.filter((c) => !touchesFocus(c, focus) && c.hits.length > 0);
+  const portfolio = cards.filter((c) => touchesFocus(c, focus) && !isWeakSignal(c));
+  const opportunities = cards
+    .filter((c) => !touchesFocus(c, focus))
+    .map((c) => opportunityCard(c, focus))
+    .filter((c): c is RippleCard => c !== null);
   const hits = portfolio.flatMap((c) => focusHits(c, focus));
   const value = netDirection(hits);
 
@@ -155,7 +164,7 @@ export function buildTodaySummary(
   } else if (portfolio.length === 0) {
     why = "No events are hitting your portfolio right now.";
   } else {
-    const top = exposureByTicker(feed, Array.from(focus).map((ticker) => ({ ticker })))[0];
+    const top = exposureByTicker({ generatedAt: feed?.generatedAt ?? "", cards: portfolio }, Array.from(focus).map((ticker) => ({ ticker })))[0];
     why =
       top && top.weight > 0
         ? `${eventCount(portfolio.length)} hitting your portfolio. ${top.ticker} is the most exposed.`

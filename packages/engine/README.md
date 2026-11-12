@@ -36,7 +36,7 @@ bound at 95% (z = 1.96) of `wins` of `sample`. The verdict, checked in order:
 | Verdict | When |
 | --- | --- |
 | none | no history (under 6 events, an unclear hit, a kind with no history) |
-| supports | `lower > 0.5`: better than a coin flip |
+| supports | `lower > 0.5` (`SUPPORTS_LOWER_BOUND`): better than a coin flip |
 | leans_other_way | `hitRate <= 0.5` and the average moved against the implied way |
 | coin_flip | `sample >= 20` and `lower <= 0.5` |
 | thin | anything else (too few events to tell) |
@@ -106,3 +106,56 @@ link, the record and, for a low-coverage name, the analyst count, e.g. "A
 filing puts this link above 10% of revenue; went the implied way 27 of 50
 times, no better than a coin flip." The run log lists every cap and drop with
 its reason (`RunResult.ranking`).
+
+## What reaches the user
+
+Rules every surface applies (`/api/sightings`, the web Workspace, the iPhone
+app). The engine writes the flags; the screens read them through the pure
+helpers in `@falcon/ripple` (`cardConfidence`, `isWeakSignal`,
+`splitWeakSignals`, `recordLabel`, `cardPricedIn`, `opportunityCard`) and
+never re-derive them. Tests: `test/trust.test.ts`.
+
+### Card confidence and weak signals
+
+`card.confidence` is the **highest confidence among the card's kept hits**
+(after the record's cap; equal to the best hit's in practice). A card is a
+**weak signal** when that is "low", i.e. every hit on it is low (a coin-flip
+or contrary record, or the judge's own low call). Weak signals are never on
+Today or under Opportunities; in Sightings they are listed last, under a
+collapsed "Weak signals" section. Older cards without the field get the same
+value from their hits.
+
+### The record as a count
+
+Every hit's record reads "5 of 6 similar events": `round(hitRate * sample)`
+moves the implied way, of `sample`. Under 6 events (`MIN_RECORD_SAMPLE`,
+same as `HISTORY_MIN_SAMPLE`) the history is null and no record is shown.
+
+### Priced in
+
+For each directional hit, `src/history.ts` measures the market-adjusted move
+since the event the same way as the record: the adjusted close of the
+session before the event's reaction day to the latest completed close,
+minus SPY over the same closes (`hit.sinceEvent`: `movePct`, `fromDate`,
+`reactionDate`, `asOf`, `benchmark`). With a record whose average went the
+implied way:
+
+```
+pricedIn = sign * movePct > 0.5 * sign * history.avgMovePct     (sign: +1 up, -1 down)
+```
+
+`sinceEvent.pricedInAtPct` is that half-average threshold (signed). No
+record, an average against the implied way, an unclear hit, or a reaction
+day that has not closed yet: not priced in. `card.pricedIn` is true when
+every hit with an implied way is priced in. A priced-in hit stays on its
+card with a "Priced in" label and is never under Opportunities.
+
+### Opportunities
+
+`hit.opportunityEligible` (`opportunityEligible` in `src/rank.ts`) is true
+only when the record's Wilson lower bound is above `SUPPORTS_LOWER_BOUND`
+(the same bar that allows "high" confidence), the capped confidence is not
+"low", the hit has an implied way, and it is not priced in. Opportunities
+list the cards that do not touch the portfolio, each with only its eligible
+hits (held tickers removed); a card left with none, or a weak signal, is
+not listed.

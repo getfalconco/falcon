@@ -6,7 +6,7 @@
  * Pure. Each check returns a list of problems; empty means it passes.
  */
 
-import type { Confidence, Direction, LinkEvidence, Relation, RippleCard, RippleEvent, RippleHistory, RippleHit, SightingsFeed } from "@falcon/ripple";
+import { topConfidence, type Confidence, type Direction, type LinkEvidence, type Relation, type RippleCard, type RippleEvent, type RippleHistory, type RippleHit, type RippleSinceEvent, type SightingsFeed } from "@falcon/ripple";
 
 const DIRECTIONS: readonly Direction[] = ["up", "down", "unclear"];
 const CONFIDENCES: readonly Confidence[] = ["low", "medium", "high"];
@@ -107,6 +107,25 @@ export function hitProblems(h: RippleHit, where: string): string[] {
       out.push(...framingProblems(h.scoreReason, `${where}.scoreReason`));
     }
   }
+  if (h.sinceEvent !== undefined && h.sinceEvent !== null) out.push(...sinceEventProblems(h.sinceEvent, `${where}.sinceEvent`));
+  if (h.pricedIn !== undefined && typeof h.pricedIn !== "boolean") out.push(`${where}: pricedIn must be true or false`);
+  if (h.pricedIn === true && (!h.sinceEvent || h.sinceEvent.pricedInAtPct === null || !h.history)) out.push(`${where}: priced in without a measured move and record`);
+  if (h.opportunityEligible !== undefined) {
+    if (typeof h.opportunityEligible !== "boolean") out.push(`${where}: opportunityEligible must be true or false`);
+    else if (h.opportunityEligible && (h.pricedIn === true || h.confidence === "low" || h.direction === "unclear" || !h.history)) out.push(`${where}: opportunityEligible on a priced-in, low, unclear or unrecorded hit`);
+  }
+  return out;
+}
+
+/** A since-event move must look like one: a plausible percent and dates in order. Pure. */
+export function sinceEventProblems(x: RippleSinceEvent, where: string): string[] {
+  const out: string[] = [];
+  const date = /^\d{4}-\d{2}-\d{2}$/;
+  if (typeof x.movePct !== "number" || !Number.isFinite(x.movePct) || Math.abs(x.movePct) > 200) out.push(`${where}: movePct not a plausible percent`);
+  if (!date.test(x.fromDate ?? "") || !date.test(x.reactionDate ?? "") || !date.test(x.asOf ?? "")) out.push(`${where}: dates must be YYYY-MM-DD`);
+  else if (!(x.fromDate < x.reactionDate && x.reactionDate <= x.asOf)) out.push(`${where}: dates out of order`);
+  if (!nonEmpty(x.benchmark)) out.push(`${where}: benchmark missing`);
+  if (x.pricedInAtPct !== null && (typeof x.pricedInAtPct !== "number" || !Number.isFinite(x.pricedInAtPct))) out.push(`${where}: pricedInAtPct must be a number or null`);
   return out;
 }
 
@@ -149,12 +168,15 @@ export function cardProblems(c: RippleCard, where = "card"): string[] {
   if (!isIso(c.generatedAt)) out.push(`${where}: generatedAt not ISO`);
   if (!c.event) out.push(`${where}: event missing`);
   else out.push(...eventProblems(c.event, `${where}.event`));
+  if (c.confidence !== undefined && !CONFIDENCES.includes(c.confidence)) out.push(`${where}: bad confidence`);
+  if (c.pricedIn !== undefined && typeof c.pricedIn !== "boolean") out.push(`${where}: pricedIn must be true or false`);
   if (!Array.isArray(c.hits) || c.hits.length === 0) out.push(`${where}: no hits`);
   else {
     c.hits.forEach((h, i) => out.push(...hitProblems(h, `${where}.hits[${i}]`)));
     const tickers = c.hits.map((h) => h.ticker);
     if (new Set(tickers).size !== tickers.length) out.push(`${where}: a company appears twice`);
     if (c.event && tickers.includes(c.event.ticker)) out.push(`${where}: the event company is listed as its own hit`);
+    if (c.confidence !== undefined && c.confidence !== topConfidence(c.hits)) out.push(`${where}: confidence must be the highest of its hits'`);
   }
   return out;
 }

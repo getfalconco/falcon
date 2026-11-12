@@ -16,6 +16,8 @@ import {
   MONO,
   NetRing,
   Panel,
+  PricedInTag,
+  RecordText,
   SectionTitle,
   SERIF,
   TickerButton,
@@ -129,9 +131,11 @@ export function TickerTab({ ticker }: { ticker: string }) {
                     {card.event.headline}
                   </button>
                 </h3>
-                <div className="mt-3 flex items-center gap-5 border-t border-black/[0.06] pt-3">
+                <div className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-1.5 border-t border-black/[0.06] pt-3">
                   <DirectionMark direction={hit.direction} />
                   <ConfidenceMark confidence={hit.confidence} />
+                  <RecordText hit={hit} className="text-[12px]" />
+                  {hit.pricedIn ? <PricedInTag since={hit.sinceEvent} /> : null}
                   <span className="text-[12px] text-[#9a9a9a]">{hit.window}</span>
                   {hit.degree === 2 && hit.via ? (
                     <span className="flex items-center gap-1.5 text-[12px] text-[#9a9a9a]">

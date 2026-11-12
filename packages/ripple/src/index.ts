@@ -123,6 +123,46 @@ export type RippleHit = {
   score?: number;
   /** Optional (added by the engine): one plain sentence on what the score rests on, e.g. "A filing puts this link above 10% of revenue; went the implied way 27 of 50 times, no better than a coin flip." */
   scoreReason?: string;
+  /**
+   * Optional (added by the engine): the hit company's market-adjusted move
+   * since the event, measured like `history` (adjusted close from the session
+   * before the event's reaction day to the latest completed close, minus the
+   * benchmark's move over the same closes). Null when the reaction day has
+   * not closed yet, the prices could not be read, or the hit has no implied
+   * way ("unclear").
+   */
+  sinceEvent?: RippleSinceEvent | null;
+  /**
+   * Optional (added by the engine): true when `sinceEvent.movePct` already
+   * went more than half of the record's average move in the implied way
+   * (`|movePct| > |history.avgMovePct| / 2`, same sign as the implied way).
+   * False without a record, or when the record's average went the other way.
+   */
+  pricedIn?: boolean;
+  /**
+   * Optional (added by the engine): whether the hit may be listed under
+   * Opportunities. True only when the Wilson lower bound of its record clears
+   * the engine's "better than a coin flip" bound (the one that allows "high"
+   * confidence), its confidence is not "low", it has an implied way, and it
+   * is not priced in. Screens read this flag; they never re-derive it.
+   */
+  opportunityEligible?: boolean;
+};
+
+/** A hit's move since its event (see RippleHit.sinceEvent). */
+export type RippleSinceEvent = {
+  /** Market-adjusted move, percent, in its actual sign (positive: rose more than the benchmark). */
+  movePct: number;
+  /** The close measured from (the session before the reaction day), YYYY-MM-DD. */
+  fromDate: string;
+  /** The event's reaction day, YYYY-MM-DD. */
+  reactionDate: string;
+  /** The latest completed close measured to, YYYY-MM-DD. */
+  asOf: string;
+  /** What the move is measured against, e.g. "SPY". */
+  benchmark: string;
+  /** Half the record's average move in the implied way, percent, signed like movePct; null without a record that moved the implied way on average. */
+  pricedInAtPct: number | null;
 };
 
 /** One Sightings card. */
@@ -132,6 +172,16 @@ export type RippleCard = {
   hits: RippleHit[];
   sector: string;
   generatedAt: string;
+  /**
+   * Optional (added by the engine): the card's confidence, the highest
+   * confidence among its hits (after the record's cap). A "low" card is a
+   * weak signal: never on Today or under Opportunities, and listed last in
+   * Sightings under "Weak signals". `cardConfidence` reads it, or derives it
+   * the same way for older cards.
+   */
+  confidence?: Confidence;
+  /** Optional (added by the engine): true when every hit with an implied way is priced in (see RippleHit.pricedIn). */
+  pricedIn?: boolean;
 };
 
 export type SightingsFeed = {
@@ -161,3 +211,67 @@ export type TodaySummary = {
   portfolio: RippleCard[];
   opportunities: RippleCard[];
 };
+
+// ---------------------------------------------------------------------------
+// Shared reading rules. Pure, no imports: the engine, the website and the
+// iPhone app all apply the same ones.
+
+const CONFIDENCE_ORDER: Record<Confidence, number> = { low: 0, medium: 1, high: 2 };
+
+/** A record shorter than this is not shown (the engine already writes null below it). */
+export const MIN_RECORD_SAMPLE = 6;
+
+/** The highest confidence among hits; "low" with none. */
+export function topConfidence(hits: readonly Pick<RippleHit, "confidence">[]): Confidence {
+  let best: Confidence = "low";
+  for (const h of hits) if ((CONFIDENCE_ORDER[h.confidence] ?? 0) > CONFIDENCE_ORDER[best]) best = h.confidence;
+  return best;
+}
+
+/** The card's confidence: the engine's, else the highest among its hits. */
+export function cardConfidence(card: Pick<RippleCard, "confidence" | "hits">): Confidence {
+  return card.confidence && card.confidence in CONFIDENCE_ORDER ? card.confidence : topConfidence(card.hits);
+}
+
+/** A weak signal: a card whose confidence is "low" (a coin flip at best). */
+export function isWeakSignal(card: Pick<RippleCard, "confidence" | "hits">): boolean {
+  return cardConfidence(card) === "low";
+}
+
+/** Splits cards into the ones to list and the weak signals, each keeping its order. */
+export function splitWeakSignals<T extends Pick<RippleCard, "confidence" | "hits">>(cards: readonly T[]): { strong: T[]; weak: T[] } {
+  const strong: T[] = [];
+  const weak: T[] = [];
+  for (const c of cards) (isWeakSignal(c) ? weak : strong).push(c);
+  return { strong, weak };
+}
+
+/** Whether every hit with an implied way is priced in: the engine's flag, else derived from the hits' flags. */
+export function cardPricedIn(card: Pick<RippleCard, "pricedIn" | "hits">): boolean {
+  if (typeof card.pricedIn === "boolean") return card.pricedIn;
+  const directional = card.hits.filter((h) => h.direction !== "unclear");
+  return directional.length > 0 && directional.every((h) => h.pricedIn === true);
+}
+
+/** The count behind a record: moves the implied way, of the sample. Null with no record or a sample under 6. */
+export function recordCount(history: RippleHistory | null | undefined): { wins: number; sample: number } | null {
+  if (!history || !Number.isFinite(history.sample) || history.sample < MIN_RECORD_SAMPLE) return null;
+  return { wins: Math.round(history.hitRate * history.sample), sample: history.sample };
+}
+
+/** "5 of 6 similar events", or null when there is no record to show. */
+export function recordLabel(history: RippleHistory | null | undefined): string | null {
+  const r = recordCount(history);
+  return r ? `${r.wins} of ${r.sample} similar events` : null;
+}
+
+/**
+ * The card as Opportunities shows it: only its hits the engine marked
+ * `opportunityEligible`, minus `exclude` (held tickers). Null when the card
+ * is a weak signal or no hit is left.
+ */
+export function opportunityCard<T extends RippleCard>(card: T, exclude?: ReadonlySet<string>): T | null {
+  if (isWeakSignal(card)) return null;
+  const hits = card.hits.filter((h) => h.opportunityEligible === true && !exclude?.has(h.ticker.toUpperCase()));
+  return hits.length ? { ...card, hits } : null;
+}

@@ -68,6 +68,10 @@ export default function Today() {
         <Reveal order={3}>
           <EmptyTitle title="No sightings yet" />
         </Reveal>
+      ) : portfolio.length === 0 && opportunities.length === 0 ? (
+        <Reveal order={3}>
+          <EmptyTitle title="Only weak signals today" />
+        </Reveal>
       ) : (
         <>
           {portfolio.length > 0 ? (

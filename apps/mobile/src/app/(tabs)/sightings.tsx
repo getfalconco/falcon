@@ -4,10 +4,10 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { Reveal } from "@/components/Reveal";
 import { TabScreen } from "@/components/TabScreen";
 import { heldTickers } from "@/lib/holdings";
-import { opportunityCards, portfolioCards, useSightings } from "@/lib/sightings";
+import { opportunityCards, portfolioCards, splitWeakSignals, useSightings, weakOutsideCards } from "@/lib/sightings";
 import { Segmented } from "@/features/sightings/Segmented";
 import { SightingCard } from "@/features/sightings/SightingCard";
-import { EmptyTitle, SampleTag, ScreenTitle, SkeletonCard } from "@/features/sightings/parts";
+import { EmptyTitle, SampleTag, ScreenTitle, SkeletonCard, WeakSignals } from "@/features/sightings/parts";
 
 type Tab = "portfolio" | "opportunities";
 
@@ -32,19 +32,25 @@ export default function Sightings() {
     router.setParams({ tab: undefined });
   }, [params.tab, router]);
 
-  const cards = useMemo(() => {
+  // Weak signals (card confidence "low") go last, folded under "Weak signals".
+  const { cards, weak } = useMemo(() => {
     const all = sightings.feed?.cards ?? [];
-    return tab === "portfolio"
-      ? portfolioCards(all, held)
-      : opportunityCards(all, held, sightings.holdings?.sectors ?? []);
+    if (tab === "portfolio") {
+      const split = splitWeakSignals(portfolioCards(all, held));
+      return { cards: split.strong, weak: split.weak };
+    }
+    return { cards: opportunityCards(all, held, sightings.holdings?.sectors ?? []), weak: weakOutsideCards(all, held) };
   }, [held, sightings.feed, sightings.holdings, tab]);
 
   const loading = sightings.status === "loading";
+  const open = (id: string) => router.push({ pathname: "/sighting/[id]", params: { id } });
   const emptyTitle =
     tab === "portfolio" && held.size === 0 && sightings.status === "ready"
       ? "No holdings added yet"
       : tab === "portfolio"
-        ? "No sightings yet"
+        ? weak.length
+          ? "Only weak signals today"
+          : "No sightings yet"
         : "No opportunities yet";
 
   return (
@@ -62,21 +68,26 @@ export default function Sightings() {
           <SkeletonCard />
           <SkeletonCard />
         </View>
-      ) : cards.length === 0 ? (
-        <Reveal key={`empty-${tab}`} order={0}>
-          <EmptyTitle title={emptyTitle} />
-        </Reveal>
       ) : (
-        <View key={tab} style={styles.cards}>
-          {cards.map((card, i) => (
-            <Reveal key={card.id} order={Math.min(i, 6)}>
-              <SightingCard
-                card={card}
-                held={held}
-                onPress={() => router.push({ pathname: "/sighting/[id]", params: { id: card.id } })}
-              />
+        <View key={tab}>
+          {cards.length === 0 ? (
+            <Reveal order={0}>
+              <EmptyTitle title={emptyTitle} />
             </Reveal>
-          ))}
+          ) : (
+            <View style={styles.cards}>
+              {cards.map((card, i) => (
+                <Reveal key={card.id} order={Math.min(i, 6)}>
+                  <SightingCard card={card} held={held} onPress={() => open(card.id)} />
+                </Reveal>
+              ))}
+            </View>
+          )}
+          <WeakSignals count={weak.length}>
+            {weak.map((card) => (
+              <SightingCard key={card.id} card={card} held={held} onPress={() => open(card.id)} />
+            ))}
+          </WeakSignals>
         </View>
       )}
     </TabScreen>

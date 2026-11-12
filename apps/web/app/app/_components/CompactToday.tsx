@@ -3,7 +3,7 @@
 import type { RippleCard } from "@falcon/ripple";
 import { useWorkspace } from "./context";
 import { FeedNotice } from "./FeedNotice";
-import { DirectionMark, EmptyState, KindLabel, MONO, SectionTitle, feedEmpty, timeAgo } from "./parts";
+import { DirectionMark, EmptyState, KindLabel, MONO, PricedInTag, RecordText, SectionTitle, feedEmpty, timeAgo } from "./parts";
 import { TodayHeader, useToday } from "./tabs/DashboardTab";
 import BrandMark from "../../components/BrandMark";
 
@@ -28,6 +28,8 @@ function CompactCard({ card, focusSet }: { card: RippleCard; focusSet: Set<strin
                 {h.ticker}
               </span>
               <span className="min-w-0 flex-1 truncate text-[#767676]">{h.companyName}</span>
+              {h.pricedIn ? <PricedInTag since={h.sinceEvent} /> : null}
+              <RecordText hit={h} className="text-[12px]" />
               <DirectionMark direction={h.direction} />
             </li>
           ))}

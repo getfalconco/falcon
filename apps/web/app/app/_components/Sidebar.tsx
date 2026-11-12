@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { LogOut, Plus, X } from "lucide-react";
+import { ChevronRight, LogOut, Plus, X } from "lucide-react";
+import { cardPricedIn, splitWeakSignals, type RippleCard } from "@falcon/ripple";
 import { exposureByTicker, sortByTime, touchesFocus } from "@/lib/workspace/feed";
 import { searchTickers, type TickerResult } from "@/lib/workspace/focus";
 import { MAX_STOCKS, TICKER_PATTERN } from "@/lib/onboarding";
@@ -107,11 +108,37 @@ function AddTicker({ onDone }: { onDone: () => void }) {
   );
 }
 
+function SightingRow({ card, active, mine, onOpen }: { card: RippleCard; active: boolean; mine: boolean; onOpen: () => void }) {
+  return (
+    <li>
+      <button type="button" onClick={onOpen} className={`${ROW} items-start py-2 ${active ? "bg-black/[0.055]" : ""}`}>
+        <span className={`mt-[5px] h-1.5 w-1.5 shrink-0 rounded-full ${mine ? "bg-[#1d1b1b]" : "bg-black/15"}`} aria-hidden />
+        <span className="min-w-0 flex-1">
+          <span className="flex items-center gap-2">
+            <span className="text-[11.5px] text-[#1d1b1b]" style={{ fontFamily: MONO }}>
+              {card.event.ticker}
+            </span>
+            {cardPricedIn(card) ? (
+              <span className="text-[10px] uppercase tracking-[0.08em] text-[#767676]" style={{ fontFamily: MONO }}>
+                Priced in
+              </span>
+            ) : null}
+            <span className="ml-auto shrink-0 text-[11px] text-[#9a9a9a]">{timeAgo(card.event.occurredAt)}</span>
+          </span>
+          <span className="mt-0.5 line-clamp-2 text-[12px] leading-[17px] text-[#4b4b48]">{card.event.headline}</span>
+        </span>
+      </button>
+    </li>
+  );
+}
+
 export function Sidebar({ email, onSignOut, activeTicker, activeCardId }: { email: string | null; onSignOut: (() => void) | null; activeTicker: string | null; activeCardId: string | null }) {
   const { feed, feedStatus, focus, focusSet, openTicker, openSighting, removeFocus } = useWorkspace();
   const [adding, setAdding] = useState(false);
   const exposure = useMemo(() => new Map(exposureByTicker(feed, focus).map((e) => [e.ticker, e])), [feed, focus]);
   const cards = useMemo(() => sortByTime(feed?.cards ?? []), [feed]);
+  // Weak signals (card confidence "low") go last, folded away.
+  const split = useMemo(() => splitWeakSignals(cards), [cards]);
 
   return (
     <aside className="flex h-full w-[260px] shrink-0 flex-col border-r border-black/[0.08] bg-[#f6f6f3]" aria-label="Sidebar">
@@ -180,32 +207,35 @@ export function Sidebar({ email, onSignOut, activeTicker, activeCardId }: { emai
             <SectionTitle count={cards.length}>Sightings</SectionTitle>
           </div>
           {cards.length ? (
-            <ul className="mt-0.5 flex flex-col">
-              {cards.map((card) => {
-                const mine = touchesFocus(card, focusSet);
-                const active = activeCardId === card.id;
-                return (
-                  <li key={card.id}>
-                    <button
-                      type="button"
-                      onClick={() => openSighting(card.id)}
-                      className={`${ROW} items-start py-2 ${active ? "bg-black/[0.055]" : ""}`}
-                    >
-                      <span className={`mt-[5px] h-1.5 w-1.5 shrink-0 rounded-full ${mine ? "bg-[#1d1b1b]" : "bg-black/15"}`} aria-hidden />
-                      <span className="min-w-0 flex-1">
-                        <span className="flex items-center gap-2">
-                          <span className="text-[11.5px] text-[#1d1b1b]" style={{ fontFamily: MONO }}>
-                            {card.event.ticker}
-                          </span>
-                          <span className="ml-auto shrink-0 text-[11px] text-[#9a9a9a]">{timeAgo(card.event.occurredAt)}</span>
-                        </span>
-                        <span className="mt-0.5 line-clamp-2 text-[12px] leading-[17px] text-[#4b4b48]">{card.event.headline}</span>
-                      </span>
-                    </button>
-                  </li>
-                );
-              })}
-            </ul>
+            <>
+              {split.strong.length ? (
+                <ul className="mt-0.5 flex flex-col">
+                  {split.strong.map((card) => (
+                    <SightingRow key={card.id} card={card} active={activeCardId === card.id} mine={touchesFocus(card, focusSet)} onOpen={() => openSighting(card.id)} />
+                  ))}
+                </ul>
+              ) : (
+                <p className="px-2 py-2 text-[12px] text-[#9a9a9a]">Only weak signals today</p>
+              )}
+              {split.weak.length ? (
+                <details className="group mt-2" open={split.weak.some((c) => c.id === activeCardId) || undefined}>
+                  <summary
+                    className={`${ROW} h-8 cursor-pointer list-none text-[11px] uppercase tracking-[0.14em] text-[#1d1b1b]/45 [&::-webkit-details-marker]:hidden`}
+                    style={{ fontFamily: MONO }}
+                    title="Cards whose best link is low confidence"
+                  >
+                    <ChevronRight width={12} height={12} strokeWidth={2} className="shrink-0 transition-transform group-open:rotate-90" aria-hidden />
+                    Weak signals
+                    <span className="text-[#1d1b1b]/30">{split.weak.length}</span>
+                  </summary>
+                  <ul className="mt-0.5 flex flex-col opacity-80">
+                    {split.weak.map((card) => (
+                      <SightingRow key={card.id} card={card} active={activeCardId === card.id} mine={touchesFocus(card, focusSet)} onOpen={() => openSighting(card.id)} />
+                    ))}
+                  </ul>
+                </details>
+              ) : null}
+            </>
           ) : (
             <p className="px-2 py-2 text-[12px] text-[#9a9a9a]">
               {feedStatus === "loading" ? "Loading" : feedStatus === "ready" ? "No sightings yet" : "Sightings are not available"}

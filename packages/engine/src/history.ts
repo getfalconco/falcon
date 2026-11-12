@@ -42,7 +42,7 @@
  * day the market closed at 13:00 counts as during the session.
  */
 
-import type { Direction, RippleCard, RippleHistory } from "@falcon/ripple";
+import type { Direction, RippleCard, RippleHistory, RippleSinceEvent } from "@falcon/ripple";
 import { signOf, type EventBasis } from "./events.ts";
 import type { DailyClose, MarketData, ReportedQuarter } from "./market.ts";
 import type { PastEvent } from "./past-events.ts";
@@ -196,6 +196,49 @@ export function summarizeMoves(
   };
 }
 
+// ---------------------------------------------------------------------------
+// Priced in (pure)
+
+/** Share of the record's average move that, once gone since the event, counts as priced in. */
+export const PRICED_IN_SHARE = 0.5;
+
+/**
+ * The hit's market-adjusted move since the event, measured like the record:
+ * from the close before the reaction day (`index`) to the latest close in
+ * `calendar` (completed sessions only), minus the benchmark over the same
+ * closes. Null when the reaction day has not closed yet or a close is
+ * missing. Pure.
+ */
+export function moveSinceEvent(calendar: readonly string[], index: number | null, hit: ReadonlyMap<string, number>, bench: ReadonlyMap<string, number>): Move | null {
+  if (index === null || index < 1 || index >= calendar.length) return null;
+  return windowMove(calendar, index, calendar.length - index, hit, bench);
+}
+
+/**
+ * Whether a move since the event already went more than PRICED_IN_SHARE of
+ * the record's average move in the implied way. The threshold keeps the
+ * implied way's sign; null (never priced in) without a record, for an
+ * unclear hit, or when the record's average went the other way. Pure.
+ */
+export function pricedInRead(movePct: number, history: Pick<RippleHistory, "avgMovePct"> | null, direction: Direction): { pricedIn: boolean; thresholdPct: number | null } {
+  if (!history || direction === "unclear") return { pricedIn: false, thresholdPct: null };
+  const sign = direction === "up" ? 1 : -1;
+  const impliedAvg = sign * history.avgMovePct;
+  if (!(impliedAvg > 0)) return { pricedIn: false, thresholdPct: null };
+  const threshold = PRICED_IN_SHARE * impliedAvg;
+  return { pricedIn: sign * movePct > threshold, thresholdPct: Math.round(sign * threshold * 100) / 100 };
+}
+
+/** The contract's since-event block from a measured move. Pure. */
+export function sinceEventOf(move: Move, history: Pick<RippleHistory, "avgMovePct"> | null, direction: Direction): { sinceEvent: RippleSinceEvent; pricedIn: boolean } {
+  const movePct = Math.round(move.adjustedPct * 100) / 100;
+  const read = pricedInRead(movePct, history, direction);
+  return {
+    sinceEvent: { movePct, fromDate: move.fromDate, reactionDate: move.reactionDate, asOf: move.toDate, benchmark: BENCHMARK, pricedInAtPct: read.thresholdPct },
+    pricedIn: read.pricedIn,
+  };
+}
+
 const DAY_MS = 86_400_000;
 const dayNumber = (ymd: string) => Math.round(Date.parse(`${ymd}T12:00:00Z`) / DAY_MS);
 
@@ -232,6 +275,8 @@ export type HitHistory = {
   /** Why it is null, or what it rests on. */
   note: string;
   moves: Move[];
+  /** The move since this card's event and whether it is priced in; null when not measurable. */
+  since?: { sinceEvent: RippleSinceEvent; pricedIn: boolean } | null;
 };
 
 export type HistoryDeps = {
@@ -349,13 +394,18 @@ export async function cardHistory(card: RippleCard, basis: EventBasis | null, de
     moves.sort((a, b) => a.reactionDate.localeCompare(b.reactionDate));
     const extra = moves.length ? { benchmark: BENCHMARK, from: moves[0]!.reactionDate, to: moves[moves.length - 1]!.reactionDate } : {};
     const history = summarizeMoves(moves, hit.direction, windowDays, extra);
+    const sinceMove = moveSinceEvent(calendar, currentReaction, closes, bench);
+    const since = sinceMove ? sinceEventOf(sinceMove, history, hit.direction) : null;
     const matched = moves.filter((m) => wentImpliedWay(m.adjustedPct, hit.direction as "up" | "down")).length;
     const avg = moves.length ? moves.reduce((s, m) => s + m.adjustedPct, 0) / moves.length : 0;
     const note = moves.length
       ? `${matched} of ${moves.length} ${hit.direction} vs ${BENCHMARK}, avg ${fmt(avg)}, ${windowDays}d${unmeasured ? ` (${unmeasured} not measurable)` : ""}${history ? "" : `: under ${HISTORY_MIN_SAMPLE}, not shown`}`
       : `no measurable past event${unmeasured ? ` (${unmeasured} without prices)` : ""}`;
-    log(`    ${hit.ticker} (${hit.direction}, "${hit.window}"): ${note}`);
-    out.push({ ticker: hit.ticker, history, note, moves });
+    const sinceNote = since
+      ? `; since event ${fmt(since.sinceEvent.movePct)} to ${since.sinceEvent.asOf}${since.sinceEvent.pricedInAtPct === null ? "" : `, priced in past ${fmt(since.sinceEvent.pricedInAtPct)}`}${since.pricedIn ? ": PRICED IN" : ""}`
+      : "; since event: reaction day not closed yet";
+    log(`    ${hit.ticker} (${hit.direction}, "${hit.window}"): ${note}${sinceNote}`);
+    out.push({ ticker: hit.ticker, history, note, moves, since });
   }
   return out;
 }

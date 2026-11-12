@@ -19,7 +19,7 @@ import { heldTickers } from "@/lib/holdings";
 import { orderedHits, useSightingCard } from "@/lib/sightings";
 import { ConnectionGraph } from "@/features/sightings/ConnectionGraph";
 import { Quote, openLink } from "@/features/sightings/Evidence";
-import { ConfidenceBars, DirectionIcon, HistoryLine, cardStyles } from "@/features/sightings/SightingCard";
+import { ConfidenceBars, DirectionIcon, HistoryLine, PricedInTag, cardStyles } from "@/features/sightings/SightingCard";
 import {
   CONFIDENCE,
   DIRECTION,
@@ -27,6 +27,8 @@ import {
   RELATION,
   directionColor,
   directionSoft,
+  shortDay,
+  signedPct,
   timeAgo,
 } from "@/features/sightings/format";
 import { EmptyTitle, SkeletonCard } from "@/features/sightings/parts";
@@ -70,10 +72,18 @@ function HitBlock({ hit, held, onOpen }: { hit: RippleHit; held: boolean; onOpen
         <Text style={styles.metaText}>{CONFIDENCE[hit.confidence]}</Text>
         <Text style={styles.metaDot}>·</Text>
         <Text style={styles.metaText}>{hit.window}</Text>
+        {hit.pricedIn ? <PricedInTag /> : null}
       </View>
 
       <Text style={styles.mechanism}>{hit.mechanism}</Text>
-      {hit.history ? <HistoryLine history={hit.history} /> : null}
+      <HistoryLine history={hit.history} />
+      {hit.sinceEvent ? (
+        <Text style={styles.since}>
+          Moved {signedPct(hit.sinceEvent.movePct)} vs {hit.sinceEvent.benchmark} since the event, as of{" "}
+          {shortDay(hit.sinceEvent.asOf)} close
+          {hit.sinceEvent.pricedInAtPct !== null ? `; half its usual move is ${signedPct(hit.sinceEvent.pricedInAtPct)}` : ""}
+        </Text>
+      ) : null}
       {hit.evidence.length > 0 ? (
         <View style={styles.quotes}>
           {hit.evidence.map((evidence, i) => (
@@ -261,6 +271,7 @@ const styles = StyleSheet.create({
   hitMeta: { marginTop: 14, flexDirection: "row", alignItems: "center", flexWrap: "wrap", gap: 6 },
   metaText: { fontFamily: fonts.sans, fontSize: 13, lineHeight: 18, color: colors.muted },
   metaDot: { fontFamily: fonts.sans, fontSize: 13, color: colors.placeholder },
+  since: { marginTop: 6, fontFamily: fonts.sans, fontSize: 12.5, lineHeight: 17, color: colors.faint },
   mechanism: { marginTop: 12, fontFamily: fonts.sans, fontSize: 15.5, lineHeight: 23, color: colors.ink },
   quotes: { marginTop: 16, gap: 14 },
 });

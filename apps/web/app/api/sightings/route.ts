@@ -1,7 +1,7 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { NextResponse } from "next/server";
-import type { RippleCard, SightingsFeed } from "@falcon/ripple";
+import { isWeakSignal, opportunityCard, type RippleCard, type SightingsFeed } from "@falcon/ripple";
 import { clientIp, rateLimit, tooManyRequests } from "@/lib/rate-limit";
 import { getSupabaseAdmin } from "@/lib/supabase-admin";
 
@@ -14,10 +14,15 @@ export const dynamic = "force-dynamic";
  *   GET /api/sightings                      ->  200 SightingsFeed
  *   GET /api/sightings?tickers=NVDA,AMD     ->  200 SightingsFeed & { portfolio, opportunities }
  *
- * `cards` are the fresh cards of the last 7 days, newest event first;
+ * `cards` are the fresh cards of the last 7 days, newest event first (weak
+ * signals included: the screens list them last, under "Weak signals");
  * `generatedAt` is when the newest of them was written. With `tickers`,
  * `portfolio` holds the cards whose event company or any hit is one of them,
- * and `opportunities` the rest (cards stay whole either way, same order).
+ * and `opportunities` the other cards, each with only the hits the engine
+ * marked `opportunityEligible` (a record better than a coin flip, not low,
+ * not priced in). Neither list holds a weak signal (card confidence "low",
+ * see @falcon/ripple `isWeakSignal`); the rules live in the engine and in
+ * @falcon/ripple, never re-derived here.
  *
  * Reads public.sightings_cards (not stale, event in the window); when that
  * is empty or unreachable outside production, the engine's local output
@@ -140,7 +145,10 @@ export async function GET(request: Request) {
   if (tickers === null) return NextResponse.json(feed, { headers });
 
   const held = new Set(tickers);
-  const portfolio = feed.cards.filter((c) => touches(c, held));
-  const opportunities = feed.cards.filter((c) => !touches(c, held));
+  const portfolio = feed.cards.filter((c) => touches(c, held) && !isWeakSignal(c));
+  const opportunities = feed.cards
+    .filter((c) => !touches(c, held))
+    .map((c) => opportunityCard(c, held))
+    .filter((c): c is RippleCard => c !== null);
   return NextResponse.json({ ...feed, portfolio, opportunities }, { headers });
 }

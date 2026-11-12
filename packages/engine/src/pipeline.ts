@@ -6,7 +6,7 @@
  * src/rank.ts (formula: README.md, "Ranking").
  */
 
-import type { Confidence, RippleCard, RippleHit, SightingsFeed } from "@falcon/ripple";
+import { cardPricedIn, topConfidence, type Confidence, type RippleCard, type RippleHit, type SightingsFeed } from "@falcon/ripple";
 import { detectEvents, type DetectedEvent, type SourceProblem } from "./events.ts";
 import { evidenceOf, loadGraph, nameOf, pathWeight, walk, type Graph, type Path } from "./graph.ts";
 import { cardHistory, memoDeps, type HistoryDeps } from "./history.ts";
@@ -170,6 +170,8 @@ export async function runSightings(opts: RunOptions): Promise<RunResult> {
           mechanism: ok.mechanism,
           evidence,
           history: null,
+          sinceEvent: null,
+          pricedIn: false,
         } });
       }
       if (hits.length === 0) {
@@ -191,7 +193,12 @@ export async function runSightings(opts: RunOptions): Promise<RunResult> {
       try {
         for (const r of await cardHistory(draft, ev.basis ?? null, deps)) {
           const hit = hits.find((x) => x.hit.ticker === r.ticker)?.hit;
-          if (hit && r.history) hit.history = r.history;
+          if (!hit) continue;
+          if (r.history) hit.history = r.history;
+          if (r.since) {
+            hit.sinceEvent = r.since.sinceEvent;
+            hit.pricedIn = r.since.pricedIn;
+          }
         }
       } catch (err) {
         const message = `${ev.event.ticker}: ${err instanceof Error ? err.message : String(err)}`;
@@ -224,12 +231,16 @@ export async function runSightings(opts: RunOptions): Promise<RunResult> {
       log(`  ${ev.event.ticker}: no hit left after ranking, no card`);
       continue;
     }
+    const kept = r.hits.map((x) => x.hit);
     const card: RippleCard = {
       id: `${opts.sector}-${ev.event.id}`,
       event: ev.event,
-      hits: r.hits.map((x) => x.hit),
+      hits: kept,
       sector: opts.sector,
       generatedAt,
+      // Card confidence: the highest among its kept hits (README, "Card confidence").
+      confidence: topConfidence(kept),
+      pricedIn: cardPricedIn({ hits: kept }),
     };
     const problems = cardProblems(card);
     if (problems.length) {

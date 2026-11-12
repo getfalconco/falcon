@@ -2,7 +2,7 @@
 
 import type { ReactNode } from "react";
 import { ArrowDownRight, ArrowUpRight, Minus } from "lucide-react";
-import type { Confidence, Direction, LinkEvidence, RippleCard, RippleHit } from "@falcon/ripple";
+import { cardPricedIn, recordLabel, type Confidence, type Direction, type LinkEvidence, type RippleCard, type RippleHit, type RippleSinceEvent } from "@falcon/ripple";
 import { KIND_LABEL, relationPhrase } from "@/lib/workspace/feed";
 import { useWorkspace } from "./context";
 
@@ -117,6 +117,52 @@ export function ConfidenceMark({ confidence }: { confidence: Confidence }) {
   );
 }
 
+/** "+1.9%" with a plain minus for falls. */
+export function signedPct(n: number): string {
+  const v = Math.round(n * 10) / 10;
+  return `${v > 0 ? "+" : v < 0 ? "-" : ""}${Math.abs(v).toFixed(1)}%`;
+}
+
+/** "Nov 11" from YYYY-MM-DD. */
+export function shortDay(ymd: string): string {
+  const t = Date.parse(`${ymd}T12:00:00Z`);
+  if (!Number.isFinite(t)) return ymd;
+  return new Date(t).toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" });
+}
+
+/** "Moved +1.9% vs SPY since the event, as of Nov 11 close". */
+export function sinceEventText(x: RippleSinceEvent): string {
+  return `Moved ${signedPct(x.movePct)} vs ${x.benchmark} since the event, as of ${shortDay(x.asOf)} close`;
+}
+
+/** The small "Priced in" label; its title says what it rests on. */
+export function PricedInTag({ since }: { since?: RippleSinceEvent | null }) {
+  const title = since
+    ? `${sinceEventText(since)}${since.pricedInAtPct === null ? "" : `, past half its usual move (${signedPct(since.pricedInAtPct)})`}`
+    : "Already moved past half its usual reaction";
+  return (
+    <span
+      className="inline-flex h-[18px] shrink-0 items-center rounded border border-black/15 px-1.5 text-[10.5px] uppercase leading-none tracking-[0.08em] text-[#4b4b48]"
+      style={{ fontFamily: MONO }}
+      title={title}
+    >
+      Priced in
+    </span>
+  );
+}
+
+/** "5 of 6 similar events", or "No record" when there are under 6. */
+export function RecordText({ hit, className = "" }: { hit: Pick<RippleHit, "history">; className?: string }) {
+  const label = recordLabel(hit.history);
+  const h = hit.history;
+  const title = h && label ? `${label} moved the implied way, avg ${signedPct(h.avgMovePct)} vs ${h.benchmark ?? "the market"} over ${h.windowDays === 1 ? "1 trading day" : `${h.windowDays} trading days`}` : "Fewer than 6 similar past events";
+  return (
+    <span className={`whitespace-nowrap tabular-nums ${label ? "text-[#4b4b48]" : "text-[#9a9a9a]"} ${className}`} title={title}>
+      {label ?? "No record"}
+    </span>
+  );
+}
+
 /** A ticker that opens its tab. */
 export function TickerButton({ ticker, className = "", muted = false }: { ticker: string; className?: string; muted?: boolean }) {
   const { openTicker, focusSet } = useWorkspace();
@@ -160,9 +206,15 @@ export function HitRow({ hit, eventTicker, wide = false }: { hit: RippleHit; eve
       }`}
     >
       <TickerButton ticker={hit.ticker} />
-      <span className="min-w-0 truncate text-[12.5px] text-[#4b4b48]" title={relationPhrase(hit.relation, from)}>
-        {relationPhrase(hit.relation, from)}
-        {hit.degree === 2 ? <span className="text-[#9a9a9a]">, 2nd degree</span> : null}
+      <span className="flex min-w-0 flex-col">
+        <span className="min-w-0 truncate text-[12.5px] text-[#4b4b48]" title={relationPhrase(hit.relation, from)}>
+          {relationPhrase(hit.relation, from)}
+          {hit.degree === 2 ? <span className="text-[#9a9a9a]">, 2nd degree</span> : null}
+        </span>
+        <span className="mt-0.5 flex min-w-0 items-center gap-2 text-[11.5px]">
+          <RecordText hit={hit} />
+          {hit.pricedIn ? <PricedInTag since={hit.sinceEvent} /> : null}
+        </span>
       </span>
       <DirectionMark direction={hit.direction} />
       <ConfidenceMark confidence={hit.confidence} />
@@ -217,6 +269,7 @@ export function RippleCardView({ card, highlight, maxHits = 4, wide = false }: {
       <div className="flex items-center gap-2">
         <TickerButton ticker={card.event.ticker} />
         <KindLabel kind={card.event.kind} />
+        {cardPricedIn(card) ? <PricedInTag since={card.hits.find((h) => h.pricedIn)?.sinceEvent} /> : null}
         <span className="ml-auto text-[12px] text-[#9a9a9a]">{timeAgo(card.event.occurredAt)}</span>
       </div>
       <h3 className="mt-2 text-[14px] leading-[20px] text-[#1d1b1b]">{card.event.headline}</h3>

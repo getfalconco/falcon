@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
-import type { RippleCard, RippleHistory } from "@falcon/ripple";
+import { cardPricedIn, recordLabel, type RippleCard, type RippleHistory } from "@falcon/ripple";
 import { relationPhrase } from "@/lib/workspace/feed";
 import { buildGraph } from "@/lib/workspace/graph";
 import { useWorkspace } from "../context";
@@ -16,11 +16,14 @@ import {
   KindLabel,
   MONO,
   Panel,
+  PricedInTag,
   SectionTitle,
   SERIF,
   TickerButton,
   feedEmpty,
   formatDateTime,
+  signedPct,
+  sinceEventText,
 } from "../parts";
 
 export function findCard(cards: readonly RippleCard[] | undefined, cardId: string): RippleCard | null {
@@ -28,19 +31,17 @@ export function findCard(cards: readonly RippleCard[] | undefined, cardId: strin
 }
 
 /**
- * "Moved the implied way 7 of 9 times, avg +2.1% vs market, 5 trading days".
- * Null when the engine had too few similar past events (or no implied way) to measure.
+ * "5 of 6 similar events, avg +2.1% vs SPY over 5 trading days". Under 6
+ * similar past events (or no implied way) the engine measures no record.
  */
 function HistoryLine({ history }: { history: RippleHistory | null }) {
-  if (!history) return <span className="text-[12px] text-[#9a9a9a]">No measured past reactions</span>;
-  const v = Math.round(history.avgMovePct * 10) / 10;
-  const avg = `${v > 0 ? "+" : v < 0 ? "-" : ""}${Math.abs(v).toFixed(1)}%`;
-  const times = Math.round(history.hitRate * history.sample);
+  const label = recordLabel(history);
+  if (!history || !label) return <span className="text-[12px] text-[#9a9a9a]">No record (fewer than 6 similar events)</span>;
   const days = history.windowDays === 1 ? "1 trading day" : `${history.windowDays} trading days`;
   const span = history.from && history.to ? `, ${history.from.slice(0, 4)} to ${history.to.slice(0, 4)}` : "";
   return (
-    <span className="text-[12px] text-[#4b4b48]" title={`Past events like this one${span}, each measured against ${history.benchmark ?? "the market"}`}>
-      Moved the implied way {times} of {history.sample} times, avg {avg} vs market, {days}
+    <span className="text-[12px] text-[#4b4b48]" title={`Similar past events${span}, each counted when it moved the implied way against ${history.benchmark ?? "the market"}`}>
+      {label}, avg {signedPct(history.avgMovePct)} vs {history.benchmark ?? "market"} over {days}
     </span>
   );
 }
@@ -74,6 +75,7 @@ export function SightingTab({ cardId }: { cardId: string }) {
           <KindLabel kind={event.kind} />
           <span className="text-[12px] text-[#9a9a9a]">{formatDateTime(event.occurredAt)}</span>
           <span className="text-[12px] text-[#9a9a9a]">{card.sector}</span>
+          {cardPricedIn(card) ? <PricedInTag since={card.hits.find((h) => h.pricedIn)?.sinceEvent} /> : null}
           <span className="ml-auto">
             <BacktestButton cardId={card.id} variant="outline" />
           </span>
@@ -111,10 +113,17 @@ export function SightingTab({ cardId }: { cardId: string }) {
                       <span className="text-[12px] text-[#9a9a9a]">{hit.window}</span>
                       {hit.degree === 2 ? <span className="text-[12px] text-[#9a9a9a]">2nd degree</span> : null}
                       {focusSet.has(hit.ticker) ? <span className="text-[12px] text-[#767676]">On your list</span> : null}
+                      {hit.pricedIn ? <PricedInTag since={hit.sinceEvent} /> : null}
                       <span className="ml-auto">
                         <HistoryLine history={hit.history} />
                       </span>
                     </div>
+                    {hit.sinceEvent ? (
+                      <p className="mt-1.5 text-right text-[12px] text-[#9a9a9a]">
+                        {sinceEventText(hit.sinceEvent)}
+                        {hit.sinceEvent.pricedInAtPct !== null ? `; half its usual move is ${signedPct(hit.sinceEvent.pricedInAtPct)}` : ""}
+                      </p>
+                    ) : null}
                     <p className="mt-2.5 text-[13px] leading-[20px] text-[#4b4b48]">{hit.mechanism}</p>
                     {hit.evidence.length ? (
                       <div className="mt-3 flex flex-col gap-3">

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
-import { UserRound } from "lucide-react-native";
+import { ChevronRight, UserRound } from "lucide-react-native";
 import Animated, {
   useAnimatedStyle,
   useReducedMotion,
@@ -38,6 +38,37 @@ export function SectionHeader({ title, action }: { title: string; action?: { lab
           {({ pressed }) => <Text style={[styles.action, pressed ? styles.actionPressed : null]}>{action.label}</Text>}
         </Pressable>
       ) : null}
+    </View>
+  );
+}
+
+/**
+ * "Weak signals": cards whose best link is low confidence, folded under a
+ * header at the bottom of a list. Closed until tapped.
+ */
+export function WeakSignals({ count, children }: { count: number; children: React.ReactNode }) {
+  const [open, setOpen] = useState(false);
+  if (count === 0) return null;
+  return (
+    <View style={styles.weak}>
+      <Pressable
+        accessibilityRole="button"
+        accessibilityState={{ expanded: open }}
+        accessibilityLabel={`Weak signals, ${count}`}
+        onPress={() => setOpen((v) => !v)}
+        hitSlop={8}
+      >
+        {({ pressed }) => (
+          <View style={[styles.weakRow, pressed ? styles.actionPressed : null]}>
+            <View style={open ? styles.chevronOpen : null}>
+              <ChevronRight size={15} strokeWidth={2} color={colors.muted} />
+            </View>
+            <Text style={styles.weakTitle}>Weak signals</Text>
+            <Text style={styles.weakCount}>{count}</Text>
+          </View>
+        )}
+      </Pressable>
+      {open ? <View style={styles.weakCards}>{children}</View> : null}
     </View>
   );
 }
@@ -153,6 +184,18 @@ const styles = StyleSheet.create({
   action: { fontFamily: fonts.sans, fontSize: 14, color: colors.muted },
   actionPressed: { opacity: 0.5 },
   empty: { paddingVertical: 56, alignItems: "center" },
+  weak: { marginTop: 28 },
+  weakRow: { flexDirection: "row", alignItems: "center", gap: 6, paddingVertical: 6 },
+  chevronOpen: { transform: [{ rotate: "90deg" }] },
+  weakTitle: {
+    fontFamily: fonts.mono,
+    fontSize: 11,
+    letterSpacing: 1.4,
+    textTransform: "uppercase",
+    color: colors.muted,
+  },
+  weakCount: { fontFamily: fonts.mono, fontSize: 11, color: colors.placeholder },
+  weakCards: { marginTop: 12, gap: 12, opacity: 0.85 },
   emptyTitle: { fontFamily: fonts.serif, fontSize: 18, lineHeight: 26, color: colors.muted, textAlign: "center" },
   sample: {
     alignSelf: "flex-start",

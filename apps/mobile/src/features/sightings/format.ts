@@ -16,6 +16,13 @@ export function shortDate(iso: string): string {
   return `${MONTHS[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;
 }
 
+/** "Nov 11" from YYYY-MM-DD. */
+export function shortDay(ymd: string): string {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(ymd);
+  if (!m) return ymd;
+  return `${MONTHS[Number(m[2]) - 1]} ${Number(m[3])}`;
+}
+
 /** "Just now", "12m ago", "3h ago", "Yesterday", "Nov 9". */
 export function timeAgo(iso: string, now = Date.now()): string {
   const t = Date.parse(iso);

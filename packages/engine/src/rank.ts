@@ -85,6 +85,12 @@ export function pathStrength(path: Pick<Path, "degree" | "edges">): EdgeStrength
 export const WILSON_Z = 1.96;
 /** A record this long or longer whose lower bound does not clear 0.5 is a settled coin flip. */
 export const COIN_FLIP_MIN_SAMPLE = 20;
+/**
+ * The Wilson lower bound a record must clear to be "better than a coin flip"
+ * (verdict "supports"): the only record that allows "high" confidence, and
+ * the bar a hit must clear to be listed under Opportunities.
+ */
+export const SUPPORTS_LOWER_BOUND = 0.5;
 
 /** Lower bound of the Wilson score interval for `wins` of `n`. Pure. */
 export function wilsonLower(wins: number, n: number, z = WILSON_Z): number {
@@ -114,7 +120,7 @@ export function readRecord(history: RippleHistory | null, direction: Direction):
   const lower = wilsonLower(wins, history.sample);
   const impliedAvg = direction === "down" ? -history.avgMovePct : history.avgMovePct;
   const base = { wins, sample: history.sample, lower };
-  if (lower > 0.5) return { verdict: "supports", ...base };
+  if (lower > SUPPORTS_LOWER_BOUND) return { verdict: "supports", ...base };
   if (history.hitRate <= 0.5 && impliedAvg <= 0) return { verdict: "leans_other_way", ...base };
   if (history.sample >= COIN_FLIP_MIN_SAMPLE) return { verdict: "coin_flip", ...base };
   return { verdict: "thin", ...base };
@@ -151,6 +157,19 @@ export function confidenceCeiling(verdict: RecordVerdict): Confidence {
 export function cappedConfidence(judged: Confidence, verdict: RecordVerdict): Confidence {
   const ceiling = confidenceCeiling(verdict);
   return CONF_RANK[judged] <= CONF_RANK[ceiling] ? judged : ceiling;
+}
+
+// ---------------------------------------------------------------------------
+// Opportunities
+
+/**
+ * Whether a hit may be listed under Opportunities: its record's Wilson lower
+ * bound clears SUPPORTS_LOWER_BOUND (the "high" confidence bar), its
+ * confidence after the cap is not "low", it has an implied way, and it is
+ * not priced in. Pure.
+ */
+export function opportunityEligible(r: Pick<RecordRead, "verdict" | "lower" | "sample">, confidence: Confidence, direction: Direction, pricedIn: boolean | undefined): boolean {
+  return r.verdict !== "none" && r.sample > 0 && r.lower > SUPPORTS_LOWER_BOUND && confidence !== "low" && direction !== "unclear" && pricedIn !== true;
 }
 
 // ---------------------------------------------------------------------------
@@ -316,7 +335,13 @@ export function rankHits(
     kept.push({
       path,
       score,
-      hit: { ...hit, confidence, score, scoreReason: scoreReasonOf(strength, path, r, hit.direction, cov) },
+      hit: {
+        ...hit,
+        confidence,
+        score,
+        scoreReason: scoreReasonOf(strength, path, r, hit.direction, cov),
+        opportunityEligible: opportunityEligible(r, confidence, hit.direction, hit.pricedIn),
+      },
     });
   }
   kept.sort((a, b) => b.score - a.score || a.hit.degree - b.hit.degree || a.hit.ticker.localeCompare(b.hit.ticker));

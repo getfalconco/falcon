@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
+import { isWeakSignal } from "@falcon/ripple";
 import { buildTodaySummary, exposureByTicker, sortByTime } from "@/lib/workspace/feed";
 import { buildGraph } from "@/lib/workspace/graph";
 import { useWorkspace } from "../context";
@@ -42,7 +43,9 @@ export function DashboardTab() {
   const { feed, feedStatus, focus, focusSet, openTab, openTicker } = useWorkspace();
   const summary = useToday();
   const exposure = useMemo(() => exposureByTicker(feed, focus), [feed, focus]);
-  const latest = useMemo(() => sortByTime(feed?.cards ?? []).slice(0, 6), [feed]);
+  // Today never lists a weak signal; those sit under "Weak signals" in the sidebar.
+  const listed = useMemo(() => sortByTime(feed?.cards ?? []).filter((c) => !isWeakSignal(c)), [feed]);
+  const latest = listed.slice(0, 6);
   const seeds = useMemo(() => {
     const own = focus.map((f) => f.ticker);
     return own.length ? own : Array.from(new Set((feed?.cards ?? []).map((c) => c.event.ticker))).slice(0, 4);
@@ -143,7 +146,7 @@ export function DashboardTab() {
           </Panel>
         </section>
         <section>
-          <SectionTitle count={feed?.cards.length ?? 0}>Latest sightings</SectionTitle>
+          <SectionTitle count={listed.length}>Latest sightings</SectionTitle>
           <Panel className="mt-2 overflow-hidden">
             {latest.length ? (
               <ul>
@@ -153,7 +156,7 @@ export function DashboardTab() {
               </ul>
             ) : (
               <div className="p-4">
-                <EmptyState title={feedEmpty(feedStatus, "No sightings yet")} />
+                <EmptyState title={feedEmpty(feedStatus, feed?.cards.length ? "Only weak signals today" : "No sightings yet")} />
               </div>
             )}
           </Panel>
