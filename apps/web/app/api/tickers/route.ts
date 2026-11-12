@@ -6,6 +6,12 @@ import { MAX_STOCKS, TICKER_PATTERN } from "@/lib/onboarding";
 export const dynamic = "force-dynamic";
 
 /**
+ * Netlify's CDN keys cached responses without the query string unless told,
+ * so every search would get whichever answer was cached first.
+ */
+const CACHED = { "Cache-Control": "public, max-age=300", "Netlify-Vary": "query=q|symbols" };
+
+/**
  * Ticker lookups for the welcome flow, from the SEC's public ticker list
  * (cached server-side, see lib/sec.ts).
  *
@@ -26,7 +32,7 @@ export async function GET(request: Request) {
       .slice(0, MAX_STOCKS);
     try {
       const names = Object.fromEntries(await companyNames(wanted));
-      return NextResponse.json({ names }, { headers: { "Cache-Control": "public, max-age=300" } });
+      return NextResponse.json({ names }, { headers: CACHED });
     } catch (error) {
       console.error("[api/tickers GET symbols]", error);
       return NextResponse.json({ names: {} }, { status: 502 });
@@ -36,7 +42,7 @@ export async function GET(request: Request) {
   const q = (params.get("q") ?? "").slice(0, 40);
   try {
     const results = await searchTickers(q);
-    return NextResponse.json({ results }, { headers: { "Cache-Control": "public, max-age=300" } });
+    return NextResponse.json({ results }, { headers: CACHED });
   } catch (error) {
     console.error("[api/tickers GET]", error);
     return NextResponse.json({ results: [], error: "Search is unavailable right now." }, { status: 502 });
