@@ -37,6 +37,7 @@ function run(over: Partial<RunResult> = {}): RunResult {
     sourceProblems: [],
     yahooProblems: [],
     judgeFailures: [],
+    votes: { calls: 0, maxCalls: 40, splits: [] },
     history: { hits: 0, measured: 0, problems: [] },
     ranking: { cards: [], capped: [], dropped: [], droppedCards: [], coverage: {} },
     ...over,

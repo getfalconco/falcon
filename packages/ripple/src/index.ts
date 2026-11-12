@@ -153,6 +153,13 @@ export type RippleHit = {
    * unknown. Fewer analysts raise the hit's score (README, "Coverage").
    */
   analysts?: number | null;
+  /**
+   * Optional (added by the engine): how the judge's votes on this hit split
+   * (several calls with the same prompt, README "Judge votes"); `excluded`
+   * counts votes that left the company out. Direction and confidence are
+   * the vote's result.
+   */
+  votes?: { up: number; down: number; unclear: number; excluded: number };
 };
 
 /** A hit's move since its event (see RippleHit.sinceEvent). */

@@ -77,6 +77,7 @@ export function summaryLines(s: SummaryInput): string[] {
     `companies: ${run.tickers.length} watched, ${run.tickers.length - bad.length} read${bad.length ? `, unreadable: ${bad.join(", ")}` : ""}`,
     `events found: ${run.events.length}${filingProblems ? ` (${filingProblems} filings unreadable)` : ""}`,
     `judged: ${s.judged} events by ${s.judgeName}${run.judgeFailures.length ? `, ${run.judgeFailures.length} failed` : ""}${run.rejected.length ? `, ${run.rejected.length} answers dropped by validation` : ""}`,
+    `judge votes: ${run.votes.calls} calls of ${run.votes.maxCalls} allowed, ${run.votes.splits.filter((x) => x.escalated).length} candidates needed a second round`,
     `cards in the feed: ${run.feed.cards.length}`,
     `history: ${run.history.measured} of ${run.history.hits} hits measured${run.history.problems.length ? ` (${run.history.problems.join("; ")})` : ""}`,
     `ranking: ${run.ranking.capped.length} hits capped by their record, ${run.ranking.dropped.length} dropped${run.ranking.droppedCards.length ? `, ${run.ranking.droppedCards.length} cards left with no hit` : ""}`,

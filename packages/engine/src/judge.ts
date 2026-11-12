@@ -15,6 +15,8 @@
  *     same validation as the API's.
  *
  * Every answer is validated; an answer that fails is dropped, never fixed.
+ * Each event is asked several times and the answers are put to a vote per
+ * candidate (src/vote.ts, README "Judge votes").
  */
 
 import fs from "node:fs";
@@ -170,22 +172,49 @@ export function checkAnswer(req: JudgeRequest, a: unknown): ValidatedAnswer | nu
   };
 }
 
-export type Judge = { name: string; judge: (req: JudgeRequest) => Promise<unknown> };
+export type JudgeUsage = { calls: number; inputTokens: number; outputTokens: number; cacheReadTokens: number; cacheWriteTokens: number };
+
+export type Judge = {
+  name: string;
+  judge: (req: JudgeRequest) => Promise<unknown>;
+  /** Same answers every call (a file): asked once, no vote (src/vote.ts). */
+  deterministic?: boolean;
+  /** Tokens used so far (the Claude judge), for the run's cost line. */
+  usage?: JudgeUsage;
+};
+
+/** claude-sonnet-5-5 list prices, US dollars per million tokens (input, output, cache read, cache write). */
+export const JUDGE_PRICE = { input: 2, output: 10, cacheRead: 0.1, cacheWrite: 2.5 } as const;
+
+/** What the tokens cost at JUDGE_PRICE, US dollars. Pure. */
+export function judgeCostUsd(u: JudgeUsage): number {
+  return (u.inputTokens * JUDGE_PRICE.input + u.outputTokens * JUDGE_PRICE.output + u.cacheReadTokens * JUDGE_PRICE.cacheRead + u.cacheWriteTokens * JUDGE_PRICE.cacheWrite) / 1e6;
+}
 
 export function claudeJudge(apiKey: string): Judge {
   const client = new Anthropic({ apiKey, maxRetries: 3 });
+  const usage: JudgeUsage = { calls: 0, inputTokens: 0, outputTokens: 0, cacheReadTokens: 0, cacheWriteTokens: 0 };
   return {
     name: JUDGE_MODEL,
+    usage,
     async judge(req) {
+      usage.calls++;
       const res = await client.beta.messages.create({
         model: JUDGE_MODEL,
         max_tokens: 8000,
         betas: ["server-side-fallback-2026-07-01"],
         fallbacks: "default",
+        // The votes on one event send the same prompt: later calls read it from the cache.
+        cache_control: { type: "ephemeral" },
         system: SYSTEM_PROMPT,
         messages: [{ role: "user", content: judgePrompt(req) }],
         output_config: { effort: "medium", format: { type: "json_schema", schema: JUDGE_SCHEMA as unknown as Record<string, unknown> } },
       });
+      const u = res.usage;
+      usage.inputTokens += u.input_tokens ?? 0;
+      usage.outputTokens += u.output_tokens ?? 0;
+      usage.cacheReadTokens += u.cache_read_input_tokens ?? 0;
+      usage.cacheWriteTokens += u.cache_creation_input_tokens ?? 0;
       if (res.stop_reason === "refusal") throw new Error(`judge declined event ${req.eventId}`);
       if (res.stop_reason === "max_tokens") throw new Error(`judge ran out of tokens on event ${req.eventId}`);
       const text = res.content.flatMap((b) => (b.type === "text" ? [b.text] : [])).join("");
@@ -205,6 +234,7 @@ export function fileJudge(file: string, fallbackName: string): Judge {
   const events = body.events ?? {};
   return {
     name: body.judge ?? fallbackName,
+    deterministic: true,
     async judge(req) {
       const answer = events[req.eventId];
       if (!answer || !Array.isArray(answer.hits)) throw new Error(`no answers for ${req.eventId} in ${file}`);

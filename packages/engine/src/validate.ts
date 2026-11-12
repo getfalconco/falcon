@@ -108,6 +108,12 @@ export function hitProblems(h: RippleHit, where: string): string[] {
     }
   }
   if (h.sinceEvent !== undefined && h.sinceEvent !== null) out.push(...sinceEventProblems(h.sinceEvent, `${where}.sinceEvent`));
+  if (h.votes !== undefined) {
+    const v = h.votes as Record<string, unknown> | null;
+    const keys = ["up", "down", "unclear", "excluded"] as const;
+    if (!v || keys.some((k) => !Number.isInteger(v[k]) || (v[k] as number) < 0)) out.push(`${where}: votes must be whole counts`);
+    else if (h.direction !== "unclear" && (v[h.direction] as number) === 0) out.push(`${where}: no vote for the hit's direction`);
+  }
   if (h.analysts !== undefined && h.analysts !== null && !(Number.isInteger(h.analysts) && h.analysts >= 0 && h.analysts < 500)) out.push(`${where}: analysts must be a whole number or null`);
   if (h.pricedIn !== undefined && typeof h.pricedIn !== "boolean") out.push(`${where}: pricedIn must be true or false`);
   if (h.pricedIn === true && (!h.sinceEvent || h.sinceEvent.pricedInAtPct === null || !h.history)) out.push(`${where}: priced in without a measured move and record`);

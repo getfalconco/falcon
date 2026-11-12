@@ -17,6 +17,7 @@
  *   --no-history          leave every hit's history null (no price or past-filing reads)
  *   --no-coverage         do not read analyst coverage from Yahoo (no coverage boost)
  *   --out FILE            where to write the feed (default out/sightings.json)
+ *   --max-judge-calls 40  cost guard: judge calls this run at most (src/vote.ts)
  *
  * Without ANTHROPIC_API_KEY (environment or apps/web/.env.local) and without
  * --judgments, a real run stops after writing the judge requests
@@ -39,6 +40,8 @@ import { backtestMarketData } from "../market.ts";
 import { edgarPastEvents } from "../past-events.ts";
 import { runSightings, type RunResult } from "../pipeline.ts";
 import { yahooCoverage } from "../yahoo.ts";
+import { judgeCostUsd } from "../judge.ts";
+import { DEFAULT_MAX_CALLS } from "../vote.ts";
 import { EXIT, exitReason, runExitCode, summaryLines, warningLines, type Publish } from "../summary.ts";
 import { publishCards } from "../supabase.ts";
 
@@ -97,6 +100,17 @@ function printRanking(r: RunResult["ranking"]): void {
   if (cov.length) console.log(`  analysts: ${cov.join(", ")}`);
 }
 
+function printVotes(run: RunResult): void {
+  console.log("\nJudge votes (src/vote.ts): up/down/unclear/left out per candidate");
+  let last = "";
+  for (const x of run.votes.splits) {
+    if (x.eventId !== last) console.log(`  ${x.eventId}`);
+    last = x.eventId;
+    const v = x.votes;
+    console.log(`    ${x.ticker.padEnd(5)} ${v.up}/${v.down}/${v.unclear}/${v.excluded} -> ${x.direction ?? "left out"}${x.escalated ? " (second round)" : ""}`);
+  }
+}
+
 function printFeed(feed: SightingsFeed): void {
   for (const [i, card] of feed.cards.entries()) {
     const e = card.event;
@@ -106,7 +120,7 @@ function printFeed(feed: SightingsFeed): void {
     console.log(`   Source: ${e.source.url}`);
     for (const h of card.hits) {
       const via = h.degree === 2 ? ` via ${h.via}` : "";
-      console.log(`   - ${h.ticker} ${h.companyName}: ${h.direction}, ${h.confidence} confidence, ${h.window} (${h.relation}, degree ${h.degree}${via})${h.score !== undefined ? `, score ${h.score}` : ""}${typeof h.analysts === "number" ? `, ${h.analysts} analysts` : ""}`);
+      console.log(`   - ${h.ticker} ${h.companyName}: ${h.direction}, ${h.confidence} confidence, ${h.window} (${h.relation}, degree ${h.degree}${via})${h.score !== undefined ? `, score ${h.score}` : ""}${typeof h.analysts === "number" ? `, ${h.analysts} analysts` : ""}${h.votes ? `, votes ${h.votes.up}/${h.votes.down}/${h.votes.unclear}/${h.votes.excluded}` : ""}`);
       if (h.scoreReason) console.log(`     Why this rank: ${h.scoreReason}`);
       console.log(`     ${h.mechanism}`);
       if (h.history) {
@@ -186,7 +200,8 @@ async function main(): Promise<number> {
     else historyUnavailable = md.error;
   }
   const coverage = args["no-coverage"] === true ? null : yahooCoverage;
-  const run = await runSightings({ sector, sinceMs, untilMs, maxCards, judge, log, history, historyUnavailable, coverage });
+  const maxJudgeCalls = positive(args, "max-judge-calls", String(DEFAULT_MAX_CALLS));
+  const run = await runSightings({ sector, sinceMs, untilMs, maxCards, judge, log, history, historyUnavailable, coverage, maxJudgeCalls });
   const requestsFile = path.join(outDir, "judge-requests.json");
   if (writeFiles) fs.writeFileSync(requestsFile, `${JSON.stringify(run.requests, null, 1)}\n`);
 
@@ -207,6 +222,7 @@ async function main(): Promise<number> {
   console.log(`\nSightings feed: ${run.feed.cards.length} cards (judge: ${judge.name})${writeFiles ? ` -> ${outFile}` : ""}`);
   printFeed(run.feed);
   printRanking(run.ranking);
+  printVotes(run);
 
   let publish: Publish;
   const databaseUrl = args["no-supabase"] ? null : env("DATABASE_URL");
@@ -227,6 +243,10 @@ async function main(): Promise<number> {
 
   const exitCode = runExitCode(run, judged, publish);
   const lines = summaryLines({ run, judged, judgeName: judge.name, publish, exitCode });
+  if (judge.usage) {
+    const u = judge.usage;
+    lines.splice(lines.length - 1, 0, `judge tokens: ${u.inputTokens} in, ${u.cacheReadTokens} cache read, ${u.cacheWriteTokens} cache write, ${u.outputTokens} out; about $${judgeCostUsd(u).toFixed(2)}`);
+  }
   console.log("\nRun summary");
   for (const l of lines) console.log(`  ${l}`);
   if (inActions) {

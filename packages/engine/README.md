@@ -5,9 +5,43 @@ Run: `pnpm --filter @falcon/engine run sightings -- --dry-run` (options at the
 top of `src/cli/sightings.ts`). Tests: `pnpm --filter @falcon/engine test`.
 
 Pipeline (`src/pipeline.ts`): events (`src/events.ts`), filing-graph
-candidates (`src/graph.ts`), judged direction and mechanism (`src/judge.ts`),
-the measured record of each hit (`src/history.ts`), then ranking
-(`src/rank.ts`, below), then the contract check (`src/validate.ts`).
+candidates (`src/graph.ts`), judged direction and mechanism (`src/judge.ts`,
+put to a vote by `src/vote.ts`), the measured record of each hit
+(`src/history.ts`), then ranking (`src/rank.ts`, below), then the contract
+check (`src/validate.ts`).
+
+## Judge votes
+
+The judge (claude-sonnet-5-5) is sampled, so one call can flip a hit's
+direction from run to run. Each event is judged by several calls with the
+same prompt and schema, counted per candidate (`src/vote.ts`):
+
+1. Three calls at once. Each call's answer for a candidate is one vote and
+   must pass the usual checks (`checkAnswer`: closed answer sets, framing, no
+   number the event or the quotes do not hold). A vote that fails, is
+   missing, or whose call failed is discarded and replaced once by a retry
+   call; a retried vote that fails again is dropped.
+2. A candidate is kept when more than half of its valid votes include it.
+3. Direction: the value at least 2 of the first three agree on. When all
+   three differ, two more calls (five votes), then "unclear" only when it is
+   itself a majority (3 of 5) or when up and down tie exactly; otherwise the
+   larger of up and down. Disagreement alone never makes a hit unclear.
+4. Confidence: the most common confidence among the votes for the winning
+   direction (a tie: the lower). Mechanism and window: the first of those
+   votes (in call order) with that confidence.
+
+Each hit carries its split as `votes: { up, down, unclear, excluded }`; the
+run log lists every candidate's split and which needed a second round.
+A judge reading answers from a file is asked once (same answers each time).
+
+**Cost guard**: at most `--max-judge-calls` (default 40) calls per run;
+when spent, the remaining events go to the vote with what they have, and an
+event with no call left gets no card. The prompt is cached
+(`cache_control`), so the 2nd to 5th call on an event read it at a tenth of
+the price. Expected cost per run (5 events, 15 to 25 calls): about $0.25 to $0.30
+(measured 2026-11-12: 19 and 21 calls, $0.30 and $0.26 at $2 / $10 per million
+tokens in / out, $0.10 cache read); the 40-call cap bounds a run at about $0.60.
+The CLI prints the run's tokens and cost in its summary.
 
 ## Ranking
 

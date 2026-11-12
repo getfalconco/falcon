@@ -10,7 +10,8 @@ import { cardConfidenceOf, cardPricedIn, type Confidence, type RippleCard, type 
 import { detectEvents, type DetectedEvent, type SourceProblem } from "./events.ts";
 import { evidenceOf, loadGraph, nameOf, pathWeight, walk, type Graph, type Path } from "./graph.ts";
 import { cardHistory, memoDeps, type HistoryDeps } from "./history.ts";
-import { candidateFrom, checkAnswer, type Judge, type JudgeRequest } from "./judge.ts";
+import { candidateFrom, type Judge, type JudgeRequest } from "./judge.ts";
+import { callBudget, voteJudge, DEFAULT_MAX_CALLS, type VoteSplit } from "./vote.ts";
 import { magnitudeFactor, rankHits, type Coverage } from "./rank.ts";
 import { sectorTickers } from "./universe.ts";
 import { yahooProblems } from "./yahoo.ts";
@@ -36,6 +37,8 @@ export type RunOptions = {
   history?: HistoryDeps | null;
   /** Why there are no history sources this run (said in the summary). */
   historyUnavailable?: string;
+  /** Judge calls this run at most (src/vote.ts); default DEFAULT_MAX_CALLS. */
+  maxJudgeCalls?: number;
   /** Analyst coverage of a hit company (src/rank.ts, coverageBoost). Without it no hit gets a coverage boost. */
   coverage?: ((ticker: string) => Promise<Coverage | null>) | null;
 };
@@ -67,6 +70,8 @@ export type RunResult = {
   yahooProblems: string[];
   /** Events whose judge call failed, with why. */
   judgeFailures: Array<{ eventId: string; message: string }>;
+  /** The vote on every candidate (src/vote.ts), and the calls made. */
+  votes: { calls: number; maxCalls: number; splits: Array<{ eventId: string; ticker: string; votes: VoteSplit; direction: string | null; escalated: boolean }> };
   /** Hits on the chosen cards, how many got a measured history, and what could not be read. */
   history: { hits: number; measured: number; problems: string[] };
   ranking: RankingReport;
@@ -131,31 +136,33 @@ export async function runSightings(opts: RunOptions): Promise<RunResult> {
   const rejected: RunResult["rejected"] = [];
   const judgeFailures: RunResult["judgeFailures"] = [];
   const judged: Array<{ ev: DetectedEvent; hits: Array<{ hit: RippleHit; path: Path }> }> = [];
+  const budget = callBudget(opts.maxJudgeCalls ?? DEFAULT_MAX_CALLS);
+  const votes: RunResult["votes"] = { calls: 0, maxCalls: budget.max, splits: [] };
   if (opts.judge) {
     for (let i = 0; i < toJudge.length; i++) {
       const { ev, paths } = toJudge[i]!;
       const req = requests[i]!;
-      let raw: unknown;
+      let voted;
       try {
-        raw = await opts.judge.judge(req);
+        voted = await voteJudge(opts.judge, req, budget);
       } catch (err) {
         const message = err instanceof Error ? err.message : String(err);
         judgeFailures.push({ eventId: ev.event.id, message });
         log(`  judge failed on ${ev.event.id}: ${message}`);
         continue;
       }
-      const answers = Array.isArray((raw as { hits?: unknown })?.hits) ? ((raw as { hits: unknown[] }).hits) : [];
+      for (const d of voted.discarded) {
+        const idx = req.candidates.findIndex((c) => c.key === d.key);
+        rejected.push({ eventId: req.eventId, key: d.key, ticker: paths[idx]?.ticker ?? d.key, problems: d.problems });
+      }
+      for (const x of voted.splits) {
+        const ticker = paths[req.candidates.findIndex((c) => c.key === x.key)]?.ticker ?? x.key;
+        votes.splits.push({ eventId: req.eventId, ticker, votes: x.votes, direction: x.direction, escalated: x.escalated });
+      }
       const hits: Array<{ hit: RippleHit; path: Path }> = [];
-      for (const a of answers) {
-        const ok = checkAnswer(req, a);
-        if (!ok) continue;
+      for (const { answer: ok, votes: split } of voted.hits) {
         const idx = req.candidates.findIndex((c) => c.key === ok.key);
         const path = paths[idx]!;
-        if (ok.problems.length) {
-          rejected.push({ eventId: req.eventId, key: ok.key, ticker: path.ticker, problems: ok.problems });
-          continue;
-        }
-        if (!ok.include) continue;
         const evidence = path.edges.map(evidenceOf).filter((e) => e.quote && e.url);
         if (evidence.length === 0) continue;
         hits.push({ path, hit: {
@@ -172,6 +179,7 @@ export async function runSightings(opts: RunOptions): Promise<RunResult> {
           history: null,
           sinceEvent: null,
           pricedIn: false,
+          votes: { up: split.up, down: split.down, unclear: split.unclear, excluded: split.excluded },
         } });
       }
       if (hits.length === 0) {
@@ -181,6 +189,8 @@ export async function runSightings(opts: RunOptions): Promise<RunResult> {
       judged.push({ ev, hits });
     }
   }
+
+  votes.calls = budget.used;
 
   // History for every judged card, before ranking: the record ranks, caps and filters hits.
   const history: RunResult["history"] = { hits: 0, measured: 0, problems: [] };
@@ -270,5 +280,5 @@ export async function runSightings(opts: RunOptions): Promise<RunResult> {
   };
   const problems = feedProblems(feed);
   if (problems.length) throw new Error(`feed failed the contract check: ${problems.join("; ")}`);
-  return { feed, events, requests, rejected, tickers, sourceProblems, yahooProblems: yahooProblems(), judgeFailures, history, ranking };
+  return { feed, events, requests, rejected, tickers, sourceProblems, yahooProblems: yahooProblems(), judgeFailures, votes, history, ranking };
 }
