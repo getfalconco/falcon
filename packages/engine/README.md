@@ -38,9 +38,11 @@ A judge reading answers from a file is asked once (same answers each time).
 when spent, the remaining events go to the vote with what they have, and an
 event with no call left gets no card. The prompt is cached
 (`cache_control`), so the 2nd to 5th call on an event read it at a tenth of
-the price. Expected cost per run (5 events, 15 to 25 calls): about $0.25 to $0.30
-(measured 2026-11-12: 19 and 21 calls, $0.30 and $0.26 at $2 / $10 per million
-tokens in / out, $0.10 cache read); the 40-call cap bounds a run at about $0.60.
+the price. Expected cost per run (5 events, 15 to 25 calls): about $0.15 to $0.30
+(measured 2026-11-12: 16 and 18 calls, $0.16 and $0.21, at $2 / $10 per million
+tokens in / out, $0.10 cache read; runs with many discarded votes, before the
+number check counted form names, took 19 to 21 calls and $0.26 to $0.30); the
+40-call cap bounds a run at about $0.60.
 The CLI prints the run's tokens and cost in its summary.
 
 ## Ranking
