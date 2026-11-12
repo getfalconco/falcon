@@ -18,6 +18,7 @@ import { AuthButton, authMessage } from "@/components/AuthButton";
 import { AppleIcon, GoogleIcon } from "@/components/BrandIcons";
 import { OtpInput, type OtpInputHandle } from "@/components/OtpInput";
 import { PixelArrow } from "@/components/PixelArrow";
+import { signedInRoute } from "@/lib/home";
 import { Reveal } from "@/components/Reveal";
 import { TextField } from "@/components/TextField";
 import { API_URL } from "@/lib/env";
@@ -77,14 +78,14 @@ export default function Login() {
             ) : null}
             <EmailStep
               onSent={(email) => setStep({ name: "code", email })}
-              onSignedIn={() => router.replace("/welcome")}
+              onSignedIn={() => void signedInRoute().then((route) => router.replace(route))}
             />
           </View>
         ) : (
           <CodeStep
             email={step.email}
             onBack={() => setStep({ name: "email" })}
-            onVerified={() => router.replace("/welcome")}
+            onVerified={() => void signedInRoute().then((route) => router.replace(route))}
           />
         )}
       </KeyboardAvoidingView>

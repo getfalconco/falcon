@@ -66,6 +66,12 @@ export default function RootLayout() {
         <Stack.Screen name="welcome" />
         <Stack.Screen name="sign-in" options={sheet(SHEET_DETENTS.signIn)} />
         <Stack.Screen name="language" options={sheet(SHEET_DETENTS.language)} />
+        {/* The home tabs after the funnel, and a Sighting pushed over them. */}
+        <Stack.Screen name="(tabs)" />
+        <Stack.Screen
+          name="sighting/[id]"
+          options={{ animation: "slide_from_right", animationDuration: 320, gestureEnabled: true }}
+        />
       </Stack>
       <SplashOverlay />
     </PhoneFrame>

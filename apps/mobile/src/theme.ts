@@ -22,6 +22,22 @@ export const colors = {
   error: "#dc2626",
 };
 
+/**
+ * Direction colors for Sightings and the Today ring: calm, a little muted,
+ * readable on the light background.
+ */
+export const signal = {
+  up: "#1f7a4f",
+  upSoft: "rgba(31, 122, 79, 0.10)",
+  down: "#b23a2e",
+  downSoft: "rgba(178, 58, 46, 0.10)",
+  mixed: "#a86b12",
+  mixedSoft: "rgba(168, 107, 18, 0.10)",
+  unclear: "#8a8a8a",
+  unclearSoft: "rgba(0, 0, 0, 0.05)",
+  track: "rgba(0, 0, 0, 0.06)",
+};
+
 /** Font families registered in app/_layout.tsx (the site's own fonts). */
 export const fonts = {
   /** Login headline: the site's `font-serif` (Playfair Display). */

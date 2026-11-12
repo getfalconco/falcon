@@ -7,6 +7,7 @@ import { AuthButton, authMessage } from "@/components/AuthButton";
 import { AppleIcon, GoogleIcon } from "@/components/BrandIcons";
 import { SheetScreen, type CloseSheet } from "@/components/Sheet";
 import { haptics } from "@/lib/haptics";
+import { signedInRoute } from "@/lib/home";
 import { SHEET_DETENTS } from "@/lib/sheets";
 import { signInWithApple, signInWithGoogle, type OAuthResult } from "@/lib/oauth";
 import { colors, fonts } from "@/theme";
@@ -33,11 +34,16 @@ function Options({ close }: { close: CloseSheet }) {
     } catch (err) {
       result = { ok: false, canceled: false, message: authMessage(err) };
     }
-    setProvider(null);
     if (result.ok) {
+      // Finished the funnel before: straight to the home tabs.
+      const route = await signedInRoute();
+      setProvider(null);
       haptics.success();
-      close(() => router.replace("/welcome"));
-    } else if (!result.canceled) {
+      close(() => router.replace(route));
+      return;
+    }
+    setProvider(null);
+    if (!result.canceled) {
       haptics.error();
       setError(result.message ?? "Sign in failed. Please try again.");
     }

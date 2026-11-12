@@ -11,8 +11,10 @@ import Animated, {
 import { BackButton, PrimaryButton, SecondaryButton } from "@/components/Buttons";
 import { ENTER_Y, Reveal } from "@/components/Reveal";
 import { TextField } from "@/components/TextField";
-import { FUNNEL_TEST_MODE, apiUrl } from "@/lib/env";
+import { apiUrl } from "@/lib/env";
 import { haptics } from "@/lib/haptics";
+import { saveHoldings } from "@/lib/holdings";
+import { HOME_ROUTE, currentUserId } from "@/lib/home";
 import { requestAlertPermission } from "@/lib/notifications";
 import {
   EMPTY_ANSWERS,
@@ -32,7 +34,6 @@ import {
   blindSpotScore,
   saveWelcomeAnswers,
 } from "@/lib/onboarding";
-import { getSupabase } from "@/lib/supabase";
 import { PortfolioConnect } from "@/features/welcome/PortfolioConnect";
 import {
   ChoiceRows,
@@ -239,16 +240,11 @@ export default function Welcome() {
     setFinishing(true);
     haptics.tap();
     await save(true);
-    // There is no home screen in the app yet: the run ends back at the login.
-    // In funnel test mode that also drops the in-memory session.
-    if (FUNNEL_TEST_MODE) {
-      try {
-        await getSupabase()?.auth.signOut();
-      } catch {
-        // Nothing to sign out of.
-      }
-    }
-    router.replace("/login");
+    // The holdings feed Today and Sightings (kept on the phone; in memory
+    // only in funnel test mode), then the run continues into the home tabs.
+    const { stocks, sectors } = answersRef.current;
+    saveHoldings(stocks, sectors, await currentUserId());
+    router.replace(HOME_ROUTE);
   }, [router, save]);
 
   const canGoNext = !finishing && !busy && step !== "loading" && stepDone(step, answers);

@@ -5,7 +5,7 @@ import * as SplashScreen from "expo-splash-screen";
 import Animated, { useAnimatedStyle, useSharedValue, withDelay, withTiming } from "react-native-reanimated";
 import { scheduleOnRN } from "react-native-worklets";
 import { FUNNEL_TEST_MODE } from "@/lib/env";
-import { welcomeCompleted } from "@/lib/onboarding";
+import { signedInRoute } from "@/lib/home";
 import { getSupabase } from "@/lib/supabase";
 import { EASE_SOFT, colors } from "@/theme";
 
@@ -14,13 +14,6 @@ const SPLASH_LOGO_SIZE = 64;
 /** How long the logo rests before it fades. */
 const HOLD_MS = 700;
 const FADE_MS = 600;
-
-/**
- * Where a returning member who already finished the welcome funnel lands.
- * There is no home screen yet: set this to the home tabs' route when they
- * exist. Until then those members go to /welcome like everyone signed in.
- */
-const HOME_ROUTE: Href | null = null;
 
 /** Where a member with a saved session goes instead of the landing, or null. */
 async function returningMemberRoute(): Promise<Href | null> {
@@ -34,8 +27,8 @@ async function returningMemberRoute(): Promise<Href | null> {
   } catch {
     return null;
   }
-  if (HOME_ROUTE && (await welcomeCompleted())) return HOME_ROUTE;
-  return "/welcome";
+  // The home tabs (HOME_ROUTE in lib/home.ts) once the funnel is done, else /welcome.
+  return signedInRoute();
 }
 
 /**

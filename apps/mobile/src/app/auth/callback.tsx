@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Linking, Platform, View } from "react-native";
 import { useRouter } from "expo-router";
 import * as WebBrowser from "expo-web-browser";
+import { signedInRoute } from "@/lib/home";
 import { oauthRedirectUrl, readParams } from "@/lib/oauth";
 import { getSupabase } from "@/lib/supabase";
 import { colors } from "@/theme";
@@ -27,7 +28,8 @@ export default function AuthCallback() {
       const code = readParams(url).get("code");
       let ok = false;
       if (supabase && code) ok = !(await supabase.auth.exchangeCodeForSession(code)).error;
-      if (live) router.replace(ok ? "/welcome" : "/login");
+      const route = ok ? await signedInRoute() : "/login";
+      if (live) router.replace(route);
     })();
     return () => {
       live = false;
