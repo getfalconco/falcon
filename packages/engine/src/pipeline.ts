@@ -1,7 +1,9 @@
 /**
  * The Ripple Engine v0 run: events in a window, the companies the filing
- * graph links them to, a judged direction and mechanism for each, and the
- * strongest cards out as a SightingsFeed.
+ * graph links them to, a judged direction and mechanism for each, the
+ * measured record of each hit, and the strongest cards out as a
+ * SightingsFeed. Hits and cards are capped, filtered and ordered by
+ * src/rank.ts (formula: README.md, "Ranking").
  */
 
 import type { Confidence, RippleCard, RippleHit, SightingsFeed } from "@falcon/ripple";
@@ -9,6 +11,7 @@ import { detectEvents, type DetectedEvent, type SourceProblem } from "./events.t
 import { evidenceOf, loadGraph, nameOf, pathWeight, walk, type Graph, type Path } from "./graph.ts";
 import { cardHistory, memoDeps, type HistoryDeps } from "./history.ts";
 import { candidateFrom, checkAnswer, type Judge, type JudgeRequest } from "./judge.ts";
+import { magnitudeFactor, rankHits, type Coverage } from "./rank.ts";
 import { sectorTickers } from "./universe.ts";
 import { yahooProblems } from "./yahoo.ts";
 import { cardProblems, feedProblems } from "./validate.ts";
@@ -33,6 +36,22 @@ export type RunOptions = {
   history?: HistoryDeps | null;
   /** Why there are no history sources this run (said in the summary). */
   historyUnavailable?: string;
+  /** Analyst coverage of a hit company (src/rank.ts, low-coverage hits). Without it no hit counts as low coverage. */
+  coverage?: ((ticker: string) => Promise<Coverage | null>) | null;
+};
+
+/** What ranking did on the judged cards (src/rank.ts), for the run log and the summary. */
+export type RankingReport = {
+  /** Every judged card that kept a hit, best first; `chosen` when it made the feed. */
+  cards: Array<{ eventId: string; ticker: string; score: number; nonObvious: boolean; chosen: boolean }>;
+  /** Hits whose confidence the record lowered. */
+  capped: Array<{ eventId: string; ticker: string; from: Confidence; to: Confidence; why: string }>;
+  /** Hits taken off a card. */
+  dropped: Array<{ eventId: string; ticker: string; why: string }>;
+  /** Judged events with no hit left after ranking. */
+  droppedCards: Array<{ eventId: string; ticker: string }>;
+  /** Coverage read per hit company (null: not available). */
+  coverage: Record<string, Coverage | null>;
 };
 
 export type RunResult = {
@@ -50,28 +69,10 @@ export type RunResult = {
   judgeFailures: Array<{ eventId: string; message: string }>;
   /** Hits on the chosen cards, how many got a measured history, and what could not be read. */
   history: { hits: number; measured: number; problems: string[] };
+  ranking: RankingReport;
 };
 
-/**
- * How much an event's size counts. An EPS surprise is measured against a
- * consensus; a monthly revenue change is not (no estimate to beat), so it
- * counts for less per point. Pure.
- */
-export function magnitudeFactor(ev: Pick<DetectedEvent, "magnitudePct" | "event">): number {
-  const m = ev.magnitudePct === null ? 0 : Math.abs(ev.magnitudePct);
-  if (ev.event.kind === "filing") return 1 + Math.min(m, 60) / 60;
-  return 1 + Math.min(m, 30) / 10;
-}
-
-/**
- * A judged card's rank: the event's size times what its validated hits
- * carry (judged confidence, halved for "unclear", times the strength of the
- * filing link). Candidates the judge left out count for nothing. Pure.
- */
-export function cardScore(ev: Pick<DetectedEvent, "magnitudePct" | "event" | "pendingAcquisition">, hits: Array<{ hit: RippleHit; path: Path }>): number {
-  const carried = hits.reduce((s, { hit, path }) => s + CONF[hit.confidence] * (hit.direction === "unclear" ? 0.5 : 1) * pathWeight(path), 0);
-  return magnitudeFactor(ev) * carried * (ev.pendingAcquisition ? 0.3 : 1);
-}
+export { magnitudeFactor };
 
 /** Candidate companies for an event: the strongest direct links, then the strongest degree 2. Pure. */
 export function candidatePaths(graph: Graph, ticker: string, maxDegree1 = 12, maxDegree2 = 3): Path[] {
@@ -89,13 +90,6 @@ export function eventScore(graph: Graph, ev: DetectedEvent, paths: Path[]): numb
     .slice(0, 4)
     .reduce((s, w) => s + w, 0);
   return magnitudeFactor(ev) * linkWeight * (ev.pendingAcquisition ? 0.3 : 1);
-}
-
-const CONF: Record<Confidence, number> = { high: 3, medium: 2, low: 1 };
-
-function sortHits(a: RippleHit, b: RippleHit): number {
-  const dir = (h: RippleHit) => (h.direction === "unclear" ? 0 : 1);
-  return CONF[b.confidence] - CONF[a.confidence] || dir(b) - dir(a) || a.degree - b.degree || a.ticker.localeCompare(b.ticker);
 }
 
 export async function runSightings(opts: RunOptions): Promise<RunResult> {
@@ -136,7 +130,7 @@ export async function runSightings(opts: RunOptions): Promise<RunResult> {
 
   const rejected: RunResult["rejected"] = [];
   const judgeFailures: RunResult["judgeFailures"] = [];
-  const cards: Array<{ card: RippleCard; score: number }> = [];
+  const judged: Array<{ ev: DetectedEvent; hits: Array<{ hit: RippleHit; path: Path }> }> = [];
   if (opts.judge) {
     for (let i = 0; i < toJudge.length; i++) {
       const { ev, paths } = toJudge[i]!;
@@ -182,50 +176,76 @@ export async function runSightings(opts: RunOptions): Promise<RunResult> {
         log(`  ${ev.event.ticker}: no hit passed validation, no card`);
         continue;
       }
-      hits.sort((a, b) => sortHits(a.hit, b.hit) || pathWeight(b.path) - pathWeight(a.path));
-      const keptPairs = hits.slice(0, opts.maxHitsPerCard ?? 5);
-      const kept = keptPairs.map((x) => x.hit);
-      const card: RippleCard = {
-        id: `${opts.sector}-${ev.event.id}`,
-        event: ev.event,
-        hits: kept,
-        sector: opts.sector,
-        generatedAt,
-      };
-      const problems = cardProblems(card);
-      if (problems.length) {
-        log(`  ${ev.event.ticker}: card failed the contract check: ${problems.join("; ")}`);
-        continue;
-      }
-      cards.push({ card, score: cardScore(ev, keptPairs) });
+      judged.push({ ev, hits });
     }
   }
 
-  const chosen = cards.sort((a, b) => b.score - a.score).slice(0, opts.maxCards).map((c) => c.card);
-
-  // History only for the cards kept: it reads years of filings and prices.
-  const history: RunResult["history"] = { hits: chosen.reduce((n, c) => n + c.hits.length, 0), measured: 0, problems: [] };
+  // History for every judged card, before ranking: the record ranks, caps and filters hits.
+  const history: RunResult["history"] = { hits: 0, measured: 0, problems: [] };
   if (opts.historyUnavailable) history.problems.push(opts.historyUnavailable);
-  if (opts.history && chosen.length) {
+  if (opts.history && judged.length) {
     const deps = memoDeps({ ...opts.history, log: opts.history.log ?? log });
     log("history: past events like each card's, and how each hit moved after them");
-    for (const card of chosen) {
-      const ev = events.find((e) => e.event.id === card.event.id);
+    for (const { ev, hits } of judged) {
+      const draft: RippleCard = { id: `${opts.sector}-${ev.event.id}`, event: ev.event, hits: hits.map((x) => x.hit), sector: opts.sector, generatedAt };
       try {
-        for (const r of await cardHistory(card, ev?.basis ?? null, deps)) {
-          const hit = card.hits.find((h) => h.ticker === r.ticker);
-          if (hit && r.history) {
-            hit.history = r.history;
-            history.measured++;
-          }
+        for (const r of await cardHistory(draft, ev.basis ?? null, deps)) {
+          const hit = hits.find((x) => x.hit.ticker === r.ticker)?.hit;
+          if (hit && r.history) hit.history = r.history;
         }
       } catch (err) {
-        const message = `${card.event.ticker}: ${err instanceof Error ? err.message : String(err)}`;
+        const message = `${ev.event.ticker}: ${err instanceof Error ? err.message : String(err)}`;
         history.problems.push(message);
         log(`  history ${message}; its hits keep no history`);
       }
     }
   }
+
+  // Coverage of every hit company, when a source is given (never fatal).
+  const coverage = new Map<string, Coverage | null>();
+  if (opts.coverage) {
+    for (const t of [...new Set(judged.flatMap((j) => j.hits.map((x) => x.hit.ticker)))].sort()) {
+      try {
+        coverage.set(t, await opts.coverage(t));
+      } catch {
+        coverage.set(t, null);
+      }
+    }
+  }
+
+  const ranking: RankingReport = { cards: [], capped: [], dropped: [], droppedCards: [], coverage: Object.fromEntries(coverage) };
+  const cards: Array<{ card: RippleCard; score: number; nonObvious: boolean }> = [];
+  for (const { ev, hits } of judged) {
+    const r = rankHits(ev, hits, (t) => coverage.get(t) ?? null, opts.maxHitsPerCard ?? 5);
+    for (const c of r.capped) ranking.capped.push({ eventId: ev.event.id, ...c });
+    for (const d of r.dropped) ranking.dropped.push({ eventId: ev.event.id, ...d });
+    if (r.hits.length === 0) {
+      ranking.droppedCards.push({ eventId: ev.event.id, ticker: ev.event.ticker });
+      log(`  ${ev.event.ticker}: no hit left after ranking, no card`);
+      continue;
+    }
+    const card: RippleCard = {
+      id: `${opts.sector}-${ev.event.id}`,
+      event: ev.event,
+      hits: r.hits.map((x) => x.hit),
+      sector: opts.sector,
+      generatedAt,
+    };
+    const problems = cardProblems(card);
+    if (problems.length) {
+      log(`  ${ev.event.ticker}: card failed the contract check: ${problems.join("; ")}`);
+      continue;
+    }
+    cards.push({ card, score: r.score, nonObvious: r.nonObvious });
+  }
+
+  // Best first; a tie goes to the later event, then the id, so the order is stable.
+  cards.sort((a, b) => b.score - a.score || b.card.event.occurredAt.localeCompare(a.card.event.occurredAt) || a.card.id.localeCompare(b.card.id));
+  const chosen = cards.slice(0, opts.maxCards).map((c) => c.card);
+  ranking.cards = cards.map((c, i) => ({ eventId: c.card.event.id, ticker: c.card.event.ticker, score: c.score, nonObvious: c.nonObvious, chosen: i < opts.maxCards }));
+  history.hits = chosen.reduce((n, c) => n + c.hits.length, 0);
+  history.measured = chosen.reduce((n, c) => n + c.hits.filter((h) => h.history !== null).length, 0);
+
   const feed: SightingsFeed = {
     generatedAt,
     cards: chosen,
@@ -239,5 +259,5 @@ export async function runSightings(opts: RunOptions): Promise<RunResult> {
   };
   const problems = feedProblems(feed);
   if (problems.length) throw new Error(`feed failed the contract check: ${problems.join("; ")}`);
-  return { feed, events, requests, rejected, tickers, sourceProblems, yahooProblems: yahooProblems(), judgeFailures, history };
+  return { feed, events, requests, rejected, tickers, sourceProblems, yahooProblems: yahooProblems(), judgeFailures, history, ranking };
 }

@@ -15,6 +15,7 @@
  *                         saved file in data/judgments/.
  *   --no-supabase         do not write to Supabase even when DATABASE_URL is set
  *   --no-history          leave every hit's history null (no price or past-filing reads)
+ *   --no-coverage         do not read analyst coverage from Yahoo (no hit counts as low coverage)
  *   --out FILE            where to write the feed (default out/sightings.json)
  *
  * Without ANTHROPIC_API_KEY (environment or apps/web/.env.local) and without
@@ -36,7 +37,8 @@ import type { HistoryDeps } from "../history.ts";
 import { claudeJudge, fileJudge, type Judge } from "../judge.ts";
 import { backtestMarketData } from "../market.ts";
 import { edgarPastEvents } from "../past-events.ts";
-import { runSightings } from "../pipeline.ts";
+import { runSightings, type RunResult } from "../pipeline.ts";
+import { yahooCoverage } from "../yahoo.ts";
 import { EXIT, exitReason, runExitCode, summaryLines, warningLines, type Publish } from "../summary.ts";
 import { publishCards } from "../supabase.ts";
 
@@ -85,6 +87,16 @@ function newestJudgments(): string | null {
   }
 }
 
+function printRanking(r: RunResult["ranking"]): void {
+  console.log("\nRanking (src/rank.ts)");
+  for (const c of r.cards) console.log(`  ${c.chosen ? "in feed " : "left out"}  ${c.ticker.padEnd(5)} score ${c.score}${c.nonObvious ? " (has a non-obvious hit)" : ""}  ${c.eventId}`);
+  for (const c of r.droppedCards) console.log(`  no card   ${c.ticker.padEnd(5)} every hit dropped  ${c.eventId}`);
+  for (const x of r.capped) console.log(`  capped    ${x.ticker} on ${x.eventId.split("-")[0]}: ${x.from} to ${x.to}, ${x.why}`);
+  for (const x of r.dropped) console.log(`  dropped   ${x.ticker} on ${x.eventId.split("-")[0]}: ${x.why}`);
+  const cov = Object.entries(r.coverage).map(([t, c]) => `${t} ${c ? `${c.analysts ?? "?"}a` : "?"}`);
+  if (cov.length) console.log(`  analysts: ${cov.join(", ")}`);
+}
+
 function printFeed(feed: SightingsFeed): void {
   for (const [i, card] of feed.cards.entries()) {
     const e = card.event;
@@ -94,7 +106,8 @@ function printFeed(feed: SightingsFeed): void {
     console.log(`   Source: ${e.source.url}`);
     for (const h of card.hits) {
       const via = h.degree === 2 ? ` via ${h.via}` : "";
-      console.log(`   - ${h.ticker} ${h.companyName}: ${h.direction}, ${h.confidence} confidence, ${h.window} (${h.relation}, degree ${h.degree}${via})`);
+      console.log(`   - ${h.ticker} ${h.companyName}: ${h.direction}, ${h.confidence} confidence, ${h.window} (${h.relation}, degree ${h.degree}${via})${h.score !== undefined ? `, score ${h.score}` : ""}`);
+      if (h.scoreReason) console.log(`     Why this rank: ${h.scoreReason}`);
       console.log(`     ${h.mechanism}`);
       if (h.history) {
         const x = h.history;
@@ -172,7 +185,8 @@ async function main(): Promise<number> {
     if ("market" in md) history = { market: md.market, pastEvents: (t, kind, since) => edgarPastEvents(t, kind, since, log) };
     else historyUnavailable = md.error;
   }
-  const run = await runSightings({ sector, sinceMs, untilMs, maxCards, judge, log, history, historyUnavailable });
+  const coverage = args["no-coverage"] === true ? null : yahooCoverage;
+  const run = await runSightings({ sector, sinceMs, untilMs, maxCards, judge, log, history, historyUnavailable, coverage });
   const requestsFile = path.join(outDir, "judge-requests.json");
   if (writeFiles) fs.writeFileSync(requestsFile, `${JSON.stringify(run.requests, null, 1)}\n`);
 
@@ -192,6 +206,7 @@ async function main(): Promise<number> {
   if (writeFiles) fs.writeFileSync(outFile, `${JSON.stringify(run.feed, null, 2)}\n`);
   console.log(`\nSightings feed: ${run.feed.cards.length} cards (judge: ${judge.name})${writeFiles ? ` -> ${outFile}` : ""}`);
   printFeed(run.feed);
+  printRanking(run.ranking);
 
   let publish: Publish;
   const databaseUrl = args["no-supabase"] ? null : env("DATABASE_URL");

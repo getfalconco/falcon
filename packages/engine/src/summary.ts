@@ -79,6 +79,7 @@ export function summaryLines(s: SummaryInput): string[] {
     `judged: ${s.judged} events by ${s.judgeName}${run.judgeFailures.length ? `, ${run.judgeFailures.length} failed` : ""}${run.rejected.length ? `, ${run.rejected.length} answers dropped by validation` : ""}`,
     `cards in the feed: ${run.feed.cards.length}`,
     `history: ${run.history.measured} of ${run.history.hits} hits measured${run.history.problems.length ? ` (${run.history.problems.join("; ")})` : ""}`,
+    `ranking: ${run.ranking.capped.length} hits capped by their record, ${run.ranking.dropped.length} dropped${run.ranking.droppedCards.length ? `, ${run.ranking.droppedCards.length} cards left with no hit` : ""}`,
   ];
   if (run.yahooProblems.length) lines.push(`yahoo: ${run.yahooProblems.length} problems, EPS surprise figures may be missing (${run.yahooProblems[0]})`);
   const p = s.publish;

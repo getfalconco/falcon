@@ -111,6 +111,18 @@ export type RippleHit = {
   evidence: LinkEvidence[];
   /** The measured record of past events like this one, or null when there is too little of it (see RippleHistory). */
   history: RippleHistory | null;
+  /**
+   * Optional (added by the engine): the hit's rank score, 0 to 100, from the
+   * filing link's strength, the measured record (Wilson lower bound of the
+   * hit rate), the judge's confidence and the event's size. Hits on a card
+   * and cards in the feed come ordered by it. Formula:
+   * packages/engine/README.md, "Ranking". `confidence` is already capped by
+   * the record (a coin-flip record is "low"; "high" needs a record better
+   * than a coin flip).
+   */
+  score?: number;
+  /** Optional (added by the engine): one plain sentence on what the score rests on, e.g. "A filing puts this link above 10% of revenue; went the implied way 27 of 50 times, no better than a coin flip." */
+  scoreReason?: string;
 };
 
 /** One Sightings card. */

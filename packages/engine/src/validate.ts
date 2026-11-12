@@ -98,6 +98,15 @@ export function hitProblems(h: RippleHit, where: string): string[] {
   else h.evidence.forEach((e, i) => out.push(...evidenceProblems(e, `${where}.evidence[${i}]`)));
   if (h.degree === 2 && Array.isArray(h.evidence) && h.evidence.length < 2) out.push(`${where}: degree 2 needs a quote for each link`);
   if (h.history !== null) out.push(...historyProblems(h.history, `${where}.history`, h.direction));
+  if (h.score !== undefined && !(typeof h.score === "number" && Number.isFinite(h.score) && h.score >= 0 && h.score <= 100)) out.push(`${where}: score must be 0 to 100`);
+  if (h.scoreReason !== undefined) {
+    if (!nonEmpty(h.scoreReason)) out.push(`${where}: scoreReason empty`);
+    else {
+      if (h.scoreReason.length > 200) out.push(`${where}: scoreReason too long`);
+      if (h.scoreReason.split(/(?<=[.!?])\s+(?=[A-Z])/).length > 1) out.push(`${where}: scoreReason longer than one sentence`);
+      out.push(...framingProblems(h.scoreReason, `${where}.scoreReason`));
+    }
+  }
   return out;
 }
 

@@ -143,3 +143,44 @@ export function quarterReportedOn(quarters: EarningsQuarterRead[], ymd: string):
   }
   return best;
 }
+
+/** Analyst coverage and size of a listing (src/rank.ts, low-coverage hits). */
+export type CoverageRead = { analysts: number | null; marketCapUsd: number | null };
+
+/**
+ * Coverage from a quoteSummary answer with the `financialData` and `price`
+ * modules: Yahoo's number of analysts with an opinion, and the market value
+ * (in US dollars only; a listing quoted in another currency gets null).
+ * Null when the answer has neither. Pure.
+ */
+export function parseCoverage(json: unknown): CoverageRead | null {
+  const result = (json as { quoteSummary?: { result?: unknown[] } })?.quoteSummary?.result?.[0] as
+    | { financialData?: { numberOfAnalystOpinions?: unknown }; price?: { marketCap?: unknown; currency?: unknown } }
+    | undefined;
+  if (!result) return null;
+  const analysts = raw(result.financialData?.numberOfAnalystOpinions);
+  const currency = result.price?.currency;
+  const cap = currency === undefined || currency === "USD" ? raw(result.price?.marketCap) : null;
+  if (analysts === null && cap === null) return null;
+  return { analysts: analysts === null ? null : Math.round(analysts), marketCapUsd: cap };
+}
+
+const coverageCache = new Map<string, CoverageRead | null>();
+
+/** A ticker's analyst coverage; null when Yahoo is unreachable or has no figures. Never throws. */
+export async function yahooCoverage(ticker: string): Promise<CoverageRead | null> {
+  const key = ticker.toUpperCase();
+  if (coverageCache.has(key)) return coverageCache.get(key)!;
+  let out: CoverageRead | null = null;
+  try {
+    const { cookie, crumb } = await yahooSession();
+    const url = `https://query2.finance.yahoo.com/v10/finance/quoteSummary/${encodeURIComponent(key)}?modules=financialData,price&crumb=${encodeURIComponent(crumb)}`;
+    const res = await fetchResponse(url, { headers: { "User-Agent": BROWSER_USER_AGENT, Cookie: cookie } });
+    if (res.ok) out = parseCoverage(await res.json());
+    else if (res.status !== 404) failures.push(`${key} coverage: HTTP ${res.status}`);
+  } catch (err) {
+    if (!sessionFailure) failures.push(`${key} coverage: ${err instanceof Error ? err.message : err}`);
+  }
+  coverageCache.set(key, out);
+  return out;
+}
