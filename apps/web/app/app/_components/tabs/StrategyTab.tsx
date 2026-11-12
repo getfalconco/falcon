@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Copy, Loader2, Play, Trash2 } from "lucide-react";
+import { Copy, Trash2 } from "lucide-react";
 import {
   ASSUMPTIONS,
   CAVEATS,
@@ -259,8 +259,8 @@ function StrategyView({ s }: { s: SavedStrategy }) {
       {!shown && s.origin.kind === "sighting" && !s.origin.hasHistory ? (
         <Panel className="px-5 py-4">
           <p className="text-[13px] leading-[20px] text-[#4b4b48]">
-            Past {s.origin.eventTicker} events of this type are not in the backtest data yet. These rules read ripple card history, which is not
-            connected, so a run would show no trades. Earnings cards test against the full earnings record.
+            Past {s.origin.eventTicker} events of this type are not in the backtest data yet. These rules read Sightings history, which is not
+            connected yet, so a run would show no trades. Earnings cards test against the full earnings record.
           </p>
         </Panel>
       ) : null}
@@ -313,7 +313,7 @@ function Header({
         />
         {s.origin.kind === "sighting" ? (
           <p className="mt-1 text-[12.5px] text-[#767676]">
-            {s.origin.hasHistory ? `Tests past ${s.origin.basis} on the companies the` : "Tests ripple cards like the"}{" "}
+            {s.origin.hasHistory ? `Tests past ${s.origin.basis} on the companies the` : "Tests Sightings like the"}{" "}
             <button
               type="button"
               onClick={() => onOpenSighting((s.origin as { cardId: string }).cardId)}
@@ -429,16 +429,15 @@ function Describe({
                 void submit();
               }
             }}
-            placeholder="For example: buy QQQ when its 2-day RSI is below 10, exit after 5 days"
+            placeholder="For example: enter QQQ when its 2-day RSI is below 10, exit after 5 days"
             className="min-h-[44px] flex-1 resize-y rounded-md border border-black/10 bg-white px-3 py-2 text-[13px] leading-[19px] text-[#1d1b1b] outline-none transition-colors placeholder:text-[#b0b0ab] hover:border-black/25 focus:border-black/45"
           />
           <button
             type="submit"
             disabled={busy || !text.trim()}
-            className="inline-flex h-[44px] shrink-0 items-center gap-2 rounded-md border border-black/10 px-3.5 text-[12.5px] text-[#1d1b1b] outline-none transition-colors hover:bg-[#efefec] focus-visible:border-black/40 disabled:opacity-40"
+            className="inline-flex h-[44px] shrink-0 items-center rounded-md border border-black/10 px-3.5 text-[12.5px] text-[#1d1b1b] outline-none transition-colors hover:bg-[#efefec] focus-visible:border-black/40 disabled:opacity-40"
           >
-            {busy ? <Loader2 width={13} height={13} className="animate-spin" aria-hidden /> : null}
-            Write rules
+            {busy ? "Writing" : "Write rules"}
           </button>
         </form>
         {note ? (
@@ -501,9 +500,8 @@ function RunBar({
           type="button"
           onClick={onRun}
           disabled={disabled || running}
-          className="inline-flex h-9 items-center gap-2 rounded-lg bg-[#1c1917] px-4 text-[13px] text-[rgb(231,231,231)] outline-none transition-colors hover:bg-[#0f0d0b] focus-visible:ring-2 focus-visible:ring-black/30 disabled:cursor-not-allowed disabled:opacity-40"
+          className="inline-flex h-9 items-center rounded-lg bg-[#1c1917] px-4 text-[13px] text-[rgb(231,231,231)] outline-none transition-colors hover:bg-[#0f0d0b] focus-visible:ring-2 focus-visible:ring-black/30 disabled:cursor-not-allowed disabled:opacity-40"
         >
-          {running ? <Loader2 width={14} height={14} className="animate-spin" aria-hidden /> : <Play width={13} height={13} aria-hidden />}
           {running ? "Running" : "Run backtest"}
         </button>
         <span className="text-[12px] text-[#767676]">{windowText(settings)}</span>
@@ -556,7 +554,7 @@ function ResultsView({
     for (const c of compared) {
       if (c.run?.status === "done") out.push({ id: c.entry.id, label: c.entry.label, color: c.color, values: percentSeries(c.run.result, "strategy") });
     }
-    out.push({ id: "spy", label: "SPY buy and hold", color: SPY_COLOR, weight: 1.5, values: percentSeries(result, "benchmark") });
+    out.push({ id: "spy", label: "SPY held throughout", color: SPY_COLOR, weight: 1.5, values: percentSeries(result, "benchmark") });
     return out;
     // `compared` is rebuilt every render; its runs decide.
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -571,7 +569,7 @@ function ResultsView({
       metrics: c.run?.status === "done" ? c.run.result.metrics.strategy : null,
       status: c.run?.status === "running" ? "Running" : c.run?.status === "error" ? "Did not run" : "",
     })),
-    { id: "spy", label: "SPY buy and hold", color: SPY_COLOR, metrics: result.metrics.benchmark },
+    { id: "spy", label: "SPY held throughout", color: SPY_COLOR, metrics: result.metrics.benchmark },
   ];
 
   const options = compareOptions(strategies, s.id);

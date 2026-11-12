@@ -1,12 +1,11 @@
 "use client";
 
 import { useMemo } from "react";
-import { Maximize2 } from "lucide-react";
 import { buildTodaySummary, exposureByTicker, sortByTime } from "@/lib/workspace/feed";
 import { buildGraph } from "@/lib/workspace/graph";
 import { useWorkspace } from "../context";
 import { GraphView } from "../GraphView";
-import { EmptyState, MONO, NetRing, NetValue, Panel, RippleCardView, SectionTitle, SERIF, feedEmpty, timeAgo } from "../parts";
+import { EmptyState, MONO, NetMark, NetRing, Panel, RippleCardView, SectionTitle, SERIF, feedEmpty, timeAgo } from "../parts";
 import { FeedNotice } from "../FeedNotice";
 
 export function useToday() {
@@ -64,9 +63,8 @@ export function DashboardTab() {
               <button
                 type="button"
                 onClick={() => openTab("graph")}
-                className="inline-flex h-7 items-center gap-1.5 rounded-md px-2 text-[12px] text-[#767676] outline-none transition-colors hover:bg-[#efefec] hover:text-[#1d1b1b] focus-visible:bg-[#efefec]"
+                className="inline-flex h-7 items-center rounded-md px-2 text-[12px] text-[#767676] outline-none transition-colors hover:bg-[#efefec] hover:text-[#1d1b1b] focus-visible:bg-[#efefec]"
               >
-                <Maximize2 width={12} height={12} aria-hidden />
                 Open graph
               </button>
             }
@@ -117,7 +115,7 @@ export function DashboardTab() {
                     <th className="w-[84px] px-4 py-2 font-normal">Ticker</th>
                     <th className="px-2 py-2 font-normal">Company</th>
                     <th className="px-2 py-2 text-right font-normal">Events</th>
-                    <th className="px-4 py-2 text-right font-normal">Net</th>
+                    <th className="px-4 py-2 text-right font-normal">Direction</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -132,7 +130,7 @@ export function DashboardTab() {
                       </td>
                       <td className="max-w-0 truncate px-2 py-2.5 text-[13px] text-[#4b4b48]">{row.companyName || row.ticker}</td>
                       <td className="px-2 py-2.5 text-right text-[13px] tabular-nums text-[#4b4b48]">{row.events || ""}</td>
-                      <td className="px-4 py-2.5 text-right text-[13px]">{row.net === null ? null : <NetValue value={row.net} />}</td>
+                      <td className="px-4 py-2.5 text-right text-[13px]">{row.net === null ? null : <NetMark value={row.net} showLabel />}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -145,7 +143,7 @@ export function DashboardTab() {
           </Panel>
         </section>
         <section>
-          <SectionTitle count={feed?.cards.length ?? 0}>Latest ripples</SectionTitle>
+          <SectionTitle count={feed?.cards.length ?? 0}>Latest sightings</SectionTitle>
           <Panel className="mt-2 overflow-hidden">
             {latest.length ? (
               <ul>
@@ -155,7 +153,7 @@ export function DashboardTab() {
               </ul>
             ) : (
               <div className="p-4">
-                <EmptyState title={feedEmpty(feedStatus, "No ripples yet")} />
+                <EmptyState title={feedEmpty(feedStatus, "No sightings yet")} />
               </div>
             )}
           </Panel>

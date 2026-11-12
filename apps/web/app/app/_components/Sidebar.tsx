@@ -7,7 +7,7 @@ import { searchTickers, type TickerResult } from "@/lib/workspace/focus";
 import { MAX_STOCKS, TICKER_PATTERN } from "@/lib/onboarding";
 import BrandMark from "../../components/BrandMark";
 import { useWorkspace } from "./context";
-import { MONO, NetValue, SectionTitle, timeAgo } from "./parts";
+import { MONO, NetMark, SectionTitle, timeAgo } from "./parts";
 
 const ROW = "flex w-full items-center gap-2.5 rounded-md px-2 text-left outline-none transition-colors hover:bg-black/[0.04] focus-visible:bg-black/[0.05]";
 
@@ -154,7 +154,7 @@ export function Sidebar({ email, onSignOut, activeTicker, activeCardId }: { emai
                         {f.ticker}
                       </span>
                       <span className="min-w-0 flex-1 truncate text-[12px] text-[#767676]">{f.name || e?.companyName || ""}</span>
-                      {e && e.net !== null ? <NetValue value={e.net} className="text-[11.5px] group-hover:opacity-0" /> : null}
+                      {e && e.net !== null ? <NetMark value={e.net} className="group-hover:opacity-0" /> : null}
                     </button>
                     <button
                       type="button"
@@ -170,7 +170,6 @@ export function Sidebar({ email, onSignOut, activeTicker, activeCardId }: { emai
             </ul>
           ) : adding ? null : (
             <button type="button" onClick={() => setAdding(true)} className={`${ROW} mt-1 h-8 text-[12px] text-[#767676]`}>
-              <Plus width={13} height={13} aria-hidden />
               Add your first ticker
             </button>
           )}

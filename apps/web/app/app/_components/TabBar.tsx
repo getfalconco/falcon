@@ -253,21 +253,17 @@ function NewTabMenu({
       className="fixed z-50 w-[180px] rounded-lg border border-black/10 bg-white p-1 shadow-[0_8px_24px_rgba(0,0,0,0.08)]"
       style={{ left: rect.left + 4, top: rect.bottom - 2 }}
     >
-      {NEW_TABS.map(({ kind, label }) => {
-        const Icon = TAB_ICON[kind];
-        return (
-          <button
-            key={kind}
-            type="button"
-            role="menuitem"
-            onClick={() => onPick(kind)}
-            className="flex h-8 w-full items-center gap-2.5 rounded-md px-2.5 text-left text-[13px] text-[#1d1b1b] outline-none transition-colors hover:bg-[#efefec] focus-visible:bg-[#efefec]"
-          >
-            <Icon width={14} height={14} strokeWidth={1.75} className="text-[#767676]" aria-hidden />
-            {label}
-          </button>
-        );
-      })}
+      {NEW_TABS.map(({ kind, label }) => (
+        <button
+          key={kind}
+          type="button"
+          role="menuitem"
+          onClick={() => onPick(kind)}
+          className="flex h-8 w-full items-center rounded-md px-2.5 text-left text-[13px] text-[#1d1b1b] outline-none transition-colors hover:bg-[#efefec] focus-visible:bg-[#efefec]"
+        >
+          {label}
+        </button>
+      ))}
     </div>
   );
 }

@@ -9,7 +9,7 @@ import {
   type ScrollViewInstance,
 } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { FlaskConical, ArrowUpRight as LinkArrow } from "lucide-react-native";
+import { ArrowUpRight as LinkArrow } from "lucide-react-native";
 import type { RippleHit } from "@falcon/ripple";
 import { SecondaryButton } from "@/components/Buttons";
 import { PushedScreen } from "@/components/PushedScreen";
@@ -147,7 +147,6 @@ export default function SightingDetail() {
             </Pressable>
             <SecondaryButton
               label="Backtest this"
-              icon={<FlaskConical size={15} strokeWidth={1.8} color={colors.ink} />}
               onPress={() => {
                 haptics.select();
                 router.push({ pathname: "/backtest/[id]", params: { id: card.id } });

@@ -174,7 +174,7 @@ export default function TickerScreen() {
               </View>
             ) : null}
             <Text style={styles.todayText}>
-              {cards.length} {cards.length === 1 ? "sighting" : "sightings"} today
+              {cards.length} {cards.length === 1 ? "sighting" : "sightings"}
             </Text>
           </View>
         ) : null}
@@ -188,7 +188,7 @@ export default function TickerScreen() {
           <SkeletonCard />
         ) : cards.length === 0 ? (
           <Reveal order={2} style={styles.emptyBox}>
-            <Text style={styles.emptyText}>No sightings today</Text>
+            <Text style={styles.emptyText}>No sightings yet</Text>
           </Reveal>
         ) : (
           <View style={styles.cards}>

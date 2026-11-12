@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { ChevronDown } from "lucide-react";
 import type { BacktestResult, CurveMetrics, ExitReason, StrategyMetrics, Trade } from "@falcon/backtest";
 import { MONO, formatDate } from "../parts";
 import { pct } from "./EquityChart";
@@ -164,9 +163,8 @@ export function TradesList({ result }: { result: BacktestResult }) {
           type="button"
           onClick={() => setOpen((o) => !o)}
           aria-expanded={open}
-          className="mt-2 inline-flex items-center gap-1 text-[12px] text-[#4b4b48] outline-none hover:text-[#1d1b1b] focus-visible:underline"
+          className="mt-2 inline-flex items-center text-[12px] text-[#4b4b48] underline decoration-black/20 underline-offset-2 outline-none hover:text-[#1d1b1b] focus-visible:decoration-black/60"
         >
-          <ChevronDown width={13} height={13} className={`transition-transform ${open ? "rotate-180" : ""}`} aria-hidden />
           {open ? "Show fewer" : `Show all ${trades.length.toLocaleString("en-US")} trades`}
         </button>
       ) : null}

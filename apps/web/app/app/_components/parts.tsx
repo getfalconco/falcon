@@ -1,7 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { ArrowDownRight, ArrowUpRight, ExternalLink, FlaskConical, Minus } from "lucide-react";
+import { ArrowDownRight, ArrowUpRight, Minus } from "lucide-react";
 import type { Confidence, Direction, LinkEvidence, RippleCard, RippleHit } from "@falcon/ripple";
 import { KIND_LABEL, relationPhrase } from "@/lib/workspace/feed";
 import { useWorkspace } from "./context";
@@ -185,11 +185,10 @@ export function BacktestButton({ cardId, variant = "quiet" }: { cardId: string; 
       title="Test past events of this type on the companies it reaches"
       className={
         variant === "outline"
-          ? "inline-flex h-8 shrink-0 items-center gap-1.5 rounded-lg border border-black/10 bg-white px-3 text-[12.5px] text-[#1d1b1b] outline-none transition-colors hover:bg-[#efefec] focus-visible:border-black/40"
-          : "inline-flex h-6 shrink-0 items-center gap-1 rounded-md px-1.5 text-[12px] text-[#767676] outline-none transition-colors hover:bg-black/[0.05] hover:text-[#1d1b1b] focus-visible:ring-2 focus-visible:ring-black/20"
+          ? "inline-flex h-8 shrink-0 items-center rounded-lg border border-black/10 bg-white px-3 text-[12.5px] text-[#1d1b1b] outline-none transition-colors hover:bg-[#efefec] focus-visible:border-black/40"
+          : "inline-flex h-6 shrink-0 items-center rounded-md px-1.5 text-[12px] text-[#767676] outline-none transition-colors hover:bg-black/[0.05] hover:text-[#1d1b1b] focus-visible:ring-2 focus-visible:ring-black/20"
       }
     >
-      <FlaskConical width={variant === "outline" ? 13 : 12} height={variant === "outline" ? 13 : 12} aria-hidden />
       Backtest this
     </button>
   );
@@ -262,10 +261,9 @@ export function ExternalAnchor({ href, children }: { href: string; children: Rea
       target="_blank"
       rel="noopener noreferrer"
       onClick={(e) => e.stopPropagation()}
-      className="inline-flex items-center gap-1 text-[#4b4b48] underline decoration-black/20 underline-offset-2 transition-colors hover:text-[#1d1b1b] hover:decoration-black/50"
+      className="inline-flex items-center text-[#4b4b48] underline decoration-black/20 underline-offset-2 transition-colors hover:text-[#1d1b1b] hover:decoration-black/50"
     >
       {children}
-      <ExternalLink width={11} height={11} aria-hidden />
     </a>
   );
 }
@@ -311,6 +309,23 @@ export function NetRing({ value, size = 148, label = "Net direction" }: { value:
         </span>
       </div>
     </div>
+  );
+}
+
+/**
+ * Where one ticker's hits point on balance, as an arrow (and a word with
+ * `showLabel`): up, down, or mixed when they roughly cancel out.
+ */
+export function NetMark({ value, showLabel = false, className = "" }: { value: number; showLabel?: boolean; className?: string }) {
+  const lean = Math.abs(value) < 5 ? "mixed" : value > 0 ? "up" : "down";
+  const Icon = lean === "up" ? ArrowUpRight : lean === "down" ? ArrowDownRight : Minus;
+  const word = lean === "up" ? "Up" : lean === "down" ? "Down" : "Mixed";
+  const title = lean === "mixed" ? "Today's hits are mixed" : `Today's hits point ${lean}`;
+  return (
+    <span className={`inline-flex shrink-0 items-center gap-1 whitespace-nowrap ${className}`} style={{ color: netColor(value) }} title={title}>
+      <Icon width={13} height={13} strokeWidth={2} aria-hidden />
+      {showLabel ? <span className="text-[12px]">{word}</span> : <span className="sr-only">{title}</span>}
+    </span>
   );
 }
 

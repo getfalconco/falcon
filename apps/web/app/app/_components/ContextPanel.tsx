@@ -7,7 +7,7 @@ import { withSeedConnections } from "@/lib/workspace/graph";
 import { useGraphNeighborhood } from "@/lib/workspace/graph-api";
 import { useWorkspace } from "./context";
 import { RelationLegend } from "./GraphView";
-import { DirectionMark, ExternalAnchor, MONO, NetValue, SectionTitle, TickerButton, formatDateTime, timeAgo } from "./parts";
+import { DirectionMark, ExternalAnchor, MONO, NetMark, NetValue, SectionTitle, TickerButton, formatDateTime, timeAgo } from "./parts";
 import { useToday } from "./tabs/DashboardTab";
 import { findCard } from "./tabs/SightingTab";
 import { StrategyContext } from "./strategy/StrategyContext";
@@ -49,9 +49,11 @@ function DashboardContext() {
           <ul className="flex flex-col gap-1.5 pt-1">
             {exposure.map((e) => (
               <li key={e.ticker} className="flex items-center gap-2.5">
-                <TickerButton ticker={e.ticker} />
+                <span className="flex w-[56px] shrink-0">
+                  <TickerButton ticker={e.ticker} />
+                </span>
                 <span className="min-w-0 flex-1 truncate text-[12px] text-[#767676]">{e.events === 1 ? "1 event" : `${e.events} events`}</span>
-                <NetValue value={e.net} className="text-[12px]" />
+                {e.net === null ? null : <NetMark value={e.net} showLabel />}
               </li>
             ))}
           </ul>
@@ -121,7 +123,9 @@ function TickerContext({ ticker }: { ticker: string }) {
           <ul className="flex flex-col gap-1.5 pt-1">
             {connections.slice(0, 12).map((c) => (
               <li key={c.ticker} className="flex items-center gap-2.5">
-                <TickerButton ticker={c.ticker} />
+                <span className="flex w-[56px] shrink-0">
+                  <TickerButton ticker={c.ticker} />
+                </span>
                 <span className="min-w-0 truncate text-[12px] text-[#767676]">{c.phrase}</span>
               </li>
             ))}
@@ -145,7 +149,7 @@ function SightingContext({ cardId }: { cardId: string }) {
             ["Company", <TickerButton key="t" ticker={card.event.ticker} />],
             ["Type", KIND_LABEL[card.event.kind]],
             ["Sector", card.sector],
-            ["Public", formatDateTime(card.event.occurredAt)],
+            ["Published", formatDateTime(card.event.occurredAt)],
             ["Companies hit", card.hits.length],
           ]}
         />

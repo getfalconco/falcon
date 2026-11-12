@@ -1,6 +1,5 @@
 "use client";
 
-import { RotateCw } from "lucide-react";
 import { useWorkspace } from "./context";
 
 /** One quiet line when the feed is missing or failed; nothing when it is fine. */
@@ -15,9 +14,8 @@ export function FeedNotice() {
       <button
         type="button"
         onClick={refreshFeed}
-        className="inline-flex h-7 items-center gap-1.5 rounded-md px-2 text-[12px] text-[#767676] outline-none transition-colors hover:bg-[#efefec] hover:text-[#1d1b1b] focus-visible:bg-[#efefec]"
+        className="inline-flex h-7 items-center rounded-md px-2 text-[12px] text-[#767676] outline-none transition-colors hover:bg-[#efefec] hover:text-[#1d1b1b] focus-visible:bg-[#efefec]"
       >
-        <RotateCw width={12} height={12} aria-hidden />
         Retry
       </button>
     </div>

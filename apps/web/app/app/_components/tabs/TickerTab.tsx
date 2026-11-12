@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { Check, Plus } from "lucide-react";
 import { cardsForTicker, companyNameFor, connectionsFor, netDirection, sectorFor } from "@/lib/workspace/feed";
 import { buildGraph, withSeedConnections } from "@/lib/workspace/graph";
 import { useGraphNeighborhood } from "@/lib/workspace/graph-api";
@@ -49,9 +48,8 @@ export function FocusToggle({ ticker, name }: { ticker: string; name: string | n
     <button
       type="button"
       onClick={() => (on ? removeFocus(ticker) : addFocus({ ticker, name: name ?? "" }))}
-      className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-black/10 px-3 text-[12.5px] text-[#1d1b1b] outline-none transition-colors hover:bg-[#efefec] focus-visible:border-black/40"
+      className="inline-flex h-8 items-center rounded-lg border border-black/10 px-3 text-[12.5px] text-[#1d1b1b] outline-none transition-colors hover:bg-[#efefec] focus-visible:border-black/40"
     >
-      {on ? <Check width={13} height={13} aria-hidden /> : <Plus width={13} height={13} aria-hidden />}
       {on ? "On focus list" : "Add to focus list"}
     </button>
   );

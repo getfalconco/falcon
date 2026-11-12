@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, type ReactNode } from "react";
-import { Plus, X } from "lucide-react";
+import { X } from "lucide-react";
 import { LIMITS, type Condition, type ConditionType, type Strategy } from "@falcon/backtest";
 import { resolvedWindow, type RunSettings } from "@/lib/workspace/strategies";
 import { MONO } from "../parts";
@@ -112,7 +112,7 @@ function TickerField({
         const t = e.target.value.toUpperCase().replace(/\s+/g, "");
         onChange(t ? t : null);
       }}
-      className={`${FIELD} w-[86px] uppercase placeholder:normal-case placeholder:text-[#b0b0ab]`}
+      className={`${FIELD} w-[104px] uppercase placeholder:normal-case placeholder:text-[#b0b0ab]`}
       style={{ fontFamily: MONO }}
     />
   );
@@ -134,7 +134,7 @@ const TYPE_LABEL: Record<ConditionType, string> = {
   gap: "Opening gap",
   breakout: "New high or low",
   earnings_surprise: "Earnings surprise",
-  ripple_event: "Ripple card",
+  ripple_event: "Sighting",
 };
 
 const CROSS = [
@@ -275,7 +275,7 @@ function ConditionFields({ c, set }: { c: Condition; set: (c: Condition) => void
       return (
         <>
           <NumberField label="Trading days after the card" value={c.daysAfter} min={1} max={LIMITS.maxDaysAfter} step={1} width={48} onChange={(v) => set({ ...c, daysAfter: Math.round(v ?? c.daysAfter) })} />
-          <Words>day after a card reaches it as</Words>
+          <Words>day after a Sighting reaches it as</Words>
           <Select
             label="Relation"
             value={c.relation ?? "any"}
@@ -352,8 +352,7 @@ function ConditionList({
         </div>
       ))}
       {conditions.length < LIMITS.maxConditions ? (
-        <label className="inline-flex items-center gap-1.5 self-start text-[12.5px] text-[#4b4b48]">
-          <Plus width={13} height={13} aria-hidden />
+        <label className="inline-flex items-center self-start text-[12.5px] text-[#4b4b48]">
           <select
             aria-label="Add a condition"
             value={adding}
@@ -466,11 +465,11 @@ export function RuleEditor({
   const setExit = (p: Partial<Strategy["exit"]>) => onRules({ ...rules, exit: { ...rules.exit, ...p } });
   return (
     <div className="flex flex-col">
-      <Row label="Tickers" hint={`Up to ${LIMITS.maxTickers}, counting tickers that conditions read`}>
+      <Row label="Tickers">
         <UniverseField tickers={rules.universe} onChange={(universe) => onRules({ ...rules, universe })} />
       </Row>
 
-      <Row label="Entry" hint="Read on each close, filled at the next open">
+      <Row label="Entry">
         <div className="mb-2">
           <Inline>
             <Words>Enter when</Words>
@@ -493,7 +492,7 @@ export function RuleEditor({
         />
       </Row>
 
-      <Row label="Exit" hint="The first of these closes a position">
+      <Row label="Exit">
         <ConditionList
           conditions={rules.exit.conditions}
           emptyText="No exit conditions."
