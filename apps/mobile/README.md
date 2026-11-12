@@ -43,9 +43,10 @@ it on prebuild).
 ## Environment
 
 Copy `.env.example` to `.env` (gitignored) and fill in the Supabase URL and
-anon key from `apps/web/.env.local`. `EXPO_PUBLIC_FUNNEL_TEST_MODE` is `1`
-by default, as on the site: no session is kept, the funnel always starts at
-step 1 and answers are not saved. Set it to `0` to turn that off.
+anon key from `apps/web/.env.local`. `EXPO_PUBLIC_FUNNEL_TEST_MODE` is `0`
+by default, as on the site: the session is kept, returning members skip the
+landing and answers are saved. Set it to `1` to test the funnel again and
+again (no session kept, the funnel always starts at step 1, answers not saved).
 
 ## Test on Windows (browser)
 

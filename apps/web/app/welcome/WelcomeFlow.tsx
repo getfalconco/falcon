@@ -22,6 +22,7 @@ import {
   type SectorId,
   type WelcomeAnswers,
   blindSpotScore,
+  needsWelcome,
   readProgress,
   safeInternalPath,
   saveWelcomeAnswers,
@@ -250,18 +251,40 @@ function WelcomeContent() {
     [reduceMotion],
   );
 
+  /** Leaves the flow for the same place the login screen sent members before it existed. */
+  const leaveFlow = useCallback(
+    (replace = false) => {
+      const dest = safeInternalPath(searchParams.get("next"), "/");
+      const target = dest.startsWith("/welcome") || dest.startsWith("/admin") ? "/" : dest;
+      if (isAppHost(window.location.host)) {
+        if (replace) window.location.replace(`${SITE_URL}${target}`);
+        else window.location.assign(`${SITE_URL}${target}`);
+        return;
+      }
+      if (replace) router.replace(target);
+      else router.push(target);
+    },
+    [router, searchParams],
+  );
+
+  // Members who already finished the flow skip it (always shown in funnel test mode).
+  useEffect(() => {
+    let live = true;
+    void needsWelcome(client).then((needed) => {
+      if (!live || needed) return;
+      setFinishing(true);
+      leaveFlow(true);
+    });
+    return () => {
+      live = false;
+    };
+  }, [client, leaveFlow]);
+
   const finish = useCallback(async () => {
     setFinishing(true);
     await save(true);
-    // Same place the login screen sent members before this flow existed.
-    const dest = safeInternalPath(searchParams.get("next"), "/");
-    const target = dest.startsWith("/welcome") || dest.startsWith("/admin") ? "/" : dest;
-    if (isAppHost(window.location.host)) {
-      window.location.assign(`${SITE_URL}${target}`);
-      return;
-    }
-    router.push(target);
-  }, [router, save, searchParams]);
+    leaveFlow();
+  }, [leaveFlow, save]);
 
   const canGoNext = !finishing && !busy && step !== "loading" && stepDone(step, answers);
   const canGoBack = !finishing && !busy && index > 0 && step !== "loading" && step !== "result";

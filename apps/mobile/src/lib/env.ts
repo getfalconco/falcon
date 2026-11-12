@@ -13,9 +13,10 @@ export const API_URL = (process.env.EXPO_PUBLIC_API_URL || "https://getfalcon.co
  *   - the Supabase session lives in memory only (a restart shows the login)
  *   - the welcome funnel always starts at step 1
  *   - welcome answers are not sent to the server
- * On by default. Set EXPO_PUBLIC_FUNNEL_TEST_MODE=0 to turn it off.
+ * Off by default: the session is kept and returning members skip the
+ * landing. Set EXPO_PUBLIC_FUNNEL_TEST_MODE=1 to turn it on again.
  */
-export const FUNNEL_TEST_MODE = (process.env.EXPO_PUBLIC_FUNNEL_TEST_MODE ?? "1").trim() !== "0";
+export const FUNNEL_TEST_MODE = (process.env.EXPO_PUBLIC_FUNNEL_TEST_MODE ?? "0").trim() === "1";
 
 /**
  * Absolute URL for a website API route. In the browser preview the routes go

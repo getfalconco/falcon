@@ -6,7 +6,8 @@
  *   - /welcome always starts at step 1, even for members who finished it
  *   - welcome answers are not sent to Supabase (onboarding_responses)
  *
- * On by default for now. Set NEXT_PUBLIC_FUNNEL_TEST_MODE=0 (build time) to
- * turn it off and get the normal behaviour back.
+ * Off by default: logins are kept, /welcome resumes and is skipped once done,
+ * and answers are saved. Set NEXT_PUBLIC_FUNNEL_TEST_MODE=1 (build time) to
+ * turn it on again.
  */
-export const FUNNEL_TEST_MODE = (process.env.NEXT_PUBLIC_FUNNEL_TEST_MODE ?? "1").trim() !== "0";
+export const FUNNEL_TEST_MODE = (process.env.NEXT_PUBLIC_FUNNEL_TEST_MODE ?? "0").trim() === "1";

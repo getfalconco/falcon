@@ -160,6 +160,25 @@ export async function saveWelcomeAnswers(answers: WelcomeAnswers, completed = fa
   }
 }
 
+/**
+ * Whether the signed-in member already finished the welcome funnel, from the
+ * website's GET /api/onboarding. No session or any failure counts as not
+ * finished. Always false in funnel test mode.
+ */
+export async function welcomeCompleted(): Promise<boolean> {
+  if (FUNNEL_TEST_MODE) return false;
+  const token = await accessToken();
+  if (!token) return false;
+  try {
+    const res = await withTimeout(apiUrl("/api/onboarding"), { headers: { Authorization: `Bearer ${token}` } }, 2500);
+    if (!res.ok) return false;
+    const body = (await res.json()) as { completed?: boolean };
+    return body.completed === true;
+  } catch {
+    return false;
+  }
+}
+
 /** Company names for tickers from the website's SEC list ({} on any failure). */
 export async function tickerNames(tickers: string[]): Promise<Record<string, string>> {
   if (tickers.length === 0) return {};

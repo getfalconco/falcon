@@ -1,10 +1,11 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { Image, StyleSheet, View } from "react-native";
-import { router } from "expo-router";
+import { router, type Href } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import Animated, { useAnimatedStyle, useSharedValue, withDelay, withTiming } from "react-native-reanimated";
 import { scheduleOnRN } from "react-native-worklets";
 import { FUNNEL_TEST_MODE } from "@/lib/env";
+import { welcomeCompleted } from "@/lib/onboarding";
 import { getSupabase } from "@/lib/supabase";
 import { EASE_SOFT, colors } from "@/theme";
 
@@ -15,6 +16,29 @@ const HOLD_MS = 700;
 const FADE_MS = 600;
 
 /**
+ * Where a returning member who already finished the welcome funnel lands.
+ * There is no home screen yet: set this to the home tabs' route when they
+ * exist. Until then those members go to /welcome like everyone signed in.
+ */
+const HOME_ROUTE: Href | null = null;
+
+/** Where a member with a saved session goes instead of the landing, or null. */
+async function returningMemberRoute(): Promise<Href | null> {
+  // Funnel test mode keeps no session, so it always starts at the landing.
+  if (FUNNEL_TEST_MODE) return null;
+  const supabase = getSupabase();
+  if (!supabase) return null;
+  try {
+    const { data } = await supabase.auth.getSession();
+    if (!data.session) return null;
+  } catch {
+    return null;
+  }
+  if (HOME_ROUTE && (await welcomeCompleted())) return HOME_ROUTE;
+  return "/welcome";
+}
+
+/**
  * The loading screen, drawn over the app: white with the Falcon mark small
  * and centered, exactly like the native launch screen, which it replaces the
  * moment it has laid out. After a short rest the whole layer fades out and
@@ -23,26 +47,7 @@ const FADE_MS = 600;
 export function SplashOverlay() {
   const opacity = useSharedValue(1);
   const [done, setDone] = useState(false);
-  const signedIn = useRef(false);
   const started = useRef(false);
-
-  useEffect(() => {
-    // Funnel test mode keeps no session, so it always starts at the landing.
-    if (FUNNEL_TEST_MODE) return;
-    const supabase = getSupabase();
-    if (!supabase) return;
-    supabase.auth
-      .getSession()
-      .then(({ data }) => {
-        signedIn.current = Boolean(data.session);
-      })
-      .catch(() => {});
-  }, []);
-
-  // While the splash still covers the screen, a returning member skips the landing.
-  const handOff = useCallback(() => {
-    if (signedIn.current) router.replace("/welcome");
-  }, []);
 
   const finish = useCallback(() => setDone(true), []);
 
@@ -50,14 +55,20 @@ export function SplashOverlay() {
     if (started.current) return;
     started.current = true;
     void SplashScreen.hideAsync().catch(() => {});
-    opacity.value = withDelay(
-      HOLD_MS,
-      withTiming(0, { duration: FADE_MS, easing: EASE_SOFT }, (finished) => {
-        if (finished) scheduleOnRN(finish);
-      }),
-    );
-    setTimeout(handOff, HOLD_MS - 100);
-  }, [finish, handOff, opacity]);
+    const destination = returningMemberRoute().catch(() => null);
+    const rested = new Promise((resolve) => setTimeout(resolve, HOLD_MS - 100));
+    // While the splash still covers the screen, a returning member skips the
+    // landing; the fade waits for that check (it fails soft within seconds).
+    void Promise.all([destination, rested]).then(([route]) => {
+      if (route) router.replace(route);
+      opacity.value = withDelay(
+        100,
+        withTiming(0, { duration: FADE_MS, easing: EASE_SOFT }, (finished) => {
+          if (finished) scheduleOnRN(finish);
+        }),
+      );
+    });
+  }, [finish, opacity]);
 
   const style = useAnimatedStyle(() => ({ opacity: opacity.value }));
 
