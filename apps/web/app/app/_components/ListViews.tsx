@@ -201,7 +201,7 @@ function SightingRow({ card, mine, onOpen }: { card: RippleCard; mine: boolean; 
   );
 }
 
-function GroupLabel({ children, count }: { children: React.ReactNode; count: number }) {
+export function GroupLabel({ children, count }: { children: React.ReactNode; count: number }) {
   return (
     <span className="flex items-center gap-2 text-fs-11 font-medium uppercase tracking-[0.08em] text-faint">
       {children}
