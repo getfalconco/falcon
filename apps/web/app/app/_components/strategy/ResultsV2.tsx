@@ -251,7 +251,7 @@ function ExplainBox({ review, onExplain }: { review: ReviewState | null; onExpla
             disabled={review?.status === "running"}
             className="inline-flex h-7 items-center rounded-md border border-line/10 px-2.5 text-fs-12 text-fore outline-none hover:bg-surface-hover focus-visible:border-line/45 disabled:opacity-40"
           >
-            {review?.status === "running" ? "Explaining" : review?.status === "done" ? "Explain again" : "Explain"}
+            {review?.status === "running" ? "Explaining" : review?.status === "done" ? "Explain again" : review?.status === "error" ? "Try again" : "Explain"}
           </button>
         }
       >

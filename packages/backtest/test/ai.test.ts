@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { betaZodOutputFormat } from "@anthropic-ai/sdk/helpers/beta/zod";
 import Anthropic from "@anthropic-ai/sdk";
 import { TIMEOUT_MESSAGE, TurnOutput, converse, untypedTickers, modelToSpec } from "../src/ai/converse";
-import { ReviewOutput, review, templateProblems } from "../src/ai/review";
+import { REVIEW_TIMEOUT_MESSAGE, ReviewOutput, review, templateProblems } from "../src/ai/review";
 import { CONVERSE_SYSTEM } from "../src/ai/prompts";
 import { blankSpec, validateSpec, describeSpec, type QualityReport } from "../src/index";
 
@@ -172,4 +172,38 @@ test("Explain: digits in templates and unknown refs are rejected and retried onc
   if (!r.ok) return;
   assert.equal(r.review.headline, "Waiting one extra session removed 62.5% of the result over 41 trades.");
   assert.equal(r.review.flags[0]!.meaning, "", "advice-like sentences are dropped by neutralize()");
+});
+
+test("Explain: each call gets the time left of a 50 s budget; an SDK timeout is a retryable timeout", async () => {
+  const c = validateSpec(blankSpec());
+  assert.ok(c.ok);
+  if (!c.ok) return;
+  const report: QualityReport = {
+    tiers: ["A"],
+    label: { level: "thin", title: "Weak evidence", heading: "How much can you trust this result?", subtitle: "", reasons: [] },
+    checks: [],
+    flags: [],
+    values: {},
+  };
+  const input = { spec: c.spec, describe: describeSpec(c.spec, c.uses), report };
+  const timeouts: number[] = [];
+  const slow = {
+    beta: {
+      messages: {
+        create: async (_p: unknown, o: { timeout: number }) => {
+          timeouts.push(o.timeout);
+          throw new Anthropic.APIConnectionTimeoutError();
+        },
+      },
+    },
+  } as never;
+  const r = await review(input, { client: slow });
+  assert.ok(!r.ok && r.reason === "timeout" && r.message === REVIEW_TIMEOUT_MESSAGE);
+  // Default budget: Netlify's 60 s limit minus room for the sign-in check and the response.
+  assert.ok(timeouts[0]! > 45_000 && timeouts[0]! <= 50_000, String(timeouts[0]));
+  // Too little time left for a call: no request is sent.
+  const { client, sent } = fakeClient([]);
+  const r2 = await review(input, { client, timeoutMs: 3_000 });
+  assert.ok(!r2.ok && r2.reason === "timeout");
+  assert.equal(sent.length, 0);
 });

@@ -355,10 +355,14 @@ async function post(path: string, body: unknown): Promise<{ status: number; body
   return { status: res.status, body: json };
 }
 
-function errorText(status: number, body: Record<string, unknown> | null, fallback: string): string {
+const PRICES_SLOW = "The price data took too long to load. What arrived is cached, so running again is faster.";
+const EXPLAIN_SLOW = "Explain took longer than usual. Try again.";
+
+/** `slow` is the copy for a 504 (the route's deadline or the host's). */
+function errorText(status: number, body: Record<string, unknown> | null, fallback: string, slow = PRICES_SLOW): string {
   if (status === 401) return SESSION_ENDED;
   if (status === 429) return "Too many requests in a short time. Try again in a minute.";
-  if (status === 504) return "The price data took too long to load. What arrived is cached, so running again is faster.";
+  if (status === 504) return slow;
   if (typeof body?.error === "string") return body.error;
   if (typeof body?.message === "string") return body.message;
   return fallback;
@@ -439,7 +443,7 @@ export async function startReview(spec: StrategySpecV2, quality: QualityReport, 
   bump();
   try {
     const r = await post("/api/strategy/review", { spec, quality, trials });
-    reviews.set(key, r.status === 200 && r.body && typeof r.body.headline === "string" ? { status: "done", review: r.body as unknown as Review } : { status: "error", message: errorText(r.status, r.body, "Explain is unavailable right now.") });
+    reviews.set(key, r.status === 200 && r.body && typeof r.body.headline === "string" ? { status: "done", review: r.body as unknown as Review } : { status: "error", message: errorText(r.status, r.body, "Explain is unavailable right now.", EXPLAIN_SLOW) });
   } catch {
     reviews.set(key, { status: "error", message: "Explain could not be reached." });
   }

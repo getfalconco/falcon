@@ -17,9 +17,25 @@ export type SpecOutcome<T> =
   | { ok: true; result: T }
   | { ok: false; status: 400 | 502 | 503 | 504; errors: string[]; issues?: SpecIssue[] };
 
+/** Default whole-request budget: Netlify's 60 s function limit less room for a cold start and the response. */
+export const SPEC_DEADLINE_MS = 50_000;
+/** Kept back before the deadline for the run itself (or the Tier B checks) and the response. */
+export const COMPUTE_RESERVE_MS = 8_000;
+export const LOAD_TIMEOUT_MESSAGE = "Loading prices took too long. Data loaded so far is cached, so trying again is usually faster.";
+
+/** Time a step may still take before the deadline, keeping COMPUTE_RESERVE_MS back (at least 1 s). */
+export function workBudgetMs(deadlineAt: number, now = Date.now()): number {
+  return Math.max(1_000, deadlineAt - now - COMPUTE_RESERVE_MS);
+}
+
 export type SpecRunOptions = {
   provider?: MarketDataProvider;
-  timeoutMs?: number;
+  /**
+   * Epoch ms the outcome must be ready by (default SPEC_DEADLINE_MS from the
+   * call). Routes pass their deadline measured from the request's arrival.
+   * Loading prices, then the Tier B checks, each stop COMPUTE_RESERVE_MS before it.
+   */
+  deadlineAt?: number;
   signal?: AbortSignal;
   now?: Date;
   /** This strategy's trial number in the client's ledger (for the deflated Sharpe ratio). */
@@ -114,8 +130,9 @@ export async function loadSpecData(check: CheckedSpec, provider: MarketDataProvi
 async function withData<T>(
   input: unknown,
   opts: SpecRunOptions,
-  go: (check: CheckedSpec, data: SpecData) => T,
+  go: (check: CheckedSpec, data: SpecData, deadlineAt: number) => T,
 ): Promise<SpecOutcome<T>> {
+  const deadlineAt = opts.deadlineAt ?? Date.now() + SPEC_DEADLINE_MS;
   const check = validateSpec(input, opts.now);
   if (!check.ok) return { ok: false, status: 400, errors: check.issues.map((i) => `${i.path}: ${i.message}`), issues: check.issues };
   let provider = opts.provider;
@@ -125,21 +142,19 @@ async function withData<T>(
     provider = p.provider;
   }
   const period = resolvePeriod(check.spec, opts.now);
-  const signal = AbortSignal.any([AbortSignal.timeout(opts.timeoutMs ?? 20_000), ...(opts.signal ? [opts.signal] : [])]);
+  const signal = AbortSignal.any([AbortSignal.timeout(workBudgetMs(deadlineAt)), ...(opts.signal ? [opts.signal] : [])]);
   let data: SpecData;
   try {
     data = await loadSpecData(check, provider, period, signal);
   } catch (e) {
-    if (isAbort(e) || signal.aborted) {
-      return { ok: false, status: 504, errors: ["Loading prices took too long. Data loaded so far is cached, so trying again is usually faster."] };
-    }
+    if (isAbort(e) || signal.aborted) return { ok: false, status: 504, errors: [LOAD_TIMEOUT_MESSAGE] };
     return { ok: false, status: 502, errors: [e instanceof Error ? e.message : "Data source error"] };
   }
   if (!(data.bars.SPY ?? []).length) return { ok: false, status: 502, errors: ["SPY prices are unavailable right now."] };
   const cells = Object.values(data.bars).reduce((a, b) => a + b.length, 0);
   if (cells > 1_500_000) return { ok: false, status: 400, errors: ["This run is too large (more than 1.5 million ticker-sessions). Shorten the window or the list."] };
   try {
-    return { ok: true, result: go(check, data) };
+    return { ok: true, result: go(check, data, deadlineAt) };
   } catch (e) {
     return { ok: false, status: 502, errors: [e instanceof Error ? e.message : "The run failed."] };
   }
@@ -153,14 +168,15 @@ export function runSpec(input: unknown, opts: SpecRunOptions = {}): Promise<Spec
 export type AuditResult = { tierB: TierBResult; quality: QualityReport | null };
 
 /** Tier B (second request): 200-seed null, parameter neighbourhood, leave-one-ticker-out, regimes. */
-export function auditSpec(input: unknown, opts: SpecRunOptions & { quality?: QualityReport | null; deadlineMs?: number } = {}): Promise<SpecOutcome<AuditResult>> {
-  return withData(input, opts, (check, data) => {
+export function auditSpec(input: unknown, opts: SpecRunOptions & { quality?: QualityReport | null } = {}): Promise<SpecOutcome<AuditResult>> {
+  return withData(input, opts, (check, data, deadlineAt) => {
     if (check.spec.portfolio.mode === "event_study") return { tierB: { checks: [], values: {} }, quality: opts.quality ?? null };
     const p = check.spec.portfolio;
     const prep = prepare(data, check.tickers, resolvePeriod(check.spec, opts.now), p.mode === "rules" ? p.clock : "close", Boolean(check.spec.legacy));
     const base = simulateSpec(check, prep);
     const bench = benchmarks(check.spec, prep);
-    const b = tierB(check, prep, base, bench, { deadlineMs: opts.deadlineMs });
+    // Optional checks start only while this leaves the reserve before the deadline (the 200-seed null always runs).
+    const b = tierB(check, prep, base, bench, { deadlineMs: workBudgetMs(deadlineAt) });
     return { tierB: b, quality: opts.quality ? mergeTierB(opts.quality, b) : null };
   });
 }

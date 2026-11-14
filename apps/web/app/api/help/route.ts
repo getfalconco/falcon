@@ -4,7 +4,8 @@ import { corsHeaders, guard, json, preflight } from "@/lib/strategy/guard";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
-export const maxDuration = 26;
+/** Netlify's synchronous function limit (60 s, fixed; docs.netlify.com/build/functions/configuration). */
+export const maxDuration = 60;
 
 /**
  * The in-app help chat: answers questions about how Falcon works, streamed as
@@ -26,7 +27,12 @@ const MODEL = "claude-haiku-5-5";
 const MAX_TOKENS = 600;
 const MAX_MESSAGES = 12;
 const MAX_CHARS = 2_000;
-const TIMEOUT_MS = Number(process.env.HELP_TIMEOUT_MS) || 22_000;
+/**
+ * The whole request, sign-in check and streaming included, ends within 50 s
+ * of arriving: 10 s under the 60 s limit for a cold start. A reply still
+ * streaming then is cut off with a note.
+ */
+const DEADLINE_MS = 50_000;
 
 export function OPTIONS(request: Request) {
   return preflight(request);
@@ -52,6 +58,7 @@ function cleanMessages(v: unknown): Anthropic.MessageParam[] {
 }
 
 export async function POST(request: Request) {
+  const arrived = Date.now();
   const g = await guard(
     request,
     "help",
@@ -74,7 +81,8 @@ export async function POST(request: Request) {
     last.content = `<current_view>${view}</current_view>\n\n${String(last.content)}`;
   }
 
-  const client = new Anthropic({ apiKey, timeout: TIMEOUT_MS, maxRetries: 0 });
+  const guardMs = Date.now() - arrived;
+  const client = new Anthropic({ apiKey, timeout: DEADLINE_MS - guardMs, maxRetries: 0 });
   let stream: ReturnType<typeof client.messages.stream>;
   try {
     stream = client.messages.stream({
@@ -94,6 +102,15 @@ export async function POST(request: Request) {
   const body = new ReadableStream<Uint8Array>({
     async start(controller) {
       let sent = false;
+      let late = false;
+      // The SDK timeout only covers the wait for the first byte; this ends a reply still streaming at the deadline.
+      const timer = setTimeout(
+        () => {
+          late = true;
+          stream.abort();
+        },
+        Math.max(0, DEADLINE_MS - (Date.now() - arrived)),
+      );
       try {
         for await (const event of stream) {
           if (event.type === "content_block_delta" && event.delta.type === "text_delta") {
@@ -102,13 +119,20 @@ export async function POST(request: Request) {
           }
         }
         const final = await stream.finalMessage();
-        console.info("[api/help]", JSON.stringify({ stop: final.stop_reason, usage: final.usage }));
+        console.info("[api/help]", JSON.stringify({ stop: final.stop_reason, guardMs, totalMs: Date.now() - arrived, usage: final.usage }));
         if (final.stop_reason === "refusal" && !sent) controller.enqueue(encoder.encode("I can't help with that here. Ask me how to read a Sighting or a Strategy Lab result."));
         else if (final.stop_reason === "max_tokens") controller.enqueue(encoder.encode(" …"));
       } catch (error) {
-        console.error("[api/help]", error instanceof Anthropic.APIError ? `${error.status} ${error.name}` : error instanceof Error ? error.message : "stream failed");
-        controller.enqueue(encoder.encode(sent ? "\n\n(The answer was cut off. Try again.)" : "Help is unavailable right now. Try again in a minute."));
+        const timedOut = late || error instanceof Anthropic.APIConnectionTimeoutError;
+        console.error(
+          "[api/help]",
+          JSON.stringify({ error: timedOut ? "timeout" : error instanceof Anthropic.APIError ? `${error.status} ${error.name}` : error instanceof Error ? error.message : "stream failed", guardMs, totalMs: Date.now() - arrived }),
+        );
+        controller.enqueue(
+          encoder.encode(sent ? "\n\n(The answer was cut off. Try again.)" : timedOut ? "Help took longer than usual. Try again." : "Help is unavailable right now. Try again in a minute."),
+        );
       } finally {
+        clearTimeout(timer);
         controller.close();
       }
     },

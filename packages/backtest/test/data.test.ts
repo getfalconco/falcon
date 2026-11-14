@@ -8,13 +8,18 @@ import {
   JsonCache,
   PoliteFetcher,
   YahooPriceSource,
+  COMPUTE_RESERVE_MS,
+  LOAD_TIMEOUT_MESSAGE,
   backtest,
   mergeEarnings,
   parseChart,
   parseEarningsCalendar,
   parseQuoteSummaryEarnings,
+  runSpec,
+  workBudgetMs,
   type PriceSource,
 } from "../src/data/index";
+import { blankSpec } from "../src/index";
 import { makeBars, strategy, weekdays } from "./helpers";
 
 const chart = {
@@ -179,4 +184,25 @@ test("backtest(): validates input, runs on injected sources, reports a deadline 
     { sources: { prices: slow, earnings: null, ripple: null }, timeoutMs: 30, now },
   );
   assert.ok(!late.ok && late.status === 504);
+});
+
+test("runSpec: loading stops COMPUTE_RESERVE_MS before the route's 50 s deadline and answers 504", async () => {
+  // A request whose sign-in check took 1 s: 41 s to load, 8 s kept for the run and the response.
+  const arrived = 1_000_000;
+  assert.equal(workBudgetMs(arrived + 50_000, arrived + 1_000), 41_000);
+  assert.equal(COMPUTE_RESERVE_MS, 8_000);
+  // Past the deadline, a step still gets a moment instead of a zero or negative timeout.
+  assert.equal(workBudgetMs(arrived + 50_000, arrived + 49_000), 1_000);
+
+  const slow: PriceSource = {
+    name: "slow",
+    dailyBars: (_t, _f, _to, signal) =>
+      new Promise((_r, reject) => signal?.addEventListener("abort", () => reject(new DeadlineError()), { once: true })),
+  };
+  const provider = { name: "fake", prices: slow, earnings: null, ripple: null, rates: null, beta: false };
+  const t0 = Date.now();
+  const out = await runSpec(blankSpec(), { provider, deadlineAt: t0 + COMPUTE_RESERVE_MS + 1_200 });
+  const ms = Date.now() - t0;
+  assert.ok(!out.ok && out.status === 504 && out.errors[0] === LOAD_TIMEOUT_MESSAGE, JSON.stringify(out));
+  assert.ok(ms >= 1_100 && ms < 3_000, String(ms));
 });

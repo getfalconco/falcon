@@ -4,7 +4,8 @@ import { guard, json, preflight, roundDeep } from "@/lib/strategy/guard";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
-export const maxDuration = 26;
+/** Netlify's synchronous function limit (60 s, fixed; docs.netlify.com/build/functions/configuration). */
+export const maxDuration = 60;
 
 /**
  * Tier B quality checks (design 6.1), requested after the first paint of a
@@ -17,15 +18,20 @@ export const maxDuration = 26;
  *
  * No AI call; prices come from the same cache as /run. Members only
  * (lib/strategy/guard.ts). 5 a minute, 60 an hour per IP and per member.
+ *
+ * The request ends within 50 s of arriving (10 s under Netlify's 60 s limit):
+ * loading data stops 8 s before that, and once the data is in, the optional
+ * checks start only while 8 s remain (the 200-seed null always runs).
  */
 
-const TIMEOUT_MS = Number(process.env.STRATEGY_RUN_TIMEOUT_MS) || 20_000;
+const DEADLINE_MS = 50_000;
 
 export function OPTIONS(request: Request) {
   return preflight(request);
 }
 
 export async function POST(request: Request) {
+  const arrived = Date.now();
   const g = await guard(
     request,
     "strategy-audit",
@@ -37,9 +43,10 @@ export async function POST(request: Request) {
   );
   if (!g.ok) return g.response;
   const quality = g.body.quality && typeof g.body.quality === "object" ? (g.body.quality as QualityReport) : null;
-  const started = Date.now();
+  const guardMs = Date.now() - arrived;
   try {
-    const out = await auditSpec(g.body.spec, { timeoutMs: TIMEOUT_MS, signal: request.signal, quality, deadlineMs: Math.max(3_000, 22_000 - (Date.now() - started) - 8_000) });
+    const out = await auditSpec(g.body.spec, { deadlineAt: arrived + DEADLINE_MS, signal: request.signal, quality });
+    console.info("[api/strategy/audit]", JSON.stringify({ status: out.ok ? 200 : out.status, guardMs, totalMs: Date.now() - arrived }));
     if (!out.ok) return json({ error: out.errors[0], errors: out.errors, issues: out.issues }, out.status, g.origin);
     return json(roundDeep(out.result), 200, g.origin);
   } catch (error) {
