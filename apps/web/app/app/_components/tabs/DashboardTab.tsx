@@ -9,6 +9,7 @@ import { GraphView } from "../GraphView";
 import { EmptyState, MONO, NetMark, NetRing, Panel, SectionTitle, SERIF, feedEmpty, timeAgo } from "../parts";
 import { HowToReadButton, SightingCard, StrengthBadge, todaySentence, useExplain } from "../explain";
 import { FeedNotice } from "../FeedNotice";
+import { GroupLabel } from "../ListViews";
 
 /** True when the feed is in and no card clears the publishing bar (only Watch-tier cards, or none). */
 export function useNothingCleared(): boolean {
@@ -73,9 +74,15 @@ export function DashboardTab() {
   const nothingCleared = useNothingCleared();
   const portfolioEmpty = usePortfolioEmptyTitle();
   const exposure = useMemo(() => exposureByTicker(feed, focus), [feed, focus]);
-  // Today lists only cards with evidence behind them; the rest sit under "Watching" in the sidebar.
-  const listed = useMemo(() => sortByTime(feed?.cards ?? []).filter((c) => cardStrength(c).level !== "watching"), [feed]);
-  const latest = listed.slice(0, 6);
+  // Cards with evidence behind them first, newest first; then a few Watching cards, marked as such.
+  const listed = useMemo(() => {
+    const strong: RippleCard[] = [];
+    const weak: RippleCard[] = [];
+    for (const c of sortByTime(feed?.cards ?? [])) (cardStrength(c).level === "watching" ? weak : strong).push(c);
+    return { strong, weak };
+  }, [feed]);
+  const latest = listed.strong.slice(0, 6);
+  const latestWatching = listed.weak.slice(0, 4);
   const seeds = useMemo(() => {
     const own = focus.map((f) => f.ticker);
     return own.length ? own : Array.from(new Set((feed?.cards ?? []).map((c) => c.event.ticker))).slice(0, 4);
@@ -176,14 +183,32 @@ export function DashboardTab() {
           </Panel>
         </section>
         <section>
-          <SectionTitle count={listed.length}>Latest sightings</SectionTitle>
+          <SectionTitle count={listed.strong.length + listed.weak.length}>Latest sightings</SectionTitle>
           <Panel className="mt-2 overflow-hidden">
-            {latest.length ? (
-              <ul>
-                {latest.map((card) => (
-                  <LatestRow key={card.id} cardId={card.id} />
-                ))}
-              </ul>
+            {latest.length || latestWatching.length ? (
+              <>
+                {latest.length ? (
+                  <ul>
+                    {latest.map((card) => (
+                      <LatestRow key={card.id} cardId={card.id} />
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="px-4 py-2.5 text-fs-13 text-faint">{NOTHING_CLEARED}</p>
+                )}
+                {latestWatching.length ? (
+                  <>
+                    <div className="flex h-8 items-center border-t border-line/[0.06] px-4">
+                      <GroupLabel count={listed.weak.length}>Watching</GroupLabel>
+                    </div>
+                    <ul className="opacity-80">
+                      {latestWatching.map((card) => (
+                        <LatestRow key={card.id} cardId={card.id} />
+                      ))}
+                    </ul>
+                  </>
+                ) : null}
+              </>
             ) : (
               <div className="p-4">
                 <EmptyState title={feedEmpty(feedStatus, nothingCleared ? NOTHING_CLEARED : "No sightings yet")} />

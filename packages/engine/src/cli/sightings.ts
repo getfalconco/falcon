@@ -20,6 +20,11 @@
  *   --out FILE            where to write the feed (default out/sightings.json)
  *   --max-judge-calls 40  cost guard: judge calls this run at most (src/vote.ts)
  *   --max-judge-usd 0.75  cost guard: judge dollars this run at most, from measured usage
+ *   --detector-usd 0.5    cost guard: detector model dollars this run (Haiku reads 8-Ks,
+ *                         13Ds and 4.02 notices; cached in .cache/llm). 0 turns those
+ *                         detectors off
+ *   --max-per-type N      featured cards one event type may take while others have
+ *                         cards (default 40% of --max, rounded up: 6 of 15)
  *   --no-judgment-cache   dry run: do not read or write .cache/judgments (judge every event again)
  *   --no-detectors        skip the registered detectors (src/detectors)
  *
@@ -52,6 +57,7 @@ import { runSightings, type RunResult } from "../pipeline.ts";
 import { yahooCoverage } from "../yahoo.ts";
 import { judgeCostUsd } from "../judge.ts";
 import { DEFAULT_MAX_CALLS, DEFAULT_MAX_JUDGE_USD } from "../vote.ts";
+import { DEFAULT_DETECTOR_BUDGET_USD, llmUsage } from "../detectors/llm.ts";
 import { fileJudgmentStore, pgJudgmentStore, writeForecasts, type JudgmentStore } from "../ledger.ts";
 import type { Liquidity } from "../quality.ts";
 import type { MarketData } from "../market.ts";
@@ -106,6 +112,12 @@ function liquidityFrom(market: MarketData): (ticker: string) => Promise<Liquidit
 function positive(args: Args, k: string, d: string): number {
   const n = Number(str(args, k, d));
   if (!Number.isFinite(n) || n <= 0) throw new Error(`--${k} must be a positive number`);
+  return n;
+}
+
+function nonNegative(args: Args, k: string, d: string): number {
+  const n = Number(str(args, k, d));
+  if (!Number.isFinite(n) || n < 0) throw new Error(`--${k} must be 0 or more`);
   return n;
 }
 
@@ -238,6 +250,8 @@ async function main(): Promise<number> {
   const coverage = args["no-coverage"] === true ? null : yahooCoverage;
   const maxJudgeCalls = positive(args, "max-judge-calls", String(DEFAULT_MAX_CALLS));
   const maxJudgeUsd = positive(args, "max-judge-usd", String(DEFAULT_MAX_JUDGE_USD));
+  const detectorBudgetUsd = nonNegative(args, "detector-usd", String(DEFAULT_DETECTOR_BUDGET_USD));
+  const maxPerType = args["max-per-type"] === undefined ? undefined : Math.floor(positive(args, "max-per-type", "1"));
   const databaseUrlForRun = dryRun || args["no-supabase"] ? null : env("DATABASE_URL");
   let judgments: JudgmentStore | null = null;
   if (dryRun) judgments = args["no-judgment-cache"] === true ? null : fileJudgmentStore();
@@ -247,7 +261,7 @@ async function main(): Promise<number> {
   try {
     run = await runSightings({
       sector, sinceMs, untilMs, maxCards, judge, log, history, historyUnavailable, coverage, maxJudgeCalls, maxJudgeUsd,
-      judgments, liquidity, dryRun, detect: args["no-detectors"] === true ? null : undefined,
+      judgments, liquidity, dryRun, detect: args["no-detectors"] === true ? null : undefined, detectorBudgetUsd, maxPerType,
     });
   } finally {
     await judgments?.close?.().catch(() => undefined);
@@ -297,6 +311,10 @@ async function main(): Promise<number> {
 
   const exitCode = runExitCode(run, judged, publish);
   const lines = summaryLines({ run, judged, judgeName: judge.name, publish, exitCode });
+  const lu = llmUsage();
+  if (lu.calls || lu.cached || lu.skipped) {
+    lines.splice(lines.length - 1, 0, `detector model: ${lu.calls} calls, ${lu.cached} cached answers, ${lu.skipped} skipped (no key or budget); about $${lu.costUsd.toFixed(2)} of $${detectorBudgetUsd.toFixed(2)}`);
+  }
   if (judge.usage) {
     const u = judge.usage;
     lines.splice(lines.length - 1, 0, `judge tokens: ${u.inputTokens} in, ${u.cacheReadTokens} cache read, ${u.cacheWriteTokens} cache write, ${u.outputTokens} out; about $${judgeCostUsd(u).toFixed(2)}`);

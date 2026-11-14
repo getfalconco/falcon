@@ -20,12 +20,15 @@
  *   (src/rank.ts) and tiers (src/quality.ts) follow.
  *
  *   `maxCards` limits only how many cards the feed features (Measured first,
- *   then Documented, then Watch, each by score); every built hit gets a
- *   forecast row for the ledger (`RunResult.ledger`), published or not.
+ *   then Documented, then Watch, each by score, and no event type takes more
+ *   than `maxPerType` of the slots while other types have cards: see
+ *   `featureCards`); every built hit gets a forecast row for the ledger
+ *   (`RunResult.ledger`), published or not.
  */
 
 import { bestTier, cardConfidenceOf, cardPricedIn, EVENT_TYPE_LABEL, type Confidence, type LinkEvidence, type RippleCard, type RippleEvent, type RippleHit, type SightingsFeed } from "@falcon/ripple";
 import { detectAll } from "./detectors/index.ts";
+import { DEFAULT_DETECTOR_BUDGET_USD } from "./detectors/llm.ts";
 import type { DetectorContext, DetectorEvent, EventSign, EventType, FamilyId } from "./detectors/types.ts";
 import { detectEvents, type DetectedEvent, type DetectOptions, type EventBasis, type SourceProblem } from "./events.ts";
 import { evidenceOf, loadGraph, nameOf, pathWeight, walk, type Graph, type Path } from "./graph.ts";
@@ -47,6 +50,8 @@ export type RunOptions = {
   untilMs: number;
   /** Cards the feed features at most (never limits what is analysed). */
   maxCards: number;
+  /** Featured cards one event type may take while other types have cards; default `defaultMaxPerType(maxCards)`. */
+  maxPerType?: number;
   judge: Judge | null;
   graph?: Graph;
   log?: (line: string) => void;
@@ -72,7 +77,11 @@ export type RunOptions = {
   legacyEvents?: (opts: DetectOptions) => Promise<DetectedEvent[]>;
   /** The registered detectors; default src/detectors detectAll. Null: none. */
   detect?: ((ctx: DetectorContext) => Promise<DetectorEvent[]>) | null;
-  /** Detector dollars for LLM calls this run (passed to detectors). */
+  /**
+   * Detector dollars for LLM calls this run (passed to detectors); default
+   * DEFAULT_DETECTOR_BUDGET_USD. At 0 the contract, guidance, activist and
+   * 4.02 detectors read no filing and find nothing.
+   */
   detectorBudgetUsd?: number;
   dryRun?: boolean;
   /** Price and dollar volume of a company (the liquidity gate, src/quality.ts). Without it nothing is liquid, so nothing passes Watch. */
@@ -142,9 +151,42 @@ export type Analysis = {
   /** Built cards by tier, and how many the feed features. */
   tiers: { measured: number; documented: number; watch: number };
   featured: number;
+  /** Featured cards per event type. */
+  featuredByType?: Record<string, number>;
 };
 
 export { magnitudeFactor };
+
+/** Share of the featured slots one event type may take while other types have cards. */
+export const MAX_TYPE_SHARE = 0.4;
+
+/** Featured cards per event type by default: 40% of the slots, rounded up (6 of 15). Pure. */
+export function defaultMaxPerType(maxCards: number): number {
+  return Math.max(1, Math.ceil(maxCards * MAX_TYPE_SHARE));
+}
+
+/**
+ * Which cards the feed features. `sorted` is in featured order (tier, then
+ * score); the first pass takes cards in that order but at most `maxPerType`
+ * of any one event type, so a busy day of one kind (thirty insider clusters)
+ * cannot fill every slot; slots still open go to the cards passed over, in
+ * the same order. A card's tier is never changed, so a Watch card stays
+ * Watch (folded under "Watching" on the screens). Returns the indexes of the
+ * featured cards. Pure.
+ */
+export function featureCards(sorted: readonly { eventType: string }[], maxCards: number, maxPerType: number = defaultMaxPerType(maxCards)): Set<number> {
+  const chosen = new Set<number>();
+  const perType = new Map<string, number>();
+  for (let i = 0; i < sorted.length && chosen.size < maxCards; i++) {
+    const t = sorted[i]!.eventType;
+    const n = perType.get(t) ?? 0;
+    if (n >= maxPerType) continue;
+    perType.set(t, n + 1);
+    chosen.add(i);
+  }
+  for (let i = 0; i < sorted.length && chosen.size < maxCards; i++) chosen.add(i);
+  return chosen;
+}
 
 /** Candidate companies for an event: the strongest direct links, then the strongest degree 2. Pure. */
 export function candidatePaths(graph: Graph, ticker: string, maxDegree1 = 12, maxDegree2 = 3): Path[] {
@@ -389,7 +431,7 @@ export async function runSightings(opts: RunOptions): Promise<RunResult> {
   const events = await (opts.legacyEvents ?? detectEvents)({ tickers, sinceMs: opts.sinceMs, untilMs: opts.untilMs, log, problems: sourceProblems });
   let detectorEvents: DetectorEvent[] = [];
   if (opts.detect !== null) {
-    const ctx: DetectorContext = { since: new Date(opts.sinceMs), until: new Date(opts.untilMs), llmBudgetUsd: opts.detectorBudgetUsd ?? 0, dryRun: opts.dryRun === true, log };
+    const ctx: DetectorContext = { since: new Date(opts.sinceMs), until: new Date(opts.untilMs), llmBudgetUsd: opts.detectorBudgetUsd ?? DEFAULT_DETECTOR_BUDGET_USD, dryRun: opts.dryRun === true, log };
     try {
       detectorEvents = await (opts.detect ?? ((c) => detectAll(c)))(ctx);
     } catch (err) {
@@ -660,12 +702,20 @@ export async function runSightings(opts: RunOptions): Promise<RunResult> {
       b.card.event.occurredAt.localeCompare(a.card.event.occurredAt) ||
       a.card.id.localeCompare(b.card.id),
   );
-  const chosen = cards.slice(0, opts.maxCards).map((c) => c.card);
-  ranking.cards = cards.map((c, i) => ({ eventId: c.card.event.id, ticker: c.card.event.ticker, score: c.score, nonObvious: c.nonObvious, chosen: i < opts.maxCards, tier: c.card.tier }));
+  const featured = featureCards(cards.map((c) => c.ev), opts.maxCards, opts.maxPerType);
+  const chosen = cards.filter((_, i) => featured.has(i)).map((c) => c.card);
+  const passedOver = cards.slice(0, opts.maxCards).filter((_, i) => !featured.has(i)).length;
+  if (passedOver) log(`  ${passedOver} cards passed over so other event types are featured (at most ${opts.maxPerType ?? defaultMaxPerType(opts.maxCards)} of one type)`);
+  ranking.cards = cards.map((c, i) => ({ eventId: c.card.event.id, ticker: c.card.event.ticker, score: c.score, nonObvious: c.nonObvious, chosen: featured.has(i), tier: c.card.tier }));
   history.hits = chosen.reduce((n, c) => n + c.hits.length, 0);
   history.measured = chosen.reduce((n, c) => n + c.hits.filter((h) => h.history !== null).length, 0);
   for (const c of cards) analysis.tiers[c.card.tier ?? "watch"]++;
   analysis.featured = chosen.length;
+  analysis.featuredByType = {};
+  for (const i of featured) {
+    const t = cards[i]!.ev.eventType;
+    analysis.featuredByType[t] = (analysis.featuredByType[t] ?? 0) + 1;
+  }
 
   // Ledger: one forecast row per built hit, published or not, and per hit ranking dropped.
   const judgeName = opts.judge?.name ?? "none";
@@ -685,7 +735,7 @@ export async function runSightings(opts: RunOptions): Promise<RunResult> {
         covariates: covariatesOf(h, { eventType: c.ev.eventType, magnitudePct: c.ev.magnitudePct, eventSign: c.ev.sign }),
         model_version: modelVersion(c.ev),
         card_sha256: sha,
-        published: i < opts.maxCards,
+        published: featured.has(i),
       });
     }
   });
