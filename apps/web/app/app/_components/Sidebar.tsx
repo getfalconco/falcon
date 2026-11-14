@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { ReactNode } from "react";
-import { BookOpen, Columns2, FlaskConical, LayoutGrid, LifeBuoy, LineChart, LogOut, PanelLeft, Target, Waypoints, X, Zap } from "lucide-react";
+import { Columns2, FlaskConical, LayoutGrid, LifeBuoy, LineChart, LogOut, PanelLeft, Target, Waypoints, X, Zap } from "lucide-react";
 import type { TabKind } from "@/lib/workspace/layout";
 import type { Icon } from "./shell/ui";
 import { useDragDock, type DragPayload } from "./split/dnd";
@@ -85,6 +85,10 @@ function TipBubble({ tip }: { tip: Tip }) {
   );
 }
 
+/** Labels stay mounted and fade (clipped by the width), so nothing pops in or out while the rail animates. */
+const LABEL_FADE = "transition-opacity duration-200 ease-out motion-reduce:transition-none";
+const LABEL = `min-w-0 truncate ${LABEL_FADE}`;
+
 const ROW = "flex h-9 w-full items-center gap-2.5 rounded-lg px-3 text-left text-fs-14 outline-none transition-colors focus-visible:ring-2 focus-visible:ring-line/20";
 
 export function Sidebar({
@@ -101,7 +105,6 @@ export function Sidebar({
   onMoveTab,
   onSplit,
   onCloseSplit,
-  onGuide,
   onHelp,
   onSignOut,
   status,
@@ -125,7 +128,6 @@ export function Sidebar({
   /** Opens a nav item or an open item (by target) next to the current view. */
   onSplit: (item: { nav: NavId } | { target: string }) => void;
   onCloseSplit: (target: string) => void;
-  onGuide: () => void;
   onHelp: () => void;
   onSignOut: (() => void) | null;
   status: ReactNode;
@@ -153,6 +155,9 @@ export function Sidebar({
   const { tip, show, hide } = useTip();
   const { begin } = useDragDock();
   const expanded = pinned || ((hover || focusIn) && !suppressed);
+  /** Opacity for what shows only expanded, and for what shows only collapsed. */
+  const wide = expanded ? "opacity-100" : "opacity-0";
+  const narrow = expanded ? "opacity-0" : "opacity-100";
 
   useEffect(() => () => {
     if (timer.current) clearTimeout(timer.current);
@@ -265,7 +270,9 @@ export function Sidebar({
           >
             <PanelLeft width={16} height={16} strokeWidth={1.75} aria-hidden />
           </button>
-          {expanded ? <span className="truncate text-fs-11 font-medium uppercase tracking-[0.1em] text-quiet-2">Workspace</span> : null}
+          <span className={`${LABEL} ${wide} text-fs-11 font-medium uppercase tracking-[0.1em] text-quiet-2`} aria-hidden={!expanded || undefined}>
+            Workspace
+          </span>
         </div>
 
         {/* Wider than the panel by the round buttons' overhang, so the scroll box never clips them. */}
@@ -285,7 +292,7 @@ export function Sidebar({
                     className={`${ROW} ${on ? "bg-line/[0.06] font-medium text-fore" : "text-fore-3 hover:bg-line/[0.04]"}`}
                   >
                     <I width={16} height={16} strokeWidth={1.75} className={`shrink-0 ${on ? "text-fore" : "text-quiet"}`} aria-hidden />
-                    <span className={expanded ? "truncate" : "sr-only"}>{label}</span>
+                    <span className={`${LABEL} ${wide}`}>{label}</span>
                   </button>
                   <span data-no-drag>{splitButton(label, target, () => onSplit({ nav: id }))}</span>
                 </li>
@@ -295,12 +302,11 @@ export function Sidebar({
 
           {openItems.length ? (
             <>
-              <div className="mt-4 flex h-7 items-center px-3">
-                {expanded ? (
-                  <span className="text-fs-11 font-medium uppercase tracking-[0.1em] text-quiet-2">Open</span>
-                ) : (
-                  <span className="h-px w-4 bg-line/[0.12]" aria-hidden />
-                )}
+              <div className="relative mt-4 flex h-7 items-center px-3">
+                <span className={`absolute left-3 h-px w-4 bg-line/[0.12] ${LABEL_FADE} ${narrow}`} aria-hidden />
+                <span className={`${LABEL} ${wide} text-fs-11 font-medium uppercase tracking-[0.1em] text-quiet-2`} aria-hidden={!expanded || undefined}>
+                  Open
+                </span>
               </div>
               <ul className="flex flex-col gap-0.5" aria-label="Open items">
                 {openItems.map((item) => {
@@ -334,34 +340,42 @@ export function Sidebar({
                         aria-current={on ? "page" : undefined}
                         title={expanded ? item.title : undefined}
                         {...nameTip(item.title)}
-                        className={`${ROW} ${expanded ? "pr-8" : ""} ${on ? "bg-line/[0.06] font-medium text-fore" : "text-fore-3 hover:bg-line/[0.04]"}`}
+                        className={`${ROW} pr-8 ${on ? "bg-line/[0.06] font-medium text-fore" : "text-fore-3 hover:bg-line/[0.04]"}`}
                       >
-                        {!expanded && item.ticker ? (
-                          <span className="-mx-1.5 w-7 shrink-0 truncate text-center text-fs-10.5 font-medium" style={{ fontFamily: "var(--font-geist-mono), monospace" }} aria-hidden>
-                            {item.ticker}
-                          </span>
-                        ) : (
-                          <I width={16} height={16} strokeWidth={1.75} className={`shrink-0 ${on ? "text-fore" : "text-quiet"}`} aria-hidden />
-                        )}
+                        {/* Collapsed, a ticker shows its symbol in the icon's place; the two cross-fade. */}
+                        <span className="relative flex h-4 w-4 shrink-0 items-center justify-center">
+                          <I width={16} height={16} strokeWidth={1.75} className={`shrink-0 ${on ? "text-fore" : "text-quiet"} ${item.ticker ? `${LABEL_FADE} ${wide}` : ""}`} aria-hidden />
+                          {item.ticker ? (
+                            <span
+                              className={`absolute w-7 truncate text-center text-fs-10.5 font-medium ${LABEL_FADE} ${narrow}`}
+                              style={{ fontFamily: "var(--font-geist-mono), monospace" }}
+                              aria-hidden
+                            >
+                              {item.ticker}
+                            </span>
+                          ) : null}
+                        </span>
                         <span
-                          className={expanded ? "min-w-0 flex-1 truncate" : "sr-only"}
+                          className={`${LABEL} flex-1 ${wide}`}
                           style={item.kind === "ticker" ? { fontFamily: "var(--font-geist-mono), monospace", fontSize: 13 } : undefined}
                         >
                           {item.title}
                         </span>
                       </button>
-                      {expanded ? (
-                        <button
-                          type="button"
-                          onClick={() => onCloseTab(item.id)}
-                          aria-label={`Close ${item.title}`}
-                          title="Close"
-                          data-no-drag
-                          className="absolute right-1.5 top-1/2 flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded-md text-faint opacity-0 outline-none transition-opacity hover:bg-line/[0.07] hover:text-fore focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-line/20 group-focus-within:opacity-100 group-hover:opacity-100"
-                        >
-                          <X width={13} height={13} strokeWidth={2} aria-hidden />
-                        </button>
-                      ) : null}
+                      <button
+                        type="button"
+                        onClick={() => onCloseTab(item.id)}
+                        aria-label={`Close ${item.title}`}
+                        title="Close"
+                        data-no-drag
+                        tabIndex={expanded ? undefined : -1}
+                        aria-hidden={!expanded || undefined}
+                        className={`absolute right-1.5 top-1/2 flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded-md text-faint opacity-0 outline-none transition-opacity hover:bg-line/[0.07] hover:text-fore focus-visible:ring-2 focus-visible:ring-line/20 motion-reduce:transition-none ${
+                          expanded ? "focus-visible:opacity-100 group-focus-within:opacity-100 group-hover:opacity-100" : "pointer-events-none"
+                        }`}
+                      >
+                        <X width={13} height={13} strokeWidth={2} aria-hidden />
+                      </button>
                       <span data-no-drag>{splitButton(item.title, item.id, () => onSplit({ target: item.id }))}</span>
                     </li>
                   );
@@ -371,32 +385,33 @@ export function Sidebar({
           ) : null}
         </nav>
 
+        {/* Nothing here mounts or unmounts with the width: the divider grows with the rail and the labels fade. */}
         <div className="flex shrink-0 flex-col gap-0.5 pt-3">
-          {!expanded ? <span className="mx-auto mb-1 h-px w-4 bg-line/[0.12]" aria-hidden /> : null}
-          <button type="button" onClick={onGuide} {...nameTip("How to read")} className={`${ROW} text-fore-3 hover:bg-line/[0.04]`}>
-            <BookOpen width={16} height={16} strokeWidth={1.75} className="shrink-0 text-quiet" aria-hidden />
-            <span className={expanded ? "truncate" : "sr-only"}>How to read</span>
-          </button>
+          <span className="mx-3 mb-1 h-px bg-line/[0.12]" aria-hidden />
           <button type="button" onClick={onHelp} {...nameTip("Help")} className={`${ROW} text-fore-3 hover:bg-line/[0.04]`}>
             <LifeBuoy width={16} height={16} strokeWidth={1.75} className="shrink-0 text-quiet" aria-hidden />
-            <span className={expanded ? "truncate" : "sr-only"}>Help</span>
+            <span className={`${LABEL} ${wide}`}>Help</span>
           </button>
           {onSignOut ? (
-            <button type="button" onClick={onSignOut} {...nameTip("Sign out")} className={`${ROW} text-fore-3 hover:bg-line/[0.04]`}>
-              <LogOut width={16} height={16} strokeWidth={1.75} className="shrink-0 text-quiet" aria-hidden />
-              <span className={expanded ? "truncate" : "sr-only"}>Sign out</span>
+            <button type="button" onClick={onSignOut} {...nameTip("Sign out")} className={`${ROW} text-down hover:bg-down/[0.08]`}>
+              <LogOut width={16} height={16} strokeWidth={1.75} className="shrink-0" aria-hidden />
+              <span className={`${LABEL} ${wide}`}>Sign out</span>
             </button>
           ) : (
-            <a href="/" {...nameTip("Leave preview")} className={`${ROW} text-fore-3 hover:bg-line/[0.04]`}>
-              <LogOut width={16} height={16} strokeWidth={1.75} className="shrink-0 text-quiet" aria-hidden />
-              <span className={expanded ? "truncate" : "sr-only"}>Leave preview</span>
+            <a href="/" {...nameTip("Leave preview")} className={`${ROW} text-down hover:bg-down/[0.08]`}>
+              <LogOut width={16} height={16} strokeWidth={1.75} className="shrink-0" aria-hidden />
+              <span className={`${LABEL} ${wide}`}>Leave preview</span>
             </a>
           )}
-          {expanded ? (
-            <div className="mt-1.5 px-3 text-fs-11 leading-fs-15 text-faint" style={{ fontFamily: "var(--font-geist-mono), monospace" }}>
+          {/* Always laid out at the full width and clipped, so the buttons above never shift when it shows. */}
+          <div className="overflow-hidden" aria-hidden={!expanded || undefined}>
+            <div
+              className={`mt-1.5 w-[184px] px-3 text-fs-11 leading-fs-15 text-faint ${LABEL_FADE} ${wide}`}
+              style={{ fontFamily: "var(--font-geist-mono), monospace" }}
+            >
               {status}
             </div>
-          ) : null}
+          </div>
         </div>
       </aside>
       <TipBubble tip={tip} />
