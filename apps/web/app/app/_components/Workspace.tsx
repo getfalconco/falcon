@@ -31,7 +31,7 @@ import { HowToReadDialog, HowToReadFirstVisit } from "./explain";
 import { ContextPanel } from "./ContextPanel";
 import { WorkspaceContext, type WorkspaceApi } from "./context";
 import { FocusListView, SightingsListView } from "./ListViews";
-import { GEIST, timeAgo } from "./parts";
+import { GEIST } from "./parts";
 import { CardBody, CardHeader, Dropdown, ICON_BUTTON, IconButton, TextButton } from "./shell/ui";
 import { NAV, Sidebar, TAB_ICON, navTarget, readRailPinned, writeRailPinned, type NavId, type OpenItem } from "./Sidebar";
 import { FloatingHelp, HelpThread, setHelpFloating, useHelp } from "./help/HelpChat";
@@ -297,7 +297,6 @@ function WorkspaceScoped({
   const sightings = useSightings(focusTickers, { getToken, enabled: focusLoaded });
   const [layout, setLayout] = useLayout(scope);
   const strategies = useStrategies(scope);
-  const [clock, setClock] = useState(() => Date.now());
   // Focus list, Sightings and Help open in the card without being tabs; any tab action returns to the tab.
   // A new workspace opens on its empty focus list, ready to add a ticker.
   const [section, setSection] = useState<Section>(() => (!main && !readLocalFocus(scope)?.length ? "focus" : "tab"));
@@ -325,12 +324,6 @@ function WorkspaceScoped({
   const [focusedRole, setFocused] = useState<"primary" | "other">("primary");
   const help = useHelp();
   const areaRef = useRef<HTMLDivElement>(null);
-
-  // Keeps "updated 3m ago" honest.
-  useEffect(() => {
-    const t = setInterval(() => setClock(Date.now()), 30_000);
-    return () => clearInterval(t);
-  }, []);
 
   /* ----------------------------------------------- what is on screen */
   const primary: string | null = section !== "tab" ? section : layout.activeId || null;
@@ -650,12 +643,7 @@ function WorkspaceScoped({
   );
 
   const toggleContext = useCallback(() => setLayout((l) => ({ ...l, contextOpen: !l.contextOpen })), [setLayout]);
-  const status =
-    sightings.status === "loading" && !sightings.loadedAt
-      ? "Loading sightings"
-      : sightings.loadedAt
-        ? `Updated ${timeAgo(new Date(sightings.loadedAt).toISOString(), clock)}`
-        : "";
+  const status = sightings.status === "loading" && !sightings.loadedAt ? "Loading sightings" : "";
 
   /* ------------------------------------------------------ pane views */
 
