@@ -31,7 +31,7 @@ on:
         required: false
       max:
         description: "Cards to keep from this run"
-        default: "3"
+        default: "15"
         required: false
       dry_run:
         description: "Dry run: judge and print, write nothing to Supabase"
@@ -52,7 +52,7 @@ jobs:
     env:
       SECTOR: semis
       DAYS: ${{ inputs.days || '7' }}
-      MAX_CARDS: ${{ inputs.max || '3' }}
+      MAX_CARDS: ${{ inputs.max || '15' }}
       DRY_RUN: ${{ inputs.dry_run && '1' || '' }}
     steps:
       - name: Check secrets
