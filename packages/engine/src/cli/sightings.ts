@@ -59,7 +59,7 @@ import { judgeCostUsd } from "../judge.ts";
 import { DEFAULT_MAX_CALLS, DEFAULT_MAX_JUDGE_USD } from "../vote.ts";
 import { DEFAULT_DETECTOR_BUDGET_USD, llmUsage } from "../detectors/llm.ts";
 import { fileJudgmentStore, pgJudgmentStore, writeForecasts, type JudgmentStore } from "../ledger.ts";
-import type { Liquidity } from "../quality.ts";
+import { liquidityOf, type Liquidity } from "../quality.ts";
 import type { MarketData } from "../market.ts";
 import { EXIT, exitReason, runExitCode, summaryLines, warningLines, type Publish } from "../summary.ts";
 import { publishCards } from "../supabase.ts";
@@ -95,17 +95,7 @@ function liquidityFrom(market: MarketData): (ticker: string) => Promise<Liquidit
   return async (ticker) => {
     const to = new Date().toISOString().slice(0, 10);
     const from = new Date(Date.now() - 40 * 86_400_000).toISOString().slice(0, 10);
-    const rows = await market.dailyCloses(ticker, from, to);
-    const last = rows[rows.length - 1];
-    if (!last) return null;
-    const dv = rows.slice(-20).map((r) => r.dollarVolume).filter((v): v is number => typeof v === "number" && Number.isFinite(v));
-    let median: number | null = null;
-    if (dv.length >= 10) {
-      const sorted = [...dv].sort((a, b) => a - b);
-      const m = sorted.length >> 1;
-      median = sorted.length % 2 ? sorted[m]! : (sorted[m - 1]! + sorted[m]!) / 2;
-    }
-    return { price: last.rawClose ?? last.close, medianDollarVolume20d: median };
+    return liquidityOf(await market.dailyCloses(ticker, from, to));
   };
 }
 

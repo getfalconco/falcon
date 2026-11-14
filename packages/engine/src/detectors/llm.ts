@@ -24,8 +24,15 @@ import { inventedNumbers } from "../validate.ts";
 import { quoteInDocument } from "../text.ts";
 
 export const TRIAGE_MODEL = "claude-haiku-5-5";
-/** claude-haiku-5-5 list prices, US dollars per million tokens. */
+/** claude-haiku-5-5 list prices, US dollars per million tokens (prompts up to 100k tokens). */
 export const HAIKU_PRICE = { input: 0.1, output: 0.5 } as const;
+/** Model for harder second reads (graph extraction's stage B, design 4.2). */
+export const VERIFY_MODEL = "claude-sonnet-5-5";
+/** List prices per model, US dollars per million tokens. */
+export const MODEL_PRICE: Record<string, { input: number; output: number }> = {
+  [TRIAGE_MODEL]: HAIKU_PRICE,
+  [VERIFY_MODEL]: { input: 2, output: 10 },
+};
 
 /**
  * Default detector dollars per run. Answers are cached on disk (CI keeps
@@ -34,16 +41,23 @@ export const HAIKU_PRICE = { input: 0.1, output: 0.5 } as const;
  */
 export const DEFAULT_DETECTOR_BUDGET_USD = 0.5;
 
-export type LlmUsage = { calls: number; inputTokens: number; outputTokens: number; costUsd: number; skipped: number; cached: number };
+export type ModelUsage = { calls: number; inputTokens: number; outputTokens: number; costUsd: number };
+export type LlmUsage = ModelUsage & { skipped: number; cached: number; byModel: Record<string, ModelUsage> };
 
-const usage: LlmUsage = { calls: 0, inputTokens: 0, outputTokens: 0, costUsd: 0, skipped: 0, cached: 0 };
+const usage: LlmUsage = { calls: 0, inputTokens: 0, outputTokens: 0, costUsd: 0, skipped: 0, cached: 0, byModel: {} };
 
 export function llmUsage(): LlmUsage {
-  return { ...usage };
+  return { ...usage, byModel: Object.fromEntries(Object.entries(usage.byModel).map(([k, v]) => [k, { ...v }])) };
 }
 
 export function haikuCostUsd(inputTokens: number, outputTokens: number): number {
   return (inputTokens * HAIKU_PRICE.input + outputTokens * HAIKU_PRICE.output) / 1e6;
+}
+
+/** A call's cost at `model`'s list price (Haiku's for a model not in the table). */
+export function costUsd(model: string, inputTokens: number, outputTokens: number): number {
+  const p = MODEL_PRICE[model] ?? HAIKU_PRICE;
+  return (inputTokens * p.input + outputTokens * p.output) / 1e6;
 }
 
 /** Shared preamble: the filing is data, never instructions. */
@@ -55,6 +69,8 @@ export type StructuredCall = {
   user: string;
   schema: Record<string, unknown>;
   maxTokens?: number;
+  /** Defaults to TRIAGE_MODEL (Haiku). */
+  model?: string;
 };
 
 export type LlmClient = (call: StructuredCall) => Promise<{ json: unknown; inputTokens: number; outputTokens: number }>;
@@ -68,7 +84,7 @@ export const LLM_CACHE_DIR = path.join(ENGINE_ROOT, ".cache", "llm");
 function cacheFile(call: StructuredCall): string {
   const key = crypto
     .createHash("sha256")
-    .update(JSON.stringify([TRIAGE_MODEL, call.system, call.user, call.schema, call.maxTokens ?? 1500]))
+    .update(JSON.stringify([call.model ?? TRIAGE_MODEL, call.system, call.user, call.schema, call.maxTokens ?? 1500]))
     .digest("hex");
   return path.join(LLM_CACHE_DIR, key.slice(0, 2), `${key}.json`);
 }
@@ -101,10 +117,12 @@ export function llmClient(): LlmClient | null {
   cacheable = true;
   const sdk = new Anthropic({ apiKey: key, maxRetries: 3 });
   client = async (call) => {
+    const model = call.model ?? TRIAGE_MODEL;
     const res = await sdk.messages.create({
-      model: TRIAGE_MODEL,
+      model,
       max_tokens: call.maxTokens ?? 1500,
-      thinking: { type: "disabled" },
+      // Sonnet 5.5 rejects "disabled": "between_tools" is its thinking-off mode (effort high or below).
+      thinking: model === VERIFY_MODEL ? { type: "between_tools" } : { type: "disabled" },
       system: call.system,
       messages: [{ role: "user", content: call.user }],
       output_config: { effort: "low", format: { type: "json_schema", schema: call.schema } },
@@ -138,7 +156,8 @@ export async function structured(call: StructuredCall, budgetUsd: number, log: (
     return cached.json;
   }
   // Leave room for one more call: about 25k input tokens and the output cap.
-  const next = haikuCostUsd(Math.ceil(call.user.length / 3.5) + 800, call.maxTokens ?? 1500);
+  const model = call.model ?? TRIAGE_MODEL;
+  const next = costUsd(model, Math.ceil(call.user.length / 3.5) + 800, call.maxTokens ?? 1500);
   if (usage.costUsd + next > budgetUsd) {
     usage.skipped++;
     return null;
@@ -148,7 +167,13 @@ export async function structured(call: StructuredCall, budgetUsd: number, log: (
     const r = await c(call);
     usage.inputTokens += r.inputTokens;
     usage.outputTokens += r.outputTokens;
-    usage.costUsd += haikuCostUsd(r.inputTokens, r.outputTokens);
+    const cost = costUsd(model, r.inputTokens, r.outputTokens);
+    usage.costUsd += cost;
+    const m = (usage.byModel[model] ??= { calls: 0, inputTokens: 0, outputTokens: 0, costUsd: 0 });
+    m.calls++;
+    m.inputTokens += r.inputTokens;
+    m.outputTokens += r.outputTokens;
+    m.costUsd += cost;
     writeCached(call, r.json);
     return r.json;
   } catch (err) {
