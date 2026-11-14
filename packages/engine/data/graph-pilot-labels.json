@@ -1,0 +1,198 @@
+[
+ {
+  "id": "LNG:supplier:bechtel",
+  "truth": "supplier",
+  "alt": "partner",
+  "note": "EPC contractor building the plants"
+ },
+ {
+  "id": "CDNS:competitor:KEYS",
+  "truth": "competitor"
+ },
+ {
+  "id": "INTC:competitor:smic",
+  "truth": "competitor"
+ },
+ {
+  "id": "NXPI:partner:infineon-technologies-ag",
+  "truth": "partner",
+  "note": "ESMC joint venture"
+ },
+ {
+  "id": "SLB:partner:aker-carbon-capture-asa",
+  "truth": "partner",
+  "note": "joint venture"
+ },
+ {
+  "id": "COP:supplier:golden-pass-lng-terminal",
+  "truth": "supplier",
+  "note": "terminal and pipeline capacity"
+ },
+ {
+  "id": "NVDA:partner:groq-inc",
+  "truth": "supplier",
+  "note": "IP licence NVIDIA pays for"
+ },
+ {
+  "id": "FDX:partner:inpost-s-a",
+  "truth": "none",
+  "note": "consortium offer for the shares (investment)"
+ },
+ {
+  "id": "DDOG:competitor:DT",
+  "truth": "competitor"
+ },
+ {
+  "id": "ABBV:partner:ADRX",
+  "truth": "supplier",
+  "alt": "partner",
+  "note": "option-to-licence, AbbVie pays"
+ },
+ {
+  "id": "MRK:partner:blackstone-life-sciences",
+  "truth": "partner",
+  "note": "co-funds development"
+ },
+ {
+  "id": "ABBV:partner:merck-sharp-dohme-llc",
+  "truth": "supplier",
+  "alt": "partner",
+  "note": "licenses patents to AbbVie; litigation context"
+ },
+ {
+  "id": "CAT:competitor:sandvik-ab",
+  "truth": "competitor"
+ },
+ {
+  "id": "NKE:competitor:li-ning",
+  "truth": "competitor"
+ },
+ {
+  "id": "BBY:supplier:samsung",
+  "truth": "supplier",
+  "note": "5 suppliers 55% of purchases"
+ },
+ {
+  "id": "UAL:partner:ACHR",
+  "truth": "none",
+  "note": "equity investment"
+ },
+ {
+  "id": "CRUS:supplier:TSM",
+  "truth": "supplier"
+ },
+ {
+  "id": "PFE:partner:takeda",
+  "truth": "partner",
+  "note": "collaboration"
+ },
+ {
+  "id": "LLY:customer:COR",
+  "truth": "customer",
+  "note": "wholesaler, significant % of revenue"
+ },
+ {
+  "id": "NVDA:competitor:TSLA",
+  "truth": "competitor",
+  "note": "designs its own SoCs"
+ },
+ {
+  "id": "CRUS:supplier:stats-chippac-pte-ltd",
+  "truth": "supplier",
+  "note": "assembly and test house"
+ },
+ {
+  "id": "NXPI:competitor:renesas-electronics-corporation",
+  "truth": "competitor"
+ },
+ {
+  "id": "FDX:partner:returnity",
+  "truth": "partner",
+  "note": "collaboration"
+ },
+ {
+  "id": "ABBV:supplier:gilgamesh-pharmaceuticals-inc",
+  "truth": "none",
+  "note": "acquisition"
+ },
+ {
+  "id": "ANET:supplier:AVGO",
+  "truth": "supplier",
+  "note": "sole merchant silicon vendor"
+ },
+ {
+  "id": "NXPI:customer:stmicroelectronics-international-n-v",
+  "truth": "none",
+  "note": "divestiture to ST"
+ },
+ {
+  "id": "TGT:customer:CVS",
+  "truth": "customer",
+  "alt": "partner",
+  "note": "tenant (leases store space)"
+ },
+ {
+  "id": "AMD:customer:valve-corporation",
+  "truth": "customer",
+  "note": "semi-custom SoC buyer"
+ },
+ {
+  "id": "COP:customer:kansai-electric-power-co-inc",
+  "truth": "customer",
+  "note": "LNG offtaker (APLNG)"
+ },
+ {
+  "id": "DXCM:competitor:ABT",
+  "truth": "competitor"
+ },
+ {
+  "id": "F:partner:chongqing-changan-automobile-co-ltd",
+  "truth": "partner",
+  "note": "50/50 joint venture"
+ },
+ {
+  "id": "ORCL:competitor:intersystems-corporation",
+  "truth": "competitor"
+ },
+ {
+  "id": "AMD:supplier:GFS",
+  "truth": "supplier",
+  "note": "foundry"
+ },
+ {
+  "id": "SLB:partner:subsea7",
+  "truth": "partner",
+  "note": "JV co-owner"
+ },
+ {
+  "id": "MRK:supplier:jiangsu-hengrui-pharmaceuticals-co-ltd",
+  "truth": "supplier",
+  "alt": "partner",
+  "note": "in-licence from Hengrui"
+ },
+ {
+  "id": "UPS:customer:AMZN",
+  "truth": "customer",
+  "note": "10.6% of revenue"
+ },
+ {
+  "id": "PFE:supplier:3sbio",
+  "truth": "supplier",
+  "alt": "partner",
+  "note": "in-licence from 3SBio"
+ },
+ {
+  "id": "DAL:partner:latam",
+  "truth": "partner",
+  "note": "joint venture"
+ },
+ {
+  "id": "SNOW:supplier:gcp",
+  "truth": "supplier",
+  "note": "cloud provider"
+ },
+ {
+  "id": "CAT:competitor:GBX",
+  "truth": "competitor"
+ }
+]

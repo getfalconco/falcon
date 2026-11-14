@@ -1,0 +1,145 @@
+[
+ {
+  "id": "MRK:partner:bayer",
+  "truth": "partner",
+  "note": "collaboration"
+ },
+ {
+  "id": "NKE:competitor:LULU",
+  "truth": "competitor"
+ },
+ {
+  "id": "FDX:partner:DG",
+  "truth": "partner",
+  "note": "in-store drop-off alliance"
+ },
+ {
+  "id": "APTV:partner:capgemini",
+  "truth": "partner"
+ },
+ {
+  "id": "NVDA:competitor:deepseek",
+  "truth": "none",
+  "note": "regulatory context only"
+ },
+ {
+  "id": "BBY:supplier:AAPL",
+  "truth": "supplier"
+ },
+ {
+  "id": "UCTT:customer:LRCX",
+  "truth": "customer",
+  "note": "17.1% of receivables"
+ },
+ {
+  "id": "COST:competitor:AMZN",
+  "truth": "competitor"
+ },
+ {
+  "id": "DDOG:competitor:CSCO",
+  "truth": "competitor"
+ },
+ {
+  "id": "DE:competitor:AGCO",
+  "truth": "competitor"
+ },
+ {
+  "id": "HAS:partner:merlin-entertainment",
+  "truth": "partner",
+  "alt": "customer",
+  "note": "Peppa Pig parks with Merlin (licensee)"
+ },
+ {
+  "id": "SNOW:supplier:GOOGL",
+  "truth": "supplier",
+  "note": "cloud provider"
+ },
+ {
+  "id": "DE:competitor:komatsu-ltd",
+  "truth": "competitor"
+ },
+ {
+  "id": "CRUS:customer:AAPL",
+  "truth": "customer",
+  "note": "91% of net sales"
+ },
+ {
+  "id": "MRK:customer:CAH",
+  "truth": "customer",
+  "note": "13% of receivables"
+ },
+ {
+  "id": "AMD:competitor:TXN",
+  "truth": "competitor"
+ },
+ {
+  "id": "APTV:partner:vecna-robotics",
+  "truth": "partner"
+ },
+ {
+  "id": "DE:customer:HD",
+  "truth": "customer",
+  "note": "mass retailer selling Deere turf products"
+ },
+ {
+  "id": "TGT:partner:DIS",
+  "truth": "partner",
+  "alt": "supplier",
+  "note": "consumer-facing relationship"
+ },
+ {
+  "id": "SLB:partner:aker",
+  "truth": "partner",
+  "note": "OneSubsea joint venture"
+ },
+ {
+  "id": "F:supplier:ford-otomotiv-sanayi-anonim-sirketi",
+  "truth": "supplier",
+  "alt": "partner",
+  "note": "joint venture and sole supplier of Transit vans"
+ },
+ {
+  "id": "CAT:competitor:john-deere-capital-corporation",
+  "truth": "competitor",
+  "note": "competing manufacturer finance arm"
+ },
+ {
+  "id": "APTV:competitor:harman-international",
+  "truth": "none",
+  "note": "table fragment: the quote alone does not state the relation"
+ },
+ {
+  "id": "DAL:partner:airbus",
+  "truth": "partner",
+  "alt": "supplier",
+  "note": "fleet partner"
+ },
+ {
+  "id": "CAT:competitor:komatsu-ltd",
+  "truth": "competitor"
+ },
+ {
+  "id": "NVDA:supplier:SKHY",
+  "truth": "supplier",
+  "note": "memory supplier"
+ },
+ {
+  "id": "MRK:partner:cidara-therapeutics-inc",
+  "truth": "none",
+  "note": "acquisition"
+ },
+ {
+  "id": "MRK:partner:astellas",
+  "truth": "partner",
+  "note": "trial collaboration"
+ },
+ {
+  "id": "HWM:competitor:BRK-B",
+  "truth": "competitor",
+  "note": "via Precision Castparts"
+ },
+ {
+  "id": "LEA:competitor:yazaki-corporation",
+  "truth": "competitor"
+ }
+]
