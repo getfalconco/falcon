@@ -15,6 +15,7 @@ import {
   type StrategySpecV2,
 } from "@falcon/backtest";
 import type { Answer, Question } from "@falcon/backtest/ai";
+import { SESSION_ENDED, authHeaders } from "./api-auth";
 
 /**
  * Saved strategies, per user, in this browser (moves to the account with the
@@ -100,7 +101,9 @@ export const BLANK_RULES: Strategy = {
   rebalance: "none",
 };
 
-const KEY_PREFIX = "falcon.strategies.v1";
+/** Keyed by storage scope (lib/workspace/workspaces.ts): `<prefix>:<userId>` for main, `<prefix>:<userId>:<workspaceId>` otherwise. */
+export const STRATEGIES_KEY_PREFIX = "falcon.strategies.v1";
+const KEY_PREFIX = STRATEGIES_KEY_PREFIX;
 const MAX_SAVED = 60;
 const MAX_VERSIONS = 30;
 
@@ -347,12 +350,13 @@ export function useRunsVersion(): number {
 }
 
 async function post(path: string, body: unknown): Promise<{ status: number; body: Record<string, unknown> | null }> {
-  const res = await fetch(path, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+  const res = await fetch(path, { method: "POST", headers: { "Content-Type": "application/json", ...(await authHeaders()) }, body: JSON.stringify(body) });
   const json = (await res.json().catch(() => null)) as Record<string, unknown> | null;
   return { status: res.status, body: json };
 }
 
 function errorText(status: number, body: Record<string, unknown> | null, fallback: string): string {
+  if (status === 401) return SESSION_ENDED;
   if (status === 429) return "Too many requests in a short time. Try again in a minute.";
   if (status === 504) return "The price data took too long to load. What arrived is cached, so running again is faster.";
   if (typeof body?.error === "string") return body.error;

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { parseStrategy, MAX_INPUT_CHARS } from "@falcon/backtest/nl";
 import { clientIp, rateLimit, tooManyRequests } from "@/lib/rate-limit";
+import { requireMember } from "@/lib/strategy/guard";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -13,12 +14,15 @@ export const runtime = "nodejs";
  *   POST /api/backtest/parse  { text }
  *     ->  200 { strategy, range, summary, assumptions, unsupported, model }
  *     ->  422 { error, reason, errors?, unsupported? }   not a strategy, or rules that do not validate
- *     ->  413 text too long, 429 rate limited, 503 not configured or unavailable, 504 too slow
+ *     ->  401 not signed in as an approved member, 413 text too long, 429 rate limited,
+ *         503 not configured or unavailable, 504 too slow
  *
  * `summary` is written from the rules, not by the model. Model-written lines
  * (assumptions, unsupported) are filtered for advice-like sentences.
- * Each call costs an API request, so the limits are tighter than /run:
- * 5 a minute and 30 an hour per IP, 300 an hour per server instance.
+ * Each call costs an API request, so POST needs an approved member's bearer
+ * token (requireMember in lib/strategy/guard.ts; none needed only under
+ * `next dev`) and the limits are tighter than /run: 5 a minute and 30 an hour
+ * per IP and per member, 300 an hour per server instance.
  */
 
 const TIMEOUT_MS = Number(process.env.BACKTEST_PARSE_TIMEOUT_MS) || 9_000;
@@ -26,7 +30,7 @@ const TIMEOUT_MS = Number(process.env.BACKTEST_PARSE_TIMEOUT_MS) || 9_000;
 const CORS = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization",
   "Access-Control-Max-Age": "86400",
 };
 
@@ -58,6 +62,20 @@ export async function POST(request: Request) {
   for (const [key, limit, windowMs] of [
     [`backtest-parse:${ip}`, 5, 60_000],
     [`backtest-parse-hour:${ip}`, 30, 3_600_000],
+  ] as const) {
+    const r = rateLimit(key, { limit, windowMs });
+    if (!r.ok) return tooManyRequests(r.retryAfter, CORS);
+  }
+  const member = await requireMember(request);
+  if (!member.ok) return json({ error: member.error, reason: "unauthorized" }, member.status);
+  const user = member.userId;
+  for (const [key, limit, windowMs] of [
+    ...(user
+      ? ([
+          [`backtest-parse:user:${user}`, 5, 60_000],
+          [`backtest-parse-hour:user:${user}`, 30, 3_600_000],
+        ] as const)
+      : []),
     ["backtest-parse-instance", 300, 3_600_000],
   ] as const) {
     const r = rateLimit(key, { limit, windowMs });

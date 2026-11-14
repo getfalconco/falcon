@@ -11,11 +11,12 @@ export const maxDuration = 26;
  *
  *   POST /api/strategy/run { spec, trials? }
  *     -> 200 RunResultV2 (curves vs SPY and the equal-weight universe, trades, year table, metrics, quality)
- *     -> 400 { errors, issues } invalid spec (zod or FSL type check), 413, 429,
+ *     -> 400 { errors, issues } invalid spec (zod or FSL type check), 401 not signed in, 413, 429,
  *        502 data source failed, 503 data source not available at this stage, 504 too slow (cached so far; retry)
  *
  * No AI call. 25 s budget: 20 s to load data (Yahoo in dev/beta behind
- * MARKET_DATA_PROVIDER, FRED DTB3), the rest to run. 10 a minute, 120 an hour per IP.
+ * MARKET_DATA_PROVIDER, FRED DTB3), the rest to run. Members only
+ * (lib/strategy/guard.ts). 10 a minute, 120 an hour per IP and per member.
  */
 
 const TIMEOUT_MS = Number(process.env.STRATEGY_RUN_TIMEOUT_MS) || 20_000;

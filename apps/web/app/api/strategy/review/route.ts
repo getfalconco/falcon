@@ -12,10 +12,11 @@ export const maxDuration = 26;
  *
  *   POST /api/strategy/review { spec, quality, trials? }
  *     -> 200 { headline, flags, interpretationRisks, nextExperiments, model }
- *     -> 400 invalid spec or report, 413, 422 no valid description, 429, 503, 504
+ *     -> 400 invalid spec or report, 401 not signed in, 413, 422 no valid description, 429, 503, 504
  *
  * Input to the model: the intent, describe(spec) and the report's checks and
- * values; no prices, no news. 3 a minute, 20 an hour per IP, 100 an hour per instance.
+ * values; no prices, no news. Members only (lib/strategy/guard.ts). 3 a minute,
+ * 20 an hour per IP and per member, 100 an hour per instance.
  */
 
 const TIMEOUT_MS = Number(process.env.STRATEGY_REVIEW_TIMEOUT_MS) || 22_000;

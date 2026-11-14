@@ -13,9 +13,10 @@ export const maxDuration = 26;
  *
  *   POST /api/strategy/audit { spec, quality? }
  *     -> 200 { tierB: { checks, values }, quality }  (quality = the Tier A report with Tier B merged, when sent)
- *     -> 400 invalid spec, 413, 429, 502, 503, 504
+ *     -> 400 invalid spec, 401 not signed in, 413, 429, 502, 503, 504
  *
- * No AI call; prices come from the same cache as /run. 5 a minute, 60 an hour per IP.
+ * No AI call; prices come from the same cache as /run. Members only
+ * (lib/strategy/guard.ts). 5 a minute, 60 an hour per IP and per member.
  */
 
 const TIMEOUT_MS = Number(process.env.STRATEGY_RUN_TIMEOUT_MS) || 20_000;
