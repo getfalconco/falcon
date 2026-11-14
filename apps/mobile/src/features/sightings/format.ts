@@ -1,4 +1,4 @@
-import { eventTypeLabel, type Confidence, type Direction, type RippleEvent, type Relation } from "@falcon/ripple";
+import { SIGNAL_LABEL, eventTypeLabel, type Direction, type RippleEvent, type Relation } from "@falcon/ripple";
 import { signal } from "@/theme";
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -72,17 +72,23 @@ export function isSelfHit(hit: { relation: string; ticker: string }, eventTicker
   return hit.relation === "self" || hit.ticker.toUpperCase() === eventTicker.toUpperCase();
 }
 
-export const CONFIDENCE: Record<Confidence, string> = {
-  low: "Low confidence",
-  medium: "Medium confidence",
-  high: "High confidence",
-};
-
 export const DIRECTION: Record<Direction, string> = {
   up: "Up",
   down: "Down",
   unclear: "Unclear",
 };
+
+/** One word for which way a hit points: "Positive", "Risk", "Unclear". */
+export const SIGNAL_WORD: Record<Direction, string> = {
+  up: "Positive",
+  down: "Risk",
+  unclear: "Unclear",
+};
+
+/** "Positive signal", "Risk signal", "Direction unclear" for one hit's direction. */
+export function hitSignalLabel(direction: Direction): string {
+  return SIGNAL_LABEL[direction === "up" ? "positive" : direction === "down" ? "negative" : "unclear"];
+}
 
 export function directionColor(direction: Direction): string {
   return direction === "up" ? signal.up : direction === "down" ? signal.down : signal.unclear;

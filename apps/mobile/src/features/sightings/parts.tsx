@@ -43,11 +43,11 @@ export function SectionHeader({ title, action }: { title: string; action?: { lab
 }
 
 /**
- * "Watch list": cards below the publishing bar (Watch tier; low confidence on
- * older cards), folded under a header at the bottom of a list. Closed until
- * tapped. Never counted as Sightings.
+ * "Watching": cards with no evidence yet that the event moves the stock
+ * (Watch tier), folded under a header at the bottom of a list. Closed until
+ * tapped.
  */
-export function WeakSignals({ count, children }: { count: number; children: React.ReactNode }) {
+export function WatchingSection({ count, children }: { count: number; children: React.ReactNode }) {
   const [open, setOpen] = useState(false);
   if (count === 0) return null;
   return (
@@ -55,22 +55,34 @@ export function WeakSignals({ count, children }: { count: number; children: Reac
       <Pressable
         accessibilityRole="button"
         accessibilityState={{ expanded: open }}
-        accessibilityLabel={`Watch list, ${count}`}
+        accessibilityLabel={`Watching, ${count}. No evidence yet that these move the stock. Shown for context.`}
         onPress={() => setOpen((v) => !v)}
         hitSlop={8}
       >
         {({ pressed }) => (
-          <View style={[styles.weakRow, pressed ? styles.actionPressed : null]}>
-            <View style={open ? styles.chevronOpen : null}>
-              <ChevronRight size={15} strokeWidth={2} color={colors.muted} />
+          <View style={pressed ? styles.actionPressed : null}>
+            <View style={styles.weakRow}>
+              <View style={open ? styles.chevronOpen : null}>
+                <ChevronRight size={15} strokeWidth={2} color={colors.muted} />
+              </View>
+              <Text style={styles.weakTitle}>Watching</Text>
+              <Text style={styles.weakCount}>{count}</Text>
             </View>
-            <Text style={styles.weakTitle}>Watch list</Text>
-            <Text style={styles.weakCount}>{count}</Text>
+            <Text style={styles.weakNote}>No evidence yet that these move the stock. Shown for context.</Text>
           </View>
         )}
       </Pressable>
       {open ? <View style={styles.weakCards}>{children}</View> : null}
     </View>
+  );
+}
+
+/** The "?" button in the Today and Sightings headers: opens "How to read a Sighting". */
+export function HelpButton({ onPress }: { onPress: () => void }) {
+  return (
+    <RoundButton label="How to read a Sighting" onPress={onPress}>
+      <Text style={styles.help}>?</Text>
+    </RoundButton>
   );
 }
 
@@ -196,6 +208,7 @@ const styles = StyleSheet.create({
     color: colors.muted,
   },
   weakCount: { fontFamily: fonts.mono, fontSize: 11, color: colors.placeholder },
+  weakNote: { marginTop: 2, marginLeft: 21, fontFamily: fonts.sans, fontSize: 13, lineHeight: 18, color: colors.faint },
   weakCards: { marginTop: 12, gap: 12, opacity: 0.85 },
   emptyTitle: { fontFamily: fonts.serif, fontSize: 18, lineHeight: 26, color: colors.muted, textAlign: "center" },
   sample: {
@@ -228,4 +241,5 @@ const styles = StyleSheet.create({
   },
   avatarPressed: { opacity: 0.7 },
   avatarText: { fontFamily: fonts.sansMedium, fontSize: 15, color: colors.ink },
+  help: { fontFamily: fonts.sansMedium, fontSize: 17, lineHeight: 20, color: colors.body },
 });

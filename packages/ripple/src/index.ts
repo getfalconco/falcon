@@ -68,6 +68,12 @@ export type RippleEvent = {
   eventLabel?: string;
   /** Optional (v1): EDGAR acceptance time (ISO), when the event is a filing. */
   acceptedAt?: string;
+  /**
+   * Optional (v1): the detector's structured filed facts (insiders, dollars,
+   * counterparty, stated reason...). Screens read them only through
+   * `cardExplain`, which turns them into plain sentences.
+   */
+  details?: Record<string, string | number | boolean | null>;
 };
 
 /** A quote from a filing that proves the link between two companies. */
@@ -140,6 +146,11 @@ export type DocumentedBy = {
   period: string;
   /** "exact": the paper studies this trigger; "analogous": a related one. */
   match: "exact" | "analogous";
+  /**
+   * Optional: Falcon's own post-2015 estimate for this family (the evidence
+   * registry's ownEstimate): events, average move versus the market, window.
+   */
+  ownEstimate?: { n: number; meanAbnPct: number; windowDays: number; period: string };
 };
 
 /** How much attention the hit company gets (display only). */
@@ -378,7 +389,7 @@ export function tierLabel(tier: unknown): string {
 }
 
 /** The empty state of a main section when no card clears the publishing bar. */
-export const NOTHING_CLEARED = "Nothing cleared the bar today";
+export const NOTHING_CLEARED = "Nothing backed by evidence today";
 
 /** Plain labels for the engine's event types; screens prefer `event.eventLabel`. */
 export const EVENT_TYPE_LABEL: Record<string, string> = {
@@ -523,4 +534,397 @@ export function analystsFor(cards: readonly Pick<RippleCard, "hits">[], ticker: 
 /** "1 analyst", "8 analysts". */
 export function analystsLabel(n: number): string {
   return `${n} analyst${n === 1 ? "" : "s"}`;
+}
+
+// ---------------------------------------------------------------------------
+// Plain-language explanation of a card (every surface shows the same words).
+// ---------------------------------------------------------------------------
+
+/** How much evidence stands behind a card, in plain words. */
+export type CardStrength = {
+  level: "measured" | "research" | "watching";
+  /** Badge text, e.g. "Backed by research". */
+  label: string;
+  /** One sentence on what the badge means. */
+  detail: string;
+};
+
+/** Which way the card's news points for the companies it names. */
+export type CardSignal = "positive" | "negative" | "mixed" | "unclear";
+
+/**
+ * A card in four plain answers: what happened, why it matters, what happened
+ * after similar events, and what to keep in mind. Built from templates and
+ * filed facts only (never free model text); information, never advice.
+ */
+export type CardExplain = {
+  /** Short category, e.g. "Insider buying". */
+  kicker: string;
+  /** Short plain headline, e.g. "3 Kodiak Gas insiders bought $544K of stock". */
+  title: string;
+  what: string;
+  why: string;
+  /** The first sentence of `why`, for list cards. */
+  whyShort: string;
+  past: string;
+  /** A short form of `past` for list cards, or null when nothing was measured. */
+  pastShort: string | null;
+  caution: string;
+  signal: CardSignal;
+  strength: CardStrength;
+};
+
+export const STRENGTH: Record<CardStrength["level"], CardStrength> = {
+  measured: {
+    level: "measured",
+    label: "Measured by Falcon",
+    detail: "Falcon's own data shows this kind of event has moved stocks in the past.",
+  },
+  research: {
+    level: "research",
+    label: "Backed by research",
+    detail: "Published research and Falcon's own data since 2015 both found an effect after this kind of event, on average.",
+  },
+  watching: {
+    level: "watching",
+    label: "Watching",
+    detail: "Falcon has no evidence yet that this kind of event moves the stock. Shown for context.",
+  },
+};
+
+/** Plain category per event type (falls back to the coarse kind). */
+export const EVENT_KICKER: Record<string, string> = {
+  insider_cluster: "Insider buying",
+  distress_nt: "Late filing",
+  restatement_402: "Restatement",
+  customer_bankruptcy: "Customer bankruptcy",
+  contract_material: "New contract",
+  contract_termination: "Contract ended",
+  guidance_down: "Outlook cut",
+  guidance_up: "Outlook raised",
+  activist_stake: "Activist investor",
+  earnings_read_through: "Earnings",
+  monthly_revenue: "Monthly sales",
+};
+
+const KIND_KICKER: Record<RippleEvent["kind"], string> = {
+  earnings_surprise: "Earnings",
+  guidance: "Outlook",
+  filing: "Filing",
+  news: "News",
+};
+
+/** "$544K", "$15.1M", "$1.2B", "$950". */
+export function moneyShort(usd: number): string {
+  const a = Math.abs(usd);
+  const fmt = (n: number) => (n >= 100 ? Math.round(n).toString() : n.toFixed(1).replace(/\.0$/, ""));
+  if (a >= 1e9) return `$${fmt(usd / 1e9)}B`;
+  if (a >= 1e6) return `$${fmt(usd / 1e6)}M`;
+  if (a >= 1e3) return `$${fmt(usd / 1e3)}K`;
+  return `$${Math.round(usd)}`;
+}
+
+/** "Nov 11" from "2026-11-11"; the input when it is not a date. */
+function dayLabel(iso: string): string {
+  const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(iso);
+  if (!m) return iso;
+  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  return `${months[Number(m[2]) - 1] ?? m[2]} ${Number(m[3])}`;
+}
+
+/** A company's short name: legal suffixes dropped ("Kodiak Gas Services, Inc." -> "Kodiak Gas Services"). */
+export function shortCompany(name: string): string {
+  const cleaned = name
+    .replace(/,?\s+(Inc\.?|Incorporated|Corp\.?|Corporation|Co\.?|Company|Ltd\.?|Limited|PLC|plc|N\.V\.|S\.A\.|SE|AG|LLC|L\.P\.|LP|Holdings?,? Inc\.?)$/i, "")
+    .replace(/,\s*$/, "")
+    .trim();
+  return cleaned || name;
+}
+
+function str(v: unknown): string | null {
+  return typeof v === "string" && v.trim() ? v.trim() : null;
+}
+function num(v: unknown): number | null {
+  return typeof v === "number" && Number.isFinite(v) ? v : null;
+}
+function clipText(s: string, max: number): string {
+  if (s.length <= max) return s;
+  const cut = s.slice(0, max);
+  const at = cut.lastIndexOf(" ");
+  return `${(at > max * 0.6 ? cut.slice(0, at) : cut).replace(/[,;:.\s]+$/, "")}...`;
+}
+function sentence(s: string): string {
+  const t = s.trim();
+  return /[.!?…"”]$/.test(t) ? t : `${t}.`;
+}
+
+/** The card's evidence level in plain words; older cards without a tier count as watching. */
+export function cardStrength(card: Pick<RippleCard, "tier" | "hits">): CardStrength {
+  const t = cardTier(card);
+  if (t === "measured") return STRENGTH.measured;
+  if (t === "documented") return STRENGTH.research;
+  return STRENGTH.watching;
+}
+
+/** Which way the card points: one direction for all directional hits, else mixed or unclear. */
+export function cardSignal(card: Pick<RippleCard, "hits">): CardSignal {
+  const dirs = new Set(card.hits.map((h) => h.direction).filter((d) => d !== "unclear"));
+  if (dirs.size === 0) return "unclear";
+  if (dirs.size > 1) return "mixed";
+  return dirs.has("up") ? "positive" : "negative";
+}
+
+/** "positive" -> "Positive signal". */
+export const SIGNAL_LABEL: Record<CardSignal, string> = {
+  positive: "Positive signal",
+  negative: "Risk signal",
+  mixed: "Mixed signals",
+  unclear: "Direction unclear",
+};
+
+/** How a hit relates to the event company, as a phrase: "a customer of TSMC". */
+export function relationPhrase(relation: Relation, eventCompany: string): string {
+  switch (relation) {
+    case "customer":
+      return `a customer of ${eventCompany}`;
+    case "supplier":
+      return `a supplier to ${eventCompany}`;
+    case "competitor":
+      return `a competitor of ${eventCompany}`;
+    case "peer":
+      return `in the same business as ${eventCompany}`;
+    case "self":
+      return eventCompany;
+    default:
+      return `linked to ${eventCompany}`;
+  }
+}
+
+/** "Kodiak's", "Bloomin' Brands'". */
+function possessive(name: string): string {
+  return /s$/i.test(name) ? `${name}'` : `${name}'s`;
+}
+
+/** "A" or "An" before a word. */
+function article(word: string): string {
+  return /^[aeiou]/i.test(word) ? "An" : "A";
+}
+
+/** "Travis Dalton (Pres., CEO & Executive Chair, Director)" -> { name: "Travis Dalton", role: "CEO" }. */
+function personRole(entry: string): { name: string; role: string | null } {
+  const at = entry.indexOf("(");
+  const name = (at > 0 ? entry.slice(0, at) : entry).trim();
+  const roles = at > 0 ? entry.slice(at) : "";
+  return { name, role: insiderRole(roles) };
+}
+
+/** Insider role in plain words from "Name (Pres., CEO & Executive Chair, Director)". */
+function insiderRole(names: string): string | null {
+  if (/\bCEO\b|Chief Executive/i.test(names)) return "CEO";
+  if (/\bCFO\b|Chief Financial/i.test(names)) return "CFO";
+  if (/\bCOO\b|Chief Operating/i.test(names)) return "COO";
+  if (/\bPres(\.|ident)\b/i.test(names)) return "president";
+  if (/\bChair/i.test(names)) return "chair";
+  if (/Director/i.test(names)) return "a director";
+  if (/10% owner/i.test(names)) return "a large shareholder";
+  return null;
+}
+
+function ownEstimatePast(doc: DocumentedBy | undefined, eventWord: string): string | null {
+  const own = doc?.ownEstimate;
+  if (!own || own.n <= 0) return null;
+  const since = /^(\d{4})/.exec(own.period)?.[1] ?? "2015";
+  const avg = Math.abs(own.meanAbnPct).toFixed(1);
+  const way = own.meanAbnPct >= 0 ? "beat" : "trailed";
+  return `Since ${since}, Falcon found ${own.n.toLocaleString("en-US")} similar ${eventWord}. On average the stock ${way} the market by about ${avg}% over the next ${own.windowDays} trading days. Many did not: this is an average, not a promise.`;
+}
+
+const CAUTION_BASE = "For information only, not investment advice.";
+
+/**
+ * The card in plain words (see CardExplain). Pure; works for every card,
+ * old or new: detector facts make the sentences specific when present.
+ */
+export function cardExplain(card: RippleCard): CardExplain {
+  const base = explainBase(card);
+  const short = WHY_SHORT[card.event.eventType ?? ""];
+  return { ...base, whyShort: short ?? firstSentence(base.why), pastShort: pastShortOf(card) };
+}
+
+/** One-line "why it matters" for list cards, per event type (linked cards use the first sentence of `why`). */
+const WHY_SHORT: Record<string, string> = {
+  insider_cluster: "Insiders buying shares with their own money is uncommon, and research has studied what tends to follow.",
+  distress_nt: "Missing a filing deadline is often an early sign of trouble.",
+  restatement_402: "The stock was valued using numbers that turned out to be wrong.",
+  activist_stake: "Activists buy large stakes to push for changes such as a sale or new directors.",
+  contract_material: "A large contract can change the company's revenue outlook.",
+  contract_termination: "Losing an agreement can take away revenue the company expected.",
+};
+
+/** The first sentence of a text. */
+function firstSentence(text: string): string {
+  const m = /^(.+?[.!?])(\s|$)/.exec(text.trim());
+  return m ? m[1]! : text.trim();
+}
+
+/** "Avg +1.0% vs market over 20 days, 2,844 cases since 2015" or "26 of 48 similar events went the expected way". */
+function pastShortOf(card: RippleCard): string | null {
+  const own = card.hits.find((h) => h.documentedBy?.ownEstimate)?.documentedBy?.ownEstimate;
+  if (own && own.n > 0) {
+    const since = /^(\d{4})/.exec(own.period)?.[1] ?? "2015";
+    const sign = own.meanAbnPct >= 0 ? "+" : "-";
+    return `Similar cases: avg ${sign}${Math.abs(own.meanAbnPct).toFixed(1)}% vs market over ${own.windowDays} trading days (${own.n.toLocaleString("en-US")} since ${since})`;
+  }
+  const lead = card.hits.find((h) => h.direction !== "unclear" && recordCount(h.history));
+  const r = lead ? recordCount(lead.history) : null;
+  return r && lead ? `${lead.ticker}: ${r.wins} of ${r.sample} similar events went the expected way` : null;
+}
+
+function explainBase(card: RippleCard): Omit<CardExplain, "whyShort" | "pastShort"> {
+  const ev = card.event;
+  const d = ev.details ?? {};
+  const co = shortCompany(ev.companyName);
+  const type = ev.eventType ?? "";
+  const kicker = EVENT_KICKER[type] ?? eventTypeLabel(ev) ?? KIND_KICKER[ev.kind] ?? "Event";
+  const strength = cardStrength(card);
+  const signal = cardSignal(card);
+  const lead = card.hits.find((h) => h.direction !== "unclear") ?? card.hits[0];
+  const doc = card.hits.find((h) => h.documentedBy)?.documentedBy;
+  const pricedIn = cardPricedIn(card);
+  const watchNote = strength.level === "watching" ? " Falcon has no evidence yet that this kind of event moves the stock." : "";
+  const pricedNote = pricedIn ? " Much of the usual move may already have happened." : "";
+  const caution = (extra: string) => `${CAUTION_BASE}${extra ? ` ${extra}` : ""}${watchNote}${pricedNote}`;
+
+  const unmeasured = "Falcon has not measured this kind of event yet.";
+  const researchPast = (what: string) =>
+    doc ? `Published research (${doc.period}) found ${what}. Falcon's own record is building.` : unmeasured;
+
+  switch (type) {
+    case "insider_cluster": {
+      const n = num(d.insiders) ?? 1;
+      const total = num(d.totalUsd);
+      const names = str(d.insiderNames) ?? "";
+      const role = n === 1 ? insiderRole(names) : null;
+      const amount = total !== null ? moneyShort(total) : null;
+      const bought = `bought ${amount ? `${amount} of stock` : "shares"}`;
+      const title =
+        n > 1
+          ? `${n} ${co} insiders ${bought}`
+          : role === null
+            ? `${article(co)} ${co} insider ${bought}`
+            : role.startsWith("a ")
+              ? `${article(co)} ${co} ${role.slice(2)} ${bought}`
+              : `${possessive(co)} ${role} ${bought}`;
+      const first = str(d.firstTradeDate);
+      const last = str(d.lastTradeDate);
+      const when = first ? (last && last !== first ? ` between ${dayLabel(first)} and ${dayLabel(last)}` : ` on ${dayLabel(first)}`) : "";
+      const shares = num(d.totalShares);
+      const mv = num(d.marketValueUsd);
+      const share = total !== null && mv ? (total / mv) * 100 : null;
+      const people = names ? names.split(";").map((x) => personRole(x.trim())).filter((p) => p.name) : [];
+      const label = (p: { name: string; role: string | null }) => (p.role ? `${p.name} (${p.role.replace(/^a /, "")})` : p.name);
+      const subject =
+        n > 1
+          ? `${n} insiders${people.length ? `, including ${people.slice(0, 2).map(label).join(" and ")},` : ""}`
+          : people[0]
+            ? label(people[0])
+            : "An insider";
+      const what = sentence(
+        `${subject} bought${shares ? ` ${Math.round(shares).toLocaleString("en-US")} shares` : " shares"}${amount ? ` for ${amount}` : ""} on the open market${when}, as reported to the SEC on Form 4`,
+      ) + (share !== null && share >= 0.01 ? ` That is about ${share < 0.1 ? share.toFixed(2) : share.toFixed(1)}% of the company's market value.` : "");
+      return {
+        kicker,
+        title,
+        what,
+        why: "Insiders know their company best. Buying shares with their own money on the open market can mean they expect the business to do better than its share price suggests. Several insiders buying at the same time is less common and has been the stronger signal.",
+        past: ownEstimatePast(doc, "purchases") ?? researchPast("that insider purchases like these were followed by higher returns on average"),
+        caution: caution("Insiders can be wrong, and part of the move often happens before the filing is public."),
+        signal,
+        strength,
+      };
+    }
+    case "distress_nt": {
+      const report = str(d.lateReport) ?? "report";
+      const rawReason = str(d.reason);
+      // The form's stock sentence says nothing about the cause.
+      const reason = rawReason && !/without unreasonable effort (and|or) expense/i.test(rawReason) ? rawReason : null;
+      return {
+        kicker,
+        title: `${co} could not file its ${report} on time`,
+        what: `${co} told the SEC it needs more time to file its ${report}.${reason ? ` Its stated reason: "${clipText(reason, 220)}"` : ""}`,
+        why: "Companies that miss a filing deadline report problems later more often than others, such as losses, accounting fixes or weak results. Many delays have ordinary reasons, like a change of auditor.",
+        past: ownEstimatePast(doc, "notices") ?? researchPast("that shares tended to fall around late-filing notices"),
+        caution: caution("Read the stated reason: a short delay for a routine reason is common."),
+        signal,
+        strength,
+      };
+    }
+    case "restatement_402": {
+      const revenue = d.revenueRestated === "yes";
+      const reason = str(d.reason);
+      return {
+        kicker,
+        title: `${co} says past financial reports can't be relied on`,
+        what: `${co} told investors that some past financial statements contain errors and can no longer be relied on${revenue ? ", including reported revenue" : ""}.${reason ? ` What was wrong: ${sentence(clipText(reason, 220))}` : ""}`,
+        why: "Investors valued the stock using numbers that turned out to be wrong. Errors that change revenue or profit usually matter more than ones about how items were presented.",
+        past: ownEstimatePast(doc, "restatements") ?? unmeasured,
+        caution: caution("Check how large the error is and which periods it covers."),
+        signal,
+        strength,
+      };
+    }
+    case "activist_stake": {
+      const pct = num(d.percentOfClass);
+      const filers = str(d.filers);
+      return {
+        kicker,
+        title: pct !== null ? `Activist investor discloses a ${pct}% stake in ${co}` : `Activist investor discloses a stake in ${co}`,
+        what: `${filers ? clipText(filers, 120) : "An investor"} reported owning ${pct !== null ? `${pct}% of` : "a large stake in"} ${co} and said it may push for changes (SEC Schedule 13D).`,
+        why: "Activist investors buy large stakes to push for changes such as selling the company, buying back shares or replacing board members.",
+        past: ownEstimatePast(doc, "stakes") ?? researchPast("that targets of activist investors tended to rise around the disclosure"),
+        caution: caution("Much of the reaction to a 13D usually comes on the day it is filed."),
+        signal,
+        strength,
+      };
+    }
+    case "contract_material":
+    case "contract_termination": {
+      const ended = type === "contract_termination";
+      const cp = str(d.counterparty);
+      const kind = str(d.agreementType)?.toLowerCase() ?? "agreement";
+      const value = str(d.value);
+      const pct = num(d.valuePctOfRevenue);
+      return {
+        kicker,
+        title: ended ? `${co} ended ${cp ? `its agreement with ${cp}` : "an agreement"}` : `${co} signed ${article(kind).toLowerCase()} ${kind}${cp ? ` with ${cp}` : ""}`,
+        what: sentence(`${co} reported ${ended ? "the end of" : ""} ${ended ? `its ${kind}` : `a new ${kind}`}${cp ? ` with ${cp}` : ""} in an SEC filing (8-K)`.replace(/\s+/g, " ")) + (value ? ` Stated value: ${value}${pct !== null ? `, about ${pct.toFixed(pct < 10 ? 1 : 0)}% of its yearly revenue` : ""}.` : ""),
+        why: ended
+          ? "Losing an agreement can take away revenue the company was counting on, especially when it was large compared with the company's size."
+          : "A contract that is large compared with the company's size can change its revenue outlook.",
+        past: ownEstimatePast(doc, "contracts") ?? unmeasured,
+        caution: caution("Small companies sometimes announce contracts that never turn into much revenue."),
+        signal,
+        strength,
+      };
+    }
+    default: {
+      // Linked cards: the event happened at one company and reaches others.
+      const title = ev.headline;
+      const what = sentence(ev.summary || ev.headline);
+      let why = "News at one company often reaches the companies it buys from, sells to or competes with.";
+      if (lead && lead.relation !== "self") {
+        why = `${shortCompany(lead.companyName)} is ${relationPhrase(lead.relation, co)}. ${why}`;
+        if (type === "customer_bankruptcy") why = `${shortCompany(lead.companyName)} sells to ${co}. A customer in bankruptcy may pay late, pay less or buy less.`;
+        if (type === "guidance_up" || type === "guidance_down")
+          why = `${shortCompany(lead.companyName)} is ${relationPhrase(lead.relation, co)}. When a customer expects to sell more or less, its suppliers usually feel it.`;
+      }
+      const r = lead ? recordCount(lead.history) : null;
+      const past = r && lead?.history
+        ? `In ${r.wins} of ${r.sample} similar past events, ${lead.ticker} moved the expected way over the next ${lead.history.windowDays} trading days, compared with the market.`
+        : lead?.relation === "self"
+          ? ownEstimatePast(doc, "events") ?? unmeasured
+          : "Falcon has not measured this link yet.";
+      return { kicker, title, what, why, past, caution: caution(""), signal, strength };
+    }
+  }
 }

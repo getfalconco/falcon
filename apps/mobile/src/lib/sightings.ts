@@ -2,6 +2,7 @@ import { useCallback, useEffect, useSyncExternalStore } from "react";
 import { AppState } from "react-native";
 import {
   cardConfidence,
+  cardStrength,
   isContext,
   isWeakSignal,
   opportunityCards as feedOpportunityCards,
@@ -358,6 +359,31 @@ export function buildToday(feed: SightingsFeed | null, holdings: Holdings | null
     portfolio,
     opportunities: opportunityCards(cards, held, holdings?.sectors ?? []),
   };
+}
+
+/**
+ * Today's one-line count: "15 new Sightings today. 0 touch your portfolio,
+ * 15 are backed by research." Counted by evidence level (cardStrength) and
+ * portfolio membership.
+ */
+export function summaryLine(cards: readonly RippleCard[], held: Set<string>): string {
+  const n = cards.length;
+  if (n === 0) return "No new Sightings today.";
+  let portfolio = 0;
+  let measured = 0;
+  let research = 0;
+  for (const card of cards) {
+    if (hitsPortfolio(card, held)) portfolio++;
+    const level = cardStrength(card).level;
+    if (level === "measured") measured++;
+    else if (level === "research") research++;
+  }
+  const be = (k: number) => (k === 1 ? "is" : "are");
+  const parts = [`${portfolio} ${portfolio === 1 ? "touches" : "touch"} your portfolio`];
+  if (measured > 0) parts.push(`${measured} ${be(measured)} measured by Falcon`);
+  if (research > 0 || measured === 0) parts.push(`${research} ${be(research)} backed by research`);
+  const tail = parts.length > 2 ? `${parts.slice(0, -1).join(", ")} and ${parts[parts.length - 1]}` : parts.join(", ");
+  return `${n} new Sighting${n === 1 ? "" : "s"} today. ${tail}.`;
 }
 
 /** A card from the loaded feed by id. */

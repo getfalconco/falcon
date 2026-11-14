@@ -2,21 +2,7 @@
 
 import type { ReactNode } from "react";
 import { ArrowDownRight, ArrowUpRight, Minus } from "lucide-react";
-import {
-  DOCUMENTED_LABEL,
-  cardPricedIn,
-  cardTier,
-  recordLabel,
-  tierLabel,
-  type Confidence,
-  type Direction,
-  type DocumentedBy,
-  type LinkEvidence,
-  type RippleCard,
-  type RippleHit,
-  type RippleSinceEvent,
-} from "@falcon/ripple";
-import { eventLabel, relationPhrase } from "@/lib/workspace/feed";
+import type { Direction, LinkEvidence, RippleSinceEvent } from "@falcon/ripple";
 import { useWorkspace } from "./context";
 
 /* The site's type and color, at desktop density. */
@@ -42,9 +28,6 @@ export function formatNet(value: number | null): string {
   if (value === null) return "0";
   return value > 0 ? `+${value}` : `${value}`;
 }
-
-export const DIRECTION_LABEL: Record<Direction, string> = { up: "Up", down: "Down", unclear: "Unclear" };
-export const CONFIDENCE_LABEL: Record<Confidence, string> = { low: "Low", medium: "Medium", high: "High" };
 
 export function timeAgo(iso: string, now = Date.now()): string {
   const t = Date.parse(iso);
@@ -105,31 +88,6 @@ export function EmptyState({ title, children }: { title: string; children?: Reac
   );
 }
 
-export function DirectionMark({ direction, showLabel = true, size = 13 }: { direction: Direction; showLabel?: boolean; size?: number }) {
-  const Icon = direction === "up" ? ArrowUpRight : direction === "down" ? ArrowDownRight : Minus;
-  return (
-    <span className="inline-flex items-center gap-1 whitespace-nowrap" style={{ color: directionColor(direction) }}>
-      <Icon width={size} height={size} strokeWidth={2} aria-hidden />
-      {showLabel ? <span className="text-[12px]">{DIRECTION_LABEL[direction]}</span> : <span className="sr-only">{DIRECTION_LABEL[direction]}</span>}
-    </span>
-  );
-}
-
-/** Three short bars, filled up to the confidence level. */
-export function ConfidenceMark({ confidence }: { confidence: Confidence }) {
-  const level = confidence === "high" ? 3 : confidence === "medium" ? 2 : 1;
-  return (
-    <span className="inline-flex items-center gap-1.5 whitespace-nowrap text-[12px] text-[#767676]" title={`${CONFIDENCE_LABEL[confidence]} confidence`}>
-      <span className="inline-flex items-end gap-[2px]" aria-hidden>
-        {[1, 2, 3].map((i) => (
-          <span key={i} className="w-[3px] rounded-[1px]" style={{ height: 4 + i * 2, background: i <= level ? INK : "rgba(0,0,0,0.14)" }} />
-        ))}
-      </span>
-      {CONFIDENCE_LABEL[confidence]}
-    </span>
-  );
-}
-
 /** "+1.9%" with a plain minus for falls. */
 export function signedPct(n: number): string {
   const v = Math.round(n * 10) / 10;
@@ -159,19 +117,7 @@ export function PricedInTag({ since }: { since?: RippleSinceEvent | null }) {
       style={{ fontFamily: MONO }}
       title={title}
     >
-      Priced in
-    </span>
-  );
-}
-
-/** "5 of 6 similar events", or "No record" when there are under 6. */
-export function RecordText({ hit, className = "" }: { hit: Pick<RippleHit, "history">; className?: string }) {
-  const label = recordLabel(hit.history);
-  const h = hit.history;
-  const title = h && label ? `${label} moved the implied way, avg ${signedPct(h.avgMovePct)} vs ${h.benchmark ?? "the market"} over ${h.windowDays === 1 ? "1 trading day" : `${h.windowDays} trading days`}` : "Fewer than 6 similar past events";
-  return (
-    <span className={`whitespace-nowrap tabular-nums ${label ? "text-[#4b4b48]" : "text-[#9a9a9a]"} ${className}`} title={title}>
-      {label ?? "No record"}
+      May be priced in
     </span>
   );
 }
@@ -198,86 +144,6 @@ export function TickerButton({ ticker, className = "", muted = false }: { ticker
   );
 }
 
-/** The event's type: the engine's label, else the coarse kind's, else "Event". */
-export function KindLabel({ event }: { event: RippleCard["event"] }) {
-  return (
-    <span className="text-[11px] uppercase tracking-[0.14em] text-[#1d1b1b]/45" style={{ fontFamily: MONO }}>
-      {eventLabel(event)}
-    </span>
-  );
-}
-
-const TIER_TITLE: Record<string, string> = {
-  measured: "Its family passed Falcon's own statistical test",
-  documented: DOCUMENTED_LABEL,
-  watch: "Stored for the record; below the publishing bar",
-};
-
-/** The small tier label (Measured, Documented, Watch); nothing for an older card without a tier. */
-export function TierTag({ tier }: { tier: unknown }) {
-  const label = tierLabel(tier);
-  if (!label) return null;
-  return (
-    <span
-      className="inline-flex h-[18px] shrink-0 items-center rounded border border-black/15 px-1.5 text-[10.5px] uppercase leading-none tracking-[0.08em] text-[#4b4b48]"
-      style={{ fontFamily: MONO }}
-      title={TIER_TITLE[tier as string]}
-    >
-      {label}
-    </span>
-  );
-}
-
-/** "Documented in published research; Falcon's own record is building." with the paper it rests on. */
-export function DocumentedLine({ documentedBy, className = "" }: { documentedBy?: DocumentedBy; className?: string }) {
-  return (
-    <p className={`text-[12px] leading-[18px] text-[#767676] ${className}`}>
-      {DOCUMENTED_LABEL}
-      {documentedBy?.citation ? (
-        <>
-          {" "}
-          <ExternalAnchor href={documentedBy.url}>{documentedBy.citation}</ExternalAnchor>
-        </>
-      ) : null}
-    </p>
-  );
-}
-
-/** How a hit is linked, seen from `from`: "Supplier to NVDA", or "The company itself" for an own-firm event. */
-export function hitRelationText(hit: Pick<RippleHit, "relation" | "ticker">, from: string): string {
-  return hit.relation === "self" || hit.ticker === from ? relationPhrase("self", from) : relationPhrase(hit.relation, from);
-}
-
-/**
- * One hit on a single line: ticker, how it is linked, direction, confidence
- * and, with `wide`, the expected window.
- */
-export function HitRow({ hit, eventTicker, wide = false }: { hit: RippleHit; eventTicker: string; wide?: boolean }) {
-  const from = hit.degree === 2 && hit.via ? hit.via : eventTicker;
-  return (
-    <div
-      className={`grid items-center gap-3 ${
-        wide ? "grid-cols-[60px_minmax(0,1fr)_76px_84px_minmax(0,140px)]" : "grid-cols-[60px_minmax(0,1fr)_68px_76px]"
-      }`}
-    >
-      <TickerButton ticker={hit.ticker} />
-      <span className="flex min-w-0 flex-col">
-        <span className="min-w-0 truncate text-[12.5px] text-[#4b4b48]" title={hitRelationText(hit, from)}>
-          {hitRelationText(hit, from)}
-          {hit.degree === 2 ? <span className="text-[#9a9a9a]">, 2nd degree</span> : null}
-        </span>
-        <span className="mt-0.5 flex min-w-0 items-center gap-2 text-[11.5px]">
-          <RecordText hit={hit} />
-          {hit.pricedIn ? <PricedInTag since={hit.sinceEvent} /> : null}
-        </span>
-      </span>
-      <DirectionMark direction={hit.direction} />
-      <ConfidenceMark confidence={hit.confidence} />
-      {wide ? <span className="truncate text-[12px] text-[#9a9a9a]">{hit.window}</span> : null}
-    </div>
-  );
-}
-
 /** Opens a Strategy tab that tests past events like this card's on the companies it reaches, and runs it. */
 export function BacktestButton({ cardId, variant = "quiet" }: { cardId: string; variant?: "quiet" | "outline" }) {
   const { backtestSighting } = useWorkspace();
@@ -298,54 +164,6 @@ export function BacktestButton({ cardId, variant = "quiet" }: { cardId: string; 
     >
       Backtest this
     </button>
-  );
-}
-
-/** A Sightings card: the event and the companies it reaches. Opens its tab on click. */
-export function RippleCardView({ card, highlight, maxHits = 4, wide = false }: { card: RippleCard; highlight?: Set<string>; maxHits?: number; wide?: boolean }) {
-  const { openSighting } = useWorkspace();
-  const hits = highlight
-    ? [...card.hits].sort((a, b) => Number(highlight.has(b.ticker)) - Number(highlight.has(a.ticker)))
-    : card.hits;
-  const shown = hits.slice(0, maxHits);
-  const tier = cardTier(card);
-  const documented = tier === "documented" ? card.hits.find((h) => h.tier === "documented") : undefined;
-  return (
-    <article
-      role="button"
-      tabIndex={0}
-      onClick={() => openSighting(card.id)}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          openSighting(card.id);
-        }
-      }}
-      className="group cursor-pointer rounded-lg border border-black/[0.08] bg-white px-4 py-3.5 outline-none transition-colors hover:border-black/20 focus-visible:border-black/40"
-    >
-      <div className="flex items-center gap-2">
-        <TickerButton ticker={card.event.ticker} />
-        <KindLabel event={card.event} />
-        <TierTag tier={tier} />
-        {cardPricedIn(card) ? <PricedInTag since={card.hits.find((h) => h.pricedIn)?.sinceEvent} /> : null}
-        <span className="ml-auto text-[12px] text-[#9a9a9a]">{timeAgo(card.event.occurredAt)}</span>
-      </div>
-      <h3 className="mt-2 text-[14px] leading-[20px] text-[#1d1b1b]">{card.event.headline}</h3>
-      {tier === "documented" ? <DocumentedLine documentedBy={documented?.documentedBy} className="mt-1.5" /> : null}
-      {shown.length ? (
-        <div className="mt-3 flex flex-col gap-2 border-t border-black/[0.06] pt-3">
-          {shown.map((h) => (
-            <HitRow key={h.ticker} hit={h} eventTicker={card.event.ticker} wide={wide} />
-          ))}
-          {hits.length > shown.length ? (
-            <span className="text-[12px] text-[#9a9a9a]">{hits.length - shown.length} more</span>
-          ) : null}
-        </div>
-      ) : null}
-      <div className="-mb-1 mt-2 flex justify-end">
-        <BacktestButton cardId={card.id} />
-      </div>
-    </article>
   );
 }
 

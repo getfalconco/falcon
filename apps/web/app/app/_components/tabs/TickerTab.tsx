@@ -1,30 +1,28 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { analystsFor, analystsLabel } from "@falcon/ripple";
+import { analystsFor, analystsLabel, type RippleCard } from "@falcon/ripple";
 import { cardsForTicker, companyNameFor, connectionsFor, netDirection, sectorFor } from "@/lib/workspace/feed";
 import { buildGraph, withSeedConnections } from "@/lib/workspace/graph";
 import { useGraphNeighborhood } from "@/lib/workspace/graph-api";
 import { fetchNames } from "@/lib/workspace/focus";
 import { useWorkspace } from "../context";
 import { GraphView } from "../GraphView";
-import {
-  ConfidenceMark,
-  DirectionMark,
-  EmptyState,
-  EvidenceQuote,
-  KindLabel,
-  MONO,
-  NetRing,
-  Panel,
-  PricedInTag,
-  RecordText,
-  SectionTitle,
-  SERIF,
-  TickerButton,
-  feedEmpty,
-  timeAgo,
-} from "../parts";
+import { EmptyState, EvidenceQuote, MONO, NetRing, Panel, SectionTitle, SERIF, TickerButton, feedEmpty, timeAgo } from "../parts";
+import { SightingCard, useExplain } from "../explain";
+
+/** An event at this company in one row: its plain category and headline. */
+function AtRowText({ card }: { card: RippleCard }) {
+  const ex = useExplain(card);
+  return (
+    <>
+      <span className="truncate text-[11px] uppercase tracking-[0.12em] text-[#1d1b1b]/50" style={{ fontFamily: MONO }}>
+        {ex.kicker}
+      </span>
+      <span className="truncate text-[13px] text-[#1d1b1b]">{ex.title}</span>
+    </>
+  );
+}
 
 /** Company name: the focus list, then the feed, then the SEC list. */
 export function useCompanyName(ticker: string): string | null {
@@ -64,6 +62,7 @@ export function TickerTab({ ticker }: { ticker: string }) {
   const sector = sectorFor(feed, ticker);
   const analysts = analystsFor(feed?.cards ?? [], ticker);
   const { hitting, at } = useMemo(() => cardsForTicker(feed, ticker), [feed, ticker]);
+  const only = useMemo(() => new Set([ticker]), [ticker]);
   const extra = useGraphNeighborhood([ticker], 1);
   const connections = useMemo(() => withSeedConnections(connectionsFor(feed, ticker), extra, ticker), [extra, feed, ticker]);
   const net = netDirection(hitting.map((h) => h.hit));
@@ -118,37 +117,7 @@ export function TickerTab({ ticker }: { ticker: string }) {
         <SectionTitle count={hitting.length}>Events hitting {ticker}</SectionTitle>
         <div className="mt-2 flex flex-col gap-3">
           {hitting.length ? (
-            hitting.map(({ card, hit }) => (
-              <Panel key={card.id} className="px-5 py-4">
-                <div className="flex items-center gap-2">
-                  <TickerButton ticker={card.event.ticker} />
-                  <KindLabel event={card.event} />
-                  <span className="ml-auto text-[12px] text-[#9a9a9a]">{timeAgo(card.event.occurredAt)}</span>
-                </div>
-                <h3 className="mt-2">
-                  <button
-                    type="button"
-                    onClick={() => openSighting(card.id)}
-                    className="text-left text-[14px] leading-[20px] text-[#1d1b1b] underline decoration-transparent underline-offset-2 outline-none transition-colors hover:decoration-black/30 focus-visible:decoration-black/50"
-                  >
-                    {card.event.headline}
-                  </button>
-                </h3>
-                <div className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-1.5 border-t border-black/[0.06] pt-3">
-                  <DirectionMark direction={hit.direction} />
-                  <ConfidenceMark confidence={hit.confidence} />
-                  <RecordText hit={hit} className="text-[12px]" />
-                  {hit.pricedIn ? <PricedInTag since={hit.sinceEvent} /> : null}
-                  <span className="text-[12px] text-[#9a9a9a]">{hit.window}</span>
-                  {hit.degree === 2 && hit.via ? (
-                    <span className="flex items-center gap-1.5 text-[12px] text-[#9a9a9a]">
-                      through <TickerButton ticker={hit.via} />
-                    </span>
-                  ) : null}
-                </div>
-                <p className="mt-2.5 text-[13px] leading-[20px] text-[#4b4b48]">{hit.mechanism}</p>
-              </Panel>
-            ))
+            hitting.map(({ card }) => <SightingCard key={card.id} card={card} highlight={only} maxHits={4} />)
           ) : (
             <EmptyState title={feedEmpty(feedStatus, `Nothing is hitting ${ticker} right now`)} />
           )}
@@ -164,10 +133,9 @@ export function TickerTab({ ticker }: { ticker: string }) {
                 <button
                   type="button"
                   onClick={() => openSighting(card.id)}
-                  className="grid w-full grid-cols-[90px_minmax(0,1fr)_auto] items-center gap-3 px-4 py-2.5 text-left outline-none hover:bg-black/[0.02] focus-visible:bg-black/[0.03]"
+                  className="grid w-full grid-cols-[120px_minmax(0,1fr)_auto] items-center gap-3 px-4 py-2.5 text-left outline-none hover:bg-black/[0.02] focus-visible:bg-black/[0.03]"
                 >
-                  <KindLabel event={card.event} />
-                  <span className="truncate text-[13px] text-[#1d1b1b]">{card.event.headline}</span>
+                  <AtRowText card={card} />
                   <span className="text-[12px] text-[#9a9a9a]">{timeAgo(card.event.occurredAt)}</span>
                 </button>
               </li>

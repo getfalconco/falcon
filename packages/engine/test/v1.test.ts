@@ -300,7 +300,7 @@ describe("own-firm cards", () => {
     assert.ok(!("error" in built));
     assert.equal(built.card.hits[0]!.direction, "down");
     assert.equal(built.card.hits[0]!.tier, "watch");
-    assert.match(built.card.hits[0]!.mechanism, /risk item for holders/);
+    assert.match(built.card.hits[0]!.mechanism, /could not file a periodic report on time/);
     assert.doesNotMatch(built.card.hits[0]!.mechanism, /short/i);
     assert.deepEqual(cardProblems(built.card), []);
   });
