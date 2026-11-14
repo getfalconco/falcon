@@ -4,7 +4,8 @@ import { guard, json, preflight } from "@/lib/strategy/guard";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
-export const maxDuration = 26;
+/** Netlify's synchronous function limit (60 s, fixed; docs.netlify.com/build/functions/configuration). */
+export const maxDuration = 60;
 
 /**
  * One Strategy Lab conversation turn (packages/backtest/src/ai/converse.ts).
@@ -23,7 +24,13 @@ export const maxDuration = 26;
  * 5 a minute and 30 an hour per IP and per member, 300 an hour per instance.
  */
 
-const TIMEOUT_MS = Number(process.env.STRATEGY_TURN_TIMEOUT_MS) || 22_000;
+/**
+ * The whole request, sign-in check included, ends within 50 s of arriving:
+ * 10 s under the 60 s limit for a cold start and the response. The model gets
+ * whatever the sign-in check left (about 49 s). Measured turns take 4 to 12 s,
+ * about 17 s with a repair round.
+ */
+const DEADLINE_MS = 50_000;
 const STATUS = { empty: 422, too_long: 413, invalid: 422, refusal: 422, unavailable: 503, timeout: 504 } as const;
 
 export function OPTIONS(request: Request) {
@@ -39,6 +46,7 @@ function answers(v: unknown): Answer[] {
 }
 
 export async function POST(request: Request) {
+  const arrived = Date.now();
   const g = await guard(
     request,
     "strategy-turn",
@@ -58,12 +66,16 @@ export async function POST(request: Request) {
     b.edit && typeof b.edit === "object" && typeof (b.edit as { request?: unknown }).request === "string" && (b.edit as { current?: unknown }).current
       ? { request: String((b.edit as { request: string }).request).slice(0, MAX_TEXT_CHARS), current: (b.edit as { current: StrategySpecV2 }).current }
       : null;
+  const guardMs = Date.now() - arrived;
   try {
     const r = await converse(
       { intent: b.intent, answers: answers(b.answers), questionsAsked: typeof b.questionsAsked === "number" ? b.questionsAsked : undefined, edit },
-      { apiKey, timeoutMs: TIMEOUT_MS },
+      { apiKey, timeoutMs: DEADLINE_MS - guardMs },
     );
-    console.info("[api/strategy/turn]", JSON.stringify({ kind: r.kind, usage: "usage" in r ? r.usage : null }));
+    console.info(
+      "[api/strategy/turn]",
+      JSON.stringify({ kind: r.kind, reason: r.kind === "error" ? r.reason : undefined, guardMs, totalMs: Date.now() - arrived, usage: "usage" in r ? r.usage : null }),
+    );
     if (r.kind === "error") return json(r, STATUS[r.reason], g.origin);
     return json(r, 200, g.origin);
   } catch (error) {

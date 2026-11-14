@@ -1,7 +1,8 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { betaZodOutputFormat } from "@anthropic-ai/sdk/helpers/beta/zod";
-import { TurnOutput, converse, untypedTickers, modelToSpec } from "../src/ai/converse";
+import Anthropic from "@anthropic-ai/sdk";
+import { TIMEOUT_MESSAGE, TurnOutput, converse, untypedTickers, modelToSpec } from "../src/ai/converse";
 import { ReviewOutput, review, templateProblems } from "../src/ai/review";
 import { CONVERSE_SYSTEM } from "../src/ai/prompts";
 import { blankSpec, validateSpec, describeSpec, type QualityReport } from "../src/index";
@@ -102,6 +103,33 @@ test("converse: a failing formula gets one repair with the checker's message", a
   assert.equal(r.kind, "spec");
   assert.ok(r.kind === "spec" && r.repaired);
   assert.match(JSON.stringify((sent[1]!.messages as unknown[]).at(-1)), /raw_close/);
+});
+
+test("converse: each call gets the time left of the turn budget; an SDK timeout is a retryable timeout", async () => {
+  const timeouts: number[] = [];
+  const slow = {
+    beta: {
+      messages: {
+        create: async (_p: unknown, o: { timeout: number }) => {
+          timeouts.push(o.timeout);
+          throw new Anthropic.APIConnectionTimeoutError();
+        },
+      },
+    },
+  } as never;
+  const r = await converse({ intent: "NVDA and AMD above their 50-day average", answers: [] }, { client: slow });
+  assert.equal(r.kind, "error");
+  if (r.kind === "error") {
+    assert.equal(r.reason, "timeout");
+    assert.equal(r.message, TIMEOUT_MESSAGE);
+  }
+  // Default budget: Netlify's 60 s limit minus room for the sign-in check and the response.
+  assert.ok(timeouts[0]! > 45_000 && timeouts[0]! <= 50_000, String(timeouts[0]));
+  // Too little time left for a call: no request is sent.
+  const { client, sent } = fakeClient([turn({})]);
+  const r2 = await converse({ intent: "NVDA and AMD above their 50-day average", answers: [] }, { client, timeoutMs: 3_000 });
+  assert.equal(r2.kind === "error" && r2.reason, "timeout");
+  assert.equal(sent.length, 0);
 });
 
 test("converse: advice requests come back as not_a_strategy", async () => {

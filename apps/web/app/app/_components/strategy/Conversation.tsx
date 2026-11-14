@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { STARTERS, type StrategySpecV2 } from "@falcon/backtest";
 import type { Answer, Question } from "@falcon/backtest/ai";
-import { sendTurn, type Conversation as Conv, type SavedStrategy } from "@/lib/workspace/strategies";
+import { retryableTurn, sendTurn, type Conversation as Conv, type SavedStrategy } from "@/lib/workspace/strategies";
 
 const BTN =
   "inline-flex h-7 items-center rounded-md border border-line/10 bg-surface px-2.5 text-fs-12 text-fore-4 outline-none transition-colors hover:border-line/25 hover:text-fore focus-visible:border-line/45 disabled:opacity-40";
@@ -28,9 +28,12 @@ export function useStrategyChat(s: SavedStrategy, onApply: (a: TurnApply) => voi
   const [busy, setBusy] = useState(false);
   /** Change requests sent in this visit; the saved conversation keeps only the description and answers. */
   const [edits, setEdits] = useState<string[]>([]);
+  /** The last turn when it failed in a way worth sending again (a slow or busy assistant). */
+  const [failed, setFailed] = useState<{ next: Conv; edit: string | null } | null>(null);
 
   const turn = async (next: Conv, edit: string | null) => {
     setBusy(true);
+    setFailed(null);
     const r = await sendTurn({
       intent: next.intent,
       answers: next.answers,
@@ -50,6 +53,7 @@ export function useStrategyChat(s: SavedStrategy, onApply: (a: TurnApply) => voi
       onApply({ conversation: { ...next, pending: null, note: { tone: "quiet", text: r.message }, notExpressible: r.notExpressible } });
     } else {
       const issues = r.issues?.length ? ` ${r.issues.slice(0, 2).map((i) => i.message).join(" ")}` : "";
+      if (retryableTurn(r.reason)) setFailed({ next, edit });
       onApply({ conversation: { ...next, pending: next.pending, note: { tone: "error", text: `${r.message}${issues}` } } });
     }
   };
@@ -75,10 +79,14 @@ export function useStrategyChat(s: SavedStrategy, onApply: (a: TurnApply) => voi
   /** Clears this visit's change requests, the last note and open questions; the description and rules stay. */
   const clear = () => {
     setEdits([]);
+    setFailed(null);
     if (conv.note || conv.pending) onApply({ conversation: { ...conv, note: null, pending: null } });
   };
 
-  return { busy, hasSpec, edits, send, answerAll, clear, waiting: Boolean(conv.pending?.length), canClear: edits.length > 0 || Boolean(conv.note || conv.pending) };
+  /** Sends the failed turn again, unchanged; null when there is nothing to retry. */
+  const retry = failed && !busy ? () => void turn(failed.next, failed.edit) : null;
+
+  return { busy, hasSpec, edits, send, answerAll, clear, retry, waiting: Boolean(conv.pending?.length), canClear: edits.length > 0 || Boolean(conv.note || conv.pending) };
 }
 
 function UserBubble({ children }: { children: React.ReactNode }) {
@@ -140,7 +148,7 @@ export function ConversationThread({ s, chat, onStarter }: { s: SavedStrategy; c
         <div className="flex flex-col gap-1">
           <AssistantLabel />
           <p role="status" className="text-fs-13.5 text-quiet">
-            Reading the description and checking the formula. This takes a few seconds.
+            Reading the description and checking the formula. This usually takes 5 to 20 seconds.
           </p>
         </div>
       ) : null}
@@ -150,6 +158,13 @@ export function ConversationThread({ s, chat, onStarter }: { s: SavedStrategy; c
           <p role="status" className={`text-fs-13.5 leading-fs-20 ${conv.note.tone === "error" ? "text-down" : "text-fore-4"}`}>
             {conv.note.text}
           </p>
+          {conv.note.tone === "error" && chat.retry ? (
+            <div>
+              <button type="button" onClick={chat.retry} className={BTN}>
+                Try again
+              </button>
+            </div>
+          ) : null}
         </div>
       ) : null}
     </div>

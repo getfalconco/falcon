@@ -456,12 +456,21 @@ export type TurnAnswer =
   | { kind: "not_a_strategy"; message: string; notExpressible: string[] }
   | { kind: "error"; reason: string; message: string; issues?: SpecIssue[] };
 
+const TURN_TIMEOUT = "Reading the strategy took longer than usual. Nothing was changed; try again.";
+
+/** Turn errors worth sending again unchanged (a slow or busy assistant, a dropped connection). */
+export function retryableTurn(reason: string): boolean {
+  return reason === "timeout" || reason === "unavailable";
+}
+
 /** POST /api/strategy/turn. */
 export async function sendTurn(input: { intent: string; answers: Answer[]; questionsAsked: number; edit?: { request: string; current: StrategySpecV2 } | null }): Promise<TurnAnswer> {
   try {
     const r = await post("/api/strategy/turn", input);
     const b = r.body;
     if (b && (b.kind === "questions" || b.kind === "spec" || b.kind === "not_a_strategy" || b.kind === "error")) return b as unknown as TurnAnswer;
+    // The host cut the request off (no JSON body): the same retryable case as the route's own timeout.
+    if (r.status === 502 || r.status === 504) return { kind: "error", reason: "timeout", message: TURN_TIMEOUT };
     return { kind: "error", reason: r.status === 503 ? "unavailable" : "error", message: errorText(r.status, b, "The strategy assistant could not answer.") };
   } catch {
     return { kind: "error", reason: "unavailable", message: "The strategy assistant could not be reached." };

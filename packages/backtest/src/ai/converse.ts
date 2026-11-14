@@ -30,6 +30,9 @@ import { costUsd, type Usage } from "./usage";
 export const CONVERSE_MODEL = "claude-sonnet-5-5";
 export const MAX_TEXT_CHARS = 4_000;
 export const MAX_QUESTIONS = 3;
+/** A call (first or repair) is not started with less time than this left. */
+const MIN_CALL_MS = 4_000;
+export const TIMEOUT_MESSAGE = "Reading the strategy took longer than usual. Nothing was changed; try again.";
 
 /**
  * The structured envelope. The spec itself travels as JSON text in the
@@ -87,7 +90,11 @@ type MessagesClient = { beta: { messages: { create: (params: never, options?: ne
 export type ConverseOptions = {
   apiKey?: string | null;
   client?: MessagesClient;
-  /** Whole turn budget including a repair. */
+  /**
+   * Whole turn budget including a repair (default 50 s). The route passes
+   * what is left of Netlify's 60 s function limit after the sign-in check.
+   * Measured turns take 4 to 12 s, about 17 s with a repair.
+   */
   timeoutMs?: number;
   now?: Date;
 };
@@ -296,7 +303,7 @@ export async function converse(input: ConverseInput, opts: ConverseOptions = {})
   if (!intent) return { kind: "error", reason: "empty", message: "Describe a strategy to test." };
   const total = [intent, input.edit?.request ?? "", ...input.answers.map((a) => a.a)].join("").length;
   if (total > MAX_TEXT_CHARS) return { kind: "error", reason: "too_long", message: `Keep the description under ${MAX_TEXT_CHARS} characters.` };
-  const budget = opts.timeoutMs ?? 22_000;
+  const budget = opts.timeoutMs ?? 50_000;
   const started = Date.now();
   const client = clientFor(opts, budget);
   if (!client) return { kind: "error", reason: "unavailable", message: "The strategy assistant is not configured on this server." };
@@ -309,12 +316,12 @@ export async function converse(input: ConverseInput, opts: ConverseOptions = {})
   let repaired = false;
   for (let attempt = 0; attempt < 2; attempt++) {
     const left = budget - (Date.now() - started);
-    if (left < 4_000) return { kind: "error", reason: "timeout", message: "Reading the strategy took too long. Try again.", usage };
+    if (left < MIN_CALL_MS) return { kind: "error", reason: "timeout", message: TIMEOUT_MESSAGE, usage };
     let msg: BetaMessage;
     try {
       msg = await call(client, messages, left);
     } catch (e) {
-      if (e instanceof Anthropic.APIConnectionTimeoutError) return { kind: "error", reason: "timeout", message: "Reading the strategy took too long. Try again.", usage };
+      if (e instanceof Anthropic.APIConnectionTimeoutError) return { kind: "error", reason: "timeout", message: TIMEOUT_MESSAGE, usage };
       if (e instanceof Anthropic.RateLimitError) return { kind: "error", reason: "unavailable", message: "Too many strategies are being read right now. Try again in a minute.", usage };
       if (e instanceof Anthropic.APIError) {
         console.error("[backtest/ai] Claude API error", e.status, e.message);
