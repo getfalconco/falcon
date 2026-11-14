@@ -1,0 +1,114 @@
+{
+  "id": "flow-v1",
+  "writtenAt": "2026-11-14",
+  "status": "frozen before any flow or outcome data was pulled or computed; changes only in a flow-v2 file with reasons",
+  "seenBeforeWriting": [
+    "Databento get_cost estimates for XNAS.ITCH trades (prices only, no records)",
+    "EDGAR earnings 8-K acceptance times for KLAC and TSM monthly revenue 6-Ks 2023-06 to 2024-06 (event dates and signs only, to check the source works)",
+    "graph.json link counts per ticker"
+  ],
+  "plan": "Obsidian Falcon/Engine/Options Signals.md, order flow, hypotheses 1 and 3",
+  "code": {
+    "features": "packages/engine/src/options/flow.ts (aggregateFlow, quietAccumulation), unchanged",
+    "study": "packages/engine/src/options/study-flow.ts",
+    "runner": "packages/engine/scripts/flow-study.ts",
+    "measurement": "packages/engine/src/study/abnormal.ts measureEvent (SPY market model, estimation sessions [-260, -11] relative to day 0, >= 120 days)"
+  },
+  "data": {
+    "flow": {
+      "source": "Databento XNAS.ITCH trades with aggressor side (B buyer-initiated, A seller-initiated, N none), via DatabentoClient.getRange / fetchStockTrades(regularOnly: true), caller flow-hypotheses, per-caller cap $35",
+      "request": "one request per NYSE session for all universe names, 09:30 to 16:10 New York (the regular-session request window of fetchStockTrades), so no day is paid twice",
+      "aggregation": "aggregateFlow(trades, { session: 'regular', classify: 'given' }): 09:30 to 16:00 plus 5 s; N-side trades never signed"
+    },
+    "prices": "Yahoo daily chart, split and dividend adjusted opens and closes, read from packages/engine/.cache/study/yahoo (fetched 2026-11-14 for the F7 study; internal research stand-in), SPY as the market",
+    "events": "EDGAR via src/past-events.ts (8-K item 2.02 acceptance instants; Taiwan monthly revenue 6-Ks of TSM, UMC, ASX with year-over-year sign and release dateline); EPS surprise sign from the Yahoo EPS record via src/market.ts backtestMarketData, matched to the 8-K within one day as history.ts matchQuarters does",
+    "links": "packages/engine/data/graph.json as of 2026-11-12, degree-1 links (graph.ts walk maxDegree 1)"
+  },
+  "universe": {
+    "names": ["INTC", "NXPI", "QCOM", "AVGO", "MTSI", "SLAB", "LSCC", "AMKR", "ADI", "GFS", "MCHP", "MRVL", "TXN", "KLAC", "LRCX", "ALGM", "CDNS", "CRDO", "CRUS", "MU", "NVMI", "SITM", "AMAT", "ASML", "SWKS", "SMTC", "MXL", "SYNA"],
+    "rule": "Nasdaq-listed names of the semis universe with the most graph links to semis event companies, plus 5 cheap Nasdaq semis with at least one link. NVDA and AMD are left out on cost (together ~$0.07 a session in 2024, about 40% of the budget) and because the signed ITCH sample says least about the most liquid names.",
+    "count": 28
+  },
+  "dates": {
+    "flowSessions": { "from": "2023-06-26", "to": "2024-06-28", "calendar": "NYSE sessions (abnormal.ts nyseSessions)" },
+    "whyThisWindow": "older days are cheaper (2023-24 costs about a third of 2025-26 per name-day); one contiguous year with four semis earnings seasons (Jul-Aug, Oct-Nov, Jan-Feb, Apr-May) and twelve Taiwan monthly revenue releases; NVDA (2024-06-10) and LRCX (2024-10) splits mostly outside; projected cost about $29",
+    "h1SignalDates": "every session that ends a full 5-session window inside flowSessions",
+    "h3ReactionDays": "day 0 such that day 0, +1, +2 are all inside flowSessions"
+  },
+  "h1": {
+    "name": "quiet accumulation",
+    "claim": "flat price plus net aggressive buying over 5 sessions predicts positive abnormal returns over the next 10 sessions",
+    "feature": {
+      "function": "quietAccumulation(flow, closes, { window: 5, volLookback: 60, quietZ: 0.5, zCap: 1, minSignedShare: 0.02 })",
+      "imbalance": "window dollar imbalance I = sum(buy$ - sell$) / sum(buy$ + sell$) over the 5 sessions, signed trades only",
+      "netSignedDollar": "sum(buy$ - sell$) over the 5 sessions",
+      "zMove": "|ln(close_t / close_{t-5})| / (sigma sqrt 5), sigma = sd of daily log returns over the 60 sessions before the window (Yahoo adjusted closes, >= 20)",
+      "signal": "on window-end date t: all 5 window sessions have signedShare >= 0.02, netSignedDollar > 0, I >= theta_i, zMove <= 0.5",
+      "theta": "theta_i = max(0, 80th percentile of name i's 5-session window imbalances over all its full windows in the sample) (look-ahead in the threshold only; a fixed theta = 0.10 is a secondary)",
+      "deOverlap": "per name, signals in date order; a signal is an event only when its date is at least 10 sessions after the previous event of that name"
+    },
+    "outcome": {
+      "entry": "open of session t+1 (measureEvent with the public instant 1 s after the close of t)",
+      "primary": "CAR10: sum of market-model abnormal returns, open of t+1 to close of t+10",
+      "also": "CAR5"
+    },
+    "statistic": {
+      "primary": "mean over events of D = CAR10_it - C_t, C_t = mean CAR10 on date t of the universe names with no raw signal on t (same-date, same-universe control: removes the common semis move a SPY model leaves in); SE clustered by signal date; t on G-1 df; one-sided p for mean > 0",
+      "secondaries": [
+        "raw CAR10 one-sample, date-clustered",
+        "CAR10 minus the same name's mean CAR10 over its non-signal days (the plan's same-name comparison)",
+        "CAR5 version of the primary",
+        "window 3 sessions",
+        "fixed theta = 0.10",
+        "quiet distribution mirror (netSignedDollar < 0, I <= 20th percentile, quiet): expected negative",
+        "placebo: window imbalance and net dollars shuffled across names within each date (price quietness kept), 1000 reps, permutation p of the primary mean",
+        "two-way (firm x month) clustered t and 10-session calendar-block clusters"
+      ]
+    }
+  },
+  "h3": {
+    "name": "ripple plus flow beats ripple alone",
+    "events": {
+      "earnings": "8-K item 2.02 of each company in universe.ts SECTORS.semis with an EDGAR 10-K/8-K filing history, sign = sign of the Yahoo EPS surprise (unsigned or zero dropped)",
+      "monthlyRevenue": "TSM, UMC, ASX Taiwan monthly revenue 6-Ks, sign = sign of the year-over-year change (zero dropped)",
+      "reactionDay": "history.ts eventReactionIndex: from the EDGAR acceptance instant, or the EPS record's earlier date/time, or the Taiwan release dateline, whichever gives the earlier session"
+    },
+    "hits": {
+      "rule": "every degree-1 link of the event company (any category) whose ticker is in the flow universe",
+      "direction": "implied direction = event sign (intra-industry information transfer: linked semis move with the news on average)",
+      "dedup": "one hit per (ticker, day 0): same direction from several events kept once; opposite directions dropped",
+      "ownEventsExcluded": "a hit whose own earnings 8-K reaction day falls in [day 0 - 1, day 0 + 12] is dropped"
+    },
+    "flow": {
+      "window": "sessions day 0, day 0 + 1, day 0 + 2 (the reaction day and two more)",
+      "confirmed": "sign(sum of netSignedDollar over the window) == implied direction; a hit with no signed volume in the window is dropped"
+    },
+    "outcome": {
+      "entry": "open of day 0 + 3 (after the flow window, before any price reaction measured from it)",
+      "primary": "y = direction x CAR10 (market model), open of day 0 + 3 to close of day 0 + 12",
+      "also": "CAR5; ripple alone y from the open of day 0 + 1"
+    },
+    "statistic": {
+      "primary": "Delta = mean(y | confirmed) - mean(y | not confirmed): OLS of y on [1, confirmed], CR1 SE clustered by day 0, t on G-1 df, one-sided p for Delta > 0",
+      "secondaries": [
+        "ripple alone: mean y over all hits, from day 0 + 3 and from day 0 + 1",
+        "mean y of confirmed hits alone",
+        "1-session flow window (day 0 only), entry day 0 + 1",
+        "supply-chain links only (supplier, customer, partner)",
+        "flow de-biased: window dollar imbalance minus the name's median 3-session imbalance over the sample",
+        "CAR5 version",
+        "placebo: confirmed labels permuted within day 0, 1000 reps"
+      ]
+    }
+  },
+  "passBar": {
+    "multipleTesting": "Benjamini-Hochberg at q = 0.05 over the two primary one-sided p values (H1, H3): the smaller passes if p <= 0.025; both pass if the larger is <= 0.05",
+    "laterHalf": "the primary estimate (H1 mean D, H3 Delta) computed on the events with entry dates in the later half (median split by date) must be > 0",
+    "minimumSample": "at least 30 events (H1) / 30 hits in each group (H3) and 20 independent dates, otherwise inconclusive (counts as fail)",
+    "secondaries": "reported, never used to pass"
+  },
+  "reporting": {
+    "perHypothesis": ["n", "independent dates", "mean", "median", "t", "one-sided p", "hit rate (share > 0)", "early/late split", "cost-aware mean at 10 bp per side (20 bp round trip subtracted from the long leg's mean)"],
+    "coverage": "share of volume with a side (signedShare) per name: XNAS.ITCH signed trades are about a quarter of Nasdaq volume and under a tenth of consolidated volume; results describe that sample of displayed liquidity taking, not all buying"
+  }
+}
