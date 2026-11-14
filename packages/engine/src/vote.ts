@@ -20,8 +20,10 @@
  *      first such vote with that confidence (call order), so the pick is
  *      deterministic.
  *
- * Cost guard: every call counts against a budget shared by the run; when it
- * is spent the vote goes ahead with the calls it has (none: the event fails).
+ * Cost guard: every call counts against a budget shared by the run, in calls
+ * and in dollars measured from the API's reported usage (design 5.2,
+ * `allowedCalls`). When it is spent the vote goes ahead with the calls it has
+ * (none: the event fails, and judge-once lets the next run pick it up).
  * A deterministic judge (answers from a file) is asked once.
  */
 
@@ -35,11 +37,39 @@ export const DEFAULT_MAX_CALLS = 40;
 
 export type VoteSplit = { up: number; down: number; unclear: number; excluded: number };
 
-/** The run's call budget; `used` counts every call made, failed ones too. */
-export type CallBudget = { max: number; used: number };
+/** Dollars of judge calls per run at most (design 5.2, M1a hard cap). */
+export const DEFAULT_MAX_JUDGE_USD = 0.75;
 
-export function callBudget(max = DEFAULT_MAX_CALLS): CallBudget {
-  return { max, used: 0 };
+/**
+ * The run's call budget; `used` counts every call made, failed ones too.
+ * `maxUsd` with `spentUsd` (dollars spent so far, from measured usage) caps
+ * the run's dollars as well.
+ */
+export type CallBudget = { max: number; used: number; maxUsd?: number; spentUsd?: () => number };
+
+export function callBudget(max = DEFAULT_MAX_CALLS, dollars?: { maxUsd: number; spentUsd: () => number }): CallBudget {
+  return { max, used: 0, ...(dollars ? { maxUsd: dollars.maxUsd, spentUsd: dollars.spentUsd } : {}) };
+}
+
+/**
+ * How many of `n` calls the budget allows now: at most `max - used`, and no
+ * more than the dollars left divided by the run's average cost per call so
+ * far (before the first priced call, the round is allowed). Pure given the budget.
+ */
+export function allowedCalls(budget: CallBudget, n: number): number {
+  let k = Math.max(0, Math.min(n, budget.max - budget.used));
+  if (budget.maxUsd !== undefined && budget.spentUsd) {
+    const spent = budget.spentUsd();
+    const left = budget.maxUsd - spent;
+    if (left <= 0) return 0;
+    if (budget.used > 0 && spent > 0) k = Math.min(k, Math.floor(left / (spent / budget.used)));
+  }
+  return Math.max(0, k);
+}
+
+/** Whether the budget has no call left (calls or dollars). */
+export function budgetSpent(budget: CallBudget): boolean {
+  return allowedCalls(budget, 1) === 0;
 }
 
 const CONF_RANK: Record<Confidence, number> = { low: 0, medium: 1, high: 2 };
@@ -111,7 +141,7 @@ export type VoteResult = {
 type Round = Array<{ ok: true; raw: unknown } | { ok: false; error: string }>;
 
 async function ask(judge: Judge, req: JudgeRequest, n: number, budget: CallBudget): Promise<Round> {
-  const k = Math.max(0, Math.min(n, budget.max - budget.used));
+  const k = allowedCalls(budget, n);
   budget.used += k;
   return Promise.all(
     Array.from({ length: k }, () =>
@@ -183,7 +213,9 @@ export async function voteJudge(judge: Judge, req: JudgeRequest, budget: CallBud
   const discarded: VoteResult["discarded"] = [];
   const start = budget.used;
   const firstN = judge.deterministic ? 1 : FIRST_ROUND;
-  if (budget.max - budget.used <= 0) throw new Error(`judge call budget spent (${budget.max} calls this run)`);
+  if (budgetSpent(budget)) {
+    throw new Error(budget.max - budget.used <= 0 ? `judge call budget spent (${budget.max} calls this run)` : `judge dollar cap reached (${budget.maxUsd} USD this run)`);
+  }
   await round(judge, req, firstN, budget, votes, discarded);
   if ([...votes.values()].every((v) => v.length === 0)) {
     const why = discarded.find((d) => d.problems[0]?.startsWith("call failed"))?.problems[0] ?? "no valid answer";

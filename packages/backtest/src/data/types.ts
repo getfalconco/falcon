@@ -18,6 +18,14 @@ export type Bar = {
   low: number;
   close: number;
   volume: number;
+  /**
+   * Optional: the close as it printed that day (no split or dividend
+   * adjustment). Sources that cannot rebuild it leave it out; readers then
+   * fall back to `close`.
+   */
+  rawClose?: number;
+  /** Optional: dollars traded that day (close x volume on the same split basis). */
+  dollarVolume?: number;
 };
 
 /** One reported quarter. */
@@ -46,6 +54,26 @@ export type RippleSignal = {
   confidence: Confidence;
   degree: 1 | 2;
   cardId: string;
+};
+
+/**
+ * One Sighting hit as it was knowable at the time (point in time). The Ripple
+ * Engine writes these (another workstream); until its file exists, ripple.*
+ * operators have no history and runs say so.
+ */
+export type RippleEventRaw = {
+  ticker: string;
+  /** ISO instant the card became public. */
+  known_at: string;
+  relation: string;
+  degree: number;
+  event_kind: string;
+  /** +1 / -1 / 0: the event's own sign (deterministic, never the judge's call). */
+  event_sign: number;
+  /** relation x sign: +1 / -1 / 0. */
+  implied_dir: number;
+  edge_tier: string;
+  coverage: string;
 };
 
 export interface PriceSource {

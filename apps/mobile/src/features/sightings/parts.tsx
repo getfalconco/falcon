@@ -43,8 +43,9 @@ export function SectionHeader({ title, action }: { title: string; action?: { lab
 }
 
 /**
- * "Weak signals": cards whose best link is low confidence, folded under a
- * header at the bottom of a list. Closed until tapped.
+ * "Watch list": cards below the publishing bar (Watch tier; low confidence on
+ * older cards), folded under a header at the bottom of a list. Closed until
+ * tapped. Never counted as Sightings.
  */
 export function WeakSignals({ count, children }: { count: number; children: React.ReactNode }) {
   const [open, setOpen] = useState(false);
@@ -54,7 +55,7 @@ export function WeakSignals({ count, children }: { count: number; children: Reac
       <Pressable
         accessibilityRole="button"
         accessibilityState={{ expanded: open }}
-        accessibilityLabel={`Weak signals, ${count}`}
+        accessibilityLabel={`Watch list, ${count}`}
         onPress={() => setOpen((v) => !v)}
         hitSlop={8}
       >
@@ -63,7 +64,7 @@ export function WeakSignals({ count, children }: { count: number; children: Reac
             <View style={open ? styles.chevronOpen : null}>
               <ChevronRight size={15} strokeWidth={2} color={colors.muted} />
             </View>
-            <Text style={styles.weakTitle}>Weak signals</Text>
+            <Text style={styles.weakTitle}>Watch list</Text>
             <Text style={styles.weakCount}>{count}</Text>
           </View>
         )}

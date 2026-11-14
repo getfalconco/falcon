@@ -1,5 +1,5 @@
 import type { Direction, LinkEvidence, Relation, SightingsFeed } from "@falcon/ripple";
-import { INVERSE, netDirection, relationPhrase, type Connection } from "./feed";
+import { inverseRelation, netDirection, relationPhrase, type Connection } from "./feed";
 
 /**
  * The connection graph the Workspace draws: companies as nodes, filing-backed
@@ -271,7 +271,7 @@ export function withSeedConnections(feedConnections: Connection[], extra: GraphN
     if (e.source !== ticker && e.target !== ticker) continue;
     const other = e.source === ticker ? e.target : e.source;
     // `relation` is what target is to source; turn it to what `other` is to `ticker`.
-    const relation = e.relation ? (e.source === ticker ? e.relation : INVERSE[e.relation]) : null;
+    const relation = e.relation ? (e.source === ticker ? e.relation : inverseRelation(e.relation)) : null;
     const existing = byTicker.get(other);
     if (existing) {
       for (const q of e.evidence ?? []) if (!existing.evidence.some((x) => x.quote === q.quote)) existing.evidence.push(q);

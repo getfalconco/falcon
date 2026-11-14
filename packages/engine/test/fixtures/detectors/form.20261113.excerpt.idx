@@ -1,0 +1,26 @@
+Description:           Daily Index of EDGAR Dissemination Feed by Form Type
+Last Data Received:    Nov 13, 2026
+Comments:              webmaster@sec.gov
+Anonymous FTP:         ftp://ftp.sec.gov/edgar/
+ 
+ 
+ 
+ 
+Form Type   Company Name                                                  CIK
+      Date Filed  File Name
+---------------------------------------------------------------------------------------------------------------------------------------------
+4                101 HUNTINGTON HOLDINGS LLC                                   1208476     20261113    edgar/data/1208476/0001193125-26-461179.txt                                                
+4                101 Huntington Holdings Subsidiary, LLC                       2076441     20261113    edgar/data/2076441/0001193125-26-461179.txt                                                
+4                10x Genomics, Inc.                                            1770787     20261113    edgar/data/1770787/0001610717-26-000453.txt                                                
+4                ABERNETHY JAMES S                                             1244172     20261113    edgar/data/1244172/0001654954-26-009777.txt                                                
+4                ADAR1 Capital Management, LLC                                 1940272     20261113    edgar/data/1940272/0001940272-26-000032.txt                                                
+NT 10-Q          Charlie's Holdings, Inc.                                      1134765     20261113    edgar/data/1134765/0001437749-26-036883.txt                                                
+NT 10-Q          Dance Emotion Studios Inc.                                    2125703     20261113    edgar/data/2125703/0001640334-26-001793.txt                                                
+NT 10-Q          FARMHOUSE, INC. /NV                                           1811999     20261113    edgar/data/1811999/0001096906-26-001737.txt                                                
+NT 10-Q          HONG YUAN HOLDING GROUP                                       1324759     20261113    edgar/data/1324759/0001493152-26-051686.txt                                                
+NT 10-Q          Hubilu Venture Corp                                           1639068     20261113    edgar/data/1639068/0001493152-26-051684.txt                                                
+8-K              3D SYSTEMS CORP                                               910638      20261113    edgar/data/910638/0001193125-26-461027.txt                                                
+8-K              AAON, INC.                                                    824142      20261113    edgar/data/824142/0001628280-26-073758.txt                                                
+8-K              ACCESS Newswire Inc.                                          843006      20261113    edgar/data/843006/0001683168-26-008655.txt                                                
+8-K              ACCURAY INC                                                   1138723     20261113    edgar/data/1138723/0001437749-26-036943.txt                                                
+8-K              ACORN ENERGY, INC.                                            880984      20261113    edgar/data/880984/0001493152-26-051707.txt                                                

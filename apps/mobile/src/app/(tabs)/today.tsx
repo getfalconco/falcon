@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { useRouter } from "expo-router";
+import { NOTHING_CLEARED, anyClearsBar } from "@falcon/ripple";
 import { Reveal } from "@/components/Reveal";
 import { TabScreen } from "@/components/TabScreen";
 import { heldTickers } from "@/lib/holdings";
@@ -25,8 +26,9 @@ export default function Today() {
   const held = useMemo(() => heldTickers(sightings.holdings), [sightings.holdings]);
 
   const loading = sightings.status === "loading";
-  const empty =
-    sightings.status === "unavailable" || (sightings.status === "ready" && (sightings.feed?.cards.length ?? 0) === 0);
+  const empty = sightings.status === "unavailable";
+  // Only Watch-tier cards (or none at all): nothing reaches the main sections.
+  const nothingCleared = sightings.status === "ready" && !anyClearsBar(sightings.feed?.cards ?? []);
   const portfolio = today.portfolio.slice(0, PORTFOLIO_CARDS);
   const opportunities = today.opportunities.slice(0, OPPORTUNITY_CARDS);
 
@@ -56,7 +58,7 @@ export default function Today() {
       </Reveal>
 
       <Reveal order={2}>
-        <Text style={styles.why}>{loading || empty ? " " : today.why}</Text>
+        <Text style={styles.why}>{loading || empty || nothingCleared ? " " : today.why}</Text>
       </Reveal>
 
       {loading ? (
@@ -68,9 +70,9 @@ export default function Today() {
         <Reveal order={3}>
           <EmptyTitle title="No sightings yet" />
         </Reveal>
-      ) : portfolio.length === 0 && opportunities.length === 0 ? (
+      ) : nothingCleared || (portfolio.length === 0 && opportunities.length === 0) ? (
         <Reveal order={3}>
-          <EmptyTitle title="Only weak signals today" />
+          <EmptyTitle title={nothingCleared ? NOTHING_CLEARED : "Nothing is hitting your portfolio today"} />
         </Reveal>
       ) : (
         <>

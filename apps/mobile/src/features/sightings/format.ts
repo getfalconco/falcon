@@ -1,4 +1,4 @@
-import type { Confidence, Direction, RippleEvent, Relation } from "@falcon/ripple";
+import { eventTypeLabel, type Confidence, type Direction, type RippleEvent, type Relation } from "@falcon/ripple";
 import { signal } from "@/theme";
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -44,12 +44,33 @@ export const EVENT_KIND: Record<RippleEvent["kind"], string> = {
   news: "News",
 };
 
+/** A coarse event kind's label, "Event" for one this build does not know. */
+export function kindLabel(kind: string | null | undefined): string {
+  return (kind && EVENT_KIND[kind as RippleEvent["kind"]]) || "Event";
+}
+
+/** The event's label: the engine's event type label, else the kind's, else "Event". */
+export function eventLabel(event: Pick<RippleEvent, "kind" | "eventType" | "eventLabel">): string {
+  return eventTypeLabel(event) ?? kindLabel(event.kind);
+}
+
 export const RELATION: Record<Relation, string> = {
   customer: "Customer",
   supplier: "Supplier",
   competitor: "Competitor",
   peer: "Peer",
+  self: "The company itself",
 };
+
+/** A relation's label; a neutral one for a value this build does not know. */
+export function relationLabel(relation: string | null | undefined): string {
+  return (relation && RELATION[relation as Relation]) || "Linked company";
+}
+
+/** Whether a hit is the event company itself (an own-firm event such as an insider purchase cluster). */
+export function isSelfHit(hit: { relation: string; ticker: string }, eventTicker: string): boolean {
+  return hit.relation === "self" || hit.ticker.toUpperCase() === eventTicker.toUpperCase();
+}
 
 export const CONFIDENCE: Record<Confidence, string> = {
   low: "Low confidence",

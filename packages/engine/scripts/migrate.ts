@@ -1,5 +1,5 @@
 /**
- * Applies the sightings_cards migrations, in order, to the Supabase database
+ * Applies the Sightings migrations (cards, judge-once store, forward ledger), in order, to the Supabase database
  * in DATABASE_URL (from the environment or apps/web/.env.local). The SQL is
  * idempotent (create/add ... if not exists), so the daily workflow runs it
  * before every run.
@@ -14,7 +14,12 @@ import { ENGINE_ROOT } from "../src/http.ts";
 import { runSql } from "../src/supabase.ts";
 
 const DIR = path.resolve(ENGINE_ROOT, "..", "..", "apps", "web", "supabase", "migrations");
-const FILES = ["20261112_sightings_cards.sql", "20261113_sightings_cards_stale.sql"];
+const FILES = [
+  "20261112_sightings_cards.sql",
+  "20261113_sightings_cards_stale.sql",
+  "20261117_ripple_judgments.sql",
+  "20261118_ripple_ledger.sql",
+];
 
 async function main() {
   const url = env("DATABASE_URL");

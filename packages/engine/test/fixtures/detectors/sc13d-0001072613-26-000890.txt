@@ -1,0 +1,496 @@
+<SEC-DOCUMENT>0001072613-26-000890.txt : 20261113
+<SEC-HEADER>0001072613-26-000890.hdr.sgml : 20261113
+<ACCEPTANCE-DATETIME>20261113162015
+ACCESSION NUMBER:		0001072613-26-000890
+CONFORMED SUBMISSION TYPE:	SCHEDULE 13D
+PUBLIC DOCUMENT COUNT:		3
+FILED AS OF DATE:		20261113
+DATE AS OF CHANGE:		20261113
+
+SUBJECT COMPANY:	
+
+	COMPANY DATA:	
+		COMPANY CONFORMED NAME:			Coursera, Inc.
+		CENTRAL INDEX KEY:			0001651562
+		STANDARD INDUSTRIAL CLASSIFICATION:	SERVICES-PREPACKAGED SOFTWARE [7372]
+		ORGANIZATION NAME:           	06 Technology
+		EIN:				453560292
+		STATE OF INCORPORATION:			DE
+		FISCAL YEAR END:			1231
+
+	FILING VALUES:
+		FORM TYPE:		SCHEDULE 13D
+		SEC ACT:		1934 Act
+		SEC FILE NUMBER:	005-92478
+		FILM NUMBER:		261552866
+
+	BUSINESS ADDRESS:	
+		STREET 1:		2440 WEST EL CAMINO REAL
+		CITY:			MOUNTAIN VIEW
+		STATE:			CA
+		ZIP:			94040
+		BUSINESS PHONE:		6509639884
+
+	MAIL ADDRESS:	
+		STREET 1:		2440 WEST EL CAMINO REAL
+		CITY:			MOUNTAIN VIEW
+		STATE:			CA
+		ZIP:			94040
+
+FILED BY:		
+
+	COMPANY DATA:	
+		COMPANY CONFORMED NAME:			NEW ENTERPRISE ASSOCIATES 13 LP
+		CENTRAL INDEX KEY:			0001452907
+		ORGANIZATION NAME:           	
+		EIN:				000000000
+		STATE OF INCORPORATION:			E9
+
+	FILING VALUES:
+		FORM TYPE:		SCHEDULE 13D
+
+	BUSINESS ADDRESS:	
+		STREET 1:		1954 GREENSPRING DRIVE
+		STREET 2:		SUITE 600
+		CITY:			TIMONIUM
+		STATE:			MD
+		ZIP:			21093
+		BUSINESS PHONE:		410-244-0115
+
+	MAIL ADDRESS:	
+		STREET 1:		1954 GREENSPRING DRIVE
+		STREET 2:		SUITE 600
+		CITY:			TIMONIUM
+		STATE:			MD
+		ZIP:			21093
+</SEC-HEADER>
+<DOCUMENT>
+<TYPE>SCHEDULE 13D
+<SEQUENCE>1
+<FILENAME>primary_doc.xml
+<TEXT>
+<XML>
+<?xml version="1.0" encoding="UTF-8"?><edgarSubmission xmlns="http://www.sec.gov/edgar/schedule13D" xmlns:com="http://www.sec.gov/edgar/common">
+  <schemaVersion>X0202</schemaVersion>
+<headerData>
+    <submissionType>SCHEDULE 13D</submissionType>
+    <filerInfo>
+      <filer>
+        <filerCredentials>
+          <!-- Field: Pseudo-Tag; ID: Name; Data: NEW ENTERPRISE ASSOCIATES 13 LP -->
+          <cik>0001452907</cik>
+          <ccc>XXXXXXXX</ccc>
+        </filerCredentials>
+      </filer>
+      <liveTestFlag>LIVE</liveTestFlag>
+
+
+
+    </filerInfo>
+  </headerData>
+  <formData>
+    <coverPageHeader>
+      <securitiesClassTitle>Common Stock, $0.00001 par value per share</securitiesClassTitle>
+      <dateOfEvent>11/05/2026</dateOfEvent>
+      <previouslyFiledFlag>false</previouslyFiledFlag>
+      <issuerInfo>
+        <issuerCIK>0001651562</issuerCIK>
+        <issuerCusips>
+          <issuerCusipNumber>22266M104</issuerCusipNumber>
+        </issuerCusips>
+        <issuerName>Coursera, Inc.</issuerName>
+        <address>
+          <com:street1>2440 West El Camino Real</com:street1>
+          <com:street2>Suite 500</com:street2>
+          <com:city>Mountain View</com:city>
+          <com:stateOrCountry>CA</com:stateOrCountry>
+          <com:zipCode>94040</com:zipCode>
+        </address>
+      </issuerInfo>
+      <authorizedPersons>
+        <notificationInfo>
+          <personName>Stephanie Brecher</personName>
+          <personPhoneNum>(410) 842-4000</personPhoneNum>
+          <personAddress>
+            <com:street1>New Enterprise Associates</com:street1>
+            <com:street2>1954 Greenspring Drive, Suite 600</com:street2>
+            <com:city>Timonium</com:city>
+            <com:stateOrCountry>MD</com:stateOrCountry>
+            <com:zipCode>21093</com:zipCode>
+          </personAddress>
+        </notificationInfo>
+      </authorizedPersons>
+    </coverPageHeader>
+    <reportingPersons>
+      <reportingPersonInfo>
+        <reportingPersonCIK>0001452907</reportingPersonCIK>
+        <reportingPersonNoCIK>N</reportingPersonNoCIK>
+        <reportingPersonName>New Enterprise Associates 13, L.P.</reportingPersonName>
+        <fundType>WC</fundType>
+        <legalProceedings>N</legalProceedings>
+        <citizenshipOrOrganization>E9</citizenshipOrOrganization>
+        <soleVotingPower>0.00</soleVotingPower>
+        <sharedVotingPower>12867769.00</sharedVotingPower>
+        <soleDispositivePower>0.00</soleDispositivePower>
+        <sharedDispositivePower>12867769.00</sharedDispositivePower>
+        <aggregateAmountOwned>12867769.00</aggregateAmountOwned>
+        <isAggregateExcludeShares>N</isAggregateExcludeShares>
+        <percentOfClass>5.1</percentOfClass>
+        <typeOfReportingPerson>PN</typeOfReportingPerson>
+      </reportingPersonInfo>
+      <reportingPersonInfo>
+        <reportingPersonCIK>0001460752</reportingPersonCIK>
+        <reportingPersonNoCIK>N</reportingPersonNoCIK>
+        <reportingPersonName>NEA Partners 13, L.P.</reportingPersonName>
+        <fundType>AF</fundType>
+        <legalProceedings>N</legalProceedings>
+        <citizenshipOrOrganization>E9</citizenshipOrOrganization>
+        <soleVotingPower>0.00</soleVotingPower>
+        <sharedVotingPower>12867769.00</sharedVotingPower>
+        <soleDispositivePower>0.00</soleDispositivePower>
+        <sharedDispositivePower>12867769.00</sharedDispositivePower>
+        <aggregateAmountOwned>12867769.00</aggregateAmountOwned>
+        <isAggregateExcludeShares>N</isAggregateExcludeShares>
+        <percentOfClass>5.1</percentOfClass>
+        <typeOfReportingPerson>PN</typeOfReportingPerson>
+      </reportingPersonInfo>
+      <reportingPersonInfo>
+        <reportingPersonCIK>0001460751</reportingPersonCIK>
+        <reportingPersonNoCIK>N</reportingPersonNoCIK>
+        <reportingPersonName>NEA 13 GP, LTD</reportingPersonName>
+        <fundType>AF</fundType>
+        <legalProceedings>N</legalProceedings>
+        <citizenshipOrOrganization>E9</citizenshipOrOrganization>
+        <soleVotingPower>0.00</soleVotingPower>
+        <sharedVotingPower>12867769.00</sharedVotingPower>
+        <soleDispositivePower>0.00</soleDispositivePower>
+        <sharedDispositivePower>12867769.00</sharedDispositivePower>
+        <aggregateAmountOwned>12867769.00</aggregateAmountOwned>
+        <isAggregateExcludeShares>N</isAggregateExcludeShares>
+        <percentOfClass>5.1</percentOfClass>
+        <typeOfReportingPerson>OO</typeOfReportingPerson>
+      </reportingPersonInfo>
+      <reportingPersonInfo>
+        <reportingPersonCIK>0001768564</reportingPersonCIK>
+        <reportingPersonNoCIK>N</reportingPersonNoCIK>
+        <reportingPersonName>New Enterprise Associates 17, L.P.</reportingPersonName>
+        <fundType>WC</fundType>
+        <legalProceedings>N</legalProceedings>
+        <citizenshipOrOrganization>DE</citizenshipOrOrganization>
+        <soleVotingPower>0.00</soleVotingPower>
+        <sharedVotingPower>12867769.00</sharedVotingPower>
+        <soleDispositivePower>0.00</soleDispositivePower>
+        <sharedDispositivePower>12867769.00</sharedDispositivePower>
+        <aggregateAmountOwned>12867769.00</aggregateAmountOwned>
+        <isAggregateExcludeShares>N</isAggregateExcludeShares>
+        <percentOfClass>5.1</percentOfClass>
+        <typeOfReportingPerson>PN</typeOfReportingPerson>
+      </reportingPersonInfo>
+      <reportingPersonInfo>
+        <reportingPersonCIK>0001796820</reportingPersonCIK>
+        <reportingPersonNoCIK>N</reportingPersonNoCIK>
+        <reportingPersonName>NEA Partners 17, L.P.</reportingPersonName>
+        <fundType>AF</fundType>
+        <legalProceedings>N</legalProceedings>
+        <citizenshipOrOrganization>DE</citizenshipOrOrganization>
+        <soleVotingPower>0.00</soleVotingPower>
+        <sharedVotingPower>12867769.00</sharedVotingPower>
+        <soleDispositivePower>0.00</soleDispositivePower>
+        <sharedDispositivePower>12867769.00</sharedDispositivePower>
+        <aggregateAmountOwned>12867769.00</aggregateAmountOwned>
+        <isAggregateExcludeShares>N</isAggregateExcludeShares>
+        <percentOfClass>5.1</percentOfClass>
+        <typeOfReportingPerson>PN</typeOfReportingPerson>
+      </reportingPersonInfo>
+      <reportingPersonInfo>
+        <reportingPersonCIK>0001796821</reportingPersonCIK>
+        <reportingPersonNoCIK>N</reportingPersonNoCIK>
+        <reportingPersonName>NEA 17 GP, LLC</reportingPersonName>
+        <fundType>AF</fundType>
+        <legalProceedings>N</legalProceedings>
+        <citizenshipOrOrganization>DE</citizenshipOrOrganization>
+        <soleVotingPower>0.00</soleVotingPower>
+        <sharedVotingPower>12867769.00</sharedVotingPower>
+        <soleDispositivePower>0.00</soleDispositivePower>
+        <sharedDispositivePower>12867769.00</sharedDispositivePower>
+        <aggregateAmountOwned>12867769.00</aggregateAmountOwned>
+        <isAggregateExcludeShares>N</isAggregateExcludeShares>
+        <percentOfClass>5.1</percentOfClass>
+        <typeOfReportingPerson>OO</typeOfReportingPerson>
+      </reportingPersonInfo>
+      <reportingPersonInfo>
+        <reportingPersonCIK>0001277631</reportingPersonCIK>
+        <reportingPersonNoCIK>N</reportingPersonNoCIK>
+        <reportingPersonName>Forest Baskett</reportingPersonName>
+        <fundType>AF</fundType>
+        <legalProceedings>N</legalProceedings>
+        <citizenshipOrOrganization>X1</citizenshipOrOrganization>
+        <soleVotingPower>0.00</soleVotingPower>
+        <sharedVotingPower>12867769.00</sharedVotingPower>
+        <soleDispositivePower>0.00</soleDispositivePower>
+        <sharedDispositivePower>12867769.00</sharedDispositivePower>
+        <aggregateAmountOwned>12867769.00</aggregateAmountOwned>
+        <isAggregateExcludeShares>N</isAggregateExcludeShares>
+        <percentOfClass>5.1</percentOfClass>
+        <typeOfReportingPerson>IN</typeOfReportingPerson>
+      </reportingPersonInfo>
+      <reportingPersonInfo>
+        <reportingPersonCIK>0001559827</reportingPersonCIK>
+        <reportingPersonNoCIK>N</reportingPersonNoCIK>
+        <reportingPersonName>Anthony A. Florence, Jr.</reportingPersonName>
+        <fundType>AF</fundType>
+        <legalProceedings>N</legalProceedings>
+        <citizenshipOrOrganization>X1</citizenshipOrOrganization>
+        <soleVotingPower>0.00</soleVotingPower>
+        <sharedVotingPower>12867769.00</sharedVotingPower>
+        <soleDispositivePower>0.00</soleDispositivePower>
+        <sharedDispositivePower>12867769.00</sharedDispositivePower>
+        <aggregateAmountOwned>12867769.00</aggregateAmountOwned>
+        <isAggregateExcludeShares>N</isAggregateExcludeShares>
+        <percentOfClass>5.1</percentOfClass>
+        <typeOfReportingPerson>IN</typeOfReportingPerson>
+      </reportingPersonInfo>
+      <reportingPersonInfo>
+        <reportingPersonCIK>0001630226</reportingPersonCIK>
+        <reportingPersonNoCIK>N</reportingPersonNoCIK>
+        <reportingPersonName>Mohamad H. Makhzoumi</reportingPersonName>
+        <fundType>AF</fundType>
+        <legalProceedings>N</legalProceedings>
+        <citizenshipOrOrganization>X1</citizenshipOrOrganization>
+        <soleVotingPower>0.00</soleVotingPower>
+        <sharedVotingPower>12867769.00</sharedVotingPower>
+        <soleDispositivePower>0.00</soleDispositivePower>
+        <sharedDispositivePower>12867769.00</sharedDispositivePower>
+        <aggregateAmountOwned>12867769.00</aggregateAmountOwned>
+        <isAggregateExcludeShares>N</isAggregateExcludeShares>
+        <percentOfClass>5.1</percentOfClass>
+        <typeOfReportingPerson>IN</typeOfReportingPerson>
+      </reportingPersonInfo>
+      <reportingPersonInfo>
+        <reportingPersonCIK>0001237289</reportingPersonCIK>
+        <reportingPersonNoCIK>N</reportingPersonNoCIK>
+        <reportingPersonName>Scott D. Sandell</reportingPersonName>
+        <fundType>AF</fundType>
+        <legalProceedings>N</legalProceedings>
+        <citizenshipOrOrganization>X1</citizenshipOrOrganization>
+        <soleVotingPower>71970.00</soleVotingPower>
+        <sharedVotingPower>12867769.00</sharedVotingPower>
+        <soleDispositivePower>71970.00</soleDispositivePower>
+        <sharedDispositivePower>12867769.00</sharedDispositivePower>
+        <aggregateAmountOwned>12939739.00</aggregateAmountOwned>
+        <isAggregateExcludeShares>N</isAggregateExcludeShares>
+        <percentOfClass>5.1</percentOfClass>
+        <typeOfReportingPerson>IN</typeOfReportingPerson>
+      </reportingPersonInfo>
+    </reportingPersons>
+    <items1To7>
+      <item1>
+        <securityTitle>Common Stock, $0.00001 par value per share</securityTitle>
+        <issuerName>Coursera, Inc.</issuerName>
+        <issuerPrincipalAddress>
+          <com:street1>2440 West El Camino Real</com:street1>
+          <com:street2>Suite 500</com:street2>
+          <com:city>Mountain View</com:city>
+          <com:stateOrCountry>CA</com:stateOrCountry>
+          <com:zipCode>94040</com:zipCode>
+        </issuerPrincipalAddress>
+        <commentText>This Schedule 13D relates to the common stock, $0.00001 par value per share ("Common Stock"), of Coursera, Inc. (the "Issuer").
+
+The obligation to file this Schedule 13D was triggered by the reduction in the number of outstanding shares of Common Stock as a consequence of the Issuer's publicly announced share repurchase program and not due to an acquisition of beneficial ownership of additional shares of Common Stock by the Reporting Persons (as defined below).</commentText>
+      </item1>
+      <item2>
+        <filingPersonName>New Enterprise Associates 13, L.P. ("NEA 13") and New Enterprise Associates 17, L.P. ("NEA 17" and, together with NEA 13, the "Funds"); NEA Partners 13, L.P. ("NEA Partners 13"), which is the sole general partner of NEA 13, and NEA Partners 17, L.P. ("NEA Partners 17" and, together with NEA Partners 13, the "GPLPs"), which is the sole general partner of NEA 17; NEA 13 GP, LTD ("NEA 13 GP"), which is the sole general partner of NEA Partners 13, and NEA 17 GP, LLC ("NEA 17 GP" and, together with the GPLPs and NEA 13 GP, the "Control Entities"), which is the sole general partner of NEA Partners 17; Forest Baskett ("Baskett"), Anthony A. Florence, Jr. ("Florence"), Mohamad H. Makhzoumi ("Makhzoumi") and Scott D. Sandell ("Sandell").
+
+Baskett and Sandell are directors of NEA 13 GP and managers of NEA 17 GP (the "Dual Managers"). Florence, Makhzoumi and Sandell are each a member of the Executive Committee of NEA Management Company, LLC (the "Executive Committee").
+
+The persons named in this Item 2 are referred to individually herein as a "Reporting Person" and collectively as the "Reporting Persons."</filingPersonName>
+        <principalBusinessAddress>The address of the principal business office of each Fund, each Control Entity and Sandell is New Enterprise Associates, 1954 Greenspring Drive, Suite 600, Timonium, MD 21093. The address of the principal business office of Baskett and Makhzoumi is New Enterprise Associates, 2855 Sand Hill Road, Menlo Park, CA 94025. The address of the principal business office of Florence is New Enterprise Associates, 104 5th Avenue, 19th Floor, New York, NY 10011.</principalBusinessAddress>
+        <principalJob>The principal business of each Fund is to invest in and assist growth-oriented businesses located principally in the United States. The principal business of NEA Partners 13 is to act as the sole general partner of NEA 13. The principal business of NEA Partners 17 is to act as the sole general partner of NEA 17. The principal business of NEA 13 GP is to act as the sole general partner of NEA Partners 13. The principal business of NEA 17 GP is to act as the sole general partner of NEA Partners 17. The principal business of each of Baskett, Florence, Makhzoumi and Sandell is to manage the Control Entities, the Funds and a number of affiliated partnerships with similar businesses, as applicable.</principalJob>
+        <hasBeenConvicted>During the five years prior to the date hereof, none of the Reporting Persons has been convicted in a criminal proceeding or has been a party to a civil proceeding ending in a judgment, decree or final order enjoining future violations of, or prohibiting or mandating activities subject to, federal or state securities laws or finding any violation with respect to such laws.</hasBeenConvicted>
+        <convictionDescription>During the five years prior to the date hereof, none of the Reporting Persons has been convicted in a criminal proceeding or has been a party to a civil proceeding ending in a judgment, decree or final order enjoining future violations of, or prohibiting or mandating activities subject to, federal or state securities laws or finding any violation with respect to such laws.</convictionDescription>
+        <citizenship>Each of NEA 13 and NEA Partners 13 is a Cayman Islands exempted limited partnership. NEA 13 GP is a Cayman Islands exempted company. Each of NEA 17 and NEA Partners 17 is a Delaware limited partnership. NEA 17 GP is a Delaware limited liability company. Each of the Dual Managers, Florence and Makhzoumi is a United States citizen.</citizenship>
+      </item2>
+      <item3>
+        <fundsSource>Not applicable.</fundsSource>
+      </item3>
+      <item4>
+        <transactionPurpose>The Funds acquired the Firm Shares (as defined below) for investment purposes. Depending on market conditions, their continuing evaluation of the business and prospects of the Issuer and other factors, the Funds and the other Reporting Persons may dispose of or acquire additional shares of the Issuer.
+
+Except as set forth above, none of the Reporting Persons has any present plans which relate to or would result in:
+
+(a) The acquisition by any person of additional securities of the Issuer, or the disposition of securities of the Issuer;
+
+(b) An extraordinary corporate transaction, such as a merger, reorganization or liquidation, involving the Issuer or any of its subsidiaries;
+
+(c) A sale or transfer of a material amount of assets of the Issuer or any of its subsidiaries;
+
+(d) Any change in the present board of directors or management of the Issuer, including any plans or proposals to change the number or term of directors or to fill any existing vacancies on the board;
+
+(e) Any material change in the present capitalization or dividend policy of the Issuer;
+
+(f) Any other material change in the Issuer's business or corporate structure;
+
+(g) Changes in the Issuer's charter, bylaws or instruments corresponding thereto or other actions which may impede the acquisition of control of the Issuer by any person;
+
+(h) Causing a class of securities of the Issuer to be delisted from a national securities exchange or to cease to be authorized to be quoted in an inter-dealer quotation system of a registered national securities association;
+
+(i) A class of equity securities of the Issuer becoming eligible for termination of registration pursuant to Section 12(g)(4) of the Securities Exchange Act of 1934; or
+
+(j) Any action similar to any of those enumerated above.</transactionPurpose>
+      </item4>
+      <item5>
+        <percentageOfClassSecurities>NEA 13 is the record owner of 10,661,886 shares of Common Stock (the "NEA 13 Shares"). As the general partner of NEA 13, NEA Partners 13 may be deemed to beneficially own the NEA 13 Shares. As the sole general partner of NEA Partners 13, NEA 13 GP may be deemed to beneficially own the NEA 13 Shares.
+
+NEA 17 is the record owner of 2,205,883 shares of Common Stock (the "NEA 17 Shares" and, together with the NEA 13 Shares, the "Firm Shares"). As the general partner of NEA 17, NEA Partners 17 may be deemed to beneficially own the NEA 17 Shares. As the sole general partner of NEA Partners 17, NEA 17 GP may be deemed to beneficially own the NEA 17 Shares.
+
+Sandell is the record owner of 71,970 shares of Common Stock.
+
+By virtue of their relationship as affiliated entities, whose Control Entities have overlapping individual controlling persons, each of the Funds may be deemed to share the power to direct the disposition and vote of the Firm Shares. As general partners of the Funds, each of the GPLPs may also be deemed to beneficially own the Firm Shares. As the sole general partner of NEA Partners 13, NEA 13 GP may be deemed to beneficially own the Firm Shares. As the sole general partner of NEA Partners 17, NEA 17 GP may be deemed to beneficially own the Firm Shares.
+
+As individual managers of NEA 13 GP and NEA 17 GP, each of the Dual Managers may be deemed to beneficially own all of the Firm Shares. As individual members of the Executive Committee, which committee has voting and dispositive power with respect to the Firm Shares, each of Florence, Makhzoumi and Sandell may be deemed to beneficially own the Firm Shares.
+
+Each Reporting Person disclaims beneficial ownership of the Firm Shares other than those shares which such person owns of record.
+
+The percentage of outstanding Common Stock of the Issuer which may be deemed to be beneficially owned by each Reporting Person is set forth on Line 13 of such Reporting Person's cover sheet. Such percentage was calculated based on 253,300,000 shares of Common Stock reported by the Issuer to be outstanding as of October 29, 2026 on the Issuer's Form 10-Q filed with the Securities and Exchange Commission on November 5, 2026.</percentageOfClassSecurities>
+        <numberOfShares>Regarding the number of shares as to which such person has:
+
+(i) sole power to vote or to direct the vote: See line 7 of cover sheets
+
+(ii) shared power to vote or to direct the vote: See line 8 of cover sheets
+
+(iii) sole power to dispose or to direct the disposition: See line 9 of cover sheets
+
+(iv) shared power to dispose or to direct the disposition: See line 10 of cover sheets.</numberOfShares>
+        <transactionDesc>None of the Reporting Persons has effected any transaction in shares of Common Stock during the last 60 days.</transactionDesc>
+        <listOfShareholders>No other person is known to have the right to receive or the power to direct the receipt of dividends from, or any proceeds from the sale of, Common Stock beneficially owned by any of the Reporting Persons.</listOfShareholders>
+        <date5PercentOwnership>Not applicable.</date5PercentOwnership>
+      </item5>
+      <item6>
+        <contractDescription>Not applicable.</contractDescription>
+      </item6>
+      <item7>
+        <filedExhibits>Exhibit 1 - Agreement regarding filing of joint Schedule 13D.
+
+Exhibit 2 - Power of Attorney regarding filings under the Securities Exchange Act of 1934, as amended.</filedExhibits>
+      </item7>
+    </items1To7>
+    <signatureInfo>
+      <signaturePerson>
+        <signatureReportingPerson>New Enterprise Associates 13, L.P.</signatureReportingPerson>
+        <signatureDetails>
+          <signature>/s/ Zachary Bambach</signature>
+          <title>Zachary Bambach as attorney-in-fact for Anthony A. Florence Jr., Managing Partner and Co-Chief Executive Officer</title>
+          <date>11/13/2026</date>
+        </signatureDetails>
+        <signatureDetails>
+          <signature>/s/ Zachary Bambach</signature>
+          <title>Zachary Bambach as attorney-in-fact for Mohamad H. Makhzoumi, Managing Partner and Co-Chief Executive Officer</title>
+          <date>11/13/2026</date>
+        </signatureDetails>
+      </signaturePerson>
+      <signaturePerson>
+        <signatureReportingPerson>NEA Partners 13, L.P.</signatureReportingPerson>
+        <signatureDetails>
+          <signature>/s/ Zachary Bambach</signature>
+          <title>Zachary Bambach as attorney-in-fact for Anthony A. Florence Jr., Managing Partner and Co-Chief Executive Officer</title>
+          <date>11/13/2026</date>
+        </signatureDetails>
+        <signatureDetails>
+          <signature>/s/ Zachary Bambach</signature>
+          <title>Zachary Bambach as attorney-in-fact for Mohamad H. Makhzoumi, Managing Partner and Co-Chief Executive Officer</title>
+          <date>11/13/2026</date>
+        </signatureDetails>
+      </signaturePerson>
+      <signaturePerson>
+        <signatureReportingPerson>NEA 13 GP, LTD</signatureReportingPerson>
+        <signatureDetails>
+          <signature>/s/ Zachary Bambach</signature>
+          <title>Zachary Bambach as attorney-in-fact for Anthony A. Florence Jr., Managing Partner and Co-Chief Executive Officer</title>
+          <date>11/13/2026</date>
+        </signatureDetails>
+        <signatureDetails>
+          <signature>/s/ Zachary Bambach</signature>
+          <title>Zachary Bambach as attorney-in-fact for Mohamad H. Makhzoumi, Managing Partner and Co-Chief Executive Officer</title>
+          <date>11/13/2026</date>
+        </signatureDetails>
+      </signaturePerson>
+      <signaturePerson>
+        <signatureReportingPerson>New Enterprise Associates 17, L.P.</signatureReportingPerson>
+        <signatureDetails>
+          <signature>/s/ Zachary Bambach</signature>
+          <title>Zachary Bambach as attorney-in-fact for Anthony A. Florence Jr., Managing Partner and Co-Chief Executive Officer</title>
+          <date>11/13/2026</date>
+        </signatureDetails>
+        <signatureDetails>
+          <signature>/s/ Zachary Bambach</signature>
+          <title>Zachary Bambach as attorney-in-fact for Mohamad H. Makhzoumi, Managing Partner and Co-Chief Executive Officer</title>
+          <date>11/13/2026</date>
+        </signatureDetails>
+      </signaturePerson>
+      <signaturePerson>
+        <signatureReportingPerson>NEA Partners 17, L.P.</signatureReportingPerson>
+        <signatureDetails>
+          <signature>/s/ Zachary Bambach</signature>
+          <title>Zachary Bambach as attorney-in-fact for Anthony A. Florence Jr., Managing Partner and Co-Chief Executive Officer</title>
+          <date>11/13/2026</date>
+        </signatureDetails>
+        <signatureDetails>
+          <signature>/s/ Zachary Bambach</signature>
+          <title>Zachary Bambach as attorney-in-fact for Mohamad H. Makhzoumi, Managing Partner and Co-Chief Executive Officer</title>
+          <date>11/13/2026</date>
+        </signatureDetails>
+      </signaturePerson>
+      <signaturePerson>
+        <signatureReportingPerson>NEA 17 GP, LLC</signatureReportingPerson>
+        <signatureDetails>
+          <signature>/s/ Zachary Bambach</signature>
+          <title>Zachary Bambach as attorney-in-fact for Anthony A. Florence Jr., Managing Partner and Co-Chief Executive Officer</title>
+          <date>11/13/2026</date>
+        </signatureDetails>
+        <signatureDetails>
+          <signature>/s/ Zachary Bambach</signature>
+          <title>Zachary Bambach as attorney-in-fact for Mohamad H. Makhzoumi, Managing Partner and Co-Chief Executive Officer</title>
+          <date>11/13/2026</date>
+        </signatureDetails>
+      </signaturePerson>
+      <signaturePerson>
+        <signatureReportingPerson>Forest Baskett</signatureReportingPerson>
+        <signatureDetails>
+          <signature>/s/ Zachary Bambach</signature>
+          <title>Zachary Bambach as attorney-in-fact for Forest Baskett</title>
+          <date>11/13/2026</date>
+        </signatureDetails>
+      </signaturePerson>
+      <signaturePerson>
+        <signatureReportingPerson>Anthony A. Florence, Jr.</signatureReportingPerson>
+        <signatureDetails>
+          <signature>/s/ Zachary Bambach</signature>
+          <title>Zachary Bambach as attorney-in-fact for Anthony A. Florence Jr.</title>
+          <date>11/13/2026</date>
+        </signatureDetails>
+      </signaturePerson>
+      <signaturePerson>
+        <signatureReportingPerson>Mohamad H. Makhzoumi</signatureReportingPerson>
+        <signatureDetails>
+          <signature>/s/ Zachary Bambach</signature>
+          <title>Zachary Bambach as attorney-in-fact for Mohamad H. Makhzoumi</title>
+          <date>11/13/2026</date>
+        </signatureDetails>
+      </signaturePerson>
+      <signaturePerson>
+        <signatureReportingPerson>Scott D. Sandell</signatureReportingPerson>
+        <signatureDetails>
+          <signature>/s/ Zachary Bambach</signature>
+          <title>Zachary Bambach as attorney-in-fact for Scott D. Sandell</title>
+          <date>11/13/2026</date>
+        </signatureDetails>
+      </signaturePerson>
+      <commentText>This Schedule 13D was executed by Zachary Bambach on behalf of the individuals listed above pursuant to a Power of Attorney, a copy of which is attached as Exhibit 2.</commentText>
+    </signatureInfo>
+  </formData>
+
+</edgarSubmission>
+</XML>
+</TEXT>
+</DOCUMENT>
+</SEC-DOCUMENT>

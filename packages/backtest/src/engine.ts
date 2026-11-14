@@ -5,7 +5,10 @@
  *   - Conditions are read on the close of day t, with data up to and including
  *     day t (and any release published on day t, after-hours included).
  *   - Orders from those signals fill at the open of day t+1. Exits first, then
- *     rebalancing, then entries in universe order while position slots last.
+ *     rebalancing, then entries while position slots last. When signals
+ *     outnumber slots, the order is seeded (a hash of the rules, the date and
+ *     the ticker), never the order the universe was typed in; `tiebreak:
+ *     "list_order"` keeps the old universe order for parity tests (v1.0).
  *   - Stop loss and take profit are resting orders: they fill during the day
  *     at the stop/target level, or at the open when the price gaps through it.
  *     When one bar touches both, the stop is assumed to fill first.
@@ -20,6 +23,15 @@ import type { Bar, EarningsEvent, MarketData, RippleSignal } from "./data/types"
 import { ema, gapPct, nDayReturn, priorExtreme, rsi, sma } from "./indicators";
 import { cagrPct, curveMetrics, type CurveMetrics } from "./metrics";
 import { BENCHMARK, type Condition, type RunConfig, type Strategy } from "./schema";
+import { hashOf, seededOrder } from "./util";
+
+/** v1 engine version: 1.1 replaced the universe-order tie-break with a seeded one. */
+export const ENGINE_V1_VERSION = "1.1";
+
+export type RunOptions = {
+  /** "seeded" (default): ties go by a hash of the rules, date and ticker. "list_order": universe order (v1.0, parity tests only). */
+  tiebreak?: "seeded" | "list_order";
+};
 
 export type ExitReason = "signal" | "stop_loss" | "take_profit" | "max_holding" | "end";
 
@@ -82,6 +94,7 @@ export type BacktestResult = {
 
 export const ASSUMPTIONS = [
   "Signals are read on each day's close; orders fill at the next day's open.",
+  "When entry signals outnumber free position slots, the order is a fixed pseudo-random draw seeded by the rules, never the order the tickers were typed in.",
   "Stop loss and take profit fill during the day at their level, or at the open if the price gaps past it. If one day touches both, the stop is assumed first.",
   "Prices are adjusted for splits and dividends, so dividends are treated as reinvested.",
   "Shares are fractional. Slippage and commission apply to every fill.",
@@ -266,7 +279,9 @@ function periodKey(date: string, rebalance: "weekly" | "monthly"): string {
   return String(Math.floor(days / 7));
 }
 
-export function runBacktest(strategy: Strategy, config: RunConfig, data: MarketData): BacktestResult {
+export function runBacktest(strategy: Strategy, config: RunConfig, data: MarketData, opts: RunOptions = {}): BacktestResult {
+  const tiebreak = opts.tiebreak ?? "seeded";
+  const seed = hashOf(strategy);
   const warnings = [...data.warnings];
   const calendar = data.benchmark.filter((b) => b.date >= config.start && b.date <= config.end);
   if (calendar.length < 2) throw new Error(`No ${BENCHMARK} trading days between ${config.start} and ${config.end}.`);
@@ -392,7 +407,8 @@ export function runBacktest(strategy: Strategy, config: RunConfig, data: MarketD
 
       if (pendingEntries.length) {
         const eq = equityAtOpen(date);
-        for (const t of pendingEntries) {
+        const ordered = tiebreak === "list_order" ? pendingEntries : seededOrder(pendingEntries, seed, date);
+        for (const t of ordered) {
           const bar = barAt(t, date);
           if (!bar || positions.has(t)) continue;
           const alloc = Math.min(weight * eq, cash);

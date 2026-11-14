@@ -1,0 +1,416 @@
+<SEC-DOCUMENT>0001193125-26-460615.txt : 20261113
+<SEC-HEADER>0001193125-26-460615.hdr.sgml : 20261113
+<ACCEPTANCE-DATETIME>20261113160636
+ACCESSION NUMBER:		0001193125-26-460615
+CONFORMED SUBMISSION TYPE:	NT 10-Q
+PUBLIC DOCUMENT COUNT:		1
+CONFORMED PERIOD OF REPORT:	20260930
+FILED AS OF DATE:		20261113
+DATE AS OF CHANGE:		20261113
+EFFECTIVENESS DATE:		20261113
+
+FILER:
+
+	COMPANY DATA:	
+		COMPANY CONFORMED NAME:			Karyopharm Therapeutics Inc.
+		CENTRAL INDEX KEY:			0001503802
+		STANDARD INDUSTRIAL CLASSIFICATION:	PHARMACEUTICAL PREPARATIONS [2834]
+		ORGANIZATION NAME:           	03 Life Sciences
+		EIN:				263931704
+		STATE OF INCORPORATION:			DE
+		FISCAL YEAR END:			1231
+
+	FILING VALUES:
+		FORM TYPE:		NT 10-Q
+		SEC ACT:		1934 Act
+		SEC FILE NUMBER:	001-36167
+		FILM NUMBER:		261552435
+
+	BUSINESS ADDRESS:	
+		STREET 1:		85 WELLS AVENUE
+		STREET 2:		SECOND FLOOR
+		CITY:			NEWTON
+		STATE:			MA
+		ZIP:			02459
+		BUSINESS PHONE:		617-658-0600
+
+	MAIL ADDRESS:	
+		STREET 1:		85 WELLS AVENUE
+		STREET 2:		SECOND FLOOR
+		CITY:			NEWTON
+		STATE:			MA
+		ZIP:			02459
+</SEC-HEADER>
+<DOCUMENT>
+<TYPE>NT 10-Q
+<SEQUENCE>1
+<FILENAME>d157101dnt10q.htm
+<DESCRIPTION>NT 10-Q
+<TEXT>
+<HTML><HEAD>
+<TITLE>NT 10-Q</TITLE>
+</HEAD>
+ <BODY BGCOLOR="WHITE" STYLE="line-height:Normal">
+
+
+<Center><DIV STYLE="width:8.5in" align="left">
+<DIV STYLE="line-height:1.0pt;margin-top:0pt;margin-bottom:0pt;border-bottom:1px solid #000000">&nbsp;
+</DIV><DIV STYLE="line-height:3.0pt;margin-top:0pt;margin-bottom:2pt;border-bottom:1px solid #000000">&nbsp;</DIV> <P STYLE="margin-top:4pt; margin-bottom:0pt; font-size:18pt; font-family:Times New Roman" ALIGN="center"><B>SECURITIES AND EXCHANGE
+COMMISSION </B></P> <P STYLE="margin-top:0pt; margin-bottom:0pt; font-size:12pt; font-family:Times New Roman" ALIGN="center"><B>WASHINGTON, D.C. 20549 </B></P>
+<P STYLE="font-size:12pt;margin-top:0pt;margin-bottom:0pt">&nbsp;</P><center><DIV STYLE="line-height:6.0pt;margin-top:0pt;margin-bottom:2pt;border-bottom:1.00pt solid #000000;width:21%">&nbsp;</DIV></center>
+<P STYLE="margin-top:12pt; margin-bottom:0pt; font-size:18pt; font-family:Times New Roman" ALIGN="center"><B>FORM <FONT STYLE="white-space:nowrap">12b-25</FONT></B></P>
+<P STYLE="font-size:12pt;margin-top:0pt;margin-bottom:0pt">&nbsp;</P><center><DIV STYLE="line-height:6.0pt;margin-top:0pt;margin-bottom:2pt;border-bottom:1.00pt solid #000000;width:21%">&nbsp;</DIV></center>
+<P STYLE="margin-top:12pt; margin-bottom:0pt; font-size:12pt; font-family:Times New Roman" ALIGN="center"><B>NOTIFICATION OF LATE FILING </B></P>
+<P STYLE="margin-top:12pt; margin-bottom:0pt; font-size:10pt; font-family:Times New Roman" ALIGN="right"><I>Commission File Number: </I><FONT STYLE="white-space:nowrap">001-36167</FONT></P>
+<P STYLE="font-size:12pt;margin-top:0pt;margin-bottom:0pt">&nbsp;</P>
+<TABLE CELLSPACING="0" CELLPADDING="0" WIDTH="100%" BORDER="0" STYLE="BORDER-COLLAPSE:COLLAPSE; font-family:Times New Roman; font-size:10pt" ALIGN="center">
+
+
+<TR>
+
+<TD WIDTH="29%"></TD>
+
+<TD VALIGN="bottom" WIDTH="1%"></TD>
+<TD WIDTH="70%"></TD></TR>
+
+
+<TR STYLE="page-break-inside:avoid ; font-family:Times New Roman; font-size:10pt">
+<TD VALIGN="top" ALIGN="right"><I>(Check one):&#8195;</I></TD>
+<TD VALIGN="bottom">&nbsp;</TD>
+<TD VALIGN="bottom"> <P STYLE="margin-top:0pt; margin-bottom:0pt; font-size:10pt; font-family:Times New Roman">&#9744;&#8194;Form 10-K&#8195; &#9744;&#8194;Form 20-F&#8195; &#9744;&#8194;Form 11-K&#8195; &#9746;&#8194;Form <FONT
+STYLE="white-space:nowrap">10-Q</FONT></P> <P STYLE="margin-top:0pt; margin-bottom:1pt; font-size:10pt; font-family:Times New Roman">&#9744;&#8194;Form 10-D&#8195; &#9744;&#8194;Form N-CEN&#8195; &#9744;&#8194;Form
+<FONT STYLE="white-space:nowrap">N-CSR</FONT></P></TD></TR>
+<TR STYLE="font-size:1pt">
+<TD HEIGHT="8"></TD>
+<TD HEIGHT="8" COLSPAN="2"></TD></TR>
+<TR STYLE="page-break-inside:avoid ; font-family:Times New Roman; font-size:10pt">
+<TD VALIGN="top"></TD>
+<TD VALIGN="bottom">&nbsp;</TD>
+<TD VALIGN="bottom">For Period Ended: September&nbsp;30, 2026</TD></TR>
+<TR STYLE="font-size:1pt">
+<TD HEIGHT="8"></TD>
+<TD HEIGHT="8" COLSPAN="2"></TD></TR>
+<TR STYLE="page-break-inside:avoid ; font-family:Times New Roman; font-size:10pt">
+<TD VALIGN="top"></TD>
+<TD VALIGN="bottom">&nbsp;</TD>
+<TD VALIGN="bottom">&#9744;&#8194;Transition Report on Form <FONT STYLE="white-space:nowrap">10-K</FONT></TD></TR>
+<TR STYLE="font-size:1pt">
+<TD HEIGHT="2"></TD>
+<TD HEIGHT="2" COLSPAN="2"></TD></TR>
+<TR STYLE="page-break-inside:avoid ; font-family:Times New Roman; font-size:10pt">
+<TD VALIGN="top"></TD>
+<TD VALIGN="bottom">&nbsp;</TD>
+<TD VALIGN="bottom">&#9744;&#8194;Transition Report on Form <FONT STYLE="white-space:nowrap">20-F</FONT></TD></TR>
+<TR STYLE="font-size:1pt">
+<TD HEIGHT="2"></TD>
+<TD HEIGHT="2" COLSPAN="2"></TD></TR>
+<TR STYLE="page-break-inside:avoid ; font-family:Times New Roman; font-size:10pt">
+<TD VALIGN="top"></TD>
+<TD VALIGN="bottom">&nbsp;</TD>
+<TD VALIGN="bottom">&#9744;&#8194;Transition Report on Form <FONT STYLE="white-space:nowrap">11-K</FONT></TD></TR>
+<TR STYLE="font-size:1pt">
+<TD HEIGHT="2"></TD>
+<TD HEIGHT="2" COLSPAN="2"></TD></TR>
+<TR STYLE="page-break-inside:avoid ; font-family:Times New Roman; font-size:10pt">
+<TD VALIGN="top"></TD>
+<TD VALIGN="bottom">&nbsp;</TD>
+<TD VALIGN="bottom">&#9744;&#8194;Transition Report on Form <FONT STYLE="white-space:nowrap">10-Q</FONT></TD></TR>
+<TR STYLE="font-size:1pt">
+<TD HEIGHT="2"></TD>
+<TD HEIGHT="2" COLSPAN="2"></TD></TR>
+<TR STYLE="page-break-inside:avoid ; font-family:Times New Roman; font-size:10pt">
+<TD VALIGN="top"></TD>
+<TD VALIGN="bottom">&nbsp;</TD>
+<TD VALIGN="bottom">&#9744;&#8194;Transition Report on Form <FONT STYLE="white-space:nowrap">N-SAR</FONT></TD></TR>
+<TR STYLE="font-size:1pt">
+<TD HEIGHT="8"></TD>
+<TD HEIGHT="8" COLSPAN="2"></TD></TR>
+<TR STYLE="page-break-inside:avoid ; font-family:Times New Roman; font-size:10pt">
+<TD VALIGN="top"></TD>
+<TD VALIGN="bottom">&nbsp;</TD>
+<TD VALIGN="bottom">For the Transition Period Ended: &#8195;</TD></TR>
+</TABLE> <P STYLE="font-size:12pt;margin-top:0pt;margin-bottom:0pt">&nbsp;</P>
+<TABLE CELLSPACING="0" CELLPADDING="0" WIDTH="100%" BORDER="0" STYLE="BORDER-COLLAPSE:COLLAPSE; font-family:Times New Roman; font-size:10pt" ALIGN="center">
+
+
+<TR>
+
+<TD WIDTH="100%"></TD></TR>
+
+
+<TR STYLE="font-size:1pt">
+<TD HEIGHT="4" STYLE="BORDER-LEFT:1px solid #000000; BORDER-TOP:1px solid #000000; BORDER-RIGHT:1px solid #000000; padding-left:8pt;">&nbsp;</TD></TR>
+<TR STYLE="page-break-inside:avoid ; font-family:Times New Roman; font-size:10pt">
+<TD VALIGN="top" STYLE="BORDER-LEFT:1px solid #000000; BORDER-RIGHT:1px solid #000000; BORDER-BOTTOM:1px solid #000000; padding-left:8pt; padding-right:2pt;"> <P STYLE="font-size:3pt; margin-top:0pt; margin-bottom:0pt">&nbsp;</P>
+<P STYLE="margin-top:0pt; margin-bottom:0pt; font-size:10pt; font-family:Times New Roman" ALIGN="center"><B>Nothing in this form shall be construed to imply that the Commission has verified any information contained herein.</B></P>
+<P STYLE="font-size:3pt; margin-top:0pt; margin-bottom:1pt" align="left">&nbsp;</P></TD></TR>
+</TABLE> <P STYLE="margin-top:12pt; margin-bottom:0pt; font-size:10pt; font-family:Times New Roman">If the notification relates to a portion of the filing checked above, identify the Item(s) to which the notification relates:
+Not applicable </P> <P STYLE="font-size:6pt;margin-top:0pt;margin-bottom:0pt">&nbsp;</P>
+<P STYLE="margin-top:6pt; margin-bottom:0pt; font-size:10pt; font-family:Times New Roman">&nbsp;&#8195;&nbsp;</P><DIV STYLE="line-height:1.0pt;margin-top:0pt;margin-bottom:2pt;border-bottom:1px solid #000000">&nbsp;</DIV>
+<P STYLE="margin-top:18pt; margin-bottom:0pt; font-size:10pt; font-family:Times New Roman" ALIGN="center"><B>PART I &#8212; REGISTRANT INFORMATION </B></P>
+<P STYLE="margin-top:12pt; margin-bottom:0pt; font-size:22pt; font-family:Times New Roman" ALIGN="center"><B>Karyopharm Therapeutics Inc. </B></P>
+<P STYLE="margin-top:0pt; margin-bottom:0pt; font-size:10pt; font-family:Times New Roman" ALIGN="center">Full Name of Registrant: </P> <P STYLE="margin-top:12pt; margin-bottom:0pt; font-size:10pt; font-family:Times New Roman" ALIGN="center"><B>Not
+Applicable </B></P> <P STYLE="margin-top:0pt; margin-bottom:0pt; font-size:8pt; font-family:Times New Roman" ALIGN="center">Former Name if Applicable: </P>
+<P STYLE="margin-top:12pt; margin-bottom:0pt; font-size:10pt; font-family:Times New Roman" ALIGN="center"><B>85 Wells Avenue, 2nd Floor </B></P>
+<P STYLE="margin-top:0pt; margin-bottom:0pt; font-size:8pt; font-family:Times New Roman" ALIGN="center">Address of Principal Executive Office (Street and Number): </P>
+<P STYLE="margin-top:12pt; margin-bottom:0pt; font-size:10pt; font-family:Times New Roman" ALIGN="center"><B>Newton, Massachusetts 02459 </B></P>
+<P STYLE="margin-top:0pt; margin-bottom:0pt; font-size:8pt; font-family:Times New Roman" ALIGN="center">City, State and Zip Code: </P> <P STYLE="margin-top:12pt; margin-bottom:0pt; font-size:10pt; font-family:Times New Roman" ALIGN="center"><B>PART
+II &#8212; RULES <FONT STYLE="white-space:nowrap">12b-25(b)</FONT> AND (c) </B></P> <P STYLE="margin-top:12pt; margin-bottom:0pt; font-size:10pt; font-family:Times New Roman">If the subject report could not be filed without unreasonable effort or
+expense and the registrant seeks relief pursuant to Rule <FONT STYLE="white-space:nowrap">12b-25(b),</FONT> the following should be completed (Check box if appropriate). </P> <P STYLE="font-size:12pt;margin-top:0pt;margin-bottom:0pt">&nbsp;</P>
+<TABLE CELLSPACING="0" CELLPADDING="0" WIDTH="100%" BORDER="0" STYLE="BORDER-COLLAPSE:COLLAPSE; font-family:Times New Roman; font-size:10pt" ALIGN="center">
+
+
+<TR>
+
+<TD WIDTH="3%"></TD>
+
+<TD VALIGN="bottom" WIDTH="1%"></TD>
+<TD WIDTH="2%"></TD>
+
+<TD VALIGN="bottom" WIDTH="1%"></TD>
+<TD WIDTH="93%"></TD></TR>
+
+
+<TR STYLE="page-break-inside:avoid ; font-family:Times New Roman; font-size:10pt">
+<TD VALIGN="middle" ROWSPAN="3" STYLE="BORDER-RIGHT:1px solid #000000;">&#9744;&#8194;&#8201;</TD>
+<TD VALIGN="bottom">&nbsp;</TD>
+<TD VALIGN="top">(a)</TD>
+<TD VALIGN="bottom">&nbsp;</TD>
+<TD VALIGN="top">The reasons described in reasonable detail in Part III of this form could not be eliminated without unreasonable effort or expense;</TD></TR>
+<TR STYLE="page-break-inside:avoid ; font-family:Times New Roman; font-size:10pt">
+<TD VALIGN="bottom">&nbsp;</TD>
+<TD VALIGN="top"> <P STYLE="font-size:6pt; margin-top:0pt; margin-bottom:0pt">&nbsp;</P> <P STYLE="margin-top:0pt; margin-bottom:1pt; font-size:10pt; font-family:Times New Roman">(b)</P></TD>
+<TD VALIGN="bottom">&nbsp;</TD>
+<TD VALIGN="top"> <P STYLE="font-size:6pt; margin-top:0pt; margin-bottom:0pt">&nbsp;</P> <P STYLE="margin-top:0pt; margin-bottom:1pt; font-size:10pt; font-family:Times New Roman">The subject annual report, semi-annual report, transition report on
+Form <FONT STYLE="white-space:nowrap">10-K,</FONT> Form <FONT STYLE="white-space:nowrap">20-F,</FONT> Form <FONT STYLE="white-space:nowrap">11-K,</FONT> Form <FONT STYLE="white-space:nowrap">N-SAR</FONT> or Form
+<FONT STYLE="white-space:nowrap">N-CSR,</FONT> or portion thereof, will be filed on or before the fifteenth calendar day following the prescribed due date; or the subject quarterly report or transition report on Form
+<FONT STYLE="white-space:nowrap">10-Q</FONT> or subject distribution report on Form <FONT STYLE="white-space:nowrap">10-D,</FONT> or portion thereof, will be filed on or before the fifth calendar day following the prescribed due date;
+and</P></TD></TR>
+<TR STYLE="page-break-inside:avoid ; font-family:Times New Roman; font-size:10pt">
+<TD VALIGN="bottom">&nbsp;</TD>
+<TD VALIGN="top"> <P STYLE="font-size:6pt; margin-top:0pt; margin-bottom:0pt">&nbsp;</P> <P STYLE="margin-top:0pt; margin-bottom:1pt; font-size:10pt; font-family:Times New Roman">(c)</P></TD>
+<TD VALIGN="bottom">&nbsp;</TD>
+<TD VALIGN="top"> <P STYLE="font-size:6pt; margin-top:0pt; margin-bottom:0pt">&nbsp;</P> <P STYLE="margin-top:0pt; margin-bottom:1pt; font-size:10pt; font-family:Times New Roman">The accountant&#8217;s statement or other exhibit required by Rule <FONT
+STYLE="white-space:nowrap">12b-25(c)</FONT> has been attached if applicable.</P></TD></TR>
+</TABLE> <P STYLE="margin-top:18pt; margin-bottom:0pt; font-size:10pt; font-family:Times New Roman" ALIGN="center"><B>PART III &#8212; NARRATIVE </B></P>
+<P STYLE="margin-top:12pt; margin-bottom:0pt; font-size:10pt; font-family:Times New Roman">State below in reasonable detail the reasons why Forms <FONT STYLE="white-space:nowrap">10-K,</FONT> <FONT STYLE="white-space:nowrap">20-F,</FONT> <FONT
+STYLE="white-space:nowrap">11-K,</FONT> <FONT STYLE="white-space:nowrap">10-Q,</FONT> <FONT STYLE="white-space:nowrap">10-D,</FONT> <FONT STYLE="white-space:nowrap">N-SAR,</FONT> <FONT STYLE="white-space:nowrap">N-CSR</FONT> or the transition report
+or portion thereof, could not be filed within the prescribed period. </P> <P STYLE="margin-top:12pt; margin-bottom:0pt; text-indent:4%; font-size:10pt; font-family:Times New Roman">Karyopharm Therapeutics Inc. (the &#8220;Company&#8221;) has
+determined that it is unable, without unreasonable effort or expense, to file its Quarterly Report on Form <FONT STYLE="white-space:nowrap">10-Q</FONT> for the quarter ended September&nbsp;30, 2026 (the &#8220;Quarterly Report&#8221;) by the
+prescribed filing date or the <FONT STYLE="white-space:nowrap">five-day</FONT> extension permitted by the rules of the Securities and Exchange Commission (the &#8220;SEC&#8221;). </P>
+<P STYLE="margin-top:12pt; margin-bottom:0pt; text-indent:4%; font-size:10pt; font-family:Times New Roman">As previously announced, on November&nbsp;2, 2026, the Company and its subsidiary KPT Texas LLC (together with the Company, the
+&#8220;Debtors&#8221;) filed voluntary petitions (the &#8220;Bankruptcy Petitions&#8221;) under Chapter 11 of title 11 of the United States Code (the &#8220;Bankruptcy Code&#8221;) in the United States Bankruptcy Court for the Southern District of
+Texas, Houston Division (such court, the &#8220;Court&#8221; and such cases, the &#8220;Cases&#8221;). The case number is <FONT STYLE="white-space:nowrap">26-90827</FONT> (ARP) and the case is styled as <I>In re Karyopharm Therapeutics Inc., et al.
+</I>Additional information regarding the Cases is available at: https://cases.stretto.com/KPTI. The documents and other information on this website are not part of this Form <FONT STYLE="white-space:nowrap">12b-25</FONT> and are not incorporated by
+reference. </P> <P STYLE="margin-top:12pt; margin-bottom:0pt; text-indent:4%; font-size:10pt; font-family:Times New Roman">As previously announced, on November&nbsp;2, 2026, prior to the filing of the Bankruptcy Petitions, the Debtors entered into a
+Restructuring Support Agreement (the &#8220;Restructuring Support Agreement&#8221;) with Ayrmid Ltd. (&#8220;Ayrmid&#8221;) and the other parties thereto, which provides for Ayrmid to serve as the stalking horse bidder for a merger between Ayrmid
+and the reorganized Company, subject to higher or otherwise better bids. The Restructuring Support Agreement contemplates that the transactions will be implemented through the Debtors&#8217; Joint Prepackaged Chapter 11 Plan of Reorganization filed
+on November&nbsp;2, 2026 (the &#8220;Prepackaged Plan&#8221;), under which the Company&#8217;s existing equity interests will be cancelled without any distribution. The Company expects the Ayrmid transaction to close in the first quarter of 2027,
+subject to the conditions described in the Restructuring Support Agreement and the Prepackaged Plan. </P> <P STYLE="margin-top:12pt; margin-bottom:0pt; text-indent:4%; font-size:10pt; font-family:Times New Roman">The Company continues to operate its
+business as a &#8220;debtor in possession&#8221; under the jurisdiction of the Court and in accordance with the applicable provisions of the Bankruptcy Code, orders of the Court, and applicable <FONT STYLE="white-space:nowrap">non-bankruptcy</FONT>
+law. In the period leading up to and following commencement of the Cases, the Company&#8217;s management team and other personnel have devoted significant time and attention to materials and workflows required in connection with the Cases and the
+related transactions, including the marketing process for a sale of, or investment in, the Company, the Ayrmid transaction and the <FONT STYLE="white-space:nowrap"><FONT STYLE="white-space:nowrap">debtor-in-possession</FONT></FONT> facility
+(collectively, the &#8220;Related Transactions&#8221;). Additionally, the Company has limited availability of finance and accounting personnel as part of the Company&#8217;s efforts to minimize operating expenses during the pendency of the
+Cases.</P> <P STYLE="margin-top:12pt; margin-bottom:0pt; text-indent:4%; font-size:10pt; font-family:Times New Roman">On November&nbsp;11, 2026, the Nasdaq Stock Market (&#8220;Nasdaq&#8221;) suspended trading of the Company&#8217;s common stock.
+Nasdaq will file a Form <FONT STYLE="white-space:nowrap">25-NSE</FONT> with the SEC to remove the common stock from listing and registration on Nasdaq. </P>
+<P STYLE="margin-top:12pt; margin-bottom:0pt; text-indent:4%; font-size:10pt; font-family:Times New Roman">Due to the time and attention required by the Cases and the Related Transactions, the Company is unable to timely file its Form <FONT
+STYLE="white-space:nowrap">10-Q</FONT> without unreasonable effort or expense and is unable to estimate when it will be able to complete and file the Form <FONT STYLE="white-space:nowrap">10-Q.&nbsp;The</FONT> Company expects to file monthly
+operating reports with the Court. </P> <P STYLE="margin-top:18pt; margin-bottom:0pt; font-size:10pt; font-family:Times New Roman"><B><I>Cautionary Language Regarding Trading in the Company&#8217;s Common Stock </I></B></P>
+<P STYLE="margin-top:6pt; margin-bottom:0pt; text-indent:4%; font-size:10pt; font-family:Times New Roman">The Company&#8217;s securityholders are cautioned that trading in the Company&#8217;s securities during the pendency of the Cases is highly
+speculative and poses substantial risks. The Company&#8217;s common stock has been suspended from trading on, and the Company received a notice of delisting from, the Nasdaq Global Select Market and is currently trading on The Pink Limited Market
+under the symbol &#8220;KPTIQ&#8221;. Trading prices for the Company&#8217;s securities may bear little or no relationship to the actual recovery, if any, by the Company&#8217;s securityholders in the Cases. The Prepackaged Plan provides that
+holders of the Company&#8217;s common stock and the 0% Series A Convertible Perpetual Preferred Stock will not receive any payment or other distribution on account of such securities. Accordingly, the Company urges extreme caution with respect to
+existing and future investments in its securities. In particular, the Company expects that its existing equity securities will have no value and that holders of such securities will experience a complete loss on their investment under the
+Prepackaged Plan as currently proposed. </P> <P STYLE="margin-top:18pt; margin-bottom:0pt; font-size:10pt; font-family:Times New Roman"><B><I>Cautionary Language Regarding Forward-Looking Statements </I></B></P>
+<P STYLE="margin-top:6pt; margin-bottom:0pt; text-indent:4%; font-size:10pt; font-family:Times New Roman">This Form <FONT STYLE="white-space:nowrap">12b-25</FONT> contains certain forward-looking statements that reflect, when made, the
+Company&#8217;s current views with respect to current events and financial performance. These forward-looking statements are within the meaning of The Private Securities Litigation Reform Act of 1995. These forward-looking statements include, but
+are not limited to, statements regarding process and potential outcomes of the Cases, the timing of and the Company&#8217;s ability to consummate the transactions contemplated by the Restructuring Support Agreement and the Prepackaged Plan, the
+expected treatment of the Company&#8217;s securities in the Cases, the Company&#8217;s ability to continue to operate as usual during the Cases, and/or statements preceded by, followed by or that include the words &#8220;anticipates,&#8221;
+&#8220;believes,&#8221; &#8220;expects,&#8221; &#8220;intends,&#8221; &#8220;potential,&#8221; &#8220;projects,&#8221; &#8220;target,&#8221; &#8220;will,&#8221; &#8220;would,&#8221; and &#8220;future&#8221; or similar expressions. These statements
+are based upon the current expectations and beliefs of management and are subject to certain risks and uncertainties that could cause actual results to differ materially from those described in these forward-looking statements. Except as otherwise
+may be required by law, the Company undertakes no obligation to update or publicly release any revisions to forward-looking statements to reflect events, circumstances, or changes in expectations after the date of this Form <FONT
+STYLE="white-space:nowrap">12b-25.</FONT></P> <P STYLE="margin-top:18pt; margin-bottom:0pt; font-size:10pt; font-family:Times New Roman" ALIGN="center"><B>PART IV &#8212; OTHER INFORMATION </B></P>
+<P STYLE="font-size:12pt;margin-top:0pt;margin-bottom:0pt">&nbsp;</P>
+<TABLE CELLSPACING="0" CELLPADDING="0" WIDTH="100%" BORDER="0" STYLE="BORDER-COLLAPSE:COLLAPSE; font-family:Times New Roman; font-size:10pt" ALIGN="center">
+
+
+<TR>
+
+<TD WIDTH="2%"></TD>
+
+<TD VALIGN="bottom" WIDTH="1%"></TD>
+<TD WIDTH="2%"></TD>
+
+<TD VALIGN="bottom" WIDTH="1%"></TD>
+<TD WIDTH="38%"></TD>
+
+<TD VALIGN="bottom" WIDTH="1%"></TD>
+<TD WIDTH="2%"></TD>
+
+<TD VALIGN="bottom" WIDTH="1%"></TD>
+<TD WIDTH="9%"></TD>
+
+<TD VALIGN="bottom" WIDTH="1%"></TD>
+<TD WIDTH="2%"></TD>
+
+<TD VALIGN="bottom" WIDTH="1%"></TD>
+<TD WIDTH="39%"></TD></TR>
+
+
+<TR STYLE="page-break-inside:avoid ; font-family:Times New Roman; font-size:10pt">
+<TD VALIGN="top">(1)</TD>
+<TD VALIGN="bottom">&nbsp;</TD>
+<TD VALIGN="bottom">&#8195;</TD>
+<TD VALIGN="bottom">&nbsp;</TD>
+<TD VALIGN="bottom" COLSPAN="9"> <P STYLE=" margin-top:0pt ; margin-bottom:0pt; margin-left:-0.50em; font-size:10pt; font-family:Times New Roman">Name and telephone number of person to contact in regard to this notification:</P></TD></TR>
+<TR STYLE="font-size:1pt">
+<TD HEIGHT="16"></TD>
+<TD HEIGHT="16" COLSPAN="2"></TD>
+<TD HEIGHT="16" COLSPAN="2"></TD>
+<TD HEIGHT="16" COLSPAN="2"></TD>
+<TD HEIGHT="16" COLSPAN="2"></TD>
+<TD HEIGHT="16" COLSPAN="2"></TD>
+<TD HEIGHT="16" COLSPAN="2"></TD></TR>
+<TR STYLE="page-break-inside:avoid ; font-family:Times New Roman; font-size:10pt">
+<TD VALIGN="top"></TD>
+<TD VALIGN="bottom">&nbsp;</TD>
+<TD VALIGN="bottom"></TD>
+<TD VALIGN="bottom" STYLE=" BORDER-BOTTOM:1px solid #000000;">&nbsp;</TD>
+<TD VALIGN="bottom" NOWRAP ALIGN="center" STYLE="BORDER-BOTTOM:1px solid #000000;">Michael Mano</TD>
+<TD VALIGN="bottom">&nbsp;</TD>
+<TD VALIGN="bottom" NOWRAP>&#8195;</TD>
+<TD VALIGN="bottom" STYLE=" BORDER-BOTTOM:1px solid #000000;">&nbsp;</TD>
+<TD VALIGN="bottom" NOWRAP STYLE="BORDER-BOTTOM:1px solid #000000;">&#8195;&#8195;617&#8194;&#8195;</TD>
+<TD VALIGN="bottom">&nbsp;</TD>
+<TD VALIGN="bottom" NOWRAP>&#8195;</TD>
+<TD VALIGN="bottom" STYLE=" BORDER-BOTTOM:1px solid #000000;">&nbsp;</TD>
+<TD VALIGN="bottom" NOWRAP ALIGN="center" STYLE="BORDER-BOTTOM:1px solid #000000;"><FONT STYLE="white-space:nowrap">658-0600</FONT></TD></TR>
+<TR STYLE="page-break-inside:avoid ; font-family:Times New Roman; font-size:8pt">
+<TD VALIGN="top"></TD>
+<TD VALIGN="bottom">&nbsp;</TD>
+<TD VALIGN="bottom"></TD>
+<TD VALIGN="bottom">&nbsp;</TD>
+<TD VALIGN="bottom" ALIGN="center">(Name)</TD>
+<TD VALIGN="bottom">&nbsp;</TD>
+<TD VALIGN="bottom"></TD>
+<TD VALIGN="bottom">&nbsp;</TD>
+<TD VALIGN="bottom" ALIGN="center">(Area Code)</TD>
+<TD VALIGN="bottom">&nbsp;</TD>
+<TD VALIGN="bottom"></TD>
+<TD VALIGN="bottom">&nbsp;</TD>
+<TD VALIGN="bottom" ALIGN="center">(Telephone Number)</TD></TR>
+<TR STYLE="font-size:1pt">
+<TD HEIGHT="8"></TD>
+<TD HEIGHT="8" COLSPAN="2"></TD>
+<TD HEIGHT="8" COLSPAN="10"></TD></TR>
+<TR STYLE="page-break-inside:avoid ; font-family:Times New Roman; font-size:10pt">
+<TD VALIGN="top">(2)</TD>
+<TD VALIGN="bottom">&nbsp;</TD>
+<TD VALIGN="bottom"></TD>
+<TD VALIGN="bottom">&nbsp;</TD>
+<TD VALIGN="bottom" COLSPAN="9"> <P STYLE=" margin-top:0pt ; margin-bottom:0pt; margin-left:-0.50em; font-size:10pt; font-family:Times New Roman">Have all other periodic reports required under Section&nbsp;13 or 15(d) of the Securities Exchange Act
+of 1934 or Section&nbsp;30 of the Investment Company Act of 1940 during the preceding 12 months or for such shorter period that the registrant was required to file such report(s) been filed? If the answer is no, identify
+report(s).&#8195;&#9746;&#8194;Yes&#8195;&#9744;&#8194;No</P></TD></TR>
+<TR STYLE="font-size:1pt">
+<TD HEIGHT="16"></TD>
+<TD HEIGHT="16" COLSPAN="2"></TD>
+<TD HEIGHT="16" COLSPAN="10"></TD></TR>
+<TR STYLE="font-size:1px; ; font-family:Times New Roman; font-size:10pt">
+<TD VALIGN="top"></TD>
+<TD VALIGN="bottom">&nbsp;</TD>
+<TD VALIGN="bottom"></TD>
+<TD VALIGN="bottom" STYLE=" BORDER-BOTTOM:1px solid #000000;">&nbsp;</TD>
+<TD VALIGN="bottom" COLSPAN="9" STYLE="BORDER-BOTTOM:1px solid #000000;"><FONT STYLE="font-size:10pt">&#8195;</FONT></TD></TR>
+<TR STYLE="font-size:1pt">
+<TD HEIGHT="8"></TD>
+<TD HEIGHT="8" COLSPAN="2"></TD>
+<TD HEIGHT="8" COLSPAN="10"></TD></TR>
+<TR STYLE="page-break-inside:avoid ; font-family:Times New Roman; font-size:10pt">
+<TD VALIGN="top">(3)</TD>
+<TD VALIGN="bottom">&nbsp;</TD>
+<TD VALIGN="bottom"></TD>
+<TD VALIGN="bottom">&nbsp;</TD>
+<TD VALIGN="bottom" COLSPAN="9"> <P STYLE=" margin-top:0pt ; margin-bottom:0pt; margin-left:-0.50em; font-size:10pt; font-family:Times New Roman">Is it anticipated that any significant change in results of operations from the corresponding period
+for the last fiscal year will be reflected by the earnings statements to be included in the subject report or portion thereof?&#8195;&#9746;&#8194;Yes&#8195;&#9744;&#8194;No</P></TD></TR>
+<TR STYLE="font-size:1pt">
+<TD HEIGHT="8"></TD>
+<TD HEIGHT="8" COLSPAN="2"></TD>
+<TD HEIGHT="8" COLSPAN="10"></TD></TR>
+<TR STYLE="page-break-inside:avoid ; font-family:Times New Roman; font-size:10pt">
+<TD VALIGN="top"></TD>
+<TD VALIGN="bottom">&nbsp;</TD>
+<TD VALIGN="bottom"></TD>
+<TD VALIGN="bottom">&nbsp;</TD>
+<TD VALIGN="bottom" COLSPAN="9"> <P STYLE=" margin-top:0pt ; margin-bottom:0pt; margin-left:-0.50em; font-size:10pt; font-family:Times New Roman">If so, attach an explanation of the anticipated change, both narratively and quantitatively, and, if
+appropriate, state the reasons why a reasonable estimate of the results cannot be made.</P></TD></TR>
+<TR STYLE="font-size:1pt">
+<TD HEIGHT="8"></TD>
+<TD HEIGHT="8" COLSPAN="2"></TD>
+<TD HEIGHT="8" COLSPAN="10"></TD></TR>
+<TR STYLE="page-break-inside:avoid ; font-family:Times New Roman; font-size:10pt">
+<TD VALIGN="top"></TD>
+<TD VALIGN="bottom">&nbsp;</TD>
+<TD VALIGN="bottom"></TD>
+<TD VALIGN="bottom">&nbsp;</TD>
+<TD VALIGN="bottom" COLSPAN="9"> <P STYLE="margin-top:0pt; margin-bottom:0pt; margin-left:-0.50em; font-size:10pt; font-family:Times New Roman">The Company expects that its results of operations for the three and nine months ended September&nbsp;30,
+2026 will differ significantly from the corresponding periods ended September&nbsp;30, 2025, primarily as a result of costs incurred in connection with the preparation for the Cases, the Related Transactions, and the Company&#8217;s strategic
+alternatives process.</P> <P STYLE="font-size:6pt; margin-top:0pt; margin-bottom:0pt">&nbsp;</P> <P STYLE="margin-top:0pt; margin-bottom:0pt; margin-left:-0.50em; font-size:10pt; font-family:Times New Roman">In addition, the Company has not
+completed its quarterly close and review procedures, including the technical accounting assessment for the quarter ended September&nbsp;30, 2026, including with respect to the Company&#8217;s 0% Series A Convertible Perpetual Preferred Stock. The
+Company is unable to estimate the amount of these charges, including any such impairments. As such, the Company cannot estimate what significant changes would be reflected in its results of operations for the three and nine months ended
+September&nbsp;30, 2026 as compared to the corresponding periods ended September&nbsp;30, 2025.</P> <P STYLE="font-size:6pt; margin-top:0pt; margin-bottom:0pt">&nbsp;</P>
+<P STYLE="margin-top:0pt; margin-bottom:1pt; margin-left:-0.50em; font-size:10pt; font-family:Times New Roman">Documents filed on the docket of, and other information related to, the Cases are available free of charge online at
+https://cases.stretto.com/KPTI.</P></TD></TR>
+</TABLE> <P STYLE="font-size:12pt;margin-top:0pt;margin-bottom:0pt">&nbsp;</P><DIV STYLE="line-height:1.5pt;margin-top:0pt;margin-bottom:2pt;border-bottom:1.50pt solid #000000">&nbsp;</DIV>
+<P STYLE="margin-top:12pt; margin-bottom:0pt; font-size:10pt; font-family:Times New Roman" ALIGN="center"><B>Karyopharm Therapeutics Inc. </B></P>
+<P STYLE="margin-top:0pt; margin-bottom:0pt; font-size:8pt; font-family:Times New Roman" ALIGN="center">(Name of Registrant as Specified in Charter) </P> <P STYLE="margin-top:12pt; margin-bottom:0pt; font-size:10pt; font-family:Times New Roman">has
+caused this notification to be signed on its behalf by the undersigned hereunto duly authorized. </P> <P STYLE="font-size:12pt;margin-top:0pt;margin-bottom:0pt">&nbsp;</P>
+<TABLE CELLSPACING="0" CELLPADDING="0" WIDTH="100%" BORDER="0" STYLE="BORDER-COLLAPSE:COLLAPSE; font-family:Times New Roman; font-size:10pt">
+
+
+<TR>
+
+<TD WIDTH="45%"></TD>
+
+<TD VALIGN="bottom" WIDTH="1%"></TD>
+<TD WIDTH="4%"></TD>
+
+<TD VALIGN="bottom"></TD>
+<TD WIDTH="3%"></TD>
+
+<TD VALIGN="bottom" WIDTH="1%"></TD>
+<TD WIDTH="45%"></TD></TR>
+
+
+<TR STYLE="page-break-inside:avoid ; font-family:Times New Roman; font-size:10pt">
+<TD VALIGN="top">Date: November&nbsp;13, 2026</TD>
+<TD VALIGN="bottom">&nbsp;</TD>
+<TD VALIGN="top"></TD>
+<TD VALIGN="bottom">&nbsp;</TD>
+<TD VALIGN="top">By:</TD>
+<TD VALIGN="bottom">&nbsp;</TD>
+<TD VALIGN="top"> <P STYLE="margin-top:0pt; margin-bottom:1pt; border-bottom:1px solid #000000; font-size:10pt; font-family:Times New Roman">/s/ Michael Mano</P></TD></TR>
+<TR STYLE="page-break-inside:avoid ; font-family:Times New Roman; font-size:10pt">
+<TD VALIGN="top"></TD>
+<TD VALIGN="bottom">&nbsp;</TD>
+<TD VALIGN="top"></TD>
+<TD VALIGN="bottom">&nbsp;</TD>
+<TD VALIGN="top"></TD>
+<TD VALIGN="bottom">&nbsp;</TD>
+<TD VALIGN="top">Michael Mano</TD></TR>
+<TR STYLE="page-break-inside:avoid ; font-family:Times New Roman; font-size:10pt">
+<TD VALIGN="top"></TD>
+<TD VALIGN="bottom">&nbsp;</TD>
+<TD VALIGN="top"></TD>
+<TD VALIGN="bottom">&nbsp;</TD>
+<TD VALIGN="top"></TD>
+<TD VALIGN="bottom">&nbsp;</TD>
+<TD VALIGN="top"><B>Executive Vice President, Chief Legal Officer and Secretary</B></TD></TR>
+</TABLE>
+<P STYLE="font-size:10pt;margin-top:0pt;margin-bottom:0pt">&nbsp;</P><DIV STYLE="line-height:1.0pt;margin-top:0pt;margin-bottom:0pt;border-bottom:1px solid #000000">&nbsp;
+</DIV><DIV STYLE="line-height:3.0pt;margin-top:0pt;margin-bottom:2pt;border-bottom:1px solid #000000">&nbsp;</DIV>
+</DIV></Center>
+
+</BODY></HTML>
+</TEXT>
+</DOCUMENT>
+</SEC-DOCUMENT>

@@ -59,7 +59,7 @@ Condition types:
 
 Writing the rules:
 - Express only what the person described. When a detail is missing, choose a common default and record it in assumptions as one short neutral sentence, for example "RSI period set to 14."
-- Tickers are Yahoo symbols in upper case (BRK-B, not BRK.B). For a group such as "semiconductor stocks", pick up to 15 large, well-known US-listed companies that fit, and add an assumption that names the group as an example list. Never more than ${LIMITS.maxTickers} tickers in total, counting any filter ticker.
+- Tickers are Yahoo symbols in upper case (BRK-B, not BRK.B). Use only tickers the person typed, plus SPY when they ask for a market filter. Never choose tickers from your own knowledge: today's well-known names are the winners of the test period, which builds hindsight into the test. When the person names a group (such as "semiconductor stocks") without listing tickers, set outcome to "not_a_strategy", strategy to null, and message to one neutral sentence asking them to list the tickers they mean. Never more than ${LIMITS.maxTickers} tickers in total, counting any filter ticker.
 - No exit described: leave exit.conditions empty with all exit numbers null, and add the assumption that positions are held to the end of the test.
 - Sizing not described: one ticker means maxPositions 1; several tickers mean maxPositions equal to the number of tickers, at most 10, positionPct null; add an assumption.
 - rebalance is "none" unless the person asks for it.

@@ -2,8 +2,21 @@
 
 import type { ReactNode } from "react";
 import { ArrowDownRight, ArrowUpRight, Minus } from "lucide-react";
-import { cardPricedIn, recordLabel, type Confidence, type Direction, type LinkEvidence, type RippleCard, type RippleHit, type RippleSinceEvent } from "@falcon/ripple";
-import { KIND_LABEL, relationPhrase } from "@/lib/workspace/feed";
+import {
+  DOCUMENTED_LABEL,
+  cardPricedIn,
+  cardTier,
+  recordLabel,
+  tierLabel,
+  type Confidence,
+  type Direction,
+  type DocumentedBy,
+  type LinkEvidence,
+  type RippleCard,
+  type RippleHit,
+  type RippleSinceEvent,
+} from "@falcon/ripple";
+import { eventLabel, relationPhrase } from "@/lib/workspace/feed";
 import { useWorkspace } from "./context";
 
 /* The site's type and color, at desktop density. */
@@ -185,12 +198,54 @@ export function TickerButton({ ticker, className = "", muted = false }: { ticker
   );
 }
 
-export function KindLabel({ kind }: { kind: RippleCard["event"]["kind"] }) {
+/** The event's type: the engine's label, else the coarse kind's, else "Event". */
+export function KindLabel({ event }: { event: RippleCard["event"] }) {
   return (
     <span className="text-[11px] uppercase tracking-[0.14em] text-[#1d1b1b]/45" style={{ fontFamily: MONO }}>
-      {KIND_LABEL[kind]}
+      {eventLabel(event)}
     </span>
   );
+}
+
+const TIER_TITLE: Record<string, string> = {
+  measured: "Its family passed Falcon's own statistical test",
+  documented: DOCUMENTED_LABEL,
+  watch: "Stored for the record; below the publishing bar",
+};
+
+/** The small tier label (Measured, Documented, Watch); nothing for an older card without a tier. */
+export function TierTag({ tier }: { tier: unknown }) {
+  const label = tierLabel(tier);
+  if (!label) return null;
+  return (
+    <span
+      className="inline-flex h-[18px] shrink-0 items-center rounded border border-black/15 px-1.5 text-[10.5px] uppercase leading-none tracking-[0.08em] text-[#4b4b48]"
+      style={{ fontFamily: MONO }}
+      title={TIER_TITLE[tier as string]}
+    >
+      {label}
+    </span>
+  );
+}
+
+/** "Documented in published research; Falcon's own record is building." with the paper it rests on. */
+export function DocumentedLine({ documentedBy, className = "" }: { documentedBy?: DocumentedBy; className?: string }) {
+  return (
+    <p className={`text-[12px] leading-[18px] text-[#767676] ${className}`}>
+      {DOCUMENTED_LABEL}
+      {documentedBy?.citation ? (
+        <>
+          {" "}
+          <ExternalAnchor href={documentedBy.url}>{documentedBy.citation}</ExternalAnchor>
+        </>
+      ) : null}
+    </p>
+  );
+}
+
+/** How a hit is linked, seen from `from`: "Supplier to NVDA", or "The company itself" for an own-firm event. */
+export function hitRelationText(hit: Pick<RippleHit, "relation" | "ticker">, from: string): string {
+  return hit.relation === "self" || hit.ticker === from ? relationPhrase("self", from) : relationPhrase(hit.relation, from);
 }
 
 /**
@@ -207,8 +262,8 @@ export function HitRow({ hit, eventTicker, wide = false }: { hit: RippleHit; eve
     >
       <TickerButton ticker={hit.ticker} />
       <span className="flex min-w-0 flex-col">
-        <span className="min-w-0 truncate text-[12.5px] text-[#4b4b48]" title={relationPhrase(hit.relation, from)}>
-          {relationPhrase(hit.relation, from)}
+        <span className="min-w-0 truncate text-[12.5px] text-[#4b4b48]" title={hitRelationText(hit, from)}>
+          {hitRelationText(hit, from)}
           {hit.degree === 2 ? <span className="text-[#9a9a9a]">, 2nd degree</span> : null}
         </span>
         <span className="mt-0.5 flex min-w-0 items-center gap-2 text-[11.5px]">
@@ -253,6 +308,8 @@ export function RippleCardView({ card, highlight, maxHits = 4, wide = false }: {
     ? [...card.hits].sort((a, b) => Number(highlight.has(b.ticker)) - Number(highlight.has(a.ticker)))
     : card.hits;
   const shown = hits.slice(0, maxHits);
+  const tier = cardTier(card);
+  const documented = tier === "documented" ? card.hits.find((h) => h.tier === "documented") : undefined;
   return (
     <article
       role="button"
@@ -268,11 +325,13 @@ export function RippleCardView({ card, highlight, maxHits = 4, wide = false }: {
     >
       <div className="flex items-center gap-2">
         <TickerButton ticker={card.event.ticker} />
-        <KindLabel kind={card.event.kind} />
+        <KindLabel event={card.event} />
+        <TierTag tier={tier} />
         {cardPricedIn(card) ? <PricedInTag since={card.hits.find((h) => h.pricedIn)?.sinceEvent} /> : null}
         <span className="ml-auto text-[12px] text-[#9a9a9a]">{timeAgo(card.event.occurredAt)}</span>
       </div>
       <h3 className="mt-2 text-[14px] leading-[20px] text-[#1d1b1b]">{card.event.headline}</h3>
+      {tier === "documented" ? <DocumentedLine documentedBy={documented?.documentedBy} className="mt-1.5" /> : null}
       {shown.length ? (
         <div className="mt-3 flex flex-col gap-2 border-t border-black/[0.06] pt-3">
           {shown.map((h) => (

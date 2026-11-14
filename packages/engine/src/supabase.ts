@@ -50,21 +50,31 @@ export const UPSERT_SQL = `insert into public.sightings_cards (id, sector, event
     stale_at = null,
     updated_at = now()`;
 
+/**
+ * Marks cards stale once they expire: the card's `expiresAt` (v1: publish
+ * time + its longest hit window), or for an older card without it, its event
+ * older than the kept window ($2 = now - keepDays). $1 is now. Every sector:
+ * expiry is per card.
+ */
 export const MARK_STALE_SQL = `update public.sightings_cards
   set stale = true, stale_at = now(), updated_at = now()
-  where sector = $1 and not stale and event_at < $2`;
+  where not stale and (
+    case when (card->>'expiresAt') is not null then (card->>'expiresAt')::timestamptz <= $1
+         else event_at < $2 end
+  )`;
 
 export type PublishResult = { upserted: number; markedStale: number; fresh: number };
 
-/** The instant before which a card's event is stale: `keepDays` before `nowMs`. Pure. */
+/** The instant before which an older card's event (no expiresAt) is stale: `keepDays` before `nowMs`. Pure. */
 export function staleCutoff(nowMs: number, keepDays: number): Date {
   return new Date(nowMs - keepDays * 86_400_000);
 }
 
 /**
  * One transaction: upsert the run's cards (keyed by card id, so the same
- * event never makes a second row), then mark the sector's cards whose event
- * is older than `keepDays` stale. Nothing is deleted.
+ * event never makes a second row), then mark expired cards stale (their
+ * `expiresAt`, or for older cards an event older than `keepDays`). Nothing
+ * is deleted.
  */
 export async function publishCards(
   databaseUrl: string,
@@ -72,7 +82,8 @@ export async function publishCards(
   cards: RippleCard[],
   opts: { keepDays: number; nowMs?: number },
 ): Promise<PublishResult> {
-  const cutoff = staleCutoff(opts.nowMs ?? Date.now(), opts.keepDays);
+  const nowMs = opts.nowMs ?? Date.now();
+  const cutoff = staleCutoff(nowMs, opts.keepDays);
   const db = client(databaseUrl);
   await db.connect();
   try {
@@ -83,7 +94,7 @@ export async function publishCards(
       await db.query(UPSERT_SQL, [r.id, r.sector, r.event_ticker, r.event_at, r.tickers, r.generated_at, JSON.stringify(r.card)]);
       upserted++;
     }
-    const stale = await db.query(MARK_STALE_SQL, [sector, cutoff.toISOString()]);
+    const stale = await db.query(MARK_STALE_SQL, [new Date(nowMs).toISOString(), cutoff.toISOString()]);
     const fresh = await db.query<{ n: string }>("select count(*)::text as n from public.sightings_cards where sector = $1 and not stale", [sector]);
     await db.query("commit");
     return { upserted, markedStale: stale.rowCount ?? 0, fresh: Number(fresh.rows[0]?.n ?? 0) };

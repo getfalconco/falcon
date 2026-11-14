@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Daily-bar strategy backtester: explicit JSON rules in, equity curve, trades and metrics vs SPY out.",
+  "description": "Daily-bar strategy backtester: FSL strategies (StrategySpec v2) or v1 JSON rules in; equity, trades, metrics and a quality report out.",
   "main": "src/index.ts",
   "types": "src/index.ts",
   "exports": {
@@ -11,14 +11,17 @@
     "./data": "./src/data/index.ts",
     "./nl": "./src/nl.ts",
     "./sighting": "./src/sighting.ts",
-    "./describe": "./src/describe.ts"
+    "./describe": "./src/describe.ts",
+    "./ai": "./src/ai/index.ts"
   },
   "scripts": {
     "test": "node --import tsx --test test/*.test.ts",
     "test:live": "node --import tsx --test test/live/*.test.ts",
     "examples": "node --import tsx scripts/examples.ts",
     "parse": "node --import tsx scripts/parse.ts",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "expressiveness": "node --import tsx scripts/expressiveness.ts",
+    "eval:converse": "node --import tsx scripts/eval-converse.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^1.8.0",

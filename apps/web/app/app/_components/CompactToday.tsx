@@ -1,15 +1,16 @@
 "use client";
 
-import type { RippleCard } from "@falcon/ripple";
+import { NOTHING_CLEARED, cardTier, type RippleCard } from "@falcon/ripple";
 import { useWorkspace } from "./context";
 import { FeedNotice } from "./FeedNotice";
-import { DirectionMark, EmptyState, KindLabel, MONO, PricedInTag, RecordText, SectionTitle, feedEmpty, timeAgo } from "./parts";
-import { TodayHeader, useToday } from "./tabs/DashboardTab";
+import { DirectionMark, DocumentedLine, EmptyState, KindLabel, MONO, PricedInTag, RecordText, SectionTitle, TierTag, feedEmpty, timeAgo } from "./parts";
+import { TodayHeader, useNothingCleared, useToday } from "./tabs/DashboardTab";
 import BrandMark from "../../components/BrandMark";
 
 /** A card that opens in place on a phone instead of in a tab. */
 function CompactCard({ card, focusSet }: { card: RippleCard; focusSet: Set<string> }) {
   const hits = [...card.hits].sort((a, b) => Number(focusSet.has(b.ticker)) - Number(focusSet.has(a.ticker)));
+  const tier = cardTier(card);
   return (
     <details className="group rounded-lg border border-black/[0.08] bg-white px-4 py-3.5 [&_summary::-webkit-details-marker]:hidden">
       <summary className="cursor-pointer list-none outline-none">
@@ -17,10 +18,14 @@ function CompactCard({ card, focusSet }: { card: RippleCard; focusSet: Set<strin
           <span className="text-[12px] text-[#1d1b1b]" style={{ fontFamily: MONO }}>
             {card.event.ticker}
           </span>
-          <KindLabel kind={card.event.kind} />
+          <KindLabel event={card.event} />
+          <TierTag tier={tier} />
           <span className="ml-auto text-[12px] text-[#9a9a9a]">{timeAgo(card.event.occurredAt)}</span>
         </div>
         <h3 className="mt-2 text-[15px] leading-[21px] text-[#1d1b1b]">{card.event.headline}</h3>
+        {tier === "documented" ? (
+          <DocumentedLine documentedBy={card.hits.find((h) => h.tier === "documented")?.documentedBy} className="mt-1.5" />
+        ) : null}
         <ul className="mt-3 flex flex-col gap-1.5 border-t border-black/[0.06] pt-3">
           {hits.slice(0, 3).map((h) => (
             <li key={h.ticker} className="flex items-center gap-3 text-[13px]">
@@ -54,6 +59,7 @@ function CompactCard({ card, focusSet }: { card: RippleCard; focusSet: Set<strin
 export function CompactToday() {
   const { focusSet, feedStatus, focus } = useWorkspace();
   const summary = useToday();
+  const nothingCleared = useNothingCleared();
   return (
     <div className="min-h-[100dvh] bg-[#fdfdfd]">
       <div className="mx-auto flex w-full max-w-[560px] flex-col gap-6 px-5 pb-12 pt-5">
@@ -69,7 +75,9 @@ export function CompactToday() {
             {summary.portfolio.length ? (
               summary.portfolio.slice(0, 3).map((c) => <CompactCard key={c.id} card={c} focusSet={focusSet} />)
             ) : (
-              <EmptyState title={feedEmpty(feedStatus, focus.length ? "Nothing is hitting your portfolio" : "Your focus list is empty")} />
+              <EmptyState
+                title={feedEmpty(feedStatus, !focus.length ? "Your focus list is empty" : nothingCleared ? NOTHING_CLEARED : "Nothing is hitting your portfolio")}
+              />
             )}
           </div>
         </section>
@@ -79,7 +87,7 @@ export function CompactToday() {
             {summary.opportunities.length ? (
               summary.opportunities.slice(0, 2).map((c) => <CompactCard key={c.id} card={c} focusSet={focusSet} />)
             ) : (
-              <EmptyState title={feedEmpty(feedStatus, "No opportunities right now")} />
+              <EmptyState title={feedEmpty(feedStatus, nothingCleared ? NOTHING_CLEARED : "No opportunities right now")} />
             )}
           </div>
         </section>

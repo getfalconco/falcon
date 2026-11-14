@@ -19,7 +19,14 @@ import path from "node:path";
 import { ENGINE_ROOT } from "./http.ts";
 
 /** One trading day's close, split and dividend adjusted. `date` is the exchange's YYYY-MM-DD. */
-export type DailyClose = { date: string; close: number };
+export type DailyClose = {
+  date: string;
+  close: number;
+  /** Optional: dollars traded that day (price as printed x shares), when the source has volume. */
+  dollarVolume?: number;
+  /** Optional: the close as printed (not adjusted), for price-level gates. */
+  rawClose?: number;
+};
 
 /** One reported quarter as the EPS record has it. */
 export type ReportedQuarter = {
@@ -40,7 +47,7 @@ export interface MarketData {
 
 /** The parts of packages/backtest/src/data this file uses. */
 type BacktestYahoo = {
-  YahooPriceSource: new (cache: unknown) => { name: string; dailyBars(t: string, from: string, to: string): Promise<Array<{ date: string; close: number }>> };
+  YahooPriceSource: new (cache: unknown) => { name: string; dailyBars(t: string, from: string, to: string): Promise<Array<{ date: string; close: number; volume?: number; rawClose?: number; dollarVolume?: number }>> };
   YahooEarningsSource: new (cache: unknown) => {
     name: string;
     earnings(t: string, from: string, to: string): Promise<Array<{ date: string; time: ReportedQuarter["time"]; surprisePct: number | null }>>;
@@ -81,7 +88,13 @@ export async function backtestMarketData(cacheDir: string = MARKET_CACHE_DIR): P
       name: `${prices.name}; ${eps.name}`,
       async dailyCloses(ticker, from, to) {
         const bars = await prices.dailyBars(ticker, from, to);
-        return bars.map((b) => ({ date: b.date, close: b.close }));
+        return bars.map((b) => {
+          const row: DailyClose = { date: b.date, close: b.close };
+          const dv = b.dollarVolume ?? (b.volume !== undefined ? (b.rawClose ?? b.close) * b.volume : undefined);
+          if (dv !== undefined && Number.isFinite(dv)) row.dollarVolume = dv;
+          if (b.rawClose !== undefined && Number.isFinite(b.rawClose)) row.rawClose = b.rawClose;
+          return row;
+        });
       },
       async earnings(ticker, from, to) {
         const rows = await eps.earnings(ticker, from, to);

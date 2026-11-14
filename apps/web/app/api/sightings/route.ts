@@ -1,7 +1,7 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { NextResponse } from "next/server";
-import { isWeakSignal, opportunityCard, type RippleCard, type SightingsFeed } from "@falcon/ripple";
+import { cardLive, isMeasured, isWeakSignal, opportunityCards, type RippleCard, type SightingsFeed } from "@falcon/ripple";
 import { clientIp, rateLimit, tooManyRequests } from "@/lib/rate-limit";
 import { getSupabaseAdmin } from "@/lib/supabase-admin";
 
@@ -14,14 +14,17 @@ export const dynamic = "force-dynamic";
  *   GET /api/sightings                      ->  200 SightingsFeed
  *   GET /api/sightings?tickers=NVDA,AMD     ->  200 SightingsFeed & { portfolio, opportunities }
  *
- * `cards` are the fresh cards of the last 7 days, newest event first (weak
- * signals included: the screens list them last, under "Weak signals");
- * `generatedAt` is when the newest of them was written. With `tickers`,
- * `portfolio` holds the cards whose event company or any hit is one of them,
- * and `opportunities` the other cards, each with only the hits the engine
- * marked `opportunityEligible` (a record better than a coin flip, not low,
- * not priced in). Neither list holds a weak signal (card confidence "low",
- * see @falcon/ripple `isWeakSignal`); the rules live in the engine and in
+ * `cards` are the live cards, newest event first: a card is served until its
+ * `expiresAt` (publish time + its longest hit window), and an older card
+ * without one for 7 days after its event. Watch-tier cards are included (the
+ * screens list them last, collapsed, under "Watch list"). `generatedAt` is
+ * when the newest of them was written. With `tickers`, `portfolio` holds the
+ * cards whose event company or any hit is one of them, and `opportunities`
+ * the other cards, each with only the hits @falcon/ripple `opportunityCards`
+ * allows: Measured hits, or while no hit is Measured, Documented own-firm
+ * hits with exact evidence (the interim rule, env
+ * OPPORTUNITIES_INTERIM_DOCUMENTED, on unless "0"/"false"). Neither list
+ * holds a weak signal (`isWeakSignal`); the rules live in the engine and in
  * @falcon/ripple, never re-derived here.
  *
  * Reads public.sightings_cards (not stale, event in the window); when that
@@ -34,7 +37,9 @@ export const dynamic = "force-dynamic";
 const TICKER = /^[A-Z][A-Z0-9.-]{0,9}$/;
 const MAX_TICKERS = 50;
 const MAX_CARDS = 50;
-const WINDOW_DAYS = 7;
+/** Rows read before the expiry filter: cards live at most about 95 days (a 63-session window x1.5). */
+const MAX_ROWS = 200;
+const LOOKBACK_DAYS = 120;
 
 const CORS = {
   "Access-Control-Allow-Origin": "*",
@@ -64,11 +69,12 @@ function feedOf(cards: RippleCard[], fallbackAt: string): SightingsFeed {
 
 async function fromSupabase(): Promise<SightingsFeed | null> {
   const db = getSupabaseAdmin();
-  const since = new Date(Date.now() - WINDOW_DAYS * 86_400_000).toISOString();
+  const now = Date.now();
+  const since = new Date(now - LOOKBACK_DAYS * 86_400_000).toISOString();
   const query = (withStale: boolean) => {
     let q = db.from("sightings_cards").select("card, generated_at, event_at").gte("event_at", since);
     if (withStale) q = q.eq("stale", false);
-    return q.order("event_at", { ascending: false }).order("generated_at", { ascending: false }).limit(MAX_CARDS);
+    return q.order("event_at", { ascending: false }).order("generated_at", { ascending: false }).limit(MAX_ROWS);
   };
   let res = await query(true);
   // Before the stale column's migration (20261113) the window alone decides.
@@ -77,7 +83,10 @@ async function fromSupabase(): Promise<SightingsFeed | null> {
   const rows = (res.data ?? []) as Row[];
   const cards = rows
     .map((r) => (r.card && Array.isArray(r.card.hits) ? { ...r.card, generatedAt: r.card.generatedAt ?? r.generated_at } : null))
-    .filter((c): c is RippleCard => c !== null);
+    .filter((c): c is RippleCard => c !== null)
+    // Served until expiresAt; an older card without it, 7 days after its event (@falcon/ripple cardLive).
+    .filter((c) => cardLive(c, now))
+    .slice(0, MAX_CARDS);
   if (cards.length === 0) return null;
   const newestRow = rows.reduce((m, r) => (r.generated_at > m ? r.generated_at : m), rows[0]!.generated_at);
   return feedOf(cards, newestRow);
@@ -96,6 +105,12 @@ async function fromLocalFile(): Promise<SightingsFeed | null> {
 }
 
 async function loadFeed(): Promise<{ feed: SightingsFeed; source: Source }> {
+  // Dev only: SIGHTINGS_SOURCE=local previews the engine's dry-run output
+  // (packages/engine/out/sightings.json) instead of the database.
+  if (process.env.NODE_ENV !== "production" && process.env.SIGHTINGS_SOURCE === "local") {
+    const local = await fromLocalFile();
+    if (local) return { feed: local, source: "local" };
+  }
   let fromDb: SightingsFeed | null = null;
   try {
     fromDb = await fromSupabase();
@@ -146,9 +161,14 @@ export async function GET(request: Request) {
 
   const held = new Set(tickers);
   const portfolio = feed.cards.filter((c) => touches(c, held) && !isWeakSignal(c));
-  const opportunities = feed.cards
-    .filter((c) => !touches(c, held))
-    .map((c) => opportunityCard(c, held))
-    .filter((c): c is RippleCard => c !== null);
+  const interim = process.env.OPPORTUNITIES_INTERIM_DOCUMENTED;
+  const interimDocumented = interim === undefined || interim.trim() === "" || !/^(0|false|off|no)$/i.test(interim.trim());
+  // The interim rule looks at the whole feed (no Measured hit anywhere); cards touching the holdings are left out first.
+  const anyMeasured = feed.cards.some((c) => c.hits.some(isMeasured));
+  const opportunities = opportunityCards(
+    feed.cards.filter((c) => !touches(c, held)),
+    held,
+    { interimDocumented: interimDocumented && !anyMeasured },
+  );
   return NextResponse.json({ ...feed, portfolio, opportunities }, { headers });
 }

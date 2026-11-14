@@ -66,6 +66,15 @@ export type SummaryInput = {
   exitCode: ExitCode;
 };
 
+/** What the run analysed and the tiers it built, counts only. Pure. */
+export function analysisLines(a: NonNullable<RunResult["analysis"]>): string[] {
+  const backlog = a.backlog ? `, ${a.backlog} left for the next run (judge cap)` : "";
+  return [
+    `analysed: ${a.events} events (${a.own} own-firm, ${a.linked} linked, ${a.noLinks} without graph links); ${a.reused} judgments reused, ${a.judged} judged now${backlog}; judge cost ${a.costUsd.toFixed(2)} USD`,
+    `tiers: ${a.tiers.measured} measured, ${a.tiers.documented} documented, ${a.tiers.watch} watch cards built; ${a.featured} featured`,
+  ];
+}
+
 /** The run summary as plain lines. Pure. */
 export function summaryLines(s: SummaryInput): string[] {
   const { run } = s;
@@ -78,6 +87,7 @@ export function summaryLines(s: SummaryInput): string[] {
     `events found: ${run.events.length}${filingProblems ? ` (${filingProblems} filings unreadable)` : ""}`,
     `judged: ${s.judged} events by ${s.judgeName}${run.judgeFailures.length ? `, ${run.judgeFailures.length} failed` : ""}${run.rejected.length ? `, ${run.rejected.length} answers dropped by validation` : ""}`,
     `judge votes: ${run.votes.calls} calls of ${run.votes.maxCalls} allowed, ${run.votes.splits.filter((x) => x.escalated).length} candidates needed a second round`,
+    ...(run.analysis ? analysisLines(run.analysis) : []),
     `cards in the feed: ${run.feed.cards.length}`,
     `history: ${run.history.measured} of ${run.history.hits} hits measured${run.history.problems.length ? ` (${run.history.problems.join("; ")})` : ""}`,
     `ranking: ${run.ranking.capped.length} hits capped by their record, ${run.ranking.dropped.length} dropped${run.ranking.droppedCards.length ? `, ${run.ranking.droppedCards.length} cards left with no hit` : ""}`,

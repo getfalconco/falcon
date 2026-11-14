@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { ArrowUpRight as LinkArrow } from "lucide-react-native";
-import type { RippleHit } from "@falcon/ripple";
+import { cardTier, type RippleHit } from "@falcon/ripple";
 import { SecondaryButton } from "@/components/Buttons";
 import { PushedScreen } from "@/components/PushedScreen";
 import { Reveal } from "@/components/Reveal";
@@ -19,14 +19,23 @@ import { heldTickers } from "@/lib/holdings";
 import { orderedHits, useSightingCard } from "@/lib/sightings";
 import { ConnectionGraph } from "@/features/sightings/ConnectionGraph";
 import { Quote, openLink } from "@/features/sightings/Evidence";
-import { ConfidenceBars, DirectionIcon, HistoryLine, PricedInTag, cardStyles } from "@/features/sightings/SightingCard";
+import {
+  ConfidenceBars,
+  DirectionIcon,
+  DocumentedLine,
+  HistoryLine,
+  PricedInTag,
+  TierTag,
+  cardStyles,
+} from "@/features/sightings/SightingCard";
 import {
   CONFIDENCE,
   DIRECTION,
-  EVENT_KIND,
-  RELATION,
   directionColor,
   directionSoft,
+  eventLabel,
+  isSelfHit,
+  relationLabel,
   shortDay,
   signedPct,
   timeAgo,
@@ -37,8 +46,9 @@ import { GUTTER, colors, fonts } from "@/theme";
 /** The phone frame's width in the browser preview; the real width on the phone. */
 const PREVIEW_WIDTH = 393;
 
-function HitBlock({ hit, held, onOpen }: { hit: RippleHit; held: boolean; onOpen: () => void }) {
-  const relation = RELATION[hit.relation] ?? hit.relation;
+function HitBlock({ hit, held, self, onOpen }: { hit: RippleHit; held: boolean; self: boolean; onOpen: () => void }) {
+  // An own-firm hit is the event company itself, not a link to it.
+  const relation = self ? relationLabel("self") : relationLabel(hit.relation);
   return (
     <View>
       <View style={styles.hitTop}>
@@ -66,7 +76,8 @@ function HitBlock({ hit, held, onOpen }: { hit: RippleHit; held: boolean; onOpen
       </View>
 
       <View style={styles.hitMeta}>
-        <Text style={styles.metaText}>{hit.degree === 2 && hit.via ? `${relation} via ${hit.via}` : relation}</Text>
+        <TierTag tier={hit.tier} />
+        <Text style={styles.metaText}>{hit.degree === 2 && hit.via && !self ? `${relation} via ${hit.via}` : relation}</Text>
         <Text style={styles.metaDot}>·</Text>
         <ConfidenceBars confidence={hit.confidence} />
         <Text style={styles.metaText}>{CONFIDENCE[hit.confidence]}</Text>
@@ -76,6 +87,7 @@ function HitBlock({ hit, held, onOpen }: { hit: RippleHit; held: boolean; onOpen
       </View>
 
       <Text style={styles.mechanism}>{hit.mechanism}</Text>
+      {hit.tier === "documented" ? <DocumentedLine documentedBy={hit.documentedBy} /> : null}
       <HistoryLine history={hit.history} />
       {hit.sinceEvent ? (
         <Text style={styles.since}>
@@ -109,6 +121,9 @@ export default function SightingDetail() {
   const screenW = Platform.OS === "web" ? Math.min(window.width, PREVIEW_WIDTH) : window.width;
   const graphW = screenW - GUTTER * 2 - 2;
   const hits = card ? orderedHits(card, held) : [];
+  // Hits other than the event company itself: only these draw on the graph.
+  const linked = card ? hits.filter((h) => !isSelfHit(h, card.event.ticker)) : [];
+  const tier = card ? cardTier(card) : null;
 
   const jumpTo = (hit: RippleHit) => {
     const y = offsets[hit.ticker];
@@ -129,8 +144,13 @@ export default function SightingDetail() {
         <>
           <Reveal order={0}>
             <Text style={styles.kicker}>
-              {card.event.ticker} · {EVENT_KIND[card.event.kind] ?? "Event"} · {timeAgo(card.event.occurredAt)}
+              {card.event.ticker} · {eventLabel(card.event)} · {timeAgo(card.event.occurredAt)}
             </Text>
+            {tier ? (
+              <View style={styles.tierRow}>
+                <TierTag tier={tier} />
+              </View>
+            ) : null}
             <Text style={styles.headline} accessibilityRole="header">
               {card.event.headline}
             </Text>
@@ -165,7 +185,7 @@ export default function SightingDetail() {
             />
           </Reveal>
 
-          {hits.length > 0 ? (
+          {linked.length > 0 ? (
             <Reveal order={2} style={styles.graphCard}>
               <ConnectionGraph card={card} held={held} width={graphW} onSelect={jumpTo} />
             </Reveal>
@@ -185,6 +205,7 @@ export default function SightingDetail() {
                   <HitBlock
                   hit={hit}
                   held={held.has(hit.ticker.toUpperCase())}
+                  self={isSelfHit(hit, card.event.ticker)}
                   onOpen={() => {
                     haptics.select();
                     router.push({ pathname: "/ticker/[symbol]", params: { symbol: hit.ticker } });
@@ -209,6 +230,7 @@ const styles = StyleSheet.create({
     textTransform: "uppercase",
     color: "rgba(29, 27, 27, 0.5)",
   },
+  tierRow: { marginTop: 10, flexDirection: "row" },
   headline: {
     marginTop: 12,
     fontFamily: fonts.serif,

@@ -1,10 +1,23 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { ArrowDownRight, ArrowUpRight, Minus } from "lucide-react-native";
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
-import { cardPricedIn, recordLabel, type Confidence, type Direction, type RippleCard, type RippleHit, type RippleHistory } from "@falcon/ripple";
+import {
+  DOCUMENTED_LABEL,
+  cardPricedIn,
+  cardTier,
+  recordLabel,
+  tierLabel,
+  type Confidence,
+  type Direction,
+  type DocumentedBy,
+  type RippleCard,
+  type RippleHit,
+  type RippleHistory,
+} from "@falcon/ripple";
 import { orderedHits } from "@/lib/sightings";
 import { EASE_CALM, colors, fonts } from "@/theme";
-import { CONFIDENCE, EVENT_KIND, directionColor, signedPct, timeAgo } from "./format";
+import { openLink } from "./Evidence";
+import { CONFIDENCE, directionColor, eventLabel, signedPct, timeAgo } from "./format";
 
 /** Four chips fit one line; with more, three and a "+N" so it stays one line. */
 const MAX_CHIPS = 4;
@@ -55,6 +68,38 @@ export function PricedInTag() {
   );
 }
 
+/** The small tier label (Measured, Documented, Watch); nothing for an older card without a tier. */
+export function TierTag({ tier }: { tier: unknown }) {
+  const label = tierLabel(tier);
+  if (!label) return null;
+  return (
+    <View style={styles.priced}>
+      <Text style={styles.pricedText}>{label}</Text>
+    </View>
+  );
+}
+
+/** "Documented in published research; Falcon's own record is building." and the paper it rests on; tap opens it. */
+export function DocumentedLine({ documentedBy }: { documentedBy?: DocumentedBy }) {
+  const url = documentedBy?.url ?? "";
+  const linked = !!documentedBy?.citation && /^https?:\/\//i.test(url);
+  return (
+    <Pressable
+      accessibilityRole={linked ? "link" : "text"}
+      disabled={!linked}
+      onPress={() => openLink(url)}
+      hitSlop={4}
+    >
+      {({ pressed }) => (
+        <Text style={[styles.documented, pressed ? styles.documentedPressed : null]}>
+          {DOCUMENTED_LABEL}
+          {documentedBy?.citation ? <Text style={linked ? styles.citation : null}>{` ${documentedBy.citation}`}</Text> : null}
+        </Text>
+      )}
+    </Pressable>
+  );
+}
+
 function TickerChip({ hit, held }: { hit: RippleHit; held: boolean }) {
   return (
     <View style={[styles.chip, held ? styles.chipHeld : null]}>
@@ -76,7 +121,8 @@ export function SightingCard({ card, held, onPress }: { card: RippleCard; held: 
   const lead = hits[0];
   const shown = hits.slice(0, hits.length > MAX_CHIPS ? MAX_CHIPS - 1 : MAX_CHIPS);
   const more = hits.length - shown.length;
-  const kind = EVENT_KIND[card.event.kind] ?? "Event";
+  const kind = eventLabel(card.event);
+  const tier = cardTier(card);
 
   return (
     <Pressable
@@ -93,11 +139,15 @@ export function SightingCard({ card, held, onPress }: { card: RippleCard; held: 
               {card.event.ticker} · {kind}
             </Text>
             <View style={styles.topRight}>
+              <TierTag tier={tier} />
               {cardPricedIn(card) ? <PricedInTag /> : null}
               <Text style={styles.time}>{timeAgo(card.event.occurredAt)}</Text>
             </View>
           </View>
           <Text style={styles.headline}>{card.event.headline}</Text>
+          {tier === "documented" ? (
+            <DocumentedLine documentedBy={card.hits.find((h) => h.tier === "documented")?.documentedBy} />
+          ) : null}
 
           {shown.length > 0 ? (
             <View style={styles.chips}>
@@ -190,5 +240,8 @@ const styles = StyleSheet.create({
   bars: { flexDirection: "row", alignItems: "flex-end", gap: 2, height: 10, marginRight: 2 },
   bar: { width: 3, borderRadius: 1, backgroundColor: "rgba(0, 0, 0, 0.12)" },
   barOn: { backgroundColor: colors.ink },
+  documented: { marginTop: 8, fontFamily: fonts.sans, fontSize: 12.5, lineHeight: 17, color: colors.muted },
+  documentedPressed: { opacity: 0.6 },
+  citation: { color: colors.body, textDecorationLine: "underline" },
   history: { marginTop: 8, fontFamily: fonts.sans, fontSize: 12.5, lineHeight: 17, color: colors.body },
 });

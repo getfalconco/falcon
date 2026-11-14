@@ -122,7 +122,7 @@ export function TickerTab({ ticker }: { ticker: string }) {
               <Panel key={card.id} className="px-5 py-4">
                 <div className="flex items-center gap-2">
                   <TickerButton ticker={card.event.ticker} />
-                  <KindLabel kind={card.event.kind} />
+                  <KindLabel event={card.event} />
                   <span className="ml-auto text-[12px] text-[#9a9a9a]">{timeAgo(card.event.occurredAt)}</span>
                 </div>
                 <h3 className="mt-2">
@@ -166,7 +166,7 @@ export function TickerTab({ ticker }: { ticker: string }) {
                   onClick={() => openSighting(card.id)}
                   className="grid w-full grid-cols-[90px_minmax(0,1fr)_auto] items-center gap-3 px-4 py-2.5 text-left outline-none hover:bg-black/[0.02] focus-visible:bg-black/[0.03]"
                 >
-                  <KindLabel kind={card.event.kind} />
+                  <KindLabel event={card.event} />
                   <span className="truncate text-[13px] text-[#1d1b1b]">{card.event.headline}</span>
                   <span className="text-[12px] text-[#9a9a9a]">{timeAgo(card.event.occurredAt)}</span>
                 </button>

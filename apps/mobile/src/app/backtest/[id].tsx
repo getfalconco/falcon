@@ -4,7 +4,7 @@ import { useLocalSearchParams } from "expo-router";
 import Svg, { Line, Path, Text as SvgText } from "react-native-svg";
 import type { BacktestResult, CurveMetrics, StrategyMetrics } from "@falcon/backtest";
 import { describeStrategy } from "@falcon/backtest/describe";
-import { strategyFromSighting } from "@falcon/backtest/sighting";
+import { eventStudyFromHistory, hasNoHistorySource, strategyFromSighting, type HistoryStudy } from "@falcon/backtest/sighting";
 import { SecondaryButton } from "@/components/Buttons";
 import { PushedScreen } from "@/components/PushedScreen";
 import { Reveal } from "@/components/Reveal";
@@ -139,12 +139,36 @@ function Results({ result, width, notes }: { result: BacktestResult; width: numb
   );
 }
 
+/** The card's own record as an event study: N past events, G separate dates, moves the implied way. */
+function Measured({ studies, eventTicker }: { studies: HistoryStudy[]; eventTicker: string }) {
+  return (
+    <Reveal order={1} style={styles.card}>
+      <Text style={styles.cardTitle}>Measured move (from the close before the news)</Text>
+      {studies.map((s) => (
+        <View key={s.ticker} style={styles.study}>
+          <Text style={styles.studyLine}>
+            In {s.wins} of {s.n} past {eventTicker} events, on {s.g} separate {s.g === 1 ? "date" : "dates"}, {s.ticker} moved {s.direction} against {s.benchmark} over {s.windowDays}{" "}
+            {s.windowDays === 1 ? "session" : "sessions"}.
+          </Text>
+          <Text style={styles.studySub}>
+            Average move vs {s.benchmark} {pct(s.meanAdjustedPct)}, median {pct(s.medianAdjustedPct)}
+            {s.from && s.to ? `, ${shortDate(s.from)} to ${shortDate(s.to)}` : ""}.
+          </Text>
+        </View>
+      ))}
+      <Text style={styles.note}>A record of past events, not a probability for this one. Only companies listed today are measured.</Text>
+    </Reveal>
+  );
+}
+
 /** "Backtest this" on a Sighting: past events of its type on the companies it reaches, against SPY. */
 export default function SightingBacktest() {
   const window = useWindowDimensions();
   const { id } = useLocalSearchParams<{ id: string }>();
   const { card, status } = useSightingCard(id);
   const built = useMemo(() => (card ? strategyFromSighting(card) : null), [card]);
+  const studies = useMemo(() => (card ? eventStudyFromHistory(card) : []), [card]);
+  const noSource = card ? !built?.hasHistory && hasNoHistorySource(card) : false;
   const { state, start } = useBacktest(card?.id, built?.strategy ?? null);
   const screenW = Platform.OS === "web" ? Math.min(window.width, PREVIEW_WIDTH) : window.width;
   const width = screenW - GUTTER * 2;
@@ -175,13 +199,18 @@ export default function SightingBacktest() {
         </View>
       </Reveal>
 
+      {studies.length ? <Measured studies={studies} eventTicker={card.event.ticker} /> : null}
+
       {!built.hasHistory ? (
-        <Reveal order={1}>
-          <Text style={styles.body}>
-            Past {card.event.ticker} events of this type are not in the backtest data yet. These rules read ripple card history, which is not
-            connected, so a run would show no trades. Earnings Sightings test against the full earnings record.
-          </Text>
-        </Reveal>
+        studies.length ? null : (
+          <Reveal order={1}>
+            <Text style={styles.body}>
+              {noSource
+                ? `No history source yet for ${card.event.ticker} events of this type (such as monthly revenue reports), so there is nothing to measure. Earnings Sightings test against the full earnings record.`
+                : `Past ${card.event.ticker} events of this type are not in the backtest data yet. Earnings Sightings test against the full earnings record.`}
+            </Text>
+          </Reveal>
+        )
       ) : state.status === "running" || state.status === "idle" ? (
         <Reveal order={1} style={styles.loading}>
           <ActivityIndicator size="small" color={colors.muted} />
@@ -238,4 +267,8 @@ const styles = StyleSheet.create({
   muted: { color: colors.body },
   period: { marginTop: 20, fontFamily: fonts.sans, fontSize: 12.5, lineHeight: 18, color: colors.muted },
   note: { marginTop: 8, fontFamily: fonts.sans, fontSize: 12, lineHeight: 17, color: colors.faint },
+  cardTitle: { fontFamily: fonts.sans, fontSize: 13, color: colors.muted },
+  study: { marginTop: 10, gap: 4 },
+  studyLine: { fontFamily: fonts.sans, fontSize: 14, lineHeight: 20, color: colors.ink },
+  studySub: { fontFamily: fonts.sans, fontSize: 12.5, lineHeight: 18, color: colors.muted },
 });
