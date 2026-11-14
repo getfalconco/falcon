@@ -27,6 +27,7 @@ export function TopBar({
   onLink,
   onToggleContext,
   onGuide,
+  onSettings,
   onSignOut,
 }: {
   email: string | null;
@@ -37,14 +38,16 @@ export function TopBar({
   onLink: (id: TopLink) => void;
   onToggleContext: () => void;
   onGuide: () => void;
+  onSettings: () => void;
   onSignOut: (() => void) | null;
 }) {
   const initial = (email?.trim()[0] ?? "P").toUpperCase();
+  const mac = typeof navigator !== "undefined" && /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent);
 
   return (
     <header className="flex h-14 shrink-0 items-center justify-between gap-6 px-4">
       <div className="flex min-w-0 items-center gap-1">
-        <span className="mr-1.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#1c1917] text-[12.5px] font-medium text-[rgb(231,231,231)]" aria-hidden>
+        <span className="mr-1.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-solid text-fs-12.5 font-medium text-solid-ink" aria-hidden>
           F
         </span>
         <Dropdown
@@ -59,7 +62,7 @@ export function TopBar({
             </button>
           )}
         />
-        <span className="px-0.5 text-[15px] text-[#c4c4c0]" aria-hidden>
+        <span className="px-0.5 text-fs-15 text-faint-3" aria-hidden>
           /
         </span>
         <WorkspaceSwitcher api={workspaces} />
@@ -75,8 +78,8 @@ export function TopBar({
                 type="button"
                 onClick={() => onLink(l.id)}
                 aria-current={on ? "page" : undefined}
-                className={`inline-flex h-8 items-center rounded-lg px-2.5 text-[14px] outline-none transition-colors hover:text-[#1d1b1b] focus-visible:ring-2 focus-visible:ring-black/20 ${
-                  on ? "font-medium text-[#1d1b1b]" : "text-[#8a8a85]"
+                className={`inline-flex h-8 items-center rounded-lg px-2.5 text-fs-14 outline-none transition-colors hover:text-fore focus-visible:ring-2 focus-visible:ring-line/20 ${
+                  on ? "font-medium text-fore" : "text-quiet-2"
                 }`}
               >
                 {l.label}
@@ -90,6 +93,7 @@ export function TopBar({
           align="right"
           width={232}
           groups={[
+            { items: [{ id: "settings", label: "Settings", icon: Settings, hint: mac ? "⌘," : "Ctrl+," }] },
             {
               label: "Workspace",
               items: [
@@ -100,12 +104,13 @@ export function TopBar({
             },
           ]}
           onSelect={(id) => {
-            if (id === "details") onToggleContext();
+            if (id === "settings") onSettings();
+            else if (id === "details") onToggleContext();
             else if (id === "focus") onNav("focus");
             else onGuide();
           }}
           button={({ open, props }) => (
-            <button {...props} title="Settings" className={`${ICON_BUTTON} ${open ? "bg-black/[0.06] text-[#1d1b1b]" : ""}`}>
+            <button {...props} title="Settings" data-settings-trigger className={`${ICON_BUTTON} ${open ? "bg-line/[0.06] text-fore" : ""}`}>
               <Settings width={17} height={17} strokeWidth={1.75} aria-hidden />
             </button>
           )}
@@ -128,8 +133,8 @@ export function TopBar({
             <button
               {...props}
               title={email ?? "Preview"}
-              className={`ml-1 flex h-8 w-8 items-center justify-center rounded-full bg-[#e6e6e3] text-[13px] font-medium text-[#3d3b3a] outline-none transition-colors hover:bg-[#dcdcd8] focus-visible:ring-2 focus-visible:ring-black/25 ${
-                open ? "bg-[#dcdcd8]" : ""
+              className={`ml-1 flex h-8 w-8 items-center justify-center rounded-full bg-avatar text-fs-13 font-medium text-fore-3 outline-none transition-colors hover:bg-avatar-hover focus-visible:ring-2 focus-visible:ring-line/25 ${
+                open ? "bg-avatar-hover" : ""
               }`}
             >
               {initial}

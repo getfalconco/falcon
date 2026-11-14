@@ -18,9 +18,9 @@ function Facts({ rows }: { rows: [string, React.ReactNode][] }) {
   return (
     <dl className="flex flex-col">
       {rows.map(([label, value]) => (
-        <div key={label} className="flex items-baseline justify-between gap-3 border-b border-black/[0.05] py-2 last:border-0">
-          <dt className="text-[12px] text-[#767676]">{label}</dt>
-          <dd className="min-w-0 truncate text-right text-[12.5px] text-[#1d1b1b]">{value}</dd>
+        <div key={label} className="flex items-baseline justify-between gap-3 border-b border-line/[0.05] py-2 last:border-0">
+          <dt className="text-fs-12 text-quiet">{label}</dt>
+          <dd className="min-w-0 truncate text-right text-fs-12.5 text-fore">{value}</dd>
         </div>
       ))}
     </dl>
@@ -54,13 +54,13 @@ function DashboardContext() {
                 <span className="flex w-[56px] shrink-0">
                   <TickerButton ticker={e.ticker} />
                 </span>
-                <span className="min-w-0 flex-1 truncate text-[12px] text-[#767676]">{e.events === 1 ? "1 event" : `${e.events} events`}</span>
+                <span className="min-w-0 flex-1 truncate text-fs-12 text-quiet">{e.events === 1 ? "1 event" : `${e.events} events`}</span>
                 {e.net === null ? null : <NetMark value={e.net} showLabel />}
               </li>
             ))}
           </ul>
         ) : (
-          <p className="pt-1 text-[12px] text-[#9a9a9a]">Nothing on your list is hit</p>
+          <p className="pt-1 text-fs-12 text-faint">Nothing on your list is hit</p>
         )}
       </section>
     </>
@@ -78,21 +78,21 @@ function GraphContext() {
       </section>
       <section>
         <SectionTitle>Nodes</SectionTitle>
-        <ul className="flex flex-col gap-2 pt-1 text-[12px] text-[#4b4b48]">
+        <ul className="flex flex-col gap-2 pt-1 text-fs-12 text-fore-4">
           <li className="flex items-center gap-2.5">
-            <span className="h-3 w-3 rounded-full bg-[#1d1b1b]" aria-hidden />
+            <span className="h-3 w-3 rounded-full bg-fore" aria-hidden />
             Your focus list
           </li>
           <li className="flex items-center gap-2.5">
-            <span className="h-3 w-3 rounded-full border-[1.5px] border-black/35 bg-white" aria-hidden />
+            <span className="h-3 w-3 rounded-full border-[1.5px] border-line/35 bg-surface" aria-hidden />
             Connected company
           </li>
           <li className="flex items-center gap-2.5">
-            <span className="h-3 w-3 rounded-full border-[1.5px] border-[#2e7d4f] bg-white" aria-hidden />
+            <span className="h-3 w-3 rounded-full border-[1.5px] border-up bg-surface" aria-hidden />
             Hit today, up
           </li>
           <li className="flex items-center gap-2.5">
-            <span className="h-3 w-3 rounded-full border-[1.5px] border-[#b3432f] bg-white" aria-hidden />
+            <span className="h-3 w-3 rounded-full border-[1.5px] border-down bg-surface" aria-hidden />
             Hit today, down
           </li>
         </ul>
@@ -128,7 +128,7 @@ function TickerContext({ ticker }: { ticker: string }) {
                 <span className="flex w-[56px] shrink-0">
                   <TickerButton ticker={c.ticker} />
                 </span>
-                <span className="min-w-0 truncate text-[12px] text-[#767676]">{c.phrase}</span>
+                <span className="min-w-0 truncate text-fs-12 text-quiet">{c.phrase}</span>
               </li>
             ))}
           </ul>
@@ -141,7 +141,7 @@ function TickerContext({ ticker }: { ticker: string }) {
 function SightingContext({ cardId }: { cardId: string }) {
   const { feed } = useWorkspace();
   const card = findCard(feed?.cards, cardId);
-  if (!card) return <p className="text-[12px] text-[#9a9a9a]">No details</p>;
+  if (!card) return <p className="text-fs-12 text-faint">No details</p>;
   const ex = cardExplain(card);
   return (
     <>
@@ -172,8 +172,8 @@ function SightingContext({ cardId }: { cardId: string }) {
       </section>
       <section>
         <SectionTitle>Source</SectionTitle>
-        <p className="pt-1 text-[12px] leading-[18px]">
-          <span className="block text-[#767676]" style={{ fontFamily: MONO }}>
+        <p className="pt-1 text-fs-12 leading-fs-18">
+          <span className="block text-quiet" style={{ fontFamily: MONO }}>
             {card.event.source.publisher}
           </span>
           <ExternalAnchor href={card.event.source.url}>{card.event.source.title || "Source"}</ExternalAnchor>
@@ -185,14 +185,14 @@ function SightingContext({ cardId }: { cardId: string }) {
 
 /** Right panel inside the white card: details for whatever tab is active. */
 export function ContextPanel({ tab }: { tab: Tab | null }) {
-  let body: React.ReactNode = <p className="text-[12px] text-[#9a9a9a]">No details</p>;
+  let body: React.ReactNode = <p className="text-fs-12 text-faint">No details</p>;
   if (tab?.kind === "dashboard") body = <DashboardContext />;
   else if (tab?.kind === "graph") body = <GraphContext />;
   else if (tab?.kind === "ticker") body = <TickerContext ticker={tab.ticker} />;
   else if (tab?.kind === "sighting") body = <SightingContext cardId={tab.cardId} />;
   else if (tab?.kind === "strategy") body = <StrategyContext strategyId={tab.strategyId} />;
   return (
-    <aside className="flex h-full w-[280px] shrink-0 flex-col border-l border-black/[0.08]" aria-label="Details">
+    <aside className="flex h-full w-[280px] shrink-0 flex-col border-l border-line/[0.08]" aria-label="Details">
       <div className="flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto px-5 py-4">{body}</div>
     </aside>
   );

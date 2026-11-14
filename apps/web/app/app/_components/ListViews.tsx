@@ -17,7 +17,7 @@ import { CardBody, CardHeader, TextButton } from "./shell/ui";
  * sidebar; on desktop they now open in the white card from the sidebar nav.
  */
 
-const ROW = "flex w-full items-center gap-3 rounded-lg px-3 text-left outline-none transition-colors hover:bg-black/[0.04] focus-visible:bg-black/[0.05]";
+const ROW = "flex w-full items-center gap-3 rounded-lg px-3 text-left outline-none transition-colors hover:bg-line/[0.04] focus-visible:bg-line/[0.05]";
 
 function AddTicker({ onDone }: { onDone: () => void }) {
   const { addFocus, focusSet } = useWorkspace();
@@ -90,22 +90,22 @@ function AddTicker({ onDone }: { onDone: () => void }) {
         }}
         placeholder="Ticker or company"
         aria-label="Add a ticker"
-        className="h-9 w-full rounded-lg border border-black/15 bg-white px-3 text-[13px] text-[#1d1b1b] outline-none placeholder:text-[#9a9a9a] focus:border-black/35"
+        className="h-9 w-full rounded-lg border border-line/15 bg-surface px-3 text-fs-13 text-fore outline-none placeholder:text-faint focus:border-line/35"
       />
       {results.length ? (
-        <ul role="listbox" className="absolute left-0 right-0 top-[calc(100%+4px)] z-20 rounded-xl border border-black/10 bg-white p-1.5 shadow-[0_12px_32px_rgba(0,0,0,0.12)]">
+        <ul role="listbox" className="absolute left-0 right-0 top-[calc(100%+4px)] z-20 rounded-xl border border-line/10 bg-surface p-1.5 shadow-[0_12px_32px_rgba(0,0,0,0.12)]">
           {results.map((r, i) => (
             <li key={r.ticker} role="option" aria-selected={i === active}>
               <button
                 type="button"
                 onMouseDown={(e) => e.preventDefault()}
                 onClick={() => pick(r)}
-                className={`flex h-8 w-full items-center gap-2.5 rounded-lg px-2 text-left ${i === active ? "bg-black/[0.05]" : "hover:bg-black/[0.05]"}`}
+                className={`flex h-8 w-full items-center gap-2.5 rounded-lg px-2 text-left ${i === active ? "bg-line/[0.05]" : "hover:bg-line/[0.05]"}`}
               >
-                <span className="w-14 shrink-0 text-[12.5px] text-[#1d1b1b]" style={{ fontFamily: MONO }}>
+                <span className="w-14 shrink-0 text-fs-12.5 text-fore" style={{ fontFamily: MONO }}>
                   {r.ticker}
                 </span>
-                <span className="truncate text-[12.5px] text-[#767676]">{r.name}</span>
+                <span className="truncate text-fs-12.5 text-quiet">{r.name}</span>
               </button>
             </li>
           ))}
@@ -137,7 +137,7 @@ export function FocusListView({ headerExtra }: { headerExtra?: React.ReactNode }
       />
       <CardBody>
         <div className="mx-auto w-full max-w-[720px] px-7 py-6">
-          <p className="mb-4 text-[13px] text-[#767676]">
+          <p className="mb-4 text-fs-13 text-quiet">
             {focus.length} of {MAX_STOCKS} tickers. Sightings that reach these are marked across the workspace.
           </p>
           {adding ? <AddTicker onDone={() => setAdding(false)} /> : null}
@@ -148,18 +148,18 @@ export function FocusListView({ headerExtra }: { headerExtra?: React.ReactNode }
                 return (
                   <li key={f.ticker} className="group relative">
                     <button type="button" onClick={() => openTicker(f.ticker)} className={`${ROW} h-11 pr-11`}>
-                      <span className="w-[64px] shrink-0 text-[13px] text-[#1d1b1b]" style={{ fontFamily: MONO }}>
+                      <span className="w-[64px] shrink-0 text-fs-13 text-fore" style={{ fontFamily: MONO }}>
                         {f.ticker}
                       </span>
-                      <span className="min-w-0 flex-1 truncate text-[13px] text-[#767676]">{f.name || e?.companyName || ""}</span>
-                      {e && e.events ? <span className="shrink-0 text-[12px] text-[#9a9a9a]">{e.events === 1 ? "1 event" : `${e.events} events`}</span> : null}
+                      <span className="min-w-0 flex-1 truncate text-fs-13 text-quiet">{f.name || e?.companyName || ""}</span>
+                      {e && e.events ? <span className="shrink-0 text-fs-12 text-faint">{e.events === 1 ? "1 event" : `${e.events} events`}</span> : null}
                       {e && e.net !== null ? <NetMark value={e.net} showLabel /> : null}
                     </button>
                     <button
                       type="button"
                       onClick={() => removeFocus(f.ticker)}
                       aria-label={`Remove ${f.ticker} from focus list`}
-                      className="absolute right-2 top-1/2 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-md text-[#9a9a9a] opacity-0 outline-none transition-opacity hover:bg-black/[0.07] hover:text-[#1d1b1b] focus-visible:opacity-100 group-hover:opacity-100"
+                      className="absolute right-2 top-1/2 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-md text-faint opacity-0 outline-none transition-opacity hover:bg-line/[0.07] hover:text-fore focus-visible:opacity-100 group-hover:opacity-100"
                     >
                       <X width={13} height={13} strokeWidth={2} aria-hidden />
                     </button>
@@ -168,7 +168,7 @@ export function FocusListView({ headerExtra }: { headerExtra?: React.ReactNode }
               })}
             </ul>
           ) : adding ? null : (
-            <button type="button" onClick={() => setAdding(true)} className={`${ROW} h-10 text-[13px] text-[#767676]`}>
+            <button type="button" onClick={() => setAdding(true)} className={`${ROW} h-10 text-fs-13 text-quiet`}>
               Add a ticker
             </button>
           )}
@@ -185,16 +185,16 @@ function SightingRow({ card, mine, onOpen }: { card: RippleCard; mine: boolean; 
   return (
     <li>
       <button type="button" onClick={onOpen} className={`${ROW} items-start py-2.5`} title={mine ? "Touches your focus list" : undefined}>
-        <span className={`mt-[6px] h-1.5 w-1.5 shrink-0 rounded-full ${mine ? "bg-[#1d1b1b]" : "bg-black/15"}`} aria-hidden />
+        <span className={`mt-[6px] h-1.5 w-1.5 shrink-0 rounded-full ${mine ? "bg-fore" : "bg-line/15"}`} aria-hidden />
         <span className="min-w-0 flex-1">
-          <span className="flex items-center gap-1.5 text-[11px] text-[#1d1b1b]/50" style={{ fontFamily: MONO }}>
+          <span className="flex items-center gap-1.5 text-fs-11 text-fore/50" style={{ fontFamily: MONO }}>
             <span className="min-w-0 truncate uppercase tracking-[0.04em]">{ex.kicker}</span>
             <span aria-hidden>·</span>
-            <span className="shrink-0 whitespace-nowrap text-[11.5px] text-[#1d1b1b]">{card.event.ticker}</span>
-            <span className="ml-auto shrink-0 text-[11.5px] text-[#9a9a9a]">{timeAgo(card.event.occurredAt)}</span>
+            <span className="shrink-0 whitespace-nowrap text-fs-11.5 text-fore">{card.event.ticker}</span>
+            <span className="ml-auto shrink-0 text-fs-11.5 text-faint">{timeAgo(card.event.occurredAt)}</span>
           </span>
-          <span className="mt-0.5 line-clamp-2 text-[13.5px] leading-[19px] text-[#1d1b1b]">{ex.title}</span>
-          {notes.length ? <span className="mt-0.5 block text-[12px] text-[#767676]">{notes.join(" · ")}</span> : null}
+          <span className="mt-0.5 line-clamp-2 text-fs-13.5 leading-fs-19 text-fore">{ex.title}</span>
+          {notes.length ? <span className="mt-0.5 block text-fs-12 text-quiet">{notes.join(" · ")}</span> : null}
         </span>
       </button>
     </li>
@@ -203,9 +203,9 @@ function SightingRow({ card, mine, onOpen }: { card: RippleCard; mine: boolean; 
 
 function GroupLabel({ children, count }: { children: React.ReactNode; count: number }) {
   return (
-    <span className="flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.08em] text-[#9a9a9a]">
+    <span className="flex items-center gap-2 text-fs-11 font-medium uppercase tracking-[0.08em] text-faint">
       {children}
-      <span className="text-[#c4c4c0]">{count}</span>
+      <span className="text-faint-3">{count}</span>
     </span>
   );
 }
@@ -253,7 +253,7 @@ export function SightingsListView({ onGuide, headerExtra }: { onGuide: () => voi
                   ))}
                 </ul>
               ) : (
-                <p className="px-3 py-2 text-[13px] text-[#9a9a9a]">{NOTHING_CLEARED}</p>
+                <p className="px-3 py-2 text-fs-13 text-faint">{NOTHING_CLEARED}</p>
               )}
               {split.weak.length ? (
                 <div className="mt-4">
@@ -262,12 +262,12 @@ export function SightingsListView({ onGuide, headerExtra }: { onGuide: () => voi
                       width={13}
                       height={13}
                       strokeWidth={2}
-                      className={`mt-[2px] shrink-0 text-[#9a9a9a] transition-transform ${weakOpen ? "rotate-90" : ""}`}
+                      className={`mt-[2px] shrink-0 text-faint transition-transform ${weakOpen ? "rotate-90" : ""}`}
                       aria-hidden
                     />
                     <span className="min-w-0 flex-1">
                       <GroupLabel count={split.weak.length}>Watching</GroupLabel>
-                      <span className="mt-0.5 block text-[12.5px] leading-[17px] text-[#9a9a9a]">No evidence yet that these move the stock. Shown for context.</span>
+                      <span className="mt-0.5 block text-fs-12.5 leading-fs-17 text-faint">No evidence yet that these move the stock. Shown for context.</span>
                     </span>
                   </button>
                   {weakOpen ? (
@@ -281,7 +281,7 @@ export function SightingsListView({ onGuide, headerExtra }: { onGuide: () => voi
               ) : null}
             </>
           ) : (
-            <p className="px-3 py-2 text-[13px] text-[#9a9a9a]">
+            <p className="px-3 py-2 text-fs-13 text-faint">
               {feedStatus === "loading" ? "Loading" : feedStatus === "ready" ? NOTHING_CLEARED : "Sightings are not available"}
             </p>
           )}

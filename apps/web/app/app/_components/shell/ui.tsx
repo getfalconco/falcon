@@ -12,9 +12,9 @@ import { Check, ChevronsUpDown, Search } from "lucide-react";
 
 export type Icon = ComponentType<SVGProps<SVGSVGElement> & { size?: number | string; strokeWidth?: number | string }>;
 
-const FOCUS = "outline-none focus-visible:ring-2 focus-visible:ring-black/20";
+const FOCUS = "outline-none focus-visible:ring-2 focus-visible:ring-line/20";
 
-export const ICON_BUTTON = `inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-[#767676] transition-colors hover:bg-black/[0.05] hover:text-[#1d1b1b] disabled:pointer-events-none disabled:opacity-40 ${FOCUS}`;
+export const ICON_BUTTON = `inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-quiet transition-colors hover:bg-line/[0.05] hover:text-fore disabled:pointer-events-none disabled:opacity-40 ${FOCUS}`;
 
 export function IconButton({
   label,
@@ -39,7 +39,7 @@ export function IconButton({
       aria-pressed={pressed}
       disabled={disabled}
       onClick={onClick}
-      className={`${ICON_BUTTON} ${pressed ? "bg-black/[0.05] text-[#1d1b1b]" : ""} ${className}`}
+      className={`${ICON_BUTTON} ${pressed ? "bg-line/[0.05] text-fore" : ""} ${className}`}
     >
       <I width={16} height={16} strokeWidth={1.75} aria-hidden />
     </button>
@@ -69,8 +69,8 @@ export function TextButton({
       aria-pressed={pressed}
       disabled={disabled}
       title={title}
-      className={`inline-flex h-8 shrink-0 items-center gap-1.5 rounded-lg px-2.5 text-[13.5px] transition-colors hover:bg-black/[0.05] hover:text-[#1d1b1b] disabled:pointer-events-none disabled:opacity-40 ${FOCUS} ${
-        pressed ? "bg-black/[0.05] text-[#1d1b1b]" : "text-[#4b4b48]"
+      className={`inline-flex h-8 shrink-0 items-center gap-1.5 rounded-lg px-2.5 text-fs-13.5 transition-colors hover:bg-line/[0.05] hover:text-fore disabled:pointer-events-none disabled:opacity-40 ${FOCUS} ${
+        pressed ? "bg-line/[0.05] text-fore" : "text-fore-4"
       }`}
     >
       {I ? <I width={15} height={15} strokeWidth={1.75} aria-hidden /> : null}
@@ -82,9 +82,9 @@ export function TextButton({
 /** The white card's top row: title left, actions right. */
 export function CardHeader({ title, actions, titleMono = false }: { title: ReactNode; actions?: ReactNode; titleMono?: boolean }) {
   return (
-    <div data-pane-header className="flex h-14 shrink-0 items-center justify-between gap-4 border-b border-black/[0.08] px-5">
+    <div data-pane-header className="flex h-14 shrink-0 items-center justify-between gap-4 border-b border-line/[0.08] px-5">
       <h1
-        className="min-w-0 truncate text-[18px] font-medium leading-[24px] tracking-[-0.01em] text-[#1d1b1b]"
+        className="min-w-0 truncate text-fs-18 font-medium leading-fs-24 tracking-[-0.01em] text-fore"
         style={titleMono ? { fontFamily: "var(--font-geist-mono), monospace" } : undefined}
       >
         {title}
@@ -103,8 +103,8 @@ type TriggerProps = ButtonHTMLAttributes<HTMLButtonElement> & { ref: Ref<HTMLBut
 
 /** Label plus up/down chevron; light gray fill while its menu is open. */
 export function selectorClass(open: boolean, size: "md" | "sm" = "md"): string {
-  return `inline-flex min-w-0 max-w-full items-center gap-1.5 rounded-lg ${size === "md" ? "h-8 px-2.5 text-[14px]" : "h-7 px-2 text-[13.5px]"} font-medium text-[#1d1b1b] transition-colors hover:bg-black/[0.05] ${FOCUS} ${
-    open ? "bg-black/[0.06]" : ""
+  return `inline-flex min-w-0 max-w-full items-center gap-1.5 rounded-lg ${size === "md" ? "h-8 px-2.5 text-fs-14" : "h-7 px-2 text-fs-13.5"} font-medium text-fore transition-colors hover:bg-line/[0.05] ${FOCUS} ${
+    open ? "bg-line/[0.06]" : ""
   }`;
 }
 
@@ -112,7 +112,7 @@ export function SelectorLabel({ children }: { children: ReactNode }) {
   return (
     <>
       <span className="min-w-0 truncate">{children}</span>
-      <ChevronsUpDown width={14} height={14} strokeWidth={1.75} className="shrink-0 text-[#9a9a9a]" aria-hidden />
+      <ChevronsUpDown width={14} height={14} strokeWidth={1.75} className="shrink-0 text-faint" aria-hidden />
     </>
   );
 }
@@ -129,6 +129,8 @@ export type MenuItem = {
   icon?: Icon;
   mono?: boolean;
   danger?: boolean;
+  /** Keyboard shortcut shown at the right, e.g. "⌘,". */
+  hint?: string;
 };
 
 export type MenuGroup = { label?: string; items: MenuItem[] };
@@ -321,14 +323,14 @@ function MenuPanel({
 
   return (
     <div
-      className={`absolute z-50 overflow-hidden rounded-xl border border-black/10 bg-white text-[#1d1b1b] shadow-[0_12px_32px_rgba(0,0,0,0.12)] ${
+      className={`absolute z-50 overflow-hidden rounded-xl border border-line/10 bg-raised text-fore shadow-[0_12px_32px_rgba(0,0,0,0.12)] dark:shadow-[0_12px_32px_rgba(0,0,0,0.45)] ${
         side === "bottom" ? "top-full mt-1.5" : "bottom-full mb-1.5"
       } ${align === "left" ? "left-0" : "right-0"}`}
       style={{ width }}
     >
       {searchPlaceholder ? (
-        <div className="flex h-10 items-center gap-2 border-b border-black/[0.08] px-3">
-          <Search width={15} height={15} strokeWidth={1.75} className="shrink-0 text-[#9a9a9a]" aria-hidden />
+        <div className="flex h-10 items-center gap-2 border-b border-line/[0.08] px-3">
+          <Search width={15} height={15} strokeWidth={1.75} className="shrink-0 text-faint" aria-hidden />
           <input
             ref={inputRef}
             role="combobox"
@@ -344,7 +346,7 @@ function MenuPanel({
             }}
             onKeyDown={onKeyDown}
             placeholder={searchPlaceholder}
-            className="min-w-0 flex-1 bg-transparent text-[13.5px] text-[#1d1b1b] outline-none placeholder:text-[#9a9a9a]"
+            className="min-w-0 flex-1 bg-transparent text-fs-13.5 text-fore outline-none placeholder:text-faint"
           />
         </div>
       ) : null}
@@ -362,7 +364,7 @@ function MenuPanel({
           shown.map((g, gi) => (
             <div key={`${g.label ?? ""}-${gi}`} role="group" aria-label={g.label} className={gi > 0 ? "mt-1" : ""}>
               {g.label ? (
-                <div className="px-2 pb-1 pt-1.5 text-[11px] font-medium uppercase tracking-[0.08em] text-[#9a9a9a]" aria-hidden>
+                <div className="px-2 pb-1 pt-1.5 text-fs-11 font-medium uppercase tracking-[0.08em] text-faint" aria-hidden>
                   {g.label}
                 </div>
               ) : null}
@@ -380,26 +382,31 @@ function MenuPanel({
                     onMouseDown={(e) => e.preventDefault()}
                     onMouseMove={() => active !== i && setActive(i)}
                     onClick={() => onSelect(item.id)}
-                    className={`flex cursor-default items-start gap-2 rounded-lg px-2 py-1.5 ${on ? "bg-black/[0.05]" : ""}`}
+                    className={`flex cursor-default items-start gap-2 rounded-lg px-2 py-1.5 ${on ? "bg-line/[0.05]" : ""}`}
                   >
-                    {I ? <I width={15} height={15} strokeWidth={1.75} className="mt-[2px] shrink-0 text-[#767676]" aria-hidden /> : null}
+                    {I ? <I width={15} height={15} strokeWidth={1.75} className="mt-[2px] shrink-0 text-quiet" aria-hidden /> : null}
                     <div className="min-w-0 flex-1">
                       <div
-                        className={`truncate text-[13.5px] leading-[20px] ${item.danger ? "text-[#b3432f]" : "text-[#1d1b1b]"}`}
+                        className={`truncate text-fs-13.5 leading-fs-20 ${item.danger ? "text-down" : "text-fore"}`}
                         style={item.mono ? { fontFamily: "var(--font-geist-mono), monospace" } : undefined}
                       >
                         {item.label}
                       </div>
-                      {item.description ? <div className="line-clamp-2 text-[12px] leading-[16px] text-[#8a8a85]">{item.description}</div> : null}
+                      {item.description ? <div className="line-clamp-2 text-fs-12 leading-fs-16 text-quiet-2">{item.description}</div> : null}
                     </div>
-                    {item.selected ? <Check width={15} height={15} strokeWidth={2} className="mt-[2px] shrink-0 text-[#1d1b1b]" aria-hidden /> : null}
+                    {item.hint ? (
+                      <kbd className="mt-[2px] shrink-0 [font-family:inherit] text-fs-12 leading-fs-16 text-faint" aria-hidden>
+                        {item.hint}
+                      </kbd>
+                    ) : null}
+                    {item.selected ? <Check width={15} height={15} strokeWidth={2} className="mt-[2px] shrink-0 text-fore" aria-hidden /> : null}
                   </div>
                 );
               })}
             </div>
           ))
         ) : (
-          <p className="px-2 py-2 text-[12.5px] text-[#9a9a9a]">No matches</p>
+          <p className="px-2 py-2 text-fs-12.5 text-faint">No matches</p>
         )}
       </div>
       {footer}

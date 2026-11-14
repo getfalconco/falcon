@@ -20,14 +20,14 @@ function AffectedRow({ hit, card, mine }: { hit: RippleHit; card: RippleCard; mi
     <div className="px-5 py-4">
       <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
         <TickerButton ticker={hit.ticker} />
-        <span className="min-w-0 truncate text-[13.5px] text-[#1d1b1b]">{shortCompany(hit.companyName)}</span>
+        <span className="min-w-0 truncate text-fs-13.5 text-fore">{shortCompany(hit.companyName)}</span>
         <DirectionWord direction={hit.direction} />
-        {mine ? <span className="text-[12px] text-[#767676]">On your list</span> : null}
+        {mine ? <span className="text-fs-12 text-quiet">On your list</span> : null}
         {hit.pricedIn ? <PricedInTag since={hit.sinceEvent} /> : null}
       </div>
-      {link ? <p className="mt-1.5 text-[12.5px] text-[#767676]">{link.charAt(0).toUpperCase() + link.slice(1)}</p> : null}
-      <p className="mt-2 text-[13.5px] leading-[21px] text-[#4b4b48]">{hit.mechanism}</p>
-      <p className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-[12.5px] text-[#767676]">
+      {link ? <p className="mt-1.5 text-fs-12.5 text-quiet">{link.charAt(0).toUpperCase() + link.slice(1)}</p> : null}
+      <p className="mt-2 text-fs-13.5 leading-fs-21 text-fore-4">{hit.mechanism}</p>
+      <p className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-fs-12.5 text-quiet">
         <span>Time frame: {hit.window}</span>
         {hit.sinceEvent ? (
           <span title={hit.sinceEvent.pricedInAtPct !== null ? `Half its usual move is ${signedPct(hit.sinceEvent.pricedInAtPct)}` : undefined}>
@@ -37,7 +37,7 @@ function AffectedRow({ hit, card, mine }: { hit: RippleHit; card: RippleCard; mi
       </p>
       {quotes ? (
         <details className="group mt-2.5 [&_summary::-webkit-details-marker]:hidden">
-          <summary className="inline-flex cursor-pointer list-none items-center gap-1 rounded text-[12.5px] text-[#4b4b48] underline decoration-black/20 underline-offset-2 outline-none hover:text-[#1d1b1b] focus-visible:ring-2 focus-visible:ring-black/20">
+          <summary className="inline-flex cursor-pointer list-none items-center gap-1 rounded text-fs-12.5 text-fore-4 underline decoration-line/20 underline-offset-2 outline-none hover:text-fore focus-visible:ring-2 focus-visible:ring-line/20">
             <span className="group-open:hidden">{quotes === 1 ? "Show the filing quote" : `Show the filing quotes (${quotes})`}</span>
             <span className="hidden group-open:inline">{quotes === 1 ? "Hide the filing quote" : "Hide the filing quotes"}</span>
           </summary>
@@ -78,24 +78,24 @@ function SightingDetail({ card }: { card: RippleCard }) {
   }, [card]);
 
   return (
-    <div className="mx-auto flex w-full max-w-[980px] flex-col gap-7 px-7 py-6">
+    <div className="mx-auto flex w-full max-w-[var(--f-w-sighting)] flex-col gap-7 px-7 py-6">
       <header>
         <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
           <CardKicker card={card} ex={ex} />
-          <span className="text-[12px] text-[#9a9a9a]">{formatDateTime(event.occurredAt)}</span>
+          <span className="text-fs-12 text-faint">{formatDateTime(event.occurredAt)}</span>
           <span className="ml-auto flex items-center gap-2">
             <HowToReadButton />
             <BacktestButton cardId={card.id} variant="outline" />
           </span>
         </div>
-        <h1 className="mt-3 max-w-[820px] text-[26px] leading-[35px] text-[#1d1b1b]" style={{ fontFamily: SERIF }}>
+        <h1 className="mt-3 max-w-[820px] text-fs-26 leading-fs-35 text-fore" style={{ fontFamily: SERIF }}>
           {ex.title}
         </h1>
         <div className="mt-3 flex flex-wrap items-center gap-2">
           <StrengthBadge strength={ex.strength} />
           {cardPricedIn(card) ? <PricedInTag since={card.hits.find((h) => h.pricedIn)?.sinceEvent} /> : null}
         </div>
-        <p className="mt-1.5 max-w-[680px] text-[13px] leading-[20px] text-[#767676]">{ex.strength.detail}</p>
+        <p className="mt-1.5 max-w-[680px] text-fs-13 leading-fs-20 text-quiet">{ex.strength.detail}</p>
       </header>
 
       <Panel className="px-6 py-5">
@@ -105,7 +105,7 @@ function SightingDetail({ card }: { card: RippleCard }) {
       <section>
         <SectionTitle count={hits.length}>Companies affected</SectionTitle>
         {hits.length ? (
-          <Panel className="mt-2 divide-y divide-black/[0.06]">
+          <Panel className="mt-2 divide-y divide-line/[0.06]">
             {hits.map((hit) => (
               <AffectedRow key={hit.ticker} hit={hit} card={card} mine={focusSet.has(hit.ticker)} />
             ))}

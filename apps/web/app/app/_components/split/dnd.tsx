@@ -124,7 +124,7 @@ export function DragDockProvider({ areaRef, onDrop, children }: { areaRef: RefOb
       {drag ? <DropOverlay areaRef={areaRef} zone={drag.zone} /> : null}
       {drag?.ghost ? (
         <div
-          className="pointer-events-none fixed z-[90] -translate-x-1/2 -translate-y-[130%] whitespace-nowrap rounded-lg border border-black/10 bg-white px-2.5 py-1 text-[12.5px] text-[#1d1b1b] shadow-[0_8px_24px_rgba(0,0,0,0.12)]"
+          className="pointer-events-none fixed z-[90] -translate-x-1/2 -translate-y-[130%] whitespace-nowrap rounded-lg border border-line/10 bg-surface px-2.5 py-1 text-fs-12.5 text-fore shadow-[0_8px_24px_rgba(0,0,0,0.12)]"
           style={{ left: drag.x, top: drag.y }}
           aria-hidden
         >
@@ -135,7 +135,6 @@ export function DragDockProvider({ areaRef, onDrop, children }: { areaRef: RefOb
   );
 }
 
-const ACCENT = "#5b4bdb";
 
 /** The two halves of the main area, the one under the pointer highlighted. */
 function DropOverlay({ areaRef, zone }: { areaRef: RefObject<HTMLElement>; zone: Side | null }) {
@@ -154,12 +153,12 @@ function DropOverlay({ areaRef, zone }: { areaRef: RefObject<HTMLElement>; zone:
             style={{
               left: side === "left" ? 0 : half + gap,
               width: half,
-              borderColor: on ? `${ACCENT}99` : "rgba(0,0,0,0.08)",
+              borderColor: on ? "rgb(var(--f-iris) / 0.6)" : "rgb(var(--f-line) / 0.08)",
               borderStyle: on ? "solid" : "dashed",
-              background: on ? `${ACCENT}1a` : "rgba(255,255,255,0.35)",
+              background: on ? "rgb(var(--f-iris) / 0.1)" : "rgb(var(--f-surface) / 0.35)",
             }}
           >
-            <span className="rounded-md bg-white/90 px-2 py-1 text-[12px] font-medium shadow-sm" style={{ color: on ? ACCENT : "#8a8a85" }}>
+            <span className="rounded-md bg-surface/90 px-2 py-1 text-fs-12 font-medium shadow-sm" style={{ color: on ? "rgb(var(--f-iris))" : "rgb(var(--f-quiet-2))" }}>
               {side === "left" ? "Open on the left" : "Open on the right"}
             </span>
           </div>

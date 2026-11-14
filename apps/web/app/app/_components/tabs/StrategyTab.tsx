@@ -112,7 +112,7 @@ export function StrategyTab({ strategyId, headerExtra }: { strategyId: string; h
               <button
                 type="button"
                 onClick={() => newStrategy()}
-                className="inline-flex h-8 items-center rounded-lg border border-black/10 px-3 text-[12.5px] text-[#1d1b1b] outline-none transition-colors hover:bg-[#efefec] focus-visible:border-black/40"
+                className="inline-flex h-8 items-center rounded-lg border border-line/10 px-3 text-fs-12.5 text-fore outline-none transition-colors hover:bg-surface-hover focus-visible:border-line/40"
               >
                 New strategy
               </button>
@@ -283,7 +283,7 @@ function StrategyView({ s, headerExtra }: { s: SavedStrategy; headerExtra?: Reac
         actions={
           <>
             {narrow ? (
-              <div role="tablist" aria-label="Strategy Lab panes" className="mr-1 flex rounded-lg bg-black/[0.05] p-0.5">
+              <div role="tablist" aria-label="Strategy Lab panes" className="mr-1 flex rounded-lg bg-line/[0.05] p-0.5">
                 {(["chat", "result"] as const).map((v) => (
                   <button
                     key={v}
@@ -291,8 +291,8 @@ function StrategyView({ s, headerExtra }: { s: SavedStrategy; headerExtra?: Reac
                     role="tab"
                     aria-selected={narrowView === v}
                     onClick={() => setNarrowView(v)}
-                    className={`h-7 rounded-md px-2.5 text-[13px] outline-none transition-colors focus-visible:ring-2 focus-visible:ring-black/20 ${
-                      narrowView === v ? "bg-white font-medium text-[#1d1b1b] shadow-[0_1px_2px_rgba(0,0,0,0.08)]" : "text-[#767676] hover:text-[#1d1b1b]"
+                    className={`h-7 rounded-md px-2.5 text-fs-13 outline-none transition-colors focus-visible:ring-2 focus-visible:ring-line/20 ${
+                      narrowView === v ? "bg-surface font-medium text-fore shadow-[0_1px_2px_rgba(0,0,0,0.08)]" : "text-quiet hover:text-fore"
                     }`}
                   >
                     {v === "chat" ? "Chat" : "Result"}
@@ -329,7 +329,7 @@ function StrategyView({ s, headerExtra }: { s: SavedStrategy; headerExtra?: Reac
         {showLeft ? (
         <Pane
           label="Conversation"
-          className={showRight ? "border-r border-black/[0.08]" : ""}
+          className={showRight ? "border-r border-line/[0.08]" : ""}
           header={
             <LeftHeader
               s={s}
@@ -372,12 +372,12 @@ function StrategyView({ s, headerExtra }: { s: SavedStrategy; headerExtra?: Reac
         >
           <div className="flex flex-col gap-5 px-5 py-5">
             {s.origin.kind === "sighting" ? (
-              <p className="text-[13px] leading-[20px] text-[#767676]">
+              <p className="text-fs-13 leading-fs-20 text-quiet">
                 {s.origin.hasHistory ? `Tests past ${s.origin.basis} on the companies the` : "Past events like the"}{" "}
                 <button
                   type="button"
                   onClick={() => openSighting((s.origin as { cardId: string }).cardId)}
-                  className="text-[#4b4b48] underline decoration-black/20 underline-offset-2 outline-none hover:text-[#1d1b1b] focus-visible:decoration-black/60"
+                  className="text-fore-4 underline decoration-line/20 underline-offset-2 outline-none hover:text-fore focus-visible:decoration-line/60"
                 >
                   {s.origin.eventTicker} sighting
                 </button>{" "}
@@ -446,7 +446,7 @@ function StrategyView({ s, headerExtra }: { s: SavedStrategy; headerExtra?: Reac
                       else setRightMode("history");
                     }}
                     button={({ open, props }) => (
-                      <button {...props} title="More" className={`${ICON_BUTTON} ${open ? "bg-black/[0.06] text-[#1d1b1b]" : ""}`}>
+                      <button {...props} title="More" className={`${ICON_BUTTON} ${open ? "bg-line/[0.06] text-fore" : ""}`}>
                         <MoreHorizontal width={16} height={16} strokeWidth={1.75} aria-hidden />
                       </button>
                     )}
@@ -481,8 +481,8 @@ function StrategyView({ s, headerExtra }: { s: SavedStrategy; headerExtra?: Reac
                 <StrategyContext strategyId={s.id} />
               ) : picked ? (
                 <>
-                  <div className="flex items-center justify-between gap-3 rounded-lg border border-black/[0.08] bg-[#f8f8f6] px-3.5 py-2">
-                    <span className="text-[13px] text-[#4b4b48]">Showing version {picked.v}, not the current rules.</span>
+                  <div className="flex items-center justify-between gap-3 rounded-lg border border-line/[0.08] bg-surface-3 px-3.5 py-2">
+                    <span className="text-fs-13 text-fore-4">Showing version {picked.v}, not the current rules.</span>
                     <span className="flex shrink-0 items-center gap-0.5">
                       <TextButton
                         onClick={() => {
@@ -513,7 +513,7 @@ function StrategyView({ s, headerExtra }: { s: SavedStrategy; headerExtra?: Reac
                   {studies.length ? <HistoryStudyView studies={studies} eventTicker={s.origin.kind === "sighting" ? s.origin.eventTicker : ""} /> : null}
                   {noHistory && !studies.length ? (
                     <Panel className="px-5 py-4">
-                      <p className="text-[13px] leading-[20px] text-[#4b4b48]">
+                      <p className="text-fs-13 leading-fs-20 text-fore-4">
                         No history source yet for {s.origin.kind === "sighting" ? `${s.origin.eventTicker} events` : "events"} of this type (for example monthly revenue reports). The past
                         record is not in the backtest data, so there is nothing to measure. Earnings Sightings test against the full earnings record.
                       </p>
@@ -532,7 +532,7 @@ function StrategyView({ s, headerExtra }: { s: SavedStrategy; headerExtra?: Reac
                     <ResultsV2 name={name === "Untitled strategy" ? "This strategy" : name} result={shown} stale={stale} audit={getAudit(lastKey)} review={getReview(lastKey)} onExplain={onExplain} />
                   ) : !running && !noHistory ? (
                     <div className="flex flex-col items-center px-4 py-10 text-center">
-                      <p className="max-w-[400px] text-[14px] leading-[21px] text-[#767676]">
+                      <p className="max-w-[400px] text-fs-14 leading-fs-21 text-quiet">
                         {isBlank
                           ? "The result shows here: how much evidence the past data gives, then the curves, flags and trades."
                           : "Read the numbered rules, adjust the parameters if needed, then press Run. The result opens with how much evidence the past data gives, followed by the curves, flags and trades."}
@@ -569,7 +569,7 @@ function Pane({ label, header, footer, children, className = "" }: { label: stri
       <div className="flex h-[52px] shrink-0 items-center justify-between gap-2 px-3">{header}</div>
       <div className="min-h-0 flex-1 overflow-y-auto">{children}</div>
       {footer ? (
-        <div className="flex h-9 shrink-0 items-center justify-center gap-4 px-4 text-[11.5px] text-[#9a9a9a]" style={{ fontFamily: MONO }}>
+        <div className="flex h-9 shrink-0 items-center justify-center gap-4 px-4 text-fs-11.5 text-faint" style={{ fontFamily: MONO }}>
           {footer}
         </div>
       ) : null}
@@ -616,7 +616,7 @@ function RunMeta({ result, ms }: { result: { specHash: string; provenance: { tri
         }}
         title={id}
         aria-label={copied ? "Run ID copied" : "Copy run ID"}
-        className="inline-flex items-center gap-1 rounded px-1 outline-none transition-colors hover:text-[#1d1b1b] focus-visible:ring-2 focus-visible:ring-black/20"
+        className="inline-flex items-center gap-1 rounded px-1 outline-none transition-colors hover:text-fore focus-visible:ring-2 focus-visible:ring-line/20"
       >
         {copied ? <Check width={12} height={12} strokeWidth={2} aria-hidden /> : <Copy width={12} height={12} strokeWidth={1.75} aria-hidden />}
         {copied ? "Copied" : "Run ID"}
@@ -673,7 +673,7 @@ function LeftHeader({
               setRenaming(false);
             }
           }}
-          className="h-8 min-w-0 max-w-[320px] flex-1 rounded-lg border border-black/20 bg-white px-2.5 text-[14px] font-medium text-[#1d1b1b] outline-none focus:border-black/40"
+          className="h-8 min-w-0 max-w-[320px] flex-1 rounded-lg border border-line/20 bg-surface px-2.5 text-fs-14 font-medium text-fore outline-none focus:border-line/40"
         />
       ) : (
         <Dropdown
@@ -687,19 +687,19 @@ function LeftHeader({
             <button {...props} className={selectorClass(open)}>
               <SelectorLabel>
                 {name}
-                {s.spec.legacy ? <span className="ml-1.5 font-normal text-[#9a9a9a]">v1 rules</span> : null}
+                {s.spec.legacy ? <span className="ml-1.5 font-normal text-faint">v1 rules</span> : null}
               </SelectorLabel>
             </button>
           )}
         />
       )}
       {confirm ? (
-        <span className="flex shrink-0 items-center gap-1 text-[13px] text-[#4b4b48]">
+        <span className="flex shrink-0 items-center gap-1 text-fs-13 text-fore-4">
           Delete this strategy?
-          <button type="button" onClick={onDelete} className="rounded-md px-2 py-1 text-[#b3432f] outline-none hover:bg-black/[0.05] focus-visible:ring-2 focus-visible:ring-black/20">
+          <button type="button" onClick={onDelete} className="rounded-md px-2 py-1 text-down outline-none hover:bg-line/[0.05] focus-visible:ring-2 focus-visible:ring-line/20">
             Delete
           </button>
-          <button type="button" onClick={() => setConfirm(false)} className="rounded-md px-2 py-1 outline-none hover:bg-black/[0.05] focus-visible:ring-2 focus-visible:ring-black/20">
+          <button type="button" onClick={() => setConfirm(false)} className="rounded-md px-2 py-1 outline-none hover:bg-line/[0.05] focus-visible:ring-2 focus-visible:ring-line/20">
             Keep
           </button>
         </span>
@@ -727,7 +727,7 @@ function LeftHeader({
               else setConfirm(true);
             }}
             button={({ open, props }) => (
-              <button {...props} title="More" className={`${ICON_BUTTON} ${open ? "bg-black/[0.06] text-[#1d1b1b]" : ""}`}>
+              <button {...props} title="More" className={`${ICON_BUTTON} ${open ? "bg-line/[0.06] text-fore" : ""}`}>
                 <MoreHorizontal width={16} height={16} strokeWidth={1.75} aria-hidden />
               </button>
             )}
@@ -789,8 +789,8 @@ function Composer({
   ];
 
   return (
-    <div className="shrink-0 border-t border-black/[0.06] px-6 pb-5 pt-4">
-      <div className="mx-auto w-full max-w-[800px] rounded-xl border border-black/[0.12] bg-white shadow-[0_1px_2px_rgba(0,0,0,0.04)] transition-colors focus-within:border-black/30">
+    <div className="shrink-0 border-t border-line/[0.06] px-6 pb-5 pt-4">
+      <div className="mx-auto w-full max-w-[800px] rounded-xl border border-line/[0.12] bg-surface shadow-[0_1px_2px_rgba(0,0,0,0.04)] transition-colors focus-within:border-line/30">
         <textarea
           aria-label={chat.hasSpec ? "Describe a change to the rules" : "Describe a strategy in plain words"}
           value={text}
@@ -809,7 +809,7 @@ function Composer({
             }
           }}
           placeholder={placeholder}
-          className="block max-h-[160px] min-h-[52px] w-full resize-none rounded-t-xl bg-transparent px-4 pt-3 text-[14px] leading-[21px] text-[#1d1b1b] outline-none placeholder:text-[#9a9a9a] disabled:cursor-not-allowed"
+          className="block max-h-[160px] min-h-[52px] w-full resize-none rounded-t-xl bg-transparent px-4 pt-3 text-fs-14 leading-fs-21 text-fore outline-none placeholder:text-faint disabled:cursor-not-allowed"
         />
         <div className="flex items-center justify-between gap-2 px-3 pb-3 pt-1">
           <div className="flex items-center gap-2">
@@ -823,8 +823,8 @@ function Composer({
               button={({ open, props }) => (
                 <button
                   {...props}
-                  className={`inline-flex h-8 items-center rounded-lg border border-black/[0.12] px-2.5 text-[13px] text-[#3d3b3a] outline-none transition-colors hover:bg-black/[0.04] focus-visible:ring-2 focus-visible:ring-black/20 ${
-                    open ? "bg-black/[0.05]" : ""
+                  className={`inline-flex h-8 items-center rounded-lg border border-line/[0.12] px-2.5 text-fs-13 text-fore-3 outline-none transition-colors hover:bg-line/[0.04] focus-visible:ring-2 focus-visible:ring-line/20 ${
+                    open ? "bg-line/[0.05]" : ""
                   }`}
                 >
                   Examples
@@ -842,8 +842,8 @@ function Composer({
                 <button
                   {...props}
                   title="Backtest a Sighting"
-                  className={`inline-flex h-8 w-8 items-center justify-center rounded-lg border border-black/[0.12] text-[#4b4b48] outline-none transition-colors hover:bg-black/[0.04] focus-visible:ring-2 focus-visible:ring-black/20 ${
-                    open ? "bg-black/[0.05]" : ""
+                  className={`inline-flex h-8 w-8 items-center justify-center rounded-lg border border-line/[0.12] text-fore-4 outline-none transition-colors hover:bg-line/[0.04] focus-visible:ring-2 focus-visible:ring-line/20 ${
+                    open ? "bg-line/[0.05]" : ""
                   }`}
                 >
                   <Paperclip width={15} height={15} strokeWidth={1.75} aria-hidden />
@@ -859,10 +859,10 @@ function Composer({
               disabled={!canRun}
               aria-keyshortcuts="Meta+Enter Control+Enter"
               title={chat.hasSpec ? "Run the backtest (each run counts as a trial)" : "Describe a strategy first"}
-              className="inline-flex h-8 items-center gap-2 rounded-lg bg-[#1c1917] pl-3 pr-2.5 text-[13px] font-medium text-[rgb(231,231,231)] outline-none transition-colors hover:bg-[#0f0d0b] focus-visible:ring-2 focus-visible:ring-black/30 disabled:cursor-not-allowed disabled:opacity-40"
+              className="inline-flex h-8 items-center gap-2 rounded-lg bg-solid pl-3 pr-2.5 text-fs-13 font-medium text-solid-ink outline-none transition-colors hover:bg-solid-hover focus-visible:ring-2 focus-visible:ring-line/30 disabled:cursor-not-allowed disabled:opacity-40"
             >
               {running ? "Running" : "Run"}
-              <kbd className="font-sans text-[12px] font-normal text-white/55">⌘↵</kbd>
+              <kbd className="font-sans text-fs-12 font-normal text-paper/55">⌘↵</kbd>
             </button>
           </div>
         </div>
@@ -889,22 +889,22 @@ function RunStatus({
     <div className="flex flex-col gap-2">
       {running ? (
         <div role="status" aria-live="polite" className="flex items-center gap-3">
-          <div className="relative h-[3px] w-[180px] shrink-0 overflow-hidden rounded-full bg-black/[0.07]">
-            <div className="absolute inset-y-0 w-1/3 animate-[falcon-progress_1.2s_ease-in-out_infinite] rounded-full bg-[#1d1b1b]/70" />
+          <div className="relative h-[3px] w-[180px] shrink-0 overflow-hidden rounded-full bg-line/[0.07]">
+            <div className="absolute inset-y-0 w-1/3 animate-[falcon-progress_1.2s_ease-in-out_infinite] rounded-full bg-fore/70" />
           </div>
-          <span className="text-[12px] text-[#767676]" style={{ fontFamily: MONO }}>
+          <span className="text-fs-12 text-quiet" style={{ fontFamily: MONO }}>
             {retrying ? "Still loading, trying again" : `Loading daily prices for ${tickers} ${tickers === 1 ? "ticker" : "tickers"} and running the checks`} {elapsed}s
           </span>
           <style>{`@keyframes falcon-progress { 0% { left: -33% } 100% { left: 100% } }`}</style>
         </div>
       ) : null}
       {error ? (
-        <div role="alert" className="text-[12.5px] leading-[19px] text-[#b3432f]">
+        <div role="alert" className="text-fs-12.5 leading-fs-19 text-down">
           {error.message}
           {error.issues.length ? (
-            <span className="text-[#767676]"> {error.issues.slice(0, 3).map((i) => i.message).join(" ")}</span>
+            <span className="text-quiet"> {error.issues.slice(0, 3).map((i) => i.message).join(" ")}</span>
           ) : error.errors.length > 1 ? (
-            <span className="text-[#767676]"> {error.errors.slice(1, 4).join("; ")}</span>
+            <span className="text-quiet"> {error.errors.slice(1, 4).join("; ")}</span>
           ) : null}
         </div>
       ) : null}

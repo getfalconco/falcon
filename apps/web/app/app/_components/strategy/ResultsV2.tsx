@@ -6,10 +6,10 @@ import type { AuditState, ReviewState } from "@/lib/workspace/strategies";
 import { MONO, Panel, SERIF, SectionTitle, formatDate } from "../parts";
 import { ChartLegend, EquityChart, pct, type ChartSeries } from "./EquityChart";
 
-const INK = "#1d1b1b";
-const SPY_COLOR = "#a3a39e";
-const EW_COLOR = "#2a78d6";
-const DD_COLOR = "#b3432f";
+const INK = "rgb(var(--f-fore))";
+const SPY_COLOR = "rgb(var(--f-chart-spy))";
+const EW_COLOR = "rgb(var(--f-chart-ew))";
+const DD_COLOR = "rgb(var(--f-down))";
 
 const EXIT_LABEL: Record<TradeV2["exitReason"], string> = {
   signal: "Exit rule",
@@ -81,8 +81,8 @@ export function ResultsV2({
             <div className="mt-3">
               <EquityChart dates={dates} series={chart} />
             </div>
-            <div className="mt-4 border-t border-black/[0.06] pt-3">
-              <span className="text-[12px] text-[#767676]">Drawdown: fall from the previous high</span>
+            <div className="mt-4 border-t border-line/[0.06] pt-3">
+              <span className="text-fs-12 text-quiet">Drawdown: fall from the previous high</span>
               <div className="mt-1">
                 <EquityChart dates={dates} series={dd} height={120} />
               </div>
@@ -101,7 +101,7 @@ export function ResultsV2({
       {result.yearly.length ? <Years result={result} /> : null}
       {result.trades.length ? <Trades trades={result.trades} /> : null}
 
-      <footer className="flex flex-col gap-2 border-t border-black/[0.06] pt-4 text-[12px] leading-[18px] text-[#9a9a9a]">
+      <footer className="flex flex-col gap-2 border-t border-line/[0.06] pt-4 text-fs-12 leading-fs-18 text-faint">
         {result.warnings.map((w) => (
           <p key={w}>{w}</p>
         ))}
@@ -109,7 +109,7 @@ export function ResultsV2({
           <p key={c}>{c}</p>
         ))}
         <details>
-          <summary className="cursor-pointer select-none text-[#767676] outline-none hover:text-[#1d1b1b] focus-visible:underline">How the simulation fills orders, and provenance</summary>
+          <summary className="cursor-pointer select-none text-quiet outline-none hover:text-fore focus-visible:underline">How the simulation fills orders, and provenance</summary>
           <ul className="mt-1.5 flex flex-col gap-1">
             {result.assumptions.map((a) => (
               <li key={a}>{a}</li>
@@ -133,28 +133,28 @@ export function ResultsV2({
 
 function Evidence({ quality, stale, result }: { quality: QualityReport; stale: boolean; result: RunResultV2 }) {
   const level = quality.label.level;
-  const tone = level === "consistent" ? "border-black/40" : level === "some" ? "border-black/25" : "border-black/12";
+  const tone = level === "consistent" ? "border-line/40" : level === "some" ? "border-line/25" : "border-line/12";
   return (
     <Panel className={`border-l-[3px] px-5 py-4 ${tone}`}>
-      <span className="text-[11px] uppercase tracking-[0.16em] text-[#1d1b1b]/50" style={{ fontFamily: MONO }}>
+      <span className="text-fs-11 uppercase tracking-[0.16em] text-fore/50" style={{ fontFamily: MONO }}>
         {quality.label.heading}
       </span>
-      <p className="mt-1 text-[24px] leading-[32px] text-[#1d1b1b]" style={{ fontFamily: SERIF }}>
+      <p className="mt-1 text-fs-24 leading-fs-32 text-fore" style={{ fontFamily: SERIF }}>
         {quality.label.title}
       </p>
-      {quality.label.reasons.length ? <p className="mt-1 text-[12.5px] leading-[19px] text-[#4b4b48]">{quality.label.reasons.join(" ")}</p> : null}
-      <p className="mt-2 text-[11.5px] leading-[17px] text-[#767676]">
+      {quality.label.reasons.length ? <p className="mt-1 text-fs-12.5 leading-fs-19 text-fore-4">{quality.label.reasons.join(" ")}</p> : null}
+      <p className="mt-2 text-fs-11.5 leading-fs-17 text-quiet">
         {quality.label.subtitle}
         {quality.label.source ? (
           <>
             {" "}
-            <a href={quality.label.source.url} target="_blank" rel="noreferrer" className="underline underline-offset-2 hover:text-[#1d1b1b]">
+            <a href={quality.label.source.url} target="_blank" rel="noreferrer" className="underline underline-offset-2 hover:text-fore">
               Source
             </a>
           </>
         ) : null}
       </p>
-      <p className="mt-1 text-[11.5px] leading-[17px] text-[#767676]">
+      <p className="mt-1 text-fs-11.5 leading-fs-17 text-quiet">
         {HYPOTHETICAL} {formatDate(`${result.period.start}T12:00:00Z`)} to {formatDate(`${result.period.end}T12:00:00Z`)}, {result.period.sessions.toLocaleString("en-US")} trading days.
         {stale ? " The rules changed since this run." : ""}
       </p>
@@ -165,11 +165,11 @@ function Evidence({ quality, stale, result }: { quality: QualityReport; stale: b
 function Stat({ label, value, sub }: { label: string; value: string; sub?: string }) {
   return (
     <div className="flex flex-col gap-0.5">
-      <span className="text-[11.5px] text-[#767676]">{label}</span>
-      <span className="text-[16px] tabular-nums text-[#1d1b1b]" style={{ fontFamily: MONO }}>
+      <span className="text-fs-11.5 text-quiet">{label}</span>
+      <span className="text-fs-16 tabular-nums text-fore" style={{ fontFamily: MONO }}>
         {value}
       </span>
-      {sub ? <span className="text-[11px] leading-[15px] text-[#9a9a9a]">{sub}</span> : null}
+      {sub ? <span className="text-fs-11 leading-fs-15 text-faint">{sub}</span> : null}
     </div>
   );
 }
@@ -204,16 +204,16 @@ function Flags({ quality, audit }: { quality: QualityReport; audit: AuditState |
         {flags.length ? (
           <ul className="flex flex-col gap-2">
             {flags.map((f) => (
-              <li key={f.check_id} className="flex gap-2.5 text-[12.5px] leading-[19px] text-[#2d2b2a]">
-                <span className={`mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full ${f.severity === "high" ? "bg-[#b3432f]" : "bg-[#c9a227]"}`} aria-hidden />
+              <li key={f.check_id} className="flex gap-2.5 text-fs-12.5 leading-fs-19 text-fore-2">
+                <span className={`mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full ${f.severity === "high" ? "bg-down" : "bg-caution"}`} aria-hidden />
                 <span>{f.text}</span>
               </li>
             ))}
           </ul>
         ) : (
-          <p className="text-[12.5px] text-[#4b4b48]">None of the checks found a problem.</p>
+          <p className="text-fs-12.5 text-fore-4">None of the checks found a problem.</p>
         )}
-        <p className="mt-2 text-[11.5px] text-[#9a9a9a]" role="status">
+        <p className="mt-2 text-fs-11.5 text-faint" role="status">
           {audit?.status === "running"
             ? "More checks are running: random strategies, nearby parameters, leaving out each ticker, market regimes."
             : audit?.status === "error"
@@ -223,14 +223,14 @@ function Flags({ quality, audit }: { quality: QualityReport; audit: AuditState |
                 : ""}
         </p>
         <details className="mt-2">
-          <summary className="cursor-pointer select-none text-[12px] text-[#767676] outline-none hover:text-[#1d1b1b] focus-visible:underline">All checks</summary>
+          <summary className="cursor-pointer select-none text-fs-12 text-quiet outline-none hover:text-fore focus-visible:underline">All checks</summary>
           <ul className="mt-2 flex flex-col gap-1.5">
             {quality.checks.map((c) => (
-              <li key={`${c.id}-${c.tier}`} className="grid grid-cols-[110px_minmax(0,1fr)] gap-2 text-[12px] leading-[18px]">
-                <span className="text-[#767676]">
-                  {c.name} <span className="text-[#b0b0ab]">{c.status === "pass" ? "ok" : c.status}</span>
+              <li key={`${c.id}-${c.tier}`} className="grid grid-cols-[110px_minmax(0,1fr)] gap-2 text-fs-12 leading-fs-18">
+                <span className="text-quiet">
+                  {c.name} <span className="text-faint-2">{c.status === "pass" ? "ok" : c.status}</span>
                 </span>
-                <span className="text-[#4b4b48]">{c.detail}</span>
+                <span className="text-fore-4">{c.detail}</span>
               </li>
             ))}
           </ul>
@@ -249,7 +249,7 @@ function ExplainBox({ review, onExplain }: { review: ReviewState | null; onExpla
             type="button"
             onClick={onExplain}
             disabled={review?.status === "running"}
-            className="inline-flex h-7 items-center rounded-md border border-black/10 px-2.5 text-[12px] text-[#1d1b1b] outline-none hover:bg-[#efefec] focus-visible:border-black/45 disabled:opacity-40"
+            className="inline-flex h-7 items-center rounded-md border border-line/10 px-2.5 text-fs-12 text-fore outline-none hover:bg-surface-hover focus-visible:border-line/45 disabled:opacity-40"
           >
             {review?.status === "running" ? "Explaining" : review?.status === "done" ? "Explain again" : "Explain"}
           </button>
@@ -258,21 +258,21 @@ function ExplainBox({ review, onExplain }: { review: ReviewState | null; onExpla
         Explain
       </SectionTitle>
       {review?.status === "done" ? (
-        <Panel className="mt-2 flex flex-col gap-3 px-5 py-4 text-[12.5px] leading-[19px] text-[#2d2b2a]">
-          <p className="text-[13.5px] text-[#1d1b1b]">{review.review.headline}</p>
+        <Panel className="mt-2 flex flex-col gap-3 px-5 py-4 text-fs-12.5 leading-fs-19 text-fore-2">
+          <p className="text-fs-13.5 text-fore">{review.review.headline}</p>
           {review.review.flags.length ? (
             <ul className="flex flex-col gap-2">
               {review.review.flags.map((f) => (
                 <li key={f.check_id}>
                   {f.meaning}
-                  {f.tryNext ? <span className="text-[#767676]"> {f.tryNext}</span> : null}
+                  {f.tryNext ? <span className="text-quiet"> {f.tryNext}</span> : null}
                 </li>
               ))}
             </ul>
           ) : null}
           {review.review.interpretationRisks.length ? (
             <div>
-              <span className="text-[12px] text-[#767676]">Where the rules may differ from your words</span>
+              <span className="text-fs-12 text-quiet">Where the rules may differ from your words</span>
               <ul className="mt-1 list-disc pl-4">
                 {review.review.interpretationRisks.map((r) => (
                   <li key={r}>{r}</li>
@@ -282,22 +282,22 @@ function ExplainBox({ review, onExplain }: { review: ReviewState | null; onExpla
           ) : null}
           {review.review.nextExperiments.length ? (
             <div>
-              <span className="text-[12px] text-[#767676]">Experiments that would test it (each costs 1 trial)</span>
+              <span className="text-fs-12 text-quiet">Experiments that would test it (each costs 1 trial)</span>
               <ul className="mt-1 list-disc pl-4">
                 {review.review.nextExperiments.map((e) => (
                   <li key={e.change}>
-                    {e.change} <span className="text-[#767676]">{e.why}</span>
+                    {e.change} <span className="text-quiet">{e.why}</span>
                   </li>
                 ))}
               </ul>
             </div>
           ) : null}
-          <p className="text-[11px] text-[#9a9a9a]">Written by {review.review.model} from the checks above; every number is filled in by Falcon.</p>
+          <p className="text-fs-11 text-faint">Written by {review.review.model} from the checks above; every number is filled in by Falcon.</p>
         </Panel>
       ) : review?.status === "error" ? (
-        <p className="mt-2 text-[12px] text-[#b3432f]">{review.message}</p>
+        <p className="mt-2 text-fs-12 text-down">{review.message}</p>
       ) : (
-        <p className="mt-1 text-[12px] text-[#9a9a9a]">A plain-language walk-through of the flags, written from the checks. Optional.</p>
+        <p className="mt-1 text-fs-12 text-faint">A plain-language walk-through of the flags, written from the checks. Optional.</p>
       )}
     </section>
   );
@@ -308,8 +308,8 @@ function Years({ result }: { result: RunResultV2 }) {
     <section>
       <SectionTitle>Years</SectionTitle>
       <Panel className="mt-2 overflow-x-auto px-5 py-3">
-        <table className="w-full min-w-[420px] text-right text-[12.5px] tabular-nums" style={{ fontFamily: MONO }}>
-          <thead className="text-[11.5px] text-[#767676]">
+        <table className="w-full min-w-[420px] text-right text-fs-12.5 tabular-nums" style={{ fontFamily: MONO }}>
+          <thead className="text-fs-11.5 text-quiet">
             <tr>
               <th className="py-1 text-left font-normal">Year</th>
               <th className="font-normal">Strategy</th>
@@ -320,11 +320,11 @@ function Years({ result }: { result: RunResultV2 }) {
           </thead>
           <tbody>
             {result.yearly.map((y) => (
-              <tr key={y.year} className="border-t border-black/[0.05]">
-                <td className="py-1 text-left text-[#4b4b48]">{y.year}</td>
+              <tr key={y.year} className="border-t border-line/[0.05]">
+                <td className="py-1 text-left text-fore-4">{y.year}</td>
                 <td>{pct(y.strategyPct)}</td>
-                <td className="text-[#767676]">{pct(y.benchmarkPct)}</td>
-                {y.equalWeightPct !== null ? <td className="text-[#767676]">{pct(y.equalWeightPct)}</td> : null}
+                <td className="text-quiet">{pct(y.benchmarkPct)}</td>
+                {y.equalWeightPct !== null ? <td className="text-quiet">{pct(y.equalWeightPct)}</td> : null}
                 <td>{pct(y.activePct)}</td>
               </tr>
             ))}
@@ -342,8 +342,8 @@ function Trades({ trades }: { trades: TradeV2[] }) {
     <section>
       <SectionTitle count={trades.length}>Trades</SectionTitle>
       <Panel className="mt-2 overflow-x-auto px-5 py-3">
-        <table className="w-full min-w-[520px] text-right text-[12px] tabular-nums" style={{ fontFamily: MONO }}>
-          <thead className="text-[11.5px] text-[#767676]">
+        <table className="w-full min-w-[520px] text-right text-fs-12 tabular-nums" style={{ fontFamily: MONO }}>
+          <thead className="text-fs-11.5 text-quiet">
             <tr>
               <th className="py-1 text-left font-normal">Ticker</th>
               <th className="text-left font-normal">Entry</th>
@@ -355,19 +355,19 @@ function Trades({ trades }: { trades: TradeV2[] }) {
           </thead>
           <tbody>
             {shown.map((t, i) => (
-              <tr key={`${t.ticker}-${t.entryDate}-${i}`} className="border-t border-black/[0.05]">
-                <td className="py-1 text-left text-[#1d1b1b]">{t.ticker}</td>
-                <td className="text-left text-[#4b4b48]">{t.entryDate}</td>
-                <td className="text-left text-[#4b4b48]">{t.exitDate}</td>
+              <tr key={`${t.ticker}-${t.entryDate}-${i}`} className="border-t border-line/[0.05]">
+                <td className="py-1 text-left text-fore">{t.ticker}</td>
+                <td className="text-left text-fore-4">{t.entryDate}</td>
+                <td className="text-left text-fore-4">{t.exitDate}</td>
                 <td>{pct(t.returnPct)}</td>
                 <td>{t.sessionsHeld}</td>
-                <td className="text-[#767676]">{EXIT_LABEL[t.exitReason]}</td>
+                <td className="text-quiet">{EXIT_LABEL[t.exitReason]}</td>
               </tr>
             ))}
           </tbody>
         </table>
         {trades.length > 60 ? (
-          <button type="button" onClick={() => setAll((a) => !a)} className="mt-2 text-[12px] text-[#4b4b48] underline decoration-black/20 underline-offset-2">
+          <button type="button" onClick={() => setAll((a) => !a)} className="mt-2 text-fs-12 text-fore-4 underline decoration-line/20 underline-offset-2">
             {all ? "Show the latest 60" : `Show all ${trades.length.toLocaleString("en-US")} (oldest first)`}
           </button>
         ) : null}
@@ -382,8 +382,8 @@ function EventStudyView({ result }: { result: RunResultV2 }) {
     <section>
       <SectionTitle count={s.events.length}>Event study</SectionTitle>
       <Panel className="mt-2 overflow-x-auto px-5 py-3">
-        <table className="w-full min-w-[520px] text-right text-[12px] tabular-nums" style={{ fontFamily: MONO }}>
-          <thead className="text-[11.5px] text-[#767676]">
+        <table className="w-full min-w-[520px] text-right text-fs-12 tabular-nums" style={{ fontFamily: MONO }}>
+          <thead className="text-fs-11.5 text-quiet">
             <tr>
               <th className="py-1 text-left font-normal">Sessions</th>
               <th className="font-normal">Events (N)</th>
@@ -396,7 +396,7 @@ function EventStudyView({ result }: { result: RunResultV2 }) {
           </thead>
           <tbody>
             {s.windows.map((w) => (
-              <tr key={w.window} className="border-t border-black/[0.05]">
+              <tr key={w.window} className="border-t border-line/[0.05]">
                 <td className="py-1 text-left">{w.window}</td>
                 <td>{w.n}</td>
                 <td>{w.g}</td>
@@ -410,7 +410,7 @@ function EventStudyView({ result }: { result: RunResultV2 }) {
             ))}
           </tbody>
         </table>
-        <p className="mt-2 text-[11.5px] leading-[17px] text-[#9a9a9a]">
+        <p className="mt-2 text-fs-11.5 leading-fs-17 text-faint">
           Measured from the close before the event; tradable from the next open after it. {s.method}
         </p>
       </Panel>

@@ -16,10 +16,10 @@ function AtRowText({ card }: { card: RippleCard }) {
   const ex = useExplain(card);
   return (
     <>
-      <span className="truncate text-[11px] uppercase tracking-[0.12em] text-[#1d1b1b]/50" style={{ fontFamily: MONO }}>
+      <span className="truncate text-fs-11 uppercase tracking-[0.12em] text-fore/50" style={{ fontFamily: MONO }}>
         {ex.kicker}
       </span>
-      <span className="truncate text-[13px] text-[#1d1b1b]">{ex.title}</span>
+      <span className="truncate text-fs-13 text-fore">{ex.title}</span>
     </>
   );
 }
@@ -49,7 +49,7 @@ export function FocusToggle({ ticker, name }: { ticker: string; name: string | n
     <button
       type="button"
       onClick={() => (on ? removeFocus(ticker) : addFocus({ ticker, name: name ?? "" }))}
-      className="inline-flex h-8 items-center rounded-lg border border-black/10 px-3 text-[12.5px] text-[#1d1b1b] outline-none transition-colors hover:bg-[#efefec] focus-visible:border-black/40"
+      className="inline-flex h-8 items-center rounded-lg border border-line/10 px-3 text-fs-12.5 text-fore outline-none transition-colors hover:bg-surface-hover focus-visible:border-line/40"
     >
       {on ? "On focus list" : "Add to focus list"}
     </button>
@@ -69,17 +69,17 @@ export function TickerTab({ ticker }: { ticker: string }) {
   const graph = useMemo(() => buildGraph(feed, extra, [ticker], { maxDepth: 1, maxNodes: 13 }), [extra, feed, ticker]);
 
   return (
-    <div className="mx-auto flex w-full max-w-[1180px] flex-col gap-6 px-7 py-6">
+    <div className="mx-auto flex w-full max-w-[var(--f-w-ticker)] flex-col gap-6 px-7 py-6">
       <header className="flex items-start justify-between gap-6">
         <div className="min-w-0">
           <div className="flex items-center gap-3">
-            <span className="text-[13px] text-[#767676]" style={{ fontFamily: MONO }}>
+            <span className="text-fs-13 text-quiet" style={{ fontFamily: MONO }}>
               {ticker}
             </span>
-            {sector ? <span className="text-[12px] text-[#9a9a9a]">{sector}</span> : null}
-            {analysts !== null ? <span className="text-[12px] text-[#9a9a9a]">{analystsLabel(analysts)}</span> : null}
+            {sector ? <span className="text-fs-12 text-faint">{sector}</span> : null}
+            {analysts !== null ? <span className="text-fs-12 text-faint">{analystsLabel(analysts)}</span> : null}
           </div>
-          <h1 className="mt-1 truncate text-[28px] leading-[36px] text-[#1d1b1b]" style={{ fontFamily: SERIF }}>
+          <h1 className="mt-1 truncate text-fs-28 leading-fs-36 text-fore" style={{ fontFamily: SERIF }}>
             {name ?? ticker}
           </h1>
         </div>
@@ -97,9 +97,9 @@ export function TickerTab({ ticker }: { ticker: string }) {
                 ["Filing links", connections.length],
               ] as const
             ).map(([label, value]) => (
-              <div key={label} className="flex items-baseline justify-between gap-4 border-b border-black/[0.05] py-2 last:border-0">
-                <dt className="text-[12.5px] text-[#767676]">{label}</dt>
-                <dd className="text-[15px] tabular-nums text-[#1d1b1b]">{value}</dd>
+              <div key={label} className="flex items-baseline justify-between gap-4 border-b border-line/[0.05] py-2 last:border-0">
+                <dt className="text-fs-12.5 text-quiet">{label}</dt>
+                <dd className="text-fs-15 tabular-nums text-fore">{value}</dd>
               </div>
             ))}
           </dl>
@@ -108,7 +108,7 @@ export function TickerTab({ ticker }: { ticker: string }) {
           {graph.edges.length ? (
             <GraphView graph={graph} onOpen={(t) => t !== ticker && openTicker(t)} interactive={false} ring={90} highlight={ticker} ariaLabel={`${ticker} connections`} />
           ) : (
-            <div className="flex h-full items-center justify-center text-[13px] text-[#9a9a9a]">No connections yet</div>
+            <div className="flex h-full items-center justify-center text-fs-13 text-faint">No connections yet</div>
           )}
         </Panel>
       </div>
@@ -127,16 +127,16 @@ export function TickerTab({ ticker }: { ticker: string }) {
       {at.length ? (
         <section>
           <SectionTitle count={at.length}>Events at {ticker}</SectionTitle>
-          <ul className="mt-2 overflow-hidden rounded-lg border border-black/[0.08] bg-white">
+          <ul className="mt-2 overflow-hidden rounded-lg border border-line/[0.08] bg-surface">
             {at.map((card) => (
-              <li key={card.id} className="border-b border-black/[0.05] last:border-0">
+              <li key={card.id} className="border-b border-line/[0.05] last:border-0">
                 <button
                   type="button"
                   onClick={() => openSighting(card.id)}
-                  className="grid w-full grid-cols-[120px_minmax(0,1fr)_auto] items-center gap-3 px-4 py-2.5 text-left outline-none hover:bg-black/[0.02] focus-visible:bg-black/[0.03]"
+                  className="grid w-full grid-cols-[120px_minmax(0,1fr)_auto] items-center gap-3 px-4 py-2.5 text-left outline-none hover:bg-line/[0.02] focus-visible:bg-line/[0.03]"
                 >
                   <AtRowText card={card} />
-                  <span className="text-[12px] text-[#9a9a9a]">{timeAgo(card.event.occurredAt)}</span>
+                  <span className="text-fs-12 text-faint">{timeAgo(card.event.occurredAt)}</span>
                 </button>
               </li>
             ))}
@@ -152,8 +152,8 @@ export function TickerTab({ ticker }: { ticker: string }) {
               <Panel key={c.ticker} className="px-5 py-4">
                 <div className="flex items-center gap-3">
                   <TickerButton ticker={c.ticker} />
-                  <span className="truncate text-[13px] text-[#1d1b1b]">{c.companyName}</span>
-                  <span className="ml-auto text-[12px] text-[#767676]">{c.phrase}</span>
+                  <span className="truncate text-fs-13 text-fore">{c.companyName}</span>
+                  <span className="ml-auto text-fs-12 text-quiet">{c.phrase}</span>
                 </div>
                 {c.evidence.length ? (
                   <div className="mt-3 flex flex-col gap-3">

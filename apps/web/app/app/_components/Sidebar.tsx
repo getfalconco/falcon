@@ -41,7 +41,7 @@ export function navTarget(id: NavId): string | null {
 
 export type OpenItem = { id: string; kind: TabKind; title: string; ticker?: string };
 
-const ACCENT = "#5b4bdb";
+const ACCENT = "rgb(var(--f-iris))";
 const COLLAPSED = 56;
 const EXPANDED = 200;
 const PIN_KEY = "falcon.rail.v1";
@@ -79,13 +79,13 @@ function TipBubble({ tip }: { tip: Tip }) {
   if (!tip) return null;
   return (
     <div role="tooltip" className="pointer-events-none fixed z-[95] -translate-y-1/2" style={{ left: tip.x, top: tip.y }}>
-      {tip.arrow ? <span className="absolute -left-1 top-1/2 h-2 w-2 -translate-y-1/2 rotate-45 bg-[#1c1917]" aria-hidden /> : null}
-      <span className="relative block whitespace-nowrap rounded-md bg-[#1c1917] px-2 py-1 text-[12px] font-medium text-white">{tip.text}</span>
+      {tip.arrow ? <span className="absolute -left-1 top-1/2 h-2 w-2 -translate-y-1/2 rotate-45 bg-solid" aria-hidden /> : null}
+      <span className="relative block whitespace-nowrap rounded-md bg-solid px-2 py-1 text-fs-12 font-medium text-paper">{tip.text}</span>
     </div>
   );
 }
 
-const ROW = "flex h-9 w-full items-center gap-2.5 rounded-lg px-3 text-left text-[14px] outline-none transition-colors focus-visible:ring-2 focus-visible:ring-black/20";
+const ROW = "flex h-9 w-full items-center gap-2.5 rounded-lg px-3 text-left text-fs-14 outline-none transition-colors focus-visible:ring-2 focus-visible:ring-line/20";
 
 export function Sidebar({
   pinned,
@@ -193,17 +193,17 @@ export function Sidebar({
         onMouseLeave={hide}
         onFocus={(e) => show(e.currentTarget, isMarked ? "Close split" : "Split View")}
         onBlur={hide}
-        className={`absolute -right-5 top-1/2 z-10 flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded-full border border-black/[0.12] bg-white shadow-[0_1px_2px_rgba(0,0,0,0.06)] outline-none transition-opacity focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-black/25 ${
+        className={`absolute -right-5 top-1/2 z-10 flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded-full border border-line/[0.12] bg-surface shadow-[0_1px_2px_rgba(0,0,0,0.06)] outline-none transition-opacity focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-line/25 ${
           isMarked ? "opacity-100" : "opacity-0 group-has-[:focus-visible]:opacity-100 group-hover:opacity-100"
         }`}
       >
         {isMarked ? (
           <>
             <Columns2 width={13} height={13} strokeWidth={1.9} style={{ color: ACCENT }} className="group-has-[:focus-visible]:hidden group-hover:hidden" aria-hidden />
-            <X width={13} height={13} strokeWidth={2} className="hidden text-[#3d3b3a] group-has-[:focus-visible]:block group-hover:block" aria-hidden />
+            <X width={13} height={13} strokeWidth={2} className="hidden text-fore-3 group-has-[:focus-visible]:block group-hover:block" aria-hidden />
           </>
         ) : (
-          <Columns2 width={13} height={13} strokeWidth={1.9} className="text-[#4b4b48]" aria-hidden />
+          <Columns2 width={13} height={13} strokeWidth={1.9} className="text-fore-4" aria-hidden />
         )}
       </button>
     );
@@ -222,7 +222,7 @@ export function Sidebar({
     >
       <aside
         aria-label="Sidebar"
-        className="absolute inset-0 flex flex-col bg-[#f4f4f2] px-2 pb-3"
+        className="absolute inset-0 flex flex-col bg-page px-2 pb-3"
         onPointerEnter={() => later(() => setHover(true), 150)}
         onPointerLeave={() => {
           // Focus left inside by a click does not hold the rail open.
@@ -259,13 +259,13 @@ export function Sidebar({
             aria-pressed={pinned}
             aria-label={pinned ? "Unpin the sidebar" : "Pin the sidebar open"}
             {...nameTip(pinned ? "Unpin sidebar" : "Pin sidebar open")}
-            className={`flex h-8 w-10 shrink-0 items-center justify-center rounded-lg outline-none transition-colors hover:bg-black/[0.05] focus-visible:ring-2 focus-visible:ring-black/20 ${
-              pinned ? "text-[#1d1b1b]" : "text-[#767676]"
+            className={`flex h-8 w-10 shrink-0 items-center justify-center rounded-lg outline-none transition-colors hover:bg-line/[0.05] focus-visible:ring-2 focus-visible:ring-line/20 ${
+              pinned ? "text-fore" : "text-quiet"
             }`}
           >
             <PanelLeft width={16} height={16} strokeWidth={1.75} aria-hidden />
           </button>
-          {expanded ? <span className="truncate text-[11px] font-medium uppercase tracking-[0.1em] text-[#8a8a85]">Workspace</span> : null}
+          {expanded ? <span className="truncate text-fs-11 font-medium uppercase tracking-[0.1em] text-quiet-2">Workspace</span> : null}
         </div>
 
         {/* Wider than the panel by the round buttons' overhang, so the scroll box never clips them. */}
@@ -282,9 +282,9 @@ export function Sidebar({
                     onPointerDown={target ? (e) => dragStart(e, { target, label, from: "rail" }) : undefined}
                     aria-current={on ? "page" : undefined}
                     {...nameTip(label)}
-                    className={`${ROW} ${on ? "bg-black/[0.06] font-medium text-[#1d1b1b]" : "text-[#3d3b3a] hover:bg-black/[0.04]"}`}
+                    className={`${ROW} ${on ? "bg-line/[0.06] font-medium text-fore" : "text-fore-3 hover:bg-line/[0.04]"}`}
                   >
-                    <I width={16} height={16} strokeWidth={1.75} className={`shrink-0 ${on ? "text-[#1d1b1b]" : "text-[#767676]"}`} aria-hidden />
+                    <I width={16} height={16} strokeWidth={1.75} className={`shrink-0 ${on ? "text-fore" : "text-quiet"}`} aria-hidden />
                     <span className={expanded ? "truncate" : "sr-only"}>{label}</span>
                   </button>
                   <span data-no-drag>{splitButton(label, target, () => onSplit({ nav: id }))}</span>
@@ -297,9 +297,9 @@ export function Sidebar({
             <>
               <div className="mt-4 flex h-7 items-center px-3">
                 {expanded ? (
-                  <span className="text-[11px] font-medium uppercase tracking-[0.1em] text-[#8a8a85]">Open</span>
+                  <span className="text-fs-11 font-medium uppercase tracking-[0.1em] text-quiet-2">Open</span>
                 ) : (
-                  <span className="h-px w-4 bg-black/[0.12]" aria-hidden />
+                  <span className="h-px w-4 bg-line/[0.12]" aria-hidden />
                 )}
               </div>
               <ul className="flex flex-col gap-0.5" aria-label="Open items">
@@ -334,14 +334,14 @@ export function Sidebar({
                         aria-current={on ? "page" : undefined}
                         title={expanded ? item.title : undefined}
                         {...nameTip(item.title)}
-                        className={`${ROW} ${expanded ? "pr-8" : ""} ${on ? "bg-black/[0.06] font-medium text-[#1d1b1b]" : "text-[#3d3b3a] hover:bg-black/[0.04]"}`}
+                        className={`${ROW} ${expanded ? "pr-8" : ""} ${on ? "bg-line/[0.06] font-medium text-fore" : "text-fore-3 hover:bg-line/[0.04]"}`}
                       >
                         {!expanded && item.ticker ? (
-                          <span className="-mx-1.5 w-7 shrink-0 truncate text-center text-[10.5px] font-medium" style={{ fontFamily: "var(--font-geist-mono), monospace" }} aria-hidden>
+                          <span className="-mx-1.5 w-7 shrink-0 truncate text-center text-fs-10.5 font-medium" style={{ fontFamily: "var(--font-geist-mono), monospace" }} aria-hidden>
                             {item.ticker}
                           </span>
                         ) : (
-                          <I width={16} height={16} strokeWidth={1.75} className={`shrink-0 ${on ? "text-[#1d1b1b]" : "text-[#767676]"}`} aria-hidden />
+                          <I width={16} height={16} strokeWidth={1.75} className={`shrink-0 ${on ? "text-fore" : "text-quiet"}`} aria-hidden />
                         )}
                         <span
                           className={expanded ? "min-w-0 flex-1 truncate" : "sr-only"}
@@ -357,7 +357,7 @@ export function Sidebar({
                           aria-label={`Close ${item.title}`}
                           title="Close"
                           data-no-drag
-                          className="absolute right-1.5 top-1/2 flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded-md text-[#9a9a9a] opacity-0 outline-none transition-opacity hover:bg-black/[0.07] hover:text-[#1d1b1b] focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-black/20 group-focus-within:opacity-100 group-hover:opacity-100"
+                          className="absolute right-1.5 top-1/2 flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded-md text-faint opacity-0 outline-none transition-opacity hover:bg-line/[0.07] hover:text-fore focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-line/20 group-focus-within:opacity-100 group-hover:opacity-100"
                         >
                           <X width={13} height={13} strokeWidth={2} aria-hidden />
                         </button>
@@ -372,28 +372,28 @@ export function Sidebar({
         </nav>
 
         <div className="flex shrink-0 flex-col gap-0.5 pt-3">
-          {!expanded ? <span className="mx-auto mb-1 h-px w-4 bg-black/[0.12]" aria-hidden /> : null}
-          <button type="button" onClick={onGuide} {...nameTip("How to read")} className={`${ROW} text-[#3d3b3a] hover:bg-black/[0.04]`}>
-            <BookOpen width={16} height={16} strokeWidth={1.75} className="shrink-0 text-[#767676]" aria-hidden />
+          {!expanded ? <span className="mx-auto mb-1 h-px w-4 bg-line/[0.12]" aria-hidden /> : null}
+          <button type="button" onClick={onGuide} {...nameTip("How to read")} className={`${ROW} text-fore-3 hover:bg-line/[0.04]`}>
+            <BookOpen width={16} height={16} strokeWidth={1.75} className="shrink-0 text-quiet" aria-hidden />
             <span className={expanded ? "truncate" : "sr-only"}>How to read</span>
           </button>
-          <button type="button" onClick={onHelp} {...nameTip("Help")} className={`${ROW} text-[#3d3b3a] hover:bg-black/[0.04]`}>
-            <LifeBuoy width={16} height={16} strokeWidth={1.75} className="shrink-0 text-[#767676]" aria-hidden />
+          <button type="button" onClick={onHelp} {...nameTip("Help")} className={`${ROW} text-fore-3 hover:bg-line/[0.04]`}>
+            <LifeBuoy width={16} height={16} strokeWidth={1.75} className="shrink-0 text-quiet" aria-hidden />
             <span className={expanded ? "truncate" : "sr-only"}>Help</span>
           </button>
           {onSignOut ? (
-            <button type="button" onClick={onSignOut} {...nameTip("Sign out")} className={`${ROW} text-[#3d3b3a] hover:bg-black/[0.04]`}>
-              <LogOut width={16} height={16} strokeWidth={1.75} className="shrink-0 text-[#767676]" aria-hidden />
+            <button type="button" onClick={onSignOut} {...nameTip("Sign out")} className={`${ROW} text-fore-3 hover:bg-line/[0.04]`}>
+              <LogOut width={16} height={16} strokeWidth={1.75} className="shrink-0 text-quiet" aria-hidden />
               <span className={expanded ? "truncate" : "sr-only"}>Sign out</span>
             </button>
           ) : (
-            <a href="/" {...nameTip("Leave preview")} className={`${ROW} text-[#3d3b3a] hover:bg-black/[0.04]`}>
-              <LogOut width={16} height={16} strokeWidth={1.75} className="shrink-0 text-[#767676]" aria-hidden />
+            <a href="/" {...nameTip("Leave preview")} className={`${ROW} text-fore-3 hover:bg-line/[0.04]`}>
+              <LogOut width={16} height={16} strokeWidth={1.75} className="shrink-0 text-quiet" aria-hidden />
               <span className={expanded ? "truncate" : "sr-only"}>Leave preview</span>
             </a>
           )}
           {expanded ? (
-            <div className="mt-1.5 px-3 text-[11px] leading-[15px] text-[#9a9a9a]" style={{ fontFamily: "var(--font-geist-mono), monospace" }}>
+            <div className="mt-1.5 px-3 text-fs-11 leading-fs-15 text-faint" style={{ fontFamily: "var(--font-geist-mono), monospace" }}>
               {status}
             </div>
           ) : null}

@@ -14,7 +14,7 @@ import {
 } from "@falcon/backtest";
 import { MONO, Panel, SectionTitle } from "../parts";
 
-const LINK = "text-[12px] text-[#4b4b48] underline decoration-black/20 underline-offset-2 outline-none hover:text-[#1d1b1b] focus-visible:decoration-black/60";
+const LINK = "text-fs-12 text-fore-4 underline decoration-line/20 underline-offset-2 outline-none hover:text-fore focus-visible:decoration-line/60";
 
 /**
  * The interpretation card (design 3.1 step 3): it gates the run. Numbered
@@ -59,7 +59,7 @@ export function Interpretation({
         {desc ? (
           <ol className="flex flex-col gap-1.5">
             {desc.rules.map((l) => (
-              <li key={l} className="text-[13px] leading-[20px] text-[#2d2b2a]">
+              <li key={l} className="text-fs-13 leading-fs-20 text-fore-2">
                 {l}
               </li>
             ))}
@@ -91,8 +91,8 @@ export function Interpretation({
         ) : null}
 
         {Object.keys(spec.params).length ? (
-          <div className="flex flex-col gap-3 border-t border-black/[0.06] pt-3">
-            <span className="text-[11px] uppercase tracking-[0.14em] text-[#1d1b1b]/45" style={{ fontFamily: MONO }}>
+          <div className="flex flex-col gap-3 border-t border-line/[0.06] pt-3">
+            <span className="text-fs-11 uppercase tracking-[0.14em] text-fore/45" style={{ fontFamily: MONO }}>
               Parameters
             </span>
             {Object.entries(spec.params).map(([name, p]) => (
@@ -111,16 +111,16 @@ export function Interpretation({
 
         {showFormula ? <FormulaView spec={spec} onSpec={(s) => onSpec(s, "formula")} /> : null}
 
-        <div className="flex flex-wrap items-center gap-3 border-t border-black/[0.06] pt-3">
+        <div className="flex flex-wrap items-center gap-3 border-t border-line/[0.06] pt-3">
           <button
             type="button"
             onClick={onRun}
             disabled={!check.ok || running}
-            className="inline-flex h-9 items-center rounded-lg bg-[#1c1917] px-4 text-[13px] text-[rgb(231,231,231)] outline-none transition-colors hover:bg-[#0f0d0b] focus-visible:ring-2 focus-visible:ring-black/30 disabled:cursor-not-allowed disabled:opacity-40"
+            className="inline-flex h-9 items-center rounded-lg bg-solid px-4 text-fs-13 text-solid-ink outline-none transition-colors hover:bg-solid-hover focus-visible:ring-2 focus-visible:ring-line/30 disabled:cursor-not-allowed disabled:opacity-40"
           >
             {running ? "Running" : confirmed ? "Run again" : "Run these rules"}
           </button>
-          <span className="text-[12px] text-[#767676]">Each run counts as a trial of this strategy.</span>
+          <span className="text-fs-12 text-quiet">Each run counts as a trial of this strategy.</span>
         </div>
       </Panel>
     </section>
@@ -130,10 +130,10 @@ export function Interpretation({
 function Block({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div>
-      <span className="text-[11px] uppercase tracking-[0.14em] text-[#1d1b1b]/45" style={{ fontFamily: MONO }}>
+      <span className="text-fs-11 uppercase tracking-[0.14em] text-fore/45" style={{ fontFamily: MONO }}>
         {title}
       </span>
-      <ul className="mt-1 flex list-disc flex-col gap-0.5 pl-4 text-[12.5px] leading-[19px] text-[#4b4b48]">{children}</ul>
+      <ul className="mt-1 flex list-disc flex-col gap-0.5 pl-4 text-fs-12.5 leading-fs-19 text-fore-4">{children}</ul>
     </div>
   );
 }
@@ -143,9 +143,9 @@ function Issues({ issues }: { issues: SpecIssue[] }) {
   return (
     <ul className="flex flex-col gap-1" aria-live="polite">
       {issues.slice(0, 6).map((i, k) => (
-        <li key={`${i.path}-${k}`} className="text-[12px] leading-[18px] text-[#b3432f]">
+        <li key={`${i.path}-${k}`} className="text-fs-12 leading-fs-18 text-down">
           {i.message}
-          {i.hint ? <span className="text-[#767676]"> {i.hint}</span> : null}
+          {i.hint ? <span className="text-quiet"> {i.hint}</span> : null}
         </li>
       ))}
     </ul>
@@ -166,10 +166,10 @@ function Slider({ name, label, p, onCommit }: { name: string; label: string; p: 
   };
   return (
     <label className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-3 gap-y-1">
-      <span className="text-[12.5px] text-[#1d1b1b]">
-        {label.charAt(0).toUpperCase() + label.slice(1)} <span className="text-[#9a9a9a]" style={{ fontFamily: MONO }}>${name}</span>
+      <span className="text-fs-12.5 text-fore">
+        {label.charAt(0).toUpperCase() + label.slice(1)} <span className="text-faint" style={{ fontFamily: MONO }}>${name}</span>
       </span>
-      <span className="text-[12.5px] tabular-nums text-[#1d1b1b]" style={{ fontFamily: MONO }}>
+      <span className="text-fs-12.5 tabular-nums text-fore" style={{ fontFamily: MONO }}>
         {fmt(p, v)}
       </span>
       <input
@@ -182,20 +182,20 @@ function Slider({ name, label, p, onCommit }: { name: string; label: string; p: 
         onPointerUp={commit}
         onKeyUp={commit}
         onBlur={commit}
-        className="col-span-2 h-1.5 w-full cursor-pointer accent-[#1d1b1b]"
+        className="col-span-2 h-1.5 w-full cursor-pointer accent-fore"
       />
     </label>
   );
 }
 
-const INPUT = "h-8 rounded-md border border-black/10 bg-white px-2 text-[12.5px] text-[#1d1b1b] outline-none hover:border-black/25 focus:border-black/45";
+const INPUT = "h-8 rounded-md border border-line/10 bg-surface px-2 text-fs-12.5 text-fore outline-none hover:border-line/25 focus:border-line/45";
 
 /** Period, capital and costs. Costs below the liquidity floor are raised to it by the engine. */
 function Settings({ spec, onSpec }: { spec: StrategySpecV2; onSpec: (s: StrategySpecV2) => void }) {
   const w = resolvePeriod(spec);
   const [open, setOpen] = useState(false);
   return (
-    <div className="border-t border-black/[0.06] pt-3">
+    <div className="border-t border-line/[0.06] pt-3">
       <button type="button" onClick={() => setOpen((o) => !o)} aria-expanded={open} className={LINK}>
         {open ? "Hide period and costs" : `Period ${w.start} to ${w.end}, $${spec.capital.toLocaleString("en-US")}, ${spec.execution.commission_bps} bp commission, spread ${spec.execution.spread === "auto" ? "by liquidity" : `${spec.execution.spread} bp`}`}
       </button>
@@ -238,7 +238,7 @@ function Settings({ spec, onSpec }: { spec: StrategySpecV2; onSpec: (s: Strategy
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <label className="flex flex-col gap-1 text-[11.5px] text-[#767676]">
+    <label className="flex flex-col gap-1 text-fs-11.5 text-quiet">
       {label}
       {children}
     </label>
@@ -264,8 +264,8 @@ function FormulaView({ spec, onSpec }: { spec: StrategySpecV2; onSpec: (s: Strat
     ...Object.entries(spec.defs).map(([k, v]) => ({ key: `defs.${k}`, label: k, src: v, role: null })),
   ];
   return (
-    <div className="flex flex-col gap-3 border-t border-black/[0.06] pt-3">
-      <span className="text-[11px] uppercase tracking-[0.14em] text-[#1d1b1b]/45" style={{ fontFamily: MONO }}>
+    <div className="flex flex-col gap-3 border-t border-line/[0.06] pt-3">
+      <span className="text-fs-11 uppercase tracking-[0.14em] text-fore/45" style={{ fontFamily: MONO }}>
         Formula (FSL)
       </span>
       {rows.map((r) => {
@@ -273,7 +273,7 @@ function FormulaView({ spec, onSpec }: { spec: StrategySpecV2; onSpec: (s: Strat
         const live = r.role ? checkFormula(value, r.role, env) : null;
         return (
           <label key={r.key} className="flex flex-col gap-1">
-            <span className="text-[12px] text-[#767676]" style={{ fontFamily: MONO }}>
+            <span className="text-fs-12 text-quiet" style={{ fontFamily: MONO }}>
               {r.label}
             </span>
             <textarea
@@ -281,13 +281,13 @@ function FormulaView({ spec, onSpec }: { spec: StrategySpecV2; onSpec: (s: Strat
               rows={Math.min(4, Math.max(1, Math.ceil(value.length / 70)))}
               spellCheck={false}
               onChange={(e) => setDraft({ ...draft, [r.key]: e.target.value })}
-              className="resize-y rounded-md border border-black/10 bg-[#fbfbfa] px-2.5 py-1.5 text-[12.5px] leading-[18px] text-[#1d1b1b] outline-none hover:border-black/25 focus:border-black/45"
+              className="resize-y rounded-md border border-line/10 bg-surface-3 px-2.5 py-1.5 text-fs-12.5 leading-fs-18 text-fore outline-none hover:border-line/25 focus:border-line/45"
               style={{ fontFamily: MONO }}
             />
             {live && !live.ok ? (
-              <span className="text-[12px] leading-[17px] text-[#b3432f]">
+              <span className="text-fs-12 leading-fs-17 text-down">
                 {live.error}
-                {live.hint ? <span className="text-[#767676]"> {live.hint}</span> : null}
+                {live.hint ? <span className="text-quiet"> {live.hint}</span> : null}
               </span>
             ) : null}
           </label>
@@ -299,7 +299,7 @@ function FormulaView({ spec, onSpec }: { spec: StrategySpecV2; onSpec: (s: Strat
             type="button"
             disabled={!full.ok}
             onClick={() => full.ok && onSpec(full.spec)}
-            className="inline-flex h-8 items-center rounded-md border border-black/15 px-3 text-[12.5px] text-[#1d1b1b] outline-none hover:bg-[#efefec] focus-visible:border-black/45 disabled:opacity-40"
+            className="inline-flex h-8 items-center rounded-md border border-line/15 px-3 text-fs-12.5 text-fore outline-none hover:bg-surface-hover focus-visible:border-line/45 disabled:opacity-40"
           >
             Apply formula
           </button>

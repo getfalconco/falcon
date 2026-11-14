@@ -71,7 +71,7 @@ export function SplitArea({ ratio, onRatio, left, right }: { ratio: number; onRa
         }}
       >
         <span
-          className={`absolute inset-y-4 left-1/2 w-px -translate-x-1/2 transition-colors group-hover:bg-[#5b4bdb]/60 group-focus-visible:bg-[#5b4bdb] ${live !== null ? "bg-[#5b4bdb]" : "bg-black/[0.10]"}`}
+          className={`absolute inset-y-4 left-1/2 w-px -translate-x-1/2 transition-colors group-hover:bg-iris/60 group-focus-visible:bg-iris ${live !== null ? "bg-iris" : "bg-line/[0.10]"}`}
           aria-hidden
         />
       </div>

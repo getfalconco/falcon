@@ -16,11 +16,11 @@ function Toggle({ on, onClick, children, swatch }: { on: boolean; onClick: () =>
       type="button"
       aria-pressed={on}
       onClick={onClick}
-      className={`inline-flex h-7 items-center gap-1.5 rounded-md border px-2.5 text-[12px] outline-none transition-colors focus-visible:border-black/50 ${
-        on ? "border-black/25 bg-white text-[#1d1b1b]" : "border-black/[0.08] bg-transparent text-[#9a9a9a] hover:text-[#4b4b48]"
+      className={`inline-flex h-7 items-center gap-1.5 rounded-md border px-2.5 text-fs-12 outline-none transition-colors focus-visible:border-line/50 ${
+        on ? "border-line/25 bg-surface text-fore" : "border-line/[0.08] bg-transparent text-faint hover:text-fore-4"
       }`}
     >
-      {swatch ? <span className="h-[2px] w-3 rounded-full" style={{ background: on ? swatch : "rgba(0,0,0,0.2)" }} aria-hidden /> : null}
+      {swatch ? <span className="h-[2px] w-3 rounded-full" style={{ background: on ? swatch : "rgb(var(--f-line) / 0.2)" }} aria-hidden /> : null}
       {children}
     </button>
   );
@@ -61,9 +61,9 @@ export function GraphTab() {
 
   return (
     <div className="flex h-full min-h-0 flex-col">
-      <div className="flex flex-wrap items-center gap-x-6 gap-y-2 border-b border-black/[0.06] px-5 py-2.5">
+      <div className="flex flex-wrap items-center gap-x-6 gap-y-2 border-b border-line/[0.06] px-5 py-2.5">
         <div className="flex items-center gap-1.5">
-          <span className="mr-1 text-[11px] uppercase tracking-[0.14em] text-[#1d1b1b]/40" style={{ fontFamily: MONO }}>
+          <span className="mr-1 text-fs-11 uppercase tracking-[0.14em] text-fore/40" style={{ fontFamily: MONO }}>
             Degrees
           </span>
           <Toggle on={depth === 1} onClick={() => setDepth(1)}>
@@ -75,7 +75,7 @@ export function GraphTab() {
         </div>
         {relationOptions.length ? (
           <div className="flex items-center gap-1.5">
-            <span className="mr-1 text-[11px] uppercase tracking-[0.14em] text-[#1d1b1b]/40" style={{ fontFamily: MONO }}>
+            <span className="mr-1 text-fs-11 uppercase tracking-[0.14em] text-fore/40" style={{ fontFamily: MONO }}>
               Relation
             </span>
             {relationOptions.map((r) => (
@@ -87,7 +87,7 @@ export function GraphTab() {
         ) : null}
         {facets.sectors.length > 1 ? (
           <div className="flex items-center gap-1.5">
-            <span className="mr-1 text-[11px] uppercase tracking-[0.14em] text-[#1d1b1b]/40" style={{ fontFamily: MONO }}>
+            <span className="mr-1 text-fs-11 uppercase tracking-[0.14em] text-fore/40" style={{ fontFamily: MONO }}>
               Sector
             </span>
             {facets.sectors.map((s) => (
@@ -97,7 +97,7 @@ export function GraphTab() {
             ))}
           </div>
         ) : null}
-        <span className="ml-auto text-[12px] tabular-nums text-[#9a9a9a]">
+        <span className="ml-auto text-fs-12 tabular-nums text-faint">
           {graph.nodes.length} companies · {graph.edges.length} links
         </span>
       </div>

@@ -222,7 +222,7 @@ body {
   .dark *,
   [data-theme="dark"],
   [data-theme="dark"] * {
-    scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+    scrollbar-color: rgba(255, 255, 255, 0.16) transparent;
   }
 }
 
@@ -259,12 +259,12 @@ body {
 
 .dark ::-webkit-scrollbar-thumb,
 [data-theme="dark"] ::-webkit-scrollbar-thumb {
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.16);
 }
 
 .dark ::-webkit-scrollbar-thumb:hover,
 [data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(255, 255, 255, 0.36);
+  background-color: rgba(255, 255, 255, 0.3);
 }
 
 /* Broker wordmarks drifting left -> right under the hero. The track holds two
@@ -281,4 +281,156 @@ body {
 }
 @media (prefers-reduced-motion: reduce) {
   .broker-marquee-track { animation: none; }
+}
+
+/* ------------------------------------------------------------------------
+   Workspace (/app) theme. Semantic colors as RGB channels so Tailwind's
+   opacity modifier works (tailwind.config.ts: `bg-surface`, `text-fore/45`,
+   `border-line/[0.08]`). Light is the default everywhere; the /app layout's
+   inline script and the Appearance settings put `.dark` on <html> (only
+   while /app is mounted). `.f-light` / `.f-dark` pin a theme on one subtree
+   (the Settings previews).
+   ------------------------------------------------------------------------ */
+:root,
+.f-light {
+  --f-page: 244 244 242; /* gray page behind the card, rail */
+  --f-canvas: 253 253 253; /* app root, splash, phone view */
+  --f-surface: 255 255 255; /* cards, panes */
+  --f-raised: 255 255 255; /* menus, dialogs, tooltips */
+  --f-well: 244 244 242; /* chat bubbles */
+  --f-surface-2: 246 246 243; /* notices, chips */
+  --f-surface-3: 248 248 246; /* quiet boxes */
+  --f-surface-hover: 239 239 236;
+  --f-fore: 29 27 27; /* primary text */
+  --f-fore-2: 45 43 42;
+  --f-fore-3: 61 59 58;
+  --f-fore-4: 75 75 72;
+  --f-quiet: 118 118 118; /* muted text */
+  --f-quiet-2: 138 138 133;
+  --f-faint: 154 154 154;
+  --f-faint-2: 176 176 171; /* placeholders */
+  --f-faint-3: 196 196 192; /* separators */
+  --f-line: 0 0 0; /* borders and soft fills, always with an alpha */
+  --f-solid: 28 25 23; /* primary button */
+  --f-solid-hover: 15 13 11;
+  --f-solid-ink: 231 231 231; /* text on the primary button */
+  --f-paper: 255 255 255; /* white text on ink (badges, tooltips) */
+  --f-iris: 91 75 219; /* split view accent */
+  --f-up: 46 125 79;
+  --f-down: 179 67 47;
+  --f-warn: 176 120 47;
+  --f-caution: 201 162 39;
+  --f-flat: 138 138 133;
+  --f-avatar: 230 230 227;
+  --f-avatar-hover: 220 220 216;
+  --f-chart-customer: 79 116 168;
+  --f-chart-competitor: 141 90 134;
+  --f-chart-peer: 143 143 136;
+  --f-chart-spy: 163 163 158;
+  --f-chart-ew: 42 120 214;
+  --f-tint: 0.08; /* up/down wash behind a direction label */
+
+  /* Appearance: text size, interface font, reading width. */
+  --f-fs: 1;
+  --f-font-sans: var(--font-geist-sans), sans-serif;
+  --f-w-sighting: 980px;
+  --f-w-ticker: 1180px;
+}
+
+html.dark,
+.f-dark {
+  /* Near-black, neutral grays (no warm tint). Text tokens stay at 4.5:1 or
+     better on surface (#141414) and raised (#1c1c1c). */
+  --f-page: 13 13 13;
+  --f-canvas: 13 13 13;
+  --f-surface: 20 20 20;
+  --f-raised: 28 28 28;
+  --f-well: 34 34 34;
+  --f-surface-2: 27 27 27;
+  --f-surface-3: 24 24 24;
+  --f-surface-hover: 35 35 35;
+  --f-fore: 237 237 237;
+  --f-fore-2: 226 226 226;
+  --f-fore-3: 214 214 214;
+  --f-fore-4: 200 200 200;
+  --f-quiet: 163 163 163;
+  --f-quiet-2: 153 153 153;
+  --f-faint: 143 143 143;
+  --f-faint-2: 133 133 133;
+  --f-faint-3: 74 74 74;
+  --f-line: 220 220 220; /* softer than white: borders stay visible, not harsh */
+  --f-solid: 237 237 237;
+  --f-solid-hover: 255 255 255;
+  --f-solid-ink: 13 13 13;
+  --f-paper: 13 13 13;
+  --f-iris: 160 149 248;
+  --f-up: 94 186 134;
+  --f-down: 236 125 103;
+  --f-warn: 222 167 96;
+  --f-caution: 217 182 72;
+  --f-flat: 150 150 150;
+  --f-avatar: 42 42 42;
+  --f-avatar-hover: 51 51 51;
+  --f-chart-customer: 128 160 210;
+  --f-chart-competitor: 196 142 188;
+  --f-chart-peer: 150 150 150;
+  --f-chart-spy: 138 138 138;
+  --f-chart-ew: 96 158 240;
+  --f-tint: 0.14;
+}
+
+html.dark {
+  color-scheme: dark;
+}
+
+html.dark body {
+  background-color: rgb(var(--f-canvas));
+  color: rgb(var(--f-fore));
+}
+
+html.dark ::selection {
+  background-color: rgb(var(--f-iris) / 0.35);
+  color: inherit;
+}
+
+html[data-f-size="small"] {
+  --f-fs: 0.923;
+}
+
+html[data-f-size="large"] {
+  --f-fs: 1.077;
+}
+
+html[data-f-font="system"] {
+  --f-font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+html[data-f-width="narrow"] {
+  --f-w-sighting: 760px;
+  --f-w-ticker: 900px;
+}
+
+/* Motion: Reduced (or System when the OS asks for less motion) drops
+   transitions and animations in the workspace (the attribute is only set
+   while /app is mounted); loading spinners keep turning. */
+html[data-f-motion="reduced"] *:not(.animate-spin),
+html[data-f-motion="reduced"] *::before,
+html[data-f-motion="reduced"] *::after {
+  transition-duration: 0s !important;
+  transition-delay: 0s !important;
+  animation-duration: 0s !important;
+  animation-iteration-count: 1 !important;
+  scroll-behavior: auto !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-f-motion="system"] *:not(.animate-spin),
+  html[data-f-motion="system"] *::before,
+  html[data-f-motion="system"] *::after {
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
+    animation-duration: 0s !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
 }

@@ -23,6 +23,7 @@ import { setTokenGetter } from "@/lib/workspace/api-auth";
 import { MAX_TABS, readLayout, tabId, writeLayout, type Tab, type WorkspaceLayout } from "@/lib/workspace/layout";
 import { useSightings } from "@/lib/workspace/sightings";
 import { MAIN_WORKSPACE_ID, storageScope, useWorkspaceIndex } from "@/lib/workspace/workspaces";
+import { AppearanceContext, useAppearanceState } from "@/lib/workspace/appearance";
 import { BLANK_RULES, createStrategy, deleteStrategy, useStrategies } from "@/lib/workspace/strategies";
 import BrandMark from "../../components/BrandMark";
 import { CompactToday } from "./CompactToday";
@@ -36,6 +37,7 @@ import { NAV, Sidebar, TAB_ICON, navTarget, readRailPinned, writeRailPinned, typ
 import { FloatingHelp, HelpThread, setHelpFloating, useHelp } from "./help/HelpChat";
 import { DragDockProvider, useDragDock, type DropResult, type Side } from "./split/dnd";
 import { SplitArea } from "./split/SplitArea";
+import { SettingsDialog } from "./settings/SettingsDialog";
 import { TopBar, type TopLink } from "./TopBar";
 import type { WorkspaceSwitcherApi } from "./WorkspaceSwitcher";
 import { DashboardTab } from "./tabs/DashboardTab";
@@ -110,10 +112,10 @@ function useGate(): Gate {
 
 function Splash({ busy }: { busy: boolean }) {
   return (
-    <div className="flex h-[100dvh] items-center justify-center bg-[#fdfdfd]">
+    <div className="flex h-[100dvh] items-center justify-center bg-canvas">
       <div className="flex flex-col items-center gap-4">
         <BrandMark size={28} />
-        {busy ? <Loader2 className="h-4 w-4 animate-spin text-[#9a9a9a]" aria-label="Loading" /> : null}
+        {busy ? <Loader2 className="h-4 w-4 animate-spin text-faint" aria-label="Loading" /> : null}
       </div>
     </div>
   );
@@ -263,8 +265,14 @@ function navOf(target: string | null, tabs: readonly Tab[]): NavId | null {
 /** Picks the active workspace and mounts it under its own key, so switching reloads every piece of state. */
 function WorkspaceReady({ viewer }: { viewer: Viewer }) {
   const workspaces = useWorkspaceIndex(viewer.userId);
+  // Appearance is per user, not per workspace: switching keeps it.
+  const appearance = useAppearanceState(viewer.userId);
   const id = workspaces.active.id;
-  return <WorkspaceScoped key={id} viewer={viewer} scope={storageScope(viewer.userId, id)} main={id === MAIN_WORKSPACE_ID} workspaces={workspaces} />;
+  return (
+    <AppearanceContext.Provider value={appearance}>
+      <WorkspaceScoped key={id} viewer={viewer} scope={storageScope(viewer.userId, id)} main={id === MAIN_WORKSPACE_ID} workspaces={workspaces} />
+    </AppearanceContext.Provider>
+  );
 }
 
 type PaneRole = "single" | "primary" | "other";
@@ -295,6 +303,24 @@ function WorkspaceScoped({
   const [section, setSection] = useState<Section>(() => (!main && !readLocalFocus(scope)?.length ? "focus" : "tab"));
   const [guideOpen, setGuideOpen] = useState(false);
   const closeGuide = useCallback(() => setGuideOpen(false), []);
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const closeSettings = useCallback(() => {
+    setSettingsOpen(false);
+    // Back to the gear in the top bar, whichever way Settings opened.
+    setTimeout(() => document.querySelector<HTMLElement>("[data-settings-trigger]")?.focus(), 0);
+  }, []);
+
+  // ⌘, (Ctrl+, elsewhere) opens Settings, as in most desktop apps.
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "," && (e.metaKey || e.ctrlKey) && !e.altKey && !e.shiftKey) {
+        e.preventDefault();
+        setSettingsOpen(true);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
   const [railPinned, setRailPinned] = useState(() => readRailPinned(viewer.userId));
   const [focusedRole, setFocused] = useState<"primary" | "other">("primary");
   const help = useHelp();
@@ -655,7 +681,7 @@ function WorkspaceScoped({
           ]}
           onSelect={(id) => (id === "help" ? dockHelp("right") : splitWith(id.slice(6)))}
           button={({ open: o, props }) => (
-            <button {...props} title="View options" className={`${ICON_BUTTON} ${o ? "bg-black/[0.06] text-[#1d1b1b]" : ""}`}>
+            <button {...props} title="View options" className={`${ICON_BUTTON} ${o ? "bg-line/[0.06] text-fore" : ""}`}>
               <MoreHorizontal width={16} height={16} strokeWidth={1.75} aria-hidden />
             </button>
           )}
@@ -681,7 +707,7 @@ function WorkspaceScoped({
           ]}
           onSelect={(id) => (id === "swap" ? swapSides() : id === "undock" ? undockHelp() : closePane(target))}
           button={({ open: o, props }) => (
-            <button {...props} title="Pane options" className={`${ICON_BUTTON} ${o ? "bg-black/[0.06] text-[#1d1b1b]" : ""}`}>
+            <button {...props} title="Pane options" className={`${ICON_BUTTON} ${o ? "bg-line/[0.06] text-fore" : ""}`}>
               <MoreHorizontal width={16} height={16} strokeWidth={1.75} aria-hidden />
             </button>
           )}
@@ -768,12 +794,20 @@ function WorkspaceScoped({
     <WorkspaceContext.Provider value={api}>
       <HowToReadFirstVisit />
       <HowToReadDialog open={guideOpen} onClose={closeGuide} />
+      <SettingsDialog
+        open={settingsOpen}
+        onClose={closeSettings}
+        onHelp={() => {
+          setSettingsOpen(false);
+          openHelp();
+        }}
+      />
       <div className="lg:hidden">
         <CompactToday />
       </div>
 
       <DragDockProvider areaRef={areaRef} onDrop={onDrop}>
-        <div className="hidden h-[100dvh] flex-col overflow-hidden bg-[#f4f4f2] text-[#1d1b1b] lg:flex" style={{ fontFamily: GEIST }}>
+        <div className="hidden h-[100dvh] flex-col overflow-hidden bg-page text-fore lg:flex" style={{ fontFamily: GEIST }}>
           <TopBar
             email={viewer.email}
             workspaces={workspaces}
@@ -783,6 +817,7 @@ function WorkspaceScoped({
             onLink={(id) => (id === "workspace" ? nav("dashboard") : id === "docs" ? openHelp() : nav(id))}
             onToggleContext={toggleContext}
             onGuide={() => setGuideOpen(true)}
+            onSettings={() => setSettingsOpen(true)}
             onSignOut={signOut}
           />
           <div className="flex min-h-0 flex-1">
@@ -815,7 +850,7 @@ function WorkspaceScoped({
               status={
                 <>
                   {status}
-                  {sightings.sample ? <span className="block text-[#b0782f]">Sample data, development only</span> : null}
+                  {sightings.sample ? <span className="block text-warn">Sample data, development only</span> : null}
                 </>
               }
             />
@@ -862,8 +897,8 @@ function Pane({
   return (
     <section
       aria-label={role === "single" ? undefined : `${label} pane${focused ? ", in focus" : ""}`}
-      className={`flex min-w-0 flex-1 flex-col rounded-xl border bg-white shadow-[0_1px_2px_rgba(0,0,0,0.03)] transition-colors ${
-        focused ? "border-black/[0.16]" : "border-black/[0.08]"
+      className={`flex min-w-0 flex-1 flex-col rounded-xl border bg-surface shadow-[0_1px_2px_rgba(0,0,0,0.03)] transition-colors ${
+        focused ? "border-line/[0.16]" : "border-line/[0.08]"
       }`}
       onPointerDownCapture={onFocus}
       onFocusCapture={onFocus}
@@ -901,21 +936,21 @@ function NoTabs({ onOpen }: { onOpen: (kind: "dashboard" | "graph" | "strategy")
         <button
           type="button"
           onClick={() => onOpen("dashboard")}
-          className="inline-flex h-9 items-center rounded-lg bg-[#1c1917] px-4 text-[13px] text-[rgb(231,231,231)] outline-none transition-colors hover:bg-[#0f0d0b] focus-visible:ring-2 focus-visible:ring-black/30"
+          className="inline-flex h-9 items-center rounded-lg bg-solid px-4 text-fs-13 text-solid-ink outline-none transition-colors hover:bg-solid-hover focus-visible:ring-2 focus-visible:ring-line/30"
         >
           Open dashboard
         </button>
         <button
           type="button"
           onClick={() => onOpen("graph")}
-          className="inline-flex h-9 items-center rounded-lg border border-black/10 px-4 text-[13px] text-[#1d1b1b] outline-none transition-colors hover:bg-[#efefec] focus-visible:border-black/40"
+          className="inline-flex h-9 items-center rounded-lg border border-line/10 px-4 text-fs-13 text-fore outline-none transition-colors hover:bg-surface-hover focus-visible:border-line/40"
         >
           Open graph
         </button>
         <button
           type="button"
           onClick={() => onOpen("strategy")}
-          className="inline-flex h-9 items-center rounded-lg border border-black/10 px-4 text-[13px] text-[#1d1b1b] outline-none transition-colors hover:bg-[#efefec] focus-visible:border-black/40"
+          className="inline-flex h-9 items-center rounded-lg border border-line/10 px-4 text-fs-13 text-fore outline-none transition-colors hover:bg-surface-hover focus-visible:border-line/40"
         >
           New strategy
         </button>
