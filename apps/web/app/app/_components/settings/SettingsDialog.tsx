@@ -3,32 +3,38 @@
 import { Fragment, useEffect, useId, useMemo, useRef, useState } from "react";
 import type { KeyboardEvent, ReactNode } from "react";
 import { createPortal } from "react-dom";
-import { ArrowDownRight, ArrowUpRight, Bell, Check, CircleUser, FlaskConical, LayoutGrid, Monitor, Moon, Palette, Search, Shield, Sun, X } from "lucide-react";
+import { ArrowDownRight, ArrowUpRight, Bell, CreditCard, FlaskConical, Gauge, LayoutGrid, Monitor, Moon, Palette, Search, ShieldCheck, Sun, User, X } from "lucide-react";
 import { useAppearance, type Appearance } from "@/lib/workspace/appearance";
 import { GEIST, MONO, SERIF } from "../parts";
 import type { Icon } from "../shell/ui";
-import { Segmented, SettingRow, TextSelect, type Option } from "./controls";
+import { BoxSelect, SectionHeading, Segmented, SettingRow, TextSelect, type Option } from "./controls";
 
 /**
- * Settings, a large modal in the manner of the Claude desktop app's: search
- * and sections on the left, the section's rows on the right. Only Appearance
- * is built; the other sections are listed as coming soon.
+ * Settings, laid out after the Claude desktop app's Settings dialog (about
+ * 960x744): search and grouped sections on the left, the section's rows on
+ * the right. Appearance has its settings; the other sections show their
+ * heading until they get theirs.
  */
 
-type SectionId = "account" | "notifications" | "appearance" | "workspace" | "privacy" | "strategy";
+type SectionId = "account" | "billing" | "usage" | "appearance" | "notifications" | "privacy" | "workspace" | "strategy";
 
-const NAV: { id: SectionId; label: string; icon: Icon; ready: boolean }[][] = [
+const NAV: { id: SectionId; label: string; icon: Icon }[][] = [
   [
-    { id: "account", label: "Account", icon: CircleUser, ready: false },
-    { id: "notifications", label: "Notifications", icon: Bell, ready: false },
+    { id: "account", label: "Account", icon: User },
+    { id: "billing", label: "Billing", icon: CreditCard },
+    { id: "usage", label: "Usage", icon: Gauge },
   ],
   [
-    { id: "appearance", label: "Appearance", icon: Palette, ready: true },
-    { id: "workspace", label: "Workspace", icon: LayoutGrid, ready: false },
-    { id: "privacy", label: "Privacy", icon: Shield, ready: false },
+    { id: "appearance", label: "Appearance", icon: Palette },
+    { id: "notifications", label: "Notifications", icon: Bell },
+    { id: "privacy", label: "Privacy", icon: ShieldCheck },
   ],
-  [{ id: "strategy", label: "Strategy Lab", icon: FlaskConical, ready: false }],
+  [
+    { id: "workspace", label: "Workspace", icon: LayoutGrid },
+    { id: "strategy", label: "Strategy Lab", icon: FlaskConical },
+  ],
 ];
+const LABEL: Record<SectionId, string> = Object.fromEntries(NAV.flat().map((n) => [n.id, n.label])) as Record<SectionId, string>;
 
 const THEME: Option<Appearance["theme"]>[] = [
   { value: "system", label: "System", icon: Monitor },
@@ -53,10 +59,13 @@ const MOTION: Option<Appearance["motion"]>[] = [
   { value: "reduced", label: "Reduced" },
   { value: "full", label: "Full" },
 ];
+const LIGHT_THEMES: Option<"falcon-light">[] = [{ value: "falcon-light", label: "Falcon Light" }];
+const DARK_THEMES: Option<"falcon-dark">[] = [{ value: "falcon-dark", label: "Falcon Dark" }];
 
-type Row = { id: string; title: string; description?: string; render: (labelId: string) => ReactNode };
+type Row = { id: string; title: string; render: (labelId: string) => ReactNode };
 
 const FOCUSABLE = 'button:not([disabled]), [href], input:not([disabled]), select, textarea, [tabindex]:not([tabindex="-1"])';
+const FOCUS = "outline-none focus-visible:ring-2 focus-visible:ring-line/25";
 
 /** `onHelp` closes Settings and opens the help chat (focus goes there, not back to the gear). */
 export function SettingsDialog({ open, onClose, onHelp }: { open: boolean; onClose: () => void; onHelp: () => void }) {
@@ -73,7 +82,7 @@ function SettingsPanel({ onClose, onHelp }: { onClose: () => void; onHelp: () =>
   const searchRef = useRef<HTMLInputElement>(null);
   const [q, setQ] = useState("");
   const [section, setSection] = useState<SectionId>("appearance");
-  const { appearance, resolved, update } = useAppearance();
+  const { appearance, update } = useAppearance();
 
   // After the gear menu hands focus back to its trigger (a timeout of its own).
   useEffect(() => {
@@ -82,46 +91,25 @@ function SettingsPanel({ onClose, onHelp }: { onClose: () => void; onHelp: () =>
   }, []);
 
   const general: Row[] = [
-    {
-      id: "theme",
-      title: "Theme",
-      description: "System follows your computer's setting.",
-      render: (l) => <Segmented labelledBy={l} value={appearance.theme} options={THEME} onChange={(theme) => update({ theme })} />,
-    },
-    {
-      id: "font",
-      title: "Interface font",
-      render: () => <TextSelect label="Interface font" value={appearance.font} options={FONT} onChange={(font) => update({ font })} />,
-    },
-    {
-      id: "size",
-      title: "Text size",
-      description: "Text across the workspace.",
-      render: () => <TextSelect label="Text size" value={appearance.size} options={SIZE} onChange={(size) => update({ size })} />,
-    },
-    {
-      id: "width",
-      title: "Content width",
-      description: "How wide Sighting and Ticker pages read.",
-      render: () => <TextSelect label="Content width" value={appearance.width} options={WIDTH} onChange={(width) => update({ width })} />,
-    },
-    {
-      id: "motion",
-      title: "Motion",
-      description: "Reduced turns off animations. System follows your computer's setting.",
-      render: () => <TextSelect label="Motion" value={appearance.motion} options={MOTION} onChange={(motion) => update({ motion })} />,
-    },
+    { id: "theme", title: "Theme", render: (l) => <Segmented labelledBy={l} value={appearance.theme} options={THEME} onChange={(theme) => update({ theme })} /> },
+    { id: "font", title: "Interface font", render: () => <TextSelect label="Interface font" value={appearance.font} options={FONT} onChange={(font) => update({ font })} /> },
+    { id: "size", title: "Text size", render: () => <TextSelect label="Text size" value={appearance.size} options={SIZE} onChange={(size) => update({ size })} /> },
+    { id: "width", title: "Content width", render: () => <TextSelect label="Content width" value={appearance.width} options={WIDTH} onChange={(width) => update({ width })} /> },
+    { id: "motion", title: "Motion", render: () => <TextSelect label="Motion" value={appearance.motion} options={MOTION} onChange={(motion) => update({ motion })} /> },
   ];
 
   const query = q.trim().toLowerCase();
   const hit = (s: string) => !query || s.toLowerCase().includes(query);
   const rows = general.filter((r) => hit(r.title));
-  const showPreview = hit("Preview") || hit("Falcon Light") || hit("Falcon Dark");
-  const appearanceHits = rows.length > 0 || showPreview;
+  const showCards = hit("Cards") || hit("Falcon Light") || hit("Falcon Dark");
+  const appearanceHits = rows.length > 0 || showCards;
   const nav = useMemo(
     () => NAV.map((g) => g.filter((n) => !query || n.label.toLowerCase().includes(query) || (n.id === "appearance" && appearanceHits))).filter((g) => g.length),
     [appearanceHits, query],
   );
+  const visible = nav.flat().map((n) => n.id);
+  // While searching, the right side shows the first section that matches when the open one does not.
+  const shown: SectionId | null = visible.includes(section) ? section : visible[0] ?? null;
 
   // Escape closes (an open select inside handles its own Escape first); Tab stays inside.
   const onKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
@@ -149,7 +137,7 @@ function SettingsPanel({ onClose, onHelp }: { onClose: () => void; onHelp: () =>
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/30 p-6 dark:bg-black/55"
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/30 p-6 dark:bg-black/60"
       onMouseDown={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
@@ -160,11 +148,11 @@ function SettingsPanel({ onClose, onHelp }: { onClose: () => void; onHelp: () =>
         aria-modal="true"
         aria-labelledby={titleId}
         onKeyDown={onKeyDown}
-        className="flex h-[min(720px,calc(100dvh-48px))] w-[min(960px,calc(100vw-48px))] flex-col overflow-hidden rounded-[14px] border border-line/10 bg-raised text-fore shadow-[0_24px_64px_rgba(0,0,0,0.18)] dark:shadow-[0_24px_64px_rgba(0,0,0,0.6)]"
+        className="flex h-[min(744px,calc(100dvh-48px))] w-[min(960px,calc(100vw-48px))] flex-col overflow-hidden rounded-[12px] border border-line/10 bg-raised text-fore shadow-[0_24px_64px_rgba(0,0,0,0.18)] dark:shadow-[0_24px_64px_rgba(0,0,0,0.6)]"
         style={{ fontFamily: GEIST }}
       >
-        <div className="flex h-14 shrink-0 items-center justify-between border-b border-line/[0.08] pl-6 pr-3">
-          <h2 id={titleId} className="text-fs-17 font-medium tracking-[-0.01em] text-fore">
+        <div className="flex h-10 shrink-0 items-center justify-between border-b border-line/10 pl-[15px] pr-[7px]">
+          <h2 id={titleId} className="text-fs-15 font-medium text-fore">
             Settings
           </h2>
           <button
@@ -172,16 +160,16 @@ function SettingsPanel({ onClose, onHelp }: { onClose: () => void; onHelp: () =>
             onClick={onClose}
             aria-label="Close settings"
             title="Close"
-            className="flex h-8 w-8 items-center justify-center rounded-lg text-quiet outline-none transition-colors hover:bg-line/[0.06] hover:text-fore focus-visible:ring-2 focus-visible:ring-line/20"
+            className={`flex h-7 w-7 items-center justify-center rounded-md text-fore-3 transition-colors hover:bg-line/[0.06] hover:text-fore ${FOCUS}`}
           >
-            <X width={17} height={17} strokeWidth={1.75} aria-hidden />
+            <X width={16} height={16} strokeWidth={1.5} aria-hidden />
           </button>
         </div>
 
         <div className="flex min-h-0 flex-1">
-          <div className="flex w-[300px] shrink-0 flex-col px-3 pb-3 pt-4">
-            <label className="mx-1 flex h-9 items-center gap-2 rounded-lg border border-line/10 px-2.5 transition-colors focus-within:border-line/30">
-              <Search width={15} height={15} strokeWidth={1.75} className="shrink-0 text-faint" aria-hidden />
+          <div className="flex w-[197px] shrink-0 flex-col border-r border-line/10 px-[15px] pb-[5px] pt-4">
+            <label className="flex h-[26px] shrink-0 items-center gap-[13px] rounded-[8px] bg-line/[0.06] pl-2 pr-2">
+              <Search width={16} height={16} strokeWidth={1.5} className="shrink-0 text-faint" aria-hidden />
               <input
                 ref={searchRef}
                 type="search"
@@ -193,29 +181,25 @@ function SettingsPanel({ onClose, onHelp }: { onClose: () => void; onHelp: () =>
               />
             </label>
 
-            <nav aria-label="Settings sections" className="mt-3 flex min-h-0 flex-1 flex-col overflow-y-auto">
+            <nav aria-label="Settings sections" className="mt-[10px] flex min-h-0 flex-1 flex-col overflow-y-auto">
               {nav.map((group, gi) => (
                 <Fragment key={gi}>
-                  {gi > 0 ? <span className="mx-4 my-2 h-px w-6 shrink-0 bg-line/[0.12]" aria-hidden /> : null}
+                  {gi > 0 ? <span className="mx-[11px] my-[10px] h-px shrink-0 bg-line/10" aria-hidden /> : null}
                   {group.map((n) => {
-                    const on = n.ready && n.id === section;
+                    const on = n.id === shown;
                     const I = n.icon;
                     return (
                       <button
                         key={n.id}
                         type="button"
                         aria-current={on ? "page" : undefined}
-                        aria-disabled={!n.ready || undefined}
-                        onClick={() => n.ready && setSection(n.id)}
-                        className={`mx-1 flex h-11 shrink-0 items-center gap-3 rounded-lg px-3 text-left text-fs-14 outline-none transition-colors focus-visible:ring-2 focus-visible:ring-line/20 ${
-                          on ? "bg-line/[0.06] font-medium text-fore" : n.ready ? "text-fore-3 hover:bg-line/[0.04] hover:text-fore" : "cursor-default text-quiet"
+                        onClick={() => setSection(n.id)}
+                        className={`flex h-[31px] shrink-0 items-center gap-3 rounded-[8px] pl-[9px] pr-2 text-left text-fs-14 text-fore transition-colors ${FOCUS} ${
+                          on ? "bg-line/[0.09]" : "hover:bg-line/[0.05]"
                         }`}
                       >
-                        <I width={17} height={17} strokeWidth={1.6} className="shrink-0" aria-hidden />
+                        <I width={16} height={16} strokeWidth={1.5} className="shrink-0" aria-hidden />
                         <span className="min-w-0 flex-1 truncate">{n.label}</span>
-                        {n.ready ? null : (
-                          <span className="rounded-full border border-line/10 px-1.5 py-px text-fs-11 leading-fs-16 text-faint">Soon</span>
-                        )}
                       </button>
                     );
                   })}
@@ -226,46 +210,47 @@ function SettingsPanel({ onClose, onHelp }: { onClose: () => void; onHelp: () =>
             <button
               type="button"
               onClick={onHelp}
-              className="mx-1 mt-2 flex h-10 shrink-0 items-center gap-2 rounded-lg px-3 text-left text-fs-13.5 text-quiet outline-none transition-colors hover:bg-line/[0.04] hover:text-fore focus-visible:ring-2 focus-visible:ring-line/20"
+              className={`mt-2 flex h-[31px] shrink-0 items-center gap-2 rounded-[8px] pl-1 pr-[11px] text-left text-fs-14 text-quiet transition-colors hover:text-fore ${FOCUS}`}
             >
               <span className="flex-1">Help center</span>
-              <ArrowUpRight width={15} height={15} strokeWidth={1.75} aria-hidden />
+              <ArrowUpRight width={16} height={16} strokeWidth={1.5} aria-hidden />
             </button>
           </div>
 
-          <div className="min-w-0 flex-1 overflow-y-auto px-10 pb-10 pt-7">
-            {appearanceHits ? (
+          <div className="min-w-0 flex-1 overflow-y-auto pb-8 pl-4 pr-[18px] pt-[13px]">
+            {shown === "appearance" ? (
               <>
                 {rows.length ? (
                   <section aria-labelledby={`${baseId}-general`}>
-                    <h3 id={`${baseId}-general`} className="text-fs-16 font-medium text-fore">
-                      General
-                    </h3>
-                    <div className="mt-1">
+                    <SectionHeading id={`${baseId}-general`}>General</SectionHeading>
+                    <div className="mt-3">
                       {rows.map((r) => (
-                        <SettingRow key={r.id} id={`${baseId}-${r.id}`} title={r.title} description={r.description}>
+                        <SettingRow key={r.id} id={`${baseId}-${r.id}`} title={r.title}>
                           {r.render(`${baseId}-${r.id}`)}
                         </SettingRow>
                       ))}
                     </div>
                   </section>
                 ) : null}
-                {showPreview ? (
-                  <section aria-labelledby={`${baseId}-preview`} className={rows.length ? "mt-8" : ""}>
-                    <h3 id={`${baseId}-preview`} className="text-fs-16 font-medium text-fore">
-                      Preview
-                    </h3>
-                    <p className="mt-1 text-fs-13 leading-fs-19 text-quiet">A Sighting card in each theme. Choose one to use it.</p>
-                    <div className="mt-5 grid grid-cols-2 gap-5">
-                      <ThemePreview theme="light" active={resolved === "light"} onPick={() => update({ theme: "light" })} />
-                      <ThemePreview theme="dark" active={resolved === "dark"} onPick={() => update({ theme: "dark" })} />
+                {showCards ? (
+                  <section aria-labelledby={`${baseId}-cards`} className={rows.length ? "mt-[35px]" : ""}>
+                    <SectionHeading id={`${baseId}-cards`}>Cards</SectionHeading>
+                    <div className="mt-6 grid grid-cols-2 gap-4">
+                      <div className="flex min-w-0 flex-col gap-3">
+                        <BoxSelect label="Light card theme" value="falcon-light" options={LIGHT_THEMES} onChange={() => undefined} />
+                        <CardPreview theme="light" />
+                      </div>
+                      <div className="flex min-w-0 flex-col gap-3">
+                        <BoxSelect label="Dark card theme" value="falcon-dark" options={DARK_THEMES} onChange={() => undefined} />
+                        <CardPreview theme="dark" />
+                      </div>
                     </div>
                   </section>
                 ) : null}
               </>
-            ) : (
-              <p className="pt-2 text-fs-14 text-quiet">No settings match &ldquo;{q.trim()}&rdquo;.</p>
-            )}
+            ) : shown ? (
+              <SectionHeading>{LABEL[shown]}</SectionHeading>
+            ) : null}
           </div>
         </div>
       </div>
@@ -273,38 +258,14 @@ function SettingsPanel({ onClose, onHelp }: { onClose: () => void; onHelp: () =>
   );
 }
 
-/** One theme's small preview: a header like a picker, then a Sighting card drawn in that theme. */
-function ThemePreview({ theme, active, onPick }: { theme: "light" | "dark"; active: boolean; onPick: () => void }) {
-  const name = theme === "light" ? "Falcon Light" : "Falcon Dark";
+/** A Sighting card drawn in one theme, the size of the reference's code previews. */
+function CardPreview({ theme }: { theme: "light" | "dark" }) {
   return (
-    <div className="flex min-w-0 flex-col gap-2">
-      <div className="flex items-center justify-between gap-2 px-0.5">
-        <span className="text-fs-13 text-quiet">{theme === "light" ? "Light" : "Dark"}</span>
-        <span className="flex items-center gap-1 text-fs-13.5 text-fore">
-          {active ? <Check width={14} height={14} strokeWidth={2} aria-hidden /> : null}
-          {name}
-        </span>
-      </div>
-      <button
-        type="button"
-        onClick={onPick}
-        aria-pressed={active}
-        aria-label={`Use ${name}`}
-        className={`f-${theme} block w-full overflow-hidden rounded-xl border bg-page p-3 text-left outline-none transition-colors focus-visible:ring-2 focus-visible:ring-line/30 ${
-          active ? "border-line/30" : "border-line/[0.1] hover:border-line/20"
-        }`}
-        style={{ colorScheme: theme }}
-      >
-        <PreviewCard />
-      </button>
-    </div>
-  );
-}
-
-/** Sample content, only for the preview. */
-function PreviewCard() {
-  return (
-    <div className="pointer-events-none rounded-lg border border-line/[0.08] bg-surface px-3.5 py-3 text-fore" aria-hidden>
+    <div
+      className={`f-${theme} pointer-events-none h-[88px] overflow-hidden rounded-[8px] border border-line/10 bg-surface px-3 py-[9px] text-fore`}
+      style={{ colorScheme: theme }}
+      aria-hidden
+    >
       <div className="flex items-center gap-1.5 text-fs-10.5 text-fore/50" style={{ fontFamily: MONO }}>
         <span className="truncate uppercase tracking-[0.12em]">Supplier news</span>
         <span>·</span>
@@ -312,11 +273,10 @@ function PreviewCard() {
         <span>·</span>
         <span className="whitespace-nowrap">2h ago</span>
       </div>
-      <div className="mt-1.5 text-fs-14 leading-fs-20 text-fore" style={{ fontFamily: SERIF }}>
+      <div className="mt-1 truncate text-fs-14 leading-fs-20 text-fore" style={{ fontFamily: SERIF }}>
         A chip maker raised its outlook
       </div>
-      <div className="mt-0.5 truncate text-fs-12 leading-fs-17 text-quiet">Its biggest customers tend to follow.</div>
-      <div className="mt-2.5 flex items-center gap-1.5">
+      <div className="mt-[7px] flex items-center gap-1.5">
         <span className="text-fs-11 text-faint">Affects</span>
         {(
           [
