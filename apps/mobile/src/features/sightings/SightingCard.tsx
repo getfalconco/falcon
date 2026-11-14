@@ -1,23 +1,10 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { ArrowDownRight, ArrowUpRight, Minus } from "lucide-react-native";
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
-import {
-  DOCUMENTED_LABEL,
-  cardPricedIn,
-  cardTier,
-  recordLabel,
-  tierLabel,
-  type Confidence,
-  type Direction,
-  type DocumentedBy,
-  type RippleCard,
-  type RippleHit,
-  type RippleHistory,
-} from "@falcon/ripple";
+import { cardExplain, cardPricedIn, type CardStrength, type Direction, type RippleCard, type RippleHit } from "@falcon/ripple";
 import { orderedHits } from "@/lib/sightings";
 import { EASE_CALM, colors, fonts } from "@/theme";
-import { openLink } from "./Evidence";
-import { CONFIDENCE, directionColor, eventLabel, signedPct, timeAgo } from "./format";
+import { directionColor, directionSoft, hitSignalLabel, isSelfHit, timeAgo } from "./format";
 
 /** Four chips fit one line; with more, three and a "+N" so it stays one line. */
 const MAX_CHIPS = 4;
@@ -29,74 +16,46 @@ export function DirectionIcon({ direction, size = 14 }: { direction: Direction; 
   return <Minus size={size} strokeWidth={2} color={color} />;
 }
 
-/** Three small bars, filled up to the confidence level. */
-export function ConfidenceBars({ confidence }: { confidence: Confidence }) {
-  const level = confidence === "high" ? 3 : confidence === "medium" ? 2 : 1;
+/** The small "May be priced in" label: the move since the event already went past half its usual reaction. */
+export function PricedInTag() {
   return (
-    <View style={styles.bars} aria-hidden>
-      {[1, 2, 3].map((i) => (
-        <View key={i} style={[styles.bar, { height: 4 + i * 2 }, i <= level ? styles.barOn : null]} />
-      ))}
+    <View style={styles.priced}>
+      <Text style={styles.pricedText}>May be priced in</Text>
     </View>
   );
 }
 
 /**
- * "5 of 6 similar events, avg +2.1% vs SPY, 5 trading days": the count of
- * similar past events that went the hit's implied way, of the sample. Nothing
- * under 6 events. On a list card, `ticker` names which company it is about.
+ * How much evidence stands behind a card: "Measured by Falcon" (filled,
+ * strongest), "Backed by research" (subtle fill), "Watching" (faint outline).
  */
-export function HistoryLine({ history, ticker, short = false }: { history: RippleHistory | null; ticker?: string; short?: boolean }) {
-  const label = recordLabel(history);
-  if (!history || !label) return null;
-  const days = history.windowDays === 1 ? "1 trading day" : `${history.windowDays} trading days`;
+export function StrengthBadge({ strength }: { strength: CardStrength }) {
+  const box =
+    strength.level === "measured" ? styles.badgeMeasured : strength.level === "research" ? styles.badgeResearch : styles.badgeWatching;
+  const text =
+    strength.level === "measured"
+      ? styles.badgeMeasuredText
+      : strength.level === "research"
+        ? styles.badgeResearchText
+        : styles.badgeWatchingText;
   return (
-    <Text style={styles.history}>
-      {ticker ? `${ticker}: ` : ""}
-      {label}
-      {short ? "" : `, avg ${signedPct(history.avgMovePct)} vs ${history.benchmark ?? "market"}, ${days}`}
-    </Text>
-  );
-}
-
-/** The small "Priced in" label: the move since the event already went past half its usual reaction. */
-export function PricedInTag() {
-  return (
-    <View style={styles.priced}>
-      <Text style={styles.pricedText}>Priced in</Text>
+    <View style={[styles.badge, box]}>
+      <Text style={[styles.badgeText, text]} numberOfLines={1}>
+        {strength.label}
+      </Text>
     </View>
   );
 }
 
-/** The small tier label (Measured, Documented, Watch); nothing for an older card without a tier. */
-export function TierTag({ tier }: { tier: unknown }) {
-  const label = tierLabel(tier);
-  if (!label) return null;
+/** "↑ Positive signal for KGS": the one company an own-firm card is about. */
+export function SignalPill({ hit }: { hit: RippleHit }) {
   return (
-    <View style={styles.priced}>
-      <Text style={styles.pricedText}>{label}</Text>
+    <View style={[styles.pill, { backgroundColor: directionSoft(hit.direction) }]}>
+      <DirectionIcon direction={hit.direction} size={14} />
+      <Text style={[styles.pillText, { color: directionColor(hit.direction) }]} numberOfLines={1}>
+        {hitSignalLabel(hit.direction)} for {hit.ticker}
+      </Text>
     </View>
-  );
-}
-
-/** "Documented in published research; Falcon's own record is building." and the paper it rests on; tap opens it. */
-export function DocumentedLine({ documentedBy }: { documentedBy?: DocumentedBy }) {
-  const url = documentedBy?.url ?? "";
-  const linked = !!documentedBy?.citation && /^https?:\/\//i.test(url);
-  return (
-    <Pressable
-      accessibilityRole={linked ? "link" : "text"}
-      disabled={!linked}
-      onPress={() => openLink(url)}
-      hitSlop={4}
-    >
-      {({ pressed }) => (
-        <Text style={[styles.documented, pressed ? styles.documentedPressed : null]}>
-          {DOCUMENTED_LABEL}
-          {documentedBy?.citation ? <Text style={linked ? styles.citation : null}>{` ${documentedBy.citation}`}</Text> : null}
-        </Text>
-      )}
-    </Pressable>
   );
 }
 
@@ -109,25 +68,32 @@ function TickerChip({ hit, held }: { hit: RippleHit; held: boolean }) {
   );
 }
 
+/** Whether every hit on the card is the event company itself (insider buying, a late filing). */
+export function selfOnly(card: RippleCard): boolean {
+  return card.hits.length > 0 && card.hits.every((h) => isSelfHit(h, card.event.ticker));
+}
+
 /**
- * One Sighting: what happened, who it reaches and which way, how sure the
- * link is and over what window. Held tickers come first and read darker.
+ * One Sighting in plain words: what kind of event, a short headline, why it
+ * matters, which companies it points at and which way, and what happened
+ * after similar events. Held tickers come first and read darker.
  */
 export function SightingCard({ card, held, onPress }: { card: RippleCard; held: Set<string>; onPress: () => void }) {
   const press = useSharedValue(0);
   const animated = useAnimatedStyle(() => ({ transform: [{ scale: 1 - press.value * 0.015 }] }));
 
+  const ex = cardExplain(card);
   const hits = orderedHits(card, held);
-  const lead = hits[0];
+  const self = selfOnly(card);
   const shown = hits.slice(0, hits.length > MAX_CHIPS ? MAX_CHIPS - 1 : MAX_CHIPS);
   const more = hits.length - shown.length;
-  const kind = eventLabel(card.event);
-  const tier = cardTier(card);
+  const pricedIn = cardPricedIn(card);
+  const when = timeAgo(card.event.occurredAt);
 
   return (
     <Pressable
       accessibilityRole="button"
-      accessibilityLabel={`${card.event.headline}. ${hits.map((h) => `${h.ticker} ${h.direction}`).join(", ")}`}
+      accessibilityLabel={`${ex.kicker}, ${card.event.ticker}. ${ex.title}. ${ex.whyShort} ${ex.strength.label}.`}
       onPress={onPress}
       onPressIn={() => (press.value = withTiming(1, { duration: 120, easing: EASE_CALM }))}
       onPressOut={() => (press.value = withTiming(0, { duration: 220, easing: EASE_CALM }))}
@@ -135,21 +101,31 @@ export function SightingCard({ card, held, onPress }: { card: RippleCard; held: 
       {({ pressed }) => (
         <Animated.View style={[styles.card, pressed ? styles.cardPressed : null, animated]}>
           <View style={styles.top}>
-            <Text style={styles.kicker} numberOfLines={1}>
-              {card.event.ticker} · {kind}
-            </Text>
-            <View style={styles.topRight}>
-              <TierTag tier={tier} />
-              {cardPricedIn(card) ? <PricedInTag /> : null}
-              <Text style={styles.time}>{timeAgo(card.event.occurredAt)}</Text>
+            <View style={styles.topLeft}>
+              <Text style={[styles.kicker, styles.kickerShrink]} numberOfLines={1}>
+                {ex.kicker}
+              </Text>
+              <Text style={[styles.kicker, styles.dot]}>·</Text>
+              <Text style={[styles.kicker, styles.fixed]} numberOfLines={1}>
+                {card.event.ticker}
+              </Text>
+              {when ? (
+                <Text style={[styles.time, styles.fixed]} numberOfLines={1}>
+                  {when}
+                </Text>
+              ) : null}
             </View>
+            <StrengthBadge strength={ex.strength} />
           </View>
-          <Text style={styles.headline}>{card.event.headline}</Text>
-          {tier === "documented" ? (
-            <DocumentedLine documentedBy={card.hits.find((h) => h.tier === "documented")?.documentedBy} />
-          ) : null}
+          <Text style={styles.headline}>{ex.title}</Text>
+          <Text style={styles.why}>{ex.whyShort}</Text>
 
-          {shown.length > 0 ? (
+          {self && hits[0] ? (
+            <View style={styles.chips}>
+              <SignalPill hit={hits[0]} />
+              {pricedIn ? <PricedInTag /> : null}
+            </View>
+          ) : shown.length > 0 ? (
             <View style={styles.chips}>
               {shown.map((hit) => (
                 <TickerChip key={`${hit.ticker}-${hit.relation}`} hit={hit} held={held.has(hit.ticker.toUpperCase())} />
@@ -159,21 +135,11 @@ export function SightingCard({ card, held, onPress }: { card: RippleCard; held: 
                   <Text style={styles.chipMoreText}>+{more}</Text>
                 </View>
               ) : null}
+              {pricedIn ? <PricedInTag /> : null}
             </View>
           ) : null}
 
-          {lead ? (
-            <View style={styles.meta}>
-              <ConfidenceBars confidence={lead.confidence} />
-              <Text style={styles.metaText}>{CONFIDENCE[lead.confidence]}</Text>
-              <Text style={styles.metaDot}>·</Text>
-              <Text style={styles.metaText} numberOfLines={1}>
-                {lead.window}
-              </Text>
-              {lead.pricedIn && !cardPricedIn(card) ? <PricedInTag /> : null}
-            </View>
-          ) : null}
-          {lead ? <HistoryLine history={lead.history} ticker={lead.ticker} short /> : null}
+          {ex.pastShort ? <Text style={styles.past}>{ex.pastShort}</Text> : null}
         </Animated.View>
       )}
     </Pressable>
@@ -193,33 +159,50 @@ export const cardStyles = StyleSheet.create({
 const styles = StyleSheet.create({
   card: { ...cardStyles.surface, paddingHorizontal: 18, paddingTop: 16, paddingBottom: 16 },
   cardPressed: { backgroundColor: "#fbfbfa" },
-  top: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: 12 },
+  top: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: 8 },
+  topLeft: { flexShrink: 1, flexDirection: "row", alignItems: "baseline" },
   kicker: {
-    flexShrink: 1,
     fontFamily: fonts.mono,
-    fontSize: 11,
-    letterSpacing: 1.2,
+    fontSize: 10.5,
+    letterSpacing: 0.4,
     textTransform: "uppercase",
     color: "rgba(29, 27, 27, 0.5)",
   },
-  time: { fontFamily: fonts.sans, fontSize: 12.5, color: colors.faint },
-  topRight: { flexDirection: "row", alignItems: "center", gap: 8 },
+  kickerShrink: { flexShrink: 1 },
+  fixed: { flexShrink: 0 },
+  dot: { flexShrink: 0, marginHorizontal: 3, letterSpacing: 0 },
+  time: { marginLeft: 6, fontFamily: fonts.sans, fontSize: 11.5, color: colors.faint },
+  badge: { flexShrink: 0, height: 22, paddingHorizontal: 7, borderRadius: 11, justifyContent: "center", borderWidth: 1 },
+  badgeText: { fontFamily: fonts.sansMedium, fontSize: 11, lineHeight: 14 },
+  badgeMeasured: { backgroundColor: colors.primary, borderColor: colors.primary },
+  badgeMeasuredText: { color: colors.primaryText },
+  badgeResearch: { backgroundColor: "rgba(0, 0, 0, 0.055)", borderColor: "transparent" },
+  badgeResearchText: { color: colors.ink },
+  badgeWatching: { backgroundColor: "transparent", borderColor: "rgba(0, 0, 0, 0.10)" },
+  badgeWatchingText: { color: colors.faint },
   priced: {
-    paddingHorizontal: 6,
-    paddingVertical: 2,
-    borderRadius: 5,
+    height: 28,
+    justifyContent: "center",
+    paddingHorizontal: 8,
+    borderRadius: 8,
     borderWidth: 1,
-    borderColor: "rgba(0, 0, 0, 0.14)",
+    borderColor: "rgba(0, 0, 0, 0.12)",
   },
-  pricedText: {
-    fontFamily: fonts.mono,
-    fontSize: 9.5,
-    letterSpacing: 1,
-    textTransform: "uppercase",
-    color: colors.body,
+  pricedText: { fontFamily: fonts.sans, fontSize: 12, color: colors.body },
+  headline: { marginTop: 10, fontFamily: fonts.serif, fontSize: 17, lineHeight: 25, color: colors.ink },
+  why: { marginTop: 6, fontFamily: fonts.sans, fontSize: 14, lineHeight: 20, color: colors.muted },
+  chips: { marginTop: 14, flexDirection: "row", flexWrap: "wrap", alignItems: "center", gap: 6 },
+  pill: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 4,
+    height: 28,
+    paddingLeft: 8,
+    paddingRight: 11,
+    borderRadius: 14,
+    flexShrink: 1,
   },
-  headline: { marginTop: 8, fontFamily: fonts.serif, fontSize: 17, lineHeight: 25, color: colors.ink },
-  chips: { marginTop: 14, flexDirection: "row", flexWrap: "wrap", gap: 6 },
+  pillText: { fontFamily: fonts.sansMedium, fontSize: 13 },
   chip: {
     flexDirection: "row",
     alignItems: "center",
@@ -234,14 +217,5 @@ const styles = StyleSheet.create({
   chipTicker: { fontFamily: fonts.mono, fontSize: 12.5, color: colors.ink },
   chipMore: { paddingRight: 10, backgroundColor: "transparent", borderWidth: 1, borderColor: "rgba(0, 0, 0, 0.07)" },
   chipMoreText: { fontFamily: fonts.mono, fontSize: 12, color: colors.muted },
-  meta: { marginTop: 14, flexDirection: "row", alignItems: "center", gap: 6 },
-  metaText: { flexShrink: 1, fontFamily: fonts.sans, fontSize: 12.5, lineHeight: 16, color: colors.muted },
-  metaDot: { fontFamily: fonts.sans, fontSize: 12.5, color: colors.placeholder },
-  bars: { flexDirection: "row", alignItems: "flex-end", gap: 2, height: 10, marginRight: 2 },
-  bar: { width: 3, borderRadius: 1, backgroundColor: "rgba(0, 0, 0, 0.12)" },
-  barOn: { backgroundColor: colors.ink },
-  documented: { marginTop: 8, fontFamily: fonts.sans, fontSize: 12.5, lineHeight: 17, color: colors.muted },
-  documentedPressed: { opacity: 0.6 },
-  citation: { color: colors.body, textDecorationLine: "underline" },
-  history: { marginTop: 8, fontFamily: fonts.sans, fontSize: 12.5, lineHeight: 17, color: colors.body },
+  past: { marginTop: 12, fontFamily: fonts.sans, fontSize: 12.5, lineHeight: 17, color: colors.body },
 });

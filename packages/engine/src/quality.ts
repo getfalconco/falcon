@@ -152,7 +152,16 @@ export function documentation(family: string | null | undefined, registry: Evide
   if (!postCutoffEstimate(own)) return { why: `family ${family} own estimate is not post-2015` };
   if (!(own.meanAbnPct > 0)) return { why: `family ${family} own estimate is not above 0` };
   if (f.match !== "exact" && !(own.p < ANALOGOUS_MAX_P)) return { why: `family ${family} analogous evidence with own p ${own.p}` };
-  return { documentedBy: { citation: f.citation, url: f.url, effect: f.effect, period: f.period, match: f.match } };
+  return {
+    documentedBy: {
+      citation: f.citation,
+      url: f.url,
+      effect: f.effect,
+      period: f.period,
+      match: f.match,
+      ownEstimate: { n: own.n, meanAbnPct: own.meanAbnPct, windowDays: own.windowDays, period: own.period },
+    },
+  };
 }
 
 export type QualityInput = {

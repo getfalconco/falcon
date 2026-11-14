@@ -222,6 +222,7 @@ export function fromDetector(de: DetectorEvent): RunEvent | null {
     eventType: de.eventType,
     eventLabel: EVENT_TYPE_LABEL[de.eventType] ?? de.eventType,
     acceptedAt: de.acceptedAt,
+    ...(Object.keys(de.facts).length ? { details: { ...de.facts } } : {}),
   };
   return {
     event,
@@ -245,10 +246,10 @@ const OWN_WINDOW: Partial<Record<FamilyId, string>> = { F6: "1 to 5 trading days
 
 /** Mechanism sentences per event type; `{name}` is the company. Information only, no numbers. */
 const OWN_MECHANISM: Partial<Record<EventType, string>> = {
-  insider_cluster: "{name}'s own officers or directors reported open-market purchases of its shares on Form 4. The card follows {name} itself.",
-  distress_nt: "{name} told the SEC it could not file a periodic report on time, a filed risk item for holders of {name}.",
-  restatement_402: "{name} reported that earlier financial statements can no longer be relied on, a filed risk item for holders of {name}.",
-  activist_stake: "An investor filed a Schedule 13D on {name}, reporting a large stake and its stated purpose. The card follows {name} itself.",
+  insider_cluster: "{name}'s officers or directors bought its shares on the open market and reported the purchases to the SEC on Form 4.",
+  distress_nt: "{name} told the SEC it could not file a periodic report on time.",
+  restatement_402: "{name} said that earlier financial statements can no longer be relied on.",
+  activist_stake: "An investor reported a large stake in {name} and its plans for it on Schedule 13D.",
 };
 
 const OWN_INVALIDATED_BY: Partial<Record<EventType, string>> = {
@@ -322,7 +323,7 @@ export function ownFirmCard(
   );
   const confidence = tierConfidence(t.tier);
   const name = de.companyName;
-  const mechanism = (OWN_MECHANISM[item.eventType] ?? "This filing is about {name} itself. The card follows {name}.").replaceAll("{name}", name);
+  const mechanism = (OWN_MECHANISM[item.eventType] ?? "This filing is about {name} itself.").replaceAll("{name}", name);
   const score = hitScore({ link: "disclosed", record: NO_RECORD_STRENGTH, confidence, size: eventSize(item), direction });
   const window = OWN_WINDOW[item.family] ?? "1 to 4 weeks";
   const hit: RippleHit = {

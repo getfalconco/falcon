@@ -1,14 +1,15 @@
 "use client";
 
 import { useMemo } from "react";
-import { cardTier, tierLabel } from "@falcon/ripple";
+import { cardExplain } from "@falcon/ripple";
 import type { Tab } from "@/lib/workspace/layout";
-import { RELATIONS, eventLabel, cardsForTicker, connectionsFor, exposureByTicker, sectorFor } from "@/lib/workspace/feed";
+import { RELATIONS, cardsForTicker, connectionsFor, exposureByTicker, sectorFor } from "@/lib/workspace/feed";
 import { withSeedConnections } from "@/lib/workspace/graph";
 import { useGraphNeighborhood } from "@/lib/workspace/graph-api";
 import { useWorkspace } from "./context";
 import { RelationLegend } from "./GraphView";
-import { DirectionMark, ExternalAnchor, MONO, NetMark, NetValue, SectionTitle, TickerButton, formatDateTime, timeAgo } from "./parts";
+import { DirectionWord, StrengthBadge } from "./explain";
+import { ExternalAnchor, MONO, NetMark, NetValue, SectionTitle, TickerButton, formatDateTime, timeAgo } from "./parts";
 import { useToday } from "./tabs/DashboardTab";
 import { findCard } from "./tabs/SightingTab";
 import { StrategyContext } from "./strategy/StrategyContext";
@@ -141,6 +142,7 @@ function SightingContext({ cardId }: { cardId: string }) {
   const { feed } = useWorkspace();
   const card = findCard(feed?.cards, cardId);
   if (!card) return <p className="text-[12px] text-[#9a9a9a]">No details</p>;
+  const ex = cardExplain(card);
   return (
     <>
       <section>
@@ -148,22 +150,22 @@ function SightingContext({ cardId }: { cardId: string }) {
         <Facts
           rows={[
             ["Company", <TickerButton key="t" ticker={card.event.ticker} />],
-            ["Type", eventLabel(card.event)],
-            ...(tierLabel(cardTier(card)) ? [["Tier", tierLabel(cardTier(card))] as [string, React.ReactNode]] : []),
+            ["Type", ex.kicker],
+            ["Evidence", <StrengthBadge key="s" strength={ex.strength} />],
             ["Sector", card.sector],
             ["Published", formatDateTime(card.event.occurredAt)],
-            ["Companies hit", card.hits.length],
+            ["Companies affected", card.hits.length],
           ]}
         />
       </section>
       <section>
-        <SectionTitle>Directions</SectionTitle>
+        <SectionTitle>Signal per company</SectionTitle>
         <ul className="flex flex-col gap-1.5 pt-1">
           {card.hits.map((h) => (
             <li key={h.ticker} className="flex items-center gap-2.5">
               <TickerButton ticker={h.ticker} />
               <span className="flex-1" />
-              <DirectionMark direction={h.direction} />
+              <DirectionWord direction={h.direction} />
             </li>
           ))}
         </ul>

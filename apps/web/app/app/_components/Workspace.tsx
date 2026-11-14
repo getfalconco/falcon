@@ -8,7 +8,7 @@ import { strategyFromSighting } from "@falcon/backtest";
 import { isApproved } from "@/lib/auth";
 import { needsWelcome } from "@/lib/onboarding";
 import { isSupabaseConfigured, requireSupabase } from "@/lib/supabase";
-import { eventLabel } from "@/lib/workspace/feed";
+import { cardExplain } from "@falcon/ripple";
 import {
   cleanFocus,
   fetchNames,
@@ -24,6 +24,7 @@ import { useSightings } from "@/lib/workspace/sightings";
 import { BLANK_RULES, createStrategy, deleteStrategy, useStrategies } from "@/lib/workspace/strategies";
 import BrandMark from "../../components/BrandMark";
 import { CompactToday } from "./CompactToday";
+import { HowToReadFirstVisit } from "./explain";
 import { ContextPanel } from "./ContextPanel";
 import { WorkspaceContext, type WorkspaceApi } from "./context";
 import { GEIST, MONO, timeAgo } from "./parts";
@@ -245,7 +246,7 @@ function WorkspaceReady({ viewer }: { viewer: Viewer }) {
       openTicker: (ticker) => open({ id: tabId({ kind: "ticker", ticker }), kind: "ticker", ticker }),
       openSighting: (cardId) => {
         const card = sightings.feed?.cards.find((c) => c.id === cardId);
-        const title = card ? `${card.event.ticker} ${eventLabel(card.event).toLowerCase()}` : undefined;
+        const title = card ? `${card.event.ticker} ${cardExplain(card).kicker.toLowerCase()}` : undefined;
         open({ id: tabId({ kind: "sighting", cardId }), kind: "sighting", cardId, title });
       },
       openTab: (kind) => (kind === "strategy" ? newStrategy() : open({ id: kind, kind } as Tab)),
@@ -303,7 +304,7 @@ function WorkspaceReady({ viewer }: { viewer: Viewer }) {
           return tab.ticker;
         case "sighting": {
           const card = sightings.feed?.cards.find((c) => c.id === tab.cardId);
-          return card ? `${card.event.ticker} ${eventLabel(card.event).toLowerCase()}` : tab.title ?? "Sighting";
+          return card ? `${card.event.ticker} ${cardExplain(card).kicker.toLowerCase()}` : tab.title ?? "Sighting";
         }
       }
     },
@@ -345,6 +346,7 @@ function WorkspaceReady({ viewer }: { viewer: Viewer }) {
 
   return (
     <WorkspaceContext.Provider value={api}>
+      <HowToReadFirstVisit />
       <div className="lg:hidden">
         <CompactToday />
       </div>

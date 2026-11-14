@@ -1,23 +1,46 @@
 import { useEffect, useMemo, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { NOTHING_CLEARED, anyClearsBar } from "@falcon/ripple";
+import { anyClearsBar, cardStrength, type RippleCard } from "@falcon/ripple";
 import { Reveal } from "@/components/Reveal";
 import { TabScreen } from "@/components/TabScreen";
 import { heldTickers } from "@/lib/holdings";
-import { opportunityCards, portfolioCards, splitWeakSignals, useSightings, weakOutsideCards } from "@/lib/sightings";
+import { opportunityCards, portfolioCards, useSightings, weakOutsideCards } from "@/lib/sightings";
 import { Segmented } from "@/features/sightings/Segmented";
 import { SightingCard } from "@/features/sightings/SightingCard";
-import { EmptyTitle, SampleTag, ScreenTitle, SkeletonCard, WeakSignals } from "@/features/sightings/parts";
+import {
+  EmptyTitle,
+  HelpButton,
+  SampleTag,
+  ScreenTitle,
+  SectionHeader,
+  SkeletonCard,
+  WatchingSection,
+} from "@/features/sightings/parts";
 
 type Tab = "portfolio" | "opportunities";
+
+/** Empty state when only cards Falcon is watching came in. */
+const NOTHING_BACKED = "Nothing backed by evidence today";
 
 const TABS = [
   { id: "portfolio", label: "Your Portfolio" },
   { id: "opportunities", label: "Opportunities" },
 ] as const satisfies readonly { id: Tab; label: string }[];
 
-/** Sightings: the full feed, split into what reaches the portfolio and what reaches other companies. */
+/** Splits cards into the ones with evidence behind them (measured, research) and the ones Falcon is only watching. */
+function byEvidence(cards: readonly RippleCard[]): { evidence: RippleCard[]; watching: RippleCard[] } {
+  const evidence: RippleCard[] = [];
+  const watching: RippleCard[] = [];
+  for (const card of cards) (cardStrength(card).level === "watching" ? watching : evidence).push(card);
+  return { evidence, watching };
+}
+
+/**
+ * Sightings: the full feed, split into what reaches the portfolio and what
+ * reaches other companies; in each, the cards backed by evidence first and
+ * the ones Falcon is only watching folded below.
+ */
 export default function Sightings() {
   const router = useRouter();
   const params = useLocalSearchParams<{ tab?: string }>();
@@ -33,14 +56,17 @@ export default function Sightings() {
     router.setParams({ tab: undefined });
   }, [params.tab, router]);
 
-  // Weak signals (Watch tier; low confidence on older cards) go last, folded under "Watch list".
+  // Cards with no evidence yet (Watch tier, or an older card without a tier) go last, folded under "Watching".
   const { cards, weak } = useMemo(() => {
     const all = sightings.feed?.cards ?? [];
     if (tab === "portfolio") {
-      const split = splitWeakSignals(portfolioCards(all, held));
-      return { cards: split.strong, weak: split.weak };
+      const split = byEvidence(portfolioCards(all, held));
+      return { cards: split.evidence, weak: split.watching };
     }
-    return { cards: opportunityCards(all, held, sightings.holdings?.sectors ?? []), weak: weakOutsideCards(all, held) };
+    const split = byEvidence(opportunityCards(all, held, sightings.holdings?.sectors ?? []));
+    const listed = new Set(split.watching.map((c) => c.id));
+    const outside = weakOutsideCards(all, held).filter((c) => !listed.has(c.id));
+    return { cards: split.evidence, weak: [...split.watching, ...outside] };
   }, [held, sightings.feed, sightings.holdings, tab]);
 
   const loading = sightings.status === "loading";
@@ -50,7 +76,7 @@ export default function Sightings() {
     tab === "portfolio" && held.size === 0 && sightings.status === "ready"
       ? "No holdings added yet"
       : nothingCleared || (tab === "portfolio" && weak.length)
-        ? NOTHING_CLEARED
+        ? NOTHING_BACKED
         : tab === "portfolio"
           ? "No sightings yet"
           : "No opportunities yet";
@@ -58,7 +84,15 @@ export default function Sightings() {
   return (
     <TabScreen onRefresh={sightings.refresh}>
       <Reveal order={0}>
-        <ScreenTitle title="Sightings" right={sightings.sample && !loading ? <SampleTag /> : undefined} />
+        <ScreenTitle
+          title="Sightings"
+          right={
+            <View style={styles.headerRight}>
+              {sightings.sample && !loading ? <SampleTag /> : null}
+              <HelpButton onPress={() => router.push("/how-to-read")} />
+            </View>
+          }
+        />
       </Reveal>
       <Reveal order={1} style={styles.segmented}>
         <Segmented options={TABS} value={tab} onChange={setTab} />
@@ -78,6 +112,9 @@ export default function Sightings() {
             </Reveal>
           ) : (
             <View style={styles.cards}>
+              <Reveal order={0}>
+                <SectionHeader title="Backed by evidence" />
+              </Reveal>
               {cards.map((card, i) => (
                 <Reveal key={card.id} order={Math.min(i, 6)}>
                   <SightingCard card={card} held={held} onPress={() => open(card.id)} />
@@ -85,11 +122,11 @@ export default function Sightings() {
               ))}
             </View>
           )}
-          <WeakSignals count={weak.length}>
+          <WatchingSection count={weak.length}>
             {weak.map((card) => (
               <SightingCard key={card.id} card={card} held={held} onPress={() => open(card.id)} />
             ))}
-          </WeakSignals>
+          </WatchingSection>
         </View>
       )}
     </TabScreen>
@@ -98,5 +135,6 @@ export default function Sightings() {
 
 const styles = StyleSheet.create({
   segmented: { marginTop: 22 },
-  cards: { marginTop: 20, gap: 12 },
+  headerRight: { flexDirection: "row", alignItems: "center", gap: 10 },
+  cards: { marginTop: 24, gap: 12 },
 });

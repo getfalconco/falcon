@@ -1,10 +1,12 @@
-import type { LinkEvidence, RippleCard, RippleHit, SightingsFeed, Source } from "@falcon/ripple";
+import type { DocumentedBy, LinkEvidence, RippleCard, RippleHit, SightingsFeed, Source } from "@falcon/ripple";
 
 /**
- * DEVELOPMENT ONLY. A made-up Sightings feed in the @falcon/ripple shape, for
- * designing the screens while the engine API is not up. The numbers, quotes
- * and links are placeholders, not real data. lib/sightings.ts loads it only
- * when __DEV__ is true, so release builds never show it.
+ * DEVELOPMENT ONLY. A Sightings feed in the @falcon/ripple shape, for
+ * designing the screens while the engine API is not up. The cards are
+ * modeled on a real engine run (packages/engine/out/sightings.json): the
+ * same event types, details, tiers and research, with times moved to "just
+ * now" so the screens read as today. lib/sightings.ts loads it only when
+ * __DEV__ is true, so release builds never show it.
  */
 
 const HOUR = 60 * 60 * 1000;
@@ -13,493 +15,517 @@ function ago(hours: number): string {
   return new Date(Date.now() - hours * HOUR).toISOString();
 }
 
-function edgar(ticker: string, form: string): string {
-  return `https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=${ticker}&type=${encodeURIComponent(form)}`;
+/** YYYY-MM-DD, `hours` ago. */
+function day(hours: number): string {
+  return ago(hours).slice(0, 10);
 }
 
-function source(ticker: string, title: string, hours: number): Source {
-  return { title, url: edgar(ticker, "8-K"), publisher: "SEC EDGAR", publishedAt: ago(hours) };
+function edgar(cik: string, accession: string): string {
+  return `https://www.sec.gov/Archives/edgar/data/${cik}/${accession.replace(/-/g, "")}/${accession}-index.htm`;
 }
 
-function quote(ticker: string, form: string, text: string, filedAt: string): LinkEvidence {
-  return { quote: text, form, filedAt, url: edgar(ticker, form) };
+function source(title: string, url: string, hours: number): Source {
+  return { title, url, publisher: "SEC EDGAR", publishedAt: ago(hours) };
 }
 
-function hit(h: Omit<RippleHit, "history" | "degree"> & Partial<Pick<RippleHit, "degree">>): RippleHit {
+function quote(text: string, form: string, filedAt: string, url: string): LinkEvidence {
+  return { quote: text, form, filedAt, url };
+}
+
+function hit(h: Omit<RippleHit, "history" | "degree"> & Partial<Pick<RippleHit, "degree" | "history">>): RippleHit {
   return { degree: 1, history: null, ...h };
 }
 
+/** The research behind insider purchase cards, with Falcon's own estimate since 2015. */
+const INSIDER_RESEARCH: DocumentedBy = {
+  citation: "Cohen, Malloy & Pomorski (2012), Journal of Finance 67(3)",
+  url: "https://doi.org/10.1111/j.1540-6261.2012.01740.x",
+  effect:
+    "In US insider trades from 1986 to 2007, a long-short portfolio of opportunistic (non-routine) insider buys minus opportunistic sells earned value-weighted abnormal returns of about 82 basis points a month, while routine insiders' trades earned about zero.",
+  period: "1986-2007",
+  match: "exact",
+  ownEstimate: { n: 2844, meanAbnPct: 0.96, windowDays: 20, period: "2015-01 to 2026-06" },
+};
+
+/** An own-firm insider purchase hit (Documented tier). */
+function insiderHit(ticker: string, companyName: string, evidence: LinkEvidence[]): RippleHit {
+  return hit({
+    ticker,
+    companyName,
+    relation: "self",
+    direction: "up",
+    confidence: "medium",
+    window: "1 to 4 weeks",
+    mechanism: `${companyName}'s officers or directors bought its shares on the open market and reported the purchases to the SEC on Form 4.`,
+    evidence,
+    pricedIn: false,
+    tier: "documented",
+    family: "F7",
+    channel: "own_firm",
+    linkClarity: "direct",
+    opportunityEligible: true,
+    documentedBy: INSIDER_RESEARCH,
+    invalidatedBy: "Later Form 4 filings showing the same insiders selling these shares would undo this reading.",
+  });
+}
+
 export function sampleFeed(): SightingsFeed {
+  const kgsUrl = edgar("1767042", "0001193125-26-460666");
+  const funUrl = edgar("1999001", "0001999001-26-000113");
+  const ctevUrl = edgar("1793229", "0001628280-26-073944");
+  const kalaUrl = edgar("1479419", "0001829126-26-012407");
+  const apmdUrl = edgar("1745648", "0001193125-26-460864");
+  const tsmUrl = "https://www.sec.gov/Archives/edgar/data/1046179/000104617926000796/tsm-revenue20261110.htm";
+  const ontoUrl = "https://www.sec.gov/Archives/edgar/data/704532/000119312526453582/onto-ex99_1.htm";
+  const onto10k = "https://www.sec.gov/Archives/edgar/data/704532/000119312526066937/onto-20260103.htm";
+
   const cards: RippleCard[] = [
     {
-      id: "sample-nvda-earnings",
-      sector: "Semiconductors",
-      generatedAt: ago(1.5),
-      event: {
-        id: "evt-nvda-q3",
-        ticker: "NVDA",
-        companyName: "NVIDIA",
-        kind: "earnings_surprise",
-        headline: "Nvidia beats on data center revenue",
-        occurredAt: ago(2),
-        summary:
-          "Data center revenue came in at $41.2B against $39.0B expected. Guidance for next quarter was set above the consensus range.",
-        source: source("NVDA", "NVIDIA quarterly results, Form 8-K", 2),
-      },
-      hits: [
-        hit({
-          ticker: "TSM",
-          companyName: "Taiwan Semiconductor",
-          relation: "supplier",
-          direction: "up",
-          confidence: "high",
-          window: "1 to 5 trading days",
-          mechanism:
-            "TSMC makes Nvidia's data center GPUs. Higher GPU demand means more advanced wafer and packaging orders.",
-          evidence: [
-            quote(
-              "NVDA",
-              "10-K",
-              "We utilize foundries, such as Taiwan Semiconductor Manufacturing Company Limited, to produce our semiconductor wafers.",
-              "2026-02-25",
-            ),
-          ],
-        }),
-        hit({
-          ticker: "MU",
-          companyName: "Micron Technology",
-          relation: "supplier",
-          direction: "up",
-          confidence: "medium",
-          window: "1 to 5 trading days",
-          mechanism: "Each data center GPU ships with high bandwidth memory. Micron is one of the few HBM suppliers.",
-          evidence: [
-            quote(
-              "MU",
-              "10-K",
-              "Our HBM products are used in AI accelerators, and demand for these products has grown significantly.",
-              "2026-10-03",
-            ),
-          ],
-        }),
-        hit({
-          ticker: "SMCI",
-          companyName: "Super Micro Computer",
-          relation: "customer",
-          direction: "up",
-          confidence: "medium",
-          window: "2 to 10 trading days",
-          mechanism: "Super Micro builds servers around Nvidia GPUs. More GPU supply supports its server shipments.",
-          evidence: [
-            quote(
-              "SMCI",
-              "10-K",
-              "We rely on a limited number of suppliers for GPUs, including NVIDIA, which are critical components of our systems.",
-              "2026-08-28",
-            ),
-          ],
-        }),
-        hit({
-          ticker: "AMD",
-          companyName: "Advanced Micro Devices",
-          relation: "competitor",
-          direction: "unclear",
-          confidence: "low",
-          window: "1 to 5 trading days",
-          mechanism:
-            "AMD sells competing accelerators. A strong market can lift both, or share can move toward Nvidia.",
-          evidence: [
-            quote("AMD", "10-K", "In the data center GPU market, our primary competitor is NVIDIA.", "2026-02-04"),
-          ],
-        }),
-        hit({
-          ticker: "ASML",
-          companyName: "ASML Holding",
-          relation: "supplier",
-          degree: 2,
-          via: "TSM",
-          direction: "up",
-          confidence: "low",
-          window: "5 to 20 trading days",
-          mechanism: "TSMC buys ASML's lithography systems. Sustained wafer demand supports its capacity plans.",
-          evidence: [
-            quote("TSM", "20-F", "We rely on a limited number of suppliers for lithography equipment.", "2026-04-17"),
-          ],
-        }),
-      ],
-    },
-    {
-      id: "sample-msft-capex",
-      sector: "Technology",
-      generatedAt: ago(4.5),
-      event: {
-        id: "evt-msft-capex",
-        ticker: "MSFT",
-        companyName: "Microsoft",
-        kind: "guidance",
-        headline: "Microsoft raises its capital spending outlook",
-        occurredAt: ago(5),
-        summary:
-          "Microsoft now plans about $94B of capital spending this fiscal year, up from $80B, mostly for data centers.",
-        source: source("MSFT", "Microsoft earnings call remarks", 5),
-      },
-      hits: [
-        hit({
-          ticker: "NVDA",
-          companyName: "NVIDIA",
-          relation: "supplier",
-          direction: "up",
-          confidence: "high",
-          window: "1 to 5 trading days",
-          mechanism: "Microsoft is one of Nvidia's largest buyers. A bigger data center budget means more GPU orders.",
-          evidence: [
-            quote(
-              "NVDA",
-              "10-K",
-              "A significant portion of our revenue is derived from a limited number of customers, including cloud service providers.",
-              "2026-02-25",
-            ),
-          ],
-        }),
-        hit({
-          ticker: "VRT",
-          companyName: "Vertiv",
-          relation: "supplier",
-          direction: "up",
-          confidence: "medium",
-          window: "2 to 10 trading days",
-          mechanism: "New data centers need power and cooling gear, which Vertiv sells to the large cloud builders.",
-          evidence: [
-            quote(
-              "VRT",
-              "10-K",
-              "Our largest customers include hyperscale cloud providers building and expanding data centers.",
-              "2026-02-21",
-            ),
-          ],
-        }),
-        hit({
-          ticker: "ANET",
-          companyName: "Arista Networks",
-          relation: "supplier",
-          direction: "up",
-          confidence: "medium",
-          window: "2 to 10 trading days",
-          mechanism: "Microsoft is Arista's largest customer. More data center buildout means more switching orders.",
-          evidence: [
-            quote(
-              "ANET",
-              "10-K",
-              "Microsoft accounted for a significant percentage of our total revenue.",
-              "2026-02-14",
-            ),
-          ],
-        }),
-      ],
-    },
-    {
-      id: "sample-mu-pricing",
-      sector: "Semiconductors",
-      generatedAt: ago(7.5),
-      event: {
-        id: "evt-mu-pricing",
-        ticker: "MU",
-        companyName: "Micron Technology",
-        kind: "news",
-        headline: "Micron raises memory contract prices",
-        occurredAt: ago(8),
-        summary: "Micron told customers DRAM contract prices rise about 15% next quarter as AI servers absorb supply.",
-        source: source("MU", "Micron pricing update", 8),
-      },
-      hits: [
-        hit({
-          ticker: "AAPL",
-          companyName: "Apple",
-          relation: "customer",
-          direction: "down",
-          confidence: "medium",
-          window: "5 to 20 trading days",
-          mechanism: "Apple buys DRAM for every iPhone and Mac. Higher memory prices press on hardware margins.",
-          evidence: [
-            quote(
-              "AAPL",
-              "10-K",
-              "We depend on component suppliers, and component costs can rise significantly.",
-              "2026-10-31",
-            ),
-          ],
-        }),
-        hit({
-          ticker: "DELL",
-          companyName: "Dell Technologies",
-          relation: "customer",
-          direction: "down",
-          confidence: "medium",
-          window: "5 to 20 trading days",
-          mechanism:
-            "Memory is one of the largest costs in a PC or server. Dell has raised prices before when it rose.",
-          evidence: [
-            quote(
-              "DELL",
-              "10-K",
-              "Increases in the cost of components such as memory can reduce our gross margin.",
-              "2026-03-24",
-            ),
-          ],
-        }),
-        hit({
-          ticker: "NVDA",
-          companyName: "NVIDIA",
-          relation: "customer",
-          direction: "unclear",
-          confidence: "low",
-          window: "5 to 20 trading days",
-          mechanism:
-            "Nvidia buys high bandwidth memory from Micron. Its pricing power makes the cost effect hard to call.",
-          evidence: [
-            quote(
-              "NVDA",
-              "10-K",
-              "We depend on a limited number of suppliers for memory used in our products.",
-              "2026-02-25",
-            ),
-          ],
-        }),
-      ],
-    },
-    {
-      id: "sample-aapl-guide",
-      sector: "Technology",
-      generatedAt: ago(19),
-      event: {
-        id: "evt-aapl-guide",
-        ticker: "AAPL",
-        companyName: "Apple",
-        kind: "guidance",
-        headline: "Apple guides iPhone revenue below estimates",
-        occurredAt: ago(20),
-        summary: "Apple expects iPhone revenue to grow low single digits next quarter. Analysts had modeled about 7%.",
-        source: source("AAPL", "Apple quarterly results, Form 8-K", 20),
-      },
-      hits: [
-        hit({
-          ticker: "SWKS",
-          companyName: "Skyworks Solutions",
-          relation: "supplier",
-          direction: "down",
-          confidence: "high",
-          window: "1 to 5 trading days",
-          mechanism: "Apple is Skyworks' largest customer. Fewer iPhone builds mean fewer radio chip orders.",
-          evidence: [
-            quote(
-              "SWKS",
-              "10-K",
-              "Apple accounted for a majority of our net revenue, and the loss of or reduction in its orders would hurt our results.",
-              "2026-11-06",
-            ),
-          ],
-        }),
-        hit({
-          ticker: "CRUS",
-          companyName: "Cirrus Logic",
-          relation: "supplier",
-          direction: "down",
-          confidence: "medium",
-          window: "1 to 5 trading days",
-          mechanism: "Cirrus Logic's audio and power chips ship mostly in iPhones.",
-          evidence: [
-            quote(
-              "CRUS",
-              "10-K",
-              "Our largest customer, Apple, represented most of our total net sales.",
-              "2026-05-23",
-            ),
-          ],
-        }),
-        hit({
-          ticker: "QCOM",
-          companyName: "Qualcomm",
-          relation: "supplier",
-          direction: "down",
-          confidence: "low",
-          window: "2 to 10 trading days",
-          mechanism: "Qualcomm still supplies iPhone modems, though Apple is moving that work in house.",
-          evidence: [
-            quote(
-              "QCOM",
-              "10-K",
-              "Apple has begun using its own modem in some devices, which will reduce our modem revenue from Apple.",
-              "2026-11-05",
-            ),
-          ],
-        }),
-      ],
-    },
-    {
-      id: "sample-avgo-ai",
-      sector: "Semiconductors",
-      generatedAt: ago(26),
-      event: {
-        id: "evt-avgo-ai",
-        ticker: "AVGO",
-        companyName: "Broadcom",
-        kind: "earnings_surprise",
-        headline: "Broadcom AI revenue tops estimates",
-        occurredAt: ago(27),
-        summary:
-          "AI semiconductor revenue reached $6.2B against $5.8B expected, on custom accelerator and networking demand.",
-        source: source("AVGO", "Broadcom quarterly results, Form 8-K", 27),
-      },
-      hits: [
-        hit({
-          ticker: "MRVL",
-          companyName: "Marvell Technology",
-          relation: "competitor",
-          direction: "up",
-          confidence: "medium",
-          window: "1 to 5 trading days",
-          mechanism: "Marvell sells the same kind of custom AI chips to cloud companies. Strong demand reads across.",
-          evidence: [
-            quote(
-              "MRVL",
-              "10-K",
-              "We compete with Broadcom in custom silicon and data center networking.",
-              "2026-03-12",
-            ),
-          ],
-        }),
-        hit({
-          ticker: "ANET",
-          companyName: "Arista Networks",
-          relation: "customer",
-          direction: "up",
-          confidence: "low",
-          window: "2 to 10 trading days",
-          mechanism: "Arista's switches run on Broadcom silicon. Networking strength points to switch demand.",
-          evidence: [
-            quote(
-              "ANET",
-              "10-K",
-              "We depend on Broadcom as the supplier of merchant silicon for most of our switches.",
-              "2026-02-14",
-            ),
-          ],
-        }),
-      ],
-    },
-    {
-      id: "sample-tsla-deliveries",
-      sector: "Consumer",
-      generatedAt: ago(30),
-      event: {
-        id: "evt-tsla-deliveries",
-        ticker: "TSLA",
-        companyName: "Tesla",
-        kind: "news",
-        headline: "Tesla deliveries come in under estimates",
-        occurredAt: ago(31),
-        summary: "Tesla delivered 384,000 vehicles in the quarter against about 410,000 expected.",
-        source: source("TSLA", "Tesla production and deliveries report", 31),
-      },
-      hits: [
-        hit({
-          ticker: "ALB",
-          companyName: "Albemarle",
-          relation: "supplier",
-          direction: "down",
-          confidence: "medium",
-          window: "2 to 10 trading days",
-          mechanism: "Fewer cars built means less battery lithium bought, a large share of Albemarle's sales.",
-          evidence: [
-            quote(
-              "ALB",
-              "10-K",
-              "Demand for our lithium products depends heavily on electric vehicle adoption.",
-              "2026-02-12",
-            ),
-          ],
-        }),
-        hit({
-          ticker: "ON",
-          companyName: "onsemi",
-          relation: "supplier",
-          direction: "down",
-          confidence: "medium",
-          window: "2 to 10 trading days",
-          mechanism: "onsemi sells silicon carbide power chips used in Tesla drivetrains.",
-          evidence: [
-            quote(
-              "ON",
-              "10-K",
-              "Sales to the automotive market, including electric vehicles, are a large part of our revenue.",
-              "2026-02-05",
-            ),
-          ],
-        }),
-        hit({
-          ticker: "RIVN",
-          companyName: "Rivian",
-          relation: "competitor",
-          direction: "unclear",
-          confidence: "low",
-          window: "1 to 5 trading days",
-          mechanism: "Weak demand can weigh on all EV makers, or buyers can move between brands.",
-          evidence: [
-            quote("RIVN", "10-K", "We face competition from established EV makers, including Tesla.", "2026-02-20"),
-          ],
-        }),
-      ],
-    },
-    {
-      // v1 states: an own-firm event (the hit is the company itself) at the
-      // Documented tier, with the published research behind it. Fixture data:
-      // the filers, amounts and quotes are placeholders.
-      id: "sample-lscc-insiders",
-      sector: "Semiconductors",
-      generatedAt: ago(5),
+      id: "sample-kgs-insiders",
+      sector: "all",
+      generatedAt: ago(1),
       tier: "documented",
+      confidence: "medium",
+      pricedIn: false,
       event: {
-        id: "evt-lscc-insiders",
-        ticker: "LSCC",
-        companyName: "Lattice Semiconductor",
+        id: "evt-kgs-insiders",
+        ticker: "KGS",
+        companyName: "Kodiak Gas Services, Inc.",
         kind: "filing",
         eventType: "insider_cluster",
         eventLabel: "Insider purchase cluster",
-        acceptedAt: ago(6),
-        headline: "Three Lattice Semiconductor insiders bought shares within five days",
-        occurredAt: ago(6),
+        acceptedAt: ago(3),
+        headline: "3 insiders bought $544,115 of Kodiak Gas Services, Inc. stock",
+        occurredAt: ago(3),
         summary:
-          "Form 4 filings show open-market purchases by two directors and the CFO, about $1.4M in total. None was made under a 10b5-1 plan.",
-        source: { title: "Lattice Semiconductor, Form 4", url: edgar("LSCC", "4"), publisher: "SEC EDGAR", publishedAt: ago(6) },
+          "Form 4 filings show open-market purchases by Alexander Newsom Darden (Director) 10,000 shares for $449,900; Gretchen Lynn Holloway (Director) 1,145 shares for $49,955; Margaret C Montana (Director) 1,000 shares for $44,260.",
+        source: source("Form 4: Gretchen Lynn Holloway, Kodiak Gas Services, Inc.", kgsUrl, 3),
+        details: {
+          rule: "3+ insiders within 5 business days",
+          insiders: 3,
+          insiderNames:
+            "Alexander Newsom Darden (Director); Gretchen Lynn Holloway (Director); Margaret C Montana (Director)",
+          totalUsd: 544115,
+          totalShares: 12145,
+          firstTradeDate: day(50),
+          lastTradeDate: day(26),
+          filings: 3,
+          marketValueUsd: 4530558976,
+          marketValueSource: "Yahoo market cap",
+        },
+      },
+      hits: [
+        insiderHit("KGS", "Kodiak Gas Services, Inc.", [
+          quote("Montana Margaret C (Director): Common Stock, code P, 1000 shares at 44.26", "4", day(3), kgsUrl),
+          quote("Darden Alexander Newsom (Director): Common Stock, code P, 10000 shares at 44.99", "4", day(26), kgsUrl),
+          quote("Holloway Gretchen Lynn (Director): Common Stock, code P, 1145 shares at 43.629", "4", day(3), kgsUrl),
+        ]),
+      ],
+    },
+    {
+      id: "sample-ctev-ceo",
+      sector: "all",
+      generatedAt: ago(1),
+      tier: "documented",
+      confidence: "medium",
+      pricedIn: false,
+      event: {
+        id: "evt-ctev-ceo",
+        ticker: "CTEV",
+        companyName: "Claritev Corp",
+        kind: "filing",
+        eventType: "insider_cluster",
+        eventLabel: "Insider purchase cluster",
+        acceptedAt: ago(5),
+        headline: "Travis Dalton (Pres., CEO & Executive Chair, Director) bought $149,927 of Claritev Corp stock",
+        occurredAt: ago(5),
+        summary:
+          "A Form 4 filing shows an open-market purchase by Travis Dalton (Pres., CEO & Executive Chair, Director) 5,110 shares for $149,927.",
+        source: source("Form 4: Travis Dalton, Claritev Corp", ctevUrl, 5),
+        details: {
+          rule: "officer or director purchase of $100k+ at a company under $2B",
+          insiders: 1,
+          insiderNames: "Travis Dalton (Pres., CEO & Executive Chair, Director)",
+          totalUsd: 149927,
+          totalShares: 5110,
+          firstTradeDate: day(50),
+          lastTradeDate: day(50),
+          filings: 1,
+          marketValueUsd: 457945696,
+          marketValueSource: "Yahoo market cap",
+        },
+      },
+      hits: [
+        insiderHit("CTEV", "Claritev Corp", [
+          quote(
+            "Dalton Travis (Pres., CEO & Executive Chair, Director): Class A common stock, code P, 5110 shares at 29.34",
+            "4",
+            day(5),
+            ctevUrl,
+          ),
+        ]),
+      ],
+    },
+    {
+      id: "sample-fun-insiders",
+      sector: "all",
+      generatedAt: ago(1),
+      tier: "documented",
+      confidence: "medium",
+      pricedIn: false,
+      event: {
+        id: "evt-fun-insiders",
+        ticker: "FUN",
+        companyName: "Six Flags Entertainment Corporation",
+        kind: "filing",
+        eventType: "insider_cluster",
+        eventLabel: "Insider purchase cluster",
+        acceptedAt: ago(26),
+        headline: "3 insiders bought $15.1M of Six Flags Entertainment Corporation stock",
+        occurredAt: ago(26),
+        summary:
+          "Form 4 filings show open-market purchases by Rehan Jaffer (Director) 1,450,000 shares for $14.9M; Richard M Haddrill (Executive Chair, Director) 9,000 shares for $90,720; Christopher Lawrence Bennett (Chief Legal Officer) 5,000 shares for $46,600.",
+        source: source("Form 4: Rehan Jaffer, Six Flags Entertainment Corporation", funUrl, 26),
+        details: {
+          rule: "3+ insiders within 5 business days",
+          insiders: 3,
+          insiderNames:
+            "Rehan Jaffer (Director); Richard M Haddrill (Executive Chair, Director); Christopher Lawrence Bennett (Chief Legal Officer)",
+          totalUsd: 15066320,
+          totalShares: 1464000,
+          firstTradeDate: day(120),
+          lastTradeDate: day(30),
+          filings: 3,
+          marketValueUsd: 1181678464,
+          marketValueSource: "Yahoo market cap",
+        },
+      },
+      hits: [
+        insiderHit("FUN", "Six Flags Entertainment Corporation", [
+          quote(
+            "JAFFER REHAN (Director): Common Stock, par value $0.01 per share, code P, 700000 shares at 10",
+            "4",
+            day(26),
+            funUrl,
+          ),
+          quote(
+            "HADDRILL RICHARD M (Executive Chair, Director): Common Stock, par value $0.01 per share, code P, 9000 shares at 10.08",
+            "4",
+            day(26),
+            funUrl,
+          ),
+        ]),
+      ],
+    },
+    {
+      id: "sample-tsm-revenue",
+      sector: "semis",
+      generatedAt: ago(1),
+      tier: "watch",
+      confidence: "low",
+      pricedIn: false,
+      event: {
+        id: "evt-tsm-revenue",
+        ticker: "TSM",
+        companyName: "TSMC",
+        kind: "filing",
+        eventType: "monthly_revenue",
+        eventLabel: "Monthly revenue",
+        acceptedAt: ago(8),
+        headline: "TSMC October revenue up 59.7% from a year earlier",
+        occurredAt: ago(8),
+        summary:
+          "TSMC filed its monthly revenue report for October 2026. Revenue was approximately NT$586.89 billion, an increase of 14.7 percent from September 2026 and an increase of 59.7 percent from October 2025.",
+        source: source("6-K: TSMC October 2026 revenue report", tsmUrl, 8),
       },
       hits: [
         hit({
-          ticker: "LSCC",
-          companyName: "Lattice Semiconductor",
-          relation: "self",
+          ticker: "CRDO",
+          companyName: "Credo",
+          relation: "customer",
           direction: "up",
-          confidence: "medium",
-          window: "1 to 20 trading days",
+          confidence: "low",
+          window: "1 to 4 weeks",
           mechanism:
-            "Several insiders bought on the open market within days, outside a pre-set plan. Published research finds non-routine insider purchases carried information about later returns.",
-          tier: "documented",
-          family: "F7",
-          channel: "own_firm",
-          opportunityEligible: true,
-          documentedBy: {
-            citation: "Cohen, Malloy and Pomorski (2012), Decoding Inside Information",
-            url: "https://doi.org/10.1111/j.1540-6261.2012.01740.x",
-            effect: "Opportunistic insider trades carried information about later returns; routine trades did not.",
-            period: "1986-2007",
-            match: "exact",
-          },
-          invalidatedBy: "A later Form 4 showing the same insiders selling, or an amended filing that marks the purchases as planned.",
+            "Credo exclusively used TSMC for wafer production in fiscal 2026. TSMC's 59.7% year-over-year October revenue growth signals strong demand for the foundry that makes all of Credo's wafers.",
           evidence: [
-            quote("LSCC", "4", "Code P, open market purchase, 8,000 shares of common stock.", ago(6).slice(0, 10)),
+            quote(
+              "In fiscal year 2026, we exclusively used Taiwan Semiconductor Manufacturing Company Limited (TSMC) for semiconductor wafer production.",
+              "10-K",
+              "2026-06-15",
+              "https://www.sec.gov/Archives/edgar/data/1807794/000162828026043303/crdo-20260502.htm",
+            ),
           ],
+          history: { sample: 48, avgMovePct: 5.2, hitRate: 0.5417, windowDays: 20, benchmark: "SPY", from: "2022-02-10", to: "2026-10-08" },
+          sinceEvent: { movePct: -1.26, fromDate: day(32), reactionDate: day(8), asOf: day(1), benchmark: "SPY", pricedInAtPct: 2.6 },
+          pricedIn: false,
+          tier: "watch",
+          family: "F11",
+          channel: "supply_chain",
+          linkClarity: "direct",
+          opportunityEligible: false,
+        }),
+        hit({
+          ticker: "KLAC",
+          companyName: "KLA",
+          relation: "supplier",
+          direction: "up",
+          confidence: "low",
+          window: "1 to 3 months",
+          mechanism:
+            "TSMC accounted for more than 10% of KLA's revenues in fiscal 2026, mainly in process control. TSMC's revenue growth points to strong activity at a major customer, though the filing does not tie it to equipment orders.",
+          evidence: [
+            quote(
+              "For the fiscal years ended June 30, 2026, 2025 and 2024, the following customers each accounted for more than 10% of total revenues, primarily in the Semiconductor Process Control segment: ... Taiwan Semiconductor Manufacturing Company Limited",
+              "10-K",
+              "2026-08-06",
+              "https://www.sec.gov/Archives/edgar/data/319201/000031920126000027/klac-20260630.htm",
+            ),
+          ],
+          history: { sample: 50, avgMovePct: 0.83, hitRate: 0.54, windowDays: 20, benchmark: "SPY", from: "2021-11-10", to: "2026-10-08" },
+          sinceEvent: { movePct: 0.4, fromDate: day(32), reactionDate: day(8), asOf: day(1), benchmark: "SPY", pricedInAtPct: 0.42 },
+          pricedIn: false,
+          tier: "watch",
+          family: "F11",
+          channel: "supply_chain",
+          linkClarity: "direct",
+          opportunityEligible: false,
+        }),
+        hit({
+          ticker: "ALAB",
+          companyName: "Astera Labs",
+          relation: "customer",
+          direction: "up",
+          confidence: "low",
+          window: "1 to 4 weeks",
+          mechanism:
+            "TSMC is Astera Labs' sole manufacturing partner for its integrated circuits. TSMC's October revenue, up 59.7% from a year earlier, points to strong wafer activity at the foundry that makes all of Astera's chips.",
+          evidence: [
+            quote(
+              "TSMC is our sole manufacturing partner for our integrated circuits and we currently have not qualified another source.",
+              "10-K",
+              "2026-02-20",
+              "https://www.sec.gov/Archives/edgar/data/1736297/000173629726000010/alab-20251231.htm",
+            ),
+          ],
+          history: { sample: 31, avgMovePct: 6.19, hitRate: 0.5161, windowDays: 20, benchmark: "SPY", from: "2024-04-10", to: "2026-10-08" },
+          sinceEvent: { movePct: 2.06, fromDate: day(32), reactionDate: day(8), asOf: day(1), benchmark: "SPY", pricedInAtPct: 3.1 },
+          pricedIn: false,
+          tier: "watch",
+          family: "F11",
+          channel: "supply_chain",
+          linkClarity: "direct",
+          opportunityEligible: false,
+        }),
+        hit({
+          ticker: "NVDA",
+          companyName: "NVIDIA",
+          relation: "customer",
+          direction: "up",
+          confidence: "low",
+          window: "1 to 4 weeks",
+          mechanism:
+            "NVIDIA uses TSMC, along with Samsung, to produce its semiconductor wafers. TSMC's October revenue, up 59.7% from a year earlier, suggests strong demand for the foundry capacity NVIDIA relies on.",
+          evidence: [
+            quote(
+              "We utilize foundries, such as Taiwan Semiconductor Manufacturing Company Limited, or TSMC, and Samsung Electronics Co., Ltd., or Samsung, to produce our semiconductor wafers.",
+              "10-K",
+              "2026-02-25",
+              "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm",
+            ),
+          ],
+          history: { sample: 50, avgMovePct: 1.73, hitRate: 0.56, windowDays: 20, benchmark: "SPY", from: "2021-11-10", to: "2026-10-08" },
+          sinceEvent: { movePct: -9.08, fromDate: day(32), reactionDate: day(8), asOf: day(1), benchmark: "SPY", pricedInAtPct: 0.87 },
+          pricedIn: false,
+          tier: "watch",
+          family: "F11",
+          channel: "supply_chain",
+          linkClarity: "direct",
+          opportunityEligible: false,
+        }),
+      ],
+    },
+    {
+      id: "sample-kala-late",
+      sector: "all",
+      generatedAt: ago(1),
+      tier: "watch",
+      confidence: "low",
+      pricedIn: false,
+      event: {
+        id: "evt-kala-late",
+        ticker: "KALA",
+        companyName: "KALA BIO, Inc.",
+        kind: "filing",
+        eventType: "distress_nt",
+        eventLabel: "Late filing notice",
+        acceptedAt: ago(2),
+        headline: "KALA BIO, Inc. filed a late-filing notice for its 10-Q",
+        occurredAt: ago(2),
+        summary: "KALA BIO, Inc. told the SEC it will not file its 10-Q on time (Form 12b-25).",
+        source: source("NT 10-Q: KALA BIO, Inc.", kalaUrl, 2),
+        details: {
+          lateReport: "10-Q",
+          reason:
+            "the Company requires additional time to complete its analysis and disclosure regarding its liquidity and capital resources.",
+          significantChangeExpected: false,
+          changeNarrative: null,
+        },
+      },
+      hits: [
+        hit({
+          ticker: "KALA",
+          companyName: "KALA BIO, Inc.",
+          relation: "self",
+          direction: "down",
+          confidence: "low",
+          window: "1 to 5 trading days",
+          mechanism:
+            "KALA BIO, Inc. told the SEC it could not file a periodic report on time, a filed risk item for holders of KALA BIO, Inc.",
+          evidence: [
+            quote(
+              "KALA BIO, Inc. (the “Company”) will not, without unreasonable effort and expense, be able to file its Quarterly Report on Form 10-Q for the quarter ended September 30, 2026 (the “Form 10-Q”) within the prescribed time period because the Company requires additional time to complete its analysis and disclosure regarding its liquidity and capital resources.",
+              "NT 10-Q",
+              day(2),
+              kalaUrl,
+            ),
+          ],
+          pricedIn: false,
+          tier: "watch",
+          family: "F6",
+          channel: "own_firm",
+          linkClarity: "direct",
+          opportunityEligible: false,
+          invalidatedBy: "The late report filed within the extension period with no change in results would undo this reading.",
+        }),
+      ],
+    },
+    {
+      id: "sample-apmd-restatement",
+      sector: "all",
+      generatedAt: ago(1),
+      tier: "watch",
+      confidence: "low",
+      pricedIn: false,
+      event: {
+        id: "evt-apmd-restatement",
+        ticker: "APMD",
+        companyName: "Apnimed, Inc.",
+        kind: "filing",
+        eventType: "restatement_402",
+        eventLabel: "Restatement notice",
+        acceptedAt: ago(2.5),
+        headline: "Apnimed, Inc. said past financial statements cannot be relied on",
+        occurredAt: ago(2.5),
+        summary:
+          "Apnimed, Inc. said previously issued financial statements should no longer be relied upon (8-K Item 4.02).",
+        source: source("8-K Item 4.02: Apnimed, Inc.", apmdUrl, 2.5),
+        details: {
+          revenueRestated: "no",
+          periods: "the three and six months ended June 30, 2026",
+          reason:
+            "Gain on disposition of equity method investment in SASS incorrectly classified in continuing operations rather than discontinued operations.",
+        },
+      },
+      hits: [
+        hit({
+          ticker: "APMD",
+          companyName: "Apnimed, Inc.",
+          relation: "self",
+          direction: "down",
+          confidence: "low",
+          window: "1 to 5 trading days",
+          mechanism:
+            "Apnimed, Inc. reported that earlier financial statements can no longer be relied on, a filed risk item for holders of Apnimed, Inc.",
+          evidence: [
+            quote(
+              "This gain was incorrectly classified within other income (expense) from continuing operations, rather than within discontinued operations in accordance with ASC 205-20, Discontinued Operations.",
+              "8-K",
+              day(2.5),
+              apmdUrl,
+            ),
+          ],
+          pricedIn: false,
+          tier: "watch",
+          family: "F5",
+          channel: "own_firm",
+          linkClarity: "direct",
+          opportunityEligible: false,
+          invalidatedBy:
+            "A restatement limited to presentation, with no change in reported revenue or earnings, would weaken this reading.",
+        }),
+      ],
+    },
+    {
+      id: "sample-onto-earnings",
+      sector: "semis",
+      generatedAt: ago(1),
+      tier: "watch",
+      confidence: "low",
+      pricedIn: false,
+      event: {
+        id: "evt-onto-earnings",
+        ticker: "ONTO",
+        companyName: "Onto Innovation",
+        kind: "earnings_surprise",
+        eventType: "earnings_read_through",
+        eventLabel: "Earnings read-through",
+        acceptedAt: ago(30),
+        headline: "Onto Innovation quarterly EPS 6.0% above consensus",
+        occurredAt: ago(30),
+        summary:
+          "Onto Innovation reported EPS of $2.44 for the quarter ended September 30, 2026, 6.0% above the $2.30 consensus estimate, on record quarterly revenue of $410 million, up 88% from a year earlier.",
+        source: source("8-K, EX-99.1: Onto Innovation Reports 2026 Third Quarter Results", ontoUrl, 30),
+      },
+      hits: [
+        hit({
+          ticker: "NVMI",
+          companyName: "Nova",
+          relation: "competitor",
+          direction: "unclear",
+          confidence: "medium",
+          window: "1 to 4 weeks",
+          mechanism:
+            "Nova and Onto name each other as competitors in CD and thin film metrology. Onto's record $410 million revenue can signal strong demand for Nova too, or share taken from Nova.",
+          evidence: [
+            quote(
+              "We compete mainly with Onto Innovation Inc., and KLA Corp., which manufacture and sell CD, thin films and chemical metrology and process control systems.",
+              "20-F",
+              "2026-02-17",
+              "https://www.sec.gov/Archives/edgar/data/1109345/000117891326000504/zk2634307.htm",
+            ),
+          ],
+          tier: "watch",
+          family: "F10",
+          channel: "competitor",
+          linkClarity: "direct",
+          opportunityEligible: false,
+        }),
+        hit({
+          ticker: "CAMT",
+          companyName: "Camtek",
+          relation: "competitor",
+          direction: "unclear",
+          confidence: "medium",
+          window: "1 to 4 weeks",
+          mechanism:
+            "Onto names Camtek as a principal competitor in advanced packaging inspection. Onto's 88% revenue growth may point to healthy demand for both, or to share taken from Camtek.",
+          evidence: [
+            quote(
+              "Our principal competitors for advanced packaging inspection are KLA and Camtek Ltd. (“Camtek”).",
+              "10-K",
+              "2026-02-24",
+              onto10k,
+            ),
+          ],
+          tier: "watch",
+          family: "F10",
+          channel: "competitor",
+          linkClarity: "direct",
+          opportunityEligible: false,
         }),
       ],
     },
   ];
-  return { generatedAt: ago(1.5), cards };
+  return { generatedAt: ago(1), cards };
 }

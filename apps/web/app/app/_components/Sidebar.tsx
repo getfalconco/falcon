@@ -2,13 +2,14 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { ChevronRight, LogOut, Plus, X } from "lucide-react";
-import { NOTHING_CLEARED, cardPricedIn, cardTier, splitWeakSignals, tierLabel, type RippleCard } from "@falcon/ripple";
+import { NOTHING_CLEARED, cardPricedIn, cardStrength, type RippleCard } from "@falcon/ripple";
 import { exposureByTicker, sortByTime, touchesFocus } from "@/lib/workspace/feed";
 import { searchTickers, type TickerResult } from "@/lib/workspace/focus";
 import { MAX_STOCKS, TICKER_PATTERN } from "@/lib/onboarding";
 import BrandMark from "../../components/BrandMark";
 import { useWorkspace } from "./context";
 import { MONO, NetMark, SectionTitle, timeAgo } from "./parts";
+import { HowToReadButton, useExplain } from "./explain";
 
 const ROW = "flex w-full items-center gap-2.5 rounded-md px-2 text-left outline-none transition-colors hover:bg-black/[0.04] focus-visible:bg-black/[0.05]";
 
@@ -109,34 +110,40 @@ function AddTicker({ onDone }: { onDone: () => void }) {
 }
 
 function SightingRow({ card, active, mine, onOpen }: { card: RippleCard; active: boolean; mine: boolean; onOpen: () => void }) {
-  const tier = cardTier(card);
-  // The Watch list heading already says it for watch cards.
-  const tierText = tier && tier !== "watch" ? tierLabel(tier) : "";
+  const ex = useExplain(card);
+  // The section heading says the evidence level; only Measured is set apart within "Backed by evidence".
+  const notes = [ex.strength.level === "measured" ? ex.strength.label : "", cardPricedIn(card) ? "May be priced in" : ""].filter(Boolean);
   return (
     <li>
-      <button type="button" onClick={onOpen} className={`${ROW} items-start py-2 ${active ? "bg-black/[0.055]" : ""}`}>
+      <button
+        type="button"
+        onClick={onOpen}
+        className={`${ROW} items-start py-2 ${active ? "bg-black/[0.055]" : ""}`}
+        title={mine ? "Touches your focus list" : undefined}
+      >
         <span className={`mt-[5px] h-1.5 w-1.5 shrink-0 rounded-full ${mine ? "bg-[#1d1b1b]" : "bg-black/15"}`} aria-hidden />
         <span className="min-w-0 flex-1">
-          <span className="flex items-center gap-2">
-            <span className="text-[11.5px] text-[#1d1b1b]" style={{ fontFamily: MONO }}>
-              {card.event.ticker}
-            </span>
-            {tierText ? (
-              <span className="text-[10px] uppercase tracking-[0.08em] text-[#767676]" style={{ fontFamily: MONO }}>
-                {tierText}
-              </span>
-            ) : null}
-            {cardPricedIn(card) ? (
-              <span className="text-[10px] uppercase tracking-[0.08em] text-[#767676]" style={{ fontFamily: MONO }}>
-                Priced in
-              </span>
-            ) : null}
+          <span className="flex items-center gap-1.5 text-[10.5px] text-[#1d1b1b]/50" style={{ fontFamily: MONO }}>
+            <span className="min-w-0 truncate uppercase tracking-[0.04em]">{ex.kicker}</span>
+            <span aria-hidden>·</span>
+            <span className="shrink-0 whitespace-nowrap text-[11px] text-[#1d1b1b]">{card.event.ticker}</span>
             <span className="ml-auto shrink-0 text-[11px] text-[#9a9a9a]">{timeAgo(card.event.occurredAt)}</span>
           </span>
-          <span className="mt-0.5 line-clamp-2 text-[12px] leading-[17px] text-[#4b4b48]">{card.event.headline}</span>
+          <span className="mt-0.5 line-clamp-2 text-[12.5px] leading-[17px] text-[#1d1b1b]">{ex.title}</span>
+          {notes.length ? <span className="mt-0.5 block text-[11px] text-[#767676]">{notes.join(" · ")}</span> : null}
         </span>
       </button>
     </li>
+  );
+}
+
+/** A section's small heading inside the Sightings list. */
+function GroupLabel({ children, count }: { children: React.ReactNode; count: number }) {
+  return (
+    <span className="flex items-center gap-2 text-[11px] uppercase tracking-[0.14em] text-[#1d1b1b]/45" style={{ fontFamily: MONO }}>
+      {children}
+      <span className="text-[#1d1b1b]/30">{count}</span>
+    </span>
   );
 }
 
@@ -145,8 +152,13 @@ export function Sidebar({ email, onSignOut, activeTicker, activeCardId }: { emai
   const [adding, setAdding] = useState(false);
   const exposure = useMemo(() => new Map(exposureByTicker(feed, focus).map((e) => [e.ticker, e])), [feed, focus]);
   const cards = useMemo(() => sortByTime(feed?.cards ?? []), [feed]);
-  // Weak signals (Watch tier; card confidence "low" on older cards) go last, folded away under "Watch list".
-  const split = useMemo(() => splitWeakSignals(cards), [cards]);
+  // Cards with evidence behind them first; the rest go last, folded away under "Watching".
+  const split = useMemo(() => {
+    const strong: RippleCard[] = [];
+    const weak: RippleCard[] = [];
+    for (const c of cards) (cardStrength(c).level === "watching" ? weak : strong).push(c);
+    return { strong, weak };
+  }, [cards]);
   const [weakOpen, setWeakOpen] = useState(false);
   // Open while one of its cards is the active tab.
   const weakShown = weakOpen || split.weak.some((c) => c.id === activeCardId);
@@ -215,12 +227,17 @@ export function Sidebar({ email, onSignOut, activeTicker, activeCardId }: { emai
 
         <section className="mt-4 px-2 pb-3">
           <div className="px-2">
-            <SectionTitle count={split.strong.length}>Sightings</SectionTitle>
+            <SectionTitle count={cards.length} action={<HowToReadButton />}>
+              Sightings
+            </SectionTitle>
           </div>
           {cards.length ? (
             <>
+              <div className="flex h-7 items-center px-2">
+                <GroupLabel count={split.strong.length}>Backed by evidence</GroupLabel>
+              </div>
               {split.strong.length ? (
-                <ul className="mt-0.5 flex flex-col">
+                <ul className="flex flex-col">
                   {split.strong.map((card) => (
                     <SightingRow key={card.id} card={card} active={activeCardId === card.id} mine={touchesFocus(card, focusSet)} onOpen={() => openSighting(card.id)} />
                   ))}
@@ -234,13 +251,19 @@ export function Sidebar({ email, onSignOut, activeTicker, activeCardId }: { emai
                     type="button"
                     onClick={() => setWeakOpen((v) => !v)}
                     aria-expanded={weakShown}
-                    className={`${ROW} h-8 text-[11px] uppercase tracking-[0.14em] text-[#1d1b1b]/45`}
-                    style={{ fontFamily: MONO }}
-                    title="Below the publishing bar: stored for the record, not counted as sightings"
+                    className={`${ROW} items-start py-1.5`}
                   >
-                    <ChevronRight width={12} height={12} strokeWidth={2} className={`shrink-0 transition-transform ${weakShown ? "rotate-90" : ""}`} aria-hidden />
-                    Watch list
-                    <span className="text-[#1d1b1b]/30">{split.weak.length}</span>
+                    <ChevronRight
+                      width={12}
+                      height={12}
+                      strokeWidth={2}
+                      className={`mt-[2px] shrink-0 text-[#1d1b1b]/45 transition-transform ${weakShown ? "rotate-90" : ""}`}
+                      aria-hidden
+                    />
+                    <span className="min-w-0 flex-1">
+                      <GroupLabel count={split.weak.length}>Watching</GroupLabel>
+                      <span className="mt-0.5 block text-[11.5px] leading-[16px] text-[#9a9a9a]">No evidence yet that these move the stock. Shown for context.</span>
+                    </span>
                   </button>
                   {weakShown ? (
                     <ul className="mt-0.5 flex flex-col opacity-80">

@@ -1,12 +1,13 @@
 "use client";
 
 import { useMemo } from "react";
-import { NOTHING_CLEARED, anyClearsBar, isWeakSignal } from "@falcon/ripple";
-import { buildTodaySummary, exposureByTicker, sortByTime } from "@/lib/workspace/feed";
+import { NOTHING_CLEARED, anyClearsBar, cardStrength, type RippleCard } from "@falcon/ripple";
+import { buildTodaySummary, exposureByTicker, sortByTime, touchesFocus } from "@/lib/workspace/feed";
 import { buildGraph } from "@/lib/workspace/graph";
 import { useWorkspace } from "../context";
 import { GraphView } from "../GraphView";
-import { EmptyState, MONO, NetMark, NetRing, Panel, RippleCardView, SectionTitle, SERIF, feedEmpty, timeAgo } from "../parts";
+import { EmptyState, MONO, NetMark, NetRing, Panel, SectionTitle, SERIF, feedEmpty, timeAgo } from "../parts";
+import { HowToReadButton, SightingCard, StrengthBadge, todaySentence, useExplain } from "../explain";
 import { FeedNotice } from "../FeedNotice";
 
 /** True when the feed is in and no card clears the publishing bar (only Watch-tier cards, or none). */
@@ -20,25 +21,46 @@ export function useToday() {
   return useMemo(() => buildTodaySummary(feed, focus.map((f) => f.ticker)), [feed, focus]);
 }
 
+/** The empty "Hitting your portfolio" title; says so when only Watching cards touch the focus list. */
+export function usePortfolioEmptyTitle(): string {
+  const { feed, feedStatus, focus, focusSet } = useWorkspace();
+  const nothingCleared = useNothingCleared();
+  const watching = useMemo(
+    () => (feed?.cards ?? []).filter((c) => touchesFocus(c, focusSet) && cardStrength(c).level === "watching").length,
+    [feed, focusSet],
+  );
+  if (!focus.length) return feedEmpty(feedStatus, "Your focus list is empty");
+  if (watching) {
+    return feedEmpty(
+      feedStatus,
+      `Nothing backed by evidence touches your portfolio. ${watching === 1 ? "1 Sighting under Watching does" : `${watching} Sightings under Watching do`}.`,
+    );
+  }
+  return feedEmpty(feedStatus, nothingCleared ? NOTHING_CLEARED : "Nothing is hitting your portfolio");
+}
+
 function longDate(iso: string) {
   const d = new Date(`${iso}T12:00:00`);
   return d.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
 }
 
-/** The ring, the why line and today's date: the top of Today. */
+/** The ring, today's one-sentence summary and the date: the top of Today. */
 export function TodayHeader({ compact = false }: { compact?: boolean }) {
   const summary = useToday();
-  const { feedStatus } = useWorkspace();
-  const why =
-    feedStatus === "ready" ? summary.why : feedStatus === "loading" ? "Loading today's sightings." : "Today's sightings are not in yet.";
+  const { feed, feedStatus, focusSet } = useWorkspace();
+  const sentence = useMemo(() => todaySentence(feed?.cards ?? [], focusSet), [feed, focusSet]);
+  const why = feedStatus === "ready" ? sentence : feedStatus === "loading" ? "Loading today's sightings." : "Today's sightings are not in yet.";
   return (
     <div className={`flex items-center ${compact ? "flex-col gap-5 text-center" : "gap-7"}`}>
       <NetRing value={summary.metric.value} size={compact ? 168 : 148} label={summary.metric.label} />
       <div className="min-w-0">
         <p className="text-[12px] text-[#9a9a9a]">{longDate(summary.date)}</p>
-        <h1 className="mt-1 text-[26px] leading-[34px] text-[#1d1b1b]" style={{ fontFamily: SERIF }}>
-          Today
-        </h1>
+        <div className={`mt-1 flex items-center gap-2.5 ${compact ? "justify-center" : ""}`}>
+          <h1 className="text-[26px] leading-[34px] text-[#1d1b1b]" style={{ fontFamily: SERIF }}>
+            Today
+          </h1>
+          <HowToReadButton />
+        </div>
         <p className="mt-2 max-w-[440px] text-[14px] leading-[21px] text-[#4b4b48]">{why}</p>
       </div>
     </div>
@@ -49,9 +71,10 @@ export function DashboardTab() {
   const { feed, feedStatus, focus, focusSet, openTab, openTicker } = useWorkspace();
   const summary = useToday();
   const nothingCleared = useNothingCleared();
+  const portfolioEmpty = usePortfolioEmptyTitle();
   const exposure = useMemo(() => exposureByTicker(feed, focus), [feed, focus]);
-  // Today never lists a weak signal; those sit under "Watch list" in the sidebar.
-  const listed = useMemo(() => sortByTime(feed?.cards ?? []).filter((c) => !isWeakSignal(c)), [feed]);
+  // Today lists only cards with evidence behind them; the rest sit under "Watching" in the sidebar.
+  const listed = useMemo(() => sortByTime(feed?.cards ?? []).filter((c) => cardStrength(c).level !== "watching"), [feed]);
   const latest = listed.slice(0, 6);
   const seeds = useMemo(() => {
     const own = focus.map((f) => f.ticker);
@@ -63,7 +86,7 @@ export function DashboardTab() {
     <div className="mx-auto flex w-full max-w-[1320px] flex-col gap-5 px-7 py-6">
       <FeedNotice />
 
-      <div className="grid grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)] gap-5">
+      <div className="grid grid-cols-1 gap-5 xl:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)]">
         <Panel className="flex items-center px-6 py-6">
           <TodayHeader />
         </Panel>
@@ -91,16 +114,14 @@ export function DashboardTab() {
         </Panel>
       </div>
 
-      <div className="grid grid-cols-2 gap-5">
+      <div className="grid grid-cols-1 gap-5 xl:grid-cols-2">
         <section>
           <SectionTitle count={summary.portfolio.length}>Hitting your portfolio</SectionTitle>
           <div className="mt-2 flex flex-col gap-3">
             {summary.portfolio.length ? (
-              summary.portfolio.slice(0, 3).map((card) => <RippleCardView key={card.id} card={card} highlight={focusSet} maxHits={3} />)
+              summary.portfolio.slice(0, 3).map((card) => <SightingCard key={card.id} card={card} highlight={focusSet} maxHits={4} />)
             ) : (
-              <EmptyState
-                title={feedEmpty(feedStatus, !focus.length ? "Your focus list is empty" : nothingCleared ? NOTHING_CLEARED : "Nothing is hitting your portfolio")}
-              />
+              <EmptyState title={portfolioEmpty} />
             )}
           </div>
         </section>
@@ -108,7 +129,7 @@ export function DashboardTab() {
           <SectionTitle count={summary.opportunities.length}>Opportunities</SectionTitle>
           <div className="mt-2 flex flex-col gap-3">
             {summary.opportunities.length ? (
-              summary.opportunities.slice(0, 2).map((card) => <RippleCardView key={card.id} card={card} maxHits={3} />)
+              summary.opportunities.slice(0, 2).map((card) => <SightingCard key={card.id} card={card} maxHits={4} />)
             ) : (
               <EmptyState title={feedEmpty(feedStatus, nothingCleared ? NOTHING_CLEARED : "No opportunities right now")} />
             )}
@@ -116,7 +137,7 @@ export function DashboardTab() {
         </section>
       </div>
 
-      <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,1.35fr)] gap-5 pb-4">
+      <div className="grid grid-cols-1 gap-5 pb-4 xl:grid-cols-[minmax(0,1fr)_minmax(0,1.35fr)]">
         <section>
           <SectionTitle count={focus.length}>Focus list</SectionTitle>
           <Panel className="mt-2 overflow-hidden">
@@ -176,9 +197,15 @@ export function DashboardTab() {
 }
 
 function LatestRow({ cardId }: { cardId: string }) {
-  const { feed, openSighting, focusSet } = useWorkspace();
+  const { feed } = useWorkspace();
   const card = feed?.cards.find((c) => c.id === cardId);
   if (!card) return null;
+  return <LatestRowView card={card} />;
+}
+
+function LatestRowView({ card }: { card: RippleCard }) {
+  const { openSighting, focusSet } = useWorkspace();
+  const ex = useExplain(card);
   const mine = card.hits.filter((h) => focusSet.has(h.ticker)).length;
   return (
     <li className="border-b border-black/[0.05] last:border-0">
@@ -190,10 +217,13 @@ function LatestRow({ cardId }: { cardId: string }) {
         <span className="text-[12px] text-[#1d1b1b]" style={{ fontFamily: MONO }}>
           {card.event.ticker}
         </span>
-        <span className="min-w-0 truncate text-[13px] text-[#1d1b1b]">{card.event.headline}</span>
+        <span className="min-w-0">
+          <span className="block truncate text-[13px] text-[#1d1b1b]">{ex.title}</span>
+          <span className="block truncate text-[11.5px] text-[#9a9a9a]">{ex.kicker}</span>
+        </span>
         <span className="flex items-center gap-3 whitespace-nowrap text-[12px] text-[#9a9a9a]">
           {mine ? <span className="text-[#4b4b48]">{mine} on your list</span> : null}
-          <span>{card.hits.length === 1 ? "1 company" : `${card.hits.length} companies`}</span>
+          <StrengthBadge strength={ex.strength} />
           <span className="w-14 text-right">{timeAgo(card.event.occurredAt)}</span>
         </span>
       </button>

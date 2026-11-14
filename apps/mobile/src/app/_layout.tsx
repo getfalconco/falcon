@@ -70,6 +70,7 @@ export default function RootLayout() {
         <Stack.Screen name="sign-in" options={sheet(SHEET_DETENTS.signIn)} />
         <Stack.Screen name="language" options={sheet(SHEET_DETENTS.language)} />
         <Stack.Screen name="add-ticker" options={sheet(SHEET_DETENTS.addTicker)} />
+        <Stack.Screen name="how-to-read" options={sheet(SHEET_DETENTS.howToRead)} />
         {/* The home tabs after the funnel, and a Sighting or a ticker pushed over them. */}
         <Stack.Screen name="(tabs)" />
         <Stack.Screen name="sighting/[id]" options={PUSHED} />
