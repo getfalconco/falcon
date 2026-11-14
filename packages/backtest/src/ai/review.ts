@@ -22,6 +22,9 @@ import { PROMPT_VERSION, REVIEW_SYSTEM } from "./prompts";
 import { costUsd, type Usage } from "./usage";
 
 export const REVIEW_MODEL = "claude-sonnet-5-5";
+/** A call (first or retry) is not started with less time than this left. */
+const MIN_CALL_MS = 4_000;
+export const REVIEW_TIMEOUT_MESSAGE = "Explain took longer than usual. Try again.";
 
 const Sentence = z.object({ template: z.string(), slots: z.array(z.object({ ref: z.string() })) });
 export const ReviewOutput = z.object({
@@ -91,10 +94,20 @@ function reviewInput(spec: StrategySpecV2, describe: SpecDescription, report: Qu
 
 export async function review(
   input: { spec: StrategySpecV2; describe: SpecDescription; report: QualityReport; trials?: number },
-  opts: { apiKey?: string | null; client?: MessagesClient; timeoutMs?: number; model?: string; effort?: "medium" | "high" } = {},
+  opts: {
+    apiKey?: string | null;
+    client?: MessagesClient;
+    /**
+     * Whole budget including the retry (default 50 s). The route passes what
+     * is left of a 50 s deadline after the sign-in check (Netlify's limit is 60 s).
+     */
+    timeoutMs?: number;
+    model?: string;
+    effort?: "medium" | "high";
+  } = {},
 ): Promise<ReviewResult> {
   const model = opts.model ?? REVIEW_MODEL;
-  const budget = opts.timeoutMs ?? 22_000;
+  const budget = opts.timeoutMs ?? 50_000;
   const started = Date.now();
   let client = opts.client;
   if (!client) {
@@ -106,7 +119,7 @@ export async function review(
   const messages: unknown[] = [{ role: "user", content: reviewInput(input.spec, input.describe, input.report, input.trials ?? 1) }];
   for (let attempt = 0; attempt < 2; attempt++) {
     const left = budget - (Date.now() - started);
-    if (left < 4_000) return { ok: false, reason: "timeout", message: "Explain took too long. Try again.", usage };
+    if (left < MIN_CALL_MS) return { ok: false, reason: "timeout", message: REVIEW_TIMEOUT_MESSAGE, usage };
     let msg: { model?: string; stop_reason?: string | null; content?: Array<{ type: string; text?: string }>; usage?: Record<string, number> };
     try {
       msg = (await client.beta.messages.create(
@@ -122,7 +135,7 @@ export async function review(
         { timeout: left } as never,
       )) as typeof msg;
     } catch (e) {
-      if (e instanceof Anthropic.APIConnectionTimeoutError) return { ok: false, reason: "timeout", message: "Explain took too long. Try again.", usage };
+      if (e instanceof Anthropic.APIConnectionTimeoutError) return { ok: false, reason: "timeout", message: REVIEW_TIMEOUT_MESSAGE, usage };
       if (e instanceof Anthropic.APIError) {
         console.error("[backtest/ai] review API error", e.status, e.message);
         return { ok: false, reason: "unavailable", message: "Explain is unavailable right now.", usage };

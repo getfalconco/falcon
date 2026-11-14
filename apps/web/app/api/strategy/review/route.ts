@@ -4,7 +4,8 @@ import { guard, json, preflight } from "@/lib/strategy/guard";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
-export const maxDuration = 26;
+/** Netlify's synchronous function limit (60 s, fixed; docs.netlify.com/build/functions/configuration). */
+export const maxDuration = 60;
 
 /**
  * "Explain" (design 6.4): Claude describes a run's QualityReport in slot
@@ -19,7 +20,12 @@ export const maxDuration = 26;
  * 20 an hour per IP and per member, 100 an hour per instance.
  */
 
-const TIMEOUT_MS = Number(process.env.STRATEGY_REVIEW_TIMEOUT_MS) || 22_000;
+/**
+ * The whole request, sign-in check included, ends within 50 s of arriving:
+ * 10 s under the 60 s limit for a cold start and the response. The model gets
+ * whatever the sign-in check left (about 49 s), including the one retry.
+ */
+const DEADLINE_MS = 50_000;
 const STATUS = { invalid: 422, refusal: 422, unavailable: 503, timeout: 504 } as const;
 
 export function OPTIONS(request: Request) {
@@ -32,6 +38,7 @@ function isReport(v: unknown): v is QualityReport {
 }
 
 export async function POST(request: Request) {
+  const arrived = Date.now();
   const g = await guard(
     request,
     "strategy-review",
@@ -49,9 +56,13 @@ export async function POST(request: Request) {
   if (!check.ok) return json({ error: "The spec is not valid.", issues: check.issues }, 400, g.origin);
   if (!isReport(g.body.quality)) return json({ error: "Send the run's quality report." }, 400, g.origin);
   const trials = typeof g.body.trials === "number" ? Math.max(1, Math.round(g.body.trials)) : 1;
+  const guardMs = Date.now() - arrived;
   try {
-    const r = await review({ spec: check.spec, describe: describeSpec(check.spec, check.uses), report: g.body.quality, trials }, { apiKey, timeoutMs: TIMEOUT_MS });
-    console.info("[api/strategy/review]", JSON.stringify({ ok: r.ok, usage: r.ok ? r.review.usage : (r.usage ?? null) }));
+    const r = await review({ spec: check.spec, describe: describeSpec(check.spec, check.uses), report: g.body.quality, trials }, { apiKey, timeoutMs: DEADLINE_MS - guardMs });
+    console.info(
+      "[api/strategy/review]",
+      JSON.stringify({ ok: r.ok, reason: r.ok ? undefined : r.reason, guardMs, totalMs: Date.now() - arrived, usage: r.ok ? r.review.usage : (r.usage ?? null) }),
+    );
     if (!r.ok) return json({ error: r.message, reason: r.reason }, STATUS[r.reason], g.origin);
     return json(r.review, 200, g.origin);
   } catch (error) {

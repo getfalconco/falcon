@@ -14,6 +14,6 @@ export {
 } from "./yahoo";
 export { WARMUP_CALENDAR_DAYS, backtest, defaultSources, hasQuarterGap, loadMarketData } from "./load";
 export type { BacktestOptions, BacktestOutcome, Sources } from "./load";
-export { runSpec, auditSpec, loadSpecData, type SpecOutcome, type SpecRunOptions, type AuditResult } from "./run-spec";
+export { runSpec, auditSpec, loadSpecData, workBudgetMs, SPEC_DEADLINE_MS, COMPUTE_RESERVE_MS, LOAD_TIMEOUT_MESSAGE, type SpecOutcome, type SpecRunOptions, type AuditResult } from "./run-spec";
 export { providerFromEnv, fileRippleSource, type MarketDataProvider, type RippleEventSource } from "./provider";
 export { FredRateSource, parseFredCsv, DTB3_URL, type RateSource } from "./fred";

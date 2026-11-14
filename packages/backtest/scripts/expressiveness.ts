@@ -11,7 +11,7 @@ const pct = (v: number | null | undefined) => (v === null || v === undefined || 
 let pass = 0;
 for (const e of EXPRESSIVENESS) {
   const t0 = Date.now();
-  const out = await runSpec(e.spec, { timeoutMs: 60_000 });
+  const out = await runSpec(e.spec, { deadlineAt: Date.now() + 68_000 });
   const ms = Date.now() - t0;
   if (!out.ok) {
     console.log(`FAIL ${e.id}: ${out.errors.join("; ")}`);
