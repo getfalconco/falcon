@@ -17,7 +17,7 @@ export function StrategyContext({ strategyId }: { strategyId: string }) {
           <SectionTitle>From the sighting</SectionTitle>
           <ul className="flex flex-col gap-1.5 pt-1">
             {notes.map((n) => (
-              <li key={n} className="text-[12px] leading-[18px] text-[#4b4b48]">
+              <li key={n} className="text-fs-12 leading-fs-18 text-fore-4">
                 {n}
               </li>
             ))}
@@ -33,7 +33,7 @@ export function StrategyContext({ strategyId }: { strategyId: string }) {
               onClick={() => newStrategy()}
               aria-label="New strategy"
               title="New strategy"
-              className="inline-flex h-6 w-6 items-center justify-center rounded-md text-[#767676] outline-none transition-colors hover:bg-black/[0.05] hover:text-[#1d1b1b] focus-visible:ring-2 focus-visible:ring-black/20"
+              className="inline-flex h-6 w-6 items-center justify-center rounded-md text-quiet outline-none transition-colors hover:bg-line/[0.05] hover:text-fore focus-visible:ring-2 focus-visible:ring-line/20"
             >
               <Plus width={13} height={13} aria-hidden />
             </button>
@@ -48,23 +48,23 @@ export function StrategyContext({ strategyId }: { strategyId: string }) {
                 type="button"
                 onClick={() => openStrategy(s.id)}
                 aria-current={s.id === strategyId ? "page" : undefined}
-                className={`flex w-full items-baseline gap-2 rounded-md px-2 py-1.5 text-left outline-none transition-colors hover:bg-black/[0.04] focus-visible:ring-2 focus-visible:ring-black/20 ${
-                  s.id === strategyId ? "bg-black/[0.05]" : ""
+                className={`flex w-full items-baseline gap-2 rounded-md px-2 py-1.5 text-left outline-none transition-colors hover:bg-line/[0.04] focus-visible:ring-2 focus-visible:ring-line/20 ${
+                  s.id === strategyId ? "bg-line/[0.05]" : ""
                 }`}
               >
-                <span className="min-w-0 flex-1 truncate text-[12.5px] text-[#1d1b1b]">{s.rules.name.trim() || "Untitled strategy"}</span>
-                <span className="shrink-0 text-[11px] text-[#9a9a9a]">{timeAgo(new Date(s.updatedAt).toISOString())}</span>
+                <span className="min-w-0 flex-1 truncate text-fs-12.5 text-fore">{s.rules.name.trim() || "Untitled strategy"}</span>
+                <span className="shrink-0 text-fs-11 text-faint">{timeAgo(new Date(s.updatedAt).toISOString())}</span>
               </button>
             </li>
           ))}
         </ul>
-        <p className="pt-1 text-[11px] leading-[16px] text-[#b0b0ab]">Saved in this browser.</p>
+        <p className="pt-1 text-fs-11 leading-fs-16 text-faint-2">Saved in this browser.</p>
       </section>
       <section>
         <SectionTitle>About these results</SectionTitle>
         <ul className="flex flex-col gap-1.5 pt-1">
           {CAVEATS.map((c) => (
-            <li key={c} className="text-[11.5px] leading-[17px] text-[#767676]">
+            <li key={c} className="text-fs-11.5 leading-fs-17 text-quiet">
               {c}
             </li>
           ))}

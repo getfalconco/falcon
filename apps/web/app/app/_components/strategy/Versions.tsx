@@ -4,7 +4,7 @@ import { formulasOf, type StrategySpecV2 } from "@falcon/backtest";
 import type { SpecVersion } from "@/lib/workspace/strategies";
 import { MONO, Panel, SectionTitle, timeAgo } from "../parts";
 
-const SOURCE: Record<SpecVersion["source"], string> = {
+export const SOURCE: Record<SpecVersion["source"], string> = {
   chat: "by chat",
   template: "from a starter",
   formula: "formula edit",
@@ -64,16 +64,16 @@ export function Versions({ versions, current, onRestore }: { versions: SpecVersi
             const isCurrent = JSON.stringify(v.spec) === JSON.stringify(current);
             return (
               <li key={v.v} className="flex flex-col gap-0.5">
-                <div className="flex items-baseline gap-2 text-[12.5px]">
-                  <span className="text-[#1d1b1b]" style={{ fontFamily: MONO }}>
+                <div className="flex items-baseline gap-2 text-fs-12.5">
+                  <span className="text-fore" style={{ fontFamily: MONO }}>
                     v{v.v}
                   </span>
-                  <span className="text-[#767676]">{SOURCE[v.source]}</span>
-                  <span className="text-[11px] text-[#9a9a9a]">{timeAgo(new Date(v.at).toISOString())}</span>
+                  <span className="text-quiet">{SOURCE[v.source]}</span>
+                  <span className="text-fs-11 text-faint">{timeAgo(new Date(v.at).toISOString())}</span>
                   {isCurrent ? (
-                    <span className="text-[11px] text-[#9a9a9a]">current</span>
+                    <span className="text-fs-11 text-faint">current</span>
                   ) : (
-                    <button type="button" onClick={() => onRestore(v)} className="text-[11.5px] text-[#4b4b48] underline decoration-black/20 underline-offset-2 outline-none hover:text-[#1d1b1b]">
+                    <button type="button" onClick={() => onRestore(v)} className="text-fs-11.5 text-fore-4 underline decoration-line/20 underline-offset-2 outline-none hover:text-fore">
                       Restore
                     </button>
                   )}
@@ -81,7 +81,7 @@ export function Versions({ versions, current, onRestore }: { versions: SpecVersi
                 {diff.length ? (
                   <ul className="flex flex-col gap-0.5 pl-1">
                     {diff.slice(0, 6).map((d) => (
-                      <li key={d} className="break-words text-[11.5px] leading-[16px] text-[#767676]" style={{ fontFamily: MONO }}>
+                      <li key={d} className="break-words text-fs-11.5 leading-fs-16 text-quiet" style={{ fontFamily: MONO }}>
                         {d}
                       </li>
                     ))}

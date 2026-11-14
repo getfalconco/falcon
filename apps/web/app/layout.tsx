@@ -36,7 +36,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${playfair.variable} ${libreBaskerville.variable} ${GeistSans.variable} ${GeistMono.variable}`}>
+    <html
+      lang="en"
+      // /app sets its theme on <html> before hydration (app/app/layout.tsx).
+      suppressHydrationWarning
+      className={`${inter.variable} ${playfair.variable} ${libreBaskerville.variable} ${GeistSans.variable} ${GeistMono.variable}`}>
       <body className="min-h-screen bg-[#fdfdfd] font-sans text-[#111111] antialiased">
         {children}
         <AppHostPwa />

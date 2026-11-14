@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { MONO } from "../parts";
+import { observeSettledSize } from "../shell/resize";
 
 export type ChartSeries = {
   id: string;
@@ -47,9 +48,7 @@ export function EquityChart({ dates, series, height = 300 }: { dates: string[]; 
   useEffect(() => {
     const el = box.current;
     if (!el) return;
-    const ro = new ResizeObserver(([entry]) => setWidth(Math.floor(entry!.contentRect.width)));
-    ro.observe(el);
-    return () => ro.disconnect();
+    return observeSettledSize(el, (rect) => setWidth(Math.floor(rect.width)));
   }, []);
 
   const n = dates.length;
@@ -150,7 +149,7 @@ export function EquityChart({ dates, series, height = 300 }: { dates: string[]; 
   return (
     <div
       ref={box}
-      className="relative select-none outline-none focus-visible:ring-2 focus-visible:ring-black/20"
+      className="relative select-none outline-none [overflow-x:clip] focus-visible:ring-2 focus-visible:ring-line/20"
       style={{ height }}
       tabIndex={0}
       role="img"
@@ -169,14 +168,14 @@ export function EquityChart({ dates, series, height = 300 }: { dates: string[]; 
         <svg width={width} height={height} className="block overflow-visible" aria-hidden>
           {ticks.map((t) => (
             <g key={t}>
-              <line x1={PAD.left} x2={width - PAD.right} y1={y(t)} y2={y(t)} stroke={t === 0 ? "rgba(0,0,0,0.22)" : "rgba(0,0,0,0.06)"} />
-              <text x={PAD.left - 8} y={y(t) + 3.5} textAnchor="end" fontSize={10.5} fill="#9a9a9a" style={{ fontFamily: MONO }}>
+              <line x1={PAD.left} x2={width - PAD.right} y1={y(t)} y2={y(t)} stroke={t === 0 ? "rgb(var(--f-line) / 0.22)" : "rgb(var(--f-line) / 0.06)"} />
+              <text x={PAD.left - 8} y={y(t) + 3.5} textAnchor="end" fontSize={10.5} fill="rgb(var(--f-faint))" style={{ fontFamily: MONO }}>
                 {`${t > 0 ? "+" : ""}${Math.abs(t) >= 1000 ? `${(t / 1000).toFixed(1)}k` : t}%`}
               </text>
             </g>
           ))}
           {xTicks.map((t) => (
-            <text key={t.i} x={x(t.i)} y={height - 8} textAnchor="middle" fontSize={10.5} fill="#9a9a9a" style={{ fontFamily: MONO }}>
+            <text key={t.i} x={x(t.i)} y={height - 8} textAnchor="middle" fontSize={10.5} fill="rgb(var(--f-faint))" style={{ fontFamily: MONO }}>
               {t.label}
             </text>
           ))}
@@ -195,10 +194,10 @@ export function EquityChart({ dates, series, height = 300 }: { dates: string[]; 
           ))}
           {hi !== null ? (
             <g>
-              <line x1={x(hi)} x2={x(hi)} y1={PAD.top} y2={PAD.top + plotH} stroke="rgba(0,0,0,0.25)" />
+              <line x1={x(hi)} x2={x(hi)} y1={PAD.top} y2={PAD.top + plotH} stroke="rgb(var(--f-line) / 0.25)" />
               {series.map((s) => {
                 const v = s.values.get(dates[hi]!);
-                return v === undefined ? null : <circle key={s.id} cx={x(hi)} cy={y(v)} r={4} fill={s.color} stroke="#fff" strokeWidth={2} />;
+                return v === undefined ? null : <circle key={s.id} cx={x(hi)} cy={y(v)} r={4} fill={s.color} stroke="rgb(var(--f-surface))" strokeWidth={2} />;
               })}
             </g>
           ) : null}
@@ -206,18 +205,18 @@ export function EquityChart({ dates, series, height = 300 }: { dates: string[]; 
       ) : null}
       {hi !== null ? (
         <div
-          className="pointer-events-none absolute top-2 z-10 min-w-[180px] rounded-md border border-black/10 bg-white px-3 py-2 shadow-[0_4px_16px_rgba(0,0,0,0.08)]"
+          className="pointer-events-none absolute top-2 z-10 min-w-[180px] rounded-md border border-line/10 bg-surface px-3 py-2 shadow-[0_4px_16px_rgba(0,0,0,0.08)]"
           style={flip ? { right: width - tipLeft + 10 } : { left: tipLeft + 10 }}
         >
-          <div className="text-[11px] text-[#767676]" style={{ fontFamily: MONO }}>
+          <div className="text-fs-11 text-quiet" style={{ fontFamily: MONO }}>
             {longDate(dates[hi]!)}
           </div>
           <div className="mt-1.5 flex flex-col gap-1">
             {series.map((s) => (
-              <div key={s.id} className="flex items-center gap-2 text-[12px]">
+              <div key={s.id} className="flex items-center gap-2 text-fs-12">
                 <span className="h-[2px] w-3 shrink-0 rounded-full" style={{ background: s.color }} />
-                <span className="min-w-0 flex-1 truncate text-[#4b4b48]">{s.label}</span>
-                <span className="tabular-nums text-[#1d1b1b]" style={{ fontFamily: MONO }}>
+                <span className="min-w-0 flex-1 truncate text-fore-4">{s.label}</span>
+                <span className="tabular-nums text-fore" style={{ fontFamily: MONO }}>
                   {pct(s.values.get(dates[hi]!))}
                 </span>
               </div>
@@ -234,13 +233,13 @@ export function ChartLegend({ series, last }: { series: ChartSeries[]; last: str
   return (
     <ul className="flex flex-wrap items-center gap-x-5 gap-y-1.5">
       {series.map((s) => (
-        <li key={s.id} className="flex items-center gap-2 text-[12px] text-[#4b4b48]">
+        <li key={s.id} className="flex items-center gap-2 text-fs-12 text-fore-4">
           <svg width="16" height="6" aria-hidden>
             <line x1="1" x2="15" y1="3" y2="3" stroke={s.color} strokeWidth="2" strokeDasharray={s.dashed ? "4 3" : undefined} strokeLinecap="round" />
           </svg>
           <span className="max-w-[220px] truncate">{s.label}</span>
           {last ? (
-            <span className="tabular-nums text-[#1d1b1b]" style={{ fontFamily: MONO }}>
+            <span className="tabular-nums text-fore" style={{ fontFamily: MONO }}>
               {pct(s.values.get(last))}
             </span>
           ) : null}

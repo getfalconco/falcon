@@ -4,10 +4,9 @@ import { useState } from "react";
 import { STARTERS, type StrategySpecV2 } from "@falcon/backtest";
 import type { Answer, Question } from "@falcon/backtest/ai";
 import { sendTurn, type Conversation as Conv, type SavedStrategy } from "@/lib/workspace/strategies";
-import { Panel, SectionTitle } from "../parts";
 
 const BTN =
-  "inline-flex h-7 items-center rounded-md border border-black/10 bg-white px-2.5 text-[12px] text-[#4b4b48] outline-none transition-colors hover:border-black/25 hover:text-[#1d1b1b] focus-visible:border-black/45 disabled:opacity-40";
+  "inline-flex h-7 items-center rounded-md border border-line/10 bg-surface px-2.5 text-fs-12 text-fore-4 outline-none transition-colors hover:border-line/25 hover:text-fore focus-visible:border-line/45 disabled:opacity-40";
 
 export type TurnApply = {
   conversation: Conv;
@@ -15,25 +14,20 @@ export type TurnApply = {
   text?: string;
 };
 
+export type StrategyChat = ReturnType<typeof useStrategyChat>;
+
 /**
  * Describe a strategy in plain words; the assistant asks up to 3 questions
  * (tap an answer or type one) or compiles the rules. Once there is a spec,
- * the same box edits it by chat, and every edit is a new version.
+ * the same box edits it by chat, and every edit is a new version. The
+ * composer at the bottom of Strategy Lab sends through `send`.
  */
-export function Conversation({
-  s,
-  onApply,
-  onStarter,
-}: {
-  s: SavedStrategy;
-  onApply: (a: TurnApply) => void;
-  onStarter: (id: string) => void;
-}) {
+export function useStrategyChat(s: SavedStrategy, onApply: (a: TurnApply) => void) {
   const conv = s.conversation;
   const hasSpec = s.origin.kind !== "blank" || s.versions.length > 1 || s.confirmed;
-  const [text, setText] = useState("");
-  const [typed, setTyped] = useState<Record<string, string>>({});
   const [busy, setBusy] = useState(false);
+  /** Change requests sent in this visit; the saved conversation keeps only the description and answers. */
+  const [edits, setEdits] = useState<string[]>([]);
 
   const turn = async (next: Conv, edit: string | null) => {
     setBusy(true);
@@ -60,15 +54,17 @@ export function Conversation({
     }
   };
 
-  const submit = () => {
-    const t = text.trim();
-    if (!t || busy) return;
-    setText("");
+  /** Sends a description or a change request; false when nothing was sent. */
+  const send = (raw: string): boolean => {
+    const t = raw.trim();
+    if (!t || busy || conv.pending?.length) return false;
     if (hasSpec && s.spec) {
+      setEdits((e) => [...e, t]);
       void turn({ ...conv, note: null }, t);
     } else {
       void turn({ intent: t, answers: [], questionsAsked: 0, pending: null, assumptions: [], notExpressible: [], note: null }, null);
     }
+    return true;
   };
 
   const answerAll = (qs: Question[], picks: Record<string, { a: string; typed: boolean }>) => {
@@ -76,84 +72,87 @@ export function Conversation({
     void turn({ ...conv, answers, pending: null, note: null }, null);
   };
 
-  return (
-    <section>
-      <SectionTitle>{hasSpec ? "Change by chat" : "Describe a strategy"}</SectionTitle>
-      <Panel className="mt-2 px-4 py-3">
-        {conv.intent ? (
-          <div className="mb-3 flex flex-col gap-1.5 border-b border-black/[0.06] pb-3">
-            <p className="text-[13px] leading-[19px] text-[#1d1b1b]">{conv.intent}</p>
-            {conv.answers.map((a, i) => (
-              <p key={`${a.q}-${i}`} className="text-[12px] leading-[18px] text-[#767676]">
-                {a.q} <span className="text-[#1d1b1b]">{a.a}</span>
-              </p>
-            ))}
-          </div>
-        ) : null}
+  /** Clears this visit's change requests, the last note and open questions; the description and rules stay. */
+  const clear = () => {
+    setEdits([]);
+    if (conv.note || conv.pending) onApply({ conversation: { ...conv, note: null, pending: null } });
+  };
 
-        {conv.pending?.length ? (
-          <Questions questions={conv.pending} busy={busy} typed={typed} setTyped={setTyped} onDone={(picks) => answerAll(conv.pending!, picks)} />
-        ) : (
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              submit();
-            }}
-            className="flex items-start gap-2"
-          >
-            <textarea
-              aria-label={hasSpec ? "Describe a change to the rules" : "Describe a strategy in plain English"}
-              value={text}
-              rows={2}
-              maxLength={4000}
-              onChange={(e) => setText(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" && !e.shiftKey) {
-                  e.preventDefault();
-                  submit();
-                }
-              }}
-              placeholder={
-                hasSpec
-                  ? "For example: use a 150-day average instead, or add a 10% trailing stop"
-                  : "For example: hold QQQ when its 2-day RSI is below 10 and it is above its 200-day average, exit after 5 days"
-              }
-              className="min-h-[44px] flex-1 resize-y rounded-md border border-black/10 bg-white px-3 py-2 text-[13px] leading-[19px] text-[#1d1b1b] outline-none transition-colors placeholder:text-[#b0b0ab] hover:border-black/25 focus:border-black/45"
-            />
-            <button
-              type="submit"
-              disabled={busy || !text.trim()}
-              className="inline-flex h-[44px] shrink-0 items-center rounded-md border border-black/10 px-3.5 text-[12.5px] text-[#1d1b1b] outline-none transition-colors hover:bg-[#efefec] focus-visible:border-black/40 disabled:opacity-40"
-            >
-              {busy ? "Reading" : hasSpec ? "Update rules" : "Write rules"}
+  return { busy, hasSpec, edits, send, answerAll, clear, waiting: Boolean(conv.pending?.length), canClear: edits.length > 0 || Boolean(conv.note || conv.pending) };
+}
+
+function UserBubble({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="flex justify-end">
+      <p className="max-w-[85%] whitespace-pre-wrap rounded-2xl bg-well px-3.5 py-2 text-fs-14 leading-fs-21 text-fore">{children}</p>
+    </div>
+  );
+}
+
+export function AssistantLabel({ children = "Falcon" }: { children?: React.ReactNode }) {
+  return <span className="text-fs-12 font-medium text-quiet-2">{children}</span>;
+}
+
+/** The conversation as a thread: the description, questions and answers, change requests, notes. */
+export function ConversationThread({ s, chat, onStarter }: { s: SavedStrategy; chat: StrategyChat; onStarter: (id: string) => void }) {
+  const conv = s.conversation;
+  const [typed, setTyped] = useState<Record<string, string>>({});
+
+  if (!conv.intent && !chat.hasSpec && !chat.busy && !conv.note) {
+    return (
+      <div className="flex flex-col items-center px-4 py-10 text-center">
+        <p className="max-w-[380px] text-fs-14 leading-fs-21 text-quiet">
+          Describe a strategy in the box below, or start from an example. Falcon writes the rules back in numbered steps; nothing runs until you confirm them.
+        </p>
+        <div className="mt-4 flex max-w-[460px] flex-wrap justify-center gap-1.5">
+          {STARTERS.map((t) => (
+            <button key={t.id} type="button" onClick={() => onStarter(t.id)} className={BTN} title={t.text}>
+              {t.spec.name}
             </button>
-          </form>
-        )}
-        {busy ? (
-          <p role="status" className="mt-2 text-[12px] text-[#767676]">
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex flex-col gap-4">
+      {conv.intent ? <UserBubble>{conv.intent}</UserBubble> : null}
+      {conv.answers.map((a, i) => (
+        <div key={`${a.q}-${i}`} className="flex flex-col gap-2">
+          <div className="flex flex-col gap-1">
+            <AssistantLabel />
+            <p className="text-fs-14 leading-fs-21 text-fore-3">{a.q}</p>
+          </div>
+          <UserBubble>{a.a}</UserBubble>
+        </div>
+      ))}
+      {chat.edits.map((e, i) => (
+        <UserBubble key={`${e}-${i}`}>{e}</UserBubble>
+      ))}
+      {conv.pending?.length ? (
+        <div className="flex flex-col gap-2">
+          <AssistantLabel />
+          <Questions questions={conv.pending} busy={chat.busy} typed={typed} setTyped={setTyped} onDone={(picks) => chat.answerAll(conv.pending!, picks)} />
+        </div>
+      ) : null}
+      {chat.busy ? (
+        <div className="flex flex-col gap-1">
+          <AssistantLabel />
+          <p role="status" className="text-fs-13.5 text-quiet">
             Reading the description and checking the formula. This takes a few seconds.
           </p>
-        ) : null}
-        {conv.note ? (
-          <p role="status" className={`mt-2 text-[12px] leading-[18px] ${conv.note.tone === "error" ? "text-[#b3432f]" : "text-[#4b4b48]"}`}>
+        </div>
+      ) : null}
+      {conv.note ? (
+        <div className="flex flex-col gap-1">
+          <AssistantLabel />
+          <p role="status" className={`text-fs-13.5 leading-fs-20 ${conv.note.tone === "error" ? "text-down" : "text-fore-4"}`}>
             {conv.note.text}
           </p>
-        ) : null}
-
-        {!hasSpec ? (
-          <div className="mt-3 border-t border-black/[0.06] pt-3">
-            <span className="text-[12px] text-[#9a9a9a]">Start from</span>
-            <div className="mt-1.5 flex flex-wrap gap-1.5">
-              {STARTERS.map((t) => (
-                <button key={t.id} type="button" onClick={() => onStarter(t.id)} className={BTN} title={t.text}>
-                  {t.spec.name}
-                </button>
-              ))}
-            </div>
-          </div>
-        ) : null}
-      </Panel>
-    </section>
+        </div>
+      ) : null}
+    </div>
   );
 }
 
@@ -182,7 +181,7 @@ function Questions({
     <div className="flex flex-col gap-4">
       {questions.map((q) => (
         <fieldset key={q.id} className="flex flex-col gap-1.5">
-          <legend className="text-[13px] leading-[19px] text-[#1d1b1b]">{q.text}</legend>
+          <legend className="text-fs-13 leading-fs-19 text-fore">{q.text}</legend>
           <div className="mt-1 flex flex-wrap gap-1.5" role="radiogroup">
             {q.options.map((o, i) => {
               const on = !typed[q.id]?.trim() && (picks[q.id] ?? q.defaultIndex) === i;
@@ -196,12 +195,12 @@ function Questions({
                     setPicks({ ...picks, [q.id]: i });
                     setTyped({ ...typed, [q.id]: "" });
                   }}
-                  className={`inline-flex min-h-7 items-center rounded-md border px-2.5 py-1 text-left text-[12px] outline-none transition-colors focus-visible:border-black/45 ${
-                    on ? "border-black/30 bg-black/[0.05] text-[#1d1b1b]" : "border-black/10 bg-white text-[#4b4b48] hover:border-black/25"
+                  className={`inline-flex min-h-7 items-center rounded-md border px-2.5 py-1 text-left text-fs-12 outline-none transition-colors focus-visible:border-line/45 ${
+                    on ? "border-line/30 bg-line/[0.05] text-fore" : "border-line/10 bg-surface text-fore-4 hover:border-line/25"
                   }`}
                 >
                   {o}
-                  {i === q.defaultIndex ? <span className="ml-1.5 text-[11px] text-[#9a9a9a]">default</span> : null}
+                  {i === q.defaultIndex ? <span className="ml-1.5 text-fs-11 text-faint">default</span> : null}
                 </button>
               );
             })}
@@ -211,7 +210,7 @@ function Questions({
             value={typed[q.id] ?? ""}
             onChange={(e) => setTyped({ ...typed, [q.id]: e.target.value })}
             placeholder="Or type an answer (tickers, a period, a number)"
-            className="h-8 rounded-md border border-black/10 bg-white px-2.5 text-[12.5px] text-[#1d1b1b] outline-none placeholder:text-[#b0b0ab] hover:border-black/25 focus:border-black/45"
+            className="h-8 rounded-md border border-line/10 bg-surface px-2.5 text-fs-12.5 text-fore outline-none placeholder:text-faint-2 hover:border-line/25 focus:border-line/45"
           />
         </fieldset>
       ))}
@@ -220,7 +219,7 @@ function Questions({
           type="button"
           disabled={busy}
           onClick={() => onDone(finalPicks())}
-          className="inline-flex h-8 items-center rounded-lg bg-[#1c1917] px-3.5 text-[12.5px] text-[rgb(231,231,231)] outline-none transition-colors hover:bg-[#0f0d0b] focus-visible:ring-2 focus-visible:ring-black/30 disabled:opacity-40"
+          className="inline-flex h-8 items-center rounded-lg bg-solid px-3.5 text-fs-12.5 text-solid-ink outline-none transition-colors hover:bg-solid-hover focus-visible:ring-2 focus-visible:ring-line/30 disabled:opacity-40"
         >
           {busy ? "Reading" : "Continue"}
         </button>

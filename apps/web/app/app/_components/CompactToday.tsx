@@ -12,20 +12,20 @@ import BrandMark from "../../components/BrandMark";
 function CompactCard({ card, focusSet }: { card: RippleCard; focusSet: Set<string> }) {
   const ex = useExplain(card);
   return (
-    <details className="group rounded-lg border border-black/[0.08] bg-white px-4 py-3.5 [&_summary::-webkit-details-marker]:hidden">
+    <details className="group rounded-lg border border-line/[0.08] bg-surface px-4 py-3.5 [&_summary::-webkit-details-marker]:hidden">
       <summary className="cursor-pointer list-none outline-none">
         <SightingCardBody
           card={card}
           highlight={focusSet}
           maxHits={4}
           interactive={false}
-          footer={<span className="shrink-0 text-[12px] text-[#767676] group-open:hidden">Read more</span>}
+          footer={<span className="shrink-0 text-fs-12 text-quiet group-open:hidden">Read more</span>}
         />
       </summary>
-      <div className="mt-4 flex flex-col gap-5 border-t border-black/[0.06] pt-4">
+      <div className="mt-4 flex flex-col gap-5 border-t border-line/[0.06] pt-4">
         <ExplainSections ex={ex} />
         <section>
-          <h2 className="text-[13px] font-medium text-[#1d1b1b]">Sources</h2>
+          <h2 className="text-fs-13 font-medium text-fore">Sources</h2>
           <div className="mt-2">
             <SightingSources card={card} ex={ex} />
           </div>
@@ -42,11 +42,11 @@ export function CompactToday() {
   const nothingCleared = useNothingCleared();
   const portfolioEmpty = usePortfolioEmptyTitle();
   return (
-    <div className="min-h-[100dvh] bg-[#fdfdfd]">
+    <div className="min-h-[100dvh] bg-canvas">
       <div className="mx-auto flex w-full max-w-[560px] flex-col gap-6 px-5 pb-12 pt-5">
         <div className="flex items-center gap-2">
           <BrandMark size={20} />
-          <span className="text-[14px] text-[#1d1b1b]">Falcon</span>
+          <span className="text-fs-14 text-fore">Falcon</span>
         </div>
         <FeedNotice />
         <TodayHeader compact />
@@ -70,7 +70,7 @@ export function CompactToday() {
             )}
           </div>
         </section>
-        <p className="text-center text-[12px] text-[#9a9a9a]">The full workspace opens on a wider screen</p>
+        <p className="text-center text-fs-12 text-faint">The full workspace opens on a wider screen</p>
       </div>
     </div>
   );

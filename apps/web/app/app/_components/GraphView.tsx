@@ -4,16 +4,17 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { Relation } from "@falcon/ripple";
 import { layoutGraph, type Graph } from "@/lib/workspace/graph";
 import { relationLabel } from "@/lib/workspace/feed";
-import { INK, MONO, netColor } from "./parts";
+import { INK, MONO, netColor, tone } from "./parts";
+import { observeSettledSize } from "./shell/resize";
 
 export const RELATION_COLOR: Record<Relation, string> = {
-  customer: "#4f74a8",
-  supplier: "#b0782f",
-  competitor: "#8d5a86",
-  peer: "#8f8f88",
-  self: "#1d1b1b",
+  customer: tone("chart-customer"),
+  supplier: tone("warn"),
+  competitor: tone("chart-competitor"),
+  peer: tone("chart-peer"),
+  self: INK,
 };
-const UNKNOWN_EDGE = "#c4c4bf";
+const UNKNOWN_EDGE = tone("faint-3");
 
 /** A relation's colour; the neutral edge colour for none or a value this build does not know. */
 export function relationColor(relation: string | null | undefined): string {
@@ -26,7 +27,7 @@ export function RelationLegend({ relations }: { relations: readonly Relation[] }
   return (
     <ul className="flex flex-wrap items-center gap-x-4 gap-y-1.5">
       {relations.map((r) => (
-        <li key={r} className="flex items-center gap-1.5 text-[12px] text-[#4b4b48]">
+        <li key={r} className="flex items-center gap-1.5 text-fs-12 text-fore-4">
           <span className="h-[2px] w-4 rounded-full" style={{ background: relationColor(r) }} aria-hidden />
           {relationLabel(r)}
         </li>
@@ -72,12 +73,9 @@ export function GraphView({
   useEffect(() => {
     const svg = svgRef.current;
     if (!svg) return;
-    const observer = new ResizeObserver(([entry]) => {
-      const { width, height } = entry.contentRect;
+    return observeSettledSize(svg, ({ width, height }) => {
       if (width > 0 && height > 0) setFrame({ w: width, h: height });
     });
-    observer.observe(svg);
-    return () => observer.disconnect();
   }, []);
 
   // The drawing's bounds, padded for labels.
@@ -240,8 +238,8 @@ export function GraphView({
               {own ? <circle r={radius + 4.5} fill="none" stroke={INK} strokeOpacity={0.25} strokeWidth={1} vectorEffect="non-scaling-stroke" /> : null}
               <circle
                 r={radius}
-                fill={n.focus ? INK : "#ffffff"}
-                stroke={n.focus ? (n.net === null ? INK : netColor(n.net)) : n.net === null ? "rgba(0,0,0,0.35)" : netColor(n.net)}
+                fill={n.focus ? INK : tone("surface")}
+                stroke={n.focus ? (n.net === null ? INK : netColor(n.net)) : n.net === null ? tone("line", 0.35) : netColor(n.net)}
                 strokeWidth={n.focus && n.net !== null ? 2.25 : 1.5}
                 vectorEffect="non-scaling-stroke"
               />
@@ -249,9 +247,9 @@ export function GraphView({
                 y={radius + 13}
                 textAnchor="middle"
                 fontSize={n.focus ? 11.5 : 10.5}
-                fill={n.focus ? INK : "#4b4b48"}
+                fill={n.focus ? INK : tone("fore-4")}
                 style={{ fontFamily: MONO, paintOrder: "stroke" }}
-                stroke="#fdfdfd"
+                stroke={tone("surface")}
                 strokeWidth={3}
                 strokeLinejoin="round"
               >

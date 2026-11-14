@@ -36,16 +36,16 @@ export function useExplain(card: RippleCard): CardExplain {
 /* ---------------------------------------------------------------- badges */
 
 const STRENGTH_CLASS: Record<CardStrength["level"], string> = {
-  measured: "border-[#1d1b1b] bg-[#1d1b1b] text-white",
-  research: "border-transparent bg-black/[0.07] text-[#1d1b1b]",
-  watching: "border-black/[0.14] bg-transparent text-[#8a8a85]",
+  measured: "border-fore bg-fore text-paper",
+  research: "border-transparent bg-line/[0.07] text-fore",
+  watching: "border-line/[0.14] bg-transparent text-quiet-2",
 };
 
 /** "Backed by research" and friends; its title says what the level means. */
 export function StrengthBadge({ strength, className = "" }: { strength: CardStrength; className?: string }) {
   return (
     <span
-      className={`inline-flex h-[20px] shrink-0 items-center whitespace-nowrap rounded-full border px-2 text-[11px] leading-none ${STRENGTH_CLASS[strength.level]} ${className}`}
+      className={`inline-flex h-[20px] shrink-0 items-center whitespace-nowrap rounded-full border px-2 text-fs-11 leading-none ${STRENGTH_CLASS[strength.level]} ${className}`}
       title={strength.detail}
     >
       {strength.label}
@@ -63,9 +63,9 @@ const DIRECTION_SIGNAL: Record<Direction, string> = {
 };
 
 function directionTone(direction: Direction): { color: string; tint: string } {
-  if (direction === "up") return { color: UP, tint: "rgba(46,125,79,0.08)" };
-  if (direction === "down") return { color: DOWN, tint: "rgba(179,67,47,0.08)" };
-  return { color: NEUTRAL, tint: "rgba(0,0,0,0.045)" };
+  if (direction === "up") return { color: UP, tint: "rgb(var(--f-up) / var(--f-tint))" };
+  if (direction === "down") return { color: DOWN, tint: "rgb(var(--f-down) / var(--f-tint))" };
+  return { color: NEUTRAL, tint: "rgb(var(--f-line) / 0.045)" };
 }
 
 function DirectionIcon({ direction, size = 13 }: { direction: Direction; size?: number }) {
@@ -76,7 +76,7 @@ function DirectionIcon({ direction, size = 13 }: { direction: Direction; size?: 
 /** "Positive" in green with its arrow; "Risk" in red; "Unclear" in grey. */
 export function DirectionWord({ direction }: { direction: Direction }) {
   return (
-    <span className="inline-flex items-center gap-1 whitespace-nowrap text-[12.5px]" style={{ color: directionTone(direction).color }}>
+    <span className="inline-flex items-center gap-1 whitespace-nowrap text-fs-12.5" style={{ color: directionTone(direction).color }}>
       <DirectionIcon direction={direction} />
       {DIRECTION_WORD[direction]}
     </span>
@@ -121,7 +121,7 @@ function TickerAction({
         openTicker(ticker);
       }}
       onKeyDown={(e) => e.stopPropagation()}
-      className={`${className} outline-none focus-visible:ring-2 focus-visible:ring-black/20`}
+      className={`${className} outline-none focus-visible:ring-2 focus-visible:ring-line/20`}
       style={style}
       title={title}
     >
@@ -137,14 +137,14 @@ export function SignalPill({ hit, interactive = true }: { hit: Pick<RippleHit, "
     <TickerAction
       ticker={hit.ticker}
       interactive={interactive}
-      className="inline-flex h-[26px] max-w-full items-center gap-1.5 whitespace-nowrap rounded-full px-2.5 text-[12.5px] leading-none"
+      className="inline-flex h-[26px] max-w-full items-center gap-1.5 whitespace-nowrap rounded-full px-2.5 text-fs-12.5 leading-none"
       style={{ color: tone.color, background: tone.tint }}
       title={`${DIRECTION_SIGNAL[hit.direction]} for ${shortCompany(hit.companyName)}`}
     >
       <DirectionIcon direction={hit.direction} />
       <span>
         {DIRECTION_SIGNAL[hit.direction]} for{" "}
-        <span style={{ fontFamily: MONO }} className="text-[12px]">
+        <span style={{ fontFamily: MONO }} className="text-fs-12">
           {hit.ticker}
         </span>
       </span>
@@ -159,8 +159,8 @@ export function HitChip({ hit, interactive = true, mine = false }: { hit: Ripple
     <TickerAction
       ticker={hit.ticker}
       interactive={interactive}
-      className={`inline-flex h-[24px] items-center gap-1 rounded-md border px-1.5 text-[11.5px] leading-none text-[#1d1b1b] transition-colors ${
-        mine ? "border-black/25 bg-black/[0.04]" : "border-black/10 hover:border-black/30"
+      className={`inline-flex h-[24px] items-center gap-1 rounded-md border px-1.5 text-fs-11.5 leading-none text-fore transition-colors ${
+        mine ? "border-line/25 bg-line/[0.04]" : "border-line/10 hover:border-line/30"
       }`}
       title={`${shortCompany(hit.companyName)}: ${DIRECTION_WORD[hit.direction].toLowerCase()}${mine ? ", on your focus list" : ""}`}
     >
@@ -199,11 +199,11 @@ export function AffectedCompanies({
   const shown = hits.slice(0, maxHits);
   return (
     <div className="flex flex-wrap items-center gap-1.5">
-      <span className="mr-0.5 text-[12px] text-[#9a9a9a]">Affects</span>
+      <span className="mr-0.5 text-fs-12 text-faint">Affects</span>
       {shown.map((h) => (
         <HitChip key={h.ticker} hit={h} interactive={interactive} mine={highlight?.has(h.ticker)} />
       ))}
-      {hits.length > shown.length ? <span className="text-[12px] text-[#9a9a9a]">+{hits.length - shown.length} more</span> : null}
+      {hits.length > shown.length ? <span className="text-fs-12 text-faint">+{hits.length - shown.length} more</span> : null}
     </div>
   );
 }
@@ -211,10 +211,10 @@ export function AffectedCompanies({
 /** "Insider buying · FUN · 3d ago". */
 export function CardKicker({ card, ex, className = "" }: { card: RippleCard; ex: CardExplain; className?: string }) {
   return (
-    <span className={`flex min-w-0 items-center gap-1.5 text-[11px] text-[#1d1b1b]/50 ${className}`} style={{ fontFamily: MONO }}>
+    <span className={`flex min-w-0 items-center gap-1.5 text-fs-11 text-fore/50 ${className}`} style={{ fontFamily: MONO }}>
       <span className="truncate uppercase tracking-[0.12em]">{ex.kicker}</span>
       <span aria-hidden>·</span>
-      <span className="shrink-0 whitespace-nowrap text-[11.5px] text-[#1d1b1b]">{card.event.ticker}</span>
+      <span className="shrink-0 whitespace-nowrap text-fs-11.5 text-fore">{card.event.ticker}</span>
       <span aria-hidden>·</span>
       <span className="whitespace-nowrap">{timeAgo(card.event.occurredAt)}</span>
     </span>
@@ -247,16 +247,16 @@ export function SightingCardBody({
           <StrengthBadge strength={ex.strength} />
         </span>
       </div>
-      <h3 className="mt-2 text-[15.5px] leading-[23px] text-[#1d1b1b]" style={{ fontFamily: SERIF }}>
+      <h3 className="mt-2 text-fs-15.5 leading-fs-23 text-fore" style={{ fontFamily: SERIF }}>
         {ex.title}
       </h3>
-      <p className="mt-1 text-[13px] leading-[19px] text-[#767676]">{ex.whyShort}</p>
+      <p className="mt-1 text-fs-13 leading-fs-19 text-quiet">{ex.whyShort}</p>
       <div className="mt-3">
         <AffectedCompanies card={card} highlight={highlight} maxHits={maxHits} interactive={interactive} />
       </div>
       {ex.pastShort || footer ? (
         <div className="mt-2.5 flex items-end gap-3">
-          {ex.pastShort ? <p className="min-w-0 flex-1 text-[12px] leading-[17px] text-[#9a9a9a]">{ex.pastShort}</p> : <span className="flex-1" />}
+          {ex.pastShort ? <p className="min-w-0 flex-1 text-fs-12 leading-fs-17 text-faint">{ex.pastShort}</p> : <span className="flex-1" />}
           {footer}
         </div>
       ) : null}
@@ -278,7 +278,7 @@ export function SightingCard({ card, highlight, maxHits = 4 }: { card: RippleCar
           openSighting(card.id);
         }
       }}
-      className="group cursor-pointer rounded-lg border border-black/[0.08] bg-white px-4 py-3.5 outline-none transition-colors hover:border-black/20 focus-visible:border-black/40"
+      className="group cursor-pointer rounded-lg border border-line/[0.08] bg-surface px-4 py-3.5 outline-none transition-colors hover:border-line/20 focus-visible:border-line/40"
     >
       <SightingCardBody
         card={card}
@@ -305,8 +305,8 @@ export function ExplainSections({ ex, columns = 1 }: { ex: CardExplain; columns?
     <div className={`grid grid-cols-1 gap-x-8 gap-y-5 ${columns === 2 ? "xl:grid-cols-2" : ""}`}>
       {ANSWER_HEADINGS.map((heading, i) => (
         <section key={heading}>
-          <h2 className="text-[13px] font-medium text-[#1d1b1b]">{heading}</h2>
-          <p className="mt-1.5 text-[14px] leading-[22px] text-[#4b4b48]">{bodies[i]}</p>
+          <h2 className="text-fs-13 font-medium text-fore">{heading}</h2>
+          <p className="mt-1.5 text-fs-14 leading-fs-22 text-fore-4">{bodies[i]}</p>
         </section>
       ))}
     </div>
@@ -320,20 +320,20 @@ export function SightingSources({ card, ex }: { card: RippleCard; ex: CardExplai
   const doc = ex.strength.level === "watching" ? undefined : card.hits.find((h) => h.documentedBy)?.documentedBy;
   if (!filings.length && !doc) return null;
   return (
-    <ul className="flex flex-col gap-2 text-[13px] leading-[19px]">
+    <ul className="flex flex-col gap-2 text-fs-13 leading-fs-19">
       {filings.slice(0, 6).map((s, i) => (
         <li key={s.url} className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
-          <span className="w-[86px] shrink-0 text-[12px] text-[#9a9a9a]">{i === 0 ? (s.publisher === "SEC EDGAR" ? "SEC filing" : "Source") : "Also used"}</span>
+          <span className="w-[86px] shrink-0 text-fs-12 text-faint">{i === 0 ? (s.publisher === "SEC EDGAR" ? "SEC filing" : "Source") : "Also used"}</span>
           <ExternalAnchor href={s.url}>{s.title || "Filing"}</ExternalAnchor>
-          {s.publishedAt ? <span className="text-[12px] text-[#9a9a9a]">{formatDate(s.publishedAt)}</span> : null}
+          {s.publishedAt ? <span className="text-fs-12 text-faint">{formatDate(s.publishedAt)}</span> : null}
         </li>
       ))}
-      {filings.length > 6 ? <li className="pl-[94px] text-[12px] text-[#9a9a9a]">{filings.length - 6} more filings</li> : null}
+      {filings.length > 6 ? <li className="pl-[94px] text-fs-12 text-faint">{filings.length - 6} more filings</li> : null}
       {doc?.citation ? (
         <li className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
-          <span className="w-[86px] shrink-0 text-[12px] text-[#9a9a9a]">Research</span>
+          <span className="w-[86px] shrink-0 text-fs-12 text-faint">Research</span>
           <ExternalAnchor href={doc.url}>{doc.citation}</ExternalAnchor>
-          {doc.period ? <span className="text-[12px] text-[#9a9a9a]">data from {doc.period}</span> : null}
+          {doc.period ? <span className="text-fs-12 text-faint">data from {doc.period}</span> : null}
         </li>
       ) : null}
     </ul>
@@ -376,13 +376,13 @@ const ANSWER_HINTS: Record<(typeof ANSWER_HEADINGS)[number], string> = {
 };
 
 function GuideHeading({ children }: { children: ReactNode }) {
-  return <h3 className="text-[13px] font-medium text-[#1d1b1b]">{children}</h3>;
+  return <h3 className="text-fs-13 font-medium text-fore">{children}</h3>;
 }
 
 /** The "How to read a Sighting" content. */
 export function HowToReadContent() {
   return (
-    <div className="flex flex-col gap-5 text-[13.5px] leading-[21px] text-[#4b4b48]">
+    <div className="flex flex-col gap-5 text-fs-13.5 leading-fs-21 text-fore-4">
       <p>
         A Sighting is a public event, mostly an SEC filing, that may move a stock. Falcon reads the filing and writes it up in plain words.
       </p>
@@ -391,7 +391,7 @@ export function HowToReadContent() {
         <dl className="mt-2 flex flex-col gap-1.5">
           {ANSWER_HEADINGS.map((h) => (
             <div key={h} className="grid grid-cols-[150px_minmax(0,1fr)] gap-3 max-sm:grid-cols-1 max-sm:gap-0">
-              <dt className="text-[#1d1b1b]">{h}</dt>
+              <dt className="text-fore">{h}</dt>
               <dd>{ANSWER_HINTS[h]}</dd>
             </div>
           ))}
@@ -428,7 +428,7 @@ export function HowToReadContent() {
           on your list.
         </p>
       </section>
-      <p className="border-t border-black/[0.06] pt-4 text-[12.5px] text-[#767676]">For information only, not investment advice.</p>
+      <p className="border-t border-line/[0.06] pt-4 text-fs-12.5 text-quiet">For information only, not investment advice.</p>
     </div>
   );
 }
@@ -460,7 +460,7 @@ export function HowToReadDialog({ open, onClose }: { open: boolean; onClose: () 
   if (!open || !mounted) return null;
   return createPortal(
     <div
-      className="fixed inset-0 z-[100] flex items-end justify-center bg-black/30 p-0 sm:items-center sm:p-4"
+      className="fixed inset-0 z-[100] flex items-end justify-center bg-black/30 p-0 dark:bg-black/55 sm:items-center sm:p-4"
       onMouseDown={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
@@ -469,10 +469,10 @@ export function HowToReadDialog({ open, onClose }: { open: boolean; onClose: () 
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
-        className="flex max-h-[88dvh] w-full max-w-[560px] flex-col overflow-hidden rounded-t-xl bg-[#fdfdfd] text-[#1d1b1b] shadow-[0_18px_48px_rgba(0,0,0,0.18)] sm:rounded-xl"
+        className="flex max-h-[88dvh] w-full max-w-[560px] flex-col overflow-hidden rounded-t-xl bg-canvas text-fore shadow-[0_18px_48px_rgba(0,0,0,0.18)] dark:bg-raised sm:rounded-xl"
       >
-        <div className="flex items-center gap-3 border-b border-black/[0.08] px-5 py-3.5">
-          <h2 id={titleId} className="text-[19px] leading-[26px] text-[#1d1b1b]" style={{ fontFamily: SERIF }}>
+        <div className="flex items-center gap-3 border-b border-line/[0.08] px-5 py-3.5">
+          <h2 id={titleId} className="text-fs-19 leading-fs-26 text-fore" style={{ fontFamily: SERIF }}>
             How to read a Sighting
           </h2>
           <button
@@ -480,7 +480,7 @@ export function HowToReadDialog({ open, onClose }: { open: boolean; onClose: () 
             type="button"
             onClick={onClose}
             aria-label="Close"
-            className="ml-auto flex h-8 w-8 items-center justify-center rounded-md text-[#767676] outline-none transition-colors hover:bg-black/[0.06] hover:text-[#1d1b1b] focus-visible:ring-2 focus-visible:ring-black/20"
+            className="ml-auto flex h-8 w-8 items-center justify-center rounded-md text-quiet outline-none transition-colors hover:bg-line/[0.06] hover:text-fore focus-visible:ring-2 focus-visible:ring-line/20"
           >
             <X width={16} height={16} strokeWidth={1.75} aria-hidden />
           </button>
@@ -488,11 +488,11 @@ export function HowToReadDialog({ open, onClose }: { open: boolean; onClose: () 
         <div className="min-h-0 flex-1 overflow-y-auto px-5 py-5">
           <HowToReadContent />
         </div>
-        <div className="flex justify-end border-t border-black/[0.08] px-5 py-3">
+        <div className="flex justify-end border-t border-line/[0.08] px-5 py-3">
           <button
             type="button"
             onClick={onClose}
-            className="inline-flex h-9 items-center rounded-lg bg-[#1c1917] px-4 text-[13px] text-[rgb(231,231,231)] outline-none transition-colors hover:bg-[#0f0d0b] focus-visible:ring-2 focus-visible:ring-black/30"
+            className="inline-flex h-9 items-center rounded-lg bg-solid px-4 text-fs-13 text-solid-ink outline-none transition-colors hover:bg-solid-hover focus-visible:ring-2 focus-visible:ring-line/30"
           >
             Got it
           </button>
@@ -520,7 +520,7 @@ export function HowToReadButton({ className = "" }: { className?: string }) {
         }}
         aria-label="How to read a Sighting"
         title="How to read a Sighting"
-        className={`flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded-full border border-black/15 text-[12px] leading-none text-[#767676] outline-none transition-colors hover:border-black/35 hover:text-[#1d1b1b] focus-visible:ring-2 focus-visible:ring-black/20 ${className}`}
+        className={`flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded-full border border-line/15 text-fs-12 leading-none text-quiet outline-none transition-colors hover:border-line/35 hover:text-fore focus-visible:ring-2 focus-visible:ring-line/20 ${className}`}
       >
         ?
       </button>

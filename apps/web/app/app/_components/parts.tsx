@@ -5,15 +5,17 @@ import { ArrowDownRight, ArrowUpRight, Minus } from "lucide-react";
 import type { Direction, LinkEvidence, RippleSinceEvent } from "@falcon/ripple";
 import { useWorkspace } from "./context";
 
-/* The site's type and color, at desktop density. */
-export const GEIST = "var(--font-geist-sans), sans-serif";
+/* The site's type and color, at desktop density. Colors read the theme tokens (app/globals.css). */
+export const GEIST = "var(--f-font-sans)";
 export const MONO = "var(--font-geist-mono), monospace";
 export const SERIF = "var(--font-libre-baskerville), Georgia, serif";
 
-export const INK = "#1d1b1b";
-export const UP = "#2e7d4f";
-export const DOWN = "#b3432f";
-export const NEUTRAL = "#8a8a85";
+export const INK = "rgb(var(--f-fore))";
+export const UP = "rgb(var(--f-up))";
+export const DOWN = "rgb(var(--f-down))";
+export const NEUTRAL = "rgb(var(--f-flat))";
+/** A theme token as a CSS color, optionally with an alpha: `tone("line", 0.08)`. */
+export const tone = (name: string, alpha?: number) => (alpha === undefined ? `rgb(var(--f-${name}))` : `rgb(var(--f-${name}) / ${alpha})`);
 
 export function directionColor(direction: Direction | null): string {
   return direction === "up" ? UP : direction === "down" ? DOWN : NEUTRAL;
@@ -59,9 +61,9 @@ export function formatDateTime(iso: string): string {
 export function SectionTitle({ children, count, action }: { children: ReactNode; count?: number; action?: ReactNode }) {
   return (
     <div className="flex h-7 items-center justify-between gap-2">
-      <h2 className="flex items-center gap-2 text-[11px] uppercase tracking-[0.16em] text-[#1d1b1b]/45" style={{ fontFamily: MONO }}>
+      <h2 className="flex items-center gap-2 text-fs-11 uppercase tracking-[0.16em] text-fore/45" style={{ fontFamily: MONO }}>
         {children}
-        {count !== undefined ? <span className="text-[#1d1b1b]/30">{count}</span> : null}
+        {count !== undefined ? <span className="text-fore/30">{count}</span> : null}
       </h2>
       {action}
     </div>
@@ -69,7 +71,7 @@ export function SectionTitle({ children, count, action }: { children: ReactNode;
 }
 
 export function Panel({ children, className = "" }: { children: ReactNode; className?: string }) {
-  return <section className={`rounded-lg border border-black/[0.08] bg-white ${className}`}>{children}</section>;
+  return <section className={`rounded-lg border border-line/[0.08] bg-surface ${className}`}>{children}</section>;
 }
 
 /** An empty state's title that is honest about the feed: loading, missing, or really empty. */
@@ -81,8 +83,8 @@ export function feedEmpty(status: "loading" | "ready" | "unavailable" | "error",
 
 export function EmptyState({ title, children }: { title: string; children?: ReactNode }) {
   return (
-    <div className="flex flex-col items-center justify-center gap-3 rounded-lg border border-dashed border-black/[0.12] px-4 py-8 text-center">
-      <p className="text-[13px] text-[#767676]">{title}</p>
+    <div className="flex flex-col items-center justify-center gap-3 rounded-lg border border-dashed border-line/[0.12] px-4 py-8 text-center">
+      <p className="text-fs-13 text-quiet">{title}</p>
       {children}
     </div>
   );
@@ -113,7 +115,7 @@ export function PricedInTag({ since }: { since?: RippleSinceEvent | null }) {
     : "Already moved past half its usual reaction";
   return (
     <span
-      className="inline-flex h-[18px] shrink-0 items-center rounded border border-black/15 px-1.5 text-[10.5px] uppercase leading-none tracking-[0.08em] text-[#4b4b48]"
+      className="inline-flex h-[18px] shrink-0 items-center rounded border border-line/15 px-1.5 text-fs-10.5 uppercase leading-none tracking-[0.08em] text-fore-4"
       style={{ fontFamily: MONO }}
       title={title}
     >
@@ -133,9 +135,9 @@ export function TickerButton({ ticker, className = "", muted = false }: { ticker
         e.stopPropagation();
         openTicker(ticker);
       }}
-      className={`inline-flex h-[22px] shrink-0 items-center justify-self-start rounded-md border px-1.5 text-[11.5px] leading-none outline-none transition-colors focus-visible:border-black/50 ${
-        inFocus ? "border-black/25 bg-black/[0.04] text-[#1d1b1b]" : "border-black/10 text-[#1d1b1b] hover:border-black/30"
-      } ${muted ? "text-[#767676]" : ""} ${className}`}
+      className={`inline-flex h-[22px] shrink-0 items-center justify-self-start rounded-md border px-1.5 text-fs-11.5 leading-none outline-none transition-colors focus-visible:border-line/50 ${
+        inFocus ? "border-line/25 bg-line/[0.04] text-fore" : "border-line/10 text-fore hover:border-line/30"
+      } ${muted ? "text-quiet" : ""} ${className}`}
       style={{ fontFamily: MONO }}
       title={inFocus ? `${ticker}, on your focus list` : ticker}
     >
@@ -158,8 +160,8 @@ export function BacktestButton({ cardId, variant = "quiet" }: { cardId: string; 
       title="Test past events of this type on the companies it reaches"
       className={
         variant === "outline"
-          ? "inline-flex h-8 shrink-0 items-center rounded-lg border border-black/10 bg-white px-3 text-[12.5px] text-[#1d1b1b] outline-none transition-colors hover:bg-[#efefec] focus-visible:border-black/40"
-          : "inline-flex h-6 shrink-0 items-center rounded-md px-1.5 text-[12px] text-[#767676] outline-none transition-colors hover:bg-black/[0.05] hover:text-[#1d1b1b] focus-visible:ring-2 focus-visible:ring-black/20"
+          ? "inline-flex h-8 shrink-0 items-center rounded-lg border border-line/10 bg-surface px-3 text-fs-12.5 text-fore outline-none transition-colors hover:bg-surface-hover focus-visible:border-line/40"
+          : "inline-flex h-6 shrink-0 items-center rounded-md px-1.5 text-fs-12 text-quiet outline-none transition-colors hover:bg-line/[0.05] hover:text-fore focus-visible:ring-2 focus-visible:ring-line/20"
       }
     >
       Backtest this
@@ -169,11 +171,11 @@ export function BacktestButton({ cardId, variant = "quiet" }: { cardId: string; 
 
 export function EvidenceQuote({ evidence }: { evidence: LinkEvidence }) {
   return (
-    <figure className="border-l-2 border-black/[0.1] pl-3">
-      <blockquote className="text-[13px] leading-[20px] text-[#3d3b3a]" style={{ fontFamily: SERIF }}>
+    <figure className="border-l-2 border-line/[0.1] pl-3">
+      <blockquote className="text-fs-13 leading-fs-20 text-fore-3" style={{ fontFamily: SERIF }}>
         {evidence.quote}
       </blockquote>
-      <figcaption className="mt-1.5 flex items-center gap-2 text-[11.5px] text-[#9a9a9a]" style={{ fontFamily: MONO }}>
+      <figcaption className="mt-1.5 flex items-center gap-2 text-fs-11.5 text-faint" style={{ fontFamily: MONO }}>
         <span>{evidence.form}</span>
         <span>{formatDate(evidence.filedAt)}</span>
         <ExternalAnchor href={evidence.url}>Filing</ExternalAnchor>
@@ -191,7 +193,7 @@ export function ExternalAnchor({ href, children }: { href: string; children: Rea
       target="_blank"
       rel="noopener noreferrer"
       onClick={(e) => e.stopPropagation()}
-      className="inline-flex items-center text-[#4b4b48] underline decoration-black/20 underline-offset-2 transition-colors hover:text-[#1d1b1b] hover:decoration-black/50"
+      className="inline-flex items-center text-fore-4 underline decoration-line/20 underline-offset-2 transition-colors hover:text-fore hover:decoration-line/50"
     >
       {children}
     </a>
@@ -212,7 +214,7 @@ export function NetRing({ value, size = 148, label = "Net direction" }: { value:
   return (
     <div className="relative shrink-0" style={{ width: size, height: size }}>
       <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} aria-hidden>
-        <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="rgba(0,0,0,0.07)" strokeWidth={stroke} />
+        <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke={tone("line", 0.07)} strokeWidth={stroke} />
         {share > 0 ? (
           <circle
             cx={size / 2}
@@ -228,11 +230,11 @@ export function NetRing({ value, size = 148, label = "Net direction" }: { value:
         ) : null}
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center" role="img" aria-label={`${label} ${value === null ? "no data" : formatNet(value)}`}>
-        <span className="tabular-nums leading-none text-[#1d1b1b]" style={{ fontFamily: GEIST, fontSize: Math.round(size / 4.2), fontWeight: 400, color: value === null ? "#9a9a9a" : INK }}>
+        <span className="tabular-nums leading-none text-fore" style={{ fontFamily: GEIST, fontSize: Math.round(size / 4.2), fontWeight: 400, color: value === null ? tone("faint") : INK }}>
           {value === null ? "0" : formatNet(value)}
         </span>
         <span
-          className="mt-1.5 uppercase text-[#1d1b1b]/45"
+          className="mt-1.5 uppercase text-fore/45"
           style={{ fontFamily: MONO, fontSize: size >= 140 ? 10.5 : 9, letterSpacing: size >= 140 ? "0.14em" : "0.08em" }}
         >
           {label}
@@ -254,7 +256,7 @@ export function NetMark({ value, showLabel = false, className = "" }: { value: n
   return (
     <span className={`inline-flex shrink-0 items-center gap-1 whitespace-nowrap ${className}`} style={{ color: netColor(value) }} title={title}>
       <Icon width={13} height={13} strokeWidth={2} aria-hidden />
-      {showLabel ? <span className="text-[12px]">{word}</span> : <span className="sr-only">{title}</span>}
+      {showLabel ? <span className="text-fs-12">{word}</span> : <span className="sr-only">{title}</span>}
     </span>
   );
 }

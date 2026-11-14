@@ -54,14 +54,14 @@ export function TodayHeader({ compact = false }: { compact?: boolean }) {
     <div className={`flex items-center ${compact ? "flex-col gap-5 text-center" : "gap-7"}`}>
       <NetRing value={summary.metric.value} size={compact ? 168 : 148} label={summary.metric.label} />
       <div className="min-w-0">
-        <p className="text-[12px] text-[#9a9a9a]">{longDate(summary.date)}</p>
+        <p className="text-fs-12 text-faint">{longDate(summary.date)}</p>
         <div className={`mt-1 flex items-center gap-2.5 ${compact ? "justify-center" : ""}`}>
-          <h1 className="text-[26px] leading-[34px] text-[#1d1b1b]" style={{ fontFamily: SERIF }}>
+          <h1 className="text-fs-26 leading-fs-34 text-fore" style={{ fontFamily: SERIF }}>
             Today
           </h1>
           <HowToReadButton />
         </div>
-        <p className="mt-2 max-w-[440px] text-[14px] leading-[21px] text-[#4b4b48]">{why}</p>
+        <p className="mt-2 max-w-[440px] text-fs-14 leading-fs-21 text-fore-4">{why}</p>
       </div>
     </div>
   );
@@ -96,7 +96,7 @@ export function DashboardTab() {
               <button
                 type="button"
                 onClick={() => openTab("graph")}
-                className="inline-flex h-7 items-center rounded-md px-2 text-[12px] text-[#767676] outline-none transition-colors hover:bg-[#efefec] hover:text-[#1d1b1b] focus-visible:bg-[#efefec]"
+                className="inline-flex h-7 items-center rounded-md px-2 text-fs-12 text-quiet outline-none transition-colors hover:bg-surface-hover hover:text-fore focus-visible:bg-surface-hover"
               >
                 Open graph
               </button>
@@ -108,7 +108,7 @@ export function DashboardTab() {
             {mini.edges.length ? (
               <GraphView graph={mini} onOpen={openTicker} interactive={false} ring={110} ariaLabel="Focus list connections" />
             ) : (
-              <div className="flex h-full items-center justify-center text-[13px] text-[#9a9a9a]">No connections yet</div>
+              <div className="flex h-full items-center justify-center text-fs-13 text-faint">No connections yet</div>
             )}
           </div>
         </Panel>
@@ -144,7 +144,7 @@ export function DashboardTab() {
             {exposure.length ? (
               <table className="w-full border-collapse text-left">
                 <thead>
-                  <tr className="border-b border-black/[0.06] text-[11px] uppercase tracking-[0.12em] text-[#1d1b1b]/40">
+                  <tr className="border-b border-line/[0.06] text-fs-11 uppercase tracking-[0.12em] text-fore/40">
                     <th className="w-[84px] px-4 py-2 font-normal">Ticker</th>
                     <th className="px-2 py-2 font-normal">Company</th>
                     <th className="px-2 py-2 text-right font-normal">Events</th>
@@ -156,14 +156,14 @@ export function DashboardTab() {
                     <tr
                       key={row.ticker}
                       onClick={() => openTicker(row.ticker)}
-                      className="cursor-pointer border-b border-black/[0.05] last:border-0 hover:bg-black/[0.02]"
+                      className="cursor-pointer border-b border-line/[0.05] last:border-0 hover:bg-line/[0.02]"
                     >
-                      <td className="px-4 py-2.5 text-[12.5px] text-[#1d1b1b]" style={{ fontFamily: MONO }}>
+                      <td className="px-4 py-2.5 text-fs-12.5 text-fore" style={{ fontFamily: MONO }}>
                         {row.ticker}
                       </td>
-                      <td className="max-w-0 truncate px-2 py-2.5 text-[13px] text-[#4b4b48]">{row.companyName || row.ticker}</td>
-                      <td className="px-2 py-2.5 text-right text-[13px] tabular-nums text-[#4b4b48]">{row.events || ""}</td>
-                      <td className="px-4 py-2.5 text-right text-[13px]">{row.net === null ? null : <NetMark value={row.net} showLabel />}</td>
+                      <td className="max-w-0 truncate px-2 py-2.5 text-fs-13 text-fore-4">{row.companyName || row.ticker}</td>
+                      <td className="px-2 py-2.5 text-right text-fs-13 tabular-nums text-fore-4">{row.events || ""}</td>
+                      <td className="px-4 py-2.5 text-right text-fs-13">{row.net === null ? null : <NetMark value={row.net} showLabel />}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -208,21 +208,21 @@ function LatestRowView({ card }: { card: RippleCard }) {
   const ex = useExplain(card);
   const mine = card.hits.filter((h) => focusSet.has(h.ticker)).length;
   return (
-    <li className="border-b border-black/[0.05] last:border-0">
+    <li className="border-b border-line/[0.05] last:border-0">
       <button
         type="button"
         onClick={() => openSighting(card.id)}
-        className="grid w-full grid-cols-[64px_minmax(0,1fr)_auto] items-center gap-3 px-4 py-2.5 text-left outline-none transition-colors hover:bg-black/[0.02] focus-visible:bg-black/[0.03]"
+        className="grid w-full grid-cols-[64px_minmax(0,1fr)_auto] items-center gap-3 px-4 py-2.5 text-left outline-none transition-colors hover:bg-line/[0.02] focus-visible:bg-line/[0.03]"
       >
-        <span className="text-[12px] text-[#1d1b1b]" style={{ fontFamily: MONO }}>
+        <span className="text-fs-12 text-fore" style={{ fontFamily: MONO }}>
           {card.event.ticker}
         </span>
         <span className="min-w-0">
-          <span className="block truncate text-[13px] text-[#1d1b1b]">{ex.title}</span>
-          <span className="block truncate text-[11.5px] text-[#9a9a9a]">{ex.kicker}</span>
+          <span className="block truncate text-fs-13 text-fore">{ex.title}</span>
+          <span className="block truncate text-fs-11.5 text-faint">{ex.kicker}</span>
         </span>
-        <span className="flex items-center gap-3 whitespace-nowrap text-[12px] text-[#9a9a9a]">
-          {mine ? <span className="text-[#4b4b48]">{mine} on your list</span> : null}
+        <span className="flex items-center gap-3 whitespace-nowrap text-fs-12 text-faint">
+          {mine ? <span className="text-fore-4">{mine} on your list</span> : null}
           <StrengthBadge strength={ex.strength} />
           <span className="w-14 text-right">{timeAgo(card.event.occurredAt)}</span>
         </span>

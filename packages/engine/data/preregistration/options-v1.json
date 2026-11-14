@@ -1,0 +1,76 @@
+{
+  "id": "options-v1",
+  "writtenAt": "2026-11-14T15:45:00Z",
+  "status": "frozen before any outcome data (stock returns after a snapshot) was pulled or read; only free get_cost price checks had been run",
+  "plan": "Obsidian Vault Falcon/Engine/Options Signals.md, hypotheses 4-7",
+  "code": ["src/options/study-options.ts", "scripts/options-study.ts", "src/options/surface.ts (features, unchanged)", "src/study/abnormal.ts (outcomes, unchanged)"],
+  "data": {
+    "options": "Databento OPRA.PILLAR via DatabentoClient.getRange (caller options-hypotheses, cap $50). Quotes: cbbo-1m in [15:40, 15:46) New York (on 13:00 early-close days [12:40, 12:46)), the last sample at or before the snapshot (15:45 / 12:45) per contract. Definitions are read from the OSI symbol on each cbbo record (root = ticker; adjusted roots left out; multiplier 100). No open interest is pulled. Daily option volume: ohlcv-1d, one day per request, H6 names only.",
+    "spot": "XNAS.ITCH ohlcv-1m close of the bar ending at the snapshot (from 2018-05-01). Before that, and when the ITCH bar is missing: put-call-parity spot from surface.ts, started from the unadjusted Yahoo close of the day (one re-run with the parity spot when it is within 3% of the close).",
+    "rate_and_dividends": "FRED DTB3 (rates.ts); dividend yield from the trailing 12 months of Yahoo cash dividends over the split-adjusted close (rates.ts dividendYieldOn).",
+    "stock_prices": "Yahoo Finance daily chart (open, close, adjusted close, volume, splits, dividends), 2012-01-01 to 2026-11-14, internal research only. Adjusted opens = open x adjclose/close.",
+    "vix": "FRED VIXCLS close on the snapshot date (H7 only)."
+  },
+  "features": {
+    "surface": "surfaceFeatures (surface.ts) with default options (American IV, Bjerksund-Stensland 2002). Contracts outside K/S in [0.7, 1.3] or beyond 400 days are dropped before the call (they enter none of the features used).",
+    "skew": "skewMean: mean XZZ skew (OTM put K/S in [0.80, 0.95] closest to 0.95 minus ATM call K/S in [0.95, 1.05] closest to 1, same expiry) over expiries with 10 to 60 days. Units: IV points (fraction).",
+    "cw": "callPutSpread: mean of call IV - put IV over same-strike same-expiry pairs, 7 to 365 days, K/S 0.8 to 1.2, EQUAL weights (no open interest pulled; Cremers & Weinbaum weight by OI).",
+    "os": "O/S: total contracts of the standard root that day (ohlcv-1d summed over exchanges) / (Yahoo share volume of the day, split-unadjusted / 100).",
+    "change": "Change versus the name's own trailing mean: x_t - mean(x over the name's previous 6 monthly snapshots), at least 3 of them; for O/S the log ratio ln(x_t / mean)."
+  },
+  "outcome": {
+    "definition": "Market-model (SPY) cumulative abnormal return, abnormal.ts measureEvent with publicMs = the snapshot instant: entry at the next regular-session open after the snapshot, held L sessions (first one open to close), estimation window sessions [-260, -11], >= 120 days. Percent.",
+    "L": [5, 20],
+    "matched": "Cross-sectional: the long-short difference within a date is itself matched on date; per-leg means are also reported minus the date's mean over all sorted names. No firm-level matched controls (not feasible within budget for option features)."
+  },
+  "panel": {
+    "dates": "Last NYSE session of each month, 2013-06 to 2026-10 (161 dates). L = 20 outcomes exist through the 2026-09 snapshot.",
+    "universe": "The 58 semis in src/universe.ts plus every other ticker named in data/graph.json (either side of an edge) that is US-listed with options; OTC names (HNHPF, HXSCL, IFNNY) left out. A name enters a date when Yahoo has its bar that day, it has >= 150 prior sessions of prices, and the unadjusted close is >= $5.",
+    "sort": "Terciles of the feature each date (rank-based; ties broken by ticker), dates with >= 9 names having both the feature and the outcome. Long the tercile predicted to do better, short the other extreme, equal weights.",
+    "statistic": "Primary: the per-date long-short spread of CAR_L (percent per period), its mean over dates and t with df = dates - 1 (one value per date = clustered by date; month-end snapshots with L <= 20 do not overlap). Secondary: pooled side x CAR over leg name-dates, clustered by date and two-way (firm x calendar month).",
+    "costs": "Net spread = gross spread - 0.40 percentage points per period (10 bp per side, both legs opened and closed each period).",
+    "per_name": "Within each name with >= 24 dates: Spearman correlation of the feature with CAR_L, signed so that positive = predicted direction; t-test of the mean across names and the share positive."
+  },
+  "hypotheses": {
+    "H4": {
+      "claim": "Skew steepening predicts lower returns (Xing, Zhang & Zhao 2010).",
+      "universe": "panel",
+      "primary": { "feature": "change in skewMean vs own trailing mean", "L": 20, "side": "long the lowest tercile, short the highest", "predictedSign": "spread > 0" },
+      "secondary": ["skewMean level, L = 20", "change and level at L = 5", "pooled two-way", "per-name correlations"],
+      "why_primary": "The vault note frames H4 as puts unusually expensive versus the stock's own normal (a change); XZZ find the predictability lasts at least six months, so the monthly horizon."
+    },
+    "H5": {
+      "claim": "Call-put IV spread predicts higher returns (Cremers & Weinbaum 2010).",
+      "universe": "panel",
+      "primary": { "feature": "callPutSpread level", "L": 5, "side": "long the highest tercile, short the lowest", "predictedSign": "spread > 0" },
+      "secondary": ["level at L = 20", "change vs own trailing mean at L = 5 and 20", "pooled two-way", "per-name correlations"],
+      "why_primary": "CW's main sort is on the level and the effect is concentrated in the following week."
+    },
+    "H6": {
+      "claim": "Option/stock volume spikes predict negative returns (Johnson & So 2012).",
+      "universe": "Panel dates, semis only, without the 15 semis with the highest trailing 60-session median dollar volume that date (mid and smaller caps; point in time, computed from Yahoo before any option pull).",
+      "primary": { "feature": "O/S spike: ln(O/S_t / mean O/S of the previous 6 snapshots), >= 3 prior", "L": 5, "side": "long the lowest tercile, short the highest", "predictedSign": "spread > 0" },
+      "secondary": ["O/S level (Johnson & So's own sort) at L = 5 and 20", "spike at L = 20", "pooled two-way", "per-name correlations"],
+      "why_primary": "The vault note's hypothesis is spikes (an alarm on unusual activity); JS sort weekly and find next-week returns.",
+      "limitation": "One day's volume per month, not a week or month of volume as in JS."
+    },
+    "H7": {
+      "claim": "When Falcon's ripple history says more than the options price, the realized move exceeds the implied move more often than not.",
+      "events": "Event companies: the 58 semis. Kinds: 8-K item 2.02 earnings releases (past-events.ts earningsReleases, sign = EPS surprise from the Yahoo earnings record matched as in history.ts matchQuarters) and Taiwan monthly revenue 6-Ks of TSM, UMC, ASX (monthlyRevenueReports, sign = year-over-year change). Public instant = the earlier of EDGAR acceptance and the release's own time (EPS record date and session: before_open 08:00, during 12:00, after_close 16:05 New York; Taiwan release date 04:00 New York). Events with unknown sign are dropped. Current events: public 2023-01-01 to 2026-11-05.",
+      "hits": "Every ticker one link from the event company in data/graph.json (graph.ts walk, degree 1) that is in the panel universe and eligible on the snapshot date.",
+      "snapshot": "The first session whose 15:45 New York instant (12:45 on early closes) is after the public instant: the hit's chain at that snapshot (same quote and spot rules as the panel).",
+      "implied": "I_L = expected |abnormal move| over L sessions: ATM IV of the first expiry on or after the exit session (entry + L - 1) as surface.ts computes it, idiosyncratic part sqrt(max(IV^2 - beta^2 VIX^2, 0)) with the hit's market-model beta, x sqrt(L / 252) x sqrt(2 / pi), percent.",
+      "history": "H_L = mean |CAR_L| of the hit after the event company's past events of the same kind and sign, public within 5 years before the current event, measured the same way (entry at the open after the past event's snapshot session), windows ending before the current snapshot; at least 6 such events (HISTORY_MIN_SAMPLE).",
+      "realized": "R_L = |CAR_L| from the open after the current snapshot.",
+      "primary": { "L": 5, "sample": "pairs with gap = H_5 - I_5 > 0", "statistic": "mean of (1{R_5 > I_5} - 0.5), t clustered by snapshot date, df = dates - 1", "predictedSign": "> 0 (realized exceeds implied in more than half)" },
+      "secondary": ["L = 20", "slope of (R - I) on gap, clustered by date; Spearman", "share of pairs where options already priced at least the history (gap <= 0)", "share of all pairs with R <= I (priced in)", "the same in raw units: total implied (no VIX adjustment) vs |raw return| over the window"],
+      "limitation": "Hits share event dates and events share hits; clustering by date handles the first only."
+    }
+  },
+  "pass_bar": {
+    "rule": "A hypothesis passes when (1) its primary one-sided p, Benjamini-Hochberg adjusted across the 4 primaries, is < 0.05, (2) the primary estimate has the predicted sign, and (3) the estimate has the same sign over the most recent year.",
+    "most_recent_year": "Panel: the last 12 snapshot dates with a complete primary outcome. H7: pairs with snapshot dates in the 12 months up to the last snapshot with a complete L = 5 outcome.",
+    "reporting": "For every test: n, independent dates, mean and median, t, p, hit rate, by year, first 2/3 vs last 1/3 of dates, and the long-short net of costs. Secondary results are exploratory and do not change pass or fail."
+  },
+  "budget": "Databento: caller options-hypotheses, maxCallerUsd 50, maxCallUsd 1. Every batch dry-run first; projected cost printed before pulling. If the projection exceeds the cap, the panel start date moves later (and this file gets a v2 saying so) rather than the design changing."
+}

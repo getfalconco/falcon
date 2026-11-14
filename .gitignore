@@ -76,3 +76,6 @@ y.err.txt
 data/dataset/
 
 *.blend
+
+# Licensed options market data for engine tests: never commit
+packages/engine/test/fixtures/options/

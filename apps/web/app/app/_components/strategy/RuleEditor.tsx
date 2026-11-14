@@ -11,7 +11,7 @@ import { MONO } from "../parts";
 /* ------------------------------------------------------------------ */
 
 const FIELD =
-  "h-8 rounded-md border border-black/10 bg-white px-2 text-[12.5px] text-[#1d1b1b] outline-none transition-colors hover:border-black/25 focus:border-black/45";
+  "h-8 rounded-md border border-line/10 bg-surface px-2 text-fs-12.5 text-fore outline-none transition-colors hover:border-line/25 focus:border-line/45";
 
 export function NumberField({
   value,
@@ -62,7 +62,7 @@ export function NumberField({
         if (Number.isFinite(n)) onChange(n);
       }}
       onBlur={() => setText(value === null ? "" : String(value))}
-      className={`${FIELD} tabular-nums [appearance:textfield] placeholder:text-[#b0b0ab] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none`}
+      className={`${FIELD} tabular-nums [appearance:textfield] placeholder:text-faint-2 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none`}
       style={{ width, fontFamily: MONO }}
     />
   );
@@ -112,14 +112,14 @@ function TickerField({
         const t = e.target.value.toUpperCase().replace(/\s+/g, "");
         onChange(t ? t : null);
       }}
-      className={`${FIELD} w-[104px] uppercase placeholder:normal-case placeholder:text-[#b0b0ab]`}
+      className={`${FIELD} w-[104px] uppercase placeholder:normal-case placeholder:text-faint-2`}
       style={{ fontFamily: MONO }}
     />
   );
 }
 
 function Words({ children }: { children: ReactNode }) {
-  return <span className="text-[12.5px] text-[#767676]">{children}</span>;
+  return <span className="text-fs-12.5 text-quiet">{children}</span>;
 }
 
 /* ------------------------------------------------------------------ */
@@ -329,9 +329,9 @@ function ConditionList({
   const [adding, setAdding] = useState<ConditionType | "">("");
   return (
     <div className="flex flex-col gap-2">
-      {conditions.length === 0 ? <p className="text-[12.5px] text-[#9a9a9a]">{emptyText}</p> : null}
+      {conditions.length === 0 ? <p className="text-fs-12.5 text-faint">{emptyText}</p> : null}
       {conditions.map((c, i) => (
-        <div key={i} className="flex flex-wrap items-center gap-x-2 gap-y-1.5 rounded-md border border-black/[0.06] bg-[#fafaf8] px-2.5 py-2">
+        <div key={i} className="flex flex-wrap items-center gap-x-2 gap-y-1.5 rounded-md border border-line/[0.06] bg-surface-3 px-2.5 py-2">
           <Select
             label="Condition type"
             value={c.type}
@@ -345,14 +345,14 @@ function ConditionList({
             title="Remove"
             disabled={conditions.length <= min}
             onClick={() => onChange(conditions.filter((_, j) => j !== i))}
-            className="ml-auto inline-flex h-7 w-7 items-center justify-center rounded-md text-[#9a9a9a] outline-none transition-colors hover:bg-black/[0.05] hover:text-[#1d1b1b] focus-visible:ring-2 focus-visible:ring-black/20 disabled:opacity-30"
+            className="ml-auto inline-flex h-7 w-7 items-center justify-center rounded-md text-faint outline-none transition-colors hover:bg-line/[0.05] hover:text-fore focus-visible:ring-2 focus-visible:ring-line/20 disabled:opacity-30"
           >
             <X width={14} height={14} aria-hidden />
           </button>
         </div>
       ))}
       {conditions.length < LIMITS.maxConditions ? (
-        <label className="inline-flex items-center self-start text-[12.5px] text-[#4b4b48]">
+        <label className="inline-flex items-center self-start text-fs-12.5 text-fore-4">
           <select
             aria-label="Add a condition"
             value={adding}
@@ -361,7 +361,7 @@ function ConditionList({
               if (t) onChange([...conditions, defaultCondition(t)]);
               setAdding("");
             }}
-            className="h-7 cursor-pointer rounded-md bg-transparent pr-1 text-[12.5px] text-[#4b4b48] outline-none hover:text-[#1d1b1b] focus-visible:ring-2 focus-visible:ring-black/20"
+            className="h-7 cursor-pointer rounded-md bg-transparent pr-1 text-fs-12.5 text-fore-4 outline-none hover:text-fore focus-visible:ring-2 focus-visible:ring-line/20"
           >
             <option value="">Add condition</option>
             {(Object.entries(TYPE_LABEL) as [ConditionType, string][]).map(([v, l]) => (
@@ -393,15 +393,15 @@ function UniverseField({ tickers, onChange }: { tickers: string[]; onChange: (t:
     setText("");
   };
   return (
-    <div className="flex min-h-[36px] flex-wrap items-center gap-1.5 rounded-md border border-black/10 bg-white px-1.5 py-1 focus-within:border-black/45">
+    <div className="flex min-h-[36px] flex-wrap items-center gap-1.5 rounded-md border border-line/10 bg-surface px-1.5 py-1 focus-within:border-line/45">
       {tickers.map((t) => (
-        <span key={t} className="inline-flex h-[24px] items-center gap-1 rounded border border-black/10 bg-[#f6f6f3] pl-1.5 pr-0.5 text-[11.5px] text-[#1d1b1b]" style={{ fontFamily: MONO }}>
+        <span key={t} className="inline-flex h-[24px] items-center gap-1 rounded border border-line/10 bg-surface-2 pl-1.5 pr-0.5 text-fs-11.5 text-fore" style={{ fontFamily: MONO }}>
           {t}
           <button
             type="button"
             aria-label={`Remove ${t}`}
             onClick={() => onChange(tickers.filter((x) => x !== t))}
-            className="inline-flex h-5 w-5 items-center justify-center rounded text-[#9a9a9a] outline-none hover:text-[#1d1b1b] focus-visible:ring-2 focus-visible:ring-black/20"
+            className="inline-flex h-5 w-5 items-center justify-center rounded text-faint outline-none hover:text-fore focus-visible:ring-2 focus-visible:ring-line/20"
           >
             <X width={11} height={11} aria-hidden />
           </button>
@@ -423,7 +423,7 @@ function UniverseField({ tickers, onChange }: { tickers: string[]; onChange: (t:
           } else if (e.key === "Backspace" && !text && tickers.length) onChange(tickers.slice(0, -1));
         }}
         onBlur={() => add(text)}
-        className="h-[24px] min-w-[90px] flex-1 bg-transparent px-1 text-[12px] uppercase text-[#1d1b1b] outline-none placeholder:normal-case placeholder:text-[#b0b0ab]"
+        className="h-[24px] min-w-[90px] flex-1 bg-transparent px-1 text-fs-12 uppercase text-fore outline-none placeholder:normal-case placeholder:text-faint-2"
         style={{ fontFamily: MONO }}
       />
     </div>
@@ -436,10 +436,10 @@ function UniverseField({ tickers, onChange }: { tickers: string[]; onChange: (t:
 
 function Row({ label, hint, children }: { label: string; hint?: string; children: ReactNode }) {
   return (
-    <div className="grid grid-cols-1 gap-2 border-t border-black/[0.06] py-3.5 first:border-t-0 first:pt-0 md:grid-cols-[150px_minmax(0,1fr)] md:gap-4">
+    <div className="grid grid-cols-1 gap-2 border-t border-line/[0.06] py-3.5 first:border-t-0 first:pt-0 md:grid-cols-[150px_minmax(0,1fr)] md:gap-4">
       <div>
-        <div className="text-[12.5px] text-[#1d1b1b]">{label}</div>
-        {hint ? <div className="mt-0.5 text-[11.5px] leading-[16px] text-[#9a9a9a]">{hint}</div> : null}
+        <div className="text-fs-12.5 text-fore">{label}</div>
+        {hint ? <div className="mt-0.5 text-fs-11.5 leading-fs-16 text-faint">{hint}</div> : null}
       </div>
       <div className="min-w-0">{children}</div>
     </div>
@@ -557,7 +557,7 @@ export function RuleEditor({
             <button
               type="button"
               onClick={() => onSettings({ ...settings, start: null, end: null })}
-              className="text-[12px] text-[#767676] underline decoration-black/20 underline-offset-2 hover:text-[#1d1b1b]"
+              className="text-fs-12 text-quiet underline decoration-line/20 underline-offset-2 hover:text-fore"
             >
               Last 10 years
             </button>

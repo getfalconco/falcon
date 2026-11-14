@@ -14,12 +14,13 @@ export const maxDuration = 26;
  *     -> 200 { kind: "spec", spec, describe, assumptions, notExpressible, repaired }
  *     -> 200 { kind: "not_a_strategy", message }
  *     -> 422 { kind: "error", reason: "invalid" | "refusal" | "empty", message, issues? }
- *     -> 413 too long, 429 rate limited, 503 not configured or unavailable, 504 too slow
+ *     -> 401 not signed in, 413 too long, 429 rate limited, 503 not configured or unavailable, 504 too slow
  *
  * Claude Sonnet 5.5 with the FSL reference in a 1-hour cached system prompt;
  * the spec is checked by zod and the FSL type checker, with one automatic
  * repair. Tickers come only from the person's text. Each call costs an API
- * request: 5 a minute and 30 an hour per IP, 300 an hour per instance.
+ * request, so it needs an approved member's token (lib/strategy/guard.ts):
+ * 5 a minute and 30 an hour per IP and per member, 300 an hour per instance.
  */
 
 const TIMEOUT_MS = Number(process.env.STRATEGY_TURN_TIMEOUT_MS) || 22_000;

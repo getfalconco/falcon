@@ -39,14 +39,14 @@ function Swatch({ color, dashed }: { color: string; dashed?: boolean }) {
 export function MetricsTable({ columns }: { columns: MetricColumn[] }) {
   return (
     <div className="overflow-x-auto">
-      <table className="w-full min-w-[460px] border-collapse text-[12.5px]">
+      <table className="w-full min-w-[460px] border-collapse text-fs-12.5">
         <thead>
-          <tr className="border-b border-black/[0.08]">
-            <th scope="col" className="py-2 pr-3 text-left font-normal text-[#9a9a9a]">
+          <tr className="border-b border-line/[0.08]">
+            <th scope="col" className="py-2 pr-3 text-left font-normal text-faint">
               <span className="sr-only">Metric</span>
             </th>
             {columns.map((c) => (
-              <th key={c.id} scope="col" className="max-w-[180px] py-2 pl-3 text-right font-normal text-[#4b4b48]">
+              <th key={c.id} scope="col" className="max-w-[180px] py-2 pl-3 text-right font-normal text-fore-4">
                 <span className="inline-flex max-w-full items-center justify-end gap-1.5">
                   <Swatch color={c.color} dashed={c.dashed} />
                   <span className="truncate" title={c.label}>
@@ -59,13 +59,13 @@ export function MetricsTable({ columns }: { columns: MetricColumn[] }) {
         </thead>
         <tbody>
           {ROWS.map((row) => (
-            <tr key={row.label} className="border-b border-black/[0.05] last:border-0">
-              <th scope="row" className="py-2 pr-3 text-left font-normal text-[#767676]" title={row.hint}>
+            <tr key={row.label} className="border-b border-line/[0.05] last:border-0">
+              <th scope="row" className="py-2 pr-3 text-left font-normal text-quiet" title={row.hint}>
                 {row.label}
               </th>
               {columns.map((c) => (
-                <td key={c.id} className="py-2 pl-3 text-right tabular-nums text-[#1d1b1b]" style={{ fontFamily: MONO }}>
-                  {c.metrics ? row.value(c.metrics) || <span className="text-[#c4c4c0]">-</span> : <span className="text-[#9a9a9a]">{c.status ?? ""}</span>}
+                <td key={c.id} className="py-2 pl-3 text-right tabular-nums text-fore" style={{ fontFamily: MONO }}>
+                  {c.metrics ? row.value(c.metrics) || <span className="text-faint-3">-</span> : <span className="text-faint">{c.status ?? ""}</span>}
                 </td>
               ))}
             </tr>
@@ -100,12 +100,12 @@ export function TradesList({ result }: { result: BacktestResult }) {
     return t;
   }, [result.trades, sort]);
   const shown = open ? trades : trades.slice(0, 8);
-  if (!trades.length) return <p className="py-3 text-[12.5px] text-[#9a9a9a]">No trades in this window.</p>;
+  if (!trades.length) return <p className="py-3 text-fs-12.5 text-faint">No trades in this window.</p>;
 
   const head = (key: SortKey | null, label: string, align = "text-right") => (
-    <th scope="col" className={`py-2 font-normal text-[#9a9a9a] ${align} pl-3 first:pl-0`} aria-sort={key && sort === key ? "descending" : undefined}>
+    <th scope="col" className={`py-2 font-normal text-faint ${align} pl-3 first:pl-0`} aria-sort={key && sort === key ? "descending" : undefined}>
       {key ? (
-        <button type="button" onClick={() => setSort(key)} className={`outline-none hover:text-[#1d1b1b] focus-visible:underline ${sort === key ? "text-[#4b4b48]" : ""}`}>
+        <button type="button" onClick={() => setSort(key)} className={`outline-none hover:text-fore focus-visible:underline ${sort === key ? "text-fore-4" : ""}`}>
           {label}
         </button>
       ) : (
@@ -117,9 +117,9 @@ export function TradesList({ result }: { result: BacktestResult }) {
   return (
     <div>
       <div className="overflow-x-auto">
-        <table className="w-full min-w-[640px] border-collapse text-[12.5px]">
+        <table className="w-full min-w-[640px] border-collapse text-fs-12.5">
           <thead>
-            <tr className="border-b border-black/[0.08]">
+            <tr className="border-b border-line/[0.08]">
               {head(null, "Ticker", "text-left")}
               {head("entry", "Entry")}
               {head(null, "Exit")}
@@ -133,26 +133,26 @@ export function TradesList({ result }: { result: BacktestResult }) {
           </thead>
           <tbody>
             {shown.map((t: Trade, i) => (
-              <tr key={`${t.ticker}-${t.entryDate}-${i}`} className="border-b border-black/[0.05] last:border-0">
-                <td className="py-1.5 text-left text-[#1d1b1b]" style={{ fontFamily: MONO }}>
+              <tr key={`${t.ticker}-${t.entryDate}-${i}`} className="border-b border-line/[0.05] last:border-0">
+                <td className="py-1.5 text-left text-fore" style={{ fontFamily: MONO }}>
                   {t.ticker}
                 </td>
-                <td className="py-1.5 pl-3 text-right tabular-nums text-[#4b4b48]">{formatDate(`${t.entryDate}T12:00:00Z`)}</td>
-                <td className="py-1.5 pl-3 text-right tabular-nums text-[#4b4b48]">{formatDate(`${t.exitDate}T12:00:00Z`)}</td>
-                <td className="py-1.5 pl-3 text-right tabular-nums text-[#4b4b48]">{t.sessionsHeld}</td>
-                <td className="py-1.5 pl-3 text-right tabular-nums text-[#4b4b48]" style={{ fontFamily: MONO }}>
+                <td className="py-1.5 pl-3 text-right tabular-nums text-fore-4">{formatDate(`${t.entryDate}T12:00:00Z`)}</td>
+                <td className="py-1.5 pl-3 text-right tabular-nums text-fore-4">{formatDate(`${t.exitDate}T12:00:00Z`)}</td>
+                <td className="py-1.5 pl-3 text-right tabular-nums text-fore-4">{t.sessionsHeld}</td>
+                <td className="py-1.5 pl-3 text-right tabular-nums text-fore-4" style={{ fontFamily: MONO }}>
                   {price(t.entryPrice)}
                 </td>
-                <td className="py-1.5 pl-3 text-right tabular-nums text-[#4b4b48]" style={{ fontFamily: MONO }}>
+                <td className="py-1.5 pl-3 text-right tabular-nums text-fore-4" style={{ fontFamily: MONO }}>
                   {price(t.exitPrice)}
                 </td>
-                <td className="py-1.5 pl-3 text-right tabular-nums text-[#1d1b1b]" style={{ fontFamily: MONO }}>
+                <td className="py-1.5 pl-3 text-right tabular-nums text-fore" style={{ fontFamily: MONO }}>
                   {pct(t.returnPct)}
                 </td>
-                <td className="py-1.5 pl-3 text-right tabular-nums text-[#4b4b48]" style={{ fontFamily: MONO }}>
+                <td className="py-1.5 pl-3 text-right tabular-nums text-fore-4" style={{ fontFamily: MONO }}>
                   {money(t.pnl)}
                 </td>
-                <td className="py-1.5 pl-3 text-left text-[#767676]">{EXIT_LABEL[t.exitReason]}</td>
+                <td className="py-1.5 pl-3 text-left text-quiet">{EXIT_LABEL[t.exitReason]}</td>
               </tr>
             ))}
           </tbody>
@@ -163,7 +163,7 @@ export function TradesList({ result }: { result: BacktestResult }) {
           type="button"
           onClick={() => setOpen((o) => !o)}
           aria-expanded={open}
-          className="mt-2 inline-flex items-center text-[12px] text-[#4b4b48] underline decoration-black/20 underline-offset-2 outline-none hover:text-[#1d1b1b] focus-visible:decoration-black/60"
+          className="mt-2 inline-flex items-center text-fs-12 text-fore-4 underline decoration-line/20 underline-offset-2 outline-none hover:text-fore focus-visible:decoration-line/60"
         >
           {open ? "Show fewer" : `Show all ${trades.length.toLocaleString("en-US")} trades`}
         </button>
