@@ -27,6 +27,13 @@ export const TRIAGE_MODEL = "claude-haiku-5-5";
 /** claude-haiku-5-5 list prices, US dollars per million tokens. */
 export const HAIKU_PRICE = { input: 0.1, output: 0.5 } as const;
 
+/**
+ * Default detector dollars per run. Answers are cached on disk (CI keeps
+ * .cache/llm between runs), so a filing is paid for once: a cold week of
+ * 8-Ks and 13Ds (about 110 filings) costs roughly $0.20, a warm run cents.
+ */
+export const DEFAULT_DETECTOR_BUDGET_USD = 0.5;
+
 export type LlmUsage = { calls: number; inputTokens: number; outputTokens: number; costUsd: number; skipped: number; cached: number };
 
 const usage: LlmUsage = { calls: 0, inputTokens: 0, outputTokens: 0, costUsd: 0, skipped: 0, cached: 0 };

@@ -72,6 +72,9 @@ export function analysisLines(a: NonNullable<RunResult["analysis"]>): string[] {
   return [
     `analysed: ${a.events} events (${a.own} own-firm, ${a.linked} linked, ${a.noLinks} without graph links); ${a.reused} judgments reused, ${a.judged} judged now${backlog}; judge cost ${a.costUsd.toFixed(2)} USD`,
     `tiers: ${a.tiers.measured} measured, ${a.tiers.documented} documented, ${a.tiers.watch} watch cards built; ${a.featured} featured`,
+    ...(a.featuredByType && Object.keys(a.featuredByType).length
+      ? [`featured by type: ${Object.entries(a.featuredByType).sort((x, y) => y[1] - x[1] || x[0].localeCompare(y[0])).map(([t, n]) => `${t} ${n}`).join(", ")}`]
+      : []),
   ];
 }
 
