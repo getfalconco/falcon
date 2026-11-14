@@ -34,6 +34,7 @@ const INVERSE: Record<Relation, Relation> = {
   supplier: "customer",
   competitor: "competitor",
   peer: "peer",
+  self: "self",
 };
 
 const TIMEOUT_MS = 8000;
@@ -55,7 +56,7 @@ function fromGraph(ticker: string, graph: GraphNeighborhood): { connections: Con
     if (source !== ticker && target !== ticker) continue;
     // `relation` is what target is to source.
     const other = source === ticker ? target : source;
-    const relation = edge.relation ? (source === ticker ? edge.relation : INVERSE[edge.relation]) : null;
+    const relation = edge.relation ? (source === ticker ? edge.relation : (INVERSE[edge.relation] ?? edge.relation)) : null;
     const evidence = (edge.evidence ?? []).filter((e) => e && typeof e.quote === "string" && e.quote.trim() !== "");
     const seen = byTicker.get(other);
     if (seen) {

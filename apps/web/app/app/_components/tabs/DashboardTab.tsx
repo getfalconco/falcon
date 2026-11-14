@@ -1,13 +1,19 @@
 "use client";
 
 import { useMemo } from "react";
-import { isWeakSignal } from "@falcon/ripple";
+import { NOTHING_CLEARED, anyClearsBar, isWeakSignal } from "@falcon/ripple";
 import { buildTodaySummary, exposureByTicker, sortByTime } from "@/lib/workspace/feed";
 import { buildGraph } from "@/lib/workspace/graph";
 import { useWorkspace } from "../context";
 import { GraphView } from "../GraphView";
 import { EmptyState, MONO, NetMark, NetRing, Panel, RippleCardView, SectionTitle, SERIF, feedEmpty, timeAgo } from "../parts";
 import { FeedNotice } from "../FeedNotice";
+
+/** True when the feed is in and no card clears the publishing bar (only Watch-tier cards, or none). */
+export function useNothingCleared(): boolean {
+  const { feed, feedStatus } = useWorkspace();
+  return feedStatus === "ready" && !anyClearsBar(feed?.cards ?? []);
+}
 
 export function useToday() {
   const { feed, focus } = useWorkspace();
@@ -42,8 +48,9 @@ export function TodayHeader({ compact = false }: { compact?: boolean }) {
 export function DashboardTab() {
   const { feed, feedStatus, focus, focusSet, openTab, openTicker } = useWorkspace();
   const summary = useToday();
+  const nothingCleared = useNothingCleared();
   const exposure = useMemo(() => exposureByTicker(feed, focus), [feed, focus]);
-  // Today never lists a weak signal; those sit under "Weak signals" in the sidebar.
+  // Today never lists a weak signal; those sit under "Watch list" in the sidebar.
   const listed = useMemo(() => sortByTime(feed?.cards ?? []).filter((c) => !isWeakSignal(c)), [feed]);
   const latest = listed.slice(0, 6);
   const seeds = useMemo(() => {
@@ -91,7 +98,9 @@ export function DashboardTab() {
             {summary.portfolio.length ? (
               summary.portfolio.slice(0, 3).map((card) => <RippleCardView key={card.id} card={card} highlight={focusSet} maxHits={3} />)
             ) : (
-              <EmptyState title={feedEmpty(feedStatus, focus.length ? "Nothing is hitting your portfolio" : "Your focus list is empty")} />
+              <EmptyState
+                title={feedEmpty(feedStatus, !focus.length ? "Your focus list is empty" : nothingCleared ? NOTHING_CLEARED : "Nothing is hitting your portfolio")}
+              />
             )}
           </div>
         </section>
@@ -101,7 +110,7 @@ export function DashboardTab() {
             {summary.opportunities.length ? (
               summary.opportunities.slice(0, 2).map((card) => <RippleCardView key={card.id} card={card} maxHits={3} />)
             ) : (
-              <EmptyState title={feedEmpty(feedStatus, "No opportunities right now")} />
+              <EmptyState title={feedEmpty(feedStatus, nothingCleared ? NOTHING_CLEARED : "No opportunities right now")} />
             )}
           </div>
         </section>
@@ -156,7 +165,7 @@ export function DashboardTab() {
               </ul>
             ) : (
               <div className="p-4">
-                <EmptyState title={feedEmpty(feedStatus, feed?.cards.length ? "Only weak signals today" : "No sightings yet")} />
+                <EmptyState title={feedEmpty(feedStatus, nothingCleared ? NOTHING_CLEARED : "No sightings yet")} />
               </div>
             )}
           </Panel>

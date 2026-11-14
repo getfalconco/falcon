@@ -5,8 +5,9 @@
  *   --sector semis        sector to watch (src/universe.ts)
  *   --days 7              window: events EDGAR accepted in the last N days
  *   --until ISO           end of the window (default: now), for a rerun of a past day
- *   --max 3               cards to keep
- *   --keep-days 7         Supabase: cards whose event is older than this are marked stale
+ *   --max 3               cards the feed features (every event with candidates is still analysed)
+ *   --keep-days 7         Supabase: cards are marked stale at their expiresAt; older cards
+ *                         without it once their event is older than this
  *   --judgments FILE      judge from a file of answers instead of the Claude API
  *   --judge-name NAME     label for a file judge (default "file")
  *   --dry-run             read and judge, print the feed and the summary, write nothing
@@ -18,6 +19,15 @@
  *   --no-coverage         do not read analyst coverage from Yahoo (no coverage boost)
  *   --out FILE            where to write the feed (default out/sightings.json)
  *   --max-judge-calls 40  cost guard: judge calls this run at most (src/vote.ts)
+ *   --max-judge-usd 0.75  cost guard: judge dollars this run at most, from measured usage
+ *   --no-judgment-cache   dry run: do not read or write .cache/judgments (judge every event again)
+ *   --no-detectors        skip the registered detectors (src/detectors)
+ *
+ * Judge once: a real run stores each event's judgment in Supabase
+ * (public.ripple_judgments) and reuses it while the event's candidates are
+ * unchanged; a dry run does the same in .cache/judgments/ and never touches
+ * the database. A real run also appends one forecast row per built hit to
+ * public.ripple_forecasts before it publishes cards (src/ledger.ts).
  *
  * Without ANTHROPIC_API_KEY (environment or apps/web/.env.local) and without
  * --judgments, a real run stops after writing the judge requests
@@ -41,7 +51,10 @@ import { edgarPastEvents } from "../past-events.ts";
 import { runSightings, type RunResult } from "../pipeline.ts";
 import { yahooCoverage } from "../yahoo.ts";
 import { judgeCostUsd } from "../judge.ts";
-import { DEFAULT_MAX_CALLS } from "../vote.ts";
+import { DEFAULT_MAX_CALLS, DEFAULT_MAX_JUDGE_USD } from "../vote.ts";
+import { fileJudgmentStore, pgJudgmentStore, writeForecasts, type JudgmentStore } from "../ledger.ts";
+import type { Liquidity } from "../quality.ts";
+import type { MarketData } from "../market.ts";
 import { EXIT, exitReason, runExitCode, summaryLines, warningLines, type Publish } from "../summary.ts";
 import { publishCards } from "../supabase.ts";
 
@@ -65,6 +78,29 @@ export function parseArgs(argv: string[]): Args {
 
 function str(args: Args, k: string, d: string): string {
   return typeof args[k] === "string" ? (args[k] as string) : d;
+}
+
+/**
+ * Liquidity from the market data: the last close as printed (adjusted when the
+ * source has no raw close) and the median dollar volume of the last 20
+ * sessions (null when the source has no volume).
+ */
+function liquidityFrom(market: MarketData): (ticker: string) => Promise<Liquidity | null> {
+  return async (ticker) => {
+    const to = new Date().toISOString().slice(0, 10);
+    const from = new Date(Date.now() - 40 * 86_400_000).toISOString().slice(0, 10);
+    const rows = await market.dailyCloses(ticker, from, to);
+    const last = rows[rows.length - 1];
+    if (!last) return null;
+    const dv = rows.slice(-20).map((r) => r.dollarVolume).filter((v): v is number => typeof v === "number" && Number.isFinite(v));
+    let median: number | null = null;
+    if (dv.length >= 10) {
+      const sorted = [...dv].sort((a, b) => a - b);
+      const m = sorted.length >> 1;
+      median = sorted.length % 2 ? sorted[m]! : (sorted[m - 1]! + sorted[m]!) / 2;
+    }
+    return { price: last.rawClose ?? last.close, medianDollarVolume20d: median };
+  };
 }
 
 function positive(args: Args, k: string, d: string): number {
@@ -201,7 +237,21 @@ async function main(): Promise<number> {
   }
   const coverage = args["no-coverage"] === true ? null : yahooCoverage;
   const maxJudgeCalls = positive(args, "max-judge-calls", String(DEFAULT_MAX_CALLS));
-  const run = await runSightings({ sector, sinceMs, untilMs, maxCards, judge, log, history, historyUnavailable, coverage, maxJudgeCalls });
+  const maxJudgeUsd = positive(args, "max-judge-usd", String(DEFAULT_MAX_JUDGE_USD));
+  const databaseUrlForRun = dryRun || args["no-supabase"] ? null : env("DATABASE_URL");
+  let judgments: JudgmentStore | null = null;
+  if (dryRun) judgments = args["no-judgment-cache"] === true ? null : fileJudgmentStore();
+  else judgments = databaseUrlForRun ? pgJudgmentStore(databaseUrlForRun) : fileJudgmentStore();
+  const liquidity = history ? liquidityFrom(history.market) : null;
+  let run: RunResult;
+  try {
+    run = await runSightings({
+      sector, sinceMs, untilMs, maxCards, judge, log, history, historyUnavailable, coverage, maxJudgeCalls, maxJudgeUsd,
+      judgments, liquidity, dryRun, detect: args["no-detectors"] === true ? null : undefined,
+    });
+  } finally {
+    await judgments?.close?.().catch(() => undefined);
+  }
   const requestsFile = path.join(outDir, "judge-requests.json");
   if (writeFiles) fs.writeFileSync(requestsFile, `${JSON.stringify(run.requests, null, 1)}\n`);
 
@@ -214,7 +264,8 @@ async function main(): Promise<number> {
   }
 
   for (const r of run.rejected) console.log(`  dropped ${r.ticker} on ${r.eventId}: ${r.problems.join("; ")}`);
-  const judged = run.requests.length;
+  // Events sent to the judge this run (reused judgments are not judged again).
+  const judged = run.analysis?.judged ?? run.requests.length;
   // Decide before writing: a run that could read nothing or judge nothing leaves Supabase alone.
   const before = runExitCode(run, judged, { state: "dry-run" });
 
@@ -232,6 +283,9 @@ async function main(): Promise<number> {
   else if (!databaseUrl) publish = { state: "skipped", why: "DATABASE_URL is not set" };
   else {
     try {
+      // The ledger first: no card is published without its forecast rows.
+      const forecasts = await writeForecasts(databaseUrl, run.ledger ?? []);
+      console.log(`ledger: ${forecasts} new forecast rows of ${run.ledger?.length ?? 0}`);
       publish = { state: "written", result: await publishCards(databaseUrl, sector, run.feed.cards, { keepDays }) };
     } catch (err) {
       const e = err as { code?: string; message?: string };

@@ -21,7 +21,7 @@
 
 import fs from "node:fs";
 import Anthropic from "@anthropic-ai/sdk";
-import type { Confidence, Direction, RippleEvent } from "@falcon/ripple";
+import type { Confidence, Direction, LinkClarity, RippleEvent } from "@falcon/ripple";
 import type { GraphEdge, Path } from "./graph.ts";
 import { framingProblems, inventedNumbers } from "./validate.ts";
 
@@ -29,6 +29,9 @@ export const JUDGE_MODEL = "claude-sonnet-5-5";
 
 export const WINDOWS = ["1 to 5 trading days", "1 to 4 weeks", "1 to 3 months"] as const;
 export type Window = (typeof WINDOWS)[number];
+
+/** How directly the quotes tie the candidate to the event (display only; it gates nothing). */
+export const LINK_CLARITIES = ["direct", "inferred", "weak"] as const satisfies readonly LinkClarity[];
 
 export type Candidate = {
   key: string;
@@ -57,6 +60,8 @@ export type JudgeAnswer = {
   confidence: Confidence;
   window: Window;
   mechanism: string;
+  /** Optional in answers read from older files; the Claude judge always gives it. */
+  linkClarity?: LinkClarity;
 };
 
 export type JudgeResponse = { hits: JudgeAnswer[] };
@@ -71,13 +76,14 @@ export const JUDGE_SCHEMA = {
       items: {
         type: "object",
         additionalProperties: false,
-        required: ["key", "include", "direction", "confidence", "window", "mechanism"],
+        required: ["key", "include", "direction", "confidence", "window", "linkClarity", "mechanism"],
         properties: {
           key: { type: "string" },
           include: { type: "boolean" },
           direction: { type: "string", enum: ["up", "down", "unclear"] },
           confidence: { type: "string", enum: ["low", "medium", "high"] },
           window: { type: "string", enum: [...WINDOWS] },
+          linkClarity: { type: "string", enum: [...LINK_CLARITIES] },
           mechanism: { type: "string" },
         },
       },
@@ -92,7 +98,8 @@ You get one event (a headline, a summary, and lines quoted from its source) and 
 For each candidate, decide:
 - include: true only if the event says something about this company's business through the quoted link. False when the quote names the company in a long list without a shared product or market that the event speaks to, or when the link cannot carry the event's information.
 - direction: the likely first-order effect of this event on how the market reads this company. "up" or "down" only when the mechanism follows from the event summary and the quote. "unclear" when the event could cut either way for this company (for example, a competitor's strong quarter can mean healthy demand for both, or share taken from this company).
-- confidence: "high" only for a direct customer or supplier link whose quote states a share of revenue or a sole or exclusive source, with an event that clearly moves that business. "medium" for a direct supply-chain link without a stated share, or a named principal competitor in the same product market. "low" for competitors named in a list, all degree 2 links, and anything indirect.
+- confidence: how sure you are that the mechanism holds, judged on the quotes and the event alone. "high" only when the quotes state a share of revenue or a sole or exclusive source on every link of the path and the event clearly moves that business. "medium" for supply-chain links named without a share, or a named principal competitor in the same product market. "low" for competitors named in a list and links the quotes barely support. A degree 2 path is judged on its two quotes like any other: it is not lower just because it has two links. Falcon's own statistics, not this field, decide what is shown.
+- linkClarity: how directly the quotes tie this company to the event. "direct" when the quotes name the relationship the event acts on (a stated customer, supplier or sole source). "inferred" when the link holds but the event reaches the company through a step the quotes do not state outright (for example through the company in between on a degree 2 path). "weak" when the quotes only name the company in a list or the link barely carries the event's information.
 - window: when the information is likely to be priced: "1 to 5 trading days" for direct read-throughs of reported numbers, "1 to 4 weeks" for links that need the next data point (the company's own report, the next monthly figure), "1 to 3 months" for slow supply-chain effects.
 - mechanism: one or two plain sentences, at most 300 characters, that name the link and say how the event reaches this company.
 
@@ -165,6 +172,7 @@ export function checkAnswer(req: JudgeRequest, a: unknown): ValidatedAnswer | nu
   if (!["up", "down", "unclear"].includes(x.direction as string)) problems.push("bad direction");
   if (!["low", "medium", "high"].includes(x.confidence as string)) problems.push("bad confidence");
   if (!(WINDOWS as readonly string[]).includes(x.window as string)) problems.push("bad window");
+  if (x.linkClarity !== undefined && !(LINK_CLARITIES as readonly string[]).includes(x.linkClarity as string)) problems.push("bad linkClarity");
   const mechanism = typeof x.mechanism === "string" ? x.mechanism.trim() : "";
   if (mechanism.length < 30) problems.push("mechanism too short");
   if (mechanism.length > 420) problems.push("mechanism too long");
@@ -172,9 +180,9 @@ export function checkAnswer(req: JudgeRequest, a: unknown): ValidatedAnswer | nu
   problems.push(...framingProblems(mechanism, "mechanism"));
   const invented = inventedInAnswer(mechanism, req, cand);
   if (invented.length) problems.push(`numbers not in the event or the quotes: ${invented.join(", ")}`);
-  // Degree 2 and list competitors cannot be high confidence.
-  if (x.confidence === "high" && (cand.degree === 2 || cand.relation === "competitor" || cand.relation === "peer")) {
-    problems.push("high confidence on an indirect or competitor link");
+  // A competitor or peer link cannot be high confidence (degree alone never caps confidence).
+  if (x.confidence === "high" && (cand.relation === "competitor" || cand.relation === "peer")) {
+    problems.push("high confidence on a competitor link");
   }
   return {
     key: String(x.key),
@@ -183,6 +191,7 @@ export function checkAnswer(req: JudgeRequest, a: unknown): ValidatedAnswer | nu
     confidence: x.confidence as Confidence,
     window: x.window as Window,
     mechanism,
+    ...(x.linkClarity !== undefined ? { linkClarity: x.linkClarity as LinkClarity } : {}),
     problems,
   };
 }

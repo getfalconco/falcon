@@ -1,8 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
-import { cardPricedIn, recordLabel, type RippleCard, type RippleHistory } from "@falcon/ripple";
-import { relationPhrase } from "@/lib/workspace/feed";
+import { cardPricedIn, cardTier, recordLabel, type RippleCard, type RippleHistory } from "@falcon/ripple";
 import { buildGraph } from "@/lib/workspace/graph";
 import { useWorkspace } from "../context";
 import { GraphView } from "../GraphView";
@@ -10,6 +9,7 @@ import {
   BacktestButton,
   ConfidenceMark,
   DirectionMark,
+  DocumentedLine,
   EmptyState,
   EvidenceQuote,
   ExternalAnchor,
@@ -20,8 +20,10 @@ import {
   SectionTitle,
   SERIF,
   TickerButton,
+  TierTag,
   feedEmpty,
   formatDateTime,
+  hitRelationText,
   signedPct,
   sinceEventText,
 } from "../parts";
@@ -72,9 +74,10 @@ export function SightingTab({ cardId }: { cardId: string }) {
       <header>
         <div className="flex items-center gap-3">
           <TickerButton ticker={event.ticker} />
-          <KindLabel kind={event.kind} />
+          <KindLabel event={event} />
           <span className="text-[12px] text-[#9a9a9a]">{formatDateTime(event.occurredAt)}</span>
           <span className="text-[12px] text-[#9a9a9a]">{card.sector}</span>
+          <TierTag tier={cardTier(card)} />
           {cardPricedIn(card) ? <PricedInTag since={card.hits.find((h) => h.pricedIn)?.sinceEvent} /> : null}
           <span className="ml-auto">
             <BacktestButton cardId={card.id} variant="outline" />
@@ -105,9 +108,10 @@ export function SightingTab({ cardId }: { cardId: string }) {
                     <div className="flex items-center gap-3">
                       <TickerButton ticker={hit.ticker} />
                       <span className="min-w-0 truncate text-[13px] text-[#1d1b1b]">{hit.companyName}</span>
-                      <span className="ml-auto shrink-0 whitespace-nowrap pl-2 text-[12px] text-[#767676]">{relationPhrase(hit.relation, from)}</span>
+                      <span className="ml-auto shrink-0 whitespace-nowrap pl-2 text-[12px] text-[#767676]">{hitRelationText(hit, from)}</span>
                     </div>
                     <div className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-1.5 border-t border-black/[0.06] pt-3">
+                      <TierTag tier={hit.tier} />
                       <DirectionMark direction={hit.direction} />
                       <ConfidenceMark confidence={hit.confidence} />
                       <span className="text-[12px] text-[#9a9a9a]">{hit.window}</span>
@@ -125,6 +129,7 @@ export function SightingTab({ cardId }: { cardId: string }) {
                       </p>
                     ) : null}
                     <p className="mt-2.5 text-[13px] leading-[20px] text-[#4b4b48]">{hit.mechanism}</p>
+                    {hit.tier === "documented" ? <DocumentedLine documentedBy={hit.documentedBy} className="mt-1.5" /> : null}
                     {hit.evidence.length ? (
                       <div className="mt-3 flex flex-col gap-3">
                         {hit.evidence.map((e) => (

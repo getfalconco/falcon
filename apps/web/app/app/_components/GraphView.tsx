@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { Relation } from "@falcon/ripple";
 import { layoutGraph, type Graph } from "@/lib/workspace/graph";
-import { RELATION_LABEL } from "@/lib/workspace/feed";
+import { relationLabel } from "@/lib/workspace/feed";
 import { INK, MONO, netColor } from "./parts";
 
 export const RELATION_COLOR: Record<Relation, string> = {
@@ -11,8 +11,14 @@ export const RELATION_COLOR: Record<Relation, string> = {
   supplier: "#b0782f",
   competitor: "#8d5a86",
   peer: "#8f8f88",
+  self: "#1d1b1b",
 };
 const UNKNOWN_EDGE = "#c4c4bf";
+
+/** A relation's colour; the neutral edge colour for none or a value this build does not know. */
+export function relationColor(relation: string | null | undefined): string {
+  return (relation && RELATION_COLOR[relation as Relation]) || UNKNOWN_EDGE;
+}
 /** Largest zoom the fit may use: labels stay at about their design size. */
 const MAX_SCALE = 1.2;
 
@@ -21,8 +27,8 @@ export function RelationLegend({ relations }: { relations: readonly Relation[] }
     <ul className="flex flex-wrap items-center gap-x-4 gap-y-1.5">
       {relations.map((r) => (
         <li key={r} className="flex items-center gap-1.5 text-[12px] text-[#4b4b48]">
-          <span className="h-[2px] w-4 rounded-full" style={{ background: RELATION_COLOR[r] }} aria-hidden />
-          {RELATION_LABEL[r]}
+          <span className="h-[2px] w-4 rounded-full" style={{ background: relationColor(r) }} aria-hidden />
+          {relationLabel(r)}
         </li>
       ))}
     </ul>
@@ -191,12 +197,12 @@ export function GraphView({
               y1={a.y}
               x2={b.x}
               y2={b.y}
-              stroke={e.relation ? RELATION_COLOR[e.relation] : UNKNOWN_EDGE}
+              stroke={relationColor(e.relation)}
               strokeWidth={on ? 2 : 1.25}
               strokeOpacity={dim ? 0.1 : on ? 0.95 : primary ? 0.6 : 0.28}
               vectorEffect="non-scaling-stroke"
             >
-              <title>{`${e.source} and ${e.target}${e.relation ? `: ${RELATION_LABEL[e.relation].toLowerCase()}` : ""}`}</title>
+              <title>{`${e.source} and ${e.target}${e.relation ? `: ${relationLabel(e.relation).toLowerCase()}` : ""}`}</title>
             </line>
           );
         })}

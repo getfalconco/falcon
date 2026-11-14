@@ -2,11 +2,11 @@
 
 import { useMemo, useState } from "react";
 import type { Relation } from "@falcon/ripple";
-import { RELATION_LABEL, RELATIONS } from "@/lib/workspace/feed";
+import { RELATIONS, relationLabel } from "@/lib/workspace/feed";
 import { buildGraph, graphFacets, type GraphFilter } from "@/lib/workspace/graph";
 import { useGraphNeighborhood } from "@/lib/workspace/graph-api";
 import { useWorkspace } from "../context";
-import { GraphView, RELATION_COLOR } from "../GraphView";
+import { GraphView, relationColor } from "../GraphView";
 import { EmptyState, MONO } from "../parts";
 import { FeedNotice } from "../FeedNotice";
 
@@ -79,8 +79,8 @@ export function GraphTab() {
               Relation
             </span>
             {relationOptions.map((r) => (
-              <Toggle key={r} on={!relations || relations.has(r)} onClick={() => setRelations((c) => toggleIn(c, r, relationOptions))} swatch={RELATION_COLOR[r]}>
-                {RELATION_LABEL[r]}
+              <Toggle key={r} on={!relations || relations.has(r)} onClick={() => setRelations((c) => toggleIn(c, r, relationOptions))} swatch={relationColor(r)}>
+                {relationLabel(r)}
               </Toggle>
             ))}
           </div>

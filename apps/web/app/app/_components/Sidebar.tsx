@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { ChevronRight, LogOut, Plus, X } from "lucide-react";
-import { cardPricedIn, splitWeakSignals, type RippleCard } from "@falcon/ripple";
+import { NOTHING_CLEARED, cardPricedIn, cardTier, splitWeakSignals, tierLabel, type RippleCard } from "@falcon/ripple";
 import { exposureByTicker, sortByTime, touchesFocus } from "@/lib/workspace/feed";
 import { searchTickers, type TickerResult } from "@/lib/workspace/focus";
 import { MAX_STOCKS, TICKER_PATTERN } from "@/lib/onboarding";
@@ -109,6 +109,9 @@ function AddTicker({ onDone }: { onDone: () => void }) {
 }
 
 function SightingRow({ card, active, mine, onOpen }: { card: RippleCard; active: boolean; mine: boolean; onOpen: () => void }) {
+  const tier = cardTier(card);
+  // The Watch list heading already says it for watch cards.
+  const tierText = tier && tier !== "watch" ? tierLabel(tier) : "";
   return (
     <li>
       <button type="button" onClick={onOpen} className={`${ROW} items-start py-2 ${active ? "bg-black/[0.055]" : ""}`}>
@@ -118,6 +121,11 @@ function SightingRow({ card, active, mine, onOpen }: { card: RippleCard; active:
             <span className="text-[11.5px] text-[#1d1b1b]" style={{ fontFamily: MONO }}>
               {card.event.ticker}
             </span>
+            {tierText ? (
+              <span className="text-[10px] uppercase tracking-[0.08em] text-[#767676]" style={{ fontFamily: MONO }}>
+                {tierText}
+              </span>
+            ) : null}
             {cardPricedIn(card) ? (
               <span className="text-[10px] uppercase tracking-[0.08em] text-[#767676]" style={{ fontFamily: MONO }}>
                 Priced in
@@ -137,7 +145,7 @@ export function Sidebar({ email, onSignOut, activeTicker, activeCardId }: { emai
   const [adding, setAdding] = useState(false);
   const exposure = useMemo(() => new Map(exposureByTicker(feed, focus).map((e) => [e.ticker, e])), [feed, focus]);
   const cards = useMemo(() => sortByTime(feed?.cards ?? []), [feed]);
-  // Weak signals (card confidence "low") go last, folded away.
+  // Weak signals (Watch tier; card confidence "low" on older cards) go last, folded away under "Watch list".
   const split = useMemo(() => splitWeakSignals(cards), [cards]);
   const [weakOpen, setWeakOpen] = useState(false);
   // Open while one of its cards is the active tab.
@@ -207,7 +215,7 @@ export function Sidebar({ email, onSignOut, activeTicker, activeCardId }: { emai
 
         <section className="mt-4 px-2 pb-3">
           <div className="px-2">
-            <SectionTitle count={cards.length}>Sightings</SectionTitle>
+            <SectionTitle count={split.strong.length}>Sightings</SectionTitle>
           </div>
           {cards.length ? (
             <>
@@ -218,7 +226,7 @@ export function Sidebar({ email, onSignOut, activeTicker, activeCardId }: { emai
                   ))}
                 </ul>
               ) : (
-                <p className="px-2 py-2 text-[12px] text-[#9a9a9a]">Only weak signals today</p>
+                <p className="px-2 py-2 text-[12px] text-[#9a9a9a]">{NOTHING_CLEARED}</p>
               )}
               {split.weak.length ? (
                 <div className="mt-2">
@@ -228,10 +236,10 @@ export function Sidebar({ email, onSignOut, activeTicker, activeCardId }: { emai
                     aria-expanded={weakShown}
                     className={`${ROW} h-8 text-[11px] uppercase tracking-[0.14em] text-[#1d1b1b]/45`}
                     style={{ fontFamily: MONO }}
-                    title="Cards whose best link is low confidence"
+                    title="Below the publishing bar: stored for the record, not counted as sightings"
                   >
                     <ChevronRight width={12} height={12} strokeWidth={2} className={`shrink-0 transition-transform ${weakShown ? "rotate-90" : ""}`} aria-hidden />
-                    Weak signals
+                    Watch list
                     <span className="text-[#1d1b1b]/30">{split.weak.length}</span>
                   </button>
                   {weakShown ? (
@@ -246,7 +254,7 @@ export function Sidebar({ email, onSignOut, activeTicker, activeCardId }: { emai
             </>
           ) : (
             <p className="px-2 py-2 text-[12px] text-[#9a9a9a]">
-              {feedStatus === "loading" ? "Loading" : feedStatus === "ready" ? "No sightings yet" : "Sightings are not available"}
+              {feedStatus === "loading" ? "Loading" : feedStatus === "ready" ? NOTHING_CLEARED : "Sightings are not available"}
             </p>
           )}
         </section>

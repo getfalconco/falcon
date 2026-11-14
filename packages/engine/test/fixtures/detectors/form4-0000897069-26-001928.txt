@@ -1,0 +1,204 @@
+<SEC-DOCUMENT>0000897069-26-001928.txt : 20261113
+<SEC-HEADER>0000897069-26-001928.hdr.sgml : 20261113
+<ACCEPTANCE-DATETIME>20261113203449
+ACCESSION NUMBER:		0000897069-26-001928
+CONFORMED SUBMISSION TYPE:	4
+PUBLIC DOCUMENT COUNT:		1
+CONFORMED PERIOD OF REPORT:	20261112
+FILED AS OF DATE:		20261113
+DATE AS OF CHANGE:		20261113
+
+REPORTING-OWNER:	
+
+	OWNER DATA:	
+		COMPANY CONFORMED NAME:			Baker John D. III
+		CENTRAL INDEX KEY:			0001785797
+		ORGANIZATION NAME:           	
+
+	FILING VALUES:
+		FORM TYPE:		4
+		SEC ACT:		1934 Act
+		SEC FILE NUMBER:	001-36769
+		FILM NUMBER:		261554881
+
+	MAIL ADDRESS:	
+		STREET 1:		FRP HOLDINGS, INC.
+		STREET 2:		200 WEST FORSYTH STREET, 7TH FLOOR
+		CITY:			JACKSONVILLE
+		STATE:			FL
+		ZIP:			32202
+
+ISSUER:		
+
+	COMPANY DATA:	
+		COMPANY CONFORMED NAME:			FRP HOLDINGS, INC.
+		CENTRAL INDEX KEY:			0000844059
+		STANDARD INDUSTRIAL CLASSIFICATION:	REAL ESTATE [6500]
+		ORGANIZATION NAME:           	05 Real Estate & Construction
+		EIN:				472449198
+		STATE OF INCORPORATION:			FL
+		FISCAL YEAR END:			1231
+
+	BUSINESS ADDRESS:	
+		STREET 1:		200 W. FORSYTH ST.
+		STREET 2:		7TH FLOOR
+		CITY:			JACKSONVILLE
+		STATE:			FL
+		ZIP:			32202
+		BUSINESS PHONE:		9043965733
+
+	MAIL ADDRESS:	
+		STREET 1:		200 W. FORSYTH ST.
+		STREET 2:		7TH FLOOR
+		CITY:			JACKSONVILLE
+		STATE:			FL
+		ZIP:			32202
+
+	FORMER COMPANY:	
+		FORMER CONFORMED NAME:	PATRIOT TRANSPORTATION HOLDING INC
+		DATE OF NAME CHANGE:	20010425
+
+	FORMER COMPANY:	
+		FORMER CONFORMED NAME:	FRP PROPERTIES INC
+		DATE OF NAME CHANGE:	19920703
+</SEC-HEADER>
+<DOCUMENT>
+<TYPE>4
+<SEQUENCE>1
+<FILENAME>form4.xml
+<DESCRIPTION>FORM 4
+<TEXT>
+<XML>
+<?xml version="1.0"?>
+<ownershipDocument>
+
+    <schemaVersion>X0609</schemaVersion>
+
+    <documentType>4</documentType>
+
+    <periodOfReport>2026-11-12</periodOfReport>
+
+    <issuer>
+        <issuerCik>0000844059</issuerCik>
+        <issuerName>FRP HOLDINGS, INC.</issuerName>
+        <issuerTradingSymbol>FRPH</issuerTradingSymbol>
+        <issuerForeignTradingSymbol></issuerForeignTradingSymbol>
+    </issuer>
+
+    <reportingOwner>
+        <reportingOwnerId>
+            <rptOwnerCik>0001785797</rptOwnerCik>
+            <rptOwnerName>Baker John D. III</rptOwnerName>
+        </reportingOwnerId>
+        <reportingOwnerAddress>
+            <rptOwnerNonUSAddressFlag>false</rptOwnerNonUSAddressFlag>
+            <rptOwnerStreet1>FRP HOLDINGS, INC</rptOwnerStreet1>
+            <rptOwnerStreet2>200 WEST FORSYTH STREET, 7TH FLOOR</rptOwnerStreet2>
+            <rptOwnerCity>JACKSONVILLE</rptOwnerCity>
+            <rptOwnerState>FL</rptOwnerState>
+            <rptOwnerZipCode>32202</rptOwnerZipCode>
+            <rptOwnerStateDescription></rptOwnerStateDescription>
+        </reportingOwnerAddress>
+        <reportingOwnerRelationship>
+            <isDirector>true</isDirector>
+            <isOfficer>true</isOfficer>
+            <isTenPercentOwner>false</isTenPercentOwner>
+            <isOther>false</isOther>
+            <officerTitle>CEO</officerTitle>
+        </reportingOwnerRelationship>
+    </reportingOwner>
+
+    <aff10b5One>true</aff10b5One>
+
+    <nonDerivativeTable>
+        <nonDerivativeTransaction>
+            <securityTitle>
+                <value>Common Stock</value>
+            </securityTitle>
+            <transactionDate>
+                <value>2026-11-12</value>
+            </transactionDate>
+            <transactionCoding>
+                <transactionFormType>4</transactionFormType>
+                <transactionCode>P</transactionCode>
+                <equitySwapInvolved>false</equitySwapInvolved>
+            </transactionCoding>
+            <transactionAmounts>
+                <transactionShares>
+                    <value>50</value>
+                </transactionShares>
+                <transactionPricePerShare>
+                    <value>18.61</value>
+                </transactionPricePerShare>
+                <transactionAcquiredDisposedCode>
+                    <value>A</value>
+                </transactionAcquiredDisposedCode>
+            </transactionAmounts>
+            <postTransactionAmounts>
+                <sharesOwnedFollowingTransaction>
+                    <value>308904</value>
+                </sharesOwnedFollowingTransaction>
+            </postTransactionAmounts>
+            <ownershipNature>
+                <directOrIndirectOwnership>
+                    <value>I</value>
+                </directOrIndirectOwnership>
+                <natureOfOwnership>
+                    <value>Held in Living Trust</value>
+                </natureOfOwnership>
+            </ownershipNature>
+        </nonDerivativeTransaction>
+        <nonDerivativeHolding>
+            <securityTitle>
+                <value>Common Stock</value>
+            </securityTitle>
+            <postTransactionAmounts>
+                <sharesOwnedFollowingTransaction>
+                    <value>48721</value>
+                </sharesOwnedFollowingTransaction>
+            </postTransactionAmounts>
+            <ownershipNature>
+                <directOrIndirectOwnership>
+                    <value>I</value>
+                </directOrIndirectOwnership>
+                <natureOfOwnership>
+                    <value>See footnote</value>
+                    <footnoteId id="F1"/>
+                </natureOfOwnership>
+            </ownershipNature>
+        </nonDerivativeHolding>
+        <nonDerivativeHolding>
+            <securityTitle>
+                <value>Common Stock</value>
+            </securityTitle>
+            <postTransactionAmounts>
+                <sharesOwnedFollowingTransaction>
+                    <value>4029</value>
+                </sharesOwnedFollowingTransaction>
+            </postTransactionAmounts>
+            <ownershipNature>
+                <directOrIndirectOwnership>
+                    <value>I</value>
+                </directOrIndirectOwnership>
+                <natureOfOwnership>
+                    <value>See footnote</value>
+                    <footnoteId id="F2"/>
+                </natureOfOwnership>
+            </ownershipNature>
+        </nonDerivativeHolding>
+    </nonDerivativeTable>
+
+    <footnotes>
+        <footnote id="F1">Held in the John D Baker II 2018 Irrevocable Trust FBO John D Baker III. The Reporting Person serves as co-trustee and is the sole beneficiary of such trust.</footnote>
+        <footnote id="F2">Shares held in trusts for the benefit of the Reporting Person's children, of which Reporting Person serves as trustee.</footnote>
+    </footnotes>
+
+    <ownerSignature>
+        <signatureName>John J. Wolfel, as Attorney-in-Fact for John D. Baker III</signatureName>
+        <signatureDate>2026-11-12</signatureDate>
+    </ownerSignature>
+</ownershipDocument>
+</XML>
+</TEXT>
+</DOCUMENT>
+</SEC-DOCUMENT>

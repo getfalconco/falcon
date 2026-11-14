@@ -10,7 +10,26 @@
 
 export type Direction = "up" | "down" | "unclear";
 export type Confidence = "low" | "medium" | "high";
-export type Relation = "customer" | "supplier" | "competitor" | "peer";
+/**
+ * What a hit company is to the event company. "self" (v1): the event is
+ * about the hit company itself (an insider purchase cluster, a late filing);
+ * the card's single hit is the company itself. Screens must render an
+ * unknown relation with a neutral fallback label.
+ */
+export type Relation = "customer" | "supplier" | "competitor" | "peer" | "self";
+
+/**
+ * Card and hit tiers (design ripple-engine-v1, 7.1), written by the engine;
+ * screens read them and never re-derive them.
+ *   measured:   the hit's family passed Falcon's own statistical test.
+ *   documented: published research documents this trigger and Falcon's own
+ *               post-2015 estimate is positive; Falcon's live record is building.
+ *   watch:      everything else; shown collapsed, never in main sections.
+ */
+export type Tier = "measured" | "documented" | "watch";
+
+/** How directly the filings tie the hit to the event (the judge's read; display only, gates nothing). */
+export type LinkClarity = "direct" | "inferred" | "weak";
 
 /** A source document a fact rests on: a filing, a press release, an article. */
 export type Source = {
@@ -39,6 +58,16 @@ export type RippleEvent = {
   facts?: string[];
   /** Optional (added by the engine): other sources the summary uses (the consensus estimate). */
   sources?: Source[];
+  /**
+   * Optional (v1): the event type, the key of the engine's event registry,
+   * e.g. "insider_cluster", "earnings_read_through", "monthly_revenue".
+   * `kind` stays the coarse bucket. Screens show `eventLabel`, never this key.
+   */
+  eventType?: string;
+  /** Optional (v1): a plain label for the event type, e.g. "Insider purchase cluster". */
+  eventLabel?: string;
+  /** Optional (v1): EDGAR acceptance time (ISO), when the event is a filing. */
+  acceptedAt?: string;
 };
 
 /** A quote from a filing that proves the link between two companies. */
@@ -90,7 +119,31 @@ export type RippleHistory = {
   /** Optional (added by the engine): reaction days of the first and last past event measured, YYYY-MM-DD. */
   from?: string;
   to?: string;
+  /**
+   * Optional (v1): the past events behind the record, oldest first, so
+   * "Backtest this" can show the same numbers. `movePct` is the hit
+   * company's own move over the window, `benchmarkPct` the benchmark's over
+   * the same closes (the record's adjusted move is their difference), both
+   * percent. `eventDate` is the past event's New York date, `reactionDate`
+   * its first tradable session.
+   */
+  events?: Array<{ accession: string; eventDate: string; reactionDate: string; movePct: number; benchmarkPct: number }>;
 };
+
+/** Published research behind a Documented hit (design 7.1; the engine's evidence registry). */
+export type DocumentedBy = {
+  citation: string;
+  url: string;
+  /** The effect as the paper states it, e.g. "opportunistic insider purchases earned about 82 bp/month value-weighted". */
+  effect: string;
+  /** The paper's sample period, e.g. "1986-2007". */
+  period: string;
+  /** "exact": the paper studies this trigger; "analogous": a related one. */
+  match: "exact" | "analogous";
+};
+
+/** How much attention the hit company gets (display only). */
+export type Attention = { analysts: number | null; sameSic: boolean | null; daysToEarnings: number | null };
 
 /** One company the event reaches, and how. */
 export type RippleHit = {
@@ -141,10 +194,11 @@ export type RippleHit = {
   pricedIn?: boolean;
   /**
    * Optional (added by the engine): whether the hit may be listed under
-   * Opportunities. True only when the Wilson lower bound of its record clears
-   * the engine's "better than a coin flip" bound (the one that allows "high"
-   * confidence), its confidence is not "low", it has an implied way, and it
-   * is not priced in. Screens read this flag; they never re-derive it.
+   * Opportunities. v1: true only for a Measured hit, or (interim rule,
+   * OPPORTUNITIES_INTERIM_DOCUMENTED) a Documented own-firm hit with exact
+   * evidence; never for an unclear or priced-in hit. v0 cards (no tier): the
+   * record's Wilson lower bound cleared the "better than a coin flip" bound.
+   * Screens read this flag through `opportunityHit`; they never re-derive it.
    */
   opportunityEligible?: boolean;
   /**
@@ -160,6 +214,20 @@ export type RippleHit = {
    * the vote's result.
    */
   votes?: { up: number; down: number; unclear: number; excluded: number };
+  /** Optional (v1): the hit's tier (see Tier). Older cards have none. */
+  tier?: Tier;
+  /** Optional (v1): the pre-registered family, e.g. "F7". */
+  family?: string;
+  /** Optional (v1): the deterministic channel, e.g. "own_firm" or "supply_chain". */
+  channel?: string;
+  /** Optional (v1): how directly the filings tie this hit to the event (display only). */
+  linkClarity?: LinkClarity;
+  /** Optional (v1): attention on the hit company (display only). */
+  attention?: Attention;
+  /** Optional (v1): the published research behind a Documented hit. */
+  documentedBy?: DocumentedBy;
+  /** Optional (v1): what would invalidate the reading, one templated sentence. */
+  invalidatedBy?: string;
 };
 
 /** A hit's move since its event (see RippleHit.sinceEvent). */
@@ -197,6 +265,14 @@ export type RippleCard = {
   confidence?: Confidence;
   /** Optional (added by the engine): true when every hit with an implied way is priced in (see RippleHit.pricedIn). */
   pricedIn?: boolean;
+  /** Optional (v1): the card's tier, the best of its hits' tiers. */
+  tier?: Tier;
+  /**
+   * Optional (v1): when the card stops being served (ISO): publish time plus
+   * its longest hit window (trading sessions counted as calendar days x1.5).
+   * Cards without it are served for 7 days after their event.
+   */
+  expiresAt?: string;
 };
 
 export type SightingsFeed = {
@@ -253,9 +329,93 @@ export function cardConfidence(card: Pick<RippleCard, "confidence" | "hits">): C
   return card.confidence && card.confidence in CONFIDENCE_ORDER ? card.confidence : cardConfidenceOf(card.hits);
 }
 
-/** A weak signal: a card whose confidence is "low" (a coin flip at best). */
-export function isWeakSignal(card: Pick<RippleCard, "confidence" | "hits">): boolean {
+// ---------------------------------------------------------------------------
+// Tiers (v1). Older cards carry no tier; every helper falls back to the v0 rules.
+
+export const TIERS: readonly Tier[] = ["measured", "documented", "watch"];
+const TIER_RANK: Record<Tier, number> = { watch: 0, documented: 1, measured: 2 };
+
+function validTier(t: unknown): t is Tier {
+  return typeof t === "string" && t in TIER_RANK;
+}
+
+/** The best tier among hits that carry one; null when none does (an older card). */
+export function bestTier(hits: readonly Pick<RippleHit, "tier">[]): Tier | null {
+  let best: Tier | null = null;
+  for (const h of hits) if (validTier(h.tier) && (best === null || TIER_RANK[h.tier] > TIER_RANK[best])) best = h.tier;
+  return best;
+}
+
+/** The card's tier: the engine's, else the best of its hits'; null for an older card without tiers. */
+export function cardTier(card: Pick<RippleCard, "tier" | "hits">): Tier | null {
+  return validTier(card.tier) ? card.tier : bestTier(card.hits);
+}
+
+/** Whether a hit or a card is Measured (its family passed Falcon's own test). */
+export function isMeasured(x: { tier?: Tier }): boolean {
+  return x.tier === "measured";
+}
+
+/** Whether a hit or a card is Documented (published research, Falcon's own record building). */
+export function isDocumented(x: { tier?: Tier }): boolean {
+  return x.tier === "documented";
+}
+
+/** A card shown as "Context" on Today: Documented, never in the hero metric. */
+export function isContext(card: Pick<RippleCard, "tier" | "hits">): boolean {
+  return cardTier(card) === "documented";
+}
+
+/** The label a Documented card or hit carries. */
+export const DOCUMENTED_LABEL = "Documented in published research; Falcon's own record is building.";
+
+/** Short tier badge text. */
+export const TIER_LABEL: Record<Tier, string> = { measured: "Measured", documented: "Documented", watch: "Watch" };
+
+/** The badge for a tier, "" for none or an unknown value. */
+export function tierLabel(tier: unknown): string {
+  return validTier(tier) ? TIER_LABEL[tier] : "";
+}
+
+/** The empty state of a main section when no card clears the publishing bar. */
+export const NOTHING_CLEARED = "Nothing cleared the bar today";
+
+/** Plain labels for the engine's event types; screens prefer `event.eventLabel`. */
+export const EVENT_TYPE_LABEL: Record<string, string> = {
+  earnings_read_through: "Earnings read-through",
+  monthly_revenue: "Monthly revenue",
+  insider_cluster: "Insider purchase cluster",
+  distress_nt: "Late filing notice",
+  restatement_402: "Restatement notice",
+  customer_bankruptcy: "Customer bankruptcy",
+  contract_material: "Material contract",
+  contract_termination: "Contract termination",
+  guidance_down: "Outlook cut",
+  guidance_up: "Outlook raise",
+  activist_stake: "Activist stake",
+};
+
+/** The event's label: the engine's, else the type's, else null (screens then use their kind label or "Event"). */
+export function eventTypeLabel(event: Pick<RippleEvent, "eventType" | "eventLabel">): string | null {
+  if (typeof event.eventLabel === "string" && event.eventLabel.trim()) return event.eventLabel;
+  if (typeof event.eventType === "string" && EVENT_TYPE_LABEL[event.eventType]) return EVENT_TYPE_LABEL[event.eventType]!;
+  return null;
+}
+
+/**
+ * A weak signal: listed last, under a collapsed "Watch list", never on Today
+ * or under Opportunities. A card with a tier is weak when it is "watch"; an
+ * older card without one when its confidence is "low" (v0 rule).
+ */
+export function isWeakSignal(card: Pick<RippleCard, "confidence" | "hits"> & { tier?: Tier }): boolean {
+  const tier = cardTier({ tier: card.tier, hits: card.hits });
+  if (tier !== null) return tier === "watch";
   return cardConfidence(card) === "low";
+}
+
+/** Whether any card clears the publishing bar (is not a weak signal). False means "Nothing cleared the bar today". */
+export function anyClearsBar(cards: readonly (Pick<RippleCard, "confidence" | "hits"> & { tier?: Tier })[]): boolean {
+  return cards.some((c) => !isWeakSignal(c));
 }
 
 /** Splits cards into the ones to list and the weak signals, each keeping its order. */
@@ -286,14 +446,71 @@ export function recordLabel(history: RippleHistory | null | undefined): string |
 }
 
 /**
- * The card as Opportunities shows it: only its hits the engine marked
- * `opportunityEligible`, minus `exclude` (held tickers). Null when the card
- * is a weak signal or no hit is left.
+ * Default of the founder's interim rule (design 7.3): while no hit is
+ * Measured, Opportunities shows Documented own-firm hits whose evidence is
+ * an `exact` match, labelled DOCUMENTED_LABEL. The engine and the website
+ * read the flag OPPORTUNITIES_INTERIM_DOCUMENTED ("0"/"false" turns it off).
  */
-export function opportunityCard<T extends RippleCard>(card: T, exclude?: ReadonlySet<string>): T | null {
+export const OPPORTUNITIES_INTERIM_DOCUMENTED = true;
+
+/** A hit the interim rule may list: Documented, own-firm ("self"), exact evidence. */
+export function interimDocumentedHit(h: Pick<RippleHit, "tier" | "relation" | "documentedBy">): boolean {
+  return h.tier === "documented" && h.relation === "self" && h.documentedBy?.match === "exact";
+}
+
+export type OpportunityOptions = {
+  /** Whether Documented own-firm hits may be listed (the interim rule; default OPPORTUNITIES_INTERIM_DOCUMENTED). */
+  interimDocumented?: boolean;
+};
+
+/**
+ * Whether a hit may be listed under Opportunities. It must carry the engine's
+ * `opportunityEligible` flag; a hit with a tier must also be Measured, or a
+ * Documented own-firm exact hit while the interim rule allows it. Older hits
+ * without a tier: the flag alone (v0 rule).
+ */
+export function opportunityHit(h: RippleHit, opts: OpportunityOptions = {}): boolean {
+  if (h.opportunityEligible !== true) return false;
+  if (!validTier(h.tier)) return true;
+  if (h.tier === "measured") return true;
+  return (opts.interimDocumented ?? OPPORTUNITIES_INTERIM_DOCUMENTED) && interimDocumentedHit(h);
+}
+
+/**
+ * The card as Opportunities shows it: only its hits that pass
+ * `opportunityHit`, minus `exclude` (held tickers). Null when the card is a
+ * weak signal or no hit is left.
+ */
+export function opportunityCard<T extends RippleCard>(card: T, exclude?: ReadonlySet<string>, opts: OpportunityOptions = {}): T | null {
   if (isWeakSignal(card)) return null;
-  const hits = card.hits.filter((h) => h.opportunityEligible === true && !exclude?.has(h.ticker.toUpperCase()));
+  const hits = card.hits.filter((h) => opportunityHit(h, opts) && !exclude?.has(h.ticker.toUpperCase()));
   return hits.length ? { ...card, hits } : null;
+}
+
+/**
+ * Opportunities for a whole feed: the interim rule applies only while no
+ * hit on any card is Measured; once one is, only Measured hits are listed.
+ */
+export function opportunityCards<T extends RippleCard>(cards: readonly T[], exclude?: ReadonlySet<string>, opts: OpportunityOptions = {}): T[] {
+  const anyMeasured = cards.some((c) => c.hits.some((h) => h.tier === "measured"));
+  const interimDocumented = (opts.interimDocumented ?? OPPORTUNITIES_INTERIM_DOCUMENTED) && !anyMeasured;
+  return cards.map((c) => opportunityCard(c, exclude, { interimDocumented })).filter((c): c is T => c !== null);
+}
+
+/**
+ * When a card stops being served: `expiresAt`, else 7 days after its event
+ * (the v0 rule). Epoch milliseconds; NaN when neither can be read.
+ */
+export const LEGACY_SERVE_DAYS = 7;
+export function cardExpiryMs(card: Pick<RippleCard, "expiresAt" | "event">): number {
+  const at = typeof card.expiresAt === "string" ? Date.parse(card.expiresAt) : NaN;
+  if (Number.isFinite(at)) return at;
+  return Date.parse(card.event.occurredAt) + LEGACY_SERVE_DAYS * 86_400_000;
+}
+
+/** Whether a card is still served at `nowMs`. */
+export function cardLive(card: Pick<RippleCard, "expiresAt" | "event">, nowMs: number = Date.now()): boolean {
+  return cardExpiryMs(card) > nowMs;
 }
 
 /** The analyst count the engine recorded for a ticker on any of these cards' hits, or null. */

@@ -135,7 +135,7 @@ test("position slots: entries fill in universe order, the rest are counted as sk
     sizing: { maxPositions: 2, positionPct: null },
     exit: { conditions: [], stopLossPct: null, takeProfitPct: null, maxHoldingDays: 2 },
   });
-  const r = runBacktest(s, cfg(dates), market({ AAA: jump, BBB: jump, CCC: jump, SPY: makeBars(dates, flat(8)) }));
+  const r = runBacktest(s, cfg(dates), market({ AAA: jump, BBB: jump, CCC: jump, SPY: makeBars(dates, flat(8)) }), { tiebreak: "list_order" });
   assert.deepEqual(r.trades.map((t) => t.ticker), ["AAA", "BBB"]);
   assert.ok(approx(r.trades[0]!.cost, 5_000));
   assert.equal(r.metrics.strategy.skippedEntries, 1);
@@ -244,4 +244,19 @@ test("earnings of another company: trades the universe after the named ticker re
   assert.equal(r.trades.length, 1);
   assert.equal(r.trades[0]!.ticker, "BBB");
   assert.equal(r.trades[0]!.entryDate, "2024-01-04");
+});
+
+test("seeded tie-break: the same rules always give the same order, and skipped entries are counted", () => {
+  const dates = weekdays("2024-01-01", 8);
+  const jump = makeBars(dates, [100, 100, 100, 110, 110, 110, 110, 110]);
+  const data = market({ AAA: jump, BBB: jump, CCC: jump, DDD: jump, SPY: makeBars(dates, flat(8)) });
+  const base = {
+    sizing: { maxPositions: 2, positionPct: null },
+    exit: { conditions: [], stopLossPct: null, takeProfitPct: null, maxHoldingDays: 2 },
+  };
+  const a = runBacktest(strategy({ ...base, universe: ["AAA", "BBB", "CCC", "DDD"] }), cfg(dates), data);
+  const again = runBacktest(strategy({ ...base, universe: ["AAA", "BBB", "CCC", "DDD"] }), cfg(dates), data);
+  assert.deepEqual(a.trades.map((t) => t.ticker), again.trades.map((t) => t.ticker));
+  assert.equal(a.trades.length, 2);
+  assert.equal(a.metrics.strategy.skippedEntries, 2);
 });

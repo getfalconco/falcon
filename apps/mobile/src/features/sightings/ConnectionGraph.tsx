@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, View } from "react-native";
 import Svg, { Circle, G, Line, Rect, Text as SvgText } from "react-native-svg";
 import type { RippleCard, RippleHit } from "@falcon/ripple";
 import { colors, fonts } from "@/theme";
-import { RELATION, directionColor, directionSoft } from "./format";
+import { directionColor, directionSoft, isSelfHit, relationLabel } from "./format";
 
 /** Graph units: close to points at the phone's content width. */
 const R_EVENT = 31;
@@ -26,8 +26,10 @@ function labelWidth(text: string) {
  * through (or beyond the event when that company is not on the card).
  */
 function layout(card: RippleCard): { nodes: Node[]; box: { x: number; y: number; w: number; h: number } } {
-  const direct = card.hits.filter((h) => h.degree !== 2);
-  const second = card.hits.filter((h) => h.degree === 2);
+  // A "self" hit is the event company itself: it is the centre node, never a line to itself.
+  const linked = card.hits.filter((h) => !isSelfHit(h, card.event.ticker));
+  const direct = linked.filter((h) => h.degree !== 2);
+  const second = linked.filter((h) => h.degree === 2);
   const center = { x: 0, y: 0 };
   const nodes: Node[] = [];
   const angleOf = new Map<string, number>();
@@ -117,7 +119,7 @@ export function ConnectionGraph({
           ))}
 
           {nodes.map(({ hit, x, y, from }) => {
-            const text = RELATION[hit.relation]?.toLowerCase() ?? hit.relation;
+            const text = relationLabel(hit.relation).toLowerCase();
             const w = labelWidth(text);
             // Halfway along the visible part of the line, between the two circles.
             const len = Math.hypot(x - from.x, y - from.y) || 1;
@@ -196,7 +198,7 @@ export function ConnectionGraph({
               <Pressable
                 key={`tap-${hit.ticker}`}
                 accessibilityRole="button"
-                accessibilityLabel={`${hit.ticker}, ${RELATION[hit.relation] ?? hit.relation}`}
+                accessibilityLabel={`${hit.ticker}, ${relationLabel(hit.relation)}`}
                 onPress={() => onSelect(hit)}
                 style={[styles.tap, { left: p.left - size / 2, top: p.top - size / 2, width: size, height: size }]}
               />

@@ -1,14 +1,90 @@
-# @falcon/engine (Ripple Engine v0)
+# @falcon/engine (Ripple Engine v1a)
 
 Today's events in, filing-backed ripple cards out (`@falcon/ripple` contract).
 Run: `pnpm --filter @falcon/engine run sightings -- --dry-run` (options at the
 top of `src/cli/sightings.ts`). Tests: `pnpm --filter @falcon/engine test`.
 
-Pipeline (`src/pipeline.ts`): events (`src/events.ts`), filing-graph
-candidates (`src/graph.ts`), judged direction and mechanism (`src/judge.ts`,
-put to a vote by `src/vote.ts`), the measured record of each hit
-(`src/history.ts`), then ranking (`src/rank.ts`, below), then the contract
-check (`src/validate.ts`).
+Pipeline (`src/pipeline.ts`): events from two intakes, the watched
+companies' earnings and monthly revenue releases (`src/events.ts`, event
+types `earnings_read_through` F10 and `monthly_revenue` F11) and every
+registered detector (`src/detectors`, `detectAll`); filing-graph candidates
+(`src/graph.ts`), judged direction and mechanism (`src/judge.ts`, put to a
+vote by `src/vote.ts`, judged once: `src/ledger.ts`), the measured record of
+each hit (`src/history.ts`), ranking (`src/rank.ts`, below), tiers
+(`src/quality.ts`, below), then the contract check (`src/validate.ts`).
+Design: `docs/design/ripple-engine-v1.md`.
+
+## v1a: events, judge once, tiers, ledger
+
+**Own-firm events.** A detector event with `propagates: "own"` (an insider
+purchase cluster, a late filing) becomes a card whose single hit is the
+company itself (`relation: "self"`, degree 1), with no judge call. Its
+direction is the event's sign (1 up, -1 down, else unclear); bad news is a
+risk item for holders, never a call to act. The mechanism and
+`invalidatedBy` sentences are templates keyed by event type; the evidence is
+the detector's filed quotes. Linked detector events walk the graph and go to
+the judge like earnings do. A detector event without a ticker gets no card.
+Cards of companies outside the sector's universe get sector `all`.
+
+**Judge once** (design 5.1). Every linked event with candidates is analysed,
+best first by `eventScore`; there is no per-run event cap. Before judging,
+the run looks up `(event id, candidates hash)` (the hash covers the event
+text, every candidate with its quotes, and `JUDGE_PROMPT_VERSION`) and reuses
+a stored judgment; a new judgment is stored. A real run stores them in
+`public.ripple_judgments` (migration `20261117_ripple_judgments.sql`); a dry
+run never touches the database and uses `.cache/judgments/` instead
+(`--no-judgment-cache` turns that off). So a second run on the same window
+makes no judge call.
+
+**Cost guard.** At most `--max-judge-calls` (default 40) calls and
+`--max-judge-usd` (default $0.75, design 5.2) per run, measured from the
+API's reported usage (`allowedCalls` in `src/vote.ts`: a round asks only for
+the calls the dollars left can pay at the run's average cost per call so
+far). Events left when the cap is reached are counted as backlog and judged
+by the next run.
+
+**Featuring.** `--max` limits only the cards in the feed: Measured first,
+then Documented, then Watch, each by card score. Every built hit, featured
+or not, and every hit ranking dropped, gets a forecast row
+(`RunResult.ledger`); a real run appends them to `public.ripple_forecasts`
+(migration `20261118_ripple_ledger.sql`, append-only by trigger) before it
+publishes the cards, and does not publish when that write fails. A row that
+repeats an earlier one (same event, card, ticker, tier, family, sign,
+published state and model version) is not added again.
+
+**Expiry.** `card.expiresAt` = publish time + the card's longest hit window
+(sessions x1.5 calendar days, rounded up: "1 to 5 trading days" 8 days, "1
+to 4 weeks" 30, "1 to 3 months" 95). Stale marking (`MARK_STALE_SQL`) and
+`/api/sightings` serve by it; a card without it keeps the old rule (7 days
+after its event).
+
+**Record events.** A hit's `history.events` lists the past events behind
+its record (accession, event date, reaction day, the hit's move and the
+benchmark's move over the window) so "Backtest this" can show the same
+numbers.
+
+### Tiers (`src/quality.ts`, design 7.1)
+
+Each hit gets `tier`, and the card the best of its hits'. Screens read them.
+
+| Tier | When |
+| --- | --- |
+| measured | directional, liquid, not priced in, no detector watch-only flag, every link at least "named" in a filing quote, and the family passes Falcon's own test in `data/family-stats.json` (BH q <= 0.10, calendar-time t > 1.65, validation mean y > 0, n >= 300 over >= 100 event dates). That file does not exist yet, so nothing is Measured. |
+| documented | the same gates without the family test, and the family is in `data/evidence-registry.json` with a citation and Falcon's own post-2015 estimate above 0 (`ownEstimate.meanAbnPct > 0`); `analogous` evidence also needs `ownEstimate.p < 0.20`. The hit carries `documentedBy`. |
+| watch | everything else |
+
+Liquid: last close above $5 and, when known, a 20-day median dollar volume
+of at least $5M. The CLI reads the last close from the market data; it has
+no volume yet, and with `--no-history` no price, so everything is Watch.
+An absent or unreadable registry or statistics file counts as empty.
+
+`opportunityEligible` (kept for shipped app builds) is true only for a
+Measured hit, or under the interim rule (design 7.3, env
+`OPPORTUNITIES_INTERIM_DOCUMENTED`, on unless "0"/"false") a Documented
+own-firm hit whose evidence is `exact`; never for an unclear or priced-in
+hit. An own-firm hit's `confidence` follows its tier (measured high,
+documented medium, watch low); a linked hit's is the judge's, capped by the
+record as below. The judge's confidence and `linkClarity` gate nothing.
 
 ## Judge votes
 
@@ -34,9 +110,9 @@ Each hit carries its split as `votes: { up, down, unclear, excluded }`; the
 run log lists every candidate's split and which needed a second round.
 A judge reading answers from a file is asked once (same answers each time).
 
-**Cost guard**: at most `--max-judge-calls` (default 40) calls per run;
-when spent, the remaining events go to the vote with what they have, and an
-event with no call left gets no card. The prompt is cached
+**Cost guard**: see "v1a" above (calls and dollars per run); when spent,
+the event in progress goes to the vote with what it has, and the remaining
+events wait for the next run. The prompt is cached
 (`cache_control`), so the 2nd to 5th call on an event read it at a tenth of
 the price. Expected cost per run (5 events, 15 to 25 calls): about $0.15 to $0.30
 (measured 2026-11-12: 16 and 18 calls, $0.16 and $0.21, at $2 / $10 per million
@@ -122,8 +198,10 @@ the judge's call.
 
 `confidence = min(judged, ceiling)`. So a coin-flip record (lower bound at or
 under 0.5 with 20 or more events) is always "low", and "high" needs a record
-better than a coin flip. (The judge already may not say "high" for degree 2
-or competitor links.)
+better than a coin flip. (The judge may not say "high" for a competitor or
+peer link. Since v1a degree never caps confidence: a degree 2 path is judged
+on its quotes like any other. The judge also answers `linkClarity`,
+"direct", "inferred" or "weak", stored on the hit for display.)
 
 ### Filtering
 
@@ -151,11 +229,11 @@ Card score (`cardScoreOf`):
 card = (h1 + 0.5 h2 + 0.25 h3) * (1.25 if a kept hit is degree 2) * (0.3 if the company is being acquired)
 ```
 
-h1..h3 are the card's best three hit scores. Cards are ordered by score (a
-tie: the later event first) and the feed keeps the best `--max`. Events to
-judge are still picked before judging by `eventScore` (size times the
-graph's link weights), with 2 spare events so a card that loses every hit
-can be replaced.
+h1..h3 are the card's best three hit scores. Cards are ordered by tier, then
+score (a tie: the later event first) and the feed keeps the best `--max`.
+Events are judged in `eventScore` order (size times the graph's link
+weights), all of them within the cost guard. An own-firm hit's score is
+`hitScore` with a disclosed link, no record and its tier's confidence.
 
 Each hit carries `score` and `scoreReason`: one plain sentence naming the
 link, the record and, for a name with a coverage boost, the analyst count, e.g. "A
@@ -167,9 +245,11 @@ its reason (`RunResult.ranking`).
 
 Rules every surface applies (`/api/sightings`, the web Workspace, the iPhone
 app). The engine writes the flags; the screens read them through the pure
-helpers in `@falcon/ripple` (`cardConfidence`, `isWeakSignal`,
-`splitWeakSignals`, `recordLabel`, `cardPricedIn`, `opportunityCard`) and
-never re-derive them. Tests: `test/trust.test.ts`.
+helpers in `@falcon/ripple` (`cardTier`, `isMeasured`, `isDocumented`,
+`isContext`, `cardConfidence`, `isWeakSignal`, `splitWeakSignals`,
+`anyClearsBar`, `recordLabel`, `cardPricedIn`, `opportunityCard`,
+`opportunityCards`, `cardLive`, `eventTypeLabel`) and never re-derive them.
+Tests: `test/trust.test.ts`, `test/v1.test.ts`.
 
 ### Card confidence and weak signals
 
@@ -182,6 +262,13 @@ coin-flip or contrary record, or the judge's own low call). Weak signals are nev
 Today or under Opportunities; in Sightings they are listed last, under a
 collapsed "Weak signals" section. Older cards without the field get the same
 value from their hits.
+
+v1a: a card with a tier is a weak signal when its tier is "watch" (the
+confidence rule stays for older cards). Only Measured and Documented cards
+reach the main sections; Watch cards are listed collapsed under "Watch
+list". When no card clears that bar the screens say "Nothing cleared the bar
+today". Documented cards carry "Documented in published research; Falcon's
+own record is building." with the `documentedBy` citation.
 
 ### The record as a count
 
@@ -217,3 +304,8 @@ only when the record's Wilson lower bound is above `SUPPORTS_LOWER_BOUND`
 list the cards that do not touch the portfolio, each with only its eligible
 hits (held tickers removed); a card left with none, or a weak signal, is
 not listed.
+
+v1a (above, "Tiers"): the flag is set by the tier rule, and
+`opportunityCards` (feed level) lists Documented own-firm hits only while no
+hit in the feed is Measured. The v0 rule stays for older cards without a
+tier.

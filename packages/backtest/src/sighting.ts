@@ -11,11 +11,13 @@
  *                           Ripple card history is not connected yet, so these
  *                           runs show no trades until it is.
  *
- * Long positions only (the backtester does not short). Type-only imports, so
- * the iPhone app can use this file without the schema's runtime.
+ * Long positions only (the backtester does not short). The only runtime import
+ * is ./stats (pure math), so the iPhone app can use this file without the
+ * schema's runtime.
  */
 
-import type { Direction, Relation, RippleCard, RippleHit } from "@falcon/ripple";
+import type { Direction, Relation, RippleCard, RippleHistory, RippleHit } from "@falcon/ripple";
+import { mean, median, wilson } from "./stats";
 import type { Condition, Strategy } from "./schema";
 
 /** Same spelling rule as the schema's TICKER_RE (kept local: no runtime import). */
@@ -106,7 +108,9 @@ export function strategyFromSighting(card: RippleCard): SightingBacktest {
       `Every ${eventTicker} release with an EPS ${beat ? "beat" : "miss"} in the window counts, not only this one. Entry at the open after the release, held ${holdDays} trading days.`,
     );
   } else {
-    const relation: Relation | null = only(chosen.map((h) => h.relation));
+    // "self" (the event is about the hit company itself) has no v1 relation filter.
+    const rel: Relation | null = only(chosen.map((h) => h.relation));
+    const relation = rel === "self" ? null : rel;
     const direction: Direction | null = up.length ? "up" : null;
     entry = {
       type: "ripple_event",
@@ -132,4 +136,68 @@ export function strategyFromSighting(card: RippleCard): SightingBacktest {
     rebalance: "none",
   };
   return { strategy, notes, hasHistory, holdDays, basis };
+}
+
+// ---------------------------------------------------------------------------
+// From a Sightings card's own record.
+
+export type HistoryStudy = {
+  ticker: string;
+  direction: "up" | "down";
+  windowDays: number;
+  /** Past events measured (N). */
+  n: number;
+  /** Independent event dates (G). */
+  g: number;
+  /** Moves the implied way: equals recordCount(history).wins. */
+  wins: number;
+  meanAdjustedPct: number;
+  medianAdjustedPct: number;
+  winRange: [number, number];
+  benchmark: string;
+  from: string | null;
+  to: string | null;
+  events: { eventDate: string; reactionDate: string; movePct: number; benchmarkPct: number; adjustedPct: number }[];
+};
+
+/**
+ * The card's record per hit, as an event study: N, G, wins the implied way,
+ * mean and median adjusted move. The same method as the card (the hit's move
+ * minus the benchmark's over the same closes), so wins and N match
+ * recordLabel(hit.history). Null for hits without `history.events`.
+ */
+export function eventStudyFromHistory(card: RippleCard): HistoryStudy[] {
+  const out: HistoryStudy[] = [];
+  for (const h of card.hits) {
+    const hist = h.history as (RippleHistory & { events?: HistoryStudy["events"] }) | null | undefined;
+    const evs = hist?.events;
+    if (!hist || !Array.isArray(evs) || !evs.length || h.direction === "unclear") continue;
+    const rows = evs
+      .filter((e) => Number.isFinite(e.movePct) && Number.isFinite(e.benchmarkPct))
+      .map((e) => ({ ...e, adjustedPct: e.movePct - e.benchmarkPct }));
+    const sign = h.direction === "down" ? -1 : 1;
+    const wins = rows.filter((r) => sign * r.adjustedPct > 0).length;
+    out.push({
+      ticker: h.ticker.toUpperCase(),
+      direction: h.direction === "down" ? "down" : "up",
+      windowDays: hist.windowDays,
+      n: rows.length,
+      g: new Set(rows.map((r) => r.eventDate)).size,
+      wins,
+      meanAdjustedPct: mean(rows.map((r) => r.adjustedPct)),
+      medianAdjustedPct: median(rows.map((r) => r.adjustedPct)),
+      winRange: wilson(wins, rows.length),
+      benchmark: hist.benchmark ?? "SPY",
+      from: hist.from ?? rows[0]?.reactionDate ?? null,
+      to: hist.to ?? rows[rows.length - 1]?.reactionDate ?? null,
+      events: rows,
+    });
+  }
+  return out;
+}
+
+/** True for cards whose event type has no history source in the backtester (monthly revenue and other filings). */
+export function hasNoHistorySource(card: RippleCard): boolean {
+  if (card.event.kind === "earnings_surprise") return false;
+  return !card.hits.some((h) => Array.isArray((h.history as { events?: unknown[] } | null)?.events));
 }

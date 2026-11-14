@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
+import { NOTHING_CLEARED, anyClearsBar } from "@falcon/ripple";
 import { Reveal } from "@/components/Reveal";
 import { TabScreen } from "@/components/TabScreen";
 import { heldTickers } from "@/lib/holdings";
@@ -32,7 +33,7 @@ export default function Sightings() {
     router.setParams({ tab: undefined });
   }, [params.tab, router]);
 
-  // Weak signals (card confidence "low") go last, folded under "Weak signals".
+  // Weak signals (Watch tier; low confidence on older cards) go last, folded under "Watch list".
   const { cards, weak } = useMemo(() => {
     const all = sightings.feed?.cards ?? [];
     if (tab === "portfolio") {
@@ -44,14 +45,15 @@ export default function Sightings() {
 
   const loading = sightings.status === "loading";
   const open = (id: string) => router.push({ pathname: "/sighting/[id]", params: { id } });
+  const nothingCleared = sightings.status === "ready" && !anyClearsBar(sightings.feed?.cards ?? []);
   const emptyTitle =
     tab === "portfolio" && held.size === 0 && sightings.status === "ready"
       ? "No holdings added yet"
-      : tab === "portfolio"
-        ? weak.length
-          ? "Only weak signals today"
-          : "No sightings yet"
-        : "No opportunities yet";
+      : nothingCleared || (tab === "portfolio" && weak.length)
+        ? NOTHING_CLEARED
+        : tab === "portfolio"
+          ? "No sightings yet"
+          : "No opportunities yet";
 
   return (
     <TabScreen onRefresh={sightings.refresh}>

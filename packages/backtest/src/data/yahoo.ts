@@ -38,6 +38,7 @@ type ChartJson = {
         currentTradingPeriod?: { regular?: { start?: number; end?: number } };
       };
       timestamp?: number[];
+      events?: { splits?: Record<string, { date?: number; numerator?: number; denominator?: number }> };
       indicators?: {
         quote?: Array<{ open?: (number | null)[]; high?: (number | null)[]; low?: (number | null)[]; close?: (number | null)[]; volume?: (number | null)[] }>;
         adjclose?: Array<{ adjclose?: (number | null)[] }>;
@@ -50,18 +51,24 @@ type ChartJson = {
 const good = (v: number | null | undefined): v is number => typeof v === "number" && Number.isFinite(v) && v > 0;
 
 /**
- * Adjusted daily bars from a chart answer, oldest first. Drops rows with a
+ * Adjusted daily bars from a chart answer, oldest first. With `raw`, each
+ * bar also carries the close as printed (rawClose) and dollar volume. Drops rows with a
  * missing or non-positive price, keeps the last row of a repeated date, and
  * drops today's bar while the session is still open (its "close" is not final).
  * Pure.
  */
-export function parseChart(json: unknown, nowSec = Math.floor(Date.now() / 1000)): Bar[] {
+export function parseChart(json: unknown, nowSec = Math.floor(Date.now() / 1000), opts: { raw?: boolean } = {}): Bar[] {
   const r = (json as ChartJson)?.chart?.result?.[0];
   const ts = r?.timestamp;
   const q = r?.indicators?.quote?.[0];
   if (!r || !Array.isArray(ts) || !q) return [];
   const adj = r.indicators?.adjclose?.[0]?.adjclose;
   const off = r.meta?.gmtoffset ?? -5 * 3600;
+  // Yahoo's OHLC are split-adjusted. The price that printed on a day is the
+  // split-adjusted one times every split ratio that happened after it.
+  const splits = Object.values(r.events?.splits ?? {})
+    .filter((x) => good(x.date) && good(x.numerator) && good(x.denominator))
+    .map((x) => ({ date: localDate(x.date!, off), ratio: x.numerator! / x.denominator! }));
   const byDate = new Map<string, Bar>();
   for (let i = 0; i < ts.length; i++) {
     const o = q.open?.[i];
@@ -72,6 +79,10 @@ export function parseChart(json: unknown, nowSec = Math.floor(Date.now() / 1000)
     const a = adj?.[i];
     const f = good(a) ? a / c : 1;
     const date = localDate(ts[i]!, off);
+    let later = 1;
+    for (const sp of splits) if (sp.date > date) later *= sp.ratio;
+    const vol = q.volume?.[i] ?? 0;
+    const extra = opts.raw ? { rawClose: c * later, dollarVolume: c * vol } : {};
     byDate.set(date, {
       date,
       open: o * f,
@@ -79,7 +90,8 @@ export function parseChart(json: unknown, nowSec = Math.floor(Date.now() / 1000)
       high: Math.max(h, o, c) * f,
       low: Math.min(l, o, c) * f,
       close: c * f,
-      volume: q.volume?.[i] ?? 0,
+      volume: vol,
+      ...extra,
     });
   }
   const bars = Array.from(byDate.values()).sort((x, y) => (x.date < y.date ? -1 : 1));
@@ -90,7 +102,7 @@ export function parseChart(json: unknown, nowSec = Math.floor(Date.now() / 1000)
   return bars;
 }
 
-type CompactBars = { d: string[]; o: number[]; h: number[]; l: number[]; c: number[]; v: number[] };
+type CompactBars = { d: string[]; o: number[]; h: number[]; l: number[]; c: number[]; v: number[]; r?: number[]; dv?: number[] };
 
 const round = (x: number) => Math.round(x * 1e6) / 1e6;
 
@@ -102,11 +114,18 @@ function pack(bars: Bar[]): CompactBars {
     l: bars.map((b) => round(b.low)),
     c: bars.map((b) => round(b.close)),
     v: bars.map((b) => b.volume),
+    r: bars.map((b) => round(b.rawClose ?? b.close)),
+    dv: bars.map((b) => Math.round(b.dollarVolume ?? b.close * b.volume)),
   };
 }
 
 function unpack(p: CompactBars): Bar[] {
-  return p.d.map((date, i) => ({ date, open: p.o[i]!, high: p.h[i]!, low: p.l[i]!, close: p.c[i]!, volume: p.v[i]! }));
+  return p.d.map((date, i) => {
+    const bar: Bar = { date, open: p.o[i]!, high: p.h[i]!, low: p.l[i]!, close: p.c[i]!, volume: p.v[i]! };
+    if (p.r) bar.rawClose = p.r[i]!;
+    if (p.dv) bar.dollarVolume = p.dv[i]!;
+    return bar;
+  });
 }
 
 /**
@@ -122,7 +141,7 @@ export class YahooPriceSource implements PriceSource {
   ) {}
 
   async dailyBars(ticker: string, from: string, to: string, signal?: AbortSignal): Promise<Bar[]> {
-    const key = `bars-v1-${ticker}`;
+    const key = `bars-v2-${ticker}`;
     type Cached = { requestedFrom: string; bars: CompactBars };
     let hit = await this.cache.get<Cached>(key, PRICE_TTL_MS);
     if (!hit || hit.requestedFrom > from) {
@@ -135,7 +154,7 @@ export class YahooPriceSource implements PriceSource {
       } else if (!res.ok) {
         throw new Error(`Yahoo chart ${ticker}: HTTP ${res.status}`);
       } else {
-        hit = { requestedFrom: from, bars: pack(parseChart(await res.json())) };
+        hit = { requestedFrom: from, bars: pack(parseChart(await res.json(), undefined, { raw: true })) };
       }
       await this.cache.set(key, hit);
     }

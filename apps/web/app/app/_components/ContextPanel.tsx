@@ -1,8 +1,9 @@
 "use client";
 
 import { useMemo } from "react";
+import { cardTier, tierLabel } from "@falcon/ripple";
 import type { Tab } from "@/lib/workspace/layout";
-import { KIND_LABEL, RELATIONS, cardsForTicker, connectionsFor, exposureByTicker, sectorFor } from "@/lib/workspace/feed";
+import { RELATIONS, eventLabel, cardsForTicker, connectionsFor, exposureByTicker, sectorFor } from "@/lib/workspace/feed";
 import { withSeedConnections } from "@/lib/workspace/graph";
 import { useGraphNeighborhood } from "@/lib/workspace/graph-api";
 import { useWorkspace } from "./context";
@@ -147,7 +148,8 @@ function SightingContext({ cardId }: { cardId: string }) {
         <Facts
           rows={[
             ["Company", <TickerButton key="t" ticker={card.event.ticker} />],
-            ["Type", KIND_LABEL[card.event.kind]],
+            ["Type", eventLabel(card.event)],
+            ...(tierLabel(cardTier(card)) ? [["Tier", tierLabel(cardTier(card))] as [string, React.ReactNode]] : []),
             ["Sector", card.sector],
             ["Published", formatDateTime(card.event.occurredAt)],
             ["Companies hit", card.hits.length],

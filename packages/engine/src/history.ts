@@ -266,6 +266,18 @@ export function matchQuarters(events: readonly PastEvent[], quarters: readonly R
   return out;
 }
 
+/**
+ * The past events behind a record, oldest first: each one's accession, New
+ * York event date, reaction day, and the hit's and the benchmark's moves over
+ * the window (percent, 2 decimals). Pure.
+ */
+export function recordEvents(moves: readonly Move[], meta: ReadonlyMap<Move, { accession: string; eventDate: string }>): NonNullable<RippleHistory["events"]> {
+  const r2 = (n: number) => Math.round(n * 100) / 100;
+  return [...moves]
+    .sort((a, b) => a.reactionDate.localeCompare(b.reactionDate))
+    .map((m) => ({ accession: meta.get(m)?.accession ?? "", eventDate: meta.get(m)?.eventDate ?? m.reactionDate, reactionDate: m.reactionDate, movePct: r2(m.hitPct), benchmarkPct: r2(m.benchPct) }));
+}
+
 // ---------------------------------------------------------------------------
 // One card's history (reads through the injected sources)
 
@@ -380,6 +392,7 @@ export async function cardHistory(card: RippleCard, basis: EventBasis | null, de
     }
     const closes = closesMap(hitRows);
     const moves: Move[] = [];
+    const accessions = new Map<Move, { accession: string; eventDate: string }>();
     let unmeasured = 0;
     for (const e of similar) {
       const earlier = e.releasedOn ? { date: e.releasedOn, time: "before_open" as const } : records.get(e.accession);
@@ -390,10 +403,13 @@ export async function cardHistory(card: RippleCard, basis: EventBasis | null, de
         continue;
       }
       moves.push(move);
+      accessions.set(move, { accession: e.accession, eventDate: nySession(Date.parse(e.acceptedAt)).date });
     }
     moves.sort((a, b) => a.reactionDate.localeCompare(b.reactionDate));
     const extra = moves.length ? { benchmark: BENCHMARK, from: moves[0]!.reactionDate, to: moves[moves.length - 1]!.reactionDate } : {};
-    const history = summarizeMoves(moves, hit.direction, windowDays, extra);
+    const summary = summarizeMoves(moves, hit.direction, windowDays, extra);
+    // The per-event list behind the record, so "Backtest this" can show the same numbers.
+    const history = summary ? { ...summary, events: recordEvents(moves, accessions) } : null;
     const sinceMove = moveSinceEvent(calendar, currentReaction, closes, bench);
     const since = sinceMove ? sinceEventOf(sinceMove, history, hit.direction) : null;
     const matched = moves.filter((m) => wentImpliedWay(m.adjustedPct, hit.direction as "up" | "down")).length;

@@ -450,6 +450,56 @@ export function sampleFeed(): SightingsFeed {
         }),
       ],
     },
+    {
+      // v1 states: an own-firm event (the hit is the company itself) at the
+      // Documented tier, with the published research behind it. Fixture data:
+      // the filers, amounts and quotes are placeholders.
+      id: "sample-lscc-insiders",
+      sector: "Semiconductors",
+      generatedAt: ago(5),
+      tier: "documented",
+      event: {
+        id: "evt-lscc-insiders",
+        ticker: "LSCC",
+        companyName: "Lattice Semiconductor",
+        kind: "filing",
+        eventType: "insider_cluster",
+        eventLabel: "Insider purchase cluster",
+        acceptedAt: ago(6),
+        headline: "Three Lattice Semiconductor insiders bought shares within five days",
+        occurredAt: ago(6),
+        summary:
+          "Form 4 filings show open-market purchases by two directors and the CFO, about $1.4M in total. None was made under a 10b5-1 plan.",
+        source: { title: "Lattice Semiconductor, Form 4", url: edgar("LSCC", "4"), publisher: "SEC EDGAR", publishedAt: ago(6) },
+      },
+      hits: [
+        hit({
+          ticker: "LSCC",
+          companyName: "Lattice Semiconductor",
+          relation: "self",
+          direction: "up",
+          confidence: "medium",
+          window: "1 to 20 trading days",
+          mechanism:
+            "Several insiders bought on the open market within days, outside a pre-set plan. Published research finds non-routine insider purchases carried information about later returns.",
+          tier: "documented",
+          family: "F7",
+          channel: "own_firm",
+          opportunityEligible: true,
+          documentedBy: {
+            citation: "Cohen, Malloy and Pomorski (2012), Decoding Inside Information",
+            url: "https://doi.org/10.1111/j.1540-6261.2012.01740.x",
+            effect: "Opportunistic insider trades carried information about later returns; routine trades did not.",
+            period: "1986-2007",
+            match: "exact",
+          },
+          invalidatedBy: "A later Form 4 showing the same insiders selling, or an amended filing that marks the purchases as planned.",
+          evidence: [
+            quote("LSCC", "4", "Code P, open market purchase, 8,000 shares of common stock.", ago(6).slice(0, 10)),
+          ],
+        }),
+      ],
+    },
   ];
   return { generatedAt: ago(1.5), cards };
 }

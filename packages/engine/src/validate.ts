@@ -6,11 +6,14 @@
  * Pure. Each check returns a list of problems; empty means it passes.
  */
 
-import { cardConfidenceOf, type Confidence, type Direction, type LinkEvidence, type Relation, type RippleCard, type RippleEvent, type RippleHistory, type RippleHit, type RippleSinceEvent, type SightingsFeed } from "@falcon/ripple";
+import { bestTier, cardConfidenceOf, TIERS, type Confidence, type Direction, type LinkEvidence, type Relation, type RippleCard, type RippleEvent, type RippleHistory, type RippleHit, type RippleSinceEvent, type SightingsFeed } from "@falcon/ripple";
 
 const DIRECTIONS: readonly Direction[] = ["up", "down", "unclear"];
 const CONFIDENCES: readonly Confidence[] = ["low", "medium", "high"];
-const RELATIONS: readonly Relation[] = ["customer", "supplier", "competitor", "peer"];
+const RELATIONS: readonly Relation[] = ["customer", "supplier", "competitor", "peer", "self"];
+const LINK_CLARITIES = ["direct", "inferred", "weak"];
+/** Where link evidence may come from: SEC filings, and (v1) the Federal Register, BIS and war.gov for government events. */
+const EVIDENCE_HOSTS = /^https:\/\/(www\.sec\.gov|www\.federalregister\.gov|www\.bis\.gov|www\.war\.gov)\//;
 const KINDS: readonly RippleEvent["kind"][] = ["earnings_surprise", "guidance", "filing", "news"];
 
 /** Words that turn information into advice, a promise or hype. */
@@ -72,8 +75,13 @@ export function evidenceProblems(e: LinkEvidence, where: string): string[] {
   if (!nonEmpty(e.quote) || e.quote.length < 20) out.push(`${where}: quote missing or too short`);
   if (!nonEmpty(e.form)) out.push(`${where}: form missing`);
   if (!/^\d{4}-\d{2}-\d{2}$/.test(e.filedAt ?? "")) out.push(`${where}: filedAt not a date`);
-  if (!/^https:\/\/www\.sec\.gov\//.test(e.url ?? "")) out.push(`${where}: url is not an SEC filing`);
+  if (!EVIDENCE_HOSTS.test(e.url ?? "")) out.push(`${where}: url is not an SEC filing or a government source`);
   return out;
+}
+
+/** The text with a company's name taken out, for the framing check. Pure. */
+export function withoutName(text: string, name: string | undefined): string {
+  return name && name.trim().length > 1 ? text.split(name).join("the company") : text;
 }
 
 export function hitProblems(h: RippleHit, where: string): string[] {
@@ -83,6 +91,7 @@ export function hitProblems(h: RippleHit, where: string): string[] {
   if (!RELATIONS.includes(h.relation)) out.push(`${where}: bad relation`);
   if (h.degree !== 1 && h.degree !== 2) out.push(`${where}: degree must be 1 or 2`);
   if (h.degree === 2 && !nonEmpty(h.via)) out.push(`${where}: degree 2 needs via`);
+  if (h.relation === "self" && h.degree !== 1) out.push(`${where}: a self hit is degree 1`);
   if (h.degree === 1 && h.via !== undefined) out.push(`${where}: degree 1 has no via`);
   if (!DIRECTIONS.includes(h.direction)) out.push(`${where}: bad direction`);
   if (!CONFIDENCES.includes(h.confidence)) out.push(`${where}: bad confidence`);
@@ -92,7 +101,8 @@ export function hitProblems(h: RippleHit, where: string): string[] {
     const n = h.mechanism.split(/(?<=[.!?])\s+(?=[A-Z])/).filter(Boolean).length;
     if (n > 2) out.push(`${where}: mechanism longer than two sentences`);
     if (h.mechanism.length > 420) out.push(`${where}: mechanism too long`);
-    out.push(...framingProblems(h.mechanism, `${where}.mechanism`));
+    // A company's own name ("Target Hospitality") is not advice wording.
+    out.push(...framingProblems(withoutName(h.mechanism, h.companyName), `${where}.mechanism`));
   }
   if (!Array.isArray(h.evidence) || h.evidence.length === 0) out.push(`${where}: no evidence`);
   else h.evidence.forEach((e, i) => out.push(...evidenceProblems(e, `${where}.evidence[${i}]`)));
@@ -117,9 +127,26 @@ export function hitProblems(h: RippleHit, where: string): string[] {
   if (h.analysts !== undefined && h.analysts !== null && !(Number.isInteger(h.analysts) && h.analysts >= 0 && h.analysts < 500)) out.push(`${where}: analysts must be a whole number or null`);
   if (h.pricedIn !== undefined && typeof h.pricedIn !== "boolean") out.push(`${where}: pricedIn must be true or false`);
   if (h.pricedIn === true && (!h.sinceEvent || h.sinceEvent.pricedInAtPct === null || !h.history)) out.push(`${where}: priced in without a measured move and record`);
+  if (h.tier !== undefined && !TIERS.includes(h.tier)) out.push(`${where}: bad tier`);
+  if (h.linkClarity !== undefined && !LINK_CLARITIES.includes(h.linkClarity)) out.push(`${where}: bad linkClarity`);
+  if (h.documentedBy !== undefined) {
+    const d = h.documentedBy;
+    if (!d || !nonEmpty(d.citation) || !/^https:\/\//.test(d.url ?? "") || !nonEmpty(d.effect) || !nonEmpty(d.period) || (d.match !== "exact" && d.match !== "analogous")) out.push(`${where}: documentedBy incomplete`);
+  }
+  if (h.tier === "documented" && h.documentedBy === undefined) out.push(`${where}: a documented hit needs documentedBy`);
+  if (h.invalidatedBy !== undefined) {
+    if (!nonEmpty(h.invalidatedBy) || h.invalidatedBy.length > 240) out.push(`${where}: invalidatedBy empty or too long`);
+    else out.push(...framingProblems(h.invalidatedBy, `${where}.invalidatedBy`));
+  }
   if (h.opportunityEligible !== undefined) {
     if (typeof h.opportunityEligible !== "boolean") out.push(`${where}: opportunityEligible must be true or false`);
-    else if (h.opportunityEligible && (h.pricedIn === true || h.confidence === "low" || h.direction === "unclear" || !h.history)) out.push(`${where}: opportunityEligible on a priced-in, low, unclear or unrecorded hit`);
+    else if (h.opportunityEligible) {
+      if (h.pricedIn === true || h.direction === "unclear") out.push(`${where}: opportunityEligible on a priced-in or unclear hit`);
+      // v1: Measured, or Documented (interim rule); v0 cards without a tier: a record and not low.
+      if (h.tier !== undefined) {
+        if (h.tier === "watch") out.push(`${where}: opportunityEligible on a watch hit`);
+      } else if (h.confidence === "low" || !h.history) out.push(`${where}: opportunityEligible on a low or unrecorded hit`);
+    }
   }
   return out;
 }
@@ -151,6 +178,12 @@ export function historyProblems(x: RippleHistory | undefined, where: string, dir
   else if (Number.isInteger(x.sample) && Math.abs(x.hitRate * x.sample - Math.round(x.hitRate * x.sample)) > 0.01) out.push(`${where}: hitRate is not a count of the sample`);
   if (!Number.isInteger(x.windowDays) || x.windowDays < 1 || x.windowDays > 20) out.push(`${where}: windowDays must be 1 to 20`);
   for (const k of ["from", "to"] as const) if (x[k] !== undefined && !/^\d{4}-\d{2}-\d{2}$/.test(x[k] ?? "")) out.push(`${where}: ${k} not a date`);
+  if (x.events !== undefined) {
+    const date = /^\d{4}-\d{2}-\d{2}$/;
+    if (!Array.isArray(x.events)) out.push(`${where}: events must be a list`);
+    else if (x.events.some((e) => !e || !nonEmpty(e.accession) || !date.test(e.eventDate ?? "") || !date.test(e.reactionDate ?? "") || !Number.isFinite(e.movePct) || !Number.isFinite(e.benchmarkPct))) out.push(`${where}: an event in the record is incomplete`);
+    else if (x.events.length !== x.sample) out.push(`${where}: events do not match the sample`);
+  }
   return out;
 }
 
@@ -177,12 +210,16 @@ export function cardProblems(c: RippleCard, where = "card"): string[] {
   else out.push(...eventProblems(c.event, `${where}.event`));
   if (c.confidence !== undefined && !CONFIDENCES.includes(c.confidence)) out.push(`${where}: bad confidence`);
   if (c.pricedIn !== undefined && typeof c.pricedIn !== "boolean") out.push(`${where}: pricedIn must be true or false`);
+  if (c.tier !== undefined && !TIERS.includes(c.tier)) out.push(`${where}: bad tier`);
+  if (c.expiresAt !== undefined && !isIso(c.expiresAt)) out.push(`${where}: expiresAt not ISO`);
   if (!Array.isArray(c.hits) || c.hits.length === 0) out.push(`${where}: no hits`);
   else {
     c.hits.forEach((h, i) => out.push(...hitProblems(h, `${where}.hits[${i}]`)));
     const tickers = c.hits.map((h) => h.ticker);
     if (new Set(tickers).size !== tickers.length) out.push(`${where}: a company appears twice`);
-    if (c.event && tickers.includes(c.event.ticker)) out.push(`${where}: the event company is listed as its own hit`);
+    if (c.event && c.hits.some((h) => h.ticker === c.event.ticker && h.relation !== "self")) out.push(`${where}: the event company is listed as its own hit`);
+    if (c.event && c.hits.some((h) => h.relation === "self" && h.ticker !== c.event.ticker)) out.push(`${where}: a self hit must be the event company`);
+    if (c.tier !== undefined && bestTier(c.hits) !== null && c.tier !== bestTier(c.hits)) out.push(`${where}: tier must be the best of its hits'`);
     if (c.confidence !== undefined && c.confidence !== cardConfidenceOf(c.hits)) out.push(`${where}: confidence must be the highest of its directional hits'`);
   }
   return out;

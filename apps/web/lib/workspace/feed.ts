@@ -1,6 +1,8 @@
 import {
+  eventTypeLabel,
+  isContext,
   isWeakSignal,
-  opportunityCard,
+  opportunityCards,
   type Confidence,
   type Direction,
   type LinkEvidence,
@@ -25,6 +27,7 @@ const CONFIDENCE_WEIGHT: Record<Confidence, number> = { low: 0.34, medium: 0.67,
 const DEGREE_WEIGHT: Record<1 | 2, number> = { 1: 1, 2: 0.5 };
 const DIRECTION_SIGN: Record<Direction, number> = { up: 1, down: -1, unclear: 0 };
 
+/** Relations a link between two companies can have (graph legend and filters). "self" is never a link. */
 export const RELATIONS: readonly Relation[] = ["customer", "supplier", "competitor", "peer"];
 
 export const RELATION_LABEL: Record<Relation, string> = {
@@ -32,7 +35,13 @@ export const RELATION_LABEL: Record<Relation, string> = {
   supplier: "Supplier",
   competitor: "Competitor",
   peer: "Peer",
+  self: "The company itself",
 };
+
+/** A relation's label; a neutral one for a value this build does not know. */
+export function relationLabel(relation: string | null | undefined): string {
+  return (relation && RELATION_LABEL[relation as Relation]) || "Linked company";
+}
 
 /** "Supplier to NVDA", "Customer of NVDA": the hit company seen from the other one. */
 export function relationPhrase(relation: Relation, other: string): string {
@@ -45,6 +54,10 @@ export function relationPhrase(relation: Relation, other: string): string {
       return `Competitor of ${other}`;
     case "peer":
       return `Peer of ${other}`;
+    case "self":
+      return "The company itself";
+    default:
+      return `Linked to ${other}`;
   }
 }
 
@@ -54,7 +67,13 @@ export const INVERSE: Record<Relation, Relation> = {
   supplier: "customer",
   competitor: "competitor",
   peer: "peer",
+  self: "self",
 };
+
+/** The same link seen from the other end; an unknown relation stays as it is. */
+export function inverseRelation(relation: Relation): Relation {
+  return INVERSE[relation] ?? relation;
+}
 
 export const KIND_LABEL: Record<RippleCard["event"]["kind"], string> = {
   earnings_surprise: "Earnings",
@@ -63,8 +82,18 @@ export const KIND_LABEL: Record<RippleCard["event"]["kind"], string> = {
   news: "News",
 };
 
+/** A coarse event kind's label, "Event" for one this build does not know. */
+export function kindLabel(kind: string | null | undefined): string {
+  return (kind && KIND_LABEL[kind as RippleCard["event"]["kind"]]) || "Event";
+}
+
+/** The event's label: the engine's event type label, else the kind's, else "Event". */
+export function eventLabel(event: Pick<RippleCard["event"], "kind" | "eventType" | "eventLabel">): string {
+  return eventTypeLabel(event) ?? kindLabel(event.kind);
+}
+
 export function hitWeight(hit: Pick<RippleHit, "confidence" | "degree">): number {
-  return CONFIDENCE_WEIGHT[hit.confidence] * DEGREE_WEIGHT[hit.degree];
+  return (CONFIDENCE_WEIGHT[hit.confidence] ?? 0) * (DEGREE_WEIGHT[hit.degree] ?? 0.5);
 }
 
 /** Net direction for a set of hits: -100 (all down) to 100 (all up), null with no hits. */
@@ -74,7 +103,7 @@ export function netDirection(hits: readonly Pick<RippleHit, "confidence" | "degr
   for (const hit of hits) {
     const w = hitWeight(hit);
     total += w;
-    signed += w * DIRECTION_SIGN[hit.direction];
+    signed += w * (DIRECTION_SIGN[hit.direction] ?? 0);
   }
   if (total === 0) return null;
   return Math.round((signed / total) * 100);
@@ -141,8 +170,11 @@ function eventCount(n: number): string {
 
 /**
  * The Today summary, built from the feed and the member's focus list. Weak
- * signals (card confidence "low") are on neither list; Opportunities hold
- * only the hits the engine marked eligible (@falcon/ripple `opportunityCard`).
+ * signals (Watch tier, or card confidence "low" on older cards) are on
+ * neither list; Opportunities hold only the hits the engine marked eligible
+ * (@falcon/ripple `opportunityCards`, which applies the interim Documented
+ * rule only while no hit in the feed is Measured). Documented cards are
+ * Context: listed, but never in the hero metric.
  */
 export function buildTodaySummary(
   feed: SightingsFeed | null,
@@ -152,11 +184,9 @@ export function buildTodaySummary(
   const focus = toSet(focusTickers);
   const cards = sortByTime(feed?.cards ?? []);
   const portfolio = cards.filter((c) => touchesFocus(c, focus) && !isWeakSignal(c));
-  const opportunities = cards
-    .filter((c) => !touchesFocus(c, focus))
-    .map((c) => opportunityCard(c, focus))
-    .filter((c): c is RippleCard => c !== null);
-  const hits = portfolio.flatMap((c) => focusHits(c, focus));
+  const touched = new Set(cards.filter((c) => touchesFocus(c, focus)).map((c) => c.id));
+  const opportunities = opportunityCards(cards, focus).filter((c) => !touched.has(c.id));
+  const hits = portfolio.filter((c) => !isContext(c)).flatMap((c) => focusHits(c, focus));
   const value = netDirection(hits);
 
   let why: string;
@@ -237,7 +267,7 @@ export function connectionsFor(feed: SightingsFeed | null, ticker: string): Conn
     const fromName =
       from === card.event.ticker ? card.event.companyName : card.hits.find((h) => h.ticker === from)?.companyName ?? from;
     add(
-      { ticker: from, companyName: fromName, relation: INVERSE[own.relation], phrase: relationPhrase(INVERSE[own.relation], ticker) },
+      { ticker: from, companyName: fromName, relation: inverseRelation(own.relation), phrase: relationPhrase(inverseRelation(own.relation), ticker) },
       own.evidence,
       card.id,
     );

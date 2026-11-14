@@ -20,6 +20,9 @@ name: Sightings
 on:
   schedule:
     - cron: "0 11 * * 1-5"
+    - cron: "30 12 * * 1-5"
+    - cron: "30 17 * * 1-5"
+    - cron: "30 22 * * 1-5"
   workflow_dispatch:
     inputs:
       days:
@@ -45,7 +48,7 @@ concurrency:
 jobs:
   sightings:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 60
     env:
       SECTOR: semis
       DAYS: ${{ inputs.days || '7' }}
@@ -83,12 +86,21 @@ jobs:
       # EDGAR documents never change once filed: keeping them between runs
       # spares SEC most requests. Submissions indexes expire after 30 minutes
       # on their own (the engine checks each file's age).
-      - name: Restore the HTTP cache
+      - name: Restore the engine cache
         uses: actions/cache@v4
         with:
-          path: packages/engine/.cache/http
-          key: engine-http-${{ github.run_id }}
-          restore-keys: engine-http-
+          # HTTP (EDGAR documents, Form 4 XML), market data and coverage. The
+          # insider detector reads about 3,000 Form 4s a week: ~18 min cold,
+          # under a minute warm.
+          path: |
+            packages/engine/.cache/http
+            packages/engine/.cache/market
+            packages/engine/.cache/coverage
+            packages/engine/.cache/llm
+          key: engine-cache-${{ github.run_id }}
+          restore-keys: |
+            engine-cache-
+            engine-http-
 
       - name: Apply migrations
         if: env.DRY_RUN == ''

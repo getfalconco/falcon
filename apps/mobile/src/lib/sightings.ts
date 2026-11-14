@@ -2,8 +2,9 @@ import { useCallback, useEffect, useSyncExternalStore } from "react";
 import { AppState } from "react-native";
 import {
   cardConfidence,
+  isContext,
   isWeakSignal,
-  opportunityCard,
+  opportunityCards as feedOpportunityCards,
   splitWeakSignals,
   type Confidence,
   type Direction,
@@ -253,18 +254,18 @@ export function portfolioCards(cards: RippleCard[], held: Set<string>): RippleCa
 
 /**
  * Opportunities: cards that only reach companies outside the portfolio, each
- * with only the hits the engine marked `opportunityEligible` (a record better
- * than a coin flip, not low, not priced in); never a weak signal. Followed
- * sectors first.
+ * with only the hits that pass @falcon/ripple `opportunityHit` (the engine's
+ * `opportunityEligible` flag; Measured, or Documented own-firm under the
+ * interim rule while no hit in the feed is Measured); never a weak signal.
+ * Followed sectors first.
  */
 export function opportunityCards(cards: RippleCard[], held: Set<string>, sectors: SectorId[]): RippleCard[] {
   const followed = new Set<string>(
     sectors.flatMap((id) => [id, sectorKey(SECTORS.find((s) => s.id === id)?.label ?? id)]),
   );
-  return cards
-    .filter((card) => !hitsPortfolio(card, held))
-    .map((card) => opportunityCard(card, held))
-    .filter((card): card is RippleCard => card !== null)
+  const touched = new Set(cards.filter((card) => hitsPortfolio(card, held)).map((card) => card.id));
+  return feedOpportunityCards(cards, held)
+    .filter((card) => !touched.has(card.id))
     .sort(
       (a, b) =>
         Number(followsSector(b, followed)) - Number(followsSector(a, followed)) ||
@@ -326,7 +327,7 @@ function localDate(d: Date): string {
   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
 }
 
-/** Weak signals outside the portfolio (card confidence "low"), newest first. */
+/** The Watch list outside the portfolio (Watch tier; card confidence "low" on older cards), newest first. */
 export function weakOutsideCards(cards: RippleCard[], held: Set<string>): RippleCard[] {
   return cards
     .filter((card) => !hitsPortfolio(card, held) && isWeakSignal(card))
@@ -335,14 +336,24 @@ export function weakOutsideCards(cards: RippleCard[], held: Set<string>): Ripple
 
 export { splitWeakSignals };
 
-/** Today's top block, built from the feed on the phone. Weak signals are on neither list. */
+/**
+ * Today's top block, built from the feed on the phone. Weak signals are on
+ * neither list. Documented cards are Context: listed, never in the hero metric.
+ */
 export function buildToday(feed: SightingsFeed | null, holdings: Holdings | null | undefined): TodaySummary {
   const held = heldTickers(holdings);
   const cards = feed?.cards ?? [];
   const portfolio = splitWeakSignals(portfolioCards(cards, held)).strong;
   return {
     date: localDate(new Date()),
-    metric: { kind: "net_direction", value: netDirection(portfolio, held), label: "Net direction" },
+    metric: {
+      kind: "net_direction",
+      value: netDirection(
+        portfolio.filter((card) => !isContext(card)),
+        held,
+      ),
+      label: "Net direction",
+    },
     why: feed ? whyLine(portfolio, held) : "",
     portfolio,
     opportunities: opportunityCards(cards, held, holdings?.sectors ?? []),
