@@ -309,3 +309,37 @@ v1a (above, "Tiers"): the flag is set by the tier rule, and
 `opportunityCards` (feed level) lists Documented own-firm hits only while no
 hit in the feed is Measured. The v0 rule stays for older cards without a
 tier.
+
+## Graph v1 extraction (pilot)
+
+The live engine reads `data/graph.json` (semis, `scripts/build-graph.ts`).
+`src/graph/*` and three scripts build a whole-market graph in the same shape
+into a separate file; nothing reads it yet.
+
+1. `pnpm --filter @falcon/engine run graph-universe -- --n 1500`: Nasdaq /
+   NYSE / Cboe operating companies (SEC `company_tickers_exchange.json`; 10-K
+   filers with a public float under $300M per SEC XBRL frames
+   `dei:EntityPublicFloat` are skipped before pricing) that pass the
+   liquidity gate (`isLiquid`, read by `liquidityOf` from the same daily
+   closes the Sightings run uses), ranked by 20-day median dollar volume.
+   Written to `.cache/graph-universe/` (price-derived, never committed).
+2. `pnpm --filter @falcon/engine run graph-extract -- --pilot --verify sonnet`
+   (or `--universe FILE`, `--tickers A,B`): each filer's latest 10-K, 20-F or
+   40-F; `locateLinkPassages` keeps up to 120k characters of passages that
+   can name a link (concentration notes and sole sources first) from the
+   business Items; Claude Haiku 5.5 lists links in 15k-character calls
+   (stage A); `checkLink` keeps a link only when its quote is in the filing
+   word for word, names the counterparty and holds any share it claims;
+   `resolveCounterparty` finds a US listing (aliases, SEC titles, a checked
+   model guess) or keeps the name without a ticker; Claude Sonnet 5.5 reads
+   every kept link again from its quote alone (stage B) and drops or
+   relabels it. Edges carry the accession, the Item, the share and its
+   basis. Output `data/graph-pilot.json`; the full run (every proposal and
+   rejection) goes to `.cache/graph-extract/`. Filings and model answers are
+   cached on disk, so a rerun pays only for what changed;
+   `FALCON_LLM_CACHE=0` turns the model cache off.
+3. `pnpm --filter @falcon/engine run graph-pilot-eval -- --labels data/graph-pilot-labels.json`:
+   edges per filer and sector, resolution, rejections, tokens and dollars
+   per filer, recall against `data/graph.json` for the filers both read, and
+   precision from hand labels (`data/graph-pilot-labels*.json`: what the
+   named company is to the filer according to the quote, labelled blind).
