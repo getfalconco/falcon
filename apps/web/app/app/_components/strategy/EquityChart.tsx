@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { MONO } from "../parts";
+import { observeSettledSize } from "../shell/resize";
 
 export type ChartSeries = {
   id: string;
@@ -47,9 +48,7 @@ export function EquityChart({ dates, series, height = 300 }: { dates: string[]; 
   useEffect(() => {
     const el = box.current;
     if (!el) return;
-    const ro = new ResizeObserver(([entry]) => setWidth(Math.floor(entry!.contentRect.width)));
-    ro.observe(el);
-    return () => ro.disconnect();
+    return observeSettledSize(el, (rect) => setWidth(Math.floor(rect.width)));
   }, []);
 
   const n = dates.length;
@@ -150,7 +149,7 @@ export function EquityChart({ dates, series, height = 300 }: { dates: string[]; 
   return (
     <div
       ref={box}
-      className="relative select-none outline-none focus-visible:ring-2 focus-visible:ring-black/20"
+      className="relative select-none outline-none [overflow-x:clip] focus-visible:ring-2 focus-visible:ring-black/20"
       style={{ height }}
       tabIndex={0}
       role="img"

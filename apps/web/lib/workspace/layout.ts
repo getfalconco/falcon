@@ -17,12 +17,35 @@ export type Tab =
   | { id: string; kind: "sighting"; cardId: string; title?: string }
   | { id: string; kind: "strategy"; strategyId: string };
 
+/**
+ * Split view: a second pane next to the view in focus. `other` is a tab id,
+ * "focus", "sightings" or "help"; `side` is where that pane sits; `ratio` is
+ * the left pane's share of the width.
+ */
+export type SplitState = { other: string; side: "left" | "right"; ratio: number };
+
 export type WorkspaceLayout = {
   tabs: Tab[];
   activeId: string;
   sidebarOpen: boolean;
   contextOpen: boolean;
+  /** Missing in layouts saved before split view; null when there is one pane. */
+  split?: SplitState | null;
 };
+
+export const SPLIT_SECTIONS = ["focus", "sightings", "help"] as const;
+export const MIN_SPLIT_RATIO = 0.2;
+export const MAX_SPLIT_RATIO = 0.8;
+
+function parseSplit(raw: unknown, tabs: Tab[]): SplitState | null {
+  if (!raw || typeof raw !== "object") return null;
+  const s = raw as Record<string, unknown>;
+  const other = typeof s.other === "string" ? s.other : "";
+  const known = (SPLIT_SECTIONS as readonly string[]).includes(other) || other === "dashboard" || other === "graph" || tabs.some((t) => t.id === other);
+  if (!known) return null;
+  const ratio = typeof s.ratio === "number" && Number.isFinite(s.ratio) ? Math.min(MAX_SPLIT_RATIO, Math.max(MIN_SPLIT_RATIO, s.ratio)) : 0.5;
+  return { other, side: s.side === "left" ? "left" : "right", ratio };
+}
 
 export const MAX_TABS = 24;
 
@@ -40,9 +63,12 @@ export const DEFAULT_LAYOUT: WorkspaceLayout = {
   activeId: DASHBOARD_TAB.id,
   sidebarOpen: true,
   contextOpen: true,
+  split: null,
 };
 
-const KEY_PREFIX = "falcon.workspace.v1";
+/** Keyed by storage scope (lib/workspace/workspaces.ts): `<prefix>:<userId>` for main, `<prefix>:<userId>:<workspaceId>` otherwise. */
+export const LAYOUT_KEY_PREFIX = "falcon.workspace.v1";
+const KEY_PREFIX = LAYOUT_KEY_PREFIX;
 let memory: { userId: string; layout: WorkspaceLayout } | null = null;
 
 function parseTab(raw: unknown): Tab | null {
@@ -93,6 +119,7 @@ export function readLayout(userId: string): WorkspaceLayout {
       activeId: activeId ?? "",
       sidebarOpen: parsed.sidebarOpen !== false,
       contextOpen: parsed.contextOpen !== false,
+      split: parseSplit(parsed.split, tabs),
     };
   } catch {
     return DEFAULT_LAYOUT;

@@ -5,6 +5,7 @@ import type { Relation } from "@falcon/ripple";
 import { layoutGraph, type Graph } from "@/lib/workspace/graph";
 import { relationLabel } from "@/lib/workspace/feed";
 import { INK, MONO, netColor } from "./parts";
+import { observeSettledSize } from "./shell/resize";
 
 export const RELATION_COLOR: Record<Relation, string> = {
   customer: "#4f74a8",
@@ -72,12 +73,9 @@ export function GraphView({
   useEffect(() => {
     const svg = svgRef.current;
     if (!svg) return;
-    const observer = new ResizeObserver(([entry]) => {
-      const { width, height } = entry.contentRect;
+    return observeSettledSize(svg, ({ width, height }) => {
       if (width > 0 && height > 0) setFrame({ w: width, h: height });
     });
-    observer.observe(svg);
-    return () => observer.disconnect();
   }, []);
 
   // The drawing's bounds, padded for labels.

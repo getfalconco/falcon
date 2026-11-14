@@ -183,7 +183,7 @@ function SightingContext({ cardId }: { cardId: string }) {
   );
 }
 
-/** Right panel: details for whatever tab is active. */
+/** Right panel inside the white card: details for whatever tab is active. */
 export function ContextPanel({ tab }: { tab: Tab | null }) {
   let body: React.ReactNode = <p className="text-[12px] text-[#9a9a9a]">No details</p>;
   if (tab?.kind === "dashboard") body = <DashboardContext />;
@@ -192,11 +192,8 @@ export function ContextPanel({ tab }: { tab: Tab | null }) {
   else if (tab?.kind === "sighting") body = <SightingContext cardId={tab.cardId} />;
   else if (tab?.kind === "strategy") body = <StrategyContext strategyId={tab.strategyId} />;
   return (
-    <aside className="flex h-full w-[280px] shrink-0 flex-col border-l border-black/[0.08] bg-[#f6f6f3]" aria-label="Details">
-      <div className="flex h-10 shrink-0 items-center border-b border-black/[0.08] px-4">
-        <span className="text-[12.5px] text-[#1d1b1b]">Details</span>
-      </div>
-      <div className="flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto px-4 py-3">{body}</div>
+    <aside className="flex h-full w-[280px] shrink-0 flex-col border-l border-black/[0.08]" aria-label="Details">
+      <div className="flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto px-5 py-4">{body}</div>
     </aside>
   );
 }

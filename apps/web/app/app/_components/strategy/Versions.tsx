@@ -4,7 +4,7 @@ import { formulasOf, type StrategySpecV2 } from "@falcon/backtest";
 import type { SpecVersion } from "@/lib/workspace/strategies";
 import { MONO, Panel, SectionTitle, timeAgo } from "../parts";
 
-const SOURCE: Record<SpecVersion["source"], string> = {
+export const SOURCE: Record<SpecVersion["source"], string> = {
   chat: "by chat",
   template: "from a starter",
   formula: "formula edit",

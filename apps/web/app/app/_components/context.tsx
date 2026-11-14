@@ -26,6 +26,8 @@ export type WorkspaceApi = {
   strategies: SavedStrategy[];
   openStrategy: (strategyId: string) => void;
   newStrategy: (init?: Parameters<typeof createStrategy>[1]) => void;
+  /** Closes an open tab (ticker, sighting, strategy) by its id. */
+  closeTab: (id: string) => void;
   /** Deletes a saved strategy and closes its tab. */
   deleteStrategy: (strategyId: string) => void;
   /** Opens a Strategy tab that tests past events like this card's, and runs it. */

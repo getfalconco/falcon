@@ -12,14 +12,29 @@ import { MAX_STOCKS, TICKER_PATTERN, type PickedStock } from "@/lib/onboarding";
  *      which is the only copy in funnel test mode)
  *   2. this browser, per user id (not in funnel test mode)
  *   3. the server: GET /api/onboarding -> { watchlist }
+ *
+ * `userId` here is a storage scope (lib/workspace/workspaces.ts): the user id
+ * for the main workspace, `<userId>:<workspaceId>` for the others. Only the
+ * main workspace's list comes from or goes to the server; the Workspace
+ * decides that, these functions only read and write this browser.
  */
 
 export type FocusItem = { ticker: string; name: string };
 
-let memory: FocusItem[] | null = null;
+/**
+ * The list held for this page visit, with the scope it belongs to; null scope
+ * is the welcome flow's hand-over, which is for the main workspace.
+ */
+let memory: { scope: string | null; items: FocusItem[] } | null = null;
 let finishedThisVisit = false;
 
-const KEY_PREFIX = "falcon.focus.v1";
+export const FOCUS_KEY_PREFIX = "falcon.focus.v1";
+const KEY_PREFIX = FOCUS_KEY_PREFIX;
+
+/** The main workspace's scope is the bare user id; other workspaces add `:<workspaceId>`. */
+function isMainScope(scope: string): boolean {
+  return !scope.includes(":");
+}
 
 function clean(items: readonly { ticker: string; name?: string }[]): FocusItem[] {
   const seen = new Set<string>();
@@ -35,7 +50,7 @@ function clean(items: readonly { ticker: string; name?: string }[]): FocusItem[]
 
 /** Called by the welcome flow as it hands over to the Workspace. */
 export function handOverFromWelcome(stocks: readonly PickedStock[]): void {
-  memory = clean(stocks);
+  memory = { scope: null, items: clean(stocks) };
   finishedThisVisit = true;
 }
 
@@ -49,7 +64,7 @@ function key(userId: string): string {
 }
 
 export function readLocalFocus(userId: string): FocusItem[] | null {
-  if (memory) return memory;
+  if (memory && (memory.scope === userId || (memory.scope === null && isMainScope(userId)))) return memory.items;
   if (FUNNEL_TEST_MODE || typeof window === "undefined") return null;
   try {
     const raw = localStorage.getItem(key(userId));
@@ -64,10 +79,11 @@ export function readLocalFocus(userId: string): FocusItem[] | null {
 }
 
 export function writeLocalFocus(userId: string, items: readonly FocusItem[]): void {
-  memory = clean(items);
+  const list = clean(items);
+  memory = { scope: userId, items: list };
   if (FUNNEL_TEST_MODE || typeof window === "undefined") return;
   try {
-    localStorage.setItem(key(userId), JSON.stringify(memory));
+    localStorage.setItem(key(userId), JSON.stringify(list));
   } catch {
     // Storage unavailable: the server copy still has it.
   }
