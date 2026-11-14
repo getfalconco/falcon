@@ -832,7 +832,6 @@ function WorkspaceScoped({
               }}
               onSplit={(item) => splitWith("nav" in item ? (item.nav === "strategy" ? labTarget() : item.nav) : item.target)}
               onCloseSplit={closePane}
-              onGuide={() => setGuideOpen(true)}
               onHelp={openHelp}
               onSignOut={signOut}
               status={
