@@ -13,25 +13,30 @@ export type Check = {
   tier: "A" | "B";
   level: CheckLevel;
   status: CheckStatus;
-  /** Deterministic sentence(s) with numbers filled in by the server. */
+  /** Deterministic sentence(s) with numbers filled in by the server (technical, for "All checks"). */
   detail: string;
+  /** The same finding in plain words for anyone, shown as the flag; falls back to `detail`. */
+  plain?: string;
 };
 
 export type EvidenceLevel = "insufficient" | "thin" | "some" | "consistent";
 
 export const EVIDENCE_TITLE: Record<EvidenceLevel, string> = {
-  insufficient: "Insufficient sample",
-  thin: "Thin",
-  some: "Some",
-  consistent: "Consistent",
+  insufficient: "Not enough trades to judge",
+  thin: "Weak evidence",
+  some: "Some evidence",
+  consistent: "Strong evidence",
 };
 
-export const EVIDENCE_HEADING = "Evidence in past data";
+export const EVIDENCE_HEADING = "How much can you trust this result?";
 
 export const EVIDENCE_SUBTITLE =
-  "This describes the past only. Published effects often shrink: of 447 anomalies, 64% were not significant once microcaps were handled, and 85% failed a t of 3 hurdle (Hou, Xue & Zhang, https://www.nber.org/papers/w23394).";
+  "This only describes the past. Strategies that look good on past data usually do worse afterwards: in one large study, most published patterns did not hold up when checked again.";
 
-export const HYPOTHETICAL = "Hypothetical, simulated on past data. Not a forecast.";
+/** The study behind the subtitle, shown as a link. */
+export const EVIDENCE_SOURCE = { label: "Hou, Xue & Zhang, Replicating Anomalies", url: "https://www.nber.org/papers/w23394" } as const;
+
+export const HYPOTHETICAL = "Simulated on past data. Not a forecast.";
 
 /** Numbers the flag templates and Explain slots refer to, by path (e.g. "delay.drop_pct"). */
 export type ReportValues = Record<string, Record<string, number | string | null>>;
@@ -40,7 +45,7 @@ export type Flag = { check_id: number; severity: "high" | "medium" | "low"; text
 
 export type QualityReport = {
   tiers: ("A" | "B")[];
-  label: { level: EvidenceLevel; title: string; heading: string; subtitle: string; reasons: string[] };
+  label: { level: EvidenceLevel; title: string; heading: string; subtitle: string; reasons: string[]; source?: { label: string; url: string } };
   checks: Check[];
   flags: Flag[];
   values: ReportValues;
@@ -77,5 +82,5 @@ export function topFlags(checks: Check[], values: ReportValues): Flag[] {
     .filter((c) => c.status === "gate" || c.status === "warn")
     .sort((a, b) => sev(a) - sev(b) || a.id - b.id)
     .slice(0, 5)
-    .map((c) => ({ check_id: c.id, severity: c.status === "gate" ? "high" : c.id === 6 || c.id === 9 || c.id === 10 || c.id === 14 ? "high" : "medium", text: fill(c.detail, values) }));
+    .map((c) => ({ check_id: c.id, severity: c.status === "gate" ? "high" : c.id === 6 || c.id === 9 || c.id === 10 || c.id === 14 ? "high" : "medium", text: fill(c.plain ?? c.detail, values) }));
 }

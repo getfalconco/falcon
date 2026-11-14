@@ -23,7 +23,7 @@ import { blockBootstrap, deflatedSharpe, hacT, mean, median, percentileOf, quant
 import { hash53, rng } from "../util";
 import type { Benchmarks, CheckedSpec, Sim } from "../run";
 import { dailyRets, simulateSpec } from "../run";
-import { EVIDENCE_HEADING, EVIDENCE_SUBTITLE, EVIDENCE_TITLE, topFlags, type Check, type EvidenceLevel, type QualityReport, type ReportValues } from "./report";
+import { EVIDENCE_HEADING, EVIDENCE_SUBTITLE, EVIDENCE_SOURCE, EVIDENCE_TITLE, topFlags, type Check, type EvidenceLevel, type QualityReport, type ReportValues } from "./report";
 
 export type TierAInput = {
   check: CheckedSpec;
@@ -260,6 +260,8 @@ function concentration(trades: TradeV2[], yearly: { year: string; active: number
 
 export function evidenceLabel(v: {
   insufficient: boolean;
+  /** The plain sample-size sentence, shown as the reason when the sample is too small. */
+  insufficientText?: string;
   t: number;
   costsPass: boolean;
   delayPass: boolean;
@@ -268,17 +270,18 @@ export function evidenceLabel(v: {
   listUniverse: boolean;
   activeVsEw: number | null;
 }): { level: EvidenceLevel; reasons: string[] } {
-  if (v.insufficient) return { level: "insufficient", reasons: ["The sample is too small (check 6)."] };
+  if (v.insufficient) return { level: "insufficient", reasons: [v.insufficientText ?? "There are too few trades to tell a pattern from luck."] };
   const reasons: string[] = [];
-  if (!(v.t >= 2)) reasons.push("The active return's t statistic is below 2.");
-  if (!v.costsPass) reasons.push("The result does not survive twice the modelled costs.");
-  if (!v.delayPass) reasons.push("Waiting one session removes more than half of the result.");
-  if (v.nullPct !== null && !(v.nullPct >= 90)) reasons.push("It is below the 90th percentile of random versions.");
+  if (!(v.t >= 2)) reasons.push("The gain over the benchmark is too small and too uneven to rule out luck.");
+  if (!v.costsPass) reasons.push("With trading costs doubled, the gain disappears.");
+  if (!v.delayPass) reasons.push("Acting one day later removes more than half of the result, so it depends on perfect timing.");
+  if (v.nullPct !== null && !(v.nullPct >= 90)) reasons.push("Random versions of the same strategy often did as well.");
   if (reasons.length) return { level: "thin", reasons };
-  if (!(v.dsr >= 0.8)) return { level: "thin", reasons: ["The deflated Sharpe ratio is below 0.80."] };
-  if (v.listUniverse && !(v.activeVsEw !== null && v.activeVsEw > 0)) return { level: "thin", reasons: ["It does not beat holding the same list at equal weight."] };
-  if (v.t >= 2.5 && v.dsr >= 0.95) return { level: "consistent", reasons: ["t of 2.5 or more, passes costs, delay and the null, DSR of 0.95 or more."] };
-  return { level: "some", reasons: ["t of 2 or more, passes costs, delay and the null, DSR of 0.80 or more."] };
+  if (!(v.dsr >= 0.8)) return { level: "thin", reasons: ["Counting how many versions were tried, a result this good could be luck."] };
+  if (v.listUniverse && !(v.activeVsEw !== null && v.activeVsEw > 0)) return { level: "thin", reasons: ["Simply holding the same stocks at equal weight did as well or better."] };
+  if (v.t >= 2.5 && v.dsr >= 0.95)
+    return { level: "consistent", reasons: ["The gain was steady, survived doubled costs and a one-day delay, and beat random versions, even counting how many versions were tried."] };
+  return { level: "some", reasons: ["The gain survived doubled costs and a one-day delay and beat random versions, but it is not yet strong."] };
 }
 
 export function tierA(input: TierAInput): QualityReport {
@@ -375,6 +378,10 @@ export function tierA(input: TierAInput): QualityReport {
       typedList && yearsBack > 1
         ? `The list of ${universe.length} tickers was typed today and the test starts ${r1(yearsBack)} years ago: names chosen today tend to be the winners of that period.`
         : "The universe is not a list chosen today for a long look-back.",
+    plain:
+      typedList && yearsBack > 1
+        ? `These ${universe.length} stocks were picked today, but the test starts ${r1(yearsBack)} years ago. Stocks we know today are often the ones that did well, which flatters the result.`
+        : undefined,
   });
   checks.push({
     id: 15,
@@ -383,6 +390,7 @@ export function tierA(input: TierAInput): QualityReport {
     level: "W",
     status: spec.universe.kind === "rule" || universe.length > 1 ? "warn" : "info",
     detail: "Universe: today's listed companies. Delisted, merged and bankrupt names are missing, which tends to flatter lists of stocks.",
+    plain: "Only companies that still trade today are in the data. Ones that went bankrupt or were bought are missing, which usually makes results look better.",
   });
 
   // Event-study mode: sample in independent dates, null by pseudo-events.
@@ -398,6 +406,11 @@ export function tierA(input: TierAInput): QualityReport {
       level: "W",
       status: insufficient ? "warn" : "pass",
       detail: insufficient ? `${w.n} events on ${g} separate dates over ${r1(years)} years: fewer than 20 independent dates is too few to tell an effect from noise.` : `${w.n} events on ${g} separate dates.`,
+      plain: insufficient
+        ? years < 3
+          ? `The test covers only ${r1(years)} years. Use at least 3 years to judge.`
+          : `Only ${g} separate days with events. With fewer than 20, a good or bad average can easily be luck.`
+        : undefined,
     });
     const nulls = eventNull(study, prep, w.window, 50, seed);
     const pct = percentileOf(w.meanPct, nulls);
@@ -409,6 +422,7 @@ export function tierA(input: TierAInput): QualityReport {
       level: "I",
       status: pct >= 90 ? "pass" : "warn",
       detail: `The average move beat ${Math.round((pct / 100) * nulls.length)} of ${nulls.length} sets of pseudo-events on random dates in the same months.`,
+      plain: `Picking random days in the same months gave a move as large ${nulls.length - Math.round((pct / 100) * nulls.length)} times out of ${nulls.length}, so the events may not matter.`,
     });
     values.event = { mean_pct: r2(w.meanPct), t: r2(w.t), dates_up: w.datesUp, dates: g, window: w.window };
     checks.push({
@@ -419,7 +433,7 @@ export function tierA(input: TierAInput): QualityReport {
       status: "info",
       detail: `Clustered by event date: t of ${r2(w.t)} with ${w.df} degrees of freedom${w.wildP !== null ? `, wild bootstrap p of ${r2(w.wildP)}` : ""}.`,
     });
-    const lab = evidenceLabel({ insufficient, t: w.t, costsPass: true, delayPass: Math.sign(w.tradableMeanPct) === Math.sign(w.meanPct) && Math.abs(w.tradableMeanPct) >= Math.abs(w.meanPct) / 2, nullPct: pct, dsr: 1, listUniverse: false, activeVsEw: null });
+    const lab = evidenceLabel({ insufficient, insufficientText: checks.find((c) => c.id === 6)?.plain, t: w.t, costsPass: true, delayPass: Math.sign(w.tradableMeanPct) === Math.sign(w.meanPct) && Math.abs(w.tradableMeanPct) >= Math.abs(w.meanPct) / 2, nullPct: pct, dsr: 1, listUniverse: false, activeVsEw: null });
     return finish(checks, values, lab);
   }
 
@@ -449,6 +463,13 @@ export function tierA(input: TierAInput): QualityReport {
           ? `Only ${trades.length} trades over ${r1(years)} years: under 30 is too few to tell a pattern from luck.`
           : `Only ${decisions} rebalance dates: under 30 is too few to judge.`
       : `${trades.length} trades over ${r1(years)} years.`,
+    plain: insufficient
+      ? years < 3
+        ? `The test covers only ${r1(years)} years. Use at least 3 years to judge.`
+        : p.mode === "rules"
+          ? `Only ${trades.length} ${trades.length === 1 ? "trade" : "trades"} in ${r1(years)} years. With fewer than 30, a good or bad result can easily be luck. A longer period, more tickers or a rule that triggers more often gives more trades.`
+          : `Only ${decisions} rebalances. With fewer than 30, a good or bad result can easily be luck. A longer period or a more frequent rebalance gives more.`
+      : undefined,
   });
 
   // 7. Benchmarks and null.
@@ -484,6 +505,15 @@ export function tierA(input: TierAInput): QualityReport {
           ? `The average trade beat ${values.null.beaten} of ${nulls!.length} random versions with the same number of trades and holding periods.`
           : `The result beat ${values.null.beaten} of ${nulls!.length} random versions (${p.mode === "rank" ? "the same number of names picked at random" : "the timing shuffled in blocks of about a quarter"}).`) +
       (ewActive !== null ? ` Against holding the same list at equal weight: ${r2(ewActive)}% a year.` : ""),
+    plain:
+      nullPct !== null && nullPct < 90
+        ? (p.mode === "rules"
+            ? `Random trades did about as well: the average trade beat only ${values.null.beaten} of ${nulls!.length} random versions with the same number of trades.`
+            : p.mode === "rank"
+              ? `Picking names at random did about as well: the result beat only ${values.null.beaten} of ${nulls!.length} random picks.`
+              : `Shuffling the timing did about as well: the result beat only ${values.null.beaten} of ${nulls!.length} shuffled versions.`) +
+          (ewActive !== null && ewActive < 0 ? ` Simply holding the same list at equal weight did better, by ${r2(Math.abs(ewActive))}% a year.` : "")
+        : undefined,
   });
 
   // 8. Uncertainty.
@@ -523,6 +553,9 @@ export function tierA(input: TierAInput): QualityReport {
     level: "W",
     status: costWarn ? "warn" : "pass",
     detail: `At twice the modelled costs the active return is ${r2(x2Active)}% a year (${r2(activeAnnual)}% at modelled costs). Modelled cost ${r1(modelledBps)} bp per dollar traded; break-even about ${Number.isFinite(breakEvenBps) ? r1(breakEvenBps) : "n/a"} bp. One-sided turnover ${r1(monthlyOneSided)}% a month.`,
+    plain: costWarn
+      ? `Trading costs matter a lot here: with costs doubled, the yearly gain over the benchmark goes from ${r2(activeAnnual)}% to ${r2(x2Active)}%.${monthlyOneSided > 50 ? ` It trades a lot, about ${r1(monthlyOneSided)}% of the portfolio each month.` : ""}`
+      : undefined,
   });
 
   // 10. Delay.
@@ -538,6 +571,7 @@ export function tierA(input: TierAInput): QualityReport {
     level: "W",
     status: delayPass ? "pass" : "warn",
     detail: drop === null ? `Entering one session later gives ${r2(dActive)}% a year active.` : `Waiting one extra session removed ${r1(Math.max(0, drop))}% of the result (${r2(dActive)}% a year active).`,
+    plain: delayPass ? undefined : `The result depends on perfect timing: acting one day later removed ${r1(Math.max(0, drop ?? 0))}% of it.`,
   });
 
   // 12. Concentration shares.
@@ -576,6 +610,7 @@ export function tierA(input: TierAInput): QualityReport {
     level: "W",
     status: concParts.length ? "warn" : "pass",
     detail: concParts.length ? concParts.join(" ") : "No single ticker, handful of trades or year makes most of the result.",
+    plain: concParts.length ? `${concParts.join(" ")} The result rests on a few lucky moments.` : undefined,
   });
 
   // 16. Liquidity.
@@ -590,6 +625,9 @@ export function tierA(input: TierAInput): QualityReport {
     detail: liqWarn
       ? `${sim.overAdv} entries were above 1% of the stock's average daily dollar volume${sim.minRawPrice !== null && sim.minRawPrice < 5 ? `; the lowest price traded was $${r2(sim.minRawPrice)}` : ""}. Market impact is not modelled.`
       : `The largest position was ${sim.maxAdvPct === null ? "n/a" : `${r2(sim.maxAdvPct)}%`} of a day's average dollar volume.`,
+    plain: liqWarn
+      ? `${sim.overAdv > 0 ? `${sim.overAdv} trades were large compared with how much the stock trades in a day, so real orders could move the price.` : ""}${sim.minRawPrice !== null && sim.minRawPrice < 5 ? ` Some trades were in stocks under $5, which are harder to trade.` : ""}`.trim()
+      : undefined,
   });
 
   // 17. Multiple testing.
@@ -602,10 +640,15 @@ export function tierA(input: TierAInput): QualityReport {
     level: "I",
     status: input.trials > 1 && dsr < 0.8 ? "warn" : "info",
     detail: `Trial ${input.trials} of this strategy in this browser. Deflated Sharpe ratio of the active return: ${Number.isFinite(dsr) ? r2(dsr) : "n/a"} (the chance the true Sharpe is above what ${input.trials} ${input.trials === 1 ? "try" : "tries"} would give by luck).`,
+    plain:
+      input.trials > 1 && dsr < 0.8
+        ? `You have tried ${input.trials} versions of this strategy. After that many tries, a result this good could be luck.`
+        : undefined,
   });
 
   const lab = evidenceLabel({
     insufficient,
+    insufficientText: checks.find((c) => c.id === 6)?.plain,
     t,
     costsPass,
     delayPass,
@@ -624,10 +667,11 @@ function finish(checks: Check[], values: ReportValues, lab: { level: EvidenceLev
     tiers: ["A"],
     label: {
       level: gated ? "insufficient" : lab.level,
-      title: gated ? "No result: a gate check failed" : EVIDENCE_TITLE[lab.level],
+      title: gated ? "No result: the rules failed a safety check" : EVIDENCE_TITLE[lab.level],
       heading: EVIDENCE_HEADING,
       subtitle: EVIDENCE_SUBTITLE,
       reasons: lab.reasons,
+      source: { ...EVIDENCE_SOURCE },
     },
     checks,
     flags: topFlags(checks, values),
@@ -661,7 +705,7 @@ export function tierB(check: CheckedSpec, prep: Prepared, base: Sim, bench: Benc
     const stat = p.mode === "rules" ? mean(base.sim.trades.map((t) => t.returnPct)) : activeAnnual;
     const pct = percentileOf(stat, nulls);
     values.null_b = { percentile: Math.round(pct * 10) / 10, seeds: nulls.length, beaten: Math.round((pct / 100) * nulls.length) };
-    checks.push({ id: 7, name: "Null comparison (200 seeds)", tier: "B", level: "I", status: pct >= 90 ? "pass" : "warn", detail: `The result beat ${values.null_b.beaten} of ${nulls.length} random versions.` });
+    checks.push({ id: 7, name: "Null comparison (200 seeds)", tier: "B", level: "I", status: pct >= 90 ? "pass" : "warn", detail: `The result beat ${values.null_b.beaten} of ${nulls.length} random versions.`, plain: pct >= 90 ? undefined : `Random versions of the same strategy often did as well: the result beat only ${values.null_b.beaten} of ${nulls.length}.` });
   }
 
   // 11. Parameter neighbourhood.
@@ -692,6 +736,7 @@ export function tierB(check: CheckedSpec, prep: Prepared, base: Sim, bench: Benc
         level: "W",
         status: warn ? "warn" : "pass",
         detail: `Moving each parameter 20% either way (${neigh.length} runs): median active return ${r2(med)}% a year, lowest quarter ${r2(q25)}%, against ${r2(activeAnnual)}% as chosen.`,
+        plain: warn ? `Small changes to the settings change the result a lot: nudging each setting 20% gives a typical ${r2(med)}% a year instead of ${r2(activeAnnual)}%. The chosen settings may just fit the past.` : undefined,
       });
     }
   }
@@ -718,6 +763,7 @@ export function tierB(check: CheckedSpec, prep: Prepared, base: Sim, bench: Benc
       level: "W",
       status: warn ? "warn" : "pass",
       detail: worst ? `Leaving out ${worst.ticker} moves the active return to ${r2(worst.active)}% a year (from ${r2(activeAnnual)}%).` : "Not enough tickers to test.",
+      plain: warn && worst ? `The result leans on one stock: without ${worst.ticker}, the yearly gain over the benchmark goes from ${r2(activeAnnual)}% to ${r2(worst.active)}%.` : undefined,
     });
   }
 
@@ -767,6 +813,7 @@ export function tierB(check: CheckedSpec, prep: Prepared, base: Sim, bench: Benc
       level: "W",
       status: warn ? "warn" : "info",
       detail: `Active return a year with SPY above its 200-session average ${r2(annual(up))}%, below ${r2(annual(down))}%; in low, middle and high volatility thirds ${r2(annual(terc[0]!))}%, ${r2(annual(terc[1]!))}%, ${r2(annual(terc[2]!))}%.${warn ? " One regime gives more than 80% of the active return." : ""}`,
+      plain: warn ? "Most of the gain came from one kind of market (rising or falling, calm or volatile), so it may not repeat in other conditions." : undefined,
     });
   }
   return { checks, values };

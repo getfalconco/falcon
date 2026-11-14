@@ -143,9 +143,19 @@ function Evidence({ quality, stale, result }: { quality: QualityReport; stale: b
         {quality.label.title}
       </p>
       {quality.label.reasons.length ? <p className="mt-1 text-[12.5px] leading-[19px] text-[#4b4b48]">{quality.label.reasons.join(" ")}</p> : null}
-      <p className="mt-2 text-[11.5px] leading-[17px] text-[#767676]">{quality.label.subtitle}</p>
+      <p className="mt-2 text-[11.5px] leading-[17px] text-[#767676]">
+        {quality.label.subtitle}
+        {quality.label.source ? (
+          <>
+            {" "}
+            <a href={quality.label.source.url} target="_blank" rel="noreferrer" className="underline underline-offset-2 hover:text-[#1d1b1b]">
+              Source
+            </a>
+          </>
+        ) : null}
+      </p>
       <p className="mt-1 text-[11.5px] leading-[17px] text-[#767676]">
-        {HYPOTHETICAL} {formatDate(`${result.period.start}T12:00:00Z`)} to {formatDate(`${result.period.end}T12:00:00Z`)}, {result.period.sessions.toLocaleString("en-US")} sessions.
+        {HYPOTHETICAL} {formatDate(`${result.period.start}T12:00:00Z`)} to {formatDate(`${result.period.end}T12:00:00Z`)}, {result.period.sessions.toLocaleString("en-US")} trading days.
         {stale ? " The rules changed since this run." : ""}
       </p>
     </Panel>
@@ -167,31 +177,33 @@ function Stat({ label, value, sub }: { label: string; value: string; sub?: strin
 function KeyNumbers({ result, quality }: { result: RunResultV2; quality: QualityReport }) {
   const m = result.metrics;
   const v = quality.values;
-  const range = typeof v.active?.range_lo === "number" ? `90% range ${pct(v.active.range_lo as number)} to ${pct(v.active.range_hi as number)}` : undefined;
+  const range = typeof v.active?.range_lo === "number" ? `Likely between ${pct(v.active.range_lo as number)} and ${pct(v.active.range_hi as number)}` : undefined;
   return (
     <Panel className="grid grid-cols-2 gap-x-6 gap-y-4 px-5 py-4 sm:grid-cols-3">
-      <Stat label={`Active return a year vs ${result.benchmark.ticker === "EW" ? "the list" : "SPY"}`} value={pct(m.activeAnnualPct, 2)} sub={range} />
-      <Stat label="Max drawdown" value={m.strategy.maxDrawdownPct > 0 ? `-${m.strategy.maxDrawdownPct.toFixed(1)}%` : "0.0%"} sub={`SPY ${m.benchmark.maxDrawdownPct > 0 ? `-${m.benchmark.maxDrawdownPct.toFixed(1)}%` : "0.0%"}`} />
-      <Stat label="Annual return" value={pct(m.strategy.annualizedReturnPct)} sub={`SPY ${pct(m.benchmark.annualizedReturnPct)}${m.equalWeight ? `, list ${pct(m.equalWeight.annualizedReturnPct)}` : ""}`} />
+      <Stat label={`Gain or loss a year vs ${result.benchmark.ticker === "EW" ? "the list" : "SPY"}`} value={pct(m.activeAnnualPct, 2)} sub={range} />
+      <Stat label="Worst drop from a peak" value={m.strategy.maxDrawdownPct > 0 ? `-${m.strategy.maxDrawdownPct.toFixed(1)}%` : "0.0%"} sub={`SPY ${m.benchmark.maxDrawdownPct > 0 ? `-${m.benchmark.maxDrawdownPct.toFixed(1)}%` : "0.0%"}`} />
+      <Stat label="Return a year" value={pct(m.strategy.annualizedReturnPct)} sub={`SPY ${pct(m.benchmark.annualizedReturnPct)}${m.equalWeight ? `, list ${pct(m.equalWeight.annualizedReturnPct)}` : ""}`} />
       <Stat label="Trades" value={m.tradeCount.toLocaleString("en-US")} sub={m.winRatePct !== null ? `${m.winRatePct.toFixed(0)}% closed above entry` : undefined} />
-      <Stat label="Time invested" value={`${m.exposurePct.toFixed(0)}%`} sub={`Turnover ${m.turnoverAnnual.toFixed(1)}x a year`} />
+      <Stat label="Time invested" value={`${m.exposurePct.toFixed(0)}%`} sub={`Trades its whole portfolio ${m.turnoverAnnual.toFixed(1)} times a year`} />
       <Stat
-        label="Sharpe over T-bills"
+        label="Return for the risk taken (Sharpe)"
         value={m.strategy.sharpeRf === null ? "n/a" : m.strategy.sharpeRf.toFixed(2)}
-        sub={typeof v.costs?.break_even_bps === "number" ? `Break-even cost about ${num(v.costs.break_even_bps, 1)} bp` : undefined}
+        sub={`SPY ${m.benchmark.sharpeRf === null ? "n/a" : m.benchmark.sharpeRf.toFixed(2)}; higher is better`}
       />
     </Panel>
   );
 }
 
 function Flags({ quality, audit }: { quality: QualityReport; audit: AuditState | null }) {
+  // A flag that only repeats the reason under the evidence label is not shown twice.
+  const flags = quality.flags.filter((f) => !quality.label.reasons.includes(f.text));
   return (
     <section>
-      <SectionTitle count={quality.flags.length}>Flags</SectionTitle>
+      <SectionTitle count={flags.length}>Things to watch</SectionTitle>
       <Panel className="mt-2 px-5 py-3">
-        {quality.flags.length ? (
+        {flags.length ? (
           <ul className="flex flex-col gap-2">
-            {quality.flags.map((f) => (
+            {flags.map((f) => (
               <li key={f.check_id} className="flex gap-2.5 text-[12.5px] leading-[19px] text-[#2d2b2a]">
                 <span className={`mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full ${f.severity === "high" ? "bg-[#b3432f]" : "bg-[#c9a227]"}`} aria-hidden />
                 <span>{f.text}</span>
@@ -199,7 +211,7 @@ function Flags({ quality, audit }: { quality: QualityReport; audit: AuditState |
             ))}
           </ul>
         ) : (
-          <p className="text-[12.5px] text-[#4b4b48]">No check raised a flag.</p>
+          <p className="text-[12.5px] text-[#4b4b48]">None of the checks found a problem.</p>
         )}
         <p className="mt-2 text-[11.5px] text-[#9a9a9a]" role="status">
           {audit?.status === "running"

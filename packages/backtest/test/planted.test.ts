@@ -29,7 +29,7 @@ function run(spec: StrategySpecV2, bars: Record<string, Bar[]>): RunResultV2 {
 const status = (r: RunResultV2, id: number) => r.quality.checks.filter((c) => c.id === id).map((c) => c.status);
 const flagged = (r: RunResultV2, id: number) => r.quality.flags.some((f) => f.check_id === id);
 
-test("planted bug: a 7-trade wonder gets Insufficient sample (check 6)", () => {
+test("planted bug: a 7-trade wonder gets Not enough trades to judge", () => {
   const spy = walkBars(dates, 1, { volume: 9e7 });
   const aaa = walkBars(dates, 2, { volume: 2e7 });
   // Seven big jumps, each followed by a run-up.

@@ -124,7 +124,7 @@ test("Explain: digits in templates and unknown refs are rejected and retried onc
   if (!c.ok) return;
   const report: QualityReport = {
     tiers: ["A"],
-    label: { level: "thin", title: "Thin", heading: "Evidence in past data", subtitle: "", reasons: [] },
+    label: { level: "thin", title: "Weak evidence", heading: "How much can you trust this result?", subtitle: "", reasons: [] },
     checks: [{ id: 10, name: "Delay", tier: "A", level: "W", status: "warn", detail: "x" }],
     flags: [],
     values: { delay: { drop_pct: 62.5 }, sample: { trades: 41 } },
