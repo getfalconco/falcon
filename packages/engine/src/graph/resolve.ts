@@ -17,7 +17,7 @@
  * next resolver layers (EX-21, GLEIF, OpenFIGI). Pure given the listings.
  */
 
-import { isListed, matchListed, normalizeCompanyName, type Listing, type Listings } from "../feed/companies.ts";
+import { isListed, matchListed, normalizeCompanyName, SUBSIDIARY_WORDS, type Listing, type Listings } from "../feed/companies.ts";
 
 /**
  * The seed graph's aliases (scripts/build-graph.ts): names the old step1
@@ -101,6 +101,9 @@ export const ALIASES: Array<[RegExp, string]> = [
   [/^(Merck)( & Co\.?)?( Inc\.?)?$/i, "MRK"],
   [/^(Eli Lilly|Lilly)\b/i, "LLY"],
   [/^(Johnson & Johnson|Janssen)\b/i, "JNJ"],
+  // Names a looser match read as the wrong listing (pilot and full-run review).
+  [/^American Express (GBT|Global Business Travel)\b/i, "-"], // Amex GBT, not American Express Co
+  [/^Orion (Corporation|Oyj)\b/i, "-"], // Finnish pharma, not Orion Group Holdings (ORN)
 ];
 
 /** A plain name from an SEC title ("WALMART INC." -> "Walmart"); mixed-case names keep their casing. Pure. */
@@ -131,17 +134,28 @@ export function namesAgree(a: string, b: string): boolean {
 }
 
 /**
- * Whether a counterparty name can be the listing: the names agree, and a
- * one-word listing title must match the whole name ("Sony" is "Sony Group
+ * Whether a counterparty name can be the listing: the names agree, every
+ * word the name adds to the title is a subsidiary word (src/feed/companies.ts
+ * `SUBSIDIARY_WORDS`), and a one-word listing title must match the whole name ("Sony" is "Sony Group
  * Corp") unless the model named that same ticker ("Dynatrace Software Inc."
  * with DT is Dynatrace, Inc.; "Merlin Entertainment" without MRLN is not
  * Merlin, Inc.). Pure.
  */
 export function listingAgrees(name: string, listing: Pick<Listing, "name" | "ticker">, modelTicker = ""): boolean {
   const t = words(listing.name);
+  // Words the name adds to the title must not name another company ("American Express GBT").
+  const title = new Set(t);
+  if (!words(name).every((w) => title.has(w) || SUBSIDIARY_WORDS.has(w))) return false;
   if (t.length === 1 && words(name).join(" ") !== t[0]) return modelTicker.trim().toUpperCase() === listing.ticker && namesAgree(name, listing.name);
   return namesAgree(name, listing.name);
 }
+
+/**
+ * One-word names that stand for several companies ("Columbia" Sportswear or
+ * Pipeline, "Quest" Diagnostics or Software, "Frontier" Airlines or
+ * Communications): left unresolved unless an alias names them.
+ */
+export const AMBIGUOUS_NAMES = new Set("columbia quest frontier republic sun phoenix orion mercury apollo atlas summit pioneer liberty eagle crown star fidelity national american united general".split(" "));
 
 /** The listed ticker a counterparty name refers to. Pure given `listings`. */
 export function resolveCounterparty(name: string, modelTicker: string, listings: Listings): Resolution {
@@ -149,6 +163,8 @@ export function resolveCounterparty(name: string, modelTicker: string, listings:
   for (const [re, t] of ALIASES) {
     if (re.test(n)) return t === "-" ? { ticker: null, by: "unresolved" } : { ticker: t, by: "alias" };
   }
+  const w = words(n);
+  if (w.length === 1 && AMBIGUOUS_NAMES.has(w[0]!)) return { ticker: null, by: "unresolved" };
   // matchListed also reads a subsidiary named after its parent ("BioNTech US
   // Inc."); a one-word parent title has to match the whole name here.
   const byName: Listing | null = matchListed(n, listings);
