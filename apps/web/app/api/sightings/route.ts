@@ -2,7 +2,9 @@ import { promises as fs } from "node:fs";
 import path from "node:path";
 import { NextResponse } from "next/server";
 import { cardLive, isMeasured, isWeakSignal, opportunityCards, type RippleCard, type SightingsFeed } from "@falcon/ripple";
+import { ADMIN_COOKIE_NAME, requireFounderAdmin } from "@/lib/admin-session";
 import { clientIp, rateLimit, tooManyRequests } from "@/lib/rate-limit";
+import { optionsDisplayMode, optionsForViewer } from "@/lib/sightings-options";
 import { getSupabaseAdmin } from "@/lib/supabase-admin";
 
 export const dynamic = "force-dynamic";
@@ -130,6 +132,15 @@ function touches(card: RippleCard, held: Set<string>): boolean {
   return held.has(card.event.ticker) || card.hits.some((h) => held.has(h.ticker));
 }
 
+/** A valid founder admin session cookie (lib/admin-session); false on any error. */
+async function isFounderAdmin(): Promise<boolean> {
+  try {
+    return (await requireFounderAdmin()) !== null;
+  } catch {
+    return false;
+  }
+}
+
 export async function OPTIONS() {
   return new NextResponse(null, { status: 204, headers: CORS });
 }
@@ -148,14 +159,23 @@ export async function GET(request: Request) {
           .filter((s) => TICKER.test(s))
           .slice(0, MAX_TICKERS);
 
-  const { feed, source } = await loadFeed();
-  const headers = {
+  const loaded = await loadFeed();
+  const { source } = loaded;
+  // Options blocks (OPRA-derived) only for the viewers OPTIONS_DISPLAY allows; stripped before anything else reads the feed.
+  const mode = optionsDisplayMode();
+  const admin = mode === "admin" ? await isFounderAdmin() : false;
+  const personal = mode === "admin" && admin;
+  const feed = optionsForViewer(loaded.feed, mode, admin);
+  const headers: Record<string, string> = {
     ...CORS,
-    "Cache-Control": feed.cards.length ? CACHE_OK : CACHE_EMPTY,
-    // Netlify's CDN keys the cache on `tickers` only, so other query strings share one entry.
-    "Netlify-Vary": "query=tickers",
+    // An admin's answer carries data the public one does not: never kept by the CDN or shared caches.
+    "Cache-Control": personal ? "private, no-store" : feed.cards.length ? CACHE_OK : CACHE_EMPTY,
+    // Netlify's CDN keys the cache on `tickers` (other query strings share one entry) and on the admin
+    // session cookie, so an admin never gets the public copy and the public never gets an admin's.
+    "Netlify-Vary": `query=tickers,cookie=${ADMIN_COOKIE_NAME}`,
     "X-Sightings-Source": source,
   };
+  if (personal) headers["Netlify-CDN-Cache-Control"] = "no-store";
 
   if (tickers === null) return NextResponse.json(feed, { headers });
 

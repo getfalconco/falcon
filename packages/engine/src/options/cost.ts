@@ -60,11 +60,18 @@ export type SpendEntry = {
   note?: string;
 };
 
+/**
+ * An extra cap checked under the ledger lock with the others: the ledger
+ * lines `match` selects, plus this pull, must stay within `limitUsd` (e.g.
+ * the Sightings options job's monthly cap over its own callers).
+ */
+export type SpendCap = { label: string; limitUsd: number; match: (e: SpendEntry) => boolean };
+
 export class BudgetError extends Error {
   constructor(
     message: string,
     readonly costUsd: number,
-    readonly reason: "per_call" | "per_caller" | "total",
+    readonly reason: "per_call" | "per_caller" | "total" | "cap",
   ) {
     super(message);
     this.name = "BudgetError";
@@ -205,8 +212,9 @@ export class SpendGuard {
     caller: string;
     maxCallUsd: number;
     maxCallerUsd?: number;
+    caps?: readonly SpendCap[];
   }): Promise<Authorization> {
-    const { req, costUsd, caller, maxCallUsd, maxCallerUsd } = args;
+    const { req, costUsd, caller, maxCallUsd, maxCallerUsd, caps = [] } = args;
     if (!(costUsd <= maxCallUsd)) {
       throw new BudgetError(
         `refused: ${req.dataset} ${req.schema} costs $${costUsd.toFixed(4)}, over the per-call cap $${maxCallUsd.toFixed(2)}`,
@@ -224,6 +232,17 @@ export class SpendGuard {
           costUsd,
           "per_caller",
         );
+      }
+      for (const cap of caps) {
+        let used = 0;
+        for (const e of all) if (cap.match(e)) used += e.costUsd;
+        if (used + costUsd > cap.limitUsd + 1e-12) {
+          throw new BudgetError(
+            `refused: ${cap.label} has $${used.toFixed(4)} spent; $${costUsd.toFixed(4)} more passes its cap $${cap.limitUsd.toFixed(2)}`,
+            costUsd,
+            "cap",
+          );
+        }
       }
       if (spent + costUsd > this.totalBudgetUsd + 1e-12) {
         throw new BudgetError(

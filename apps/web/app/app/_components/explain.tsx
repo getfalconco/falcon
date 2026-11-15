@@ -7,6 +7,7 @@ import {
   SIGNAL_LABEL,
   STRENGTH,
   cardExplain,
+  cardOptions,
   cardPricedIn,
   cardStrength,
   relationPhrase as plainRelation,
@@ -18,6 +19,7 @@ import {
   type RippleHit,
 } from "@falcon/ripple";
 import { touchesFocus } from "@/lib/workspace/feed";
+import { OptionsChip } from "./OptionsBlock";
 import { WorkspaceContext, useWorkspace } from "./context";
 import { BacktestButton, DOWN, ExternalAnchor, MONO, NEUTRAL, PricedInTag, SERIF, UP, formatDate, timeAgo } from "./parts";
 
@@ -244,6 +246,7 @@ export function SightingCardBody({
         <CardKicker card={card} ex={ex} />
         <span className="ml-auto flex shrink-0 items-center gap-1.5">
           {cardPricedIn(card) ? <PricedInTag since={card.hits.find((h) => h.pricedIn)?.sinceEvent} /> : null}
+          <OptionsChip options={cardOptions(card)} />
           <StrengthBadge strength={ex.strength} />
         </span>
       </div>

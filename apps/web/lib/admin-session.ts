@@ -12,7 +12,8 @@ function safeStringEqual(a: string, b: string): boolean {
   return timingSafeEqual(ha, hb);
 }
 
-const COOKIE_NAME = "meridian_admin_session";
+export const ADMIN_COOKIE_NAME = "meridian_admin_session";
+const COOKIE_NAME = ADMIN_COOKIE_NAME;
 const MAX_AGE_SEC = 60 * 60 * 12; // 12 hours
 
 export type AdminAccess = "founder" | "talent_manager";

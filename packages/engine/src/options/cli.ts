@@ -5,11 +5,18 @@
  *   node --import tsx src/options/cli.ts features --ticker KLAC --date 2026-11-13 [--dry-run] [--no-oi] [--no-volume]
  *          [--caller NAME] [--max-call 0.5] [--max-caller 5] [--model bs2002|crr|european] [--json]
  *   node --import tsx src/options/cli.ts flow --ticker KLAC --date 2026-11-13 [--dataset XNAS.ITCH] [--dry-run]
+ *   node --import tsx src/options/cli.ts cards --feed FILE|URL [--dry-run] [--max-names 60] [--run-cap 0.75] [--json] [--out FILE]
+ *          (the Sightings options job on a feed; --dry-run only prices the pulls)
  *
  * `features` prints the surface features of one underlying-day; `--dry-run`
  * only prices the pulls (cached parts cost nothing and are used).
  */
 
+import fs from "node:fs";
+import { optionsSentence, type SightingsFeed } from "@falcon/ripple";
+import { backtestMarketData } from "../market.ts";
+import { liquidityOf } from "../quality.ts";
+import { attachOptions } from "./sightings-options.ts";
 import { DatabentoClient, fetchOptionDay, fetchStockDaily, fetchStockSpot, fetchStockTrades, type PullOptions } from "./client.ts";
 import { aggregateFlow } from "./flow.ts";
 import { dividendYieldOn, fetchDividends, fetchDtb3, rateOn } from "./rates.ts";
@@ -40,6 +47,37 @@ async function main(): Promise<void> {
     for (const e of entries) by.set(e.caller, (by.get(e.caller) ?? 0) + e.costUsd);
     console.log(`total $${client.guard.spentUsd().toFixed(4)} of $${client.guard.totalBudgetUsd} (${entries.length} lines)`);
     for (const [c, v] of by) console.log(`  ${c}: $${v.toFixed(4)}`);
+    return;
+  }
+  if (cmd === "cards") {
+    // The Sightings options job on a feed (a file or a URL such as https://getfalcon.co/api/sightings).
+    const src = arg("feed");
+    if (!src) throw new Error("--feed FILE|URL is required");
+    const feed = (/^https?:\/\//.test(src) ? await (await fetch(src)).json() : JSON.parse(fs.readFileSync(src, "utf8"))) as SightingsFeed;
+    const md = await backtestMarketData();
+    const market = "market" in md ? md.market : null;
+    if (!market) console.log(`no market data (${"error" in md ? md.error : ""}): no beta, no liquidity gate`);
+    const liquidity = market
+      ? async (t: string) => liquidityOf(await market.dailyCloses(t, new Date(Date.now() - 40 * 86_400_000).toISOString().slice(0, 10), new Date().toISOString().slice(0, 10)))
+      : null;
+    const s = await attachOptions(feed.cards, {
+      client,
+      market,
+      liquidity,
+      log: (l) => console.log(l),
+      priceOnly: flag("dry-run"),
+      maxNames: arg("max-names") ? Number(arg("max-names")) : undefined,
+      runCapUsd: arg("run-cap") ? Number(arg("run-cap")) : undefined,
+    });
+    for (const c of feed.cards) {
+      const lines: string[] = [];
+      if (c.options) lines.push(`  event ${c.event.ticker}: ${JSON.stringify(c.options)}\n    ${optionsSentence(c.options)}`);
+      for (const h of c.hits) if (h.options) lines.push(`  hit ${h.ticker}${h.history ? ` (record ${h.history.sample} events, ${h.history.windowDays}d)` : ""}: ${optionsSentence(h.options)}${flag("json") ? `\n    ${JSON.stringify(h.options)}` : ""}`);
+      if (lines.length) console.log(`\n${c.event.ticker} ${c.event.headline.slice(0, 90)}\n${lines.join("\n")}`);
+    }
+    if (arg("out")) fs.writeFileSync(arg("out")!, JSON.stringify(feed, null, 1));
+    console.log(`\n${s.line}`);
+    console.log(`ledger total $${client.guard.spentUsd().toFixed(4)}`);
     return;
   }
   const ticker = arg("ticker");

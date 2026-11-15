@@ -242,6 +242,8 @@ export type RippleHit = {
   documentedBy?: DocumentedBy;
   /** Optional (v1): what would invalidate the reading, one templated sentence. */
   invalidatedBy?: string;
+  /** Optional (added by the engine): what the options market prices for this company (see RippleOptions). Display-gated like RippleCard.options. */
+  options?: RippleOptions;
 };
 
 /** A hit's move since its event (see RippleHit.sinceEvent). */
@@ -287,6 +289,78 @@ export type RippleCard = {
    * Cards without it are served for 7 days after their event.
    */
   expiresAt?: string;
+  /**
+   * Optional (added by the engine): what the options market prices for the
+   * event company at the run (see RippleOptions). Display-gated: the API
+   * strips it unless OPTIONS_DISPLAY allows the viewer.
+   */
+  options?: RippleOptions;
+};
+
+/** An options-implied move over a number of trading sessions (see RippleOptions). */
+export type OptionsMove = {
+  /** Trading sessions after the snapshot session. */
+  sessions: number;
+  /** Expiry whose ATM implied volatility was used: the first on or after the window's last session, YYYY-MM-DD. */
+  expiration: string;
+  /** Expected absolute move, percent: ATM IV x sqrt(sessions / 252) x sqrt(2 / pi). */
+  rawPct: number;
+  /**
+   * The same with the market's part taken out, percent: the ATM variance minus
+   * beta^2 x VIX^2 (floored at 0), then scaled the same way. Comparable with
+   * Falcon's market-adjusted history. Null without a beta or a VIX close,
+   * or when the market's part is the whole implied variance or more.
+   */
+  marketAdjustedPct: number | null;
+};
+
+/**
+ * Options-implied numbers for one company from one snapshot of its listed
+ * option chain (OPRA via Databento): descriptive only, never a signal. Falcon's
+ * study (packages/engine/docs/options-study.md) found no stand-alone edge in
+ * any of these; the implied move is shown as a yardstick for the size of a
+ * move. Percentages are percent (4.1 = 4.1%), volatilities in vol points
+ * (42.0 = 42%).
+ */
+export type RippleOptions = {
+  /** Snapshot instant (ISO). */
+  asOf: string;
+  source: "OPRA via Databento";
+  /** Underlying price used. */
+  spot: number;
+  /** At-the-money implied volatility, 30 calendar days, vol points. */
+  atmIv: number;
+  impliedMove5: OptionsMove | null;
+  impliedMove20: OptionsMove | null;
+  /** Optional: percentile of atmIv in the name's own trailing history, 0 to 100 (omitted while that history is not kept). */
+  ivPct?: number | null;
+  /** Optional: put-minus-call skew (Xing, Zhang and Zhao: an out-of-the-money put near 95% of spot minus the at-the-money call), vol points, about 30 days. */
+  skew?: number | null;
+  /** Optional: mean call minus put IV at the same strikes (Cremers and Weinbaum), vol points. */
+  cpSpread?: number | null;
+  /** Optional: market-model beta used for the market-adjusted moves. */
+  beta?: number | null;
+  /** Optional: VIX close used for the market-adjusted moves, points. */
+  vix?: number | null;
+  /**
+   * Hits only, optional: the options' market-adjusted move over the window of
+   * the hit's own record, next to the record's mean absolute market-adjusted
+   * move after similar events (matched units: both beyond the market, same
+   * number of sessions). Absent when either side is missing.
+   */
+  matched?: OptionsMatched | null;
+};
+
+/** See RippleOptions.matched. */
+export type OptionsMatched = {
+  windowDays: number;
+  /** Total implied move over the window, percent. */
+  rawPct: number;
+  /** Implied move beyond the market over the window, percent. */
+  impliedPct: number;
+  /** Mean |move - benchmark move| after the similar past events, percent. */
+  historyPct: number;
+  sample: number;
 };
 
 export type SightingsFeed = {
@@ -932,4 +1006,101 @@ function explainBase(card: RippleCard): Omit<CardExplain, "whyShort" | "pastShor
       return { kicker, title, what, why, past, caution: caution(""), signal, strength };
     }
   }
+}
+
+// ---------------------------------------------------------------------------
+// Options (RippleOptions). Descriptive only: no "should", no edge claimed.
+
+/** The caveat shown under every options line. */
+export const OPTIONS_CAVEAT =
+  "Options prices show the size of move the market expects, not its direction, and they are not a forecast. For information only, not investment advice.";
+
+/** Where the options numbers come from, for a source line. */
+export const OPTIONS_SOURCE = "OPRA via Databento";
+
+/**
+ * Mean absolute market-adjusted move of the hit after the similar past
+ * events of its record, percent: the mean of |movePct - benchmarkPct| over
+ * `history.events`. Null without at least MIN_RECORD_SAMPLE events. This is
+ * the record's own number in the units an options-implied move beyond the
+ * market can be compared with (the record's avgMovePct is signed, so it is
+ * not). Pure.
+ */
+export function historyAbsMovePct(history: RippleHistory | null | undefined): number | null {
+  const evs = history?.events;
+  if (!evs || evs.length < MIN_RECORD_SAMPLE) return null;
+  let s = 0;
+  let n = 0;
+  for (const e of evs) {
+    const d = e.movePct - e.benchmarkPct;
+    if (!Number.isFinite(d)) continue;
+    s += Math.abs(d);
+    n++;
+  }
+  return n >= MIN_RECORD_SAMPLE ? s / n : null;
+}
+
+/** "the next week", "the next month", "the next 3 trading days". */
+export function horizonWords(sessions: number): string {
+  if (sessions === 5) return "the next week";
+  if (sessions === 20 || sessions === 21) return "the next month";
+  if (sessions === 1) return "the next trading day";
+  return `the next ${sessions} trading days`;
+}
+
+/** "±4.1%" (one decimal; below 0.05 shown as "under ±0.1%"). */
+export function plusMinusPct(pct: number): string {
+  if (!(pct >= 0.05)) return "under ±0.1%";
+  return `±${pct.toFixed(1)}%`;
+}
+
+/**
+ * The options block in plain words. With a matched comparison (hits with a
+ * record): "Options price a move of about ±4.1% over the next week (±2.6%
+ * beyond the market). After similar events this stock moved about ±3.2%
+ * beyond the market over a week." Without one, the first sentence alone,
+ * over the next week (or month when the week is missing). History is only
+ * set beside the options in matched units (both beyond the market, same
+ * window). Null when there is nothing to say. Pure.
+ */
+export function optionsSentence(o: RippleOptions | null | undefined): string | null {
+  if (!o) return null;
+  const m = o.matched;
+  if (m && Number.isFinite(m.impliedPct) && Number.isFinite(m.historyPct)) {
+    const over = m.windowDays === 5 ? "over a week" : m.windowDays === 20 || m.windowDays === 21 ? "over a month" : `over ${m.windowDays} trading days`;
+    return (
+      `Options price a move of about ${plusMinusPct(m.rawPct)} over ${horizonWords(m.windowDays)} (${plusMinusPct(m.impliedPct)} beyond the market). ` +
+      `After similar events this stock moved about ${plusMinusPct(m.historyPct)} beyond the market ${over}.`
+    );
+  }
+  const mv = o.impliedMove5 ?? o.impliedMove20;
+  if (!mv) return null;
+  const beyond = mv.marketAdjustedPct !== null ? ` (${plusMinusPct(mv.marketAdjustedPct)} beyond the market)` : "";
+  return `Options price a move of about ${plusMinusPct(mv.rawPct)} over ${horizonWords(mv.sessions)}${beyond}.`;
+}
+
+/** Short chip text for list rows: "±4.1% priced" (the 5-session move, else the 20-session one). Null without either. */
+export function optionsChip(o: RippleOptions | null | undefined): string | null {
+  const mv = o?.impliedMove5 ?? o?.impliedMove20;
+  return mv ? `${plusMinusPct(mv.rawPct)} priced` : null;
+}
+
+/** The options block a card shows on list rows: the event company's, else the first hit's that has one. */
+export function cardOptions(card: Pick<RippleCard, "options" | "hits">): RippleOptions | null {
+  return card.options ?? card.hits.find((h) => h.options)?.options ?? null;
+}
+
+/** A card with every options block removed (card and hits); the same object when it has none. Pure. */
+export function withoutOptions<T extends RippleCard>(card: T): T {
+  const has = card.options !== undefined || card.hits.some((h) => h.options !== undefined);
+  if (!has) return card;
+  const rest: T = { ...card };
+  delete rest.options;
+  rest.hits = card.hits.map((h) => {
+    if (h.options === undefined) return h;
+    const hit: RippleHit = { ...h };
+    delete hit.options;
+    return hit;
+  });
+  return rest;
 }
