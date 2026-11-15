@@ -251,11 +251,13 @@ async function headersPhase(): Promise<void> {
   const rows = loadIndexRows().filter((r) => D13_FORMS.includes(r.form) && r.date >= EVENT_FROM && r.date <= EVENT_TO);
   const { anyCik } = listingMaps();
   const todo: Array<{ acc: string; cik: string }> = [];
+  // Every third-party 13D with a CIK that has a ticker: the index cannot tell a listed filer
+  // (an asset manager, a holding company) from the subject when the subject has no ticker today.
   for (const [acc, rs] of byAccession(rows)) {
     const s = subjectOf13D(rs.map((r) => r.cik), (c) => anyCik.has(c));
-    if (s.kind === "ambiguous" && !fs.existsSync(headerPath(acc))) todo.push({ acc, cik: s.ciks[0]! });
+    if ((s.kind === "ambiguous" || s.kind === "subject") && !fs.existsSync(headerPath(acc))) todo.push({ acc, cik: s.kind === "subject" ? s.cik : s.ciks[0]! });
   }
-  log(`headers: ${todo.length} ambiguous 13Ds to read`);
+  log(`headers: ${todo.length} 13D headers to read`);
   fs.mkdirSync(HEADER_DIR, { recursive: true });
   let done = 0;
   await pool(todo, 6, async ({ acc, cik }) => {
@@ -285,27 +287,29 @@ function eventsPhase(): void {
 
   // F8 13D.
   const d13 = rows.filter((r) => D13_FORMS.includes(r.form) && inSample(r.date));
-  const counts = { accessions: 0, selfFiled: 0, noListedCik: 0, ambiguousUnread: 0, headerSaysSelf: 0, fromHeader: 0 };
+  const counts = { accessions: 0, selfFiled: 0, noListedCik: 0, headerUnread: 0, headerSaysSelf: 0, headerSubjectNoTicker: 0, indexGuessCorrected: 0, fromHeader: 0 };
   const stakes: StudyEvent[] = [];
   for (const [acc, rs] of byAccession(d13)) {
     counts.accessions++;
     const s = subjectOf13D(rs.map((r) => r.cik), (c) => anyCik.has(c));
     let subject: string | null = null;
-    if (s.kind === "subject") subject = s.cik;
-    else if (s.kind === "self_filed") counts.selfFiled++;
+    if (s.kind === "self_filed") counts.selfFiled++;
     else if (s.kind === "no_listed_cik") counts.noListedCik++;
     else {
+      // The SEC header decides (read for every 13D with a ticker-bearing CIK).
       const f = headerPath(acc);
       if (!fs.existsSync(f)) {
-        counts.ambiguousUnread++;
+        counts.headerUnread++;
         continue;
       }
       const h = headerParties(fs.readFileSync(f, "utf8"));
-      if (!h.subject) counts.ambiguousUnread++;
+      if (!h.subject) counts.headerUnread++;
       else if (h.filers.includes(h.subject)) counts.headerSaysSelf++;
+      else if (!anyCik.has(h.subject)) counts.headerSubjectNoTicker++;
       else {
         subject = h.subject;
         counts.fromHeader++;
+        if (s.kind === "subject" && s.cik !== h.subject) counts.indexGuessCorrected++;
       }
     }
     if (subject) stakes.push({ family: "F8_activist_stake", issuer: subject, date: rs[0]!.date, accession: acc, form: rs[0]!.form });

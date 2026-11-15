@@ -65,13 +65,13 @@ export function subjectOf13D(ciks: readonly string[], hasTicker: (cik: string) =
 /** SUBJECT COMPANY and FILED BY CIKs from an SEC header (.hdr.sgml or -index-headers.html). Pure. */
 export function headerParties(header: string): { subject: string | null; filers: string[] } {
   const t = header.replace(/&lt;/g, "<").replace(/&gt;/g, ">");
-  const cikAfter = (label: RegExp): string[] => {
-    const out: string[] = [];
-    const re = new RegExp(`${label.source}[\\s\\S]*?CENTRAL INDEX KEY:\\s*(\\d+)`, "g");
-    for (const m of t.matchAll(re)) out.push(String(Number(m[1])));
-    return out;
-  };
-  return { subject: cikAfter(/SUBJECT COMPANY:/)[0] ?? null, filers: cikAfter(/FILED BY:/) };
+  // SGML header (.hdr.sgml, -index-headers.html): <SUBJECT-COMPANY> ... <CIK>0000027419 ... </SUBJECT-COMPANY>.
+  const sgml = (tag: string): string[] => [...t.matchAll(new RegExp(`<${tag}>[\\s\\S]*?<CIK>\\s*(\\d+)`, "g"))].map((m) => String(Number(m[1])));
+  // Text header (the .txt submission): SUBJECT COMPANY: ... CENTRAL INDEX KEY: 0000027419.
+  const text = (label: string): string[] => [...t.matchAll(new RegExp(`${label}[\\s\\S]*?CENTRAL INDEX KEY:\\s*(\\d+)`, "g"))].map((m) => String(Number(m[1])));
+  const subject = sgml("SUBJECT-COMPANY")[0] ?? text("SUBJECT COMPANY:")[0] ?? null;
+  const filers = [...new Set([...sgml("FILED-BY"), ...text("FILED BY:")])];
+  return { subject, filers };
 }
 
 const DAY_MS = 86_400_000;

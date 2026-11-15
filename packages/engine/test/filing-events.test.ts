@@ -44,6 +44,21 @@ FILED BY:
 		CENTRAL INDEX KEY:			0000320193
 </SEC-HEADER>`;
     assert.deepEqual(headerParties(h), { subject: "27419", filers: ["320193"] });
+    const sgml = `&lt;SEC-HEADER&gt;0000038777-16-000578.hdr.sgml : 20160929
+<TYPE>SC 13D
+<SUBJECT-COMPANY>
+<COMPANY-DATA>
+<CONFORMED-NAME>HALCON RESOURCES CORP
+<CIK>0001282648
+</COMPANY-DATA>
+</SUBJECT-COMPANY>
+<FILED-BY>
+<COMPANY-DATA>
+<CONFORMED-NAME>FRANKLIN RESOURCES INC
+<CIK>0000038777
+</COMPANY-DATA>
+</FILED-BY>`;
+    assert.deepEqual(headerParties(sgml), { subject: "1282648", filers: ["38777"] });
     assert.deepEqual(headerParties("nothing"), { subject: null, filers: [] });
   });
 

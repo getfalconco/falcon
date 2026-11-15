@@ -70,7 +70,7 @@ Each hit gets `tier`, and the card the best of its hits'. Screens read them.
 | Tier | When |
 | --- | --- |
 | measured | directional, liquid, not priced in, no detector watch-only flag, every link at least "named" in a filing quote, and the family passes Falcon's own test in `data/family-stats.json` (BH q <= 0.10, calendar-time t > 1.65, validation mean y > 0, n >= 300 over >= 100 event dates). That file does not exist yet, so nothing is Measured. |
-| documented | the same gates without the family test, and the family is in `data/evidence-registry.json` with a citation and Falcon's own post-2015 estimate above 0 (`ownEstimate.meanAbnPct > 0`); `analogous` evidence also needs `ownEstimate.p < 0.20`. The hit carries `documentedBy`. |
+| documented | the same gates without the family test, and the event type is in `data/evidence-registry.json` with a citation and Falcon's own post-2015 estimate whose sign matches the family's pre-registered `expectedSign` (+1 when absent; late filings and restatements are expected to fall, so a reliably negative estimate documents them); `analogous` evidence also needs `ownEstimate.p < 0.20` (one-sided in the expected direction). An estimate documents only its own event type (F6 holds late filings and 4.02 restatements). The hit carries `documentedBy`. |
 | watch | everything else |
 
 Liquid: last close above $5 and, when known, a 20-day median dollar volume
