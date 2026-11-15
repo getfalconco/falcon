@@ -11,7 +11,9 @@ import path from "node:path";
 import { describe, it } from "node:test";
 import {
   anyClearsBar,
+  cardExplain,
   cardLive,
+  SIGNAL_LABEL,
   cardTier,
   eventTypeLabel,
   isWeakSignal,
@@ -31,12 +33,14 @@ import { candidatesHash, canonicalJson, fileJudgmentStore, memoryJudgmentStore }
 import { fromDetector, ownFirmCard, runSightings } from "../src/pipeline.ts";
 import {
   assignTier,
+  estimateMatchesExpected,
   expiresAtOf,
   familyPasses,
   interimDocumentedFlag,
   isLiquid,
   loadEvidenceRegistry,
   loadFamilyStats,
+  registryEntry,
   windowSessions,
   type EvidenceRegistry,
   type FamilyStats,
@@ -44,7 +48,7 @@ import {
   type QualityInput,
 } from "../src/quality.ts";
 import { MARK_STALE_SQL } from "../src/supabase.ts";
-import { cardProblems, hitProblems } from "../src/validate.ts";
+import { cardProblems, framingProblems, hitProblems } from "../src/validate.ts";
 import { allowedCalls, callBudget } from "../src/vote.ts";
 
 // ---------------------------------------------------------------------------
@@ -161,6 +165,56 @@ describe("tiers (src/quality.ts)", () => {
     assert.equal(assignTier(own({ family: "F8" }), ctx()).tier, "watch");
     assert.equal(assignTier(own({ family: "F5" }), ctx()).tier, "watch");
     assert.equal(assignTier(own({ family: "F10" }), ctx()).tier, "watch");
+  });
+
+  it("a risk family is Documented by an estimate that goes its expected (negative) way, never by the other way", () => {
+    const negative = { ...OWN_ESTIMATE, meanAbnPct: -2.1, medianAbnPct: -1.4, tStat: -3.2, p: 0.001 };
+    const risk = (meanAbnPct: number, extra: Partial<EvidenceRegistry["families"][string]> = {}): QualityContext =>
+      ctx({ registry: { version: 1, families: { ...REGISTRY.families, F6: { ...REGISTRY.families.F6!, expectedSign: -1, ownEstimate: { ...negative, meanAbnPct }, ...extra } } } });
+    const down = own({ family: "F6", eventType: "distress_nt", direction: "down" });
+    const t = assignTier(down, risk(-2.1));
+    assert.equal(t.tier, "documented");
+    assert.equal(t.documentedBy?.ownEstimate?.meanAbnPct, -2.1);
+    // The wrong sign, or zero, is not evidence for a risk family.
+    assert.equal(assignTier(down, risk(0.8)).tier, "watch");
+    assert.equal(assignTier(down, risk(0)).tier, "watch");
+    assert.ok(assignTier(down, risk(0.8)).why.some((w) => /not below 0/.test(w)));
+    // Analogous risk evidence keeps the same p bar.
+    assert.equal(assignTier(down, risk(-2.1, { match: "analogous", ownEstimate: { ...negative, p: 0.3 } })).tier, "watch");
+    assert.equal(assignTier(down, risk(-2.1, { match: "analogous", ownEstimate: { ...negative, p: 0.1 } })).tier, "documented");
+    // A family without expectedSign keeps the old rule: above 0 only.
+    assert.equal(assignTier(own({ family: "F8" }), ctx()).tier, "watch");
+    assert.equal(assignTier(own(), ctx()).tier, "documented");
+  });
+
+  it("an estimate documents only the event type it measured", () => {
+    const families = {
+      ...REGISTRY.families,
+      F6: { ...REGISTRY.families.F6!, expectedSign: -1 as const, ownEstimate: { ...OWN_ESTIMATE, meanAbnPct: -2.1 } },
+    };
+    const c = ctx({ registry: { version: 1, families } });
+    // F6 holds late filings and 4.02 restatements; the late-filing estimate does not cover restatements.
+    assert.equal(assignTier(own({ family: "F6", eventType: "distress_nt", direction: "down" }), c).tier, "documented");
+    const r = assignTier(own({ family: "F6", eventType: "restatement_402", direction: "down" }), c);
+    assert.equal(r.tier, "watch");
+    assert.ok(r.why.some((w) => /does not cover restatement_402/.test(w)));
+    // A separate entry for the restatement event type documents it on its own estimate.
+    const withR = ctx({ registry: { version: 1, families: { ...families, F6R: { ...families.F6, eventType: "restatement_402", ownEstimate: { ...OWN_ESTIMATE, meanAbnPct: -3 } } } } });
+    assert.equal(assignTier(own({ family: "F6", eventType: "restatement_402", direction: "down" }), withR).documentedBy?.ownEstimate?.meanAbnPct, -3);
+    assert.equal(registryEntry("F6", "distress_nt", withR.registry)?.eventType, "distress_nt");
+    assert.equal(registryEntry("F6", null, withR.registry)?.eventType, "distress_nt");
+    assert.equal(registryEntry("F3", "contract_material", withR.registry), undefined);
+    assert.equal(estimateMatchesExpected({ meanAbnPct: -1 }, -1), true);
+    assert.equal(estimateMatchesExpected({ meanAbnPct: -1 }, undefined), false);
+    assert.equal(estimateMatchesExpected({ meanAbnPct: NaN }, -1), false);
+  });
+
+  it("the shipped registry states an expected sign for every family", () => {
+    const reg = loadEvidenceRegistry();
+    for (const [k, f] of Object.entries(reg.families)) {
+      assert.ok(f.expectedSign === 1 || f.expectedSign === -1, `${k} expectedSign`);
+      if (f.ownEstimate) assert.ok(estimateMatchesExpected(f.ownEstimate, f.expectedSign), `${k} estimate goes the expected way`);
+    }
   });
 
   it("unclear, illiquid, unknown price, priced in, watch-only flags and list links are Watch", () => {
@@ -303,6 +357,25 @@ describe("own-firm cards", () => {
     assert.match(built.card.hits[0]!.mechanism, /could not file a periodic report on time/);
     assert.doesNotMatch(built.card.hits[0]!.mechanism, /short/i);
     assert.deepEqual(cardProblems(built.card), []);
+  });
+
+  it("a Documented risk card reads as a risk with a negative average, and passes the framing rules", () => {
+    const registry: EvidenceRegistry = { version: 1, families: { ...REGISTRY.families, F6: { ...REGISTRY.families.F6!, expectedSign: -1, ownEstimate: { ...OWN_ESTIMATE, n: 900, meanAbnPct: -2.4 } } } };
+    const item = fromDetector(insider({ id: "distress_nt-1", eventType: "distress_nt", family: "F6", sign: -1, form: "NT 10-Q", facts: { lateReport: "10-Q" } }))!;
+    const built = ownFirmCard(item, { sector: "all", generatedAt: "2026-11-13T12:30:00.000Z", liquidity: LIQUID, quality: ctx({ registry }) });
+    assert.ok(!("error" in built));
+    const h = built.card.hits[0]!;
+    assert.equal(h.direction, "down");
+    assert.equal(h.tier, "documented");
+    assert.equal(built.card.tier, "documented");
+    assert.deepEqual(cardProblems(built.card), []);
+    const x = cardExplain(built.card);
+    assert.equal(x.signal, "negative");
+    assert.equal(SIGNAL_LABEL[x.signal], "Risk signal");
+    assert.equal(x.strength.label, "Backed by research");
+    assert.match(x.past, /trailed the market by about 2\.4% over the next 20 trading days/);
+    assert.match(x.pastShort ?? "", /avg -2\.4% vs market/);
+    for (const text of [x.title, x.what, x.why, x.past, x.caution, x.pastShort ?? "", x.strength.detail, h.scoreReason ?? ""]) assert.deepEqual(framingProblems(text, "t"), [], text);
   });
 
   it("needs a ticker and a filed quote", () => {

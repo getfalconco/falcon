@@ -360,7 +360,7 @@ export function ownFirmCard(
   if (evidence.length === 0) return { error: "no filed quote of 20 characters or more" };
   const direction = directionOf(item.sign);
   const t = assignTier(
-    { family: item.family, direction, relation: "self", liquidity: p.liquidity, pricedIn: false, watchOnlyReasons: item.watchOnlyReasons, linkTier: null, quoted: true },
+    { family: item.family, eventType: item.eventType, direction, relation: "self", liquidity: p.liquidity, pricedIn: false, watchOnlyReasons: item.watchOnlyReasons, linkTier: null, quoted: true },
     p.quality,
   );
   const confidence = tierConfidence(t.tier);
@@ -640,6 +640,7 @@ export async function runSightings(opts: RunOptions): Promise<RunResult> {
       const t = assignTier(
         {
           family: ev.family,
+          eventType: ev.eventType,
           direction: hit.direction,
           relation: hit.relation,
           liquidity: await liquidityOf(hit.ticker),

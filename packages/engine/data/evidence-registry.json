@@ -9,6 +9,7 @@
       "url": "https://doi.org/10.1111/j.1540-6261.2012.01740.x",
       "effect": "In US insider trades from 1986 to 2007, a long-short portfolio of opportunistic (non-routine) insider buys minus opportunistic sells earned value-weighted abnormal returns of about 82 basis points a month, while routine insiders' trades earned about zero.",
       "period": "1986-2007",
+      "expectedSign": 1,
       "ownEstimate": {
         "period": "2015-01 to 2026-06",
         "n": 2844,
@@ -31,6 +32,7 @@
       "url": "https://doi.org/10.2308/acch-51887",
       "effect": "Among 2,115 first-time late filers (fiscal periods 2000-2008), the mean abnormal return over the five days around the NT filing was about -2.93% for NT 10-Q and -1.96% for NT 10-K filings (figures to verify against the published tables before display).",
       "period": "2000-2008",
+      "expectedSign": -1,
       "ownEstimate": null
     },
     "F5": {
@@ -41,6 +43,7 @@
       "url": "https://doi.org/10.1111/j.1540-6261.2009.01494.x",
       "effect": "Around 251 Chapter 11 filings from 1999 to 2005, industrial creditors of the bankrupt firm had an average abnormal return of about -2.29% over the 11 days around the filing (financial creditors about -0.34%); Hertzel et al. report negative, significant stock price effects for suppliers of firms filing for bankruptcy.",
       "period": "1999-2005",
+      "expectedSign": -1,
       "ownEstimate": null
     },
     "F1": {
@@ -51,6 +54,7 @@
       "url": "https://doi.org/10.1111/j.1540-6261.2008.01379.x",
       "effect": "Supplier stock returns follow their principal customers' past returns with a lag; a long-short strategy on this customer momentum earned monthly alphas of over 150 basis points in the original sample (about 1981-2004, period to verify in the paper).",
       "period": "1981-2004",
+      "expectedSign": -1,
       "ownEstimate": null
     },
     "F2": {
@@ -61,6 +65,7 @@
       "url": "https://doi.org/10.1111/j.1540-6261.2008.01379.x",
       "effect": "Supplier stock returns follow their principal customers' past returns with a lag; a long-short strategy on this customer momentum earned monthly alphas of over 150 basis points in the original sample (about 1981-2004, period to verify in the paper).",
       "period": "1981-2004",
+      "expectedSign": 1,
       "ownEstimate": null
     },
     "F8": {
@@ -71,6 +76,7 @@
       "url": "https://doi.org/10.1111/j.1540-6261.2008.01373.x",
       "effect": "In hand-collected US hedge fund activism events from 2001 to 2006, targets earned an abnormal return of about 7% around the announcement, with no reversal over the following year.",
       "period": "2001-2006",
+      "expectedSign": 1,
       "ownEstimate": null
     }
   }
