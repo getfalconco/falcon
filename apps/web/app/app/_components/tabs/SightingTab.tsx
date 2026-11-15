@@ -5,6 +5,7 @@ import { cardPricedIn, shortCompany, type RippleCard, type RippleHit } from "@fa
 import { buildGraph } from "@/lib/workspace/graph";
 import { useWorkspace } from "../context";
 import { GraphView } from "../GraphView";
+import { OptionsRow } from "../OptionsBlock";
 import { CardKicker, DirectionWord, ExplainSections, HowToReadButton, SightingSources, StrengthBadge, hitLinkText, isSelfOnly, useExplain } from "../explain";
 import { BacktestButton, EmptyState, EvidenceQuote, Panel, PricedInTag, SectionTitle, SERIF, TickerButton, feedEmpty, formatDateTime, signedPct, sinceEventText } from "../parts";
 
@@ -35,6 +36,7 @@ function AffectedRow({ hit, card, mine }: { hit: RippleHit; card: RippleCard; mi
           </span>
         ) : null}
       </p>
+      <OptionsRow options={hit.options} className="mt-2.5" />
       {quotes ? (
         <details className="group mt-2.5 [&_summary::-webkit-details-marker]:hidden">
           <summary className="inline-flex cursor-pointer list-none items-center gap-1 rounded text-fs-12.5 text-fore-4 underline decoration-line/20 underline-offset-2 outline-none hover:text-fore focus-visible:ring-2 focus-visible:ring-line/20">
@@ -101,6 +103,13 @@ function SightingDetail({ card }: { card: RippleCard }) {
       <Panel className="px-6 py-5">
         <ExplainSections ex={ex} columns={2} />
       </Panel>
+
+      {card.options && !card.hits.some((h) => h.ticker === event.ticker && h.options) ? (
+        <section>
+          <SectionTitle>Options on {event.ticker}</SectionTitle>
+          <OptionsRow options={card.options} className="mt-2" label={false} />
+        </section>
+      ) : null}
 
       <section>
         <SectionTitle count={hits.length}>Companies affected</SectionTitle>

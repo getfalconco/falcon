@@ -9,8 +9,18 @@
 # Repo secrets (Settings > Secrets and variables > Actions):
 #   DATABASE_URL       Postgres connection string of the Supabase project
 #   ANTHROPIC_API_KEY  Claude API key for the judge
+#   DATABENTO_API_KEY  Databento key for the cards' options block (optional)
 # Without ANTHROPIC_API_KEY the run fails before anything is published: cards
-# are never written without judgments.
+# are never written without judgments. Without DATABENTO_API_KEY the cards
+# simply carry no options block.
+#
+# Options (packages/engine/src/options/sightings-options.ts): one OPRA quote
+# snapshot per name on the published cards, about $0.001 a name. Capped at
+# OPTIONS_RUN_CAP_USD a run and OPTIONS_MONTH_CAP_USD a calendar month (UTC),
+# counted in the spend ledger packages/engine/.cache/databento/spend.ndjson,
+# which the "options ledger" cache carries from run to run (saved even when
+# the run fails). A cap skips the rest quietly. If that cache is ever lost the
+# monthly tally restarts from zero; the per-run cap still holds.
 #
 # Idempotent: a card's id is "<sector>-<ticker>-<EDGAR accession>", so a rerun
 # or the next day's overlapping window updates the same rows. Cards whose event
@@ -54,13 +64,20 @@ jobs:
       DAYS: ${{ inputs.days || '7' }}
       MAX_CARDS: ${{ inputs.max || '15' }}
       DRY_RUN: ${{ inputs.dry_run && '1' || '' }}
+      OPTIONS_RUN_CAP_USD: "0.75"
+      OPTIONS_MONTH_CAP_USD: "20"
+      OPTIONS_MAX_NAMES: "80"
     steps:
       - name: Check secrets
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DATABENTO_API_KEY: ${{ secrets.DATABENTO_API_KEY }}
         run: |
           missing=0
+          if [ -z "$DATABENTO_API_KEY" ]; then
+            echo "::notice title=DATABENTO_API_KEY missing::Cards are published without the options block."
+          fi
           if [ -z "$ANTHROPIC_API_KEY" ]; then
             echo "::error title=ANTHROPIC_API_KEY missing::Add the repo secret ANTHROPIC_API_KEY (Settings > Secrets and variables > Actions). Cards are never published without judgments."
             missing=1
@@ -102,6 +119,18 @@ jobs:
             engine-cache-
             engine-http-
 
+      # The options spend ledger and computed snapshots: restored here, saved
+      # after the run even when it fails (money spent must stay counted).
+      - name: Restore the options ledger
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            packages/engine/.cache/databento/spend.ndjson
+            packages/engine/.cache/options
+          key: options-ledger-${{ github.run_id }}
+          restore-keys: |
+            options-ledger-
+
       - name: Apply migrations
         if: env.DRY_RUN == ''
         env:
@@ -112,10 +141,22 @@ jobs:
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DATABENTO_API_KEY: ${{ secrets.DATABENTO_API_KEY }}
         run: |
           args=(--sector "$SECTOR" --days "$DAYS" --max "$MAX_CARDS" --keep-days 7)
           if [ -n "$DRY_RUN" ]; then args+=(--dry-run --out out/sightings.json); fi
           pnpm --filter @falcon/engine run sightings -- "${args[@]}"
+
+      - name: Save the options ledger
+        if: always()
+        # Nothing to save (no key, nothing pulled yet) is not a failure.
+        continue-on-error: true
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            packages/engine/.cache/databento/spend.ndjson
+            packages/engine/.cache/options
+          key: options-ledger-${{ github.run_id }}
 
       - name: Keep the feed
         if: always()

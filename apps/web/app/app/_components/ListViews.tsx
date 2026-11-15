@@ -2,12 +2,13 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { BookOpen, Plus, RotateCw, X } from "lucide-react";
-import { NOTHING_CLEARED, cardPricedIn, type RippleCard } from "@falcon/ripple";
+import { NOTHING_CLEARED, cardOptions, cardPricedIn, type RippleCard } from "@falcon/ripple";
 import { eventKicker, eventTypeCounts, exposureByTicker, mixByType, sortByTime, touchesFocus } from "@/lib/workspace/feed";
 import { searchTickers, type TickerResult } from "@/lib/workspace/focus";
 import { MAX_STOCKS, TICKER_PATTERN } from "@/lib/onboarding";
 import { useWorkspace } from "./context";
 import { FeedNotice } from "./FeedNotice";
+import { OptionsChip } from "./OptionsBlock";
 import { MONO, NetMark, timeAgo } from "./parts";
 import { StrengthBadge, useExplain } from "./explain";
 import { CardBody, CardHeader, TextButton } from "./shell/ui";
@@ -191,7 +192,8 @@ function SightingRow({ card, mine, onOpen }: { card: RippleCard; mine: boolean; 
               <span aria-hidden>·</span>
               <span className="shrink-0 whitespace-nowrap text-fs-11.5 text-fore">{card.event.ticker}</span>
             </span>
-            <StrengthBadge strength={ex.strength} className="ml-auto" />
+            <OptionsChip options={cardOptions(card)} className="ml-auto" />
+            <StrengthBadge strength={ex.strength} className={cardOptions(card) ? "" : "ml-auto"} />
             <span className="shrink-0 text-fs-11.5 text-faint" style={{ fontFamily: MONO }}>
               {timeAgo(card.event.occurredAt)}
             </span>

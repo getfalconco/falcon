@@ -197,7 +197,7 @@ values become ~0.058. Read them as "promising, not established".
   were seen (to check the mechanical bias in the pre-registered slope); it is
   labelled as such and does not change any verdict.
 
-### Problems found in the core (not changed)
+### Problems found in the core (both fixed on 2026-11-15: 206 is a success, dropped bodies are retried under one ledger line)
 
 - `client.ts` `DatabentoClient.call` accepts only HTTP 200. Databento answered
   some XNAS.ITCH `ohlcv-1m` multi-symbol requests (2018-2022, batches with a

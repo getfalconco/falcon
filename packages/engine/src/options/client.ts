@@ -18,7 +18,7 @@ import zlib from "node:zlib";
 import { env } from "../env.ts";
 import { nyInstantMs } from "../study/abnormal.ts";
 import { backoffMs, retryableStatus } from "../http.ts";
-import { BudgetError, SpendGuard, requestKey, type GuardOptions, type RangeRequest, type SpendEntry } from "./cost.ts";
+import { BudgetError, SpendGuard, requestKey, type GuardOptions, type RangeRequest, type SpendCap, type SpendEntry } from "./cost.ts";
 
 export const DATABENTO_BASE = "https://hist.databento.com/v0";
 
@@ -52,6 +52,8 @@ export type PullOptions = {
   maxCallUsd: number;
   /** Refuse when this caller's ledger total would pass this. */
   maxCallerUsd?: number;
+  /** Extra caps checked under the ledger lock (cost.ts SpendCap), e.g. a monthly cap over several callers. */
+  caps?: readonly SpendCap[];
   /** Only price the request: no ledger line, no data. Cached requests still return their data. */
   dryRun?: boolean;
 };
@@ -65,7 +67,17 @@ export type RangeResult<T = Record<string, unknown>> = {
   cached: boolean;
   dryRun: boolean;
   key: string;
+  /**
+   * True when Databento answered 206 Partial Content: the body is valid but
+   * some symbols did not resolve for the range (`warning` says which, when
+   * Databento sent its X-Warning header). Cached like a full answer.
+   */
+  partial?: boolean;
+  warning?: string;
 };
+
+/** Attempts at downloading and decoding a get_range body after it was paid for (one ledger line for all of them). */
+export const BODY_ATTEMPTS = 4;
 
 export type ClientOptions = GuardOptions & {
   http?: HttpFn;
@@ -94,7 +106,11 @@ export class DatabentoClient {
     return "Basic " + Buffer.from(`${key}:`).toString("base64");
   }
 
-  /** One HTTP call with retries on 429 / 5xx / network errors. Never echoes the key. */
+  /**
+   * One HTTP call with retries on 429 / 5xx / network errors. Any 2xx is a
+   * success: Databento answers 206 Partial Content, with a valid body, when
+   * some symbols do not resolve for the range. Never echoes the key.
+   */
   private async call(method: "GET" | "POST", endpoint: string, params: Record<string, string>): Promise<HttpResponseLike> {
     const qs = new URLSearchParams(params).toString();
     const url = method === "GET" ? `${DATABENTO_BASE}/${endpoint}?${qs}` : `${DATABENTO_BASE}/${endpoint}`;
@@ -105,7 +121,7 @@ export class DatabentoClient {
       if (attempt > 0) await this.sleep(backoffMs(attempt - 1, last instanceof RetryAfter ? last.retryAfter : null));
       try {
         const res = await this.http(url, { method, headers, body: method === "POST" ? qs : undefined });
-        if (res.status === 200) return res;
+        if (res.status >= 200 && res.status < 300) return res;
         const body = (await res.text()).slice(0, 600);
         if (retryableStatus(res.status) && attempt < 3) {
           last = new RetryAfter(res.headers.get("retry-after"), res.status, body);
@@ -176,26 +192,46 @@ export class DatabentoClient {
     const priced = await this.getCost(req);
     if (opts.dryRun) return { records: [], costUsd: 0, pricedUsd: priced, cached: false, dryRun: true, key };
 
+    // One ledger line per pull, however many download attempts it takes.
     const { entry } = await this.guard.authorize({
       req,
       costUsd: priced,
       caller: opts.caller,
       maxCallUsd: opts.maxCallUsd,
       maxCallerUsd: opts.maxCallerUsd,
+      caps: opts.caps,
     });
-    let body: Buffer;
     const ext = zstdDecompress ? "json.zst" : "json.gz";
-    try {
-      const res = await this.call("POST", "timeseries.get_range", rangeParams(req, zstdDecompress ? "zstd" : "none"));
-      body = Buffer.from(await res.arrayBuffer());
-      if (!zstdDecompress) body = zlib.gzipSync(body);
-    } catch (err) {
-      await this.refundQuietly(entry, err);
-      throw err;
+    let got: { body: Buffer; records: T[]; partial: boolean; warning: string | null } | null = null;
+    let last: unknown = null;
+    for (let attempt = 0; attempt < BODY_ATTEMPTS && !got; attempt++) {
+      if (attempt > 0) await this.sleep(backoffMs(attempt - 1));
+      try {
+        // `call` already retried the status codes; a DatabentoError here is final.
+        const res = await this.call("POST", "timeseries.get_range", rangeParams(req, zstdDecompress ? "zstd" : "none"));
+        let body = Buffer.from(await res.arrayBuffer());
+        if (!zstdDecompress) body = zlib.gzipSync(body);
+        // A truncated body fails to decode: retried like a dropped download.
+        const records = decodeRecords<T>(body, ext);
+        got = { body, records, partial: res.status === 206, warning: res.headers.get("x-warning") };
+      } catch (err) {
+        last = err;
+        if (err instanceof DatabentoError) break;
+      }
     }
-    const records = decodeRecords<T>(body, ext);
-    this.guard.writeCache(key, ext, body, { req, at: entry.at, costUsd: priced, caller: opts.caller, records: records.length });
-    return { records, costUsd: priced, pricedUsd: priced, cached: false, dryRun: false, key };
+    if (!got) {
+      await this.refundQuietly(entry, last);
+      throw last instanceof Error ? last : new DatabentoError(0, String(last));
+    }
+    const { body, records, partial, warning } = got;
+    // A partial answer is cached too (it was paid for); its meta says so.
+    this.guard.writeCache(key, ext, body, { req, at: entry.at, costUsd: priced, caller: opts.caller, records: records.length, ...(partial ? { partial, warning } : {}) });
+    const out: RangeResult<T> = { records, costUsd: priced, pricedUsd: priced, cached: false, dryRun: false, key };
+    if (partial) {
+      out.partial = true;
+      if (warning) out.warning = warning.slice(0, 300);
+    }
+    return out;
   }
 
   private async refundQuietly(entry: SpendEntry, err: unknown): Promise<void> {

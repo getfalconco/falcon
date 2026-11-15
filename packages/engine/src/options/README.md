@@ -14,12 +14,71 @@ Everything is pure and tested except the fetchers in `client.ts` and
 | `rates.ts` | FRED DTB3 risk-free rate, Yahoo trailing dividend yield |
 | `surface.ts` | Per underlying-day features from an end-of-day snapshot |
 | `flow.ts` | Per ticker-day trade-side flow and the quiet-accumulation score |
-| `cli.ts` | `spend`, `features`, `flow` commands |
+| `cards.ts` | The Sightings card block (`RippleOptions`): implied moves raw and beyond the market, matched comparison with a hit's record, beta |
+| `sightings-options.ts` | The options job of a Sightings run: names, snapshot, caps, pulls, blocks onto the cards |
+| `cli.ts` | `spend`, `features`, `flow`, `cards` commands |
 
 Tests: `test/options-math.test.ts`, `test/options-cost.test.ts`,
 `test/options-surface.test.ts`; fixtures (real KLAC records, trimmed) live
 locally in `test/fixtures/options/` and are not committed (Databento licence);
 the suites that need them skip when the files are missing.
+
+## Options on Sightings cards
+
+`sightings-options.ts` runs inside every Sightings run (`src/cli/sightings.ts`,
+after the cards are built, before they are published). For the tickers on the
+published cards (event company, then hits; deduplicated, US listings, liquid
+by `quality.ts isLiquid`, at most `OPTIONS_MAX_NAMES`, default 80) it takes
+one `cbbo-1m` snapshot of each chain at 15:45 New York (12:45 on early-close
+days) of the latest session whose snapshot is at least 15 minutes old and
+inside Databento's range: the morning runs read the previous close, the
+evening run that day's. Definitions come from the OSI symbols in the quote
+records (no `definition` pull); the spot is the XNAS.ITCH 1-minute bar
+ending at the snapshot (Yahoo's close or the parity spot as fallbacks). A
+snapshot already computed is kept in `.cache/options/` and reused for free.
+
+Per name (`cards.ts`, @falcon/ripple `RippleOptions`): ATM IV 30 days; the
+implied move over 5 and 20 sessions, raw (ATM IV of the first expiry on or
+after the window's last session x sqrt(L/252) x sqrt(2/pi)) and beyond the
+market (the variance minus beta^2 VIX^2 first; beta from a year of Yahoo
+closes against SPY, VIX from FRED VIXCLS; null when the market part is the
+whole variance); XZZ skew and the CW call-put spread as descriptive numbers;
+spot and as-of time. On a hit with a record (>= 6 past events), `matched`
+sets the implied move beyond the market over the record's own window next
+to the record's mean |move - benchmark move| (`historyAbsMovePct`): the H7
+matched units. The raw implied move is never compared with the history
+(options price more than the abnormal history 87% of the time in raw units).
+No IV percentile (no trailing IV history is kept yet) and no open interest
+(no GEX: about $0.035 a name). Chains with a surface warning, no ATM curve or
+fewer than 20 contracts with an IV are left out.
+
+Cost and caps: about $0.06 for 60 names (four 15-parent requests priced at
+one 10-minute block each, plus ITCH bars). Every pull is priced first and
+checked under the ledger lock against the per-run cap (`OPTIONS_RUN_CAP_USD`,
+default $0.75: the run's own caller `sightings-options@<time>`) and the
+monthly cap (`OPTIONS_MONTH_CAP_USD`, default $20: every `sightings-options`
+caller in the UTC month, a `SpendCap`). In GitHub Actions the ledger and the
+snapshot cache travel between runs in the "options ledger" cache. A refused
+pull stops the job quietly and the run summary line says so, e.g.
+`options: 46 of 62 names priced at 2026-11-13 15:45 ET; left out 21: ...;
+$0.06 this run (cap $0.75), $0.06 this month (cap $20.00)`.
+
+`node --import tsx src/options/cli.ts cards --feed https://getfalcon.co/api/sightings [--dry-run]`
+runs the job on any feed (`--dry-run` only prices it).
+
+### Display licensing (open question)
+
+Showing numbers derived from OPRA quotes to outside users may need exchange
+and vendor display licensing: OPRA's vendor and subscriber agreements (fees
+for displaying OPRA data, including derived data, to non-professional and
+professional users) and Databento's redistribution terms for the plan in
+use. Until the founder confirms the licensing position, the website shows
+the options block to the founder admin only: `OPTIONS_DISPLAY` (Netlify env,
+`admin` by default, `all` or `off`) is read by `/api/sightings`, which strips
+`options` from every card and hit for anyone else (apps/web
+`lib/sightings-options.ts`). The blocks are still stored in Supabase with
+the cards (the table is not readable by clients). The iPhone app reads the
+same API, so it never sees them either.
 
 ## Spending money: the rules
 
@@ -29,6 +88,11 @@ the suites that need them skip when the files are missing.
 - Ledger: `packages/engine/.cache/databento/spend.ndjson`, append-only,
   one line per paid pull: `{at, kind, dataset, schema, symbols: {count, first}, start, end, costUsd, caller, key}`.
   A pull that fails after it was charged gets a `refund` line (negative cost).
+  Any 2xx answer is a success: Databento's 206 Partial Content (some symbols
+  did not resolve) comes back with `partial: true` and its X-Warning. A
+  dropped or undecodable body is downloaded again (up to 4 attempts, with
+  backoff) under the same single ledger line; only when every attempt fails
+  is it refunded.
 - Budgets: total `DATABENTO_BUDGET_USD` (default 90, env or `apps/web/.env.local`)
   over the whole ledger; `maxCallUsd` per pull; `maxCallerUsd` over the
   ledger lines with your caller name. Use a distinct caller name per agent

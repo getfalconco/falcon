@@ -1,13 +1,14 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { analystsFor, analystsLabel, type RippleCard } from "@falcon/ripple";
+import { analystsFor, analystsLabel, type RippleCard, type RippleOptions } from "@falcon/ripple";
 import { cardsForTicker, companyNameFor, connectionsFor, netDirection, sectorFor } from "@/lib/workspace/feed";
 import { buildGraph, withSeedConnections } from "@/lib/workspace/graph";
 import { useGraphNeighborhood } from "@/lib/workspace/graph-api";
 import { fetchNames } from "@/lib/workspace/focus";
 import { useWorkspace } from "../context";
 import { GraphView } from "../GraphView";
+import { OptionsRow } from "../OptionsBlock";
 import { EmptyState, EvidenceQuote, MONO, NetRing, Panel, SectionTitle, SERIF, TickerButton, feedEmpty, timeAgo } from "../parts";
 import { SightingCard, useExplain } from "../explain";
 
@@ -22,6 +23,19 @@ function AtRowText({ card }: { card: RippleCard }) {
       <span className="truncate text-fs-13 text-fore">{ex.title}</span>
     </>
   );
+}
+
+/** The newest options block for a ticker on any card (its own events or hits), without a card's history comparison. */
+function tickerOptions(cards: readonly RippleCard[], ticker: string): RippleOptions | null {
+  const all: RippleOptions[] = [];
+  for (const c of cards) {
+    if (c.event.ticker === ticker && c.options) all.push(c.options);
+    for (const h of c.hits) if (h.ticker === ticker && h.options) all.push(h.options);
+  }
+  if (!all.length) return null;
+  const best: RippleOptions = { ...all.reduce((a, b) => (b.asOf > a.asOf ? b : a)) };
+  delete best.matched;
+  return best;
 }
 
 /** Company name: the focus list, then the feed, then the SEC list. */
@@ -67,6 +81,7 @@ export function TickerTab({ ticker }: { ticker: string }) {
   const connections = useMemo(() => withSeedConnections(connectionsFor(feed, ticker), extra, ticker), [extra, feed, ticker]);
   const net = netDirection(hitting.map((h) => h.hit));
   const graph = useMemo(() => buildGraph(feed, extra, [ticker], { maxDepth: 1, maxNodes: 13 }), [extra, feed, ticker]);
+  const options = useMemo(() => tickerOptions(feed?.cards ?? [], ticker), [feed, ticker]);
 
   return (
     <div className="mx-auto flex w-full max-w-[var(--f-w-ticker)] flex-col gap-6 px-7 py-6">
@@ -112,6 +127,13 @@ export function TickerTab({ ticker }: { ticker: string }) {
           )}
         </Panel>
       </div>
+
+      {options ? (
+        <section>
+          <SectionTitle>Options</SectionTitle>
+          <OptionsRow options={options} className="mt-2" label={false} />
+        </section>
+      ) : null}
 
       <section>
         <SectionTitle count={hitting.length}>Events hitting {ticker}</SectionTitle>

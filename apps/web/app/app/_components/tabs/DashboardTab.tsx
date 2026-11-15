@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
-import { NOTHING_CLEARED, anyClearsBar, cardStrength, type RippleCard } from "@falcon/ripple";
+import { NOTHING_CLEARED, anyClearsBar, cardOptions, cardStrength, type RippleCard } from "@falcon/ripple";
 import { buildTodaySummary, exposureByTicker, mixByType, touchesFocus } from "@/lib/workspace/feed";
 import { buildGraph } from "@/lib/workspace/graph";
 import { useWorkspace } from "../context";
@@ -9,6 +9,7 @@ import { GraphView } from "../GraphView";
 import { EmptyState, MONO, NetMark, NetRing, Panel, SectionTitle, SERIF, feedEmpty, timeAgo } from "../parts";
 import { HowToReadButton, SightingCard, StrengthBadge, todaySentence, useExplain } from "../explain";
 import { FeedNotice } from "../FeedNotice";
+import { OptionsChip } from "../OptionsBlock";
 
 /** True when the feed is in and no card clears the publishing bar (only Watch-tier cards, or none). */
 export function useNothingCleared(): boolean {
@@ -237,6 +238,7 @@ function LatestRowView({ card }: { card: RippleCard }) {
         </span>
         <span className="flex items-center gap-3 whitespace-nowrap text-fs-12 text-faint">
           {mine ? <span className="text-fore-4">{mine} on your list</span> : null}
+          <OptionsChip options={cardOptions(card)} />
           <StrengthBadge strength={ex.strength} />
           <span className="w-14 text-right">{timeAgo(card.event.occurredAt)}</span>
         </span>

@@ -27,6 +27,13 @@
  *                         cards (default 40% of --max, rounded up: 6 of 15)
  *   --no-judgment-cache   dry run: do not read or write .cache/judgments (judge every event again)
  *   --no-detectors        skip the registered detectors (src/detectors)
+ *   --no-options          do not price the cards' option chains (src/options/sightings-options.ts)
+ *   --options-price-only  price the option pulls (get_cost) without buying them; no blocks
+ *
+ * Options: with DATABENTO_API_KEY, one OPRA snapshot per name on the published
+ * cards adds an options block (card.options, hit.options), capped by
+ * OPTIONS_RUN_CAP_USD (default 0.75) and OPTIONS_MONTH_CAP_USD (default 20)
+ * over the ledger in .cache/databento; a cap or a missing key skips quietly.
  *
  * Judge once: a real run stores each event's judgment in Supabase
  * (public.ripple_judgments) and reuses it while the event's candidates are
@@ -46,7 +53,7 @@
 
 import fs from "node:fs";
 import path from "node:path";
-import type { SightingsFeed } from "@falcon/ripple";
+import { optionsSentence, type SightingsFeed } from "@falcon/ripple";
 import { env, WEB_ENV_PATH } from "../env.ts";
 import { ENGINE_ROOT } from "../http.ts";
 import type { HistoryDeps } from "../history.ts";
@@ -64,6 +71,7 @@ import { liquidityOf, type Liquidity } from "../quality.ts";
 import type { MarketData } from "../market.ts";
 import { EXIT, exitReason, runExitCode, summaryLines, warningLines, type Publish } from "../summary.ts";
 import { publishCards } from "../supabase.ts";
+import { attachOptions } from "../options/sightings-options.ts";
 
 type Args = Record<string, string | boolean>;
 
@@ -167,6 +175,7 @@ function printFeed(feed: SightingsFeed): void {
         const avg = `${x.avgMovePct > 0 ? "+" : ""}${x.avgMovePct.toFixed(1)}%`;
         console.log(`     History: went the implied way ${Math.round(x.hitRate * x.sample)} of ${x.sample} times, avg ${avg} vs ${x.benchmark ?? "market"}, ${x.windowDays} trading days`);
       }
+      if (h.options) console.log(`     Options (${h.options.asOf.slice(0, 16)}Z, ATM IV ${h.options.atmIv}%): ${optionsSentence(h.options)}`);
       for (const ev of h.evidence) {
         const q = ev.quote.length > 220 ? `${ev.quote.slice(0, 217)}...` : ev.quote;
         console.log(`     "${q}" (${ev.form} ${ev.filedAt})`);
@@ -286,6 +295,24 @@ async function main(): Promise<number> {
     return EXIT.NO_JUDGE;
   }
 
+  // Options blocks on the cards being published (OPRA via Databento; capped per run and per month).
+  let optionsLine: string | null = null;
+  if (args["no-options"] === true) optionsLine = "options: skipped (--no-options)";
+  else if (run.feed.cards.length) {
+    try {
+      const s = await attachOptions(run.feed.cards, {
+        market: history?.market ?? null,
+        liquidity,
+        log,
+        priceOnly: args["options-price-only"] === true,
+      });
+      optionsLine = s.line;
+    } catch (err) {
+      optionsLine = `options: skipped (${redact(err instanceof Error ? err.message : String(err)).slice(0, 200)})`;
+    }
+    console.log(optionsLine);
+  }
+
   for (const r of run.rejected) console.log(`  dropped ${r.ticker} on ${r.eventId}: ${r.problems.join("; ")}`);
   // Events sent to the judge this run (reused judgments are not judged again).
   const judged = run.analysis?.judged ?? run.requests.length;
@@ -337,6 +364,7 @@ async function main(): Promise<number> {
 
   const exitCode = runExitCode(run, judged, publish);
   const lines = summaryLines({ run, judged, judgeName: judge.name, publish, exitCode, studyLedger });
+  if (optionsLine) lines.splice(lines.length - 1, 0, optionsLine);
   const lu = llmUsage();
   if (lu.calls || lu.cached || lu.skipped) {
     lines.splice(lines.length - 1, 0, `detector model: ${lu.calls} calls, ${lu.cached} cached answers, ${lu.skipped} skipped (no key or budget); about $${lu.costUsd.toFixed(2)} of $${detectorBudgetUsd.toFixed(2)}`);
