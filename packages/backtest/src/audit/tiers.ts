@@ -40,6 +40,22 @@ export type TierAInput = {
 const r1 = (x: number) => Math.round(x * 10) / 10;
 const r2 = (x: number) => Math.round(x * 100) / 100;
 
+/**
+ * Fixed numbers in a check's own definition, by check id (the thresholds and
+ * settings written into the texts below). Explain may write them as text
+ * ("one-day moves above 50%", "the 5 best trades", "a 90% range") when the
+ * check is in the report; they are not results. Keep in step with the texts.
+ */
+export const CHECK_CONSTANTS: Record<number, number[]> = {
+  5: [50], // one-day moves above 50%
+  6: [3, 20, 30], // at least 3 years; 20 independent event dates; 30 trades or rebalances
+  8: [90, 20], // 90% range from a 20-session block bootstrap
+  11: [20], // each parameter moved 20% either way
+  12: [5, 50], // the 5 best trades; more than 50% of the profit
+  13: [200, 80], // SPY above its 200-session average; one regime above 80%
+  16: [1, 5], // above 1% of average daily dollar volume; stocks under $5
+};
+
 function activeSeries(spec: StrategySpecV2, equity: Float64Array, bench: Benchmarks): number[] {
   const b = spec.benchmark === "equal_weight_universe" && bench.ew ? bench.ew : bench.spy;
   const s = dailyRets(equity);
