@@ -18,8 +18,8 @@
  *   --no-history          leave every hit's history null (no price or past-filing reads)
  *   --no-coverage         do not read analyst coverage from Yahoo (no coverage boost)
  *   --out FILE            where to write the feed (default out/sightings.json)
- *   --max-judge-calls 40  cost guard: judge calls this run at most (src/vote.ts)
- *   --max-judge-usd 0.75  cost guard: judge dollars this run at most, from measured usage
+ *   --max-judge-calls 80  cost guard: judge calls this run at most (src/vote.ts)
+ *   --max-judge-usd 2     cost guard: judge dollars this run at most, from measured usage
  *   --detector-usd 0.5    cost guard: detector model dollars this run (Haiku reads 8-Ks,
  *                         13Ds and 4.02 notices; cached in .cache/llm). 0 turns those
  *                         detectors off

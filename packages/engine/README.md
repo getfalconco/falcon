@@ -36,8 +36,9 @@ run never touches the database and uses `.cache/judgments/` instead
 (`--no-judgment-cache` turns that off). So a second run on the same window
 makes no judge call.
 
-**Cost guard.** At most `--max-judge-calls` (default 40) calls and
-`--max-judge-usd` (default $0.75, design 5.2) per run, measured from the
+**Cost guard.** At most `--max-judge-calls` (default 80) calls and
+`--max-judge-usd` (default $2; design 5.2's $0.75, raised with the
+whole-market graph) per run, measured from the
 API's reported usage (`allowedCalls` in `src/vote.ts`: a round asks only for
 the calls the dollars left can pay at the run's average cost per call so
 far). Events left when the cap is reached are counted as backlog and judged
