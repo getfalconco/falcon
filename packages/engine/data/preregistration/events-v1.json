@@ -1,0 +1,87 @@
+{
+  "id": "events-v1",
+  "writtenAt": "2026-11-15",
+  "status": "frozen before any outcome (price, return or abnormal return) of these events was pulled or computed; changes only in an events-v2 file with reasons",
+  "seenBeforeWriting": [
+    "EDGAR full-index master.gz for 2019 QTR2 (form type counts only: NT 10-K 425, NT 10-Q 498, SC 13D 577, SC 13D/A 1,867, 25-NSE 392; that an SC 13D accession is listed once under the subject company and once under each filer)",
+    "efts full-text search hit count and five hit records for the phrase \"Item 4.02\" in 2019 8-Ks (127 hits; records carry an items field)",
+    "the F7 study (docs/f7-study.md, .cache/study/f7-summary.json) and its registered estimate, which set the method and the bar reused here"
+  ],
+  "goal": "Falcon's own post-2015 estimate for three own-firm event families the Sightings engine already detects, so a family can earn Documented ('Backed by research') status when, and only when, its measured effect goes the expected way and passes the same bar as F7.",
+  "code": {
+    "events": "packages/engine/src/study/filing-events.ts (pure: index parsing, subject company, de-duplication, pass bar)",
+    "runner": "packages/engine/scripts/events-study.ts",
+    "measurement": "packages/engine/src/study/abnormal.ts measureEvent and eventStudy, src/study/controls.ts, src/study/stats.ts, unchanged from the F7 study"
+  },
+  "sample": {
+    "eventDates": { "from": "2015-01-01", "to": "2026-06-30", "dateOf": "EDGAR filing date (New York)" },
+    "source": "EDGAR full-index master.gz, 2015 QTR1 to 2026 QTR2 (form type, CIK, filing date, accession); for 8-K item 4.02 the EDGAR full-text search (efts) items field; no LLM",
+    "periods": { "development": "2015-2021", "validation": "2022-2023", "holdout": "2024-01 to 2026-06" }
+  },
+  "families": {
+    "F6_late_filing": {
+      "registryEventType": "distress_nt",
+      "expectedSign": -1,
+      "event": "form type exactly \"NT 10-K\" or \"NT 10-Q\" (Form 12b-25). Amendments (/A), NT 20-F, NT 11-K and fund forms are excluded. Issuer = the filing CIK.",
+      "dedupe": "per issuer, filings in date order; a filing within 30 calendar days of that issuer's previous kept event is a duplicate (same period re-filed, or the 10-K and 10-Q notices of one episode)",
+      "detectorMatch": "src/detectors/distress.ts distressNtDetector: same forms (NT 20-F left out per this study's scope: the universe is US-listed common stock), issuer must be US-listed, no LLM, sign -1. The detector itself does not de-duplicate; the study does so that one episode counts once."
+    },
+    "F8_activist_stake": {
+      "registryEventType": "activist_stake",
+      "expectedSign": 1,
+      "event": "form type exactly \"SC 13D\" or \"SCHEDULE 13D\" (initial Schedule 13D; \"/A\" amendments excluded) where the filer is not the issuer: the accession must list at least two CIKs in the index; the subject company is the one CIK with a row in company_tickers_exchange.json; when several do, the SEC header's SUBJECT COMPANY decides; an accession whose only CIK is the subject (self-filed) is dropped.",
+      "dedupe": "per subject company, one event per 30 calendar days (group members filing separately count once)",
+      "detectorMatch": "src/detectors/activist.ts keeps only 13Ds whose Item 4 Haiku labels as activist (board seats, strategy change, sale push, capital return, acquisition proposal). That label needs an LLM and the document text; it is not applied here. The study therefore measures all initial third-party 13Ds, a broader population than the cards (it includes founders, strategic holders and passive 13D filers). Reported as a caveat; the verdict applies to this broader population."
+    },
+    "F6_restatement_402": {
+      "registryEventType": "restatement_402",
+      "expectedSign": -1,
+      "event": "form type exactly \"8-K\" (8-K/A excluded) whose EDGAR items include 4.02 (non-reliance on previously issued financial statements). Found with efts full-text search per calendar year for the phrases \"Item 4.02\" and \"non-reliance\" (union), kept only when the record's items field contains 4.02. Issuer = the first CIK of the record.",
+      "dedupe": "per issuer, one event per 30 calendar days",
+      "detectorMatch": "src/detectors/distress.ts restatementDetector: same route (8-K with item 4.02, US-listed). The detector's Haiku read only drops filings the model says are not a non-reliance notice and adds scope facts; it is not applied. Blank-check companies (SIC 6770, the 2021 SPAC warrant restatements) are kept in the primary sample, as the detector keeps them; a secondary excludes them."
+    }
+  },
+  "universe": {
+    "rule": "the same gate as F7, at the event date: the issuer CIK maps to a ticker (company_tickers_exchange.json, the F7 study's copy of 2026-11-14), Yahoo has its daily history covering day 0 and the estimation window, unadjusted price > $5 at the last close before day 0 (split-adjusted close times later split ratios), 20-session median dollar volume >= $5M before day 0, and >= 120 valid estimation days. Common-stock-like primary ticker per CIK (regex ^[A-Z]{1,5}(-[A-Z])?$, first listed class).",
+    "listedNow": "ticker on Nasdaq, NYSE or Cboe today (as F7)",
+    "delistedWherePricesExist": "survivorship extension beyond F7: a CIK whose ticker today is on OTC or has no exchange is kept when the same CIK has a Form 25 or 25-NSE in the full index filed after the event date (it was exchange-listed at the event and delisted later) and Yahoo still serves the symbol's history. Reported separately; the primary pools both groups.",
+    "survivorshipReport": "funnel per family: events, issuers with no ticker today (gone: acquired, deregistered or renamed beyond reach), listed today, delisted-but-priced, no Yahoo, price and volume gates, measured"
+  },
+  "timing": {
+    "publicTime": "EDGAR acceptance instant from the filing's -index.htm 'Accepted' line; when unreadable, 16:01 New York on the filing date (can only make entry later)",
+    "entry": "first regular-session open strictly after the public time (abnormal.ts entryIndex, latency 0)",
+    "day0": "first session whose close is after the public time"
+  },
+  "outcomes": {
+    "primary": "beta x SPY abnormal return over L = 20 sessions from the tradable entry: sum over sessions t0 .. t0+19 of r_i - beta_i r_SPY (first session open-to-close), beta from the SPY market model on sessions [-260, -11] relative to day 0; percent. This is the F7 registered column (CAR + alpha L).",
+    "secondary": [
+      "the same at L = 5",
+      "market-model CAR (with the estimation alpha) at L = 20 and 5",
+      "raw return minus SPY at L = 20",
+      "matched-control outcome y (src/study/controls.ts, as F7: 3-5 same-date controls by SIC, size, beta; y = sign x (SCAR_hit - mean SCAR_controls), winsorized at 3) at L = 20",
+      "PRE: last close before the public time to the entry open (already happened at entry; descriptive)",
+      "by period (development, validation, holdout), by listing status (listed now, delisted but priced), and for 4.02 excluding SIC 6770",
+      "L = 60 descriptive only"
+    ]
+  },
+  "inference": {
+    "clustering": "eventStudy: t clustered by event date (df G - 1) and two-way by issuer x calendar month (Cameron-Gelbach-Miller, df min(G) - 1); wild-cluster bootstrap p when G < 30",
+    "pValues": "one-sided in the family's expected direction (H1: mean < 0 for expectedSign -1, mean > 0 for +1)"
+  },
+  "passBar": {
+    "sameAs": "F7's registered estimate: conservative beta x SPY column, L = 20, one-sided p from the two-way clustered t below 0.05 (F7: mean +0.96%, t 2.22, p 0.014)",
+    "rules": [
+      "primary mean has the expected sign",
+      "one-sided p < 0.05 in the expected direction from the two-way (issuer x month) clustered t",
+      "one-sided p < 0.05 in the expected direction from the date-clustered t",
+      "n >= 100 measured events"
+    ],
+    "multipleTesting": "three families, each judged on its own bar as F7 was; a Bonferroni reading (p < 0.0167) is reported beside it, not used to decide",
+    "consequence": "a family that passes gets an ownEstimate in data/evidence-registry.json with the primary column's numbers as computed (period, n, nEvents = distinct event dates, windowDays 20, meanAbnPct, medianAbnPct, tStat = two-way t, p = one-sided two-way p, benchmark beta_x_spy, computedAt, note). A family that fails gets none and stays Watch."
+  },
+  "notChangedAfterSeeingOutcomes": [
+    "event definitions, de-duplication and universe",
+    "primary window, benchmark and test",
+    "pass bar and expected signs"
+  ]
+}

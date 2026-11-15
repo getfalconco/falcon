@@ -11,9 +11,16 @@
  *               until the family model runs (milestone 1b), so nothing is
  *               Measured yet.
  *   documented: directional, liquid, not priced in, no watch-only flag, links
- *               as for Measured, and the family is in data/evidence-registry.json
+ *               as for Measured, and the event type is in data/evidence-registry.json
  *               with a primary citation and Falcon's own post-2015 estimate
- *               above 0; "analogous" evidence also needs the estimate's p < 0.20.
+ *               whose sign matches the family's expected direction
+ *               (`expectedSign`, +1 when absent: a late filing or a
+ *               restatement is expected to be followed by a fall, and a
+ *               reliably negative estimate backs it as a positive one backs a
+ *               purchase); "analogous" evidence also needs the estimate's
+ *               p < 0.20 (p is one-sided in the expected direction). The
+ *               significance bar itself is applied before an estimate enters
+ *               the registry (docs/f7-study.md, docs/events-study.md).
  *   watch:      everything else.
  *
  * Liquid: last price above $5 and, when known, a 20-day median dollar volume
@@ -47,6 +54,7 @@ export type OwnEstimate = {
   p: number;
   benchmark: string;
   computedAt: string;
+  note?: string;
 };
 
 export type RegistryFamily = {
@@ -57,6 +65,8 @@ export type RegistryFamily = {
   url: string;
   effect: string;
   period: string;
+  /** The way the family is expected to move the stock (pre-registered); +1 when absent. */
+  expectedSign?: 1 | -1;
   ownEstimate: OwnEstimate | null;
 };
 
@@ -141,16 +151,34 @@ export function postCutoffEstimate(e: Pick<OwnEstimate, "period">): boolean {
   return Number.isFinite(year) && year >= OWN_ESTIMATE_FROM_YEAR;
 }
 
-/** The registry entry that documents a family, or why it does not. Pure. */
-export function documentation(family: string | null | undefined, registry: EvidenceRegistry): { documentedBy: DocumentedBy } | { why: string } {
-  if (!family) return { why: "no family" };
+/**
+ * The registry entry for a hit: the family's entry when it covers the hit's
+ * event type (or no event type is given), else another entry for that event
+ * type. One family can hold several event types (F6: late filings and 4.02
+ * restatements), and each needs its own estimate. Pure.
+ */
+export function registryEntry(family: string, eventType: string | null | undefined, registry: EvidenceRegistry): RegistryFamily | undefined {
   const f = registry.families[family];
-  if (!f) return { why: `family ${family} not in the evidence registry` };
+  if (!eventType) return f;
+  if (f && (!f.eventType || f.eventType === eventType)) return f;
+  return Object.values(registry.families).find((x) => x.eventType === eventType);
+}
+
+/** Whether an own estimate's mean goes the family's expected way (+1 when the family states none). Pure. */
+export function estimateMatchesExpected(own: Pick<OwnEstimate, "meanAbnPct">, expectedSign: 1 | -1 | undefined): boolean {
+  return Number.isFinite(own.meanAbnPct) && own.meanAbnPct !== 0 && Math.sign(own.meanAbnPct) === (expectedSign ?? 1);
+}
+
+/** The registry entry that documents a hit's family and event type, or why it does not. Pure. */
+export function documentation(family: string | null | undefined, registry: EvidenceRegistry, eventType?: string | null): { documentedBy: DocumentedBy } | { why: string } {
+  if (!family) return { why: "no family" };
+  const f = registryEntry(family, eventType, registry);
+  if (!f) return { why: eventType && registry.families[family] ? `family ${family} registry entry does not cover ${eventType}` : `family ${family} not in the evidence registry` };
   if (!f.citation || !f.url) return { why: `family ${family} has no primary citation` };
   const own = f.ownEstimate;
   if (!own) return { why: `family ${family} has no own estimate yet` };
   if (!postCutoffEstimate(own)) return { why: `family ${family} own estimate is not post-2015` };
-  if (!(own.meanAbnPct > 0)) return { why: `family ${family} own estimate is not above 0` };
+  if (!estimateMatchesExpected(own, f.expectedSign)) return { why: `family ${family} own estimate is not ${(f.expectedSign ?? 1) > 0 ? "above" : "below"} 0` };
   if (f.match !== "exact" && !(own.p < ANALOGOUS_MAX_P)) return { why: `family ${family} analogous evidence with own p ${own.p}` };
   return {
     documentedBy: {
@@ -166,6 +194,8 @@ export function documentation(family: string | null | undefined, registry: Evide
 
 export type QualityInput = {
   family: string | null;
+  /** The event type ("distress_nt"): picks the registry entry when a family holds several. */
+  eventType?: string | null;
   direction: Direction;
   relation: Relation;
   liquidity: Liquidity | null;
@@ -198,7 +228,7 @@ export function assignTier(q: QualityInput, ctx: QualityContext): TierRead {
   if (!q.quoted) base.push("a link has no quote");
   if (q.linkTier === "list") base.push("a link is only a list mention");
 
-  const doc = documentation(q.family, ctx.registry);
+  const doc = documentation(q.family, ctx.registry, q.eventType);
   const documentedBy = "documentedBy" in doc ? doc.documentedBy : undefined;
   const stat = q.family ? ctx.stats.families[q.family] : undefined;
 
