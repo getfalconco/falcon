@@ -72,6 +72,7 @@ import type { MarketData } from "../market.ts";
 import { EXIT, exitReason, runExitCode, summaryLines, warningLines, type Publish } from "../summary.ts";
 import { publishCards } from "../supabase.ts";
 import { attachOptions } from "../options/sightings-options.ts";
+import { pgOptionsStore } from "../options/store.ts";
 
 type Args = Record<string, string | boolean>;
 
@@ -299,16 +300,22 @@ async function main(): Promise<number> {
   let optionsLine: string | null = null;
   if (args["no-options"] === true) optionsLine = "options: skipped (--no-options)";
   else if (run.feed.cards.length) {
+    // The options store (Supabase options_daily, filled daily for the whole universe): read first, so
+    // names already priced this session cost nothing; what this run prices is stored too.
+    const optionsStore = databaseUrlForRun ? pgOptionsStore(databaseUrlForRun) : null;
     try {
       const s = await attachOptions(run.feed.cards, {
         market: history?.market ?? null,
         liquidity,
+        store: optionsStore,
         log,
         priceOnly: args["options-price-only"] === true,
       });
       optionsLine = s.line;
     } catch (err) {
       optionsLine = `options: skipped (${redact(err instanceof Error ? err.message : String(err)).slice(0, 200)})`;
+    } finally {
+      await optionsStore?.close().catch(() => undefined);
     }
     console.log(optionsLine);
   }

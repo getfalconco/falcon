@@ -15,7 +15,9 @@
 # simply carry no options block.
 #
 # Options (packages/engine/src/options/sightings-options.ts): one OPRA quote
-# snapshot per name on the published cards, about $0.001 a name. Capped at
+# snapshot per name on the published cards, about $0.001 a name; names the
+# daily universe job (options-daily.yml) already stored in Supabase
+# options_daily for that session are read from there, not bought. Capped at
 # OPTIONS_RUN_CAP_USD a run and OPTIONS_MONTH_CAP_USD a calendar month (UTC),
 # counted in the spend ledger packages/engine/.cache/databento/spend.ndjson,
 # which the "options ledger" cache carries from run to run (saved even when

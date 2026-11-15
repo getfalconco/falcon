@@ -15,7 +15,10 @@ Everything is pure and tested except the fetchers in `client.ts` and
 | `surface.ts` | Per underlying-day features from an end-of-day snapshot |
 | `flow.ts` | Per ticker-day trade-side flow and the quiet-accumulation score |
 | `cards.ts` | The Sightings card block (`RippleOptions`): implied moves raw and beyond the market, matched comparison with a hit's record, beta |
-| `sightings-options.ts` | The options job of a Sightings run: names, snapshot, caps, pulls, blocks onto the cards |
+| `chains.ts` | Shared core: snapshot choice, batched quote pulls (caps, account refusals, deadline), per-ticker records |
+| `sightings-options.ts` | The options job of a Sightings run: names, store reuse, caps, blocks onto the cards |
+| `daily.ts` | The daily universe job: graph tickers, liquidity gate, caps in Supabase, store writes |
+| `store.ts` | Supabase `options_daily` (records, skips, IV percentile) and `options_spend` (persistent ledger) |
 | `cli.ts` | `spend`, `features`, `flow`, `cards` commands |
 
 Tests: `test/options-math.test.ts`, `test/options-cost.test.ts`,
@@ -48,7 +51,7 @@ sets the implied move beyond the market over the record's own window next
 to the record's mean |move - benchmark move| (`historyAbsMovePct`): the H7
 matched units. The raw implied move is never compared with the history
 (options price more than the abnormal history 87% of the time in raw units).
-No IV percentile (no trailing IV history is kept yet) and no open interest
+IV percentile from the options store once 20 days are kept (daily.ts); no open interest
 (no GEX: about $0.035 a name). Chains with a surface warning, no ATM curve or
 fewer than 20 contracts with an IV are left out.
 
@@ -65,6 +68,42 @@ $0.06 this run (cap $0.75), $0.06 this month (cap $20.00)`.
 
 `node --import tsx src/options/cli.ts cards --feed https://getfalcon.co/api/sightings [--dry-run]`
 runs the job on any feed (`--dry-run` only prices it).
+
+## Options for the whole universe, daily
+
+`daily.ts` (`pnpm --filter @falcon/engine run options-daily`, workflow
+`.github/workflows/options-daily.yml`, weekdays 22:00 UTC plus 05:30 UTC
+Tuesday to Saturday) prices every US-listed graph ticker (`data/graph.json`,
+about 1,600) that passes the liquidity gate (price > $5, 20-day median dollar
+volume >= $5M, Yahoo closes as of the session) with the same snapshot and the
+same per-ticker record as the cards (`chains.ts`, shared with
+`sightings-options.ts`). It stores one row per ticker and session in Supabase
+`public.options_daily` (`store.ts`; migration
+`apps/web/supabase/migrations/20261119_options_daily.sql`): the card block
+(`RippleOptions`, plus `ivPct`), the numbers to rebuild the block for any
+window (term structure to the first expiry past 120 days), and the IV
+percentile of today's ATM IV among the ticker's stored days (from 20 days on;
+about 90 days kept, older rows pruned). Unusable chains are stored as skips
+(no quotes, poor chain) so they are not bought again that session. The
+Sightings run reads the store first: card tickers priced that session cost
+nothing, and what it prices is stored too. `/api/options` serves the store
+(apps/web `lib/options-api.ts`).
+
+Requests: 4 parents each, 6 in flight (a request takes about 10 s plus its
+size; a batch of large chains can pass Databento's gateway timeout, so a batch
+gets one attempt and then goes name by name). Quote window [15:40, 15:46):
+cbbo-1m only carries a contract in a minute its quote changed, so thin chains
+need the lookback.
+
+Caps: `OPTIONS_DAILY_RUN_CAP_USD` (default $7, this run's caller) and
+`OPTIONS_DAILY_MONTH_CAP_USD` (default $110: every `options-daily` line in
+Supabase `public.options_spend` this UTC month plus this run's). The file
+ledger still guards every pull under its lock; each batch's lines are copied
+to `options_spend` as it ends, so the monthly tally cannot reset with a lost
+cache. A cap, a 100-minute time limit, or Databento refusing for account
+reasons (HTTP 401/402/403 or an answer naming billing, credit or payment:
+the free credit used up) stops the pulls quietly; the run exits 0 with a
+warning annotation and the Sightings run is unaffected.
 
 ### Display licensing (open question)
 

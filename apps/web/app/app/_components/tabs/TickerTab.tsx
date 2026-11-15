@@ -6,6 +6,7 @@ import { cardsForTicker, companyNameFor, connectionsFor, netDirection, sectorFor
 import { buildGraph, withSeedConnections } from "@/lib/workspace/graph";
 import { useGraphNeighborhood } from "@/lib/workspace/graph-api";
 import { fetchNames } from "@/lib/workspace/focus";
+import { fetchTickerOptions } from "@/lib/options-api";
 import { useWorkspace } from "../context";
 import { GraphView } from "../GraphView";
 import { OptionsRow } from "../OptionsBlock";
@@ -81,7 +82,20 @@ export function TickerTab({ ticker }: { ticker: string }) {
   const connections = useMemo(() => withSeedConnections(connectionsFor(feed, ticker), extra, ticker), [extra, feed, ticker]);
   const net = netDirection(hitting.map((h) => h.hit));
   const graph = useMemo(() => buildGraph(feed, extra, [ticker], { maxDepth: 1, maxNodes: 13 }), [extra, feed, ticker]);
-  const options = useMemo(() => tickerOptions(feed?.cards ?? [], ticker), [feed, ticker]);
+  const cardOptions = useMemo(() => tickerOptions(feed?.cards ?? [], ticker), [feed, ticker]);
+  // Any ticker: the daily options store (/api/options), when no card carries a newer block.
+  const [stored, setStored] = useState<RippleOptions | null>(null);
+  useEffect(() => {
+    let live = true;
+    setStored(null);
+    void fetchTickerOptions(ticker).then((r) => {
+      if (live) setStored(r.options);
+    });
+    return () => {
+      live = false;
+    };
+  }, [ticker]);
+  const options = cardOptions && (!stored || cardOptions.asOf >= stored.asOf) ? cardOptions : stored;
 
   return (
     <div className="mx-auto flex w-full max-w-[var(--f-w-ticker)] flex-col gap-6 px-7 py-6">

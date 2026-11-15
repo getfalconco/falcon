@@ -43,6 +43,8 @@ export type TickerOptions = {
   vix: number | null;
   /** ATM IV per expiry with at least 2 days left, nearest first. */
   term: TermPoint[];
+  /** Percentile of atmIv30 among the ticker's own stored days (store.ts), when at least 20 are kept. */
+  ivPct?: number | null;
 };
 
 /** The L-th NYSE session after `date` (the window's last session when the window starts at the next open). */
@@ -108,6 +110,7 @@ export function optionsBlock(t: TickerOptions, history?: RippleHistory | null): 
     beta: t.beta === null ? null : r2(t.beta),
     vix: t.vix === null ? null : r2(t.vix * 100),
   };
+  if (typeof t.ivPct === "number" && Number.isFinite(t.ivPct)) block.ivPct = t.ivPct;
   if (history !== undefined) {
     const m = matchedWithHistory(t, history);
     if (m) block.matched = m;
