@@ -2,14 +2,13 @@
 
 import { useMemo } from "react";
 import { NOTHING_CLEARED, anyClearsBar, cardStrength, type RippleCard } from "@falcon/ripple";
-import { buildTodaySummary, exposureByTicker, sortByTime, touchesFocus } from "@/lib/workspace/feed";
+import { buildTodaySummary, exposureByTicker, mixByType, touchesFocus } from "@/lib/workspace/feed";
 import { buildGraph } from "@/lib/workspace/graph";
 import { useWorkspace } from "../context";
 import { GraphView } from "../GraphView";
 import { EmptyState, MONO, NetMark, NetRing, Panel, SectionTitle, SERIF, feedEmpty, timeAgo } from "../parts";
 import { HowToReadButton, SightingCard, StrengthBadge, todaySentence, useExplain } from "../explain";
 import { FeedNotice } from "../FeedNotice";
-import { GroupLabel } from "../ListViews";
 
 /** True when the feed is in and no card clears the publishing bar (only Watch-tier cards, or none). */
 export function useNothingCleared(): boolean {
@@ -39,6 +38,20 @@ export function usePortfolioEmptyTitle(): string {
   }
   return feedEmpty(feedStatus, nothingCleared ? NOTHING_CLEARED : "Nothing is hitting your portfolio");
 }
+
+/** Rows in a "Latest sightings" list. */
+export const LATEST_ROWS = 10;
+
+/** The newest cards, all strength levels mixed, no one event type over half of them while others exist. */
+export function latestMix(cards: readonly RippleCard[], rows: number): RippleCard[] {
+  return mixByType(cards, rows).slice(0, rows);
+}
+
+/** Titles of the Today sections that list only cards backed by evidence (no Watching cards). */
+export const EVIDENCE_TITLES = {
+  portfolio: "Hitting your portfolio, backed by evidence",
+  opportunities: "Opportunities, backed by evidence",
+} as const;
 
 function longDate(iso: string) {
   const d = new Date(`${iso}T12:00:00`);
@@ -74,15 +87,9 @@ export function DashboardTab() {
   const nothingCleared = useNothingCleared();
   const portfolioEmpty = usePortfolioEmptyTitle();
   const exposure = useMemo(() => exposureByTicker(feed, focus), [feed, focus]);
-  // Cards with evidence behind them first, newest first; then a few Watching cards, marked as such.
-  const listed = useMemo(() => {
-    const strong: RippleCard[] = [];
-    const weak: RippleCard[] = [];
-    for (const c of sortByTime(feed?.cards ?? [])) (cardStrength(c).level === "watching" ? weak : strong).push(c);
-    return { strong, weak };
-  }, [feed]);
-  const latest = listed.strong.slice(0, 6);
-  const latestWatching = listed.weak.slice(0, 4);
+  // Newest first, every strength level together (each row shows its badge), no one event type over half the rows.
+  const allCards = feed?.cards ?? [];
+  const latest = useMemo(() => latestMix(feed?.cards ?? [], LATEST_ROWS), [feed]);
   const seeds = useMemo(() => {
     const own = focus.map((f) => f.ticker);
     return own.length ? own : Array.from(new Set((feed?.cards ?? []).map((c) => c.event.ticker))).slice(0, 4);
@@ -123,7 +130,7 @@ export function DashboardTab() {
 
       <div className="grid grid-cols-1 gap-5 xl:grid-cols-2">
         <section>
-          <SectionTitle count={summary.portfolio.length}>Hitting your portfolio</SectionTitle>
+          <SectionTitle count={summary.portfolio.length}>{EVIDENCE_TITLES.portfolio}</SectionTitle>
           <div className="mt-2 flex flex-col gap-3">
             {summary.portfolio.length ? (
               summary.portfolio.slice(0, 3).map((card) => <SightingCard key={card.id} card={card} highlight={focusSet} maxHits={4} />)
@@ -133,7 +140,7 @@ export function DashboardTab() {
           </div>
         </section>
         <section>
-          <SectionTitle count={summary.opportunities.length}>Opportunities</SectionTitle>
+          <SectionTitle count={summary.opportunities.length}>{EVIDENCE_TITLES.opportunities}</SectionTitle>
           <div className="mt-2 flex flex-col gap-3">
             {summary.opportunities.length ? (
               summary.opportunities.slice(0, 2).map((card) => <SightingCard key={card.id} card={card} maxHits={4} />)
@@ -183,32 +190,14 @@ export function DashboardTab() {
           </Panel>
         </section>
         <section>
-          <SectionTitle count={listed.strong.length + listed.weak.length}>Latest sightings</SectionTitle>
+          <SectionTitle count={allCards.length}>Latest sightings</SectionTitle>
           <Panel className="mt-2 overflow-hidden">
-            {latest.length || latestWatching.length ? (
-              <>
-                {latest.length ? (
-                  <ul>
-                    {latest.map((card) => (
-                      <LatestRow key={card.id} cardId={card.id} />
-                    ))}
-                  </ul>
-                ) : (
-                  <p className="px-4 py-2.5 text-fs-13 text-faint">{NOTHING_CLEARED}</p>
-                )}
-                {latestWatching.length ? (
-                  <>
-                    <div className="flex h-8 items-center border-t border-line/[0.06] px-4">
-                      <GroupLabel count={listed.weak.length}>Watching</GroupLabel>
-                    </div>
-                    <ul className="opacity-80">
-                      {latestWatching.map((card) => (
-                        <LatestRow key={card.id} cardId={card.id} />
-                      ))}
-                    </ul>
-                  </>
-                ) : null}
-              </>
+            {latest.length ? (
+              <ul>
+                {latest.map((card) => (
+                  <LatestRow key={card.id} cardId={card.id} />
+                ))}
+              </ul>
             ) : (
               <div className="p-4">
                 <EmptyState title={feedEmpty(feedStatus, nothingCleared ? NOTHING_CLEARED : "No sightings yet")} />
