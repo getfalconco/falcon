@@ -1,15 +1,15 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { BookOpen, ChevronRight, Plus, RotateCw, X } from "lucide-react";
-import { NOTHING_CLEARED, cardPricedIn, cardStrength, type RippleCard } from "@falcon/ripple";
-import { exposureByTicker, sortByTime, touchesFocus } from "@/lib/workspace/feed";
+import { BookOpen, Plus, RotateCw, X } from "lucide-react";
+import { NOTHING_CLEARED, cardPricedIn, type RippleCard } from "@falcon/ripple";
+import { eventKicker, eventTypeCounts, exposureByTicker, mixByType, sortByTime, touchesFocus } from "@/lib/workspace/feed";
 import { searchTickers, type TickerResult } from "@/lib/workspace/focus";
 import { MAX_STOCKS, TICKER_PATTERN } from "@/lib/onboarding";
 import { useWorkspace } from "./context";
 import { FeedNotice } from "./FeedNotice";
 import { MONO, NetMark, timeAgo } from "./parts";
-import { useExplain } from "./explain";
+import { StrengthBadge, useExplain } from "./explain";
 import { CardBody, CardHeader, TextButton } from "./shell/ui";
 
 /**
@@ -180,47 +180,55 @@ export function FocusListView({ headerExtra }: { headerExtra?: React.ReactNode }
 
 function SightingRow({ card, mine, onOpen }: { card: RippleCard; mine: boolean; onOpen: () => void }) {
   const ex = useExplain(card);
-  // The group heading says the evidence level; only Measured is set apart within "Backed by evidence".
-  const notes = [ex.strength.level === "measured" ? ex.strength.label : "", cardPricedIn(card) ? "May be priced in" : ""].filter(Boolean);
   return (
     <li>
       <button type="button" onClick={onOpen} className={`${ROW} items-start py-2.5`} title={mine ? "Touches your focus list" : undefined}>
         <span className={`mt-[6px] h-1.5 w-1.5 shrink-0 rounded-full ${mine ? "bg-fore" : "bg-line/15"}`} aria-hidden />
         <span className="min-w-0 flex-1">
-          <span className="flex items-center gap-1.5 text-fs-11 text-fore/50" style={{ fontFamily: MONO }}>
-            <span className="min-w-0 truncate uppercase tracking-[0.04em]">{ex.kicker}</span>
-            <span aria-hidden>·</span>
-            <span className="shrink-0 whitespace-nowrap text-fs-11.5 text-fore">{card.event.ticker}</span>
-            <span className="ml-auto shrink-0 text-fs-11.5 text-faint">{timeAgo(card.event.occurredAt)}</span>
+          <span className="flex min-h-[20px] items-center gap-2.5 text-fs-11 text-fore/50">
+            <span className="flex min-w-0 items-center gap-1.5" style={{ fontFamily: MONO }}>
+              <span className="min-w-0 truncate uppercase tracking-[0.04em]">{ex.kicker}</span>
+              <span aria-hidden>·</span>
+              <span className="shrink-0 whitespace-nowrap text-fs-11.5 text-fore">{card.event.ticker}</span>
+            </span>
+            <StrengthBadge strength={ex.strength} className="ml-auto" />
+            <span className="shrink-0 text-fs-11.5 text-faint" style={{ fontFamily: MONO }}>
+              {timeAgo(card.event.occurredAt)}
+            </span>
           </span>
           <span className="mt-0.5 line-clamp-2 text-fs-13.5 leading-fs-19 text-fore">{ex.title}</span>
-          {notes.length ? <span className="mt-0.5 block text-fs-12 text-quiet">{notes.join(" · ")}</span> : null}
+          {cardPricedIn(card) ? <span className="mt-0.5 block text-fs-12 text-quiet">May be priced in</span> : null}
         </span>
       </button>
     </li>
   );
 }
 
-export function GroupLabel({ children, count }: { children: React.ReactNode; count: number }) {
+function FilterChip({ on, onClick, count, children }: { on: boolean; onClick: () => void; count: number; children: React.ReactNode }) {
   return (
-    <span className="flex items-center gap-2 text-fs-11 font-medium uppercase tracking-[0.08em] text-faint">
+    <button
+      type="button"
+      aria-pressed={on}
+      onClick={onClick}
+      className={`inline-flex h-7 shrink-0 items-center gap-1.5 rounded-md border px-2.5 text-fs-12 outline-none transition-colors focus-visible:border-line/50 ${
+        on ? "border-line/25 bg-surface text-fore" : "border-line/[0.08] bg-transparent text-faint hover:text-fore-4"
+      }`}
+    >
       {children}
-      <span className="text-faint-3">{count}</span>
-    </span>
+      <span className={on ? "text-quiet" : "text-faint-3"}>{count}</span>
+    </button>
   );
 }
 
 export function SightingsListView({ onGuide, headerExtra }: { onGuide: () => void; headerExtra?: React.ReactNode }) {
   const { feed, feedStatus, focusSet, openSighting, refreshFeed } = useWorkspace();
-  const cards = useMemo(() => sortByTime(feed?.cards ?? []), [feed]);
-  // Cards with evidence behind them first; the rest fold away under "Watching".
-  const split = useMemo(() => {
-    const strong: RippleCard[] = [];
-    const weak: RippleCard[] = [];
-    for (const c of cards) (cardStrength(c).level === "watching" ? weak : strong).push(c);
-    return { strong, weak };
-  }, [cards]);
-  const [weakOpen, setWeakOpen] = useState(false);
+  const all = useMemo(() => feed?.cards ?? [], [feed]);
+  const types = useMemo(() => eventTypeCounts(all), [all]);
+  const [picked, setPicked] = useState<string | null>(null);
+  // A type that left the feed on refresh falls back to All.
+  const type = picked && types.some((t) => t.type === picked) ? picked : null;
+  // Newest first with every strength level together (each row says its level); All keeps any one type to half of any 10 rows.
+  const cards = useMemo(() => (type ? sortByTime(all.filter((c) => eventKicker(c) === type)) : mixByType(all)), [all, type]);
 
   return (
     <>
@@ -241,44 +249,25 @@ export function SightingsListView({ onGuide, headerExtra }: { onGuide: () => voi
       <CardBody>
         <div className="mx-auto w-full max-w-[760px] px-7 py-6">
           <FeedNotice />
-          {cards.length ? (
+          {all.length ? (
             <>
-              <div className="flex h-8 items-center px-3">
-                <GroupLabel count={split.strong.length}>Backed by evidence</GroupLabel>
-              </div>
-              {split.strong.length ? (
-                <ul className="flex flex-col">
-                  {split.strong.map((card) => (
-                    <SightingRow key={card.id} card={card} mine={touchesFocus(card, focusSet)} onOpen={() => openSighting(card.id)} />
+              {types.length > 1 ? (
+                <div role="group" aria-label="Event type" className="mb-3 flex flex-wrap gap-1.5 px-3">
+                  <FilterChip on={type === null} onClick={() => setPicked(null)} count={all.length}>
+                    All
+                  </FilterChip>
+                  {types.map((t) => (
+                    <FilterChip key={t.type} on={type === t.type} onClick={() => setPicked(type === t.type ? null : t.type)} count={t.count}>
+                      {t.type}
+                    </FilterChip>
                   ))}
-                </ul>
-              ) : (
-                <p className="px-3 py-2 text-fs-13 text-faint">{NOTHING_CLEARED}</p>
-              )}
-              {split.weak.length ? (
-                <div className="mt-4">
-                  <button type="button" onClick={() => setWeakOpen((v) => !v)} aria-expanded={weakOpen} className={`${ROW} items-start py-2`}>
-                    <ChevronRight
-                      width={13}
-                      height={13}
-                      strokeWidth={2}
-                      className={`mt-[2px] shrink-0 text-faint transition-transform ${weakOpen ? "rotate-90" : ""}`}
-                      aria-hidden
-                    />
-                    <span className="min-w-0 flex-1">
-                      <GroupLabel count={split.weak.length}>Watching</GroupLabel>
-                      <span className="mt-0.5 block text-fs-12.5 leading-fs-17 text-faint">No evidence yet that these move the stock. Shown for context.</span>
-                    </span>
-                  </button>
-                  {weakOpen ? (
-                    <ul className="mt-0.5 flex flex-col opacity-80">
-                      {split.weak.map((card) => (
-                        <SightingRow key={card.id} card={card} mine={touchesFocus(card, focusSet)} onOpen={() => openSighting(card.id)} />
-                      ))}
-                    </ul>
-                  ) : null}
                 </div>
               ) : null}
+              <ul className="flex flex-col">
+                {cards.map((card) => (
+                  <SightingRow key={card.id} card={card} mine={touchesFocus(card, focusSet)} onOpen={() => openSighting(card.id)} />
+                ))}
+              </ul>
             </>
           ) : (
             <p className="px-3 py-2 text-fs-13 text-faint">

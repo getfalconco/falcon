@@ -1,4 +1,5 @@
 import {
+  cardExplain,
   eventTypeLabel,
   isContext,
   isWeakSignal,
@@ -126,6 +127,43 @@ export function focusHits(card: RippleCard, focus: Set<string>): RippleHit[] {
 /** Newest event first. */
 export function sortByTime(cards: readonly RippleCard[]): RippleCard[] {
   return [...cards].sort((a, b) => Date.parse(b.event.occurredAt) - Date.parse(a.event.occurredAt));
+}
+
+/** The card's event type as its plain kicker ("Insider buying", "Late filing"), for grouping and filters. */
+export function eventKicker(card: RippleCard): string {
+  return cardExplain(card).kicker;
+}
+
+/**
+ * A feed list: newest first, every strength level together, and no event type
+ * taking more than half of any `window` rows in a row while other types are
+ * waiting (the spirit of the engine's per-type cap). A card held back takes the
+ * first row where its type is under that share again; a type fills past half
+ * only when nothing else is left. The first `window` rows stay newest first.
+ */
+export function mixByType(cards: readonly RippleCard[], window = 10, typeOf: (card: RippleCard) => string = eventKicker): RippleCard[] {
+  const cap = Math.max(1, Math.ceil(window / 2));
+  const pending = sortByTime(cards).map((card) => ({ card, type: typeOf(card) }));
+  const out: RippleCard[] = [];
+  const types: string[] = [];
+  while (pending.length) {
+    const recent = types.slice(-(window - 1));
+    const at = pending.findIndex((p) => recent.filter((t) => t === p.type).length < cap);
+    const [next] = pending.splice(Math.max(0, at), 1);
+    out.push(next!.card);
+    types.push(next!.type);
+  }
+  return out;
+}
+
+/** Event types in the cards with how many of each, most common first. */
+export function eventTypeCounts(cards: readonly RippleCard[], typeOf: (card: RippleCard) => string = eventKicker): { type: string; count: number }[] {
+  const counts = new Map<string, number>();
+  for (const card of cards) {
+    const type = typeOf(card);
+    counts.set(type, (counts.get(type) ?? 0) + 1);
+  }
+  return Array.from(counts, ([type, count]) => ({ type, count })).sort((a, b) => b.count - a.count || a.type.localeCompare(b.type));
 }
 
 export type TickerExposure = {
