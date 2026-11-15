@@ -158,7 +158,7 @@ test("Explain: digits in templates and unknown refs are rejected and retried onc
     values: { delay: { drop_pct: 62.5 }, sample: { trades: 41 } },
   };
   const bad = { headline: { template: "Waiting 1 session removed {} of the result.", slots: [{ ref: "delay.drop_pct" }] }, flags: [], interpretation_risks: [], next_experiments: [] };
-  assert.ok(templateProblems(bad as never, report).some((p) => /digit/.test(p)));
+  assert.ok(templateProblems(bad as never, report).some((p) => p.includes('"1"')));
   const good = {
     headline: { template: "Waiting one extra session removed {}% of the result over {} trades.", slots: [{ ref: "delay.drop_pct" }, { ref: "sample.trades" }] },
     flags: [{ check_id: 10, severity: "high", meaning: { template: "The record depends on entering at the first open; you should buy now.", slots: [] }, try_next: null }],

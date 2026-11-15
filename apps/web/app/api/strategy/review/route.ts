@@ -61,7 +61,7 @@ export async function POST(request: Request) {
     const r = await review({ spec: check.spec, describe: describeSpec(check.spec, check.uses), report: g.body.quality, trials }, { apiKey, timeoutMs: DEADLINE_MS - guardMs });
     console.info(
       "[api/strategy/review]",
-      JSON.stringify({ ok: r.ok, reason: r.ok ? undefined : r.reason, guardMs, totalMs: Date.now() - arrived, usage: r.ok ? r.review.usage : (r.usage ?? null) }),
+      JSON.stringify({ ok: r.ok, reason: r.ok ? undefined : r.reason, repaired: r.ok ? r.review.repaired : undefined, guardMs, totalMs: Date.now() - arrived, usage: r.ok ? r.review.usage : (r.usage ?? null) }),
     );
     if (!r.ok) return json({ error: r.message, reason: r.reason }, STATUS[r.reason], g.origin);
     return json(r.review, 200, g.origin);
