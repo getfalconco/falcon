@@ -5,8 +5,9 @@ import { MONO, formatDateTime } from "./parts";
 
 /**
  * The options block of a card or hit (OPRA via Databento). The API sends it
- * only to viewers OPTIONS_DISPLAY allows (founder admin by default, pending
- * display licensing), so these render nothing for everyone else.
+ * to everyone by default (founder decision, 2026-11-15; display licensing
+ * must be resolved before public launch). OPTIONS_DISPLAY=admin|off restricts
+ * it, and these then render nothing for the viewers it excludes.
  */
 
 /** The snapshot time in New York, where the quotes were taken: "Nov 13, 3:45 PM ET". */

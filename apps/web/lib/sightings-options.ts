@@ -3,23 +3,22 @@ import { withoutOptions, type RippleCard } from "@falcon/ripple";
 /**
  * Who may see the options block on Sightings cards (RippleCard.options,
  * RippleHit.options): numbers derived from OPRA data via Databento.
- * Displaying OPRA-derived data to outside users may need exchange and vendor
- * display licensing (OPRA's vendor agreement, Databento's redistribution
- * terms). Until the founder confirms it, the default shows it to the founder
- * admin only.
+ * Shown to all users from 2026-11-15 by founder decision. Display licensing
+ * (OPRA fees, Databento redistribution terms) must be resolved before public
+ * launch. Set OPTIONS_DISPLAY=admin or off in Netlify to restrict.
  *
- *   OPTIONS_DISPLAY=admin  (default) founder admin session only
- *   OPTIONS_DISPLAY=all    everyone
+ *   OPTIONS_DISPLAY=all    (default) everyone
+ *   OPTIONS_DISPLAY=admin  founder admin session only
  *   OPTIONS_DISPLAY=off    nobody
  *
- * Server-side only: /api/sightings strips the blocks for anyone else, so the
- * public API, the CDN and the iPhone app never carry them.
+ * Server-side only: /api/sightings strips the blocks for anyone the mode
+ * does not allow.
  */
 export type OptionsDisplay = "admin" | "all" | "off";
 
 export function optionsDisplayMode(value: string | undefined = process.env.OPTIONS_DISPLAY): OptionsDisplay {
   const v = (value ?? "").trim().toLowerCase();
-  return v === "all" || v === "off" ? v : "admin";
+  return v === "admin" || v === "off" ? v : "all";
 }
 
 /** Whether this viewer gets the options blocks. Pure. */

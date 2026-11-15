@@ -170,9 +170,10 @@ export async function GET(request: Request) {
     ...CORS,
     // An admin's answer carries data the public one does not: never kept by the CDN or shared caches.
     "Cache-Control": personal ? "private, no-store" : feed.cards.length ? CACHE_OK : CACHE_EMPTY,
-    // Netlify's CDN keys the cache on `tickers` (other query strings share one entry) and on the admin
-    // session cookie, so an admin never gets the public copy and the public never gets an admin's.
-    "Netlify-Vary": `query=tickers,cookie=${ADMIN_COOKIE_NAME}`,
+    // Netlify's CDN keys the cache on `tickers` (other query strings share one entry) and, only in admin
+    // mode, on the admin session cookie, so an admin never gets the public copy and the public never gets
+    // an admin's. With `all` or `off` everyone gets the same payload, so the cookie is not part of the key.
+    "Netlify-Vary": mode === "admin" ? `query=tickers,cookie=${ADMIN_COOKIE_NAME}` : "query=tickers",
     "X-Sightings-Source": source,
   };
   if (personal) headers["Netlify-CDN-Cache-Control"] = "no-store";
