@@ -56,6 +56,8 @@ export type PullOptions = {
   caps?: readonly SpendCap[];
   /** Only price the request: no ledger line, no data. Cached requests still return their data. */
   dryRun?: boolean;
+  /** HTTP attempts for the get_range call (default 4: retries on 429 / 5xx / network errors). */
+  attempts?: number;
 };
 
 export type RangeResult<T = Record<string, unknown>> = {
@@ -111,19 +113,19 @@ export class DatabentoClient {
    * success: Databento answers 206 Partial Content, with a valid body, when
    * some symbols do not resolve for the range. Never echoes the key.
    */
-  private async call(method: "GET" | "POST", endpoint: string, params: Record<string, string>): Promise<HttpResponseLike> {
+  private async call(method: "GET" | "POST", endpoint: string, params: Record<string, string>, attempts = 4): Promise<HttpResponseLike> {
     const qs = new URLSearchParams(params).toString();
     const url = method === "GET" ? `${DATABENTO_BASE}/${endpoint}?${qs}` : `${DATABENTO_BASE}/${endpoint}`;
     const headers: Record<string, string> = { Authorization: this.auth(), Accept: "application/json" };
     if (method === "POST") headers["Content-Type"] = "application/x-www-form-urlencoded";
     let last: unknown = null;
-    for (let attempt = 0; attempt < 4; attempt++) {
+    for (let attempt = 0; attempt < attempts; attempt++) {
       if (attempt > 0) await this.sleep(backoffMs(attempt - 1, last instanceof RetryAfter ? last.retryAfter : null));
       try {
         const res = await this.http(url, { method, headers, body: method === "POST" ? qs : undefined });
         if (res.status >= 200 && res.status < 300) return res;
         const body = (await res.text()).slice(0, 600);
-        if (retryableStatus(res.status) && attempt < 3) {
+        if (retryableStatus(res.status) && attempt < attempts - 1) {
           last = new RetryAfter(res.headers.get("retry-after"), res.status, body);
           continue;
         }
@@ -134,7 +136,7 @@ export class DatabentoClient {
       }
     }
     const why = last instanceof RetryAfter ? `HTTP ${last.status}: ${last.body}` : last instanceof Error ? last.message : String(last);
-    throw new DatabentoError(0, `Databento ${endpoint} failed after 4 tries: ${why}`);
+    throw new DatabentoError(0, `Databento ${endpoint} failed after ${attempts} tr${attempts === 1 ? "y" : "ies"}: ${why}`);
   }
 
   private async metadata<T>(endpoint: string, params: Record<string, string>): Promise<T> {
@@ -208,7 +210,7 @@ export class DatabentoClient {
       if (attempt > 0) await this.sleep(backoffMs(attempt - 1));
       try {
         // `call` already retried the status codes; a DatabentoError here is final.
-        const res = await this.call("POST", "timeseries.get_range", rangeParams(req, zstdDecompress ? "zstd" : "none"));
+        const res = await this.call("POST", "timeseries.get_range", rangeParams(req, zstdDecompress ? "zstd" : "none"), opts.attempts ?? 4);
         let body = Buffer.from(await res.arrayBuffer());
         if (!zstdDecompress) body = zlib.gzipSync(body);
         // A truncated body fails to decode: retried like a dropped download.

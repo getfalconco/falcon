@@ -1,0 +1,132 @@
+# Daily options data for the whole universe (packages/engine/src/options/daily.ts):
+# one OPRA quote snapshot (15:45 New York, cbbo-1m via Databento) per liquid
+# US ticker of the live graph (packages/engine/data/graph.json, ~1,600 names),
+# for the latest completed session. Per name: ATM IV, implied moves over 5 and
+# 20 sessions (raw and beyond the market), skew, call-put spread, spot, and an
+# IV percentile against the name's own stored days once 20 exist. Stored in
+# Supabase public.options_daily (about 90 days kept); /api/options serves it,
+# and the Sightings run reads it before buying anything.
+#
+# Runs on weekdays at 22:00 UTC (after the close; the session's data may not
+# be in Databento's range yet, then the previous session is filled), and again
+# at 05:30 UTC Tuesday to Saturday, when the day's data is there for certain.
+# A session already stored is never bought twice, so the second run usually
+# costs nothing. Also on demand (Actions > Options daily > Run workflow).
+#
+# Caps: OPTIONS_DAILY_RUN_CAP_USD a run and OPTIONS_DAILY_MONTH_CAP_USD a UTC
+# month, counted in Supabase public.options_spend (persistent: a lost cache
+# cannot reset it). Every pull is priced with get_cost first. A cap, or
+# Databento refusing for billing (free credit used up, no payment method),
+# stops the run quietly with a warning annotation; nothing else breaks and the
+# Sightings run carries on (its cards just lack the options block for names
+# not stored).
+#
+# Repo secrets: DATABENTO_API_KEY, DATABASE_URL (the Supabase Postgres URL).
+name: Options daily
+
+on:
+  schedule:
+    - cron: "0 22 * * 1-5"
+    - cron: "30 5 * * 2-6"
+  workflow_dispatch:
+    inputs:
+      price_only:
+        description: "Price only: get_cost for every pull, nothing bought or stored"
+        type: boolean
+        default: false
+      max:
+        description: "At most this many universe tickers (empty: all)"
+        default: ""
+        required: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: options-daily
+  cancel-in-progress: false
+
+jobs:
+  options:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      OPTIONS_DAILY_RUN_CAP_USD: "7"
+      OPTIONS_DAILY_MONTH_CAP_USD: "110"
+      OPTIONS_DAILY_BATCH: "4"
+      OPTIONS_DAILY_PARALLEL: "6"
+      OPTIONS_DAILY_MAX_MINUTES: "100"
+      PRICE_ONLY: ${{ inputs.price_only && '1' || '' }}
+      MAX_NAMES: ${{ inputs.max || '' }}
+    steps:
+      - name: Check secrets
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DATABENTO_API_KEY: ${{ secrets.DATABENTO_API_KEY }}
+        run: |
+          missing=0
+          if [ -z "$DATABENTO_API_KEY" ]; then
+            echo "::warning title=DATABENTO_API_KEY missing::No options data today (add the repo secret DATABENTO_API_KEY)."
+            missing=1
+          fi
+          if [ -z "$DATABASE_URL" ]; then
+            echo "::warning title=DATABASE_URL missing::The options store and spend ledger live in Supabase (repo secret DATABASE_URL)."
+            missing=1
+          fi
+          echo "skip=$missing" >> "$GITHUB_ENV"
+
+      - uses: actions/checkout@v4
+        if: env.skip == '0'
+
+      - uses: pnpm/action-setup@v4
+        if: env.skip == '0'
+
+      - uses: actions/setup-node@v4
+        if: env.skip == '0'
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install engine dependencies
+        if: env.skip == '0'
+        run: pnpm install --frozen-lockfile --filter "@falcon/engine..."
+
+      # Yahoo closes (liquidity gate, beta) and dividends: warm between runs.
+      - name: Restore the market cache
+        if: env.skip == '0'
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            packages/engine/.cache/http
+            packages/engine/.cache/market
+          key: options-daily-cache-${{ github.run_id }}
+          restore-keys: |
+            options-daily-cache-
+            engine-cache-
+
+      - name: Apply migrations
+        if: env.skip == '0' && env.PRICE_ONLY == ''
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: pnpm --filter @falcon/engine run migrate
+
+      - name: Price the universe
+        if: env.skip == '0'
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DATABENTO_API_KEY: ${{ secrets.DATABENTO_API_KEY }}
+        run: |
+          args=()
+          if [ -n "$PRICE_ONLY" ]; then args+=(--price-only); fi
+          if [ -n "$MAX_NAMES" ]; then args+=(--max "$MAX_NAMES"); fi
+          pnpm --filter @falcon/engine run options-daily -- "${args[@]}"
+
+      - name: Save the market cache
+        if: always() && env.skip == '0'
+        continue-on-error: true
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            packages/engine/.cache/http
+            packages/engine/.cache/market
+          key: options-daily-cache-${{ github.run_id }}
