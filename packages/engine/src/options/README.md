@@ -68,17 +68,17 @@ runs the job on any feed (`--dry-run` only prices it).
 
 ### Display licensing (open question)
 
-Showing numbers derived from OPRA quotes to outside users may need exchange
-and vendor display licensing: OPRA's vendor and subscriber agreements (fees
-for displaying OPRA data, including derived data, to non-professional and
-professional users) and Databento's redistribution terms for the plan in
-use. Until the founder confirms the licensing position, the website shows
-the options block to the founder admin only: `OPTIONS_DISPLAY` (Netlify env,
-`admin` by default, `all` or `off`) is read by `/api/sightings`, which strips
-`options` from every card and hit for anyone else (apps/web
-`lib/sightings-options.ts`). The blocks are still stored in Supabase with
-the cards (the table is not readable by clients). The iPhone app reads the
-same API, so it never sees them either.
+Shown to all users from 2026-11-15 by founder decision. Showing numbers
+derived from OPRA quotes to outside users may need exchange and vendor display
+licensing: OPRA's vendor and subscriber agreements (fees for displaying OPRA
+data, including derived data, to non-professional and professional users) and
+Databento's redistribution terms for the plan in use. This must be resolved
+before public launch. `OPTIONS_DISPLAY` (Netlify env, `all` by default) is
+read by `/api/sightings`; set `OPTIONS_DISPLAY=admin` (founder admin session
+only) or `off` (nobody) in Netlify to restrict it, in which case the API strips
+`options` from every card and hit for anyone not allowed (apps/web
+`lib/sightings-options.ts`). The blocks are stored in Supabase with the cards
+(the table is not readable by clients). The iPhone app reads the same API.
 
 ## Spending money: the rules
 

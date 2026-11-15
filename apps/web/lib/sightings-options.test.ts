@@ -27,12 +27,13 @@ const payload = () => ({ generatedAt: "x", cards: [card("1"), card("2")], portfo
 
 const hasOptions = (cards: RippleCard[]) => cards.some((c) => c.options !== undefined || c.hits.some((h) => h.options !== undefined));
 
-test("OPTIONS_DISPLAY defaults to admin; all and off are read; anything else is admin", () => {
-  assert.equal(optionsDisplayMode(undefined), "admin");
-  assert.equal(optionsDisplayMode(""), "admin");
-  assert.equal(optionsDisplayMode(" ALL "), "all");
+test("OPTIONS_DISPLAY defaults to all; admin and off are overrides; anything else is all", () => {
+  assert.equal(optionsDisplayMode(undefined), "all");
+  assert.equal(optionsDisplayMode(""), "all");
+  assert.equal(optionsDisplayMode(" ADMIN "), "admin");
   assert.equal(optionsDisplayMode("off"), "off");
-  assert.equal(optionsDisplayMode("public"), "admin");
+  assert.equal(optionsDisplayMode("all"), "all");
+  assert.equal(optionsDisplayMode("public"), "all");
 });
 
 test("who sees the blocks", () => {
@@ -42,7 +43,14 @@ test("who sees the blocks", () => {
   assert.equal(canSeeOptions("off", true), false);
 });
 
-test("/api/sightings payload: stripped for a non-admin in every list, kept for the admin", () => {
+test("default mode: everyone, admin or not, gets the same payload with options", () => {
+  const mode = optionsDisplayMode(undefined);
+  assert.equal(hasOptions(optionsForViewer(payload(), mode, false).cards), true);
+  assert.equal(hasOptions(optionsForViewer(payload(), mode, true).cards), true);
+  assert.equal(hasOptions(optionsForViewer(payload(), mode, false).portfolio!), true);
+});
+
+test("admin override: payload stripped for a non-admin in every list, kept for the admin", () => {
   const anon = optionsForViewer(payload(), "admin", false);
   assert.equal(hasOptions(anon.cards), false);
   assert.equal(hasOptions(anon.portfolio!), false);
