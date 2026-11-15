@@ -9,6 +9,7 @@
   "scripts": {
     "sightings": "node --import tsx src/cli/sightings.ts",
     "options-daily": "node --import tsx src/cli/options-daily.ts",
+    "prices-daily": "node --import tsx src/cli/prices-daily.ts",
     "filing-passages": "node --import tsx scripts/filing-passages.ts",
     "build-graph": "node --import tsx scripts/build-graph.ts",
     "graph-universe": "node --import tsx scripts/graph-universe.ts",
