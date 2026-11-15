@@ -162,13 +162,14 @@ function Evidence({ quality, stale, result }: { quality: QualityReport; stale: b
   );
 }
 
-function Stat({ label, value, sub }: { label: string; value: string; sub?: string }) {
+function Stat({ label, value, sub, emphasis }: { label: string; value: string; sub?: string; emphasis?: string }) {
   return (
     <div className="flex flex-col gap-0.5">
       <span className="text-fs-11.5 text-quiet">{label}</span>
       <span className="text-fs-16 tabular-nums text-fore" style={{ fontFamily: MONO }}>
         {value}
       </span>
+      {emphasis ? <span className="text-fs-11.5 leading-fs-15 tabular-nums text-fore-4">{emphasis}</span> : null}
       {sub ? <span className="text-fs-11 leading-fs-15 text-faint">{sub}</span> : null}
     </div>
   );
@@ -178,11 +179,13 @@ function KeyNumbers({ result, quality }: { result: RunResultV2; quality: Quality
   const m = result.metrics;
   const v = quality.values;
   const range = typeof v.active?.range_lo === "number" ? `Likely between ${pct(v.active.range_lo as number)} and ${pct(v.active.range_hi as number)}` : undefined;
+  // Against SPY, the same list held at equal weight shows how much of the gain came from the list itself.
+  const vsList = result.benchmark.ticker !== "EW" && m.activeVsEqualWeightPct !== null ? `${pct(m.activeVsEqualWeightPct, 2)} vs the list held equally` : undefined;
   return (
     <Panel className="grid grid-cols-2 gap-x-6 gap-y-4 px-5 py-4 sm:grid-cols-3">
-      <Stat label={`Gain or loss a year vs ${result.benchmark.ticker === "EW" ? "the list" : "SPY"}`} value={pct(m.activeAnnualPct, 2)} sub={range} />
+      <Stat label={`Gain or loss a year vs ${result.benchmark.ticker === "EW" ? "the list" : "SPY"}`} value={pct(m.activeAnnualPct, 2)} emphasis={vsList} sub={range} />
       <Stat label="Worst drop from a peak" value={m.strategy.maxDrawdownPct > 0 ? `-${m.strategy.maxDrawdownPct.toFixed(1)}%` : "0.0%"} sub={`SPY ${m.benchmark.maxDrawdownPct > 0 ? `-${m.benchmark.maxDrawdownPct.toFixed(1)}%` : "0.0%"}`} />
-      <Stat label="Return a year" value={pct(m.strategy.annualizedReturnPct)} sub={`SPY ${pct(m.benchmark.annualizedReturnPct)}${m.equalWeight ? `, list ${pct(m.equalWeight.annualizedReturnPct)}` : ""}`} />
+      <Stat label="Return a year" value={pct(m.strategy.annualizedReturnPct)} sub={`SPY ${pct(m.benchmark.annualizedReturnPct)}${m.equalWeight ? `, list held equally ${pct(m.equalWeight.annualizedReturnPct)}` : ""}`} />
       <Stat label="Trades" value={m.tradeCount.toLocaleString("en-US")} sub={m.winRatePct !== null ? `${m.winRatePct.toFixed(0)}% closed above entry` : undefined} />
       <Stat label="Time invested" value={`${m.exposurePct.toFixed(0)}%`} sub={`Trades its whole portfolio ${m.turnoverAnnual.toFixed(1)} times a year`} />
       <Stat

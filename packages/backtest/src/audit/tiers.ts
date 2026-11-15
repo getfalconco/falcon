@@ -12,6 +12,7 @@
  */
 
 import { isoToDay } from "../calendar";
+import { cagrPct } from "../metrics";
 import type { EventStudy } from "../event-study";
 import { asSeries, computeOutput, evalEnv } from "../output";
 import { truncate, type Prepared, type SpecData } from "../prepare";
@@ -258,6 +259,158 @@ function concentration(trades: TradeV2[], yearly: { year: string; active: number
   };
 }
 
+// ---------------------------------------------------------------------------
+// Check 14: hindsight universe.
+//
+// A list of tickers chosen today and tested over a past period carries the
+// answer in it: a name is on today's list (the largest companies, an index's
+// current members, stocks someone remembers) largely because it went up over
+// that period. The suspicion applies to any list chosen today; it is
+// confirmed when the data or the wording shows it:
+//   - late listings: tickers with no price at the start of the test were not
+//     even listed then, so nobody could have put them on a list at the start;
+//   - the list itself is a winners' list: holding every ticker at equal weight
+//     beat SPY over the period (computed from the equal-weight curve the run
+//     already has);
+//   - the description says the list is today's ("today's S&P 500", "the 250
+//     largest companies").
+
+/** Equal weight beating SPY by at least this much (percentage points a year) marks a winners' list. */
+export const HINDSIGHT_LIST_EXCESS_PCT = 2;
+/** Tickers listed after the start mark a list made later (at least 2 and this share of the list). */
+export const HINDSIGHT_LATE_SHARE = 0.05;
+
+/** Wording that says the list is today's membership or today's largest companies. */
+const TODAY_LIST_RE = [
+  /\b(?:today'?s|current(?:ly)?|present)\b[^.\n]{0,30}\b(?:s&p|sp ?500|nasdaq|dow|russell|index|constituents|members|components|holdings|largest|biggest)\b/i,
+  /\b(?:largest|biggest|most valuable)\s+(?:\d{1,4}\s+)?(?:us\s+|u\.s\.\s+|american\s+)?(?:companies|stocks|names|members|constituents|components|market caps?)\b/i,
+  /\btop\s+\d{2,4}\s+(?:us\s+|u\.s\.\s+)?(?:companies|stocks|names|members|constituents|components|market caps?)\b/i,
+  /\b(?:s&p ?500|sp ?500|nasdaq[- ]?100|dow jones|dow 30|russell ?\d{3,4})\b[^.\n]{0,20}\b(?:members|constituents|components|companies|stocks|names)\b/i,
+];
+
+/** True when the description calls the list today's index membership or today's largest companies. */
+export function intentSaysTodaysList(intent: string): boolean {
+  return TODAY_LIST_RE.some((re) => re.test(intent));
+}
+
+/** Universe tickers with prices in the window whose first price comes after the first session of the test. */
+export function lateListings(prep: Prepared, universe: string[]): string[] {
+  const T = prep.panel.dates.length;
+  const out: string[] = [];
+  for (const tk of universe) {
+    const c = prep.panel.col.get(tk);
+    if (c === undefined) continue;
+    let first = -1;
+    for (let t = 0; t <= prep.endIndex && first < 0; t++) if (prep.panel.has[c * T + t]) first = t;
+    if (first > prep.startIndex) out.push(tk);
+  }
+  return out;
+}
+
+export type HindsightSignals = {
+  /** A list chosen today (typed, or a Falcon list with today's membership) tested over more than a year back. */
+  suspect: boolean;
+  /** The data or the wording shows the list was picked with hindsight; caps the evidence label. */
+  confirmed: boolean;
+  late: string[];
+  intentTell: boolean;
+  /** Equal-weight list minus SPY, mean daily difference x 252, percent (null without a list curve). */
+  listExcessPct: number | null;
+};
+
+export function hindsightSignals(v: { listChosenToday: boolean; yearsBack: number; tickers: number; late: string[]; intentTell: boolean; listExcessPct: number | null }): HindsightSignals {
+  const suspect = v.listChosenToday && v.tickers >= 2 && v.yearsBack > 1;
+  const lateTell = v.late.length >= 2 && v.late.length >= HINDSIGHT_LATE_SHARE * v.tickers;
+  const winnersTell = v.listExcessPct !== null && v.listExcessPct >= HINDSIGHT_LIST_EXCESS_PCT;
+  return { suspect, confirmed: suspect && (lateTell || winnersTell || v.intentTell), late: v.late, intentTell: v.intentTell, listExcessPct: v.listExcessPct };
+}
+
+/** The list held at equal weight against SPY and the strategy, over the test window. */
+export type ListStats = {
+  listCagr: number | null;
+  spyCagr: number | null;
+  strategyCagr: number | null;
+  /** Equal weight minus SPY, mean daily difference x 252, percent. */
+  excessPct: number;
+  /** Strategy minus equal weight, the same way (null when not computed). */
+  edgePct: number | null;
+};
+
+/** The rules hold a few names out of many (a top-n pick or a narrow band), so the result leans on the list's best performers. */
+export function selective(spec: StrategySpecV2, tickers: number): boolean {
+  const p = spec.portfolio;
+  if (p.mode === "rank") {
+    if ("quantile" in p.select) return p.select.quantile[1] - p.select.quantile[0] < 0.5;
+    const n = typeof p.select.n === "number" ? p.select.n : spec.params[p.select.n.slice(1)]?.value ?? tickers;
+    return n <= tickers / 2;
+  }
+  if (p.mode === "rules") return p.max_positions <= tickers / 2;
+  return false;
+}
+
+const f1 = (x: number) => x.toFixed(1);
+
+/** Check 14's sentences and, when confirmed, the label cap with its reasons. */
+export function hindsightTexts(
+  sig: HindsightSignals,
+  ctx: { tickers: number; yearsBack: number; startYear: string; selective: boolean },
+  list: ListStats | null,
+): { detail: string; plain?: string; cap: HindsightCap | null } {
+  const U = ctx.tickers;
+  if (!sig.suspect) return { detail: "The universe is not a list chosen today for a long look-back.", cap: null };
+  const levels = list && list.listCagr !== null && list.spyCagr !== null ? { l: f1(list.listCagr), s: f1(list.spyCagr), st: list.strategyCagr === null ? null : f1(list.strategyCagr) } : null;
+  const listUp = levels !== null && list!.excessPct > 0;
+  const n = sig.late.length;
+  const lateList = `${sig.late.slice(0, 6).join(", ")}${n > 6 ? ` and ${n - 6} more` : ""}`;
+  const listLine = levels ? ` The list held equally made ${levels.l}% a year vs SPY ${levels.s}% (${r2(list!.excessPct)} points a year on daily returns)${list!.edgePct !== null ? `; the strategy beat the list by ${r2(list!.edgePct)} points a year` : ""}.` : "";
+  if (!sig.confirmed) {
+    return {
+      detail: `The list of ${U} tickers was typed today and the test starts ${r1(ctx.yearsBack)} years ago: names chosen today tend to be the winners of that period.${listLine}`,
+      plain: `These ${U} stocks were picked today, but the test starts ${r1(ctx.yearsBack)} years ago. Stocks we know today are often the ones that did well, which flatters the result.`,
+      cap: null,
+    };
+  }
+  const detail =
+    `Confirmed: a list of ${U} tickers chosen today, tested from ${ctx.startYear} (${r1(ctx.yearsBack)} years back).` +
+    (n ? ` ${n} had no price at the start, so they were not listed yet (${lateList}).` : "") +
+    listLine +
+    (sig.intentTell ? " The description calls the list today's membership or today's largest companies." : "") +
+    (ctx.selective ? " The rules hold a few names out of the list, which leans on its best performers." : "") +
+    " The evidence label is capped at Some evidence, and at Weak evidence when the list adds at least as much over SPY as the rules add over the list.";
+  const plain =
+    `These ${U} tickers were chosen today; in ${ctx.startYear} nobody knew which companies would make such a list${n ? `, and ${n} of them were not listed yet` : ""}.` +
+    ` Part of the result comes from picking the list with hindsight${listUp ? `: holding all of them equally made ${levels!.l}% a year vs SPY's ${levels!.s}%` : ""}.` +
+    (ctx.selective ? " Picking a few names from it leans on the list's biggest winners." : "") +
+    ` A fairer test compares the strategy with the list held equally, or uses a list as it stood in ${ctx.startYear}.`;
+  const why = listUp ? `: held equally, it made ${levels!.l}% a year vs SPY's ${levels!.s}%` : n ? `: ${n} of its tickers were not listed yet in ${ctx.startYear}` : "";
+  const cap: HindsightCap = {
+    listExcessPct: list?.excessPct ?? null,
+    edgePct: list?.edgePct ?? null,
+    someText:
+      `The list was picked with hindsight, so this cannot be strong evidence${why}.` +
+      (levels?.st ? ` The strategy made ${levels.st}% a year against ${levels.l}% for the list held equally, and that gap held up under doubled costs, a one-day delay and random versions.` : ""),
+    thinText: levels?.st
+      ? `Most of the gain over SPY comes from the list itself, which was picked with hindsight: held equally, it made ${levels.l}% a year vs SPY's ${levels.s}%, and the strategy made ${levels.st}% a year.`
+      : `The list was also picked with hindsight${why}.`,
+    noteText: `The list was also picked with hindsight${why}.`,
+  };
+  return { detail, plain, cap };
+}
+
+/** What a confirmed hindsight list does to the label, with the sentence shown under it. */
+export type HindsightCap = {
+  /** Equal-weight list minus SPY, percent a year (arithmetic, so it adds up with edgePct). */
+  listExcessPct: number | null;
+  /** Strategy minus the equal-weight list, percent a year (arithmetic). */
+  edgePct: number | null;
+  /** Shown when the label is capped at Some evidence. */
+  someText: string;
+  /** Shown when most of the gain over SPY came from the list itself. */
+  thinText: string;
+  /** Added when the label is already Weak for another reason. */
+  noteText: string;
+};
+
 export function evidenceLabel(v: {
   insufficient: boolean;
   /** The plain sample-size sentence, shown as the reason when the sample is too small. */
@@ -269,7 +422,27 @@ export function evidenceLabel(v: {
   dsr: number;
   listUniverse: boolean;
   activeVsEw: number | null;
+  /** Set when check 14 confirmed a hindsight list. */
+  hindsight?: HindsightCap | null;
 }): { level: EvidenceLevel; reasons: string[] } {
+  const base = baseEvidence(v);
+  const h = v.hindsight;
+  if (!h || base.level === "insufficient") return base;
+  const listDominates = h.listExcessPct !== null && h.listExcessPct > 0 && h.edgePct !== null && h.edgePct <= h.listExcessPct;
+  // A list picked with hindsight: the gain over SPY splits exactly into the list
+  // over SPY (equal weight minus SPY) plus the rules over the list (strategy
+  // minus equal weight). The first part is not a property of the rules: nobody
+  // could have held that list at the start. The second is inflated too (ranking
+  // or timing names that are known to have survived and grown), so the label is
+  // never "Strong" on such a list. When the list made at least as much over SPY
+  // as the rules added on top of it, most of the gain is the list, and the
+  // evidence for the rules is weak.
+  if (base.level === "thin") return { level: "thin", reasons: [...base.reasons, listDominates ? h.thinText : h.noteText] };
+  if (listDominates) return { level: "thin", reasons: [h.thinText] };
+  return { level: "some", reasons: [h.someText] };
+}
+
+function baseEvidence(v: Parameters<typeof evidenceLabel>[0]): { level: EvidenceLevel; reasons: string[] } {
   if (v.insufficient) return { level: "insufficient", reasons: [v.insufficientText ?? "There are too few trades to tell a pattern from luck."] };
   const reasons: string[] = [];
   if (!(v.t >= 2)) reasons.push("The gain over the benchmark is too small and too uneven to rule out luck.");
@@ -363,26 +536,32 @@ export function tierA(input: TierAInput): QualityReport {
   // 21. No model-derived inputs (judged_dir is a compile error).
   checks.push({ id: 21, name: "No model-derived inputs", tier: "A", level: "G", status: "pass", detail: "No input comes from a language model's judgment; ripple.judged_dir cannot be used in a backtest." });
 
-  // 14 and 15. Universe.
+  // 14 and 15. Universe. Check 14 is pushed once the list's own equal-weight return is known (below).
   const period = resolvePeriod(spec, input.now);
   const yearsBack = (isoToDay(input.now.toISOString().slice(0, 10)) - isoToDay(period.start)) / 365.25;
-  const typedList = spec.universe.kind === "static" && spec.portfolio.mode !== "weights" && universe.length >= 2;
-  values.hindsight = { years_back: r1(yearsBack), tickers: universe.length };
-  checks.push({
-    id: 14,
-    name: "Hindsight universe",
-    tier: "A",
-    level: "W",
-    status: typedList && yearsBack > 1 ? "warn" : "pass",
-    detail:
-      typedList && yearsBack > 1
-        ? `The list of ${universe.length} tickers was typed today and the test starts ${r1(yearsBack)} years ago: names chosen today tend to be the winners of that period.`
-        : "The universe is not a list chosen today for a long look-back.",
-    plain:
-      typedList && yearsBack > 1
-        ? `These ${universe.length} stocks were picked today, but the test starts ${r1(yearsBack)} years ago. Stocks we know today are often the ones that did well, which flatters the result.`
-        : undefined,
-  });
+  const listChosenToday = (spec.universe.kind === "static" || (spec.universe.kind === "rule" && spec.universe.base === "falcon_semis")) && spec.portfolio.mode !== "weights";
+  const late = listChosenToday ? lateListings(prep, universe) : [];
+  const intentTell = listChosenToday && intentSaysTodaysList(spec.intent ?? "");
+  const startYear = prep.panel.dates[prep.startIndex]!.slice(0, 4);
+  const pushHindsight = (list: ListStats | null): HindsightCap | null => {
+    const sig = hindsightSignals({ listChosenToday, yearsBack, tickers: universe.length, late, intentTell, listExcessPct: list?.excessPct ?? null });
+    const built = hindsightTexts(sig, { tickers: universe.length, yearsBack, startYear, selective: selective(spec, universe.length) }, list);
+    values.hindsight = {
+      years_back: r1(yearsBack),
+      tickers: universe.length,
+      start_year: startYear,
+      confirmed: sig.confirmed ? "yes" : "no",
+      late_listed: late.length,
+      late_examples: late.slice(0, 6).join(", ") || "none",
+      list_annual_pct: list?.listCagr == null ? null : r1(list.listCagr),
+      spy_annual_pct: list?.spyCagr == null ? null : r1(list.spyCagr),
+      strategy_annual_pct: list?.strategyCagr == null ? null : r1(list.strategyCagr),
+      list_vs_spy_pct: list ? r2(list.excessPct) : null,
+      rules_vs_list_pct: list?.edgePct == null ? null : r2(list.edgePct),
+    };
+    checks.push({ id: 14, name: "Hindsight universe", tier: "A", level: "W", status: sig.suspect ? "warn" : "pass", detail: built.detail, plain: built.plain });
+    return built.cap;
+  };
   checks.push({
     id: 15,
     name: "Survivorship",
@@ -433,7 +612,8 @@ export function tierA(input: TierAInput): QualityReport {
       status: "info",
       detail: `Clustered by event date: t of ${r2(w.t)} with ${w.df} degrees of freedom${w.wildP !== null ? `, wild bootstrap p of ${r2(w.wildP)}` : ""}.`,
     });
-    const lab = evidenceLabel({ insufficient, insufficientText: checks.find((c) => c.id === 6)?.plain, t: w.t, costsPass: true, delayPass: Math.sign(w.tradableMeanPct) === Math.sign(w.meanPct) && Math.abs(w.tradableMeanPct) >= Math.abs(w.meanPct) / 2, nullPct: pct, dsr: 1, listUniverse: false, activeVsEw: null });
+    const cap = pushHindsight(null);
+    const lab = evidenceLabel({ insufficient, insufficientText: checks.find((c) => c.id === 6)?.plain, t: w.t, costsPass: true, delayPass: Math.sign(w.tradableMeanPct) === Math.sign(w.meanPct) && Math.abs(w.tradableMeanPct) >= Math.abs(w.meanPct) / 2, nullPct: pct, dsr: 1, listUniverse: false, activeVsEw: null, hindsight: cap });
     return finish(checks, values, lab);
   }
 
@@ -473,7 +653,17 @@ export function tierA(input: TierAInput): QualityReport {
   });
 
   // 7. Benchmarks and null.
-  const ewActive = bench.ew ? annual(dailyRets(sim.equity).map((x, i) => x - dailyRets(bench.ew!)[i]!)) : null;
+  const ewRets = bench.ew ? dailyRets(bench.ew) : null;
+  const ewActive = ewRets ? annual(dailyRets(sim.equity).map((x, i) => x - ewRets[i]!)) : null;
+  // 14. The list's own equal-weight return against SPY and the strategy (CAGR as in the metrics, from the capital).
+  const winDates = [prep.panel.dates[prep.startIndex]!, prep.panel.dates[prep.endIndex]!] as const;
+  const cagr = (c: Float64Array) => cagrPct(spec.capital, c[c.length - 1]!, winDates[0], winDates[1]);
+  const spyRets = dailyRets(bench.spy);
+  const hindsightCap = pushHindsight(
+    ewRets
+      ? { listCagr: cagr(bench.ew!), spyCagr: cagr(bench.spy), strategyCagr: cagr(sim.equity), excessPct: annual(ewRets.map((x, i) => x - spyRets[i]!)), edgePct: ewActive }
+      : null,
+  );
   values.benchmarks = { active_pct: r2(activeAnnual), vs_equal_weight_pct: ewActive === null ? null : r2(ewActive), benchmark: spec.benchmark === "SPY" ? "SPY" : "the equal-weight universe" };
   let nullPct: number | null = null;
   let nullSkipped = "";
@@ -656,6 +846,7 @@ export function tierA(input: TierAInput): QualityReport {
     dsr: Number.isFinite(dsr) ? dsr : 0,
     listUniverse: universe.length > 1 && p.mode !== "weights",
     activeVsEw: ewActive,
+    hindsight: hindsightCap,
   });
   return finish(checks, values, lab);
 }
