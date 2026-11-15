@@ -27,6 +27,8 @@ export interface PricesStore {
   bars(from: string, to: string, tickers?: readonly string[]): Promise<Map<string, DayBar[]>>;
   /** Upserts detected splits; rows entered by hand (source other than 'detected') are kept. Returns rows written. */
   saveSplits(splits: readonly Split[]): Promise<number>;
+  /** Replaces every detected split with `splits` (hand-entered rows kept and never overwritten). Returns rows written. */
+  replaceDetectedSplits(splits: readonly Split[]): Promise<number>;
   close(): Promise<void>;
 }
 
@@ -68,6 +70,10 @@ export function memoryPricesStore(): PricesStore & { rows: Map<string, PriceRow>
         n++;
       }
       return n;
+    },
+    async replaceDetectedSplits(list) {
+      for (const [k, s] of splits) if (s.source === "detected") splits.delete(k);
+      return this.saveSplits(list);
     },
     async close() {},
   };
@@ -154,6 +160,21 @@ export function pgPricesStore(databaseUrl: string): PricesStore {
       const c = await conn();
       const res = await c.query(UPSERT_SPLITS_SQL, [list.map((s) => s.ticker), list.map((s) => s.date), list.map((s) => s.ratio), list.map((s) => s.detail.slice(0, 300))]);
       return res.rowCount ?? 0;
+    },
+    async replaceDetectedSplits(list) {
+      const c = await conn();
+      await c.query("begin");
+      try {
+        await c.query("delete from public.prices_splits where source = 'detected'");
+        const res = list.length
+          ? await c.query(UPSERT_SPLITS_SQL, [list.map((s) => s.ticker), list.map((s) => s.date), list.map((s) => s.ratio), list.map((s) => s.detail.slice(0, 300))])
+          : { rowCount: 0 };
+        await c.query("commit");
+        return res.rowCount ?? 0;
+      } catch (err) {
+        await c.query("rollback").catch(() => undefined);
+        throw err;
+      }
     },
     async close() {
       const c = db;

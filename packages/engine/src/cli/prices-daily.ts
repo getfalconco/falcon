@@ -8,6 +8,7 @@
  *   pnpm --filter @falcon/engine run prices-daily -- --backfill --from 2025-01-02 --to 2025-06-30
  *   pnpm --filter @falcon/engine run prices-daily -- --price-only          # get_cost only, nothing bought or written
  *   pnpm --filter @falcon/engine run prices-daily -- --tickers NVDA,AMD
+ *   pnpm --filter @falcon/engine run prices-daily -- --redetect          # split detection over every stored bar again (free)
  *
  * Needs DATABENTO_API_KEY and DATABASE_URL (environment or apps/web/.env.local).
  * Exit code 0 whenever the job ran, even when a cap or Databento billing
@@ -19,7 +20,7 @@ import { env } from "../env.ts";
 import { loadGraph } from "../graph.ts";
 import { universeTickers } from "../options/daily.ts";
 import { pgOptionsStore } from "../options/store.ts";
-import { runPrices } from "../prices/daily.ts";
+import { redetectSplits, runPrices } from "../prices/daily.ts";
 import { pgPricesStore } from "../prices/store.ts";
 
 const inActions = process.env.GITHUB_ACTIONS === "true";
@@ -62,6 +63,17 @@ async function main(): Promise<number> {
   }
   const store = databaseUrl ? pgPricesStore(databaseUrl) : null;
   const ledger = databaseUrl ? pgOptionsStore(databaseUrl) : null;
+  if (args.redetect === true && store) {
+    try {
+      const found = await redetectSplits(store);
+      console.log(`prices: ${found.length} splits detected over every stored bar (hand-entered rows kept)`);
+      for (const s of found) console.log(`  ${s.ticker} ${s.date} x${s.ratio}  ${s.detail}`);
+      return 0;
+    } finally {
+      await store.close();
+      await ledger?.close();
+    }
+  }
   try {
     const s = await runPrices({ store, ledger, tickers, mode, from, to, priceOnly, log: (l) => console.log(l) });
     console.log(s.line);

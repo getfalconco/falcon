@@ -76,19 +76,37 @@ export function chunkSessions(all: readonly string[], todo: ReadonlySet<string>,
 // ---------------------------------------------------------------------------
 // Split detection (pure)
 
-/** New shares per old share of the splits looked for: forward splits, then reverse ones. */
-export const SPLIT_RATIOS: readonly number[] = [
-  1.5, 2, 2.5, 3, 4, 5, 6, 7, 8, 10, 12, 15, 20, 25, 30, 40, 50,
-  ...[2, 3, 4, 5, 6, 8, 10, 12, 15, 20, 25, 30, 35, 40, 50, 60, 75, 100].map((k) => 1 / k),
-];
-/** Overnight moves smaller than this (either way) are never splits. */
-const MIN_JUMP = Math.log(1.4);
-/** How close (log) the open must sit to the ratio, and the close. */
+/** Forward splits looked for (new shares per old share: the price divides by it). */
+export const FORWARD_RATIOS: readonly number[] = [1.5, 2, 2.5, 3, 4, 5, 6, 7, 8, 10, 12, 15, 20, 25, 30, 40, 50];
+/**
+ * Reverse splits looked for (old shares per new share: the price multiplies
+ * by it), roundest first: when the open is not within 3% of one, the first
+ * one within tolerance wins (prices move on the day, and 1-for-10 is far
+ * likelier than 1-for-9).
+ */
+export const REVERSE_DIVISORS: readonly number[] = [10, 5, 20, 2, 4, 25, 50, 100, 15, 30, 8, 3, 40, 12, 6, 75, 200, 250, 500, 60, 150, 125, 300, 80, 35, 16, 7];
+/** Overnight falls smaller than this are never forward splits. */
+const MIN_FALL = Math.log(1.4);
+/** Overnight rises smaller than this are never reverse splits. */
+const MIN_RISE = Math.log(1.8);
+/** From this rise on, only a reverse split (or a once-a-decade biotech jump) explains the open: looser match, looser dollar-volume cap. */
+const SURE_RISE = Math.log(4);
+/** How close (log) the open must sit to the ratio: forward 3-for-2 / 5-for-2, 2-for-1, larger; reverse; sure reverse; an exact reverse match. */
+const OPEN_TOL_HALF = 0.03;
+const OPEN_TOL_TWO = 0.04;
 const OPEN_TOL = 0.06;
+const OPEN_TOL_REVERSE = 0.05;
+const OPEN_TOL_SURE = 0.12;
+const EXACT_TOL = 0.03;
+/** How close (log) the close must sit to it. */
 const CLOSE_TOL = 0.15;
-/** Split day's dollar volume against the median of the previous sessions: a split leaves it ordinary, a crash does not. */
+const CLOSE_TOL_HALF = 0.13;
+const CLOSE_TOL_SURE = 0.3;
+/** Split day's dollar volume against the median of the previous sessions: a split leaves it ordinary, a crash or a jump does not. */
 const DV_MIN = 0.2;
 const DV_MAX = 3;
+/** Reverse splits are often sold hard (seen up to ~27x); genuine 4x+ jumps trade hundreds of times their usual dollar volume. */
+const DV_MAX_SURE = 30;
 const DV_BASE_MIN = 5;
 const DV_BASE_MAX = 20;
 /** A gap longer than this between two bars (calendar days) is not judged. */
@@ -102,37 +120,64 @@ function median(xs: number[]): number {
 
 const dayDiff = (a: string, b: string) => Math.round((Date.parse(`${b}T00:00:00Z`) - Date.parse(`${a}T00:00:00Z`)) / 86_400_000);
 
+const nearest = (x: number, set: readonly number[]) => set.reduce((best, k) => (Math.abs(x - Math.log(k)) < Math.abs(x - Math.log(best)) ? k : best), set[0]!);
+
+/** The divisor a rise of `x` (log) matches: the nearest when within 3%, else the roundest within `tol`; null when none. Pure. */
+export function reverseDivisor(x: number, tol: number): number | null {
+  const k = nearest(x, REVERSE_DIVISORS);
+  if (Math.abs(x - Math.log(k)) <= EXACT_TOL) return k;
+  return REVERSE_DIVISORS.find((d) => Math.abs(x - Math.log(d)) <= tol) ?? null;
+}
+
 /**
- * Splits in one ticker's unadjusted bars (oldest first): a session whose
- * open is within 6% (log) of the previous close divided by a standard ratio,
- * whose close is within 15% of it, and whose dollar volume is between 0.2x
- * and 3x the median of up to 20 previous sessions (at least 5 needed). A
- * genuine 50% crash trades many times its usual dollar volume; a split does
- * not. `ratio` is new shares per old share. Pure.
+ * Splits in one ticker's unadjusted bars (oldest first). `ratio` is new
+ * shares per old share (10 for a 10-for-1, 0.05 for a 1-for-20). Pure.
+ *
+ *   Forward: the open falls to within 6% (log; 4% for 2-for-1, 3% for
+ *     3-for-2 and 5-for-2) of the previous close divided by a standard
+ *     ratio, the close within 15% (13%), and the session's dollar volume
+ *     stays between 0.2x and 3x the median of up to 20 previous sessions (at
+ *     least 5 needed). A genuine 50% crash trades many times its usual
+ *     dollar volume; a split does not.
+ *   Reverse: the open rises to the previous close times a standard divisor.
+ *     Under 4x it is judged as forward splits are (5% at the open). From 4x
+ *     on the match is loose (12% at the open, 30% at the close) and the
+ *     dollar-volume cap is 30x: reverse splits are often sold hard, while a
+ *     genuine 4x biotech jump trades hundreds of times its usual amount.
  */
 export function detectSplits(ticker: string, bars: readonly DayBar[]): Split[] {
   const out: Split[] = [];
-  for (let i = DV_BASE_MIN; i < bars.length; i++) {
+  for (let i = 1; i < bars.length; i++) {
     const prev = bars[i - 1]!;
     const cur = bars[i]!;
     if (!(prev.close > 0 && cur.open > 0 && cur.close > 0)) continue;
     if (dayDiff(prev.date, cur.date) > MAX_GAP_DAYS) continue;
     const jump = Math.log(prev.close / cur.open);
-    if (Math.abs(jump) < MIN_JUMP) continue;
-    let best = SPLIT_RATIOS[0]!;
-    for (const k of SPLIT_RATIOS) if (Math.abs(jump - Math.log(k)) < Math.abs(jump - Math.log(best))) best = k;
-    if (Math.abs(jump - Math.log(best)) > OPEN_TOL) continue;
-    if (Math.abs(Math.log(prev.close / cur.close) - Math.log(best)) > CLOSE_TOL) continue;
+    const atClose = Math.log(prev.close / cur.close);
+    let ratio: number;
+    let dvMax = DV_MAX;
+    if (jump >= MIN_FALL) {
+      const k = nearest(jump, FORWARD_RATIOS);
+      const half = k === 1.5 || k === 2.5;
+      if (Math.abs(jump - Math.log(k)) > (half ? OPEN_TOL_HALF : k === 2 ? OPEN_TOL_TWO : OPEN_TOL)) continue;
+      if (Math.abs(atClose - Math.log(k)) > (half ? CLOSE_TOL_HALF : CLOSE_TOL)) continue;
+      ratio = k;
+    } else if (-jump >= MIN_RISE) {
+      const sure = -jump >= SURE_RISE;
+      const k = reverseDivisor(-jump, sure ? OPEN_TOL_SURE : OPEN_TOL_REVERSE);
+      if (k === null) continue;
+      if (Math.abs(-atClose - Math.log(k)) > (sure ? CLOSE_TOL_SURE : CLOSE_TOL)) continue;
+      ratio = 1 / k;
+      if (sure) dvMax = DV_MAX_SURE;
+    } else continue;
     const base = bars.slice(Math.max(0, i - DV_BASE_MAX), i).map((b) => b.close * b.volume).filter((x) => x > 0);
-    if (base.length < DV_BASE_MIN) continue;
-    const dv = (cur.close * cur.volume) / median(base);
-    if (!(dv >= DV_MIN && dv <= DV_MAX)) continue;
-    const ratio = Math.round(best * 1e6) / 1e6;
+    const dv = base.length ? (cur.close * cur.volume) / median(base) : NaN;
+    if (base.length < DV_BASE_MIN || !(dv >= DV_MIN && dv <= dvMax)) continue;
     out.push({
       ticker,
       date: cur.date,
-      ratio,
-      detail: `prev close ${prev.close} (${prev.date}), open ${cur.open}, close ${cur.close}; dollar volume ${dv.toFixed(2)}x the ${base.length}-session median`,
+      ratio: Math.round(ratio * 1e6) / 1e6,
+      detail: `prev close ${prev.close} (${prev.date}), open ${cur.open}, close ${cur.close}; dollar volume ${Number.isFinite(dv) ? dv.toFixed(2) : "?"}x the ${base.length}-session median`,
     });
   }
   return out;
@@ -380,6 +425,19 @@ export async function runPrices(opts: PricesOptions): Promise<PricesSummary> {
     }
   }
   return finish();
+}
+
+/**
+ * Runs the detector over every stored bar and replaces the detected splits
+ * with what it finds (rows entered by hand stay). Free: no Databento call.
+ * For after a detector change: `prices-daily -- --redetect`.
+ */
+export async function redetectSplits(store: PricesStore, nowMs = Date.now()): Promise<Split[]> {
+  const bars = await store.bars(PRICES_DATA_START, new Date(nowMs).toISOString().slice(0, 10));
+  const found: Split[] = [];
+  for (const [t, list] of bars) found.push(...detectSplits(t, list));
+  await store.replaceDetectedSplits(found);
+  return found;
 }
 
 /** One summary line. Pure. */

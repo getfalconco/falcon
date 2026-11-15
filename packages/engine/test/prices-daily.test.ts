@@ -6,7 +6,7 @@ import zlib from "node:zlib";
 import { describe, it } from "node:test";
 import { DatabentoClient, type HttpFn, type HttpResponseLike } from "../src/options/client.ts";
 import { memoryOptionsStore } from "../src/options/store.ts";
-import { barsToRows, chunkSessions, detectSplits, pricesLine, runPrices, toDatabentoSymbol } from "../src/prices/daily.ts";
+import { barsToRows, chunkSessions, detectSplits, pricesLine, redetectSplits, reverseDivisor, runPrices, toDatabentoSymbol } from "../src/prices/daily.ts";
 import { memoryPricesStore, type DayBar } from "../src/prices/store.ts";
 
 const zstd = (zlib as unknown as { zstdCompressSync: (b: Buffer) => Buffer }).zstdCompressSync;
@@ -108,6 +108,21 @@ describe("split detection", () => {
     assert.deepEqual(detectSplits("B", series(30, 20, 0.5, 10)), []);
   });
 
+  it("reverse splits: sold hard still found, a genuine 5x jump on huge volume is not", () => {
+    // 1-for-10, then sold off 25% on the day with 6x the usual dollar volume.
+    const sold = series(30, 20, 10, 0.8).map((b, i) => (i === 20 ? { ...b, close: b.close * 0.75 } : b));
+    assert.equal(detectSplits("R", sold)[0]?.ratio, 0.1);
+    // +400% (biotech data) on 500x dollar volume.
+    assert.deepEqual(detectSplits("J", series(30, 20, 5, 100)), []);
+  });
+
+  it("reverse ratios: the nearest when exact, else the roundest within tolerance", () => {
+    assert.equal(reverseDivisor(Math.log(16.2), 0.12), 16);
+    assert.equal(reverseDivisor(Math.log(9.46), 0.12), 10);
+    assert.equal(reverseDivisor(Math.log(15.5), 0.12), 15);
+    assert.equal(reverseDivisor(Math.log(3.6), 0.05), null);
+  });
+
   it("ordinary moves, odd ratios and too little history are left alone", () => {
     assert.deepEqual(detectSplits("C", series(30, 20, 0.8, 1)), []);
     assert.deepEqual(detectSplits("D", series(30, 20, 0.43, 2.3)), []);
@@ -200,5 +215,12 @@ describe("runPrices", () => {
     assert.equal(found[0]!.ratio, 4);
     assert.equal(await store.saveSplits([...found, { ticker: "MSFT", date: "2026-01-02", ratio: 2, detail: "x" }]), 1);
     assert.equal(store.splits.get("MSFT|2026-01-02")!.ratio, 1);
+
+    // Redetection replaces detected rows only.
+    store.splits.set("ZZZ|2025-01-02", { ticker: "ZZZ", date: "2025-01-02", ratio: 3, detail: "", source: "detected" });
+    const again = await redetectSplits(store, NOW);
+    assert.deepEqual(again.map((s) => s.ticker), ["AAPL"]);
+    assert.ok(!store.splits.has("ZZZ|2025-01-02"));
+    assert.equal(store.splits.get("MSFT|2026-01-02")!.source, "manual");
   });
 });
