@@ -7,7 +7,7 @@
 import assert from "node:assert/strict";
 import path from "node:path";
 import { describe, it } from "node:test";
-import { parseListings } from "../src/feed/companies.ts";
+import { matchListed, parseListings } from "../src/feed/companies.ts";
 import { loadGraph, walk, type GraphEdge } from "../src/graph.ts";
 import { ENGINE_ROOT } from "../src/http.ts";
 import { liquidityOf } from "../src/quality.ts";
@@ -30,6 +30,9 @@ import {
 import { chunkPassages, itemOf, locateLinkPassages, reflow } from "../src/graph/locate.ts";
 import { graphStats, precisionFrom, recallAgainst, sampleEdges, samePair } from "../src/graph/metrics.ts";
 import { displayName, namesAgree, resolveCounterparty } from "../src/graph/resolve.ts";
+import { mergeGraphs } from "../src/graph/merge.ts";
+import { cacheKey, costUsd, messageParams, VERIFY_MODEL } from "../src/detectors/llm.ts";
+import { estimateBatchUsd } from "../src/detectors/llm-batch.ts";
 import { floatFrames, latestFloats, rankUniverse, type Candidate } from "../src/graph/universe.ts";
 
 describe("itemOf", () => {
@@ -312,6 +315,40 @@ describe("resolveCounterparty", () => {
     // ... unless the model named the same ticker.
     assert.deepEqual(resolveCounterparty("Merlin Labs", "MRLN", LISTINGS), { ticker: "MRLN", by: "name" });
   });
+  it("does not read a different company into a listed parent's name", () => {
+    const l = parseListings({
+      fields: ["cik", "name", "ticker", "exchange"],
+      data: [
+        [4962, "AMERICAN EXPRESS CO", "AXP", "NYSE"],
+        [1141, "Orion Group Holdings Inc", "ORN", "NYSE"],
+        [2001, "BioNTech SE", "BNTX", "Nasdaq"],
+        [2002, "Dynatrace, Inc.", "DT", "NYSE"],
+        [2003, "Frontier Group Holdings, Inc.", "ULCC", "Nasdaq"],
+        [2004, "United Rentals, Inc.", "URI", "NYSE"],
+      ],
+    });
+    // A word after the parent's name that is not a subsidiary word: another company, by name or by model ticker.
+    assert.deepEqual(resolveCounterparty("American Express GBT", "", l), { ticker: null, by: "unresolved" });
+    assert.deepEqual(resolveCounterparty("American Express GBT", "AXP", l), { ticker: null, by: "unresolved" });
+    assert.deepEqual(resolveCounterparty("American Express Global Business Travel", "AXP", l), { ticker: null, by: "unresolved" });
+    assert.deepEqual(resolveCounterparty("Amex Travel Partners", "AXP", l), { ticker: null, by: "unresolved" });
+    // Orion Corporation (Finland) is not Orion Group Holdings, even with the model's ticker.
+    assert.deepEqual(resolveCounterparty("Orion Corporation", "ORN", l), { ticker: null, by: "unresolved" });
+    // A generic first word is not a parent's name.
+    assert.equal(matchListed("United Natural Foods", l), null);
+    assert.equal(matchListed("American Express Services Europe", l)!.ticker, "AXP");
+    // Subsidiary words still read as the parent.
+    assert.equal(matchListed("BioNTech US Inc.", l)!.ticker, "BNTX");
+    assert.deepEqual(resolveCounterparty("BioNTech US Inc.", "BNTX", l), { ticker: "BNTX", by: "name" });
+    assert.deepEqual(resolveCounterparty("Dynatrace Software Inc.", "DT", l), { ticker: "DT", by: "name" });
+    assert.deepEqual(resolveCounterparty("American Express", "", l), { ticker: "AXP", by: "name" });
+    // A one-word name several companies go by stays unresolved, whatever ticker the model gives.
+    assert.deepEqual(resolveCounterparty("Frontier", "ULCC", l), { ticker: null, by: "unresolved" });
+    assert.deepEqual(resolveCounterparty("Orion", "ORN", l), { ticker: null, by: "unresolved" });
+    // A one-word parent title still needs the model's ticker.
+    assert.deepEqual(resolveCounterparty("Frontier Airlines", "", l), { ticker: null, by: "unresolved" });
+    assert.deepEqual(resolveCounterparty("Frontier Airlines", "ULCC", l), { ticker: "ULCC", by: "name" });
+  });
   it("namesAgree compares the shorter name's words", () => {
     assert.ok(namesAgree("Ford", "FORD MOTOR CO"));
     assert.ok(!namesAgree("American Express", "American Airlines Group Inc."));
@@ -417,5 +454,58 @@ describe("the pilot graph", () => {
     }
     // Cirrus Logic's 10-K names Apple as its main customer.
     assert.ok(walk(pilot, "AAPL", 1).some((p) => p.ticker === "CRUS" && p.relation === "supplier"));
+  });
+});
+
+describe("mergeGraphs", () => {
+  const edge = (from: string, to: string | null, category: GraphEdge["category"], filedAt: string, extra: Record<string, unknown> = {}): GraphEdge =>
+    ({ id: `${from}:${category}:${to ?? "x"}`, from, to, toName: to ?? "Private Co", category, tier: "important", disclosedSharePct: null, quote: `${from} and ${to} quote`, form: "10-K", filedAt, url: "", origin: "t", ...extra }) as GraphEdge;
+  const seed = { generatedAt: "", names: { NVDA: "NVIDIA", TSM: "TSMC" }, edges: [edge("NVDA", "TSM", "supplier", "2025-02-01"), edge("AMD", "INTC", "supplier", "2025-02-01"), edge("AMD", "NVDA", "competitor", "2025-02-01")] };
+  const fresh = {
+    generatedAt: "",
+    names: { AAPL: "Apple", CRUS: "Cirrus Logic" },
+    edges: [
+      edge("NVDA", "TSM", "supplier", "2026-02-01", { verified: true }), // same id: the seed's stays
+      edge("AMD", "INTC", "competitor", "2026-02-01", { verified: true, extractedAs: "supplier" }), // contradicts the seed's supplier edge
+      edge("CRUS", "AAPL", "customer", "2026-02-01", { verified: true }),
+      edge("CRUS", null, "supplier", "2026-02-01", { verified: true }),
+      edge("CRUS", "TSM", "partner", "2026-02-01", { verified: true }),
+      edge("GBTC", "GS", "partner", "2026-02-01", { verified: true, quote: "Participant Agreements with Goldman Sachs & Co. LLC, pursuant to which such entities have agreed to act as Authorized Participants." }),
+    ],
+  };
+  it("keeps the seed unless a newer quote contradicts it, adds shipped relations with tickers", () => {
+    const r = mergeGraphs(seed, fresh, { relations: new Set(["customer", "supplier", "competitor"]) });
+    const ids = r.graph.edges.map((e) => e.id).sort();
+    assert.deepEqual(ids, ["AMD:competitor:INTC", "AMD:competitor:NVDA", "CRUS:customer:AAPL", "NVDA:supplier:TSM"]);
+    assert.equal(r.contradicted.length, 1);
+    assert.equal(r.contradicted[0]!.seed.id, "AMD:supplier:INTC");
+    assert.equal(r.graph.edges.find((e) => e.id === "NVDA:supplier:TSM")!.filedAt, "2025-02-01");
+    assert.equal(r.graph.names.NVDA, "NVIDIA");
+    assert.equal(r.graph.names.CRUS, "Cirrus Logic");
+    // An older extraction does not contradict a newer seed edge.
+    const old = mergeGraphs(seed, { ...fresh, edges: fresh.edges.map((e) => ({ ...e, filedAt: "2024-01-01" })) }, { relations: new Set(["competitor"]) });
+    assert.equal(old.contradicted.length, 0);
+  });
+  it("walks the merged graph by index", () => {
+    const g = mergeGraphs(seed, fresh, { relations: new Set(["customer", "supplier", "competitor"]) }).graph;
+    assert.deepEqual(walk(g, "AAPL", 1).map((p) => p.ticker), ["CRUS"]);
+    g.edges.push(edge("CRUS", "AVGO", "competitor", "2026-02-01"));
+    assert.ok(walk(g, "AVGO", 1).some((p) => p.ticker === "CRUS"));
+  });
+});
+
+describe("batch requests", () => {
+  it("share the live call's parameters and cache key, priced at half", () => {
+    const call = { system: "s", user: "u".repeat(3500), schema: { type: "object" }, maxTokens: 1000, model: VERIFY_MODEL };
+    const p = messageParams(call);
+    assert.equal(p.model, VERIFY_MODEL);
+    assert.equal(p.thinking.type, "between_tools");
+    assert.equal(messageParams({ ...call, model: undefined }).thinking.type, "disabled");
+    assert.equal(cacheKey(call), cacheKey({ ...call }));
+    assert.notEqual(cacheKey(call), cacheKey({ ...call, maxTokens: 999 }));
+    assert.equal(cacheKey(call).length, 64); // a valid custom_id
+    // (1000 + 1 + 300) input + 350 output tokens at Sonnet list price, halved.
+    assert.ok(Math.abs(estimateBatchUsd(call) - ((1301 * 2 + 350 * 10) / 1e6) * 0.5) < 1e-9);
+    assert.equal(costUsd("claude-sonnet-5-5-20261001", 1e6, 0), 2);
   });
 });

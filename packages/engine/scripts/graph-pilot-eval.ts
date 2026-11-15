@@ -2,7 +2,7 @@
  * Measures a graph-extract run (scripts/graph-extract.ts): edges per filer
  * and sector, share with a ticker on both ends, how names were resolved, why
  * proposals were rejected, model tokens and dollars per filer, recall
- * against the seed graph (data/graph.json) for the filers both read, and
+ * against the seed graph (data/graph-seed.json) for the filers both read, and
  * precision from hand labels. Reads only local files; no network, no model.
  *
  *   pnpm --filter @falcon/engine exec node --import tsx scripts/graph-pilot-eval.ts
@@ -16,7 +16,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { ENGINE_ROOT } from "../src/http.ts";
-import { loadGraph, type EdgeCategory } from "../src/graph.ts";
+import { loadGraph, SEED_GRAPH_PATH, type EdgeCategory } from "../src/graph.ts";
 import { applyVerdict, type ExtractedEdge, type Verdict } from "../src/graph/extract.ts";
 import { graphStats, precisionFrom, recallAgainst, sampleEdges, type Label } from "../src/graph/metrics.ts";
 import type { LlmUsage } from "../src/detectors/llm.ts";
@@ -104,11 +104,11 @@ for (const [m, mu] of Object.entries(u.byModel ?? {})) {
 console.log(`  per filer: $${(u.costUsd / n).toFixed(4)}, ${(run.seconds / n).toFixed(1)} s wall (4 at once)`);
 
 // Recall against the seed graph, for the filers both graphs read.
-const seed = loadGraph();
+const seed = loadGraph(SEED_GRAPH_PATH);
 const seedFilers = new Set(seed.edges.map((e) => e.from).filter((f) => filers.includes(f)));
 for (const [label, edges] of [["stage A", stageA], ["final", final]] as const) {
   const rc = recallAgainst(seed.edges, edges, seedFilers);
-  console.log(`\nrecall vs data/graph.json (${[...seedFilers].join(", ")}), ${label}: ${rc.pairs}/${rc.reference} pairs (${pct(rc.pairs / rc.reference)}), ${rc.exact} with the same category (${pct(rc.exact / rc.reference)})`);
+  console.log(`\nrecall vs data/graph-seed.json (${[...seedFilers].join(", ")}), ${label}: ${rc.pairs}/${rc.reference} pairs (${pct(rc.pairs / rc.reference)}), ${rc.exact} with the same category (${pct(rc.exact / rc.reference)})`);
   const byTier: Record<string, [number, number]> = {};
   const missedIds = new Set(rc.missed.map((m) => m.id));
   for (const e of seed.edges.filter((x) => seedFilers.has(x.from))) {

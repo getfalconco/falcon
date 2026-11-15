@@ -1,7 +1,8 @@
 /**
  * The filing graph: company links that a 10-K or 20-F states, each with the
- * quote that states it. Loaded from data/graph.json (built by
- * scripts/build-graph.ts) and walked one or two links out from a company.
+ * quote that states it. Loaded from data/graph.json (the seed graph from
+ * scripts/build-graph.ts merged with the whole-market extraction by
+ * scripts/graph-merge.ts) and walked one or two links out from a company.
  *
  * An edge is written from the filer's side: `from` is the company whose
  * filing says it, `to` the company it names, `category` what `to` is to
@@ -44,6 +45,8 @@ export type Graph = {
 };
 
 export const GRAPH_PATH = path.join(ENGINE_ROOT, "data", "graph.json");
+/** The seed graph scripts/build-graph.ts writes; scripts/graph-merge.ts adds the whole-market extraction to make GRAPH_PATH. */
+export const SEED_GRAPH_PATH = path.join(ENGINE_ROOT, "data", "graph-seed.json");
 
 let cached: Graph | null = null;
 
@@ -77,10 +80,27 @@ export type Link = {
   edge: GraphEdge;
 };
 
+/** Edges by the tickers on their ends, built once per graph (the whole-market graph has thousands). */
+const edgeIndex = new WeakMap<Graph, { edges: GraphEdge[]; length: number; by: Map<string, GraphEdge[]> }>();
+
+function edgesTouching(graph: Graph, ticker: string): GraphEdge[] {
+  let idx = edgeIndex.get(graph);
+  // Rebuilt when the edge list is replaced or changes length (callers may build a graph in place).
+  if (!idx || idx.edges !== graph.edges || idx.length !== graph.edges.length) {
+    const by = new Map<string, GraphEdge[]>();
+    for (const e of graph.edges) {
+      for (const t of e.to && e.to !== e.from ? [e.from, e.to] : [e.from]) (by.get(t) ?? by.set(t, []).get(t)!).push(e);
+    }
+    idx = { edges: graph.edges, length: graph.edges.length, by };
+    edgeIndex.set(graph, idx);
+  }
+  return idx.by.get(ticker) ?? [];
+}
+
 /** Every listed company one link from `ticker`, with the edge that links them. Pure. */
 export function linksOf(graph: Graph, ticker: string): Link[] {
   const out: Link[] = [];
-  for (const edge of graph.edges) {
+  for (const edge of edgesTouching(graph, ticker)) {
     if (edge.from === ticker && edge.to && edge.to !== ticker) {
       out.push({ other: edge.to, relation: relationFrom(edge, ticker), edge });
     } else if (edge.to === ticker && edge.from !== ticker) {

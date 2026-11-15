@@ -1,5 +1,6 @@
 /**
- * Builds data/graph.json, the engine's seed graph, from two sources:
+ * Builds data/graph-seed.json, the engine's seed graph (scripts/graph-merge.ts
+ * adds the whole-market extraction to it to make data/graph.json), from two sources:
  *
  *   1. The graph the old step1 pipeline extracted from 10-K and 20-F filings
  *      (removed from the tree on 2026-11-08; read from git history, or from a
@@ -18,7 +19,7 @@ import { execFileSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import { ENGINE_ROOT } from "../src/http.ts";
-import { GRAPH_PATH, type EdgeCategory, type Graph, type GraphEdge, type StrengthTier } from "../src/graph.ts";
+import { SEED_GRAPH_PATH as GRAPH_PATH, type EdgeCategory, type Graph, type GraphEdge, type StrengthTier } from "../src/graph.ts";
 import { cikForTicker, documentText, recentFilings } from "../src/sec.ts";
 import { quoteInDocument } from "../src/text.ts";
 import { NAMES, SECTORS } from "../src/universe.ts";
