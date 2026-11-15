@@ -11,14 +11,58 @@
  * v1 specs (legacy) keep v1's rule: a release counts on its date, whatever the time.
  */
 
-import { decisionDay, isoToDay, nyLocal } from "./calendar";
+import { dayToIso, decisionDay, isoToDay, nyLocal } from "./calendar";
 import type { EarningsRow, EventInputs, Panel, ReactionRow, RippleRow } from "./fsl/eval";
 import { dailyCashRates, type RatePoint } from "./rates";
 import type { Bar, EarningsEvent, RippleEventRaw } from "./data/types";
 import { mean, ols } from "./stats";
 
+/**
+ * One ticker's bars as columns (about 60 bytes a bar instead of about 200 for
+ * Bar objects). The data loader packs each ticker as it arrives, so a wide
+ * universe (1,500 tickers x 5 years) fits a 1 GB serverless function.
+ */
+export type PackedBars = {
+  /** Days since 1970-01-01, ascending. */
+  day: Int32Array;
+  open: Float64Array;
+  high: Float64Array;
+  low: Float64Array;
+  close: Float64Array;
+  raw: Float64Array;
+  volume: Float64Array;
+  dv: Float64Array;
+};
+
+export function packBars(bars: readonly Bar[]): PackedBars {
+  const n = bars.length;
+  const p: PackedBars = {
+    day: new Int32Array(n),
+    open: new Float64Array(n),
+    high: new Float64Array(n),
+    low: new Float64Array(n),
+    close: new Float64Array(n),
+    raw: new Float64Array(n),
+    volume: new Float64Array(n),
+    dv: new Float64Array(n),
+  };
+  bars.forEach((b, i) => {
+    p.day[i] = isoToDay(b.date);
+    p.open[i] = b.open;
+    p.high[i] = b.high;
+    p.low[i] = b.low;
+    p.close[i] = b.close;
+    p.raw[i] = b.rawClose ?? b.close;
+    p.volume[i] = b.volume;
+    p.dv[i] = b.dollarVolume ?? b.close * b.volume;
+  });
+  return p;
+}
+
 export type SpecData = {
   bars: Record<string, Bar[]>;
+  /** The same bars packed by ticker (the data loader fills this instead of `bars`); read first when present. */
+  packed?: Record<string, PackedBars>;
   earnings: Record<string, EarningsEvent[]>;
   ripple: RippleEventRaw[];
   rates: RatePoint[];
@@ -51,7 +95,7 @@ export function lowerBound(dates: readonly string[], day: string): number {
 
 const BUCKET_MIN: Record<EarningsEvent["time"], number> = { before_open: 8 * 60, during: 12 * 60, after_close: 16 * 60 + 30, unknown: 16 * 60 + 30 };
 
-export function buildPanel(bars: Record<string, Bar[]>, tickers: string[], calendar: string[]): Panel {
+export function buildPanel(bars: Record<string, Bar[] | PackedBars>, tickers: string[], calendar: string[]): Panel {
   const T = calendar.length;
   const N = tickers.length;
   const mk = () => new Float64Array(N * T).fill(NaN);
@@ -68,35 +112,38 @@ export function buildPanel(bars: Record<string, Bar[]>, tickers: string[], calen
     dv: mk(),
     has: new Uint8Array(N * T),
   };
-  const index = new Map(calendar.map((d, i) => [d, i]));
+  const index = new Map(calendar.map((d, i) => [isoToDay(d), i]));
+  const at = new Int32Array(T);
   tickers.forEach((t, c) => {
-    const rows = bars[t] ?? [];
-    const at = new Map<number, Bar>();
-    for (const b of rows) {
-      const i = index.get(b.date);
-      if (i !== undefined) at.set(i, b);
+    const src = bars[t] ?? [];
+    const rows = Array.isArray(src) ? packBars(src) : src;
+    // Row of the bar on each session (-1 for none); a repeated date keeps the last row.
+    at.fill(-1);
+    for (let r = 0; r < rows.day.length; r++) {
+      const i = index.get(rows.day[r]!);
+      if (i !== undefined) at[i] = r;
     }
-    let last: Bar | null = null;
+    let last = -1;
     for (let i = 0; i < T; i++) {
-      const b = at.get(i);
+      const r = at[i]!;
       const k = c * T + i;
-      if (b) {
-        panel.open[k] = b.open;
-        panel.high[k] = b.high;
-        panel.low[k] = b.low;
-        panel.close[k] = b.close;
-        panel.raw[k] = b.rawClose ?? b.close;
-        panel.volume[k] = b.volume;
-        panel.dv[k] = b.dollarVolume ?? b.close * b.volume;
+      if (r >= 0) {
+        panel.open[k] = rows.open[r]!;
+        panel.high[k] = rows.high[r]!;
+        panel.low[k] = rows.low[r]!;
+        panel.close[k] = rows.close[r]!;
+        panel.raw[k] = rows.raw[r]!;
+        panel.volume[k] = rows.volume[r]!;
+        panel.dv[k] = rows.dv[r]!;
         panel.has[k] = 1;
-        last = b;
-      } else if (last) {
+        last = r;
+      } else if (last >= 0) {
         // No session for this ticker today: carry the last close (a flat bar, no volume).
-        panel.open[k] = last.close;
-        panel.high[k] = last.close;
-        panel.low[k] = last.close;
-        panel.close[k] = last.close;
-        panel.raw[k] = last.rawClose ?? last.close;
+        panel.open[k] = rows.close[last]!;
+        panel.high[k] = rows.close[last]!;
+        panel.low[k] = rows.close[last]!;
+        panel.close[k] = rows.close[last]!;
+        panel.raw[k] = rows.raw[last]!;
         panel.volume[k] = 0;
         panel.dv[k] = 0;
       }
@@ -195,11 +242,12 @@ export function prepare(
   clock: "close" | "preopen",
   legacy: boolean,
 ): Prepared {
-  const spy = data.bars.SPY ?? [];
-  const calendar = spy.map((b) => b.date).filter((d) => d <= period.end);
+  const source: Record<string, Bar[] | PackedBars> = data.packed ?? data.bars;
+  const spy = source.SPY ?? [];
+  const calendar = (Array.isArray(spy) ? spy.map((b) => b.date) : Array.from(spy.day, dayToIso)).filter((d) => d <= period.end);
   if (calendar.length < 2) throw new Error(`No SPY trading days up to ${period.end}.`);
   const all = Array.from(new Set([...tickers, "SPY"]));
-  const panel = buildPanel(data.bars, all, calendar);
+  const panel = buildPanel(source, all, calendar);
   const startIndex = lowerBound(calendar, period.start);
   const endIndex = calendar.length - 1;
   if (endIndex - startIndex < 2) throw new Error(`No SPY trading days between ${period.start} and ${period.end}.`);

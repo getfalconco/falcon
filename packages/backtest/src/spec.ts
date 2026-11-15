@@ -21,7 +21,7 @@ import {
 } from "./fsl/check";
 import { describeFormula, type DescribeEnv } from "./fsl/describe";
 import { FslError, type Pos } from "./fsl/parse";
-import { UNIVERSES, type UniverseBase } from "./universes";
+import { UNIVERSES, UNIVERSE_BASES, type UniverseBase } from "./universes";
 import { hashOf } from "./util";
 import type { Condition, RunConfig, Strategy } from "./schema";
 
@@ -30,6 +30,8 @@ z.config(z.locales.en());
 export const SPEC_LIMITS = {
   /** Universe plus referenced tickers; long typed lists reach the spec through ai/lists.ts, never through the model. */
   maxTickers: 500,
+  /** A named Falcon universe (falcon_universe has 1,500 stocks, falcon_graph about 1,650) plus referenced tickers. */
+  maxUniverseTickers: 2_000,
   maxParams: 12,
   maxDefs: 20,
   maxYears: 20,
@@ -38,7 +40,7 @@ export const SPEC_LIMITS = {
   maxWindows: 4,
   maxEventWindow: 60,
   /** Ticker x session cells one synchronous run may evaluate (design 2.5). */
-  maxCells: 1_500_000,
+  maxCells: 3_000_000,
 } as const;
 
 const Ident = z.string().regex(IDENT_RE, "Names use lower case letters, digits and _, start with a letter, at most 24 characters");
@@ -54,8 +56,14 @@ export const ParamSchema = z.object({
 });
 
 export const UniverseSchema = z.discriminatedUnion("kind", [
-  z.object({ kind: z.literal("static"), tickers: z.array(z.string().max(12)).min(1).max(SPEC_LIMITS.maxTickers) }),
-  z.object({ kind: z.literal("rule"), base: z.enum(["falcon_semis", "sector_etfs"]), filter: Formula.nullable() }),
+  z.object({
+    kind: z.literal("static"),
+    tickers: z.array(z.string().max(12)).min(1).max(SPEC_LIMITS.maxTickers),
+    /** Set when the list is the person's focus list (the app sends it with the request), with the day it was read. */
+    from: z.literal("focus_list").optional(),
+    as_of: IsoDate.optional(),
+  }),
+  z.object({ kind: z.literal("rule"), base: z.enum(UNIVERSE_BASES), filter: Formula.nullable() }),
 ]);
 
 const Sizing = z.union([z.literal("equal"), z.literal("inverse_vol"), z.object({ pct: z.number().min(0.5).max(100) })]);
@@ -164,6 +172,14 @@ export function universeTickers(spec: Pick<StrategySpecV2, "universe" | "portfol
   if (spec.portfolio.mode === "weights") return Object.keys(spec.portfolio.weights).map((t) => t.trim().toUpperCase());
   if (spec.universe.kind === "rule") return [...UNIVERSES[spec.universe.base as UniverseBase].tickers];
   return spec.universe.tickers.map((t) => t.trim().toUpperCase());
+}
+
+/** The universe in plain words for buttons and version lists: "S&P 500 today", "your focus list (12)", "AAPL, MSFT". */
+export function universeLabel(spec: Pick<StrategySpecV2, "universe" | "portfolio">): string {
+  const tickers = universeTickers(spec);
+  if (spec.portfolio.mode !== "weights" && spec.universe.kind === "rule") return UNIVERSES[spec.universe.base as UniverseBase].short;
+  if (spec.portfolio.mode !== "weights" && spec.universe.kind === "static" && spec.universe.from === "focus_list") return `your focus list (${tickers.length})`;
+  return tickers.length <= 6 ? tickers.join(", ") : `${tickers.slice(0, 5).join(", ")} and ${tickers.length - 5} more`;
 }
 
 /** $param values as the evaluator reads them: pct params divided by 100. */
@@ -348,17 +364,29 @@ export function validateSpec(input: unknown, now = new Date()): SpecCheck {
   }
 
   const all = Array.from(new Set(tickers.concat(Array.from(uses.tickers), ["SPY"])));
-  if (all.length > SPEC_LIMITS.maxTickers) issues.push({ path: "universe", message: `At most ${SPEC_LIMITS.maxTickers} tickers per run (universe plus referenced tickers), got ${all.length}.` });
+  const maxAll = spec.universe.kind === "rule" && p.mode !== "weights" ? SPEC_LIMITS.maxUniverseTickers : SPEC_LIMITS.maxTickers;
+  if (all.length > maxAll) issues.push({ path: "universe", message: `At most ${maxAll} tickers per run (universe plus referenced tickers), got ${all.length}.` });
   return issues.length ? { ok: false, issues } : { ok: true, spec, uses, perFormula, weightOrder: order, tickers: all };
 }
 
-/** The test window: the spec's dates, or the last 10 years to `today`. */
-export function resolvePeriod(spec: Pick<StrategySpecV2, "period">, now = new Date()): { start: string; end: string } {
+/** Universes with more tickers than this are "wide": without dates they test a shorter default window. */
+export const WIDE_UNIVERSE_TICKERS = 600;
+export const DEFAULT_YEARS = 10;
+export const WIDE_DEFAULT_YEARS = 5;
+
+/** Years tested when the spec names no start: 10, or 5 on a wide universe (falcon_universe, falcon_graph). */
+export function defaultYears(spec: Partial<Pick<StrategySpecV2, "universe" | "portfolio">>): number {
+  if (!spec.universe || !spec.portfolio) return DEFAULT_YEARS;
+  return universeTickers(spec as Pick<StrategySpecV2, "universe" | "portfolio">).length > WIDE_UNIVERSE_TICKERS ? WIDE_DEFAULT_YEARS : DEFAULT_YEARS;
+}
+
+/** The test window: the spec's dates, or the last 10 years to `today` (5 on a wide universe). */
+export function resolvePeriod(spec: Pick<StrategySpecV2, "period"> & Partial<Pick<StrategySpecV2, "universe" | "portfolio">>, now = new Date()): { start: string; end: string } {
   const end = spec.period.end ?? now.toISOString().slice(0, 10);
   let start = spec.period.start;
   if (!start) {
     const d = new Date(`${end}T00:00:00Z`);
-    d.setUTCFullYear(d.getUTCFullYear() - 10);
+    d.setUTCFullYear(d.getUTCFullYear() - defaultYears(spec));
     start = d.toISOString().slice(0, 10);
   }
   return { start, end };
@@ -407,7 +435,9 @@ export function describeSpec(spec: StrategySpecV2, uses?: Uses): SpecDescription
   if (p.mode !== "weights") {
     if (spec.universe.kind === "rule") {
       const u = UNIVERSES[spec.universe.base as UniverseBase];
-      rules.push(`Universe: ${u.label} (${u.tickers.length} tickers, today's membership)${spec.universe.filter ? `, only while ${d(spec.universe.filter)}` : ""}.`);
+      rules.push(`Universe: ${u.label} (${u.tickers.length.toLocaleString("en-US")} tickers, today's membership${u.asOf ? ` as of ${u.asOf}` : ""})${spec.universe.filter ? `, only while ${d(spec.universe.filter)}` : ""}.`);
+    } else if (spec.universe.from === "focus_list") {
+      rules.push(`Universe: your focus list${spec.universe.as_of ? ` as of ${spec.universe.as_of}` : ""} (${tickers.length === 1 ? "1 ticker" : `${tickers.length} tickers`}: ${tickerList(tickers)}).`);
     } else {
       rules.push(tickers.length === 1 ? `Trades ${tickers[0]}.` : `Trades any of ${tickers.length} tickers: ${tickerList(tickers)}.`);
     }

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { STARTERS, type StrategySpecV2 } from "@falcon/backtest";
 import type { Answer, Question } from "@falcon/backtest/ai";
 import { retryableTurn, sendTurn, type Conversation as Conv, type SavedStrategy } from "@/lib/workspace/strategies";
+import { useWorkspace } from "../context";
 
 const BTN =
   "inline-flex h-7 items-center rounded-md border border-line/10 bg-surface px-2.5 text-fs-12 text-fore-4 outline-none transition-colors hover:border-line/25 hover:text-fore focus-visible:border-line/45 disabled:opacity-40";
@@ -24,6 +25,7 @@ export type StrategyChat = ReturnType<typeof useStrategyChat>;
  */
 export function useStrategyChat(s: SavedStrategy, onApply: (a: TurnApply) => void) {
   const conv = s.conversation;
+  const { focus } = useWorkspace();
   const hasSpec = s.origin.kind !== "blank" || s.versions.length > 1 || s.confirmed;
   const [busy, setBusy] = useState(false);
   /** Change requests sent in this visit; the saved conversation keeps only the description and answers. */
@@ -39,6 +41,7 @@ export function useStrategyChat(s: SavedStrategy, onApply: (a: TurnApply) => voi
       answers: next.answers,
       questionsAsked: next.questionsAsked,
       edit: edit ? { request: edit, current: s.spec } : null,
+      focus: focus.map((f) => f.ticker),
     });
     setBusy(false);
     if (r.kind === "questions") {
@@ -111,6 +114,9 @@ export function ConversationThread({ s, chat, onStarter }: { s: SavedStrategy; c
       <div className="flex flex-col items-center px-4 py-10 text-center">
         <p className="max-w-[380px] text-fs-14 leading-fs-21 text-quiet">
           Describe a strategy in the box below, or start from an example. Falcon writes the rules back in numbered steps; nothing runs until you confirm them.
+        </p>
+        <p className="mt-2 max-w-[420px] text-fs-12.5 leading-fs-19 text-faint">
+          Type your own tickers or name a list: the S&amp;P 500 today, the 500 most traded US stocks, Falcon&apos;s 1,500 US stocks, the companies in Falcon&apos;s graph, or your focus list.
         </p>
         <div className="mt-4 flex max-w-[460px] flex-wrap justify-center gap-1.5">
           {STARTERS.map((t) => (

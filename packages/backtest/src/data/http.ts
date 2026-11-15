@@ -109,5 +109,5 @@ export class PoliteFetcher {
   }
 }
 
-/** One client for all Yahoo hosts: 6 at a time, 75 ms between starts, 10 s per request. */
-export const yahooFetcher = new PoliteFetcher({ concurrency: 6, minGapMs: 75, timeoutMs: 10_000, retries: 1 });
+/** One client for all Yahoo hosts: 6 at a time, 50 ms between starts (at most 20 a second, about 1,500 tickers in 75 s for a wide universe), 10 s per request. */
+export const yahooFetcher = new PoliteFetcher({ concurrency: 6, minGapMs: 50, timeoutMs: 10_000, retries: 1 });

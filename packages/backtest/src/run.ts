@@ -12,7 +12,7 @@ import { cagrPct, curveMetrics, maxDrawdownPct, type CurveMetrics } from "./metr
 import { asSeries, computeOutput, evalEnv, simOptions, type ComputedOutput } from "./output";
 import { prepare, type Prepared, type SpecData } from "./prepare";
 import { buyAndHold, simulate, type SimOptions, type SimResult, type TradeV2 } from "./simulate";
-import { describeSpec, resolvePeriod, specHash, universeTickers, type SpecCheck, type SpecDescription, type StrategySpecV2 } from "./spec";
+import { DEFAULT_YEARS, defaultYears, describeSpec, resolvePeriod, specHash, universeLabel, universeTickers, type SpecCheck, type SpecDescription, type StrategySpecV2 } from "./spec";
 import { Evaluator } from "./fsl/eval";
 import { mean, std } from "./stats";
 
@@ -133,7 +133,17 @@ function yearly(dates: string[], s: Float64Array, b: Float64Array, ew: Float64Ar
   return out;
 }
 
-export type RunOptionsV2 = { trials?: number; now?: Date; data: SpecData };
+export type RunOptionsV2 = {
+  trials?: number;
+  now?: Date;
+  data: SpecData;
+  /**
+   * Empty data.bars once the panel is built: the bar objects are the largest
+   * thing in memory on a wide universe (1,500 tickers x 5 years is about 2
+   * million of them). Only for callers that own `data` (the route).
+   */
+  releaseBars?: boolean;
+};
 
 export function runChecked(check: CheckedSpec, opts: RunOptionsV2): RunResultV2 {
   const spec = check.spec;
@@ -142,6 +152,10 @@ export function runChecked(check: CheckedSpec, opts: RunOptionsV2): RunResultV2 
   const clock = p.mode === "rules" ? p.clock : "close";
   const tickers = Array.from(new Set([...check.tickers]));
   const prep = prepare(opts.data, tickers, period, clock, Boolean(spec.legacy));
+  if (opts.releaseBars) {
+    opts.data.bars = {};
+    opts.data.packed = {};
+  }
   const hash = specHash(spec);
   const description = describeSpec(spec, check.uses);
   const warnings = [...opts.data.warnings, ...prep.warnings];
@@ -156,6 +170,12 @@ export function runChecked(check: CheckedSpec, opts: RunOptionsV2): RunResultV2 
     rippleConnected: opts.data.flags.rippleConnected,
     trial: Math.max(1, opts.trials ?? 1),
   };
+  const wideYears = defaultYears(spec);
+  if (!spec.period.start && wideYears !== DEFAULT_YEARS) {
+    warnings.push(
+      `${universeLabel(spec)} is a wide list (${universe.length.toLocaleString("en-US")} tickers), so the test covers the last ${wideYears} years instead of 10. Set a period to test another window; one run handles about 6 years of this many tickers.`,
+    );
+  }
   if (check.uses.ripple && !opts.data.flags.rippleConnected) {
     warnings.push("Sightings history is not connected to the backtester yet, so ripple.* rules never fire in this run.");
   }

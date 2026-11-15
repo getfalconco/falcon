@@ -34,7 +34,20 @@ verified email and DB quotas come with the M1c migration).
 
 ## StrategySpec v2
 
-`universe` (typed tickers, or a Falcon universe: `falcon_semis`, `sector_etfs`),
+`universe` (typed tickers; the person's focus list, which the app sends with
+each turn and the spec keeps as a typed list marked `from: "focus_list"`; or a
+Falcon universe: `falcon_semis`, `sector_etfs`, `falcon_universe` (the 1,500
+US filers Falcon reads annual reports for), `falcon_graph` (every company in
+the supply-chain graph, about 1,650), `us_large_caps` (the 500 most traded of
+`falcon_universe`) and `sp500_today` (SPY holdings)). The wide lists live in
+`src/universe-lists.ts`, tickers and as-of dates only, written by
+`scripts/build-universes.ts`; refresh them monthly. Every list of stocks is
+today's membership, so check 14 confirms hindsight on a past test and caps the
+label. Lists over 600 tickers default to the last 5 years; a run is capped at
+3 million ticker-sessions (about 6 years of `falcon_universe`, 20 of
+`sp500_today`), checked before any price is loaded. A cold load of 1,500
+tickers takes two requests (about 80 s; the 504 reports how many are cached
+and the app retries up to 4 times), a warm one about 3 s.
 `params` (every tunable number is a named `$param`: int, number or pct; shown
 as sliders), `defs` (named formulas, no cycles), `portfolio` in one of four
 modes, `rebalance`, `risk` (stop, trailing stop, take profit, max hold),

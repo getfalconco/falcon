@@ -1,4 +1,4 @@
-import { converse, MAX_TEXT_CHARS, type Answer } from "@falcon/backtest/ai";
+import { converse, MAX_FOCUS_TICKERS, MAX_TEXT_CHARS, type Answer } from "@falcon/backtest/ai";
 import type { StrategySpecV2 } from "@falcon/backtest";
 import { guard, json, preflight } from "@/lib/strategy/guard";
 
@@ -10,7 +10,7 @@ export const maxDuration = 60;
 /**
  * One Strategy Lab conversation turn (packages/backtest/src/ai/converse.ts).
  *
- *   POST /api/strategy/turn { intent, answers?: [{ q, a, typed }], questionsAsked?, edit?: { request, current } }
+ *   POST /api/strategy/turn { intent, answers?: [{ q, a, typed }], questionsAsked?, edit?: { request, current }, focus?: [tickers] }
  *     -> 200 { kind: "questions", questions, assumptions }
  *     -> 200 { kind: "spec", spec, describe, assumptions, notExpressible, repaired }
  *     -> 200 { kind: "not_a_strategy", message }
@@ -45,6 +45,16 @@ function answers(v: unknown): Answer[] {
     .map((a) => ({ q: String(a.q ?? "").slice(0, 400), a: String(a.a ?? "").slice(0, 800), typed: a.typed === true }));
 }
 
+/** The member's focus list as the app sends it (tickers only); undefined when not sent. */
+function focusList(v: unknown): string[] | undefined {
+  if (!Array.isArray(v)) return undefined;
+  return v
+    .filter((t): t is string => typeof t === "string")
+    .map((t) => t.trim().toUpperCase())
+    .filter((t) => /^[A-Z][A-Z0-9.-]{0,11}$/.test(t))
+    .slice(0, MAX_FOCUS_TICKERS);
+}
+
 export async function POST(request: Request) {
   const arrived = Date.now();
   const g = await guard(
@@ -69,7 +79,7 @@ export async function POST(request: Request) {
   const guardMs = Date.now() - arrived;
   try {
     const r = await converse(
-      { intent: b.intent, answers: answers(b.answers), questionsAsked: typeof b.questionsAsked === "number" ? b.questionsAsked : undefined, edit },
+      { intent: b.intent, answers: answers(b.answers), questionsAsked: typeof b.questionsAsked === "number" ? b.questionsAsked : undefined, edit, focus: focusList(b.focus) },
       { apiKey, timeoutMs: DEADLINE_MS - guardMs },
     );
     console.info(

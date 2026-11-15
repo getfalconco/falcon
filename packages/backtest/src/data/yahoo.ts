@@ -119,13 +119,19 @@ function pack(bars: Bar[]): CompactBars {
   };
 }
 
-function unpack(p: CompactBars): Bar[] {
-  return p.d.map((date, i) => {
+/** Bars dated from..to (inclusive), unpacking only those rows (wide universes read thousands of these). */
+function unpack(p: CompactBars, from = "", to = "9999-12-31"): Bar[] {
+  const out: Bar[] = [];
+  for (let i = 0; i < p.d.length; i++) {
+    const date = p.d[i]!;
+    if (date < from) continue;
+    if (date > to) break;
     const bar: Bar = { date, open: p.o[i]!, high: p.h[i]!, low: p.l[i]!, close: p.c[i]!, volume: p.v[i]! };
     if (p.r) bar.rawClose = p.r[i]!;
     if (p.dv) bar.dollarVolume = p.dv[i]!;
-    return bar;
-  });
+    out.push(bar);
+  }
+  return out;
 }
 
 /**
@@ -158,7 +164,7 @@ export class YahooPriceSource implements PriceSource {
       }
       await this.cache.set(key, hit);
     }
-    return unpack(hit.bars).filter((b) => b.date >= from && b.date <= to);
+    return unpack(hit.bars, from, to);
   }
 }
 

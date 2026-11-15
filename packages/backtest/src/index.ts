@@ -22,7 +22,7 @@ export * from "./spec";
 export { parse as parseFsl, format as formatFsl, FslError, type Node as FslNode } from "./fsl/parse";
 export { checkFormula, emptyUses, type CheckEnv, FUNCTIONS as FSL_FUNCTIONS, IDENTIFIERS as FSL_IDENTIFIERS, IDENT_RE, type CheckResult, type Uses } from "./fsl/check";
 export { describeFormula } from "./fsl/describe";
-export { UNIVERSES, type UniverseBase } from "./universes";
+export { UNIVERSES, UNIVERSE_BASES, datedLabel, type UniverseBase, type UniverseInfo } from "./universes";
 export { ENGINE_V2_VERSION, ASSUMPTIONS_V2, CAVEATS_V2, runChecked, type RunResultV2, type MetricsV2, type CheckedSpec } from "./run";
 export type { TradeV2, SimResult, StrategyOutput } from "./simulate";
 export { floorBps, corwinSchultzBps, TIERS as COST_TIERS } from "./costs";
