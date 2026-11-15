@@ -207,8 +207,11 @@ export type RippleHit = {
    * Optional (added by the engine): whether the hit may be listed under
    * Opportunities. v1: true only for a Measured hit, or (interim rule,
    * OPPORTUNITIES_INTERIM_DOCUMENTED) a Documented own-firm hit with exact
-   * evidence; never for an unclear or priced-in hit. v0 cards (no tier): the
-   * record's Wilson lower bound cleared the "better than a coin flip" bound.
+   * evidence; only when its direction is "up" (a Measured or Documented hit
+   * pointing down is a Risk signal: Sightings and the portfolio, never
+   * Opportunities); never for an unclear or priced-in hit. v0 cards (no
+   * tier): the record's Wilson lower bound cleared the "better than a coin
+   * flip" bound, direction "up".
    * Screens read this flag through `opportunityHit`; they never re-derive it.
    */
   opportunityEligible?: boolean;
@@ -475,12 +478,14 @@ export type OpportunityOptions = {
 };
 
 /**
- * Whether a hit may be listed under Opportunities. It must carry the engine's
- * `opportunityEligible` flag; a hit with a tier must also be Measured, or a
- * Documented own-firm exact hit while the interim rule allows it. Older hits
- * without a tier: the flag alone (v0 rule).
+ * Whether a hit may be listed under Opportunities. It must point up (a hit
+ * pointing down is a Risk signal, however well documented, and is never an
+ * opportunity) and carry the engine's `opportunityEligible` flag; a hit with
+ * a tier must also be Measured, or a Documented own-firm exact hit while the
+ * interim rule allows it. Older hits without a tier: up and the flag (v0 rule).
  */
 export function opportunityHit(h: RippleHit, opts: OpportunityOptions = {}): boolean {
+  if (h.direction !== "up") return false;
   if (h.opportunityEligible !== true) return false;
   if (!validTier(h.tier)) return true;
   if (h.tier === "measured") return true;

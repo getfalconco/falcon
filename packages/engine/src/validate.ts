@@ -142,6 +142,8 @@ export function hitProblems(h: RippleHit, where: string): string[] {
     if (typeof h.opportunityEligible !== "boolean") out.push(`${where}: opportunityEligible must be true or false`);
     else if (h.opportunityEligible) {
       if (h.pricedIn === true || h.direction === "unclear") out.push(`${where}: opportunityEligible on a priced-in or unclear hit`);
+      // Opportunities are positive only: a hit pointing down is a Risk signal.
+      else if (h.direction !== "up") out.push(`${where}: opportunityEligible on a hit that does not point up (a Risk signal)`);
       // v1: Measured, or Documented (interim rule); v0 cards without a tier: a record and not low.
       if (h.tier !== undefined) {
         if (h.tier === "watch") out.push(`${where}: opportunityEligible on a watch hit`);

@@ -21,8 +21,8 @@ export const dynamic = "force-dynamic";
  * when the newest of them was written. With `tickers`, `portfolio` holds the
  * cards whose event company or any hit is one of them, and `opportunities`
  * the other cards, each with only the hits @falcon/ripple `opportunityCards`
- * allows: Measured hits, or while no hit is Measured, Documented own-firm
- * hits with exact evidence (the interim rule, env
+ * allows: hits pointing up that are Measured, or while no hit is Measured,
+ * Documented own-firm hits with exact evidence (the interim rule, env
  * OPPORTUNITIES_INTERIM_DOCUMENTED, on unless "0"/"false"). Neither list
  * holds a weak signal (`isWeakSignal`); the rules live in the engine and in
  * @falcon/ripple, never re-derived here.

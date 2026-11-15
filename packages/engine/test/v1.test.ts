@@ -19,6 +19,7 @@ import {
   isWeakSignal,
   opportunityCard,
   opportunityCards,
+  opportunityHit,
   tierLabel,
   DOCUMENTED_LABEL,
   type RippleCard,
@@ -47,6 +48,7 @@ import {
   type QualityContext,
   type QualityInput,
 } from "../src/quality.ts";
+import { opportunityEligible as recordOpportunityEligible } from "../src/rank.ts";
 import { MARK_STALE_SQL } from "../src/supabase.ts";
 import { cardProblems, framingProblems, hitProblems } from "../src/validate.ts";
 import { allowedCalls, callBudget } from "../src/vote.ts";
@@ -299,6 +301,71 @@ describe("Opportunities interim rule (design 7.3)", () => {
     assert.equal(opportunityCard(c, new Set(["ACME"])), null);
     const v0 = card([hit({ opportunityEligible: true, history: { sample: 14, hitRate: 11 / 14, avgMovePct: 2, windowDays: 5 } })]);
     assert.deepEqual(opportunityCard(v0)?.hits.map((h) => h.ticker), ["KLAC"]);
+  });
+});
+
+describe("Opportunities are positive only (risk signals never listed)", () => {
+  const negative = { ...OWN_ESTIMATE, meanAbnPct: -2.1, medianAbnPct: -1.4, tStat: -3.2, p: 0.001 };
+  const riskRegistry: EvidenceRegistry = { version: 1, families: { ...REGISTRY.families, F6: { ...REGISTRY.families.F6!, expectedSign: -1, ownEstimate: negative } } };
+  const riskCtx = ctx({ registry: riskRegistry });
+
+  it("a Documented own-firm exact hit pointing down is a risk: Documented, but not opportunityEligible", () => {
+    const t = assignTier(own({ family: "F6", eventType: "distress_nt", direction: "down" }), riskCtx);
+    assert.equal(t.tier, "documented");
+    assert.equal(t.documentedBy?.match, "exact");
+    assert.equal(t.opportunityEligible, false);
+    // The same rule pointing up stays eligible.
+    assert.equal(assignTier(own(), ctx()).opportunityEligible, true);
+  });
+
+  it("a Measured hit pointing down is not opportunityEligible either", () => {
+    const stats: FamilyStats = { version: 1, families: { F6: { bhQ: 0.05, calendarT: 2.2, validationMeanY: 0.4, n: 500, nEvents: 210 } } };
+    const t = assignTier(own({ family: "F6", eventType: "distress_nt", direction: "down" }), ctx({ registry: riskRegistry, stats }));
+    assert.equal(t.tier, "measured");
+    assert.equal(t.opportunityEligible, false);
+    assert.equal(assignTier(own(), ctx({ stats: PASSING })).opportunityEligible, true);
+  });
+
+  it("a Documented risk card (late filing, restatement) is built with the flag off and never reaches Opportunities", () => {
+    for (const [eventType, form] of [["distress_nt", "NT 10-Q"], ["restatement_402", "8-K"]] as const) {
+      const reg: EvidenceRegistry = { version: 1, families: { ...riskRegistry.families, F6R: { ...riskRegistry.families.F6!, eventType: "restatement_402" } } };
+      const item = fromDetector(insider({ id: `${eventType}-1`, eventType, family: "F6", sign: -1, form, facts: {} }))!;
+      const built = ownFirmCard(item, { sector: "all", generatedAt: "2026-11-13T12:30:00.000Z", liquidity: LIQUID, quality: ctx({ registry: reg }) });
+      assert.ok(!("error" in built));
+      const h = built.card.hits[0]!;
+      assert.equal(h.tier, "documented", eventType);
+      assert.equal(h.direction, "down");
+      assert.equal(h.opportunityEligible, false);
+      assert.deepEqual(cardProblems(built.card), []);
+      assert.deepEqual(opportunityCards([built.card]), []);
+      assert.equal(opportunityCard(built.card), null);
+      // It stays a listed (not weak) card: Sightings and the portfolio show it as a Risk signal.
+      assert.equal(isWeakSignal(built.card), false);
+      assert.equal(SIGNAL_LABEL[cardExplain(built.card).signal], "Risk signal");
+    }
+  });
+
+  it("screens drop a down hit even when an older or forged card flags it eligible", () => {
+    const downDoc = selfDoc({ direction: "down" });
+    assert.equal(opportunityHit(downDoc), false);
+    assert.equal(opportunityHit(selfDoc()), true);
+    assert.equal(opportunityHit(hit({ tier: "measured", direction: "down", opportunityEligible: true })), false);
+    assert.equal(opportunityHit(hit({ direction: "down", opportunityEligible: true, history: { sample: 14, hitRate: 11 / 14, avgMovePct: -2, windowDays: 5 } })), false);
+    assert.equal(opportunityCard(card([downDoc], { tier: "documented", event: { ...card([]).event, ticker: "ACME" } })), null);
+    // A card with an up and a down hit keeps only the up one.
+    const mixed = card([hit({ tier: "measured", opportunityEligible: true }), hit({ ticker: "NVMI", tier: "measured", direction: "down", opportunityEligible: true })], { tier: "measured" });
+    assert.deepEqual(opportunityCard(mixed)?.hits.map((h) => h.ticker), ["KLAC"]);
+  });
+
+  it("the contract check rejects opportunityEligible on a hit that does not point up", () => {
+    assert.ok(hitProblems(selfDoc({ direction: "down" }), "h").some((p) => /does not point up/.test(p)));
+    assert.deepEqual(hitProblems(selfDoc(), "h").filter((p) => /opportunityEligible/.test(p)), []);
+  });
+
+  it("the v0 record rule points up too", () => {
+    const r = { verdict: "supports" as const, lower: 0.6, sample: 20 };
+    assert.equal(recordOpportunityEligible(r, "high", "up", false), true);
+    assert.equal(recordOpportunityEligible(r, "high", "down", false), false);
   });
 });
 
