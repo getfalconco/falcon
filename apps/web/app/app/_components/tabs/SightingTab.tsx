@@ -107,7 +107,7 @@ function SightingDetail({ card }: { card: RippleCard }) {
       {card.options && !card.hits.some((h) => h.ticker === event.ticker && h.options) ? (
         <section>
           <SectionTitle>Options on {event.ticker}</SectionTitle>
-          <OptionsRow options={card.options} className="mt-2" />
+          <OptionsRow options={card.options} className="mt-2" label={false} />
         </section>
       ) : null}
 

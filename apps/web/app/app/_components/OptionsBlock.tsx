@@ -9,6 +9,13 @@ import { MONO, formatDateTime } from "./parts";
  * display licensing), so these render nothing for everyone else.
  */
 
+/** The snapshot time in New York, where the quotes were taken: "Nov 13, 3:45 PM ET". */
+function asOfNy(iso: string): string {
+  const t = Date.parse(iso);
+  if (!Number.isFinite(t)) return formatDateTime(iso);
+  return `${new Date(t).toLocaleString("en-US", { timeZone: "America/New_York", month: "short", day: "numeric", hour: "numeric", minute: "2-digit" })} ET`;
+}
+
 function moveText(m: OptionsMove | null): string | null {
   if (!m) return null;
   return m.marketAdjustedPct === null ? plusMinusPct(m.rawPct) : `${plusMinusPct(m.rawPct)} (${plusMinusPct(m.marketAdjustedPct)} beyond market)`;
@@ -46,17 +53,19 @@ function Figures({ o }: { o: RippleOptions }) {
 }
 
 /** A compact "Options" row: the plain sentence, the figures, the as-of time, source and caveat. */
-export function OptionsRow({ options, className = "" }: { options: RippleOptions | null | undefined; className?: string }) {
+export function OptionsRow({ options, className = "", label = true }: { options: RippleOptions | null | undefined; className?: string; label?: boolean }) {
   if (!options) return null;
   const sentence = optionsSentence(options);
   return (
     <div className={`rounded-md border border-line/[0.08] bg-line/[0.02] px-3 py-2.5 ${className}`}>
       <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
-        <span className="text-fs-10.5 uppercase tracking-[0.1em] text-fore/50" style={{ fontFamily: MONO }}>
-          Options
-        </span>
+        {label ? (
+          <span className="text-fs-10.5 uppercase tracking-[0.1em] text-fore/50" style={{ fontFamily: MONO }}>
+            Options
+          </span>
+        ) : null}
         <span className="text-fs-11.5 text-faint">
-          as of {formatDateTime(options.asOf)} · spot {options.spot.toFixed(2)} · {options.source}
+          as of {asOfNy(options.asOf)} · spot {options.spot.toFixed(2)} · {options.source}
         </span>
       </div>
       {sentence ? <p className="mt-1 text-fs-13 leading-fs-20 text-fore-4">{sentence}</p> : null}
@@ -75,7 +84,7 @@ export function OptionsChip({ options, className = "" }: { options: RippleOption
     <span
       className={`inline-flex h-[18px] shrink-0 items-center rounded border border-line/15 px-1.5 text-fs-10.5 leading-none tabular-nums text-fore-4 ${className}`}
       style={{ fontFamily: MONO }}
-      title={`Options price a move of about ${text.replace(" priced", "")} over ${mv?.sessions === 20 ? "the next month" : "the next week"} (${options.source}, ${formatDateTime(options.asOf)})`}
+      title={`Options price a move of about ${text.replace(" priced", "")} over ${mv?.sessions === 20 ? "the next month" : "the next week"} (${options.source}, ${asOfNy(options.asOf)})`}
     >
       {text}
     </span>

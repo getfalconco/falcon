@@ -131,7 +131,7 @@ export function TickerTab({ ticker }: { ticker: string }) {
       {options ? (
         <section>
           <SectionTitle>Options</SectionTitle>
-          <OptionsRow options={options} className="mt-2" />
+          <OptionsRow options={options} className="mt-2" label={false} />
         </section>
       ) : null}
 
