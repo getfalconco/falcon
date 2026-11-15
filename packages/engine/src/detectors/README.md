@@ -27,7 +27,7 @@ pnpm --filter @falcon/engine exec node --import tsx scripts/detect.ts --days 7 -
 
 "US-listed" = a row in SEC `company_tickers_exchange.json` (cached a day) on
 Nasdaq, NYSE, CBOE or TXSE; OTC and unknown are left out. "Graph customers"
-= tickers `data/graph.json` names as someone's customer (27 today).
+= tickers `data/graph.json` names as someone's customer (642 with the whole-market graph of 2026-11; 27 before).
 
 ## Intake (`src/feed/`)
 

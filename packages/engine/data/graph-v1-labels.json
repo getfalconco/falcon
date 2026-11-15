@@ -1,0 +1,3027 @@
+[
+ {
+  "n": 1,
+  "id": "BTI:partner:ACN",
+  "from": "BTI",
+  "to": "ACN",
+  "category": "partner",
+  "tier": "important",
+  "sector": "consumer",
+  "verified": true,
+  "label": {
+   "truth": "partner",
+   "resolved": true,
+   "alt": "supplier"
+  },
+  "second": {
+   "truth": "partner",
+   "alt": "supplier",
+   "resolved": true,
+   "note": "global strategic partnership; support services"
+  }
+ },
+ {
+  "n": 2,
+  "id": "SITM:supplier:TSM",
+  "from": "SITM",
+  "to": "TSM",
+  "category": "supplier",
+  "tier": "important",
+  "sector": "semis",
+  "verified": true,
+  "label": {
+   "truth": "supplier",
+   "resolved": true
+  }
+ },
+ {
+  "n": 3,
+  "id": "GPC:competitor:AZO",
+  "from": "GPC",
+  "to": "AZO",
+  "category": "competitor",
+  "tier": "marginal",
+  "sector": "retail_distribution",
+  "verified": true,
+  "label": {
+   "truth": "competitor",
+   "resolved": true
+  },
+  "second": {
+   "truth": "competitor",
+   "resolved": true,
+   "note": "listed key competitor"
+  }
+ },
+ {
+  "n": 4,
+  "id": "AOS:supplier:UL",
+  "from": "AOS",
+  "to": "UL",
+  "category": "supplier",
+  "tier": "important",
+  "sector": "industrials",
+  "verified": true,
+  "label": {
+   "truth": "none",
+   "resolved": true,
+   "note": "acquisition context; transitional supply only"
+  }
+ },
+ {
+  "n": 5,
+  "id": "MOH:competitor:CNC",
+  "from": "MOH",
+  "to": "CNC",
+  "category": "competitor",
+  "tier": "marginal",
+  "sector": "financials",
+  "verified": true,
+  "label": {
+   "truth": "competitor",
+   "resolved": true
+  }
+ },
+ {
+  "n": 6,
+  "id": "AKAM:partner:MUFG",
+  "from": "AKAM",
+  "to": "MUFG",
+  "category": "partner",
+  "tier": "important",
+  "sector": "industrials",
+  "verified": true,
+  "label": {
+   "truth": "partner",
+   "resolved": true
+  }
+ },
+ {
+  "n": 7,
+  "id": "WWD:customer:RTX",
+  "from": "WWD",
+  "to": "RTX",
+  "category": "customer",
+  "tier": "critical",
+  "sector": "industrials",
+  "verified": true,
+  "label": {
+   "truth": "customer",
+   "resolved": true
+  }
+ },
+ {
+  "n": 8,
+  "id": "IDCC:customer:AAPL",
+  "from": "IDCC",
+  "to": "AAPL",
+  "category": "customer",
+  "tier": "critical",
+  "sector": "financials",
+  "verified": true,
+  "label": {
+   "truth": "customer",
+   "resolved": true
+  }
+ },
+ {
+  "n": 9,
+  "id": "SQM:competitor:MOS",
+  "from": "SQM",
+  "to": "MOS",
+  "category": "competitor",
+  "tier": "marginal",
+  "sector": "materials",
+  "verified": true,
+  "label": {
+   "truth": "competitor",
+   "resolved": true
+  }
+ },
+ {
+  "n": 10,
+  "id": "BUD:partner:UL",
+  "from": "BUD",
+  "to": "UL",
+  "category": "partner",
+  "tier": "marginal",
+  "sector": "consumer",
+  "verified": true,
+  "label": {
+   "truth": "partner",
+   "resolved": true
+  },
+  "second": {
+   "truth": "partner",
+   "resolved": true,
+   "note": "co-partner in 100+ Accelerator program"
+  }
+ },
+ {
+  "n": 11,
+  "id": "OLN:partner:PLUG",
+  "from": "OLN",
+  "to": "PLUG",
+  "category": "partner",
+  "tier": "important",
+  "sector": "materials",
+  "verified": true,
+  "label": {
+   "truth": "partner",
+   "resolved": true
+  }
+ },
+ {
+  "n": 12,
+  "id": "VZ:customer:CMCSA",
+  "from": "VZ",
+  "to": "CMCSA",
+  "category": "customer",
+  "tier": "marginal",
+  "sector": "media_telecom",
+  "verified": true,
+  "label": {
+   "truth": "customer",
+   "resolved": true,
+   "alt": "partner",
+   "note": "cable MVNO resellers"
+  }
+ },
+ {
+  "n": 13,
+  "id": "NXPI:customer:AVT",
+  "from": "NXPI",
+  "to": "AVT",
+  "category": "customer",
+  "tier": "critical",
+  "sector": "semis",
+  "verified": true,
+  "label": {
+   "truth": "customer",
+   "resolved": true
+  }
+ },
+ {
+  "n": 14,
+  "id": "MT:supplier:VALE",
+  "from": "MT",
+  "to": "VALE",
+  "category": "supplier",
+  "tier": "marginal",
+  "sector": "materials",
+  "verified": true,
+  "label": {
+   "truth": "supplier",
+   "resolved": true
+  }
+ },
+ {
+  "n": 15,
+  "id": "RVMD:partner:BMY",
+  "from": "RVMD",
+  "to": "BMY",
+  "category": "partner",
+  "tier": "important",
+  "sector": "health",
+  "verified": true,
+  "label": {
+   "truth": "partner",
+   "resolved": true
+  }
+ },
+ {
+  "n": 16,
+  "id": "APTV:customer:STLA",
+  "from": "APTV",
+  "to": "STLA",
+  "category": "customer",
+  "tier": "important",
+  "sector": "autos",
+  "verified": true,
+  "label": {
+   "truth": "customer",
+   "resolved": true
+  }
+ },
+ {
+  "n": 17,
+  "id": "NVDA:customer:MSFT",
+  "from": "NVDA",
+  "to": "MSFT",
+  "category": "customer",
+  "tier": "important",
+  "sector": "semis",
+  "verified": true,
+  "label": {
+   "truth": "customer",
+   "resolved": true,
+   "alt": "partner",
+   "note": "legacy Xbox agreement"
+  },
+  "second": {
+   "truth": "customer",
+   "resolved": true,
+   "note": "Xbox agreement (NVIDIA supplies Xbox); quote focuses on stock purchase rights, weak/possibly legacy"
+  }
+ },
+ {
+  "n": 18,
+  "id": "SYF:partner:PII",
+  "from": "SYF",
+  "to": "PII",
+  "category": "partner",
+  "tier": "marginal",
+  "sector": "financials",
+  "verified": true,
+  "label": {
+   "truth": "partner",
+   "resolved": true,
+   "alt": "customer"
+  }
+ },
+ {
+  "n": 19,
+  "id": "KO:competitor:BUD",
+  "from": "KO",
+  "to": "BUD",
+  "category": "competitor",
+  "tier": "marginal",
+  "sector": "consumer",
+  "verified": true,
+  "label": {
+   "truth": "competitor",
+   "resolved": true
+  }
+ },
+ {
+  "n": 20,
+  "id": "SN:customer:WMT",
+  "from": "SN",
+  "to": "WMT",
+  "category": "customer",
+  "tier": "marginal",
+  "sector": "industrials",
+  "verified": true,
+  "label": {
+   "truth": "customer",
+   "resolved": true
+  }
+ },
+ {
+  "n": 21,
+  "id": "GFS:partner:AMD",
+  "from": "GFS",
+  "to": "AMD",
+  "category": "partner",
+  "tier": "marginal",
+  "sector": "semis",
+  "verified": true,
+  "label": {
+   "truth": "partner",
+   "resolved": true,
+   "note": "patent cross-licence"
+  }
+ },
+ {
+  "n": 22,
+  "id": "NFG:supplier:SHEL",
+  "from": "NFG",
+  "to": "SHEL",
+  "category": "supplier",
+  "tier": "critical",
+  "sector": "energy_utilities",
+  "verified": true,
+  "label": {
+   "truth": "supplier",
+   "resolved": true
+  }
+ },
+ {
+  "n": 23,
+  "id": "MRCY:supplier:NVDA",
+  "from": "MRCY",
+  "to": "NVDA",
+  "category": "supplier",
+  "tier": "marginal",
+  "sector": "tech",
+  "verified": true,
+  "label": {
+   "truth": "supplier",
+   "resolved": true
+  }
+ },
+ {
+  "n": 24,
+  "id": "WCN:competitor:WM",
+  "from": "WCN",
+  "to": "WM",
+  "category": "competitor",
+  "tier": "marginal",
+  "sector": "energy_utilities",
+  "verified": true,
+  "label": {
+   "truth": "competitor",
+   "resolved": true
+  },
+  "second": {
+   "truth": "competitor",
+   "resolved": true,
+   "note": "listed competitor"
+  }
+ },
+ {
+  "n": 25,
+  "id": "USAR:competitor:MP",
+  "from": "USAR",
+  "to": "MP",
+  "category": "competitor",
+  "tier": "important",
+  "sector": "materials",
+  "verified": true,
+  "label": {
+   "truth": "competitor",
+   "resolved": true
+  }
+ },
+ {
+  "n": 26,
+  "id": "ESTC:partner:MSFT",
+  "from": "ESTC",
+  "to": "MSFT",
+  "category": "partner",
+  "tier": "marginal",
+  "sector": "tech",
+  "verified": true,
+  "label": {
+   "truth": "partner",
+   "resolved": true,
+   "alt": "supplier"
+  }
+ },
+ {
+  "n": 27,
+  "id": "LTM:supplier:BA",
+  "from": "LTM",
+  "to": "BA",
+  "category": "supplier",
+  "tier": "important",
+  "sector": "aerospace_airlines",
+  "verified": true,
+  "label": {
+   "truth": "supplier",
+   "resolved": true
+  }
+ },
+ {
+  "n": 28,
+  "id": "RGTI:customer:MSFT",
+  "from": "RGTI",
+  "to": "MSFT",
+  "category": "customer",
+  "tier": "important",
+  "sector": "tech",
+  "verified": true,
+  "label": {
+   "truth": "partner",
+   "resolved": true,
+   "alt": "customer"
+  }
+ },
+ {
+  "n": 29,
+  "id": "RYAAY:supplier:SHEL",
+  "from": "RYAAY",
+  "to": "SHEL",
+  "category": "supplier",
+  "tier": "marginal",
+  "sector": "aerospace_airlines",
+  "verified": true,
+  "label": {
+   "truth": "supplier",
+   "resolved": true
+  }
+ },
+ {
+  "n": 30,
+  "id": "PAG:competitor:CVNA",
+  "from": "PAG",
+  "to": "CVNA",
+  "category": "competitor",
+  "tier": "important",
+  "sector": "retail_distribution",
+  "verified": true,
+  "label": {
+   "truth": "competitor",
+   "resolved": true
+  }
+ },
+ {
+  "n": 31,
+  "id": "PUMP:customer:XOM",
+  "from": "PUMP",
+  "to": "XOM",
+  "category": "customer",
+  "tier": "critical",
+  "sector": "energy_utilities",
+  "verified": true,
+  "label": {
+   "truth": "customer",
+   "resolved": true
+  },
+  "second": {
+   "truth": "customer",
+   "resolved": true,
+   "note": "24.9% of revenue"
+  }
+ },
+ {
+  "n": 32,
+  "id": "HXL:customer:BA",
+  "from": "HXL",
+  "to": "BA",
+  "category": "customer",
+  "tier": "critical",
+  "sector": "materials",
+  "verified": true,
+  "label": {
+   "truth": "customer",
+   "resolved": true
+  }
+ },
+ {
+  "n": 33,
+  "id": "EMBJ:competitor:LMT",
+  "from": "EMBJ",
+  "to": "LMT",
+  "category": "competitor",
+  "tier": "important",
+  "sector": "aerospace_airlines",
+  "verified": true,
+  "label": {
+   "truth": "competitor",
+   "resolved": true
+  }
+ },
+ {
+  "n": 34,
+  "id": "BKH:customer:META",
+  "from": "BKH",
+  "to": "META",
+  "category": "customer",
+  "tier": "marginal",
+  "sector": "energy_utilities",
+  "verified": true,
+  "label": {
+   "truth": "customer",
+   "resolved": true
+  }
+ },
+ {
+  "n": 35,
+  "id": "GNTX:competitor:LEA",
+  "from": "GNTX",
+  "to": "LEA",
+  "category": "competitor",
+  "tier": "marginal",
+  "sector": "autos",
+  "verified": true,
+  "label": {
+   "truth": "competitor",
+   "resolved": true
+  }
+ },
+ {
+  "n": 36,
+  "id": "GBTC:partner:GS",
+  "from": "GBTC",
+  "to": "GS",
+  "category": "partner",
+  "tier": "marginal",
+  "sector": "financials",
+  "verified": true,
+  "label": {
+   "truth": "none",
+   "resolved": true,
+   "note": "authorized participant (share creation), not a business link"
+  }
+ },
+ {
+  "n": 37,
+  "id": "KRC:customer:BOX",
+  "from": "KRC",
+  "to": "BOX",
+  "category": "customer",
+  "tier": "important",
+  "sector": "financials",
+  "verified": true,
+  "label": {
+   "truth": "customer",
+   "resolved": true,
+   "note": "tenant"
+  }
+ },
+ {
+  "n": 38,
+  "id": "KTOS:customer:NOC",
+  "from": "KTOS",
+  "to": "NOC",
+  "category": "customer",
+  "tier": "marginal",
+  "sector": "aerospace_airlines",
+  "verified": true,
+  "label": {
+   "truth": "customer",
+   "resolved": true
+  },
+  "second": {
+   "truth": "customer",
+   "resolved": true,
+   "note": "listed non-government customer"
+  }
+ },
+ {
+  "n": 39,
+  "id": "INGM:supplier:AAPL",
+  "from": "INGM",
+  "to": "AAPL",
+  "category": "supplier",
+  "tier": "critical",
+  "sector": "retail_distribution",
+  "verified": true,
+  "label": {
+   "truth": "supplier",
+   "resolved": true
+  }
+ },
+ {
+  "n": 40,
+  "id": "NU:supplier:MA",
+  "from": "NU",
+  "to": "MA",
+  "category": "supplier",
+  "tier": "critical",
+  "sector": "financials",
+  "verified": true,
+  "label": {
+   "truth": "supplier",
+   "resolved": true,
+   "alt": "partner"
+  }
+ },
+ {
+  "n": 41,
+  "id": "BKNG:competitor:GOOGL",
+  "from": "BKNG",
+  "to": "GOOGL",
+  "category": "competitor",
+  "tier": "important",
+  "sector": "industrials",
+  "verified": true,
+  "label": {
+   "truth": "competitor",
+   "resolved": true
+  }
+ },
+ {
+  "n": 42,
+  "id": "INTC:supplier:ASML",
+  "from": "INTC",
+  "to": "ASML",
+  "category": "supplier",
+  "tier": "critical",
+  "sector": "semis",
+  "verified": true,
+  "label": {
+   "truth": "supplier",
+   "resolved": true
+  }
+ },
+ {
+  "n": 43,
+  "id": "PCVX:supplier:STRO",
+  "from": "PCVX",
+  "to": "STRO",
+  "category": "supplier",
+  "tier": "important",
+  "sector": "health",
+  "verified": true,
+  "label": {
+   "truth": "supplier",
+   "resolved": true
+  }
+ },
+ {
+  "n": 44,
+  "id": "JCI:partner:ADT",
+  "from": "JCI",
+  "to": "ADT",
+  "category": "partner",
+  "tier": "important",
+  "sector": "industrials",
+  "verified": true,
+  "label": {
+   "truth": "none",
+   "resolved": false,
+   "note": "JCI's own ADT brand outside North America, not ADT Inc."
+  }
+ },
+ {
+  "n": 45,
+  "id": "SE:supplier:AAPL",
+  "from": "SE",
+  "to": "AAPL",
+  "category": "supplier",
+  "tier": "marginal",
+  "sector": "industrials",
+  "verified": true,
+  "label": {
+   "truth": "supplier",
+   "resolved": true,
+   "alt": "partner",
+   "note": "platform terms"
+  },
+  "second": {
+   "truth": "supplier",
+   "resolved": true,
+   "note": "platform agreements (app stores/services) imposing data conditions; weak"
+  }
+ },
+ {
+  "n": 46,
+  "id": "DG:competitor:DLTR",
+  "from": "DG",
+  "to": "DLTR",
+  "category": "competitor",
+  "tier": "marginal",
+  "sector": "retail_distribution",
+  "verified": true,
+  "label": {
+   "truth": "competitor",
+   "resolved": true
+  }
+ },
+ {
+  "n": 47,
+  "id": "SRE:customer:COP",
+  "from": "SRE",
+  "to": "COP",
+  "category": "customer",
+  "tier": "important",
+  "sector": "energy_utilities",
+  "verified": true,
+  "label": {
+   "truth": "customer",
+   "resolved": true,
+   "note": "LNG offtake buyer"
+  }
+ },
+ {
+  "n": 48,
+  "id": "GRAL:supplier:TWST",
+  "from": "GRAL",
+  "to": "TWST",
+  "category": "supplier",
+  "tier": "critical",
+  "sector": "health",
+  "verified": true,
+  "label": {
+   "truth": "supplier",
+   "resolved": true
+  }
+ },
+ {
+  "n": 49,
+  "id": "LBRT:competitor:HAL",
+  "from": "LBRT",
+  "to": "HAL",
+  "category": "competitor",
+  "tier": "important",
+  "sector": "energy_utilities",
+  "verified": true,
+  "label": {
+   "truth": "competitor",
+   "resolved": true
+  }
+ },
+ {
+  "n": 50,
+  "id": "GRMN:competitor:AAPL",
+  "from": "GRMN",
+  "to": "AAPL",
+  "category": "competitor",
+  "tier": "marginal",
+  "sector": "aerospace_airlines",
+  "verified": true,
+  "label": {
+   "truth": "competitor",
+   "resolved": true
+  }
+ },
+ {
+  "n": 51,
+  "id": "NXPI:partner:TSM",
+  "from": "NXPI",
+  "to": "TSM",
+  "category": "partner",
+  "tier": "important",
+  "sector": "semis",
+  "verified": true,
+  "label": {
+   "truth": "partner",
+   "resolved": true,
+   "alt": "supplier",
+   "note": "SSMC fab JV"
+  }
+ },
+ {
+  "n": 52,
+  "id": "NVDA:competitor:GOOGL",
+  "from": "NVDA",
+  "to": "GOOGL",
+  "category": "competitor",
+  "tier": "marginal",
+  "sector": "semis",
+  "verified": true,
+  "label": {
+   "truth": "competitor",
+   "resolved": true
+  },
+  "second": {
+   "truth": "competitor",
+   "resolved": true,
+   "note": "cloud cos designing in-house AI hardware listed as competitors"
+  }
+ },
+ {
+  "n": 53,
+  "id": "KTB:customer:MTN",
+  "from": "KTB",
+  "to": "MTN",
+  "category": "customer",
+  "tier": "marginal",
+  "sector": "consumer",
+  "verified": true,
+  "label": {
+   "truth": "customer",
+   "resolved": true
+  }
+ },
+ {
+  "n": 54,
+  "id": "EMBJ:customer:RJET",
+  "from": "EMBJ",
+  "to": "RJET",
+  "category": "customer",
+  "tier": "important",
+  "sector": "aerospace_airlines",
+  "verified": true,
+  "label": {
+   "truth": "customer",
+   "resolved": true
+  }
+ },
+ {
+  "n": 55,
+  "id": "MAT:customer:WMT",
+  "from": "MAT",
+  "to": "WMT",
+  "category": "customer",
+  "tier": "important",
+  "sector": "consumer",
+  "verified": true,
+  "label": {
+   "truth": "customer",
+   "resolved": true
+  }
+ },
+ {
+  "n": 56,
+  "id": "AMGN:customer:MCK",
+  "from": "AMGN",
+  "to": "MCK",
+  "category": "customer",
+  "tier": "critical",
+  "sector": "health",
+  "verified": true,
+  "label": {
+   "truth": "customer",
+   "resolved": true
+  }
+ },
+ {
+  "n": 57,
+  "id": "WEN:partner:QSR",
+  "from": "WEN",
+  "to": "QSR",
+  "category": "partner",
+  "tier": "important",
+  "sector": "retail_distribution",
+  "verified": true,
+  "label": {
+   "truth": "partner",
+   "resolved": true
+  }
+ },
+ {
+  "n": 58,
+  "id": "LMT:partner:RTX",
+  "from": "LMT",
+  "to": "RTX",
+  "category": "partner",
+  "tier": "important",
+  "sector": "aerospace_airlines",
+  "verified": true,
+  "label": {
+   "truth": "partner",
+   "resolved": true
+  }
+ },
+ {
+  "n": 59,
+  "id": "FTNT:supplier:AVGO",
+  "from": "FTNT",
+  "to": "AVGO",
+  "category": "supplier",
+  "tier": "critical",
+  "sector": "tech",
+  "verified": true,
+  "label": {
+   "truth": "supplier",
+   "resolved": true
+  },
+  "second": {
+   "truth": "supplier",
+   "resolved": true,
+   "note": "limited/sole source of network and wireless chips"
+  }
+ },
+ {
+  "n": 60,
+  "id": "NWSA:competitor:RELX",
+  "from": "NWSA",
+  "to": "RELX",
+  "category": "competitor",
+  "tier": "marginal",
+  "sector": "media_telecom",
+  "verified": true,
+  "label": {
+   "truth": "competitor",
+   "resolved": true
+  }
+ },
+ {
+  "n": 61,
+  "id": "NTLA:partner:KYTX",
+  "from": "NTLA",
+  "to": "KYTX",
+  "category": "partner",
+  "tier": "marginal",
+  "sector": "health",
+  "verified": true,
+  "label": {
+   "truth": "partner",
+   "resolved": true,
+   "alt": "customer"
+  }
+ },
+ {
+  "n": 62,
+  "id": "GPK:competitor:SW",
+  "from": "GPK",
+  "to": "SW",
+  "category": "competitor",
+  "tier": "important",
+  "sector": "materials",
+  "verified": true,
+  "label": {
+   "truth": "competitor",
+   "resolved": true
+  }
+ },
+ {
+  "n": 63,
+  "id": "AFRM:competitor:COF",
+  "from": "AFRM",
+  "to": "COF",
+  "category": "competitor",
+  "tier": "marginal",
+  "sector": "financials",
+  "verified": true,
+  "label": {
+   "truth": "competitor",
+   "resolved": true
+  }
+ },
+ {
+  "n": 64,
+  "id": "TTWO:customer:MSFT",
+  "from": "TTWO",
+  "to": "MSFT",
+  "category": "customer",
+  "tier": "critical",
+  "sector": "tech",
+  "verified": true,
+  "label": {
+   "truth": "customer",
+   "resolved": true
+  }
+ },
+ {
+  "n": 65,
+  "id": "IBP:customer:MHO",
+  "from": "IBP",
+  "to": "MHO",
+  "category": "customer",
+  "tier": "important",
+  "sector": "industrials",
+  "verified": true,
+  "label": {
+   "truth": "customer",
+   "resolved": true
+  }
+ },
+ {
+  "n": 66,
+  "id": "TNL:partner:PPLI",
+  "from": "TNL",
+  "to": "PPLI",
+  "category": "partner",
+  "tier": "important",
+  "sector": "consumer",
+  "verified": true,
+  "label": {
+   "truth": "partner",
+   "resolved": true
+  },
+  "second": {
+   "truth": "partner",
+   "resolved": true,
+   "note": "strategic alliance; People Inc. licenses T+L brand media royalty-free"
+  }
+ },
+ {
+  "n": 67,
+  "id": "ARM:customer:QCOM",
+  "from": "ARM",
+  "to": "QCOM",
+  "category": "customer",
+  "tier": "critical",
+  "sector": "semis",
+  "verified": true,
+  "label": {
+   "truth": "customer",
+   "resolved": true
+  }
+ },
+ {
+  "n": 68,
+  "id": "ATO:supplier:COP",
+  "from": "ATO",
+  "to": "COP",
+  "category": "supplier",
+  "tier": "marginal",
+  "sector": "energy_utilities",
+  "verified": true,
+  "label": {
+   "truth": "supplier",
+   "resolved": true
+  }
+ },
+ {
+  "n": 69,
+  "id": "BDC:partner:CRWD",
+  "from": "BDC",
+  "to": "CRWD",
+  "category": "partner",
+  "tier": "marginal",
+  "sector": "materials",
+  "verified": true,
+  "label": {
+   "truth": "none",
+   "resolved": true,
+   "note": "industry memberships, not a business link"
+  }
+ },
+ {
+  "n": 70,
+  "id": "EQT:partner:NEE",
+  "from": "EQT",
+  "to": "NEE",
+  "category": "partner",
+  "tier": "marginal",
+  "sector": "energy_utilities",
+  "verified": true,
+  "label": {
+   "truth": "partner",
+   "resolved": true,
+   "note": "co-members of MVP"
+  }
+ },
+ {
+  "n": 71,
+  "id": "CVNA:partner:ROOT",
+  "from": "CVNA",
+  "to": "ROOT",
+  "category": "partner",
+  "tier": "important",
+  "sector": "retail_distribution",
+  "verified": true,
+  "label": {
+   "truth": "partner",
+   "resolved": true
+  }
+ },
+ {
+  "n": 72,
+  "id": "CPAY:partner:PSNY",
+  "from": "CPAY",
+  "to": "PSNY",
+  "category": "partner",
+  "tier": "marginal",
+  "sector": "industrials",
+  "verified": true,
+  "label": {
+   "truth": "partner",
+   "resolved": true,
+   "alt": "customer"
+  }
+ },
+ {
+  "n": 73,
+  "id": "APTV:partner:NOW",
+  "from": "APTV",
+  "to": "NOW",
+  "category": "partner",
+  "tier": "marginal",
+  "sector": "autos",
+  "verified": true,
+  "label": {
+   "truth": "partner",
+   "resolved": true
+  },
+  "second": {
+   "truth": "partner",
+   "resolved": true,
+   "note": "partnership to commercialize intelligent edge portfolio"
+  }
+ },
+ {
+  "n": 74,
+  "id": "PCAR:supplier:CMI",
+  "from": "PCAR",
+  "to": "CMI",
+  "category": "supplier",
+  "tier": "important",
+  "sector": "autos",
+  "verified": true,
+  "label": {
+   "truth": "supplier",
+   "resolved": true
+  }
+ },
+ {
+  "n": 75,
+  "id": "GPK:customer:KHC",
+  "from": "GPK",
+  "to": "KHC",
+  "category": "customer",
+  "tier": "marginal",
+  "sector": "materials",
+  "verified": true,
+  "label": {
+   "truth": "customer",
+   "resolved": true
+  }
+ },
+ {
+  "n": 76,
+  "id": "MMM:customer:SOLV",
+  "from": "MMM",
+  "to": "SOLV",
+  "category": "customer",
+  "tier": "important",
+  "sector": "health",
+  "verified": true,
+  "label": {
+   "truth": "customer",
+   "resolved": true,
+   "alt": "partner",
+   "note": "post-spin supply agreements"
+  }
+ },
+ {
+  "n": 77,
+  "id": "STM:customer:TSLA",
+  "from": "STM",
+  "to": "TSLA",
+  "category": "customer",
+  "tier": "marginal",
+  "sector": "semis",
+  "verified": true,
+  "label": {
+   "truth": "customer",
+   "resolved": true
+  }
+ },
+ {
+  "n": 78,
+  "id": "AR:supplier:MPLX",
+  "from": "AR",
+  "to": "MPLX",
+  "category": "supplier",
+  "tier": "important",
+  "sector": "energy_utilities",
+  "verified": true,
+  "label": {
+   "truth": "supplier",
+   "resolved": true
+  }
+ },
+ {
+  "n": 79,
+  "id": "TIGO:supplier:AAPL",
+  "from": "TIGO",
+  "to": "AAPL",
+  "category": "supplier",
+  "tier": "marginal",
+  "sector": "media_telecom",
+  "verified": true,
+  "label": {
+   "truth": "supplier",
+   "resolved": true
+  }
+ },
+ {
+  "n": 80,
+  "id": "LUV:partner:SABR",
+  "from": "LUV",
+  "to": "SABR",
+  "category": "partner",
+  "tier": "marginal",
+  "sector": "aerospace_airlines",
+  "verified": true,
+  "label": {
+   "truth": "supplier",
+   "resolved": true,
+   "alt": "partner",
+   "note": "GDS channel"
+  },
+  "second": {
+   "truth": "partner",
+   "alt": "supplier",
+   "resolved": true,
+   "note": "GDS distribution channel"
+  }
+ },
+ {
+  "n": 81,
+  "id": "IONQ:supplier:AMZN",
+  "from": "IONQ",
+  "to": "AMZN",
+  "category": "supplier",
+  "tier": "important",
+  "sector": "tech",
+  "verified": true,
+  "label": {
+   "truth": "partner",
+   "resolved": true,
+   "alt": "supplier"
+  }
+ },
+ {
+  "n": 82,
+  "id": "ALB:competitor:SHEL",
+  "from": "ALB",
+  "to": "SHEL",
+  "category": "competitor",
+  "tier": "marginal",
+  "sector": "materials",
+  "verified": true,
+  "label": {
+   "truth": "competitor",
+   "resolved": true
+  }
+ },
+ {
+  "n": 83,
+  "id": "INTC:competitor:AAPL",
+  "from": "INTC",
+  "to": "AAPL",
+  "category": "competitor",
+  "tier": "important",
+  "sector": "semis",
+  "verified": true,
+  "label": {
+   "truth": "competitor",
+   "resolved": true
+  }
+ },
+ {
+  "n": 84,
+  "id": "BIIB:competitor:LLY",
+  "from": "BIIB",
+  "to": "LLY",
+  "category": "competitor",
+  "tier": "important",
+  "sector": "health",
+  "verified": true,
+  "label": {
+   "truth": "competitor",
+   "resolved": true
+  }
+ },
+ {
+  "n": 85,
+  "id": "EMBJ:supplier:GE",
+  "from": "EMBJ",
+  "to": "GE",
+  "category": "supplier",
+  "tier": "important",
+  "sector": "aerospace_airlines",
+  "verified": true,
+  "label": {
+   "truth": "supplier",
+   "resolved": true
+  }
+ },
+ {
+  "n": 86,
+  "id": "BFH:customer:VSXY",
+  "from": "BFH",
+  "to": "VSXY",
+  "category": "customer",
+  "tier": "important",
+  "sector": "financials",
+  "verified": true,
+  "label": {
+   "truth": "customer",
+   "resolved": true,
+   "alt": "partner",
+   "note": "CHECK ticker VSXY"
+  }
+ },
+ {
+  "n": 87,
+  "id": "SBAC:competitor:CCI",
+  "from": "SBAC",
+  "to": "CCI",
+  "category": "competitor",
+  "tier": "important",
+  "sector": "financials",
+  "verified": true,
+  "label": {
+   "truth": "competitor",
+   "resolved": true
+  },
+  "second": {
+   "truth": "competitor",
+   "resolved": true,
+   "note": "primary competitor in site leasing"
+  }
+ },
+ {
+  "n": 88,
+  "id": "CSL:customer:QXO",
+  "from": "CSL",
+  "to": "QXO",
+  "category": "customer",
+  "tier": "critical",
+  "sector": "industrials",
+  "verified": true,
+  "label": {
+   "truth": "customer",
+   "resolved": true
+  }
+ },
+ {
+  "n": 89,
+  "id": "RVMD:partner:IAM",
+  "from": "RVMD",
+  "to": "IAM",
+  "category": "partner",
+  "tier": "important",
+  "sector": "health",
+  "verified": true,
+  "label": {
+   "truth": "partner",
+   "resolved": true,
+   "alt": "supplier",
+   "note": "CHECK Iambic listed"
+  }
+ },
+ {
+  "n": 90,
+  "id": "SITE:customer:BV",
+  "from": "SITE",
+  "to": "BV",
+  "category": "customer",
+  "tier": "marginal",
+  "sector": "retail_distribution",
+  "verified": true,
+  "label": {
+   "truth": "customer",
+   "resolved": true
+  }
+ },
+ {
+  "n": 91,
+  "id": "CVI:competitor:PSX",
+  "from": "CVI",
+  "to": "PSX",
+  "category": "competitor",
+  "tier": "marginal",
+  "sector": "energy_utilities",
+  "verified": true,
+  "label": {
+   "truth": "competitor",
+   "resolved": true
+  }
+ },
+ {
+  "n": 92,
+  "id": "CMCSA:partner:CHTR",
+  "from": "CMCSA",
+  "to": "CHTR",
+  "category": "partner",
+  "tier": "important",
+  "sector": "media_telecom",
+  "verified": true,
+  "label": {
+   "truth": "partner",
+   "resolved": true
+  }
+ },
+ {
+  "n": 93,
+  "id": "WPM:supplier:ARIS",
+  "from": "WPM",
+  "to": "ARIS",
+  "category": "supplier",
+  "tier": "important",
+  "sector": "materials",
+  "verified": true,
+  "label": {
+   "truth": "supplier",
+   "resolved": true,
+   "alt": "partner",
+   "note": "stream agreement"
+  }
+ },
+ {
+  "n": 94,
+  "id": "CAI:supplier:ILMN",
+  "from": "CAI",
+  "to": "ILMN",
+  "category": "supplier",
+  "tier": "critical",
+  "sector": "health",
+  "verified": true,
+  "label": {
+   "truth": "supplier",
+   "resolved": true
+  },
+  "second": {
+   "truth": "supplier",
+   "resolved": true,
+   "note": "sole supplier of NGS instruments and reagents"
+  }
+ },
+ {
+  "n": 95,
+  "id": "KNSA:competitor:CRDL",
+  "from": "KNSA",
+  "to": "CRDL",
+  "category": "competitor",
+  "tier": "marginal",
+  "sector": "health",
+  "verified": true,
+  "label": {
+   "truth": "competitor",
+   "resolved": true,
+   "note": "competing pipeline product"
+  }
+ },
+ {
+  "n": 96,
+  "id": "GEN:competitor:GOOGL",
+  "from": "GEN",
+  "to": "GOOGL",
+  "category": "competitor",
+  "tier": "marginal",
+  "sector": "tech",
+  "verified": true,
+  "label": {
+   "truth": "competitor",
+   "resolved": true
+  }
+ },
+ {
+  "n": 97,
+  "id": "EXLS:partner:SNOW",
+  "from": "EXLS",
+  "to": "SNOW",
+  "category": "partner",
+  "tier": "marginal",
+  "sector": "industrials",
+  "verified": true,
+  "label": {
+   "truth": "partner",
+   "resolved": true
+  }
+ },
+ {
+  "n": 98,
+  "id": "VSAT:partner:AAPL",
+  "from": "VSAT",
+  "to": "AAPL",
+  "category": "partner",
+  "tier": "marginal",
+  "sector": "media_telecom",
+  "verified": true,
+  "label": {
+   "truth": "partner",
+   "resolved": true
+  }
+ },
+ {
+  "n": 99,
+  "id": "RSI:supplier:NET",
+  "from": "RSI",
+  "to": "NET",
+  "category": "supplier",
+  "tier": "marginal",
+  "sector": "consumer",
+  "verified": true,
+  "label": {
+   "truth": "supplier",
+   "resolved": true
+  }
+ },
+ {
+  "n": 100,
+  "id": "BKR:supplier:GE",
+  "from": "BKR",
+  "to": "GE",
+  "category": "supplier",
+  "tier": "important",
+  "sector": "industrials",
+  "verified": true,
+  "label": {
+   "truth": "supplier",
+   "resolved": true,
+   "alt": "partner",
+   "note": "IP licence"
+  }
+ },
+ {
+  "n": 101,
+  "id": "ALAB:supplier:TSM",
+  "from": "ALAB",
+  "to": "TSM",
+  "category": "supplier",
+  "tier": "critical",
+  "sector": "semis",
+  "verified": true,
+  "label": {
+   "truth": "supplier",
+   "resolved": true
+  },
+  "second": {
+   "truth": "supplier",
+   "resolved": true,
+   "note": "sole foundry"
+  }
+ },
+ {
+  "n": 102,
+  "id": "ALNY:supplier:A",
+  "from": "ALNY",
+  "to": "A",
+  "category": "supplier",
+  "tier": "critical",
+  "sector": "health",
+  "verified": true,
+  "label": {
+   "truth": "supplier",
+   "resolved": true
+  }
+ },
+ {
+  "n": 103,
+  "id": "LBRT:competitor:PUMP",
+  "from": "LBRT",
+  "to": "PUMP",
+  "category": "competitor",
+  "tier": "important",
+  "sector": "energy_utilities",
+  "verified": true,
+  "label": {
+   "truth": "competitor",
+   "resolved": true
+  }
+ },
+ {
+  "n": 104,
+  "id": "OSK:competitor:MLR",
+  "from": "OSK",
+  "to": "MLR",
+  "category": "competitor",
+  "tier": "important",
+  "sector": "autos",
+  "verified": true,
+  "label": {
+   "truth": "competitor",
+   "resolved": true
+  }
+ },
+ {
+  "n": 105,
+  "id": "USAR:supplier:FLR",
+  "from": "USAR",
+  "to": "FLR",
+  "category": "supplier",
+  "tier": "marginal",
+  "sector": "materials",
+  "verified": true,
+  "label": {
+   "truth": "supplier",
+   "resolved": true,
+   "note": "contracted study"
+  }
+ },
+ {
+  "n": 106,
+  "id": "BNTX:competitor:NVAX",
+  "from": "BNTX",
+  "to": "NVAX",
+  "category": "competitor",
+  "tier": "important",
+  "sector": "health",
+  "verified": true,
+  "label": {
+   "truth": "competitor",
+   "resolved": true
+  }
+ },
+ {
+  "n": 107,
+  "id": "TDC:partner:NVDA",
+  "from": "TDC",
+  "to": "NVDA",
+  "category": "partner",
+  "tier": "marginal",
+  "sector": "tech",
+  "verified": true,
+  "label": {
+   "truth": "partner",
+   "resolved": true
+  }
+ },
+ {
+  "n": 108,
+  "id": "MBLY:customer:APTV",
+  "from": "MBLY",
+  "to": "APTV",
+  "category": "customer",
+  "tier": "critical",
+  "sector": "tech",
+  "verified": true,
+  "label": {
+   "truth": "customer",
+   "resolved": true
+  },
+  "second": {
+   "truth": "customer",
+   "resolved": true,
+   "note": "15% of revenue, Tier 1 customer"
+  }
+ },
+ {
+  "n": 109,
+  "id": "PEGA:partner:CTSH",
+  "from": "PEGA",
+  "to": "CTSH",
+  "category": "partner",
+  "tier": "marginal",
+  "sector": "tech",
+  "verified": true,
+  "label": {
+   "truth": "partner",
+   "resolved": true
+  }
+ },
+ {
+  "n": 110,
+  "id": "FIVN:customer:CDW",
+  "from": "FIVN",
+  "to": "CDW",
+  "category": "customer",
+  "tier": "marginal",
+  "sector": "tech",
+  "verified": true,
+  "label": {
+   "truth": "partner",
+   "resolved": true,
+   "alt": "customer",
+   "note": "reseller"
+  }
+ },
+ {
+  "n": 111,
+  "id": "CDW:supplier:SNX",
+  "from": "CDW",
+  "to": "SNX",
+  "category": "supplier",
+  "tier": "critical",
+  "sector": "retail_distribution",
+  "verified": true,
+  "label": {
+   "truth": "supplier",
+   "resolved": true
+  }
+ },
+ {
+  "n": 112,
+  "id": "SOFI:supplier:AMZN",
+  "from": "SOFI",
+  "to": "AMZN",
+  "category": "supplier",
+  "tier": "important",
+  "sector": "financials",
+  "verified": true,
+  "label": {
+   "truth": "supplier",
+   "resolved": true
+  }
+ },
+ {
+  "n": 113,
+  "id": "PL:partner:TSAT",
+  "from": "PL",
+  "to": "TSAT",
+  "category": "partner",
+  "tier": "important",
+  "sector": "tech",
+  "verified": true,
+  "label": {
+   "truth": "partner",
+   "resolved": true
+  }
+ },
+ {
+  "n": 114,
+  "id": "TEM:competitor:FTRE",
+  "from": "TEM",
+  "to": "FTRE",
+  "category": "competitor",
+  "tier": "marginal",
+  "sector": "tech",
+  "verified": true,
+  "label": {
+   "truth": "competitor",
+   "resolved": true
+  }
+ },
+ {
+  "n": 115,
+  "id": "IDCC:partner:SONY",
+  "from": "IDCC",
+  "to": "SONY",
+  "category": "partner",
+  "tier": "important",
+  "sector": "financials",
+  "verified": true,
+  "label": {
+   "truth": "partner",
+   "resolved": true
+  },
+  "second": {
+   "truth": "partner",
+   "resolved": true,
+   "note": "joint licensing program, filer is licensing agent"
+  }
+ },
+ {
+  "n": 116,
+  "id": "NVTS:supplier:TSM",
+  "from": "NVTS",
+  "to": "TSM",
+  "category": "supplier",
+  "tier": "critical",
+  "sector": "semis",
+  "verified": true,
+  "label": {
+   "truth": "supplier",
+   "resolved": true
+  }
+ },
+ {
+  "n": 117,
+  "id": "FDX:partner:AUR",
+  "from": "FDX",
+  "to": "AUR",
+  "category": "partner",
+  "tier": "important",
+  "sector": "aerospace_airlines",
+  "verified": true,
+  "label": {
+   "truth": "partner",
+   "resolved": true
+  }
+ },
+ {
+  "n": 118,
+  "id": "YPF:partner:DOW",
+  "from": "YPF",
+  "to": "DOW",
+  "category": "partner",
+  "tier": "important",
+  "sector": "energy_utilities",
+  "verified": true,
+  "label": {
+   "truth": "partner",
+   "resolved": true
+  }
+ },
+ {
+  "n": 119,
+  "id": "SFM:supplier:UNFI",
+  "from": "SFM",
+  "to": "UNFI",
+  "category": "supplier",
+  "tier": "critical",
+  "sector": "retail_distribution",
+  "verified": true,
+  "label": {
+   "truth": "supplier",
+   "resolved": true
+  }
+ },
+ {
+  "n": 120,
+  "id": "WH:supplier:CRM",
+  "from": "WH",
+  "to": "CRM",
+  "category": "supplier",
+  "tier": "marginal",
+  "sector": "consumer",
+  "verified": true,
+  "label": {
+   "truth": "supplier",
+   "resolved": true
+  }
+ },
+ {
+  "n": 121,
+  "id": "UNG:customer:MS",
+  "from": "UNG",
+  "to": "MS",
+  "category": "customer",
+  "tier": "marginal",
+  "sector": "financials",
+  "verified": true,
+  "label": {
+   "truth": "none",
+   "resolved": true,
+   "note": "authorized participant"
+  }
+ },
+ {
+  "n": 122,
+  "id": "TEM:supplier:ILMN",
+  "from": "TEM",
+  "to": "ILMN",
+  "category": "supplier",
+  "tier": "critical",
+  "sector": "tech",
+  "verified": true,
+  "label": {
+   "truth": "supplier",
+   "resolved": true
+  },
+  "second": {
+   "truth": "supplier",
+   "resolved": true,
+   "note": "sole supplier, 33% of vendor payments"
+  }
+ },
+ {
+  "n": 123,
+  "id": "MRK:customer:CAH",
+  "from": "MRK",
+  "to": "CAH",
+  "category": "customer",
+  "tier": "critical",
+  "sector": "health",
+  "verified": true,
+  "label": {
+   "truth": "customer",
+   "resolved": true
+  }
+ },
+ {
+  "n": 124,
+  "id": "SIRI:competitor:META",
+  "from": "SIRI",
+  "to": "META",
+  "category": "competitor",
+  "tier": "important",
+  "sector": "media_telecom",
+  "verified": true,
+  "label": {
+   "truth": "competitor",
+   "resolved": true
+  }
+ },
+ {
+  "n": 125,
+  "id": "TU:partner:CSCO",
+  "from": "TU",
+  "to": "CSCO",
+  "category": "partner",
+  "tier": "important",
+  "sector": "media_telecom",
+  "verified": true,
+  "label": {
+   "truth": "partner",
+   "resolved": true
+  }
+ },
+ {
+  "n": 126,
+  "id": "SBAC:competitor:AMT",
+  "from": "SBAC",
+  "to": "AMT",
+  "category": "competitor",
+  "tier": "important",
+  "sector": "financials",
+  "verified": true,
+  "label": {
+   "truth": "competitor",
+   "resolved": true
+  }
+ },
+ {
+  "n": 127,
+  "id": "INTC:competitor:TSM",
+  "from": "INTC",
+  "to": "TSM",
+  "category": "competitor",
+  "tier": "important",
+  "sector": "semis",
+  "verified": true,
+  "label": {
+   "truth": "competitor",
+   "resolved": true
+  }
+ },
+ {
+  "n": 128,
+  "id": "HLT:supplier:CRWD",
+  "from": "HLT",
+  "to": "CRWD",
+  "category": "supplier",
+  "tier": "important",
+  "sector": "consumer",
+  "verified": true,
+  "label": {
+   "truth": "none",
+   "resolved": true,
+   "note": "outage mention only"
+  }
+ },
+ {
+  "n": 129,
+  "id": "MNST:competitor:CELH",
+  "from": "MNST",
+  "to": "CELH",
+  "category": "competitor",
+  "tier": "important",
+  "sector": "consumer",
+  "verified": true,
+  "label": {
+   "truth": "competitor",
+   "resolved": true
+  },
+  "second": {
+   "truth": "competitor",
+   "resolved": true,
+   "note": "CELSIUS ESSENTIALS brand competes; Celsius Holdings parent"
+  }
+ },
+ {
+  "n": 130,
+  "id": "NVDA:competitor:QCOM",
+  "from": "NVDA",
+  "to": "QCOM",
+  "category": "competitor",
+  "tier": "marginal",
+  "sector": "semis",
+  "verified": true,
+  "label": {
+   "truth": "competitor",
+   "resolved": true
+  }
+ },
+ {
+  "n": 131,
+  "id": "CPRT:competitor:LKQ",
+  "from": "CPRT",
+  "to": "LKQ",
+  "category": "competitor",
+  "tier": "important",
+  "sector": "retail_distribution",
+  "verified": true,
+  "label": {
+   "truth": "competitor",
+   "resolved": true
+  }
+ },
+ {
+  "n": 132,
+  "id": "QXO:supplier:OC",
+  "from": "QXO",
+  "to": "OC",
+  "category": "supplier",
+  "tier": "marginal",
+  "sector": "retail_distribution",
+  "verified": true,
+  "label": {
+   "truth": "supplier",
+   "resolved": true
+  }
+ },
+ {
+  "n": 133,
+  "id": "LIFE:supplier:AMZN",
+  "from": "LIFE",
+  "to": "AMZN",
+  "category": "supplier",
+  "tier": "important",
+  "sector": "financials",
+  "verified": true,
+  "label": {
+   "truth": "supplier",
+   "resolved": true
+  }
+ },
+ {
+  "n": 134,
+  "id": "GNTX:customer:GM",
+  "from": "GNTX",
+  "to": "GM",
+  "category": "customer",
+  "tier": "critical",
+  "sector": "autos",
+  "verified": true,
+  "label": {
+   "truth": "customer",
+   "resolved": true
+  }
+ },
+ {
+  "n": 135,
+  "id": "EWTX:competitor:PTCT",
+  "from": "EWTX",
+  "to": "PTCT",
+  "category": "competitor",
+  "tier": "important",
+  "sector": "health",
+  "verified": true,
+  "label": {
+   "truth": "competitor",
+   "resolved": true,
+   "note": "implied competing therapy"
+  }
+ },
+ {
+  "n": 136,
+  "id": "TSEM:supplier:ARM",
+  "from": "TSEM",
+  "to": "ARM",
+  "category": "supplier",
+  "tier": "marginal",
+  "sector": "semis",
+  "verified": true,
+  "label": {
+   "truth": "supplier",
+   "resolved": true,
+   "note": "IP licence in"
+  },
+  "second": {
+   "truth": "supplier",
+   "alt": "partner",
+   "resolved": true,
+   "note": "technology/IP in-licence"
+  }
+ },
+ {
+  "n": 137,
+  "id": "ECHO:competitor:T",
+  "from": "ECHO",
+  "to": "T",
+  "category": "competitor",
+  "tier": "important",
+  "sector": "media_telecom",
+  "verified": true,
+  "label": {
+   "truth": "competitor",
+   "resolved": true
+  }
+ },
+ {
+  "n": 138,
+  "id": "CVS:supplier:TGT",
+  "from": "CVS",
+  "to": "TGT",
+  "category": "supplier",
+  "tier": "important",
+  "sector": "retail_distribution",
+  "verified": true,
+  "label": {
+   "truth": "partner",
+   "resolved": true,
+   "alt": "supplier",
+   "note": "clinics in Target stores"
+  }
+ },
+ {
+  "n": 139,
+  "id": "VSAT:competitor:LMT",
+  "from": "VSAT",
+  "to": "LMT",
+  "category": "competitor",
+  "tier": "marginal",
+  "sector": "media_telecom",
+  "verified": true,
+  "label": {
+   "truth": "competitor",
+   "resolved": true
+  }
+ },
+ {
+  "n": 140,
+  "id": "LEA:partner:PLTR",
+  "from": "LEA",
+  "to": "PLTR",
+  "category": "partner",
+  "tier": "important",
+  "sector": "autos",
+  "verified": true,
+  "label": {
+   "truth": "partner",
+   "resolved": true
+  }
+ },
+ {
+  "n": 141,
+  "id": "PFE:partner:ARVN",
+  "from": "PFE",
+  "to": "ARVN",
+  "category": "partner",
+  "tier": "important",
+  "sector": "health",
+  "verified": true,
+  "label": {
+   "truth": "partner",
+   "resolved": true
+  }
+ },
+ {
+  "n": 142,
+  "id": "PWR:customer:AEP",
+  "from": "PWR",
+  "to": "AEP",
+  "category": "customer",
+  "tier": "marginal",
+  "sector": "industrials",
+  "verified": true,
+  "label": {
+   "truth": "customer",
+   "resolved": true
+  }
+ },
+ {
+  "n": 143,
+  "id": "BDC:partner:PANW",
+  "from": "BDC",
+  "to": "PANW",
+  "category": "partner",
+  "tier": "marginal",
+  "sector": "materials",
+  "verified": true,
+  "label": {
+   "truth": "none",
+   "resolved": true,
+   "note": "industry memberships"
+  },
+  "second": {
+   "truth": "none",
+   "resolved": true,
+   "note": "membership/affiliation for cybersecurity knowledge"
+  }
+ },
+ {
+  "n": 144,
+  "id": "SIRI:partner:LCID",
+  "from": "SIRI",
+  "to": "LCID",
+  "category": "partner",
+  "tier": "marginal",
+  "sector": "media_telecom",
+  "verified": true,
+  "label": {
+   "truth": "partner",
+   "resolved": true,
+   "alt": "customer"
+  }
+ },
+ {
+  "n": 145,
+  "id": "EVRG:partner:BRK-B",
+  "from": "EVRG",
+  "to": "BRK-B",
+  "category": "partner",
+  "tier": "marginal",
+  "sector": "energy_utilities",
+  "verified": true,
+  "label": {
+   "truth": "partner",
+   "resolved": true,
+   "note": "JV via BHE subsidiary"
+  }
+ },
+ {
+  "n": 146,
+  "id": "MGA:competitor:LEA",
+  "from": "MGA",
+  "to": "LEA",
+  "category": "competitor",
+  "tier": "marginal",
+  "sector": "autos",
+  "verified": true,
+  "label": {
+   "truth": "competitor",
+   "resolved": true,
+   "note": "table of top suppliers"
+  }
+ },
+ {
+  "n": 147,
+  "id": "ATR:customer:SPRY",
+  "from": "ATR",
+  "to": "SPRY",
+  "category": "customer",
+  "tier": "important",
+  "sector": "industrials",
+  "verified": true,
+  "label": {
+   "truth": "none",
+   "resolved": true,
+   "note": "lawsuit"
+  }
+ },
+ {
+  "n": 148,
+  "id": "AMPX:customer:AVAV",
+  "from": "AMPX",
+  "to": "AVAV",
+  "category": "customer",
+  "tier": "important",
+  "sector": "tech",
+  "verified": true,
+  "label": {
+   "truth": "customer",
+   "resolved": true
+  }
+ },
+ {
+  "n": 149,
+  "id": "DPZ:partner:DASH",
+  "from": "DPZ",
+  "to": "DASH",
+  "category": "partner",
+  "tier": "marginal",
+  "sector": "retail_distribution",
+  "verified": true,
+  "label": {
+   "truth": "partner",
+   "resolved": true
+  }
+ },
+ {
+  "n": 150,
+  "id": "VIAV:customer:LUMN",
+  "from": "VIAV",
+  "to": "LUMN",
+  "category": "customer",
+  "tier": "marginal",
+  "sector": "semis",
+  "verified": true,
+  "label": {
+   "truth": "customer",
+   "resolved": true
+  },
+  "second": {
+   "truth": "customer",
+   "resolved": true,
+   "note": "listed customer"
+  }
+ },
+ {
+  "n": 151,
+  "id": "VRT:partner:OKLO",
+  "from": "VRT",
+  "to": "OKLO",
+  "category": "partner",
+  "tier": "important",
+  "sector": "tech",
+  "verified": true,
+  "label": {
+   "truth": "partner",
+   "resolved": true
+  }
+ },
+ {
+  "n": 152,
+  "id": "GFS:partner:IBM",
+  "from": "GFS",
+  "to": "IBM",
+  "category": "partner",
+  "tier": "marginal",
+  "sector": "semis",
+  "verified": true,
+  "label": {
+   "truth": "partner",
+   "resolved": true,
+   "note": "patent cross-licence"
+  }
+ },
+ {
+  "n": 153,
+  "id": "KTOS:competitor:BA",
+  "from": "KTOS",
+  "to": "BA",
+  "category": "competitor",
+  "tier": "marginal",
+  "sector": "aerospace_airlines",
+  "verified": true,
+  "label": {
+   "truth": "competitor",
+   "resolved": true
+  }
+ },
+ {
+  "n": 154,
+  "id": "NFLX:supplier:AMZN",
+  "from": "NFLX",
+  "to": "AMZN",
+  "category": "supplier",
+  "tier": "important",
+  "sector": "media_telecom",
+  "verified": true,
+  "label": {
+   "truth": "supplier",
+   "resolved": true
+  }
+ },
+ {
+  "n": 155,
+  "id": "FTNT:supplier:MU",
+  "from": "FTNT",
+  "to": "MU",
+  "category": "supplier",
+  "tier": "critical",
+  "sector": "tech",
+  "verified": true,
+  "label": {
+   "truth": "supplier",
+   "resolved": true
+  }
+ },
+ {
+  "n": 156,
+  "id": "UMC:partner:CDNS",
+  "from": "UMC",
+  "to": "CDNS",
+  "category": "partner",
+  "tier": "important",
+  "sector": "semis",
+  "verified": true,
+  "label": {
+   "truth": "partner",
+   "resolved": true
+  }
+ },
+ {
+  "n": 157,
+  "id": "FMX:competitor:ABEV",
+  "from": "FMX",
+  "to": "ABEV",
+  "category": "competitor",
+  "tier": "important",
+  "sector": "consumer",
+  "verified": true,
+  "label": {
+   "truth": "competitor",
+   "resolved": true
+  },
+  "second": {
+   "truth": "competitor",
+   "resolved": true,
+   "note": "Coca-Cola FEMSA competes against AmBev in Brazil"
+  }
+ },
+ {
+  "n": 158,
+  "id": "RGLD:customer:SNEX",
+  "from": "RGLD",
+  "to": "SNEX",
+  "category": "customer",
+  "tier": "critical",
+  "sector": "financials",
+  "verified": true,
+  "label": {
+   "truth": "customer",
+   "resolved": true
+  }
+ },
+ {
+  "n": 159,
+  "id": "POST:customer:WMT",
+  "from": "POST",
+  "to": "WMT",
+  "category": "customer",
+  "tier": "critical",
+  "sector": "consumer",
+  "verified": true,
+  "label": {
+   "truth": "customer",
+   "resolved": true
+  }
+ },
+ {
+  "n": 160,
+  "id": "CHH:partner:SABR",
+  "from": "CHH",
+  "to": "SABR",
+  "category": "partner",
+  "tier": "marginal",
+  "sector": "consumer",
+  "verified": true,
+  "label": {
+   "truth": "supplier",
+   "resolved": true,
+   "alt": "partner",
+   "note": "GDS link"
+  }
+ },
+ {
+  "n": 161,
+  "id": "FTNT:supplier:MRVL",
+  "from": "FTNT",
+  "to": "MRVL",
+  "category": "supplier",
+  "tier": "critical",
+  "sector": "tech",
+  "verified": true,
+  "label": {
+   "truth": "supplier",
+   "resolved": true
+  }
+ },
+ {
+  "n": 162,
+  "id": "ASTS:customer:VZ",
+  "from": "ASTS",
+  "to": "VZ",
+  "category": "customer",
+  "tier": "important",
+  "sector": "media_telecom",
+  "verified": true,
+  "label": {
+   "truth": "customer",
+   "resolved": true,
+   "alt": "partner"
+  }
+ },
+ {
+  "n": 163,
+  "id": "GNTX:customer:TM",
+  "from": "GNTX",
+  "to": "TM",
+  "category": "customer",
+  "tier": "critical",
+  "sector": "autos",
+  "verified": true,
+  "label": {
+   "truth": "customer",
+   "resolved": true
+  }
+ },
+ {
+  "n": 164,
+  "id": "SPHR:competitor:AMZN",
+  "from": "SPHR",
+  "to": "AMZN",
+  "category": "competitor",
+  "tier": "marginal",
+  "sector": "consumer",
+  "verified": true,
+  "label": {
+   "truth": "competitor",
+   "resolved": true
+  },
+  "second": {
+   "truth": "competitor",
+   "resolved": true,
+   "note": "streaming services that may compete for viewers/ad revenue; Amazon parent of Prime"
+  }
+ },
+ {
+  "n": 165,
+  "id": "ET:partner:CVI",
+  "from": "ET",
+  "to": "CVI",
+  "category": "partner",
+  "tier": "important",
+  "sector": "energy_utilities",
+  "verified": true,
+  "label": {
+   "truth": "partner",
+   "resolved": true
+  }
+ },
+ {
+  "n": 166,
+  "id": "EXPE:competitor:TRIP",
+  "from": "EXPE",
+  "to": "TRIP",
+  "category": "competitor",
+  "tier": "important",
+  "sector": "industrials",
+  "verified": true,
+  "label": {
+   "truth": "competitor",
+   "resolved": true
+  }
+ },
+ {
+  "n": 167,
+  "id": "PCAR:partner:CMI",
+  "from": "PCAR",
+  "to": "CMI",
+  "category": "partner",
+  "tier": "important",
+  "sector": "autos",
+  "verified": true,
+  "label": {
+   "truth": "partner",
+   "resolved": true
+  }
+ },
+ {
+  "n": 168,
+  "id": "APPN:competitor:PEGA",
+  "from": "APPN",
+  "to": "PEGA",
+  "category": "competitor",
+  "tier": "important",
+  "sector": "tech",
+  "verified": true,
+  "label": {
+   "truth": "competitor",
+   "resolved": true
+  }
+ },
+ {
+  "n": 169,
+  "id": "ALK:competitor:LUV",
+  "from": "ALK",
+  "to": "LUV",
+  "category": "competitor",
+  "tier": "important",
+  "sector": "aerospace_airlines",
+  "verified": true,
+  "label": {
+   "truth": "competitor",
+   "resolved": true
+  }
+ },
+ {
+  "n": 170,
+  "id": "TAK:supplier:JNJ",
+  "from": "TAK",
+  "to": "JNJ",
+  "category": "supplier",
+  "tier": "marginal",
+  "sector": "health",
+  "verified": true,
+  "label": {
+   "truth": "supplier",
+   "resolved": true,
+   "alt": "partner",
+   "note": "in-licence via acquired Momenta"
+  }
+ },
+ {
+  "n": 171,
+  "id": "FNV:partner:SKE",
+  "from": "FNV",
+  "to": "SKE",
+  "category": "partner",
+  "tier": "important",
+  "sector": "materials",
+  "verified": true,
+  "label": {
+   "truth": "none",
+   "resolved": true,
+   "note": "project mention only"
+  },
+  "second": {
+   "truth": "none",
+   "resolved": true,
+   "note": "operational update on Eskay Creek only; royalty link implied but not stated in quote"
+  }
+ },
+ {
+  "n": 172,
+  "id": "NFLX:partner:AAPL",
+  "from": "NFLX",
+  "to": "AAPL",
+  "category": "partner",
+  "tier": "marginal",
+  "sector": "media_telecom",
+  "verified": true,
+  "label": {
+   "truth": "none",
+   "resolved": true,
+   "note": "regulatory context"
+  }
+ },
+ {
+  "n": 173,
+  "id": "DOV:competitor:KRNT",
+  "from": "DOV",
+  "to": "KRNT",
+  "category": "competitor",
+  "tier": "marginal",
+  "sector": "industrials",
+  "verified": true,
+  "label": {
+   "truth": "competitor",
+   "resolved": true
+  }
+ },
+ {
+  "n": 174,
+  "id": "PCAR:supplier:ETN",
+  "from": "PCAR",
+  "to": "ETN",
+  "category": "supplier",
+  "tier": "marginal",
+  "sector": "autos",
+  "verified": true,
+  "label": {
+   "truth": "supplier",
+   "resolved": true
+  }
+ },
+ {
+  "n": 175,
+  "id": "LUV:supplier:BA",
+  "from": "LUV",
+  "to": "BA",
+  "category": "supplier",
+  "tier": "critical",
+  "sector": "aerospace_airlines",
+  "verified": true,
+  "label": {
+   "truth": "supplier",
+   "resolved": true
+  }
+ },
+ {
+  "n": 176,
+  "id": "YUM:customer:YUMC",
+  "from": "YUM",
+  "to": "YUMC",
+  "category": "customer",
+  "tier": "important",
+  "sector": "retail_distribution",
+  "verified": true,
+  "label": {
+   "truth": "customer",
+   "resolved": true,
+   "alt": "partner",
+   "note": "master franchisee"
+  }
+ },
+ {
+  "n": 177,
+  "id": "AA:customer:UL",
+  "from": "AA",
+  "to": "UL",
+  "category": "customer",
+  "tier": "important",
+  "sector": "materials",
+  "verified": true,
+  "label": {
+   "truth": "customer",
+   "resolved": true,
+   "note": "via ELYSIS JV"
+  }
+ },
+ {
+  "n": 178,
+  "id": "BWA:customer:PHIN",
+  "from": "BWA",
+  "to": "PHIN",
+  "category": "customer",
+  "tier": "important",
+  "sector": "autos",
+  "verified": true,
+  "label": {
+   "truth": "customer",
+   "resolved": true,
+   "alt": "supplier",
+   "note": "contract manufacturing, direction unclear"
+  },
+  "second": {
+   "truth": "customer",
+   "alt": "supplier",
+   "resolved": true,
+   "note": "contract manufacturing agreement with spun-off PHINIA; direction unclear, amounts owed to filer"
+  }
+ },
+ {
+  "n": 179,
+  "id": "GS:partner:AAPL",
+  "from": "GS",
+  "to": "AAPL",
+  "category": "partner",
+  "tier": "important",
+  "sector": "financials",
+  "verified": true,
+  "label": {
+   "truth": "partner",
+   "resolved": true
+  }
+ },
+ {
+  "n": 180,
+  "id": "ITGR:customer:MDT",
+  "from": "ITGR",
+  "to": "MDT",
+  "category": "customer",
+  "tier": "marginal",
+  "sector": "health",
+  "verified": true,
+  "label": {
+   "truth": "customer",
+   "resolved": true
+  }
+ },
+ {
+  "n": 181,
+  "id": "LUNR:partner:NOC",
+  "from": "LUNR",
+  "to": "NOC",
+  "category": "partner",
+  "tier": "marginal",
+  "sector": "aerospace_airlines",
+  "verified": true,
+  "label": {
+   "truth": "partner",
+   "resolved": true
+  }
+ },
+ {
+  "n": 182,
+  "id": "TWST:partner:ACET",
+  "from": "TWST",
+  "to": "ACET",
+  "category": "partner",
+  "tier": "marginal",
+  "sector": "health",
+  "verified": true,
+  "label": {
+   "truth": "partner",
+   "resolved": true,
+   "alt": "customer"
+  }
+ },
+ {
+  "n": 183,
+  "id": "AEO:supplier:META",
+  "from": "AEO",
+  "to": "META",
+  "category": "supplier",
+  "tier": "marginal",
+  "sector": "retail_distribution",
+  "verified": true,
+  "label": {
+   "truth": "supplier",
+   "resolved": true,
+   "note": "marketing channel"
+  }
+ },
+ {
+  "n": 184,
+  "id": "NFG:supplier:CVX",
+  "from": "NFG",
+  "to": "CVX",
+  "category": "supplier",
+  "tier": "critical",
+  "sector": "energy_utilities",
+  "verified": true,
+  "label": {
+   "truth": "supplier",
+   "resolved": true
+  }
+ },
+ {
+  "n": 185,
+  "id": "FRSH:supplier:AMZN",
+  "from": "FRSH",
+  "to": "AMZN",
+  "category": "supplier",
+  "tier": "important",
+  "sector": "tech",
+  "verified": true,
+  "label": {
+   "truth": "supplier",
+   "resolved": true
+  },
+  "second": {
+   "truth": "supplier",
+   "resolved": true,
+   "note": "AWS hosts cloud infrastructure; Amazon parent"
+  }
+ },
+ {
+  "n": 186,
+  "id": "MOD:customer:STLA",
+  "from": "MOD",
+  "to": "STLA",
+  "category": "customer",
+  "tier": "marginal",
+  "sector": "autos",
+  "verified": true,
+  "label": {
+   "truth": "customer",
+   "resolved": true
+  }
+ },
+ {
+  "n": 187,
+  "id": "SAIL:supplier:WDAY",
+  "from": "SAIL",
+  "to": "WDAY",
+  "category": "supplier",
+  "tier": "marginal",
+  "sector": "tech",
+  "verified": true,
+  "label": {
+   "truth": "supplier",
+   "resolved": true
+  }
+ },
+ {
+  "n": 188,
+  "id": "BIO:competitor:DHR",
+  "from": "BIO",
+  "to": "DHR",
+  "category": "competitor",
+  "tier": "marginal",
+  "sector": "industrials",
+  "verified": true,
+  "label": {
+   "truth": "competitor",
+   "resolved": true
+  }
+ },
+ {
+  "n": 189,
+  "id": "LGND:customer:ELUT",
+  "from": "LGND",
+  "to": "ELUT",
+  "category": "customer",
+  "tier": "important",
+  "sector": "health",
+  "verified": true,
+  "label": {
+   "truth": "customer",
+   "resolved": true,
+   "note": "royalty payer after asset sale"
+  }
+ },
+ {
+  "n": 190,
+  "id": "BWA:customer:GM",
+  "from": "BWA",
+  "to": "GM",
+  "category": "customer",
+  "tier": "marginal",
+  "sector": "autos",
+  "verified": true,
+  "label": {
+   "truth": "customer",
+   "resolved": true
+  }
+ },
+ {
+  "n": 191,
+  "id": "LQDA:competitor:GOSS",
+  "from": "LQDA",
+  "to": "GOSS",
+  "category": "competitor",
+  "tier": "marginal",
+  "sector": "health",
+  "verified": true,
+  "label": {
+   "truth": "competitor",
+   "resolved": true,
+   "note": "implied pipeline competition"
+  }
+ },
+ {
+  "n": 192,
+  "id": "OSK:competitor:TEX",
+  "from": "OSK",
+  "to": "TEX",
+  "category": "competitor",
+  "tier": "important",
+  "sector": "autos",
+  "verified": true,
+  "label": {
+   "truth": "competitor",
+   "resolved": true
+  },
+  "second": {
+   "truth": "competitor",
+   "resolved": true,
+   "note": "competitor for concrete mixers"
+  }
+ },
+ {
+  "n": 193,
+  "id": "CLS:customer:LRCX",
+  "from": "CLS",
+  "to": "LRCX",
+  "category": "customer",
+  "tier": "marginal",
+  "sector": "tech",
+  "verified": true,
+  "label": {
+   "truth": "customer",
+   "resolved": true
+  }
+ },
+ {
+  "n": 194,
+  "id": "ETHA:supplier:VIRT",
+  "from": "ETHA",
+  "to": "VIRT",
+  "category": "supplier",
+  "tier": "marginal",
+  "sector": "financials",
+  "verified": true,
+  "label": {
+   "truth": "none",
+   "resolved": true,
+   "note": "trading counterparty"
+  }
+ },
+ {
+  "n": 195,
+  "id": "TAK:supplier:HCM",
+  "from": "TAK",
+  "to": "HCM",
+  "category": "supplier",
+  "tier": "important",
+  "sector": "health",
+  "verified": true,
+  "label": {
+   "truth": "supplier",
+   "resolved": true,
+   "alt": "partner",
+   "note": "in-licence"
+  }
+ },
+ {
+  "n": 196,
+  "id": "ANET:competitor:CSCO",
+  "from": "ANET",
+  "to": "CSCO",
+  "category": "competitor",
+  "tier": "important",
+  "sector": "tech",
+  "verified": true,
+  "label": {
+   "truth": "competitor",
+   "resolved": true
+  }
+ },
+ {
+  "n": 197,
+  "id": "QBTS:competitor:AMZN",
+  "from": "QBTS",
+  "to": "AMZN",
+  "category": "competitor",
+  "tier": "marginal",
+  "sector": "tech",
+  "verified": true,
+  "label": {
+   "truth": "competitor",
+   "resolved": true
+  }
+ },
+ {
+  "n": 198,
+  "id": "TGT:partner:AAPL",
+  "from": "TGT",
+  "to": "AAPL",
+  "category": "partner",
+  "tier": "marginal",
+  "sector": "retail_distribution",
+  "verified": true,
+  "label": {
+   "truth": "partner",
+   "resolved": true
+  }
+ },
+ {
+  "n": 199,
+  "id": "PG:customer:WMT",
+  "from": "PG",
+  "to": "WMT",
+  "category": "customer",
+  "tier": "critical",
+  "sector": "consumer",
+  "verified": true,
+  "label": {
+   "truth": "customer",
+   "resolved": true
+  },
+  "second": {
+   "truth": "customer",
+   "resolved": true,
+   "note": "16% of sales"
+  }
+ },
+ {
+  "n": 200,
+  "id": "PUMP:customer:PR",
+  "from": "PUMP",
+  "to": "PR",
+  "category": "customer",
+  "tier": "critical",
+  "sector": "energy_utilities",
+  "verified": true,
+  "label": {
+   "truth": "customer",
+   "resolved": true
+  }
+ }
+]
