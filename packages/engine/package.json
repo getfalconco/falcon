@@ -16,6 +16,7 @@
     "graph-merge": "node --import tsx scripts/graph-merge.ts",
     "graph-label": "node --import tsx scripts/graph-label.ts",
     "migrate": "node --import tsx scripts/migrate.ts",
+    "forward-study": "node --import tsx scripts/forward-study.ts",
     "test": "node --import tsx --test test/*.test.ts",
     "typecheck": "tsc --noEmit"
   },

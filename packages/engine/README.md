@@ -53,6 +53,26 @@ publishes the cards, and does not publish when that write fails. A row that
 repeats an earlier one (same event, card, ticker, tier, family, sign,
 published state and model version) is not added again.
 
+**Forward studies** (`src/study/forward.ts`). A pre-registered hypothesis
+tested only on events that had not happened when it was written. The run
+tags every qualifying detector event in the ledger with
+`covariates.study` (plus its CIK, accession, form and acceptance time),
+featured or not, and also when no card could be built for it (then it gets
+a Watch row of its own with `card_sha256` null and `covariates.noCard`).
+While a study is open its events' cards are capped at Watch, whatever the
+evidence registry says, and their text claims no measured effect. The run
+summary prints one line per study with this run's tagged events and the
+running n read from the ledger (a read-only select; a dry run reads too).
+`pnpm --filter @falcon/engine run forward-study` (`scripts/forward-study.ts`)
+reads the tagged rows read-only, measures each event whose window has
+closed (events-v1 gate and primary column, Yahoo prices) and prints the
+running estimate against the bar; before the review point that is an
+interim look and decides nothing. Open: `events-v2-nt10k`
+(`data/preregistration/events-v2-nt10k.json`): NT 10-K notices accepted
+from 2026-11-15, beta x SPY over 20 sessions from the first open after
+acceptance, expected negative, the events-v1 / F7 bar (n >= 100), review at
+n 100 or 2027-12-31.
+
 **Expiry.** `card.expiresAt` = publish time + the card's longest hit window
 (sessions x1.5 calendar days, rounded up: "1 to 5 trading days" 8 days, "1
 to 4 weeks" 30, "1 to 3 months" 95). Stale marking (`MARK_STALE_SQL`) and
@@ -79,11 +99,15 @@ of at least $5M. The CLI reads the last close from the market data; it has
 no volume yet, and with `--no-history` no price, so everything is Watch.
 An absent or unreadable registry or statistics file counts as empty.
 
-`opportunityEligible` (kept for shipped app builds) is true only for a
-Measured hit, or under the interim rule (design 7.3, env
+`opportunityEligible` (kept for shipped app builds) is true only for a hit
+pointing up that is Measured, or under the interim rule (design 7.3, env
 `OPPORTUNITIES_INTERIM_DOCUMENTED`, on unless "0"/"false") a Documented
 own-firm hit whose evidence is `exact`; never for an unclear or priced-in
-hit. An own-firm hit's `confidence` follows its tier (measured high,
+hit, and never for a hit pointing down: a Measured or Documented late
+filing, restatement, customer bankruptcy or outlook cut is a Risk signal,
+listed in Sightings and under the portfolio, never under Opportunities.
+@falcon/ripple `opportunityHit` drops down hits too, so a card written
+before this rule cannot list one either. An own-firm hit's `confidence` follows its tier (measured high,
 documented medium, watch low); a linked hit's is the judge's, capped by the
 record as below. The judge's confidence and `linkClarity` gate nothing.
 
@@ -301,7 +325,8 @@ card with a "Priced in" label and is never under Opportunities.
 `hit.opportunityEligible` (`opportunityEligible` in `src/rank.ts`) is true
 only when the record's Wilson lower bound is above `SUPPORTS_LOWER_BOUND`
 (the same bar that allows "high" confidence), the capped confidence is not
-"low", the hit has an implied way, and it is not priced in. Opportunities
+"low", the hit points up (Opportunities are positive only; a hit pointing
+down is a Risk signal), and it is not priced in. Opportunities
 list the cards that do not touch the portfolio, each with only its eligible
 hits (held tickers removed); a card left with none, or a weak signal, is
 not listed.

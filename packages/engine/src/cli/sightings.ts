@@ -58,7 +58,8 @@ import { yahooCoverage } from "../yahoo.ts";
 import { judgeCostUsd } from "../judge.ts";
 import { DEFAULT_MAX_CALLS, DEFAULT_MAX_JUDGE_USD } from "../vote.ts";
 import { DEFAULT_DETECTOR_BUDGET_USD, llmUsage } from "../detectors/llm.ts";
-import { fileJudgmentStore, pgJudgmentStore, writeForecasts, type JudgmentStore } from "../ledger.ts";
+import { fileJudgmentStore, pgJudgmentStore, readStudyRows, writeForecasts, type JudgmentStore } from "../ledger.ts";
+import { FORWARD_STUDIES, runningCount, type RunningCount } from "../study/forward.ts";
 import { liquidityOf, type Liquidity } from "../quality.ts";
 import type { MarketData } from "../market.ts";
 import { EXIT, exitReason, runExitCode, summaryLines, warningLines, type Publish } from "../summary.ts";
@@ -170,6 +171,24 @@ function printFeed(feed: SightingsFeed): void {
         const q = ev.quote.length > 220 ? `${ev.quote.slice(0, 217)}...` : ev.quote;
         console.log(`     "${q}" (${ev.form} ${ev.filedAt})`);
       }
+    }
+  }
+}
+
+function printStudies(run: RunResult): void {
+  if (!run.studies) return;
+  const rows = run.ledger ?? [];
+  for (const st of FORWARD_STUDIES) {
+    const t = run.studies[st.id];
+    if (!t) continue;
+    console.log(`\nForward study ${st.id} (src/study/forward.ts): ${t.events.length} events tagged in the ledger`);
+    for (const id of t.events) {
+      const rs = rows.filter((r) => r.event_id === id);
+      const r = rs[0];
+      if (!r) continue;
+      const c = r.covariates;
+      const state = r.card_sha256 === null ? `no card (${String(c.noCard ?? "?")})` : rs.some((x) => x.published) ? "card featured" : "card built, not featured";
+      console.log(`  ${r.ticker.padEnd(5)} ${String(c.studyForm)} accepted ${String(c.studyAcceptedAt)}  tier ${r.tier}, ${state}  ${id}`);
     }
   }
 }
@@ -299,8 +318,25 @@ async function main(): Promise<number> {
     }
   }
 
+  // Forward studies: this run's tagged events, and the running n from the ledger (a read-only select;
+  // a dry run reads too and writes nothing).
+  printStudies(run);
+  const studyLedger: Record<string, RunningCount | { error: string } | null> = {};
+  for (const st of FORWARD_STUDIES) {
+    if (!databaseUrl) {
+      studyLedger[st.id] = null;
+      continue;
+    }
+    try {
+      studyLedger[st.id] = runningCount(await readStudyRows(databaseUrl, st.id), st, Date.now());
+    } catch (err) {
+      const e = err as { code?: string; message?: string };
+      studyLedger[st.id] = { error: `${e.code ? `${e.code} ` : ""}${redact(e.message ?? String(err)).split("\n")[0]}` };
+    }
+  }
+
   const exitCode = runExitCode(run, judged, publish);
-  const lines = summaryLines({ run, judged, judgeName: judge.name, publish, exitCode });
+  const lines = summaryLines({ run, judged, judgeName: judge.name, publish, exitCode, studyLedger });
   const lu = llmUsage();
   if (lu.calls || lu.cached || lu.skipped) {
     lines.splice(lines.length - 1, 0, `detector model: ${lu.calls} calls, ${lu.cached} cached answers, ${lu.skipped} skipped (no key or budget); about $${lu.costUsd.toFixed(2)} of $${detectorBudgetUsd.toFixed(2)}`);

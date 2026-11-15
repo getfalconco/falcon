@@ -248,3 +248,29 @@ export async function writeForecasts(databaseUrl: string, rows: readonly Forecas
     await db.end();
   }
 }
+
+// ---------------------------------------------------------------------------
+// Forward studies (src/study/forward.ts): reading the tagged rows, read-only
+
+export const STUDY_ROWS_SQL = `select event_id, ticker, created_at, published, covariates
+  from public.ripple_forecasts where covariates->>'study' = $1 order by created_at, id`;
+
+/** The ledger rows tagged with a forward study, in a read-only transaction (never writes). */
+export async function readStudyRows(databaseUrl: string, studyId: string): Promise<Array<{ event_id: string; ticker: string; created_at: string; published: boolean; covariates: Record<string, unknown> }>> {
+  const db = pgClient(databaseUrl);
+  await db.connect();
+  try {
+    await db.query("begin transaction read only");
+    const r = await db.query(STUDY_ROWS_SQL, [studyId]);
+    await db.query("commit");
+    return r.rows.map((x: { event_id: string; ticker: string; created_at: Date | string; published: boolean; covariates: Record<string, unknown> | null }) => ({
+      event_id: x.event_id,
+      ticker: x.ticker,
+      created_at: new Date(x.created_at).toISOString(),
+      published: x.published,
+      covariates: x.covariates ?? {},
+    }));
+  } finally {
+    await db.end();
+  }
+}
