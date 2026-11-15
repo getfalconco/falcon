@@ -20,6 +20,7 @@ import { simulate, type Targets, type TradeV2 } from "../simulate";
 import { Evaluator } from "../fsl/eval";
 import { simOptions } from "../output";
 import { resolvePeriod, specHash, universeTickers, type StrategySpecV2 } from "../spec";
+import { UNIVERSES, datedLabel } from "../universes";
 import { blockBootstrap, deflatedSharpe, hacT, mean, median, percentileOf, quantile } from "../stats";
 import { hash53, rng } from "../util";
 import type { Benchmarks, CheckedSpec, Sim } from "../run";
@@ -334,11 +335,32 @@ export type HindsightSignals = {
   listExcessPct: number | null;
 };
 
-export function hindsightSignals(v: { listChosenToday: boolean; yearsBack: number; tickers: number; late: string[]; intentTell: boolean; listExcessPct: number | null }): HindsightSignals {
+export function hindsightSignals(v: {
+  listChosenToday: boolean;
+  yearsBack: number;
+  tickers: number;
+  late: string[];
+  intentTell: boolean;
+  listExcessPct: number | null;
+  /**
+   * The list is picked by how companies stand today by construction: a named
+   * Falcon list such as the S&P 500 today or the 500 most traded stocks, or the
+   * person's focus list. Confirmed without further signs.
+   */
+  pickedToday?: boolean;
+}): HindsightSignals {
   const suspect = v.listChosenToday && v.tickers >= 2 && v.yearsBack > 1;
   const lateTell = v.late.length >= 2 && v.late.length >= HINDSIGHT_LATE_SHARE * v.tickers;
   const winnersTell = v.listExcessPct !== null && v.listExcessPct >= HINDSIGHT_LIST_EXCESS_PCT;
-  return { suspect, confirmed: suspect && (lateTell || winnersTell || v.intentTell), late: v.late, intentTell: v.intentTell, listExcessPct: v.listExcessPct };
+  return { suspect, confirmed: suspect && (lateTell || winnersTell || v.intentTell || Boolean(v.pickedToday)), late: v.late, intentTell: v.intentTell, listExcessPct: v.listExcessPct };
+}
+
+/** Names a list chosen today by construction (check 14), or null: a named Falcon list of stocks, or the focus list. */
+export function pickedTodayName(spec: Pick<StrategySpecV2, "universe" | "portfolio">): string | null {
+  if (spec.portfolio.mode === "weights") return null;
+  const u = spec.universe;
+  if (u.kind === "rule") return UNIVERSES[u.base].todaysPick ? datedLabel(UNIVERSES[u.base]) : null;
+  return u.from === "focus_list" ? `your focus list${u.as_of ? ` as of ${u.as_of}` : ""}` : null;
 }
 
 /** The list held at equal weight against SPY and the strategy, over the test window. */
@@ -369,10 +391,10 @@ const f1 = (x: number) => x.toFixed(1);
 /** Check 14's sentences and, when confirmed, the label cap with its reasons. */
 export function hindsightTexts(
   sig: HindsightSignals,
-  ctx: { tickers: number; yearsBack: number; startYear: string; selective: boolean },
+  ctx: { tickers: number; yearsBack: number; startYear: string; selective: boolean; listName?: string | null },
   list: ListStats | null,
 ): { detail: string; plain?: string; cap: HindsightCap | null } {
-  const U = ctx.tickers;
+  const U = ctx.tickers.toLocaleString("en-US");
   if (!sig.suspect) return { detail: "The universe is not a list chosen today for a long look-back.", cap: null };
   const levels = list && list.listCagr !== null && list.spyCagr !== null ? { l: f1(list.listCagr), s: f1(list.spyCagr), st: list.strategyCagr === null ? null : f1(list.strategyCagr) } : null;
   const listUp = levels !== null && list!.excessPct > 0;
@@ -388,17 +410,24 @@ export function hindsightTexts(
   }
   const detail =
     `Confirmed: a list of ${U} tickers chosen today, tested from ${ctx.startYear} (${r1(ctx.yearsBack)} years back).` +
+    (ctx.listName ? ` The universe is ${ctx.listName}: its membership as it stands today, not as it stood in ${ctx.startYear}.` : "") +
     (n ? ` ${n} had no price at the start, so they were not listed yet (${lateList}).` : "") +
     listLine +
     (sig.intentTell ? " The description calls the list today's membership or today's largest companies." : "") +
     (ctx.selective ? " The rules hold a few names out of the list, which leans on its best performers." : "") +
     " The evidence label is capped at Some evidence, and at Weak evidence when the list adds at least as much over SPY as the rules add over the list.";
   const plain =
-    `These ${U} tickers were chosen today; in ${ctx.startYear} nobody knew which companies would make such a list${n ? `, and ${n} of them were not listed yet` : ""}.` +
+    `These ${U} tickers${ctx.listName ? ` (${ctx.listName})` : ""} were chosen today; in ${ctx.startYear} nobody knew which companies would make such a list${n ? `, and ${n} of them were not listed yet` : ""}.` +
     ` Part of the result comes from picking the list with hindsight${listUp ? `: holding all of them equally made ${levels!.l}% a year vs SPY's ${levels!.s}%` : ""}.` +
     (ctx.selective ? " Picking a few names from it leans on the list's biggest winners." : "") +
     ` A fairer test compares the strategy with the list held equally, or uses a list as it stood in ${ctx.startYear}.`;
-  const why = listUp ? `: held equally, it made ${levels!.l}% a year vs SPY's ${levels!.s}%` : n ? `: ${n} of its tickers were not listed yet in ${ctx.startYear}` : "";
+  const why = listUp
+    ? `: held equally, it made ${levels!.l}% a year vs SPY's ${levels!.s}%`
+    : n
+      ? `: ${n} of its tickers were not listed yet in ${ctx.startYear}`
+      : ctx.listName
+        ? `: it is ${ctx.listName}, today's membership`
+        : "";
   const cap: HindsightCap = {
     listExcessPct: list?.excessPct ?? null,
     edgePct: list?.edgePct ?? null,
@@ -555,13 +584,15 @@ export function tierA(input: TierAInput): QualityReport {
   // 14 and 15. Universe. Check 14 is pushed once the list's own equal-weight return is known (below).
   const period = resolvePeriod(spec, input.now);
   const yearsBack = (isoToDay(input.now.toISOString().slice(0, 10)) - isoToDay(period.start)) / 365.25;
-  const listChosenToday = (spec.universe.kind === "static" || (spec.universe.kind === "rule" && spec.universe.base === "falcon_semis")) && spec.portfolio.mode !== "weights";
+  // Every Falcon list of stocks is today's membership; only the sector ETFs are a fixed set.
+  const listChosenToday = (spec.universe.kind === "static" || (spec.universe.kind === "rule" && spec.universe.base !== "sector_etfs")) && spec.portfolio.mode !== "weights";
   const late = listChosenToday ? lateListings(prep, universe) : [];
   const intentTell = listChosenToday && intentSaysTodaysList(spec.intent ?? "");
+  const listName = listChosenToday ? pickedTodayName(spec) : null;
   const startYear = prep.panel.dates[prep.startIndex]!.slice(0, 4);
   const pushHindsight = (list: ListStats | null): HindsightCap | null => {
-    const sig = hindsightSignals({ listChosenToday, yearsBack, tickers: universe.length, late, intentTell, listExcessPct: list?.excessPct ?? null });
-    const built = hindsightTexts(sig, { tickers: universe.length, yearsBack, startYear, selective: selective(spec, universe.length) }, list);
+    const sig = hindsightSignals({ listChosenToday, yearsBack, tickers: universe.length, late, intentTell, listExcessPct: list?.excessPct ?? null, pickedToday: listName !== null });
+    const built = hindsightTexts(sig, { tickers: universe.length, yearsBack, startYear, selective: selective(spec, universe.length), listName }, list);
     values.hindsight = {
       years_back: r1(yearsBack),
       tickers: universe.length,

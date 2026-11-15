@@ -74,6 +74,12 @@ export type ConverseInput = {
   questionsAsked?: number;
   /** A follow-up edit by chat: the current spec and the request. */
   edit?: { request: string; current: StrategySpecV2 } | null;
+  /**
+   * The person's focus list as the app holds it (tickers), sent with every
+   * turn; [] when it is empty, undefined when the client did not send it.
+   * The model sees it as list FOCUS and never copies it.
+   */
+  focus?: string[] | null;
 };
 
 export type ConverseResult =
@@ -125,6 +131,8 @@ export function modelToSpec(
   lists: Map<string, string[]> = new Map(),
   /** Problems the model can fix (an unknown list handle) are added here. */
   problems: string[] = [],
+  /** Fields a list adds when it is the whole universe (FOCUS: from focus_list). */
+  marks: Map<string, Record<string, string>> = new Map(),
 ): StrategySpecV2 | null {
   let raw: unknown;
   try {
@@ -152,7 +160,7 @@ export function modelToSpec(
     holdout: "off",
   } as Record<string, unknown>;
   delete spec.legacy;
-  const expanded = expandListUniverse(spec.universe, lists);
+  const expanded = expandListUniverse(spec.universe, lists, marks);
   if (expanded.error) problems.push(`universe: ${expanded.error}`);
   spec.universe = expanded.universe;
   if (spec.rebalance_weekday === undefined || spec.rebalance_weekday === 0) spec.rebalance_weekday = null;
@@ -231,12 +239,23 @@ export function untypedTickers(spec: StrategySpecV2, input: ConverseInput, lists
   return specTickers(spec).filter((t) => !allowed.has(t) && !mentions(typed, t));
 }
 
-const TICKERS_QUESTION: Question = {
-  id: "tickers",
-  text: "Which tickers does the strategy trade? Falcon uses only tickers you list, so the test does not pick today's winners.",
-  options: ["I will type the tickers", "Falcon semiconductors list (58 names, today's membership)", "The 11 sector SPDR ETFs"],
-  defaultIndex: 0,
-};
+const n = (b: keyof typeof UNIVERSES) => UNIVERSES[b].tickers.length.toLocaleString("en-US");
+
+/** Asked when the model picked tickers the person never typed. */
+export function tickersQuestion(focus?: string[] | null): Question {
+  return {
+    id: "tickers",
+    text: "Which tickers does the strategy trade? Falcon uses only tickers you list or one of its lists, so the test does not pick today's winners by hand.",
+    options: [
+      "I will type the tickers",
+      ...(focus?.length ? [`My focus list (${focus.length} names)`] : []),
+      `S&P 500 members today (${n("sp500_today")} names)`,
+      `Falcon's universe of US stocks (${n("falcon_universe")} names)`,
+      `Falcon semiconductors list (${n("falcon_semis")} names, today's membership)`,
+    ].slice(0, 4),
+    defaultIndex: 0,
+  };
+}
 
 function cleanQuestions(qs: TurnOutputT["questions"], input: ConverseInput): Question[] {
   const typed = [input.intent, ...input.answers.filter((a) => a.typed).map((a) => a.a)].join("\n");
@@ -272,10 +291,21 @@ export type ListedInput = {
   /** The current spec for an edit, with a long static universe as list L0 and without intent or clarifications. */
   current: Record<string, unknown> | null;
   lists: Map<string, string[]>;
+  /** Fields a list adds when it is the whole universe: FOCUS (and L0 when the current spec trades the focus list) mark the focus list. */
+  marks: Map<string, Record<string, string>>;
 };
 
-export function listInput(input: ConverseInput): ListedInput {
+/** The most focus-list tickers a turn takes (the app allows 30). */
+export const MAX_FOCUS_TICKERS = 100;
+
+export function listInput(input: ConverseInput, now = new Date()): ListedInput {
   const lists = new Map<string, string[]>();
+  const marks = new Map<string, Record<string, string>>();
+  const focus = Array.from(new Set((input.focus ?? []).map(normalizeTicker).filter((t) => /^[A-Z][A-Z0-9.-]{0,11}$/.test(t)))).slice(0, MAX_FOCUS_TICKERS);
+  if (focus.length) {
+    lists.set("FOCUS", focus);
+    marks.set("FOCUS", { from: "focus_list", as_of: now.toISOString().slice(0, 10) });
+  }
   let next = 1;
   const cut = (text: string) => {
     const found: TickerList[] = findTickerLists(text, LIST_MIN_TICKERS, next);
@@ -291,12 +321,13 @@ export function listInput(input: ConverseInput): ListedInput {
     const { intent: _i, clarifications: _c, ...rest } = input.edit.current as StrategySpecV2;
     current = structuredClone(rest) as Record<string, unknown>;
     const u = input.edit.current.universe;
-    if (u?.kind === "static" && Array.isArray(u.tickers) && u.tickers.length >= LIST_MIN_TICKERS) {
+    if (u?.kind === "static" && Array.isArray(u.tickers) && (u.tickers.length >= LIST_MIN_TICKERS || u.from === "focus_list")) {
       lists.set("L0", u.tickers.map(normalizeTicker));
       current.universe = { kind: "list", list: "L0" };
+      if (u.from === "focus_list") marks.set("L0", { from: "focus_list", ...(u.as_of ? { as_of: u.as_of } : {}) });
     }
   }
-  return { intent, request, answers, current, lists };
+  return { intent, request, answers, current, lists, marks };
 }
 
 function userMessage(input: ConverseInput, listed: ListedInput, now: Date): string {
@@ -311,9 +342,13 @@ function userMessage(input: ConverseInput, listed: ListedInput, now: Date): stri
       `<answers>\n${input.answers.map((a, i) => `Q: ${a.q}\nA (${a.typed ? "typed by the person" : "tapped option"}): ${listed.answers[i]}`).join("\n")}\n</answers>`,
     );
   }
+  const focus = listed.lists.get("FOCUS");
+  if (focus) parts.push(`The person's focus list is ${listHandle({ id: "FOCUS", tickers: focus }, "in the person's focus list")}. Use {"kind": "list", "list": "FOCUS"} when the description refers to it.`);
+  else parts.push(input.focus ? "The person's focus list is empty." : "The person's focus list was not sent with this message.");
   if (input.edit) {
     const l0 = listed.lists.get("L0");
-    if (l0) parts.push(`The current spec's universe is ${listHandle({ id: "L0", tickers: l0 }, "from the current spec")}; keep {"kind": "list", "list": "L0"} unless the edit changes the tickers.`);
+    const l0What = listed.marks.get("L0") ? "from the current spec, the person's focus list when it was made" : "from the current spec";
+    if (l0) parts.push(`The current spec's universe is ${listHandle({ id: "L0", tickers: l0 }, l0What)}; keep {"kind": "list", "list": "L0"} unless the edit changes the tickers.`);
     parts.push(`<current_spec>\n${JSON.stringify(listed.current)}\n</current_spec>`);
     parts.push(`<edit_request>\n${listed.request}\n</edit_request>`);
   }
@@ -357,9 +392,12 @@ function parseOut(m: BetaMessage): TurnOutputT | null {
 export async function converse(input: ConverseInput, opts: ConverseOptions = {}): Promise<ConverseResult> {
   const intent = (input.intent ?? "").trim();
   if (!intent) return { kind: "error", reason: "empty", message: "Describe a strategy to test." };
-  const listed = listInput({ ...input, intent });
-  const named = new Set(Array.from(listed.lists.values()).flat());
-  const longest = Math.max(0, ...Array.from(listed.lists.values()).map((l) => l.length));
+  const now = opts.now ?? new Date();
+  const listed = listInput({ ...input, intent }, now);
+  // The focus list rides along with every turn; only lists the person typed count toward the limit.
+  const typedLists = Array.from(listed.lists).filter(([id]) => id !== "FOCUS").map(([, l]) => l);
+  const named = new Set(typedLists.flat());
+  const longest = Math.max(0, ...typedLists.map((l) => l.length));
   if (longest > MAX_LIST_TICKERS || named.size > MAX_LIST_TICKERS) {
     return {
       kind: "error",
@@ -373,7 +411,6 @@ export async function converse(input: ConverseInput, opts: ConverseOptions = {})
   const started = Date.now();
   const client = clientFor(opts, budget);
   if (!client) return { kind: "error", reason: "unavailable", message: "The strategy assistant is not configured on this server." };
-  const now = opts.now ?? new Date();
   const usage: Usage = { model: CONVERSE_MODEL, calls: 0, inputTokens: 0, outputTokens: 0, cacheReadTokens: 0, cacheWriteTokens: 0, usd: 0, promptVersion: PROMPT_VERSION };
   const messages: unknown[] = [{ role: "user", content: userMessage({ ...input, intent }, listed, now) }];
   const clarifications = input.answers.map((a) => ({ q: a.q, a: a.a }));
@@ -418,7 +455,7 @@ export async function converse(input: ConverseInput, opts: ConverseOptions = {})
       problems = [asked >= MAX_QUESTIONS ? "No questions are left; return a spec with defaults stated as assumptions." : "The questions need 2 to 4 answer options each."];
     } else {
       const listProblems: string[] = [];
-      const spec = modelToSpec(out.spec_json, intent, clarifications, listed.lists, listProblems);
+      const spec = modelToSpec(out.spec_json, intent, clarifications, listed.lists, listProblems, listed.marks);
       if (!spec) problems = ['outcome is "spec" but spec_json is not a JSON object.'];
       else if (listProblems.length) problems = listProblems;
       else {
@@ -431,7 +468,7 @@ export async function converse(input: ConverseInput, opts: ConverseOptions = {})
         if (untyped.length) {
           problems = [`The tickers ${untyped.join(", ")} were not typed by the person. Do not choose tickers; ask which tickers they mean (outcome "questions"), or use a Falcon universe.`];
           if (attempt === 1 || asked >= MAX_QUESTIONS) {
-            if (asked < MAX_QUESTIONS) return { kind: "questions", questions: [TICKERS_QUESTION], assumptions, usage };
+            if (asked < MAX_QUESTIONS) return { kind: "questions", questions: [tickersQuestion(listed.lists.get("FOCUS"))], assumptions, usage };
           }
         } else {
           return {

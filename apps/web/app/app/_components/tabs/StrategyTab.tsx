@@ -21,7 +21,7 @@ import {
   Trash2,
   X,
 } from "lucide-react";
-import { STARTERS, eventStudyFromHistory, hasNoHistorySource, validateSpec, type QualityReport, type StrategySpecV2 } from "@falcon/backtest";
+import { STARTERS, eventStudyFromHistory, hasNoHistorySource, universeTickers, validateSpec, type QualityReport, type StrategySpecV2 } from "@falcon/backtest";
 import { cardExplain } from "@falcon/ripple";
 import { sortByTime } from "@/lib/workspace/feed";
 import { tabId } from "@/lib/workspace/layout";
@@ -525,7 +525,8 @@ function StrategyView({ s, headerExtra }: { s: SavedStrategy; headerExtra?: Reac
                     retrying={running && run.retrying}
                     elapsed={elapsed}
                     error={run?.status === "error" ? run : null}
-                    tickers={s.spec.universe.kind === "static" ? s.spec.universe.tickers.length : 11}
+                    tickers={universeTickers(s.spec).length}
+                    progress={running && run.retrying ? (run.progress ?? null) : null}
                   />
 
                   {shown ? (
@@ -877,14 +878,23 @@ function RunStatus({
   elapsed,
   error,
   tickers,
+  progress,
 }: {
   running: boolean;
   retrying: boolean;
   elapsed: number;
   error: { message: string; errors: string[]; issues: { message: string }[] } | null;
   tickers: number;
+  /** Tickers loaded when the last try hit its deadline (wide universes take two or three tries). */
+  progress: { loaded: number; total: number } | null;
 }) {
   if (!running && !error) return null;
+  const count = (n: number) => n.toLocaleString("en-US");
+  const label = retrying
+    ? progress && progress.total > 100
+      ? `Prices for ${count(progress.loaded)} of ${count(progress.total)} tickers loaded, continuing`
+      : "Still loading, trying again"
+    : `Loading daily prices for ${count(tickers)} ${tickers === 1 ? "ticker" : "tickers"}${tickers > 600 ? " (a wide list takes a minute or two the first time)" : ""} and running the checks`;
   return (
     <div className="flex flex-col gap-2">
       {running ? (
@@ -893,7 +903,7 @@ function RunStatus({
             <div className="absolute inset-y-0 w-1/3 animate-[falcon-progress_1.2s_ease-in-out_infinite] rounded-full bg-fore/70" />
           </div>
           <span className="text-fs-12 text-quiet" style={{ fontFamily: MONO }}>
-            {retrying ? "Still loading, trying again" : `Loading daily prices for ${tickers} ${tickers === 1 ? "ticker" : "tickers"} and running the checks`} {elapsed}s
+            {label} {elapsed}s
           </span>
           <style>{`@keyframes falcon-progress { 0% { left: -33% } 100% { left: 100% } }`}</style>
         </div>

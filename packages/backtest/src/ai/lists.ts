@@ -111,8 +111,14 @@ export function listHandle(l: Pick<TickerList, "id" | "tickers">, what = "typed 
  * A universe that names a list ({"kind": "list", "list": "L1"}, or "lists":
  * [...], optionally with extra typed "tickers") as a static universe. Other
  * universes are returned unchanged; an unknown handle returns an error.
+ * `marks` adds fields to the static universe when it is exactly one marked
+ * list (the focus list: {from: "focus_list", as_of}).
  */
-export function expandListUniverse(universe: unknown, lists: Map<string, string[]>): { universe: unknown; error?: string } {
+export function expandListUniverse(
+  universe: unknown,
+  lists: Map<string, string[]>,
+  marks: Map<string, Record<string, string>> = new Map(),
+): { universe: unknown; error?: string } {
   if (!universe || typeof universe !== "object" || Array.isArray(universe)) return { universe };
   const u = universe as Record<string, unknown>;
   if (u.kind !== "list") return { universe };
@@ -124,6 +130,9 @@ export function expandListUniverse(universe: unknown, lists: Map<string, string[
     if (!l) return { universe, error: `There is no ticker list ${id}; the lists are ${Array.from(lists.keys()).join(", ") || "none"}.` };
     tickers.push(...l);
   }
-  if (Array.isArray(u.tickers)) tickers.push(...u.tickers.filter((t): t is string => typeof t === "string").map(normalizeTicker));
-  return { universe: { kind: "static", tickers: Array.from(new Set(tickers)) } };
+  const extra = Array.isArray(u.tickers) ? u.tickers.filter((t): t is string => typeof t === "string").map(normalizeTicker) : [];
+  tickers.push(...extra);
+  const unique = Array.from(new Set(tickers));
+  const mark = ids.length === 1 && unique.length === lists.get(ids[0]!)!.length ? marks.get(ids[0]!) : undefined;
+  return { universe: { kind: "static", tickers: unique, ...(mark ?? {}) } };
 }

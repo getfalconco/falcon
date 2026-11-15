@@ -302,7 +302,7 @@ export function deleteStrategy(userId: string, id: string) {
 /* ------------------------------------------------------------------ */
 
 export type RunState =
-  | { status: "running"; startedAt: number; retrying: boolean }
+  | { status: "running"; startedAt: number; retrying: boolean; progress?: LoadProgress | null }
   | { status: "done"; result: RunResultV2; finishedAt: number }
   | { status: "error"; message: string; errors: string[]; issues: SpecIssue[] };
 
@@ -368,19 +368,37 @@ function errorText(status: number, body: Record<string, unknown> | null, fallbac
   return fallback;
 }
 
-/** Runs a spec on /api/strategy/run once per spec; a deadline (504) is retried once (prices load into the cache). */
+/** Tickers with prices loaded when a run hit its deadline (the run route's 504 body). */
+export type LoadProgress = { loaded: number; total: number };
+
+function progressOf(body: Record<string, unknown> | null): LoadProgress | null {
+  const p = body?.progress as { loaded?: unknown; total?: unknown } | undefined;
+  return p && typeof p.loaded === "number" && typeof p.total === "number" ? { loaded: p.loaded, total: p.total } : null;
+}
+
+/** Requests one run may take on a wide universe (1,500 tickers load in about two). */
+const MAX_RUN_TRIES_WIDE = 4;
+
+/**
+ * Runs a spec on /api/strategy/run once per spec. A deadline (504) is retried
+ * once, since prices load into the server's cache; a wide universe that is
+ * still loading (more than 100 tickers) is retried up to 4 times in all.
+ */
 export function startRun(spec: StrategySpecV2, opts: { trials?: number; force?: boolean } = {}): Promise<RunState> {
   const key = runKey(spec);
   const existing = runs.get(key);
   if (!opts.force && existing && existing.status !== "error") return inflight.get(key) ?? Promise.resolve(existing);
   const job = (async (): Promise<RunState> => {
-    runs.set(key, { status: "running", startedAt: Date.now(), retrying: false });
+    runs.set(key, { status: "running", startedAt: Date.now(), retrying: false, progress: null });
     bump();
     let final: RunState;
     try {
       let r = await post("/api/strategy/run", { spec, trials: opts.trials ?? 1 });
-      if (r.status === 504) {
-        runs.set(key, { status: "running", startedAt: Date.now(), retrying: true });
+      for (let tries = 1; r.status === 504; tries++) {
+        const progress = progressOf(r.body);
+        const wide = (progress?.total ?? 0) > 100;
+        if (tries >= (wide ? MAX_RUN_TRIES_WIDE : 2)) break;
+        runs.set(key, { status: "running", startedAt: Date.now(), retrying: true, progress });
         bump();
         r = await post("/api/strategy/run", { spec, trials: opts.trials ?? 1 });
       }
@@ -467,8 +485,14 @@ export function retryableTurn(reason: string): boolean {
   return reason === "timeout" || reason === "unavailable";
 }
 
-/** POST /api/strategy/turn. */
-export async function sendTurn(input: { intent: string; answers: Answer[]; questionsAsked: number; edit?: { request: string; current: StrategySpecV2 } | null }): Promise<TurnAnswer> {
+/** POST /api/strategy/turn. `focus` is the member's focus list (tickers), so "my focus list" can be the universe. */
+export async function sendTurn(input: {
+  intent: string;
+  answers: Answer[];
+  questionsAsked: number;
+  edit?: { request: string; current: StrategySpecV2 } | null;
+  focus?: string[];
+}): Promise<TurnAnswer> {
   try {
     const r = await post("/api/strategy/turn", input);
     const b = r.body;

@@ -1,6 +1,6 @@
 "use client";
 
-import { formulasOf, type StrategySpecV2 } from "@falcon/backtest";
+import { formulasOf, universeLabel, type StrategySpecV2 } from "@falcon/backtest";
 import type { SpecVersion } from "@/lib/workspace/strategies";
 import { MONO, Panel, SectionTitle, timeAgo } from "../parts";
 
@@ -22,8 +22,7 @@ export function specDiff(a: StrategySpecV2, b: StrategySpecV2): string[] {
   const ua = JSON.stringify(a.universe);
   const ub = JSON.stringify(b.universe);
   if (ua !== ub) {
-    const t = (s: StrategySpecV2) => (s.universe.kind === "static" ? s.universe.tickers.join(", ") : s.universe.base);
-    out.push(`Universe: ${t(a)} to ${t(b)}`);
+    out.push(`Universe: ${universeLabel(a)} to ${universeLabel(b)}`);
   }
   if (a.portfolio.mode !== b.portfolio.mode) out.push(`Mode: ${a.portfolio.mode} to ${b.portfolio.mode}`);
   const fa = new Map(formulasOf(a).map((f) => [f.path, f.src]));

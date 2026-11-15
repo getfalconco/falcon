@@ -138,5 +138,38 @@ export const EXPRESSIVENESS: Starter[] = [
   },
 ];
 
+/**
+ * Starters on Falcon's wide named universes (today's membership, so the
+ * hindsight check caps their label). Not part of the expressiveness set.
+ */
+export const WIDE_STARTERS: Starter[] = [
+  {
+    id: "sp500-top20-momentum",
+    text: "S&P 500 today: hold the 20 strongest 6-month performers, monthly",
+    spec: {
+      ...blankSpec(),
+      name: "S&P 500 top 20 by 6-month return",
+      intent: "S&P 500 today: hold the 20 strongest 6-month performers, monthly",
+      universe: { kind: "rule", base: "sp500_today", filter: null },
+      params: { lookback: int(126, 21, 252, 21), n: int(20, 5, 50, 5) },
+      portfolio: { mode: "rank", score: "ret(close, $lookback)", order: "desc", select: { n: "$n" }, filter: null, weighting: "equal" },
+      rebalance: "monthly",
+    },
+  },
+  {
+    id: "universe-dip-in-uptrend",
+    text: "Falcon's 1,500 US stocks: each week the 10 biggest 1-week losers that are above their 200-day average",
+    spec: {
+      ...blankSpec(),
+      name: "Falcon universe: 10 weakest weeks in an uptrend",
+      intent: "Falcon's 1,500 US stocks: each week the 10 biggest 1-week losers that are above their 200-day average",
+      universe: { kind: "rule", base: "falcon_universe", filter: null },
+      params: { days: int(5, 2, 21), n: int(10, 5, 30, 5), trend: int(200, 50, 250, 10) },
+      portfolio: { mode: "rank", score: "ret(close, $days)", order: "asc", select: { n: "$n" }, filter: "close > ts_mean(close, $trend)", weighting: "equal" },
+      rebalance: "weekly",
+    },
+  },
+];
+
 /** The starters as the Strategy tab lists them: alphabetical by name. */
-export const STARTERS: Starter[] = [...EXPRESSIVENESS].sort((a, b) => a.spec.name.localeCompare(b.spec.name));
+export const STARTERS: Starter[] = [...EXPRESSIVENESS, ...WIDE_STARTERS].sort((a, b) => a.spec.name.localeCompare(b.spec.name));

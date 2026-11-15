@@ -13,7 +13,8 @@ export const maxDuration = 60;
  *   POST /api/strategy/run { spec, trials? }
  *     -> 200 RunResultV2 (curves vs SPY and the equal-weight universe, trades, year table, metrics, quality)
  *     -> 400 { errors, issues } invalid spec (zod or FSL type check), 401 not signed in, 413, 429,
- *        502 data source failed, 503 data source not available at this stage, 504 too slow (cached so far; retry)
+ *        502 data source failed, 503 data source not available at this stage,
+ *        504 too slow { error, progress?: { loaded, total } } (prices loaded so far are cached; the app retries while progress grows)
  *
  * No AI call. The request ends within 50 s of arriving (10 s under Netlify's
  * 60 s limit): loading data (Yahoo in dev/beta behind MARKET_DATA_PROVIDER,
@@ -45,7 +46,7 @@ export async function POST(request: Request) {
   try {
     const out = await runSpec(g.body.spec, { deadlineAt: arrived + DEADLINE_MS, signal: request.signal, trials });
     console.info("[api/strategy/run]", JSON.stringify({ status: out.ok ? 200 : out.status, guardMs, totalMs: Date.now() - arrived }));
-    if (!out.ok) return json({ error: out.errors[0], errors: out.errors, issues: out.issues }, out.status, g.origin);
+    if (!out.ok) return json({ error: out.errors[0], errors: out.errors, issues: out.issues, progress: out.progress }, out.status, g.origin);
     return json(roundDeep(out.result), 200, g.origin);
   } catch (error) {
     console.error("[api/strategy/run]", error);
