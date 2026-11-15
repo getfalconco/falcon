@@ -165,11 +165,11 @@ export function cappedConfidence(judged: Confidence, verdict: RecordVerdict): Co
 /**
  * Whether a hit may be listed under Opportunities: its record's Wilson lower
  * bound clears SUPPORTS_LOWER_BOUND (the "high" confidence bar), its
- * confidence after the cap is not "low", it has an implied way, and it is
- * not priced in. Pure.
+ * confidence after the cap is not "low", it points up (a hit pointing down
+ * is a Risk signal, never an opportunity), and it is not priced in. Pure.
  */
 export function opportunityEligible(r: Pick<RecordRead, "verdict" | "lower" | "sample">, confidence: Confidence, direction: Direction, pricedIn: boolean | undefined): boolean {
-  return r.verdict !== "none" && r.sample > 0 && r.lower > SUPPORTS_LOWER_BOUND && confidence !== "low" && direction !== "unclear" && pricedIn !== true;
+  return r.verdict !== "none" && r.sample > 0 && r.lower > SUPPORTS_LOWER_BOUND && confidence !== "low" && direction === "up" && pricedIn !== true;
 }
 
 // ---------------------------------------------------------------------------

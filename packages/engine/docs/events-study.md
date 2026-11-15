@@ -169,7 +169,12 @@ the bar is on the mean, as for F7).
    the obvious hypothesis for an events-v2 pre-registration (NT 10-K only,
    possibly also the "significant change in results" box), tested on data it
    was not found in. Matched controls show nothing (y about 0), which suggests
-   part of the NT 10-K drift is industry or size co-movement.
+   part of the NT 10-K drift is industry or size co-movement. Pre-registered
+   on 2026-11-15 as a forward test, `data/preregistration/events-v2-nt10k.json`:
+   NT 10-K notices accepted from that day on, logged by the Sightings run in
+   the forecast ledger (`covariates.study = "events-v2-nt10k"`) and measured
+   by `scripts/forward-study.ts`; NT 10-K cards stay Watch until it is
+   decided (n 100 or 2027-12-31).
 2. **13D stakes.** The announcement effect is real and immediate (PRE +1.05%,
    t 9.4) and then nothing: the 20-session drift is about zero and the wrong
    sign. Brav et al.'s ~7% is an announcement-window number for hand-picked

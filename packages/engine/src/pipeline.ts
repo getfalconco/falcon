@@ -41,6 +41,7 @@ import { eventSize, hitScore, magnitudeFactor, NO_RECORD_STRENGTH, pathStrength,
 import { sectorTickers } from "./universe.ts";
 import { yahooProblems } from "./yahoo.ts";
 import { cardProblems, feedProblems } from "./validate.ts";
+import { forwardStudyOf, studyWatchReason, tagStudyRows, type StudyTagResult } from "./study/forward.ts";
 
 export const ENGINE_VERSION = "ripple-v1a";
 
@@ -131,6 +132,8 @@ export type RunResult = {
   ledger?: ForecastRow[];
   /** Detector events seen this run. */
   detectorEvents?: DetectorEvent[];
+  /** Forward studies (src/study/forward.ts): the events tagged in the ledger this run, per study id. */
+  studies?: StudyTagResult["tagged"];
 };
 
 export type Analysis = {
@@ -223,6 +226,8 @@ export type RunEvent = RankEvent & {
   basis: EventBasis | null;
   /** The detector event behind it, when a detector found it. */
   detector?: DetectorEvent;
+  /** The forward study it counts toward (src/study/forward.ts), e.g. "events-v2-nt10k". */
+  forwardStudy?: string;
 };
 
 const FAMILY_OF: Record<"earnings_read_through" | "monthly_revenue", FamilyId> = { earnings_read_through: "F10", monthly_revenue: "F11" };
@@ -266,6 +271,9 @@ export function fromDetector(de: DetectorEvent): RunEvent | null {
     acceptedAt: de.acceptedAt,
     ...(Object.keys(de.facts).length ? { details: { ...de.facts } } : {}),
   };
+  // An open forward study caps its events at Watch until its pre-registered bar is met.
+  const study = forwardStudyOf(de);
+  const studyReason = studyWatchReason(study);
   return {
     event,
     magnitudePct: de.magnitude,
@@ -274,9 +282,10 @@ export function fromDetector(de: DetectorEvent): RunEvent | null {
     family: de.family,
     sign: de.sign,
     propagates: de.propagates,
-    watchOnlyReasons: de.watchOnlyReasons,
+    watchOnlyReasons: studyReason ? [...de.watchOnlyReasons, studyReason] : de.watchOnlyReasons,
     basis: null,
     detector: de,
+    ...(study ? { forwardStudy: study.id } : {}),
   };
 }
 
@@ -382,7 +391,11 @@ export function ownFirmCard(
     sinceEvent: null,
     pricedIn: false,
     score,
-    scoreReason: t.tier === "documented" ? "Filed by the company or its insiders; published research documents this kind of filing." : "Filed by the company or its insiders; no measured record yet.",
+    scoreReason: item.forwardStudy
+      ? "Filed by the company; Falcon is testing this kind of filing as it happens and has no measured effect for it yet."
+      : t.tier === "documented"
+        ? "Filed by the company or its insiders; published research documents this kind of filing."
+        : "Filed by the company or its insiders; no measured record yet.",
     opportunityEligible: t.opportunityEligible,
     tier: t.tier,
     family: item.family,
@@ -451,6 +464,10 @@ export async function runSightings(opts: RunOptions): Promise<RunResult> {
   if (skippedDetector > 0) log(`  ${skippedDetector} detector events without a ticker or source, or repeated: no card`);
   const ownAll = items.filter((i) => i.propagates === "own");
   const own = dedupeOwnByCompany(ownAll);
+  // Why a detector event has no card this run (the forward-study ledger rows say so).
+  const noCardWhy = new Map<string, string>();
+  const keptOwn = new Set(own);
+  for (const i of ownAll) if (!keptOwn.has(i)) noCardWhy.set(i.event.id, "folded into another event of the same kind at the same company");
   if (own.length < ownAll.length) log(`  ${ownAll.length - own.length} own-firm events folded into a larger event of the same kind at the same company`);
   const linked = items.filter((i) => i.propagates === "linked");
 
@@ -656,7 +673,7 @@ export async function runSightings(opts: RunOptions): Promise<RunResult> {
         tier: t.tier,
         family: ev.family,
         channel: channelOf(hit.relation),
-        opportunityEligible: t.opportunityEligible && hit.direction !== "unclear" && hit.pricedIn !== true,
+        opportunityEligible: t.opportunityEligible && hit.direction === "up" && hit.pricedIn !== true,
         ...(t.documentedBy ? { documentedBy: t.documentedBy } : {}),
       });
     }
@@ -685,11 +702,13 @@ export async function runSightings(opts: RunOptions): Promise<RunResult> {
     const built = ownFirmCard(ev, { sector: sectorOf(ev.event.ticker), generatedAt, liquidity: await liquidityOf(ev.event.ticker), quality });
     if ("error" in built) {
       log(`  ${ev.event.id}: ${built.error}, no card`);
+      noCardWhy.set(ev.event.id, built.error);
       continue;
     }
     const problems = cardProblems(built.card);
     if (problems.length) {
       log(`  ${ev.event.id}: card failed the contract check: ${problems.join("; ")}`);
+      noCardWhy.set(ev.event.id, "card failed the contract check");
       continue;
     }
     cards.push({ card: built.card, score: built.score, nonObvious: false, ev });
@@ -756,6 +775,17 @@ export async function runSightings(opts: RunOptions): Promise<RunResult> {
     });
   }
 
+  // Forward studies: every qualifying detector event is in the ledger with its study tag, card or not.
+  const tagging = tagStudyRows(ledger, detectorEvents, {
+    cardIdOf: (de) => `${sectorOf(de.ticker ?? "")}-${de.id}`,
+    modelVersion: (de) => (de.propagates === "own" ? `${ENGINE_VERSION}/own` : `${ENGINE_VERSION}/${judgeName}/${JUDGE_PROMPT_VERSION}`),
+    noCardWhy,
+  });
+  for (const [id, t] of Object.entries(tagging.tagged)) {
+    const early = tagging.beforeStart[id] ?? 0;
+    if (t.events.length || early) log(`  forward study ${id}: ${t.events.length} events tagged in the ledger (${t.withoutCard} without a card)${early ? `; ${early} of the same form accepted before the study's start, not tagged` : ""}`);
+  }
+
   const feed: SightingsFeed = {
     generatedAt,
     cards: chosen,
@@ -769,5 +799,5 @@ export async function runSightings(opts: RunOptions): Promise<RunResult> {
   };
   const problems = feedProblems(feed);
   if (problems.length) throw new Error(`feed failed the contract check: ${problems.join("; ")}`);
-  return { feed, events, requests, rejected, tickers, sourceProblems, yahooProblems: yahooProblems(), judgeFailures, votes, history, ranking, analysis, ledger, detectorEvents };
+  return { feed, events, requests, rejected, tickers, sourceProblems, yahooProblems: yahooProblems(), judgeFailures, votes, history, ranking, analysis, ledger: tagging.ledger, detectorEvents, studies: tagging.tagged };
 }

@@ -27,9 +27,13 @@
  * of at least $5M. An unknown price is not liquid.
  *
  * The old fields stay for shipped app builds: `opportunityEligible` is true
- * only for a Measured hit, or (interim rule, design 7.3, flag
- * OPPORTUNITIES_INTERIM_DOCUMENTED, on by default) a Documented own-firm hit
- * whose evidence is an exact match. Pure, apart from the two file loaders.
+ * only for a hit pointing up that is Measured, or (interim rule, design 7.3,
+ * flag OPPORTUNITIES_INTERIM_DOCUMENTED, on by default) a Documented own-firm
+ * hit whose evidence is an exact match. A Measured or Documented hit pointing
+ * down (a late filing, a restatement, a customer bankruptcy, an outlook cut)
+ * is a Risk signal: it stays in Sightings and the portfolio, never under
+ * Opportunities. Shipped app builds read this flag, so the rule lives here.
+ * Pure, apart from the two file loaders.
  */
 
 import fs from "node:fs";
@@ -254,13 +258,15 @@ export function assignTier(q: QualityInput, ctx: QualityContext): TierRead {
   const documentedBy = "documentedBy" in doc ? doc.documentedBy : undefined;
   const stat = q.family ? ctx.stats.families[q.family] : undefined;
 
+  // Opportunities are positive only: a hit pointing down is a Risk signal at any tier.
+  const positive = q.direction === "up";
   if (base.length === 0 && familyPasses(stat)) {
-    return { tier: "measured", why: [], ...(documentedBy ? { documentedBy } : {}), opportunityEligible: true };
+    return { tier: "measured", why: [], ...(documentedBy ? { documentedBy } : {}), opportunityEligible: positive };
   }
   const measuredWhy = familyPasses(stat) ? [] : [`family ${q.family ?? "none"} has not passed Falcon's own test`];
   if (base.length === 0 && documentedBy) {
     const interim = ctx.interimDocumented && q.relation === "self" && documentedBy.match === "exact";
-    return { tier: "documented", why: measuredWhy, documentedBy, opportunityEligible: interim };
+    return { tier: "documented", why: measuredWhy, documentedBy, opportunityEligible: interim && positive };
   }
   return { tier: "watch", why: [...base, ...measuredWhy, ...("why" in doc ? [doc.why] : [])], opportunityEligible: false };
 }

@@ -4,6 +4,7 @@
  */
 
 import type { RunResult } from "./pipeline.ts";
+import { FORWARD_STUDIES, studySummaryLine, type RunningCount } from "./study/forward.ts";
 import type { PublishResult } from "./supabase.ts";
 
 /**
@@ -64,6 +65,8 @@ export type SummaryInput = {
   judgeName: string;
   publish: Publish;
   exitCode: ExitCode;
+  /** Per forward study id: the running count read from the ledger, why it could not be read, or null (no database). */
+  studyLedger?: Record<string, RunningCount | { error: string } | null>;
 };
 
 /** What the run analysed and the tiers it built, counts only. Pure. */
@@ -95,6 +98,12 @@ export function summaryLines(s: SummaryInput): string[] {
     `history: ${run.history.measured} of ${run.history.hits} hits measured${run.history.problems.length ? ` (${run.history.problems.join("; ")})` : ""}`,
     `ranking: ${run.ranking.capped.length} hits capped by their record, ${run.ranking.dropped.length} dropped${run.ranking.droppedCards.length ? `, ${run.ranking.droppedCards.length} cards left with no hit` : ""}`,
   ];
+  if (run.studies) {
+    for (const st of FORWARD_STUDIES) {
+      const t = run.studies[st.id];
+      if (t) lines.push(studySummaryLine(st, { events: t.events.length, withoutCard: t.withoutCard }, s.studyLedger?.[st.id] ?? null));
+    }
+  }
   if (run.yahooProblems.length) lines.push(`yahoo: ${run.yahooProblems.length} problems, EPS surprise figures may be missing (${run.yahooProblems[0]})`);
   const p = s.publish;
   if (p.state === "written") lines.push(`supabase: ${p.result.upserted} cards written, ${p.result.markedStale} marked stale, ${p.result.fresh} fresh cards in the sector`);

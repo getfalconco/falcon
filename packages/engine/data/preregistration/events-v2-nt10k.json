@@ -1,0 +1,80 @@
+{
+  "id": "events-v2-nt10k",
+  "writtenAt": "2026-11-15",
+  "status": "open: frozen before any event in its sample was accepted by EDGAR (the sample starts on the day this file was written, a Sunday, when EDGAR accepts no filings); changes only in an events-v3 file with reasons",
+  "kind": "forward test: only events accepted from startDate on count, logged by the Sightings engine as they happen and measured after their window has passed",
+  "why": "events-v1 (data/preregistration/events-v1.json, docs/events-study.md) failed for late filings pooled (NT 10-K and NT 10-Q: beta x SPY L = 20 mean -0.80%, two-way t -0.60, n 501). Split by form after the fact, NT 10-K notices drifted -3.01% (two-way t -3.69, n 263, 115 dates) and NT 10-Q notices +1.64% (n 238). That split was not pre-registered, so it cannot document anything. This file states it as a hypothesis and tests it only on events that had not happened when it was written.",
+  "seenBeforeWriting": [
+    "events-v1 results for late filings, pooled and by form (docs/events-study.md, Results, computed 2026-11-15)",
+    "no outcome of any event accepted on or after 2026-11-15 (none existed)"
+  ],
+  "hypothesis": "After an NT 10-K notice, the issuer's beta x SPY abnormal return over the 20 sessions from the first open after EDGAR acceptance is negative on average.",
+  "code": {
+    "tagging": "packages/engine/src/study/forward.ts (NT10K_STUDY, forwardStudyOf, tagStudyRows); called from src/pipeline.ts runSightings",
+    "ledger": "public.ripple_forecasts (apps/web/supabase/migrations/20261118_ripple_ledger.sql), covariates.study = \"events-v2-nt10k\"; no schema change",
+    "runner": "packages/engine/scripts/forward-study.ts (reads the ledger read-only, prices from Yahoo, writes nothing to the database)",
+    "measurement": "packages/engine/src/study/abnormal.ts measureEvent and eventStudy, src/study/filing-events.ts passesBar, unchanged from events-v1 and F7"
+  },
+  "event": {
+    "registryEventType": "distress_nt",
+    "family": "F6",
+    "form": "form type exactly \"NT 10-K\" (Form 12b-25 for an annual report). NT 10-K/A, NT 10-Q, NT 20-F, NT 11-K and fund forms are not events in this study.",
+    "issuer": "the filing CIK that maps to a US-listed ticker (src/feed/companies.ts isListed: exchange Nasdaq, NYSE, CBOE or TXSE in SEC company_tickers_exchange.json) at the time the Sightings run reads the filing, which is within a day of acceptance; the same gate the detector (src/detectors/distress.ts distressNtDetector) applies",
+    "dedupe": "per issuer, events in acceptance order; an NT 10-K within 30 calendar days of that issuer's previous kept NT 10-K is a duplicate (as events-v1). Deviation from the events-v1 subgroup, stated now: NT 10-Q notices are not logged as events here and do not suppress an NT 10-K (in events-v1 a kept NT 10-Q could; an NT 10-Q followed within 30 days by an NT 10-K is rare by the filing calendar).",
+    "detector": "every qualifying NT 10-K the detector finds is logged, featured among the run's cards or not, and also when no card can be built for it (no readable quote, folded into another event of the company, failed contract check)"
+  },
+  "sample": {
+    "startDate": "2026-11-15",
+    "dateOf": "EDGAR acceptance instant, New York calendar date; only events accepted on or after startDate count",
+    "source": "the Sightings engine's daily run (.github/workflows/sightings.yml) over EDGAR; each event is logged in public.ripple_forecasts with covariates.study = \"events-v2-nt10k\", plus its CIK, accession, form and acceptance instant",
+    "missedEvents": "events the engine did not see (a failed run day longer than the run's 7-day look-back, EDGAR outage) are missing from the sample; the runner reports the run days, and missing days are not back-filled from the full index after outcomes are known"
+  },
+  "universe": {
+    "rule": "the events-v1 gate at the event date: Yahoo has daily history covering day 0 and the estimation window, unadjusted price > $5 at the last close before day 0 (split-adjusted close times later split ratios), 20-session median dollar volume >= $5M before day 0, and >= 120 valid estimation days",
+    "survivorship": "an event whose ticker loses its Yahoo history before its window ends (delisting, merger) is reported in the funnel as unmeasured, not silently dropped; Yahoo has no delisting returns (events-v1 caveat 1)"
+  },
+  "timing": {
+    "publicTime": "EDGAR acceptance instant as the detector read it from the SEC header",
+    "entry": "first regular-session open strictly after the public time (abnormal.ts entryIndex, latency 0)",
+    "day0": "first session whose close is after the public time"
+  },
+  "outcomes": {
+    "primary": "beta x SPY abnormal return over L = 20 sessions from the tradable entry: sum over sessions t0 .. t0+19 of r_i - beta_i r_SPY (first session open-to-close), beta from the SPY market model on sessions [-260, -11] relative to day 0; percent (events-v1 primary, F7 registered column)",
+    "secondary": [
+      "the same at L = 5",
+      "market-model CAR (with the estimation alpha) at L = 20",
+      "raw return minus SPY at L = 20",
+      "PRE: last close before the public time to the entry open (descriptive)",
+      "the subgroup whose notice ticks Part IV(3) 'significant change in results' (covariates.studySignificantChange), descriptive only"
+    ],
+    "expectedSign": -1
+  },
+  "inference": {
+    "clustering": "eventStudy: t clustered by event date (df G - 1) and two-way by issuer x calendar month (df min(G) - 1); wild-cluster bootstrap p reported when G < 30",
+    "pValues": "one-sided in the expected direction (H1: mean < 0)"
+  },
+  "passBar": {
+    "sameAs": "events-v1 passBar and F7's registered estimate",
+    "rules": [
+      "primary mean below 0",
+      "one-sided p < 0.05 from the two-way (issuer x month) clustered t",
+      "one-sided p < 0.05 from the date-clustered t",
+      "n >= 100 measured events"
+    ]
+  },
+  "reviewPoint": {
+    "when": "the earlier of (a) the day the 100th measured event's 20-session window closes, and (b) 2027-12-31",
+    "sampleAtReview": "(a): the first 100 measured events in acceptance order; events after them are not part of this test. (b): every measured event accepted on or before 2027-11-30, so each has its 20 sessions by the end of December 2027; with fewer than 100 the test fails on n.",
+    "interimLooks": "scripts/forward-study.ts prints the running estimate at any time. It is descriptive: the test is decided once, at the review point, and a running estimate cannot end it early or extend it."
+  },
+  "consequence": {
+    "pass": "NT 10-K notices (only) may earn Documented: data/evidence-registry.json gets an entry for NT 10-K with this study's primary numbers as computed, and NT10K_STUDY.status becomes \"passed\". NT 10-Q notices stay Watch.",
+    "fail": "NT 10-K notices stay Watch; the hypothesis is closed (status \"failed\"); a new hypothesis needs a new file.",
+    "untilThen": "NT 10-K cards are capped at Watch by the engine (src/study/forward.ts, watch-only reason while the study is open), whatever the registry says, and their text states no measured effect."
+  },
+  "notChangedAfterSeeingOutcomes": [
+    "event definition, de-duplication and universe",
+    "start date, primary window, benchmark and test",
+    "pass bar, expected sign and review point"
+  ]
+}
