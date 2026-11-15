@@ -56,7 +56,8 @@ export function haikuCostUsd(inputTokens: number, outputTokens: number): number 
 
 /** A call's cost at `model`'s list price (Haiku's for a model not in the table). */
 export function costUsd(model: string, inputTokens: number, outputTokens: number): number {
-  const p = MODEL_PRICE[model] ?? HAIKU_PRICE;
+  // A dated id ("claude-sonnet-5-5-2026...") prices as its model.
+  const p = MODEL_PRICE[model] ?? Object.entries(MODEL_PRICE).find(([k]) => model.startsWith(k))?.[1] ?? HAIKU_PRICE;
   return (inputTokens * p.input + outputTokens * p.output) / 1e6;
 }
 
@@ -81,12 +82,69 @@ let cacheable = false;
 
 export const LLM_CACHE_DIR = path.join(ENGINE_ROOT, ".cache", "llm");
 
-function cacheFile(call: StructuredCall): string {
-  const key = crypto
+/** The cache key of a call: sha256 of model, prompt, schema and output cap (also a batch request's custom_id). Pure. */
+export function cacheKey(call: StructuredCall): string {
+  return crypto
     .createHash("sha256")
     .update(JSON.stringify([call.model ?? TRIAGE_MODEL, call.system, call.user, call.schema, call.maxTokens ?? 1500]))
     .digest("hex");
+}
+
+function cacheFile(call: StructuredCall): string {
+  return cacheFileOf(cacheKey(call));
+}
+
+export function cacheFileOf(key: string): string {
   return path.join(LLM_CACHE_DIR, key.slice(0, 2), `${key}.json`);
+}
+
+/** Store an answer under a cache key (batch results land here). */
+export function writeCachedKey(key: string, json: unknown): void {
+  const f = cacheFileOf(key);
+  fs.mkdirSync(path.dirname(f), { recursive: true });
+  fs.writeFileSync(f, JSON.stringify(json));
+}
+
+/** The Messages API request for a call, shared by live calls and batch requests. Pure. */
+export function messageParams(call: StructuredCall) {
+  const model = call.model ?? TRIAGE_MODEL;
+  return {
+    model,
+    max_tokens: call.maxTokens ?? 1500,
+    // Sonnet 5.5 rejects "disabled": "between_tools" is its thinking-off mode (effort high or below).
+    thinking: model === VERIFY_MODEL ? ({ type: "between_tools" } as const) : ({ type: "disabled" } as const),
+    system: call.system,
+    messages: [{ role: "user" as const, content: call.user }],
+    output_config: { effort: "low" as const, format: { type: "json_schema" as const, schema: call.schema } },
+  };
+}
+
+/** A structured answer's JSON from a response's content, or an error for a refusal or a cut-off answer. */
+export function answerJson(res: { stop_reason: string | null; content: Array<{ type: string; text?: string }> }): unknown {
+  if (res.stop_reason === "refusal") throw new Error("model declined");
+  if (res.stop_reason === "max_tokens") throw new Error("model ran out of tokens");
+  const text = res.content.flatMap((b) => (b.type === "text" && typeof b.text === "string" ? [b.text] : [])).join("");
+  return JSON.parse(text) as unknown;
+}
+
+/**
+ * Batch collection (Message Batches API, half price): while on, a call the
+ * cache cannot answer is recorded here instead of sent, and returns null.
+ * scripts/llm-batch.ts submits the requests and writes the answers into the
+ * cache, so the next pass over the same input reads them from there.
+ */
+const pending = new Map<string, StructuredCall>();
+let collecting = false;
+
+export function collectBatch(on: boolean): void {
+  collecting = on;
+}
+
+/** Calls recorded while collecting, by cache key; the list is cleared. */
+export function takePendingBatch(): Array<{ key: string; call: StructuredCall }> {
+  const out = [...pending].map(([key, call]) => ({ key, call }));
+  pending.clear();
+  return out;
 }
 
 function readCached(call: StructuredCall): { hit: true; json: unknown } | { hit: false } {
@@ -117,20 +175,8 @@ export function llmClient(): LlmClient | null {
   cacheable = true;
   const sdk = new Anthropic({ apiKey: key, maxRetries: 3 });
   client = async (call) => {
-    const model = call.model ?? TRIAGE_MODEL;
-    const res = await sdk.messages.create({
-      model,
-      max_tokens: call.maxTokens ?? 1500,
-      // Sonnet 5.5 rejects "disabled": "between_tools" is its thinking-off mode (effort high or below).
-      thinking: model === VERIFY_MODEL ? { type: "between_tools" } : { type: "disabled" },
-      system: call.system,
-      messages: [{ role: "user", content: call.user }],
-      output_config: { effort: "low", format: { type: "json_schema", schema: call.schema } },
-    });
-    if (res.stop_reason === "refusal") throw new Error("model declined");
-    if (res.stop_reason === "max_tokens") throw new Error("model ran out of tokens");
-    const text = res.content.flatMap((b) => (b.type === "text" ? [b.text] : [])).join("");
-    return { json: JSON.parse(text) as unknown, inputTokens: res.usage.input_tokens ?? 0, outputTokens: res.usage.output_tokens ?? 0 };
+    const res = await sdk.messages.create(messageParams(call));
+    return { json: answerJson(res), inputTokens: res.usage.input_tokens ?? 0, outputTokens: res.usage.output_tokens ?? 0 };
   };
   return client;
 }
@@ -154,6 +200,11 @@ export async function structured(call: StructuredCall, budgetUsd: number, log: (
   if (cached.hit) {
     usage.cached++;
     return cached.json;
+  }
+  if (collecting && cacheable) {
+    pending.set(cacheKey(call), call);
+    usage.skipped++;
+    return null;
   }
   // Leave room for one more call: about 25k input tokens and the output cap.
   const model = call.model ?? TRIAGE_MODEL;

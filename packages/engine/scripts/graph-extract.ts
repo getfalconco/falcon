@@ -27,6 +27,11 @@
  *   --chunk-chars N    passage characters per model call (default 15000: Haiku misses links in longer calls)
  *   --extract MODEL    haiku | sonnet: stage A reader (default haiku)
  *   --concurrency N    filers read at once (default 4)
+ *   --batch            Message Batches API (half price): each pass records the
+ *                      calls the cache cannot answer, submits them, waits, and
+ *                      passes again until every answer is cached; resumable
+ *                      (state in .cache/graph-extract/<out>-batches.json, whose
+ *                      spend counts against --budget)
  *   --dry              locate passages only, no model calls
  */
 
@@ -34,7 +39,8 @@ import fs from "node:fs";
 import path from "node:path";
 import { loadListings, type Listings } from "../src/feed/companies.ts";
 import { ENGINE_ROOT } from "../src/http.ts";
-import { llmUsage, structured, TRIAGE_MODEL, VERIFY_MODEL } from "../src/detectors/llm.ts";
+import { collectBatch, llmUsage, structured, takePendingBatch, TRIAGE_MODEL, VERIFY_MODEL } from "../src/detectors/llm.ts";
+import { readBatchState, runBatches } from "../src/detectors/llm-batch.ts";
 import { documentText, filingDocuments, recentFilings, type Filing } from "../src/sec.ts";
 import { normalizeForMatch } from "../src/text.ts";
 import { NAMES } from "../src/universe.ts";
@@ -88,6 +94,7 @@ const chunkChars = Number(arg("chunk-chars") ?? 15_000);
 const extractModel = arg("extract") === "sonnet" ? VERIFY_MODEL : TRIAGE_MODEL;
 const concurrency = Number(arg("concurrency") ?? 4);
 const dry = flag("dry");
+const batch = flag("batch") && !dry;
 const outFile = path.resolve(arg("out") ?? path.join(ENGINE_ROOT, "data", "graph-pilot.json"));
 const RUN_DIR = path.join(ENGINE_ROOT, ".cache", "graph-extract");
 
@@ -244,18 +251,38 @@ async function pool<T, R>(items: T[], n: number, fn: (t: T) => Promise<R>): Prom
 }
 
 const list = filers();
-log(`${list.length} filers, budget $${budget}, verify ${verifyMode}${dry ? ", dry (no model calls)" : ""}`);
+log(`${list.length} filers, budget $${budget}, verify ${verifyMode}${dry ? ", dry (no model calls)" : ""}${batch ? ", batch" : ""}`);
 const listings = await loadListings();
-const runs = await pool(list, concurrency, async ({ ticker, sector }) => {
-  try {
-    const r = await readFiler(ticker, sector, listings);
-    log(`${ticker}: ${r.form ?? "-"} ${r.filedAt ?? ""} doc ${r.docChars ?? 0} chars -> ${r.passages ?? 0} passages / ${r.passageChars ?? 0} chars${dry ? "" : `; ${r.proposed ?? 0} proposed, ${r.edges?.length ?? 0} kept`}${r.error ? ` (${r.error})` : ""}`);
-    return r;
-  } catch (err) {
-    log(`${ticker}: failed (${(err as Error).message.split("\n")[0]})`);
-    return { ticker, sector, name: ticker, error: (err as Error).message.split("\n")[0] } as FilerRun;
+
+const readAll = (quiet: boolean) =>
+  pool(list, concurrency, async ({ ticker, sector }) => {
+    try {
+      const r = await readFiler(ticker, sector, listings);
+      if (!quiet) log(`${ticker}: ${r.form ?? "-"} ${r.filedAt ?? ""} doc ${r.docChars ?? 0} chars -> ${r.passages ?? 0} passages / ${r.passageChars ?? 0} chars${dry ? "" : `; ${r.proposed ?? 0} proposed, ${r.edges?.length ?? 0} kept`}${r.error ? ` (${r.error})` : ""}`);
+      return r;
+    } catch (err) {
+      const why = (err as Error).message.split("\n")[0];
+      log(`${ticker}: failed (${why})`);
+      return { ticker, sector, name: ticker, error: why } as FilerRun;
+    }
+  });
+
+const batchState = path.join(RUN_DIR, `${path.basename(outFile, ".json")}-batches.json`);
+if (batch) {
+  // Stage A's answers, then stage B's (it reads stage A's edges): one pass each,
+  // plus passes for requests that failed; the last read below uses only the cache.
+  for (let round = 1; round <= 4; round++) {
+    collectBatch(true);
+    await readAll(true);
+    collectBatch(false);
+    const todo = takePendingBatch();
+    log(`batch pass ${round}: ${todo.length} calls not cached`);
+    if (!todo.length) break;
+    const r = await runBatches(todo, { stateFile: batchState, budgetUsd: budget, log });
+    log(`batch pass ${round}: ${r.succeeded} answered, ${r.failed} failed, $${r.addedUsd.toFixed(2)}`);
   }
-});
+}
+const runs = await readAll(false);
 
 const u = llmUsage();
 const seconds = Math.round((Date.now() - t0) / 1000);
@@ -264,6 +291,7 @@ const runFile = path.join(RUN_DIR, `${path.basename(outFile, ".json")}-run.json`
 fs.writeFileSync(runFile, `${JSON.stringify({ at: new Date().toISOString(), seconds, verify: verifyMode, extractModel, maxChars, chunkChars, usage: u, runs }, null, 1)}\n`);
 log(`run detail -> ${runFile}`);
 log(`model: ${u.calls} calls (${u.cached} from cache), ${u.inputTokens} in / ${u.outputTokens} out tokens, $${u.costUsd.toFixed(4)}${u.skipped ? `, ${u.skipped} skipped` : ""}`);
+if (batch) log(`batch spend so far (half price): $${readBatchState(batchState).spentUsd.toFixed(4)}`);
 for (const [m, mu] of Object.entries(u.byModel)) log(`  ${m}: ${mu.calls} calls, ${mu.inputTokens} in / ${mu.outputTokens} out, $${mu.costUsd.toFixed(4)}`);
 
 if (!dry) {
