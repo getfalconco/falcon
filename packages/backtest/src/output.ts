@@ -3,7 +3,7 @@
  * evaluator. Pure. Also the run options the simulator needs from a spec.
  */
 
-import { isPeriodEnd, isoToDay } from "./calendar";
+import { isPeriodEnd, isWeekdayEve, isoToDay } from "./calendar";
 import { Evaluator, type EvalEnv, type Evaluated } from "./fsl/eval";
 import type { Prepared } from "./prepare";
 import type { SimOptions, StrategyOutput } from "./simulate";
@@ -40,11 +40,18 @@ export function asMarket(v: Evaluated, T: number): Float64Array {
   return v.value.slice(0, T);
 }
 
-/** Decision sessions that trade targets: period ends, plus the first session (initial allocation). */
-export function rebalanceFlags(prep: Prepared, every: StrategySpecV2["rebalance"]): Uint8Array {
+/**
+ * Decision sessions that trade targets: period ends (or, weekly on a named
+ * weekday, the session before it), plus the first session (initial allocation).
+ */
+export function rebalanceFlags(prep: Prepared, every: StrategySpecV2["rebalance"], weekday?: number | null): Uint8Array {
   const T = prep.panel.dates.length;
   const out = new Uint8Array(T);
-  for (let t = prep.startIndex; t < T; t++) out[t] = isPeriodEnd(isoToDay(prep.panel.dates[t]!), every) ? 1 : 0;
+  const wd = every === "weekly" && weekday ? weekday : null;
+  for (let t = prep.startIndex; t < T; t++) {
+    const day = isoToDay(prep.panel.dates[t]!);
+    out[t] = (wd ? isWeekdayEve(day, wd) : isPeriodEnd(day, every)) ? 1 : 0;
+  }
   out[prep.startIndex] = 1;
   return out;
 }
@@ -86,7 +93,7 @@ export function computeOutput(spec: StrategySpecV2, prep: Prepared, weightOrder:
   if (p.mode === "rank") {
     const score = asSeries(ev.run(p.score), U, T);
     const keep = p.filter ? asSeries(ev.run(p.filter), U, T) : null;
-    const reb = rebalanceFlags(prep, spec.rebalance);
+    const reb = rebalanceFlags(prep, spec.rebalance, spec.rebalance_weekday);
     const target = new Float64Array(U * T).fill(NaN);
     const n =
       "n" in p.select ? (typeof p.select.n === "number" ? p.select.n : Math.round(env.params[p.select.n.slice(1)] ?? 1)) : null;
@@ -140,7 +147,7 @@ export function computeOutput(spec: StrategySpecV2, prep: Prepared, weightOrder:
     const wenv: EvalEnv = { ...env, universe: [], weights };
     const wev = new Evaluator(wenv);
     for (const t of order) weights.set(t, asMarket(wev.run(p.weights[t]!), T));
-    const reb = rebalanceFlags(prep, spec.rebalance);
+    const reb = rebalanceFlags(prep, spec.rebalance, spec.rebalance_weekday);
     const target = new Float64Array(U * T).fill(NaN);
     universe.forEach((t, u) => {
       const w = weights.get(t)!;

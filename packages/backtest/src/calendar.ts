@@ -143,6 +143,18 @@ export function isPeriodEnd(day: number, every: "daily" | "weekly" | "monthly" |
   return periodKey(day, every) !== periodKey(nextSession(day), every);
 }
 
+/**
+ * Weekly rebalancing on a named weekday (1 Monday .. 5 Friday): true on the
+ * decision session whose next session is the first one of its week on or
+ * after that weekday (Tuesday, or Wednesday when Tuesday is a holiday). The
+ * order fills at that next session's open. Rule-based, so causal.
+ */
+export function isWeekdayEve(day: number, wd: number): boolean {
+  const next = nextSession(day);
+  if (weekday(next) < wd) return false;
+  return periodKey(day, "weekly") !== periodKey(next, "weekly") || weekday(day) < wd;
+}
+
 /** UTC offset of New York in minutes at an instant (EST -300, EDT -240; US rules since 2007). */
 export function nyOffsetMinutes(utcMs: number): number {
   const y = new Date(utcMs).getUTCFullYear();

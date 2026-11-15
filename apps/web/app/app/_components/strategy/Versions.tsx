@@ -44,6 +44,10 @@ export function specDiff(a: StrategySpecV2, b: StrategySpecV2): string[] {
   const keys = ["stop_pct", "trailing_pct", "take_profit_pct", "max_hold_days"] as const;
   for (const k of keys) if (a.risk[k] !== b.risk[k]) out.push(`${k.replace(/_/g, " ")}: ${a.risk[k] ?? "none"} to ${b.risk[k] ?? "none"}`);
   if (a.rebalance !== b.rebalance) out.push(`Rebalance: ${a.rebalance} to ${b.rebalance}`);
+  if ((a.rebalance_weekday ?? null) !== (b.rebalance_weekday ?? null)) {
+    const day = (d: number | null | undefined) => (d ? ["", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"][d] : "week end");
+    out.push(`Trading day: ${day(a.rebalance_weekday)} to ${day(b.rebalance_weekday)}`);
+  }
   if (JSON.stringify(a.period) !== JSON.stringify(b.period)) out.push(`Period: ${a.period.start ?? "default"}..${a.period.end ?? "today"} to ${b.period.start ?? "default"}..${b.period.end ?? "today"}`);
   if (JSON.stringify(a.execution) !== JSON.stringify(b.execution) || a.capital !== b.capital) out.push("Costs or capital changed");
   if (a.benchmark !== b.benchmark) out.push(`Benchmark: ${a.benchmark} to ${b.benchmark}`);

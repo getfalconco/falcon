@@ -65,8 +65,39 @@ export type CostModel = {
  */
 export function costModel(panel: Panel, opts: { spread: "auto" | number; commissionBps: number; noFloor?: boolean; multiplier?: number }): CostModel {
   const T = panel.dates.length;
-  const N = panel.tickers.length;
   const mult = opts.multiplier ?? 1;
+  const { adv, cs } = liquidity(panel);
+  const floorAt = (c: number, t: number) => {
+    const raw = t > 0 ? panel.raw[c * T + t - 1]! : panel.raw[c * T]!;
+    return floorBps(adv[c * T + t]!, raw, cs[c * T + t]!);
+  };
+  return {
+    commission: (opts.commissionBps / 10_000) * mult,
+    adv: (c, t) => adv[c * T + t]!,
+    csBps: (c, t) => cs[c * T + t]!,
+    floor: floorAt,
+    halfSpread(c, t) {
+      if (opts.noFloor) return (typeof opts.spread === "number" ? opts.spread : 0) / 10_000 * mult;
+      const f = floorAt(c, t);
+      const bps = opts.spread === "auto" ? f : Math.max(opts.spread, f);
+      return (bps / 10_000) * mult;
+    },
+  };
+}
+
+/**
+ * 20-session ADV and Corwin-Schultz bps per cell, known at each open. They
+ * depend only on the panel, so they are computed once per panel: a run's
+ * quality checks simulate the same panel many times, and with 250 tickers
+ * rebuilding them took most of the run's time.
+ */
+const liquidityMemo = new WeakMap<Panel, { adv: Float64Array; cs: Float64Array }>();
+
+function liquidity(panel: Panel): { adv: Float64Array; cs: Float64Array } {
+  const hit = liquidityMemo.get(panel);
+  if (hit) return hit;
+  const T = panel.dates.length;
+  const N = panel.tickers.length;
   const adv = new Float64Array(N * T).fill(NaN);
   const cs = new Float64Array(N * T).fill(NaN);
   for (let c = 0; c < N; c++) {
@@ -107,20 +138,7 @@ export function costModel(panel: Panel, opts: { spread: "auto" | number; commiss
       }
     }
   }
-  const floorAt = (c: number, t: number) => {
-    const raw = t > 0 ? panel.raw[c * T + t - 1]! : panel.raw[c * T]!;
-    return floorBps(adv[c * T + t]!, raw, cs[c * T + t]!);
-  };
-  return {
-    commission: (opts.commissionBps / 10_000) * mult,
-    adv: (c, t) => adv[c * T + t]!,
-    csBps: (c, t) => cs[c * T + t]!,
-    floor: floorAt,
-    halfSpread(c, t) {
-      if (opts.noFloor) return (typeof opts.spread === "number" ? opts.spread : 0) / 10_000 * mult;
-      const f = floorAt(c, t);
-      const bps = opts.spread === "auto" ? f : Math.max(opts.spread, f);
-      return (bps / 10_000) * mult;
-    },
-  };
+  const out = { adv, cs };
+  liquidityMemo.set(panel, out);
+  return out;
 }

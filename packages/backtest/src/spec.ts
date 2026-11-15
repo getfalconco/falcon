@@ -28,7 +28,8 @@ import type { Condition, RunConfig, Strategy } from "./schema";
 z.config(z.locales.en());
 
 export const SPEC_LIMITS = {
-  maxTickers: 60,
+  /** Universe plus referenced tickers; long typed lists reach the spec through ai/lists.ts, never through the model. */
+  maxTickers: 500,
   maxParams: 12,
   maxDefs: 20,
   maxYears: 20,
@@ -110,6 +111,12 @@ export const SpecSchema = z.object({
   portfolio: PortfolioSchema,
   side: z.enum(["long", "long_short"]),
   rebalance: z.enum(["daily", "weekly", "monthly", "quarterly"]),
+  /**
+   * With rebalance "weekly": trade at the open of this weekday (1 Monday to 5
+   * Friday; the next session when it is a holiday), decided on the close of
+   * the session before. Absent or null: decided on the week's last session.
+   */
+  rebalance_weekday: z.number().int().min(1).max(5).nullable().optional(),
   risk: z.object({
     stop_pct: z.number().min(0.5).max(95).nullable(),
     trailing_pct: z.number().min(0.5).max(95).nullable(),
@@ -280,6 +287,10 @@ export function validateSpec(input: unknown, now = new Date()): SpecCheck {
     else if (par.type !== "int" || par.min < 1) issues.push({ path: "portfolio.select.n", message: `${p.select.n} must be an int of at least 1.` });
   }
 
+  if (spec.rebalance_weekday != null && spec.rebalance !== "weekly") {
+    issues.push({ path: "rebalance_weekday", message: 'A trading weekday needs rebalance "weekly".' });
+  }
+
   // Period.
   for (const k of ["start", "end"] as const) {
     const v = spec.period[k];
@@ -371,6 +382,19 @@ function sizingText(p: Extract<Portfolio, { mode: "rules" }>): string {
 }
 
 const EVERY: Record<string, string> = { daily: "session", weekly: "week", monthly: "month", quarterly: "quarter" };
+const WEEKDAYS = ["", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+
+/** "On the last session of each week" or, with a trading weekday, when that happens. */
+function rebalanceWhen(spec: StrategySpecV2): { decide: string; trade: string } {
+  const wd = spec.rebalance === "weekly" && spec.rebalance_weekday ? WEEKDAYS[spec.rebalance_weekday] : null;
+  if (wd) return { decide: `Each week, on the close of the session before ${wd}`, trade: `at ${wd}'s open (the next session when ${wd} is a market holiday)` };
+  return { decide: `On the last session of each ${EVERY[spec.rebalance]}`, trade: "from the next open" };
+}
+
+/** A typed list in the rules: in full up to 40 tickers, else the first 20 and a count. */
+function tickerList(tickers: string[]): string {
+  return tickers.length <= 40 ? tickers.join(", ") : `${tickers.slice(0, 20).join(", ")} and ${tickers.length - 20} more`;
+}
 
 export function describeSpec(spec: StrategySpecV2, uses?: Uses): SpecDescription {
   const tickers = universeTickers(spec);
@@ -385,7 +409,7 @@ export function describeSpec(spec: StrategySpecV2, uses?: Uses): SpecDescription
       const u = UNIVERSES[spec.universe.base as UniverseBase];
       rules.push(`Universe: ${u.label} (${u.tickers.length} tickers, today's membership)${spec.universe.filter ? `, only while ${d(spec.universe.filter)}` : ""}.`);
     } else {
-      rules.push(tickers.length === 1 ? `Trades ${tickers[0]}.` : `Trades any of ${tickers.length} tickers: ${tickers.join(", ")}.`);
+      rules.push(tickers.length === 1 ? `Trades ${tickers[0]}.` : `Trades any of ${tickers.length} tickers: ${tickerList(tickers)}.`);
     }
   }
   const when = clock === "preopen" ? "at 09:15 New York time, using the previous close," : "on the close,";
@@ -426,13 +450,19 @@ export function describeSpec(spec: StrategySpecV2, uses?: Uses): SpecDescription
             ? `the top ${p.select.n}`
             : `the top ${spec.params[p.select.n.slice(1)]?.value ?? "?"} (${p.select.n})`
           : `the ${Math.round(p.select.quantile[0] * 100)}th to ${Math.round(p.select.quantile[1] * 100)}th percentile`;
-      rules.push(`On the last session of each ${EVERY[spec.rebalance]}, ranks the tickers with data by ${d(p.score)}, ${p.order === "desc" ? "highest" : "lowest"} first${p.filter ? `, among those where ${d(p.filter)}` : ""}.`);
-      rules.push(`Holds ${sel} from the next open, ${p.weighting === "equal" ? "at equal weight" : p.weighting === "score" ? "weighted by score" : "weighted by inverse 63-session volatility"}; everything else is sold.`);
+      const when = rebalanceWhen(spec);
+      rules.push(`${when.decide}, ranks the tickers with data by ${d(p.score)}, ${p.order === "desc" ? "highest" : "lowest"} first${p.filter ? `, among those where ${d(p.filter)}` : ""}.`);
+      rules.push(`Holds ${sel} ${when.trade}, ${p.weighting === "equal" ? "at equal weight" : p.weighting === "score" ? "weighted by score" : "weighted by inverse 63-session volatility"}; everything else is sold.`);
       break;
     }
     case "weights": {
       for (const [t, f] of Object.entries(p.weights)) rules.push(`Holds ${t} at a weight of ${d(f)}.`);
-      rules.push(`Weights are set on the close of the last session of each ${EVERY[spec.rebalance]} and traded at the next open; weights above 100% in total are scaled down.`);
+      const when = rebalanceWhen(spec);
+      rules.push(
+        spec.rebalance_weekday && spec.rebalance === "weekly"
+          ? `${when.decide}, weights are set and traded ${when.trade}; weights above 100% in total are scaled down.`
+          : `Weights are set on the close of the last session of each ${EVERY[spec.rebalance]} and traded at the next open; weights above 100% in total are scaled down.`,
+      );
       break;
     }
     case "event_study": {

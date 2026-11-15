@@ -13,6 +13,10 @@
  *   appear in text the person typed (or be SPY, the market reference, or come
  *   from a Falcon universe or the spec being edited). Otherwise the turn
  *   becomes a question asking which tickers.
+ * - Long ticker lists (12 or more) are cut out of the text in code
+ *   (ai/lists.ts): the model sees a handle such as "L1" and writes
+ *   {"kind": "list", "list": "L1"}; the list is filled back in here. More
+ *   than 500 tickers is refused with a plain message.
  * - Every model sentence passes neutralize(); the rules shown come from
  *   describe(spec), never from the model.
  */
@@ -24,6 +28,7 @@ import { neutralize, neutralizeList } from "../neutralize";
 import { DEFAULT_SPEC_FIELDS, describeSpec, universeTickers, validateSpec, type SpecDescription, type SpecIssue, type StrategySpecV2 } from "../spec";
 import { parse, walk } from "../fsl/parse";
 import { UNIVERSES } from "../universes";
+import { LIST_MIN_TICKERS, MAX_LIST_TICKERS, expandListUniverse, findTickerLists, listHandle, normalizeTicker, withHandles, type TickerList } from "./lists";
 import { CONVERSE_SYSTEM, PROMPT_VERSION } from "./prompts";
 import { costUsd, type Usage } from "./usage";
 
@@ -112,7 +117,15 @@ type BetaMessage = {
  * get their defaults, tickers are upper-cased. zod and the type checker run
  * afterwards. Returns null when the text is not a JSON object.
  */
-export function modelToSpec(json: string, intent: string, clarifications: { q: string; a: string }[]): StrategySpecV2 | null {
+export function modelToSpec(
+  json: string,
+  intent: string,
+  clarifications: { q: string; a: string }[],
+  /** Ticker lists cut out of the text, by handle ("L1"); a universe of kind "list" names one. */
+  lists: Map<string, string[]> = new Map(),
+  /** Problems the model can fix (an unknown list handle) are added here. */
+  problems: string[] = [],
+): StrategySpecV2 | null {
   let raw: unknown;
   try {
     raw = JSON.parse(json);
@@ -139,13 +152,18 @@ export function modelToSpec(json: string, intent: string, clarifications: { q: s
     holdout: "off",
   } as Record<string, unknown>;
   delete spec.legacy;
+  const expanded = expandListUniverse(spec.universe, lists);
+  if (expanded.error) problems.push(`universe: ${expanded.error}`);
+  spec.universe = expanded.universe;
+  if (spec.rebalance_weekday === undefined || spec.rebalance_weekday === 0) spec.rebalance_weekday = null;
+  if (spec.rebalance_weekday !== null) spec.rebalance = "weekly";
   const u = obj(spec.universe);
-  if (u && Array.isArray(u.tickers)) u.tickers = u.tickers.map((t) => (typeof t === "string" ? t.trim().toUpperCase() : t));
+  if (u && Array.isArray(u.tickers)) u.tickers = u.tickers.map((t) => (typeof t === "string" ? normalizeTicker(t) : t));
   if (u && u.kind === "rule" && u.filter === undefined) u.filter = null;
   const p = obj(spec.portfolio);
   if (p?.mode === "weights" && obj(p.weights)) {
     const w: Record<string, unknown> = {};
-    for (const [k, v] of Object.entries(obj(p.weights)!)) w[k.trim().toUpperCase()] = v;
+    for (const [k, v] of Object.entries(obj(p.weights)!)) w[normalizeTicker(k)] = v;
     p.weights = w;
     if (!u || u.kind !== "static") spec.universe = { kind: "static", tickers: Object.keys(w) };
     else u.tickers = Object.keys(w);
@@ -204,9 +222,10 @@ function mentions(text: string, ticker: string): boolean {
 }
 
 /** Tickers in the spec the person never typed (SPY, Falcon universes and the spec being edited are allowed). */
-export function untypedTickers(spec: StrategySpecV2, input: ConverseInput): string[] {
+export function untypedTickers(spec: StrategySpecV2, input: ConverseInput, lists: Map<string, string[]> = new Map()): string[] {
   const typed = [input.intent, input.edit?.request ?? "", ...input.answers.filter((a) => a.typed).map((a) => a.a)].join("\n");
   const allowed = new Set<string>(["SPY"]);
+  lists.forEach((l) => l.forEach((t) => allowed.add(t)));
   if (input.edit) specTickers(input.edit.current).forEach((t) => allowed.add(t));
   if (spec.universe.kind === "rule") UNIVERSES[spec.universe.base].tickers.forEach((t) => allowed.add(t));
   return specTickers(spec).filter((t) => !allowed.has(t) && !mentions(typed, t));
@@ -245,21 +264,58 @@ function clientFor(opts: ConverseOptions, timeoutMs: number): MessagesClient | n
   return new Anthropic({ apiKey, timeout: timeoutMs, maxRetries: 0 }) as unknown as MessagesClient;
 }
 
-function userMessage(input: ConverseInput, now: Date): string {
+/** Every long ticker list in the conversation, each text with handles in place of its lists, and the lists by handle. */
+export type ListedInput = {
+  intent: string;
+  request: string;
+  answers: string[];
+  /** The current spec for an edit, with a long static universe as list L0 and without intent or clarifications. */
+  current: Record<string, unknown> | null;
+  lists: Map<string, string[]>;
+};
+
+export function listInput(input: ConverseInput): ListedInput {
+  const lists = new Map<string, string[]>();
+  let next = 1;
+  const cut = (text: string) => {
+    const found: TickerList[] = findTickerLists(text, LIST_MIN_TICKERS, next);
+    next += found.length;
+    found.forEach((l) => lists.set(l.id, l.tickers));
+    return found.length ? withHandles(text, found) : text;
+  };
+  const intent = cut(input.intent);
+  const request = cut(input.edit?.request ?? "");
+  const answers = input.answers.map((a) => (a.typed ? cut(a.a) : a.a));
+  let current: Record<string, unknown> | null = null;
+  if (input.edit) {
+    const { intent: _i, clarifications: _c, ...rest } = input.edit.current as StrategySpecV2;
+    current = structuredClone(rest) as Record<string, unknown>;
+    const u = input.edit.current.universe;
+    if (u?.kind === "static" && Array.isArray(u.tickers) && u.tickers.length >= LIST_MIN_TICKERS) {
+      lists.set("L0", u.tickers.map(normalizeTicker));
+      current.universe = { kind: "list", list: "L0" };
+    }
+  }
+  return { intent, request, answers, current, lists };
+}
+
+function userMessage(input: ConverseInput, listed: ListedInput, now: Date): string {
   const asked = input.questionsAsked ?? input.answers.length;
   const parts = [
     `Today's date: ${now.toISOString().slice(0, 10)}`,
     `Questions asked so far: ${asked} of ${MAX_QUESTIONS}.${asked >= MAX_QUESTIONS ? " No questions are left: compile with defaults stated as assumptions." : ""}`,
-    `<strategy_description>\n${input.intent}\n</strategy_description>`,
+    `<strategy_description>\n${listed.intent}\n</strategy_description>`,
   ];
   if (input.answers.length) {
     parts.push(
-      `<answers>\n${input.answers.map((a) => `Q: ${a.q}\nA (${a.typed ? "typed by the person" : "tapped option"}): ${a.a}`).join("\n")}\n</answers>`,
+      `<answers>\n${input.answers.map((a, i) => `Q: ${a.q}\nA (${a.typed ? "typed by the person" : "tapped option"}): ${listed.answers[i]}`).join("\n")}\n</answers>`,
     );
   }
   if (input.edit) {
-    parts.push(`<current_spec>\n${JSON.stringify(input.edit.current)}\n</current_spec>`);
-    parts.push(`<edit_request>\n${input.edit.request}\n</edit_request>`);
+    const l0 = listed.lists.get("L0");
+    if (l0) parts.push(`The current spec's universe is ${listHandle({ id: "L0", tickers: l0 }, "from the current spec")}; keep {"kind": "list", "list": "L0"} unless the edit changes the tickers.`);
+    parts.push(`<current_spec>\n${JSON.stringify(listed.current)}\n</current_spec>`);
+    parts.push(`<edit_request>\n${listed.request}\n</edit_request>`);
   }
   return parts.join("\n\n");
 }
@@ -301,6 +357,16 @@ function parseOut(m: BetaMessage): TurnOutputT | null {
 export async function converse(input: ConverseInput, opts: ConverseOptions = {}): Promise<ConverseResult> {
   const intent = (input.intent ?? "").trim();
   if (!intent) return { kind: "error", reason: "empty", message: "Describe a strategy to test." };
+  const listed = listInput({ ...input, intent });
+  const named = new Set(Array.from(listed.lists.values()).flat());
+  const longest = Math.max(0, ...Array.from(listed.lists.values()).map((l) => l.length));
+  if (longest > MAX_LIST_TICKERS || named.size > MAX_LIST_TICKERS) {
+    return {
+      kind: "error",
+      reason: "too_long",
+      message: `That list has ${Math.max(longest, named.size)} tickers; Falcon tests up to ${MAX_LIST_TICKERS} at a time. Shorten the list (for example to the ${MAX_LIST_TICKERS} you care about most) and send it again.`,
+    };
+  }
   const total = [intent, input.edit?.request ?? "", ...input.answers.map((a) => a.a)].join("").length;
   if (total > MAX_TEXT_CHARS) return { kind: "error", reason: "too_long", message: `Keep the description under ${MAX_TEXT_CHARS} characters.` };
   const budget = opts.timeoutMs ?? 50_000;
@@ -309,7 +375,7 @@ export async function converse(input: ConverseInput, opts: ConverseOptions = {})
   if (!client) return { kind: "error", reason: "unavailable", message: "The strategy assistant is not configured on this server." };
   const now = opts.now ?? new Date();
   const usage: Usage = { model: CONVERSE_MODEL, calls: 0, inputTokens: 0, outputTokens: 0, cacheReadTokens: 0, cacheWriteTokens: 0, usd: 0, promptVersion: PROMPT_VERSION };
-  const messages: unknown[] = [{ role: "user", content: userMessage({ ...input, intent }, now) }];
+  const messages: unknown[] = [{ role: "user", content: userMessage({ ...input, intent }, listed, now) }];
   const clarifications = input.answers.map((a) => ({ q: a.q, a: a.a }));
   const asked = input.questionsAsked ?? input.answers.length;
 
@@ -351,15 +417,17 @@ export async function converse(input: ConverseInput, opts: ConverseOptions = {})
       if (asked < MAX_QUESTIONS && qs.length) return { kind: "questions", questions: qs.slice(0, MAX_QUESTIONS - asked), assumptions, usage };
       problems = [asked >= MAX_QUESTIONS ? "No questions are left; return a spec with defaults stated as assumptions." : "The questions need 2 to 4 answer options each."];
     } else {
-      const spec = modelToSpec(out.spec_json, intent, clarifications);
+      const listProblems: string[] = [];
+      const spec = modelToSpec(out.spec_json, intent, clarifications, listed.lists, listProblems);
       if (!spec) problems = ['outcome is "spec" but spec_json is not a JSON object.'];
+      else if (listProblems.length) problems = listProblems;
       else {
       const check = validateSpec(spec, now);
       if (!check.ok) {
         issues = check.issues;
         problems = check.issues.map((i) => `${i.path}: ${i.message}${i.hint ? ` (${i.hint})` : ""}`);
       } else {
-        const untyped = untypedTickers(check.spec, { ...input, intent });
+        const untyped = untypedTickers(check.spec, { ...input, intent }, listed.lists);
         if (untyped.length) {
           problems = [`The tickers ${untyped.join(", ")} were not typed by the person. Do not choose tickers; ask which tickers they mean (outcome "questions"), or use a Falcon universe.`];
           if (attempt === 1 || asked >= MAX_QUESTIONS) {

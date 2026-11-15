@@ -160,12 +160,19 @@ export function runChecked(check: CheckedSpec, opts: RunOptionsV2): RunResultV2 
     warnings.push("Sightings history is not connected to the backtester yet, so ripple.* rules never fire in this run.");
   }
   if (opts.data.flags.ratesFallback && !spec.legacy) warnings.push("The T-bill rate (FRED DTB3) could not be loaded, so cash earned 0% and Sharpe used a 0% risk-free rate.");
+  const missing: string[] = [];
   for (const t of universe) {
     const c = prep.panel.col.get(t)!;
     const T = prep.panel.dates.length;
     let any = false;
     for (let i = prep.startIndex; i <= prep.endIndex && !any; i++) any = prep.panel.has[c * T + i] === 1;
-    if (!any) warnings.push(`${t}: no price data in the test window, left out.`);
+    if (!any) missing.push(t);
+  }
+  if (missing.length === 1) warnings.push(`${missing[0]}: no price data in the test window, left out.`);
+  else if (missing.length > 1) {
+    warnings.push(
+      `${missing.length} of ${universe.length} tickers have no price data in the test window and were left out (unknown symbols, new listings or delisted names): ${missing.slice(0, 30).join(", ")}${missing.length > 30 ? ` and ${missing.length - 30} more` : ""}.`,
+    );
   }
 
   if (p.mode === "event_study") {
