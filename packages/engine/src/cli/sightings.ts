@@ -18,8 +18,8 @@
  *   --no-history          leave every hit's history null (no price or past-filing reads)
  *   --no-coverage         do not read analyst coverage from Yahoo (no coverage boost)
  *   --out FILE            where to write the feed (default out/sightings.json)
- *   --max-judge-calls 40  cost guard: judge calls this run at most (src/vote.ts)
- *   --max-judge-usd 0.75  cost guard: judge dollars this run at most, from measured usage
+ *   --max-judge-calls 80  cost guard: judge calls this run at most (src/vote.ts)
+ *   --max-judge-usd 2     cost guard: judge dollars this run at most, from measured usage
  *   --detector-usd 0.5    cost guard: detector model dollars this run (Haiku reads 8-Ks,
  *                         13Ds and 4.02 notices; cached in .cache/llm). 0 turns those
  *                         detectors off
@@ -59,7 +59,7 @@ import { judgeCostUsd } from "../judge.ts";
 import { DEFAULT_MAX_CALLS, DEFAULT_MAX_JUDGE_USD } from "../vote.ts";
 import { DEFAULT_DETECTOR_BUDGET_USD, llmUsage } from "../detectors/llm.ts";
 import { fileJudgmentStore, pgJudgmentStore, writeForecasts, type JudgmentStore } from "../ledger.ts";
-import type { Liquidity } from "../quality.ts";
+import { liquidityOf, type Liquidity } from "../quality.ts";
 import type { MarketData } from "../market.ts";
 import { EXIT, exitReason, runExitCode, summaryLines, warningLines, type Publish } from "../summary.ts";
 import { publishCards } from "../supabase.ts";
@@ -95,17 +95,7 @@ function liquidityFrom(market: MarketData): (ticker: string) => Promise<Liquidit
   return async (ticker) => {
     const to = new Date().toISOString().slice(0, 10);
     const from = new Date(Date.now() - 40 * 86_400_000).toISOString().slice(0, 10);
-    const rows = await market.dailyCloses(ticker, from, to);
-    const last = rows[rows.length - 1];
-    if (!last) return null;
-    const dv = rows.slice(-20).map((r) => r.dollarVolume).filter((v): v is number => typeof v === "number" && Number.isFinite(v));
-    let median: number | null = null;
-    if (dv.length >= 10) {
-      const sorted = [...dv].sort((a, b) => a - b);
-      const m = sorted.length >> 1;
-      median = sorted.length % 2 ? sorted[m]! : (sorted[m - 1]! + sorted[m]!) / 2;
-    }
-    return { price: last.rawClose ?? last.close, medianDollarVolume20d: median };
+    return liquidityOf(await market.dailyCloses(ticker, from, to));
   };
 }
 

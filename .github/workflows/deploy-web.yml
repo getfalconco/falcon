@@ -11,6 +11,8 @@ on:
       - "apps/web/**"
       - "packages/ui/**"
       - "packages/tailwind-config/**"
+      # GET /api/graph serves this file, split per ticker at build time.
+      - "packages/engine/data/graph.json"
       - "netlify.toml"
       - "pnpm-lock.yaml"
       - ".github/workflows/deploy-web.yml"

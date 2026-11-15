@@ -126,6 +126,28 @@ export const OWN_ESTIMATE_FROM_YEAR = 2015;
 
 export type Liquidity = { price: number | null; medianDollarVolume20d: number | null };
 
+/**
+ * Liquidity from daily closes, oldest first: the last close as printed (the
+ * adjusted one when the source has no printed close) and the median dollar
+ * volume of the last 20 sessions (null under 10 sessions with volume). Null
+ * without any close. Pure.
+ */
+export function liquidityOf(rows: ReadonlyArray<{ close: number; rawClose?: number; dollarVolume?: number }>): Liquidity | null {
+  const last = rows[rows.length - 1];
+  if (!last) return null;
+  const dv = rows
+    .slice(-20)
+    .map((r) => r.dollarVolume)
+    .filter((v): v is number => typeof v === "number" && Number.isFinite(v));
+  let median: number | null = null;
+  if (dv.length >= 10) {
+    const sorted = [...dv].sort((a, b) => a - b);
+    const m = sorted.length >> 1;
+    median = sorted.length % 2 ? sorted[m]! : (sorted[m - 1]! + sorted[m]!) / 2;
+  }
+  return { price: last.rawClose ?? last.close, medianDollarVolume20d: median };
+}
+
 /** Price above $5 and, when known, 20-day median dollar volume of $5M or more. Pure. */
 export function isLiquid(l: Liquidity | null | undefined): boolean {
   if (!l || l.price === null || !Number.isFinite(l.price) || !(l.price > MIN_PRICE_USD)) return false;

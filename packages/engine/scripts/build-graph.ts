@@ -1,5 +1,6 @@
 /**
- * Builds data/graph.json, the engine's seed graph, from two sources:
+ * Builds data/graph-seed.json, the engine's seed graph (scripts/graph-merge.ts
+ * adds the whole-market extraction to it to make data/graph.json), from two sources:
  *
  *   1. The graph the old step1 pipeline extracted from 10-K and 20-F filings
  *      (removed from the tree on 2026-11-08; read from git history, or from a
@@ -18,10 +19,12 @@ import { execFileSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import { ENGINE_ROOT } from "../src/http.ts";
-import { GRAPH_PATH, type EdgeCategory, type Graph, type GraphEdge, type StrengthTier } from "../src/graph.ts";
+import { SEED_GRAPH_PATH as GRAPH_PATH, type EdgeCategory, type Graph, type GraphEdge, type StrengthTier } from "../src/graph.ts";
 import { cikForTicker, documentText, recentFilings } from "../src/sec.ts";
 import { quoteInDocument } from "../src/text.ts";
 import { NAMES, SECTORS } from "../src/universe.ts";
+import { BIOGRAPHY, NOT_A_BUSINESS_LINK } from "../src/graph/extract.ts";
+import { SEED_ALIASES } from "../src/graph/resolve.ts";
 
 const OLD_REV = "682ec64^:apps/desktop/data/graph.json";
 const REPO_ROOT = path.resolve(ENGINE_ROOT, "..", "..");
@@ -43,28 +46,13 @@ type OldEdge = {
 type OldGraph = { nodes: Array<{ id: string; label: string }>; edges: OldEdge[] };
 
 /**
- * Names the old extraction left without a ticker that do have one we use:
- * subsidiaries are read as their listed parent (SPIL and ASE are ASE
- * Technology Holding; Microsemi is Microchip; Ansys is Synopsys).
+ * Names the old extraction left without a ticker that do have one we use
+ * (src/graph/resolve.ts SEED_ALIASES); quotes that describe a person's
+ * career, not a business link (the old extraction read some 20-F director
+ * biographies as partnerships), and names that are banks or depositaries
+ * (src/graph/extract.ts, shared with graph extraction).
  */
-const ALIASES: Array<[RegExp, string]> = [
-  [/^Advanced Semiconductor Engineering/i, "ASX"],
-  [/^Siliconware Precision Industries/i, "ASX"],
-  [/^ASE Technology/i, "ASX"],
-  [/^Arrow( Electronics)?$/i, "ARW"],
-  [/^Avnet/i, "AVT"],
-  [/^Microsemi/i, "MCHP"],
-  [/^Ansys$/i, "SNPS"],
-];
-
-/**
- * Quotes that describe a person's career ("he served at Intel Corp. as ..."),
- * not a business link between the companies: the old extraction read some
- * 20-F director biographies as partnerships. And names that are banks or
- * depositaries (an ADR's depositary is not a supplier in any useful sense).
- */
-const BIOGRAPHY = /\b(served|serves|serving) (at|as|in)\b|prior to (that|joining)|\b(Mr|Ms|Mrs|Dr)\. [A-Z]|\b(is|was) (currently )?the (Chairman|Director|Chief)|\bthe Director of\b|board of directors of/i;
-const NOT_A_BUSINESS_LINK = /\b(bank|citibank|depositary|depository|clearing|trust company)\b/i;
+const ALIASES = SEED_ALIASES;
 
 const COMPANY_TYPES = /^(public_company|private_company|company|subsidiary|subsidiary_of_public_company|technology company|joint_venture|brand_of_public_company)$/;
 

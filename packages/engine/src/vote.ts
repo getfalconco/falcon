@@ -32,13 +32,17 @@ import { checkAnswer, type Judge, type JudgeRequest, type ValidatedAnswer } from
 
 export const FIRST_ROUND = 3;
 export const SECOND_ROUND = 2;
-/** Judge calls per run at most (5 events: 15 in a quiet run, 25 if every event escalates, plus retries). */
-export const DEFAULT_MAX_CALLS = 40;
+/**
+ * Judge calls per run at most. The whole-market graph (2026-11) links far
+ * more events to other companies (a week's dry run: 33 linked events, up
+ * from 6), and at 40 calls a run left 23 for the next one.
+ */
+export const DEFAULT_MAX_CALLS = 80;
 
 export type VoteSplit = { up: number; down: number; unclear: number; excluded: number };
 
-/** Dollars of judge calls per run at most (design 5.2, M1a hard cap). */
-export const DEFAULT_MAX_JUDGE_USD = 0.75;
+/** Dollars of judge calls per run at most (design 5.2's M1a cap of $0.75, raised to $2 with the whole-market graph). */
+export const DEFAULT_MAX_JUDGE_USD = 2;
 
 /**
  * The run's call budget; `used` counts every call made, failed ones too.

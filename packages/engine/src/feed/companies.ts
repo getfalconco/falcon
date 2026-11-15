@@ -74,7 +74,31 @@ export function normalizeCompanyName(name: string): string {
     .trim();
 }
 
-/** The listed filer a counterparty name refers to, by its normalized name. */
+/**
+ * Words a subsidiary's name adds to its parent's without naming another
+ * company: places, legal forms the normalizer keeps, and plain trade words
+ * ("BioNTech US", "Dynatrace Software", "Frontier Airlines"). A word outside
+ * this list ("GBT" in "American Express GBT") may name a different company.
+ */
+export const SUBSIDIARY_WORDS = new Set(
+  (
+    "us usa u s america americas north south latin europe european emea uk asia pacific apac china japan korea india canada mexico brazil germany deutschland france italia italy spain netherlands ireland singapore australia taiwan international global worldwide " +
+    "gmbh bv b v kk k k pte pty sas srl spa s p a ab as a s oy oyj asa sarl kg ltda de cv " +
+    "software systems networks semiconductor semiconductors electronics solutions services service industries pharmaceuticals pharmaceutical pharma therapeutics biosciences sciences health healthcare airlines airline airways motor motors automotive energy labs laboratories brands products manufacturing sales distribution chemical chemicals operations operating division and of"
+  ).split(" "),
+);
+
+/** First words too common to stand for one company on their own ("American" is not American Express). */
+export const GENERIC_FIRST_WORDS = new Set(
+  "american united general national international global first new great southern northern western eastern pacific atlantic central royal standard universal advanced applied digital data energy health capital community premier summit pioneer liberty union federal continental allied consolidated integrated precision".split(" "),
+);
+
+/**
+ * The listed filer a counterparty name refers to, by its normalized name:
+ * the whole name, or a subsidiary named after its listed parent when the
+ * words after the parent's name are only subsidiary words (`SUBSIDIARY_WORDS`)
+ * and the parent's name is more than one generic word.
+ */
 export function matchListed(name: string, l: Listings): Listing | null {
   const n = normalizeCompanyName(name);
   if (n.length < 3) return null;
@@ -82,7 +106,11 @@ export function matchListed(name: string, l: Listings): Listing | null {
   const tokens = n.split(" ");
   for (let k = tokens.length; k >= 1; k--) {
     const key = tokens.slice(0, k).join(" ");
-    if (k < tokens.length && key.length < 5) break;
+    if (k < tokens.length) {
+      if (key.length < 5) break;
+      if (k === 1 && GENERIC_FIRST_WORDS.has(key)) break;
+      if (!tokens.slice(k).every((w) => SUBSIDIARY_WORDS.has(w))) continue;
+    }
     const cik = l.byName.get(key);
     if (cik) return l.byCik.get(cik) ?? null;
   }
