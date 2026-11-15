@@ -139,21 +139,21 @@ export class DatabentoClient {
     throw new DatabentoError(0, `Databento ${endpoint} failed after ${attempts} tr${attempts === 1 ? "y" : "ies"}: ${why}`);
   }
 
-  private async metadata<T>(endpoint: string, params: Record<string, string>): Promise<T> {
-    const res = await this.call("GET", endpoint, params);
+  private async metadata<T>(endpoint: string, params: Record<string, string>, method: "GET" | "POST" = "GET"): Promise<T> {
+    const res = await this.call(method, endpoint, params);
     return JSON.parse(await res.text()) as T;
   }
 
-  /** Free: Databento's price estimate in USD for a get_range request. */
+  /** Free: Databento's price estimate in USD for a get_range request (POSTed: a universe of symbols overflows a GET URL). */
   async getCost(req: RangeRequest): Promise<number> {
-    const v = await this.metadata<number>("metadata.get_cost", costParams(req));
+    const v = await this.metadata<number>("metadata.get_cost", costParams(req), "POST");
     if (typeof v !== "number" || !Number.isFinite(v)) throw new DatabentoError(0, "get_cost: unexpected answer");
     return v;
   }
 
-  /** Free: record count estimate for a get_range request. */
+  /** Free: record count estimate for a get_range request (POSTed, like getCost). */
   getRecordCount(req: RangeRequest): Promise<number> {
-    return this.metadata<number>("metadata.get_record_count", costParams(req));
+    return this.metadata<number>("metadata.get_record_count", costParams(req), "POST");
   }
 
   /** Free: {start, end, schema: {name: {start, end}}}. */
