@@ -28,7 +28,7 @@ import type { MarketData } from "../market.ts";
 import { addDays, isNyseEarlyClose, nyInstantMs, nyseSessions } from "../study/abnormal.ts";
 import { BudgetError, DatabentoClient, DatabentoError, fetchStockSpot, quotesAt, type PullOptions } from "./client.ts";
 import { betaFromCloses, chainProblem, latestOnOrBefore, tickerOptionsFrom, type TickerOptions } from "./cards.ts";
-import { dividendYieldOn, fetchDividends, fetchDtb3, parseFredCsv, rateOn } from "./rates.ts";
+import { discountToContinuous, dividendYieldOn, fetchDividends, fetchDtb3, parseFredCsv, rateOn } from "./rates.ts";
 import { definitionsFromRecords, osiRoot, recordsByRoot } from "./study-options.ts";
 import { surfaceFeatures, type SurfaceFeatures } from "./surface.ts";
 
@@ -221,12 +221,26 @@ export async function priceChains(tickers: readonly string[], ctx: ChainsContext
   let shared: Promise<Shared> | null = null;
   const loadShared = (): Promise<Shared> => {
     shared ??= (async () => {
-      const rate = await fetchDtb3()
+      let rate = await fetchDtb3()
         .then((p) => rateOn(p, date))
         .catch(() => null);
-      const vixPct = await plainGet(VIX_URL, { maxAgeMs: 12 * HOUR_MS, staleOk: true })
+      let vixPct = await plainGet(VIX_URL, { maxAgeMs: 12 * HOUR_MS, staleOk: true })
         .then((t) => latestOnOrBefore(parseFredCsv(t), date))
         .catch(() => null);
+      // FRED does not answer GitHub's runners: Yahoo's ^VIX close and ^IRX (13-week bill yield, percent) instead.
+      const yahooOn = async (symbol: string): Promise<number | null> => {
+        if (!ctx.market) return null;
+        const rows = await ctx.market.dailyCloses(symbol, addDays(date, -10), date).catch(() => []);
+        return latestOnOrBefore(rows.map((r) => ({ date: r.date, pct: r.rawClose ?? r.close })), date);
+      };
+      if (vixPct === null) {
+        vixPct = await yahooOn("^VIX");
+        if (vixPct !== null) log(`options: VIX from Yahoo (FRED unavailable): ${vixPct.toFixed(2)}`);
+      }
+      if (rate === null) {
+        const irx = await yahooOn("^IRX");
+        if (irx !== null && irx > 0 && irx < 25) rate = discountToContinuous(irx);
+      }
       const spy = ctx.market ? await ctx.market.dailyCloses("SPY", addDays(date, -420), date).catch(() => []) : [];
       return { rate, vix: vixPct === null ? null : vixPct / 100, spy };
     })();
