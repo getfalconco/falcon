@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { ReactNode } from "react";
-import { Columns2, FlaskConical, LayoutGrid, LifeBuoy, LineChart, LogOut, PanelLeft, Target, Waypoints, X, Zap } from "lucide-react";
+import { Columns2, LayoutGrid, LifeBuoy, LineChart, LogOut, Sparkles, Waypoints, X, Zap } from "lucide-react";
 import type { TabKind } from "@/lib/workspace/layout";
 import type { Icon } from "./shell/ui";
 import { useDragDock, type DragPayload } from "./split/dnd";
@@ -10,29 +10,29 @@ import { useDragDock, type DragPayload } from "./split/dnd";
 /**
  * Desktop left rail on the gray page. Icons only by default (56px); hovering
  * or tabbing into it grows it in place to the full sidebar (the main area
- * narrows to make room), and the pin keeps it open. Main views,
- * the open tickers, sightings and strategies, and secondary links at the
- * bottom. Each item has a round split button on the rail's edge; the two
+ * narrows to make room). Main views and secondary links at the bottom. Each item has a round split button on the rail's edge; the two
  * items on screen in split view keep theirs, marked in violet.
  */
 
-export type NavId = "dashboard" | "focus" | "sightings" | "graph" | "strategy";
+export type NavId = "dashboard" | "sightings" | "graph" | "strategy";
 
 export const TAB_ICON: Record<TabKind, Icon> = {
   dashboard: LayoutGrid,
   graph: Waypoints,
   ticker: LineChart,
   sighting: Zap,
-  strategy: FlaskConical,
+  strategy: Sparkles,
 };
 
 export const NAV: { id: NavId; label: string; icon: Icon }[] = [
   { id: "dashboard", label: "Dashboard", icon: LayoutGrid },
-  { id: "focus", label: "Focus list", icon: Target },
   { id: "sightings", label: "Sightings", icon: Zap },
   { id: "graph", label: "Graph", icon: Waypoints },
-  { id: "strategy", label: "Strategy Lab", icon: FlaskConical },
+  { id: "strategy", label: "Falcon AI", icon: Sparkles },
 ];
+
+/** Items shown in the rail; the Sightings list opens from See all on the Dashboard. */
+const RAIL_IDS: ReadonlySet<NavId> = new Set<NavId>(["dashboard", "graph", "strategy"]);
 
 /** The view a nav item shows; Strategy Lab depends on which strategy, so it has none. */
 export function navTarget(id: NavId): string | null {
@@ -44,23 +44,6 @@ export type OpenItem = { id: string; kind: TabKind; title: string; ticker?: stri
 const ACCENT = "rgb(var(--f-iris))";
 const COLLAPSED = 56;
 const EXPANDED = 200;
-const PIN_KEY = "falcon.rail.v1";
-
-export function readRailPinned(userId: string): boolean {
-  try {
-    return localStorage.getItem(`${PIN_KEY}:${userId}`) === "pinned";
-  } catch {
-    return false;
-  }
-}
-
-export function writeRailPinned(userId: string, pinned: boolean): void {
-  try {
-    localStorage.setItem(`${PIN_KEY}:${userId}`, pinned ? "pinned" : "rail");
-  } catch {
-    // Storage blocked: the choice lasts for this visit.
-  }
-}
 
 type Tip = { text: string; x: number; y: number; arrow: boolean } | null;
 
@@ -92,40 +75,24 @@ const LABEL = `min-w-0 truncate ${LABEL_FADE}`;
 const ROW = "flex h-9 w-full items-center gap-2.5 rounded-lg px-3 text-left text-fs-14 outline-none transition-colors focus-visible:ring-2 focus-visible:ring-line/20";
 
 export function Sidebar({
-  pinned,
-  onTogglePin,
   current,
-  activeTarget,
   marked,
   primaryTarget,
-  openItems,
   onNav,
-  onSelectTab,
-  onCloseTab,
-  onMoveTab,
   onSplit,
   onCloseSplit,
   onHelp,
   onSignOut,
   status,
 }: {
-  pinned: boolean;
-  onTogglePin: () => void;
   /** The nav item with the active fill (the focused pane's view). */
   current: NavId | null;
-  /** The focused pane's target, for the open items' active fill. */
-  activeTarget: string | null;
   /** Targets on screen while split: their round buttons stay, in violet. */
   marked: ReadonlySet<string>;
   /** The view in the main card when not split; it cannot be split with itself. */
   primaryTarget: string | null;
-  openItems: OpenItem[];
   onNav: (id: NavId) => void;
-  onSelectTab: (id: string) => void;
-  onCloseTab: (id: string) => void;
-  /** Moves an open item up (-1) or down (+1) among the open items. */
-  onMoveTab: (id: string, delta: -1 | 1) => void;
-  /** Opens a nav item or an open item (by target) next to the current view. */
+  /** Opens a nav item (or any target) next to the current view. */
   onSplit: (item: { nav: NavId } | { target: string }) => void;
   onCloseSplit: (target: string) => void;
   onHelp: () => void;
@@ -154,7 +121,7 @@ export function Sidebar({
   }, []);
   const { tip, show, hide } = useTip();
   const { begin } = useDragDock();
-  const expanded = pinned || ((hover || focusIn) && !suppressed);
+  const expanded = ((hover || focusIn) && !suppressed);
   /** Opacity for what shows only expanded, and for what shows only collapsed. */
   const wide = expanded ? "opacity-100" : "opacity-0";
   const narrow = expanded ? "opacity-0" : "opacity-100";
@@ -250,27 +217,15 @@ export function Sidebar({
         }}
         onPointerDown={() => setFocusIn(false)}
         onKeyDown={(e) => {
-          if (e.key === "Escape" && expanded && !pinned) {
+          if (e.key === "Escape" && expanded) {
             e.preventDefault();
             setSuppressed(true);
             hide();
           }
         }}
       >
-        <div className="flex h-9 shrink-0 items-center gap-1.5">
-          <button
-            type="button"
-            onClick={onTogglePin}
-            aria-pressed={pinned}
-            aria-label={pinned ? "Unpin the sidebar" : "Pin the sidebar open"}
-            {...nameTip(pinned ? "Unpin sidebar" : "Pin sidebar open")}
-            className={`flex h-8 w-10 shrink-0 items-center justify-center rounded-lg outline-none transition-colors hover:bg-line/[0.05] focus-visible:ring-2 focus-visible:ring-line/20 ${
-              pinned ? "text-fore" : "text-quiet"
-            }`}
-          >
-            <PanelLeft width={16} height={16} strokeWidth={1.75} aria-hidden />
-          </button>
-          <span className={`${LABEL} ${wide} text-fs-11 font-medium uppercase tracking-[0.1em] text-quiet-2`} aria-hidden={!expanded || undefined}>
+        <div className="flex h-9 shrink-0 items-center gap-1.5 pl-3">
+          <span className={`${LABEL} ${wide} cursor-default select-none text-fs-11 font-medium uppercase tracking-[0.1em] text-quiet-2`} aria-hidden={!expanded || undefined}>
             Workspace
           </span>
         </div>
@@ -278,7 +233,7 @@ export function Sidebar({
         {/* Wider than the panel by the round buttons' overhang, so the scroll box never clips them. */}
         <nav aria-label="Workspace" className="-mr-[22px] flex min-h-0 flex-1 flex-col overflow-y-auto overflow-x-hidden pr-[22px]">
           <ul className="mt-0.5 flex flex-col gap-0.5">
-            {NAV.map(({ id, label, icon: I }) => {
+            {NAV.filter((n) => RAIL_IDS.has(n.id)).map(({ id, label, icon: I }) => {
               const on = current === id;
               const target = navTarget(id);
               return (
@@ -299,90 +254,6 @@ export function Sidebar({
               );
             })}
           </ul>
-
-          {openItems.length ? (
-            <>
-              <div className="relative mt-4 flex h-7 items-center px-3">
-                <span className={`absolute left-3 h-px w-4 bg-line/[0.12] ${LABEL_FADE} ${narrow}`} aria-hidden />
-                <span className={`${LABEL} ${wide} text-fs-11 font-medium uppercase tracking-[0.1em] text-quiet-2`} aria-hidden={!expanded || undefined}>
-                  Open
-                </span>
-              </div>
-              <ul className="flex flex-col gap-0.5" aria-label="Open items">
-                {openItems.map((item) => {
-                  const on = item.id === activeTarget;
-                  const I = TAB_ICON[item.kind];
-                  return (
-                    <li key={item.id} className="group relative">
-                      <button
-                        type="button"
-                        onClick={() => onSelectTab(item.id)}
-                        onPointerDown={(e) => dragStart(e, { target: item.id, label: item.title, from: "rail" })}
-                        onAuxClick={(e) => {
-                          if (e.button === 1) {
-                            e.preventDefault();
-                            onCloseTab(item.id);
-                          }
-                        }}
-                        onMouseDown={(e) => {
-                          // Middle click would otherwise start autoscroll.
-                          if (e.button === 1) e.preventDefault();
-                        }}
-                        onKeyDown={(e) => {
-                          if (e.key === "Delete" || e.key === "Backspace") {
-                            e.preventDefault();
-                            onCloseTab(item.id);
-                          } else if (e.altKey && (e.key === "ArrowUp" || e.key === "ArrowDown")) {
-                            e.preventDefault();
-                            onMoveTab(item.id, e.key === "ArrowUp" ? -1 : 1);
-                          }
-                        }}
-                        aria-current={on ? "page" : undefined}
-                        title={expanded ? item.title : undefined}
-                        {...nameTip(item.title)}
-                        className={`${ROW} pr-8 ${on ? "bg-line/[0.06] font-medium text-fore" : "text-fore-3 hover:bg-line/[0.04]"}`}
-                      >
-                        {/* Collapsed, a ticker shows its symbol in the icon's place; the two cross-fade. */}
-                        <span className="relative flex h-4 w-4 shrink-0 items-center justify-center">
-                          <I width={16} height={16} strokeWidth={1.75} className={`shrink-0 ${on ? "text-fore" : "text-quiet"} ${item.ticker ? `${LABEL_FADE} ${wide}` : ""}`} aria-hidden />
-                          {item.ticker ? (
-                            <span
-                              className={`absolute w-7 truncate text-center text-fs-10.5 font-medium ${LABEL_FADE} ${narrow}`}
-                              style={{ fontFamily: "var(--font-geist-mono), monospace" }}
-                              aria-hidden
-                            >
-                              {item.ticker}
-                            </span>
-                          ) : null}
-                        </span>
-                        <span
-                          className={`${LABEL} flex-1 ${wide}`}
-                          style={item.kind === "ticker" ? { fontFamily: "var(--font-geist-mono), monospace", fontSize: 13 } : undefined}
-                        >
-                          {item.title}
-                        </span>
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => onCloseTab(item.id)}
-                        aria-label={`Close ${item.title}`}
-                        title="Close"
-                        data-no-drag
-                        tabIndex={expanded ? undefined : -1}
-                        aria-hidden={!expanded || undefined}
-                        className={`absolute right-1.5 top-1/2 flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded-md text-faint opacity-0 outline-none transition-opacity hover:bg-line/[0.07] hover:text-fore focus-visible:ring-2 focus-visible:ring-line/20 motion-reduce:transition-none ${
-                          expanded ? "focus-visible:opacity-100 group-focus-within:opacity-100 group-hover:opacity-100" : "pointer-events-none"
-                        }`}
-                      >
-                        <X width={13} height={13} strokeWidth={2} aria-hidden />
-                      </button>
-                      <span data-no-drag>{splitButton(item.title, item.id, () => onSplit({ target: item.id }))}</span>
-                    </li>
-                  );
-                })}
-              </ul>
-            </>
-          ) : null}
         </nav>
 
         {/* Nothing here mounts or unmounts with the width: the divider grows with the rail and the labels fade. */}

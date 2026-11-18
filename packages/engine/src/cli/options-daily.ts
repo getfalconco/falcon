@@ -6,6 +6,11 @@
  *   pnpm --filter @falcon/engine run options-daily                 # the daily job
  *   pnpm --filter @falcon/engine run options-daily -- --price-only # get_cost only, nothing bought or written
  *   pnpm --filter @falcon/engine run options-daily -- --tickers NVDA,AMD --max 20
+ *   pnpm --filter @falcon/engine run options-daily -- --backfill 1 --no-earnings   # latest session only, no straddles
+ *   pnpm --filter @falcon/engine run options-daily -- --no-coverage   # without the scoreboard's names
+ *
+ * Every run also prices the scoreboard's names (open ripple forecasts, Sightings
+ * cards not marked stale; daily.ts coverageTickers), past the liquidity gate.
  *
  * Needs DATABENTO_API_KEY and DATABASE_URL (environment or apps/web/.env.local).
  * Exit code 0 whenever the job ran, even when a cap or Databento billing
@@ -16,8 +21,9 @@
 import { env } from "../env.ts";
 import { loadGraph } from "../graph.ts";
 import { backtestMarketData } from "../market.ts";
-import { runDaily, universeTickers } from "../options/daily.ts";
-import { pgOptionsStore } from "../options/store.ts";
+import { coverageTickers, runDaily, universeTickers } from "../options/daily.ts";
+import { pgOptionsStore, readCoverage } from "../options/store.ts";
+import { yahooEarningsReleases } from "../yahoo.ts";
 
 const inActions = process.env.GITHUB_ACTIONS === "true";
 
@@ -55,6 +61,18 @@ async function main(): Promise<number> {
     return 1;
   }
   const store = databaseUrl ? pgOptionsStore(databaseUrl) : null;
+  // The scoreboard's names: a read failure only costs this run its coverage, never the run.
+  let alwaysTickers: string[] = [];
+  if (databaseUrl && args["no-coverage"] !== true && typeof args.tickers !== "string") {
+    try {
+      const cov = await readCoverage(databaseUrl, Date.now());
+      const c = coverageTickers(cov.forecasts, cov.cardTickers, Date.now());
+      alwaysTickers = c.tickers;
+      log(`options-daily: scoreboard coverage ${c.tickers.length} names (${c.forecasts} with an open forecast window, ${c.cards} on fresh Sightings cards)`);
+    } catch (err) {
+      log(`options-daily: scoreboard coverage unavailable (${(err instanceof Error ? err.message : String(err)).replace(/postgres(ql)?:\/\/\S+/g, "postgres://***").slice(0, 160)})`);
+    }
+  }
   const md = await backtestMarketData();
   if (!("market" in md)) log(`options-daily: no market data (${md.error}); no liquidity gate and no beta`);
 
@@ -67,7 +85,10 @@ async function main(): Promise<number> {
       log,
       priceOnly,
       noLiquidity: args["no-liquidity"] === true,
+      alwaysTickers,
       batchSize: typeof args.batch === "string" ? Number(args.batch) : undefined,
+      backfill: typeof args.backfill === "string" ? Number(args.backfill) : undefined,
+      earnings: args["no-earnings"] === true ? undefined : yahooEarningsReleases,
     });
     console.log(s.line);
     if (s.skipped.length) {

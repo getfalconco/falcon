@@ -58,6 +58,8 @@ export type PullOptions = {
   dryRun?: boolean;
   /** HTTP attempts for the get_range call (default 4: retries on 429 / 5xx / network errors). */
   attempts?: number;
+  /** The caller's own get_cost answer for this exact request (it priced it already): not asked again. */
+  pricedUsd?: number;
 };
 
 export type RangeResult<T = Record<string, unknown>> = {
@@ -139,8 +141,9 @@ export class DatabentoClient {
     throw new DatabentoError(0, `Databento ${endpoint} failed after ${attempts} tr${attempts === 1 ? "y" : "ies"}: ${why}`);
   }
 
-  private async metadata<T>(endpoint: string, params: Record<string, string>, method: "GET" | "POST" = "GET"): Promise<T> {
-    const res = await this.call(method, endpoint, params);
+  private async metadata<T>(endpoint: string, params: Record<string, string>, method?: "GET" | "POST"): Promise<T> {
+    // Long symbol lists (OSI symbols by the hundred, a universe of tickers) pass the gateway's URL limit (HTTP 414): POST them, as apps/web does.
+    const res = await this.call(method ?? ((params.symbols?.length ?? 0) > 1_500 ? "POST" : "GET"), endpoint, params);
     return JSON.parse(await res.text()) as T;
   }
 
@@ -191,7 +194,7 @@ export class DatabentoClient {
     const hit = this.guard.readCache(key);
     if (hit) return { records: decodeRecords<T>(hit.body, hit.ext), costUsd: 0, pricedUsd: 0, cached: true, dryRun: false, key };
 
-    const priced = await this.getCost(req);
+    const priced = typeof opts.pricedUsd === "number" && Number.isFinite(opts.pricedUsd) && opts.pricedUsd >= 0 ? opts.pricedUsd : await this.getCost(req);
     if (opts.dryRun) return { records: [], costUsd: 0, pricedUsd: priced, cached: false, dryRun: true, key };
 
     // One ledger line per pull, however many download attempts it takes.

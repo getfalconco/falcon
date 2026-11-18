@@ -48,8 +48,8 @@ describe("EDGAR", () => {
     assert.equal(docs[1]!.type, "EX-99.1");
   });
 
-  it("reads acceptance stamps with the file's clock (shifted older entries, true current day)", () => {
-    // A file rebuilt since 2026-10-03: older entries carry New York's offset twice.
+  it("reads acceptance stamps as true UTC, older entries included", () => {
+    // MCHP's file as read on 2026-11-16 (each stamp checked against its -index.htm "Accepted" line).
     const sub = {
       cik: "827054",
       name: "MICROCHIP TECHNOLOGY INC",
@@ -57,8 +57,8 @@ describe("EDGAR", () => {
         recent: {
           accessionNumber: ["a-3", "a-2", "a-1", "a-0"],
           filingDate: ["2026-11-12", "2026-11-05", "2026-10-20", "2026-10-08"],
-          // 11-12 entry: true UTC (16:05 ET). Older: shifted (+5h / +4h on top of UTC).
-          acceptanceDateTime: ["2026-11-12T21:05:00.000Z", "2026-11-06T02:18:06.000Z", "2026-10-21T00:10:00.000Z", "2026-10-08T20:30:00.000Z"],
+          // All true UTC: 16:05 EST, 16:18:06 EST (0000827054-26-000061), 16:10 EDT, 16:30 EDT.
+          acceptanceDateTime: ["2026-11-12T21:05:00.000Z", "2026-11-05T21:18:06.000Z", "2026-10-20T20:10:00.000Z", "2026-10-08T20:30:00.000Z"],
           form: ["8-K", "8-K", "8-K", "8-K"],
           items: ["8.01", "2.02,9.01", "8.01", "8.01"],
           primaryDocument: ["d3.htm", "d2.htm", "d1.htm", "d0.htm"],
@@ -68,8 +68,10 @@ describe("EDGAR", () => {
     const fetchedAtMs = Date.parse("2026-11-12T22:00:00Z");
     const f = filingsFromSubmissions(sub, fetchedAtMs);
     assert.equal(f[0]!.acceptedAt, "2026-11-12T21:05:00.000Z");
-    // 2026-11-05 16:18 ET is 21:18 UTC; the file wrote it shifted by 5 hours.
+    // 2026-11-05 16:18:06 EST is 21:18:06 UTC: an after-close release, not 11:18 during the session.
     assert.equal(f[1]!.acceptedAt, "2026-11-05T21:18:06.000Z");
+    assert.equal(f[2]!.acceptedAt, "2026-10-20T20:10:00.000Z");
+    assert.equal(f[3]!.acceptedAt, "2026-10-08T20:30:00.000Z");
     assert.deepEqual(f[1]!.items, ["2.02", "9.01"]);
     assert.equal(f[1]!.url, "https://www.sec.gov/Archives/edgar/data/827054/a2/d2.htm");
   });

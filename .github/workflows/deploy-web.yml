@@ -13,6 +13,13 @@ on:
       - "packages/tailwind-config/**"
       # GET /api/graph serves this file, split per ticker at build time.
       - "packages/engine/data/graph.json"
+      # Point-in-time links and SIC codes, also read at build time (scripts/graph-shards.mjs, Falcon AI).
+      - "packages/engine/data/graph-pit.json"
+      - "packages/engine/data/company-sic.json"
+      # Engine sources the site bundles (options, study, edgar-time) and the workspace packages it depends on.
+      - "packages/engine/src/**"
+      - "packages/ripple/**"
+      - "packages/backtest/**"
       - "netlify.toml"
       - "pnpm-lock.yaml"
       - ".github/workflows/deploy-web.yml"

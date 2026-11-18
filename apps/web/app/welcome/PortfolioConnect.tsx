@@ -5,22 +5,31 @@ import type { DragEvent } from "react";
 import { FileSpreadsheet, ImageUp, Landmark, Loader2, X } from "lucide-react";
 import { TICKER_PATTERN, type PickedStock } from "@/lib/onboarding";
 import { cleanTicker, parseHoldingsCsv } from "@/lib/portfolio";
+import { csvImport, type PortfolioImport } from "@/lib/portfolio-holdings";
+import {
+  IMAGE_ACCEPT,
+  MAX_UPLOAD_BYTES,
+  fetchPortfolioSources,
+  importBrokerHoldings,
+  isHeic,
+  openBrokerWindow,
+  readScreenshotHoldings,
+  type PortfolioSources as Sources,
+} from "@/lib/portfolio-client";
 import { GEIST, MONO, MonoLabel } from "./Steps";
 
 /**
  * The welcome flow's "Connect your portfolio" step: a screenshot (read on the
  * server), a broker CSV (read here in the browser) or a SnapTrade broker link.
  * Whatever comes back is listed for the member to check, edit or trim before
- * it feeds the rest of the flow.
+ * it feeds the rest of the flow. The full import (positions with sizes and
+ * account balances) goes to `onImport` and stays in memory; the flow saves the
+ * reviewed positions when it hands over to the Workspace (reviewedImport in
+ * lib/portfolio-holdings.ts).
  */
 
-type Sources = { screenshot: boolean; broker: boolean };
 type Busy = "screenshot" | "csv" | "broker" | null;
 
-const MAX_UPLOAD_BYTES = 10 * 1024 * 1024;
-/** Long edge of the image we send: plenty for reading a holdings list. */
-const MAX_IMAGE_EDGE = 2400;
-const IMAGE_ACCEPT = "image/png,image/jpeg,image/webp,image/heic,image/heif,.heic,.heif";
 const CSV_ACCEPT = ".csv,text/csv,text/plain,application/vnd.ms-excel";
 
 const ROW =
@@ -30,47 +39,6 @@ const ROW_OFF = "cursor-not-allowed border-black/[0.07] opacity-60";
 const QUIET =
   "text-xs uppercase tracking-[0.18em] text-[#9a9a9a] outline-none transition-colors hover:text-[#1d1b1b] focus-visible:text-[#1d1b1b]";
 
-function isHeic(file: File) {
-  return /heic|heif/i.test(file.type) || /\.hei[cf]$/i.test(file.name);
-}
-
-/**
- * A JPEG no larger than MAX_IMAGE_EDGE on its long side, decoded by the
- * browser (which also turns HEIC into JPEG where the browser can read it).
- */
-async function prepareImage(file: File): Promise<Blob> {
-  try {
-    const bitmap = await createImageBitmap(file);
-    const scale = Math.min(1, MAX_IMAGE_EDGE / Math.max(bitmap.width, bitmap.height));
-    const canvas = document.createElement("canvas");
-    canvas.width = Math.round(bitmap.width * scale);
-    canvas.height = Math.round(bitmap.height * scale);
-    const ctx = canvas.getContext("2d");
-    if (!ctx) throw new Error("no canvas");
-    ctx.fillStyle = "#ffffff";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
-    bitmap.close();
-    const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, "image/jpeg", 0.92));
-    if (!blob) throw new Error("no blob");
-    return blob;
-  } catch {
-    if (isHeic(file)) {
-      throw new Error("This browser can't open HEIC files. Take a PNG screenshot or save the image as JPG.");
-    }
-    if (["image/png", "image/jpeg", "image/webp"].includes(file.type)) return file;
-    throw new Error("Use a PNG, JPG, WEBP or HEIC image.");
-  }
-}
-
-async function readJson(res: Response): Promise<{ holdings?: PickedStock[]; error?: string; url?: string }> {
-  try {
-    return (await res.json()) as { holdings?: PickedStock[]; error?: string; url?: string };
-  } catch {
-    return {};
-  }
-}
-
 function formatShares(n: number | undefined) {
   return n === undefined ? "" : String(Math.round(n * 10000) / 10000);
 }
@@ -78,10 +46,13 @@ function formatShares(n: number | undefined) {
 export function PortfolioConnect({
   value,
   onChange,
+  onImport,
   getToken,
 }: {
   value: PickedStock[];
   onChange: (stocks: PickedStock[]) => void;
+  /** The last import's positions and balances (null after Start over); kept in memory by the flow. */
+  onImport?: (imp: PortfolioImport | null) => void;
   /** The member's Supabase access token for the server routes, or null. */
   getToken: () => Promise<string | null>;
 }) {
@@ -96,10 +67,7 @@ export function PortfolioConnect({
 
   useEffect(() => {
     let live = true;
-    fetch("/api/portfolio/status", { cache: "no-store" })
-      .then((r) => (r.ok ? (r.json() as Promise<Sources>) : { screenshot: false, broker: false }))
-      .catch(() => ({ screenshot: false, broker: false }))
-      .then((s) => live && setSources(s));
+    void fetchPortfolioSources().then((s) => live && setSources(s));
     return () => {
       live = false;
     };
@@ -111,15 +79,16 @@ export function PortfolioConnect({
   }, [getToken]);
 
   const found = useCallback(
-    (holdings: PickedStock[] | undefined, empty: string) => {
+    (holdings: PickedStock[] | undefined, empty: string, imp?: PortfolioImport) => {
       if (!holdings || holdings.length === 0) {
         setError(empty);
         return;
       }
       setError(null);
       onChange(holdings);
+      onImport?.(imp ?? null);
     },
-    [onChange],
+    [onChange, onImport],
   );
 
   const uploadScreenshot = useCallback(
@@ -137,12 +106,8 @@ export function PortfolioConnect({
       try {
         const headers = await authHeaders();
         if (!headers) throw new Error("Sign in again to upload a screenshot.");
-        const form = new FormData();
-        form.append("image", await prepareImage(file), "portfolio.jpg");
-        const res = await fetch("/api/portfolio/screenshot", { method: "POST", headers, body: form });
-        const body = await readJson(res);
-        if (!res.ok) throw new Error(body.error ?? "We couldn't read that screenshot. Try a CSV instead.");
-        found(body.holdings, "We couldn't find any tickers in that screenshot.");
+        const result = await readScreenshotHoldings(file, headers);
+        found(result.holdings, "We couldn't find any tickers in that screenshot.", result.import);
       } catch (err) {
         setError(err instanceof Error ? err.message : "We couldn't read that screenshot.");
       } finally {
@@ -172,7 +137,7 @@ export function PortfolioConnect({
         } catch {
           // Names are a nicety; the tickers are what matter.
         }
-        found(holdings, "We couldn't find any stock holdings in that file.");
+        found(holdings, "We couldn't find any stock holdings in that file.", csvImport(parsed.rows));
       } catch (err) {
         setError(err instanceof Error ? err.message : "We couldn't read that file.");
       } finally {
@@ -185,7 +150,7 @@ export function PortfolioConnect({
   const connectBroker = useCallback(async () => {
     if (!sources?.broker) return;
     // Opened inside the click so pop-up blockers allow it; pointed at SnapTrade once we have the link.
-    const popup = window.open("", "falcon-broker", "width=520,height=760");
+    const popup = openBrokerWindow();
     if (!popup) {
       setError("Allow pop-ups for this site to connect your broker.");
       return;
@@ -195,44 +160,9 @@ export function PortfolioConnect({
     try {
       const headers = await authHeaders();
       if (!headers) throw new Error("Sign in again to connect a broker.");
-      const res = await fetch("/api/portfolio/broker/start", {
-        method: "POST",
-        headers: { ...headers, "Content-Type": "application/json" },
-        body: JSON.stringify({ returnTo: window.location.origin }),
-      });
-      const body = await readJson(res);
-      if (!res.ok || !body.url) throw new Error(body.error ?? "We couldn't reach the broker service.");
-      popup.location.href = body.url;
-
-      // Done when SnapTrade sends the member back (the done page posts a message) or the window closes.
-      const result = await new Promise<{ ok: boolean; ticket?: string } | null>((resolve) => {
-        const finish = (value: { ok: boolean; ticket?: string } | null) => {
-          window.removeEventListener("message", onMessage);
-          clearInterval(watch);
-          resolve(value);
-        };
-        const onMessage = (event: MessageEvent) => {
-          const data = event.data as { type?: string; ok?: unknown; ticket?: unknown } | null;
-          if (event.source !== popup || data?.type !== "falcon:broker") return;
-          finish({ ok: data.ok === true, ticket: typeof data.ticket === "string" ? data.ticket : undefined });
-        };
-        const watch = setInterval(() => {
-          if (popup.closed) finish(null);
-        }, 500);
-        window.addEventListener("message", onMessage);
-      });
-      if (result && !result.ok) throw new Error("The broker connection didn't go through. Try again or use a CSV.");
-
-      // Without a message the ticket may still be in this host's cookie; the route also revokes the grant.
-      const holdingsRes = await fetch("/api/portfolio/broker/holdings", {
-        method: "POST",
-        headers: { ...headers, "Content-Type": "application/json" },
-        body: JSON.stringify({ ticket: result?.ticket }),
-      });
-      const holdingsBody = await readJson(holdingsRes);
-      if (!result && holdingsRes.status === 409) return; // Closed before finishing.
-      if (!holdingsRes.ok) throw new Error(holdingsBody.error ?? "We couldn't read your broker holdings.");
-      found(holdingsBody.holdings, "No holdings came back from your broker. Try again or use a CSV.");
+      const result = await importBrokerHoldings(popup, headers);
+      if (result === null) return; // Closed before finishing.
+      found(result.holdings, "No holdings came back from your broker. Try again or use a CSV.", result.import);
     } catch (err) {
       if (!popup.closed) popup.close();
       setError(err instanceof Error ? err.message : "We couldn't connect your broker.");
@@ -280,7 +210,15 @@ export function PortfolioConnect({
           <MonoLabel>
             {value.length} {value.length === 1 ? "holding" : "holdings"}
           </MonoLabel>
-          <button type="button" onClick={() => onChange([])} className={QUIET} style={{ fontFamily: MONO }}>
+          <button
+            type="button"
+            onClick={() => {
+              onChange([]);
+              onImport?.(null);
+            }}
+            className={QUIET}
+            style={{ fontFamily: MONO }}
+          >
             Start over
           </button>
         </div>

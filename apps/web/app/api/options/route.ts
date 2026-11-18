@@ -1,7 +1,22 @@
 import { NextResponse } from "next/server";
 import type { RippleOptions } from "@falcon/ripple";
 import { ADMIN_COOKIE_NAME, requireFounderAdmin } from "@/lib/admin-session";
-import { allForViewer, compactOf, emptyAll, emptyTicker, OPTIONS_SOURCE, tickerForViewer, type OptionsAll, type OptionsCompact, type OptionsTicker } from "@/lib/options-api";
+import {
+  allForViewer,
+  compactOf,
+  earningsForViewer,
+  earningsReleaseOf,
+  emptyAll,
+  emptyEarnings,
+  emptyTicker,
+  OPTIONS_SOURCE,
+  tickerForViewer,
+  type OptionsAll,
+  type OptionsCompact,
+  type OptionsEarnings,
+  type OptionsEarningsRelease,
+  type OptionsTicker,
+} from "@/lib/options-api";
 import { clientIp, rateLimit, tooManyRequests } from "@/lib/rate-limit";
 import { optionsDisplayMode } from "@/lib/sightings-options";
 import { getSupabaseAdmin } from "@/lib/supabase-admin";
@@ -13,6 +28,7 @@ export const dynamic = "force-dynamic";
  *
  *   GET /api/options?all=1        ->  200 OptionsAll
  *   GET /api/options?ticker=NVDA  ->  200 OptionsTicker
+ *   GET /api/options?earnings=1   ->  200 OptionsEarnings
  *
  * Reads public.options_latest / public.options_daily (written once a trading
  * day by .github/workflows/options-daily.yml) with the service role. The
@@ -25,6 +41,9 @@ const TICKER = /^[A-Z][A-Z0-9.-]{0,9}$/;
 const PAGE = 1000;
 const MAX_ROWS = 6000;
 const HISTORY_ROWS = 90;
+/** Sessions of stored straddles the earnings answer looks back over (calendar days). */
+const EARNINGS_LOOKBACK_DAYS = 7;
+const EARNINGS_ROWS = 2000;
 
 const CORS = {
   "Access-Control-Allow-Origin": "*",
@@ -83,6 +102,32 @@ async function loadTicker(ticker: string): Promise<OptionsTicker> {
   };
 }
 
+type StraddleRow = { ticker: string; as_of: string; straddle: unknown };
+
+/** The pre-earnings straddles stored over the last week, the newest session's per ticker and release date. */
+async function loadEarnings(): Promise<OptionsEarnings> {
+  const since = new Date(Date.now() - EARNINGS_LOOKBACK_DAYS * 86_400_000).toISOString().slice(0, 10);
+  const res = await getSupabaseAdmin()
+    .from("options_daily")
+    .select("ticker, as_of, straddle:metrics->earnings_straddle")
+    .gte("as_of", since)
+    .not("metrics->earnings_straddle", "is", null)
+    .order("as_of", { ascending: false })
+    .limit(EARNINGS_ROWS);
+  if (res.error) throw res.error;
+  const seen = new Set<string>();
+  const releases: OptionsEarningsRelease[] = [];
+  for (const r of (res.data ?? []) as unknown as StraddleRow[]) {
+    const rel = earningsReleaseOf(r.ticker, r.as_of, r.straddle);
+    if (!rel) continue;
+    const key = `${rel.ticker}|${rel.date}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    releases.push(rel);
+  }
+  return { source: OPTIONS_SOURCE, releases };
+}
+
 /** A valid founder admin session cookie (lib/admin-session); false on any error. */
 async function isFounderAdmin(): Promise<boolean> {
   try {
@@ -102,12 +147,13 @@ export async function GET(request: Request) {
 
   const params = new URL(request.url).searchParams;
   const all = params.get("all");
+  const earnings = params.get("earnings") === "1";
   const rawTicker = params.get("ticker");
   const ticker = rawTicker?.trim().toUpperCase() ?? null;
-  if (!(all === "1" || all === "true") && !ticker) {
-    return NextResponse.json({ error: "Use ?all=1 or ?ticker=SYMBOL" }, { status: 400, headers: CORS });
+  if (!(all === "1" || all === "true") && !ticker && !earnings) {
+    return NextResponse.json({ error: "Use ?all=1, ?earnings=1 or ?ticker=SYMBOL" }, { status: 400, headers: CORS });
   }
-  if (ticker !== null && !(all === "1" || all === "true") && !TICKER.test(ticker)) {
+  if (ticker !== null && !(all === "1" || all === "true") && !earnings && !TICKER.test(ticker)) {
     return NextResponse.json({ error: "Bad ticker" }, { status: 400, headers: CORS });
   }
 
@@ -116,10 +162,14 @@ export async function GET(request: Request) {
   const personal = mode === "admin" && admin;
   const allowed = mode === "all" || personal;
 
-  let body: OptionsAll | OptionsTicker;
+  let body: OptionsAll | OptionsTicker | OptionsEarnings;
   let ok = false;
   try {
-    if (all === "1" || all === "true") {
+    if (earnings) {
+      const data = allowed ? await loadEarnings() : emptyEarnings();
+      body = earningsForViewer(data, mode, admin);
+      ok = allowed;
+    } else if (all === "1" || all === "true") {
       const data = allowed ? await loadAll() : emptyAll();
       body = allForViewer(data, mode, admin);
       ok = body.count > 0;
@@ -130,14 +180,14 @@ export async function GET(request: Request) {
     }
   } catch (error) {
     console.error("[api/options] supabase read failed", error);
-    body = all === "1" || all === "true" ? emptyAll() : emptyTicker(ticker!);
+    body = earnings ? emptyEarnings() : all === "1" || all === "true" ? emptyAll() : emptyTicker(ticker!);
   }
 
   const headers: Record<string, string> = {
     ...CORS,
     // An admin's answer carries data the public one does not: never kept by the CDN or shared caches.
     "Cache-Control": personal ? "private, no-store" : ok ? CACHE_OK : CACHE_EMPTY,
-    "Netlify-Vary": `query=all|ticker,cookie=${ADMIN_COOKIE_NAME}`,
+    "Netlify-Vary": `query=all|ticker|earnings,cookie=${ADMIN_COOKIE_NAME}`,
   };
   if (personal) headers["Netlify-CDN-Cache-Control"] = "no-store";
   return NextResponse.json(body, { headers });

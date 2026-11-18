@@ -485,7 +485,7 @@ export function retryableTurn(reason: string): boolean {
   return reason === "timeout" || reason === "unavailable";
 }
 
-/** POST /api/strategy/turn. `focus` is the member's focus list (tickers), so "my focus list" can be the universe. */
+/** POST /api/strategy/turn. `focus` is the member's portfolio (tickers; the field keeps the old focus-list name), so "my portfolio" can be the universe. */
 export async function sendTurn(input: {
   intent: string;
   answers: Answer[];

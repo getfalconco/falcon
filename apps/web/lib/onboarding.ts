@@ -109,7 +109,8 @@ export type WelcomeAnswers = {
 
 export const EMPTY_ANSWERS: WelcomeAnswers = { sectors: [], stocks: [] };
 
-export const MAX_STOCKS = 30;
+/** Tickers in the portfolio list (the account's `watchlist`); positions are capped at the same 200 (lib/portfolio-holdings.ts). */
+export const MAX_STOCKS = 200;
 export const MAX_OTHER_LENGTH = 80;
 export const TICKER_PATTERN = /^[A-Z][A-Z0-9.-]{0,9}$/;
 
@@ -229,12 +230,8 @@ export function readProgress(): WelcomeProgress | null {
                 TICKER_PATTERN.test((s as PickedStock).ticker) &&
                 typeof (s as PickedStock).name === "string",
             )
-            .map(({ ticker, name, shares, value }) => ({
-              ticker,
-              name,
-              shares: typeof shares === "number" && Number.isFinite(shares) && shares > 0 ? shares : undefined,
-              value: typeof value === "number" && Number.isFinite(value) && value > 0 ? value : undefined,
-            }))
+            // Tickers and names only: shares and values never go to this browser's storage.
+            .map(({ ticker, name }) => ({ ticker, name }))
             .slice(0, MAX_STOCKS)
         : [],
       portfolioSkipped: a.portfolioSkipped === true ? true : undefined,
@@ -255,7 +252,9 @@ export function readProgress(): WelcomeProgress | null {
 export function writeProgress(progress: WelcomeProgress): void {
   if (typeof window === "undefined" || FUNNEL_TEST_MODE) return;
   try {
-    localStorage.setItem(PROGRESS_KEY, JSON.stringify(progress));
+    // Shares and values stay in memory only: the saved copy keeps tickers and names.
+    const stocks = progress.answers.stocks.map(({ ticker, name }) => ({ ticker, name }));
+    localStorage.setItem(PROGRESS_KEY, JSON.stringify({ ...progress, answers: { ...progress.answers, stocks } }));
   } catch {
     // Storage unavailable: no resume, the flow still works.
   }
@@ -336,7 +335,8 @@ export async function saveWelcomeAnswers(
             "Content-Type": "application/json",
             Authorization: `Bearer ${session.access_token}`,
           },
-          body: JSON.stringify({ ...answers, completed }),
+          // Tickers only: sizes are saved through /api/portfolio/holdings, never with the answers.
+          body: JSON.stringify({ ...answers, stocks: answers.stocks.map(({ ticker, name }) => ({ ticker, name })), completed }),
         },
         4000,
       );

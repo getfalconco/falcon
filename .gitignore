@@ -82,3 +82,7 @@ packages/engine/test/fixtures/options/
 
 # per-ticker graph files, generated from packages/engine/data/graph.json (apps/web/scripts/graph-shards.mjs)
 apps/web/data/graph/
+
+# Local design notes and agent worktrees: never committed
+/docs/
+.claude/worktrees/

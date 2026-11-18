@@ -28,6 +28,9 @@ export type { TradeV2, SimResult, StrategyOutput } from "./simulate";
 export { floorBps, corwinSchultzBps, TIERS as COST_TIERS } from "./costs";
 export * from "./audit/report";
 export { evidenceLabel } from "./audit/tiers";
+// For audits of strategies run elsewhere (the Desk's Python tests, apps/web/lib/desk/audit.ts).
+export { HINDSIGHT_LIST_EXCESS_PCT, hindsightSignals, hindsightTexts, intentSaysTodaysList, type HindsightCap, type ListStats } from "./audit/tiers";
+export { deflatedSharpe, hacT, normInv, percentileOf } from "./stats";
 export type { EventStudy, WindowStats, EventRow } from "./event-study";
 export { eventStudyFromHistory, hasNoHistorySource, type HistoryStudy } from "./sighting";
 export { ENGINE_V1_VERSION, type RunOptions } from "./engine";

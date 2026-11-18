@@ -114,14 +114,14 @@ export function toSet(tickers: readonly string[]): Set<string> {
   return new Set(tickers.map((t) => t.toUpperCase()));
 }
 
-/** True when the card's event company or any company it hits is in `focus`. */
-export function touchesFocus(card: RippleCard, focus: Set<string>): boolean {
-  return focus.has(card.event.ticker) || card.hits.some((h) => focus.has(h.ticker));
+/** True when the card's event company or any company it hits is in the portfolio. */
+export function touchesPortfolio(card: RippleCard, portfolio: Set<string>): boolean {
+  return portfolio.has(card.event.ticker) || card.hits.some((h) => portfolio.has(h.ticker));
 }
 
-/** The card's hits on focus-list companies (the event itself carries no direction). */
-export function focusHits(card: RippleCard, focus: Set<string>): RippleHit[] {
-  return card.hits.filter((h) => focus.has(h.ticker));
+/** The card's hits on portfolio companies (the event itself carries no direction). */
+export function portfolioHits(card: RippleCard, portfolio: Set<string>): RippleHit[] {
+  return card.hits.filter((h) => portfolio.has(h.ticker));
 }
 
 /** Newest event first. */
@@ -175,12 +175,12 @@ export type TickerExposure = {
   events: number;
 };
 
-/** Every focus ticker with what the feed shows about it, most reached first. Weak signals do not count. */
+/** Every portfolio ticker with what the feed shows about it, most reached first. Weak signals do not count. */
 export function exposureByTicker(
   feed: SightingsFeed | null,
-  focus: readonly { ticker: string; name?: string }[],
+  portfolio: readonly { ticker: string; name?: string }[],
 ): TickerExposure[] {
-  const rows = focus.map((f) => {
+  const rows = portfolio.map((f) => {
     const hits: RippleHit[] = [];
     let events = 0;
     let companyName = f.name ?? "";
@@ -207,7 +207,7 @@ function eventCount(n: number): string {
 }
 
 /**
- * The Today summary, built from the feed and the member's focus list. Weak
+ * The Today summary, built from the feed and the member's portfolio. Weak
  * signals (Watch tier, or card confidence "low" on older cards) are on
  * neither list; Opportunities hold only the hits the engine marked eligible
  * (@falcon/ripple `opportunityCards`, which applies the interim Documented
@@ -216,24 +216,24 @@ function eventCount(n: number): string {
  */
 export function buildTodaySummary(
   feed: SightingsFeed | null,
-  focusTickers: readonly string[],
+  portfolioTickers: readonly string[],
   now = new Date(),
 ): TodaySummary {
-  const focus = toSet(focusTickers);
+  const own = toSet(portfolioTickers);
   const cards = sortByTime(feed?.cards ?? []);
-  const portfolio = cards.filter((c) => touchesFocus(c, focus) && !isWeakSignal(c));
-  const touched = new Set(cards.filter((c) => touchesFocus(c, focus)).map((c) => c.id));
-  const opportunities = opportunityCards(cards, focus).filter((c) => !touched.has(c.id));
-  const hits = portfolio.filter((c) => !isContext(c)).flatMap((c) => focusHits(c, focus));
+  const portfolio = cards.filter((c) => touchesPortfolio(c, own) && !isWeakSignal(c));
+  const touched = new Set(cards.filter((c) => touchesPortfolio(c, own)).map((c) => c.id));
+  const opportunities = opportunityCards(cards, own).filter((c) => !touched.has(c.id));
+  const hits = portfolio.filter((c) => !isContext(c)).flatMap((c) => portfolioHits(c, own));
   const value = netDirection(hits);
 
   let why: string;
-  if (focus.size === 0) {
-    why = "Your focus list is empty.";
+  if (own.size === 0) {
+    why = "Your portfolio is empty.";
   } else if (portfolio.length === 0) {
     why = "No events are hitting your portfolio right now.";
   } else {
-    const top = exposureByTicker({ generatedAt: feed?.generatedAt ?? "", cards: portfolio }, Array.from(focus).map((ticker) => ({ ticker })))[0];
+    const top = exposureByTicker({ generatedAt: feed?.generatedAt ?? "", cards: portfolio }, Array.from(own).map((ticker) => ({ ticker })))[0];
     why =
       top && top.weight > 0
         ? `${eventCount(portfolio.length)} hitting your portfolio. ${top.ticker} is the most exposed.`

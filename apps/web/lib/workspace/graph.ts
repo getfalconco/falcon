@@ -14,7 +14,7 @@ export type GraphNode = {
   id: string;
   name: string;
   sector: string;
-  /** Steps from the nearest seed (focus list) ticker: 0, 1 or 2. */
+  /** Steps from the nearest seed (portfolio) ticker: 0, 1 or 2. */
   depth: number;
   focus: boolean;
   /** Net direction of today's hits on this company, null with none. */
@@ -34,7 +34,29 @@ export type Graph = { nodes: GraphNode[]; edges: GraphEdge[] };
 /** What GET /api/graph returns: the neighborhood of the asked tickers. */
 export type GraphNeighborhood = {
   nodes: { ticker: string; name: string; sector?: string | null }[];
-  edges: { source: string; target: string; relation: Relation | null; evidence?: LinkEvidence[] }[];
+  edges: {
+    source: string;
+    target: string;
+    relation: Relation | null;
+    evidence?: LinkEvidence[];
+    /** Only with ?asOf= (lib/workspace/graph-pit.ts): first and last annual report naming the link, and when a later one stopped. */
+    firstSeen?: string;
+    lastSeen?: string;
+    endedAt?: string | null;
+  }[];
+};
+
+/**
+ * What GET /api/graph?all=1 returns: every company and link in the filing
+ * graph, compact (scripts/graph-shards.mjs). `n` is [ticker, short name,
+ * degree]; `e` is [source index, target index, relation, strength] with
+ * relation 0 supplier, 1 customer, 2 competitor, 3 partner and strength
+ * 3 critical, 2 important, 1 marginal.
+ */
+export type GraphAll = {
+  /** Sector: from the SEC SIC code (scripts/sic-sectors.mjs); "" when unknown, missing in payloads built before it. */
+  n: [ticker: string, name: string, degree: number, sector?: string][];
+  e: [source: number, target: number, relation: number, strength: number][];
 };
 
 type RawEdge = { source: string; target: string; relation: Relation | null; evidence: LinkEvidence[] };
@@ -146,117 +168,6 @@ export function buildGraph(
     .filter((e) => kept.has(e.source) && kept.has(e.target) && allowedEdge(e))
     .map((e) => ({ id: edgeKey(e.source, e.target), ...e }));
   return { nodes, edges: graphEdges };
-}
-
-/** Every sector and relation present in the unfiltered graph, for the filter controls. */
-export function graphFacets(graph: Graph): { sectors: string[]; relations: Relation[] } {
-  const sectors = new Set<string>();
-  const relations = new Set<Relation>();
-  for (const n of graph.nodes) if (!n.focus) sectors.add(n.sector);
-  for (const e of graph.edges) if (e.relation) relations.add(e.relation);
-  const sorted = Array.from(sectors).sort((a, b) => Number(a === UNCLASSIFIED) - Number(b === UNCLASSIFIED) || a.localeCompare(b));
-  return { sectors: sorted, relations: Array.from(relations) };
-}
-
-/* ------------------------------------------------------------------ */
-/* Layout                                                              */
-/* ------------------------------------------------------------------ */
-
-export type Positioned = Map<string, { x: number; y: number }>;
-
-/** Small deterministic PRNG so the same graph always lands the same way. */
-function seeded(seed: number) {
-  let s = seed >>> 0 || 1;
-  return () => {
-    s ^= s << 13;
-    s ^= s >>> 17;
-    s ^= s << 5;
-    return ((s >>> 0) % 10_000) / 10_000;
-  };
-}
-
-function hash(text: string) {
-  let h = 2166136261;
-  for (let i = 0; i < text.length; i++) h = Math.imul(h ^ text.charCodeAt(i), 16777619);
-  return h >>> 0;
-}
-
-/**
- * Force layout, rings by depth: seeds near the middle, first-degree companies
- * around them, second-degree on the outside. Plain O(n^2), fine for the
- * couple of hundred nodes the graph is capped at.
- */
-export function layoutGraph(graph: Graph, opts: { ring?: number; iterations?: number } = {}): Positioned {
-  const ring = opts.ring ?? 150;
-  const iterations = opts.iterations ?? 260;
-  const rand = seeded(hash(graph.nodes.map((n) => n.id).join(",")));
-  const byDepth = new Map<number, GraphNode[]>();
-  for (const n of graph.nodes) (byDepth.get(n.depth) ?? byDepth.set(n.depth, []).get(n.depth)!).push(n);
-
-  const pos = new Map<string, { x: number; y: number; vx: number; vy: number; r: number }>();
-  for (const [d, list] of Array.from(byDepth)) {
-    const radius = d === 0 ? (list.length > 1 ? ring * 0.45 : 0) : ring * d;
-    list.forEach((n, i) => {
-      const a = (i / list.length) * Math.PI * 2 + rand() * 0.4 + d * 0.7;
-      pos.set(n.id, { x: Math.cos(a) * radius, y: Math.sin(a) * radius, vx: 0, vy: 0, r: radius });
-    });
-  }
-
-  const nodes = graph.nodes;
-  const springLen = ring * 0.85;
-  for (let it = 0; it < iterations; it++) {
-    const cool = 1 - it / iterations;
-    for (let i = 0; i < nodes.length; i++) {
-      const a = pos.get(nodes[i].id)!;
-      for (let j = i + 1; j < nodes.length; j++) {
-        const b = pos.get(nodes[j].id)!;
-        let dx = a.x - b.x;
-        let dy = a.y - b.y;
-        let d2 = dx * dx + dy * dy;
-        if (d2 < 1) {
-          dx = rand() - 0.5;
-          dy = rand() - 0.5;
-          d2 = 1;
-        }
-        const f = (ring * ring * 0.55) / d2;
-        const d = Math.sqrt(d2);
-        a.vx += (dx / d) * f;
-        a.vy += (dy / d) * f;
-        b.vx -= (dx / d) * f;
-        b.vy -= (dy / d) * f;
-      }
-    }
-    for (const e of graph.edges) {
-      const a = pos.get(e.source);
-      const b = pos.get(e.target);
-      if (!a || !b) continue;
-      const dx = b.x - a.x;
-      const dy = b.y - a.y;
-      const d = Math.sqrt(dx * dx + dy * dy) || 1;
-      const f = (d - springLen) * 0.04;
-      a.vx += (dx / d) * f;
-      a.vy += (dy / d) * f;
-      b.vx -= (dx / d) * f;
-      b.vy -= (dy / d) * f;
-    }
-    for (const p of Array.from(pos.values())) {
-      // Pull toward the node's ring so depth stays readable.
-      const d = Math.sqrt(p.x * p.x + p.y * p.y) || 1;
-      const pull = (p.r - d) * 0.06;
-      p.vx += (p.x / d) * pull;
-      p.vy += (p.y / d) * pull;
-      const step = 0.5 * cool + 0.05;
-      const vmax = 24;
-      p.x += Math.max(-vmax, Math.min(vmax, p.vx * step));
-      p.y += Math.max(-vmax, Math.min(vmax, p.vy * step));
-      p.vx *= 0.5;
-      p.vy *= 0.5;
-    }
-  }
-
-  const out: Positioned = new Map();
-  for (const [id, p] of Array.from(pos)) out.set(id, { x: p.x, y: p.y });
-  return out;
 }
 
 /**

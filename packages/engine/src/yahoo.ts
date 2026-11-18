@@ -14,6 +14,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { BROWSER_USER_AGENT, ENGINE_ROOT, fetchResponse, HOUR_MS } from "./http.ts";
+import { releasesFromQuote, timeOfDayAt, type EarningsRelease } from "./options/earnings-straddle.ts";
 
 export type EarningsQuarterRead = {
   /** Yahoo's label, e.g. "3Q2026" (calendar quarter for most US filers). */
@@ -246,4 +247,92 @@ export async function yahooCoverage(ticker: string, dir: string = COVERAGE_CACHE
   else if (cached && cached.ageMs < COVERAGE_STALE_MS) out = cached.value;
   coverageCache.set(key, out);
   return out;
+}
+
+/* ------------------------------------------------------------------ upcoming earnings (options daily job) */
+
+/** Symbols per v7 quote request. */
+const QUOTE_BATCH = 150;
+
+/**
+ * Earnings releases per ticker from Yahoo's v7 quote (the same source as the
+ * website's /earnings next date: the latest and the next release, with
+ * isEarningsDateEstimate), 150 symbols a request, plus any US ticker Yahoo's
+ * earnings calendar (`visualization`, the /earnings archive) lists between
+ * `from` and `to` (New York dates), so names outside `tickers` that report are
+ * found too. Never throws: a failed request leaves its names out (`problems`).
+ */
+export async function yahooEarningsReleases(
+  tickers: readonly string[],
+  from: string,
+  to: string,
+): Promise<{ releases: Map<string, EarningsRelease[]>; problems: string[] }> {
+  const releases = new Map<string, EarningsRelease[]>();
+  const problems: string[] = [];
+  let s: { cookie: string; crumb: string };
+  try {
+    s = await yahooSession();
+  } catch (err) {
+    return { releases, problems: [`Yahoo session: ${err instanceof Error ? err.message : String(err)}`] };
+  }
+  const headers = { "User-Agent": BROWSER_USER_AGENT, Cookie: s.cookie };
+  const yahooSym = (t: string) => t.replace(".", "-");
+  for (let i = 0; i < tickers.length; i += QUOTE_BATCH) {
+    const batch = tickers.slice(i, i + QUOTE_BATCH);
+    const back = new Map(batch.map((t) => [yahooSym(t).toUpperCase(), t]));
+    try {
+      const url = `https://query2.finance.yahoo.com/v7/finance/quote?symbols=${batch.map((t) => encodeURIComponent(yahooSym(t))).join(",")}&fields=earningsTimestamp,earningsTimestampStart,earningsTimestampEnd,isEarningsDateEstimate&crumb=${encodeURIComponent(s.crumb)}`;
+      const res = await fetchResponse(url, { headers });
+      if (!res.ok) {
+        problems.push(`quote batch ${i / QUOTE_BATCH + 1}: HTTP ${res.status}`);
+        continue;
+      }
+      const json = (await res.json()) as { quoteResponse?: { result?: Array<Record<string, unknown>> } };
+      for (const row of json.quoteResponse?.result ?? []) {
+        const t = back.get(String(row.symbol ?? "").toUpperCase());
+        const r = releasesFromQuote(row);
+        if (t && r.length) releases.set(t, r);
+      }
+    } catch (err) {
+      problems.push(`quote batch ${i / QUOTE_BATCH + 1}: ${err instanceof Error ? err.message : String(err)}`);
+    }
+  }
+  // The calendar by date (names outside the universe). Rows with a US offset and a US-style symbol only.
+  try {
+    const body = {
+      sortType: "ASC",
+      entityIdType: "earnings",
+      sortField: "startdatetime",
+      includeFields: ["ticker", "eventname", "startdatetime", "startdatetimetype", "gmtOffsetMilliSeconds"],
+      query: { operator: "and", operands: [{ operator: "gte", operands: ["startdatetime", from] }, { operator: "lte", operands: ["startdatetime", to] }] },
+      offset: 0,
+      size: 250,
+    };
+    const res = await fetchResponse(`https://query1.finance.yahoo.com/v1/finance/visualization?crumb=${encodeURIComponent(s.crumb)}&lang=en-US&region=US`, {
+      method: "POST",
+      headers: { ...headers, "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    if (res.ok) {
+      const doc = ((await res.json()) as { finance?: { result?: Array<{ documents?: Array<{ columns?: { id: string }[]; rows?: unknown[][] }> }> } })?.finance?.result?.[0]?.documents?.[0];
+      const col = new Map((doc?.columns ?? []).map((c, i) => [c.id, i]));
+      for (const row of doc?.rows ?? []) {
+        const get = (id: string) => row[col.get(id) ?? -1];
+        const t = String(get("ticker") ?? "").toUpperCase();
+        const start = get("startdatetime");
+        const off = Number(get("gmtOffsetMilliSeconds"));
+        const name = get("eventname");
+        if (!/^[A-Z]{1,5}(-[A-Z])?$/.test(t) || typeof start !== "string" || (off !== -14_400_000 && off !== -18_000_000) || (typeof name === "string" && name.trim())) continue;
+        const local = new Date(Date.parse(start) + off);
+        if (Number.isNaN(local.getTime())) continue;
+        const date = local.toISOString().slice(0, 10);
+        const ticker = t.replace("-", ".");
+        const known = releases.get(ticker) ?? [];
+        if (!known.some((e) => e.date === date)) releases.set(ticker, [...known, { date, time: get("startdatetimetype") === "TAS" ? timeOfDayAt(date, local.getUTCHours() * 60 + local.getUTCMinutes()) : "unknown" }]);
+      }
+    } else problems.push(`earnings calendar: HTTP ${res.status}`);
+  } catch (err) {
+    problems.push(`earnings calendar: ${err instanceof Error ? err.message : String(err)}`);
+  }
+  return { releases, problems };
 }

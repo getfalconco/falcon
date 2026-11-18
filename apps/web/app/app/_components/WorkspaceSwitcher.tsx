@@ -15,7 +15,7 @@ const INPUT =
   "h-8 w-full rounded-lg border border-line/20 bg-surface px-2.5 text-fs-13.5 text-fore outline-none placeholder:text-faint focus:border-line/40";
 
 function describe(w: WorkspaceInfo): string {
-  if (w.id === MAIN_WORKSPACE_ID) return "Focus list synced with your account";
+  if (w.id === MAIN_WORKSPACE_ID) return "Portfolio synced with your account";
   const d = new Date(w.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric" });
   return `Created ${d}, this browser only`;
 }
@@ -190,7 +190,7 @@ function Panel({ api, onClose }: { api: WorkspaceSwitcherApi; onClose: (refocus:
             return (
               <div key={w.id} role="alert" className="rounded-lg bg-surface-3 px-2.5 py-2">
                 <p className="text-fs-13 text-fore">Delete &ldquo;{w.name}&rdquo;?</p>
-                <p className="mt-0.5 text-fs-12 leading-fs-16 text-quiet-2">Its focus list, strategies and open tabs in this browser are removed. This cannot be undone.</p>
+                <p className="mt-0.5 text-fs-12 leading-fs-16 text-quiet-2">Its portfolio, strategies and open tabs in this browser are removed. This cannot be undone.</p>
                 <div className="mt-2 flex justify-end gap-1">
                   <button
                     type="button"
@@ -289,7 +289,7 @@ function Panel({ api, onClose }: { api: WorkspaceSwitcherApi; onClose: (refocus:
               onBlur={() => !draft.trim() && back()}
               className={INPUT}
             />
-            <p className="mt-1 px-0.5 text-fs-11.5 text-faint">Enter to create. It starts with an empty focus list.</p>
+            <p className="mt-1 px-0.5 text-fs-11.5 text-faint">Enter to create. It starts with an empty portfolio.</p>
           </div>
         ) : full ? (
           <p className="px-2 py-1.5 text-fs-12.5 text-faint">Up to {MAX_WORKSPACES} workspaces</p>

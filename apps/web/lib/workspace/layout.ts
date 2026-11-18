@@ -19,7 +19,8 @@ export type Tab =
 
 /**
  * Split view: a second pane next to the view in focus. `other` is a tab id,
- * "focus", "sightings" or "help"; `side` is where that pane sits; `ratio` is
+ * "sightings" or "help" (a split saved with the old "focus" list view is
+ * dropped on read); `side` is where that pane sits; `ratio` is
  * the left pane's share of the width.
  */
 export type SplitState = { other: string; side: "left" | "right"; ratio: number };
@@ -28,12 +29,11 @@ export type WorkspaceLayout = {
   tabs: Tab[];
   activeId: string;
   sidebarOpen: boolean;
-  contextOpen: boolean;
   /** Missing in layouts saved before split view; null when there is one pane. */
   split?: SplitState | null;
 };
 
-export const SPLIT_SECTIONS = ["focus", "sightings", "help"] as const;
+export const SPLIT_SECTIONS = ["sightings", "help"] as const;
 export const MIN_SPLIT_RATIO = 0.2;
 export const MAX_SPLIT_RATIO = 0.8;
 
@@ -62,7 +62,6 @@ export const DEFAULT_LAYOUT: WorkspaceLayout = {
   tabs: [DASHBOARD_TAB],
   activeId: DASHBOARD_TAB.id,
   sidebarOpen: true,
-  contextOpen: true,
   split: null,
 };
 
@@ -118,7 +117,6 @@ export function readLayout(userId: string): WorkspaceLayout {
       tabs,
       activeId: activeId ?? "",
       sidebarOpen: parsed.sidebarOpen !== false,
-      contextOpen: parsed.contextOpen !== false,
       split: parseSplit(parsed.split, tabs),
     };
   } catch {

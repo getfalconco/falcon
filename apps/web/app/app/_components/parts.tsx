@@ -126,8 +126,8 @@ export function PricedInTag({ since }: { since?: RippleSinceEvent | null }) {
 
 /** A ticker that opens its tab. */
 export function TickerButton({ ticker, className = "", muted = false }: { ticker: string; className?: string; muted?: boolean }) {
-  const { openTicker, focusSet } = useWorkspace();
-  const inFocus = focusSet.has(ticker);
+  const { openTicker, portfolioSet } = useWorkspace();
+  const owned = portfolioSet.has(ticker);
   return (
     <button
       type="button"
@@ -136,35 +136,12 @@ export function TickerButton({ ticker, className = "", muted = false }: { ticker
         openTicker(ticker);
       }}
       className={`inline-flex h-[22px] shrink-0 items-center justify-self-start rounded-md border px-1.5 text-fs-11.5 leading-none outline-none transition-colors focus-visible:border-line/50 ${
-        inFocus ? "border-line/25 bg-line/[0.04] text-fore" : "border-line/10 text-fore hover:border-line/30"
+        owned ? "border-line/25 bg-line/[0.04] text-fore" : "border-line/10 text-fore hover:border-line/30"
       } ${muted ? "text-quiet" : ""} ${className}`}
       style={{ fontFamily: MONO }}
-      title={inFocus ? `${ticker}, on your focus list` : ticker}
+      title={owned ? `${ticker}, in your portfolio` : ticker}
     >
       {ticker}
-    </button>
-  );
-}
-
-/** Opens a Strategy tab that tests past events like this card's on the companies it reaches, and runs it. */
-export function BacktestButton({ cardId, variant = "quiet" }: { cardId: string; variant?: "quiet" | "outline" }) {
-  const { backtestSighting } = useWorkspace();
-  return (
-    <button
-      type="button"
-      onClick={(e) => {
-        e.stopPropagation();
-        backtestSighting(cardId);
-      }}
-      onKeyDown={(e) => e.stopPropagation()}
-      title="Test past events of this type on the companies it reaches"
-      className={
-        variant === "outline"
-          ? "inline-flex h-8 shrink-0 items-center rounded-lg border border-line/10 bg-surface px-3 text-fs-12.5 text-fore outline-none transition-colors hover:bg-surface-hover focus-visible:border-line/40"
-          : "inline-flex h-6 shrink-0 items-center rounded-md px-1.5 text-fs-12 text-quiet outline-none transition-colors hover:bg-line/[0.05] hover:text-fore focus-visible:ring-2 focus-visible:ring-line/20"
-      }
-    >
-      Backtest this
     </button>
   );
 }

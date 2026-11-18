@@ -45,7 +45,7 @@ function answers(v: unknown): Answer[] {
     .map((a) => ({ q: String(a.q ?? "").slice(0, 400), a: String(a.a ?? "").slice(0, 800), typed: a.typed === true }));
 }
 
-/** The member's focus list as the app sends it (tickers only); undefined when not sent. */
+/** The member's portfolio as the app sends it (tickers only; the field is still called focus); undefined when not sent. */
 function focusList(v: unknown): string[] | undefined {
   if (!Array.isArray(v)) return undefined;
   return v

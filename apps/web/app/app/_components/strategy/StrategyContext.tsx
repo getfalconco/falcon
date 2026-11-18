@@ -1,13 +1,12 @@
 "use client";
 
-import { Plus } from "lucide-react";
 import { CAVEATS } from "@falcon/backtest";
 import { useWorkspace } from "../context";
 import { SectionTitle, timeAgo } from "../parts";
 
 /** Right panel for a Strategy tab: saved strategies and what results can and cannot say. */
 export function StrategyContext({ strategyId }: { strategyId: string }) {
-  const { strategies, openStrategy, newStrategy } = useWorkspace();
+  const { strategies, openStrategy } = useWorkspace();
   const self = strategies.find((s) => s.id === strategyId);
   const notes = self?.origin.kind === "sighting" ? self.origin.notes : [];
   return (
@@ -27,17 +26,6 @@ export function StrategyContext({ strategyId }: { strategyId: string }) {
       <section>
         <SectionTitle
           count={strategies.length}
-          action={
-            <button
-              type="button"
-              onClick={() => newStrategy()}
-              aria-label="New strategy"
-              title="New strategy"
-              className="inline-flex h-6 w-6 items-center justify-center rounded-md text-quiet outline-none transition-colors hover:bg-line/[0.05] hover:text-fore focus-visible:ring-2 focus-visible:ring-line/20"
-            >
-              <Plus width={13} height={13} aria-hidden />
-            </button>
-          }
         >
           Saved strategies
         </SectionTitle>

@@ -63,6 +63,10 @@ const SYMBOL_HEADERS = ["symbol", "ticker", "ticker symbol", "security symbol", 
 const SHARES_HEADERS = ["quantity", "shares", "qty", "units", "quantity held", "share count"];
 const VALUE_HEADERS = ["market value", "current value", "marketvalue", "market val", "value", "total value", "position value", "mkt val"];
 const NAME_HEADERS = ["description", "name", "security name", "company", "security description", "instrument name"];
+/** Per-share cost only: a total cost basis column is not read as an average. */
+const AVG_COST_HEADERS = ["average cost", "avg cost", "average price", "avg price", "cost per share", "average cost basis", "avg cost basis", "price paid"];
+const PRICE_HEADERS = ["last price", "price", "current price", "last", "market price"];
+const CURRENCY_HEADERS = ["currency", "ccy"];
 
 function splitRow(line: string, delimiter: string): string[] {
   const cells: string[] = [];
@@ -124,7 +128,10 @@ function parseNumber(raw: string | undefined, europeanDecimals: boolean): number
   return negative ? -n : n;
 }
 
-export type CsvResult = { ok: true; holdings: PickedStock[] } | { ok: false; error: string };
+/** One CSV row as read, for the stored import (csvImport in lib/portfolio-holdings.ts); quantities keep their sign. */
+export type CsvRow = { ticker: string; name: string | null; shares: number | null; value: number | null; avgCost: number | null; price: number | null; currency: string | null };
+
+export type CsvResult = { ok: true; holdings: PickedStock[]; rows: CsvRow[] } | { ok: false; error: string };
 
 /**
  * Holdings from a broker's CSV export: finds the header row (some exports
@@ -141,7 +148,7 @@ export function parseHoldingsCsv(text: string): CsvResult {
     .sort((a, b) => b.n - a.n)[0].d;
 
   let headerAt = -1;
-  let columns = { symbol: -1, shares: -1, value: -1, name: -1 };
+  let columns = { symbol: -1, shares: -1, value: -1, name: -1, avgCost: -1, price: -1, currency: -1 };
   for (let i = 0; i < Math.min(lines.length, 15); i++) {
     const headers = splitRow(lines[i], delimiter).map(headerKey);
     const symbol = findColumn(headers, SYMBOL_HEADERS);
@@ -152,6 +159,9 @@ export function parseHoldingsCsv(text: string): CsvResult {
       shares: findColumn(headers, SHARES_HEADERS),
       value: findColumn(headers, VALUE_HEADERS),
       name: findColumn(headers, NAME_HEADERS),
+      avgCost: findColumn(headers, AVG_COST_HEADERS),
+      price: findColumn(headers, PRICE_HEADERS),
+      currency: findColumn(headers, CURRENCY_HEADERS),
     };
     break;
   }
@@ -160,16 +170,20 @@ export function parseHoldingsCsv(text: string): CsvResult {
   }
 
   const european = delimiter === ";";
-  const rows: RawHolding[] = lines.slice(headerAt + 1).map((line) => {
+  const cell = (cells: string[], at: number) => (at === -1 ? null : parseNumber(cells[at], european));
+  const rows: CsvRow[] = lines.slice(headerAt + 1).map((line) => {
     const cells = splitRow(line, delimiter);
     return {
       ticker: cells[columns.symbol] ?? "",
-      name: columns.name === -1 ? null : cells[columns.name],
-      shares: columns.shares === -1 ? null : parseNumber(cells[columns.shares], european),
-      value: columns.value === -1 ? null : parseNumber(cells[columns.value], european),
+      name: columns.name === -1 ? null : cells[columns.name] ?? null,
+      shares: cell(cells, columns.shares),
+      value: cell(cells, columns.value),
+      avgCost: cell(cells, columns.avgCost),
+      price: columns.price === columns.value || columns.price === columns.avgCost ? null : cell(cells, columns.price),
+      currency: columns.currency === -1 ? null : cells[columns.currency] ?? null,
     };
   });
   const holdings = normalizeHoldings(rows);
   if (holdings.length === 0) return { ok: false, error: "We couldn't find any stock holdings in that file." };
-  return { ok: true, holdings };
+  return { ok: true, holdings, rows };
 }

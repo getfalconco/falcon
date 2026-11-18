@@ -13,7 +13,12 @@ const NO_STORE = { "Cache-Control": "no-store" };
  * done page handed back (body, or this host's cookie), then revokes the
  * SnapTrade grant and clears the cookie: nothing stays linked.
  *
- *   POST /api/portfolio/broker/holdings { ticket? } -> 200 { holdings }
+ * Nothing is stored here: the client saves the import it gets back through
+ * POST /api/portfolio/holdings (lib/portfolio-store.ts).
+ *
+ *   POST /api/portfolio/broker/holdings { ticket? } -> 200 { holdings, import }
+ *     holdings: [{ ticker, name, shares?, value? }] (one per ticker; the iPhone app reads it)
+ *     import:   { source: "broker", accounts, positions } (lib/portfolio-holdings.ts)
  *   401 not signed in, 409 no connection in progress, 502 SnapTrade failed
  */
 export async function POST(request: Request) {
@@ -41,8 +46,8 @@ export async function POST(request: Request) {
 
   let response: NextResponse;
   try {
-    const holdings = await brokerHoldings(grant);
-    response = NextResponse.json({ holdings }, { headers: NO_STORE });
+    const result = await brokerHoldings(grant, user.id);
+    response = NextResponse.json(result, { headers: NO_STORE });
   } catch (error) {
     const status = (error as { response?: { status?: number } }).response?.status;
     console.error("[portfolio broker holdings]", status ?? (error instanceof Error ? error.name : "unknown error"));

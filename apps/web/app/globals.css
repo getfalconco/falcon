@@ -434,3 +434,255 @@ html[data-f-motion="reduced"] *::after {
     scroll-behavior: auto !important;
   }
 }
+
+/* LoadingState (components/ui/loading-state.tsx): the pixel grid's pulse and
+   the label's shimmer. Reduced motion (the OS setting unless Settings > Motion
+   is Full, or Motion set to Reduced) freezes the grid dim and shows the label
+   in the muted color; the timer keeps ticking. */
+@keyframes pixel-on {
+  0%,
+  100% {
+    opacity: 0.12;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes shimmer-text {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.loading-state-pixel {
+  animation: pixel-on var(--ls-dur, 650ms) ease-in-out var(--ls-delay, 0ms) infinite;
+}
+
+.loading-state-label {
+  color: transparent;
+  background-image: linear-gradient(90deg, rgb(var(--f-quiet)) 35%, rgb(var(--f-fore)) 50%, rgb(var(--f-quiet)) 65%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: shimmer-text 1.4s linear infinite;
+}
+
+html[data-f-motion="reduced"] .loading-state-pixel {
+  animation: none;
+}
+
+html[data-f-motion="reduced"] .loading-state-label {
+  animation: none;
+  background: none;
+  color: rgb(var(--f-quiet));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:not([data-f-motion="full"]) .loading-state-pixel {
+    animation: none;
+  }
+
+  html:not([data-f-motion="full"]) .loading-state-label {
+    animation: none;
+    background: none;
+    color: rgb(var(--f-quiet));
+  }
+}
+
+/* Streaming replies (components/ui/streaming-text.tsx): words fade in with a
+   light blur, a thin caret blinks at the end, source chips pop in, the footer
+   fades in and the follow-ups rise one after another; the sources list opens
+   by animating its grid row. Colours are the workspace tokens above, so light
+   and dark follow the app theme. Reduced motion: none of it moves. */
+@keyframes st-word-in {
+  from {
+    opacity: 0;
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+@keyframes st-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes st-pop-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes st-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes st-blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  50.01%,
+  100% {
+    opacity: 0;
+  }
+}
+.st-word {
+  animation: st-word-in 250ms cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+.st-block {
+  animation: st-fade-in 300ms ease-out both;
+}
+.st-pop {
+  animation: st-pop-in 250ms cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+.st-fade {
+  animation: st-fade-in 400ms ease-out both;
+}
+.st-fade-up {
+  animation: st-fade-up 360ms cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+.st-caret {
+  display: inline-block;
+  width: 2px;
+  height: 1.05em;
+  margin-left: 2px;
+  border-radius: 1px;
+  background: rgb(var(--f-fore) / 0.7);
+  vertical-align: -0.17em;
+  animation: st-blink 1s step-end infinite;
+}
+.st-collapse {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 300ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+.st-collapse[data-open="true"] {
+  grid-template-rows: 1fr;
+}
+.st-collapse > * {
+  min-height: 0;
+  overflow: hidden;
+}
+.st-underline {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 0% 1px;
+  transition: background-size 250ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+.st-row:hover .st-underline,
+.st-row:focus-visible .st-underline {
+  background-size: 100% 1px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .st-word,
+  .st-block,
+  .st-pop,
+  .st-fade,
+  .st-fade-up,
+  .st-caret {
+    animation: none;
+  }
+  .st-collapse,
+  .st-underline {
+    transition: none;
+  }
+}
+html[data-f-motion="reduced"] .st-caret {
+  animation: none;
+}
+
+/* BlurOverlay (app/app/_components/shell/BlurOverlay.tsx), opened by the
+   setup card's "Get started": the page blurs (0 to 10px) under a light veil
+   that frosts it rather than darkening it (white in light; the raised tone,
+   not black, in dark) and any panel in front rises in; the same in reverse
+   on close.
+   Reduced motion (the OS setting unless Settings > Motion is Full, or Motion
+   set to Reduced) keeps the blur still and only fades, quickly. */
+.blur-overlay .blur-overlay-blur {
+  -webkit-backdrop-filter: blur(0px);
+  backdrop-filter: blur(0px);
+  transition:
+    -webkit-backdrop-filter 320ms cubic-bezier(0.23, 1, 0.32, 1),
+    backdrop-filter 320ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+.blur-overlay[data-open="true"] .blur-overlay-blur {
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+.blur-overlay .blur-overlay-veil {
+  background: rgb(255 255 255 / 0.5);
+  opacity: 0;
+  transition: opacity 320ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+html.dark .blur-overlay .blur-overlay-veil {
+  background: rgb(var(--f-raised) / 0.5);
+}
+.blur-overlay .blur-overlay-panel {
+  opacity: 0;
+  transform: translateY(8px) scale(0.98);
+  transition:
+    opacity 320ms cubic-bezier(0.23, 1, 0.32, 1),
+    transform 320ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+.blur-overlay[data-open="true"] .blur-overlay-veil,
+.blur-overlay[data-open="true"] .blur-overlay-panel {
+  opacity: 1;
+}
+.blur-overlay[data-open="true"] .blur-overlay-panel {
+  transform: none;
+}
+html[data-f-motion="reduced"] .blur-overlay .blur-overlay-blur,
+html[data-f-motion="reduced"] .blur-overlay .blur-overlay-veil,
+html[data-f-motion="reduced"] .blur-overlay .blur-overlay-panel {
+  transform: none;
+  transition-property: opacity !important;
+  transition-duration: 150ms !important;
+  transition-timing-function: ease-out !important;
+}
+html[data-f-motion="reduced"] .blur-overlay .blur-overlay-blur {
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  opacity: 0;
+}
+html[data-f-motion="reduced"] .blur-overlay[data-open="true"] .blur-overlay-blur {
+  opacity: 1;
+}
+@media (prefers-reduced-motion: reduce) {
+  html:not([data-f-motion="full"]) .blur-overlay .blur-overlay-blur,
+  html:not([data-f-motion="full"]) .blur-overlay .blur-overlay-veil,
+  html:not([data-f-motion="full"]) .blur-overlay .blur-overlay-panel {
+    transform: none;
+    transition-property: opacity !important;
+    transition-duration: 150ms !important;
+    transition-timing-function: ease-out !important;
+  }
+  html:not([data-f-motion="full"]) .blur-overlay .blur-overlay-blur {
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    opacity: 0;
+  }
+  html:not([data-f-motion="full"]) .blur-overlay[data-open="true"] .blur-overlay-blur {
+    opacity: 1;
+  }
+}

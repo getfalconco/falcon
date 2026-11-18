@@ -18,10 +18,10 @@ import {
   type RippleCard,
   type RippleHit,
 } from "@falcon/ripple";
-import { touchesFocus } from "@/lib/workspace/feed";
+import { touchesPortfolio } from "@/lib/workspace/feed";
 import { OptionsChip } from "./OptionsBlock";
 import { WorkspaceContext, useWorkspace } from "./context";
-import { BacktestButton, DOWN, ExternalAnchor, MONO, NEUTRAL, PricedInTag, SERIF, UP, formatDate, timeAgo } from "./parts";
+import { DOWN, ExternalAnchor, MONO, NEUTRAL, PricedInTag, SERIF, UP, formatDate, timeAgo } from "./parts";
 
 /*
  * How a Sighting reads, in plain words. Every surface (list cards, the
@@ -164,7 +164,7 @@ export function HitChip({ hit, interactive = true, mine = false }: { hit: Ripple
       className={`inline-flex h-[24px] items-center gap-1 rounded-md border px-1.5 text-fs-11.5 leading-none text-fore transition-colors ${
         mine ? "border-line/25 bg-line/[0.04]" : "border-line/10 hover:border-line/30"
       }`}
-      title={`${shortCompany(hit.companyName)}: ${DIRECTION_WORD[hit.direction].toLowerCase()}${mine ? ", on your focus list" : ""}`}
+      title={`${shortCompany(hit.companyName)}: ${DIRECTION_WORD[hit.direction].toLowerCase()}${mine ? ", in your portfolio" : ""}`}
     >
       <span style={{ fontFamily: MONO }}>{hit.ticker}</span>
       <span style={{ color: tone.color }}>
@@ -287,11 +287,6 @@ export function SightingCard({ card, highlight, maxHits = 4 }: { card: RippleCar
         card={card}
         highlight={highlight}
         maxHits={maxHits}
-        footer={
-          <span className="-mb-1 shrink-0">
-            <BacktestButton cardId={card.id} />
-          </span>
-        }
       />
     </article>
   );
@@ -427,8 +422,8 @@ export function HowToReadContent() {
       <section>
         <GuideHeading>Your portfolio and Opportunities</GuideHeading>
         <p className="mt-2">
-          Your portfolio shows Sightings that touch a company on your focus list. Opportunities shows Sightings with evidence behind them about companies that are not
-          on your list.
+          Your portfolio shows Sightings that touch a company you hold (from your broker, a screenshot or the demo). Opportunities shows Sightings with evidence
+          behind them about companies that are not in your portfolio.
         </p>
       </section>
       <p className="border-t border-line/[0.06] pt-4 text-fs-12.5 text-quiet">For information only, not investment advice.</p>
@@ -553,9 +548,9 @@ function count(n: number, one: string, many: string): string {
 
 /**
  * "15 new Sightings today. 0 touch your portfolio, 15 are backed by research."
- * Counts by evidence level (cardStrength) and by focus list membership.
+ * Counts by evidence level (cardStrength) and by portfolio membership.
  */
-export function todaySentence(cards: readonly RippleCard[], focus: Set<string>): string {
+export function todaySentence(cards: readonly RippleCard[], portfolio: Set<string>): string {
   if (!cards.length) return "No new Sightings today.";
   let measured = 0;
   let research = 0;
@@ -564,7 +559,7 @@ export function todaySentence(cards: readonly RippleCard[], focus: Set<string>):
     const level = cardStrength(c).level;
     if (level === "measured") measured++;
     else if (level === "research") research++;
-    if (touchesFocus(c, focus)) mine++;
+    if (touchesPortfolio(c, portfolio)) mine++;
   }
   const verb = (n: number) => (n === 1 ? "is" : "are");
   let evidence: string;
@@ -573,8 +568,8 @@ export function todaySentence(cards: readonly RippleCard[], focus: Set<string>):
   else if (research) evidence = `${research} ${verb(research)} backed by research`;
   else evidence = "none has evidence behind it yet";
   const first = `${count(cards.length, "new Sighting", "new Sightings")} today.`;
-  if (!focus.size) {
-    return `${first} ${evidence.charAt(0).toUpperCase()}${evidence.slice(1)}. Add tickers to your focus list to see which touch your portfolio.`;
+  if (!portfolio.size) {
+    return `${first} ${evidence.charAt(0).toUpperCase()}${evidence.slice(1)}. Bring your portfolio to see which touch your holdings.`;
   }
   return `${first} ${mine} ${mine === 1 ? "touches" : "touch"} your portfolio, ${evidence}.`;
 }

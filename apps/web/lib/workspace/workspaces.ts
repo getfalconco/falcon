@@ -7,14 +7,14 @@ import { LAYOUT_KEY_PREFIX } from "./layout";
 import { STRATEGIES_KEY_PREFIX } from "./strategies";
 
 /**
- * Workspaces, in this browser only: each has its own focus list, saved
+ * Workspaces, in this browser only: each has its own portfolio, saved
  * strategies and open tabs. The index lives at `falcon.workspaces.v1:<userId>`.
  *
  * Nothing existing moves. The first workspace ("main", named "Main") keeps
- * the original keys (`falcon.focus.v1:<userId>` and so on) and the focus list
+ * the original keys (`falcon.focus.v1:<userId>` and so on) and the portfolio
  * that syncs with the account; every other workspace stores under
- * `<prefix>:<userId>:<workspaceId>` and its focus list never leaves this
- * browser. The per-workspace "storage scope" passed to focus, layout and
+ * `<prefix>:<userId>:<workspaceId>` and its portfolio never leaves this
+ * browser. The per-workspace "storage scope" passed to the portfolio, layout and
  * strategies in place of the user id is what builds those keys.
  */
 
@@ -85,7 +85,7 @@ export function writeWorkspaces(userId: string, index: WorkspaceIndex): void {
   }
 }
 
-/** Removes a deleted workspace's focus list, strategies and layout from this browser. Never main. */
+/** Removes a deleted workspace's portfolio, strategies and layout from this browser. Never main. */
 function removeWorkspaceData(userId: string, workspaceId: string): void {
   if (workspaceId === MAIN_WORKSPACE_ID || FUNNEL_TEST_MODE || typeof window === "undefined") return;
   const scope = storageScope(userId, workspaceId);

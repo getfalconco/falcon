@@ -25,7 +25,7 @@ export type StrategyChat = ReturnType<typeof useStrategyChat>;
  */
 export function useStrategyChat(s: SavedStrategy, onApply: (a: TurnApply) => void) {
   const conv = s.conversation;
-  const { focus } = useWorkspace();
+  const { portfolio } = useWorkspace();
   const hasSpec = s.origin.kind !== "blank" || s.versions.length > 1 || s.confirmed;
   const [busy, setBusy] = useState(false);
   /** Change requests sent in this visit; the saved conversation keeps only the description and answers. */
@@ -41,7 +41,8 @@ export function useStrategyChat(s: SavedStrategy, onApply: (a: TurnApply) => voi
       answers: next.answers,
       questionsAsked: next.questionsAsked,
       edit: edit ? { request: edit, current: s.spec } : null,
-      focus: focus.map((f) => f.ticker),
+      // The API field keeps its old name (focus list); it carries the portfolio.
+      focus: portfolio.map((f) => f.ticker),
     });
     setBusy(false);
     if (r.kind === "questions") {
@@ -116,7 +117,7 @@ export function ConversationThread({ s, chat, onStarter }: { s: SavedStrategy; c
           Describe a strategy in the box below, or start from an example. Falcon writes the rules back in numbered steps; nothing runs until you confirm them.
         </p>
         <p className="mt-2 max-w-[420px] text-fs-12.5 leading-fs-19 text-faint">
-          Type your own tickers or name a list: the S&amp;P 500 today, the 500 most traded US stocks, Falcon&apos;s 1,500 US stocks, the companies in Falcon&apos;s graph, or your focus list.
+          Type your own tickers or name a list: the S&amp;P 500 today, the 500 most traded US stocks, Falcon&apos;s 1,500 US stocks, the companies in Falcon&apos;s graph, or your portfolio.
         </p>
         <div className="mt-4 flex max-w-[460px] flex-wrap justify-center gap-1.5">
           {STARTERS.map((t) => (

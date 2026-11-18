@@ -72,10 +72,10 @@ export function archiveBase(cik: string, accession: string): string {
 
 /**
  * Filings in a submissions index read at `fetchedAtMs`, newest first, each
- * with its true acceptance instant. EDGAR writes older entries shifted by New
- * York's offset in a file rebuilt since 2026-10-03 and the current day's
- * entries as true UTC; `edgarIndexConvention` reads which from the file
- * itself. Pure.
+ * with its true acceptance instant. EDGAR writes the true UTC instant (every
+ * file on 2026-11-16); for a time in October 2026 it wrote older entries
+ * shifted by New York's offset, so `edgarIndexConvention` still reads the
+ * clock from the file's own entries. Pure.
  */
 export function filingsFromSubmissions(sub: Submissions, fetchedAtMs: number): Filing[] {
   const r = sub.filings.recent;

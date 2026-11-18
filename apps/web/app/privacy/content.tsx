@@ -142,14 +142,33 @@ export const PRIVACY_SECTIONS: readonly LegalSectionDef[] = [
           If you choose to link a brokerage, the connection is made through SnapTrade. You sign in to your brokerage on
           SnapTrade&apos;s and your brokerage&apos;s pages; we never receive your brokerage username or password. We
           request read-only access. We identify you to SnapTrade only by a Falcon account identifier, never by name
-          or email. We receive and store a summary of each linked account (its name or number, the institution and
-          its balance) so it can be shown in the app; we do not currently retrieve individual positions or
-          transactions. To keep the link working, SnapTrade issues a user secret for your connection. It is stored
+          or email. In the desktop app, we receive and store a summary of each linked account (its name or number,
+          the institution and its balance) so it can be shown in the app; the desktop app does not retrieve
+          individual positions or transactions. To keep the link working, SnapTrade issues a user secret for your connection. It is stored
           encrypted, with a key only our servers hold, in a restricted table in our database that only our servers can
           read. In some configurations of the app it is also kept in a file in the app&apos;s data folder on your
           computer, one per account, encrypted with your operating system&apos;s protection for your user account; where
           the system offers no such protection, it is kept in memory only and never written to disk. It is never
           included in data exports.
+        </P>
+
+        <H3>Holdings you import in the web and iPhone apps (optional)</H3>
+        <P>
+          In the Falcon web app and iPhone app you can bring in your holdings with Bring your portfolio: a one-time,
+          read-only broker connection through SnapTrade (we read your accounts once and then revoke the access, so
+          nothing stays linked), a screenshot of your holdings (read by our AI model provider and not stored), or a
+          CSV file (read in your browser). You can also create a paper portfolio with a starting cash balance you
+          choose. For your account we store: each account&apos;s name, institution, the last 4 characters of its
+          number (never the full number, and never your SnapTrade account identifier, which we replace with a one-way
+          code), its currency, total value, cash and buying power, and the date they were read; and for each position
+          its symbol and kind (stock, ETF, fund, option, crypto and others, with an option&apos;s underlying, call or
+          put, strike, expiry and contract size), its name, quantity (negative for a short), average cost, price,
+          market value and unrealised gain as imported, its currency, and the date. Your tickers are also kept as
+          your portfolio list. Only you can read these rows with your own sign-in; our servers write them, and our
+          admin tools do not read them. Prices shown with them are fetched live and are not stored with your
+          holdings. Clear portfolio in Settings deletes all of it, Clear paper portfolio deletes the paper account,
+          and deleting your account deletes everything. Amounts are kept in memory in the app, not in your
+          browser&apos;s storage.
         </P>
 
         <H3>Content you send to AI features</H3>
@@ -242,6 +261,15 @@ export const PRIVACY_SECTIONS: readonly LegalSectionDef[] = [
           <LI>
             for <Term>your briefing</Term>, the tickers you hold the most of, sized only as large, medium or small,
             and their percentage moves; never dollar amounts, share counts or cash balances;
+          </LI>
+          <LI>
+            for <Term>Falcon AI</Term> in the web app, the tickers in your portfolio and, when your holdings are
+            stored, each holding&apos;s weight and gain against cost as whole percentages, read by our server; never
+            dollar amounts, share or contract counts, cash or account values; and whether you have a paper portfolio;
+          </LI>
+          <LI>
+            for a <Term>portfolio screenshot</Term> you upload, the image, to read the positions and account figures
+            shown on it; the image is not stored;
           </LI>
           <LI>
             the <Term>questions you type into Insight chat</Term>, with the facts of the event you are asking about;
@@ -463,8 +491,8 @@ export const PRIVACY_SECTIONS: readonly LegalSectionDef[] = [
           head={["Data", "How long"]}
           rows={[
             [
-              "Account, profile, onboarding, paper portfolio and its value history, research you started, and brokerage account summary",
-              "Until you delete your account (resetting your paper account also clears its value history). Older value history is kept at reduced detail: one point per minute after a day, one per hour after 7 days, and one per day after 90 days",
+              "Account, profile, onboarding, paper portfolio and its value history, research you started, brokerage account summary, and holdings you imported (accounts, balances and positions) with your paper portfolio in the web app",
+              "Until you delete your account; imported holdings until you clear them in Settings (resetting your paper account also clears its value history). Older value history is kept at reduced detail: one point per minute after a day, one per hour after 7 days, and one per day after 90 days",
             ],
             [
               "SnapTrade user secret, and your user at SnapTrade",

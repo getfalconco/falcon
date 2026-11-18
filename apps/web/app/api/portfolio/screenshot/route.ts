@@ -16,7 +16,9 @@ const MAX_MODEL_BYTES = 5 * 1024 * 1024;
  * The image is processed in memory and dropped: never written or logged.
  *
  *   POST /api/portfolio/screenshot  multipart { image }
- *   200 { holdings: [{ ticker, name, shares?, value? }] }
+ *   200 { holdings: [{ ticker, name, shares?, value? }], import: { source: "screenshot", accounts, positions } }
+ *   (holdings: one row per ticker, as the iPhone app reads it; the client saves
+ *   `import` through POST /api/portfolio/holdings)
  *   400 bad upload, 401 not signed in, 413 too large, 422 unreadable,
  *   429 rate limited, 502 reading failed, 503 not configured
  */
@@ -68,5 +70,5 @@ export async function POST(request: Request) {
   if (!result.ok) {
     return NextResponse.json({ error: result.error }, { status: result.status, headers: NO_STORE });
   }
-  return NextResponse.json({ holdings: result.holdings }, { headers: NO_STORE });
+  return NextResponse.json({ holdings: result.holdings, import: result.import }, { headers: NO_STORE });
 }

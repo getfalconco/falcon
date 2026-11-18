@@ -4,7 +4,8 @@ import { NextResponse } from "next/server";
 import type { LinkEvidence, Relation } from "@falcon/ripple";
 import { clientIp, rateLimit, tooManyRequests } from "@/lib/rate-limit";
 import { TICKER_PATTERN } from "@/lib/onboarding";
-import type { GraphNeighborhood } from "@/lib/workspace/graph";
+import type { GraphAll, GraphNeighborhood } from "@/lib/workspace/graph";
+import { knownAsOf, parseAsOf, type PitAll, type PitShardEdge } from "@/lib/workspace/graph-pit";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -14,6 +15,14 @@ export const runtime = "nodejs";
  * Workspace's Graph and Ticker tabs and the iPhone app's connections.
  *
  *   GET /api/graph?tickers=NVDA,AAPL&depth=2  ->  200 GraphNeighborhood
+ *   GET /api/graph?all=1                      ->  200 GraphAll (whole graph, no quotes)
+ *   GET /api/graph?tickers=NVDA&asOf=2018-06-30[&ended=1]
+ *   GET /api/graph?all=1&asOf=2018-06-30[&ended=1]
+ *        point in time: only links whose first annual report was filed on or
+ *        before asOf (data/graph/_pit/, lib/workspace/graph-pit.ts), with the
+ *        first report's quote as evidence and `firstSeen` / `endedAt` on each
+ *        edge; links a later report (filed by asOf) stopped naming are left
+ *        out unless ended=1. 400 for a bad date, 404 when not built.
  *
  * The graph (packages/engine/data/graph.json) is split per ticker at build
  * time (scripts/graph-shards.mjs -> data/graph/), so a request reads only the
@@ -90,6 +99,95 @@ function shard(ticker: string): ShardEdge[] {
   return edges;
 }
 
+let all: string | null = null;
+
+/** The whole graph, compact (data/graph/_all.json, see scripts/graph-shards.mjs); null when not built. */
+function wholeGraph(): string | null {
+  if (all === null && DIR) {
+    try {
+      all = fs.readFileSync(path.join(DIR, "_all.json"), "utf8");
+    } catch {
+      all = null;
+    }
+  }
+  return all;
+}
+
+const pitShards = new Map<string, PitShardEdge[]>();
+
+/** A ticker's point-in-time links (data/graph/_pit/<TICKER>.json); none when it has no file. */
+function pitShard(ticker: string): PitShardEdge[] {
+  const known = pitShards.get(ticker);
+  if (known) return known;
+  let edges: PitShardEdge[] = [];
+  if (DIR && TICKER_PATTERN.test(ticker)) {
+    try {
+      edges = (JSON.parse(fs.readFileSync(path.join(DIR, "_pit", `${ticker}.json`), "utf8")) as { edges: PitShardEdge[] }).edges;
+    } catch {
+      edges = [];
+    }
+  }
+  if (pitShards.size >= MAX_CACHED) pitShards.clear();
+  pitShards.set(ticker, edges);
+  return edges;
+}
+
+let pitAll: PitAll | null = null;
+function pitWhole(): PitAll | null {
+  if (pitAll === null && DIR) {
+    try {
+      pitAll = JSON.parse(fs.readFileSync(path.join(DIR, "_pit", "_all.json"), "utf8")) as PitAll;
+    } catch {
+      pitAll = null;
+    }
+  }
+  return pitAll;
+}
+
+/** The whole graph as known on `asOf`, in GraphAll's shape (names and sectors from today's file). */
+function wholeGraphAsOf(asOf: string, includeEnded: boolean): (GraphAll & { asOf: string; since: string }) | null {
+  const pit = pitWhole();
+  if (!pit) return null;
+  const today = (() => {
+    try {
+      return JSON.parse(wholeGraph() ?? "") as GraphAll;
+    } catch {
+      return { n: [], e: [] } as GraphAll;
+    }
+  })();
+  const meta = new Map(today.n.map((n) => [n[0], n]));
+  const pairs = new Map<string, [string, string, number, number]>();
+  for (const r of pit.e) {
+    if (!knownAsOf({ firstSeen: r[4], endedAt: r[6] || null }, asOf, includeEnded)) continue;
+    const a = pit.t[r[0]]!;
+    const b = pit.t[r[1]]!;
+    const key = pairKey(a, b);
+    const known = pairs.get(key);
+    if (!known || r[3] > known[3]) pairs.set(key, [a, b, r[2], r[3]]);
+  }
+  const index = new Map<string, number>();
+  const n: GraphAll["n"] = [];
+  const at = (t: string) => {
+    let i = index.get(t);
+    if (i === undefined) {
+      i = n.length;
+      index.set(t, i);
+      const m = meta.get(t);
+      n.push([t, m?.[1] ?? nameOf(t), 0, m?.[3] ?? ""]);
+    }
+    return i;
+  };
+  const e: GraphAll["e"] = [];
+  for (const [a, b, rel, strength] of pairs.values()) {
+    const i = at(a);
+    const j = at(b);
+    n[i]![2]++;
+    n[j]![2]++;
+    e.push([i, j, rel, strength]);
+  }
+  return { asOf, since: pit.since, n, e };
+}
+
 function pairKey(a: string, b: string) {
   return a < b ? `${a}|${b}` : `${b}|${a}`;
 }
@@ -99,6 +197,23 @@ export async function GET(request: Request) {
   if (!limit.ok) return tooManyRequests(limit.retryAfter);
 
   const params = new URL(request.url).searchParams;
+  const asOfRaw = params.get("asOf") ?? params.get("as_of");
+  const asOf = asOfRaw ? parseAsOf(asOfRaw) : null;
+  if (asOfRaw && !asOf) return NextResponse.json({ error: "asOf must be a date: YYYY-MM-DD, YYYY-MM or YYYY" }, { status: 400 });
+  const includeEnded = params.get("ended") === "1";
+  if (asOf && params.get("all") === "1") {
+    const body = wholeGraphAsOf(asOf, includeEnded);
+    if (!body) return NextResponse.json({ error: "Point-in-time graph not built" }, { status: 404 });
+    return NextResponse.json(body, { headers: { "Cache-Control": "public, max-age=600, stale-while-revalidate=86400" } });
+  }
+  if (asOf && !pitWhole()) return NextResponse.json({ error: "Point-in-time graph not built" }, { status: 404 });
+  if (params.get("all") === "1") {
+    const body = wholeGraph();
+    if (!body) return NextResponse.json({ error: "Graph not built" }, { status: 404 });
+    return new NextResponse(body, {
+      headers: { "Content-Type": "application/json", "Cache-Control": "public, max-age=600, stale-while-revalidate=86400" },
+    });
+  }
   const seeds = Array.from(
     new Set(
       (params.get("tickers") ?? "")
@@ -115,9 +230,9 @@ export async function GET(request: Request) {
 
   for (let d = 1; d <= depth && frontier.length; d++) {
     // Every link out of this step's companies, strongest first, the companies taking turns.
-    const steps: { e: ShardEdge; from: string; turn: number }[] = [];
+    const steps: { e: ShardEdge & Partial<PitShardEdge>; from: string; turn: number }[] = [];
     for (const ticker of frontier) {
-      shard(ticker)
+      (asOf ? pitShard(ticker).filter((e) => knownAsOf(e, asOf, includeEnded)) : shard(ticker))
         .filter((e) => d === 1 || e.tier !== "marginal")
         .forEach((e, turn) => steps.push({ e, from: ticker, turn }));
     }
@@ -140,14 +255,21 @@ export async function GET(request: Request) {
         }
         continue;
       }
-      edges.set(key, { source: e.from, target: e.to, relation: RELATION[e.category] ?? null, evidence: [evidence] });
+      edges.set(key, {
+        source: e.from,
+        target: e.to,
+        relation: RELATION[e.category] ?? null,
+        evidence: [evidence],
+        ...(asOf && e.firstSeen ? { firstSeen: e.firstSeen, lastSeen: e.lastSeen, endedAt: e.endedAt ?? null } : {}),
+      });
     }
     frontier = next;
   }
 
   // Links between two companies already in the answer, found on the way, stay;
   // links to companies left out by the cap go.
-  const body: GraphNeighborhood = {
+  const body: GraphNeighborhood & { asOf?: string } = {
+    ...(asOf ? { asOf } : {}),
     nodes: Array.from(seen).map((ticker) => ({ ticker, name: nameOf(ticker), sector: null })),
     edges: Array.from(edges.values()).filter((e) => seen.has(e.source) && seen.has(e.target)),
   };
