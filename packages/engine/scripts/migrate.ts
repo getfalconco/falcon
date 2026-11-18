@@ -1,5 +1,5 @@
 /**
- * Applies the Sightings migrations (cards, judge-once store, forward ledger, options store and spend ledger), in order, to the Supabase database
+ * Applies the Sightings migrations (cards, judge-once store, forward ledger, options store and spend ledger, scoreboard matchups), in order, to the Supabase database
  * in DATABASE_URL (from the environment or apps/web/.env.local). The SQL is
  * idempotent (create/add ... if not exists), so the daily workflow runs it
  * before every run.
@@ -20,6 +20,7 @@ const FILES = [
   "20261117_ripple_judgments.sql",
   "20261118_ripple_ledger.sql",
   "20261119_options_daily.sql",
+  "20261122_forecast_matchups.sql",
 ];
 
 async function main() {

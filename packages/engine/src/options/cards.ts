@@ -18,6 +18,7 @@
 import { historyAbsMovePct, type OptionsMatched, type OptionsMove, type RippleHistory, type RippleOptions } from "@falcon/ripple";
 import { addDays, fitMarketModel, nyseSessions } from "../study/abnormal.ts";
 import { impliedAbsMovePct } from "./study-options.ts";
+import type { EarningsStraddle } from "./earnings-straddle.ts";
 import type { SurfaceFeatures } from "./surface.ts";
 
 export const OPTIONS_SOURCE = "OPRA via Databento" as const;
@@ -45,6 +46,8 @@ export type TickerOptions = {
   term: TermPoint[];
   /** Percentile of atmIv30 among the ticker's own stored days (store.ts), when at least 20 are kept. */
   ivPct?: number | null;
+  /** On the session before an earnings reaction: the ATM straddle's implied move (earnings-straddle.ts). */
+  earningsStraddle?: EarningsStraddle;
 };
 
 /** The L-th NYSE session after `date` (the window's last session when the window starts at the next open). */

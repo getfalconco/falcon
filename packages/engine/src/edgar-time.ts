@@ -16,6 +16,15 @@
  *   - a file not rebuilt since then still carries its older entries as the
  *     true instant.
  *
+ * That shift is gone: on 2026-11-16 every one of 2,352 submissions files
+ * (one filing per file read against its -index.htm "Accepted" line) carried
+ * the true UTC instant, files rebuilt since 2026-10-03 included (NVDA 8-K
+ * 0001045810-26-000078 now reads 2026-09-03T12:03:56Z = 08:03:56 EDT, MCHP
+ * 0000827054-26-000061 2026-11-05T21:18:06Z = 16:18:06 EST), and engine reads
+ * of 2026-11-14/15 show no file whose entries vote shifted. So a file is
+ * taken as true UTC unless its own entries say shifted (below); an entry
+ * dated since 2026-10-03 no longer means shifted. The October notes follow.
+ *
  * So one file uses one clock for all of its older entries. Checked on
  * 2026-10-15 for 44 companies against each filing's "Accepted" line on its
  * -index.htm page (New York wall time, 249 stamps, all read right), and for
@@ -41,8 +50,7 @@
  * so of the two readings of a stamp often only one agrees with its filing
  * date (a 16:21 release read as true lands at 20:21, which would have been
  * dated the next day; a 06:30 one read as shifted lands at 02:30, when EDGAR
- * is closed). When too few entries say, an entry dated since the change
- * (and before the current day) means the file was rebuilt since.
+ * is closed). When too few entries say, the file is taken as true UTC.
  *
  * Before the change (2026-08) the current day's entries were New York's wall
  * clock and the rebuilt ones true; nothing reads an index that old anymore.
@@ -86,8 +94,6 @@ const EDGAR_REBUILD_MIN = 25;
 const EDGAR_REBUILD_WINDOW_MIN = 45;
 /** Clock skew allowed before a reading counts as after the fetch. */
 const FUTURE_GRACE_MS = 5 * 60_000;
-/** The first New York day whose nightly rebuild may write a file shifted (files rebuilt after 2026-10-02 were). */
-const SHIFTED_REBUILDS_FROM = "2026-10-03";
 
 function nyParts(ms: number): { ymd: string; minutes: number; seconds: number; wallMs: number } {
   const p = Object.fromEntries(NY_PARTS.formatToParts(new Date(ms)).map((x) => [x.type, x.value]));
@@ -176,8 +182,7 @@ function atNyMidnight(ms: number): boolean {
  * by the entries themselves: each one whose form follows the 17:30 filing-date
  * rule and whose two readings disagree with each other on it votes for the
  * one that agrees; the side with the votes wins when the other is noise.
- * Failing that, the file was rebuilt since SEC's change (shifted) when it
- * holds an older entry dated since then, and not (true) otherwise. Entries of
+ * Failing that, true UTC (every file read on 2026-11-16 was). Entries of
  * the current filing day (true in every file) and of the midnight window are
  * left out when the fetch time is known. Null for a file with no entries.
  */
@@ -196,7 +201,6 @@ export function edgarIndexConvention(
   let utc = 0;
   let shifted = 0;
   let older = 0;
-  let rebuiltSince = false;
   for (let i = 0; i < stamps.length; i++) {
     const filingDate = dates[i];
     const stamp = stamps[i];
@@ -205,7 +209,6 @@ export function edgarIndexConvention(
     const ms = Date.parse(stamp);
     if (!Number.isFinite(ms)) continue;
     older++;
-    if (filingDate >= SHIFTED_REBUILDS_FROM) rebuiltSince = true;
     const form = forms[i];
     if (typeof form === "string" && SAME_DAY_FORMS.test(form.trim().toUpperCase())) continue;
     const old = unshift(ms);
@@ -217,8 +220,7 @@ export function edgarIndexConvention(
   }
   if (shifted >= CONVENTION_MIN && utc <= shifted * CONVENTION_NOISE) return "shifted";
   if (utc >= CONVENTION_MIN && shifted <= utc * CONVENTION_NOISE) return "utc";
-  if (older === 0) return null;
-  return rebuiltSince ? "shifted" : "utc";
+  return older === 0 ? null : "utc";
 }
 
 function finiteMs(value: number | null | undefined): number | null {
@@ -269,9 +271,8 @@ export function edgarStampIsCurrent(filingDate: string | null | undefined, fetch
 /**
  * The instant an EDGAR `acceptanceDateTime` stands for (epoch ms), or null
  * when it does not parse. With the fetch time and the file's convention (both
- * from the same read) the answer follows the file; with the fetch time alone
- * an older entry is taken as shifted (most files are now); with neither, as
- * the true instant (a stored record, see the note above).
+ * from the same read) the answer follows the file; without the file's word,
+ * as the true instant (as every file was on 2026-11-16).
  */
 export function edgarAcceptanceMs(stamp: string | null | undefined, ctx: EdgarStampContext = {}): number | null {
   if (!stamp) return null;
@@ -290,17 +291,15 @@ export function edgarAcceptanceMs(stamp: string | null | undefined, ctx: EdgarSt
     if (both.length < 2) return both[0] ?? old;
     const open = both.filter(inEdgarHours);
     if (open.length === 1) return open[0]!;
-    // Still both: the side of the rebuild the fetch fell on.
-    return nyParts(fetched!).minutes < EDGAR_REBUILD_MIN ? ms : old;
+    // Still both: true, unless the file says shifted; then the side of the rebuild the fetch fell on.
+    return convention !== "shifted" || nyParts(fetched!).minutes < EDGAR_REBUILD_MIN ? ms : old;
   }
   if (state === "current") return possible(ms) || !possible(old) ? ms : old;
   if (state === "old" && convention) return convention === "utc" ? ms : old;
-  // Without the file's word: the default, unless only the other reading is inside EDGAR's hours.
-  const pick = state === "old" ? old : ms;
-  const other = pick === ms ? old : ms;
-  if (!possible(pick) && possible(other)) return other;
-  if (!inEdgarHours(pick) && inEdgarHours(other)) return other;
-  return pick;
+  // Without the file's word: the true instant, unless only the other reading is inside EDGAR's hours.
+  if (!possible(ms) && possible(old)) return old;
+  if (!inEdgarHours(ms) && inEdgarHours(old)) return old;
+  return ms;
 }
 
 /** `edgarAcceptanceMs` as an ISO string, for records that store the instant. */

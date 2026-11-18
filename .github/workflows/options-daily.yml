@@ -7,11 +7,22 @@
 # Supabase public.options_daily (about 90 days kept); /api/options serves it,
 # and the Sightings run reads it before buying anything.
 #
-# Runs on weekdays at 22:00 UTC (after the close; the session's data may not
-# be in Databento's range yet, then the previous session is filled), and again
-# at 05:30 UTC Tuesday to Saturday, when the day's data is there for certain.
-# A session already stored is never bought twice, so the second run usually
-# costs nothing. Also on demand (Actions > Options daily > Run workflow).
+# The stored snapshot is always the session's own 15:45 New York minute
+# (12:45 on early-close days), however late the run. Databento publishes a
+# session's OPRA data only after it ends (without a live licence the
+# historical range stops at the day's 09:30 open during the session), and
+# not at a fixed hour, so the job tries several times: 22:00 UTC weekdays
+# (after the close), 01:30 and 05:30 UTC Tuesday to Saturday, and 12:30 UTC
+# weekdays as a morning catch-up. Each run fills the latest session Databento
+# has and the two before it (OPTIONS_DAILY_BACKFILL), so a missed or failed
+# run is caught up at the next one. A session already stored is never bought
+# twice: the later runs usually cost nothing. Also on demand (Actions >
+# Options daily > Run workflow).
+#
+# Earnings straddles: on the session before a release's reaction (Yahoo's
+# dates, the /earnings source), reporting names (outside the graph universe
+# too) are priced and their row gets metrics.earnings_straddle
+# (packages/engine/src/options/earnings-straddle.ts).
 #
 # Caps: OPTIONS_DAILY_RUN_CAP_USD a run and OPTIONS_DAILY_MONTH_CAP_USD a UTC
 # month, counted in Supabase public.options_spend (persistent: a lost cache
@@ -27,7 +38,9 @@ name: Options daily
 on:
   schedule:
     - cron: "0 22 * * 1-5"
+    - cron: "30 1 * * 2-6"
     - cron: "30 5 * * 2-6"
+    - cron: "30 12 * * 1-5"
   workflow_dispatch:
     inputs:
       price_only:
@@ -56,6 +69,7 @@ jobs:
       OPTIONS_DAILY_BATCH: "4"
       OPTIONS_DAILY_PARALLEL: "6"
       OPTIONS_DAILY_MAX_MINUTES: "100"
+      OPTIONS_DAILY_BACKFILL: "3"
       PRICE_ONLY: ${{ inputs.price_only && '1' || '' }}
       MAX_NAMES: ${{ inputs.max || '' }}
     steps:

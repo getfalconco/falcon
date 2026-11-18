@@ -11,6 +11,9 @@ import {
   nyOffsetMs,
   type EdgarIndexConvention,
 } from "../src/edgar-time.ts";
+import { nyWallToIso, parseAtom, parseSecHeader } from "../src/feed/edgar.ts";
+import { nySession, reactionIndex } from "../src/history.ts";
+import { isNyseEarlyClose, nyseSessions, reactionDayIndex } from "../src/study/abnormal.ts";
 
 const NY = new Intl.DateTimeFormat("en-US", {
   timeZone: "America/New_York",
@@ -65,8 +68,8 @@ describe("edgar-time: acceptance stamps", () => {
       const fetchedAtMs = Date.parse(c.current) + 7 * 86_400_000;
       assert.equal(ny(edgarAcceptanceMs(c.old, { filingDate: c.filingDate, fetchedAtMs, convention: "shifted" })), c.ny);
       assert.equal(ny(edgarAcceptanceMs(c.current, { filingDate: c.filingDate, fetchedAtMs, convention: "utc" })), c.ny);
-      // With the fetch time but not the file's word, an older entry is taken as shifted.
-      assert.equal(ny(edgarAcceptanceMs(c.old, { filingDate: c.filingDate, fetchedAtMs })), c.ny);
+      // With the fetch time but not the file's word, an older entry is taken as the true instant.
+      assert.equal(ny(edgarAcceptanceMs(c.current, { filingDate: c.filingDate, fetchedAtMs })), c.ny);
     });
 
     it(`${c.name}: an entry of the current filing day is the true instant in any file`, () => {
@@ -231,9 +234,10 @@ describe("edgar-time: a file's own clock", () => {
     assert.equal(edgarIndexConvention(DRCT_TOP, FETCHED), "shifted");
   });
 
-  it("otherwise by whether an older entry is dated since SEC's change", () => {
+  it("otherwise as true UTC, whatever the dates of its entries", () => {
     assert.equal(edgarIndexConvention(NFLX_TOP, FETCHED), "utc");
-    assert.equal(edgarIndexConvention(NVDA_TOP, FETCHED), "shifted");
+    // Dated since 2026-10-03 no longer means shifted (every file was true on 2026-11-16).
+    assert.equal(edgarIndexConvention(NVDA_TOP, FETCHED), "utc");
     // One 16:03 release says nothing by itself: dated before the change, the file is true.
     assert.equal(edgarIndexConvention(index([["8-K", "2026-07-16", "2026-07-16T20:03:19Z"]]), FETCHED), "utc");
   });
@@ -246,8 +250,8 @@ describe("edgar-time: a file's own clock", () => {
       ["4", "2026-09-17", "2026-09-17T20:21:30Z"],
     ]);
     assert.equal(edgarIndexConvention(amd, FETCHED), "utc");
-    // Without the fetch time, today's entry counts as older and says rebuilt.
-    assert.equal(edgarIndexConvention(amd), "shifted");
+    // Without the fetch time, today's entry counts as older; it says nothing either way.
+    assert.equal(edgarIndexConvention(amd), "utc");
   });
 
   it("ignores the date-only stamps EDGAR kept until 2002", () => {
@@ -298,13 +302,21 @@ describe("edgar-time: the midnight window", () => {
     assert.equal(ny(edgarAcceptanceMs(midday.trueStamp, { filingDate: midday.filingDate, fetchedAtMs, convention: "shifted" })), "2026-07-14 13:00:00");
   });
 
-  it("after the rebuild, takes it as shifted", () => {
+  it("after the rebuild, takes it as shifted in a file that says shifted", () => {
     const fetchedAtMs = at("2026-07-15T04:35:00Z"); // 00:35 New York
     assert.equal(ny(edgarAcceptanceMs(midday.shifted, { filingDate: midday.filingDate, fetchedAtMs, convention: "shifted" })), "2026-07-14 13:00:00");
     // Winter: 13:00 EST is 18:00Z, shifted 23:00Z; read 00:35 EST.
     assert.equal(
-      ny(edgarAcceptanceMs("2026-01-13T23:00:00.000Z", { filingDate: "2026-01-13", fetchedAtMs: at("2026-01-14T05:35:00Z") })),
+      ny(edgarAcceptanceMs("2026-01-13T23:00:00.000Z", { filingDate: "2026-01-13", fetchedAtMs: at("2026-01-14T05:35:00Z"), convention: "shifted" })),
       "2026-01-13 13:00:00",
+    );
+  });
+
+  it("after the rebuild, takes it as the true instant when the file does not say", () => {
+    // 16:05 EST after-close release, read 00:35 EST: true 21:05Z; the shifted reading (11:05) is also in EDGAR's hours.
+    assert.equal(
+      ny(edgarAcceptanceMs("2026-11-13T21:05:00.000Z", { filingDate: "2026-11-13", fetchedAtMs: at("2026-11-14T05:35:00Z") })),
+      "2026-11-13 16:05:00",
     );
   });
 
@@ -364,5 +376,119 @@ describe("edgar-time: filing records", () => {
     assert.equal(ny(filingAcceptedMs({ acceptedAt: "2026-07-15T04:30:00.000Z", filedAt: "2026-07-15" })), "2026-07-14 20:30:00");
     assert.equal(filingAcceptedMs({ acceptedAt: null, filedAt: "2026-07-14" }), null);
     assert.equal(filingAcceptedMs({ acceptedAt: "junk", acceptedAtUtc: true }), null);
+  });
+});
+
+/**
+ * Read from EDGAR on 2026-11-16 (New York midday): each filing's
+ * submissions-JSON `acceptanceDateTime`, its -index.htm "Accepted" line and
+ * its SEC header's <ACCEPTANCE-DATETIME> (both New York wall clock). Every
+ * stamp was the true UTC instant, in files the old heuristic called shifted
+ * (ALAB, AVGO, AMKR) as in the others, and in files rebuilt since 2026-10-03.
+ */
+const NOV16 = Date.parse("2026-11-16T17:44:40Z");
+const READ_NOV16: ReadonlyArray<{ t: string; acc: string; form: string; filingDate: string; stamp: string; accepted: string; header: string }> = [
+  { t: "NVDA", acc: "0001045810-26-000078", form: "8-K", filingDate: "2026-09-03", stamp: "2026-09-03T12:03:56.000Z", accepted: "2026-09-03 08:03:56", header: "20260903080356" },
+  { t: "NVDA", acc: "0001045810-23-000039", form: "8-K", filingDate: "2023-03-08", stamp: "2023-03-08T21:12:15.000Z", accepted: "2023-03-08 16:12:15", header: "20230308161215" },
+  { t: "NVDA", acc: "0001197647-26-000013", form: "4", filingDate: "2026-11-06", stamp: "2026-11-06T21:12:02.000Z", accepted: "2026-11-06 16:12:02", header: "20261106161202" },
+  { t: "AAPL", acc: "0000320193-26-000020", form: "10-Q", filingDate: "2026-07-31", stamp: "2026-07-31T10:01:02.000Z", accepted: "2026-07-31 06:01:02", header: "20260731060102" },
+  { t: "AAPL", acc: "0001140361-26-043484", form: "4", filingDate: "2026-11-12", stamp: "2026-11-12T23:58:20.000Z", accepted: "2026-11-12 18:58:20", header: "20261112185820" },
+  { t: "MCHP", acc: "0000827054-26-000061", form: "8-K", filingDate: "2026-11-05", stamp: "2026-11-05T21:18:06.000Z", accepted: "2026-11-05 16:18:06", header: "20261105161806" },
+  { t: "ALAB", acc: "0001736297-26-000044", form: "8-K", filingDate: "2026-11-03", stamp: "2026-11-03T21:09:51.000Z", accepted: "2026-11-03 16:09:51", header: "20261103160951" },
+  { t: "AVGO", acc: "0001730168-26-000076", form: "8-K", filingDate: "2026-09-02", stamp: "2026-09-02T20:26:04.000Z", accepted: "2026-09-02 16:26:04", header: "20260902162604" },
+  { t: "AMKR", acc: "0001047127-26-000049", form: "8-K", filingDate: "2026-10-26", stamp: "2026-10-26T20:07:24.000Z", accepted: "2026-10-26 16:07:24", header: "20261026160724" },
+  { t: "AMKR", acc: "0001628280-26-073456", form: "4", filingDate: "2026-11-12", stamp: "2026-11-12T21:38:38.000Z", accepted: "2026-11-12 16:38:38", header: "20261112163838" },
+];
+
+describe("edgar-time: every file true UTC (EDGAR, 2026-11-16)", () => {
+  /** Tops of files the old fallback called shifted (thin files: no entry says, but some are dated since 2026-10-03). */
+  const ALAB_TOP = index([
+    ["4", "2026-11-09", "2026-11-09T21:44:20Z"],
+    ["144/A", "2026-11-09", "2026-11-09T20:20:39Z"],
+    ["144", "2026-11-05", "2026-11-05T19:58:36Z"],
+    ["8-K", "2026-11-04", "2026-11-04T22:01:38Z"],
+    ["10-Q", "2026-11-04", "2026-11-03T22:35:42Z"],
+    ["8-K", "2026-11-03", "2026-11-03T21:09:51Z"],
+    ["4", "2026-10-09", "2026-10-09T23:21:26Z"],
+  ]);
+  const AVGO_TOP = index([
+    ["8-K", "2026-10-27", "2026-10-27T20:23:36Z"],
+    ["4", "2026-09-25", "2026-09-25T20:15:18Z"],
+    ["144", "2026-09-23", "2026-09-24T00:11:09Z"],
+    ["EFFECT", "2026-09-18", "2026-09-21T04:15:12Z"],
+    ["424B3", "2026-09-18", "2026-09-18T20:17:30Z"],
+  ]);
+  const AMKR_TOP = index([
+    ["4", "2026-11-12", "2026-11-12T21:38:38Z"],
+    ["144", "2026-11-10", "2026-11-10T21:02:21Z"],
+    ["10-Q", "2026-10-27", "2026-10-27T19:01:56Z"],
+    ["8-K", "2026-10-26", "2026-10-26T20:07:24Z"],
+  ]);
+
+  it("takes a file whose entries do not say as true UTC, even with entries dated since 2026-10-03", () => {
+    for (const top of [ALAB_TOP, AVGO_TOP, AMKR_TOP]) assert.equal(edgarIndexConvention(top, NOV16), "utc");
+  });
+
+  for (const o of READ_NOV16) {
+    it(`${o.t} ${o.form} ${o.acc}: submissions JSON, index page and SEC header agree`, () => {
+      const file = o.t === "ALAB" ? ALAB_TOP : o.t === "AVGO" ? AVGO_TOP : o.t === "AMKR" ? AMKR_TOP : null;
+      const convention = file ? edgarIndexConvention(file, NOV16) : null;
+      assert.equal(ny(edgarAcceptanceMs(o.stamp, { filingDate: o.filingDate, fetchedAtMs: NOV16, convention })), o.accepted);
+      assert.equal(ny(edgarAcceptanceMs(o.stamp, { filingDate: o.filingDate, fetchedAtMs: NOV16 })), o.accepted);
+      assert.equal(nyWallToIso(o.header), o.stamp);
+    });
+  }
+
+  it("keeps an after-close release after the close (MCHP 16:18:06 EST reacts the next session)", () => {
+    const ms = edgarAcceptanceMs("2026-11-05T21:18:06.000Z", { filingDate: "2026-11-05", fetchedAtMs: NOV16 })!;
+    assert.deepEqual(nySession(ms), { date: "2026-11-05", session: "after_close" });
+    const sessions = nyseSessions("2026-11-02", "2026-11-13");
+    assert.equal(sessions[reactionIndex(sessions, "2026-11-05", "after_close")!], "2026-11-06");
+    assert.equal(sessions[reactionDayIndex(sessions, ms)!], "2026-11-06");
+  });
+
+  it("16:00:00 exactly is at the close: the next session reacts; 15:59:59 is the same day", () => {
+    const sessions = nyseSessions("2026-11-09", "2026-11-13");
+    const atClose = edgarAcceptanceMs("2026-11-10T21:00:00.000Z", { filingDate: "2026-11-10", fetchedAtMs: NOV16 })!;
+    assert.equal(ny(atClose), "2026-11-10 16:00:00");
+    assert.equal(nySession(atClose).session, "after_close");
+    assert.equal(sessions[reactionDayIndex(sessions, atClose)!], "2026-11-11");
+    const before = edgarAcceptanceMs("2026-11-10T20:59:59.000Z", { filingDate: "2026-11-10", fetchedAtMs: NOV16 })!;
+    assert.equal(nySession(before).session, "during");
+    assert.equal(sessions[reactionDayIndex(sessions, before)!], "2026-11-10");
+  });
+
+  it("reads stamps across both clock changes of 2026 by the offset of their own instant", () => {
+    const read = (stamp: string, filingDate: string) => ny(edgarAcceptanceMs(stamp, { filingDate, fetchedAtMs: NOV16 }));
+    // Friday 2026-10-30 16:05 EDT (20:05Z), read after New York fell back on 11-01.
+    assert.equal(read("2026-10-30T20:05:00.000Z", "2026-10-30"), "2026-10-30 16:05:00");
+    // Monday 2026-11-02 16:05 EST (21:05Z), the first session after it.
+    assert.equal(read("2026-11-02T21:05:00.000Z", "2026-11-02"), "2026-11-02 16:05:00");
+    // Friday 2026-03-06 16:05 EST (21:05Z) and Monday 2026-03-09 16:05 EDT (20:05Z) around the spring change.
+    assert.equal(read("2026-03-06T21:05:00.000Z", "2026-03-06"), "2026-03-06 16:05:00");
+    assert.equal(read("2026-03-09T20:05:00.000Z", "2026-03-09"), "2026-03-09 16:05:00");
+    // SEC headers (New York wall clock) on either side.
+    assert.equal(nyWallToIso("20261030160500"), "2026-10-30T20:05:00.000Z");
+    assert.equal(nyWallToIso("20261102160500"), "2026-11-02T21:05:00.000Z");
+    assert.equal(nyWallToIso("20260309160500"), "2026-03-09T20:05:00.000Z");
+  });
+
+  it("an acceptance after an early close (13:00) reacts the next session", () => {
+    // 2026-11-27, the day after Thanksgiving, closes at 13:00.
+    assert.equal(isNyseEarlyClose("2026-11-27"), true);
+    const sessions = nyseSessions("2026-11-23", "2026-12-04");
+    const after = edgarAcceptanceMs("2026-11-27T18:05:00.000Z", { filingDate: "2026-11-27", fetchedAtMs: Date.parse("2026-12-01T17:00:00Z") })!;
+    assert.equal(ny(after), "2026-11-27 13:05:00");
+    assert.equal(sessions[reactionDayIndex(sessions, after)!], "2026-11-30");
+    const before = edgarAcceptanceMs("2026-11-27T17:55:00.000Z", { filingDate: "2026-11-27", fetchedAtMs: Date.parse("2026-12-01T17:00:00Z") })!;
+    assert.equal(sessions[reactionDayIndex(sessions, before)!], "2026-11-27");
+  });
+
+  it("reads the other source formats by their own clocks: SEC header (New York wall) and Atom (explicit offset)", () => {
+    const header = "<SEC-HEADER>\nACCESSION NUMBER:\t\t0000827054-26-000061\nCONFORMED SUBMISSION TYPE:\t8-K\n<ACCEPTANCE-DATETIME>20261105161806\n</SEC-HEADER>";
+    assert.equal(parseSecHeader(header).acceptedAt, "2026-11-05T21:18:06.000Z");
+    const atom = `<feed><entry><title>8-K - MICROCHIP TECHNOLOGY INC (0000827054) (Filer)</title><link rel="alternate" type="text/html" href="https://www.sec.gov/Archives/edgar/data/827054/000082705426000061/0000827054-26-000061-index.htm"/><summary type="html"> &lt;b&gt;Filed:&lt;/b&gt; 2026-11-05 &lt;b&gt;AccNo:&lt;/b&gt; 0000827054-26-000061 &lt;b&gt;Size:&lt;/b&gt; 1 MB&lt;br&gt;Item 2.02: Results of Operations and Financial Condition</summary><updated>2026-11-05T16:18:06-05:00</updated></entry></feed>`;
+    const [e] = parseAtom(atom);
+    assert.equal(e!.acceptedAt, "2026-11-05T21:18:06.000Z");
   });
 });

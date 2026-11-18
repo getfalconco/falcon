@@ -29,6 +29,7 @@ import { addDays, isNyseEarlyClose, nyInstantMs, nyseSessions } from "../study/a
 import { BudgetError, DatabentoClient, DatabentoError, fetchStockSpot, quotesAt, type PullOptions } from "./client.ts";
 import { betaFromCloses, chainProblem, latestOnOrBefore, tickerOptionsFrom, type TickerOptions } from "./cards.ts";
 import { discountToContinuous, dividendYieldOn, fetchDividends, fetchDtb3, parseFredCsv, rateOn } from "./rates.ts";
+import { earningsStraddle, releaseSessions, type EarningsRelease, type EarningsStraddle } from "./earnings-straddle.ts";
 import { definitionsFromRecords, osiRoot, recordsByRoot } from "./study-options.ts";
 import { surfaceFeatures, type SurfaceFeatures } from "./surface.ts";
 
@@ -50,8 +51,20 @@ export const US_TICKER = /^[A-Z]{1,5}$|^[A-Z]{1,4}[.-][A-Z]$/;
 
 export type Snapshot = { date: string; minute: number; asOfMs: number; label: string };
 
-/** What is known about a ticker at a snapshot: its record, or why it has none (a data reason, kept so it is not bought again). */
-export type KnownEntry = TickerOptions | { skip: string };
+/**
+ * What is known about a ticker at a snapshot: its record, or why it has none
+ * (a data reason, kept so it is not bought again). A poor chain on the session
+ * before an earnings reaction still keeps its nearest-strike straddle.
+ */
+export type KnownEntry = TickerOptions | { skip: string; earningsStraddle?: EarningsStraddle };
+
+/** The skip stored when OPRA lists no options for a name (Databento cannot resolve the parent symbol). */
+export const NO_OPTIONS_LISTED = "no options listed";
+
+/** True when Databento refused a request because none of its symbols resolve (HTTP 422 symbology). Pure. */
+export function noOptionsListed(err: unknown): boolean {
+  return err instanceof DatabentoError && err.status === 422 && /symbolog|could (not )?be resolved|did not resolve/i.test(err.message);
+}
 
 export type Skip = { ticker: string; why: string };
 
@@ -141,6 +154,8 @@ export type ChainsContext = {
   snapshot: Snapshot;
   /** Already known at this snapshot: reused, never pulled again. */
   known?: ReadonlyMap<string, KnownEntry>;
+  /** Earnings releases whose straddle belongs to this snapshot (earnings-straddle.ts): the record gets `earningsStraddle`. */
+  earnings?: ReadonlyMap<string, EarningsRelease>;
   batchSize?: number;
   /** Quote requests in flight at once (default 1). Databento answers a request in roughly 10 s plus its size. */
   pullConcurrency?: number;
@@ -269,6 +284,8 @@ export async function priceChains(tickers: readonly string[], ctx: ChainsContext
     out.batches++;
     const recs = new Map<string, Raw[]>();
     const got = new Set<string>();
+    /** Names Databento could not resolve on their own (OPRA lists no options for them): stored as a skip. */
+    const noOpts: string[] = [];
     const pullBatch = async (ns: string[]): Promise<void> => {
       // A batch gets one HTTP attempt (a gateway timeout on big chains would only repeat); single names get the retries.
       const res = await client.getRange<Raw>(quoteReq(ns), ns.length > 1 ? { ...pull, attempts: 1 } : pull);
@@ -294,25 +311,35 @@ export async function priceChains(tickers: readonly string[], ctx: ChainsContext
             stop(why2);
             break;
           }
-          out.skipped.push({ ticker: n, why: e2 instanceof DatabentoError ? `Databento HTTP ${e2.status}` : "pull failed" });
+          if (noOptionsListed(e2)) noOpts.push(n);
+          else out.skipped.push({ ticker: n, why: e2 instanceof DatabentoError ? `Databento HTTP ${e2.status}` : "pull failed" });
         }
       }
-      if (names.length === 1) out.skipped.push({ ticker: names[0]!, why: err instanceof DatabentoError ? `Databento HTTP ${err.status}` : "pull failed" });
+      if (names.length === 1) {
+        if (noOptionsListed(err)) noOpts.push(names[0]!);
+        else out.skipped.push({ ticker: names[0]!, why: err instanceof DatabentoError ? `Databento HTTP ${err.status}` : "pull failed" });
+      }
     }
     for (const n of got) pulled.add(n);
-    emptyInRow = got.size ? 0 : emptyInRow + 1;
+    // A name with no listed options is an answer too (Databento is reachable).
+    emptyInRow = got.size || noOpts.length ? 0 : emptyInRow + 1;
     if (emptyInRow >= MAX_EMPTY_BATCHES) stop(`nothing pulled in ${MAX_EMPTY_BATCHES} batches in a row (Databento unreachable?)`);
     done++;
     if (ctx.progressEvery && done % ctx.progressEvery === 0) {
       log(`options: ${done} of ${batches.length} batches, ${out.priced} priced, $${out.pricedUsd.toFixed(2)} priced so far, ${Math.round((Date.now() - started) / 1000)} s`);
     }
-    if (pull.dryRun || !got.size) return;
+    if (pull.dryRun) {
+      for (const n of noOpts) out.skipped.push({ ticker: n, why: NO_OPTIONS_LISTED });
+      return;
+    }
+    if (!got.size && !noOpts.length) return;
 
     const batchEntries = new Map<string, KnownEntry>();
-    const skip = (t: string, why: string) => {
-      batchEntries.set(t, { skip: why });
+    const skip = (t: string, why: string, extra: { earningsStraddle?: EarningsStraddle } = {}) => {
+      batchEntries.set(t, { skip: why, ...extra });
       out.skipped.push({ ticker: t, why });
     };
+    for (const n of noOpts) skip(n, NO_OPTIONS_LISTED);
     const withQuotes: string[] = [];
     for (const t of names) {
       if (!got.has(t)) continue;
@@ -331,14 +358,14 @@ export async function priceChains(tickers: readonly string[], ctx: ChainsContext
       const sh = await loadShared();
       const computed = await mapPool(withQuotes, ctx.concurrency ?? DEFAULT_CONCURRENCY, async (t) => {
         try {
-          return await computeOne(t, recs.get(osiRoot(t))!, spots.get(t) ?? null, sh, ctx.market, snapshot);
+          return await computeOne(t, recs.get(osiRoot(t))!, spots.get(t) ?? null, sh, ctx.market, snapshot, ctx.earnings?.get(t) ?? null);
         } catch (err) {
           return { skip: `compute failed: ${errText(err, 80)}` };
         }
       });
       withQuotes.forEach((t, i) => {
         const r = computed[i]!;
-        if ("skip" in r) skip(t, r.skip);
+        if ("skip" in r) skip(t, r.skip, r.earningsStraddle ? { earningsStraddle: r.earningsStraddle } : {});
         else {
           batchEntries.set(t, r);
           out.result.set(t, r);
@@ -364,7 +391,7 @@ export async function priceChains(tickers: readonly string[], ctx: ChainsContext
 }
 
 /** One name's record from its quote records, or why it has none. */
-async function computeOne(t: string, rs: Raw[], itchSpot: number | null, sh: Shared, market: MarketData | null, snap: Snapshot): Promise<KnownEntry> {
+async function computeOne(t: string, rs: Raw[], itchSpot: number | null, sh: Shared, market: MarketData | null, snap: Snapshot, release: EarningsRelease | null = null): Promise<KnownEntry> {
   const { date, asOfMs } = snap;
   const from = addDays(date, -420);
   const closes = market ? await market.dailyCloses(t, from, date).catch(() => []) : [];
@@ -395,8 +422,16 @@ async function computeOne(t: string, rs: Raw[], itchSpot: number | null, sh: Sha
     }
   }
   if (!f || spot === null) return { skip: "no spot" };
+  // The pre-earnings straddle, on the session before the reaction only (always this snapshot's 15:45 quotes).
+  // It needs two quotes at one strike, not an IV surface: a chain too thin for the card block still has it.
+  const st =
+    release && releaseSessions(release).snapshotSession === date
+      ? earningsStraddle(f.contracts, spot, release, { asOfMs, sourceMinute: snap.label, source: "OPRA.PILLAR cbbo-1m via Databento" })
+      : null;
   const problem = chainProblem(f);
-  if (problem) return { skip: `poor chain: ${problem}` };
+  if (problem) return st ? { skip: `poor chain: ${problem}`, earningsStraddle: st } : { skip: `poor chain: ${problem}` };
   const beta = sh.spy.length && closes.length ? betaFromCloses(closes, sh.spy, date) : null;
-  return tickerOptionsFrom(f, { ticker: t, spotSource, beta, vix: sh.vix });
+  const rec = tickerOptionsFrom(f, { ticker: t, spotSource, beta, vix: sh.vix });
+  if (st) rec.earningsStraddle = st;
+  return rec;
 }

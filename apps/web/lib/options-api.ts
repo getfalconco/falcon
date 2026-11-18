@@ -11,6 +11,7 @@ import { canSeeOptions, type OptionsDisplay } from "./sightings-options";
  *
  *   GET /api/options?all=1        -> OptionsAll     (compact, every ticker; ~150 KB)
  *   GET /api/options?ticker=NVDA  -> OptionsTicker  (the card block + IV history)
+ *   GET /api/options?earnings=1   -> OptionsEarnings (stored pre-earnings straddles, last sessions)
  *
  * Numbers are in the card block's units: vol points and percent (atmIv 42.1
  * = 42.1% annualised; im5 3.2 = an expected absolute move of 3.2% over 5
@@ -132,4 +133,76 @@ export async function fetchTickerOptions(ticker: string, init?: RequestInit, bas
 /** ATM IV (vol points) per ticker from the compact map, e.g. for an implied-vol filter. Pure. */
 export function ivByTicker(all: OptionsAll): Map<string, number> {
   return new Map(Object.entries(all.tickers).map(([t, o]) => [t, o.atmIv]));
+}
+
+// ---------------------------------------------------------------------------
+// Upcoming earnings: the stored pre-earnings straddles
+
+/** When a release lands (engine options/earnings-straddle.ts EarningsTime). */
+export type EarningsTimeOfDay = "before_open" | "during" | "after_close" | "unknown";
+
+/**
+ * One stored pre-earnings ATM straddle (options_daily.metrics.earnings_straddle,
+ * written by the daily job on the last session before the release can move
+ * the stock): the release date Yahoo gave and what the options priced for it.
+ */
+export type OptionsEarningsRelease = {
+  ticker: string;
+  /** Release date, New York (YYYY-MM-DD). */
+  date: string;
+  time: EarningsTimeOfDay;
+  /** The first session that can react. */
+  reactionDay: string;
+  /** Straddle implied move, percent of spot (10.2 = ±10.2%). */
+  movePct: number;
+  /** The session of the snapshot (YYYY-MM-DD). */
+  session: string;
+  /** Snapshot instant (ISO); the session date when the store has none. */
+  asOf: string;
+};
+
+export type OptionsEarnings = { source: "OPRA via Databento"; releases: OptionsEarningsRelease[] };
+
+const YMD = /^\d{4}-\d{2}-\d{2}$/;
+const TIMES: readonly EarningsTimeOfDay[] = ["before_open", "during", "after_close", "unknown"];
+
+export function emptyEarnings(): OptionsEarnings {
+  return { source: OPTIONS_SOURCE, releases: [] };
+}
+
+/** A stored straddle as a release row; null when any field is missing or off. Pure. */
+export function earningsReleaseOf(ticker: string, session: string, straddle: unknown): OptionsEarningsRelease | null {
+  if (!straddle || typeof straddle !== "object") return null;
+  const s = straddle as Record<string, unknown>;
+  const move = num(s.implied_move);
+  const date = typeof s.earnings_date === "string" && YMD.test(s.earnings_date) ? s.earnings_date : null;
+  const reaction = typeof s.reaction_day === "string" && YMD.test(s.reaction_day) ? s.reaction_day : null;
+  if (move === null || !(move > 0) || !date || !reaction || !YMD.test(session)) return null;
+  const time = TIMES.includes(s.earnings_time as EarningsTimeOfDay) ? (s.earnings_time as EarningsTimeOfDay) : "unknown";
+  return {
+    ticker: ticker.toUpperCase(),
+    date,
+    time,
+    reactionDay: reaction,
+    movePct: Math.round(move * 1000) / 10,
+    session,
+    asOf: typeof s.as_of === "string" ? s.as_of : session,
+  };
+}
+
+/** The payload as this viewer may see it (OPTIONS_DISPLAY). Pure. */
+export function earningsForViewer(payload: OptionsEarnings, mode: OptionsDisplay, isAdmin: boolean): OptionsEarnings {
+  return canSeeOptions(mode, isAdmin) ? payload : emptyEarnings();
+}
+
+/** Stored pre-earnings straddles of the last few sessions; empty on any error. */
+export async function fetchOptionsEarnings(init?: RequestInit, base = ""): Promise<OptionsEarnings> {
+  try {
+    const res = await fetch(`${base}/api/options?earnings=1`, { credentials: "same-origin", ...init });
+    if (!res.ok) return emptyEarnings();
+    const body = (await res.json()) as OptionsEarnings;
+    return body && Array.isArray(body.releases) ? body : emptyEarnings();
+  } catch {
+    return emptyEarnings();
+  }
 }

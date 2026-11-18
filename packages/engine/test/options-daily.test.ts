@@ -7,10 +7,11 @@ import { describe, it } from "node:test";
 import type { RippleCard } from "@falcon/ripple";
 import { DatabentoClient, DatabentoError, type HttpFn, type HttpResponseLike } from "../src/options/client.ts";
 import { optionsBlock, type TickerOptions } from "../src/options/cards.ts";
-import { accountProblem, mapPool, priceChains, type KnownEntry, type Snapshot } from "../src/options/chains.ts";
-import { DAILY_CALLER_PREFIX, dailyLine, runDaily, universeTickers } from "../src/options/daily.ts";
+import { accountProblem, mapPool, noOptionsListed, priceChains, NO_OPTIONS_LISTED, type KnownEntry, type Snapshot } from "../src/options/chains.ts";
+import { coverageTickers, DAILY_CALLER_PREFIX, dailyLine, runDaily, universeTickers } from "../src/options/daily.ts";
+import type { MarketData } from "../src/market.ts";
 import { attachOptions } from "../src/options/sightings-options.ts";
-import { fromMetrics, ivPercentile, memoryOptionsStore, monthBounds, toMetrics, trimTerm, MIN_IV_DAYS } from "../src/options/store.ts";
+import { fromMetrics, ivPercentile, knownFromRow, memoryOptionsStore, monthBounds, skipMetrics, toMetrics, trimTerm, MIN_IV_DAYS } from "../src/options/store.ts";
 
 const zstd = (zlib as unknown as { zstdCompressSync: (b: Buffer) => Buffer }).zstdCompressSync;
 const noSleep = async () => {};
@@ -213,7 +214,7 @@ describe("runDaily: caps, store, ledger", () => {
   it("names already stored for the session are not bought; data skips and ledger lines are stored", async () => {
     const { client, store, quotePulls } = setup(0.002);
     await store.save("2026-11-13", new Map([["TAA", T("TAA")]]), "sightings");
-    const s = await runDaily({ client, market: null, store, ledger: store, tickers: tickers(6), nowMs: NOW, batchSize: 4, runCapUsd: 7, monthCapUsd: 110 });
+    const s = await runDaily({ client, market: null, store, ledger: store, backfill: 1, tickers: tickers(6), nowMs: NOW, batchSize: 4, runCapUsd: 7, monthCapUsd: 110 });
     assert.equal(s.stored, 1);
     assert.equal(s.wanted, 5);
     assert.deepEqual(quotePulls().flatMap((c) => c.symbols).sort(), ["TAB.OPT", "TAC.OPT", "TAD.OPT", "TAE.OPT", "TAF.OPT"]);
@@ -223,7 +224,7 @@ describe("runDaily: caps, store, ledger", () => {
     assert.match(s.line, /^options-daily: 0 of 5 names priced at 2026-11-13 15:45 ET; universe 6, already stored 1/);
 
     // A second run the same session buys nothing.
-    const again = await runDaily({ client, market: null, store, ledger: store, tickers: tickers(6), nowMs: NOW + 3_600_000, runCapUsd: 7, monthCapUsd: 110 });
+    const again = await runDaily({ client, market: null, store, ledger: store, backfill: 1, tickers: tickers(6), nowMs: NOW + 3_600_000, runCapUsd: 7, monthCapUsd: 110 });
     assert.equal(again.wanted, 0);
     assert.equal(again.spendUsd, 0);
   });
@@ -233,7 +234,7 @@ describe("runDaily: caps, store, ledger", () => {
     await store.append([{ at: "2026-11-03T22:00:00.000Z", kind: "charge", dataset: "OPRA.PILLAR", schema: "cbbo-1m", symbols: { count: 4, first: [] }, start: "", end: "", costUsd: 110, caller: "options-daily@2026-11-03T22:00Z", key: "k" }]);
     // Last month's spend does not count.
     await store.append([{ at: "2026-10-30T22:00:00.000Z", kind: "charge", dataset: "OPRA.PILLAR", schema: "cbbo-1m", symbols: { count: 4, first: [] }, start: "", end: "", costUsd: 500, caller: "options-daily@2026-10-30T22:00Z", key: "k" }]);
-    const s = await runDaily({ client, market: null, store, ledger: store, tickers: tickers(4), nowMs: NOW, runCapUsd: 7, monthCapUsd: 110 });
+    const s = await runDaily({ client, market: null, store, ledger: store, backfill: 1, tickers: tickers(4), nowMs: NOW, runCapUsd: 7, monthCapUsd: 110 });
     assert.match(s.stopped ?? "", /monthly cap reached \(\$110\.00 of \$110\.00\)/);
     assert.equal(quotePulls().length, 0);
   });
@@ -241,7 +242,7 @@ describe("runDaily: caps, store, ledger", () => {
   it("the month's remainder caps this run: the pull that would pass it is refused, the job stops quietly", async () => {
     const { client, store, quotePulls } = setup(0.5);
     await store.append([{ at: "2026-11-03T22:00:00.000Z", kind: "charge", dataset: "OPRA.PILLAR", schema: "cbbo-1m", symbols: { count: 4, first: [] }, start: "", end: "", costUsd: 109, caller: "options-daily@2026-11-03T22:00Z", key: "k" }]);
-    const s = await runDaily({ client, market: null, store, ledger: store, tickers: tickers(12), nowMs: NOW, batchSize: 4, runCapUsd: 7, monthCapUsd: 110 });
+    const s = await runDaily({ client, market: null, store, ledger: store, backfill: 1, tickers: tickers(12), nowMs: NOW, batchSize: 4, runCapUsd: 7, monthCapUsd: 110 });
     assert.match(s.stopped ?? "", /cap reached/);
     assert.equal(quotePulls().length, 2); // $0.50 + $0.50 fit in the $1 left; the third is refused before pulling
     assert.equal(s.spendUsd, 1);
@@ -250,7 +251,7 @@ describe("runDaily: caps, store, ledger", () => {
 
   it("the per-run cap stops the run quietly", async () => {
     const { client, store } = setup(3);
-    const s = await runDaily({ client, market: null, store, ledger: store, tickers: tickers(12), nowMs: NOW, batchSize: 4, runCapUsd: 7, monthCapUsd: 110 });
+    const s = await runDaily({ client, market: null, store, ledger: store, backfill: 1, tickers: tickers(12), nowMs: NOW, batchSize: 4, runCapUsd: 7, monthCapUsd: 110 });
     assert.equal(s.spendUsd, 6);
     assert.match(s.stopped ?? "", /cap reached/);
     assert.match(dailyLine(s), /\$6\.00 this run \(cap \$7\.00\), \$6\.00 this month \(cap \$110\.00\)/);
@@ -258,7 +259,7 @@ describe("runDaily: caps, store, ledger", () => {
 
   it("price only: get_cost for every batch, nothing charged or stored", async () => {
     const { client, store, calls } = setup(0.01);
-    const s = await runDaily({ client, market: null, store, ledger: store, tickers: tickers(9), nowMs: NOW, batchSize: 4, priceOnly: true, runCapUsd: 7, monthCapUsd: 110 });
+    const s = await runDaily({ client, market: null, store, ledger: store, backfill: 1, tickers: tickers(9), nowMs: NOW, batchSize: 4, priceOnly: true, runCapUsd: 7, monthCapUsd: 110 });
     assert.equal(calls.filter((c) => c.endpoint === "timeseries.get_range").length, 0);
     assert.ok(Math.abs(s.pricedUsd - 0.03) < 1e-9);
     assert.equal(store.rows.size, 0);
@@ -299,5 +300,138 @@ describe("Sightings reuses the store", () => {
     // LRCX had no quotes in the fake: stored as a skip, so the daily job will not buy it again.
     assert.deepEqual((await store.known("2026-11-13", ["LRCX"])).get("LRCX"), { skip: "no quotes at the snapshot" });
     assert.match(s.line, /2 already priced this session/);
+  });
+});
+
+describe("runDaily: backfill and earnings straddles", () => {
+  const setup = () => {
+    const fake = fakeDatabento(0.001);
+    const client = new DatabentoClient({ dir: tmpDir(), http: fake.http, apiKey: "k", totalBudgetUsd: 1000, sleep: noSleep });
+    return { ...fake, client, store: memoryOptionsStore() };
+  };
+
+  it("fills the missed sessions, each at its own 15:45 (names already stored cost nothing)", async () => {
+    const { client, store, quotePulls, calls } = setup();
+    await store.save("2026-11-12", new Map(tickers(3).map((t) => [t, T(t)] as [string, KnownEntry])), "daily");
+    const s = await runDaily({ client, market: null, store, ledger: store, backfill: 3, tickers: tickers(3), nowMs: NOW, runCapUsd: 7, monthCapUsd: 110 });
+    assert.deepEqual(s.sessions.map((x) => x.date), ["2026-11-11", "2026-11-12", "2026-11-13"]);
+    assert.equal(s.sessions[1]!.stored, 3);
+    // Two sessions pulled, each window ending at that session's 15:46 New York.
+    const ranges = calls.filter((c) => c.endpoint === "timeseries.get_range" && c.schema === "cbbo-1m");
+    assert.equal(quotePulls().length, 2);
+    assert.equal(ranges.length, 2);
+    assert.equal(s.snapshot, "2026-11-13 15:45 ET");
+  });
+
+  it("a name reporting after the snapshot session is priced that session, outside the universe too; a stored row without its straddle is priced again", async () => {
+    const { client, store, quotePulls } = setup();
+    await store.save("2026-11-13", new Map([["TAA", T("TAA")], ["TAB", T("TAB")]]), "daily");
+    const seen: Array<[number, string, string]> = [];
+    const s = await runDaily({
+      client,
+      market: null,
+      store,
+      ledger: store,
+      backfill: 1,
+      tickers: tickers(2),
+      nowMs: NOW,
+      runCapUsd: 7,
+      monthCapUsd: 110,
+      earnings: async (ts, from, to) => {
+        seen.push([ts.length, from, to]);
+        return {
+          releases: new Map([
+            ["TAA", [{ date: "2026-11-13", time: "after_close" as const }]], // straddle due 2026-11-13: stored without it, priced again
+            ["ZZZ", [{ date: "2026-11-16", time: "before_open" as const }]], // outside the universe, due 2026-11-13
+            ["TAB", [{ date: "2026-11-18", time: "after_close" as const }]], // not due yet
+          ]),
+          problems: [],
+        };
+      },
+    });
+    assert.deepEqual(seen, [[2, "2026-11-13", "2026-11-20"]]);
+    assert.equal(s.sessions[0]!.earnings, 2);
+    assert.deepEqual(quotePulls().flatMap((c) => c.symbols).sort(), ["TAA.OPT", "ZZZ.OPT"]);
+    assert.match(s.line, /earnings straddles 0 of 2 due/);
+  });
+});
+
+describe("runDaily: scoreboard coverage", () => {
+  /** Yahoo with no history: every gated name fails the liquidity gate. */
+  const noHistory = { dailyCloses: async () => [] } as unknown as MarketData;
+  const ST = { implied_move: 0.05, expiry: "2026-11-20", strike: 100, call_mid: 2.6, put_mid: 2.4, spot: 100, as_of: "2026-11-13T20:45:00.000Z", dte: 7, source_minute: "2026-11-13 15:45 ET", earnings_date: "2026-11-13", earnings_time: "after_close" as const, reaction_day: "2026-11-14", source: "test" };
+
+  it("coverage: open forecast windows and fresh card tickers, US listings only", () => {
+    const now = Date.parse("2026-11-16T22:00:00Z"); // last close 2026-11-16
+    const c = coverageTickers(
+      [
+        { created_at: "2026-11-14T12:00:00Z", ticker: "aaa", window_days: 5 }, // base 11-13, exit 11-20: open
+        { created_at: "2026-11-03T12:00:00Z", ticker: "BBB", window_days: 5 }, // base 11-02, exit 11-09: closed
+        { created_at: "2026-11-03T12:00:00Z", ticker: "CCC", window_days: 63 }, // open
+        { created_at: "2026-11-14T12:00:00Z", ticker: "PCG-PE", window_days: 20 }, // not a US common listing
+      ],
+      ["DDD", "AAA"],
+      now,
+    );
+    assert.deepEqual(c.tickers, ["AAA", "CCC", "DDD"]);
+    assert.equal(c.forecasts, 2);
+    assert.equal(c.cards, 2);
+  });
+
+  it("scoreboard names pass the liquidity gate, inside or outside the universe, and go first", async () => {
+    const fake = fakeDatabento(0.001);
+    const client = new DatabentoClient({ dir: tmpDir(), http: fake.http, apiKey: "k", totalBudgetUsd: 1000, sleep: noSleep });
+    const store = memoryOptionsStore();
+    const s = await runDaily({ client, market: noHistory, store, ledger: store, backfill: 1, tickers: tickers(3), alwaysTickers: ["TAB", "OUTX"], nowMs: NOW, batchSize: 1, runCapUsd: 7, monthCapUsd: 110 });
+    assert.equal(s.notLiquid, 2); // TAA and TAC fail the gate
+    assert.deepEqual(fake.quotePulls().map((c) => c.symbols[0]), ["TAB.OPT", "OUTX.OPT"]);
+    assert.equal(s.always, 2);
+    assert.equal(s.alwaysOutside, 1);
+    assert.match(s.line, /scoreboard names 2 \(1 outside the universe\)/);
+  });
+
+  it("the caps still hold for scoreboard names", async () => {
+    const fake = fakeDatabento(3);
+    const client = new DatabentoClient({ dir: tmpDir(), http: fake.http, apiKey: "k", totalBudgetUsd: 1000, sleep: noSleep });
+    const store = memoryOptionsStore();
+    const s = await runDaily({ client, market: null, store, ledger: store, backfill: 1, tickers: [], alwaysTickers: tickers(4), nowMs: NOW, batchSize: 1, runCapUsd: 7, monthCapUsd: 110 });
+    assert.equal(s.spendUsd, 6);
+    assert.match(s.stopped ?? "", /cap reached/);
+  });
+
+  it("a name OPRA lists no options for (HTTP 422 symbology) is stored as a skip, not retried next run", async () => {
+    const calls: string[] = [];
+    const http: HttpFn = async (url, init) => {
+      const endpoint = url.split("?")[0]!.split("/").pop()!;
+      const params = new URLSearchParams(init.method === "GET" ? url.split("?")[1] ?? "" : init.body ?? "");
+      const symbols = (params.get("symbols") ?? "").split(",").filter(Boolean);
+      if (endpoint === "metadata.get_dataset_range") return response(200, JSON.stringify({ start: "2013-01-01", end: "2026-11-15T00:00:00Z", schema: {} }));
+      calls.push(`${endpoint}:${symbols.join(",")}`);
+      if (symbols.includes("NOPT.OPT") && symbols.length === 1)
+        return response(422, '{"detail":{"case":"symbology_invalid_request","message":"None of the symbols could be resolved","status_code":422}}');
+      if (endpoint === "metadata.get_cost") return response(200, "0.001");
+      return response(200, body());
+    };
+    const client = new DatabentoClient({ dir: tmpDir(), http, apiKey: "k", totalBudgetUsd: 100, sleep: noSleep });
+    const store = memoryOptionsStore();
+    const s = await runDaily({ client, market: null, store, ledger: store, backfill: 1, tickers: [], alwaysTickers: ["NOPT"], nowMs: NOW, runCapUsd: 7, monthCapUsd: 110 });
+    assert.deepEqual((await store.known("2026-11-13", ["NOPT"])).get("NOPT"), { skip: NO_OPTIONS_LISTED });
+    assert.equal(s.stopped, null);
+    const again = await runDaily({ client, market: null, store, ledger: store, backfill: 1, tickers: [], alwaysTickers: ["NOPT"], nowMs: NOW + 60_000, runCapUsd: 7, monthCapUsd: 110 });
+    assert.equal(again.wanted, 0);
+    assert.ok(noOptionsListed(new DatabentoError(422, "Databento metadata.get_cost HTTP 422: None of the symbols could be resolved")));
+    assert.ok(!noOptionsListed(new DatabentoError(422, "Databento HTTP 422: end is after the available range")));
+  });
+
+  it("a thin chain's straddle is stored with its skip and read back; the record store ignores it", async () => {
+    assert.deepEqual(skipMetrics({ skip: "poor chain: x", earningsStraddle: ST }), { earnings_straddle: ST });
+    assert.equal(skipMetrics({ skip: "poor chain: x" }), null);
+    assert.deepEqual(knownFromRow("THN", "2026-11-13", { earnings_straddle: ST }, "poor chain: x"), { skip: "poor chain: x", earningsStraddle: ST });
+    const store = memoryOptionsStore();
+    await store.save("2026-11-13", new Map<string, KnownEntry>([["THN", { skip: "poor chain: only 5 contracts with an IV", earningsStraddle: ST }]]), "daily");
+    assert.deepEqual(store.rows.get("THN|2026-11-13")!.metrics, { earnings_straddle: ST });
+    // A later record's IV percentile does not read the skip row.
+    await store.save("2026-11-14", new Map<string, KnownEntry>([["THN", T("THN")]]), "daily");
+    assert.equal((await store.known("2026-11-14", ["THN"])).size, 1);
   });
 });
