@@ -32,6 +32,17 @@
 # Sightings run carries on (its cards just lack the options block for names
 # not stored).
 #
+# Daily prices (packages/engine/src/prices/daily.ts) run first in the same job:
+# Databento EQUS.SUMMARY ohlcv-1d bars (consolidated official open, high, low,
+# close, volume) for the whole universe, for every session of the last 10 days
+# not stored yet (normally just the latest), into Supabase public.prices_daily
+# (served by /api/prices). About $0.0025 a session for the universe. Caps:
+# PRICES_DAILY_RUN_CAP_USD a run, PRICES_DAILY_MONTH_CAP_USD a UTC month
+# (prices-daily callers in public.options_spend). With prices_backfill on
+# demand, every session since prices_from (default 2024-07-01, the dataset's
+# first day) not stored yet, capped by PRICES_BACKFILL_*_CAP_USD ($10). A
+# prices failure never stops the options step.
+#
 # Repo secrets: DATABENTO_API_KEY, DATABASE_URL (the Supabase Postgres URL).
 name: Options daily
 
@@ -49,6 +60,19 @@ on:
         default: false
       max:
         description: "At most this many universe tickers (empty: all)"
+        default: ""
+        required: false
+      only:
+        description: "Run only one part"
+        type: choice
+        options: [both, prices, options]
+        default: both
+      prices_backfill:
+        description: "Prices: backfill every session since prices_from not stored yet (cap $10)"
+        type: boolean
+        default: false
+      prices_from:
+        description: "Prices backfill start (YYYY-MM-DD; empty: 2024-07-01)"
         default: ""
         required: false
 
@@ -70,8 +94,15 @@ jobs:
       OPTIONS_DAILY_PARALLEL: "6"
       OPTIONS_DAILY_MAX_MINUTES: "100"
       OPTIONS_DAILY_BACKFILL: "3"
+      PRICES_DAILY_RUN_CAP_USD: "1"
+      PRICES_DAILY_MONTH_CAP_USD: "2"
+      PRICES_BACKFILL_RUN_CAP_USD: "10"
+      PRICES_BACKFILL_MONTH_CAP_USD: "10"
       PRICE_ONLY: ${{ inputs.price_only && '1' || '' }}
       MAX_NAMES: ${{ inputs.max || '' }}
+      ONLY: ${{ inputs.only || 'both' }}
+      PRICES_BACKFILL: ${{ inputs.prices_backfill && '1' || '' }}
+      PRICES_FROM: ${{ inputs.prices_from || '' }}
     steps:
       - name: Check secrets
         env:
@@ -124,8 +155,22 @@ jobs:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: pnpm --filter @falcon/engine run migrate
 
+      - name: Daily prices
+        if: env.skip == '0' && env.ONLY != 'options'
+        continue-on-error: true
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DATABENTO_API_KEY: ${{ secrets.DATABENTO_API_KEY }}
+        run: |
+          args=()
+          if [ -n "$PRICE_ONLY" ]; then args+=(--price-only); fi
+          if [ -n "$PRICES_BACKFILL" ]; then args+=(--backfill); fi
+          if [ -n "$PRICES_FROM" ]; then args+=(--from "$PRICES_FROM"); fi
+          if [ -n "$MAX_NAMES" ]; then args+=(--max "$MAX_NAMES"); fi
+          pnpm --filter @falcon/engine run prices-daily -- "${args[@]}"
+
       - name: Price the universe
-        if: env.skip == '0'
+        if: env.skip == '0' && env.ONLY != 'prices'
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           DATABENTO_API_KEY: ${{ secrets.DATABENTO_API_KEY }}
