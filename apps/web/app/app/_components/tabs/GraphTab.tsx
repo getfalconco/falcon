@@ -1,130 +1,102 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import type { Relation } from "@falcon/ripple";
-import { RELATIONS, relationLabel } from "@/lib/workspace/feed";
-import { buildGraph, graphFacets, type GraphFilter } from "@/lib/workspace/graph";
-import { useGraphNeighborhood } from "@/lib/workspace/graph-api";
+import { useMemo } from "react";
+import { FilterBar } from "@/components/ui/filter-token-bar";
+import { buildGraph } from "@/lib/workspace/graph";
+import { useOptionsAll, useWholeGraph } from "@/lib/workspace/graph-api";
+import { applyGraphFilters, graphFilterContext } from "@/lib/workspace/graph-filter";
 import { useWorkspace } from "../context";
-import { GraphView, relationColor } from "../GraphView";
-import { EmptyState, MONO } from "../parts";
-import { FeedNotice } from "../FeedNotice";
-
-function Toggle({ on, onClick, children, swatch }: { on: boolean; onClick: () => void; children: React.ReactNode; swatch?: string }) {
-  return (
-    <button
-      type="button"
-      aria-pressed={on}
-      onClick={onClick}
-      className={`inline-flex h-7 items-center gap-1.5 rounded-md border px-2.5 text-fs-12 outline-none transition-colors focus-visible:border-line/50 ${
-        on ? "border-line/25 bg-surface text-fore" : "border-line/[0.08] bg-transparent text-faint hover:text-fore-4"
-      }`}
-    >
-      {swatch ? <span className="h-[2px] w-3 rounded-full" style={{ background: on ? swatch : "rgb(var(--f-line) / 0.2)" }} aria-hidden /> : null}
-      {children}
-    </button>
-  );
-}
-
-/** Toggle `value` in a set where null means "all". */
-function toggleIn<T>(current: Set<T> | null, value: T, all: readonly T[]): Set<T> | null {
-  const next = new Set(current ?? all);
-  if (next.has(value)) next.delete(value);
-  else next.add(value);
-  return next.size === all.length ? null : next;
-}
+import { GraphView, type ForceGraph } from "../GraphView";
+import { useGraphFilterFields, useGraphFilters } from "../graph-filters";
+import { EmptyState } from "../parts";
+import { AskFalconButton } from "../lab/AskFalconButton";
 
 export function useSeeds() {
-  const { feed, focus } = useWorkspace();
+  const { feed, portfolio } = useWorkspace();
   return useMemo(() => {
-    const own = focus.map((f) => f.ticker);
+    const own = portfolio.map((f) => f.ticker);
     return own.length ? own : Array.from(new Set((feed?.cards ?? []).map((c) => c.event.ticker))).slice(0, 6);
-  }, [feed, focus]);
+  }, [feed, portfolio]);
 }
 
+/**
+ * Every listed company and every filing link between them, like Obsidian's
+ * graph of a whole vault (GET /api/graph?all=1). Portfolio companies are only
+ * a slightly brighter dot. Without the whole graph it falls back to what the
+ * Sightings feed links to the portfolio. The filter bar narrows the whole
+ * graph (lib/workspace/graph-filter.ts); it is saved per workspace for the
+ * browser session. Implied vol covers every ticker priced by the daily
+ * options job (GET /api/options?all=1).
+ */
 export function GraphTab() {
-  const { feed, feedStatus, openTicker, focus } = useWorkspace();
+  const { feed, feedStatus, openTicker, portfolio, portfolioSet, userId } = useWorkspace();
+  const whole = useWholeGraph();
   const seeds = useSeeds();
-  const extra = useGraphNeighborhood(seeds, 2);
-  const [sectors, setSectors] = useState<Set<string> | null>(null);
-  const [relations, setRelations] = useState<Set<Relation> | null>(null);
-  const [depth, setDepth] = useState<1 | 2>(2);
+  const [saved, setFilters] = useGraphFilters(userId);
+  const options = useOptionsAll();
+  const ctx = useMemo(() => graphFilterContext(feed, portfolio.map((f) => f.ticker), options), [feed, portfolio, options]);
+  const fields = useGraphFilterFields(whole, ctx);
+  // A saved filter whose field is not offered now (Implied vol without options data) is left out.
+  const filters = useMemo(() => saved.filter((f) => fields.some((d) => d.id === f.field)), [saved, fields]);
+  // One company picked (by the member or by Falcon AI's show_in_graph): highlighted, with an "Ask Falcon AI" button.
+  const picked = filters.find((f) => f.field === "company" && f.values.length === 1)?.values[0];
 
-  const full = useMemo(() => buildGraph(feed, extra, seeds, { maxDepth: depth }), [feed, extra, seeds, depth]);
-  const facets = useMemo(() => graphFacets(full), [full]);
-  const filter: GraphFilter = useMemo(() => ({ sectors, relations }), [sectors, relations]);
-  const graph = useMemo(
-    () => (sectors || relations ? buildGraph(feed, extra, seeds, { maxDepth: depth, filter }) : full),
-    [depth, extra, feed, filter, full, relations, sectors, seeds],
-  );
-  const relationOptions = RELATIONS.filter((r) => facets.relations.includes(r));
+  const full: ForceGraph | null = useMemo(() => {
+    if (whole) {
+      return {
+        nodes: whole.n.map(([id, name]) => ({ id, name, focus: portfolioSet.has(id) })),
+        edges: whole.e.map(([s, t, , strength]) => ({ source: whole.n[s][0], target: whole.n[t][0], strength })),
+      };
+    }
+    if (whole === null) return buildGraph(feed, null, seeds, { maxDepth: 2 });
+    return null;
+  }, [feed, portfolioSet, seeds, whole]);
+
+  const filtered = useMemo(() => (whole ? applyGraphFilters(whole, filters, ctx) : null), [whole, filters, ctx]);
+  const graph = filtered ?? full;
+  const noMatch = !!filtered && filtered.nodes.length === 0;
 
   return (
-    <div className="flex h-full min-h-0 flex-col">
-      <div className="flex flex-wrap items-center gap-x-6 gap-y-2 border-b border-line/[0.06] px-5 py-2.5">
-        <div className="flex items-center gap-1.5">
-          <span className="mr-1 text-fs-11 uppercase tracking-[0.14em] text-fore/40" style={{ fontFamily: MONO }}>
-            Degrees
-          </span>
-          <Toggle on={depth === 1} onClick={() => setDepth(1)}>
-            1
-          </Toggle>
-          <Toggle on={depth === 2} onClick={() => setDepth(2)}>
-            2
-          </Toggle>
-        </div>
-        {relationOptions.length ? (
-          <div className="flex items-center gap-1.5">
-            <span className="mr-1 text-fs-11 uppercase tracking-[0.14em] text-fore/40" style={{ fontFamily: MONO }}>
-              Relation
-            </span>
-            {relationOptions.map((r) => (
-              <Toggle key={r} on={!relations || relations.has(r)} onClick={() => setRelations((c) => toggleIn(c, r, relationOptions))} swatch={relationColor(r)}>
-                {relationLabel(r)}
-              </Toggle>
-            ))}
-          </div>
-        ) : null}
-        {facets.sectors.length > 1 ? (
-          <div className="flex items-center gap-1.5">
-            <span className="mr-1 text-fs-11 uppercase tracking-[0.14em] text-fore/40" style={{ fontFamily: MONO }}>
-              Sector
-            </span>
-            {facets.sectors.map((s) => (
-              <Toggle key={s} on={!sectors || sectors.has(s)} onClick={() => setSectors((c) => toggleIn(c, s, facets.sectors))}>
-                {s}
-              </Toggle>
-            ))}
-          </div>
-        ) : null}
-        <span className="ml-auto text-fs-12 tabular-nums text-faint">
-          {graph.nodes.length} companies · {graph.edges.length} links
-        </span>
-      </div>
-      <div className="px-5 pt-3 empty:hidden">
-        <FeedNotice />
-      </div>
-      <div className="relative min-h-0 flex-1">
-        {graph.edges.length ? (
-          <GraphView graph={graph} onOpen={openTicker} ring={150} ariaLabel="Connections of your focus list" />
-        ) : (
-          <div className="flex h-full items-center justify-center p-8">
-            <div className="w-[360px]">
-              <EmptyState
-                title={
-                  feedStatus === "loading"
-                    ? "Loading"
-                    : sectors || relations
-                      ? "No links match these filters"
-                      : focus.length
-                        ? "No connections for your focus list yet"
-                        : "Your focus list is empty"
-                }
-              />
+    <div className="relative h-full min-h-0 bg-surface">
+      {graph === null || graph.edges.length || filtered ? (
+        <>
+          <GraphView
+            graph={graph ?? EMPTY}
+            onOpen={openTicker}
+            highlight={picked}
+            ariaLabel="Graph of every company and its filing links"
+            controlsTop={GRAPH_TITLE_CLEARANCE}
+            toolbarBottom
+            settings={false}
+            toolbar={
+              whole ? (
+                <FilterBar fields={fields} value={filters} onChange={setFilters} aria-label="Graph filters" className="[&>*]:pointer-events-auto" />
+              ) : null
+            }
+          />
+          {picked ? (
+            <div className="absolute bottom-14 left-3">
+              <AskFalconButton label={`Ask Falcon AI about ${picked}`} prompt={`${picked} in the graph: what are its most important links, and what do they mean for it?`} />
             </div>
+          ) : null}
+          {noMatch ? (
+            <div className="pointer-events-none absolute inset-0 flex items-center justify-center p-8">
+              <p className="text-fs-13 text-quiet">No companies match these filters.</p>
+            </div>
+          ) : null}
+        </>
+      ) : (
+        <div className="flex h-full items-center justify-center p-8">
+          <div className="w-[360px]">
+            <EmptyState title={feedStatus === "loading" ? "Loading" : "The graph is not available"} />
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }
+
+/** The Graph title floats over the canvas (Workspace renders its header as an overlay); controls sit below it. */
+const GRAPH_TITLE_CLEARANCE = 80;
+
+const EMPTY: ForceGraph = { nodes: [], edges: [] };
