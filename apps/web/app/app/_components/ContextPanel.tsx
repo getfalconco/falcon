@@ -3,16 +3,14 @@
 import { useMemo } from "react";
 import { cardExplain } from "@falcon/ripple";
 import type { Tab } from "@/lib/workspace/layout";
-import { RELATIONS, cardsForTicker, connectionsFor, exposureByTicker, sectorFor } from "@/lib/workspace/feed";
+import { cardsForTicker, connectionsFor, exposureByTicker, sectorFor } from "@/lib/workspace/feed";
 import { withSeedConnections } from "@/lib/workspace/graph";
 import { useGraphNeighborhood } from "@/lib/workspace/graph-api";
 import { useWorkspace } from "./context";
-import { RelationLegend } from "./GraphView";
 import { DirectionWord, StrengthBadge } from "./explain";
 import { ExternalAnchor, MONO, NetMark, NetValue, SectionTitle, TickerButton, formatDateTime, timeAgo } from "./parts";
 import { useToday } from "./tabs/DashboardTab";
 import { findCard } from "./tabs/SightingTab";
-import { StrategyContext } from "./strategy/StrategyContext";
 
 function Facts({ rows }: { rows: [string, React.ReactNode][] }) {
   return (
@@ -28,9 +26,9 @@ function Facts({ rows }: { rows: [string, React.ReactNode][] }) {
 }
 
 function DashboardContext() {
-  const { feed, focus, loadedAt } = useWorkspace();
+  const { feed, portfolio, loadedAt } = useWorkspace();
   const summary = useToday();
-  const exposure = useMemo(() => exposureByTicker(feed, focus).filter((e) => e.events > 0).slice(0, 6), [feed, focus]);
+  const exposure = useMemo(() => exposureByTicker(feed, portfolio).filter((e) => e.events > 0).slice(0, 6), [feed, portfolio]);
   return (
     <>
       <section>
@@ -60,7 +58,7 @@ function DashboardContext() {
             ))}
           </ul>
         ) : (
-          <p className="pt-1 text-fs-12 text-faint">Nothing on your list is hit</p>
+          <p className="pt-1 text-fs-12 text-faint">Nothing in your portfolio is hit</p>
         )}
       </section>
     </>
@@ -69,40 +67,19 @@ function DashboardContext() {
 
 function GraphContext() {
   return (
-    <>
-      <section>
-        <SectionTitle>Links</SectionTitle>
-        <div className="pt-1">
-          <RelationLegend relations={RELATIONS} />
-        </div>
-      </section>
-      <section>
-        <SectionTitle>Nodes</SectionTitle>
-        <ul className="flex flex-col gap-2 pt-1 text-fs-12 text-fore-4">
-          <li className="flex items-center gap-2.5">
-            <span className="h-3 w-3 rounded-full bg-fore" aria-hidden />
-            Your focus list
-          </li>
-          <li className="flex items-center gap-2.5">
-            <span className="h-3 w-3 rounded-full border-[1.5px] border-line/35 bg-surface" aria-hidden />
-            Connected company
-          </li>
-          <li className="flex items-center gap-2.5">
-            <span className="h-3 w-3 rounded-full border-[1.5px] border-up bg-surface" aria-hidden />
-            Hit today, up
-          </li>
-          <li className="flex items-center gap-2.5">
-            <span className="h-3 w-3 rounded-full border-[1.5px] border-down bg-surface" aria-hidden />
-            Hit today, down
-          </li>
-        </ul>
-      </section>
-    </>
+    <section>
+      <SectionTitle>Graph</SectionTitle>
+      <ul className="flex flex-col gap-2 pt-1 text-fs-12 leading-relaxed text-fore-4">
+        <li>Every listed company, linked by what their annual reports say about each other.</li>
+        <li>Bigger dots have more links. Your holdings are a little brighter.</li>
+        <li>Hover to light a company&apos;s links, click to open it, drag a dot to move it, scroll to zoom.</li>
+      </ul>
+    </section>
   );
 }
 
 function TickerContext({ ticker }: { ticker: string }) {
-  const { feed, focusSet } = useWorkspace();
+  const { feed, portfolioSet } = useWorkspace();
   const { hitting } = useMemo(() => cardsForTicker(feed, ticker), [feed, ticker]);
   const extra = useGraphNeighborhood([ticker], 1);
   const connections = useMemo(() => withSeedConnections(connectionsFor(feed, ticker), extra, ticker), [extra, feed, ticker]);
@@ -112,7 +89,7 @@ function TickerContext({ ticker }: { ticker: string }) {
         <SectionTitle>{ticker}</SectionTitle>
         <Facts
           rows={[
-            ["Focus list", focusSet.has(ticker) ? "On your list" : "Not on your list"],
+            ["Portfolio", portfolioSet.has(ticker) ? "In your portfolio" : "Not in your portfolio"],
             ["Sector", sectorFor(feed, ticker) ?? "Unknown"],
             ["Events hitting it", hitting.length],
             ["Filing links", connections.length],
@@ -190,7 +167,6 @@ export function ContextPanel({ tab }: { tab: Tab | null }) {
   else if (tab?.kind === "graph") body = <GraphContext />;
   else if (tab?.kind === "ticker") body = <TickerContext ticker={tab.ticker} />;
   else if (tab?.kind === "sighting") body = <SightingContext cardId={tab.cardId} />;
-  else if (tab?.kind === "strategy") body = <StrategyContext strategyId={tab.strategyId} />;
   return (
     <aside className="flex h-full w-[280px] shrink-0 flex-col border-l border-line/[0.08]" aria-label="Details">
       <div className="flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto px-5 py-4">{body}</div>

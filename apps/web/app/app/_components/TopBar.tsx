@@ -1,16 +1,18 @@
 "use client";
 
-import { BookOpen, LogOut, PanelRight, Settings, Target } from "lucide-react";
+import { LogOut, Settings } from "lucide-react";
+import { isOwnAvatarPath } from "@/lib/account/avatar";
+import { readProfile } from "@/lib/account/profile";
+import { useAuthUser, useAvatarUrl } from "@/lib/account/profile-client";
 import { Dropdown, ICON_BUTTON, SelectorLabel, selectorClass } from "./shell/ui";
 import type { NavId } from "./Sidebar";
 import { WorkspaceSwitcher, type WorkspaceSwitcherApi } from "./WorkspaceSwitcher";
 
-export type TopLink = "workspace" | "sightings" | "strategy" | "docs";
+export type TopLink = "workspace" | "dashboard" | "docs";
 
 const LINKS: { id: TopLink; label: string }[] = [
   { id: "workspace", label: "Workspace" },
-  { id: "sightings", label: "Sightings" },
-  { id: "strategy", label: "Strategy Lab" },
+  { id: "dashboard", label: "Dashboard" },
   { id: "docs", label: "Docs" },
 ];
 
@@ -22,26 +24,25 @@ export function TopBar({
   email,
   workspaces,
   activeLink,
-  contextOpen,
   onNav,
   onLink,
-  onToggleContext,
-  onGuide,
   onSettings,
   onSignOut,
 }: {
   email: string | null;
   workspaces: WorkspaceSwitcherApi;
   activeLink: TopLink;
-  contextOpen: boolean;
   onNav: (id: NavId) => void;
   onLink: (id: TopLink) => void;
-  onToggleContext: () => void;
   onGuide: () => void;
   onSettings: () => void;
   onSignOut: (() => void) | null;
 }) {
   const initial = (email?.trim()[0] ?? "P").toUpperCase();
+  // The member's photo from Settings > Account, when they set one (never in the preview).
+  const user = useAuthUser(onSignOut !== null);
+  const avatarPath = user ? readProfile(user.user_metadata).avatarPath : null;
+  const photo = useAvatarUrl(user && isOwnAvatarPath(user.id, avatarPath) ? avatarPath : null);
   const mac = typeof navigator !== "undefined" && /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent);
 
   return (
@@ -87,34 +88,16 @@ export function TopBar({
             );
           })}
         </nav>
-        <Dropdown
-          label="Settings"
-          kind="menu"
-          align="right"
-          width={232}
-          groups={[
-            { items: [{ id: "settings", label: "Settings", icon: Settings, hint: mac ? "⌘," : "Ctrl+," }] },
-            {
-              label: "Workspace",
-              items: [
-                { id: "details", label: "Details panel", icon: PanelRight, selected: contextOpen, description: contextOpen ? "Shown beside each view" : "Hidden" },
-                { id: "focus", label: "Edit focus list", icon: Target },
-                { id: "guide", label: "How to read", icon: BookOpen },
-              ],
-            },
-          ]}
-          onSelect={(id) => {
-            if (id === "settings") onSettings();
-            else if (id === "details") onToggleContext();
-            else if (id === "focus") onNav("focus");
-            else onGuide();
-          }}
-          button={({ open, props }) => (
-            <button {...props} title="Settings" data-settings-trigger className={`${ICON_BUTTON} ${open ? "bg-line/[0.06] text-fore" : ""}`}>
-              <Settings width={17} height={17} strokeWidth={1.75} aria-hidden />
-            </button>
-          )}
-        />
+        <button
+          type="button"
+          onClick={onSettings}
+          title={`Settings (${mac ? "⌘," : "Ctrl+,"})`}
+          aria-label="Settings"
+          data-settings-trigger
+          className={ICON_BUTTON}
+        >
+          <Settings width={17} height={17} strokeWidth={1.75} aria-hidden />
+        </button>
         <Dropdown
           label="Account"
           kind="menu"
@@ -133,11 +116,16 @@ export function TopBar({
             <button
               {...props}
               title={email ?? "Preview"}
-              className={`ml-1 flex h-8 w-8 items-center justify-center rounded-full bg-avatar text-fs-13 font-medium text-fore-3 outline-none transition-colors hover:bg-avatar-hover focus-visible:ring-2 focus-visible:ring-line/25 ${
+              className={`ml-1 flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-avatar text-fs-13 font-medium text-fore-3 outline-none transition-colors hover:bg-avatar-hover focus-visible:ring-2 focus-visible:ring-line/25 ${
                 open ? "bg-avatar-hover" : ""
               }`}
             >
-              {initial}
+              {photo ? (
+                // eslint-disable-next-line @next/next/no-img-element -- a short-lived signed URL; next/image would proxy and cache it.
+                <img src={photo} alt="" width={32} height={32} className="h-8 w-8 object-cover" />
+              ) : (
+                initial
+              )}
             </button>
           )}
         />

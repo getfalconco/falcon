@@ -29,6 +29,9 @@ import {
 } from "@/lib/onboarding";
 import { isSupabaseConfigured, requireSupabase } from "@/lib/supabase";
 import { handOverFromWelcome } from "@/lib/workspace/focus";
+import { FUNNEL_TEST_MODE } from "@/lib/funnel-test-mode";
+import { saveHoldings } from "@/lib/portfolio-client";
+import { reviewedImport, type PortfolioImport } from "@/lib/portfolio-holdings";
 import AuthSplitShell from "../components/AuthSplitShell";
 import GetStartedButton, { BUTTON_TEXT_STYLE, SECONDARY_BUTTON_CLASS } from "../components/GetStartedButton";
 import {
@@ -179,6 +182,8 @@ function WelcomeContent() {
   const [leaving, setLeaving] = useState(false);
   const answersRef = useRef(answers);
   answersRef.current = answers;
+  // The portfolio step's full import (sizes, balances): memory only, saved at hand-over.
+  const importRef = useRef<PortfolioImport | null>(null);
   const indexRef = useRef(index);
   indexRef.current = index;
   // Set while a step change plays; blocks a second one from starting.
@@ -253,7 +258,7 @@ function WelcomeContent() {
 
   /**
    * Leaves the flow for the Workspace (or the member page in `next`). A client
-   * side move, so the session and the focus list handed over stay in memory.
+   * side move, so the session and the portfolio handed over stay in memory.
    */
   const leaveFlow = useCallback(
     (replace = false) => {
@@ -277,13 +282,31 @@ function WelcomeContent() {
     };
   }, [client, leaveFlow]);
 
+  /** The reviewed positions and balances to the account (POST /api/portfolio/holdings). Never throws; skipped in funnel test mode. */
+  const saveImported = useCallback(async () => {
+    const imp = importRef.current;
+    if (!imp || FUNNEL_TEST_MODE || !client || !answersRef.current.stocks.length) return;
+    try {
+      const token = (await client.auth.getSession()).data.session?.access_token;
+      if (!token) return;
+      await Promise.race([
+        saveHoldings({ Authorization: `Bearer ${token}` }, reviewedImport(imp, answersRef.current.stocks)),
+        new Promise((resolve) => setTimeout(resolve, 5000)),
+      ]);
+    } catch {
+      // Fail soft: the tickers are saved with the answers; sizes can be imported again from the Dashboard.
+    }
+  }, [client]);
+
   const finish = useCallback(async () => {
     setFinishing(true);
     await save(true);
-    // The Workspace opens with these as the focus list (the only copy in funnel test mode).
+    // After the answers, so the ticker list they save already holds these tickers.
+    await saveImported();
+    // The Workspace opens with these as the portfolio (the only copy in funnel test mode).
     handOverFromWelcome(answersRef.current.stocks);
     leaveFlow();
-  }, [leaveFlow, save]);
+  }, [leaveFlow, save, saveImported]);
 
   const canGoNext = !finishing && !busy && step !== "loading" && stepDone(step, answers);
   const canGoBack = !finishing && !busy && index > 0 && step !== "loading" && step !== "result";
@@ -392,6 +415,7 @@ function WelcomeContent() {
   /** "Skip for now" on the portfolio step: carry on with sectors and answers only. */
   const skipPortfolio = useCallback(() => {
     if (busy) return;
+    importRef.current = null;
     update({ stocks: [], portfolioSkipped: true });
     answersRef.current = { ...answersRef.current, stocks: [], portfolioSkipped: true };
     void save();
@@ -458,6 +482,9 @@ function WelcomeContent() {
           <PortfolioConnect
             value={answers.stocks}
             onChange={(stocks) => update({ stocks, portfolioSkipped: undefined })}
+            onImport={(imp) => {
+              importRef.current = imp;
+            }}
             getToken={accessToken}
           />
         );

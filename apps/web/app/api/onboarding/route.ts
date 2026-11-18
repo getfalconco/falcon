@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { clientIp, rateLimit, tooManyRequests } from "@/lib/rate-limit";
 import { getSupabaseAdmin } from "@/lib/supabase-admin";
 import { bearerToken, userFromAccessToken } from "@/lib/waitlist-membership";
+import { prunePositions } from "@/lib/portfolio-store";
 import {
   FRUSTRATIONS,
   GOALS,
@@ -61,13 +62,13 @@ export async function GET(request: Request) {
     if (error) throw error;
 
     const row = data as { welcome_completed_at?: string | null; watchlist?: unknown } | null;
-    // The focus list the Workspace opens with (tickers from the welcome flow).
+    // The portfolio the Workspace opens with (tickers from the welcome flow's connect step and later imports; the column keeps the name watchlist).
     const watchlist = Array.isArray(row?.watchlist)
       ? row.watchlist.filter((t): t is string => typeof t === "string" && TICKER_PATTERN.test(t)).slice(0, MAX_STOCKS)
       : [];
     return NextResponse.json({ completed: Boolean(row?.welcome_completed_at), watchlist }, { headers: NO_STORE });
   } catch (error) {
-    console.error("[api/onboarding GET]", error);
+    console.error("[api/onboarding GET]", (error as { code?: string } | null)?.code ?? "unknown");
     return NextResponse.json({ error: "Failed to load." }, { status: 500, headers: NO_STORE });
   }
 }
@@ -133,13 +134,16 @@ export async function POST(request: Request) {
       .upsert({ ...base, user_id: user.id, updated_at: now }, { onConflict: "user_id" });
     if (error) throw error;
 
+    // The ticker list changed: stored positions whose ticker left it go too (crypto and others have no ticker and stay).
+    if (Array.isArray(base.watchlist)) await prunePositions(user.id, base.watchlist as string[], admin);
+
     if (Object.keys(extra).length > 0) {
       const { error: extraError } = await admin
         .from("onboarding_responses")
         .update(extra)
         .eq("user_id", user.id);
       if (extraError) {
-        console.error("[api/onboarding POST] newer columns", extraError.message);
+        console.error("[api/onboarding POST] newer columns", extraError.code ?? "unknown");
         return NextResponse.json({ saved: "partial" }, { headers: NO_STORE });
       }
     }
@@ -147,7 +151,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ saved: "all" }, { headers: NO_STORE });
   } catch (error) {
     // The client moves on regardless; this only tells it the save missed.
-    console.error("[api/onboarding POST]", error);
+    console.error("[api/onboarding POST]", (error as { code?: string } | null)?.code ?? "unknown");
     return NextResponse.json({ saved: false }, { status: 502, headers: NO_STORE });
   }
 }

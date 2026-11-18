@@ -4,8 +4,15 @@ import { FUNNEL_TEST_MODE } from "@/lib/funnel-test-mode";
 import { MAX_STOCKS, TICKER_PATTERN, type PickedStock } from "@/lib/onboarding";
 
 /**
- * The member's focus list: the tickers picked in the welcome flow, edited
- * later from the Workspace sidebar.
+ * The member's portfolio: the tickers their holdings imports (broker through
+ * SnapTrade, a screenshot, the welcome flow's connect step) and the demo
+ * portfolio put in. Tickers only, no shares or values. People do not edit it
+ * by hand; Settings can clear it.
+ *
+ * Storage keeps its original names, so saved lists keep working: this module,
+ * the `falcon.focus.v1` keys and the account's `watchlist` column through
+ * /api/onboarding are where the portfolio lives ("focus list" was its old
+ * name). The Workspace reads it through `usePortfolio` (Workspace.tsx).
  *
  * Where it comes from, first match wins:
  *   1. this page visit's memory (the welcome flow hands its picks over here,
@@ -20,6 +27,8 @@ import { MAX_STOCKS, TICKER_PATTERN, type PickedStock } from "@/lib/onboarding";
  */
 
 export type FocusItem = { ticker: string; name: string };
+/** One portfolio ticker (the storage type keeps its old name). */
+export type PortfolioItem = FocusItem;
 
 /**
  * The list held for this page visit, with the scope it belongs to; null scope
@@ -100,7 +109,7 @@ export async function fetchServerFocus(token: string): Promise<string[] | null> 
   }
 }
 
-/** Saves the list as the member's watchlist. Never throws; skipped in funnel test mode. */
+/** Saves the portfolio to the account (its `watchlist` column). Never throws; skipped in funnel test mode. */
 export async function saveServerFocus(token: string, items: readonly FocusItem[]): Promise<void> {
   if (FUNNEL_TEST_MODE) return;
   try {
@@ -111,7 +120,7 @@ export async function saveServerFocus(token: string, items: readonly FocusItem[]
       cache: "no-store",
     });
   } catch {
-    // The local copy stays; the next edit tries again.
+    // The local copy stays; the next change tries again.
   }
 }
 
@@ -125,19 +134,6 @@ export async function fetchNames(tickers: readonly string[]): Promise<Record<str
     return body.names ?? {};
   } catch {
     return {};
-  }
-}
-
-export type TickerResult = { ticker: string; name: string };
-
-export async function searchTickers(q: string, signal?: AbortSignal): Promise<TickerResult[]> {
-  try {
-    const res = await fetch(`/api/tickers?q=${encodeURIComponent(q)}`, { signal });
-    if (!res.ok) return [];
-    const body = (await res.json()) as { results?: TickerResult[] };
-    return Array.isArray(body.results) ? body.results : [];
-  } catch {
-    return [];
   }
 }
 

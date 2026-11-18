@@ -77,7 +77,7 @@ export function useSightings(
   }, [key]);
 
   useEffect(() => {
-    // Waits for the focus list, so the first request already carries it.
+    // Waits for the portfolio, so the first request already carries it.
     if (!enabled) return;
     void load();
     const timer = setInterval(() => void load(), REFRESH_MS);

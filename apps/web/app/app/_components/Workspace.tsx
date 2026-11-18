@@ -2,11 +2,11 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowLeftRight, LifeBuoy, Loader2, MoreHorizontal, PanelRight, PictureInPicture2, RotateCw, X } from "lucide-react";
+import { Loader2, PictureInPicture2, X } from "lucide-react";
 import type { SupabaseClient } from "@supabase/supabase-js";
-import { strategyFromSighting } from "@falcon/backtest";
 import { isApproved } from "@/lib/auth";
 import { needsWelcome } from "@/lib/onboarding";
+import { FUNNEL_TEST_MODE } from "@/lib/funnel-test-mode";
 import { isSupabaseConfigured, requireSupabase } from "@/lib/supabase";
 import { cardExplain } from "@falcon/ripple";
 import {
@@ -17,30 +17,35 @@ import {
   saveServerFocus,
   welcomeFinishedThisVisit,
   writeLocalFocus,
-  type FocusItem,
+  type PortfolioItem,
 } from "@/lib/workspace/focus";
 import { setTokenGetter } from "@/lib/workspace/api-auth";
 import { MAX_TABS, readLayout, tabId, writeLayout, type Tab, type WorkspaceLayout } from "@/lib/workspace/layout";
+import { markSightingOpened } from "@/lib/workspace/own-card";
+import { TEST_PORTFOLIO_ON, holdingsMode, useHoldings } from "@/lib/workspace/holdings";
+import { FIXTURE_TICKERS } from "@/lib/workspace/fixture-positions";
 import { useSightings } from "@/lib/workspace/sightings";
 import { MAIN_WORKSPACE_ID, storageScope, useWorkspaceIndex } from "@/lib/workspace/workspaces";
 import { AppearanceContext, useAppearanceState } from "@/lib/workspace/appearance";
-import { BLANK_RULES, createStrategy, deleteStrategy, useStrategies } from "@/lib/workspace/strategies";
+import { deleteStrategy, useStrategies } from "@/lib/workspace/strategies";
 import BrandMark from "../../components/BrandMark";
 import { CompactToday } from "./CompactToday";
 import { HowToReadDialog, HowToReadFirstVisit } from "./explain";
-import { ContextPanel } from "./ContextPanel";
 import { WorkspaceContext, type WorkspaceApi } from "./context";
-import { FocusListView, SightingsListView } from "./ListViews";
+import { showInGraphFilters, type AppAction } from "@/lib/desk/app-actions";
+import { pushGraphFilters, useAppBridge } from "./lab/app-bridge";
+import { deskSnapshot } from "./lab/desk-snapshot";
+import { SightingsListView } from "./ListViews";
 import { GEIST } from "./parts";
-import { CardBody, CardHeader, Dropdown, ICON_BUTTON, IconButton, TextButton } from "./shell/ui";
-import { NAV, Sidebar, TAB_ICON, navTarget, readRailPinned, writeRailPinned, type NavId, type OpenItem } from "./Sidebar";
+import { CardBody, CardHeader, ICON_BUTTON, IconButton, TextButton } from "./shell/ui";
+import { NAV, Sidebar, navTarget, type NavId, type OpenItem } from "./Sidebar";
 import { FloatingHelp, HelpThread, setHelpFloating, useHelp } from "./help/HelpChat";
 import { DragDockProvider, useDragDock, type DropResult, type Side } from "./split/dnd";
 import { SplitArea } from "./split/SplitArea";
 import { SettingsDialog } from "./settings/SettingsDialog";
 import { TopBar, type TopLink } from "./TopBar";
 import type { WorkspaceSwitcherApi } from "./WorkspaceSwitcher";
-import { DashboardTab } from "./tabs/DashboardTab";
+import { DashboardGreeting, DashboardTab } from "./tabs/DashboardTab";
 import { GraphTab } from "./tabs/GraphTab";
 import { SightingTab } from "./tabs/SightingTab";
 import { StrategyTab } from "./tabs/StrategyTab";
@@ -60,7 +65,7 @@ type Gate = { state: "checking" } | { state: "ready"; viewer: Viewer } | { state
 /**
  * Who is looking. Signed-out visitors go to the login, members who have not
  * finished the welcome flow go there first. In development `?preview=1` opens
- * the Workspace without an account (sample feed and focus list).
+ * the Workspace without an account (sample feed and portfolio).
  */
 function useGate(): Gate {
   const router = useRouter();
@@ -138,69 +143,101 @@ function useAccessToken(client: SupabaseClient | null) {
   }, [client]);
 }
 
-type FocusSource = {
+type PortfolioSource = {
   /** Storage scope of the workspace (lib/workspace/workspaces.ts). */
   scope: string;
   /** Main workspace of a signed-in member: loads from and saves to the account. */
   server: boolean;
-  /** Main workspace of the development preview: starts from the sample list, saves nothing. */
+  /** Main workspace of the development preview: starts with an empty portfolio, saves nothing. */
   sample: boolean;
 };
 
 /**
- * The focus list for one workspace: memory or this browser first, then the
- * server (main workspace only). Other workspaces start empty and stay in this
+ * The portfolio for one workspace (stored where the old focus list was:
+ * lib/workspace/focus.ts): memory or this browser first, then the server
+ * (main workspace only). Other workspaces start empty and stay in this
  * browser; they never call saveServerFocus, which would overwrite the
- * member's real list.
+ * member's real portfolio.
  */
-function useFocus({ scope, server, sample }: FocusSource, getToken: () => Promise<string | null>) {
-  const [focus, setFocus] = useState<FocusItem[]>(() => readLocalFocus(scope) ?? []);
-  const [loaded, setLoaded] = useState(() => readLocalFocus(scope) !== null);
+/** Development only: the preview's ticker-only list with `&tickers=1` (lib/workspace/fixture-positions.ts); else empty. */
+function previewTickers(): PortfolioItem[] {
+  if (process.env.NODE_ENV !== "development" || typeof window === "undefined") return [];
+  return new URLSearchParams(window.location.search).get("tickers") === "1" ? FIXTURE_TICKERS.map((f) => ({ ...f })) : [];
+}
+
+function usePortfolio({ scope, server, sample }: PortfolioSource, getToken: () => Promise<string | null>) {
+  // The preview starts empty: no account, nothing connected, so nothing held (the sample Sightings feed stays).
+  // Development only: `&tickers=1` starts it with a ticker-only list (no sizes), as older imports have.
+  const [items, setItems] = useState<PortfolioItem[]>(() => (sample ? previewTickers() : readLocalFocus(scope) ?? []));
+  const [loaded, setLoaded] = useState(() => sample || readLocalFocus(scope) !== null);
+  const editedRef = useRef(false);
 
   useEffect(() => {
     if (loaded) return;
     let live = true;
     (async () => {
-      let items: FocusItem[] = [];
-      if (sample) {
-        // The inline NODE_ENV check lets the build drop the fixture entirely.
-        if (process.env.NODE_ENV === "development") items = (await import("@/lib/workspace/fixture")).SAMPLE_FOCUS;
-      } else if (server) {
+      let next: PortfolioItem[] = [];
+      if (server) {
         const token = await getToken();
         const tickers = token ? await fetchServerFocus(token) : null;
         if (tickers?.length) {
           const names = await fetchNames(tickers);
-          items = cleanFocus(tickers.map((ticker) => ({ ticker, name: names[ticker] ?? "" })));
+          next = cleanFocus(tickers.map((ticker) => ({ ticker, name: names[ticker] ?? "" })));
         }
       }
       if (!live) return;
-      setFocus(items);
+      setItems(next);
       setLoaded(true);
-      if (!sample) writeLocalFocus(scope, items);
+      if (!sample) writeLocalFocus(scope, next);
     })();
     return () => {
       live = false;
     };
   }, [getToken, loaded, sample, scope, server]);
 
+  // The main workspace's list belongs to the account: a copy in this browser (falcon.focus.v1) that differs from
+  // the account's (an old hand-edited focus list, another member's, a list cleared elsewhere) gives way to it.
+  useEffect(() => {
+    // Funnel test mode never saves to the account: the welcome flow's hand-over is the only copy.
+    if (!server || FUNNEL_TEST_MODE) return;
+    let live = true;
+    void (async () => {
+      const token = await getToken();
+      const tickers = token ? await fetchServerFocus(token) : null;
+      // null: the server did not answer, so the local copy stays for now.
+      if (!live || tickers === null || editedRef.current) return;
+      setItems((prev) => {
+        if (prev.map((f) => f.ticker).join(",") === tickers.join(",")) return prev;
+        const byTicker = new Map(prev.map((f) => [f.ticker, f.name]));
+        const next = cleanFocus(tickers.map((ticker) => ({ ticker, name: byTicker.get(ticker) ?? "" })));
+        writeLocalFocus(scope, next);
+        return next;
+      });
+    })();
+    return () => {
+      live = false;
+    };
+  }, [getToken, scope, server]);
+
   // Fill in names the welcome flow or an old save left out.
   useEffect(() => {
-    const missing = focus.filter((f) => !f.name).map((f) => f.ticker);
+    const missing = items.filter((f) => !f.name).map((f) => f.ticker);
     if (!missing.length) return;
     let live = true;
     void fetchNames(missing).then((names) => {
       if (!live || !Object.keys(names).length) return;
-      setFocus((prev) => prev.map((f) => (f.name ? f : { ...f, name: names[f.ticker] ?? "" })));
+      setItems((prev) => prev.map((f) => (f.name ? f : { ...f, name: names[f.ticker] ?? "" })));
     });
     return () => {
       live = false;
     };
-  }, [focus]);
+  }, [items]);
 
   const update = useCallback(
-    (next: FocusItem[]) => {
+    (next: PortfolioItem[]) => {
+      editedRef.current = true;
       const clean = cleanFocus(next);
-      setFocus(clean);
+      setItems(clean);
       if (sample) return;
       writeLocalFocus(scope, clean);
       if (server) void getToken().then((token) => (token ? saveServerFocus(token, clean) : undefined));
@@ -208,7 +245,7 @@ function useFocus({ scope, server, sample }: FocusSource, getToken: () => Promis
     [getToken, sample, scope, server],
   );
 
-  return { focus, loaded, update };
+  return { items, loaded, update };
 }
 
 function useLayout(userId: string) {
@@ -242,8 +279,8 @@ function openIn(layout: WorkspaceLayout, tab: Tab): WorkspaceLayout {
   return { ...withTab(layout, tab), activeId: tab.id };
 }
 
-type Section = "tab" | "focus" | "sightings" | "help";
-const SECTION_TARGETS: ReadonlySet<string> = new Set(["focus", "sightings", "help"]);
+type Section = "tab" | "sightings" | "help";
+const SECTION_TARGETS: ReadonlySet<string> = new Set(["sightings", "help"]);
 
 /** The tab a view target names: one already open, or one built from its id. */
 function tabFromTarget(target: string, tabs: readonly Tab[]): Tab | null {
@@ -258,7 +295,7 @@ function tabFromTarget(target: string, tabs: readonly Tab[]): Tab | null {
 
 function navOf(target: string | null, tabs: readonly Tab[]): NavId | null {
   if (!target) return null;
-  if (target === "dashboard" || target === "graph" || target === "focus" || target === "sightings") return target;
+  if (target === "dashboard" || target === "graph" || target === "sightings") return target;
   return tabFromTarget(target, tabs)?.kind === "strategy" ? "strategy" : null;
 }
 
@@ -284,25 +321,32 @@ function WorkspaceScoped({
   workspaces,
 }: {
   viewer: Viewer;
-  /** Storage key for this workspace's focus list, tabs and strategies. */
+  /** Storage key for this workspace's portfolio, tabs and strategies. */
   scope: string;
   main: boolean;
   workspaces: WorkspaceSwitcherApi;
 }) {
   const getToken = useAccessToken(viewer.client);
   const preview = viewer.userId === "preview";
-  const { focus, loaded: focusLoaded, update: setFocusList } = useFocus({ scope, server: main && !preview, sample: main && preview }, getToken);
-  const focusTickers = useMemo(() => focus.map((f) => f.ticker), [focus]);
-  const focusSet = useMemo(() => new Set(focusTickers), [focusTickers]);
-  const sightings = useSightings(focusTickers, { getToken, enabled: focusLoaded });
+  const { items: portfolio, loaded: portfolioLoaded, update: setPortfolio } = usePortfolio({ scope, server: main && !preview, sample: main && preview }, getToken);
+  const portfolioTickers = useMemo(() => portfolio.map((f) => f.ticker), [portfolio]);
+  const portfolioSet = useMemo(() => new Set(portfolioTickers), [portfolioTickers]);
+  const sightings = useSightings(portfolioTickers, { getToken, enabled: portfolioLoaded });
+  // Sizes and live prices: the stored portfolio for the signed-in main workspace, quotes only elsewhere (lib/workspace/holdings.ts).
+  const holdingsApi = useHoldings({ mode: holdingsMode({ main, preview, signedIn: viewer.client !== null }), tickers: portfolioTickers, enabled: portfolioLoaded }, getToken);
   const [layout, setLayout] = useLayout(scope);
   const strategies = useStrategies(scope);
-  // Focus list, Sightings and Help open in the card without being tabs; any tab action returns to the tab.
-  // A new workspace opens on its empty focus list, ready to add a ticker.
-  const [section, setSection] = useState<Section>(() => (!main && !readLocalFocus(scope)?.length ? "focus" : "tab"));
+  // Sightings and Help open in the card without being tabs; any tab action returns to the tab.
+  const [section, setSection] = useState<Section>("tab");
   const [guideOpen, setGuideOpen] = useState(false);
   const closeGuide = useCallback(() => setGuideOpen(false), []);
   const [settingsOpen, setSettingsOpen] = useState(false);
+  // The section Settings opens on when something asks for one ("All positions" opens Portfolio).
+  const [settingsSection, setSettingsSection] = useState<"portfolio" | null>(null);
+  const openSettings = useCallback((section?: "portfolio") => {
+    setSettingsSection(section ?? null);
+    setSettingsOpen(true);
+  }, []);
   const closeSettings = useCallback(() => {
     setSettingsOpen(false);
     // Back to the gear in the top bar, whichever way Settings opened.
@@ -314,13 +358,26 @@ function WorkspaceScoped({
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "," && (e.metaKey || e.ctrlKey) && !e.altKey && !e.shiftKey) {
         e.preventDefault();
-        setSettingsOpen(true);
+        openSettings();
       }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, []);
-  const [railPinned, setRailPinned] = useState(() => readRailPinned(viewer.userId));
+  }, [openSettings]);
+
+  // Development only: ⌘P (Ctrl+P elsewhere) swaps a random test portfolio in and out (lib/workspace/holdings.ts). Production keeps the browser's print.
+  const toggleTest = holdingsApi.toggleTest;
+  useEffect(() => {
+    if (!TEST_PORTFOLIO_ON) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key.toLowerCase() === "p" && (e.metaKey || e.ctrlKey) && !e.altKey && !e.shiftKey) {
+        e.preventDefault();
+        toggleTest();
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [toggleTest]);
   const [focusedRole, setFocused] = useState<"primary" | "other">("primary");
   const help = useHelp();
   const areaRef = useRef<HTMLDivElement>(null);
@@ -382,10 +439,6 @@ function WorkspaceScoped({
     (strategyId: string) => open({ id: tabId({ kind: "strategy", strategyId }), kind: "strategy", strategyId }),
     [open],
   );
-  const newStrategy = useCallback(
-    (init?: Parameters<typeof createStrategy>[1]) => openStrategy(createStrategy(scope, init ?? { rules: BLANK_RULES }).id),
-    [openStrategy, scope],
-  );
 
   const close = useCallback(
     (id: string) =>
@@ -421,8 +474,9 @@ function WorkspaceScoped({
       sample: sightings.sample,
       loadedAt: sightings.loadedAt,
       refreshFeed: sightings.refresh,
-      focus,
-      focusSet,
+      portfolio,
+      portfolioSet,
+      portfolioLoaded,
       openTicker: (ticker) => open({ id: tabId({ kind: "ticker", ticker }), kind: "ticker", ticker }),
       openSighting: (cardId) => {
         const card = sightings.feed?.cards.find((c) => c.id === cardId);
@@ -432,38 +486,29 @@ function WorkspaceScoped({
         setLayout((l) => withTab(l, tab));
         open(tab);
       },
-      openTab: (kind) => (kind === "strategy" ? newStrategy() : open({ id: kind, kind } as Tab)),
+      openTab: (kind) => (kind === "strategy" ? openStrategy("lab") : open({ id: kind, kind } as Tab)),
+      openSightings: () => navigate("sightings"),
       userId: scope,
       strategies,
       openStrategy,
-      newStrategy,
       closeTab: close,
       deleteStrategy: (strategyId) => {
         close(tabId({ kind: "strategy", strategyId }));
         deleteStrategy(scope, strategyId);
       },
-      backtestSighting: (cardId) => {
-        // One strategy per card: open the one made before, else build the rules and run them.
-        const made = strategies.find((s) => s.origin.kind === "sighting" && s.origin.cardId === cardId);
-        if (made) return openStrategy(made.id);
-        const card = sightings.feed?.cards.find((c) => c.id === cardId);
-        if (!card) return;
-        const b = strategyFromSighting(card);
-        newStrategy({
-          rules: b.strategy,
-          origin: { kind: "sighting", cardId, eventTicker: card.event.ticker, basis: b.basis, notes: b.notes, hasHistory: b.hasHistory },
-          // Event types without history yet would only show an empty run.
-          autorun: b.hasHistory,
-        });
-      },
-      addFocus: (item) => {
-        if (!focusSet.has(item.ticker)) setFocusList([...focus, item]);
-      },
-      removeFocus: (ticker) => setFocusList(focus.filter((f) => f.ticker !== ticker)),
+      setPortfolio,
+      getToken,
+      holdings: holdingsApi.holdings,
+      saveImport: holdingsApi.saveImport,
+      clearHoldings: holdingsApi.clearHoldings,
+      refreshHoldings: holdingsApi.refreshHoldings,
+      createPaper: holdingsApi.createPaper,
+      clearPaper: holdingsApi.clearPaper,
+      openSettings,
     }),
     // `sightings.refresh` is rebuilt every render; the rest decides.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [close, focus, focusSet, newStrategy, open, openStrategy, scope, setFocusList, setLayout, sightings.feed, sightings.loadedAt, sightings.sample, sightings.status, strategies],
+    [close, portfolio, portfolioLoaded, portfolioSet, getToken, holdingsApi.holdings, holdingsApi.saveImport, holdingsApi.clearHoldings, holdingsApi.refreshHoldings, holdingsApi.createPaper, holdingsApi.clearPaper, openSettings, navigate, open, openStrategy, scope, setPortfolio, setLayout, sightings.feed, sightings.loadedAt, sightings.sample, sightings.status, strategies],
   );
 
   const titleFor = useCallback(
@@ -474,7 +519,7 @@ function WorkspaceScoped({
         case "graph":
           return "Graph";
         case "strategy":
-          return strategies.find((s) => s.id === tab.strategyId)?.rules.name.trim() || "Strategy";
+          return "Falcon AI";
         case "ticker":
           return tab.ticker;
         case "sighting": {
@@ -483,12 +528,11 @@ function WorkspaceScoped({
         }
       }
     },
-    [sightings.feed, strategies],
+    [sightings.feed],
   );
 
   const labelFor = useCallback(
     (target: string): string => {
-      if (target === "focus") return "Focus list";
       if (target === "sightings") return "Sightings";
       if (target === "help") return "Help";
       const tab = tabFromTarget(target, layout.tabs);
@@ -501,7 +545,6 @@ function WorkspaceScoped({
   const describe = useCallback(
     (target: string | null): string => {
       if (!target) return "";
-      if (target === "focus") return "Focus list";
       if (target === "sightings") return "Sightings list";
       if (target === "help") return "";
       const tab = tabFromTarget(target, layout.tabs);
@@ -513,7 +556,7 @@ function WorkspaceScoped({
         const card = sightings.feed?.cards.find((c) => c.id === tab.cardId);
         return card ? `Sighting: ${cardExplain(card).title}` : `Sighting: ${titleFor(tab)}`;
       }
-      return `Strategy Lab, strategy "${titleFor(tab)}"`;
+      return "Falcon AI (research chat)";
     },
     [layout.tabs, sightings.feed, titleFor],
   );
@@ -538,15 +581,13 @@ function WorkspaceScoped({
 
   const current = navOf(focusedTarget, layout.tabs);
   const focusedKind = focusedTarget ? tabFromTarget(focusedTarget, layout.tabs)?.kind : undefined;
-  const activeLink: TopLink = focusedTarget === "sightings" || focusedKind === "sighting" ? "sightings" : focusedKind === "strategy" ? "strategy" : "workspace";
+  const activeLink: TopLink = focusedKind === "dashboard" ? "dashboard" : "workspace";
 
-  /** Strategy Lab: the last strategy open, else the last one edited, else a new one. */
+  /** Lab (empty while it is rebuilt): an open Lab tab, else the stable "lab" one. */
   const labTarget = useCallback((): string => {
     const openOne = [...layout.tabs].reverse().find((t) => t.kind === "strategy");
-    if (openOne) return openOne.id;
-    const recent = [...strategies].sort((a, b) => b.updatedAt - a.updatedAt)[0];
-    return tabId({ kind: "strategy", strategyId: (recent ?? createStrategy(scope, { rules: BLANK_RULES })).id });
-  }, [layout.tabs, scope, strategies]);
+    return openOne ? openOne.id : tabId({ kind: "strategy", strategyId: "lab" });
+  }, [layout.tabs]);
 
   const nav = useCallback((id: NavId) => navigate(id === "strategy" ? labTarget() : id), [labTarget, navigate]);
 
@@ -579,6 +620,65 @@ function WorkspaceScoped({
   );
 
   const swapSides = useCallback(() => setLayout((l) => (l.split ? { ...l, split: { ...l.split, side: l.split.side === "left" ? "right" : "left", ratio: 1 - l.split.ratio } } : l)), [setLayout]);
+
+  /* ------------------------------------- Falcon AI operating the app */
+  const isDesk = useCallback((t: string | null | undefined) => !!t && t.startsWith("strategy:"), []);
+  /** Shows `target` beside the Desk when the Desk is on screen (so the chat stays), else where the member is. */
+  const showFromDesk = useCallback(
+    (target: string) => {
+      const sp = splitRef.current;
+      const p = primaryRef.current;
+      if (isDesk(p)) return setOther(target, sp?.side ?? "right");
+      if (sp && isDesk(sp.other)) return goPrimary(target);
+      navigate(target);
+    },
+    [goPrimary, isDesk, navigate, setOther],
+  );
+  /** The last non-Desk view, so "the stock I'm looking at" still works after switching to the Desk. */
+  const lastView = useRef<string | null>(null);
+  useEffect(() => {
+    const seen = [primary, split?.other].find((t) => t && !isDesk(t) && t !== "help");
+    if (seen) lastView.current = seen;
+  }, [isDesk, primary, split]);
+  // A Sighting on screen, however it was opened: the Dashboard's setup card counts it as done.
+  useEffect(() => {
+    if ([primary, split?.other].some((t) => t?.startsWith("sighting:"))) markSightingOpened(scope);
+  }, [primary, scope, split]);
+  const bridgeState = useRef({ layout, primary, split, describe, feed: sightings.feed, portfolioTickers });
+  bridgeState.current = { layout, primary, split, describe, feed: sightings.feed, portfolioTickers };
+  const bridge = useMemo(
+    () => ({
+      run: (a: AppAction) => {
+        switch (a.type) {
+          case "open_ticker":
+            return showFromDesk(tabId({ kind: "ticker", ticker: a.ticker }));
+          case "open_dashboard":
+            return showFromDesk("dashboard");
+          case "open_sightings":
+            return showFromDesk("sightings");
+          case "open_sighting": {
+            const tab: Tab = { id: tabId({ kind: "sighting", cardId: a.cardId }), kind: "sighting", cardId: a.cardId, title: a.title };
+            setLayout((l) => withTab(l, tab));
+            return showFromDesk(tab.id);
+          }
+          case "show_in_graph":
+          case "set_graph_filters":
+            pushGraphFilters(scope, a.type === "show_in_graph" ? showInGraphFilters(a) : a.filters);
+            return showFromDesk("graph");
+        }
+      },
+      snapshot: () => deskSnapshot(bridgeState.current, lastView.current, scope),
+      // The Desk opens beside the view the member asked from, so both stay on screen.
+      openDesk: () => {
+        const t = labTarget();
+        const p = primaryRef.current;
+        if (p && p !== t && splitRef.current?.other !== t && !isDesk(p) && p !== "help") return setOther(t, "right");
+        navigate(t);
+      },
+    }),
+    [isDesk, labTarget, navigate, scope, setLayout, setOther, showFromDesk],
+  );
+  useAppBridge(bridge);
 
   const helpOnScreen = primary === "help" || split?.other === "help";
   const openHelp = useCallback(() => {
@@ -630,7 +730,7 @@ function WorkspaceScoped({
         setOther(t);
         setFocused("other");
       } else if (SECTION_TARGETS.has(t) && !SECTION_TARGETS.has(sp.other)) {
-        // Focus list, Sightings and Help take the saved slot, so a reload keeps them; the tab there moves over.
+        // Sightings and Help take the saved slot, so a reload keeps them; the tab there moves over.
         goPrimary(sp.other);
         setOther(t, zone);
         setFocused("other");
@@ -642,64 +742,17 @@ function WorkspaceScoped({
     [closePane, goPrimary, setOther, swapSides, undockHelp],
   );
 
-  const toggleContext = useCallback(() => setLayout((l) => ({ ...l, contextOpen: !l.contextOpen })), [setLayout]);
   const status = sightings.status === "loading" && !sightings.loadedAt ? "Loading sightings" : "";
 
   /* ------------------------------------------------------ pane views */
 
   /** "…" menu and close button for a pane header. */
   const paneActions = (target: string, role: PaneRole) => {
-    if (role === "single") {
-      const candidates = [...NAV.map((n) => navTarget(n.id)).filter((x): x is string => x !== null), ...openItems.map((o) => o.id)].filter((c) => c !== target);
-      return (
-        <Dropdown
-          label="View options"
-          kind="menu"
-          align="right"
-          width={260}
-          groups={() => [
-            {
-              label: "Open in split view",
-              items: candidates.map((c) => {
-                const tab = tabFromTarget(c, layout.tabs);
-                return { id: `split:${c}`, label: labelFor(c), icon: tab ? TAB_ICON[tab.kind] : NAV.find((n) => n.id === c)?.icon };
-              }),
-            },
-            { items: target === "help" ? [] : [{ id: "help", label: "Dock help chat to the right", icon: LifeBuoy }] },
-          ]}
-          onSelect={(id) => (id === "help" ? dockHelp("right") : splitWith(id.slice(6)))}
-          button={({ open: o, props }) => (
-            <button {...props} title="View options" className={`${ICON_BUTTON} ${o ? "bg-line/[0.06] text-fore" : ""}`}>
-              <MoreHorizontal width={16} height={16} strokeWidth={1.75} aria-hidden />
-            </button>
-          )}
-        />
-      );
-    }
+    // Single view has no pane menu; split panes keep only their undock/close buttons.
+    if (role === "single") return null;
     const name = labelFor(target);
     return (
       <>
-        <Dropdown
-          label={`${name} pane options`}
-          kind="menu"
-          align="right"
-          width={220}
-          groups={() => [
-            {
-              items: [
-                { id: "swap", label: "Swap sides", icon: ArrowLeftRight },
-                ...(target === "help" ? [{ id: "undock", label: "Undock help chat", icon: PictureInPicture2 }] : []),
-                { id: "close", label: "Close this pane", icon: X },
-              ],
-            },
-          ]}
-          onSelect={(id) => (id === "swap" ? swapSides() : id === "undock" ? undockHelp() : closePane(target))}
-          button={({ open: o, props }) => (
-            <button {...props} title="Pane options" className={`${ICON_BUTTON} ${o ? "bg-line/[0.06] text-fore" : ""}`}>
-              <MoreHorizontal width={16} height={16} strokeWidth={1.75} aria-hidden />
-            </button>
-          )}
-        />
         {target === "help" ? <IconButton label="Undock help chat" icon={PictureInPicture2} onClick={undockHelp} /> : null}
         <IconButton label={`Close ${name} pane`} icon={X} onClick={() => closePane(target)} />
       </>
@@ -716,7 +769,6 @@ function WorkspaceScoped({
       );
     }
     const extra = paneActions(target, role);
-    if (target === "focus") return <FocusListView headerExtra={extra} />;
     if (target === "sightings") return <SightingsListView onGuide={() => setGuideOpen(true)} headerExtra={extra} />;
     if (target === "help") {
       return (
@@ -728,38 +780,33 @@ function WorkspaceScoped({
     }
     const tab = tabFromTarget(target, layout.tabs);
     if (!tab) return renderTarget(null, role);
-    if (tab.kind === "strategy") return <StrategyTab key={tab.id} strategyId={tab.strategyId} headerExtra={extra} />;
-    const details = role === "single" && layout.contextOpen;
+    if (tab.kind === "strategy") return <StrategyTab key={tab.id} headerExtra={extra} />;
     return (
-      <div key={tab.id} role="region" aria-label={titleFor(tab)} className="flex min-h-0 flex-1 flex-col">
+      <div key={tab.id} role="region" aria-label={titleFor(tab)} className="relative flex min-h-0 flex-1 flex-col">
         <CardHeader
           title={titleFor(tab)}
           titleMono={tab.kind === "ticker"}
+          hideTitle={tab.kind === "dashboard"}
+          serif={tab.kind === "graph"}
+          overlay={tab.kind === "graph"}
+          lead={tab.kind === "dashboard" ? <DashboardGreeting /> : undefined}
           actions={
+            tab.kind === "dashboard" || tab.kind === "graph" ? undefined : (
             <>
-              {tab.kind === "dashboard" || tab.kind === "graph" ? (
-                <TextButton icon={RotateCw} onClick={sightings.refresh}>
-                  Refresh
-                </TextButton>
-              ) : role === "single" ? (
+              {role === "single" ? (
                 <TextButton icon={X} onClick={() => close(tab.id)}>
                   Close
                 </TextButton>
               ) : null}
-              {role === "single" ? (
-                <TextButton icon={PanelRight} onClick={toggleContext} pressed={layout.contextOpen}>
-                  Details
-                </TextButton>
-              ) : null}
               {extra}
             </>
+            )
           }
         />
         <div className="flex min-h-0 flex-1">
-          <CardBody fill={tab.kind === "graph"}>
+          <CardBody fill={tab.kind === "graph"} roundTop={tab.kind === "graph"}>
             <TabContent tab={tab} />
           </CardBody>
-          {details ? <ContextPanel tab={tab} /> : null}
         </div>
       </div>
     );
@@ -784,6 +831,7 @@ function WorkspaceScoped({
       <HowToReadDialog open={guideOpen} onClose={closeGuide} />
       <SettingsDialog
         open={settingsOpen}
+        initialSection={settingsSection ?? undefined}
         onClose={closeSettings}
         onHelp={() => {
           setSettingsOpen(false);
@@ -800,36 +848,18 @@ function WorkspaceScoped({
             email={viewer.email}
             workspaces={workspaces}
             activeLink={activeLink}
-            contextOpen={layout.contextOpen}
             onNav={nav}
-            onLink={(id) => (id === "workspace" ? nav("dashboard") : id === "docs" ? openHelp() : nav(id))}
-            onToggleContext={toggleContext}
+            onLink={(id) => (id === "docs" ? openHelp() : nav("dashboard"))}
             onGuide={() => setGuideOpen(true)}
-            onSettings={() => setSettingsOpen(true)}
+            onSettings={() => openSettings()}
             onSignOut={signOut}
           />
           <div className="flex min-h-0 flex-1">
             <Sidebar
-              pinned={railPinned}
-              onTogglePin={() => {
-                setRailPinned((p) => {
-                  writeRailPinned(viewer.userId, !p);
-                  return !p;
-                });
-              }}
               current={current}
-              activeTarget={focusedTarget}
               marked={split && primary ? new Set([primary, split.other]) : EMPTY_SET}
               primaryTarget={primary}
-              openItems={openItems}
               onNav={nav}
-              onSelectTab={navigate}
-              onCloseTab={close}
-              onMoveTab={(id, delta) => {
-                const at = openItems.findIndex((t) => t.id === id);
-                const neighbor = openItems[at + delta];
-                if (at !== -1 && neighbor) move(id, layout.tabs.findIndex((t) => t.id === neighbor.id));
-              }}
               onSplit={(item) => splitWith("nav" in item ? (item.nav === "strategy" ? labTarget() : item.nav) : item.target)}
               onCloseSplit={closePane}
               onHelp={openHelp}
@@ -912,11 +942,11 @@ function TabContent({ tab }: { tab: Tab }) {
     case "sighting":
       return <SightingTab cardId={tab.cardId} />;
     case "strategy":
-      return <StrategyTab strategyId={tab.strategyId} />;
+      return <StrategyTab />;
   }
 }
 
-function NoTabs({ onOpen }: { onOpen: (kind: "dashboard" | "graph" | "strategy") => void }) {
+function NoTabs({ onOpen }: { onOpen: (kind: "dashboard" | "graph") => void }) {
   return (
     <div className="flex min-h-0 flex-1 items-center justify-center">
       <div className="flex gap-2">
@@ -933,13 +963,6 @@ function NoTabs({ onOpen }: { onOpen: (kind: "dashboard" | "graph" | "strategy")
           className="inline-flex h-9 items-center rounded-lg border border-line/10 px-4 text-fs-13 text-fore outline-none transition-colors hover:bg-surface-hover focus-visible:border-line/40"
         >
           Open graph
-        </button>
-        <button
-          type="button"
-          onClick={() => onOpen("strategy")}
-          className="inline-flex h-9 items-center rounded-lg border border-line/10 px-4 text-fs-13 text-fore outline-none transition-colors hover:bg-surface-hover focus-visible:border-line/40"
-        >
-          New strategy
         </button>
       </div>
     </div>

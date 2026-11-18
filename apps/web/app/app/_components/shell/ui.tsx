@@ -80,23 +80,62 @@ export function TextButton({
 }
 
 /** The white card's top row: title left, actions right. */
-export function CardHeader({ title, actions, titleMono = false }: { title: ReactNode; actions?: ReactNode; titleMono?: boolean }) {
+export function CardHeader({
+  title,
+  actions,
+  titleMono = false,
+  hideTitle = false,
+  serif = false,
+  overlay = false,
+  lead,
+}: {
+  title: ReactNode;
+  actions?: ReactNode;
+  titleMono?: boolean;
+  /** Keep the title for screen readers only; the row then carries just the actions, with no rule under it. */
+  hideTitle?: boolean;
+  /** Large serif title like the dashboard greeting, with no rule under the row. */
+  serif?: boolean;
+  /** Float the row over the content with a transparent background (the Graph canvas runs underneath it). */
+  overlay?: boolean;
+  /** Shown at the left of the row in place of the visible title (e.g. the dashboard greeting). */
+  lead?: ReactNode;
+}) {
   return (
-    <div data-pane-header className="flex h-14 shrink-0 items-center justify-between gap-4 border-b border-line/[0.08] px-5">
+    <div
+      data-pane-header
+      className={`flex shrink-0 items-center justify-between gap-4 px-5 ${lead || serif ? "pb-2 pt-8" : "h-14"} ${hideTitle || serif ? "" : "border-b border-line/[0.08]"} ${
+        overlay ? "pointer-events-none absolute inset-x-0 top-0 z-10 bg-transparent [&>*]:pointer-events-auto" : ""
+      }`}
+    >
       <h1
-        className="min-w-0 truncate text-fs-18 font-medium leading-fs-24 tracking-[-0.01em] text-fore"
-        style={titleMono ? { fontFamily: "var(--font-geist-mono), monospace" } : undefined}
+        className={
+          hideTitle
+            ? "sr-only"
+            : serif
+              ? "min-w-0 truncate pl-1.5 text-fs-26 leading-fs-34 text-fore"
+              : "min-w-0 truncate text-fs-18 font-medium leading-fs-24 tracking-[-0.01em] text-fore"
+        }
+        style={
+          titleMono
+            ? { fontFamily: "var(--font-geist-mono), monospace" }
+            : serif && !hideTitle
+              ? { fontFamily: "var(--font-libre-baskerville), Georgia, serif" }
+              : undefined
+        }
       >
         {title}
       </h1>
-      {actions ? <div className="flex shrink-0 items-center gap-1">{actions}</div> : null}
+      {lead ? <div className="min-w-0 truncate">{lead}</div> : null}
+      {actions ? <div className="ml-auto flex shrink-0 items-center gap-1">{actions}</div> : null}
     </div>
   );
 }
 
 /** Scrolling body of the card for a single view. */
-export function CardBody({ children, fill = false }: { children: ReactNode; fill?: boolean }) {
-  return <div className={`min-h-0 min-w-0 flex-1 rounded-b-xl ${fill ? "overflow-hidden" : "overflow-y-auto"}`}>{children}</div>;
+export function CardBody({ children, fill = false, roundTop = false }: { children: ReactNode; fill?: boolean; roundTop?: boolean }) {
+  // roundTop: the body reaches the card's top edge (its header floats over it), so it needs the top corners too.
+  return <div className={`min-h-0 min-w-0 flex-1 ${roundTop ? "rounded-xl" : "rounded-b-xl"} ${fill ? "overflow-hidden" : "overflow-y-auto"}`}>{children}</div>;
 }
 
 type TriggerProps = ButtonHTMLAttributes<HTMLButtonElement> & { ref: Ref<HTMLButtonElement> };

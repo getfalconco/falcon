@@ -13,7 +13,7 @@ import type { ReactNode, RefObject } from "react";
 
 export type Side = "left" | "right";
 export type DragPayload = {
-  /** View target: a tab id, "focus", "sightings" or "help". */
+  /** View target: a tab id, "sightings" or "help". */
   target: string;
   label: string;
   from: "rail" | "float" | "pane";

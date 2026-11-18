@@ -1,189 +1,28 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
-import { BookOpen, Plus, RotateCw, X } from "lucide-react";
+import { useMemo, useState } from "react";
+import { BookOpen } from "lucide-react";
 import { NOTHING_CLEARED, cardOptions, cardPricedIn, type RippleCard } from "@falcon/ripple";
-import { eventKicker, eventTypeCounts, exposureByTicker, mixByType, sortByTime, touchesFocus } from "@/lib/workspace/feed";
-import { searchTickers, type TickerResult } from "@/lib/workspace/focus";
-import { MAX_STOCKS, TICKER_PATTERN } from "@/lib/onboarding";
+import { eventKicker, eventTypeCounts, mixByType, sortByTime, touchesPortfolio } from "@/lib/workspace/feed";
 import { useWorkspace } from "./context";
 import { FeedNotice } from "./FeedNotice";
 import { OptionsChip } from "./OptionsBlock";
-import { MONO, NetMark, timeAgo } from "./parts";
+import { MONO, timeAgo } from "./parts";
 import { StrengthBadge, useExplain } from "./explain";
 import { CardBody, CardHeader, TextButton } from "./shell/ui";
 
 /**
- * The focus list and the Sightings list, which used to live in the left
- * sidebar; on desktop they now open in the white card from the sidebar nav.
+ * The Sightings list, which used to live in the left sidebar; on desktop it
+ * now opens in the white card (See all on the Dashboard).
  */
 
 const ROW = "flex w-full items-center gap-3 rounded-lg px-3 text-left outline-none transition-colors hover:bg-line/[0.04] focus-visible:bg-line/[0.05]";
-
-function AddTicker({ onDone }: { onDone: () => void }) {
-  const { addFocus, focusSet } = useWorkspace();
-  const [q, setQ] = useState("");
-  const [results, setResults] = useState<TickerResult[]>([]);
-  const [active, setActive] = useState(0);
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => inputRef.current?.focus(), []);
-
-  useEffect(() => {
-    const query = q.trim();
-    if (!query) {
-      setResults([]);
-      return;
-    }
-    const controller = new AbortController();
-    const timer = setTimeout(() => {
-      void searchTickers(query, controller.signal).then((r) => {
-        if (!controller.signal.aborted) {
-          setResults(r.filter((x) => !focusSet.has(x.ticker)).slice(0, 6));
-          setActive(0);
-        }
-      });
-    }, 160);
-    return () => {
-      clearTimeout(timer);
-      controller.abort();
-    };
-  }, [focusSet, q]);
-
-  function pick(item: TickerResult) {
-    addFocus(item);
-    setQ("");
-    setResults([]);
-    inputRef.current?.focus();
-  }
-
-  return (
-    <div className="relative mb-2">
-      <input
-        ref={inputRef}
-        value={q}
-        onChange={(e) => setQ(e.target.value.slice(0, 40))}
-        onKeyDown={(e) => {
-          if (e.key === "Escape") {
-            e.preventDefault();
-            onDone();
-          } else if (e.key === "ArrowDown") {
-            e.preventDefault();
-            setActive((a) => Math.min(results.length - 1, a + 1));
-          } else if (e.key === "ArrowUp") {
-            e.preventDefault();
-            setActive((a) => Math.max(0, a - 1));
-          } else if (e.key === "Enter") {
-            e.preventDefault();
-            const chosen = results[active];
-            if (chosen) pick(chosen);
-            else {
-              const typed = q.trim().toUpperCase();
-              if (TICKER_PATTERN.test(typed) && !focusSet.has(typed)) pick({ ticker: typed, name: "" });
-            }
-          }
-        }}
-        onBlur={() => {
-          // Leave room for a click on a result.
-          setTimeout(() => {
-            if (!inputRef.current?.matches(":focus")) onDone();
-          }, 150);
-        }}
-        placeholder="Ticker or company"
-        aria-label="Add a ticker"
-        className="h-9 w-full rounded-lg border border-line/15 bg-surface px-3 text-fs-13 text-fore outline-none placeholder:text-faint focus:border-line/35"
-      />
-      {results.length ? (
-        <ul role="listbox" className="absolute left-0 right-0 top-[calc(100%+4px)] z-20 rounded-xl border border-line/10 bg-surface p-1.5 shadow-[0_12px_32px_rgba(0,0,0,0.12)]">
-          {results.map((r, i) => (
-            <li key={r.ticker} role="option" aria-selected={i === active}>
-              <button
-                type="button"
-                onMouseDown={(e) => e.preventDefault()}
-                onClick={() => pick(r)}
-                className={`flex h-8 w-full items-center gap-2.5 rounded-lg px-2 text-left ${i === active ? "bg-line/[0.05]" : "hover:bg-line/[0.05]"}`}
-              >
-                <span className="w-14 shrink-0 text-fs-12.5 text-fore" style={{ fontFamily: MONO }}>
-                  {r.ticker}
-                </span>
-                <span className="truncate text-fs-12.5 text-quiet">{r.name}</span>
-              </button>
-            </li>
-          ))}
-        </ul>
-      ) : null}
-    </div>
-  );
-}
-
-export function FocusListView({ headerExtra }: { headerExtra?: React.ReactNode }) {
-  const { feed, focus, openTicker, removeFocus } = useWorkspace();
-  // An empty list opens straight into the ticker search.
-  const [adding, setAdding] = useState(() => focus.length === 0);
-  const exposure = useMemo(() => new Map(exposureByTicker(feed, focus).map((e) => [e.ticker, e])), [feed, focus]);
-  const full = focus.length >= MAX_STOCKS;
-
-  return (
-    <>
-      <CardHeader
-        title="Focus list"
-        actions={
-          <>
-            <TextButton icon={Plus} onClick={() => setAdding(true)} disabled={full} title={full ? `Up to ${MAX_STOCKS} tickers` : undefined}>
-              Add ticker
-            </TextButton>
-            {headerExtra}
-          </>
-        }
-      />
-      <CardBody>
-        <div className="mx-auto w-full max-w-[720px] px-7 py-6">
-          <p className="mb-4 text-fs-13 text-quiet">
-            {focus.length} of {MAX_STOCKS} tickers. Sightings that reach these are marked across the workspace.
-          </p>
-          {adding ? <AddTicker onDone={() => setAdding(false)} /> : null}
-          {focus.length ? (
-            <ul className="flex flex-col">
-              {focus.map((f) => {
-                const e = exposure.get(f.ticker);
-                return (
-                  <li key={f.ticker} className="group relative">
-                    <button type="button" onClick={() => openTicker(f.ticker)} className={`${ROW} h-11 pr-11`}>
-                      <span className="w-[64px] shrink-0 text-fs-13 text-fore" style={{ fontFamily: MONO }}>
-                        {f.ticker}
-                      </span>
-                      <span className="min-w-0 flex-1 truncate text-fs-13 text-quiet">{f.name || e?.companyName || ""}</span>
-                      {e && e.events ? <span className="shrink-0 text-fs-12 text-faint">{e.events === 1 ? "1 event" : `${e.events} events`}</span> : null}
-                      {e && e.net !== null ? <NetMark value={e.net} showLabel /> : null}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => removeFocus(f.ticker)}
-                      aria-label={`Remove ${f.ticker} from focus list`}
-                      className="absolute right-2 top-1/2 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-md text-faint opacity-0 outline-none transition-opacity hover:bg-line/[0.07] hover:text-fore focus-visible:opacity-100 group-hover:opacity-100"
-                    >
-                      <X width={13} height={13} strokeWidth={2} aria-hidden />
-                    </button>
-                  </li>
-                );
-              })}
-            </ul>
-          ) : adding ? null : (
-            <button type="button" onClick={() => setAdding(true)} className={`${ROW} h-10 text-fs-13 text-quiet`}>
-              Add a ticker
-            </button>
-          )}
-        </div>
-      </CardBody>
-    </>
-  );
-}
 
 function SightingRow({ card, mine, onOpen }: { card: RippleCard; mine: boolean; onOpen: () => void }) {
   const ex = useExplain(card);
   return (
     <li>
-      <button type="button" onClick={onOpen} className={`${ROW} items-start py-2.5`} title={mine ? "Touches your focus list" : undefined}>
+      <button type="button" onClick={onOpen} className={`${ROW} items-start py-2.5`} title={mine ? "Touches your portfolio" : undefined}>
         <span className={`mt-[6px] h-1.5 w-1.5 shrink-0 rounded-full ${mine ? "bg-fore" : "bg-line/15"}`} aria-hidden />
         <span className="min-w-0 flex-1">
           <span className="flex min-h-[20px] items-center gap-2.5 text-fs-11 text-fore/50">
@@ -223,7 +62,7 @@ function FilterChip({ on, onClick, count, children }: { on: boolean; onClick: ()
 }
 
 export function SightingsListView({ onGuide, headerExtra }: { onGuide: () => void; headerExtra?: React.ReactNode }) {
-  const { feed, feedStatus, focusSet, openSighting, refreshFeed } = useWorkspace();
+  const { feed, feedStatus, portfolioSet, openSighting } = useWorkspace();
   const all = useMemo(() => feed?.cards ?? [], [feed]);
   const types = useMemo(() => eventTypeCounts(all), [all]);
   const [picked, setPicked] = useState<string | null>(null);
@@ -240,9 +79,6 @@ export function SightingsListView({ onGuide, headerExtra }: { onGuide: () => voi
           <>
             <TextButton icon={BookOpen} onClick={onGuide}>
               How to read
-            </TextButton>
-            <TextButton icon={RotateCw} onClick={refreshFeed}>
-              Refresh
             </TextButton>
             {headerExtra}
           </>
@@ -267,7 +103,7 @@ export function SightingsListView({ onGuide, headerExtra }: { onGuide: () => voi
               ) : null}
               <ul className="flex flex-col">
                 {cards.map((card) => (
-                  <SightingRow key={card.id} card={card} mine={touchesFocus(card, focusSet)} onOpen={() => openSighting(card.id)} />
+                  <SightingRow key={card.id} card={card} mine={touchesPortfolio(card, portfolioSet)} onOpen={() => openSighting(card.id)} />
                 ))}
               </ul>
             </>

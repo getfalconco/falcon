@@ -12,6 +12,7 @@ import { GraphView } from "../GraphView";
 import { OptionsRow } from "../OptionsBlock";
 import { EmptyState, EvidenceQuote, MONO, NetRing, Panel, SectionTitle, SERIF, TickerButton, feedEmpty, timeAgo } from "../parts";
 import { SightingCard, useExplain } from "../explain";
+import { AskFalconButton } from "../lab/AskFalconButton";
 
 /** An event at this company in one row: its plain category and headline. */
 function AtRowText({ card }: { card: RippleCard }) {
@@ -39,10 +40,10 @@ function tickerOptions(cards: readonly RippleCard[], ticker: string): RippleOpti
   return best;
 }
 
-/** Company name: the focus list, then the feed, then the SEC list. */
+/** Company name: the portfolio, then the feed, then the SEC list. */
 export function useCompanyName(ticker: string): string | null {
-  const { feed, focus } = useWorkspace();
-  const known = focus.find((f) => f.ticker === ticker)?.name || companyNameFor(feed, ticker);
+  const { feed, portfolio } = useWorkspace();
+  const known = portfolio.find((f) => f.ticker === ticker)?.name || companyNameFor(feed, ticker);
   const [fetched, setFetched] = useState<string | null>(null);
   useEffect(() => {
     if (known) return;
@@ -57,18 +58,11 @@ export function useCompanyName(ticker: string): string | null {
   return known || fetched;
 }
 
-export function FocusToggle({ ticker, name }: { ticker: string; name: string | null }) {
-  const { focusSet, addFocus, removeFocus } = useWorkspace();
-  const on = focusSet.has(ticker);
-  return (
-    <button
-      type="button"
-      onClick={() => (on ? removeFocus(ticker) : addFocus({ ticker, name: name ?? "" }))}
-      className="inline-flex h-8 items-center rounded-lg border border-line/10 px-3 text-fs-12.5 text-fore outline-none transition-colors hover:bg-surface-hover focus-visible:border-line/40"
-    >
-      {on ? "On focus list" : "Add to focus list"}
-    </button>
-  );
+/** "In your portfolio" when the member holds it; the portfolio comes from imports and the demo, not from here. */
+function PortfolioMark({ ticker }: { ticker: string }) {
+  const { portfolioSet } = useWorkspace();
+  if (!portfolioSet.has(ticker)) return null;
+  return <span className="inline-flex h-8 items-center rounded-lg border border-line/10 px-3 text-fs-12.5 text-quiet">In your portfolio</span>;
 }
 
 export function TickerTab({ ticker }: { ticker: string }) {
@@ -112,7 +106,10 @@ export function TickerTab({ ticker }: { ticker: string }) {
             {name ?? ticker}
           </h1>
         </div>
-        <FocusToggle ticker={ticker} name={name} />
+        <div className="flex shrink-0 items-center gap-2">
+          <AskFalconButton prompt={`What does Falcon see on ${ticker}${name && name !== ticker ? ` (${name})` : ""}? Sightings, graph links and options, briefly.`} />
+          <PortfolioMark ticker={ticker} />
+        </div>
       </header>
 
       <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] gap-5">

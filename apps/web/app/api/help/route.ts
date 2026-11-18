@@ -120,7 +120,7 @@ export async function POST(request: Request) {
         }
         const final = await stream.finalMessage();
         console.info("[api/help]", JSON.stringify({ stop: final.stop_reason, guardMs, totalMs: Date.now() - arrived, usage: final.usage }));
-        if (final.stop_reason === "refusal" && !sent) controller.enqueue(encoder.encode("I can't help with that here. Ask me how to read a Sighting or a Strategy Lab result."));
+        if (final.stop_reason === "refusal" && !sent) controller.enqueue(encoder.encode("I can't help with that here. Ask me how to read a Sighting or a Backtest result."));
         else if (final.stop_reason === "max_tokens") controller.enqueue(encoder.encode(" …"));
       } catch (error) {
         const timedOut = late || error instanceof Anthropic.APIConnectionTimeoutError;
