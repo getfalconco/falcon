@@ -5,6 +5,13 @@ import localFont from "next/font/local";
  * next/font/google. Same families and weights as before; the build no longer
  * has to reach Google Fonts (which is unreachable from some networks), and
  * visitors' browsers never call Google either.
+ *
+ * Import this module from app/layout.tsx only. The root layout puts every
+ * font's `.variable` class on <html>, so nested layouts and pages already
+ * inherit the CSS variables. If a nested layout imports it too, Next 14 on
+ * Windows can assign the @font-face CSS to that nested layout instead of the
+ * root one (its CSS dedupe sorts by "/" depth, and Windows paths use "\"),
+ * and app/layout.css then ships without these fonts.
  */
 
 export const inter = localFont({
