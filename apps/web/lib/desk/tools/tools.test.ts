@@ -4,7 +4,7 @@ import assert from "node:assert/strict";
 import { afterEach, beforeEach, test } from "node:test";
 import { DESK_TOOLS, deskToolLabel, runDeskTool } from "./index";
 import { durationSeries, ttm } from "./fundamentals";
-import { excerpt, filingIndexUrl } from "./filings";
+import { excerpt, filingIndexUrl, sentenceCut } from "./filings";
 import { isRoutine } from "./form4";
 import { resetSec, type XbrlFact } from "./sec";
 import { fitResult, normalizeTicker, weekdayIndex } from "./util";
@@ -540,7 +540,7 @@ test("filing_text: the passage around the query, and the filing's exhibits", asy
   assert.equal(out.matched, true);
   assert.match(out.excerpts.join("\n"), /expects revenue of \$100 billion/);
   assert.match(out.excerpts.join("\n"), /Gross margins are expected to be 75%/);
-  assert.ok(out.excerpts.join("\n").length <= 6_000);
+  assert.ok(out.excerpts.join("\n").length <= 10_000);
   assert.deepEqual(out.otherDocuments, [{ type: "EX-99.1", description: "EX-99.1", url: "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000073/q2fy27pr.htm" }]);
 });
 
@@ -556,6 +556,32 @@ test("excerpt and index URL helpers", () => {
   const none = excerpt(doc, "zebra", 200);
   assert.equal(none.matched, false);
   assert.match(none.excerpts[0]!, /^Cover page/);
+});
+
+test("excerpt returns the whole section around a hit, never half a sentence", () => {
+  const doc = [
+    "Item 7.01 Regulation FD Disclosure",
+    "The company issued a press release.",
+    "Item 8.01 Other Events",
+    "Topline results were announced today.",
+    "While neither Phase 3 study met its prespecified primary endpoint, both studies showed a statistically significant benefit on the key secondary endpoint.",
+    "The company plans to meet with the FDA in the first quarter.",
+    "Item 9.01 Financial Statements and Exhibits",
+    "Exhibit 99.1 press release.",
+  ].join("\n");
+  const hit = excerpt(doc, "Phase 3 prespecified", 2_000);
+  const text = hit.excerpts.join("\n");
+  assert.match(text, /^Item 8\.01 Other Events/);
+  assert.match(text, /both studies showed a statistically significant benefit/);
+  assert.match(text, /meet with the FDA in the first quarter\.$/);
+  assert.doesNotMatch(text, /Item 9\.01|Regulation FD/);
+
+  // A budget smaller than the section: whole paragraphs from the hit forward, marked as continuing.
+  const small = excerpt(doc, "Phase 3 prespecified", 200);
+  assert.match(small.excerpts[0]!, /key secondary endpoint\./);
+  assert.match(small.excerpts[0]!, /\[section continues\]$/);
+
+  assert.equal(sentenceCut("One. Two three. Four five six", 20), "One. Two three. [paragraph continues]");
 });
 
 /* ------------------------------------------------------------------ insiders */

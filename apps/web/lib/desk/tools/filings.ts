@@ -163,8 +163,8 @@ export async function filingsTool(symbol: string, input: FilingsInput, ctx: Desk
 
 /* ------------------------------------------------------------------ filing_text */
 
-export const EXCERPT_CHARS = 6_000;
-const MAX_EXCERPT_CHARS = 9_000;
+export const EXCERPT_CHARS = 10_000;
+const MAX_EXCERPT_CHARS = 20_000;
 
 const ARCHIVE = /^https:\/\/www\.sec\.gov\/Archives\/edgar\/data\/\d+\/\d{18}\/[\w.\-]+$/;
 
@@ -221,7 +221,7 @@ export function excerpt(text: string, query: string | undefined, max = EXCERPT_C
     let out = "";
     for (const p of paras) {
       if (out.length + p.length + 1 > max) {
-        if (!out) out = p.slice(0, max);
+        out = out ? `${out}\n[document continues]` : sentenceCut(p, max);
         break;
       }
       out += (out ? "\n" : "") + p;
@@ -229,36 +229,92 @@ export function excerpt(text: string, query: string | undefined, max = EXCERPT_C
     return { excerpts: [out], matched: false };
   }
   scored.sort((a, b) => b.score - a.score || a.i - b.i);
+  // Each hit brings its whole section (heading to next heading) when it fits;
+  // otherwise whole paragraphs around it, reading forward first, never part of one.
   const chosen = new Set<number>();
+  const continues = new Set<number>();
+  const len = (j: number) => paras[j]!.length + 1;
   let used = 0;
   for (const { i } of scored) {
-    const window = [i - 1, i, i + 1].filter((j) => j >= 0 && j < paras.length && !chosen.has(j));
-    const add = window.reduce((t, j) => t + paras[j]!.length + 1, 0);
-    if (used + add > max) {
-      if (used === 0) {
-        chosen.add(i);
-        used += Math.min(paras[i]!.length, max);
-      }
+    if (chosen.has(i)) continue;
+    if (used >= max * 0.9) break;
+    const [s, e] = sectionOf(paras, i);
+    let sectionChars = 0;
+    for (let j = s; j < e; j++) if (!chosen.has(j)) sectionChars += len(j);
+    if (used + sectionChars <= max) {
+      for (let j = s; j < e; j++) chosen.add(j);
+      used += sectionChars;
       continue;
     }
-    for (const j of window) chosen.add(j);
-    used += add;
-    if (used > max * 0.9) break;
+    if (used > 0 && used + len(i) > max) continue;
+    chosen.add(i);
+    used += len(i);
+    let lo = i - 1;
+    let hi = i + 1;
+    for (;;) {
+      const canHi = hi < e && !chosen.has(hi) && used + len(hi) <= max;
+      if (canHi) {
+        chosen.add(hi);
+        used += len(hi);
+        hi++;
+      }
+      const canLo = lo >= s && !chosen.has(lo) && used + len(lo) <= max;
+      if (canLo) {
+        chosen.add(lo);
+        used += len(lo);
+        lo--;
+      }
+      if (!canHi && !canLo) break;
+    }
+    if (hi < e && !chosen.has(hi)) continues.add(hi - 1);
   }
   const order = Array.from(chosen).sort((a, b) => a - b);
   const excerpts: string[] = [];
   let cur: string[] = [];
   let last = -2;
+  const flush = () => {
+    if (!cur.length) return;
+    excerpts.push(continues.has(last) ? `${cur.join("\n")}\n[section continues]` : cur.join("\n"));
+    cur = [];
+  };
   for (const j of order) {
-    if (j !== last + 1 && cur.length) {
-      excerpts.push(cur.join("\n"));
-      cur = [];
-    }
-    cur.push(paras[j]!.length > max ? `${paras[j]!.slice(0, max)} [cut]` : paras[j]!);
+    if (j !== last + 1) flush();
+    cur.push(paras[j]!.length > HARD_PARAGRAPH_CHARS ? sentenceCut(paras[j]!, HARD_PARAGRAPH_CHARS) : paras[j]!);
     last = j;
   }
-  if (cur.length) excerpts.push(cur.join("\n"));
+  flush();
   return { excerpts, matched: true };
+}
+
+/** A paragraph longer than this (a whole document on one line) is cut at a sentence end. */
+const HARD_PARAGRAPH_CHARS = 20_000;
+
+/** `p` cut to at most `max` characters at the last sentence end, marked as continuing. Pure. */
+export function sentenceCut(p: string, max: number): string {
+  if (p.length <= max) return p;
+  const head = p.slice(0, max);
+  let end = -1;
+  for (const m of Array.from(head.matchAll(/[.!?]["')\]]?(?=\s)/g))) end = m.index! + m[0].length;
+  const cut = end > max * 0.5 ? head.slice(0, end) : head.replace(/\s+\S*$/, "");
+  return `${cut} [paragraph continues]`;
+}
+
+/** A heading line: "Item 8.01 Other Events", "Exhibit 99.1", or a short title without sentence punctuation. Pure. */
+export function isHeading(p: string): boolean {
+  const t = p.trim();
+  if (!t || t.length > 120 || t.includes("|")) return false;
+  if (/^item\s+\d{1,2}(\.\d{2})?[a-z]?\b/i.test(t)) return true;
+  if (/^(exhibit|part)\s+[\divx]/i.test(t)) return true;
+  return t.length <= 80 && /^[A-Z]/.test(t) && !/[.;,:]$/.test(t) && t.split(/\s+/).length <= 10;
+}
+
+/** The section around paragraph `i`: [start, end) from its heading to the next heading. Pure. */
+export function sectionOf(paras: string[], i: number): [number, number] {
+  let s = i;
+  while (s > 0 && !isHeading(paras[s]!)) s--;
+  let e = i + 1;
+  while (e < paras.length && !isHeading(paras[e]!)) e++;
+  return [s, e];
 }
 
 /** Section headings ("Item 1A. Risk Factors") found in a document, for a follow-up query. Pure. */
@@ -316,6 +372,9 @@ export async function filingTextTool(input: { url: string; query?: string; maxCh
       !q ? "Start of the document. Pass query (e.g. a section name or topic) for the relevant passage." : null,
       otherDocs.length && (!matched || text.length < 15_000) ? "otherDocuments: the filing's exhibits (an 8-K's press release is usually EX-99.1); read one with filing_text." : null,
       "Quote only text that appears in excerpts; tables read as cells joined by |.",
+      excerpts.some((x) => /\[(section|paragraph|document) continues\]/.test(x))
+        ? "An excerpt marked [section continues] or [paragraph continues] stops before its section ends: call filing_text again with a query on its last words to read on before quoting or concluding."
+        : null,
     ].filter(Boolean),
     source: "SEC EDGAR archive",
   };
