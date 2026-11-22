@@ -115,7 +115,7 @@ function errorText(result: string): string | null {
 const secs = (ms: number) => (ms < 100 ? `${(ms / 1000).toFixed(2)}s` : ms < 10_000 ? `${(ms / 1000).toFixed(1)}s` : `${Math.round(ms / 1000)}s`);
 
 /** Data lookups (lib/desk/tools/command.ts): "Searching". Anything else at work (code, strategy runs, audits, long downloads): "Churning". */
-const LOOKUP = /^\/(quote|history|fundamentals|earnings|filings?|insiders|events|options|flow|sightings|graph|company|falcon_\w*|web\w*|\w*search\w*|\w*fetch\w*)(\s|$)/;
+const LOOKUP = /^\/(quote|history|fundamentals|earnings|filings?|insiders|events|news|article|options|flow|sightings|graph|company|falcon_\w*|web\w*|\w*search\w*|\w*fetch\w*)(\s|$)/;
 
 function activity(t: Tool, cmd: string): { label: string; variant: LoadingVariant } {
   const download = !!t.progress || /^\/options \S+ history(\s|$)/.test(cmd);

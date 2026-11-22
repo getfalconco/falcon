@@ -59,17 +59,7 @@ export async function readNews(pool: pg.Pool, opts: { symbol?: string; limit: nu
     where.push(`published_at < $${args.length}::timestamptz`);
   }
   args.push(opts.limit);
-  const { rows } = await pool.query<{
-    id: string;
-    symbols: string[];
-    headline: string;
-    summary: string;
-    source: string;
-    url: string;
-    image: string;
-    category: string;
-    published_at: Date;
-  }>(
+  const { rows } = await pool.query<DbNewsRow>(
     `select id, symbols, headline, summary, source, url, image, category, published_at
        from public.news_items
       ${where.length ? `where ${where.join(" and ")}` : ""}
@@ -77,7 +67,23 @@ export async function readNews(pool: pg.Pool, opts: { symbol?: string; limit: nu
       limit $${args.length}`,
     args,
   );
-  return rows.map((r) => ({
+  return rows.map(toNewsRow);
+}
+
+type DbNewsRow = {
+  id: string;
+  symbols: string[];
+  headline: string;
+  summary: string;
+  source: string;
+  url: string;
+  image: string;
+  category: string;
+  published_at: Date;
+};
+
+function toNewsRow(r: DbNewsRow): NewsRow {
+  return {
     id: Number(r.id),
     symbols: r.symbols,
     headline: r.headline,
@@ -87,7 +93,16 @@ export async function readNews(pool: pg.Pool, opts: { symbol?: string; limit: nu
     image: r.image,
     category: r.category,
     publishedAt: r.published_at.toISOString(),
-  }));
+  };
+}
+
+/** One article by its Finnhub id, or null. */
+export async function readNewsItem(pool: pg.Pool, id: number): Promise<NewsRow | null> {
+  const { rows } = await pool.query<DbNewsRow>(
+    `select id, symbols, headline, summary, source, url, image, category, published_at from public.news_items where id = $1`,
+    [id],
+  );
+  return rows[0] ? toNewsRow(rows[0]) : null;
 }
 
 // ---------------------------------------------------------------- Finnhub

@@ -119,6 +119,8 @@ const DEFAULT_SOURCE: Record<string, string> = {
   falcon_company: "Falcon company data",
   earnings_events: "Falcon earnings reactions",
   falcon_scoreboard: "Falcon scoreboard (forecasts vs options market)",
+  list_news: "Finnhub company news",
+  get_news_article: "News article (publisher's page)",
   audit_run: "Falcon's independent audit of the test",
   event_backtest: "Falcon's event-backtest helper (declared rules)",
   load_prices: "Daily prices loaded for the test",

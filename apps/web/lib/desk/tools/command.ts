@@ -116,6 +116,11 @@ export function deskToolCommand(name: string, input: unknown): { cmd: string; re
     case "falcon_scoreboard":
       // lib/desk/tools/scoreboard.ts: "/scoreboard", "/scoreboard NVDA", "/scoreboard documented", "/scoreboard earnings"
       return { cmd: ["/scoreboard", str(i.ticker) ? ticker(i) : "", clip(str(i.tier)?.toLowerCase() ?? "", 12), i.kind === "earnings" ? "earnings" : ""].filter(Boolean).join(" ") };
+    // News (lib/desk/tools/news.ts): "/news", "/news AAPL"; an article's text: "/article 144023649".
+    case "list_news":
+      return { cmd: str(i.symbol) ? `/news ${clip(str(i.symbol)!.toUpperCase().replace(/^\$/, ""), 10)}` : "/news" };
+    case "get_news_article":
+      return { cmd: `/article ${typeof i.id === "number" || typeof i.id === "string" ? clip(String(i.id), 20) : "?"}` };
     case "open_ticker":
       return { cmd: `/open ${ticker(i)}` };
     case "show_in_graph":

@@ -35,6 +35,7 @@ import { EVENTS_TOOL, eventsLabel, runEventsTool } from "@/lib/desk/tools/events
 import { LOAD_EVENTS_TOOL, loadEventsLabel, runLoadEvents, withEventTickers } from "@/lib/desk/tools/load-events";
 import { LOAD_GRAPH_TOOL, loadGraphLabel, runLoadGraph } from "@/lib/desk/tools/load-graph";
 import { SCOREBOARD_TOOL, runScoreboardTool, scoreboardLabel } from "@/lib/desk/tools/scoreboard";
+import { NEWS_TOOLS, isNewsTool, newsLabel, runNewsTool } from "@/lib/desk/tools/news";
 import { IV_TOOL_NAME } from "@/lib/desk/tools/iv";
 import type { ToolProgress } from "@/lib/desk/tools/util";
 import { appContextText, cleanAppContext, portfolioWeightsText } from "@/lib/desk/app-actions";
@@ -352,7 +353,7 @@ export async function POST(request: Request) {
         // Caches the conversation up to its last block, so a follow-up (or the next round) re-reads earlier turns cheaply.
         cache_control: { type: "ephemeral" },
         // Fixed list and order: tools render before the system prompt, inside its cached prefix.
-        tools: [...DESK_TOOLS, LOAD_PRICES_TOOL, LOAD_EVENTS_TOOL, LOAD_GRAPH_TOOL, EVENT_BACKTEST_TOOL, AUDIT_TOOL, CHART_TOOL, ASK_USER_TOOL, REMEMBER_TOOL, FORGET_TOOL, ...FALCON_TOOLS, EVENTS_TOOL, SCOREBOARD_TOOL, CODE_EXECUTION_TOOL],
+        tools: [...DESK_TOOLS, LOAD_PRICES_TOOL, LOAD_EVENTS_TOOL, LOAD_GRAPH_TOOL, EVENT_BACKTEST_TOOL, AUDIT_TOOL, CHART_TOOL, ASK_USER_TOOL, REMEMBER_TOOL, FORGET_TOOL, ...FALCON_TOOLS, EVENTS_TOOL, SCOREBOARD_TOOL, ...NEWS_TOOLS, CODE_EXECUTION_TOOL],
         // Never removed (that would break the cache); "none" makes the model answer with what it has.
         tool_choice: answerNow ? { type: "none" } : { type: "auto" },
         system: [
@@ -995,6 +996,14 @@ export async function POST(request: Request) {
                 // Falcon vs the options market (lib/desk/tools/scoreboard.ts): Falcon's own tables, read-only.
                 mark({ id: b.id, state: "running", label: scoreboardLabel(b.input, "running"), ...deskToolCommand(b.name, b.input) });
                 const r = await runScoreboardTool(b.input, { signal: ctl.signal, timeoutMs: Math.max(MIN_TOOL_MS, timeoutMs) });
+                mark({ id: b.id, state: "done", label: r.label, ok: r.ok, ms: r.ms, result: r.content });
+                console.info("[api/desk/chat] tool", JSON.stringify({ name: b.name, ok: r.ok, ms: r.ms }));
+                return r;
+              }
+              if (isNewsTool(b.name)) {
+                // list_news / get_news_article (lib/desk/tools/news.ts): Falcon's news store, and one article's text fetched from its stored link.
+                mark({ id: b.id, state: "running", label: newsLabel(b.name, b.input, "running"), ...deskToolCommand(b.name, b.input) });
+                const r = await runNewsTool(b.name, b.input, { signal: ctl.signal, timeoutMs: Math.max(MIN_TOOL_MS, timeoutMs) });
                 mark({ id: b.id, state: "done", label: r.label, ok: r.ok, ms: r.ms, result: r.content });
                 console.info("[api/desk/chat] tool", JSON.stringify({ name: b.name, ok: r.ok, ms: r.ms }));
                 return r;

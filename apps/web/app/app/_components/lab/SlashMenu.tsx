@@ -19,6 +19,7 @@ export const SLASH_COMMANDS: SlashCommand[] = [
   { name: "earnings", args: "TICKER", hint: "Earnings record: reported versus expected" },
   { name: "filings", args: "TICKER", hint: "Search 10-K, 10-Q and 8-K filings" },
   { name: "insiders", args: "TICKER", hint: "Recent insider buys and sells" },
+  { name: "news", args: "[TICKER]", hint: "Latest company news, or one stock's" },
   { name: "events", args: "TICKER", hint: "Past earnings reactions versus the sector ETF" },
   { name: "load_events", args: "--min-return 10% --since 2016", hint: "Load every matching event into a strategy test" },
   { name: "load_graph", args: "--as-of 2018-06-30", hint: "Load the filing links known on a date into a strategy test" },

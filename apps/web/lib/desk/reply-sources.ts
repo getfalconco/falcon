@@ -48,6 +48,8 @@ const TOOL_BY_COMMAND: Record<string, string | null> = {
   company: "falcon_company",
   events: "earnings_events",
   scoreboard: "falcon_scoreboard",
+  news: "list_news",
+  article: "get_news_article",
   load_prices: "load_prices",
   load_events: "load_events",
   load_graph: "load_graph",
