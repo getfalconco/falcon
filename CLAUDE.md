@@ -24,6 +24,7 @@ pnpm build:web
 pnpm dev:mobile  # iPhone app in the browser, http://localhost:8081
 pnpm mobile <script>   # any apps/mobile script, e.g. pnpm mobile lint
 pnpm lint
+pnpm --filter web news:sweep  # fill news_items from Finnhub locally (50 calls/min, Ctrl+C stops)
 ```
 
 ## Mobile testing
@@ -45,6 +46,12 @@ GitHub Actions `.github/workflows/deploy-web.yml` builds on Linux and publishes
 to Netlify on pushes to main that touch the site. Never deploy from a Windows
 build (the Netlify Next.js handler breaks); `scripts/netlify-windows/` is the
 manual fallback.
+
+News: the Netlify scheduled function `apps/web/netlify/functions/news-sweep.mts`
+fetches Finnhub company news for the whole US universe into Supabase
+`news_items` every minute (~40 calls/min). A local `news:sweep` takes the
+shared lease, so the Netlify runs skip while it runs; never raise both rates
+past Finnhub's 60 calls/min. `NEWS_SWEEP_DISABLED=1` in Netlify pauses it.
 
 ## Conventions
 

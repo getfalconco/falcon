@@ -1,14 +1,15 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { RotateCw } from "lucide-react";
+import { RotateCw, Search } from "lucide-react";
 import type { NewsItem } from "@/app/api/news/route";
 import { MONO, timeAgo } from "./parts";
 import { CardBody, CardHeader, TextButton } from "./shell/ui";
 
 /**
- * Temporary News view: market news for all companies from Finnhub
- * (/api/news), to test pulling news into Falcon. Opens from the rail.
+ * Temporary News view: company news for every US-listed company
+ * (/api/news, filled from Finnhub by the news sweeper), to test pulling news
+ * into Falcon. Opens from the rail. The ticker box filters to one symbol.
  */
 
 const REFRESH_MS = 2 * 60_000;
@@ -18,11 +19,19 @@ type State = { status: "loading" } | { status: "ready"; items: NewsItem[] } | { 
 export function NewsView({ headerExtra }: { headerExtra?: React.ReactNode }) {
   const [state, setState] = useState<State>({ status: "loading" });
   const [busy, setBusy] = useState(false);
+  const [query, setQuery] = useState("");
+  const [symbol, setSymbol] = useState("");
+
+  useEffect(() => {
+    const next = query.trim().toUpperCase();
+    const id = setTimeout(() => setSymbol(next), 350);
+    return () => clearTimeout(id);
+  }, [query]);
 
   const load = useCallback(async () => {
     setBusy(true);
     try {
-      const res = await fetch("/api/news", { cache: "no-store" });
+      const res = await fetch(symbol ? `/api/news?symbol=${encodeURIComponent(symbol)}` : "/api/news", { cache: "no-store" });
       const body = (await res.json().catch(() => null)) as { items?: NewsItem[]; error?: string } | null;
       if (!res.ok || !body?.items) setState({ status: "error", message: body?.error ?? `Could not load news (HTTP ${res.status})` });
       else setState({ status: "ready", items: body.items });
@@ -31,7 +40,7 @@ export function NewsView({ headerExtra }: { headerExtra?: React.ReactNode }) {
     } finally {
       setBusy(false);
     }
-  }, []);
+  }, [symbol]);
 
   useEffect(() => {
     void load();
@@ -45,6 +54,26 @@ export function NewsView({ headerExtra }: { headerExtra?: React.ReactNode }) {
         title="News"
         actions={
           <>
+            <label className="relative flex h-8 w-[112px] items-center">
+              <Search width={13} height={13} strokeWidth={1.75} aria-hidden className="pointer-events-none absolute left-2.5 text-faint" />
+              <input
+                type="search"
+                value={query}
+                onChange={(e) => setQuery(e.target.value.replace(/[^A-Za-z0-9.\-]/g, "").slice(0, 12))}
+                onKeyDown={(e) => {
+                  if (e.key === "Escape" && query) {
+                    e.preventDefault();
+                    setQuery("");
+                  }
+                }}
+                placeholder="Ticker"
+                aria-label="Filter by ticker"
+                spellCheck={false}
+                autoCapitalize="characters"
+                className="h-8 w-full min-w-0 rounded-lg border border-line/[0.1] bg-surface pl-8 pr-2 text-fs-13 uppercase text-fore outline-none transition-colors placeholder:normal-case placeholder:text-faint-2 hover:border-line/[0.16] focus-visible:border-line/[0.22] focus-visible:ring-2 focus-visible:ring-line/15 [&::-webkit-search-cancel-button]:hidden"
+                style={{ fontFamily: MONO }}
+              />
+            </label>
             <TextButton icon={RotateCw} onClick={() => void load()} disabled={busy}>
               Refresh
             </TextButton>
@@ -58,7 +87,7 @@ export function NewsView({ headerExtra }: { headerExtra?: React.ReactNode }) {
         ) : state.status === "error" ? (
           <p className="px-5 py-6 text-fs-13 text-quiet">{state.message}</p>
         ) : state.items.length === 0 ? (
-          <p className="px-5 py-6 text-fs-13 text-quiet">No news right now</p>
+          <p className="px-5 py-6 text-fs-13 text-quiet">{symbol ? `No news for ${symbol} yet` : "No news right now"}</p>
         ) : (
           <ul className="flex flex-col px-2 py-2">
             {state.items.map((n) => (

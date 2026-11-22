@@ -6,5 +6,10 @@
   NODE_VERSION = "20"
   PNPM_VERSION = "10.33.0"
 
+# Netlify Functions beside the Next.js runtime: the news sweeper
+# (apps/web/netlify/functions/news-sweep.mts) runs every minute on production.
+[functions]
+  directory = "apps/web/netlify/functions"
+
 [[plugins]]
   package = "@netlify/plugin-nextjs"

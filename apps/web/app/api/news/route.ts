@@ -1,16 +1,22 @@
 import { NextResponse } from "next/server";
+import type pg from "pg";
 import { clientIp, rateLimit, tooManyRequests } from "@/lib/rate-limit";
+import { createNewsPool, readNews } from "@/lib/news/store";
 
 export const dynamic = "force-dynamic";
 
 /**
- * Temporary: market news from Finnhub, to test pulling news into Falcon.
+ * Temporary: company news for every US-listed company, to test pulling news
+ * into Falcon.
  *
- *   GET /api/news  ->  200 { items: NewsItem[], fetchedAt }
- *                  ->  503 { error } when FINNHUB_API_KEY is not set
+ *   GET /api/news[?symbol=AAPL][&limit=200][&before=ISO]
+ *     ->  200 { items: NewsItem[], nextBefore, fetchedAt }
+ *     ->  400 { error } on a bad symbol or time
+ *     ->  503 { error } when DATABASE_URL is not set or the table cannot be read
  *
- * Reads Finnhub's general and merger news (all companies) with the server-only
- * FINNHUB_API_KEY; the key never reaches the browser. Cached for 90 seconds.
+ * Reads public.news_items, which the news sweeper fills from Finnhub's
+ * company news (lib/news/store.ts, netlify/functions/news-sweep.mts). Newest
+ * first; `before` is the previous page's nextBefore.
  */
 
 export type NewsItem = {
@@ -21,84 +27,54 @@ export type NewsItem = {
   source: string;
   url: string;
   image: string;
+  /** Tickers the article was listed under. */
   related: string[];
   /** ISO time the story was published. */
   datetime: string;
 };
 
-type FinnhubNews = {
-  id?: number;
-  category?: string;
-  datetime?: number;
-  headline?: string;
-  image?: string;
-  related?: string;
-  source?: string;
-  summary?: string;
-  url?: string;
-};
+const DEFAULT_LIMIT = 200;
+const MAX_LIMIT = 500;
 
-const CATEGORIES = ["general", "merger"] as const;
-const REVALIDATE = 90;
-
-async function fetchCategory(category: string, key: string): Promise<FinnhubNews[]> {
-  const res = await fetch(`https://finnhub.io/api/v1/news?category=${category}`, {
-    headers: { "X-Finnhub-Token": key },
-    next: { revalidate: REVALIDATE },
-  });
-  if (!res.ok) throw new Error(`Finnhub ${category} news: HTTP ${res.status}`);
-  const body: unknown = await res.json();
-  return Array.isArray(body) ? (body as FinnhubNews[]) : [];
-}
-
-function toItem(n: FinnhubNews): NewsItem | null {
-  if (!n.headline || !n.url || typeof n.datetime !== "number") return null;
-  return {
-    id: n.id ?? 0,
-    category: n.category ?? "",
-    headline: n.headline,
-    summary: n.summary ?? "",
-    source: n.source ?? "",
-    url: n.url,
-    image: n.image ?? "",
-    related: (n.related ?? "")
-      .split(",")
-      .map((s) => s.trim().toUpperCase())
-      .filter(Boolean),
-    datetime: new Date(n.datetime * 1000).toISOString(),
-  };
-}
+let pool: pg.Pool | null = null;
 
 export async function GET(request: Request) {
-  const limit = rateLimit(`news:${clientIp(request)}`, { limit: 60, windowMs: 60_000 });
-  if (!limit.ok) return tooManyRequests(limit.retryAfter);
+  const limited = rateLimit(`news:${clientIp(request)}`, { limit: 60, windowMs: 60_000 });
+  if (!limited.ok) return tooManyRequests(limited.retryAfter);
 
-  const key = process.env.FINNHUB_API_KEY?.trim();
-  if (!key) {
-    return NextResponse.json({ error: "FINNHUB_API_KEY is not set" }, { status: 503, headers: { "Cache-Control": "no-store" } });
+  const noStore = { "Cache-Control": "no-store" };
+  const url = process.env.DATABASE_URL;
+  if (!url) return NextResponse.json({ error: "DATABASE_URL is not set" }, { status: 503, headers: noStore });
+
+  const params = new URL(request.url).searchParams;
+  const symbol = (params.get("symbol") ?? "").trim().toUpperCase();
+  if (symbol && !/^[A-Z0-9][A-Z0-9.\-]{0,11}$/.test(symbol)) return NextResponse.json({ error: "Bad symbol" }, { status: 400, headers: noStore });
+  const before = params.get("before") ?? "";
+  if (before && Number.isNaN(Date.parse(before))) return NextResponse.json({ error: "Bad before time" }, { status: 400, headers: noStore });
+  const limit = Math.max(1, Math.min(MAX_LIMIT, Math.floor(Number(params.get("limit")) || DEFAULT_LIMIT)));
+
+  pool ??= createNewsPool(url, 2);
+  let rows;
+  try {
+    rows = await readNews(pool, { symbol: symbol || undefined, limit, before: before ? new Date(before).toISOString() : undefined });
+  } catch {
+    return NextResponse.json({ error: "Could not read news" }, { status: 503, headers: noStore });
   }
 
-  const results = await Promise.allSettled(CATEGORIES.map((c) => fetchCategory(c, key)));
-  const failed = results.filter((r): r is PromiseRejectedResult => r.status === "rejected");
-  if (failed.length === results.length) {
-    return NextResponse.json({ error: String(failed[0].reason instanceof Error ? failed[0].reason.message : failed[0].reason) }, { status: 502, headers: { "Cache-Control": "no-store" } });
-  }
-
-  const seen = new Set<string>();
-  const items: NewsItem[] = [];
-  for (const r of results) {
-    if (r.status !== "fulfilled") continue;
-    for (const raw of r.value) {
-      const item = toItem(raw);
-      if (!item || seen.has(item.url)) continue;
-      seen.add(item.url);
-      items.push(item);
-    }
-  }
-  items.sort((a, b) => Date.parse(b.datetime) - Date.parse(a.datetime));
+  const items: NewsItem[] = rows.map((r) => ({
+    id: r.id,
+    category: r.category,
+    headline: r.headline,
+    summary: r.summary,
+    source: r.source,
+    url: r.url,
+    image: r.image,
+    related: r.symbols,
+    datetime: r.publishedAt,
+  }));
 
   return NextResponse.json(
-    { items, fetchedAt: new Date().toISOString() },
-    { headers: { "Cache-Control": `public, max-age=60, s-maxage=${REVALIDATE}, stale-while-revalidate=300` } },
+    { items, nextBefore: items.length === limit ? items[items.length - 1].datetime : null, fetchedAt: new Date().toISOString() },
+    { headers: { "Cache-Control": "public, max-age=30, s-maxage=60, stale-while-revalidate=120" } },
   );
 }
