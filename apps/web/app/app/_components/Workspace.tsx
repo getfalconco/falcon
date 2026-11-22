@@ -36,6 +36,7 @@ import { showInGraphFilters, type AppAction } from "@/lib/desk/app-actions";
 import { pushGraphFilters, useAppBridge } from "./lab/app-bridge";
 import { deskSnapshot } from "./lab/desk-snapshot";
 import { SightingsListView } from "./ListViews";
+import { NewsView } from "./NewsView";
 import { GEIST } from "./parts";
 import { CardBody, CardHeader, ICON_BUTTON, IconButton, TextButton } from "./shell/ui";
 import { NAV, Sidebar, navTarget, type NavId, type OpenItem } from "./Sidebar";
@@ -279,8 +280,8 @@ function openIn(layout: WorkspaceLayout, tab: Tab): WorkspaceLayout {
   return { ...withTab(layout, tab), activeId: tab.id };
 }
 
-type Section = "tab" | "sightings" | "help";
-const SECTION_TARGETS: ReadonlySet<string> = new Set(["sightings", "help"]);
+type Section = "tab" | "sightings" | "help" | "news";
+const SECTION_TARGETS: ReadonlySet<string> = new Set(["sightings", "help", "news"]);
 
 /** The tab a view target names: one already open, or one built from its id. */
 function tabFromTarget(target: string, tabs: readonly Tab[]): Tab | null {
@@ -295,7 +296,7 @@ function tabFromTarget(target: string, tabs: readonly Tab[]): Tab | null {
 
 function navOf(target: string | null, tabs: readonly Tab[]): NavId | null {
   if (!target) return null;
-  if (target === "dashboard" || target === "graph" || target === "sightings") return target;
+  if (target === "dashboard" || target === "graph" || target === "sightings" || target === "news") return target;
   return tabFromTarget(target, tabs)?.kind === "strategy" ? "strategy" : null;
 }
 
@@ -534,6 +535,7 @@ function WorkspaceScoped({
   const labelFor = useCallback(
     (target: string): string => {
       if (target === "sightings") return "Sightings";
+      if (target === "news") return "News";
       if (target === "help") return "Help";
       const tab = tabFromTarget(target, layout.tabs);
       return tab ? titleFor(tab) : target;
@@ -546,6 +548,7 @@ function WorkspaceScoped({
     (target: string | null): string => {
       if (!target) return "";
       if (target === "sightings") return "Sightings list";
+      if (target === "news") return "News (market news from Finnhub)";
       if (target === "help") return "";
       const tab = tabFromTarget(target, layout.tabs);
       if (!tab) return "";
@@ -770,6 +773,7 @@ function WorkspaceScoped({
     }
     const extra = paneActions(target, role);
     if (target === "sightings") return <SightingsListView onGuide={() => setGuideOpen(true)} headerExtra={extra} />;
+    if (target === "news") return <NewsView headerExtra={extra} />;
     if (target === "help") {
       return (
         <>

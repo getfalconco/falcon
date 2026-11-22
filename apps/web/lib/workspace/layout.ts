@@ -33,7 +33,7 @@ export type WorkspaceLayout = {
   split?: SplitState | null;
 };
 
-export const SPLIT_SECTIONS = ["sightings", "help"] as const;
+export const SPLIT_SECTIONS = ["sightings", "help", "news"] as const;
 export const MIN_SPLIT_RATIO = 0.2;
 export const MAX_SPLIT_RATIO = 0.8;
 

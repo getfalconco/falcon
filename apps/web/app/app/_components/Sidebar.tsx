@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { ReactNode } from "react";
-import { Columns2, LayoutGrid, LifeBuoy, LineChart, LogOut, Sparkles, Waypoints, X, Zap } from "lucide-react";
+import { Columns2, LayoutGrid, LifeBuoy, LineChart, LogOut, Newspaper, Sparkles, Waypoints, X, Zap } from "lucide-react";
 import type { TabKind } from "@/lib/workspace/layout";
 import type { Icon } from "./shell/ui";
 import { useDragDock, type DragPayload } from "./split/dnd";
@@ -14,7 +14,7 @@ import { useDragDock, type DragPayload } from "./split/dnd";
  * items on screen in split view keep theirs, marked in violet.
  */
 
-export type NavId = "dashboard" | "sightings" | "graph" | "strategy";
+export type NavId = "dashboard" | "sightings" | "graph" | "strategy" | "news";
 
 export const TAB_ICON: Record<TabKind, Icon> = {
   dashboard: LayoutGrid,
@@ -29,10 +29,12 @@ export const NAV: { id: NavId; label: string; icon: Icon }[] = [
   { id: "sightings", label: "Sightings", icon: Zap },
   { id: "graph", label: "Graph", icon: Waypoints },
   { id: "strategy", label: "Falcon AI", icon: Sparkles },
+  // Temporary: tests Finnhub market news.
+  { id: "news", label: "News", icon: Newspaper },
 ];
 
 /** Items shown in the rail; the Sightings list opens from See all on the Dashboard. */
-const RAIL_IDS: ReadonlySet<NavId> = new Set<NavId>(["dashboard", "graph", "strategy"]);
+const RAIL_IDS: ReadonlySet<NavId> = new Set<NavId>(["dashboard", "graph", "strategy", "news"]);
 
 /** The view a nav item shows; Strategy Lab depends on which strategy, so it has none. */
 export function navTarget(id: NavId): string | null {
