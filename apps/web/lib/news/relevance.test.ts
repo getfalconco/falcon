@@ -60,3 +60,12 @@ test("clickbait and listicle headlines", () => {
     assert.equal(isClickbait(h), false, h);
   }
 });
+
+test("a unit or brand stands for its parent, and a company name is not a listicle", () => {
+  const names = new Map([["GOOGL", "Alphabet Inc."], ["AMZN", "AMAZON COM INC"], ["WMT", "Walmart Inc."], ["FUN", "Six Flags Entertainment Corp"]]);
+  assert.deepEqual(relevantSymbols(["GOOGL", "AMZN"], "Waymo recalls 1,200 robotaxis after crashes", "", names), ["GOOGL"]);
+  assert.deepEqual(relevantSymbols(["AMZN", "WMT"], "Sam's Club expands same-day delivery", "", names), ["WMT"]);
+  assert.deepEqual(relevantSymbols(["AMZN"], "SpaceX launches 30 satellites", "", names), []);
+  assert.equal(isClickbait("Six Flags and 4 More Stocks See Action From Activist Investors"), false);
+  assert.equal(isClickbait("Three Great Robotics Stocks To Own"), true);
+});

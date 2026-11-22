@@ -88,6 +88,31 @@ export function mentions(text: string, symbol: string, aliases: string[]): boole
   return false;
 }
 
+/** Well-known units and brands that stand for their parent in a headline ("Waymo recall" is Alphabet news). */
+const BRANDS: Record<string, string[]> = {
+  GOOGL: ["google", "alphabet", "waymo", "youtube", "deepmind", "verily"],
+  GOOG: ["google", "alphabet", "waymo", "youtube", "deepmind", "verily"],
+  AMZN: ["amazon", "aws", "whole foods", "zoox", "kuiper"],
+  META: ["facebook", "instagram", "whatsapp", "threads", "oculus"],
+  MSFT: ["microsoft", "azure", "linkedin", "xbox", "github"],
+  AAPL: ["iphone", "ipad", "app store"],
+  WMT: ["walmart", "sam's club"],
+  BRK: ["berkshire", "geico"],
+  "BRK.B": ["berkshire", "geico"],
+  "BRK.A": ["berkshire", "geico"],
+  DIS: ["disney", "espn", "pixar", "hulu"],
+  GM: ["general motors", "chevrolet", "cadillac", "cruise"],
+  F: ["ford"],
+  JNJ: ["johnson & johnson", "j&j", "janssen"],
+  LLY: ["eli lilly", "lilly"],
+  FUN: ["six flags", "cedar fair"],
+  PEP: ["pepsico", "frito-lay", "gatorade"],
+  KO: ["coca-cola", "coke"],
+  NFLX: ["netflix"],
+  TSLA: ["tesla"],
+  NVDA: ["nvidia"],
+};
+
 /**
  * The symbols an article is mainly about: those named in the headline or the
  * summary's first sentence. Symbols with no known company name are kept.
@@ -97,7 +122,7 @@ export function relevantSymbols(symbols: string[], headline: string, summary: st
   return symbols.filter((s) => {
     const name = names.get(s);
     if (!name) return true;
-    const aliases = nameAliases(name);
+    const aliases = [...nameAliases(name), ...(BRANDS[s.toUpperCase()] ?? []).map((b) => b.toLowerCase().replace(/[’']s\b/g, ""))];
     return mentions(headline, s, aliases) || mentions(lead, s, aliases);
   });
 }
@@ -105,7 +130,7 @@ export function relevantSymbols(symbols: string[], headline: string, summary: st
 const NUM = "(\\d+|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|fifteen|twenty)";
 const CLICKBAIT: RegExp[] = [
   // "5 Stocks to Buy in 2027", "3 Reasons to ...", "2 Top Growth Stocks ...", "10 Dividend Stocks ..."
-  new RegExp(`^\\s*${NUM}\\s+(?:[\\w'’-]+\\s+){0,4}(stocks?|reasons?|things|etfs?|picks|ways|shares|companies|names|charts?|lessons|mistakes|signs|moves|questions|millionaire)\\b`, "i"),
+  new RegExp(`^\\s*${NUM}(?!\\s+flags\\b)\\s+(?:[\\w'’-]+\\s+){0,4}(stocks?|reasons?|things|etfs?|picks|ways|shares|companies|names|charts?|lessons|mistakes|signs|moves|questions|millionaire)\\b`, "i"),
   new RegExp(`^\\s*${NUM}\\s+(magnificent|unstoppable|brilliant|incredible|spectacular|no-brainer|monster|surefire|top|best|cheap|ultra|high-yield|dirt-cheap|beaten-down|phenomenal|genius|smart|stellar|explosive|elite|wonderful|safe)\\b`, "i"),
   /^\s*top\s+\d+\b/i,
   /\btop\s+\d+\s+(?:[\w'-]+\s+){0,2}(stocks?|picks|etfs?)\b/i,
