@@ -166,29 +166,13 @@ export function PositionsCard() {
           compact ? "w-fit min-w-[min(360px,100%)] max-w-[min(440px,100%)] px-4 pb-2 pt-4" : "px-5 pb-3 pt-4"
         }`}
       >
-        {/* Same small muted line as the setup card's "0 of 3 tasks complete": the count beside the label (none while loading), then what the positions are. One line, so the total stays level with Equity's. */}
-        <p className="mb-2 flex flex-wrap items-baseline gap-x-1.5 text-fs-13 text-quiet">
-          <span>
-            Positions{summary.count ? <> <span className="font-semibold text-fore tabular-nums">{summary.count}</span></> : null}
-          </span>
-          {summary.text ? (
-            <>
-              <span aria-hidden>·</span>
-              <span>{summary.text}</span>
-            </>
-          ) : null}
-        </p>
-        {model.sized && model.total !== null ? (
-          <div className="flex flex-wrap items-baseline gap-x-2.5 gap-y-0.5 tabular-nums">
-            <span className="text-fs-17 font-semibold leading-fs-24 text-fore">{money(model.total, model.currency)}</span>
-            {model.indicator ? <Change indicator={model.indicator} currency={model.currency} /> : null}
-          </div>
-        ) : null}
-
-        {model.line ? (
-          <p className={`${model.sized && model.total !== null ? "mt-0.5" : ""} text-fs-13 leading-fs-20 text-quiet tabular-nums`}>
-            <Line parts={model.line} />
-          </p>
+        {/* The balance lives in the Equity card beside this one; here the big number is how many positions (cash counts once per currency), and under it what they are. Hidden while loading. */}
+        <p className="mb-2 text-fs-13 text-quiet">Positions</p>
+        {summary.count ? (
+          <>
+            <span className="block text-fs-17 font-semibold leading-fs-24 text-fore tabular-nums">{summary.count}</span>
+            {summary.text ? <p className="mt-0.5 text-fs-13 leading-fs-20 text-quiet">{summary.text}</p> : null}
+          </>
         ) : null}
 
         {model.groups.length || model.cash.length ? (
