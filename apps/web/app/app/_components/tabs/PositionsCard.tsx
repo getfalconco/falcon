@@ -75,7 +75,7 @@ const GAP = 12;
 type GroupKey = GroupId | "cash";
 
 /** The element's width, re-read when it changes. */
-function useWidth(): { ref: (el: HTMLElement | null) => void; width: number | null } {
+function useWidth(): { ref: (el: HTMLElement | null) => void; width: number | null; el: HTMLElement | null } {
   const [el, setEl] = useState<HTMLElement | null>(null);
   const [width, setWidth] = useState<number | null>(null);
   useEffect(() => {
@@ -84,7 +84,7 @@ function useWidth(): { ref: (el: HTMLElement | null) => void; width: number | nu
     ro.observe(el);
     return () => ro.disconnect();
   }, [el]);
-  return { ref: setEl, width };
+  return { ref: setEl, width, el };
 }
 
 function gridTemplate(c: Cols): string {
@@ -107,8 +107,21 @@ export function PositionsCard() {
   const { holdings, portfolio, openTicker, userId } = useWorkspace();
   const cap = useSyncExternalStore(subscribeCap, () => readCap(userId), () => CAP_DEFAULT);
   const { ref, width } = useWidth();
-  const { ref: rowRef, width: rowWidth } = useWidth();
+  const { ref: rowRef, width: rowWidth, el: rowEl } = useWidth();
   const half = rowWidth !== null && rowWidth >= HALF_FROM;
+  // Side by side, the two cards reach the bottom of the window: the row is as tall as the space under its top.
+  const [fillHeight, setFillHeight] = useState<number | null>(null);
+  useEffect(() => {
+    const el = rowEl;
+    if (!el) return;
+    const measure = () => {
+      const top = el.getBoundingClientRect().top + (el.closest("[data-scroll-root]")?.scrollTop ?? 0);
+      setFillHeight(Math.max(420, Math.round(window.innerHeight - top - 24)));
+    };
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, [rowEl, half]);
   const [collapsed, setCollapsed] = useState<ReadonlySet<GroupKey>>(new Set());
   // The table's order, for this visit only (never stored).
   const [sort, setSort] = useState<Sort>(null);
@@ -156,13 +169,13 @@ export function PositionsCard() {
 
   return (
     // Positions on the left, Equity on the right at the same height on panes 900px and wider; stacked below that.
-    <div ref={rowRef} className={`flex w-full min-w-0 pl-1.5 ${half ? "flex-row items-stretch" : "flex-col"}`} style={{ gap: GAP }}>
+    <div ref={rowRef} className={`flex w-full min-w-0 pl-1.5 ${half ? "flex-row items-stretch" : "flex-col"}`} style={{ gap: GAP, minHeight: half && fillHeight ? fillHeight : undefined }}>
       <section
         ref={ref}
         aria-label="Portfolio Overview"
         // Cash only (a fresh paper account): a small card, as wide as its content. Otherwise half the row on wide panes, full width below.
         style={compact ? undefined : { width: half ? `calc(50% - ${GAP / 2}px)` : "100%" }}
-        className={`relative min-w-0 shrink-0 overflow-hidden rounded-2xl border border-line/[0.08] bg-raised shadow-[0_1px_2px_rgba(0,0,0,0.05),0_8px_24px_-6px_rgba(0,0,0,0.10)] ${
+        className={`relative flex min-w-0 shrink-0 flex-col overflow-hidden rounded-2xl border border-line/[0.08] bg-raised shadow-[0_1px_2px_rgba(0,0,0,0.05),0_8px_24px_-6px_rgba(0,0,0,0.10)] ${
           compact ? "w-fit min-w-[min(360px,100%)] max-w-[min(440px,100%)] px-4 pb-2 pt-4" : "px-5 pb-3 pt-4"
         }`}
       >
@@ -186,7 +199,7 @@ export function PositionsCard() {
 
         {summary.count && (model.groups.length || model.cash.length) ? (
           // Tall even when nearly empty, so it is ready to fill; long lists scroll under a sticky header.
-          <div role="table" aria-label="Holdings" className="-mx-2 mt-4 flex max-h-[420px] min-h-[360px] flex-col overflow-y-auto px-2 text-fs-13 leading-fs-20">
+          <div role="table" aria-label="Holdings" className={`-mx-2 mt-4 flex min-h-[360px] flex-col overflow-y-auto px-2 text-fs-13 leading-fs-20 ${half && fillHeight ? "flex-1 basis-0" : "max-h-[420px]"}`}>
             <div role="row" className="sticky top-0 z-[1] grid items-center gap-x-4 bg-raised pb-1.5 text-fs-12 text-quiet" style={{ gridTemplateColumns: template }}>
               {cols.market ? (
                 <>
