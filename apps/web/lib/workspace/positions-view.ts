@@ -512,6 +512,40 @@ export function overviewModel({
   return { currency, total, gain, gainPct, indicator, linePeriod, line, groups, cash: cashList, sized, cashOnly };
 }
 
+/** Each group's word, singular and plural, for the holdings summary. */
+const GROUP_NOUNS: Record<GroupId, readonly [string, string]> = {
+  stocks: ["stock", "stocks"],
+  etfs: ["ETF", "ETFs"],
+  options: ["option", "options"],
+  crypto: ["crypto", "crypto"],
+  other: ["other holding", "other holdings"],
+};
+
+/** Joins "a", "a and b", "a, b and c". */
+function andList(parts: readonly string[]): string {
+  return parts.length <= 1 ? parts.join("") : `${parts.slice(0, -1).join(", ")} and ${parts[parts.length - 1]}`;
+}
+
+/**
+ * Pure: how many positions the card lists (every row, plus one per cash
+ * currency) and what they are, in the card's group order: "Cash only",
+ * "3 stocks", "3 stocks and cash", "2 stocks, 1 ETF and cash in 2 currencies".
+ * Null text when there is nothing.
+ */
+export function holdingsSummary(groups: readonly Pick<OverviewGroup, "id" | "rows">[], cash: readonly unknown[]): { count: number; text: string | null } {
+  const parts = GROUPS.flatMap((g) => {
+    const n = groups.filter((x) => x.id === g.id).reduce((s, x) => s + x.rows.length, 0);
+    return n ? [`${n} ${GROUP_NOUNS[g.id][n === 1 ? 0 : 1]}`] : [];
+  });
+  const rowCount = groups.reduce((s, g) => s + g.rows.length, 0);
+  const count = rowCount + cash.length;
+  const cashText = cash.length > 1 ? `cash in ${cash.length} currencies` : "cash";
+  let text: string | null = null;
+  if (parts.length) text = andList(cash.length ? [...parts, cashText] : parts);
+  else if (cash.length) text = cash.length > 1 ? `Cash only, in ${cash.length} currencies` : "Cash only";
+  return { count, text };
+}
+
 /** "Your paper account is ready. $50,000 to put to work." (or "All in cash: $12,480.22." for another account). */
 export function cashLine(cash: number, currency: string, paper: boolean): LinePart[] {
   const amount = money(cash, currency, { digits: Math.abs(cash) >= 1000 && Number.isInteger(cash) ? 0 : 2 });

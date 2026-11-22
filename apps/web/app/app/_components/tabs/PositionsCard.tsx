@@ -11,6 +11,7 @@ import {
   compactMoney,
   compactNumber,
   cashRows,
+  holdingsSummary,
   money,
   overviewModel,
   pctText,
@@ -41,7 +42,8 @@ import { PositionLogo } from "./PositionLogo";
 /**
  * The Dashboard's Portfolio Overview card, under the market strip: half the
  * row (left-aligned) on panes 900px and wider, full width below. No title or
- * buttons: top left, the total live value (positions plus cash) with its
+ * buttons: top left, "Positions" with how many (cash counts once per
+ * currency) and what they are under it (holdingsSummary), then the total live value (positions plus cash) with its
  * change beside it (always shown with a total: the gain since cost, else
  * today's change in grey, else $0.00 · 0.00%), and one line built from the numbers
  * (positions-view.ts: never by AI), each naming its period (since you bought, today).
@@ -134,6 +136,7 @@ export function PositionsCard() {
   }, [cap, cash, cashByCurrency, data?.at, data?.market, mainCurrency, paper, rows]);
   const symbols = useMemo(() => model.groups.flatMap((g) => g.rows.map((r) => r.quoteSymbol).filter((s): s is string => s !== null)), [model.groups]);
   const sparks = useSparks(symbols);
+  const summary = useMemo(() => holdingsSummary(model.groups, model.cash), [model.groups, model.cash]);
 
   // Nothing at all: the setup card offers Get started.
   if (!rows.length && !holdings.paper && !(cash !== null && cash !== 0)) return null;
@@ -163,8 +166,18 @@ export function PositionsCard() {
           compact ? "w-fit min-w-[min(360px,100%)] max-w-[min(440px,100%)] px-4 pb-2 pt-4" : "px-5 pb-3 pt-4"
         }`}
       >
-        {/* Same small muted line as the setup card's "0 of 3 tasks complete". */}
-        <p className="mb-2 text-fs-13 text-quiet">Positions</p>
+        {/* Same small muted line as the setup card's "0 of 3 tasks complete": the count beside the label (none while loading), then what the positions are. One line, so the total stays level with Equity's. */}
+        <p className="mb-2 flex flex-wrap items-baseline gap-x-1.5 text-fs-13 text-quiet">
+          <span>
+            Positions{summary.count ? <> <span className="font-semibold text-fore tabular-nums">{summary.count}</span></> : null}
+          </span>
+          {summary.text ? (
+            <>
+              <span aria-hidden>·</span>
+              <span>{summary.text}</span>
+            </>
+          ) : null}
+        </p>
         {model.sized && model.total !== null ? (
           <div className="flex flex-wrap items-baseline gap-x-2.5 gap-y-0.5 tabular-nums">
             <span className="text-fs-17 font-semibold leading-fs-24 text-fore">{money(model.total, model.currency)}</span>

@@ -14,6 +14,7 @@ import {
   dayLine,
   gainLine,
   groupRows,
+  holdingsSummary,
   lineText,
   money,
   nextSort,
@@ -289,6 +290,25 @@ test("cash only: the total is the cash, a paper line, only the Cash group", () =
     "one row per currency, the main one first; none for no or zero cash",
   );
   assert.deepEqual(cashRows([{ cash: 150_000, currency: "JPY" }, { cash: 10, currency: "CAD" }, { cash: 5, currency: "USD" }], "USD").map((r) => r.currency), ["USD", "CAD", "JPY"], "then by code");
+});
+
+test("holdings summary: every row plus one per cash currency, named by group in the card's order", () => {
+  const sum = (m: ReturnType<typeof overviewModel>) => holdingsSummary(m.groups, m.cash);
+  const usd = [{ currency: "USD", amount: 50_000 }];
+  // Cash only: one position.
+  assert.deepEqual(sum(overviewModel({ rows: [], cash: 50_000, cashByCurrency: usd, mainCurrency: "USD", paper: true, nowMs: NOW })), { count: 1, text: "Cash only" });
+  assert.deepEqual(holdingsSummary([], [{}, {}]), { count: 2, text: "Cash only, in 2 currencies" });
+  // Ticker-only: the listed stocks, no cash.
+  const qs = { MSFT: q(500, 0.5), AAPL: q(271.3, -1.25), NVDA: q(190, 2) };
+  const tickers = overviewModel({ rows: positionRows([], { tickers: ["NVDA", "MSFT", "AAPL"], quotes: qs }), cash: null, mainCurrency: null, market: qs, nowMs: NOW });
+  assert.deepEqual(sum(tickers), { count: 3, text: "3 stocks" });
+  // Groups in the card's order, singular and plural, cash last.
+  const g = (id: "stocks" | "etfs" | "options" | "crypto" | "other", n: number) => ({ id, rows: Array.from({ length: n }) as OverviewRow[] });
+  assert.deepEqual(holdingsSummary([g("stocks", 3)], [{}]), { count: 4, text: "3 stocks and cash" });
+  assert.deepEqual(holdingsSummary([g("etfs", 1), g("stocks", 2)], [{}]), { count: 4, text: "2 stocks, 1 ETF and cash" });
+  assert.deepEqual(holdingsSummary([g("stocks", 1), g("options", 2), g("crypto", 1), g("other", 1)], [{}, {}]).text, "1 stock, 2 options, 1 crypto, 1 other holding and cash in 2 currencies");
+  assert.deepEqual(holdingsSummary([g("stocks", 1)], []), { count: 1, text: "1 stock" });
+  assert.deepEqual(holdingsSummary([], []), { count: 0, text: null });
 });
 
 test("sorting: natural direction first, reversed, then the default (by value); a missing number is always last; ties keep the default order", () => {
