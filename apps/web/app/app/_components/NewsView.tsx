@@ -7,9 +7,11 @@ import { MONO, timeAgo } from "./parts";
 import { CardBody, CardHeader, TextButton } from "./shell/ui";
 
 /**
- * Temporary News view: company news for every US-listed company
- * (/api/news, filled from Finnhub by the news sweeper), to test pulling news
- * into Falcon. Opens from the rail. The ticker box filters to one symbol.
+ * Temporary News view: company news and SEC filings for every US-listed
+ * company (/api/news: publishers' articles collected through Finnhub, and
+ * EDGAR filings from the filings sweeper), to test pulling news into Falcon.
+ * Each row shows the same source label Falcon AI uses; filings carry their
+ * form. Opens from the rail. The ticker box filters to one symbol.
  */
 
 const REFRESH_MS = 2 * 60_000;
@@ -91,7 +93,7 @@ export function NewsView({ headerExtra }: { headerExtra?: React.ReactNode }) {
         ) : (
           <ul className="flex flex-col px-2 py-2">
             {state.items.map((n) => (
-              <li key={n.url}>
+              <li key={`${n.kind}:${n.id}`}>
                 <a
                   href={n.url}
                   target="_blank"
@@ -100,7 +102,10 @@ export function NewsView({ headerExtra }: { headerExtra?: React.ReactNode }) {
                 >
                   <span className="min-w-0 flex-1">
                     <span className="flex min-h-[20px] items-center gap-1.5 text-fs-11.5 text-quiet" style={{ fontFamily: MONO }}>
-                      <span className="min-w-0 truncate">{n.source}</span>
+                      {n.kind === "filing" && n.form ? (
+                        <span className="shrink-0 rounded border border-line/[0.16] px-1 text-fs-11 leading-[16px] text-fore">{n.form}</span>
+                      ) : null}
+                      <span className="min-w-0 truncate">{n.label}</span>
                       {n.related.length ? (
                         <>
                           <span aria-hidden>·</span>

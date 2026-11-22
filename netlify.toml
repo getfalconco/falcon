@@ -7,7 +7,8 @@
   PNPM_VERSION = "10.33.0"
 
 # Netlify Functions beside the Next.js runtime: the news sweeper
-# (apps/web/netlify/functions/news-sweep.mts) runs every minute on production.
+# (apps/web/netlify/functions/news-sweep.mts) and the SEC filings sweeper
+# (apps/web/netlify/functions/filings-sweep.mts) run every minute on production.
 [functions]
   directory = "apps/web/netlify/functions"
 

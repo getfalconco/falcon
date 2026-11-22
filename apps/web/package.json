@@ -8,7 +8,9 @@
     "graph-shards": "node scripts/graph-shards.mjs",
     "start": "next start -p 3000",
     "lint": "next lint",
-    "news:sweep": "node --env-file=.env.local --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/news-sweep.ts"
+    "news:sweep": "node --env-file=.env.local --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/news-sweep.ts",
+    "filings:sweep": "node --env-file=.env.local --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/filings-sweep.ts",
+    "news:clean": "node --env-file=.env.local --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/news-clean.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^1.8.0",

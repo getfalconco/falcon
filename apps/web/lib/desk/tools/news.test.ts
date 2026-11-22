@@ -1,7 +1,8 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { fieldSource } from "../citations";
 import { deskToolCommand } from "./command";
-import { checkPublicUrl, extractArticleText, isBlockedAddress, newsLabel, newsSymbol, resetNewsCache, runNewsTool, type NewsArticleRow, type NewsStore } from "./news";
+import { capText, checkPublicUrl, clipSummary, extractArticleText, isBlockedAddress, newsLabel, newsSymbol, resetNewsCache, runNewsTool, type NewsArticleRow, type NewsStore } from "./news";
 
 const row = (id: number, over: Partial<NewsArticleRow> = {}): NewsArticleRow => ({
   id,
@@ -130,5 +131,77 @@ test("get_news_article: a redirect to a private address, a paywall and an unknow
   assert.equal(thin.content, "unavailable");
   const missing = await runNewsTool("get_news_article", { id: 999 }, { store, deps });
   assert.equal(missing.ok, false);
-  assert.match(JSON.parse(missing.content).error, /No article with id 999/);
+  assert.match(JSON.parse(missing.content).error, /No article or filing with id 999/);
+});
+
+test("summaries end at a sentence with a clipped marker; long texts end at a paragraph", () => {
+  const s = "Neither Phase 3 study met its prespecified primary endpoint. The company will review the data with regulators before deciding next steps. ".repeat(4);
+  const out = clipSummary(s, 200);
+  assert.match(out, /endpoint\. \[summary clipped; read the article or filing for the full text\]$|steps\. \[summary clipped; read the article or filing for the full text\]$/);
+  assert.equal(clipSummary("Short and whole."), "Short and whole.");
+  const text = ["First paragraph is here. It has two sentences.", "Second paragraph, a bit longer than the first one, ends here.", "Third paragraph."].join("\n\n");
+  const capped = capText(text, 120);
+  assert.equal(capped.truncated, true);
+  assert.match(capped.text, /^First paragraph is here\. It has two sentences\.\n\n/);
+  assert.doesNotMatch(capped.text, /Third/);
+  assert.match(capped.text, /\[text cut here at a paragraph end; the rest is not shown\]$/);
+});
+
+test("list_news mixes filings with articles and labels each by its source", async () => {
+  resetNewsCache();
+  const filing = row(1_149_315_226_050_606, {
+    kind: "filing",
+    symbols: ["ABEO"],
+    source: "SEC EDGAR",
+    form: "8-K",
+    items: ["1.01", "3.02"],
+    headline: "ABEO 8-K: Entry into a Material Agreement; Unregistered Sale of Equity Securities",
+    url: "https://www.sec.gov/Archives/edgar/data/318306/000149315226050606/0001493152-26-050606-index.htm",
+    publishedAt: "2026-11-09T11:30:34.000Z",
+  });
+  const store = memoryStore([row(5), filing]);
+  const body = JSON.parse((await runNewsTool("list_news", {}, { store })).content);
+  assert.equal(body.articles[0].source, "Yahoo, Nov 20, 2026");
+  assert.equal(body.articles[1].kind, "filing");
+  assert.equal(body.articles[1].source, "SEC EDGAR, 8-K, Nov 9, 2026");
+  assert.deepEqual(body.articles[1].items, ["1.01", "3.02"]);
+  assert.doesNotMatch(body.source, /^Finnhub/);
+  // Each cited figure resolves to its own row's source (citations.ts fieldSource).
+  const base = { label: body.source };
+  assert.equal(fieldSource(body, "articles.1.headline", base).label, "SEC EDGAR, 8-K, Nov 9, 2026");
+  assert.equal(fieldSource(body, "articles.0.summary", base).label, "Yahoo, Nov 20, 2026");
+});
+
+test("get_news_article reads a filing's main document and press release from SEC EDGAR only", async () => {
+  resetNewsCache();
+  const folder = "https://www.sec.gov/Archives/edgar/data/318306/000149315226050606/";
+  const filing = row(1_149_315_226_050_606, {
+    kind: "filing",
+    symbols: ["ABEO"],
+    source: "SEC EDGAR",
+    form: "8-K",
+    url: `${folder}0001493152-26-050606-index.htm`,
+    documents: [
+      { type: "8-K", description: "8-K", url: `${folder}form8-k.htm` },
+      { type: "EX-99.1", description: "PRESS RELEASE", url: `${folder}ex99-1.htm` },
+      { type: "EX-99.2", description: "elsewhere", url: "https://evil.example/x.htm" },
+    ],
+  });
+  const seen: { url: string; ua: string | null }[] = [];
+  const fetchImpl = (async (input: URL | string, init?: RequestInit) => {
+    seen.push({ url: String(input), ua: new Headers(init?.headers).get("user-agent") });
+    if (String(input).endsWith("form8-k.htm")) return new Response(`<html><body><p>FORM 8-K</p><p>Item 3.02. Unregistered Sales of Equity Securities.</p><p>The Company agreed to sell 10,000,000 shares in a private placement at $3.00 per share.</p></body></html>`);
+    return new Response(`<html><body><p>Abeona Announces $30 Million Private Placement</p><p>CLEVELAND, November 9, 2026 - Abeona Therapeutics Inc. today announced a private placement.</p></body></html>`);
+  }) as typeof fetch;
+  const r = await runNewsTool("get_news_article", { id: 1_149_315_226_050_606 }, { store: memoryStore([filing]), deps: { fetch: fetchImpl } });
+  const body = JSON.parse(r.content);
+  assert.equal(body.content, "full_text");
+  assert.equal(body.source, "SEC EDGAR, 8-K, Nov 20, 2026");
+  assert.match(body.text, /^\[8-K main document\]\n\nItem 3\.02\. Unregistered Sales of Equity Securities\./);
+  assert.match(body.text, /\[EX-99\.1 \(PRESS RELEASE\)\]\n\nAbeona Announces \$30 Million Private Placement/);
+  assert.deepEqual(
+    seen.map((s) => s.url),
+    [`${folder}form8-k.htm`, `${folder}ex99-1.htm`],
+  );
+  assert.ok(seen.every((s) => s.ua && /getfalcon\.co/.test(s.ua)));
 });

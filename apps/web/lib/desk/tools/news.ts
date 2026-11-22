@@ -1,16 +1,27 @@
 /**
- * News for Falcon AI, from Falcon's Finnhub company-news store
- * (public.news_items, lib/news/store.ts):
+ * News for Falcon AI, from Falcon's news store (lib/news/store.ts): company
+ * news from publishers (Yahoo, Benzinga, ...; collected through Finnhub,
+ * public.news_items) merged with SEC EDGAR filings (8-K, 6-K, 13D,
+ * registrations, prospectuses, merger and tender-offer filings;
+ * public.news_filings, lib/news/filings.ts).
  *
- * - `list_news` (/news, /news AAPL): the latest articles, or one ticker's,
- *   newest first, with headline, publisher, time, tickers and Finnhub's summary.
- * - `get_news_article`: the readable text of one of those articles, by its id.
- *   The URL always comes from news_items, never from the model. The fetch is
- *   http/https only on ports 80/443, refuses hosts that resolve to private,
- *   loopback or link-local addresses (checked again on every redirect hop, at
- *   most MAX_REDIRECTS), sends no cookies, stops after ARTICLE_TIMEOUT_MS and
- *   reads at most MAX_HTML_BYTES. Paywalled or blocked pages come back as
+ * - `list_news` (/news, /news AAPL): the latest articles and filings, or one
+ *   ticker's, newest first, with headline, source label (publisher and date,
+ *   or "SEC EDGAR, <form>, <date>"), tickers and a summary cut at a sentence
+ *   end with an explicit marker when clipped.
+ * - `get_news_article`: the readable text of one of those, by its id. The URL
+ *   always comes from the store, never from the model.
+ *   Articles: the publisher's page. The fetch is http/https only on ports
+ *   80/443, refuses hosts that resolve to private, loopback or link-local
+ *   addresses (checked again on every redirect hop, at most MAX_REDIRECTS),
+ *   sends no cookies, stops after ARTICLE_TIMEOUT_MS and reads at most
+ *   MAX_HTML_BYTES. Paywalled or blocked pages come back as
  *   `content: "unavailable"` with the summary, not as an error.
+ *   Filings: the main document and its EX-99 exhibits, fetched only from the
+ *   stored https://www.sec.gov/Archives/edgar/data/ URLs of that filing, with
+ *   Falcon's declared SEC User-Agent through the Desk's polite SEC queue, HTML
+ *   and iXBRL stripped to text.
+ *   Long texts are cut at a paragraph end (never mid-sentence) and say so.
  *
  * Server-only (pg, node:dns). The runners never throw. extractArticleText and
  * isBlockedAddress are pure.
@@ -20,7 +31,10 @@ import type Anthropic from "@anthropic-ai/sdk";
 import { lookup as dnsLookup } from "node:dns/promises";
 import { BlockList, isIP } from "node:net";
 import type pg from "pg";
+import { SEC_USER_AGENT, filingDocumentText, filingFolder, isEdgarArchiveUrl, lastSentenceEnd, parseHeader, pickDocuments, sentenceClip, type StoredDoc } from "../../news/filings";
+import { newsSourceLabel } from "../../news/label";
 import type { DeskToolOutcome } from "./index";
+import { secFetcher } from "./sec";
 import { DEFAULT_TOOL_TIMEOUT_MS, TtlCache, ToolError, deadline, fitResult, nyStamp, type DeskToolContext } from "./util";
 
 export const NEWS_TOOL_NAME = "list_news";
@@ -28,7 +42,12 @@ export const NEWS_ARTICLE_TOOL_NAME = "get_news_article";
 
 const LIST_DEFAULT = 15;
 const LIST_MAX = 30;
-const SUMMARY_CHARS = 300;
+const SUMMARY_CHARS = 350;
+export const SUMMARY_CLIPPED = "[summary clipped; read the article or filing for the full text]";
+export const TEXT_CUT = "[text cut here at a paragraph end; the rest is not shown]";
+/** A filing's main document gets at most this much of ARTICLE_CHARS when it has exhibits, so the press release fits too. */
+const FILING_PRIMARY_CHARS = 4_000;
+const MAX_FILING_BYTES = 3 * 1024 * 1024;
 /** Article text handed to the model (the whole result stays under fitResult's cap). */
 const ARTICLE_CHARS = 8_000;
 /** Below this much readable text the page is treated as a paywall, a video or a consent wall. */
@@ -49,14 +68,17 @@ const symbol = {
 export const NEWS_TOOL = {
   name: NEWS_TOOL_NAME,
   description:
-    "Recent company news for US-listed stocks from Falcon's news store (Finnhub company news, about 5,500 companies, the last 14 days; Yahoo, Benzinga, Seeking Alpha, CNBC and other publishers). Newest first: each article's id, publication time (ET), publisher, headline, the tickers it is tagged with and a short summary. " +
-    "Without symbol: the latest articles across all companies; with symbol: that company's articles. Use it for /news and /news TICKER, and whenever recent news would help an answer (why a stock moved, what is new at a company). The summaries are short: call get_news_article with an id to read the full article before describing what it says in detail.",
+    "Recent company news and SEC filings for US-listed stocks from Falcon's news store (about 5,500 companies). Two kinds of rows, newest first: articles from publishers (Yahoo, Benzinga, Seeking Alpha, CNBC and others, collected through Finnhub, the last 14 days) and SEC EDGAR filings (8-K and 6-K material events with their press releases, Schedule 13D stakes, S-1/S-3/F-1/F-3 registrations, 424B prospectuses, 425 merger communications and tender offers, the last 90 days). " +
+    "Each row: id, kind (news or filing), publication or filing time (ET), source label (the publisher and date, or \"SEC EDGAR, <form>, <date>\"), headline, the tickers it is about and a summary; filings also carry the form and 8-K item numbers. A summary that ends with \"" +
+    SUMMARY_CLIPPED +
+    "\" is incomplete. Without symbol: the latest rows across all companies; with symbol: that company's. kind narrows to articles or filings. Use it for /news and /news TICKER, and whenever recent news would help an answer (why a stock moved, what is new at a company, deals, financings). Call get_news_article with an id to read the full text before describing or quoting what a row says.",
   input_schema: {
     type: "object",
     properties: {
       symbol,
-      limit: { type: "integer", minimum: 1, maximum: LIST_MAX, description: `How many articles (default ${LIST_DEFAULT}).` },
-      before: { type: "string", maxLength: 40, description: "Only articles published before this ISO time (to page back with the previous result's next_before)." },
+      kind: { type: "string", enum: ["all", "news", "filing"], description: "all (default), news for publishers' articles only, filing for SEC filings only." },
+      limit: { type: "integer", minimum: 1, maximum: LIST_MAX, description: `How many rows (default ${LIST_DEFAULT}).` },
+      before: { type: "string", maxLength: 40, description: "Only rows published before this ISO time (to page back with the previous result's next_before)." },
     },
     additionalProperties: false,
   },
@@ -65,10 +87,10 @@ export const NEWS_TOOL = {
 export const NEWS_ARTICLE_TOOL = {
   name: NEWS_ARTICLE_TOOL_NAME,
   description:
-    "Reads the full text of one article from list_news, by its id (the publisher's page, fetched now; at most about 8,000 characters, `truncated` when cut). Some publishers are paywalled or block automated reads: then `content` is \"unavailable\" with the reason, and you answer from the summary and say the full text could not be read. Only ids from list_news work.",
+    "Reads the full text of one row from list_news, by its id. An article: the publisher's page, fetched now. A filing: the filing's main document (an 8-K from its first Item) and its EX-99 exhibits such as the press release, from SEC EDGAR. At most about 8,000 characters, cut at a paragraph end with `truncated: true` when longer. Some publishers are paywalled or block automated reads: then `content` is \"unavailable\" with the reason, and you answer from the summary and say the full text could not be read. Only ids from list_news work.",
   input_schema: {
     type: "object",
-    properties: { id: { type: "integer", minimum: 1, description: "The article id from list_news." } },
+    properties: { id: { type: "integer", minimum: 1, description: "The article or filing id from list_news." } },
     required: ["id"],
     additionalProperties: false,
   },
@@ -114,16 +136,21 @@ export function newsLabel(name: string, input: unknown, phase: "running" | "done
 
 export type NewsArticleRow = {
   id: number;
+  /** Absent means "news". */
+  kind?: "news" | "filing";
   symbols: string[];
   headline: string;
   summary: string;
   source: string;
   url: string;
   publishedAt: string;
+  form?: string;
+  items?: string[];
+  documents?: StoredDoc[];
 };
 
 export type NewsStore = {
-  list(opts: { symbol?: string; limit: number; before?: string }): Promise<NewsArticleRow[]>;
+  list(opts: { symbol?: string; limit: number; before?: string; kind?: "news" | "filing" }): Promise<NewsArticleRow[]>;
   get(id: number): Promise<NewsArticleRow | null>;
 };
 
@@ -150,7 +177,16 @@ export function pgNewsStore(): NewsStore {
   };
 }
 
-const clip = (s: string, n: number) => (s.length > n ? `${s.slice(0, n - 1).replace(/\s+\S*$/, "")}...` : s);
+/** A summary for list_news: whole sentences, and an explicit marker when it was clipped. */
+export function clipSummary(s: string, n = SUMMARY_CHARS): string {
+  const t = s.replace(/\s+/g, " ").trim();
+  if (t.length <= n) return t;
+  const c = sentenceClip(t, n);
+  return `${c.text.replace(/\.\.\.$/, "")} ${SUMMARY_CLIPPED}`;
+}
+
+const isFiling = (r: NewsArticleRow) => r.kind === "filing";
+const label = (r: NewsArticleRow) => newsSourceLabel({ kind: r.kind, source: r.source, form: r.form, publishedAt: r.publishedAt });
 
 const listCache = new TtlCache<unknown>(60_000, 100);
 const articleCache = new TtlCache<unknown>(30 * 60_000, 100);
@@ -166,22 +202,30 @@ export async function listNews(input: unknown, store: NewsStore, signal: AbortSi
     if (Number.isNaN(t)) throw new ToolError("before must be an ISO time, e.g. 2026-11-20T15:00:00Z.");
     before = new Date(t).toISOString();
   }
-  const key = JSON.stringify([sym, limit, before]);
+  const kind = i.kind === "news" || i.kind === "filing" ? i.kind : undefined;
+  const key = JSON.stringify([sym, limit, before, kind]);
   const hit = listCache.get(key);
   if (hit) return hit;
-  const rows = await abortable(store.list({ symbol: sym, limit, before }), signal);
+  const rows = await abortable(store.list({ symbol: sym, limit, before, kind }), signal);
   const out = {
-    source: "Finnhub company news (Falcon news store)",
+    source: "Falcon news store: publishers' articles (collected through Finnhub) and SEC EDGAR filings; cite each row by its own source label",
+    // Per-row source groups for citations (lib/desk/citations.ts fieldSource): an article's publisher and date, a filing's "SEC EDGAR, <form>, <date>".
+    sources: rows.map((r) => ({ covers: ["articles"], label: label(r), when: { id: String(r.id) }, ...(isFiling(r) ? { url: r.url } : {}) })),
     ...(sym ? { symbol: sym } : {}),
     count: rows.length,
-    ...(rows.length === 0 ? { note: sym ? `No articles tagged ${sym} in the last 14 days of Falcon's news store.` : "Falcon's news store has no articles yet." } : {}),
+    ...(rows.length === 0
+      ? { note: sym ? `No articles or filings tagged ${sym} in Falcon's news store (articles: last 14 days, filings: last 90 days).` : "Falcon's news store has no rows yet." }
+      : {}),
     articles: rows.map((r) => ({
       id: r.id,
+      kind: isFiling(r) ? "filing" : "news",
       published: nyStamp(Date.parse(r.publishedAt)),
-      publisher: r.source,
+      source: label(r),
+      publisher: isFiling(r) ? "SEC EDGAR" : r.source,
+      ...(isFiling(r) ? { form: r.form ?? "", ...(r.items?.length ? { items: r.items } : {}) } : {}),
       headline: r.headline,
       tickers: r.symbols.slice(0, 8),
-      summary: clip(r.summary.replace(/\s+/g, " ").trim(), SUMMARY_CHARS),
+      summary: clipSummary(r.summary),
     })),
     next_before: rows.length === limit ? rows[rows.length - 1]!.publishedAt : null,
   };
@@ -453,12 +497,81 @@ export function extractArticleText(html: string): { title: string | null; text: 
   return { title, text };
 }
 
-/** Cut at a sentence or word end near `max`. */
-function capText(text: string, max: number): { text: string; truncated: boolean } {
+/**
+ * At most `max` characters of whole paragraphs; when the paragraph that
+ * crosses `max` would leave too little, whole sentences of it instead. Never
+ * cuts mid-sentence unless a single sentence is longer than `max`. Pure.
+ */
+export function capText(text: string, max: number, marker = TEXT_CUT): { text: string; truncated: boolean } {
   if (text.length <= max) return { text, truncated: false };
-  const cut = text.slice(0, max);
-  const end = Math.max(cut.lastIndexOf(". "), cut.lastIndexOf(".\n"));
-  return { text: `${end > max * 0.8 ? cut.slice(0, end + 1) : cut.replace(/\s+\S*$/, "")} [cut]`, truncated: true };
+  const room = max - marker.length - 2;
+  const cut = text.slice(0, room + 1);
+  const para = cut.lastIndexOf("\n\n");
+  let end: number;
+  if (para >= room * 0.75) end = para;
+  else {
+    const sentence = lastSentenceEnd(text, room + 1);
+    end = sentence > 0 ? sentence : para > 0 ? para : cut.replace(/\s+\S*$/, "").length;
+  }
+  return { text: `${text.slice(0, end).trimEnd()}\n\n${marker}`, truncated: true };
+}
+
+/* ------------------------------------------------------------------ filings */
+
+/** One EDGAR archive document, read with Falcon's SEC User-Agent (through the Desk's polite SEC queue unless a test passes `fetch`). */
+async function secDocument(url: string, signal: AbortSignal, deps: FetchDeps): Promise<string> {
+  if (!isEdgarArchiveUrl(url)) throw new Unavailable("not an SEC EDGAR archive link");
+  const init: RequestInit = { headers: { "User-Agent": SEC_USER_AGENT, Accept: "text/html,application/xml,text/plain;q=0.9,*/*;q=0.5" }, redirect: "error", credentials: "omit" };
+  let res: Response;
+  try {
+    res = deps.fetch ? await deps.fetch(url, { ...init, signal }) : await secFetcher.fetch(url, init, signal);
+  } catch {
+    throw new Unavailable(signal.aborted ? "SEC EDGAR did not answer in time" : "SEC EDGAR could not be reached");
+  }
+  if (!res.ok) {
+    res.body?.cancel().catch(() => undefined);
+    throw new Unavailable(`SEC EDGAR returned an error (HTTP ${res.status})`);
+  }
+  return decode(await readCapped(res, MAX_FILING_BYTES), res.headers.get("content-type") ?? "");
+}
+
+/**
+ * The text of a filing: its main document (an 8-K from its first Item, cut to
+ * FILING_PRIMARY_CHARS when exhibits follow) and its EX-99 exhibits, each
+ * under a heading. Documents come from the row; a filing stored before its
+ * documents were indexed gets them from its own EDGAR folder's header.
+ */
+export async function filingText(row: NewsArticleRow, signal: AbortSignal, deps: FetchDeps = {}): Promise<{ text: string; documents: StoredDoc[] }> {
+  if (!isEdgarArchiveUrl(row.url)) throw new Unavailable("the stored filing link is not an SEC EDGAR archive link");
+  const folder = row.url.replace(/[^/]*$/, "");
+  let docs = (row.documents ?? []).filter((d) => isEdgarArchiveUrl(d.url) && d.url.startsWith(folder));
+  if (!docs.length) {
+    const m = /\/data\/(\d+)\/\d+\/(\d{10}-\d{2}-\d{6})-index\.html?$/.exec(new URL(row.url).pathname);
+    if (!m) throw new Unavailable("the filing's documents are not listed yet");
+    const header = parseHeader(await secDocument(`${filingFolder(m[1]!, m[2]!)}${m[2]}-index-headers.html`, signal, deps));
+    docs = pickDocuments(header.form ?? row.form ?? "", filingFolder(m[1]!, m[2]!), header.documents);
+  }
+  if (!docs.length) throw new Unavailable("the filing has no readable documents");
+  const form = row.form ?? "";
+  const texts = await Promise.all(
+    docs.slice(0, 5).map(async (d, i) => {
+      try {
+        return filingDocumentText(await secDocument(d.url, signal, deps), { form, primary: i === 0 });
+      } catch (err) {
+        if (i === 0) throw err;
+        return "";
+      }
+    }),
+  );
+  const parts: string[] = [];
+  texts.forEach((t, i) => {
+    if (!t.trim()) return;
+    const d = docs[i]!;
+    const body = i === 0 && docs.length > 1 ? capText(t, FILING_PRIMARY_CHARS, "[main document cut here; the exhibits follow]").text : t;
+    const desc = d.description && d.description !== d.type ? ` (${d.description})` : "";
+    parts.push(`[${i === 0 ? `${form || d.type} main document` : `${d.type}${desc}`}]\n\n${body}`);
+  });
+  return { text: parts.join("\n\n"), documents: docs };
 }
 
 /** get_news_article's result. Throws ToolError for a bad or unknown id. */
@@ -467,14 +580,47 @@ export async function getNewsArticle(input: unknown, store: NewsStore, signal: A
   const hit = articleCache.get(String(id));
   if (hit) return hit;
   const row = await abortable(store.get(id), signal);
-  if (!row) throw new ToolError(`No article with id ${id} in Falcon's news store. Use an id from list_news.`);
+  if (!row) throw new ToolError(`No article or filing with id ${id} in Falcon's news store. Use an id from list_news.`);
   const meta = {
     id: row.id,
+    kind: isFiling(row) ? "filing" : "news",
+    source: label(row),
     headline: row.headline,
-    publisher: row.source,
+    publisher: isFiling(row) ? "SEC EDGAR" : row.source,
+    ...(isFiling(row) ? { form: row.form ?? "", ...(row.items?.length ? { items: row.items } : {}) } : {}),
     published: nyStamp(Date.parse(row.publishedAt)),
     tickers: row.symbols.slice(0, 8),
   };
+  if (isFiling(row)) {
+    let out: unknown;
+    let keep = true;
+    try {
+      const { text, documents } = await filingText(row, signal, deps);
+      const capped = capText(text, ARTICLE_CHARS);
+      out = {
+        ...meta,
+        url: row.url,
+        // Document links for filing_text when the cut text is not enough.
+        documents: documents.map((d) => ({ type: d.type, url: d.url })),
+        content: "full_text",
+        chars: text.length,
+        truncated: capped.truncated,
+        text: capped.text,
+      };
+    } catch (err) {
+      keep = err instanceof Unavailable && !signal.aborted;
+      out = {
+        ...meta,
+        url: row.url,
+        content: "unavailable",
+        reason: err instanceof Unavailable ? err.message : "SEC EDGAR could not be reached",
+        summary: row.summary.replace(/\s+/g, " ").trim(),
+        note: "The filing text could not be read. Answer from the summary, say the full filing could not be read, and suggest filing_text for this filing.",
+      };
+    }
+    if (keep) articleCache.set(String(id), out);
+    return out;
+  }
   const unavailable = (reason: string) => ({
     ...meta,
     content: "unavailable",

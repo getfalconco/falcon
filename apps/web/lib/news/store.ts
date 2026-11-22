@@ -1,4 +1,6 @@
 import pg from "pg";
+import { isFilingId, tickerNames, type CikMap, type StoredDoc } from "./filings.ts";
+import { isClickbait, relevantSymbols } from "./relevance.ts";
 
 /**
  * Company news for every US-listed company, kept in Postgres
@@ -10,9 +12,17 @@ import pg from "pg";
  * and only one sweeper (the Netlify scheduled function or a local run) calls
  * Finnhub at a time.
  *
+ * Articles are tagged only with the tickers they are mainly about (named in
+ * the headline or the summary's first sentence), and listicle or clickbait
+ * headlines are skipped (lib/news/relevance.ts).
+ *
+ * Readers get the articles merged with SEC EDGAR filings
+ * (public.news_filings, lib/news/filings.ts), newest first; `kind` tells
+ * them apart.
+ *
  * Used by netlify/functions/news-sweep.mts, scripts/news-sweep.ts (run by
  * Node directly, so this file sticks to type-only TypeScript syntax and
- * imports nothing but pg) and GET /api/news.
+ * imports nothing but pg and its sibling modules) and GET /api/news.
  */
 
 const FINNHUB = "https://finnhub.io/api/v1";
@@ -34,20 +44,35 @@ export function createNewsPool(url: string, max = 2): pg.Pool {
 
 // ---------------------------------------------------------------- reading
 
+export type NewsKind = "news" | "filing";
+
 export type NewsRow = {
   id: number;
+  /** "news" for a Finnhub article, "filing" for an SEC EDGAR filing. */
+  kind: NewsKind;
   symbols: string[];
   headline: string;
   summary: string;
+  /** The publisher ("Yahoo", "Benzinga"), or "SEC EDGAR" for a filing. */
   source: string;
   url: string;
   image: string;
   category: string;
   publishedAt: string;
+  /** Filings: the form ("8-K"), its 8-K item numbers, and its main document and EX-99 exhibits. Empty for articles. */
+  form: string;
+  items: string[];
+  documents: StoredDoc[];
 };
 
-/** Newest first. `before` (ISO time) pages back; `symbol` keeps articles tagged with that ticker. */
-export async function readNews(pool: pg.Pool, opts: { symbol?: string; limit: number; before?: string }): Promise<NewsRow[]> {
+const NEWS_COLUMNS = `id, 'news'::text as kind, symbols, headline, summary, source, url, image, category, published_at, ''::text as form, '{}'::text[] as items, '[]'::jsonb as documents`;
+const FILING_COLUMNS = `id, 'filing'::text as kind, symbols, headline, summary, 'SEC EDGAR'::text as source, url, ''::text as image, 'filing'::text as category, published_at, form, items, documents`;
+
+/**
+ * Articles and filings merged, newest first. `before` (ISO time) pages back,
+ * `symbol` keeps rows tagged with that ticker, `kind` keeps one of the two.
+ */
+export async function readNews(pool: pg.Pool, opts: { symbol?: string; limit: number; before?: string; kind?: NewsKind }): Promise<NewsRow[]> {
   const where: string[] = [];
   const args: unknown[] = [];
   if (opts.symbol) {
@@ -59,19 +84,20 @@ export async function readNews(pool: pg.Pool, opts: { symbol?: string; limit: nu
     where.push(`published_at < $${args.length}::timestamptz`);
   }
   args.push(opts.limit);
-  const { rows } = await pool.query<DbNewsRow>(
-    `select id, symbols, headline, summary, source, url, image, category, published_at
-       from public.news_items
-      ${where.length ? `where ${where.join(" and ")}` : ""}
-      order by published_at desc, id desc
-      limit $${args.length}`,
-    args,
-  );
+  const filter = where.length ? `where ${where.join(" and ")}` : "";
+  const limit = `$${args.length}`;
+  const part = (columns: string, table: string) => `(select ${columns} from ${table} ${filter} order by published_at desc, id desc limit ${limit})`;
+  const parts = [
+    ...(opts.kind !== "filing" ? [part(NEWS_COLUMNS, "public.news_items")] : []),
+    ...(opts.kind !== "news" ? [part(FILING_COLUMNS, "public.news_filings")] : []),
+  ];
+  const { rows } = await pool.query<DbNewsRow>(`select * from (${parts.join(" union all ")}) t order by published_at desc, id desc limit ${limit}`, args);
   return rows.map(toNewsRow);
 }
 
 type DbNewsRow = {
   id: string;
+  kind: string;
   symbols: string[];
   headline: string;
   summary: string;
@@ -80,11 +106,15 @@ type DbNewsRow = {
   image: string;
   category: string;
   published_at: Date;
+  form: string;
+  items: string[];
+  documents: StoredDoc[] | null;
 };
 
 function toNewsRow(r: DbNewsRow): NewsRow {
   return {
     id: Number(r.id),
+    kind: r.kind === "filing" ? "filing" : "news",
     symbols: r.symbols,
     headline: r.headline,
     summary: r.summary,
@@ -93,16 +123,50 @@ function toNewsRow(r: DbNewsRow): NewsRow {
     image: r.image,
     category: r.category,
     publishedAt: r.published_at.toISOString(),
+    form: r.form ?? "",
+    items: r.items ?? [],
+    documents: Array.isArray(r.documents) ? r.documents : [],
   };
 }
 
-/** One article by its Finnhub id, or null. */
+/** One article (by its Finnhub id) or filing (ids from 1e15 up), or null. */
 export async function readNewsItem(pool: pg.Pool, id: number): Promise<NewsRow | null> {
   const { rows } = await pool.query<DbNewsRow>(
-    `select id, symbols, headline, summary, source, url, image, category, published_at from public.news_items where id = $1`,
+    isFilingId(id) ? `select ${FILING_COLUMNS} from public.news_filings where id = $1` : `select ${NEWS_COLUMNS} from public.news_items where id = $1`,
     [id],
   );
   return rows[0] ? toNewsRow(rows[0]) : null;
+}
+
+// ---------------------------------------------------------------- relevance
+
+const NAMES_MAX_AGE_MS = 3600_000;
+let namesCache: { at: number; names: Map<string, string> } | null = null;
+
+/** ticker -> company name, from the filings sweeper's SEC map (empty before it has run). Cached an hour. */
+export async function readTickerNames(pool: pg.Pool): Promise<Map<string, string>> {
+  if (namesCache && Date.now() - namesCache.at < NAMES_MAX_AGE_MS) return namesCache.names;
+  let names = new Map<string, string>();
+  try {
+    const { rows } = await pool.query<{ ciks: CikMap }>(`select ciks from public.filing_sweep_state where id = 1`);
+    names = tickerNames(rows[0]?.ciks ?? {});
+  } catch {
+    // No filings table yet: keep every symbol Finnhub lists.
+  }
+  namesCache = { at: Date.now(), names };
+  return names;
+}
+
+/**
+ * The tickers to store an article under: the swept symbol and Finnhub's
+ * `related`, cut to those the article is mainly about. Empty for clickbait,
+ * or for an article that only mentions the companies in passing. Pure.
+ */
+export function articleSymbols(symbol: string, a: { headline?: string; summary?: string; related?: string }, names: Map<string, string>): string[] {
+  const headline = a.headline ?? "";
+  if (isClickbait(headline)) return [];
+  const all = [...new Set([symbol, ...(a.related ?? "").split(",").map((s) => s.trim().toUpperCase())].filter(Boolean))];
+  return relevantSymbols(all, headline, a.summary ?? "", names);
 }
 
 // ---------------------------------------------------------------- Finnhub
@@ -228,17 +292,17 @@ export async function releaseLease(pool: pg.Pool, owner: string): Promise<void> 
   await pool.query(`update public.news_sweep_state set lease_until = now(), updated_at = now() where id = 1 and lease_owner = $1`, [owner]);
 }
 
-async function upsertArticles(pool: pg.Pool, symbol: string, articles: FinnhubArticle[], keepAfterMs: number): Promise<number> {
-  const byId = new Map<number, FinnhubArticle>();
+async function upsertArticles(pool: pg.Pool, symbol: string, articles: FinnhubArticle[], keepAfterMs: number, names: Map<string, string>): Promise<number> {
+  const byId = new Map<number, { a: FinnhubArticle; symbols: string[] }>();
   for (const a of articles) {
     if (typeof a.id !== "number" || !a.headline || !a.url || typeof a.datetime !== "number") continue;
     if (a.datetime * 1000 < keepAfterMs) continue;
-    byId.set(a.id, a);
+    const symbols = articleSymbols(symbol, a, names);
+    if (symbols.length) byId.set(a.id, { a, symbols });
   }
   if (!byId.size) return 0;
-  const list = [...byId.values()];
-  const related = (a: FinnhubArticle) =>
-    [...new Set([symbol, ...(a.related ?? "").split(",").map((s) => s.trim().toUpperCase())].filter(Boolean))].join(",");
+  const tagged = [...byId.values()];
+  const list = tagged.map((t) => t.a);
   const res = await pool.query(
     `insert into public.news_items as n (id, symbols, headline, summary, source, url, image, category, published_at, fetched_at)
      select t.id, string_to_array(t.rel, ','), t.headline, t.summary, t.source, t.url, t.image, t.category, to_timestamp(t.ts), now()
@@ -252,7 +316,7 @@ async function upsertArticles(pool: pg.Pool, symbol: string, articles: FinnhubAr
        fetched_at = now()`,
     [
       list.map((a) => a.id),
-      list.map(related),
+      tagged.map((t) => t.symbols.join(",")),
       list.map((a) => a.headline ?? ""),
       list.map((a) => a.summary ?? ""),
       list.map((a) => a.source ?? ""),
@@ -353,7 +417,7 @@ export async function sweepBatch(pool: pg.Pool, key: string, opts: SweepOptions)
     try {
       const { body, limit } = await finnhub<FinnhubArticle[]>(path, key);
       lastLimit = limit;
-      result.articles += await upsertArticles(pool, symbol, Array.isArray(body) ? body : [], now - KEEP_DAYS * 86_400_000);
+      result.articles += await upsertArticles(pool, symbol, Array.isArray(body) ? body : [], now - KEEP_DAYS * 86_400_000, await readTickerNames(pool));
     } catch (err) {
       if (err instanceof FinnhubError && err.status === 429) {
         // Retry the same symbol after Finnhub's reset (or end the batch).
