@@ -166,16 +166,25 @@ export function PositionsCard() {
           compact ? "w-fit min-w-[min(360px,100%)] max-w-[min(440px,100%)] px-4 pb-2 pt-4" : "px-5 pb-3 pt-4"
         }`}
       >
-        {/* The balance lives in the Equity card beside this one; here the big number is how many positions (cash counts once per currency), and under it what they are. Hidden while loading. */}
+        {/* The balance lives in the Equity card beside this one; here the big number is how many positions (cash is not one), and under it what they are. With none, a plain empty state with the cash on hand. */}
         <p className="mb-2 text-fs-13 text-quiet">Positions</p>
         {summary.count ? (
           <>
             <span className="block text-fs-17 font-semibold leading-fs-24 text-fore tabular-nums">{summary.count}</span>
             {summary.text ? <p className="mt-0.5 text-fs-13 leading-fs-20 text-quiet">{summary.text}</p> : null}
           </>
-        ) : null}
+        ) : (
+          <>
+            <p className="text-fs-17 font-semibold leading-fs-24 text-fore">No positions yet</p>
+            {cash !== null && cash !== 0 ? (
+              <p className="mt-0.5 text-fs-13 leading-fs-20 text-quiet tabular-nums">
+                {money(cash, mainCurrency ?? "USD", { digits: Math.abs(cash) >= 1000 && Number.isInteger(cash) ? 0 : 2 })} {paper ? "paper cash ready" : "in cash"}
+              </p>
+            ) : null}
+          </>
+        )}
 
-        {model.groups.length || model.cash.length ? (
+        {summary.count && (model.groups.length || model.cash.length) ? (
           // Tall even when nearly empty, so it is ready to fill; long lists scroll under a sticky header.
           <div role="table" aria-label="Holdings" className="-mx-2 mt-4 flex max-h-[420px] min-h-[360px] flex-col overflow-y-auto px-2 text-fs-13 leading-fs-20">
             <div role="row" className="sticky top-0 z-[1] grid items-center gap-x-4 bg-raised pb-1.5 text-fs-12 text-quiet" style={{ gridTemplateColumns: template }}>

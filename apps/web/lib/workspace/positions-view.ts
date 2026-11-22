@@ -537,8 +537,8 @@ export function holdingsSummary(groups: readonly Pick<OverviewGroup, "id" | "row
     const n = groups.filter((x) => x.id === g.id).reduce((s, x) => s + x.rows.length, 0);
     return n ? [`${n} ${GROUP_NOUNS[g.id][n === 1 ? 0 : 1]}`] : [];
   });
-  const rowCount = groups.reduce((s, g) => s + g.rows.length, 0);
-  const count = rowCount + cash.length;
+  // Cash is not a position: it never counts, only the held rows do.
+  const count = groups.reduce((s, g) => s + g.rows.length, 0);
   const cashText = cash.length > 1 ? `cash in ${cash.length} currencies` : "cash";
   let text: string | null = null;
   if (parts.length) text = andList(cash.length ? [...parts, cashText] : parts);
