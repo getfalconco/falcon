@@ -3,7 +3,7 @@ import { clientIp, rateLimit, tooManyRequests } from "@/lib/rate-limit";
 import { bearerToken, userFromAccessToken } from "@/lib/waitlist-membership";
 import { RANGE_QUERY, historyBars, historyFor, isEquityRange } from "@/lib/portfolio-history";
 import { readSnapshots, recordSnapshot } from "@/lib/portfolio-store";
-import { chooseInterval, downsample, leadIn, nominalStart, seriesSymbol, snapshotPoints, snapshotsInRange, type HoldingsSnapshot, type PriceSeries } from "@/lib/workspace/equity";
+import { chooseInterval, downsample, nominalStart, seriesSymbol, snapshotPoints, snapshotsInRange, type HoldingsSnapshot, type PriceSeries } from "@/lib/workspace/equity";
 
 export const dynamic = "force-dynamic";
 
@@ -18,9 +18,10 @@ const BENCH = "SPY";
  * the curve with the live total.
  *
  *   GET /api/portfolio/equity?range=1M&currency=USD
- *     -> 200 { points: [{ t, v, spy, pre? }], firstAt, from, at }
- *        firstAt: the first snapshot (null: no history yet); from: the timeframe's start;
- *        `pre`: the flat lead-in before the connection (the timeframe keeps its whole span)
+ *     -> 200 { points: [{ t, v, spy }], firstAt, from, at }
+ *        firstAt: the first snapshot (null: no history yet); from: the timeframe's start.
+ *        Points start at the later of the two: nothing before the account's
+ *        first day, SPY included (the card says "Since Nov 18")
  *
  * Bars: SPY over the whole span at the timeframe's own size (1D 5-minute, 1W
  * 30-minute, 1M hourly, longer daily); the real-history part at the finest
@@ -57,7 +58,7 @@ async function devSnapshots(url: URL): Promise<HoldingsSnapshot[]> {
   return [];
 }
 
-/** SPY over the whole span: the timeframe's bars before `start`, the real part's finer ones from it. */
+/** SPY: the timeframe's bars before `start` (the close in force there), the real part's finer ones from it. */
 function joinSeries(before: PriceSeries | undefined, after: PriceSeries | undefined, start: number): PriceSeries | null {
   if (!before && !after) return null;
   const rows: [number, number][] = [];
@@ -119,7 +120,6 @@ export async function GET(request: Request) {
   const spy = joinSeries(bench[BENCH], series[BENCH], start);
 
   const real = snapshotPoints({ snapshots, series, from, nowMs: now, currency, spy, fromPrevious: range === "1D" });
-  const lead = leadIn(real.points, from, spy);
-  const points = [...downsample(lead, 300, (p) => p.spy ?? p.v), ...downsample(real.points, 400)];
+  const points = downsample(real.points, 400);
   return NextResponse.json({ points, firstAt: real.firstAt, from, at: now }, { headers: NO_STORE });
 }

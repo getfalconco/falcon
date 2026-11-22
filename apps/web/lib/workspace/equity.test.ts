@@ -8,15 +8,20 @@ import {
   EQUITY_RANGES,
   chooseInterval,
   downsample,
+  CLOSED_MS,
   finishCurve,
-  leadIn,
   historyStart,
+  nearestIndex,
   niceTicks,
   nominalStart,
+  rangeCoverage,
+  sessionsBetween,
   sameHoldings,
   snapshotOf,
   snapshotPoints,
   snapshotsInRange,
+  timeScale,
+  timeTicks,
   type HoldingsSnapshot,
   type PriceSeries,
   type SnapshotPosition,
@@ -154,19 +159,91 @@ test("timeframes: 5Y is the longest; nominal starts; Yahoo's closes parsed, clip
   assert.deepEqual(niceTicks(97_800, 101_300, 4), [98_000, 99_000, 100_000, 101_000]);
 });
 
-test("a timeframe longer than the history keeps its span: a flat lead-in at the first real value on SPY's times, never counted in the change", () => {
-  const first = NOW - 30 * 24 * H;
-  const from = NOW - 365 * 24 * H;
-  const spy = s([[from + 24 * H, 500], [from + 100 * 24 * H, 550], [first - 24 * H, 600], [first + H, 606], [NOW - H, 612]]);
+test("the chart starts on the account's first day: nothing before it, SPY rebased there, the change from there", () => {
+  const first = NOW - 4 * 24 * H;
+  const from = NOW - 30 * 24 * H;
+  const spy = s([[from + 24 * H, 500], [from + 10 * 24 * H, 550], [first - 24 * H, 600], [first + H, 606], [NOW - H, 612]]);
   const real = snapshotPoints({ snapshots: [snap(first, [pos("AAPL", 10)], 0)], series: { AAPL: s([[first - 24 * H, 100], [first + H, 101], [NOW - H, 110]]) }, from, nowMs: NOW, currency: "USD", spy });
-  const lead = leadIn(real.points, from, spy);
-  assert.deepEqual(lead.map((p) => [p.t, p.v, p.pre]), [[from + 24 * H, 1000, true], [from + 100 * 24 * H, 1000, true], [first - 24 * H, 1000, true]], "flat at the first real value, up to the connection");
-  assert.deepEqual(leadIn(real.points, first, spy), [], "the history covers the timeframe: no lead-in");
-  assert.deepEqual(leadIn(real.points, from, null).map((p) => p.t), [from], "no SPY: one point at the start");
+  assert.equal(real.points[0]!.t, first, "the real points start at the first snapshot, not the timeframe's start");
+  // An older server's flat lead-in (Oct 22 to the connection) is dropped, curve and SPY alike.
+  const lead = [{ t: from + 24 * H, v: 1000, spy: 500 }, { t: from + 10 * 24 * H, v: 1000, spy: 550 }];
   const c = finishCurve([...lead, ...real.points], 1120, NOW, real.firstAt);
-  assert.deepEqual([c.start, c.end, c.change, c.pct], [1000, 1120, 120, 12], "from the first real value, not the lead-in");
-  assert.equal(Math.round(c.points[0]!.spy!), Math.round((1000 * 500) / 600), "SPY real over the whole span, meeting the curve at the connection");
-  assert.equal(Math.round(c.spyPct! * 100) / 100, 2, "SPY's move from the connection: 600 -> 612");
+  assert.ok(c.points.every((p) => p.t >= first), "no point before the account's first day");
+  assert.equal(c.points[0]!.t, first);
+  assert.deepEqual([c.start, c.end, c.change, c.pct], [1000, 1120, 120, 12], "the change counts from the first day");
+  assert.equal(c.points[0]!.spy, 1000, "SPY starts at the account's value on its first day");
+  assert.equal(Math.round(c.spyPct! * 100) / 100, 2, "SPY's move from the first day: the close in force there (600) to 612");
+  assert.equal(historyStart("1M", first, from), first, "the label: Since ...");
+  assert.equal(historyStart("1W", first, NOW - 3 * 24 * H), null, "a timeframe inside the history keeps its name");
+});
+
+test("timeframes before the account: the shortest that covers it says Since, longer ones would repeat it", () => {
+  const now = new Date(2026, 10, 22, 15).getTime();
+  assert.deepEqual(rangeCoverage(new Date(2026, 10, 18, 10).getTime(), now), { "1D": "full", "1W": "since", "1M": "same", "3M": "same", YTD: "same", "1Y": "same", "5Y": "same" });
+  assert.deepEqual(rangeCoverage(new Date(2026, 8, 1).getTime(), now), { "1D": "full", "1W": "full", "1M": "full", "3M": "since", YTD: "same", "1Y": "same", "5Y": "same" });
+  assert.deepEqual(Object.values(rangeCoverage(null, now)), Array(7).fill("full"), "no history yet: nothing to mark");
+});
+
+test("x by time, not by index: calendar time for daily timeframes, 18 days 18 times as wide as one", () => {
+  const ts = [Date.UTC(2026, 9, 22), Date.UTC(2026, 10, 9), Date.UTC(2026, 10, 18), Date.UTC(2026, 10, 19)];
+  for (const range of ["1M", "3M", "YTD", "1Y", "5Y"] as const) {
+    const x = timeScale(range, ts);
+    assert.equal(x.kind, "calendar");
+    const w = (a: number, b: number) => x.at(ts[b]!) - x.at(ts[a]!);
+    assert.ok(Math.abs(w(0, 1) / w(2, 3) - 18) < 1e-9, `${range}: Oct 22 to Nov 9 is 18 times Nov 18 to Nov 19`);
+  }
+  const x = timeScale("1M", ts);
+  assert.deepEqual([x.at(ts[0]!), x.at(ts[3]!), x.at(ts[0]! - H), x.at(ts[3]! + H)], [0, 1, 0, 1], "the ends, clamped");
+  assert.equal(x.invert(x.at(ts[2]!)), ts[2], "invert undoes at");
+  assert.equal(timeScale("1M", [ts[0]!]).at(ts[0]!), 0, "one point: no division by zero");
+});
+
+test("trading time for 1D and 1W: sessions at full width, a night or a weekend shrunk to half an hour, holidays left out", () => {
+  // Fri Nov 13 and Mon Nov 16 2026, New York 9:30 to 16:00 (14:30 to 21:00 UTC).
+  const fri = Date.UTC(2026, 10, 13, 14, 30);
+  const mon = Date.UTC(2026, 10, 16, 14, 30);
+  const ts = [fri, fri + 6 * H, mon, mon + 6 * H];
+  const x = timeScale("1W", ts);
+  assert.equal(x.kind, "trading");
+  const unit = 1 / (6.5 * H + CLOSED_MS + 6 * H);
+  assert.ok(Math.abs(x.at(fri + 6.5 * H) - 6.5 * H * unit) < 1e-9, "Friday's session at full width");
+  assert.ok(Math.abs(x.at(mon) - (6.5 * H + CLOSED_MS) * unit) < 1e-9, "the weekend: half an hour wide");
+  const sat = Date.UTC(2026, 10, 14, 12);
+  assert.ok(x.at(sat) > x.at(fri + 6.5 * H) && x.at(sat) < x.at(mon), "a point on the weekend keeps its place inside the gap");
+  for (const t of [fri + H, sat, mon + 3 * H]) assert.ok(Math.abs(x.invert(x.at(t)) - t) < 1, "invert undoes at");
+  // Thanksgiving week: Thursday Nov 26 closed, Friday Nov 27 closes at 13:00.
+  const days = sessionsBetween(Date.UTC(2026, 10, 23), Date.UTC(2026, 10, 28)).map((d) => d.day);
+  assert.deepEqual(days, ["2026-11-23", "2026-11-24", "2026-11-25", "2026-11-27"]);
+  const early = sessionsBetween(Date.UTC(2026, 10, 27), Date.UTC(2026, 10, 28))[0]!;
+  assert.equal(early.close - early.open, 3.5 * H, "the early close");
+  // A 24/7 curve (crypto only) stays on calendar time.
+  const hourly = Array.from({ length: 7 * 24 }, (_, i) => Date.UTC(2026, 10, 13) + i * H);
+  assert.equal(timeScale("1W", hourly).kind, "calendar");
+  assert.equal(timeScale("1D", [Date.UTC(2026, 10, 17, 14, 29, 59, 999), ...Array.from({ length: 78 }, (_, i) => Date.UTC(2026, 10, 17, 14, 30) + i * 5 * M)]).kind, "trading");
+});
+
+test("date ticks by time: round moments, the finest step that fits, sessions for 1W, hours inside the session for 1D", () => {
+  const label = (range: Parameters<typeof timeScale>[0], a: number, b: number) => timeTicks(timeScale(range, [a, b]), 5).map((k) => k.label);
+  assert.deepEqual(label("1M", new Date(2026, 9, 23, 10).getTime(), new Date(2026, 10, 22, 15).getTime()), ["Oct 26", "Nov 2", "Nov 9", "Nov 16"], "a month: Mondays");
+  assert.deepEqual(label("1M", new Date(2026, 10, 18, 10).getTime(), new Date(2026, 10, 22, 15).getTime()), ["Nov 19", "Nov 20", "Nov 21", "Nov 22"], "since Nov 18: days");
+  assert.deepEqual(label("1Y", new Date(2025, 10, 22).getTime(), new Date(2026, 10, 22).getTime()), ["2026", "Apr", "Jul", "Oct"], "a year: quarters, January as the year");
+  assert.deepEqual(label("5Y", new Date(2021, 10, 22).getTime(), new Date(2026, 10, 22).getTime()), ["2022", "2023", "2024", "2025", "2026"]);
+  assert.deepEqual(label("1M", new Date(2026, 10, 22, 10, 32).getTime(), new Date(2026, 10, 22, 10, 50).getTime()), ["10:32 AM"], "opened minutes ago: its start");
+  const week = timeTicks(timeScale("1W", [Date.UTC(2026, 10, 23, 14, 30), Date.UTC(2026, 10, 27, 18)]), 5);
+  assert.deepEqual(week.map((k) => k.label), ["Nov 23", "Nov 24", "Nov 25", "Nov 27"], "one per session, Thanksgiving left out");
+  assert.equal(week[0]!.t, Date.UTC(2026, 10, 23, 14, 30), "at the session's open");
+  const open = Date.UTC(2026, 10, 17, 14, 30);
+  const x = timeScale("1D", Array.from({ length: 79 }, (_, i) => open + i * 5 * M));
+  const day = timeTicks(x, 5);
+  assert.ok(day.length >= 3 && day.length <= 5, "1D: a few hours");
+  assert.ok(day.every((k) => k.t >= open && k.t <= open + 6.5 * H && new Date(k.t).getMinutes() === 0), "whole hours inside the session");
+  for (let i = 1; i < day.length; i++) assert.ok(x.at(day[i]!.t) > x.at(day[i - 1]!.t), "in order on the axis");
+});
+
+test("hover snaps to the point nearest in time", () => {
+  const ts = [0, 10, 11, 100];
+  assert.deepEqual([nearestIndex(ts, -5), nearestIndex(ts, 4), nearestIndex(ts, 6), nearestIndex(ts, 10.6), nearestIndex(ts, 60), nearestIndex(ts, 500)], [0, 0, 1, 2, 3, 3]);
+  assert.equal(nearestIndex([], 3), -1);
 });
 
 test("resolution: the finest bars that keep the real part under ~250; min/max thinning keeps spikes, ends and order", () => {

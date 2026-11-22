@@ -2,7 +2,7 @@
 
 import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { fetchEquity, fetchHistory, type EquityAnswer } from "@/lib/portfolio-client";
-import { DEFAULT_RANGE, EQUITY_RANGES, finishCurve, historyStart, niceTicks, nominalStart, snapshotOf, snapshotPoints, type EquityPoint, type EquityRange } from "@/lib/workspace/equity";
+import { DEFAULT_RANGE, EQUITY_RANGES, finishCurve, historyStart, nearestIndex, niceTicks, nominalStart, rangeCoverage, snapshotOf, snapshotPoints, timeScale, timeTicks, type EquityPoint, type EquityRange } from "@/lib/workspace/equity";
 import { compactMoney, money, pctText, signedMoney, tone } from "@/lib/workspace/positions-view";
 import { useWorkspace } from "../context";
 import { FlatMark } from "./FlatMark";
@@ -14,11 +14,13 @@ import { FlatMark } from "./FlatMark";
  * Falcon records a snapshot of the holdings every time they change; the
  * server rebuilds the curve from those snapshots x market prices (5-minute
  * bars for the day, finer bars for the real part of a long timeframe) and
- * sends values only (/api/portfolio/equity, lib/workspace/equity.ts). A
- * timeframe longer than the history keeps its whole span: a faint flat line
- * up to the connection (marked, "Connected Oct 18"), the real line from it;
- * the change counts from the connection and the legend says "Since …". The
- * curve ends at the live total, the Positions card's.
+ * sends values only (/api/portfolio/equity, lib/workspace/equity.ts). The
+ * chart starts on the account's first day, never before (SPY included,
+ * rebased to the account's value that day): a timeframe that begins earlier
+ * is drawn from that day and labelled "Since Nov 18" beside the change, and
+ * the longer ones that would draw the same thing are disabled. The x axis is
+ * time (calendar time from 1M on, trading time for 1D and 1W: timeScale).
+ * The curve ends at the live total, the Positions card's.
  *
  * A paper account kept in this browser only (the preview) has no server
  * history: its one snapshot (cash, at creation) is built here, priced the same
@@ -104,6 +106,13 @@ export function EquityCard({ currency, total, hasSizes, className = "", style }:
   // SPY is shown by default; the toggle hides it.
   const [showSpy, setShowSpy] = useState(true);
   const { answer, loading } = useEquity(range, currency, hasSizes && total !== null);
+  // The account's first day, kept while another timeframe loads, for the timeframe buttons.
+  const [firstAt, setFirstAt] = useState<number | null>(null);
+  useEffect(() => {
+    if (answer) setFirstAt(answer.firstAt);
+  }, [answer]);
+  const coverage = rangeCoverage(firstAt, Date.now());
+  const covering = EQUITY_RANGES.find((r) => coverage[r] === "since");
   const curve = useMemo(() => (answer && total !== null ? finishCurve(answer.points, total, Math.max(answer.at, Date.now()), answer.firstAt) : null), [answer, total]);
 
   const shell = `flex min-w-0 flex-col rounded-2xl border border-line/[0.08] bg-raised px-5 pb-3 pt-4 shadow-[0_1px_2px_rgba(0,0,0,0.05),0_8px_24px_-6px_rgba(0,0,0,0.10)] ${className}`;
@@ -120,7 +129,7 @@ export function EquityCard({ currency, total, hasSizes, className = "", style }:
 
   const drawn = curve !== null && curve.points.length > 1;
   const t = !drawn || curve.change === null || Math.abs(curve.change) < 0.005 ? "flat" : tone(curve.change);
-  // The history is shorter than the timeframe: the legend says from when.
+  // The history is shorter than the timeframe: the change says from when, in place of the timeframe's name.
   const since = drawn && answer ? historyStart(range, answer.firstAt, answer.from) : null;
   return (
     <section aria-label="Equity" className={shell} style={style}>
@@ -134,7 +143,7 @@ export function EquityCard({ currency, total, hasSizes, className = "", style }:
                 {signedMoney(t === "flat" ? 0 : curve.change, currency, 0)}
                 {t === "flat" ? <FlatMark /> : <span aria-hidden>·</span>}
                 {pctText(t === "flat" ? 0 : curve.pct ?? 0, 1)}
-                <span className="font-normal">{range}</span>
+                <span className="font-normal">{since !== null ? `Since ${sinceText(since, range)}` : range}</span>
               </span>
             ) : null}
           </div>
@@ -150,18 +159,25 @@ export function EquityCard({ currency, total, hasSizes, className = "", style }:
             vs SPY
           </button>
           <div role="radiogroup" aria-label="Timeframe" className="flex items-center rounded-lg bg-line/[0.04] p-0.5">
-            {EQUITY_RANGES.map((r) => (
-              <button
-                key={r}
-                type="button"
-                role="radio"
-                aria-checked={r === range}
-                onClick={() => setRange(r)}
-                className={`rounded-md px-1.5 py-0.5 text-fs-11 font-medium tabular-nums transition-colors ${r === range ? "bg-raised text-fore shadow-[0_1px_2px_rgba(0,0,0,0.08)]" : "text-quiet hover:text-fore"} ${FOCUS}`}
-              >
-                {r}
-              </button>
-            ))}
+            {EQUITY_RANGES.map((r) => {
+              // Longer than the account's history and the same as a shorter timeframe: nothing new to show.
+              const same = coverage[r] === "same" && r !== range;
+              const opened = firstAt !== null ? sinceText(firstAt, "1M") : "";
+              return (
+                <button
+                  key={r}
+                  type="button"
+                  role="radio"
+                  aria-checked={r === range}
+                  disabled={same}
+                  onClick={() => setRange(r)}
+                  title={same ? `Your account opened ${opened}, so ${r} shows the same as ${covering ?? "a shorter timeframe"}` : coverage[r] === "since" ? `Since ${opened}, when your account opened` : undefined}
+                  className={`rounded-md px-1.5 py-0.5 text-fs-11 font-medium tabular-nums transition-colors ${r === range ? "bg-raised text-fore shadow-[0_1px_2px_rgba(0,0,0,0.08)]" : same ? "cursor-default text-faint opacity-60" : "text-quiet hover:text-fore"} ${FOCUS}`}
+                >
+                  {r}
+                </button>
+              );
+            })}
           </div>
         </div>
       </div>
@@ -182,7 +198,6 @@ export function EquityCard({ currency, total, hasSizes, className = "", style }:
               <span>SPY isn&apos;t available for this range</span>
             )
           ) : null}
-          {since !== null ? <span>Since {sinceText(since, range)}</span> : null}
         </div>
       ) : null}
       <div className="relative mt-2 min-h-[200px] flex-1">
@@ -208,14 +223,6 @@ export function EquityCard({ currency, total, hasSizes, className = "", style }:
 /* ------------------------------------------------------------------ the plot */
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
-function axisDate(t: number, range: EquityRange): string {
-  const d = new Date(t);
-  if (range === "1D") return d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
-  if (range === "5Y") return String(d.getFullYear());
-  if (range === "1Y" || range === "YTD") return `${MONTHS[d.getMonth()]}`;
-  return `${MONTHS[d.getMonth()]} ${d.getDate()}`;
-}
 
 /** "Mar 2022" for the long timeframes, "Nov 12" for the short ones. */
 function sinceText(t: number, range: EquityRange): string {
@@ -266,14 +273,33 @@ function smoothPath(xs: readonly number[], ys: readonly number[]): string {
 
 const PAD = { top: 8, right: 52, bottom: 20, left: 2 };
 
-/** Timeframes drawn by time (their nights and weekends are small next to the span); the short ones by bar, as on a trading chart. */
-const BY_TIME: ReadonlySet<EquityRange> = new Set(["3M", "YTD", "1Y", "5Y"]);
+/**
+ * The line's runs: smooth inside a run, one straight segment across a gap
+ * (a step wider than 4 times the typical one: missing days, a weekend on the
+ * calendar scale), so nothing is invented where there is no data.
+ */
+function linePath(xs: readonly number[], ys: readonly number[]): string {
+  const steps = xs.slice(1).map((x, i) => x - xs[i]!).filter((d) => d > 0).sort((a, b) => a - b);
+  const typical = steps[Math.floor(steps.length / 2)] ?? 0;
+  let out = "";
+  let from = 0;
+  for (let i = 1; i <= xs.length; i++) {
+    if (i < xs.length && !(typical > 0 && xs[i]! - xs[i - 1]! > Math.max(4 * typical, 6))) continue;
+    const run = smoothPath(xs.slice(from, i), ys.slice(from, i));
+    out += from ? `L${run.slice(1)}` : run;
+    from = i;
+  }
+  return out;
+}
 
 function Plot({ points, start, range, currency, color, showSpy }: { points: EquityPoint[]; start: number; range: EquityRange; currency: string; color: string; showSpy: boolean }) {
   const { ref, size } = useSize();
   const gradient = useId().replace(/:/g, "");
   const [hover, setHover] = useState<number | null>(null);
   const svgRef = useRef<SVGSVGElement>(null);
+  // x from the points' times (calendar time, or trading time for 1D and 1W: lib/workspace/equity.ts timeScale).
+  const times = useMemo(() => points.map((p) => p.t), [points]);
+  const scale = useMemo(() => timeScale(range, times), [range, times]);
 
   const w = size?.w ?? 0;
   const h = size?.h ?? 0;
@@ -291,45 +317,33 @@ function Plot({ points, start, range, currency, color, showSpy }: { points: Equi
   const span = hi - lo;
   lo -= span * 0.08;
   hi += span * 0.08;
-  const t0 = points[0]!.t;
-  const t1 = points[points.length - 1]!.t;
-  const byTime = BY_TIME.has(range) && t1 > t0;
-  const x = (i: number) =>
-    PAD.left + (points.length === 1 ? plotW : byTime ? ((points[i]!.t - t0) / (t1 - t0)) * plotW : (i / (points.length - 1)) * plotW);
+  const xAt = (t: number) => PAD.left + (points.length === 1 ? plotW : scale.at(t) * plotW);
   const y = (v: number) => PAD.top + (1 - (v - lo) / (hi - lo)) * plotH;
-  const xs = points.map((_, i) => x(i));
-  // Before the connection: a faint flat line, no fill. From it: the real line with its fill.
-  const firstReal = Math.max(0, points.findIndex((p) => !p.pre));
-  const hasPre = firstReal > 0;
-  const preLine = hasPre ? xs.slice(0, firstReal + 1).map((a, i) => `${i ? "L" : "M"}${a.toFixed(1)},${y(points[i]!.v).toFixed(1)}`).join("") : "";
-  const realXs = xs.slice(firstReal);
-  const line = smoothPath(realXs, points.slice(firstReal).map((p) => y(p.v)));
-  const area = `${line}L${realXs[realXs.length - 1]!.toFixed(1)},${(PAD.top + plotH).toFixed(1)}L${realXs[0]!.toFixed(1)},${(PAD.top + plotH).toFixed(1)}Z`;
-  const spyPts = points.map((p, i) => (p.spy === null ? null : ([xs[i]!, y(p.spy)] as const))).filter((p): p is readonly [number, number] => p !== null);
+  const xs = points.map((p) => xAt(p.t));
+  const line = linePath(xs, points.map((p) => y(p.v)));
+  const area = `${line}L${xs[xs.length - 1]!.toFixed(1)},${(PAD.top + plotH).toFixed(1)}L${xs[0]!.toFixed(1)},${(PAD.top + plotH).toFixed(1)}Z`;
+  // SPY on the same time scale; a point without SPY breaks its line.
+  let spyLine = "";
+  points.forEach((p, i) => {
+    if (p.spy !== null) spyLine += `${i && points[i - 1]!.spy !== null ? "L" : "M"}${xs[i]!.toFixed(1)},${y(p.spy).toFixed(1)}`;
+  });
   const ticks = niceTicks(lo, hi, 4).filter((v) => v >= lo && v <= hi);
-  // Up to 5 evenly spaced dates (by time or by bar), each label once.
-  const dateIdx = (
-    byTime
-      ? Array.from({ length: 5 }, (_, k) => {
-          const target = t0 + (k / 4) * (t1 - t0);
-          let best = 0;
-          for (let i = 0; i < points.length; i++) if (Math.abs(points[i]!.t - target) < Math.abs(points[best]!.t - target)) best = i;
-          return best;
-        })
-      : Array.from({ length: Math.min(5, points.length) }, (_, k) => Math.round((k / Math.max(1, Math.min(5, points.length) - 1)) * (points.length - 1)))
-  ).filter((i, k, all) => all.indexOf(i) === k && (k === 0 || axisDate(points[i]!.t, range) !== axisDate(points[all[k - 1]!]!.t, range)));
+  // Date labels placed by time, each at least 44px from the last one kept.
+  const dates = timeTicks(scale, Math.max(2, Math.min(6, Math.floor(plotW / 90)))).reduce<{ x: number; label: string }[]>((kept, k) => {
+    const x = xAt(k.t);
+    if (!kept.length || x - kept[kept.length - 1]!.x >= 44) kept.push({ x, label: k.label });
+    return kept;
+  }, []);
 
   const onMove = (e: React.PointerEvent<SVGSVGElement>) => {
     const r = svgRef.current?.getBoundingClientRect();
     if (!r) return;
-    const px = e.clientX - r.left;
-    let best = 0;
-    for (let i = 1; i < xs.length; i++) if (Math.abs(xs[i]! - px) < Math.abs(xs[best]! - px)) best = i;
-    setHover(best);
+    // The pointer's time, then the point nearest to it in time.
+    const i = nearestIndex(times, scale.invert((e.clientX - r.left - PAD.left) / plotW));
+    setHover(i < 0 ? null : i);
   };
   const hp = hover !== null ? points[hover] : null;
   const hChange = hp ? hp.v - start : 0;
-  const connected = hasPre ? points[firstReal]! : null;
 
   return (
     <div ref={ref} className="absolute inset-0">
@@ -360,24 +374,20 @@ function Plot({ points, start, range, currency, color, showSpy }: { points: Equi
           ))}
           <line x1={PAD.left} x2={PAD.left + plotW} y1={y(start)} y2={y(start)} stroke="rgb(var(--f-fore) / 0.25)" strokeDasharray="3 3" />
           <path d={area} fill={`url(#${gradient})`} />
-          {showSpy && spyPts.length > 1 ? <path d={spyPts.map(([a, b], i) => `${i ? "L" : "M"}${a.toFixed(1)},${b.toFixed(1)}`).join("")} fill="none" stroke={SPY_COLOR} strokeWidth={1} /> : null}
-          {hasPre ? <path d={preLine} fill="none" stroke={color} strokeOpacity={0.35} strokeWidth={1.5} strokeLinecap="round" /> : null}
+          {showSpy && spyLine.includes("L") ? <path d={spyLine} fill="none" stroke={SPY_COLOR} strokeWidth={1} /> : null}
           <path d={line} fill="none" stroke={color} strokeWidth={1.75} strokeLinejoin="round" strokeLinecap="round" />
-          {connected ? (
-            <g>
-              <title>{`Connected ${sinceText(connected.t, "1M")}`}</title>
-              <line x1={xs[firstReal]!} x2={xs[firstReal]!} y1={y(connected.v) - 7} y2={y(connected.v) + 7} stroke={color} strokeOpacity={0.6} />
-              <circle cx={xs[firstReal]!} cy={y(connected.v)} r={3} fill="rgb(var(--f-raised))" stroke={color} strokeWidth={1.5} />
+          {dates.map((d) => (
+            <g key={`${d.label}-${d.x}`}>
+              <line x1={d.x} x2={d.x} y1={PAD.top + plotH} y2={PAD.top + plotH + 3} stroke="rgb(var(--f-fore) / 0.2)" />
+              <text x={d.x} y={h - 4} textAnchor={d.x < PAD.left + 24 ? "start" : d.x > PAD.left + plotW - 24 ? "end" : "middle"} className="fill-[rgb(var(--f-fore)/0.45)] text-[10.5px]">
+                {d.label}
+              </text>
             </g>
-          ) : null}
-          {dateIdx.map((i, k) => (
-            <text key={i} x={xs[i]!} y={h - 4} textAnchor={k === 0 ? "start" : k === dateIdx.length - 1 ? "end" : "middle"} className="fill-[rgb(var(--f-fore)/0.45)] text-[10.5px]">
-              {axisDate(points[i]!.t, range)}
-            </text>
           ))}
           {hp ? (
             <g pointerEvents="none">
               <line x1={xs[hover!]!} x2={xs[hover!]!} y1={PAD.top} y2={PAD.top + plotH} stroke="rgb(var(--f-fore) / 0.25)" />
+              {showSpy && hp.spy !== null ? <circle cx={xs[hover!]!} cy={y(hp.spy)} r={2.5} fill={SPY_COLOR} /> : null}
               <circle cx={xs[hover!]!} cy={y(hp.v)} r={3.5} fill={color} stroke="rgb(var(--f-raised))" strokeWidth={1.5} />
             </g>
           ) : null}
@@ -389,17 +399,10 @@ function Plot({ points, start, range, currency, color, showSpy }: { points: Equi
           style={xs[hover!]! > w / 2 ? { right: w - xs[hover!]! + 10 } : { left: xs[hover!]! + 10 }}
         >
           <div className="text-quiet">{tipDate(hp.t, range)}</div>
-          {hp.pre ? (
-            <div className="text-quiet">Before you connected</div>
-          ) : (
-            <>
-              {hover === firstReal && hasPre ? <div className="text-quiet">Connected {sinceText(hp.t, "1M")}</div> : null}
-              <div className="font-medium text-fore">{money(hp.v, currency)}</div>
-              <div className={TONE_CLASS[Math.abs(hChange) < 0.005 ? "flat" : tone(hChange)]}>
-                {signedMoney(hChange, currency, 0)} · {pctText(start ? (hChange / Math.abs(start)) * 100 : 0, 2)}
-              </div>
-            </>
-          )}
+          <div className="font-medium text-fore">{money(hp.v, currency)}</div>
+          <div className={TONE_CLASS[Math.abs(hChange) < 0.005 ? "flat" : tone(hChange)]}>
+            {signedMoney(hChange, currency, 0)} · {pctText(start ? (hChange / Math.abs(start)) * 100 : 0, 2)}
+          </div>
           {showSpy && hp.spy !== null ? <div className="text-quiet">SPY {pctText(start ? ((hp.spy - start) / Math.abs(start)) * 100 : 0, 2)}</div> : null}
         </div>
       ) : null}

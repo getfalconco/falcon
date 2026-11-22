@@ -1,4 +1,6 @@
 import { STOCK_LIKE, contractSize, quoteSymbol, type PortfolioAccount, type PortfolioPosition, type PositionKind } from "../portfolio-holdings";
+import { addDays, isNyseEarlyClose, isNyseSession, nyInstantMs } from "../../../../packages/engine/src/study/abnormal.ts";
+import { CLOSE_MIN, EARLY_CLOSE_MIN, OPEN_MIN, nyDate } from "./market-status";
 
 /**
  * Pure: the Equity card's curve (tabs/EquityCard.tsx) from the member's real
@@ -9,10 +11,10 @@ import { STOCK_LIKE, contractSize, quoteSymbol, type PortfolioAccount, type Port
  *
  *   value(t)   cash of the snapshot in force at t + each of its positions x
  *              multiplier x the price at t (the last bar at or before t)
- *   start      real values from the first snapshot (the moment the member
- *              connected) on; a timeframe that begins earlier keeps its full
- *              span with a flat lead-in at the first real value, marked
- *              `pre` (drawn faint, never counted in the change: leadIn)
+ *   start      the first snapshot (the moment the member connected: the
+ *              account's first day). Nothing is drawn before it, neither the
+ *              curve nor SPY: a timeframe that begins earlier starts there
+ *              and says so ("Since Nov 18", historyStart, rangeCoverage)
  *   steps      at a snapshot's time the holdings change, so the curve steps
  *   held       options, futures and others are held at the price recorded in
  *              the snapshot (the import's) until a newer snapshot: no
@@ -106,10 +108,8 @@ export function snapshotsInRange(snapshots: readonly HoldingsSnapshot[], from: n
 export type EquityPoint = {
   t: number;
   v: number;
-  /** SPY, raw until finishCurve scales it to the first real value. */
+  /** SPY, raw until finishCurve scales it to the first value. */
   spy: number | null;
-  /** Before the member connected: the flat lead-in at the first real value. */
-  pre?: boolean;
 };
 
 export type EquityCurve = {
@@ -221,21 +221,20 @@ export function snapshotPoints({
 
 /**
  * Pure: the curve closed with the live total at `nowMs` (the Positions
- * card's figure). The change counts from the first REAL value (the lead-in
- * before the connection is not part of it); SPY is scaled to meet the curve
- * there, so it runs over the whole span on the same footing.
+ * card's figure), never before the account's first day: points before
+ * `firstAt` are dropped (a server or cache that still sends a lead-in draws
+ * nothing there). The change counts from the first point; SPY is rebased to
+ * the curve's value there, so both start together on the account's first day.
  */
 export function finishCurve(points: readonly EquityPoint[], total: number, nowMs: number, firstAt: number | null): EquityCurve {
-  if (!points.length) return { points: [], start: null, end: null, change: null, pct: null, spyPct: null, firstAt };
-  const out = points.map((p) => ({ ...p }));
+  const out = points.filter((p) => firstAt === null || p.t >= firstAt).map((p) => ({ ...p }));
+  if (!out.length) return { points: [], start: null, end: null, change: null, pct: null, spyPct: null, firstAt };
   const lastSpy = [...out].reverse().find((p) => p.spy !== null)?.spy ?? null;
   if (nowMs > out[out.length - 1]!.t) out.push({ t: nowMs, v: total, spy: lastSpy });
   else out[out.length - 1]!.v = total;
-  const real = out.findIndex((p) => !p.pre);
-  const first = out[real === -1 ? 0 : real]!;
-  const v0 = first.v;
-  // SPY's anchor: its value at the first real point (else the nearest one after it).
-  const anchor = out.slice(real === -1 ? 0 : real).find((p) => p.spy !== null)?.spy ?? null;
+  const v0 = out[0]!.v;
+  // SPY's anchor: its value at the first point (else the nearest one after it).
+  const anchor = out.find((p) => p.spy !== null)?.spy ?? null;
   for (const p of out) p.spy = anchor && p.spy !== null ? (v0 * p.spy) / anchor : null;
   const end = out[out.length - 1]!.v;
   const change = end - v0;
@@ -249,20 +248,6 @@ export function finishCurve(points: readonly EquityPoint[], total: number, nowMs
     spyPct: spyEnd !== null && anchor && v0 ? ((spyEnd - v0) / Math.abs(v0)) * 100 : null,
     firstAt,
   };
-}
-
-/**
- * Pure: the flat lead-in from the timeframe's start up to the first real
- * point, at its value, on SPY's times (so SPY is real over the whole span),
- * each marked `pre`. Nothing when the history covers the timeframe.
- */
-export function leadIn(real: readonly EquityPoint[], from: number, spy: PriceSeries | null): EquityPoint[] {
-  const first = real[0];
-  if (!first || first.t <= from) return [];
-  const times = usable(spy) ? spy.t.filter((t) => t >= from && t < first.t) : [];
-  if (!times.length) times.push(from);
-  const cursor = { i: 0 };
-  return times.map((t) => ({ t, v: first.v, spy: usable(spy) ? closeAt(spy, t, cursor) : null, pre: true }));
 }
 
 /* ------------------------------------------------------------------ resolution */
@@ -348,4 +333,248 @@ export function niceTicks(min: number, max: number, target = 4): number[] {
   const out: number[] = [];
   for (let v = Math.ceil(min / step) * step; v <= max + step * 1e-9; v += step) out.push(Number(v.toFixed(10)));
   return out;
+}
+
+/**
+ * Pure: what each timeframe shows for an account first seen at `firstAt`:
+ * "full" when it starts after the account's first day; "since" for the
+ * shortest one that starts before it (drawn from the first day, labelled
+ * "Since Nov 18"); "same" for the longer ones, which would draw exactly
+ * that again (the card disables them unless one is already selected).
+ * 1D is always "full": its start is the session's, known from the bars.
+ */
+export type RangeCoverage = "full" | "since" | "same";
+export function rangeCoverage(firstAt: number | null, nowMs: number): Record<EquityRange, RangeCoverage> {
+  const out = {} as Record<EquityRange, RangeCoverage>;
+  let covered = false;
+  for (const r of EQUITY_RANGES) {
+    const from = nominalStart(r, nowMs);
+    if (from === null || firstAt === null || from >= firstAt) out[r] = "full";
+    else {
+      out[r] = covered ? "same" : "since";
+      covered = true;
+    }
+  }
+  return out;
+}
+
+/* ------------------------------------------------------------------ the time axis */
+
+/**
+ * The chart's x axis is time, never a point's index, so 18 days are 18 times
+ * as wide as one.
+ *
+ *   calendar   1M and longer (daily bars): wall-clock time. A weekend is two
+ *              days wide; a stretch without data is as wide as it lasted and
+ *              drawn as one straight segment.
+ *   trading    1D and 1W (intraday bars): NYSE regular-session time, as
+ *              trading charts draw it. Session minutes keep their width; each
+ *              closed stretch (a night, a weekend, a holiday) shrinks to at
+ *              most CLOSED_MS, so a week is five sessions side by side
+ *              instead of mostly nights. Points inside a closed stretch (a
+ *              snapshot at 8 PM, the live total on a Saturday) keep their
+ *              order inside it. A curve mostly priced outside the session
+ *              (crypto only, 24/7) stays on calendar time.
+ */
+export type TimeScaleKind = "trading" | "calendar";
+export type TimeScale = {
+  kind: TimeScaleKind;
+  t0: number;
+  t1: number;
+  /** Time to a fraction of the width, 0 at t0 and 1 at t1 (clamped). */
+  at(t: number): number;
+  /** A fraction of the width back to time. */
+  invert(f: number): number;
+};
+
+/** The width a closed stretch keeps on the trading scale: half an hour of session. */
+export const CLOSED_MS = 30 * 60_000;
+const HOUR_MS = 3_600_000;
+
+/** Pure: the NYSE regular sessions that overlap [t0, t1], oldest first, with their New York date. */
+export function sessionsBetween(t0: number, t1: number): { day: string; open: number; close: number }[] {
+  const out: { day: string; open: number; close: number }[] = [];
+  if (!(t1 >= t0)) return out;
+  const last = nyDate(t1);
+  for (let d = addDays(nyDate(t0), -1), n = 0; d <= last && n < 4000; d = addDays(d, 1), n++) {
+    if (!isNyseSession(d)) continue;
+    const open = nyInstantMs(d, OPEN_MIN);
+    const close = nyInstantMs(d, isNyseEarlyClose(d) ? EARLY_CLOSE_MIN : CLOSE_MIN);
+    if (close >= t0 && open <= t1) out.push({ day: d, open, close });
+  }
+  return out;
+}
+
+/** A piecewise-linear scale through knots (times ascending, units ascending). */
+function knotScale(kind: TimeScaleKind, ts: number[], us: number[]): TimeScale {
+  const t0 = ts[0]!;
+  const t1 = ts[ts.length - 1]!;
+  const total = us[us.length - 1]! || 1;
+  const seg = (arr: number[], v: number) => {
+    let lo = 0;
+    let hi = arr.length - 1;
+    while (hi - lo > 1) {
+      const mid = (lo + hi) >> 1;
+      if (arr[mid]! <= v) lo = mid;
+      else hi = mid;
+    }
+    return lo;
+  };
+  return {
+    kind,
+    t0,
+    t1,
+    at(t) {
+      if (t <= t0) return 0;
+      if (t >= t1) return 1;
+      const i = seg(ts, t);
+      const span = ts[i + 1]! - ts[i]!;
+      return (us[i]! + (span ? ((t - ts[i]!) / span) * (us[i + 1]! - us[i]!) : 0)) / total;
+    },
+    invert(f) {
+      const u = Math.min(1, Math.max(0, f)) * total;
+      const i = seg(us, u);
+      const span = us[i + 1]! - us[i]!;
+      return ts[i]! + (span ? ((u - us[i]!) / span) * (ts[i + 1]! - ts[i]!) : 0);
+    },
+  };
+}
+
+/** Whether a time falls inside a regular session (the close included: bars are stamped at their start, the live total may sit on the bell). */
+function inSession(sessions: readonly { open: number; close: number }[], t: number): boolean {
+  return sessions.some((s) => t >= s.open && t <= s.close);
+}
+
+/**
+ * Pure: the x scale for a timeframe's points (their times, ascending): trading
+ * time for 1D and 1W when at least 60% of the points fall inside a session,
+ * else calendar time (see TimeScale).
+ */
+export function timeScale(range: EquityRange, times: readonly number[]): TimeScale {
+  const t0 = times[0] ?? 0;
+  const t1 = Math.max(t0, times[times.length - 1] ?? t0);
+  if (t1 === t0) return knotScale("calendar", [t0, t0 + 1], [0, 1]);
+  const calendar = () => knotScale("calendar", [t0, t1], [0, t1 - t0]);
+  if (range !== "1D" && range !== "1W") return calendar();
+  const sessions = sessionsBetween(t0, t1);
+  const inside = times.filter((t) => inSession(sessions, t)).length;
+  if (!sessions.length || inside < times.length * 0.6) return calendar();
+  const cuts = new Set<number>([t0, t1]);
+  for (const s of sessions) for (const b of [s.open, s.close]) if (b > t0 && b < t1) cuts.add(b);
+  const ts = [...cuts].sort((a, b) => a - b);
+  const us = [0];
+  for (let i = 1; i < ts.length; i++) {
+    const a = ts[i - 1]!;
+    const b = ts[i]!;
+    us.push(us[i - 1]! + (inSession(sessions, (a + b) / 2) ? b - a : Math.min(b - a, CLOSED_MS)));
+  }
+  return knotScale("trading", ts, us);
+}
+
+export type TimeTick = { t: number; label: string };
+
+const MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const dayLabel = (d: Date) => `${MONTH_NAMES[d.getMonth()]} ${d.getDate()}`;
+const hourLabel = (d: Date) => `${d.getHours() % 12 || 12} ${d.getHours() < 12 ? "AM" : "PM"}`;
+
+/** Every local midnight in [t0, t1]. */
+function midnights(t0: number, t1: number): Date[] {
+  const out: Date[] = [];
+  const d = new Date(t0);
+  d.setHours(0, 0, 0, 0);
+  if (d.getTime() < t0) d.setDate(d.getDate() + 1);
+  for (let n = 0; d.getTime() <= t1 && n < 4000; n++, d.setDate(d.getDate() + 1)) out.push(new Date(d));
+  return out;
+}
+
+/** Every first of a month (local midnight) in [t0, t1]. */
+function monthStarts(t0: number, t1: number): Date[] {
+  const out: Date[] = [];
+  const d = new Date(t0);
+  d.setHours(0, 0, 0, 0);
+  d.setDate(1);
+  if (d.getTime() < t0) d.setMonth(d.getMonth() + 1);
+  for (let n = 0; d.getTime() <= t1 && n < 1200; n++, d.setMonth(d.getMonth() + 1)) out.push(new Date(d));
+  return out;
+}
+
+/** Whole local hours in [t0, t1] (spans up to 4 days) at every k hours, for k = 1, 2, 3, 6, 12. */
+function hourTicks(t0: number, t1: number, keep: (t: number) => boolean): TimeTick[][] {
+  return [1, 2, 3, 6, 12].map((k) => {
+    const out: TimeTick[] = [];
+    if (t1 - t0 > 4 * 86_400_000) return out;
+    const d = new Date(t0);
+    d.setMinutes(0, 0, 0);
+    if (d.getTime() < t0) d.setTime(d.getTime() + HOUR_MS);
+    for (; d.getTime() <= t1; d.setTime(d.getTime() + HOUR_MS)) {
+      // Whole hours of local time (a half-hour zone's are not UTC's).
+      if (d.getMinutes() !== 0 || d.getHours() % k !== 0 || !keep(d.getTime())) continue;
+      out.push({ t: d.getTime(), label: d.getHours() === 0 ? dayLabel(d) : hourLabel(d) });
+    }
+    return out;
+  });
+}
+
+/**
+ * Pure: the date axis's ticks, placed by time: at most `target`, on round
+ * moments (whole hours, midnights, Mondays, the 1st and 15th, month starts,
+ * years), the finest step that fits. On the trading scale: one tick per
+ * session open (labelled with its New York date) when the span holds two
+ * sessions or more, else whole hours inside the session. Hours and calendar
+ * dates are local time. A span with no round moment in it (an account opened
+ * minutes ago) gets one tick at its start, "10:32 AM".
+ */
+export function timeTicks(scale: TimeScale, target = 5): TimeTick[] {
+  const { t0, t1 } = scale;
+  if (!(t1 > t0)) return [];
+  const start = new Date(t0);
+  const first: TimeTick[] = [{ t: t0, label: `${start.getHours() % 12 || 12}:${String(start.getMinutes()).padStart(2, "0")} ${start.getHours() < 12 ? "AM" : "PM"}` }];
+  const pick = (cands: TimeTick[][]) => cands.find((c) => c.length && c.length <= target) ?? cands.filter((c) => c.length).pop() ?? first;
+  if (scale.kind === "trading") {
+    const sessions = sessionsBetween(t0, t1);
+    if (sessions.length >= 2) {
+      const opens = sessions.filter((s) => s.open >= t0);
+      const stride = Math.ceil(opens.length / target);
+      return opens
+        .filter((_, i) => (opens.length - 1 - i) % stride === 0)
+        .map((s) => {
+          const [, m, d] = s.day.split("-").map(Number) as [number, number, number];
+          return { t: s.open, label: `${MONTH_NAMES[m - 1]} ${d}` };
+        });
+    }
+    return pick(hourTicks(t0, t1, (t) => inSession(sessions, t)));
+  }
+  const days = t1 - t0 <= 120 * 86_400_000 ? midnights(t0, t1) : [];
+  const months = monthStarts(t0, t1);
+  const dayTicks = (keep: (d: Date) => boolean) => days.filter(keep).map((d) => ({ t: d.getTime(), label: dayLabel(d) }));
+  const monthTicks = (k: number) => months.filter((d) => d.getMonth() % k === 0).map((d) => ({ t: d.getTime(), label: d.getMonth() === 0 ? String(d.getFullYear()) : MONTH_NAMES[d.getMonth()]! }));
+  const yearTicks = (k: number) => months.filter((d) => d.getMonth() === 0 && d.getFullYear() % k === 0).map((d) => ({ t: d.getTime(), label: String(d.getFullYear()) }));
+  return pick([
+    ...hourTicks(t0, t1, () => true),
+    dayTicks(() => true),
+    dayTicks((d) => d.getDate() % 2 === 1 && d.getDate() < 31),
+    dayTicks((d) => d.getDay() === 1),
+    dayTicks((d) => d.getDate() === 1 || d.getDate() === 15),
+    monthTicks(1),
+    monthTicks(2),
+    monthTicks(3),
+    monthTicks(6),
+    yearTicks(1),
+    yearTicks(2),
+    yearTicks(5),
+    yearTicks(10),
+  ]);
+}
+
+/** Pure: the index of the point nearest in time to `t` (times ascending); -1 when there are none. */
+export function nearestIndex(times: readonly number[], t: number): number {
+  if (!times.length) return -1;
+  let lo = 0;
+  let hi = times.length - 1;
+  while (hi - lo > 1) {
+    const mid = (lo + hi) >> 1;
+    if (times[mid]! <= t) lo = mid;
+    else hi = mid;
+  }
+  return Math.abs(times[hi]! - t) < Math.abs(times[lo]! - t) ? hi : lo;
 }

@@ -306,7 +306,7 @@ export async function fetchHistory(symbols: readonly string[], range: string, si
   }
 }
 
-export type EquityAnswer = { points: { t: number; v: number; spy: number | null; pre?: boolean }[]; firstAt: number | null; from: number; at: number };
+export type EquityAnswer = { points: { t: number; v: number; spy: number | null }[]; firstAt: number | null; from: number; at: number };
 
 /**
  * GET /api/portfolio/equity: the Equity chart's points from the member's
@@ -324,7 +324,7 @@ export async function fetchEquity(headers: HeadersInit, { range, currency, fixtu
     if (!res.ok) return null;
     const body = (await res.json().catch(() => null)) as Partial<EquityAnswer> | null;
     if (!body || !Array.isArray(body.points)) return null;
-    const points = body.points.filter((p) => p && typeof p.t === "number" && typeof p.v === "number" && Number.isFinite(p.v)).map((p) => ({ t: p.t, v: p.v, spy: typeof p.spy === "number" ? p.spy : null, ...(p.pre === true ? { pre: true } : {}) }));
+    const points = body.points.filter((p) => p && typeof p.t === "number" && typeof p.v === "number" && Number.isFinite(p.v)).map((p) => ({ t: p.t, v: p.v, spy: typeof p.spy === "number" ? p.spy : null }));
     return { points, firstAt: typeof body.firstAt === "number" ? body.firstAt : null, from: typeof body.from === "number" ? body.from : Date.now(), at: typeof body.at === "number" ? body.at : Date.now() };
   } catch {
     return null;
