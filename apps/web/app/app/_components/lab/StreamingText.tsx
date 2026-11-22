@@ -4,6 +4,7 @@ import type { ReactElement } from "react";
 import { StreamingReveal, type StreamingSource } from "@/components/ui/streaming-text";
 import { Markdown } from "./Markdown";
 import type { MarkdownTerms } from "./Markdown";
+import { citeKey } from "@/lib/desk/citations";
 import { CitationMark, type CiteCtx } from "./SourceCite";
 import { useCalmMotion } from "./motion";
 
@@ -18,10 +19,14 @@ import { useCalmMotion } from "./motion";
  * app's Motion setting): text appears as it arrives, no fade, no caret.
  */
 
-/** The source id a rendered element cites: a citation (CitationMark), or its plain label while the reply streams (Markdown's data-src). */
+/**
+ * What a rendered element cites, for its block's source chip: a settled citation (CitationMark) names its own
+ * figure (citeKey, so the chip shows that figure's source, lab/ReplyFooter.tsx), a plain label while the reply
+ * streams (Markdown's data-src) its lookup's id.
+ */
 export function citationOf(el: ReactElement): string | null {
-  const p = el.props as { refId?: unknown; "data-src"?: unknown };
-  if (el.type === CitationMark && typeof p.refId === "string") return p.refId;
+  const p = el.props as { refId?: unknown; field?: unknown; label?: unknown; "data-src"?: unknown };
+  if (el.type === CitationMark && typeof p.refId === "string") return typeof p.label === "string" ? citeKey({ ref: p.refId, field: typeof p.field === "string" ? p.field : undefined, label: p.label }) : p.refId;
   return typeof p["data-src"] === "string" ? p["data-src"] : null;
 }
 

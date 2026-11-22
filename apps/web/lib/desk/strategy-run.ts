@@ -279,7 +279,10 @@ export async function runLoadPrices(client: Anthropic, input: unknown, signal: A
     if (signal.aborted) return fail("Time ran out before the file was uploaded. Call load_prices again with the same input (the prices are cached now).", { loaded: p.tickers.length, total: p.tickers.length });
     const file = await client.files.upload({ file: await toFile(gz, name, { type: "application/gzip" }) }, { signal });
     const notes = [
-      "Prices are split- and dividend-adjusted (all fields on the same basis), so close-to-close changes are total returns.",
+      // Databento's closes are split-adjusted only; Yahoo's are split- and dividend-adjusted.
+      /databento/i.test(got.source)
+        ? "Prices are split-adjusted, not dividend-adjusted (all fields on the same basis), so close-to-close changes are price returns; dividends are not included."
+        : "Prices are split- and dividend-adjusted (all fields on the same basis), so close-to-close changes are total returns.",
       `Rows before ${p.start} are warm-up history for look-back signals; measure performance from ${p.start}.`,
     ];
     if (p.todaysPick) notes.push(`The list is ${p.universeLabel}: today's membership, so a test over past years has survivorship and hindsight bias. Say so in warnings.`);

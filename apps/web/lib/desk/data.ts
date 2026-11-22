@@ -84,7 +84,7 @@ async function databentoDailyBars(tickers: string[], from: string, to: string, s
   await Promise.all(Array.from({ length: 8 }, worker));
   // Benchmark absent or too many tickers missing: let Yahoo answer the whole request.
   if (!bars.size || missing.length > tickers.length * 0.1 || (tickers.includes("SPY") && !bars.has("SPY"))) return null;
-  return { bars, loaded: new Set(bars.keys()), missing: missing.sort(), notLoaded: [], source: `${DATABENTO_LABEL} (Databento EQUS.SUMMARY via Supabase), split-adjusted, price return (dividends not included)` };
+  return { bars, loaded: new Set(bars.keys()), missing: missing.sort(), notLoaded: [], source: `${DATABENTO_LABEL} (Falcon's copy in Supabase), split-adjusted, price return (dividends not included)` };
 }
 
 /** The Desk's Yahoo client: 16 at a time, 10 ms between starts, 10 s per request, one retry on 429/5xx. */

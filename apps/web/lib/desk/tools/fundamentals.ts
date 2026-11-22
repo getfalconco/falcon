@@ -11,6 +11,7 @@
  * only; then TTM is the last fiscal year and quarters are empty.
  */
 
+import type { FieldSource } from "../citations";
 import { companyFacts, companyForTicker, type CompanyFacts, type XbrlFact } from "./sec";
 import { yahooQuote } from "./yahoo";
 import { TtlCache, ToolError, cached, num, nyStamp, round, type DeskToolContext } from "./util";
@@ -373,6 +374,26 @@ export function withValuation(d: Derived, quote: { price: number | null; currenc
   };
 }
 
+/**
+ * Where the price-based figures come from (citations.ts FieldSource): the price is Yahoo's, the market cap Yahoo's
+ * or Yahoo's price times the SEC cover-page shares, and the multiples combine it with SEC XBRL figures. Everything
+ * else in the answer is SEC XBRL company facts (the result's own source). Pure.
+ */
+export function valuationSources(symbol: string, v: { marketCap: { basis: string } | null }): FieldSource[] {
+  const url = `https://finance.yahoo.com/quote/${encodeURIComponent(symbol)}`;
+  const capYahoo = v.marketCap?.basis === "Yahoo market cap";
+  const cap = capYahoo ? "Yahoo Finance's market cap" : "Yahoo Finance's price x SEC cover-page shares outstanding";
+  return [
+    { covers: ["valuation.price", "valuation.priceTime"], label: "Yahoo Finance quote (last price)", url },
+    capYahoo
+      ? { covers: ["valuation.marketCap"], label: "Yahoo Finance quote (market cap)", url }
+      : { covers: ["valuation.marketCap"], label: "Computed by Falcon from Yahoo Finance's last price and the SEC XBRL cover-page shares outstanding" },
+    { covers: ["valuation.peTtm"], label: "Computed by Falcon from Yahoo Finance's last price and SEC XBRL TTM diluted EPS" },
+    { covers: ["valuation.priceToSalesTtm"], label: `Computed by Falcon from the market cap (${cap}) and SEC XBRL TTM revenue` },
+    { covers: ["valuation.enterpriseValue", "valuation.evToEbitdaTtm"], label: `Computed by Falcon from the market cap (${cap}) and SEC XBRL debt, cash and EBITDA` },
+  ];
+}
+
 export async function fundamentalsTool(symbol: string, _ctx: DeskToolContext, signal: AbortSignal) {
   const company = await companyForTicker(symbol, signal);
   if (!company) throw new ToolError(`${symbol} is not in SEC's list of registrants (ETFs, funds and some foreign listings are not). No XBRL fundamentals.`);
@@ -393,6 +414,7 @@ export async function fundamentalsTool(symbol: string, _ctx: DeskToolContext, si
     ...derived,
     valuation,
     units: `Money in ${derived.currency} as filed (not millions); EPS in ${derived.eps?.unit ?? "currency/share"}; shares in shares. Margins in percent.`,
-    source: `SEC XBRL company facts (${derived.taxonomy}); price from Yahoo Finance`,
+    source: `SEC XBRL company facts (${derived.taxonomy}); the valuation block (price, market cap, multiples) uses Yahoo Finance's last price`,
+    sources: valuationSources(symbol, valuation),
   };
 }

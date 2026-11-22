@@ -902,14 +902,15 @@ const iso = (ms: number) => (Number.isFinite(ms) ? new Date(ms).toISOString() : 
 /** The sources of an answer's number groups. Pure. */
 export function ivSources(o: { ticker: string; chain: LiveChain | null; block: RippleOptions; stored: Stored | null; putCall: PutCall | null | undefined; nowMs: number }): SourceRef[] {
   const fetched = new Date(o.nowMs).toISOString();
-  const main = ["spot", "atmIv30Pct", "atmIv60Pct", "atmIv90Pct", "impliedMove5", "impliedMove20", "skewPts", "callPutSpreadPts", "term", "smile", "surface", "earnings"];
+  const main = ["spot", "atmIv30Pct", "atmIv60Pct", "atmIv90Pct", "impliedMove5", "impliedMove20", "skewPts", "callPutSpreadPts", "term", "smile", "surface"];
   const out: SourceRef[] = [];
   if (o.chain?.provider === "yahoo")
     out.push({ group: "options", covers: main, dataset: `${YAHOO_OPTIONS_DATASET}; figures computed by Falcon from bid/ask mids`, as_of: o.block.asOf, fetched_at: iso(o.chain.fetchedAtMs ?? o.nowMs)!, url: yahooOptionsUrl(o.ticker) });
   else if (o.chain)
     out.push({ group: "options", covers: main, dataset: "OPRA.PILLAR cbbo-1m via Databento (one snapshot of this chain, priced on demand by Falcon)", as_of: o.block.asOf, fetched_at: iso(o.chain.fetchedAtMs ?? o.nowMs)!, url: DATABENTO_OPRA_URL });
-  else out.push({ group: "options", covers: main, dataset: "Falcon options_daily: OPRA.PILLAR cbbo-1m via Databento, end-of-day snapshot", as_of: o.block.asOf, fetched_at: fetched, url: DATABENTO_OPRA_URL });
-  out.push({ group: "market", covers: ["beta", "vixPct", "ivToVix"], dataset: "Yahoo Finance daily chart (stock, SPY, ^VIX)", as_of: o.block.asOf, fetched_at: out[0]!.fetched_at });
+  else out.push({ group: "options", covers: main, dataset: "OPRA.PILLAR cbbo-1m via Databento: Falcon's stored end-of-day snapshot (options_daily)", as_of: o.block.asOf, fetched_at: fetched, url: DATABENTO_OPRA_URL });
+  out.push({ group: "market", covers: ["beta", "vixPct"], dataset: "Yahoo Finance daily chart (stock, SPY, ^VIX)", as_of: o.block.asOf, fetched_at: out[0]!.fetched_at });
+  out.push({ group: "ivToVix", covers: ["ivToVix"], dataset: `Computed by Falcon: ATM IV (${o.chain?.provider === "yahoo" ? "Yahoo Finance options chain" : "OPRA via Databento"}) / VIX (Yahoo Finance)`, as_of: o.block.asOf, fetched_at: out[0]!.fetched_at });
   const hist = o.stored?.history ?? [];
   if (hist.length) out.push({ group: "ivStanding", covers: ["ivStanding", "atmIvHistory"], dataset: "Falcon options_daily (stored ATM IV per session, OPRA via Databento)", as_of: iso(nyInstantMs(hist[hist.length - 1]!.date, snapshotMinute(hist[hist.length - 1]!.date))), fetched_at: fetched });
   const pc = o.putCall;
@@ -1022,6 +1023,7 @@ export function shapeIv({ q, stored, live, liveNote, putCall, freshness }: Shape
       };
     }
     out.sources = ivSources({ ticker: q.ticker.replace("-", "."), chain, block, stored, putCall, nowMs: freshness.nowMs });
+    if (e) (out.sources as SourceRef[]).push({ group: "earningsDate", covers: ["earnings.date", "earnings.time", "earnings.daysAway"], dataset: `Earnings date: ${e.source}`, as_of: null, fetched_at: (out.sources as SourceRef[])[0]!.fetched_at });
     if (st)
       (out.sources as SourceRef[]).push({
         group: "earningsStraddle",

@@ -264,10 +264,11 @@ test("one ticker: newest first, limit, summary and a chart show_chart accepts", 
     etf: 1,
     flags: ["gap_fill"],
     url: "https://www.sec.gov/Archives/edgar/data/1/NVDA-2025-02-27.htm",
+    prices: "databento",
   });
   assert.equal(out.summary.avg_abs_abn, 6.67);
   assert.equal(out.eps_surprise, "not available yet");
-  assert.match(out.source, /8-K Item 2\.02\); prices: databento/);
+  assert.match(out.source, /SEC EDGAR 8-K Item 2\.02 filings; returns computed by Falcon from daily closes \(Databento EQUS\.SUMMARY\)/);
   // The chart: oldest first, events without a return left out, valid for show_chart.
   assert.equal(out.chart.series[0].points.length, 6);
   assert.deepEqual(out.chart.series[0].points[0], ["2024-02-22", 12]);

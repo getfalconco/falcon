@@ -188,7 +188,7 @@ test("ivTool, in session: today's Yahoo chain, computed by Falcon, with as_of, s
   assert.equal(e.straddle.strike, 10);
   assert.ok(Math.abs((e.straddle.implied_move as number) - ((e.straddle.call_mid as number) + (e.straddle.put_mid as number)) / (e.straddle.spot as number)) < 1e-5);
   const sources = out.sources as Array<Record<string, string>>;
-  assert.deepEqual(sources.map((s) => s.group), ["options", "market", "ivStanding", "earningsStraddle"]);
+  assert.deepEqual(sources.map((s) => s.group), ["options", "market", "ivToVix", "ivStanding", "earningsDate", "earningsStraddle"]);
   assert.equal(sources[0]!.as_of, "2026-11-16T18:45:00.000Z");
   assert.equal(sources[0]!.url, "https://finance.yahoo.com/quote/SOUN/options");
   assert.ok(sources.every((s) => s.dataset && s.fetched_at));

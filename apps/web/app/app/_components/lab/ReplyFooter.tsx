@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 import type { ReactNode } from "react";
-import { Calculator, Database, Landmark, Layers, LineChart } from "lucide-react";
+import { Calculator, Database, Globe, Landmark, Layers, LineChart } from "lucide-react";
 import { MessageActions } from "@/components/ui/ai-message";
 import { STREAMING_LABELS_EN, StreamingFooter, type StreamingLabels, type StreamingSource } from "@/components/ui/streaming-text";
 import { replySources, type SourceKind } from "@/lib/desk/reply-sources";
@@ -24,6 +24,7 @@ const ICON: Record<SourceKind, ReactNode> = {
   yahoo: <LineChart strokeWidth={1.75} aria-hidden />,
   falcon: <Layers strokeWidth={1.75} aria-hidden />,
   computed: <Calculator strokeWidth={1.75} aria-hidden />,
+  other: <Globe strokeWidth={1.75} aria-hidden />,
 };
 
 const LABELS: Record<GlossaryLang, StreamingLabels> = {
@@ -32,14 +33,21 @@ const LABELS: Record<GlossaryLang, StreamingLabels> = {
 };
 const AS_OF: Record<GlossaryLang, string> = { en: "as of", tr: "veri tarihi" };
 
-/** The reply's sources for the chips and the list, by id too. */
+/**
+ * The reply's sources for the chips and the list, by id too: a lookup's id ("t3", what a citation names while the
+ * reply streams) and each checked citation's key (citeKey, what a settled citation names), so a figure's chip shows
+ * that figure's own source.
+ */
 export function useReplySources(m: LabMessage, lang: GlossaryLang): { list: StreamingSource[]; byId: ReadonlyMap<string, StreamingSource> } {
   return useMemo(() => {
-    const list = replySources(m.tools, m.cites).map((s): StreamingSource => {
+    const all = replySources(m.tools, m.cites);
+    const list = all.map((s): StreamingSource => {
       const detail = [s.command, s.asOf ? `${AS_OF[lang]} ${s.asOf}` : ""].filter(Boolean).join(" · ");
       return { id: s.id, label: s.label, domain: s.domain, icon: ICON[s.kind], ...(s.url ? { url: s.url } : {}), ...(detail ? { detail } : {}) };
     });
-    return { list, byId: new Map(list.map((s) => [s.id, s])) };
+    const byId = new Map(list.map((s) => [s.id, s]));
+    all.forEach((s, i) => s.keys?.forEach((k) => byId.set(k, list[i]!)));
+    return { list, byId };
   }, [m.tools, m.cites, lang]);
 }
 

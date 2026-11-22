@@ -252,11 +252,14 @@ export function SourceChip({ source, fresh = false, title }: { source: Streaming
   );
 }
 
-/** Chips for the sources a block cites: one per short name, its title naming every source behind it. */
+/**
+ * Chips for the sources a block cites: one per short name, its title naming every source behind it. A ref is a
+ * source id ("t3") or a figure's own key ("t3|field|label"), which falls back to its id when unknown.
+ */
 export function chipsFor(refs: string[], sources: ReadonlyMap<string, StreamingSource>, fresh: boolean): ReactNode {
   const groups = new Map<string, StreamingSource[]>();
   for (const r of refs) {
-    const s = sources.get(r);
+    const s = sources.get(r) ?? sources.get(r.split("|")[0]!);
     if (!s) continue;
     groups.set(s.domain, [...(groups.get(s.domain) ?? []), s]);
   }

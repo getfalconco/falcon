@@ -26,6 +26,7 @@
 
 import { DatabentoError, databentoConfigured, getCost, getDatasetEnd, getRange, parseTrades, requestKey, type RangeRequest, type Trade } from "../../databento/client";
 import { appendSpend, monthBounds, monthSpend, type SpendLine } from "../../databento/ledger";
+import type { FieldSource } from "../citations";
 import { barsFromChart } from "./history";
 import { ToolError, TtlCache, addDays, cached, nyParts, round, type DeskToolContext } from "./util";
 import { yahooChart } from "./yahoo";
@@ -476,5 +477,12 @@ export function shapeResult(
       ...extra.notes,
     ],
     source: "Databento XNAS.ITCH trades (Nasdaq TotalView-ITCH), regular hours 09:30-16:00 ET",
+    sources: FLOW_SOURCES,
   };
 }
+
+/** The per-session figures that do not come from Nasdaq's trades (citations.ts FieldSource). */
+const FLOW_SOURCES: FieldSource[] = [
+  { covers: ["sessions.close", "sessions.closeToClosePct", "sessions.consolidatedVolume"], label: "Yahoo Finance daily bars (all venues)" },
+  { covers: ["sessions.nasdaqSharePct"], label: "Computed by Falcon from Databento XNAS.ITCH volume and Yahoo Finance consolidated volume" },
+];

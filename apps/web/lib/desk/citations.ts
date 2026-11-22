@@ -16,7 +16,13 @@
  *    a value somewhere in the result) at the precision shown, tolerant to
  *    Turkish and English formats ("%58,9", "$1,2 mlr", "-0,8 puan", "1,234.5").
  *    Data-like numbers left uncited (%, currency, multiples, decimals; not
- *    dates or plain counts) are listed as unverified.
+ *    dates or plain counts) are listed as unverified; one the reply calls
+ *    computed lists the citations near it as its inputs.
+ *  - Sources per figure: a cited figure is labelled with its own field's
+ *    source (the result's `sources` groups, fieldSource), else the result's
+ *    `source`; its kind is the provider the label names first, or `computed`
+ *    with its inputs' domains. A return computed from Yahoo closes is never
+ *    labelled with the SEC filing it sits beside.
  *
  * Pure and client-safe: the route builds the report; the chat renders the
  * markup (lab/Markdown.tsx, lab/SourceCite.tsx) and re-checks a citation of an
@@ -45,11 +51,19 @@ export type CiteCheck = {
   /** The source document of that value (an SEC filing), when the result names one. */
   url?: string;
 };
-/** A data-like number in the reply with no citation. */
-export type UncitedNumber = { text: string; status: "unverified" | "derived"; note: string };
+/** A data-like number in the reply with no citation. `inputs`: for a derived one, the citations it was computed from (the same sentence's, else the paragraph's). */
+export type UncitedNumber = { text: string; status: "unverified" | "derived"; note: string; inputs?: { ref: string; field?: string; label: string }[] };
 export type CiteStats = { cited: number; verified: number; mismatch: number; unresolved: number; unchecked: number; uncited: number; derived: number };
-/** Where a source's data comes from, for an icon or a chip. */
-export type SourceKind = "databento" | "opra" | "sec" | "yahoo" | "falcon" | "audit" | "other";
+/** Where a source's data comes from, for an icon or a chip. `computed`: Falcon computed it from inputs the source line names. */
+export type SourceKind = "databento" | "opra" | "sec" | "yahoo" | "falcon" | "computed" | "audit" | "other";
+/**
+ * Where one group of a tool result's figures comes from, when a result mixes sources (the result's `sources` list):
+ * `covers` are field paths without indices ("valuation.peTtm", "events.stock_d0"; a trailing * matches a key
+ * prefix, "events.abn*"), `when` a row's own field ("prices": "mixed"), matched on the nearest enclosing object
+ * that has it. The most specific match names a cited figure's source; a figure no group covers has the result's
+ * own `source`. A label that starts with "Computed" is a figure Falcon computed from the inputs it names.
+ */
+export type FieldSource = { covers: string[]; label?: string; dataset?: string; as_of?: string | null; fetched_at?: string; url?: string; when?: Record<string, string> };
 /**
  * One source the reply used (a tool result with a source id), for a sources list or inline chip
  * (`message.cites.sources`). `cited`: the reply cites at least one figure from it.
@@ -105,8 +119,9 @@ export function stripSourceId(content: string): { id: string | null; fetchedAt: 
 /* ------------------------------------------------------------------ sources */
 
 const DEFAULT_SOURCE: Record<string, string> = {
-  quote: "Databento EQUS.SUMMARY, end of day",
-  history: "Databento EQUS.SUMMARY, end of day",
+  // Only when the result does not name its own (cut short in storage): either source may have answered.
+  quote: "Databento EQUS.SUMMARY end of day, or Yahoo Finance for a ticker Databento lacks",
+  history: "Databento EQUS.SUMMARY end of day, or Yahoo Finance for a range before 2024-07",
   fundamentals: "SEC XBRL company facts",
   earnings: "Yahoo Finance earnings",
   filings: "SEC EDGAR",
@@ -142,6 +157,16 @@ const DATASETS: [RegExp, string][] = [
   [/graph/i, "Falcon filing graph"],
 ];
 
+/** The entry whose pattern the text names first (a line such as "SEC XBRL ...; price from Yahoo" is SEC's). */
+function firstNamed<T>(rules: readonly [RegExp, T][], text: string): T | undefined {
+  let best: { at: number; v: T } | undefined;
+  for (const [re, v] of rules) {
+    const at = text.search(re);
+    if (at >= 0 && (!best || at < best.at)) best = { at, v };
+  }
+  return best?.v;
+}
+
 const obj = (v: unknown): Record<string, unknown> => (v && typeof v === "object" && !Array.isArray(v) ? (v as Record<string, unknown>) : {});
 const str = (v: unknown, n = 200): string | undefined => (typeof v === "string" && v.trim() ? v.trim().slice(0, n) : undefined);
 const SEC_URL = /^https:\/\/(?:www\.)?sec\.gov\//i;
@@ -149,10 +174,11 @@ const SEC_URL = /^https:\/\/(?:www\.)?sec\.gov\//i;
 /** The compact source block of a tool result: the tool's own `source` (a line or a block), else a default for the tool. */
 export function sourceOf(name: string, input: unknown, data: unknown, fetchedAt?: string): SourceBlock {
   const d = obj(data);
-  const given = d.source;
+  // A result stored cut short (no longer JSON) still names its source when that part was kept.
+  const given = typeof data === "string" ? /"source"\s*:\s*"((?:[^"\\]|\\.){1,300})"/.exec(data)?.[1]?.replace(/\\(.)/g, "$1") : d.source;
   const g = obj(given);
   const label = str(given, 200) ?? str(g.label, 200) ?? DEFAULT_SOURCE[name] ?? name.replace(/_/g, " ");
-  const dataset = str(g.dataset, 120) ?? DATASETS.find(([re]) => re.test(label))?.[1];
+  const dataset = str(g.dataset, 120) ?? firstNamed(DATASETS, label);
   const asOfText = /as of ([0-9]{4}-[0-9]{2}-[0-9]{2}(?:[ T][0-9:]+(?: ?ET)?)?)/i.exec(label)?.[1];
   const as_of = str(g.as_of, 60) ?? str(d.as_of, 60) ?? str(d.snapshot, 60) ?? str(d.asOf, 60) ?? asOfText ?? str(d.date, 30) ?? str(d.session, 30) ?? periodEnd(d);
   const urlIn = str(obj(input).url, 400);
@@ -174,16 +200,121 @@ function periodEnd(d: Record<string, unknown>): string | undefined {
   return best;
 }
 
-/** A source's kind and the domain to show for it. */
+type Provider = "opra" | "databento" | "sec" | "yahoo" | "falcon";
+const PROVIDERS: [RegExp, Provider][] = [
+  [/\bOPRA\b/i, "opra"],
+  [/Databento|EQUS\.SUMMARY|XNAS\.ITCH/i, "databento"],
+  [/\bSEC\b|EDGAR|XBRL/i, "sec"],
+  [/Yahoo/i, "yahoo"],
+  [/Falcon/i, "falcon"],
+];
+export const PROVIDER_DOMAIN: Record<Provider, string> = { opra: "databento.com", databento: "databento.com", sec: "sec.gov", yahoo: "finance.yahoo.com", falcon: "getfalcon.co" };
+/** A label for a figure Falcon computed: it names its inputs. */
+export const COMPUTED = /^computed\b/i;
+
+/** The data providers a source line names, in the order it names them (OPRA via Databento is OPRA's). */
+export function providersIn(text: string): Provider[] {
+  const hits: { at: number; p: Provider }[] = [];
+  for (const [re, p] of PROVIDERS) {
+    const g = new RegExp(re.source, "gi");
+    for (let m = g.exec(text); m; m = g.exec(text)) hits.push({ at: m.index, p });
+  }
+  const out: Provider[] = [];
+  for (const h of hits.sort((a, b) => a.at - b.at)) if (!out.includes(h.p)) out.push(h.p);
+  // Databento's OPRA feed is one source.
+  return out.includes("opra") ? out.filter((p) => p !== "databento") : out;
+}
+
+/**
+ * A source's kind and the domain to show for it: the provider its label names first (a line names its main
+ * source first), or, for a figure Falcon computed ("Computed by Falcon from ..."), `computed` with its inputs'
+ * domains. Never a provider the line only mentions after the main one.
+ */
 export function sourceKind(name: string, source: SourceBlock): { kind: SourceKind; domain?: string } {
-  const l = `${source.label} ${source.dataset ?? ""}`;
   if (name === "audit_run") return { kind: "audit" };
-  if (/OPRA/i.test(l)) return { kind: "opra", domain: "databento.com" };
-  if (/Databento/i.test(l)) return { kind: "databento", domain: "databento.com" };
-  if (/SEC|EDGAR|XBRL/i.test(l)) return { kind: "sec", domain: "sec.gov" };
-  if (/Yahoo/i.test(l)) return { kind: "yahoo", domain: "finance.yahoo.com" };
-  if (/Falcon/i.test(l) || name.startsWith("falcon_") || name === "earnings_events" || name === "load_events" || name === "load_graph" || name === "event_backtest") return { kind: "falcon", domain: "getfalcon.co" };
+  const l = `${source.label} ${source.dataset ?? ""}`;
+  if (COMPUTED.test(source.label)) {
+    const inputs = Array.from(new Set(providersIn(source.label.replace(/^computed by falcon\b/i, "")).filter((p) => p !== "falcon").map((p) => PROVIDER_DOMAIN[p])));
+    return { kind: "computed", domain: inputs.length ? inputs.join(" + ") : PROVIDER_DOMAIN.falcon };
+  }
+  const first = providersIn(l)[0];
+  if (first) return { kind: first, domain: PROVIDER_DOMAIN[first] };
+  if (name.startsWith("falcon_") || name === "earnings_events" || name === "load_events" || name === "load_graph" || name === "event_backtest") return { kind: "falcon", domain: PROVIDER_DOMAIN.falcon };
   return { kind: "other" };
+}
+
+/* ------------------------------------------------------------------ field sources */
+
+/** "events[3].stock_d0" -> ["events", 3, "stock_d0"]. */
+const pathParts = (path: string): (string | number)[] => path.split(/\.|(?=\[)/).filter(Boolean).map((p) => (/^\[\d+\]$/.test(p) ? Number(p.slice(1, -1)) : p));
+
+/** How specifically `cover` names the field at `keys` (its key path without indices): -1 when it does not. */
+function coverScore(cover: string, keys: string[]): number {
+  const segs = cover.split(".").filter(Boolean);
+  if (!segs.length || segs.length > keys.length) return -1;
+  for (let i = 0; i < segs.length; i++) {
+    const s = segs[i]!;
+    if (s.endsWith("*") ? !keys[i]!.startsWith(s.slice(0, -1)) : s !== keys[i]) return -1;
+  }
+  return segs.length * 2 - (segs[segs.length - 1]!.endsWith("*") ? 1 : 0);
+}
+
+/** The objects around the value at `path`, nearest first. */
+function enclosing(data: unknown, path: string): Record<string, unknown>[] {
+  const out: Record<string, unknown>[] = [];
+  let v: unknown = data;
+  for (const p of pathParts(path)) {
+    if (v && typeof v === "object" && !Array.isArray(v)) out.unshift(v as Record<string, unknown>);
+    v = v && typeof v === "object" ? (v as Record<string | number, unknown>)[p] : undefined;
+  }
+  return out;
+}
+
+/** The result's `sources` list (malformed entries dropped). */
+function fieldSources(data: unknown): FieldSource[] {
+  const list = obj(data).sources;
+  if (!Array.isArray(list)) return [];
+  return list.flatMap((x) => {
+    const o = obj(x);
+    const covers = Array.isArray(o.covers) ? o.covers.filter((c): c is string => typeof c === "string" && !!c) : [];
+    const label = str(o.label, 200) ?? str(o.dataset, 200);
+    if (!covers.length || !label) return [];
+    const when = obj(o.when);
+    return [{ covers, label, ...(str(o.dataset, 200) ? { dataset: str(o.dataset, 200) } : {}), ...(str(o.as_of, 60) ? { as_of: str(o.as_of, 60) } : {}), ...(str(o.fetched_at, 40) ? { fetched_at: str(o.fetched_at, 40) } : {}), ...(str(o.url, 400) ? { url: str(o.url, 400) } : {}), ...(Object.keys(when).length ? { when: Object.fromEntries(Object.entries(when).map(([k, v]) => [k, String(v)])) } : {}) }];
+  });
+}
+
+/**
+ * The source of the figure at `path` in a tool result: the most specific group of the result's `sources` that
+ * covers it (lib/desk/tools: fundamentals' price-based multiples, events' returns, flow's Yahoo bars, options'
+ * market inputs), else the result's own source. Pure.
+ */
+export function fieldSource(data: unknown, path: string | undefined, base: SourceBlock): SourceBlock {
+  if (!path || typeof data !== "object" || data === null) return base;
+  const keys = pathParts(path).filter((p): p is string => typeof p === "string");
+  let best: { f: FieldSource; score: number } | null = null;
+  let rows: Record<string, unknown>[] | null = null;
+  for (const f of fieldSources(data)) {
+    const score = Math.max(...f.covers.map((c) => coverScore(c, keys)));
+    if (score < 0) continue;
+    if (f.when) {
+      rows ??= enclosing(data, path);
+      const ok = Object.entries(f.when).every(([k, v]) => {
+        const row = rows!.find((r) => k in r);
+        return row !== undefined && String(row[k]) === v;
+      });
+      if (!ok) continue;
+    }
+    const s = score + (f.when ? 1 : 0);
+    if (!best || s > best.score) best = { f, score: s };
+  }
+  if (!best) return base;
+  const f = best.f;
+  const label = f.label ?? f.dataset ?? base.label;
+  const dataset = f.dataset ?? firstNamed(DATASETS, label);
+  const as_of = f.as_of ?? base.as_of;
+  const fetched_at = f.fetched_at ?? base.fetched_at;
+  return { label, ...(dataset ? { dataset } : {}), ...(as_of ? { as_of } : {}), ...(fetched_at ? { fetched_at } : {}), ...(f.url && /^https:\/\//.test(f.url) ? { url: f.url } : {}) };
 }
 
 /** Tools that hold no data to cite (charts, memory, questions, app actions). */
@@ -423,6 +554,19 @@ export const stripCitations = (text: string) => text.replace(new RegExp(SRC_LINK
 
 export const citeKey = (c: { ref: string; field?: string; label: string }) => `${c.ref}|${c.field ?? ""}|${c.label}`;
 
+/**
+ * The source of one value in a result (fieldSource) and the document to open for it: a link next to the value
+ * (a filing, an article) only when it is that source's own document, so a return computed from Yahoo closes never
+ * opens the 8-K it sits beside.
+ */
+function sourceAt(entry: SourceEntry, l: Leaf): { source: SourceBlock; url?: string } {
+  const source = fieldSource(entry.data, l.path, entry.source);
+  const near = urlNear(l);
+  const kind = sourceKind(entry.name, source).kind;
+  const url = source.url ?? (near && (!SEC_URL.test(near) || kind === "sec") ? near : undefined);
+  return { source, ...(url ? { url } : {}) };
+}
+
 /** Checks one citation against its source. */
 export function verifyCitation(c: { label: string; ref: string; field?: string }, entry: SourceEntry | undefined): CiteCheck {
   const base: CiteCheck = { ref: c.ref, ...(c.field ? { field: c.field } : {}), label: c.label, status: "unresolved" };
@@ -432,16 +576,19 @@ export function verifyCitation(c: { label: string; ref: string; field?: string }
   const shown = parseShown(c.label);
   const all = leaves(entry.data);
   const prose = typeof entry.data === "string";
-  if (!shown) {
-    // A date or a word: shown with its source, not checked.
+  // A date ("2026-11-09" reads as numbers too) or a word: matched as text in its field first, else shown with its source, not checked.
+  if (!shown || /^\s*\d{4}-\d{2}-\d{2}\s*$/.test(c.label)) {
     const date = /\d{4}-\d{2}-\d{2}/.exec(c.label)?.[0];
-    const hit = date ? all.find((l) => String(l.value).includes(date)) : undefined;
-    return hit ? { ...withSource, status: "verified", path: hit.path, value: hit.value, excerpt: excerptOf(hit, entry.data) } : { ...withSource, status: "unchecked", note: "Not a number, so it was not checked." };
+    const has = (l: Leaf) => !!date && String(l.value).includes(date);
+    const hit = (c.field ? namedLeaves(all, c.field, prose) : []).find(has) ?? all.find(has);
+    if (!hit) return { ...withSource, status: "unchecked", note: "Not a number, so it was not checked." };
+    const { source, url } = sourceAt(entry, hit);
+    return { ...withSource, source, status: "verified", path: hit.path, value: hit.value, excerpt: excerptOf(hit, entry.data), ...(url ? { url } : {}) };
   }
   const named = c.field ? namedLeaves(all, c.field, prose) : [];
   const done = (l: Leaf, note?: string): CiteCheck => {
-    const url = urlNear(l);
-    return { ...withSource, status: "verified", path: l.path, value: l.value, excerpt: excerptOf(l, entry.data), ...(url ? { url } : {}), ...(note ? { note } : {}) };
+    const { source, url } = sourceAt(entry, l);
+    return { ...withSource, source, status: "verified", path: l.path, value: l.value, excerpt: excerptOf(l, entry.data), ...(url ? { url } : {}), ...(note ? { note } : {}) };
   };
   const hit = named.find((l) => leafMatches(l, shown));
   if (hit) return done(hit);
@@ -453,6 +600,7 @@ export function verifyCitation(c: { label: string; ref: string; field?: string }
   const near = named[0];
   return {
     ...withSource,
+    ...(near ? { source: sourceAt(entry, near).source } : {}),
     status: "mismatch",
     ...(near ? { path: near.path, value: near.value, excerpt: excerptOf(near, entry.data) } : {}),
     note: near ? `The source has ${String(near.value)} at ${near.path}, not ${c.label}.` : `${c.label} is not in this tool result.`,
@@ -496,18 +644,31 @@ export function dataNumbers(text: string): { text: string; start: number; end: n
 
 const DERIVED = /hesapland|türetil|computed|calculated|derived/i;
 
-/** The sentence around [start, end). */
-function sentenceAt(text: string, start: number, end: number): string {
-  const a = Math.max(text.lastIndexOf(". ", start), text.lastIndexOf("\n", start), -1) + 1;
-  const stops = [text.indexOf(". ", end), text.indexOf("\n", end)].filter((i) => i >= 0);
-  return text.slice(a, stops.length ? Math.min(...stops) + 1 : text.length);
+/** The bounds of the sentence (or, with `line`, the line) around [start, end). */
+function spanAt(text: string, start: number, end: number, line = false): [number, number] {
+  const a = Math.max(line ? -1 : text.lastIndexOf(". ", start), text.lastIndexOf("\n", start), -1) + 1;
+  const stops = [line ? -1 : text.indexOf(". ", end), text.indexOf("\n", end)].filter((i) => i >= 0);
+  return [a, stops.length ? Math.min(...stops) + 1 : text.length];
+}
+
+/** The citations a computed figure was worked out from: the ones in its sentence, else in its line (paragraph or list item). */
+function inputsAt(text: string, start: number, end: number, cites: Citation[]): { ref: string; field?: string; label: string }[] {
+  for (const line of [false, true]) {
+    const [a, b] = spanAt(text, start, end, line);
+    const near = cites.filter((c) => c.start >= a && c.end <= b);
+    if (!near.length) continue;
+    const seen = new Set<string>();
+    return near.flatMap((c) => (seen.has(citeKey(c)) || !seen.add(citeKey(c)) ? [] : [{ ref: c.ref, ...(c.field ? { field: c.field } : {}), label: c.label }])).slice(0, 8);
+  }
+  return [];
 }
 
 /** The whole reply checked: every citation, then the data-like numbers left uncited. */
 export function checkReply(text: string, registry: Map<string, SourceEntry>): CiteReport {
   const checks: CiteCheck[] = [];
   const seen = new Set<string>();
-  for (const c of parseCitations(text)) {
+  const cites = parseCitations(text);
+  for (const c of cites) {
     const k = citeKey(c);
     if (seen.has(k)) continue;
     seen.add(k);
@@ -518,8 +679,9 @@ export function checkReply(text: string, registry: Map<string, SourceEntry>): Ci
   for (const n of dataNumbers(text)) {
     if (known.has(n.text)) continue;
     known.add(n.text);
-    const derived = DERIVED.test(sentenceAt(text, n.start, n.end));
-    uncited.push({ text: n.text, status: derived ? "derived" : "unverified", note: derived ? "Computed from cited figures; not itself in a tool result." : "Not linked to a tool result, so it could not be checked." });
+    const derived = DERIVED.test(text.slice(...spanAt(text, n.start, n.end)));
+    const inputs = derived ? inputsAt(text, n.start, n.end, cites) : [];
+    uncited.push({ text: n.text, status: derived ? "derived" : "unverified", note: derived ? "Computed from cited figures; not itself in a tool result." : "Not linked to a tool result, so it could not be checked.", ...(inputs.length ? { inputs } : {}) });
   }
   const count = (s: CiteStatus) => checks.filter((c) => c.status === s).length;
   const citedIds = new Set(checks.filter((c) => c.status !== "unresolved").map((c) => c.ref));
@@ -602,10 +764,21 @@ export function cleanCiteReport(v: unknown): CiteReport | undefined {
     ? (o.uncited as unknown[]).flatMap((x) => {
         const u = obj(x);
         const text = str(u.text, 40);
-        return text ? [{ text, status: u.status === "derived" ? ("derived" as const) : ("unverified" as const), note: str(u.note, 200) ?? "" }] : [];
+        if (!text) return [];
+        const inputs = Array.isArray(u.inputs)
+          ? (u.inputs as unknown[])
+              .flatMap((i) => {
+                const x = obj(i);
+                const ref = str(x.ref, 24);
+                const label = str(x.label, 80);
+                return ref && label ? [{ ref, ...(str(x.field, 120) ? { field: str(x.field, 120) } : {}), label }] : [];
+              })
+              .slice(0, 8)
+          : [];
+        return [{ text, status: u.status === "derived" ? ("derived" as const) : ("unverified" as const), note: str(u.note, 200) ?? "", ...(inputs.length ? { inputs } : {}) }];
       })
     : [];
-  const KINDS: SourceKind[] = ["databento", "opra", "sec", "yahoo", "falcon", "audit", "other"];
+  const KINDS: SourceKind[] = ["databento", "opra", "sec", "yahoo", "falcon", "computed", "audit", "other"];
   const sources: ReplySource[] = Array.isArray(o.sources)
     ? (o.sources as unknown[]).flatMap((x) => {
         const r = obj(x);

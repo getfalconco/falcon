@@ -24,6 +24,7 @@ import type Anthropic from "@anthropic-ai/sdk";
 import {
   CAVEAT_FLAGS,
   EVENT_KINDS,
+  closesLabel,
   EVENTS_TABLE,
   isMissingTable,
   parseDateBound,
@@ -746,7 +747,7 @@ export async function runLoadEvents(
       ...(data.flaggedOut > 0 ? { left_out_flagged: data.flaggedOut } : {}),
       preview: data.preview,
       ticker_list: s.ticker_list.join(","),
-      source: `Falcon historical events (SEC 8-K Item 2.02 filings, ${s.first} to ${s.last}); prices: ${Object.keys(s.price_source).join(", ")}`,
+      source: `Falcon historical events (SEC 8-K Item 2.02 filings, ${s.first} to ${s.last}); returns computed by Falcon from daily closes (${closesLabel(Object.keys(s.price_source).map((p) => ({ price_source: p })))})`,
       notes,
     });
     return {

@@ -7,6 +7,7 @@ import { ArrowUpRight, ChevronDown } from "lucide-react";
 import { citeKey, sourceOf, stripSourceId, verifyCitation, type CiteCheck, type CiteReport, type CiteStatus, type SourceBlock, type UncitedNumber } from "@/lib/desk/citations";
 import { matchFigure, measureOf, partOf, type PanelFigure } from "@/lib/desk/citation-panel";
 import type { GlossaryLang } from "@/lib/desk/glossary";
+import { toolOfCommand } from "@/lib/desk/reply-sources";
 import { usePopoverPlacement } from "./TermPopover";
 import type { LabTool } from "./sessions";
 
@@ -73,6 +74,7 @@ const UI = {
       moved: (field: string, path: string) => `Alıntılanan alan (${field}) farklı; bu rakam ${path} alanında.`,
       unverified: "Bu rakam bir araç sonucuna bağlanmadı, doğrulanamadı.",
       derived: "Alıntılanan rakamlardan hesaplandı; kendisi bir araç sonucunda yok.",
+      derivedFrom: "Aşağıdaki alıntılanan rakamlardan hesaplandı (her birinin kaynağıyla); kendisi bir araç sonucunda yok.",
       old: "Bu yanıt kontrol eklenmeden önce kaydedildi.",
       panelSame: "Sohbette alıntılanan rakam bu alandan geliyor.",
     },
@@ -101,6 +103,7 @@ const UI = {
       moved: (field: string, path: string) => `The cited field (${field}) differs; this figure is at ${path}.`,
       unverified: "This number is not linked to a tool result, so it could not be checked.",
       derived: "Computed from cited figures; not itself in a tool result.",
+      derivedFrom: "Computed from the cited figures below (each with its source); not itself in a tool result.",
       old: "This reply was saved before checks were added.",
       panelSame: "The figure quoted in the chat comes from this field.",
     },
@@ -129,7 +132,8 @@ function useCheck(ctx: CiteCtx, label: string, ref: string, field?: string): { c
     if (given && !(given.status === "unresolved" && tool?.result)) return { check: given, earlier, tool };
     if (tool?.result) {
       const data = parseResult(tool.result);
-      const c = verifyCitation({ label, ref, field }, { id: ref, name: "", input: {}, ok: tool.ok !== false, data, source: sourceOf("", {}, data), ...(tool.cmd ? { cmd: tool.cmd } : {}) });
+      const name = toolOfCommand(tool.cmd) ?? "";
+      const c = verifyCitation({ label, ref, field }, { id: ref, name, input: {}, ok: tool.ok !== false, data, source: sourceOf(name, {}, data), ...(tool.cmd ? { cmd: tool.cmd } : {}) });
       return { check: c, earlier, tool };
     }
     return { check: given ?? { ref, label, ...(field ? { field } : {}), status: ctx.checked ? "unresolved" : "unchecked" }, earlier, tool };
@@ -308,8 +312,8 @@ export function UncitedMark({ ctx, entry, children }: { ctx: CiteCtx; entry: Unc
           }}
           status={entry.status}
           shown={entry.text}
-          rows={[]}
-          reason={entry.status === "derived" ? ui.why.derived : ui.why.unverified}
+          rows={(entry.inputs ?? []).map((i): [string, string, boolean] => [i.label, ctx.checks.get(citeKey(i))?.source?.label ?? i.ref, false])}
+          reason={entry.status === "derived" ? (entry.inputs?.length ? ui.why.derivedFrom : ui.why.derived) : ui.why.unverified}
         />
       ) : null}
     </>
@@ -430,8 +434,8 @@ function SourceCard({
         {reason ? <p className={`mt-1.5 rounded-[9px] px-2 py-1 text-fs-12.5 leading-fs-17 ${warn ? "bg-warn/[0.08] text-fore-2" : "bg-line/[0.045] text-fore-3"}`}>{reason}</p> : null}
         {meta.length ? (
           <dl className="mt-2 grid grid-cols-[max-content_1fr] gap-x-3 gap-y-0.5 text-fs-12 leading-fs-17">
-            {meta.map(([k, v, mono]) => (
-              <div key={k} className="contents">
+            {meta.map(([k, v, mono], i) => (
+              <div key={`${i}:${k}`} className="contents">
                 <dt className="text-faint">{k}</dt>
                 <dd className={`min-w-0 break-words text-fore-2 ${mono ? "font-mono text-fs-11.5" : ""}`}>{v}</dd>
               </div>

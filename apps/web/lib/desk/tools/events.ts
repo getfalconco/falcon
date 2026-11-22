@@ -25,6 +25,7 @@
  */
 
 import type Anthropic from "@anthropic-ai/sdk";
+import type { FieldSource } from "../citations";
 import type { DeskToolOutcome } from "./index";
 import { DEFAULT_TOOL_TIMEOUT_MS, TtlCache, ToolError, deadline, fitResult, normalizeTicker, nyParts, round, type DeskToolContext } from "./util";
 
@@ -479,6 +480,8 @@ function eventOut(r: EventRow, withTicker: boolean) {
     ...(r.flags?.includes(SUSPICIOUS) ? { suspicious: true } : {}),
     ...(r.flags?.length ? { flags: r.flags } : {}),
     ...(r.filing_url ? { url: r.filing_url } : {}),
+    // Where this row's closes came from (the `sources` list names each figure's source by it).
+    ...(r.price_source ? { prices: r.price_source } : {}),
   };
 }
 
@@ -504,9 +507,43 @@ function excludedCounts(rows: EventRow[], kinds: readonly EventKind[]): Record<s
   return Object.keys(out).length ? out : null;
 }
 
+/** The closes behind a row's returns, by its price_source: 'mixed' is the stock from Databento and the ETF from Yahoo. */
+const CLOSES: Record<string, { stock: string; etf: string }> = {
+  mixed: { stock: "Databento EQUS.SUMMARY", etf: "Yahoo Finance" },
+  yahoo: { stock: "Yahoo Finance", etf: "Yahoo Finance" },
+  databento: { stock: "Databento EQUS.SUMMARY", etf: "Databento EQUS.SUMMARY" },
+};
+
+/** The price sources of the rows that have one (the stored price_source values). */
+const priceSources = (rows: { price_source: string | null }[]) => [...new Set(rows.map((r) => r.price_source).filter((x): x is string => !!x && x in CLOSES))];
+
+/** The data providers behind the rows' closes ("Databento EQUS.SUMMARY and Yahoo Finance"). Pure. */
+export function closesLabel(rows: { price_source: string | null }[]): string {
+  const names = [...new Set(priceSources(rows).flatMap((p) => [CLOSES[p]!.stock, CLOSES[p]!.etf]))].sort();
+  return names.length ? names.join(" and ") : "no prices";
+}
+
 function sourceLine(rows: EventRow[]): string {
-  const prices = [...new Set(rows.map((r) => r.price_source).filter((x): x is string => !!x))].slice(0, 3);
-  return `Falcon historical earnings events (SEC 8-K Item 2.02)${prices.length ? `; prices: ${prices.join(", ")}` : ""}`;
+  return `Falcon earnings events: dates and times from SEC EDGAR 8-K Item 2.02 filings; returns computed by Falcon from daily closes (${closesLabel(rows)})`;
+}
+
+/**
+ * Where each figure of an events answer comes from (citations.ts FieldSource): a row's date and filing time from
+ * EDGAR; its returns computed from the closes its `prices` names (the stock and the sector ETF can differ); the
+ * summary, totals and chart computed from the rows' returns. Pure.
+ */
+export function eventSources(rows: EventRow[]): FieldSource[] {
+  const at = (keys: string[]) => ["events", "caveated", "caveated.events"].flatMap((p) => keys.map((k) => `${p}.${k}`));
+  const out: FieldSource[] = [{ covers: at(["date", "filed"]), label: "SEC EDGAR 8-K Item 2.02 filings (filing date and acceptance time)" }];
+  for (const p of priceSources(rows)) {
+    const { stock, etf } = CLOSES[p]!;
+    const when = { prices: p };
+    out.push({ covers: at(["stock*"]), when, label: `Computed by Falcon from ${stock} daily closes (the stock)` });
+    out.push({ covers: at(["etf"]), when, label: `Computed by Falcon from ${etf} daily closes (the sector ETF)` });
+    out.push({ covers: at(["abn*"]), when, label: stock === etf ? `Computed by Falcon from ${stock} daily closes (stock and sector ETF)` : `Computed by Falcon from ${stock} (stock) and ${etf} (sector ETF) daily closes` });
+  }
+  out.push({ covers: ["summary", "totals", "chart"], label: `Computed by Falcon from the events' returns (daily closes: ${closesLabel(rows)})` });
+  return out;
 }
 
 /* ------------------------------------------------------------------ run */
@@ -572,6 +609,7 @@ async function tickerView(q: Extract<EventsQuery, { mode: "ticker" }>, store: Ev
       source: source.slice(0, 160),
     },
     eps_surprise: "not available yet",
+    sources: eventSources([...rows, ...caveated]),
   };
 }
 
@@ -634,6 +672,7 @@ async function screenView(q: Extract<EventsQuery, { mode: "screen" }>, store: Ev
     ...apartOut,
     ...(notes.length ? { notes } : {}),
     eps_surprise: "not available yet",
+    sources: eventSources([...rows, ...caveated]),
   };
 }
 

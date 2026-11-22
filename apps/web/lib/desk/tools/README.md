@@ -4,9 +4,9 @@ Tools the Desk AI (Claude Opus 5.5, `/api/desk/chat`) calls on its own. Server-o
 
 | Tool | What it returns | Source |
 |---|---|---|
-| `quote` | last price, change, previous close, day range, volume, 52-week range, market cap, market state, time (ET), after-hours / pre-market | Yahoo v7 quote (crumb), v8 chart as fallback |
-| `history` | start/end, price and total return, high/low with dates, max drawdown, volatility, avg volume, up to 120 closes | Yahoo v8 chart (daily; weekly for 10y/max) |
-| `fundamentals` | revenue TTM / 4 quarters / 4 years, margins, diluted EPS, shares, cash, debt, market cap, P/E, P/S, EV/EBITDA, each with its period | SEC XBRL company facts + Yahoo price |
+| `quote` | last close, change, previous close, day range, volume, 52-week range (Yahoo adds market cap, market state, after-hours / pre-market) | Databento EQUS.SUMMARY end of day; Yahoo v7 quote (crumb), then v8 chart, for a ticker Databento lacks |
+| `history` | start/end, price and total return, high/low with dates, max drawdown, volatility, avg volume, up to 120 closes | Databento EQUS.SUMMARY (daily, from 2024-07); Yahoo v8 chart for a longer range (daily; weekly for 10y/max), never mixed |
+| `fundamentals` | revenue TTM / 4 quarters / 4 years, margins, diluted EPS, shares, cash, debt, market cap, P/E, P/S, EV/EBITDA, each with its period | SEC XBRL company facts; the valuation block uses Yahoo's last price (per-field `sources`) |
 | `earnings` | last 8 quarters (date, before/after market, EPS estimate/actual/surprise), next date and consensus | Yahoo earnings archive + quoteSummary |
 | `filings` | filing list (form filter, 8-K items spelled out) or EDGAR full-text search | SEC submissions, efts.sec.gov |
 | `filing_text` | bounded excerpt of one filing around a query, section headings, the filing's exhibits | SEC archive |
@@ -19,6 +19,7 @@ import { DESK_TOOLS, deskToolLabel, runDeskTool } from "@/lib/desk/tools";
 - `DESK_TOOLS`: `Anthropic.Beta.BetaTool[]`, fixed order (it is part of the cached prompt prefix).
 - `runDeskTool(name, input, { signal, timeoutMs })` never throws. It returns `{ ok, content, label, ms }`; `content` is JSON of at most about 4k tokens, `{ "error": "..." }` when `ok` is false.
 - `deskToolLabel(name, input, "running" | "done")`: "Looking up AAPL quote" / "Looked up AAPL quote".
+- Every result carries `source`: the provider that actually answered this call, named first (a Databento call says Databento, its Yahoo fallback says Yahoo). A result that mixes sources also carries `sources`, a list of `{ covers, label, when? }` groups (lib/desk/citations.ts `FieldSource`) naming each figure's own source; a label for a figure Falcon computed starts with "Computed by Falcon from" and names its inputs. The chat's citation check and source chips read them (citations.ts `fieldSource`), so a figure is never labelled with another input's source.
 
 ## Wiring into the chat route (not applied yet)
 
